@@ -42,6 +42,7 @@ KuuOS separates AI raw generation from governed KuuOS operation through a Yogaca
 AI raw output
   -> AI Alaya / latent seed layer
   -> AI Manas self-authorization check
+  -> Meta-Manas self-fixation observer
   -> Yogacara boundary
   -> emptiness_kernel
   -> dependent_origination_kernel
@@ -49,7 +50,9 @@ AI raw output
   -> BeliefOS / PlanOS / DecisionOS / MemoryOS
 ```
 
-AI raw output is candidate, not belief, proof, decision, memory truth, or execution authority. This layer is documented in `docs/YOGACARA_AI_RAW_LAYER_BOUNDARY_v0_1.md`.
+AI raw output is candidate, not belief, proof, decision, memory truth, or execution authority. Meta-Manas observes AI Manas self-fixation before raw output enters KuuOS governance.
+
+This layer is documented in `docs/YOGACARA_AI_RAW_LAYER_BOUNDARY_v0_1.md` and `docs/META_MANAS_AI_SELF_FIXATION_OBSERVER_v0_1.md`.
 
 ## Physics-Facing Bridge
 
@@ -172,6 +175,7 @@ This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md`, 
 │   ├── PARAMARTHA_SAMVRTI_MIDDLE_WAY_BRIDGE_v0_1.md
 │   ├── EMPTINESS_DEPENDENT_ORIGINATION_KERNEL_v0_1.md
 │   ├── YOGACARA_AI_RAW_LAYER_BOUNDARY_v0_1.md
+│   ├── META_MANAS_AI_SELF_FIXATION_OBSERVER_v0_1.md
 │   ├── FOURFOLD_CORE_GATE_v0_1.md
 │   ├── KUOS_PHYSICS_GAP_BRIDGE_v0_1.md
 │   ├── SAMVRTI_QI_LAYER_v0_1.md
