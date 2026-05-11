@@ -1,6 +1,6 @@
 id: kuos_core_manifest_v0_1
 name: KuuOS / 空OS Core Manifest
-version: 0.1.11-extended-m-theory-mandala-inclusion
+version: 0.1.12-wuxing-mandala-inclusion-gate
 date: 2026-05-11
 author: Hidetoshi Itakura / 板倉英俊
 repository: https://github.com/itakura-hidetoshi/KuuOS
@@ -26,7 +26,9 @@ core_kernel_order:
   - samvrti_qi_layer
   - indranet_gauge_qi_flow
   - quantum_thermodynamic_yinyang_frame
+  - wuxing_functional_differentiation
   - extended_m_theory_inclusion_membrane
+  - mandala_inclusion_gate
   - mandala_world_arrangement
   - middle_way_bridge
   - fourfold_core_gate
@@ -39,6 +41,7 @@ qi_generation_chain:
   surface: samvrti_satya_effective_world_surface
   expression: samvrti_qi_layer
   polarity_frame: quantum_thermodynamic_yinyang_frame
+  functional_phase: wuxing_functional_differentiation
   formula: qi_as_readable_flow_pattern_of_dependent_origination_vibration
 
 physical_quantum_qi_path_integral:
@@ -94,6 +97,15 @@ quantum_thermodynamic_yinyang_frame:
     - active_transition
     - manifest_flow
 
+wuxing_functional_differentiation:
+  role: functional_phase_differentiation_of_yinyang_qi_flow
+  wood: expansion_growth_branching_initiation
+  fire: activation_expression_excitation_visibility
+  earth: mediation_grounding_integration_center_stabilization
+  metal: structure_boundary_refinement_contraction
+  water: storage_recovery_depth_cooling_reserve
+  not: fixed_substance_taxonomy
+
 extended_m_theory_inclusion_membrane:
   role: layer_membrane_gauge_inclusion_architecture
   layers: local_world_surfaces
@@ -102,6 +114,22 @@ extended_m_theory_inclusion_membrane:
   gauge_connections: qi_and_meaning_transport
   obstructions: failed_gluing_or_conflict
   inclusion: non_collapsing_coexistence
+
+mandala_inclusion_gate:
+  role: operational_gate_for_inclusion
+  checks:
+    - center_check
+    - layer_check
+    - membrane_check
+    - gate_check
+    - obstruction_check
+    - inclusion_check
+  outputs:
+    - PASS
+    - HOLD
+    - REPAIR
+    - QUARANTINE
+    - FAIL
 
 mandala_world_arrangement:
   role: stable_inclusive_arrangement
@@ -139,7 +167,9 @@ public_core_documents:
   - docs/PHYSICAL_QUANTUM_QI_PATH_INTEGRAL_v0_1.md
   - docs/INDRANET_GAUGE_QI_FLOW_v0_1.md
   - docs/QUANTUM_THERMODYNAMIC_YINYANG_v0_1.md
+  - docs/YINYANG_TO_WUXING_FUNCTIONAL_DIFFERENTIATION_v0_1.md
   - docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md
+  - docs/MANDALA_INCLUSION_GATE_v0_1.md
   - docs/KUOS_CORE_CHARTER_v0_1.md
   - docs/PUBLIC_PRIVATE_BOUNDARY_v0_1.md
   - docs/FORMAL_VERIFICATION_POLICY_v0_1.md
