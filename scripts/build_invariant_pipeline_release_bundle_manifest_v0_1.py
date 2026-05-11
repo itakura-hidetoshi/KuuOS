@@ -28,6 +28,8 @@ BUNDLE_FILES = [
     "docs/INVARIANT_PIPELINE_NAVIGATION_ADDENDUM_v0_1.md",
     "docs/INVARIANT_PIPELINE_RELEASE_CHECKLIST_ADDENDUM_v0_1.md",
     "docs/INVARIANT_PIPELINE_PR_CHECKLIST_ADDENDUM_v0_1.md",
+    "docs/INVARIANT_PIPELINE_RELEASE_BUNDLE_NAVIGATION_ADDENDUM_v0_1.md",
+    "docs/INVARIANT_PIPELINE_RELEASE_BUNDLE_CHECKLIST_ADDENDUM_v0_1.md",
     "formal/KUOS/CoreGovernance/Invariants.lean",
     "formal/KUOS/CoreGovernance/SuperRelativityBridge.lean",
     "examples/invariant_preservation_matrix_minimal.py",
@@ -48,6 +50,8 @@ BUNDLE_FILES = [
     "scripts/validate_invariant_pipeline_audit_event_v0_1.py",
     "scripts/validate_invariant_pipeline_audit_hash_chain_v0_1.py",
     "scripts/validate_invariant_pipeline_audit_worm_export_receipt_v0_1.py",
+    "scripts/build_invariant_pipeline_release_bundle_manifest_v0_1.py",
+    "scripts/validate_invariant_pipeline_release_bundle_manifest_v0_1.py",
 ]
 
 FIXED_POINTS = [
