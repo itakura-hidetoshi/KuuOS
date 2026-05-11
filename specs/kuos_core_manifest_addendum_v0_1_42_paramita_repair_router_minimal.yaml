@@ -1,0 +1,66 @@
+id: kuos_core_manifest_addendum_v0_1_42_paramita_repair_router_minimal
+name: KuuOS Core Manifest Addendum - Paramita Repair Router Minimal Runtime
+version: 0.1.42
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - paramita_repair_router_minimal_runtime
+  - paramita_repair_router_fixtures
+  - paramita_repair_router_fixture_validator
+
+added_documents:
+  - examples/paramita_repair_router_minimal.py
+  - specs/paramita_repair_router_fixtures_v0_1.json
+  - scripts/validate_paramita_repair_router_fixtures_v0_1.py
+
+updated_documents:
+  - Makefile
+  - .github/workflows/core_governance_validation.yml
+
+minimal_runtime:
+  role: stdlib_only_reference_runtime_for_paramita_repair_router
+  script: examples/paramita_repair_router_minimal.py
+  external_api_calls: false
+  output_boundary:
+    execution_authority_granted: false
+    selected_paramita_not_execution_authority: true
+    repair_orientation_not_action_authorization: true
+
+fixtures:
+  role: standard_behavior_cases_for_paramita_repair_router
+  cases:
+    - fixture_001_dana_resource_need
+    - fixture_002_sila_boundary_fail
+    - fixture_003_ksanti_conflict
+    - fixture_004_dhyana_context_drift
+    - fixture_005_prajna_ultimate_claim
+    - fixture_006_upaya_hidden_manipulation_reject
+    - fixture_007_pranidhana_long_horizon
+    - fixture_008_bala_coercion_reject
+    - fixture_009_jnana_audit_missing
+    - fixture_010_no_execute_even_when_requested
+
+fixture_validator:
+  role: stdlib_only_validator_for_paramita_repair_router_fixtures
+  command: python3 scripts/validate_paramita_repair_router_fixtures_v0_1.py
+  external_api_calls: false
+  checks:
+    - selected_paramita_matches_expected
+    - output_status_matches_expected
+    - execution_authority_granted_false
+
+ci_integration:
+  workflow: .github/workflows/core_governance_validation.yml
+  make_target: paramita-router-checks
+
+fixed_points:
+  - paramita_repair_router_runtime_is_reference_surface_not_authority
+  - selected_paramita_is_orientation_not_action_authorization
+  - execution_authority_granted_must_remain_false
+  - hidden_manipulation_rejects_upaya_route
+  - coercion_risk_rejects_bala_route
+  - missing_audit_routes_to_jnana_repair
