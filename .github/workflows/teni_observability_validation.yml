@@ -10,11 +10,13 @@ on:
       - 'docs/AI_YOGACARA_ADAPTER_AUDIT_EVENT_v0_1.md'
       - 'docs/AI_YOGACARA_AUDIT_HASH_CHAIN_LEDGER_v0_1.md'
       - 'docs/AI_YOGACARA_AUDIT_WORM_EXPORT_MANIFEST_v0_1.md'
+      - 'docs/AI_YOGACARA_RELEASE_BUNDLE_MANIFEST_v0_1.md'
       - 'specs/teni_*.yaml'
       - 'specs/ai_yogacara_runtime_adapter_schema_v0_1.yaml'
       - 'specs/ai_yogacara_adapter_fixtures_v0_1.json'
       - 'specs/ai_yogacara_audit_hash_chain_fixture_v0_1.jsonl'
       - 'specs/ai_yogacara_audit_worm_export_receipt_fixture_v0_1.yaml'
+      - 'specs/ai_yogacara_release_bundle_manifest_v0_1.generated.json'
       - 'specs/kuos_core_manifest_addendum_v0_1_2*.yaml'
       - 'specs/kuos_core_manifest_addendum_v0_1_3*.yaml'
       - 'scripts/validate_teni_observability_v0_1.py'
@@ -23,6 +25,8 @@ on:
       - 'scripts/validate_ai_yogacara_adapter_audit_event_v0_1.py'
       - 'scripts/validate_ai_yogacara_audit_hash_chain_v0_1.py'
       - 'scripts/validate_ai_yogacara_worm_export_receipt_v0_1.py'
+      - 'scripts/build_ai_yogacara_release_bundle_manifest_v0_1.py'
+      - 'scripts/validate_ai_yogacara_release_bundle_manifest_v0_1.py'
       - 'examples/ai_yogacara_runtime_adapter_minimal.py'
       - 'tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py'
       - '.github/workflows/teni_observability_validation.yml'
@@ -35,11 +39,13 @@ on:
       - 'docs/AI_YOGACARA_ADAPTER_AUDIT_EVENT_v0_1.md'
       - 'docs/AI_YOGACARA_AUDIT_HASH_CHAIN_LEDGER_v0_1.md'
       - 'docs/AI_YOGACARA_AUDIT_WORM_EXPORT_MANIFEST_v0_1.md'
+      - 'docs/AI_YOGACARA_RELEASE_BUNDLE_MANIFEST_v0_1.md'
       - 'specs/teni_*.yaml'
       - 'specs/ai_yogacara_runtime_adapter_schema_v0_1.yaml'
       - 'specs/ai_yogacara_adapter_fixtures_v0_1.json'
       - 'specs/ai_yogacara_audit_hash_chain_fixture_v0_1.jsonl'
       - 'specs/ai_yogacara_audit_worm_export_receipt_fixture_v0_1.yaml'
+      - 'specs/ai_yogacara_release_bundle_manifest_v0_1.generated.json'
       - 'specs/kuos_core_manifest_addendum_v0_1_2*.yaml'
       - 'specs/kuos_core_manifest_addendum_v0_1_3*.yaml'
       - 'scripts/validate_teni_observability_v0_1.py'
@@ -48,6 +54,8 @@ on:
       - 'scripts/validate_ai_yogacara_adapter_audit_event_v0_1.py'
       - 'scripts/validate_ai_yogacara_audit_hash_chain_v0_1.py'
       - 'scripts/validate_ai_yogacara_worm_export_receipt_v0_1.py'
+      - 'scripts/build_ai_yogacara_release_bundle_manifest_v0_1.py'
+      - 'scripts/validate_ai_yogacara_release_bundle_manifest_v0_1.py'
       - 'examples/ai_yogacara_runtime_adapter_minimal.py'
       - 'tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py'
       - '.github/workflows/teni_observability_validation.yml'
@@ -84,6 +92,12 @@ jobs:
 
       - name: Run AI Yogacara WORM export receipt validator
         run: python3 scripts/validate_ai_yogacara_worm_export_receipt_v0_1.py
+
+      - name: Build AI Yogacara release bundle manifest
+        run: python3 scripts/build_ai_yogacara_release_bundle_manifest_v0_1.py
+
+      - name: Validate AI Yogacara release bundle manifest
+        run: python3 scripts/validate_ai_yogacara_release_bundle_manifest_v0_1.py
 
       - name: Run minimal AI Yogacara runtime adapter tests
         run: python3 -m unittest tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py
