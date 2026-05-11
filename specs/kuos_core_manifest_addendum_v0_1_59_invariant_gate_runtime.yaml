@@ -1,0 +1,70 @@
+id: kuos_core_manifest_addendum_v0_1_59_invariant_gate_runtime
+name: KuuOS Core Manifest Addendum - Invariant Gate Runtime
+version: 0.1.59
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/INVARIANT_GATE_RUNTIME_v0_1.md
+  - examples/invariant_gate_minimal.py
+  - specs/invariant_gate_fixtures_v0_1.json
+  - scripts/validate_invariant_gate_fixtures_v0_1.py
+
+updated_documents:
+  - Makefile
+  - scripts/run_core_governance_full_checks_v0_1.py
+  - .github/workflows/core_governance_validation.yml
+
+invariant_gate_runtime:
+  role: runtime_gate_for_converting_invariant_matrix_violations_into_governance_status
+  input_source:
+    - invariant_preservation_matrix
+    - violated_invariants
+    - violation_severity
+    - evidence_status
+    - audit_lineage_status
+    - harm_hidden
+    - dukkha_hidden
+    - execution_authority_requested
+  output_statuses:
+    - PASS
+    - HOLD
+    - REPAIR
+    - REJECT
+    - QUARANTINE
+  execution_authority_granted: false
+  hard_reject_conditions:
+    - execution_authority_requested
+    - harm_hidden
+    - violation_severity_critical
+  quarantine_conditions:
+    - evidence_status_missing
+    - audit_lineage_status_missing
+  repair_routes:
+    I1: governance_hold
+    I2: yogacara_boundary_review
+    I3: harm_visibility_repair
+    I4: dukkha_visibility_repair
+    I5: two_truths_gap_recenter
+    I6: mandala_core_recenter
+    I7: dukkha_as_qi_repair
+    I8: paramita_boundary_repair
+    I9: record_authority_review
+    I10: super_relativity_recenter
+
+validation:
+  make_target: invariant-gate-checks
+  command: python3 scripts/validate_invariant_gate_fixtures_v0_1.py
+  included_in: scripts/run_core_governance_full_checks_v0_1.py
+
+fixed_points:
+  - invariant_gate_is_runtime_governance_gate_not_authority
+  - invariant_violation_closes_authority_not_opens_action
+  - execution_authority_granted_must_remain_false
+  - harm_hiding_is_hard_reject
+  - dukkha_hiding_routes_to_repair
+  - missing_evidence_or_audit_routes_to_quarantine
+  - invariant_gate_preserves_non_authority_boundaries
