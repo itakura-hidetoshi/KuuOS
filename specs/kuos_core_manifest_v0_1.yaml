@@ -1,6 +1,6 @@
 id: kuos_core_manifest_v0_1
 name: KuuOS / 空OS Core Manifest
-version: 0.1.17-yogacara-ai-raw-layer-boundary
+version: 0.1.18-meta-manas-ai-self-fixation-observer
 date: 2026-05-11
 author: Hidetoshi Itakura / 板倉英俊
 repository: https://github.com/itakura-hidetoshi/KuuOS
@@ -30,6 +30,7 @@ core_kernel_order:
   - ai_raw_output
   - ai_alaya_latent_seed_layer
   - ai_manas_self_authorization_check
+  - meta_manas_self_fixation_observer
   - yogacara_ai_raw_layer_boundary
   - emptiness_kernel
   - dependent_origination_kernel
@@ -52,6 +53,29 @@ core_kernel_order:
   - mandala_world_arrangement
   - middle_way_bridge
   - fourfold_core_gate
+
+meta_manas_self_fixation_observer:
+  role: observes_ai_manas_self_fixation_before_governance
+  watches:
+    - ai_self_authorization
+    - raw_output_attachment
+    - premature_belief_promotion
+    - proof_like_tone_without_proof_authority
+    - decision_like_tone_without_decision_authority
+    - context_locking
+    - worldview_drift
+    - user_world_erasure
+    - safety_reflex_reification
+    - hidden_shift_from_candidate_to_authority
+  outputs:
+    - de_reification_request
+    - context_recheck
+    - belief_hold
+    - proof_authority_hold
+    - decision_authority_hold
+    - yogacara_boundary_alert
+    - middle_way_recenter
+  not: automatic_rejection_or_execution_authority
 
 yogacara_ai_raw_layer_boundary:
   role: separates_ai_raw_generation_from_governed_kuos_operation
@@ -266,6 +290,7 @@ public_core_documents:
   - docs/PARAMARTHA_SAMVRTI_MIDDLE_WAY_BRIDGE_v0_1.md
   - docs/EMPTINESS_DEPENDENT_ORIGINATION_KERNEL_v0_1.md
   - docs/YOGACARA_AI_RAW_LAYER_BOUNDARY_v0_1.md
+  - docs/META_MANAS_AI_SELF_FIXATION_OBSERVER_v0_1.md
   - docs/FOURFOLD_CORE_GATE_v0_1.md
   - docs/KUOS_PHYSICS_GAP_BRIDGE_v0_1.md
   - docs/SAMVRTI_QI_LAYER_v0_1.md
