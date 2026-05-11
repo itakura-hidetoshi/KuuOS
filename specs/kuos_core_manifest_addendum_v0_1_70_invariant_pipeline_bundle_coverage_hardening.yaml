@@ -1,0 +1,29 @@
+id: kuos_core_manifest_addendum_v0_1_70_invariant_pipeline_bundle_coverage_hardening
+name: KuuOS Core Manifest Addendum - Invariant Pipeline Bundle Coverage Hardening
+version: 0.1.70
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+updated_documents:
+  - scripts/build_invariant_pipeline_release_bundle_manifest_v0_1.py
+  - scripts/validate_invariant_pipeline_release_bundle_manifest_v0_1.py
+
+bundle_coverage_hardening:
+  role: ensure_latest_public_guidance_and_builder_validator_are_included_in_release_bundle
+  added_to_bundle_builder:
+    - docs/INVARIANT_PIPELINE_RELEASE_BUNDLE_NAVIGATION_ADDENDUM_v0_1.md
+    - docs/INVARIANT_PIPELINE_RELEASE_BUNDLE_CHECKLIST_ADDENDUM_v0_1.md
+    - scripts/build_invariant_pipeline_release_bundle_manifest_v0_1.py
+    - scripts/validate_invariant_pipeline_release_bundle_manifest_v0_1.py
+  validator_hardening:
+    - required_bundle_file_completeness_check
+    - explicit_missing_required_bundle_file_errors
+
+fixed_points:
+  - bundle_coverage_hardening_is_integrity_surface_not_authority
+  - release_bundle_must_include_public_guidance_files
+  - release_bundle_must_include_builder_and_validator_files
+  - completeness_check_does_not_grant_execution_authority
