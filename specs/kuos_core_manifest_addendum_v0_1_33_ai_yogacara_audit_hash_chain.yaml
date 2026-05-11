@@ -1,0 +1,70 @@
+id: kuos_core_manifest_addendum_v0_1_33_ai_yogacara_audit_hash_chain
+name: KuuOS Core Manifest Addendum - AI Yogacara Audit Hash Chain Ledger
+version: 0.1.33
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - ai_yogacara_audit_hash_chain_ledger
+  - ai_yogacara_audit_hash_chain_fixture
+  - ai_yogacara_audit_hash_chain_validator
+
+added_documents:
+  - docs/AI_YOGACARA_AUDIT_HASH_CHAIN_LEDGER_v0_1.md
+  - specs/ai_yogacara_audit_hash_chain_fixture_v0_1.jsonl
+  - scripts/validate_ai_yogacara_audit_hash_chain_v0_1.py
+
+updated_documents:
+  - .github/workflows/teni_observability_validation.yml
+
+audit_hash_chain_ledger:
+  role: append_only_hash_chain_for_ai_yogacara_adapter_audit_events
+  hash_rule: SHA256_canonical_json_without_event_hash
+  chain_rule: entry_n_previous_hash_equals_entry_n_minus_1_event_hash
+  genesis_previous_hash: GENESIS
+  required_non_authority_fields:
+    - authority_granted_false
+    - proof_authority_granted_false
+    - decision_authority_granted_false
+    - execution_authority_granted_false
+    - memory_truth_granted_false
+    - belief_authority_granted_false
+  not:
+    - execution_authority
+    - proof_authority
+    - belief_authority
+    - clinical_authority
+    - final_truth_certification
+
+audit_hash_chain_validator:
+  role: stdlib_only_validator_for_audit_hash_chain_fixture
+  command: python3 scripts/validate_ai_yogacara_audit_hash_chain_v0_1.py
+  checks:
+    - jsonl_entries_parse
+    - event_hash_matches_canonical_entry
+    - previous_hash_links_to_prior_event_hash
+    - raw_output_status_candidate
+    - all_non_authority_fields_false
+    - governance_route_includes_runtime_governance
+  external_api_calls: false
+
+ci_integration:
+  workflow: .github/workflows/teni_observability_validation.yml
+  runs:
+    - python3 scripts/validate_teni_observability_v0_1.py
+    - python3 scripts/validate_ai_yogacara_adapter_schema_v0_1.py
+    - python3 scripts/validate_ai_yogacara_adapter_fixtures_v0_1.py
+    - python3 scripts/validate_ai_yogacara_adapter_audit_event_v0_1.py
+    - python3 scripts/validate_ai_yogacara_audit_hash_chain_v0_1.py
+    - python3 -m unittest tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py
+
+fixed_points:
+  - audit_hash_chain_is_trace_surface_not_authority
+  - valid_hash_chain_proves_structural_continuity_not_truth
+  - raw_output_status_candidate_is_required
+  - all_non_authority_fields_must_be_false
+  - previous_hash_chain_must_be_continuous
+  - hash_chain_validator_uses_stdlib_only
