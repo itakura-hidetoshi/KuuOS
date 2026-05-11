@@ -9,9 +9,11 @@ on:
       - 'docs/AI_YOGACARA_RUNTIME_ADAPTER_CONTRACT_v0_1.md'
       - 'specs/teni_*.yaml'
       - 'specs/ai_yogacara_runtime_adapter_schema_v0_1.yaml'
+      - 'specs/ai_yogacara_adapter_fixtures_v0_1.json'
       - 'specs/kuos_core_manifest_addendum_v0_1_2*.yaml'
       - 'scripts/validate_teni_observability_v0_1.py'
       - 'scripts/validate_ai_yogacara_adapter_schema_v0_1.py'
+      - 'scripts/validate_ai_yogacara_adapter_fixtures_v0_1.py'
       - 'examples/ai_yogacara_runtime_adapter_minimal.py'
       - 'tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py'
       - '.github/workflows/teni_observability_validation.yml'
@@ -23,9 +25,11 @@ on:
       - 'docs/AI_YOGACARA_RUNTIME_ADAPTER_CONTRACT_v0_1.md'
       - 'specs/teni_*.yaml'
       - 'specs/ai_yogacara_runtime_adapter_schema_v0_1.yaml'
+      - 'specs/ai_yogacara_adapter_fixtures_v0_1.json'
       - 'specs/kuos_core_manifest_addendum_v0_1_2*.yaml'
       - 'scripts/validate_teni_observability_v0_1.py'
       - 'scripts/validate_ai_yogacara_adapter_schema_v0_1.py'
+      - 'scripts/validate_ai_yogacara_adapter_fixtures_v0_1.py'
       - 'examples/ai_yogacara_runtime_adapter_minimal.py'
       - 'tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py'
       - '.github/workflows/teni_observability_validation.yml'
@@ -50,6 +54,9 @@ jobs:
 
       - name: Run AI Yogacara adapter schema validator
         run: python3 scripts/validate_ai_yogacara_adapter_schema_v0_1.py
+
+      - name: Run AI Yogacara adapter fixture validator
+        run: python3 scripts/validate_ai_yogacara_adapter_fixtures_v0_1.py
 
       - name: Run minimal AI Yogacara runtime adapter tests
         run: python3 -m unittest tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py
