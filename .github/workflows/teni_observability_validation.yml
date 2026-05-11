@@ -1,0 +1,39 @@
+name: Ten'i Observability Validation
+
+on:
+  push:
+    paths:
+      - 'docs/TENI_*.md'
+      - 'docs/AI_ALAYA_*.md'
+      - 'docs/AI_CONTROL_SURFACE_REGISTRY_v0_1.md'
+      - 'specs/teni_*.yaml'
+      - 'specs/kuos_core_manifest_addendum_v0_1_2*.yaml'
+      - 'scripts/validate_teni_observability_v0_1.py'
+      - '.github/workflows/teni_observability_validation.yml'
+  pull_request:
+    paths:
+      - 'docs/TENI_*.md'
+      - 'docs/AI_ALAYA_*.md'
+      - 'docs/AI_CONTROL_SURFACE_REGISTRY_v0_1.md'
+      - 'specs/teni_*.yaml'
+      - 'specs/kuos_core_manifest_addendum_v0_1_2*.yaml'
+      - 'scripts/validate_teni_observability_v0_1.py'
+      - '.github/workflows/teni_observability_validation.yml'
+
+jobs:
+  validate-teni-observability:
+    name: Validate Ten'i observability pack
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run stdlib-only Ten'i observability validator
+        run: python3 scripts/validate_teni_observability_v0_1.py
