@@ -10,7 +10,7 @@ Super-Relativity Invariant Bridge, Invariant Preservation Matrix, Invariant Gate
 and Invariant Governance Pipeline validators including end-to-end runtime fixtures,
 audit event validation, audit hash-chain validation, WORM export receipt validation,
 release bundle manifest validation, release attestation validation, release closure validation,
-and closure-in-bundle inclusion validation.
+closure-in-bundle inclusion validation, and finality packet validation.
 No external dependencies and no external API calls.
 """
 
@@ -45,6 +45,7 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/validate_invariant_pipeline_bundle_closure_inclusion_v0_1.py"],
     [sys.executable, "scripts/validate_invariant_pipeline_release_attestation_v0_1.py"],
     [sys.executable, "scripts/validate_invariant_pipeline_release_closure_packet_v0_1.py"],
+    [sys.executable, "scripts/check_invariant_pipeline_finality_packet_v0_1.py"],
 ]
 
 
