@@ -55,15 +55,18 @@ Qi / 気 is placed on the 世俗諦 side as an effective flow-state layer, not a
 
 In the Superstring Theory of Emptiness, Qi arises from dependent-origination vibration becoming readable on the effective conventional surface.
 
+The physical side of Qi is modeled by the Physical Quantum Qi Path Integral:
+
 ```text
 縁起的振動 / dependent-origination vibration
+  -> path histories of relational flow
+  -> Physical Quantum Qi Path Integral
   -> effective excitation
   -> flow pattern
   -> Samvrti Qi Layer
-  -> flow, circulation, activation, stagnation, recovery, coupling, coherence
 ```
 
-This layer is documented in `docs/SAMVRTI_QI_LAYER_v0_1.md` and `docs/QI_FROM_DEPENDENT_ORIGINATION_VIBRATION_v0_1.md`.
+This layer is documented in `docs/SAMVRTI_QI_LAYER_v0_1.md`, `docs/QI_FROM_DEPENDENT_ORIGINATION_VIBRATION_v0_1.md`, and `docs/PHYSICAL_QUANTUM_QI_PATH_INTEGRAL_v0_1.md`.
 
 ## Repository Map
 
@@ -82,6 +85,7 @@ This layer is documented in `docs/SAMVRTI_QI_LAYER_v0_1.md` and `docs/QI_FROM_DE
 │   ├── KUOS_PHYSICS_GAP_BRIDGE_v0_1.md
 │   ├── SAMVRTI_QI_LAYER_v0_1.md
 │   ├── QI_FROM_DEPENDENT_ORIGINATION_VIBRATION_v0_1.md
+│   ├── PHYSICAL_QUANTUM_QI_PATH_INTEGRAL_v0_1.md
 │   ├── KUOS_CORE_CHARTER_v0_1.md
 │   ├── PUBLIC_PRIVATE_BOUNDARY_v0_1.md
 │   ├── FORMAL_VERIFICATION_POLICY_v0_1.md
