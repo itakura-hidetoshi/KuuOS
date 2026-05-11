@@ -1,6 +1,6 @@
 id: kuos_core_manifest_v0_1
 name: KuuOS / 空OS Core Manifest
-version: 0.1.2-paramartha-samvrti-middle-way
+version: 0.1.3-fourfold-core-gate
 date: 2026-05-11
 author: Hidetoshi Itakura / 板倉英俊
 repository: https://github.com/itakura-hidetoshi/KuuOS
@@ -34,6 +34,13 @@ core_principles:
   two_truths: paramartha_satya_and_samvrti_satya_without_collapse
   middle_way: bridge_that_avoids_reification_and_abandonment
 
+core_kernel_order:
+  - emptiness_kernel
+  - dependent_origination_kernel
+  - two_truths_separation
+  - middle_way_bridge
+  - fourfold_core_gate
+
 middle_way_bridge:
   blocks:
     - reification_of_conventional_surfaces
@@ -41,6 +48,19 @@ middle_way_bridge:
   preserves:
     - non_reifying_emptiness
     - governed_conventional_operation
+
+fourfold_core_gate:
+  order:
+    - 空 gate
+    - 縁起 gate
+    - 二諦 gate
+    - 中道 gate
+  possible_final_status:
+    - PASS
+    - HOLD
+    - REVIEW
+    - FAIL
+  note: PASS means eligible for later governance, not execution authority.
 
 release_policy:
   lineage: append-only
@@ -57,6 +77,8 @@ public_core_documents:
   - docs/KUOS_FOURFOLD_CORE_v0_1.md
   - docs/TWO_TRUTHS_TERMINOLOGY_v0_1.md
   - docs/PARAMARTHA_SAMVRTI_MIDDLE_WAY_BRIDGE_v0_1.md
+  - docs/EMPTINESS_DEPENDENT_ORIGINATION_KERNEL_v0_1.md
+  - docs/FOURFOLD_CORE_GATE_v0_1.md
   - docs/KUOS_CORE_CHARTER_v0_1.md
   - docs/PUBLIC_PRIVATE_BOUNDARY_v0_1.md
   - docs/FORMAL_VERIFICATION_POLICY_v0_1.md
