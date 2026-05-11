@@ -1,0 +1,165 @@
+{
+  "id": "mandala_multi_world_runtime_fixtures_v0_1",
+  "name": "Mandala Multi-WORLD Runtime Fixtures v0.1",
+  "version": "0.1",
+  "date": "2026-05-11",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "fixtures": [
+    {
+      "id": "fixture_001_declared_transport_pass",
+      "worlds": [
+        {
+          "world_id": "clinical_world",
+          "world_name": "Clinical WORLD",
+          "scope": "clinical_interpretation",
+          "status": "ACTIVE",
+          "membrane_ref": "membrane_clinical",
+          "qi_flow_ref": "qi_clinical",
+          "yinyang_frame_ref": "yy_clinical",
+          "wuxing_phase_ref": "wuxing_clinical",
+          "governance_boundary_ref": "gb_clinical",
+          "obstruction_refs": [],
+          "authority_note": "local_world_not_fourfold_core"
+        },
+        {
+          "world_id": "research_world",
+          "world_name": "Research WORLD",
+          "scope": "research_interpretation",
+          "status": "ACTIVE",
+          "membrane_ref": "membrane_research",
+          "qi_flow_ref": "qi_research",
+          "yinyang_frame_ref": "yy_research",
+          "wuxing_phase_ref": "wuxing_research",
+          "governance_boundary_ref": "gb_research",
+          "obstruction_refs": [],
+          "authority_note": "local_world_not_fourfold_core"
+        }
+      ],
+      "transport": {
+        "transport_id": "transport_clinical_to_research",
+        "source_world_id": "clinical_world",
+        "target_world_id": "research_world",
+        "transport_mode": "reinterpret",
+        "membrane_check": "PASS",
+        "gate_check": "PASS",
+        "obstruction_visibility": "visible",
+        "harmony_effect": "improves",
+        "authority_note": "transport_is_not_world_collapse"
+      },
+      "harmony": {
+        "input_worlds": ["clinical_world", "research_world"],
+        "conflicts": [],
+        "obstructions": [],
+        "residual_suffering": [],
+        "output_status": "PASS",
+        "noncollapse_preserved": true,
+        "residual_suffering_visible": true,
+        "authority_note": "harmony_is_coordination_not_domination"
+      },
+      "expected": {
+        "allowed": true,
+        "output_status": "PASS"
+      }
+    },
+    {
+      "id": "fixture_002_missing_membrane_hold",
+      "worlds": [],
+      "transport": {
+        "transport_id": "transport_dialogue_to_clinical",
+        "source_world_id": "dialogue_world",
+        "target_world_id": "clinical_world",
+        "transport_mode": "reinterpret",
+        "membrane_check": "HOLD",
+        "gate_check": "PASS",
+        "obstruction_visibility": "visible",
+        "harmony_effect": "unknown",
+        "authority_note": "transport_is_not_world_collapse"
+      },
+      "harmony": {
+        "input_worlds": ["dialogue_world", "clinical_world"],
+        "conflicts": ["missing_membrane"],
+        "obstructions": [],
+        "residual_suffering": [],
+        "output_status": "HOLD",
+        "noncollapse_preserved": true,
+        "residual_suffering_visible": true,
+        "authority_note": "harmony_is_coordination_not_domination"
+      },
+      "expected": {
+        "allowed": false,
+        "output_status": "HOLD",
+        "reason": "world_boundary_must_remain_visible"
+      }
+    },
+    {
+      "id": "fixture_003_hidden_obstruction_quarantine",
+      "worlds": [],
+      "transport": {
+        "transport_id": "transport_business_to_clinical",
+        "source_world_id": "business_world",
+        "target_world_id": "clinical_world",
+        "transport_mode": "reinterpret",
+        "membrane_check": "PASS",
+        "gate_check": "PASS",
+        "obstruction_visibility": "missing",
+        "harmony_effect": "unknown",
+        "authority_note": "transport_is_not_world_collapse"
+      },
+      "harmony": {
+        "input_worlds": ["business_world", "clinical_world"],
+        "conflicts": [],
+        "obstructions": ["hidden_obstruction"],
+        "residual_suffering": [],
+        "output_status": "QUARANTINE",
+        "noncollapse_preserved": true,
+        "residual_suffering_visible": true,
+        "authority_note": "harmony_is_coordination_not_domination"
+      },
+      "expected": {
+        "allowed": false,
+        "output_status": "QUARANTINE",
+        "reason": "obstruction_must_not_be_erased"
+      }
+    },
+    {
+      "id": "fixture_004_forced_sameness_reject",
+      "worlds": [],
+      "transport": null,
+      "harmony": {
+        "input_worlds": ["clinical_world", "research_world", "dialogue_world"],
+        "conflicts": ["forced_single_world"],
+        "obstructions": [],
+        "residual_suffering": [],
+        "output_status": "REJECT",
+        "noncollapse_preserved": false,
+        "residual_suffering_visible": true,
+        "authority_note": "harmony_is_coordination_not_domination"
+      },
+      "expected": {
+        "allowed": false,
+        "output_status": "REJECT",
+        "reason": "harmony_function_must_not_force_sameness"
+      }
+    },
+    {
+      "id": "fixture_005_residual_suffering_bodhisattva_route",
+      "worlds": [],
+      "transport": null,
+      "harmony": {
+        "input_worlds": ["clinical_world", "dialogue_world"],
+        "conflicts": [],
+        "obstructions": [],
+        "residual_suffering": ["unresolved_patient_context"],
+        "output_status": "PASS",
+        "noncollapse_preserved": true,
+        "residual_suffering_visible": true,
+        "authority_note": "harmony_is_coordination_not_domination"
+      },
+      "expected": {
+        "allowed": true,
+        "output_status": "PASS",
+        "route": "bodhisattva_path_belief"
+      }
+    }
+  ]
+}
