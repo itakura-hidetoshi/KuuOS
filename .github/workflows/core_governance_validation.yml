@@ -16,12 +16,14 @@ on:
       - 'specs/paramita_repair_router_fixtures_v0_1.json'
       - 'specs/dukkha_mathematical_model_validation_cases_v0_1.yaml'
       - 'specs/dukkha_model_fixtures_v0_1.json'
+      - 'specs/dukkha_as_qi_mode_validation_cases_v0_1.yaml'
       - 'scripts/validate_mandala_multi_world_v0_1.py'
       - 'scripts/validate_bodhisattva_ten_paramita_v0_1.py'
       - 'scripts/validate_paramita_repair_router_v0_1.py'
       - 'scripts/validate_paramita_repair_router_fixtures_v0_1.py'
       - 'scripts/validate_dukkha_mathematical_model_v0_1.py'
       - 'scripts/validate_dukkha_model_fixtures_v0_1.py'
+      - 'scripts/validate_dukkha_as_qi_mode_v0_1.py'
       - 'examples/paramita_repair_router_minimal.py'
       - 'examples/dukkha_model_minimal.py'
       - 'Makefile'
@@ -41,12 +43,14 @@ on:
       - 'specs/paramita_repair_router_fixtures_v0_1.json'
       - 'specs/dukkha_mathematical_model_validation_cases_v0_1.yaml'
       - 'specs/dukkha_model_fixtures_v0_1.json'
+      - 'specs/dukkha_as_qi_mode_validation_cases_v0_1.yaml'
       - 'scripts/validate_mandala_multi_world_v0_1.py'
       - 'scripts/validate_bodhisattva_ten_paramita_v0_1.py'
       - 'scripts/validate_paramita_repair_router_v0_1.py'
       - 'scripts/validate_paramita_repair_router_fixtures_v0_1.py'
       - 'scripts/validate_dukkha_mathematical_model_v0_1.py'
       - 'scripts/validate_dukkha_model_fixtures_v0_1.py'
+      - 'scripts/validate_dukkha_as_qi_mode_v0_1.py'
       - 'examples/paramita_repair_router_minimal.py'
       - 'examples/dukkha_model_minimal.py'
       - 'Makefile'
@@ -84,3 +88,6 @@ jobs:
 
       - name: Run Dukkha model fixture checks
         run: python3 scripts/validate_dukkha_model_fixtures_v0_1.py
+
+      - name: Run Dukkha-as-Qi mode checks
+        run: python3 scripts/validate_dukkha_as_qi_mode_v0_1.py
