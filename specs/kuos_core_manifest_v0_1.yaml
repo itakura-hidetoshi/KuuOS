@@ -1,6 +1,6 @@
 id: kuos_core_manifest_v0_1
 name: KuuOS / 空OS Core Manifest
-version: 0.1.10-quantum-thermodynamic-yinyang
+version: 0.1.11-extended-m-theory-mandala-inclusion
 date: 2026-05-11
 author: Hidetoshi Itakura / 板倉英俊
 repository: https://github.com/itakura-hidetoshi/KuuOS
@@ -26,6 +26,8 @@ core_kernel_order:
   - samvrti_qi_layer
   - indranet_gauge_qi_flow
   - quantum_thermodynamic_yinyang_frame
+  - extended_m_theory_inclusion_membrane
+  - mandala_world_arrangement
   - middle_way_bridge
   - fourfold_core_gate
 
@@ -92,6 +94,23 @@ quantum_thermodynamic_yinyang_frame:
     - active_transition
     - manifest_flow
 
+extended_m_theory_inclusion_membrane:
+  role: layer_membrane_gauge_inclusion_architecture
+  layers: local_world_surfaces
+  membranes: boundary_interfaces
+  branes: transport_surfaces
+  gauge_connections: qi_and_meaning_transport
+  obstructions: failed_gluing_or_conflict
+  inclusion: non_collapsing_coexistence
+
+mandala_world_arrangement:
+  role: stable_inclusive_arrangement
+  center: fourfold_core
+  rings: layers_and_sheaves
+  gates: transition_protocols
+  boundaries: membranes_and_governance_barriers
+  surrounding_figures: modules_and_local_worlds
+
 physics_gap_bridge:
   superstring_theory_of_emptiness: relational_vibration
   four_d_mass_gap: nonzero_effective_world_gap
@@ -120,6 +139,7 @@ public_core_documents:
   - docs/PHYSICAL_QUANTUM_QI_PATH_INTEGRAL_v0_1.md
   - docs/INDRANET_GAUGE_QI_FLOW_v0_1.md
   - docs/QUANTUM_THERMODYNAMIC_YINYANG_v0_1.md
+  - docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md
   - docs/KUOS_CORE_CHARTER_v0_1.md
   - docs/PUBLIC_PRIVATE_BOUNDARY_v0_1.md
   - docs/FORMAL_VERIFICATION_POLICY_v0_1.md
