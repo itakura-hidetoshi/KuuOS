@@ -1,0 +1,32 @@
+id: kuos_core_manifest_addendum_v0_1_51_all_governance_runbook_workflow
+name: KuuOS Core Manifest Addendum - All Governance Runbook and Workflow
+version: 0.1.51
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
+  - .github/workflows/all_governance_validation.yml
+
+runbook:
+  role: top_level_operational_guide_for_kuos_governance_validation
+  path: docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
+  local_commands:
+    - make all-governance-checks
+    - python3 scripts/run_all_governance_full_checks_v0_1.py
+
+workflow:
+  role: top_level_github_actions_workflow_for_all_governance_validation
+  path: .github/workflows/all_governance_validation.yml
+  python_version: '3.12'
+  command: python3 scripts/run_all_governance_full_checks_v0_1.py
+
+fixed_points:
+  - all_governance_runbook_is_operational_surface_not_authority
+  - all_governance_workflow_is_validation_surface_not_authority
+  - ci_pass_does_not_grant_execution_authority
+  - validation_pass_does_not_prove_truth_teni_or_clinical_authority
+  - all_governance_checks_preserve_non_authority_boundaries
