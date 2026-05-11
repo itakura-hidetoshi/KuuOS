@@ -92,6 +92,21 @@ Yin-Yang is not a fixed global label. It depends on context, observer, scale, th
 
 This layer is documented in `docs/QUANTUM_THERMODYNAMIC_YINYANG_v0_1.md`.
 
+## Yin-Yang to Wuxing Functional Differentiation
+
+Wuxing / 五行 is the functional differentiation of Yin-Yang polarity flow.
+
+```text
+Qi flow
+  -> IndraNet gauge transport
+  -> quantum thermodynamic Yin-Yang frame
+  -> Wuxing functional differentiation
+```
+
+Wood, Fire, Earth, Metal, and Water are not fixed substances. They are functional phases of Qi under Yin-Yang polarity.
+
+This layer is documented in `docs/YINYANG_TO_WUXING_FUNCTIONAL_DIFFERENTIATION_v0_1.md`.
+
 ## Extended M-Theory, Inclusion, and Mandala
 
 M-theory is read as a higher-order inclusion of local theories, strings, branes, membranes, and dualities.
@@ -100,14 +115,15 @@ Extended M-theory in KuuOS becomes a layer-membrane-gauge architecture for non-c
 
 ```text
 Quantum Thermodynamic Yin-Yang
-  -> local polarity of Qi flow
+  -> Wuxing functional differentiation
   -> Extended M-Theory inclusion membrane
+  -> Mandala Inclusion Gate
   -> Mandala world arrangement
 ```
 
 Mandala is not decoration. It is the stable arrangement of included worlds, boundaries, gates, roles, and protective membranes around the fourfold core.
 
-This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md`.
+This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md` and `docs/MANDALA_INCLUSION_GATE_v0_1.md`.
 
 ## Repository Map
 
@@ -129,7 +145,9 @@ This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md`.
 │   ├── PHYSICAL_QUANTUM_QI_PATH_INTEGRAL_v0_1.md
 │   ├── INDRANET_GAUGE_QI_FLOW_v0_1.md
 │   ├── QUANTUM_THERMODYNAMIC_YINYANG_v0_1.md
+│   ├── YINYANG_TO_WUXING_FUNCTIONAL_DIFFERENTIATION_v0_1.md
 │   ├── EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md
+│   ├── MANDALA_INCLUSION_GATE_v0_1.md
 │   ├── KUOS_CORE_CHARTER_v0_1.md
 │   ├── PUBLIC_PRIVATE_BOUNDARY_v0_1.md
 │   ├── FORMAL_VERIFICATION_POLICY_v0_1.md
