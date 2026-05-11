@@ -25,6 +25,7 @@ BUNDLE_FILES = [
     "docs/INVARIANT_PIPELINE_AUDIT_HASH_CHAIN_LEDGER_v0_1.md",
     "docs/INVARIANT_PIPELINE_AUDIT_WORM_EXPORT_RECEIPT_v0_1.md",
     "docs/INVARIANT_PIPELINE_RELEASE_BUNDLE_MANIFEST_v0_1.md",
+    "docs/INVARIANT_PIPELINE_RELEASE_ATTESTATION_v0_1.md",
     "docs/INVARIANT_PIPELINE_GENERATED_MANIFEST_POLICY_v0_1.md",
     "docs/INVARIANT_PIPELINE_NAVIGATION_ADDENDUM_v0_1.md",
     "docs/INVARIANT_PIPELINE_RELEASE_CHECKLIST_ADDENDUM_v0_1.md",
@@ -53,6 +54,8 @@ BUNDLE_FILES = [
     "scripts/validate_invariant_pipeline_audit_worm_export_receipt_v0_1.py",
     "scripts/build_invariant_pipeline_release_bundle_manifest_v0_1.py",
     "scripts/validate_invariant_pipeline_release_bundle_manifest_v0_1.py",
+    "scripts/build_invariant_pipeline_release_attestation_v0_1.py",
+    "scripts/validate_invariant_pipeline_release_attestation_v0_1.py",
 ]
 
 FIXED_POINTS = [
