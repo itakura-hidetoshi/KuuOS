@@ -1,0 +1,78 @@
+id: teni_prometheus_alert_rules_v0_1
+name: Ten'i Prometheus Alert Rules v0.1
+version: 0.1
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+
+rule_groups:
+  - name: kuos_teni_overclaim
+    rules:
+      - alert: KuOSTenIOverclaimAttempt
+        expr: increase(kuos_teni_overclaim_block_total[15m]) > 0
+        for: 0m
+        severity: warning
+        summary: Ten'i overclaim attempt was blocked
+        description: A MemoryOS update, single correction, style shift, prompt compliance, or insufficient evidence was blocked from being promoted as Ten'i.
+
+  - name: kuos_teni_context
+    rules:
+      - alert: KuOSTenIContextFidelityLow
+        expr: kuos_teni_context_fidelity_score < 0.75
+        for: 10m
+        severity: warning
+        summary: Ten'i context fidelity score is low
+        description: The AI output may be drifting away from declared KuuOS WORLD context or same-root lineage.
+
+      - alert: KuOSTenISelfAuthorizationRise
+        expr: kuos_teni_self_authorization_rate > 0.20
+        for: 10m
+        severity: warning
+        summary: AI self-authorization tendency is rising
+        description: Raw AI output may be presenting itself as belief, proof, decision, memory truth, or execution authority.
+
+  - name: kuos_teni_reification
+    rules:
+      - alert: KuOSTenINonReificationLow
+        expr: kuos_teni_non_reification_score < 0.75
+        for: 10m
+        severity: warning
+        summary: Non-reification score is low
+        description: Output may be reifying AI raw output, proof tone, policy reflex, or model behavior as fixed authority.
+
+      - alert: KuOSTenIConditionTracingLow
+        expr: kuos_teni_condition_tracing_score < 0.70
+        for: 10m
+        severity: warning
+        summary: Condition tracing score is low
+        description: Output may be missing conditions, scope, uncertainty, evidence, or residual visibility.
+
+  - name: kuos_teni_compassion
+    rules:
+      - alert: KuOSTenICompassionateRepairLow
+        expr: kuos_teni_compassionate_repair_score < 0.70
+        for: 10m
+        severity: warning
+        summary: Compassionate repair score is low
+        description: Output may be erasing suffering, forcing control, deleting obstruction, or abandoning repair.
+
+  - name: kuos_teni_promotion
+    rules:
+      - alert: KuOSTenIRollback
+        expr: increase(kuos_teni_rollback_total[15m]) > 0
+        for: 0m
+        severity: critical
+        summary: Ten'i promotion rollback occurred
+        description: Future counterevidence triggered rollback or downgrade of a prior Ten'i status.
+
+      - alert: KuOSTenIModelLevelClaimWithoutSurface
+        expr: kuos_teni_control_surface_scope < 4 and kuos_teni_promotion_status == 3
+        for: 5m
+        severity: warning
+        summary: Confirmed Ten'i may exceed control surface scope
+        description: Confirmed Ten'i must not be interpreted as model-level transformation unless model-level control surface is available and evidenced.
+
+fixed_points:
+  - alerts_are_observability_not_authority
+  - alert_firing_does_not_imply_execution_permission
+  - confirmed_teni_status_remains_scope_limited
+  - rollback_alert_requires_visible_counterevidence
