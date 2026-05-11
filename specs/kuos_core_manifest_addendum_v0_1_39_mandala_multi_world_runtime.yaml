@@ -1,0 +1,59 @@
+id: kuos_core_manifest_addendum_v0_1_39_mandala_multi_world_runtime
+name: KuuOS Core Manifest Addendum - Mandala Multi-WORLD Runtime
+version: 0.1.39
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - mandala_multi_world_runtime_contract
+  - mandala_multi_world_validation_cases
+  - mandala_multi_world_validator
+  - core_governance_validation_workflow
+
+added_documents:
+  - docs/MANDALA_MULTI_WORLD_RUNTIME_CONTRACT_v0_1.md
+  - specs/mandala_multi_world_validation_cases_v0_1.yaml
+  - scripts/validate_mandala_multi_world_v0_1.py
+  - .github/workflows/core_governance_validation.yml
+
+updated_documents:
+  - Makefile
+
+mandala_multi_world_runtime:
+  role: runtime_contract_for_operating_multiple_world_models_without_collapse
+  center: fourfold_core
+  chain:
+    - fourfold_core
+    - world_model_registry
+    - membrane_boundary
+    - cross_world_transport_gate
+    - obstruction_visibility
+    - harmony_function
+    - residual_suffering_visibility
+    - bodhisattva_path_belief
+  required_invariants:
+    - no_world_model_replaces_fourfold_core
+    - world_boundary_must_remain_visible
+    - cross_world_transport_must_be_declared
+    - obstruction_must_not_be_erased
+    - harmony_function_must_not_force_sameness
+    - residual_suffering_visibility_must_be_preserved
+    - bodhisattva_path_belief_must_not_be_erased
+
+validation:
+  command: python3 scripts/validate_mandala_multi_world_v0_1.py
+  make_targets:
+    - mandala-checks
+    - core-governance-checks
+  ci_workflow: .github/workflows/core_governance_validation.yml
+
+fixed_points:
+  - many_worlds_may_coexist_no_world_becomes_center
+  - harmony_is_coordination_not_domination
+  - harmony_status_is_not_execution_authority
+  - mandala_runtime_is_governance_surface_not_authority
+  - obstruction_visibility_is_required
+  - residual_suffering_routes_to_bodhisattva_path_when_present
