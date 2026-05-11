@@ -26,6 +26,45 @@ REQUIRED_FIXED_POINTS = [
     "bundle_manifest_does_not_replace_worm_receipt",
 ]
 
+REQUIRED_BUNDLE_FILES = [
+    "docs/FORMAL_INVARIANT_SPINE_v0_1.md",
+    "docs/SUPER_RELATIVITY_INVARIANT_BRIDGE_v0_1.md",
+    "docs/INVARIANT_PRESERVATION_MATRIX_v0_1.md",
+    "docs/INVARIANT_GATE_RUNTIME_v0_1.md",
+    "docs/INVARIANT_GOVERNANCE_PIPELINE_v0_1.md",
+    "docs/INVARIANT_GOVERNANCE_PIPELINE_AUDIT_EVENT_v0_1.md",
+    "docs/INVARIANT_PIPELINE_AUDIT_HASH_CHAIN_LEDGER_v0_1.md",
+    "docs/INVARIANT_PIPELINE_AUDIT_WORM_EXPORT_RECEIPT_v0_1.md",
+    "docs/INVARIANT_PIPELINE_RELEASE_BUNDLE_MANIFEST_v0_1.md",
+    "docs/INVARIANT_PIPELINE_NAVIGATION_ADDENDUM_v0_1.md",
+    "docs/INVARIANT_PIPELINE_RELEASE_CHECKLIST_ADDENDUM_v0_1.md",
+    "docs/INVARIANT_PIPELINE_PR_CHECKLIST_ADDENDUM_v0_1.md",
+    "docs/INVARIANT_PIPELINE_RELEASE_BUNDLE_NAVIGATION_ADDENDUM_v0_1.md",
+    "docs/INVARIANT_PIPELINE_RELEASE_BUNDLE_CHECKLIST_ADDENDUM_v0_1.md",
+    "formal/KUOS/CoreGovernance/Invariants.lean",
+    "formal/KUOS/CoreGovernance/SuperRelativityBridge.lean",
+    "examples/invariant_preservation_matrix_minimal.py",
+    "examples/invariant_gate_minimal.py",
+    "examples/invariant_governance_pipeline_minimal.py",
+    "specs/invariant_preservation_matrix_fixtures_v0_1.json",
+    "specs/invariant_gate_fixtures_v0_1.json",
+    "specs/invariant_governance_pipeline_fixtures_v0_1.json",
+    "specs/invariant_pipeline_audit_hash_chain_fixture_v0_1.jsonl",
+    "specs/invariant_pipeline_audit_worm_export_receipt_fixture_v0_1.json",
+    "scripts/validate_formal_invariant_spine_v0_1.py",
+    "scripts/validate_super_relativity_invariant_bridge_v0_1.py",
+    "scripts/validate_invariant_preservation_matrix_v0_1.py",
+    "scripts/validate_invariant_preservation_matrix_fixtures_v0_1.py",
+    "scripts/validate_invariant_gate_fixtures_v0_1.py",
+    "scripts/validate_invariant_governance_pipeline_v0_1.py",
+    "scripts/validate_invariant_governance_pipeline_fixtures_v0_1.py",
+    "scripts/validate_invariant_pipeline_audit_event_v0_1.py",
+    "scripts/validate_invariant_pipeline_audit_hash_chain_v0_1.py",
+    "scripts/validate_invariant_pipeline_audit_worm_export_receipt_v0_1.py",
+    "scripts/build_invariant_pipeline_release_bundle_manifest_v0_1.py",
+    "scripts/validate_invariant_pipeline_release_bundle_manifest_v0_1.py",
+]
+
 
 def sha256_file(path: pathlib.Path) -> str:
     h = hashlib.sha256()
@@ -54,6 +93,11 @@ def validate_manifest(manifest: dict[str, Any]) -> list[str]:
     files = manifest.get("files")
     if not isinstance(files, list) or not files:
         return errors + ["manifest files must be a non-empty list"]
+
+    listed_paths = {item.get("path") for item in files if isinstance(item, dict)}
+    for required in REQUIRED_BUNDLE_FILES:
+        if required not in listed_paths:
+            errors.append(f"missing required bundle file in manifest: {required}")
 
     for item in files:
         rel = item.get("path")
