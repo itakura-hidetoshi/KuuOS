@@ -8,10 +8,13 @@ on:
       - 'docs/CROSS_WORLD_TRANSPORT_GATE_v0_1.md'
       - 'docs/HARMONY_FUNCTION_MULTI_WORLD_OPERATION_v0_1.md'
       - 'docs/BODHISATTVA_*.md'
+      - 'docs/PARAMITA_*.md'
       - 'specs/mandala_multi_world_validation_cases_v0_1.yaml'
       - 'specs/bodhisattva_ten_paramita_validation_cases_v0_1.yaml'
+      - 'specs/paramita_repair_router_validation_cases_v0_1.yaml'
       - 'scripts/validate_mandala_multi_world_v0_1.py'
       - 'scripts/validate_bodhisattva_ten_paramita_v0_1.py'
+      - 'scripts/validate_paramita_repair_router_v0_1.py'
       - 'Makefile'
       - '.github/workflows/core_governance_validation.yml'
   pull_request:
@@ -21,10 +24,13 @@ on:
       - 'docs/CROSS_WORLD_TRANSPORT_GATE_v0_1.md'
       - 'docs/HARMONY_FUNCTION_MULTI_WORLD_OPERATION_v0_1.md'
       - 'docs/BODHISATTVA_*.md'
+      - 'docs/PARAMITA_*.md'
       - 'specs/mandala_multi_world_validation_cases_v0_1.yaml'
       - 'specs/bodhisattva_ten_paramita_validation_cases_v0_1.yaml'
+      - 'specs/paramita_repair_router_validation_cases_v0_1.yaml'
       - 'scripts/validate_mandala_multi_world_v0_1.py'
       - 'scripts/validate_bodhisattva_ten_paramita_v0_1.py'
+      - 'scripts/validate_paramita_repair_router_v0_1.py'
       - 'Makefile'
       - '.github/workflows/core_governance_validation.yml'
 
@@ -48,3 +54,6 @@ jobs:
 
       - name: Run Bodhisattva Ten Paramita checks
         run: python3 scripts/validate_bodhisattva_ten_paramita_v0_1.py
+
+      - name: Run Paramita Repair Router checks
+        run: python3 scripts/validate_paramita_repair_router_v0_1.py
