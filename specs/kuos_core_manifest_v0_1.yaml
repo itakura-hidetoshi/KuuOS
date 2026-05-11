@@ -1,0 +1,65 @@
+id: kuos_core_manifest_v0_1
+name: KuuOS / 空OS Core Manifest
+version: 0.1.0-public-core
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+repository: https://github.com/itakura-hidetoshi/KuuOS
+license: All-Rights-Reserved
+
+reserved_names:
+  - 空OS
+  - KuuOS
+  - 空OSライト
+  - KuuOS Lite
+  - 陰陽五行テンソル
+  - Yin-Yang Wuxing Tensor
+  - 周易テンソル
+  - Zhouyi Tensor
+  - 曼荼羅テンソル
+  - Mandala Tensor
+
+release_policy:
+  lineage: append-only
+  update_mode: additive-only-and-tighten-only
+  overwrite: forbidden
+  same_root_required: true
+  public_visibility_is_license: false
+
+core_principles:
+  emptiness: absence_of_independent_self_authority
+  dependent_origination: validity_arises_through_conditions_relations_traces_and_constraints
+  two_truths: ultimate_non_fixation_and_conventional_operation_remain_distinct
+  harmony: constrained_stabilization_of_plural_relations
+  observation: non_reifying_traceable_observation
+  altruism: benefit_and_non_harm_orientation
+  great_compassion: repair_holding_reobservation_and_deescalation_preferred_over_domination
+
+modules:
+  MemoryOS: append_only_lineage_receipts_repair_traces_reflection_memory
+  BeliefOS: current_licensable_beliefs_uncertainty_conflict_temporal_scope
+  PlanOS: hierarchical_skill_based_evidence_bound_planning
+  DecisionOS: advisory_and_governance_bound_decision_licensing
+  ReflectionOS: append_only_lessons_from_outcome_error_repair_prediction_mismatch
+  ExplanationOS: traceable_explanation_surface_without_false_totalization
+  RuntimeGovernance: gates_barriers_release_policies_fail_closed_constraints
+  SelfEvolutionOS: reviewed_benchmarked_append_only_evolution_of_code_policy_routing_glue
+
+status_values:
+  - DRAFT
+  - REVIEW
+  - HOLD
+  - PASS
+  - CONDITIONAL
+  - FAIL
+  - RELEASED
+  - SUPERSEDED
+
+public_core_documents:
+  - README.md
+  - LICENSE
+  - COPYRIGHT.md
+  - CITATION.cff
+  - docs/KUOS_CORE_CHARTER_v0_1.md
+  - docs/PUBLIC_PRIVATE_BOUNDARY_v0_1.md
+  - docs/FORMAL_VERIFICATION_POLICY_v0_1.md
+  - docs/GOVERNANCE_RELEASE_GATE_v0_1.md
