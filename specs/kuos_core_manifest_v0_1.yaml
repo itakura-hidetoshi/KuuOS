@@ -1,7 +1,7 @@
 id: kuos_core_manifest_v0_1
 name: KuuOS / 空OS Core Manifest
 version: 0.1.2-paramartha-samvrti-middle-way
- date: 2026-05-11
+date: 2026-05-11
 author: Hidetoshi Itakura / 板倉英俊
 repository: https://github.com/itakura-hidetoshi/KuuOS
 license: All-Rights-Reserved
