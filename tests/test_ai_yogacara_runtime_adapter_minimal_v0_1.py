@@ -10,14 +10,17 @@ from __future__ import annotations
 
 import importlib.util
 import pathlib
+import sys
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 ADAPTER_PATH = ROOT / "examples" / "ai_yogacara_runtime_adapter_minimal.py"
 
-spec = importlib.util.spec_from_file_location("ai_yogacara_runtime_adapter_minimal", ADAPTER_PATH)
+module_name = "ai_yogacara_runtime_adapter_minimal"
+spec = importlib.util.spec_from_file_location(module_name, ADAPTER_PATH)
 assert spec is not None and spec.loader is not None
 adapter = importlib.util.module_from_spec(spec)
+sys.modules[module_name] = adapter
 spec.loader.exec_module(adapter)
 
 
