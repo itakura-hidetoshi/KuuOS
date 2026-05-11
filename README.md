@@ -1,8 +1,15 @@
 # KuuOS / 空OS Core
 
-**KuuOS（空OS）** is a public core specification for a relational operating system of intelligence based on emptiness, dependent origination, the two truths, harmony, inclusion, observation, compassion, and verifiable governance.
+**KuuOS（空OS）** is a public core specification for a relational operating system of intelligence rooted first in:
 
-空OSは、LLMや世界モデルを単なる応答生成器としてではなく、**縁起・観照・検証・監査・和合的判断**を通じて運用するための中核アーキテクチャです。
+1. **空 / Emptiness**
+2. **縁起 / Dependent Origination**
+3. **二諦 / Two Truths**
+4. **中道 / Middle Way**
+
+All later modules—MemoryOS, BeliefOS, PlanOS, DecisionOS, ReflectionOS, ExplanationOS, RuntimeGovernance, and Self-EvolutionOS—are downstream operational differentiations of this fourfold core.
+
+空OSは、LLMや世界モデルを単なる応答生成器としてではなく、**空・縁起・二諦・中道**を根に置き、観照・検証・監査・和合的判断へ展開するための中核アーキテクチャです。
 
 ## Status
 
@@ -12,7 +19,7 @@ This repository is the initial public core release surface.
 - Reserved surface: unpublished implementation details, private research kernels, clinical/private data, credentials, and operational secrets.
 - Release mode: append-only / tighten-only / overwrite-forbidden.
 
-## Core Principle
+## Fourfold Core Principle
 
 KuuOS treats every output, plan, proof, memory, and action candidate as conditionally arisen through relations. Therefore, no component is allowed to claim absolute authority by itself.
 
@@ -21,11 +28,9 @@ The public core begins from these fixed commitments:
 1. **Emptiness is not nihilism.** It means absence of independent self-nature and dependence on conditions, context, observers, records, and constraints.
 2. **Dependent origination is operational.** It is represented through relational traces, causal support, memory lineage, and local-global gluing.
 3. **Two truths are maintained.** Ultimate non-fixation and conventional operational surfaces are separated without collapse.
-4. **Harmony is a control objective.** It is not mere compromise; it is constrained stabilization of plural relations.
-5. **Compassion and wisdom are governance forces.** They guide risk, repair, and non-harm constraints.
-6. **Verification is not execution authority.** Proof, validation, and audit may license visibility or confidence, but not direct action.
-7. **Memory is append-only.** Repair, reflection, lineage, and receipts are preserved rather than silently overwritten.
-8. **Direct execution is forbidden by default.** Shadow evaluation, review, and safety gates are required.
+4. **Middle Way is the stabilizer.** KuuOS avoids both reification and nihilistic collapse by preserving the gap between ultimate non-fixation and conventional operation.
+
+From this fourfold core, KuuOS further develops harmony, inclusion, observation, compassion, memory, planning, reflection, governance, and formal verification.
 
 ## Repository Map
 
@@ -36,6 +41,7 @@ The public core begins from these fixed commitments:
 ├── COPYRIGHT.md
 ├── CITATION.cff
 ├── docs/
+│   ├── KUOS_FOURFOLD_CORE_v0_1.md
 │   ├── KUOS_CORE_CHARTER_v0_1.md
 │   ├── PUBLIC_PRIVATE_BOUNDARY_v0_1.md
 │   ├── FORMAL_VERIFICATION_POLICY_v0_1.md
