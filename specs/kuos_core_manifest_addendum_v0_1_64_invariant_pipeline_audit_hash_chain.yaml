@@ -1,0 +1,48 @@
+id: kuos_core_manifest_addendum_v0_1_64_invariant_pipeline_audit_hash_chain
+name: KuuOS Core Manifest Addendum - Invariant Pipeline Audit Hash-Chain
+version: 0.1.64
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/INVARIANT_PIPELINE_AUDIT_HASH_CHAIN_LEDGER_v0_1.md
+  - specs/invariant_pipeline_audit_hash_chain_fixture_v0_1.jsonl
+  - scripts/validate_invariant_pipeline_audit_hash_chain_v0_1.py
+
+updated_documents:
+  - Makefile
+  - scripts/run_core_governance_full_checks_v0_1.py
+  - .github/workflows/core_governance_validation.yml
+
+audit_hash_chain:
+  role: append_only_hash_chain_for_invariant_pipeline_audit_events
+  fixture: specs/invariant_pipeline_audit_hash_chain_fixture_v0_1.jsonl
+  validator: scripts/validate_invariant_pipeline_audit_hash_chain_v0_1.py
+  genesis_previous_hash: GENESIS
+  root_hash_fixture: 306539394814c591b1cfb559f117a844afe1cddc6c05850c51255631998ac4c9
+  hash_rules:
+    event_hash: sha256_canonical_json_event
+    entry_hash: sha256_canonical_json_sequence_previous_hash_event_hash
+    chain_rule: entry_n_previous_hash_equals_entry_n_minus_1_entry_hash
+  non_authority_fields:
+    execution_authority_granted: false
+    proof_authority_granted: false
+    clinical_authority_granted: false
+    truth_authority_granted: false
+    teni_authority_granted: false
+
+validation:
+  make_target: invariant-pipeline-checks
+  command: python3 scripts/validate_invariant_pipeline_audit_hash_chain_v0_1.py
+  included_in: scripts/run_core_governance_full_checks_v0_1.py
+
+fixed_points:
+  - audit_hash_chain_is_lineage_record_not_authority
+  - event_hash_must_match_canonical_event
+  - entry_hash_must_match_sequence_previous_hash_event_hash
+  - previous_hash_must_chain_to_prior_entry_hash
+  - non_authority_fields_must_remain_false
+  - hash_chain_does_not_replace_worm_export_or_evidence
