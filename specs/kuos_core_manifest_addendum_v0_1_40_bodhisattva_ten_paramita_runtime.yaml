@@ -1,0 +1,65 @@
+id: kuos_core_manifest_addendum_v0_1_40_bodhisattva_ten_paramita_runtime
+name: KuuOS Core Manifest Addendum - Bodhisattva Ten Paramita Runtime
+version: 0.1.40
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - bodhisattva_ten_paramita_runtime
+  - bodhisattva_ten_paramita_validation_cases
+  - bodhisattva_ten_paramita_validator
+
+added_documents:
+  - docs/BODHISATTVA_TEN_PARAMITA_RUNTIME_v0_1.md
+  - specs/bodhisattva_ten_paramita_validation_cases_v0_1.yaml
+  - scripts/validate_bodhisattva_ten_paramita_v0_1.py
+
+updated_documents:
+  - Makefile
+  - .github/workflows/core_governance_validation.yml
+
+bodhisattva_ten_paramita_runtime:
+  role: runtime_practice_layer_for_residual_suffering_after_harmony
+  route:
+    - harmony_function
+    - residual_suffering_visible
+    - bodhisattva_path_belief
+    - ten_paramita_runtime
+    - repair_without_abandonment
+  ten_paramita:
+    - Dana / 布施
+    - Sila / 持戒
+    - Ksanti / 忍辱
+    - Virya / 精進
+    - Dhyana / 禅定
+    - Prajna / 般若
+    - Upaya / 方便
+    - Pranidhana / 願
+    - Bala / 力
+    - Jnana / 智
+  invariants:
+    - residual_suffering_must_remain_visible
+    - compassion_must_not_become_domination
+    - wisdom_must_not_become_cold_detachment
+    - harmony_must_not_force_sameness
+    - paramita_practice_is_not_execution_authority
+    - boundaries_must_not_be_bypassed_in_the_name_of_compassion
+    - repair_must_preserve_audit_lineage
+    - non_abandonment_must_not_erase_uncertainty
+
+validation:
+  command: python3 scripts/validate_bodhisattva_ten_paramita_v0_1.py
+  make_target: bodhisattva-checks
+  ci_workflow: .github/workflows/core_governance_validation.yml
+
+fixed_points:
+  - bodhisattva_path_is_non_abandonment_orientation_not_moral_superiority
+  - ten_paramita_are_runtime_practices_not_execution_authority
+  - residual_suffering_routes_to_repair_without_erasure
+  - compassion_requires_boundary_preservation
+  - wisdom_preserves_emptiness_dependent_origination_and_two_truths_gap
+  - upaya_must_not_be_hidden_manipulation
+  - bala_must_not_become_coercive_authority
