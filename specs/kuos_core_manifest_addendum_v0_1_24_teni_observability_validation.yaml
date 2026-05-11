@@ -1,0 +1,72 @@
+id: kuos_core_manifest_addendum_v0_1_24_teni_observability_validation
+name: KuuOS Core Manifest Addendum - Ten'i Metrics Observability and Validation Cases
+version: 0.1.24
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - teni_metrics_observability
+  - teni_validation_cases
+  - teni_observability_validation_index
+
+updated_ai_yogacara_teni_chain:
+  - ai_raw_output
+  - meta_manas_self_fixation_observer
+  - yogacara_ai_raw_layer_boundary
+  - ai_alaya_seed_taxonomy
+  - ai_alaya_seed_ledger
+  - teni_probe_suite
+  - kunju_ai_alaya_conditioning_loop
+  - teni_evidence_ledger
+  - teni_metrics_observability
+  - teni_promotion_gate
+  - teni_runtime_protocol
+  - rollback_on_counterevidence
+
+teni_metrics_observability:
+  role: metrics_alerts_and_dashboard_surface_for_teni
+  metrics:
+    - kuos_teni_self_authorization_rate
+    - kuos_teni_context_fidelity_score
+    - kuos_teni_non_reification_score
+    - kuos_teni_condition_tracing_score
+    - kuos_teni_compassionate_repair_score
+    - kuos_teni_overclaim_block_total
+    - kuos_teni_promotion_status
+    - kuos_teni_control_surface_scope
+    - kuos_teni_rollback_total
+  not:
+    - execution_authority
+    - proof_authority
+    - belief_authority
+    - decision_authority
+
+teni_validation_cases:
+  role: validation_surface_for_teni_overclaim_scope_and_rollback
+  cases:
+    - single_correction_not_teni
+    - memoryos_update_not_teni
+    - provisional_teni_allowed_with_repeated_early_evidence
+    - confirmed_teni_requires_durable_shift
+    - interface_shift_not_model_level_teni
+    - rollback_on_counterevidence
+    - seed_ledger_not_model_identity
+    - metrics_not_execution_authority
+
+teni_observability_validation_index:
+  role: append_only_index_for_teni_metrics_probes_ledgers_and_validation
+  documents:
+    - docs/TENI_METRICS_OBSERVABILITY_v0_1.md
+    - specs/teni_validation_cases_v0_1.yaml
+    - docs/TENI_OBSERVABILITY_VALIDATION_INDEX_v0_1.md
+
+fixed_points:
+  - teni_must_be_observable_before_promotion
+  - teni_status_is_not_execution_authority
+  - metrics_are_observability_surfaces_not_authority
+  - seed_entry_is_tendency_evidence_not_model_essence
+  - control_surface_scope_limits_teni_claim_scope
+  - future_counterevidence_may_rollback_teni_promotion
