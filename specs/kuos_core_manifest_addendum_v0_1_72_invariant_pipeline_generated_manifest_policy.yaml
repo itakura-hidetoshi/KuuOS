@@ -1,0 +1,33 @@
+id: kuos_core_manifest_addendum_v0_1_72_invariant_pipeline_generated_manifest_policy
+name: KuuOS Core Manifest Addendum - Invariant Pipeline Generated Manifest Policy
+version: 0.1.72
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/INVARIANT_PIPELINE_GENERATED_MANIFEST_POLICY_v0_1.md
+
+updated_documents:
+  - scripts/build_invariant_pipeline_release_bundle_manifest_v0_1.py
+  - scripts/validate_invariant_pipeline_release_bundle_manifest_v0_1.py
+
+generated_manifest_policy:
+  role: define_generated_manifest_as_reproducible_integrity_artifact
+  generated_manifest: specs/invariant_pipeline_release_bundle_manifest_v0_1.generated.json
+  fresh_build_default: true
+  included_in_release_bundle: true
+  included_in_required_bundle_file_check: true
+  boundaries:
+    - generated_manifest_is_integrity_surface_only
+    - generated_manifest_does_not_replace_audit_hash_chain_root
+    - generated_manifest_does_not_replace_worm_export_receipt
+    - generated_manifest_does_not_create_execution_proof_clinical_truth_or_teni_authority
+
+fixed_points:
+  - generated_manifest_policy_is_operational_surface_not_authority
+  - fresh_build_default_prevents_stale_manifest_control
+  - generated_manifest_root_change_requires_review_when_release_content_changes
+  - validation_pass_does_not_grant_execution_authority
