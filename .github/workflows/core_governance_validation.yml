@@ -1,0 +1,43 @@
+name: Core Governance Validation
+
+on:
+  push:
+    paths:
+      - 'docs/MANDALA_*.md'
+      - 'docs/WORLD_MODEL_REGISTRY_v0_1.md'
+      - 'docs/CROSS_WORLD_TRANSPORT_GATE_v0_1.md'
+      - 'docs/HARMONY_FUNCTION_MULTI_WORLD_OPERATION_v0_1.md'
+      - 'docs/BODHISATTVA_PATH_BELIEF_v0_1.md'
+      - 'specs/mandala_multi_world_validation_cases_v0_1.yaml'
+      - 'scripts/validate_mandala_multi_world_v0_1.py'
+      - 'Makefile'
+      - '.github/workflows/core_governance_validation.yml'
+  pull_request:
+    paths:
+      - 'docs/MANDALA_*.md'
+      - 'docs/WORLD_MODEL_REGISTRY_v0_1.md'
+      - 'docs/CROSS_WORLD_TRANSPORT_GATE_v0_1.md'
+      - 'docs/HARMONY_FUNCTION_MULTI_WORLD_OPERATION_v0_1.md'
+      - 'docs/BODHISATTVA_PATH_BELIEF_v0_1.md'
+      - 'specs/mandala_multi_world_validation_cases_v0_1.yaml'
+      - 'scripts/validate_mandala_multi_world_v0_1.py'
+      - 'Makefile'
+      - '.github/workflows/core_governance_validation.yml'
+
+jobs:
+  validate-core-governance:
+    name: Validate core governance checks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run Mandala Multi-WORLD checks
+        run: python3 scripts/validate_mandala_multi_world_v0_1.py
