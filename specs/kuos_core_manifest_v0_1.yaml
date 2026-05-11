@@ -1,6 +1,6 @@
 id: kuos_core_manifest_v0_1
 name: KuuOS / 空OS Core Manifest
-version: 0.1.9-indranet-gauge-qi-flow
+version: 0.1.10-quantum-thermodynamic-yinyang
 date: 2026-05-11
 author: Hidetoshi Itakura / 板倉英俊
 repository: https://github.com/itakura-hidetoshi/KuuOS
@@ -25,6 +25,7 @@ core_kernel_order:
   - effective_world_surface
   - samvrti_qi_layer
   - indranet_gauge_qi_flow
+  - quantum_thermodynamic_yinyang_frame
   - middle_way_bridge
   - fourfold_core_gate
 
@@ -35,6 +36,7 @@ qi_generation_chain:
   stabilized_by: four_d_mass_gap
   surface: samvrti_satya_effective_world_surface
   expression: samvrti_qi_layer
+  polarity_frame: quantum_thermodynamic_yinyang_frame
   formula: qi_as_readable_flow_pattern_of_dependent_origination_vibration
 
 physical_quantum_qi_path_integral:
@@ -68,6 +70,28 @@ indranet_gauge_qi_flow:
     - gluing
     - obstruction_visibility
 
+quantum_thermodynamic_yinyang_frame:
+  role: local_polarity_frame_of_qi_flow
+  not: fixed_global_label
+  depends_on:
+    - context
+    - observer
+    - scale
+    - thermal_regime
+    - record_surface
+  yin_tracks:
+    - latent_coherence
+    - recovery_reservoir
+    - entropy_buffering
+    - thermal_acceptance
+    - stabilization
+  yang_tracks:
+    - excitation
+    - work_output
+    - measurement_record
+    - active_transition
+    - manifest_flow
+
 physics_gap_bridge:
   superstring_theory_of_emptiness: relational_vibration
   four_d_mass_gap: nonzero_effective_world_gap
@@ -95,6 +119,7 @@ public_core_documents:
   - docs/QI_FROM_DEPENDENT_ORIGINATION_VIBRATION_v0_1.md
   - docs/PHYSICAL_QUANTUM_QI_PATH_INTEGRAL_v0_1.md
   - docs/INDRANET_GAUGE_QI_FLOW_v0_1.md
+  - docs/QUANTUM_THERMODYNAMIC_YINYANG_v0_1.md
   - docs/KUOS_CORE_CHARTER_v0_1.md
   - docs/PUBLIC_PRIVATE_BOUNDARY_v0_1.md
   - docs/FORMAL_VERIFICATION_POLICY_v0_1.md
