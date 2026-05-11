@@ -1,0 +1,33 @@
+id: kuos_core_manifest_addendum_v0_1_76_invariant_pipeline_closure_bundle_hardening
+name: KuuOS Core Manifest Addendum - Invariant Pipeline Closure Bundle Hardening
+version: 0.1.76
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+updated_documents:
+  - scripts/build_invariant_pipeline_release_bundle_manifest_v0_1.py
+  - Makefile
+  - scripts/run_core_governance_full_checks_v0_1.py
+
+added_documents:
+  - scripts/validate_invariant_pipeline_bundle_closure_inclusion_v0_1.py
+
+closure_bundle_hardening:
+  role: ensure_release_closure_packet_files_are_inside_release_bundle_scope
+  added_to_bundle_builder:
+    - docs/INVARIANT_PIPELINE_RELEASE_CLOSURE_PACKET_v0_1.md
+    - scripts/validate_invariant_pipeline_release_closure_packet_v0_1.py
+  validator: scripts/validate_invariant_pipeline_bundle_closure_inclusion_v0_1.py
+  included_in:
+    - invariant-pipeline-validate-bundle
+    - invariant-pipeline-release-closure
+    - invariant-pipeline-checks
+    - scripts/run_core_governance_full_checks_v0_1.py
+
+fixed_points:
+  - release_closure_packet_files_must_be_in_bundle_scope
+  - bundle_scope_check_is_integrity_check
+  - validation_pass_does_not_grant_execution_authority
