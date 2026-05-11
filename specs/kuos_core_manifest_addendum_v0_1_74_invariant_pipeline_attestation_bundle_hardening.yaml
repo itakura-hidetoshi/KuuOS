@@ -1,0 +1,33 @@
+id: kuos_core_manifest_addendum_v0_1_74_invariant_pipeline_attestation_bundle_hardening
+name: KuuOS Core Manifest Addendum - Invariant Pipeline Attestation Bundle Hardening
+version: 0.1.74
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+updated_documents:
+  - scripts/build_invariant_pipeline_release_bundle_manifest_v0_1.py
+  - scripts/validate_invariant_pipeline_release_bundle_manifest_v0_1.py
+
+attestation_bundle_hardening:
+  role: include_release_attestation_surfaces_inside_release_bundle_integrity_scope
+  added_to_bundle_builder:
+    - docs/INVARIANT_PIPELINE_RELEASE_ATTESTATION_v0_1.md
+    - scripts/build_invariant_pipeline_release_attestation_v0_1.py
+    - scripts/validate_invariant_pipeline_release_attestation_v0_1.py
+  added_to_bundle_validator_required_files:
+    - docs/INVARIANT_PIPELINE_RELEASE_ATTESTATION_v0_1.md
+    - scripts/build_invariant_pipeline_release_attestation_v0_1.py
+    - scripts/validate_invariant_pipeline_release_attestation_v0_1.py
+  boundary:
+    - attestation_is_integrity_summary_not_authority
+    - including_attestation_in_bundle_does_not_create_execution_authority
+    - bundle_root_and_attestation_roots_remain_distinct_surfaces
+
+fixed_points:
+  - release_attestation_files_must_be_in_bundle_integrity_scope
+  - release_attestation_must_not_remain_untracked_outside_bundle
+  - attestation_bundle_hardening_is_integrity_surface_not_authority
+  - validation_pass_does_not_grant_execution_authority
