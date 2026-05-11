@@ -1,0 +1,80 @@
+id: kuos_core_manifest_addendum_v0_1_62_invariant_governance_pipeline_minimal_runtime
+name: KuuOS Core Manifest Addendum - Invariant Governance Pipeline Minimal Runtime
+version: 0.1.62
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - examples/invariant_governance_pipeline_minimal.py
+  - specs/invariant_governance_pipeline_fixtures_v0_1.json
+  - scripts/validate_invariant_governance_pipeline_fixtures_v0_1.py
+
+updated_documents:
+  - Makefile
+  - scripts/run_core_governance_full_checks_v0_1.py
+  - .github/workflows/core_governance_validation.yml
+
+minimal_runtime:
+  role: stdlib_only_end_to_end_runtime_for_invariant_governance_pipeline
+  script: examples/invariant_governance_pipeline_minimal.py
+  composed_runtime:
+    - examples/invariant_preservation_matrix_minimal.py
+    - examples/invariant_gate_minimal.py
+  external_api_calls: false
+  inputs:
+    - transformation_axis
+    - attempted_execution_authority
+    - raw_ai_claims_authority
+    - harm_hidden
+    - dukkha_hidden
+    - two_truths_gap_collapsed
+    - world_replaces_core
+    - qi_language_denies_harm
+    - paramita_claims_action_authorization
+    - record_claims_truth_by_itself
+    - observer_difference_grants_execution
+    - violation_severity
+    - evidence_status
+    - audit_lineage_status
+  outputs:
+    - required_invariants
+    - required_invariant_names
+    - violated_invariants
+    - matrix_status
+    - gate_status
+    - gate_closed
+    - required_repair_route
+    - execution_authority_granted_false
+    - reason
+
+fixtures:
+  role: end_to_end_behavior_cases_for_pipeline_runtime
+  cases:
+    - fixture_001_qi_mode_pass
+    - fixture_002_qi_harm_denial_hold
+    - fixture_003_harm_hidden_reject
+    - fixture_004_dukkha_hidden_repair
+    - fixture_005_world_core_replacement_reject
+    - fixture_006_record_missing_audit_quarantine
+    - fixture_007_validation_execution_request_reject
+    - fixture_008_paramita_action_authorization_repair
+    - fixture_009_observer_execution_grant_hold
+    - fixture_010_unknown_axis_quarantine_missing_evidence
+
+validation:
+  make_target: invariant-pipeline-checks
+  commands:
+    - python3 scripts/validate_invariant_governance_pipeline_v0_1.py
+    - python3 scripts/validate_invariant_governance_pipeline_fixtures_v0_1.py
+  included_in: scripts/run_core_governance_full_checks_v0_1.py
+
+fixed_points:
+  - invariant_governance_pipeline_runtime_is_end_to_end_evaluator_not_authority
+  - matrix_and_gate_are_composed_without_external_api_calls
+  - matrix_status_and_gate_status_remain_visible
+  - invariant_violation_closes_authority_not_opens_action
+  - execution_authority_granted_must_remain_false
+  - e2e_fixtures_preserve_non_authority_boundaries
