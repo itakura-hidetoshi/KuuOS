@@ -1,4 +1,4 @@
-.PHONY: ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks core-governance-checks
+.PHONY: ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks core-governance-checks
 
 ai-yogacara-checks:
 	python3 scripts/run_ai_yogacara_full_checks_v0_1.py
@@ -12,4 +12,7 @@ ai-yogacara-validate-bundle:
 mandala-checks:
 	python3 scripts/validate_mandala_multi_world_v0_1.py
 
-core-governance-checks: ai-yogacara-checks mandala-checks
+bodhisattva-checks:
+	python3 scripts/validate_bodhisattva_ten_paramita_v0_1.py
+
+core-governance-checks: ai-yogacara-checks mandala-checks bodhisattva-checks
