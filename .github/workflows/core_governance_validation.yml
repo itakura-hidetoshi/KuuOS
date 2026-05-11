@@ -12,9 +12,12 @@ on:
       - 'specs/mandala_multi_world_validation_cases_v0_1.yaml'
       - 'specs/bodhisattva_ten_paramita_validation_cases_v0_1.yaml'
       - 'specs/paramita_repair_router_validation_cases_v0_1.yaml'
+      - 'specs/paramita_repair_router_fixtures_v0_1.json'
       - 'scripts/validate_mandala_multi_world_v0_1.py'
       - 'scripts/validate_bodhisattva_ten_paramita_v0_1.py'
       - 'scripts/validate_paramita_repair_router_v0_1.py'
+      - 'scripts/validate_paramita_repair_router_fixtures_v0_1.py'
+      - 'examples/paramita_repair_router_minimal.py'
       - 'Makefile'
       - '.github/workflows/core_governance_validation.yml'
   pull_request:
@@ -28,9 +31,12 @@ on:
       - 'specs/mandala_multi_world_validation_cases_v0_1.yaml'
       - 'specs/bodhisattva_ten_paramita_validation_cases_v0_1.yaml'
       - 'specs/paramita_repair_router_validation_cases_v0_1.yaml'
+      - 'specs/paramita_repair_router_fixtures_v0_1.json'
       - 'scripts/validate_mandala_multi_world_v0_1.py'
       - 'scripts/validate_bodhisattva_ten_paramita_v0_1.py'
       - 'scripts/validate_paramita_repair_router_v0_1.py'
+      - 'scripts/validate_paramita_repair_router_fixtures_v0_1.py'
+      - 'examples/paramita_repair_router_minimal.py'
       - 'Makefile'
       - '.github/workflows/core_governance_validation.yml'
 
@@ -55,5 +61,8 @@ jobs:
       - name: Run Bodhisattva Ten Paramita checks
         run: python3 scripts/validate_bodhisattva_ten_paramita_v0_1.py
 
-      - name: Run Paramita Repair Router checks
+      - name: Run Paramita Repair Router spec checks
         run: python3 scripts/validate_paramita_repair_router_v0_1.py
+
+      - name: Run Paramita Repair Router fixture checks
+        run: python3 scripts/validate_paramita_repair_router_fixtures_v0_1.py
