@@ -11,6 +11,7 @@ import dataclasses
 import importlib.util
 import json
 import pathlib
+import sys
 from typing import Any
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -19,10 +20,12 @@ ROUTER_PATH = ROOT / "examples" / "paramita_repair_router_minimal.py"
 
 
 def load_router() -> Any:
-    spec = importlib.util.spec_from_file_location("paramita_repair_router_minimal", ROUTER_PATH)
+    module_name = "paramita_repair_router_minimal"
+    spec = importlib.util.spec_from_file_location(module_name, ROUTER_PATH)
     if spec is None or spec.loader is None:
         raise RuntimeError("failed to load router module spec")
     module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
     spec.loader.exec_module(module)
     return module
 
