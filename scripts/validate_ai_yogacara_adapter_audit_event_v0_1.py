@@ -12,6 +12,7 @@ from __future__ import annotations
 
 import importlib.util
 import pathlib
+import sys
 from typing import Any
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -49,10 +50,12 @@ REQUIRED_STRING_FIELDS = [
 
 
 def load_adapter() -> Any:
-    spec = importlib.util.spec_from_file_location("ai_yogacara_runtime_adapter_minimal", ADAPTER_PATH)
+    module_name = "ai_yogacara_runtime_adapter_minimal"
+    spec = importlib.util.spec_from_file_location(module_name, ADAPTER_PATH)
     if spec is None or spec.loader is None:
         raise RuntimeError("failed to load adapter module spec")
     module = importlib.util.module_from_spec(spec)
+    sys.modules[module_name] = module
     spec.loader.exec_module(module)
     return module
 
