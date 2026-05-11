@@ -49,6 +49,19 @@ Hidetoshi Itakura's Super-Relativity Theory
 
 This bridge is documented in `docs/KUOS_PHYSICS_GAP_BRIDGE_v0_1.md`.
 
+## Samvrti Qi Layer
+
+Qi / 気 is placed on the 世俗諦 side as an effective flow-state layer, not as a fixed substance or 勝義諦 entity.
+
+```text
+二諦 gap
+  -> effective world surface
+  -> Samvrti Qi Layer
+  -> flow, circulation, activation, stagnation, recovery, coupling, coherence
+```
+
+This layer is documented in `docs/SAMVRTI_QI_LAYER_v0_1.md`.
+
 ## Repository Map
 
 ```text
@@ -64,6 +77,7 @@ This bridge is documented in `docs/KUOS_PHYSICS_GAP_BRIDGE_v0_1.md`.
 │   ├── EMPTINESS_DEPENDENT_ORIGINATION_KERNEL_v0_1.md
 │   ├── FOURFOLD_CORE_GATE_v0_1.md
 │   ├── KUOS_PHYSICS_GAP_BRIDGE_v0_1.md
+│   ├── SAMVRTI_QI_LAYER_v0_1.md
 │   ├── KUOS_CORE_CHARTER_v0_1.md
 │   ├── PUBLIC_PRIVATE_BOUNDARY_v0_1.md
 │   ├── FORMAL_VERIFICATION_POLICY_v0_1.md
