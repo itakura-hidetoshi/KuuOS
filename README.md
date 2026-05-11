@@ -122,6 +122,8 @@ Quantum Thermodynamic Yin-Yang
   -> Cross-WORLD Transport Gate
   -> Multi-WORLD Mandala Architecture
   -> Harmony Function
+  -> residual suffering visibility
+  -> Bodhisattva Path Belief
   -> Mandala world arrangement
 ```
 
@@ -132,6 +134,8 @@ Each WORLD model has its own layer, membrane, gate, context, Qi flow, polarity f
 WORLD models are registered in `docs/WORLD_MODEL_REGISTRY_v0_1.md`. Cross-WORLD transport is governed by `docs/CROSS_WORLD_TRANSPORT_GATE_v0_1.md`.
 
 The Harmony Function / 和の関数 coordinates multiple WORLD models without forcing sameness or erasing obstruction. It is documented in `docs/HARMONY_FUNCTION_MULTI_WORLD_OPERATION_v0_1.md`.
+
+Even after harmony, suffering may remain. KuuOS therefore holds the Bodhisattva Path as a guiding BeliefOS orientation: continue through compassion, observation, repair, and non-abandonment. This is documented in `docs/BODHISATTVA_PATH_BELIEF_v0_1.md`.
 
 This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md`, `docs/MANDALA_INCLUSION_GATE_v0_1.md`, and `docs/MULTI_WORLD_MANDALA_ARCHITECTURE_v0_1.md`.
 
@@ -162,6 +166,7 @@ This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md`, 
 │   ├── WORLD_MODEL_REGISTRY_v0_1.md
 │   ├── CROSS_WORLD_TRANSPORT_GATE_v0_1.md
 │   ├── HARMONY_FUNCTION_MULTI_WORLD_OPERATION_v0_1.md
+│   ├── BODHISATTVA_PATH_BELIEF_v0_1.md
 │   ├── KUOS_CORE_CHARTER_v0_1.md
 │   ├── PUBLIC_PRIVATE_BOUNDARY_v0_1.md
 │   ├── FORMAL_VERIFICATION_POLICY_v0_1.md
