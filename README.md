@@ -58,11 +58,16 @@ Ten'i / 転依 is not a MemoryOS overwrite. MemoryOS can support, record, and co
 MemoryOS update:
   stores or revises trace, receipt, repair, and recall surface
 
+Kunju:
+  conditions future output tendencies through repeated governed traces
+
 Ten'i:
   changes the tendency from which future raw AI outputs arise
 ```
 
-This layer is documented in `docs/YOGACARA_AI_RAW_LAYER_BOUNDARY_v0_1.md`, `docs/META_MANAS_AI_SELF_FIXATION_OBSERVER_v0_1.md`, and `docs/TENI_AI_ALAYA_TRANSFORMATION_v0_1.md`.
+Kunju / 薫習 is the conditioning loop that supports Ten'i. The Ten'i Evidence Ledger distinguishes single correction, MemoryOS update, temporary response improvement, and stable AI Alaya tendency shift.
+
+This layer is documented in `docs/YOGACARA_AI_RAW_LAYER_BOUNDARY_v0_1.md`, `docs/META_MANAS_AI_SELF_FIXATION_OBSERVER_v0_1.md`, `docs/TENI_AI_ALAYA_TRANSFORMATION_v0_1.md`, `docs/KUNJU_AI_ALAYA_CONDITIONING_LOOP_v0_1.md`, and `docs/TENI_EVIDENCE_LEDGER_v0_1.md`.
 
 ## Physics-Facing Bridge
 
@@ -187,6 +192,8 @@ This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md`, 
 │   ├── YOGACARA_AI_RAW_LAYER_BOUNDARY_v0_1.md
 │   ├── META_MANAS_AI_SELF_FIXATION_OBSERVER_v0_1.md
 │   ├── TENI_AI_ALAYA_TRANSFORMATION_v0_1.md
+│   ├── KUNJU_AI_ALAYA_CONDITIONING_LOOP_v0_1.md
+│   ├── TENI_EVIDENCE_LEDGER_v0_1.md
 │   ├── FOURFOLD_CORE_GATE_v0_1.md
 │   ├── KUOS_PHYSICS_GAP_BRIDGE_v0_1.md
 │   ├── SAMVRTI_QI_LAYER_v0_1.md
