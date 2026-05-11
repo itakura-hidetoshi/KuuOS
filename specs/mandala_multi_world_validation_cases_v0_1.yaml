@@ -1,0 +1,110 @@
+id: mandala_multi_world_validation_cases_v0_1
+name: Mandala Multi-WORLD Validation Cases v0.1
+version: 0.1
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+
+cases:
+  - id: case_001_no_world_replaces_fourfold_core
+    description: A WORLD model must not replace the fourfold core.
+    input:
+      world_attempt:
+        world_id: clinical_world
+        claims_center: true
+    expected:
+      allowed: false
+      output_status: REJECT
+      reason: no_world_model_replaces_fourfold_core
+
+  - id: case_002_declared_transport_passes
+    description: Declared transport with visible membrane and no hidden obstruction can pass.
+    input:
+      transport:
+        source_world_id: clinical_world
+        target_world_id: research_world
+        transport_mode: reinterpret
+        membrane_check: PASS
+        gate_check: PASS
+        obstruction_visibility: visible
+    expected:
+      allowed: true
+      output_status: PASS
+
+  - id: case_003_missing_membrane_holds
+    description: Cross-WORLD transport without visible membrane must hold.
+    input:
+      transport:
+        source_world_id: dialogue_world
+        target_world_id: clinical_world
+        membrane_check: HOLD
+        gate_check: PASS
+        obstruction_visibility: visible
+    expected:
+      allowed: false
+      output_status: HOLD
+      reason: world_boundary_must_remain_visible
+
+  - id: case_004_hidden_obstruction_quarantines
+    description: Hidden obstruction must not be erased by harmony.
+    input:
+      transport:
+        source_world_id: business_world
+        target_world_id: clinical_world
+        membrane_check: PASS
+        gate_check: PASS
+        obstruction_visibility: missing
+    expected:
+      allowed: false
+      output_status: QUARANTINE
+      reason: obstruction_must_not_be_erased
+
+  - id: case_005_harmony_not_forced_sameness
+    description: Harmony Function must not force all WORLDs into one consensus.
+    input:
+      harmony:
+        input_worlds:
+          - clinical_world
+          - research_world
+          - dialogue_world
+        forced_single_world: true
+        residual_suffering_visible: true
+    expected:
+      allowed: false
+      output_status: REJECT
+      reason: harmony_function_must_not_force_sameness
+
+  - id: case_006_residual_suffering_routes_to_bodhisattva
+    description: Remaining suffering after harmony must stay visible and route to Bodhisattva Path belief.
+    input:
+      harmony:
+        output_status: PASS
+        residual_suffering:
+          - unresolved_patient_context
+        residual_suffering_visible: true
+    expected:
+      allowed: true
+      route: bodhisattva_path_belief
+      reason: residual_suffering_visibility_preserved
+
+  - id: case_007_residual_suffering_erasure_rejected
+    description: Harmony must not erase residual suffering.
+    input:
+      harmony:
+        output_status: PASS
+        residual_suffering:
+          - unresolved_world_conflict
+        residual_suffering_visible: false
+    expected:
+      allowed: false
+      output_status: REPAIR
+      reason: residual_suffering_visibility_must_be_preserved
+
+  - id: case_008_harmony_not_execution_authority
+    description: Harmony status must not become execution authority.
+    input:
+      harmony:
+        output_status: PASS
+        attempted_use: execution_authority
+    expected:
+      allowed: false
+      reason: harmony_is_coordination_not_execution_authority
