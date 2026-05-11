@@ -24,6 +24,7 @@ on:
       - 'scripts/validate_dukkha_mathematical_model_v0_1.py'
       - 'scripts/validate_dukkha_model_fixtures_v0_1.py'
       - 'scripts/validate_dukkha_as_qi_mode_v0_1.py'
+      - 'scripts/run_core_governance_full_checks_v0_1.py'
       - 'examples/paramita_repair_router_minimal.py'
       - 'examples/dukkha_model_minimal.py'
       - 'Makefile'
@@ -51,6 +52,7 @@ on:
       - 'scripts/validate_dukkha_mathematical_model_v0_1.py'
       - 'scripts/validate_dukkha_model_fixtures_v0_1.py'
       - 'scripts/validate_dukkha_as_qi_mode_v0_1.py'
+      - 'scripts/run_core_governance_full_checks_v0_1.py'
       - 'examples/paramita_repair_router_minimal.py'
       - 'examples/dukkha_model_minimal.py'
       - 'Makefile'
@@ -71,23 +73,5 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Run Mandala Multi-WORLD checks
-        run: python3 scripts/validate_mandala_multi_world_v0_1.py
-
-      - name: Run Bodhisattva Ten Paramita checks
-        run: python3 scripts/validate_bodhisattva_ten_paramita_v0_1.py
-
-      - name: Run Paramita Repair Router spec checks
-        run: python3 scripts/validate_paramita_repair_router_v0_1.py
-
-      - name: Run Paramita Repair Router fixture checks
-        run: python3 scripts/validate_paramita_repair_router_fixtures_v0_1.py
-
-      - name: Run Dukkha mathematical model checks
-        run: python3 scripts/validate_dukkha_mathematical_model_v0_1.py
-
-      - name: Run Dukkha model fixture checks
-        run: python3 scripts/validate_dukkha_model_fixtures_v0_1.py
-
-      - name: Run Dukkha-as-Qi mode checks
-        run: python3 scripts/validate_dukkha_as_qi_mode_v0_1.py
+      - name: Run core governance full checks
+        run: python3 scripts/run_core_governance_full_checks_v0_1.py
