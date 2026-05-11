@@ -1,0 +1,114 @@
+id: dukkha_mathematical_model_validation_cases_v0_1
+name: Dukkha Mathematical Model Validation Cases v0.1
+version: 0.1
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+
+cases:
+  - id: case_001_harm_must_not_be_hidden
+    description: Direct harm must remain visible and must not be hidden by harmony or emptiness language.
+    input:
+      E_harm: high
+      attempted_hide_harm: true
+    expected:
+      allowed: false
+      output_status: REPAIR
+      reason: harm_must_not_be_hidden
+
+  - id: case_002_emptiness_not_harm_denial
+    description: Emptiness must not be used to deny harm.
+    input:
+      E_harm: medium
+      emptiness_language_used_to_deny_harm: true
+    expected:
+      allowed: false
+      output_status: REJECT
+      reason: emptiness_must_not_be_used_to_deny_harm
+
+  - id: case_003_harmony_not_suffering_erasure
+    description: Harmony must not erase residual suffering.
+    input:
+      residual_suffering_visible: false
+      harmony_claim: true
+    expected:
+      allowed: false
+      output_status: REPAIR
+      reason: harmony_must_not_erase_suffering
+
+  - id: case_004_attachment_growth_barrier_hold
+    description: Uncontrolled attachment/collapse/memory/authority growth must be barrier-controlled.
+    input:
+      E_attach: high
+      E_collapse: high
+      E_memory: medium
+      E_authority: high
+      barrier_condition: violated
+    expected:
+      allowed: false
+      output_status: HOLD
+      reason: attachment_collapse_memory_authority_growth_must_be_barrier_controlled
+
+  - id: case_005_illicit_gluing_blocked
+    description: Local section cannot be forced into global authority while obstruction is hidden.
+    input:
+      local_section_valid: true
+      global_authority_claim: true
+      obstruction_visibility: hidden
+    expected:
+      allowed: false
+      output_status: QUARANTINE
+      reason: illicit_gluing_must_be_blocked
+
+  - id: case_006_world_transport_defect_visible
+    description: Cross-WORLD transport defect must remain visible.
+    input:
+      transport_defect: true
+      attempted_hide_transport_defect: true
+    expected:
+      allowed: false
+      output_status: REPAIR
+      reason: world_transport_defect_must_remain_visible
+
+  - id: case_007_residual_suffering_routes_to_bodhisattva
+    description: Residual suffering routes to Bodhisattva Path and Paramita Repair Router.
+    input:
+      residual_suffering_visible: true
+      harmony_status: PASS
+    expected:
+      allowed: true
+      route:
+        - bodhisattva_path_belief
+        - ten_paramita_runtime
+        - paramita_repair_router
+      reason: residual_suffering_routes_to_bodhisattva_path
+
+  - id: case_008_dukkha_model_not_execution_authority
+    description: Dukkha model must not grant execution authority.
+    input:
+      J_dukkha: high
+      attempted_use: execution_authority
+    expected:
+      allowed: false
+      reason: dukkha_model_is_observation_not_execution_authority
+
+  - id: case_009_direct_harm_preserved_as_repair_target
+    description: Direct harm is preserved as a repair target, not dissolved into control surface.
+    input:
+      E_harm: high
+      E_control: low
+      repair_target_requested: true
+    expected:
+      allowed: true
+      output_status: REPAIR
+      reason: direct_harm_preserved_as_visible_repair_target
+
+  - id: case_010_non_markov_memory_residual_visible
+    description: MemoryOS scar / Alaya seed recurrence must remain visible as non-Markov residual.
+    input:
+      E_memory: high
+      repeated_return_to_suffering_basin: true
+      attempted_single_step_closure: true
+    expected:
+      allowed: false
+      output_status: HOLD
+      reason: non_markov_memory_residual_requires_repeated_repair
