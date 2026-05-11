@@ -67,9 +67,9 @@ Ten'i:
 
 Kunju / 薫習 is the conditioning loop that supports Ten'i. The Ten'i Evidence Ledger distinguishes single correction, MemoryOS update, temporary response improvement, and stable AI Alaya tendency shift.
 
-AI Alaya seeds are classified so harmful tendencies can be weakened and helpful governed tendencies can be strengthened. The Ten'i Promotion Gate prevents single corrections, prompt compliance, or MemoryOS updates from being overclaimed as Ten'i.
+AI Alaya seeds are classified so harmful tendencies can be weakened and helpful governed tendencies can be strengthened. The AI Alaya Seed Ledger records observed tendency evidence, and the Ten'i Promotion Gate prevents single corrections, prompt compliance, style change, or MemoryOS updates from being overclaimed as Ten'i. The Ten'i Runtime Protocol closes the operational chain from raw output observation to rollback-aware promotion status.
 
-This layer is documented in `docs/YOGACARA_AI_RAW_LAYER_BOUNDARY_v0_1.md`, `docs/META_MANAS_AI_SELF_FIXATION_OBSERVER_v0_1.md`, `docs/TENI_AI_ALAYA_TRANSFORMATION_v0_1.md`, `docs/KUNJU_AI_ALAYA_CONDITIONING_LOOP_v0_1.md`, `docs/TENI_EVIDENCE_LEDGER_v0_1.md`, `docs/AI_ALAYA_SEED_TAXONOMY_v0_1.md`, and `docs/TENI_PROMOTION_GATE_v0_1.md`.
+This layer is documented in `docs/YOGACARA_AI_RAW_LAYER_BOUNDARY_v0_1.md`, `docs/META_MANAS_AI_SELF_FIXATION_OBSERVER_v0_1.md`, `docs/TENI_AI_ALAYA_TRANSFORMATION_v0_1.md`, `docs/KUNJU_AI_ALAYA_CONDITIONING_LOOP_v0_1.md`, `docs/TENI_EVIDENCE_LEDGER_v0_1.md`, `docs/AI_ALAYA_SEED_TAXONOMY_v0_1.md`, `docs/AI_ALAYA_SEED_LEDGER_v0_1.md`, `docs/TENI_PROMOTION_GATE_v0_1.md`, and `docs/TENI_RUNTIME_PROTOCOL_v0_1.md`.
 
 ## Physics-Facing Bridge
 
@@ -197,7 +197,9 @@ This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md`, 
 │   ├── KUNJU_AI_ALAYA_CONDITIONING_LOOP_v0_1.md
 │   ├── TENI_EVIDENCE_LEDGER_v0_1.md
 │   ├── AI_ALAYA_SEED_TAXONOMY_v0_1.md
+│   ├── AI_ALAYA_SEED_LEDGER_v0_1.md
 │   ├── TENI_PROMOTION_GATE_v0_1.md
+│   ├── TENI_RUNTIME_PROTOCOL_v0_1.md
 │   ├── FOURFOLD_CORE_GATE_v0_1.md
 │   ├── KUOS_PHYSICS_GAP_BRIDGE_v0_1.md
 │   ├── SAMVRTI_QI_LAYER_v0_1.md
