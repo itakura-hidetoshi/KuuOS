@@ -121,6 +121,7 @@ Quantum Thermodynamic Yin-Yang
   -> WORLD Model Registry
   -> Cross-WORLD Transport Gate
   -> Multi-WORLD Mandala Architecture
+  -> Harmony Function
   -> Mandala world arrangement
 ```
 
@@ -129,6 +130,8 @@ Mandala is not a single WORLD model. Mandala is an inclusive arrangement that ca
 Each WORLD model has its own layer, membrane, gate, context, Qi flow, polarity frame, and governance boundary. The center is not any one WORLD model; the center is the fourfold core.
 
 WORLD models are registered in `docs/WORLD_MODEL_REGISTRY_v0_1.md`. Cross-WORLD transport is governed by `docs/CROSS_WORLD_TRANSPORT_GATE_v0_1.md`.
+
+The Harmony Function / 和の関数 coordinates multiple WORLD models without forcing sameness or erasing obstruction. It is documented in `docs/HARMONY_FUNCTION_MULTI_WORLD_OPERATION_v0_1.md`.
 
 This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md`, `docs/MANDALA_INCLUSION_GATE_v0_1.md`, and `docs/MULTI_WORLD_MANDALA_ARCHITECTURE_v0_1.md`.
 
@@ -158,6 +161,7 @@ This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md`, 
 │   ├── MULTI_WORLD_MANDALA_ARCHITECTURE_v0_1.md
 │   ├── WORLD_MODEL_REGISTRY_v0_1.md
 │   ├── CROSS_WORLD_TRANSPORT_GATE_v0_1.md
+│   ├── HARMONY_FUNCTION_MULTI_WORLD_OPERATION_v0_1.md
 │   ├── KUOS_CORE_CHARTER_v0_1.md
 │   ├── PUBLIC_PRIVATE_BOUNDARY_v0_1.md
 │   ├── FORMAL_VERIFICATION_POLICY_v0_1.md
