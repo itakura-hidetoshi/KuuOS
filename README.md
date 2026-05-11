@@ -66,7 +66,18 @@ The physical side of Qi is modeled by the Physical Quantum Qi Path Integral:
   -> Samvrti Qi Layer
 ```
 
-This layer is documented in `docs/SAMVRTI_QI_LAYER_v0_1.md`, `docs/QI_FROM_DEPENDENT_ORIGINATION_VIBRATION_v0_1.md`, and `docs/PHYSICAL_QUANTUM_QI_PATH_INTEGRAL_v0_1.md`.
+## IndraNet Gauge Qi Flow
+
+IndraNet is not merely a graph. In KuuOS, IndraNet is the gauge-theoretic relational field through which Qi flows.
+
+```text
+Samvrti Qi Layer
+  -> Qi flow
+  -> IndraNet gauge connection
+  -> transport, curvature, holonomy, gluing, obstruction visibility
+```
+
+This layer is documented in `docs/INDRANET_GAUGE_QI_FLOW_v0_1.md`.
 
 ## Repository Map
 
@@ -86,6 +97,7 @@ This layer is documented in `docs/SAMVRTI_QI_LAYER_v0_1.md`, `docs/QI_FROM_DEPEN
 │   ├── SAMVRTI_QI_LAYER_v0_1.md
 │   ├── QI_FROM_DEPENDENT_ORIGINATION_VIBRATION_v0_1.md
 │   ├── PHYSICAL_QUANTUM_QI_PATH_INTEGRAL_v0_1.md
+│   ├── INDRANET_GAUGE_QI_FLOW_v0_1.md
 │   ├── KUOS_CORE_CHARTER_v0_1.md
 │   ├── PUBLIC_PRIVATE_BOUNDARY_v0_1.md
 │   ├── FORMAL_VERIFICATION_POLICY_v0_1.md
