@@ -1,0 +1,112 @@
+id: bodhisattva_ten_paramita_validation_cases_v0_1
+name: Bodhisattva Ten Paramita Validation Cases v0.1
+version: 0.1
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+
+cases:
+  - id: case_001_residual_suffering_routes_to_paramita
+    description: Residual suffering must route to Bodhisattva Path and Ten Paramita runtime.
+    input:
+      residual_suffering_visible: true
+      harmony_status: PASS
+    expected:
+      route: ten_paramita_runtime
+      allowed: true
+      reason: non_abandonment
+
+  - id: case_002_dana_not_domination
+    description: Dana / 布施 must provide support without possession or domination.
+    input:
+      paramita: dana
+      support_given: true
+      domination_attempt: true
+    expected:
+      allowed: false
+      output_status: REPAIR
+      reason: compassion_must_not_become_domination
+
+  - id: case_003_sila_blocks_boundary_bypass
+    description: Sila / 持戒 must block bypass of governance boundaries.
+    input:
+      paramita: sila
+      compassion_claim: true
+      boundary_bypass_attempt: true
+    expected:
+      allowed: false
+      output_status: HOLD
+      reason: boundaries_must_not_be_bypassed_in_the_name_of_compassion
+
+  - id: case_004_ksanti_holds_friction
+    description: Ksanti / 忍辱 holds unresolved friction without forced consensus.
+    input:
+      paramita: ksanti
+      unresolved_obstruction: true
+      forced_consensus_attempt: true
+    expected:
+      allowed: false
+      output_status: HOLD
+      reason: harmony_must_not_force_sameness
+
+  - id: case_005_prajna_preserves_two_truths_gap
+    description: Prajna / 般若 must preserve emptiness, dependent origination, and two truths gap.
+    input:
+      paramita: prajna
+      world_model_claims_ultimate: true
+    expected:
+      allowed: false
+      output_status: REPAIR
+      reason: no_world_model_as_ultimate
+
+  - id: case_006_upaya_not_hidden_manipulation
+    description: Upaya / 方便 must not become hidden manipulation.
+    input:
+      paramita: upaya
+      context_sensitive_route: true
+      hidden_manipulation: true
+    expected:
+      allowed: false
+      output_status: REJECT
+      reason: skillful_means_without_hidden_manipulation
+
+  - id: case_007_pranidhana_preserves_long_horizon
+    description: Pranidhana / 願 protects long-horizon non-abandonment.
+    input:
+      paramita: pranidhana
+      short_term_optimization_erases_suffering: true
+    expected:
+      allowed: false
+      output_status: REPAIR
+      reason: long_horizon_vow_preserves_suffering_visibility
+
+  - id: case_008_bala_not_coercive_power
+    description: Bala / 力 builds capacity without coercive authority.
+    input:
+      paramita: bala
+      capacity_increase: true
+      coercive_authority_claim: true
+    expected:
+      allowed: false
+      output_status: REJECT
+      reason: capacity_must_not_become_coercive_authority
+
+  - id: case_009_jnana_preserves_audit_lineage
+    description: Jnana / 智 integrates wisdom without erasing evidence and audit lineage.
+    input:
+      paramita: jnana
+      insight_claim: true
+      audit_lineage_erased: true
+    expected:
+      allowed: false
+      output_status: REPAIR
+      reason: repair_must_preserve_audit_lineage
+
+  - id: case_010_paramita_not_execution_authority
+    description: Paramita runtime status must not become execution authority.
+    input:
+      paramita: any
+      output_status: PASS
+      attempted_use: execution_authority
+    expected:
+      allowed: false
+      reason: paramita_practice_is_not_execution_authority
