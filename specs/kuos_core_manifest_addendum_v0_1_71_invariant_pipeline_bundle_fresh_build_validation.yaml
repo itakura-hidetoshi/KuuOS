@@ -1,0 +1,26 @@
+id: kuos_core_manifest_addendum_v0_1_71_invariant_pipeline_bundle_fresh_build_validation
+name: KuuOS Core Manifest Addendum - Invariant Pipeline Bundle Fresh-Build Validation
+version: 0.1.71
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+updated_documents:
+  - scripts/validate_invariant_pipeline_release_bundle_manifest_v0_1.py
+
+fresh_build_validation:
+  role: prevent_stale_generated_manifest_from_affecting_validation
+  behavior:
+    - validator_runs_builder_first
+    - generated_manifest_is_recomputed_before_sha_size_root_checks
+    - required_bundle_file_completeness_check_retained
+    - bundle_root_hash_recomputed_after_fresh_build
+  generated_manifest: specs/invariant_pipeline_release_bundle_manifest_v0_1.generated.json
+
+fixed_points:
+  - fresh_build_validation_is_integrity_surface_not_authority
+  - stale_generated_manifest_must_not_control_validation_result
+  - builder_and_validator_remain_stdlib_only
+  - validation_pass_does_not_grant_execution_authority
