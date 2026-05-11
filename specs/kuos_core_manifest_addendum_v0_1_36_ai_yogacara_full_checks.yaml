@@ -1,0 +1,50 @@
+id: kuos_core_manifest_addendum_v0_1_36_ai_yogacara_full_checks
+name: KuuOS Core Manifest Addendum - AI Yogacara Full Checks Runner
+version: 0.1.36
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - ai_yogacara_full_checks_runner
+  - ai_yogacara_full_checks_runbook
+
+added_documents:
+  - scripts/run_ai_yogacara_full_checks_v0_1.py
+  - docs/AI_YOGACARA_FULL_CHECKS_RUNBOOK_v0_1.md
+
+updated_documents:
+  - .github/workflows/teni_observability_validation.yml
+
+full_checks_runner:
+  role: single_entrypoint_for_ai_yogacara_teni_validation_suite
+  command: python3 scripts/run_ai_yogacara_full_checks_v0_1.py
+  runs:
+    - validate_teni_observability_v0_1
+    - validate_ai_yogacara_adapter_schema_v0_1
+    - validate_ai_yogacara_adapter_fixtures_v0_1
+    - validate_ai_yogacara_adapter_audit_event_v0_1
+    - validate_ai_yogacara_audit_hash_chain_v0_1
+    - validate_ai_yogacara_worm_export_receipt_v0_1
+    - build_ai_yogacara_release_bundle_manifest_v0_1
+    - validate_ai_yogacara_release_bundle_manifest_v0_1
+    - unittest_ai_yogacara_runtime_adapter_minimal_v0_1
+  external_api_calls: false
+
+ci_integration:
+  workflow: .github/workflows/teni_observability_validation.yml
+  run_command: python3 scripts/run_ai_yogacara_full_checks_v0_1.py
+
+runbook:
+  role: local_and_ci_operational_guide_for_full_checks
+  path: docs/AI_YOGACARA_FULL_CHECKS_RUNBOOK_v0_1.md
+
+fixed_points:
+  - full_checks_runner_is_validation_entrypoint_not_authority
+  - full_checks_pass_does_not_prove_teni_occurrence
+  - full_checks_pass_does_not_grant_execution_authority
+  - full_checks_preserve_raw_output_candidate_boundary
+  - full_checks_preserve_non_authority_fields
+  - runner_uses_stdlib_only_and_no_external_ai_apis
