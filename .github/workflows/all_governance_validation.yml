@@ -1,6 +1,7 @@
 name: All Governance Validation
 
 on:
+  workflow_dispatch:
   push:
     paths:
       - 'docs/**'
@@ -34,6 +35,14 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
+      - name: Show validation entrypoints
+        run: |
+          python3 --version
+          echo "Top-level: scripts/run_all_governance_full_checks_v0_1.py"
+          echo "AI Yogacara: scripts/run_ai_yogacara_full_checks_v0_1.py"
+          echo "Core Governance: scripts/run_core_governance_full_checks_v0_1.py"
+          echo "Invariant pipeline includes audit event and audit hash-chain validators."
 
       - name: Run all governance full checks
         run: python3 scripts/run_all_governance_full_checks_v0_1.py
