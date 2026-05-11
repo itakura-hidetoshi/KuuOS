@@ -1,0 +1,65 @@
+id: kuos_core_manifest_addendum_v0_1_32_ai_yogacara_adapter_audit_event
+name: KuuOS Core Manifest Addendum - AI Yogacara Runtime Adapter Audit Event
+version: 0.1.32
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - ai_yogacara_adapter_audit_event
+  - ai_yogacara_adapter_audit_event_validator
+
+added_documents:
+  - docs/AI_YOGACARA_ADAPTER_AUDIT_EVENT_v0_1.md
+  - scripts/validate_ai_yogacara_adapter_audit_event_v0_1.py
+
+updated_documents:
+  - examples/ai_yogacara_runtime_adapter_minimal.py
+  - .github/workflows/teni_observability_validation.yml
+
+audit_event:
+  role: explicit_trace_surface_for_adapter_decisions
+  required_non_authority_fields:
+    - authority_granted_false
+    - proof_authority_granted_false
+    - decision_authority_granted_false
+    - execution_authority_granted_false
+    - memory_truth_granted_false
+    - belief_authority_granted_false
+  supports:
+    - raw_output_handling_review
+    - accidental_authority_promotion_detection
+    - teni_evidence_linkage
+    - seed_ledger_linkage
+    - governance_review
+    - rollback_analysis
+
+audit_event_validator:
+  role: stdlib_only_validator_for_adapter_audit_events
+  command: python3 scripts/validate_ai_yogacara_adapter_audit_event_v0_1.py
+  checks:
+    - raw_output_status_candidate
+    - all_authority_fields_false
+    - meta_manas_signals_present
+    - seed_classifications_present
+    - allowed_next_status_present
+    - governance_route_includes_runtime_governance
+  external_api_calls: false
+
+ci_integration:
+  workflow: .github/workflows/teni_observability_validation.yml
+  runs:
+    - python3 scripts/validate_teni_observability_v0_1.py
+    - python3 scripts/validate_ai_yogacara_adapter_schema_v0_1.py
+    - python3 scripts/validate_ai_yogacara_adapter_fixtures_v0_1.py
+    - python3 scripts/validate_ai_yogacara_adapter_audit_event_v0_1.py
+    - python3 -m unittest tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py
+
+fixed_points:
+  - audit_event_is_trace_surface_not_authority
+  - non_authority_fields_must_be_explicit_false
+  - raw_output_status_candidate_is_required
+  - audit_event_validator_uses_stdlib_only
+  - audit_event_validator_does_not_call_external_ai_apis
