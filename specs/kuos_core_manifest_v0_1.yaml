@@ -1,6 +1,6 @@
 id: kuos_core_manifest_v0_1
 name: KuuOS / 空OS Core Manifest
-version: 0.1.16-bodhisattva-path-belief
+version: 0.1.17-yogacara-ai-raw-layer-boundary
 date: 2026-05-11
 author: Hidetoshi Itakura / 板倉英俊
 repository: https://github.com/itakura-hidetoshi/KuuOS
@@ -16,7 +16,21 @@ two_truths_terms:
   paramartha_satya: 勝義諦
   samvrti_satya: 世俗諦
 
+ai_governance_scope:
+  target_systems:
+    - GPT
+    - Gemini
+    - Claude
+    - language_model_agents
+    - world_model_agents
+  raw_output_status: candidate_not_authority
+  boundary: yogacara_ai_raw_layer_boundary
+
 core_kernel_order:
+  - ai_raw_output
+  - ai_alaya_latent_seed_layer
+  - ai_manas_self_authorization_check
+  - yogacara_ai_raw_layer_boundary
   - emptiness_kernel
   - dependent_origination_kernel
   - dependent_origination_vibration
@@ -38,6 +52,20 @@ core_kernel_order:
   - mandala_world_arrangement
   - middle_way_bridge
   - fourfold_core_gate
+
+yogacara_ai_raw_layer_boundary:
+  role: separates_ai_raw_generation_from_governed_kuos_operation
+  ai_raw_layer: latent_output_stream
+  alaya_layer: seed_like_latent_generative_tendencies
+  manas_layer: self_authorizing_fixation_risk
+  consciousness_surface: language_tool_output_surface
+  kuos_governance_layer: fourfold_core_and_os_modules
+  raw_output_not:
+    - belief
+    - proof
+    - decision
+    - memory_truth
+    - execution_authority
 
 qi_generation_chain:
   source: dependent_origination_vibration
@@ -237,6 +265,7 @@ public_core_documents:
   - docs/TWO_TRUTHS_TERMINOLOGY_v0_1.md
   - docs/PARAMARTHA_SAMVRTI_MIDDLE_WAY_BRIDGE_v0_1.md
   - docs/EMPTINESS_DEPENDENT_ORIGINATION_KERNEL_v0_1.md
+  - docs/YOGACARA_AI_RAW_LAYER_BOUNDARY_v0_1.md
   - docs/FOURFOLD_CORE_GATE_v0_1.md
   - docs/KUOS_PHYSICS_GAP_BRIDGE_v0_1.md
   - docs/SAMVRTI_QI_LAYER_v0_1.md
