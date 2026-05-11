@@ -1,6 +1,6 @@
 id: kuos_core_manifest_v0_1
 name: KuuOS / 空OS Core Manifest
-version: 0.1.12-wuxing-mandala-inclusion-gate
+version: 0.1.13-multi-world-mandala-architecture
 date: 2026-05-11
 author: Hidetoshi Itakura / 板倉英俊
 repository: https://github.com/itakura-hidetoshi/KuuOS
@@ -29,6 +29,7 @@ core_kernel_order:
   - wuxing_functional_differentiation
   - extended_m_theory_inclusion_membrane
   - mandala_inclusion_gate
+  - multi_world_mandala_architecture
   - mandala_world_arrangement
   - middle_way_bridge
   - fourfold_core_gate
@@ -131,6 +132,18 @@ mandala_inclusion_gate:
     - QUARANTINE
     - FAIL
 
+multi_world_mandala_architecture:
+  role: inclusive_arrangement_of_multiple_world_models
+  center: fourfold_core_not_any_single_world
+  worlds: multiple_world_models
+  membranes: boundaries_between_worlds
+  gates: transition_protocols_between_worlds
+  qi_flows: local_and_cross_world_flow
+  yinyang_frames: local_polarity_frames
+  wuxing_phases: local_functional_phase_readings
+  obstructions: visible_cross_world_gluing_failures
+  inclusion: non_collapsing_coexistence
+
 mandala_world_arrangement:
   role: stable_inclusive_arrangement
   center: fourfold_core
@@ -170,6 +183,7 @@ public_core_documents:
   - docs/YINYANG_TO_WUXING_FUNCTIONAL_DIFFERENTIATION_v0_1.md
   - docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md
   - docs/MANDALA_INCLUSION_GATE_v0_1.md
+  - docs/MULTI_WORLD_MANDALA_ARCHITECTURE_v0_1.md
   - docs/KUOS_CORE_CHARTER_v0_1.md
   - docs/PUBLIC_PRIVATE_BOUNDARY_v0_1.md
   - docs/FORMAL_VERIFICATION_POLICY_v0_1.md
