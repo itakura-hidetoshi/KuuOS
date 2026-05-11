@@ -1,4 +1,4 @@
-.PHONY: ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks core-governance-checks
+.PHONY: ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks core-governance-checks
 
 ai-yogacara-checks:
 	python3 scripts/run_ai_yogacara_full_checks_v0_1.py
@@ -23,4 +23,7 @@ dukkha-checks:
 	python3 scripts/validate_dukkha_mathematical_model_v0_1.py
 	python3 scripts/validate_dukkha_model_fixtures_v0_1.py
 
-core-governance-checks: ai-yogacara-checks mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks
+dukkha-qi-checks:
+	python3 scripts/validate_dukkha_as_qi_mode_v0_1.py
+
+core-governance-checks: ai-yogacara-checks mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks
