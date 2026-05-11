@@ -1,0 +1,42 @@
+id: kuos_core_manifest_addendum_v0_1_49_core_governance_full_checks_runner
+name: KuuOS Core Manifest Addendum - Core Governance Full Checks Runner
+version: 0.1.49
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - scripts/run_core_governance_full_checks_v0_1.py
+
+updated_documents:
+  - Makefile
+  - .github/workflows/core_governance_validation.yml
+
+runner:
+  role: single_entrypoint_for_core_governance_validation
+  command: python3 scripts/run_core_governance_full_checks_v0_1.py
+  runs:
+    - validate_mandala_multi_world_v0_1
+    - validate_bodhisattva_ten_paramita_v0_1
+    - validate_paramita_repair_router_v0_1
+    - validate_paramita_repair_router_fixtures_v0_1
+    - validate_dukkha_mathematical_model_v0_1
+    - validate_dukkha_model_fixtures_v0_1
+    - validate_dukkha_as_qi_mode_v0_1
+  external_api_calls: false
+
+makefile:
+  target: core-governance-checks
+  command: python3 scripts/run_core_governance_full_checks_v0_1.py
+
+ci:
+  workflow: .github/workflows/core_governance_validation.yml
+  command: python3 scripts/run_core_governance_full_checks_v0_1.py
+
+fixed_points:
+  - core_governance_full_checks_runner_is_validation_entrypoint_not_authority
+  - ci_and_local_paths_use_same_entrypoint
+  - validators_remain_stdlib_only
+  - no_execution_authority_added
