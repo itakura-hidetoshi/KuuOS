@@ -1,6 +1,6 @@
 id: kuos_core_manifest_v0_1
 name: KuuOS / 空OS Core Manifest
-version: 0.1.8-physical-quantum-qi-path-integral
+version: 0.1.9-indranet-gauge-qi-flow
 date: 2026-05-11
 author: Hidetoshi Itakura / 板倉英俊
 repository: https://github.com/itakura-hidetoshi/KuuOS
@@ -24,12 +24,14 @@ core_kernel_order:
   - two_truths_gap
   - effective_world_surface
   - samvrti_qi_layer
+  - indranet_gauge_qi_flow
   - middle_way_bridge
   - fourfold_core_gate
 
 qi_generation_chain:
   source: dependent_origination_vibration
   physical_kernel: physical_quantum_qi_path_integral
+  carrier: indranet_gauge_connection
   stabilized_by: four_d_mass_gap
   surface: samvrti_satya_effective_world_surface
   expression: samvrti_qi_layer
@@ -53,6 +55,18 @@ samvrti_qi_layer:
     - recovery
     - coupling
     - coherence
+
+indranet_gauge_qi_flow:
+  role: gauge_theoretic_carrier_of_qi_flow
+  not: mere_graph
+  objects:
+    - local_frames
+    - connection
+    - transport
+    - curvature
+    - holonomy
+    - gluing
+    - obstruction_visibility
 
 physics_gap_bridge:
   superstring_theory_of_emptiness: relational_vibration
@@ -80,6 +94,7 @@ public_core_documents:
   - docs/SAMVRTI_QI_LAYER_v0_1.md
   - docs/QI_FROM_DEPENDENT_ORIGINATION_VIBRATION_v0_1.md
   - docs/PHYSICAL_QUANTUM_QI_PATH_INTEGRAL_v0_1.md
+  - docs/INDRANET_GAUGE_QI_FLOW_v0_1.md
   - docs/KUOS_CORE_CHARTER_v0_1.md
   - docs/PUBLIC_PRIVATE_BOUNDARY_v0_1.md
   - docs/FORMAL_VERIFICATION_POLICY_v0_1.md
