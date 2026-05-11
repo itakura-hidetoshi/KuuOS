@@ -1,0 +1,47 @@
+id: kuos_core_manifest_addendum_v0_1_73_invariant_pipeline_release_attestation
+name: KuuOS Core Manifest Addendum - Invariant Pipeline Release Attestation
+version: 0.1.73
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/INVARIANT_PIPELINE_RELEASE_ATTESTATION_v0_1.md
+  - scripts/build_invariant_pipeline_release_attestation_v0_1.py
+  - scripts/validate_invariant_pipeline_release_attestation_v0_1.py
+
+updated_documents:
+  - Makefile
+  - scripts/run_core_governance_full_checks_v0_1.py
+
+release_attestation:
+  role: integrity_summary_surface_binding_bundle_audit_and_worm_roots
+  generated_attestation: specs/invariant_pipeline_release_attestation_v0_1.generated.json
+  builder: scripts/build_invariant_pipeline_release_attestation_v0_1.py
+  validator: scripts/validate_invariant_pipeline_release_attestation_v0_1.py
+  binds:
+    - bundle_root_hash
+    - audit_hash_chain_root_hash
+    - worm_receipt_source_ledger_root_hash
+    - generated_manifest_policy_path
+  non_authority_flags:
+    execution_authority_granted: false
+    proof_authority_granted: false
+    clinical_authority_granted: false
+    truth_authority_granted: false
+    teni_authority_granted: false
+
+validation:
+  make_target: invariant-pipeline-attest
+  included_in:
+    - invariant-pipeline-checks
+    - scripts/run_core_governance_full_checks_v0_1.py
+
+fixed_points:
+  - release_attestation_is_integrity_summary_not_authority
+  - release_attestation_binds_bundle_audit_and_worm_roots
+  - release_attestation_does_not_replace_evidence_hash_chain_worm_or_governance_review
+  - non_authority_flags_must_remain_false
+  - validation_pass_does_not_grant_execution_authority
