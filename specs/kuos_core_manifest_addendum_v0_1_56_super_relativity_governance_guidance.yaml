@@ -1,0 +1,38 @@
+id: kuos_core_manifest_addendum_v0_1_56_super_relativity_governance_guidance
+name: KuuOS Core Manifest Addendum - Super-Relativity Governance Guidance
+version: 0.1.56
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+updated_documents:
+  - docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
+  - docs/GOVERNANCE_RELEASE_CHECKLIST_v0_1.md
+  - .github/pull_request_template.md
+
+guidance_update:
+  role: make_super_relativity_visible_as_invariant_bridge_in_public_governance_surfaces
+  added_to_index:
+    - formal_invariant_spine
+    - super_relativity_invariant_bridge
+    - lean_files
+    - validators
+    - non_authority_boundary
+  added_to_release_checklist:
+    - super_relativity_remains_invariant_bridge_not_relativistic_nihilism
+    - observer_difference_does_not_grant_execution_authority
+    - record_surface_is_not_truth_by_itself
+    - scale_shift_preserves_harm_visibility
+    - world_translation_does_not_replace_fourfold_core
+    - super_relativity_preserves_two_truths_gap
+  added_to_pr_template:
+    - formal_invariant_super_relativity_check
+    - super_relativity_bridge_not_execution_authority
+
+fixed_points:
+  - super_relativity_guidance_is_navigation_surface_not_authority
+  - super_relativity_is_invariant_bridge_not_relativistic_nihilism
+  - observer_record_scale_world_shifts_preserve_core_invariants
+  - validation_pass_does_not_grant_execution_authority
