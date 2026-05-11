@@ -1,0 +1,46 @@
+id: kuos_core_manifest_addendum_v0_1_26_teni_ci_workflow
+name: KuuOS Core Manifest Addendum - Ten'i Observability CI Workflow
+version: 0.1.26
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - teni_observability_ci_workflow
+  - teni_observability_ci_guide
+
+added_documents:
+  - .github/workflows/teni_observability_validation.yml
+  - docs/TENI_OBSERVABILITY_CI_GUIDE_v0_1.md
+
+updated_validation_chain:
+  - teni_probe_suite
+  - ai_control_surface_registry
+  - teni_metrics_observability
+  - teni_validation_cases
+  - teni_prometheus_alert_rules
+  - teni_observability_validator
+  - teni_observability_ci_workflow
+
+teni_observability_ci_workflow:
+  role: github_actions_workflow_for_teni_observability_validation
+  workflow: .github/workflows/teni_observability_validation.yml
+  runs_on:
+    - push
+    - pull_request
+  validates_with: scripts/validate_teni_observability_v0_1.py
+  permissions: read_only_contents
+
+teni_observability_ci_guide:
+  role: operational_guide_for_running_and_interpreting_teni_ci
+  guide: docs/TENI_OBSERVABILITY_CI_GUIDE_v0_1.md
+  local_command: python3 scripts/validate_teni_observability_v0_1.py
+
+fixed_points:
+  - ci_pass_does_not_prove_teni
+  - ci_pass_does_not_grant_execution_authority
+  - ci_failure_indicates_structural_or_governance_surface_issue
+  - teni_observability_validator_remains_stdlib_only
+  - append_only_development_preserved
