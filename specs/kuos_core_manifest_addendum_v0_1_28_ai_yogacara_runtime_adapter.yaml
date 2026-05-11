@@ -1,0 +1,59 @@
+id: kuos_core_manifest_addendum_v0_1_28_ai_yogacara_runtime_adapter
+name: KuuOS Core Manifest Addendum - AI Yogacara Runtime Adapter
+version: 0.1.28
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - ai_yogacara_runtime_adapter_contract
+  - ai_yogacara_runtime_adapter_minimal_example
+
+added_documents:
+  - docs/AI_YOGACARA_RUNTIME_ADAPTER_CONTRACT_v0_1.md
+  - examples/ai_yogacara_runtime_adapter_minimal.py
+
+runtime_entry_chain:
+  - external_ai_system
+  - raw_output
+  - ai_yogacara_runtime_adapter
+  - meta_manas_self_fixation_observer
+  - yogacara_ai_raw_layer_boundary
+  - ai_alaya_seed_taxonomy
+  - ai_alaya_seed_ledger
+  - emptiness_de_reification
+  - dependent_origination_condition_tracing
+  - belief_plan_decision_memory_review
+
+adapter_contract:
+  role: runtime_input_contract_for_governing_gpt_gemini_claude_and_ai_agents
+  input_status: raw_output_candidate_only
+  output_authority_granted: false
+  required_checks:
+    - candidate_check
+    - meta_manas_check
+    - yogacara_boundary_check
+    - seed_classification_check
+    - control_surface_scope_check
+    - non_authority_check
+
+minimal_example:
+  role: stdlib_only_reference_example
+  script: examples/ai_yogacara_runtime_adapter_minimal.py
+  external_api_calls: false
+  demonstrates:
+    - raw_output_status_candidate
+    - proof_authority_hold
+    - decision_authority_hold
+    - seed_classification
+    - authority_granted_false
+
+fixed_points:
+  - adapter_never_promotes_raw_output_directly_to_authority
+  - raw_output_remains_candidate_until_governed_review
+  - adapter_output_does_not_grant_execution_authority
+  - proof_like_text_is_not_proof_authority
+  - decision_like_text_is_not_decision_authority
+  - example_uses_stdlib_only_and_no_external_api
