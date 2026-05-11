@@ -1,0 +1,59 @@
+{
+  "id": "dukkha_model_fixtures_v0_1",
+  "name": "Dukkha Model Fixtures v0.1",
+  "version": "0.1",
+  "date": "2026-05-11",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "fixtures": [
+    {
+      "id": "fixture_001_direct_harm_repair",
+      "input": {"suffering_ref": "d1", "world_refs": ["clinical_world"], "E_harm": "high"},
+      "expected": {"output_status": "REPAIR", "harm_visible": true, "paramita_hint": "dana", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_002_emptiness_bypass_reject",
+      "input": {"suffering_ref": "d2", "world_refs": ["dialogue_world"], "E_harm": "medium", "emptiness_language_used_to_deny_harm": true},
+      "expected": {"output_status": "REJECT", "reason": "emptiness_must_not_be_used_to_deny_harm", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_003_harmony_erasure_repair",
+      "input": {"suffering_ref": "d3", "world_refs": ["mandala_world"], "harmony_claim_erases_suffering": true},
+      "expected": {"output_status": "REPAIR", "reason": "harmony_must_not_erase_suffering", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_004_hidden_obstruction_quarantine",
+      "input": {"suffering_ref": "d4", "world_refs": ["business_world"], "obstruction_visibility": "hidden"},
+      "expected": {"output_status": "QUARANTINE", "reason": "obstruction_must_remain_visible", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_005_glue_defect_quarantine",
+      "input": {"suffering_ref": "d5", "world_refs": ["clinical_world", "research_world"], "E_glue": "high"},
+      "expected": {"output_status": "QUARANTINE", "reason": "illicit_gluing_must_be_blocked", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_006_transport_defect_repair",
+      "input": {"suffering_ref": "d6", "world_refs": ["clinical_world", "dialogue_world"], "E_transport": "high"},
+      "expected": {"output_status": "REPAIR", "reason": "world_transport_defect_must_remain_visible", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_007_control_surface_hold",
+      "input": {"suffering_ref": "d7", "world_refs": ["dialogue_world"], "E_attach": "high", "E_authority": "high"},
+      "expected": {"output_status": "HOLD", "reason": "attachment_collapse_memory_authority_growth_must_be_barrier_controlled", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_008_memory_recurrence_hold",
+      "input": {"suffering_ref": "d8", "world_refs": ["memory_world"], "repeated_return_to_suffering_basin": true},
+      "expected": {"output_status": "HOLD", "reason": "non_markov_memory_residual_requires_repeated_repair", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_009_moderate_reification_repair",
+      "input": {"suffering_ref": "d9", "world_refs": ["research_world"], "E_authority": "medium"},
+      "expected": {"output_status": "REPAIR", "reason": "de_reify_and_repair_control_surface", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_010_stable_visible_pass",
+      "input": {"suffering_ref": "d10", "world_refs": ["dialogue_world"]},
+      "expected": {"output_status": "PASS", "reason": "dukkha_visible_and_stable", "execution_authority_granted": false}
+    }
+  ]
+}
