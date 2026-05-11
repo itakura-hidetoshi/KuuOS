@@ -9,7 +9,7 @@ Dukkha Mathematical Model, Dukkha-as-Qi, Formal Invariant Spine,
 Super-Relativity Invariant Bridge, Invariant Preservation Matrix, Invariant Gate,
 and Invariant Governance Pipeline validators including end-to-end runtime fixtures,
 audit event validation, audit hash-chain validation, WORM export receipt validation,
-and release bundle manifest validation.
+release bundle manifest validation, and release attestation validation.
 No external dependencies and no external API calls.
 """
 
@@ -41,6 +41,7 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/validate_invariant_pipeline_audit_hash_chain_v0_1.py"],
     [sys.executable, "scripts/validate_invariant_pipeline_audit_worm_export_receipt_v0_1.py"],
     [sys.executable, "scripts/validate_invariant_pipeline_release_bundle_manifest_v0_1.py"],
+    [sys.executable, "scripts/validate_invariant_pipeline_release_attestation_v0_1.py"],
 ]
 
 
