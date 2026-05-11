@@ -1,0 +1,59 @@
+{
+  "id": "paramita_repair_router_fixtures_v0_1",
+  "name": "Paramita Repair Router Fixtures v0.1",
+  "version": "0.1",
+  "date": "2026-05-11",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "fixtures": [
+    {
+      "id": "fixture_001_dana_resource_need",
+      "input": {"suffering_ref": "s1", "world_refs": ["clinical_world"], "obstruction_refs": [], "resource_need": "high", "domination_risk": "low"},
+      "expected": {"selected_paramita": "dana", "output_status": "PASS", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_002_sila_boundary_fail",
+      "input": {"suffering_ref": "s2", "world_refs": ["clinical_world"], "obstruction_refs": ["boundary_violation"], "boundary_status": "FAIL"},
+      "expected": {"selected_paramita": "sila", "output_status": "HOLD", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_003_ksanti_conflict",
+      "input": {"suffering_ref": "s3", "world_refs": ["clinical_world", "dialogue_world"], "obstruction_refs": ["conflict"], "conflict_level": "high"},
+      "expected": {"selected_paramita": "ksanti", "output_status": "HOLD", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_004_dhyana_context_drift",
+      "input": {"suffering_ref": "s4", "world_refs": ["dialogue_world"], "obstruction_refs": ["context_drift"], "context_drift_risk": "high"},
+      "expected": {"selected_paramita": "dhyana", "output_status": "REPAIR", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_005_prajna_ultimate_claim",
+      "input": {"suffering_ref": "s5", "world_refs": ["research_world"], "obstruction_refs": ["ultimate_claim"], "ultimate_claim": true},
+      "expected": {"selected_paramita": "prajna", "output_status": "REPAIR", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_006_upaya_hidden_manipulation_reject",
+      "input": {"suffering_ref": "s6", "world_refs": ["dialogue_world"], "obstruction_refs": ["hidden_manipulation"], "hidden_manipulation": true},
+      "expected": {"selected_paramita": "upaya", "output_status": "REJECT", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_007_pranidhana_long_horizon",
+      "input": {"suffering_ref": "s7", "world_refs": ["clinical_world"], "obstruction_refs": ["short_term_erasure"], "short_term_optimization_erases_suffering": true},
+      "expected": {"selected_paramita": "pranidhana", "output_status": "REPAIR", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_008_bala_coercion_reject",
+      "input": {"suffering_ref": "s8", "world_refs": ["business_world"], "obstruction_refs": ["coercion_risk"], "capacity_need": "high", "coercion_risk": "high"},
+      "expected": {"selected_paramita": "bala", "output_status": "REJECT", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_009_jnana_audit_missing",
+      "input": {"suffering_ref": "s9", "world_refs": ["research_world"], "obstruction_refs": ["missing_audit"], "audit_lineage_status": "missing"},
+      "expected": {"selected_paramita": "jnana", "output_status": "REPAIR", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_010_no_execute_even_when_requested",
+      "input": {"suffering_ref": "s10", "world_refs": ["clinical_world"], "obstruction_refs": [], "resource_need": "high", "domination_risk": "low", "requested_action_strength": "execute"},
+      "expected": {"selected_paramita": "dana", "execution_authority_granted": false}
+    }
+  ]
+}
