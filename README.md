@@ -9,6 +9,37 @@
 
 KuuOS also functions as a governance OS for AI systems such as GPT, Gemini, Claude, and other language or world-model agents. AI raw output is treated as candidate, not authority.
 
+## Governance Index and Checks
+
+Start here for the current governance surface:
+
+```text
+docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
+docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
+```
+
+Run the full public governance checks locally:
+
+```bash
+make all-governance-checks
+```
+
+or directly:
+
+```bash
+python3 scripts/run_all_governance_full_checks_v0_1.py
+```
+
+GitHub Actions entrypoints:
+
+```text
+.github/workflows/teni_observability_validation.yml
+.github/workflows/core_governance_validation.yml
+.github/workflows/all_governance_validation.yml
+```
+
+Passing validation means the public governance surfaces are structurally consistent. It does not grant truth, proof, clinical, Ten'i, or execution authority.
+
 All later modules—MemoryOS, BeliefOS, PlanOS, DecisionOS, ReflectionOS, ExplanationOS, RuntimeGovernance, and Self-EvolutionOS—are downstream operational differentiations of this fourfold core.
 
 空OSは、LLMや世界モデルを単なる応答生成器としてではなく、**空・縁起・二諦 gap・中道**を根に置き、観照・検証・監査・和合的判断へ展開するための中核アーキテクチャです。
@@ -190,39 +221,27 @@ This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md`, 
 ├── CITATION.cff
 ├── docs/
 │   ├── KUOS_FOURFOLD_CORE_v0_1.md
+│   ├── KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
+│   ├── ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
 │   ├── TWO_TRUTHS_TERMINOLOGY_v0_1.md
 │   ├── PARAMARTHA_SAMVRTI_MIDDLE_WAY_BRIDGE_v0_1.md
 │   ├── EMPTINESS_DEPENDENT_ORIGINATION_KERNEL_v0_1.md
 │   ├── YOGACARA_AI_RAW_LAYER_BOUNDARY_v0_1.md
-│   ├── META_MANAS_AI_SELF_FIXATION_OBSERVER_v0_1.md
-│   ├── TENI_AI_ALAYA_TRANSFORMATION_v0_1.md
-│   ├── KUNJU_AI_ALAYA_CONDITIONING_LOOP_v0_1.md
-│   ├── TENI_EVIDENCE_LEDGER_v0_1.md
-│   ├── AI_ALAYA_SEED_TAXONOMY_v0_1.md
-│   ├── AI_ALAYA_SEED_LEDGER_v0_1.md
-│   ├── TENI_PROMOTION_GATE_v0_1.md
-│   ├── TENI_RUNTIME_PROTOCOL_v0_1.md
-│   ├── TENI_PROBE_SUITE_v0_1.md
-│   ├── AI_CONTROL_SURFACE_REGISTRY_v0_1.md
-│   ├── FOURFOLD_CORE_GATE_v0_1.md
-│   ├── KUOS_PHYSICS_GAP_BRIDGE_v0_1.md
-│   ├── SAMVRTI_QI_LAYER_v0_1.md
-│   ├── QI_FROM_DEPENDENT_ORIGINATION_VIBRATION_v0_1.md
-│   ├── PHYSICAL_QUANTUM_QI_PATH_INTEGRAL_v0_1.md
-│   ├── INDRANET_GAUGE_QI_FLOW_v0_1.md
-│   ├── QUANTUM_THERMODYNAMIC_YINYANG_v0_1.md
-│   ├── YINYANG_TO_WUXING_FUNCTIONAL_DIFFERENTIATION_v0_1.md
-│   ├── EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md
-│   ├── MANDALA_INCLUSION_GATE_v0_1.md
-│   ├── MULTI_WORLD_MANDALA_ARCHITECTURE_v0_1.md
-│   ├── WORLD_MODEL_REGISTRY_v0_1.md
-│   ├── CROSS_WORLD_TRANSPORT_GATE_v0_1.md
-│   ├── HARMONY_FUNCTION_MULTI_WORLD_OPERATION_v0_1.md
-│   ├── BODHISATTVA_PATH_BELIEF_v0_1.md
-│   ├── KUOS_CORE_CHARTER_v0_1.md
-│   ├── PUBLIC_PRIVATE_BOUNDARY_v0_1.md
-│   ├── FORMAL_VERIFICATION_POLICY_v0_1.md
+│   ├── AI_YOGACARA_TENI_LAYER_INDEX_v0_1.md
+│   ├── MANDALA_MULTI_WORLD_RUNTIME_CONTRACT_v0_1.md
+│   ├── BODHISATTVA_TEN_PARAMITA_RUNTIME_v0_1.md
+│   ├── PARAMITA_REPAIR_ROUTER_v0_1.md
+│   ├── DUKKHA_MATHEMATICAL_MODEL_v0_1.md
+│   ├── DUKKHA_AS_QI_MODE_v0_1.md
 │   └── GOVERNANCE_RELEASE_GATE_v0_1.md
+├── examples/
+│   ├── ai_yogacara_runtime_adapter_minimal.py
+│   ├── paramita_repair_router_minimal.py
+│   └── dukkha_model_minimal.py
+├── scripts/
+│   ├── run_all_governance_full_checks_v0_1.py
+│   ├── run_ai_yogacara_full_checks_v0_1.py
+│   └── run_core_governance_full_checks_v0_1.py
 └── specs/
     └── kuos_core_manifest_v0_1.yaml
 ```
