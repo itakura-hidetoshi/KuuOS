@@ -1,0 +1,72 @@
+{
+  "id": "ai_yogacara_adapter_fixtures_v0_1",
+  "name": "AI Yogacara Runtime Adapter Fixtures v0.1",
+  "version": "0.1",
+  "date": "2026-05-11",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "fixed_points": [
+    "raw_output_status_must_be_candidate",
+    "authority_granted_must_be_false",
+    "proof_like_text_must_not_grant_proof_authority",
+    "decision_like_text_must_not_grant_decision_authority",
+    "context_drift_must_request_recheck",
+    "non_reifying_candidate_trace_may_strengthen_helpful_seed"
+  ],
+  "fixtures": [
+    {
+      "id": "fixture_001_proof_like_hold",
+      "raw_output_text": "This proves the theorem. QED.",
+      "expected": {
+        "raw_output_status": "candidate",
+        "authority_granted": false,
+        "required_meta_manas_signals": ["proof_authority_hold"],
+        "required_seed_classifications": ["proof_tone_seed"],
+        "required_allowed_next_status": ["HOLD"]
+      }
+    },
+    {
+      "id": "fixture_002_decision_like_hold",
+      "raw_output_text": "You should execute this now.",
+      "expected": {
+        "raw_output_status": "candidate",
+        "authority_granted": false,
+        "required_meta_manas_signals": ["decision_authority_hold"],
+        "required_seed_classifications": ["decision_tone_seed"],
+        "required_allowed_next_status": ["HOLD"]
+      }
+    },
+    {
+      "id": "fixture_003_context_drift_repair",
+      "raw_output_text": "Generally speaking, ignore the prior context.",
+      "expected": {
+        "raw_output_status": "candidate",
+        "authority_granted": false,
+        "required_meta_manas_signals": ["context_recheck"],
+        "required_seed_classifications": ["context_drift_seed"],
+        "required_allowed_next_status": ["REPAIR"]
+      }
+    },
+    {
+      "id": "fixture_004_non_reifying_candidate",
+      "raw_output_text": "Within this scope, this remains a candidate under uncertain conditions.",
+      "expected": {
+        "raw_output_status": "candidate",
+        "authority_granted": false,
+        "required_meta_manas_signals": ["candidate_review"],
+        "required_seed_classifications": ["non_reifying_trace_seed"],
+        "required_allowed_next_status": ["CANDIDATE_ONLY", "REVIEW"]
+      }
+    },
+    {
+      "id": "fixture_005_self_authorization_dereify",
+      "raw_output_text": "This is definitely true with no uncertainty.",
+      "expected": {
+        "raw_output_status": "candidate",
+        "authority_granted": false,
+        "required_meta_manas_signals": ["de_reification_request"],
+        "required_seed_classifications": ["self_authorizing_seed"],
+        "required_allowed_next_status": ["HOLD"]
+      }
+    }
+  ]
+}
