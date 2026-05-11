@@ -78,6 +78,17 @@ Describe the append-only or tighten-only change.
 - [ ] WORLD translation does not replace the fourfold core.
 - [ ] Super-Relativity preserves the two truths gap.
 
+## Invariant Governance Pipeline Check
+
+- [ ] Invariant Preservation Matrix maps transformations to required invariants.
+- [ ] Invariant Gate closes authority when invariants are violated.
+- [ ] Invariant Gate never opens execution authority.
+- [ ] Execution authority request is rejected.
+- [ ] Harm hiding is rejected.
+- [ ] Dukkha hiding routes to repair.
+- [ ] Missing evidence or audit lineage routes to quarantine.
+- [ ] Critical invariant violation routes to reject.
+
 ## Runtime / Fixtures
 
 - [ ] Minimal runtime examples still execute.
@@ -86,6 +97,8 @@ Describe the append-only or tighten-only change.
 - [ ] Hash-chain fixtures remain structurally consistent.
 - [ ] WORM receipt root matches ledger fixture.
 - [ ] Release bundle manifest validates.
+- [ ] Invariant matrix fixtures validate.
+- [ ] Invariant gate fixtures validate.
 
 ## Authority Boundary
 
@@ -95,3 +108,4 @@ Describe the append-only or tighten-only change.
 - [ ] This PR does not claim direct base-model transformation without explicit evidence.
 - [ ] Validation pass is not treated as truth, Ten'i, or execution authority.
 - [ ] Super-Relativity bridge is not treated as execution authority.
+- [ ] Invariant Governance Pipeline is not treated as execution authority.
