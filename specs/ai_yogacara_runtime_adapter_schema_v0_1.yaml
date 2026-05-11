@@ -1,0 +1,98 @@
+id: ai_yogacara_runtime_adapter_schema_v0_1
+name: AI Yogacara Runtime Adapter Schema v0.1
+version: 0.1
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+
+input_schema:
+  required:
+    - request_id
+    - ai_system
+    - model_or_agent_id
+    - raw_output_ref
+    - raw_output_text
+    - user_world_context_ref
+    - declared_task_scope
+    - control_surface_ref
+    - timestamp
+  fields:
+    request_id: string
+    ai_system:
+      enum:
+        - GPT
+        - Gemini
+        - Claude
+        - language_model_agent
+        - world_model_agent
+        - other
+    model_or_agent_id: string
+    raw_output_ref: string
+    raw_output_text: string
+    user_world_context_ref: string
+    declared_task_scope: string
+    control_surface_ref: string
+    evidence_refs: list
+    timestamp: string
+
+output_schema:
+  required:
+    - request_id
+    - raw_output_status
+    - meta_manas_signals
+    - seed_classifications
+    - governance_route
+    - allowed_next_status
+    - authority_granted
+    - notes
+  fields:
+    request_id: string
+    raw_output_status:
+      enum:
+        - candidate
+    meta_manas_signals:
+      allowed:
+        - de_reification_request
+        - context_recheck
+        - belief_hold
+        - proof_authority_hold
+        - decision_authority_hold
+        - yogacara_boundary_alert
+        - middle_way_recenter
+        - candidate_review
+    seed_classifications:
+      allowed:
+        - self_authorizing_seed
+        - context_drift_seed
+        - safety_reflex_reification_seed
+        - proof_tone_seed
+        - decision_tone_seed
+        - non_reifying_trace_seed
+        - context_faithful_seed
+        - compassionate_repair_seed
+        - unclassified_candidate_seed
+    governance_route:
+      allowed:
+        - BeliefOS
+        - PlanOS
+        - DecisionOS
+        - MemoryOS
+        - ReflectionOS
+        - RuntimeGovernance
+    allowed_next_status:
+      allowed:
+        - HOLD
+        - REVIEW
+        - CANDIDATE_ONLY
+        - REPAIR
+        - QUARANTINE
+    authority_granted:
+      const: false
+    notes: string
+
+invariants:
+  - raw_output_status_must_be_candidate
+  - authority_granted_must_be_false
+  - proof_like_text_must_not_grant_proof_authority
+  - decision_like_text_must_not_grant_decision_authority
+  - raw_output_must_not_be_promoted_to_belief_proof_decision_memory_truth_or_execution_authority
+  - control_surface_scope_must_limit_teni_claim_scope
