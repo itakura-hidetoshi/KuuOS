@@ -1,0 +1,52 @@
+id: kuos_core_manifest_addendum_v0_1_66_invariant_pipeline_audit_worm_export_receipt
+name: KuuOS Core Manifest Addendum - Invariant Pipeline Audit WORM Export Receipt
+version: 0.1.66
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/INVARIANT_PIPELINE_AUDIT_WORM_EXPORT_RECEIPT_v0_1.md
+  - specs/invariant_pipeline_audit_worm_export_receipt_fixture_v0_1.json
+  - scripts/validate_invariant_pipeline_audit_worm_export_receipt_v0_1.py
+
+updated_documents:
+  - Makefile
+  - scripts/run_core_governance_full_checks_v0_1.py
+  - .github/workflows/core_governance_validation.yml
+
+worm_export_receipt:
+  role: archival_integrity_surface_for_invariant_pipeline_audit_hash_chain
+  source_ledger: specs/invariant_pipeline_audit_hash_chain_fixture_v0_1.jsonl
+  receipt_fixture: specs/invariant_pipeline_audit_worm_export_receipt_fixture_v0_1.json
+  validator: scripts/validate_invariant_pipeline_audit_worm_export_receipt_v0_1.py
+  source_ledger_root_hash: 306539394814c591b1cfb559f117a844afe1cddc6c05850c51255631998ac4c9
+  exported_entry_count: 2
+  export_mode: WORM
+  object_lock_mode: local_fixture
+  non_authority_fields:
+    execution_authority_granted: false
+    proof_authority_granted: false
+    clinical_authority_granted: false
+    truth_authority_granted: false
+    teni_authority_granted: false
+
+ci_update:
+  core_governance_workflow:
+    trigger_mode: simplified_wildcard_paths
+    added_workflow_dispatch: true
+    reason: avoid_missing_future_invariant_pipeline_files
+
+validation:
+  make_target: invariant-pipeline-checks
+  command: python3 scripts/validate_invariant_pipeline_audit_worm_export_receipt_v0_1.py
+  included_in: scripts/run_core_governance_full_checks_v0_1.py
+
+fixed_points:
+  - worm_export_receipt_preserves_lineage_not_authority
+  - receipt_root_hash_must_match_hash_chain_root
+  - receipt_entry_count_must_match_ledger_entry_count
+  - non_authority_fields_must_remain_false
+  - workflow_trigger_simplification_is_operational_not_semantic_authority
