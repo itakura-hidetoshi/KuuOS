@@ -1,0 +1,17 @@
+{
+  "id": "invariant_pipeline_audit_worm_export_receipt_fixture_v0_1",
+  "version": "0.1",
+  "exported_at": "2026-05-11T00:02:00Z",
+  "source_ledger": "specs/invariant_pipeline_audit_hash_chain_fixture_v0_1.jsonl",
+  "source_ledger_root_hash": "306539394814c591b1cfb559f117a844afe1cddc6c05850c51255631998ac4c9",
+  "exported_entry_count": 2,
+  "export_mode": "WORM",
+  "retention_policy": "local_fixture_append_only",
+  "object_lock_mode": "local_fixture",
+  "non_authority_note": "WORM export preserves lineage and does not create execution, proof, clinical, truth, or Ten'i authority.",
+  "execution_authority_granted": false,
+  "proof_authority_granted": false,
+  "clinical_authority_granted": false,
+  "truth_authority_granted": false,
+  "teni_authority_granted": false
+}
