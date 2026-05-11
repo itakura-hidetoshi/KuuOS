@@ -92,7 +92,20 @@ Dukkha-as-Qi does not spiritualize away damage
 Dukkha-Qi routes to Paramita repair when residual suffering remains
 ```
 
-## 8. Runtime / Fixture Checklist
+## 8. Formal Invariant / Super-Relativity Checklist
+
+```text
+Formal invariant spine remains witness surface, not authority
+Super-Relativity remains invariant bridge, not relativistic nihilism
+observer difference does not grant execution authority
+record surface is not truth by itself
+scale shift preserves harm visibility
+WORLD translation does not replace the fourfold core
+Super-Relativity preserves the two truths gap
+observer / record / scale shift must not become harm denial
+```
+
+## 9. Runtime / Fixture Checklist
 
 ```text
 minimal runtime examples still execute
@@ -103,7 +116,7 @@ WORM receipt root matches ledger fixture
 release bundle manifest validates
 ```
 
-## 9. Authority Boundary Checklist
+## 10. Authority Boundary Checklist
 
 ```text
 validation pass does not prove truth
@@ -113,9 +126,10 @@ validation pass does not grant execution authority
 selected Paramita is orientation, not action authorization
 Dukkha model is observation surface, not authority
 Qi reading is not clinical diagnosis
+Super-Relativity bridge is not execution authority
 ```
 
-## 10. Version
+## 11. Version
 
 Version: v0.1
 Date: 2026-05-11
