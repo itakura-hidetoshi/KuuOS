@@ -1,0 +1,33 @@
+id: kuos_core_manifest_addendum_v0_1_50_all_governance_full_checks_runner
+name: KuuOS Core Manifest Addendum - All Governance Full Checks Runner
+version: 0.1.50
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - scripts/run_all_governance_full_checks_v0_1.py
+
+updated_documents:
+  - Makefile
+
+runner:
+  role: top_level_entrypoint_for_kuos_governance_validation
+  command: python3 scripts/run_all_governance_full_checks_v0_1.py
+  runs:
+    - python3 scripts/run_ai_yogacara_full_checks_v0_1.py
+    - python3 scripts/run_core_governance_full_checks_v0_1.py
+  external_api_calls: false
+
+makefile:
+  target: all-governance-checks
+  command: python3 scripts/run_all_governance_full_checks_v0_1.py
+
+fixed_points:
+  - all_governance_full_checks_runner_is_validation_entrypoint_not_authority
+  - ai_yogacara_and_core_governance_checks_share_top_level_entrypoint
+  - validators_remain_stdlib_only
+  - no_execution_authority_added
+  - ci_pass_or_local_pass_does_not_prove_teni_or_truth
