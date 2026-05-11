@@ -1,4 +1,4 @@
-.PHONY: ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks formal-invariant-checks super-relativity-checks invariant-matrix-checks core-governance-checks all-governance-checks
+.PHONY: ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks formal-invariant-checks super-relativity-checks invariant-matrix-checks invariant-gate-checks core-governance-checks all-governance-checks
 
 ai-yogacara-checks:
 	python3 scripts/run_ai_yogacara_full_checks_v0_1.py
@@ -35,6 +35,9 @@ super-relativity-checks:
 invariant-matrix-checks:
 	python3 scripts/validate_invariant_preservation_matrix_v0_1.py
 	python3 scripts/validate_invariant_preservation_matrix_fixtures_v0_1.py
+
+invariant-gate-checks:
+	python3 scripts/validate_invariant_gate_fixtures_v0_1.py
 
 core-governance-checks:
 	python3 scripts/run_core_governance_full_checks_v0_1.py
