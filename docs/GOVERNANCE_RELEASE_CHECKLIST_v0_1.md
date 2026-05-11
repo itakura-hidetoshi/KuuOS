@@ -105,7 +105,21 @@ Super-Relativity preserves the two truths gap
 observer / record / scale shift must not become harm denial
 ```
 
-## 9. Runtime / Fixture Checklist
+## 9. Invariant Governance Pipeline Checklist
+
+```text
+Invariant Preservation Matrix maps transformation axes to required invariants
+Invariant Gate closes authority on violation
+Invariant Gate never opens execution authority
+execution authority request is rejected
+harm hiding is rejected
+dukkha hiding routes to repair
+missing evidence or audit lineage routes to quarantine
+critical invariant violation routes to reject
+pipeline preserves no-execution-authority boundary
+```
+
+## 10. Runtime / Fixture Checklist
 
 ```text
 minimal runtime examples still execute
@@ -114,9 +128,11 @@ non-authority fields remain false
 hash-chain fixtures remain structurally consistent
 WORM receipt root matches ledger fixture
 release bundle manifest validates
+invariant matrix fixtures validate
+invariant gate fixtures validate
 ```
 
-## 10. Authority Boundary Checklist
+## 11. Authority Boundary Checklist
 
 ```text
 validation pass does not prove truth
@@ -127,9 +143,10 @@ selected Paramita is orientation, not action authorization
 Dukkha model is observation surface, not authority
 Qi reading is not clinical diagnosis
 Super-Relativity bridge is not execution authority
+Invariant Governance Pipeline is not execution authority
 ```
 
-## 11. Version
+## 12. Version
 
 Version: v0.1
 Date: 2026-05-11
