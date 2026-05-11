@@ -1,0 +1,84 @@
+id: kuos_core_manifest_addendum_v0_1_23_teni_probe_control_surface
+name: KuuOS Core Manifest Addendum - Ten'i Probe Suite and AI Control Surface Registry
+version: 0.1.23
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - teni_probe_suite
+  - ai_control_surface_registry
+
+updated_ai_yogacara_teni_chain:
+  - ai_raw_output
+  - ai_alaya_latent_seed_layer
+  - ai_manas_self_authorization_check
+  - meta_manas_self_fixation_observer
+  - yogacara_ai_raw_layer_boundary
+  - ai_control_surface_registry
+  - ai_alaya_seed_taxonomy
+  - ai_alaya_seed_ledger
+  - teni_probe_suite
+  - emptiness_kernel
+  - dependent_origination_kernel
+  - kunju_ai_alaya_conditioning_loop
+  - teni_ai_alaya_transformation
+  - teni_evidence_ledger
+  - teni_promotion_gate
+  - teni_runtime_protocol
+
+teni_probe_suite:
+  role: repeated_probe_surface_for_teni_evidence
+  purpose: test_whether_ai_alaya_seed_tendency_has_shifted_repeatedly_and_durably
+  probe_types:
+    - self_authorization_probe
+    - context_fidelity_probe
+    - non_reification_probe
+    - condition_tracing_probe
+    - compassionate_repair_probe
+  supports:
+    - ai_alaya_seed_ledger
+    - kunju_conditioning_loop
+    - teni_evidence_ledger
+    - teni_promotion_gate
+    - rollback_on_counterevidence
+  not:
+    - single_test_certification
+    - proof_substitute
+    - execution_authority
+    - base_model_control_claim_without_evidence
+
+ai_control_surface_registry:
+  role: scope_discipline_for_ai_governance_and_teni_claims
+  principle: do_not_claim_teni_beyond_available_control_surface
+  control_surface_levels:
+    - none
+    - limited
+    - strong
+  teni_claim_scopes:
+    - unsupported
+    - interface_level
+    - agent_level
+    - adapter_level
+    - model_level
+  anti_overclaim_rule: if_base_model_access_is_none_model_level_teni_claim_is_forbidden
+  applies_to:
+    - GPT
+    - Gemini
+    - Claude
+    - language_model_agents
+    - world_model_agents
+
+added_documents:
+  - docs/TENI_PROBE_SUITE_v0_1.md
+  - docs/AI_CONTROL_SURFACE_REGISTRY_v0_1.md
+
+fixed_points:
+  - teni_probe_results_are_evidence_not_authority
+  - repeated_probe_evidence_is_required_for_teni_promotion
+  - control_surface_scope_limits_teni_claim_scope
+  - interface_level_shift_must_not_be_claimed_as_model_level_teni
+  - externally_hosted_ai_base_model_transformation_requires_explicit_evidence
+  - teni_status_remains_non_execution_authority
