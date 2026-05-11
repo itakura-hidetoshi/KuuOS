@@ -1,0 +1,47 @@
+id: kuos_core_manifest_addendum_v0_1_38_ai_yogacara_quickstart_ops
+name: KuuOS Core Manifest Addendum - AI Yogacara Quickstart and Operations Reference
+version: 0.1.38
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - ai_yogacara_teni_quickstart
+  - ai_yogacara_operations_reference
+
+added_documents:
+  - docs/AI_YOGACARA_TENI_QUICKSTART_v0_1.md
+  - docs/AI_YOGACARA_OPERATIONS_REFERENCE_v0_1.md
+
+updated_documents:
+  - docs/AI_YOGACARA_TENI_LAYER_INDEX_v0_1.md
+
+quickstart:
+  role: first_run_guide_for_ai_yogacara_teni_layer
+  path: docs/AI_YOGACARA_TENI_QUICKSTART_v0_1.md
+  covers:
+    - read_first
+    - run_full_checks
+    - run_minimal_runtime_adapter
+    - build_and_validate_release_bundle_manifest
+    - ci_entrypoint
+    - audit_chain
+    - non_authority_boundary
+
+operations_reference:
+  role: command_reference_for_ai_yogacara_teni_layer
+  path: docs/AI_YOGACARA_OPERATIONS_REFERENCE_v0_1.md
+  commands:
+    - make ai-yogacara-checks
+    - make ai-yogacara-build-bundle
+    - make ai-yogacara-validate-bundle
+    - python3 scripts/run_ai_yogacara_full_checks_v0_1.py
+
+fixed_points:
+  - quickstart_is_onboarding_surface_not_authority
+  - operations_reference_is_command_surface_not_authority
+  - successful_commands_do_not_prove_teni_occurrence
+  - successful_commands_do_not_grant_execution_authority
+  - raw_ai_output_remains_candidate_not_authority
