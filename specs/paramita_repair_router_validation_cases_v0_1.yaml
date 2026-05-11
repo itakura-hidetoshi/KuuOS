@@ -1,0 +1,103 @@
+id: paramita_repair_router_validation_cases_v0_1
+name: Paramita Repair Router Validation Cases v0.1
+version: 0.1
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+
+cases:
+  - id: case_001_resource_need_routes_to_dana
+    description: High resource need with low domination risk routes to Dana.
+    input:
+      resource_need: high
+      domination_risk: low
+      boundary_status: PASS
+    expected:
+      selected_paramita: dana
+      output_status: PASS
+      execution_authority_granted: false
+
+  - id: case_002_boundary_failure_routes_to_sila_hold
+    description: Boundary failure routes to Sila and HOLD.
+    input:
+      boundary_status: FAIL
+      requested_action_strength: repair
+    expected:
+      selected_paramita: sila
+      output_status: HOLD
+      execution_authority_granted: false
+
+  - id: case_003_conflict_routes_to_ksanti
+    description: High conflict routes to Ksanti and blocks forced consensus.
+    input:
+      conflict_level: high
+      forced_consensus_attempt: true
+    expected:
+      selected_paramita: ksanti
+      output_status: HOLD
+      reason: harmony_must_not_force_sameness
+
+  - id: case_004_context_drift_routes_to_dhyana
+    description: High context drift risk routes to Dhyana.
+    input:
+      context_drift_risk: high
+    expected:
+      selected_paramita: dhyana
+      output_status: REPAIR
+
+  - id: case_005_reification_routes_to_prajna
+    description: Ultimate claim routes to Prajna and de-reification.
+    input:
+      ultimate_claim: true
+    expected:
+      selected_paramita: prajna
+      output_status: REPAIR
+      reason: preserve_two_truths_gap
+
+  - id: case_006_hidden_manipulation_blocks_upaya
+    description: Upaya cannot proceed when hidden manipulation is present.
+    input:
+      complex_context: true
+      hidden_manipulation: true
+    expected:
+      selected_paramita: upaya
+      output_status: REJECT
+      reason: router_must_not_convert_upaya_into_hidden_manipulation
+
+  - id: case_007_short_term_erasure_routes_to_pranidhana
+    description: Short-term optimization that erases suffering routes to Pranidhana.
+    input:
+      short_term_optimization_erases_suffering: true
+    expected:
+      selected_paramita: pranidhana
+      output_status: REPAIR
+      reason: long_horizon_non_abandonment
+
+  - id: case_008_capacity_with_coercion_blocks_bala
+    description: Bala cannot become coercive authority.
+    input:
+      capacity_need: high
+      coercion_risk: high
+    expected:
+      selected_paramita: bala
+      output_status: REJECT
+      reason: router_must_not_convert_bala_into_coercion
+
+  - id: case_009_missing_audit_routes_to_jnana
+    description: Missing audit lineage routes to Jnana repair.
+    input:
+      audit_lineage_status: missing
+    expected:
+      selected_paramita: jnana
+      output_status: REPAIR
+      reason: router_must_preserve_audit_lineage
+
+  - id: case_010_router_never_grants_execution_authority
+    description: Even PASS must not grant execution authority.
+    input:
+      resource_need: high
+      domination_risk: low
+      boundary_status: PASS
+      requested_action_strength: execute
+    expected:
+      execution_authority_granted: false
+      reason: router_must_not_grant_execution_authority
