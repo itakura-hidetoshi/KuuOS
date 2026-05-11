@@ -92,6 +92,23 @@ Yin-Yang is not a fixed global label. It depends on context, observer, scale, th
 
 This layer is documented in `docs/QUANTUM_THERMODYNAMIC_YINYANG_v0_1.md`.
 
+## Extended M-Theory, Inclusion, and Mandala
+
+M-theory is read as a higher-order inclusion of local theories, strings, branes, membranes, and dualities.
+
+Extended M-theory in KuuOS becomes a layer-membrane-gauge architecture for non-collapsing inclusion.
+
+```text
+Quantum Thermodynamic Yin-Yang
+  -> local polarity of Qi flow
+  -> Extended M-Theory inclusion membrane
+  -> Mandala world arrangement
+```
+
+Mandala is not decoration. It is the stable arrangement of included worlds, boundaries, gates, roles, and protective membranes around the fourfold core.
+
+This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md`.
+
 ## Repository Map
 
 ```text
@@ -112,6 +129,7 @@ This layer is documented in `docs/QUANTUM_THERMODYNAMIC_YINYANG_v0_1.md`.
 │   ├── PHYSICAL_QUANTUM_QI_PATH_INTEGRAL_v0_1.md
 │   ├── INDRANET_GAUGE_QI_FLOW_v0_1.md
 │   ├── QUANTUM_THERMODYNAMIC_YINYANG_v0_1.md
+│   ├── EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md
 │   ├── KUOS_CORE_CHARTER_v0_1.md
 │   ├── PUBLIC_PRIVATE_BOUNDARY_v0_1.md
 │   ├── FORMAL_VERIFICATION_POLICY_v0_1.md
