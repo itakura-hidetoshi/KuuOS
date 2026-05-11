@@ -4,7 +4,7 @@
 
 This index is the top-level public navigation surface for KuuOS Core governance, validation, audit, and non-authority boundaries.
 
-It connects the fourfold core, AI Yogacara / Ten'i governance, Mandala Multi-WORLD governance, Bodhisattva / Ten Paramita runtime, Dukkha Mathematical Model, Dukkha-as-Qi Mode, Formal Invariant Spine, and Hidetoshi Itakura's Super-Relativity Invariant Bridge.
+It connects the fourfold core, AI Yogacara / Ten'i governance, Mandala Multi-WORLD governance, Bodhisattva / Ten Paramita runtime, Dukkha Mathematical Model, Dukkha-as-Qi Mode, Formal Invariant Spine, Hidetoshi Itakura's Super-Relativity Invariant Bridge, Invariant Preservation Matrix, Invariant Gate Runtime, and Invariant Governance Pipeline.
 
 ## 1. Read First
 
@@ -151,15 +151,39 @@ Paramita as orientation, not action authorization
 Qi language not harm denial
 ```
 
-## 10. Minimal Runtime Examples
+## 10. Invariant Governance Pipeline
+
+```text
+docs/INVARIANT_PRESERVATION_MATRIX_v0_1.md
+docs/INVARIANT_GATE_RUNTIME_v0_1.md
+docs/INVARIANT_GOVERNANCE_PIPELINE_v0_1.md
+examples/invariant_preservation_matrix_minimal.py
+examples/invariant_gate_minimal.py
+```
+
+Runtime chain:
+
+```text
+transformation detected
+  -> Super-Relativity Invariant Bridge
+  -> Formal Invariant Spine
+  -> Invariant Preservation Matrix
+  -> Invariant Gate Runtime
+  -> PASS | HOLD | REPAIR | REJECT | QUARANTINE
+  -> no execution authority
+```
+
+## 11. Minimal Runtime Examples
 
 ```text
 examples/ai_yogacara_runtime_adapter_minimal.py
 examples/paramita_repair_router_minimal.py
 examples/dukkha_model_minimal.py
+examples/invariant_preservation_matrix_minimal.py
+examples/invariant_gate_minimal.py
 ```
 
-## 11. Main Validators
+## 12. Main Validators
 
 ```text
 scripts/run_all_governance_full_checks_v0_1.py
@@ -173,9 +197,13 @@ scripts/validate_dukkha_mathematical_model_v0_1.py
 scripts/validate_dukkha_as_qi_mode_v0_1.py
 scripts/validate_formal_invariant_spine_v0_1.py
 scripts/validate_super_relativity_invariant_bridge_v0_1.py
+scripts/validate_invariant_preservation_matrix_v0_1.py
+scripts/validate_invariant_preservation_matrix_fixtures_v0_1.py
+scripts/validate_invariant_gate_fixtures_v0_1.py
+scripts/validate_invariant_governance_pipeline_v0_1.py
 ```
 
-## 12. Non-Authority Boundary
+## 13. Non-Authority Boundary
 
 ```text
 validation_entrypoint_not_authority
@@ -187,9 +215,11 @@ paramita_orientation_not_action_authorization
 dukkha_model_observation_not_authority
 dukkha_as_qi_must_not_hide_harm
 super_relativity_is_invariant_bridge_not_relativistic_nihilism
+invariant_gate_closes_authority_on_violation
+invariant_pipeline_does_not_grant_execution_authority
 ```
 
-## 13. Version
+## 14. Version
 
 Version: v0.1
 Date: 2026-05-11
