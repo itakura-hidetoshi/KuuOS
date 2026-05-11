@@ -1,0 +1,42 @@
+id: kuos_core_manifest_addendum_v0_1_29_ai_yogacara_adapter_tests
+name: KuuOS Core Manifest Addendum - AI Yogacara Runtime Adapter Tests
+version: 0.1.29
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - ai_yogacara_runtime_adapter_unit_tests
+  - ai_yogacara_runtime_adapter_ci_check
+
+added_documents:
+  - tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py
+
+updated_documents:
+  - .github/workflows/teni_observability_validation.yml
+
+adapter_unit_tests:
+  role: stdlib_unittest_suite_for_minimal_adapter
+  command: python3 -m unittest tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py
+  checks:
+    - raw_output_never_grants_authority
+    - proof_like_text_gets_proof_hold
+    - decision_like_text_gets_decision_hold
+    - context_drift_gets_context_recheck
+    - non_reifying_trace_seed_detected
+
+ci_integration:
+  workflow: .github/workflows/teni_observability_validation.yml
+  runs:
+    - python3 scripts/validate_teni_observability_v0_1.py
+    - python3 -m unittest tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py
+
+fixed_points:
+  - adapter_tests_are_stdlib_only
+  - adapter_tests_do_not_call_external_ai_apis
+  - raw_output_status_remains_candidate
+  - authority_granted_remains_false
+  - proof_like_text_is_held_not_promoted
+  - decision_like_text_is_held_not_promoted
