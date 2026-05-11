@@ -7,8 +7,8 @@ Stdlib-only full check runner for KuuOS Core Governance layers.
 Runs Mandala Multi-WORLD, Bodhisattva Ten Paramita, Paramita Repair Router,
 Dukkha Mathematical Model, Dukkha-as-Qi, Formal Invariant Spine,
 Super-Relativity Invariant Bridge, Invariant Preservation Matrix, Invariant Gate,
-and Invariant Governance Pipeline validators including end-to-end runtime fixtures
-and audit event validation.
+and Invariant Governance Pipeline validators including end-to-end runtime fixtures,
+audit event validation, and audit hash-chain validation.
 No external dependencies and no external API calls.
 """
 
@@ -37,6 +37,7 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/validate_invariant_governance_pipeline_v0_1.py"],
     [sys.executable, "scripts/validate_invariant_governance_pipeline_fixtures_v0_1.py"],
     [sys.executable, "scripts/validate_invariant_pipeline_audit_event_v0_1.py"],
+    [sys.executable, "scripts/validate_invariant_pipeline_audit_hash_chain_v0_1.py"],
 ]
 
 
