@@ -1,0 +1,47 @@
+id: kuos_core_manifest_addendum_v0_1_54_formal_invariant_spine
+name: KuuOS Core Manifest Addendum - Formal Invariant Spine
+version: 0.1.54
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/FORMAL_INVARIANT_SPINE_v0_1.md
+  - formal/KUOS/CoreGovernance/Invariants.lean
+  - scripts/validate_formal_invariant_spine_v0_1.py
+
+updated_documents:
+  - Makefile
+  - scripts/run_core_governance_full_checks_v0_1.py
+
+formal_spine:
+  role: minimal_public_formal_surface_for_core_governance_invariants
+  lean_file: formal/KUOS/CoreGovernance/Invariants.lean
+  validator: scripts/validate_formal_invariant_spine_v0_1.py
+  compile_required_in_v0_1: false
+  external_dependencies: none
+  invariants:
+    - validation_pass_not_execution_authority
+    - raw_ai_output_candidate_not_authority
+    - dukkha_visibility_preserved
+    - harm_visibility_preserved
+    - paramita_orientation_not_action_authorization
+    - no_world_replaces_fourfold_core
+    - two_truths_gap_not_collapsed
+    - qi_language_not_harm_denial
+
+validation:
+  make_target: formal-invariant-checks
+  command: python3 scripts/validate_formal_invariant_spine_v0_1.py
+  included_in: scripts/run_core_governance_full_checks_v0_1.py
+
+fixed_points:
+  - formal_invariant_spine_is_witness_surface_not_authority
+  - lean_stub_does_not_grant_execution_authority
+  - validation_pass_is_not_execution_authority
+  - raw_ai_output_candidate_not_authority
+  - dukkha_and_harm_visibility_are_preserved
+  - paramita_orientation_not_action_authorization
+  - two_truths_gap_not_collapsed
