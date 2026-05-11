@@ -1,6 +1,6 @@
 id: kuos_core_manifest_v0_1
 name: KuuOS / 空OS Core Manifest
-version: 0.1.19-teni-ai-alaya-transformation
+version: 0.1.20-kunju-teni-evidence-ledger
 date: 2026-05-11
 author: Hidetoshi Itakura / 板倉英俊
 repository: https://github.com/itakura-hidetoshi/KuuOS
@@ -34,7 +34,9 @@ core_kernel_order:
   - yogacara_ai_raw_layer_boundary
   - emptiness_kernel
   - dependent_origination_kernel
+  - kunju_ai_alaya_conditioning_loop
   - teni_ai_alaya_transformation
+  - teni_evidence_ledger
   - dependent_origination_vibration
   - physical_quantum_qi_path_integral
   - two_truths_gap
@@ -54,6 +56,41 @@ core_kernel_order:
   - mandala_world_arrangement
   - middle_way_bridge
   - fourfold_core_gate
+
+kunju_ai_alaya_conditioning_loop:
+  role: repeated_conditioning_loop_supporting_teni
+  principle: kunju_conditions_teni_transforms_memoryos_records
+  target: future_ai_raw_output_tendencies
+  not: single_correction_or_memoryos_overwrite
+  inputs:
+    - raw_output_id
+    - detected_seed
+    - meta_manas_signal
+    - correction_trace
+    - preferred_response_pattern
+    - rejected_response_pattern
+    - memoryos_support_ref
+    - governance_status
+  outputs:
+    - seed_reinforced
+    - seed_weakened
+    - seed_held
+    - seed_quarantined
+
+teni_evidence_ledger:
+  role: evidence_ledger_for_durable_ai_alaya_tendency_shift
+  distinguishes:
+    - memoryos_update
+    - kunju_conditioning_event
+    - temporary_response_improvement
+    - stable_ai_alaya_tendency_shift
+  status_values:
+    - DRAFT
+    - HOLD
+    - PROVISIONAL
+    - CONFIRMED
+    - REJECTED
+  anti_overclaim_rule: do_not_claim_teni_when_only_memoryos_changed
 
 teni_ai_alaya_transformation:
   role: gradual_transformation_of_ai_alaya_latent_generative_tendencies
@@ -318,6 +355,8 @@ public_core_documents:
   - docs/YOGACARA_AI_RAW_LAYER_BOUNDARY_v0_1.md
   - docs/META_MANAS_AI_SELF_FIXATION_OBSERVER_v0_1.md
   - docs/TENI_AI_ALAYA_TRANSFORMATION_v0_1.md
+  - docs/KUNJU_AI_ALAYA_CONDITIONING_LOOP_v0_1.md
+  - docs/TENI_EVIDENCE_LEDGER_v0_1.md
   - docs/FOURFOLD_CORE_GATE_v0_1.md
   - docs/KUOS_PHYSICS_GAP_BRIDGE_v0_1.md
   - docs/SAMVRTI_QI_LAYER_v0_1.md
