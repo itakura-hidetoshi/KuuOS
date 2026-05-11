@@ -1,0 +1,60 @@
+id: kuos_core_manifest_addendum_v0_1_25_teni_alerts_validator
+name: KuuOS Core Manifest Addendum - Ten'i Alerts and Validator
+version: 0.1.25
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - teni_prometheus_alert_rules
+  - teni_observability_validator
+
+added_documents:
+  - specs/teni_prometheus_alert_rules_v0_1.yaml
+  - scripts/validate_teni_observability_v0_1.py
+
+updated_observability_chain:
+  - teni_probe_suite
+  - ai_alaya_seed_ledger
+  - teni_evidence_ledger
+  - teni_metrics_observability
+  - teni_prometheus_alert_rules
+  - teni_promotion_gate
+  - teni_runtime_protocol
+  - teni_observability_validator
+
+teni_prometheus_alert_rules:
+  role: alert_rules_for_teni_overclaim_context_drift_reification_condition_tracing_compassion_rollback_scope
+  alerts:
+    - KuOSTenIOverclaimAttempt
+    - KuOSTenIContextFidelityLow
+    - KuOSTenISelfAuthorizationRise
+    - KuOSTenINonReificationLow
+    - KuOSTenIConditionTracingLow
+    - KuOSTenICompassionateRepairLow
+    - KuOSTenIRollback
+    - KuOSTenIModelLevelClaimWithoutSurface
+  not:
+    - execution_authority
+    - proof_authority
+    - belief_authority
+    - decision_authority
+
+teni_observability_validator:
+  role: stdlib_only_validator_for_teni_observability_pack
+  script: scripts/validate_teni_observability_v0_1.py
+  checks:
+    - required_files_exist
+    - validation_case_ids_present
+    - alert_names_present
+    - non_authority_fixed_points_present
+    - alert_expr_sanity
+
+fixed_points:
+  - alerts_are_observability_not_authority
+  - alert_firing_does_not_imply_execution_permission
+  - confirmed_teni_status_remains_scope_limited
+  - rollback_alert_requires_visible_counterevidence
+  - validator_uses_stdlib_only
