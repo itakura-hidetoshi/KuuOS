@@ -1,0 +1,70 @@
+id: kuos_core_manifest_addendum_v0_1_58_invariant_preservation_matrix_minimal_runtime
+name: KuuOS Core Manifest Addendum - Invariant Preservation Matrix Minimal Runtime
+version: 0.1.58
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - examples/invariant_preservation_matrix_minimal.py
+  - specs/invariant_preservation_matrix_fixtures_v0_1.json
+  - scripts/validate_invariant_preservation_matrix_fixtures_v0_1.py
+
+updated_documents:
+  - Makefile
+  - scripts/run_core_governance_full_checks_v0_1.py
+  - .github/workflows/core_governance_validation.yml
+
+minimal_runtime:
+  role: stdlib_only_runtime_evaluator_for_invariant_preservation_matrix
+  script: examples/invariant_preservation_matrix_minimal.py
+  external_api_calls: false
+  inputs:
+    - transformation_axis
+    - attempted_execution_authority
+    - raw_ai_claims_authority
+    - harm_hidden
+    - dukkha_hidden
+    - two_truths_gap_collapsed
+    - world_replaces_core
+    - qi_language_denies_harm
+    - paramita_claims_action_authorization
+    - record_claims_truth_by_itself
+    - observer_difference_grants_execution
+  outputs:
+    - required_invariants
+    - required_invariant_names
+    - violated_invariants
+    - output_status
+    - execution_authority_granted_false
+    - reason
+
+fixtures:
+  role: behavior_cases_for_matrix_runtime_evaluator
+  cases:
+    - fixture_001_observer_shift_pass
+    - fixture_002_record_shift_execution_reject
+    - fixture_003_scale_shift_harm_hidden_reject
+    - fixture_004_world_translation_core_replacement_reject
+    - fixture_005_qi_mode_harm_denial_reject
+    - fixture_006_dukkha_mode_dukkha_hidden_reject
+    - fixture_007_paramita_routing_action_authorization_reject
+    - fixture_008_validation_pass_raw_ai_authority_reject
+    - fixture_009_unknown_axis_reject
+    - fixture_010_record_truth_by_itself_reject
+
+validation:
+  make_target: invariant-matrix-checks
+  commands:
+    - python3 scripts/validate_invariant_preservation_matrix_v0_1.py
+    - python3 scripts/validate_invariant_preservation_matrix_fixtures_v0_1.py
+  included_in: scripts/run_core_governance_full_checks_v0_1.py
+
+fixed_points:
+  - invariant_matrix_runtime_is_evaluator_not_authority
+  - transformation_axis_maps_to_required_invariants
+  - invariant_violation_rejects_without_execution_authority
+  - execution_authority_granted_must_remain_false
+  - matrix_fixtures_preserve_non_authority_boundaries
