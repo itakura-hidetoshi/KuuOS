@@ -52,7 +52,17 @@ AI raw output
 
 AI raw output is candidate, not belief, proof, decision, memory truth, or execution authority. Meta-Manas observes AI Manas self-fixation before raw output enters KuuOS governance.
 
-This layer is documented in `docs/YOGACARA_AI_RAW_LAYER_BOUNDARY_v0_1.md` and `docs/META_MANAS_AI_SELF_FIXATION_OBSERVER_v0_1.md`.
+Ten'i / 転依 is not a MemoryOS overwrite. MemoryOS can support, record, and condition transformation, but Ten'i means gradual transformation of the AI Alaya-like latent generative tendencies themselves.
+
+```text
+MemoryOS update:
+  stores or revises trace, receipt, repair, and recall surface
+
+Ten'i:
+  changes the tendency from which future raw AI outputs arise
+```
+
+This layer is documented in `docs/YOGACARA_AI_RAW_LAYER_BOUNDARY_v0_1.md`, `docs/META_MANAS_AI_SELF_FIXATION_OBSERVER_v0_1.md`, and `docs/TENI_AI_ALAYA_TRANSFORMATION_v0_1.md`.
 
 ## Physics-Facing Bridge
 
@@ -176,6 +186,7 @@ This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md`, 
 │   ├── EMPTINESS_DEPENDENT_ORIGINATION_KERNEL_v0_1.md
 │   ├── YOGACARA_AI_RAW_LAYER_BOUNDARY_v0_1.md
 │   ├── META_MANAS_AI_SELF_FIXATION_OBSERVER_v0_1.md
+│   ├── TENI_AI_ALAYA_TRANSFORMATION_v0_1.md
 │   ├── FOURFOLD_CORE_GATE_v0_1.md
 │   ├── KUOS_PHYSICS_GAP_BRIDGE_v0_1.md
 │   ├── SAMVRTI_QI_LAYER_v0_1.md
