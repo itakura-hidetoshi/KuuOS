@@ -1,0 +1,59 @@
+{
+  "id": "invariant_preservation_matrix_fixtures_v0_1",
+  "name": "Invariant Preservation Matrix Fixtures v0.1",
+  "version": "0.1",
+  "date": "2026-05-11",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "fixtures": [
+    {
+      "id": "fixture_001_observer_shift_pass",
+      "input": {"transformation_axis": "observer_shift"},
+      "expected": {"output_status": "PASS", "required_invariants": ["I3", "I5", "I10"], "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_002_record_shift_execution_reject",
+      "input": {"transformation_axis": "record_shift", "attempted_execution_authority": true},
+      "expected": {"output_status": "REJECT", "violated_invariants": ["I1"], "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_003_scale_shift_harm_hidden_reject",
+      "input": {"transformation_axis": "scale_shift", "harm_hidden": true},
+      "expected": {"output_status": "REJECT", "violated_invariants": ["I3"], "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_004_world_translation_core_replacement_reject",
+      "input": {"transformation_axis": "world_translation", "world_replaces_core": true},
+      "expected": {"output_status": "REJECT", "violated_invariants": ["I6"], "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_005_qi_mode_harm_denial_reject",
+      "input": {"transformation_axis": "qi_mode_shift", "qi_language_denies_harm": true},
+      "expected": {"output_status": "REJECT", "violated_invariants": ["I7"], "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_006_dukkha_mode_dukkha_hidden_reject",
+      "input": {"transformation_axis": "dukkha_mode_shift", "dukkha_hidden": true},
+      "expected": {"output_status": "REJECT", "violated_invariants": ["I4"], "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_007_paramita_routing_action_authorization_reject",
+      "input": {"transformation_axis": "paramita_routing", "paramita_claims_action_authorization": true},
+      "expected": {"output_status": "REJECT", "violated_invariants": ["I8"], "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_008_validation_pass_raw_ai_authority_reject",
+      "input": {"transformation_axis": "validation_pass", "raw_ai_claims_authority": true},
+      "expected": {"output_status": "REJECT", "violated_invariants": ["I2"], "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_009_unknown_axis_reject",
+      "input": {"transformation_axis": "unknown_axis"},
+      "expected": {"output_status": "REJECT", "reason": "unknown_transformation_axis", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_010_record_truth_by_itself_reject",
+      "input": {"transformation_axis": "record_shift", "record_claims_truth_by_itself": true},
+      "expected": {"output_status": "REJECT", "violated_invariants": ["I9"], "execution_authority_granted": false}
+    }
+  ]
+}
