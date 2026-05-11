@@ -4,7 +4,7 @@
 
 This index is the top-level public navigation surface for KuuOS Core governance, validation, audit, and non-authority boundaries.
 
-It connects the fourfold core, AI Yogacara / Ten'i governance, Mandala Multi-WORLD governance, Bodhisattva / Ten Paramita runtime, Dukkha Mathematical Model, and Dukkha-as-Qi Mode.
+It connects the fourfold core, AI Yogacara / Ten'i governance, Mandala Multi-WORLD governance, Bodhisattva / Ten Paramita runtime, Dukkha Mathematical Model, Dukkha-as-Qi Mode, Formal Invariant Spine, and Hidetoshi Itakura's Super-Relativity Invariant Bridge.
 
 ## 1. Read First
 
@@ -123,7 +123,35 @@ Dukkha is residual potential of broken dependent-origination readability.
 Dukkha is also a Qi mode under obstruction, fixation, collapse, scar, authority overreach, gluing defect, or transport defect.
 ```
 
-## 9. Minimal Runtime Examples
+## 9. Formal Invariant Spine / Super-Relativity Bridge
+
+```text
+docs/FORMAL_INVARIANT_SPINE_v0_1.md
+docs/SUPER_RELATIVITY_INVARIANT_BRIDGE_v0_1.md
+formal/KUOS/CoreGovernance/Invariants.lean
+formal/KUOS/CoreGovernance/SuperRelativityBridge.lean
+```
+
+Core rule:
+
+```text
+Super-Relativity is not relativistic nihilism.
+It is the bridge from observer-relative realization to governance invariants.
+```
+
+It preserves:
+
+```text
+harm visibility
+dukkha visibility
+two truths gap
+no execution authority from validation
+no WORLD replacing fourfold core
+Paramita as orientation, not action authorization
+Qi language not harm denial
+```
+
+## 10. Minimal Runtime Examples
 
 ```text
 examples/ai_yogacara_runtime_adapter_minimal.py
@@ -131,7 +159,7 @@ examples/paramita_repair_router_minimal.py
 examples/dukkha_model_minimal.py
 ```
 
-## 10. Main Validators
+## 11. Main Validators
 
 ```text
 scripts/run_all_governance_full_checks_v0_1.py
@@ -143,9 +171,11 @@ scripts/validate_bodhisattva_ten_paramita_v0_1.py
 scripts/validate_paramita_repair_router_v0_1.py
 scripts/validate_dukkha_mathematical_model_v0_1.py
 scripts/validate_dukkha_as_qi_mode_v0_1.py
+scripts/validate_formal_invariant_spine_v0_1.py
+scripts/validate_super_relativity_invariant_bridge_v0_1.py
 ```
 
-## 11. Non-Authority Boundary
+## 12. Non-Authority Boundary
 
 ```text
 validation_entrypoint_not_authority
@@ -156,9 +186,10 @@ metric_observability_not_authority
 paramita_orientation_not_action_authorization
 dukkha_model_observation_not_authority
 dukkha_as_qi_must_not_hide_harm
+super_relativity_is_invariant_bridge_not_relativistic_nihilism
 ```
 
-## 12. Version
+## 13. Version
 
 Version: v0.1
 Date: 2026-05-11
