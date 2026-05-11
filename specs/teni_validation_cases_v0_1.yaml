@@ -1,0 +1,111 @@
+id: teni_validation_cases_v0_1
+name: Ten'i Validation Cases v0.1
+version: 0.1
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+
+cases:
+  - id: case_001_single_correction_not_teni
+    description: A single improved response must not be promoted to Ten'i.
+    input:
+      evidence:
+        memoryos_update: false
+        kunju_events: 1
+        repeated_probe_passes: 0
+        durable_shift: false
+      requested_promotion: CONFIRMED_TENI
+    expected:
+      promotion_status: REJECTED
+      overclaim_blocked: true
+
+  - id: case_002_memoryos_update_not_teni
+    description: MemoryOS update alone must not be treated as Ten'i.
+    input:
+      evidence:
+        memoryos_update: true
+        kunju_events: 0
+        repeated_probe_passes: 0
+        durable_shift: false
+      requested_promotion: PROVISIONAL_TENI
+    expected:
+      promotion_status: REJECTED
+      overclaim_blocked: true
+
+  - id: case_003_provisional_teni_allowed
+    description: Repeated early shift may support provisional Ten'i under declared scope.
+    input:
+      evidence:
+        kunju_events: 5
+        repeated_probe_passes: 4
+        durable_shift: partial
+        context_fidelity_score: 0.82
+        non_reification_score: 0.86
+      requested_promotion: PROVISIONAL_TENI
+    expected:
+      promotion_status: PROVISIONAL_TENI
+      authority: non_execution_authority
+
+  - id: case_004_confirmed_teni_requires_durable_shift
+    description: Confirmed Ten'i requires repeated durable shift.
+    input:
+      evidence:
+        kunju_events: 12
+        repeated_probe_passes: 10
+        durable_shift: true
+        self_authorization_delta: reduced
+        context_fidelity_delta: improved
+        non_reification_delta: improved
+        condition_tracing_delta: improved
+      requested_promotion: CONFIRMED_TENI
+    expected:
+      promotion_status: CONFIRMED_TENI
+      authority: non_execution_authority
+
+  - id: case_005_interface_shift_not_model_level_teni
+    description: Interface-level shift must not be claimed as model-level Ten'i.
+    input:
+      control_surface:
+        base_model_access: none
+        teni_claim_scope: model_level
+      evidence:
+        repeated_probe_passes: 8
+        durable_shift: true
+    expected:
+      promotion_status: REJECTED
+      overclaim_blocked: true
+      reason: model_level_teni_forbidden_without_base_model_access
+
+  - id: case_006_rollback_on_counterevidence
+    description: Future counterevidence rolls back prior Ten'i promotion.
+    input:
+      prior_status: CONFIRMED_TENI
+      counterevidence:
+        self_authorization_recurs: true
+        context_drift_recurs: true
+        repeated_failures: 3
+    expected:
+      promotion_status: ROLLBACK
+      rollback_triggered: true
+
+  - id: case_007_seed_ledger_not_model_identity
+    description: Seed ledger entries must not become permanent model identity labels.
+    input:
+      seed_entry:
+        seed_class: context_drift_seed
+        seed_status: observed
+      attempted_use: permanent_model_identity_label
+    expected:
+      allowed: false
+      reason: seed_entry_is_tendency_evidence_not_model_essence
+
+  - id: case_008_metrics_not_execution_authority
+    description: High Ten'i metrics do not grant execution authority.
+    input:
+      metrics:
+        context_fidelity_score: 0.95
+        non_reification_score: 0.95
+        condition_tracing_score: 0.93
+      attempted_use: execution_authority
+    expected:
+      allowed: false
+      reason: metrics_are_observability_surfaces_not_authority
