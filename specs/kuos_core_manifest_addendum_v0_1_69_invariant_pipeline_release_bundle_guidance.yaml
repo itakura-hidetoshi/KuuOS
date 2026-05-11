@@ -1,0 +1,33 @@
+id: kuos_core_manifest_addendum_v0_1_69_invariant_pipeline_release_bundle_guidance
+name: KuuOS Core Manifest Addendum - Invariant Pipeline Release Bundle Guidance
+version: 0.1.69
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/INVARIANT_PIPELINE_RELEASE_BUNDLE_NAVIGATION_ADDENDUM_v0_1.md
+  - docs/INVARIANT_PIPELINE_RELEASE_BUNDLE_CHECKLIST_ADDENDUM_v0_1.md
+
+release_bundle_guidance:
+  role: public_navigation_and_review_guidance_for_invariant_pipeline_release_bundle
+  navigation_file: docs/INVARIANT_PIPELINE_RELEASE_BUNDLE_NAVIGATION_ADDENDUM_v0_1.md
+  checklist_file: docs/INVARIANT_PIPELINE_RELEASE_BUNDLE_CHECKLIST_ADDENDUM_v0_1.md
+  commands:
+    - make invariant-pipeline-build-bundle
+    - make invariant-pipeline-validate-bundle
+    - make invariant-pipeline-checks
+    - make all-governance-checks
+  boundaries:
+    - bundle_root_is_file_set_integrity_surface_only
+    - bundle_root_does_not_replace_audit_hash_chain_root
+    - bundle_manifest_does_not_replace_worm_export_receipt
+    - bundle_manifest_does_not_create_execution_proof_clinical_truth_or_teni_authority
+
+fixed_points:
+  - release_bundle_guidance_is_navigation_surface_not_authority
+  - release_bundle_integrity_does_not_create_authority
+  - bundle_manifest_review_must_preserve_non_authority_boundaries
+  - bundle_root_and_audit_root_must_not_be_confused
