@@ -1,0 +1,31 @@
+id: kuos_core_manifest_addendum_v0_1_65_all_governance_ci_hardening
+name: KuuOS Core Manifest Addendum - All Governance CI Hardening
+version: 0.1.65
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+updated_documents:
+  - .github/workflows/all_governance_validation.yml
+
+ci_hardening:
+  role: improve_manual_rerun_and_log_visibility_for_all_governance_validation
+  changes:
+    - added_workflow_dispatch
+    - added_show_validation_entrypoints_step
+    - pinned_python_3_12_retained
+    - top_level_runner_retained
+  entrypoint: python3 scripts/run_all_governance_full_checks_v0_1.py
+  included_paths:
+    - ai_yogacara_full_checks
+    - core_governance_full_checks
+    - invariant_pipeline_audit_event_validation
+    - invariant_pipeline_audit_hash_chain_validation
+
+fixed_points:
+  - ci_hardening_is_operational_surface_not_authority
+  - manual_dispatch_does_not_change_governance_semantics
+  - validation_logging_does_not_grant_execution_authority
+  - all_governance_validation_remains_top_level_public_check
