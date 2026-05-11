@@ -1,0 +1,47 @@
+id: kuos_core_manifest_addendum_v0_1_55_super_relativity_invariant_bridge
+name: KuuOS Core Manifest Addendum - Super-Relativity Invariant Bridge
+version: 0.1.55
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/SUPER_RELATIVITY_INVARIANT_BRIDGE_v0_1.md
+  - formal/KUOS/CoreGovernance/SuperRelativityBridge.lean
+  - scripts/validate_super_relativity_invariant_bridge_v0_1.py
+
+updated_documents:
+  - Makefile
+  - scripts/run_core_governance_full_checks_v0_1.py
+
+super_relativity_invariant_bridge:
+  role: invariant_preserving_bridge_across_observer_record_scale_and_world_surfaces
+  core_principle: super_relativity_is_the_bridge_from_observer_relative_realization_to_governance_invariants
+  lean_file: formal/KUOS/CoreGovernance/SuperRelativityBridge.lean
+  validator: scripts/validate_super_relativity_invariant_bridge_v0_1.py
+  compile_required_in_v0_1: false
+  external_dependencies: none
+  invariants:
+    - observer_difference_does_not_grant_execution_authority
+    - record_surface_is_not_truth_by_itself
+    - scale_shift_must_preserve_harm_visibility
+    - world_translation_must_not_replace_fourfold_core
+    - super_relativity_preserves_two_truths_gap
+    - observer_scale_shift_not_harm_denial
+
+validation:
+  make_target: super-relativity-checks
+  command: python3 scripts/validate_super_relativity_invariant_bridge_v0_1.py
+  included_in: scripts/run_core_governance_full_checks_v0_1.py
+
+fixed_points:
+  - super_relativity_is_invariant_bridge_not_relativistic_nihilism
+  - observer_difference_does_not_grant_execution_authority
+  - record_surface_is_not_truth_by_itself
+  - scale_shift_must_preserve_harm_visibility
+  - world_translation_must_not_replace_fourfold_core
+  - super_relativity_preserves_two_truths_gap
+  - observer_scale_shift_not_harm_denial
+  - lean_bridge_is_witness_surface_not_authority
