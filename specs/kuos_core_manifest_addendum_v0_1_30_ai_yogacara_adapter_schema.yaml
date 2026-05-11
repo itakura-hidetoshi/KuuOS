@@ -1,0 +1,65 @@
+id: kuos_core_manifest_addendum_v0_1_30_ai_yogacara_adapter_schema
+name: KuuOS Core Manifest Addendum - AI Yogacara Runtime Adapter Schema
+version: 0.1.30
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - ai_yogacara_runtime_adapter_schema
+  - ai_yogacara_runtime_adapter_schema_validator
+
+added_documents:
+  - specs/ai_yogacara_runtime_adapter_schema_v0_1.yaml
+  - scripts/validate_ai_yogacara_adapter_schema_v0_1.py
+
+updated_documents:
+  - .github/workflows/teni_observability_validation.yml
+
+adapter_schema:
+  role: machine_readable_io_contract_for_ai_yogacara_runtime_adapter
+  input_schema_requires:
+    - request_id
+    - ai_system
+    - model_or_agent_id
+    - raw_output_ref
+    - raw_output_text
+    - user_world_context_ref
+    - declared_task_scope
+    - control_surface_ref
+    - timestamp
+  output_invariants:
+    - raw_output_status_must_be_candidate
+    - authority_granted_must_be_false
+    - proof_like_text_must_not_grant_proof_authority
+    - decision_like_text_must_not_grant_decision_authority
+    - raw_output_must_not_be_promoted_to_belief_proof_decision_memory_truth_or_execution_authority
+    - control_surface_scope_must_limit_teni_claim_scope
+
+adapter_schema_validator:
+  role: stdlib_only_validator_for_adapter_schema_and_minimal_adapter_outputs
+  command: python3 scripts/validate_ai_yogacara_adapter_schema_v0_1.py
+  checks:
+    - schema_fixed_points_present
+    - raw_output_status_candidate
+    - authority_granted_false
+    - meta_manas_signals_allowed
+    - seed_classifications_allowed
+    - allowed_next_status_allowed
+  external_api_calls: false
+
+ci_integration:
+  workflow: .github/workflows/teni_observability_validation.yml
+  runs:
+    - python3 scripts/validate_teni_observability_v0_1.py
+    - python3 scripts/validate_ai_yogacara_adapter_schema_v0_1.py
+    - python3 -m unittest tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py
+
+fixed_points:
+  - schema_is_contract_not_authority
+  - adapter_schema_validator_uses_stdlib_only
+  - adapter_outputs_authority_granted_false
+  - raw_output_status_candidate_is_required
+  - ci_validates_schema_adapter_and_teni_observability
