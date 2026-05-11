@@ -8,6 +8,28 @@ Describe the append-only or tighten-only change.
 
 - [ ] `make all-governance-checks` passes locally, or the reason it was not run is documented.
 - [ ] GitHub Actions `All Governance Validation` is expected to pass.
+- [ ] `make gpt-github-integration-checks` passes if GPT GitHub integration files are touched.
+
+## GPT GitHub Review Hook
+
+When this PR touches repository navigation, GitHub integration, formal/proof-facing surfaces, CI interpretation, issue templates, PR review workflow, or GPT-assisted repository operation, ask GPT to read:
+
+```text
+docs/GPT_GITHUB_KUOS_INTEGRATION_v0_1.md
+docs/KUOS_GITHUB_FORMAL_VERIFICATION_BRIDGE_v0_1.md
+specs/gpt_github_integration_manifest_v0_1.yaml
+```
+
+Then request:
+
+```text
+Review this PR under KuuOS GPT GitHub integration.
+Classify it as PASS / HOLD / REPAIR / REJECT / QUARANTINE.
+Identify touched invariants, non-authority boundaries, validation commands, and any overclaim risk.
+```
+
+- [ ] GPT review, if used, is treated as a review aid, not authority.
+- [ ] GPT summary is not treated as truth, proof, clinical authority, Ten'i, or execution authority.
 
 ## Scope
 
