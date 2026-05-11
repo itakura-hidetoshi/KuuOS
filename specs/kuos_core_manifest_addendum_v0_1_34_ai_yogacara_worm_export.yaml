@@ -1,0 +1,75 @@
+id: kuos_core_manifest_addendum_v0_1_34_ai_yogacara_worm_export
+name: KuuOS Core Manifest Addendum - AI Yogacara WORM Export
+version: 0.1.34
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - ai_yogacara_audit_worm_export_manifest
+  - ai_yogacara_worm_export_receipt_fixture
+  - ai_yogacara_worm_export_receipt_validator
+
+added_documents:
+  - docs/AI_YOGACARA_AUDIT_WORM_EXPORT_MANIFEST_v0_1.md
+  - specs/ai_yogacara_audit_worm_export_receipt_fixture_v0_1.yaml
+  - scripts/validate_ai_yogacara_worm_export_receipt_v0_1.py
+
+updated_documents:
+  - .github/workflows/teni_observability_validation.yml
+
+worm_export_manifest:
+  role: export_manifest_for_ai_yogacara_audit_hash_chain_to_worm_style_archival_surfaces
+  export_unit_fields:
+    - export_id
+    - created_at
+    - ledger_ref
+    - ledger_entry_count
+    - first_event_hash
+    - last_event_hash
+    - chain_root_hash
+    - validator_ref
+    - validation_status
+    - storage_target
+    - retention_policy
+    - authority_note
+  chain_root_rule: SHA256_concatenated_ordered_event_hashes
+  not:
+    - proof_of_truth
+    - proof_of_teni_occurrence
+    - execution_authority
+    - clinical_authority
+    - base_model_transformation_proof
+
+worm_export_receipt_validator:
+  role: stdlib_only_validator_for_worm_export_receipt_fixture
+  command: python3 scripts/validate_ai_yogacara_worm_export_receipt_v0_1.py
+  checks:
+    - ledger_jsonl_parses
+    - chain_root_hash_matches_ordered_event_hashes
+    - receipt_last_event_hash_matches_ledger_last_hash
+    - receipt_entry_count_matches_ledger_count
+    - non_authority_statement_true
+    - fixed_points_present
+  external_api_calls: false
+
+ci_integration:
+  workflow: .github/workflows/teni_observability_validation.yml
+  runs:
+    - python3 scripts/validate_teni_observability_v0_1.py
+    - python3 scripts/validate_ai_yogacara_adapter_schema_v0_1.py
+    - python3 scripts/validate_ai_yogacara_adapter_fixtures_v0_1.py
+    - python3 scripts/validate_ai_yogacara_adapter_audit_event_v0_1.py
+    - python3 scripts/validate_ai_yogacara_audit_hash_chain_v0_1.py
+    - python3 scripts/validate_ai_yogacara_worm_export_receipt_v0_1.py
+    - python3 -m unittest tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py
+
+fixed_points:
+  - worm_export_preserves_trace_not_authority
+  - valid_hash_chain_proves_structural_continuity_not_truth
+  - export_receipt_is_not_execution_authority
+  - export_receipt_is_not_proof_of_teni_occurrence
+  - chain_root_hash_is_order_sensitive
+  - validator_uses_stdlib_only
