@@ -1,6 +1,17 @@
 # KuuOS Core Charter v0.1
 
-## 1. Purpose
+## 1. Root
+
+KuuOS / 空OS begins from the fourfold core:
+
+1. **空 / Emptiness**
+2. **縁起 / Dependent Origination**
+3. **二諦 / Two Truths**
+4. **中道 / Middle Way**
+
+These four are the root of the system. MemoryOS, BeliefOS, PlanOS, DecisionOS, ReflectionOS, ExplanationOS, RuntimeGovernance, and Self-EvolutionOS are downstream operational differentiations.
+
+## 2. Purpose
 
 KuuOS / 空OS is a relational operating system architecture for intelligence. It is designed to transform language-model and world-model outputs into governed, traceable, verifiable, compassionate, and non-coercive operational candidates.
 
@@ -16,21 +27,42 @@ KuuOS is not merely a prompt style. It is a layered architecture for:
 - formal verification,
 - and safety-preserving interaction with worlds.
 
-## 2. Core Ontology
+## 3. Core Ontology
 
 KuuOS begins from the following operational ontology:
 
 | Term | Operational meaning |
 |---|---|
-| 空 / Emptiness | No object, output, proof, or plan has independent self-authority. |
-| 縁起 / Dependent origination | Validity arises through conditions, traces, relations, observers, memory, and constraints. |
+| 空 / Emptiness | No object, output, proof, plan, identity, module, or world-model surface has independent self-authority. |
+| 縁起 / Dependent origination | Validity arises through conditions, traces, relations, observers, memory, causality, and constraints. |
 | 二諦 / Two truths | Ultimate non-fixation and conventional operation are separated without collapse. |
+| 中道 / Middle Way | The system avoids both reification and nihilistic collapse while preserving responsible operation. |
 | 和 / Harmony | Stabilized coexistence of plural relations under constraints. |
 | 観照 / Observation | Seeing without premature fixation; observation produces traceable surfaces. |
 | 利他 / Altruistic orientation | Decisions are evaluated through non-harm and benefit. |
 | 大悲 / Great compassion | Governance prefers repair, holding, re-observation, and de-escalation over domination. |
 
-## 3. Core Modules
+## 4. Fourfold Runtime Check
+
+Every KuuOS candidate should pass the fourfold check before promotion:
+
+```text
+Emptiness check:
+  Does the candidate avoid self-authorizing or absolute claims?
+
+Dependent-origination check:
+  Are its conditions, relations, traces, and supports visible?
+
+Two-truths check:
+  Does it preserve the difference between ultimate non-fixation and conventional operation?
+
+Middle-way check:
+  Does it avoid both reification and nihilistic abandonment?
+```
+
+Failure of the fourfold check leads to HOLD, REVIEW, REOBSERVE, REPAIR, or FAIL depending on severity.
+
+## 5. Core Modules
 
 The public core recognizes the following module family:
 
@@ -43,7 +75,7 @@ The public core recognizes the following module family:
 - **RuntimeGovernance**: gates, barriers, release policies, and fail-closed constraints.
 - **Self-EvolutionOS**: reviewed, benchmarked, append-only evolution of code/policy/routing/glue, not unrestricted self-modification.
 
-## 4. Non-Execution Doctrine
+## 6. Non-Execution Doctrine
 
 KuuOS does not allow direct execution by default.
 
@@ -58,7 +90,7 @@ The following are separate authorities:
 
 No proof, model output, benchmark result, or memory entry automatically grants execution authority.
 
-## 5. Append-Only / Tighten-Only Rule
+## 7. Append-Only / Tighten-Only Rule
 
 The public core follows:
 
@@ -69,11 +101,11 @@ The public core follows:
 - explicit release gates,
 - visible uncertainty and residuals.
 
-## 6. Public-Core Scope
+## 8. Public-Core Scope
 
 This charter publishes the core architecture and governance posture. It does not publish private clinical data, credentials, unpublished research kernels, private operational logs, or unrestricted implementation authority.
 
-## 7. Initial Version
+## 9. Initial Version
 
 Version: `v0.1-public-core`
 
