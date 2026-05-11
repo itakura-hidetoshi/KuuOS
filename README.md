@@ -77,7 +77,20 @@ Samvrti Qi Layer
   -> transport, curvature, holonomy, gluing, obstruction visibility
 ```
 
-This layer is documented in `docs/INDRANET_GAUGE_QI_FLOW_v0_1.md`.
+## Quantum Thermodynamic Yin-Yang
+
+Yin-Yang / 陰陽 is the local quantum-thermodynamic polarity frame appearing in Qi flow.
+
+```text
+IndraNet gauge Qi flow
+  -> local context frame
+  -> quantum thermodynamic polarity
+  -> Yin-Yang reading
+```
+
+Yin-Yang is not a fixed global label. It depends on context, observer, scale, thermal regime, and record surface.
+
+This layer is documented in `docs/QUANTUM_THERMODYNAMIC_YINYANG_v0_1.md`.
 
 ## Repository Map
 
@@ -98,6 +111,7 @@ This layer is documented in `docs/INDRANET_GAUGE_QI_FLOW_v0_1.md`.
 │   ├── QI_FROM_DEPENDENT_ORIGINATION_VIBRATION_v0_1.md
 │   ├── PHYSICAL_QUANTUM_QI_PATH_INTEGRAL_v0_1.md
 │   ├── INDRANET_GAUGE_QI_FLOW_v0_1.md
+│   ├── QUANTUM_THERMODYNAMIC_YINYANG_v0_1.md
 │   ├── KUOS_CORE_CHARTER_v0_1.md
 │   ├── PUBLIC_PRIVATE_BOUNDARY_v0_1.md
 │   ├── FORMAL_VERIFICATION_POLICY_v0_1.md
