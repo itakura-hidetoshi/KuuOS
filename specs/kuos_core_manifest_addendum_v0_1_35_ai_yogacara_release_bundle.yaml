@@ -1,0 +1,73 @@
+id: kuos_core_manifest_addendum_v0_1_35_ai_yogacara_release_bundle
+name: KuuOS Core Manifest Addendum - AI Yogacara Release Bundle Manifest
+version: 0.1.35
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - ai_yogacara_release_bundle_manifest
+  - ai_yogacara_release_bundle_manifest_builder
+  - ai_yogacara_release_bundle_manifest_validator
+
+added_documents:
+  - docs/AI_YOGACARA_RELEASE_BUNDLE_MANIFEST_v0_1.md
+  - scripts/build_ai_yogacara_release_bundle_manifest_v0_1.py
+  - scripts/validate_ai_yogacara_release_bundle_manifest_v0_1.py
+
+updated_documents:
+  - .github/workflows/teni_observability_validation.yml
+
+release_bundle_manifest:
+  role: file_integrity_manifest_for_ai_yogacara_teni_release_surface
+  output: specs/ai_yogacara_release_bundle_manifest_v0_1.generated.json
+  root_rule: SHA256_ordered_path_and_file_sha256_lines
+  file_order: lexicographic_by_path
+  authority_note: integrity_surface_not_authority
+  not:
+    - proof_of_truth
+    - proof_of_teni_occurrence
+    - proof_authority
+    - belief_authority
+    - clinical_authority
+    - execution_authority
+    - base_model_transformation_evidence_by_itself
+
+release_bundle_builder:
+  role: stdlib_only_builder_for_release_bundle_manifest
+  command: python3 scripts/build_ai_yogacara_release_bundle_manifest_v0_1.py
+  external_api_calls: false
+
+release_bundle_validator:
+  role: stdlib_only_validator_for_release_bundle_manifest
+  command: python3 scripts/validate_ai_yogacara_release_bundle_manifest_v0_1.py
+  checks:
+    - all_bundle_files_exist
+    - file_sha256_values_match_current_contents
+    - file_size_values_match_current_contents
+    - bundle_root_hash_matches_ordered_path_sha256_lines
+    - non_authority_fixed_points_present
+  external_api_calls: false
+
+ci_integration:
+  workflow: .github/workflows/teni_observability_validation.yml
+  runs:
+    - python3 scripts/validate_teni_observability_v0_1.py
+    - python3 scripts/validate_ai_yogacara_adapter_schema_v0_1.py
+    - python3 scripts/validate_ai_yogacara_adapter_fixtures_v0_1.py
+    - python3 scripts/validate_ai_yogacara_adapter_audit_event_v0_1.py
+    - python3 scripts/validate_ai_yogacara_audit_hash_chain_v0_1.py
+    - python3 scripts/validate_ai_yogacara_worm_export_receipt_v0_1.py
+    - python3 scripts/build_ai_yogacara_release_bundle_manifest_v0_1.py
+    - python3 scripts/validate_ai_yogacara_release_bundle_manifest_v0_1.py
+    - python3 -m unittest tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py
+
+fixed_points:
+  - release_bundle_manifest_is_integrity_surface_not_authority
+  - bundle_root_hash_proves_file_set_integrity_not_truth
+  - bundle_manifest_does_not_prove_teni_occurrence
+  - bundle_manifest_does_not_grant_execution_authority
+  - bundle_builder_uses_stdlib_only
+  - bundle_validator_uses_stdlib_only
