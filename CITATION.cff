@@ -1,0 +1,30 @@
+cff-version: 1.2.0
+title: "KuuOS / 空OS Core"
+message: "If you use or discuss this work, please cite it as below."
+type: software
+authors:
+  - family-names: Itakura
+    given-names: Hidetoshi
+    name-particle: "板倉英俊"
+abstract: >-
+  KuuOS / 空OS Core is a public core specification for a relational operating
+  system of intelligence based on emptiness, dependent origination, the two truths,
+  harmony, inclusion, observation, compassion, memory lineage, formal verification,
+  and governance-gated world-model operation.
+keywords:
+  - KuuOS
+  - 空OS
+  - dependent origination
+  - two truths
+  - world model
+  - governance
+  - formal verification
+  - MemoryOS
+  - BeliefOS
+  - PlanOS
+  - DecisionOS
+  - ReflectionOS
+license: "All-Rights-Reserved"
+repository-code: "https://github.com/itakura-hidetoshi/KuuOS"
+date-released: "2026-05-11"
+version: "0.1.0-public-core"
