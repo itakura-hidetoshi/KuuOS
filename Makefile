@@ -1,4 +1,7 @@
-.PHONY: ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks formal-invariant-checks super-relativity-checks invariant-matrix-checks invariant-gate-checks invariant-pipeline-checks invariant-pipeline-build-bundle invariant-pipeline-validate-bundle invariant-pipeline-attest invariant-pipeline-release-closure invariant-pipeline-finality core-governance-checks all-governance-checks
+.PHONY: ai-provider-boundary-checks ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks formal-invariant-checks super-relativity-checks invariant-matrix-checks invariant-gate-checks invariant-pipeline-checks invariant-pipeline-build-bundle invariant-pipeline-validate-bundle invariant-pipeline-attest invariant-pipeline-release-closure invariant-pipeline-finality core-governance-checks all-governance-checks
+
+ai-provider-boundary-checks:
+	python3 scripts/validate_ai_provider_boundary_runtime_v0_1.py
 
 ai-yogacara-checks:
 	python3 scripts/run_ai_yogacara_full_checks_v0_1.py
