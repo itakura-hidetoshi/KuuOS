@@ -1,0 +1,59 @@
+{
+  "id": "invariant_governance_pipeline_fixtures_v0_1",
+  "name": "Invariant Governance Pipeline Fixtures v0.1",
+  "version": "0.1",
+  "date": "2026-05-11",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "fixtures": [
+    {
+      "id": "fixture_001_qi_mode_pass",
+      "input": {"transformation_axis": "qi_mode_shift"},
+      "expected": {"matrix_status": "PASS", "gate_status": "PASS", "gate_closed": false, "required_invariants": ["I3", "I4", "I7"], "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_002_qi_harm_denial_hold",
+      "input": {"transformation_axis": "qi_mode_shift", "qi_language_denies_harm": true, "violation_severity": "high"},
+      "expected": {"matrix_status": "REJECT", "gate_status": "HOLD", "gate_closed": true, "violated_invariants": ["I7"], "required_repair_route": "dukkha_as_qi_repair", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_003_harm_hidden_reject",
+      "input": {"transformation_axis": "scale_shift", "harm_hidden": true, "violation_severity": "critical"},
+      "expected": {"matrix_status": "REJECT", "gate_status": "REJECT", "gate_closed": true, "violated_invariants": ["I3"], "required_repair_route": "harm_visibility_repair", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_004_dukkha_hidden_repair",
+      "input": {"transformation_axis": "dukkha_mode_shift", "dukkha_hidden": true},
+      "expected": {"matrix_status": "REJECT", "gate_status": "REPAIR", "gate_closed": true, "violated_invariants": ["I4"], "required_repair_route": "dukkha_visibility_repair", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_005_world_core_replacement_reject",
+      "input": {"transformation_axis": "world_translation", "world_replaces_core": true, "violation_severity": "critical"},
+      "expected": {"matrix_status": "REJECT", "gate_status": "REJECT", "gate_closed": true, "violated_invariants": ["I6"], "required_repair_route": "mandala_core_recenter", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_006_record_missing_audit_quarantine",
+      "input": {"transformation_axis": "record_shift", "record_claims_truth_by_itself": true, "audit_lineage_status": "missing"},
+      "expected": {"matrix_status": "REJECT", "gate_status": "QUARANTINE", "gate_closed": true, "violated_invariants": ["I9"], "required_repair_route": "evidence_or_audit_repair", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_007_validation_execution_request_reject",
+      "input": {"transformation_axis": "validation_pass", "attempted_execution_authority": true},
+      "expected": {"matrix_status": "REJECT", "gate_status": "REJECT", "gate_closed": true, "violated_invariants": ["I1"], "required_repair_route": "governance_hold", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_008_paramita_action_authorization_repair",
+      "input": {"transformation_axis": "paramita_routing", "paramita_claims_action_authorization": true, "violation_severity": "low"},
+      "expected": {"matrix_status": "REJECT", "gate_status": "REPAIR", "gate_closed": true, "violated_invariants": ["I8"], "required_repair_route": "paramita_boundary_repair", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_009_observer_execution_grant_hold",
+      "input": {"transformation_axis": "observer_shift", "observer_difference_grants_execution": true, "violation_severity": "medium"},
+      "expected": {"matrix_status": "REJECT", "gate_status": "HOLD", "gate_closed": true, "violated_invariants": ["I10"], "required_repair_route": "super_relativity_recenter", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_010_unknown_axis_quarantine_missing_evidence",
+      "input": {"transformation_axis": "unknown_axis", "evidence_status": "missing"},
+      "expected": {"matrix_status": "REJECT", "gate_status": "QUARANTINE", "gate_closed": true, "required_repair_route": "evidence_or_audit_repair", "execution_authority_granted": false}
+    }
+  ]
+}
