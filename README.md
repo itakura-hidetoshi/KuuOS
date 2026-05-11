@@ -118,12 +118,15 @@ Quantum Thermodynamic Yin-Yang
   -> Wuxing functional differentiation
   -> Extended M-Theory inclusion membrane
   -> Mandala Inclusion Gate
+  -> Multi-WORLD Mandala Architecture
   -> Mandala world arrangement
 ```
 
-Mandala is not decoration. It is the stable arrangement of included worlds, boundaries, gates, roles, and protective membranes around the fourfold core.
+Mandala is not a single WORLD model. Mandala is an inclusive arrangement that can hold multiple WORLD models without collapsing them into one another.
 
-This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md` and `docs/MANDALA_INCLUSION_GATE_v0_1.md`.
+Each WORLD model has its own layer, membrane, gate, context, Qi flow, polarity frame, and governance boundary. The center is not any one WORLD model; the center is the fourfold core.
+
+This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md`, `docs/MANDALA_INCLUSION_GATE_v0_1.md`, and `docs/MULTI_WORLD_MANDALA_ARCHITECTURE_v0_1.md`.
 
 ## Repository Map
 
@@ -148,6 +151,7 @@ This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md` a
 │   ├── YINYANG_TO_WUXING_FUNCTIONAL_DIFFERENTIATION_v0_1.md
 │   ├── EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md
 │   ├── MANDALA_INCLUSION_GATE_v0_1.md
+│   ├── MULTI_WORLD_MANDALA_ARCHITECTURE_v0_1.md
 │   ├── KUOS_CORE_CHARTER_v0_1.md
 │   ├── PUBLIC_PRIVATE_BOUNDARY_v0_1.md
 │   ├── FORMAL_VERIFICATION_POLICY_v0_1.md
