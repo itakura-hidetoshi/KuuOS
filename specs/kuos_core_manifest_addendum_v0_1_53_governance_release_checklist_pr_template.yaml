@@ -1,0 +1,48 @@
+id: kuos_core_manifest_addendum_v0_1_53_governance_release_checklist_pr_template
+name: KuuOS Core Manifest Addendum - Governance Release Checklist and PR Template
+version: 0.1.53
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/GOVERNANCE_RELEASE_CHECKLIST_v0_1.md
+
+updated_documents:
+  - .github/pull_request_template.md
+
+release_checklist:
+  role: operational_release_preparation_surface_for_public_governance_changes
+  path: docs/GOVERNANCE_RELEASE_CHECKLIST_v0_1.md
+  required_command: make all-governance-checks
+  covers:
+    - scope
+    - fourfold_core
+    - ai_yogacara_teni
+    - mandala_multi_world
+    - bodhisattva_ten_paramita
+    - dukkha_qi
+    - runtime_fixtures
+    - authority_boundary
+
+pull_request_template:
+  role: contributor_facing_pr_guardrail_surface
+  required_full_check: make all-governance-checks
+  includes:
+    - fourfold_core
+    - ai_yogacara_teni_boundary
+    - teni_overclaim_check
+    - mandala_multi_world_check
+    - bodhisattva_ten_paramita_check
+    - dukkha_qi_check
+    - runtime_fixtures
+    - authority_boundary
+
+fixed_points:
+  - release_checklist_is_operational_surface_not_authority
+  - pr_template_is_contributor_guardrail_not_authority
+  - make_all_governance_checks_is_required_public_validation_entrypoint
+  - validation_pass_does_not_grant_execution_authority
+  - release_process_preserves_append_only_tighten_only_lineage
