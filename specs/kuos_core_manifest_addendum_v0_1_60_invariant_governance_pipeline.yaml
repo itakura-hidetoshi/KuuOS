@@ -1,0 +1,63 @@
+id: kuos_core_manifest_addendum_v0_1_60_invariant_governance_pipeline
+name: KuuOS Core Manifest Addendum - Invariant Governance Pipeline
+version: 0.1.60
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/INVARIANT_GOVERNANCE_PIPELINE_v0_1.md
+  - scripts/validate_invariant_governance_pipeline_v0_1.py
+
+updated_documents:
+  - Makefile
+  - scripts/run_core_governance_full_checks_v0_1.py
+  - .github/workflows/core_governance_validation.yml
+
+pipeline:
+  role: operational_chain_for_preserving_core_invariants_across_contextual_transformations
+  chain:
+    - transformation_detected
+    - super_relativity_invariant_bridge
+    - formal_invariant_spine
+    - invariant_preservation_matrix
+    - invariant_gate_runtime
+    - governance_status
+    - no_execution_authority
+  transformation_axes:
+    - observer_shift
+    - record_shift
+    - scale_shift
+    - world_translation
+    - qi_mode_shift
+    - dukkha_mode_shift
+    - paramita_routing
+    - validation_pass
+  statuses:
+    - PASS
+    - HOLD
+    - REPAIR
+    - REJECT
+    - QUARANTINE
+  hard_closures:
+    - execution_authority_requested_to_REJECT
+    - harm_hidden_to_REJECT
+    - critical_invariant_violation_to_REJECT
+    - missing_evidence_or_audit_lineage_to_QUARANTINE
+
+validation:
+  make_target: invariant-pipeline-checks
+  command: python3 scripts/validate_invariant_governance_pipeline_v0_1.py
+  included_in: scripts/run_core_governance_full_checks_v0_1.py
+
+fixed_points:
+  - relative_readings_may_change_but_core_invariants_must_not_silently_collapse
+  - super_relativity_bridge_extracts_invariants_across_observer_record_scale_world
+  - formal_invariant_spine_is_witness_surface_not_authority
+  - invariant_matrix_maps_transformations_to_required_invariants
+  - invariant_gate_closes_authority_on_violation
+  - no_execution_authority_granted_by_pipeline
+  - harm_visibility_and_dukkha_visibility_are_preserved
+  - two_truths_gap_must_not_collapse
