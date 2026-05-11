@@ -3,6 +3,9 @@
 validate_invariant_pipeline_release_bundle_manifest_v0_1.py
 
 Stdlib-only validator for the KuuOS Invariant Pipeline Release Bundle Manifest.
+
+Fresh-build default: this validator runs the builder first so stale generated manifests
+cannot pass or fail incorrectly after source files change.
 """
 
 from __future__ import annotations
@@ -80,6 +83,11 @@ def compute_root(files: list[dict[str, Any]]) -> str:
     return hashlib.sha256(payload.encode("utf-8")).hexdigest()
 
 
+def run_builder() -> int:
+    print(f"INFO: running fresh builder: {BUILDER_PATH.relative_to(ROOT)}")
+    return subprocess.run([sys.executable, str(BUILDER_PATH)], cwd=ROOT).returncode
+
+
 def validate_manifest(manifest: dict[str, Any]) -> list[str]:
     errors: list[str] = []
     if manifest.get("authority_note") != "integrity_surface_not_authority":
@@ -123,11 +131,9 @@ def validate_manifest(manifest: dict[str, Any]) -> list[str]:
 
 
 def main() -> int:
-    if not MANIFEST_PATH.is_file():
-        print(f"INFO: generated manifest missing, running builder: {BUILDER_PATH.relative_to(ROOT)}")
-        result = subprocess.run([sys.executable, str(BUILDER_PATH)], cwd=ROOT)
-        if result.returncode != 0:
-            return result.returncode
+    builder_code = run_builder()
+    if builder_code != 0:
+        return builder_code
 
     try:
         manifest = json.loads(MANIFEST_PATH.read_text(encoding="utf-8"))
