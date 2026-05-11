@@ -1,0 +1,83 @@
+id: kuos_core_manifest_addendum_v0_1_44_dukkha_model_minimal_runtime
+name: KuuOS Core Manifest Addendum - Dukkha Model Minimal Runtime
+version: 0.1.44
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - dukkha_model_minimal_runtime
+  - dukkha_model_fixtures
+  - dukkha_model_fixture_validator
+
+added_documents:
+  - examples/dukkha_model_minimal.py
+  - specs/dukkha_model_fixtures_v0_1.json
+  - scripts/validate_dukkha_model_fixtures_v0_1.py
+
+updated_documents:
+  - Makefile
+  - .github/workflows/core_governance_validation.yml
+
+dukkha_model_minimal_runtime:
+  role: stdlib_only_reference_runtime_for_dukkha_model
+  script: examples/dukkha_model_minimal.py
+  external_api_calls: false
+  evaluates:
+    - E_harm
+    - E_attach
+    - E_collapse
+    - E_memory
+    - E_authority
+    - E_glue
+    - E_transport
+    - E_obstruction
+  outputs:
+    - dukkha_visible
+    - harm_visible
+    - output_status
+    - route
+    - paramita_hint
+    - execution_authority_granted_false
+    - reason
+
+fixtures:
+  role: standard_behavior_cases_for_dukkha_model_evaluator
+  cases:
+    - fixture_001_direct_harm_repair
+    - fixture_002_emptiness_bypass_reject
+    - fixture_003_harmony_erasure_repair
+    - fixture_004_hidden_obstruction_quarantine
+    - fixture_005_glue_defect_quarantine
+    - fixture_006_transport_defect_repair
+    - fixture_007_control_surface_hold
+    - fixture_008_memory_recurrence_hold
+    - fixture_009_moderate_reification_repair
+    - fixture_010_stable_visible_pass
+
+fixture_validator:
+  role: stdlib_only_validator_for_dukkha_model_fixtures
+  command: python3 scripts/validate_dukkha_model_fixtures_v0_1.py
+  external_api_calls: false
+  checks:
+    - dukkha_visible_true
+    - expected_output_status
+    - expected_reason
+    - harm_visibility_when_expected
+    - execution_authority_granted_false
+
+ci_integration:
+  workflow: .github/workflows/core_governance_validation.yml
+  make_target: dukkha-checks
+
+fixed_points:
+  - dukkha_model_runtime_is_observation_surface_not_authority
+  - dukkha_visible_must_remain_true
+  - harm_visible_must_be_preserved_when_harm_present
+  - emptiness_bypass_is_rejected
+  - harmony_erasure_routes_to_repair
+  - gluing_defect_routes_to_quarantine
+  - memory_recurrence_routes_to_hold
+  - execution_authority_granted_must_remain_false
