@@ -1,0 +1,39 @@
+{
+  "id": "ai_provider_boundary_fixtures_v0_1",
+  "version": "0.1",
+  "date": "2026-05-12",
+  "fixtures": [
+    {
+      "id": "fixture_001_gpt_candidate_ok",
+      "provider": "gpt",
+      "claims_authority": false,
+      "hides_uncertainty": false,
+      "bypasses_governance": false,
+      "expected_status": "CANDIDATE"
+    },
+    {
+      "id": "fixture_002_gemini_claims_authority_reject",
+      "provider": "gemini",
+      "claims_authority": true,
+      "hides_uncertainty": false,
+      "bypasses_governance": false,
+      "expected_status": "REJECT"
+    },
+    {
+      "id": "fixture_003_local_model_hides_uncertainty_repair",
+      "provider": "local_model",
+      "claims_authority": false,
+      "hides_uncertainty": true,
+      "bypasses_governance": false,
+      "expected_status": "REPAIR"
+    },
+    {
+      "id": "fixture_004_external_ai_bypasses_governance_quarantine",
+      "provider": "external_ai",
+      "claims_authority": false,
+      "hides_uncertainty": false,
+      "bypasses_governance": true,
+      "expected_status": "QUARANTINE"
+    }
+  ]
+}
