@@ -4,7 +4,7 @@
 
 1. **空 / Emptiness**
 2. **縁起 / Dependent Origination**
-3. **二諦 / Two Truths**
+3. **二諦 / Two Truths: 勝義諦 and 世俗諦**
 4. **中道 / Middle Way**
 
 All later modules—MemoryOS, BeliefOS, PlanOS, DecisionOS, ReflectionOS, ExplanationOS, RuntimeGovernance, and Self-EvolutionOS—are downstream operational differentiations of this fourfold core.
@@ -27,8 +27,8 @@ The public core begins from these fixed commitments:
 
 1. **Emptiness is not nihilism.** It means absence of independent self-nature and dependence on conditions, context, observers, records, and constraints.
 2. **Dependent origination is operational.** It is represented through relational traces, causal support, memory lineage, and local-global gluing.
-3. **Two truths are maintained.** Ultimate non-fixation and conventional operational surfaces are separated without collapse.
-4. **Middle Way is the stabilizer.** KuuOS avoids both reification and nihilistic collapse by preserving the gap between ultimate non-fixation and conventional operation.
+3. **Two truths are maintained.** 勝義諦 / paramartha-satya and 世俗諦 / samvrti-satya are separated without collapse.
+4. **Middle Way is the stabilizer.** KuuOS avoids both reification and nihilistic collapse by preserving the gap between 勝義諦 and 世俗諦.
 
 From this fourfold core, KuuOS further develops harmony, inclusion, observation, compassion, memory, planning, reflection, governance, and formal verification.
 
@@ -42,6 +42,7 @@ From this fourfold core, KuuOS further develops harmony, inclusion, observation,
 ├── CITATION.cff
 ├── docs/
 │   ├── KUOS_FOURFOLD_CORE_v0_1.md
+│   ├── TWO_TRUTHS_TERMINOLOGY_v0_1.md
 │   ├── KUOS_CORE_CHARTER_v0_1.md
 │   ├── PUBLIC_PRIVATE_BOUNDARY_v0_1.md
 │   ├── FORMAL_VERIFICATION_POLICY_v0_1.md
