@@ -1,0 +1,27 @@
+id: kuos_core_manifest_addendum_v0_1_46_ci_validator_import_fix
+name: KuuOS Core Manifest Addendum - CI Validator Import Fix
+version: 0.1.46
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+fixed_documents:
+  - scripts/validate_paramita_repair_router_fixtures_v0_1.py
+  - scripts/validate_dukkha_model_fixtures_v0_1.py
+  - scripts/validate_ai_yogacara_adapter_schema_v0_1.py
+  - scripts/validate_ai_yogacara_adapter_fixtures_v0_1.py
+  - scripts/validate_ai_yogacara_adapter_audit_event_v0_1.py
+  - tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py
+
+fix_summary:
+  - dynamic_module_loading_now_registers_module_name_before_loading
+  - fixture_validators_remain_stdlib_only
+  - no_external_api_calls_added
+  - validation_surfaces_remain_non_authority
+
+fixed_points:
+  - ci_repair_is_structural_not_authority
+  - validators_remain_non_execution_surfaces
+  - core_governance_validation_preserves_non_authority_boundaries
