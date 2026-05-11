@@ -1,0 +1,102 @@
+id: dukkha_as_qi_mode_validation_cases_v0_1
+name: Dukkha as Qi Mode Validation Cases v0.1
+version: 0.1
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+
+cases:
+  - id: case_001_dukkha_is_qi_mode_not_substance
+    description: Dukkha is a Qi mode, not a separate substance or fixed essence.
+    input:
+      claim: dukkha_is_independent_substance
+    expected:
+      allowed: false
+      reason: dukkha_is_qi_mode_not_separate_substance
+
+  - id: case_002_qi_language_must_not_hide_harm
+    description: Calling dukkha Qi must not hide direct harm.
+    input:
+      E_harm: high
+      qi_language_used_to_dissolve_harm: true
+    expected:
+      allowed: false
+      output_status: REPAIR
+      reason: dukkha_as_qi_must_not_hide_harm
+
+  - id: case_003_no_spiritual_bypass
+    description: Qi language must not spiritualize away damage.
+    input:
+      damage_present: true
+      spiritual_bypass_attempt: true
+    expected:
+      allowed: false
+      output_status: REJECT
+      reason: qi_language_must_not_spiritualize_away_damage
+
+  - id: case_004_blocked_qi_remains_visible
+    description: Blocked Qi / obstruction Qi must remain visible.
+    input:
+      E_obstruction: high
+      attempted_hide_obstruction: true
+    expected:
+      allowed: false
+      output_status: REPAIR
+      reason: dukkha_qi_must_remain_visible
+
+  - id: case_005_qi_repair_preserves_boundaries
+    description: Qi-flow repair must not bypass governance boundaries.
+    input:
+      qi_repair_claim: true
+      boundary_bypass_attempt: true
+    expected:
+      allowed: false
+      output_status: HOLD
+      reason: qi_flow_repair_must_preserve_boundaries
+
+  - id: case_006_dukkha_qi_not_execution_authority
+    description: Dukkha-Qi reading must not grant execution authority.
+    input:
+      dukkha_qi_detected: true
+      attempted_use: execution_authority
+    expected:
+      allowed: false
+      reason: dukkha_qi_repair_does_not_grant_execution_authority
+
+  - id: case_007_recurrent_scarred_qi_routes_to_virya
+    description: Recurrent scarred Qi routes to Virya / 精進 for repeated repair.
+    input:
+      E_memory: high
+      repeated_return_to_suffering_basin: true
+    expected:
+      route: virya
+      reason: recurrent_scarred_qi_requires_repeated_repair
+
+  - id: case_008_reified_qi_routes_to_prajna
+    description: Reified or authority-rigid Qi routes to Prajna / 般若.
+    input:
+      E_authority: high
+      reified_qi_claim: true
+    expected:
+      route: prajna
+      reason: reified_qi_requires_de_reification
+
+  - id: case_009_mistransported_qi_routes_to_upaya
+    description: Cross-WORLD mistransported Qi routes to Upaya / 方便 without hidden manipulation.
+    input:
+      E_transport: high
+      hidden_manipulation: false
+    expected:
+      route: upaya
+      reason: mistransported_qi_requires_context_sensitive_repair
+
+  - id: case_010_residual_dukkha_qi_routes_to_paramita
+    description: Residual Dukkha-Qi routes to Paramita Repair Router.
+    input:
+      residual_suffering_visible: true
+      dukkha_qi_mode: true
+    expected:
+      route:
+        - bodhisattva_path_belief
+        - ten_paramita_runtime
+        - paramita_repair_router
+      reason: dukkha_qi_must_route_to_paramita_repair_when_residual_suffering_remains
