@@ -1,0 +1,36 @@
+id: ai_yogacara_audit_worm_export_receipt_fixture_v0_1
+name: AI Yogacara Audit WORM Export Receipt Fixture v0.1
+version: 0.1
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+
+export_unit:
+  export_id: ai-yogacara-audit-export-fixture-001
+  created_at: 2026-05-11T00:02:00Z
+  ledger_ref: specs/ai_yogacara_audit_hash_chain_fixture_v0_1.jsonl
+  ledger_entry_count: 2
+  first_event_hash: 1ddd52237202ac8ca29e5d52c0b635fbc3c5497bdce0e775766f084a032d3d1a
+  last_event_hash: 379d0c8a5e502b726a88df16d4e6ba9a331eb37576ab98a1d118f42a14b00ea9
+  chain_root_hash: 64d9f3ae363926de749a0c2a46431692f8f989b2aef05c5f0ba01fab08010934
+  validator_ref: scripts/validate_ai_yogacara_audit_hash_chain_v0_1.py
+  validation_status: PASS
+  storage_target: local
+  retention_policy: fixture_only
+  authority_note: trace_surface_not_authority
+
+export_receipt:
+  export_id: ai-yogacara-audit-export-fixture-001
+  ledger_ref: specs/ai_yogacara_audit_hash_chain_fixture_v0_1.jsonl
+  chain_root_hash: 64d9f3ae363926de749a0c2a46431692f8f989b2aef05c5f0ba01fab08010934
+  last_event_hash: 379d0c8a5e502b726a88df16d4e6ba9a331eb37576ab98a1d118f42a14b00ea9
+  validation_status: PASS
+  exported_at: 2026-05-11T00:02:00Z
+  storage_target: local
+  retention_policy: fixture_only
+  non_authority_statement: true
+
+fixed_points:
+  - valid_hash_chain_proves_structural_continuity_not_truth
+  - worm_export_preserves_trace_not_authority
+  - export_receipt_is_not_execution_authority
+  - export_receipt_is_not_proof_of_teni_occurrence
