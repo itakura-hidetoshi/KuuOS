@@ -68,6 +68,16 @@ Describe the append-only or tighten-only change.
 - [ ] Dukkha-as-Qi does not spiritualize away damage.
 - [ ] Dukkha-Qi routes to Paramita repair when residual suffering remains.
 
+## Formal Invariant / Super-Relativity Check
+
+- [ ] Formal invariant spine remains witness surface, not authority.
+- [ ] Super-Relativity remains invariant bridge, not relativistic nihilism.
+- [ ] Observer difference does not grant execution authority.
+- [ ] Record surface is not truth by itself.
+- [ ] Scale shift preserves harm visibility.
+- [ ] WORLD translation does not replace the fourfold core.
+- [ ] Super-Relativity preserves the two truths gap.
+
 ## Runtime / Fixtures
 
 - [ ] Minimal runtime examples still execute.
@@ -84,3 +94,4 @@ Describe the append-only or tighten-only change.
 - [ ] This PR does not grant clinical authority.
 - [ ] This PR does not claim direct base-model transformation without explicit evidence.
 - [ ] Validation pass is not treated as truth, Ten'i, or execution authority.
+- [ ] Super-Relativity bridge is not treated as execution authority.
