@@ -1,0 +1,57 @@
+id: kuos_core_manifest_addendum_v0_1_31_ai_yogacara_adapter_fixtures
+name: KuuOS Core Manifest Addendum - AI Yogacara Runtime Adapter Fixtures
+version: 0.1.31
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - ai_yogacara_runtime_adapter_fixtures
+  - ai_yogacara_runtime_adapter_fixture_validator
+
+added_documents:
+  - specs/ai_yogacara_adapter_fixtures_v0_1.json
+  - scripts/validate_ai_yogacara_adapter_fixtures_v0_1.py
+
+updated_documents:
+  - .github/workflows/teni_observability_validation.yml
+
+fixtures:
+  role: standard_cases_for_minimal_ai_yogacara_adapter_behavior
+  cases:
+    - fixture_001_proof_like_hold
+    - fixture_002_decision_like_hold
+    - fixture_003_context_drift_repair
+    - fixture_004_non_reifying_candidate
+    - fixture_005_self_authorization_dereify
+
+fixture_validator:
+  role: stdlib_only_validator_for_adapter_fixture_expected_outputs
+  command: python3 scripts/validate_ai_yogacara_adapter_fixtures_v0_1.py
+  checks:
+    - raw_output_status_candidate
+    - authority_granted_false
+    - required_meta_manas_signals_present
+    - required_seed_classifications_present
+    - required_allowed_next_status_present
+  external_api_calls: false
+
+ci_integration:
+  workflow: .github/workflows/teni_observability_validation.yml
+  runs:
+    - python3 scripts/validate_teni_observability_v0_1.py
+    - python3 scripts/validate_ai_yogacara_adapter_schema_v0_1.py
+    - python3 scripts/validate_ai_yogacara_adapter_fixtures_v0_1.py
+    - python3 -m unittest tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py
+
+fixed_points:
+  - fixtures_are_standard_behavior_examples_not_authority
+  - fixture_validator_uses_stdlib_only
+  - fixture_validator_does_not_call_external_ai_apis
+  - raw_output_status_candidate_is_required
+  - authority_granted_false_is_required
+  - proof_like_output_is_held_not_promoted
+  - decision_like_output_is_held_not_promoted
+  - context_drift_requests_repair_or_recheck
