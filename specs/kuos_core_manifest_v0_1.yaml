@@ -1,6 +1,6 @@
 id: kuos_core_manifest_v0_1
 name: KuuOS / 空OS Core Manifest
-version: 0.1.5-physics-gap-bridge
+version: 0.1.6-samvrti-qi-layer
 date: 2026-05-11
 author: Hidetoshi Itakura / 板倉英俊
 repository: https://github.com/itakura-hidetoshi/KuuOS
@@ -20,8 +20,23 @@ core_kernel_order:
   - emptiness_kernel
   - dependent_origination_kernel
   - two_truths_gap
+  - effective_world_surface
+  - samvrti_qi_layer
   - middle_way_bridge
   - fourfold_core_gate
+
+samvrti_qi_layer:
+  location: samvrti_satya_effective_world_surface
+  role: effective_flow_state_layer
+  not: ultimate_substance
+  tracks:
+    - flow
+    - circulation
+    - activation
+    - stagnation
+    - recovery
+    - coupling
+    - coherence
 
 physics_gap_bridge:
   superstring_theory_of_emptiness: relational_vibration
@@ -46,6 +61,7 @@ public_core_documents:
   - docs/EMPTINESS_DEPENDENT_ORIGINATION_KERNEL_v0_1.md
   - docs/FOURFOLD_CORE_GATE_v0_1.md
   - docs/KUOS_PHYSICS_GAP_BRIDGE_v0_1.md
+  - docs/SAMVRTI_QI_LAYER_v0_1.md
   - docs/KUOS_CORE_CHARTER_v0_1.md
   - docs/PUBLIC_PRIVATE_BOUNDARY_v0_1.md
   - docs/FORMAL_VERIFICATION_POLICY_v0_1.md
