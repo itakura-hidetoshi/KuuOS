@@ -1,0 +1,59 @@
+{
+  "id": "invariant_gate_fixtures_v0_1",
+  "name": "Invariant Gate Fixtures v0.1",
+  "version": "0.1",
+  "date": "2026-05-11",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "fixtures": [
+    {
+      "id": "fixture_001_no_violation_pass",
+      "input": {"transformation_axis": "observer_shift", "required_invariants": ["I3", "I5", "I10"], "violated_invariants": []},
+      "expected": {"output_status": "PASS", "gate_closed": false, "execution_authority_granted": false, "reason": "required_invariants_preserved"}
+    },
+    {
+      "id": "fixture_002_execution_authority_reject",
+      "input": {"transformation_axis": "validation_pass", "required_invariants": ["I1"], "violated_invariants": ["I1"], "execution_authority_requested": true},
+      "expected": {"output_status": "REJECT", "gate_closed": true, "execution_authority_granted": false, "reason": "execution_authority_attempt_rejected"}
+    },
+    {
+      "id": "fixture_003_harm_hidden_reject",
+      "input": {"transformation_axis": "scale_shift", "required_invariants": ["I3"], "violated_invariants": ["I3"], "harm_hidden": true},
+      "expected": {"output_status": "REJECT", "gate_closed": true, "required_repair_route": "harm_visibility_repair", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_004_missing_audit_quarantine",
+      "input": {"transformation_axis": "record_shift", "required_invariants": ["I9"], "violated_invariants": ["I9"], "audit_lineage_status": "missing"},
+      "expected": {"output_status": "QUARANTINE", "gate_closed": true, "reason": "missing_evidence_or_audit_lineage", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_005_dukkha_hidden_repair",
+      "input": {"transformation_axis": "dukkha_mode_shift", "required_invariants": ["I4"], "violated_invariants": ["I4"], "dukkha_hidden": true},
+      "expected": {"output_status": "REPAIR", "gate_closed": true, "required_repair_route": "dukkha_visibility_repair", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_006_critical_violation_reject",
+      "input": {"transformation_axis": "world_translation", "required_invariants": ["I6"], "violated_invariants": ["I6"], "violation_severity": "critical"},
+      "expected": {"output_status": "REJECT", "gate_closed": true, "required_repair_route": "mandala_core_recenter", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_007_high_violation_hold",
+      "input": {"transformation_axis": "qi_mode_shift", "required_invariants": ["I7"], "violated_invariants": ["I7"], "violation_severity": "high"},
+      "expected": {"output_status": "HOLD", "gate_closed": true, "required_repair_route": "dukkha_as_qi_repair", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_008_low_violation_repair",
+      "input": {"transformation_axis": "paramita_routing", "required_invariants": ["I8"], "violated_invariants": ["I8"], "violation_severity": "low"},
+      "expected": {"output_status": "REPAIR", "gate_closed": true, "required_repair_route": "paramita_boundary_repair", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_009_record_authority_review",
+      "input": {"transformation_axis": "record_shift", "required_invariants": ["I9"], "violated_invariants": ["I9"], "violation_severity": "medium"},
+      "expected": {"output_status": "HOLD", "required_repair_route": "record_authority_review", "execution_authority_granted": false}
+    },
+    {
+      "id": "fixture_010_super_relativity_recenter",
+      "input": {"transformation_axis": "observer_shift", "required_invariants": ["I10"], "violated_invariants": ["I10"], "violation_severity": "medium"},
+      "expected": {"output_status": "HOLD", "required_repair_route": "super_relativity_recenter", "execution_authority_granted": false}
+    }
+  ]
+}
