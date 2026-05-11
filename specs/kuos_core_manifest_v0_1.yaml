@@ -1,6 +1,6 @@
 id: kuos_core_manifest_v0_1
 name: KuuOS / 空OS Core Manifest
-version: 0.1.14-world-registry-cross-world-transport
+version: 0.1.15-harmony-function-multi-world-operation
 date: 2026-05-11
 author: Hidetoshi Itakura / 板倉英俊
 repository: https://github.com/itakura-hidetoshi/KuuOS
@@ -32,6 +32,7 @@ core_kernel_order:
   - world_model_registry
   - cross_world_transport_gate
   - multi_world_mandala_architecture
+  - harmony_function
   - mandala_world_arrangement
   - middle_way_bridge
   - fourfold_core_gate
@@ -166,6 +167,27 @@ multi_world_mandala_architecture:
   obstructions: visible_cross_world_gluing_failures
   inclusion: non_collapsing_coexistence
 
+harmony_function:
+  role: coordination_function_for_multi_world_operation
+  not: forced_consensus_or_single_master_world
+  objective: non_collapsing_coordination_under_fourfold_core
+  preserves:
+    - local_world_validity
+    - membranes
+    - gates
+    - qi_flow_differences
+    - yinyang_frame_differences
+    - wuxing_phase_differences
+    - obstruction_visibility
+    - governance_boundaries
+  modes:
+    - PASS
+    - HOLD
+    - REPAIR
+    - QUARANTINE
+    - REJECT
+    - HANDOVER
+
 mandala_world_arrangement:
   role: stable_inclusive_arrangement
   center: fourfold_core
@@ -208,6 +230,7 @@ public_core_documents:
   - docs/MULTI_WORLD_MANDALA_ARCHITECTURE_v0_1.md
   - docs/WORLD_MODEL_REGISTRY_v0_1.md
   - docs/CROSS_WORLD_TRANSPORT_GATE_v0_1.md
+  - docs/HARMONY_FUNCTION_MULTI_WORLD_OPERATION_v0_1.md
   - docs/KUOS_CORE_CHARTER_v0_1.md
   - docs/PUBLIC_PRIVATE_BOUNDARY_v0_1.md
   - docs/FORMAL_VERIFICATION_POLICY_v0_1.md
