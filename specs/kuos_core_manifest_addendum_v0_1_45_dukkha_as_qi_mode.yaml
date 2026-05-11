@@ -1,0 +1,65 @@
+id: kuos_core_manifest_addendum_v0_1_45_dukkha_as_qi_mode
+name: KuuOS Core Manifest Addendum - Dukkha as Qi Mode
+version: 0.1.45
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - dukkha_as_qi_mode
+  - dukkha_as_qi_mode_validation_cases
+  - dukkha_as_qi_mode_validator
+
+added_documents:
+  - docs/DUKKHA_AS_QI_MODE_v0_1.md
+  - specs/dukkha_as_qi_mode_validation_cases_v0_1.yaml
+  - scripts/validate_dukkha_as_qi_mode_v0_1.py
+
+updated_documents:
+  - Makefile
+  - .github/workflows/core_governance_validation.yml
+
+dukkha_as_qi_mode:
+  role: integration_of_dukkha_mathematical_model_with_samvrti_qi_layer
+  core_definition: dukkha_is_qi_under_obstruction_fixation_collapse_scar_authority_overreach_gluing_defect_or_transport_defect
+  qi_chain:
+    - dependent_origination_vibration
+    - physical_quantum_qi_path_integral
+    - effective_excitation
+    - readable_flow_pattern
+    - samvrti_qi_layer
+    - indranet_gauge_qi_flow
+    - yinyang_local_polarity_frame
+    - wuxing_functional_differentiation
+    - dukkha_qi_mode_when_flow_is_obstructed_or_scarred
+  dukkha_qi_modes:
+    E_harm: damaged_qi_harm_bearing_qi_mode
+    E_attach: fixed_qi_grasped_qi_mode
+    E_collapse: collapsed_qi_chart_failure_qi_mode
+    E_memory: scarred_qi_non_markov_recurrence_qi_mode
+    E_authority: overclaimed_qi_authority_rigid_qi_mode
+    E_glue: unglued_qi_local_global_incompatibility_qi_mode
+    E_transport: mistransported_qi_cross_world_transport_defect_qi_mode
+    E_obstruction: blocked_qi_visible_obstruction_qi_mode
+  routes_to:
+    - residual_suffering_visible
+    - bodhisattva_path_belief
+    - ten_paramita_runtime
+    - paramita_repair_router
+
+validation:
+  command: python3 scripts/validate_dukkha_as_qi_mode_v0_1.py
+  make_target: dukkha-qi-checks
+  ci_workflow: .github/workflows/core_governance_validation.yml
+
+fixed_points:
+  - dukkha_is_qi_mode_not_separate_substance
+  - dukkha_as_qi_must_not_hide_harm
+  - qi_language_must_not_spiritualize_away_damage
+  - dukkha_qi_must_remain_visible
+  - qi_flow_repair_must_preserve_boundaries
+  - dukkha_qi_repair_does_not_grant_execution_authority
+  - dukkha_qi_must_route_to_paramita_repair_when_residual_suffering_remains
+  - qi_language_preserves_harm_visibility_and_dependent_origination_traceability
