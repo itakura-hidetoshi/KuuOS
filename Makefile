@@ -44,6 +44,7 @@ invariant-pipeline-checks:
 	python3 scripts/validate_invariant_governance_pipeline_fixtures_v0_1.py
 	python3 scripts/validate_invariant_pipeline_audit_event_v0_1.py
 	python3 scripts/validate_invariant_pipeline_audit_hash_chain_v0_1.py
+	python3 scripts/validate_invariant_pipeline_audit_worm_export_receipt_v0_1.py
 
 core-governance-checks:
 	python3 scripts/run_core_governance_full_checks_v0_1.py
