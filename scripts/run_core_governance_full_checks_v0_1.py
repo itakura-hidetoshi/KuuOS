@@ -5,8 +5,8 @@ run_core_governance_full_checks_v0_1.py
 Stdlib-only full check runner for KuuOS Core Governance layers.
 
 Runs Mandala Multi-WORLD, Bodhisattva Ten Paramita, Paramita Repair Router,
-Dukkha Mathematical Model, Dukkha-as-Qi, Formal Invariant Spine, and
-Super-Relativity Invariant Bridge validators.
+Dukkha Mathematical Model, Dukkha-as-Qi, Formal Invariant Spine,
+Super-Relativity Invariant Bridge, and Invariant Preservation Matrix validators.
 No external dependencies and no external API calls.
 """
 
@@ -29,6 +29,7 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/validate_dukkha_as_qi_mode_v0_1.py"],
     [sys.executable, "scripts/validate_formal_invariant_spine_v0_1.py"],
     [sys.executable, "scripts/validate_super_relativity_invariant_bridge_v0_1.py"],
+    [sys.executable, "scripts/validate_invariant_preservation_matrix_v0_1.py"],
 ]
 
 
