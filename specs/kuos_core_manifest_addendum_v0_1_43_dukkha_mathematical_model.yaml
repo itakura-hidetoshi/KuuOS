@@ -1,0 +1,68 @@
+id: kuos_core_manifest_addendum_v0_1_43_dukkha_mathematical_model
+name: KuuOS Core Manifest Addendum - Dukkha Mathematical Model
+version: 0.1.43
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - dukkha_mathematical_model
+  - dukkha_mathematical_model_validation_cases
+  - dukkha_mathematical_model_validator
+
+added_documents:
+  - docs/DUKKHA_MATHEMATICAL_MODEL_v0_1.md
+  - specs/dukkha_mathematical_model_validation_cases_v0_1.yaml
+  - scripts/validate_dukkha_mathematical_model_v0_1.py
+
+updated_documents:
+  - Makefile
+  - .github/workflows/core_governance_validation.yml
+
+dukkha_mathematical_model:
+  role: mathematical_observation_and_repair_routing_surface_for_suffering
+  core_definition: residual_potential_of_broken_dependent_origination_readability
+  decomposition:
+    - E_harm
+    - E_attach
+    - E_collapse
+    - E_memory
+    - E_authority
+    - E_glue
+    - E_transport
+    - E_obstruction
+  harm_rule: E_harm_must_remain_visible_and_not_be_hidden
+  control_surface:
+    - E_attach
+    - E_collapse
+    - E_memory
+    - E_authority
+  routes_to:
+    - residual_suffering_visible
+    - bodhisattva_path_belief
+    - ten_paramita_runtime
+    - paramita_repair_router
+  four_noble_truths_runtime:
+    dukkha: observed_suffering_residual_violation_obstruction_chart_collapse
+    samudaya: cause_bundle_conditions_manas_alaya_memory_authority_transport_defect
+    nirodha: stop_escalation_preserve_boundaries_return_to_recoverable_region
+    magga: observation_request_repair_plan_mode_selection_reevaluation_resume
+
+validation:
+  command: python3 scripts/validate_dukkha_mathematical_model_v0_1.py
+  make_target: dukkha-checks
+  ci_workflow: .github/workflows/core_governance_validation.yml
+
+fixed_points:
+  - dukkha_must_remain_visible
+  - harm_must_not_be_hidden
+  - emptiness_must_not_be_used_to_deny_harm
+  - harmony_must_not_erase_suffering
+  - attachment_collapse_memory_authority_growth_must_be_barrier_controlled
+  - illicit_gluing_must_be_blocked
+  - world_transport_defect_must_remain_visible
+  - residual_suffering_routes_to_bodhisattva_path
+  - paramita_repair_router_does_not_grant_execution_authority
+  - dukkha_model_is_observation_not_execution_authority
