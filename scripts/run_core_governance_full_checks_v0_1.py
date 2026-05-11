@@ -30,6 +30,7 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/validate_formal_invariant_spine_v0_1.py"],
     [sys.executable, "scripts/validate_super_relativity_invariant_bridge_v0_1.py"],
     [sys.executable, "scripts/validate_invariant_preservation_matrix_v0_1.py"],
+    [sys.executable, "scripts/validate_invariant_preservation_matrix_fixtures_v0_1.py"],
 ]
 
 
