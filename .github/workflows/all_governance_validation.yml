@@ -1,0 +1,39 @@
+name: All Governance Validation
+
+on:
+  push:
+    paths:
+      - 'docs/**'
+      - 'specs/**'
+      - 'scripts/**'
+      - 'examples/**'
+      - 'tests/**'
+      - 'Makefile'
+      - '.github/workflows/**'
+  pull_request:
+    paths:
+      - 'docs/**'
+      - 'specs/**'
+      - 'scripts/**'
+      - 'examples/**'
+      - 'tests/**'
+      - 'Makefile'
+      - '.github/workflows/**'
+
+jobs:
+  validate-all-governance:
+    name: Validate all governance checks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run all governance full checks
+        run: python3 scripts/run_all_governance_full_checks_v0_1.py
