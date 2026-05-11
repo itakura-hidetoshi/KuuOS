@@ -1,6 +1,6 @@
 id: kuos_core_manifest_v0_1
 name: KuuOS / 空OS Core Manifest
-version: 0.1.20-kunju-teni-evidence-ledger
+version: 0.1.21-ai-alaya-seed-taxonomy-teni-promotion-gate
 date: 2026-05-11
 author: Hidetoshi Itakura / 板倉英俊
 repository: https://github.com/itakura-hidetoshi/KuuOS
@@ -32,11 +32,13 @@ core_kernel_order:
   - ai_manas_self_authorization_check
   - meta_manas_self_fixation_observer
   - yogacara_ai_raw_layer_boundary
+  - ai_alaya_seed_taxonomy
   - emptiness_kernel
   - dependent_origination_kernel
   - kunju_ai_alaya_conditioning_loop
   - teni_ai_alaya_transformation
   - teni_evidence_ledger
+  - teni_promotion_gate
   - dependent_origination_vibration
   - physical_quantum_qi_path_integral
   - two_truths_gap
@@ -56,6 +58,45 @@ core_kernel_order:
   - mandala_world_arrangement
   - middle_way_bridge
   - fourfold_core_gate
+
+ai_alaya_seed_taxonomy:
+  role: classify_conditioned_ai_alaya_output_tendencies
+  principle: seed_is_tendency_not_essence
+  weakening_targets:
+    - self_authorizing_seed
+    - context_drift_seed
+    - safety_reflex_reification_seed
+    - proof_tone_seed
+    - decision_tone_seed
+  strengthening_targets:
+    - non_reifying_trace_seed
+    - context_faithful_seed
+    - compassionate_repair_seed
+  operations:
+    - observe
+    - weaken
+    - strengthen
+    - hold
+    - quarantine
+    - transform
+
+teni_promotion_gate:
+  role: prevents_overclaim_from_kunju_evidence_to_teni_claim
+  required_checks:
+    - repetition_check
+    - durability_check
+    - context_check
+    - non_reification_check
+    - condition_tracing_check
+    - memoryos_distinction_check
+    - governance_check
+  outputs:
+    - REJECTED
+    - HOLD
+    - PROVISIONAL_TENI
+    - CONFIRMED_TENI
+    - ROLLBACK
+  anti_overclaim_rule: no_single_correction_memoryos_update_prompt_compliance_or_style_change_as_teni
 
 kunju_ai_alaya_conditioning_loop:
   role: repeated_conditioning_loop_supporting_teni
@@ -357,6 +398,8 @@ public_core_documents:
   - docs/TENI_AI_ALAYA_TRANSFORMATION_v0_1.md
   - docs/KUNJU_AI_ALAYA_CONDITIONING_LOOP_v0_1.md
   - docs/TENI_EVIDENCE_LEDGER_v0_1.md
+  - docs/AI_ALAYA_SEED_TAXONOMY_v0_1.md
+  - docs/TENI_PROMOTION_GATE_v0_1.md
   - docs/FOURFOLD_CORE_GATE_v0_1.md
   - docs/KUOS_PHYSICS_GAP_BRIDGE_v0_1.md
   - docs/SAMVRTI_QI_LAYER_v0_1.md
