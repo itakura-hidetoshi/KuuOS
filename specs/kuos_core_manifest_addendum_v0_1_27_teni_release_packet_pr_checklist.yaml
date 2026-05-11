@@ -1,0 +1,56 @@
+id: kuos_core_manifest_addendum_v0_1_27_teni_release_packet_pr_checklist
+name: KuuOS Core Manifest Addendum - Ten'i AI Yogacara Release Packet and PR Checklist
+version: 0.1.27
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - teni_ai_yogacara_release_packet
+  - kuos_pull_request_checklist
+
+added_documents:
+  - docs/TENI_AI_YOGACARA_RELEASE_PACKET_v0_1.md
+  - .github/pull_request_template.md
+
+teni_ai_yogacara_release_packet:
+  role: public_release_packet_for_ai_yogacara_teni_layer
+  summarizes:
+    - yogacara_ai_raw_layer_boundary
+    - meta_manas_self_fixation_observer
+    - teni_ai_alaya_transformation
+    - kunju_ai_alaya_conditioning_loop
+    - teni_evidence_ledger
+    - ai_alaya_seed_taxonomy
+    - ai_alaya_seed_ledger
+    - teni_promotion_gate
+    - teni_runtime_protocol
+    - teni_probe_suite
+    - ai_control_surface_registry
+    - teni_metrics_observability
+    - teni_observability_ci_workflow
+  validation_command: python3 scripts/validate_teni_observability_v0_1.py
+
+kuos_pull_request_checklist:
+  role: governance_checklist_for_append_only_core_changes
+  checks:
+    - append_only_or_tighten_only
+    - same_root_lineage
+    - fourfold_core_preserved
+    - ai_raw_output_candidate_not_authority
+    - teni_overclaim_prevented
+    - mandala_multi_world_noncollapse_preserved
+    - residual_suffering_visibility_preserved
+    - no_execution_authority_granted
+    - no_proof_authority_granted
+    - no_clinical_authority_granted
+
+fixed_points:
+  - release_packet_is_governance_surface_not_authority
+  - pr_checklist_preserves_append_only_development
+  - raw_ai_output_remains_candidate_not_authority
+  - teni_overclaim_remains_blocked
+  - teni_status_remains_non_execution_authority
+  - no_single_world_model_replaces_fourfold_core
