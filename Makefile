@@ -29,4 +29,5 @@ dukkha-qi-checks:
 core-governance-checks:
 	python3 scripts/run_core_governance_full_checks_v0_1.py
 
-all-governance-checks: ai-yogacara-checks core-governance-checks
+all-governance-checks:
+	python3 scripts/run_all_governance_full_checks_v0_1.py
