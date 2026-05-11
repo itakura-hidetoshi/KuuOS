@@ -1,0 +1,63 @@
+id: kuos_core_manifest_addendum_v0_1_41_paramita_repair_router
+name: KuuOS Core Manifest Addendum - Paramita Repair Router
+version: 0.1.41
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - paramita_repair_router
+  - paramita_repair_router_validation_cases
+  - paramita_repair_router_validator
+
+added_documents:
+  - docs/PARAMITA_REPAIR_ROUTER_v0_1.md
+  - specs/paramita_repair_router_validation_cases_v0_1.yaml
+  - scripts/validate_paramita_repair_router_v0_1.py
+
+updated_documents:
+  - Makefile
+  - .github/workflows/core_governance_validation.yml
+
+paramita_repair_router:
+  role: bounded_repair_orientation_router_for_residual_suffering
+  chain:
+    - harmony_function
+    - residual_suffering_visible
+    - bodhisattva_path_belief
+    - ten_paramita_runtime
+    - paramita_repair_router
+    - bounded_repair_candidate
+    - governance_review
+  routing_rules:
+    resource_need: Dana / 布施
+    boundary_failure: Sila / 持戒
+    conflict_friction: Ksanti / 忍辱
+    repeated_repair_need: Virya / 精進
+    context_drift_noise: Dhyana / 禅定
+    reification_ultimate_claim: Prajna / 般若
+    complex_context: Upaya / 方便
+    long_horizon: Pranidhana / 願
+    capacity_need: Bala / 力
+    integration_audit: Jnana / 智
+  output_boundary:
+    selected_paramita_not_execution_authority: true
+    repair_orientation_not_action_authorization: true
+    pass_not_execute: true
+
+validation:
+  command: python3 scripts/validate_paramita_repair_router_v0_1.py
+  make_target: paramita-router-checks
+  ci_workflow: .github/workflows/core_governance_validation.yml
+
+fixed_points:
+  - router_must_not_erase_residual_suffering
+  - router_must_not_grant_execution_authority
+  - router_must_preserve_boundary_status
+  - router_must_preserve_audit_lineage
+  - router_must_not_convert_upaya_into_hidden_manipulation
+  - router_must_not_convert_bala_into_coercion
+  - router_must_preserve_two_truths_gap
+  - paramita_repair_router_is_bounded_orientation_not_action_selector
