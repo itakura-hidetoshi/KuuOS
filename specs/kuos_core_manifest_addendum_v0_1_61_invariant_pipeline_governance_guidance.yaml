@@ -1,0 +1,44 @@
+id: kuos_core_manifest_addendum_v0_1_61_invariant_pipeline_governance_guidance
+name: KuuOS Core Manifest Addendum - Invariant Pipeline Governance Guidance
+version: 0.1.61
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+updated_documents:
+  - docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
+  - docs/GOVERNANCE_RELEASE_CHECKLIST_v0_1.md
+  - .github/pull_request_template.md
+
+guidance_update:
+  role: make_invariant_governance_pipeline_visible_as_primary_public_governance_route
+  added_to_index:
+    - invariant_preservation_matrix
+    - invariant_gate_runtime
+    - invariant_governance_pipeline
+    - runtime_chain
+    - validators
+    - non_authority_boundary
+  added_to_release_checklist:
+    - invariant_matrix_maps_transformation_axes_to_required_invariants
+    - invariant_gate_closes_authority_on_violation
+    - execution_authority_request_rejected
+    - harm_hiding_rejected
+    - dukkha_hiding_routes_to_repair
+    - missing_evidence_or_audit_lineage_routes_to_quarantine
+    - critical_invariant_violation_routes_to_reject
+  added_to_pr_template:
+    - invariant_governance_pipeline_check
+    - invariant_matrix_fixtures_validate
+    - invariant_gate_fixtures_validate
+    - invariant_pipeline_not_execution_authority
+
+fixed_points:
+  - invariant_pipeline_guidance_is_navigation_surface_not_authority
+  - invariant_gate_closes_authority_on_violation
+  - invariant_governance_pipeline_does_not_grant_execution_authority
+  - harm_visibility_and_dukkha_visibility_remain_preserved
+  - two_truths_gap_must_not_collapse
+  - validation_pass_does_not_grant_execution_authority
