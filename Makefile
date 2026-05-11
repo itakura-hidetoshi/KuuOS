@@ -44,12 +44,14 @@ invariant-pipeline-build-bundle:
 
 invariant-pipeline-validate-bundle:
 	python3 scripts/validate_invariant_pipeline_release_bundle_manifest_v0_1.py
+	python3 scripts/validate_invariant_pipeline_bundle_closure_inclusion_v0_1.py
 
 invariant-pipeline-attest:
 	python3 scripts/validate_invariant_pipeline_release_attestation_v0_1.py
 
 invariant-pipeline-release-closure:
 	python3 scripts/validate_invariant_pipeline_release_closure_packet_v0_1.py
+	python3 scripts/validate_invariant_pipeline_bundle_closure_inclusion_v0_1.py
 
 invariant-pipeline-checks:
 	python3 scripts/validate_invariant_governance_pipeline_v0_1.py
@@ -58,6 +60,7 @@ invariant-pipeline-checks:
 	python3 scripts/validate_invariant_pipeline_audit_hash_chain_v0_1.py
 	python3 scripts/validate_invariant_pipeline_audit_worm_export_receipt_v0_1.py
 	python3 scripts/validate_invariant_pipeline_release_bundle_manifest_v0_1.py
+	python3 scripts/validate_invariant_pipeline_bundle_closure_inclusion_v0_1.py
 	python3 scripts/validate_invariant_pipeline_release_attestation_v0_1.py
 	python3 scripts/validate_invariant_pipeline_release_closure_packet_v0_1.py
 
