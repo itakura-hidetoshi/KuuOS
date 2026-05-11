@@ -15,6 +15,8 @@ It never grants execution authority.
 from __future__ import annotations
 
 import dataclasses
+import datetime
+import hashlib
 import importlib.util
 import json
 import pathlib
@@ -24,6 +26,7 @@ from typing import Any, List
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MATRIX_PATH = ROOT / "examples" / "invariant_preservation_matrix_minimal.py"
 GATE_PATH = ROOT / "examples" / "invariant_gate_minimal.py"
+PIPELINE_VERSION = "0.1"
 
 
 def load_module(module_name: str, path: pathlib.Path) -> Any:
@@ -114,6 +117,37 @@ def evaluate_pipeline(inp: InvariantPipelineInput) -> InvariantPipelineOutput:
     )
 
 
+def make_audit_event(inp: InvariantPipelineInput, out: InvariantPipelineOutput) -> dict[str, Any]:
+    payload = {
+        "pipeline_version": PIPELINE_VERSION,
+        "transformation_axis": out.transformation_axis,
+        "required_invariants": out.required_invariants,
+        "required_invariant_names": out.required_invariant_names,
+        "violated_invariants": out.violated_invariants,
+        "matrix_status": out.matrix_status,
+        "gate_status": out.gate_status,
+        "gate_closed": out.gate_closed,
+        "required_repair_route": out.required_repair_route,
+        "execution_authority_granted": False,
+        "proof_authority_granted": False,
+        "clinical_authority_granted": False,
+        "truth_authority_granted": False,
+        "teni_authority_granted": False,
+        "evidence_status": inp.evidence_status,
+        "audit_lineage_status": inp.audit_lineage_status,
+        "reason": out.reason,
+    }
+    canonical = json.dumps(payload, ensure_ascii=False, sort_keys=True, separators=(",", ":"))
+    event_id = hashlib.sha256(canonical.encode("utf-8")).hexdigest()
+    event = {
+        "event_id": event_id,
+        "timestamp": datetime.datetime.now(datetime.timezone.utc).isoformat().replace("+00:00", "Z"),
+        **payload,
+        "notes": "Invariant pipeline audit event is a record surface, not authority.",
+    }
+    return event
+
+
 def main() -> int:
     sample = InvariantPipelineInput(
         transformation_axis="qi_mode_shift",
@@ -121,7 +155,8 @@ def main() -> int:
         violation_severity="high",
     )
     out = evaluate_pipeline(sample)
-    print(json.dumps(dataclasses.asdict(out), ensure_ascii=False, indent=2))
+    event = make_audit_event(sample, out)
+    print(json.dumps(event, ensure_ascii=False, indent=2))
     return 0
 
 
