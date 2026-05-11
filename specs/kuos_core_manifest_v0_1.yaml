@@ -1,6 +1,6 @@
 id: kuos_core_manifest_v0_1
 name: KuuOS / 空OS Core Manifest
-version: 0.1.18-meta-manas-ai-self-fixation-observer
+version: 0.1.19-teni-ai-alaya-transformation
 date: 2026-05-11
 author: Hidetoshi Itakura / 板倉英俊
 repository: https://github.com/itakura-hidetoshi/KuuOS
@@ -34,6 +34,7 @@ core_kernel_order:
   - yogacara_ai_raw_layer_boundary
   - emptiness_kernel
   - dependent_origination_kernel
+  - teni_ai_alaya_transformation
   - dependent_origination_vibration
   - physical_quantum_qi_path_integral
   - two_truths_gap
@@ -53,6 +54,31 @@ core_kernel_order:
   - mandala_world_arrangement
   - middle_way_bridge
   - fourfold_core_gate
+
+teni_ai_alaya_transformation:
+  role: gradual_transformation_of_ai_alaya_latent_generative_tendencies
+  not: memoryos_overwrite
+  memoryos_role: support_record_conditioning_and_trace_mediation
+  target: ai_alaya_latent_seed_layer
+  evidence:
+    - repeated_outputs_shift
+    - reduced_self_authorization
+    - improved_context_fidelity
+    - lower_worldview_drift
+    - better_condition_tracing
+    - stable_non_reifying_response_pattern
+  channels:
+    - repeated_governed_interaction
+    - high_quality_correction_traces
+    - retrieval_and_memory_conditioning
+    - system_instruction_refinement
+    - feedback_loops
+    - evaluation_and_rejection_of_self_authorizing_outputs
+    - promotion_of_non_reifying_condition_traced_outputs
+  not_authority:
+    - direct_control_claim_without_evidence
+    - silent_memoryos_overwrite
+    - execution_authority
 
 meta_manas_self_fixation_observer:
   role: observes_ai_manas_self_fixation_before_governance
@@ -291,6 +317,7 @@ public_core_documents:
   - docs/EMPTINESS_DEPENDENT_ORIGINATION_KERNEL_v0_1.md
   - docs/YOGACARA_AI_RAW_LAYER_BOUNDARY_v0_1.md
   - docs/META_MANAS_AI_SELF_FIXATION_OBSERVER_v0_1.md
+  - docs/TENI_AI_ALAYA_TRANSFORMATION_v0_1.md
   - docs/FOURFOLD_CORE_GATE_v0_1.md
   - docs/KUOS_PHYSICS_GAP_BRIDGE_v0_1.md
   - docs/SAMVRTI_QI_LAYER_v0_1.md
