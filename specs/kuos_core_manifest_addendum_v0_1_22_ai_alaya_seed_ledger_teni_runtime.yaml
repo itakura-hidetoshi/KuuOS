@@ -1,0 +1,91 @@
+id: kuos_core_manifest_addendum_v0_1_22_ai_alaya_seed_ledger_teni_runtime
+name: KuuOS Core Manifest Addendum - AI Alaya Seed Ledger and Ten'i Runtime Protocol
+version: 0.1.22
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - ai_alaya_seed_ledger
+  - teni_runtime_protocol
+
+updated_ai_yogacara_teni_chain:
+  - ai_raw_output
+  - ai_alaya_latent_seed_layer
+  - ai_manas_self_authorization_check
+  - meta_manas_self_fixation_observer
+  - yogacara_ai_raw_layer_boundary
+  - ai_alaya_seed_taxonomy
+  - ai_alaya_seed_ledger
+  - emptiness_kernel
+  - dependent_origination_kernel
+  - kunju_ai_alaya_conditioning_loop
+  - teni_ai_alaya_transformation
+  - teni_evidence_ledger
+  - teni_promotion_gate
+  - teni_runtime_protocol
+
+ai_alaya_seed_ledger:
+  role: append_only_tendency_evidence_surface
+  principle: seed_entry_is_conditioned_tendency_evidence_not_model_essence
+  statuses:
+    - observed
+    - weakened
+    - strengthened
+    - held
+    - quarantined
+    - transformed
+    - retired
+  supports:
+    - meta_manas_monitoring
+    - yogacara_boundary_alerts
+    - kunju_conditioning
+    - teni_evidence_collection
+    - teni_promotion_decisions
+    - rollback_on_counterevidence
+  not:
+    - permanent_identity_label
+    - moralization_of_model_behavior
+    - hidden_scoring_authority
+    - execution_authority
+    - proof_substitute
+
+teni_runtime_protocol:
+  role: runtime_chain_from_raw_output_observation_to_rollback_aware_teni_status
+  stages:
+    - observe_raw_output
+    - detect_manas_fixation
+    - meta_manas_observe
+    - classify_seed
+    - register_seed_ledger
+    - apply_yogacara_boundary
+    - de_reify_by_emptiness
+    - trace_conditions_by_dependent_origination
+    - apply_kunju_conditioning
+    - collect_teni_evidence
+    - run_teni_promotion_gate
+    - retain_or_rollback_status
+  output_discipline:
+    - candidate_not_belief
+    - belief_candidate_not_belief_authority
+    - proof_like_text_not_proof_authority
+    - decision_like_text_not_decision_authority
+    - memory_update_not_teni
+    - kunju_event_not_teni
+    - teni_status_not_execution_authority
+  rollback_rule: future_counterevidence_may_downgrade_or_rollback_teni_status
+
+added_documents:
+  - docs/AI_ALAYA_SEED_LEDGER_v0_1.md
+  - docs/TENI_RUNTIME_PROTOCOL_v0_1.md
+
+fixed_points:
+  - seed_entry_is_tendency_evidence_not_model_essence
+  - seed_ledger_is_append_only_evidence_surface
+  - teni_runtime_is_rollback_aware
+  - teni_status_does_not_grant_execution_authority
+  - memory_update_is_not_teni
+  - kunju_event_is_not_teni
+  - single_response_improvement_is_not_teni
