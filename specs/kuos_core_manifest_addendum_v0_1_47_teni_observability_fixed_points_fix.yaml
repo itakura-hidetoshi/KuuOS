@@ -1,0 +1,34 @@
+id: kuos_core_manifest_addendum_v0_1_47_teni_observability_fixed_points_fix
+name: KuuOS Core Manifest Addendum - Ten'i Observability Fixed Points Fix
+version: 0.1.47
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+fixed_document:
+  - specs/teni_prometheus_alert_rules_v0_1.yaml
+
+fix_summary:
+  - added fixed points required by validate_teni_observability_v0_1.py
+  - preserved alert rules as observability surfaces
+  - no execution authority added
+  - no external dependency added
+
+added_fixed_points:
+  - metrics_are_observability_surfaces_not_authority
+  - teni_status_is_not_execution_authority
+  - seed_entry_is_tendency_evidence_not_model_essence
+  - control_surface_scope_limits_teni_claim_scope
+
+validation:
+  command: python3 scripts/validate_teni_observability_v0_1.py
+  workflow: .github/workflows/teni_observability_validation.yml
+
+fixed_points:
+  - teni_observability_validator_requirements_are_now_explicit
+  - metrics_remain_observability_not_authority
+  - teni_status_remains_non_execution
+  - seed_entries_remain_tendency_evidence_not_essence
+  - control_surface_scope_limits_claim_scope
