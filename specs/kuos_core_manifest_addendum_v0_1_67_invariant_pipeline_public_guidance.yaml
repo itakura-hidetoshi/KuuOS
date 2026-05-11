@@ -1,0 +1,42 @@
+id: kuos_core_manifest_addendum_v0_1_67_invariant_pipeline_public_guidance
+name: KuuOS Core Manifest Addendum - Invariant Pipeline Public Guidance
+version: 0.1.67
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/INVARIANT_PIPELINE_NAVIGATION_ADDENDUM_v0_1.md
+  - docs/INVARIANT_PIPELINE_RELEASE_CHECKLIST_ADDENDUM_v0_1.md
+  - docs/INVARIANT_PIPELINE_PR_CHECKLIST_ADDENDUM_v0_1.md
+
+public_guidance:
+  role: small_public_addendum_set_for_invariant_pipeline_audit_lineage
+  navigation:
+    file: docs/INVARIANT_PIPELINE_NAVIGATION_ADDENDUM_v0_1.md
+    covers:
+      - audit_event
+      - hash_chain_ledger
+      - worm_export_receipt
+      - current_public_fixture_root
+  release_checklist:
+    file: docs/INVARIANT_PIPELINE_RELEASE_CHECKLIST_ADDENDUM_v0_1.md
+    required_checks:
+      - make invariant-pipeline-checks
+      - make all-governance-checks
+      - worm_receipt_root_matches_hash_chain_root
+      - non_authority_fields_false
+  pr_checklist:
+    file: docs/INVARIANT_PIPELINE_PR_CHECKLIST_ADDENDUM_v0_1.md
+    required_checks:
+      - root_change_explained_when_changed
+      - validators_pass
+      - no_hidden_authority_added
+
+fixed_points:
+  - public_guidance_is_navigation_surface_not_authority
+  - audit_lineage_visibility_does_not_create_execution_authority
+  - worm_receipt_root_must_match_hash_chain_root
+  - non_authority_fields_must_remain_false
