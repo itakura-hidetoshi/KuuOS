@@ -34,6 +34,7 @@ super-relativity-checks:
 
 invariant-matrix-checks:
 	python3 scripts/validate_invariant_preservation_matrix_v0_1.py
+	python3 scripts/validate_invariant_preservation_matrix_fixtures_v0_1.py
 
 core-governance-checks:
 	python3 scripts/run_core_governance_full_checks_v0_1.py
