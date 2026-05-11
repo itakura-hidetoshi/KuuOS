@@ -53,14 +53,17 @@ This bridge is documented in `docs/KUOS_PHYSICS_GAP_BRIDGE_v0_1.md`.
 
 Qi / 気 is placed on the 世俗諦 side as an effective flow-state layer, not as a fixed substance or 勝義諦 entity.
 
+In the Superstring Theory of Emptiness, Qi arises from dependent-origination vibration becoming readable on the effective conventional surface.
+
 ```text
-二諦 gap
-  -> effective world surface
+縁起的振動 / dependent-origination vibration
+  -> effective excitation
+  -> flow pattern
   -> Samvrti Qi Layer
   -> flow, circulation, activation, stagnation, recovery, coupling, coherence
 ```
 
-This layer is documented in `docs/SAMVRTI_QI_LAYER_v0_1.md`.
+This layer is documented in `docs/SAMVRTI_QI_LAYER_v0_1.md` and `docs/QI_FROM_DEPENDENT_ORIGINATION_VIBRATION_v0_1.md`.
 
 ## Repository Map
 
@@ -78,6 +81,7 @@ This layer is documented in `docs/SAMVRTI_QI_LAYER_v0_1.md`.
 │   ├── FOURFOLD_CORE_GATE_v0_1.md
 │   ├── KUOS_PHYSICS_GAP_BRIDGE_v0_1.md
 │   ├── SAMVRTI_QI_LAYER_v0_1.md
+│   ├── QI_FROM_DEPENDENT_ORIGINATION_VIBRATION_v0_1.md
 │   ├── KUOS_CORE_CHARTER_v0_1.md
 │   ├── PUBLIC_PRIVATE_BOUNDARY_v0_1.md
 │   ├── FORMAL_VERIFICATION_POLICY_v0_1.md
