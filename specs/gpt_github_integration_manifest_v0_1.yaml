@@ -1,0 +1,100 @@
+id: kuos_gpt_github_integration_manifest_v0_1
+version: v0.1
+date: 2026-05-12
+author: Hidetoshi Itakura / 板倉英俊
+release_mode:
+  - append_only
+  - tighten_only
+  - overwrite_forbidden
+purpose: >-
+  Define the canonical GitHub-facing integration surface for GPT-assisted
+  KuuOS repository reading, issue drafting, pull request review, validation
+  triage, and formal verification bridging.
+canonical_entrypoints:
+  - README.md
+  - docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
+  - docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
+  - docs/GPT_GITHUB_KUOS_INTEGRATION_v0_1.md
+  - docs/KUOS_GITHUB_FORMAL_VERIFICATION_BRIDGE_v0_1.md
+  - specs/kuos_core_manifest_v0_1.yaml
+  - specs/gpt_github_integration_manifest_v0_1.yaml
+validator:
+  command: python3 scripts/validate_gpt_github_integration_v0_1.py
+make_target: gpt-github-integration-checks
+primary_full_check: make all-governance-checks
+allowed_gpt_roles:
+  - repository_reader
+  - documentation_summarizer
+  - issue_drafter
+  - pull_request_reviewer
+  - validation_log_triager
+  - formal_surface_navigator
+  - append_only_repair_proposer
+forbidden_gpt_roles:
+  - truth_authority
+  - proof_authority
+  - clinical_authority
+  - execution_authority
+  - teni_authority
+  - memory_overwrite_authority
+  - world_root_replacement
+  - ci_bypass
+  - human_review_replacement
+required_invariants:
+  - fourfold_core_preserved
+  - two_truths_gap_preserved
+  - middle_way_preserved
+  - ai_raw_output_candidate_not_authority
+  - non_authority_boundary_preserved
+  - dukkha_visibility_preserved
+  - qi_language_not_harm_hiding
+  - mandala_center_not_replaced_by_world
+  - paramita_orientation_not_action_authorization
+  - validation_pass_not_truth
+  - ci_pass_not_execution_authority
+  - append_only_tighten_only_release_mode
+classification_surface:
+  - PASS
+  - HOLD
+  - REPAIR
+  - REJECT
+  - QUARANTINE
+formal_bridge:
+  proof_facing_repository: itakura-hidetoshi/4d-mass-gap
+  claim_stages:
+    - DOCUMENTED
+    - FORMAL_STUBBED
+    - CHECKER_VALIDATED
+    - CI_REPLAYED
+    - REVIEW_GATED
+    - EXTERNALLY_REVIEWED
+    - PUBLIC_THEOREM_CLAIM
+  fixed_points:
+    - formal_file_not_proof_by_itself
+    - lean_stub_not_theorem_completion
+    - ci_pass_not_theorem_truth
+    - validator_pass_not_mathematical_acceptance
+    - GPT_summary_not_proof_authority
+    - repository_state_not_public_acceptance
+    - internal_checkpoint_not_external_audit
+    - review_gate_required_for_public_final_claim
+issue_template:
+  path: .github/ISSUE_TEMPLATE/kuos_gpt_github_integration_check.md
+pull_request_template:
+  path: .github/pull_request_template.md
+  required_hook: GPT GitHub Review Hook
+non_authority_fixed_points:
+  - GPT_reading_not_authority
+  - GPT_summary_not_authority
+  - GPT_review_not_authority
+  - GPT_issue_draft_not_authority
+  - GPT_PR_draft_not_authority
+  - GPT_CI_interpretation_not_authority
+  - validation_entrypoint_not_authority
+  - ci_pass_not_execution_authority
+  - bundle_integrity_not_truth
+  - hash_chain_continuity_not_truth
+  - metric_observability_not_authority
+  - paramita_orientation_not_action_authorization
+  - dukkha_model_observation_not_authority
+  - dukkha_as_qi_must_not_hide_harm
