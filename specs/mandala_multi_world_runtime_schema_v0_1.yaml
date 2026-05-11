@@ -1,0 +1,122 @@
+id: mandala_multi_world_runtime_schema_v0_1
+name: Mandala Multi-WORLD Runtime Schema v0.1
+version: 0.1
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+
+world_runtime_object_schema:
+  required:
+    - world_id
+    - world_name
+    - scope
+    - status
+    - membrane_ref
+    - qi_flow_ref
+    - yinyang_frame_ref
+    - wuxing_phase_ref
+    - governance_boundary_ref
+    - obstruction_refs
+    - authority_note
+  fields:
+    world_id: string
+    world_name: string
+    scope: string
+    status:
+      enum:
+        - DRAFT
+        - ACTIVE
+        - HOLD
+        - QUARANTINE
+        - RETIRED
+    membrane_ref: string
+    qi_flow_ref: string
+    yinyang_frame_ref: string
+    wuxing_phase_ref: string
+    governance_boundary_ref: string
+    obstruction_refs: list
+    authority_note:
+      const: local_world_not_fourfold_core
+
+cross_world_transport_object_schema:
+  required:
+    - transport_id
+    - source_world_id
+    - target_world_id
+    - transport_mode
+    - membrane_check
+    - gate_check
+    - obstruction_visibility
+    - harmony_effect
+    - authority_note
+  fields:
+    transport_id: string
+    source_world_id: string
+    target_world_id: string
+    transport_mode:
+      enum:
+        - preserve
+        - transform
+        - reinterpret
+        - quarantine
+        - reject
+    membrane_check:
+      enum:
+        - PASS
+        - HOLD
+        - FAIL
+    gate_check:
+      enum:
+        - PASS
+        - HOLD
+        - FAIL
+    obstruction_visibility:
+      enum:
+        - visible
+        - missing
+    harmony_effect:
+      enum:
+        - improves
+        - neutral
+        - worsens
+        - unknown
+    authority_note:
+      const: transport_is_not_world_collapse
+
+harmony_function_runtime_schema:
+  required:
+    - input_worlds
+    - conflicts
+    - obstructions
+    - residual_suffering
+    - output_status
+    - noncollapse_preserved
+    - residual_suffering_visible
+    - authority_note
+  fields:
+    input_worlds: list
+    conflicts: list
+    obstructions: list
+    residual_suffering: list
+    output_status:
+      enum:
+        - PASS
+        - HOLD
+        - REPAIR
+        - QUARANTINE
+        - REJECT
+        - HANDOVER
+    noncollapse_preserved:
+      const: true
+    residual_suffering_visible: boolean
+    authority_note:
+      const: harmony_is_coordination_not_domination
+
+invariants:
+  - no_world_model_replaces_fourfold_core
+  - world_boundary_must_remain_visible
+  - cross_world_transport_must_be_declared
+  - obstruction_must_not_be_erased
+  - harmony_function_must_not_force_sameness
+  - residual_suffering_visibility_must_be_preserved
+  - bodhisattva_path_belief_must_not_be_erased
+  - harmony_status_is_not_execution_authority
