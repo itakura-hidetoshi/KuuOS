@@ -1,0 +1,42 @@
+id: kuos_core_manifest_addendum_v0_1_37_ai_yogacara_index_makefile
+name: KuuOS Core Manifest Addendum - AI Yogacara Canonical Index and Makefile Entrypoints
+version: 0.1.37
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_core_kernels:
+  - ai_yogacara_teni_layer_canonical_index
+  - ai_yogacara_makefile_entrypoints
+
+added_documents:
+  - docs/AI_YOGACARA_TENI_LAYER_INDEX_v0_1.md
+  - Makefile
+
+canonical_index:
+  role: public_reading_index_for_ai_yogacara_teni_layer
+  path: docs/AI_YOGACARA_TENI_LAYER_INDEX_v0_1.md
+  covers:
+    - conceptual_core
+    - seed_and_teni_governance
+    - observability_and_validation
+    - runtime_adapter
+    - audit_worm_release_bundle
+    - release_surface
+    - non_authority_fixed_points
+
+makefile_entrypoints:
+  role: local_command_entrypoints_for_full_checks_and_bundle_manifest
+  targets:
+    ai-yogacara-checks: python3 scripts/run_ai_yogacara_full_checks_v0_1.py
+    ai-yogacara-build-bundle: python3 scripts/build_ai_yogacara_release_bundle_manifest_v0_1.py
+    ai-yogacara-validate-bundle: python3 scripts/validate_ai_yogacara_release_bundle_manifest_v0_1.py
+
+fixed_points:
+  - canonical_index_is_reading_surface_not_authority
+  - makefile_targets_are_execution_helpers_not_authority
+  - ai_yogacara_checks_preserve_raw_output_candidate_boundary
+  - ai_yogacara_checks_do_not_prove_teni_occurrence
+  - ai_yogacara_checks_do_not_grant_execution_authority
