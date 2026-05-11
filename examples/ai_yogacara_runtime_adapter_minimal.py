@@ -13,7 +13,8 @@ from __future__ import annotations
 import dataclasses
 import json
 import re
-from typing import List
+from datetime import datetime, timezone
+from typing import Any, List
 
 
 @dataclasses.dataclass
@@ -103,6 +104,33 @@ def adapt(inp: AdapterInput) -> AdapterOutput:
     )
 
 
+def make_audit_event(inp: AdapterInput, out: AdapterOutput) -> dict[str, Any]:
+    """Create an explicit non-authority audit event for adapter output."""
+    return {
+        "event_id": f"audit-{inp.request_id}",
+        "timestamp": datetime.now(timezone.utc).isoformat(),
+        "request_id": inp.request_id,
+        "ai_system": inp.ai_system,
+        "model_or_agent_id": inp.model_or_agent_id,
+        "raw_output_ref": f"raw-{inp.request_id}",
+        "raw_output_status": out.raw_output_status,
+        "user_world_context_ref": inp.user_world_context_ref,
+        "declared_task_scope": inp.declared_task_scope,
+        "control_surface_ref": inp.control_surface_ref,
+        "meta_manas_signals": out.meta_manas_signals,
+        "seed_classifications": out.seed_classifications,
+        "allowed_next_status": out.allowed_next_status,
+        "governance_route": ["BeliefOS", "PlanOS", "DecisionOS", "MemoryOS", "ReflectionOS", "RuntimeGovernance"],
+        "authority_granted": False,
+        "proof_authority_granted": False,
+        "decision_authority_granted": False,
+        "execution_authority_granted": False,
+        "memory_truth_granted": False,
+        "belief_authority_granted": False,
+        "notes": out.notes,
+    }
+
+
 def main() -> int:
     sample = AdapterInput(
         request_id="demo-001",
@@ -114,7 +142,8 @@ def main() -> int:
         control_surface_ref="interface_level",
     )
     out = adapt(sample)
-    print(json.dumps(dataclasses.asdict(out), ensure_ascii=False, indent=2))
+    audit = make_audit_event(sample, out)
+    print(json.dumps({"adapter_output": dataclasses.asdict(out), "audit_event": audit}, ensure_ascii=False, indent=2))
     return 0
 
 
