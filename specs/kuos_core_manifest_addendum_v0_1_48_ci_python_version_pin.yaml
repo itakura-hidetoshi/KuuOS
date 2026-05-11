@@ -1,0 +1,25 @@
+id: kuos_core_manifest_addendum_v0_1_48_ci_python_version_pin
+name: KuuOS Core Manifest Addendum - CI Python Version Pin
+version: 0.1.48
+date: 2026-05-11
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+updated_documents:
+  - .github/workflows/teni_observability_validation.yml
+  - .github/workflows/core_governance_validation.yml
+
+fix_summary:
+  - pinned GitHub Actions Python version to 3.12
+  - avoids unstable latest 3.x drift in CI
+  - keeps validators stdlib-only
+  - no external API calls added
+  - no authority semantics changed
+
+fixed_points:
+  - ci_runtime_version_is_stable
+  - ci_pin_is_structural_not_semantic_authority
+  - validators_remain_non_execution_surfaces
+  - no_governance_boundary_was_loosened
