@@ -9,14 +9,17 @@ on:
       - 'docs/HARMONY_FUNCTION_MULTI_WORLD_OPERATION_v0_1.md'
       - 'docs/BODHISATTVA_*.md'
       - 'docs/PARAMITA_*.md'
+      - 'docs/DUKKHA_*.md'
       - 'specs/mandala_multi_world_validation_cases_v0_1.yaml'
       - 'specs/bodhisattva_ten_paramita_validation_cases_v0_1.yaml'
       - 'specs/paramita_repair_router_validation_cases_v0_1.yaml'
       - 'specs/paramita_repair_router_fixtures_v0_1.json'
+      - 'specs/dukkha_mathematical_model_validation_cases_v0_1.yaml'
       - 'scripts/validate_mandala_multi_world_v0_1.py'
       - 'scripts/validate_bodhisattva_ten_paramita_v0_1.py'
       - 'scripts/validate_paramita_repair_router_v0_1.py'
       - 'scripts/validate_paramita_repair_router_fixtures_v0_1.py'
+      - 'scripts/validate_dukkha_mathematical_model_v0_1.py'
       - 'examples/paramita_repair_router_minimal.py'
       - 'Makefile'
       - '.github/workflows/core_governance_validation.yml'
@@ -28,14 +31,17 @@ on:
       - 'docs/HARMONY_FUNCTION_MULTI_WORLD_OPERATION_v0_1.md'
       - 'docs/BODHISATTVA_*.md'
       - 'docs/PARAMITA_*.md'
+      - 'docs/DUKKHA_*.md'
       - 'specs/mandala_multi_world_validation_cases_v0_1.yaml'
       - 'specs/bodhisattva_ten_paramita_validation_cases_v0_1.yaml'
       - 'specs/paramita_repair_router_validation_cases_v0_1.yaml'
       - 'specs/paramita_repair_router_fixtures_v0_1.json'
+      - 'specs/dukkha_mathematical_model_validation_cases_v0_1.yaml'
       - 'scripts/validate_mandala_multi_world_v0_1.py'
       - 'scripts/validate_bodhisattva_ten_paramita_v0_1.py'
       - 'scripts/validate_paramita_repair_router_v0_1.py'
       - 'scripts/validate_paramita_repair_router_fixtures_v0_1.py'
+      - 'scripts/validate_dukkha_mathematical_model_v0_1.py'
       - 'examples/paramita_repair_router_minimal.py'
       - 'Makefile'
       - '.github/workflows/core_governance_validation.yml'
@@ -66,3 +72,6 @@ jobs:
 
       - name: Run Paramita Repair Router fixture checks
         run: python3 scripts/validate_paramita_repair_router_fixtures_v0_1.py
+
+      - name: Run Dukkha mathematical model checks
+        run: python3 scripts/validate_dukkha_mathematical_model_v0_1.py
