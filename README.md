@@ -7,6 +7,8 @@
 3. **二諦 gap / Two Truths Gap: 勝義諦 and 世俗諦**
 4. **中道 / Middle Way**
 
+KuuOS also functions as a governance OS for AI systems such as GPT, Gemini, Claude, and other language or world-model agents. AI raw output is treated as candidate, not authority.
+
 All later modules—MemoryOS, BeliefOS, PlanOS, DecisionOS, ReflectionOS, ExplanationOS, RuntimeGovernance, and Self-EvolutionOS—are downstream operational differentiations of this fourfold core.
 
 空OSは、LLMや世界モデルを単なる応答生成器としてではなく、**空・縁起・二諦 gap・中道**を根に置き、観照・検証・監査・和合的判断へ展開するための中核アーキテクチャです。
@@ -31,6 +33,23 @@ The public core begins from these fixed commitments:
 4. **Middle Way is the stabilizer.** KuuOS avoids both reification and nihilistic collapse by operating within the gap between 勝義諦 and 世俗諦.
 
 From this fourfold core, KuuOS further develops harmony, inclusion, observation, compassion, memory, planning, reflection, governance, and formal verification.
+
+## Yogacara AI Raw Layer Boundary
+
+KuuOS separates AI raw generation from governed KuuOS operation through a Yogacara boundary.
+
+```text
+AI raw output
+  -> AI Alaya / latent seed layer
+  -> AI Manas self-authorization check
+  -> Yogacara boundary
+  -> emptiness_kernel
+  -> dependent_origination_kernel
+  -> two_truths_gap
+  -> BeliefOS / PlanOS / DecisionOS / MemoryOS
+```
+
+AI raw output is candidate, not belief, proof, decision, memory truth, or execution authority. This layer is documented in `docs/YOGACARA_AI_RAW_LAYER_BOUNDARY_v0_1.md`.
 
 ## Physics-Facing Bridge
 
@@ -152,6 +171,7 @@ This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md`, 
 │   ├── TWO_TRUTHS_TERMINOLOGY_v0_1.md
 │   ├── PARAMARTHA_SAMVRTI_MIDDLE_WAY_BRIDGE_v0_1.md
 │   ├── EMPTINESS_DEPENDENT_ORIGINATION_KERNEL_v0_1.md
+│   ├── YOGACARA_AI_RAW_LAYER_BOUNDARY_v0_1.md
 │   ├── FOURFOLD_CORE_GATE_v0_1.md
 │   ├── KUOS_PHYSICS_GAP_BRIDGE_v0_1.md
 │   ├── SAMVRTI_QI_LAYER_v0_1.md
