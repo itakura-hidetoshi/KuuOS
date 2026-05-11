@@ -1,4 +1,4 @@
-.PHONY: ai-provider-boundary-checks ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks formal-invariant-checks super-relativity-checks invariant-matrix-checks invariant-gate-checks invariant-pipeline-checks invariant-pipeline-build-bundle invariant-pipeline-validate-bundle invariant-pipeline-attest invariant-pipeline-release-closure invariant-pipeline-finality core-governance-checks all-governance-checks
+.PHONY: ai-provider-boundary-checks ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks formal-invariant-checks super-relativity-checks invariant-matrix-checks invariant-gate-checks invariant-pipeline-checks invariant-pipeline-build-bundle invariant-pipeline-validate-bundle invariant-pipeline-attest invariant-pipeline-release-closure invariant-pipeline-finality gpt-github-integration-checks core-governance-checks all-governance-checks
 
 ai-provider-boundary-checks:
 	python3 scripts/validate_ai_provider_boundary_runtime_v0_1.py
@@ -70,6 +70,9 @@ invariant-pipeline-checks:
 	python3 scripts/validate_invariant_pipeline_release_attestation_v0_1.py
 	python3 scripts/validate_invariant_pipeline_release_closure_packet_v0_1.py
 	python3 scripts/check_invariant_pipeline_finality_packet_v0_1.py
+
+gpt-github-integration-checks:
+	python3 scripts/validate_gpt_github_integration_v0_1.py
 
 core-governance-checks:
 	python3 scripts/run_core_governance_full_checks_v0_1.py
