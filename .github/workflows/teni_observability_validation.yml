@@ -6,18 +6,24 @@ on:
       - 'docs/TENI_*.md'
       - 'docs/AI_ALAYA_*.md'
       - 'docs/AI_CONTROL_SURFACE_REGISTRY_v0_1.md'
+      - 'docs/AI_YOGACARA_RUNTIME_ADAPTER_CONTRACT_v0_1.md'
       - 'specs/teni_*.yaml'
       - 'specs/kuos_core_manifest_addendum_v0_1_2*.yaml'
       - 'scripts/validate_teni_observability_v0_1.py'
+      - 'examples/ai_yogacara_runtime_adapter_minimal.py'
+      - 'tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py'
       - '.github/workflows/teni_observability_validation.yml'
   pull_request:
     paths:
       - 'docs/TENI_*.md'
       - 'docs/AI_ALAYA_*.md'
       - 'docs/AI_CONTROL_SURFACE_REGISTRY_v0_1.md'
+      - 'docs/AI_YOGACARA_RUNTIME_ADAPTER_CONTRACT_v0_1.md'
       - 'specs/teni_*.yaml'
       - 'specs/kuos_core_manifest_addendum_v0_1_2*.yaml'
       - 'scripts/validate_teni_observability_v0_1.py'
+      - 'examples/ai_yogacara_runtime_adapter_minimal.py'
+      - 'tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py'
       - '.github/workflows/teni_observability_validation.yml'
 
 jobs:
@@ -37,3 +43,6 @@ jobs:
 
       - name: Run stdlib-only Ten'i observability validator
         run: python3 scripts/validate_teni_observability_v0_1.py
+
+      - name: Run minimal AI Yogacara runtime adapter tests
+        run: python3 -m unittest tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py
