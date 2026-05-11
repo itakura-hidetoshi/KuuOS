@@ -6,6 +6,13 @@ This index is the canonical public reading surface for the KuuOS AI Yogacara / T
 
 The layer governs AI systems such as GPT, Gemini, Claude, language-model agents, and world-model agents by ensuring that raw AI output remains candidate, not authority.
 
+## 0. Quickstart / Operations
+
+```text
+docs/AI_YOGACARA_TENI_QUICKSTART_v0_1.md
+docs/AI_YOGACARA_OPERATIONS_REFERENCE_v0_1.md
+```
+
 ## 1. Core Chain
 
 ```text
@@ -112,6 +119,7 @@ specs/kuos_core_manifest_addendum_v0_1_33_ai_yogacara_audit_hash_chain.yaml
 specs/kuos_core_manifest_addendum_v0_1_34_ai_yogacara_worm_export.yaml
 specs/kuos_core_manifest_addendum_v0_1_35_ai_yogacara_release_bundle.yaml
 specs/kuos_core_manifest_addendum_v0_1_36_ai_yogacara_full_checks.yaml
+specs/kuos_core_manifest_addendum_v0_1_37_ai_yogacara_index_makefile.yaml
 ```
 
 ## 8. One-Command Check
