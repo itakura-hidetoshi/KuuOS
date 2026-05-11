@@ -21,5 +21,6 @@ paramita-router-checks:
 
 dukkha-checks:
 	python3 scripts/validate_dukkha_mathematical_model_v0_1.py
+	python3 scripts/validate_dukkha_model_fixtures_v0_1.py
 
 core-governance-checks: ai-yogacara-checks mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks
