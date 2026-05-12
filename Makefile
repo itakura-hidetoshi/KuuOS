@@ -2,6 +2,7 @@
 
 ai-provider-boundary-checks:
 	python3 scripts/validate_ai_provider_boundary_runtime_v0_1.py
+	python3 scripts/validate_ai_provider_boundary_audit_event_v0_1.py
 
 ai-yogacara-checks:
 	python3 scripts/run_ai_yogacara_full_checks_v0_1.py
