@@ -1,0 +1,32 @@
+id: kuos_core_manifest_addendum_v0_1_82_provider_boundary_bundle
+name: KuuOS Core Manifest Addendum - Provider Boundary Bundle
+version: 0.1.82
+date: 2026-05-12
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/PROVIDER_BOUNDARY_BUNDLE_v0_1.md
+  - scripts/build_provider_boundary_bundle_v0_1.py
+  - scripts/validate_provider_boundary_bundle_v0_1.py
+
+updated_documents:
+  - scripts/run_ai_yogacara_full_checks_v0_1.py
+
+bundle:
+  generated_manifest: specs/provider_boundary_bundle_v0_1.generated.json
+  builder: scripts/build_provider_boundary_bundle_v0_1.py
+  validator: scripts/validate_provider_boundary_bundle_v0_1.py
+  authority_note: integrity_surface_only
+
+validation:
+  included_in:
+    - ai-yogacara-checks
+    - all-governance-checks
+
+fixed_points:
+  - provider_boundary_bundle_is_integrity_surface
+  - provider_boundary_bundle_does_not_grant_authority
+  - provider_boundary_files_are_checked_as_a_bundle
