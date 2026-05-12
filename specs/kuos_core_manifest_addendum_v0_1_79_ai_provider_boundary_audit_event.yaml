@@ -1,0 +1,44 @@
+id: kuos_core_manifest_addendum_v0_1_79_ai_provider_boundary_audit_event
+name: KuuOS Core Manifest Addendum - AI Provider Boundary Audit Event
+version: 0.1.79
+date: 2026-05-12
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/AI_PROVIDER_BOUNDARY_AUDIT_EVENT_v0_1.md
+  - scripts/validate_ai_provider_boundary_audit_event_v0_1.py
+
+updated_documents:
+  - Makefile
+  - scripts/run_ai_yogacara_full_checks_v0_1.py
+
+provider_boundary_audit_event:
+  role: record_surface_for_provider_boundary_decisions
+  input_fixture: specs/ai_provider_boundary_fixtures_v0_1.json
+  validator: scripts/validate_ai_provider_boundary_audit_event_v0_1.py
+  statuses:
+    - CANDIDATE
+    - REPAIR
+    - REJECT
+    - QUARANTINE
+  non_authority_flags:
+    execution_authority_granted: false
+    proof_authority_granted: false
+    memory_truth_granted: false
+    decision_authority_granted: false
+    teni_authority_granted: false
+
+validation:
+  make_target: ai-provider-boundary-checks
+  included_in:
+    - ai-yogacara-checks
+    - all-governance-checks
+
+fixed_points:
+  - provider_boundary_audit_event_is_record_surface_not_authority
+  - provider_raw_output_remains_candidate_unless_rejected_repaired_or_quarantined
+  - provider_boundary_audit_does_not_create_execution_authority
+  - provider_boundary_audit_preserves_meta_manas_boundary
