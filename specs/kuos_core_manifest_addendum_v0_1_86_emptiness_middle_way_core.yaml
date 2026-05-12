@@ -1,0 +1,45 @@
+id: kuos_core_manifest_addendum_v0_1_86_emptiness_middle_way_core
+name: KuuOS Core Manifest Addendum - Emptiness Dependent Origination Two Truths Middle Way Core
+version: 0.1.86
+date: 2026-05-12
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/EMPTINESS_DEPENDENT_ORIGINATION_TWO_TRUTHS_MIDDLE_WAY_CORE_v0_1.md
+  - specs/emptiness_middle_way_core_fixtures_v0_1.json
+  - scripts/validate_emptiness_middle_way_core_v0_1.py
+
+updated_documents:
+  - scripts/run_core_governance_full_checks_v0_1.py
+
+core_boundary:
+  role: prevent_reification_nihilism_two_truths_collapse_and_middle_way_drift
+  statuses:
+    - CANDIDATE
+    - HOLD
+    - REPAIR
+    - REJECT
+    - QUARANTINE
+    - OBSERVE
+  non_authority_flags:
+    execution_authority_granted: false
+    proof_authority_granted: false
+    truth_authority_granted: false
+    essence_authority_granted: false
+    teni_authority_granted: false
+
+validation:
+  command: python3 scripts/validate_emptiness_middle_way_core_v0_1.py
+  included_in:
+    - core-governance-checks
+    - all-governance-checks
+
+fixed_points:
+  - emptiness_prevents_reification
+  - dependent_origination_requires_lineage_boundary_context_and_scope
+  - two_truths_preserve_conventional_functionality_and_ultimate_non_reification
+  - middle_way_rejects_substantialism_and_nihilism
+  - validation_pass_does_not_grant_execution_authority
