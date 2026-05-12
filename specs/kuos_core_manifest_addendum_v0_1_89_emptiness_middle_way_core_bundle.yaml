@@ -1,0 +1,31 @@
+id: kuos_core_manifest_addendum_v0_1_89_emptiness_middle_way_core_bundle
+name: KuuOS Core Manifest Addendum - Emptiness Middle Way Core Bundle
+version: 0.1.89
+date: 2026-05-12
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/EMPTINESS_MIDDLE_WAY_CORE_BUNDLE_v0_1.md
+  - scripts/build_emptiness_middle_way_core_bundle_v0_1.py
+  - scripts/validate_emptiness_middle_way_core_bundle_v0_1.py
+
+updated_documents:
+  - scripts/run_core_governance_full_checks_v0_1.py
+
+bundle:
+  generated_manifest: specs/emptiness_middle_way_core_bundle_v0_1.generated.json
+  builder: scripts/build_emptiness_middle_way_core_bundle_v0_1.py
+  validator: scripts/validate_emptiness_middle_way_core_bundle_v0_1.py
+  authority_note: integrity_surface_only
+
+validation:
+  included_in:
+    - core-governance-checks
+    - all-governance-checks
+
+fixed_points:
+  - emptiness_middle_way_core_bundle_is_integrity_surface
+  - bundle_does_not_grant_authority
+  - emptiness_middle_way_core_files_are_checked_as_a_bundle
