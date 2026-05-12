@@ -1,0 +1,21 @@
+id: kuos_core_manifest_addendum_v0_1_87_emptiness_middle_way_hash_chain
+name: KuuOS Core Manifest Addendum - Emptiness Middle Way Hash Chain
+version: 0.1.87
+date: 2026-05-12
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/EMPTINESS_MIDDLE_WAY_CORE_AUDIT_HASH_CHAIN_LEDGER_v0_1.md
+  - specs/emptiness_middle_way_core_audit_hash_chain_fixture_v0_1.jsonl
+  - scripts/validate_emptiness_middle_way_core_audit_hash_chain_v0_1.py
+
+updated_documents:
+  - scripts/run_core_governance_full_checks_v0_1.py
+
+validation:
+  root_hash_fixture: cd13a5e6fbf1b2867822c03e64be56ad031d9846a43eca77d2db7251e473b7c7
+  included_in:
+    - core-governance-checks
+    - all-governance-checks
