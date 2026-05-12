@@ -1,0 +1,32 @@
+id: gpt_github_super_relativity_invariant_addendum_manifest_v0_1
+version: v0.1
+date: 2026-05-12
+author: Hidetoshi Itakura / 板倉英俊
+release_mode:
+  - append_only
+  - tighten_only
+  - overwrite_forbidden
+purpose: >-
+  Register Hidetoshi Itakura's Super-Relativity Invariant Bridge as the
+  reference axis for KuuOS GPT GitHub invariant review.
+canonical_reference:
+  - docs/SUPER_RELATIVITY_INVARIANT_BRIDGE_v0_1.md
+  - docs/GPT_GITHUB_SUPER_RELATIVITY_INVARIANT_ADDENDUM_v0_1.md
+  - docs/GPT_GITHUB_KUOS_INTEGRATION_v0_1.md
+review_question: >-
+  When observer, record, scale, WORLD, PR surface, CI surface, or GPT summary changes,
+  what must still not collapse?
+required_invariants:
+  - super_relativity_preserves_two_truths_gap
+  - observer_difference_does_not_grant_execution_authority
+  - record_surface_is_not_truth_by_itself
+  - scale_shift_must_preserve_harm_visibility
+  - world_translation_must_not_replace_fourfold_core
+  - raw_ai_output_candidate_not_authority
+  - validation_pass_not_execution_authority
+  - ci_pass_not_theorem_truth
+  - GPT_summary_not_proof_authority
+  - Dukkha_visibility_preserved
+  - harm_visibility_preserved
+validator:
+  command: python3 scripts/validate_gpt_github_super_relativity_invariant_addendum_v0_1.py
