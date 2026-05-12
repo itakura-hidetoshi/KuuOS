@@ -1,0 +1,32 @@
+id: kuos_core_manifest_addendum_v0_1_91_emptiness_middle_way_core_closure_packet
+name: KuuOS Core Manifest Addendum - Emptiness Middle Way Core Closure Packet
+version: 0.1.91
+date: 2026-05-12
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/EMPTINESS_MIDDLE_WAY_CORE_CLOSURE_PACKET_v0_1.md
+  - scripts/validate_emptiness_middle_way_core_closure_packet_v0_1.py
+  - scripts/run_emptiness_middle_way_core_full_checks_v0_1.py
+
+closure_packet:
+  validator: scripts/validate_emptiness_middle_way_core_closure_packet_v0_1.py
+  full_check_runner: scripts/run_emptiness_middle_way_core_full_checks_v0_1.py
+  chain:
+    - core_runtime
+    - audit_event
+    - audit_hash_chain
+    - worm_receipt
+    - core_bundle
+    - core_attestation
+  authority_note: operational_closure_only
+
+validation:
+  command: python3 scripts/run_emptiness_middle_way_core_full_checks_v0_1.py
+
+fixed_points:
+  - emptiness_middle_way_core_closure_is_operational_closure
+  - closure_does_not_grant_authority
+  - core_boundary_chain_is_reviewable
