@@ -1,0 +1,17 @@
+{
+  "id": "emptiness_middle_way_core_audit_worm_export_receipt_fixture_v0_1",
+  "version": "0.1",
+  "exported_at": "2026-05-12T00:02:00Z",
+  "source_ledger": "specs/emptiness_middle_way_core_audit_hash_chain_fixture_v0_1.jsonl",
+  "source_ledger_root_hash": "cd13a5e6fbf1b2867822c03e64be56ad031d9846a43eca77d2db7251e473b7c7",
+  "exported_entry_count": 2,
+  "export_mode": "WORM",
+  "retention_policy": "local_fixture_append_only",
+  "object_lock_mode": "local_fixture",
+  "non_authority_note": "WORM export preserves core audit lineage and does not create execution, proof, truth, essence, or Ten'i authority.",
+  "execution_authority_granted": false,
+  "proof_authority_granted": false,
+  "truth_authority_granted": false,
+  "essence_authority_granted": false,
+  "teni_authority_granted": false
+}
