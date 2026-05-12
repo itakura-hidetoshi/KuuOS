@@ -1,0 +1,17 @@
+{
+  "id": "ai_provider_boundary_audit_worm_export_receipt_fixture_v0_1",
+  "version": "0.1",
+  "exported_at": "2026-05-12T00:02:00Z",
+  "source_ledger": "specs/ai_provider_boundary_audit_hash_chain_fixture_v0_1.jsonl",
+  "source_ledger_root_hash": "83688df4ff3745288b517bf5db0bf6e4500b5c62636ed64ce141af76317bc2a7",
+  "exported_entry_count": 2,
+  "export_mode": "WORM",
+  "retention_policy": "local_fixture_append_only",
+  "object_lock_mode": "local_fixture",
+  "non_authority_note": "WORM export preserves provider boundary lineage and does not create execution, proof, memory-truth, decision, or Ten'i authority.",
+  "execution_authority_granted": false,
+  "proof_authority_granted": false,
+  "memory_truth_granted": false,
+  "decision_authority_granted": false,
+  "teni_authority_granted": false
+}
