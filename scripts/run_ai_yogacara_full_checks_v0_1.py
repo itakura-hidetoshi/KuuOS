@@ -5,8 +5,8 @@ run_ai_yogacara_full_checks_v0_1.py
 Stdlib-only full check runner for the KuuOS AI Yogacara / Ten'i layer.
 
 Runs all current validators, provider boundary checks, provider audit events,
-provider audit hash-chain checks, provider WORM receipt checks, bundle builder,
-bundle validator, and unit tests.
+provider audit hash-chain checks, provider WORM receipt checks, provider boundary bundle checks,
+bundle builder, bundle validator, and unit tests.
 No external AI API calls.
 """
 
@@ -25,6 +25,7 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/validate_ai_provider_boundary_audit_event_v0_1.py"],
     [sys.executable, "scripts/validate_ai_provider_boundary_audit_hash_chain_v0_1.py"],
     [sys.executable, "scripts/validate_ai_provider_boundary_audit_worm_export_receipt_v0_1.py"],
+    [sys.executable, "scripts/validate_provider_boundary_bundle_v0_1.py"],
     [sys.executable, "scripts/validate_ai_yogacara_adapter_schema_v0_1.py"],
     [sys.executable, "scripts/validate_ai_yogacara_adapter_fixtures_v0_1.py"],
     [sys.executable, "scripts/validate_ai_yogacara_adapter_audit_event_v0_1.py"],
