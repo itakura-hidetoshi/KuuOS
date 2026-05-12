@@ -5,13 +5,10 @@ run_core_governance_full_checks_v0_1.py
 Stdlib-only full check runner for KuuOS Core Governance layers.
 
 Runs Emptiness / Dependent Origination / Two Truths / Middle Way,
-including core audit event validation, Mandala Multi-WORLD, Bodhisattva Ten Paramita,
-Paramita Repair Router, Dukkha Mathematical Model, Dukkha-as-Qi,
-Formal Invariant Spine, Super-Relativity Invariant Bridge, Invariant Preservation Matrix,
-Invariant Gate, and Invariant Governance Pipeline validators including end-to-end runtime fixtures,
-audit event validation, audit hash-chain validation, WORM export receipt validation,
-release bundle manifest validation, release attestation validation, release closure validation,
-closure-in-bundle inclusion validation, and finality packet validation.
+including core audit event and hash-chain validation, Mandala Multi-WORLD,
+Bodhisattva Ten Paramita, Paramita Repair Router, Dukkha Mathematical Model,
+Dukkha-as-Qi, Formal Invariant Spine, Super-Relativity Invariant Bridge,
+Invariant Preservation Matrix, Invariant Gate, and Invariant Governance Pipeline validators.
 No external dependencies and no external API calls.
 """
 
@@ -27,6 +24,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/validate_emptiness_middle_way_core_v0_1.py"],
     [sys.executable, "scripts/validate_emptiness_middle_way_core_audit_event_v0_1.py"],
+    [sys.executable, "scripts/validate_emptiness_middle_way_core_audit_hash_chain_v0_1.py"],
     [sys.executable, "scripts/validate_mandala_multi_world_v0_1.py"],
     [sys.executable, "scripts/validate_bodhisattva_ten_paramita_v0_1.py"],
     [sys.executable, "scripts/validate_paramita_repair_router_v0_1.py"],
