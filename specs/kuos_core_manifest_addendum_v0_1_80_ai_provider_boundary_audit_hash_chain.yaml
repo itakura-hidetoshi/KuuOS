@@ -1,0 +1,26 @@
+id: kuos_core_manifest_addendum_v0_1_80_ai_provider_boundary_audit_hash_chain
+name: KuuOS Core Manifest Addendum - AI Provider Boundary Audit Hash Chain
+version: 0.1.80
+date: 2026-05-12
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/AI_PROVIDER_BOUNDARY_AUDIT_HASH_CHAIN_LEDGER_v0_1.md
+  - specs/ai_provider_boundary_audit_hash_chain_fixture_v0_1.jsonl
+  - scripts/validate_ai_provider_boundary_audit_hash_chain_v0_1.py
+
+updated_documents:
+  - scripts/run_ai_yogacara_full_checks_v0_1.py
+
+validation:
+  included_in:
+    - ai-yogacara-checks
+    - all-governance-checks
+
+fixed_points:
+  - provider_boundary_audit_hash_chain_is_record_lineage
+  - provider_boundary_preserves_non_authority_boundary
+  - meta_manas_boundary_remains_visible
