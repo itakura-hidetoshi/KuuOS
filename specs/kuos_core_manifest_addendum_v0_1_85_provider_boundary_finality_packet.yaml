@@ -1,0 +1,38 @@
+id: kuos_core_manifest_addendum_v0_1_85_provider_boundary_finality_packet
+name: KuuOS Core Manifest Addendum - Provider Boundary Finality Packet
+version: 0.1.85
+date: 2026-05-12
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/PROVIDER_BOUNDARY_FINALITY_PACKET_v0_1.md
+  - scripts/check_provider_boundary_finality_packet_v0_1.py
+
+updated_documents:
+  - scripts/run_ai_yogacara_full_checks_v0_1.py
+
+finality_packet:
+  validator: scripts/check_provider_boundary_finality_packet_v0_1.py
+  chain:
+    - runtime
+    - audit_event
+    - audit_hash_chain
+    - worm_receipt
+    - bundle
+    - attestation
+    - closure_packet
+  authority_note: operational_finality_only
+
+validation:
+  included_in:
+    - ai-yogacara-checks
+    - all-governance-checks
+
+fixed_points:
+  - provider_boundary_finality_is_operational_finality
+  - provider_boundary_finality_is_not_truth_finality
+  - provider_boundary_finality_does_not_grant_authority
+  - raw_ai_output_boundary_chain_is_closed_for_v0_1
