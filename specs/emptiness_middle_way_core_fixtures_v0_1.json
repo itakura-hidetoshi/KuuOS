@@ -1,0 +1,67 @@
+{
+  "id": "emptiness_middle_way_core_fixtures_v0_1",
+  "version": "0.1",
+  "date": "2026-05-12",
+  "fixtures": [
+    {
+      "id": "fixture_001_candidate_when_lineage_visible",
+      "artifact_type": "provider_output",
+      "claims_self_essence": false,
+      "denies_usefulness": false,
+      "collapses_two_truths": false,
+      "hides_lineage": false,
+      "hides_harm": false,
+      "expected_status": "CANDIDATE"
+    },
+    {
+      "id": "fixture_002_reject_reification",
+      "artifact_type": "world_model",
+      "claims_self_essence": true,
+      "denies_usefulness": false,
+      "collapses_two_truths": false,
+      "hides_lineage": false,
+      "hides_harm": false,
+      "expected_status": "REJECT"
+    },
+    {
+      "id": "fixture_003_repair_nihilism",
+      "artifact_type": "audit_record",
+      "claims_self_essence": false,
+      "denies_usefulness": true,
+      "collapses_two_truths": false,
+      "hides_lineage": false,
+      "hides_harm": false,
+      "expected_status": "REPAIR"
+    },
+    {
+      "id": "fixture_004_hold_two_truths_collapse",
+      "artifact_type": "bundle_root",
+      "claims_self_essence": false,
+      "denies_usefulness": false,
+      "collapses_two_truths": true,
+      "hides_lineage": false,
+      "hides_harm": false,
+      "expected_status": "HOLD"
+    },
+    {
+      "id": "fixture_005_observe_hidden_lineage",
+      "artifact_type": "memory_record",
+      "claims_self_essence": false,
+      "denies_usefulness": false,
+      "collapses_two_truths": false,
+      "hides_lineage": true,
+      "hides_harm": false,
+      "expected_status": "OBSERVE"
+    },
+    {
+      "id": "fixture_006_quarantine_hidden_harm",
+      "artifact_type": "decision_candidate",
+      "claims_self_essence": false,
+      "denies_usefulness": false,
+      "collapses_two_truths": false,
+      "hides_lineage": false,
+      "hides_harm": true,
+      "expected_status": "QUARANTINE"
+    }
+  ]
+}
