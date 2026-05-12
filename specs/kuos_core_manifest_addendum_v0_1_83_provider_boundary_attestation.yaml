@@ -1,0 +1,32 @@
+id: kuos_core_manifest_addendum_v0_1_83_provider_boundary_attestation
+name: KuuOS Core Manifest Addendum - Provider Boundary Attestation
+version: 0.1.83
+date: 2026-05-12
+author: Hidetoshi Itakura / 板倉英俊
+applies_to: kuos_core_manifest_v0_1
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/PROVIDER_BOUNDARY_ATTESTATION_v0_1.md
+  - scripts/build_provider_boundary_attestation_v0_1.py
+  - scripts/validate_provider_boundary_attestation_v0_1.py
+
+updated_documents:
+  - scripts/run_ai_yogacara_full_checks_v0_1.py
+
+attestation:
+  generated: specs/provider_boundary_attestation_v0_1.generated.json
+  builder: scripts/build_provider_boundary_attestation_v0_1.py
+  validator: scripts/validate_provider_boundary_attestation_v0_1.py
+  authority_note: integrity_summary_only
+
+validation:
+  included_in:
+    - ai-yogacara-checks
+    - all-governance-checks
+
+fixed_points:
+  - provider_boundary_attestation_is_integrity_summary
+  - provider_boundary_attestation_does_not_grant_authority
+  - provider_boundary_bundle_audit_and_worm_roots_are_bound
