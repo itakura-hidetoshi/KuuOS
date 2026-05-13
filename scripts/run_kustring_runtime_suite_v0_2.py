@@ -10,6 +10,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 COMMANDS = [
     [sys.executable, "scripts/run_kustring_runtime_checks_v0_2.py"],
     [sys.executable, "scripts/run_kustring_runtime_packet_checks_v0_2.py"],
+    [sys.executable, "scripts/check_kustring_runtime_audit_v0_2.py"],
 ]
 
 
