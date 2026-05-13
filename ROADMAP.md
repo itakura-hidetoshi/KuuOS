@@ -35,9 +35,10 @@ docs/spectral_gap_formalization_ci.md
 docs/MGAP4D_4D_MASS_GAP_PROOF_MEMORY_v0_1.md
 docs/MGAP4D_PHASE3_RELEASE_GATE_MEMORY_v0_1.md
 docs/MGAP4D_R1_R7_RELEASE_EVIDENCE_MAP_v0_1.md
+docs/MGAP4D_FINAL_THEOREM_BOUNDARY_DECISION_RECORD_v0_1.md
 ```
 
-These documents separate CI evidence, proof-memory content, Phase 3 release-gate semantics, and R1--R7 release-evidence slots.
+These documents separate CI evidence, proof-memory content, Phase 3 release-gate semantics, R1--R7 release-evidence slots, and the final public theorem boundary decision.
 
 ## Boundary Held
 
@@ -58,7 +59,8 @@ This keeps the repository aligned with proof-carrying development rather than pr
 4. Separate checkpoint success from final theorem authority.
 5. Use `docs/MGAP4D_PHASE3_RELEASE_GATE_MEMORY_v0_1.md` as the Phase 3 gate-memory surface.
 6. Use `docs/MGAP4D_R1_R7_RELEASE_EVIDENCE_MAP_v0_1.md` as the R1--R7 evidence-slot surface.
-7. Prepare later Phase 3 final-release documentation only after the relevant theorem surfaces are explicitly completed and verified.
+7. Use `docs/MGAP4D_FINAL_THEOREM_BOUNDARY_DECISION_RECORD_v0_1.md` as the public theorem boundary decision surface.
+8. Prepare later Phase 3 final-release documentation only after the relevant theorem surfaces are explicitly completed and verified.
 
 ## KuuOS Interpretation
 
@@ -90,6 +92,13 @@ obligation slot
   != CI green
   != theorem completed
   != final release
+```
+
+The final theorem boundary decision record adds the last membrane:
+
+```text
+release readiness
+  != public theorem boundary opened
 ```
 
 ## Development Rule
