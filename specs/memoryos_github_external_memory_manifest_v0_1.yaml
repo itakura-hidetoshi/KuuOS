@@ -11,6 +11,7 @@ purpose: >-
   Define GitHub as an external MemoryOS pointer, evidence, digest,
   repair-lineage, and conflict-visibility surface without granting memory,
   truth, proof, clinical, Ten'i, world-update, or execution authority.
+authority: external_pointer_only
 canonical_documents:
   - docs/MEMORYOS_GITHUB_EXTERNAL_MEMORY_v0_1.md
 canonical_examples:
