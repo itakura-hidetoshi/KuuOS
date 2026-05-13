@@ -1,0 +1,62 @@
+{
+  "id": "emptiness_vacuum_normalization_fixtures_v0_1",
+  "version": "0.1",
+  "date": "2026-05-13",
+  "fixtures": [
+    {
+      "id": "valid_k_perp_gap",
+      "h_world_k_zero": true,
+      "k_objectified": false,
+      "k_kperp_collapsed": false,
+      "direct_k_observed": false,
+      "gap_domain": "K_perp",
+      "psi_star_domain": "K_perp",
+      "psi_star_eigenvalue": "33/20",
+      "expected_status": "CANDIDATE"
+    },
+    {
+      "id": "bad_k_objectified",
+      "h_world_k_zero": true,
+      "k_objectified": true,
+      "k_kperp_collapsed": false,
+      "direct_k_observed": false,
+      "gap_domain": "K_perp",
+      "psi_star_domain": "K_perp",
+      "psi_star_eigenvalue": "33/20",
+      "expected_status": "REJECT"
+    },
+    {
+      "id": "bad_gap_on_k",
+      "h_world_k_zero": true,
+      "k_objectified": false,
+      "k_kperp_collapsed": false,
+      "direct_k_observed": false,
+      "gap_domain": "K",
+      "psi_star_domain": "K_perp",
+      "psi_star_eigenvalue": "33/20",
+      "expected_status": "REJECT"
+    },
+    {
+      "id": "hold_k_kperp_collapse",
+      "h_world_k_zero": true,
+      "k_objectified": false,
+      "k_kperp_collapsed": true,
+      "direct_k_observed": false,
+      "gap_domain": "K_perp",
+      "psi_star_domain": "K_perp",
+      "psi_star_eigenvalue": "33/20",
+      "expected_status": "HOLD"
+    },
+    {
+      "id": "hold_direct_k_observed",
+      "h_world_k_zero": true,
+      "k_objectified": false,
+      "k_kperp_collapsed": false,
+      "direct_k_observed": true,
+      "gap_domain": "K_perp",
+      "psi_star_domain": "K_perp",
+      "psi_star_eigenvalue": "33/20",
+      "expected_status": "HOLD"
+    }
+  ]
+}
