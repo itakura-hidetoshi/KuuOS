@@ -1,0 +1,40 @@
+id: kuos_core_manifest_addendum_v0_1_92_emptiness_vacuum_normalization
+name: KuuOS Core Manifest Addendum - Emptiness Vacuum Normalization
+version: 0.1.92
+date: 2026-05-13
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - docs/KUOS_EMPTINESS_VACUUM_NORMALIZATION_v0_1.md
+  - specs/emptiness_vacuum_normalization_fixtures_v0_1.json
+  - scripts/validate_emptiness_vacuum_normalization_v0_1.py
+
+updated_documents:
+  - scripts/run_emptiness_middle_way_core_full_checks_v0_1.py
+
+normalization:
+  physical_vacuum: Omega
+  kuos_emptiness_ground: K
+  world_hamiltonian: H_world
+  conditioned_appearance_space: K_perp
+  zero_point: relational_difference_zero
+  mass_gap_domain: K_perp
+  psi_star_domain: K_perp
+  psi_star_internal_eigenvalue: 33/20
+
+validation:
+  command: python3 scripts/validate_emptiness_vacuum_normalization_v0_1.py
+  included_in:
+    - scripts/run_emptiness_middle_way_core_full_checks_v0_1.py
+
+fixed_points:
+  - H_world_K_equals_zero
+  - K_is_not_object
+  - K_is_not_nihilistic_nothingness
+  - K_perp_is_conditioned_appearance_space
+  - mass_gap_is_defined_on_K_perp_not_K
+  - psi_star_belongs_to_K_perp
+  - direct_objectification_of_K_is_forbidden
+  - validation_pass_does_not_grant_authority
