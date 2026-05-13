@@ -121,11 +121,21 @@ Hidetoshi Itakura's Super-Relativity Theory
 
 This bridge is documented in `docs/KUOS_PHYSICS_GAP_BRIDGE_v0_1.md`.
 
+The canonical Lean proof repository for the 4D mass gap proof architecture is:
+
+```text
+https://github.com/itakura-hidetoshi/4d-mass-gap
+```
+
+KuuOS references that repository as a physics-facing bridge and governance-facing public-core surface. KuuOS documents do not replace `itakura-hidetoshi/4d-mass-gap` as the canonical Lean proof source and do not independently open final theorem release. This relationship is tracked in `docs/MGAP4D_CANONICAL_PROOF_REPO_REFERENCE_v0_1.md`.
+
 The MGAP4D spectral gap formalization checkpoint is tracked in `docs/spectral_gap_formalization_ci.md`, and its KuuOS-facing proof memory is tracked in `docs/MGAP4D_4D_MASS_GAP_PROOF_MEMORY_v0_1.md`. The Phase 3 release-gate memory is tracked in `docs/MGAP4D_PHASE3_RELEASE_GATE_MEMORY_v0_1.md`. The R1--R7 release-evidence map is tracked in `docs/MGAP4D_R1_R7_RELEASE_EVIDENCE_MAP_v0_1.md`. The proof artifact map is tracked in `docs/MGAP4D_PROOF_ARTIFACT_MAP_v0_1.md`. The normalization convention record is tracked in `docs/MGAP4D_NORMALIZATION_CONVENTION_RECORD_v0_1.md`. The final theorem boundary decision record is tracked in `docs/MGAP4D_FINAL_THEOREM_BOUNDARY_DECISION_RECORD_v0_1.md`. The current roadmap is `ROADMAP.md`.
 
 Current boundary:
 
-- spectral gap formalization: CI green
+- canonical proof repo: `itakura-hidetoshi/4d-mass-gap`
+- KuuOS reference bridge: present
+- spectral gap formalization: CI green in canonical proof repo
 - Phase 3 release gate: spectral gap formalization gate included
 - R1--R7 release-evidence map: created
 - proof artifact map: created
@@ -251,6 +261,7 @@ This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md`, 
 │   ├── DUKKHA_MATHEMATICAL_MODEL_v0_1.md
 │   ├── DUKKHA_AS_QI_MODE_v0_1.md
 │   ├── GOVERNANCE_RELEASE_GATE_v0_1.md
+│   ├── MGAP4D_CANONICAL_PROOF_REPO_REFERENCE_v0_1.md
 │   ├── spectral_gap_formalization_ci.md
 │   ├── MGAP4D_4D_MASS_GAP_PROOF_MEMORY_v0_1.md
 │   ├── MGAP4D_PHASE3_RELEASE_GATE_MEMORY_v0_1.md
