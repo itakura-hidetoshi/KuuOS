@@ -1,0 +1,37 @@
+id: kuos_core_manifest_addendum_v0_1_98_kustring_runtime_worm_receipt_v0_2
+name: KuuOS Core Manifest Addendum - KuString Runtime WORM Receipt v0.2
+version: 0.1.98
+date: 2026-05-13
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+implementation_not_proof: true
+
+added_documents:
+  - scripts/export_kustring_runtime_worm_receipt_v0_2.py
+  - scripts/check_kustring_runtime_worm_receipt_v0_2.py
+
+updated_documents:
+  - scripts/run_kustring_runtime_suite_v0_2.py
+
+worm_receipt_runtime:
+  source_chain: specs/kustring_runtime_audit_chain_v0_2.generated.jsonl
+  generated_receipt: specs/kustring_runtime_worm_receipt_v0_2.generated.json
+  exporter: scripts/export_kustring_runtime_worm_receipt_v0_2.py
+  checker: scripts/check_kustring_runtime_worm_receipt_v0_2.py
+  suite: scripts/run_kustring_runtime_suite_v0_2.py
+  export_mode: WORM
+
+validation:
+  commands:
+    - python3 scripts/export_kustring_runtime_worm_receipt_v0_2.py
+    - python3 scripts/check_kustring_runtime_worm_receipt_v0_2.py
+    - python3 scripts/run_kustring_runtime_suite_v0_2.py
+
+fixed_points:
+  - runtime_audit_chain_root_is_exported_to_worm_receipt
+  - worm_receipt_is_generated_from_runtime_chain
+  - worm_receipt_generation_is_implementation_not_proof
+  - source_chain_root_hash_and_entry_count_are_checked
+  - non_authority_flags_remain_false
