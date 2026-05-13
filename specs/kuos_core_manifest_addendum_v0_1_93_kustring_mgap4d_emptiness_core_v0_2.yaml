@@ -1,0 +1,59 @@
+id: kuos_core_manifest_addendum_v0_1_93_kustring_mgap4d_emptiness_core_v0_2
+name: KuuOS Core Manifest Addendum - KuString MGAP4D Emptiness Core v0.2
+version: 0.1.93
+date: 2026-05-13
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+added_documents:
+  - specs/kustring_mgap4d_emptiness_core_v0_2_fixtures.json
+  - scripts/validate_kustring_mgap4d_emptiness_core_v0_2.py
+  - formal/KUOS/KuString/MGAP4DEmptinessCoreV02.lean
+
+existing_documents:
+  - docs/KUSTRING_MGAP4D_EMPTINESS_CORE_v0_2.md
+
+updated_documents:
+  - scripts/run_emptiness_middle_way_core_full_checks_v0_1.py
+
+core_triangle:
+  emptiness_ground: K
+  relational_difference: delta_rel
+  string_brane_surface: String/Brane
+  world_hamiltonian: H_world
+  conditioned_appearance_space: K_perp
+
+mass_gap_bridge:
+  gap_domain: K_perp
+  internal_gap: 33/20
+  eigenstate: psi_star
+  psi_star_domain: K_perp
+  norm_psi_star: 1
+
+local_observable_bridge:
+  centered_observable: A_circ
+  spectral_weight_condition: rho_A({33/20}) > 0
+
+validation:
+  command: python3 scripts/validate_kustring_mgap4d_emptiness_core_v0_2.py
+  included_in:
+    - scripts/run_emptiness_middle_way_core_full_checks_v0_1.py
+
+lean_skeleton:
+  file: formal/KUOS/KuString/MGAP4DEmptinessCoreV02.lean
+  theorem_spine:
+    - string_modes_live_in_k_perp
+    - brane_does_not_reify_string
+    - stable_excitation_not_K
+
+fixed_points:
+  - K_is_not_object
+  - K_and_K_perp_must_not_collapse
+  - string_modes_live_in_K_perp
+  - branes_are_boundary_conditions_not_substances
+  - gap_stabilizer_acts_on_K_perp_not_K
+  - psi_star_belongs_to_K_perp
+  - centered_observable_required
+  - local_spectral_weight_detects_conditioned_excitation
+  - validation_pass_does_not_grant_authority
