@@ -26,6 +26,18 @@ MGAP4D/Phase3ReleaseGate.lean
 
 Their current role is checkpoint/gate formalization, not final public theorem release.
 
+## KuuOS Tracking Documents
+
+The public-core tracking documents are:
+
+```text
+docs/spectral_gap_formalization_ci.md
+docs/MGAP4D_4D_MASS_GAP_PROOF_MEMORY_v0_1.md
+docs/MGAP4D_PHASE3_RELEASE_GATE_MEMORY_v0_1.md
+```
+
+These documents separate CI evidence, proof-memory content, and Phase 3 release-gate semantics.
+
 ## Boundary Held
 
 The following claims remain intentionally unopened:
@@ -43,7 +55,8 @@ This keeps the repository aligned with proof-carrying development rather than pr
 2. Keep the CI ledger append-only.
 3. Maintain the pre-Mathlib main branch boundary until a separate Mathlib migration path is explicitly opened.
 4. Separate checkpoint success from final theorem authority.
-5. Prepare later Phase 3 release-gate documentation only after the relevant theorem surfaces are explicitly completed and verified.
+5. Use `docs/MGAP4D_PHASE3_RELEASE_GATE_MEMORY_v0_1.md` as the Phase 3 gate-memory surface.
+6. Prepare later Phase 3 final-release documentation only after the relevant theorem surfaces are explicitly completed and verified.
 
 ## KuuOS Interpretation
 
@@ -58,6 +71,14 @@ vacuum / ground phase
 ```
 
 The gap prevents collapse between latent ground structure and effective-world excitations. In KuuOS language, this supports the distinction between emptiness, dependent origination, and conventional manifestation without treating emptiness as nihilism or treating excitations as self-subsisting entities.
+
+The Phase 3 release gate is therefore read as a proof-governance expression of the same non-collapse principle:
+
+```text
+CI-green checkpoint
+  != theorem completion
+  != final public theorem release
+```
 
 ## Development Rule
 
