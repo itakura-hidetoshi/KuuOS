@@ -36,10 +36,11 @@ docs/MGAP4D_4D_MASS_GAP_PROOF_MEMORY_v0_1.md
 docs/MGAP4D_PHASE3_RELEASE_GATE_MEMORY_v0_1.md
 docs/MGAP4D_R1_R7_RELEASE_EVIDENCE_MAP_v0_1.md
 docs/MGAP4D_PROOF_ARTIFACT_MAP_v0_1.md
+docs/MGAP4D_NORMALIZATION_CONVENTION_RECORD_v0_1.md
 docs/MGAP4D_FINAL_THEOREM_BOUNDARY_DECISION_RECORD_v0_1.md
 ```
 
-These documents separate CI evidence, proof-memory content, Phase 3 release-gate semantics, R1--R7 release-evidence slots, proof-artifact mapping, and the final public theorem boundary decision.
+These documents separate CI evidence, proof-memory content, Phase 3 release-gate semantics, R1--R7 release-evidence slots, proof-artifact mapping, normalization conventions, and the final public theorem boundary decision.
 
 ## Boundary Held
 
@@ -48,6 +49,7 @@ The following claims remain intentionally unopened:
 - final release
 - R1--R7 theorem completions
 - Mathlib-on-main migration
+- physical-unit interpretation of `33/20`
 - public theorem boundary
 
 This keeps the repository aligned with proof-carrying development rather than premature theorem reification.
@@ -61,8 +63,9 @@ This keeps the repository aligned with proof-carrying development rather than pr
 5. Use `docs/MGAP4D_PHASE3_RELEASE_GATE_MEMORY_v0_1.md` as the Phase 3 gate-memory surface.
 6. Use `docs/MGAP4D_R1_R7_RELEASE_EVIDENCE_MAP_v0_1.md` as the R1--R7 evidence-slot surface.
 7. Use `docs/MGAP4D_PROOF_ARTIFACT_MAP_v0_1.md` as the proof-artifact mapping surface.
-8. Use `docs/MGAP4D_FINAL_THEOREM_BOUNDARY_DECISION_RECORD_v0_1.md` as the public theorem boundary decision surface.
-9. Prepare later Phase 3 final-release documentation only after the relevant theorem surfaces are explicitly completed and verified.
+8. Use `docs/MGAP4D_NORMALIZATION_CONVENTION_RECORD_v0_1.md` as the normalization-convention surface.
+9. Use `docs/MGAP4D_FINAL_THEOREM_BOUNDARY_DECISION_RECORD_v0_1.md` as the public theorem boundary decision surface.
+10. Prepare later Phase 3 final-release documentation only after the relevant theorem surfaces are explicitly completed and verified.
 
 ## KuuOS Interpretation
 
@@ -103,6 +106,14 @@ artifact path listed
   != artifact verified
   != R-slot completed
   != final release
+```
+
+The normalization convention record adds the unit/meaning membrane:
+
+```text
+internal normalized target
+  != physical-unit interpretation
+  != final theorem statement
 ```
 
 The final theorem boundary decision record adds the last membrane:
