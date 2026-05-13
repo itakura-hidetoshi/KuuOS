@@ -12,6 +12,7 @@ COMMANDS = [
     [sys.executable, "scripts/run_kustring_runtime_packet_checks_v0_2.py"],
     [sys.executable, "scripts/check_kustring_runtime_audit_v0_2.py"],
     [sys.executable, "scripts/check_kustring_runtime_audit_chain_v0_2.py"],
+    [sys.executable, "scripts/check_kustring_runtime_worm_receipt_v0_2.py"],
 ]
 
 
