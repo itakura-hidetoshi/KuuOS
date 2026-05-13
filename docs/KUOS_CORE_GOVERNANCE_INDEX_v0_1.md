@@ -4,7 +4,7 @@
 
 This index is the top-level public navigation surface for KuuOS Core governance, validation, audit, and non-authority boundaries.
 
-It connects the fourfold core, AI Yogacara / Ten'i governance, Mandala Multi-WORLD governance, Bodhisattva / Ten Paramita runtime, Dukkha Mathematical Model, Dukkha-as-Qi Mode, Formal Invariant Spine, Hidetoshi Itakura's Super-Relativity Invariant Bridge, Invariant Preservation Matrix, Invariant Gate Runtime, Invariant Governance Pipeline, GPT GitHub integration, and formal verification bridge surfaces.
+It connects the fourfold core, AI Yogacara / Ten'i governance, Mandala Multi-WORLD governance, Bodhisattva / Ten Paramita runtime, Dukkha Mathematical Model, Dukkha-as-Qi Mode, Formal Invariant Spine, Hidetoshi Itakura's Super-Relativity Invariant Bridge, Invariant Preservation Matrix, Invariant Gate Runtime, Invariant Governance Pipeline, GPT GitHub integration, MemoryOS GitHub external memory, and formal verification bridge surfaces.
 
 ## 1. Read First
 
@@ -13,6 +13,7 @@ README.md
 docs/KUOS_FOURFOLD_CORE_v0_1.md
 docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
 docs/GPT_GITHUB_KUOS_INTEGRATION_v0_1.md
+docs/MEMORYOS_GITHUB_EXTERNAL_MEMORY_v0_1.md
 ```
 
 ## 2. Top-Level Validation Command
@@ -38,6 +39,9 @@ Core Governance
 
 GPT GitHub Integration
   -> scripts/validate_gpt_github_integration_v0_1.py
+
+MemoryOS GitHub External Memory
+  -> scripts/validate_memoryos_github_external_memory_v0_1.py
 
 All Governance
   -> scripts/run_all_governance_full_checks_v0_1.py
@@ -80,7 +84,34 @@ GPT may assist repository reading, review, issue drafting, PR drafting, validati
 GPT output is not truth, proof, clinical authority, Ten'i, or execution authority.
 ```
 
-## 6. AI Yogacara / Ten'i Governance
+## 6. MemoryOS GitHub External Memory
+
+Canonical MemoryOS GitHub external memory surfaces:
+
+```text
+docs/MEMORYOS_GITHUB_EXTERNAL_MEMORY_v0_1.md
+specs/memoryos_github_external_memory_manifest_v0_1.yaml
+examples/memoryos_github_external_memory_minimal.py
+scripts/validate_memoryos_github_external_memory_v0_1.py
+```
+
+Primary command:
+
+```bash
+make memoryos-github-external-memory-checks
+```
+
+Core rule:
+
+```text
+GitHub_external_memory_is_pointer_and_evidence_surface_not_memory_authority
+```
+
+GitHub may serve MemoryOS as pointer memory, evidence memory, semantic digest memory, repair lineage memory, and conflict visibility memory.
+
+GitHub commit, issue, PR, CI, release, and branch surfaces are external evidence or recall aids only. They do not grant truth, proof, clinical, Ten'i, world-update, MemoryOS overwrite, or execution authority.
+
+## 7. AI Yogacara / Ten'i Governance
 
 Canonical index:
 
@@ -105,7 +136,7 @@ docs/AI_YOGACARA_AUDIT_WORM_EXPORT_MANIFEST_v0_1.md
 docs/AI_YOGACARA_RELEASE_BUNDLE_MANIFEST_v0_1.md
 ```
 
-## 7. Mandala Multi-WORLD Governance
+## 8. Mandala Multi-WORLD Governance
 
 ```text
 docs/MANDALA_MULTI_WORLD_RUNTIME_CONTRACT_v0_1.md
@@ -122,7 +153,7 @@ No WORLD becomes the center.
 The center remains the fourfold core.
 ```
 
-## 8. Bodhisattva / Ten Paramita / Repair Router
+## 9. Bodhisattva / Ten Paramita / Repair Router
 
 ```text
 docs/BODHISATTVA_PATH_BELIEF_v0_1.md
@@ -140,7 +171,7 @@ residual_suffering_visible
   -> bounded_repair_orientation
 ```
 
-## 9. Dukkha and Dukkha-as-Qi
+## 10. Dukkha and Dukkha-as-Qi
 
 ```text
 docs/DUKKHA_MATHEMATICAL_MODEL_v0_1.md
@@ -154,7 +185,7 @@ Dukkha is residual potential of broken dependent-origination readability.
 Dukkha is also a Qi mode under obstruction, fixation, collapse, scar, authority overreach, gluing defect, or transport defect.
 ```
 
-## 10. Formal Invariant Spine / Super-Relativity Bridge
+## 11. Formal Invariant Spine / Super-Relativity Bridge
 
 ```text
 docs/FORMAL_INVARIANT_SPINE_v0_1.md
@@ -182,7 +213,7 @@ Paramita as orientation, not action authorization
 Qi language not harm denial
 ```
 
-## 11. KuuOS GitHub Formal Verification Bridge
+## 12. KuuOS GitHub Formal Verification Bridge
 
 ```text
 docs/KUOS_GITHUB_FORMAL_VERIFICATION_BRIDGE_v0_1.md
@@ -200,7 +231,7 @@ GPT_summary_not_proof_authority
 review_gate_required_for_public_final_claim
 ```
 
-## 12. Invariant Governance Pipeline
+## 13. Invariant Governance Pipeline
 
 ```text
 docs/INVARIANT_PRESERVATION_MATRIX_v0_1.md
@@ -222,7 +253,7 @@ transformation detected
   -> no execution authority
 ```
 
-## 13. Minimal Runtime Examples
+## 14. Minimal Runtime Examples
 
 ```text
 examples/ai_yogacara_runtime_adapter_minimal.py
@@ -230,15 +261,17 @@ examples/paramita_repair_router_minimal.py
 examples/dukkha_model_minimal.py
 examples/invariant_preservation_matrix_minimal.py
 examples/invariant_gate_minimal.py
+examples/memoryos_github_external_memory_minimal.py
 ```
 
-## 14. Main Validators
+## 15. Main Validators
 
 ```text
 scripts/run_all_governance_full_checks_v0_1.py
 scripts/run_ai_yogacara_full_checks_v0_1.py
 scripts/run_core_governance_full_checks_v0_1.py
 scripts/validate_gpt_github_integration_v0_1.py
+scripts/validate_memoryos_github_external_memory_v0_1.py
 scripts/validate_teni_observability_v0_1.py
 scripts/validate_mandala_multi_world_v0_1.py
 scripts/validate_bodhisattva_ten_paramita_v0_1.py
@@ -253,7 +286,7 @@ scripts/validate_invariant_gate_fixtures_v0_1.py
 scripts/validate_invariant_governance_pipeline_v0_1.py
 ```
 
-## 15. Non-Authority Boundary
+## 16. Non-Authority Boundary
 
 ```text
 GPT_reading_not_authority
@@ -262,6 +295,19 @@ GPT_review_not_authority
 GPT_issue_draft_not_authority
 GPT_PR_draft_not_authority
 GPT_CI_interpretation_not_authority
+GitHub_external_memory_is_pointer_and_evidence_surface_not_memory_authority
+GitHub_commit_is_evidence_not_truth
+GitHub_issue_is_discussion_not_memory_authority
+GitHub_PR_is_proposal_not_memory_authority
+GitHub_CI_pass_is_validation_signal_not_truth
+GitHub_branch_HEAD_is_not_stable_memory
+GitHub_release_is_public_surface_not_proof_completion
+semantic_digest_is_not_source_evidence
+MemoryOS_compile_context_must_expose_uncertainty
+MemoryOS_no_silent_overwrite
+MemoryOS_lineage_preserved
+MemoryOS_conflict_visible
+MemoryOS_append_only_external_pointer
 validation_entrypoint_not_authority
 ci_pass_not_execution_authority
 bundle_integrity_not_truth
@@ -279,10 +325,14 @@ ci_pass_not_theorem_truth
 validator_pass_not_mathematical_acceptance
 GPT_summary_not_proof_authority
 review_gate_required_for_public_final_claim
+no_execution_authority
+no_clinical_authority
+no_teni_authority
+no_world_update_authority
 ```
 
-## 16. Version
+## 17. Version
 
 Version: v0.1
-Date: 2026-05-12
+Date: 2026-05-13
 Author: Hidetoshi Itakura / 板倉英俊
