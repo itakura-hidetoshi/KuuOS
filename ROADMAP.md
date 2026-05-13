@@ -34,9 +34,10 @@ The public-core tracking documents are:
 docs/spectral_gap_formalization_ci.md
 docs/MGAP4D_4D_MASS_GAP_PROOF_MEMORY_v0_1.md
 docs/MGAP4D_PHASE3_RELEASE_GATE_MEMORY_v0_1.md
+docs/MGAP4D_R1_R7_RELEASE_EVIDENCE_MAP_v0_1.md
 ```
 
-These documents separate CI evidence, proof-memory content, and Phase 3 release-gate semantics.
+These documents separate CI evidence, proof-memory content, Phase 3 release-gate semantics, and R1--R7 release-evidence slots.
 
 ## Boundary Held
 
@@ -56,7 +57,8 @@ This keeps the repository aligned with proof-carrying development rather than pr
 3. Maintain the pre-Mathlib main branch boundary until a separate Mathlib migration path is explicitly opened.
 4. Separate checkpoint success from final theorem authority.
 5. Use `docs/MGAP4D_PHASE3_RELEASE_GATE_MEMORY_v0_1.md` as the Phase 3 gate-memory surface.
-6. Prepare later Phase 3 final-release documentation only after the relevant theorem surfaces are explicitly completed and verified.
+6. Use `docs/MGAP4D_R1_R7_RELEASE_EVIDENCE_MAP_v0_1.md` as the R1--R7 evidence-slot surface.
+7. Prepare later Phase 3 final-release documentation only after the relevant theorem surfaces are explicitly completed and verified.
 
 ## KuuOS Interpretation
 
@@ -78,6 +80,16 @@ The Phase 3 release gate is therefore read as a proof-governance expression of t
 CI-green checkpoint
   != theorem completion
   != final public theorem release
+```
+
+The R1--R7 evidence map extends this rule to each theorem-obligation slot:
+
+```text
+obligation slot
+  != artifact present
+  != CI green
+  != theorem completed
+  != final release
 ```
 
 ## Development Rule
