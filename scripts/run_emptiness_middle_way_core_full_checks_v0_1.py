@@ -9,6 +9,7 @@ from typing import Sequence
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 COMMANDS: list[list[str]] = [
+    [sys.executable, "scripts/validate_emptiness_vacuum_normalization_v0_1.py"],
     [sys.executable, "scripts/validate_emptiness_middle_way_core_v0_1.py"],
     [sys.executable, "scripts/validate_emptiness_middle_way_core_audit_event_v0_1.py"],
     [sys.executable, "scripts/validate_emptiness_middle_way_core_audit_hash_chain_v0_1.py"],
