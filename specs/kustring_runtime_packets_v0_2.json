@@ -1,0 +1,36 @@
+{
+  "id": "kustring_runtime_packets_v0_2",
+  "version": "0.2",
+  "packets": [
+    {
+      "id": "valid_default",
+      "packet": {},
+      "expected_status": "CANDIDATE"
+    },
+    {
+      "id": "reject_k_object",
+      "packet": {"k_object": true},
+      "expected_status": "REJECT"
+    },
+    {
+      "id": "hold_direct_k",
+      "packet": {"k_direct": true},
+      "expected_status": "HOLD"
+    },
+    {
+      "id": "reject_gap_on_k",
+      "packet": {"gap_domain": "K"},
+      "expected_status": "REJECT"
+    },
+    {
+      "id": "hold_uncentered_observable",
+      "packet": {"observable_centered": false},
+      "expected_status": "HOLD"
+    },
+    {
+      "id": "observe_no_spectral_weight",
+      "packet": {"spectral_weight_positive": false},
+      "expected_status": "OBSERVE"
+    }
+  ]
+}
