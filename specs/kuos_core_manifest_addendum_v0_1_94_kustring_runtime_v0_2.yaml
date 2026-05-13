@@ -1,0 +1,45 @@
+id: kuos_core_manifest_addendum_v0_1_94_kustring_runtime_v0_2
+name: KuuOS Core Manifest Addendum - KuString Runtime v0.2 Implementation
+version: 0.1.94
+date: 2026-05-13
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+implementation_not_proof: true
+
+added_documents:
+  - examples/kustring_runtime_v0_2.py
+  - tests/test_kustring_runtime_v0_2.py
+  - scripts/run_kustring_runtime_checks_v0_2.py
+
+updated_documents:
+  - scripts/run_emptiness_middle_way_core_full_checks_v0_1.py
+
+runtime:
+  packet: Packet
+  evaluator: evaluate
+  default_gap: 33/20
+  gap_domain: K_perp
+  centered_observable: A_circ
+  statuses:
+    - CANDIDATE
+    - HOLD
+    - REPAIR
+    - REJECT
+    - OBSERVE
+
+validation:
+  command: python3 scripts/run_kustring_runtime_checks_v0_2.py
+  included_in:
+    - scripts/run_emptiness_middle_way_core_full_checks_v0_1.py
+
+fixed_points:
+  - runtime_checks_are_implementation_not_proof
+  - K_objectification_is_rejected
+  - direct_K_measurement_is_held
+  - StringMode_must_live_in_K_perp
+  - Brane_must_not_be_substance
+  - Gap_must_be_on_K_perp
+  - centered_observable_required
+  - runtime_pass_does_not_grant_authority
