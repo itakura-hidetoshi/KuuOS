@@ -10,9 +10,10 @@ It combines:
 AI Yogacara / Ten'i checks
 Core Governance checks
 GPT GitHub integration checks
+MemoryOS GitHub external memory checks
 ```
 
-The full check validates structure, fixtures, audit surfaces, non-authority boundaries, Mandala Multi-WORLD runtime, Bodhisattva / Ten Paramita runtime, Paramita Repair Router, Dukkha Mathematical Model, Dukkha-as-Qi Mode, GPT GitHub integration surfaces, and formal verification bridge routing.
+The full check validates structure, fixtures, audit surfaces, non-authority boundaries, Mandala Multi-WORLD runtime, Bodhisattva / Ten Paramita runtime, Paramita Repair Router, Dukkha Mathematical Model, Dukkha-as-Qi Mode, GPT GitHub integration surfaces, MemoryOS GitHub external memory surfaces, and formal verification bridge routing.
 
 ## 1. Top-Level Local Command
 
@@ -54,7 +55,27 @@ Expected success:
 PASS: KuuOS GPT GitHub integration surface v0.1 validates
 ```
 
-## 3. Included Runners
+## 3. MemoryOS GitHub External Memory Command
+
+Run when MemoryOS external memory docs, manifests, examples, validators, recall indexes, or GitHub pointer records are touched:
+
+```bash
+make memoryos-github-external-memory-checks
+```
+
+or directly:
+
+```bash
+python3 scripts/validate_memoryos_github_external_memory_v0_1.py
+```
+
+Expected success:
+
+```text
+PASS: KuuOS MemoryOS GitHub external memory surface v0.1 validates
+```
+
+## 4. Included Runners
 
 The top-level runner executes:
 
@@ -62,6 +83,7 @@ The top-level runner executes:
 scripts/run_ai_yogacara_full_checks_v0_1.py
 scripts/run_core_governance_full_checks_v0_1.py
 scripts/validate_gpt_github_integration_v0_1.py
+scripts/validate_memoryos_github_external_memory_v0_1.py
 ```
 
 GPT GitHub integration is also validated by:
@@ -70,7 +92,7 @@ GPT GitHub integration is also validated by:
 .github/workflows/gpt_github_integration_validation.yml
 ```
 
-## 4. AI Yogacara / Ten'i Scope
+## 5. AI Yogacara / Ten'i Scope
 
 This includes:
 
@@ -85,7 +107,7 @@ AI Yogacara release bundle manifest
 AI Yogacara minimal runtime adapter tests
 ```
 
-## 5. Core Governance Scope
+## 6. Core Governance Scope
 
 This includes:
 
@@ -99,7 +121,7 @@ Dukkha Model fixtures
 Dukkha-as-Qi Mode
 ```
 
-## 6. GPT GitHub Integration Scope
+## 7. GPT GitHub Integration Scope
 
 This includes:
 
@@ -115,7 +137,27 @@ non-authority fixed points
 PASS / HOLD / REPAIR / REJECT / QUARANTINE classification surface
 ```
 
-## 7. Failure Interpretation
+## 8. MemoryOS GitHub External Memory Scope
+
+This includes:
+
+```text
+MemoryOS GitHub external memory protocol
+external memory manifest
+minimal GitHub pointer record example
+Makefile target
+validator
+pointer memory
+evidence memory
+semantic digest memory
+repair lineage memory
+conflict visibility memory
+stable commit SHA preference
+branch HEAD non-stability warning
+non-authority fixed points
+```
+
+## 9. Failure Interpretation
 
 A failure means at least one governance surface is structurally inconsistent.
 
@@ -132,10 +174,14 @@ non-authority field not false
 runtime route mismatch
 GPT integration token missing
 formal bridge overclaim risk
+MemoryOS external memory token missing
+GitHub branch HEAD treated as pinned memory
+semantic digest treated as source evidence
+GitHub CI or release treated as truth
 CI environment drift
 ```
 
-## 8. What Passing Means
+## 10. What Passing Means
 
 A pass means:
 
@@ -150,10 +196,11 @@ Dukkha remains visible
 Dukkha-as-Qi does not hide harm
 Paramita routing does not grant execution authority
 GPT GitHub integration preserves non-authority boundaries
+MemoryOS GitHub external memory preserves pointer/evidence boundaries
 formal bridge preserves review-gated proof surface
 ```
 
-## 9. What Passing Does Not Mean
+## 11. What Passing Does Not Mean
 
 A pass does not mean:
 
@@ -167,12 +214,15 @@ all suffering has been eliminated
 Qi reading is clinical diagnosis
 GPT summary is authority
 GPT review is authority
-CI pass is theorem truth
+GitHub memory is MemoryOS authority
+GitHub commit is truth
+GitHub CI pass is theorem truth
+GitHub release is proof completion
 Lean stub is theorem completion
 formal bridge is external audit
 ```
 
-## 10. Non-Authority Fixed Points
+## 12. Non-Authority Fixed Points
 
 ```text
 GPT_reading_not_authority
@@ -181,6 +231,19 @@ GPT_review_not_authority
 GPT_issue_draft_not_authority
 GPT_PR_draft_not_authority
 GPT_CI_interpretation_not_authority
+GitHub_external_memory_is_pointer_and_evidence_surface_not_memory_authority
+GitHub_commit_is_evidence_not_truth
+GitHub_issue_is_discussion_not_memory_authority
+GitHub_PR_is_proposal_not_memory_authority
+GitHub_CI_pass_is_validation_signal_not_truth
+GitHub_branch_HEAD_is_not_stable_memory
+GitHub_release_is_public_surface_not_proof_completion
+semantic_digest_is_not_source_evidence
+MemoryOS_compile_context_must_expose_uncertainty
+MemoryOS_no_silent_overwrite
+MemoryOS_lineage_preserved
+MemoryOS_conflict_visible
+MemoryOS_append_only_external_pointer
 validation_entrypoint_not_authority
 ci_pass_not_execution_authority
 bundle_integrity_not_truth
@@ -195,13 +258,18 @@ ci_pass_not_theorem_truth
 validator_pass_not_mathematical_acceptance
 GPT_summary_not_proof_authority
 review_gate_required_for_public_final_claim
+no_execution_authority
+no_clinical_authority
+no_teni_authority
+no_world_update_authority
 ```
 
-## 11. Recommended Release Loop
+## 13. Recommended Release Loop
 
 ```text
 make append-only or tighten-only change
   -> make gpt-github-integration-checks if GPT GitHub surfaces are touched
+  -> make memoryos-github-external-memory-checks if MemoryOS GitHub external memory surfaces are touched
   -> make all-governance-checks
   -> fix structural failures
   -> commit
@@ -209,8 +277,8 @@ make append-only or tighten-only change
   -> release / archive / WORM export only after checks pass
 ```
 
-## 12. Version
+## 14. Version
 
 Version: v0.1
-Date: 2026-05-12
+Date: 2026-05-13
 Author: Hidetoshi Itakura / 板倉英俊
