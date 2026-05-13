@@ -121,7 +121,7 @@ Hidetoshi Itakura's Super-Relativity Theory
 
 This bridge is documented in `docs/KUOS_PHYSICS_GAP_BRIDGE_v0_1.md`.
 
-The MGAP4D spectral gap formalization checkpoint is tracked in `docs/spectral_gap_formalization_ci.md`, and its KuuOS-facing proof memory is tracked in `docs/MGAP4D_4D_MASS_GAP_PROOF_MEMORY_v0_1.md`. The Phase 3 release-gate memory is tracked in `docs/MGAP4D_PHASE3_RELEASE_GATE_MEMORY_v0_1.md`. The R1--R7 release-evidence map is tracked in `docs/MGAP4D_R1_R7_RELEASE_EVIDENCE_MAP_v0_1.md`. The proof artifact map is tracked in `docs/MGAP4D_PROOF_ARTIFACT_MAP_v0_1.md`. The final theorem boundary decision record is tracked in `docs/MGAP4D_FINAL_THEOREM_BOUNDARY_DECISION_RECORD_v0_1.md`. The current roadmap is `ROADMAP.md`.
+The MGAP4D spectral gap formalization checkpoint is tracked in `docs/spectral_gap_formalization_ci.md`, and its KuuOS-facing proof memory is tracked in `docs/MGAP4D_4D_MASS_GAP_PROOF_MEMORY_v0_1.md`. The Phase 3 release-gate memory is tracked in `docs/MGAP4D_PHASE3_RELEASE_GATE_MEMORY_v0_1.md`. The R1--R7 release-evidence map is tracked in `docs/MGAP4D_R1_R7_RELEASE_EVIDENCE_MAP_v0_1.md`. The proof artifact map is tracked in `docs/MGAP4D_PROOF_ARTIFACT_MAP_v0_1.md`. The normalization convention record is tracked in `docs/MGAP4D_NORMALIZATION_CONVENTION_RECORD_v0_1.md`. The final theorem boundary decision record is tracked in `docs/MGAP4D_FINAL_THEOREM_BOUNDARY_DECISION_RECORD_v0_1.md`. The current roadmap is `ROADMAP.md`.
 
 Current boundary:
 
@@ -129,6 +129,8 @@ Current boundary:
 - Phase 3 release gate: spectral gap formalization gate included
 - R1--R7 release-evidence map: created
 - proof artifact map: created
+- normalization convention record: created
+- physical-unit interpretation of `33/20`: not opened here
 - final theorem boundary decision record: created
 - final release: not opened
 - R1--R7 theorem completions: not claimed here
@@ -254,6 +256,7 @@ This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md`, 
 │   ├── MGAP4D_PHASE3_RELEASE_GATE_MEMORY_v0_1.md
 │   ├── MGAP4D_R1_R7_RELEASE_EVIDENCE_MAP_v0_1.md
 │   ├── MGAP4D_PROOF_ARTIFACT_MAP_v0_1.md
+│   ├── MGAP4D_NORMALIZATION_CONVENTION_RECORD_v0_1.md
 │   └── MGAP4D_FINAL_THEOREM_BOUNDARY_DECISION_RECORD_v0_1.md
 ├── examples/
 │   ├── ai_yogacara_runtime_adapter_minimal.py
