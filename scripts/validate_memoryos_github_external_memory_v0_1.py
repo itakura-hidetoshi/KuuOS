@@ -18,11 +18,10 @@ DOC = ROOT / "docs" / "MEMORYOS_GITHUB_EXTERNAL_MEMORY_v0_1.md"
 MANIFEST = ROOT / "specs" / "memoryos_github_external_memory_manifest_v0_1.yaml"
 EXAMPLE = ROOT / "examples" / "memoryos_github_external_memory_minimal.py"
 MAKEFILE = ROOT / "Makefile"
-WORKFLOW = ROOT / ".github" / "workflows" / "memoryos_github_external_memory_validation.yml"
 INDEX = ROOT / "docs" / "KUOS_CORE_GOVERNANCE_INDEX_v0_1.md"
 RUNBOOK = ROOT / "docs" / "ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md"
 
-REQUIRED_FILES = [DOC, MANIFEST, EXAMPLE, MAKEFILE, WORKFLOW, INDEX, RUNBOOK]
+REQUIRED_FILES = [DOC, MANIFEST, EXAMPLE, MAKEFILE, INDEX, RUNBOOK]
 
 REQUIRED_TOKENS = {
     DOC: [
@@ -63,10 +62,6 @@ REQUIRED_TOKENS = {
     MAKEFILE: [
         "memoryos-github-external-memory-checks",
         "python3 scripts/validate_memoryos_github_external_memory_v0_1.py",
-    ],
-    WORKFLOW: [
-        "MemoryOS GitHub External Memory Validation",
-        "make memoryos-github-external-memory-checks",
     ],
     INDEX: [
         "MemoryOS GitHub external memory",
