@@ -1,0 +1,36 @@
+id: kuos_core_manifest_addendum_v0_1_96_kustring_runtime_audit_v0_2
+name: KuuOS Core Manifest Addendum - KuString Runtime Audit v0.2
+version: 0.1.96
+date: 2026-05-13
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+implementation_not_proof: true
+
+added_documents:
+  - scripts/export_kustring_runtime_audit_v0_2.py
+  - scripts/check_kustring_runtime_audit_v0_2.py
+
+updated_documents:
+  - scripts/run_kustring_runtime_suite_v0_2.py
+
+audit_runtime:
+  input_fixture: specs/kustring_runtime_packets_v0_2.json
+  generated_events: specs/kustring_runtime_audit_events_v0_2.generated.jsonl
+  exporter: scripts/export_kustring_runtime_audit_v0_2.py
+  checker: scripts/check_kustring_runtime_audit_v0_2.py
+  suite: scripts/run_kustring_runtime_suite_v0_2.py
+
+validation:
+  commands:
+    - python3 scripts/export_kustring_runtime_audit_v0_2.py
+    - python3 scripts/check_kustring_runtime_audit_v0_2.py
+    - python3 scripts/run_kustring_runtime_suite_v0_2.py
+
+fixed_points:
+  - runtime_packet_evaluation_exports_audit_events
+  - audit_events_are_generated_from_runtime_results
+  - audit_event_generation_is_implementation_not_proof
+  - audit_event_pass_does_not_grant_authority
+  - non_authority_flags_remain_false
