@@ -121,6 +121,16 @@ Hidetoshi Itakura's Super-Relativity Theory
 
 This bridge is documented in `docs/KUOS_PHYSICS_GAP_BRIDGE_v0_1.md`.
 
+The MGAP4D spectral gap formalization checkpoint is tracked in `docs/spectral_gap_formalization_ci.md`, and its KuuOS-facing proof memory is tracked in `docs/MGAP4D_4D_MASS_GAP_PROOF_MEMORY_v0_1.md`. The current roadmap is `ROADMAP.md`.
+
+Current boundary:
+
+- spectral gap formalization: CI green
+- final release: not opened
+- R1--R7 theorem completions: not claimed here
+- Mathlib on main: not introduced
+- public theorem boundary: held
+
 ## Samvrti Qi Layer
 
 Qi / 気 is placed on the 世俗諦 side as an effective flow-state layer, not as a fixed substance or 勝義諦 entity.
@@ -216,6 +226,7 @@ This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md`, 
 ```text
 .
 ├── README.md
+├── ROADMAP.md
 ├── LICENSE
 ├── COPYRIGHT.md
 ├── CITATION.cff
@@ -233,7 +244,9 @@ This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md`, 
 │   ├── PARAMITA_REPAIR_ROUTER_v0_1.md
 │   ├── DUKKHA_MATHEMATICAL_MODEL_v0_1.md
 │   ├── DUKKHA_AS_QI_MODE_v0_1.md
-│   └── GOVERNANCE_RELEASE_GATE_v0_1.md
+│   ├── GOVERNANCE_RELEASE_GATE_v0_1.md
+│   ├── spectral_gap_formalization_ci.md
+│   └── MGAP4D_4D_MASS_GAP_PROOF_MEMORY_v0_1.md
 ├── examples/
 │   ├── ai_yogacara_runtime_adapter_minimal.py
 │   ├── paramita_repair_router_minimal.py
