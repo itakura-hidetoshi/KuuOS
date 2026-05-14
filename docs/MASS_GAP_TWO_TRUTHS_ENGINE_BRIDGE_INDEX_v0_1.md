@@ -94,6 +94,37 @@ TwoTruthsEngineMassGapDecision
 
 It does not set belief truth, world fact truth, decision release status, final theorem authority, or action authority.
 
+## MemoryOS / ReflectionOS Record Layer
+
+Record bridge document:
+
+```text
+docs/MASS_GAP_MEMORY_REFLECTION_RECORD_BRIDGE_v0_1.md
+```
+
+Machine-readable record spec:
+
+```text
+specs/mass_gap_memory_reflection_record_bridge_v0_1.yaml
+```
+
+Minimal stdlib-only record adapter:
+
+```text
+examples/mass_gap_memory_reflection_record_adapter_minimal.py
+```
+
+This layer receives BeliefOS / DecisionOS HOLD output as an append-only record and review surface only:
+
+```text
+MassGapBeliefDecisionHoldOutput
+  -> MassGapMemoryRecord
+  -> MassGapReflectionReviewSurface
+  -> reobserve / hold / handover recommendation only
+```
+
+It records trace and boundary status. It does not set world fact truth, belief truth, decision authority, memory truth root, final theorem authority, or action authority.
+
 ## Validator Layer
 
 Bridge and runtime validator:
@@ -108,7 +139,7 @@ Top-level governance runner includes this validator:
 scripts/run_all_governance_full_checks_v0_1.py
 ```
 
-A dedicated BeliefOS / DecisionOS HOLD validator is planned, but was not added in this update.
+Dedicated validators for BeliefOS / DecisionOS HOLD and MemoryOS / ReflectionOS record bridges are planned, but were not added in this update.
 
 ## Authority Boundary
 
@@ -122,6 +153,8 @@ belief authority: false
 world fact authority: false
 decision release authority: false
 action authority: false
+memory authority: false
+reflection release authority: false
 final theorem authority: false
 execution authority: false
 final release: not opened
@@ -138,6 +171,8 @@ Delta > 0
   -> samvrti_excitation_admissibility
   -> two_truths_non_collapse_barrier
   -> BeliefOS / DecisionOS conservative HOLD guard
+  -> MemoryOS append-only record
+  -> ReflectionOS review-only surface
 ```
 
 It prevents:
@@ -146,6 +181,7 @@ It prevents:
 paramartha collapse into nihilistic nothingness
 samvrti absolutization into self-subsisting final truth
 belief or decision authority expansion from reference-only mass-gap input
+memory or reflection authority expansion from recorded bridge output
 ```
 
 ## Development Rule
