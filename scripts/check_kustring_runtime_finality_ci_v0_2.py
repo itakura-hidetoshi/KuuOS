@@ -12,6 +12,10 @@ REQUIRED = [
     "actions/checkout@v4",
     "actions/setup-python@v5",
     "python3 scripts/run_kustring_runtime_finality_suite_v0_2.py",
+    "python3 scripts/build_kustring_runtime_finality_report_v0_2.py",
+    "actions/upload-artifact@v4",
+    "kustring-runtime-finality-report-v0-2",
+    "specs/kustring_runtime_finality_report_v0_2.generated.json",
 ]
 
 
