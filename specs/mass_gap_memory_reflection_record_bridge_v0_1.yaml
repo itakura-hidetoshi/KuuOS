@@ -1,0 +1,62 @@
+id: mass_gap_memory_reflection_record_bridge_v0_1
+name: Mass Gap MemoryOS ReflectionOS Record Bridge
+version: v0.1
+status: record_bridge_created
+source_hold_bridge:
+  document: docs/MASS_GAP_BELIEF_DECISION_HOLD_BRIDGE_v0_1.md
+  spec: specs/mass_gap_belief_decision_hold_bridge_v0_1.yaml
+canonical_source:
+  repository: itakura-hidetoshi/4d-mass-gap
+memoryos_mapping:
+  record_id: MassGapMemoryRecord
+  memory_role: append_only_record
+  memory_authority: false
+  world_fact_authority: false
+  belief_authority: false
+  decision_authority: false
+  final_theorem_authority: false
+  allowed_memory_effects:
+    - append_trace
+    - preserve_boundary_status
+    - record_reobserve_request
+    - record_handover_request
+  forbidden_memory_effects:
+    - set_world_fact
+    - set_belief_truth
+    - set_final_theorem_status
+    - erase_prior_boundary
+reflectionos_mapping:
+  surface_id: MassGapReflectionReviewSurface
+  reflection_role: review_surface
+  repair_authority: false
+  release_authority: false
+  final_theorem_authority: false
+  allowed_reflection_effects:
+    - explain_boundary_status
+    - localize_authority_expansion_attempt
+    - recommend_reobserve
+    - recommend_handover
+    - preserve_non_collapse_trace
+  forbidden_reflection_effects:
+    - rewrite_world_fact
+    - rewrite_belief_truth
+    - release_decision
+    - open_final_theorem_boundary
+record_statuses:
+  - mass_gap_guard_active_recorded
+  - mass_gap_hold_recorded
+  - mass_gap_reobserve_requested
+  - mass_gap_handover_requested
+  - mass_gap_boundary_preserved
+boundaries:
+  memory_authority: false
+  reflection_release_authority: false
+  world_fact_authority: false
+  belief_authority: false
+  decision_authority: false
+  final_theorem_authority: false
+  public_theorem_boundary: held
+development_rule:
+  - append_only
+  - tighten_only
+  - overwrite_forbidden
