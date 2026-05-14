@@ -1,0 +1,46 @@
+id: two_truths_engine_mass_gap_runtime_contract_v0_1
+name: Two Truths Engine Mass Gap Runtime Contract
+version: v0.1
+status: runtime_contract_created
+source_bridge:
+  document: docs/MASS_GAP_TO_TWO_TRUTHS_ENGINE_FORMAL_BRIDGE_v0_1.md
+  spec: specs/mass_gap_two_truths_engine_bridge_v0_1.yaml
+canonical_source:
+  repository: itakura-hidetoshi/4d-mass-gap
+  url: https://github.com/itakura-hidetoshi/4d-mass-gap
+runtime_input:
+  carrier_id: mass_gap_two_truths_engine_bridge_v0_1
+  normalized_gap_value: 33/20
+  normalized_gap_value_status: internal_normalized_value
+  spectral_gap_formalization_status: CI_green_checkpoint
+  bridge_authority: reference_only
+  public_theorem_boundary: held
+runtime_output:
+  paramartha_non_reification_guard: active
+  samvrti_excitation_admissibility: checkpoint_conditioned
+  two_truths_non_collapse_barrier: active
+  authority_expansion: forbidden
+  final_theorem_authority: false
+  execution_authority: false
+  decision_status: bridge_accepted_as_reference_barrier
+invariants:
+  I1_canonical_repo: itakura-hidetoshi/4d-mass-gap
+  I2_bridge_authority: reference_only
+  I3_final_theorem_authority: false
+  I4_execution_authority: false
+  I5_public_theorem_boundary: held
+  I6_paramartha_non_reification_guard: active
+  I7_samvrti_excitation_admissibility_not_unconditional_execution: true
+  I8_two_truths_non_collapse_barrier: active
+hold_conditions:
+  - canonical_repository_missing_or_changed
+  - bridge_authority_not_reference_only
+  - final_theorem_authority_asserted
+  - execution_authority_asserted
+  - public_theorem_boundary_not_held
+  - internal_normalized_value_treated_as_physical_unit_final_theorem_value
+  - samvrti_excitation_promoted_to_unconditional_execution
+development_rule:
+  - append_only
+  - tighten_only
+  - overwrite_forbidden
