@@ -1,0 +1,34 @@
+id: kuos_core_manifest_addendum_v0_1_111_emptiness_runtime_attestation_v0_1
+name: KuuOS Core Manifest Addendum - Emptiness Runtime Attestation v0.1
+version: 0.1.111
+date: 2026-05-13
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+implementation_not_proof: true
+
+added_documents:
+  - scripts/build_emptiness_runtime_attestation_v0_1.py
+  - scripts/check_emptiness_runtime_attestation_v0_1.py
+  - scripts/run_emptiness_runtime_attestation_checks_v0_1.py
+
+runtime_attestation:
+  generated_attestation: specs/emptiness_runtime_attestation_v0_1.generated.json
+  builder: scripts/build_emptiness_runtime_attestation_v0_1.py
+  checker: scripts/check_emptiness_runtime_attestation_v0_1.py
+  runner: scripts/run_emptiness_runtime_attestation_checks_v0_1.py
+  authority_note: emptiness_runtime_attestation_is_integrity_summary_only
+
+validation:
+  commands:
+    - python3 scripts/build_emptiness_runtime_attestation_v0_1.py
+    - python3 scripts/check_emptiness_runtime_attestation_v0_1.py
+    - python3 scripts/run_emptiness_runtime_attestation_checks_v0_1.py
+
+fixed_points:
+  - emptiness_runtime_bundle_root_is_bound_to_attestation
+  - emptiness_runtime_audit_chain_root_is_bound_to_attestation
+  - emptiness_runtime_worm_receipt_root_is_bound_to_attestation
+  - attestation_generation_is_implementation_not_proof
+  - attestation_pass_does_not_grant_authority
