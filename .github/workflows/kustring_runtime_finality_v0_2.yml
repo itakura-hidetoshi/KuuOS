@@ -1,0 +1,35 @@
+name: KuString Runtime Finality v0.2
+
+on:
+  push:
+    paths:
+      - 'examples/kustring_runtime_v0_2.py'
+      - 'tests/test_kustring_runtime_v0_2.py'
+      - 'specs/kustring_runtime_packets_v0_2.json'
+      - 'scripts/*kustring_runtime*_v0_2.py'
+      - 'docs/KUSTRING_RUNTIME_*_v0_2.md'
+      - '.github/workflows/kustring_runtime_finality_v0_2.yml'
+  pull_request:
+    paths:
+      - 'examples/kustring_runtime_v0_2.py'
+      - 'tests/test_kustring_runtime_v0_2.py'
+      - 'specs/kustring_runtime_packets_v0_2.json'
+      - 'scripts/*kustring_runtime*_v0_2.py'
+      - 'docs/KUSTRING_RUNTIME_*_v0_2.md'
+      - '.github/workflows/kustring_runtime_finality_v0_2.yml'
+  workflow_dispatch:
+
+jobs:
+  validate-kustring-runtime-finality:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run KuString runtime finality suite v0.2
+        run: python3 scripts/run_kustring_runtime_finality_suite_v0_2.py
