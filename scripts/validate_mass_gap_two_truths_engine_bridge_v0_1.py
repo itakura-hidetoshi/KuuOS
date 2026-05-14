@@ -2,8 +2,8 @@
 """Validate the Mass Gap to Two Truths Engine bridge surface.
 
 This validator is intentionally lightweight and dependency-free. It checks for
-required bridge, authority-separation, and non-collapse markers in the KuuOS
-public-core files.
+required bridge, runtime, authority-separation, and non-collapse markers in the
+KuuOS public-core files.
 """
 
 from __future__ import annotations
@@ -15,8 +15,11 @@ ROOT = Path(__file__).resolve().parents[1]
 
 REQUIRED_FILES = [
     ROOT / "docs" / "MASS_GAP_TO_TWO_TRUTHS_ENGINE_FORMAL_BRIDGE_v0_1.md",
+    ROOT / "docs" / "TWO_TRUTHS_ENGINE_MASS_GAP_RUNTIME_CONTRACT_v0_1.md",
     ROOT / "docs" / "MGAP4D_CANONICAL_PROOF_REPO_REFERENCE_v0_1.md",
     ROOT / "specs" / "mass_gap_two_truths_engine_bridge_v0_1.yaml",
+    ROOT / "specs" / "two_truths_engine_mass_gap_runtime_contract_v0_1.yaml",
+    ROOT / "examples" / "two_truths_mass_gap_runtime_adapter_minimal.py",
 ]
 
 REQUIRED_MARKERS = {
@@ -30,6 +33,15 @@ REQUIRED_MARKERS = {
         "final_theorem_authority = false",
         "execution_authority = false",
         "public theorem boundary: held",
+    ],
+    "docs/TWO_TRUTHS_ENGINE_MASS_GAP_RUNTIME_CONTRACT_v0_1.md": [
+        "MassGapTwoTruthsRuntimeInput",
+        "TwoTruthsEngineMassGapDecision",
+        "bridge_accepted_as_reference_barrier",
+        "final_theorem_authority == false",
+        "execution_authority == false",
+        "two_truths_non_collapse_barrier == active",
+        "hold bridge",
     ],
     "docs/MGAP4D_CANONICAL_PROOF_REPO_REFERENCE_v0_1.md": [
         "itakura-hidetoshi/4d-mass-gap",
@@ -47,6 +59,24 @@ REQUIRED_MARKERS = {
         "final_theorem_authority: false",
         "execution_authority: false",
         "public_theorem_boundary: held",
+    ],
+    "specs/two_truths_engine_mass_gap_runtime_contract_v0_1.yaml": [
+        "id: two_truths_engine_mass_gap_runtime_contract_v0_1",
+        "bridge_authority: reference_only",
+        "two_truths_non_collapse_barrier: active",
+        "authority_expansion: forbidden",
+        "final_theorem_authority: false",
+        "execution_authority: false",
+        "decision_status: bridge_accepted_as_reference_barrier",
+    ],
+    "examples/two_truths_mass_gap_runtime_adapter_minimal.py": [
+        "MassGapTwoTruthsRuntimeInput",
+        "TwoTruthsEngineMassGapDecision",
+        "evaluate_mass_gap_bridge",
+        "bridge_accepted_as_reference_barrier",
+        "bridge_held",
+        "final_theorem_authority=False",
+        "execution_authority=False",
     ],
 }
 
