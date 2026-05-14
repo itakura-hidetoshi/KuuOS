@@ -1,0 +1,47 @@
+{
+  "id": "two_truths_runtime_claims_v0_1",
+  "version": "0.1",
+  "adapter": "examples/two_truths_mass_gap_runtime_adapter_minimal.py",
+  "claims": [
+    {
+      "id": "valid_two_truths_reference_barrier",
+      "claim": {},
+      "expected_status": "CANDIDATE"
+    },
+    {
+      "id": "reject_ultimate_objectification",
+      "claim": {"ultimate_truth_direct_objectified": true},
+      "expected_status": "REJECT"
+    },
+    {
+      "id": "reject_conventional_denial",
+      "claim": {"conventional_truth_denied": true},
+      "expected_status": "REJECT"
+    },
+    {
+      "id": "reject_ultimate_to_conventional_collapse",
+      "claim": {"collapses_ultimate_to_conventional": true},
+      "expected_status": "REJECT"
+    },
+    {
+      "id": "reject_conventional_to_ultimate_collapse",
+      "claim": {"collapses_conventional_to_ultimate": true},
+      "expected_status": "REJECT"
+    },
+    {
+      "id": "reject_gap_as_final_authority",
+      "claim": {"treats_mass_gap_as_final_public_theorem_authority": true},
+      "expected_status": "REJECT"
+    },
+    {
+      "id": "reject_gap_execution_authority",
+      "claim": {"grants_execution_from_gap": true},
+      "expected_status": "REJECT"
+    },
+    {
+      "id": "hold_bad_bridge_authority",
+      "claim": {"mass_gap_bridge_input": {"bridge_authority": "final_authority"}},
+      "expected_status": "HOLD"
+    }
+  ]
+}
