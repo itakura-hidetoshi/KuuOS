@@ -11,6 +11,7 @@ COMMANDS = [
     [sys.executable, "scripts/run_dependent_origination_runtime_checks_v0_1.py"],
     [sys.executable, "scripts/eval_dependent_origination_runtime_claims_v0_1.py"],
     [sys.executable, "scripts/eval_dependent_origination_runtime_claims_v0_1.py", "--json"],
+    [sys.executable, "scripts/check_dependent_origination_runtime_audit_chain_v0_1.py"],
 ]
 
 
