@@ -129,12 +129,23 @@ https://github.com/itakura-hidetoshi/4d-mass-gap
 
 KuuOS references that repository as a physics-facing bridge and governance-facing public-core surface. KuuOS documents do not replace `itakura-hidetoshi/4d-mass-gap` as the canonical Lean proof source and do not independently open final theorem release. This relationship is tracked in `docs/MGAP4D_CANONICAL_PROOF_REPO_REFERENCE_v0_1.md`.
 
+The formal bridge from mass gap to the Two Truths Engine is tracked in:
+
+```text
+docs/MASS_GAP_TO_TWO_TRUTHS_ENGINE_FORMAL_BRIDGE_v0_1.md
+specs/mass_gap_two_truths_engine_bridge_v0_1.yaml
+scripts/validate_mass_gap_two_truths_engine_bridge_v0_1.py
+```
+
+This bridge maps the canonical spectral gap checkpoint to KuuOS as a two-truths non-collapse barrier, with `paramartha_non_reification_guard`, `samvrti_excitation_admissibility`, and `two_truths_non_collapse_barrier`. It carries reference authority only and grants neither final theorem authority nor execution authority.
+
 The MGAP4D spectral gap formalization checkpoint is tracked in `docs/spectral_gap_formalization_ci.md`, and its KuuOS-facing proof memory is tracked in `docs/MGAP4D_4D_MASS_GAP_PROOF_MEMORY_v0_1.md`. The Phase 3 release-gate memory is tracked in `docs/MGAP4D_PHASE3_RELEASE_GATE_MEMORY_v0_1.md`. The R1--R7 release-evidence map is tracked in `docs/MGAP4D_R1_R7_RELEASE_EVIDENCE_MAP_v0_1.md`. The proof artifact map is tracked in `docs/MGAP4D_PROOF_ARTIFACT_MAP_v0_1.md`. The normalization convention record is tracked in `docs/MGAP4D_NORMALIZATION_CONVENTION_RECORD_v0_1.md`. The final theorem boundary decision record is tracked in `docs/MGAP4D_FINAL_THEOREM_BOUNDARY_DECISION_RECORD_v0_1.md`. The current roadmap is `ROADMAP.md`.
 
 Current boundary:
 
 - canonical proof repo: `itakura-hidetoshi/4d-mass-gap`
 - KuuOS reference bridge: present
+- mass gap to Two Truths Engine formal bridge: present
 - spectral gap formalization: CI green in canonical proof repo
 - Phase 3 release gate: spectral gap formalization gate included
 - R1--R7 release-evidence map: created
@@ -262,6 +273,7 @@ This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md`, 
 │   ├── DUKKHA_AS_QI_MODE_v0_1.md
 │   ├── GOVERNANCE_RELEASE_GATE_v0_1.md
 │   ├── MGAP4D_CANONICAL_PROOF_REPO_REFERENCE_v0_1.md
+│   ├── MASS_GAP_TO_TWO_TRUTHS_ENGINE_FORMAL_BRIDGE_v0_1.md
 │   ├── spectral_gap_formalization_ci.md
 │   ├── MGAP4D_4D_MASS_GAP_PROOF_MEMORY_v0_1.md
 │   ├── MGAP4D_PHASE3_RELEASE_GATE_MEMORY_v0_1.md
@@ -276,9 +288,11 @@ This layer is documented in `docs/EXTENDED_M_THEORY_MANDALA_INCLUSION_v0_1.md`, 
 ├── scripts/
 │   ├── run_all_governance_full_checks_v0_1.py
 │   ├── run_ai_yogacara_full_checks_v0_1.py
-│   └── run_core_governance_full_checks_v0_1.py
+│   ├── run_core_governance_full_checks_v0_1.py
+│   └── validate_mass_gap_two_truths_engine_bridge_v0_1.py
 └── specs/
-    └── kuos_core_manifest_v0_1.yaml
+    ├── kuos_core_manifest_v0_1.yaml
+    └── mass_gap_two_truths_engine_bridge_v0_1.yaml
 ```
 
 ## Important Notice
