@@ -1,0 +1,64 @@
+schema_version: v0.1
+name: memoryos_github_external_memory_manifest_v0_1
+title: KuuOS MemoryOS GitHub External Memory Manifest v0.1
+author: Hidetoshi Itakura / 板倉英俊
+date: '2026-05-14'
+release_mode:
+  append_only: true
+  tighten_only: true
+  overwrite_forbidden: true
+purpose: >-
+  Define GitHub as an external MemoryOS pointer, evidence, digest,
+  repair-lineage, and conflict-visibility surface without granting memory,
+  truth, proof, clinical, Ten'i, world-update, or execution authority.
+authority: external_pointer_only
+canonical_documents:
+  - docs/MEMORYOS_GITHUB_EXTERNAL_MEMORY_v0_1.md
+canonical_examples:
+  - examples/memoryos_github_external_memory_minimal.py
+canonical_validator:
+  - scripts/validate_memoryos_github_external_memory_v0_1.py
+canonical_make_target:
+  - memoryos-github-external-memory-checks
+memory_kinds:
+  - pointer_memory
+  - evidence_memory
+  - semantic_digest_memory
+  - repair_lineage_memory
+  - conflict_visibility_memory
+github_ref_types:
+  - commit
+  - file
+  - issue
+  - pull_request
+  - review_comment
+  - workflow_run
+  - artifact
+  - release
+  - tag
+required_constraints:
+  no_overwrite: true
+  no_execution_authority: true
+  no_truth_authority: true
+  no_proof_authority: true
+  no_clinical_authority: true
+  no_teni_authority: true
+non_authority_fixed_points:
+  - GitHub_external_memory_is_pointer_and_evidence_surface_not_memory_authority
+  - GitHub_commit_is_evidence_not_truth
+  - GitHub_issue_is_discussion_not_memory_authority
+  - GitHub_PR_is_proposal_not_memory_authority
+  - GitHub_CI_pass_is_validation_signal_not_truth
+  - GitHub_branch_HEAD_is_not_stable_memory
+  - GitHub_release_is_public_surface_not_proof_completion
+  - semantic_digest_is_not_source_evidence
+  - MemoryOS_compile_context_must_expose_uncertainty
+  - MemoryOS_no_silent_overwrite
+  - MemoryOS_lineage_preserved
+  - MemoryOS_conflict_visible
+  - MemoryOS_append_only_external_pointer
+  - no_execution_authority
+  - no_clinical_authority
+  - no_teni_authority
+  - no_world_update_authority
+validation_expected_output: 'PASS: KuuOS MemoryOS GitHub external memory surface v0.1 validates'
