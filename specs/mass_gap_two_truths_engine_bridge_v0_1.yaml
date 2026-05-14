@@ -1,0 +1,54 @@
+id: mass_gap_two_truths_engine_bridge_v0_1
+name: Mass Gap to Two Truths Engine Formal Bridge
+version: v0.1
+status: reference_bridge_created
+canonical_source:
+  repository: itakura-hidetoshi/4d-mass-gap
+  url: https://github.com/itakura-hidetoshi/4d-mass-gap
+  active_root: MGAP4D.lean
+  phase3_gate: MGAP4D/Phase3ReleaseGate.lean
+  spectral_entrypoint: MGAP4D/Spectral.lean
+  spectral_checkpoint: MGAP4D/Spectral/GapFormalization.lean
+  spectral_gate: MGAP4D/SpectralGapFormalizationGate.lean
+checkpoint:
+  spectral_gap_formalization_status: CI_green_checkpoint
+  normalized_gap_value: 33/20
+  normalized_gap_value_status: internal_normalized_value
+  final_release_status: not_opened
+  public_theorem_boundary: held
+bridge:
+  bridge_authority: reference_only
+  gap_stability_carrier: present
+  paramartha_non_reification_guard: active
+  samvrti_excitation_admissibility: checkpoint_conditioned
+  two_truths_non_collapse_barrier: active
+  final_theorem_authority: false
+  execution_authority: false
+two_truths_engine_mapping:
+  paramartha_symbol: P
+  samvrti_symbol: S
+  gap_symbol: Delta
+  rules:
+    - Delta_positive_prevents_nihilistic_collapse
+    - Delta_positive_stabilizes_samvrti_excitation
+    - Paramartha_and_samvrti_authority_surfaces_are_distinct
+    - Samvrti_excitation_is_not_self_subsisting_absolute_reality
+    - Paramartha_to_samvrti_requires_recordable_excitation_surface
+non_promotion_rule:
+  forbidden_promotions:
+    - KuuOS_interpretation_alone_to_final_theorem_authority
+    - KuuOS_governance_document_alone_to_final_theorem_authority
+    - internal_normalized_value_alone_to_final_theorem_authority
+    - artifact_path_alone_to_final_theorem_authority
+    - CI_checkpoint_alone_to_final_theorem_authority
+    - philosophical_usefulness_alone_to_final_theorem_authority
+boundaries:
+  canonical_lean_proof_source: itakura-hidetoshi/4d-mass-gap
+  kuuos_bridge_role: interpretation_governance_reference
+  r1_r7_theorem_completions: not_claimed_here
+  final_release: not_opened
+  public_theorem_boundary: held
+development_rule:
+  - append_only
+  - tighten_only
+  - overwrite_forbidden
