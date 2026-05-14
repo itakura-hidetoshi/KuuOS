@@ -1,0 +1,30 @@
+id: kuos_core_manifest_addendum_v0_1_105_kustring_runtime_finality_report_artifact_v0_2
+name: KuuOS Core Manifest Addendum - KuString Runtime Finality Report Artifact v0.2
+version: 0.1.105
+date: 2026-05-13
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+implementation_not_proof: true
+
+updated_documents:
+  - .github/workflows/kustring_runtime_finality_v0_2.yml
+  - scripts/check_kustring_runtime_finality_ci_v0_2.py
+
+ci_artifact:
+  workflow: .github/workflows/kustring_runtime_finality_v0_2.yml
+  artifact_name: kustring-runtime-finality-report-v0-2
+  artifact_path: specs/kustring_runtime_finality_report_v0_2.generated.json
+  builder: scripts/build_kustring_runtime_finality_report_v0_2.py
+  checker: scripts/check_kustring_runtime_finality_ci_v0_2.py
+
+validation:
+  commands:
+    - python3 scripts/check_kustring_runtime_finality_ci_v0_2.py
+    - python3 scripts/run_kustring_runtime_finality_suite_v0_2.py
+
+fixed_points:
+  - finality_report_is_uploaded_as_ci_artifact
+  - artifact_upload_is_implementation_not_proof
+  - artifact_pass_does_not_grant_authority
