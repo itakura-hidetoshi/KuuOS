@@ -1,0 +1,58 @@
+id: kuos_core_manifest_addendum_v0_1_122_dependent_origination_sheaf_gauge_runtime_v0_2
+name: KuuOS Core Manifest Addendum - Dependent Origination Sheaf Gauge Runtime v0.2
+version: 0.1.122
+date: 2026-05-14
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+implementation_not_proof: true
+
+added_documents:
+  - examples/dependent_origination_sheaf_gauge_runtime_v0_2.py
+  - tests/test_dependent_origination_sheaf_gauge_runtime_v0_2.py
+  - specs/dependent_origination_sheaf_gauge_runtime_claims_v0_2.json
+  - scripts/eval_dependent_origination_sheaf_gauge_runtime_claims_v0_2.py
+  - scripts/run_do_sheaf_gauge_runtime_checks_v0_2.py
+
+runtime:
+  claim_type: SheafGaugeDependentOriginationClaim
+  evaluator: evaluate_sheaf_gauge_dependent_origination
+  principle: dependent_origination_sheaf_gauge
+  graph_only_model_allowed: false
+  site_cover_required: true
+  gluing_required: true
+  gauge_connection_required: true
+  holonomy_record_required: true
+  curvature_visibility_required: true
+  statuses:
+    - CANDIDATE
+    - HOLD
+    - REPAIR
+    - REJECT
+    - OBSERVE
+
+validation:
+  commands:
+    - python3 examples/dependent_origination_sheaf_gauge_runtime_v0_2.py
+    - python3 scripts/eval_dependent_origination_sheaf_gauge_runtime_claims_v0_2.py
+    - python3 scripts/eval_dependent_origination_sheaf_gauge_runtime_claims_v0_2.py --json
+    - python3 -m unittest tests/test_dependent_origination_sheaf_gauge_runtime_v0_2.py
+    - python3 scripts/run_do_sheaf_gauge_runtime_checks_v0_2.py
+
+fixed_points:
+  - dependent_origination_is_not_flat_graph
+  - flat_graph_collapse_is_rejected_in_v0_2
+  - site_and_cover_family_required
+  - local_sections_and_restriction_maps_required
+  - overlap_compatibility_required
+  - cocycle_condition_required
+  - gluing_witness_required
+  - uniqueness_up_to_boundary_required
+  - fibered_context_required
+  - gauge_connection_required
+  - parallel_transport_required
+  - holonomy_record_required
+  - curvature_must_be_exposed
+  - lineage_boundary_context_scope_visibility_required
+  - runtime_pass_does_not_grant_authority
