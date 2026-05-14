@@ -1,0 +1,48 @@
+id: kuos_core_manifest_addendum_v0_1_106_emptiness_runtime_v0_1
+name: KuuOS Core Manifest Addendum - Emptiness Runtime v0.1
+version: 0.1.106
+date: 2026-05-13
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+implementation_not_proof: true
+
+added_documents:
+  - examples/emptiness_runtime_v0_1.py
+  - tests/test_emptiness_runtime_v0_1.py
+  - scripts/run_emptiness_runtime_checks_v0_1.py
+
+updated_documents:
+  - scripts/run_emptiness_middle_way_core_full_checks_v0_1.py
+
+runtime:
+  claim_type: EmptinessClaim
+  evaluator: evaluate_emptiness
+  emptiness_ground: K
+  appearance_space: K_perp
+  direct_K_observable: false
+  statuses:
+    - CANDIDATE
+    - HOLD
+    - REPAIR
+    - REJECT
+    - OBSERVE
+
+validation:
+  commands:
+    - python3 examples/emptiness_runtime_v0_1.py
+    - python3 -m unittest tests/test_emptiness_runtime_v0_1.py
+    - python3 scripts/run_emptiness_runtime_checks_v0_1.py
+    - python3 scripts/run_emptiness_middle_way_core_full_checks_v0_1.py
+
+fixed_points:
+  - K_is_non_reified_reference_ground
+  - K_must_not_be_objectified
+  - K_must_not_be_creator_substance
+  - K_is_not_nihilistic_nothingness
+  - direct_K_observation_is_forbidden
+  - K_and_K_perp_must_not_collapse
+  - appearances_are_measured_in_K_perp
+  - dependent_origination_metadata_requires_lineage_boundary_context_scope
+  - runtime_pass_does_not_grant_authority
