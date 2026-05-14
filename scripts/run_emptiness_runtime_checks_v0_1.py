@@ -9,6 +9,8 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 COMMANDS = [
     [sys.executable, "examples/emptiness_runtime_v0_1.py"],
+    [sys.executable, "scripts/eval_emptiness_runtime_claims_v0_1.py"],
+    [sys.executable, "scripts/eval_emptiness_runtime_claims_v0_1.py", "--json"],
     [sys.executable, "-m", "unittest", "tests/test_emptiness_runtime_v0_1.py"],
 ]
 
