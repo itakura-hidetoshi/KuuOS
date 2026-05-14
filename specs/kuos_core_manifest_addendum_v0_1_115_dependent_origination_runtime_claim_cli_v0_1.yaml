@@ -1,0 +1,40 @@
+id: kuos_core_manifest_addendum_v0_1_115_dependent_origination_runtime_claim_cli_v0_1
+name: KuuOS Core Manifest Addendum - Dependent Origination Runtime Claim CLI v0.1
+version: 0.1.115
+date: 2026-05-14
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+implementation_not_proof: true
+
+added_documents:
+  - specs/dependent_origination_runtime_claims_v0_1.json
+  - scripts/eval_dependent_origination_runtime_claims_v0_1.py
+  - scripts/run_dependent_origination_runtime_claim_checks_v0_1.py
+
+runtime_cli:
+  input_fixture: specs/dependent_origination_runtime_claims_v0_1.json
+  evaluator: scripts/eval_dependent_origination_runtime_claims_v0_1.py
+  runtime: examples/dependent_origination_runtime_v0_1.py
+  runner: scripts/run_dependent_origination_runtime_claim_checks_v0_1.py
+  modes:
+    - text_output
+    - json_output
+
+validation:
+  commands:
+    - python3 scripts/eval_dependent_origination_runtime_claims_v0_1.py
+    - python3 scripts/eval_dependent_origination_runtime_claims_v0_1.py --json
+    - python3 scripts/run_dependent_origination_runtime_claim_checks_v0_1.py
+
+fixed_points:
+  - external_json_claims_can_be_evaluated_by_dependent_origination_runtime
+  - claim_evaluation_is_implementation_not_proof
+  - self_origin_is_rejected
+  - independent_essence_is_rejected
+  - hidden_conditions_are_rejected
+  - flat_graph_collapse_requires_repair
+  - missing_context_is_observed
+  - missing_gluing_witness_is_held
+  - runtime_pass_does_not_grant_authority
