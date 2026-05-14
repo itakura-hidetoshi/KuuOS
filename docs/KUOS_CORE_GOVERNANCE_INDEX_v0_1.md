@@ -281,8 +281,35 @@ GPT_summary_not_proof_authority
 review_gate_required_for_public_final_claim
 ```
 
-## 16. Version
+## 16. MemoryOS GitHub External Memory Addendum
+
+Canonical MemoryOS GitHub external memory surfaces:
+
+```text
+docs/MEMORYOS_GITHUB_EXTERNAL_MEMORY_v0_1.md
+specs/memoryos_github_external_memory_manifest_v0_1.yaml
+examples/memoryos_github_external_memory_minimal.py
+scripts/validate_memoryos_github_external_memory_v0_1.py
+```
+
+Primary command:
+
+```bash
+make memoryos-github-external-memory-checks
+```
+
+Core rule:
+
+```text
+GitHub_external_memory_is_pointer_and_evidence_surface_not_memory_authority
+```
+
+GitHub may serve MemoryOS as pointer memory, evidence memory, semantic digest memory, repair lineage memory, and conflict visibility memory.
+
+GitHub commit, issue, PR, CI, release, and branch surfaces are external evidence or recall aids only. They do not grant truth, proof, clinical, Ten'i, world-update, MemoryOS overwrite, or execution authority.
+
+## 17. Version
 
 Version: v0.1
-Date: 2026-05-12
+Date: 2026-05-13
 Author: Hidetoshi Itakura / 板倉英俊
