@@ -1,0 +1,36 @@
+{
+  "id": "emptiness_runtime_claims_v0_1",
+  "version": "0.1",
+  "claims": [
+    {
+      "id": "valid_conditioned_appearance",
+      "claim": {},
+      "expected_status": "CANDIDATE"
+    },
+    {
+      "id": "reject_k_objectified",
+      "claim": {"names_k_as_object": true},
+      "expected_status": "REJECT"
+    },
+    {
+      "id": "reject_k_creator",
+      "claim": {"treats_k_as_creator": true},
+      "expected_status": "REJECT"
+    },
+    {
+      "id": "repair_k_nothingness",
+      "claim": {"treats_k_as_nothingness": true},
+      "expected_status": "REPAIR"
+    },
+    {
+      "id": "hold_direct_k_observation",
+      "claim": {"observes_k_directly": true},
+      "expected_status": "HOLD"
+    },
+    {
+      "id": "observe_missing_lineage",
+      "claim": {"has_lineage": false},
+      "expected_status": "OBSERVE"
+    }
+  ]
+}
