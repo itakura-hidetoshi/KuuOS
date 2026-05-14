@@ -1,0 +1,41 @@
+id: kuos_core_manifest_addendum_v0_1_123_dependent_origination_sheaf_gauge_runtime_audit_chain_v0_2
+name: KuuOS Core Manifest Addendum - Dependent Origination Sheaf Gauge Runtime Audit Chain v0.2
+version: 0.1.123
+date: 2026-05-14
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+implementation_not_proof: true
+
+added_documents:
+  - scripts/export_do_sheaf_gauge_runtime_audit_v0_2.py
+  - scripts/build_do_sheaf_gauge_runtime_audit_chain_v0_2.py
+  - scripts/check_do_sheaf_gauge_runtime_audit_chain_v0_2.py
+
+updated_documents:
+  - scripts/run_do_sheaf_gauge_runtime_checks_v0_2.py
+
+audit_chain_runtime:
+  source_claims: specs/dependent_origination_sheaf_gauge_runtime_claims_v0_2.json
+  generated_events: specs/do_sheaf_gauge_runtime_audit_events_v0_2.generated.jsonl
+  generated_chain: specs/do_sheaf_gauge_runtime_audit_chain_v0_2.generated.jsonl
+  exporter: scripts/export_do_sheaf_gauge_runtime_audit_v0_2.py
+  builder: scripts/build_do_sheaf_gauge_runtime_audit_chain_v0_2.py
+  checker: scripts/check_do_sheaf_gauge_runtime_audit_chain_v0_2.py
+  first_previous_hash: GENESIS
+
+validation:
+  commands:
+    - python3 scripts/export_do_sheaf_gauge_runtime_audit_v0_2.py
+    - python3 scripts/build_do_sheaf_gauge_runtime_audit_chain_v0_2.py
+    - python3 scripts/check_do_sheaf_gauge_runtime_audit_chain_v0_2.py
+    - python3 scripts/run_do_sheaf_gauge_runtime_checks_v0_2.py
+
+fixed_points:
+  - sheaf_gauge_dependent_origination_claims_export_audit_events
+  - sheaf_gauge_dependent_origination_audit_events_are_chained
+  - graph_only_model_allowed_remains_false
+  - audit_chain_generation_is_implementation_not_proof
+  - previous_hash_event_hash_entry_hash_are_checked
+  - non_authority_flags_remain_false
