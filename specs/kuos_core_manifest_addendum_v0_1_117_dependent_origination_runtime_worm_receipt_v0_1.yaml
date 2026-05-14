@@ -1,0 +1,35 @@
+id: kuos_core_manifest_addendum_v0_1_117_dependent_origination_runtime_worm_receipt_v0_1
+name: KuuOS Core Manifest Addendum - Dependent Origination Runtime WORM Receipt v0.1
+version: 0.1.117
+date: 2026-05-14
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+implementation_not_proof: true
+
+added_documents:
+  - scripts/export_dependent_origination_runtime_worm_receipt_v0_1.py
+  - scripts/check_dependent_origination_runtime_worm_receipt_v0_1.py
+
+updated_documents:
+  - scripts/run_dependent_origination_runtime_claim_checks_v0_1.py
+
+worm_receipt_runtime:
+  source_chain: specs/dependent_origination_runtime_audit_chain_v0_1.generated.jsonl
+  generated_receipt: specs/dependent_origination_runtime_worm_receipt_v0_1.generated.json
+  exporter: scripts/export_dependent_origination_runtime_worm_receipt_v0_1.py
+  checker: scripts/check_dependent_origination_runtime_worm_receipt_v0_1.py
+  export_mode: WORM
+
+validation:
+  commands:
+    - python3 scripts/export_dependent_origination_runtime_worm_receipt_v0_1.py
+    - python3 scripts/check_dependent_origination_runtime_worm_receipt_v0_1.py
+    - python3 scripts/run_dependent_origination_runtime_claim_checks_v0_1.py
+
+fixed_points:
+  - dependent_origination_runtime_audit_chain_root_is_exported_to_worm_receipt
+  - worm_receipt_generation_is_implementation_not_proof
+  - source_chain_root_hash_and_entry_count_are_checked
+  - non_authority_flags_remain_false
