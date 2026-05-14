@@ -10,6 +10,7 @@ CMDS = [
     [sys.executable, "examples/dependent_origination_sheaf_gauge_runtime_v0_2.py"],
     [sys.executable, "scripts/eval_dependent_origination_sheaf_gauge_runtime_claims_v0_2.py"],
     [sys.executable, "scripts/eval_dependent_origination_sheaf_gauge_runtime_claims_v0_2.py", "--json"],
+    [sys.executable, "scripts/check_do_sheaf_gauge_runtime_audit_chain_v0_2.py"],
     [sys.executable, "-m", "unittest", "tests/test_dependent_origination_sheaf_gauge_runtime_v0_2.py"],
 ]
 
