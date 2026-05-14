@@ -1,0 +1,49 @@
+id: kuos_core_manifest_addendum_v0_1_114_dependent_origination_runtime_v0_1
+name: KuuOS Core Manifest Addendum - Dependent Origination Runtime v0.1
+version: 0.1.114
+date: 2026-05-14
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+implementation_not_proof: true
+
+added_documents:
+  - examples/dependent_origination_runtime_v0_1.py
+  - tests/test_dependent_origination_runtime_v0_1.py
+  - scripts/run_dependent_origination_runtime_checks_v0_1.py
+
+updated_documents:
+  - scripts/run_emptiness_middle_way_core_full_checks_v0_1.py
+
+runtime:
+  claim_type: DependentOriginationClaim
+  evaluator: evaluate_dependent_origination
+  principle: dependent_origination
+  self_origin_allowed: false
+  independent_essence_allowed: false
+  statuses:
+    - CANDIDATE
+    - HOLD
+    - REPAIR
+    - REJECT
+    - OBSERVE
+
+validation:
+  commands:
+    - python3 examples/dependent_origination_runtime_v0_1.py
+    - python3 -m unittest tests/test_dependent_origination_runtime_v0_1.py
+    - python3 scripts/run_dependent_origination_runtime_checks_v0_1.py
+    - python3 scripts/run_emptiness_middle_way_core_full_checks_v0_1.py
+
+fixed_points:
+  - self_origin_is_forbidden
+  - independent_essence_is_forbidden
+  - hidden_conditions_are_forbidden
+  - dependent_origination_is_not_flat_graph_only
+  - lineage_boundary_context_scope_required
+  - conditions_required
+  - relation_roles_required
+  - local_compatibility_required
+  - gluing_witness_required
+  - runtime_pass_does_not_grant_authority
