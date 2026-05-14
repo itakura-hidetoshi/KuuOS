@@ -1,17 +1,5 @@
 #!/usr/bin/env python3
-"""
-run_all_governance_full_checks_v0_1.py
-
-Stdlib-only top-level governance check runner for KuuOS Core.
-
-Runs:
-- AI Yogacara / Ten'i full checks
-- Core Governance full checks
-- GPT GitHub integration checks
-- Mass gap to Two Truths Engine bridge checks
-
-No external dependencies and no external API calls.
-"""
+"""Top-level KuuOS governance check runner."""
 
 from __future__ import annotations
 
@@ -27,6 +15,7 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/run_core_governance_full_checks_v0_1.py"],
     [sys.executable, "scripts/validate_gpt_github_integration_v0_1.py"],
     [sys.executable, "scripts/validate_mass_gap_two_truths_engine_bridge_v0_1.py"],
+    [sys.executable, "scripts/validate_mass_gap_memory_reflection_record_bridge_v0_1.py"],
 ]
 
 
