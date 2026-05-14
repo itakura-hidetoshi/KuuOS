@@ -1,0 +1,35 @@
+id: kuos_core_manifest_addendum_v0_1_104_kustring_runtime_finality_report_v0_2
+name: KuuOS Core Manifest Addendum - KuString Runtime Finality Report v0.2
+version: 0.1.104
+date: 2026-05-13
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+implementation_not_proof: true
+
+added_documents:
+  - scripts/build_kustring_runtime_finality_report_v0_2.py
+  - scripts/check_kustring_runtime_finality_report_v0_2.py
+
+updated_documents:
+  - scripts/run_kustring_runtime_finality_suite_v0_2.py
+
+finality_report:
+  generated_report: specs/kustring_runtime_finality_report_v0_2.generated.json
+  builder: scripts/build_kustring_runtime_finality_report_v0_2.py
+  checker: scripts/check_kustring_runtime_finality_report_v0_2.py
+  finality_suite: scripts/run_kustring_runtime_finality_suite_v0_2.py
+  authority_note: generated_report_is_integrity_summary_only
+
+validation:
+  commands:
+    - python3 scripts/build_kustring_runtime_finality_report_v0_2.py
+    - python3 scripts/check_kustring_runtime_finality_report_v0_2.py
+    - python3 scripts/run_kustring_runtime_finality_suite_v0_2.py
+
+fixed_points:
+  - finality_report_summarizes_runtime_roots
+  - finality_report_is_implementation_not_proof
+  - report_pass_does_not_grant_authority
+  - bundle_chain_worm_and_attestation_roots_are_checked
