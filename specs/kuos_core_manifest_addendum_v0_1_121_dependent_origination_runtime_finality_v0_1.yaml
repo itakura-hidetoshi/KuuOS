@@ -1,0 +1,43 @@
+id: kuos_core_manifest_addendum_v0_1_121_dependent_origination_runtime_finality_v0_1
+name: KuuOS Core Manifest Addendum - Dependent Origination Runtime Finality v0.1
+version: 0.1.121
+date: 2026-05-14
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+implementation_not_proof: true
+
+added_documents:
+  - docs/DEPENDENT_ORIGINATION_RUNTIME_FINALITY_PACKET_v0_1.md
+  - scripts/check_dependent_origination_runtime_finality_v0_1.py
+  - scripts/run_dependent_origination_runtime_finality_checks_v0_1.py
+
+runtime_finality:
+  finality_packet: docs/DEPENDENT_ORIGINATION_RUNTIME_FINALITY_PACKET_v0_1.md
+  checker: scripts/check_dependent_origination_runtime_finality_v0_1.py
+  runner: scripts/run_dependent_origination_runtime_finality_checks_v0_1.py
+  closure_runner: scripts/run_dependent_origination_runtime_closure_checks_v0_1.py
+  authority_note: implementation_finality_only
+
+finality_chain:
+  - dependent_origination_runtime_evaluator
+  - json_claim_cli
+  - audit_event_jsonl
+  - audit_hash_chain_jsonl
+  - worm_receipt_json
+  - runtime_bundle_manifest
+  - runtime_attestation
+  - runtime_closure_packet
+  - runtime_finality_packet
+
+validation:
+  commands:
+    - python3 scripts/check_dependent_origination_runtime_finality_v0_1.py
+    - python3 scripts/run_dependent_origination_runtime_finality_checks_v0_1.py
+
+fixed_points:
+  - dependent_origination_runtime_finality_is_implementation_not_proof
+  - finality_packet_does_not_grant_authority
+  - dependent_origination_runtime_chain_is_reviewable_from_claim_to_finality
+  - finality_runner_runs_closure_runner_then_finality_check
