@@ -33,3 +33,13 @@ jobs:
 
       - name: Run KuString runtime finality suite v0.2
         run: python3 scripts/run_kustring_runtime_finality_suite_v0_2.py
+
+      - name: Build KuString runtime finality report v0.2
+        run: python3 scripts/build_kustring_runtime_finality_report_v0_2.py
+
+      - name: Upload KuString runtime finality report v0.2
+        uses: actions/upload-artifact@v4
+        with:
+          name: kustring-runtime-finality-report-v0-2
+          path: specs/kustring_runtime_finality_report_v0_2.generated.json
+          if-no-files-found: error
