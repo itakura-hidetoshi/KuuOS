@@ -1,0 +1,40 @@
+id: kuos_core_manifest_addendum_v0_1_107_emptiness_runtime_claim_cli_v0_1
+name: KuuOS Core Manifest Addendum - Emptiness Runtime Claim CLI v0.1
+version: 0.1.107
+date: 2026-05-13
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+implementation_not_proof: true
+
+added_documents:
+  - specs/emptiness_runtime_claims_v0_1.json
+  - scripts/eval_emptiness_runtime_claims_v0_1.py
+
+updated_documents:
+  - scripts/run_emptiness_runtime_checks_v0_1.py
+
+runtime_cli:
+  input_fixture: specs/emptiness_runtime_claims_v0_1.json
+  evaluator: scripts/eval_emptiness_runtime_claims_v0_1.py
+  runtime: examples/emptiness_runtime_v0_1.py
+  modes:
+    - text_output
+    - json_output
+
+validation:
+  commands:
+    - python3 scripts/eval_emptiness_runtime_claims_v0_1.py
+    - python3 scripts/eval_emptiness_runtime_claims_v0_1.py --json
+    - python3 scripts/run_emptiness_runtime_checks_v0_1.py
+
+fixed_points:
+  - external_json_claims_can_be_evaluated_by_emptiness_runtime
+  - claim_evaluation_is_implementation_not_proof
+  - K_objectification_is_rejected
+  - K_creator_substance_is_rejected
+  - K_nothingness_reading_requires_repair
+  - direct_K_observation_is_held
+  - missing_dependent_origination_metadata_is_observed
+  - runtime_pass_does_not_grant_authority
