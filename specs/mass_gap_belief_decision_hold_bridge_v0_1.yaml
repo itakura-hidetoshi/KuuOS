@@ -1,0 +1,58 @@
+id: mass_gap_belief_decision_hold_bridge_v0_1
+name: Mass Gap BeliefOS DecisionOS HOLD Bridge
+version: v0.1
+status: hold_bridge_created
+source_runtime_bridge:
+  document: docs/TWO_TRUTHS_ENGINE_MASS_GAP_RUNTIME_CONTRACT_v0_1.md
+  spec: specs/two_truths_engine_mass_gap_runtime_contract_v0_1.yaml
+canonical_source:
+  repository: itakura-hidetoshi/4d-mass-gap
+beliefos_mapping:
+  guard_id: MassGapBeliefEvidenceGuard
+  belief_authority: false
+  world_fact_authority: false
+  evidence_role: non_collapse_guard
+  accepted_status: belief_guard_active
+  failure_status: belief_hold
+decisionos_mapping:
+  guard_id: MassGapDecisionAdmissibilityGuard
+  decision_release_authority: false
+  action_authority: false
+  admissibility_role: non_collapse_barrier
+  accepted_status: decision_guard_active
+  failure_status: decision_hold
+hold_rule:
+  hold_if:
+    - canonical_repo_not_itakura_hidetoshi_4d_mass_gap
+    - bridge_authority_not_reference_only
+    - public_theorem_boundary_not_held
+    - final_theorem_authority_not_false
+    - action_authority_not_false
+    - paramartha_non_reification_guard_not_active
+    - samvrti_excitation_admissibility_is_unconditional_action
+    - two_truths_non_collapse_barrier_not_active
+conservative_output:
+  belief_guard: active
+  decision_guard: active
+  allowed_effects:
+    - prevent_two_truths_collapse
+    - request_reobserve_if_boundary_unstable
+    - hold_if_authority_expands
+    - handover_if_public_theorem_boundary_is_requested
+  forbidden_effects:
+    - set_belief_truth
+    - set_world_fact
+    - release_decision
+    - perform_action
+    - open_final_theorem_boundary
+boundaries:
+  belief_authority: false
+  world_fact_authority: false
+  decision_release_authority: false
+  action_authority: false
+  final_theorem_authority: false
+  public_theorem_boundary: held
+development_rule:
+  - append_only
+  - tighten_only
+  - overwrite_forbidden
