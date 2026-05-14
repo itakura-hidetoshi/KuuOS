@@ -209,8 +209,54 @@ make append-only or tighten-only change
   -> release / archive / WORM export only after checks pass
 ```
 
-## 12. Version
+## 12. MemoryOS GitHub External Memory Command
+
+Run when MemoryOS external memory docs, manifests, examples, validators, recall indexes, or GitHub pointer records are touched:
+
+```bash
+make memoryos-github-external-memory-checks
+```
+
+or directly:
+
+```bash
+python3 scripts/validate_memoryos_github_external_memory_v0_1.py
+```
+
+Expected success:
+
+```text
+PASS: KuuOS MemoryOS GitHub external memory surface v0.1 validates
+```
+
+## 13. MemoryOS GitHub External Memory Scope
+
+This includes:
+
+```text
+MemoryOS GitHub external memory protocol
+external memory manifest
+minimal GitHub pointer record example
+Makefile target
+validator
+pointer memory
+evidence memory
+semantic digest memory
+repair lineage memory
+conflict visibility memory
+stable commit SHA preference
+branch HEAD non-stability warning
+non-authority fixed points
+```
+
+Core fixed point:
+
+```text
+GitHub_external_memory_is_pointer_and_evidence_surface_not_memory_authority
+```
+
+## 14. Version
 
 Version: v0.1
-Date: 2026-05-12
+Date: 2026-05-13
 Author: Hidetoshi Itakura / 板倉英俊
