@@ -1,0 +1,40 @@
+id: kuos_core_manifest_addendum_v0_1_108_emptiness_runtime_audit_chain_v0_1
+name: KuuOS Core Manifest Addendum - Emptiness Runtime Audit Chain v0.1
+version: 0.1.108
+date: 2026-05-13
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+implementation_not_proof: true
+
+added_documents:
+  - scripts/export_emptiness_runtime_audit_v0_1.py
+  - scripts/build_emptiness_runtime_audit_chain_v0_1.py
+  - scripts/check_emptiness_runtime_audit_chain_v0_1.py
+
+updated_documents:
+  - scripts/run_emptiness_runtime_checks_v0_1.py
+
+audit_chain_runtime:
+  source_claims: specs/emptiness_runtime_claims_v0_1.json
+  generated_events: specs/emptiness_runtime_audit_events_v0_1.generated.jsonl
+  generated_chain: specs/emptiness_runtime_audit_chain_v0_1.generated.jsonl
+  exporter: scripts/export_emptiness_runtime_audit_v0_1.py
+  builder: scripts/build_emptiness_runtime_audit_chain_v0_1.py
+  checker: scripts/check_emptiness_runtime_audit_chain_v0_1.py
+  first_previous_hash: GENESIS
+
+validation:
+  commands:
+    - python3 scripts/export_emptiness_runtime_audit_v0_1.py
+    - python3 scripts/build_emptiness_runtime_audit_chain_v0_1.py
+    - python3 scripts/check_emptiness_runtime_audit_chain_v0_1.py
+    - python3 scripts/run_emptiness_runtime_checks_v0_1.py
+
+fixed_points:
+  - emptiness_claim_evaluation_exports_audit_events
+  - emptiness_audit_events_are_chained
+  - audit_chain_generation_is_implementation_not_proof
+  - previous_hash_event_hash_entry_hash_are_checked
+  - non_authority_flags_remain_false
