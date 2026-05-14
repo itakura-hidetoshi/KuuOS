@@ -1,0 +1,58 @@
+id: kuos_core_manifest_addendum_v0_1_130_two_truths_runtime_v0_1
+name: KuuOS Core Manifest Addendum - Two Truths Runtime via Mass Gap Adapter v0.1
+version: 0.1.130
+date: 2026-05-15
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+implementation_not_proof: true
+
+adapter:
+  file: examples/two_truths_mass_gap_runtime_adapter_minimal.py
+  input_type: MassGapTwoTruthsRuntimeInput
+  evaluator: evaluate_mass_gap_bridge
+  role: reference_only_non_collapse_barrier
+
+added_documents:
+  - examples/two_truths_runtime_v0_1.py
+  - tests/test_two_truths_runtime_v0_1.py
+  - specs/two_truths_runtime_claims_v0_1.json
+  - scripts/eval_two_truths_runtime_claims_v0_1.py
+  - scripts/run_two_truths_runtime_checks_v0_1.py
+
+runtime:
+  claim_type: TwoTruthsClaim
+  evaluator: evaluate_two_truths
+  principle: two_truths_mass_gap_runtime
+  statuses:
+    - CANDIDATE
+    - HOLD
+    - REJECT
+  authority:
+    mass_gap_bridge: reference_only_non_collapse_barrier
+    execution_authority_granted: false
+    proof_authority_granted: false
+    truth_authority_granted: false
+    essence_authority_granted: false
+    teni_authority_granted: false
+
+validation:
+  commands:
+    - python3 examples/two_truths_mass_gap_runtime_adapter_minimal.py
+    - python3 examples/two_truths_runtime_v0_1.py
+    - python3 scripts/eval_two_truths_runtime_claims_v0_1.py
+    - python3 scripts/eval_two_truths_runtime_claims_v0_1.py --json
+    - python3 -m unittest tests/test_two_truths_runtime_v0_1.py
+    - python3 scripts/run_two_truths_runtime_checks_v0_1.py
+
+fixed_points:
+  - paramartha_direct_objectification_forbidden
+  - samvrti_denial_forbidden
+  - ultimate_to_conventional_collapse_forbidden
+  - conventional_to_ultimate_collapse_forbidden
+  - mass_gap_bridge_is_reference_barrier_not_public_final_authority
+  - mass_gap_bridge_does_not_grant_execution_authority
+  - two_truths_non_collapse_barrier_uses_mass_gap_adapter
+  - adapter_pass_does_not_grant_authority
+  - runtime_pass_does_not_grant_authority
