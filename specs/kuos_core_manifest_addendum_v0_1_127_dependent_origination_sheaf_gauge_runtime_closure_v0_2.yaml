@@ -1,0 +1,50 @@
+id: kuos_core_manifest_addendum_v0_1_127_dependent_origination_sheaf_gauge_runtime_closure_v0_2
+name: KuuOS Core Manifest Addendum - Dependent Origination Sheaf Gauge Runtime Closure v0.2
+version: 0.1.127
+date: 2026-05-14
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+implementation_not_proof: true
+
+added_documents:
+  - docs/DO_SHEAF_GAUGE_RUNTIME_CLOSURE_PACKET_v0_2.md
+  - scripts/check_do_sheaf_gauge_runtime_closure_v0_2.py
+  - scripts/run_do_sheaf_gauge_runtime_closure_checks_v0_2.py
+
+runtime_closure:
+  closure_packet: docs/DO_SHEAF_GAUGE_RUNTIME_CLOSURE_PACKET_v0_2.md
+  checker: scripts/check_do_sheaf_gauge_runtime_closure_v0_2.py
+  runner: scripts/run_do_sheaf_gauge_runtime_closure_checks_v0_2.py
+  base_runner: scripts/run_do_sheaf_gauge_runtime_checks_v0_2.py
+  authority_note: implementation_closure_only
+  graph_only_model_allowed: false
+  site_cover_required: true
+  gluing_required: true
+  gauge_connection_required: true
+  holonomy_record_required: true
+  curvature_visibility_required: true
+
+closure_chain:
+  - sheaf_gauge_dependent_origination_runtime_evaluator
+  - json_claim_cli
+  - audit_event_jsonl
+  - audit_hash_chain_jsonl
+  - worm_receipt_json
+  - runtime_bundle_manifest
+  - runtime_attestation
+  - runtime_closure_packet
+
+validation:
+  commands:
+    - python3 scripts/check_do_sheaf_gauge_runtime_closure_v0_2.py
+    - python3 scripts/run_do_sheaf_gauge_runtime_closure_checks_v0_2.py
+
+fixed_points:
+  - sheaf_gauge_runtime_closure_is_implementation_not_proof
+  - closure_packet_does_not_grant_authority
+  - graph_only_model_allowed_remains_false
+  - site_cover_gluing_gauge_holonomy_curvature_requirements_are_recorded
+  - sheaf_gauge_runtime_chain_is_reviewable_from_claim_to_attestation
+  - closure_runner_runs_base_runner_then_closure_check
