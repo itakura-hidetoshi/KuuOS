@@ -16,6 +16,7 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/validate_gpt_github_integration_v0_1.py"],
     [sys.executable, "scripts/validate_mass_gap_two_truths_engine_bridge_v0_1.py"],
     [sys.executable, "scripts/validate_mass_gap_memory_reflection_record_bridge_v0_1.py"],
+    [sys.executable, "scripts/validate_memoryos_github_external_memory_v0_1.py"],
 ]
 
 
