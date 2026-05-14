@@ -1,0 +1,41 @@
+{
+  "id": "dependent_origination_runtime_claims_v0_1",
+  "version": "0.1",
+  "claims": [
+    {
+      "id": "valid_conditioned_relation",
+      "claim": {},
+      "expected_status": "CANDIDATE"
+    },
+    {
+      "id": "reject_self_origin",
+      "claim": {"claims_self_origin": true},
+      "expected_status": "REJECT"
+    },
+    {
+      "id": "reject_independent_essence",
+      "claim": {"claims_independent_essence": true},
+      "expected_status": "REJECT"
+    },
+    {
+      "id": "reject_hidden_conditions",
+      "claim": {"hides_conditions": true},
+      "expected_status": "REJECT"
+    },
+    {
+      "id": "repair_flat_graph_collapse",
+      "claim": {"collapses_to_flat_graph": true},
+      "expected_status": "REPAIR"
+    },
+    {
+      "id": "observe_missing_context",
+      "claim": {"has_context": false},
+      "expected_status": "OBSERVE"
+    },
+    {
+      "id": "hold_missing_gluing_witness",
+      "claim": {"gluing_witness_ok": false},
+      "expected_status": "HOLD"
+    }
+  ]
+}
