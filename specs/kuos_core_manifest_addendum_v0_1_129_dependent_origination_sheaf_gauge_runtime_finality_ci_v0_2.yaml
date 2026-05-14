@@ -1,0 +1,38 @@
+id: kuos_core_manifest_addendum_v0_1_129_dependent_origination_sheaf_gauge_runtime_finality_ci_v0_2
+name: KuuOS Core Manifest Addendum - Dependent Origination Sheaf Gauge Runtime Finality CI v0.2
+version: 0.1.129
+date: 2026-05-14
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+implementation_not_proof: true
+
+added_documents:
+  - .github/workflows/do_sheaf_gauge_runtime_finality_v0_2.yml
+  - scripts/check_do_sheaf_gauge_runtime_finality_ci_v0_2.py
+
+updated_documents:
+  - scripts/run_do_sheaf_gauge_runtime_finality_checks_v0_2.py
+
+ci:
+  workflow: .github/workflows/do_sheaf_gauge_runtime_finality_v0_2.yml
+  checker: scripts/check_do_sheaf_gauge_runtime_finality_ci_v0_2.py
+  finality_runner: scripts/run_do_sheaf_gauge_runtime_finality_checks_v0_2.py
+  command: python3 scripts/run_do_sheaf_gauge_runtime_finality_checks_v0_2.py
+  triggers:
+    - push
+    - pull_request
+    - workflow_dispatch
+
+validation:
+  commands:
+    - python3 scripts/check_do_sheaf_gauge_runtime_finality_ci_v0_2.py
+    - python3 scripts/run_do_sheaf_gauge_runtime_finality_checks_v0_2.py
+
+fixed_points:
+  - sheaf_gauge_runtime_finality_ci_runs_finality_checks
+  - ci_validation_is_implementation_not_proof
+  - ci_pass_does_not_grant_authority
+  - graph_only_model_allowed_remains_false
+  - non_graph_dependent_origination_boundary_is_checked_on_push_pull_request_and_manual_dispatch
