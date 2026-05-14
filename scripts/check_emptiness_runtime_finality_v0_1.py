@@ -1,0 +1,44 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import pathlib
+import subprocess
+import sys
+
+ROOT = pathlib.Path(__file__).resolve().parents[1]
+CLOSURE_RUNNER = ROOT / "scripts" / "run_emptiness_runtime_closure_checks_v0_1.py"
+DOC = ROOT / "docs" / "EMPTINESS_RUNTIME_FINALITY_PACKET_v0_1.md"
+
+REQUIRED = [
+    "docs/EMPTINESS_RUNTIME_CLOSURE_PACKET_v0_1.md",
+    "docs/EMPTINESS_RUNTIME_FINALITY_PACKET_v0_1.md",
+    "specs/emptiness_runtime_attestation_v0_1.generated.json",
+    "specs/emptiness_runtime_bundle_v0_1.generated.json",
+    "specs/emptiness_runtime_worm_receipt_v0_1.generated.json",
+    "scripts/check_emptiness_runtime_closure_v0_1.py",
+    "scripts/run_emptiness_runtime_closure_checks_v0_1.py",
+]
+
+
+def main() -> int:
+    code = subprocess.run([sys.executable, str(CLOSURE_RUNNER)], cwd=ROOT).returncode
+    if code != 0:
+        return code
+    errors: list[str] = []
+    for rel in REQUIRED:
+        if not (ROOT / rel).is_file():
+            errors.append(f"missing: {rel}")
+    text = DOC.read_text(encoding="utf-8") if DOC.is_file() else ""
+    for token in ["implementation finality only", "not proof", "not proof, truth, essence authority, Ten'i authority, clinical authority, or execution authority"]:
+        if token not in text:
+            errors.append(f"finality doc missing: {token}")
+    if errors:
+        for e in errors:
+            print("ERROR:", e)
+        return 1
+    print("PASS: Emptiness runtime finality checked")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
