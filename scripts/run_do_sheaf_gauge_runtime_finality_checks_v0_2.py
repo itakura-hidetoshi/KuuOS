@@ -9,6 +9,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 CMDS = [
     [sys.executable, "scripts/run_do_sheaf_gauge_runtime_closure_checks_v0_2.py"],
     [sys.executable, "scripts/check_do_sheaf_gauge_runtime_finality_v0_2.py"],
+    [sys.executable, "scripts/check_do_sheaf_gauge_runtime_finality_ci_v0_2.py"],
 ]
 
 
