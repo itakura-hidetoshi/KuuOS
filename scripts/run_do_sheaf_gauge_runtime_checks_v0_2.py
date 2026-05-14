@@ -13,6 +13,7 @@ CMDS = [
     [sys.executable, "scripts/check_do_sheaf_gauge_runtime_audit_chain_v0_2.py"],
     [sys.executable, "scripts/check_do_sheaf_gauge_runtime_worm_receipt_v0_2.py"],
     [sys.executable, "scripts/check_do_sheaf_gauge_runtime_bundle_v0_2.py"],
+    [sys.executable, "scripts/check_do_sheaf_gauge_runtime_attestation_v0_2.py"],
     [sys.executable, "-m", "unittest", "tests/test_dependent_origination_sheaf_gauge_runtime_v0_2.py"],
 ]
 
