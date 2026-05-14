@@ -1,0 +1,46 @@
+{
+  "id": "dependent_origination_sheaf_gauge_runtime_claims_v0_2",
+  "version": "0.2",
+  "claims": [
+    {
+      "id": "valid_sheaf_gauge_conditioned_appearance",
+      "claim": {},
+      "expected_status": "CANDIDATE"
+    },
+    {
+      "id": "reject_flat_graph_collapse",
+      "claim": {"collapses_to_flat_graph": true},
+      "expected_status": "REJECT"
+    },
+    {
+      "id": "observe_missing_site",
+      "claim": {"has_site": false},
+      "expected_status": "OBSERVE"
+    },
+    {
+      "id": "hold_missing_restriction_maps",
+      "claim": {"has_restriction_maps": false},
+      "expected_status": "HOLD"
+    },
+    {
+      "id": "hold_missing_cocycle",
+      "claim": {"cocycle_condition_ok": false},
+      "expected_status": "HOLD"
+    },
+    {
+      "id": "hold_missing_gauge_connection",
+      "claim": {"has_gauge_connection": false},
+      "expected_status": "HOLD"
+    },
+    {
+      "id": "observe_missing_holonomy",
+      "claim": {"holonomy_recorded": false},
+      "expected_status": "OBSERVE"
+    },
+    {
+      "id": "observe_missing_curvature",
+      "claim": {"curvature_exposed": false},
+      "expected_status": "OBSERVE"
+    }
+  ]
+}
