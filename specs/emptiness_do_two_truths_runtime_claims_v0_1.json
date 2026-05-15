@@ -1,0 +1,13 @@
+{
+  "id": "emptiness_do_two_truths_runtime_claims_v0_1",
+  "version": "0.1",
+  "claims": [
+    {"id": "valid_triangle", "claim": {}, "expected_status": "CANDIDATE"},
+    {"id": "reject_k_object", "claim": {"emptiness_claim": {"names_k_as_object": true}}, "expected_status": "REJECT"},
+    {"id": "reject_flat_graph_do", "claim": {"dependent_origination_claim": {"collapses_to_flat_graph": true}}, "expected_status": "REJECT"},
+    {"id": "reject_two_truths_collapse", "claim": {"two_truths_claim": {"collapses_conventional_to_ultimate": true}}, "expected_status": "REJECT"},
+    {"id": "reject_string_brane_as_k", "claim": {"treats_string_or_brane_as_k": true}, "expected_status": "REJECT"},
+    {"id": "hold_missing_delta_rel", "claim": {"delta_rel_present": false}, "expected_status": "HOLD"},
+    {"id": "hold_missing_centered_observable", "claim": {"centered_observable_removes_k_component": false}, "expected_status": "HOLD"}
+  ]
+}
