@@ -13,6 +13,7 @@ CMDS = [
     [sys.executable, "examples/emptiness_dependent_origination_two_truths_runtime_v0_1.py"],
     [sys.executable, "scripts/eval_emptiness_do_two_truths_runtime_claims_v0_1.py"],
     [sys.executable, "scripts/eval_emptiness_do_two_truths_runtime_claims_v0_1.py", "--json"],
+    [sys.executable, "scripts/check_emptiness_do_two_truths_runtime_audit_chain_v0_1.py"],
     [sys.executable, "-m", "unittest", "tests/test_emptiness_do_two_truths_runtime_v0_1.py"],
 ]
 
