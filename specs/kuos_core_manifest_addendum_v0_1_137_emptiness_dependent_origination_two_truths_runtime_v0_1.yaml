@@ -1,0 +1,52 @@
+id: kuos_core_manifest_addendum_v0_1_137_emptiness_dependent_origination_two_truths_runtime_v0_1
+name: KuuOS Core Manifest Addendum - Emptiness Dependent Origination Two Truths Runtime v0.1
+version: 0.1.137
+date: 2026-05-15
+author: Hidetoshi Itakura / 板倉英俊
+update_mode: append-only
+overwrite: forbidden
+
+implementation_not_proof: true
+
+integrated_runtime:
+  file: examples/emptiness_dependent_origination_two_truths_runtime_v0_1.py
+  evaluator: evaluate_ku_string_emptiness_do_two_truths
+  claim_type: KuStringEmptinessDependentOriginationTwoTruthsClaim
+  triangle: K -> delta_rel -> String/Brane -> K_perp -> H_world_gap -> two_truths_non_collapse_barrier
+
+source_runtimes:
+  emptiness: examples/emptiness_runtime_v0_1.py
+  dependent_origination: examples/dependent_origination_sheaf_gauge_runtime_v0_2.py
+  two_truths: examples/two_truths_runtime_v0_1.py
+  mass_gap_adapter: examples/two_truths_mass_gap_runtime_adapter_minimal.py
+
+added_documents:
+  - examples/emptiness_dependent_origination_two_truths_runtime_v0_1.py
+  - tests/test_emptiness_do_two_truths_runtime_v0_1.py
+  - specs/emptiness_do_two_truths_runtime_claims_v0_1.json
+  - scripts/eval_emptiness_do_two_truths_runtime_claims_v0_1.py
+  - scripts/run_emptiness_do_two_truths_runtime_checks_v0_1.py
+
+validation:
+  commands:
+    - python3 examples/emptiness_dependent_origination_two_truths_runtime_v0_1.py
+    - python3 scripts/eval_emptiness_do_two_truths_runtime_claims_v0_1.py
+    - python3 scripts/eval_emptiness_do_two_truths_runtime_claims_v0_1.py --json
+    - python3 -m unittest tests/test_emptiness_do_two_truths_runtime_v0_1.py
+    - python3 scripts/run_emptiness_do_two_truths_runtime_checks_v0_1.py
+
+fixed_points:
+  - K_is_non_reified_reference_ground
+  - K_direct_observation_forbidden
+  - dependent_origination_is_sheaf_gauge_not_flat_graph
+  - delta_rel_required
+  - string_mode_lives_in_K_perp
+  - string_and_brane_are_not_K
+  - brane_is_boundary_condition_not_substance
+  - H_world_gap_acts_on_K_perp
+  - gap_is_reference_non_collapse_barrier
+  - psi_star_is_conditioned_excitation_not_K
+  - centered_observable_removes_K_component
+  - two_truths_non_collapse_preserved
+  - mass_gap_bridge_does_not_grant_authority
+  - runtime_pass_does_not_grant_authority
