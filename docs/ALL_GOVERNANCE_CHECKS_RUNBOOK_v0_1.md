@@ -59,7 +59,7 @@ PASS: KuuOS GPT GitHub integration surface v0.1 validates
 
 ## 3. Emptiness / Dependent Origination / Two Truths Runtime Audit Command
 
-Run when the integrated runtime audit chain, generated audit JSONL artifacts, release packet, or public audit release docs are touched:
+Run when the integrated runtime audit chain, generated audit JSONL artifacts, release packet, release bundle manifest, CI ledger, or public audit release docs are touched:
 
 ```bash
 make emptiness-two-truths-runtime-audit-checks
@@ -73,6 +73,7 @@ python3 scripts/build_emptiness_do_two_truths_runtime_audit_chain_v0_1.py
 python3 scripts/check_emptiness_do_two_truths_runtime_audit_chain_v0_1.py
 python3 scripts/run_emptiness_do_two_truths_runtime_checks_v0_1.py
 python3 scripts/validate_emptiness_do_two_truths_runtime_release_packet_v0_1.py
+python3 scripts/validate_emptiness_do_two_truths_runtime_release_bundle_manifest_v0_1.py
 ```
 
 Expected success:
@@ -83,9 +84,10 @@ PASS: integrated runtime audit hash-chain generated
 PASS: integrated runtime audit chain validates
 PASS: integrated runtime checks completed
 PASS: KuuOS emptiness two truths runtime audit release packet v0.1 validates
+PASS: KuuOS emptiness two truths runtime audit release bundle manifest v0.1 validates
 ```
 
-Exact command output may differ, but the chain must fail closed on malformed audit event JSONL, broken hash-chain continuity, missing generated artifacts, invariant weakening, or release-packet boundary drift.
+Exact command output may differ, but the chain must fail closed on malformed audit event JSONL, broken hash-chain continuity, missing generated artifacts, invariant weakening, release-packet boundary drift, or release-bundle manifest drift.
 
 ## 4. Included Runners
 
@@ -98,6 +100,7 @@ scripts/validate_gpt_github_integration_v0_1.py
 scripts/run_emptiness_do_two_truths_runtime_checks_v0_1.py
 scripts/check_emptiness_do_two_truths_runtime_audit_chain_v0_1.py
 scripts/validate_emptiness_do_two_truths_runtime_release_packet_v0_1.py
+scripts/validate_emptiness_do_two_truths_runtime_release_bundle_manifest_v0_1.py
 scripts/validate_mass_gap_two_truths_engine_bridge_v0_1.py
 scripts/validate_mass_gap_memory_reflection_record_bridge_v0_1.py
 scripts/validate_memoryos_github_external_memory_v0_1.py
@@ -168,8 +171,11 @@ public release boundary document
 release notes
 publication checklist
 Zenodo metadata
+CI ledger
 release packet
 release packet validator
+release bundle manifest
+release bundle manifest validator
 Makefile target
 GitHub Actions workflow
 ```
@@ -185,6 +191,8 @@ K
   -> two_truths_non_collapse_barrier
   -> audit event
   -> audit hash-chain
+  -> release packet validator
+  -> release bundle manifest validator
 ```
 
 Core rule:
@@ -217,6 +225,7 @@ runtime audit event malformed
 audit hash-chain continuity broken
 generated runtime audit artifact missing
 release packet boundary drift
+release bundle manifest drift
 CI environment drift
 ```
 
@@ -238,6 +247,7 @@ GPT GitHub integration preserves non-authority boundaries
 formal bridge preserves review-gated proof surface
 Emptiness / Dependent Origination / Two Truths runtime audit chain is structurally consistent
 release packet preserves public non-authority boundary
+release bundle manifest preserves file inclusion and CI status boundary
 ```
 
 ## 11. What Passing Does Not Mean
@@ -301,7 +311,8 @@ make append-only or tighten-only change
   -> fix structural failures
   -> commit
   -> GitHub Actions runs targeted and all-governance validation
-  -> release / archive / WORM export only after checks pass
+  -> record CI result append-only in docs/CI_LEDGER_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md
+  -> release / archive / WORM export only after checks pass and CI result is recorded
 ```
 
 ## 14. Version
