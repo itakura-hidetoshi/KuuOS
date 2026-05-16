@@ -188,6 +188,19 @@ repair_summary:
   - bundle manifest validator now matches CI ledger status through stable semantic anchors
   - bundle manifest validator accepts known status variants instead of one brittle heading string
   - this prevents future singular/plural ledger wording drift from failing release validation
+rerun_status: superseded_by_observation_9
+claim_boundary: do_not_claim_ci_green_until_rerun_passes
+```
+
+### Observation 9: CI entrypoint display synchronized
+
+```yaml
+observed_at: 2026-05-16
+repair_commits:
+  - 3a2f89c5371aafa3ec8e7294e82f832b968332d0
+repair_summary:
+  - dedicated runtime audit GitHub Actions display now mentions release bundle manifest validator
+  - this does not change validation semantics, but improves public CI trace readability
 rerun_status: not_yet_recorded
 claim_boundary: do_not_claim_ci_green_until_rerun_passes
 ```
