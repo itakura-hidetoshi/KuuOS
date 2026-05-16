@@ -7,10 +7,18 @@ import pathlib
 import subprocess
 import sys
 from datetime import datetime, timezone
+from typing import Sequence
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-SUITE = ROOT / "scripts" / "run_kustring_runtime_suite_v0_2.py"
 OUT = ROOT / "specs" / "kustring_runtime_bundle_v0_2.generated.json"
+
+PREPARE_COMMANDS: list[list[str]] = [
+    [sys.executable, "scripts/run_kustring_runtime_checks_v0_2.py"],
+    [sys.executable, "scripts/run_kustring_runtime_packet_checks_v0_2.py"],
+    [sys.executable, "scripts/check_kustring_runtime_audit_v0_2.py"],
+    [sys.executable, "scripts/check_kustring_runtime_audit_chain_v0_2.py"],
+    [sys.executable, "scripts/check_kustring_runtime_worm_receipt_v0_2.py"],
+]
 
 FILES = [
     "examples/kustring_runtime_v0_2.py",
@@ -23,6 +31,10 @@ FILES = [
     "scripts/check_kustring_runtime_audit_chain_v0_2.py",
     "scripts/export_kustring_runtime_worm_receipt_v0_2.py",
     "scripts/check_kustring_runtime_worm_receipt_v0_2.py",
+    "scripts/build_kustring_runtime_bundle_v0_2.py",
+    "scripts/check_kustring_runtime_bundle_v0_2.py",
+    "scripts/build_kustring_runtime_attestation_v0_2.py",
+    "scripts/check_kustring_runtime_attestation_v0_2.py",
     "scripts/run_kustring_runtime_checks_v0_2.py",
     "scripts/run_kustring_runtime_packet_checks_v0_2.py",
     "scripts/run_kustring_runtime_suite_v0_2.py",
@@ -30,6 +42,11 @@ FILES = [
     "specs/kustring_runtime_audit_chain_v0_2.generated.jsonl",
     "specs/kustring_runtime_worm_receipt_v0_2.generated.json",
 ]
+
+
+def run_command(cmd: Sequence[str]) -> int:
+    print("\n>>> " + " ".join(cmd), flush=True)
+    return subprocess.run(list(cmd), cwd=ROOT).returncode
 
 
 def sha256_file(path: pathlib.Path) -> str:
@@ -41,9 +58,10 @@ def sha256_file(path: pathlib.Path) -> str:
 
 
 def main() -> int:
-    code = subprocess.run([sys.executable, str(SUITE)], cwd=ROOT).returncode
-    if code != 0:
-        return code
+    for cmd in PREPARE_COMMANDS:
+        code = run_command(cmd)
+        if code != 0:
+            return code
 
     entries = []
     for rel in sorted(FILES):
