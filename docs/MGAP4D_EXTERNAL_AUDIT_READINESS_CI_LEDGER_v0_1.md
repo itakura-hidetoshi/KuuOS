@@ -109,6 +109,25 @@ It supports:
 - replay-summary evidence
 - lake build success evidence
 
+## Dedicated ledger CI green record
+
+Status: dedicated ledger CI green recorded
+Workflow run ID: `25973305278`
+Workflow job ID: `76349030859`
+Checked commit: `a9f53bad85037169a04aabf13f0296a96bff4530`
+Job name: `validate-mgap4d-external-audit-readiness-ledger`
+Runner image: `ubuntu-24.04`
+Python version: `3.12.13`
+Started: `2026-05-16T21:23:53Z`
+Completed: `2026-05-16T21:23:55Z`
+
+Dedicated ledger CI passed steps:
+
+- `PASS: MGAP4D external audit readiness CI ledger checked`
+- `PASS: MGAP4D external audit readiness chain index checked`
+
+This exact run verifies that the ledger and chain index are now GitHub Actions checked surfaces.
+
 ## Non-expansion boundary
 
 This CI green record does not expand authority.
@@ -127,7 +146,7 @@ The record is evidence of configured CI passage and Lean/lake build success for 
 
 ## Tightening TODO
 
-When the exact GitHub Actions URL, run ID, job ID, head SHA, and artifact digests are available, append them as a new same-root entry rather than overwriting this ledger.
+When artifact digests for this ledger CI are available, append them as a new same-root entry rather than overwriting this ledger.
 
 ## Append-only rule
 
