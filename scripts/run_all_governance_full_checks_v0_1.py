@@ -21,6 +21,9 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/validate_mass_gap_two_truths_engine_bridge_v0_1.py"],
     [sys.executable, "scripts/validate_mass_gap_memory_reflection_record_bridge_v0_1.py"],
     [sys.executable, "scripts/validate_memoryos_github_external_memory_v0_1.py"],
+    [sys.executable, "scripts/check_mgap4d_external_audit_readiness_ci_ledger_v0_1.py"],
+    [sys.executable, "scripts/check_mgap4d_external_audit_readiness_chain_index_v0_1.py"],
+    [sys.executable, "scripts/check_mgap4d_external_audit_readiness_bundle_manifest_v0_1.py"],
 ]
 
 
