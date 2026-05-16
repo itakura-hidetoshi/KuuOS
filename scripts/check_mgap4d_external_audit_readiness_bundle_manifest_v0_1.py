@@ -13,8 +13,10 @@ MANIFEST = ROOT / "specs" / "mgap4d_external_audit_readiness_bundle_manifest_v0_
 ARTIFACTS = [
     "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_CI_LEDGER_v0_1.md",
     "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_CHAIN_INDEX_v0_1.md",
+    "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_FINALITY_PACKET_v0_1.md",
     "scripts/check_mgap4d_external_audit_readiness_ci_ledger_v0_1.py",
     "scripts/check_mgap4d_external_audit_readiness_chain_index_v0_1.py",
+    "scripts/check_mgap4d_external_audit_readiness_finality_packet_v0_1.py",
     ".github/workflows/mgap4d_external_audit_readiness_ci_ledger_v0_1.yml",
 ]
 FALSE_FLAGS = [
@@ -33,6 +35,14 @@ CI_GREEN = {
     "checked_commit": "a9f53bad85037169a04aabf13f0296a96bff4530",
     "ledger_pass_line": "PASS: MGAP4D external audit readiness CI ledger checked",
     "chain_index_pass_line": "PASS: MGAP4D external audit readiness chain index checked",
+}
+ALL_GOVERNANCE_GREEN = {
+    "workflow_run_id": "25974130236",
+    "workflow_job_id": "76351200926",
+    "checked_commit": "9147dc5a00e3ffd74b85336e8a26e33091fec9f1",
+    "job_name": "Validate all governance checks",
+    "bundle_manifest_pass_line": "PASS: MGAP4D external audit readiness bundle manifest checked",
+    "all_governance_pass_line": "PASS: KuuOS all governance full checks completed",
 }
 
 
@@ -66,6 +76,8 @@ def main() -> int:
         errors.append("status must be CANDIDATE")
     if manifest.get("implementation_not_proof") is not True:
         errors.append("implementation_not_proof must be true")
+    if manifest.get("finality_packet_included") is not True:
+        errors.append("finality_packet_included must be true")
     if manifest.get("artifact_count") != len(ARTIFACTS):
         errors.append("artifact_count mismatch")
     if manifest.get("artifacts") != expected_artifacts:
@@ -74,13 +86,16 @@ def main() -> int:
         errors.append("bundle_root_hash mismatch")
     if manifest.get("ci_green_reference") != CI_GREEN:
         errors.append("ci_green_reference mismatch")
+    if manifest.get("all_governance_green_reference") != ALL_GOVERNANCE_GREEN:
+        errors.append("all_governance_green_reference mismatch")
     for flag in FALSE_FLAGS:
         if manifest.get(flag) is not False:
             errors.append(f"{flag} must be false")
     notes = "\n".join(manifest.get("notes", []))
     for token in [
-        "Bundle manifest records hash evidence",
+        "Bundle manifest records hash evidence for ledger, chain index, finality packet, checkers, and dedicated workflow",
         "CI green does not grant proof/truth/clinical/execution/governance-bypass authority",
+        "External audit readiness is not external audit acceptance",
         "same-root and append-only",
     ]:
         if token not in notes:
