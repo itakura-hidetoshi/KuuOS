@@ -53,6 +53,17 @@ This index connects the observed `scripts/check.sh` CI green evidence to a machi
    - `specs/mgap4d_external_audit_readiness_bundle_manifest_v0_1.generated.json`
    - Observed pre-finality all-governance bundle root hash: `25958353266318c4b0e2a49ae12794c3d6f8abfa03f8fa26361269b5b295c185`
 
+11. Post-merge green receipt
+   - `docs/MGAP4D_EXTERNAL_AUDIT_READINESS_POST_MERGE_GREEN_RECEIPT_v0_1.md`
+   - `scripts/check_mgap4d_external_audit_readiness_post_merge_green_receipt_v0_1.py`
+   - Workflow run ID: `25974409859`
+   - Workflow job ID: `76351949971`
+   - Checked commit: `e20d244d93eb85b3cfc9b46cf4bb4625923a8d82`
+   - Branch: `main`
+   - Job name: `Validate all governance checks`
+   - Post-merge bundle root hash: `94c379c61e1a405b54dee326a5faad545e0e2c711afbd16f56b9d66e26ea0dff`
+   - Required pass line: `PASS: MGAP4D external audit readiness post-merge green receipt checked`
+
 ## Evidence covered
 
 The ledger records the following observed green surfaces from the provided GitHub Actions log excerpt:
@@ -78,6 +89,8 @@ The ledger records the following observed green surfaces from the provided GitHu
 - final `lake build` success
 - all-governance runner integration success
 - finality packet closure surface
+- post-merge all-governance green receipt surface
+- post-merge bundle root hash evidence
 
 ## Boundary
 
@@ -96,7 +109,7 @@ It does not grant:
 
 ## Tightening path
 
-The current ledger is based on the provided log excerpt, an exact dedicated ledger CI green record, and an all-governance runner green record. Further tightening may append:
+The current ledger is based on the provided log excerpt, an exact dedicated ledger CI green record, an all-governance runner green record, and a post-merge all-governance green receipt. Further tightening may append:
 
 - workflow URL
 - artifact IDs
@@ -106,7 +119,7 @@ The current ledger is based on the provided log excerpt, an exact dedicated ledg
 - signed attestation hash
 - external reviewer receipts
 
-Do not overwrite the existing ledger or chain index. Use same-root, append-only tightening.
+Do not overwrite the existing ledger, chain index, finality packet, or post-merge receipt. Use same-root, append-only tightening.
 
 Version: v0.1
 Author: Hidetoshi Itakura / 板倉英俊
