@@ -72,6 +72,7 @@ python3 scripts/export_emptiness_do_two_truths_runtime_audit_v0_1.py
 python3 scripts/build_emptiness_do_two_truths_runtime_audit_chain_v0_1.py
 python3 scripts/check_emptiness_do_two_truths_runtime_audit_chain_v0_1.py
 python3 scripts/run_emptiness_do_two_truths_runtime_checks_v0_1.py
+python3 scripts/validate_emptiness_do_two_truths_runtime_release_packet_v0_1.py
 ```
 
 Expected success:
@@ -81,9 +82,10 @@ PASS: integrated runtime audit events generated
 PASS: integrated runtime audit hash-chain generated
 PASS: integrated runtime audit chain validates
 PASS: integrated runtime checks completed
+PASS: KuuOS emptiness two truths runtime audit release packet v0.1 validates
 ```
 
-Exact command output may differ, but the chain must fail closed on malformed audit event JSONL, broken hash-chain continuity, missing generated artifacts, or invariant weakening.
+Exact command output may differ, but the chain must fail closed on malformed audit event JSONL, broken hash-chain continuity, missing generated artifacts, invariant weakening, or release-packet boundary drift.
 
 ## 4. Included Runners
 
@@ -95,6 +97,7 @@ scripts/run_core_governance_full_checks_v0_1.py
 scripts/validate_gpt_github_integration_v0_1.py
 scripts/run_emptiness_do_two_truths_runtime_checks_v0_1.py
 scripts/check_emptiness_do_two_truths_runtime_audit_chain_v0_1.py
+scripts/validate_emptiness_do_two_truths_runtime_release_packet_v0_1.py
 scripts/validate_mass_gap_two_truths_engine_bridge_v0_1.py
 scripts/validate_mass_gap_memory_reflection_record_bridge_v0_1.py
 scripts/validate_memoryos_github_external_memory_v0_1.py
@@ -164,7 +167,9 @@ audit hash-chain continuity check
 public release boundary document
 release notes
 publication checklist
+Zenodo metadata
 release packet
+release packet validator
 Makefile target
 GitHub Actions workflow
 ```
@@ -211,6 +216,7 @@ formal bridge overclaim risk
 runtime audit event malformed
 audit hash-chain continuity broken
 generated runtime audit artifact missing
+release packet boundary drift
 CI environment drift
 ```
 
@@ -231,6 +237,7 @@ Paramita routing does not grant execution authority
 GPT GitHub integration preserves non-authority boundaries
 formal bridge preserves review-gated proof surface
 Emptiness / Dependent Origination / Two Truths runtime audit chain is structurally consistent
+release packet preserves public non-authority boundary
 ```
 
 ## 11. What Passing Does Not Mean
