@@ -7,6 +7,8 @@ Root commit: `9147dc5a00e3ffd74b85336e8a26e33091fec9f1`
 
 This finality packet records the append-only closure surface for the MGAP4D external audit readiness chain. It binds the dedicated ledger green record to the all-governance runner green record without expanding proof, truth, clinical, execution, governance-bypass, journal, community, or external-auditor acceptance authority.
 
+This packet does not grant proof, truth, clinical, execution, governance-bypass, journal, community, or external-auditor acceptance authority.
+
 ## Included evidence chain
 
 1. Primary CI command surface
