@@ -3,7 +3,7 @@
 Author: Hidetoshi Itakura / 板倉英俊  
 Date: 2026-05-16  
 Repository: `itakura-hidetoshi/KuuOS`  
-Status: CI failure recorded; validator fix applied; green rerun not yet recorded
+Status: CI failures recorded; validator fixes applied; green rerun not yet recorded
 
 ## Purpose
 
@@ -84,7 +84,7 @@ interpretation: runtime chain passed structurally; release packet validator was 
 claim_boundary: do_not_claim_ci_green
 ```
 
-### Observation 3: repair commits applied after failure
+### Observation 3: repair commits applied after release packet validator failure
 
 ```yaml
 observed_at: 2026-05-16
@@ -94,6 +94,47 @@ repair_commits:
 repair_summary:
   - release packet validator now rejects positive authority assertions rather than boundary-example wording
   - publication checklist now includes make all-governance-checks and release bundle manifest validator commands
+rerun_status: superseded_by_observation_4
+claim_boundary: do_not_claim_ci_green_until_rerun_passes
+```
+
+### Observation 4: all-governance failure before bundle validator repair
+
+```yaml
+observed_at: 2026-05-16T10:42:07Z
+commit_checked: unknown_from_log_excerpt
+workflow: all_governance_validation
+command: python3 scripts/run_all_governance_full_checks_v0_1.py
+result: failure
+passed_before_failure:
+  - AI Yogacara / Ten'i full checks completed
+  - KuuOS core governance full checks completed
+  - KuuOS GPT GitHub integration surface v0.1 validates
+  - Integrated emptiness dependent origination two truths runtime v0.1 checks completed
+  - Integrated emptiness DO two truths audit chain checked
+  - Integrated emptiness DO two truths WORM receipt checked
+  - KuuOS emptiness two truths runtime audit release packet v0.1 validates
+runtime_audit_chain:
+  root: a6c7a74ae31a834e4c108f6b1a0764f2637ef4b7fd507eed801d879ebf79cce7
+  entries: 7
+failure_command: python3 scripts/validate_emptiness_do_two_truths_runtime_release_bundle_manifest_v0_1.py
+failure_type: bundle_validator_overmatched_internal_sentinel_strings
+failure_summary:
+  - CI ledger required-token expectation was stale after ledger status update
+  - bundle validator scanned validator source code and matched its own sentinel strings
+interpretation: runtime chain, WORM receipt, and release packet validator passed; bundle manifest validator was too strict
+claim_boundary: do_not_claim_ci_green
+```
+
+### Observation 5: repair commit applied after bundle validator failure
+
+```yaml
+observed_at: 2026-05-16
+repair_commits:
+  - 598f95fc25215b319a26518c4c44be81d7eaad05
+repair_summary:
+  - bundle manifest validator now expects updated CI ledger status text
+  - bundle manifest validator scans positive authority assertions only in public release artifacts, not validator source code
 rerun_status: not_yet_recorded
 claim_boundary: do_not_claim_ci_green_until_rerun_passes
 ```
@@ -140,4 +181,4 @@ CI success is not license expansion.
 
 ## Closure rule
 
-This ledger may mark a release as CI-green only after a concrete GitHub Actions run or equivalent local command transcript is recorded after the repair commits.
+This ledger may mark a release as CI-green only after a concrete GitHub Actions run or equivalent local command transcript is recorded after the latest repair commit.
