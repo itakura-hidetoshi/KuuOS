@@ -45,6 +45,7 @@ jobs:
           echo "Invariant pipeline includes audit event, audit hash-chain, WORM receipt, release bundle, attestation, closure, and finality validators."
           echo "Emptiness two truths runtime audit includes runtime checks, audit chain, release packet, and release bundle manifest validators."
           echo "GPT GitHub and MemoryOS GitHub bridge validators are included in the top-level runner."
+          echo "MGAP4D external audit readiness includes CI ledger, chain index, finality packet, and bundle manifest validators."
 
       - name: Run all governance full checks
         run: python3 scripts/run_all_governance_full_checks_v0_1.py

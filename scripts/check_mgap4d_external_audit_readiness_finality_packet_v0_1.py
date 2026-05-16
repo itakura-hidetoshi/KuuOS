@@ -4,17 +4,19 @@ from __future__ import annotations
 import pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-INDEX = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_CHAIN_INDEX_v0_1.md"
+PACKET = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_FINALITY_PACKET_v0_1.md"
+CHAIN_INDEX = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_CHAIN_INDEX_v0_1.md"
 LEDGER = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_CI_LEDGER_v0_1.md"
-FINALITY = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_FINALITY_PACKET_v0_1.md"
-CHECKER = ROOT / "scripts" / "check_mgap4d_external_audit_readiness_ci_ledger_v0_1.py"
-FINALITY_CHECKER = ROOT / "scripts" / "check_mgap4d_external_audit_readiness_finality_packet_v0_1.py"
 BUNDLE_CHECKER = ROOT / "scripts" / "check_mgap4d_external_audit_readiness_bundle_manifest_v0_1.py"
-WORKFLOW = ROOT / ".github" / "workflows" / "mgap4d_external_audit_readiness_ci_ledger_v0_1.yml"
 
 REQUIRED_TOKENS = [
-    "MGAP4D External Audit Readiness Chain Index v0.1",
-    "machine-checkable ledger surface and an append-only finality packet",
+    "MGAP4D External Audit Readiness Finality Packet v0.1",
+    "Status: CANDIDATE",
+    "Date: 2026-05-16",
+    "Repository: itakura-hidetoshi/KuuOS",
+    "Root commit: `9147dc5a00e3ffd74b85336e8a26e33091fec9f1`",
+    "append-only closure surface",
+    "does not grant proof, truth, clinical, execution, governance-bypass, journal, community, or external-auditor acceptance authority",
     "bash scripts/check.sh",
     "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_CI_LEDGER_v0_1.md",
     "scripts/check_mgap4d_external_audit_readiness_ci_ledger_v0_1.py",
@@ -24,35 +26,17 @@ REQUIRED_TOKENS = [
     "Workflow job ID: `76349030859`",
     "Checked commit: `a9f53bad85037169a04aabf13f0296a96bff4530`",
     "Job name: `validate-mgap4d-external-audit-readiness-ledger`",
-    "PASS: MGAP4D external audit readiness CI ledger checked",
-    "PASS: MGAP4D external audit readiness chain index checked",
-    "Exact green required by ledger checker",
-    "exact run ID, job ID, checked commit, job name, runner image, Python version, and PASS lines",
-    "scripts/run_all_governance_full_checks_v0_1.py",
     "Workflow run ID: `25974130236`",
     "Workflow job ID: `76351200926`",
     "Checked commit: `9147dc5a00e3ffd74b85336e8a26e33091fec9f1`",
     "Job name: `Validate all governance checks`",
     "PASS: KuuOS emptiness two truths runtime audit release bundle manifest v0.1 validates",
+    "PASS: MGAP4D external audit readiness CI ledger checked",
+    "PASS: MGAP4D external audit readiness chain index checked",
     "PASS: MGAP4D external audit readiness bundle manifest checked",
     "PASS: KuuOS all governance full checks completed",
-    "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_FINALITY_PACKET_v0_1.md",
-    "scripts/check_mgap4d_external_audit_readiness_finality_packet_v0_1.py",
-    "PASS: MGAP4D external audit readiness finality packet checked",
-    "scripts/build_mgap4d_external_audit_readiness_bundle_manifest_v0_1.py",
     "specs/mgap4d_external_audit_readiness_bundle_manifest_v0_1.generated.json",
-    "Observed pre-finality all-governance bundle root hash: `25958353266318c4b0e2a49ae12794c3d6f8abfa03f8fa26361269b5b295c185`",
-    "archived manifest verification",
-    "Lean forbidden-token audit across `457` Lean files",
-    "zero observed `sorry` / `admit` / `axiom` / `constant`",
-    "major theorem non-placeholder audit across `12` theorem specs",
-    "analytic bridge coherence audit across `8` bridge files",
-    "MGAP4D.MathlibAnalytic.ExternalAuditReadinessGate",
-    "`8368 / 8368` build jobs completed",
-    "final `lake build` success",
-    "all-governance runner integration success",
-    "finality packet closure surface",
-    "traceability surface only",
+    "Observed all-governance bundle root hash: `25958353266318c4b0e2a49ae12794c3d6f8abfa03f8fa26361269b5b295c185`",
     "proof authority by itself",
     "truth authority by itself",
     "clinical authority",
@@ -61,7 +45,12 @@ REQUIRED_TOKENS = [
     "external-auditor acceptance",
     "journal acceptance",
     "community acceptance",
-    "same-root, append-only tightening",
+    "CI green is evidence, not theorem truth.",
+    "Hash chain and bundle root are integrity evidence, not proof authority.",
+    "External audit readiness is not external audit acceptance.",
+    "Finality packet status remains `CANDIDATE` until independent external review accepts it.",
+    "same-root, append-only, boundary-preserving, and non-destructive",
+    "PASS: MGAP4D external audit readiness finality packet checked",
 ]
 
 FORBIDDEN_TOKENS = [
@@ -75,16 +64,18 @@ FORBIDDEN_TOKENS = [
     "community_acceptance: true",
     "CI green proves theorem truth",
     "CI green grants execution authority",
+    "CI green grants clinical authority",
+    "external audit readiness equals external audit acceptance",
 ]
 
 
 def main() -> int:
     errors: list[str] = []
-    for path in [INDEX, LEDGER, FINALITY, CHECKER, FINALITY_CHECKER, BUNDLE_CHECKER, WORKFLOW]:
+    for path in [PACKET, CHAIN_INDEX, LEDGER, BUNDLE_CHECKER]:
         if not path.is_file():
             errors.append(f"missing file: {path.relative_to(ROOT)}")
 
-    text = INDEX.read_text(encoding="utf-8") if INDEX.is_file() else ""
+    text = PACKET.read_text(encoding="utf-8") if PACKET.is_file() else ""
     for token in REQUIRED_TOKENS:
         if token not in text:
             errors.append(f"missing token: {token}")
@@ -97,7 +88,7 @@ def main() -> int:
             print("ERROR:", err)
         return 1
 
-    print("PASS: MGAP4D external audit readiness chain index checked")
+    print("PASS: MGAP4D external audit readiness finality packet checked")
     return 0
 
 
