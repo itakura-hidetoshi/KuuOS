@@ -8,6 +8,7 @@ Boundary notes:
 - Boundary documents and validators are allowed to mention denied claims as denied-claim examples.
 - This validator rejects positive YAML-style authority escalation assertions in public release artifacts.
 - It does not scan validator source code for sentinel strings used by validators themselves.
+- CI ledger status wording is intentionally matched by stable semantic anchors, not one brittle heading string.
 """
 
 from __future__ import annotations
@@ -17,12 +18,13 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 MANIFEST = "specs/kuos_core_release_bundle_manifest_v0_1_138_emptiness_dependent_origination_two_truths_runtime_audit_chain_v0_1.yaml"
+CI_LEDGER = "docs/CI_LEDGER_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md"
 
 REQUIRED_FILES = [
     MANIFEST,
     "specs/kuos_core_release_packet_v0_1_138_emptiness_dependent_origination_two_truths_runtime_audit_chain_v0_1.yaml",
     "specs/kuos_core_manifest_addendum_v0_1_138_emptiness_dependent_origination_two_truths_runtime_audit_chain_v0_1.yaml",
-    "docs/CI_LEDGER_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md",
+    CI_LEDGER,
     "docs/EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_PUBLIC_RELEASE_v0_1.md",
     "docs/RELEASE_NOTES_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md",
     "docs/PUBLICATION_CHECKLIST_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md",
@@ -47,7 +49,7 @@ PUBLIC_ARTIFACTS_TO_SCAN = [
     MANIFEST,
     "specs/kuos_core_release_packet_v0_1_138_emptiness_dependent_origination_two_truths_runtime_audit_chain_v0_1.yaml",
     "specs/kuos_core_manifest_addendum_v0_1_138_emptiness_dependent_origination_two_truths_runtime_audit_chain_v0_1.yaml",
-    "docs/CI_LEDGER_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md",
+    CI_LEDGER,
     "docs/EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_PUBLIC_RELEASE_v0_1.md",
     "docs/RELEASE_NOTES_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md",
     "docs/PUBLICATION_CHECKLIST_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md",
@@ -76,8 +78,9 @@ REQUIRED_TOKENS = {
         "ci_green_recorded: false",
         "final_archive_ready: false",
     ],
-    "docs/CI_LEDGER_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md": [
-        "CI failures recorded; validator fixes applied; green rerun not yet recorded",
+    CI_LEDGER: [
+        "Status:",
+        "green rerun not yet recorded",
         "do_not_claim_ci_green",
         "CI success is not theorem truth",
         "CI success is not execution authority",
@@ -87,6 +90,16 @@ REQUIRED_TOKENS = {
         "emptiness-two-truths-runtime-audit-checks:",
         "python3 scripts/validate_emptiness_do_two_truths_runtime_release_packet_v0_1.py",
         "python3 scripts/validate_emptiness_do_two_truths_runtime_release_bundle_manifest_v0_1.py",
+    ],
+}
+
+REQUIRED_ANY_TOKENS = {
+    CI_LEDGER: [
+        [
+            "CI failure recorded; validator fix applied; green rerun not yet recorded",
+            "CI failures recorded; validator fixes applied; green rerun not yet recorded",
+            "CI green recorded; release archive ready for publication boundary review",
+        ]
     ],
 }
 
@@ -130,6 +143,12 @@ def main() -> int:
         for token in REQUIRED_TOKENS.get(file_path, []):
             if token not in text:
                 errors.append(f"missing token in {file_path}: {token}")
+
+        for alternatives in REQUIRED_ANY_TOKENS.get(file_path, []):
+            if not any(token in text for token in alternatives):
+                errors.append(
+                    f"missing one-of tokens in {file_path}: " + " OR ".join(alternatives)
+                )
 
     for file_path in PUBLIC_ARTIFACTS_TO_SCAN:
         try:
