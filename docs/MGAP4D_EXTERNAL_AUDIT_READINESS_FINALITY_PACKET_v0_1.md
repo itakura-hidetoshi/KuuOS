@@ -4,8 +4,9 @@ Status: CANDIDATE
 Date: 2026-05-16
 Repository: itakura-hidetoshi/KuuOS
 Root commit: `9147dc5a00e3ffd74b85336e8a26e33091fec9f1`
+Post-merge commit: `e20d244d93eb85b3cfc9b46cf4bb4625923a8d82`
 
-This finality packet records the append-only closure surface for the MGAP4D external audit readiness chain. It binds the dedicated ledger green record to the all-governance runner green record without expanding proof, truth, clinical, execution, governance-bypass, journal, community, or external-auditor acceptance authority.
+This finality packet records the append-only closure surface for the MGAP4D external audit readiness chain. It binds the dedicated ledger green record to the all-governance runner green record and appends the main-branch post-merge green receipt without expanding proof, truth, clinical, execution, governance-bypass, journal, community, or external-auditor acceptance authority.
 
 This packet does not grant proof, truth, clinical, execution, governance-bypass, journal, community, or external-auditor acceptance authority.
 
@@ -43,6 +44,19 @@ This packet does not grant proof, truth, clinical, execution, governance-bypass,
    - Generated file: `specs/mgap4d_external_audit_readiness_bundle_manifest_v0_1.generated.json`
    - Observed all-governance bundle root hash: `25958353266318c4b0e2a49ae12794c3d6f8abfa03f8fa26361269b5b295c185`
 
+6. Post-merge green receipt evidence
+   - `docs/MGAP4D_EXTERNAL_AUDIT_READINESS_POST_MERGE_GREEN_RECEIPT_v0_1.md`
+   - `scripts/check_mgap4d_external_audit_readiness_post_merge_green_receipt_v0_1.py`
+   - Workflow run ID: `25974409859`
+   - Workflow job ID: `76351949971`
+   - Checked commit: `e20d244d93eb85b3cfc9b46cf4bb4625923a8d82`
+   - Branch: `main`
+   - Job name: `Validate all governance checks`
+   - PASS: `PASS: MGAP4D external audit readiness post-merge green receipt checked`
+   - PASS: `PASS: MGAP4D external audit readiness bundle manifest checked`
+   - PASS: `PASS: KuuOS all governance full checks completed`
+   - Observed post-merge bundle root hash: `94c379c61e1a405b54dee326a5faad545e0e2c711afbd16f56b9d66e26ea0dff`
+
 ## Boundaries preserved
 
 This packet is a finality surface for repository-side audit readiness only. It does not grant:
@@ -61,12 +75,14 @@ This packet is a finality surface for repository-side audit readiness only. It d
 - CI green is evidence, not theorem truth.
 - Hash chain and bundle root are integrity evidence, not proof authority.
 - External audit readiness is not external audit acceptance.
+- Post-merge green confirms repository integration, not independent mathematical acceptance.
 - Finality packet status remains `CANDIDATE` until independent external review accepts it.
 - Updates must remain same-root, append-only, boundary-preserving, and non-destructive.
 
 ## Required pass lines for this packet
 
 - `PASS: MGAP4D external audit readiness finality packet checked`
+- `PASS: MGAP4D external audit readiness post-merge green receipt checked`
 - `PASS: MGAP4D external audit readiness bundle manifest checked`
 - `PASS: KuuOS all governance full checks completed`
 
