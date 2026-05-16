@@ -1,4 +1,4 @@
-.PHONY: ai-provider-boundary-checks ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks formal-invariant-checks super-relativity-checks invariant-matrix-checks invariant-gate-checks invariant-pipeline-checks invariant-pipeline-build-bundle invariant-pipeline-validate-bundle invariant-pipeline-attest invariant-pipeline-release-closure invariant-pipeline-finality gpt-github-integration-checks memoryos-github-external-memory-checks core-governance-checks all-governance-checks
+.PHONY: ai-provider-boundary-checks ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks formal-invariant-checks super-relativity-checks invariant-matrix-checks invariant-gate-checks invariant-pipeline-checks invariant-pipeline-build-bundle invariant-pipeline-validate-bundle invariant-pipeline-attest invariant-pipeline-release-closure invariant-pipeline-finality gpt-github-integration-checks memoryos-github-external-memory-checks emptiness-two-truths-runtime-audit-checks core-governance-checks all-governance-checks
 
 ai-provider-boundary-checks:
 	python3 scripts/validate_ai_provider_boundary_runtime_v0_1.py
@@ -77,6 +77,12 @@ gpt-github-integration-checks:
 
 memoryos-github-external-memory-checks:
 	python3 scripts/validate_memoryos_github_external_memory_v0_1.py
+
+emptiness-two-truths-runtime-audit-checks:
+	python3 scripts/export_emptiness_do_two_truths_runtime_audit_v0_1.py
+	python3 scripts/build_emptiness_do_two_truths_runtime_audit_chain_v0_1.py
+	python3 scripts/check_emptiness_do_two_truths_runtime_audit_chain_v0_1.py
+	python3 scripts/run_emptiness_do_two_truths_runtime_checks_v0_1.py
 
 core-governance-checks:
 	python3 scripts/run_core_governance_full_checks_v0_1.py
