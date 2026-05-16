@@ -222,7 +222,56 @@ transformation detected
   -> no execution authority
 ```
 
-## 13. Minimal Runtime Examples
+## 13. Emptiness / Dependent Origination / Two Truths Runtime Audit Chain
+
+Public release surfaces:
+
+```text
+docs/EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_PUBLIC_RELEASE_v0_1.md
+docs/RELEASE_NOTES_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md
+docs/PUBLICATION_CHECKLIST_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md
+specs/kuos_core_manifest_addendum_v0_1_138_emptiness_dependent_origination_two_truths_runtime_audit_chain_v0_1.yaml
+```
+
+Runtime / audit entrypoints:
+
+```text
+scripts/export_emptiness_do_two_truths_runtime_audit_v0_1.py
+scripts/build_emptiness_do_two_truths_runtime_audit_chain_v0_1.py
+scripts/check_emptiness_do_two_truths_runtime_audit_chain_v0_1.py
+scripts/run_emptiness_do_two_truths_runtime_checks_v0_1.py
+```
+
+Generated receipts:
+
+```text
+specs/emptiness_do_two_truths_runtime_audit_events_v0_1.generated.jsonl
+specs/emptiness_do_two_truths_runtime_audit_chain_v0_1.generated.jsonl
+```
+
+Runtime chain:
+
+```text
+K
+  -> delta_rel
+  -> String / Brane
+  -> K_perp
+  -> H_world / gap
+  -> two_truths_non_collapse_barrier
+  -> audit event
+  -> audit hash-chain
+```
+
+Core rule:
+
+```text
+audit_chain_structural_consistency_not_theorem_authority
+hash_chain_continuity_not_truth
+runtime_audit_not_execution_authority
+two_truths_non_collapse_barrier_must_not_reify_ultimate_truth
+```
+
+## 14. Minimal Runtime Examples
 
 ```text
 examples/ai_yogacara_runtime_adapter_minimal.py
@@ -232,7 +281,7 @@ examples/invariant_preservation_matrix_minimal.py
 examples/invariant_gate_minimal.py
 ```
 
-## 14. Main Validators
+## 15. Main Validators
 
 ```text
 scripts/run_all_governance_full_checks_v0_1.py
@@ -251,9 +300,11 @@ scripts/validate_invariant_preservation_matrix_v0_1.py
 scripts/validate_invariant_preservation_matrix_fixtures_v0_1.py
 scripts/validate_invariant_gate_fixtures_v0_1.py
 scripts/validate_invariant_governance_pipeline_v0_1.py
+scripts/check_emptiness_do_two_truths_runtime_audit_chain_v0_1.py
+scripts/run_emptiness_do_two_truths_runtime_checks_v0_1.py
 ```
 
-## 15. Non-Authority Boundary
+## 16. Non-Authority Boundary
 
 ```text
 GPT_reading_not_authority
@@ -266,6 +317,8 @@ validation_entrypoint_not_authority
 ci_pass_not_execution_authority
 bundle_integrity_not_truth
 hash_chain_continuity_not_truth
+audit_chain_structural_consistency_not_theorem_authority
+runtime_audit_not_execution_authority
 metric_observability_not_authority
 paramita_orientation_not_action_authorization
 dukkha_model_observation_not_authority
@@ -281,8 +334,8 @@ GPT_summary_not_proof_authority
 review_gate_required_for_public_final_claim
 ```
 
-## 16. Version
+## 17. Version
 
 Version: v0.1
-Date: 2026-05-12
+Date: 2026-05-16
 Author: Hidetoshi Itakura / 板倉英俊
