@@ -13,8 +13,22 @@ This index connects the observed `scripts/check.sh` CI green evidence to a machi
 3. Ledger checker
    - `scripts/check_mgap4d_external_audit_readiness_ci_ledger_v0_1.py`
 
-4. Future CI hook target
-   - Add `python3 scripts/check_mgap4d_external_audit_readiness_ci_ledger_v0_1.py` to the appropriate public-audit or repository-wide check workflow when the exact workflow location is confirmed.
+4. Chain index checker
+   - `scripts/check_mgap4d_external_audit_readiness_chain_index_v0_1.py`
+
+5. Dedicated GitHub Actions ledger workflow
+   - `.github/workflows/mgap4d_external_audit_readiness_ci_ledger_v0_1.yml`
+
+6. Dedicated ledger CI green record
+   - Workflow run ID: `25973305278`
+   - Workflow job ID: `76349030859`
+   - Checked commit: `a9f53bad85037169a04aabf13f0296a96bff4530`
+   - Job name: `validate-mgap4d-external-audit-readiness-ledger`
+   - Passed ledger step: `PASS: MGAP4D external audit readiness CI ledger checked`
+   - Passed chain-index step: `PASS: MGAP4D external audit readiness chain index checked`
+
+7. Exact green required by ledger checker
+   - `scripts/check_mgap4d_external_audit_readiness_ci_ledger_v0_1.py` requires the exact run ID, job ID, checked commit, job name, runner image, Python version, and PASS lines from the dedicated ledger CI green record.
 
 ## Evidence covered
 
@@ -57,16 +71,16 @@ It does not grant:
 
 ## Tightening path
 
-The current ledger is based on the provided log excerpt. When exact GitHub Actions run metadata is available, append a v0.1 addendum or v0.2 entry containing:
+The current ledger is based on the provided log excerpt and an exact dedicated ledger CI green record. Further tightening may append:
 
 - workflow URL
-- run ID
-- job ID
-- head SHA
 - artifact IDs
 - artifact SHA-256 digests
+- rerun IDs after checker self-strengthening
+- release bundle hash
+- signed attestation hash
 
-Do not overwrite the existing ledger. Use same-root, append-only tightening.
+Do not overwrite the existing ledger or chain index. Use same-root, append-only tightening.
 
 Version: v0.1
 Author: Hidetoshi Itakura / 板倉英俊
