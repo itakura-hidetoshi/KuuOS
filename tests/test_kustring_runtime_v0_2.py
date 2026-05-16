@@ -3,14 +3,16 @@ from __future__ import annotations
 
 import importlib.util
 import pathlib
+import sys
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MODULE_PATH = ROOT / "examples" / "kustring_runtime_v0_2.py"
 
 spec = importlib.util.spec_from_file_location("kustring_runtime_v0_2", MODULE_PATH)
-runtime = importlib.util.module_from_spec(spec)
 assert spec is not None and spec.loader is not None
+runtime = importlib.util.module_from_spec(spec)
+sys.modules[spec.name] = runtime
 spec.loader.exec_module(runtime)
 
 
