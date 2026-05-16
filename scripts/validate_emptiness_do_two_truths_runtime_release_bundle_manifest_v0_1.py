@@ -6,8 +6,8 @@ It checks that all bundle entries exist and that required non-authority fixed po
 
 Boundary notes:
 - Boundary documents and validators are allowed to mention denied claims as denied-claim examples.
-- This validator rejects positive YAML-style authority escalation assertions in release artifacts.
-- It does not scan validator source code for its own sentinel strings.
+- This validator rejects positive YAML-style authority escalation assertions in public release artifacts.
+- It does not scan validator source code for sentinel strings used by validators themselves.
 """
 
 from __future__ import annotations
@@ -17,7 +17,6 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 MANIFEST = "specs/kuos_core_release_bundle_manifest_v0_1_138_emptiness_dependent_origination_two_truths_runtime_audit_chain_v0_1.yaml"
-THIS_VALIDATOR = "scripts/validate_emptiness_do_two_truths_runtime_release_bundle_manifest_v0_1.py"
 
 REQUIRED_FILES = [
     MANIFEST,
@@ -38,7 +37,23 @@ REQUIRED_FILES = [
     "scripts/check_emptiness_do_two_truths_runtime_audit_chain_v0_1.py",
     "scripts/run_emptiness_do_two_truths_runtime_checks_v0_1.py",
     "scripts/validate_emptiness_do_two_truths_runtime_release_packet_v0_1.py",
-    THIS_VALIDATOR,
+    "scripts/validate_emptiness_do_two_truths_runtime_release_bundle_manifest_v0_1.py",
+    ".github/workflows/emptiness_two_truths_runtime_audit_validation.yml",
+    ".github/workflows/all_governance_validation.yml",
+    "Makefile",
+]
+
+PUBLIC_ARTIFACTS_TO_SCAN = [
+    MANIFEST,
+    "specs/kuos_core_release_packet_v0_1_138_emptiness_dependent_origination_two_truths_runtime_audit_chain_v0_1.yaml",
+    "specs/kuos_core_manifest_addendum_v0_1_138_emptiness_dependent_origination_two_truths_runtime_audit_chain_v0_1.yaml",
+    "docs/CI_LEDGER_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md",
+    "docs/EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_PUBLIC_RELEASE_v0_1.md",
+    "docs/RELEASE_NOTES_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md",
+    "docs/PUBLICATION_CHECKLIST_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md",
+    "docs/ZENODO_METADATA_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md",
+    "docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md",
+    "docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md",
     ".github/workflows/emptiness_two_truths_runtime_audit_validation.yml",
     ".github/workflows/all_governance_validation.yml",
     "Makefile",
@@ -87,7 +102,6 @@ FORBIDDEN_POSITIVE_ASSERTIONS = [
     "public_visibility_changes_rights: true",
 ]
 
-# Human prose claims that are forbidden only if they appear outside validator source.
 FORBIDDEN_POSITIVE_PROSE = [
     "CI success is theorem truth",
     "CI success grants execution authority",
@@ -117,14 +131,20 @@ def main() -> int:
             if token not in text:
                 errors.append(f"missing token in {file_path}: {token}")
 
+    for file_path in PUBLIC_ARTIFACTS_TO_SCAN:
+        try:
+            text = read(file_path)
+        except AssertionError as exc:
+            errors.append(str(exc))
+            continue
+
         for token in FORBIDDEN_POSITIVE_ASSERTIONS:
             if token in text:
                 errors.append(f"forbidden positive authority assertion in {file_path}: {token}")
 
-        if file_path != THIS_VALIDATOR:
-            for token in FORBIDDEN_POSITIVE_PROSE:
-                if token in text:
-                    errors.append(f"forbidden positive prose claim in {file_path}: {token}")
+        for token in FORBIDDEN_POSITIVE_PROSE:
+            if token in text:
+                errors.append(f"forbidden positive prose claim in {file_path}: {token}")
 
     manifest_text = read(MANIFEST) if (ROOT / MANIFEST).exists() else ""
     for required in REQUIRED_FILES:
