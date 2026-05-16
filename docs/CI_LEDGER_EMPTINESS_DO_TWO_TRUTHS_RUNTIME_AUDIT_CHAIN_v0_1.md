@@ -135,6 +135,45 @@ repair_commits:
 repair_summary:
   - bundle manifest validator now expects updated CI ledger status text
   - bundle manifest validator scans positive authority assertions only in public release artifacts, not validator source code
+rerun_status: superseded_by_observation_6
+claim_boundary: do_not_claim_ci_green_until_rerun_passes
+```
+
+### Observation 6: all-governance failure before ledger-token repair
+
+```yaml
+observed_at: 2026-05-16T10:46:36Z
+commit_checked: unknown_from_log_excerpt
+workflow: all_governance_validation
+command: python3 scripts/run_all_governance_full_checks_v0_1.py
+result: failure
+passed_before_failure:
+  - AI Yogacara / Ten'i full checks completed
+  - KuuOS core governance full checks completed
+  - KuuOS GPT GitHub integration surface v0.1 validates
+  - Integrated emptiness dependent origination two truths runtime v0.1 checks completed
+  - Integrated emptiness DO two truths audit chain checked
+  - Integrated emptiness DO two truths WORM receipt checked
+  - KuuOS emptiness two truths runtime audit release packet v0.1 validates
+runtime_audit_chain:
+  root: a6c7a74ae31a834e4c108f6b1a0764f2637ef4b7fd507eed801d879ebf79cce7
+  entries: 7
+failure_command: python3 scripts/validate_emptiness_do_two_truths_runtime_release_bundle_manifest_v0_1.py
+failure_type: stale_ci_ledger_status_token
+failure_summary:
+  - bundle manifest validator expected singular status text after CI ledger had been updated to plural status text
+interpretation: runtime chain, WORM receipt, and release packet validator passed; only bundle validator ledger-token expectation was stale
+claim_boundary: do_not_claim_ci_green
+```
+
+### Observation 7: repair commit applied after ledger-token failure
+
+```yaml
+observed_at: 2026-05-16
+repair_commits:
+  - c128d0621b721e639e20df4620da3ff9119568b8
+repair_summary:
+  - bundle manifest validator now expects CI ledger status text: CI failures recorded; validator fixes applied; green rerun not yet recorded
 rerun_status: not_yet_recorded
 claim_boundary: do_not_claim_ci_green_until_rerun_passes
 ```
