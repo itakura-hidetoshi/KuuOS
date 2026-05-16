@@ -1,0 +1,93 @@
+id: kuos_core_release_bundle_manifest_v0_1_138_emptiness_dependent_origination_two_truths_runtime_audit_chain_v0_1
+name: KuuOS Core Release Bundle Manifest v0.1.138 - Emptiness Dependent Origination Two Truths Runtime Audit Chain
+version: 0.1.138
+date: 2026-05-16
+author: Hidetoshi Itakura / 板倉英俊
+repository: https://github.com/itakura-hidetoshi/KuuOS
+license: All-Rights-Reserved
+release_mode:
+  - append-only
+  - tighten-only
+  - overwrite-forbidden
+status: release_bundle_manifest
+
+bundle_root:
+  release_packet: specs/kuos_core_release_packet_v0_1_138_emptiness_dependent_origination_two_truths_runtime_audit_chain_v0_1.yaml
+  manifest_addendum: specs/kuos_core_manifest_addendum_v0_1_138_emptiness_dependent_origination_two_truths_runtime_audit_chain_v0_1.yaml
+  ci_ledger: docs/CI_LEDGER_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md
+
+runtime_chain:
+  - K
+  - delta_rel
+  - String_Brane
+  - K_perp
+  - H_world_gap
+  - two_truths_non_collapse_barrier
+  - audit_event
+  - audit_hash_chain
+  - release_packet_validator
+  - dedicated_ci
+  - all_governance_checks
+
+docs:
+  - docs/EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_PUBLIC_RELEASE_v0_1.md
+  - docs/RELEASE_NOTES_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md
+  - docs/PUBLICATION_CHECKLIST_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md
+  - docs/ZENODO_METADATA_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md
+  - docs/CI_LEDGER_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md
+  - docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
+  - docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
+
+specs:
+  - specs/kuos_core_manifest_addendum_v0_1_138_emptiness_dependent_origination_two_truths_runtime_audit_chain_v0_1.yaml
+  - specs/kuos_core_release_packet_v0_1_138_emptiness_dependent_origination_two_truths_runtime_audit_chain_v0_1.yaml
+  - specs/kuos_core_release_bundle_manifest_v0_1_138_emptiness_dependent_origination_two_truths_runtime_audit_chain_v0_1.yaml
+  - specs/emptiness_do_two_truths_runtime_claims_v0_1.json
+  - specs/emptiness_do_two_truths_runtime_audit_events_v0_1.generated.jsonl
+  - specs/emptiness_do_two_truths_runtime_audit_chain_v0_1.generated.jsonl
+
+scripts:
+  - scripts/export_emptiness_do_two_truths_runtime_audit_v0_1.py
+  - scripts/build_emptiness_do_two_truths_runtime_audit_chain_v0_1.py
+  - scripts/check_emptiness_do_two_truths_runtime_audit_chain_v0_1.py
+  - scripts/run_emptiness_do_two_truths_runtime_checks_v0_1.py
+  - scripts/validate_emptiness_do_two_truths_runtime_release_packet_v0_1.py
+
+ci:
+  - .github/workflows/emptiness_two_truths_runtime_audit_validation.yml
+  - .github/workflows/all_governance_validation.yml
+
+build:
+  - Makefile
+
+validation_commands:
+  - make emptiness-two-truths-runtime-audit-checks
+  - make all-governance-checks
+
+required_non_authority_fixed_points:
+  - ci_pass_not_theorem_truth
+  - ci_pass_not_execution_authority
+  - hash_chain_continuity_not_truth
+  - audit_chain_structural_consistency_not_theorem_authority
+  - runtime_audit_not_execution_authority
+  - K_objectification_remains_false
+  - direct_K_observation_remains_false
+  - two_truths_collapse_remains_false
+
+ci_status:
+  current: not_yet_confirmed
+  ledger: docs/CI_LEDGER_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md
+  may_claim_green_only_if: concrete_workflow_run_or_local_transcript_recorded
+
+publication_status:
+  repository_public_surface: prepared
+  ci_workflow_configured: true
+  ci_green_recorded: false
+  zenodo_metadata_prepared: true
+  final_archive_ready: false
+  reason_final_archive_not_ready: ci_green_not_recorded
+
+copyright:
+  holder: Hidetoshi Itakura / 板倉英俊
+  year: 2026
+  notice: All Rights Reserved
