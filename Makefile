@@ -83,6 +83,7 @@ emptiness-two-truths-runtime-audit-checks:
 	python3 scripts/build_emptiness_do_two_truths_runtime_audit_chain_v0_1.py
 	python3 scripts/check_emptiness_do_two_truths_runtime_audit_chain_v0_1.py
 	python3 scripts/run_emptiness_do_two_truths_runtime_checks_v0_1.py
+	python3 scripts/validate_emptiness_do_two_truths_runtime_release_packet_v0_1.py
 
 core-governance-checks:
 	python3 scripts/run_core_governance_full_checks_v0_1.py
