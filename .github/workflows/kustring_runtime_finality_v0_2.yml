@@ -8,6 +8,7 @@ on:
       - 'specs/kustring_runtime_packets_v0_2.json'
       - 'scripts/*kustring_runtime*_v0_2.py'
       - 'docs/KUSTRING_RUNTIME_*_v0_2.md'
+      - 'docs/kustring_runtime_finality_ci_ledger_v0_2.md'
       - '.github/workflows/kustring_runtime_finality_v0_2.yml'
   pull_request:
     paths:
@@ -16,6 +17,7 @@ on:
       - 'specs/kustring_runtime_packets_v0_2.json'
       - 'scripts/*kustring_runtime*_v0_2.py'
       - 'docs/KUSTRING_RUNTIME_*_v0_2.md'
+      - 'docs/kustring_runtime_finality_ci_ledger_v0_2.md'
       - '.github/workflows/kustring_runtime_finality_v0_2.yml'
   workflow_dispatch:
 
