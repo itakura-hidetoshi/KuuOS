@@ -7,13 +7,28 @@ License: All Rights Reserved
 
 ## Required local checks
 
-Run:
+Run the dedicated runtime-audit target:
+
+```bash
+make emptiness-two-truths-runtime-audit-checks
+```
+
+Run the top-level governance target:
+
+```bash
+make all-governance-checks
+```
+
+Direct command expansion:
 
 ```bash
 python3 scripts/export_emptiness_do_two_truths_runtime_audit_v0_1.py
 python3 scripts/build_emptiness_do_two_truths_runtime_audit_chain_v0_1.py
 python3 scripts/check_emptiness_do_two_truths_runtime_audit_chain_v0_1.py
 python3 scripts/run_emptiness_do_two_truths_runtime_checks_v0_1.py
+python3 scripts/validate_emptiness_do_two_truths_runtime_release_packet_v0_1.py
+python3 scripts/validate_emptiness_do_two_truths_runtime_release_bundle_manifest_v0_1.py
+python3 scripts/run_all_governance_full_checks_v0_1.py
 ```
 
 Expected result:
@@ -23,9 +38,12 @@ PASS: audit events generated
 PASS: audit chain generated
 PASS: audit chain check passed
 PASS: integrated runtime checks passed
+PASS: release packet validates
+PASS: release bundle manifest validates
+PASS: all governance checks completed
 ```
 
-Exact command output may differ, but the check must fail closed on malformed audit events, broken chain continuity, missing generated artifacts, or invariant weakening.
+Exact command output may differ, but the check must fail closed on malformed audit events, broken chain continuity, missing generated artifacts, invariant weakening, release-packet boundary drift, or release-bundle manifest drift.
 
 ## Public repository gate
 
@@ -35,8 +53,12 @@ Before public announcement, verify:
 - [ ] `LICENSE` and `COPYRIGHT.md` remain All Rights Reserved.
 - [ ] generated JSONL audit artifacts are present.
 - [ ] manifest addendum v0.1.138 is present.
+- [ ] release packet is present.
+- [ ] release bundle manifest is present.
+- [ ] CI ledger is present.
 - [ ] release notes are present.
 - [ ] public release boundary document is present.
+- [ ] Zenodo metadata is present.
 - [ ] no credentials or operational secrets are introduced.
 - [ ] no clinical/private data is introduced.
 - [ ] no unpublished private research kernel is introduced.
@@ -68,6 +90,8 @@ execution authority
 license permission granted by public visibility
 ```
 
+The forbidden-wording list itself is a boundary list, not an assertion that those claims are true.
+
 ## DOI / archive preparation
 
 For Zenodo or other archival deposit, include:
@@ -76,7 +100,11 @@ For Zenodo or other archival deposit, include:
 - this checklist;
 - release notes;
 - public release boundary document;
+- Zenodo metadata;
+- CI ledger;
 - manifest addendum;
+- release packet;
+- release bundle manifest;
 - generated JSONL audit events;
 - generated JSONL audit chain;
 - validation commands;
@@ -102,4 +130,4 @@ This archive records an implementation-level runtime audit chain for KuuOS / 空
 
 ## Closure statement
 
-This release may be published when all checks pass and all forbidden strengthening conditions remain false.
+This release may be published when all checks pass and all forbidden strengthening conditions remain false. CI green must be recorded append-only in `docs/CI_LEDGER_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md` before marking final archive readiness.
