@@ -77,7 +77,7 @@ REQUIRED_TOKENS = {
         "final_archive_ready: false",
     ],
     "docs/CI_LEDGER_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md": [
-        "CI failure recorded; validator fix applied; green rerun not yet recorded",
+        "CI failures recorded; validator fixes applied; green rerun not yet recorded",
         "do_not_claim_ci_green",
         "CI success is not theorem truth",
         "CI success is not execution authority",
