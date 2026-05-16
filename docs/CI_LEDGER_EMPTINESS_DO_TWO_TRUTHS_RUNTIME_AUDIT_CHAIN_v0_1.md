@@ -174,6 +174,20 @@ repair_commits:
   - c128d0621b721e639e20df4620da3ff9119568b8
 repair_summary:
   - bundle manifest validator now expects CI ledger status text: CI failures recorded; validator fixes applied; green rerun not yet recorded
+rerun_status: superseded_by_observation_8
+claim_boundary: do_not_claim_ci_green_until_rerun_passes
+```
+
+### Observation 8: robustness repair applied after ledger-token repair
+
+```yaml
+observed_at: 2026-05-16
+repair_commits:
+  - 43d6541975aa7806f00961f7f8c450e2face4d14
+repair_summary:
+  - bundle manifest validator now matches CI ledger status through stable semantic anchors
+  - bundle manifest validator accepts known status variants instead of one brittle heading string
+  - this prevents future singular/plural ledger wording drift from failing release validation
 rerun_status: not_yet_recorded
 claim_boundary: do_not_claim_ci_green_until_rerun_passes
 ```
