@@ -14,6 +14,8 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/run_ai_yogacara_full_checks_v0_1.py"],
     [sys.executable, "scripts/run_core_governance_full_checks_v0_1.py"],
     [sys.executable, "scripts/validate_gpt_github_integration_v0_1.py"],
+    [sys.executable, "scripts/run_emptiness_do_two_truths_runtime_checks_v0_1.py"],
+    [sys.executable, "scripts/check_emptiness_do_two_truths_runtime_audit_chain_v0_1.py"],
     [sys.executable, "scripts/validate_mass_gap_two_truths_engine_bridge_v0_1.py"],
     [sys.executable, "scripts/validate_mass_gap_memory_reflection_record_bridge_v0_1.py"],
     [sys.executable, "scripts/validate_memoryos_github_external_memory_v0_1.py"],
