@@ -7,6 +7,8 @@ on:
       - 'docs/MGAP4D_EXTERNAL_AUDIT_READINESS_CHAIN_INDEX_v0_1.md'
       - 'scripts/check_mgap4d_external_audit_readiness_ci_ledger_v0_1.py'
       - 'scripts/check_mgap4d_external_audit_readiness_chain_index_v0_1.py'
+      - 'scripts/build_mgap4d_external_audit_readiness_bundle_manifest_v0_1.py'
+      - 'scripts/check_mgap4d_external_audit_readiness_bundle_manifest_v0_1.py'
       - '.github/workflows/mgap4d_external_audit_readiness_ci_ledger_v0_1.yml'
   pull_request:
     paths:
@@ -14,6 +16,8 @@ on:
       - 'docs/MGAP4D_EXTERNAL_AUDIT_READINESS_CHAIN_INDEX_v0_1.md'
       - 'scripts/check_mgap4d_external_audit_readiness_ci_ledger_v0_1.py'
       - 'scripts/check_mgap4d_external_audit_readiness_chain_index_v0_1.py'
+      - 'scripts/build_mgap4d_external_audit_readiness_bundle_manifest_v0_1.py'
+      - 'scripts/check_mgap4d_external_audit_readiness_bundle_manifest_v0_1.py'
       - '.github/workflows/mgap4d_external_audit_readiness_ci_ledger_v0_1.yml'
   workflow_dispatch:
 
@@ -34,3 +38,9 @@ jobs:
 
       - name: Check MGAP4D external audit readiness chain index v0.1
         run: python3 scripts/check_mgap4d_external_audit_readiness_chain_index_v0_1.py
+
+      - name: Build MGAP4D external audit readiness bundle manifest v0.1
+        run: python3 scripts/build_mgap4d_external_audit_readiness_bundle_manifest_v0_1.py
+
+      - name: Check MGAP4D external audit readiness bundle manifest v0.1
+        run: python3 scripts/check_mgap4d_external_audit_readiness_bundle_manifest_v0_1.py
