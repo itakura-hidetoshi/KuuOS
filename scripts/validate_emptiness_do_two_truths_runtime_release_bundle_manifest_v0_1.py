@@ -9,6 +9,7 @@ Boundary notes:
 - This validator rejects positive YAML-style authority escalation assertions in public release artifacts.
 - It does not scan validator source code for sentinel strings used by validators themselves.
 - CI ledger status wording is intentionally matched by stable semantic anchors, not one brittle heading string.
+- Green CI observations are accepted only when accompanied by explicit non-authority boundary tokens.
 """
 
 from __future__ import annotations
@@ -80,11 +81,13 @@ REQUIRED_TOKENS = {
     ],
     CI_LEDGER: [
         "Status:",
-        "green rerun not yet recorded",
         "do_not_claim_ci_green",
         "CI success is not theorem truth",
         "CI success is not execution authority",
         "runtime chain passed structurally",
+        "ci_pass_not_theorem_truth",
+        "ci_pass_not_execution_authority",
+        "audit_chain_structural_consistency_not_theorem_authority",
     ],
     "Makefile": [
         "emptiness-two-truths-runtime-audit-checks:",
@@ -98,10 +101,26 @@ REQUIRED_ANY_TOKENS = {
         [
             "CI failure recorded; validator fix applied; green rerun not yet recorded",
             "CI failures recorded; validator fixes applied; green rerun not yet recorded",
+            "CI green recorded for run",
             "CI green recorded; release archive ready for publication boundary review",
-        ]
+        ],
+        [
+            "claim_boundary: do_not_claim_ci_green_until_rerun_passes",
+            "result: success",
+        ],
     ],
 }
+
+GREEN_OBSERVATION_REQUIRED_TOKENS = [
+    "### Observation 10: all-governance CI green",
+    "run_id: 25960321365",
+    "job_id: 76314405002",
+    "result: success",
+    "PASS: KuuOS all governance full checks completed",
+    "ci_pass_not_theorem_truth",
+    "ci_pass_not_execution_authority",
+    "hash_chain_continuity_not_truth",
+]
 
 FORBIDDEN_POSITIVE_ASSERTIONS = [
     "ci_green_recorded: true",
@@ -149,6 +168,12 @@ def main() -> int:
                 errors.append(
                     f"missing one-of tokens in {file_path}: " + " OR ".join(alternatives)
                 )
+
+    ci_ledger_text = read(CI_LEDGER) if (ROOT / CI_LEDGER).exists() else ""
+    if "CI green recorded for run" in ci_ledger_text or "### Observation 10: all-governance CI green" in ci_ledger_text:
+        for token in GREEN_OBSERVATION_REQUIRED_TOKENS:
+            if token not in ci_ledger_text:
+                errors.append(f"missing green-observation token in {CI_LEDGER}: {token}")
 
     for file_path in PUBLIC_ARTIFACTS_TO_SCAN:
         try:
