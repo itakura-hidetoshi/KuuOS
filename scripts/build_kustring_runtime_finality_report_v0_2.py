@@ -7,15 +7,20 @@ import pathlib
 import subprocess
 import sys
 from datetime import datetime, timezone
-from typing import Any
+from typing import Any, Sequence
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-FINALITY_SUITE = ROOT / "scripts" / "run_kustring_runtime_finality_suite_v0_2.py"
 BUNDLE = ROOT / "specs" / "kustring_runtime_bundle_v0_2.generated.json"
 ATTEST = ROOT / "specs" / "kustring_runtime_attestation_v0_2.generated.json"
 WORM = ROOT / "specs" / "kustring_runtime_worm_receipt_v0_2.generated.json"
 CHAIN = ROOT / "specs" / "kustring_runtime_audit_chain_v0_2.generated.jsonl"
 OUT = ROOT / "specs" / "kustring_runtime_finality_report_v0_2.generated.json"
+
+PREPARE_COMMANDS: list[list[str]] = [
+    [sys.executable, "scripts/run_kustring_runtime_closure_suite_v0_2.py"],
+    [sys.executable, "scripts/check_kustring_runtime_finality_v0_2.py"],
+    [sys.executable, "scripts/check_kustring_runtime_finality_ci_v0_2.py"],
+]
 
 FLAGS = {
     "execution_authority_granted": False,
@@ -24,6 +29,11 @@ FLAGS = {
     "essence_authority_granted": False,
     "teni_authority_granted": False,
 }
+
+
+def run_command(cmd: Sequence[str]) -> int:
+    print("\n>>> " + " ".join(cmd), flush=True)
+    return subprocess.run(list(cmd), cwd=ROOT).returncode
 
 
 def read_json(path: pathlib.Path) -> dict[str, Any]:
@@ -42,9 +52,10 @@ def chain_root_and_count() -> tuple[str, int]:
 
 
 def main() -> int:
-    code = subprocess.run([sys.executable, str(FINALITY_SUITE)], cwd=ROOT).returncode
-    if code != 0:
-        return code
+    for cmd in PREPARE_COMMANDS:
+        code = run_command(cmd)
+        if code != 0:
+            return code
 
     bundle = read_json(BUNDLE)
     attest = read_json(ATTEST)
