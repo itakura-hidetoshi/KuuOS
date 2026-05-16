@@ -1,0 +1,96 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import pathlib
+
+ROOT = pathlib.Path(__file__).resolve().parents[1]
+PACKET = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_FINALITY_PACKET_v0_1.md"
+CHAIN_INDEX = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_CHAIN_INDEX_v0_1.md"
+LEDGER = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_CI_LEDGER_v0_1.md"
+BUNDLE_CHECKER = ROOT / "scripts" / "check_mgap4d_external_audit_readiness_bundle_manifest_v0_1.py"
+
+REQUIRED_TOKENS = [
+    "MGAP4D External Audit Readiness Finality Packet v0.1",
+    "Status: CANDIDATE",
+    "Date: 2026-05-16",
+    "Repository: itakura-hidetoshi/KuuOS",
+    "Root commit: `9147dc5a00e3ffd74b85336e8a26e33091fec9f1`",
+    "append-only closure surface",
+    "does not grant proof, truth, clinical, execution, governance-bypass, journal, community, or external-auditor acceptance authority",
+    "bash scripts/check.sh",
+    "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_CI_LEDGER_v0_1.md",
+    "scripts/check_mgap4d_external_audit_readiness_ci_ledger_v0_1.py",
+    "scripts/check_mgap4d_external_audit_readiness_chain_index_v0_1.py",
+    ".github/workflows/mgap4d_external_audit_readiness_ci_ledger_v0_1.yml",
+    "Workflow run ID: `25973305278`",
+    "Workflow job ID: `76349030859`",
+    "Checked commit: `a9f53bad85037169a04aabf13f0296a96bff4530`",
+    "Job name: `validate-mgap4d-external-audit-readiness-ledger`",
+    "Workflow run ID: `25974130236`",
+    "Workflow job ID: `76351200926`",
+    "Checked commit: `9147dc5a00e3ffd74b85336e8a26e33091fec9f1`",
+    "Job name: `Validate all governance checks`",
+    "PASS: KuuOS emptiness two truths runtime audit release bundle manifest v0.1 validates",
+    "PASS: MGAP4D external audit readiness CI ledger checked",
+    "PASS: MGAP4D external audit readiness chain index checked",
+    "PASS: MGAP4D external audit readiness bundle manifest checked",
+    "PASS: KuuOS all governance full checks completed",
+    "specs/mgap4d_external_audit_readiness_bundle_manifest_v0_1.generated.json",
+    "Observed all-governance bundle root hash: `25958353266318c4b0e2a49ae12794c3d6f8abfa03f8fa26361269b5b295c185`",
+    "proof authority by itself",
+    "truth authority by itself",
+    "clinical authority",
+    "execution authority",
+    "governance-bypass authority",
+    "external-auditor acceptance",
+    "journal acceptance",
+    "community acceptance",
+    "CI green is evidence, not theorem truth.",
+    "Hash chain and bundle root are integrity evidence, not proof authority.",
+    "External audit readiness is not external audit acceptance.",
+    "Finality packet status remains `CANDIDATE` until independent external review accepts it.",
+    "same-root, append-only, boundary-preserving, and non-destructive",
+    "PASS: MGAP4D external audit readiness finality packet checked",
+]
+
+FORBIDDEN_TOKENS = [
+    "proof_authority_granted: true",
+    "truth_authority_granted: true",
+    "clinical_authority_granted: true",
+    "execution_authority_granted: true",
+    "governance_bypass_authority_granted: true",
+    "external_auditor_acceptance: true",
+    "journal_acceptance: true",
+    "community_acceptance: true",
+    "CI green proves theorem truth",
+    "CI green grants execution authority",
+    "CI green grants clinical authority",
+    "external audit readiness equals external audit acceptance",
+]
+
+
+def main() -> int:
+    errors: list[str] = []
+    for path in [PACKET, CHAIN_INDEX, LEDGER, BUNDLE_CHECKER]:
+        if not path.is_file():
+            errors.append(f"missing file: {path.relative_to(ROOT)}")
+
+    text = PACKET.read_text(encoding="utf-8") if PACKET.is_file() else ""
+    for token in REQUIRED_TOKENS:
+        if token not in text:
+            errors.append(f"missing token: {token}")
+    for token in FORBIDDEN_TOKENS:
+        if token in text:
+            errors.append(f"forbidden authority-expansion token: {token}")
+
+    if errors:
+        for err in errors:
+            print("ERROR:", err)
+        return 1
+
+    print("PASS: MGAP4D external audit readiness finality packet checked")
+    return 0
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
