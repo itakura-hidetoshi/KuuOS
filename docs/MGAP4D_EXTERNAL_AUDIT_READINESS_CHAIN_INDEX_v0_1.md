@@ -1,6 +1,6 @@
 # MGAP4D External Audit Readiness Chain Index v0.1
 
-This index connects the observed `scripts/check.sh` CI green evidence to a machine-checkable ledger surface.
+This index connects the observed `scripts/check.sh` CI green evidence to a machine-checkable ledger surface and an append-only finality packet.
 
 ## Chain
 
@@ -30,6 +30,29 @@ This index connects the observed `scripts/check.sh` CI green evidence to a machi
 7. Exact green required by ledger checker
    - `scripts/check_mgap4d_external_audit_readiness_ci_ledger_v0_1.py` requires the exact run ID, job ID, checked commit, job name, runner image, Python version, and PASS lines from the dedicated ledger CI green record.
 
+8. All-governance runner integration
+   - `scripts/run_all_governance_full_checks_v0_1.py`
+   - Workflow run ID: `25974130236`
+   - Workflow job ID: `76351200926`
+   - Checked commit: `9147dc5a00e3ffd74b85336e8a26e33091fec9f1`
+   - Job name: `Validate all governance checks`
+   - Passed release bundle step: `PASS: KuuOS emptiness two truths runtime audit release bundle manifest v0.1 validates`
+   - Passed ledger step: `PASS: MGAP4D external audit readiness CI ledger checked`
+   - Passed chain-index step: `PASS: MGAP4D external audit readiness chain index checked`
+   - Passed bundle step: `PASS: MGAP4D external audit readiness bundle manifest checked`
+   - Final all-governance line: `PASS: KuuOS all governance full checks completed`
+
+9. Finality packet
+   - `docs/MGAP4D_EXTERNAL_AUDIT_READINESS_FINALITY_PACKET_v0_1.md`
+   - `scripts/check_mgap4d_external_audit_readiness_finality_packet_v0_1.py`
+   - Required pass line: `PASS: MGAP4D external audit readiness finality packet checked`
+
+10. Bundle manifest closure
+   - `scripts/build_mgap4d_external_audit_readiness_bundle_manifest_v0_1.py`
+   - `scripts/check_mgap4d_external_audit_readiness_bundle_manifest_v0_1.py`
+   - `specs/mgap4d_external_audit_readiness_bundle_manifest_v0_1.generated.json`
+   - Observed pre-finality all-governance bundle root hash: `25958353266318c4b0e2a49ae12794c3d6f8abfa03f8fa26361269b5b295c185`
+
 ## Evidence covered
 
 The ledger records the following observed green surfaces from the provided GitHub Actions log excerpt:
@@ -53,6 +76,8 @@ The ledger records the following observed green surfaces from the provided GitHu
 - `MGAP4D.MathlibAnalytic.ExternalAuditReadinessGate` build success
 - `8368 / 8368` build jobs completed
 - final `lake build` success
+- all-governance runner integration success
+- finality packet closure surface
 
 ## Boundary
 
@@ -71,7 +96,7 @@ It does not grant:
 
 ## Tightening path
 
-The current ledger is based on the provided log excerpt and an exact dedicated ledger CI green record. Further tightening may append:
+The current ledger is based on the provided log excerpt, an exact dedicated ledger CI green record, and an all-governance runner green record. Further tightening may append:
 
 - workflow URL
 - artifact IDs
@@ -79,6 +104,7 @@ The current ledger is based on the provided log excerpt and an exact dedicated l
 - rerun IDs after checker self-strengthening
 - release bundle hash
 - signed attestation hash
+- external reviewer receipts
 
 Do not overwrite the existing ledger or chain index. Use same-root, append-only tightening.
 
