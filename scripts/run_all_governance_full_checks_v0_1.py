@@ -17,6 +17,7 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/run_emptiness_do_two_truths_runtime_checks_v0_1.py"],
     [sys.executable, "scripts/check_emptiness_do_two_truths_runtime_audit_chain_v0_1.py"],
     [sys.executable, "scripts/validate_emptiness_do_two_truths_runtime_release_packet_v0_1.py"],
+    [sys.executable, "scripts/validate_emptiness_do_two_truths_runtime_release_bundle_manifest_v0_1.py"],
     [sys.executable, "scripts/validate_mass_gap_two_truths_engine_bridge_v0_1.py"],
     [sys.executable, "scripts/validate_mass_gap_memory_reflection_record_bridge_v0_1.py"],
     [sys.executable, "scripts/validate_memoryos_github_external_memory_v0_1.py"],
