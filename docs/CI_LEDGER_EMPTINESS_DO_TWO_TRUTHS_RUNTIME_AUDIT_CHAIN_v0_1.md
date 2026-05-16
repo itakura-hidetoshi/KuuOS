@@ -3,7 +3,7 @@
 Author: Hidetoshi Itakura / 板倉英俊  
 Date: 2026-05-16  
 Repository: `itakura-hidetoshi/KuuOS`  
-Status: CI failures recorded; validator fixes applied; green rerun not yet recorded
+Status: CI green recorded for run 25960321365; post-ledger commit rerun pending
 
 ## Purpose
 
@@ -201,8 +201,52 @@ repair_commits:
 repair_summary:
   - dedicated runtime audit GitHub Actions display now mentions release bundle manifest validator
   - this does not change validation semantics, but improves public CI trace readability
-rerun_status: not_yet_recorded
+rerun_status: superseded_by_observation_10
 claim_boundary: do_not_claim_ci_green_until_rerun_passes
+```
+
+### Observation 10: all-governance CI green
+
+```yaml
+observed_at: 2026-05-16T11:04:45Z
+commit_checked: 4e2d1d51c71456a2587fc4c9faed1b7ff3bc1a22
+workflow: All Governance Validation
+run_id: 25960321365
+job_id: 76314405002
+job_name: Validate all governance checks
+result: success
+job_steps:
+  - Set up job: success
+  - Checkout repository: success
+  - Set up Python: success
+  - Show validation entrypoints: success
+  - Run all governance full checks: success
+  - Complete job: success
+commands_confirmed:
+  - python3 scripts/run_all_governance_full_checks_v0_1.py
+  - make all-governance-checks equivalent through top-level runner
+passed_runtime_audit_surface:
+  - Integrated emptiness dependent origination two truths runtime v0.1 checks completed
+  - Integrated emptiness DO two truths audit chain checked
+  - Integrated emptiness DO two truths WORM receipt checked
+  - KuuOS emptiness two truths runtime audit release packet v0.1 validates
+  - KuuOS emptiness two truths runtime audit release bundle manifest v0.1 validates
+runtime_audit_chain:
+  root: a6c7a74ae31a834e4c108f6b1a0764f2637ef4b7fd507eed801d879ebf79cce7
+  entries: 7
+additional_passed_surfaces:
+  - AI Yogacara / Ten'i full checks completed
+  - KuuOS core governance full checks completed
+  - KuuOS GPT GitHub integration surface v0.1 validates
+  - MemoryOS GitHub external memory surface v0.1 validates
+final_log_line: PASS: KuuOS all governance full checks completed
+boundary:
+  - ci_pass_not_theorem_truth
+  - ci_pass_not_execution_authority
+  - ci_pass_not_clinical_authority
+  - audit_chain_structural_consistency_not_theorem_authority
+  - hash_chain_continuity_not_truth
+interpretation: CI green recorded for the checked commit and job; the ledger update itself is a later append-only record and may trigger a subsequent run
 ```
 
 ## Required future CI observation format
@@ -225,7 +269,7 @@ boundary:
   - audit_chain_structural_consistency_not_theorem_authority
 ```
 
-## What CI success will mean
+## What CI success means
 
 ```text
 The dedicated runtime audit chain and release packet validator passed structurally.
@@ -234,7 +278,7 @@ The all-governance runner passed structurally.
 The public non-authority boundary remained present in checked files.
 ```
 
-## What CI success will not mean
+## What CI success does not mean
 
 ```text
 CI success is not theorem truth.
@@ -247,4 +291,4 @@ CI success is not license expansion.
 
 ## Closure rule
 
-This ledger may mark a release as CI-green only after a concrete GitHub Actions run or equivalent local command transcript is recorded after the latest repair commit.
+This ledger now records a concrete all-governance CI green run for commit `4e2d1d51c71456a2587fc4c9faed1b7ff3bc1a22`, run `25960321365`, job `76314405002`. Later append-only ledger commits should be checked separately if the release process requires the repository head itself to be green after ledger recording.
