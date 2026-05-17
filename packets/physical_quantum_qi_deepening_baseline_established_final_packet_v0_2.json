@@ -2,7 +2,7 @@
   "packet_id": "physical_quantum_qi_deepening_baseline_established_final_packet_v0_2",
   "packet_type": "baseline_established_final_packet",
   "status": "baseline_established_final_candidate",
-  "scope": "Physical Quantum Qi v0.2 deepening public baseline chain including Qi OS handoff",
+  "scope": "Physical Quantum Qi v0.2 deepening public baseline chain including Qi OS handoff and Qi OS bridge packet",
   "root_v0_1_baseline": "packets/physical_quantum_qi_runtime_baseline_established_final_packet_v0_1.json",
   "validated_baseline_packet": "packets/physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json",
   "release_closure_packet": "packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json",
@@ -25,6 +25,9 @@
     "dedicated_ci_present": true,
     "all_governance_ci_integration_present": true,
     "qi_os_handoff_present": true,
+    "qi_os_bridge_runtime_present": true,
+    "qi_os_bridge_tests_present": true,
+    "phase_demo_emits_os_bridge_packet": true,
     "authority_boundary_complete": true,
     "additive_only": true,
     "tighten_only_default": true,
@@ -32,13 +35,20 @@
     "same_root_required": true,
     "nonexecution_by_default": true
   },
+  "runtime_surfaces": {
+    "phase_runtime": "src/physical_quantum_qi_phase_runtime_v0_2.py",
+    "os_bridge_runtime": "src/physical_quantum_qi_os_bridge_v0_2.py",
+    "phase_demo": "examples/run_physical_quantum_qi_phase_demo_v0_2.py",
+    "os_bridge_tests": "tests/test_physical_quantum_qi_os_bridge_v0_2.py"
+  },
   "locked_modules": [
     "SK_FV_path_integral",
     "Ward_leak_identity",
     "DPI_recoverability",
     "IndraNet_gauge_transport",
     "KuString_Qi_emergence_bridge",
-    "Qi_OS_handoff"
+    "Qi_OS_handoff",
+    "Qi_OS_bridge_packet"
   ],
   "locked_boundary": {
     "FullPathQi_requires_SK_FV_history": true,
@@ -49,6 +59,8 @@
     "Qi_never_emerges_directly_from_K": true,
     "MGAP4D_33_20_is_stable_floor_not_Qi_source": true,
     "Qi_phase_classification_is_routing_surface_not_authority": true,
+    "Qi_OS_bridge_packet_candidate_only": true,
+    "Qi_OS_bridge_packet_authority_fields_false": true,
     "FullPathQi_recordable_analyzable_not_executable": true,
     "No_v0_2_module_grants_execution_authority": true
   },
@@ -67,7 +79,8 @@
   },
   "required_checks": [
     "make physical-quantum-qi-deepening-checks",
+    "python3 tests/test_physical_quantum_qi_os_bridge_v0_2.py",
     "make all-governance-checks"
   ],
-  "statement": "Physical Quantum Qi v0.2 deepening is established as a public KuuOS baseline candidate for SK/FV history enforcement, Ward/leak accounting, DPI recovery-margin gating, IndraNet gauge-holonomy transport, KuString-Qi emergence lineage, and Qi OS handoff as routing surface. FullPathQi is MemoryOS-recordable and ReflectionOS-analyzable but not executable. This packet grants no proof, ontology, clinical, execution, commit, belief commit, belief-root commit, memory overwrite, world-root rewrite, truth, or safety override authority."
+  "statement": "Physical Quantum Qi v0.2 deepening is established as a public KuuOS baseline candidate for SK/FV history enforcement, Ward/leak accounting, DPI recovery-margin gating, IndraNet gauge-holonomy transport, KuString-Qi emergence lineage, Qi OS handoff as routing surface, and Qi OS bridge packet as candidate-only OS payload generation. FullPathQi is MemoryOS-recordable and ReflectionOS-analyzable but not executable. This packet grants no proof, ontology, clinical, execution, commit, belief commit, belief-root commit, memory overwrite, world-root rewrite, truth, or safety override authority."
 }
