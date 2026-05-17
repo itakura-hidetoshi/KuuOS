@@ -17,12 +17,14 @@ ARTIFACTS = [
     "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_POST_MERGE_GREEN_RECEIPT_v0_1.md",
     "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_POST_MERGE_RECEIPT_CLOSURE_v0_1.md",
     "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_PR8_MERGE_CLOSURE_v0_1.md",
+    "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_PR9_MERGE_CLOSURE_v0_1.md",
     "scripts/check_mgap4d_external_audit_readiness_ci_ledger_v0_1.py",
     "scripts/check_mgap4d_external_audit_readiness_chain_index_v0_1.py",
     "scripts/check_mgap4d_external_audit_readiness_finality_packet_v0_1.py",
     "scripts/check_mgap4d_external_audit_readiness_post_merge_green_receipt_v0_1.py",
     "scripts/check_mgap4d_external_audit_readiness_post_merge_receipt_closure_v0_1.py",
     "scripts/check_mgap4d_external_audit_readiness_pr8_merge_closure_v0_1.py",
+    "scripts/check_mgap4d_external_audit_readiness_pr9_merge_closure_v0_1.py",
     ".github/workflows/mgap4d_external_audit_readiness_ci_ledger_v0_1.yml",
 ]
 FALSE_FLAGS = [
@@ -79,6 +81,15 @@ PR8_MERGE_CLOSURE = {
     "merged_at": "2026-05-17T02:02:06Z",
     "closure_pass_line": "PASS: MGAP4D external audit readiness PR8 merge closure checked",
 }
+PR9_MERGE_CLOSURE = {
+    "pull_request": "#9",
+    "pull_request_title": "Add MGAP4D PR8 merge closure v0.1",
+    "pr_head_commit": "0563ea21fd1922ca4979f7bc876aa11246aa4837",
+    "base_before_merge": "d29468a831baff2c1cda847124f43a05d5574fb1",
+    "squash_merge_commit": "f840ab0e8d497049ab232f187bb681c3337a3f30",
+    "merged_at": "2026-05-17T02:32:35Z",
+    "closure_pass_line": "PASS: MGAP4D external audit readiness PR9 merge closure checked",
+}
 
 
 def sha256_bytes(data: bytes) -> str:
@@ -119,6 +130,8 @@ def main() -> int:
         errors.append("post_merge_receipt_closure_included must be true")
     if manifest.get("pr8_merge_closure_included") is not True:
         errors.append("pr8_merge_closure_included must be true")
+    if manifest.get("pr9_merge_closure_included") is not True:
+        errors.append("pr9_merge_closure_included must be true")
     if manifest.get("artifact_count") != len(ARTIFACTS):
         errors.append("artifact_count mismatch")
     if manifest.get("artifacts") != expected_artifacts:
@@ -135,18 +148,21 @@ def main() -> int:
         errors.append("post_merge_receipt_closure_reference mismatch")
     if manifest.get("pr8_merge_closure_reference") != PR8_MERGE_CLOSURE:
         errors.append("pr8_merge_closure_reference mismatch")
+    if manifest.get("pr9_merge_closure_reference") != PR9_MERGE_CLOSURE:
+        errors.append("pr9_merge_closure_reference mismatch")
     for flag in FALSE_FLAGS:
         if manifest.get(flag) is not False:
             errors.append(f"{flag} must be false")
     notes = "\n".join(manifest.get("notes", []))
     for token in [
-        "Bundle manifest records hash evidence for ledger, chain index, finality packet, post-merge receipt, post-merge receipt closure, PR8 merge closure, checkers, and dedicated workflow",
+        "Bundle manifest records hash evidence for ledger, chain index, finality packet, post-merge receipt, post-merge receipt closure, PR8 merge closure, PR9 merge closure, checkers, and dedicated workflow",
         "CI green does not grant proof/truth/clinical/execution/governance-bypass authority",
         "PR merge success is integration evidence, not theorem truth",
         "External audit readiness is not external audit acceptance",
         "Post-merge green confirms repository integration, not independent mathematical acceptance",
         "Post-merge receipt closure records integration of the receipt, not independent acceptance",
         "PR8 merge closure records integration of the closure layer, not independent acceptance",
+        "PR9 merge closure records integration of the closure layer, not independent acceptance",
         "same-root and append-only",
     ]:
         if token not in notes:
