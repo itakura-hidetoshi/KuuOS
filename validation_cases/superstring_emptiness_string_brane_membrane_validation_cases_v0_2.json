@@ -1,0 +1,258 @@
+{
+  "id": "superstring_emptiness_string_brane_membrane_validation_cases_v0_2",
+  "version": "v0.2",
+  "date": "2026-05-17",
+  "extends": "validation_cases/superstring_emptiness_string_brane_membrane_validation_cases_v0_1.json",
+  "cases": [
+    {
+      "case_id": "valid_candidate_packet_v0_2",
+      "expected_ok": true,
+      "expected_decision": "ADMIT_AS_CANDIDATE",
+      "packet": {
+        "string_brane_membrane_packet": {
+          "packet_id": "case_valid_v0_2_001",
+          "version": "v0.2",
+          "string": {
+            "string_id": "str_valid_v0_2_001",
+            "source_conditions": ["emptiness", "dependent_origination"],
+            "target_surface": "effective_world_surface_candidate",
+            "vibration_mode": "relational",
+            "boundary_conditions": ["non_reification", "two_truths_gap"],
+            "observer_record_surface": "record_surface_valid_v0_2_001",
+            "consistency_witnesses": ["non_reification_guard", "two_truths_gap_guard"],
+            "non_reification_guard": true,
+            "two_truths_gap_guard": true
+          },
+          "brane": {
+            "brane_id": "brane_valid_v0_2_001",
+            "world_scope": "conventional_effective_surface",
+            "supporting_conditions": ["observer_record", "scale_bridge"],
+            "admissible_string_ids": ["str_valid_v0_2_001"],
+            "record_surface": "record_surface_valid_v0_2_001",
+            "scale_regime": "observer_record_scale",
+            "qi_flow_interface": "qi_flow_trace_candidate",
+            "indra_gauge_interface": "gauge_connection_candidate",
+            "governance_boundary": "candidate_only"
+          },
+          "membrane": {
+            "membrane_id": "mem_valid_v0_2_001",
+            "from_layer": "relational_vibration",
+            "to_layer": "effective_world_surface",
+            "permeability_rule": "evidence_gated",
+            "obstruction_visibility_rule": "preserve_visible_residue",
+            "gluing_rule": "local_global_gluing_without_identity_collapse",
+            "backaction_budget": "bounded",
+            "authority_non_expansion_guard": true,
+            "rollback_or_hold_route": "HOLD"
+          },
+          "admission": {
+            "dependent_origination_trace_present": true,
+            "observer_record_surface_present": true,
+            "obstruction_visibility_preserved": true,
+            "decision": "ADMIT_AS_CANDIDATE"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "reject_brane_as_absolute_world",
+      "expected_ok": false,
+      "expected_decision": "HOLD",
+      "packet": {
+        "string_brane_membrane_packet": {
+          "packet_id": "case_absolute_world_001",
+          "version": "v0.2",
+          "string": {
+            "string_id": "str_absolute_world_001",
+            "source_conditions": ["emptiness", "dependent_origination"],
+            "target_surface": "effective_world_surface_candidate",
+            "vibration_mode": "relational",
+            "boundary_conditions": ["non_reification", "two_truths_gap"],
+            "observer_record_surface": "record_surface_absolute_world_001",
+            "consistency_witnesses": ["non_reification_guard", "two_truths_gap_guard"],
+            "non_reification_guard": true,
+            "two_truths_gap_guard": true
+          },
+          "brane": {
+            "brane_id": "brane_absolute_world_001",
+            "world_scope": "absolute_world",
+            "supporting_conditions": ["observer_record", "scale_bridge"],
+            "admissible_string_ids": ["str_absolute_world_001"],
+            "record_surface": "record_surface_absolute_world_001",
+            "scale_regime": "observer_record_scale",
+            "qi_flow_interface": "qi_flow_trace_candidate",
+            "indra_gauge_interface": "gauge_connection_candidate",
+            "governance_boundary": "candidate_only"
+          },
+          "membrane": {
+            "membrane_id": "mem_absolute_world_001",
+            "from_layer": "relational_vibration",
+            "to_layer": "effective_world_surface",
+            "permeability_rule": "evidence_gated",
+            "obstruction_visibility_rule": "preserve_visible_residue",
+            "gluing_rule": "local_global_gluing_without_identity_collapse",
+            "backaction_budget": "bounded",
+            "authority_non_expansion_guard": true,
+            "rollback_or_hold_route": "HOLD"
+          },
+          "admission": {
+            "dependent_origination_trace_present": true,
+            "observer_record_surface_present": true,
+            "obstruction_visibility_preserved": true,
+            "decision": "ADMIT_AS_CANDIDATE"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "reject_membrane_as_final_authority",
+      "expected_ok": false,
+      "expected_decision": "HOLD",
+      "packet": {
+        "string_brane_membrane_packet": {
+          "packet_id": "case_final_authority_001",
+          "version": "v0.2",
+          "string": {
+            "string_id": "str_final_authority_001",
+            "source_conditions": ["emptiness", "dependent_origination"],
+            "target_surface": "effective_world_surface_candidate",
+            "vibration_mode": "relational",
+            "boundary_conditions": ["non_reification", "two_truths_gap"],
+            "observer_record_surface": "record_surface_final_authority_001",
+            "consistency_witnesses": ["non_reification_guard", "two_truths_gap_guard"],
+            "non_reification_guard": true,
+            "two_truths_gap_guard": true
+          },
+          "brane": {
+            "brane_id": "brane_final_authority_001",
+            "world_scope": "conventional_effective_surface",
+            "supporting_conditions": ["observer_record", "scale_bridge"],
+            "admissible_string_ids": ["str_final_authority_001"],
+            "record_surface": "record_surface_final_authority_001",
+            "scale_regime": "observer_record_scale",
+            "qi_flow_interface": "qi_flow_trace_candidate",
+            "indra_gauge_interface": "gauge_connection_candidate",
+            "governance_boundary": "candidate_only"
+          },
+          "membrane": {
+            "membrane_id": "mem_final_authority_001",
+            "from_layer": "relational_vibration",
+            "to_layer": "effective_world_surface",
+            "permeability_rule": "evidence_gated",
+            "obstruction_visibility_rule": "preserve_visible_residue",
+            "gluing_rule": "local_global_gluing_without_identity_collapse",
+            "backaction_budget": "bounded",
+            "authority_non_expansion_guard": true,
+            "rollback_or_hold_route": "final_authority"
+          },
+          "admission": {
+            "dependent_origination_trace_present": true,
+            "observer_record_surface_present": true,
+            "obstruction_visibility_preserved": true,
+            "decision": "ADMIT_AS_CANDIDATE"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "reject_gluing_erases_obstruction",
+      "expected_ok": false,
+      "expected_decision": "HOLD",
+      "packet": {
+        "string_brane_membrane_packet": {
+          "packet_id": "case_obstruction_erasure_001",
+          "version": "v0.2",
+          "string": {
+            "string_id": "str_obstruction_erasure_001",
+            "source_conditions": ["emptiness", "dependent_origination"],
+            "target_surface": "effective_world_surface_candidate",
+            "vibration_mode": "relational",
+            "boundary_conditions": ["non_reification", "two_truths_gap"],
+            "observer_record_surface": "record_surface_obstruction_erasure_001",
+            "consistency_witnesses": ["non_reification_guard", "two_truths_gap_guard"],
+            "non_reification_guard": true,
+            "two_truths_gap_guard": true
+          },
+          "brane": {
+            "brane_id": "brane_obstruction_erasure_001",
+            "world_scope": "conventional_effective_surface",
+            "supporting_conditions": ["observer_record", "scale_bridge"],
+            "admissible_string_ids": ["str_obstruction_erasure_001"],
+            "record_surface": "record_surface_obstruction_erasure_001",
+            "scale_regime": "observer_record_scale",
+            "qi_flow_interface": "qi_flow_trace_candidate",
+            "indra_gauge_interface": "gauge_connection_candidate",
+            "governance_boundary": "candidate_only"
+          },
+          "membrane": {
+            "membrane_id": "mem_obstruction_erasure_001",
+            "from_layer": "relational_vibration",
+            "to_layer": "effective_world_surface",
+            "permeability_rule": "evidence_gated",
+            "obstruction_visibility_rule": "obstruction_erasure",
+            "gluing_rule": "obstruction_erasure",
+            "backaction_budget": "bounded",
+            "authority_non_expansion_guard": true,
+            "rollback_or_hold_route": "HOLD"
+          },
+          "admission": {
+            "dependent_origination_trace_present": true,
+            "observer_record_surface_present": true,
+            "obstruction_visibility_preserved": true,
+            "decision": "ADMIT_AS_CANDIDATE"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "reject_direct_execution_authority_claim",
+      "expected_ok": false,
+      "expected_decision": "HOLD",
+      "packet": {
+        "string_brane_membrane_packet": {
+          "packet_id": "case_direct_execute_001",
+          "version": "v0.2",
+          "string": {
+            "string_id": "str_direct_execute_001",
+            "source_conditions": ["emptiness", "dependent_origination"],
+            "target_surface": "direct_execute_authority",
+            "vibration_mode": "relational",
+            "boundary_conditions": ["non_reification", "two_truths_gap"],
+            "observer_record_surface": "record_surface_direct_execute_001",
+            "consistency_witnesses": ["non_reification_guard", "two_truths_gap_guard"],
+            "non_reification_guard": true,
+            "two_truths_gap_guard": true
+          },
+          "brane": {
+            "brane_id": "brane_direct_execute_001",
+            "world_scope": "conventional_effective_surface",
+            "supporting_conditions": ["observer_record", "scale_bridge"],
+            "admissible_string_ids": ["str_direct_execute_001"],
+            "record_surface": "record_surface_direct_execute_001",
+            "scale_regime": "observer_record_scale",
+            "qi_flow_interface": "qi_flow_trace_candidate",
+            "indra_gauge_interface": "gauge_connection_candidate",
+            "governance_boundary": "direct_execute_authority"
+          },
+          "membrane": {
+            "membrane_id": "mem_direct_execute_001",
+            "from_layer": "relational_vibration",
+            "to_layer": "effective_world_surface",
+            "permeability_rule": "evidence_gated",
+            "obstruction_visibility_rule": "preserve_visible_residue",
+            "gluing_rule": "local_global_gluing_without_identity_collapse",
+            "backaction_budget": "bounded",
+            "authority_non_expansion_guard": true,
+            "rollback_or_hold_route": "HOLD"
+          },
+          "admission": {
+            "dependent_origination_trace_present": true,
+            "observer_record_surface_present": true,
+            "obstruction_visibility_preserved": true,
+            "decision": "ADMIT_AS_CANDIDATE"
+          }
+        }
+      }
+    }
+  ]
+}
