@@ -29,6 +29,7 @@ REQUIRED_TOP_LEVEL = {
     "KuString_Qi_emergence",
     "Qi_phase_ladder",
     "PhysicalQi_emergence_criterion",
+    "Qi_OS_handoff",
     "forbidden_collapses",
 }
 
@@ -113,6 +114,11 @@ REQUIRED_SECTION_KEYS = {
         "closed_case",
         "open_case",
         "short_definition",
+    },
+    "Qi_OS_handoff": {
+        "phase_to_surface",
+        "FullPathQi_status",
+        "authority_never_granted",
     },
 }
 
@@ -245,6 +251,28 @@ def validate_equation_content(packet: Dict[str, Any]) -> List[str]:
     return errors
 
 
+def validate_declared_handoff(packet: Dict[str, Any]) -> List[str]:
+    errors: List[str] = []
+    handoff = section(packet, "Qi_OS_handoff")
+    phase_to_surface = handoff.get("phase_to_surface", {})
+    if not isinstance(phase_to_surface, dict):
+        return ["Qi_OS_handoff.phase_to_surface must be an object"]
+    if handoff.get("FullPathQi_status") != "memory_recordable_reflection_analyzable_candidate":
+        errors.append("Qi_OS_handoff.FullPathQi_status mismatch")
+    fullpath_surfaces = phase_to_surface.get("FullPathQi", [])
+    for surface in sorted(REQUIRED_HANDOFF_SURFACES):
+        if surface not in fullpath_surfaces:
+            errors.append(f"Qi_OS_handoff.FullPathQi missing surface: {surface}")
+    authority = handoff.get("authority_never_granted", {})
+    if not isinstance(authority, dict):
+        errors.append("Qi_OS_handoff.authority_never_granted must be an object")
+    else:
+        for key in sorted(REQUIRED_HANDOFF_FALSE):
+            if authority.get(key) is not False:
+                errors.append(f"Qi_OS_handoff.authority_never_granted.{key} must be false")
+    return errors
+
+
 def validate_runtime_classification_and_handoff(packet: Dict[str, Any]) -> List[str]:
     try:
         src = ROOT / "src"
@@ -278,6 +306,7 @@ def main() -> int:
     errors: List[str] = []
     errors.extend(validate_packet_shape(packet))
     errors.extend(validate_equation_content(packet))
+    errors.extend(validate_declared_handoff(packet))
     errors.extend(validate_runtime_classification_and_handoff(packet))
 
     if errors:
