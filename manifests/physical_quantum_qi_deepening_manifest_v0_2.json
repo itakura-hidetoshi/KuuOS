@@ -10,7 +10,8 @@
     "DPI_recoverability",
     "IndraNet_gauge_transport",
     "KuString_Qi_emergence_bridge",
-    "Qi_OS_handoff"
+    "Qi_OS_handoff",
+    "Qi_OS_bridge_packet"
   ],
   "files": {
     "docs": [
@@ -25,10 +26,12 @@
       "examples/run_physical_quantum_qi_phase_demo_v0_2.py"
     ],
     "src": [
-      "src/physical_quantum_qi_phase_runtime_v0_2.py"
+      "src/physical_quantum_qi_phase_runtime_v0_2.py",
+      "src/physical_quantum_qi_os_bridge_v0_2.py"
     ],
     "tests": [
-      "tests/test_physical_quantum_qi_phase_runtime_v0_2.py"
+      "tests/test_physical_quantum_qi_phase_runtime_v0_2.py",
+      "tests/test_physical_quantum_qi_os_bridge_v0_2.py"
     ],
     "validation_cases": [
       "validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json"
@@ -76,6 +79,8 @@
     "Equation packet must classify as FullPathQi through the phase runtime demo",
     "Equation packet must expose Qi_OS_handoff",
     "Declared Qi_OS_handoff must match runtime-computed handoff",
+    "Qi_OS_bridge_packet must expose candidate-only OS payloads",
+    "Qi_OS_bridge_packet must keep all authority fields false",
     "Baseline established final packet must declare authority_boundary_complete"
   ],
   "validation_entrypoints": [
@@ -83,6 +88,7 @@
     "python3 scripts/validate_physical_quantum_qi_equations_v0_2.py",
     "python3 scripts/validate_physical_quantum_qi_equation_packet_v0_2.py",
     "python3 tests/test_physical_quantum_qi_phase_runtime_v0_2.py",
+    "python3 tests/test_physical_quantum_qi_os_bridge_v0_2.py",
     "python3 examples/run_physical_quantum_qi_phase_demo_v0_2.py",
     "python3 scripts/validate_physical_quantum_qi_deepening_v0_2.py",
     "python3 scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py",
