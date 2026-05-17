@@ -3,7 +3,7 @@
   "packet_type": "release_packet",
   "status": "release_candidate",
   "manifest": "manifests/physical_quantum_qi_deepening_manifest_v0_2.json",
-  "scope": "Physical Quantum Qi v0.2 deepening modules: SK/FV path integral, Ward/leak identity, DPI recoverability, IndraNet gauge transport, and KuString-Qi emergence bridge",
+  "scope": "Physical Quantum Qi v0.2 deepening modules: SK/FV path integral, Ward/leak identity, DPI recoverability, IndraNet gauge transport, KuString-Qi emergence bridge, and Qi OS handoff",
   "root_baseline": "packets/physical_quantum_qi_runtime_baseline_established_final_packet_v0_1.json",
   "core_claims": [
     "FullPathQi requires SK/FV history evidence",
@@ -13,6 +13,8 @@
     "Qi emergence proceeds from delta_rel through StringMode, BraneBoundary, gauge connection, and Qi current",
     "Qi never emerges directly from K",
     "MGAP4D 33/20 remains a stable floor, not a Qi source",
+    "Qi phase classification is a routing surface, not an authority grant",
+    "FullPathQi is MemoryOS-recordable and ReflectionOS-analyzable but not executable",
     "No v0.2 deepening module grants execution authority"
   ],
   "declared_boundaries": {
@@ -20,9 +22,12 @@
     "ontology_authority": false,
     "clinical_authority": false,
     "execution_authority": false,
+    "commit_authority": false,
     "belief_commit_authority": false,
+    "belief_root_commit_authority": false,
     "memory_overwrite_authority": false,
     "world_root_rewrite_authority": false,
+    "truth_authority": false,
     "safety_override_authority": false
   },
   "required_checks": [
