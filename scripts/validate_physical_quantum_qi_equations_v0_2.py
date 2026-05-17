@@ -16,6 +16,7 @@ REQUIRED_SECTIONS = [
     "## 3. DPI recoverability margin",
     "## 4. IndraNet gauge transport",
     "## 5. KuString-Qi emergence from relational difference",
+    "## 5.6 Qi phase to KuuOS handoff surface",
     "## 6. Minimal equation packet keys",
 ]
 
@@ -54,6 +55,28 @@ REQUIRED_PHRASES = [
     "Recoverability is a quantitative margin, not a label.",
     "Qi current is not asserted by naming a flow.",
     "history-sensitive open-system path surface",
+    "Qi phase classification is a routing surface, not an authority grant.",
+    "The key point is that `FullPathQi` is recordable and analyzable, but not executable by itself.",
+]
+
+REQUIRED_HANDOFF_TOKENS = [
+    "BeliefOS.observation_candidate",
+    "PlanOS.preparation_surface",
+    "PlanOS.boundary_candidate",
+    "PlanOS.transport_candidate",
+    "DecisionOS.safety_evaluable_candidate",
+    "MemoryOS.recordable_history_candidate",
+    "ReflectionOS.residue_analysis_candidate",
+    "execution_authority",
+    "commit_authority",
+    "belief_root_commit_authority",
+    "memory_overwrite_authority",
+    "world_root_rewrite_authority",
+    "clinical_authority",
+    "proof_authority",
+    "ontology_authority",
+    "truth_authority",
+    "safety_override_authority",
 ]
 
 REQUIRED_PACKET_KEYS = [
@@ -81,6 +104,7 @@ REQUIRED_PACKET_KEYS = [
     "BraneBoundary",
     "A_mu_projection_from_string_brane",
     "J_Qi_from_effective_action",
+    "Qi_OS_handoff",
     "mass_gap_33_20_floor_not_source",
 ]
 
@@ -102,6 +126,7 @@ def main() -> int:
     errors.extend(require_all(text, REQUIRED_SECTIONS, "section"))
     errors.extend(require_all(text, REQUIRED_EQUATION_TOKENS, "equation token"))
     errors.extend(require_all(text, REQUIRED_PHRASES, "phrase"))
+    errors.extend(require_all(text, REQUIRED_HANDOFF_TOKENS, "handoff token"))
     errors.extend(require_all(text, REQUIRED_PACKET_KEYS, "minimal equation packet key"))
     errors.extend(require_all(text, FORBIDDEN_COLLAPSES, "forbidden collapse marker"))
 
