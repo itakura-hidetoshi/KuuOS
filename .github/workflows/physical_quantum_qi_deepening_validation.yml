@@ -10,6 +10,8 @@ on:
       - 'manifests/physical_quantum_qi_deepening_manifest_v0_2.json'
       - 'packets/physical_quantum_qi_deepening_release_packet_v0_2.json'
       - 'packets/physical_quantum_qi_deepening_finality_packet_v0_2.json'
+      - 'packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json'
+      - 'packets/physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json'
       - 'chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json'
       - 'scripts/validate_physical_quantum_qi_deepening_v0_2.py'
       - 'scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py'
@@ -23,6 +25,8 @@ on:
       - 'manifests/physical_quantum_qi_deepening_manifest_v0_2.json'
       - 'packets/physical_quantum_qi_deepening_release_packet_v0_2.json'
       - 'packets/physical_quantum_qi_deepening_finality_packet_v0_2.json'
+      - 'packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json'
+      - 'packets/physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json'
       - 'chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json'
       - 'scripts/validate_physical_quantum_qi_deepening_v0_2.py'
       - 'scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py'
@@ -53,9 +57,11 @@ jobs:
           echo "Manifest: manifests/physical_quantum_qi_deepening_manifest_v0_2.json"
           echo "Release packet: packets/physical_quantum_qi_deepening_release_packet_v0_2.json"
           echo "Finality packet: packets/physical_quantum_qi_deepening_finality_packet_v0_2.json"
+          echo "Release closure packet: packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json"
+          echo "Validated baseline packet: packets/physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json"
           echo "Chain index: chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json"
           echo "Validator: scripts/validate_physical_quantum_qi_deepening_v0_2.py"
-          echo "Release/finality/chain validator: scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py"
+          echo "Release/finality/closure/baseline/chain validator: scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py"
           echo "Modules: SK/FV path integral, Ward/leak identity, DPI recoverability, IndraNet gauge transport, KuString-Qi emergence bridge"
 
       - name: Run Physical Quantum Qi v0.2 deepening checks
