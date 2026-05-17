@@ -9,8 +9,10 @@ CHAIN_INDEX = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_CHAIN_INDEX_v0_1.
 LEDGER = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_CI_LEDGER_v0_1.md"
 POST_MERGE_RECEIPT = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_POST_MERGE_GREEN_RECEIPT_v0_1.md"
 POST_MERGE_CLOSURE = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_POST_MERGE_RECEIPT_CLOSURE_v0_1.md"
+PR8_MERGE_CLOSURE = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_PR8_MERGE_CLOSURE_v0_1.md"
 POST_MERGE_CHECKER = ROOT / "scripts" / "check_mgap4d_external_audit_readiness_post_merge_green_receipt_v0_1.py"
 POST_MERGE_CLOSURE_CHECKER = ROOT / "scripts" / "check_mgap4d_external_audit_readiness_post_merge_receipt_closure_v0_1.py"
+PR8_MERGE_CLOSURE_CHECKER = ROOT / "scripts" / "check_mgap4d_external_audit_readiness_pr8_merge_closure_v0_1.py"
 BUNDLE_CHECKER = ROOT / "scripts" / "check_mgap4d_external_audit_readiness_bundle_manifest_v0_1.py"
 
 REQUIRED_TOKENS = [
@@ -21,9 +23,11 @@ REQUIRED_TOKENS = [
     "Root commit: `9147dc5a00e3ffd74b85336e8a26e33091fec9f1`",
     "Post-merge commit: `e20d244d93eb85b3cfc9b46cf4bb4625923a8d82`",
     "Post-merge receipt closure commit: `7f53a0adff847b59f7356875e1102fb7e3faf9fe`",
+    "PR8 merge closure commit: `d29468a831baff2c1cda847124f43a05d5574fb1`",
     "append-only closure surface",
     "appends the main-branch post-merge green receipt",
     "appends the PR #7 post-merge receipt closure",
+    "appends the PR #8 merge closure",
     "does not grant proof, truth, clinical, execution, governance-bypass, journal, community, or external-auditor acceptance authority",
     "bash scripts/check.sh",
     "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_CI_LEDGER_v0_1.md",
@@ -62,6 +66,15 @@ REQUIRED_TOKENS = [
     "Squash merge commit: `7f53a0adff847b59f7356875e1102fb7e3faf9fe`",
     "Merged at: `2026-05-17T00:35:13Z`",
     "PASS: MGAP4D external audit readiness post-merge receipt closure checked",
+    "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_PR8_MERGE_CLOSURE_v0_1.md",
+    "scripts/check_mgap4d_external_audit_readiness_pr8_merge_closure_v0_1.py",
+    "Pull request: `#8`",
+    "Pull request title: `Add MGAP4D post-merge receipt closure v0.1`",
+    "PR head commit: `98792d7e7ebd426f16c4b74eb868162d3cce09a2`",
+    "Base before merge: `7f53a0adff847b59f7356875e1102fb7e3faf9fe`",
+    "Squash merge commit: `d29468a831baff2c1cda847124f43a05d5574fb1`",
+    "Merged at: `2026-05-17T02:02:06Z`",
+    "PASS: MGAP4D external audit readiness PR8 merge closure checked",
     "proof authority by itself",
     "truth authority by itself",
     "clinical authority",
@@ -76,6 +89,7 @@ REQUIRED_TOKENS = [
     "Post-merge green confirms repository integration, not independent mathematical acceptance.",
     "PR merge success is integration evidence, not theorem truth.",
     "Post-merge receipt closure records integration of the receipt, not independent acceptance.",
+    "PR8 merge closure records integration of the closure layer, not independent acceptance.",
     "Finality packet status remains `CANDIDATE` until independent external review accepts it.",
     "same-root, append-only, boundary-preserving, and non-destructive",
     "PASS: MGAP4D external audit readiness finality packet checked",
@@ -97,6 +111,7 @@ FORBIDDEN_TOKENS = [
     "post-merge green grants proof authority",
     "PR merge proves theorem truth",
     "PR merge grants proof authority",
+    "PR merge grants truth authority",
     "external audit readiness equals external audit acceptance",
 ]
 
@@ -109,8 +124,10 @@ def main() -> int:
         LEDGER,
         POST_MERGE_RECEIPT,
         POST_MERGE_CLOSURE,
+        PR8_MERGE_CLOSURE,
         POST_MERGE_CHECKER,
         POST_MERGE_CLOSURE_CHECKER,
+        PR8_MERGE_CLOSURE_CHECKER,
         BUNDLE_CHECKER,
     ]:
         if not path.is_file():

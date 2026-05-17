@@ -6,8 +6,9 @@ Repository: itakura-hidetoshi/KuuOS
 Root commit: `9147dc5a00e3ffd74b85336e8a26e33091fec9f1`
 Post-merge commit: `e20d244d93eb85b3cfc9b46cf4bb4625923a8d82`
 Post-merge receipt closure commit: `7f53a0adff847b59f7356875e1102fb7e3faf9fe`
+PR8 merge closure commit: `d29468a831baff2c1cda847124f43a05d5574fb1`
 
-This finality packet records the append-only closure surface for the MGAP4D external audit readiness chain. It binds the dedicated ledger green record to the all-governance runner green record, appends the main-branch post-merge green receipt, and appends the PR #7 post-merge receipt closure without expanding proof, truth, clinical, execution, governance-bypass, journal, community, or external-auditor acceptance authority.
+This finality packet records the append-only closure surface for the MGAP4D external audit readiness chain. It binds the dedicated ledger green record to the all-governance runner green record, appends the main-branch post-merge green receipt, appends the PR #7 post-merge receipt closure, and appends the PR #8 merge closure without expanding proof, truth, clinical, execution, governance-bypass, journal, community, or external-auditor acceptance authority.
 
 This packet does not grant proof, truth, clinical, execution, governance-bypass, journal, community, or external-auditor acceptance authority.
 
@@ -69,6 +70,17 @@ This packet does not grant proof, truth, clinical, execution, governance-bypass,
    - Merged at: `2026-05-17T00:35:13Z`
    - PASS: `PASS: MGAP4D external audit readiness post-merge receipt closure checked`
 
+8. PR8 merge closure evidence
+   - `docs/MGAP4D_EXTERNAL_AUDIT_READINESS_PR8_MERGE_CLOSURE_v0_1.md`
+   - `scripts/check_mgap4d_external_audit_readiness_pr8_merge_closure_v0_1.py`
+   - Pull request: `#8`
+   - Pull request title: `Add MGAP4D post-merge receipt closure v0.1`
+   - PR head commit: `98792d7e7ebd426f16c4b74eb868162d3cce09a2`
+   - Base before merge: `7f53a0adff847b59f7356875e1102fb7e3faf9fe`
+   - Squash merge commit: `d29468a831baff2c1cda847124f43a05d5574fb1`
+   - Merged at: `2026-05-17T02:02:06Z`
+   - PASS: `PASS: MGAP4D external audit readiness PR8 merge closure checked`
+
 ## Boundaries preserved
 
 This packet is a finality surface for repository-side audit readiness only. It does not grant:
@@ -90,6 +102,7 @@ This packet is a finality surface for repository-side audit readiness only. It d
 - Post-merge green confirms repository integration, not independent mathematical acceptance.
 - PR merge success is integration evidence, not theorem truth.
 - Post-merge receipt closure records integration of the receipt, not independent acceptance.
+- PR8 merge closure records integration of the closure layer, not independent acceptance.
 - Finality packet status remains `CANDIDATE` until independent external review accepts it.
 - Updates must remain same-root, append-only, boundary-preserving, and non-destructive.
 
@@ -98,6 +111,7 @@ This packet is a finality surface for repository-side audit readiness only. It d
 - `PASS: MGAP4D external audit readiness finality packet checked`
 - `PASS: MGAP4D external audit readiness post-merge green receipt checked`
 - `PASS: MGAP4D external audit readiness post-merge receipt closure checked`
+- `PASS: MGAP4D external audit readiness PR8 merge closure checked`
 - `PASS: MGAP4D external audit readiness bundle manifest checked`
 - `PASS: KuuOS all governance full checks completed`
 
