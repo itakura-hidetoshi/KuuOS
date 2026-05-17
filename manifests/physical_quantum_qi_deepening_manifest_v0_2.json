@@ -30,7 +30,9 @@
     ],
     "packets": [
       "packets/physical_quantum_qi_deepening_release_packet_v0_2.json",
-      "packets/physical_quantum_qi_deepening_finality_packet_v0_2.json"
+      "packets/physical_quantum_qi_deepening_finality_packet_v0_2.json",
+      "packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json",
+      "packets/physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json"
     ],
     "chain_indexes": [
       "chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json"
