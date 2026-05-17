@@ -2,7 +2,7 @@
   "packet_id": "physical_quantum_qi_deepening_validated_baseline_packet_v0_2",
   "packet_type": "validated_baseline_packet",
   "status": "validated_baseline_candidate",
-  "scope": "Physical Quantum Qi v0.2 deepening public governance/runtime baseline including Qi OS handoff and Qi OS bridge packet",
+  "scope": "Physical Quantum Qi v0.2 deepening public governance/runtime baseline including Qi OS handoff, Qi OS bridge packet, and Qi MemoryOS record candidate",
   "root_baseline": "packets/physical_quantum_qi_runtime_baseline_established_final_packet_v0_1.json",
   "chain_index": "chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json",
   "manifest": "manifests/physical_quantum_qi_deepening_manifest_v0_2.json",
@@ -12,6 +12,7 @@
   "validated_by": [
     "scripts/validate_physical_quantum_qi_deepening_v0_2.py",
     "tests/test_physical_quantum_qi_os_bridge_v0_2.py",
+    "tests/test_physical_quantum_qi_memory_record_v0_2.py",
     "scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py",
     "make physical-quantum-qi-deepening-checks",
     "make all-governance-checks"
@@ -19,8 +20,10 @@
   "runtime_surfaces": {
     "phase_runtime": "src/physical_quantum_qi_phase_runtime_v0_2.py",
     "os_bridge_runtime": "src/physical_quantum_qi_os_bridge_v0_2.py",
+    "memory_record_runtime": "src/physical_quantum_qi_memory_record_v0_2.py",
     "phase_demo": "examples/run_physical_quantum_qi_phase_demo_v0_2.py",
-    "os_bridge_tests": "tests/test_physical_quantum_qi_os_bridge_v0_2.py"
+    "os_bridge_tests": "tests/test_physical_quantum_qi_os_bridge_v0_2.py",
+    "memory_record_tests": "tests/test_physical_quantum_qi_memory_record_v0_2.py"
   },
   "baseline_commitments": {
     "additive_only": true,
@@ -38,6 +41,9 @@
     "Qi_OS_handoff_is_routing_surface_not_authority": true,
     "Qi_OS_bridge_packet_candidate_only": true,
     "Qi_OS_bridge_packet_authority_fields_false": true,
+    "Qi_MemoryOS_record_candidate_append_only": true,
+    "Qi_MemoryOS_record_candidate_overwrite_forbidden": true,
+    "Qi_MemoryOS_record_candidate_requires_FullPathQi_memory_surface": true,
     "FullPathQi_recordable_analyzable_not_executable": true
   },
   "authority_boundary": {
@@ -53,5 +59,5 @@
     "truth_authority": false,
     "safety_override_authority": false
   },
-  "baseline_statement": "Physical Quantum Qi v0.2 deepening is a public KuuOS baseline candidate that tightens v0.1 by requiring SK/FV history for FullPathQi, Ward/leak accounting for PhysicalQi, positive delta_rec for recovery claims, gauge/holonomy accounting for IndraNet transport, delta_rel -> string/brane -> gauge -> current lineage for KuString-Qi emergence, Qi OS handoff as routing surface, and Qi OS bridge packet as candidate-only OS payload generation. Qi never emerges directly from K, MGAP4D 33/20 remains a stability floor rather than a Qi source, and FullPathQi is MemoryOS-recordable and ReflectionOS-analyzable but not executable."
+  "baseline_statement": "Physical Quantum Qi v0.2 deepening is a public KuuOS baseline candidate that tightens v0.1 by requiring SK/FV history for FullPathQi, Ward/leak accounting for PhysicalQi, positive delta_rec for recovery claims, gauge/holonomy accounting for IndraNet transport, delta_rel -> string/brane -> gauge -> current lineage for KuString-Qi emergence, Qi OS handoff as routing surface, Qi OS bridge packet as candidate-only OS payload generation, and Qi MemoryOS record candidate as append-only history candidate. Qi never emerges directly from K, MGAP4D 33/20 remains a stability floor rather than a Qi source, and FullPathQi is MemoryOS-recordable and ReflectionOS-analyzable but not executable."
 }
