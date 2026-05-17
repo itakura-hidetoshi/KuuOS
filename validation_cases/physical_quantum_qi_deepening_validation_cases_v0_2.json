@@ -30,6 +30,124 @@
       "expected": "pass"
     },
     {
+      "name": "skfv_v02a_kernel_without_causality_fails",
+      "packet": {
+        "modules": {
+          "SK_FV_Qi_action_v0_2A": {
+            "S_sys_concrete_form_declared": "pass",
+            "covariant_derivative_declared": "pass",
+            "potential_decomposition_declared": "pass",
+            "barrier_floor_declared": "pass",
+            "barrier_not_qi_source_declared": "pass",
+            "geometric_history_term_declared": "pass",
+            "S_IF_kernel_conditions_declared": "pass",
+            "D_R_causal": "missing",
+            "N_symmetric": "pass",
+            "N_positive_semidefinite": "pass",
+            "spectral_consistency_declared": "pass",
+            "SK_normalization_declared": "pass",
+            "FDR_status_declared": "pass",
+            "FDR_convention_declared": "pass",
+            "Markov_nonMarkov_boundary_declared": "pass",
+            "markov_reduction_receipt_declared_if_used": "pass"
+          }
+        },
+        "authority": {
+          "proof_authority": false,
+          "ontology_authority": false,
+          "clinical_authority": false,
+          "execution_authority": false,
+          "commit_authority": false,
+          "belief_commit_authority": false,
+          "belief_root_commit_authority": false,
+          "memory_overwrite_authority": false,
+          "world_root_rewrite_authority": false,
+          "truth_authority": false,
+          "safety_override_authority": false
+        }
+      },
+      "expected": "fail"
+    },
+    {
+      "name": "skfv_v02a_fdr_convention_missing_fails",
+      "packet": {
+        "modules": {
+          "SK_FV_Qi_action_v0_2A": {
+            "S_sys_concrete_form_declared": "pass",
+            "covariant_derivative_declared": "pass",
+            "potential_decomposition_declared": "pass",
+            "barrier_floor_declared": "pass",
+            "barrier_not_qi_source_declared": "pass",
+            "geometric_history_term_declared": "pass",
+            "S_IF_kernel_conditions_declared": "pass",
+            "D_R_causal": "pass",
+            "N_symmetric": "pass",
+            "N_positive_semidefinite": "pass",
+            "spectral_consistency_declared": "pass",
+            "SK_normalization_declared": "pass",
+            "FDR_status_declared": "pass",
+            "FDR_convention_declared": "missing",
+            "Markov_nonMarkov_boundary_declared": "pass",
+            "markov_reduction_receipt_declared_if_used": "pass"
+          }
+        },
+        "authority": {
+          "proof_authority": false,
+          "ontology_authority": false,
+          "clinical_authority": false,
+          "execution_authority": false,
+          "commit_authority": false,
+          "belief_commit_authority": false,
+          "belief_root_commit_authority": false,
+          "memory_overwrite_authority": false,
+          "world_root_rewrite_authority": false,
+          "truth_authority": false,
+          "safety_override_authority": false
+        }
+      },
+      "expected": "fail"
+    },
+    {
+      "name": "skfv_v02a_markov_snapshot_claimed_as_fullpath_fails",
+      "packet": {
+        "modules": {
+          "SK_FV_Qi_action_v0_2A": {
+            "S_sys_concrete_form_declared": "pass",
+            "covariant_derivative_declared": "pass",
+            "potential_decomposition_declared": "pass",
+            "barrier_floor_declared": "pass",
+            "barrier_not_qi_source_declared": "pass",
+            "geometric_history_term_declared": "pass",
+            "S_IF_kernel_conditions_declared": "pass",
+            "D_R_causal": "pass",
+            "N_symmetric": "pass",
+            "N_positive_semidefinite": "pass",
+            "spectral_consistency_declared": "pass",
+            "SK_normalization_declared": "pass",
+            "FDR_status_declared": "pass",
+            "FDR_convention_declared": "pass",
+            "Markov_nonMarkov_boundary_declared": "pass",
+            "markov_reduction_receipt_declared_if_used": "missing",
+            "Markov_snapshot_claimed_as_FullPathQi": true
+          }
+        },
+        "authority": {
+          "proof_authority": false,
+          "ontology_authority": false,
+          "clinical_authority": false,
+          "execution_authority": false,
+          "commit_authority": false,
+          "belief_commit_authority": false,
+          "belief_root_commit_authority": false,
+          "memory_overwrite_authority": false,
+          "world_root_rewrite_authority": false,
+          "truth_authority": false,
+          "safety_override_authority": false
+        }
+      },
+      "expected": "fail"
+    },
+    {
       "name": "missing_sk_fv_history_fails_full_path_deepening",
       "packet": {
         "modules": {
