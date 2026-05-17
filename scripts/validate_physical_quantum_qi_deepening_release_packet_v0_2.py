@@ -3,8 +3,9 @@
 
 This validator intentionally checks both governance packets and equation/runtime
 content.  Physical Quantum Qi v0.2 is not valid unless the equation document,
-machine-readable equation packet, phase runtime, runtime tests, phase demo, and
-Qi OS handoff surface are present in the manifest/chain and on disk.
+machine-readable equation packet, phase runtime, OS bridge runtime, runtime
+bridge tests, phase demo, and Qi OS handoff surface are present in the
+manifest/chain and on disk.
 """
 
 from __future__ import annotations
@@ -32,6 +33,7 @@ REQUIRED_MODULES = {
     "IndraNet_gauge_transport",
     "KuString_Qi_emergence_bridge",
     "Qi_OS_handoff",
+    "Qi_OS_bridge_packet",
 }
 
 REQUIRED_FILES = {
@@ -41,7 +43,9 @@ REQUIRED_FILES = {
     "examples/physical_quantum_qi_equation_packet_v0_2.json",
     "examples/run_physical_quantum_qi_phase_demo_v0_2.py",
     "src/physical_quantum_qi_phase_runtime_v0_2.py",
+    "src/physical_quantum_qi_os_bridge_v0_2.py",
     "tests/test_physical_quantum_qi_phase_runtime_v0_2.py",
+    "tests/test_physical_quantum_qi_os_bridge_v0_2.py",
     "validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json",
     "scripts/validate_physical_quantum_qi_equations_v0_2.py",
     "scripts/validate_physical_quantum_qi_equation_packet_v0_2.py",
@@ -75,6 +79,8 @@ REQUIRED_INVARIANTS = {
     "Equation packet must classify as FullPathQi through the phase runtime demo",
     "Equation packet must expose Qi_OS_handoff",
     "Declared Qi_OS_handoff must match runtime-computed handoff",
+    "Qi_OS_bridge_packet must expose candidate-only OS payloads",
+    "Qi_OS_bridge_packet must keep all authority fields false",
     "Baseline established final packet must declare authority_boundary_complete",
 }
 
@@ -88,6 +94,7 @@ REQUIRED_ENTRYPOINTS = {
     "python3 scripts/validate_physical_quantum_qi_equations_v0_2.py",
     "python3 scripts/validate_physical_quantum_qi_equation_packet_v0_2.py",
     "python3 tests/test_physical_quantum_qi_phase_runtime_v0_2.py",
+    "python3 tests/test_physical_quantum_qi_os_bridge_v0_2.py",
     "python3 examples/run_physical_quantum_qi_phase_demo_v0_2.py",
     "python3 scripts/validate_physical_quantum_qi_deepening_v0_2.py",
     "python3 scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py",
@@ -278,11 +285,18 @@ def validate_demo_packet_classification() -> List[str]:
         if str(src) not in sys.path:
             sys.path.insert(0, str(src))
         from physical_quantum_qi_phase_runtime_v0_2 import classify_qi_phase, state_from_packet  # type: ignore
+        from physical_quantum_qi_os_bridge_v0_2 import build_qi_os_bridge_packet, bridge_packet_to_dict, validate_qi_os_bridge_packet  # type: ignore
+        from physical_quantum_qi_phase_runtime_v0_2 import qi_phase_handoff  # type: ignore
 
         packet = load_json(ROOT / "examples" / "physical_quantum_qi_equation_packet_v0_2.json")
         result = classify_qi_phase(state_from_packet(packet))
         if result.phase.value != "FullPathQi":
             return [f"phase demo packet must classify as FullPathQi, got {result.phase.value}"]
+        handoff = qi_phase_handoff(result)
+        bridge = bridge_packet_to_dict(build_qi_os_bridge_packet(handoff))
+        bridge_errors = validate_qi_os_bridge_packet(bridge)
+        if bridge_errors:
+            return ["Qi OS bridge packet validation failed: " + "; ".join(bridge_errors)]
         return []
     except Exception as exc:  # pragma: no cover - CI diagnostic path
         return [f"phase demo packet classification raised {type(exc).__name__}: {exc}"]
