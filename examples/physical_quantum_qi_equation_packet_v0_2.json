@@ -90,6 +90,51 @@
     "open_case": "D_μJ_Qi^μ-L_leak-A_anom=0",
     "short_definition": "Qi=[δS_eff/δA_μ]^{SK/FV}_{δ_rel∈K^⊥, ∂Σ⊂B}"
   },
+  "Qi_OS_handoff": {
+    "phase_to_surface": {
+      "NonQi": [],
+      "PreQi": [
+        "BeliefOS.observation_candidate"
+      ],
+      "ProtoQi": [
+        "BeliefOS.observation_candidate",
+        "PlanOS.preparation_surface"
+      ],
+      "BoundaryQi": [
+        "BeliefOS.observation_candidate",
+        "PlanOS.boundary_candidate"
+      ],
+      "TransportQi": [
+        "BeliefOS.observation_candidate",
+        "PlanOS.transport_candidate"
+      ],
+      "PhysicalQi": [
+        "BeliefOS.observation_candidate",
+        "PlanOS.transport_candidate",
+        "DecisionOS.safety_evaluable_candidate"
+      ],
+      "FullPathQi": [
+        "BeliefOS.observation_candidate",
+        "PlanOS.transport_candidate",
+        "DecisionOS.safety_evaluable_candidate",
+        "MemoryOS.recordable_history_candidate",
+        "ReflectionOS.residue_analysis_candidate"
+      ]
+    },
+    "FullPathQi_status": "memory_recordable_reflection_analyzable_candidate",
+    "authority_never_granted": {
+      "execution_authority": false,
+      "commit_authority": false,
+      "belief_root_commit_authority": false,
+      "memory_overwrite_authority": false,
+      "world_root_rewrite_authority": false,
+      "clinical_authority": false,
+      "proof_authority": false,
+      "ontology_authority": false,
+      "truth_authority": false,
+      "safety_override_authority": false
+    }
+  },
   "forbidden_collapses": [
     "K_identified_as_Qi",
     "string_reified_as_substance",
