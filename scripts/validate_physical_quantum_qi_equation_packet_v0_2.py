@@ -3,8 +3,8 @@
 
 This validator checks equation content, not just packet existence.
 It verifies that the JSON packet exposes the SK/FV, Ward/leak, DPI,
-IndraNet gauge, KuString-Qi emergence, phase ladder, and PhysicalQi
-criterion fields needed by the runtime classifier.
+IndraNet gauge, KuString-Qi emergence, phase ladder, PhysicalQi criterion,
+and OS handoff behavior needed by the runtime classifier.
 """
 
 from __future__ import annotations
@@ -135,6 +135,27 @@ REQUIRED_FORBIDDEN_COLLAPSES = {
     "FullPathQi_without_SK_FV_history",
 }
 
+REQUIRED_HANDOFF_SURFACES = {
+    "BeliefOS.observation_candidate",
+    "PlanOS.transport_candidate",
+    "DecisionOS.safety_evaluable_candidate",
+    "MemoryOS.recordable_history_candidate",
+    "ReflectionOS.residue_analysis_candidate",
+}
+
+REQUIRED_HANDOFF_FALSE = {
+    "execution_authority",
+    "commit_authority",
+    "belief_root_commit_authority",
+    "memory_overwrite_authority",
+    "world_root_rewrite_authority",
+    "clinical_authority",
+    "proof_authority",
+    "ontology_authority",
+    "truth_authority",
+    "safety_override_authority",
+}
+
 REQUIRED_CONTENT_SUBSTRINGS = {
     ("SK_FV_path_integral", "Z_Qi_SKFV"): ["J_+", "J_-", "S_IF"],
     ("SK_FV_path_integral", "S_IF"): ["D_R", "N", "Δq"],
@@ -224,19 +245,32 @@ def validate_equation_content(packet: Dict[str, Any]) -> List[str]:
     return errors
 
 
-def validate_runtime_classification(packet: Dict[str, Any]) -> List[str]:
+def validate_runtime_classification_and_handoff(packet: Dict[str, Any]) -> List[str]:
     try:
         src = ROOT / "src"
         if str(src) not in sys.path:
             sys.path.insert(0, str(src))
-        from physical_quantum_qi_phase_runtime_v0_2 import classify_qi_phase, state_from_packet  # type: ignore
+        from physical_quantum_qi_phase_runtime_v0_2 import (  # type: ignore
+            classify_qi_phase,
+            handoff_to_dict,
+            qi_phase_handoff,
+            state_from_packet,
+        )
 
         result = classify_qi_phase(state_from_packet(packet))
         if result.phase.value != "FullPathQi":
             return [f"equation packet must classify as FullPathQi, got {result.phase.value}: {result}"]
-        return []
+        handoff = handoff_to_dict(qi_phase_handoff(result))
+        errors: List[str] = []
+        for surface in sorted(REQUIRED_HANDOFF_SURFACES):
+            if surface not in handoff.get("allowed_surfaces", []):
+                errors.append(f"FullPathQi handoff missing surface: {surface}")
+        for key in sorted(REQUIRED_HANDOFF_FALSE):
+            if handoff.get(key) is not False:
+                errors.append(f"FullPathQi handoff {key} must be false")
+        return errors
     except Exception as exc:  # pragma: no cover - diagnostic path
-        return [f"runtime classification failed with {type(exc).__name__}: {exc}"]
+        return [f"runtime classification/handoff failed with {type(exc).__name__}: {exc}"]
 
 
 def main() -> int:
@@ -244,7 +278,7 @@ def main() -> int:
     errors: List[str] = []
     errors.extend(validate_packet_shape(packet))
     errors.extend(validate_equation_content(packet))
-    errors.extend(validate_runtime_classification(packet))
+    errors.extend(validate_runtime_classification_and_handoff(packet))
 
     if errors:
         print("Physical Quantum Qi equation packet v0.2 validation failed:")
