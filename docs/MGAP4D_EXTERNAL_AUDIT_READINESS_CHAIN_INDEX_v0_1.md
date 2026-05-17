@@ -97,6 +97,17 @@ This index connects the observed `scripts/check.sh` CI green evidence to a machi
    - Merged at: `2026-05-17T02:32:35Z`
    - Required pass line: `PASS: MGAP4D external audit readiness PR9 merge closure checked`
 
+15. PR10 merge closure
+   - `docs/MGAP4D_EXTERNAL_AUDIT_READINESS_PR10_MERGE_CLOSURE_v0_1.md`
+   - `scripts/check_mgap4d_external_audit_readiness_pr10_merge_closure_v0_1.py`
+   - Pull request: `#10`
+   - Pull request title: `Add MGAP4D PR9 merge closure v0.1`
+   - PR head commit: `294df8a141c5a0d0c18c5c61306acaf9fc06eddd`
+   - Base before merge: `f840ab0e8d497049ab232f187bb681c3337a3f30`
+   - Squash merge commit: `fb082f7caa0b5d009cd0dbca34412047ffe6599e`
+   - Merged at: `2026-05-17T03:01:08Z`
+   - Required pass line: `PASS: MGAP4D external audit readiness PR10 merge closure checked`
+
 ## Evidence covered
 
 The ledger records the following observed green surfaces from the provided GitHub Actions log excerpt:
@@ -130,6 +141,8 @@ The ledger records the following observed green surfaces from the provided GitHu
 - PR #8 merge integration evidence
 - PR9 merge closure surface
 - PR #9 merge integration evidence
+- PR10 merge closure surface
+- PR #10 merge integration evidence
 
 ## Boundary
 
@@ -148,7 +161,7 @@ It does not grant:
 
 ## Tightening path
 
-The current ledger is based on the provided log excerpt, an exact dedicated ledger CI green record, an all-governance runner green record, a post-merge all-governance green receipt, a post-merge receipt closure, PR8 merge closure, and PR9 merge closure. Further tightening may append:
+The current ledger is based on the provided log excerpt, an exact dedicated ledger CI green record, an all-governance runner green record, a post-merge all-governance green receipt, a post-merge receipt closure, PR8 merge closure, PR9 merge closure, and PR10 merge closure. Further tightening may append:
 
 - workflow URL
 - artifact IDs
@@ -158,7 +171,7 @@ The current ledger is based on the provided log excerpt, an exact dedicated ledg
 - signed attestation hash
 - external reviewer receipts
 
-Do not overwrite the existing ledger, chain index, finality packet, post-merge receipt, post-merge receipt closure, PR8 merge closure, or PR9 merge closure. Use same-root, append-only tightening.
+Do not overwrite the existing ledger, chain index, finality packet, post-merge receipt, post-merge receipt closure, PR8 merge closure, PR9 merge closure, or PR10 merge closure. Use same-root, append-only tightening.
 
 Version: v0.1
 Author: Hidetoshi Itakura / 板倉英俊
