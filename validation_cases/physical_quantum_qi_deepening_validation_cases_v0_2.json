@@ -7,6 +7,29 @@
       "expected": "pass"
     },
     {
+      "name": "baseline_authority_boundary_complete_pass",
+      "packet": {
+        "modules": {},
+        "baseline_established_final_declaration": {
+          "authority_boundary_complete": true
+        },
+        "authority": {
+          "proof_authority": false,
+          "ontology_authority": false,
+          "clinical_authority": false,
+          "execution_authority": false,
+          "commit_authority": false,
+          "belief_commit_authority": false,
+          "belief_root_commit_authority": false,
+          "memory_overwrite_authority": false,
+          "world_root_rewrite_authority": false,
+          "truth_authority": false,
+          "safety_override_authority": false
+        }
+      },
+      "expected": "pass"
+    },
+    {
       "name": "missing_sk_fv_history_fails_full_path_deepening",
       "packet": {
         "modules": {
