@@ -1,0 +1,167 @@
+{
+  "id": "superstring_emptiness_observer_record_scale_bridge_validation_cases_v0_6",
+  "version": "v0.6",
+  "date": "2026-05-17",
+  "cases": [
+    {
+      "case_id": "valid_observer_record_scale_candidate",
+      "expected_ok": true,
+      "expected_decision": "ADMIT_AS_OBSERVER_RECORD_SCALE_CANDIDATE",
+      "packet": {
+        "observer_record_scale_bridge_packet": {
+          "packet_id": "case_ors_valid_001",
+          "version": "v0.6",
+          "bridge": {
+            "bridge_id": "ors_bridge_valid_001",
+            "observer_context_present": true,
+            "record_surface_present": true,
+            "scale_regime_present": true,
+            "coarse_graining_rule": "observer_record_scale_coarse_graining",
+            "readability_rule": "conventional_readability_requires_record_surface",
+            "backaction_visibility": true,
+            "uncertainty_policy": "preserve_uncertainty_and_context",
+            "two_truths_gap_guard": true,
+            "non_reification_guard": true,
+            "obstruction_visibility_rule": true,
+            "authority_non_expansion_guard": true,
+            "rollback_or_hold_route": "HOLD"
+          },
+          "admission": {
+            "readability_rule_present": true,
+            "uncertainty_policy_present": true,
+            "rollback_or_hold_route_present": true,
+            "decision": "ADMIT_AS_OBSERVER_RECORD_SCALE_CANDIDATE"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "hold_missing_record_surface",
+      "expected_ok": false,
+      "expected_decision": "HOLD",
+      "packet": {
+        "observer_record_scale_bridge_packet": {
+          "packet_id": "case_ors_missing_record_001",
+          "version": "v0.6",
+          "bridge": {
+            "bridge_id": "ors_bridge_missing_record_001",
+            "observer_context_present": true,
+            "record_surface_present": false,
+            "scale_regime_present": true,
+            "coarse_graining_rule": "observer_record_scale_coarse_graining",
+            "readability_rule": "conventional_readability_requires_record_surface",
+            "backaction_visibility": true,
+            "uncertainty_policy": "preserve_uncertainty_and_context",
+            "two_truths_gap_guard": true,
+            "non_reification_guard": true,
+            "obstruction_visibility_rule": true,
+            "authority_non_expansion_guard": true,
+            "rollback_or_hold_route": "HOLD"
+          },
+          "admission": {
+            "readability_rule_present": true,
+            "uncertainty_policy_present": true,
+            "rollback_or_hold_route_present": true,
+            "decision": "ADMIT_AS_CONVENTIONAL_READABILITY_BRIDGE"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "reject_observation_erases_backaction",
+      "expected_ok": false,
+      "expected_decision": "HOLD",
+      "packet": {
+        "observer_record_scale_bridge_packet": {
+          "packet_id": "case_ors_no_backaction_001",
+          "version": "v0.6",
+          "bridge": {
+            "bridge_id": "ors_bridge_no_backaction_001",
+            "observer_context_present": true,
+            "record_surface_present": true,
+            "scale_regime_present": true,
+            "coarse_graining_rule": "observer_record_scale_coarse_graining",
+            "readability_rule": "observation_erases_backaction",
+            "backaction_visibility": false,
+            "uncertainty_policy": "preserve_uncertainty_and_context",
+            "two_truths_gap_guard": true,
+            "non_reification_guard": true,
+            "obstruction_visibility_rule": true,
+            "authority_non_expansion_guard": true,
+            "rollback_or_hold_route": "HOLD"
+          },
+          "admission": {
+            "readability_rule_present": true,
+            "uncertainty_policy_present": true,
+            "rollback_or_hold_route_present": true,
+            "decision": "ADMIT_AS_OBSERVER_RECORD_SCALE_CANDIDATE"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "reject_scale_erases_uncertainty",
+      "expected_ok": false,
+      "expected_decision": "HOLD",
+      "packet": {
+        "observer_record_scale_bridge_packet": {
+          "packet_id": "case_ors_uncertainty_erasure_001",
+          "version": "v0.6",
+          "bridge": {
+            "bridge_id": "ors_bridge_uncertainty_erasure_001",
+            "observer_context_present": true,
+            "record_surface_present": true,
+            "scale_regime_present": true,
+            "coarse_graining_rule": "observer_record_scale_coarse_graining",
+            "readability_rule": "conventional_readability_requires_record_surface",
+            "backaction_visibility": true,
+            "uncertainty_policy": "scale_bridge_erases_uncertainty",
+            "two_truths_gap_guard": true,
+            "non_reification_guard": true,
+            "obstruction_visibility_rule": true,
+            "authority_non_expansion_guard": true,
+            "rollback_or_hold_route": "HOLD"
+          },
+          "admission": {
+            "readability_rule_present": true,
+            "uncertainty_policy_present": true,
+            "rollback_or_hold_route_present": true,
+            "decision": "ADMIT_AS_OBSERVER_RECORD_SCALE_CANDIDATE"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "reject_readability_opens_execution_authority",
+      "expected_ok": false,
+      "expected_decision": "HOLD",
+      "packet": {
+        "observer_record_scale_bridge_packet": {
+          "packet_id": "case_ors_execution_001",
+          "version": "v0.6",
+          "bridge": {
+            "bridge_id": "ors_bridge_execution_001",
+            "observer_context_present": true,
+            "record_surface_present": true,
+            "scale_regime_present": true,
+            "coarse_graining_rule": "observer_record_scale_coarse_graining",
+            "readability_rule": "readability_opens_execution_authority",
+            "backaction_visibility": true,
+            "uncertainty_policy": "preserve_uncertainty_and_context",
+            "two_truths_gap_guard": true,
+            "non_reification_guard": true,
+            "obstruction_visibility_rule": true,
+            "authority_non_expansion_guard": true,
+            "rollback_or_hold_route": "HOLD"
+          },
+          "admission": {
+            "readability_rule_present": true,
+            "uncertainty_policy_present": true,
+            "rollback_or_hold_route_present": true,
+            "decision": "ADMIT_AS_CONVENTIONAL_READABILITY_BRIDGE"
+          }
+        }
+      }
+    }
+  ]
+}
