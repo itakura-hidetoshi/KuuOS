@@ -7,61 +7,86 @@
   "chain": [
     {
       "order": 1,
+      "role": "equation_document",
+      "path": "docs/PHYSICAL_QUANTUM_QI_EQUATIONS_v0_2.md"
+    },
+    {
+      "order": 2,
       "role": "machine_readable_contract",
       "path": "specs/physical_quantum_qi_deepening_contract_v0_2.json"
     },
     {
-      "order": 2,
+      "order": 3,
       "role": "example_packet",
       "path": "examples/physical_quantum_qi_deepening_packet_v0_2.json"
     },
     {
-      "order": 3,
+      "order": 4,
+      "role": "equation_packet",
+      "path": "examples/physical_quantum_qi_equation_packet_v0_2.json"
+    },
+    {
+      "order": 5,
       "role": "validation_cases",
       "path": "validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json"
     },
     {
-      "order": 4,
+      "order": 6,
+      "role": "equation_validator",
+      "path": "scripts/validate_physical_quantum_qi_equations_v0_2.py"
+    },
+    {
+      "order": 7,
       "role": "runtime_validator",
       "path": "scripts/validate_physical_quantum_qi_deepening_v0_2.py"
     },
     {
-      "order": 5,
+      "order": 8,
+      "role": "phase_runtime",
+      "path": "src/physical_quantum_qi_phase_runtime_v0_2.py"
+    },
+    {
+      "order": 9,
+      "role": "phase_runtime_tests",
+      "path": "tests/test_physical_quantum_qi_phase_runtime_v0_2.py"
+    },
+    {
+      "order": 10,
       "role": "manifest",
       "path": "manifests/physical_quantum_qi_deepening_manifest_v0_2.json"
     },
     {
-      "order": 6,
+      "order": 11,
       "role": "release_packet",
       "path": "packets/physical_quantum_qi_deepening_release_packet_v0_2.json"
     },
     {
-      "order": 7,
+      "order": 12,
       "role": "release_packet_validator",
       "path": "scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py"
     },
     {
-      "order": 8,
+      "order": 13,
       "role": "finality_packet",
       "path": "packets/physical_quantum_qi_deepening_finality_packet_v0_2.json"
     },
     {
-      "order": 9,
+      "order": 14,
       "role": "release_closure_packet",
       "path": "packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json"
     },
     {
-      "order": 10,
+      "order": 15,
       "role": "validated_baseline_packet",
       "path": "packets/physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json"
     },
     {
-      "order": 11,
+      "order": 16,
       "role": "baseline_established_final_packet",
       "path": "packets/physical_quantum_qi_deepening_baseline_established_final_packet_v0_2.json"
     },
     {
-      "order": 12,
+      "order": 17,
       "role": "dedicated_ci_workflow",
       "path": ".github/workflows/physical_quantum_qi_deepening_validation.yml"
     }
