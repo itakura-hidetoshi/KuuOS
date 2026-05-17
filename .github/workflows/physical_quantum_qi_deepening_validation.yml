@@ -4,30 +4,44 @@ on:
   workflow_dispatch:
   push:
     paths:
+      - 'docs/PHYSICAL_QUANTUM_QI_EQUATIONS_v0_2.md'
       - 'specs/physical_quantum_qi_deepening_contract_v0_2.json'
       - 'examples/physical_quantum_qi_deepening_packet_v0_2.json'
+      - 'examples/physical_quantum_qi_equation_packet_v0_2.json'
+      - 'examples/run_physical_quantum_qi_phase_demo_v0_2.py'
+      - 'src/physical_quantum_qi_phase_runtime_v0_2.py'
+      - 'tests/test_physical_quantum_qi_phase_runtime_v0_2.py'
       - 'validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json'
       - 'manifests/physical_quantum_qi_deepening_manifest_v0_2.json'
       - 'packets/physical_quantum_qi_deepening_release_packet_v0_2.json'
       - 'packets/physical_quantum_qi_deepening_finality_packet_v0_2.json'
       - 'packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json'
       - 'packets/physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json'
+      - 'packets/physical_quantum_qi_deepening_baseline_established_final_packet_v0_2.json'
       - 'chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json'
+      - 'scripts/validate_physical_quantum_qi_equations_v0_2.py'
       - 'scripts/validate_physical_quantum_qi_deepening_v0_2.py'
       - 'scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py'
       - 'Makefile'
       - '.github/workflows/physical_quantum_qi_deepening_validation.yml'
   pull_request:
     paths:
+      - 'docs/PHYSICAL_QUANTUM_QI_EQUATIONS_v0_2.md'
       - 'specs/physical_quantum_qi_deepening_contract_v0_2.json'
       - 'examples/physical_quantum_qi_deepening_packet_v0_2.json'
+      - 'examples/physical_quantum_qi_equation_packet_v0_2.json'
+      - 'examples/run_physical_quantum_qi_phase_demo_v0_2.py'
+      - 'src/physical_quantum_qi_phase_runtime_v0_2.py'
+      - 'tests/test_physical_quantum_qi_phase_runtime_v0_2.py'
       - 'validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json'
       - 'manifests/physical_quantum_qi_deepening_manifest_v0_2.json'
       - 'packets/physical_quantum_qi_deepening_release_packet_v0_2.json'
       - 'packets/physical_quantum_qi_deepening_finality_packet_v0_2.json'
       - 'packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json'
       - 'packets/physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json'
+      - 'packets/physical_quantum_qi_deepening_baseline_established_final_packet_v0_2.json'
       - 'chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json'
+      - 'scripts/validate_physical_quantum_qi_equations_v0_2.py'
       - 'scripts/validate_physical_quantum_qi_deepening_v0_2.py'
       - 'scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py'
       - 'Makefile'
@@ -51,17 +65,24 @@ jobs:
       - name: Show Qi deepening validation surface
         run: |
           python3 --version
+          echo "Equation document: docs/PHYSICAL_QUANTUM_QI_EQUATIONS_v0_2.md"
           echo "Contract: specs/physical_quantum_qi_deepening_contract_v0_2.json"
           echo "Example: examples/physical_quantum_qi_deepening_packet_v0_2.json"
+          echo "Equation packet: examples/physical_quantum_qi_equation_packet_v0_2.json"
+          echo "Phase runtime: src/physical_quantum_qi_phase_runtime_v0_2.py"
+          echo "Phase runtime tests: tests/test_physical_quantum_qi_phase_runtime_v0_2.py"
+          echo "Phase demo: examples/run_physical_quantum_qi_phase_demo_v0_2.py"
           echo "Cases: validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json"
           echo "Manifest: manifests/physical_quantum_qi_deepening_manifest_v0_2.json"
           echo "Release packet: packets/physical_quantum_qi_deepening_release_packet_v0_2.json"
           echo "Finality packet: packets/physical_quantum_qi_deepening_finality_packet_v0_2.json"
           echo "Release closure packet: packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json"
           echo "Validated baseline packet: packets/physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json"
+          echo "Baseline established final packet: packets/physical_quantum_qi_deepening_baseline_established_final_packet_v0_2.json"
           echo "Chain index: chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json"
-          echo "Validator: scripts/validate_physical_quantum_qi_deepening_v0_2.py"
-          echo "Release/finality/closure/baseline/chain validator: scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py"
+          echo "Equation validator: scripts/validate_physical_quantum_qi_equations_v0_2.py"
+          echo "Runtime validator: scripts/validate_physical_quantum_qi_deepening_v0_2.py"
+          echo "Release/finality/closure/baseline/final/chain validator: scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py"
           echo "Modules: SK/FV path integral, Ward/leak identity, DPI recoverability, IndraNet gauge transport, KuString-Qi emergence bridge"
 
       - name: Run Physical Quantum Qi v0.2 deepening checks
