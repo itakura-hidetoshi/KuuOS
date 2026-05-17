@@ -1,0 +1,56 @@
+{
+  "packet_id": "qi_runtime_packet_example_v0_1",
+  "candidate_id": "qi_candidate_full_path_example_001",
+  "claimed_type": "FullPathQi",
+  "validated_type": null,
+  "origin": {
+    "emptiness_ground": "K",
+    "appearance_domain": "K_perp",
+    "delta_rel_id": "delta_rel_example_001",
+    "same_root": true
+  },
+  "evidence_status": {
+    "K_non_reification": "pass",
+    "delta_rel_in_K_perp": "pass",
+    "string_mode_consistency": "pass",
+    "brane_boundary_support": "pass",
+    "gauge_connection_A_mu": "pass",
+    "curvature_F_munu": "pass",
+    "Wilson_loop_residue": "pass",
+    "current_J_Qi_mu": "pass",
+    "Ward_or_leak_identity": "pass",
+    "density_state_rho": "pass",
+    "Hamiltonian_H": "pass",
+    "Lindblad_generator_L": "pass",
+    "entropy_production_Sigma": "pass",
+    "free_energy_F_beta": "pass",
+    "DPI_gap": "pass",
+    "recovery_margin": "pass",
+    "mass_gap_floor_33_20": "pass",
+    "SK_plus_branch": "pass",
+    "SK_minus_branch": "pass",
+    "FV_influence_functional": "pass",
+    "memory_kernel": "pass",
+    "noise_kernel": "pass",
+    "observation_backaction": "pass",
+    "noncommutative_operation_history": "pass",
+    "path_measure_normalization": "pass"
+  },
+  "mass_gap_floor": {
+    "value": "33/20",
+    "role": "stable_floor_for_K_perp_qi_flow_domain",
+    "not_source_of_qi": true
+  },
+  "authority": {
+    "execution_authority": false,
+    "belief_commit_authority": false,
+    "memory_overwrite_authority": false,
+    "world_root_rewrite_authority": false,
+    "safety_override_authority": false
+  },
+  "fatal_flags": [],
+  "notes": [
+    "Qi is validated as FullPathQi because PhysicalQi evidence and SK/FV history evidence are present.",
+    "This packet grants no execution, belief commit, memory overwrite, world-root rewrite, or safety override authority."
+  ]
+}
