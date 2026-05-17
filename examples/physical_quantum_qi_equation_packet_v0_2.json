@@ -1,0 +1,101 @@
+{
+  "packet_id": "physical_quantum_qi_equation_packet_v0_2",
+  "packet_type": "equation_packet",
+  "scope": "Equation-level Physical Quantum Qi v0.2 content",
+  "non_authority_boundary": {
+    "proof_authority": false,
+    "ontology_authority": false,
+    "clinical_authority": false,
+    "execution_authority": false,
+    "belief_commit_authority": false,
+    "memory_overwrite_authority": false,
+    "world_root_rewrite_authority": false,
+    "safety_override_authority": false
+  },
+  "SK_FV_path_integral": {
+    "Z_Qi_SKFV": "Z_Qi[J_+,J_-] = ∫ Dq_+ Dq_- exp{iS_sys[q_+] - iS_sys[q_-] + iS_IF[q_+,q_-] + i∫(J_+q_+ - J_-q_-)dt}",
+    "S_sys": "effective internal Qi-system action",
+    "S_IF": "S_IF = ∫∫ Δq(t) D_R(t,t') Σq(t') dt dt' + (i/2)∫∫ Δq(t) N(t,t') Δq(t') dt dt'",
+    "Delta_q": "Δq(t)=q_+(t)-q_-(t)",
+    "Sigma_q": "Σq(t)=(q_+(t)+q_-(t))/2",
+    "D_R_kernel": "memory/dissipation kernel",
+    "N_noise_kernel": "noise/decoherence kernel",
+    "history_required": true
+  },
+  "current_and_ward_leak": {
+    "J_Qi_variation_from_A": "J_Qi^μ(x)=δS_Qi/δA_μ(x)",
+    "J_Qi_from_logZ": "<J_Qi^μ(x)>=(1/i)δ log Z_Qi / δA_μ(x)",
+    "Ward_closed_identity": "D_μ <J_Qi^μ> = 0",
+    "Ward_open_leak_identity": "D_μ <J_Qi^μ> = <L_leak> + A_anom",
+    "Ward_leak_residual_zero": "D_μ J_Qi^μ - L_leak - A_anom = 0 for open-system accounting",
+    "leak_anomaly_must_be_declared": true
+  },
+  "DPI_recoverability": {
+    "Delta_DPI": "D(ρ||σ)-D(E(ρ)||E(σ))",
+    "R_Qi": "exp(-Delta_DPI)",
+    "eta_Qi": "Delta_DPI + Sigma + C_lockin",
+    "delta_rec": "R_Qi - eta_Qi",
+    "recovery_rule": "repair_or_rollback_claim requires delta_rec > 0"
+  },
+  "IndraNet_gauge_transport": {
+    "A_mu": "IndraNet gauge connection",
+    "F_munu": "F_μν = ∂_μA_ν - ∂_νA_μ + [A_μ,A_ν]",
+    "U_gamma": "P exp(-∫_γ A_μ dx^μ)",
+    "W_C": "Tr P exp(-∮_C A)",
+    "graph_only_transport_rejected": true
+  },
+  "KuString_Qi_emergence": {
+    "K_non_reification": "K is not a Qi source and not a variational substance",
+    "delta_rel_in_K_perp": "δ_rel ∈ K^⊥",
+    "StringMode_worldsheet": "X:Σ→M",
+    "BraneBoundary": "∂Σ⊂B",
+    "A_mu_projection_from_string_brane": "A_μ = Π_gauge(∂X,B,δ_rel)",
+    "S_boundary_Qi": "S_∂^Qi = ∫_{∂Σ} χ(δ_rel) A_μ(X) ∂_τX^μ dτ",
+    "chi_delta_rel": "coupling weight measuring transportable condensation of dependent-origination difference",
+    "boundary_kernel_K_mu_a": "K_μ^a(X,B) maps worldsheet boundary motion into brane-gauge components",
+    "S_eff": "S_string + S_∂^Qi + S_brane + S_YM + S_open + S_rel",
+    "S_YM": "-(1/4g^2)∫ Tr(F_μνF^μν)d^dx",
+    "J_Qi_from_effective_action": "J_Qi^μ = δS_eff/δA_μ",
+    "J_boundary": "∫_{∂Σ} χ(δ_rel) ∂_τX^μ(τ) δ^(d)(x-X(τ)) dτ",
+    "J_rel": "δS_rel/δA_μ ~ G^{ij}(θ)δ_jD^μδ_i",
+    "J_open": "δS_IF/δA_μ",
+    "J_anom": "explicit residue current from scope drift, translation distortion, membrane crossing, or holonomy",
+    "D_mu_delta": "D_μδ_i=∂_μδ_i+(A_μ)_i^jδ_j",
+    "S_rel": "∫[1/2 G^{ij}(θ)D_μδ_iD^μδ_j - V_rel(δ)]d^dx",
+    "relation_difference_eom": "∇_μ(G^{ij}∂^μδ_j)+∂V_rel/∂δ_i = S_i^boundary",
+    "mass_gap_33_20_floor_not_source": true
+  },
+  "Qi_phase_ladder": {
+    "phase_order": [
+      "NonQi",
+      "PreQi",
+      "ProtoQi",
+      "BoundaryQi",
+      "TransportQi",
+      "PhysicalQi",
+      "FullPathQi"
+    ],
+    "NonQi": "no nonzero delta_rel in K_perp",
+    "PreQi": "delta_rel in K_perp but no StringMode",
+    "ProtoQi": "StringMode exists but no brane-boundary gauge projection",
+    "BoundaryQi": "boundary coupling exists but no complete gauge-current definition",
+    "TransportQi": "A_mu and F_munu exist but J_Qi is not yet validated as variation of S_eff",
+    "PhysicalQi": "J_Qi = delta S_eff / delta A_mu and Ward/leak accounting closes",
+    "FullPathQi": "PhysicalQi plus SK/FV history, influence kernel, memory, noise, and backaction",
+    "Qi_phase_label": "φ = Φ(δ_rel,X,B,A_μ,F_μν,J^μ,Z_Qi,L_leak,A_anom)"
+  },
+  "PhysicalQi_emergence_criterion": {
+    "criterion": "PhysicalQi iff δ_rel∈K^⊥ ∧ δ_rel≠0 ∧ ∂Σ⊂B ∧ A_μ=Π_gauge(∂X,B,δ_rel) ∧ J_Qi^μ=δS_eff/δA_μ ∧ W_leak=0",
+    "closed_case": "D_μJ_Qi^μ=0",
+    "open_case": "D_μJ_Qi^μ-L_leak-A_anom=0",
+    "short_definition": "Qi=[δS_eff/δA_μ]^{SK/FV}_{δ_rel∈K^⊥, ∂Σ⊂B}"
+  },
+  "forbidden_collapses": [
+    "K_identified_as_Qi",
+    "string_reified_as_substance",
+    "brane_reified_as_creator",
+    "mass_gap_claimed_as_Qi_source",
+    "J_Qi_without_variation_from_S_eff",
+    "FullPathQi_without_SK_FV_history"
+  ]
+}
