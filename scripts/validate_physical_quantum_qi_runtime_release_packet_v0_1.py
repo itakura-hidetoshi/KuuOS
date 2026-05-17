@@ -17,6 +17,7 @@ CHAIN_INDEX_PATH = ROOT / "chain_indexes" / "physical_quantum_qi_runtime_chain_i
 REQUIRED_MANIFEST_FILES = {
     "docs/PHYSICAL_QUANTUM_QI_RUNTIME_CONTRACT_v0_1.md",
     "docs/PHYSICAL_QUANTUM_QI_RUNTIME_INDEX_v0_1.md",
+    "docs/PHYSICAL_QUANTUM_QI_RUNTIME_BASELINE_STATEMENT_v0_1.md",
     "specs/physical_quantum_qi_runtime_contract_v0_1.json",
     "examples/physical_quantum_qi_runtime_packet_v0_1.json",
     "validation_cases/physical_quantum_qi_runtime_validation_cases_v0_1.json",
@@ -54,6 +55,7 @@ AUTHORITY_FALSE_FIELDS = {
 REQUIRED_CHAIN_PATHS = [
     "docs/PHYSICAL_QUANTUM_QI_RUNTIME_CONTRACT_v0_1.md",
     "docs/PHYSICAL_QUANTUM_QI_RUNTIME_INDEX_v0_1.md",
+    "docs/PHYSICAL_QUANTUM_QI_RUNTIME_BASELINE_STATEMENT_v0_1.md",
     "specs/physical_quantum_qi_runtime_contract_v0_1.json",
     "examples/physical_quantum_qi_runtime_packet_v0_1.json",
     "validation_cases/physical_quantum_qi_runtime_validation_cases_v0_1.json",
