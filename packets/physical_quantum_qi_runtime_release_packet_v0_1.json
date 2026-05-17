@@ -1,0 +1,29 @@
+{
+  "packet_id": "physical_quantum_qi_runtime_release_packet_v0_1",
+  "packet_type": "release_packet",
+  "status": "release_candidate",
+  "manifest": "manifests/physical_quantum_qi_runtime_manifest_v0_1.json",
+  "scope": "Physical Quantum Qi runtime contract, typed validation, downgrade behavior, authority boundary, and CI entrypoints",
+  "declared_boundaries": {
+    "proof_authority": false,
+    "ontology_authority": false,
+    "clinical_authority": false,
+    "execution_authority": false,
+    "belief_commit_authority": false,
+    "memory_overwrite_authority": false,
+    "world_root_rewrite_authority": false,
+    "safety_override_authority": false
+  },
+  "core_claims": [
+    "Qi is evidence-bound relation-flow on the conventional appearance side",
+    "Qi is not K and must not reify emptiness",
+    "PhysicalQi requires current, gauge, curvature, Ward/leak, open quantum thermodynamic, recoverability, and mass-gap-floor evidence",
+    "FullPathQi requires additional SK/FV history evidence",
+    "33/20 mass gap is a stable floor for K_perp Qi flow domain, not a Qi source",
+    "Runtime validation separates claimed_type from validated_type"
+  ],
+  "required_checks": [
+    "make physical-quantum-qi-runtime-checks",
+    "make all-governance-checks"
+  ]
+}
