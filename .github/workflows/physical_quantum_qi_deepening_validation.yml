@@ -1,0 +1,47 @@
+name: Physical Quantum Qi Deepening Validation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'specs/physical_quantum_qi_deepening_contract_v0_2.json'
+      - 'examples/physical_quantum_qi_deepening_packet_v0_2.json'
+      - 'validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json'
+      - 'scripts/validate_physical_quantum_qi_deepening_v0_2.py'
+      - 'Makefile'
+      - '.github/workflows/physical_quantum_qi_deepening_validation.yml'
+  pull_request:
+    paths:
+      - 'specs/physical_quantum_qi_deepening_contract_v0_2.json'
+      - 'examples/physical_quantum_qi_deepening_packet_v0_2.json'
+      - 'validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json'
+      - 'scripts/validate_physical_quantum_qi_deepening_v0_2.py'
+      - 'Makefile'
+      - '.github/workflows/physical_quantum_qi_deepening_validation.yml'
+
+jobs:
+  validate-physical-quantum-qi-deepening:
+    name: Validate Physical Quantum Qi v0.2 deepening
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Show Qi deepening validation surface
+        run: |
+          python3 --version
+          echo "Contract: specs/physical_quantum_qi_deepening_contract_v0_2.json"
+          echo "Example: examples/physical_quantum_qi_deepening_packet_v0_2.json"
+          echo "Cases: validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json"
+          echo "Validator: scripts/validate_physical_quantum_qi_deepening_v0_2.py"
+          echo "Modules: SK/FV path integral, Ward/leak identity, DPI recoverability, IndraNet gauge transport, KuString-Qi emergence bridge"
+
+      - name: Run Physical Quantum Qi v0.2 deepening checks
+        run: make physical-quantum-qi-deepening-checks
