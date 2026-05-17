@@ -16,6 +16,7 @@ ARTIFACTS = [
     "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_POST_MERGE_RECEIPT_CLOSURE_v0_1.md",
     "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_PR8_MERGE_CLOSURE_v0_1.md",
     "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_PR9_MERGE_CLOSURE_v0_1.md",
+    "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_PR10_MERGE_CLOSURE_v0_1.md",
     "scripts/check_mgap4d_external_audit_readiness_ci_ledger_v0_1.py",
     "scripts/check_mgap4d_external_audit_readiness_chain_index_v0_1.py",
     "scripts/check_mgap4d_external_audit_readiness_finality_packet_v0_1.py",
@@ -23,6 +24,7 @@ ARTIFACTS = [
     "scripts/check_mgap4d_external_audit_readiness_post_merge_receipt_closure_v0_1.py",
     "scripts/check_mgap4d_external_audit_readiness_pr8_merge_closure_v0_1.py",
     "scripts/check_mgap4d_external_audit_readiness_pr9_merge_closure_v0_1.py",
+    "scripts/check_mgap4d_external_audit_readiness_pr10_merge_closure_v0_1.py",
     ".github/workflows/mgap4d_external_audit_readiness_ci_ledger_v0_1.yml",
 ]
 
@@ -45,11 +47,7 @@ def sha256_bytes(data: bytes) -> str:
 def file_entry(path_text: str) -> dict:
     path = ROOT / path_text
     data = path.read_bytes()
-    return {
-        "path": path_text,
-        "sha256": sha256_bytes(data),
-        "size_bytes": len(data),
-    }
+    return {"path": path_text, "sha256": sha256_bytes(data), "size_bytes": len(data)}
 
 
 def main() -> int:
@@ -70,6 +68,7 @@ def main() -> int:
         "post_merge_receipt_closure_included": True,
         "pr8_merge_closure_included": True,
         "pr9_merge_closure_included": True,
+        "pr10_merge_closure_included": True,
         "bundle_root_hash": sha256_bytes(root_material),
         "artifact_count": len(artifact_entries),
         "artifacts": artifact_entries,
@@ -126,16 +125,23 @@ def main() -> int:
             "merged_at": "2026-05-17T02:32:35Z",
             "closure_pass_line": "PASS: MGAP4D external audit readiness PR9 merge closure checked",
         },
+        "pr10_merge_closure_reference": {
+            "pull_request": "#10",
+            "pull_request_title": "Add MGAP4D PR9 merge closure v0.1",
+            "pr_head_commit": "294df8a141c5a0d0c18c5c61306acaf9fc06eddd",
+            "base_before_merge": "f840ab0e8d497049ab232f187bb681c3337a3f30",
+            "squash_merge_commit": "fb082f7caa0b5d009cd0dbca34412047ffe6599e",
+            "merged_at": "2026-05-17T03:01:08Z",
+            "closure_pass_line": "PASS: MGAP4D external audit readiness PR10 merge closure checked",
+        },
         **BOUNDARY_FLAGS,
         "notes": [
-            "Bundle manifest records hash evidence for ledger, chain index, finality packet, post-merge receipt, post-merge receipt closure, PR8 merge closure, PR9 merge closure, checkers, and dedicated workflow.",
+            "Bundle manifest records hash evidence through PR10 merge closure.",
             "CI green does not grant proof/truth/clinical/execution/governance-bypass authority.",
             "PR merge success is integration evidence, not theorem truth.",
             "External audit readiness is not external audit acceptance.",
             "Post-merge green confirms repository integration, not independent mathematical acceptance.",
-            "Post-merge receipt closure records integration of the receipt, not independent acceptance.",
-            "PR8 merge closure records integration of the closure layer, not independent acceptance.",
-            "PR9 merge closure records integration of the closure layer, not independent acceptance.",
+            "PR8/PR9/PR10 merge closures record integration of closure layers, not independent acceptance.",
             "Further tightening is same-root and append-only.",
         ],
     }
