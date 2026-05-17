@@ -8,6 +8,9 @@ This validator checks the v0.2 deepening modules:
 - IndraNet gauge transport
 - KuString-Qi emergence bridge
 - Qi OS handoff
+
+It also supports validation cases for the baseline-established-final authority
+boundary completion flag used by the release-chain validator.
 """
 
 from __future__ import annotations
@@ -92,11 +95,25 @@ def module_errors(packet: Dict[str, Any], spec: Dict[str, Any]) -> List[str]:
     return errors
 
 
+def baseline_boundary_errors(packet: Dict[str, Any]) -> List[str]:
+    """Validate optional baseline final boundary declarations in case packets."""
+
+    if "baseline_established_final_declaration" not in packet:
+        return []
+    declaration = packet.get("baseline_established_final_declaration", {})
+    if not isinstance(declaration, dict):
+        return ["baseline_established_final_declaration must be an object"]
+    if declaration.get("authority_boundary_complete") is not True:
+        return ["baseline_established_final_declaration.authority_boundary_complete must be true"]
+    return []
+
+
 def validate_packet(packet: Dict[str, Any], spec: Dict[str, Any]) -> Tuple[bool, List[str]]:
     errors: List[str] = []
     if not authority_clear(packet, spec.get("authority_must_be_false", [])):
         errors.append("v0.2 deepening packet attempted to grant forbidden authority")
     errors.extend(module_errors(packet, spec))
+    errors.extend(baseline_boundary_errors(packet))
     return (len(errors) == 0), errors
 
 
