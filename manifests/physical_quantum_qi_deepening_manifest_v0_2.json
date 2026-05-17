@@ -1,0 +1,50 @@
+{
+  "manifest_id": "physical_quantum_qi_deepening_manifest_v0_2",
+  "status": "established_candidate",
+  "root": "physical_quantum_qi_runtime_baseline_established_final_packet_v0_1",
+  "update_policy": "additive_only",
+  "overwrite_policy": "forbidden",
+  "deepening_modules": [
+    "SK_FV_path_integral",
+    "Ward_leak_identity",
+    "DPI_recoverability",
+    "IndraNet_gauge_transport",
+    "KuString_Qi_emergence_bridge"
+  ],
+  "files": {
+    "specs": [
+      "specs/physical_quantum_qi_deepening_contract_v0_2.json"
+    ],
+    "examples": [
+      "examples/physical_quantum_qi_deepening_packet_v0_2.json"
+    ],
+    "validation_cases": [
+      "validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json"
+    ],
+    "validators": [
+      "scripts/validate_physical_quantum_qi_deepening_v0_2.py"
+    ],
+    "ci": [
+      ".github/workflows/physical_quantum_qi_deepening_validation.yml",
+      ".github/workflows/all_governance_validation.yml"
+    ],
+    "entrypoints": [
+      "Makefile",
+      "scripts/run_all_governance_full_checks_v0_1.py"
+    ]
+  },
+  "invariants": [
+    "FullPathQi requires SK/FV history evidence",
+    "PhysicalQi requires Ward/leak accounting",
+    "Recovery claims require positive delta_rec",
+    "IndraNet Qi transport requires gauge connection and holonomy accounting",
+    "Qi emerges from delta_rel through string/brane/gauge/current structure and never directly from K",
+    "MGAP4D 33/20 remains a stable floor, not a Qi source",
+    "No v0.2 module grants execution authority"
+  ],
+  "validation_entrypoints": [
+    "make physical-quantum-qi-deepening-checks",
+    "python3 scripts/validate_physical_quantum_qi_deepening_v0_2.py",
+    "make all-governance-checks"
+  ]
+}
