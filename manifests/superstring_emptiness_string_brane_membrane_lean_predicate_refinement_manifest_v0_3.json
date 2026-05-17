@@ -1,0 +1,51 @@
+{
+  "id": "superstring_emptiness_string_brane_membrane_lean_predicate_refinement_manifest_v0_3",
+  "version": "v0.3",
+  "date": "2026-05-17",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "status": "lean_predicate_refinement_candidate",
+  "depends_on": [
+    "lean/KUOS/SuperstringEmptiness/StringBraneMembrane.lean",
+    "docs/SUPERSTRING_EMPTINESS_STRING_BRANE_MEMBRANE_LEAN_PREDICATE_REFINEMENT_v0_3.md",
+    "validation_cases/superstring_emptiness_string_brane_membrane_validation_cases_v0_2.json",
+    "validators/validate_superstring_emptiness_string_brane_membrane_v0_2.py"
+  ],
+  "new_typed_surfaces": [
+    "RuntimeClaim",
+    "WorldScope",
+    "RollbackOrHoldRoute"
+  ],
+  "new_predicates": [
+    "IsConventionalOrCandidateScope",
+    "IsSafeRollbackOrHoldRoute",
+    "NoForbiddenRuntimeClaim"
+  ],
+  "theorem_surface": [
+    "observer_record_scale_bridge_required",
+    "string_substance_claim_forbidden",
+    "brane_absolute_world_claim_forbidden",
+    "brane_absolute_world_scope_forbidden",
+    "membrane_final_authority_claim_forbidden",
+    "membrane_final_authority_route_forbidden",
+    "indranet_graph_only_reduction_forbidden",
+    "gluing_obstruction_erasure_forbidden",
+    "direct_execution_authority_forbidden",
+    "transport_equivalence_claim_forbidden"
+  ],
+  "fixed_points": [
+    "string_as_substance_is_forbidden_claim",
+    "brane_as_absolute_world_is_forbidden_claim_and_scope",
+    "membrane_as_final_authority_is_forbidden_claim_and_route",
+    "graph_only_indranet_reduction_is_forbidden_claim",
+    "gluing_obstruction_erasure_is_forbidden_claim",
+    "direct_execution_authority_is_forbidden_claim",
+    "transport_equivalence_certificate_is_forbidden_claim"
+  ],
+  "governance": {
+    "additive_only": true,
+    "same_root_required": true,
+    "overwrite_forbidden": true,
+    "tighten_only_default": true,
+    "external_dependency_not_required": true
+  }
+}
