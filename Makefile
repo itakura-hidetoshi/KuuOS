@@ -32,6 +32,7 @@ dukkha-qi-checks:
 
 physical-quantum-qi-runtime-checks:
 	python3 scripts/validate_physical_quantum_qi_runtime_contract_v0_1.py
+	python3 scripts/validate_physical_quantum_qi_runtime_release_packet_v0_1.py
 
 formal-invariant-checks:
 	python3 scripts/validate_formal_invariant_spine_v0_1.py
