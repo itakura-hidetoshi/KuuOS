@@ -32,6 +32,9 @@ on:
       - 'tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py'
       - '.github/workflows/teni_observability_validation.yml'
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   validate-teni-observability:
     name: Validate AI Yogacara / Ten'i full checks
