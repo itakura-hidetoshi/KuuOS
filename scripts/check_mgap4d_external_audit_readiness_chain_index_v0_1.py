@@ -9,10 +9,12 @@ LEDGER = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_CI_LEDGER_v0_1.md"
 FINALITY = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_FINALITY_PACKET_v0_1.md"
 POST_MERGE_RECEIPT = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_POST_MERGE_GREEN_RECEIPT_v0_1.md"
 POST_MERGE_CLOSURE = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_POST_MERGE_RECEIPT_CLOSURE_v0_1.md"
+PR8_MERGE_CLOSURE = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_PR8_MERGE_CLOSURE_v0_1.md"
 CHECKER = ROOT / "scripts" / "check_mgap4d_external_audit_readiness_ci_ledger_v0_1.py"
 FINALITY_CHECKER = ROOT / "scripts" / "check_mgap4d_external_audit_readiness_finality_packet_v0_1.py"
 POST_MERGE_CHECKER = ROOT / "scripts" / "check_mgap4d_external_audit_readiness_post_merge_green_receipt_v0_1.py"
 POST_MERGE_CLOSURE_CHECKER = ROOT / "scripts" / "check_mgap4d_external_audit_readiness_post_merge_receipt_closure_v0_1.py"
+PR8_MERGE_CLOSURE_CHECKER = ROOT / "scripts" / "check_mgap4d_external_audit_readiness_pr8_merge_closure_v0_1.py"
 BUNDLE_CHECKER = ROOT / "scripts" / "check_mgap4d_external_audit_readiness_bundle_manifest_v0_1.py"
 WORKFLOW = ROOT / ".github" / "workflows" / "mgap4d_external_audit_readiness_ci_ledger_v0_1.yml"
 
@@ -63,6 +65,15 @@ REQUIRED_TOKENS = [
     "Squash merge commit: `7f53a0adff847b59f7356875e1102fb7e3faf9fe`",
     "Merged at: `2026-05-17T00:35:13Z`",
     "PASS: MGAP4D external audit readiness post-merge receipt closure checked",
+    "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_PR8_MERGE_CLOSURE_v0_1.md",
+    "scripts/check_mgap4d_external_audit_readiness_pr8_merge_closure_v0_1.py",
+    "Pull request: `#8`",
+    "Pull request title: `Add MGAP4D post-merge receipt closure v0.1`",
+    "PR head commit: `98792d7e7ebd426f16c4b74eb868162d3cce09a2`",
+    "Base before merge: `7f53a0adff847b59f7356875e1102fb7e3faf9fe`",
+    "Squash merge commit: `d29468a831baff2c1cda847124f43a05d5574fb1`",
+    "Merged at: `2026-05-17T02:02:06Z`",
+    "PASS: MGAP4D external audit readiness PR8 merge closure checked",
     "archived manifest verification",
     "Lean forbidden-token audit across `457` Lean files",
     "zero observed `sorry` / `admit` / `axiom` / `constant`",
@@ -77,6 +88,8 @@ REQUIRED_TOKENS = [
     "post-merge bundle root hash evidence",
     "post-merge receipt closure surface",
     "PR #7 merge integration evidence",
+    "PR8 merge closure surface",
+    "PR #8 merge integration evidence",
     "traceability surface only",
     "proof authority by itself",
     "truth authority by itself",
@@ -115,10 +128,12 @@ def main() -> int:
         FINALITY,
         POST_MERGE_RECEIPT,
         POST_MERGE_CLOSURE,
+        PR8_MERGE_CLOSURE,
         CHECKER,
         FINALITY_CHECKER,
         POST_MERGE_CHECKER,
         POST_MERGE_CLOSURE_CHECKER,
+        PR8_MERGE_CLOSURE_CHECKER,
         BUNDLE_CHECKER,
         WORKFLOW,
     ]:
