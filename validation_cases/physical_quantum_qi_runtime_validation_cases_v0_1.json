@@ -1,0 +1,149 @@
+{
+  "case_set_id": "physical_quantum_qi_runtime_validation_cases_v0_1",
+  "cases": [
+    {
+      "name": "full_path_qi_pass",
+      "packet": {
+        "claimed_type": "FullPathQi",
+        "evidence_status": {
+          "K_non_reification": "pass",
+          "delta_rel_in_K_perp": "pass",
+          "string_mode_consistency": "pass",
+          "brane_boundary_support": "pass",
+          "gauge_connection_A_mu": "pass",
+          "curvature_F_munu": "pass",
+          "Wilson_loop_residue": "pass",
+          "current_J_Qi_mu": "pass",
+          "Ward_or_leak_identity": "pass",
+          "density_state_rho": "pass",
+          "Hamiltonian_H": "pass",
+          "Lindblad_generator_L": "pass",
+          "entropy_production_Sigma": "pass",
+          "free_energy_F_beta": "pass",
+          "DPI_gap": "pass",
+          "recovery_margin": "pass",
+          "mass_gap_floor_33_20": "pass",
+          "SK_plus_branch": "pass",
+          "SK_minus_branch": "pass",
+          "FV_influence_functional": "pass",
+          "memory_kernel": "pass",
+          "noise_kernel": "pass",
+          "observation_backaction": "pass",
+          "noncommutative_operation_history": "pass",
+          "path_measure_normalization": "pass"
+        },
+        "mass_gap_floor": {"not_source_of_qi": true},
+        "authority": {
+          "execution_authority": false,
+          "belief_commit_authority": false,
+          "memory_overwrite_authority": false,
+          "world_root_rewrite_authority": false,
+          "safety_override_authority": false
+        },
+        "fatal_flags": []
+      },
+      "expected_validated_type": "FullPathQi"
+    },
+    {
+      "name": "claimed_full_path_downgrades_to_physical",
+      "packet": {
+        "claimed_type": "FullPathQi",
+        "evidence_status": {
+          "K_non_reification": "pass",
+          "delta_rel_in_K_perp": "pass",
+          "string_mode_consistency": "pass",
+          "brane_boundary_support": "pass",
+          "gauge_connection_A_mu": "pass",
+          "curvature_F_munu": "pass",
+          "Wilson_loop_residue": "pass",
+          "current_J_Qi_mu": "pass",
+          "Ward_or_leak_identity": "pass",
+          "density_state_rho": "pass",
+          "Hamiltonian_H": "pass",
+          "Lindblad_generator_L": "pass",
+          "entropy_production_Sigma": "pass",
+          "free_energy_F_beta": "pass",
+          "DPI_gap": "pass",
+          "recovery_margin": "pass",
+          "mass_gap_floor_33_20": "pass"
+        },
+        "mass_gap_floor": {"not_source_of_qi": true},
+        "authority": {
+          "execution_authority": false,
+          "belief_commit_authority": false,
+          "memory_overwrite_authority": false,
+          "world_root_rewrite_authority": false,
+          "safety_override_authority": false
+        },
+        "fatal_flags": []
+      },
+      "expected_validated_type": "PhysicalQi"
+    },
+    {
+      "name": "missing_ward_downgrades_to_current",
+      "packet": {
+        "claimed_type": "PhysicalQi",
+        "evidence_status": {
+          "K_non_reification": "pass",
+          "delta_rel_in_K_perp": "pass",
+          "string_mode_consistency": "pass",
+          "brane_boundary_support": "pass",
+          "gauge_connection_A_mu": "pass",
+          "curvature_F_munu": "pass",
+          "Wilson_loop_residue": "pass",
+          "current_J_Qi_mu": "pass"
+        },
+        "mass_gap_floor": {"not_source_of_qi": true},
+        "authority": {
+          "execution_authority": false,
+          "belief_commit_authority": false,
+          "memory_overwrite_authority": false,
+          "world_root_rewrite_authority": false,
+          "safety_override_authority": false
+        },
+        "fatal_flags": []
+      },
+      "expected_validated_type": "CurrentQi"
+    },
+    {
+      "name": "gap_as_source_rejects",
+      "packet": {
+        "claimed_type": "PhysicalQi",
+        "evidence_status": {
+          "K_non_reification": "pass",
+          "delta_rel_in_K_perp": "pass"
+        },
+        "mass_gap_floor": {"not_source_of_qi": false},
+        "authority": {
+          "execution_authority": false,
+          "belief_commit_authority": false,
+          "memory_overwrite_authority": false,
+          "world_root_rewrite_authority": false,
+          "safety_override_authority": false
+        },
+        "fatal_flags": ["Gap_As_Source_Error"]
+      },
+      "expected_validated_type": "Reject"
+    },
+    {
+      "name": "execution_authority_rejects",
+      "packet": {
+        "claimed_type": "PhysicalQi",
+        "evidence_status": {
+          "K_non_reification": "pass",
+          "delta_rel_in_K_perp": "pass"
+        },
+        "mass_gap_floor": {"not_source_of_qi": true},
+        "authority": {
+          "execution_authority": true,
+          "belief_commit_authority": false,
+          "memory_overwrite_authority": false,
+          "world_root_rewrite_authority": false,
+          "safety_override_authority": false
+        },
+        "fatal_flags": []
+      },
+      "expected_validated_type": "Reject"
+    }
+  ]
+}
