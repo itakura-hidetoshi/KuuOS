@@ -16,46 +16,51 @@
     },
     {
       "order": 3,
+      "role": "baseline_statement",
+      "path": "docs/PHYSICAL_QUANTUM_QI_RUNTIME_BASELINE_STATEMENT_v0_1.md"
+    },
+    {
+      "order": 4,
       "role": "machine_readable_spec",
       "path": "specs/physical_quantum_qi_runtime_contract_v0_1.json"
     },
     {
-      "order": 4,
+      "order": 5,
       "role": "example_packet",
       "path": "examples/physical_quantum_qi_runtime_packet_v0_1.json"
     },
     {
-      "order": 5,
+      "order": 6,
       "role": "validation_cases",
       "path": "validation_cases/physical_quantum_qi_runtime_validation_cases_v0_1.json"
     },
     {
-      "order": 6,
+      "order": 7,
       "role": "runtime_validator",
       "path": "scripts/validate_physical_quantum_qi_runtime_contract_v0_1.py"
     },
     {
-      "order": 7,
+      "order": 8,
       "role": "manifest",
       "path": "manifests/physical_quantum_qi_runtime_manifest_v0_1.json"
     },
     {
-      "order": 8,
+      "order": 9,
       "role": "release_packet",
       "path": "packets/physical_quantum_qi_runtime_release_packet_v0_1.json"
     },
     {
-      "order": 9,
+      "order": 10,
       "role": "release_packet_validator",
       "path": "scripts/validate_physical_quantum_qi_runtime_release_packet_v0_1.py"
     },
     {
-      "order": 10,
+      "order": 11,
       "role": "finality_packet",
       "path": "packets/physical_quantum_qi_runtime_finality_packet_v0_1.json"
     },
     {
-      "order": 11,
+      "order": 12,
       "role": "dedicated_ci_workflow",
       "path": ".github/workflows/physical_quantum_qi_runtime_validation.yml"
     }
