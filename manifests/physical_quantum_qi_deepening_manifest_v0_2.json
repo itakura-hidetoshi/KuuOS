@@ -19,7 +19,15 @@
       "specs/physical_quantum_qi_deepening_contract_v0_2.json"
     ],
     "examples": [
-      "examples/physical_quantum_qi_deepening_packet_v0_2.json"
+      "examples/physical_quantum_qi_deepening_packet_v0_2.json",
+      "examples/physical_quantum_qi_equation_packet_v0_2.json",
+      "examples/run_physical_quantum_qi_phase_demo_v0_2.py"
+    ],
+    "src": [
+      "src/physical_quantum_qi_phase_runtime_v0_2.py"
+    ],
+    "tests": [
+      "tests/test_physical_quantum_qi_phase_runtime_v0_2.py"
     ],
     "validation_cases": [
       "validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json"
@@ -59,11 +67,14 @@
     "Qi emerges from delta_rel through string/brane/gauge/current structure and never directly from K",
     "MGAP4D 33/20 remains a stable floor, not a Qi source",
     "No v0.2 module grants execution authority",
-    "Equation-level content is required for v0.2 deepening"
+    "Equation-level content is required for v0.2 deepening",
+    "Equation packet must classify as FullPathQi through the phase runtime demo"
   ],
   "validation_entrypoints": [
     "make physical-quantum-qi-deepening-checks",
     "python3 scripts/validate_physical_quantum_qi_equations_v0_2.py",
+    "python3 tests/test_physical_quantum_qi_phase_runtime_v0_2.py",
+    "python3 examples/run_physical_quantum_qi_phase_demo_v0_2.py",
     "python3 scripts/validate_physical_quantum_qi_deepening_v0_2.py",
     "python3 scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py",
     "make all-governance-checks"
