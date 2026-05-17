@@ -1,0 +1,80 @@
+{
+  "id": "superstring_emptiness_string_brane_membrane_theorem_target_map_v0_1",
+  "version": "v0.1",
+  "date": "2026-05-17",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "scope": "Superstring Emptiness String / Brane / Membrane Runtime",
+  "lean_file": "lean/KUOS/SuperstringEmptiness/StringBraneMembrane.lean",
+  "theorem_targets": [
+    {
+      "name": "non_reification_required",
+      "status": "lean_skeleton_present",
+      "informal_statement": "Any admissible EmptinessString must satisfy the non-reification guard.",
+      "guards": ["non_reification_guard"],
+      "blocks": ["string_as_substance", "independent_ontology_claim"]
+    },
+    {
+      "name": "two_truths_gap_required",
+      "status": "lean_skeleton_present",
+      "informal_statement": "Any admissible EmptinessString must preserve the Two Truths gap guard.",
+      "guards": ["two_truths_gap_guard"],
+      "blocks": ["paramartha_samvrti_collapse", "world_surface_as_ultimate_truth"]
+    },
+    {
+      "name": "membrane_authority_non_expansion_required",
+      "status": "lean_skeleton_present",
+      "informal_statement": "Any admissible LayerMembrane must preserve authority non-expansion.",
+      "guards": ["authority_non_expansion_guard"],
+      "blocks": ["membrane_as_final_authority", "direct_execution_authority"]
+    },
+    {
+      "name": "obstruction_visibility_required",
+      "status": "lean_skeleton_present",
+      "informal_statement": "Any admissible packet must preserve obstruction visibility.",
+      "guards": ["obstruction_visibility_preserved"],
+      "blocks": ["gluing_erases_residue", "successful_transport_as_equivalence_certificate"]
+    },
+    {
+      "name": "StringIsNotSubstance",
+      "status": "candidate_theorem_target",
+      "informal_statement": "A string in this runtime is a dependent relational vibration trace, not a substance.",
+      "guards": ["non_reification_guard", "dependent_origination_trace_present"],
+      "blocks": ["independent_substance_claim"]
+    },
+    {
+      "name": "BraneIsNotAbsoluteWorld",
+      "status": "candidate_theorem_target",
+      "informal_statement": "A brane is a local world-support surface, not an absolute world.",
+      "guards": ["world_scope", "two_truths_gap_guard"],
+      "blocks": ["absolute_world_claim", "collapse_into_ultimate_truth"]
+    },
+    {
+      "name": "MembraneIsNotFinalAuthority",
+      "status": "candidate_theorem_target",
+      "informal_statement": "A membrane governs boundary passage but cannot open final authority.",
+      "guards": ["authority_non_expansion_guard", "rollback_or_hold_route_present"],
+      "blocks": ["final_authority_claim", "silent_strong_upgrade"]
+    },
+    {
+      "name": "IndraNetGraphOnlyReductionForbidden",
+      "status": "planned_v0_2",
+      "informal_statement": "IndraNet coupling must remain gauge-theoretic and may not be reduced to graph-only representation.",
+      "guards": ["indra_gauge_interface"],
+      "blocks": ["graph_only_indranet"]
+    },
+    {
+      "name": "GluingDoesNotEraseObstruction",
+      "status": "planned_v0_2",
+      "informal_statement": "Successful local-global gluing does not erase obstruction or residue visibility.",
+      "guards": ["obstruction_visibility_rule", "obstruction_visibility_preserved"],
+      "blocks": ["obstruction_erasure"]
+    }
+  ],
+  "policy": {
+    "no_external_dependency_required_for_v0_1_skeleton": true,
+    "mathlib_refinement_allowed_in_v0_2_plus": true,
+    "coq_parallelization_allowed_in_v0_2_plus": true,
+    "overwrite_forbidden": true,
+    "additive_only": true
+  }
+}
