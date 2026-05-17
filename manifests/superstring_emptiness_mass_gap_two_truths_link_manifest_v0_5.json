@@ -1,0 +1,35 @@
+{
+  "id": "superstring_emptiness_mass_gap_two_truths_link_manifest_v0_5",
+  "version": "v0.5",
+  "date": "2026-05-17",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "status": "reference_only_noncollapse_link_candidate",
+  "depends_on": [
+    "docs/SUPERSTRING_EMPTINESS_MASS_GAP_TWO_TRUTHS_LINK_v0_5.md",
+    "contracts/superstring_emptiness_mass_gap_two_truths_link_contract_v0_5.yaml",
+    "docs/KUOS_PHYSICS_GAP_BRIDGE_v0_1.md",
+    "docs/MASS_GAP_TO_TWO_TRUTHS_ENGINE_FORMAL_BRIDGE_v0_1.md",
+    "specs/mass_gap_two_truths_engine_bridge_v0_1.yaml"
+  ],
+  "fixed_points": [
+    "mass_gap_link_is_reference_only",
+    "two_truths_gap_prevents_collapse",
+    "no_execution_authority_from_mass_gap_reference",
+    "no_world_update_authority_from_mass_gap_reference",
+    "no_final_theorem_authority_from_runtime_link",
+    "no_public_consensus_authority_without_external_review",
+    "string_excitation_not_substance",
+    "brane_surface_not_absolute_world",
+    "membrane_boundary_not_final_authority"
+  ],
+  "governance": {
+    "additive_only": true,
+    "tighten_only_default": true,
+    "overwrite_forbidden": true,
+    "same_root_required": true,
+    "advisory_by_default": true,
+    "final_release_opened": false,
+    "execution_authority": false,
+    "world_update_authority": false
+  }
+}
