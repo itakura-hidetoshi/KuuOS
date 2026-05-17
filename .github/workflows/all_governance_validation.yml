@@ -29,6 +29,9 @@ on:
       - 'Makefile'
       - '.github/workflows/**'
 
+env:
+  FORCE_JAVASCRIPT_ACTIONS_TO_NODE24: true
+
 jobs:
   validate-all-governance:
     name: Validate all governance checks
