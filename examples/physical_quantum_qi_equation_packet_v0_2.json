@@ -22,6 +22,52 @@
     "N_noise_kernel": "noise/decoherence kernel",
     "history_required": true
   },
+  "SK_FV_Qi_action_v0_2A": {
+    "S_sys_concrete_form": "S_sys[q;A]=∫[1/2 g_ij(q,θ)D_tq^iD_tq^j - V_Qi(q,θ)+a_i(q,θ)qdot^i]dt + S_geom[q,θ]",
+    "covariant_derivative_declared": "D_tq^i=qdot^i+(A_t)^i_j q^j",
+    "potential_decomposition_declared": "V_Qi=V_rel+V_phase+V_barrier",
+    "barrier_floor_declared": "V_barrier >= 1/2 Delta_gap ||Pi_perp q||^2 with Delta_gap >= 33/20 when MGAP4D floor is invoked",
+    "barrier_not_qi_source_declared": true,
+    "geometric_history_term_declared": "field version includes ∫ q^* omega_Qi for operation-order residue",
+    "S_IF_kernel_conditions": {
+      "D_R_causal": true,
+      "N_symmetric": true,
+      "N_positive_semidefinite": true,
+      "spectral_consistency_declared": "D_R-D_A=D_rho and D_A(t,t')=D_R(t',t)",
+      "SK_normalization_declared": "S_IF[q,q]=0 and Z_Qi[J,J]=1 unless explicit leak/postselection normalization is declared",
+      "leak_or_postselection_normalization_declared_if_used": true
+    },
+    "FDR_status": {
+      "environment_stationarity_declared": true,
+      "thermal_or_nonequilibrium_declared": "thermal_stationary",
+      "FDR_convention_declared": "N(omega)=coth(beta omega/2) Im D_R(omega)",
+      "FDR_residual_status_declared": "zero_within_tolerance",
+      "FDR_residual_bound_declared_if_nonequilibrium": "not_applicable_for_thermal_stationary_case"
+    },
+    "Markov_nonMarkov_boundary": {
+      "memory_time_declared": "tau_mem = ∫ tau ||D_R(tau)|| d tau / ∫ ||D_R(tau)|| d tau",
+      "system_time_declared": "tau_sys declared by Qi-system coarse-graining scale",
+      "markov_threshold_declared": "tau_mem/tau_sys < epsilon_M",
+      "nonmarkov_threshold_declared": "tau_mem/tau_sys >= epsilon_NM or operation_order_residue > epsilon_ord",
+      "operation_order_residue_declared": "||T[O1O2]-T[O2O1]|| > epsilon_ord marks non-Markov residue",
+      "markov_reduction_receipt_declared_if_used": true
+    },
+    "FullPathQi_A_requirements": [
+      "S_sys_concrete_form",
+      "S_IF_kernel_conditions",
+      "FDR_status",
+      "Markov_nonMarkov_boundary"
+    ],
+    "rejected_claims": [
+      "S_sys_without_covariant_derivative",
+      "kernel_without_causality",
+      "noise_without_positive_semidefinite_condition",
+      "FDR_violation_hidden_as_noise",
+      "Markov_snapshot_claimed_as_FullPathQi",
+      "nonMarkov_history_reduced_without_receipt",
+      "operation_order_erasure"
+    ]
+  },
   "current_and_ward_leak": {
     "J_Qi_variation_from_A": "J_Qi^μ(x)=δS_Qi/δA_μ(x)",
     "J_Qi_from_logZ": "<J_Qi^μ(x)>=(1/i)δ log Z_Qi / δA_μ(x)",
@@ -66,22 +112,14 @@
     "mass_gap_33_20_floor_not_source": true
   },
   "Qi_phase_ladder": {
-    "phase_order": [
-      "NonQi",
-      "PreQi",
-      "ProtoQi",
-      "BoundaryQi",
-      "TransportQi",
-      "PhysicalQi",
-      "FullPathQi"
-    ],
+    "phase_order": ["NonQi", "PreQi", "ProtoQi", "BoundaryQi", "TransportQi", "PhysicalQi", "FullPathQi"],
     "NonQi": "no nonzero delta_rel in K_perp",
     "PreQi": "delta_rel in K_perp but no StringMode",
     "ProtoQi": "StringMode exists but no brane-boundary gauge projection",
     "BoundaryQi": "boundary coupling exists but no complete gauge-current definition",
     "TransportQi": "A_mu and F_munu exist but J_Qi is not yet validated as variation of S_eff",
     "PhysicalQi": "J_Qi = delta S_eff / delta A_mu and Ward/leak accounting closes",
-    "FullPathQi": "PhysicalQi plus SK/FV history, influence kernel, memory, noise, and backaction",
+    "FullPathQi": "PhysicalQi plus SK/FV history, influence kernel, memory, noise, backaction, and v0.2A SK/FV action requirements",
     "Qi_phase_label": "φ = Φ(δ_rel,X,B,A_μ,F_μν,J^μ,Z_Qi,L_leak,A_anom)"
   },
   "PhysicalQi_emergence_criterion": {
@@ -93,33 +131,12 @@
   "Qi_OS_handoff": {
     "phase_to_surface": {
       "NonQi": [],
-      "PreQi": [
-        "BeliefOS.observation_candidate"
-      ],
-      "ProtoQi": [
-        "BeliefOS.observation_candidate",
-        "PlanOS.preparation_surface"
-      ],
-      "BoundaryQi": [
-        "BeliefOS.observation_candidate",
-        "PlanOS.boundary_candidate"
-      ],
-      "TransportQi": [
-        "BeliefOS.observation_candidate",
-        "PlanOS.transport_candidate"
-      ],
-      "PhysicalQi": [
-        "BeliefOS.observation_candidate",
-        "PlanOS.transport_candidate",
-        "DecisionOS.safety_evaluable_candidate"
-      ],
-      "FullPathQi": [
-        "BeliefOS.observation_candidate",
-        "PlanOS.transport_candidate",
-        "DecisionOS.safety_evaluable_candidate",
-        "MemoryOS.recordable_history_candidate",
-        "ReflectionOS.residue_analysis_candidate"
-      ]
+      "PreQi": ["BeliefOS.observation_candidate"],
+      "ProtoQi": ["BeliefOS.observation_candidate", "PlanOS.preparation_surface"],
+      "BoundaryQi": ["BeliefOS.observation_candidate", "PlanOS.boundary_candidate"],
+      "TransportQi": ["BeliefOS.observation_candidate", "PlanOS.transport_candidate"],
+      "PhysicalQi": ["BeliefOS.observation_candidate", "PlanOS.transport_candidate", "DecisionOS.safety_evaluable_candidate"],
+      "FullPathQi": ["BeliefOS.observation_candidate", "PlanOS.transport_candidate", "DecisionOS.safety_evaluable_candidate", "MemoryOS.recordable_history_candidate", "ReflectionOS.residue_analysis_candidate"]
     },
     "FullPathQi_status": "memory_recordable_reflection_analyzable_candidate",
     "authority_never_granted": {
@@ -141,6 +158,7 @@
     "brane_reified_as_creator",
     "mass_gap_claimed_as_Qi_source",
     "J_Qi_without_variation_from_S_eff",
-    "FullPathQi_without_SK_FV_history"
+    "FullPathQi_without_SK_FV_history",
+    "FullPathQi_without_SK_FV_Qi_action_v0_2A"
   ]
 }
