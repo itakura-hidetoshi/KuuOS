@@ -27,6 +27,7 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/check_mgap4d_external_audit_readiness_post_merge_green_receipt_v0_1.py"],
     [sys.executable, "scripts/check_mgap4d_external_audit_readiness_post_merge_receipt_closure_v0_1.py"],
     [sys.executable, "scripts/check_mgap4d_external_audit_readiness_pr8_merge_closure_v0_1.py"],
+    [sys.executable, "scripts/check_mgap4d_external_audit_readiness_pr9_merge_closure_v0_1.py"],
     [sys.executable, "scripts/check_mgap4d_external_audit_readiness_bundle_manifest_v0_1.py"],
 ]
 
