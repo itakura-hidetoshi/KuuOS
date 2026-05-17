@@ -1,0 +1,68 @@
+{
+  "chain_index_id": "physical_quantum_qi_runtime_chain_index_v0_1",
+  "status": "baseline_chain_candidate",
+  "update_policy": "additive_only",
+  "overwrite_policy": "forbidden",
+  "chain": [
+    {
+      "order": 1,
+      "role": "contract",
+      "path": "docs/PHYSICAL_QUANTUM_QI_RUNTIME_CONTRACT_v0_1.md"
+    },
+    {
+      "order": 2,
+      "role": "index",
+      "path": "docs/PHYSICAL_QUANTUM_QI_RUNTIME_INDEX_v0_1.md"
+    },
+    {
+      "order": 3,
+      "role": "machine_readable_spec",
+      "path": "specs/physical_quantum_qi_runtime_contract_v0_1.json"
+    },
+    {
+      "order": 4,
+      "role": "example_packet",
+      "path": "examples/physical_quantum_qi_runtime_packet_v0_1.json"
+    },
+    {
+      "order": 5,
+      "role": "validation_cases",
+      "path": "validation_cases/physical_quantum_qi_runtime_validation_cases_v0_1.json"
+    },
+    {
+      "order": 6,
+      "role": "runtime_validator",
+      "path": "scripts/validate_physical_quantum_qi_runtime_contract_v0_1.py"
+    },
+    {
+      "order": 7,
+      "role": "manifest",
+      "path": "manifests/physical_quantum_qi_runtime_manifest_v0_1.json"
+    },
+    {
+      "order": 8,
+      "role": "release_packet",
+      "path": "packets/physical_quantum_qi_runtime_release_packet_v0_1.json"
+    },
+    {
+      "order": 9,
+      "role": "release_packet_validator",
+      "path": "scripts/validate_physical_quantum_qi_runtime_release_packet_v0_1.py"
+    },
+    {
+      "order": 10,
+      "role": "finality_packet",
+      "path": "packets/physical_quantum_qi_runtime_finality_packet_v0_1.json"
+    },
+    {
+      "order": 11,
+      "role": "dedicated_ci_workflow",
+      "path": ".github/workflows/physical_quantum_qi_runtime_validation.yml"
+    }
+  ],
+  "validation_entrypoints": [
+    "make physical-quantum-qi-runtime-checks",
+    "make all-governance-checks"
+  ],
+  "non_authority_statement": "This chain is a public runtime/governance implementation chain. It grants no proof, ontology, clinical, execution, belief commit, memory overwrite, world-root rewrite, or safety override authority."
+}
