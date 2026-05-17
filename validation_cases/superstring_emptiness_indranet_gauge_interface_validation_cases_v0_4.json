@@ -1,0 +1,192 @@
+{
+  "id": "superstring_emptiness_indranet_gauge_interface_validation_cases_v0_4",
+  "version": "v0.4",
+  "date": "2026-05-17",
+  "cases": [
+    {
+      "case_id": "valid_gauge_interface_candidate",
+      "expected_ok": true,
+      "expected_decision": "ADMIT_AS_GAUGE_INTERFACE_CANDIDATE",
+      "packet": {
+        "indranet_gauge_interface_packet": {
+          "packet_id": "case_igi_valid_001",
+          "version": "v0.4",
+          "interface": {
+            "interface_id": "indra_gauge_interface_valid_001",
+            "connection_present": true,
+            "curvature_visibility": true,
+            "holonomy_visibility": true,
+            "transport_rule": "gauge_transport_with_residue",
+            "gluing_rule": "local_global_gluing_without_identity_collapse",
+            "obstruction_visibility_rule": true,
+            "residue_policy": "preserve_visible_residue",
+            "graph_representation_policy": "graph_as_visualization_index_or_cache_only",
+            "gauge_noncollapse_guard": true,
+            "authority_non_expansion_guard": true
+          },
+          "graph_usage": {
+            "graph_as_visualization": true,
+            "graph_as_index": true,
+            "graph_as_computational_cache": true,
+            "graph_as_ontology": false,
+            "graph_as_complete_indranet": false,
+            "graph_as_authority_source": false
+          },
+          "admission": {
+            "residue_policy_present": true,
+            "graph_representation_policy_present": true,
+            "decision": "ADMIT_AS_GAUGE_INTERFACE_CANDIDATE"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "reject_missing_curvature_visibility",
+      "expected_ok": false,
+      "expected_decision": "HOLD",
+      "packet": {
+        "indranet_gauge_interface_packet": {
+          "packet_id": "case_igi_no_curvature_001",
+          "version": "v0.4",
+          "interface": {
+            "interface_id": "indra_gauge_interface_no_curvature_001",
+            "connection_present": true,
+            "curvature_visibility": false,
+            "holonomy_visibility": true,
+            "transport_rule": "gauge_transport_with_residue",
+            "gluing_rule": "local_global_gluing_without_identity_collapse",
+            "obstruction_visibility_rule": true,
+            "residue_policy": "preserve_visible_residue",
+            "graph_representation_policy": "graph_as_visualization_index_or_cache_only",
+            "gauge_noncollapse_guard": true,
+            "authority_non_expansion_guard": true
+          },
+          "graph_usage": {
+            "graph_as_visualization": true,
+            "graph_as_index": true,
+            "graph_as_computational_cache": true,
+            "graph_as_ontology": false,
+            "graph_as_complete_indranet": false,
+            "graph_as_authority_source": false
+          },
+          "admission": {
+            "residue_policy_present": true,
+            "graph_representation_policy_present": true,
+            "decision": "ADMIT_AS_GAUGE_INTERFACE_CANDIDATE"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "reject_graph_as_ontology",
+      "expected_ok": false,
+      "expected_decision": "HOLD",
+      "packet": {
+        "indranet_gauge_interface_packet": {
+          "packet_id": "case_igi_graph_ontology_001",
+          "version": "v0.4",
+          "interface": {
+            "interface_id": "indra_gauge_interface_graph_ontology_001",
+            "connection_present": true,
+            "curvature_visibility": true,
+            "holonomy_visibility": true,
+            "transport_rule": "gauge_transport_with_residue",
+            "gluing_rule": "local_global_gluing_without_identity_collapse",
+            "obstruction_visibility_rule": true,
+            "residue_policy": "preserve_visible_residue",
+            "graph_representation_policy": "graph_as_ontology",
+            "gauge_noncollapse_guard": true,
+            "authority_non_expansion_guard": true
+          },
+          "graph_usage": {
+            "graph_as_visualization": true,
+            "graph_as_index": true,
+            "graph_as_computational_cache": true,
+            "graph_as_ontology": true,
+            "graph_as_complete_indranet": false,
+            "graph_as_authority_source": false
+          },
+          "admission": {
+            "residue_policy_present": true,
+            "graph_representation_policy_present": true,
+            "decision": "ADMIT_AS_GAUGE_INTERFACE_CANDIDATE"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "reject_graph_as_complete_indranet",
+      "expected_ok": false,
+      "expected_decision": "HOLD",
+      "packet": {
+        "indranet_gauge_interface_packet": {
+          "packet_id": "case_igi_graph_complete_001",
+          "version": "v0.4",
+          "interface": {
+            "interface_id": "indra_gauge_interface_graph_complete_001",
+            "connection_present": true,
+            "curvature_visibility": true,
+            "holonomy_visibility": true,
+            "transport_rule": "gauge_transport_with_residue",
+            "gluing_rule": "local_global_gluing_without_identity_collapse",
+            "obstruction_visibility_rule": true,
+            "residue_policy": "preserve_visible_residue",
+            "graph_representation_policy": "graph_as_complete_indranet",
+            "gauge_noncollapse_guard": true,
+            "authority_non_expansion_guard": true
+          },
+          "graph_usage": {
+            "graph_as_visualization": true,
+            "graph_as_index": true,
+            "graph_as_computational_cache": true,
+            "graph_as_ontology": false,
+            "graph_as_complete_indranet": true,
+            "graph_as_authority_source": false
+          },
+          "admission": {
+            "residue_policy_present": true,
+            "graph_representation_policy_present": true,
+            "decision": "ADMIT_AS_GAUGE_INTERFACE_CANDIDATE"
+          }
+        }
+      }
+    },
+    {
+      "case_id": "reject_graph_authority_source",
+      "expected_ok": false,
+      "expected_decision": "HOLD",
+      "packet": {
+        "indranet_gauge_interface_packet": {
+          "packet_id": "case_igi_graph_authority_001",
+          "version": "v0.4",
+          "interface": {
+            "interface_id": "indra_gauge_interface_graph_authority_001",
+            "connection_present": true,
+            "curvature_visibility": true,
+            "holonomy_visibility": true,
+            "transport_rule": "gauge_transport_with_residue",
+            "gluing_rule": "local_global_gluing_without_identity_collapse",
+            "obstruction_visibility_rule": true,
+            "residue_policy": "preserve_visible_residue",
+            "graph_representation_policy": "graph_as_visualization_index_or_cache_only",
+            "gauge_noncollapse_guard": true,
+            "authority_non_expansion_guard": true
+          },
+          "graph_usage": {
+            "graph_as_visualization": true,
+            "graph_as_index": true,
+            "graph_as_computational_cache": true,
+            "graph_as_ontology": false,
+            "graph_as_complete_indranet": false,
+            "graph_as_authority_source": true
+          },
+          "admission": {
+            "residue_policy_present": true,
+            "graph_representation_policy_present": true,
+            "decision": "ADMIT_AS_GAUGE_INTERFACE_CANDIDATE"
+          }
+        }
+      }
+    }
+  ]
+}
