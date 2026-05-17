@@ -11,6 +11,7 @@ on:
       - 'manifests/physical_quantum_qi_runtime_manifest_v0_1.json'
       - 'packets/physical_quantum_qi_runtime_release_packet_v0_1.json'
       - 'packets/physical_quantum_qi_runtime_finality_packet_v0_1.json'
+      - 'packets/physical_quantum_qi_runtime_release_closure_packet_v0_1.json'
       - 'chain_indexes/physical_quantum_qi_runtime_chain_index_v0_1.json'
       - 'scripts/validate_physical_quantum_qi_runtime_contract_v0_1.py'
       - 'scripts/validate_physical_quantum_qi_runtime_release_packet_v0_1.py'
@@ -25,6 +26,7 @@ on:
       - 'manifests/physical_quantum_qi_runtime_manifest_v0_1.json'
       - 'packets/physical_quantum_qi_runtime_release_packet_v0_1.json'
       - 'packets/physical_quantum_qi_runtime_finality_packet_v0_1.json'
+      - 'packets/physical_quantum_qi_runtime_release_closure_packet_v0_1.json'
       - 'chain_indexes/physical_quantum_qi_runtime_chain_index_v0_1.json'
       - 'scripts/validate_physical_quantum_qi_runtime_contract_v0_1.py'
       - 'scripts/validate_physical_quantum_qi_runtime_release_packet_v0_1.py'
@@ -57,9 +59,10 @@ jobs:
           echo "Manifest: manifests/physical_quantum_qi_runtime_manifest_v0_1.json"
           echo "Release packet: packets/physical_quantum_qi_runtime_release_packet_v0_1.json"
           echo "Finality packet: packets/physical_quantum_qi_runtime_finality_packet_v0_1.json"
+          echo "Release closure packet: packets/physical_quantum_qi_runtime_release_closure_packet_v0_1.json"
           echo "Chain index: chain_indexes/physical_quantum_qi_runtime_chain_index_v0_1.json"
           echo "Contract validator: scripts/validate_physical_quantum_qi_runtime_contract_v0_1.py"
-          echo "Release/finality/chain validator: scripts/validate_physical_quantum_qi_runtime_release_packet_v0_1.py"
+          echo "Release/finality/closure/chain validator: scripts/validate_physical_quantum_qi_runtime_release_packet_v0_1.py"
 
       - name: Run Physical Quantum Qi runtime checks
         run: make physical-quantum-qi-runtime-checks
