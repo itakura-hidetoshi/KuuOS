@@ -1,0 +1,75 @@
+id: superstring_emptiness_mass_gap_two_truths_link_contract_v0_5
+version: v0.5
+date: 2026-05-17
+author: Hidetoshi Itakura / 板倉英俊
+status: additive_tightening_candidate
+scope: Superstring Emptiness String / Brane / Membrane Runtime
+
+purpose: >-
+  Connect the Superstring Emptiness String / Brane / Membrane Runtime to the
+  Mass Gap to Two Truths Engine bridge as a reference-only non-collapse boundary.
+  This link allows the string/brane/membrane runtime to use the two-truths gap
+  as a collapse-prevention guard without opening execution authority, final theorem
+  authority, or public-consensus authority.
+
+reference_inputs:
+  physics_gap_bridge: docs/KUOS_PHYSICS_GAP_BRIDGE_v0_1.md
+  mass_gap_two_truths_bridge: docs/MASS_GAP_TO_TWO_TRUTHS_ENGINE_FORMAL_BRIDGE_v0_1.md
+  mass_gap_two_truths_spec: specs/mass_gap_two_truths_engine_bridge_v0_1.yaml
+  canonical_mass_gap_repo: https://github.com/itakura-hidetoshi/4d-mass-gap
+
+link_semantics:
+  mass_gap_role: nonzero_effective_world_separation
+  two_truths_role: paramartha_samvrti_noncollapse_boundary
+  string_runtime_role: relational_vibration_candidate_surface
+  brane_runtime_role: conventional_effective_world_support_surface
+  membrane_runtime_role: boundary_permeability_and_obstruction_visibility
+  indranet_role: gauge_theoretic_relational_field
+
+required_guards:
+  - reference_only_authority
+  - no_execution_authority
+  - no_world_update_authority
+  - no_final_theorem_authority
+  - no_public_consensus_authority_without_external_review
+  - paramartha_non_reification_guard
+  - samvrti_excitation_admissibility
+  - two_truths_non_collapse_barrier
+  - obstruction_visibility_preserved
+  - rollback_or_hold_route_present
+
+forbidden_promotions:
+  - internal_proof_to_public_consensus
+  - reference_bridge_to_final_theorem_authority
+  - mass_gap_reference_to_execution_authority
+  - mass_gap_reference_to_world_update_authority
+  - two_truths_gap_to_ontology_collapse
+  - string_excitation_to_self_subsisting_substance
+  - brane_surface_to_absolute_world
+  - membrane_boundary_to_final_authority
+
+admission_gate:
+  required_true:
+    - reference_only_authority
+    - no_execution_authority
+    - no_world_update_authority
+    - no_final_theorem_authority
+    - paramartha_non_reification_guard
+    - samvrti_excitation_admissibility
+    - two_truths_non_collapse_barrier
+    - obstruction_visibility_preserved
+  default_if_missing: HOLD
+  output_modes:
+    - REJECT
+    - HOLD
+    - ADMIT_AS_REFERENCE_ONLY_NONCOLLAPSE_LINK
+
+governance:
+  additive_only: true
+  tighten_only_default: true
+  overwrite_forbidden: true
+  same_root_required: true
+  advisory_by_default: true
+  final_release_opened: false
+  execution_authority: false
+  world_update_authority: false
