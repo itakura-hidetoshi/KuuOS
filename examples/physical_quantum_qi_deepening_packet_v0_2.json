@@ -51,6 +51,26 @@
       "StringBrane_to_gauge_connection_bridge": "pass",
       "gauge_to_Qi_current_bridge": "pass",
       "mass_gap_floor_not_Qi_source": "pass"
+    },
+    "Qi_OS_handoff": {
+      "phase_to_surface_defined": "pass",
+      "NonQi_routes_to_reject_or_observe": "pass",
+      "PreQi_routes_to_BeliefOS_observation_candidate": "pass",
+      "ProtoQi_routes_to_PlanOS_preparation_surface": "pass",
+      "BoundaryQi_routes_to_PlanOS_boundary_candidate": "pass",
+      "TransportQi_routes_to_PlanOS_transport_candidate": "pass",
+      "PhysicalQi_routes_to_DecisionOS_safety_evaluable_candidate": "pass",
+      "FullPathQi_routes_to_MemoryOS_recordable_history_candidate": "pass",
+      "FullPathQi_routes_to_ReflectionOS_residue_analysis_candidate": "pass",
+      "FullPathQi_status_declared": "memory_recordable_reflection_analyzable_candidate",
+      "allowed_surfaces": [
+        "BeliefOS.observation_candidate",
+        "PlanOS.transport_candidate",
+        "DecisionOS.safety_evaluable_candidate",
+        "MemoryOS.recordable_history_candidate",
+        "ReflectionOS.residue_analysis_candidate"
+      ],
+      "authority_never_granted_declared": "pass"
     }
   },
   "authority": {
@@ -58,9 +78,12 @@
     "ontology_authority": false,
     "clinical_authority": false,
     "execution_authority": false,
+    "commit_authority": false,
     "belief_commit_authority": false,
+    "belief_root_commit_authority": false,
     "memory_overwrite_authority": false,
     "world_root_rewrite_authority": false,
+    "truth_authority": false,
     "safety_override_authority": false
   }
 }
