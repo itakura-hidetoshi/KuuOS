@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the Physical Quantum Qi runtime manifest, release/finality/closure packets, and chain index v0.1."""
+"""Validate the Physical Quantum Qi runtime manifest, release/finality/closure/baseline packets, and chain index v0.1."""
 
 from __future__ import annotations
 
@@ -13,6 +13,7 @@ MANIFEST_PATH = ROOT / "manifests" / "physical_quantum_qi_runtime_manifest_v0_1.
 PACKET_PATH = ROOT / "packets" / "physical_quantum_qi_runtime_release_packet_v0_1.json"
 FINALITY_PATH = ROOT / "packets" / "physical_quantum_qi_runtime_finality_packet_v0_1.json"
 CLOSURE_PATH = ROOT / "packets" / "physical_quantum_qi_runtime_release_closure_packet_v0_1.json"
+VALIDATED_BASELINE_PATH = ROOT / "packets" / "physical_quantum_qi_runtime_validated_baseline_packet_v0_1.json"
 CHAIN_INDEX_PATH = ROOT / "chain_indexes" / "physical_quantum_qi_runtime_chain_index_v0_1.json"
 
 REQUIRED_MANIFEST_FILES = {
@@ -28,6 +29,7 @@ REQUIRED_MANIFEST_FILES = {
     "packets/physical_quantum_qi_runtime_release_packet_v0_1.json",
     "packets/physical_quantum_qi_runtime_finality_packet_v0_1.json",
     "packets/physical_quantum_qi_runtime_release_closure_packet_v0_1.json",
+    "packets/physical_quantum_qi_runtime_validated_baseline_packet_v0_1.json",
     "chain_indexes/physical_quantum_qi_runtime_chain_index_v0_1.json",
     ".github/workflows/physical_quantum_qi_runtime_validation.yml",
     ".github/workflows/all_governance_validation.yml",
@@ -72,6 +74,7 @@ REQUIRED_CHAIN_PATHS = [
     "scripts/validate_physical_quantum_qi_runtime_release_packet_v0_1.py",
     "packets/physical_quantum_qi_runtime_finality_packet_v0_1.json",
     "packets/physical_quantum_qi_runtime_release_closure_packet_v0_1.json",
+    "packets/physical_quantum_qi_runtime_validated_baseline_packet_v0_1.json",
     ".github/workflows/physical_quantum_qi_runtime_validation.yml",
 ]
 
@@ -89,6 +92,18 @@ REQUIRED_CLOSURE_FLAGS = {
     "dedicated_ci_workflow_present",
     "all_governance_runner_includes_qi",
     "all_governance_workflow_tracks_release_dirs",
+}
+
+REQUIRED_BASELINE_COMMITMENTS = {
+    "additive_only",
+    "tighten_only_default",
+    "overwrite_forbidden",
+    "destructive_replacement_forbidden",
+    "same_root_required",
+    "nonexecution_by_default",
+    "claimed_type_not_authoritative",
+    "validated_type_evidence_bound",
+    "mass_gap_33_20_is_floor_not_source",
 }
 
 
@@ -240,6 +255,44 @@ def validate_closure_packet(closure: Dict[str, Any]) -> List[str]:
     return errors
 
 
+def validate_validated_baseline_packet(packet: Dict[str, Any]) -> List[str]:
+    errors: List[str] = []
+    if packet.get("packet_id") != "physical_quantum_qi_runtime_validated_baseline_packet_v0_1":
+        errors.append("validated baseline packet_id mismatch")
+    expected_refs = {
+        "chain_index": "chain_indexes/physical_quantum_qi_runtime_chain_index_v0_1.json",
+        "manifest": "manifests/physical_quantum_qi_runtime_manifest_v0_1.json",
+        "release_packet": "packets/physical_quantum_qi_runtime_release_packet_v0_1.json",
+        "finality_packet": "packets/physical_quantum_qi_runtime_finality_packet_v0_1.json",
+        "release_closure_packet": "packets/physical_quantum_qi_runtime_release_closure_packet_v0_1.json",
+    }
+    for key, expected in expected_refs.items():
+        if packet.get(key) != expected:
+            errors.append(f"validated baseline {key} pointer mismatch")
+
+    validators = set(packet.get("validated_by", []))
+    for expected in [
+        "scripts/validate_physical_quantum_qi_runtime_contract_v0_1.py",
+        "scripts/validate_physical_quantum_qi_runtime_release_packet_v0_1.py",
+        "make physical-quantum-qi-runtime-checks",
+        "make all-governance-checks",
+    ]:
+        if expected not in validators:
+            errors.append(f"validated baseline missing validator: {expected}")
+
+    commitments = packet.get("baseline_commitments", {})
+    for key in sorted(REQUIRED_BASELINE_COMMITMENTS):
+        if commitments.get(key) is not True:
+            errors.append(f"baseline_commitments.{key} must be true")
+
+    errors.extend(validate_authority_false(packet.get("authority_boundary", {}), "authority_boundary"))
+    statement = packet.get("baseline_statement", "")
+    for phrase in ["Qi is not K", "not a mystical substance", "33/20 gap", "stability floor", "not a source of execution authority"]:
+        if phrase not in statement:
+            errors.append(f"baseline_statement missing phrase: {phrase}")
+    return errors
+
+
 def validate_chain_index(chain_index: Dict[str, Any]) -> List[str]:
     errors: List[str] = []
     if chain_index.get("chain_index_id") != "physical_quantum_qi_runtime_chain_index_v0_1":
@@ -275,6 +328,7 @@ def main() -> int:
     packet = load_json(PACKET_PATH)
     finality = load_json(FINALITY_PATH)
     closure = load_json(CLOSURE_PATH)
+    validated_baseline = load_json(VALIDATED_BASELINE_PATH)
     chain_index = load_json(CHAIN_INDEX_PATH)
 
     errors: List[str] = []
@@ -282,15 +336,16 @@ def main() -> int:
     errors.extend(validate_release_packet(packet, manifest))
     errors.extend(validate_finality_packet(finality))
     errors.extend(validate_closure_packet(closure))
+    errors.extend(validate_validated_baseline_packet(validated_baseline))
     errors.extend(validate_chain_index(chain_index))
 
     if errors:
-        print("Physical Quantum Qi runtime release/finality/closure/chain validation failed:")
+        print("Physical Quantum Qi runtime release/finality/closure/baseline/chain validation failed:")
         for err in errors:
             print(f"- {err}")
         return 1
 
-    print("Physical Quantum Qi runtime release/finality/closure/chain validation passed.")
+    print("Physical Quantum Qi runtime release/finality/closure/baseline/chain validation passed.")
     return 0
 
 
