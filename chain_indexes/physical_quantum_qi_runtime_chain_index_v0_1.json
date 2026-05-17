@@ -66,6 +66,11 @@
     },
     {
       "order": 13,
+      "role": "validated_baseline_packet",
+      "path": "packets/physical_quantum_qi_runtime_validated_baseline_packet_v0_1.json"
+    },
+    {
+      "order": 14,
       "role": "dedicated_ci_workflow",
       "path": ".github/workflows/physical_quantum_qi_runtime_validation.yml"
     }
