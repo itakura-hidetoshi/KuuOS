@@ -1,0 +1,40 @@
+{
+  "id": "superstring_emptiness_string_brane_membrane_release_packet_v0_1",
+  "version": "v0.1",
+  "date": "2026-05-17",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "status": "release_candidate",
+  "depends_on": [
+    "docs/KUOS_PHYSICS_GAP_BRIDGE_v0_1.md",
+    "docs/SUPERSTRING_EMPTINESS_STRING_BRANE_MEMBRANE_RUNTIME_v0_1.md",
+    "contracts/superstring_emptiness_string_brane_membrane_contract_v0_1.yaml",
+    "manifests/superstring_emptiness_string_brane_membrane_manifest_v0_1.json"
+  ],
+  "release_claim": "KuuOS can represent strings, branes, and membranes as emptiness-preserving, dependent-origination-bound runtime objects without granting independent ontology or execution authority.",
+  "admission_surface": {
+    "mode": "candidate_runtime_bridge",
+    "default_on_missing_evidence": "HOLD",
+    "strong_release_allowed": false,
+    "execute_authority": false,
+    "world_update_authority": false
+  },
+  "required_guards": [
+    "non_reification_guard",
+    "dependent_origination_trace_present",
+    "two_truths_gap_guard",
+    "observer_record_surface_present",
+    "membrane_authority_non_expansion",
+    "obstruction_visibility_preserved",
+    "rollback_or_hold_route_present"
+  ],
+  "blocked_collapses": [
+    "string_to_substance",
+    "brane_to_absolute_world",
+    "membrane_to_final_authority",
+    "indranet_to_graph_only",
+    "gluing_to_identity_certificate",
+    "transport_to_equivalence_certificate",
+    "internal_proof_to_public_consensus_without_external_review"
+  ],
+  "decision": "RELEASE_AS_CANDIDATE_RUNTIME_BRIDGE"
+}
