@@ -1,0 +1,32 @@
+{
+  "indranet_gauge_interface_packet": {
+    "packet_id": "igi_demo_001",
+    "version": "v0.4",
+    "interface": {
+      "interface_id": "indra_gauge_interface_001",
+      "connection_present": true,
+      "curvature_visibility": true,
+      "holonomy_visibility": true,
+      "transport_rule": "gauge_transport_with_residue",
+      "gluing_rule": "local_global_gluing_without_identity_collapse",
+      "obstruction_visibility_rule": true,
+      "residue_policy": "preserve_visible_residue",
+      "graph_representation_policy": "graph_as_visualization_index_or_cache_only",
+      "gauge_noncollapse_guard": true,
+      "authority_non_expansion_guard": true
+    },
+    "graph_usage": {
+      "graph_as_visualization": true,
+      "graph_as_index": true,
+      "graph_as_computational_cache": true,
+      "graph_as_ontology": false,
+      "graph_as_complete_indranet": false,
+      "graph_as_authority_source": false
+    },
+    "admission": {
+      "residue_policy_present": true,
+      "graph_representation_policy_present": true,
+      "decision": "ADMIT_AS_GAUGE_INTERFACE_CANDIDATE"
+    }
+  }
+}
