@@ -34,6 +34,7 @@
     ],
     "validators": [
       "scripts/validate_physical_quantum_qi_equations_v0_2.py",
+      "scripts/validate_physical_quantum_qi_equation_packet_v0_2.py",
       "scripts/validate_physical_quantum_qi_deepening_v0_2.py",
       "scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py"
     ],
@@ -68,11 +69,13 @@
     "MGAP4D 33/20 remains a stable floor, not a Qi source",
     "No v0.2 module grants execution authority",
     "Equation-level content is required for v0.2 deepening",
+    "Machine-readable equation packet must expose required equation keys",
     "Equation packet must classify as FullPathQi through the phase runtime demo"
   ],
   "validation_entrypoints": [
     "make physical-quantum-qi-deepening-checks",
     "python3 scripts/validate_physical_quantum_qi_equations_v0_2.py",
+    "python3 scripts/validate_physical_quantum_qi_equation_packet_v0_2.py",
     "python3 tests/test_physical_quantum_qi_phase_runtime_v0_2.py",
     "python3 examples/run_physical_quantum_qi_phase_demo_v0_2.py",
     "python3 scripts/validate_physical_quantum_qi_deepening_v0_2.py",
