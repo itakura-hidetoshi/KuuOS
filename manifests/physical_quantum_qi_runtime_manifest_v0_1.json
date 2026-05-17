@@ -11,7 +11,8 @@
   "files": {
     "docs": [
       "docs/PHYSICAL_QUANTUM_QI_RUNTIME_CONTRACT_v0_1.md",
-      "docs/PHYSICAL_QUANTUM_QI_RUNTIME_INDEX_v0_1.md"
+      "docs/PHYSICAL_QUANTUM_QI_RUNTIME_INDEX_v0_1.md",
+      "docs/PHYSICAL_QUANTUM_QI_RUNTIME_BASELINE_STATEMENT_v0_1.md"
     ],
     "specs": [
       "specs/physical_quantum_qi_runtime_contract_v0_1.json"
