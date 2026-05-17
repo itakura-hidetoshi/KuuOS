@@ -25,6 +25,7 @@
     "dedicated_ci_present": true,
     "all_governance_ci_integration_present": true,
     "qi_os_handoff_present": true,
+    "authority_boundary_complete": true,
     "additive_only": true,
     "tighten_only_default": true,
     "overwrite_forbidden": true,
