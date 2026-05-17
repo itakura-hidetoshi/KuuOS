@@ -1,0 +1,120 @@
+id: superstring_emptiness_string_brane_membrane_contract_v0_1
+version: v0.1
+date: 2026-05-17
+author: Hidetoshi Itakura / 板倉英俊
+status: additive_baseline_candidate
+scope: physics_facing_runtime_bridge
+
+purpose: >-
+  Implement strings, branes, and membranes inside KuuOS as emptiness-preserving,
+  dependent-origination-bound runtime objects without granting them independent
+  ontology or execution authority.
+
+ontology:
+  string: dependent_relational_vibration_trace
+  brane: local_world_support_surface
+  membrane: typed_layer_boundary_interface
+
+required_objects:
+  EmptinessString:
+    required_fields:
+      - string_id
+      - source_conditions
+      - target_surface
+      - vibration_mode
+      - boundary_conditions
+      - observer_record_surface
+      - consistency_witnesses
+      - non_reification_guard
+      - two_truths_gap_guard
+    forbidden:
+      - independent_substance_claim
+      - direct_execution_authority
+      - public_consensus_claim_without_external_review
+
+  DependentOriginationBrane:
+    required_fields:
+      - brane_id
+      - world_scope
+      - supporting_conditions
+      - admissible_string_ids
+      - record_surface
+      - scale_regime
+      - qi_flow_interface
+      - indra_gauge_interface
+      - governance_boundary
+    forbidden:
+      - absolute_world_claim
+      - collapse_into_ultimate_truth
+      - direct_world_update_authority
+
+  LayerMembrane:
+    required_fields:
+      - membrane_id
+      - from_layer
+      - to_layer
+      - permeability_rule
+      - obstruction_visibility_rule
+      - gluing_rule
+      - backaction_budget
+      - authority_non_expansion_guard
+      - rollback_or_hold_route
+    forbidden:
+      - final_authority_claim
+      - obstruction_erasure
+      - silent_strong_upgrade
+
+admission_gate:
+  required_true:
+    - non_reification_guard
+    - dependent_origination_trace_present
+    - two_truths_gap_guard
+    - observer_record_surface_present
+    - membrane_authority_non_expansion
+    - obstruction_visibility_preserved
+    - rollback_or_hold_route_present
+  default_if_missing: HOLD
+  output_modes:
+    - REJECT
+    - HOLD
+    - ADMIT_AS_CANDIDATE
+    - ADMIT_AS_CONVENTIONAL_RUNTIME_SURFACE
+
+non_collapse_laws:
+  - string_is_not_substance
+  - brane_is_not_absolute_world
+  - membrane_is_not_final_authority
+  - world_surface_is_not_ultimate_truth
+  - successful_transport_is_not_equivalence_certificate
+  - successful_gluing_is_not_obstruction_erasure
+  - indranet_is_not_graph_only
+
+physics_bridge:
+  superstring_theory_of_emptiness:
+    string_reading: relational_vibration
+    membrane_reading: boundary_interface
+    brane_reading: world_support_surface
+  mass_gap_bridge:
+    role: nonzero_effective_world_separation
+    internal_normalized_reference: MGAP4D_33_over_20_surface
+    public_status_guard: external_review_required_for_public_consensus
+  super_relativity_bridge:
+    role: observer_record_scale_realization
+
+interfaces:
+  qi:
+    role: conventional_flow_trace
+    authority: non_sovereign
+  indranet:
+    role: gauge_theoretic_relational_connection
+    graph_reduction: forbidden
+  mandala:
+    role: multi_brane_inclusion_without_homogenization
+    authority: coordinator_not_sovereign
+
+governance:
+  additive_only: true
+  overwrite_forbidden: true
+  authority_non_expansion: true
+  advisory_by_default: true
+  fail_closed: true
