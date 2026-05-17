@@ -7,6 +7,8 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 PACKET = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_FINALITY_PACKET_v0_1.md"
 CHAIN_INDEX = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_CHAIN_INDEX_v0_1.md"
 LEDGER = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_CI_LEDGER_v0_1.md"
+POST_MERGE_RECEIPT = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_POST_MERGE_GREEN_RECEIPT_v0_1.md"
+POST_MERGE_CHECKER = ROOT / "scripts" / "check_mgap4d_external_audit_readiness_post_merge_green_receipt_v0_1.py"
 BUNDLE_CHECKER = ROOT / "scripts" / "check_mgap4d_external_audit_readiness_bundle_manifest_v0_1.py"
 
 REQUIRED_TOKENS = [
@@ -15,7 +17,9 @@ REQUIRED_TOKENS = [
     "Date: 2026-05-16",
     "Repository: itakura-hidetoshi/KuuOS",
     "Root commit: `9147dc5a00e3ffd74b85336e8a26e33091fec9f1`",
+    "Post-merge commit: `e20d244d93eb85b3cfc9b46cf4bb4625923a8d82`",
     "append-only closure surface",
+    "appends the main-branch post-merge green receipt",
     "does not grant proof, truth, clinical, execution, governance-bypass, journal, community, or external-auditor acceptance authority",
     "bash scripts/check.sh",
     "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_CI_LEDGER_v0_1.md",
@@ -37,6 +41,14 @@ REQUIRED_TOKENS = [
     "PASS: KuuOS all governance full checks completed",
     "specs/mgap4d_external_audit_readiness_bundle_manifest_v0_1.generated.json",
     "Observed all-governance bundle root hash: `25958353266318c4b0e2a49ae12794c3d6f8abfa03f8fa26361269b5b295c185`",
+    "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_POST_MERGE_GREEN_RECEIPT_v0_1.md",
+    "scripts/check_mgap4d_external_audit_readiness_post_merge_green_receipt_v0_1.py",
+    "Workflow run ID: `25974409859`",
+    "Workflow job ID: `76351949971`",
+    "Checked commit: `e20d244d93eb85b3cfc9b46cf4bb4625923a8d82`",
+    "Branch: `main`",
+    "PASS: MGAP4D external audit readiness post-merge green receipt checked",
+    "Observed post-merge bundle root hash: `94c379c61e1a405b54dee326a5faad545e0e2c711afbd16f56b9d66e26ea0dff`",
     "proof authority by itself",
     "truth authority by itself",
     "clinical authority",
@@ -48,6 +60,7 @@ REQUIRED_TOKENS = [
     "CI green is evidence, not theorem truth.",
     "Hash chain and bundle root are integrity evidence, not proof authority.",
     "External audit readiness is not external audit acceptance.",
+    "Post-merge green confirms repository integration, not independent mathematical acceptance.",
     "Finality packet status remains `CANDIDATE` until independent external review accepts it.",
     "same-root, append-only, boundary-preserving, and non-destructive",
     "PASS: MGAP4D external audit readiness finality packet checked",
@@ -65,13 +78,15 @@ FORBIDDEN_TOKENS = [
     "CI green proves theorem truth",
     "CI green grants execution authority",
     "CI green grants clinical authority",
+    "post-merge green proves theorem truth",
+    "post-merge green grants proof authority",
     "external audit readiness equals external audit acceptance",
 ]
 
 
 def main() -> int:
     errors: list[str] = []
-    for path in [PACKET, CHAIN_INDEX, LEDGER, BUNDLE_CHECKER]:
+    for path in [PACKET, CHAIN_INDEX, LEDGER, POST_MERGE_RECEIPT, POST_MERGE_CHECKER, BUNDLE_CHECKER]:
         if not path.is_file():
             errors.append(f"missing file: {path.relative_to(ROOT)}")
 
