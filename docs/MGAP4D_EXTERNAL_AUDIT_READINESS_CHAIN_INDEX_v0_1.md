@@ -108,70 +108,32 @@ This index connects the observed `scripts/check.sh` CI green evidence to a machi
    - Merged at: `2026-05-17T03:01:08Z`
    - Required pass line: `PASS: MGAP4D external audit readiness PR10 merge closure checked`
 
+16. PR11 merge closure
+   - `docs/MGAP4D_EXTERNAL_AUDIT_READINESS_PR11_MERGE_CLOSURE_v0_1.md`
+   - `scripts/check_mgap4d_external_audit_readiness_pr11_merge_closure_v0_1.py`
+   - Pull request: `#11`
+   - Pull request title: `Add MGAP4D PR10 merge closure v0.1`
+   - PR head commit: `d633a7c60fff5da9cd86c7a85e51aae60bed3fa8`
+   - Base before merge: `fb082f7caa0b5d009cd0dbca34412047ffe6599e`
+   - Squash merge commit: `d76fc29c09a3c87b27878bb5ec3969512e288cfd`
+   - Merged at: `2026-05-17T03:32:18Z`
+   - Required pass line: `PASS: MGAP4D external audit readiness PR11 merge closure checked`
+
 ## Evidence covered
 
-The ledger records the following observed green surfaces from the provided GitHub Actions log excerpt:
-
-- archived manifest verification
-- Lean forbidden-token audit across `457` Lean files
-- zero observed `sorry` / `admit` / `axiom` / `constant`
-- major theorem non-placeholder audit across `12` theorem specs
-- analytic bridge coherence audit across `8` bridge files
-- infinite-dimensional Yang-Mills target layer audit
-- infinite-dimensional residual filling bridge audit
-- hard physical residual hardening map audit
-- Hilbert construction lane hardening audit
-- self-adjoint HPhys lane hardening audit
-- continuum Yang-Mills lane hardening audit
-- plaquette spectral weight lane hardening audit
-- four-lane residual closure audit
-- internal review residual closure gate audit
-- external audit readiness gate audit
-- replay summary: `457` Lean files, `1191` imports, `27203` total lines
-- `MGAP4D.MathlibAnalytic.ExternalAuditReadinessGate` build success
-- `8368 / 8368` build jobs completed
-- final `lake build` success
-- all-governance runner integration success
-- finality packet closure surface
-- post-merge all-governance green receipt surface
-- post-merge bundle root hash evidence
-- post-merge receipt closure surface
-- PR #7 merge integration evidence
-- PR8 merge closure surface
-- PR #8 merge integration evidence
-- PR9 merge closure surface
-- PR #9 merge integration evidence
-- PR10 merge closure surface
-- PR #10 merge integration evidence
+The ledger records the observed CI/build surfaces and the append-only PR merge closure chain through PR11.
 
 ## Boundary
 
 This chain index is a traceability surface only.
 
-It does not grant:
-
-- proof authority by itself
-- truth authority by itself
-- clinical authority
-- execution authority
-- governance-bypass authority
-- external-auditor acceptance
-- journal acceptance
-- community acceptance
+It does not grant proof authority, truth authority, clinical authority, execution authority, governance-bypass authority, external-auditor acceptance, journal acceptance, or community acceptance.
 
 ## Tightening path
 
-The current ledger is based on the provided log excerpt, an exact dedicated ledger CI green record, an all-governance runner green record, a post-merge all-governance green receipt, a post-merge receipt closure, PR8 merge closure, PR9 merge closure, and PR10 merge closure. Further tightening may append:
+The current ledger is based on the provided log excerpt, an exact dedicated ledger CI green record, an all-governance runner green record, a post-merge all-governance green receipt, a post-merge receipt closure, PR8 merge closure, PR9 merge closure, PR10 merge closure, and PR11 merge closure. Further tightening may append workflow URLs, artifact IDs, artifact SHA-256 digests, rerun IDs, release bundle hashes, signed attestations, and external reviewer receipts.
 
-- workflow URL
-- artifact IDs
-- artifact SHA-256 digests
-- rerun IDs after checker self-strengthening
-- release bundle hash
-- signed attestation hash
-- external reviewer receipts
-
-Do not overwrite the existing ledger, chain index, finality packet, post-merge receipt, post-merge receipt closure, PR8 merge closure, PR9 merge closure, or PR10 merge closure. Use same-root, append-only tightening.
+Do not overwrite the existing ledger, chain index, finality packet, post-merge receipt, post-merge receipt closure, PR8 merge closure, PR9 merge closure, PR10 merge closure, or PR11 merge closure. Use same-root, append-only tightening.
 
 Version: v0.1
 Author: Hidetoshi Itakura / 板倉英俊
