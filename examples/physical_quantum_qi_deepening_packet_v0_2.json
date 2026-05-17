@@ -1,0 +1,66 @@
+{
+  "packet_id": "physical_quantum_qi_deepening_packet_example_v0_2",
+  "claimed_type": "FullPathQiDeepening",
+  "modules": {
+    "SK_FV_path_integral": {
+      "SK_plus_branch": "pass",
+      "SK_minus_branch": "pass",
+      "FV_influence_functional": "pass",
+      "memory_kernel": "pass",
+      "noise_kernel": "pass",
+      "observation_backaction": "pass",
+      "noncommutative_operation_history": "pass",
+      "path_measure_normalization": "pass",
+      "boundary_conditions": "pass",
+      "leak_identity_on_paths": "pass"
+    },
+    "Ward_leak_identity": {
+      "current_J_Qi_mu": "pass",
+      "covariant_divergence_defined": "pass",
+      "closed_or_open_case_declared": "pass",
+      "closed_conservation_or_leak_accounted": "pass",
+      "anomaly_term_accounted_or_zero": "pass",
+      "current_domain_specified": "pass"
+    },
+    "DPI_recoverability": {
+      "Delta_DPI_defined": "pass",
+      "R_Qi_defined": "pass",
+      "eta_Qi_defined": "pass",
+      "delta_rec_defined": "pass",
+      "delta_rec_sign_declared": "pass",
+      "delta_rec_value": 0.25,
+      "rollback_or_repair_policy_declared": "pass",
+      "rollback_or_repair_claimed": true
+    },
+    "IndraNet_gauge_transport": {
+      "IndraNet_not_graph_only": "pass",
+      "A_mu_defined": "pass",
+      "F_munu_defined": "pass",
+      "transport_path_gamma_defined": "pass",
+      "Wilson_loop_or_holonomy_residue_defined": "pass",
+      "scope_boundary_defined": "pass",
+      "scope_drift_accounted": "pass"
+    },
+    "KuString_Qi_emergence_bridge": {
+      "K_non_reification": "pass",
+      "delta_rel_in_K_perp": "pass",
+      "StringMode_defined": "pass",
+      "BraneBoundary_defined": "pass",
+      "StringMode_not_self_subsisting": "pass",
+      "BraneBoundary_not_creator_substance": "pass",
+      "StringBrane_to_gauge_connection_bridge": "pass",
+      "gauge_to_Qi_current_bridge": "pass",
+      "mass_gap_floor_not_Qi_source": "pass"
+    }
+  },
+  "authority": {
+    "proof_authority": false,
+    "ontology_authority": false,
+    "clinical_authority": false,
+    "execution_authority": false,
+    "belief_commit_authority": false,
+    "memory_overwrite_authority": false,
+    "world_root_rewrite_authority": false,
+    "safety_override_authority": false
+  }
+}
