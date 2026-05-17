@@ -47,6 +47,16 @@
     },
     {
       "order": 9,
+      "role": "release_closure_packet",
+      "path": "packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json"
+    },
+    {
+      "order": 10,
+      "role": "validated_baseline_packet",
+      "path": "packets/physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json"
+    },
+    {
+      "order": 11,
       "role": "dedicated_ci_workflow",
       "path": ".github/workflows/physical_quantum_qi_deepening_validation.yml"
     }
