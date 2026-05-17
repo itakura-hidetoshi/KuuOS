@@ -9,6 +9,7 @@ on:
       - 'scripts/**'
       - 'examples/**'
       - 'tests/**'
+      - 'validation_cases/**'
       - 'Makefile'
       - '.github/workflows/**'
   pull_request:
@@ -18,6 +19,7 @@ on:
       - 'scripts/**'
       - 'examples/**'
       - 'tests/**'
+      - 'validation_cases/**'
       - 'Makefile'
       - '.github/workflows/**'
 
@@ -42,6 +44,7 @@ jobs:
           echo "Top-level: scripts/run_all_governance_full_checks_v0_1.py"
           echo "AI Yogacara: scripts/run_ai_yogacara_full_checks_v0_1.py"
           echo "Core Governance: scripts/run_core_governance_full_checks_v0_1.py"
+          echo "Physical Quantum Qi runtime: scripts/validate_physical_quantum_qi_runtime_contract_v0_1.py"
           echo "Invariant pipeline includes audit event, audit hash-chain, WORM receipt, release bundle, attestation, closure, and finality validators."
           echo "Emptiness two truths runtime audit includes runtime checks, audit chain, release packet, and release bundle manifest validators."
           echo "GPT GitHub and MemoryOS GitHub bridge validators are included in the top-level runner."
