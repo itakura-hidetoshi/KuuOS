@@ -57,6 +57,11 @@
     },
     {
       "order": 11,
+      "role": "baseline_established_final_packet",
+      "path": "packets/physical_quantum_qi_deepening_baseline_established_final_packet_v0_2.json"
+    },
+    {
+      "order": 12,
       "role": "dedicated_ci_workflow",
       "path": ".github/workflows/physical_quantum_qi_deepening_validation.yml"
     }
