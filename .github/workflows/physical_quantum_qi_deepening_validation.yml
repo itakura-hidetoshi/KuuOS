@@ -20,6 +20,7 @@ on:
       - 'packets/physical_quantum_qi_deepening_baseline_established_final_packet_v0_2.json'
       - 'chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json'
       - 'scripts/validate_physical_quantum_qi_equations_v0_2.py'
+      - 'scripts/validate_physical_quantum_qi_equation_packet_v0_2.py'
       - 'scripts/validate_physical_quantum_qi_deepening_v0_2.py'
       - 'scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py'
       - 'Makefile'
@@ -42,6 +43,7 @@ on:
       - 'packets/physical_quantum_qi_deepening_baseline_established_final_packet_v0_2.json'
       - 'chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json'
       - 'scripts/validate_physical_quantum_qi_equations_v0_2.py'
+      - 'scripts/validate_physical_quantum_qi_equation_packet_v0_2.py'
       - 'scripts/validate_physical_quantum_qi_deepening_v0_2.py'
       - 'scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py'
       - 'Makefile'
@@ -81,6 +83,7 @@ jobs:
           echo "Baseline established final packet: packets/physical_quantum_qi_deepening_baseline_established_final_packet_v0_2.json"
           echo "Chain index: chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json"
           echo "Equation validator: scripts/validate_physical_quantum_qi_equations_v0_2.py"
+          echo "Equation packet validator: scripts/validate_physical_quantum_qi_equation_packet_v0_2.py"
           echo "Runtime validator: scripts/validate_physical_quantum_qi_deepening_v0_2.py"
           echo "Release/finality/closure/baseline/final/chain validator: scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py"
           echo "Modules: SK/FV path integral, Ward/leak identity, DPI recoverability, IndraNet gauge transport, KuString-Qi emergence bridge"
