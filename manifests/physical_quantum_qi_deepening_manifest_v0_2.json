@@ -75,7 +75,8 @@
     "Machine-readable equation packet must expose required equation keys",
     "Equation packet must classify as FullPathQi through the phase runtime demo",
     "Equation packet must expose Qi_OS_handoff",
-    "Declared Qi_OS_handoff must match runtime-computed handoff"
+    "Declared Qi_OS_handoff must match runtime-computed handoff",
+    "Baseline established final packet must declare authority_boundary_complete"
   ],
   "validation_entrypoints": [
     "make physical-quantum-qi-deepening-checks",
