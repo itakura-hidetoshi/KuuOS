@@ -1,0 +1,57 @@
+{
+  "manifest_id": "physical_quantum_qi_runtime_manifest_v0_1",
+  "status": "established_candidate",
+  "update_policy": "additive_only",
+  "overwrite_policy": "forbidden",
+  "root_contracts": [
+    "KuOS_PhysicalQuantumQi_RuntimeContract_v0_4",
+    "KuOS_PhysicalQuantumQi_InterOSPacket_v0_5",
+    "KuString_MGAP4D_EmptinessCore_v0_2"
+  ],
+  "files": {
+    "docs": [
+      "docs/PHYSICAL_QUANTUM_QI_RUNTIME_CONTRACT_v0_1.md",
+      "docs/PHYSICAL_QUANTUM_QI_RUNTIME_INDEX_v0_1.md"
+    ],
+    "specs": [
+      "specs/physical_quantum_qi_runtime_contract_v0_1.json"
+    ],
+    "examples": [
+      "examples/physical_quantum_qi_runtime_packet_v0_1.json"
+    ],
+    "validation_cases": [
+      "validation_cases/physical_quantum_qi_runtime_validation_cases_v0_1.json"
+    ],
+    "validators": [
+      "scripts/validate_physical_quantum_qi_runtime_contract_v0_1.py"
+    ],
+    "ci": [
+      ".github/workflows/physical_quantum_qi_runtime_validation.yml",
+      ".github/workflows/all_governance_validation.yml"
+    ],
+    "entrypoints": [
+      "Makefile",
+      "scripts/run_all_governance_full_checks_v0_1.py"
+    ]
+  },
+  "invariants": [
+    "Qi is not K",
+    "Qi is not a mystical substance",
+    "Qi arises only on K_perp after dependent-origination difference",
+    "PhysicalQi requires evidence-bound promotion",
+    "FullPathQi requires PhysicalQi plus SK/FV history evidence",
+    "claimed_type is not authoritative",
+    "validated_type is computed from evidence",
+    "mass_gap_33_20 is a stable floor, not a Qi source",
+    "Qi grants no execution authority",
+    "Qi grants no belief commit authority",
+    "Qi grants no memory overwrite authority",
+    "Qi grants no world-root rewrite authority",
+    "Qi grants no safety override authority"
+  ],
+  "validation_entrypoints": [
+    "make physical-quantum-qi-runtime-checks",
+    "python3 scripts/validate_physical_quantum_qi_runtime_contract_v0_1.py",
+    "make all-governance-checks"
+  ]
+}
