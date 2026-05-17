@@ -1,0 +1,27 @@
+{
+  "observer_record_scale_bridge_packet": {
+    "packet_id": "ors_bridge_demo_001",
+    "version": "v0.6",
+    "bridge": {
+      "bridge_id": "ors_bridge_001",
+      "observer_context_present": true,
+      "record_surface_present": true,
+      "scale_regime_present": true,
+      "coarse_graining_rule": "observer_record_scale_coarse_graining",
+      "readability_rule": "conventional_readability_requires_record_surface",
+      "backaction_visibility": true,
+      "uncertainty_policy": "preserve_uncertainty_and_context",
+      "two_truths_gap_guard": true,
+      "non_reification_guard": true,
+      "obstruction_visibility_rule": true,
+      "authority_non_expansion_guard": true,
+      "rollback_or_hold_route": "HOLD"
+    },
+    "admission": {
+      "readability_rule_present": true,
+      "uncertainty_policy_present": true,
+      "rollback_or_hold_route_present": true,
+      "decision": "ADMIT_AS_OBSERVER_RECORD_SCALE_CANDIDATE"
+    }
+  }
+}
