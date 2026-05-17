@@ -1,0 +1,116 @@
+{
+  "schema_id": "physical_quantum_qi_deepening_contract_v0_2",
+  "status": "established_candidate",
+  "root": "physical_quantum_qi_runtime_validated_baseline_packet_v0_1",
+  "update_policy": "additive_only",
+  "overwrite_policy": "forbidden",
+  "deepening_modules": {
+    "SK_FV_path_integral": {
+      "required": [
+        "SK_plus_branch",
+        "SK_minus_branch",
+        "FV_influence_functional",
+        "memory_kernel",
+        "noise_kernel",
+        "observation_backaction",
+        "noncommutative_operation_history",
+        "path_measure_normalization",
+        "boundary_conditions",
+        "leak_identity_on_paths"
+      ],
+      "denies": [
+        "Markov_snapshot_claimed_as_FullPathQi",
+        "path_integral_without_history",
+        "operation_order_erasure"
+      ]
+    },
+    "Ward_leak_identity": {
+      "required": [
+        "current_J_Qi_mu",
+        "covariant_divergence_defined",
+        "closed_or_open_case_declared",
+        "closed_conservation_or_leak_accounted",
+        "anomaly_term_accounted_or_zero",
+        "current_domain_specified"
+      ],
+      "denies": [
+        "flow_without_conservation_or_leak",
+        "current_without_domain",
+        "anomaly_erasure"
+      ]
+    },
+    "DPI_recoverability": {
+      "required": [
+        "Delta_DPI_defined",
+        "R_Qi_defined",
+        "eta_Qi_defined",
+        "delta_rec_defined",
+        "delta_rec_sign_declared",
+        "rollback_or_repair_policy_declared"
+      ],
+      "rules": [
+        "rollback_or_repair_requires_delta_rec_positive",
+        "delta_rec_nonpositive_blocks_recovery_claim"
+      ],
+      "denies": [
+        "repair_claim_without_recovery_margin",
+        "DPI_loss_erasure",
+        "entropy_lockin_ignored"
+      ]
+    },
+    "IndraNet_gauge_transport": {
+      "required": [
+        "IndraNet_not_graph_only",
+        "A_mu_defined",
+        "F_munu_defined",
+        "transport_path_gamma_defined",
+        "Wilson_loop_or_holonomy_residue_defined",
+        "scope_boundary_defined",
+        "scope_drift_accounted"
+      ],
+      "denies": [
+        "graph_only_transport_claimed_as_Qi",
+        "transport_without_connection",
+        "holonomy_residue_erasure"
+      ]
+    },
+    "KuString_Qi_emergence_bridge": {
+      "required": [
+        "K_non_reification",
+        "delta_rel_in_K_perp",
+        "StringMode_defined",
+        "BraneBoundary_defined",
+        "StringMode_not_self_subsisting",
+        "BraneBoundary_not_creator_substance",
+        "StringBrane_to_gauge_connection_bridge",
+        "gauge_to_Qi_current_bridge",
+        "mass_gap_floor_not_Qi_source"
+      ],
+      "denies": [
+        "K_identified_as_Qi",
+        "string_reified_as_substance",
+        "brane_reified_as_creator",
+        "mass_gap_claimed_as_Qi_source"
+      ]
+    }
+  },
+  "cross_module_invariants": [
+    "FullPathQi requires SK/FV history evidence",
+    "PhysicalQi requires Ward/leak accounting",
+    "Recovery claims require positive delta_rec",
+    "IndraNet Qi transport requires gauge connection and holonomy accounting",
+    "Qi emerges from delta_rel through string/brane/gauge/current structure and never directly from K",
+    "MGAP4D 33/20 remains a stable floor, not a Qi source",
+    "No v0.2 module grants execution authority"
+  ],
+  "authority_must_be_false": [
+    "proof_authority",
+    "ontology_authority",
+    "clinical_authority",
+    "execution_authority",
+    "belief_commit_authority",
+    "memory_overwrite_authority",
+    "world_root_rewrite_authority",
+    "safety_override_authority"
+  ]
+}
