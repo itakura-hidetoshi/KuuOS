@@ -1,0 +1,42 @@
+{
+  "id": "superstring_emptiness_sbm_superchain_finality_packet_v0_6",
+  "version": "v0.6",
+  "date": "2026-05-17",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "status": "baseline_candidate_finality",
+  "finality_type": "non_mutating_declaration",
+  "title": "Superstring Emptiness String / Brane / Membrane Runtime Superchain Finality",
+  "scope": "v0.1-v0.6 superchain",
+  "declaration": {
+    "v0_1": "string_brane_membrane_runtime_defined",
+    "v0_2": "stronger_runtime_safety_validation_added",
+    "v0_3": "lean_predicate_refinement_added",
+    "v0_4": "indranet_gauge_interface_added",
+    "v0_5": "mass_gap_two_truths_reference_only_link_added",
+    "v0_6": "observer_record_scale_bridge_added"
+  },
+  "locked_invariants": [
+    "string_not_substance",
+    "brane_not_absolute_world",
+    "membrane_not_final_authority",
+    "indranet_not_graph_only",
+    "mass_gap_link_reference_only",
+    "two_truths_gap_noncollapse",
+    "observer_record_scale_required_for_readability",
+    "record_surface_not_ultimate_truth",
+    "observation_backaction_visible",
+    "uncertainty_preserved",
+    "execution_authority_not_opened",
+    "world_update_authority_not_opened",
+    "final_theorem_authority_not_opened"
+  ],
+  "future_update_policy": {
+    "additive_only": true,
+    "tighten_only_default": true,
+    "same_root_required": true,
+    "overwrite_forbidden": true,
+    "destructive_replacement_forbidden": true,
+    "relaxation_requires_separate_governance_surface": true
+  },
+  "decision": "FINALIZE_SUPERCHAIN_V0_6_AS_BASELINE_CANDIDATE"
+}
