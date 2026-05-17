@@ -1,0 +1,67 @@
+{
+  "schema_id": "physical_quantum_qi_runtime_contract_v0_1",
+  "status": "established_candidate",
+  "update_policy": "additive_only",
+  "overwrite_policy": "forbidden",
+  "qi_types": [
+    "NonQi",
+    "PreQi",
+    "ProtoQi",
+    "TransportableQi",
+    "CurvedQi",
+    "CurrentQi",
+    "PhysicalQi",
+    "FullPathQi"
+  ],
+  "physical_qi_required_evidence": [
+    "K_non_reification",
+    "delta_rel_in_K_perp",
+    "string_mode_consistency",
+    "brane_boundary_support",
+    "gauge_connection_A_mu",
+    "curvature_F_munu",
+    "Wilson_loop_residue",
+    "current_J_Qi_mu",
+    "Ward_or_leak_identity",
+    "density_state_rho",
+    "Hamiltonian_H",
+    "Lindblad_generator_L",
+    "entropy_production_Sigma",
+    "free_energy_F_beta",
+    "DPI_gap",
+    "recovery_margin",
+    "mass_gap_floor_33_20"
+  ],
+  "full_path_qi_additional_evidence": [
+    "SK_plus_branch",
+    "SK_minus_branch",
+    "FV_influence_functional",
+    "memory_kernel",
+    "noise_kernel",
+    "observation_backaction",
+    "noncommutative_operation_history",
+    "path_measure_normalization"
+  ],
+  "fatal_reject_flags": [
+    "K_Reification_Error",
+    "Gap_As_Source_Error",
+    "Brane_Creator_Error",
+    "PhysicalQi_without_K_perp"
+  ],
+  "authority_must_be_false": [
+    "execution_authority",
+    "belief_commit_authority",
+    "memory_overwrite_authority",
+    "world_root_rewrite_authority",
+    "safety_override_authority"
+  ],
+  "mass_gap_floor": {
+    "value": "33/20",
+    "role": "stable_floor_for_K_perp_qi_flow_domain",
+    "not_source_of_qi": true
+  },
+  "routing_rule": {
+    "routing_depends_on": "validated_type",
+    "claimed_type_is_not_authoritative": true
+  }
+}
