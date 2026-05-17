@@ -32,7 +32,8 @@
     ],
     "packets": [
       "packets/physical_quantum_qi_runtime_release_packet_v0_1.json",
-      "packets/physical_quantum_qi_runtime_finality_packet_v0_1.json"
+      "packets/physical_quantum_qi_runtime_finality_packet_v0_1.json",
+      "packets/physical_quantum_qi_runtime_release_closure_packet_v0_1.json"
     ],
     "chain_indexes": [
       "chain_indexes/physical_quantum_qi_runtime_chain_index_v0_1.json"
