@@ -5,7 +5,7 @@
   "root_release_packet": "packets/physical_quantum_qi_deepening_release_packet_v0_2.json",
   "manifest": "manifests/physical_quantum_qi_deepening_manifest_v0_2.json",
   "root_baseline": "packets/physical_quantum_qi_runtime_baseline_established_final_packet_v0_1.json",
-  "finality_scope": "Physical Quantum Qi v0.2 deepening modules",
+  "finality_scope": "Physical Quantum Qi v0.2 deepening modules including Qi OS handoff",
   "finality_declaration": {
     "additive_only": true,
     "tighten_only_default": true,
@@ -19,7 +19,8 @@
     "Ward_leak_identity",
     "DPI_recoverability",
     "IndraNet_gauge_transport",
-    "KuString_Qi_emergence_bridge"
+    "KuString_Qi_emergence_bridge",
+    "Qi_OS_handoff"
   ],
   "locked_invariants": [
     "FullPathQi requires SK/FV history evidence",
@@ -28,6 +29,8 @@
     "IndraNet Qi transport requires gauge connection and holonomy accounting",
     "Qi emerges from delta_rel through string/brane/gauge/current structure and never directly from K",
     "MGAP4D 33/20 remains a stable floor, not a Qi source",
+    "Qi phase classification is a routing surface, not an authority grant",
+    "FullPathQi is MemoryOS-recordable and ReflectionOS-analyzable but not executable",
     "No v0.2 module grants execution authority"
   ],
   "authority_boundary": {
@@ -35,9 +38,12 @@
     "ontology_authority": false,
     "clinical_authority": false,
     "execution_authority": false,
+    "commit_authority": false,
     "belief_commit_authority": false,
+    "belief_root_commit_authority": false,
     "memory_overwrite_authority": false,
     "world_root_rewrite_authority": false,
+    "truth_authority": false,
     "safety_override_authority": false
   },
   "required_validation": [
