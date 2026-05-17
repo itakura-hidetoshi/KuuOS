@@ -1,0 +1,46 @@
+{
+  "packet_id": "physical_quantum_qi_runtime_finality_packet_v0_1",
+  "packet_type": "finality_packet",
+  "status": "baseline_established_final_candidate",
+  "root_release_packet": "packets/physical_quantum_qi_runtime_release_packet_v0_1.json",
+  "manifest": "manifests/physical_quantum_qi_runtime_manifest_v0_1.json",
+  "finality_scope": "Physical Quantum Qi runtime v0.1 public implementation bundle",
+  "finality_declaration": {
+    "additive_only": true,
+    "tighten_only_default": true,
+    "overwrite_forbidden": true,
+    "destructive_replacement_forbidden": true,
+    "same_root_required": true,
+    "nonexecution_by_default": true
+  },
+  "locked_invariants": [
+    "Qi is not K",
+    "Qi is not a mystical substance",
+    "Qi arises only on K_perp after dependent-origination difference",
+    "StringMode and BraneBoundary organize but do not substantiate Qi",
+    "PhysicalQi requires evidence-bound promotion",
+    "FullPathQi requires PhysicalQi plus SK/FV history evidence",
+    "claimed_type is not authoritative",
+    "validated_type is computed from evidence",
+    "mass_gap_33_20 is a stable floor, not a Qi source",
+    "Qi grants no execution authority",
+    "Qi grants no belief commit authority",
+    "Qi grants no memory overwrite authority",
+    "Qi grants no world-root rewrite authority",
+    "Qi grants no safety override authority"
+  ],
+  "required_validation": [
+    "make physical-quantum-qi-runtime-checks",
+    "make all-governance-checks"
+  ],
+  "authority_boundary": {
+    "proof_authority": false,
+    "ontology_authority": false,
+    "clinical_authority": false,
+    "execution_authority": false,
+    "belief_commit_authority": false,
+    "memory_overwrite_authority": false,
+    "world_root_rewrite_authority": false,
+    "safety_override_authority": false
+  }
+}
