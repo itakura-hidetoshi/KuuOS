@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Validate the Physical Quantum Qi deepening manifest, release/finality packets, and chain index v0.2."""
+"""Validate the Physical Quantum Qi deepening release/finality/closure/baseline chain v0.2."""
 
 from __future__ import annotations
 
@@ -12,6 +12,8 @@ ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "manifests" / "physical_quantum_qi_deepening_manifest_v0_2.json"
 RELEASE_PACKET_PATH = ROOT / "packets" / "physical_quantum_qi_deepening_release_packet_v0_2.json"
 FINALITY_PACKET_PATH = ROOT / "packets" / "physical_quantum_qi_deepening_finality_packet_v0_2.json"
+CLOSURE_PACKET_PATH = ROOT / "packets" / "physical_quantum_qi_deepening_release_closure_packet_v0_2.json"
+VALIDATED_BASELINE_PACKET_PATH = ROOT / "packets" / "physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json"
 CHAIN_INDEX_PATH = ROOT / "chain_indexes" / "physical_quantum_qi_deepening_chain_index_v0_2.json"
 
 REQUIRED_MODULES = {
@@ -31,6 +33,8 @@ REQUIRED_FILES = {
     "manifests/physical_quantum_qi_deepening_manifest_v0_2.json",
     "packets/physical_quantum_qi_deepening_release_packet_v0_2.json",
     "packets/physical_quantum_qi_deepening_finality_packet_v0_2.json",
+    "packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json",
+    "packets/physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json",
     "chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json",
     ".github/workflows/physical_quantum_qi_deepening_validation.yml",
     ".github/workflows/all_governance_validation.yml",
@@ -68,8 +72,40 @@ REQUIRED_CHAIN_PATHS = [
     "packets/physical_quantum_qi_deepening_release_packet_v0_2.json",
     "scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py",
     "packets/physical_quantum_qi_deepening_finality_packet_v0_2.json",
+    "packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json",
+    "packets/physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json",
     ".github/workflows/physical_quantum_qi_deepening_validation.yml",
 ]
+
+REQUIRED_CLOSURE_FLAGS = {
+    "root_v0_1_baseline_present",
+    "deepening_contract_present",
+    "example_packet_present",
+    "validation_cases_present",
+    "runtime_validator_present",
+    "manifest_present",
+    "release_packet_present",
+    "finality_packet_present",
+    "chain_index_present",
+    "dedicated_ci_workflow_present",
+    "all_governance_runner_includes_deepening",
+    "all_governance_workflow_tracks_release_dirs",
+}
+
+REQUIRED_BASELINE_COMMITMENTS = {
+    "additive_only",
+    "tighten_only_default",
+    "overwrite_forbidden",
+    "destructive_replacement_forbidden",
+    "same_root_required",
+    "nonexecution_by_default",
+    "SK_FV_history_required_for_FullPathQi",
+    "Ward_leak_required_for_PhysicalQi",
+    "recovery_claim_requires_positive_delta_rec",
+    "IndraNet_transport_requires_gauge_and_holonomy",
+    "KuString_Qi_emergence_never_directly_from_K",
+    "mass_gap_33_20_is_floor_not_source",
+}
 
 
 def load_json(path: Path) -> Dict[str, Any]:
@@ -205,6 +241,96 @@ def validate_finality_packet(packet: Dict[str, Any]) -> List[str]:
     return errors
 
 
+def validate_closure_packet(packet: Dict[str, Any]) -> List[str]:
+    errors: List[str] = []
+    if packet.get("packet_id") != "physical_quantum_qi_deepening_release_closure_packet_v0_2":
+        errors.append("closure packet_id mismatch")
+    expected_refs = {
+        "root_baseline": "packets/physical_quantum_qi_runtime_baseline_established_final_packet_v0_1.json",
+        "chain_index": "chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json",
+        "manifest": "manifests/physical_quantum_qi_deepening_manifest_v0_2.json",
+        "release_packet": "packets/physical_quantum_qi_deepening_release_packet_v0_2.json",
+        "finality_packet": "packets/physical_quantum_qi_deepening_finality_packet_v0_2.json",
+    }
+    for key, expected in expected_refs.items():
+        if packet.get(key) != expected:
+            errors.append(f"closure {key} pointer mismatch")
+
+    requirements = packet.get("closure_requirements", {})
+    for flag in sorted(REQUIRED_CLOSURE_FLAGS):
+        if requirements.get(flag) is not True:
+            errors.append(f"closure_requirements.{flag} must be true")
+
+    closed_modules = set(packet.get("closed_modules", []))
+    missing_modules = sorted(REQUIRED_MODULES - closed_modules)
+    if missing_modules:
+        errors.append("closure missing closed modules: " + ", ".join(missing_modules))
+
+    closed = set(packet.get("closed_invariants", []))
+    missing_closed = sorted(REQUIRED_INVARIANTS - closed)
+    if missing_closed:
+        errors.append("closure missing closed invariants: " + ", ".join(missing_closed))
+
+    entrypoints = set(packet.get("required_validation_entrypoints", []))
+    if "make physical-quantum-qi-deepening-checks" not in entrypoints:
+        errors.append("closure missing deepening validation entrypoint")
+    if "make all-governance-checks" not in entrypoints:
+        errors.append("closure missing all-governance validation entrypoint")
+
+    errors.extend(validate_authority_false(packet.get("authority_boundary", {}), "authority_boundary"))
+    statement = packet.get("closure_statement", "")
+    for phrase in ["no proof", "ontology", "clinical", "execution", "belief commit", "memory overwrite", "world-root rewrite", "safety override"]:
+        if phrase not in statement:
+            errors.append(f"closure_statement missing phrase: {phrase}")
+    return errors
+
+
+def validate_validated_baseline_packet(packet: Dict[str, Any]) -> List[str]:
+    errors: List[str] = []
+    if packet.get("packet_id") != "physical_quantum_qi_deepening_validated_baseline_packet_v0_2":
+        errors.append("validated baseline packet_id mismatch")
+    expected_refs = {
+        "root_baseline": "packets/physical_quantum_qi_runtime_baseline_established_final_packet_v0_1.json",
+        "chain_index": "chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json",
+        "manifest": "manifests/physical_quantum_qi_deepening_manifest_v0_2.json",
+        "release_packet": "packets/physical_quantum_qi_deepening_release_packet_v0_2.json",
+        "finality_packet": "packets/physical_quantum_qi_deepening_finality_packet_v0_2.json",
+        "release_closure_packet": "packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json",
+    }
+    for key, expected in expected_refs.items():
+        if packet.get(key) != expected:
+            errors.append(f"validated baseline {key} pointer mismatch")
+
+    validators = set(packet.get("validated_by", []))
+    for expected in [
+        "scripts/validate_physical_quantum_qi_deepening_v0_2.py",
+        "scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py",
+        "make physical-quantum-qi-deepening-checks",
+        "make all-governance-checks",
+    ]:
+        if expected not in validators:
+            errors.append(f"validated baseline missing validator: {expected}")
+
+    commitments = packet.get("baseline_commitments", {})
+    for key in sorted(REQUIRED_BASELINE_COMMITMENTS):
+        if commitments.get(key) is not True:
+            errors.append(f"baseline_commitments.{key} must be true")
+
+    errors.extend(validate_authority_false(packet.get("authority_boundary", {}), "authority_boundary"))
+    statement = packet.get("baseline_statement", "")
+    for phrase in [
+        "SK/FV history",
+        "Ward/leak accounting",
+        "positive delta_rec",
+        "gauge/holonomy accounting",
+        "never emerges directly from K",
+        "33/20 remains a stability floor",
+    ]:
+        if phrase not in statement:
+            errors.append(f"baseline_statement missing phrase: {phrase}")
+    return errors
+
+
 def validate_chain_index(chain_index: Dict[str, Any]) -> List[str]:
     errors: List[str] = []
     if chain_index.get("chain_index_id") != "physical_quantum_qi_deepening_chain_index_v0_2":
@@ -241,21 +367,25 @@ def main() -> int:
     manifest = load_json(MANIFEST_PATH)
     release_packet = load_json(RELEASE_PACKET_PATH)
     finality_packet = load_json(FINALITY_PACKET_PATH)
+    closure_packet = load_json(CLOSURE_PACKET_PATH)
+    validated_baseline_packet = load_json(VALIDATED_BASELINE_PACKET_PATH)
     chain_index = load_json(CHAIN_INDEX_PATH)
 
     errors: List[str] = []
     errors.extend(validate_manifest(manifest))
     errors.extend(validate_release_packet(release_packet))
     errors.extend(validate_finality_packet(finality_packet))
+    errors.extend(validate_closure_packet(closure_packet))
+    errors.extend(validate_validated_baseline_packet(validated_baseline_packet))
     errors.extend(validate_chain_index(chain_index))
 
     if errors:
-        print("Physical Quantum Qi deepening release/finality/chain validation failed:")
+        print("Physical Quantum Qi deepening release/finality/closure/baseline/chain validation failed:")
         for err in errors:
             print(f"- {err}")
         return 1
 
-    print("Physical Quantum Qi deepening release/finality/chain validation passed.")
+    print("Physical Quantum Qi deepening release/finality/closure/baseline/chain validation passed.")
     return 0
 
 
