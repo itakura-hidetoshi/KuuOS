@@ -1,0 +1,109 @@
+{
+  "id": "superstring_emptiness_sbm_superchain_manifest_v0_6",
+  "version": "v0.6",
+  "date": "2026-05-17",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "status": "superchain_baseline_candidate",
+  "title": "Superstring Emptiness String / Brane / Membrane Runtime Superchain",
+  "scope": "KuuOS physics-facing non-collapse runtime bridge",
+  "chain_order": [
+    {
+      "stage": "v0.1",
+      "name": "String / Brane / Membrane Runtime",
+      "role": "Define string, brane, and membrane as emptiness-preserving dependent-origination runtime objects.",
+      "primary_files": [
+        "docs/SUPERSTRING_EMPTINESS_STRING_BRANE_MEMBRANE_RUNTIME_v0_1.md",
+        "contracts/superstring_emptiness_string_brane_membrane_contract_v0_1.yaml",
+        "lean/KUOS/SuperstringEmptiness/StringBraneMembrane.lean"
+      ]
+    },
+    {
+      "stage": "v0.2",
+      "name": "Stronger Runtime Safety",
+      "role": "Reject core collapse patterns with fail-closed validation.",
+      "primary_files": [
+        "validation_cases/superstring_emptiness_string_brane_membrane_validation_cases_v0_2.json",
+        "validators/validate_superstring_emptiness_string_brane_membrane_v0_2.py",
+        "validators/run_superstring_emptiness_string_brane_membrane_cases_v0_2.py"
+      ]
+    },
+    {
+      "stage": "v0.3",
+      "name": "Lean Predicate Refinement",
+      "role": "Reflect collapse claims into typed Lean predicates and theorem surfaces.",
+      "primary_files": [
+        "docs/SUPERSTRING_EMPTINESS_STRING_BRANE_MEMBRANE_LEAN_PREDICATE_REFINEMENT_v0_3.md",
+        "manifests/superstring_emptiness_string_brane_membrane_lean_predicate_refinement_manifest_v0_3.json",
+        "lean/KUOS/SuperstringEmptiness/StringBraneMembrane.lean"
+      ]
+    },
+    {
+      "stage": "v0.4",
+      "name": "IndraNet Gauge Interface",
+      "role": "Preserve connection, curvature, holonomy, transport, gluing, residue, and obstruction visibility; forbid graph-only reduction.",
+      "primary_files": [
+        "contracts/superstring_emptiness_indranet_gauge_interface_contract_v0_4.yaml",
+        "examples/superstring_emptiness_indranet_gauge_interface_packet_v0_4.json",
+        "validation_cases/superstring_emptiness_indranet_gauge_interface_validation_cases_v0_4.json",
+        "validators/validate_superstring_emptiness_indranet_gauge_interface_v0_4.py"
+      ]
+    },
+    {
+      "stage": "v0.5",
+      "name": "Mass Gap / Two Truths Reference-Only Link",
+      "role": "Link mass gap and two-truths bridge as reference-only non-collapse boundary without opening theorem, execution, or world-update authority.",
+      "primary_files": [
+        "contracts/superstring_emptiness_mass_gap_two_truths_link_contract_v0_5.yaml",
+        "docs/SUPERSTRING_EMPTINESS_MASS_GAP_TWO_TRUTHS_LINK_v0_5.md",
+        "manifests/superstring_emptiness_mass_gap_two_truths_link_manifest_v0_5.json"
+      ]
+    },
+    {
+      "stage": "v0.6",
+      "name": "Observer-Record-Scale Bridge",
+      "role": "Gate conventional readability through observer context, record surface, scale regime, backaction visibility, uncertainty policy, and non-reification guards.",
+      "primary_files": [
+        "contracts/superstring_emptiness_observer_record_scale_bridge_contract_v0_6.yaml",
+        "examples/superstring_emptiness_observer_record_scale_bridge_packet_v0_6.json",
+        "validation_cases/superstring_emptiness_observer_record_scale_bridge_validation_cases_v0_6.json",
+        "validators/validate_superstring_emptiness_observer_record_scale_bridge_v0_6.py"
+      ]
+    }
+  ],
+  "superchain_fixed_points": [
+    "string_is_dependent_relational_vibration_trace_not_substance",
+    "brane_is_local_world_support_surface_not_absolute_world",
+    "membrane_is_typed_boundary_not_final_authority",
+    "indranet_is_gauge_theoretic_not_graph_only",
+    "mass_gap_link_is_reference_only_noncollapse_boundary",
+    "two_truths_gap_prevents_paramartha_samvrti_collapse",
+    "observer_record_scale_bridge_required_for_conventional_readability",
+    "record_surface_does_not_replace_ultimate_truth",
+    "observation_does_not_erase_backaction",
+    "scale_bridge_does_not_erase_uncertainty",
+    "readability_does_not_open_execution_authority",
+    "successful_gluing_does_not_erase_obstruction",
+    "successful_transport_is_not_equivalence_certificate"
+  ],
+  "validation_entrypoints": [
+    "make superstring-emptiness-sbm-checks",
+    ".github/workflows/superstring_emptiness_sbm_validation.yml"
+  ],
+  "authority_boundary": {
+    "execution_authority": false,
+    "world_update_authority": false,
+    "clinical_authority": false,
+    "final_theorem_authority": false,
+    "public_consensus_authority": false,
+    "advisory_by_default": true,
+    "reference_only_where_applicable": true
+  },
+  "governance": {
+    "additive_only": true,
+    "tighten_only_default": true,
+    "same_root_required": true,
+    "overwrite_forbidden": true,
+    "destructive_replacement_forbidden": true,
+    "fail_closed": true
+  }
+}
