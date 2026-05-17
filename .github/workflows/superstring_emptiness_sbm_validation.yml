@@ -5,11 +5,16 @@ on:
     paths:
       - 'docs/SUPERSTRING_EMPTINESS_STRING_BRANE_MEMBRANE_*.md'
       - 'contracts/superstring_emptiness_string_brane_membrane_contract_v0_1.yaml'
+      - 'contracts/superstring_emptiness_indranet_gauge_interface_contract_v0_4.yaml'
       - 'validators/validate_superstring_emptiness_string_brane_membrane_v0_*.py'
       - 'validators/run_superstring_emptiness_string_brane_membrane_cases_v0_*.py'
       - 'validators/validate_superstring_emptiness_sbm_*_v0_2.py'
+      - 'validators/validate_superstring_emptiness_indranet_gauge_interface_v0_4.py'
+      - 'validators/run_superstring_emptiness_indranet_gauge_interface_cases_v0_4.py'
       - 'validation_cases/superstring_emptiness_string_brane_membrane_validation_cases_v0_*.json'
+      - 'validation_cases/superstring_emptiness_indranet_gauge_interface_validation_cases_v0_4.json'
       - 'examples/superstring_emptiness_string_brane_membrane_packet_v0_1.json'
+      - 'examples/superstring_emptiness_indranet_gauge_interface_packet_v0_4.json'
       - 'manifests/superstring_emptiness_string_brane_membrane_manifest_v0_1.json'
       - 'packets/superstring_emptiness_string_brane_membrane_*_packet_v0_1.json'
       - '.github/workflows/superstring_emptiness_sbm_validation.yml'
@@ -17,11 +22,16 @@ on:
     paths:
       - 'docs/SUPERSTRING_EMPTINESS_STRING_BRANE_MEMBRANE_*.md'
       - 'contracts/superstring_emptiness_string_brane_membrane_contract_v0_1.yaml'
+      - 'contracts/superstring_emptiness_indranet_gauge_interface_contract_v0_4.yaml'
       - 'validators/validate_superstring_emptiness_string_brane_membrane_v0_*.py'
       - 'validators/run_superstring_emptiness_string_brane_membrane_cases_v0_*.py'
       - 'validators/validate_superstring_emptiness_sbm_*_v0_2.py'
+      - 'validators/validate_superstring_emptiness_indranet_gauge_interface_v0_4.py'
+      - 'validators/run_superstring_emptiness_indranet_gauge_interface_cases_v0_4.py'
       - 'validation_cases/superstring_emptiness_string_brane_membrane_validation_cases_v0_*.json'
+      - 'validation_cases/superstring_emptiness_indranet_gauge_interface_validation_cases_v0_4.json'
       - 'examples/superstring_emptiness_string_brane_membrane_packet_v0_1.json'
+      - 'examples/superstring_emptiness_indranet_gauge_interface_packet_v0_4.json'
       - 'manifests/superstring_emptiness_string_brane_membrane_manifest_v0_1.json'
       - 'packets/superstring_emptiness_string_brane_membrane_*_packet_v0_1.json'
       - '.github/workflows/superstring_emptiness_sbm_validation.yml'
@@ -64,3 +74,13 @@ jobs:
           python3 validators/validate_superstring_emptiness_sbm_packet_chain_v0_2.py \
             packets/superstring_emptiness_string_brane_membrane_release_packet_v0_1.json \
             packets/superstring_emptiness_string_brane_membrane_finality_packet_v0_1.json
+
+      - name: Validate v0.4 IndraNet gauge interface example
+        run: |
+          python3 validators/validate_superstring_emptiness_indranet_gauge_interface_v0_4.py \
+            examples/superstring_emptiness_indranet_gauge_interface_packet_v0_4.json
+
+      - name: Run v0.4 IndraNet gauge interface cases
+        run: |
+          python3 validators/run_superstring_emptiness_indranet_gauge_interface_cases_v0_4.py \
+            validation_cases/superstring_emptiness_indranet_gauge_interface_validation_cases_v0_4.json
