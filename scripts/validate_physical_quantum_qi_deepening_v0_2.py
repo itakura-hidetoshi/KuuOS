@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Validate Physical Quantum Qi deepening contract v0.2.
 
-This validator checks the five v0.2 deepening modules:
+This validator checks the v0.2 deepening modules:
 - SK/FV path integral
 - Ward/leak identity
 - DPI recoverability
 - IndraNet gauge transport
 - KuString-Qi emergence bridge
+- Qi OS handoff
 """
 
 from __future__ import annotations
@@ -20,6 +21,15 @@ ROOT = Path(__file__).resolve().parents[1]
 SPEC_PATH = ROOT / "specs" / "physical_quantum_qi_deepening_contract_v0_2.json"
 EXAMPLE_PATH = ROOT / "examples" / "physical_quantum_qi_deepening_packet_v0_2.json"
 CASES_PATH = ROOT / "validation_cases" / "physical_quantum_qi_deepening_validation_cases_v0_2.json"
+
+EXPECTED_FULLPATH_STATUS = "memory_recordable_reflection_analyzable_candidate"
+EXPECTED_FULLPATH_SURFACES = {
+    "BeliefOS.observation_candidate",
+    "PlanOS.transport_candidate",
+    "DecisionOS.safety_evaluable_candidate",
+    "MemoryOS.recordable_history_candidate",
+    "ReflectionOS.residue_analysis_candidate",
+}
 
 
 def load_json(path: Path) -> Dict[str, Any]:
@@ -68,6 +78,17 @@ def module_errors(packet: Dict[str, Any], spec: Dict[str, Any]) -> List[str]:
                 errors.append("KuString_Qi_emergence_bridge requires K non-reification")
             if not is_pass(payload.get("mass_gap_floor_not_Qi_source")):
                 errors.append("KuString_Qi_emergence_bridge requires mass gap as floor, not Qi source")
+
+        if module_name == "Qi_OS_handoff":
+            if payload.get("FullPathQi_status") != EXPECTED_FULLPATH_STATUS:
+                errors.append("Qi_OS_handoff.FullPathQi_status mismatch")
+            surfaces = payload.get("allowed_surfaces", [])
+            if not isinstance(surfaces, list):
+                errors.append("Qi_OS_handoff.allowed_surfaces must be a list")
+            else:
+                missing = sorted(EXPECTED_FULLPATH_SURFACES - set(surfaces))
+                for surface in missing:
+                    errors.append(f"Qi_OS_handoff.allowed_surfaces missing {surface}")
     return errors
 
 
@@ -93,6 +114,7 @@ def validate_spec(spec: Dict[str, Any]) -> List[str]:
         "DPI_recoverability",
         "IndraNet_gauge_transport",
         "KuString_Qi_emergence_bridge",
+        "Qi_OS_handoff",
     ]:
         if module not in spec.get("deepening_modules", {}):
             errors.append(f"missing module {module}")
