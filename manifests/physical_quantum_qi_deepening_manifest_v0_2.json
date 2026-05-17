@@ -22,7 +22,18 @@
       "validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json"
     ],
     "validators": [
-      "scripts/validate_physical_quantum_qi_deepening_v0_2.py"
+      "scripts/validate_physical_quantum_qi_deepening_v0_2.py",
+      "scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py"
+    ],
+    "manifests": [
+      "manifests/physical_quantum_qi_deepening_manifest_v0_2.json"
+    ],
+    "packets": [
+      "packets/physical_quantum_qi_deepening_release_packet_v0_2.json",
+      "packets/physical_quantum_qi_deepening_finality_packet_v0_2.json"
+    ],
+    "chain_indexes": [
+      "chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json"
     ],
     "ci": [
       ".github/workflows/physical_quantum_qi_deepening_validation.yml",
@@ -45,6 +56,7 @@
   "validation_entrypoints": [
     "make physical-quantum-qi-deepening-checks",
     "python3 scripts/validate_physical_quantum_qi_deepening_v0_2.py",
+    "python3 scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py",
     "make all-governance-checks"
   ]
 }
