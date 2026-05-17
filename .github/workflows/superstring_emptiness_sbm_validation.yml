@@ -4,35 +4,51 @@ on:
   push:
     paths:
       - 'docs/SUPERSTRING_EMPTINESS_STRING_BRANE_MEMBRANE_*.md'
+      - 'docs/SUPERSTRING_EMPTINESS_MASS_GAP_TWO_TRUTHS_LINK_v0_5.md'
       - 'contracts/superstring_emptiness_string_brane_membrane_contract_v0_1.yaml'
       - 'contracts/superstring_emptiness_indranet_gauge_interface_contract_v0_4.yaml'
+      - 'contracts/superstring_emptiness_mass_gap_two_truths_link_contract_v0_5.yaml'
+      - 'contracts/superstring_emptiness_observer_record_scale_bridge_contract_v0_6.yaml'
       - 'validators/validate_superstring_emptiness_string_brane_membrane_v0_*.py'
       - 'validators/run_superstring_emptiness_string_brane_membrane_cases_v0_*.py'
       - 'validators/validate_superstring_emptiness_sbm_*_v0_2.py'
       - 'validators/validate_superstring_emptiness_indranet_gauge_interface_v0_4.py'
       - 'validators/run_superstring_emptiness_indranet_gauge_interface_cases_v0_4.py'
+      - 'validators/validate_superstring_emptiness_observer_record_scale_bridge_v0_6.py'
+      - 'validators/run_superstring_emptiness_observer_record_scale_bridge_cases_v0_6.py'
       - 'validation_cases/superstring_emptiness_string_brane_membrane_validation_cases_v0_*.json'
       - 'validation_cases/superstring_emptiness_indranet_gauge_interface_validation_cases_v0_4.json'
+      - 'validation_cases/superstring_emptiness_observer_record_scale_bridge_validation_cases_v0_6.json'
       - 'examples/superstring_emptiness_string_brane_membrane_packet_v0_1.json'
       - 'examples/superstring_emptiness_indranet_gauge_interface_packet_v0_4.json'
+      - 'examples/superstring_emptiness_observer_record_scale_bridge_packet_v0_6.json'
       - 'manifests/superstring_emptiness_string_brane_membrane_manifest_v0_1.json'
+      - 'manifests/superstring_emptiness_mass_gap_two_truths_link_manifest_v0_5.json'
       - 'packets/superstring_emptiness_string_brane_membrane_*_packet_v0_1.json'
       - '.github/workflows/superstring_emptiness_sbm_validation.yml'
   pull_request:
     paths:
       - 'docs/SUPERSTRING_EMPTINESS_STRING_BRANE_MEMBRANE_*.md'
+      - 'docs/SUPERSTRING_EMPTINESS_MASS_GAP_TWO_TRUTHS_LINK_v0_5.md'
       - 'contracts/superstring_emptiness_string_brane_membrane_contract_v0_1.yaml'
       - 'contracts/superstring_emptiness_indranet_gauge_interface_contract_v0_4.yaml'
+      - 'contracts/superstring_emptiness_mass_gap_two_truths_link_contract_v0_5.yaml'
+      - 'contracts/superstring_emptiness_observer_record_scale_bridge_contract_v0_6.yaml'
       - 'validators/validate_superstring_emptiness_string_brane_membrane_v0_*.py'
       - 'validators/run_superstring_emptiness_string_brane_membrane_cases_v0_*.py'
       - 'validators/validate_superstring_emptiness_sbm_*_v0_2.py'
       - 'validators/validate_superstring_emptiness_indranet_gauge_interface_v0_4.py'
       - 'validators/run_superstring_emptiness_indranet_gauge_interface_cases_v0_4.py'
+      - 'validators/validate_superstring_emptiness_observer_record_scale_bridge_v0_6.py'
+      - 'validators/run_superstring_emptiness_observer_record_scale_bridge_cases_v0_6.py'
       - 'validation_cases/superstring_emptiness_string_brane_membrane_validation_cases_v0_*.json'
       - 'validation_cases/superstring_emptiness_indranet_gauge_interface_validation_cases_v0_4.json'
+      - 'validation_cases/superstring_emptiness_observer_record_scale_bridge_validation_cases_v0_6.json'
       - 'examples/superstring_emptiness_string_brane_membrane_packet_v0_1.json'
       - 'examples/superstring_emptiness_indranet_gauge_interface_packet_v0_4.json'
+      - 'examples/superstring_emptiness_observer_record_scale_bridge_packet_v0_6.json'
       - 'manifests/superstring_emptiness_string_brane_membrane_manifest_v0_1.json'
+      - 'manifests/superstring_emptiness_mass_gap_two_truths_link_manifest_v0_5.json'
       - 'packets/superstring_emptiness_string_brane_membrane_*_packet_v0_1.json'
       - '.github/workflows/superstring_emptiness_sbm_validation.yml'
   workflow_dispatch:
@@ -84,3 +100,13 @@ jobs:
         run: |
           python3 validators/run_superstring_emptiness_indranet_gauge_interface_cases_v0_4.py \
             validation_cases/superstring_emptiness_indranet_gauge_interface_validation_cases_v0_4.json
+
+      - name: Validate v0.6 Observer-Record-Scale bridge example
+        run: |
+          python3 validators/validate_superstring_emptiness_observer_record_scale_bridge_v0_6.py \
+            examples/superstring_emptiness_observer_record_scale_bridge_packet_v0_6.json
+
+      - name: Run v0.6 Observer-Record-Scale bridge cases
+        run: |
+          python3 validators/run_superstring_emptiness_observer_record_scale_bridge_cases_v0_6.py \
+            validation_cases/superstring_emptiness_observer_record_scale_bridge_validation_cases_v0_6.json
