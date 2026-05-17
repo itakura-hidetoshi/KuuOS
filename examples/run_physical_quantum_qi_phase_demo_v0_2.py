@@ -1,10 +1,15 @@
 #!/usr/bin/env python3
-"""Run the Physical Quantum Qi phase classifier on the v0.2 equation packet.
+"""Run the Physical Quantum Qi phase classifier and OS handoff demo v0.2.
 
 This is a runtime-facing demo, not a governance packet. It loads the
-machine-readable equation packet and computes the Qi phase:
+machine-readable equation packet and computes:
 
-NonQi -> PreQi -> ProtoQi -> BoundaryQi -> TransportQi -> PhysicalQi -> FullPathQi
+1. Qi phase:
+   NonQi -> PreQi -> ProtoQi -> BoundaryQi -> TransportQi -> PhysicalQi -> FullPathQi
+
+2. KuuOS handoff surface:
+   FullPathQi -> DecisionOS safety evaluation, MemoryOS recordable history,
+   and ReflectionOS residue analysis, without execution or commit authority.
 """
 
 from __future__ import annotations
@@ -18,6 +23,8 @@ sys.path.insert(0, str(ROOT / "src"))
 
 from physical_quantum_qi_phase_runtime_v0_2 import (  # noqa: E402
     classify_qi_phase,
+    handoff_to_dict,
+    qi_phase_handoff,
     result_to_dict,
     state_from_packet,
 )
@@ -31,9 +38,20 @@ def main() -> int:
 
     state = state_from_packet(packet)
     result = classify_qi_phase(state)
-    print(json.dumps(result_to_dict(result), ensure_ascii=False, indent=2))
+    handoff = qi_phase_handoff(result)
+    payload = {
+        "phase_result": result_to_dict(result),
+        "handoff": handoff_to_dict(handoff),
+    }
+    print(json.dumps(payload, ensure_ascii=False, indent=2))
 
     if result.phase.value != "FullPathQi":
+        return 1
+    if handoff.execution_authority or handoff.commit_authority:
+        return 1
+    if "MemoryOS.recordable_history_candidate" not in handoff.allowed_surfaces:
+        return 1
+    if "ReflectionOS.residue_analysis_candidate" not in handoff.allowed_surfaces:
         return 1
     return 0
 
