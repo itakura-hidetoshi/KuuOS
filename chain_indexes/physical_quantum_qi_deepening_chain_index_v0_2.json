@@ -27,72 +27,78 @@
     },
     {
       "order": 5,
+      "role": "phase_demo",
+      "path": "examples/run_physical_quantum_qi_phase_demo_v0_2.py"
+    },
+    {
+      "order": 6,
       "role": "validation_cases",
       "path": "validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json"
     },
     {
-      "order": 6,
+      "order": 7,
       "role": "equation_validator",
       "path": "scripts/validate_physical_quantum_qi_equations_v0_2.py"
     },
     {
-      "order": 7,
+      "order": 8,
       "role": "runtime_validator",
       "path": "scripts/validate_physical_quantum_qi_deepening_v0_2.py"
     },
     {
-      "order": 8,
+      "order": 9,
       "role": "phase_runtime",
       "path": "src/physical_quantum_qi_phase_runtime_v0_2.py"
     },
     {
-      "order": 9,
+      "order": 10,
       "role": "phase_runtime_tests",
       "path": "tests/test_physical_quantum_qi_phase_runtime_v0_2.py"
     },
     {
-      "order": 10,
+      "order": 11,
       "role": "manifest",
       "path": "manifests/physical_quantum_qi_deepening_manifest_v0_2.json"
     },
     {
-      "order": 11,
+      "order": 12,
       "role": "release_packet",
       "path": "packets/physical_quantum_qi_deepening_release_packet_v0_2.json"
     },
     {
-      "order": 12,
+      "order": 13,
       "role": "release_packet_validator",
       "path": "scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py"
     },
     {
-      "order": 13,
+      "order": 14,
       "role": "finality_packet",
       "path": "packets/physical_quantum_qi_deepening_finality_packet_v0_2.json"
     },
     {
-      "order": 14,
+      "order": 15,
       "role": "release_closure_packet",
       "path": "packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json"
     },
     {
-      "order": 15,
+      "order": 16,
       "role": "validated_baseline_packet",
       "path": "packets/physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json"
     },
     {
-      "order": 16,
+      "order": 17,
       "role": "baseline_established_final_packet",
       "path": "packets/physical_quantum_qi_deepening_baseline_established_final_packet_v0_2.json"
     },
     {
-      "order": 17,
+      "order": 18,
       "role": "dedicated_ci_workflow",
       "path": ".github/workflows/physical_quantum_qi_deepening_validation.yml"
     }
   ],
   "validation_entrypoints": [
     "make physical-quantum-qi-deepening-checks",
+    "python3 examples/run_physical_quantum_qi_phase_demo_v0_2.py",
     "make all-governance-checks"
   ],
   "non_authority_statement": "This chain is a public runtime/governance deepening implementation chain. It grants no proof, ontology, clinical, execution, belief commit, memory overwrite, world-root rewrite, or safety override authority."
