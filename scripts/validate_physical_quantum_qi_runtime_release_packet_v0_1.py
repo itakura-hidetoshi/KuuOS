@@ -1,16 +1,18 @@
 #!/usr/bin/env python3
-"""Validate the Physical Quantum Qi runtime manifest and release packet v0.1."""
+"""Validate the Physical Quantum Qi runtime manifest, release packet, finality packet, and chain index v0.1."""
 
 from __future__ import annotations
 
 import json
 import sys
 from pathlib import Path
-from typing import Any, Dict, Iterable, List
+from typing import Any, Dict, List
 
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST_PATH = ROOT / "manifests" / "physical_quantum_qi_runtime_manifest_v0_1.json"
 PACKET_PATH = ROOT / "packets" / "physical_quantum_qi_runtime_release_packet_v0_1.json"
+FINALITY_PATH = ROOT / "packets" / "physical_quantum_qi_runtime_finality_packet_v0_1.json"
+CHAIN_INDEX_PATH = ROOT / "chain_indexes" / "physical_quantum_qi_runtime_chain_index_v0_1.json"
 
 REQUIRED_MANIFEST_FILES = {
     "docs/PHYSICAL_QUANTUM_QI_RUNTIME_CONTRACT_v0_1.md",
@@ -48,6 +50,20 @@ AUTHORITY_FALSE_FIELDS = {
     "world_root_rewrite_authority",
     "safety_override_authority",
 }
+
+REQUIRED_CHAIN_PATHS = [
+    "docs/PHYSICAL_QUANTUM_QI_RUNTIME_CONTRACT_v0_1.md",
+    "docs/PHYSICAL_QUANTUM_QI_RUNTIME_INDEX_v0_1.md",
+    "specs/physical_quantum_qi_runtime_contract_v0_1.json",
+    "examples/physical_quantum_qi_runtime_packet_v0_1.json",
+    "validation_cases/physical_quantum_qi_runtime_validation_cases_v0_1.json",
+    "scripts/validate_physical_quantum_qi_runtime_contract_v0_1.py",
+    "manifests/physical_quantum_qi_runtime_manifest_v0_1.json",
+    "packets/physical_quantum_qi_runtime_release_packet_v0_1.json",
+    "scripts/validate_physical_quantum_qi_runtime_release_packet_v0_1.py",
+    "packets/physical_quantum_qi_runtime_finality_packet_v0_1.json",
+    ".github/workflows/physical_quantum_qi_runtime_validation.yml",
+]
 
 
 def load_json(path: Path) -> Dict[str, Any]:
@@ -94,6 +110,14 @@ def validate_manifest(manifest: Dict[str, Any]) -> List[str]:
     return errors
 
 
+def validate_authority_false(boundaries: Dict[str, Any], prefix: str) -> List[str]:
+    errors: List[str] = []
+    for key in sorted(AUTHORITY_FALSE_FIELDS):
+        if boundaries.get(key) is not False:
+            errors.append(f"{prefix}.{key} must be false")
+    return errors
+
+
 def validate_release_packet(packet: Dict[str, Any], manifest: Dict[str, Any]) -> List[str]:
     errors: List[str] = []
     if packet.get("packet_id") != "physical_quantum_qi_runtime_release_packet_v0_1":
@@ -101,10 +125,7 @@ def validate_release_packet(packet: Dict[str, Any], manifest: Dict[str, Any]) ->
     if packet.get("manifest") != "manifests/physical_quantum_qi_runtime_manifest_v0_1.json":
         errors.append("release packet manifest pointer mismatch")
 
-    boundaries = packet.get("declared_boundaries", {})
-    for key in sorted(AUTHORITY_FALSE_FIELDS):
-        if boundaries.get(key) is not False:
-            errors.append(f"declared_boundaries.{key} must be false")
+    errors.extend(validate_authority_false(packet.get("declared_boundaries", {}), "declared_boundaries"))
 
     claims = "\n".join(packet.get("core_claims", []))
     if "Qi is not K" not in claims:
@@ -125,21 +146,85 @@ def validate_release_packet(packet: Dict[str, Any], manifest: Dict[str, Any]) ->
     return errors
 
 
+def validate_finality_packet(finality: Dict[str, Any]) -> List[str]:
+    errors: List[str] = []
+    if finality.get("packet_id") != "physical_quantum_qi_runtime_finality_packet_v0_1":
+        errors.append("finality packet_id mismatch")
+    if finality.get("root_release_packet") != "packets/physical_quantum_qi_runtime_release_packet_v0_1.json":
+        errors.append("finality root_release_packet mismatch")
+    if finality.get("manifest") != "manifests/physical_quantum_qi_runtime_manifest_v0_1.json":
+        errors.append("finality manifest pointer mismatch")
+
+    declaration = finality.get("finality_declaration", {})
+    for key in [
+        "additive_only",
+        "tighten_only_default",
+        "overwrite_forbidden",
+        "destructive_replacement_forbidden",
+        "same_root_required",
+        "nonexecution_by_default",
+    ]:
+        if declaration.get(key) is not True:
+            errors.append(f"finality_declaration.{key} must be true")
+
+    locked = set(finality.get("locked_invariants", []))
+    missing_locked = sorted(REQUIRED_INVARIANTS - locked)
+    if missing_locked:
+        errors.append("finality missing locked invariants: " + ", ".join(missing_locked))
+
+    errors.extend(validate_authority_false(finality.get("authority_boundary", {}), "authority_boundary"))
+    return errors
+
+
+def validate_chain_index(chain_index: Dict[str, Any]) -> List[str]:
+    errors: List[str] = []
+    if chain_index.get("chain_index_id") != "physical_quantum_qi_runtime_chain_index_v0_1":
+        errors.append("chain_index_id mismatch")
+    if chain_index.get("update_policy") != "additive_only":
+        errors.append("chain index update_policy must be additive_only")
+    if chain_index.get("overwrite_policy") != "forbidden":
+        errors.append("chain index overwrite_policy must be forbidden")
+
+    chain = chain_index.get("chain", [])
+    paths = [entry.get("path") for entry in chain]
+    for required in REQUIRED_CHAIN_PATHS:
+        if required not in paths:
+            errors.append(f"chain index missing path: {required}")
+        elif not (ROOT / required).exists():
+            errors.append(f"chain index references missing repository file: {required}")
+
+    orders = [entry.get("order") for entry in chain]
+    if orders != sorted(orders):
+        errors.append("chain index orders must be sorted")
+    if len(set(orders)) != len(orders):
+        errors.append("chain index orders must be unique")
+
+    statement = chain_index.get("non_authority_statement", "")
+    for phrase in ["no proof", "execution", "belief commit", "memory overwrite", "world-root rewrite", "safety override"]:
+        if phrase not in statement:
+            errors.append(f"chain non_authority_statement missing phrase: {phrase}")
+    return errors
+
+
 def main() -> int:
     manifest = load_json(MANIFEST_PATH)
     packet = load_json(PACKET_PATH)
+    finality = load_json(FINALITY_PATH)
+    chain_index = load_json(CHAIN_INDEX_PATH)
 
     errors: List[str] = []
     errors.extend(validate_manifest(manifest))
     errors.extend(validate_release_packet(packet, manifest))
+    errors.extend(validate_finality_packet(finality))
+    errors.extend(validate_chain_index(chain_index))
 
     if errors:
-        print("Physical Quantum Qi runtime release packet validation failed:")
+        print("Physical Quantum Qi runtime release/finality/chain validation failed:")
         for err in errors:
             print(f"- {err}")
         return 1
 
-    print("Physical Quantum Qi runtime release packet validation passed.")
+    print("Physical Quantum Qi runtime release/finality/chain validation passed.")
     return 0
 
 
