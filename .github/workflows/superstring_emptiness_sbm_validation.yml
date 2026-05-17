@@ -3,21 +3,27 @@ name: Superstring Emptiness String-Brane-Membrane Validation
 on:
   push:
     paths:
-      - 'docs/SUPERSTRING_EMPTINESS_STRING_BRANE_MEMBRANE_RUNTIME_v0_1.md'
+      - 'docs/SUPERSTRING_EMPTINESS_STRING_BRANE_MEMBRANE_*.md'
       - 'contracts/superstring_emptiness_string_brane_membrane_contract_v0_1.yaml'
-      - 'validators/validate_superstring_emptiness_string_brane_membrane_v0_1.py'
-      - 'validators/run_superstring_emptiness_string_brane_membrane_cases_v0_1.py'
-      - 'validation_cases/superstring_emptiness_string_brane_membrane_validation_cases_v0_1.json'
+      - 'validators/validate_superstring_emptiness_string_brane_membrane_v0_*.py'
+      - 'validators/run_superstring_emptiness_string_brane_membrane_cases_v0_*.py'
+      - 'validators/validate_superstring_emptiness_sbm_*_v0_2.py'
+      - 'validation_cases/superstring_emptiness_string_brane_membrane_validation_cases_v0_*.json'
       - 'examples/superstring_emptiness_string_brane_membrane_packet_v0_1.json'
+      - 'manifests/superstring_emptiness_string_brane_membrane_manifest_v0_1.json'
+      - 'packets/superstring_emptiness_string_brane_membrane_*_packet_v0_1.json'
       - '.github/workflows/superstring_emptiness_sbm_validation.yml'
   pull_request:
     paths:
-      - 'docs/SUPERSTRING_EMPTINESS_STRING_BRANE_MEMBRANE_RUNTIME_v0_1.md'
+      - 'docs/SUPERSTRING_EMPTINESS_STRING_BRANE_MEMBRANE_*.md'
       - 'contracts/superstring_emptiness_string_brane_membrane_contract_v0_1.yaml'
-      - 'validators/validate_superstring_emptiness_string_brane_membrane_v0_1.py'
-      - 'validators/run_superstring_emptiness_string_brane_membrane_cases_v0_1.py'
-      - 'validation_cases/superstring_emptiness_string_brane_membrane_validation_cases_v0_1.json'
+      - 'validators/validate_superstring_emptiness_string_brane_membrane_v0_*.py'
+      - 'validators/run_superstring_emptiness_string_brane_membrane_cases_v0_*.py'
+      - 'validators/validate_superstring_emptiness_sbm_*_v0_2.py'
+      - 'validation_cases/superstring_emptiness_string_brane_membrane_validation_cases_v0_*.json'
       - 'examples/superstring_emptiness_string_brane_membrane_packet_v0_1.json'
+      - 'manifests/superstring_emptiness_string_brane_membrane_manifest_v0_1.json'
+      - 'packets/superstring_emptiness_string_brane_membrane_*_packet_v0_1.json'
       - '.github/workflows/superstring_emptiness_sbm_validation.yml'
   workflow_dispatch:
 
@@ -33,12 +39,28 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Validate example packet
+      - name: Validate v0.1 example packet
         run: |
           python3 validators/validate_superstring_emptiness_string_brane_membrane_v0_1.py \
             examples/superstring_emptiness_string_brane_membrane_packet_v0_1.json
 
-      - name: Run validation cases
+      - name: Run v0.1 validation cases
         run: |
           python3 validators/run_superstring_emptiness_string_brane_membrane_cases_v0_1.py \
             validation_cases/superstring_emptiness_string_brane_membrane_validation_cases_v0_1.json
+
+      - name: Run v0.2 validation cases
+        run: |
+          python3 validators/run_superstring_emptiness_string_brane_membrane_cases_v0_2.py \
+            validation_cases/superstring_emptiness_string_brane_membrane_validation_cases_v0_2.json
+
+      - name: Validate manifest
+        run: |
+          python3 validators/validate_superstring_emptiness_sbm_manifest_v0_2.py \
+            manifests/superstring_emptiness_string_brane_membrane_manifest_v0_1.json
+
+      - name: Validate release/finality packet chain
+        run: |
+          python3 validators/validate_superstring_emptiness_sbm_packet_chain_v0_2.py \
+            packets/superstring_emptiness_string_brane_membrane_release_packet_v0_1.json \
+            packets/superstring_emptiness_string_brane_membrane_finality_packet_v0_1.json
