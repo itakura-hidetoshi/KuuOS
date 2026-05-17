@@ -3,7 +3,7 @@
   "packet_type": "release_packet",
   "status": "release_candidate",
   "manifest": "manifests/physical_quantum_qi_deepening_manifest_v0_2.json",
-  "scope": "Physical Quantum Qi v0.2 deepening modules: SK/FV path integral, Ward/leak identity, DPI recoverability, IndraNet gauge transport, KuString-Qi emergence bridge, and Qi OS handoff",
+  "scope": "Physical Quantum Qi v0.2 deepening modules: SK/FV path integral, Ward/leak identity, DPI recoverability, IndraNet gauge transport, KuString-Qi emergence bridge, Qi OS handoff, and Qi OS bridge packet",
   "root_baseline": "packets/physical_quantum_qi_runtime_baseline_established_final_packet_v0_1.json",
   "core_claims": [
     "FullPathQi requires SK/FV history evidence",
@@ -15,8 +15,16 @@
     "MGAP4D 33/20 remains a stable floor, not a Qi source",
     "Qi phase classification is a routing surface, not an authority grant",
     "FullPathQi is MemoryOS-recordable and ReflectionOS-analyzable but not executable",
+    "Qi_OS_bridge_packet exposes candidate-only OS payloads",
+    "Qi_OS_bridge_packet keeps all authority fields false",
     "No v0.2 deepening module grants execution authority"
   ],
+  "runtime_surfaces": {
+    "phase_runtime": "src/physical_quantum_qi_phase_runtime_v0_2.py",
+    "os_bridge_runtime": "src/physical_quantum_qi_os_bridge_v0_2.py",
+    "phase_demo": "examples/run_physical_quantum_qi_phase_demo_v0_2.py",
+    "os_bridge_tests": "tests/test_physical_quantum_qi_os_bridge_v0_2.py"
+  },
   "declared_boundaries": {
     "proof_authority": false,
     "ontology_authority": false,
@@ -32,6 +40,7 @@
   },
   "required_checks": [
     "make physical-quantum-qi-deepening-checks",
+    "python3 tests/test_physical_quantum_qi_os_bridge_v0_2.py",
     "make all-governance-checks"
   ]
 }
