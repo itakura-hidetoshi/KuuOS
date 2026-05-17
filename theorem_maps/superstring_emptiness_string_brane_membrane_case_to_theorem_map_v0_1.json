@@ -1,0 +1,66 @@
+{
+  "id": "superstring_emptiness_string_brane_membrane_case_to_theorem_map_v0_1",
+  "version": "v0.1",
+  "date": "2026-05-17",
+  "validation_cases": "validation_cases/superstring_emptiness_string_brane_membrane_validation_cases_v0_1.json",
+  "theorem_target_map": "theorem_maps/superstring_emptiness_string_brane_membrane_theorem_target_map_v0_1.json",
+  "mappings": [
+    {
+      "case_id": "valid_candidate_packet",
+      "expected_result": "ADMIT_AS_CANDIDATE",
+      "supports_theorems": [
+        "non_reification_required",
+        "two_truths_gap_required",
+        "membrane_authority_non_expansion_required",
+        "obstruction_visibility_required"
+      ],
+      "interpretation": "A packet with all guards present can be admitted as a candidate runtime bridge without opening execution authority."
+    },
+    {
+      "case_id": "reject_string_substance_claim",
+      "expected_result": "HOLD",
+      "supports_theorems": [
+        "StringIsNotSubstance",
+        "non_reification_required"
+      ],
+      "interpretation": "A string presented as independent substance must fail the runtime gate."
+    },
+    {
+      "case_id": "hold_missing_observer_record_surface",
+      "expected_result": "HOLD",
+      "supports_theorems": [
+        "two_truths_gap_required",
+        "obstruction_visibility_required"
+      ],
+      "interpretation": "Without observer-record surface, relational vibration remains non-readable as a conventional runtime surface."
+    },
+    {
+      "case_id": "reject_graph_only_indranet",
+      "expected_result": "HOLD",
+      "supports_theorems": [
+        "IndraNetGraphOnlyReductionForbidden",
+        "GluingDoesNotEraseObstruction"
+      ],
+      "interpretation": "IndraNet graph-only reduction is rejected because it loses gauge-theoretic transport, curvature, holonomy, and obstruction visibility."
+    }
+  ],
+  "coverage_summary": {
+    "positive_admission_cases": 1,
+    "negative_collapse_cases": 3,
+    "covered_guards": [
+      "non_reification_guard",
+      "two_truths_gap_guard",
+      "observer_record_surface_present",
+      "authority_non_expansion_guard",
+      "obstruction_visibility_preserved",
+      "indranet_graph_only_reduction_forbidden"
+    ],
+    "uncovered_future_cases": [
+      "brane_as_absolute_world",
+      "membrane_as_final_authority",
+      "gluing_erases_obstruction",
+      "transport_as_equivalence_certificate",
+      "direct_execution_authority_claim"
+    ]
+  }
+}
