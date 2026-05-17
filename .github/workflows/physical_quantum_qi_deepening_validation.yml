@@ -7,7 +7,10 @@ on:
       - 'specs/physical_quantum_qi_deepening_contract_v0_2.json'
       - 'examples/physical_quantum_qi_deepening_packet_v0_2.json'
       - 'validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json'
+      - 'manifests/physical_quantum_qi_deepening_manifest_v0_2.json'
+      - 'packets/physical_quantum_qi_deepening_release_packet_v0_2.json'
       - 'scripts/validate_physical_quantum_qi_deepening_v0_2.py'
+      - 'scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py'
       - 'Makefile'
       - '.github/workflows/physical_quantum_qi_deepening_validation.yml'
   pull_request:
@@ -15,7 +18,10 @@ on:
       - 'specs/physical_quantum_qi_deepening_contract_v0_2.json'
       - 'examples/physical_quantum_qi_deepening_packet_v0_2.json'
       - 'validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json'
+      - 'manifests/physical_quantum_qi_deepening_manifest_v0_2.json'
+      - 'packets/physical_quantum_qi_deepening_release_packet_v0_2.json'
       - 'scripts/validate_physical_quantum_qi_deepening_v0_2.py'
+      - 'scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py'
       - 'Makefile'
       - '.github/workflows/physical_quantum_qi_deepening_validation.yml'
 
@@ -40,7 +46,10 @@ jobs:
           echo "Contract: specs/physical_quantum_qi_deepening_contract_v0_2.json"
           echo "Example: examples/physical_quantum_qi_deepening_packet_v0_2.json"
           echo "Cases: validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json"
+          echo "Manifest: manifests/physical_quantum_qi_deepening_manifest_v0_2.json"
+          echo "Release packet: packets/physical_quantum_qi_deepening_release_packet_v0_2.json"
           echo "Validator: scripts/validate_physical_quantum_qi_deepening_v0_2.py"
+          echo "Release validator: scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py"
           echo "Modules: SK/FV path integral, Ward/leak identity, DPI recoverability, IndraNet gauge transport, KuString-Qi emergence bridge"
 
       - name: Run Physical Quantum Qi v0.2 deepening checks
