@@ -3,8 +3,8 @@
 
 This validator intentionally checks both governance packets and equation/runtime
 content.  Physical Quantum Qi v0.2 is not valid unless the equation document,
-machine-readable equation packet, phase runtime, runtime tests, and phase demo
-are present in the manifest/chain and on disk.
+machine-readable equation packet, phase runtime, runtime tests, phase demo, and
+Qi OS handoff surface are present in the manifest/chain and on disk.
 """
 
 from __future__ import annotations
@@ -30,6 +30,7 @@ REQUIRED_MODULES = {
     "DPI_recoverability",
     "IndraNet_gauge_transport",
     "KuString_Qi_emergence_bridge",
+    "Qi_OS_handoff",
 }
 
 REQUIRED_FILES = {
@@ -42,6 +43,7 @@ REQUIRED_FILES = {
     "tests/test_physical_quantum_qi_phase_runtime_v0_2.py",
     "validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json",
     "scripts/validate_physical_quantum_qi_equations_v0_2.py",
+    "scripts/validate_physical_quantum_qi_equation_packet_v0_2.py",
     "scripts/validate_physical_quantum_qi_deepening_v0_2.py",
     "scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py",
     "manifests/physical_quantum_qi_deepening_manifest_v0_2.json",
@@ -64,14 +66,20 @@ REQUIRED_INVARIANTS = {
     "IndraNet Qi transport requires gauge connection and holonomy accounting",
     "Qi emerges from delta_rel through string/brane/gauge/current structure and never directly from K",
     "MGAP4D 33/20 remains a stable floor, not a Qi source",
+    "Qi phase classification is a routing surface, not an authority grant",
+    "FullPathQi is MemoryOS-recordable and ReflectionOS-analyzable but not executable",
     "No v0.2 module grants execution authority",
     "Equation-level content is required for v0.2 deepening",
+    "Machine-readable equation packet must expose required equation keys",
     "Equation packet must classify as FullPathQi through the phase runtime demo",
+    "Equation packet must expose Qi_OS_handoff",
+    "Declared Qi_OS_handoff must match runtime-computed handoff",
 }
 
 REQUIRED_ENTRYPOINTS = {
     "make physical-quantum-qi-deepening-checks",
     "python3 scripts/validate_physical_quantum_qi_equations_v0_2.py",
+    "python3 scripts/validate_physical_quantum_qi_equation_packet_v0_2.py",
     "python3 tests/test_physical_quantum_qi_phase_runtime_v0_2.py",
     "python3 examples/run_physical_quantum_qi_phase_demo_v0_2.py",
     "python3 scripts/validate_physical_quantum_qi_deepening_v0_2.py",
@@ -84,9 +92,12 @@ AUTHORITY_FALSE_FIELDS = {
     "ontology_authority",
     "clinical_authority",
     "execution_authority",
+    "commit_authority",
     "belief_commit_authority",
+    "belief_root_commit_authority",
     "memory_overwrite_authority",
     "world_root_rewrite_authority",
+    "truth_authority",
     "safety_override_authority",
 }
 
