@@ -12,6 +12,9 @@
     "KuString_Qi_emergence_bridge"
   ],
   "files": {
+    "docs": [
+      "docs/PHYSICAL_QUANTUM_QI_EQUATIONS_v0_2.md"
+    ],
     "specs": [
       "specs/physical_quantum_qi_deepening_contract_v0_2.json"
     ],
@@ -22,6 +25,7 @@
       "validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json"
     ],
     "validators": [
+      "scripts/validate_physical_quantum_qi_equations_v0_2.py",
       "scripts/validate_physical_quantum_qi_deepening_v0_2.py",
       "scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py"
     ],
@@ -54,10 +58,12 @@
     "IndraNet Qi transport requires gauge connection and holonomy accounting",
     "Qi emerges from delta_rel through string/brane/gauge/current structure and never directly from K",
     "MGAP4D 33/20 remains a stable floor, not a Qi source",
-    "No v0.2 module grants execution authority"
+    "No v0.2 module grants execution authority",
+    "Equation-level content is required for v0.2 deepening"
   ],
   "validation_entrypoints": [
     "make physical-quantum-qi-deepening-checks",
+    "python3 scripts/validate_physical_quantum_qi_equations_v0_2.py",
     "python3 scripts/validate_physical_quantum_qi_deepening_v0_2.py",
     "python3 scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py",
     "make all-governance-checks"
