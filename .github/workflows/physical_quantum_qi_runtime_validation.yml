@@ -8,7 +8,10 @@ on:
       - 'specs/physical_quantum_qi_runtime_contract_v0_1.json'
       - 'examples/physical_quantum_qi_runtime_packet_v0_1.json'
       - 'validation_cases/physical_quantum_qi_runtime_validation_cases_v0_1.json'
+      - 'manifests/physical_quantum_qi_runtime_manifest_v0_1.json'
+      - 'packets/physical_quantum_qi_runtime_release_packet_v0_1.json'
       - 'scripts/validate_physical_quantum_qi_runtime_contract_v0_1.py'
+      - 'scripts/validate_physical_quantum_qi_runtime_release_packet_v0_1.py'
       - 'Makefile'
       - '.github/workflows/physical_quantum_qi_runtime_validation.yml'
   pull_request:
@@ -17,7 +20,10 @@ on:
       - 'specs/physical_quantum_qi_runtime_contract_v0_1.json'
       - 'examples/physical_quantum_qi_runtime_packet_v0_1.json'
       - 'validation_cases/physical_quantum_qi_runtime_validation_cases_v0_1.json'
+      - 'manifests/physical_quantum_qi_runtime_manifest_v0_1.json'
+      - 'packets/physical_quantum_qi_runtime_release_packet_v0_1.json'
       - 'scripts/validate_physical_quantum_qi_runtime_contract_v0_1.py'
+      - 'scripts/validate_physical_quantum_qi_runtime_release_packet_v0_1.py'
       - 'Makefile'
       - '.github/workflows/physical_quantum_qi_runtime_validation.yml'
 
@@ -44,7 +50,10 @@ jobs:
           echo "Spec: specs/physical_quantum_qi_runtime_contract_v0_1.json"
           echo "Example: examples/physical_quantum_qi_runtime_packet_v0_1.json"
           echo "Cases: validation_cases/physical_quantum_qi_runtime_validation_cases_v0_1.json"
-          echo "Validator: scripts/validate_physical_quantum_qi_runtime_contract_v0_1.py"
+          echo "Manifest: manifests/physical_quantum_qi_runtime_manifest_v0_1.json"
+          echo "Release packet: packets/physical_quantum_qi_runtime_release_packet_v0_1.json"
+          echo "Contract validator: scripts/validate_physical_quantum_qi_runtime_contract_v0_1.py"
+          echo "Release packet validator: scripts/validate_physical_quantum_qi_runtime_release_packet_v0_1.py"
 
       - name: Run Physical Quantum Qi runtime checks
         run: make physical-quantum-qi-runtime-checks
