@@ -61,6 +61,11 @@
     },
     {
       "order": 12,
+      "role": "release_closure_packet",
+      "path": "packets/physical_quantum_qi_runtime_release_closure_packet_v0_1.json"
+    },
+    {
+      "order": 13,
       "role": "dedicated_ci_workflow",
       "path": ".github/workflows/physical_quantum_qi_runtime_validation.yml"
     }
