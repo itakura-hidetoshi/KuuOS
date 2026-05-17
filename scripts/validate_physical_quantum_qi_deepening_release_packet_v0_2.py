@@ -18,6 +18,7 @@ ROOT = Path(__file__).resolve().parents[1]
 
 MANIFEST_PATH = ROOT / "manifests" / "physical_quantum_qi_deepening_manifest_v0_2.json"
 CHAIN_INDEX_PATH = ROOT / "chain_indexes" / "physical_quantum_qi_deepening_chain_index_v0_2.json"
+CASES_PATH = ROOT / "validation_cases" / "physical_quantum_qi_deepening_validation_cases_v0_2.json"
 RELEASE_PACKET_PATH = ROOT / "packets" / "physical_quantum_qi_deepening_release_packet_v0_2.json"
 FINALITY_PACKET_PATH = ROOT / "packets" / "physical_quantum_qi_deepening_finality_packet_v0_2.json"
 CLOSURE_PACKET_PATH = ROOT / "packets" / "physical_quantum_qi_deepening_release_closure_packet_v0_2.json"
@@ -75,6 +76,11 @@ REQUIRED_INVARIANTS = {
     "Equation packet must expose Qi_OS_handoff",
     "Declared Qi_OS_handoff must match runtime-computed handoff",
     "Baseline established final packet must declare authority_boundary_complete",
+}
+
+REQUIRED_CASE_NAMES = {
+    "baseline_authority_boundary_complete_pass",
+    "baseline_authority_boundary_incomplete_fails",
 }
 
 REQUIRED_ENTRYPOINTS = {
@@ -261,6 +267,11 @@ def validate_packet(label: str, spec: Dict[str, Any]) -> List[str]:
     return errors
 
 
+def validate_required_case_names(cases_doc: Dict[str, Any]) -> List[str]:
+    names = {case.get("name") for case in cases_doc.get("cases", [])}
+    return [f"validation cases missing required case: {x}" for x in missing_items(REQUIRED_CASE_NAMES, names)]
+
+
 def validate_demo_packet_classification() -> List[str]:
     try:
         src = ROOT / "src"
@@ -280,10 +291,12 @@ def validate_demo_packet_classification() -> List[str]:
 def main() -> int:
     manifest = load_json(MANIFEST_PATH)
     chain_index = load_json(CHAIN_INDEX_PATH)
+    cases_doc = load_json(CASES_PATH)
 
     errors: List[str] = []
     errors.extend(validate_manifest(manifest))
     errors.extend(validate_chain_index(chain_index))
+    errors.extend(validate_required_case_names(cases_doc))
     for label, spec in PACKET_REFS.items():
         errors.extend(validate_packet(label, spec))
     errors.extend(validate_demo_packet_classification())
