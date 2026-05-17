@@ -2,9 +2,9 @@
 """Validate the machine-readable Physical Quantum Qi equation packet v0.2.
 
 This validator checks equation content, not just packet existence.
-It verifies that the JSON packet exposes the SK/FV, Ward/leak, DPI,
-IndraNet gauge, KuString-Qi emergence, phase ladder, PhysicalQi criterion,
-and OS handoff behavior needed by the runtime classifier.
+It verifies that the JSON packet exposes the SK/FV, SK/FV action v0.2A,
+Ward/leak, DPI, IndraNet gauge, KuString-Qi emergence, phase ladder,
+PhysicalQi criterion, and OS handoff behavior needed by the runtime classifier.
 """
 
 from __future__ import annotations
@@ -23,6 +23,7 @@ REQUIRED_TOP_LEVEL = {
     "scope",
     "non_authority_boundary",
     "SK_FV_path_integral",
+    "SK_FV_Qi_action_v0_2A",
     "current_and_ward_leak",
     "DPI_recoverability",
     "IndraNet_gauge_transport",
@@ -54,6 +55,19 @@ REQUIRED_SECTION_KEYS = {
         "D_R_kernel",
         "N_noise_kernel",
         "history_required",
+    },
+    "SK_FV_Qi_action_v0_2A": {
+        "S_sys_concrete_form",
+        "covariant_derivative_declared",
+        "potential_decomposition_declared",
+        "barrier_floor_declared",
+        "barrier_not_qi_source_declared",
+        "geometric_history_term_declared",
+        "S_IF_kernel_conditions",
+        "FDR_status",
+        "Markov_nonMarkov_boundary",
+        "FullPathQi_A_requirements",
+        "rejected_claims",
     },
     "current_and_ward_leak": {
         "J_Qi_variation_from_A",
@@ -122,6 +136,49 @@ REQUIRED_SECTION_KEYS = {
     },
 }
 
+REQUIRED_V02A_KERNEL_KEYS = {
+    "D_R_causal",
+    "N_symmetric",
+    "N_positive_semidefinite",
+    "spectral_consistency_declared",
+    "SK_normalization_declared",
+    "leak_or_postselection_normalization_declared_if_used",
+}
+
+REQUIRED_V02A_FDR_KEYS = {
+    "environment_stationarity_declared",
+    "thermal_or_nonequilibrium_declared",
+    "FDR_convention_declared",
+    "FDR_residual_status_declared",
+    "FDR_residual_bound_declared_if_nonequilibrium",
+}
+
+REQUIRED_V02A_MARKOV_KEYS = {
+    "memory_time_declared",
+    "system_time_declared",
+    "markov_threshold_declared",
+    "nonmarkov_threshold_declared",
+    "operation_order_residue_declared",
+    "markov_reduction_receipt_declared_if_used",
+}
+
+REQUIRED_V02A_FULLPATH_REQUIREMENTS = {
+    "S_sys_concrete_form",
+    "S_IF_kernel_conditions",
+    "FDR_status",
+    "Markov_nonMarkov_boundary",
+}
+
+REQUIRED_V02A_REJECTIONS = {
+    "S_sys_without_covariant_derivative",
+    "kernel_without_causality",
+    "noise_without_positive_semidefinite_condition",
+    "FDR_violation_hidden_as_noise",
+    "Markov_snapshot_claimed_as_FullPathQi",
+    "nonMarkov_history_reduced_without_receipt",
+    "operation_order_erasure",
+}
+
 EXPECTED_PHASE_ORDER = [
     "NonQi",
     "PreQi",
@@ -139,6 +196,7 @@ REQUIRED_FORBIDDEN_COLLAPSES = {
     "mass_gap_claimed_as_Qi_source",
     "J_Qi_without_variation_from_S_eff",
     "FullPathQi_without_SK_FV_history",
+    "FullPathQi_without_SK_FV_Qi_action_v0_2A",
 }
 
 REQUIRED_HANDOFF_SURFACES = {
@@ -165,6 +223,11 @@ REQUIRED_HANDOFF_FALSE = {
 REQUIRED_CONTENT_SUBSTRINGS = {
     ("SK_FV_path_integral", "Z_Qi_SKFV"): ["J_+", "J_-", "S_IF"],
     ("SK_FV_path_integral", "S_IF"): ["D_R", "N", "Δq"],
+    ("SK_FV_Qi_action_v0_2A", "S_sys_concrete_form"): ["D_tq", "V_Qi", "S_geom"],
+    ("SK_FV_Qi_action_v0_2A", "covariant_derivative_declared"): ["A_t", "q"],
+    ("SK_FV_Qi_action_v0_2A", "potential_decomposition_declared"): ["V_rel", "V_phase", "V_barrier"],
+    ("SK_FV_Qi_action_v0_2A", "barrier_floor_declared"): ["33/20", "Delta_gap"],
+    ("SK_FV_Qi_action_v0_2A", "geometric_history_term_declared"): ["omega_Qi", "operation-order"],
     ("current_and_ward_leak", "J_Qi_variation_from_A"): ["δS_Qi", "δA_μ"],
     ("current_and_ward_leak", "Ward_open_leak_identity"): ["L_leak", "A_anom"],
     ("DPI_recoverability", "Delta_DPI"): ["D(ρ||σ)", "D(E(ρ)||E(σ))"],
@@ -225,6 +288,58 @@ def validate_packet_shape(packet: Dict[str, Any]) -> List[str]:
         errors.append("forbidden_collapses must be a list")
     else:
         errors.extend([f"missing forbidden collapse: {x}" for x in missing(REQUIRED_FORBIDDEN_COLLAPSES, forbidden)])
+
+    return errors
+
+
+def validate_v02a(packet: Dict[str, Any]) -> List[str]:
+    errors: List[str] = []
+    v02a = section(packet, "SK_FV_Qi_action_v0_2A")
+    if not v02a:
+        return ["SK_FV_Qi_action_v0_2A section is required"]
+
+    if v02a.get("barrier_not_qi_source_declared") is not True:
+        errors.append("SK_FV_Qi_action_v0_2A.barrier_not_qi_source_declared must be true")
+
+    kernels = v02a.get("S_IF_kernel_conditions", {})
+    if not isinstance(kernels, dict):
+        errors.append("SK_FV_Qi_action_v0_2A.S_IF_kernel_conditions must be an object")
+    else:
+        errors.extend([f"S_IF_kernel_conditions missing key: {x}" for x in missing(REQUIRED_V02A_KERNEL_KEYS, kernels.keys())])
+        for key in ["D_R_causal", "N_symmetric", "N_positive_semidefinite", "leak_or_postselection_normalization_declared_if_used"]:
+            if kernels.get(key) is not True:
+                errors.append(f"S_IF_kernel_conditions.{key} must be true")
+
+    fdr = v02a.get("FDR_status", {})
+    if not isinstance(fdr, dict):
+        errors.append("SK_FV_Qi_action_v0_2A.FDR_status must be an object")
+    else:
+        errors.extend([f"FDR_status missing key: {x}" for x in missing(REQUIRED_V02A_FDR_KEYS, fdr.keys())])
+        if fdr.get("environment_stationarity_declared") is not True:
+            errors.append("FDR_status.environment_stationarity_declared must be true")
+        convention = str(fdr.get("FDR_convention_declared", ""))
+        if "coth" not in convention or "D_R" not in convention:
+            errors.append("FDR_status.FDR_convention_declared must include coth and D_R")
+
+    markov = v02a.get("Markov_nonMarkov_boundary", {})
+    if not isinstance(markov, dict):
+        errors.append("SK_FV_Qi_action_v0_2A.Markov_nonMarkov_boundary must be an object")
+    else:
+        errors.extend([f"Markov_nonMarkov_boundary missing key: {x}" for x in missing(REQUIRED_V02A_MARKOV_KEYS, markov.keys())])
+        if markov.get("markov_reduction_receipt_declared_if_used") is not True:
+            errors.append("Markov_nonMarkov_boundary.markov_reduction_receipt_declared_if_used must be true")
+
+    requirements = v02a.get("FullPathQi_A_requirements", [])
+    if not isinstance(requirements, list):
+        errors.append("FullPathQi_A_requirements must be a list")
+    else:
+        errors.extend([f"FullPathQi_A_requirements missing: {x}" for x in missing(REQUIRED_V02A_FULLPATH_REQUIREMENTS, requirements)])
+
+    rejected = v02a.get("rejected_claims", [])
+    if not isinstance(rejected, list):
+        errors.append("SK_FV_Qi_action_v0_2A.rejected_claims must be a list")
+    else:
+        errors.extend([f"SK_FV_Qi_action_v0_2A.rejected_claims missing: {x}" for x in missing(REQUIRED_V02A_REJECTIONS, rejected)])
 
     return errors
 
@@ -305,6 +420,7 @@ def main() -> int:
     packet = load_packet()
     errors: List[str] = []
     errors.extend(validate_packet_shape(packet))
+    errors.extend(validate_v02a(packet))
     errors.extend(validate_equation_content(packet))
     errors.extend(validate_declared_handoff(packet))
     errors.extend(validate_runtime_classification_and_handoff(packet))
