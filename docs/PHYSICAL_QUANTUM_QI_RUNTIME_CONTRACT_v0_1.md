@@ -97,7 +97,7 @@ Qi may inform MemoryOS, WorldModel, PlanOS, DecisionOS, BeliefOS, ReflectionOS, 
 ## Validation entrypoint
 
 ```bash
-make qi-runtime-checks
+make physical-quantum-qi-runtime-checks
 ```
 
 or directly:
