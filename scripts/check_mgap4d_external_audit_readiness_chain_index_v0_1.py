@@ -8,9 +8,11 @@ INDEX = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_CHAIN_INDEX_v0_1.md"
 LEDGER = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_CI_LEDGER_v0_1.md"
 FINALITY = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_FINALITY_PACKET_v0_1.md"
 POST_MERGE_RECEIPT = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_POST_MERGE_GREEN_RECEIPT_v0_1.md"
+POST_MERGE_CLOSURE = ROOT / "docs" / "MGAP4D_EXTERNAL_AUDIT_READINESS_POST_MERGE_RECEIPT_CLOSURE_v0_1.md"
 CHECKER = ROOT / "scripts" / "check_mgap4d_external_audit_readiness_ci_ledger_v0_1.py"
 FINALITY_CHECKER = ROOT / "scripts" / "check_mgap4d_external_audit_readiness_finality_packet_v0_1.py"
 POST_MERGE_CHECKER = ROOT / "scripts" / "check_mgap4d_external_audit_readiness_post_merge_green_receipt_v0_1.py"
+POST_MERGE_CLOSURE_CHECKER = ROOT / "scripts" / "check_mgap4d_external_audit_readiness_post_merge_receipt_closure_v0_1.py"
 BUNDLE_CHECKER = ROOT / "scripts" / "check_mgap4d_external_audit_readiness_bundle_manifest_v0_1.py"
 WORKFLOW = ROOT / ".github" / "workflows" / "mgap4d_external_audit_readiness_ci_ledger_v0_1.yml"
 
@@ -52,6 +54,15 @@ REQUIRED_TOKENS = [
     "Branch: `main`",
     "Post-merge bundle root hash: `94c379c61e1a405b54dee326a5faad545e0e2c711afbd16f56b9d66e26ea0dff`",
     "PASS: MGAP4D external audit readiness post-merge green receipt checked",
+    "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_POST_MERGE_RECEIPT_CLOSURE_v0_1.md",
+    "scripts/check_mgap4d_external_audit_readiness_post_merge_receipt_closure_v0_1.py",
+    "Pull request: `#7`",
+    "Pull request title: `Add MGAP4D post-merge green receipt v0.1`",
+    "PR head commit: `dec5e66ee46c2649cddb6273b55136cf844d4bbc`",
+    "Base before merge: `e20d244d93eb85b3cfc9b46cf4bb4625923a8d82`",
+    "Squash merge commit: `7f53a0adff847b59f7356875e1102fb7e3faf9fe`",
+    "Merged at: `2026-05-17T00:35:13Z`",
+    "PASS: MGAP4D external audit readiness post-merge receipt closure checked",
     "archived manifest verification",
     "Lean forbidden-token audit across `457` Lean files",
     "zero observed `sorry` / `admit` / `axiom` / `constant`",
@@ -64,6 +75,8 @@ REQUIRED_TOKENS = [
     "finality packet closure surface",
     "post-merge all-governance green receipt surface",
     "post-merge bundle root hash evidence",
+    "post-merge receipt closure surface",
+    "PR #7 merge integration evidence",
     "traceability surface only",
     "proof authority by itself",
     "truth authority by itself",
@@ -89,6 +102,8 @@ FORBIDDEN_TOKENS = [
     "CI green grants execution authority",
     "post-merge green proves theorem truth",
     "post-merge green grants proof authority",
+    "PR merge proves theorem truth",
+    "PR merge grants proof authority",
 ]
 
 
@@ -99,9 +114,11 @@ def main() -> int:
         LEDGER,
         FINALITY,
         POST_MERGE_RECEIPT,
+        POST_MERGE_CLOSURE,
         CHECKER,
         FINALITY_CHECKER,
         POST_MERGE_CHECKER,
+        POST_MERGE_CLOSURE_CHECKER,
         BUNDLE_CHECKER,
         WORKFLOW,
     ]:

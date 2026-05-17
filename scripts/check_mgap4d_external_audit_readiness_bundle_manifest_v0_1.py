@@ -15,10 +15,12 @@ ARTIFACTS = [
     "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_CHAIN_INDEX_v0_1.md",
     "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_FINALITY_PACKET_v0_1.md",
     "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_POST_MERGE_GREEN_RECEIPT_v0_1.md",
+    "docs/MGAP4D_EXTERNAL_AUDIT_READINESS_POST_MERGE_RECEIPT_CLOSURE_v0_1.md",
     "scripts/check_mgap4d_external_audit_readiness_ci_ledger_v0_1.py",
     "scripts/check_mgap4d_external_audit_readiness_chain_index_v0_1.py",
     "scripts/check_mgap4d_external_audit_readiness_finality_packet_v0_1.py",
     "scripts/check_mgap4d_external_audit_readiness_post_merge_green_receipt_v0_1.py",
+    "scripts/check_mgap4d_external_audit_readiness_post_merge_receipt_closure_v0_1.py",
     ".github/workflows/mgap4d_external_audit_readiness_ci_ledger_v0_1.yml",
 ]
 FALSE_FLAGS = [
@@ -57,6 +59,15 @@ POST_MERGE_GREEN = {
     "bundle_manifest_pass_line": "PASS: MGAP4D external audit readiness bundle manifest checked",
     "all_governance_pass_line": "PASS: KuuOS all governance full checks completed",
 }
+POST_MERGE_RECEIPT_CLOSURE = {
+    "pull_request": "#7",
+    "pull_request_title": "Add MGAP4D post-merge green receipt v0.1",
+    "pr_head_commit": "dec5e66ee46c2649cddb6273b55136cf844d4bbc",
+    "base_before_merge": "e20d244d93eb85b3cfc9b46cf4bb4625923a8d82",
+    "squash_merge_commit": "7f53a0adff847b59f7356875e1102fb7e3faf9fe",
+    "merged_at": "2026-05-17T00:35:13Z",
+    "closure_pass_line": "PASS: MGAP4D external audit readiness post-merge receipt closure checked",
+}
 
 
 def sha256_bytes(data: bytes) -> str:
@@ -93,6 +104,8 @@ def main() -> int:
         errors.append("finality_packet_included must be true")
     if manifest.get("post_merge_green_receipt_included") is not True:
         errors.append("post_merge_green_receipt_included must be true")
+    if manifest.get("post_merge_receipt_closure_included") is not True:
+        errors.append("post_merge_receipt_closure_included must be true")
     if manifest.get("artifact_count") != len(ARTIFACTS):
         errors.append("artifact_count mismatch")
     if manifest.get("artifacts") != expected_artifacts:
@@ -105,15 +118,19 @@ def main() -> int:
         errors.append("all_governance_green_reference mismatch")
     if manifest.get("post_merge_green_reference") != POST_MERGE_GREEN:
         errors.append("post_merge_green_reference mismatch")
+    if manifest.get("post_merge_receipt_closure_reference") != POST_MERGE_RECEIPT_CLOSURE:
+        errors.append("post_merge_receipt_closure_reference mismatch")
     for flag in FALSE_FLAGS:
         if manifest.get(flag) is not False:
             errors.append(f"{flag} must be false")
     notes = "\n".join(manifest.get("notes", []))
     for token in [
-        "Bundle manifest records hash evidence for ledger, chain index, finality packet, post-merge receipt, checkers, and dedicated workflow",
+        "Bundle manifest records hash evidence for ledger, chain index, finality packet, post-merge receipt, post-merge receipt closure, checkers, and dedicated workflow",
         "CI green does not grant proof/truth/clinical/execution/governance-bypass authority",
+        "PR merge success is integration evidence, not theorem truth",
         "External audit readiness is not external audit acceptance",
         "Post-merge green confirms repository integration, not independent mathematical acceptance",
+        "Post-merge receipt closure records integration of the receipt, not independent acceptance",
         "same-root and append-only",
     ]:
         if token not in notes:

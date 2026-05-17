@@ -64,6 +64,17 @@ This index connects the observed `scripts/check.sh` CI green evidence to a machi
    - Post-merge bundle root hash: `94c379c61e1a405b54dee326a5faad545e0e2c711afbd16f56b9d66e26ea0dff`
    - Required pass line: `PASS: MGAP4D external audit readiness post-merge green receipt checked`
 
+12. Post-merge receipt closure
+   - `docs/MGAP4D_EXTERNAL_AUDIT_READINESS_POST_MERGE_RECEIPT_CLOSURE_v0_1.md`
+   - `scripts/check_mgap4d_external_audit_readiness_post_merge_receipt_closure_v0_1.py`
+   - Pull request: `#7`
+   - Pull request title: `Add MGAP4D post-merge green receipt v0.1`
+   - PR head commit: `dec5e66ee46c2649cddb6273b55136cf844d4bbc`
+   - Base before merge: `e20d244d93eb85b3cfc9b46cf4bb4625923a8d82`
+   - Squash merge commit: `7f53a0adff847b59f7356875e1102fb7e3faf9fe`
+   - Merged at: `2026-05-17T00:35:13Z`
+   - Required pass line: `PASS: MGAP4D external audit readiness post-merge receipt closure checked`
+
 ## Evidence covered
 
 The ledger records the following observed green surfaces from the provided GitHub Actions log excerpt:
@@ -91,6 +102,8 @@ The ledger records the following observed green surfaces from the provided GitHu
 - finality packet closure surface
 - post-merge all-governance green receipt surface
 - post-merge bundle root hash evidence
+- post-merge receipt closure surface
+- PR #7 merge integration evidence
 
 ## Boundary
 
@@ -109,7 +122,7 @@ It does not grant:
 
 ## Tightening path
 
-The current ledger is based on the provided log excerpt, an exact dedicated ledger CI green record, an all-governance runner green record, and a post-merge all-governance green receipt. Further tightening may append:
+The current ledger is based on the provided log excerpt, an exact dedicated ledger CI green record, an all-governance runner green record, a post-merge all-governance green receipt, and a post-merge receipt closure. Further tightening may append:
 
 - workflow URL
 - artifact IDs
@@ -119,7 +132,7 @@ The current ledger is based on the provided log excerpt, an exact dedicated ledg
 - signed attestation hash
 - external reviewer receipts
 
-Do not overwrite the existing ledger, chain index, finality packet, or post-merge receipt. Use same-root, append-only tightening.
+Do not overwrite the existing ledger, chain index, finality packet, post-merge receipt, or post-merge receipt closure. Use same-root, append-only tightening.
 
 Version: v0.1
 Author: Hidetoshi Itakura / 板倉英俊
