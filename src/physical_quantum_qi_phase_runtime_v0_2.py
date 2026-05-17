@@ -13,13 +13,17 @@ The phase is computed from constructive physical conditions:
 - Qi current as variation of S_eff with respect to A_mu,
 - Ward/leak accounting closure,
 - SK/FV history evidence.
+
+It also maps a classified Qi phase into allowed KuuOS handoff surfaces.
+No Qi phase grants execution, commit, belief-root, memory-overwrite, world-root,
+clinical, proof, ontology, truth, or safety-override authority.
 """
 
 from __future__ import annotations
 
 from dataclasses import dataclass, field
 from enum import Enum
-from typing import Dict, List, Optional, Tuple
+from typing import Dict, List
 
 
 class QiPhase(str, Enum):
@@ -148,6 +152,74 @@ class PhaseResult:
     missing_for_next_phase: List[str]
 
 
+@dataclass(frozen=True)
+class QiHandoff:
+    phase: QiPhase
+    status: str
+    allowed_surfaces: List[str]
+    required_next_actions: List[str]
+    blockers: List[str]
+    execution_authority: bool = False
+    commit_authority: bool = False
+    belief_root_commit_authority: bool = False
+    memory_overwrite_authority: bool = False
+    world_root_rewrite_authority: bool = False
+    clinical_authority: bool = False
+    proof_authority: bool = False
+    ontology_authority: bool = False
+    truth_authority: bool = False
+    safety_override_authority: bool = False
+
+
+PHASE_HANDOFFS: Dict[QiPhase, Dict[str, List[str] | str]] = {
+    QiPhase.NON_QI: {
+        "status": "reject_or_observe",
+        "allowed_surfaces": [],
+        "required_next_actions": ["establish_nonzero_delta_rel_in_K_perp"],
+    },
+    QiPhase.PRE_QI: {
+        "status": "belief_observation_candidate",
+        "allowed_surfaces": ["BeliefOS.observation_candidate"],
+        "required_next_actions": ["construct_StringMode_worldsheet"],
+    },
+    QiPhase.PROTO_QI: {
+        "status": "belief_plan_preparation_candidate",
+        "allowed_surfaces": ["BeliefOS.observation_candidate", "PlanOS.preparation_surface"],
+        "required_next_actions": ["establish_BraneBoundary_and_boundary_coupling"],
+    },
+    QiPhase.BOUNDARY_QI: {
+        "status": "plan_boundary_candidate",
+        "allowed_surfaces": ["BeliefOS.observation_candidate", "PlanOS.boundary_candidate"],
+        "required_next_actions": ["define_A_mu_F_munu_and_holonomy_residue"],
+    },
+    QiPhase.TRANSPORT_QI: {
+        "status": "plan_transport_candidate",
+        "allowed_surfaces": ["BeliefOS.observation_candidate", "PlanOS.transport_candidate"],
+        "required_next_actions": ["validate_J_Qi_as_delta_S_eff_delta_A_mu_and_close_Ward_leak"],
+    },
+    QiPhase.PHYSICAL_QI: {
+        "status": "decision_safety_evaluable_candidate",
+        "allowed_surfaces": [
+            "BeliefOS.observation_candidate",
+            "PlanOS.transport_candidate",
+            "DecisionOS.safety_evaluable_candidate",
+        ],
+        "required_next_actions": ["complete_SK_FV_history_for_FullPathQi"],
+    },
+    QiPhase.FULL_PATH_QI: {
+        "status": "memory_recordable_reflection_analyzable_candidate",
+        "allowed_surfaces": [
+            "BeliefOS.observation_candidate",
+            "PlanOS.transport_candidate",
+            "DecisionOS.safety_evaluable_candidate",
+            "MemoryOS.recordable_history_candidate",
+            "ReflectionOS.residue_analysis_candidate",
+        ],
+        "required_next_actions": ["preserve_history_kernel_and_residue_without_authority_expansion"],
+    },
+}
+
+
 def forbidden_collapses(state: PhysicalQuantumQiState) -> List[str]:
     collapses: List[str] = []
     if state.K_identified_as_Qi:
@@ -270,6 +342,30 @@ def classify_qi_phase(state: PhysicalQuantumQiState) -> PhaseResult:
     )
 
 
+def qi_phase_handoff(result: PhaseResult) -> QiHandoff:
+    """Map a phase classification into KuuOS handoff surfaces.
+
+    This is a routing surface, not an authority grant.  Even FullPathQi remains
+    non-executing and non-committing.  DecisionOS may evaluate safety only after
+    PhysicalQi; MemoryOS may record only FullPathQi history candidates; and
+    ReflectionOS may inspect residue without rewriting roots.
+    """
+
+    spec = PHASE_HANDOFFS[result.phase]
+    required_next_actions = list(spec["required_next_actions"]) + list(result.missing_for_next_phase)
+    blockers = list(result.blockers)
+    if result.phase is QiPhase.NON_QI and not blockers:
+        blockers.append("not_a_constructive_Qi_phase")
+
+    return QiHandoff(
+        phase=result.phase,
+        status=str(spec["status"]),
+        allowed_surfaces=list(spec["allowed_surfaces"]),
+        required_next_actions=required_next_actions,
+        blockers=blockers,
+    )
+
+
 def state_from_packet(packet: Dict[str, object]) -> PhysicalQuantumQiState:
     """Create a state from a machine-readable equation packet.
 
@@ -282,7 +378,6 @@ def state_from_packet(packet: Dict[str, object]) -> PhysicalQuantumQiState:
     kq = packet.get("KuString_Qi_emergence", {}) if isinstance(packet.get("KuString_Qi_emergence"), dict) else {}
     ward = packet.get("current_and_ward_leak", {}) if isinstance(packet.get("current_and_ward_leak"), dict) else {}
     gauge = packet.get("IndraNet_gauge_transport", {}) if isinstance(packet.get("IndraNet_gauge_transport"), dict) else {}
-    phases = packet.get("Qi_phase_ladder", {}) if isinstance(packet.get("Qi_phase_ladder"), dict) else {}
     criterion = packet.get("PhysicalQi_emergence_criterion", {}) if isinstance(packet.get("PhysicalQi_emergence_criterion"), dict) else {}
     forbidden = set(packet.get("forbidden_collapses", [])) if isinstance(packet.get("forbidden_collapses"), list) else set()
 
@@ -334,4 +429,24 @@ def result_to_dict(result: PhaseResult) -> Dict[str, object]:
         "reasons": result.reasons,
         "blockers": result.blockers,
         "missing_for_next_phase": result.missing_for_next_phase,
+    }
+
+
+def handoff_to_dict(handoff: QiHandoff) -> Dict[str, object]:
+    return {
+        "phase": handoff.phase.value,
+        "status": handoff.status,
+        "allowed_surfaces": handoff.allowed_surfaces,
+        "required_next_actions": handoff.required_next_actions,
+        "blockers": handoff.blockers,
+        "execution_authority": handoff.execution_authority,
+        "commit_authority": handoff.commit_authority,
+        "belief_root_commit_authority": handoff.belief_root_commit_authority,
+        "memory_overwrite_authority": handoff.memory_overwrite_authority,
+        "world_root_rewrite_authority": handoff.world_root_rewrite_authority,
+        "clinical_authority": handoff.clinical_authority,
+        "proof_authority": handoff.proof_authority,
+        "ontology_authority": handoff.ontology_authority,
+        "truth_authority": handoff.truth_authority,
+        "safety_override_authority": handoff.safety_override_authority,
     }
