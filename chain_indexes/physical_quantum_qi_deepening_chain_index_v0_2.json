@@ -42,62 +42,68 @@
     },
     {
       "order": 8,
+      "role": "equation_packet_validator",
+      "path": "scripts/validate_physical_quantum_qi_equation_packet_v0_2.py"
+    },
+    {
+      "order": 9,
       "role": "runtime_validator",
       "path": "scripts/validate_physical_quantum_qi_deepening_v0_2.py"
     },
     {
-      "order": 9,
+      "order": 10,
       "role": "phase_runtime",
       "path": "src/physical_quantum_qi_phase_runtime_v0_2.py"
     },
     {
-      "order": 10,
+      "order": 11,
       "role": "phase_runtime_tests",
       "path": "tests/test_physical_quantum_qi_phase_runtime_v0_2.py"
     },
     {
-      "order": 11,
+      "order": 12,
       "role": "manifest",
       "path": "manifests/physical_quantum_qi_deepening_manifest_v0_2.json"
     },
     {
-      "order": 12,
+      "order": 13,
       "role": "release_packet",
       "path": "packets/physical_quantum_qi_deepening_release_packet_v0_2.json"
     },
     {
-      "order": 13,
+      "order": 14,
       "role": "release_packet_validator",
       "path": "scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py"
     },
     {
-      "order": 14,
+      "order": 15,
       "role": "finality_packet",
       "path": "packets/physical_quantum_qi_deepening_finality_packet_v0_2.json"
     },
     {
-      "order": 15,
+      "order": 16,
       "role": "release_closure_packet",
       "path": "packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json"
     },
     {
-      "order": 16,
+      "order": 17,
       "role": "validated_baseline_packet",
       "path": "packets/physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json"
     },
     {
-      "order": 17,
+      "order": 18,
       "role": "baseline_established_final_packet",
       "path": "packets/physical_quantum_qi_deepening_baseline_established_final_packet_v0_2.json"
     },
     {
-      "order": 18,
+      "order": 19,
       "role": "dedicated_ci_workflow",
       "path": ".github/workflows/physical_quantum_qi_deepening_validation.yml"
     }
   ],
   "validation_entrypoints": [
     "make physical-quantum-qi-deepening-checks",
+    "python3 scripts/validate_physical_quantum_qi_equation_packet_v0_2.py",
     "python3 examples/run_physical_quantum_qi_phase_demo_v0_2.py",
     "make all-governance-checks"
   ],
