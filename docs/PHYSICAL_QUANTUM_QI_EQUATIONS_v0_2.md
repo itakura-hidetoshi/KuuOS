@@ -8,7 +8,8 @@ It is an additive deepening of `Physical Quantum Qi Runtime v0.1`.  The purpose 
 2. Qi current and Ward/leak identity,
 3. DPI recoverability margin,
 4. IndraNet gauge transport,
-5. KuString-Qi emergence from relational difference.
+5. KuString-Qi emergence from relational difference,
+6. Qi phase to KuuOS handoff surface.
 
 The non-authority boundary remains unchanged: these equations do not grant proof, ontology, clinical, execution, belief-commit, memory-overwrite, world-root-rewrite, or safety-override authority.
 
@@ -614,6 +615,78 @@ In words: Physical Quantum Qi is the SK/FV history of a gauge-response current g
 
 ---
 
+## 5.6 Qi phase to KuuOS handoff surface
+
+Qi phase classification is a routing surface, not an authority grant.
+
+The runtime handoff ladder is:
+
+```text
+NonQi
+  -> reject_or_observe
+
+PreQi
+  -> BeliefOS.observation_candidate
+
+ProtoQi
+  -> BeliefOS.observation_candidate
+  -> PlanOS.preparation_surface
+
+BoundaryQi
+  -> BeliefOS.observation_candidate
+  -> PlanOS.boundary_candidate
+
+TransportQi
+  -> BeliefOS.observation_candidate
+  -> PlanOS.transport_candidate
+
+PhysicalQi
+  -> BeliefOS.observation_candidate
+  -> PlanOS.transport_candidate
+  -> DecisionOS.safety_evaluable_candidate
+
+FullPathQi
+  -> BeliefOS.observation_candidate
+  -> PlanOS.transport_candidate
+  -> DecisionOS.safety_evaluable_candidate
+  -> MemoryOS.recordable_history_candidate
+  -> ReflectionOS.residue_analysis_candidate
+```
+
+The key point is that `FullPathQi` is recordable and analyzable, but not executable by itself.
+
+The following authorities remain false for every phase:
+
+```text
+execution_authority
+commit_authority
+belief_root_commit_authority
+memory_overwrite_authority
+world_root_rewrite_authority
+clinical_authority
+proof_authority
+ontology_authority
+truth_authority
+safety_override_authority
+```
+
+Thus the correct interpretation is:
+
+```text
+FullPathQi
+  = complete physical Qi history candidate
+  = DecisionOS-safety-evaluable
+  = MemoryOS-recordable
+  = ReflectionOS-analyzable
+  != execution authority
+  != commit authority
+  != belief root update
+  != memory overwrite
+  != world root rewrite
+```
+
+---
+
 ## 6. Minimal equation packet keys
 
 A v0.2 equation packet should expose at least these keys:
@@ -657,6 +730,7 @@ S_rel
 relation_difference_eom
 Qi_phase_label
 PhysicalQi_emergence_criterion
+Qi_OS_handoff
 Ward_leak_residual_zero
 mass_gap_33_20_floor_not_source
 ```
