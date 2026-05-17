@@ -62,7 +62,8 @@
       "PhysicalQi_routes_to_DecisionOS_safety_evaluable_candidate": "pass",
       "FullPathQi_routes_to_MemoryOS_recordable_history_candidate": "pass",
       "FullPathQi_routes_to_ReflectionOS_residue_analysis_candidate": "pass",
-      "FullPathQi_status_declared": "memory_recordable_reflection_analyzable_candidate",
+      "FullPathQi_status_declared": "pass",
+      "FullPathQi_status": "memory_recordable_reflection_analyzable_candidate",
       "allowed_surfaces": [
         "BeliefOS.observation_candidate",
         "PlanOS.transport_candidate",
