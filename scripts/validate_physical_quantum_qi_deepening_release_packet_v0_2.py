@@ -253,6 +253,10 @@ def validate_packet(label: str, spec: Dict[str, Any]) -> List[str]:
         if packet.get(key) != expected:
             errors.append(f"{label} {key} pointer mismatch")
     errors.extend(validate_authority_false(packet, spec["authority_key"], label))
+    if label == "baseline_established_final":
+        declaration = packet.get("baseline_established_final_declaration", {})
+        if declaration.get("authority_boundary_complete") is not True:
+            errors.append("baseline_established_final.baseline_established_final_declaration.authority_boundary_complete must be true")
     return errors
 
 
