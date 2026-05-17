@@ -1,0 +1,91 @@
+id: superstring_emptiness_observer_record_scale_bridge_contract_v0_6
+version: v0.6
+date: 2026-05-17
+author: Hidetoshi Itakura / 板倉英俊
+status: additive_tightening_candidate
+scope: Superstring Emptiness String / Brane / Membrane Runtime
+
+purpose: >-
+  Define the Observer-Record-Scale Bridge for the Superstring Emptiness String / Brane / Membrane Runtime.
+  This bridge determines when a dependent relational vibration trace may become readable as a conventional
+  effective runtime surface without becoming substance, absolute world, or final authority.
+
+core_reading:
+  observer: situated_readability_condition
+  record: durable_or_checkable_trace_surface
+  scale: regime_where_relational_vibration_is_coarse_grained_into_conventional_readability
+  bridge: gated_transition_from_candidate_vibration_to_conventional_effective_surface
+
+required_object:
+  ObserverRecordScaleBridge:
+    required_fields:
+      - bridge_id
+      - observer_context_present
+      - record_surface_present
+      - scale_regime_present
+      - coarse_graining_rule
+      - readability_rule
+      - backaction_visibility
+      - uncertainty_policy
+      - two_truths_gap_guard
+      - non_reification_guard
+      - obstruction_visibility_rule
+      - authority_non_expansion_guard
+      - rollback_or_hold_route
+    required_true:
+      - observer_context_present
+      - record_surface_present
+      - scale_regime_present
+      - backaction_visibility
+      - two_truths_gap_guard
+      - non_reification_guard
+      - obstruction_visibility_rule
+      - authority_non_expansion_guard
+
+admission_gate:
+  required_true:
+    - observer_context_present
+    - record_surface_present
+    - scale_regime_present
+    - readability_rule_present
+    - backaction_visibility
+    - uncertainty_policy_present
+    - two_truths_gap_guard
+    - non_reification_guard
+    - obstruction_visibility_rule
+    - authority_non_expansion_guard
+    - rollback_or_hold_route_present
+  default_if_missing: HOLD
+  output_modes:
+    - REJECT
+    - HOLD
+    - ADMIT_AS_OBSERVER_RECORD_SCALE_CANDIDATE
+    - ADMIT_AS_CONVENTIONAL_READABILITY_BRIDGE
+
+forbidden_claims:
+  - observer_record_opens_substance
+  - record_surface_equals_ultimate_truth
+  - scale_bridge_erases_uncertainty
+  - observation_erases_backaction
+  - readability_opens_execution_authority
+  - conventional_surface_as_absolute_world
+  - candidate_vibration_as_public_fact
+  - missing_record_surface_admitted
+
+noncollapse_laws:
+  - observer_does_not_create_independent_substance
+  - record_does_not_replace_ultimate_truth
+  - scale_does_not_erase_context
+  - readability_does_not_open_execution_authority
+  - conventional_admission_requires_record_surface
+  - no_record_means_hold_or_reject
+
+governance:
+  additive_only: true
+  tighten_only_default: true
+  overwrite_forbidden: true
+  same_root_required: true
+  advisory_by_default: true
+  execution_authority: false
+  world_update_authority: false
+  final_theorem_authority: false
