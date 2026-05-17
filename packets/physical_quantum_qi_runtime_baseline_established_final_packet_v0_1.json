@@ -1,0 +1,53 @@
+{
+  "packet_id": "physical_quantum_qi_runtime_baseline_established_final_packet_v0_1",
+  "packet_type": "baseline_established_final_packet",
+  "status": "baseline_established_final_candidate",
+  "scope": "Physical Quantum Qi Runtime v0.1 public baseline chain",
+  "validated_baseline_packet": "packets/physical_quantum_qi_runtime_validated_baseline_packet_v0_1.json",
+  "release_closure_packet": "packets/physical_quantum_qi_runtime_release_closure_packet_v0_1.json",
+  "finality_packet": "packets/physical_quantum_qi_runtime_finality_packet_v0_1.json",
+  "chain_index": "chain_indexes/physical_quantum_qi_runtime_chain_index_v0_1.json",
+  "manifest": "manifests/physical_quantum_qi_runtime_manifest_v0_1.json",
+  "baseline_established_final_declaration": {
+    "public_runtime_contract_present": true,
+    "machine_readable_spec_present": true,
+    "evidence_bound_validator_present": true,
+    "release_packet_present": true,
+    "finality_packet_present": true,
+    "release_closure_packet_present": true,
+    "validated_baseline_packet_present": true,
+    "chain_index_present": true,
+    "dedicated_ci_present": true,
+    "all_governance_ci_integration_present": true,
+    "additive_only": true,
+    "tighten_only_default": true,
+    "overwrite_forbidden": true,
+    "same_root_required": true,
+    "nonexecution_by_default": true
+  },
+  "locked_boundary": {
+    "Qi_is_not_K": true,
+    "Qi_is_not_mystical_substance": true,
+    "Qi_arises_on_K_perp_after_delta_rel": true,
+    "PhysicalQi_requires_evidence_bound_promotion": true,
+    "FullPathQi_requires_SK_FV_history": true,
+    "claimed_type_not_authoritative": true,
+    "validated_type_computed_from_evidence": true,
+    "mass_gap_33_20_is_stable_floor_not_Qi_source": true
+  },
+  "authority_boundary": {
+    "proof_authority": false,
+    "ontology_authority": false,
+    "clinical_authority": false,
+    "execution_authority": false,
+    "belief_commit_authority": false,
+    "memory_overwrite_authority": false,
+    "world_root_rewrite_authority": false,
+    "safety_override_authority": false
+  },
+  "required_checks": [
+    "make physical-quantum-qi-runtime-checks",
+    "make all-governance-checks"
+  ],
+  "statement": "Physical Quantum Qi Runtime v0.1 is established as a public KuuOS baseline candidate for evidence-bound Qi classification, non-sovereign flow signaling, downgrade-safe runtime validation, and non-authoritative inter-OS governance signaling. This packet does not grant proof, ontology, clinical, execution, belief commit, memory overwrite, world-root rewrite, or safety override authority."
+}
