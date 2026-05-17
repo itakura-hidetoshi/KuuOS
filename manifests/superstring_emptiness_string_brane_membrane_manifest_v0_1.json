@@ -1,0 +1,66 @@
+{
+  "id": "superstring_emptiness_string_brane_membrane_manifest_v0_1",
+  "version": "v0.1",
+  "date": "2026-05-17",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "status": "additive_baseline_candidate",
+  "bundle": "Superstring Emptiness String / Brane / Membrane Runtime",
+  "files": [
+    {
+      "path": "docs/SUPERSTRING_EMPTINESS_STRING_BRANE_MEMBRANE_RUNTIME_v0_1.md",
+      "role": "runtime_document",
+      "description": "Defines string, brane, and membrane as emptiness-preserving dependent-origination runtime objects."
+    },
+    {
+      "path": "contracts/superstring_emptiness_string_brane_membrane_contract_v0_1.yaml",
+      "role": "contract",
+      "description": "Specifies required fields, admission gate, non-collapse laws, and governance boundaries."
+    },
+    {
+      "path": "validators/validate_superstring_emptiness_string_brane_membrane_v0_1.py",
+      "role": "validator",
+      "description": "Checks packet-level non-reification, two-truths gap, observer-record, obstruction visibility, and authority non-expansion."
+    },
+    {
+      "path": "validators/run_superstring_emptiness_string_brane_membrane_cases_v0_1.py",
+      "role": "validation_case_runner",
+      "description": "Runs the validation cases against the validator."
+    },
+    {
+      "path": "validation_cases/superstring_emptiness_string_brane_membrane_validation_cases_v0_1.json",
+      "role": "validation_cases",
+      "description": "Positive and negative cases including substance-claim, missing observer-record, and graph-only IndraNet rejection."
+    },
+    {
+      "path": "examples/superstring_emptiness_string_brane_membrane_packet_v0_1.json",
+      "role": "example_packet",
+      "description": "Minimal candidate packet for string/brane/membrane admission."
+    },
+    {
+      "path": "lean/KUOS/SuperstringEmptiness/StringBraneMembrane.lean",
+      "role": "lean_skeleton",
+      "description": "Lean theorem surface for non-reification, two-truths gap, authority non-expansion, and obstruction visibility."
+    }
+  ],
+  "fixed_points": [
+    "string_is_dependent_relational_vibration_trace",
+    "brane_is_local_world_support_surface",
+    "membrane_is_typed_layer_boundary_interface",
+    "string_is_not_substance",
+    "brane_is_not_absolute_world",
+    "membrane_is_not_final_authority",
+    "two_truths_gap_required",
+    "observer_record_surface_required",
+    "indranet_graph_only_reduction_forbidden",
+    "successful_gluing_does_not_erase_obstruction",
+    "physics_bridge_does_not_open_execution_authority"
+  ],
+  "governance": {
+    "additive_only": true,
+    "overwrite_forbidden": true,
+    "same_root_required": true,
+    "fail_closed": true,
+    "authority_non_expansion": true,
+    "advisory_by_default": true
+  }
+}
