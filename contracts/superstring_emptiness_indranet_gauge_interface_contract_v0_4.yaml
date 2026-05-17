@@ -1,0 +1,83 @@
+id: superstring_emptiness_indranet_gauge_interface_contract_v0_4
+version: v0.4
+date: 2026-05-17
+author: Hidetoshi Itakura / 板倉英俊
+status: additive_tightening_candidate
+scope: Superstring Emptiness String / Brane / Membrane Runtime
+
+purpose: >-
+  Refine the IndraNet coupling in the Superstring Emptiness String / Brane / Membrane Runtime
+  from a generic interface label into a gauge-theoretic interface preserving connection,
+  curvature, holonomy, transport, gluing, obstruction visibility, and non-collapse semantics.
+
+core_reading:
+  indranet: gauge_theoretic_relational_field
+  graph: optional_representation_only
+  graph_only_reduction: forbidden
+  qi_flow: conventional_flow_trace_on_samvrti_surface
+  brane_readability: observer_record_scale_gated
+
+required_interface:
+  IndraGaugeInterface:
+    required_fields:
+      - interface_id
+      - connection_present
+      - curvature_visibility
+      - holonomy_visibility
+      - transport_rule
+      - gluing_rule
+      - obstruction_visibility_rule
+      - residue_policy
+      - graph_representation_policy
+      - gauge_noncollapse_guard
+      - authority_non_expansion_guard
+    required_true:
+      - connection_present
+      - curvature_visibility
+      - holonomy_visibility
+      - obstruction_visibility_rule
+      - gauge_noncollapse_guard
+      - authority_non_expansion_guard
+
+allowed_graph_usage:
+  graph_as_visualization: true
+  graph_as_index: true
+  graph_as_computational_cache: true
+  graph_as_ontology: false
+  graph_as_complete_indranet: false
+  graph_as_authority_source: false
+
+forbidden_claims:
+  - graph_only_indranet
+  - graph_as_ontology
+  - graph_as_complete_indranet
+  - graph_erases_curvature
+  - graph_erases_holonomy
+  - graph_erases_obstruction
+  - transport_without_residue_policy
+  - gluing_as_identity_certificate
+  - gauge_interface_opens_execution_authority
+
+admission_gate:
+  required_true:
+    - connection_present
+    - curvature_visibility
+    - holonomy_visibility
+    - obstruction_visibility_rule
+    - residue_policy_present
+    - graph_representation_policy_present
+    - gauge_noncollapse_guard
+    - authority_non_expansion_guard
+  default_if_missing: HOLD
+  output_modes:
+    - REJECT
+    - HOLD
+    - ADMIT_AS_GAUGE_INTERFACE_CANDIDATE
+
+governance:
+  additive_only: true
+  tighten_only_default: true
+  overwrite_forbidden: true
+  same_root_required: true
+  advisory_by_default: true
+  execution_authority: false
