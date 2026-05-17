@@ -254,6 +254,29 @@
         }
       },
       "expected": "fail"
+    },
+    {
+      "name": "baseline_authority_boundary_incomplete_fails",
+      "packet": {
+        "modules": {},
+        "baseline_established_final_declaration": {
+          "authority_boundary_complete": false
+        },
+        "authority": {
+          "proof_authority": false,
+          "ontology_authority": false,
+          "clinical_authority": false,
+          "execution_authority": false,
+          "commit_authority": false,
+          "belief_commit_authority": false,
+          "belief_root_commit_authority": false,
+          "memory_overwrite_authority": false,
+          "world_root_rewrite_authority": false,
+          "truth_authority": false,
+          "safety_override_authority": false
+        }
+      },
+      "expected": "fail"
     }
   ]
 }
