@@ -35,6 +35,7 @@ physical-quantum-qi-runtime-checks:
 	python3 scripts/validate_physical_quantum_qi_runtime_release_packet_v0_1.py
 
 physical-quantum-qi-deepening-checks:
+	python3 scripts/validate_physical_quantum_qi_equations_v0_2.py
 	python3 scripts/validate_physical_quantum_qi_deepening_v0_2.py
 	python3 scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py
 
