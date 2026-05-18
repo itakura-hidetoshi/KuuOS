@@ -25,6 +25,12 @@ Repository Settings
   -> Source: GitHub Actions
 ```
 
+Status note:
+
+```text
+GitHub Pages source has been enabled as GitHub Actions.
+```
+
 If this setting is not enabled, the workflow may build successfully and upload the Pages artifact, but deployment can fail with:
 
 ```text
