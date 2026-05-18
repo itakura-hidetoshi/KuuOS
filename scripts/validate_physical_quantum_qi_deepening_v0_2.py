@@ -3,6 +3,7 @@
 
 This validator checks the v0.2 deepening modules:
 - SK/FV path integral
+- SK/FV Qi action v0.2A
 - Ward/leak identity
 - DPI recoverability
 - IndraNet gauge transport
@@ -62,6 +63,18 @@ def module_errors(packet: Dict[str, Any], spec: Dict[str, Any]) -> List[str]:
                 errors.append(f"{module_name}.{key} is required")
 
         # Module-specific semantic checks.
+        if module_name == "SK_FV_Qi_action_v0_2A":
+            if not is_pass(payload.get("D_R_causal")):
+                errors.append("SK_FV_Qi_action_v0_2A requires causal D_R kernel")
+            if not is_pass(payload.get("N_positive_semidefinite")):
+                errors.append("SK_FV_Qi_action_v0_2A requires positive semidefinite noise kernel")
+            if not is_pass(payload.get("FDR_convention_declared")):
+                errors.append("SK_FV_Qi_action_v0_2A requires declared FDR convention")
+            if payload.get("Markov_snapshot_claimed_as_FullPathQi") is True and not is_pass(payload.get("markov_reduction_receipt_declared_if_used")):
+                errors.append("SK_FV_Qi_action_v0_2A rejects Markov snapshot as FullPathQi without reduction receipt")
+            if payload.get("barrier_claimed_as_qi_source") is True or not is_pass(payload.get("barrier_not_qi_source_declared")):
+                errors.append("SK_FV_Qi_action_v0_2A requires barrier floor not Qi source")
+
         if module_name == "DPI_recoverability":
             if payload.get("rollback_or_repair_claimed") is True:
                 value = payload.get("delta_rec_value")
@@ -127,6 +140,7 @@ def validate_spec(spec: Dict[str, Any]) -> List[str]:
         errors.append("overwrite_policy must be forbidden")
     for module in [
         "SK_FV_path_integral",
+        "SK_FV_Qi_action_v0_2A",
         "Ward_leak_identity",
         "DPI_recoverability",
         "IndraNet_gauge_transport",
