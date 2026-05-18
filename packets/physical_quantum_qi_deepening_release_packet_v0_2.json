@@ -3,10 +3,15 @@
   "packet_type": "release_packet",
   "status": "release_candidate",
   "manifest": "manifests/physical_quantum_qi_deepening_manifest_v0_2.json",
-  "scope": "Physical Quantum Qi v0.2 deepening modules: SK/FV path integral, Ward/leak identity, DPI recoverability, IndraNet gauge transport, KuString-Qi emergence bridge, Qi OS handoff, Qi OS bridge packet, and Qi MemoryOS record candidate",
+  "scope": "Physical Quantum Qi v0.2 deepening modules: SK/FV path integral, SK/FV Qi action v0.2A, Ward/leak identity, DPI recoverability, IndraNet gauge transport, KuString-Qi emergence bridge, Qi OS handoff, Qi OS bridge packet, and Qi MemoryOS record candidate",
   "root_baseline": "packets/physical_quantum_qi_runtime_baseline_established_final_packet_v0_1.json",
   "core_claims": [
     "FullPathQi requires SK/FV history evidence",
+    "FullPathQi requires SK/FV Qi action v0.2A conditions",
+    "S_sys must declare covariant derivative and concrete potential decomposition",
+    "S_IF kernels must declare causality, noise positivity, spectral consistency, and SK normalization",
+    "FDR status must be declared for thermal or nonequilibrium environments",
+    "Markov reduction cannot certify FullPathQi without reduction receipt",
     "PhysicalQi requires Ward/leak accounting",
     "Rollback or repair claims require positive delta_rec",
     "IndraNet Qi transport requires gauge connection, curvature, path, boundary, and holonomy residue accounting",
@@ -22,6 +27,11 @@
     "Qi_MemoryOS_record_candidate requires FullPathQi MemoryOS surface",
     "No v0.2 deepening module grants execution authority"
   ],
+  "equation_surfaces": {
+    "equation_document": "docs/PHYSICAL_QUANTUM_QI_EQUATIONS_v0_2.md",
+    "skfv_action_deepening_document": "docs/PHYSICAL_QUANTUM_QI_SKFV_ACTION_v0_2A.md",
+    "equation_packet": "examples/physical_quantum_qi_equation_packet_v0_2.json"
+  },
   "runtime_surfaces": {
     "phase_runtime": "src/physical_quantum_qi_phase_runtime_v0_2.py",
     "os_bridge_runtime": "src/physical_quantum_qi_os_bridge_v0_2.py",
@@ -45,6 +55,7 @@
   },
   "required_checks": [
     "make physical-quantum-qi-deepening-checks",
+    "python3 scripts/validate_physical_quantum_qi_equation_packet_v0_2.py",
     "python3 tests/test_physical_quantum_qi_os_bridge_v0_2.py",
     "python3 tests/test_physical_quantum_qi_memory_record_v0_2.py",
     "make all-governance-checks"
