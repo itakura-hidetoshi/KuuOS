@@ -40,6 +40,7 @@ physical-quantum-qi-deepening-checks:
 	python3 scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py
 	python3 scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py
 	python3 tests/test_physical_quantum_qi_indranet_gauge_transport_v0_2D.py
+	python3 tests/test_physical_quantum_qi_indranet_transport_runtime_v0_2D.py
 	python3 tests/test_physical_quantum_qi_phase_runtime_v0_2.py
 	python3 tests/test_physical_quantum_qi_os_bridge_v0_2.py
 	python3 tests/test_physical_quantum_qi_memory_record_v0_2.py
