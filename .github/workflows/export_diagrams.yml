@@ -1,0 +1,69 @@
+name: Export Diagrams
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'docs/*DIAGRAM*_v0_1.md'
+      - 'docs/VALIDATOR_GRAPH_v0_1.md'
+      - '.github/workflows/export_diagrams.yml'
+
+jobs:
+  export-diagrams:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Node.js
+        uses: actions/setup-node@v4
+        with:
+          node-version: '20'
+
+      - name: Install Mermaid CLI
+        run: npm install -g @mermaid-js/mermaid-cli
+
+      - name: Prepare output directory
+        run: mkdir -p diagram_exports
+
+      - name: Extract Mermaid blocks
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          sources = {
+              'architecture': Path('docs/ARCHITECTURE_DIAGRAM_v0_1.md'),
+              'governance': Path('docs/GOVERNANCE_DIAGRAM_v0_1.md'),
+              'validator_graph': Path('docs/VALIDATOR_GRAPH_v0_1.md'),
+          }
+
+          out = Path('diagram_exports')
+          out.mkdir(exist_ok=True)
+
+          for name, path in sources.items():
+              text = path.read_text(encoding='utf-8')
+              start = text.find('```mermaid')
+              if start == -1:
+                  raise SystemExit(f'No mermaid block found in {path}')
+              start = text.find('\n', start) + 1
+              end = text.find('```', start)
+              if end == -1:
+                  raise SystemExit(f'Unclosed mermaid block in {path}')
+              mermaid = text[start:end].strip() + '\n'
+              (out / f'{name}.mmd').write_text(mermaid, encoding='utf-8')
+          PY
+
+      - name: Export SVG diagrams
+        run: |
+          mmdc -i diagram_exports/architecture.mmd -o diagram_exports/architecture.svg
+          mmdc -i diagram_exports/governance.mmd -o diagram_exports/governance.svg
+          mmdc -i diagram_exports/validator_graph.mmd -o diagram_exports/validator_graph.svg
+
+      - name: Upload diagram artifacts
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-diagram-exports-v0-1
+          path: diagram_exports
