@@ -14,6 +14,7 @@
     "IndraNet_gauge_transport",
     "IndraNet_gauge_transport_v0_2D",
     "IndraNet_PlanOS_handoff_v0_2D",
+    "Qi_non_Markov_memory_v0_2E",
     "KuString_Qi_emergence_bridge",
     "Qi_OS_handoff",
     "Qi_OS_bridge_packet",
@@ -25,7 +26,8 @@
       "docs/PHYSICAL_QUANTUM_QI_SKFV_ACTION_v0_2A.md",
       "docs/PHYSICAL_QUANTUM_QI_WARD_LEAK_IDENTITY_v0_2B.md",
       "docs/PHYSICAL_QUANTUM_QI_DPI_RECOVERABILITY_v0_2C.md",
-      "docs/PHYSICAL_QUANTUM_QI_INDRANET_GAUGE_TRANSPORT_v0_2D.md"
+      "docs/PHYSICAL_QUANTUM_QI_INDRANET_GAUGE_TRANSPORT_v0_2D.md",
+      "docs/PHYSICAL_QUANTUM_QI_NON_MARKOV_MEMORY_v0_2E.md"
     ],
     "specs": [
       "specs/physical_quantum_qi_deepening_contract_v0_2.json"
@@ -35,6 +37,7 @@
       "examples/physical_quantum_qi_equation_packet_v0_2.json",
       "examples/physical_quantum_qi_dpi_recoverability_packet_v0_2C.json",
       "examples/physical_quantum_qi_indranet_gauge_transport_packet_v0_2D.json",
+      "examples/physical_quantum_qi_non_markov_memory_packet_v0_2E.json",
       "examples/run_physical_quantum_qi_phase_demo_v0_2.py",
       "examples/run_physical_quantum_qi_indranet_planos_handoff_demo_v0_2D.py"
     ],
@@ -52,7 +55,8 @@
       "tests/test_physical_quantum_qi_ward_leak_v0_2B_deepening.py",
       "tests/test_physical_quantum_qi_indranet_gauge_transport_v0_2D.py",
       "tests/test_physical_quantum_qi_indranet_transport_runtime_v0_2D.py",
-      "tests/test_physical_quantum_qi_indranet_planos_handoff_v0_2D.py"
+      "tests/test_physical_quantum_qi_indranet_planos_handoff_v0_2D.py",
+      "tests/test_physical_quantum_qi_non_markov_memory_v0_2E.py"
     ],
     "validation_cases": [
       "validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json"
@@ -60,6 +64,7 @@
     "validators": [
       "scripts/validate_physical_quantum_qi_equations_v0_2.py",
       "scripts/validate_physical_quantum_qi_equation_packet_v0_2.py",
+      "scripts/validate_physical_quantum_qi_non_markov_memory_v0_2E.py",
       "scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py",
       "scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py",
       "scripts/validate_physical_quantum_qi_deepening_v0_2.py",
@@ -94,6 +99,17 @@
     "S_IF kernels must declare causality, noise positivity, spectral consistency, and SK normalization",
     "FDR status must be declared for thermal or nonequilibrium environments",
     "Markov reduction cannot certify FullPathQi without reduction receipt",
+    "Qi memory is primary non-Markovian semantics",
+    "Markov reduction is forbidden as Qi semantics",
+    "Finite-window Qi memory projection is history-preserving and not a Markov substitute",
+    "Current-state-only Qi identity is forbidden",
+    "Current-state-only recoverability is forbidden",
+    "Current-state-only transport safety is forbidden",
+    "Discarded Qi history must leave visible tail residue",
+    "Holonomy history cannot be erased",
+    "Boundary leak history cannot be erased",
+    "Rollback history and recovery failure cannot be erased",
+    "Compressed Qi memory cannot replace source history",
     "PhysicalQi requires Ward/leak accounting",
     "PhysicalQi requires Ward/leak identity v0.2B physicalization",
     "J_Qi must be defined as variation of S_eff with respect to A_mu",
@@ -135,6 +151,8 @@
     "make physical-quantum-qi-deepening-checks",
     "python3 scripts/validate_physical_quantum_qi_equations_v0_2.py",
     "python3 scripts/validate_physical_quantum_qi_equation_packet_v0_2.py",
+    "python3 scripts/validate_physical_quantum_qi_non_markov_memory_v0_2E.py",
+    "python3 tests/test_physical_quantum_qi_non_markov_memory_v0_2E.py",
     "python3 scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py",
     "python3 scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py",
     "python3 tests/test_physical_quantum_qi_indranet_gauge_transport_v0_2D.py",
