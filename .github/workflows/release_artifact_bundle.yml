@@ -1,0 +1,57 @@
+name: Release Artifact Bundle
+
+on:
+  workflow_dispatch:
+
+jobs:
+  build-release-bundle:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Create release bundle directories
+        run: |
+          mkdir -p release_bundle/docs
+          mkdir -p release_bundle/workflows
+
+      - name: Copy public governance documents
+        run: |
+          cp README.md release_bundle/
+          cp GOVERNANCE.md release_bundle/
+          cp SECURITY.md release_bundle/
+          cp CONTRIBUTING.md release_bundle/
+          cp RELEASE_NOTES_v0_1.md release_bundle/
+          cp mkdocs.yml release_bundle/
+          cp -r docs/* release_bundle/docs/
+          cp -r .github/workflows/* release_bundle/workflows/
+
+      - name: Create manifest
+        run: |
+          cat <<EOF > release_bundle/MANIFEST.txt
+          KuuOS Public Release Bundle v0.1
+
+          Included surfaces:
+          - governance documentation
+          - architecture documentation
+          - validation documentation
+          - reproducibility documentation
+          - workflow surfaces
+          - MkDocs configuration
+
+          Boundary:
+          This bundle does not automatically imply theorem closure,
+          institutional approval, deployment authorization,
+          or clinical authority.
+          EOF
+
+      - name: Create archive
+        run: |
+          tar -czf kuuos_public_release_bundle_v0_1.tar.gz release_bundle
+
+      - name: Upload artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-public-release-bundle-v0-1
+          path: kuuos_public_release_bundle_v0_1.tar.gz
