@@ -3,7 +3,7 @@
   "packet_type": "release_packet",
   "status": "release_candidate",
   "manifest": "manifests/physical_quantum_qi_deepening_manifest_v0_2.json",
-  "scope": "Physical Quantum Qi v0.2 deepening modules: SK/FV path integral, SK/FV Qi action v0.2A, Ward/leak identity v0.2B, DPI recoverability v0.2C, IndraNet gauge transport, KuString-Qi emergence bridge, Qi OS handoff, Qi OS bridge packet, and Qi MemoryOS record candidate",
+  "scope": "Physical Quantum Qi v0.2 deepening modules: SK/FV path integral, SK/FV Qi action v0.2A, Ward/leak identity v0.2B, DPI recoverability v0.2C, IndraNet gauge transport v0.2D, KuString-Qi emergence bridge, Qi OS handoff, Qi OS bridge packet, and Qi MemoryOS record candidate",
   "root_baseline": "packets/physical_quantum_qi_runtime_baseline_established_final_packet_v0_1.json",
   "core_claims": [
     "FullPathQi requires SK/FV history evidence",
@@ -22,6 +22,10 @@
     "R_Qi must equal exp(-Delta_DPI) and satisfy 0 < R_Qi <= 1",
     "eta_Qi must include Delta_DPI, entropy production, lock-in, memory, and observation burden",
     "delta_rec gates repair/rollback evaluation but grants no execution authority",
+    "IndraNet gauge transport requires A_mu, F_munu, U_gamma, and W(C)",
+    "IndraNet transport is gauge geometry, not graph-only relation",
+    "Scope drift and holonomy residue must be declared and visible",
+    "Transport residue must remain component-visible and cannot be hidden by scalar summary",
     "Recovery claims require positive delta_rec",
     "IndraNet Qi transport requires gauge connection, curvature, path, boundary, and holonomy residue accounting",
     "Qi emergence proceeds from delta_rel through StringMode, BraneBoundary, gauge connection, and Qi current",
@@ -41,8 +45,10 @@
     "skfv_action_deepening_document": "docs/PHYSICAL_QUANTUM_QI_SKFV_ACTION_v0_2A.md",
     "ward_leak_physicalization_document": "docs/PHYSICAL_QUANTUM_QI_WARD_LEAK_IDENTITY_v0_2B.md",
     "dpi_recoverability_theoremization_document": "docs/PHYSICAL_QUANTUM_QI_DPI_RECOVERABILITY_v0_2C.md",
+    "indranet_gauge_transport_geometry_document": "docs/PHYSICAL_QUANTUM_QI_INDRANET_GAUGE_TRANSPORT_v0_2D.md",
     "equation_packet": "examples/physical_quantum_qi_equation_packet_v0_2.json",
-    "dpi_recoverability_packet": "examples/physical_quantum_qi_dpi_recoverability_packet_v0_2C.json"
+    "dpi_recoverability_packet": "examples/physical_quantum_qi_dpi_recoverability_packet_v0_2C.json",
+    "indranet_gauge_transport_packet": "examples/physical_quantum_qi_indranet_gauge_transport_packet_v0_2D.json"
   },
   "runtime_surfaces": {
     "phase_runtime": "src/physical_quantum_qi_phase_runtime_v0_2.py",
@@ -50,6 +56,7 @@
     "memory_record_runtime": "src/physical_quantum_qi_memory_record_v0_2.py",
     "phase_demo": "examples/run_physical_quantum_qi_phase_demo_v0_2.py",
     "dpi_recoverability_validator": "scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py",
+    "indranet_gauge_transport_validator": "scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py",
     "os_bridge_tests": "tests/test_physical_quantum_qi_os_bridge_v0_2.py",
     "memory_record_tests": "tests/test_physical_quantum_qi_memory_record_v0_2.py",
     "ward_leak_v0_2B_regression_tests": "tests/test_physical_quantum_qi_ward_leak_v0_2B_deepening.py"
@@ -71,6 +78,7 @@
     "make physical-quantum-qi-deepening-checks",
     "python3 scripts/validate_physical_quantum_qi_equation_packet_v0_2.py",
     "python3 scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py",
+    "python3 scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py",
     "python3 tests/test_physical_quantum_qi_os_bridge_v0_2.py",
     "python3 tests/test_physical_quantum_qi_memory_record_v0_2.py",
     "python3 tests/test_physical_quantum_qi_ward_leak_v0_2B_deepening.py",
