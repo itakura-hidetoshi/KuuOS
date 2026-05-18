@@ -2,10 +2,10 @@
 """Validate the Physical Quantum Qi deepening v0.2 release chain.
 
 This validator intentionally checks both governance packets and equation/runtime
-content. Physical Quantum Qi v0.2 is not valid unless the equation document,
-machine-readable equation packet, phase runtime, OS bridge runtime, MemoryOS
-record candidate runtime, runtime tests, phase demo, and Qi OS handoff surface
-are present in the manifest/chain and on disk.
+content. Physical Quantum Qi v0.2 is not valid unless the equation documents,
+SK/FV action v0.2A addendum, machine-readable equation packet, phase runtime,
+OS bridge runtime, MemoryOS record candidate runtime, runtime tests, phase demo,
+and Qi OS handoff surface are present in the manifest/chain and on disk.
 """
 
 from __future__ import annotations
@@ -28,6 +28,7 @@ BASELINE_ESTABLISHED_FINAL_PACKET_PATH = ROOT / "packets" / "physical_quantum_qi
 
 REQUIRED_MODULES = {
     "SK_FV_path_integral",
+    "SK_FV_Qi_action_v0_2A",
     "Ward_leak_identity",
     "DPI_recoverability",
     "IndraNet_gauge_transport",
@@ -39,6 +40,7 @@ REQUIRED_MODULES = {
 
 REQUIRED_FILES = {
     "docs/PHYSICAL_QUANTUM_QI_EQUATIONS_v0_2.md",
+    "docs/PHYSICAL_QUANTUM_QI_SKFV_ACTION_v0_2A.md",
     "specs/physical_quantum_qi_deepening_contract_v0_2.json",
     "examples/physical_quantum_qi_deepening_packet_v0_2.json",
     "examples/physical_quantum_qi_equation_packet_v0_2.json",
@@ -69,6 +71,11 @@ REQUIRED_FILES = {
 
 REQUIRED_INVARIANTS = {
     "FullPathQi requires SK/FV history evidence",
+    "FullPathQi requires SK/FV Qi action v0.2A conditions",
+    "S_sys must declare covariant derivative and concrete potential decomposition",
+    "S_IF kernels must declare causality, noise positivity, spectral consistency, and SK normalization",
+    "FDR status must be declared for thermal or nonequilibrium environments",
+    "Markov reduction cannot certify FullPathQi without reduction receipt",
     "PhysicalQi requires Ward/leak accounting",
     "Recovery claims require positive delta_rec",
     "IndraNet Qi transport requires gauge connection and holonomy accounting",
@@ -93,6 +100,9 @@ REQUIRED_INVARIANTS = {
 REQUIRED_CASE_NAMES = {
     "baseline_authority_boundary_complete_pass",
     "baseline_authority_boundary_incomplete_fails",
+    "skfv_v02a_kernel_without_causality_fails",
+    "skfv_v02a_fdr_convention_missing_fails",
+    "skfv_v02a_markov_snapshot_claimed_as_fullpath_fails",
 }
 
 REQUIRED_ENTRYPOINTS = {
