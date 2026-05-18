@@ -24,6 +24,43 @@
         "operation_order_erasure"
       ]
     },
+    "SK_FV_Qi_action_v0_2A": {
+      "required": [
+        "S_sys_concrete_form_declared",
+        "covariant_derivative_declared",
+        "potential_decomposition_declared",
+        "barrier_floor_declared",
+        "barrier_not_qi_source_declared",
+        "geometric_history_term_declared",
+        "S_IF_kernel_conditions_declared",
+        "D_R_causal",
+        "N_symmetric",
+        "N_positive_semidefinite",
+        "spectral_consistency_declared",
+        "SK_normalization_declared",
+        "FDR_status_declared",
+        "FDR_convention_declared",
+        "Markov_nonMarkov_boundary_declared",
+        "markov_reduction_receipt_declared_if_used"
+      ],
+      "rules": [
+        "kernel_causality_required",
+        "noise_positive_semidefinite_required",
+        "thermal_or_nonequilibrium_FDR_status_required",
+        "markov_snapshot_cannot_certify_FullPathQi_without_reduction_receipt",
+        "barrier_floor_is_not_Qi_source"
+      ],
+      "denies": [
+        "S_sys_without_covariant_derivative",
+        "kernel_without_causality",
+        "noise_without_positive_semidefinite_condition",
+        "FDR_violation_hidden_as_noise",
+        "Markov_snapshot_claimed_as_FullPathQi",
+        "nonMarkov_history_reduced_without_receipt",
+        "operation_order_erasure",
+        "barrier_claimed_as_qi_source"
+      ]
+    },
     "Ward_leak_identity": {
       "required": [
         "current_J_Qi_mu",
@@ -119,6 +156,11 @@
   },
   "cross_module_invariants": [
     "FullPathQi requires SK/FV history evidence",
+    "FullPathQi requires SK/FV Qi action v0.2A conditions",
+    "S_sys must declare covariant derivative and concrete potential decomposition",
+    "S_IF kernels must declare causality, noise positivity, spectral consistency, and SK normalization",
+    "FDR status must be declared for thermal or nonequilibrium environments",
+    "Markov reduction cannot certify FullPathQi without reduction receipt",
     "PhysicalQi requires Ward/leak accounting",
     "Recovery claims require positive delta_rec",
     "IndraNet Qi transport requires gauge connection and holonomy accounting",
