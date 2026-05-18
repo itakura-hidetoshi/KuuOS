@@ -5,7 +5,7 @@
   "root_release_packet": "packets/physical_quantum_qi_deepening_release_packet_v0_2.json",
   "manifest": "manifests/physical_quantum_qi_deepening_manifest_v0_2.json",
   "root_baseline": "packets/physical_quantum_qi_runtime_baseline_established_final_packet_v0_1.json",
-  "finality_scope": "Physical Quantum Qi v0.2 deepening modules including Qi OS handoff, Qi OS bridge packet, and Qi MemoryOS record candidate",
+  "finality_scope": "Physical Quantum Qi v0.2 deepening modules including SK/FV Qi action v0.2A, Ward/leak identity v0.2B, Qi OS handoff, Qi OS bridge packet, and Qi MemoryOS record candidate",
   "finality_declaration": {
     "additive_only": true,
     "tighten_only_default": true,
@@ -16,7 +16,9 @@
   },
   "locked_modules": [
     "SK_FV_path_integral",
+    "SK_FV_Qi_action_v0_2A",
     "Ward_leak_identity",
+    "Ward_leak_identity_v0_2B",
     "DPI_recoverability",
     "IndraNet_gauge_transport",
     "KuString_Qi_emergence_bridge",
@@ -26,7 +28,16 @@
   ],
   "locked_invariants": [
     "FullPathQi requires SK/FV history evidence",
+    "FullPathQi requires SK/FV Qi action v0.2A conditions",
+    "S_sys must declare covariant derivative and concrete potential decomposition",
+    "S_IF kernels must declare causality, noise positivity, spectral consistency, and SK normalization",
+    "FDR status must be declared for thermal or nonequilibrium environments",
+    "Markov reduction cannot certify FullPathQi without reduction receipt",
     "PhysicalQi requires Ward/leak accounting",
+    "PhysicalQi requires Ward/leak identity v0.2B physicalization",
+    "J_Qi must be defined as variation of S_eff with respect to A_mu",
+    "Open Ward/leak identity requires L_leak, A_anom, R_res, and W_leak residual accounting",
+    "Leak term is physical boundary/environment/membrane/coarse-graining/measurement exchange, not an audit label",
     "Recovery claims require positive delta_rec",
     "IndraNet Qi transport requires gauge connection and holonomy accounting",
     "Qi emerges from delta_rel through string/brane/gauge/current structure and never directly from K",
@@ -40,12 +51,19 @@
     "Qi_MemoryOS_record_candidate requires FullPathQi MemoryOS surface",
     "No v0.2 module grants execution authority"
   ],
+  "equation_surfaces": {
+    "equation_document": "docs/PHYSICAL_QUANTUM_QI_EQUATIONS_v0_2.md",
+    "skfv_action_deepening_document": "docs/PHYSICAL_QUANTUM_QI_SKFV_ACTION_v0_2A.md",
+    "ward_leak_physicalization_document": "docs/PHYSICAL_QUANTUM_QI_WARD_LEAK_IDENTITY_v0_2B.md",
+    "equation_packet": "examples/physical_quantum_qi_equation_packet_v0_2.json"
+  },
   "runtime_surfaces": {
     "phase_runtime": "src/physical_quantum_qi_phase_runtime_v0_2.py",
     "os_bridge_runtime": "src/physical_quantum_qi_os_bridge_v0_2.py",
     "memory_record_runtime": "src/physical_quantum_qi_memory_record_v0_2.py",
     "os_bridge_tests": "tests/test_physical_quantum_qi_os_bridge_v0_2.py",
-    "memory_record_tests": "tests/test_physical_quantum_qi_memory_record_v0_2.py"
+    "memory_record_tests": "tests/test_physical_quantum_qi_memory_record_v0_2.py",
+    "ward_leak_v0_2B_regression_tests": "tests/test_physical_quantum_qi_ward_leak_v0_2B_deepening.py"
   },
   "authority_boundary": {
     "proof_authority": false,
@@ -62,8 +80,10 @@
   },
   "required_validation": [
     "make physical-quantum-qi-deepening-checks",
+    "python3 scripts/validate_physical_quantum_qi_equation_packet_v0_2.py",
     "python3 tests/test_physical_quantum_qi_os_bridge_v0_2.py",
     "python3 tests/test_physical_quantum_qi_memory_record_v0_2.py",
+    "python3 tests/test_physical_quantum_qi_ward_leak_v0_2B_deepening.py",
     "make all-governance-checks"
   ]
 }
