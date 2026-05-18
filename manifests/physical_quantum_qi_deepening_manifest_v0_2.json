@@ -45,7 +45,8 @@
       "tests/test_physical_quantum_qi_phase_runtime_v0_2.py",
       "tests/test_physical_quantum_qi_os_bridge_v0_2.py",
       "tests/test_physical_quantum_qi_memory_record_v0_2.py",
-      "tests/test_physical_quantum_qi_ward_leak_v0_2B_deepening.py"
+      "tests/test_physical_quantum_qi_ward_leak_v0_2B_deepening.py",
+      "tests/test_physical_quantum_qi_indranet_gauge_transport_v0_2D.py"
     ],
     "validation_cases": [
       "validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json"
@@ -101,6 +102,7 @@
     "IndraNet transport is gauge geometry, not graph-only relation",
     "Scope drift and holonomy residue must be declared and visible",
     "Transport residue must remain component-visible and cannot be hidden by scalar summary",
+    "IndraNet graph-only transport and hidden-residue cases are regression-tested",
     "Recovery claims require positive delta_rec",
     "IndraNet Qi transport requires gauge connection and holonomy accounting",
     "Qi emerges from delta_rel through string/brane/gauge/current structure and never directly from K",
@@ -126,6 +128,7 @@
     "python3 scripts/validate_physical_quantum_qi_equation_packet_v0_2.py",
     "python3 scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py",
     "python3 scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py",
+    "python3 tests/test_physical_quantum_qi_indranet_gauge_transport_v0_2D.py",
     "python3 tests/test_physical_quantum_qi_phase_runtime_v0_2.py",
     "python3 tests/test_physical_quantum_qi_os_bridge_v0_2.py",
     "python3 tests/test_physical_quantum_qi_memory_record_v0_2.py",
