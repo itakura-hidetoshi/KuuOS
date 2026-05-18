@@ -27,8 +27,14 @@ jobs:
         run: |
           python3 scripts/governance_benchmark_score_v0_1.py
 
-      - name: Upload benchmark report artifact
+      - name: Generate markdown benchmark summary
+        run: |
+          python3 scripts/governance_benchmark_report_to_markdown_v0_1.py
+
+      - name: Upload benchmark report artifacts
         uses: actions/upload-artifact@v4
         with:
           name: governance-benchmark-report-v0-1
-          path: benchmark_reports/governance_benchmark_report_v0_1.json
+          path: |
+            benchmark_reports/governance_benchmark_report_v0_1.json
+            benchmark_reports/governance_benchmark_report_v0_1.md
