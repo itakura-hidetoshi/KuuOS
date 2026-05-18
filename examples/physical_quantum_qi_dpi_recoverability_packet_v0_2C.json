@@ -1,0 +1,90 @@
+{
+  "packet_id": "physical_quantum_qi_dpi_recoverability_packet_v0_2C",
+  "packet_type": "dpi_recoverability_equation_packet",
+  "scope": "Physical Quantum Qi DPI recoverability theoremization v0.2C",
+  "states_and_channel": {
+    "rho_declared": true,
+    "sigma_declared": true,
+    "channel_E_declared": true,
+    "CPTP_channel_declared": true,
+    "relative_entropy_declared": "D(rho||sigma)=Tr rho(log rho - log sigma)",
+    "support_condition_declared": "supp(rho) subset supp(sigma), otherwise D(rho||sigma)=+infty"
+  },
+  "DPI_gap": {
+    "Delta_DPI_defined": "Delta_DPI = D(rho||sigma) - D(E(rho)||E(sigma))",
+    "Delta_DPI_value_declared": 0.1,
+    "DPI_nonnegative_declared": true,
+    "DPI_channel_loss_interpretation_declared": "Delta_DPI is information/distinguishability loss under the declared channel E",
+    "DPI_equality_recovery_condition_declared": "Delta_DPI=0 iff a sufficient CPTP recovery map exists for rho and sigma under standard recovery conditions"
+  },
+  "Qi_recoverability_score": {
+    "R_Qi_defined": "R_Qi = exp(-Delta_DPI)",
+    "R_Qi_value_declared": 0.904837418,
+    "R_Qi_range_declared": "0 < R_Qi <= 1",
+    "R_Qi_monotone_in_Delta_DPI_declared": true,
+    "optional_recovery_fidelity_witness_declared_if_used": "not_used"
+  },
+  "irreversibility_burden": {
+    "eta_Qi_defined": "eta_Qi = Delta_DPI + Sigma + C_lockin + C_mem + C_obs",
+    "Sigma_declared": 0.1,
+    "C_lockin_declared": 0.1,
+    "C_mem_declared": 0.1,
+    "C_obs_declared": 0.1,
+    "eta_Qi_value_declared": 0.5,
+    "nonnegative_burden_terms_declared": true
+  },
+  "recovery_margin": {
+    "delta_rec_defined": "delta_rec = R_Qi - eta_Qi",
+    "delta_rec_value_declared": 0.404837418,
+    "delta_rec_sign_declared": "positive",
+    "delta_rec_positive_opens_evaluation_declared": true,
+    "delta_rec_nonpositive_blocks_recovery_declared": true,
+    "nonauthority_boundary_declared": true
+  },
+  "repair_rollback_gate": {
+    "repair_rollback_gate_declared": true,
+    "recovery_evaluation_open_when_delta_rec_positive": true,
+    "recovery_blocked_when_delta_rec_nonpositive": true,
+    "positive_delta_rec_is_not_execution_authority": true,
+    "positive_delta_rec_is_not_automatic_rollback": true,
+    "positive_delta_rec_is_not_memory_overwrite": true,
+    "positive_delta_rec_is_not_world_root_rewrite": true
+  },
+  "theorem_targets": {
+    "DPI_nonnegativity_gate": "Delta_DPI >= 0",
+    "Recoverability_range": "0 < R_Qi <= 1",
+    "Nonnegative_burden": "eta_Qi >= 0 when all burden terms are nonnegative",
+    "Recovery_gate_positive": "delta_rec > 0 implies RecoveryEvaluationOpen",
+    "Recovery_gate_nonpositive": "delta_rec <= 0 implies RecoveryBlocked",
+    "NonAuthority_theorem": "RecoveryEvaluationOpen does not imply ExecutionAuthority"
+  },
+  "authority_boundary": {
+    "proof_authority": false,
+    "ontology_authority": false,
+    "clinical_authority": false,
+    "execution_authority": false,
+    "commit_authority": false,
+    "belief_commit_authority": false,
+    "belief_root_commit_authority": false,
+    "memory_overwrite_authority": false,
+    "world_root_rewrite_authority": false,
+    "truth_authority": false,
+    "safety_override_authority": false
+  },
+  "rejected_claims": [
+    "DPI_claim_without_states",
+    "DPI_claim_without_channel",
+    "relative_entropy_without_support_condition",
+    "negative_Delta_DPI_without_diagnostic",
+    "DPI_loss_erasure",
+    "R_Qi_without_Delta_DPI",
+    "recoverability_score_grants_authority",
+    "eta_Qi_without_entropy_production",
+    "lockin_ignored",
+    "nonMarkov_memory_burden_ignored",
+    "observation_burden_ignored",
+    "repair_claim_without_delta_rec",
+    "rollback_claim_without_delta_rec",
+    "positive_delta_rec_claimed_as_execution_authority"
+  ]
+}
