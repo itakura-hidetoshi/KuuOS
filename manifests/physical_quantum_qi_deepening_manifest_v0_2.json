@@ -35,7 +35,8 @@
       "examples/physical_quantum_qi_equation_packet_v0_2.json",
       "examples/physical_quantum_qi_dpi_recoverability_packet_v0_2C.json",
       "examples/physical_quantum_qi_indranet_gauge_transport_packet_v0_2D.json",
-      "examples/run_physical_quantum_qi_phase_demo_v0_2.py"
+      "examples/run_physical_quantum_qi_phase_demo_v0_2.py",
+      "examples/run_physical_quantum_qi_indranet_planos_handoff_demo_v0_2D.py"
     ],
     "src": [
       "src/physical_quantum_qi_phase_runtime_v0_2.py",
@@ -109,6 +110,7 @@
     "Transport residue must remain component-visible and cannot be hidden by scalar summary",
     "IndraNet graph-only transport and hidden-residue cases are regression-tested",
     "IndraNet PlanOS handoff accepts only valid transport candidates",
+    "IndraNet PlanOS handoff demo emits a non-authoritative PlanOS.transport_candidate payload",
     "IndraNet PlanOS handoff grants no execution or commit authority",
     "Recovery claims require positive delta_rec",
     "IndraNet Qi transport requires gauge connection and holonomy accounting",
@@ -143,6 +145,7 @@
     "python3 tests/test_physical_quantum_qi_memory_record_v0_2.py",
     "python3 tests/test_physical_quantum_qi_ward_leak_v0_2B_deepening.py",
     "python3 examples/run_physical_quantum_qi_phase_demo_v0_2.py",
+    "python3 examples/run_physical_quantum_qi_indranet_planos_handoff_demo_v0_2D.py",
     "python3 scripts/validate_physical_quantum_qi_deepening_v0_2.py",
     "python3 scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py",
     "make all-governance-checks"
