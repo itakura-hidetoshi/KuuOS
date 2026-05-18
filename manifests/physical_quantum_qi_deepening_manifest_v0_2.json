@@ -6,6 +6,7 @@
   "overwrite_policy": "forbidden",
   "deepening_modules": [
     "SK_FV_path_integral",
+    "SK_FV_Qi_action_v0_2A",
     "Ward_leak_identity",
     "DPI_recoverability",
     "IndraNet_gauge_transport",
@@ -16,7 +17,8 @@
   ],
   "files": {
     "docs": [
-      "docs/PHYSICAL_QUANTUM_QI_EQUATIONS_v0_2.md"
+      "docs/PHYSICAL_QUANTUM_QI_EQUATIONS_v0_2.md",
+      "docs/PHYSICAL_QUANTUM_QI_SKFV_ACTION_v0_2A.md"
     ],
     "specs": [
       "specs/physical_quantum_qi_deepening_contract_v0_2.json"
@@ -69,6 +71,11 @@
   },
   "invariants": [
     "FullPathQi requires SK/FV history evidence",
+    "FullPathQi requires SK/FV Qi action v0.2A conditions",
+    "S_sys must declare covariant derivative and concrete potential decomposition",
+    "S_IF kernels must declare causality, noise positivity, spectral consistency, and SK normalization",
+    "FDR status must be declared for thermal or nonequilibrium environments",
+    "Markov reduction cannot certify FullPathQi without reduction receipt",
     "PhysicalQi requires Ward/leak accounting",
     "Recovery claims require positive delta_rec",
     "IndraNet Qi transport requires gauge connection and holonomy accounting",
