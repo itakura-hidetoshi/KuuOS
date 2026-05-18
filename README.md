@@ -46,14 +46,19 @@ This repository is:
 - a governance and validation architecture
 - a non-sovereign AI operating framework
 - a bridge between AI governance, formal verification, relational philosophy, and physics-facing modeling
+- an early public core toward a long-term deployment-ready AGI operating architecture
 
-This repository is **not**:
+This repository is **not currently**:
 
 - an autonomous execution engine
 - a claim of institutional authority
 - a replacement for external peer review
-- a deployment-ready AGI system
+- a deployment-ready AGI system in its present public-core state
 - a final theorem-release surface for the canonical 4D mass gap proof repository
+
+Long-term direction:
+
+- KuuOS does aim toward a deployment-ready AGI operating architecture, but only through staged governance, validation, provenance, runtime admissibility, external review, and authority-boundary preservation.
 
 If you are reviewing the project for the first time, begin here:
 
@@ -84,6 +89,7 @@ KuuOS aims to:
 3. prevent authority collapse between models, memories, plans, and actions
 4. provide append-only governance and audit structures
 5. connect relational AI governance to formal verification and physics-facing bridges
+6. develop toward deployment-ready AGI operation through staged safety, governance, and external review
 
 ---
 
