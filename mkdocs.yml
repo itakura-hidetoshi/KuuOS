@@ -1,0 +1,64 @@
+site_name: KuuOS / 空OS Public Core
+site_description: Boundary-aware governance architecture for relational AI systems
+site_author: Hidetoshi Itakura
+repo_url: https://github.com/itakura-hidetoshi/KuuOS
+repo_name: itakura-hidetoshi/KuuOS
+
+theme:
+  name: material
+  language: en
+  features:
+    - navigation.sections
+    - navigation.expand
+    - navigation.top
+    - toc.integrate
+
+nav:
+  - Home: index.md
+  - Start Here:
+      - Public Docs Index: PUBLIC_DOCS_INDEX_v0_1.md
+      - Quickstart: QUICKSTART_v0_1.md
+      - External Review Guide: EXTERNAL_REVIEW_GUIDE_v0_1.md
+      - Why KuuOS Exists: WHY_KUUOS_EXISTS_v0_1.md
+  - Architecture:
+      - Overview: ARCHITECTURE_OVERVIEW_v0_1.md
+      - Architecture Diagram: ARCHITECTURE_DIAGRAM_v0_1.md
+      - Governance Flow Overview: GOVERNANCE_FLOW_OVERVIEW_v0_1.md
+      - Governance Diagram: GOVERNANCE_DIAGRAM_v0_1.md
+      - Validator Graph: VALIDATOR_GRAPH_v0_1.md
+  - Governance:
+      - Governance Manifesto: KUUOS_GOVERNANCE_MANIFESTO_v0_1.md
+      - Boundary and Non-Authority Policy: BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1.md
+      - Boundary Risk Model: BOUNDARY_RISK_MODEL_v0_1.md
+      - Claim Level Taxonomy: CLAIM_LEVEL_TAXONOMY_v0_1.md
+      - Contributor Review Workflow: CONTRIBUTOR_REVIEW_WORKFLOW_v0_1.md
+  - Validation:
+      - Validation Coverage Matrix: VALIDATION_COVERAGE_MATRIX_v0_1.md
+      - Reproducibility Matrix: REPRODUCIBILITY_MATRIX_v0_1.md
+      - Public Audit Checklist: PUBLIC_AUDIT_CHECKLIST_v0_1.md
+      - Validator Dependency Overview: VALIDATOR_DEPENDENCY_OVERVIEW_v0_1.md
+      - Lean Coverage Map: LEAN_COVERAGE_MAP_v0_1.md
+  - Terminology:
+      - Formal Terminology Glossary: FORMAL_TERMINOLOGY_GLOSSARY_v0_1.md
+      - Terminology Cross Reference: TERMINOLOGY_CROSS_REFERENCE_INDEX_v0_1.md
+  - Release:
+      - Public Release Package Manifest: PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1.md
+      - v0.1 Release Readiness Checklist: V0_1_RELEASE_READINESS_CHECKLIST.md
+  - Core:
+      - Core Governance Index: KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
+      - Fourfold Core: KUOS_FOURFOLD_CORE_v0_1.md
+      - Governance Release Gate: GOVERNANCE_RELEASE_GATE_v0_1.md
+
+markdown_extensions:
+  - admonition
+  - tables
+  - toc:
+      permalink: true
+  - pymdownx.superfences:
+      custom_fences:
+        - name: mermaid
+          class: mermaid
+          format: !!python/name:pymdownx.superfences.fence_code_format
+
+plugins:
+  - search
