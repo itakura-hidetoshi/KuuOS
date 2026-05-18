@@ -14,6 +14,26 @@
       "boundary_conditions": "pass",
       "leak_identity_on_paths": "pass"
     },
+    "SK_FV_Qi_action_v0_2A": {
+      "S_sys_concrete_form_declared": "pass",
+      "covariant_derivative_declared": "pass",
+      "potential_decomposition_declared": "pass",
+      "barrier_floor_declared": "pass",
+      "barrier_not_qi_source_declared": "pass",
+      "geometric_history_term_declared": "pass",
+      "S_IF_kernel_conditions_declared": "pass",
+      "D_R_causal": "pass",
+      "N_symmetric": "pass",
+      "N_positive_semidefinite": "pass",
+      "spectral_consistency_declared": "pass",
+      "SK_normalization_declared": "pass",
+      "FDR_status_declared": "pass",
+      "FDR_convention_declared": "pass",
+      "Markov_nonMarkov_boundary_declared": "pass",
+      "markov_reduction_receipt_declared_if_used": "pass",
+      "Markov_snapshot_claimed_as_FullPathQi": false,
+      "barrier_claimed_as_qi_source": false
+    },
     "Ward_leak_identity": {
       "current_J_Qi_mu": "pass",
       "covariant_divergence_defined": "pass",
