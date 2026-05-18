@@ -2,7 +2,7 @@
   "packet_id": "physical_quantum_qi_deepening_validated_baseline_packet_v0_2",
   "packet_type": "validated_baseline_packet",
   "status": "validated_baseline_candidate",
-  "scope": "Physical Quantum Qi v0.2 deepening public governance/runtime baseline including SK/FV Qi action v0.2A, Ward/leak identity v0.2B, Qi OS handoff, Qi OS bridge packet, and Qi MemoryOS record candidate",
+  "scope": "Physical Quantum Qi v0.2 deepening public governance/runtime baseline including SK/FV Qi action v0.2A, Ward/leak identity v0.2B, DPI recoverability v0.2C, IndraNet gauge transport v0.2D, Qi OS handoff, Qi OS bridge packet, and Qi MemoryOS record candidate",
   "root_baseline": "packets/physical_quantum_qi_runtime_baseline_established_final_packet_v0_1.json",
   "chain_index": "chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json",
   "manifest": "manifests/physical_quantum_qi_deepening_manifest_v0_2.json",
@@ -11,6 +11,8 @@
   "release_closure_packet": "packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json",
   "validated_by": [
     "scripts/validate_physical_quantum_qi_equation_packet_v0_2.py",
+    "scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py",
+    "scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py",
     "scripts/validate_physical_quantum_qi_deepening_v0_2.py",
     "tests/test_physical_quantum_qi_os_bridge_v0_2.py",
     "tests/test_physical_quantum_qi_memory_record_v0_2.py",
@@ -23,13 +25,19 @@
     "equation_document": "docs/PHYSICAL_QUANTUM_QI_EQUATIONS_v0_2.md",
     "skfv_action_deepening_document": "docs/PHYSICAL_QUANTUM_QI_SKFV_ACTION_v0_2A.md",
     "ward_leak_physicalization_document": "docs/PHYSICAL_QUANTUM_QI_WARD_LEAK_IDENTITY_v0_2B.md",
-    "equation_packet": "examples/physical_quantum_qi_equation_packet_v0_2.json"
+    "dpi_recoverability_theoremization_document": "docs/PHYSICAL_QUANTUM_QI_DPI_RECOVERABILITY_v0_2C.md",
+    "indranet_gauge_transport_geometry_document": "docs/PHYSICAL_QUANTUM_QI_INDRANET_GAUGE_TRANSPORT_v0_2D.md",
+    "equation_packet": "examples/physical_quantum_qi_equation_packet_v0_2.json",
+    "dpi_recoverability_packet": "examples/physical_quantum_qi_dpi_recoverability_packet_v0_2C.json",
+    "indranet_gauge_transport_packet": "examples/physical_quantum_qi_indranet_gauge_transport_packet_v0_2D.json"
   },
   "runtime_surfaces": {
     "phase_runtime": "src/physical_quantum_qi_phase_runtime_v0_2.py",
     "os_bridge_runtime": "src/physical_quantum_qi_os_bridge_v0_2.py",
     "memory_record_runtime": "src/physical_quantum_qi_memory_record_v0_2.py",
     "phase_demo": "examples/run_physical_quantum_qi_phase_demo_v0_2.py",
+    "dpi_recoverability_validator": "scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py",
+    "indranet_gauge_transport_validator": "scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py",
     "os_bridge_tests": "tests/test_physical_quantum_qi_os_bridge_v0_2.py",
     "memory_record_tests": "tests/test_physical_quantum_qi_memory_record_v0_2.py",
     "ward_leak_v0_2B_regression_tests": "tests/test_physical_quantum_qi_ward_leak_v0_2B_deepening.py"
@@ -52,6 +60,16 @@
     "open_Ward_leak_requires_L_leak_A_anom_R_res_W_leak": true,
     "leak_term_is_physical_exchange_not_audit_label": true,
     "nonzero_W_leak_blocks_PhysicalQi_and_FullPathQi": true,
+    "DPI_recoverability_v0_2C_required": true,
+    "Delta_DPI_nonnegative_required": true,
+    "R_Qi_equals_exp_minus_Delta_DPI_required": true,
+    "eta_Qi_includes_entropy_lockin_memory_observation_burden": true,
+    "delta_rec_gate_nonexecution_required": true,
+    "IndraNet_gauge_transport_v0_2D_required": true,
+    "A_mu_F_munu_U_gamma_W_C_required": true,
+    "IndraNet_graph_only_transport_rejected": true,
+    "scope_drift_and_holonomy_residue_visibility_required": true,
+    "transport_residue_component_visibility_required": true,
     "recovery_claim_requires_positive_delta_rec": true,
     "IndraNet_transport_requires_gauge_and_holonomy": true,
     "KuString_Qi_emergence_never_directly_from_K": true,
@@ -77,5 +95,5 @@
     "truth_authority": false,
     "safety_override_authority": false
   },
-  "baseline_statement": "Physical Quantum Qi v0.2 deepening is a public KuuOS baseline candidate that tightens v0.1 by requiring SK/FV history and SK/FV Qi action v0.2A for FullPathQi; Ward/leak identity v0.2B physicalization for PhysicalQi; positive delta_rec for recovery claims; gauge/holonomy accounting for IndraNet transport; delta_rel -> string/brane -> gauge -> current lineage for KuString-Qi emergence; Qi OS handoff as routing surface; Qi OS bridge packet as candidate-only OS payload generation; and Qi MemoryOS record candidate as append-only history candidate. Ward_leak_identity_v0_2B defines J_Qi as variation of S_eff with respect to A_mu and requires L_leak, A_anom, R_res, and zero W_leak residual for PhysicalQi/FullPathQi closure. Qi never emerges directly from K, MGAP4D 33/20 remains a stability floor rather than a Qi source, and FullPathQi is MemoryOS-recordable and ReflectionOS-analyzable but not executable."
+  "baseline_statement": "Physical Quantum Qi v0.2 deepening is a public KuuOS baseline candidate that tightens v0.1 by requiring SK/FV history and SK/FV Qi action v0.2A for FullPathQi; Ward/leak identity v0.2B physicalization for PhysicalQi; DPI recoverability v0.2C theoremization for Delta_DPI, R_Qi, eta_Qi, delta_rec, and repair/rollback evaluation gating; IndraNet gauge transport v0.2D geometry for A_mu, F_munu, U_gamma, W(C), scope drift, holonomy residue, and component-visible transport residue; gauge/holonomy accounting for IndraNet transport; delta_rel -> string/brane -> gauge -> current lineage for KuString-Qi emergence; Qi OS handoff as routing surface; Qi OS bridge packet as candidate-only OS payload generation; and Qi MemoryOS record candidate as append-only history candidate. Ward_leak_identity_v0_2B defines J_Qi as variation of S_eff with respect to A_mu and requires L_leak, A_anom, R_res, and zero W_leak residual for PhysicalQi/FullPathQi closure. IndraNet_gauge_transport_v0_2D rejects graph-only transport. Qi never emerges directly from K, MGAP4D 33/20 remains a stability floor rather than a Qi source, and FullPathQi is MemoryOS-recordable and ReflectionOS-analyzable but not executable."
 }
