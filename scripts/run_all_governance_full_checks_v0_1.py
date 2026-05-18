@@ -25,6 +25,7 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/validate_physical_quantum_qi_runtime_release_packet_v0_1.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_equations_v0_2.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_equation_packet_v0_2.py"],
+    [sys.executable, "scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py"],
     [sys.executable, "tests/test_physical_quantum_qi_phase_runtime_v0_2.py"],
     [sys.executable, "tests/test_physical_quantum_qi_os_bridge_v0_2.py"],
     [sys.executable, "tests/test_physical_quantum_qi_memory_record_v0_2.py"],
