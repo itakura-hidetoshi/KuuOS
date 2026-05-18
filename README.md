@@ -1,5 +1,9 @@
 # KuuOS / 空OS Core
 
+![Core Governance](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/core_governance_validation.yml/badge.svg)
+![All Governance](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/all_governance_validation.yml/badge.svg)
+![Ten'i Observability](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/teni_observability_validation.yml/badge.svg)
+
 ## For Reviewers and First-Time Readers
 
 KuuOS is a public governance and verification core for relational AI systems.
@@ -16,12 +20,24 @@ Primary reviewer path:
 docs/QUICKSTART_v0_1.md
 docs/EXTERNAL_REVIEW_GUIDE_v0_1.md
 docs/ARCHITECTURE_OVERVIEW_v0_1.md
+docs/ARCHITECTURE_DIAGRAM_v0_1.md
 docs/GOVERNANCE_FLOW_OVERVIEW_v0_1.md
+docs/GOVERNANCE_DIAGRAM_v0_1.md
+docs/VALIDATOR_GRAPH_v0_1.md
 docs/BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1.md
 docs/VALIDATION_COVERAGE_MATRIX_v0_1.md
 docs/REPRODUCIBILITY_MATRIX_v0_1.md
 docs/PUBLIC_AUDIT_CHECKLIST_v0_1.md
 docs/THEOREM_AND_REFERENCE_BOUNDARY_MATRIX_v0_1.md
+docs/PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1.md
+```
+
+Release preparation surface:
+
+```text
+RELEASE_NOTES_v0_1.md
+docs/PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1.md
+docs/V0_1_RELEASE_READINESS_CHECKLIST.md
 ```
 
 This repository is:
