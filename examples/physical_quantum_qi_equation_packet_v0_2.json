@@ -13,7 +13,7 @@
     "safety_override_authority": false
   },
   "SK_FV_path_integral": {
-    "Z_Qi_SKFV": "Z_Qi[J_+,J_-] = ∫ Dq_+ Dq_- exp{iS_sys[q_+] - iS_sys[q_-] + iS_IF[q_+,q_-] + i∫(J_+q_+ - J_-q_-)dt}",
+    "Z_Qi_SKFV": "Z_Qi[J_+,J_-] = ∫ Dq_+ Dq_- exp{iS_sys[q_+] - iS_sys[q_-] + iS_IF[q_+,q_-] + i∫(J_+q_+ - J_-)dt}",
     "S_sys": "effective internal Qi-system action",
     "S_IF": "S_IF = ∫∫ Δq(t) D_R(t,t') Σq(t') dt dt' + (i/2)∫∫ Δq(t) N(t,t') Δq(t') dt dt'",
     "Delta_q": "Δq(t)=q_+(t)-q_-(t)",
@@ -52,21 +52,8 @@
       "operation_order_residue_declared": "||T[O1O2]-T[O2O1]|| > epsilon_ord marks non-Markov residue",
       "markov_reduction_receipt_declared_if_used": true
     },
-    "FullPathQi_A_requirements": [
-      "S_sys_concrete_form",
-      "S_IF_kernel_conditions",
-      "FDR_status",
-      "Markov_nonMarkov_boundary"
-    ],
-    "rejected_claims": [
-      "S_sys_without_covariant_derivative",
-      "kernel_without_causality",
-      "noise_without_positive_semidefinite_condition",
-      "FDR_violation_hidden_as_noise",
-      "Markov_snapshot_claimed_as_FullPathQi",
-      "nonMarkov_history_reduced_without_receipt",
-      "operation_order_erasure"
-    ]
+    "FullPathQi_A_requirements": ["S_sys_concrete_form", "S_IF_kernel_conditions", "FDR_status", "Markov_nonMarkov_boundary"],
+    "rejected_claims": ["S_sys_without_covariant_derivative", "kernel_without_causality", "noise_without_positive_semidefinite_condition", "FDR_violation_hidden_as_noise", "Markov_snapshot_claimed_as_FullPathQi", "nonMarkov_history_reduced_without_receipt", "operation_order_erasure"]
   },
   "current_and_ward_leak": {
     "J_Qi_variation_from_A": "J_Qi^μ(x)=δS_Qi/δA_μ(x)",
@@ -75,6 +62,51 @@
     "Ward_open_leak_identity": "D_μ <J_Qi^μ> = <L_leak> + A_anom",
     "Ward_leak_residual_zero": "D_μ J_Qi^μ - L_leak - A_anom = 0 for open-system accounting",
     "leak_anomaly_must_be_declared": true
+  },
+  "Ward_leak_identity_v0_2B": {
+    "S_eff_declared": "S_eff = S_sys[q;A] + S_IF[q_+,q_-;A] + S_boundary_Qi[X,B,A,delta_rel] + S_YM[A] + S_rel[delta,A]",
+    "A_mu_variation_declared": "J_Qi^mu(x) = (1/sqrt(|g|)) delta S_eff / delta A_mu(x)",
+    "metric_density_factor_declared": "1/sqrt(|g|) included in current definition",
+    "CTP_branch_current_declared": "<J_Qi^mu> = (1/(i sqrt(|g|))) delta log Z_Qi / delta A_Delta_mu | A_+=A_-=A",
+    "current_domain_declared": "J_Qi lives on declared IndraNet gauge/current domain, not as arbitrary named flow",
+    "current_decomposition": {
+      "J_sys_declared": true,
+      "J_boundary_declared": "J_boundary^mu(x)=∫_{partial Sigma} chi(delta_rel) partial_tau X^mu delta(x-X(tau)) d tau",
+      "J_rel_declared": "J_rel^mu = delta S_rel / delta A_mu ~ G^{ij}(theta) delta_j D^mu delta_i",
+      "J_IF_declared": "J_IF^mu = delta S_IF / delta A_mu",
+      "J_YM_declared": true,
+      "open_system_current_component_declared": true
+    },
+    "covariant_divergence": {
+      "D_mu_J_declared": "D_mu J^mu = nabla_mu J^mu + [A_mu,J^mu]",
+      "closed_Ward_identity_declared": "D_mu J_Qi^mu = 0",
+      "closed_identity_conditions_declared": ["closed_sector", "no_trace_out_environment", "no_boundary_flux", "no_anomaly", "gauge_variation_invariant"]
+    },
+    "open_Ward_leak_identity": {
+      "open_or_closed_case_declared": true,
+      "L_leak_declared": "L_leak = L_env + L_partialB + L_membrane + L_coarse + L_measure",
+      "A_anom_declared_or_zero": true,
+      "R_res_declared_or_zero": true,
+      "W_leak_residual_declared": "W_leak = D_mu J_Qi^mu - L_leak - A_anom - R_res",
+      "W_leak_tolerance_declared": true,
+      "W_leak_closure_rule": "PhysicalQi/FullPathQi requires W_leak=0 within declared tolerance"
+    },
+    "leak_term_decomposition": {
+      "L_env": "exchange with traced-out environmental degrees of freedom",
+      "L_partialB": "boundary flux through brane or membrane boundary: ∫_{partial B} n_mu J_Qi^mu dSigma",
+      "L_membrane": "cross-layer leakage through a KuuOS membrane",
+      "L_coarse": "loss induced by coarse-graining or RG projection",
+      "L_measure": "measurement or intervention backaction from S_IF^measure"
+    },
+    "anomaly_and_residue": {
+      "anomaly_origin_declared_or_zero": true,
+      "residue_origin_declared_or_zero": true,
+      "anomaly_bound_declared_if_nonzero": true,
+      "residue_bound_declared_if_nonzero": true,
+      "A_anom_decomposition": ["A_gauge", "A_measure", "A_regularization", "A_topological"],
+      "R_res_decomposition": ["R_holonomy", "R_translation", "R_scope", "R_kernel"]
+    },
+    "rejected_claims": ["J_Qi_named_without_variation", "flow_label_without_action", "current_without_domain", "current_decomposition_missing", "open_system_current_erased", "boundary_current_erased", "open_system_claim_without_leak_term", "leak_residual_hidden", "closed_conservation_claim_with_open_trace", "anomaly_erasure", "residue_erasure", "symmetry_break_hidden_as_leak"]
   },
   "DPI_recoverability": {
     "Delta_DPI": "D(ρ||σ)-D(E(ρ)||E(σ))",
@@ -118,14 +150,14 @@
     "ProtoQi": "StringMode exists but no brane-boundary gauge projection",
     "BoundaryQi": "boundary coupling exists but no complete gauge-current definition",
     "TransportQi": "A_mu and F_munu exist but J_Qi is not yet validated as variation of S_eff",
-    "PhysicalQi": "J_Qi = delta S_eff / delta A_mu and Ward/leak accounting closes",
-    "FullPathQi": "PhysicalQi plus SK/FV history, influence kernel, memory, noise, backaction, and v0.2A SK/FV action requirements",
-    "Qi_phase_label": "φ = Φ(δ_rel,X,B,A_μ,F_μν,J^μ,Z_Qi,L_leak,A_anom)"
+    "PhysicalQi": "J_Qi = delta S_eff / delta A_mu and Ward/leak accounting closes with v0.2B",
+    "FullPathQi": "PhysicalQi plus SK/FV history, influence kernel, memory, noise, backaction, v0.2A action requirements, and v0.2B Ward/leak closure",
+    "Qi_phase_label": "φ = Φ(δ_rel,X,B,A_μ,F_μν,J^μ,Z_Qi,L_leak,A_anom,R_res,W_leak)"
   },
   "PhysicalQi_emergence_criterion": {
     "criterion": "PhysicalQi iff δ_rel∈K^⊥ ∧ δ_rel≠0 ∧ ∂Σ⊂B ∧ A_μ=Π_gauge(∂X,B,δ_rel) ∧ J_Qi^μ=δS_eff/δA_μ ∧ W_leak=0",
     "closed_case": "D_μJ_Qi^μ=0",
-    "open_case": "D_μJ_Qi^μ-L_leak-A_anom=0",
+    "open_case": "D_μJ_Qi^μ-L_leak-A_anom-R_res=0",
     "short_definition": "Qi=[δS_eff/δA_μ]^{SK/FV}_{δ_rel∈K^⊥, ∂Σ⊂B}"
   },
   "Qi_OS_handoff": {
@@ -152,13 +184,5 @@
       "safety_override_authority": false
     }
   },
-  "forbidden_collapses": [
-    "K_identified_as_Qi",
-    "string_reified_as_substance",
-    "brane_reified_as_creator",
-    "mass_gap_claimed_as_Qi_source",
-    "J_Qi_without_variation_from_S_eff",
-    "FullPathQi_without_SK_FV_history",
-    "FullPathQi_without_SK_FV_Qi_action_v0_2A"
-  ]
+  "forbidden_collapses": ["K_identified_as_Qi", "string_reified_as_substance", "brane_reified_as_creator", "mass_gap_claimed_as_Qi_source", "J_Qi_without_variation_from_S_eff", "FullPathQi_without_SK_FV_history", "FullPathQi_without_SK_FV_Qi_action_v0_2A", "PhysicalQi_without_Ward_leak_identity_v0_2B", "leak_term_hidden_as_success", "anomaly_hidden_as_leak"]
 }
