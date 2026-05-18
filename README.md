@@ -4,6 +4,26 @@
 
 KuuOS is a public governance and verification core for relational AI systems.
 
+Start with the public documentation index:
+
+```text
+docs/PUBLIC_DOCS_INDEX_v0_1.md
+```
+
+Primary reviewer path:
+
+```text
+docs/QUICKSTART_v0_1.md
+docs/EXTERNAL_REVIEW_GUIDE_v0_1.md
+docs/ARCHITECTURE_OVERVIEW_v0_1.md
+docs/GOVERNANCE_FLOW_OVERVIEW_v0_1.md
+docs/BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1.md
+docs/VALIDATION_COVERAGE_MATRIX_v0_1.md
+docs/REPRODUCIBILITY_MATRIX_v0_1.md
+docs/PUBLIC_AUDIT_CHECKLIST_v0_1.md
+docs/THEOREM_AND_REFERENCE_BOUNDARY_MATRIX_v0_1.md
+```
+
 This repository is:
 
 - a public specification surface
