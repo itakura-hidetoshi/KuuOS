@@ -11,6 +11,16 @@ This index provides a stable public entrypoint for external reviewers.
 | `docs/EXTERNAL_REVIEW_GUIDE_v0_1.md` | Review order and review questions |
 | `docs/ARCHITECTURE_OVERVIEW_v0_1.md` | High-level KuuOS architecture |
 
+## Diagrams
+
+| Document | Purpose |
+|---|---|
+| `docs/ARCHITECTURE_DIAGRAM_v0_1.md` | Mermaid architecture flow diagram |
+| `docs/GOVERNANCE_DIAGRAM_v0_1.md` | Mermaid governance flow diagram |
+| `docs/VALIDATOR_GRAPH_v0_1.md` | Mermaid validator dependency graph |
+| `docs/GOVERNANCE_FLOW_OVERVIEW_v0_1.md` | Text overview of governance flow |
+| `docs/VALIDATOR_DEPENDENCY_OVERVIEW_v0_1.md` | Text overview of validator dependencies |
+
 ## Governance and Boundaries
 
 | Document | Purpose |
@@ -52,6 +62,7 @@ This index provides a stable public entrypoint for external reviewers.
 | Document | Purpose |
 |---|---|
 | `RELEASE_NOTES_v0_1.md` | v0.1 release notes draft |
+| `docs/PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1.md` | Proposed v0.1 public release package |
 
 ## Minimal Validation Command
 
