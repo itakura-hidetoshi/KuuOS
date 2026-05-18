@@ -1,0 +1,100 @@
+{
+  "packet_id": "physical_quantum_qi_non_markov_memory_packet_v0_2E",
+  "packet_type": "qi_non_markov_memory_packet",
+  "version": "v0.2E",
+  "status": "design_baseline_candidate",
+  "root_design": "docs/PHYSICAL_QUANTUM_QI_NON_MARKOV_MEMORY_v0_2E.md",
+  "memory_semantics": {
+    "qi_memory_primary": true,
+    "qi_is_non_markovian_by_definition": true,
+    "markov_reduction_forbidden_as_qi_semantics": true,
+    "current_state_only_identity_forbidden": true,
+    "current_state_only_recoverability_forbidden": true,
+    "current_state_only_transport_safety_forbidden": true
+  },
+  "canonical_current": {
+    "J_bare_declared": true,
+    "K_Qi_history_kernel_declared": true,
+    "X_history_vector_declared": true,
+    "H_Qi_holonomy_history_kernel_declared": true,
+    "U_gamma_history_transport_declared": true,
+    "R_Qi_mem_residue_declared": true,
+    "current_depends_on_full_admissible_history": true
+  },
+  "memory_kernel": {
+    "K_body": {"declared": true, "description": "internal body/system history"},
+    "K_boundary": {"declared": true, "description": "membrane and boundary-crossing history"},
+    "K_leak": {"declared": true, "description": "leak history"},
+    "K_observation": {"declared": true, "description": "measurement and observation-burden history"},
+    "K_holonomy": {"declared": true, "description": "IndraNet gauge-transport twist history"},
+    "K_recovery": {"declared": true, "description": "repair and recovery history"},
+    "K_rollback": {"declared": true, "description": "rollback and failed-repair history"},
+    "K_lockin": {"declared": true, "description": "phase-lock and fixation history"},
+    "K_residue": {"declared": true, "description": "unresolved residue and tail debt"}
+  },
+  "finite_window_projection": {
+    "allowed_only_as_history_preserving_projection": true,
+    "markov_semantic_substitute": false,
+    "history_window_L_declared": true,
+    "kernel_tail_bound_declared": true,
+    "discarded_tail_residue_declared": true,
+    "holonomy_tail_residue_declared": true,
+    "boundary_leak_tail_residue_declared": true,
+    "observation_tail_burden_declared": true,
+    "recovery_tail_debt_declared": true,
+    "rollback_tail_debt_declared": true,
+    "lockin_tail_residue_declared": true
+  },
+  "non_markov_recoverability": {
+    "delta_rec_depends_on_M_Qi_0_t": true,
+    "past_leak_affects_delta_rec": true,
+    "past_observation_burden_affects_delta_rec": true,
+    "past_lockin_affects_delta_rec": true,
+    "past_holonomy_residue_affects_delta_rec": true,
+    "past_failed_repair_affects_delta_rec": true,
+    "past_rollback_affects_delta_rec": true,
+    "positive_local_recovery_does_not_erase_recovery_debt": true
+  },
+  "non_markov_transport": {
+    "U_Gamma_0_t_declared": true,
+    "W_C_history_declared": true,
+    "scope_drift_history_declared": true,
+    "holonomy_residue_history_declared": true,
+    "component_transport_residue_history_declared": true,
+    "path_order_history_declared": true,
+    "boundary_crossing_history_declared": true,
+    "fresh_valid_path_cannot_erase_prior_holonomy_history": true
+  },
+  "compression_rule": {
+    "compression_is_constrained_projection": true,
+    "compression_is_not_deletion": true,
+    "compressed_memory_cannot_replace_source_history": true,
+    "unresolved_conflict_preserved": true,
+    "boundary_leak_history_preserved": true,
+    "holonomy_residue_preserved": true,
+    "scope_drift_preserved": true,
+    "recovery_failure_preserved": true,
+    "rollback_history_preserved": true,
+    "observation_burden_preserved": true,
+    "authority_boundary_preserved": true
+  },
+  "allowed_surfaces": [
+    "PlanOS.transport_candidate",
+    "MemoryOS.recordable_history_candidate",
+    "ReflectionOS.residue_analysis_candidate",
+    "BeliefOS.observation_candidate",
+    "DecisionOS.safety_evaluable_candidate"
+  ],
+  "authority_boundary": {
+    "execution_authority": false,
+    "commit_authority": false,
+    "belief_root_commit_authority": false,
+    "memory_overwrite_authority": false,
+    "world_root_rewrite_authority": false,
+    "proof_authority": false,
+    "ontology_authority": false,
+    "truth_authority": false,
+    "clinical_authority": false,
+    "safety_override_authority": false
+  }
+}
