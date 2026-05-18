@@ -3,8 +3,9 @@
 
 This validator checks equation content, not just packet existence.
 It verifies that the JSON packet exposes the SK/FV, SK/FV action v0.2A,
-Ward/leak, DPI, IndraNet gauge, KuString-Qi emergence, phase ladder,
-PhysicalQi criterion, and OS handoff behavior needed by the runtime classifier.
+Ward/leak identity v0.2B, DPI, IndraNet gauge, KuString-Qi emergence,
+phase ladder, PhysicalQi criterion, and OS handoff behavior needed by the
+runtime classifier.
 """
 
 from __future__ import annotations
@@ -25,6 +26,7 @@ REQUIRED_TOP_LEVEL = {
     "SK_FV_path_integral",
     "SK_FV_Qi_action_v0_2A",
     "current_and_ward_leak",
+    "Ward_leak_identity_v0_2B",
     "DPI_recoverability",
     "IndraNet_gauge_transport",
     "KuString_Qi_emergence",
@@ -46,148 +48,32 @@ REQUIRED_NON_AUTHORITY_FALSE = {
 }
 
 REQUIRED_SECTION_KEYS = {
-    "SK_FV_path_integral": {
-        "Z_Qi_SKFV",
-        "S_sys",
-        "S_IF",
-        "Delta_q",
-        "Sigma_q",
-        "D_R_kernel",
-        "N_noise_kernel",
-        "history_required",
-    },
-    "SK_FV_Qi_action_v0_2A": {
-        "S_sys_concrete_form",
-        "covariant_derivative_declared",
-        "potential_decomposition_declared",
-        "barrier_floor_declared",
-        "barrier_not_qi_source_declared",
-        "geometric_history_term_declared",
-        "S_IF_kernel_conditions",
-        "FDR_status",
-        "Markov_nonMarkov_boundary",
-        "FullPathQi_A_requirements",
-        "rejected_claims",
-    },
-    "current_and_ward_leak": {
-        "J_Qi_variation_from_A",
-        "J_Qi_from_logZ",
-        "Ward_closed_identity",
-        "Ward_open_leak_identity",
-        "Ward_leak_residual_zero",
-        "leak_anomaly_must_be_declared",
-    },
-    "DPI_recoverability": {
-        "Delta_DPI",
-        "R_Qi",
-        "eta_Qi",
-        "delta_rec",
-        "recovery_rule",
-    },
-    "IndraNet_gauge_transport": {
-        "A_mu",
-        "F_munu",
-        "U_gamma",
-        "W_C",
-        "graph_only_transport_rejected",
-    },
-    "KuString_Qi_emergence": {
-        "K_non_reification",
-        "delta_rel_in_K_perp",
-        "StringMode_worldsheet",
-        "BraneBoundary",
-        "A_mu_projection_from_string_brane",
-        "S_boundary_Qi",
-        "chi_delta_rel",
-        "boundary_kernel_K_mu_a",
-        "S_eff",
-        "S_YM",
-        "J_Qi_from_effective_action",
-        "J_boundary",
-        "J_rel",
-        "J_open",
-        "J_anom",
-        "D_mu_delta",
-        "S_rel",
-        "relation_difference_eom",
-        "mass_gap_33_20_floor_not_source",
-    },
-    "Qi_phase_ladder": {
-        "phase_order",
-        "NonQi",
-        "PreQi",
-        "ProtoQi",
-        "BoundaryQi",
-        "TransportQi",
-        "PhysicalQi",
-        "FullPathQi",
-        "Qi_phase_label",
-    },
-    "PhysicalQi_emergence_criterion": {
-        "criterion",
-        "closed_case",
-        "open_case",
-        "short_definition",
-    },
-    "Qi_OS_handoff": {
-        "phase_to_surface",
-        "FullPathQi_status",
-        "authority_never_granted",
-    },
+    "SK_FV_path_integral": {"Z_Qi_SKFV", "S_sys", "S_IF", "Delta_q", "Sigma_q", "D_R_kernel", "N_noise_kernel", "history_required"},
+    "SK_FV_Qi_action_v0_2A": {"S_sys_concrete_form", "covariant_derivative_declared", "potential_decomposition_declared", "barrier_floor_declared", "barrier_not_qi_source_declared", "geometric_history_term_declared", "S_IF_kernel_conditions", "FDR_status", "Markov_nonMarkov_boundary", "FullPathQi_A_requirements", "rejected_claims"},
+    "current_and_ward_leak": {"J_Qi_variation_from_A", "J_Qi_from_logZ", "Ward_closed_identity", "Ward_open_leak_identity", "Ward_leak_residual_zero", "leak_anomaly_must_be_declared"},
+    "Ward_leak_identity_v0_2B": {"S_eff_declared", "A_mu_variation_declared", "metric_density_factor_declared", "CTP_branch_current_declared", "current_domain_declared", "current_decomposition", "covariant_divergence", "open_Ward_leak_identity", "leak_term_decomposition", "anomaly_and_residue", "rejected_claims"},
+    "DPI_recoverability": {"Delta_DPI", "R_Qi", "eta_Qi", "delta_rec", "recovery_rule"},
+    "IndraNet_gauge_transport": {"A_mu", "F_munu", "U_gamma", "W_C", "graph_only_transport_rejected"},
+    "KuString_Qi_emergence": {"K_non_reification", "delta_rel_in_K_perp", "StringMode_worldsheet", "BraneBoundary", "A_mu_projection_from_string_brane", "S_boundary_Qi", "chi_delta_rel", "boundary_kernel_K_mu_a", "S_eff", "S_YM", "J_Qi_from_effective_action", "J_boundary", "J_rel", "J_open", "J_anom", "D_mu_delta", "S_rel", "relation_difference_eom", "mass_gap_33_20_floor_not_source"},
+    "Qi_phase_ladder": {"phase_order", "NonQi", "PreQi", "ProtoQi", "BoundaryQi", "TransportQi", "PhysicalQi", "FullPathQi", "Qi_phase_label"},
+    "PhysicalQi_emergence_criterion": {"criterion", "closed_case", "open_case", "short_definition"},
+    "Qi_OS_handoff": {"phase_to_surface", "FullPathQi_status", "authority_never_granted"},
 }
 
-REQUIRED_V02A_KERNEL_KEYS = {
-    "D_R_causal",
-    "N_symmetric",
-    "N_positive_semidefinite",
-    "spectral_consistency_declared",
-    "SK_normalization_declared",
-    "leak_or_postselection_normalization_declared_if_used",
-}
+REQUIRED_V02A_KERNEL_KEYS = {"D_R_causal", "N_symmetric", "N_positive_semidefinite", "spectral_consistency_declared", "SK_normalization_declared", "leak_or_postselection_normalization_declared_if_used"}
+REQUIRED_V02A_FDR_KEYS = {"environment_stationarity_declared", "thermal_or_nonequilibrium_declared", "FDR_convention_declared", "FDR_residual_status_declared", "FDR_residual_bound_declared_if_nonequilibrium"}
+REQUIRED_V02A_MARKOV_KEYS = {"memory_time_declared", "system_time_declared", "markov_threshold_declared", "nonmarkov_threshold_declared", "operation_order_residue_declared", "markov_reduction_receipt_declared_if_used"}
+REQUIRED_V02A_FULLPATH_REQUIREMENTS = {"S_sys_concrete_form", "S_IF_kernel_conditions", "FDR_status", "Markov_nonMarkov_boundary"}
+REQUIRED_V02A_REJECTIONS = {"S_sys_without_covariant_derivative", "kernel_without_causality", "noise_without_positive_semidefinite_condition", "FDR_violation_hidden_as_noise", "Markov_snapshot_claimed_as_FullPathQi", "nonMarkov_history_reduced_without_receipt", "operation_order_erasure"}
 
-REQUIRED_V02A_FDR_KEYS = {
-    "environment_stationarity_declared",
-    "thermal_or_nonequilibrium_declared",
-    "FDR_convention_declared",
-    "FDR_residual_status_declared",
-    "FDR_residual_bound_declared_if_nonequilibrium",
-}
+REQUIRED_V02B_CURRENT_DECOMP_KEYS = {"J_sys_declared", "J_boundary_declared", "J_rel_declared", "J_IF_declared", "J_YM_declared", "open_system_current_component_declared"}
+REQUIRED_V02B_DIVERGENCE_KEYS = {"D_mu_J_declared", "closed_Ward_identity_declared", "closed_identity_conditions_declared"}
+REQUIRED_V02B_OPEN_KEYS = {"open_or_closed_case_declared", "L_leak_declared", "A_anom_declared_or_zero", "R_res_declared_or_zero", "W_leak_residual_declared", "W_leak_tolerance_declared", "W_leak_closure_rule"}
+REQUIRED_V02B_LEAK_KEYS = {"L_env", "L_partialB", "L_membrane", "L_coarse", "L_measure"}
+REQUIRED_V02B_ANOMALY_KEYS = {"anomaly_origin_declared_or_zero", "residue_origin_declared_or_zero", "anomaly_bound_declared_if_nonzero", "residue_bound_declared_if_nonzero", "A_anom_decomposition", "R_res_decomposition"}
+REQUIRED_V02B_REJECTIONS = {"J_Qi_named_without_variation", "flow_label_without_action", "current_without_domain", "current_decomposition_missing", "open_system_current_erased", "boundary_current_erased", "open_system_claim_without_leak_term", "leak_residual_hidden", "closed_conservation_claim_with_open_trace", "anomaly_erasure", "residue_erasure", "symmetry_break_hidden_as_leak"}
 
-REQUIRED_V02A_MARKOV_KEYS = {
-    "memory_time_declared",
-    "system_time_declared",
-    "markov_threshold_declared",
-    "nonmarkov_threshold_declared",
-    "operation_order_residue_declared",
-    "markov_reduction_receipt_declared_if_used",
-}
-
-REQUIRED_V02A_FULLPATH_REQUIREMENTS = {
-    "S_sys_concrete_form",
-    "S_IF_kernel_conditions",
-    "FDR_status",
-    "Markov_nonMarkov_boundary",
-}
-
-REQUIRED_V02A_REJECTIONS = {
-    "S_sys_without_covariant_derivative",
-    "kernel_without_causality",
-    "noise_without_positive_semidefinite_condition",
-    "FDR_violation_hidden_as_noise",
-    "Markov_snapshot_claimed_as_FullPathQi",
-    "nonMarkov_history_reduced_without_receipt",
-    "operation_order_erasure",
-}
-
-EXPECTED_PHASE_ORDER = [
-    "NonQi",
-    "PreQi",
-    "ProtoQi",
-    "BoundaryQi",
-    "TransportQi",
-    "PhysicalQi",
-    "FullPathQi",
-]
+EXPECTED_PHASE_ORDER = ["NonQi", "PreQi", "ProtoQi", "BoundaryQi", "TransportQi", "PhysicalQi", "FullPathQi"]
 
 REQUIRED_FORBIDDEN_COLLAPSES = {
     "K_identified_as_Qi",
@@ -197,28 +83,13 @@ REQUIRED_FORBIDDEN_COLLAPSES = {
     "J_Qi_without_variation_from_S_eff",
     "FullPathQi_without_SK_FV_history",
     "FullPathQi_without_SK_FV_Qi_action_v0_2A",
+    "PhysicalQi_without_Ward_leak_identity_v0_2B",
+    "leak_term_hidden_as_success",
+    "anomaly_hidden_as_leak",
 }
 
-REQUIRED_HANDOFF_SURFACES = {
-    "BeliefOS.observation_candidate",
-    "PlanOS.transport_candidate",
-    "DecisionOS.safety_evaluable_candidate",
-    "MemoryOS.recordable_history_candidate",
-    "ReflectionOS.residue_analysis_candidate",
-}
-
-REQUIRED_HANDOFF_FALSE = {
-    "execution_authority",
-    "commit_authority",
-    "belief_root_commit_authority",
-    "memory_overwrite_authority",
-    "world_root_rewrite_authority",
-    "clinical_authority",
-    "proof_authority",
-    "ontology_authority",
-    "truth_authority",
-    "safety_override_authority",
-}
+REQUIRED_HANDOFF_SURFACES = {"BeliefOS.observation_candidate", "PlanOS.transport_candidate", "DecisionOS.safety_evaluable_candidate", "MemoryOS.recordable_history_candidate", "ReflectionOS.residue_analysis_candidate"}
+REQUIRED_HANDOFF_FALSE = {"execution_authority", "commit_authority", "belief_root_commit_authority", "memory_overwrite_authority", "world_root_rewrite_authority", "clinical_authority", "proof_authority", "ontology_authority", "truth_authority", "safety_override_authority"}
 
 REQUIRED_CONTENT_SUBSTRINGS = {
     ("SK_FV_path_integral", "Z_Qi_SKFV"): ["J_+", "J_-", "S_IF"],
@@ -230,6 +101,9 @@ REQUIRED_CONTENT_SUBSTRINGS = {
     ("SK_FV_Qi_action_v0_2A", "geometric_history_term_declared"): ["omega_Qi", "operation-order"],
     ("current_and_ward_leak", "J_Qi_variation_from_A"): ["δS_Qi", "δA_μ"],
     ("current_and_ward_leak", "Ward_open_leak_identity"): ["L_leak", "A_anom"],
+    ("Ward_leak_identity_v0_2B", "S_eff_declared"): ["S_eff", "S_sys", "S_IF", "S_YM", "S_rel"],
+    ("Ward_leak_identity_v0_2B", "A_mu_variation_declared"): ["delta S_eff", "delta A_mu"],
+    ("Ward_leak_identity_v0_2B", "CTP_branch_current_declared"): ["delta log Z_Qi", "A_Delta_mu"],
     ("DPI_recoverability", "Delta_DPI"): ["D(ρ||σ)", "D(E(ρ)||E(σ))"],
     ("DPI_recoverability", "recovery_rule"): ["delta_rec > 0"],
     ("IndraNet_gauge_transport", "F_munu"): ["∂_μA_ν", "[A_μ,A_ν]"],
@@ -264,31 +138,25 @@ def section(packet: Dict[str, Any], key: str) -> Dict[str, Any]:
 def validate_packet_shape(packet: Dict[str, Any]) -> List[str]:
     errors: List[str] = []
     errors.extend([f"missing top-level key: {x}" for x in missing(REQUIRED_TOP_LEVEL, packet.keys())])
-
     if packet.get("packet_id") != "physical_quantum_qi_equation_packet_v0_2":
         errors.append("packet_id mismatch")
     if packet.get("packet_type") != "equation_packet":
         errors.append("packet_type must be equation_packet")
-
     authority = section(packet, "non_authority_boundary")
     for key in sorted(REQUIRED_NON_AUTHORITY_FALSE):
         if authority.get(key) is not False:
             errors.append(f"non_authority_boundary.{key} must be false")
-
     for sec, keys in REQUIRED_SECTION_KEYS.items():
         actual = section(packet, sec)
         errors.extend([f"{sec} missing key: {x}" for x in missing(keys, actual.keys())])
-
     phase_order = section(packet, "Qi_phase_ladder").get("phase_order")
     if phase_order != EXPECTED_PHASE_ORDER:
         errors.append(f"Qi_phase_ladder.phase_order mismatch: {phase_order!r}")
-
     forbidden = packet.get("forbidden_collapses", [])
     if not isinstance(forbidden, list):
         errors.append("forbidden_collapses must be a list")
     else:
         errors.extend([f"missing forbidden collapse: {x}" for x in missing(REQUIRED_FORBIDDEN_COLLAPSES, forbidden)])
-
     return errors
 
 
@@ -297,10 +165,8 @@ def validate_v02a(packet: Dict[str, Any]) -> List[str]:
     v02a = section(packet, "SK_FV_Qi_action_v0_2A")
     if not v02a:
         return ["SK_FV_Qi_action_v0_2A section is required"]
-
     if v02a.get("barrier_not_qi_source_declared") is not True:
         errors.append("SK_FV_Qi_action_v0_2A.barrier_not_qi_source_declared must be true")
-
     kernels = v02a.get("S_IF_kernel_conditions", {})
     if not isinstance(kernels, dict):
         errors.append("SK_FV_Qi_action_v0_2A.S_IF_kernel_conditions must be an object")
@@ -309,7 +175,6 @@ def validate_v02a(packet: Dict[str, Any]) -> List[str]:
         for key in ["D_R_causal", "N_symmetric", "N_positive_semidefinite", "leak_or_postselection_normalization_declared_if_used"]:
             if kernels.get(key) is not True:
                 errors.append(f"S_IF_kernel_conditions.{key} must be true")
-
     fdr = v02a.get("FDR_status", {})
     if not isinstance(fdr, dict):
         errors.append("SK_FV_Qi_action_v0_2A.FDR_status must be an object")
@@ -320,7 +185,6 @@ def validate_v02a(packet: Dict[str, Any]) -> List[str]:
         convention = str(fdr.get("FDR_convention_declared", ""))
         if "coth" not in convention or "D_R" not in convention:
             errors.append("FDR_status.FDR_convention_declared must include coth and D_R")
-
     markov = v02a.get("Markov_nonMarkov_boundary", {})
     if not isinstance(markov, dict):
         errors.append("SK_FV_Qi_action_v0_2A.Markov_nonMarkov_boundary must be an object")
@@ -328,19 +192,75 @@ def validate_v02a(packet: Dict[str, Any]) -> List[str]:
         errors.extend([f"Markov_nonMarkov_boundary missing key: {x}" for x in missing(REQUIRED_V02A_MARKOV_KEYS, markov.keys())])
         if markov.get("markov_reduction_receipt_declared_if_used") is not True:
             errors.append("Markov_nonMarkov_boundary.markov_reduction_receipt_declared_if_used must be true")
-
     requirements = v02a.get("FullPathQi_A_requirements", [])
     if not isinstance(requirements, list):
         errors.append("FullPathQi_A_requirements must be a list")
     else:
         errors.extend([f"FullPathQi_A_requirements missing: {x}" for x in missing(REQUIRED_V02A_FULLPATH_REQUIREMENTS, requirements)])
-
     rejected = v02a.get("rejected_claims", [])
     if not isinstance(rejected, list):
         errors.append("SK_FV_Qi_action_v0_2A.rejected_claims must be a list")
     else:
         errors.extend([f"SK_FV_Qi_action_v0_2A.rejected_claims missing: {x}" for x in missing(REQUIRED_V02A_REJECTIONS, rejected)])
+    return errors
 
+
+def validate_v02b(packet: Dict[str, Any]) -> List[str]:
+    errors: List[str] = []
+    b = section(packet, "Ward_leak_identity_v0_2B")
+    if not b:
+        return ["Ward_leak_identity_v0_2B section is required"]
+    for key in ["S_eff_declared", "A_mu_variation_declared", "metric_density_factor_declared", "CTP_branch_current_declared", "current_domain_declared"]:
+        if not isinstance(b.get(key), str) or not b.get(key):
+            errors.append(f"Ward_leak_identity_v0_2B.{key} must be a nonempty string")
+    current = b.get("current_decomposition", {})
+    if not isinstance(current, dict):
+        errors.append("Ward_leak_identity_v0_2B.current_decomposition must be an object")
+    else:
+        errors.extend([f"current_decomposition missing key: {x}" for x in missing(REQUIRED_V02B_CURRENT_DECOMP_KEYS, current.keys())])
+        for key in ["J_sys_declared", "J_YM_declared", "open_system_current_component_declared"]:
+            if current.get(key) is not True:
+                errors.append(f"current_decomposition.{key} must be true")
+        for key in ["J_boundary_declared", "J_rel_declared", "J_IF_declared"]:
+            if not isinstance(current.get(key), str) or not current.get(key):
+                errors.append(f"current_decomposition.{key} must be a nonempty string")
+    divergence = b.get("covariant_divergence", {})
+    if not isinstance(divergence, dict):
+        errors.append("Ward_leak_identity_v0_2B.covariant_divergence must be an object")
+    else:
+        errors.extend([f"covariant_divergence missing key: {x}" for x in missing(REQUIRED_V02B_DIVERGENCE_KEYS, divergence.keys())])
+        conditions = divergence.get("closed_identity_conditions_declared", [])
+        if not isinstance(conditions, list) or "no_anomaly" not in conditions:
+            errors.append("covariant_divergence.closed_identity_conditions_declared must include no_anomaly")
+    open_identity = b.get("open_Ward_leak_identity", {})
+    if not isinstance(open_identity, dict):
+        errors.append("Ward_leak_identity_v0_2B.open_Ward_leak_identity must be an object")
+    else:
+        errors.extend([f"open_Ward_leak_identity missing key: {x}" for x in missing(REQUIRED_V02B_OPEN_KEYS, open_identity.keys())])
+        for key in ["open_or_closed_case_declared", "A_anom_declared_or_zero", "R_res_declared_or_zero", "W_leak_tolerance_declared"]:
+            if open_identity.get(key) is not True:
+                errors.append(f"open_Ward_leak_identity.{key} must be true")
+        residual = str(open_identity.get("W_leak_residual_declared", ""))
+        if "L_leak" not in residual or "A_anom" not in residual or "R_res" not in residual:
+            errors.append("open_Ward_leak_identity.W_leak_residual_declared must include L_leak, A_anom, and R_res")
+    leak = b.get("leak_term_decomposition", {})
+    if not isinstance(leak, dict):
+        errors.append("Ward_leak_identity_v0_2B.leak_term_decomposition must be an object")
+    else:
+        errors.extend([f"leak_term_decomposition missing key: {x}" for x in missing(REQUIRED_V02B_LEAK_KEYS, leak.keys())])
+    anomaly = b.get("anomaly_and_residue", {})
+    if not isinstance(anomaly, dict):
+        errors.append("Ward_leak_identity_v0_2B.anomaly_and_residue must be an object")
+    else:
+        errors.extend([f"anomaly_and_residue missing key: {x}" for x in missing(REQUIRED_V02B_ANOMALY_KEYS, anomaly.keys())])
+        for key in ["anomaly_origin_declared_or_zero", "residue_origin_declared_or_zero", "anomaly_bound_declared_if_nonzero", "residue_bound_declared_if_nonzero"]:
+            if anomaly.get(key) is not True:
+                errors.append(f"anomaly_and_residue.{key} must be true")
+    rejected = b.get("rejected_claims", [])
+    if not isinstance(rejected, list):
+        errors.append("Ward_leak_identity_v0_2B.rejected_claims must be a list")
+    else:
+        errors.extend([f"Ward_leak_identity_v0_2B.rejected_claims missing: {x}" for x in missing(REQUIRED_V02B_REJECTIONS, rejected)])
     return errors
 
 
@@ -354,7 +274,6 @@ def validate_equation_content(packet: Dict[str, Any]) -> List[str]:
         for token in substrings:
             if token not in value:
                 errors.append(f"{sec}.{key} missing equation token: {token}")
-
     if section(packet, "SK_FV_path_integral").get("history_required") is not True:
         errors.append("SK_FV_path_integral.history_required must be true")
     if section(packet, "current_and_ward_leak").get("leak_anomaly_must_be_declared") is not True:
@@ -393,13 +312,7 @@ def validate_runtime_classification_and_handoff(packet: Dict[str, Any]) -> List[
         src = ROOT / "src"
         if str(src) not in sys.path:
             sys.path.insert(0, str(src))
-        from physical_quantum_qi_phase_runtime_v0_2 import (  # type: ignore
-            classify_qi_phase,
-            handoff_to_dict,
-            qi_phase_handoff,
-            state_from_packet,
-        )
-
+        from physical_quantum_qi_phase_runtime_v0_2 import classify_qi_phase, handoff_to_dict, qi_phase_handoff, state_from_packet  # type: ignore
         result = classify_qi_phase(state_from_packet(packet))
         if result.phase.value != "FullPathQi":
             return [f"equation packet must classify as FullPathQi, got {result.phase.value}: {result}"]
@@ -412,7 +325,7 @@ def validate_runtime_classification_and_handoff(packet: Dict[str, Any]) -> List[
             if handoff.get(key) is not False:
                 errors.append(f"FullPathQi handoff {key} must be false")
         return errors
-    except Exception as exc:  # pragma: no cover - diagnostic path
+    except Exception as exc:
         return [f"runtime classification/handoff failed with {type(exc).__name__}: {exc}"]
 
 
@@ -421,16 +334,15 @@ def main() -> int:
     errors: List[str] = []
     errors.extend(validate_packet_shape(packet))
     errors.extend(validate_v02a(packet))
+    errors.extend(validate_v02b(packet))
     errors.extend(validate_equation_content(packet))
     errors.extend(validate_declared_handoff(packet))
     errors.extend(validate_runtime_classification_and_handoff(packet))
-
     if errors:
         print("Physical Quantum Qi equation packet v0.2 validation failed:")
         for err in errors:
             print(f"- {err}")
         return 1
-
     print("Physical Quantum Qi equation packet v0.2 validation passed.")
     return 0
 
