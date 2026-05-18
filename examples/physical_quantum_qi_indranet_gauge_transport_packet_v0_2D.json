@@ -1,0 +1,109 @@
+{
+  "packet_id": "physical_quantum_qi_indranet_gauge_transport_packet_v0_2D",
+  "packet_type": "indranet_gauge_transport_geometry_packet",
+  "scope": "Physical Quantum Qi IndraNet gauge transport geometry v0.2D",
+  "gauge_bundle_connection": {
+    "scope_manifold_or_site_declared": true,
+    "bundle_E_declared": true,
+    "gauge_group_or_algebra_declared": "g Lie algebra for IndraNet transport representation",
+    "A_mu_declared": "A = A_mu dx^mu, A_mu(x) in g",
+    "covariant_derivative_declared": "D_mu s = partial_mu s + A_mu s",
+    "current_representation_declared": "D_mu J^mu = nabla_mu J^mu + [A_mu,J^mu] for adjoint-valued current"
+  },
+  "curvature": {
+    "F_munu_defined": "F_munu = partial_mu A_nu - partial_nu A_mu + [A_mu,A_nu]",
+    "curvature_domain_declared": "F is defined on the declared scope manifold/site chart",
+    "noncommutative_term_declared": "[A_mu,A_nu]",
+    "flatness_status_declared": "nonflat_with_visible_curvature",
+    "curvature_visibility_declared": true
+  },
+  "path_transport": {
+    "path_gamma_declared": "gamma:[0,1]->M_scope",
+    "path_ordering_declared": true,
+    "U_gamma_defined": "U_gamma = P exp(- integral_gamma A_mu dx^mu)",
+    "transport_representation_declared": "s(gamma(1)) = U_gamma s(gamma(0)); J(gamma(1)) = Ad_Ugamma J(gamma(0))",
+    "path_family_or_single_path_declared": "single_path_plus_family_tolerance"
+  },
+  "holonomy_wilson_loop": {
+    "closed_loop_C_declared": true,
+    "U_C_defined": "U_C = P exp(- contour_C A)",
+    "W_C_defined": "W(C) = Tr P exp(- contour_C A)",
+    "holonomy_residue_declared": "R_hol(C)=||U_C-I||",
+    "wilson_residue_declared": "R_W(C)=|(1/d)Tr U_C - 1|",
+    "holonomy_tolerance_declared": 0.001
+  },
+  "scope_drift": {
+    "source_scope_declared": "S_0",
+    "target_scope_declared": "S_1",
+    "scope_map_declared": "Phi_gamma:S_0->S_1_candidate",
+    "scope_metric_or_mismatch_declared": "d_scope(Phi_gamma(S_0),S_1)",
+    "scope_drift_value_or_bound_declared": 0.0005,
+    "scope_drift_tolerance_declared": 0.001,
+    "sheaf_local_drift_declared": "Delta_scope^ij = ||rho_i^j(s_i)-s_j||"
+  },
+  "transport_residue": {
+    "transport_residue_vector_declared": true,
+    "holonomy_residue_declared": 0.0004,
+    "curvature_residue_declared": 0.0003,
+    "scope_residue_declared": 0.0005,
+    "path_residue_declared": 0.0002,
+    "representation_residue_declared": 0.0001,
+    "boundary_residue_declared": 0.0002,
+    "scalar_residue_weights_declared_if_scalar_used": {
+      "alpha_h": 1.0,
+      "alpha_c": 1.0,
+      "alpha_s": 1.0,
+      "alpha_p": 1.0,
+      "alpha_r": 1.0,
+      "alpha_b": 1.0
+    },
+    "component_residue_visibility_declared": true,
+    "scalar_residue_summary": 0.0017
+  },
+  "validity_gate": {
+    "A_mu_required": true,
+    "F_munu_required": true,
+    "path_gamma_required": true,
+    "U_gamma_required": true,
+    "source_target_scope_required": true,
+    "holonomy_or_Wilson_residue_required": true,
+    "scope_drift_required": true,
+    "transport_residue_visibility_required": true,
+    "graph_only_transport_rejected": true,
+    "nonauthority_boundary_declared": true
+  },
+  "authority_boundary": {
+    "proof_authority": false,
+    "ontology_authority": false,
+    "clinical_authority": false,
+    "execution_authority": false,
+    "commit_authority": false,
+    "belief_commit_authority": false,
+    "belief_root_commit_authority": false,
+    "memory_overwrite_authority": false,
+    "world_root_rewrite_authority": false,
+    "truth_authority": false,
+    "safety_override_authority": false
+  },
+  "rejected_claims": [
+    "graph_edge_claimed_as_gauge_transport",
+    "transport_without_connection",
+    "current_transport_without_representation",
+    "path_independence_claim_with_nonzero_curvature",
+    "curvature_erasure",
+    "flat_transport_claim_without_flatness_status",
+    "transport_without_path",
+    "path_order_erasure",
+    "path_independence_without_flatness_or_holonomy_bound",
+    "cycle_consistency_without_holonomy",
+    "Wilson_loop_erasure",
+    "holonomy_residue_hidden",
+    "scope_free_transport_claim",
+    "scope_drift_erasure",
+    "transport_to_target_without_scope_compatibility",
+    "residue_scalar_hides_component_failure",
+    "holonomy_residue_erasure",
+    "scope_residue_erasure",
+    "representation_residue_erasure"
+  ]
+}
