@@ -47,6 +47,7 @@ physical-quantum-qi-deepening-checks:
 	python3 tests/test_physical_quantum_qi_memory_record_v0_2.py
 	python3 tests/test_physical_quantum_qi_ward_leak_v0_2B_deepening.py
 	python3 examples/run_physical_quantum_qi_phase_demo_v0_2.py
+	python3 examples/run_physical_quantum_qi_indranet_planos_handoff_demo_v0_2D.py
 	python3 scripts/validate_physical_quantum_qi_deepening_v0_2.py
 	python3 scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py
 
