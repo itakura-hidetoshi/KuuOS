@@ -1,0 +1,34 @@
+name: Governance Benchmark
+
+on:
+  push:
+    branches:
+      - main
+    paths:
+      - 'benchmarks/**'
+      - 'scripts/governance_benchmark_*'
+      - '.github/workflows/governance_benchmark.yml'
+  workflow_dispatch:
+
+jobs:
+  governance-benchmark:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.x'
+
+      - name: Run governance benchmark scorer
+        run: |
+          python3 scripts/governance_benchmark_score_v0_1.py
+
+      - name: Upload benchmark report artifact
+        uses: actions/upload-artifact@v4
+        with:
+          name: governance-benchmark-report-v0-1
+          path: benchmark_reports/governance_benchmark_report_v0_1.json
