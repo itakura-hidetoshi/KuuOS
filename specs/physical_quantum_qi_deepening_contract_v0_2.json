@@ -6,152 +6,80 @@
   "overwrite_policy": "forbidden",
   "deepening_modules": {
     "SK_FV_path_integral": {
-      "required": [
-        "SK_plus_branch",
-        "SK_minus_branch",
-        "FV_influence_functional",
-        "memory_kernel",
-        "noise_kernel",
-        "observation_backaction",
-        "noncommutative_operation_history",
-        "path_measure_normalization",
-        "boundary_conditions",
-        "leak_identity_on_paths"
-      ],
-      "denies": [
-        "Markov_snapshot_claimed_as_FullPathQi",
-        "path_integral_without_history",
-        "operation_order_erasure"
-      ]
+      "required": ["SK_plus_branch", "SK_minus_branch", "FV_influence_functional", "memory_kernel", "noise_kernel", "observation_backaction", "noncommutative_operation_history", "path_measure_normalization", "boundary_conditions", "leak_identity_on_paths"],
+      "denies": ["Markov_snapshot_claimed_as_FullPathQi", "path_integral_without_history", "operation_order_erasure"]
     },
     "SK_FV_Qi_action_v0_2A": {
-      "required": [
-        "S_sys_concrete_form_declared",
-        "covariant_derivative_declared",
-        "potential_decomposition_declared",
-        "barrier_floor_declared",
-        "barrier_not_qi_source_declared",
-        "geometric_history_term_declared",
-        "S_IF_kernel_conditions_declared",
-        "D_R_causal",
-        "N_symmetric",
-        "N_positive_semidefinite",
-        "spectral_consistency_declared",
-        "SK_normalization_declared",
-        "FDR_status_declared",
-        "FDR_convention_declared",
-        "Markov_nonMarkov_boundary_declared",
-        "markov_reduction_receipt_declared_if_used"
-      ],
-      "rules": [
-        "kernel_causality_required",
-        "noise_positive_semidefinite_required",
-        "thermal_or_nonequilibrium_FDR_status_required",
-        "markov_snapshot_cannot_certify_FullPathQi_without_reduction_receipt",
-        "barrier_floor_is_not_Qi_source"
-      ],
-      "denies": [
-        "S_sys_without_covariant_derivative",
-        "kernel_without_causality",
-        "noise_without_positive_semidefinite_condition",
-        "FDR_violation_hidden_as_noise",
-        "Markov_snapshot_claimed_as_FullPathQi",
-        "nonMarkov_history_reduced_without_receipt",
-        "operation_order_erasure",
-        "barrier_claimed_as_qi_source"
-      ]
+      "required": ["S_sys_concrete_form_declared", "covariant_derivative_declared", "potential_decomposition_declared", "barrier_floor_declared", "barrier_not_qi_source_declared", "geometric_history_term_declared", "S_IF_kernel_conditions_declared", "D_R_causal", "N_symmetric", "N_positive_semidefinite", "spectral_consistency_declared", "SK_normalization_declared", "FDR_status_declared", "FDR_convention_declared", "Markov_nonMarkov_boundary_declared", "markov_reduction_receipt_declared_if_used"],
+      "rules": ["kernel_causality_required", "noise_positive_semidefinite_required", "thermal_or_nonequilibrium_FDR_status_required", "markov_snapshot_cannot_certify_FullPathQi_without_reduction_receipt", "barrier_floor_is_not_Qi_source"],
+      "denies": ["S_sys_without_covariant_derivative", "kernel_without_causality", "noise_without_positive_semidefinite_condition", "FDR_violation_hidden_as_noise", "Markov_snapshot_claimed_as_FullPathQi", "nonMarkov_history_reduced_without_receipt", "operation_order_erasure", "barrier_claimed_as_qi_source"]
     },
     "Ward_leak_identity": {
+      "required": ["current_J_Qi_mu", "covariant_divergence_defined", "closed_or_open_case_declared", "closed_conservation_or_leak_accounted", "anomaly_term_accounted_or_zero", "current_domain_specified"],
+      "denies": ["flow_without_conservation_or_leak", "current_without_domain", "anomaly_erasure"]
+    },
+    "Ward_leak_identity_v0_2B": {
       "required": [
-        "current_J_Qi_mu",
-        "covariant_divergence_defined",
-        "closed_or_open_case_declared",
-        "closed_conservation_or_leak_accounted",
-        "anomaly_term_accounted_or_zero",
-        "current_domain_specified"
+        "S_eff_declared",
+        "A_mu_variation_declared",
+        "metric_density_factor_declared",
+        "CTP_branch_current_declared",
+        "current_domain_declared",
+        "J_boundary_declared",
+        "J_rel_declared",
+        "J_IF_declared",
+        "open_system_current_component_declared",
+        "D_mu_J_declared",
+        "open_or_closed_case_declared",
+        "L_leak_declared",
+        "A_anom_declared_or_zero",
+        "R_res_declared_or_zero",
+        "W_leak_residual_declared",
+        "W_leak_tolerance_declared",
+        "leak_term_decomposition_declared",
+        "anomaly_origin_declared_or_zero",
+        "residue_origin_declared_or_zero"
+      ],
+      "rules": [
+        "J_Qi_must_be_action_variation",
+        "D_mu_J_requires_open_or_closed_case",
+        "open_system_requires_leak_term",
+        "open_identity_requires_W_leak_residual",
+        "leak_term_must_be_physical_decomposition",
+        "anomaly_and_residue_must_be_declared_or_zero",
+        "nonzero_W_leak_blocks_PhysicalQi_and_FullPathQi"
       ],
       "denies": [
-        "flow_without_conservation_or_leak",
+        "J_Qi_named_without_variation",
+        "flow_label_without_action",
         "current_without_domain",
-        "anomaly_erasure"
+        "current_decomposition_missing",
+        "open_system_current_erased",
+        "boundary_current_erased",
+        "open_system_claim_without_leak_term",
+        "leak_residual_hidden",
+        "closed_conservation_claim_with_open_trace",
+        "anomaly_erasure",
+        "residue_erasure",
+        "symmetry_break_hidden_as_leak"
       ]
     },
     "DPI_recoverability": {
-      "required": [
-        "Delta_DPI_defined",
-        "R_Qi_defined",
-        "eta_Qi_defined",
-        "delta_rec_defined",
-        "delta_rec_sign_declared",
-        "rollback_or_repair_policy_declared"
-      ],
-      "rules": [
-        "rollback_or_repair_requires_delta_rec_positive",
-        "delta_rec_nonpositive_blocks_recovery_claim"
-      ],
-      "denies": [
-        "repair_claim_without_recovery_margin",
-        "DPI_loss_erasure",
-        "entropy_lockin_ignored"
-      ]
+      "required": ["Delta_DPI_defined", "R_Qi_defined", "eta_Qi_defined", "delta_rec_defined", "delta_rec_sign_declared", "rollback_or_repair_policy_declared"],
+      "rules": ["rollback_or_repair_requires_delta_rec_positive", "delta_rec_nonpositive_blocks_recovery_claim"],
+      "denies": ["repair_claim_without_recovery_margin", "DPI_loss_erasure", "entropy_lockin_ignored"]
     },
     "IndraNet_gauge_transport": {
-      "required": [
-        "IndraNet_not_graph_only",
-        "A_mu_defined",
-        "F_munu_defined",
-        "transport_path_gamma_defined",
-        "Wilson_loop_or_holonomy_residue_defined",
-        "scope_boundary_defined",
-        "scope_drift_accounted"
-      ],
-      "denies": [
-        "graph_only_transport_claimed_as_Qi",
-        "transport_without_connection",
-        "holonomy_residue_erasure"
-      ]
+      "required": ["IndraNet_not_graph_only", "A_mu_defined", "F_munu_defined", "transport_path_gamma_defined", "Wilson_loop_or_holonomy_residue_defined", "scope_boundary_defined", "scope_drift_accounted"],
+      "denies": ["graph_only_transport_claimed_as_Qi", "transport_without_connection", "holonomy_residue_erasure"]
     },
     "KuString_Qi_emergence_bridge": {
-      "required": [
-        "K_non_reification",
-        "delta_rel_in_K_perp",
-        "StringMode_defined",
-        "BraneBoundary_defined",
-        "StringMode_not_self_subsisting",
-        "BraneBoundary_not_creator_substance",
-        "StringBrane_to_gauge_connection_bridge",
-        "gauge_to_Qi_current_bridge",
-        "mass_gap_floor_not_Qi_source"
-      ],
-      "denies": [
-        "K_identified_as_Qi",
-        "string_reified_as_substance",
-        "brane_reified_as_creator",
-        "mass_gap_claimed_as_Qi_source"
-      ]
+      "required": ["K_non_reification", "delta_rel_in_K_perp", "StringMode_defined", "BraneBoundary_defined", "StringMode_not_self_subsisting", "BraneBoundary_not_creator_substance", "StringBrane_to_gauge_connection_bridge", "gauge_to_Qi_current_bridge", "mass_gap_floor_not_Qi_source"],
+      "denies": ["K_identified_as_Qi", "string_reified_as_substance", "brane_reified_as_creator", "mass_gap_claimed_as_Qi_source"]
     },
     "Qi_OS_handoff": {
-      "required": [
-        "phase_to_surface_defined",
-        "NonQi_routes_to_reject_or_observe",
-        "PreQi_routes_to_BeliefOS_observation_candidate",
-        "ProtoQi_routes_to_PlanOS_preparation_surface",
-        "BoundaryQi_routes_to_PlanOS_boundary_candidate",
-        "TransportQi_routes_to_PlanOS_transport_candidate",
-        "PhysicalQi_routes_to_DecisionOS_safety_evaluable_candidate",
-        "FullPathQi_routes_to_MemoryOS_recordable_history_candidate",
-        "FullPathQi_routes_to_ReflectionOS_residue_analysis_candidate",
-        "FullPathQi_status_declared",
-        "authority_never_granted_declared"
-      ],
-      "denies": [
-        "Qi_phase_grants_execution_authority",
-        "Qi_phase_grants_commit_authority",
-        "Qi_phase_grants_belief_root_commit_authority",
-        "Qi_phase_grants_memory_overwrite_authority",
-        "Qi_phase_grants_world_root_rewrite_authority",
-        "Qi_phase_grants_safety_override_authority"
-      ]
+      "required": ["phase_to_surface_defined", "NonQi_routes_to_reject_or_observe", "PreQi_routes_to_BeliefOS_observation_candidate", "ProtoQi_routes_to_PlanOS_preparation_surface", "BoundaryQi_routes_to_PlanOS_boundary_candidate", "TransportQi_routes_to_PlanOS_transport_candidate", "PhysicalQi_routes_to_DecisionOS_safety_evaluable_candidate", "FullPathQi_routes_to_MemoryOS_recordable_history_candidate", "FullPathQi_routes_to_ReflectionOS_residue_analysis_candidate", "FullPathQi_status_declared", "authority_never_granted_declared"],
+      "denies": ["Qi_phase_grants_execution_authority", "Qi_phase_grants_commit_authority", "Qi_phase_grants_belief_root_commit_authority", "Qi_phase_grants_memory_overwrite_authority", "Qi_phase_grants_world_root_rewrite_authority", "Qi_phase_grants_safety_override_authority"]
     }
   },
   "cross_module_invariants": [
@@ -162,6 +90,10 @@
     "FDR status must be declared for thermal or nonequilibrium environments",
     "Markov reduction cannot certify FullPathQi without reduction receipt",
     "PhysicalQi requires Ward/leak accounting",
+    "PhysicalQi requires Ward/leak identity v0.2B physicalization",
+    "J_Qi must be defined as variation of S_eff with respect to A_mu",
+    "Open Ward/leak identity requires L_leak, A_anom, R_res, and W_leak residual accounting",
+    "Leak term is physical boundary/environment/membrane/coarse-graining/measurement exchange, not an audit label",
     "Recovery claims require positive delta_rec",
     "IndraNet Qi transport requires gauge connection and holonomy accounting",
     "Qi emerges from delta_rel through string/brane/gauge/current structure and never directly from K",
@@ -170,17 +102,5 @@
     "FullPathQi is MemoryOS-recordable and ReflectionOS-analyzable but not executable",
     "No v0.2 module grants execution authority"
   ],
-  "authority_must_be_false": [
-    "proof_authority",
-    "ontology_authority",
-    "clinical_authority",
-    "execution_authority",
-    "commit_authority",
-    "belief_commit_authority",
-    "belief_root_commit_authority",
-    "memory_overwrite_authority",
-    "world_root_rewrite_authority",
-    "truth_authority",
-    "safety_override_authority"
-  ]
+  "authority_must_be_false": ["proof_authority", "ontology_authority", "clinical_authority", "execution_authority", "commit_authority", "belief_commit_authority", "belief_root_commit_authority", "memory_overwrite_authority", "world_root_rewrite_authority", "truth_authority", "safety_override_authority"]
 }
