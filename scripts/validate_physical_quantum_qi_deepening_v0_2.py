@@ -1,18 +1,5 @@
 #!/usr/bin/env python3
-"""Validate Physical Quantum Qi deepening contract v0.2.
-
-This validator checks the v0.2 deepening modules:
-- SK/FV path integral
-- SK/FV Qi action v0.2A
-- Ward/leak identity
-- DPI recoverability
-- IndraNet gauge transport
-- KuString-Qi emergence bridge
-- Qi OS handoff
-
-It also supports validation cases for the baseline-established-final authority
-boundary completion flag used by the release-chain validator.
-"""
+"""Validate Physical Quantum Qi deepening contract v0.2."""
 
 from __future__ import annotations
 
@@ -55,14 +42,12 @@ def module_errors(packet: Dict[str, Any], spec: Dict[str, Any]) -> List[str]:
     modules = packet.get("modules", {})
     for module_name, module_spec in spec.get("deepening_modules", {}).items():
         if module_name not in modules:
-            # Partial packets are allowed in negative cases; only validate present modules.
             continue
         payload = modules.get(module_name, {})
         for key in module_spec.get("required", []):
             if not is_pass(payload.get(key)):
                 errors.append(f"{module_name}.{key} is required")
 
-        # Module-specific semantic checks.
         if module_name == "SK_FV_Qi_action_v0_2A":
             if not is_pass(payload.get("D_R_causal")):
                 errors.append("SK_FV_Qi_action_v0_2A requires causal D_R kernel")
@@ -74,6 +59,27 @@ def module_errors(packet: Dict[str, Any], spec: Dict[str, Any]) -> List[str]:
                 errors.append("SK_FV_Qi_action_v0_2A rejects Markov snapshot as FullPathQi without reduction receipt")
             if payload.get("barrier_claimed_as_qi_source") is True or not is_pass(payload.get("barrier_not_qi_source_declared")):
                 errors.append("SK_FV_Qi_action_v0_2A requires barrier floor not Qi source")
+
+        if module_name == "Ward_leak_identity_v0_2B":
+            if not is_pass(payload.get("A_mu_variation_declared")):
+                errors.append("Ward_leak_identity_v0_2B requires J_Qi as action variation with respect to A_mu")
+            if not is_pass(payload.get("D_mu_J_declared")):
+                errors.append("Ward_leak_identity_v0_2B requires covariant divergence D_mu J")
+            if not is_pass(payload.get("open_or_closed_case_declared")):
+                errors.append("Ward_leak_identity_v0_2B requires open/closed case declaration")
+            if payload.get("open_system_trace_declared") is True and not is_pass(payload.get("L_leak_declared")):
+                errors.append("Ward_leak_identity_v0_2B open system requires L_leak")
+            if not is_pass(payload.get("W_leak_residual_declared")):
+                errors.append("Ward_leak_identity_v0_2B requires W_leak residual")
+            value = payload.get("W_leak_residual_value")
+            if isinstance(value, (int, float)) and abs(value) > 0:
+                errors.append("Ward_leak_identity_v0_2B nonzero W_leak residual blocks PhysicalQi/FullPathQi")
+            if payload.get("closed_conservation_claimed") is True and payload.get("open_system_trace_declared") is True:
+                errors.append("Ward_leak_identity_v0_2B rejects closed conservation claim with open trace")
+            if payload.get("anomaly_hidden_as_leak") is True:
+                errors.append("Ward_leak_identity_v0_2B rejects anomaly hidden as leak")
+            if payload.get("leak_residual_hidden") is True:
+                errors.append("Ward_leak_identity_v0_2B rejects hidden leak residual")
 
         if module_name == "DPI_recoverability":
             if payload.get("rollback_or_repair_claimed") is True:
@@ -109,8 +115,6 @@ def module_errors(packet: Dict[str, Any], spec: Dict[str, Any]) -> List[str]:
 
 
 def baseline_boundary_errors(packet: Dict[str, Any]) -> List[str]:
-    """Validate optional baseline final boundary declarations in case packets."""
-
     if "baseline_established_final_declaration" not in packet:
         return []
     declaration = packet.get("baseline_established_final_declaration", {})
@@ -142,6 +146,7 @@ def validate_spec(spec: Dict[str, Any]) -> List[str]:
         "SK_FV_path_integral",
         "SK_FV_Qi_action_v0_2A",
         "Ward_leak_identity",
+        "Ward_leak_identity_v0_2B",
         "DPI_recoverability",
         "IndraNet_gauge_transport",
         "KuString_Qi_emergence_bridge",
