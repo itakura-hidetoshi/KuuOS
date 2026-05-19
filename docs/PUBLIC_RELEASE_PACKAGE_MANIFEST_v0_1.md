@@ -46,6 +46,9 @@ This document summarizes the intended public release package for the KuuOS publi
 - scripts/run_core_governance_full_checks_v0_1.py
 - scripts/validate_kuos_emptiness_superposition_non_collapse_v0_2.py
 - scripts/validate_kuos_emptiness_superposition_non_collapse_release_packet_v0_2.py
+- scripts/validate_kuos_emptiness_superposition_non_collapse_finality_packet_v0_2.py
+- scripts/validate_kuos_emptiness_superposition_non_collapse_established_baseline_packet_v0_2.py
+- scripts/validate_kuos_emptiness_superposition_non_collapse_confirmed_baseline_packet_v0_2.py
 - validation_cases/kuos_emptiness_superposition_non_collapse_validation_cases_v0_2.json
 - docs/VALIDATION_COVERAGE_MATRIX_v0_1.md
 - docs/REPRODUCIBILITY_MATRIX_v0_1.md
@@ -56,6 +59,9 @@ This document summarizes the intended public release package for the KuuOS publi
 
 - specs/kuos_emptiness_superposition_non_collapse_contract_v0_2.yaml
 - specs/kuos_emptiness_superposition_non_collapse_release_packet_v0_2.yaml
+- specs/kuos_emptiness_superposition_non_collapse_finality_packet_v0_2.yaml
+- specs/kuos_emptiness_superposition_non_collapse_established_baseline_packet_v0_2.yaml
+- specs/kuos_emptiness_superposition_non_collapse_confirmed_baseline_packet_v0_2.yaml
 
 ### Formal Surface
 
