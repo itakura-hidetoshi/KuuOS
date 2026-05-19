@@ -2,7 +2,7 @@
   "packet_id": "physical_quantum_qi_deepening_baseline_established_final_packet_v0_2",
   "packet_type": "baseline_established_final_packet",
   "status": "baseline_established_final_candidate",
-  "scope": "Physical Quantum Qi v0.2 deepening public baseline chain including SK/FV Qi action v0.2A, Ward/leak identity v0.2B, DPI recoverability v0.2C, IndraNet gauge transport v0.2D, IndraNet PlanOS handoff v0.2D, Qi OS handoff, Qi OS bridge packet, and Qi MemoryOS record candidate",
+  "scope": "Physical Quantum Qi v0.2 deepening public baseline chain including SK/FV Qi action v0.2A, Ward/leak identity v0.2B, DPI recoverability v0.2C, IndraNet gauge transport v0.2D, IndraNet PlanOS handoff v0.2D, Qi non-Markov memory v0.2E, Qi OS handoff, Qi OS bridge packet, and Qi MemoryOS record candidate",
   "root_v0_1_baseline": "packets/physical_quantum_qi_runtime_baseline_established_final_packet_v0_1.json",
   "validated_baseline_packet": "packets/physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json",
   "release_closure_packet": "packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json",
@@ -18,9 +18,12 @@
     "equation_packet_present": true,
     "dpi_recoverability_packet_present": true,
     "indranet_gauge_transport_packet_present": true,
+    "qi_non_markov_memory_packet_present": true,
     "validation_cases_present": true,
     "evidence_bound_validator_present": true,
     "equation_packet_validator_present": true,
+    "qi_non_markov_memory_validator_present": true,
+    "qi_non_markov_memory_regression_tests_present": true,
     "dpi_recoverability_validator_present": true,
     "indranet_gauge_transport_validator_present": true,
     "indranet_gauge_transport_regression_tests_present": true,
@@ -54,9 +57,11 @@
     "ward_leak_physicalization_document": "docs/PHYSICAL_QUANTUM_QI_WARD_LEAK_IDENTITY_v0_2B.md",
     "dpi_recoverability_theoremization_document": "docs/PHYSICAL_QUANTUM_QI_DPI_RECOVERABILITY_v0_2C.md",
     "indranet_gauge_transport_geometry_document": "docs/PHYSICAL_QUANTUM_QI_INDRANET_GAUGE_TRANSPORT_v0_2D.md",
+    "qi_non_markov_memory_document": "docs/PHYSICAL_QUANTUM_QI_NON_MARKOV_MEMORY_v0_2E.md",
     "equation_packet": "examples/physical_quantum_qi_equation_packet_v0_2.json",
     "dpi_recoverability_packet": "examples/physical_quantum_qi_dpi_recoverability_packet_v0_2C.json",
-    "indranet_gauge_transport_packet": "examples/physical_quantum_qi_indranet_gauge_transport_packet_v0_2D.json"
+    "indranet_gauge_transport_packet": "examples/physical_quantum_qi_indranet_gauge_transport_packet_v0_2D.json",
+    "qi_non_markov_memory_packet": "examples/physical_quantum_qi_non_markov_memory_packet_v0_2E.json"
   },
   "runtime_surfaces": {
     "phase_runtime": "src/physical_quantum_qi_phase_runtime_v0_2.py",
@@ -65,6 +70,9 @@
     "indranet_transport_runtime": "src/physical_quantum_qi_indranet_transport_runtime_v0_2D.py",
     "indranet_planos_handoff_runtime": "src/physical_quantum_qi_indranet_planos_handoff_v0_2D.py",
     "phase_demo": "examples/run_physical_quantum_qi_phase_demo_v0_2.py",
+    "indranet_planos_handoff_demo": "examples/run_physical_quantum_qi_indranet_planos_handoff_demo_v0_2D.py",
+    "qi_non_markov_memory_validator": "scripts/validate_physical_quantum_qi_non_markov_memory_v0_2E.py",
+    "qi_non_markov_memory_regression_tests": "tests/test_physical_quantum_qi_non_markov_memory_v0_2E.py",
     "dpi_recoverability_validator": "scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py",
     "indranet_gauge_transport_validator": "scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py",
     "indranet_gauge_transport_regression_tests": "tests/test_physical_quantum_qi_indranet_gauge_transport_v0_2D.py",
@@ -84,6 +92,7 @@
     "IndraNet_gauge_transport",
     "IndraNet_gauge_transport_v0_2D",
     "IndraNet_PlanOS_handoff_v0_2D",
+    "Qi_non_Markov_memory_v0_2E",
     "KuString_Qi_emergence_bridge",
     "Qi_OS_handoff",
     "Qi_OS_bridge_packet",
@@ -92,6 +101,17 @@
   "locked_boundary": {
     "FullPathQi_requires_SK_FV_history": true,
     "FullPathQi_requires_SK_FV_Qi_action_v0_2A": true,
+    "Qi_memory_primary_non_markovian_required": true,
+    "Markov_reduction_forbidden_as_Qi_semantics": true,
+    "Finite_window_projection_history_preserving_not_Markov_substitute": true,
+    "Current_state_only_Qi_identity_forbidden": true,
+    "Current_state_only_recoverability_forbidden": true,
+    "Current_state_only_transport_safety_forbidden": true,
+    "Discarded_Qi_history_tail_residue_visibility_required": true,
+    "Holonomy_history_erasure_forbidden": true,
+    "Boundary_leak_history_erasure_forbidden": true,
+    "Rollback_and_recovery_failure_history_erasure_forbidden": true,
+    "Compressed_Qi_memory_cannot_replace_source_history": true,
     "PhysicalQi_requires_Ward_leak_accounting": true,
     "PhysicalQi_requires_Ward_leak_identity_v0_2B": true,
     "J_Qi_action_variation_required": true,
@@ -138,6 +158,8 @@
   },
   "required_checks": [
     "make physical-quantum-qi-deepening-checks",
+    "python3 scripts/validate_physical_quantum_qi_non_markov_memory_v0_2E.py",
+    "python3 tests/test_physical_quantum_qi_non_markov_memory_v0_2E.py",
     "python3 scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py",
     "python3 scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py",
     "python3 tests/test_physical_quantum_qi_indranet_gauge_transport_v0_2D.py",
@@ -147,5 +169,5 @@
     "python3 tests/test_physical_quantum_qi_memory_record_v0_2.py",
     "make all-governance-checks"
   ],
-  "statement": "Physical Quantum Qi v0.2 deepening is established as a public KuuOS baseline candidate for SK/FV history enforcement, SK/FV Qi action v0.2A, Ward/leak identity v0.2B, DPI recoverability v0.2C recovery-margin gating, IndraNet gauge transport v0.2D geometry, IndraNet transport runtime, IndraNet PlanOS handoff v0.2D, KuString-Qi emergence lineage, Qi OS handoff as routing surface, Qi OS bridge packet as candidate-only OS payload generation, and Qi MemoryOS record candidate as append-only history candidate. IndraNet_gauge_transport_v0_2D requires A_mu, F_munu, U_gamma, W(C), scope drift, holonomy residue, and component-visible transport residue while rejecting graph-only transport. IndraNet_PlanOS_handoff_v0_2D accepts only valid transport candidates into PlanOS.transport_candidate and grants no execution or commit authority. FullPathQi is MemoryOS-recordable and ReflectionOS-analyzable but not executable. This packet grants no proof, ontology, clinical, execution, commit, belief commit, belief-root commit, memory overwrite, world-root rewrite, truth, or safety override authority."
+  "statement": "Physical Quantum Qi v0.2 deepening is established as a public KuuOS baseline candidate for SK/FV history enforcement, SK/FV Qi action v0.2A, Qi non-Markov memory v0.2E, Ward/leak identity v0.2B, DPI recoverability v0.2C recovery-margin gating, IndraNet gauge transport v0.2D geometry, IndraNet transport runtime, IndraNet PlanOS handoff v0.2D, KuString-Qi emergence lineage, Qi OS handoff as routing surface, Qi OS bridge packet as candidate-only OS payload generation, and Qi MemoryOS record candidate as append-only history candidate. Qi_non_Markov_memory_v0_2E fixes Qi memory as primary non-Markovian semantics, forbids Markov reduction as Qi semantics, forbids current-state-only identity/recoverability/transport safety, requires visible tail residue for finite-window projections, preserves holonomy/leak/rollback/recovery-failure history, and prevents compressed memory from replacing source history. IndraNet_gauge_transport_v0_2D requires A_mu, F_munu, U_gamma, W(C), scope drift, holonomy residue, and component-visible transport residue while rejecting graph-only transport. IndraNet_PlanOS_handoff_v0_2D accepts only valid transport candidates into PlanOS.transport_candidate and grants no execution or commit authority. FullPathQi is MemoryOS-recordable and ReflectionOS-analyzable but not executable. This packet grants no proof, ontology, clinical, execution, commit, belief commit, belief-root commit, memory overwrite, world-root rewrite, truth, or safety override authority."
 }
