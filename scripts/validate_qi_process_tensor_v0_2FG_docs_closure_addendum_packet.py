@@ -1,5 +1,11 @@
 #!/usr/bin/env python3
-"""Validate the Qi Process Tensor v0.2FG docs closure addendum packet."""
+"""Validate the Qi Process Tensor v0.2FG docs closure addendum packet.
+
+This validator intentionally checks more than the packet itself.  The addendum is
+valid only when the packet is visible in the manifest, chain index, Makefile,
+and the full governance runner, so the documentation closure cannot silently
+fall out of the release surface.
+"""
 
 from __future__ import annotations
 
@@ -8,7 +14,13 @@ from pathlib import Path
 from typing import Any
 
 ROOT = Path(__file__).resolve().parents[1]
-PACKET = ROOT / "packets" / "physical_quantum_qi_deepening_v0_2FG_docs_closure_addendum_packet.json"
+PACKET_REL = "packets/physical_quantum_qi_deepening_v0_2FG_docs_closure_addendum_packet.json"
+VALIDATOR_REL = "scripts/validate_qi_process_tensor_v0_2FG_docs_closure_addendum_packet.py"
+PACKET = ROOT / PACKET_REL
+MANIFEST = ROOT / "manifests" / "physical_quantum_qi_deepening_manifest_v0_2.json"
+CHAIN_INDEX = ROOT / "chain_indexes" / "physical_quantum_qi_deepening_chain_index_v0_2.json"
+MAKEFILE = ROOT / "Makefile"
+FULL_RUNNER = ROOT / "scripts" / "run_all_governance_full_checks_v0_1.py"
 
 REQUIRED_TOP_LEVEL = {
     "packet_id": "physical_quantum_qi_deepening_v0_2FG_docs_closure_addendum_packet",
@@ -41,6 +53,27 @@ REQUIRED_VALIDATION = {
     "make all-governance-checks",
 }
 
+REQUIRED_MANIFEST_PHRASES = {
+    "Qi_Process_Tensor_v0_2FG_Docs_Closure_Addendum",
+    PACKET_REL,
+    VALIDATOR_REL,
+    "Qi Process Tensor v0.2FG docs closure addendum must remain additive-only, same-root, and non-authoritative",
+    "python3 scripts/validate_qi_process_tensor_v0_2FG_docs_closure_addendum_packet.py",
+}
+
+REQUIRED_CHAIN_PHRASES = {
+    PACKET_REL,
+    VALIDATOR_REL,
+    "qi_process_tensor_v0_2FG_docs_closure_addendum_packet",
+    "qi_process_tensor_v0_2FG_docs_closure_addendum_validator",
+    "python3 scripts/validate_qi_process_tensor_v0_2FG_docs_closure_addendum_packet.py",
+    "Qi_Process_Tensor_v0_2FG_Docs_Closure_Addendum is additive-only, same-root, documentation-closure-only, and non-authoritative",
+}
+
+REQUIRED_ENTRYPOINT_PHRASES = {
+    "python3 scripts/validate_qi_process_tensor_v0_2FG_docs_closure_addendum_packet.py",
+}
+
 AUTHORITY_FALSE_FIELDS = {
     "proof_authority",
     "ontology_authority",
@@ -56,9 +89,20 @@ AUTHORITY_FALSE_FIELDS = {
 }
 
 
-def load_packet() -> dict[str, Any]:
-    with PACKET.open("r", encoding="utf-8") as f:
+def load_json(path: Path) -> dict[str, Any]:
+    with path.open("r", encoding="utf-8") as f:
         return json.load(f)
+
+
+def read_text(path: Path) -> str:
+    return path.read_text(encoding="utf-8")
+
+
+def require_text(path: Path, phrases: set[str], label: str) -> list[str]:
+    if not path.exists():
+        return [f"missing {label}: {path}"]
+    text = read_text(path)
+    return [f"{label} missing phrase: {phrase}" for phrase in sorted(phrases) if phrase not in text]
 
 
 def main() -> int:
@@ -66,7 +110,7 @@ def main() -> int:
     if not PACKET.exists():
         errors.append(f"missing packet: {PACKET}")
     else:
-        packet = load_packet()
+        packet = load_json(PACKET)
         for key, expected in REQUIRED_TOP_LEVEL.items():
             if packet.get(key) != expected:
                 errors.append(f"{key} mismatch: expected {expected!r}, got {packet.get(key)!r}")
@@ -102,6 +146,11 @@ def main() -> int:
         for phrase in ["grants no proof", "execution", "truth", "safety override authority"]:
             if phrase not in closure:
                 errors.append(f"closure_statement missing phrase: {phrase}")
+
+    errors.extend(require_text(MANIFEST, REQUIRED_MANIFEST_PHRASES, "manifest"))
+    errors.extend(require_text(CHAIN_INDEX, REQUIRED_CHAIN_PHRASES, "chain_index"))
+    errors.extend(require_text(MAKEFILE, REQUIRED_ENTRYPOINT_PHRASES, "Makefile"))
+    errors.extend(require_text(FULL_RUNNER, REQUIRED_ENTRYPOINT_PHRASES, "full governance runner"))
 
     if errors:
         print("Qi Process Tensor v0.2FG docs closure addendum validation failed:")
