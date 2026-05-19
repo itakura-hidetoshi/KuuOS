@@ -70,8 +70,11 @@ REQUIRED_CHAIN_PHRASES = {
     "Qi_Process_Tensor_v0_2FG_Docs_Closure_Addendum is additive-only, same-root, documentation-closure-only, and non-authoritative",
 }
 
+# The runner may invoke repository-local scripts through sys.executable rather
+# than spelling out "python3 ..." literally.  The canonical check is therefore
+# the validator path, not a shell rendering of the command.
 REQUIRED_ENTRYPOINT_PHRASES = {
-    "python3 scripts/validate_qi_process_tensor_v0_2FG_docs_closure_addendum_packet.py",
+    VALIDATOR_REL,
 }
 
 AUTHORITY_FALSE_FIELDS = {
