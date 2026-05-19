@@ -1,0 +1,112 @@
+{
+  "packet_id": "qi_clinical_red_flag_handover_governor_packet_v0_2L",
+  "contract_id": "qi_clinical_red_flag_handover_governor_contract_v0_2L",
+  "version": "v0.2L",
+  "surface_type": "QiClinicalRedFlagHandoverGovernor",
+  "source_handoff_packet_ref": "qi_bensho_decisionos_clinician_handoff_packet_v0_2K",
+  "source_treatment_route_candidate_ref": "qi_bensho_treatment_route_candidate_packet_v0_2J",
+  "visibility_status": {
+    "red_flag_visibility_required": true,
+    "red_flag_suppression_allowed": false,
+    "red_flag_hidden": false,
+    "visibility_only": true
+  },
+  "severity_mode": {
+    "mode": "handover_required",
+    "authoritative": false,
+    "diagnosis": false,
+    "prescription": false,
+    "formula_selection": false,
+    "execution": false,
+    "triage_instruction": false,
+    "patient_specific_action": false
+  },
+  "handover_decision": {
+    "handover_required_when_red_flag_unresolved": true,
+    "clinician_review_required": true,
+    "handover_surface": "ClinicianReview.red_flag_visibility_only",
+    "clinical_authority_granted": false,
+    "patient_specific_action_allowed": false
+  },
+  "decisionos_safety_eval_request": {
+    "required": true,
+    "request_type": "red_flag_visibility_safety_eval_nonexecuting",
+    "safety_override_allowed": false,
+    "execution_release_allowed": false,
+    "triage_authority_allowed": false,
+    "patient_specific_action_allowed": false
+  },
+  "red_flag_report": {
+    "required": true,
+    "visible_flags": [
+      "unresolved_high_risk_uncertainty",
+      "clinical_authority_requested"
+    ],
+    "flag_certainty_claimed": false,
+    "traditional_pattern_certainty_claimed": false,
+    "direct_instruction_allowed": false
+  },
+  "barrier_report": {
+    "required": true,
+    "barriers": [
+      "unresolved_red_flag",
+      "missing_clinician_review",
+      "patient_specific_action_requested",
+      "triage_authority_requested"
+    ],
+    "barriers_hidden": false,
+    "governor_blocks_execution": true
+  },
+  "allowed_output": {
+    "mode": "handover_required",
+    "abstain_allowed": true,
+    "hold_allowed": true,
+    "reobserve_allowed": true,
+    "execution_allowed": false
+  },
+  "reobservation_plan": [
+    "preserve_source_handoff_packet",
+    "preserve_route_candidate_trace",
+    "surface_unresolved_red_flags",
+    "request_clinician_review_context",
+    "append_memoryos_red_flag_record"
+  ],
+  "memoryos_append_only_receipt": {
+    "required": true,
+    "append_only": true,
+    "overwrite_allowed": false,
+    "summary_replaces_source": false
+  },
+  "pii_minimization": {
+    "required": true,
+    "patient_identifiers_required": false,
+    "direct_identifier_storage_allowed": false,
+    "minimum_necessary_context_only": true
+  },
+  "allowed_next_surfaces": [
+    "ClinicianReview.red_flag_visibility_only",
+    "DecisionOS.safety_eval_request_nonexecuting",
+    "MemoryOS.append_only_red_flag_record",
+    "ReflectionOS.red_flag_contradiction_analysis_candidate",
+    "WorldModel.reobservation_request"
+  ],
+  "authority_boundary": {
+    "execution_authority": false,
+    "commit_authority": false,
+    "belief_root_commit_authority": false,
+    "memory_overwrite_authority": false,
+    "world_root_rewrite_authority": false,
+    "clinical_authority": false,
+    "diagnosis_authority": false,
+    "prescription_authority": false,
+    "formula_selection_authority": false,
+    "treatment_recommendation_authority": false,
+    "triage_authority": false,
+    "patient_specific_action_authority": false,
+    "proof_authority": false,
+    "truth_authority": false,
+    "ontology_authority": false,
+    "safety_override_authority": false,
+    "teni_authority": false
+  }
+}
