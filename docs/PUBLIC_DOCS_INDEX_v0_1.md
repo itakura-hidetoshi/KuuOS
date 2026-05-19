@@ -47,6 +47,7 @@ This index provides a stable public entrypoint for external reviewers.
 |---|---|
 | `docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md` | Current core governance index |
 | `docs/KUOS_FOURFOLD_CORE_v0_1.md` | Fourfold core specification |
+| `docs/KUOS_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_v0_2.md` | Emptiness superposition non-collapse addendum |
 | `docs/GOVERNANCE_RELEASE_GATE_v0_1.md` | Release gate governance surface |
 
 ## Physics-Facing Boundary
@@ -62,12 +63,19 @@ This index provides a stable public entrypoint for external reviewers.
 | Document | Purpose |
 |---|---|
 | `RELEASE_NOTES_v0_1.md` | v0.1 release notes draft |
+| `RELEASE_NOTES_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_v0_2.md` | v0.2 emptiness non-collapse release notes |
 | `docs/PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1.md` | Proposed v0.1 public release package |
 
 ## Minimal Validation Command
 
 ```bash
 make all-governance-checks
+```
+
+## Emptiness Superposition Non-Collapse Validation
+
+```bash
+make emptiness-superposition-noncollapse-checks
 ```
 
 ## Interpretation
