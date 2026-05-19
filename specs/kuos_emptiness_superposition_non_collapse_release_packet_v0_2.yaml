@@ -1,0 +1,71 @@
+id: kuos_emptiness_superposition_non_collapse_release_packet_v0_2
+version: v0.2
+date: '2026-05-20'
+author: Hidetoshi Itakura / 板倉英俊
+status: release_packet
+release_mode:
+  additive_only: true
+  tighten_only_default: true
+  overwrite_forbidden: true
+  same_root_required: true
+  authority_expansion_forbidden: true
+root_binding:
+  prior_root: kuos_fourfold_core_v0_1
+  strengthened_root: emptiness
+  dependent_surfaces:
+    - dependent_origination
+    - two_truths_gap
+    - middle_way
+summary: >-
+  Adds a catuskoti superposition non-collapse layer to the KuuOS root notion of emptiness.
+  Competing support across self-origin, other-origin, both-origin, or no-cause origin commitments
+  cannot be released as a sharp single authority commitment without context-bound receipt.
+core_rule: candidate-as-superposition != sharp conventional commitment
+release_artifacts:
+  docs:
+    - docs/KUOS_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_v0_2.md
+  specs:
+    - specs/kuos_emptiness_superposition_non_collapse_contract_v0_2.yaml
+    - specs/kuos_emptiness_superposition_non_collapse_release_packet_v0_2.yaml
+  validation_cases:
+    - validation_cases/kuos_emptiness_superposition_non_collapse_validation_cases_v0_2.json
+  validators:
+    - scripts/validate_kuos_emptiness_superposition_non_collapse_v0_2.py
+    - scripts/validate_kuos_emptiness_superposition_non_collapse_release_packet_v0_2.py
+  formal:
+    - formal/KUOS/Emptiness/SuperpositionNonCollapse.lean
+validation_commands:
+  - python3 scripts/validate_kuos_emptiness_superposition_non_collapse_v0_2.py
+  - python3 scripts/validate_kuos_emptiness_superposition_non_collapse_release_packet_v0_2.py
+  - make emptiness-superposition-noncollapse-checks
+runtime_outcomes:
+  allowed:
+    - HOLD
+    - REVIEW
+    - REOBSERVE
+    - CONTEXTUAL_COLLAPSE_WITH_RECEIPT
+  forbidden_direct:
+    - TRUTH_RELEASE
+    - PROOF_AUTHORITY
+    - EXECUTION_AUTHORITY
+    - CLINICAL_AUTHORITY
+    - WORLD_AUTHORITY
+non_authority_boundary:
+  validator_pass_not_truth: true
+  release_packet_not_execution_authority: true
+  lean_surface_not_completed_external_proof: true
+  quantum_model_not_reduction_of_madhyamaka: true
+  collapse_receipt_not_ultimate_authority: true
+acceptance_gates:
+  required:
+    - doctrine_doc_present
+    - contract_present
+    - validation_cases_present
+    - validator_present
+    - release_packet_validator_present
+    - make_target_present
+    - core_runner_includes_v0_2_validator
+    - formal_surface_present
+    - forbidden_direct_routes_blocked
+    - normalization_checked
+    - nonauthority_boundary_preserved
