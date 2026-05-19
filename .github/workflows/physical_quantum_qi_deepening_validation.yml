@@ -11,6 +11,7 @@ on:
       - 'docs/PHYSICAL_QUANTUM_QI_INDRANET_GAUGE_TRANSPORT_v0_2D.md'
       - 'docs/PHYSICAL_QUANTUM_QI_NON_MARKOV_MEMORY_v0_2E.md'
       - 'docs/KUUOS_QI_PROCESS_TENSOR_CONVENTIONAL_AUTONOMY_v0_2G.md'
+      - 'docs/KUUOS_QI_PROCESS_TENSOR_RELEASE_CHAIN_v0_2FG.md'
       - 'specs/physical_quantum_qi_deepening_contract_v0_2.json'
       - 'examples/physical_quantum_qi_deepening_packet_v0_2.json'
       - 'examples/physical_quantum_qi_equation_packet_v0_2.json'
@@ -50,6 +51,7 @@ on:
       - 'scripts/validate_physical_quantum_qi_non_markov_memory_v0_2E.py'
       - 'scripts/validate_physical_quantum_qi_process_tensor_v0_2F.py'
       - 'scripts/validate_kuuos_qi_process_tensor_conventional_autonomy_v0_2G.py'
+      - 'scripts/validate_qi_process_tensor_release_chain_docs_v0_2FG.py'
       - 'scripts/validate_qi_process_tensor_release_chain_v0_2FG.py'
       - 'scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py'
       - 'scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py'
@@ -66,6 +68,7 @@ on:
       - 'docs/PHYSICAL_QUANTUM_QI_INDRANET_GAUGE_TRANSPORT_v0_2D.md'
       - 'docs/PHYSICAL_QUANTUM_QI_NON_MARKOV_MEMORY_v0_2E.md'
       - 'docs/KUUOS_QI_PROCESS_TENSOR_CONVENTIONAL_AUTONOMY_v0_2G.md'
+      - 'docs/KUUOS_QI_PROCESS_TENSOR_RELEASE_CHAIN_v0_2FG.md'
       - 'specs/physical_quantum_qi_deepening_contract_v0_2.json'
       - 'examples/physical_quantum_qi_deepening_packet_v0_2.json'
       - 'examples/physical_quantum_qi_equation_packet_v0_2.json'
@@ -105,6 +108,7 @@ on:
       - 'scripts/validate_physical_quantum_qi_non_markov_memory_v0_2E.py'
       - 'scripts/validate_physical_quantum_qi_process_tensor_v0_2F.py'
       - 'scripts/validate_kuuos_qi_process_tensor_conventional_autonomy_v0_2G.py'
+      - 'scripts/validate_qi_process_tensor_release_chain_docs_v0_2FG.py'
       - 'scripts/validate_qi_process_tensor_release_chain_v0_2FG.py'
       - 'scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py'
       - 'scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py'
@@ -138,6 +142,7 @@ jobs:
           echo "IndraNet gauge transport: docs/PHYSICAL_QUANTUM_QI_INDRANET_GAUGE_TRANSPORT_v0_2D.md"
           echo "Qi non-Markov memory: docs/PHYSICAL_QUANTUM_QI_NON_MARKOV_MEMORY_v0_2E.md"
           echo "Qi Process Tensor autonomy: docs/KUUOS_QI_PROCESS_TENSOR_CONVENTIONAL_AUTONOMY_v0_2G.md"
+          echo "Qi Process Tensor release-chain docs: docs/KUUOS_QI_PROCESS_TENSOR_RELEASE_CHAIN_v0_2FG.md"
           echo "Contract: specs/physical_quantum_qi_deepening_contract_v0_2.json"
           echo "Example: examples/physical_quantum_qi_deepening_packet_v0_2.json"
           echo "Equation packet: examples/physical_quantum_qi_equation_packet_v0_2.json"
@@ -155,6 +160,7 @@ jobs:
           echo "Qi non-Markov memory validator: scripts/validate_physical_quantum_qi_non_markov_memory_v0_2E.py"
           echo "Qi Process Tensor validator: scripts/validate_physical_quantum_qi_process_tensor_v0_2F.py"
           echo "Qi Process Tensor autonomy validator: scripts/validate_kuuos_qi_process_tensor_conventional_autonomy_v0_2G.py"
+          echo "Qi Process Tensor release-chain docs validator: scripts/validate_qi_process_tensor_release_chain_docs_v0_2FG.py"
           echo "Qi Process Tensor release-chain validator: scripts/validate_qi_process_tensor_release_chain_v0_2FG.py"
           echo "Qi non-Markov memory regression tests: tests/test_physical_quantum_qi_non_markov_memory_v0_2E.py"
           echo "Qi Process Tensor regression tests: tests/test_physical_quantum_qi_process_tensor_v0_2F.py"
@@ -168,7 +174,7 @@ jobs:
           echo "Validated baseline packet: packets/physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json"
           echo "Baseline established final packet: packets/physical_quantum_qi_deepening_baseline_established_final_packet_v0_2.json"
           echo "Chain index: chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json"
-          echo "Modules: SK/FV action v0.2A, Ward/leak v0.2B, DPI v0.2C, IndraNet gauge transport v0.2D, Qi non-Markov memory v0.2E, Qi Process Tensor v0.2F, Qi Process Tensor conventional autonomy v0.2G"
+          echo "Modules: SK/FV action v0.2A, Ward/leak v0.2B, DPI v0.2C, IndraNet gauge transport v0.2D, Qi non-Markov memory v0.2E, Qi Process Tensor v0.2F, Qi Process Tensor conventional autonomy v0.2G, Qi Process Tensor release-chain v0.2FG"
 
       - name: Run Physical Quantum Qi v0.2 deepening checks
         run: make physical-quantum-qi-deepening-checks
