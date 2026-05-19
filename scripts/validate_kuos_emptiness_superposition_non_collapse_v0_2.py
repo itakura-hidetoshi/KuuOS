@@ -16,7 +16,6 @@ from __future__ import annotations
 import json
 import math
 import pathlib
-import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 DOC = ROOT / "docs" / "KUOS_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_v0_2.md"
@@ -37,6 +36,7 @@ ALLOWED_CONTEXTUAL_ROUTES = {
     "CONTEXTUAL_COLLAPSE_WITH_RECEIPT",
 }
 BASIS = ("S", "O", "B", "N")
+NORMALIZATION_TOLERANCE = 1e-6
 
 
 def approx_norm_squared(amplitudes: dict[str, float]) -> float:
@@ -57,6 +57,8 @@ def evaluate_case(case: dict) -> str:
 
     norm2 = approx_norm_squared(amplitudes)
     if not math.isfinite(norm2) or norm2 <= 0.0:
+        return "FAIL"
+    if abs(norm2 - 1.0) > NORMALIZATION_TOLERANCE:
         return "FAIL"
 
     competing = nonzero_count(amplitudes) >= 2
@@ -103,7 +105,7 @@ def main() -> int:
             "candidate-as-superposition",
             "sharp conventional commitment",
             "collapse_context",
-            "not execution authority",
+            "EXECUTION_AUTHORITY",
             "v0.2",
         ],
         errors,
