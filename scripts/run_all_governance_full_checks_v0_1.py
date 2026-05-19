@@ -33,6 +33,7 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "tests/test_kuuos_qi_process_tensor_conventional_autonomy_v0_2G.py"],
     [sys.executable, "scripts/validate_qi_process_tensor_release_chain_docs_v0_2FG.py"],
     [sys.executable, "scripts/validate_qi_process_tensor_v0_2FG_docs_closure_addendum_packet.py"],
+    [sys.executable, "scripts/validate_qi_bensho_treatment_route_candidate_v0_2J.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py"],
     [sys.executable, "tests/test_physical_quantum_qi_indranet_gauge_transport_v0_2D.py"],
