@@ -1,4 +1,4 @@
-.PHONY: ai-provider-boundary-checks ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks physical-quantum-qi-runtime-checks physical-quantum-qi-deepening-checks formal-invariant-checks super-relativity-checks invariant-matrix-checks invariant-gate-checks invariant-pipeline-checks invariant-pipeline-build-bundle invariant-pipeline-validate-bundle invariant-pipeline-attest invariant-pipeline-release-closure invariant-pipeline-finality gpt-github-integration-checks memoryos-github-external-memory-checks emptiness-two-truths-runtime-audit-checks superstring-emptiness-sbm-checks core-governance-checks all-governance-checks
+.PHONY: ai-provider-boundary-checks ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks physical-quantum-qi-runtime-checks physical-quantum-qi-deepening-checks formal-invariant-checks super-relativity-checks invariant-matrix-checks invariant-gate-checks invariant-pipeline-checks invariant-pipeline-build-bundle invariant-pipeline-validate-bundle invariant-pipeline-attest invariant-pipeline-release-closure invariant-pipeline-finality gpt-github-integration-checks memoryos-github-external-memory-checks emptiness-two-truths-runtime-audit-checks emptiness-superposition-noncollapse-checks superstring-emptiness-sbm-checks core-governance-checks all-governance-checks
 
 ai-provider-boundary-checks:
 	python3 scripts/validate_ai_provider_boundary_runtime_v0_1.py
@@ -115,6 +115,9 @@ emptiness-two-truths-runtime-audit-checks:
 	python3 scripts/run_emptiness_do_two_truths_runtime_checks_v0_1.py
 	python3 scripts/validate_emptiness_do_two_truths_runtime_release_packet_v0_1.py
 	python3 scripts/validate_emptiness_do_two_truths_runtime_release_bundle_manifest_v0_1.py
+
+emptiness-superposition-noncollapse-checks:
+	python3 scripts/validate_kuos_emptiness_superposition_non_collapse_v0_2.py
 
 superstring-emptiness-sbm-checks:
 	python3 validators/validate_superstring_emptiness_string_brane_membrane_v0_1.py examples/superstring_emptiness_string_brane_membrane_packet_v0_1.json
