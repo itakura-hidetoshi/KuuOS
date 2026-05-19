@@ -16,6 +16,7 @@ CASES_PATH = ROOT / "validation_cases" / "physical_quantum_qi_deepening_validati
 RELEASE_PACKET_PATH = ROOT / "packets" / "physical_quantum_qi_deepening_release_packet_v0_2.json"
 FINALITY_PACKET_PATH = ROOT / "packets" / "physical_quantum_qi_deepening_finality_packet_v0_2.json"
 CLOSURE_PACKET_PATH = ROOT / "packets" / "physical_quantum_qi_deepening_release_closure_packet_v0_2.json"
+V02FG_DOCS_CLOSURE_ADDENDUM_PACKET_PATH = ROOT / "packets" / "physical_quantum_qi_deepening_v0_2FG_docs_closure_addendum_packet.json"
 VALIDATED_BASELINE_PACKET_PATH = ROOT / "packets" / "physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json"
 BASELINE_ESTABLISHED_FINAL_PACKET_PATH = ROOT / "packets" / "physical_quantum_qi_deepening_baseline_established_final_packet_v0_2.json"
 
@@ -32,6 +33,8 @@ REQUIRED_MODULES = {
     "Qi_non_Markov_memory_v0_2E",
     "Qi_Process_Tensor_v0_2F",
     "Qi_Process_Tensor_Conventional_Autonomy_v0_2G",
+    "Qi_Process_Tensor_Release_Chain_v0_2FG",
+    "Qi_Process_Tensor_v0_2FG_Docs_Closure_Addendum",
     "KuString_Qi_emergence_bridge",
     "Qi_OS_handoff",
     "Qi_OS_bridge_packet",
@@ -80,6 +83,7 @@ REQUIRED_FILES = {
     "scripts/validate_physical_quantum_qi_process_tensor_v0_2F.py",
     "scripts/validate_kuuos_qi_process_tensor_conventional_autonomy_v0_2G.py",
     "scripts/validate_qi_process_tensor_release_chain_docs_v0_2FG.py",
+    "scripts/validate_qi_process_tensor_v0_2FG_docs_closure_addendum_packet.py",
     "scripts/validate_qi_process_tensor_release_chain_v0_2FG.py",
     "scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py",
     "scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py",
@@ -90,6 +94,7 @@ REQUIRED_FILES = {
     "packets/physical_quantum_qi_deepening_release_packet_v0_2.json",
     "packets/physical_quantum_qi_deepening_finality_packet_v0_2.json",
     "packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json",
+    "packets/physical_quantum_qi_deepening_v0_2FG_docs_closure_addendum_packet.json",
     "packets/physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json",
     "packets/physical_quantum_qi_deepening_baseline_established_final_packet_v0_2.json",
     ".github/workflows/physical_quantum_qi_deepening_validation.yml",
@@ -126,6 +131,7 @@ REQUIRED_INVARIANTS = {
     "Qi Process Tensor is conventional-truth temporal substrate, not ultimate truth",
     "Qi Process Tensor conventional autonomy is safety-gated candidate generation, not ungated execution",
     "Qi Process Tensor v0.2FG docs surface must preserve v0.2F/v0.2G release-chain invariants",
+    "Qi Process Tensor v0.2FG docs closure addendum must remain additive-only, same-root, and non-authoritative",
     "State snapshot cannot replace process history",
     "Reward loop cannot replace recoverability gate",
     "Agent loop cannot skip DecisionOS gate",
@@ -190,6 +196,7 @@ REQUIRED_ENTRYPOINTS = {
     "python3 scripts/validate_kuuos_qi_process_tensor_conventional_autonomy_v0_2G.py",
     "python3 tests/test_kuuos_qi_process_tensor_conventional_autonomy_v0_2G.py",
     "python3 scripts/validate_qi_process_tensor_release_chain_docs_v0_2FG.py",
+    "python3 scripts/validate_qi_process_tensor_v0_2FG_docs_closure_addendum_packet.py",
     "python3 scripts/validate_qi_process_tensor_release_chain_v0_2FG.py",
     "python3 scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py",
     "python3 scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py",
@@ -238,6 +245,12 @@ PACKET_REFS = {
         "path": CLOSURE_PACKET_PATH,
         "packet_id": "physical_quantum_qi_deepening_release_closure_packet_v0_2",
         "refs": {"root_baseline": "packets/physical_quantum_qi_runtime_baseline_established_final_packet_v0_1.json", "chain_index": "chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json", "manifest": "manifests/physical_quantum_qi_deepening_manifest_v0_2.json", "release_packet": "packets/physical_quantum_qi_deepening_release_packet_v0_2.json", "finality_packet": "packets/physical_quantum_qi_deepening_finality_packet_v0_2.json"},
+        "authority_key": "authority_boundary",
+    },
+    "v0_2FG_docs_closure_addendum": {
+        "path": V02FG_DOCS_CLOSURE_ADDENDUM_PACKET_PATH,
+        "packet_id": "physical_quantum_qi_deepening_v0_2FG_docs_closure_addendum_packet",
+        "refs": {"root_closure_packet": "packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json", "manifest": "manifests/physical_quantum_qi_deepening_manifest_v0_2.json", "chain_index": "chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json"},
         "authority_key": "authority_boundary",
     },
     "validated_baseline": {
@@ -323,7 +336,7 @@ def validate_chain_index(chain_index: Dict[str, Any]) -> List[str]:
     for phrase in ["no proof", "execution", "belief commit", "memory overwrite", "world-root rewrite", "safety override"]:
         if phrase not in statement:
             errors.append(f"chain non_authority_statement missing phrase: {phrase}")
-    for phrase in ["Qi_Process_Tensor_v0_2F", "Qi_Process_Tensor_Conventional_Autonomy_v0_2G", "not ultimate truth", "DecisionOS"]:
+    for phrase in ["Qi_Process_Tensor_v0_2F", "Qi_Process_Tensor_Conventional_Autonomy_v0_2G", "Qi_Process_Tensor_v0_2FG_Docs_Closure_Addendum", "not ultimate truth", "DecisionOS"]:
         if phrase not in statement:
             errors.append(f"chain non_authority_statement missing Qi Process Tensor phrase: {phrase}")
     return errors
