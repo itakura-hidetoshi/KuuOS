@@ -29,6 +29,8 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "tests/test_physical_quantum_qi_non_markov_memory_v0_2E.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_process_tensor_v0_2F.py"],
     [sys.executable, "tests/test_physical_quantum_qi_process_tensor_v0_2F.py"],
+    [sys.executable, "scripts/validate_kuuos_qi_process_tensor_conventional_autonomy_v0_2G.py"],
+    [sys.executable, "tests/test_kuuos_qi_process_tensor_conventional_autonomy_v0_2G.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py"],
     [sys.executable, "tests/test_physical_quantum_qi_indranet_gauge_transport_v0_2D.py"],
