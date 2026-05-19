@@ -118,6 +118,7 @@ emptiness-two-truths-runtime-audit-checks:
 
 emptiness-superposition-noncollapse-checks:
 	python3 scripts/validate_kuos_emptiness_superposition_non_collapse_v0_2.py
+	python3 scripts/validate_kuos_emptiness_superposition_non_collapse_release_packet_v0_2.py
 
 superstring-emptiness-sbm-checks:
 	python3 validators/validate_superstring_emptiness_string_brane_membrane_v0_1.py examples/superstring_emptiness_string_brane_membrane_packet_v0_1.json
