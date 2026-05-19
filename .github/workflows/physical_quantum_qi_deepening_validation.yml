@@ -10,12 +10,15 @@ on:
       - 'docs/PHYSICAL_QUANTUM_QI_DPI_RECOVERABILITY_v0_2C.md'
       - 'docs/PHYSICAL_QUANTUM_QI_INDRANET_GAUGE_TRANSPORT_v0_2D.md'
       - 'docs/PHYSICAL_QUANTUM_QI_NON_MARKOV_MEMORY_v0_2E.md'
+      - 'docs/KUUOS_QI_PROCESS_TENSOR_CONVENTIONAL_AUTONOMY_v0_2G.md'
       - 'specs/physical_quantum_qi_deepening_contract_v0_2.json'
       - 'examples/physical_quantum_qi_deepening_packet_v0_2.json'
       - 'examples/physical_quantum_qi_equation_packet_v0_2.json'
       - 'examples/physical_quantum_qi_dpi_recoverability_packet_v0_2C.json'
       - 'examples/physical_quantum_qi_indranet_gauge_transport_packet_v0_2D.json'
       - 'examples/physical_quantum_qi_non_markov_memory_packet_v0_2E.json'
+      - 'examples/physical_quantum_qi_process_tensor_packet_v0_2F.json'
+      - 'examples/kuuos_qi_process_tensor_conventional_autonomy_packet_v0_2G.json'
       - 'examples/run_physical_quantum_qi_phase_demo_v0_2.py'
       - 'examples/run_physical_quantum_qi_indranet_planos_handoff_demo_v0_2D.py'
       - 'src/physical_quantum_qi_phase_runtime_v0_2.py'
@@ -23,6 +26,7 @@ on:
       - 'src/physical_quantum_qi_memory_record_v0_2.py'
       - 'src/physical_quantum_qi_indranet_transport_runtime_v0_2D.py'
       - 'src/physical_quantum_qi_indranet_planos_handoff_v0_2D.py'
+      - 'src/physical_quantum_qi_process_tensor_runtime_v0_2F.py'
       - 'tests/test_physical_quantum_qi_phase_runtime_v0_2.py'
       - 'tests/test_physical_quantum_qi_os_bridge_v0_2.py'
       - 'tests/test_physical_quantum_qi_memory_record_v0_2.py'
@@ -31,6 +35,8 @@ on:
       - 'tests/test_physical_quantum_qi_indranet_transport_runtime_v0_2D.py'
       - 'tests/test_physical_quantum_qi_indranet_planos_handoff_v0_2D.py'
       - 'tests/test_physical_quantum_qi_non_markov_memory_v0_2E.py'
+      - 'tests/test_physical_quantum_qi_process_tensor_v0_2F.py'
+      - 'tests/test_kuuos_qi_process_tensor_conventional_autonomy_v0_2G.py'
       - 'validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json'
       - 'manifests/physical_quantum_qi_deepening_manifest_v0_2.json'
       - 'packets/physical_quantum_qi_deepening_release_packet_v0_2.json'
@@ -42,6 +48,8 @@ on:
       - 'scripts/validate_physical_quantum_qi_equations_v0_2.py'
       - 'scripts/validate_physical_quantum_qi_equation_packet_v0_2.py'
       - 'scripts/validate_physical_quantum_qi_non_markov_memory_v0_2E.py'
+      - 'scripts/validate_physical_quantum_qi_process_tensor_v0_2F.py'
+      - 'scripts/validate_kuuos_qi_process_tensor_conventional_autonomy_v0_2G.py'
       - 'scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py'
       - 'scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py'
       - 'scripts/validate_physical_quantum_qi_deepening_v0_2.py'
@@ -56,12 +64,15 @@ on:
       - 'docs/PHYSICAL_QUANTUM_QI_DPI_RECOVERABILITY_v0_2C.md'
       - 'docs/PHYSICAL_QUANTUM_QI_INDRANET_GAUGE_TRANSPORT_v0_2D.md'
       - 'docs/PHYSICAL_QUANTUM_QI_NON_MARKOV_MEMORY_v0_2E.md'
+      - 'docs/KUUOS_QI_PROCESS_TENSOR_CONVENTIONAL_AUTONOMY_v0_2G.md'
       - 'specs/physical_quantum_qi_deepening_contract_v0_2.json'
       - 'examples/physical_quantum_qi_deepening_packet_v0_2.json'
       - 'examples/physical_quantum_qi_equation_packet_v0_2.json'
       - 'examples/physical_quantum_qi_dpi_recoverability_packet_v0_2C.json'
       - 'examples/physical_quantum_qi_indranet_gauge_transport_packet_v0_2D.json'
       - 'examples/physical_quantum_qi_non_markov_memory_packet_v0_2E.json'
+      - 'examples/physical_quantum_qi_process_tensor_packet_v0_2F.json'
+      - 'examples/kuuos_qi_process_tensor_conventional_autonomy_packet_v0_2G.json'
       - 'examples/run_physical_quantum_qi_phase_demo_v0_2.py'
       - 'examples/run_physical_quantum_qi_indranet_planos_handoff_demo_v0_2D.py'
       - 'src/physical_quantum_qi_phase_runtime_v0_2.py'
@@ -69,6 +80,7 @@ on:
       - 'src/physical_quantum_qi_memory_record_v0_2.py'
       - 'src/physical_quantum_qi_indranet_transport_runtime_v0_2D.py'
       - 'src/physical_quantum_qi_indranet_planos_handoff_v0_2D.py'
+      - 'src/physical_quantum_qi_process_tensor_runtime_v0_2F.py'
       - 'tests/test_physical_quantum_qi_phase_runtime_v0_2.py'
       - 'tests/test_physical_quantum_qi_os_bridge_v0_2.py'
       - 'tests/test_physical_quantum_qi_memory_record_v0_2.py'
@@ -77,6 +89,8 @@ on:
       - 'tests/test_physical_quantum_qi_indranet_transport_runtime_v0_2D.py'
       - 'tests/test_physical_quantum_qi_indranet_planos_handoff_v0_2D.py'
       - 'tests/test_physical_quantum_qi_non_markov_memory_v0_2E.py'
+      - 'tests/test_physical_quantum_qi_process_tensor_v0_2F.py'
+      - 'tests/test_kuuos_qi_process_tensor_conventional_autonomy_v0_2G.py'
       - 'validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json'
       - 'manifests/physical_quantum_qi_deepening_manifest_v0_2.json'
       - 'packets/physical_quantum_qi_deepening_release_packet_v0_2.json'
@@ -88,6 +102,8 @@ on:
       - 'scripts/validate_physical_quantum_qi_equations_v0_2.py'
       - 'scripts/validate_physical_quantum_qi_equation_packet_v0_2.py'
       - 'scripts/validate_physical_quantum_qi_non_markov_memory_v0_2E.py'
+      - 'scripts/validate_physical_quantum_qi_process_tensor_v0_2F.py'
+      - 'scripts/validate_kuuos_qi_process_tensor_conventional_autonomy_v0_2G.py'
       - 'scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py'
       - 'scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py'
       - 'scripts/validate_physical_quantum_qi_deepening_v0_2.py'
@@ -119,19 +135,27 @@ jobs:
           echo "DPI recoverability: docs/PHYSICAL_QUANTUM_QI_DPI_RECOVERABILITY_v0_2C.md"
           echo "IndraNet gauge transport: docs/PHYSICAL_QUANTUM_QI_INDRANET_GAUGE_TRANSPORT_v0_2D.md"
           echo "Qi non-Markov memory: docs/PHYSICAL_QUANTUM_QI_NON_MARKOV_MEMORY_v0_2E.md"
+          echo "Qi Process Tensor autonomy: docs/KUUOS_QI_PROCESS_TENSOR_CONVENTIONAL_AUTONOMY_v0_2G.md"
           echo "Contract: specs/physical_quantum_qi_deepening_contract_v0_2.json"
           echo "Example: examples/physical_quantum_qi_deepening_packet_v0_2.json"
           echo "Equation packet: examples/physical_quantum_qi_equation_packet_v0_2.json"
           echo "DPI packet: examples/physical_quantum_qi_dpi_recoverability_packet_v0_2C.json"
           echo "IndraNet packet: examples/physical_quantum_qi_indranet_gauge_transport_packet_v0_2D.json"
           echo "Qi non-Markov memory packet: examples/physical_quantum_qi_non_markov_memory_packet_v0_2E.json"
+          echo "Qi Process Tensor packet: examples/physical_quantum_qi_process_tensor_packet_v0_2F.json"
+          echo "Qi Process Tensor autonomy packet: examples/kuuos_qi_process_tensor_conventional_autonomy_packet_v0_2G.json"
           echo "Phase runtime: src/physical_quantum_qi_phase_runtime_v0_2.py"
           echo "OS bridge runtime: src/physical_quantum_qi_os_bridge_v0_2.py"
           echo "Memory record runtime: src/physical_quantum_qi_memory_record_v0_2.py"
           echo "IndraNet transport runtime: src/physical_quantum_qi_indranet_transport_runtime_v0_2D.py"
           echo "IndraNet PlanOS handoff runtime: src/physical_quantum_qi_indranet_planos_handoff_v0_2D.py"
+          echo "Qi Process Tensor runtime: src/physical_quantum_qi_process_tensor_runtime_v0_2F.py"
           echo "Qi non-Markov memory validator: scripts/validate_physical_quantum_qi_non_markov_memory_v0_2E.py"
+          echo "Qi Process Tensor validator: scripts/validate_physical_quantum_qi_process_tensor_v0_2F.py"
+          echo "Qi Process Tensor autonomy validator: scripts/validate_kuuos_qi_process_tensor_conventional_autonomy_v0_2G.py"
           echo "Qi non-Markov memory regression tests: tests/test_physical_quantum_qi_non_markov_memory_v0_2E.py"
+          echo "Qi Process Tensor regression tests: tests/test_physical_quantum_qi_process_tensor_v0_2F.py"
+          echo "Qi Process Tensor autonomy regression tests: tests/test_kuuos_qi_process_tensor_conventional_autonomy_v0_2G.py"
           echo "Phase demo: examples/run_physical_quantum_qi_phase_demo_v0_2.py"
           echo "IndraNet PlanOS handoff demo: examples/run_physical_quantum_qi_indranet_planos_handoff_demo_v0_2D.py"
           echo "Manifest: manifests/physical_quantum_qi_deepening_manifest_v0_2.json"
@@ -141,7 +165,7 @@ jobs:
           echo "Validated baseline packet: packets/physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json"
           echo "Baseline established final packet: packets/physical_quantum_qi_deepening_baseline_established_final_packet_v0_2.json"
           echo "Chain index: chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json"
-          echo "Modules: SK/FV action v0.2A, Ward/leak v0.2B, DPI v0.2C, IndraNet gauge transport v0.2D, Qi non-Markov memory v0.2E"
+          echo "Modules: SK/FV action v0.2A, Ward/leak v0.2B, DPI v0.2C, IndraNet gauge transport v0.2D, Qi non-Markov memory v0.2E, Qi Process Tensor v0.2F, Qi Process Tensor conventional autonomy v0.2G"
 
       - name: Run Physical Quantum Qi v0.2 deepening checks
         run: make physical-quantum-qi-deepening-checks
