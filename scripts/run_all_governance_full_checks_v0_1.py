@@ -44,6 +44,7 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "examples/run_physical_quantum_qi_phase_demo_v0_2.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_deepening_v0_2.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py"],
+    [sys.executable, "scripts/validate_qi_process_tensor_release_chain_v0_2FG.py"],
     [sys.executable, "scripts/check_mgap4d_external_audit_readiness_ci_ledger_v0_1.py"],
     [sys.executable, "scripts/check_mgap4d_external_audit_readiness_chain_index_v0_1.py"],
     [sys.executable, "scripts/check_mgap4d_external_audit_readiness_finality_packet_v0_1.py"],
