@@ -10,6 +10,8 @@ Finality kind: Qi clinical red flag consultation governor baseline finality pack
 
 This packet finalizes the v0.2L baseline as an append-only clinical consultation governance surface. It closes the immediate post-merge receipt loop for PR #14 without claiming clinical authority, execution authority, proof authority, truth authority, or independent external acceptance.
 
+This packet does not grant clinical authority, execution authority, proof authority, truth authority, or independent external acceptance.
+
 ## Finalized baseline
 
 - `KuOS.QiClinicalRedFlagConsultationGovernor.v0_2L`
