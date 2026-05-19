@@ -1,0 +1,107 @@
+{
+  "packet_id": "qi_bensho_treatment_route_candidate_packet_v0_2J",
+  "contract_id": "qi_bensho_treatment_route_candidate_contract_v0_2J",
+  "version": "v0.2J",
+  "surface_type": "QiTreatmentRouteCandidate",
+  "source_qi_field_bundle_ref": "physical_quantum_qi_field_bundle_packet_v0_2H",
+  "source_bensho_readout_ref": "qi_field_readout_bensho_bridge_packet_v0_2I",
+  "route_family": {
+    "primary": "harmonize",
+    "secondary": [
+      "stabilize",
+      "reobserve_only"
+    ],
+    "authoritative": false,
+    "prescription": false,
+    "formula_selection": false,
+    "execution": false
+  },
+  "intended_field_deformation": {
+    "kind": "bounded_transport_hypothesis",
+    "description": "reduce contradiction between local section and global field residue without collapsing the field",
+    "direct_action": false,
+    "requires_safety_eval": true
+  },
+  "yin_yang_balance_effect": {
+    "expected_direction": "reduce_extreme_polarity_without_forcing_symmetry",
+    "symmetry_forcing_allowed": false,
+    "corridor_required": true
+  },
+  "wuxing_phase_effect": {
+    "phase_route": "non_authoritative_phase_rebalancing_candidate",
+    "sheng_ke_collapse_allowed": false,
+    "xiang_cheng_xiang_wu_residue_visible": true
+  },
+  "leak_effect": {
+    "leak_must_remain_visible": true,
+    "leak_treated_as_noise": false,
+    "route_blocks_if_leak_unbounded": true
+  },
+  "holonomy_effect": {
+    "holonomy_residue_must_remain_visible": true,
+    "local_global_gap_must_not_be_suppressed": true,
+    "route_blocks_if_cocycle_defect_unresolved": true
+  },
+  "memory_tail_effect": {
+    "non_markov_tail_preserved": true,
+    "summary_replacement_allowed": false,
+    "route_must_preserve_history": true
+  },
+  "recoverability_gate": {
+    "required": true,
+    "status": "insufficient",
+    "route_status": "hold_or_reobserve",
+    "execution_allowed": false
+  },
+  "contradiction_gate": {
+    "required": true,
+    "visible_contradictions": [
+      "local_global_gap"
+    ],
+    "direct_route_blocked": true
+  },
+  "barrier_conditions": [
+    "unbounded_leak",
+    "unresolved_holonomy_residue",
+    "recoverability_insufficient",
+    "local_global_gap_unresolved",
+    "clinical_authority_requested"
+  ],
+  "stop_conditions": [
+    "authority_boundary_violation",
+    "route_family_used_as_prescription",
+    "formula_selection_attempted",
+    "contradiction_hidden",
+    "memory_tail_overwritten"
+  ],
+  "reobservation_plan": [
+    "extend_temporal_window",
+    "recheck_leak",
+    "recheck_holonomy_residue",
+    "preserve_non_markov_tail",
+    "rerun_bensho_readout"
+  ],
+  "allowed_next_surfaces": [
+    "PlanOS.treatment_route_candidate_nonexecuting",
+    "DecisionOS.safety_evaluable_candidate",
+    "MemoryOS.treatment_route_record_candidate",
+    "ReflectionOS.route_contradiction_analysis_candidate",
+    "WorldModel.qi_route_reobservation_request"
+  ],
+  "authority_boundary": {
+    "execution_authority": false,
+    "commit_authority": false,
+    "belief_root_commit_authority": false,
+    "memory_overwrite_authority": false,
+    "world_root_rewrite_authority": false,
+    "clinical_authority": false,
+    "diagnosis_authority": false,
+    "prescription_authority": false,
+    "formula_selection_authority": false,
+    "proof_authority": false,
+    "truth_authority": false,
+    "ontology_authority": false,
+    "safety_override_authority": false,
+    "teni_authority": false
+  }
+}
