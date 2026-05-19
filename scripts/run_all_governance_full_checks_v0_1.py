@@ -35,6 +35,7 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/validate_qi_process_tensor_v0_2FG_docs_closure_addendum_packet.py"],
     [sys.executable, "scripts/validate_qi_bensho_treatment_route_candidate_v0_2J.py"],
     [sys.executable, "scripts/validate_qi_bensho_decisionos_clinician_handoff_v0_2K.py"],
+    [sys.executable, "scripts/validate_qi_clinical_red_flag_handover_governor_v0_2L.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py"],
     [sys.executable, "tests/test_physical_quantum_qi_indranet_gauge_transport_v0_2D.py"],
