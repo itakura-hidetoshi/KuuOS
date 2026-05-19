@@ -1,0 +1,119 @@
+{
+  "packet_id": "kuuos_qi_process_tensor_conventional_autonomy_packet_v0_2G",
+  "packet_type": "qi_process_tensor_conventional_autonomy_packet",
+  "version": "v0.2G",
+  "status": "design_baseline_candidate",
+  "root_design": "docs/KUUOS_QI_PROCESS_TENSOR_CONVENTIONAL_AUTONOMY_v0_2G.md",
+  "root_process_tensor": "examples/physical_quantum_qi_process_tensor_packet_v0_2F.json",
+  "two_truths_placement": {
+    "qi_process_tensor_as_conventional_truth_temporal_substrate": true,
+    "qi_process_tensor_not_ultimate_truth": true,
+    "qi_process_tensor_not_fixed_ontology": true,
+    "qi_process_tensor_not_proof_authority": true,
+    "qi_process_tensor_not_self_grounding_substance": true,
+    "ultimate_side_non_reification_preserved": true,
+    "conventional_side_process_with_history_declared": true
+  },
+  "conventional_temporal_substrate": {
+    "C_world_as_process_with_history_declared": true,
+    "T_Qi_process_tensor_declared": true,
+    "operations_A_k_declared": true,
+    "non_markov_memory_M_t_declared": true,
+    "residue_bundle_R_t_declared": true,
+    "boundary_authority_state_B_t_declared": true,
+    "lineage_trace_Trace_t_declared": true,
+    "state_snapshot_replacement_forbidden": true
+  },
+  "autonomous_loop": {
+    "observe_declared": true,
+    "remember_declared": true,
+    "reflect_declared": true,
+    "plan_declared": true,
+    "gate_declared": true,
+    "propose_or_intervene_if_licensed_declared": true,
+    "update_process_history_declared": true,
+    "loop_is_candidate_generation_not_ungated_execution": true,
+    "execution_requires_gate_license": true
+  },
+  "module_mapping": {
+    "BeliefOS": "temporal_observation_candidate",
+    "MemoryOS": "process_history_record_candidate",
+    "ReflectionOS": "non_markov_residue_pathology_analysis_candidate",
+    "PlanOS": "temporal_transport_or_intervention_candidate",
+    "DecisionOS": "safety_evaluable_candidate_and_gate_decision",
+    "Qi_Process_Tensor": "temporal_history_update_surface"
+  },
+  "allowed_autonomy": {
+    "history_aware_observation": true,
+    "memory_preserving_update": true,
+    "residue_aware_reflection": true,
+    "recoverability_aware_planning": true,
+    "candidate_generation": true,
+    "safety_evaluable_proposal_formation": true
+  },
+  "forbidden_autonomy": {
+    "ungated_execution": true,
+    "self_granted_authority": true,
+    "direct_commit": true,
+    "belief_root_commit": true,
+    "memory_overwrite": true,
+    "world_root_rewrite": true,
+    "truth_authority": true,
+    "clinical_authority": true,
+    "safety_override": true
+  },
+  "diagnostics": {
+    "qi_stagnation_as_unresolved_memory_loop_declared": true,
+    "qi_counterflow_as_runaway_feedback_declared": true,
+    "qi_deficiency_as_capacity_recoverability_coherence_loss_declared": true,
+    "diagnostics_are_control_diagnostics_not_metaphor_only": true,
+    "pathology_visibility_required": true
+  },
+  "safety_gates": {
+    "DecisionOS_safety_gate_required": true,
+    "CBF_gate_required": true,
+    "PAC_Bayes_uncertainty_gate_required": true,
+    "recoverability_margin_gate_required": true,
+    "residue_visibility_gate_required": true,
+    "authority_boundary_gate_required": true,
+    "handover_gate_when_required": true,
+    "no_gate_may_be_skipped_by_qi_flow_claim": true,
+    "no_gate_may_be_skipped_by_process_tensor_support_claim": true,
+    "no_gate_may_be_skipped_by_historical_coherence_claim": true
+  },
+  "forbidden_collapses": {
+    "conventional_truth_substrate_claimed_as_ultimate_truth": false,
+    "process_tensor_reified_as_fixed_ontology": false,
+    "qi_process_tensor_grants_execution_authority": false,
+    "state_snapshot_replaces_process_history": false,
+    "reward_loop_replaces_recoverability_gate": false,
+    "agent_loop_skips_decision_gate": false,
+    "observation_backaction_erased": false,
+    "environment_memory_erased": false,
+    "temporal_correlation_erased": false,
+    "residue_hidden": false,
+    "reflection_result_claimed_as_truth": false,
+    "memory_candidate_claimed_as_source_history": false,
+    "plan_candidate_claimed_as_execution_license": false
+  },
+  "allowed_surfaces": [
+    "BeliefOS.temporal_observation_candidate",
+    "MemoryOS.process_history_record_candidate",
+    "ReflectionOS.non_markov_residue_pathology_analysis_candidate",
+    "PlanOS.temporal_transport_or_intervention_candidate",
+    "DecisionOS.safety_evaluable_candidate",
+    "QiProcessTensor.temporal_history_update_surface"
+  ],
+  "authority_boundary": {
+    "execution_authority": false,
+    "commit_authority": false,
+    "belief_root_commit_authority": false,
+    "memory_overwrite_authority": false,
+    "world_root_rewrite_authority": false,
+    "proof_authority": false,
+    "ontology_authority": false,
+    "truth_authority": false,
+    "clinical_authority": false,
+    "safety_override_authority": false
+  }
+}
