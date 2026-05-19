@@ -1,10 +1,11 @@
 #!/usr/bin/env python3
-"""Validate Qi Process Tensor v0.2F/v0.2G release-chain presence.
+"""Validate Qi Process Tensor v0.2F/v0.2G/v0.2FG release-chain presence.
 
 This narrow validator protects the release surface from silently dropping:
 - Qi Process Tensor v0.2F
 - Qi Process Tensor conventional autonomy v0.2G
 - Qi Process Tensor v0.2FG release-chain docs and docs validator
+- Qi Process Tensor v0.2FG docs closure addendum packet and validator
 
 It accepts both machine tags and human-readable release prose, because some
 packets use canonical identifiers such as ``Qi_Process_Tensor_v0_2F`` while
@@ -26,6 +27,7 @@ PACKETS = {
     "release": ROOT / "packets" / "physical_quantum_qi_deepening_release_packet_v0_2.json",
     "finality": ROOT / "packets" / "physical_quantum_qi_deepening_finality_packet_v0_2.json",
     "closure": ROOT / "packets" / "physical_quantum_qi_deepening_release_closure_packet_v0_2.json",
+    "docs_closure_addendum": ROOT / "packets" / "physical_quantum_qi_deepening_v0_2FG_docs_closure_addendum_packet.json",
     "validated_baseline": ROOT / "packets" / "physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json",
     "baseline_established_final": ROOT / "packets" / "physical_quantum_qi_deepening_baseline_established_final_packet_v0_2.json",
 }
@@ -64,6 +66,35 @@ REQUIRED_PHRASE_GROUPS: dict[str, tuple[str, ...]] = {
     ),
 }
 
+REQUIRED_DOCS_CLOSURE_ADDENDUM_PHRASE_GROUPS: dict[str, tuple[str, ...]] = {
+    "Qi Process Tensor v0.2F module": (
+        "Qi Process Tensor v0.2F",
+        "Qi_Process_Tensor_v0_2F",
+    ),
+    "Qi Process Tensor conventional autonomy v0.2G module": (
+        "Qi Process Tensor conventional autonomy v0.2G",
+        "Qi_Process_Tensor_Conventional_Autonomy_v0_2G",
+    ),
+    "multi-time non-Markov temporal structure": (
+        "multi-time non-Markov temporal structure",
+    ),
+    "conventional-truth temporal substrate": (
+        "conventional-truth temporal substrate",
+    ),
+    "not ultimate truth": (
+        "not ultimate truth",
+    ),
+    "documentation closure only": (
+        "documentation-validator visibility surface",
+        "documentation-closure-only",
+        "closes only the v0.2FG documentation",
+    ),
+    "non-authority boundary": (
+        "grants no proof",
+        "non-authoritative",
+    ),
+}
+
 REQUIRED_PATHS = {
     "src/physical_quantum_qi_process_tensor_runtime_v0_2F.py",
     "examples/physical_quantum_qi_process_tensor_packet_v0_2F.json",
@@ -78,6 +109,19 @@ REQUIRED_PATHS = {
 REQUIRED_DOC_PATHS = {
     "docs/KUUOS_QI_PROCESS_TENSOR_RELEASE_CHAIN_v0_2FG.md",
     "scripts/validate_qi_process_tensor_release_chain_docs_v0_2FG.py",
+}
+
+REQUIRED_DOCS_CLOSURE_ADDENDUM_PATHS = {
+    "packets/physical_quantum_qi_deepening_v0_2FG_docs_closure_addendum_packet.json",
+    "scripts/validate_qi_process_tensor_v0_2FG_docs_closure_addendum_packet.py",
+}
+
+DOCS_CLOSURE_ADDENDUM_REFS = {
+    "packet_id": "physical_quantum_qi_deepening_v0_2FG_docs_closure_addendum_packet",
+    "packet_type": "closure_addendum_packet",
+    "root_closure_packet": "packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json",
+    "manifest": "manifests/physical_quantum_qi_deepening_manifest_v0_2.json",
+    "chain_index": "chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json",
 }
 
 AUTHORITY_FIELDS = {
@@ -134,25 +178,49 @@ def validate_authority(label: str, doc: Dict[str, Any]) -> List[str]:
     return errors
 
 
+def validate_docs_closure_addendum(label: str, doc: Dict[str, Any]) -> List[str]:
+    errors: List[str] = []
+    for key, expected in DOCS_CLOSURE_ADDENDUM_REFS.items():
+        if doc.get(key) != expected:
+            errors.append(f"{label}.{key} mismatch: expected {expected!r}, got {doc.get(key)!r}")
+    for key in ["additive_only", "overwrite_forbidden", "same_root_required"]:
+        if doc.get(key) is not True:
+            errors.append(f"{label}.{key} must be true")
+    surfaces = doc.get("surfaces", {})
+    for relpath in sorted(REQUIRED_DOC_PATHS):
+        if relpath not in as_text(surfaces):
+            errors.append(f"{label}.surfaces missing release-chain surface: {relpath}")
+    return errors
+
+
 def validate_packet(label: str, path: Path) -> List[str]:
     doc = load_json(path)
     text = as_text(doc)
+    phrase_groups = (
+        REQUIRED_DOCS_CLOSURE_ADDENDUM_PHRASE_GROUPS
+        if label == "docs_closure_addendum"
+        else REQUIRED_PHRASE_GROUPS
+    )
     errors = [
         f"{label} missing phrase group: {group}"
-        for group in missing_phrase_groups(REQUIRED_PHRASE_GROUPS, text)
+        for group in missing_phrase_groups(phrase_groups, text)
     ]
     if label in {"manifest", "chain_index", "release", "finality", "closure"}:
         errors.extend([f"{label} missing path: {p}" for p in missing(REQUIRED_PATHS, text)])
     if label in {"manifest", "chain_index"}:
-        errors.extend([f"{label} missing docs path: {p}" for p in missing(REQUIRED_DOC_PATHS, text)])
+        required_surfaces = REQUIRED_DOC_PATHS | REQUIRED_DOCS_CLOSURE_ADDENDUM_PATHS
+        errors.extend([f"{label} missing docs/addendum path: {p}" for p in missing(required_surfaces, text)])
+    if label == "docs_closure_addendum":
+        errors.extend(validate_docs_closure_addendum(label, doc))
     errors.extend(validate_authority(label, doc))
     return errors
 
 
 def validate_repository_doc_paths() -> List[str]:
+    required_surfaces = REQUIRED_DOC_PATHS | REQUIRED_DOCS_CLOSURE_ADDENDUM_PATHS
     return [
-        f"missing repository docs surface: {path}"
-        for path in sorted(REQUIRED_DOC_PATHS)
+        f"missing repository release surface: {path}"
+        for path in sorted(required_surfaces)
         if not (ROOT / path).exists()
     ]
 
@@ -167,12 +235,12 @@ def main() -> int:
         errors.extend(validate_packet(label, path))
 
     if errors:
-        print("Qi Process Tensor v0.2F/v0.2G release-chain validation failed:")
+        print("Qi Process Tensor v0.2F/v0.2G/v0.2FG release-chain validation failed:")
         for err in errors:
             print(f"- {err}")
         return 1
 
-    print("Qi Process Tensor v0.2F/v0.2G release-chain validation passed.")
+    print("Qi Process Tensor v0.2F/v0.2G/v0.2FG release-chain validation passed.")
     return 0
 
 
