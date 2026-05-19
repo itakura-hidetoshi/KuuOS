@@ -22,6 +22,69 @@ EXPECTED_FULLPATH_SURFACES = {
     "ReflectionOS.residue_analysis_candidate",
 }
 
+REQUIRED_MODULES = [
+    "SK_FV_path_integral",
+    "SK_FV_Qi_action_v0_2A",
+    "Qi_non_Markov_memory_v0_2E",
+    "Ward_leak_identity",
+    "Ward_leak_identity_v0_2B",
+    "DPI_recoverability",
+    "IndraNet_gauge_transport",
+    "KuString_Qi_emergence_bridge",
+    "Qi_OS_handoff",
+]
+
+REQUIRED_QI_NON_MARKOV_RULES = {
+    "Qi_memory_is_primary_non_Markovian_semantics",
+    "Markov_reduction_is_forbidden_as_Qi_semantics",
+    "finite_window_projection_is_history_preserving_not_Markov_substitute",
+    "discarded_history_must_leave_visible_tail_residue",
+    "holonomy_history_cannot_be_erased",
+    "boundary_leak_history_cannot_be_erased",
+    "rollback_history_cannot_be_erased",
+    "recovery_failure_cannot_be_erased",
+    "current_state_only_recovery_judgment_is_forbidden",
+    "current_state_only_transport_judgment_is_forbidden",
+    "compression_must_preserve_source_history_or_visible_residual_debt",
+    "Qi_non_Markov_memory_grants_no_authority",
+}
+
+REQUIRED_QI_NON_MARKOV_DENIES = {
+    "Markov_reduction_as_Qi_semantics",
+    "Markov_chart_as_semantic_substitute",
+    "Markov_snapshot_claimed_as_FullPathQi",
+    "current_state_only_Qi_identity",
+    "current_state_only_recoverability",
+    "current_state_only_transport_safety",
+    "finite_window_without_tail_residue",
+    "discarded_tail_residue_hidden",
+    "holonomy_tail_residue_hidden",
+    "boundary_leak_tail_residue_hidden",
+    "recovery_tail_debt_hidden",
+    "rollback_tail_debt_hidden",
+    "fresh_valid_path_erasing_prior_holonomy_history",
+    "repair_success_erasing_rollback_history",
+    "positive_local_recovery_erasing_recovery_debt",
+    "compression_as_deletion",
+    "compressed_memory_replacing_source_history",
+    "Qi_memory_grants_execution_authority",
+    "Qi_memory_grants_truth_authority",
+}
+
+REQUIRED_QI_NON_MARKOV_INVARIANTS = {
+    "Qi memory is primary non-Markovian semantics",
+    "Markov reduction is forbidden as Qi semantics",
+    "Finite-window Qi memory projection is history-preserving and not a Markov substitute",
+    "Current-state-only Qi identity is forbidden",
+    "Current-state-only recoverability is forbidden",
+    "Current-state-only transport safety is forbidden",
+    "Discarded Qi history must leave visible tail residue",
+    "Holonomy history cannot be erased",
+    "Boundary leak history cannot be erased",
+    "Rollback history and recovery failure cannot be erased",
+    "Compressed Qi memory cannot replace source history",
+}
+
 
 def load_json(path: Path) -> Dict[str, Any]:
     with path.open("r", encoding="utf-8") as f:
@@ -59,6 +122,38 @@ def module_errors(packet: Dict[str, Any], spec: Dict[str, Any]) -> List[str]:
                 errors.append("SK_FV_Qi_action_v0_2A rejects Markov snapshot as FullPathQi without reduction receipt")
             if payload.get("barrier_claimed_as_qi_source") is True or not is_pass(payload.get("barrier_not_qi_source_declared")):
                 errors.append("SK_FV_Qi_action_v0_2A requires barrier floor not Qi source")
+
+        if module_name == "Qi_non_Markov_memory_v0_2E":
+            if not is_pass(payload.get("qi_memory_primary")):
+                errors.append("Qi_non_Markov_memory_v0_2E requires primary Qi memory")
+            if not is_pass(payload.get("qi_is_non_markovian_by_definition")):
+                errors.append("Qi_non_Markov_memory_v0_2E requires Qi to be non-Markovian by definition")
+            if not is_pass(payload.get("markov_reduction_forbidden_as_qi_semantics")):
+                errors.append("Qi_non_Markov_memory_v0_2E rejects Markov reduction as Qi semantics")
+            if not is_pass(payload.get("current_state_only_identity_forbidden")):
+                errors.append("Qi_non_Markov_memory_v0_2E rejects current-state-only Qi identity")
+            if not is_pass(payload.get("current_state_only_recoverability_forbidden")):
+                errors.append("Qi_non_Markov_memory_v0_2E rejects current-state-only recoverability")
+            if not is_pass(payload.get("current_state_only_transport_safety_forbidden")):
+                errors.append("Qi_non_Markov_memory_v0_2E rejects current-state-only transport safety")
+            if payload.get("markov_semantic_substitute") is True:
+                errors.append("Qi_non_Markov_memory_v0_2E rejects finite-window Markov semantic substitutes")
+            if not is_pass(payload.get("discarded_tail_residue_declared")):
+                errors.append("Qi_non_Markov_memory_v0_2E requires discarded tail residue visibility")
+            if not is_pass(payload.get("holonomy_tail_residue_declared")):
+                errors.append("Qi_non_Markov_memory_v0_2E requires holonomy tail residue visibility")
+            if not is_pass(payload.get("boundary_leak_tail_residue_declared")):
+                errors.append("Qi_non_Markov_memory_v0_2E requires boundary leak tail residue visibility")
+            if payload.get("fresh_valid_path_erases_prior_holonomy_history") is True:
+                errors.append("Qi_non_Markov_memory_v0_2E rejects fresh valid path erasing prior holonomy history")
+            if payload.get("repair_success_erases_rollback_history") is True:
+                errors.append("Qi_non_Markov_memory_v0_2E rejects repair success erasing rollback history")
+            if payload.get("positive_local_recovery_erases_recovery_debt") is True:
+                errors.append("Qi_non_Markov_memory_v0_2E rejects positive local recovery erasing recovery debt")
+            if payload.get("compression_as_deletion") is True:
+                errors.append("Qi_non_Markov_memory_v0_2E rejects compression as deletion")
+            if not is_pass(payload.get("compressed_memory_cannot_replace_source_history")):
+                errors.append("Qi_non_Markov_memory_v0_2E requires compressed memory not to replace source history")
 
         if module_name == "Ward_leak_identity_v0_2B":
             if not is_pass(payload.get("A_mu_variation_declared")):
@@ -142,18 +237,21 @@ def validate_spec(spec: Dict[str, Any]) -> List[str]:
         errors.append("update_policy must be additive_only")
     if spec.get("overwrite_policy") != "forbidden":
         errors.append("overwrite_policy must be forbidden")
-    for module in [
-        "SK_FV_path_integral",
-        "SK_FV_Qi_action_v0_2A",
-        "Ward_leak_identity",
-        "Ward_leak_identity_v0_2B",
-        "DPI_recoverability",
-        "IndraNet_gauge_transport",
-        "KuString_Qi_emergence_bridge",
-        "Qi_OS_handoff",
-    ]:
-        if module not in spec.get("deepening_modules", {}):
+    modules = spec.get("deepening_modules", {})
+    for module in REQUIRED_MODULES:
+        if module not in modules:
             errors.append(f"missing module {module}")
+    qi_non_markov = modules.get("Qi_non_Markov_memory_v0_2E", {})
+    missing_rules = sorted(REQUIRED_QI_NON_MARKOV_RULES - set(qi_non_markov.get("rules", [])))
+    for rule in missing_rules:
+        errors.append(f"Qi_non_Markov_memory_v0_2E missing rule {rule}")
+    missing_denies = sorted(REQUIRED_QI_NON_MARKOV_DENIES - set(qi_non_markov.get("denies", [])))
+    for denied in missing_denies:
+        errors.append(f"Qi_non_Markov_memory_v0_2E missing denies {denied}")
+    invariants = set(spec.get("cross_module_invariants", []))
+    missing_invariants = sorted(REQUIRED_QI_NON_MARKOV_INVARIANTS - invariants)
+    for invariant in missing_invariants:
+        errors.append(f"cross_module_invariants missing {invariant}")
     if not spec.get("cross_module_invariants"):
         errors.append("cross_module_invariants must be nonempty")
     return errors
