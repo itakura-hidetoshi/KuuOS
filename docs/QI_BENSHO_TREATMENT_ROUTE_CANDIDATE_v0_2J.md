@@ -4,6 +4,8 @@
 
 This layer treats treatment language as a bounded transport hypothesis over a Qi field. It does not diagnose, prescribe, select a formula, execute an intervention, or grant clinical authority.
 
+It does not prescribe. It does not execute. It only emits a non-authoritative route candidate, hold, reobserve, abstain, or handover surface.
+
 ## Definition
 
 A treatment route is a non-executing, non-prescriptive, non-diagnostic field-deformation candidate constructed from a Qi field bundle and a Bensho readout.
