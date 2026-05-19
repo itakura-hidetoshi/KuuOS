@@ -1,0 +1,31 @@
+name: Emptiness Superposition Non-Collapse Validation
+
+on:
+  push:
+    branches:
+      - main
+      - 'feature/**'
+  pull_request:
+    branches:
+      - main
+
+jobs:
+  validate-emptiness-superposition-noncollapse:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run primary validator
+        run: python3 scripts/validate_kuos_emptiness_superposition_non_collapse_v0_2.py
+
+      - name: Run release packet validator
+        run: python3 scripts/validate_kuos_emptiness_superposition_non_collapse_release_packet_v0_2.py
+
+      - name: Run finality packet validator
+        run: python3 scripts/validate_kuos_emptiness_superposition_non_collapse_finality_packet_v0_2.py

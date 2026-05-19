@@ -1,0 +1,51 @@
+id: kuos_emptiness_superposition_non_collapse_finality_packet_v0_2
+version: v0.2
+date: '2026-05-20'
+author: Hidetoshi Itakura / Itakura Hidetoshi
+status: finality_packet
+finality_scope:
+  root: kuos_fourfold_core_v0_1
+  addendum: kuos_emptiness_superposition_non_collapse_contract_v0_2
+  release_packet: kuos_emptiness_superposition_non_collapse_release_packet_v0_2
+  mode: public_governance_surface_finality
+  not_external_theorem_finality: true
+  not_execution_authority: true
+fixed_points:
+  - candidate_as_superposition_is_not_sharp_conventional_commitment
+  - competing_catuskoti_support_blocks_direct_authority_release
+  - contextual_collapse_requires_receipt
+  - collapse_receipt_is_conventional_not_ultimate_authority
+  - validator_pass_is_structural_not_truth
+  - lean_surface_is_governance_spine_not_completed_external_proof
+  - additive_only
+  - tighten_only_default
+  - overwrite_forbidden
+  - same_root_required
+canonical_artifact_chain:
+  doctrine_doc: docs/KUOS_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_v0_2.md
+  contract: specs/kuos_emptiness_superposition_non_collapse_contract_v0_2.yaml
+  validation_cases: validation_cases/kuos_emptiness_superposition_non_collapse_validation_cases_v0_2.json
+  primary_validator: scripts/validate_kuos_emptiness_superposition_non_collapse_v0_2.py
+  release_packet: specs/kuos_emptiness_superposition_non_collapse_release_packet_v0_2.yaml
+  release_packet_validator: scripts/validate_kuos_emptiness_superposition_non_collapse_release_packet_v0_2.py
+  finality_packet: specs/kuos_emptiness_superposition_non_collapse_finality_packet_v0_2.yaml
+  finality_packet_validator: scripts/validate_kuos_emptiness_superposition_non_collapse_finality_packet_v0_2.py
+  chain_index: docs/KUOS_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_CHAIN_INDEX_v0_2.md
+  formal_surface: formal/KUOS/Emptiness/SuperpositionNonCollapse.lean
+validation_commands:
+  - make emptiness-superposition-noncollapse-checks
+  - make core-governance-checks
+  - make all-governance-checks
+non_authority_boundary:
+  no_truth_from_finality_packet: true
+  no_execution_from_finality_packet: true
+  no_world_authority_from_finality_packet: true
+  no_ultimate_authority_from_contextual_collapse: true
+acceptance_condition:
+  all_artifacts_present: true
+  release_packet_validates: true
+  finality_packet_validates: true
+  core_runner_includes_primary_validator: true
+  public_index_exposes_addendum: true
+  validation_matrix_exposes_target: true
+  public_release_manifest_exposes_release_surface: true

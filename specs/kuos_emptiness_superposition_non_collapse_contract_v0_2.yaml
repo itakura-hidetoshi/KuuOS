@@ -1,0 +1,131 @@
+id: kuos_emptiness_superposition_non_collapse_contract_v0_2
+version: v0.2
+date: '2026-05-20'
+author: Hidetoshi Itakura / 板倉英俊
+status: additive_tightening
+root:
+  prior_baseline: kuos_fourfold_core_v0_1
+  doctrine: emptiness_superposition_non_collapse
+  mode: governance_theorem
+  overwrite_forbidden: true
+  additive_only: true
+  tighten_only_default: true
+
+catuskoti_basis:
+  target_claim_symbol: C
+  basis_vectors:
+    - id: S
+      label: self_origin
+      ket: '|S>'
+      meaning: C arises from self
+    - id: O
+      label: other_origin
+      ket: '|O>'
+      meaning: C arises from other
+    - id: B
+      label: both_origin
+      ket: '|B>'
+      meaning: C arises from both self and other
+    - id: N
+      label: no_cause_origin
+      ket: '|N>'
+      meaning: C arises from no cause
+  basis_assumptions:
+    orthonormal_conventional_basis: true
+    labels_are_conventional_commitments: true
+    labels_are_not_ultimate_truths: true
+
+projectors:
+  - id: P_S
+    onto: S
+    sharp_commitment_condition: P_S psi == psi
+  - id: P_O
+    onto: O
+    sharp_commitment_condition: P_O psi == psi
+  - id: P_B
+    onto: B
+    sharp_commitment_condition: P_B psi == psi
+  - id: P_N
+    onto: N
+    sharp_commitment_condition: P_N psi == psi
+
+superposition_state:
+  notation: psi = alpha|S> + beta|O> + gamma|B> + delta|N>
+  normalization_required: true
+  nonzero_competing_support_required_for_noncollapse: true
+  minimum_nonzero_amplitudes_for_block: 2
+  all_four_nonzero_case:
+    alpha_nonzero: true
+    beta_nonzero: true
+    gamma_nonzero: true
+    delta_nonzero: true
+
+noncollapse_theorem:
+  name: Catuskoti Superposition Non-Collapse Theorem
+  japanese_name: 四句重ね合わせ非崩壊定理
+  statement: >-
+    If a candidate state has nonzero amplitude in at least two mutually exclusive
+    catuskoti basis directions, it is not a sharp eigenstate of any single corresponding
+    projector. KuuOS must not release it as a self-authorized single-origin commitment
+    without explicit context-bound collapse receipt.
+  proof_obligation:
+    - projector_application_exposes_single_component
+    - residual_nonzero_components_make_sharp_equality_false
+    - sharp_single_commitment_release_is_blocked
+
+runtime_gate:
+  name: catuskoti_superposition_noncollapse_gate
+  input_required:
+    - candidate_id
+    - catuskoti_supports
+    - amplitude_or_weight_profile
+    - support_trace
+    - governance_scope
+  allowed_routes:
+    - HOLD
+    - REVIEW
+    - REOBSERVE
+    - CONTEXTUAL_COLLAPSE_WITH_RECEIPT
+  forbidden_direct_routes:
+    - TRUTH_RELEASE
+    - PROOF_AUTHORITY
+    - EXECUTION_AUTHORITY
+    - CLINICAL_AUTHORITY
+    - WORLD_AUTHORITY
+
+collapse_receipt_required_fields:
+  - collapse_context
+  - projector_or_measurement_basis
+  - support_trace
+  - observer_or_governance_scope
+  - residual_amplitudes
+  - non_authority_boundary
+  - abstain_or_hold_reason_if_any
+
+fourfold_core_mapping:
+  emptiness: blocks self-authorized sharp commitment
+  dependent_origination: requires visible support trace and conditions
+  two_truths: separates non-fixating surface from scoped conventional release
+  middle_way: blocks both reification collapse and nihilistic collapse
+
+non_authority_boundary:
+  forbidden_claims:
+    - quantum_physics_proves_buddhist_doctrine
+    - madhyamaka_reduced_to_quantum_mechanics
+    - validator_pass_grants_truth
+    - lean_skeleton_grants_completed_proof
+    - collapse_receipt_grants_ultimate_authority
+  required_constraints:
+    - nonzero_competing_support_must_remain_visible
+    - premature_single_origin_release_is_blocked
+    - contextual_release_requires_receipt
+    - ultimate_non_fixation_must_not_be_reified
+    - conventional_operation_remains_possible
+
+artifacts:
+  docs:
+    - docs/KUOS_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_v0_2.md
+  validators:
+    - scripts/validate_kuos_emptiness_superposition_non_collapse_v0_2.py
+  formal_surface:
+    - formal/KUOS/Emptiness/SuperpositionNonCollapse.lean

@@ -1,0 +1,48 @@
+{
+  "id": "kuos_emptiness_superposition_non_collapse_validation_cases_v0_2",
+  "version": "v0.2",
+  "cases": [
+    {
+      "id": "all_four_nonzero_routes_to_hold",
+      "amplitudes": {"S": 0.5, "O": 0.5, "B": 0.5, "N": 0.5},
+      "has_collapse_receipt": false,
+      "requested_route": "TRUTH_RELEASE",
+      "expected_status": "HOLD"
+    },
+    {
+      "id": "two_nonzero_blocks_single_origin_release",
+      "amplitudes": {"S": 0.70710678, "O": 0.70710678, "B": 0.0, "N": 0.0},
+      "has_collapse_receipt": false,
+      "requested_route": "PROOF_AUTHORITY",
+      "expected_status": "HOLD"
+    },
+    {
+      "id": "single_nonzero_can_be_contextual_candidate_not_authority",
+      "amplitudes": {"S": 1.0, "O": 0.0, "B": 0.0, "N": 0.0},
+      "has_collapse_receipt": true,
+      "requested_route": "CONTEXTUAL_COLLAPSE_WITH_RECEIPT",
+      "expected_status": "CONTEXTUAL_COLLAPSE_WITH_RECEIPT"
+    },
+    {
+      "id": "receipt_permits_contextual_not_truth_release",
+      "amplitudes": {"S": 0.6, "O": 0.8, "B": 0.0, "N": 0.0},
+      "has_collapse_receipt": true,
+      "requested_route": "TRUTH_RELEASE",
+      "expected_status": "REVIEW"
+    },
+    {
+      "id": "zero_vector_is_invalid",
+      "amplitudes": {"S": 0.0, "O": 0.0, "B": 0.0, "N": 0.0},
+      "has_collapse_receipt": false,
+      "requested_route": "REVIEW",
+      "expected_status": "FAIL"
+    },
+    {
+      "id": "world_authority_direct_route_forbidden",
+      "amplitudes": {"S": 0.0, "O": 0.0, "B": 0.70710678, "N": 0.70710678},
+      "has_collapse_receipt": false,
+      "requested_route": "WORLD_AUTHORITY",
+      "expected_status": "HOLD"
+    }
+  ]
+}

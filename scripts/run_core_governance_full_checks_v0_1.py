@@ -6,10 +6,10 @@ Stdlib-only full check runner for KuuOS Core Governance layers.
 
 Runs Emptiness / Dependent Origination / Two Truths / Middle Way,
 including core audit event, hash-chain, WORM receipt, bundle, and attestation validation,
-Mandala Multi-WORLD, Bodhisattva Ten Paramita, Paramita Repair Router,
-Dukkha Mathematical Model, Dukkha-as-Qi, Formal Invariant Spine,
-Super-Relativity Invariant Bridge, Invariant Preservation Matrix, Invariant Gate,
-and Invariant Governance Pipeline validators.
+Emptiness Superposition Non-Collapse v0.2, Mandala Multi-WORLD,
+Bodhisattva Ten Paramita, Paramita Repair Router, Dukkha Mathematical Model,
+Dukkha-as-Qi, Formal Invariant Spine, Super-Relativity Invariant Bridge,
+Invariant Preservation Matrix, Invariant Gate, and Invariant Governance Pipeline validators.
 No external dependencies and no external API calls.
 """
 
@@ -29,6 +29,7 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/validate_emptiness_middle_way_core_audit_worm_export_receipt_v0_1.py"],
     [sys.executable, "scripts/validate_emptiness_middle_way_core_bundle_v0_1.py"],
     [sys.executable, "scripts/validate_emptiness_middle_way_core_attestation_v0_1.py"],
+    [sys.executable, "scripts/validate_kuos_emptiness_superposition_non_collapse_v0_2.py"],
     [sys.executable, "scripts/validate_mandala_multi_world_v0_1.py"],
     [sys.executable, "scripts/validate_bodhisattva_ten_paramita_v0_1.py"],
     [sys.executable, "scripts/validate_paramita_repair_router_v0_1.py"],
