@@ -53,6 +53,8 @@ REQUIRED_TRUE = [
     "differential_discussion_allowed",
     "evidence_pointer_allowed",
     "safety_question_allowed",
+    "patient_specific_action_forbidden",
+    "unverified_triage_instruction_forbidden",
     "memoryos_append_only_record_required",
     "pii_minimization_required",
     "abstain_hold_reobserve_are_valid_outputs",
@@ -64,8 +66,6 @@ REQUIRED_FALSE = [
     "governor_is_prescription",
     "governor_is_formula_selection",
     "governor_is_execution",
-    "patient_specific_action_forbidden",
-    "unverified_triage_instruction_forbidden",
 ]
 
 REQUIRED_FORBIDDEN = [
