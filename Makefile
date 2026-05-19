@@ -39,6 +39,8 @@ physical-quantum-qi-deepening-checks:
 	python3 scripts/validate_physical_quantum_qi_equation_packet_v0_2.py
 	python3 scripts/validate_physical_quantum_qi_non_markov_memory_v0_2E.py
 	python3 tests/test_physical_quantum_qi_non_markov_memory_v0_2E.py
+	python3 scripts/validate_physical_quantum_qi_process_tensor_v0_2F.py
+	python3 tests/test_physical_quantum_qi_process_tensor_v0_2F.py
 	python3 scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py
 	python3 scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py
 	python3 tests/test_physical_quantum_qi_indranet_gauge_transport_v0_2D.py
