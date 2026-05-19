@@ -5,8 +5,9 @@ This narrow validator protects the release surface from silently dropping:
 - Qi Process Tensor v0.2F
 - Qi Process Tensor conventional autonomy v0.2G
 
-It checks the manifest, chain index, release packet, finality packet, release
-closure packet, validated baseline packet, and baseline-established-final packet.
+It accepts both machine tags and human-readable release prose, because some
+packets use canonical identifiers such as ``Qi_Process_Tensor_v0_2F`` while
+others use release-facing prose such as ``Qi Process Tensor v0.2F``.
 """
 
 from __future__ import annotations
@@ -14,7 +15,7 @@ from __future__ import annotations
 import json
 import sys
 from pathlib import Path
-from typing import Any, Dict, Iterable, List
+from typing import Any, Dict, Iterable, List, Sequence
 
 ROOT = Path(__file__).resolve().parents[1]
 
@@ -28,15 +29,38 @@ PACKETS = {
     "baseline_established_final": ROOT / "packets" / "physical_quantum_qi_deepening_baseline_established_final_packet_v0_2.json",
 }
 
-REQUIRED_PHRASES = {
-    "Qi_Process_Tensor_v0_2F",
-    "Qi_Process_Tensor_Conventional_Autonomy_v0_2G",
-    "multi-time non-Markov temporal structure",
-    "history-bearing relational/action flow",
-    "conventional-truth temporal substrate",
-    "safety-gated candidate generation",
-    "not ultimate truth",
-    "not ungated execution",
+# Each tuple is a logical requirement followed by accepted textual realizations.
+REQUIRED_PHRASE_GROUPS: dict[str, tuple[str, ...]] = {
+    "Qi Process Tensor v0.2F module": (
+        "Qi_Process_Tensor_v0_2F",
+        "Qi Process Tensor v0.2F",
+        "qi_process_tensor_v0_2F",
+    ),
+    "Qi Process Tensor conventional autonomy v0.2G module": (
+        "Qi_Process_Tensor_Conventional_Autonomy_v0_2G",
+        "Qi Process Tensor conventional autonomy v0.2G",
+        "qi_process_tensor_conventional_autonomy_v0_2G",
+    ),
+    "multi-time non-Markov temporal structure": (
+        "multi-time non-Markov temporal structure",
+    ),
+    "history-bearing relational/action flow": (
+        "history-bearing relational/action flow",
+    ),
+    "conventional-truth temporal substrate": (
+        "conventional-truth temporal substrate",
+    ),
+    "safety-gated candidate generation": (
+        "safety-gated candidate generation",
+    ),
+    "not ultimate truth": (
+        "not ultimate truth",
+    ),
+    "not ungated execution": (
+        "not ungated execution",
+        "not ultimate truth, fixed ontology, ungated execution",
+        "not ultimate truth, fixed ontology, ungated execution, or execution authority",
+    ),
 }
 
 REQUIRED_PATHS = {
@@ -78,6 +102,14 @@ def missing(required: Iterable[str], text: str) -> List[str]:
     return sorted(item for item in required if item not in text)
 
 
+def missing_phrase_groups(groups: dict[str, Sequence[str]], text: str) -> List[str]:
+    errors: List[str] = []
+    for label, variants in groups.items():
+        if not any(variant in text for variant in variants):
+            errors.append(label)
+    return errors
+
+
 def validate_authority(label: str, doc: Dict[str, Any]) -> List[str]:
     errors: List[str] = []
     candidates = [
@@ -99,7 +131,10 @@ def validate_authority(label: str, doc: Dict[str, Any]) -> List[str]:
 def validate_packet(label: str, path: Path) -> List[str]:
     doc = load_json(path)
     text = as_text(doc)
-    errors = [f"{label} missing phrase: {phrase}" for phrase in missing(REQUIRED_PHRASES, text)]
+    errors = [
+        f"{label} missing phrase group: {group}"
+        for group in missing_phrase_groups(REQUIRED_PHRASE_GROUPS, text)
+    ]
     if label in {"manifest", "chain_index", "release", "finality", "closure"}:
         errors.extend([f"{label} missing path: {p}" for p in missing(REQUIRED_PATHS, text)])
     errors.extend(validate_authority(label, doc))
