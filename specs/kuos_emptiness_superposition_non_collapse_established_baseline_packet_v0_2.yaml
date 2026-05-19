@@ -1,0 +1,58 @@
+id: kuos_emptiness_superposition_non_collapse_established_baseline_packet_v0_2
+version: v0.2
+date: '2026-05-20'
+author: Hidetoshi Itakura / Itakura Hidetoshi
+status: established_baseline_packet
+baseline_scope:
+  root: kuos_fourfold_core_v0_1
+  addendum: kuos_emptiness_superposition_non_collapse_contract_v0_2
+  release_packet: kuos_emptiness_superposition_non_collapse_release_packet_v0_2
+  finality_packet: kuos_emptiness_superposition_non_collapse_finality_packet_v0_2
+  chain_index: docs/KUOS_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_CHAIN_INDEX_v0_2.md
+  mode: public_governance_baseline_established
+semantic_lock:
+  candidate_as_superposition_not_sharp_commitment: true
+  competing_support_blocks_direct_authority_release: true
+  contextual_collapse_requires_receipt: true
+  collapse_receipt_remains_conventional: true
+  validator_pass_structural_not_truth: true
+  lean_surface_governance_spine_not_completed_external_proof: true
+  additive_only: true
+  tighten_only_default: true
+  overwrite_forbidden: true
+  same_root_required: true
+baseline_artifacts:
+  doctrine_doc: docs/KUOS_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_v0_2.md
+  contract: specs/kuos_emptiness_superposition_non_collapse_contract_v0_2.yaml
+  validation_cases: validation_cases/kuos_emptiness_superposition_non_collapse_validation_cases_v0_2.json
+  primary_validator: scripts/validate_kuos_emptiness_superposition_non_collapse_v0_2.py
+  release_packet: specs/kuos_emptiness_superposition_non_collapse_release_packet_v0_2.yaml
+  release_validator: scripts/validate_kuos_emptiness_superposition_non_collapse_release_packet_v0_2.py
+  finality_packet: specs/kuos_emptiness_superposition_non_collapse_finality_packet_v0_2.yaml
+  finality_validator: scripts/validate_kuos_emptiness_superposition_non_collapse_finality_packet_v0_2.py
+  established_baseline_packet: specs/kuos_emptiness_superposition_non_collapse_established_baseline_packet_v0_2.yaml
+  established_baseline_validator: scripts/validate_kuos_emptiness_superposition_non_collapse_established_baseline_packet_v0_2.py
+  chain_index: docs/KUOS_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_CHAIN_INDEX_v0_2.md
+  formal_surface: formal/KUOS/Emptiness/SuperpositionNonCollapse.lean
+public_review_exposure:
+  public_docs_index: docs/PUBLIC_DOCS_INDEX_v0_1.md
+  validation_coverage_matrix: docs/VALIDATION_COVERAGE_MATRIX_v0_1.md
+  public_release_manifest: docs/PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1.md
+  release_notes: RELEASE_NOTES_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_v0_2.md
+ci_surfaces:
+  dedicated_workflow: .github/workflows/emptiness_superposition_noncollapse_validation.yml
+  primary_validator_in_workflow: true
+  release_validator_in_workflow: true
+  finality_validator_in_workflow: true
+  established_baseline_validator_required: true
+non_authority_boundary:
+  no_truth_from_baseline_packet: true
+  no_execution_from_baseline_packet: true
+  no_world_authority_from_baseline_packet: true
+  no_ultimate_authority_from_contextual_collapse: true
+  no_reduction_claim: true
+acceptance_condition:
+  all_baseline_artifacts_present: true
+  public_review_exposure_present: true
+  ci_workflow_present: true
+  established_baseline_validator_passes: true
