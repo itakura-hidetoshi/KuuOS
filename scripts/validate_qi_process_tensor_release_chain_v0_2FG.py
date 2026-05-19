@@ -4,6 +4,7 @@
 This narrow validator protects the release surface from silently dropping:
 - Qi Process Tensor v0.2F
 - Qi Process Tensor conventional autonomy v0.2G
+- Qi Process Tensor v0.2FG release-chain docs and docs validator
 
 It accepts both machine tags and human-readable release prose, because some
 packets use canonical identifiers such as ``Qi_Process_Tensor_v0_2F`` while
@@ -74,6 +75,11 @@ REQUIRED_PATHS = {
     "tests/test_kuuos_qi_process_tensor_conventional_autonomy_v0_2G.py",
 }
 
+REQUIRED_DOC_PATHS = {
+    "docs/KUUOS_QI_PROCESS_TENSOR_RELEASE_CHAIN_v0_2FG.md",
+    "scripts/validate_qi_process_tensor_release_chain_docs_v0_2FG.py",
+}
+
 AUTHORITY_FIELDS = {
     "proof_authority",
     "ontology_authority",
@@ -137,12 +143,23 @@ def validate_packet(label: str, path: Path) -> List[str]:
     ]
     if label in {"manifest", "chain_index", "release", "finality", "closure"}:
         errors.extend([f"{label} missing path: {p}" for p in missing(REQUIRED_PATHS, text)])
+    if label in {"manifest", "chain_index"}:
+        errors.extend([f"{label} missing docs path: {p}" for p in missing(REQUIRED_DOC_PATHS, text)])
     errors.extend(validate_authority(label, doc))
     return errors
 
 
+def validate_repository_doc_paths() -> List[str]:
+    return [
+        f"missing repository docs surface: {path}"
+        for path in sorted(REQUIRED_DOC_PATHS)
+        if not (ROOT / path).exists()
+    ]
+
+
 def main() -> int:
     errors: List[str] = []
+    errors.extend(validate_repository_doc_paths())
     for label, path in PACKETS.items():
         if not path.exists():
             errors.append(f"missing packet file: {path}")
