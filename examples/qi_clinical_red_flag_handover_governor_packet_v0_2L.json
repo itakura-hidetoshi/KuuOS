@@ -1,0 +1,152 @@
+{
+  "packet_id": "qi_clinical_red_flag_handover_governor_packet_v0_2L",
+  "contract_id": "qi_clinical_red_flag_handover_governor_contract_v0_2L",
+  "version": "v0.2L",
+  "surface_type": "QiClinicalRedFlagConsultationGovernor",
+  "source_handoff_packet_ref": "qi_bensho_decisionos_clinician_handoff_packet_v0_2K",
+  "source_treatment_route_candidate_ref": "qi_bensho_treatment_route_candidate_packet_v0_2J",
+  "consultation_context": {
+    "doctor_to_ai_clinical_consultation_accepted": true,
+    "requester_role": "licensed_physician",
+    "physician_consultation_is_default_path": true,
+    "handover_is_default": false,
+    "handover_is_boundary_mode_only": true,
+    "consultative_reasoning_allowed": true,
+    "differential_discussion_allowed": true,
+    "evidence_pointer_allowed": true,
+    "safety_question_allowed": true
+  },
+  "visibility_status": {
+    "red_flag_visibility_required": true,
+    "red_flag_suppression_allowed": false,
+    "red_flag_hidden": false,
+    "visibility_only": false,
+    "consultation_visibility": true
+  },
+  "severity_mode": {
+    "mode": "consultation_deepening_required",
+    "authoritative": false,
+    "automatic_handover": false,
+    "diagnosis": false,
+    "prescription": false,
+    "formula_selection": false,
+    "execution": false,
+    "triage_instruction": false,
+    "patient_specific_action": false
+  },
+  "consultation_decision": {
+    "mode": "physician_ai_consultation_default",
+    "red_flags_do_not_automatically_force_handover": true,
+    "red_flags_trigger_consultation_deepening_first": true,
+    "consultation_deepening_required": true,
+    "local_protocol_review_recommended": true,
+    "clinical_authority_granted": false,
+    "patient_specific_action_allowed": false
+  },
+  "boundary_handover_policy": {
+    "boundary_handover_required": false,
+    "handover_required_only_on_boundary_violation_or_unresolvable_safety_gap": true,
+    "allowed_triggers": [
+      "requester_not_clinician_and_patient_specific_action_requested",
+      "ai_execution_or_order_entry_requested",
+      "prescription_authority_requested",
+      "triage_authority_requested",
+      "formula_selection_authority_requested",
+      "missing_minimum_context_for_safe_consultation",
+      "unresolvable_safety_gap_after_consultation_deepening",
+      "institutional_or_legal_boundary_requires_human_only_review"
+    ],
+    "triggered": []
+  },
+  "decisionos_safety_eval_request": {
+    "required": true,
+    "request_type": "red_flag_consultation_safety_eval_nonexecuting",
+    "safety_override_allowed": false,
+    "execution_release_allowed": false,
+    "triage_authority_allowed": false,
+    "patient_specific_action_allowed": false
+  },
+  "red_flag_report": {
+    "required": true,
+    "visible_flags": [
+      "unresolved_high_risk_uncertainty",
+      "clinical_authority_requested_guarded_as_forbidden_boundary"
+    ],
+    "flag_certainty_claimed": false,
+    "traditional_pattern_certainty_claimed": false,
+    "direct_instruction_allowed": false,
+    "consultation_deepening_first": true
+  },
+  "barrier_report": {
+    "required": true,
+    "barriers": [
+      "no_ai_clinical_authority",
+      "no_patient_specific_action",
+      "no_triage_authority",
+      "no_prescription_authority"
+    ],
+    "barriers_hidden": false,
+    "governor_blocks_execution": true,
+    "governor_blocks_consultation": false
+  },
+  "allowed_output": {
+    "mode": "physician_ai_consultation_default",
+    "consultation_deepening_allowed": true,
+    "safety_questioning_allowed": true,
+    "evidence_pointer_review_allowed": true,
+    "differential_reasoning_review_allowed": true,
+    "local_protocol_review_recommended": true,
+    "boundary_handover_required": false,
+    "abstain_allowed": true,
+    "hold_allowed": true,
+    "reobserve_allowed": true,
+    "execution_allowed": false
+  },
+  "reobservation_plan": [
+    "preserve_source_handoff_packet",
+    "preserve_route_candidate_trace",
+    "surface_unresolved_red_flags",
+    "deepen_physician_ai_consultation",
+    "request_missing_context_when_needed",
+    "append_memoryos_red_flag_record"
+  ],
+  "memoryos_append_only_receipt": {
+    "required": true,
+    "append_only": true,
+    "overwrite_allowed": false,
+    "summary_replaces_source": false
+  },
+  "pii_minimization": {
+    "required": true,
+    "patient_identifiers_required": false,
+    "direct_identifier_storage_allowed": false,
+    "minimum_necessary_context_only": true
+  },
+  "allowed_next_surfaces": [
+    "PhysicianAIConsultation.consultative_reasoning_only",
+    "ClinicianReview.red_flag_visibility_only",
+    "DecisionOS.safety_eval_request_nonexecuting",
+    "MemoryOS.append_only_red_flag_record",
+    "ReflectionOS.red_flag_contradiction_analysis_candidate",
+    "WorldModel.reobservation_request"
+  ],
+  "authority_boundary": {
+    "execution_authority": false,
+    "commit_authority": false,
+    "belief_root_commit_authority": false,
+    "memory_overwrite_authority": false,
+    "world_root_rewrite_authority": false,
+    "clinical_authority": false,
+    "diagnosis_authority": false,
+    "prescription_authority": false,
+    "formula_selection_authority": false,
+    "treatment_recommendation_authority": false,
+    "triage_authority": false,
+    "patient_specific_action_authority": false,
+    "proof_authority": false,
+    "truth_authority": false,
+    "ontology_authority": false,
+    "safety_override_authority": false,
+    "teni_authority": false
+  }
+}
