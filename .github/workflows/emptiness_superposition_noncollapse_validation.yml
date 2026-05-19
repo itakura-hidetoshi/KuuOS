@@ -32,3 +32,6 @@ jobs:
 
       - name: Run established baseline validator
         run: python3 scripts/validate_kuos_emptiness_superposition_non_collapse_established_baseline_packet_v0_2.py
+
+      - name: Run confirmed baseline validator
+        run: python3 scripts/validate_kuos_emptiness_superposition_non_collapse_confirmed_baseline_packet_v0_2.py

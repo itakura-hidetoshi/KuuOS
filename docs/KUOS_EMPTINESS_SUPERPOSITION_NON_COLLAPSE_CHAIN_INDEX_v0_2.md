@@ -19,6 +19,10 @@ docs/KUOS_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_v0_2.md
   -> scripts/validate_kuos_emptiness_superposition_non_collapse_release_packet_v0_2.py
   -> specs/kuos_emptiness_superposition_non_collapse_finality_packet_v0_2.yaml
   -> scripts/validate_kuos_emptiness_superposition_non_collapse_finality_packet_v0_2.py
+  -> specs/kuos_emptiness_superposition_non_collapse_established_baseline_packet_v0_2.yaml
+  -> scripts/validate_kuos_emptiness_superposition_non_collapse_established_baseline_packet_v0_2.py
+  -> specs/kuos_emptiness_superposition_non_collapse_confirmed_baseline_packet_v0_2.yaml
+  -> scripts/validate_kuos_emptiness_superposition_non_collapse_confirmed_baseline_packet_v0_2.py
   -> formal/KUOS/Emptiness/SuperpositionNonCollapse.lean
 ```
 
@@ -39,10 +43,12 @@ make core-governance-checks
 make all-governance-checks
 ```
 
-The finality packet validator may also be run directly:
+The packet validators may also be run directly:
 
 ```bash
 python3 scripts/validate_kuos_emptiness_superposition_non_collapse_finality_packet_v0_2.py
+python3 scripts/validate_kuos_emptiness_superposition_non_collapse_established_baseline_packet_v0_2.py
+python3 scripts/validate_kuos_emptiness_superposition_non_collapse_confirmed_baseline_packet_v0_2.py
 ```
 
 ## Fixed Points
