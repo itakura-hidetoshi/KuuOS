@@ -39,6 +39,8 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/check_qi_clinical_red_flag_consultation_governor_finality_v0_2L.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_observation_kernel_v0_2M.py"],
     [sys.executable, "tests/test_physical_quantum_qi_observation_kernel_v0_2M.py"],
+    [sys.executable, "scripts/validate_physical_quantum_qi_state_transition_kernel_v0_2N.py"],
+    [sys.executable, "tests/test_physical_quantum_qi_state_transition_kernel_v0_2N.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py"],
     [sys.executable, "tests/test_physical_quantum_qi_indranet_gauge_transport_v0_2D.py"],
