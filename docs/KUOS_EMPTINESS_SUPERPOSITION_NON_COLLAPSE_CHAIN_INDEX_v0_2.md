@@ -1,5 +1,7 @@
 # KuuOS Emptiness Superposition Non-Collapse Chain Index v0.2
 
+Machine ID: `KUOS_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_CHAIN_INDEX_v0_2`
+
 ## Purpose
 
 This chain index links the public governance artifacts for the KuuOS Emptiness Superposition Non-Collapse v0.2 addendum.
