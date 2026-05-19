@@ -1,0 +1,119 @@
+{
+  "packet_id": "physical_quantum_qi_observation_kernel_packet_v0_2M",
+  "packet_type": "physical_quantum_qi_observation_kernel_packet",
+  "version": "v0.2M",
+  "root_design": "docs/PHYSICAL_QUANTUM_QI_OBSERVATION_KERNEL_v0_2M.md",
+  "root_process_tensor": "examples/physical_quantum_qi_process_tensor_packet_v0_2F.json",
+  "root_conventional_autonomy": "examples/kuuos_qi_process_tensor_conventional_autonomy_packet_v0_2G.json",
+  "root_clinical_consultation_governor": "examples/qi_clinical_red_flag_handover_governor_packet_v0_2L.json",
+  "observation_kernel": {
+    "observation_sequence_declared": true,
+    "process_tensor_context_required": true,
+    "non_markov_memory_primary": true,
+    "history_state_not_replaced_by_snapshot": true,
+    "observation_backaction_visible": true,
+    "source_trace_required": true,
+    "qi_state_projection_is_candidate_only": true,
+    "qi_is_operator_valued_flow_not_substantial_essence": true,
+    "clinical_consultation_boundary_preserved": true
+  },
+  "metric_schema": {
+    "metrics": [
+      "qi_memory_gain",
+      "qi_backflow",
+      "qi_env_correlation_credit",
+      "qi_temporal_complexity",
+      "qi_coherence_margin",
+      "qi_recoverability_margin",
+      "qi_transport_distortion",
+      "qi_tail_residue"
+    ],
+    "metrics_are_candidate_control_diagnostics": true,
+    "metrics_are_not_truth_authority": true,
+    "metrics_are_not_clinical_authority": true,
+    "metrics_are_not_execution_authority": true
+  },
+  "observation_events": [
+    {
+      "time_index": 0,
+      "event_id": "obs_qi_000",
+      "operation_id": "A_history_probe",
+      "observation_kind": "history_probe",
+      "signal_strength": 0.62,
+      "coherence_delta": 0.08,
+      "recoverability_delta": 0.06,
+      "transport_distortion_delta": 0.12,
+      "memory_residue": 0.34,
+      "backflow_weight": 0.18,
+      "env_correlation_weight": 0.42,
+      "backaction_visible": true,
+      "source_trace": "examples/physical_quantum_qi_process_tensor_packet_v0_2F.json#operations[0]"
+    },
+    {
+      "time_index": 1,
+      "event_id": "obs_qi_001",
+      "operation_id": "A_recoverability_probe",
+      "observation_kind": "recoverability_probe",
+      "signal_strength": 0.71,
+      "coherence_delta": 0.03,
+      "recoverability_delta": 0.12,
+      "transport_distortion_delta": 0.18,
+      "memory_residue": 0.41,
+      "backflow_weight": 0.22,
+      "env_correlation_weight": 0.48,
+      "backaction_visible": true,
+      "source_trace": "examples/physical_quantum_qi_process_tensor_packet_v0_2F.json#operations[1]"
+    },
+    {
+      "time_index": 2,
+      "event_id": "obs_qi_002",
+      "operation_id": "A_transport_probe",
+      "observation_kind": "transport_probe",
+      "signal_strength": 0.58,
+      "coherence_delta": -0.02,
+      "recoverability_delta": 0.04,
+      "transport_distortion_delta": 0.21,
+      "memory_residue": 0.45,
+      "backflow_weight": 0.24,
+      "env_correlation_weight": 0.51,
+      "backaction_visible": true,
+      "source_trace": "examples/physical_quantum_qi_process_tensor_packet_v0_2F.json#memory_links[0]"
+    }
+  ],
+  "allowed_surfaces": [
+    "BeliefOS.qi_observation_candidate",
+    "MemoryOS.qi_process_history_record_candidate",
+    "ReflectionOS.qi_residue_analysis_candidate",
+    "PlanOS.qi_transport_candidate",
+    "DecisionOS.qi_safety_evaluable_candidate",
+    "QiProcessTensor.observation_update_surface"
+  ],
+  "forbidden_reductions": {
+    "observation_collapsed_to_free_readout": false,
+    "qi_state_claimed_as_truth": false,
+    "qi_state_claimed_as_clinical_action": false,
+    "qi_projection_replaces_source_history": false,
+    "current_snapshot_replaces_process_history": false,
+    "backaction_erased": false,
+    "environment_memory_erased": false,
+    "tail_residue_hidden": false,
+    "handover_forced_by_red_flag_alone": false,
+    "doctor_ai_consultation_blocked_by_default": false
+  },
+  "authority_boundary": {
+    "execution_authority": false,
+    "commit_authority": false,
+    "belief_root_commit_authority": false,
+    "memory_overwrite_authority": false,
+    "world_root_rewrite_authority": false,
+    "proof_authority": false,
+    "ontology_authority": false,
+    "truth_authority": false,
+    "clinical_authority": false,
+    "diagnosis_authority": false,
+    "prescription_authority": false,
+    "formula_selection_authority": false,
+    "triage_authority": false,
+    "safety_override_authority": false
+  }
+}
