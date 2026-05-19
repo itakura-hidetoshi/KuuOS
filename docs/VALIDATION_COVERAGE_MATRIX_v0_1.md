@@ -15,6 +15,7 @@
 | GPT GitHub integration | `make gpt-github-integration-checks` | GPT/GitHub governance integration checks |
 | MemoryOS GitHub bridge | `make memoryos-github-external-memory-checks` | External memory governance checks |
 | Two truths runtime audit | `make emptiness-two-truths-runtime-audit-checks` | Runtime audit chain checks |
+| Emptiness superposition non-collapse | `make emptiness-superposition-noncollapse-checks` | Catuskoti superposition non-collapse and release packet checks |
 | Superstring emptiness SBM | `make superstring-emptiness-sbm-checks` | String-brane-membrane validation |
 | Full governance surface | `make all-governance-checks` | Aggregate governance validation |
 
