@@ -1,0 +1,118 @@
+{
+  "packet_id": "physical_quantum_qi_process_tensor_packet_v0_2F",
+  "packet_type": "qi_process_tensor_packet",
+  "version": "v0.2F",
+  "status": "runtime_candidate",
+  "process_tensor": {
+    "process_tensor_declared": true,
+    "multi_time_structure_declared": true,
+    "operations_sequence_declared": true,
+    "causal_order_declared": true,
+    "non_markovian_by_definition": true,
+    "history_state_not_replaced_by_snapshot": true,
+    "intervention_history_declared": true,
+    "observation_backaction_declared": true,
+    "environment_memory_declared": true,
+    "temporal_correlation_declared": true,
+    "process_tensor_is_temporal_structure_not_qi_itself": true,
+    "operations": [
+      {
+        "time": "t0",
+        "operation_id": "A_0_observation",
+        "operation_kind": "observation",
+        "backaction_visible": true,
+        "qi_effect": "observation_burden_visible"
+      },
+      {
+        "time": "t1",
+        "operation_id": "A_1_boundary_intervention",
+        "operation_kind": "boundary_intervention",
+        "backaction_visible": true,
+        "qi_effect": "boundary_crossing_memory_visible"
+      },
+      {
+        "time": "t2",
+        "operation_id": "A_2_recovery_probe",
+        "operation_kind": "recovery_probe",
+        "backaction_visible": true,
+        "qi_effect": "recoverability_update_candidate"
+      }
+    ],
+    "memory_links": [
+      {
+        "from": "t0",
+        "to": "t2",
+        "link_kind": "observation_memory",
+        "tail_residue_visible": true
+      },
+      {
+        "from": "t1",
+        "to": "t2",
+        "link_kind": "boundary_leak_memory",
+        "tail_residue_visible": true
+      },
+      {
+        "from": "t0",
+        "to": "t2",
+        "link_kind": "temporal_correlation",
+        "tail_residue_visible": true
+      }
+    ]
+  },
+  "qi_on_process_tensor": {
+    "qi_as_history_bearing_relational_flow_declared": true,
+    "qi_flow_on_process_tensor_declared": true,
+    "qi_current_depends_on_operation_history": true,
+    "qi_memory_kernel_depends_on_process_history": true,
+    "qi_recoverability_depends_on_process_history": true,
+    "qi_transport_depends_on_process_history": true,
+    "qi_observation_changes_future_history": true,
+    "qi_residue_visible_across_time": true
+  },
+  "qi_process_pathologies": {
+    "qi_stagnation_as_unresolved_memory_loop_declared": true,
+    "qi_counterflow_as_runaway_feedback_declared": true,
+    "qi_deficiency_as_capacity_recoverability_coherence_loss_declared": true,
+    "runaway_feedback_guard_declared": true,
+    "trapped_recurrence_guard_declared": true,
+    "coherence_loss_guard_declared": true
+  },
+  "indranet_temporal_bridge": {
+    "indranet_as_spatial_dependent_origination_declared": true,
+    "process_tensor_as_temporal_dependent_origination_declared": true,
+    "qi_as_action_flow_across_spatial_and_temporal_engi_declared": true,
+    "gauge_transport_link_declared": true,
+    "holonomy_history_link_declared": true
+  },
+  "forbidden_reductions": {
+    "process_tensor_collapsed_to_markov_channel": false,
+    "qi_identified_with_process_tensor_itself": false,
+    "current_state_only_prediction_claimed": false,
+    "operation_history_erased": false,
+    "observation_backaction_erased": false,
+    "environment_memory_erased": false,
+    "temporal_correlation_erased": false,
+    "stagnation_loop_hidden": false,
+    "runaway_feedback_hidden": false,
+    "coherence_loss_hidden": false
+  },
+  "allowed_surfaces": [
+    "BeliefOS.temporal_observation_candidate",
+    "PlanOS.temporal_transport_candidate",
+    "MemoryOS.process_history_record_candidate",
+    "ReflectionOS.non_markov_residue_analysis_candidate",
+    "DecisionOS.safety_evaluable_candidate"
+  ],
+  "authority_boundary": {
+    "execution_authority": false,
+    "commit_authority": false,
+    "belief_root_commit_authority": false,
+    "memory_overwrite_authority": false,
+    "world_root_rewrite_authority": false,
+    "proof_authority": false,
+    "ontology_authority": false,
+    "truth_authority": false,
+    "clinical_authority": false,
+    "safety_override_authority": false
+  }
+}
