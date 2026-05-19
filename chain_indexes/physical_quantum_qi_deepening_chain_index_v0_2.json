@@ -55,7 +55,8 @@
     {"order": 48, "role": "release_closure_packet", "path": "packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json"},
     {"order": 49, "role": "validated_baseline_packet", "path": "packets/physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json"},
     {"order": 50, "role": "baseline_established_final_packet", "path": "packets/physical_quantum_qi_deepening_baseline_established_final_packet_v0_2.json"},
-    {"order": 51, "role": "dedicated_ci_workflow", "path": ".github/workflows/physical_quantum_qi_deepening_validation.yml"}
+    {"order": 51, "role": "dedicated_ci_workflow", "path": ".github/workflows/physical_quantum_qi_deepening_validation.yml"},
+    {"order": 52, "role": "qi_process_tensor_release_chain_validator", "path": "scripts/validate_qi_process_tensor_release_chain_v0_2FG.py"}
   ],
   "validation_entrypoints": [
     "make physical-quantum-qi-deepening-checks",
@@ -65,6 +66,7 @@
     "python3 tests/test_physical_quantum_qi_process_tensor_v0_2F.py",
     "python3 scripts/validate_kuuos_qi_process_tensor_conventional_autonomy_v0_2G.py",
     "python3 tests/test_kuuos_qi_process_tensor_conventional_autonomy_v0_2G.py",
+    "python3 scripts/validate_qi_process_tensor_release_chain_v0_2FG.py",
     "python3 scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py",
     "python3 scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py",
     "python3 tests/test_physical_quantum_qi_indranet_gauge_transport_v0_2D.py",
