@@ -24,6 +24,14 @@ flowchart TD
     O --> Q[Superstring Theory of Emptiness]
     O --> R[Super-Relativity Theory]
 
+    F --> V[Samvrti Qi Runtime]
+    V --> W[Conservative evidence builder]
+    W --> X[Evidence-bound Qi classification]
+    X --> Y[Licensed Qi dynamics]
+    Y --> Z[Observe-only Qi motion candidate]
+    Z --> L
+    Z --> M
+
     F --> S[Mandala multi-world layer]
     S --> T[Cross-WORLD transport]
     S --> U[Harmony function]
@@ -31,6 +39,6 @@ flowchart TD
 
 ## Interpretation
 
-This diagram shows the public architectural relation among generation, governance, decision, runtime control, and bridge references.
+This diagram shows the public architectural relation among generation, governance, decision, runtime control, bridge references, and the Qi motion chain.
 
-It does not imply execution authority or theorem authority.
+The Qi motion chain is observe-only. It exposes bounded motion candidates through validation and audit surfaces but does not imply execution authority, clinical authority, or theorem authority.
