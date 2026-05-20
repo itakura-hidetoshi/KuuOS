@@ -3,8 +3,8 @@
 
 This runner orders the current Qi implementation checks from conventional Qi
 observation through KuString bridge projection, bridge release/finality/baseline
-validation, conservative evidence building, physical classification, dynamics
-licensing, and motion pipeline validation.
+and integrity validation, conservative evidence building, physical
+classification, dynamics licensing, and motion pipeline validation.
 """
 
 from __future__ import annotations
@@ -32,6 +32,10 @@ CHECKS: List[Tuple[str, str]] = [
     (
         "kustring-qi-bridge-chain-index",
         "scripts/check_kustring_qi_bridge_chain_index_v0_1.py",
+    ),
+    (
+        "kustring-qi-bridge-integrity",
+        "scripts/validate_kustring_qi_bridge_integrity_manifest_v0_1.py",
     ),
     (
         "samvrti-to-physical-motion-builder",
