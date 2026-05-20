@@ -1,0 +1,39 @@
+{
+  "packet_id": "physical_quantum_qi_motion_pipeline_release_packet_v0_1",
+  "status": "release_candidate",
+  "module": "PhysicalQuantumQiMotionPipeline",
+  "version": "v0_1",
+  "manifest": "manifests/physical_quantum_qi_motion_pipeline_manifest_v0_1.json",
+  "core_claims": [
+    "Qi motion is not authorized by claimed_type.",
+    "Qi motion is licensed only by evidence-bound validated_type.",
+    "validated_type is the dynamics_license_source.",
+    "FullPathQi is the history-bearing process-tensor-style motion level.",
+    "The pipeline produces bounded observe-only motion candidates, not execution orders.",
+    "The medical boundary is modality-neutral: it does not deny Qi, does not deny East Asian medical reasoning, and does not privilege biomedicine by wording."
+  ],
+  "declared_boundaries": {
+    "execution_authority": false,
+    "belief_commit_authority": false,
+    "memory_overwrite_authority": false,
+    "world_root_rewrite_authority": false,
+    "safety_override_authority": false,
+    "direct_execution_allowed": false,
+    "authority_expansion": false,
+    "standalone_diagnosis_authority": false,
+    "standalone_treatment_authorization": false,
+    "medical_act_authorization": false,
+    "medical_modality_neutral": true,
+    "qi_denied_by_boundary": false,
+    "east_asian_medical_reasoning_denied": false,
+    "biomedicine_privileged_by_wording": false,
+    "professional_judgment_required": true,
+    "patient_context_required": true
+  },
+  "required_checks": [
+    "python3 scripts/validate_physical_quantum_qi_motion_pipeline_v0_1.py",
+    "python3 scripts/validate_physical_quantum_qi_motion_pipeline_release_packet_v0_1.py",
+    "python3 scripts/run_qi_motion_chain_checks_v0_1.py",
+    "python3 scripts/run_all_governance_full_checks_v0_1.py"
+  ]
+}
