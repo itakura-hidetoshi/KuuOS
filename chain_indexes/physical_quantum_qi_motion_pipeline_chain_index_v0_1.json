@@ -1,0 +1,88 @@
+{
+  "chain_index_id": "physical_quantum_qi_motion_pipeline_chain_index_v0_1",
+  "status": "baseline_chain_index_candidate",
+  "module": "PhysicalQuantumQiMotionPipeline",
+  "version": "v0_1",
+  "update_policy": "additive_only",
+  "overwrite_policy": "forbidden",
+  "same_root_required": true,
+  "chain_order": [
+    {
+      "stage": "documentation",
+      "path": "docs/PHYSICAL_QUANTUM_QI_MOTION_PIPELINE_v0_1.md",
+      "role": "human_readable_contract"
+    },
+    {
+      "stage": "implementation",
+      "path": "examples/physical_quantum_qi_motion_pipeline_minimal.py",
+      "role": "runtime_pipeline_implementation"
+    },
+    {
+      "stage": "validation_cases",
+      "path": "validation_cases/physical_quantum_qi_motion_pipeline_cases_v0_1.json",
+      "role": "behavioral_cases"
+    },
+    {
+      "stage": "runtime_validator",
+      "path": "scripts/validate_physical_quantum_qi_motion_pipeline_v0_1.py",
+      "role": "runtime_and_case_validator"
+    },
+    {
+      "stage": "manifest",
+      "path": "manifests/physical_quantum_qi_motion_pipeline_manifest_v0_1.json",
+      "role": "release_surface_manifest"
+    },
+    {
+      "stage": "release_packet",
+      "path": "packets/physical_quantum_qi_motion_pipeline_release_packet_v0_1.json",
+      "role": "release_candidate_packet"
+    },
+    {
+      "stage": "finality_packet",
+      "path": "packets/physical_quantum_qi_motion_pipeline_finality_packet_v0_1.json",
+      "role": "finality_candidate_packet"
+    },
+    {
+      "stage": "release_closure_packet",
+      "path": "packets/physical_quantum_qi_motion_pipeline_release_closure_packet_v0_1.json",
+      "role": "release_closure_candidate_packet"
+    },
+    {
+      "stage": "validated_baseline_packet",
+      "path": "packets/physical_quantum_qi_motion_pipeline_validated_baseline_packet_v0_1.json",
+      "role": "validated_baseline_candidate_packet"
+    },
+    {
+      "stage": "release_surface_validator",
+      "path": "scripts/validate_physical_quantum_qi_motion_pipeline_release_packet_v0_1.py",
+      "role": "manifest_release_finality_closure_baseline_chain_validator"
+    },
+    {
+      "stage": "chain_index",
+      "path": "chain_indexes/physical_quantum_qi_motion_pipeline_chain_index_v0_1.json",
+      "role": "ordered_chain_index"
+    },
+    {
+      "stage": "runner",
+      "path": "scripts/run_qi_motion_chain_checks_v0_1.py",
+      "role": "integrated_qi_motion_chain_runner"
+    }
+  ],
+  "baseline_invariants": {
+    "validated_type_licenses_dynamics_terms": true,
+    "claimed_type_not_authoritative": true,
+    "unlicensed_terms_ignored": true,
+    "observe_only_motion_candidate": true,
+    "direct_execution_allowed": false,
+    "authority_expansion": false,
+    "standalone_diagnosis_authority": false,
+    "standalone_treatment_authorization": false,
+    "medical_act_authorization": false,
+    "medical_modality_neutral": true,
+    "qi_denied_by_boundary": false,
+    "east_asian_medical_reasoning_denied": false,
+    "biomedicine_privileged_by_wording": false,
+    "professional_judgment_required": true,
+    "patient_context_required": true
+  }
+}
