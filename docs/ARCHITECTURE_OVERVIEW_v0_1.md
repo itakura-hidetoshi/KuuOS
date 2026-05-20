@@ -77,6 +77,38 @@ IndraNet is modeled as a gauge-theoretic relational field rather than a simple g
 
 Qi is treated as a relational effective-flow layer on the samvrti side.
 
+## Qi Motion Chain
+
+The public Qi implementation currently exposes an observe-only motion chain:
+
+```text
+Samvrti Qi Runtime
+  -> Samvrti Qi to Physical Motion Evidence Builder
+  -> Physical Quantum Qi Runtime
+  -> Physical Quantum Qi Dynamics Kernel
+  -> Physical Quantum Qi Motion Pipeline
+```
+
+Its architectural invariant is:
+
+```text
+observed conventional flow
+  -> conservative evidence packet
+  -> evidence-bound validated_type
+  -> licensed dynamics terms
+  -> bounded motion candidate
+  -> observe-only output
+```
+
+This chain is part of the public validation surface through:
+
+```text
+make qi-motion-chain-checks
+.github/workflows/qi_motion_chain_validation.yml
+```
+
+Qi motion candidates remain non-authoritative: they do not grant clinical, institutional, theorem, or execution authority.
+
 ## Yin-Yang and Wuxing
 
 Yin-Yang is modeled as a contextual thermodynamic polarity frame.
@@ -131,4 +163,5 @@ It does not automatically imply:
 - theorem correctness
 - institutional approval
 - production deployment safety
+- clinical authority
 - execution authority
