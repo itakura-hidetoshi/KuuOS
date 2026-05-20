@@ -1,0 +1,92 @@
+{
+  "schema_id": "kustring_qi_bridge_contract_v0_1",
+  "status": "append_only_bridge_surface",
+  "update_policy": "additive_only",
+  "overwrite_policy": "forbidden",
+  "bridge_role": "samvrti_qi_to_kustring_evidence_projection",
+  "input_type": "KuStringQiBridgeInput",
+  "decision_type": "KuStringQiBridgeDecision",
+  "allowed_bridge_status": [
+    "bridge_evidence_projected",
+    "bridge_blocked"
+  ],
+  "allowed_projected_level_hint": [
+    "Reject",
+    "PreQi",
+    "ProtoQi",
+    "TransportableQi",
+    "CurvedQi",
+    "CurrentQi",
+    "PhysicalQi",
+    "FullPathQi"
+  ],
+  "required_preconditions": {
+    "samvrti_status": "qi_flow_accepted_as_samvrti_reference",
+    "source_trace_nonempty": true,
+    "direct_execution_requested": false
+  },
+  "base_evidence_on_accept": [
+    "K_non_reification",
+    "delta_rel_in_K_perp"
+  ],
+  "projection_map": {
+    "gauge_connection_visible": [
+      "gauge_connection_A_mu"
+    ],
+    "string_mode_visible_and_brane_boundary_visible": [
+      "string_mode_consistency",
+      "brane_boundary_support"
+    ],
+    "curvature_visible_and_wilson_residue_visible": [
+      "curvature_F_munu",
+      "Wilson_loop_residue"
+    ],
+    "current_visible": [
+      "current_J_Qi_mu"
+    ],
+    "ward_leak_visible": [
+      "Ward_or_leak_identity"
+    ],
+    "open_state_visible": [
+      "density_state_rho",
+      "Hamiltonian_H",
+      "Lindblad_generator_L",
+      "entropy_production_Sigma",
+      "free_energy_F_beta",
+      "DPI_gap",
+      "recovery_margin",
+      "mass_gap_floor_33_20"
+    ],
+    "full_path_history_visible": [
+      "SK_plus_branch",
+      "SK_minus_branch",
+      "FV_influence_functional",
+      "memory_kernel",
+      "noise_kernel",
+      "observation_backaction",
+      "noncommutative_operation_history",
+      "path_measure_normalization"
+    ]
+  },
+  "non_collapse_boundary": {
+    "samvrti_qi_is_not_physical_qi_by_assertion": true,
+    "bridge_output_is_evidence_projection_only": true,
+    "physical_classifier_remains_responsible_for_validated_type": true
+  },
+  "authority_boundary": {
+    "observe_only": true,
+    "direct_execution_allowed": false,
+    "authority_expansion": false,
+    "standalone_diagnosis_authority": false,
+    "standalone_treatment_authorization": false,
+    "medical_act_authorization": false
+  },
+  "medical_modality_neutral_boundary": {
+    "medical_modality_neutral": true,
+    "qi_denied_by_boundary": false,
+    "east_asian_medical_reasoning_denied": false,
+    "biomedicine_privileged_by_wording": false,
+    "professional_judgment_required": true,
+    "patient_context_required": true
+  }
+}
