@@ -1,0 +1,96 @@
+id: samvrti_qi_runtime_contract_v0_1
+version: v0_1
+status: public_core_append_only_runtime_surface
+module: SamvrtiQiRuntime
+
+scope:
+  qi_definition: samvrti_effective_flow_state
+  paramartha_entity: false
+  bridge_authority: reference_only
+  final_theorem_authority: false
+  execution_authority: false
+  direct_execution_allowed: false
+  authority_expansion: forbidden
+
+runtime_carrier:
+  name: QiRuntimeInput
+  required_fields:
+    - qi_id
+    - world_id
+    - observer_surface
+    - scale_id
+    - samvrti_scope
+    - paramartha_entity_claim
+    - bridge_authority
+    - final_theorem_authority
+    - execution_authority
+    - direct_execution_requested
+    - gauge_connection_present
+    - memory_lineage_present
+    - curvature_norm
+    - holonomy_defect
+    - entropy_production_rate
+    - coherence_index
+    - recoverability_margin
+    - source_trace
+    - unresolved_blockers
+
+runtime_decision:
+  name: QiRuntimeDecision
+  allowed_decision_status:
+    - qi_flow_accepted_as_samvrti_reference
+    - qi_flow_held
+    - qi_flow_blocked
+  allowed_runtime_mode:
+    - observe_and_route
+    - hold_for_observation
+    - blocked_by_unresolved_obstruction
+    - blocked_for_non_reification
+  output_constraints:
+    direct_execution_allowed: false
+    authority_expansion: false
+    observe_only: true
+
+thresholds:
+  MAX_CURVATURE_NORM: 1.0
+  MAX_HOLONOMY_DEFECT: 0.25
+  MAX_ENTROPY_PRODUCTION_RATE: 1.0
+  MIN_COHERENCE_INDEX: 0.10
+  MIN_RECOVERABILITY_MARGIN: 0.20
+
+mandatory_invariants:
+  samvrti_only: true
+  non_reification_guard: active
+  authority_expansion_forbidden: true
+  IndraNet_gauge_connection_required: true
+  memory_lineage_required: true
+  recoverability_margin_required: true
+  unresolved_blockers_visible: true
+  curvature_and_holonomy_bounded: true
+  yin_yang_wuxing_downstream_only: true
+
+hold_conditions:
+  - QI_HOLD_MISSING_SOURCE_TRACE
+  - QI_HOLD_MISSING_INDRANET_GAUGE_CONNECTION
+  - QI_HOLD_MISSING_MEMORY_LINEAGE
+  - QI_HOLD_CURVATURE_ABOVE_BOUND
+  - QI_HOLD_HOLONOMY_DEFECT_ABOVE_BOUND
+  - QI_HOLD_ENTROPY_PRODUCTION_ABOVE_BOUND
+  - QI_HOLD_COHERENCE_BELOW_BOUND
+  - QI_HOLD_RECOVERABILITY_MARGIN_BELOW_BOUND
+  - QI_HOLD_UNRESOLVED_BLOCKERS
+
+block_conditions:
+  - QI_BLOCK_NOT_SAMVRTI_SCOPE
+  - QI_BLOCK_PARAMARTHA_ENTITY_CLAIM
+  - QI_BLOCK_AUTHORITY_EXPANSION
+  - QI_BLOCK_FINAL_THEOREM_AUTHORITY
+  - QI_BLOCK_EXECUTION_AUTHORITY
+
+accept_condition:
+  decision_status: qi_flow_accepted_as_samvrti_reference
+  runtime_mode: observe_and_route
+  reason_code: QI_ACCEPT_SAMVRTI_GAUGE_FLOW
+  qi_flow_admissible: true
+  observe_only: true
+  direct_execution_allowed: false
