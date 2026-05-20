@@ -36,6 +36,7 @@ This document summarizes the intended public release package for the KuuOS publi
 - docs/KUOS_FOURFOLD_CORE_v0_1.md
 - docs/KUOS_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_v0_2.md
 - docs/BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1.md
+- docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md
 - docs/THEOREM_AND_REFERENCE_BOUNDARY_MATRIX_v0_1.md
 - docs/GOVERNANCE_RELEASE_GATE_v0_1.md
 
@@ -60,6 +61,7 @@ This document summarizes the intended public release package for the KuuOS publi
 ### Qi Motion Chain Surface
 
 - docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md
+- docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md
 - docs/SAMVRTI_QI_RUNTIME_IMPLEMENTATION_v0_1.md
 - docs/SAMVRTI_QI_TO_PHYSICAL_MOTION_EVIDENCE_BUILDER_v0_1.md
 - docs/PHYSICAL_QUANTUM_QI_DYNAMICS_KERNEL_v0_1.md
@@ -100,6 +102,7 @@ This document summarizes the intended public release package for the KuuOS publi
 - docs/MGAP4D_CANONICAL_PROOF_REPO_REFERENCE_v0_1.md
 - docs/MASS_GAP_TO_TWO_TRUTHS_ENGINE_FORMAL_BRIDGE_v0_1.md
 - docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md
+- docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md
 
 ## Validation Entry Point
 
@@ -130,13 +133,16 @@ The public release package is intended to expose:
 - authority boundaries
 - catuskoti superposition non-collapse governance checks
 - Qi motion chain checks from Samvrti Qi observation to conservative evidence, evidence-bound classification, licensed dynamics, and observe-only motion candidate output
+- medical-modality-neutral Qi boundary wording that does not deny Qi or East Asian medical reasoning
 
 It is not intended to imply:
 
 - final theorem closure
 - institutional approval
 - production deployment authorization
-- clinical authority
+- standalone diagnosis authority
+- standalone treatment authorization
+- medical act authorization
 - execution authority
 - Qi-based execution authorization
 - reduction of Madhyamaka to quantum mechanics
