@@ -4,13 +4,14 @@
 from __future__ import annotations
 
 import importlib.util
+import json
 from pathlib import Path
 import sys
 from typing import Any, Dict, List
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILDER_PATH = ROOT / "scripts" / "build_kustring_qi_bridge_integrity_manifest_v0_1.py"
-EXPECTED_ENTRY_COUNT = 16
+CHAIN_INDEX_PATH = ROOT / "specs" / "kustring_qi_bridge_chain_index_v0_1.json"
 
 FALSE_AUTHORITY_KEYS = [
     "integrity_manifest_grants_execution_authority",
@@ -32,6 +33,23 @@ def fail(message: str) -> int:
     return 1
 
 
+def load_json(path: Path) -> Dict[str, Any]:
+    with path.open("r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def chain_paths_from_index(chain_index: Dict[str, Any]) -> List[str]:
+    paths: List[str] = []
+    for entry in chain_index.get("chain_order", []):
+        rel_path = entry.get("path")
+        if not isinstance(rel_path, str) or not rel_path:
+            raise ValueError("chain_order entry missing path")
+        paths.append(rel_path)
+    if len(paths) != len(set(paths)):
+        raise ValueError("chain_order contains duplicate paths")
+    return paths
+
+
 def load_builder():
     spec = importlib.util.spec_from_file_location("build_kustring_qi_bridge_integrity_manifest_v0_1", BUILDER_PATH)
     if spec is None or spec.loader is None:
@@ -42,8 +60,9 @@ def load_builder():
     return module
 
 
-def validate_manifest(manifest: Dict[str, Any]) -> List[str]:
+def validate_manifest(manifest: Dict[str, Any], chain_index: Dict[str, Any]) -> List[str]:
     errors: List[str] = []
+    expected_paths = chain_paths_from_index(chain_index)
     if manifest.get("manifest_id") != "kustring_qi_bridge_integrity_manifest_v0_1":
         errors.append("manifest_id mismatch")
     if manifest.get("status") != "generated_integrity_manifest":
@@ -52,14 +71,23 @@ def validate_manifest(manifest: Dict[str, Any]) -> List[str]:
         errors.append("module must be KuStringQiBridge")
     if manifest.get("version") != "v0_1":
         errors.append("version must be v0_1")
+    if manifest.get("source_of_truth") != str(CHAIN_INDEX_PATH.relative_to(ROOT)):
+        errors.append("source_of_truth must point to chain index")
+    if manifest.get("chain_index_id") != chain_index.get("chain_index_id"):
+        errors.append("chain_index_id must match chain index")
+    if manifest.get("chain_stage_count") != len(expected_paths):
+        errors.append("chain_stage_count must equal chain_order length")
     root = manifest.get("bundle_root_sha256", "")
     if not isinstance(root, str) or len(root) != 64:
         errors.append("bundle_root_sha256 must be 64 hex characters")
     entries = manifest.get("entries", [])
     if manifest.get("entry_count") != len(entries):
         errors.append("entry_count must equal number of entries")
-    if len(entries) != EXPECTED_ENTRY_COUNT:
-        errors.append(f"integrity manifest must include exactly {EXPECTED_ENTRY_COUNT} entries")
+    if len(entries) != len(expected_paths):
+        errors.append("integrity manifest entry count must match chain_order length")
+    actual_paths = [entry.get("path") for entry in entries]
+    if actual_paths != expected_paths:
+        errors.append("integrity manifest entry path order must match chain_order")
     seen = set()
     for entry in entries:
         rel_path = entry.get("path")
@@ -90,10 +118,13 @@ def validate_manifest(manifest: Dict[str, Any]) -> List[str]:
 def main() -> int:
     if not BUILDER_PATH.exists():
         return fail("missing integrity manifest builder")
+    if not CHAIN_INDEX_PATH.exists():
+        return fail("missing chain index")
     try:
+        chain_index = load_json(CHAIN_INDEX_PATH)
         builder = load_builder()
         manifest = builder.build_manifest()
-        errors = validate_manifest(manifest)
+        errors = validate_manifest(manifest, chain_index)
     except Exception as exc:
         return fail(f"integrity manifest generation failed: {exc}")
 
@@ -102,7 +133,11 @@ def main() -> int:
             print(f"[kustring-qi-bridge-integrity] ERROR: {err}", file=sys.stderr)
         return 1
 
-    print(f"[kustring-qi-bridge-integrity] PASS root={manifest['bundle_root_sha256']} entries={manifest['entry_count']}")
+    print(
+        f"[kustring-qi-bridge-integrity] PASS "
+        f"root={manifest['bundle_root_sha256']} entries={manifest['entry_count']} "
+        f"source={manifest['source_of_truth']}"
+    )
     return 0
 
 
