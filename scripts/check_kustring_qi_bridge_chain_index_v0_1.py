@@ -14,6 +14,7 @@ CHAIN_INDEX_PATH = ROOT / "specs" / "kustring_qi_bridge_chain_index_v0_1.json"
 BASELINE_PATH = ROOT / "specs" / "kustring_qi_bridge_baseline_packet_v0_1.json"
 BASELINE_FINAL_PATH = ROOT / "specs" / "kustring_qi_bridge_baseline_established_final_packet_v0_1.json"
 FINALITY_CHECKER_PATH = ROOT / "scripts" / "check_kustring_qi_bridge_finality_packet_v0_1.py"
+INTEGRITY_VALIDATOR_PATH = ROOT / "scripts" / "validate_kustring_qi_bridge_integrity_manifest_v0_1.py"
 RUNNER_PATH = ROOT / "scripts" / "run_qi_motion_chain_checks_v0_1.py"
 
 TRUE_INVARIANTS = [
@@ -23,6 +24,8 @@ TRUE_INVARIANTS = [
     "samvrti_qi_not_collapsed_into_physical_qi",
     "physical_classifier_remains_type_authority",
     "bridge_output_is_evidence_projection_only",
+    "integrity_manifest_required",
+    "same_root_bundle_root_required",
     "observe_only",
     "medical_modality_neutral",
     "professional_judgment_required",
@@ -103,8 +106,12 @@ def check_chain_index(chain: Dict[str, Any]) -> List[str]:
         errors.append("same_root_required must be true")
 
     entries = chain.get("chain_order", [])
-    if len(entries) < 10:
-        errors.append("chain_order must include at least 10 entries")
+    if len(entries) < 16:
+        errors.append("chain_order must include at least 16 entries")
+    stages = {entry.get("stage") for entry in entries}
+    for required_stage in ["integrity_manifest_builder", "integrity_manifest_validator"]:
+        if required_stage not in stages:
+            errors.append(f"chain_order missing stage: {required_stage}")
     for idx, entry in enumerate(entries):
         rel_path = entry.get("path")
         if not rel_path:
@@ -175,6 +182,8 @@ def check_runner_mentions_chain() -> List[str]:
     required = [
         "kustring-qi-bridge-chain-index",
         "scripts/check_kustring_qi_bridge_chain_index_v0_1.py",
+        "kustring-qi-bridge-integrity",
+        "scripts/validate_kustring_qi_bridge_integrity_manifest_v0_1.py",
     ]
     return [f"runner missing chain marker: {m}" for m in required if m not in text]
 
@@ -202,9 +211,12 @@ def main() -> int:
             print(f"[kustring-qi-bridge-chain] ERROR: {err}", file=sys.stderr)
         return 1
 
-    result = subprocess.run([sys.executable, str(FINALITY_CHECKER_PATH)], cwd=str(ROOT), check=False)
-    if result.returncode != 0:
+    finality_result = subprocess.run([sys.executable, str(FINALITY_CHECKER_PATH)], cwd=str(ROOT), check=False)
+    if finality_result.returncode != 0:
         return fail("finality checker failed")
+    integrity_result = subprocess.run([sys.executable, str(INTEGRITY_VALIDATOR_PATH)], cwd=str(ROOT), check=False)
+    if integrity_result.returncode != 0:
+        return fail("integrity validator failed")
 
     print("[kustring-qi-bridge-chain] PASS")
     return 0
