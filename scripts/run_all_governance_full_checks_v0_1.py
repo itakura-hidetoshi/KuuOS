@@ -43,6 +43,8 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "tests/test_physical_quantum_qi_state_transition_kernel_v0_2N.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_transition_trajectory_ledger_v0_2O.py"],
     [sys.executable, "tests/test_physical_quantum_qi_transition_trajectory_ledger_v0_2O.py"],
+    [sys.executable, "scripts/validate_physical_quantum_qi_trajectory_phase_transition_detector_v0_2P.py"],
+    [sys.executable, "tests/test_physical_quantum_qi_trajectory_phase_transition_detector_v0_2P.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py"],
     [sys.executable, "tests/test_physical_quantum_qi_indranet_gauge_transport_v0_2D.py"],
