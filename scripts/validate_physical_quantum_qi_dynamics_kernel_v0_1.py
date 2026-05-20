@@ -98,10 +98,22 @@ REQUIRED_MARKERS = {
     ],
 }
 
-MEDICAL_MODALITY_NEUTRAL_EXPECTATIONS = {
+# Runtime decisions include both authority-denial fields and medical-modality-neutral fields.
+RUNTIME_BOUNDARY_EXPECTATIONS = {
     "standalone_diagnosis_authority": False,
     "standalone_treatment_authorization": False,
     "medical_act_authorization": False,
+    "medical_modality_neutral": True,
+    "qi_denied_by_boundary": False,
+    "east_asian_medical_reasoning_denied": False,
+    "biomedicine_privileged_by_wording": False,
+    "professional_judgment_required": True,
+    "patient_context_required": True,
+}
+
+# The spec stores authority-denial fields under `authority` and modality wording fields
+# under `medical_modality_neutral_boundary`; keep those namespaces separate.
+SPEC_MEDICAL_MODALITY_NEUTRAL_EXPECTATIONS = {
     "medical_modality_neutral": True,
     "qi_denied_by_boundary": False,
     "east_asian_medical_reasoning_denied": False,
@@ -165,7 +177,7 @@ def validate_spec(spec: Dict[str, Any]) -> List[str]:
         if authority.get(key) is not False:
             errors.append(f"authority.{key} must be false")
     neutral = spec.get("medical_modality_neutral_boundary", {})
-    for key, expected in MEDICAL_MODALITY_NEUTRAL_EXPECTATIONS.items():
+    for key, expected in SPEC_MEDICAL_MODALITY_NEUTRAL_EXPECTATIONS.items():
         if neutral.get(key) is not expected:
             errors.append(f"medical_modality_neutral_boundary.{key} must be {expected}")
     licensed = spec.get("licensed_terms_by_type", {})
@@ -215,7 +227,7 @@ def validate_cases(adapter: Any, cases_doc: Dict[str, Any]) -> List[str]:
         result = asdict(decision)
         expected = case.get("expect", {})
         errors.extend(_assert_expected(name, result, expected))
-        errors.extend(_assert_expected(name, result, MEDICAL_MODALITY_NEUTRAL_EXPECTATIONS))
+        errors.extend(_assert_expected(name, result, RUNTIME_BOUNDARY_EXPECTATIONS))
         if result.get("direct_execution_allowed") is not False:
             errors.append(f"case {name}: direct_execution_allowed must remain false")
         if result.get("authority_expansion") is not False:
@@ -242,7 +254,7 @@ def validate_adapter_behavior(adapter: Any) -> List[str]:
         errors.append("FullPathQi should activate sk_fv_history_flow")
     if decision.direct_execution_allowed is not False:
         errors.append("direct_execution_allowed must remain false")
-    errors.extend(_assert_expected("validator-fullpath", result, MEDICAL_MODALITY_NEUTRAL_EXPECTATIONS))
+    errors.extend(_assert_expected("validator-fullpath", result, RUNTIME_BOUNDARY_EXPECTATIONS))
 
     proto_evidence = {key: "pass" for key in adapter.REQUIRED_EVIDENCE_BY_TYPE["ProtoQi"]}
     proto = adapter.evaluate_physical_quantum_qi_dynamics(
@@ -257,7 +269,7 @@ def validate_adapter_behavior(adapter: Any) -> List[str]:
     proto_result = asdict(proto)
     if "memory_kernel_backflow" not in proto.ignored_terms:
         errors.append("ProtoQi must ignore memory_kernel_backflow")
-    errors.extend(_assert_expected("validator-proto", proto_result, MEDICAL_MODALITY_NEUTRAL_EXPECTATIONS))
+    errors.extend(_assert_expected("validator-proto", proto_result, RUNTIME_BOUNDARY_EXPECTATIONS))
     return errors
 
 
