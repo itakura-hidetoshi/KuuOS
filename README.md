@@ -20,7 +20,7 @@ It treats AI output, plans, memories, proofs, world-model predictions, and actio
 
 空OSは、LLMや世界モデルを単なる応答生成器としてではなく、候補生成・観照・検証・監査・保留・修復・判断境界へ分けるための公開コアです。  
 その動的結合層として、**気**を relational field / process surface として扱い、空・縁起・二諦 gap を IndraNet、WORLD間輸送、記憶、信念、計画、判断へ接続します。  
-AI raw output は候補であり、信念・証明・臨床判断・実行権限・制度的権威そのものではありません。
+AI raw output は候補であり、信念・証明・診断・治療判断・実行権限・制度的権威そのものではありません。
 
 ---
 
@@ -45,15 +45,18 @@ It includes:
 It does **not** currently claim to be:
 
 - an autonomous execution engine
-- a replacement for clinical, institutional, or legal authority
+- a replacement for professional diagnosis, treatment decision, practitioner judgment, institutional authority, or legal authority
 - an externally accepted mathematical proof repository by itself
 - a direct release of final theorem authority
 - a production AGI runtime
-- a Qi-based execution or treatment authorization system
+- a Qi-based execution authorization system
+- a standalone diagnosis, standalone treatment authorization, or medical act authorization system
 - a system that allows CI, validation, or generated text to become truth by itself
 
 Passing repository validation means structural consistency of the public governance surface.  
-It does **not** grant theorem authority, clinical authority, Ten'i authority, institutional authority, Qi-based execution authority, or execution authority.
+It does **not** grant theorem authority, standalone diagnosis authority, standalone treatment authorization, medical act authorization, institutional authority, Qi-based execution authority, or execution authority.
+
+The medical boundary around Qi is modality-neutral: it does not state that biomedicine is superior, nor that Qi or East Asian medical reasoning is false. It only separates repository validation from professional diagnosis, treatment decision, and medical act authorization.
 
 ---
 
@@ -67,6 +70,7 @@ docs/QUICKSTART_v0_1.md
 docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
 docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
 docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md
+docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md
 docs/GPT_GITHUB_KUOS_INTEGRATION_v0_1.md
 docs/KUOS_GITHUB_FORMAL_VERIFICATION_BRIDGE_v0_1.md
 ROADMAP.md
@@ -85,6 +89,7 @@ For non-authority and boundary review:
 
 ```text
 docs/BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1.md
+docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md
 docs/CLAIM_LEVEL_TAXONOMY_v0_1.md
 docs/THEOREM_AND_REFERENCE_BOUNDARY_MATRIX_v0_1.md
 GOVERNANCE.md
@@ -148,7 +153,7 @@ Emptiness / dependent origination / two truths runtime audit checks:
 make emptiness-two-truths-runtime-audit-checks
 ```
 
-Again: a passing check is a consistency receipt, not truth, proof, clinical authority, Qi-based execution authority, or execution authority.
+Again: a passing check is a consistency receipt, not truth, proof, standalone diagnosis, standalone treatment authorization, medical act authorization, Qi-based execution authority, or execution authority.
 
 ---
 
@@ -221,7 +226,9 @@ summary != proof
 world-model success != decision permission
 memory persistence != belief sovereignty
 qi-readout != intervention license
-qi-motion-candidate != treatment authorization
+qi-motion-candidate != standalone diagnosis
+qi-motion-candidate != standalone treatment authorization
+qi-motion-candidate != medical act authorization
 ```
 
 ---
@@ -262,9 +269,12 @@ Fixed boundary:
 
 ```text
 Qi is not substance.
-Qi-readout is not intervention license.
+Qi is not denied by the medical boundary.
+East Asian medical reasoning is not denied by the medical boundary.
+Biomedicine is not privileged by the wording.
+Qi-readout is not intervention license by itself.
 Qi flow is not execution authority.
-Qi motion candidate is not treatment authorization.
+Qi motion candidate is not standalone diagnosis, standalone treatment authorization, or medical act authorization.
 Samvrti Qi acceptance is not FullPathQi promotion.
 IndraNet is gauge-structured, not a flat graph.
 Transport is not identity.
@@ -275,6 +285,7 @@ Key surfaces:
 
 ```text
 docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md
+docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md
 docs/SAMVRTI_QI_RUNTIME_IMPLEMENTATION_v0_1.md
 docs/SAMVRTI_QI_TO_PHYSICAL_MOTION_EVIDENCE_BUILDER_v0_1.md
 docs/PHYSICAL_QUANTUM_QI_DYNAMICS_KERNEL_v0_1.md
@@ -375,7 +386,8 @@ GPT must not become:
 ```text
 truth authority
 proof authority
-clinical authority
+standalone diagnosis authority
+standalone treatment authorization
 execution authority
 Ten'i authority
 MemoryOS overwrite authority
@@ -472,7 +484,7 @@ Before opening a PR, check:
 6. Does it keep harm / dukkha / uncertainty visible?
 7. Is it append-only or tighten-only?
 8. Which validator should run?
-9. Does the change avoid proof, clinical, Ten'i, institutional, and execution overclaim?
+9. Does the change avoid proof, diagnosis, treatment-authorization, medical-act, Ten'i, institutional, and execution overclaim?
 
 Suggested PR classification:
 
