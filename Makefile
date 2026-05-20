@@ -1,4 +1,4 @@
-.PHONY: ai-provider-boundary-checks ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks samvrti-qi-runtime-checks physical-quantum-qi-runtime-checks physical-quantum-qi-dynamics-checks physical-quantum-qi-motion-pipeline-checks physical-quantum-qi-deepening-checks formal-invariant-checks super-relativity-checks invariant-matrix-checks invariant-gate-checks invariant-pipeline-checks invariant-pipeline-build-bundle invariant-pipeline-validate-bundle invariant-pipeline-attest invariant-pipeline-release-closure invariant-pipeline-finality gpt-github-integration-checks memoryos-github-external-memory-checks emptiness-two-truths-runtime-audit-checks emptiness-superposition-noncollapse-checks superstring-emptiness-sbm-checks core-governance-checks all-governance-checks
+.PHONY: ai-provider-boundary-checks ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks samvrti-qi-runtime-checks samvrti-qi-to-physical-motion-checks physical-quantum-qi-runtime-checks physical-quantum-qi-dynamics-checks physical-quantum-qi-motion-pipeline-checks physical-quantum-qi-deepening-checks formal-invariant-checks super-relativity-checks invariant-matrix-checks invariant-gate-checks invariant-pipeline-checks invariant-pipeline-build-bundle invariant-pipeline-validate-bundle invariant-pipeline-attest invariant-pipeline-release-closure invariant-pipeline-finality gpt-github-integration-checks memoryos-github-external-memory-checks emptiness-two-truths-runtime-audit-checks emptiness-superposition-noncollapse-checks superstring-emptiness-sbm-checks core-governance-checks all-governance-checks
 
 ai-provider-boundary-checks:
 	python3 scripts/validate_ai_provider_boundary_runtime_v0_1.py
@@ -33,6 +33,10 @@ dukkha-qi-checks:
 samvrti-qi-runtime-checks:
 	python3 examples/samvrti_qi_runtime_adapter_minimal.py
 	python3 scripts/validate_samvrti_qi_runtime_v0_1.py
+
+samvrti-qi-to-physical-motion-checks:
+	python3 examples/samvrti_qi_to_physical_motion_evidence_builder_minimal.py
+	python3 scripts/validate_samvrti_qi_to_physical_motion_evidence_builder_v0_1.py
 
 physical-quantum-qi-runtime-checks:
 	python3 scripts/validate_physical_quantum_qi_runtime_contract_v0_1.py
