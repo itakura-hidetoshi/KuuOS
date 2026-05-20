@@ -9,6 +9,7 @@ Describe the append-only or tighten-only change.
 - [ ] `make all-governance-checks` passes locally, or the reason it was not run is documented.
 - [ ] GitHub Actions `All Governance Validation` is expected to pass.
 - [ ] `make gpt-github-integration-checks` passes if GPT GitHub integration files are touched.
+- [ ] `make qi-motion-chain-checks` passes if Qi motion chain files are touched.
 
 ## GPT GitHub Review Hook
 
@@ -90,6 +91,18 @@ Identify touched invariants, non-authority boundaries, validation commands, and 
 - [ ] Dukkha-as-Qi does not spiritualize away damage.
 - [ ] Dukkha-Qi routes to Paramita repair when residual suffering remains.
 
+## Qi Motion Chain Check
+
+- [ ] Samvrti Qi acceptance is not promoted to FullPathQi by assertion.
+- [ ] Conservative evidence builder remains stage-gated.
+- [ ] Qi classification remains evidence-bound, not claim-bound.
+- [ ] Validated Qi type licenses dynamics terms.
+- [ ] Unlicensed motion terms are ignored even if numeric values are present.
+- [ ] Qi motion candidate remains observe-only.
+- [ ] Direct execution request is blocked.
+- [ ] Qi motion validation is not treated as clinical, institutional, theorem, or execution authority.
+- [ ] Dedicated workflow `.github/workflows/qi_motion_chain_validation.yml` remains aligned with `make qi-motion-chain-checks`.
+
 ## Formal Invariant / Super-Relativity Check
 
 - [ ] Formal invariant spine remains witness surface, not authority.
@@ -121,13 +134,16 @@ Identify touched invariants, non-authority boundaries, validation commands, and 
 - [ ] Release bundle manifest validates.
 - [ ] Invariant matrix fixtures validate.
 - [ ] Invariant gate fixtures validate.
+- [ ] Qi motion chain fixtures validate when touched.
 
 ## Authority Boundary
 
 - [ ] This PR does not grant execution authority.
 - [ ] This PR does not grant proof authority.
 - [ ] This PR does not grant clinical authority.
+- [ ] This PR does not grant Qi-based treatment authorization.
 - [ ] This PR does not claim direct base-model transformation without explicit evidence.
 - [ ] Validation pass is not treated as truth, Ten'i, or execution authority.
 - [ ] Super-Relativity bridge is not treated as execution authority.
 - [ ] Invariant Governance Pipeline is not treated as execution authority.
+- [ ] Qi motion chain is not treated as execution authority.
