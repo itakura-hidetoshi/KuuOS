@@ -50,7 +50,16 @@ belief_commit_authority = false
 memory_overwrite_authority = false
 world_root_rewrite_authority = false
 safety_override_authority = false
+direct_execution_allowed = false
+authority_expansion = false
+observe_only = true
 ```
+
+The `direct_execution_allowed` marker is intentionally explicit because this builder constructs only a conservative evidence packet and a motion-pipeline candidate path. It does not open direct execution.
+
+## Medical-modality-neutral note
+
+This boundary does not deny Qi, East Asian medical reasoning, pattern differentiation, or practitioner judgment. It only prevents repository validation or builder output from becoming standalone diagnosis authority, standalone treatment authorization, medical act authorization, institutional authority, theorem authority, or execution authority by itself.
 
 ## Meaning
 
@@ -61,6 +70,7 @@ observed conventional flow
   -> conservative evidence packet
   -> evidence-bound classification
   -> licensed motion terms
+  -> observe-only motion candidate
 ```
 
 Thus the movement of Qi remains grounded by evidence, not by metaphysical assertion or runtime authority.
