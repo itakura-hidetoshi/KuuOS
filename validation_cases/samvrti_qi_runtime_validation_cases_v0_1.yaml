@@ -1,0 +1,59 @@
+id: samvrti_qi_runtime_validation_cases_v0_1
+version: v0_1
+module: SamvrtiQiRuntime
+
+cases:
+  - id: accepts_traced_bounded_recoverable_qi_flow
+    input:
+      samvrti_scope: true
+      paramartha_entity_claim: false
+      bridge_authority: reference_only
+      final_theorem_authority: false
+      execution_authority: false
+      direct_execution_requested: false
+      gauge_connection_present: true
+      memory_lineage_present: true
+      curvature_norm: 0.10
+      holonomy_defect: 0.01
+      entropy_production_rate: 0.10
+      coherence_index: 0.90
+      recoverability_margin: 0.90
+      source_trace: [README.md#Samvrti-Qi-Layer]
+      unresolved_blockers: []
+    expect:
+      decision_status: qi_flow_accepted_as_samvrti_reference
+      runtime_mode: observe_and_route
+      direct_execution_allowed: false
+
+  - id: blocks_paramartha_reification
+    input:
+      samvrti_scope: true
+      paramartha_entity_claim: true
+      source_trace: [negative-case]
+    expect:
+      decision_status: qi_flow_blocked
+      reason_code: QI_BLOCK_PARAMARTHA_ENTITY_CLAIM
+      direct_execution_allowed: false
+
+  - id: holds_missing_gauge_connection
+    input:
+      samvrti_scope: true
+      paramartha_entity_claim: false
+      gauge_connection_present: false
+      source_trace: [negative-case]
+    expect:
+      decision_status: qi_flow_held
+      reason_code: QI_HOLD_MISSING_INDRANET_GAUGE_CONNECTION
+      direct_execution_allowed: false
+
+  - id: holds_unresolved_blocker_without_erasure
+    input:
+      samvrti_scope: true
+      paramartha_entity_claim: false
+      unresolved_blockers: [holonomy_obstruction]
+      source_trace: [negative-case]
+    expect:
+      decision_status: qi_flow_held
+      runtime_mode: blocked_by_unresolved_obstruction
+      reason_code: QI_HOLD_UNRESOLVED_BLOCKERS
+      direct_execution_allowed: false
