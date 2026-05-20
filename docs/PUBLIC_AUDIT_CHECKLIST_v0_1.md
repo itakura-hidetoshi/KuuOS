@@ -24,12 +24,27 @@
 - [ ] validation coverage matrix exists
 - [ ] reproducibility matrix exists
 
+## Qi Motion Chain Surface
+
+- [ ] `docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md` is reachable
+- [ ] `make qi-motion-chain-checks` is documented
+- [ ] `scripts/run_qi_motion_chain_checks_v0_1.py` is reachable
+- [ ] `.github/workflows/qi_motion_chain_validation.yml` is reachable
+- [ ] Samvrti Qi acceptance is not treated as FullPathQi promotion
+- [ ] conservative evidence building is explicit
+- [ ] evidence-bound classification is explicit
+- [ ] validated type licenses dynamics terms
+- [ ] unlicensed motion terms are ignored
+- [ ] Qi motion candidate remains observe-only
+- [ ] Qi motion chain does not grant execution, clinical, institutional, or theorem authority
+
 ## Reproducibility
 
 - [ ] validators can be run locally
 - [ ] public scripts are reachable
 - [ ] manifests are inspectable
 - [ ] packet chains are inspectable
+- [ ] Qi motion chain is reproducible through local Makefile and GitHub Actions
 
 ## Governance Integrity
 
@@ -43,6 +58,7 @@
 - [ ] canonical theorem repository is identified
 - [ ] KuuOS does not claim replacement authority
 - [ ] governance validation is separated from theorem closure
+- [ ] Qi motion validation is separated from clinical or execution authority
 
 ## Reviewer Recommendation
 
@@ -58,3 +74,4 @@ A reviewer should not treat this checklist alone as evidence of:
 - production safety
 - institutional approval
 - clinical authorization
+- Qi-based execution authorization
