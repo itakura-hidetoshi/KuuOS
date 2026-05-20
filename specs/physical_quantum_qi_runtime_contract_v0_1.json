@@ -13,6 +13,22 @@
     "PhysicalQi",
     "FullPathQi"
   ],
+  "classification_output_boundary": {
+    "observe_only": true,
+    "direct_execution_allowed": false,
+    "authority_expansion": false,
+    "standalone_diagnosis_authority": false,
+    "standalone_treatment_authorization": false,
+    "medical_act_authorization": false
+  },
+  "medical_modality_neutral_boundary": {
+    "medical_modality_neutral": true,
+    "qi_denied_by_boundary": false,
+    "east_asian_medical_reasoning_denied": false,
+    "biomedicine_privileged_by_wording": false,
+    "professional_judgment_required": true,
+    "patient_context_required": true
+  },
   "physical_qi_required_evidence": [
     "K_non_reification",
     "delta_rel_in_K_perp",
