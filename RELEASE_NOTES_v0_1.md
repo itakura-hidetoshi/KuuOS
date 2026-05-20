@@ -16,6 +16,7 @@ It emphasizes:
 - non-authority preservation
 - explicit separation from canonical theorem proof repositories
 - Qi motion chain reviewability from Samvrti Qi observation to observe-only physical motion candidate output
+- medical-modality-neutral Qi boundary wording that does not deny Qi or East Asian medical reasoning
 
 ## Main Public Entry Points
 
@@ -27,6 +28,7 @@ CONTRIBUTING.md
 docs/QUICKSTART_v0_1.md
 docs/ARCHITECTURE_OVERVIEW_v0_1.md
 docs/BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1.md
+docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md
 docs/EXTERNAL_REVIEW_GUIDE_v0_1.md
 docs/VALIDATION_COVERAGE_MATRIX_v0_1.md
 docs/REPRODUCIBILITY_MATRIX_v0_1.md
@@ -87,6 +89,18 @@ The Qi motion chain is validated locally, through all-governance checks, and thr
 .github/workflows/qi_motion_chain_validation.yml
 ```
 
+## Medical-Modality-Neutral Qi Boundary
+
+This release explicitly separates repository validation from professional diagnosis, treatment decision, and medical act authorization.
+
+This boundary is medical-modality neutral:
+
+```text
+It does not state that biomedicine is superior.
+It does not state that Qi is false.
+It does not invalidate East Asian medical reasoning, pattern differentiation, or practitioner judgment.
+```
+
 ## What This Release Claims
 
 This release claims that KuuOS has a public governance-oriented repository surface that can be reviewed structurally.
@@ -100,19 +114,22 @@ It exposes:
 - architecture overview
 - external review guidance
 - Qi motion chain implementation, validation, reproducibility, CI, and audit surfaces
+- medical-modality-neutral Qi boundary documentation
 
 ## What This Release Does Not Claim
 
 This release does not claim:
 
 - institutional authority
-- clinical authority
+- standalone diagnosis authority
+- standalone treatment authorization
+- medical act authorization
 - production deployment readiness
 - independent theorem closure
 - replacement of the canonical 4D mass gap proof repository
 - autonomous execution authority
 - Qi-based execution authorization
-- Qi motion candidate as treatment authorization
+- Qi motion candidate as standalone diagnosis, standalone treatment authorization, or medical act authorization
 - Samvrti Qi acceptance as FullPathQi promotion
 
 ## Canonical Boundary
@@ -134,6 +151,7 @@ Before creating a GitHub Release:
 - [ ] README links are current
 - [ ] governance documents are present
 - [ ] Qi motion chain runbook is present
+- [ ] medical-modality-neutral Qi boundary document is present
 - [ ] validation matrix is present
 - [ ] reproducibility matrix is present
 - [ ] public audit checklist includes Qi motion chain boundaries
