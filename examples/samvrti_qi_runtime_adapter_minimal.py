@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Minimal Samvrti Qi runtime adapter for KuuOS.
 
-Qi is treated as a conventional effective flow state.  This adapter never grants
-truth authority, theorem authority, clinical authority, or execution authority.
+Qi is treated as a conventional effective flow state. This adapter never grants
+truth authority, theorem authority, standalone diagnosis authority, standalone
+treatment authorization, medical act authorization, or execution authority.
 """
 
 from __future__ import annotations
@@ -43,6 +44,15 @@ class QiRuntimeDecision:
     observe_only: bool
     direct_execution_allowed: bool = False
     authority_expansion: bool = False
+    standalone_diagnosis_authority: bool = False
+    standalone_treatment_authorization: bool = False
+    medical_act_authorization: bool = False
+    medical_modality_neutral: bool = True
+    qi_denied_by_boundary: bool = False
+    east_asian_medical_reasoning_denied: bool = False
+    biomedicine_privileged_by_wording: bool = False
+    professional_judgment_required: bool = True
+    patient_context_required: bool = True
 
 
 MAX_CURVATURE_NORM = 1.0
@@ -61,6 +71,15 @@ def _blocked(*reason_codes: str) -> QiRuntimeDecision:
         observe_only=True,
         direct_execution_allowed=False,
         authority_expansion=False,
+        standalone_diagnosis_authority=False,
+        standalone_treatment_authorization=False,
+        medical_act_authorization=False,
+        medical_modality_neutral=True,
+        qi_denied_by_boundary=False,
+        east_asian_medical_reasoning_denied=False,
+        biomedicine_privileged_by_wording=False,
+        professional_judgment_required=True,
+        patient_context_required=True,
     )
 
 
@@ -73,15 +92,24 @@ def _hold(runtime_mode: str, reason_codes: Tuple[str, ...]) -> QiRuntimeDecision
         observe_only=True,
         direct_execution_allowed=False,
         authority_expansion=False,
+        standalone_diagnosis_authority=False,
+        standalone_treatment_authorization=False,
+        medical_act_authorization=False,
+        medical_modality_neutral=True,
+        qi_denied_by_boundary=False,
+        east_asian_medical_reasoning_denied=False,
+        biomedicine_privileged_by_wording=False,
+        professional_judgment_required=True,
+        patient_context_required=True,
     )
 
 
 def evaluate_samvrti_qi_runtime(runtime_input: QiRuntimeInput) -> QiRuntimeDecision:
     """Evaluate the minimal KuuOS Samvrti Qi runtime gate.
 
-    The output is intentionally non-sovereign.  Even an accepted Qi flow only
+    The output is intentionally non-sovereign. Even an accepted Qi flow only
     authorizes observation and routing inside KuuOS governance; it never directly
-    authorizes execution or final belief/proof claims.
+    authorizes execution or final belief/proof/medical-act claims.
     """
 
     if not runtime_input.samvrti_scope:
@@ -145,7 +173,31 @@ def evaluate_samvrti_qi_runtime(runtime_input: QiRuntimeInput) -> QiRuntimeDecis
         observe_only=True,
         direct_execution_allowed=False,
         authority_expansion=False,
+        standalone_diagnosis_authority=False,
+        standalone_treatment_authorization=False,
+        medical_act_authorization=False,
+        medical_modality_neutral=True,
+        qi_denied_by_boundary=False,
+        east_asian_medical_reasoning_denied=False,
+        biomedicine_privileged_by_wording=False,
+        professional_judgment_required=True,
+        patient_context_required=True,
     )
+
+
+def _assert_neutral_boundary(decision: QiRuntimeDecision) -> None:
+    assert decision.observe_only is True
+    assert decision.direct_execution_allowed is False
+    assert decision.authority_expansion is False
+    assert decision.standalone_diagnosis_authority is False
+    assert decision.standalone_treatment_authorization is False
+    assert decision.medical_act_authorization is False
+    assert decision.medical_modality_neutral is True
+    assert decision.qi_denied_by_boundary is False
+    assert decision.east_asian_medical_reasoning_denied is False
+    assert decision.biomedicine_privileged_by_wording is False
+    assert decision.professional_judgment_required is True
+    assert decision.patient_context_required is True
 
 
 def _self_check() -> None:
@@ -161,7 +213,7 @@ def _self_check() -> None:
     assert accepted.decision_status == "qi_flow_accepted_as_samvrti_reference"
     assert accepted.runtime_mode == "observe_and_route"
     assert accepted.qi_flow_admissible is True
-    assert accepted.direct_execution_allowed is False
+    _assert_neutral_boundary(accepted)
 
     blocked = evaluate_samvrti_qi_runtime(
         QiRuntimeInput(
@@ -175,6 +227,7 @@ def _self_check() -> None:
     )
     assert blocked.decision_status == "qi_flow_blocked"
     assert "QI_BLOCK_PARAMARTHA_ENTITY_CLAIM" in blocked.reason_codes
+    _assert_neutral_boundary(blocked)
 
     held = evaluate_samvrti_qi_runtime(
         QiRuntimeInput(
@@ -188,7 +241,7 @@ def _self_check() -> None:
         )
     )
     assert held.decision_status == "qi_flow_held"
-    assert held.direct_execution_allowed is False
+    _assert_neutral_boundary(held)
 
 
 if __name__ == "__main__":
