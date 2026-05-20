@@ -1,0 +1,66 @@
+{
+  "schema_id": "physical_quantum_qi_motion_pipeline_cases_v0_1",
+  "version": "v0_1",
+  "module": "PhysicalQuantumQiMotionPipeline",
+  "cases": [
+    {
+      "name": "full_path_packet_reaches_history_bearing_motion",
+      "packet_qi_type": "FullPathQi",
+      "numeric_terms": {
+        "sk_fv_history_flow": 1.0,
+        "memory_kernel_backflow": 0.5,
+        "noise_kernel_diffusion": 0.1
+      },
+      "expect": {
+        "pipeline_status": "pipeline_motion_candidate_ready",
+        "validated_type": "FullPathQi",
+        "active_term": "sk_fv_history_flow",
+        "direct_execution_allowed": false
+      }
+    },
+    {
+      "name": "proto_packet_ignores_history_motion_terms",
+      "packet_qi_type": "ProtoQi",
+      "numeric_terms": {
+        "gauge_connection_tendency": 0.2,
+        "memory_kernel_backflow": 99.0
+      },
+      "expect": {
+        "pipeline_status": "pipeline_motion_candidate_ready",
+        "validated_type": "ProtoQi",
+        "ignored_term": "memory_kernel_backflow",
+        "direct_execution_allowed": false
+      }
+    },
+    {
+      "name": "authority_flag_blocks_pipeline_before_motion",
+      "packet_qi_type": "FullPathQi",
+      "authority_override": {
+        "execution_authority": true
+      },
+      "numeric_terms": {
+        "sk_fv_history_flow": 1.0
+      },
+      "expect": {
+        "pipeline_status": "pipeline_blocked_by_classification",
+        "validated_type": "Reject",
+        "reason_code": "QI_PIPELINE_BLOCKED_BY_CLASSIFICATION",
+        "direct_execution_allowed": false
+      }
+    },
+    {
+      "name": "mass_gap_as_source_blocks_pipeline",
+      "packet_qi_type": "FullPathQi",
+      "mass_gap_not_source": false,
+      "numeric_terms": {
+        "sk_fv_history_flow": 1.0
+      },
+      "expect": {
+        "pipeline_status": "pipeline_blocked_by_classification",
+        "validated_type": "Reject",
+        "reason_code": "QI_PIPELINE_BLOCKED_BY_CLASSIFICATION",
+        "direct_execution_allowed": false
+      }
+    }
+  ]
+}
