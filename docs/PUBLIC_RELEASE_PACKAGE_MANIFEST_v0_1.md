@@ -44,6 +44,7 @@ This document summarizes the intended public release package for the KuuOS publi
 - Makefile
 - scripts/run_all_governance_full_checks_v0_1.py
 - scripts/run_core_governance_full_checks_v0_1.py
+- scripts/run_qi_motion_chain_checks_v0_1.py
 - scripts/validate_kuos_emptiness_superposition_non_collapse_v0_2.py
 - scripts/validate_kuos_emptiness_superposition_non_collapse_release_packet_v0_2.py
 - scripts/validate_kuos_emptiness_superposition_non_collapse_finality_packet_v0_2.py
@@ -55,6 +56,30 @@ This document summarizes the intended public release package for the KuuOS publi
 - docs/REPRODUCIBILITY_MATRIX_v0_1.md
 - docs/PUBLIC_AUDIT_CHECKLIST_v0_1.md
 - docs/LEAN_COVERAGE_MAP_v0_1.md
+
+### Qi Motion Chain Surface
+
+- docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md
+- docs/SAMVRTI_QI_RUNTIME_IMPLEMENTATION_v0_1.md
+- docs/SAMVRTI_QI_TO_PHYSICAL_MOTION_EVIDENCE_BUILDER_v0_1.md
+- docs/PHYSICAL_QUANTUM_QI_DYNAMICS_KERNEL_v0_1.md
+- docs/PHYSICAL_QUANTUM_QI_MOTION_PIPELINE_v0_1.md
+- specs/samvrti_qi_runtime_contract_v0_1.yaml
+- specs/physical_quantum_qi_dynamics_kernel_v0_1.json
+- examples/samvrti_qi_runtime_adapter_minimal.py
+- examples/samvrti_qi_to_physical_motion_evidence_builder_minimal.py
+- examples/physical_quantum_qi_dynamics_kernel_minimal.py
+- examples/physical_quantum_qi_motion_pipeline_minimal.py
+- scripts/validate_samvrti_qi_runtime_v0_1.py
+- scripts/validate_samvrti_qi_to_physical_motion_evidence_builder_v0_1.py
+- scripts/validate_physical_quantum_qi_dynamics_kernel_v0_1.py
+- scripts/validate_physical_quantum_qi_motion_pipeline_v0_1.py
+- scripts/run_qi_motion_chain_checks_v0_1.py
+- validation_cases/samvrti_qi_runtime_validation_cases_v0_1.yaml
+- validation_cases/samvrti_qi_to_physical_motion_evidence_builder_cases_v0_1.json
+- validation_cases/physical_quantum_qi_dynamics_kernel_cases_v0_1.json
+- validation_cases/physical_quantum_qi_motion_pipeline_cases_v0_1.json
+- .github/workflows/qi_motion_chain_validation.yml
 
 ### Spec and Release Packet Surface
 
@@ -74,11 +99,18 @@ This document summarizes the intended public release package for the KuuOS publi
 - docs/KUOS_PHYSICS_GAP_BRIDGE_v0_1.md
 - docs/MGAP4D_CANONICAL_PROOF_REPO_REFERENCE_v0_1.md
 - docs/MASS_GAP_TO_TWO_TRUTHS_ENGINE_FORMAL_BRIDGE_v0_1.md
+- docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md
 
 ## Validation Entry Point
 
 ```bash
 make all-governance-checks
+```
+
+For the Qi motion chain:
+
+```bash
+make qi-motion-chain-checks
 ```
 
 For the v0.2 emptiness superposition non-collapse addendum:
@@ -97,6 +129,7 @@ The public release package is intended to expose:
 - reproducibility boundaries
 - authority boundaries
 - catuskoti superposition non-collapse governance checks
+- Qi motion chain checks from Samvrti Qi observation to conservative evidence, evidence-bound classification, licensed dynamics, and observe-only motion candidate output
 
 It is not intended to imply:
 
@@ -105,4 +138,5 @@ It is not intended to imply:
 - production deployment authorization
 - clinical authority
 - execution authority
+- Qi-based execution authorization
 - reduction of Madhyamaka to quantum mechanics
