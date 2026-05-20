@@ -8,6 +8,7 @@
 | Workflow entrypoints | Yes | GitHub Actions workflows exposed |
 | Architecture documentation | Yes | Public docs included |
 | Non-authority boundary review | Yes | Governance documents included |
+| Qi motion chain | Yes | Reproducible through `make qi-motion-chain-checks`; validates Samvrti Qi observation, conservative evidence building, evidence-bound classification, licensed dynamics, and observe-only motion candidate surfaces |
 | Lean theorem closure | Partial | Canonical theorem repo separated |
 | Full MGAP4D theorem closure | No | Canonical proof authority remains external boundary |
 | Clinical systems | No | Not included in public repository |
