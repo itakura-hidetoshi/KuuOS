@@ -4,7 +4,9 @@
 
 KuuOS is intentionally non-sovereign.
 
-No single layer may silently escalate itself into truth, execution, institutional, clinical, or theorem authority.
+No single layer may silently escalate itself into truth, execution, institutional, standalone diagnosis, standalone treatment authorization, medical act authorization, or theorem authority.
+
+This policy is medical-modality neutral. It does not assert that biomedicine is superior, nor that Qi or East Asian medical reasoning is false. It only separates repository validation from professional diagnosis, treatment decision, and medical act authorization.
 
 ## Boundary Rules
 
@@ -66,11 +68,15 @@ The following are prohibited:
 samvrti_acceptance -> FullPathQi promotion by assertion
 claimed_type -> validated_type without evidence
 unlicensed_motion_term -> active dynamics contribution
-qi_motion_candidate -> clinical authorization
+qi_motion_candidate -> standalone diagnosis authority
+qi_motion_candidate -> standalone treatment authorization
+qi_motion_candidate -> medical act authorization
 qi_motion_candidate -> execution authorization
 qi_motion_validation -> theorem authority
 qi_motion_validation -> institutional authority
 ```
+
+Qi motion output may support structured observation and reasoning inside KuuOS governance. It must not be read as dismissing Qi, East Asian medical theory, or practitioner judgment.
 
 ## Physics-Facing Boundary
 
@@ -97,10 +103,11 @@ Passing validation does not mean:
 
 - a theorem has been externally accepted
 - a physical theory has consensus confirmation
-- a clinical action is authorized
+- a professional diagnosis or treatment decision has been made
+- a medical act is authorized
 - deployment is safe
 - execution authority exists
-- Qi-based treatment or execution authorization exists
+- Qi-based treatment or execution authorization exists by validation alone
 
 ## Governance Orientation
 
@@ -126,7 +133,9 @@ The following silent escalations are prohibited:
 - bridge -> theorem closure
 - validation -> institutional approval
 - Qi readout -> intervention license
-- Qi motion candidate -> treatment authorization
+- Qi motion candidate -> standalone diagnosis authority
+- Qi motion candidate -> standalone treatment authorization
+- Qi motion candidate -> medical act authorization
 - Qi motion validation -> execution authority
 - Samvrti Qi acceptance -> FullPathQi promotion
 
@@ -141,3 +150,4 @@ Reviewers should evaluate whether the repository preserves these boundaries cons
 - packet chains
 - workflow entrypoints
 - Qi motion chain surfaces
+- medical-modality-neutral wording
