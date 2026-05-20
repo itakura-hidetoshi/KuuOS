@@ -1,0 +1,57 @@
+{
+  "packet_id": "samvrti_qi_to_physical_motion_evidence_builder_finality_packet_v0_1",
+  "status": "finality_candidate",
+  "module": "SamvrtiQiToPhysicalMotionEvidenceBuilder",
+  "version": "v0_1",
+  "root_release_packet": "packets/samvrti_qi_to_physical_motion_evidence_builder_release_packet_v0_1.json",
+  "manifest": "manifests/samvrti_qi_to_physical_motion_evidence_builder_manifest_v0_1.json",
+  "finality_declaration": {
+    "additive_only": true,
+    "tighten_only_default": true,
+    "overwrite_forbidden": true,
+    "destructive_replacement_forbidden": true,
+    "same_root_required": true,
+    "nonexecution_by_default": true,
+    "samvrti_non_promotion_required": true,
+    "kustring_bridge_gate_required": true,
+    "physical_classifier_authority_required": true,
+    "medical_modality_neutral_boundary_required": true
+  },
+  "locked_invariants": [
+    "Samvrti Qi acceptance is not PhysicalQi or FullPathQi",
+    "Samvrti Qi acceptance opens only conservative evidence packet construction",
+    "KuStringQiBridge remains the evidence projection gate",
+    "physical classifier remains the validated_type authority",
+    "builder output is routed to the motion pipeline as observe-only support",
+    "builder output grants no execution authority",
+    "builder output grants no diagnosis authority",
+    "builder output grants no treatment authorization",
+    "builder output grants no medical act authorization",
+    "medical modality boundary is neutral",
+    "Qi is not denied by boundary wording",
+    "East Asian medical reasoning is not denied by boundary wording",
+    "biomedicine is not privileged by wording",
+    "professional judgment remains required",
+    "patient context remains required"
+  ],
+  "authority_boundary": {
+    "execution_authority": false,
+    "belief_commit_authority": false,
+    "memory_overwrite_authority": false,
+    "world_root_rewrite_authority": false,
+    "safety_override_authority": false,
+    "direct_execution_allowed": false,
+    "authority_expansion": false,
+    "standalone_diagnosis_authority": false,
+    "standalone_treatment_authorization": false,
+    "medical_act_authorization": false
+  },
+  "medical_modality_neutral_boundary": {
+    "medical_modality_neutral": true,
+    "qi_denied_by_boundary": false,
+    "east_asian_medical_reasoning_denied": false,
+    "biomedicine_privileged_by_wording": false,
+    "professional_judgment_required": true,
+    "patient_context_required": true
+  }
+}
