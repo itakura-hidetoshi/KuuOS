@@ -47,9 +47,19 @@ runtime_decision:
     - blocked_by_unresolved_obstruction
     - blocked_for_non_reification
   output_constraints:
+    observe_only: true
     direct_execution_allowed: false
     authority_expansion: false
-    observe_only: true
+    standalone_diagnosis_authority: false
+    standalone_treatment_authorization: false
+    medical_act_authorization: false
+  medical_modality_neutral_boundary:
+    medical_modality_neutral: true
+    qi_denied_by_boundary: false
+    east_asian_medical_reasoning_denied: false
+    biomedicine_privileged_by_wording: false
+    professional_judgment_required: true
+    patient_context_required: true
 
 thresholds:
   MAX_CURVATURE_NORM: 1.0
@@ -68,6 +78,10 @@ mandatory_invariants:
   unresolved_blockers_visible: true
   curvature_and_holonomy_bounded: true
   yin_yang_wuxing_downstream_only: true
+  medical_modality_neutral: true
+  qi_denied_by_boundary: false
+  east_asian_medical_reasoning_denied: false
+  biomedicine_privileged_by_wording: false
 
 hold_conditions:
   - QI_HOLD_MISSING_SOURCE_TRACE
@@ -94,3 +108,10 @@ accept_condition:
   qi_flow_admissible: true
   observe_only: true
   direct_execution_allowed: false
+  standalone_diagnosis_authority: false
+  standalone_treatment_authorization: false
+  medical_act_authorization: false
+  medical_modality_neutral: true
+  qi_denied_by_boundary: false
+  east_asian_medical_reasoning_denied: false
+  biomedicine_privileged_by_wording: false
