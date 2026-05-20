@@ -1,4 +1,4 @@
-.PHONY: ai-provider-boundary-checks ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks samvrti-qi-runtime-checks samvrti-qi-to-physical-motion-checks physical-quantum-qi-runtime-checks physical-quantum-qi-dynamics-checks physical-quantum-qi-motion-pipeline-checks physical-quantum-qi-deepening-checks formal-invariant-checks super-relativity-checks invariant-matrix-checks invariant-gate-checks invariant-pipeline-checks invariant-pipeline-build-bundle invariant-pipeline-validate-bundle invariant-pipeline-attest invariant-pipeline-release-closure invariant-pipeline-finality gpt-github-integration-checks memoryos-github-external-memory-checks emptiness-two-truths-runtime-audit-checks emptiness-superposition-noncollapse-checks superstring-emptiness-sbm-checks core-governance-checks all-governance-checks
+.PHONY: ai-provider-boundary-checks ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks qi-motion-chain-checks samvrti-qi-runtime-checks samvrti-qi-to-physical-motion-checks physical-quantum-qi-runtime-checks physical-quantum-qi-dynamics-checks physical-quantum-qi-motion-pipeline-checks physical-quantum-qi-deepening-checks formal-invariant-checks super-relativity-checks invariant-matrix-checks invariant-gate-checks invariant-pipeline-checks invariant-pipeline-build-bundle invariant-pipeline-validate-bundle invariant-pipeline-attest invariant-pipeline-release-closure invariant-pipeline-finality gpt-github-integration-checks memoryos-github-external-memory-checks emptiness-two-truths-runtime-audit-checks emptiness-superposition-noncollapse-checks superstring-emptiness-sbm-checks core-governance-checks all-governance-checks
 
 ai-provider-boundary-checks:
 	python3 scripts/validate_ai_provider_boundary_runtime_v0_1.py
@@ -29,6 +29,9 @@ dukkha-checks:
 
 dukkha-qi-checks:
 	python3 scripts/validate_dukkha_as_qi_mode_v0_1.py
+
+qi-motion-chain-checks:
+	python3 scripts/run_qi_motion_chain_checks_v0_1.py
 
 samvrti-qi-runtime-checks:
 	python3 examples/samvrti_qi_runtime_adapter_minimal.py
