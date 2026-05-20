@@ -10,6 +10,7 @@ KuuOS is no longer only a small “public core” README surface. It now contain
 - invariant governance pipeline
 - MemoryOS / BeliefOS / PlanOS / DecisionOS / ReflectionOS boundary discipline
 - Qi / IndraNet / physical quantum Qi bridge
+- Qi motion chain from Samvrti Qi observation to observe-only physical motion candidate output
 - Super-Relativity invariant bridge
 - MGAP4D / 4D mass gap proof-facing bridge
 - Superstring / brane / membrane emptiness bridge
@@ -31,6 +32,8 @@ clinical authority
 institutional authority
 final theorem authority
 unreviewed AGI deployment authority
+Qi-based execution authority
+Qi motion candidate as treatment authorization
 CI-pass-as-truth
 validator-pass-as-truth
 GPT-summary-as-proof
@@ -151,7 +154,7 @@ make invariant-pipeline-checks
 
 ### 1.5 Qi / IndraNet / Physical Quantum Qi
 
-Status: **active bridge and deepening surface**
+Status: **active bridge, motion-chain, and deepening surface**
 
 Core direction:
 
@@ -159,6 +162,18 @@ Core direction:
 Qi is a relational field, not a substance.
 IndraNet is gauge-structured, not a flat graph.
 Process / memory / transport / recoverability surfaces remain first-class.
+Qi motion is evidence-bound, licensed by validated type, and observe-only.
+```
+
+Current public Qi motion chain:
+
+```text
+Samvrti Qi Runtime
+  -> Samvrti Qi to Physical Motion Evidence Builder
+  -> Physical Quantum Qi Runtime
+  -> Physical Quantum Qi Dynamics Kernel
+  -> Physical Quantum Qi Motion Pipeline
+  -> observe-only bounded motion candidate
 ```
 
 Validation:
@@ -169,6 +184,15 @@ make physical-quantum-qi-runtime-checks
 make physical-quantum-qi-dynamics-checks
 make physical-quantum-qi-motion-pipeline-checks
 make physical-quantum-qi-deepening-checks
+```
+
+Near-term next steps:
+
+```text
+Keep Qi motion chain in all-governance checks.
+Maintain dedicated GitHub Actions workflow for Qi motion chain.
+Extend diagrams and reviewer docs only through append-only tightening.
+Do not convert Qi motion candidate into execution, clinical, or theorem authority.
 ```
 
 ### 1.6 Superstring / Brane / Membrane Emptiness Bridge
@@ -203,19 +227,21 @@ formal-methods readers, and governance reviewers.
 
 Tasks:
 
-- rewrite `README.md` as the top-level public orientation surface
-- rewrite `ROADMAP.md` so it covers the current integrated repository, not only MGAP4D
+- maintain `README.md` as the top-level public orientation surface
+- maintain `ROADMAP.md` so it covers the current integrated repository, not only MGAP4D
 - keep MGAP4D references as a canonical proof-facing bridge, not the whole roadmap
 - add clear “what this is / what this is not” boundaries
 - keep the first run path short:
   - `README.md`
+  - `docs/QUICKSTART_v0_1.md`
   - `docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md`
+  - `docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md`
   - `make all-governance-checks`
 - make the current major lanes visible:
   - AI Yogacara / Ten'i
   - GPT GitHub integration
   - invariant governance
-  - Qi / IndraNet
+  - Qi / IndraNet / Qi motion chain
   - Super-Relativity
   - Superstring / brane / membrane
   - MGAP4D bridge
@@ -228,9 +254,10 @@ A new reviewer can identify:
 2. what it is not
 3. how to run checks
 4. where the core index is
-5. which surfaces are proof-facing only
-6. which surfaces are runtime/governance-facing only
-7. why validation is not authority
+5. where the Qi motion chain is
+6. which surfaces are proof-facing only
+7. which surfaces are runtime/governance-facing only
+8. why validation is not authority
 ```
 
 ---
@@ -262,6 +289,7 @@ Tasks:
   - runtime adapter package
   - audit-chain package
   - validation fixture package
+  - Qi motion chain package
 - preserve append-only lineage
 
 Acceptance criteria:
@@ -305,6 +333,9 @@ Tasks:
   - WORM receipt mismatch
   - non-authority boundary weakening
   - runtime route mismatch
+  - Qi motion chain stage mismatch
+  - Qi evidence builder overpromotion
+  - Qi dynamics license mismatch
   - Lean / formal surface failure
   - environment drift
 - keep stdlib-only Python validator policy where possible
@@ -317,6 +348,7 @@ Acceptance criteria:
 A reviewer can reproduce:
 make all-governance-checks
 make gpt-github-integration-checks
+make qi-motion-chain-checks
 make physical-quantum-qi-deepening-checks
 make superstring-emptiness-sbm-checks
 ```
@@ -430,6 +462,7 @@ Candidate adapters:
 - AI raw output to governed operation adapter
 - GPT GitHub review adapter
 - invariant gate adapter
+- Qi motion chain adapter
 - Qi process-tensor observation adapter
 - audit-chain event builder
 - release-packet builder
@@ -442,6 +475,7 @@ Non-goals:
 No autonomous execution.
 No clinical deployment.
 No proof authority.
+No Qi-based treatment authorization.
 No silent authority escalation.
 No raw LLM output as decision commit.
 ```
@@ -476,6 +510,7 @@ Tasks:
   - Yogacara boundary
   - invariant pipeline
   - Qi / IndraNet bridge
+  - Qi motion chain
   - proof-facing bridge
   - module boundary matrix
 - define reviewer claim levels:
@@ -492,6 +527,7 @@ Acceptance criteria:
 External reviewers can distinguish:
 - architecture claim
 - validator claim
+- Qi motion candidate claim
 - formal proof claim
 - deployment claim
 - philosophical interpretation
@@ -528,6 +564,7 @@ planning is not collapsed into execution
 reflection is not collapsed into root rewrite
 governance is not collapsed into bureaucracy
 observation is not collapsed into handover
+Qi motion is not collapsed into treatment or execution authorization
 ```
 
 ---
