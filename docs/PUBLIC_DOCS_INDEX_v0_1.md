@@ -29,6 +29,7 @@ This index provides a stable public entrypoint for external reviewers.
 | `SECURITY.md` | Security and disclosure policy |
 | `CONTRIBUTING.md` | Contribution guidance |
 | `docs/BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1.md` | Non-authority and boundary policy |
+| `docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md` | Medical-modality-neutral Qi boundary |
 | `docs/THEOREM_AND_REFERENCE_BOUNDARY_MATRIX_v0_1.md` | Theorem/reference authority separation |
 
 ## Validation and Reproducibility
@@ -59,6 +60,7 @@ This index provides a stable public entrypoint for external reviewers.
 | `docs/MGAP4D_CANONICAL_PROOF_REPO_REFERENCE_v0_1.md` | Canonical proof repository reference |
 | `docs/MASS_GAP_TO_TWO_TRUTHS_ENGINE_FORMAL_BRIDGE_v0_1.md` | Mass gap to Two Truths Engine bridge |
 | `docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md` | Qi motion chain operational bridge |
+| `docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md` | Qi medical-boundary wording clarification |
 
 ## Release Preparation
 
@@ -88,4 +90,4 @@ make emptiness-superposition-noncollapse-checks
 
 ## Interpretation
 
-This index is a public navigation surface. It does not grant theorem, clinical, institutional, or execution authority.
+This index is a public navigation surface. It does not grant theorem, standalone diagnosis, standalone treatment authorization, medical act authorization, institutional authority, or execution authority.
