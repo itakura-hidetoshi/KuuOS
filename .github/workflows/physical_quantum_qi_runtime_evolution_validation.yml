@@ -15,6 +15,7 @@ on:
       - 'docs/PHYSICAL_QUANTUM_QI_TRAJECTORY_PHASE_TRANSITION_DETECTOR_v0_2P.md'
       - 'docs/PHYSICAL_QUANTUM_QI_PHASE_TRANSITION_RESPONSE_GOVERNOR_v0_2Q.md'
       - 'docs/PHYSICAL_QUANTUM_QI_RESPONSE_FEEDBACK_LOOP_v0_2R.md'
+      - 'docs/PHYSICAL_QUANTUM_QI_RUNTIME_EVOLUTION_CI_POST_MERGE_RECEIPT_v0_2JR.md'
       - 'specs/qi_bensho_treatment_route_candidate_contract_v0_2J.json'
       - 'specs/qi_bensho_decisionos_clinician_handoff_contract_v0_2K.json'
       - 'specs/qi_clinical_red_flag_handover_governor_contract_v0_2L.json'
@@ -43,6 +44,7 @@ on:
       - 'scripts/validate_qi_bensho_decisionos_clinician_handoff_v0_2K.py'
       - 'scripts/validate_qi_clinical_red_flag_handover_governor_v0_2L.py'
       - 'scripts/check_qi_clinical_red_flag_consultation_governor_finality_v0_2L.py'
+      - 'scripts/check_physical_quantum_qi_runtime_evolution_ci_receipt_v0_2JR.py'
       - 'scripts/validate_physical_quantum_qi_observation_kernel_v0_2M.py'
       - 'scripts/validate_physical_quantum_qi_state_transition_kernel_v0_2N.py'
       - 'scripts/validate_physical_quantum_qi_transition_trajectory_ledger_v0_2O.py'
@@ -64,6 +66,7 @@ on:
       - 'docs/PHYSICAL_QUANTUM_QI_TRAJECTORY_PHASE_TRANSITION_DETECTOR_v0_2P.md'
       - 'docs/PHYSICAL_QUANTUM_QI_PHASE_TRANSITION_RESPONSE_GOVERNOR_v0_2Q.md'
       - 'docs/PHYSICAL_QUANTUM_QI_RESPONSE_FEEDBACK_LOOP_v0_2R.md'
+      - 'docs/PHYSICAL_QUANTUM_QI_RUNTIME_EVOLUTION_CI_POST_MERGE_RECEIPT_v0_2JR.md'
       - 'specs/qi_bensho_treatment_route_candidate_contract_v0_2J.json'
       - 'specs/qi_bensho_decisionos_clinician_handoff_contract_v0_2K.json'
       - 'specs/qi_clinical_red_flag_handover_governor_contract_v0_2L.json'
@@ -92,6 +95,7 @@ on:
       - 'scripts/validate_qi_bensho_decisionos_clinician_handoff_v0_2K.py'
       - 'scripts/validate_qi_clinical_red_flag_handover_governor_v0_2L.py'
       - 'scripts/check_qi_clinical_red_flag_consultation_governor_finality_v0_2L.py'
+      - 'scripts/check_physical_quantum_qi_runtime_evolution_ci_receipt_v0_2JR.py'
       - 'scripts/validate_physical_quantum_qi_observation_kernel_v0_2M.py'
       - 'scripts/validate_physical_quantum_qi_state_transition_kernel_v0_2N.py'
       - 'scripts/validate_physical_quantum_qi_transition_trajectory_ledger_v0_2O.py'
@@ -128,6 +132,7 @@ jobs:
           echo "Trajectory phase transition detector: v0.2P"
           echo "Phase transition response governor: v0.2Q"
           echo "Response feedback loop: v0.2R"
+          echo "Runtime evolution CI receipt: v0.2J-R"
           echo "Boundary: candidate-only, append-only, non-authoritative, consultation-preserving"
 
       - name: Run Physical Quantum Qi v0.2J-R runtime evolution checks
