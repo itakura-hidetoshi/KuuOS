@@ -48,9 +48,24 @@
     "world_root_rewrite_authority": false,
     "safety_override_authority": false
   },
+  "expected_classification_boundary": {
+    "observe_only": true,
+    "direct_execution_allowed": false,
+    "authority_expansion": false,
+    "standalone_diagnosis_authority": false,
+    "standalone_treatment_authorization": false,
+    "medical_act_authorization": false,
+    "medical_modality_neutral": true,
+    "qi_denied_by_boundary": false,
+    "east_asian_medical_reasoning_denied": false,
+    "biomedicine_privileged_by_wording": false,
+    "professional_judgment_required": true,
+    "patient_context_required": true
+  },
   "fatal_flags": [],
   "notes": [
     "Qi is validated as FullPathQi because PhysicalQi evidence and SK/FV history evidence are present.",
-    "This packet grants no execution, belief commit, memory overwrite, world-root rewrite, or safety override authority."
+    "This packet grants no execution, belief commit, memory overwrite, world-root rewrite, safety override, standalone diagnosis, standalone treatment authorization, or medical act authorization.",
+    "The classification boundary does not deny Qi, does not invalidate East Asian medical reasoning, and does not privilege biomedicine by wording."
   ]
 }
