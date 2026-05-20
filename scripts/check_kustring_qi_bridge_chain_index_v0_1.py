@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Check KuString Qi Bridge chain index and baseline packet v0.1."""
+"""Check KuString Qi Bridge chain index and baseline packets v0.1."""
 
 from __future__ import annotations
 
@@ -12,6 +12,7 @@ from typing import Any, Dict, List
 ROOT = Path(__file__).resolve().parents[1]
 CHAIN_INDEX_PATH = ROOT / "specs" / "kustring_qi_bridge_chain_index_v0_1.json"
 BASELINE_PATH = ROOT / "specs" / "kustring_qi_bridge_baseline_packet_v0_1.json"
+BASELINE_FINAL_PATH = ROOT / "specs" / "kustring_qi_bridge_baseline_established_final_packet_v0_1.json"
 FINALITY_CHECKER_PATH = ROOT / "scripts" / "check_kustring_qi_bridge_finality_packet_v0_1.py"
 RUNNER_PATH = ROOT / "scripts" / "run_qi_motion_chain_checks_v0_1.py"
 
@@ -54,6 +55,29 @@ TRUE_BASELINE_CLAIMS = [
     "physical_classifier_remains_type_authority",
     "bridge_output_is_evidence_projection_only",
     "medical_modality_neutral_boundary_preserved",
+]
+
+TRUE_FINAL_CLAIMS = [
+    "implementation_chain_complete",
+    "documentation_chain_complete",
+    "contract_chain_complete",
+    "validation_cases_chain_complete",
+    "validator_chain_complete",
+    "release_chain_complete",
+    "finality_chain_complete",
+    "baseline_chain_complete",
+    "runner_inclusion_complete",
+    "samvrti_to_physical_bridge_explicit",
+    "kustring_projection_required",
+    "string_brane_gauge_current_history_projection_required",
+    "samvrti_qi_not_collapsed_into_physical_qi",
+    "physical_classifier_remains_type_authority",
+    "bridge_output_is_evidence_projection_only",
+    "medical_modality_neutral_boundary_preserved",
+    "append_only_lineage_preserved",
+    "same_root_required",
+    "overwrite_forbidden",
+    "destructive_replacement_forbidden",
 ]
 
 
@@ -120,6 +144,32 @@ def check_baseline_packet(packet: Dict[str, Any]) -> List[str]:
     return errors
 
 
+def check_baseline_final_packet(packet: Dict[str, Any]) -> List[str]:
+    errors: List[str] = []
+    if packet.get("packet_id") != "kustring_qi_bridge_baseline_established_final_packet_v0_1":
+        errors.append("baseline final packet_id mismatch")
+    if packet.get("status") != "baseline_established_final":
+        errors.append("baseline final status must be baseline_established_final")
+    scope = packet.get("established_scope", {})
+    if scope.get("semantic_status") != "baseline_fixed_additive_only":
+        errors.append("established_scope.semantic_status must be baseline_fixed_additive_only")
+    if scope.get("execution_status") != "non_authoritative_observe_only":
+        errors.append("established_scope.execution_status must be non_authoritative_observe_only")
+    claims = packet.get("established_claims", {})
+    for key in TRUE_FINAL_CLAIMS:
+        if claims.get(key) is not True:
+            errors.append(f"established_claims.{key} must be true")
+    forbidden = packet.get("forbidden_interpretations", {})
+    if not forbidden:
+        errors.append("forbidden_interpretations must be nonempty")
+    for key, value in forbidden.items():
+        if value is not False:
+            errors.append(f"forbidden_interpretations.{key} must be false")
+    if "future_updates_additive_only" not in packet.get("final_rule", ""):
+        errors.append("final_rule must require future_updates_additive_only")
+    return errors
+
+
 def check_runner_mentions_chain() -> List[str]:
     text = RUNNER_PATH.read_text(encoding="utf-8")
     required = [
@@ -134,13 +184,17 @@ def main() -> int:
         return fail("missing chain index")
     if not BASELINE_PATH.exists():
         return fail("missing baseline packet")
+    if not BASELINE_FINAL_PATH.exists():
+        return fail("missing baseline established final packet")
 
     chain = load_json(CHAIN_INDEX_PATH)
     baseline = load_json(BASELINE_PATH)
+    baseline_final = load_json(BASELINE_FINAL_PATH)
 
     errors: List[str] = []
     errors.extend(check_chain_index(chain))
     errors.extend(check_baseline_packet(baseline))
+    errors.extend(check_baseline_final_packet(baseline_final))
     errors.extend(check_runner_mentions_chain())
 
     if errors:
