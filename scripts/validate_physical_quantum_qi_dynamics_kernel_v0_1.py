@@ -8,11 +8,12 @@ all outputs remain observe-only with no authority expansion.
 
 from __future__ import annotations
 
+from dataclasses import asdict
 import importlib.util
 import json
 from pathlib import Path
 import sys
-from typing import Any, Dict, List
+from typing import Any, Dict, List, Mapping
 
 ROOT = Path(__file__).resolve().parents[1]
 DOC_PATH = ROOT / "docs" / "PHYSICAL_QUANTUM_QI_DYNAMICS_KERNEL_v0_1.md"
@@ -33,6 +34,13 @@ REQUIRED_MARKERS = {
         "process-tensor-style motion terms",
         "direct_execution_allowed = false",
         "authority_expansion = false",
+        "standalone_diagnosis_authority = false",
+        "standalone_treatment_authorization = false",
+        "medical_act_authorization = false",
+        "medical_modality_neutral = true",
+        "qi_denied_by_boundary = false",
+        "east_asian_medical_reasoning_denied = false",
+        "biomedicine_privileged_by_wording = false",
     ],
     "specs/physical_quantum_qi_dynamics_kernel_v0_1.json": [
         "physical_quantum_qi_dynamics_kernel_v0_1",
@@ -45,6 +53,13 @@ REQUIRED_MARKERS = {
         "path_measure_normalization_guard",
         "direct_execution_allowed",
         "authority_expansion",
+        "standalone_diagnosis_authority",
+        "standalone_treatment_authorization",
+        "medical_act_authorization",
+        "medical_modality_neutral_boundary",
+        "qi_denied_by_boundary",
+        "east_asian_medical_reasoning_denied",
+        "biomedicine_privileged_by_wording",
     ],
     "examples/physical_quantum_qi_dynamics_kernel_minimal.py": [
         "class QiDynamicsInput",
@@ -56,6 +71,13 @@ REQUIRED_MARKERS = {
         "QI_DYN_HOLD_REQUIRED_EVIDENCE_MISSING",
         "QI_DYN_BLOCK_AUTHORITY_EXPANSION_ATTEMPT",
         "direct_execution_allowed=False",
+        "standalone_diagnosis_authority: bool = False",
+        "standalone_treatment_authorization: bool = False",
+        "medical_act_authorization: bool = False",
+        "medical_modality_neutral: bool = True",
+        "qi_denied_by_boundary: bool = False",
+        "east_asian_medical_reasoning_denied: bool = False",
+        "biomedicine_privileged_by_wording: bool = False",
     ],
     "validation_cases/physical_quantum_qi_dynamics_kernel_cases_v0_1.json": [
         "full_path_qi_licenses_history_bearing_motion",
@@ -66,7 +88,26 @@ REQUIRED_MARKERS = {
         "memory_kernel_backflow",
         "QI_DYN_HOLD_REQUIRED_EVIDENCE_MISSING",
         "QI_DYN_BLOCK_AUTHORITY_EXPANSION_ATTEMPT",
+        "standalone_diagnosis_authority",
+        "standalone_treatment_authorization",
+        "medical_act_authorization",
+        "medical_modality_neutral",
+        "qi_denied_by_boundary",
+        "east_asian_medical_reasoning_denied",
+        "biomedicine_privileged_by_wording",
     ],
+}
+
+MEDICAL_MODALITY_NEUTRAL_EXPECTATIONS = {
+    "standalone_diagnosis_authority": False,
+    "standalone_treatment_authorization": False,
+    "medical_act_authorization": False,
+    "medical_modality_neutral": True,
+    "qi_denied_by_boundary": False,
+    "east_asian_medical_reasoning_denied": False,
+    "biomedicine_privileged_by_wording": False,
+    "professional_judgment_required": True,
+    "patient_context_required": True,
 }
 
 
@@ -117,14 +158,40 @@ def validate_spec(spec: Dict[str, Any]) -> List[str]:
         "safety_override_authority",
         "direct_execution_allowed",
         "authority_expansion",
+        "standalone_diagnosis_authority",
+        "standalone_treatment_authorization",
+        "medical_act_authorization",
     ]:
         if authority.get(key) is not False:
             errors.append(f"authority.{key} must be false")
+    neutral = spec.get("medical_modality_neutral_boundary", {})
+    for key, expected in MEDICAL_MODALITY_NEUTRAL_EXPECTATIONS.items():
+        if neutral.get(key) is not expected:
+            errors.append(f"medical_modality_neutral_boundary.{key} must be {expected}")
     licensed = spec.get("licensed_terms_by_type", {})
     if "memory_kernel_backflow" in licensed.get("ProtoQi", []):
         errors.append("ProtoQi must not license memory_kernel_backflow")
     if "sk_fv_history_flow" not in licensed.get("FullPathQi", []):
         errors.append("FullPathQi must license sk_fv_history_flow")
+    return errors
+
+
+def _assert_expected(name: str, result: Mapping[str, Any], expected: Mapping[str, Any]) -> List[str]:
+    errors: List[str] = []
+    for key, expected_value in expected.items():
+        if key == "active_term":
+            if expected_value not in result.get("active_terms", ()):
+                errors.append(f"case {name}: expected active term {expected_value}")
+        elif key == "ignored_term":
+            if expected_value not in result.get("ignored_terms", ()):
+                errors.append(f"case {name}: expected ignored term {expected_value}")
+        elif key == "reason_code":
+            if expected_value not in result.get("reason_codes", ()):
+                errors.append(f"case {name}: expected reason code {expected_value}")
+        else:
+            actual = result.get(key)
+            if actual != expected_value:
+                errors.append(f"case {name}: expected {key}={expected_value!r}, got {actual!r}")
     return errors
 
 
@@ -141,25 +208,17 @@ def validate_cases(adapter: Any, cases_doc: Dict[str, Any]) -> List[str]:
                 evidence_status=case.get("evidence_status", {}),
                 numeric_terms=case.get("numeric_terms", {}),
                 authority=authority,
+                direct_execution_requested=case.get("direct_execution_requested", False),
+                unresolved_blockers=tuple(case.get("unresolved_blockers", ())),
             )
         )
+        result = asdict(decision)
         expected = case.get("expect", {})
-        if decision.motion_status != expected.get("motion_status"):
-            errors.append(
-                f"case {name}: expected motion_status {expected.get('motion_status')}, got {decision.motion_status}"
-            )
-        active_term = expected.get("active_term")
-        if active_term and active_term not in decision.active_terms:
-            errors.append(f"case {name}: expected active term {active_term}")
-        ignored_term = expected.get("ignored_term")
-        if ignored_term and ignored_term not in decision.ignored_terms:
-            errors.append(f"case {name}: expected ignored term {ignored_term}")
-        reason_code = expected.get("reason_code")
-        if reason_code and reason_code not in decision.reason_codes:
-            errors.append(f"case {name}: expected reason code {reason_code}")
-        if decision.direct_execution_allowed is not expected.get("direct_execution_allowed", False):
-            errors.append(f"case {name}: direct_execution_allowed mismatch")
-        if decision.authority_expansion is not False:
+        errors.extend(_assert_expected(name, result, expected))
+        errors.extend(_assert_expected(name, result, MEDICAL_MODALITY_NEUTRAL_EXPECTATIONS))
+        if result.get("direct_execution_allowed") is not False:
+            errors.append(f"case {name}: direct_execution_allowed must remain false")
+        if result.get("authority_expansion") is not False:
             errors.append(f"case {name}: authority_expansion must remain false")
     return errors
 
@@ -176,12 +235,14 @@ def validate_adapter_behavior(adapter: Any) -> List[str]:
             authority=false_authority(),
         )
     )
+    result = asdict(decision)
     if decision.motion_status != "qi_motion_candidate_ready":
         errors.append("FullPathQi should produce qi_motion_candidate_ready with complete evidence")
     if "sk_fv_history_flow" not in decision.active_terms:
         errors.append("FullPathQi should activate sk_fv_history_flow")
     if decision.direct_execution_allowed is not False:
         errors.append("direct_execution_allowed must remain false")
+    errors.extend(_assert_expected("validator-fullpath", result, MEDICAL_MODALITY_NEUTRAL_EXPECTATIONS))
 
     proto_evidence = {key: "pass" for key in adapter.REQUIRED_EVIDENCE_BY_TYPE["ProtoQi"]}
     proto = adapter.evaluate_physical_quantum_qi_dynamics(
@@ -193,8 +254,10 @@ def validate_adapter_behavior(adapter: Any) -> List[str]:
             authority=false_authority(),
         )
     )
+    proto_result = asdict(proto)
     if "memory_kernel_backflow" not in proto.ignored_terms:
         errors.append("ProtoQi must ignore memory_kernel_backflow")
+    errors.extend(_assert_expected("validator-proto", proto_result, MEDICAL_MODALITY_NEUTRAL_EXPECTATIONS))
     return errors
 
 
