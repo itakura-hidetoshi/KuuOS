@@ -48,6 +48,14 @@ CHECKS: List[Tuple[str, str]] = [
         "scripts/validate_samvrti_qi_to_physical_motion_evidence_builder_release_packet_v0_1.py",
     ),
     (
+        "samvrti-to-physical-motion-builder-integrity",
+        "scripts/validate_samvrti_qi_to_physical_motion_evidence_builder_integrity_manifest_v0_1.py",
+    ),
+    (
+        "samvrti-to-physical-motion-builder-source-of-truth",
+        "scripts/check_samvrti_qi_to_physical_motion_evidence_builder_integrity_source_of_truth_v0_1.py",
+    ),
+    (
         "physical-quantum-qi-runtime-contract",
         "scripts/validate_physical_quantum_qi_runtime_contract_v0_1.py",
     ),
