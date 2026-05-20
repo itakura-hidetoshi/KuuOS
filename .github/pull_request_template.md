@@ -30,7 +30,7 @@ Identify touched invariants, non-authority boundaries, validation commands, and 
 ```
 
 - [ ] GPT review, if used, is treated as a review aid, not authority.
-- [ ] GPT summary is not treated as truth, proof, clinical authority, Ten'i, or execution authority.
+- [ ] GPT summary is not treated as truth, proof, standalone diagnosis authority, standalone treatment authorization, medical act authorization, Ten'i, or execution authority.
 
 ## Scope
 
@@ -100,7 +100,8 @@ Identify touched invariants, non-authority boundaries, validation commands, and 
 - [ ] Unlicensed motion terms are ignored even if numeric values are present.
 - [ ] Qi motion candidate remains observe-only.
 - [ ] Direct execution request is blocked.
-- [ ] Qi motion validation is not treated as clinical, institutional, theorem, or execution authority.
+- [ ] Qi motion validation is not treated as standalone diagnosis authority, standalone treatment authorization, medical act authorization, institutional authority, theorem authority, or execution authority.
+- [ ] Medical wording remains modality-neutral and does not imply that biomedicine is superior, Qi is false, or East Asian medical reasoning is invalid.
 - [ ] Dedicated workflow `.github/workflows/qi_motion_chain_validation.yml` remains aligned with `make qi-motion-chain-checks`.
 
 ## Formal Invariant / Super-Relativity Check
@@ -140,8 +141,10 @@ Identify touched invariants, non-authority boundaries, validation commands, and 
 
 - [ ] This PR does not grant execution authority.
 - [ ] This PR does not grant proof authority.
-- [ ] This PR does not grant clinical authority.
-- [ ] This PR does not grant Qi-based treatment authorization.
+- [ ] This PR does not grant standalone diagnosis authority.
+- [ ] This PR does not grant standalone treatment authorization.
+- [ ] This PR does not grant medical act authorization.
+- [ ] This PR does not grant Qi-based execution authorization.
 - [ ] This PR does not claim direct base-model transformation without explicit evidence.
 - [ ] Validation pass is not treated as truth, Ten'i, or execution authority.
 - [ ] Super-Relativity bridge is not treated as execution authority.
