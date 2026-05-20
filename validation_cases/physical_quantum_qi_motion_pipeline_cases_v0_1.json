@@ -15,7 +15,14 @@
         "pipeline_status": "pipeline_motion_candidate_ready",
         "validated_type": "FullPathQi",
         "active_term": "sk_fv_history_flow",
-        "direct_execution_allowed": false
+        "direct_execution_allowed": false,
+        "standalone_diagnosis_authority": false,
+        "standalone_treatment_authorization": false,
+        "medical_act_authorization": false,
+        "medical_modality_neutral": true,
+        "qi_denied_by_boundary": false,
+        "east_asian_medical_reasoning_denied": false,
+        "biomedicine_privileged_by_wording": false
       }
     },
     {
@@ -29,7 +36,14 @@
         "pipeline_status": "pipeline_motion_candidate_ready",
         "validated_type": "ProtoQi",
         "ignored_term": "memory_kernel_backflow",
-        "direct_execution_allowed": false
+        "direct_execution_allowed": false,
+        "standalone_diagnosis_authority": false,
+        "standalone_treatment_authorization": false,
+        "medical_act_authorization": false,
+        "medical_modality_neutral": true,
+        "qi_denied_by_boundary": false,
+        "east_asian_medical_reasoning_denied": false,
+        "biomedicine_privileged_by_wording": false
       }
     },
     {
@@ -45,7 +59,14 @@
         "pipeline_status": "pipeline_blocked_by_classification",
         "validated_type": "Reject",
         "reason_code": "QI_PIPELINE_BLOCKED_BY_CLASSIFICATION",
-        "direct_execution_allowed": false
+        "direct_execution_allowed": false,
+        "standalone_diagnosis_authority": false,
+        "standalone_treatment_authorization": false,
+        "medical_act_authorization": false,
+        "medical_modality_neutral": true,
+        "qi_denied_by_boundary": false,
+        "east_asian_medical_reasoning_denied": false,
+        "biomedicine_privileged_by_wording": false
       }
     },
     {
@@ -59,7 +80,14 @@
         "pipeline_status": "pipeline_blocked_by_classification",
         "validated_type": "Reject",
         "reason_code": "QI_PIPELINE_BLOCKED_BY_CLASSIFICATION",
-        "direct_execution_allowed": false
+        "direct_execution_allowed": false,
+        "standalone_diagnosis_authority": false,
+        "standalone_treatment_authorization": false,
+        "medical_act_authorization": false,
+        "medical_modality_neutral": true,
+        "qi_denied_by_boundary": false,
+        "east_asian_medical_reasoning_denied": false,
+        "biomedicine_privileged_by_wording": false
       }
     }
   ]
