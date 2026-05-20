@@ -17,7 +17,7 @@ validated_type
   -> observe_only routing surface
 ```
 
-The dynamics kernel grants no execution authority, no belief commit authority, no memory overwrite authority, and no world-root rewrite authority.
+The dynamics kernel grants no execution authority, no belief commit authority, no memory overwrite authority, no world-root rewrite authority, no standalone diagnosis authority, no standalone treatment authorization, and no medical act authorization.
 
 ## Dynamics ladder
 
@@ -167,4 +167,22 @@ Even when the motion status is `qi_motion_candidate_ready`, the output remains o
 direct_execution_allowed = false
 authority_expansion = false
 observe_only = true
+standalone_diagnosis_authority = false
+standalone_treatment_authorization = false
+medical_act_authorization = false
 ```
+
+## Medical-modality-neutral boundary
+
+The dynamics kernel must preserve:
+
+```text
+medical_modality_neutral = true
+qi_denied_by_boundary = false
+east_asian_medical_reasoning_denied = false
+biomedicine_privileged_by_wording = false
+professional_judgment_required = true
+patient_context_required = true
+```
+
+This keeps the dynamics decision usable as structured observation and reasoning support while preventing it from becoming standalone diagnosis, standalone treatment authorization, or medical act authorization. It does not deny Qi, does not invalidate East Asian medical reasoning, and does not privilege biomedicine by wording.
