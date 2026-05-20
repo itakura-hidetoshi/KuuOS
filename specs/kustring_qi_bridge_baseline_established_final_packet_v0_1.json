@@ -1,0 +1,53 @@
+{
+  "packet_id": "kustring_qi_bridge_baseline_established_final_packet_v0_1",
+  "status": "baseline_established_final",
+  "module": "KuStringQiBridge",
+  "version": "v0_1",
+  "chain_index": "specs/kustring_qi_bridge_chain_index_v0_1.json",
+  "baseline_packet": "specs/kustring_qi_bridge_baseline_packet_v0_1.json",
+  "finality_packet": "specs/kustring_qi_bridge_finality_packet_v0_1.json",
+  "chain_checker": "scripts/check_kustring_qi_bridge_chain_index_v0_1.py",
+  "qi_motion_chain_runner": "scripts/run_qi_motion_chain_checks_v0_1.py",
+  "established_scope": {
+    "bridge_surface": "SamvrtiQiRuntime_to_PhysicalQuantumQiClassifier",
+    "projection_language": "KuString_string_brane_gauge_current_history_evidence",
+    "semantic_status": "baseline_fixed_additive_only",
+    "execution_status": "non_authoritative_observe_only"
+  },
+  "established_claims": {
+    "implementation_chain_complete": true,
+    "documentation_chain_complete": true,
+    "contract_chain_complete": true,
+    "validation_cases_chain_complete": true,
+    "validator_chain_complete": true,
+    "release_chain_complete": true,
+    "finality_chain_complete": true,
+    "baseline_chain_complete": true,
+    "runner_inclusion_complete": true,
+    "samvrti_to_physical_bridge_explicit": true,
+    "kustring_projection_required": true,
+    "string_brane_gauge_current_history_projection_required": true,
+    "samvrti_qi_not_collapsed_into_physical_qi": true,
+    "physical_classifier_remains_type_authority": true,
+    "bridge_output_is_evidence_projection_only": true,
+    "medical_modality_neutral_boundary_preserved": true,
+    "append_only_lineage_preserved": true,
+    "same_root_required": true,
+    "overwrite_forbidden": true,
+    "destructive_replacement_forbidden": true
+  },
+  "forbidden_interpretations": {
+    "samvrti_qi_directly_equals_physical_qi": false,
+    "bridge_projection_finalizes_ontology": false,
+    "bridge_projection_grants_execution_authority": false,
+    "bridge_projection_grants_truth_authority": false,
+    "bridge_projection_grants_theorem_authority": false,
+    "bridge_projection_grants_standalone_diagnosis_authority": false,
+    "bridge_projection_grants_standalone_treatment_authorization": false,
+    "bridge_projection_grants_medical_act_authorization": false,
+    "bridge_projection_denies_qi": false,
+    "bridge_projection_denies_east_asian_medical_reasoning": false,
+    "bridge_projection_privileges_biomedicine_by_wording": false
+  },
+  "final_rule": "chain_checker_passes_and_forbidden_interpretations_false_and_future_updates_additive_only"
+}
