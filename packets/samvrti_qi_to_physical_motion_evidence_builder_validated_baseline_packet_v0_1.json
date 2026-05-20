@@ -1,0 +1,40 @@
+{
+  "packet_id": "samvrti_qi_to_physical_motion_evidence_builder_validated_baseline_packet_v0_1",
+  "status": "validated_baseline_candidate",
+  "module": "SamvrtiQiToPhysicalMotionEvidenceBuilder",
+  "version": "v0_1",
+  "baseline_commitments": {
+    "additive_only": true,
+    "tighten_only_default": true,
+    "overwrite_forbidden": true,
+    "destructive_replacement_forbidden": true,
+    "same_root_required": true,
+    "nonexecution_by_default": true,
+    "samvrti_acceptance_not_physical_qi": true,
+    "samvrti_acceptance_not_full_path_qi": true,
+    "conservative_evidence_packet_only": true,
+    "kustring_bridge_gate_required": true,
+    "physical_classifier_authority_required": true,
+    "motion_pipeline_observe_only_routing": true,
+    "medical_modality_neutral_boundary_preserved": true
+  },
+  "forbidden_baseline_claims": {
+    "direct_execution_allowed": false,
+    "authority_expansion": false,
+    "standalone_diagnosis_authority": false,
+    "standalone_treatment_authorization": false,
+    "medical_act_authorization": false,
+    "qi_denied_by_boundary": false,
+    "east_asian_medical_reasoning_denied": false,
+    "biomedicine_privileged_by_wording": false,
+    "samvrti_acceptance_equals_physical_qi": false,
+    "samvrti_acceptance_equals_full_path_qi": false
+  },
+  "validation_basis": [
+    "docs/SAMVRTI_QI_TO_PHYSICAL_MOTION_EVIDENCE_BUILDER_v0_1.md",
+    "examples/samvrti_qi_to_physical_motion_evidence_builder_minimal.py",
+    "validation_cases/samvrti_qi_to_physical_motion_evidence_builder_cases_v0_1.json",
+    "scripts/validate_samvrti_qi_to_physical_motion_evidence_builder_v0_1.py",
+    "scripts/validate_samvrti_qi_to_physical_motion_evidence_builder_release_packet_v0_1.py"
+  ]
+}
