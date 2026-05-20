@@ -1,0 +1,86 @@
+{
+  "chain_index_id": "kustring_qi_bridge_chain_index_v0_1",
+  "status": "baseline_chain_index_candidate",
+  "module": "KuStringQiBridge",
+  "version": "v0_1",
+  "update_policy": "additive_only",
+  "overwrite_policy": "forbidden",
+  "same_root_required": true,
+  "chain_order": [
+    {
+      "stage": "implementation",
+      "path": "examples/kustring_qi_bridge_minimal.py",
+      "role": "runtime_bridge_implementation"
+    },
+    {
+      "stage": "documentation",
+      "path": "docs/KUSTRING_QI_BRIDGE_v0_1.md",
+      "role": "human_readable_contract"
+    },
+    {
+      "stage": "contract",
+      "path": "specs/kustring_qi_bridge_contract_v0_1.json",
+      "role": "machine_readable_contract"
+    },
+    {
+      "stage": "validation_cases",
+      "path": "validation_cases/kustring_qi_bridge_cases_v0_1.json",
+      "role": "behavioral_cases"
+    },
+    {
+      "stage": "validator",
+      "path": "scripts/validate_kustring_qi_bridge_v0_1.py",
+      "role": "contract_and_behavior_validator"
+    },
+    {
+      "stage": "release_bundle_manifest",
+      "path": "specs/kustring_qi_bridge_release_bundle_manifest_v0_1.json",
+      "role": "release_surface_manifest"
+    },
+    {
+      "stage": "release_packet",
+      "path": "specs/kustring_qi_bridge_release_packet_v0_1.json",
+      "role": "release_candidate_packet"
+    },
+    {
+      "stage": "release_bundle_validator",
+      "path": "scripts/validate_kustring_qi_bridge_release_bundle_v0_1.py",
+      "role": "release_surface_validator"
+    },
+    {
+      "stage": "finality_packet",
+      "path": "specs/kustring_qi_bridge_finality_packet_v0_1.json",
+      "role": "finality_candidate_packet"
+    },
+    {
+      "stage": "finality_checker",
+      "path": "scripts/check_kustring_qi_bridge_finality_packet_v0_1.py",
+      "role": "finality_packet_checker"
+    }
+  ],
+  "baseline_invariants": {
+    "samvrti_to_physical_bridge_explicit": true,
+    "kustring_projection_required": true,
+    "string_brane_gauge_current_history_projection_required": true,
+    "samvrti_qi_not_collapsed_into_physical_qi": true,
+    "physical_classifier_remains_type_authority": true,
+    "bridge_output_is_evidence_projection_only": true,
+    "observe_only": true,
+    "direct_execution_allowed": false,
+    "authority_expansion": false,
+    "standalone_diagnosis_authority": false,
+    "standalone_treatment_authorization": false,
+    "medical_act_authorization": false,
+    "medical_modality_neutral": true,
+    "qi_denied_by_boundary": false,
+    "east_asian_medical_reasoning_denied": false,
+    "biomedicine_privileged_by_wording": false,
+    "professional_judgment_required": true,
+    "patient_context_required": true
+  },
+  "runner_position": {
+    "runner": "scripts/run_qi_motion_chain_checks_v0_1.py",
+    "after": "kustring-qi-bridge-finality",
+    "before": "samvrti-to-physical-motion-builder"
+  }
+}
