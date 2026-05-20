@@ -23,6 +23,8 @@ docs/KUOS_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_v0_2.md
   -> scripts/validate_kuos_emptiness_superposition_non_collapse_established_baseline_packet_v0_2.py
   -> specs/kuos_emptiness_superposition_non_collapse_confirmed_baseline_packet_v0_2.yaml
   -> scripts/validate_kuos_emptiness_superposition_non_collapse_confirmed_baseline_packet_v0_2.py
+  -> specs/kuos_emptiness_superposition_non_collapse_baseline_established_final_packet_v0_2.yaml
+  -> scripts/validate_kuos_emptiness_superposition_non_collapse_baseline_established_final_packet_v0_2.py
   -> formal/KUOS/Emptiness/SuperpositionNonCollapse.lean
 ```
 
@@ -49,6 +51,7 @@ The packet validators may also be run directly:
 python3 scripts/validate_kuos_emptiness_superposition_non_collapse_finality_packet_v0_2.py
 python3 scripts/validate_kuos_emptiness_superposition_non_collapse_established_baseline_packet_v0_2.py
 python3 scripts/validate_kuos_emptiness_superposition_non_collapse_confirmed_baseline_packet_v0_2.py
+python3 scripts/validate_kuos_emptiness_superposition_non_collapse_baseline_established_final_packet_v0_2.py
 ```
 
 ## Fixed Points
