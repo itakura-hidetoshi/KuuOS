@@ -1,0 +1,37 @@
+{
+  "packet_id": "physical_quantum_qi_motion_pipeline_validated_baseline_packet_v0_1",
+  "status": "validated_baseline_candidate",
+  "module": "PhysicalQuantumQiMotionPipeline",
+  "version": "v0_1",
+  "baseline_commitments": {
+    "additive_only": true,
+    "tighten_only_default": true,
+    "overwrite_forbidden": true,
+    "destructive_replacement_forbidden": true,
+    "same_root_required": true,
+    "nonexecution_by_default": true,
+    "claimed_type_not_authoritative": true,
+    "validated_type_evidence_bound": true,
+    "validated_type_licenses_dynamics": true,
+    "unlicensed_terms_ignored": true,
+    "observe_only_motion_candidate": true,
+    "medical_modality_neutral_boundary_preserved": true
+  },
+  "forbidden_baseline_claims": {
+    "direct_execution_allowed": false,
+    "authority_expansion": false,
+    "standalone_diagnosis_authority": false,
+    "standalone_treatment_authorization": false,
+    "medical_act_authorization": false,
+    "qi_denied_by_boundary": false,
+    "east_asian_medical_reasoning_denied": false,
+    "biomedicine_privileged_by_wording": false
+  },
+  "validation_basis": [
+    "docs/PHYSICAL_QUANTUM_QI_MOTION_PIPELINE_v0_1.md",
+    "examples/physical_quantum_qi_motion_pipeline_minimal.py",
+    "validation_cases/physical_quantum_qi_motion_pipeline_cases_v0_1.json",
+    "scripts/validate_physical_quantum_qi_motion_pipeline_v0_1.py",
+    "scripts/validate_physical_quantum_qi_motion_pipeline_release_packet_v0_1.py"
+  ]
+}
