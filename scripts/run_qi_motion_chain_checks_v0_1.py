@@ -67,6 +67,10 @@ CHECKS: List[Tuple[str, str]] = [
         "physical-quantum-qi-motion-pipeline-validator",
         "scripts/validate_physical_quantum_qi_motion_pipeline_v0_1.py",
     ),
+    (
+        "physical-quantum-qi-motion-pipeline-release",
+        "scripts/validate_physical_quantum_qi_motion_pipeline_release_packet_v0_1.py",
+    ),
 ]
 
 
