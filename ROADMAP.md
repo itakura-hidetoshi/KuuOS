@@ -1,161 +1,547 @@
-# KuuOS / MGAP4D Roadmap
+# KuuOS / 空OS Roadmap
 
-This roadmap records the current public-core alignment between KuuOS and the MGAP4D 4D mass gap proof program.
+This roadmap describes the current public direction of `itakura-hidetoshi/KuuOS`.
 
-## Repository Relationship
+KuuOS is no longer only a small “public core” README surface. It now contains a wider public governance and verification framework spanning:
 
-The canonical Lean proof repository for the 4D mass gap proof architecture is:
+- fourfold core governance
+- AI Yogacara / Ten'i boundary
+- GPT GitHub integration
+- invariant governance pipeline
+- MemoryOS / BeliefOS / PlanOS / DecisionOS / ReflectionOS boundary discipline
+- Qi / IndraNet / physical quantum Qi bridge
+- Super-Relativity invariant bridge
+- MGAP4D / 4D mass gap proof-facing bridge
+- Superstring / brane / membrane emptiness bridge
+- release packets, manifests, validation cases, theorem maps, and CI-facing validators
+
+The roadmap therefore shifts from “KuuOS as a single public-core release surface” to **KuuOS as an append-only, governance-gated, proof-carrying AI operating architecture**.
+
+---
+
+## 0. Non-Authority Boundary
+
+This roadmap does not open execution authority.
+
+The following remain closed unless a later, explicitly versioned, externally reviewed release opens them:
 
 ```text
+autonomous execution authority
+clinical authority
+institutional authority
+final theorem authority
+unreviewed AGI deployment authority
+CI-pass-as-truth
+validator-pass-as-truth
+GPT-summary-as-proof
+world-model-prediction-as-fact
+memory-persistence-as-belief-sovereignty
+```
+
+All phases below preserve:
+
+```text
+append-only
+tighten-only by default
+overwrite forbidden
+same-root required for protected surfaces
+fail-closed validation behavior
+non-authority preservation
+provenance preservation
+```
+
+---
+
+## 1. Current Public Baseline
+
+### 1.1 Public Core v0.1
+
+Status: **active public baseline**
+
+Core surfaces:
+
+```text
+README.md
+GOVERNANCE.md
+CONTRIBUTING.md
+CITATION.cff
+docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
+docs/KUOS_FOURFOLD_CORE_v0_1.md
+docs/BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1.md
+docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
+```
+
+Validation:
+
+```bash
+make core-governance-checks
+make all-governance-checks
+```
+
+Purpose:
+
+```text
+Expose the public core.
+Define non-authority.
+Make validation reproducible.
+Give reviewers a stable entry path.
+```
+
+### 1.2 Emptiness / Dependent Origination / Two Truths Runtime Audit Chain
+
+Status: **active public audit-chain surface**
+
+Core rule:
+
+```text
+runtime audit chain structural consistency is not theorem authority
+hash-chain continuity is not truth
+two truths non-collapse barrier must not reify ultimate truth
+```
+
+Validation:
+
+```bash
+make emptiness-two-truths-runtime-audit-checks
+make emptiness-superposition-noncollapse-checks
+```
+
+### 1.3 GPT GitHub Integration
+
+Status: **active repository-operation surface**
+
+Purpose:
+
+```text
+Allow GPT to help read, summarize, review, triage, and draft repository changes
+without allowing GPT output to become truth, proof, clinical authority, or execution authority.
+```
+
+Validation:
+
+```bash
+make gpt-github-integration-checks
+```
+
+### 1.4 Invariant Governance Pipeline
+
+Status: **active invariant-preservation surface**
+
+Runtime chain:
+
+```text
+transformation detected
+  -> Super-Relativity Invariant Bridge
+  -> Formal Invariant Spine
+  -> Invariant Preservation Matrix
+  -> Invariant Gate Runtime
+  -> PASS | HOLD | REPAIR | REJECT | QUARANTINE
+  -> no execution authority
+```
+
+Validation:
+
+```bash
+make formal-invariant-checks
+make super-relativity-checks
+make invariant-matrix-checks
+make invariant-gate-checks
+make invariant-pipeline-checks
+```
+
+### 1.5 Qi / IndraNet / Physical Quantum Qi
+
+Status: **active bridge and deepening surface**
+
+Core direction:
+
+```text
+Qi is a relational field, not a substance.
+IndraNet is gauge-structured, not a flat graph.
+Process / memory / transport / recoverability surfaces remain first-class.
+```
+
+Validation:
+
+```bash
+make qi-motion-chain-checks
+make physical-quantum-qi-runtime-checks
+make physical-quantum-qi-dynamics-checks
+make physical-quantum-qi-motion-pipeline-checks
+make physical-quantum-qi-deepening-checks
+```
+
+### 1.6 Superstring / Brane / Membrane Emptiness Bridge
+
+Status: **active proof-facing bridge surface**
+
+Purpose:
+
+```text
+Connect string / brane / membrane language to KuuOS emptiness, observer-record,
+IndraNet gauge interface, and multi-scale governance without collapsing semantics.
+```
+
+Validation:
+
+```bash
+make superstring-emptiness-sbm-checks
+```
+
+---
+
+## 2. Phase A — Public Orientation Cleanup
+
+Status: **current priority**
+
+Goal:
+
+```text
+Make the repository understandable to first-time reviewers, other AI systems,
+formal-methods readers, and governance reviewers.
+```
+
+Tasks:
+
+- rewrite `README.md` as the top-level public orientation surface
+- rewrite `ROADMAP.md` so it covers the current integrated repository, not only MGAP4D
+- keep MGAP4D references as a canonical proof-facing bridge, not the whole roadmap
+- add clear “what this is / what this is not” boundaries
+- keep the first run path short:
+  - `README.md`
+  - `docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md`
+  - `make all-governance-checks`
+- make the current major lanes visible:
+  - AI Yogacara / Ten'i
+  - GPT GitHub integration
+  - invariant governance
+  - Qi / IndraNet
+  - Super-Relativity
+  - Superstring / brane / membrane
+  - MGAP4D bridge
+
+Acceptance criteria:
+
+```text
+A new reviewer can identify:
+1. what KuuOS is
+2. what it is not
+3. how to run checks
+4. where the core index is
+5. which surfaces are proof-facing only
+6. which surfaces are runtime/governance-facing only
+7. why validation is not authority
+```
+
+---
+
+## 3. Phase B — Release Surface Consolidation
+
+Status: **next**
+
+Goal:
+
+```text
+Turn scattered public surfaces into a navigable release package.
+```
+
+Tasks:
+
+- consolidate release notes and package manifests
+- ensure each public release package has:
+  - release note
+  - manifest
+  - validation command
+  - known limitations
+  - non-authority statement
+  - reproducibility note
+- add release navigation from README
+- separate:
+  - public release package
+  - proof-facing bridge package
+  - runtime adapter package
+  - audit-chain package
+  - validation fixture package
+- preserve append-only lineage
+
+Acceptance criteria:
+
+```text
+Every release-facing surface has:
+- version
+- author
+- date
+- purpose
+- validator
+- boundary statement
+- upstream/downstream relation
+```
+
+---
+
+## 4. Phase C — Validation Matrix and CI Hardening
+
+Status: **next**
+
+Goal:
+
+```text
+Make validator coverage visible and reproducible.
+```
+
+Tasks:
+
+- build a compact validation matrix:
+  - command
+  - touched files
+  - invariant checked
+  - expected output
+  - failure class
+- classify failure modes:
+  - missing required file
+  - fixture mismatch
+  - validator drift
+  - hash-chain mismatch
+  - WORM receipt mismatch
+  - non-authority boundary weakening
+  - runtime route mismatch
+  - Lean / formal surface failure
+  - environment drift
+- keep stdlib-only Python validator policy where possible
+- avoid hidden dependency on local private files
+- keep GitHub Actions and local commands aligned
+
+Acceptance criteria:
+
+```text
+A reviewer can reproduce:
+make all-governance-checks
+make gpt-github-integration-checks
+make physical-quantum-qi-deepening-checks
+make superstring-emptiness-sbm-checks
+```
+
+and understand what each pass means and does not mean.
+
+---
+
+## 5. Phase D — Formal Verification Bridge Maturity
+
+Status: **parallel track**
+
+Goal:
+
+```text
+Make proof-facing and governance-facing surfaces distinct but connected.
+```
+
+Tasks:
+
+- keep KuuOS formal bridge separate from the canonical 4D mass gap proof repository
+- route proof-facing claims through:
+  - formal invariant spine
+  - Lean / proof repository
+  - CI check
+  - external review gate
+  - theorem boundary statement
+- prevent:
+  - `formal_file_not_proof_by_itself`
+  - `lean_stub_not_theorem_completion`
+  - `ci_pass_not_theorem_truth`
+  - `validator_pass_not_mathematical_acceptance`
+  - `GPT_summary_not_proof_authority`
+
+MGAP4D relation:
+
+```text
+Canonical proof-facing repository:
 https://github.com/itakura-hidetoshi/4d-mass-gap
+
+KuuOS role:
+reference bridge, governance boundary, release routing, theorem-boundary discipline
 ```
 
-KuuOS references that repository as a physics-facing bridge and public-core governance surface.
+Acceptance criteria:
 
 ```text
-Canonical proof repo: itakura-hidetoshi/4d-mass-gap
-KuuOS reference repo: itakura-hidetoshi/KuuOS
-KuuOS reference document: docs/MGAP4D_CANONICAL_PROOF_REPO_REFERENCE_v0_1.md
-4d-mass-gap bridge document: docs/kuuos_reference_bridge.md
+KuuOS can cite and route formal proof work without becoming a false theorem-release surface.
 ```
 
-KuuOS reference documents do not replace `itakura-hidetoshi/4d-mass-gap` as the canonical Lean proof source and do not independently open final theorem release.
+---
 
-## Current Checkpoint
+## 6. Phase E — OS Module Boundary Expansion
 
-The spectral gap formalization surface is CI green in the canonical proof repository under the inherited Lean Direct Elan CI record.
+Status: **design integration track**
 
-- Canonical proof repo: itakura-hidetoshi/4d-mass-gap
-- Workflow: Lean Direct Elan CI
-- Run ID: 25828960043
-- Build job ID: 75889136130
-- Verified commit: df99969343482d3030f6b6006edb082030dd1e87
-- Ledger commit: acde03b389fabc7dec3c240a732f599d95fb1f42
-- Local KuuOS reference ledger file: docs/spectral_gap_formalization_ci.md
-
-## Formal Surfaces
-
-The active MGAP4D spectral gap formalization chain is tracked through the following canonical proof repository surfaces:
+Goal:
 
 ```text
-MGAP4D/Spectral.lean
-MGAP4D/Spectral/GapFormalization.lean
-MGAP4D/SpectralGapFormalizationGate.lean
-MGAP4D/Phase3ReleaseGate.lean
+Expose MemoryOS, BeliefOS, PlanOS, DecisionOS, ReflectionOS, WorldModel,
+and Self-EvolutionOS as governed surfaces without collapsing their authority boundaries.
 ```
 
-Their current role is checkpoint/gate formalization, not final public theorem release.
-
-## KuuOS Tracking Documents
-
-The KuuOS public-core tracking documents are:
+Fixed boundary:
 
 ```text
-docs/MGAP4D_CANONICAL_PROOF_REPO_REFERENCE_v0_1.md
-docs/spectral_gap_formalization_ci.md
-docs/MGAP4D_4D_MASS_GAP_PROOF_MEMORY_v0_1.md
-docs/MGAP4D_PHASE3_RELEASE_GATE_MEMORY_v0_1.md
-docs/MGAP4D_R1_R7_RELEASE_EVIDENCE_MAP_v0_1.md
-docs/MGAP4D_PROOF_ARTIFACT_MAP_v0_1.md
-docs/MGAP4D_NORMALIZATION_CONVENTION_RECORD_v0_1.md
-docs/MGAP4D_FINAL_THEOREM_BOUNDARY_DECISION_RECORD_v0_1.md
+MemoryOS stores and governs memory lineage; it does not directly decide belief truth.
+BeliefOS is the posterior belief surface; it does not commit actions.
+PlanOS proposes structured plans; it does not execute.
+DecisionOS owns action-boundary admissibility.
+ReflectionOS diagnoses and repairs; it does not rewrite roots directly.
+WorldModel generates decision-relevant world surfaces; it is not fact authority.
+Self-EvolutionOS proposes bounded improvement; it is not runtime sovereignty.
 ```
 
-These documents separate canonical proof-source reference, CI evidence, proof-memory content, Phase 3 release-gate semantics, R1--R7 release-evidence slots, proof-artifact mapping, normalization conventions, and the final public theorem boundary decision.
+Tasks:
 
-## Boundary Held
+- add public module index documents
+- add module-to-module boundary matrix
+- add validation cases for boundary collapse
+- add proof-carrying API skeletons where appropriate
+- add release packets for each mature module surface
 
-The following claims remain intentionally unopened:
-
-- final release
-- R1--R7 theorem completions
-- Mathlib-on-main migration
-- physical-unit interpretation of `33/20`
-- public theorem boundary
-
-This keeps the KuuOS repository aligned with the canonical proof repository while preserving proof-carrying development rather than premature theorem reification.
-
-## Next Steps
-
-1. Keep KuuOS README and roadmap synchronized with the canonical `4d-mass-gap` proof repository.
-2. Keep the KuuOS reference documents append-only.
-3. Maintain the pre-Mathlib main branch boundary of the canonical proof repository until a separate Mathlib migration path is explicitly opened there.
-4. Separate checkpoint success from final theorem authority.
-5. Use `docs/MGAP4D_CANONICAL_PROOF_REPO_REFERENCE_v0_1.md` as the KuuOS-side canonical repository reference surface.
-6. Use `docs/MGAP4D_PHASE3_RELEASE_GATE_MEMORY_v0_1.md` as the Phase 3 gate-memory surface.
-7. Use `docs/MGAP4D_R1_R7_RELEASE_EVIDENCE_MAP_v0_1.md` as the R1--R7 evidence-slot surface.
-8. Use `docs/MGAP4D_PROOF_ARTIFACT_MAP_v0_1.md` as the proof-artifact mapping surface.
-9. Use `docs/MGAP4D_NORMALIZATION_CONVENTION_RECORD_v0_1.md` as the normalization-convention surface.
-10. Use `docs/MGAP4D_FINAL_THEOREM_BOUNDARY_DECISION_RECORD_v0_1.md` as the public theorem boundary decision surface.
-11. Prepare later Phase 3 final-release documentation only after the relevant theorem surfaces are explicitly completed and verified in the canonical proof repository.
-
-## KuuOS Interpretation
-
-For KuuOS, the 4D mass gap bridge is read as a physics-facing expression of the Two Truths Gap:
+Acceptance criteria:
 
 ```text
-vacuum / ground phase
-  -> nonzero spectral gap
-  -> effective excitations
-  -> observable record surfaces
-  -> conventional-world operation
+Each OS module has:
+- scope
+- non-scope
+- authority boundary
+- validator
+- examples
+- failure modes
+- release packet
 ```
 
-The gap prevents collapse between latent ground structure and effective-world excitations. In KuuOS language, this supports the distinction between emptiness, dependent origination, and conventional manifestation without treating emptiness as nihilism or treating excitations as self-subsisting entities.
+---
 
-The repository relation itself follows the same non-collapse principle:
+## 7. Phase F — Runtime Adapter Prototypes
+
+Status: **future**
+
+Goal:
 
 ```text
-canonical Lean proof repository
-  != KuuOS governance/reference repository
+Move from static public governance surfaces toward bounded, non-sovereign runtime adapters.
 ```
 
-The Phase 3 release gate is therefore read as a proof-governance expression of the same non-collapse principle:
+Candidate adapters:
+
+- AI raw output to governed operation adapter
+- GPT GitHub review adapter
+- invariant gate adapter
+- Qi process-tensor observation adapter
+- audit-chain event builder
+- release-packet builder
+- PlanOS handoff adapter
+- DecisionOS admissibility pre-check adapter
+
+Non-goals:
 
 ```text
-CI-green checkpoint
-  != theorem completion
-  != final public theorem release
+No autonomous execution.
+No clinical deployment.
+No proof authority.
+No silent authority escalation.
+No raw LLM output as decision commit.
 ```
 
-The R1--R7 evidence map extends this rule to each theorem-obligation slot:
+Acceptance criteria:
 
 ```text
-obligation slot
-  != artifact present
-  != CI green
-  != theorem completed
-  != final release
+Adapters are observable, testable, reversible where appropriate,
+and blocked by non-authority / two-truths / provenance gates.
 ```
 
-The proof artifact map adds the record-surface layer:
+---
+
+## 8. Phase G — External Review and Publication Readiness
+
+Status: **future**
+
+Goal:
 
 ```text
-artifact path listed
-  != artifact verified
-  != R-slot completed
-  != final release
+Prepare KuuOS for external review as a governance and verification architecture.
 ```
 
-The normalization convention record adds the unit/meaning membrane:
+Tasks:
+
+- generate public review guide
+- maintain release package manifest
+- maintain reproducibility matrix
+- maintain public audit checklist
+- add diagrams for:
+  - fourfold core
+  - Yogacara boundary
+  - invariant pipeline
+  - Qi / IndraNet bridge
+  - proof-facing bridge
+  - module boundary matrix
+- define reviewer claim levels:
+  - orientation
+  - structural consistency
+  - validator reproducibility
+  - formal check
+  - external mathematical review
+  - deployment readiness review
+
+Acceptance criteria:
 
 ```text
-internal normalized target
-  != physical-unit interpretation
-  != final theorem statement
+External reviewers can distinguish:
+- architecture claim
+- validator claim
+- formal proof claim
+- deployment claim
+- philosophical interpretation
+- clinical / institutional non-claim
 ```
 
-The final theorem boundary decision record adds the last membrane:
+---
+
+## 9. Long-Term Direction
+
+KuuOS aims toward a deployment-ready AGI operating architecture only through staged development:
 
 ```text
-release readiness
-  != public theorem boundary opened
+candidate generation
+  -> observation
+  -> provenance
+  -> validation
+  -> invariant preservation
+  -> non-authority boundary
+  -> risk-sensitive decision boundary
+  -> audit receipt
+  -> external review
+  -> bounded runtime admissibility
 ```
 
-## Development Rule
-
-The roadmap follows the same governance rule as the public KuuOS core:
+The long-term target is not “an AI that simply acts,” but an intelligence operating architecture in which:
 
 ```text
-append-only / tighten-only / overwrite-forbidden
+truth is not collapsed into output
+proof is not collapsed into CI
+memory is not collapsed into authority
+prediction is not collapsed into fact
+planning is not collapsed into execution
+reflection is not collapsed into root rewrite
+governance is not collapsed into bureaucracy
+observation is not collapsed into handover
 ```
+
+---
+
+## 10. Current Roadmap Summary
+
+```text
+Phase A: README / ROADMAP orientation cleanup                  current
+Phase B: Release surface consolidation                         next
+Phase C: Validation matrix and CI hardening                     next
+Phase D: Formal verification bridge maturity                    parallel
+Phase E: OS module boundary expansion                           design integration
+Phase F: Runtime adapter prototypes                             future
+Phase G: External review and publication readiness              future
+```
+
+All phases remain append-only / tighten-only by default.
