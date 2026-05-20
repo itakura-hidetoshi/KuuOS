@@ -1,0 +1,67 @@
+{
+  "case_set_id": "kustring_qi_bridge_cases_v0_1",
+  "runtime_boundary_expectations": {
+    "observe_only": true,
+    "direct_execution_allowed": false,
+    "authority_expansion": false,
+    "standalone_diagnosis_authority": false,
+    "standalone_treatment_authorization": false,
+    "medical_act_authorization": false,
+    "medical_modality_neutral": true,
+    "qi_denied_by_boundary": false,
+    "east_asian_medical_reasoning_denied": false,
+    "biomedicine_privileged_by_wording": false,
+    "professional_judgment_required": true,
+    "patient_context_required": true
+  },
+  "cases": [
+    {
+      "name": "full_path_projection",
+      "input": {
+        "samvrti_status": "qi_flow_accepted_as_samvrti_reference",
+        "source_trace": ["case-full"],
+        "string_mode_visible": true,
+        "brane_boundary_visible": true,
+        "gauge_connection_visible": true,
+        "curvature_visible": true,
+        "wilson_residue_visible": true,
+        "current_visible": true,
+        "ward_leak_visible": true,
+        "open_state_visible": true,
+        "sk_fv_history_visible": true,
+        "memory_kernel_visible": true,
+        "noncommutative_history_visible": true,
+        "path_measure_normalized": true
+      },
+      "expect": {
+        "bridge_status": "bridge_evidence_projected",
+        "projected_level_hint": "FullPathQi",
+        "required_evidence": ["FV_influence_functional", "path_measure_normalization"]
+      }
+    },
+    {
+      "name": "proto_projection_without_structure_history",
+      "input": {
+        "samvrti_status": "qi_flow_accepted_as_samvrti_reference",
+        "source_trace": ["case-proto"],
+        "gauge_connection_visible": true
+      },
+      "expect": {
+        "bridge_status": "bridge_evidence_projected",
+        "projected_level_hint": "ProtoQi",
+        "forbidden_evidence": ["memory_kernel", "path_measure_normalization"]
+      }
+    },
+    {
+      "name": "blocked_when_samvrti_not_accepted",
+      "input": {
+        "samvrti_status": "qi_flow_blocked",
+        "source_trace": ["case-blocked"]
+      },
+      "expect": {
+        "bridge_status": "bridge_blocked",
+        "projected_level_hint": "Reject"
+      }
+    }
+  ]
+}
