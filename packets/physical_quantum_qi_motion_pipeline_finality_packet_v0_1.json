@@ -1,0 +1,55 @@
+{
+  "packet_id": "physical_quantum_qi_motion_pipeline_finality_packet_v0_1",
+  "status": "finality_candidate",
+  "module": "PhysicalQuantumQiMotionPipeline",
+  "version": "v0_1",
+  "root_release_packet": "packets/physical_quantum_qi_motion_pipeline_release_packet_v0_1.json",
+  "manifest": "manifests/physical_quantum_qi_motion_pipeline_manifest_v0_1.json",
+  "finality_declaration": {
+    "additive_only": true,
+    "tighten_only_default": true,
+    "overwrite_forbidden": true,
+    "destructive_replacement_forbidden": true,
+    "same_root_required": true,
+    "nonexecution_by_default": true,
+    "validated_type_license_required": true,
+    "medical_modality_neutral_boundary_required": true
+  },
+  "locked_invariants": [
+    "Qi motion is licensed by evidence-bound validated_type, not claimed_type",
+    "validated_type is the dynamics license source",
+    "unlicensed dynamics terms are ignored",
+    "FullPathQi is the history-bearing process-tensor-style motion level",
+    "motion output is a bounded observe-only candidate",
+    "motion output grants no execution authority",
+    "motion output grants no diagnosis authority",
+    "motion output grants no treatment authorization",
+    "motion output grants no medical act authorization",
+    "medical modality boundary is neutral",
+    "Qi is not denied by boundary wording",
+    "East Asian medical reasoning is not denied by boundary wording",
+    "biomedicine is not privileged by wording",
+    "professional judgment remains required",
+    "patient context remains required"
+  ],
+  "authority_boundary": {
+    "execution_authority": false,
+    "belief_commit_authority": false,
+    "memory_overwrite_authority": false,
+    "world_root_rewrite_authority": false,
+    "safety_override_authority": false,
+    "direct_execution_allowed": false,
+    "authority_expansion": false,
+    "standalone_diagnosis_authority": false,
+    "standalone_treatment_authorization": false,
+    "medical_act_authorization": false
+  },
+  "medical_modality_neutral_boundary": {
+    "medical_modality_neutral": true,
+    "qi_denied_by_boundary": false,
+    "east_asian_medical_reasoning_denied": false,
+    "biomedicine_privileged_by_wording": false,
+    "professional_judgment_required": true,
+    "patient_context_required": true
+  }
+}
