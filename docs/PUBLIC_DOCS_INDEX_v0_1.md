@@ -40,6 +40,7 @@ This index provides a stable public entrypoint for external reviewers.
 | `docs/PUBLIC_AUDIT_CHECKLIST_v0_1.md` | Public audit checklist |
 | `docs/LEAN_COVERAGE_MAP_v0_1.md` | Lean-facing coverage boundary |
 | `docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md` | Governance check runbook |
+| `docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md` | Qi motion chain runbook |
 
 ## Core Governance Surface
 
@@ -57,6 +58,7 @@ This index provides a stable public entrypoint for external reviewers.
 | `docs/KUOS_PHYSICS_GAP_BRIDGE_v0_1.md` | Physics-facing bridge |
 | `docs/MGAP4D_CANONICAL_PROOF_REPO_REFERENCE_v0_1.md` | Canonical proof repository reference |
 | `docs/MASS_GAP_TO_TWO_TRUTHS_ENGINE_FORMAL_BRIDGE_v0_1.md` | Mass gap to Two Truths Engine bridge |
+| `docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md` | Qi motion chain operational bridge |
 
 ## Release Preparation
 
@@ -70,6 +72,12 @@ This index provides a stable public entrypoint for external reviewers.
 
 ```bash
 make all-governance-checks
+```
+
+## Qi Motion Chain Validation
+
+```bash
+make qi-motion-chain-checks
 ```
 
 ## Emptiness Superposition Non-Collapse Validation
