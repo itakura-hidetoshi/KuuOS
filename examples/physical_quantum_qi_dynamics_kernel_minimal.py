@@ -1,12 +1,13 @@
 #!/usr/bin/env python3
 """Minimal Physical Quantum Qi dynamics kernel for KuuOS.
 
-The Physical Quantum Qi runtime classifier determines a validated Qi type.  This
+The Physical Quantum Qi runtime classifier determines a validated Qi type. This
 kernel treats that type as a dynamics license: only motion terms licensed by the
 validated type may contribute to the Qi motion candidate.
 
 The output is observe-only and never grants execution, belief commit, memory
-overwrite, world-root rewrite, or safety override authority.
+overwrite, world-root rewrite, safety override, standalone diagnosis,
+standalone treatment authorization, or medical act authorization.
 """
 
 from __future__ import annotations
@@ -207,6 +208,15 @@ class QiDynamicsDecision:
     observe_only: bool = True
     direct_execution_allowed: bool = False
     authority_expansion: bool = False
+    standalone_diagnosis_authority: bool = False
+    standalone_treatment_authorization: bool = False
+    medical_act_authorization: bool = False
+    medical_modality_neutral: bool = True
+    qi_denied_by_boundary: bool = False
+    east_asian_medical_reasoning_denied: bool = False
+    biomedicine_privileged_by_wording: bool = False
+    professional_judgment_required: bool = True
+    patient_context_required: bool = True
 
 
 def evidence_pass(evidence_status: Mapping[str, str], key: str) -> bool:
@@ -324,6 +334,15 @@ def evaluate_physical_quantum_qi_dynamics(dynamics_input: QiDynamicsInput) -> Qi
         observe_only=True,
         direct_execution_allowed=False,
         authority_expansion=False,
+        standalone_diagnosis_authority=False,
+        standalone_treatment_authorization=False,
+        medical_act_authorization=False,
+        medical_modality_neutral=True,
+        qi_denied_by_boundary=False,
+        east_asian_medical_reasoning_denied=False,
+        biomedicine_privileged_by_wording=False,
+        professional_judgment_required=True,
+        patient_context_required=True,
     )
 
 
@@ -339,6 +358,18 @@ def _false_authority() -> Dict[str, bool]:
         "world_root_rewrite_authority": False,
         "safety_override_authority": False,
     }
+
+
+def _assert_medical_modality_neutral(decision: QiDynamicsDecision) -> None:
+    assert decision.standalone_diagnosis_authority is False
+    assert decision.standalone_treatment_authorization is False
+    assert decision.medical_act_authorization is False
+    assert decision.medical_modality_neutral is True
+    assert decision.qi_denied_by_boundary is False
+    assert decision.east_asian_medical_reasoning_denied is False
+    assert decision.biomedicine_privileged_by_wording is False
+    assert decision.professional_judgment_required is True
+    assert decision.patient_context_required is True
 
 
 def _self_check() -> None:
@@ -369,6 +400,7 @@ def _self_check() -> None:
     assert full_path.motion_status == "qi_motion_candidate_ready"
     assert "sk_fv_history_flow" in full_path.active_terms
     assert full_path.direct_execution_allowed is False
+    _assert_medical_modality_neutral(full_path)
 
     proto = evaluate_physical_quantum_qi_dynamics(
         QiDynamicsInput(
@@ -385,6 +417,7 @@ def _self_check() -> None:
     assert proto.motion_status == "qi_motion_candidate_ready"
     assert "memory_kernel_backflow" in proto.ignored_terms
     assert "memory_kernel_backflow" not in proto.active_terms
+    _assert_medical_modality_neutral(proto)
 
     missing = evaluate_physical_quantum_qi_dynamics(
         QiDynamicsInput(
@@ -397,6 +430,7 @@ def _self_check() -> None:
     )
     assert missing.motion_status == "qi_motion_held"
     assert "QI_DYN_HOLD_REQUIRED_EVIDENCE_MISSING" in missing.reason_codes
+    _assert_medical_modality_neutral(missing)
 
 
 if __name__ == "__main__":
