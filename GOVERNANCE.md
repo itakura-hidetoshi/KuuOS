@@ -22,8 +22,42 @@ Repository validation does not grant:
 - institutional authority
 - execution authority
 - deployment approval
+- Qi-based treatment authorization
+- Qi-based execution authorization
 
 KuuOS governance artifacts are public structural surfaces unless an external validation process explicitly grants stronger status.
+
+## Qi Motion Chain Boundary
+
+The Qi motion chain is a governed, observe-only candidate surface.
+
+Its public chain is:
+
+```text
+Samvrti Qi Runtime
+  -> Samvrti Qi to Physical Motion Evidence Builder
+  -> Physical Quantum Qi Runtime
+  -> Physical Quantum Qi Dynamics Kernel
+  -> Physical Quantum Qi Motion Pipeline
+  -> observe-only bounded motion candidate
+```
+
+Governance requires:
+
+```text
+Samvrti Qi acceptance is not FullPathQi promotion.
+Qi classification is evidence-bound, not claim-bound.
+Validated Qi type licenses dynamics terms.
+Unlicensed dynamics terms must be ignored.
+Qi motion candidate remains observe-only.
+Qi motion validation does not grant clinical, institutional, theorem, or execution authority.
+```
+
+Changes touching this chain should run:
+
+```bash
+make qi-motion-chain-checks
+```
 
 ## Change Classes
 
@@ -64,6 +98,7 @@ Review should ask:
 3. Does it avoid silent escalation from candidate to authority?
 4. Does it keep physics-facing bridges distinct from canonical theorem repositories?
 5. Does it preserve fail-closed behavior?
+6. If Qi motion chain surfaces are touched, does it preserve observe-only, evidence-bound, licensed-dynamics behavior?
 
 ## Release Expectations
 
