@@ -44,6 +44,14 @@ authority_expansion = false
 observe_only = true
 ```
 
+## Medical-modality-neutral clarification
+
+This boundary is medical-modality neutral.
+
+It does not state that biomedicine is superior, nor that Qi or East Asian medical reasoning is false. It states only that repository validation is not, by itself, a standalone diagnosis, treatment decision, treatment authorization, or medical act authorization.
+
+Qi motion output may be used as an observe-only, evidence-grounded candidate surface inside KuuOS governance. It must still be interpreted through the appropriate professional, ethical, contextual, and clinical judgment framework.
+
 ## Local command
 
 ```bash
@@ -81,10 +89,12 @@ PASS does not mean:
 
 ```text
 truth authority
-clinical authority
 execution authority
 final theorem authority
 institutional authority
+standalone diagnosis authority
+standalone treatment authorization
+medical act authorization
 ```
 
 The output remains a bounded, evidence-grounded, observe-only Qi motion candidate.
