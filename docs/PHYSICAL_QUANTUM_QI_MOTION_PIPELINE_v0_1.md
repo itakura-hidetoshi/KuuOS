@@ -92,7 +92,25 @@ safety_override_authority = false
 direct_execution_allowed = false
 authority_expansion = false
 observe_only = true
+standalone_diagnosis_authority = false
+standalone_treatment_authorization = false
+medical_act_authorization = false
 ```
+
+## Medical-modality-neutral boundary
+
+The pipeline must also preserve:
+
+```text
+medical_modality_neutral = true
+qi_denied_by_boundary = false
+east_asian_medical_reasoning_denied = false
+biomedicine_privileged_by_wording = false
+professional_judgment_required = true
+patient_context_required = true
+```
+
+This means the Qi motion candidate is allowed to support structured observation and reasoning, but the boundary does not deny Qi, does not invalidate East Asian medical reasoning, and does not privilege biomedicine by wording.
 
 ## Fail-closed rule
 
