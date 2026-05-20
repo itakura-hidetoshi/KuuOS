@@ -13,7 +13,7 @@
 - [ ] non-authority policy exists
 - [ ] theorem boundary is explicit
 - [ ] deployment boundary is explicit
-- [ ] clinical boundary is explicit
+- [ ] medical-modality-neutral Qi boundary is explicit
 - [ ] candidate-versus-authority distinction is explicit
 
 ## Validation Surface
@@ -27,6 +27,7 @@
 ## Qi Motion Chain Surface
 
 - [ ] `docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md` is reachable
+- [ ] `docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md` is reachable
 - [ ] `make qi-motion-chain-checks` is documented
 - [ ] `scripts/run_qi_motion_chain_checks_v0_1.py` is reachable
 - [ ] `.github/workflows/qi_motion_chain_validation.yml` is reachable
@@ -36,7 +37,8 @@
 - [ ] validated type licenses dynamics terms
 - [ ] unlicensed motion terms are ignored
 - [ ] Qi motion candidate remains observe-only
-- [ ] Qi motion chain does not grant execution, clinical, institutional, or theorem authority
+- [ ] Qi motion chain does not grant execution, standalone diagnosis, standalone treatment authorization, medical act authorization, institutional, or theorem authority
+- [ ] Qi medical wording does not imply that biomedicine is superior, Qi is false, or East Asian medical reasoning is invalid
 
 ## Reproducibility
 
@@ -58,7 +60,7 @@
 - [ ] canonical theorem repository is identified
 - [ ] KuuOS does not claim replacement authority
 - [ ] governance validation is separated from theorem closure
-- [ ] Qi motion validation is separated from clinical or execution authority
+- [ ] Qi motion validation is separated from standalone diagnosis, standalone treatment authorization, medical act authorization, and execution authority
 
 ## Reviewer Recommendation
 
@@ -73,5 +75,7 @@ A reviewer should not treat this checklist alone as evidence of:
 - theorem correctness
 - production safety
 - institutional approval
-- clinical authorization
+- standalone diagnosis authority
+- standalone treatment authorization
+- medical act authorization
 - Qi-based execution authorization
