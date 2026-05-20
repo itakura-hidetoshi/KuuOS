@@ -56,6 +56,36 @@
       "stage": "finality_checker",
       "path": "scripts/check_kustring_qi_bridge_finality_packet_v0_1.py",
       "role": "finality_packet_checker"
+    },
+    {
+      "stage": "chain_index",
+      "path": "specs/kustring_qi_bridge_chain_index_v0_1.json",
+      "role": "ordered_chain_index"
+    },
+    {
+      "stage": "baseline_packet",
+      "path": "specs/kustring_qi_bridge_baseline_packet_v0_1.json",
+      "role": "baseline_established_candidate_packet"
+    },
+    {
+      "stage": "baseline_established_final_packet",
+      "path": "specs/kustring_qi_bridge_baseline_established_final_packet_v0_1.json",
+      "role": "baseline_established_final_packet"
+    },
+    {
+      "stage": "chain_checker",
+      "path": "scripts/check_kustring_qi_bridge_chain_index_v0_1.py",
+      "role": "baseline_chain_checker"
+    },
+    {
+      "stage": "integrity_manifest_builder",
+      "path": "scripts/build_kustring_qi_bridge_integrity_manifest_v0_1.py",
+      "role": "same_root_bundle_manifest_builder"
+    },
+    {
+      "stage": "integrity_manifest_validator",
+      "path": "scripts/validate_kustring_qi_bridge_integrity_manifest_v0_1.py",
+      "role": "same_root_bundle_manifest_validator"
     }
   ],
   "baseline_invariants": {
@@ -65,6 +95,8 @@
     "samvrti_qi_not_collapsed_into_physical_qi": true,
     "physical_classifier_remains_type_authority": true,
     "bridge_output_is_evidence_projection_only": true,
+    "integrity_manifest_required": true,
+    "same_root_bundle_root_required": true,
     "observe_only": true,
     "direct_execution_allowed": false,
     "authority_expansion": false,
@@ -80,7 +112,7 @@
   },
   "runner_position": {
     "runner": "scripts/run_qi_motion_chain_checks_v0_1.py",
-    "after": "kustring-qi-bridge-finality",
+    "after": "kustring-qi-bridge-chain-index",
     "before": "samvrti-to-physical-motion-builder"
   }
 }
