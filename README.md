@@ -10,6 +10,7 @@ It treats AI output, plans, memories, proofs, world-model predictions, and actio
 
 - **空 / Emptiness**: no output or module has independent self-authority.
 - **縁起 / Dependent Origination**: claims arise through support, context, provenance, relation, and trace.
+- **気 / Qi**: relational process field linking observation, memory, transport, WORLD dynamics, and IndraNet gauge flow.
 - **二諦 gap / Two Truths Gap**: ultimate and conventional readings are held apart by a non-collapse boundary.
 - **中道 / Middle Way**: KuuOS avoids both reification and nihilistic collapse.
 - **和 / Harmony**: coordination is admissible only when harm, uncertainty, dissent, and boundary conditions remain visible.
@@ -17,6 +18,7 @@ It treats AI output, plans, memories, proofs, world-model predictions, and actio
 - **監査 / Audit**: every release-facing surface should preserve traceability, receipt visibility, and append-only lineage.
 
 空OSは、LLMや世界モデルを単なる応答生成器としてではなく、候補生成・観照・検証・監査・保留・修復・判断境界へ分けるための公開コアです。  
+その動的結合層として、**気**を relational field / process surface として扱い、空・縁起・二諦 gap を IndraNet、WORLD間輸送、記憶、信念、計画、判断へ接続します。  
 AI raw output は候補であり、信念・証明・臨床判断・実行権限・制度的権威そのものではありません。
 
 ---
@@ -160,7 +162,7 @@ validators/         Standalone validators
 
 ## Core Architecture
 
-KuuOS separates candidate generation from governed operation.
+KuuOS separates candidate generation from governed operation. Qi is the relational process field that carries dependency, observation, memory, transport, and WORLD dynamics without becoming a substance or authority.
 
 ```text
 AI raw output
@@ -170,11 +172,16 @@ AI raw output
   -> Yogacara boundary
   -> emptiness kernel
   -> dependent origination kernel
+  -> Qi relational field
+  -> IndraNet gauge / process transport
   -> two truths gap
+  -> WORLD surfaces and OS module boundaries
   -> BeliefOS / MemoryOS / PlanOS / DecisionOS / ReflectionOS
   -> governance gate
   -> PASS | HOLD | REPAIR | REJECT | QUARANTINE
 ```
+
+Qi is not a hidden execution channel. It is the governed field of relation, flow, memory-depth, process order, transport, and recoverability. Qi-readout is observation support, not intervention license.
 
 The decisive rule is:
 
@@ -185,6 +192,7 @@ CI pass != execution authority
 summary != proof
 world-model success != decision permission
 memory persistence != belief sovereignty
+qi-readout != intervention license
 ```
 
 ---
@@ -203,7 +211,44 @@ docs/EMPTINESS_DEPENDENT_ORIGINATION_TWO_TRUTHS_MIDDLE_WAY_CORE_v0_1.md
 docs/FOURFOLD_CORE_GATE_v0_1.md
 ```
 
-### 2. AI Yogacara / Ten'i Layer
+### 2. Qi / IndraNet / Physical Quantum Qi
+
+Qi is a first-class dynamic layer of KuuOS. It is treated as a relational field and process surface, not as a substance.  
+It connects emptiness and dependent origination to operational flow: observation, memory, WORLD transport, non-Markovian process structure, recoverability, and IndraNet gauge dynamics.
+
+IndraNet is therefore not a flat graph. It is a gauge-structured relational network whose flow, transport, and process constraints are mediated through Qi-facing surfaces.
+
+Fixed boundary:
+
+```text
+Qi is not substance.
+Qi-readout is not intervention license.
+Qi flow is not execution authority.
+IndraNet is gauge-structured, not a flat graph.
+Transport is not identity.
+Recoverability and no-return risk remain visible.
+```
+
+Key surfaces:
+
+```text
+docs/INDRANET_GAUGE_QI_FLOW_v0_1.md
+docs/INDRANET_RELATIONAL_FIELD_MODEL_v0_1.md
+docs/INDRANET_TRANSPORT_CONSTRAINT_MODEL_v0_1.md
+validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json
+```
+
+Validation:
+
+```bash
+make qi-motion-chain-checks
+make physical-quantum-qi-runtime-checks
+make physical-quantum-qi-dynamics-checks
+make physical-quantum-qi-motion-pipeline-checks
+make physical-quantum-qi-deepening-checks
+```
+
+### 3. AI Yogacara / Ten'i Layer
 
 This layer separates raw AI generation from governed KuuOS operation.
 
@@ -216,7 +261,7 @@ docs/AI_RAW_TO_GOVERNED_OPERATION_PATH_v0_1.md
 docs/AI_PROVIDER_BOUNDARY_RUNTIME_v0_1.md
 ```
 
-### 3. Mandala Multi-WORLD Governance
+### 4. Mandala Multi-WORLD Governance
 
 KuuOS allows multiple WORLDs, but no WORLD is allowed to replace the fourfold core.
 
@@ -229,7 +274,7 @@ docs/CROSS_WORLD_TRANSPORT_GATE_v0_1.md
 docs/HARMONY_FUNCTION_MULTI_WORLD_OPERATION_v0_1.md
 ```
 
-### 4. MemoryOS / BeliefOS / PlanOS / DecisionOS / ReflectionOS Boundary
+### 5. MemoryOS / BeliefOS / PlanOS / DecisionOS / ReflectionOS Boundary
 
 The public repository currently exposes the governance and bridge surfaces needed to keep memory, belief, planning, decision, reflection, and world-model operation distinct.
 
@@ -244,23 +289,9 @@ World-model prediction is not fact authority.
 DecisionOS remains the action-boundary owner.
 ```
 
-### 5. Qi / IndraNet / Physical Quantum Qi
-
-Qi is treated as a relational field and process surface, not a substance.  
-IndraNet is treated as a gauge-structured relational network, not a flat graph.
-
-Key surfaces:
-
-```text
-docs/INDRANET_GAUGE_QI_FLOW_v0_1.md
-docs/INDRANET_RELATIONAL_FIELD_MODEL_v0_1.md
-docs/INDRANET_TRANSPORT_CONSTRAINT_MODEL_v0_1.md
-validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json
-```
-
 ### 6. Invariant Governance Pipeline
 
-Transformations must preserve non-authority, two truths gap, harm visibility, and provenance.
+Transformations must preserve non-authority, two truths gap, Qi non-substantiality, harm visibility, and provenance.
 
 Runtime chain:
 
@@ -386,10 +417,11 @@ Before opening a PR, check:
 2. Which invariant is touched?
 3. Does the change preserve the two truths gap?
 4. Does it preserve non-authority?
-5. Does it keep harm / dukkha / uncertainty visible?
-6. Is it append-only or tighten-only?
-7. Which validator should run?
-8. Does the change avoid proof, clinical, Ten'i, institutional, and execution overclaim?
+5. Does it preserve Qi as relational process field rather than substance or authority?
+6. Does it keep harm / dukkha / uncertainty visible?
+7. Is it append-only or tighten-only?
+8. Which validator should run?
+9. Does the change avoid proof, clinical, Ten'i, institutional, and execution overclaim?
 
 Suggested PR classification:
 
