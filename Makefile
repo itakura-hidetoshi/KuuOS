@@ -1,4 +1,4 @@
-.PHONY: ai-provider-boundary-checks ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks samvrti-qi-runtime-checks physical-quantum-qi-runtime-checks physical-quantum-qi-dynamics-checks physical-quantum-qi-deepening-checks formal-invariant-checks super-relativity-checks invariant-matrix-checks invariant-gate-checks invariant-pipeline-checks invariant-pipeline-build-bundle invariant-pipeline-validate-bundle invariant-pipeline-attest invariant-pipeline-release-closure invariant-pipeline-finality gpt-github-integration-checks memoryos-github-external-memory-checks emptiness-two-truths-runtime-audit-checks emptiness-superposition-noncollapse-checks superstring-emptiness-sbm-checks core-governance-checks all-governance-checks
+.PHONY: ai-provider-boundary-checks ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks samvrti-qi-runtime-checks physical-quantum-qi-runtime-checks physical-quantum-qi-dynamics-checks physical-quantum-qi-motion-pipeline-checks physical-quantum-qi-deepening-checks formal-invariant-checks super-relativity-checks invariant-matrix-checks invariant-gate-checks invariant-pipeline-checks invariant-pipeline-build-bundle invariant-pipeline-validate-bundle invariant-pipeline-attest invariant-pipeline-release-closure invariant-pipeline-finality gpt-github-integration-checks memoryos-github-external-memory-checks emptiness-two-truths-runtime-audit-checks emptiness-superposition-noncollapse-checks superstring-emptiness-sbm-checks core-governance-checks all-governance-checks
 
 ai-provider-boundary-checks:
 	python3 scripts/validate_ai_provider_boundary_runtime_v0_1.py
@@ -41,6 +41,10 @@ physical-quantum-qi-runtime-checks:
 physical-quantum-qi-dynamics-checks:
 	python3 examples/physical_quantum_qi_dynamics_kernel_minimal.py
 	python3 scripts/validate_physical_quantum_qi_dynamics_kernel_v0_1.py
+
+physical-quantum-qi-motion-pipeline-checks:
+	python3 examples/physical_quantum_qi_motion_pipeline_minimal.py
+	python3 scripts/validate_physical_quantum_qi_motion_pipeline_v0_1.py
 
 physical-quantum-qi-deepening-checks:
 	python3 scripts/validate_physical_quantum_qi_equations_v0_2.py
