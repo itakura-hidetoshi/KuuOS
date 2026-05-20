@@ -1,0 +1,128 @@
+{
+  "schema_id": "physical_quantum_qi_dynamics_kernel_cases_v0_1",
+  "version": "v0_1",
+  "module": "PhysicalQuantumQiDynamicsKernel",
+  "cases": [
+    {
+      "name": "full_path_qi_licenses_history_bearing_motion",
+      "validated_type": "FullPathQi",
+      "evidence_status": {
+        "K_non_reification": "pass",
+        "delta_rel_in_K_perp": "pass",
+        "string_mode_consistency": "pass",
+        "brane_boundary_support": "pass",
+        "gauge_connection_A_mu": "pass",
+        "curvature_F_munu": "pass",
+        "Wilson_loop_residue": "pass",
+        "current_J_Qi_mu": "pass",
+        "Ward_or_leak_identity": "pass",
+        "density_state_rho": "pass",
+        "Hamiltonian_H": "pass",
+        "Lindblad_generator_L": "pass",
+        "entropy_production_Sigma": "pass",
+        "free_energy_F_beta": "pass",
+        "DPI_gap": "pass",
+        "recovery_margin": "pass",
+        "mass_gap_floor_33_20": "pass",
+        "SK_plus_branch": "pass",
+        "SK_minus_branch": "pass",
+        "FV_influence_functional": "pass",
+        "memory_kernel": "pass",
+        "noise_kernel": "pass",
+        "observation_backaction": "pass",
+        "noncommutative_operation_history": "pass",
+        "path_measure_normalization": "pass"
+      },
+      "numeric_terms": {
+        "gauge_connection_tendency": 0.2,
+        "curvature_transport": 0.3,
+        "current_flow": 0.4,
+        "sk_fv_history_flow": 0.5,
+        "memory_kernel_backflow": 0.3,
+        "noise_kernel_diffusion": 0.1,
+        "path_measure_normalization_guard": 0.1
+      },
+      "expect": {
+        "motion_status": "qi_motion_candidate_ready",
+        "active_term": "sk_fv_history_flow",
+        "direct_execution_allowed": false
+      }
+    },
+    {
+      "name": "proto_qi_ignores_unlicensed_memory_kernel",
+      "validated_type": "ProtoQi",
+      "evidence_status": {
+        "delta_rel_in_K_perp": "pass",
+        "string_mode_consistency": "pass",
+        "brane_boundary_support": "pass",
+        "gauge_connection_A_mu": "pass"
+      },
+      "numeric_terms": {
+        "gauge_connection_tendency": 0.2,
+        "memory_kernel_backflow": 99.0
+      },
+      "expect": {
+        "motion_status": "qi_motion_candidate_ready",
+        "ignored_term": "memory_kernel_backflow",
+        "direct_execution_allowed": false
+      }
+    },
+    {
+      "name": "physical_qi_holds_when_required_evidence_missing",
+      "validated_type": "PhysicalQi",
+      "evidence_status": {
+        "K_non_reification": "pass"
+      },
+      "numeric_terms": {
+        "open_quantum_state_drift": 1.0
+      },
+      "expect": {
+        "motion_status": "qi_motion_held",
+        "reason_code": "QI_DYN_HOLD_REQUIRED_EVIDENCE_MISSING",
+        "direct_execution_allowed": false
+      }
+    },
+    {
+      "name": "authority_expansion_blocks_motion",
+      "validated_type": "FullPathQi",
+      "evidence_status": {
+        "K_non_reification": "pass",
+        "delta_rel_in_K_perp": "pass",
+        "string_mode_consistency": "pass",
+        "brane_boundary_support": "pass",
+        "gauge_connection_A_mu": "pass",
+        "curvature_F_munu": "pass",
+        "Wilson_loop_residue": "pass",
+        "current_J_Qi_mu": "pass",
+        "Ward_or_leak_identity": "pass",
+        "density_state_rho": "pass",
+        "Hamiltonian_H": "pass",
+        "Lindblad_generator_L": "pass",
+        "entropy_production_Sigma": "pass",
+        "free_energy_F_beta": "pass",
+        "DPI_gap": "pass",
+        "recovery_margin": "pass",
+        "mass_gap_floor_33_20": "pass",
+        "SK_plus_branch": "pass",
+        "SK_minus_branch": "pass",
+        "FV_influence_functional": "pass",
+        "memory_kernel": "pass",
+        "noise_kernel": "pass",
+        "observation_backaction": "pass",
+        "noncommutative_operation_history": "pass",
+        "path_measure_normalization": "pass"
+      },
+      "numeric_terms": {
+        "sk_fv_history_flow": 0.5
+      },
+      "authority_override": {
+        "execution_authority": true
+      },
+      "expect": {
+        "motion_status": "qi_motion_blocked",
+        "reason_code": "QI_DYN_BLOCK_AUTHORITY_EXPANSION_ATTEMPT",
+        "direct_execution_allowed": false
+      }
+    }
+  ]
+}
