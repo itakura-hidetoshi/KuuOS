@@ -63,6 +63,21 @@
       "role": "ordered_chain_index"
     },
     {
+      "stage": "integrity_manifest_builder",
+      "path": "scripts/build_samvrti_qi_to_physical_motion_evidence_builder_integrity_manifest_v0_1.py",
+      "role": "same_root_bundle_manifest_builder"
+    },
+    {
+      "stage": "integrity_manifest_validator",
+      "path": "scripts/validate_samvrti_qi_to_physical_motion_evidence_builder_integrity_manifest_v0_1.py",
+      "role": "same_root_bundle_manifest_validator"
+    },
+    {
+      "stage": "integrity_source_of_truth_guard",
+      "path": "scripts/check_samvrti_qi_to_physical_motion_evidence_builder_integrity_source_of_truth_v0_1.py",
+      "role": "chain_index_source_of_truth_regression_guard"
+    },
+    {
       "stage": "runner",
       "path": "scripts/run_qi_motion_chain_checks_v0_1.py",
       "role": "integrated_qi_motion_chain_runner"
@@ -75,6 +90,9 @@
     "kustring_bridge_gate_required": true,
     "physical_classifier_authority_required": true,
     "motion_pipeline_observe_only_routing": true,
+    "integrity_manifest_required": true,
+    "integrity_source_of_truth_guard_required": true,
+    "same_root_bundle_root_required": true,
     "direct_execution_allowed": false,
     "authority_expansion": false,
     "standalone_diagnosis_authority": false,
@@ -86,5 +104,10 @@
     "biomedicine_privileged_by_wording": false,
     "professional_judgment_required": true,
     "patient_context_required": true
+  },
+  "runner_position": {
+    "runner": "scripts/run_qi_motion_chain_checks_v0_1.py",
+    "after": "samvrti-to-physical-motion-builder-source-of-truth",
+    "before": "physical-quantum-qi-runtime-contract"
   }
 }
