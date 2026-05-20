@@ -1,0 +1,55 @@
+{
+  "manifest_id": "physical_quantum_qi_motion_pipeline_manifest_v0_1",
+  "status": "release_surface_candidate",
+  "module": "PhysicalQuantumQiMotionPipeline",
+  "version": "v0_1",
+  "update_policy": "additive_only",
+  "overwrite_policy": "forbidden",
+  "same_root_required": true,
+  "files": {
+    "documentation": [
+      "docs/PHYSICAL_QUANTUM_QI_MOTION_PIPELINE_v0_1.md"
+    ],
+    "implementation": [
+      "examples/physical_quantum_qi_motion_pipeline_minimal.py"
+    ],
+    "validation_cases": [
+      "validation_cases/physical_quantum_qi_motion_pipeline_cases_v0_1.json"
+    ],
+    "validators": [
+      "scripts/validate_physical_quantum_qi_motion_pipeline_v0_1.py",
+      "scripts/validate_physical_quantum_qi_motion_pipeline_release_packet_v0_1.py"
+    ],
+    "release_surface": [
+      "manifests/physical_quantum_qi_motion_pipeline_manifest_v0_1.json",
+      "packets/physical_quantum_qi_motion_pipeline_release_packet_v0_1.json",
+      "packets/physical_quantum_qi_motion_pipeline_finality_packet_v0_1.json",
+      "packets/physical_quantum_qi_motion_pipeline_release_closure_packet_v0_1.json",
+      "packets/physical_quantum_qi_motion_pipeline_validated_baseline_packet_v0_1.json",
+      "chain_indexes/physical_quantum_qi_motion_pipeline_chain_index_v0_1.json"
+    ]
+  },
+  "invariants": [
+    "Qi motion is licensed by evidence-bound validated_type, not claimed_type",
+    "validated_type is the dynamics license source",
+    "unlicensed dynamics terms are ignored",
+    "FullPathQi is the history-bearing process-tensor-style motion level",
+    "motion output is a bounded observe-only candidate",
+    "motion output grants no execution authority",
+    "motion output grants no diagnosis authority",
+    "motion output grants no treatment authorization",
+    "motion output grants no medical act authorization",
+    "medical modality boundary is neutral",
+    "Qi is not denied by boundary wording",
+    "East Asian medical reasoning is not denied by boundary wording",
+    "biomedicine is not privileged by wording",
+    "professional judgment remains required",
+    "patient context remains required"
+  ],
+  "validation_entrypoints": [
+    "python3 scripts/validate_physical_quantum_qi_motion_pipeline_v0_1.py",
+    "python3 scripts/validate_physical_quantum_qi_motion_pipeline_release_packet_v0_1.py",
+    "python3 scripts/run_qi_motion_chain_checks_v0_1.py",
+    "python3 scripts/run_all_governance_full_checks_v0_1.py"
+  ]
+}
