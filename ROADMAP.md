@@ -11,6 +11,7 @@ KuuOS is no longer only a small “public core” README surface. It now contain
 - MemoryOS / BeliefOS / PlanOS / DecisionOS / ReflectionOS boundary discipline
 - Qi / IndraNet / physical quantum Qi bridge
 - Qi motion chain from Samvrti Qi observation to observe-only physical motion candidate output
+- medical-modality-neutral Qi boundary that does not deny Qi or East Asian medical reasoning
 - Super-Relativity invariant bridge
 - MGAP4D / 4D mass gap proof-facing bridge
 - Superstring / brane / membrane emptiness bridge
@@ -28,18 +29,22 @@ The following remain closed unless a later, explicitly versioned, externally rev
 
 ```text
 autonomous execution authority
-clinical authority
+standalone diagnosis authority
+standalone treatment authorization
+medical act authorization
 institutional authority
 final theorem authority
 unreviewed AGI deployment authority
 Qi-based execution authority
-Qi motion candidate as treatment authorization
+Qi motion candidate as standalone diagnosis, standalone treatment authorization, or medical act authorization
 CI-pass-as-truth
 validator-pass-as-truth
 GPT-summary-as-proof
 world-model-prediction-as-fact
 memory-persistence-as-belief-sovereignty
 ```
+
+This boundary is medical-modality neutral: it does not state that biomedicine is superior, that Qi is false, or that East Asian medical reasoning is invalid.
 
 All phases below preserve:
 
@@ -71,6 +76,7 @@ CITATION.cff
 docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
 docs/KUOS_FOURFOLD_CORE_v0_1.md
 docs/BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1.md
+docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md
 docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
 ```
 
@@ -117,7 +123,8 @@ Purpose:
 
 ```text
 Allow GPT to help read, summarize, review, triage, and draft repository changes
-without allowing GPT output to become truth, proof, clinical authority, or execution authority.
+without allowing GPT output to become truth, proof, standalone diagnosis authority,
+standalone treatment authorization, medical act authorization, or execution authority.
 ```
 
 Validation:
@@ -160,6 +167,9 @@ Core direction:
 
 ```text
 Qi is a relational field, not a substance.
+Qi is not denied by the medical boundary.
+East Asian medical reasoning is not denied by the medical boundary.
+Biomedicine is not privileged by the wording.
 IndraNet is gauge-structured, not a flat graph.
 Process / memory / transport / recoverability surfaces remain first-class.
 Qi motion is evidence-bound, licensed by validated type, and observe-only.
@@ -191,8 +201,9 @@ Near-term next steps:
 ```text
 Keep Qi motion chain in all-governance checks.
 Maintain dedicated GitHub Actions workflow for Qi motion chain.
+Keep medical-modality-neutral wording visible in reviewer docs.
 Extend diagrams and reviewer docs only through append-only tightening.
-Do not convert Qi motion candidate into execution, clinical, or theorem authority.
+Do not convert Qi motion candidate into execution, standalone diagnosis, standalone treatment authorization, medical act authorization, or theorem authority.
 ```
 
 ### 1.6 Superstring / Brane / Membrane Emptiness Bridge
@@ -222,7 +233,7 @@ Goal:
 
 ```text
 Make the repository understandable to first-time reviewers, other AI systems,
-formal-methods readers, and governance reviewers.
+formal-methods readers, governance reviewers, and medical/integrative medicine reviewers.
 ```
 
 Tasks:
@@ -236,12 +247,14 @@ Tasks:
   - `docs/QUICKSTART_v0_1.md`
   - `docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md`
   - `docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md`
+  - `docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md`
   - `make all-governance-checks`
 - make the current major lanes visible:
   - AI Yogacara / Ten'i
   - GPT GitHub integration
   - invariant governance
   - Qi / IndraNet / Qi motion chain
+  - medical-modality-neutral Qi boundary
   - Super-Relativity
   - Superstring / brane / membrane
   - MGAP4D bridge
@@ -255,9 +268,11 @@ A new reviewer can identify:
 3. how to run checks
 4. where the core index is
 5. where the Qi motion chain is
-6. which surfaces are proof-facing only
-7. which surfaces are runtime/governance-facing only
-8. why validation is not authority
+6. where the medical-modality-neutral Qi boundary is
+7. which surfaces are proof-facing only
+8. which surfaces are runtime/governance-facing only
+9. why validation is not authority
+10. why Qi is not denied by the medical boundary
 ```
 
 ---
@@ -290,6 +305,7 @@ Tasks:
   - audit-chain package
   - validation fixture package
   - Qi motion chain package
+  - medical-modality-neutral Qi boundary package
 - preserve append-only lineage
 
 Acceptance criteria:
@@ -336,6 +352,7 @@ Tasks:
   - Qi motion chain stage mismatch
   - Qi evidence builder overpromotion
   - Qi dynamics license mismatch
+  - medical-modality-neutral wording regression
   - Lean / formal surface failure
   - environment drift
 - keep stdlib-only Python validator policy where possible
@@ -392,193 +409,3 @@ https://github.com/itakura-hidetoshi/4d-mass-gap
 KuuOS role:
 reference bridge, governance boundary, release routing, theorem-boundary discipline
 ```
-
-Acceptance criteria:
-
-```text
-KuuOS can cite and route formal proof work without becoming a false theorem-release surface.
-```
-
----
-
-## 6. Phase E — OS Module Boundary Expansion
-
-Status: **design integration track**
-
-Goal:
-
-```text
-Expose MemoryOS, BeliefOS, PlanOS, DecisionOS, ReflectionOS, WorldModel,
-and Self-EvolutionOS as governed surfaces without collapsing their authority boundaries.
-```
-
-Fixed boundary:
-
-```text
-MemoryOS stores and governs memory lineage; it does not directly decide belief truth.
-BeliefOS is the posterior belief surface; it does not commit actions.
-PlanOS proposes structured plans; it does not execute.
-DecisionOS owns action-boundary admissibility.
-ReflectionOS diagnoses and repairs; it does not rewrite roots directly.
-WorldModel generates decision-relevant world surfaces; it is not fact authority.
-Self-EvolutionOS proposes bounded improvement; it is not runtime sovereignty.
-```
-
-Tasks:
-
-- add public module index documents
-- add module-to-module boundary matrix
-- add validation cases for boundary collapse
-- add proof-carrying API skeletons where appropriate
-- add release packets for each mature module surface
-
-Acceptance criteria:
-
-```text
-Each OS module has:
-- scope
-- non-scope
-- authority boundary
-- validator
-- examples
-- failure modes
-- release packet
-```
-
----
-
-## 7. Phase F — Runtime Adapter Prototypes
-
-Status: **future**
-
-Goal:
-
-```text
-Move from static public governance surfaces toward bounded, non-sovereign runtime adapters.
-```
-
-Candidate adapters:
-
-- AI raw output to governed operation adapter
-- GPT GitHub review adapter
-- invariant gate adapter
-- Qi motion chain adapter
-- Qi process-tensor observation adapter
-- audit-chain event builder
-- release-packet builder
-- PlanOS handoff adapter
-- DecisionOS admissibility pre-check adapter
-
-Non-goals:
-
-```text
-No autonomous execution.
-No clinical deployment.
-No proof authority.
-No Qi-based treatment authorization.
-No silent authority escalation.
-No raw LLM output as decision commit.
-```
-
-Acceptance criteria:
-
-```text
-Adapters are observable, testable, reversible where appropriate,
-and blocked by non-authority / two-truths / provenance gates.
-```
-
----
-
-## 8. Phase G — External Review and Publication Readiness
-
-Status: **future**
-
-Goal:
-
-```text
-Prepare KuuOS for external review as a governance and verification architecture.
-```
-
-Tasks:
-
-- generate public review guide
-- maintain release package manifest
-- maintain reproducibility matrix
-- maintain public audit checklist
-- add diagrams for:
-  - fourfold core
-  - Yogacara boundary
-  - invariant pipeline
-  - Qi / IndraNet bridge
-  - Qi motion chain
-  - proof-facing bridge
-  - module boundary matrix
-- define reviewer claim levels:
-  - orientation
-  - structural consistency
-  - validator reproducibility
-  - formal check
-  - external mathematical review
-  - deployment readiness review
-
-Acceptance criteria:
-
-```text
-External reviewers can distinguish:
-- architecture claim
-- validator claim
-- Qi motion candidate claim
-- formal proof claim
-- deployment claim
-- philosophical interpretation
-- clinical / institutional non-claim
-```
-
----
-
-## 9. Long-Term Direction
-
-KuuOS aims toward a deployment-ready AGI operating architecture only through staged development:
-
-```text
-candidate generation
-  -> observation
-  -> provenance
-  -> validation
-  -> invariant preservation
-  -> non-authority boundary
-  -> risk-sensitive decision boundary
-  -> audit receipt
-  -> external review
-  -> bounded runtime admissibility
-```
-
-The long-term target is not “an AI that simply acts,” but an intelligence operating architecture in which:
-
-```text
-truth is not collapsed into output
-proof is not collapsed into CI
-memory is not collapsed into authority
-prediction is not collapsed into fact
-planning is not collapsed into execution
-reflection is not collapsed into root rewrite
-governance is not collapsed into bureaucracy
-observation is not collapsed into handover
-Qi motion is not collapsed into treatment or execution authorization
-```
-
----
-
-## 10. Current Roadmap Summary
-
-```text
-Phase A: README / ROADMAP orientation cleanup                  current
-Phase B: Release surface consolidation                         next
-Phase C: Validation matrix and CI hardening                     next
-Phase D: Formal verification bridge maturity                    parallel
-Phase E: OS module boundary expansion                           design integration
-Phase F: Runtime adapter prototypes                             future
-Phase G: External review and publication readiness              future
-```
-
-All phases remain append-only / tighten-only by default.
