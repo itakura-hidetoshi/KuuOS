@@ -53,6 +53,15 @@ class QiMotionPipelineDecision:
     observe_only: bool = True
     direct_execution_allowed: bool = False
     authority_expansion: bool = False
+    standalone_diagnosis_authority: bool = False
+    standalone_treatment_authorization: bool = False
+    medical_act_authorization: bool = False
+    medical_modality_neutral: bool = True
+    qi_denied_by_boundary: bool = False
+    east_asian_medical_reasoning_denied: bool = False
+    biomedicine_privileged_by_wording: bool = False
+    professional_judgment_required: bool = True
+    patient_context_required: bool = True
 
 
 QI_LADDER: Tuple[str, ...] = (
@@ -152,6 +161,15 @@ def run_physical_quantum_qi_motion_pipeline(
         observe_only=True,
         direct_execution_allowed=False,
         authority_expansion=False,
+        standalone_diagnosis_authority=False,
+        standalone_treatment_authorization=False,
+        medical_act_authorization=False,
+        medical_modality_neutral=True,
+        qi_denied_by_boundary=False,
+        east_asian_medical_reasoning_denied=False,
+        biomedicine_privileged_by_wording=False,
+        professional_judgment_required=True,
+        patient_context_required=True,
     )
 
 
@@ -175,6 +193,18 @@ def _packet_for(qi_type: str) -> Dict[str, Any]:
     }
 
 
+def _assert_medical_modality_neutral(decision: QiMotionPipelineDecision) -> None:
+    assert decision.standalone_diagnosis_authority is False
+    assert decision.standalone_treatment_authorization is False
+    assert decision.medical_act_authorization is False
+    assert decision.medical_modality_neutral is True
+    assert decision.qi_denied_by_boundary is False
+    assert decision.east_asian_medical_reasoning_denied is False
+    assert decision.biomedicine_privileged_by_wording is False
+    assert decision.professional_judgment_required is True
+    assert decision.patient_context_required is True
+
+
 def _self_check() -> None:
     full = run_physical_quantum_qi_motion_pipeline(
         QiMotionPipelineInput(
@@ -191,6 +221,7 @@ def _self_check() -> None:
     assert full.validated_type == "FullPathQi"
     assert "sk_fv_history_flow" in full.active_terms
     assert full.direct_execution_allowed is False
+    _assert_medical_modality_neutral(full)
 
     proto = run_physical_quantum_qi_motion_pipeline(
         QiMotionPipelineInput(
@@ -201,6 +232,7 @@ def _self_check() -> None:
     )
     assert proto.validated_type == "ProtoQi"
     assert "memory_kernel_backflow" in proto.ignored_terms
+    _assert_medical_modality_neutral(proto)
 
     blocked_packet = _packet_for("FullPathQi")
     blocked_packet["authority"] = dict(blocked_packet["authority"])
@@ -213,6 +245,7 @@ def _self_check() -> None:
         )
     )
     assert blocked.pipeline_status == "pipeline_blocked_by_classification"
+    _assert_medical_modality_neutral(blocked)
 
 
 if __name__ == "__main__":
