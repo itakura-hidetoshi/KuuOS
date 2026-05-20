@@ -10,15 +10,16 @@ Start with:
 README.md
 docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
 docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
+docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md
 ```
 
-These documents define the public governance surface and the current validation entrypoints.
+These documents define the public governance surface, the current validation entrypoints, and the Qi motion chain from Samvrti Qi observation to observe-only physical motion candidate output.
 
 ## 2. What this repository validates
 
 KuuOS public checks validate structural consistency of governance surfaces.
 
-They check whether files, manifests, packets, and bridge records preserve the intended public boundaries.
+They check whether files, manifests, packets, bridge records, and Qi motion chain surfaces preserve the intended public boundaries.
 
 They do not grant:
 
@@ -27,6 +28,7 @@ They do not grant:
 - institutional authority
 - execution authority
 - final 4D mass gap proof authority
+- Qi-based execution authorization
 
 ## 3. Local validation
 
@@ -47,7 +49,14 @@ If a narrower check is desired:
 ```bash
 make core-governance-checks
 make ai-yogacara-checks
+make qi-motion-chain-checks
 make superstring-emptiness-sbm-checks
+```
+
+For the Qi motion chain specifically:
+
+```bash
+python3 scripts/run_qi_motion_chain_checks_v0_1.py
 ```
 
 ## 4. Review order
@@ -59,9 +68,11 @@ Recommended order:
 3. docs/BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1.md
 4. docs/ARCHITECTURE_OVERVIEW_v0_1.md
 5. docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
-6. Makefile
-7. scripts/run_all_governance_full_checks_v0_1.py
-8. specs/kuos_core_manifest_v0_1.yaml
+6. docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md
+7. Makefile
+8. scripts/run_all_governance_full_checks_v0_1.py
+9. scripts/run_qi_motion_chain_checks_v0_1.py
+10. specs/kuos_core_manifest_v0_1.yaml
 
 ## 5. What can be externally reproduced now
 
@@ -71,6 +82,7 @@ External reviewers can reproduce:
 - structural validation of declared governance artifacts
 - public non-authority boundary assertions
 - manifest and packet consistency checks exposed in the repository
+- Qi motion chain checks from Samvrti Qi observation to conservative evidence, evidence-bound classification, licensed dynamics, and observe-only motion candidate output
 
 External reviewers should not treat this repository alone as reproducing:
 
@@ -78,6 +90,7 @@ External reviewers should not treat this repository alone as reproducing:
 - clinical decision validity
 - deployment readiness
 - model-level transformation of any AI provider
+- Qi-based execution or treatment authorization
 
 ## 6. Expected reviewer stance
 
@@ -88,6 +101,7 @@ A reviewer should evaluate whether KuuOS consistently preserves its own boundari
 - plans do not become decisions
 - decisions do not bypass validation
 - physics-facing references do not silently become final theorem authority
+- Qi motion candidates do not become clinical or execution authority
 - public validation remains structural unless explicitly extended
 
 ## 7. Minimal audit command
@@ -97,5 +111,11 @@ make all-governance-checks
 ```
 
 If this passes, the public governance surface is structurally consistent under the current validators.
+
+For Qi motion chain-only review:
+
+```bash
+make qi-motion-chain-checks
+```
 
 If it fails, treat the repository state as requiring repair before any stronger interpretation.
