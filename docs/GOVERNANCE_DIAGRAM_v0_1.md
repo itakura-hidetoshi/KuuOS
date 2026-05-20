@@ -24,6 +24,15 @@ flowchart TD
     H --> O[Provenance tracking]
     H --> P[Validator surface]
 
+    C --> R[Samvrti Qi Runtime]
+    R --> S[Conservative evidence builder]
+    S --> T[Evidence-bound Qi classification]
+    T --> U[Licensed Qi dynamics]
+    U --> V[Observe-only Qi motion candidate]
+    V --> N
+    V --> P
+    V -.no direct execution.-> J
+
     Q[Canonical theorem repository boundary] -.reference only.-> P
 ```
 
@@ -36,5 +45,8 @@ This governance flow emphasizes:
 - rollback visibility
 - abstention legitimacy
 - provenance preservation
+- Qi motion candidate non-authority
+
+The Qi motion chain routes bounded motion candidates to validation and audit surfaces. It remains observe-only and does not create clinical, institutional, theorem, or execution authority.
 
 The theorem repository boundary is reference-only unless explicitly elevated by external processes.
