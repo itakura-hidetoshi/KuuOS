@@ -1,0 +1,39 @@
+{
+  "packet_id": "kustring_qi_bridge_baseline_packet_v0_1",
+  "status": "baseline_established_candidate",
+  "module": "KuStringQiBridge",
+  "version": "v0_1",
+  "chain_index": "specs/kustring_qi_bridge_chain_index_v0_1.json",
+  "finality_packet": "specs/kustring_qi_bridge_finality_packet_v0_1.json",
+  "finality_checker": "scripts/check_kustring_qi_bridge_finality_packet_v0_1.py",
+  "release_bundle_validator": "scripts/validate_kustring_qi_bridge_release_bundle_v0_1.py",
+  "baseline_claims": {
+    "chain_index_present": true,
+    "all_chain_files_present": true,
+    "finality_checker_present": true,
+    "finality_checker_pass_required": true,
+    "release_bundle_validator_pass_required": true,
+    "runner_chain_position_checked": true,
+    "append_only_lineage_preserved": true,
+    "same_root_required": true,
+    "samvrti_to_physical_bridge_explicit": true,
+    "kustring_projection_required": true,
+    "samvrti_qi_not_collapsed_into_physical_qi": true,
+    "physical_classifier_remains_type_authority": true,
+    "bridge_output_is_evidence_projection_only": true,
+    "medical_modality_neutral_boundary_preserved": true
+  },
+  "forbidden_baseline_claims": {
+    "destructive_replacement": false,
+    "overwrite_existing_semantics": false,
+    "direct_execution_authority": false,
+    "truth_authority": false,
+    "theorem_authority": false,
+    "standalone_diagnosis_authority": false,
+    "standalone_treatment_authorization": false,
+    "medical_act_authorization": false,
+    "qi_denial_authority": false,
+    "biomedicine_privileging_authority": false
+  },
+  "baseline_rule": "chain_index_valid_and_finality_checker_passes_and_forbidden_baseline_claims_false"
+}
