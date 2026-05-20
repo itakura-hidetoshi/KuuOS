@@ -10,6 +10,7 @@ from typing import Any, Dict, List
 
 ROOT = Path(__file__).resolve().parents[1]
 BUILDER_PATH = ROOT / "scripts" / "build_kustring_qi_bridge_integrity_manifest_v0_1.py"
+EXPECTED_ENTRY_COUNT = 16
 
 FALSE_AUTHORITY_KEYS = [
     "integrity_manifest_grants_execution_authority",
@@ -57,8 +58,8 @@ def validate_manifest(manifest: Dict[str, Any]) -> List[str]:
     entries = manifest.get("entries", [])
     if manifest.get("entry_count") != len(entries):
         errors.append("entry_count must equal number of entries")
-    if len(entries) < 14:
-        errors.append("integrity manifest must include at least 14 entries")
+    if len(entries) != EXPECTED_ENTRY_COUNT:
+        errors.append(f"integrity manifest must include exactly {EXPECTED_ENTRY_COUNT} entries")
     seen = set()
     for entry in entries:
         rel_path = entry.get("path")
