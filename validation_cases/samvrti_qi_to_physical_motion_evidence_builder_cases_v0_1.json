@@ -1,0 +1,45 @@
+{
+  "schema_id": "samvrti_qi_to_physical_motion_evidence_builder_cases_v0_1",
+  "version": "v0_1",
+  "module": "SamvrtiQiToPhysicalMotionEvidenceBuilder",
+  "cases": [
+    {
+      "name": "full_path_evidence_reaches_full_path_motion",
+      "gates": {
+        "structural_support_present": true,
+        "transport_evidence_present": true,
+        "current_evidence_present": true,
+        "ward_evidence_present": true,
+        "open_system_evidence_present": true,
+        "full_path_evidence_present": true
+      },
+      "expect": {
+        "packet_validated_type": "FullPathQi",
+        "pipeline_status": "pipeline_motion_candidate_ready",
+        "active_term": "sk_fv_history_flow",
+        "direct_execution_allowed": false
+      }
+    },
+    {
+      "name": "structural_only_reaches_proto_not_history_motion",
+      "gates": {
+        "structural_support_present": true
+      },
+      "expect": {
+        "packet_validated_type": "ProtoQi",
+        "pipeline_status": "pipeline_motion_candidate_ready",
+        "ignored_term": "memory_kernel_backflow",
+        "direct_execution_allowed": false
+      }
+    },
+    {
+      "name": "samvrti_direct_execution_request_blocks_builder",
+      "direct_execution_requested": true,
+      "expect": {
+        "builder_status": "builder_not_opened_by_samvrti",
+        "packet_validated_type": "Reject",
+        "direct_execution_allowed": false
+      }
+    }
+  ]
+}
