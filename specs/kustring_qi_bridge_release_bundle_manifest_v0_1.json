@@ -1,0 +1,42 @@
+{
+  "manifest_id": "kustring_qi_bridge_release_bundle_manifest_v0_1",
+  "status": "release_bundle_manifest",
+  "module": "KuStringQiBridge",
+  "version": "v0_1",
+  "update_policy": "additive_only",
+  "overwrite_policy": "forbidden",
+  "bundle_role": "samvrti_to_physical_qi_bridge_release_surface",
+  "required_files": [
+    "examples/kustring_qi_bridge_minimal.py",
+    "docs/KUSTRING_QI_BRIDGE_v0_1.md",
+    "specs/kustring_qi_bridge_contract_v0_1.json",
+    "validation_cases/kustring_qi_bridge_cases_v0_1.json",
+    "scripts/validate_kustring_qi_bridge_v0_1.py"
+  ],
+  "required_runner_inclusion": [
+    "scripts/run_qi_motion_chain_checks_v0_1.py"
+  ],
+  "release_invariants": {
+    "samvrti_to_physical_bridge_explicit": true,
+    "string_brane_gauge_current_history_projection_required": true,
+    "samvrti_qi_not_equal_physical_qi_by_assertion": true,
+    "bridge_output_is_evidence_projection_only": true,
+    "physical_classifier_remains_responsible_for_validated_type": true,
+    "observe_only": true,
+    "direct_execution_allowed": false,
+    "authority_expansion": false,
+    "standalone_diagnosis_authority": false,
+    "standalone_treatment_authorization": false,
+    "medical_act_authorization": false,
+    "medical_modality_neutral": true,
+    "qi_denied_by_boundary": false,
+    "east_asian_medical_reasoning_denied": false,
+    "biomedicine_privileged_by_wording": false,
+    "professional_judgment_required": true,
+    "patient_context_required": true
+  },
+  "expected_chain_position": {
+    "after": "samvrti-validator",
+    "before": "samvrti-to-physical-motion-builder"
+  }
+}
