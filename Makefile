@@ -1,4 +1,4 @@
-.PHONY: ai-provider-boundary-checks ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks qi-motion-chain-checks samvrti-qi-runtime-checks samvrti-qi-to-physical-motion-checks physical-quantum-qi-runtime-checks physical-quantum-qi-dynamics-checks physical-quantum-qi-motion-pipeline-checks physical-quantum-qi-deepening-checks formal-invariant-checks super-relativity-checks invariant-matrix-checks invariant-gate-checks invariant-pipeline-checks invariant-pipeline-build-bundle invariant-pipeline-validate-bundle invariant-pipeline-attest invariant-pipeline-release-closure invariant-pipeline-finality gpt-github-integration-checks memoryos-github-external-memory-checks emptiness-two-truths-runtime-audit-checks emptiness-superposition-noncollapse-checks superstring-emptiness-sbm-checks core-governance-checks all-governance-checks
+.PHONY: ai-provider-boundary-checks ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks qi-motion-chain-checks samvrti-qi-runtime-checks samvrti-qi-to-physical-motion-checks physical-quantum-qi-runtime-checks physical-quantum-qi-dynamics-checks physical-quantum-qi-motion-pipeline-checks physical-quantum-qi-deepening-checks physical-quantum-qi-runtime-evolution-checks formal-invariant-checks super-relativity-checks invariant-matrix-checks invariant-gate-checks invariant-pipeline-checks invariant-pipeline-build-bundle invariant-pipeline-validate-bundle invariant-pipeline-attest invariant-pipeline-release-closure invariant-pipeline-finality gpt-github-integration-checks memoryos-github-external-memory-checks emptiness-two-truths-runtime-audit-checks emptiness-superposition-noncollapse-checks superstring-emptiness-sbm-checks core-governance-checks all-governance-checks
 
 ai-provider-boundary-checks:
 	python3 scripts/validate_ai_provider_boundary_runtime_v0_1.py
@@ -78,6 +78,24 @@ physical-quantum-qi-deepening-checks:
 	python3 scripts/validate_physical_quantum_qi_deepening_v0_2.py
 	python3 scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py
 	python3 scripts/validate_qi_process_tensor_release_chain_v0_2FG.py
+
+physical-quantum-qi-runtime-evolution-checks:
+	python3 scripts/validate_qi_bensho_treatment_route_candidate_v0_2J.py
+	python3 scripts/validate_qi_bensho_decisionos_clinician_handoff_v0_2K.py
+	python3 scripts/validate_qi_clinical_red_flag_handover_governor_v0_2L.py
+	python3 scripts/check_qi_clinical_red_flag_consultation_governor_finality_v0_2L.py
+	python3 scripts/validate_physical_quantum_qi_observation_kernel_v0_2M.py
+	python3 tests/test_physical_quantum_qi_observation_kernel_v0_2M.py
+	python3 scripts/validate_physical_quantum_qi_state_transition_kernel_v0_2N.py
+	python3 tests/test_physical_quantum_qi_state_transition_kernel_v0_2N.py
+	python3 scripts/validate_physical_quantum_qi_transition_trajectory_ledger_v0_2O.py
+	python3 tests/test_physical_quantum_qi_transition_trajectory_ledger_v0_2O.py
+	python3 scripts/validate_physical_quantum_qi_trajectory_phase_transition_detector_v0_2P.py
+	python3 tests/test_physical_quantum_qi_trajectory_phase_transition_detector_v0_2P.py
+	python3 scripts/validate_physical_quantum_qi_phase_transition_response_governor_v0_2Q.py
+	python3 tests/test_physical_quantum_qi_phase_transition_response_governor_v0_2Q.py
+	python3 scripts/validate_physical_quantum_qi_response_feedback_loop_v0_2R.py
+	python3 tests/test_physical_quantum_qi_response_feedback_loop_v0_2R.py
 
 formal-invariant-checks:
 	python3 scripts/validate_formal_invariant_spine_v0_1.py
