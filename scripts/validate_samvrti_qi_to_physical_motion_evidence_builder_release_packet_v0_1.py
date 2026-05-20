@@ -37,18 +37,43 @@ REQUIRED_REPO_PATHS = {
     "scripts/run_qi_motion_chain_checks_v0_1.py",
 }
 
-REQUIRED_INVARIANTS = {
+EXACT_INVARIANTS = {
     "Samvrti Qi acceptance is not PhysicalQi or FullPathQi",
     "Samvrti Qi acceptance opens only conservative evidence packet construction",
     "KuStringQiBridge remains the evidence projection gate",
     "physical classifier remains the validated_type authority",
     "builder output is routed to the motion pipeline as observe-only support",
+    "builder output grants no execution authority",
+    "builder output grants no diagnosis authority",
+    "builder output grants no treatment authorization",
+    "builder output grants no medical act authorization",
     "medical modality boundary is neutral",
     "Qi is not denied by boundary wording",
     "East Asian medical reasoning is not denied by boundary wording",
     "biomedicine is not privileged by wording",
     "professional judgment remains required",
     "patient context remains required",
+}
+
+ROLE_MARKERS = {
+    "release": [
+        "not PhysicalQi or FullPathQi",
+        "conservative evidence packet construction",
+        "KuStringQiBridge",
+        "validated_type authority",
+        "observe-only support",
+        "does not deny Qi",
+        "does not privilege biomedicine",
+    ],
+    "baseline": [
+        "samvrti_acceptance_not_physical_qi",
+        "samvrti_acceptance_not_full_path_qi",
+        "conservative_evidence_packet_only",
+        "kustring_bridge_gate_required",
+        "physical_classifier_authority_required",
+        "motion_pipeline_observe_only_routing",
+        "medical_modality_neutral_boundary_preserved",
+    ],
 }
 
 
@@ -73,6 +98,10 @@ def flatten_manifest_files(manifest: Dict[str, Any]) -> Set[str]:
 def check_true(mapping: Dict[str, Any], key: str, label: str, errors: List[str]) -> None:
     if mapping.get(key) is not True:
         errors.append(f"{label}.{key} must be true")
+
+
+def text_of(packet: Dict[str, Any]) -> str:
+    return json.dumps(packet, ensure_ascii=False, sort_keys=True)
 
 
 def main() -> int:
@@ -136,18 +165,22 @@ def main() -> int:
         if relpath and not (ROOT / relpath).exists():
             errors.append(f"chain_order references missing repository file: {relpath}")
 
-    for label, packet in [("release", release), ("finality", finality), ("closure", closure), ("baseline", baseline)]:
-        text = json.dumps(packet, ensure_ascii=False, sort_keys=True)
-        for invariant in REQUIRED_INVARIANTS:
-            if invariant not in text:
-                errors.append(f"{label} missing invariant marker: {invariant}")
+    manifest_invariants = set(manifest.get("invariants", []))
+    finality_invariants = set(finality.get("locked_invariants", []))
+    closure_invariants = set(closure.get("closed_invariants", []))
+    for label, invs in [("manifest", manifest_invariants), ("finality", finality_invariants), ("closure", closure_invariants)]:
+        missing = sorted(EXACT_INVARIANTS - invs)
+        if missing:
+            errors.append(f"{label} missing exact invariants: " + ", ".join(missing))
 
-    required_runner_markers = [
-        "samvrti-to-physical-motion-builder-release",
-        f"scripts/validate_{BASE}_release_packet_v0_1.py",
-    ]
+    for label, markers in ROLE_MARKERS.items():
+        packet_text = text_of(release if label == "release" else baseline)
+        for marker in markers:
+            if marker not in packet_text:
+                errors.append(f"{label} missing marker: {marker}")
+
     runner_text = PATHS["runner"].read_text(encoding="utf-8")
-    for marker in required_runner_markers:
+    for marker in ["samvrti-to-physical-motion-builder-release", f"scripts/validate_{BASE}_release_packet_v0_1.py"]:
         if marker not in runner_text:
             errors.append(f"runner missing marker: {marker}")
 
