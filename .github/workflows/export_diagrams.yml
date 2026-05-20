@@ -29,6 +29,17 @@ jobs:
       - name: Prepare output directory
         run: mkdir -p diagram_exports
 
+      - name: Write Puppeteer config for GitHub Actions Chromium
+        run: |
+          cat > diagram_exports/puppeteer-config.json <<'JSON'
+          {
+            "args": [
+              "--no-sandbox",
+              "--disable-setuid-sandbox"
+            ]
+          }
+          JSON
+
       - name: Extract Mermaid blocks
         run: |
           python3 - <<'PY'
@@ -58,9 +69,9 @@ jobs:
 
       - name: Export SVG diagrams
         run: |
-          mmdc -i diagram_exports/architecture.mmd -o diagram_exports/architecture.svg
-          mmdc -i diagram_exports/governance.mmd -o diagram_exports/governance.svg
-          mmdc -i diagram_exports/validator_graph.mmd -o diagram_exports/validator_graph.svg
+          mmdc -p diagram_exports/puppeteer-config.json -i diagram_exports/architecture.mmd -o diagram_exports/architecture.svg
+          mmdc -p diagram_exports/puppeteer-config.json -i diagram_exports/governance.mmd -o diagram_exports/governance.svg
+          mmdc -p diagram_exports/puppeteer-config.json -i diagram_exports/validator_graph.mmd -o diagram_exports/validator_graph.svg
 
       - name: Upload diagram artifacts
         uses: actions/upload-artifact@v4
