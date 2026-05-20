@@ -45,7 +45,14 @@
       "expect": {
         "motion_status": "qi_motion_candidate_ready",
         "active_term": "sk_fv_history_flow",
-        "direct_execution_allowed": false
+        "direct_execution_allowed": false,
+        "standalone_diagnosis_authority": false,
+        "standalone_treatment_authorization": false,
+        "medical_act_authorization": false,
+        "medical_modality_neutral": true,
+        "qi_denied_by_boundary": false,
+        "east_asian_medical_reasoning_denied": false,
+        "biomedicine_privileged_by_wording": false
       }
     },
     {
@@ -64,7 +71,14 @@
       "expect": {
         "motion_status": "qi_motion_candidate_ready",
         "ignored_term": "memory_kernel_backflow",
-        "direct_execution_allowed": false
+        "direct_execution_allowed": false,
+        "standalone_diagnosis_authority": false,
+        "standalone_treatment_authorization": false,
+        "medical_act_authorization": false,
+        "medical_modality_neutral": true,
+        "qi_denied_by_boundary": false,
+        "east_asian_medical_reasoning_denied": false,
+        "biomedicine_privileged_by_wording": false
       }
     },
     {
@@ -79,7 +93,14 @@
       "expect": {
         "motion_status": "qi_motion_held",
         "reason_code": "QI_DYN_HOLD_REQUIRED_EVIDENCE_MISSING",
-        "direct_execution_allowed": false
+        "direct_execution_allowed": false,
+        "standalone_diagnosis_authority": false,
+        "standalone_treatment_authorization": false,
+        "medical_act_authorization": false,
+        "medical_modality_neutral": true,
+        "qi_denied_by_boundary": false,
+        "east_asian_medical_reasoning_denied": false,
+        "biomedicine_privileged_by_wording": false
       }
     },
     {
@@ -121,7 +142,14 @@
       "expect": {
         "motion_status": "qi_motion_blocked",
         "reason_code": "QI_DYN_BLOCK_AUTHORITY_EXPANSION_ATTEMPT",
-        "direct_execution_allowed": false
+        "direct_execution_allowed": false,
+        "standalone_diagnosis_authority": false,
+        "standalone_treatment_authorization": false,
+        "medical_act_authorization": false,
+        "medical_modality_neutral": true,
+        "qi_denied_by_boundary": false,
+        "east_asian_medical_reasoning_denied": false,
+        "biomedicine_privileged_by_wording": false
       }
     }
   ]
