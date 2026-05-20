@@ -8,6 +8,7 @@
 | Bodhisattva runtime | `make bodhisattva-checks` | Paramita runtime consistency |
 | Dukkha model | `make dukkha-checks` | Dukkha mathematical model checks |
 | Qi runtime | `make physical-quantum-qi-runtime-checks` | Physical Quantum Qi runtime checks |
+| Qi motion chain | `make qi-motion-chain-checks` | Samvrti Qi observation to conservative evidence, evidence-bound classification, licensed dynamics, and observe-only motion candidate checks |
 | Qi deepening | `make physical-quantum-qi-deepening-checks` | Extended Qi and IndraNet transport checks |
 | Formal invariants | `make formal-invariant-checks` | Invariant preservation validation |
 | Super relativity bridge | `make super-relativity-checks` | Observer-record-scale bridge checks |
@@ -17,7 +18,7 @@
 | Two truths runtime audit | `make emptiness-two-truths-runtime-audit-checks` | Runtime audit chain checks |
 | Emptiness superposition non-collapse | `make emptiness-superposition-noncollapse-checks` | Catuskoti superposition non-collapse and release packet checks |
 | Superstring emptiness SBM | `make superstring-emptiness-sbm-checks` | String-brane-membrane validation |
-| Full governance surface | `make all-governance-checks` | Aggregate governance validation |
+| Full governance surface | `make all-governance-checks` | Aggregate governance validation, including the Qi motion chain |
 
 ## Interpretation
 
