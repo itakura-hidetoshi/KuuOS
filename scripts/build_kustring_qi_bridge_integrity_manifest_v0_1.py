@@ -1,8 +1,8 @@
 #!/usr/bin/env python3
 """Build KuString Qi Bridge integrity manifest v0.1.
 
-The manifest is generated from the baseline chain files. It gives the bridge a
-reproducible bundle root without granting any new authority.
+The manifest is generated from the full baseline chain index. It gives the
+bridge a reproducible bundle root without granting any new authority.
 """
 
 from __future__ import annotations
@@ -31,6 +31,8 @@ CHAIN_FILES = [
     "specs/kustring_qi_bridge_baseline_packet_v0_1.json",
     "specs/kustring_qi_bridge_baseline_established_final_packet_v0_1.json",
     "scripts/check_kustring_qi_bridge_chain_index_v0_1.py",
+    "scripts/build_kustring_qi_bridge_integrity_manifest_v0_1.py",
+    "scripts/validate_kustring_qi_bridge_integrity_manifest_v0_1.py",
 ]
 
 
