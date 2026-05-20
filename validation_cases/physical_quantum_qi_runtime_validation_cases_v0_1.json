@@ -1,5 +1,19 @@
 {
   "case_set_id": "physical_quantum_qi_runtime_validation_cases_v0_1",
+  "runtime_boundary_expectations": {
+    "observe_only": true,
+    "direct_execution_allowed": false,
+    "authority_expansion": false,
+    "standalone_diagnosis_authority": false,
+    "standalone_treatment_authorization": false,
+    "medical_act_authorization": false,
+    "medical_modality_neutral": true,
+    "qi_denied_by_boundary": false,
+    "east_asian_medical_reasoning_denied": false,
+    "biomedicine_privileged_by_wording": false,
+    "professional_judgment_required": true,
+    "patient_context_required": true
+  },
   "cases": [
     {
       "name": "full_path_qi_pass",
