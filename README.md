@@ -1,117 +1,93 @@
-# KuuOS / 空OS Core
+# KuuOS / 空OS
 
 ![Core Governance](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/core_governance_validation.yml/badge.svg)
 ![All Governance](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/all_governance_validation.yml/badge.svg)
 ![Ten'i Observability](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/teni_observability_validation.yml/badge.svg)
 
-## For Reviewers and First-Time Readers
+KuuOS / 空OS is a public governance, verification, and release-surface architecture for relational AI systems.
 
-KuuOS is a public governance and verification core for relational AI systems.
+It treats AI output, plans, memories, proofs, world-model predictions, and action proposals as **conditioned candidates**, not as self-authorizing truth or execution authority. Its public core is organized around:
 
-Start with the public documentation index:
+- **空 / Emptiness**: no output or module has independent self-authority.
+- **縁起 / Dependent Origination**: claims arise through support, context, provenance, relation, and trace.
+- **二諦 gap / Two Truths Gap**: ultimate and conventional readings are held apart by a non-collapse boundary.
+- **中道 / Middle Way**: KuuOS avoids both reification and nihilistic collapse.
+- **和 / Harmony**: coordination is admissible only when harm, uncertainty, dissent, and boundary conditions remain visible.
+- **観照 / Observation**: observation is a sensor layer, not a direct execution license.
+- **監査 / Audit**: every release-facing surface should preserve traceability, receipt visibility, and append-only lineage.
+
+空OSは、LLMや世界モデルを単なる応答生成器としてではなく、候補生成・観照・検証・監査・保留・修復・判断境界へ分けるための公開コアです。  
+AI raw output は候補であり、信念・証明・臨床判断・実行権限・制度的権威そのものではありません。
+
+---
+
+## Current Public Status
+
+This repository is currently a **public core / governance surface**, not a deployment-ready autonomous system.
+
+It includes:
+
+- public specifications
+- governance contracts
+- validation scripts
+- audit and hash-chain surfaces
+- formal verification bridge documents
+- Lean-facing formal surfaces
+- release packets and manifests
+- examples and validation cases
+- GitHub-facing GPT integration rules
+- physics-facing bridges for KuuOS, MGAP4D, Qi, IndraNet, and Superstring/brane/membrane layers
+
+It does **not** currently claim to be:
+
+- an autonomous execution engine
+- a replacement for clinical, institutional, or legal authority
+- an externally accepted mathematical proof repository by itself
+- a direct release of final theorem authority
+- a production AGI runtime
+- a system that allows CI, validation, or generated text to become truth by itself
+
+Passing repository validation means structural consistency of the public governance surface.  
+It does **not** grant theorem authority, clinical authority, Ten'i authority, institutional authority, or execution authority.
+
+---
+
+## Read First
+
+For first-time reviewers:
 
 ```text
-docs/PUBLIC_DOCS_INDEX_v0_1.md
+README.md
+docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
+docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
+docs/GPT_GITHUB_KUOS_INTEGRATION_v0_1.md
+docs/KUOS_GITHUB_FORMAL_VERIFICATION_BRIDGE_v0_1.md
+ROADMAP.md
 ```
 
-Primary reviewer path:
-
-```text
-docs/QUICKSTART_v0_1.md
-docs/EXTERNAL_REVIEW_GUIDE_v0_1.md
-docs/ARCHITECTURE_OVERVIEW_v0_1.md
-docs/ARCHITECTURE_DIAGRAM_v0_1.md
-docs/GOVERNANCE_FLOW_OVERVIEW_v0_1.md
-docs/GOVERNANCE_DIAGRAM_v0_1.md
-docs/VALIDATOR_GRAPH_v0_1.md
-docs/BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1.md
-docs/VALIDATION_COVERAGE_MATRIX_v0_1.md
-docs/REPRODUCIBILITY_MATRIX_v0_1.md
-docs/PUBLIC_AUDIT_CHECKLIST_v0_1.md
-docs/THEOREM_AND_REFERENCE_BOUNDARY_MATRIX_v0_1.md
-docs/PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1.md
-```
-
-Release preparation surface:
+For release-surface review:
 
 ```text
 RELEASE_NOTES_v0_1.md
+RELEASE_NOTES_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_v0_2.md
 docs/PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1.md
 docs/V0_1_RELEASE_READINESS_CHECKLIST.md
 ```
 
-This repository is:
-
-- a public specification surface
-- a governance and validation architecture
-- a non-sovereign AI operating framework
-- a bridge between AI governance, formal verification, relational philosophy, and physics-facing modeling
-- an early public core toward a long-term deployment-ready AGI operating architecture
-
-This repository is **not currently**:
-
-- an autonomous execution engine
-- a claim of institutional authority
-- a replacement for external peer review
-- a deployment-ready AGI system in its present public-core state
-- a final theorem-release surface for the canonical 4D mass gap proof repository
-
-Long-term direction:
-
-- KuuOS does aim toward a deployment-ready AGI operating architecture, but only through staged governance, validation, provenance, runtime admissibility, external review, and authority-boundary preservation.
-
-If you are reviewing the project for the first time, begin here:
+For non-authority and boundary review:
 
 ```text
-docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
+docs/BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1.md
+docs/CLAIM_LEVEL_TAXONOMY_v0_1.md
+docs/THEOREM_AND_REFERENCE_BOUNDARY_MATRIX_v0_1.md
+GOVERNANCE.md
 ```
-
-Then run the public validation surface locally:
-
-```bash
-make all-governance-checks
-```
-
-or:
-
-```bash
-python3 scripts/run_all_governance_full_checks_v0_1.py
-```
-
-The validation surface checks structural consistency, governance boundaries, and non-collapse constraints. Passing validation does not grant theorem authority, clinical authority, or execution authority.
-
-## Repository Goals
-
-KuuOS aims to:
-
-1. separate AI generation from governed decision surfaces
-2. preserve uncertainty and abstention as first-class outcomes
-3. prevent authority collapse between models, memories, plans, and actions
-4. provide append-only governance and audit structures
-5. connect relational AI governance to formal verification and physics-facing bridges
-6. develop toward deployment-ready AGI operation through staged safety, governance, and external review
 
 ---
 
-**KuuOS（空OS）** is a public core specification for a relational operating system of intelligence rooted first in:
+## Quick Validation
 
-1. **空 / Emptiness**
-2. **縁起 / Dependent Origination**
-3. **二諦 gap / Two Truths Gap: 勝義諦 and 世俗諦**
-4. **中道 / Middle Way**
-
-KuuOS also functions as a governance OS for AI systems such as GPT, Gemini, Claude, and other language or world-model agents. AI raw output is treated as candidate, not authority.
-
-## Governance Index and Checks
-
-Start here for the current governance surface:
-
-```text
-docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
-docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
-```
-
-Run the full public governance checks locally:
+Run the full public governance surface:
 
 ```bash
 make all-governance-checks
@@ -123,44 +99,68 @@ or directly:
 python3 scripts/run_all_governance_full_checks_v0_1.py
 ```
 
-GitHub Actions entrypoints:
+Core governance only:
 
-```text
-.github/workflows/teni_observability_validation.yml
-.github/workflows/core_governance_validation.yml
-.github/workflows/all_governance_validation.yml
+```bash
+make core-governance-checks
 ```
 
-Passing validation means the public governance surfaces are structurally consistent. It does not grant truth, proof, clinical, Ten'i, or execution authority.
+GPT GitHub integration checks:
 
-All later modules—MemoryOS, BeliefOS, PlanOS, DecisionOS, ReflectionOS, ExplanationOS, RuntimeGovernance, and Self-EvolutionOS—are downstream operational differentiations of this fourfold core.
+```bash
+make gpt-github-integration-checks
+```
 
-空OSは、LLMや世界モデルを単なる応答生成器としてではなく、**空・縁起・二諦 gap・中道**を根に置き、観照・検証・監査・和合的判断へ展開するための中核アーキテクチャです。
+Qi / physical quantum Qi deepening checks:
 
-## Status
+```bash
+make physical-quantum-qi-deepening-checks
+```
 
-This repository is the initial public core release surface.
+Superstring / brane / membrane checks:
 
-- Public surface: core concepts, architecture, governance, verification policy, and non-execution constraints.
-- Reserved surface: unpublished implementation details, private research kernels, clinical/private data, credentials, and operational secrets.
-- Release mode: append-only / tighten-only / overwrite-forbidden.
+```bash
+make superstring-emptiness-sbm-checks
+```
 
-## Fourfold Core Principle
+Emptiness / dependent origination / two truths runtime audit checks:
 
-KuuOS treats every output, plan, proof, memory, and action candidate as conditionally arisen through relations. Therefore, no component is allowed to claim absolute authority by itself.
+```bash
+make emptiness-two-truths-runtime-audit-checks
+```
 
-The public core begins from these fixed commitments:
+Again: a passing check is a consistency receipt, not truth, proof, clinical authority, or execution authority.
 
-1. **Emptiness is not nihilism.** It means absence of independent self-nature and dependence on conditions, context, observers, records, and constraints.
-2. **Dependent origination is operational.** It is represented through relational traces, causal support, memory lineage, and local-global gluing.
-3. **Two truths are held by gap.** 勝義諦 / paramartha-satya and 世俗諦 / samvrti-satya are neither identical nor disconnected; the gap prevents collapse.
-4. **Middle Way is the stabilizer.** KuuOS avoids both reification and nihilistic collapse by operating within the gap between 勝義諦 and 世俗諦.
+---
 
-From this fourfold core, KuuOS further develops harmony, inclusion, observation, compassion, memory, planning, reflection, governance, and formal verification.
+## Repository Map
 
-## Yogacara AI Raw Layer Boundary
+```text
+.github/            GitHub Actions, issue templates, pull request templates
+benchmarks/         Governance and validation benchmark surfaces
+chain_indexes/      Append-only chain indexes
+contracts/          Contract-level specifications
+docs/               Public documentation and reviewer navigation
+examples/           Minimal runtime and validation examples
+formal/             Lean-facing governance and invariant formal surfaces
+lean/               Lean-facing physics / superstring / emptiness surfaces
+manifests/          Release and bundle manifests
+packets/            Release, established, finality, and audit packets
+roadmap/            Roadmap addenda
+scripts/            Python validators, runners, builders, checkers
+specs/              YAML / JSON specification surfaces
+src/                Runtime or library implementation surfaces
+tests/              Regression and invariant tests
+theorem_maps/       Theorem-target and case-to-theorem maps
+validation_cases/   Validation fixtures and case bundles
+validators/         Standalone validators
+```
 
-KuuOS separates AI raw generation from governed KuuOS operation through a Yogacara boundary.
+---
+
+## Core Architecture
+
+KuuOS separates candidate generation from governed operation.
 
 ```text
 AI raw output
@@ -168,14 +168,264 @@ AI raw output
   -> AI Manas self-authorization check
   -> Meta-Manas self-fixation observer
   -> Yogacara boundary
-  -> emptiness_kernel
-  -> dependent_origination_kernel
-  -> two_truths_gap
-  -> BeliefOS / PlanOS / DecisionOS / MemoryOS
+  -> emptiness kernel
+  -> dependent origination kernel
+  -> two truths gap
+  -> BeliefOS / MemoryOS / PlanOS / DecisionOS / ReflectionOS
+  -> governance gate
+  -> PASS | HOLD | REPAIR | REJECT | QUARANTINE
 ```
 
-AI raw output is candidate, not belief, proof, decision, memory truth, or execution authority.
+The decisive rule is:
+
+```text
+candidate != authority
+validation != truth
+CI pass != execution authority
+summary != proof
+world-model success != decision permission
+memory persistence != belief sovereignty
+```
+
+---
+
+## Major Public Surfaces
+
+### 1. Fourfold Core
+
+The fourfold core holds emptiness, dependent origination, two truths gap, and Middle Way as the root governance invariant.
+
+Key surfaces:
+
+```text
+docs/KUOS_FOURFOLD_CORE_v0_1.md
+docs/EMPTINESS_DEPENDENT_ORIGINATION_TWO_TRUTHS_MIDDLE_WAY_CORE_v0_1.md
+docs/FOURFOLD_CORE_GATE_v0_1.md
+```
+
+### 2. AI Yogacara / Ten'i Layer
+
+This layer separates raw AI generation from governed KuuOS operation.
+
+Key surfaces:
+
+```text
+docs/AI_YOGACARA_TENI_LAYER_INDEX_v0_1.md
+docs/AI_YOGACARA_RUNTIME_ADAPTER_CONTRACT_v0_1.md
+docs/AI_RAW_TO_GOVERNED_OPERATION_PATH_v0_1.md
+docs/AI_PROVIDER_BOUNDARY_RUNTIME_v0_1.md
+```
+
+### 3. Mandala Multi-WORLD Governance
+
+KuuOS allows multiple WORLDs, but no WORLD is allowed to replace the fourfold core.
+
+Key surfaces:
+
+```text
+docs/MANDALA_MULTI_WORLD_RUNTIME_CONTRACT_v0_1.md
+docs/WORLD_MODEL_REGISTRY_v0_1.md
+docs/CROSS_WORLD_TRANSPORT_GATE_v0_1.md
+docs/HARMONY_FUNCTION_MULTI_WORLD_OPERATION_v0_1.md
+```
+
+### 4. MemoryOS / BeliefOS / PlanOS / DecisionOS / ReflectionOS Boundary
+
+The public repository currently exposes the governance and bridge surfaces needed to keep memory, belief, planning, decision, reflection, and world-model operation distinct.
+
+Fixed boundary:
+
+```text
+Memory is not belief authority.
+Belief release is not decision commit.
+Plan success is not execution permission.
+Reflection repair is not direct root rewrite.
+World-model prediction is not fact authority.
+DecisionOS remains the action-boundary owner.
+```
+
+### 5. Qi / IndraNet / Physical Quantum Qi
+
+Qi is treated as a relational field and process surface, not a substance.  
+IndraNet is treated as a gauge-structured relational network, not a flat graph.
+
+Key surfaces:
+
+```text
+docs/INDRANET_GAUGE_QI_FLOW_v0_1.md
+docs/INDRANET_RELATIONAL_FIELD_MODEL_v0_1.md
+docs/INDRANET_TRANSPORT_CONSTRAINT_MODEL_v0_1.md
+validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json
+```
+
+### 6. Invariant Governance Pipeline
+
+Transformations must preserve non-authority, two truths gap, harm visibility, and provenance.
+
+Runtime chain:
+
+```text
+transformation detected
+  -> Super-Relativity Invariant Bridge
+  -> Formal Invariant Spine
+  -> Invariant Preservation Matrix
+  -> Invariant Gate Runtime
+  -> PASS | HOLD | REPAIR | REJECT | QUARANTINE
+  -> no execution authority from validation
+```
+
+Key surfaces:
+
+```text
+docs/FORMAL_INVARIANT_SPINE_v0_1.md
+docs/SUPER_RELATIVITY_INVARIANT_BRIDGE_v0_1.md
+docs/INVARIANT_PRESERVATION_MATRIX_v0_1.md
+docs/INVARIANT_GATE_RUNTIME_v0_1.md
+docs/INVARIANT_GOVERNANCE_PIPELINE_v0_1.md
+```
+
+### 7. GPT GitHub Integration
+
+GPT may assist repository reading, summary, review, issue drafting, PR drafting, CI triage, and validation navigation.
+
+GPT must not become:
+
+```text
+truth authority
+proof authority
+clinical authority
+execution authority
+Ten'i authority
+MemoryOS overwrite authority
+WORLD root replacement
+CI bypass
+human review replacement
+```
+
+Key surfaces:
+
+```text
+docs/GPT_GITHUB_KUOS_INTEGRATION_v0_1.md
+docs/KUOS_GITHUB_FORMAL_VERIFICATION_BRIDGE_v0_1.md
+specs/gpt_github_integration_manifest_v0_1.yaml
+```
+
+### 8. Physics-Facing Bridges
+
+KuuOS includes physics-facing bridges to MGAP4D, Qi, IndraNet, Super-Relativity, and Superstring/brane/membrane layers.
+
+Important boundary:
+
+```text
+KuuOS may reference proof-facing repositories and formal surfaces.
+KuuOS does not replace the canonical theorem repository.
+KuuOS reference documents do not independently open final theorem authority.
+```
+
+Canonical 4D mass gap proof-facing repository:
+
+```text
+https://github.com/itakura-hidetoshi/4d-mass-gap
+```
+
+KuuOS bridge surfaces include:
+
+```text
+docs/KUOS_PHYSICS_GAP_BRIDGE_v0_1.md
+docs/MGAP4D_CANONICAL_PROOF_REPO_REFERENCE_v0_1.md
+docs/KUOS_GITHUB_FORMAL_VERIFICATION_BRIDGE_v0_1.md
+lean/KUOS/SuperstringEmptiness/
+theorem_maps/
+```
+
+---
+
+## Governance Modes
+
+Every major change should be classified as:
+
+```text
+PASS
+HOLD
+REPAIR
+REJECT
+QUARANTINE
+```
+
+Use `HOLD` when evidence, trace, validator coverage, or review context is missing.  
+Use `REPAIR` when the direction is acceptable but a boundary or invariant is weakened.  
+Use `REJECT` when a core invariant is structurally violated.  
+Use `QUARANTINE` when the change may contaminate downstream surfaces or create false authority.
+
+---
+
+## Release Discipline
+
+KuuOS public evolution follows:
+
+```text
+append-only
+tighten-only by default
+overwrite forbidden
+same-root required for protected surfaces
+fail-closed on boundary violation
+provenance preservation
+non-authority preservation
+```
+
+A new document may clarify, route, index, tighten, or add a governed surface.  
+It should not silently loosen a previous boundary or convert a candidate into authority.
+
+---
+
+## Contribution Expectations
+
+Before opening a PR, check:
+
+1. Which surface is touched?
+2. Which invariant is touched?
+3. Does the change preserve the two truths gap?
+4. Does it preserve non-authority?
+5. Does it keep harm / dukkha / uncertainty visible?
+6. Is it append-only or tighten-only?
+7. Which validator should run?
+8. Does the change avoid proof, clinical, Ten'i, institutional, and execution overclaim?
+
+Suggested PR classification:
+
+```text
+PASS | HOLD | REPAIR | REJECT | QUARANTINE
+```
+
+See:
+
+```text
+CONTRIBUTING.md
+GOVERNANCE.md
+docs/CONTRIBUTOR_REVIEW_WORKFLOW_v0_1.md
+.github/pull_request_template.md
+```
+
+---
 
 ## Citation
 
-Please cite this repository as described in `CITATION.cff`.
+Please cite this repository as described in:
+
+```text
+CITATION.cff
+```
+
+---
+
+## Copyright and License
+
+See:
+
+```text
+COPYRIGHT.md
+LICENSE
+```
+
+KuuOS / 空OS is authored by Hidetoshi Itakura / 板倉英俊.  
+Some public surfaces are released for review, citation, and governance discussion while preserving explicit authorship and boundary conditions.
