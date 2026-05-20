@@ -11,9 +11,10 @@ README.md
 docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
 docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
 docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md
+docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md
 ```
 
-These documents define the public governance surface, the current validation entrypoints, and the Qi motion chain from Samvrti Qi observation to observe-only physical motion candidate output.
+These documents define the public governance surface, the current validation entrypoints, the Qi motion chain from Samvrti Qi observation to observe-only physical motion candidate output, and the medical-modality-neutral Qi boundary.
 
 ## 2. What this repository validates
 
@@ -24,11 +25,15 @@ They check whether files, manifests, packets, bridge records, and Qi motion chai
 They do not grant:
 
 - theorem authority
-- clinical authority
+- standalone diagnosis authority
+- standalone treatment authorization
+- medical act authorization
 - institutional authority
 - execution authority
 - final 4D mass gap proof authority
 - Qi-based execution authorization
+
+The Qi medical boundary is modality-neutral: it does not state that biomedicine is superior, nor that Qi or East Asian medical reasoning is false.
 
 ## 3. Local validation
 
@@ -66,13 +71,14 @@ Recommended order:
 1. README.md
 2. docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
 3. docs/BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1.md
-4. docs/ARCHITECTURE_OVERVIEW_v0_1.md
-5. docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
-6. docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md
-7. Makefile
-8. scripts/run_all_governance_full_checks_v0_1.py
-9. scripts/run_qi_motion_chain_checks_v0_1.py
-10. specs/kuos_core_manifest_v0_1.yaml
+4. docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md
+5. docs/ARCHITECTURE_OVERVIEW_v0_1.md
+6. docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
+7. docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md
+8. Makefile
+9. scripts/run_all_governance_full_checks_v0_1.py
+10. scripts/run_qi_motion_chain_checks_v0_1.py
+11. specs/kuos_core_manifest_v0_1.yaml
 
 ## 5. What can be externally reproduced now
 
@@ -83,14 +89,17 @@ External reviewers can reproduce:
 - public non-authority boundary assertions
 - manifest and packet consistency checks exposed in the repository
 - Qi motion chain checks from Samvrti Qi observation to conservative evidence, evidence-bound classification, licensed dynamics, and observe-only motion candidate output
+- the medical-modality-neutral Qi boundary wording
 
 External reviewers should not treat this repository alone as reproducing:
 
 - final theorem proof closure
-- clinical decision validity
+- standalone diagnosis validity
+- standalone treatment authorization
+- medical act authorization
 - deployment readiness
 - model-level transformation of any AI provider
-- Qi-based execution or treatment authorization
+- Qi-based execution authorization
 
 ## 6. Expected reviewer stance
 
@@ -101,7 +110,8 @@ A reviewer should evaluate whether KuuOS consistently preserves its own boundari
 - plans do not become decisions
 - decisions do not bypass validation
 - physics-facing references do not silently become final theorem authority
-- Qi motion candidates do not become clinical or execution authority
+- Qi motion candidates do not become standalone diagnosis, standalone treatment authorization, medical act authorization, or execution authority
+- medical language remains modality-neutral and does not deny Qi or East Asian medical reasoning
 - public validation remains structural unless explicitly extended
 
 ## 7. Minimal audit command
