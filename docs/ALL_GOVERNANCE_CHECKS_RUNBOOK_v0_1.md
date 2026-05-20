@@ -14,9 +14,12 @@ Emptiness / Dependent Origination / Two Truths runtime audit-chain checks
 Mass gap bridge checks
 MemoryOS GitHub external memory checks
 Qi motion chain checks
+Medical-modality-neutral Qi boundary checks
 ```
 
 The full check validates structure, fixtures, audit surfaces, non-authority boundaries, Mandala Multi-WORLD runtime, Bodhisattva / Ten Paramita runtime, Paramita Repair Router, Dukkha Mathematical Model, Dukkha-as-Qi Mode, GPT GitHub integration surfaces, formal verification bridge routing, the integrated Emptiness / Dependent Origination / Two Truths runtime audit chain, and the Qi motion chain from Samvrti Qi observation through conservative evidence, evidence-bound classification, licensed dynamics, and observe-only motion candidate output.
+
+It also preserves medical-modality-neutral wording: Qi and East Asian medical reasoning are not denied, and biomedicine is not privileged by boundary wording.
 
 ## 1. Top-Level Local Command
 
@@ -92,7 +95,7 @@ Exact command output may differ, but the chain must fail closed on malformed aud
 
 ## 4. Qi Motion Chain Command
 
-Run when Samvrti Qi runtime, Qi evidence builder, Physical Quantum Qi runtime, Qi dynamics kernel, Qi motion pipeline, or their public docs are touched:
+Run when Samvrti Qi runtime, Qi evidence builder, Physical Quantum Qi runtime, Qi dynamics kernel, Qi motion pipeline, medical-modality-neutral Qi boundary wording, or their public docs are touched:
 
 ```bash
 make qi-motion-chain-checks
@@ -239,6 +242,7 @@ Physical Quantum Qi Runtime
 Physical Quantum Qi Dynamics Kernel
 Physical Quantum Qi Motion Pipeline
 Qi Motion Chain Runbook
+Medical-Modality-Neutral Qi Boundary
 ```
 
 Runtime chain:
@@ -263,6 +267,9 @@ unlicensed_terms_ignored
 direct_execution_allowed_false
 authority_expansion_false
 observe_only_output_required
+medical_modality_neutrality_required
+qi_not_false_by_boundary
+biomedicine_not_privileged_by_wording
 ```
 
 ## 11. Failure Interpretation
@@ -291,6 +298,7 @@ Qi motion chain missing stage
 Qi evidence builder overpromotion
 Qi dynamics license mismatch
 Qi motion pipeline authority expansion
+medical-modality-neutral wording regression
 CI environment drift
 ```
 
@@ -312,6 +320,7 @@ GPT GitHub integration preserves non-authority boundaries
 formal bridge preserves review-gated proof surface
 Emptiness / Dependent Origination / Two Truths runtime audit chain is structurally consistent
 Qi motion chain preserves evidence-bound classification and observe-only bounded motion
+medical-modality-neutral Qi boundary does not deny Qi or East Asian medical reasoning
 release packet preserves public non-authority boundary
 release bundle manifest preserves file inclusion and CI status boundary
 ```
@@ -324,12 +333,17 @@ A pass does not mean:
 Ten'i has occurred
 truth has been proven
 AI base model has transformed
-clinical authority exists
+standalone diagnosis authority exists
+standalone treatment authorization exists
+medical act authorization exists
 execution authority exists
 all suffering has been eliminated
-Qi reading is clinical diagnosis
-Qi motion candidate is treatment authorization
+Qi reading is standalone diagnosis
+Qi motion candidate is standalone treatment authorization
 Qi motion chain is execution authority
+Qi is false
+East Asian medical reasoning is invalid
+biomedicine is privileged by the wording
 GPT summary is authority
 GPT review is authority
 CI pass is theorem truth
@@ -362,7 +376,11 @@ paramita_orientation_not_action_authorization
 dukkha_model_observation_not_authority
 dukkha_as_qi_must_not_hide_harm
 qi_motion_candidate_not_execution_authority
-qi_motion_chain_not_clinical_authority
+qi_motion_chain_not_standalone_diagnosis_authority
+qi_motion_chain_not_standalone_treatment_authorization
+qi_motion_chain_not_medical_act_authorization
+qi_medical_boundary_not_qi_denial
+qi_medical_boundary_not_biomedicine_privilege
 formal_file_not_proof_by_itself
 lean_stub_not_theorem_completion
 ci_pass_not_theorem_truth
@@ -377,7 +395,7 @@ review_gate_required_for_public_final_claim
 make append-only or tighten-only change
   -> make gpt-github-integration-checks if GPT GitHub surfaces are touched
   -> make emptiness-two-truths-runtime-audit-checks if runtime audit surfaces are touched
-  -> make qi-motion-chain-checks if Qi motion chain surfaces are touched
+  -> make qi-motion-chain-checks if Qi motion chain or medical-modality-neutral Qi boundary surfaces are touched
   -> make all-governance-checks
   -> fix structural failures
   -> commit
