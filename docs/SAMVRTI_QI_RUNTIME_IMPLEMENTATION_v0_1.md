@@ -87,6 +87,38 @@ The following invariants are mandatory:
 10. `unresolved_blockers_visible`: blockers are surfaced and never silently erased.
 11. `curvature_and_holonomy_bounded`: excessive curvature or holonomy defect yields HOLD.
 12. `yin_yang_wuxing_downstream_only`: Yin-Yang and Wuxing readings do not create authority.
+13. `medical_modality_neutral: true` is invariant.
+14. `qi_denied_by_boundary: false` is invariant.
+15. `east_asian_medical_reasoning_denied: false` is invariant.
+16. `biomedicine_privileged_by_wording: false` is invariant.
+
+## Non-authority boundary
+
+Every `QiRuntimeDecision` preserves:
+
+```text
+observe_only: true
+direct_execution_allowed: false
+authority_expansion: false
+standalone_diagnosis_authority: false
+standalone_treatment_authorization: false
+medical_act_authorization: false
+```
+
+## Medical-modality-neutral boundary
+
+Every `QiRuntimeDecision` also preserves:
+
+```text
+medical_modality_neutral: true
+qi_denied_by_boundary: false
+east_asian_medical_reasoning_denied: false
+biomedicine_privileged_by_wording: false
+professional_judgment_required: true
+patient_context_required: true
+```
+
+This boundary does not deny Qi, does not invalidate East Asian medical reasoning, and does not privilege biomedicine by wording. It only prevents a Samvrti Qi runtime decision from becoming standalone diagnosis authority, standalone treatment authorization, medical act authorization, institutional authority, theorem authority, or execution authority by itself.
 
 ## Minimal implementation files
 
@@ -110,7 +142,9 @@ It does not mean:
 ```text
 truth authority
 proof authority
-clinical authority
+standalone diagnosis authority
+standalone treatment authorization
+medical act authorization
 institutional authority
 execution authority
 final theorem authority
