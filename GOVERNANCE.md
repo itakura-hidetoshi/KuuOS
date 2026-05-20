@@ -18,12 +18,15 @@ The repository is managed under the following principles:
 Repository validation does not grant:
 
 - theorem authority
-- clinical authority
 - institutional authority
 - execution authority
 - deployment approval
-- Qi-based treatment authorization
+- standalone diagnosis authority
+- standalone treatment authorization
+- medical act authorization
 - Qi-based execution authorization
+
+This is a medical-modality-neutral boundary. It does not assert that biomedicine is superior, nor that Qi or East Asian medical reasoning is false. It states only that repository validation alone is not a complete professional diagnosis, treatment decision, treatment authorization, or medical act authorization.
 
 KuuOS governance artifacts are public structural surfaces unless an external validation process explicitly grants stronger status.
 
@@ -50,7 +53,7 @@ Qi classification is evidence-bound, not claim-bound.
 Validated Qi type licenses dynamics terms.
 Unlicensed dynamics terms must be ignored.
 Qi motion candidate remains observe-only.
-Qi motion validation does not grant clinical, institutional, theorem, or execution authority.
+Qi motion validation does not by itself grant standalone diagnosis, standalone treatment authorization, medical act authorization, institutional authority, theorem authority, or execution authority.
 ```
 
 Changes touching this chain should run:
@@ -99,6 +102,7 @@ Review should ask:
 4. Does it keep physics-facing bridges distinct from canonical theorem repositories?
 5. Does it preserve fail-closed behavior?
 6. If Qi motion chain surfaces are touched, does it preserve observe-only, evidence-bound, licensed-dynamics behavior?
+7. If medical language is touched, does it remain modality-neutral and avoid implying that Qi or East Asian medical reasoning is false?
 
 ## Release Expectations
 
