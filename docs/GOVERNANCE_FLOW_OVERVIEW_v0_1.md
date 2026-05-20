@@ -24,6 +24,26 @@ RuntimeGovernance
 Validation / audit / rollback visibility
 ```
 
+## Qi Motion Chain Governance Flow
+
+```text
+Governance surfaces
+    ↓
+Samvrti Qi Runtime
+    ↓
+Conservative evidence builder
+    ↓
+Evidence-bound Qi classification
+    ↓
+Licensed Qi dynamics
+    ↓
+Observe-only Qi motion candidate
+    ↓
+Validation / audit
+```
+
+The Qi motion chain is a governed candidate surface. It preserves evidence-bound classification and observe-only output. It does not grant clinical, institutional, theorem, or execution authority.
+
 ## Boundary Principle
 
 No layer may silently escalate itself into authority.
@@ -42,6 +62,10 @@ No layer may silently escalate itself into authority.
 | MemoryOS | Trace and lineage preservation |
 | DecisionOS | Bounded operational decision surface |
 | RuntimeGovernance | Fail-closed admissibility control |
+| Samvrti Qi Runtime | Conventional Qi observation gate |
+| Conservative evidence builder | Staged evidence packet construction |
+| Physical Quantum Qi Dynamics Kernel | Validated-type-based dynamics licensing |
+| Qi Motion Pipeline | Observe-only bounded motion candidate output |
 
 ## Audit Orientation
 
@@ -52,6 +76,7 @@ KuuOS prefers:
 - abstention visibility
 - non-authority preservation
 - append-only governance
+- observe-only Qi motion candidate visibility
 
 ## Validation Interpretation
 
@@ -62,4 +87,6 @@ Validation does not automatically imply:
 - theorem correctness
 - production readiness
 - institutional approval
+- clinical authority
 - execution authority
+- Qi-based treatment authorization
