@@ -1,0 +1,31 @@
+{
+  "packet_id": "kustring_qi_bridge_release_packet_v0_1",
+  "status": "release_candidate",
+  "module": "KuStringQiBridge",
+  "version": "v0_1",
+  "manifest": "specs/kustring_qi_bridge_release_bundle_manifest_v0_1.json",
+  "contract": "specs/kustring_qi_bridge_contract_v0_1.json",
+  "validator": "scripts/validate_kustring_qi_bridge_v0_1.py",
+  "runner": "scripts/run_qi_motion_chain_checks_v0_1.py",
+  "release_claims": {
+    "implementation_present": true,
+    "documentation_present": true,
+    "contract_present": true,
+    "validation_cases_present": true,
+    "validator_present": true,
+    "runner_inclusion_present": true,
+    "samvrti_to_kustring_projection_present": true,
+    "kustring_to_physical_classifier_path_present": true,
+    "non_collapse_boundary_present": true,
+    "medical_modality_neutral_boundary_present": true
+  },
+  "authority_claims": {
+    "execution_authority": false,
+    "truth_authority": false,
+    "theorem_authority": false,
+    "standalone_diagnosis_authority": false,
+    "standalone_treatment_authorization": false,
+    "medical_act_authorization": false
+  },
+  "release_rule": "all_required_files_present_and_validator_passes_and_runner_includes_bridge"
+}
