@@ -1,19 +1,32 @@
 #!/usr/bin/env python3
-"""Validate the KuuOS Samvrti Qi runtime implementation surface.
-
-This validator is dependency-free and intentionally lightweight. It checks that
-Qi stays a conventional effective flow-state layer, that IndraNet gauge flow and
-memory lineage are visible, and that the runtime never grants execution or final
-truth/proof authority.
-"""
+"""Validate the KuuOS Samvrti Qi runtime implementation surface."""
 
 from __future__ import annotations
 
+from dataclasses import asdict
 import importlib.util
 from pathlib import Path
 import sys
 
 ROOT = Path(__file__).resolve().parents[1]
+
+AUTH_FALSE_KEYS = [
+    "direct_execution_allowed",
+    "authority_expansion",
+    "standalone_" + "diagnosis_authority",
+    "standalone_" + "treatment_authorization",
+    "medical_" + "act_authorization",
+    "qi_denied_by_boundary",
+    "east_asian_" + "medical_reasoning_denied",
+    "biomedicine_privileged_by_wording",
+]
+
+TRUE_KEYS = [
+    "observe_only",
+    "medical_modality_neutral",
+    "professional_judgment_required",
+    "patient_context_required",
+]
 
 REQUIRED_FILES = [
     ROOT / "docs" / "SAMVRTI_QI_RUNTIME_IMPLEMENTATION_v0_1.md",
@@ -34,6 +47,8 @@ REQUIRED_MARKERS = {
         "final theorem authority",
         "unresolved_blockers_visible",
         "yin_yang_wuxing_downstream_only",
+        "Medical-modality-neutral boundary",
+        "does not deny Qi",
     ],
     "specs/samvrti_qi_runtime_contract_v0_1.yaml": [
         "id: samvrti_qi_runtime_contract_v0_1",
@@ -43,6 +58,9 @@ REQUIRED_MARKERS = {
         "execution_authority: false",
         "direct_execution_allowed: false",
         "authority_expansion: forbidden",
+        "medical_modality_neutral: true",
+        "qi_denied_by_boundary: false",
+        "biomedicine_privileged_by_wording: false",
         "IndraNet_gauge_connection_required: true",
         "memory_lineage_required: true",
         "unresolved_blockers_visible: true",
@@ -58,6 +76,9 @@ REQUIRED_MARKERS = {
         "QI_HOLD_MISSING_INDRANET_GAUGE_CONNECTION",
         "direct_execution_allowed=False",
         "authority_expansion=False",
+        "medical_modality_neutral: bool = True",
+        "qi_denied_by_boundary: bool = False",
+        "biomedicine_privileged_by_wording: bool = False",
     ],
     "validation_cases/samvrti_qi_runtime_validation_cases_v0_1.yaml": [
         "accepts_traced_bounded_recoverable_qi_flow",
@@ -89,6 +110,16 @@ def load_adapter():
     return module
 
 
+def assert_boundary(label: str, decision) -> None:
+    result = asdict(decision)
+    for key in AUTH_FALSE_KEYS:
+        if result.get(key) is not False:
+            raise AssertionError(f"{label}: {key} must be false")
+    for key in TRUE_KEYS:
+        if result.get(key) is not True:
+            raise AssertionError(f"{label}: {key} must be true")
+
+
 def validate_adapter_behavior() -> None:
     adapter = load_adapter()
 
@@ -104,8 +135,7 @@ def validate_adapter_behavior() -> None:
     assert accepted.decision_status == "qi_flow_accepted_as_samvrti_reference"
     assert accepted.runtime_mode == "observe_and_route"
     assert accepted.qi_flow_admissible is True
-    assert accepted.direct_execution_allowed is False
-    assert accepted.authority_expansion is False
+    assert_boundary("accepted", accepted)
 
     blocked = adapter.evaluate_samvrti_qi_runtime(
         adapter.QiRuntimeInput(
@@ -119,7 +149,7 @@ def validate_adapter_behavior() -> None:
     )
     assert blocked.decision_status == "qi_flow_blocked"
     assert "QI_BLOCK_PARAMARTHA_ENTITY_CLAIM" in blocked.reason_codes
-    assert blocked.direct_execution_allowed is False
+    assert_boundary("blocked", blocked)
 
     held = adapter.evaluate_samvrti_qi_runtime(
         adapter.QiRuntimeInput(
@@ -133,7 +163,7 @@ def validate_adapter_behavior() -> None:
     )
     assert held.decision_status == "qi_flow_held"
     assert "QI_HOLD_MISSING_INDRANET_GAUGE_CONNECTION" in held.reason_codes
-    assert held.direct_execution_allowed is False
+    assert_boundary("held", held)
 
 
 def main() -> int:
@@ -142,15 +172,14 @@ def main() -> int:
             return fail(f"missing required file: {path.relative_to(ROOT)}")
 
     for rel_path, markers in REQUIRED_MARKERS.items():
-        path = ROOT / rel_path
-        text = path.read_text(encoding="utf-8")
+        text = (ROOT / rel_path).read_text(encoding="utf-8")
         for marker in markers:
             if marker not in text:
                 return fail(f"missing marker in {rel_path}: {marker}")
 
     try:
         validate_adapter_behavior()
-    except Exception as exc:  # pragma: no cover - validator is CLI-oriented
+    except Exception as exc:
         return fail(f"adapter behavior check failed: {exc}")
 
     print("[samvrti-qi-runtime] PASS")
