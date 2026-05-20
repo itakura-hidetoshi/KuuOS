@@ -1,0 +1,181 @@
+{
+  "schema_id": "physical_quantum_qi_dynamics_kernel_v0_1",
+  "status": "append_only_dynamics_surface",
+  "update_policy": "additive_only",
+  "overwrite_policy": "forbidden",
+  "core_principle": "validated_type_licenses_dynamics_terms",
+  "authority": {
+    "execution_authority": false,
+    "belief_commit_authority": false,
+    "memory_overwrite_authority": false,
+    "world_root_rewrite_authority": false,
+    "safety_override_authority": false,
+    "direct_execution_allowed": false,
+    "authority_expansion": false
+  },
+  "qi_types": [
+    "NonQi",
+    "PreQi",
+    "ProtoQi",
+    "TransportableQi",
+    "CurvedQi",
+    "CurrentQi",
+    "PhysicalQi",
+    "FullPathQi"
+  ],
+  "licensed_terms_by_type": {
+    "NonQi": [],
+    "PreQi": [
+      "pre_organization"
+    ],
+    "ProtoQi": [
+      "pre_organization",
+      "gauge_connection_tendency"
+    ],
+    "TransportableQi": [
+      "pre_organization",
+      "gauge_connection_tendency",
+      "curvature_transport"
+    ],
+    "CurvedQi": [
+      "pre_organization",
+      "gauge_connection_tendency",
+      "curvature_transport",
+      "current_flow"
+    ],
+    "CurrentQi": [
+      "pre_organization",
+      "gauge_connection_tendency",
+      "curvature_transport",
+      "current_flow",
+      "ward_leak_balance"
+    ],
+    "PhysicalQi": [
+      "pre_organization",
+      "gauge_connection_tendency",
+      "curvature_transport",
+      "current_flow",
+      "ward_leak_balance",
+      "open_quantum_state_drift",
+      "entropy_free_energy_gradient",
+      "dpi_recovery_constraint",
+      "mass_gap_floor_stabilizer"
+    ],
+    "FullPathQi": [
+      "pre_organization",
+      "gauge_connection_tendency",
+      "curvature_transport",
+      "current_flow",
+      "ward_leak_balance",
+      "open_quantum_state_drift",
+      "entropy_free_energy_gradient",
+      "dpi_recovery_constraint",
+      "mass_gap_floor_stabilizer",
+      "sk_fv_history_flow",
+      "memory_kernel_backflow",
+      "noise_kernel_diffusion",
+      "observation_backaction_term",
+      "noncommutative_order_correction",
+      "path_measure_normalization_guard"
+    ]
+  },
+  "required_evidence_by_type": {
+    "NonQi": [],
+    "PreQi": [
+      "delta_rel_in_K_perp"
+    ],
+    "ProtoQi": [
+      "delta_rel_in_K_perp",
+      "string_mode_consistency",
+      "brane_boundary_support",
+      "gauge_connection_A_mu"
+    ],
+    "TransportableQi": [
+      "delta_rel_in_K_perp",
+      "string_mode_consistency",
+      "brane_boundary_support",
+      "gauge_connection_A_mu",
+      "curvature_F_munu",
+      "Wilson_loop_residue"
+    ],
+    "CurvedQi": [
+      "delta_rel_in_K_perp",
+      "string_mode_consistency",
+      "brane_boundary_support",
+      "gauge_connection_A_mu",
+      "curvature_F_munu",
+      "Wilson_loop_residue",
+      "current_J_Qi_mu"
+    ],
+    "CurrentQi": [
+      "delta_rel_in_K_perp",
+      "string_mode_consistency",
+      "brane_boundary_support",
+      "gauge_connection_A_mu",
+      "curvature_F_munu",
+      "Wilson_loop_residue",
+      "current_J_Qi_mu",
+      "Ward_or_leak_identity"
+    ],
+    "PhysicalQi": [
+      "K_non_reification",
+      "delta_rel_in_K_perp",
+      "string_mode_consistency",
+      "brane_boundary_support",
+      "gauge_connection_A_mu",
+      "curvature_F_munu",
+      "Wilson_loop_residue",
+      "current_J_Qi_mu",
+      "Ward_or_leak_identity",
+      "density_state_rho",
+      "Hamiltonian_H",
+      "Lindblad_generator_L",
+      "entropy_production_Sigma",
+      "free_energy_F_beta",
+      "DPI_gap",
+      "recovery_margin",
+      "mass_gap_floor_33_20"
+    ],
+    "FullPathQi": [
+      "K_non_reification",
+      "delta_rel_in_K_perp",
+      "string_mode_consistency",
+      "brane_boundary_support",
+      "gauge_connection_A_mu",
+      "curvature_F_munu",
+      "Wilson_loop_residue",
+      "current_J_Qi_mu",
+      "Ward_or_leak_identity",
+      "density_state_rho",
+      "Hamiltonian_H",
+      "Lindblad_generator_L",
+      "entropy_production_Sigma",
+      "free_energy_F_beta",
+      "DPI_gap",
+      "recovery_margin",
+      "mass_gap_floor_33_20",
+      "SK_plus_branch",
+      "SK_minus_branch",
+      "FV_influence_functional",
+      "memory_kernel",
+      "noise_kernel",
+      "observation_backaction",
+      "noncommutative_operation_history",
+      "path_measure_normalization"
+    ]
+  },
+  "motion_statuses": [
+    "qi_motion_not_licensed",
+    "qi_motion_candidate_ready",
+    "qi_motion_held",
+    "qi_motion_blocked"
+  ],
+  "fail_closed_conditions": [
+    "unknown_validated_type",
+    "authority_expansion_attempt",
+    "direct_execution_requested",
+    "unresolved_blockers_present",
+    "required_evidence_missing",
+    "full_path_measure_not_normalized"
+  ]
+}
