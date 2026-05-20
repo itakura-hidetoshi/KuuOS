@@ -11,8 +11,9 @@ from typing import Any, Dict, List
 
 ROOT = Path(__file__).resolve().parents[1]
 BASE = "samvrti_qi_to_physical_motion_evidence_builder"
+CHAIN_INDEX_REL = "chain_indexes/samvrti_qi_to_physical_motion_evidence_builder_chain_index_v0_1.json"
 BUILDER_PATH = ROOT / "scripts" / f"build_{BASE}_integrity_manifest_v0_1.py"
-CHAIN_INDEX_PATH = ROOT / "chain_indexes" / f"{BASE}_chain_index_v0_1.json"
+CHAIN_INDEX_PATH = ROOT / CHAIN_INDEX_REL
 
 FALSE_AUTHORITY_KEYS = [
     "integrity_manifest_grants_execution_authority",
@@ -72,7 +73,7 @@ def validate_manifest(manifest: Dict[str, Any], chain_index: Dict[str, Any]) -> 
         errors.append("module must be SamvrtiQiToPhysicalMotionEvidenceBuilder")
     if manifest.get("version") != "v0_1":
         errors.append("version must be v0_1")
-    if manifest.get("source_of_truth") != str(CHAIN_INDEX_PATH.relative_to(ROOT)):
+    if manifest.get("source_of_truth") != CHAIN_INDEX_REL:
         errors.append("source_of_truth must point to chain index")
     if manifest.get("chain_index_id") != chain_index.get("chain_index_id"):
         errors.append("chain_index_id must match chain index")
