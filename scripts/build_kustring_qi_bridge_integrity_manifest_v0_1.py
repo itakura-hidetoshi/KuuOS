@@ -1,8 +1,9 @@
 #!/usr/bin/env python3
 """Build KuString Qi Bridge integrity manifest v0.1.
 
-The manifest is generated from the full baseline chain index. It gives the
-bridge a reproducible bundle root without granting any new authority.
+The chain index is the single source of truth for the integrity surface. This
+builder derives entries from specs/kustring_qi_bridge_chain_index_v0_1.json,
+then computes a reproducible bundle root without granting any new authority.
 """
 
 from __future__ import annotations
@@ -14,30 +15,30 @@ from pathlib import Path
 from typing import Any, Dict, List
 
 ROOT = Path(__file__).resolve().parents[1]
+CHAIN_INDEX_PATH = ROOT / "specs" / "kustring_qi_bridge_chain_index_v0_1.json"
 OUTPUT_PATH = ROOT / "specs" / "kustring_qi_bridge_integrity_manifest_v0_1.generated.json"
-
-CHAIN_FILES = [
-    "examples/kustring_qi_bridge_minimal.py",
-    "docs/KUSTRING_QI_BRIDGE_v0_1.md",
-    "specs/kustring_qi_bridge_contract_v0_1.json",
-    "validation_cases/kustring_qi_bridge_cases_v0_1.json",
-    "scripts/validate_kustring_qi_bridge_v0_1.py",
-    "specs/kustring_qi_bridge_release_bundle_manifest_v0_1.json",
-    "specs/kustring_qi_bridge_release_packet_v0_1.json",
-    "scripts/validate_kustring_qi_bridge_release_bundle_v0_1.py",
-    "specs/kustring_qi_bridge_finality_packet_v0_1.json",
-    "scripts/check_kustring_qi_bridge_finality_packet_v0_1.py",
-    "specs/kustring_qi_bridge_chain_index_v0_1.json",
-    "specs/kustring_qi_bridge_baseline_packet_v0_1.json",
-    "specs/kustring_qi_bridge_baseline_established_final_packet_v0_1.json",
-    "scripts/check_kustring_qi_bridge_chain_index_v0_1.py",
-    "scripts/build_kustring_qi_bridge_integrity_manifest_v0_1.py",
-    "scripts/validate_kustring_qi_bridge_integrity_manifest_v0_1.py",
-]
 
 
 def sha256_bytes(data: bytes) -> str:
     return hashlib.sha256(data).hexdigest()
+
+
+def load_chain_index() -> Dict[str, Any]:
+    with CHAIN_INDEX_PATH.open("r", encoding="utf-8") as f:
+        return json.load(f)
+
+
+def chain_files_from_index(chain_index: Dict[str, Any]) -> List[str]:
+    entries = chain_index.get("chain_order", [])
+    paths: List[str] = []
+    for entry in entries:
+        rel_path = entry.get("path")
+        if not isinstance(rel_path, str) or not rel_path:
+            raise ValueError("chain_order entry missing path")
+        paths.append(rel_path)
+    if len(paths) != len(set(paths)):
+        raise ValueError("chain_order contains duplicate paths")
+    return paths
 
 
 def file_entry(rel_path: str) -> Dict[str, Any]:
@@ -51,13 +52,18 @@ def file_entry(rel_path: str) -> Dict[str, Any]:
 
 
 def build_manifest() -> Dict[str, Any]:
-    entries: List[Dict[str, Any]] = [file_entry(path) for path in CHAIN_FILES]
+    chain_index = load_chain_index()
+    chain_files = chain_files_from_index(chain_index)
+    entries: List[Dict[str, Any]] = [file_entry(path) for path in chain_files]
     canonical = json.dumps(entries, sort_keys=True, separators=(",", ":")).encode("utf-8")
     return {
         "manifest_id": "kustring_qi_bridge_integrity_manifest_v0_1",
         "status": "generated_integrity_manifest",
         "module": "KuStringQiBridge",
         "version": "v0_1",
+        "source_of_truth": str(CHAIN_INDEX_PATH.relative_to(ROOT)),
+        "chain_index_id": chain_index.get("chain_index_id"),
+        "chain_stage_count": len(chain_files),
         "bundle_root_sha256": sha256_bytes(canonical),
         "entry_count": len(entries),
         "entries": entries,
@@ -88,6 +94,7 @@ def main() -> int:
         print(f"WROTE: {OUTPUT_PATH.relative_to(ROOT)}")
     print(f"bundle_root_sha256: {manifest['bundle_root_sha256']}")
     print(f"entry_count: {manifest['entry_count']}")
+    print(f"source_of_truth: {manifest['source_of_truth']}")
     return 0
 
 
