@@ -68,6 +68,43 @@ A packet may validate as `PhysicalQi` only when all of the following are present
 
 A packet validates as `FullPathQi` only if the PhysicalQi bundle is present and SK/FV history evidence is also present.
 
+## Classification output boundary
+
+The classifier output is a structured observation decision, not an intervention license.
+
+```text
+validated_type
+  -> classification_reason
+  -> observe_only classification decision
+  -> downstream dynamics license source
+```
+
+The classifier output must preserve:
+
+```text
+observe_only = true
+direct_execution_allowed = false
+authority_expansion = false
+standalone_diagnosis_authority = false
+standalone_treatment_authorization = false
+medical_act_authorization = false
+```
+
+## Medical-modality-neutral boundary
+
+The classifier must also preserve:
+
+```text
+medical_modality_neutral = true
+qi_denied_by_boundary = false
+east_asian_medical_reasoning_denied = false
+biomedicine_privileged_by_wording = false
+professional_judgment_required = true
+patient_context_required = true
+```
+
+This means Physical Quantum Qi classification may support structured observation, pattern-sensitive reasoning, and evidence-bounded review. It does not state that Qi is false, does not invalidate East Asian medical reasoning, and does not privilege biomedicine by wording.
+
 ## Mass gap role
 
 The MGAP4D internal-normalized `33/20` gap is a stability floor for the `K_perp` world-phase domain on which Qi flow is evaluated.
@@ -84,13 +121,16 @@ It is not:
 
 ## Authority boundary
 
-Validated Qi packets do not grant:
+Validated Qi packets and classification outputs do not grant:
 
 - execution authority,
 - belief commit authority,
 - memory overwrite authority,
 - world-root rewrite authority,
-- safety override authority.
+- safety override authority,
+- standalone diagnosis authority,
+- standalone treatment authorization,
+- medical act authorization.
 
 Qi may inform MemoryOS, WorldModel, PlanOS, DecisionOS, BeliefOS, ReflectionOS, Safety/CBF, and ExplanationOS only as an evidence-bound flow signal: leak, residue, backaction, recoverability, irreversibility, entropy cost, DPI loss, holonomy distortion, or downgrade reason.
 
@@ -106,4 +146,4 @@ or directly:
 python3 scripts/validate_physical_quantum_qi_runtime_contract_v0_1.py
 ```
 
-Passing validation means that the public Qi packet examples obey the structural runtime contract. It does not grant proof, ontology, clinical, execution, or final decision authority.
+Passing validation means that the public Qi packet examples obey the structural runtime contract. It does not grant proof authority, ontology authority, standalone diagnosis authority, standalone treatment authorization, medical act authorization, execution authority, or final decision authority.
