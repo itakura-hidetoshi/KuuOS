@@ -2,9 +2,9 @@
 """Run the KuuOS Qi motion chain checks v0.1.
 
 This runner orders the current Qi implementation checks from conventional Qi
-observation through KuString bridge projection, bridge release validation,
-conservative evidence building, physical classification, dynamics licensing,
-and motion pipeline validation.
+observation through KuString bridge projection, bridge release/finality
+validation, conservative evidence building, physical classification, dynamics
+licensing, and motion pipeline validation.
 """
 
 from __future__ import annotations
@@ -24,6 +24,10 @@ CHECKS: List[Tuple[str, str]] = [
     (
         "kustring-qi-bridge-release-bundle",
         "scripts/validate_kustring_qi_bridge_release_bundle_v0_1.py",
+    ),
+    (
+        "kustring-qi-bridge-finality",
+        "scripts/check_kustring_qi_bridge_finality_packet_v0_1.py",
     ),
     (
         "samvrti-to-physical-motion-builder",
