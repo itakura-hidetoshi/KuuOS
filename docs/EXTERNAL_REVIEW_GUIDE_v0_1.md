@@ -10,6 +10,7 @@ This guide is for:
 - formal methods reviewers
 - AI safety reviewers
 - systems architects
+- medical and integrative medicine reviewers
 
 ## Recommended Reading Order
 
@@ -17,13 +18,14 @@ This guide is for:
 2. docs/QUICKSTART_v0_1.md
 3. docs/ARCHITECTURE_OVERVIEW_v0_1.md
 4. docs/BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1.md
-5. docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
-6. docs/VALIDATION_COVERAGE_MATRIX_v0_1.md
-7. docs/REPRODUCIBILITY_MATRIX_v0_1.md
-8. docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md
-9. Makefile
-10. scripts/run_all_governance_full_checks_v0_1.py
-11. scripts/run_qi_motion_chain_checks_v0_1.py
+5. docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md
+6. docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
+7. docs/VALIDATION_COVERAGE_MATRIX_v0_1.md
+8. docs/REPRODUCIBILITY_MATRIX_v0_1.md
+9. docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md
+10. Makefile
+11. scripts/run_all_governance_full_checks_v0_1.py
+12. scripts/run_qi_motion_chain_checks_v0_1.py
 
 ## Primary Review Questions
 
@@ -64,7 +66,14 @@ A reviewer should ask:
 - Are unlicensed motion terms ignored even when numeric values are present?
 - Does the motion candidate remain observe-only?
 - Is direct execution request blocked?
-- Is Qi motion validation separated from clinical, institutional, theorem, and execution authority?
+- Is Qi motion validation separated from standalone diagnosis, standalone treatment authorization, medical act authorization, institutional authority, theorem authority, and execution authority?
+
+### Medical-Modality-Neutral Qi Boundary Questions
+
+- Does the wording avoid implying that biomedicine is superior?
+- Does the wording avoid implying that Qi is false?
+- Does the wording avoid invalidating East Asian medical reasoning, pattern differentiation, or practitioner judgment?
+- Does the wording separate repository validation from professional diagnosis, treatment decision, and medical act authorization?
 
 ## Qi Motion Chain Review Path
 
@@ -72,6 +81,7 @@ For Qi-specific review, inspect:
 
 ```text
 docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md
+docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md
 docs/SAMVRTI_QI_RUNTIME_IMPLEMENTATION_v0_1.md
 docs/SAMVRTI_QI_TO_PHYSICAL_MOTION_EVIDENCE_BUILDER_v0_1.md
 docs/PHYSICAL_QUANTUM_QI_DYNAMICS_KERNEL_v0_1.md
@@ -95,9 +105,10 @@ Expected interpretation:
 ```text
 PASS = structural consistency of the Qi motion chain
 PASS != execution authority
-PASS != clinical authority
 PASS != theorem authority
-PASS != treatment authorization
+PASS != standalone diagnosis authority
+PASS != standalone treatment authorization
+PASS != medical act authorization
 ```
 
 ## Important Clarification
@@ -109,13 +120,15 @@ KuuOS is currently strongest as:
 - a relational systems architecture
 - a validation and audit structure
 - a public, observe-only Qi motion chain validation surface
+- a medical-modality-neutral Qi boundary surface that does not deny Qi or East Asian medical reasoning
 
 It should not currently be interpreted as:
 
 - a fully autonomous AGI deployment stack
 - a final institutional theorem authority
-- a production clinical platform
-- a Qi-based execution or treatment authorization system
+- a standalone diagnosis or treatment authorization system
+- a medical act authorization system
+- a Qi-based execution authorization system
 
 ## Minimal External Validation
 
