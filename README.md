@@ -2,6 +2,7 @@
 
 ![Core Governance](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/core_governance_validation.yml/badge.svg)
 ![All Governance](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/all_governance_validation.yml/badge.svg)
+![Qi Motion Chain](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/qi_motion_chain_validation.yml/badge.svg)
 ![Ten'i Observability](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/teni_observability_validation.yml/badge.svg)
 
 KuuOS / 空OS is a public governance, verification, and release-surface architecture for relational AI systems.
@@ -39,6 +40,7 @@ It includes:
 - examples and validation cases
 - GitHub-facing GPT integration rules
 - physics-facing bridges for KuuOS, MGAP4D, Qi, IndraNet, and Superstring/brane/membrane layers
+- Qi motion chain surfaces from Samvrti Qi observation to conservative evidence, evidence-bound classification, licensed dynamics, and observe-only motion candidate output
 
 It does **not** currently claim to be:
 
@@ -47,10 +49,11 @@ It does **not** currently claim to be:
 - an externally accepted mathematical proof repository by itself
 - a direct release of final theorem authority
 - a production AGI runtime
+- a Qi-based execution or treatment authorization system
 - a system that allows CI, validation, or generated text to become truth by itself
 
 Passing repository validation means structural consistency of the public governance surface.  
-It does **not** grant theorem authority, clinical authority, Ten'i authority, institutional authority, or execution authority.
+It does **not** grant theorem authority, clinical authority, Ten'i authority, institutional authority, Qi-based execution authority, or execution authority.
 
 ---
 
@@ -60,8 +63,10 @@ For first-time reviewers:
 
 ```text
 README.md
+docs/QUICKSTART_v0_1.md
 docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
 docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
+docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md
 docs/GPT_GITHUB_KUOS_INTEGRATION_v0_1.md
 docs/KUOS_GITHUB_FORMAL_VERIFICATION_BRIDGE_v0_1.md
 ROADMAP.md
@@ -113,6 +118,18 @@ GPT GitHub integration checks:
 make gpt-github-integration-checks
 ```
 
+Qi motion chain checks:
+
+```bash
+make qi-motion-chain-checks
+```
+
+or directly:
+
+```bash
+python3 scripts/run_qi_motion_chain_checks_v0_1.py
+```
+
 Qi / physical quantum Qi deepening checks:
 
 ```bash
@@ -131,7 +148,7 @@ Emptiness / dependent origination / two truths runtime audit checks:
 make emptiness-two-truths-runtime-audit-checks
 ```
 
-Again: a passing check is a consistency receipt, not truth, proof, clinical authority, or execution authority.
+Again: a passing check is a consistency receipt, not truth, proof, clinical authority, Qi-based execution authority, or execution authority.
 
 ---
 
@@ -183,6 +200,17 @@ AI raw output
 
 Qi is not a hidden execution channel. It is the governed field of relation, flow, memory-depth, process order, transport, and recoverability. Qi-readout is observation support, not intervention license.
 
+The current public Qi motion chain makes this operational:
+
+```text
+Samvrti Qi Runtime
+  -> Samvrti Qi to Physical Motion Evidence Builder
+  -> Physical Quantum Qi Runtime
+  -> Physical Quantum Qi Dynamics Kernel
+  -> Physical Quantum Qi Motion Pipeline
+  -> observe-only bounded motion candidate
+```
+
 The decisive rule is:
 
 ```text
@@ -193,6 +221,7 @@ summary != proof
 world-model success != decision permission
 memory persistence != belief sovereignty
 qi-readout != intervention license
+qi-motion-candidate != treatment authorization
 ```
 
 ---
@@ -218,12 +247,25 @@ It connects emptiness and dependent origination to operational flow: observation
 
 IndraNet is therefore not a flat graph. It is a gauge-structured relational network whose flow, transport, and process constraints are mediated through Qi-facing surfaces.
 
+Current public Qi motion invariant:
+
+```text
+observed conventional flow
+  -> conservative evidence packet
+  -> evidence-bound validated_type
+  -> licensed dynamics terms
+  -> bounded motion candidate
+  -> observe-only output
+```
+
 Fixed boundary:
 
 ```text
 Qi is not substance.
 Qi-readout is not intervention license.
 Qi flow is not execution authority.
+Qi motion candidate is not treatment authorization.
+Samvrti Qi acceptance is not FullPathQi promotion.
 IndraNet is gauge-structured, not a flat graph.
 Transport is not identity.
 Recoverability and no-return risk remain visible.
@@ -232,9 +274,18 @@ Recoverability and no-return risk remain visible.
 Key surfaces:
 
 ```text
+docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md
+docs/SAMVRTI_QI_RUNTIME_IMPLEMENTATION_v0_1.md
+docs/SAMVRTI_QI_TO_PHYSICAL_MOTION_EVIDENCE_BUILDER_v0_1.md
+docs/PHYSICAL_QUANTUM_QI_DYNAMICS_KERNEL_v0_1.md
+docs/PHYSICAL_QUANTUM_QI_MOTION_PIPELINE_v0_1.md
 docs/INDRANET_GAUGE_QI_FLOW_v0_1.md
 docs/INDRANET_RELATIONAL_FIELD_MODEL_v0_1.md
 docs/INDRANET_TRANSPORT_CONSTRAINT_MODEL_v0_1.md
+specs/samvrti_qi_runtime_contract_v0_1.yaml
+specs/physical_quantum_qi_dynamics_kernel_v0_1.json
+scripts/run_qi_motion_chain_checks_v0_1.py
+.github/workflows/qi_motion_chain_validation.yml
 validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json
 ```
 
