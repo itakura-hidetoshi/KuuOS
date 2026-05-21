@@ -17,7 +17,8 @@
     "runtime/kuuos_state_io_runner_v0_1.py",
     "runtime/kuuos_runtime_daemon_v0_1.py",
     "runtime/kuuos_runtime_daemon_status_v0_1.py",
-    "runtime/kuuos_runtime_daemon_qi_policy_v0_1.py"
+    "runtime/kuuos_runtime_daemon_qi_policy_v0_1.py",
+    "runtime/kuuos_runtime_daemon_qique_gauge_v0_1.py"
   ],
   "core_test_files": [
     "tests/test_qi_process_tensor_v0_1.py",
@@ -36,6 +37,7 @@
     "tests/test_kuuos_runtime_daemon_v0_1.py",
     "tests/test_kuuos_runtime_daemon_status_v0_1.py",
     "tests/test_kuuos_runtime_daemon_qi_policy_v0_1.py",
+    "tests/test_kuuos_runtime_daemon_qique_gauge_v0_1.py",
     "tests/test_qi_process_tensor_downstream_v0_1.py"
   ],
   "example_files": [
@@ -71,7 +73,8 @@
     ".github/workflows/kuuos_runtime_daemon_validation.yml",
     ".github/workflows/kuuos_runtime_daemon_example_validation.yml",
     ".github/workflows/kuuos_runtime_daemon_status_validation.yml",
-    ".github/workflows/kuuos_runtime_daemon_qi_policy_validation.yml"
+    ".github/workflows/kuuos_runtime_daemon_qi_policy_validation.yml",
+    ".github/workflows/kuuos_runtime_daemon_qique_gauge_validation.yml"
   ],
   "required_output_paths": [
     "kuuos_driver_result_v0_1.json",
@@ -117,6 +120,7 @@
     "Boundary failure blocks process tensor support and cannot be repaired by process support.",
     "Runtime daemon advances State IO by bounded ticks and writes daemon tick logs.",
     "Daemon status reader reports latest tick and compact Qi process tensor summary.",
-    "Daemon Qi policy gives advisory tick mode from latest Qi process tensor summary."
+    "Daemon Qi policy gives advisory tick mode from latest Qi process tensor summary.",
+    "Daemon Qi-QUE gauge reports advisory regime, scores, and policy hints from daemon status."
   ]
 }
