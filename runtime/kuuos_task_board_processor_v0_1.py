@@ -1,16 +1,4 @@
 #!/usr/bin/env python3
-"""KuuOS Task Board Processor v0.1.
-
-Processes non-authoritative task packets from the Action Router task board.
-It does not execute actions, finalize truth, overwrite memory, or make clinical
-or theorem claims. It reads supplied evidence flags and appends a task result
-receipt to an append-only review state.
-
-Safety order:
-  quarantine_tasks -> boundary_recheck_tasks -> lineage_recheck_tasks
-  -> delivery_recheck_tasks -> reobserve_tasks -> hold_review_tasks
-  -> candidate_next_tasks
-"""
 from __future__ import annotations
 
 from copy import deepcopy
@@ -20,7 +8,6 @@ import hashlib
 import json
 import sys
 from typing import Any, Mapping
-
 
 TASK_PRIORITY = [
     "quarantine_tasks",
@@ -71,7 +58,6 @@ WAIT_STATUS_BY_QUEUE = {
     "hold_review_tasks": "HOLD_REVIEW_WAITING",
     "candidate_next_tasks": "CANDIDATE_NEXT_WAITING",
 }
-
 
 @dataclass(frozen=True)
 class KuuOSTaskBoardProcessResult:
@@ -142,11 +128,10 @@ def _iter_tasks(task_board: Mapping[str, Any]):
                 yield queue_name, index, task
 
 
-def _evaluate_task(queue_name: str, task: Mapping[str, Any], evidence: Mapping[str, Any]) -> tuple[str, list[str], list[str]]:
+def _evaluate_task(queue_name: str, evidence: Mapping[str, Any]) -> tuple[str, list[str], list[str]]:
     required = REQUIRED_EVIDENCE_BY_QUEUE.get(queue_name, [])
     missing = [field for field in required if not _truthy(evidence, field)]
     if queue_name == "quarantine_tasks":
-        # Quarantine tasks do not auto-release. Evidence only confirms review.
         if missing:
             return WAIT_STATUS_BY_QUEUE[queue_name], missing, ["quarantine_notice", "boundary_recheck_request"]
         return SUCCESS_STATUS_BY_QUEUE[queue_name], [], ["quarantine_review_receipt", "boundary_recheck_request"]
@@ -159,12 +144,11 @@ def process_next_task(task_board: Mapping[str, Any], evidence: Mapping[str, Any]
     state = _normalize_review_state(review_state)
     processed = set(str(item) for item in state.get("processed_task_hashes", []))
     reviewed_at = datetime.now(timezone.utc).isoformat()
-
     for queue_name, index, task in _iter_tasks(task_board):
         task_hash = _task_hash(task)
         if task_hash in processed:
             continue
-        task_status, missing, opened = _evaluate_task(queue_name, task, evidence)
+        task_status, missing, opened = _evaluate_task(queue_name, evidence)
         receipt_payload = {
             "packet_version": "task_result_receipt_v0_1",
             "task_hash": task_hash,
@@ -179,6 +163,7 @@ def process_next_task(task_board: Mapping[str, Any], evidence: Mapping[str, Any]
             "task_status": task_status,
             "missing_evidence": missing,
             "opened_notices": opened,
+            "qi_process_tensor_receipt": dict(task.get("qi_process_tensor_receipt", {})),
             "reviewed_at_utc": reviewed_at,
             "allowed_projection": ["task_result_receipt", "review_log_entry"],
             **NON_AUTHORITY_FLAGS,
@@ -193,6 +178,7 @@ def process_next_task(task_board: Mapping[str, Any], evidence: Mapping[str, Any]
             "task_result_receipt_hash": receipt_hash,
             "source_task_queue": queue_name,
             "task_status": task_status,
+            "qi_process_tensor_receipt": receipt["qi_process_tensor_receipt"],
             **NON_AUTHORITY_FLAGS,
         })
         return KuuOSTaskBoardProcessResult(
@@ -202,7 +188,6 @@ def process_next_task(task_board: Mapping[str, Any], evidence: Mapping[str, Any]
             task_result_receipt=receipt,
             updated_review_state=state,
         )
-
     return KuuOSTaskBoardProcessResult(
         processor_status="NO_UNPROCESSED_TASK_PACKET",
         selected_task_queue=None,
@@ -227,7 +212,6 @@ def main(argv: list[str]) -> int:
     result = process_next_task(task_board, evidence, review_state)
     print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2, sort_keys=True))
     return 0
-
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv))
