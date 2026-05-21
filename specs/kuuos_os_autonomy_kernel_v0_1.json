@@ -1,11 +1,13 @@
 {
   "kernel_id": "kuuos_os_autonomy_kernel_v0_1",
   "version": "v0.1",
-  "status": "OS_AUTONOMY_MINIMAL_KERNEL_BASELINE",
+  "status": "OS_AUTONOMY_BOOTSTRAP_KERNEL_BASELINE",
   "repository": "itakura-hidetoshi/KuuOS",
-  "purpose": "Provide a stdlib-only local OS-level autonomy kernel that boots a module registry, schedules bounded modules, records state, emits append-only audit receipts, and fails closed into HOLD on module or policy failure.",
-  "runtime_entrypoint": "scripts/run_kuuos_os_autonomy_kernel_v0_1.py",
-  "validator_entrypoint": "scripts/validate_kuuos_os_autonomy_kernel_v0_1.py",
+  "purpose": "Lift KuuOS from a core self-check runner toward an OS-like local supervisor by defining boot, module registry, scheduling, state checkpoint, audit, and fail-closed semantics while using the existing core autonomy runner as the bootstrap host.",
+  "bootstrap_host_entrypoint": "scripts/run_kuuos_core_autonomy_v0_1.py",
+  "bootstrap_validator_entrypoint": "scripts/validate_kuuos_core_autonomy_contract_v0_1.py",
+  "future_kernel_entrypoint": "scripts/run_kuuos_os_autonomy_kernel_v0_1.py",
+  "future_validator_entrypoint": "scripts/validate_kuuos_os_autonomy_kernel_v0_1.py",
   "state_schema": "kuuos_os_autonomy_state_v0_1",
   "audit_schema": "kuuos_os_autonomy_audit_event_v0_1",
   "operation_profiles": [
@@ -27,7 +29,18 @@
     "REPAIR_PENDING",
     "QUARANTINE"
   ],
-  "default_policy": {
+  "bootstrap_policy": {
+    "current_runnable_host": "scripts/run_kuuos_core_autonomy_v0_1.py",
+    "current_fast_validation": "scripts/validate_kuuos_core_autonomy_contract_v0_1.py",
+    "current_profile": "core_self_check",
+    "next_required_addendum": "add stdlib-only OS supervisor runner and validator",
+    "fail_closed": true,
+    "audit_hash_chain_required": true,
+    "external_api_calls_allowed": false,
+    "network_required": false,
+    "stdlib_only": true
+  },
+  "target_policy": {
     "default_profile": "smoke",
     "max_cycles": 1,
     "daemon_interval_seconds": 300,
@@ -46,7 +59,7 @@
       "module_id": "kuuos.core_autonomy_contract",
       "kind": "validator",
       "profiles": ["smoke", "core"],
-      "command": ["python3", "scripts/validate_kuuos_core_autonomy_contract_v0_1.py"],
+      "entrypoint": "scripts/validate_kuuos_core_autonomy_contract_v0_1.py",
       "timeout_seconds": 120,
       "required": true,
       "authority_boundary": {
@@ -64,7 +77,7 @@
       "module_id": "kuuos.core_governance_full_checks",
       "kind": "validator",
       "profiles": ["core"],
-      "command": ["python3", "scripts/run_core_governance_full_checks_v0_1.py"],
+      "entrypoint": "scripts/run_core_governance_full_checks_v0_1.py",
       "timeout_seconds": 900,
       "required": true,
       "authority_boundary": {
@@ -86,8 +99,7 @@
     "specs/kuuos_os_autonomy_kernel_v0_1.json",
     "scripts/run_kuuos_core_autonomy_v0_1.py",
     "scripts/validate_kuuos_core_autonomy_contract_v0_1.py",
-    "scripts/run_kuuos_os_autonomy_kernel_v0_1.py",
-    "scripts/validate_kuuos_os_autonomy_kernel_v0_1.py"
+    "scripts/run_core_governance_full_checks_v0_1.py"
   ],
   "authority_boundary": {
     "local_os_supervision_only": true,
@@ -114,7 +126,6 @@
     "module failure enters HOLD by default",
     "state checkpoint records kernel state but does not overwrite semantic memory",
     "audit events are append-only JSONL receipts with hash-chain continuity",
-    "shell execution is forbidden",
     "external API calls are not required for the kernel",
     "future repair proposals must remain candidate-only unless separately licensed"
   ],
