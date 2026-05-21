@@ -1,4 +1,4 @@
-.PHONY: ai-provider-boundary-checks ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks qi-motion-chain-checks samvrti-qi-runtime-checks samvrti-qi-to-physical-motion-checks physical-quantum-qi-runtime-checks physical-quantum-qi-dynamics-checks physical-quantum-qi-motion-pipeline-checks physical-quantum-qi-deepening-checks physical-quantum-qi-runtime-evolution-checks physical-quantum-qi-runtime-evolution-ci-receipt-checks physical-quantum-qi-runtime-evolution-bundle-checks physical-quantum-qi-runtime-evolution-finality-checks physical-quantum-qi-runtime-evolution-finality-post-merge-receipt-checks formal-invariant-checks super-relativity-checks invariant-matrix-checks invariant-gate-checks invariant-pipeline-checks invariant-pipeline-build-bundle invariant-pipeline-validate-bundle invariant-pipeline-attest invariant-pipeline-release-closure invariant-pipeline-finality gpt-github-integration-checks memoryos-github-external-memory-checks emptiness-two-truths-runtime-audit-checks emptiness-superposition-noncollapse-checks superstring-emptiness-sbm-checks core-governance-checks all-governance-checks
+.PHONY: ai-provider-boundary-checks ai-yogacara-checks ai-yogacara-build-bundle ai-yogacara-validate-bundle mandala-checks bodhisattva-checks paramita-router-checks dukkha-checks dukkha-qi-checks qi-motion-chain-checks samvrti-qi-runtime-checks samvrti-qi-to-physical-motion-checks physical-quantum-qi-runtime-checks physical-quantum-qi-dynamics-checks physical-quantum-qi-motion-pipeline-checks physical-quantum-qi-deepening-checks physical-quantum-qi-runtime-evolution-checks physical-quantum-qi-runtime-evolution-ci-receipt-checks physical-quantum-qi-runtime-evolution-bundle-checks physical-quantum-qi-runtime-evolution-finality-checks physical-quantum-qi-runtime-evolution-finality-post-merge-receipt-checks physical-quantum-qi-runtime-evolution-baseline-lock-checks formal-invariant-checks super-relativity-checks invariant-matrix-checks invariant-gate-checks invariant-pipeline-checks invariant-pipeline-build-bundle invariant-pipeline-validate-bundle invariant-pipeline-attest invariant-pipeline-release-closure invariant-pipeline-finality gpt-github-integration-checks memoryos-github-external-memory-checks emptiness-two-truths-runtime-audit-checks emptiness-superposition-noncollapse-checks superstring-emptiness-sbm-checks core-governance-checks all-governance-checks
 
 ai-provider-boundary-checks:
 	python3 scripts/validate_ai_provider_boundary_runtime_v0_1.py
@@ -100,6 +100,7 @@ physical-quantum-qi-runtime-evolution-checks:
 	python3 scripts/validate_physical_quantum_qi_runtime_evolution_bundle_manifest_v0_2JR.py
 	python3 scripts/check_physical_quantum_qi_runtime_evolution_finality_packet_v0_2JR.py
 	python3 scripts/check_physical_quantum_qi_runtime_evolution_finality_post_merge_receipt_v0_2JR.py
+	python3 scripts/check_physical_quantum_qi_runtime_evolution_baseline_lock_v0_2S.py
 
 physical-quantum-qi-runtime-evolution-ci-receipt-checks:
 	python3 scripts/check_physical_quantum_qi_runtime_evolution_ci_receipt_v0_2JR.py
@@ -112,6 +113,9 @@ physical-quantum-qi-runtime-evolution-finality-checks:
 
 physical-quantum-qi-runtime-evolution-finality-post-merge-receipt-checks:
 	python3 scripts/check_physical_quantum_qi_runtime_evolution_finality_post_merge_receipt_v0_2JR.py
+
+physical-quantum-qi-runtime-evolution-baseline-lock-checks:
+	python3 scripts/check_physical_quantum_qi_runtime_evolution_baseline_lock_v0_2S.py
 
 formal-invariant-checks:
 	python3 scripts/validate_formal_invariant_spine_v0_1.py
