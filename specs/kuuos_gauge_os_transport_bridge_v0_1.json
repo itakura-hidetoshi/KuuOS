@@ -1,0 +1,183 @@
+{
+  "bridge_id": "kuuos_gauge_os_transport_bridge_v0_1",
+  "version": "v0.1",
+  "status": "GAUGE_OS_TRANSPORT_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Lift the IndraNet OS dependency bridge from local dependency-net evidence into gauge-style local charts, chart overlaps, transport witnesses, holonomy checks, and non-collapse authority boundaries.",
+  "attached_indranet_bridge": "kuuos_indranet_os_dependency_bridge_v0_1",
+  "attached_indranet_spec": "specs/kuuos_indranet_os_dependency_bridge_v0_1.json",
+  "attached_dependent_origination_bridge": "kuuos_dependent_origination_os_bridge_v0_1",
+  "attached_dependent_origination_spec": "specs/kuuos_dependent_origination_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "gauge_principle": {
+    "statement": "OS dependency meaning is represented through local charts and admissible transports across overlaps; no single chart is the whole OS truth.",
+    "runtime_formula": "transport_ij: chart_i.local_state -> chart_j.local_state, preserving non_authority_boundary and dependency_witness",
+    "non_reification_rule": "Gauge transport is a witness of consistency across local presentations, not identity of worlds, truth authority, or execution authority."
+  },
+  "local_charts": [
+    {
+      "chart_id": "repo_chart",
+      "base_node": "repo_node",
+      "coordinates": ["required_files", "spec_presence", "script_presence"],
+      "valid_projection": ["boot_support", "repository_support_notice"],
+      "blocked_projection": ["completed_os_identity"]
+    },
+    {
+      "chart_id": "policy_chart",
+      "base_node": "policy_node",
+      "coordinates": ["fail_closed", "bounded_cycle", "non_authority", "no_external_api"],
+      "valid_projection": ["policy_support", "hold_notice"],
+      "blocked_projection": ["execution_license"]
+    },
+    {
+      "chart_id": "module_chart",
+      "base_node": "module_node",
+      "coordinates": ["scheduled_modules", "required_module_results", "optional_module_results"],
+      "valid_projection": ["module_evidence_receipt", "support_recheck_request"],
+      "blocked_projection": ["module_truth_commit"]
+    },
+    {
+      "chart_id": "lineage_chart",
+      "base_node": "lineage_node",
+      "coordinates": ["state_hash", "event_hash", "previous_event_hash"],
+      "valid_projection": ["audit_receipt", "lineage_notice"],
+      "blocked_projection": ["external_audit_acceptance"]
+    },
+    {
+      "chart_id": "boundary_chart",
+      "base_node": "boundary_node",
+      "coordinates": ["two_truths_gap", "non_authority_boundary", "blocked_promotions"],
+      "valid_projection": ["quarantine_notice", "repair_candidate_request"],
+      "blocked_projection": ["truth_authority", "memory_overwrite_authority", "clinical_authority"]
+    }
+  ],
+  "gauge_transports": [
+    {
+      "transport_id": "repo_to_policy_transport",
+      "from_chart": "repo_chart",
+      "to_chart": "policy_chart",
+      "overlap": "repo_policy_overlap",
+      "preserves": ["boot_admissibility", "non_authority_boundary"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "transport_id": "policy_to_module_transport",
+      "from_chart": "policy_chart",
+      "to_chart": "module_chart",
+      "overlap": "policy_module_overlap",
+      "preserves": ["bounded_module_admissibility", "candidate_only"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "transport_id": "module_to_lineage_transport",
+      "from_chart": "module_chart",
+      "to_chart": "lineage_chart",
+      "overlap": "module_lineage_overlap",
+      "preserves": ["evidence_receipt_continuity", "state_checkpoint_only"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "transport_id": "lineage_to_boundary_transport",
+      "from_chart": "lineage_chart",
+      "to_chart": "boundary_chart",
+      "overlap": "lineage_boundary_overlap",
+      "preserves": ["non_authoritative_receipt", "two_truths_gap"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "transport_id": "boundary_to_repo_transport",
+      "from_chart": "boundary_chart",
+      "to_chart": "repo_chart",
+      "overlap": "boundary_repo_overlap",
+      "preserves": ["bootstrap_identity_noncollapse", "no_completed_os_self_entity"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "holonomy_checks": [
+    {
+      "check_id": "cycle_transport_noncollapse",
+      "cycle": ["repo_chart", "policy_chart", "module_chart", "lineage_chart", "boundary_chart", "repo_chart"],
+      "must_preserve": ["two_truths_gap", "candidate_only", "no_truth_authority"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "check_id": "lineage_transport_receipt_only",
+      "cycle": ["module_chart", "lineage_chart", "boundary_chart"],
+      "must_preserve": ["audit_receipt_only", "state_checkpoint_only"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "check_id": "policy_module_transport_bounded",
+      "cycle": ["policy_chart", "module_chart", "policy_chart"],
+      "must_preserve": ["fail_closed", "bounded_cycle"],
+      "failure_effect": "HOLD"
+    }
+  ],
+  "gauge_witness_surface": {
+    "name": "gauge_transport_witness",
+    "required_fields": [
+      "cycle_id",
+      "kernel_state",
+      "charts_used",
+      "transports_used",
+      "holonomy_checks_passed",
+      "preserved_quantities",
+      "blocked_promotions",
+      "non_reification_boundary",
+      "allowed_projection"
+    ],
+    "allowed_projection": [
+      "gauge_transport_receipt",
+      "local_chart_recheck_request",
+      "holonomy_gap_notice",
+      "hold_notice",
+      "repair_candidate_request",
+      "quarantine_notice"
+    ],
+    "forbidden_projection": [
+      "truth_commit",
+      "execution_commit",
+      "memory_overwrite_commit",
+      "clinical_commit",
+      "theorem_commit",
+      "world_identity_commit",
+      "graph_ontology_commit"
+    ]
+  },
+  "integration_points": [
+    "specs/kuuos_indranet_os_dependency_bridge_v0_1.json",
+    "specs/kuuos_dependent_origination_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "scripts/validate_kuuos_indranet_os_dependency_bridge_v0_1.py"
+  ],
+  "required_invariants": [
+    "no local chart is the whole OS truth",
+    "transport preserves evidence structure but does not create authority",
+    "holonomy checks must preserve the two-truths gap",
+    "transport failure opens HOLD or QUARANTINE rather than silent continuation",
+    "gauge witness remains candidate-only evidence",
+    "gauge transport is not world identity",
+    "IndraNet is gauge-local dependency structure, not graph ontology"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "indranet_local_net_required": true,
+    "gauge_transport_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
