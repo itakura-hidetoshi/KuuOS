@@ -1,0 +1,49 @@
+name: KuuOS Cech Obstruction OS Bridge Validation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'specs/kuuos_cech_obstruction_os_bridge_v0_1.json'
+      - 'specs/kuuos_sheaf_os_gluing_bridge_v0_1.json'
+      - 'specs/kuuos_gauge_os_transport_bridge_v0_1.json'
+      - 'specs/kuuos_indranet_os_dependency_bridge_v0_1.json'
+      - 'specs/kuuos_dependent_origination_os_bridge_v0_1.json'
+      - 'specs/kuuos_two_truths_os_bridge_v0_1.json'
+      - 'specs/kuuos_os_autonomy_kernel_v0_1.json'
+      - 'scripts/validate_kuuos_cech_obstruction_os_bridge_v0_1.py'
+      - '.github/workflows/kuuos_cech_obstruction_os_bridge_validation.yml'
+  pull_request:
+    paths:
+      - 'specs/kuuos_cech_obstruction_os_bridge_v0_1.json'
+      - 'specs/kuuos_sheaf_os_gluing_bridge_v0_1.json'
+      - 'specs/kuuos_gauge_os_transport_bridge_v0_1.json'
+      - 'specs/kuuos_indranet_os_dependency_bridge_v0_1.json'
+      - 'specs/kuuos_dependent_origination_os_bridge_v0_1.json'
+      - 'specs/kuuos_two_truths_os_bridge_v0_1.json'
+      - 'specs/kuuos_os_autonomy_kernel_v0_1.json'
+      - 'scripts/validate_kuuos_cech_obstruction_os_bridge_v0_1.py'
+      - '.github/workflows/kuuos_cech_obstruction_os_bridge_validation.yml'
+
+jobs:
+  validate-cech-obstruction-os-bridge:
+    name: Validate KuuOS Cech obstruction OS bridge v0.1
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Show Cech obstruction boundary
+        run: |
+          python3 --version
+          echo "Validating cochain levels, cocycle checks, obstruction classes, coboundary-style repair candidates, and candidate-only witness projections."
+
+      - name: Validate Cech obstruction OS bridge
+        run: python3 scripts/validate_kuuos_cech_obstruction_os_bridge_v0_1.py
