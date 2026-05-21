@@ -1,0 +1,26 @@
+name: KuuOS Runtime Full Check
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'runtime/**'
+      - 'tests/**'
+      - 'examples/qi_state_io_v0_1/**'
+      - 'examples/qi_process_tensor_v0_1/**'
+      - 'scripts/run_kuuos_runtime_full_check_v0_1.py'
+      - 'scripts/validate_kuuos_runtime_manifest_v0_1.py'
+      - 'scripts/check_kuuos_state_io_example_v0_1.py'
+      - 'scripts/check_kuuos_qi_process_tensor_example_v0_1.py'
+      - 'manifests/kuuos_runtime_manifest_v0_1.json'
+      - '.github/workflows/kuuos_runtime_full_check.yml'
+
+jobs:
+  full-check:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 scripts/run_kuuos_runtime_full_check_v0_1.py
