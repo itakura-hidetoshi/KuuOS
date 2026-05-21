@@ -1,0 +1,19 @@
+{
+  "boundary_review_evidence": true,
+  "two_truths_gap": true,
+  "noncollapse_guard": true,
+  "identity_blocker": true,
+  "receipt_hash": true,
+  "support_refs": true,
+  "registry_key": true,
+  "view_delivery_receipt": true,
+  "channel_scope": true,
+  "acknowledgment_marker": true,
+  "runtime_variation_visible": true,
+  "policy_candidate_receipt": true,
+  "value_witness_receipt": true,
+  "barrier_witness_receipt": true,
+  "candidate_only": true,
+  "nonfinal_marker": true,
+  "hold_review_evidence": true
+}
