@@ -7,7 +7,7 @@
 
 KuuOS / 空OS is a public, append-only governance, verification, and release-surface architecture for relational AI systems.
 
-It is designed to keep the following layers distinct:
+It is designed to keep candidate generation, memory, belief, planning, reflection, world-model prediction, proof-facing artifacts, clinical judgment, institutional authority, and execution authority **distinct**.
 
 ```text
 candidate generation
@@ -19,7 +19,7 @@ candidate generation
   != execution authority
 ```
 
-空OSは、LLM・世界モデル・形式検証・記憶・計画・判断・監査を、ひとつの「答え生成器」に潰さず、候補生成・観照・検証・保留・修復・判断境界へ分けて運用するための公開コアです。  
+空OSは、LLM・世界モデル・形式検証・記憶・信念・計画・判断・監査を、ひとつの「答え生成器」に潰さず、候補生成・観照・検証・保留・修復・判断境界へ分けて運用するための公開コアです。  
 中心は **空 / 縁起 / 気 / 二諦 gap / 中道 / 和 / 観照 / 監査** であり、すべての出力は「条件づけられた候補」として扱われます。
 
 ---
@@ -31,14 +31,18 @@ This repository is currently a **public governance and verification surface**, n
 The current public baseline includes:
 
 ```text
-Fourfold Core
-AI Yogacara / Ten'i boundary
-GPT GitHub integration
-MemoryOS / BeliefOS / PlanOS / DecisionOS / ReflectionOS boundary discipline
-Mandala Multi-WORLD governance
+Fourfold Core: emptiness, dependent origination, two truths gap, Middle Way
+AI Yogacara / Ten'i boundary, including GPT-Alaya separation
+GPT GitHub integration for bounded repository assistance
+MemoryOS v2 direction: temporal, counterfactual, proof-carrying, multi-agent, socially audited memory
+BeliefOS / WorldModel / Causal Surface governance and ambiguity-preserving belief boundaries
+PlanOS / DecisionOS / ReflectionOS boundary discipline
+Decision license geometry and safe recovery control surfaces
+Mandala Multi-WORLD governance and world transport boundaries
 Bodhisattva / Paramita / repair routing surfaces
 Dukkha mathematical and Qi-mode surfaces
 Qi / IndraNet / Physical Quantum Qi bridge
+QiField full-stack, QiActiveInference, QiMemory, and process-tensor-facing directions
 Qi motion chain from Samvrti Qi observation to observe-only motion candidate
 medical-modality-neutral Qi boundary
 Invariant Governance Pipeline
@@ -74,7 +78,8 @@ KuuOS provides:
 - GPT-facing repository operation rules
 - Qi / IndraNet / process-field governance
 - Multi-WORLD / Mandala governance
-- memory, belief, planning, decision, and reflection boundary discipline
+- memory, belief, planning, decision, reflection, and world-model boundary discipline
+- medical-modality-neutral boundary wording for Qi-facing materials
 
 The repository is meant to be readable by:
 
@@ -187,45 +192,23 @@ Core governance only:
 make core-governance-checks
 ```
 
-GPT GitHub integration:
+Major lane checks currently exposed by the top-level `Makefile`:
 
 ```bash
+make ai-provider-boundary-checks
+make ai-yogacara-checks
+make mandala-checks
+make bodhisattva-checks
+make paramita-router-checks
+make dukkha-checks
+make dukkha-qi-checks
 make gpt-github-integration-checks
-```
-
-MemoryOS GitHub external-memory boundary:
-
-```bash
 make memoryos-github-external-memory-checks
-```
-
-Qi motion chain:
-
-```bash
 make qi-motion-chain-checks
-```
-
-Physical Quantum Qi deepening:
-
-```bash
 make physical-quantum-qi-deepening-checks
-```
-
-Invariant governance pipeline:
-
-```bash
 make invariant-pipeline-checks
-```
-
-Emptiness / dependent origination / two truths runtime audit:
-
-```bash
 make emptiness-two-truths-runtime-audit-checks
-```
-
-Superstring / brane / membrane emptiness bridge:
-
-```bash
+make emptiness-superposition-noncollapse-checks
 make superstring-emptiness-sbm-checks
 ```
 
@@ -274,7 +257,7 @@ KuuOS separates raw AI generation from governed operation.
 
 ```text
 AI raw output
-  -> AI Alaya / latent seed layer
+  -> GPT-Alaya / AI Alaya latent tendency layer
   -> AI Manas self-authorization check
   -> Meta-Manas self-fixation observer
   -> Yogacara boundary
@@ -293,8 +276,9 @@ AI raw output
 
 ```text
 AI raw output is candidate, not authority.
+GPT-Alaya / AI Alaya is latent generative tendency, not governed durable memory.
 MemoryOS records and governs memory surfaces; it is not GPT-Alaya itself.
-GPT-Alaya / AI Alaya is treated as a latent generative tendency layer, not as durable governed memory.
+Memory persistence is not belief sovereignty.
 BeliefOS does not create decision authority.
 PlanOS does not create execution authority.
 ReflectionOS does not directly rewrite MemoryOS roots.
@@ -328,7 +312,33 @@ ultimate and conventional readings do not collapse
 middle-way governance prevents both reification and nihilistic flattening
 ```
 
-### 2. Qi / IndraNet / Physical Quantum Qi
+### 2. AI Yogacara / Ten'i / GPT-Alaya
+
+KuuOS separates raw AI output from governed operation.
+
+```text
+single correction != Ten'i
+style improvement != Ten'i
+MemoryOS update != Ten'i
+prompt compliance != Ten'i
+GPT-Alaya != MemoryOS
+Ten'i requires stable evidence of transformed generative tendency
+```
+
+### 3. MemoryOS / BeliefOS / PlanOS / DecisionOS / ReflectionOS
+
+These modules are intentionally separated.
+
+```text
+Memory is not belief sovereignty.
+Belief release is not decision commit.
+Plan success is not execution permission.
+Reflection repair is not direct root rewrite.
+WorldModel prediction is not fact authority.
+DecisionOS owns action-boundary judgment.
+```
+
+### 4. Qi / IndraNet / Physical Quantum Qi
 
 Qi is treated as a relational process field, not as a substance.
 
@@ -351,30 +361,6 @@ Samvrti Qi Runtime
   -> Physical Quantum Qi Dynamics Kernel
   -> Physical Quantum Qi Motion Pipeline
   -> observe-only bounded motion candidate
-```
-
-### 3. AI Yogacara / Ten'i
-
-KuuOS separates raw AI output from governed operation.
-
-```text
-single correction != Ten'i
-style improvement != Ten'i
-MemoryOS update != Ten'i
-prompt compliance != Ten'i
-Ten'i requires stable evidence of transformed generative tendency
-```
-
-### 4. MemoryOS / BeliefOS / PlanOS / DecisionOS / ReflectionOS
-
-These modules are intentionally separated.
-
-```text
-Memory is not belief sovereignty.
-Belief release is not decision commit.
-Plan success is not execution permission.
-Reflection repair is not direct root rewrite.
-DecisionOS owns action-boundary judgment.
 ```
 
 ### 5. Mandala Multi-WORLD Governance
