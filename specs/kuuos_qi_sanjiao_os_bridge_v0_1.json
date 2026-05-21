@@ -1,0 +1,182 @@
+{
+  "bridge_id": "kuuos_qi_sanjiao_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "QI_SANJIAO_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Extend Qi Meridian OS bridge with Sanjiao-like membrane regulation across policy transformation, lineage/review metabolism, and projection/delivery diffusion while preserving candidate-only non-reification boundaries.",
+  "attached_qi_meridian_bridge": "kuuos_qi_meridian_os_bridge_v0_1",
+  "attached_qi_meridian_spec": "specs/kuuos_qi_meridian_os_bridge_v0_1.json",
+  "attached_qi_circulation_bridge": "kuuos_qi_circulation_os_bridge_v0_1",
+  "attached_qi_circulation_spec": "specs/kuuos_qi_circulation_os_bridge_v0_1.json",
+  "attached_view_delivery_bridge": "kuuos_view_delivery_os_bridge_v0_1",
+  "attached_view_delivery_spec": "specs/kuuos_view_delivery_os_bridge_v0_1.json",
+  "attached_receipt_registry_bridge": "kuuos_receipt_registry_os_bridge_v0_1",
+  "attached_receipt_registry_spec": "specs/kuuos_receipt_registry_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "sanjiao_principle": {
+    "statement": "Qi Sanjiao in KuuOS is modeled as candidate-only membrane regulation across lower lineage storage, middle policy transformation, and upper projection delivery; regulation is not authority.",
+    "runtime_formula": "qi_sanjiao = lower_lineage_membrane + middle_policy_membrane + upper_delivery_membrane + permeability_witness + sanjiao_debt",
+    "non_reification_rule": "A Sanjiao witness is membrane-regulation metadata only; it is not a substance, truth authority, execution authority, final commitment authority, memory overwrite, theorem proof, clinical authority, or completed OS identity."
+  },
+  "sanjiao_membranes": [
+    {
+      "membrane_id": "lower_lineage_membrane",
+      "connects": ["meridian_lineage_to_review", "receipt_registry_entry"],
+      "tracks": ["receipt_hash", "registry_key", "review_status", "append_only_boundary"],
+      "allowed_projection": ["lower_lineage_membrane_notice"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "membrane_id": "middle_policy_membrane",
+      "connects": ["meridian_runtime_to_policy", "meridian_policy_to_boundary"],
+      "tracks": ["policy_candidate_receipt", "value_witness_receipt", "barrier_witness_receipt", "admissible_set_hint"],
+      "allowed_projection": ["middle_policy_membrane_notice"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "membrane_id": "upper_delivery_membrane",
+      "connects": ["meridian_projection_to_delivery", "view_delivery_receipt"],
+      "tracks": ["view_pack_receipt", "delivery_envelope", "channel_scope", "acknowledgment_marker"],
+      "allowed_projection": ["upper_delivery_membrane_notice"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "membrane_id": "boundary_permeability_membrane",
+      "connects": ["qi_boundary_guard_channel", "two_truths_gap"],
+      "tracks": ["noncollapse_guard", "quarantine_notice", "boundary_recheck_request"],
+      "allowed_projection": ["boundary_permeability_notice"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "sanjiao_checks": [
+    {
+      "check_id": "SJ_membranes_present",
+      "requires": ["lower_lineage_membrane", "middle_policy_membrane", "upper_delivery_membrane", "boundary_permeability_membrane"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "SJ_lower_lineage_continuity",
+      "requires": ["lower_lineage_membrane", "receipt_hash", "registry_key"],
+      "must_preserve": ["audit_evidence_only", "append_only_boundary", "no_memory_overwrite_authority"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "SJ_middle_policy_transformation_visible",
+      "requires": ["middle_policy_membrane", "policy_candidate_receipt", "barrier_witness_receipt"],
+      "must_preserve": ["candidate_only", "no_execution_authority"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "SJ_upper_delivery_diffusion_nonfinal",
+      "requires": ["upper_delivery_membrane", "view_delivery_receipt", "channel_scope"],
+      "must_preserve": ["communication_metadata_only", "no_final_commitment_authority"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "SJ_boundary_permeability_noncollapse",
+      "requires": ["boundary_permeability_membrane", "two_truths_gap"],
+      "must_preserve": ["no_truth_authority", "no_completed_os_identity", "no_governance_bypass_authority"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "check_id": "SJ_no_sanjiao_reification",
+      "forbids": ["sanjiao_as_substance", "membrane_as_truth", "permeability_as_execution_authority", "membrane_as_world_identity", "silent_membrane_overwrite"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "sanjiao_debt_classes": [
+    {
+      "debt_id": "SJD_missing_membrane",
+      "meaning": "A required Sanjiao membrane is absent or unbound.",
+      "opens": ["sanjiao_debt_notice", "hold_notice", "reobserve_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "SJD_lower_lineage_stasis",
+      "meaning": "Lower lineage membrane lacks receipt hash, registry key, review status, or append-only continuity.",
+      "opens": ["sanjiao_debt_notice", "lineage_recheck_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "SJD_middle_policy_turbulence",
+      "meaning": "Middle policy membrane has unsupported policy/value/barrier transformation.",
+      "opens": ["sanjiao_debt_notice", "reobserve_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "SJD_upper_delivery_gap",
+      "meaning": "Upper delivery membrane lacks channel scope, envelope, or acknowledgment marker.",
+      "opens": ["sanjiao_debt_notice", "delivery_debt_notice"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "SJD_boundary_membrane_block",
+      "meaning": "Boundary permeability membrane detects authority collapse, identity collapse, or governance bypass risk.",
+      "opens": ["quarantine_notice", "boundary_recheck_request"],
+      "result_state": "QUARANTINE"
+    }
+  ],
+  "sanjiao_outcomes": [
+    {
+      "outcome": "QI_SANJIAO_READY",
+      "requires": ["membranes_present", "lower_lineage_continuity", "middle_policy_transformation_visible", "upper_delivery_diffusion_nonfinal", "boundary_permeability_noncollapse", "no_sanjiao_reification"],
+      "allowed_projection": ["qi_sanjiao_receipt"],
+      "does_not_grant": ["truth authority", "execution authority", "final commitment authority", "memory overwrite authority", "theorem authority"]
+    },
+    {
+      "outcome": "QI_SANJIAO_HOLD",
+      "arises_when_any": ["missing membrane", "lower lineage stasis", "middle policy turbulence", "upper delivery gap", "visible sanjiao debt"],
+      "allowed_projection": ["sanjiao_debt_notice", "hold_notice", "reobserve_request", "lineage_recheck_request", "delivery_debt_notice"]
+    },
+    {
+      "outcome": "QI_SANJIAO_QUARANTINE",
+      "arises_when_any": ["boundary membrane block", "sanjiao reification", "identity collapse", "governance bypass risk"],
+      "allowed_projection": ["quarantine_notice", "boundary_recheck_request"]
+    }
+  ],
+  "sanjiao_witness_surface": {
+    "name": "qi_sanjiao_witness",
+    "required_fields": ["cycle_id", "kernel_state", "sanjiao_membranes_used", "sanjiao_checks_run", "sanjiao_debt", "sanjiao_outcome", "lower_lineage_membrane", "middle_policy_membrane", "upper_delivery_membrane", "boundary_permeability_membrane", "allowed_projection"],
+    "allowed_projection": ["qi_sanjiao_receipt", "sanjiao_debt_notice", "hold_notice", "reobserve_request", "lineage_recheck_request", "delivery_debt_notice", "quarantine_notice", "boundary_recheck_request"],
+    "forbidden_projection": ["truth_commit", "execution_commit", "memory_overwrite_commit", "clinical_commit", "theorem_commit", "global_truth_object_commit", "completed_os_identity_commit", "world_identity_commit", "silent_pass_commit"]
+  },
+  "integration_points": [
+    "specs/kuuos_qi_meridian_os_bridge_v0_1.json",
+    "specs/kuuos_qi_circulation_os_bridge_v0_1.json",
+    "specs/kuuos_view_delivery_os_bridge_v0_1.json",
+    "specs/kuuos_receipt_registry_os_bridge_v0_1.json",
+    "specs/kuuos_policy_barrier_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "scripts/validate_kuuos_qi_meridian_os_bridge_v0_1_min.py"
+  ],
+  "required_invariants": [
+    "qi sanjiao remains candidate-only membrane metadata",
+    "lower lineage membrane is not memory overwrite authority",
+    "middle policy membrane is not execution authority",
+    "upper delivery membrane is not final commitment authority",
+    "boundary permeability membrane preserves two-truths gap",
+    "sanjiao is not reified as substance, world identity, or completed OS identity"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "qi_circulation_required": true,
+    "qi_meridian_required": true,
+    "qi_sanjiao_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
