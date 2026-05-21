@@ -11,8 +11,10 @@ from typing import Any
 
 try:
     from runtime.kuuos_state_io_runner_v0_1 import run_state_io
+    from runtime.kuuos_runtime_daemon_qi_policy_v0_1 import read_and_evaluate_daemon_qi_policy
 except ModuleNotFoundError:
     from kuuos_state_io_runner_v0_1 import run_state_io
+    from kuuos_runtime_daemon_qi_policy_v0_1 import read_and_evaluate_daemon_qi_policy
 
 NON_AUTHORITY_FLAGS = {
     "grants_execution_authority": False,
@@ -39,6 +41,8 @@ class KuuOSDaemonResult:
     tick_log_path: str
     final_raw_state_path: str | None
     final_state_bundle_path: str | None
+    qi_policy_result_path: str | None = None
+    qi_policy_recommended_tick_mode: str | None = None
     grants_execution_authority: bool = False
     grants_truth_authority: bool = False
     grants_final_commitment_authority: bool = False
@@ -49,10 +53,6 @@ class KuuOSDaemonResult:
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
-
-
-def _read_json(path: Path) -> Any:
-    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def _write_json(path: Path, payload: Any) -> None:
@@ -142,6 +142,10 @@ def run_runtime_daemon(
     elif stop_reason == "QUARANTINE_RETAINED":
         daemon_status = "DAEMON_QUARANTINE_RETAINED_APPEND_ONLY"
 
+    policy_result = read_and_evaluate_daemon_qi_policy(daemon_dir)
+    policy_result_path = daemon_dir / "daemon_qi_policy_result_v0_1.json"
+    _write_json(policy_result_path, policy_result.to_dict())
+
     result = KuuOSDaemonResult(
         daemon_status=daemon_status,
         stop_reason=stop_reason,
@@ -150,6 +154,8 @@ def run_runtime_daemon(
         tick_log_path=str(tick_log_path),
         final_raw_state_path=str(final_raw) if final_raw else None,
         final_state_bundle_path=str(final_bundle) if final_bundle else None,
+        qi_policy_result_path=str(policy_result_path),
+        qi_policy_recommended_tick_mode=policy_result.recommended_tick_mode,
     )
     _write_json(daemon_dir / "daemon_result_v0_1.json", result.to_dict())
     return result
