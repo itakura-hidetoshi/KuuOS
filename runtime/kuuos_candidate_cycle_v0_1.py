@@ -89,6 +89,7 @@ class KuuOSCandidateCycleReceipt:
     blocked_boundaries: list[str]
     normalized_qi_state: dict[str, Any]
     source_support: dict[str, list[str]]
+    qi_process_tensor_receipt: dict[str, Any]
     allowed_projection: list[str]
     receipt_hash: str
     previous_receipt_hash: str | None = None
@@ -132,6 +133,7 @@ def run_candidate_cycle(raw_state: Mapping[str, Any]) -> KuuOSCandidateCycleRece
         "blocked_boundaries": decision.get("blocked_boundaries", []),
         "normalized_qi_state": total.normalized_qi_state,
         "source_support": total.source_support,
+        "qi_process_tensor_receipt": total.qi_process_tensor_receipt,
         "allowed_projection": decision.get("allowed_projection", []),
         "previous_receipt_hash": previous_hash,
         **NON_AUTHORITATIVE_FLAGS,
