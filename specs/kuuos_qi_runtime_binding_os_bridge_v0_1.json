@@ -4,7 +4,7 @@
   "status": "QI_RUNTIME_BINDING_OS_BRIDGE_BASELINE",
   "repository": "itakura-hidetoshi/KuuOS",
   "purpose": "Bind Qi circulation to the actual KuuOS runtime cycle so Qi can influence candidate progression through explicit HOLD, QUARANTINE, reobserve, lineage recheck, delivery recheck, and candidate-allow signals without becoming authority.",
-  "replaces_removed_layers": ["kuuos_qi_sanjiao_os_bridge_v0_1", "kuuos_qi_meridian_os_bridge_v0_1"],
+  "replaces_removed_layers": ["naming_only_channel_bridge", "naming_only_membrane_bridge"],
   "attached_qi_circulation_bridge": "kuuos_qi_circulation_os_bridge_v0_1",
   "attached_qi_circulation_spec": "specs/kuuos_qi_circulation_os_bridge_v0_1.json",
   "attached_policy_barrier_bridge": "kuuos_policy_barrier_os_bridge_v0_1",
@@ -163,7 +163,7 @@
     "missing lineage support opens LINEAGE_RECHECK",
     "missing delivery support opens DELIVERY_RECHECK",
     "qi binding is not reified as substance, authority, world identity, or completed OS identity",
-    "qi runtime binding must not depend on Qi Meridian naming layer"
+    "qi runtime binding must not depend on naming-only channel layers"
   ],
   "authority_boundary": {
     "validation_only": true,
