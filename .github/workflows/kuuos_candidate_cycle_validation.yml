@@ -1,0 +1,25 @@
+name: KuuOS Candidate Cycle Validation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_candidate_cycle_v0_1.py'
+      - 'runtime/qi_total_field_v0_1.py'
+      - 'runtime/qi_runtime_binding_v0_1.py'
+      - 'runtime/qi_cycle_runner_v0_1.py'
+      - 'tests/test_kuuos_candidate_cycle_v0_1.py'
+      - 'tests/test_qi_total_field_v0_1.py'
+      - 'tests/test_qi_runtime_binding_v0_1.py'
+      - 'tests/test_qi_cycle_runner_v0_1.py'
+      - '.github/workflows/kuuos_candidate_cycle_validation.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 -m unittest tests.test_qi_runtime_binding_v0_1 tests.test_qi_cycle_runner_v0_1 tests.test_qi_total_field_v0_1 tests.test_kuuos_candidate_cycle_v0_1
