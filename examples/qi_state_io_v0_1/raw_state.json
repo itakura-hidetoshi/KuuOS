@@ -1,0 +1,22 @@
+{
+  "cycle_id": "example-cycle-001",
+  "next_cycle_id": "example-cycle-002",
+  "generated_at_utc": "2026-05-21T00:00:00+00:00",
+  "dispatched_at_utc": "2026-05-21T00:00:01+00:00",
+  "candidate_only": true,
+  "nonfinal_marker": true,
+  "two_truths_gap": true,
+  "noncollapse_guard": true,
+  "memory_overwrite_blocker": true,
+  "world_identity_blocker": true,
+  "physical_process_visible": true,
+  "thermodynamic_activity_visible": true,
+  "process_tensor_visible": true,
+  "barrier_witness_visible": true,
+  "receipt_hash": true,
+  "support_refs": true,
+  "registry_key": true,
+  "view_delivery_receipt": true,
+  "channel_scope": true,
+  "acknowledgment_marker": true
+}
