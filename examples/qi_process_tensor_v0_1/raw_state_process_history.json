@@ -1,0 +1,44 @@
+{
+  "cycle_id": "process-example-cycle-001",
+  "next_cycle_id": "process-example-cycle-002",
+  "generated_at_utc": "2026-05-21T00:00:00+00:00",
+  "dispatched_at_utc": "2026-05-21T00:00:01+00:00",
+  "candidate_only": true,
+  "nonfinal_marker": true,
+  "two_truths_gap": true,
+  "noncollapse_guard": true,
+  "memory_overwrite_blocker": true,
+  "world_identity_blocker": true,
+  "physical_process_visible": true,
+  "thermodynamic_activity_visible": true,
+  "barrier_witness_visible": true,
+  "receipt_hash": true,
+  "support_refs": true,
+  "registry_key": true,
+  "view_delivery_receipt": true,
+  "channel_scope": true,
+  "acknowledgment_marker": true,
+  "process_history": [
+    {
+      "step_id": "p0",
+      "process_observation": "seed_state",
+      "transition_visible": true,
+      "memory_link_visible": true,
+      "nonmarkov_link_visible": false
+    },
+    {
+      "step_id": "p1",
+      "process_observation": "candidate_motion",
+      "transition_visible": true,
+      "memory_link_visible": false,
+      "nonmarkov_link_visible": false
+    },
+    {
+      "step_id": "p2",
+      "process_observation": "history_reentry",
+      "transition_visible": true,
+      "memory_link_visible": false,
+      "nonmarkov_link_visible": true
+    }
+  ]
+}
