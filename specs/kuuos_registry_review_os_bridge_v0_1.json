@@ -1,0 +1,143 @@
+{
+  "bridge_id": "kuuos_registry_review_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "REGISTRY_REVIEW_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Extend Receipt Registry OS bridge with review lanes, verification windows, review debt, stale-entry notices, and non-authorizing review outcomes.",
+  "attached_receipt_registry_bridge": "kuuos_receipt_registry_os_bridge_v0_1",
+  "attached_receipt_registry_spec": "specs/kuuos_receipt_registry_os_bridge_v0_1.json",
+  "attached_output_receipt_lineage_bridge": "kuuos_output_receipt_lineage_os_bridge_v0_1",
+  "attached_output_receipt_lineage_spec": "specs/kuuos_output_receipt_lineage_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "review_principle": {
+    "statement": "A registry entry may be reviewed through explicit lanes and time windows, but review status remains evidence metadata and does not create truth, finality, or overwrite authority.",
+    "runtime_formula": "review_entry = registry_entry + review_lane + verification_window + review_status + review_debt + non_authority_boundary",
+    "non_reification_rule": "A review witness is review metadata only; it is not truth authority, final commitment authority, memory overwrite, theorem proof, clinical authority, or completed OS identity."
+  },
+  "review_lanes": [
+    {
+      "lane_id": "lane_local_validation",
+      "base_surface": "verification_pointer_surface",
+      "tracks": ["validator_refs", "ci_refs", "review_status"],
+      "allowed_projection": ["local_validation_review_notice"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "lane_id": "lane_lineage_consistency",
+      "base_surface": "registry_entry_surface",
+      "tracks": ["registry_key", "receipt_hash", "previous_receipt_hash", "chain_continuity"],
+      "allowed_projection": ["lineage_consistency_review_notice"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "lane_id": "lane_boundary_review",
+      "base_surface": "registry_append_boundary_surface",
+      "tracks": ["append_only_marker", "boundary_marker", "quarantine_marker"],
+      "allowed_projection": ["boundary_review_notice"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "review_checks": [
+    {
+      "check_id": "REV_lanes_present",
+      "requires": ["lane_local_validation", "lane_lineage_consistency", "lane_boundary_review"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "REV_window_visible",
+      "requires": ["verification_window", "review_status"],
+      "must_preserve": ["candidate_only", "registry_entry_notice"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "REV_boundary_noncollapse",
+      "requires": ["lane_boundary_review", "two_truths_gap"],
+      "must_preserve": ["no_truth_authority", "no_memory_overwrite_authority", "no_completed_os_identity"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "check_id": "REV_no_review_reification",
+      "forbids": ["review_status_as_truth", "reviewed_as_final_commitment", "review_notice_as_world_identity", "silent_review_overwrite"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "review_debt_classes": [
+    {
+      "debt_id": "RVD_missing_review_lane",
+      "meaning": "A required review lane is absent or unbound.",
+      "opens": ["review_debt_notice", "hold_notice"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "RVD_stale_review_window",
+      "meaning": "Review evidence is stale or lacks a visible verification window.",
+      "opens": ["stale_review_notice", "reobserve_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "RVD_boundary_review_gap",
+      "meaning": "Review state risks collapsing append-only or non-authority boundaries.",
+      "opens": ["quarantine_notice", "boundary_review_notice"],
+      "result_state": "QUARANTINE"
+    }
+  ],
+  "review_outcomes": [
+    {
+      "outcome": "REGISTRY_REVIEW_READY",
+      "requires": ["lanes_present", "window_visible", "boundary_noncollapse", "no_review_reification"],
+      "allowed_projection": ["registry_review_receipt"],
+      "does_not_grant": ["truth authority", "final commitment authority", "memory overwrite authority", "theorem authority"]
+    },
+    {
+      "outcome": "REGISTRY_REVIEW_HOLD",
+      "arises_when_any": ["missing review lane", "stale review window", "visible review debt"],
+      "allowed_projection": ["review_debt_notice", "stale_review_notice", "hold_notice", "reobserve_request"]
+    },
+    {
+      "outcome": "REGISTRY_REVIEW_QUARANTINE",
+      "arises_when_any": ["boundary review gap", "review reification", "identity collapse"],
+      "allowed_projection": ["quarantine_notice", "boundary_review_notice"]
+    }
+  ],
+  "review_witness_surface": {
+    "name": "registry_review_witness",
+    "required_fields": ["cycle_id", "kernel_state", "review_lanes_used", "review_checks_run", "review_debt", "review_outcome", "verification_window", "registry_key", "non_authority_boundary", "allowed_projection"],
+    "allowed_projection": ["registry_review_receipt", "review_debt_notice", "stale_review_notice", "hold_notice", "reobserve_request", "boundary_review_notice", "quarantine_notice"],
+    "forbidden_projection": ["truth_commit", "memory_overwrite_commit", "clinical_commit", "theorem_commit", "global_truth_object_commit", "completed_os_identity_commit", "world_identity_commit", "silent_pass_commit"]
+  },
+  "integration_points": [
+    "specs/kuuos_receipt_registry_os_bridge_v0_1.json",
+    "specs/kuuos_output_receipt_lineage_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "scripts/validate_kuuos_receipt_registry_os_bridge_v0_1_min.py"
+  ],
+  "required_invariants": [
+    "registry review remains candidate-only metadata",
+    "review status is not truth authority",
+    "review receipt is not final commitment authority",
+    "stale review opens HOLD",
+    "boundary review gap opens QUARANTINE",
+    "future runtime kernel must keep review metadata separate from authority"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "receipt_registry_required": true,
+    "registry_review_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
