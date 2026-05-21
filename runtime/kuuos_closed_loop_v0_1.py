@@ -1,20 +1,4 @@
 #!/usr/bin/env python3
-"""KuuOS Closed Loop Runner v0.1.
-
-Runs one non-authoritative KuuOS loop step:
-
-  raw Qi/OS state
-    -> Queue Dispatcher
-    -> Queue Worker
-    -> Action Router
-    -> Task Board Processor
-    -> Feedback Merger
-    -> next raw Qi/OS state
-
-The runner only advances candidate state and appends receipts/logs. It never
-executes actions, finalizes truth, overwrites memory, proves theorems, makes
-clinical decisions, or creates completed OS identity.
-"""
 from __future__ import annotations
 
 from copy import deepcopy
@@ -29,13 +13,12 @@ try:
     from runtime.kuuos_queue_dispatcher_v0_1 import dispatch_candidate_cycle, empty_queue_state
     from runtime.kuuos_queue_worker_v0_1 import empty_worker_state, process_next_queue_item
     from runtime.kuuos_task_board_processor_v0_1 import empty_review_state, process_next_task
-except ModuleNotFoundError:  # direct script execution from runtime/
+except ModuleNotFoundError:
     from kuuos_action_router_v0_1 import route_next_action
     from kuuos_feedback_merger_v0_1 import merge_task_result_into_next_state
     from kuuos_queue_dispatcher_v0_1 import dispatch_candidate_cycle, empty_queue_state
     from kuuos_queue_worker_v0_1 import empty_worker_state, process_next_queue_item
     from kuuos_task_board_processor_v0_1 import empty_review_state, process_next_task
-
 
 NON_AUTHORITY_FLAGS = {
     "grants_execution_authority": False,
@@ -46,7 +29,6 @@ NON_AUTHORITY_FLAGS = {
     "grants_theorem_authority": False,
     "grants_completed_identity_authority": False,
 }
-
 
 @dataclass(frozen=True)
 class KuuOSClosedLoopResult:
@@ -100,23 +82,39 @@ def _normalize_state_bundle(state_bundle: Mapping[str, Any] | None) -> dict[str,
     return bundle
 
 
+def qi_process_tensor_summary(receipt: Mapping[str, Any] | None) -> dict[str, Any]:
+    receipt = receipt or {}
+    return {
+        "process_tensor_visible": bool(receipt.get("process_tensor_visible", False)),
+        "transition_continuity_visible": bool(receipt.get("transition_continuity_visible", False)),
+        "memory_continuity_visible": bool(receipt.get("memory_continuity_visible", False)),
+        "nonmarkov_memory_visible": bool(receipt.get("nonmarkov_memory_visible", False)),
+        "process_history_length": int(receipt.get("process_history_length", 0) or 0),
+        "transition_support_count": int(receipt.get("transition_support_count", 0) or 0),
+        "memory_support_count": int(receipt.get("memory_support_count", 0) or 0),
+        "nonmarkov_support_count": int(receipt.get("nonmarkov_support_count", 0) or 0),
+        "process_tensor_reason": str(receipt.get("process_tensor_reason", "missing_process_tensor_receipt")),
+        "missing_process_requirements": list(receipt.get("missing_process_requirements", [])),
+        **NON_AUTHORITY_FLAGS,
+    }
+
+
 def run_closed_loop_step(raw_state: Mapping[str, Any], evidence: Mapping[str, Any], state_bundle: Mapping[str, Any] | None = None) -> KuuOSClosedLoopResult:
     bundle = _normalize_state_bundle(state_bundle)
-
     dispatch = dispatch_candidate_cycle(raw_state, bundle.get("queue_state"))
     bundle["queue_state"] = dispatch.updated_queue_state
-
     worker = process_next_queue_item(bundle["queue_state"], bundle.get("worker_state"))
     bundle["worker_state"] = worker.updated_worker_state
-
     router = route_next_action(bundle["worker_state"], bundle.get("task_board"))
     bundle["task_board"] = router.updated_task_board
-
     processor = process_next_task(bundle["task_board"], evidence, bundle.get("review_state"))
     bundle["review_state"] = processor.updated_review_state
 
     feedback_result = None
     next_raw_state = None
+    process_summary = qi_process_tensor_summary(
+        processor.task_result_receipt.get("qi_process_tensor_receipt") if processor.task_result_receipt else None
+    )
     if processor.task_result_receipt is not None:
         feedback = merge_task_result_into_next_state(raw_state, processor.task_result_receipt)
         feedback_result = feedback.to_dict()
@@ -138,6 +136,7 @@ def run_closed_loop_step(raw_state: Mapping[str, Any], evidence: Mapping[str, An
         "queue_target": dispatch.target_queue,
         "task_queue": router.target_task_queue,
         "task_result_status": processor.task_result_receipt.get("task_status") if processor.task_result_receipt else None,
+        "qi_process_tensor_summary": process_summary,
         **NON_AUTHORITY_FLAGS,
     }
     bundle["loop_log"].append(loop_log_entry)
@@ -171,7 +170,6 @@ def main(argv: list[str]) -> int:
     result = run_closed_loop_step(raw_state, evidence, state_bundle)
     print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2, sort_keys=True))
     return 0
-
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv))

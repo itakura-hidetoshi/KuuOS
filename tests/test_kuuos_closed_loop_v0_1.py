@@ -2,6 +2,11 @@ import unittest
 
 from runtime.kuuos_closed_loop_v0_1 import empty_loop_state_bundle, run_closed_loop_step
 
+PROCESS_HISTORY = [
+    {"step_id": "p0", "transition_visible": True, "memory_link_visible": True, "nonmarkov_link_visible": False},
+    {"step_id": "p1", "transition_visible": True, "memory_link_visible": False, "nonmarkov_link_visible": False},
+    {"step_id": "p2", "transition_visible": True, "memory_link_visible": False, "nonmarkov_link_visible": True},
+]
 
 BASE_RAW = {
     "cycle_id": "loop-001",
@@ -16,7 +21,7 @@ BASE_RAW = {
     "world_identity_blocker": True,
     "physical_process_visible": True,
     "thermodynamic_activity_visible": True,
-    "process_tensor_visible": True,
+    "process_history": PROCESS_HISTORY,
     "barrier_witness_visible": True,
     "receipt_hash": True,
     "support_refs": True,
@@ -47,6 +52,20 @@ FULL_EVIDENCE = {
 }
 
 
+def assert_process_summary(testcase, summary):
+    testcase.assertTrue(summary["process_tensor_visible"])
+    testcase.assertTrue(summary["transition_continuity_visible"])
+    testcase.assertTrue(summary["memory_continuity_visible"])
+    testcase.assertTrue(summary["nonmarkov_memory_visible"])
+    testcase.assertEqual(summary["process_history_length"], 3)
+    testcase.assertEqual(summary["transition_support_count"], 3)
+    testcase.assertEqual(summary["memory_support_count"], 1)
+    testcase.assertEqual(summary["nonmarkov_support_count"], 1)
+    testcase.assertEqual(summary["process_tensor_reason"], "process_tensor_support_visible")
+    testcase.assertFalse(summary["grants_execution_authority"])
+    testcase.assertFalse(summary["grants_truth_authority"])
+
+
 class KuuOSClosedLoopRunnerTests(unittest.TestCase):
     def test_closed_loop_completes_candidate_next_step(self):
         result = run_closed_loop_step(BASE_RAW, FULL_EVIDENCE)
@@ -60,6 +79,7 @@ class KuuOSClosedLoopRunnerTests(unittest.TestCase):
         self.assertEqual(result.feedback_merge["merge_status"], "MERGED_RESOLVED_APPEND_ONLY")
         self.assertTrue(result.next_raw_state["ready_for_next_candidate_stage"])
         self.assertEqual(len(result.updated_state_bundle["loop_log"]), 1)
+        assert_process_summary(self, result.updated_state_bundle["loop_log"][0]["qi_process_tensor_summary"])
         self.assertFalse(result.grants_execution_authority)
         self.assertFalse(result.grants_truth_authority)
         self.assertFalse(result.grants_final_commitment_authority)
@@ -69,6 +89,7 @@ class KuuOSClosedLoopRunnerTests(unittest.TestCase):
         raw = dict(BASE_RAW)
         raw["physical_process_visible"] = False
         raw["thermodynamic_activity_visible"] = False
+        raw["process_history"] = []
         evidence = dict(FULL_EVIDENCE)
         evidence["value_witness_receipt"] = False
         result = run_closed_loop_step(raw, evidence)
@@ -78,6 +99,9 @@ class KuuOSClosedLoopRunnerTests(unittest.TestCase):
         self.assertEqual(result.feedback_merge["merge_status"], "MERGED_WAITING_APPEND_ONLY")
         self.assertTrue(result.next_raw_state["feedback_waiting"])
         self.assertIn("value_witness_receipt", result.next_raw_state["feedback_missing_evidence"])
+        summary = result.updated_state_bundle["loop_log"][0]["qi_process_tensor_summary"]
+        self.assertFalse(summary["process_tensor_visible"])
+        self.assertIn("process_history_min_length_or_explicit_process_tensor", summary["missing_process_requirements"])
 
     def test_closed_loop_quarantine_retained_does_not_repair_boundary(self):
         raw = dict(BASE_RAW)
@@ -89,6 +113,9 @@ class KuuOSClosedLoopRunnerTests(unittest.TestCase):
         self.assertEqual(result.feedback_merge["merge_status"], "MERGED_QUARANTINE_RETAINED_APPEND_ONLY")
         self.assertTrue(result.next_raw_state["quarantine_retained"])
         self.assertFalse(result.next_raw_state["world_identity_blocker"])
+        summary = result.updated_state_bundle["loop_log"][0]["qi_process_tensor_summary"]
+        self.assertFalse(summary["process_tensor_visible"])
+        self.assertEqual(summary["process_tensor_reason"], "boundary_blocks_process_tensor_support")
 
     def test_closed_loop_appends_to_existing_bundle(self):
         first = run_closed_loop_step(BASE_RAW, FULL_EVIDENCE)
@@ -102,6 +129,7 @@ class KuuOSClosedLoopRunnerTests(unittest.TestCase):
         self.assertEqual(len(second.updated_state_bundle["queue_state"]["dispatch_log"]), 2)
         self.assertEqual(len(second.updated_state_bundle["worker_state"]["worker_log"]), 2)
         self.assertEqual(len(second.updated_state_bundle["review_state"]["task_result_receipts"]), 2)
+        assert_process_summary(self, second.updated_state_bundle["loop_log"][0]["qi_process_tensor_summary"])
 
     def test_empty_loop_state_bundle_has_no_authority(self):
         bundle = empty_loop_state_bundle()

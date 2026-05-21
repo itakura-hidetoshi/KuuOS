@@ -1,12 +1,4 @@
 #!/usr/bin/env python3
-"""KuuOS Closed Loop Driver v0.1.
-
-Runs a bounded, non-authoritative multi-step KuuOS loop.
-
-The driver repeatedly calls run_closed_loop_step and returns a bounded trace.
-It is deliberately not an unbounded autonomous agent: max_steps is required,
-stop reasons are explicit, and all outputs remain non-authoritative.
-"""
 from __future__ import annotations
 
 from copy import deepcopy
@@ -17,9 +9,8 @@ from typing import Any, Mapping, Sequence
 
 try:
     from runtime.kuuos_closed_loop_v0_1 import empty_loop_state_bundle, run_closed_loop_step
-except ModuleNotFoundError:  # direct script execution from runtime/
+except ModuleNotFoundError:
     from kuuos_closed_loop_v0_1 import empty_loop_state_bundle, run_closed_loop_step
-
 
 NON_AUTHORITY_FLAGS = {
     "grants_execution_authority": False,
@@ -30,10 +21,8 @@ NON_AUTHORITY_FLAGS = {
     "grants_theorem_authority": False,
     "grants_completed_identity_authority": False,
 }
-
 DEFAULT_MAX_STEPS = 3
 MAX_HARD_LIMIT = 25
-
 
 @dataclass(frozen=True)
 class KuuOSClosedLoopDriverResult:
@@ -78,7 +67,6 @@ def _stop_reason_from_step(step_result: Mapping[str, Any]) -> str | None:
     feedback_merge = step_result.get("feedback_merge") or {}
     task_processor = step_result.get("task_processor") or {}
     task_receipt = task_processor.get("task_result_receipt") or {}
-
     if next_state.get("quarantine_retained"):
         return "QUARANTINE_RETAINED"
     if next_state.get("feedback_waiting"):
@@ -86,9 +74,26 @@ def _stop_reason_from_step(step_result: Mapping[str, Any]) -> str | None:
     if feedback_merge.get("merge_status") == "MERGED_UNKNOWN_HELD_APPEND_ONLY":
         return "UNKNOWN_RESULT_HELD"
     if task_receipt.get("task_status") == "CANDIDATE_NEXT_READY_NONFINAL":
-        # Continue is allowed, but still non-final. Caller may stop at max_steps.
         return None
     return None
+
+
+def _summary_from_step(step_dict: Mapping[str, Any]) -> dict[str, Any]:
+    bundle = step_dict.get("updated_state_bundle") or {}
+    log = bundle.get("loop_log") or []
+    if log and isinstance(log[-1], Mapping):
+        return dict(log[-1].get("qi_process_tensor_summary") or {})
+    task_processor = step_dict.get("task_processor") or {}
+    receipt = (task_processor.get("task_result_receipt") or {}).get("qi_process_tensor_receipt") or {}
+    return {
+        "process_tensor_visible": bool(receipt.get("process_tensor_visible", False)),
+        "transition_continuity_visible": bool(receipt.get("transition_continuity_visible", False)),
+        "memory_continuity_visible": bool(receipt.get("memory_continuity_visible", False)),
+        "nonmarkov_memory_visible": bool(receipt.get("nonmarkov_memory_visible", False)),
+        "process_history_length": int(receipt.get("process_history_length", 0) or 0),
+        "process_tensor_reason": str(receipt.get("process_tensor_reason", "missing_process_tensor_receipt")),
+        **NON_AUTHORITY_FLAGS,
+    }
 
 
 def run_closed_loop_driver(
@@ -117,6 +122,7 @@ def run_closed_loop_driver(
             "task_queue": step.action_router.get("target_task_queue"),
             "task_status": (step.task_processor.get("task_result_receipt") or {}).get("task_status"),
             "feedback_merge_status": (step.feedback_merge or {}).get("merge_status"),
+            "qi_process_tensor_summary": _summary_from_step(step_dict),
             **NON_AUTHORITY_FLAGS,
         }
         step_trace.append(step_summary)
@@ -164,7 +170,6 @@ def main(argv: list[str]) -> int:
     result = run_closed_loop_driver(raw_state, evidence, max_steps=max_steps, state_bundle=state_bundle)
     print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2, sort_keys=True))
     return 0
-
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv))
