@@ -62,6 +62,23 @@ def _canonical_hash(payload: Mapping[str, Any]) -> str:
     return hashlib.sha256(data.encode("utf-8")).hexdigest()
 
 
+def _compact_qi_process_tensor_receipt(receipt: Mapping[str, Any] | None) -> dict[str, Any]:
+    receipt = receipt or {}
+    return {
+        "process_tensor_visible": bool(receipt.get("process_tensor_visible", False)),
+        "transition_continuity_visible": bool(receipt.get("transition_continuity_visible", False)),
+        "memory_continuity_visible": bool(receipt.get("memory_continuity_visible", False)),
+        "nonmarkov_memory_visible": bool(receipt.get("nonmarkov_memory_visible", False)),
+        "process_history_length": int(receipt.get("process_history_length", 0) or 0),
+        "transition_support_count": int(receipt.get("transition_support_count", 0) or 0),
+        "memory_support_count": int(receipt.get("memory_support_count", 0) or 0),
+        "nonmarkov_support_count": int(receipt.get("nonmarkov_support_count", 0) or 0),
+        "missing_process_requirements": list(receipt.get("missing_process_requirements", [])),
+        "process_tensor_reason": str(receipt.get("process_tensor_reason", "missing_process_tensor_receipt")),
+        **NON_AUTHORITY_FLAGS,
+    }
+
+
 def _base_next_state(previous_raw_state: Mapping[str, Any], task_result_receipt: Mapping[str, Any]) -> dict[str, Any]:
     next_state = deepcopy(dict(previous_raw_state))
     next_state.setdefault("candidate_only", True)
@@ -71,9 +88,10 @@ def _base_next_state(previous_raw_state: Mapping[str, Any], task_result_receipt:
     source_receipt_hash = task_result_receipt.get("source_receipt_hash") or task_result_receipt.get("receipt_hash")
     if source_receipt_hash:
         next_state["previous_receipt_hash"] = str(source_receipt_hash)
-    process_receipt = dict(task_result_receipt.get("qi_process_tensor_receipt", {}))
-    next_state["previous_qi_process_tensor_receipt"] = process_receipt
-    next_state["feedback_qi_process_tensor_receipt"] = process_receipt
+    compact_process_receipt = _compact_qi_process_tensor_receipt(task_result_receipt.get("qi_process_tensor_receipt", {}))
+    next_state["previous_qi_process_tensor_receipt"] = compact_process_receipt
+    next_state["feedback_qi_process_tensor_receipt"] = compact_process_receipt
+    next_state["feedback_qi_process_tensor_summary"] = compact_process_receipt
     next_state["feedback_source_task_hash"] = task_result_receipt.get("task_hash")
     next_state["feedback_source_result_hash"] = task_result_receipt.get("receipt_hash")
     next_state["feedback_applied_at_utc"] = datetime.now(timezone.utc).isoformat()
@@ -88,7 +106,7 @@ def merge_task_result_into_next_state(previous_raw_state: Mapping[str, Any], tas
     applied_updates: dict[str, Any] = {}
     opened_notices = list(task_result_receipt.get("opened_notices", []))
     missing = list(task_result_receipt.get("missing_evidence", []))
-    process_receipt = dict(task_result_receipt.get("qi_process_tensor_receipt", {}))
+    compact_process_receipt = _compact_qi_process_tensor_receipt(task_result_receipt.get("qi_process_tensor_receipt", {}))
 
     if task_status in RESOLVED_STATUS_TO_UPDATES:
         applied_updates = dict(RESOLVED_STATUS_TO_UPDATES[task_status])
@@ -127,7 +145,8 @@ def merge_task_result_into_next_state(previous_raw_state: Mapping[str, Any], tas
         "opened_notices": opened_notices,
         "missing_evidence": missing,
         "quarantine_retained": bool(next_state.get("quarantine_retained", False)),
-        "qi_process_tensor_receipt": process_receipt,
+        "qi_process_tensor_receipt": compact_process_receipt,
+        "qi_process_tensor_summary": compact_process_receipt,
         "allowed_projection": ["feedback_merge_receipt", "next_raw_state_candidate"],
         **NON_AUTHORITY_FLAGS,
     }
