@@ -118,6 +118,7 @@ def dispatch_candidate_cycle(raw_state: Mapping[str, Any], queue_state: Mapping[
         "opened_notices": receipt.opened_notices,
         "blocked_boundaries": receipt.blocked_boundaries,
         "missing_inputs": receipt.missing_inputs,
+        "qi_process_tensor_receipt": receipt.qi_process_tensor_receipt,
         **NON_AUTHORITY_FLAGS,
     }
     state["queues"][target_queue].append(receipt_record)
@@ -129,6 +130,7 @@ def dispatch_candidate_cycle(raw_state: Mapping[str, Any], queue_state: Mapping[
         "receipt_hash": receipt.receipt_hash,
         "previous_receipt_hash": receipt.previous_receipt_hash,
         "qi_signal": receipt.qi_signal,
+        "qi_process_tensor_receipt": receipt.qi_process_tensor_receipt,
         **NON_AUTHORITY_FLAGS,
     }
     state["dispatch_log"].append(dispatch_entry)
