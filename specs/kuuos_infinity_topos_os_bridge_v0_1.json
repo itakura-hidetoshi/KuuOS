@@ -1,0 +1,166 @@
+{
+  "bridge_id": "kuuos_infinity_topos_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "INFINITY_TOPOS_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Extend Stack OS bridge into an infinity-topos-like modal runtime surface where candidate worlds, modality gates, pullback-stable witnesses, and non-truth boundaries are tracked without granting truth or execution authority.",
+  "attached_stack_bridge": "kuuos_stack_os_bridge_v0_1",
+  "attached_stack_spec": "specs/kuuos_stack_os_bridge_v0_1.json",
+  "attached_hyperdescent_bridge": "kuuos_hyperdescent_os_bridge_v0_1",
+  "attached_hyperdescent_spec": "specs/kuuos_hyperdescent_os_bridge_v0_1.json",
+  "attached_descent_bridge": "kuuos_descent_os_bridge_v0_1",
+  "attached_descent_spec": "specs/kuuos_descent_os_bridge_v0_1.json",
+  "attached_cech_obstruction_bridge": "kuuos_cech_obstruction_os_bridge_v0_1",
+  "attached_cech_obstruction_spec": "specs/kuuos_cech_obstruction_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "topos_principle": {
+    "statement": "KuuOS runtime candidates live in modal local worlds; transport across worlds is pullback-stable evidence, not a truth commit or world identity commit.",
+    "runtime_formula": "modal_candidate = {world_i, modality_gate_i, stack_witness_i, pullback_stability, non_truth_boundary}",
+    "non_reification_rule": "A modal candidate is not truth authority, execution authority, memory overwrite, theorem proof, clinical authority, or completed OS identity."
+  },
+  "modal_worlds": [
+    {
+      "world_id": "W_runtime",
+      "meaning": "Local runnable runtime candidate world.",
+      "base_witnesses": ["stack_candidate_receipt", "hyperdescent_candidate_receipt"],
+      "allowed_projection": ["runtime_world_receipt"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "world_id": "W_evidence",
+      "meaning": "Evidence and audit-lineage candidate world.",
+      "base_witnesses": ["lineage_stack_receipt", "descent_candidate_receipt"],
+      "allowed_projection": ["evidence_world_receipt"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "world_id": "W_boundary",
+      "meaning": "Non-authority boundary world preserving two-truths gap.",
+      "base_witnesses": ["boundary_stack_receipt", "two_truths_os_gap"],
+      "allowed_projection": ["boundary_world_receipt"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "modality_gates": [
+    {
+      "gate_id": "M_possible_candidate",
+      "opens_when": ["candidate_only", "witness_visible"],
+      "closes_when": ["truth_commit_requested", "execution_commit_requested"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "gate_id": "M_necessary_boundary",
+      "opens_when": ["two_truths_gap_required", "non_authority_boundary"],
+      "closes_when": ["boundary_collapse", "identity_collapse"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "gate_id": "M_reobserve",
+      "opens_when": ["coherence_debt_notice", "obstruction_notice", "descent_gap_notice"],
+      "closes_when": ["silent_pass_commit"],
+      "failure_effect": "HOLD"
+    }
+  ],
+  "pullback_stability_checks": [
+    {
+      "check_id": "PB_stack_to_runtime_world",
+      "requires": ["stack_witness", "W_runtime", "M_possible_candidate"],
+      "must_preserve": ["candidate_only", "non_identity_boundary"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "PB_lineage_to_evidence_world",
+      "requires": ["descent_witness", "W_evidence", "M_possible_candidate"],
+      "must_preserve": ["audit_receipt_only", "state_checkpoint_only"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "PB_boundary_to_boundary_world",
+      "requires": ["two_truths_os_gap", "W_boundary", "M_necessary_boundary"],
+      "must_preserve": ["no_truth_authority", "no_execution_authority", "no_completed_os_identity"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "modal_debt_classes": [
+    {
+      "debt_id": "MD_missing_world",
+      "meaning": "A required modal world is absent.",
+      "opens": ["hold_notice", "reobserve_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "MD_gate_closed",
+      "meaning": "A modality gate closes because required candidate or boundary conditions are absent.",
+      "opens": ["coherence_debt_notice", "hold_notice"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "MD_boundary_collapse",
+      "meaning": "A modal transition attempts to convert witness into authority or identity.",
+      "opens": ["quarantine_notice", "boundary_recheck_request"],
+      "result_state": "QUARANTINE"
+    }
+  ],
+  "topos_outcomes": [
+    {
+      "outcome": "MODAL_TOPOS_CANDIDATE",
+      "requires": ["modal_worlds_present", "modality_gates_preserved", "pullback_stability_passed", "boundary_preserved"],
+      "allowed_projection": ["modal_topos_candidate_receipt"],
+      "does_not_grant": ["truth authority", "execution authority", "memory overwrite authority", "theorem authority"]
+    },
+    {
+      "outcome": "MODAL_TOPOS_HOLD",
+      "arises_when_any": ["missing world", "gate closed", "pullback gap", "visible modal debt"],
+      "allowed_projection": ["modal_debt_notice", "hold_notice", "reobserve_request", "repair_candidate_request"]
+    },
+    {
+      "outcome": "MODAL_TOPOS_QUARANTINE",
+      "arises_when_any": ["boundary collapse", "identity collapse", "truth reification"],
+      "allowed_projection": ["quarantine_notice", "boundary_recheck_request"]
+    }
+  ],
+  "topos_witness_surface": {
+    "name": "infinity_topos_witness",
+    "required_fields": ["cycle_id", "kernel_state", "modal_worlds_used", "modality_gates_used", "pullback_checks_run", "modal_debt", "topos_outcome", "non_truth_boundary", "allowed_projection"],
+    "allowed_projection": ["modal_topos_candidate_receipt", "modal_debt_notice", "reobserve_request", "hold_notice", "repair_candidate_request", "quarantine_notice"],
+    "forbidden_projection": ["truth_commit", "execution_commit", "memory_overwrite_commit", "clinical_commit", "theorem_commit", "global_truth_object_commit", "completed_os_identity_commit", "world_identity_commit", "silent_pass_commit"]
+  },
+  "integration_points": [
+    "specs/kuuos_stack_os_bridge_v0_1.json",
+    "specs/kuuos_hyperdescent_os_bridge_v0_1.json",
+    "specs/kuuos_descent_os_bridge_v0_1.json",
+    "specs/kuuos_cech_obstruction_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "scripts/validate_kuuos_stack_os_bridge_v0_1_min.py"
+  ],
+  "required_invariants": [
+    "modal topos candidate remains candidate-only",
+    "world transport is not world identity",
+    "pullback stability is evidence not truth authority",
+    "closed modality gate opens HOLD or QUARANTINE",
+    "boundary collapse opens QUARANTINE",
+    "future runtime kernel must keep modal outcome separate from execution authority"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "hyperdescent_required": true,
+    "stack_required": true,
+    "infinity_topos_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
