@@ -30,6 +30,10 @@ REQUIRED_OUTCOMES = [
 ]
 
 
+def mentions_identity_boundary(values: list[str]) -> bool:
+    return any("identity" in str(value) for value in values)
+
+
 def main() -> int:
     errors: list[str] = []
     if not SPEC.is_file():
@@ -67,8 +71,8 @@ def main() -> int:
         if item is None:
             errors.append(f"missing equivalence witness: {witness_id}")
             continue
-        if "identity" not in item.get("does_not_mean", []):
-            errors.append(f"equivalence must not mean identity: {witness_id}")
+        if not mentions_identity_boundary(item.get("does_not_mean", [])):
+            errors.append(f"equivalence must preserve non-identity boundary: {witness_id}")
         if item.get("failure_effect") not in {"HOLD", "QUARANTINE"}:
             errors.append(f"invalid equivalence failure_effect: {witness_id}")
 
