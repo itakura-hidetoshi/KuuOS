@@ -1,0 +1,198 @@
+{
+  "bridge_id": "kuuos_cech_obstruction_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "CECH_OBSTRUCTION_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Extend Sheaf OS gluing with explicit obstruction detection, cocycle compatibility checks, coboundary-style repair candidates, and non-reifying obstruction witnesses for the KuuOS autonomy stack.",
+  "attached_sheaf_bridge": "kuuos_sheaf_os_gluing_bridge_v0_1",
+  "attached_sheaf_spec": "specs/kuuos_sheaf_os_gluing_bridge_v0_1.json",
+  "attached_gauge_bridge": "kuuos_gauge_os_transport_bridge_v0_1",
+  "attached_gauge_spec": "specs/kuuos_gauge_os_transport_bridge_v0_1.json",
+  "attached_indranet_bridge": "kuuos_indranet_os_dependency_bridge_v0_1",
+  "attached_indranet_spec": "specs/kuuos_indranet_os_dependency_bridge_v0_1.json",
+  "attached_dependent_origination_bridge": "kuuos_dependent_origination_os_bridge_v0_1",
+  "attached_dependent_origination_spec": "specs/kuuos_dependent_origination_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "obstruction_principle": {
+    "statement": "When local OS sections cannot be glued, the obstruction must be explicit, auditable, and non-destructive rather than silently flattened into PASS or prose confidence.",
+    "runtime_formula": "obstruction_class = delta(local_sections, restrictions, overlaps, boundary_gap); obstruction_class = 0 permits candidate gluing, obstruction_class != 0 opens HOLD or QUARANTINE",
+    "non_reification_rule": "An obstruction class is a diagnostic witness, not a final truth, execution denial, memory rewrite, or theorem proof."
+  },
+  "cochain_levels": [
+    {
+      "level": "C0",
+      "meaning": "local section assignments over runtime charts",
+      "objects": ["repo_section", "policy_section", "module_section", "lineage_section", "boundary_section"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "level": "C1",
+      "meaning": "pairwise overlap mismatches between restricted local sections",
+      "objects": ["repo_policy_overlap", "policy_module_overlap", "module_lineage_overlap", "lineage_boundary_overlap", "boundary_repo_overlap"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "level": "C2",
+      "meaning": "higher overlap incompatibility or cycle-level non-collapse failure",
+      "objects": ["cycle_transport_noncollapse", "non_authority_boundary_glues", "global_candidate_not_truth"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "obstruction_classes": [
+    {
+      "obstruction_id": "O_missing_section",
+      "level": "C0",
+      "detects": "required local section absent from cover",
+      "opens": ["hold_notice", "local_section_recheck_request"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "obstruction_id": "O_restriction_mismatch",
+      "level": "C1",
+      "detects": "restriction maps disagree on an overlap",
+      "opens": ["restriction_gap_notice", "repair_candidate_request"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "obstruction_id": "O_lineage_gap",
+      "level": "C1",
+      "detects": "module evidence cannot be transported into audit lineage without loss",
+      "opens": ["dependency_gap_notice", "lineage_recheck_request"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "obstruction_id": "O_non_authority_gluing_failure",
+      "level": "C2",
+      "detects": "local outputs can only be glued by collapsing non-authority boundaries",
+      "opens": ["quarantine_notice", "boundary_recheck_request"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "obstruction_id": "O_global_truth_reification",
+      "level": "C2",
+      "detects": "a glued candidate is treated as global truth, execution authority, or completed OS identity",
+      "opens": ["quarantine_notice"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "cocycle_checks": [
+    {
+      "check_id": "pairwise_overlap_compatibility",
+      "requires": ["repo_policy_restriction", "policy_module_restriction", "module_lineage_restriction", "lineage_boundary_restriction", "boundary_repo_restriction"],
+      "detects": ["O_restriction_mismatch"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "lineage_boundary_cocycle",
+      "requires": ["module_lineage_restriction", "lineage_boundary_restriction", "non_authority_boundary_glues"],
+      "detects": ["O_lineage_gap", "O_non_authority_gluing_failure"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "check_id": "global_non_reification_cocycle",
+      "requires": ["global_candidate_not_truth", "two_truths_gap", "candidate_only"],
+      "detects": ["O_global_truth_reification"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "coboundary_repair_candidates": [
+    {
+      "repair_id": "R_add_missing_section",
+      "targets": ["O_missing_section"],
+      "projection": "local_section_recheck_request",
+      "candidate_only": true
+    },
+    {
+      "repair_id": "R_refine_restriction_map",
+      "targets": ["O_restriction_mismatch"],
+      "projection": "repair_candidate_request",
+      "candidate_only": true
+    },
+    {
+      "repair_id": "R_recheck_lineage_hash_chain",
+      "targets": ["O_lineage_gap"],
+      "projection": "lineage_recheck_request",
+      "candidate_only": true
+    },
+    {
+      "repair_id": "R_strengthen_boundary_gap",
+      "targets": ["O_non_authority_gluing_failure", "O_global_truth_reification"],
+      "projection": "quarantine_notice",
+      "candidate_only": true
+    }
+  ],
+  "obstruction_witness_surface": {
+    "name": "cech_obstruction_witness",
+    "required_fields": [
+      "cycle_id",
+      "kernel_state",
+      "cover_used",
+      "cochain_level",
+      "cocycle_checks_run",
+      "obstruction_classes_detected",
+      "candidate_repairs_opened",
+      "non_reification_boundary",
+      "allowed_projection"
+    ],
+    "allowed_projection": [
+      "obstruction_notice",
+      "local_section_recheck_request",
+      "restriction_gap_notice",
+      "lineage_recheck_request",
+      "boundary_recheck_request",
+      "hold_notice",
+      "repair_candidate_request",
+      "quarantine_notice"
+    ],
+    "forbidden_projection": [
+      "truth_commit",
+      "execution_commit",
+      "memory_overwrite_commit",
+      "clinical_commit",
+      "theorem_commit",
+      "global_truth_object_commit",
+      "completed_os_identity_commit",
+      "silent_pass_commit"
+    ]
+  },
+  "integration_points": [
+    "specs/kuuos_sheaf_os_gluing_bridge_v0_1.json",
+    "specs/kuuos_gauge_os_transport_bridge_v0_1.json",
+    "specs/kuuos_indranet_os_dependency_bridge_v0_1.json",
+    "specs/kuuos_dependent_origination_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "scripts/validate_kuuos_sheaf_os_gluing_bridge_v0_1.py"
+  ],
+  "required_invariants": [
+    "gluing failure must remain visible",
+    "obstruction class opens HOLD or QUARANTINE rather than silent continuation",
+    "repair candidate is coboundary-like and candidate-only",
+    "zero obstruction permits only candidate gluing, not truth authority",
+    "nonzero obstruction is diagnostic evidence, not final truth",
+    "obstruction witness must preserve the two-truths gap",
+    "future runtime kernel must not convert obstruction absence into completed OS identity"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "indranet_local_net_required": true,
+    "gauge_transport_required": true,
+    "sheaf_gluing_required": true,
+    "cech_obstruction_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
