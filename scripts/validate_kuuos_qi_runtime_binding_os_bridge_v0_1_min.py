@@ -14,7 +14,7 @@ REMOVED = [
     ROOT / "scripts" / "validate_kuuos_qi_meridian_os_bridge_v0_1_min.py",
     ROOT / ".github" / "workflows" / "kuuos_qi_meridian_validation.yml",
 ]
-FORBIDDEN_TEXT = ["qi_meridian", "Qi Meridian", "meridian"]
+FORBIDDEN_TEXT = ["qi_meridian", "Qi Meridian", "meridian", "sanjiao", "Sanjiao"]
 REQUIRED_HOOKS = [
     "QI_HOOK_PRE_CYCLE",
     "QI_HOOK_POLICY_GATE",
@@ -63,10 +63,10 @@ def main() -> int:
     if data.get("status") != "QI_RUNTIME_BINDING_OS_BRIDGE_BASELINE":
         errors.append("status mismatch")
     replaced = data.get("replaces_removed_layers", [])
-    if "kuuos_qi_sanjiao_os_bridge_v0_1" not in replaced:
-        errors.append("must explicitly replace removed Sanjiao layer")
-    if "kuuos_qi_meridian_os_bridge_v0_1" not in replaced:
-        errors.append("must explicitly replace removed Meridian layer")
+    if "naming_only_channel_bridge" not in replaced:
+        errors.append("must mark naming-only channel bridge as replaced")
+    if "naming_only_membrane_bridge" not in replaced:
+        errors.append("must mark naming-only membrane bridge as replaced")
     if data.get("attached_qi_circulation_bridge") != "kuuos_qi_circulation_os_bridge_v0_1":
         errors.append("qi circulation attachment mismatch")
 
@@ -112,8 +112,8 @@ def main() -> int:
         errors.append("missing anti-classification-only invariant")
     if "boundary risk is evaluated before candidate continuation" not in invariants:
         errors.append("missing boundary-first invariant")
-    if "qi runtime binding must not depend on Qi Meridian naming layer" not in invariants:
-        errors.append("missing no-Meridian invariant")
+    if "qi runtime binding must not depend on naming-only channel layers" not in invariants:
+        errors.append("missing no naming-only channel invariant")
 
     boundary = data.get("authority_boundary", {})
     for key in ["validation_only", "candidate_only", "runtime_binding_required", "two_truths_gap_required", "qi_circulation_required"]:
@@ -122,12 +122,14 @@ def main() -> int:
     for key in ["grants_execution_authority", "grants_truth_authority", "grants_memory_overwrite_authority", "grants_governance_bypass_authority"]:
         if boundary.get(key) is not False:
             errors.append(f"boundary must be false: {key}")
-    if "qi_meridian_required" in boundary:
-        errors.append("boundary must not require Qi Meridian")
+    for forbidden_key in ["qi_meridian_required", "qi_sanjiao_required"]:
+        if forbidden_key in boundary:
+            errors.append(f"boundary must not require naming-only layer: {forbidden_key}")
 
     for rel in data.get("integration_points", []):
-        if "qi_meridian" in rel:
-            errors.append(f"integration point must not reference Qi Meridian: {rel}")
+        for forbidden in ["qi_meridian", "qi_sanjiao"]:
+            if forbidden in rel:
+                errors.append(f"integration point must not reference naming-only layer: {rel}")
         if not isinstance(rel, str) or not (ROOT / rel).is_file():
             errors.append(f"missing integration point: {rel}")
 
