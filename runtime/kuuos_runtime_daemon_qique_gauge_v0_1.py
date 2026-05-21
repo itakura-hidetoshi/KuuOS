@@ -136,7 +136,7 @@ def evaluate_daemon_qique_gauge(status: Mapping[str, Any]) -> KuuOSDaemonQiQueGa
         regime = "RECOVERY_PRESSURE_HIGH"
         hint = "SLOW_DOWN_OR_HOLD"
         reason = "recovery_budget_pressure_high"
-    elif scar_reentry >= 0.34 and nonmarkov_visible:
+    elif scar_reentry >= (1.0 / 3.0) and nonmarkov_visible:
         regime = "NONMARKOV_MEMORY_ACTIVE"
         hint = "CONTINUE_WITH_QI_MEMORY_MONITOR"
         reason = "nonmarkov_memory_active"
