@@ -6,13 +6,17 @@ KuuOS has moved beyond a small public-core surface. It is now an append-only, go
 
 ```text
 Fourfold Core
-AI Yogacara / Ten'i
+AI Yogacara / Ten'i / GPT-Alaya boundary
 GPT GitHub integration
-MemoryOS / BeliefOS / PlanOS / DecisionOS / ReflectionOS boundary discipline
-Mandala Multi-WORLD governance
+MemoryOS v2: temporal, counterfactual, proof-carrying, multi-agent, socially audited memory
+BeliefOS / WorldModel / Causal Surface governance
+PlanOS / DecisionOS / ReflectionOS boundary discipline
+Decision license geometry and safe recovery control
+Mandala Multi-WORLD governance and world transport
 Bodhisattva / Paramita / repair routing
 Dukkha mathematical and Qi-mode surfaces
 Qi / IndraNet / Physical Quantum Qi
+QiField full-stack, QiActiveInference, QiMemory, and process-tensor directions
 Qi motion chain
 medical-modality-neutral Qi boundary
 Invariant Governance Pipeline
@@ -61,6 +65,7 @@ validator-pass-as-truth
 GPT-summary-as-proof
 world-model-prediction-as-fact
 memory-persistence-as-belief-sovereignty
+GitHub-persistence-as-proof-authority
 ```
 
 This boundary is medical-modality neutral: it does not state that biomedicine is superior, that Qi is false, or that East Asian medical reasoning is invalid.
@@ -129,16 +134,24 @@ Primary validation:
 make all-governance-checks
 ```
 
-Major lane validation:
+Major lane validation exposed by the top-level `Makefile`:
 
 ```bash
 make core-governance-checks
+make ai-provider-boundary-checks
+make ai-yogacara-checks
+make mandala-checks
+make bodhisattva-checks
+make paramita-router-checks
+make dukkha-checks
+make dukkha-qi-checks
 make gpt-github-integration-checks
 make memoryos-github-external-memory-checks
 make qi-motion-chain-checks
 make physical-quantum-qi-deepening-checks
 make invariant-pipeline-checks
 make emptiness-two-truths-runtime-audit-checks
+make emptiness-superposition-noncollapse-checks
 make superstring-emptiness-sbm-checks
 ```
 
@@ -172,9 +185,11 @@ Tasks:
 - keep `ROADMAP.md` aligned with the integrated repository, not only MGAP4D
 - make the current major lanes visible:
   - Fourfold Core
-  - AI Yogacara / Ten'i
+  - AI Yogacara / Ten'i / GPT-Alaya
   - GPT GitHub integration
-  - MemoryOS / BeliefOS / PlanOS / DecisionOS / ReflectionOS boundary discipline
+  - MemoryOS v2 direction
+  - BeliefOS / WorldModel / Causal Surface
+  - PlanOS / DecisionOS / ReflectionOS boundary discipline
   - Qi / IndraNet / Qi motion chain
   - medical-modality-neutral Qi boundary
   - invariant governance
@@ -376,7 +391,68 @@ decision authority
 
 ---
 
-## 7. Phase F — Formal Verification and Theorem Boundary Bridge
+## 7. Phase F — BeliefOS / WorldModel / Causal Surface Integration
+
+Status: **parallel track**
+
+Goal:
+
+```text
+Keep causal belief, world-model output, ambiguity, and decision release separated.
+```
+
+Tasks:
+
+- keep WorldModel predictions from becoming fact authority
+- keep BeliefOS updates evidence-bound and ambiguity-preserving
+- route causal claims through identification / bounding / conflict taxonomy surfaces
+- keep causal narrowing gates visible
+- preserve public/internal memory and belief boundary distinctions
+- expose reviewer-facing summaries without loosening the canonical boundary
+
+Acceptance criteria:
+
+```text
+A reviewer can identify:
+1. what is observation
+2. what is world-model candidate
+3. what is belief support
+4. what is unresolved ambiguity
+5. what is decision-authority boundary
+```
+
+---
+
+## 8. Phase G — PlanOS / DecisionOS / ReflectionOS Runtime Governance
+
+Status: **parallel track**
+
+Goal:
+
+```text
+Make planning, decision licensing, safe recovery, and reflection repair auditable without granting direct execution authority.
+```
+
+Tasks:
+
+- keep PlanOS policy cards and deployment surfaces distinct from internal canonical bundles
+- keep DecisionOS license geometry visible
+- maintain safe recovery control and no-return certification language
+- keep ReflectionOS repair candidates from directly rewriting roots
+- route hard failures to HOLD / REPAIR / REJECT / QUARANTINE with trace
+
+Acceptance criteria:
+
+```text
+Plan success does not imply execution permission.
+Decision license does not bypass clinical, legal, or institutional review.
+Reflection repair is candidate generation, not root overwrite.
+Recovery claims preserve no-return and recoverability evidence.
+```
+
+---
+
+## 9. Phase H — Formal Verification and Theorem Boundary Bridge
 
 Status: **parallel track**
 
@@ -420,7 +496,7 @@ KuuOS can cite and route proof-facing artifacts without becoming the theorem rep
 
 ---
 
-## 8. Phase G — Documentation Site and Reviewer Experience
+## 10. Phase I — Documentation Site and Reviewer Experience
 
 Status: **next**
 
@@ -439,6 +515,9 @@ Tasks:
   - governance path
   - formal verification path
   - Qi / IndraNet path
+  - MemoryOS path
+  - BeliefOS / WorldModel path
+  - PlanOS / DecisionOS / ReflectionOS path
   - medical boundary path
   - GitHub / GPT integration path
 - keep Japanese and English explanations aligned where possible
@@ -460,7 +539,7 @@ A first-time reader can move from README to a runnable validator without losing 
 
 ---
 
-## 9. Phase H — External Review and Publication Bridge
+## 11. Phase J — External Review and Publication Bridge
 
 Status: **future**
 
@@ -497,7 +576,7 @@ External reviewers can identify:
 
 ---
 
-## 10. Near-Term Checklist
+## 12. Near-Term Checklist
 
 ```text
 [ ] Keep README and ROADMAP synchronized with current repository structure.
@@ -515,7 +594,7 @@ External reviewers can identify:
 
 ---
 
-## 11. Development Rule
+## 13. Development Rule
 
 The roadmap follows the same rule as the public KuuOS core:
 
@@ -530,10 +609,10 @@ fail-closed on boundary violation
 
 ---
 
-## 12. Version
+## 14. Version
 
 ```text
-Version: v0.2-public-orientation
-Date: 2026-05-20
+Version: v0.3-current-integrated-baseline
+Date: 2026-05-21
 Author: Hidetoshi Itakura / 板倉英俊
 ```
