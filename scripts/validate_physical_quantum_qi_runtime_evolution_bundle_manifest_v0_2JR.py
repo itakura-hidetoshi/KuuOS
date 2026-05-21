@@ -159,13 +159,17 @@ def main() -> int:
             errors.append(f"invariants missing: {invariant}")
 
     forbidden_tokens = manifest.get("forbidden_authority_tokens", [])
-    manifest_text = MANIFEST.read_text(encoding="utf-8")
+    if not isinstance(forbidden_tokens, list):
+        errors.append("forbidden_authority_tokens must be a list")
+        forbidden_tokens = []
     for token in forbidden_tokens:
         if not isinstance(token, str):
             errors.append("forbidden_authority_tokens must contain strings only")
             continue
-        if token.endswith(": true") and token in manifest_text:
-            errors.append(f"forbidden positive authority token appears in manifest: {token}")
+        if token.endswith(": true"):
+            boundary_key = token.removesuffix(": true")
+            if boundary.get(boundary_key) is True:
+                errors.append(f"forbidden authority boundary is true: {boundary_key}")
 
     if errors:
         for err in errors:
