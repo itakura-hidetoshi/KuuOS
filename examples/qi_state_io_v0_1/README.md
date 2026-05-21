@@ -7,8 +7,6 @@ This example runs the bounded KuuOS Qi/OS loop from JSON files.
 - `raw_state.json`
 - `evidence.json`
 
-These represent a non-final candidate state and the evidence visible to the loop.
-
 ## Run
 
 ```bash
@@ -35,6 +33,17 @@ The runner writes:
 - `step_trace_v0_1.json`
 - `run_manifest_v0_1.json`
 
+## Qi process tensor summary
+
+Quick audit locations:
+
+```text
+step_trace_v0_1.json -> [i].qi_process_tensor_summary
+state_bundle_v0_1.json -> loop_log[i].qi_process_tensor_summary
+```
+
+The summary reports process visibility, continuity, memory continuity, non-Markov memory, history length, support counts, missing requirements, and reason.
+
 ## Continue from previous state
 
 ```bash
@@ -48,5 +57,4 @@ python3 scripts/run_kuuos_state_io_example_v0_1.py \
 
 ## Boundary
 
-This example is non-authoritative. It does not execute actions, finalize truth,
-overwrite memory, make clinical decisions, prove theorems, or create completed OS identity.
+This example is non-authoritative. It does not execute actions, finalize truth, overwrite memory, make clinical decisions, prove theorems, or create completed OS identity.
