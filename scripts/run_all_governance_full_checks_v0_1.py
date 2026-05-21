@@ -51,6 +51,7 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/validate_physical_quantum_qi_response_feedback_loop_v0_2R.py"],
     [sys.executable, "tests/test_physical_quantum_qi_response_feedback_loop_v0_2R.py"],
     [sys.executable, "scripts/check_physical_quantum_qi_runtime_evolution_ci_receipt_v0_2JR.py"],
+    [sys.executable, "scripts/validate_physical_quantum_qi_runtime_evolution_bundle_manifest_v0_2JR.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_dpi_recoverability_v0_2C.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_indranet_gauge_transport_v0_2D.py"],
     [sys.executable, "tests/test_physical_quantum_qi_indranet_gauge_transport_v0_2D.py"],
