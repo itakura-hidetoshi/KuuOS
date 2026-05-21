@@ -24,6 +24,11 @@ NEEDED_KEYS = [
     "stop_reasons",
 ]
 
+ALLOWED_RUNTIME_STATUS = {
+    "bounded_non_authoritative_closed_loop",
+    "bounded_non_authoritative_closed_loop_with_daemon",
+}
+
 NEEDED_TRACE = [
     "qi_process_tensor_summary",
     "process_tensor_visible",
@@ -42,6 +47,11 @@ NEEDED_OUTPUTS = [
     "run_manifest_v0_1.json",
 ]
 
+DAEMON_OUTPUTS = [
+    "daemon_tick_log_v0_1.json",
+    "daemon_result_v0_1.json",
+]
+
 
 def main() -> int:
     errors: list[str] = []
@@ -58,14 +68,19 @@ def main() -> int:
                 errors.append(f"missing path: {rel}")
     if data.get("manifest_version") != "kuuos_runtime_manifest_v0_1":
         errors.append("bad manifest_version")
-    if data.get("runtime_status") != "bounded_non_authoritative_closed_loop":
+    if data.get("runtime_status") not in ALLOWED_RUNTIME_STATUS:
         errors.append("bad runtime_status")
     for item in NEEDED_TRACE:
         if item not in data.get("required_trace_fields", []):
             errors.append(f"missing trace item: {item}")
+    outputs = data.get("required_output_paths", [])
     for item in NEEDED_OUTPUTS:
-        if item not in data.get("required_output_paths", []):
+        if item not in outputs:
             errors.append(f"missing output item: {item}")
+    if data.get("runtime_status") == "bounded_non_authoritative_closed_loop_with_daemon":
+        for item in DAEMON_OUTPUTS:
+            if item not in outputs:
+                errors.append(f"missing daemon output item: {item}")
     if errors:
         for error in errors:
             print("ERROR:", error)
