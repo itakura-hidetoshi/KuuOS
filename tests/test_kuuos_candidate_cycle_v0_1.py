@@ -63,16 +63,18 @@ class KuuOSCandidateCycleTests(unittest.TestCase):
         self.assertFalse(process_receipt["grants_final_commitment_authority"])
         self.assertFalse(process_receipt["grants_memory_overwrite_authority"])
 
-    def test_missing_physical_value_support_reobserves(self):
+    def test_missing_physical_and_process_value_support_reobserves(self):
         raw = dict(BASE_RAW)
         raw["physical_process_visible"] = False
         raw["thermodynamic_activity_visible"] = False
+        raw["process_history"] = []
         receipt = run_candidate_cycle(raw)
         self.assertEqual(receipt.cycle_status, "REOBSERVE")
         self.assertEqual(receipt.next_queue, "REOBSERVE_QUEUE")
         self.assertTrue(receipt.terminal_for_cycle)
+        self.assertIn("runtime_variation_visible", receipt.missing_inputs)
         self.assertIn("value_witness_receipt", receipt.missing_inputs)
-        self.assertTrue(receipt.qi_process_tensor_receipt["process_tensor_visible"])
+        self.assertFalse(receipt.qi_process_tensor_receipt["process_tensor_visible"])
 
     def test_lineage_gap_routes_to_lineage_recheck(self):
         raw = dict(BASE_RAW)
