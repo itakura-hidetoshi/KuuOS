@@ -1,0 +1,144 @@
+{
+  "bridge_id": "kuuos_output_receipt_lineage_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "OUTPUT_RECEIPT_LINEAGE_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Extend Candidate Output Boundary OS bridge with output receipt lineage, hash-chain observability, append-only audit notices, replay references, and non-overwrite boundaries.",
+  "attached_candidate_output_boundary_bridge": "kuuos_candidate_output_boundary_os_bridge_v0_1",
+  "attached_candidate_output_boundary_spec": "specs/kuuos_candidate_output_boundary_os_bridge_v0_1.json",
+  "attached_selector_boundary_bridge": "kuuos_selector_boundary_os_bridge_v0_1",
+  "attached_selector_boundary_spec": "specs/kuuos_selector_boundary_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "lineage_principle": {
+    "statement": "Every candidate output receipt must be traceable through lineage, but lineage visibility does not make the receipt true, final, or authoritative.",
+    "runtime_formula": "lineage_receipt = candidate_output + previous_receipt_hash + support_refs + boundary_marker + replay_pointer",
+    "non_reification_rule": "A lineage receipt is audit evidence only; it is not truth authority, final commitment authority, memory overwrite, theorem proof, clinical authority, or completed OS identity."
+  },
+  "lineage_surfaces": [
+    {
+      "surface_id": "receipt_hash_surface",
+      "base_surface": "candidate_receipt_surface",
+      "tracks": ["receipt_hash", "previous_receipt_hash", "content_digest"],
+      "allowed_projection": ["receipt_hash_notice"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "surface_id": "support_reference_surface",
+      "base_surface": "hold_abstain_surface",
+      "tracks": ["support_refs", "validator_refs", "ci_refs"],
+      "allowed_projection": ["support_reference_notice"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "surface_id": "append_only_boundary_surface",
+      "base_surface": "handover_quarantine_surface",
+      "tracks": ["append_only_marker", "overwrite_blocker", "quarantine_marker"],
+      "allowed_projection": ["append_only_boundary_notice"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "lineage_checks": [
+    {
+      "check_id": "LIN_receipt_hash_visible",
+      "requires": ["receipt_hash_surface", "candidate_output_receipt"],
+      "must_preserve": ["nonfinal_marker", "candidate_only"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "LIN_support_refs_visible",
+      "requires": ["support_reference_surface", "output_debt_notice"],
+      "must_preserve": ["hold_notice", "reobserve_request"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "LIN_append_only_nonoverwrite",
+      "requires": ["append_only_boundary_surface", "commitment_firewall"],
+      "must_preserve": ["two_truths_gap", "no_memory_overwrite_authority", "no_completed_os_identity"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "check_id": "LIN_no_lineage_reification",
+      "forbids": ["receipt_hash_as_truth", "lineage_as_final_commitment", "audit_notice_as_world_identity", "silent_overwrite"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "lineage_debt_classes": [
+    {
+      "debt_id": "LD_missing_hash",
+      "meaning": "Output receipt lacks visible hash or previous hash reference.",
+      "opens": ["lineage_debt_notice", "hold_notice"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "LD_missing_support_ref",
+      "meaning": "Output receipt lacks support or validation references.",
+      "opens": ["lineage_debt_notice", "reobserve_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "LD_overwrite_risk",
+      "meaning": "Receipt lineage risks overwriting prior candidate output or boundary notices.",
+      "opens": ["quarantine_notice", "append_only_boundary_notice"],
+      "result_state": "QUARANTINE"
+    }
+  ],
+  "lineage_outcomes": [
+    {
+      "outcome": "OUTPUT_LINEAGE_RECEIPT_READY",
+      "requires": ["receipt_hash_visible", "support_refs_visible", "append_only_nonoverwrite", "no_lineage_reification"],
+      "allowed_projection": ["output_lineage_receipt"],
+      "does_not_grant": ["truth authority", "final commitment authority", "memory overwrite authority", "theorem authority"]
+    },
+    {
+      "outcome": "OUTPUT_LINEAGE_HOLD",
+      "arises_when_any": ["missing hash", "missing support ref", "visible lineage debt"],
+      "allowed_projection": ["lineage_debt_notice", "hold_notice", "reobserve_request"]
+    },
+    {
+      "outcome": "OUTPUT_LINEAGE_QUARANTINE",
+      "arises_when_any": ["overwrite risk", "lineage reification", "identity collapse"],
+      "allowed_projection": ["quarantine_notice", "append_only_boundary_notice"]
+    }
+  ],
+  "lineage_witness_surface": {
+    "name": "output_receipt_lineage_witness",
+    "required_fields": ["cycle_id", "kernel_state", "lineage_surfaces_used", "lineage_checks_run", "lineage_debt", "lineage_outcome", "receipt_hash", "previous_receipt_hash", "append_only_boundary", "allowed_projection"],
+    "allowed_projection": ["output_lineage_receipt", "lineage_debt_notice", "hold_notice", "reobserve_request", "append_only_boundary_notice", "quarantine_notice"],
+    "forbidden_projection": ["truth_commit", "memory_overwrite_commit", "clinical_commit", "theorem_commit", "global_truth_object_commit", "completed_os_identity_commit", "world_identity_commit", "silent_pass_commit"]
+  },
+  "integration_points": [
+    "specs/kuuos_candidate_output_boundary_os_bridge_v0_1.json",
+    "specs/kuuos_selector_boundary_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "scripts/validate_kuuos_candidate_output_boundary_os_bridge_v0_1_min.py"
+  ],
+  "required_invariants": [
+    "output lineage receipt remains candidate-only evidence",
+    "receipt hash is not truth authority",
+    "lineage visibility is not final commitment authority",
+    "append-only boundary blocks memory overwrite",
+    "overwrite risk opens QUARANTINE",
+    "future runtime kernel must keep receipt lineage separate from authority"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "candidate_output_boundary_required": true,
+    "output_receipt_lineage_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
