@@ -1,0 +1,59 @@
+name: KuuOS Core Autonomy Validation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'specs/kuuos_core_autonomy_contract_v0_1.json'
+      - 'scripts/run_kuuos_core_autonomy_v0_1.py'
+      - 'scripts/validate_kuuos_core_autonomy_contract_v0_1.py'
+      - 'docs/KUUOS_CORE_AUTONOMY_RUNBOOK_v0_1.md'
+      - '.github/workflows/kuuos_core_autonomy_validation.yml'
+      - 'Makefile'
+      - 'README.md'
+  pull_request:
+    paths:
+      - 'specs/kuuos_core_autonomy_contract_v0_1.json'
+      - 'scripts/run_kuuos_core_autonomy_v0_1.py'
+      - 'scripts/validate_kuuos_core_autonomy_contract_v0_1.py'
+      - 'docs/KUUOS_CORE_AUTONOMY_RUNBOOK_v0_1.md'
+      - '.github/workflows/kuuos_core_autonomy_validation.yml'
+      - 'Makefile'
+      - 'README.md'
+
+jobs:
+  validate-kuuos-core-autonomy:
+    name: Validate KuuOS core autonomy v0.1
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Show autonomy boundary
+        run: |
+          python3 --version
+          echo "KuuOS core autonomy is local self-checking only."
+          echo "It does not grant execution, clinical, theorem, or truth authority."
+
+      - name: Validate autonomy contract and fast runner path
+        run: python3 scripts/validate_kuuos_core_autonomy_contract_v0_1.py
+
+      - name: Run contract-check mode
+        run: |
+          python3 scripts/run_kuuos_core_autonomy_v0_1.py \
+            --mode contract-check \
+            --audit-log /tmp/kuuos_core_autonomy_contract_check.jsonl
+
+      - name: Run fast one-shot autonomy self-test
+        run: |
+          python3 scripts/run_kuuos_core_autonomy_v0_1.py \
+            --mode once \
+            --self-test-check \
+            --audit-log /tmp/kuuos_core_autonomy_once.jsonl

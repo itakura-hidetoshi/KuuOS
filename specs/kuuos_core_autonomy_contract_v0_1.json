@@ -1,0 +1,99 @@
+{
+  "contract_id": "kuuos_core_autonomy_contract_v0_1",
+  "version": "v0.1",
+  "status": "CORE_AUTONOMY_MINIMAL_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Provide a stdlib-only local autonomous core loop that senses repository readiness, runs bounded core governance validation, decides PASS or HOLD, and records an append-only audit event without external execution authority.",
+  "runtime_entrypoint": "scripts/run_kuuos_core_autonomy_v0_1.py",
+  "core_check_command": [
+    "python3",
+    "scripts/run_core_governance_full_checks_v0_1.py"
+  ],
+  "operation_modes": [
+    "contract-check",
+    "once",
+    "daemon"
+  ],
+  "cycle_phases": [
+    "sense",
+    "validate",
+    "decide",
+    "audit"
+  ],
+  "decision_states": [
+    "PASS",
+    "HOLD",
+    "REPAIR",
+    "REJECT",
+    "QUARANTINE"
+  ],
+  "default_policy": {
+    "max_cycles": 1,
+    "daemon_interval_seconds": 300,
+    "validation_timeout_seconds": 900,
+    "fail_closed": true,
+    "halt_on_first_failure": true,
+    "audit_hash_chain_required": true,
+    "external_api_calls_allowed": false,
+    "network_required": false,
+    "stdlib_only": true
+  },
+  "required_repository_files": [
+    "README.md",
+    "Makefile",
+    "scripts/run_core_governance_full_checks_v0_1.py",
+    "specs/kuuos_core_autonomy_contract_v0_1.json"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_runtime_only": true,
+    "audit_receipt_only": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_prescription_authority": false,
+    "grants_triage_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false,
+    "uses_external_services": false
+  },
+  "audit_event_schema": {
+    "schema": "kuuos_core_autonomy_audit_event_v0_1",
+    "format": "jsonl",
+    "hashing": "sha256(canonical_json_without_event_hash)",
+    "required_fields": [
+      "schema",
+      "timestamp_utc",
+      "cycle_id",
+      "contract_id",
+      "runtime_mode",
+      "phase_results",
+      "decision_state",
+      "safety_stop",
+      "previous_event_hash",
+      "event_hash"
+    ]
+  },
+  "invariants": [
+    "autonomy is local self-checking, not world execution",
+    "core validation result is evidence, not truth by itself",
+    "failure enters HOLD and stops the cycle by default",
+    "audit events are append-only JSONL receipts",
+    "hash-chain continuity must be preserved when an existing audit log is used",
+    "external API calls are not required for the core loop",
+    "no medical, legal, clinical, theorem, or execution authority is created"
+  ],
+  "forbidden_interpretations": [
+    "core autonomy grants execution authority",
+    "core autonomy grants clinical authority",
+    "core autonomy grants treatment authority",
+    "core autonomy grants diagnosis authority",
+    "core autonomy grants theorem truth",
+    "core autonomy permits governance bypass",
+    "audit receipt is external audit acceptance"
+  ]
+}
