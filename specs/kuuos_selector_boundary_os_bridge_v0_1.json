@@ -1,0 +1,144 @@
+{
+  "bridge_id": "kuuos_selector_boundary_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "SELECTOR_BOUNDARY_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Extend Policy Barrier OS bridge with candidate selection surfaces, ranking witnesses, abstention gates, handover notices, and non-committing selector outcomes.",
+  "attached_policy_barrier_bridge": "kuuos_policy_barrier_os_bridge_v0_1",
+  "attached_policy_barrier_spec": "specs/kuuos_policy_barrier_os_bridge_v0_1.json",
+  "attached_variational_stability_bridge": "kuuos_variational_stability_os_bridge_v0_1",
+  "attached_variational_stability_spec": "specs/kuuos_variational_stability_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "selector_principle": {
+    "statement": "KuuOS selector output is candidate-only: ranking, selection, abstention, and handover notices remain receipts and never become final commitment authority.",
+    "runtime_formula": "selector_candidate = policy_evaluation_candidate + ranking_witness + abstention_gate + handover_boundary + selector_debt",
+    "non_reification_rule": "A selector witness is decision-support evidence only; it is not truth authority, final commitment authority, memory overwrite, theorem proof, clinical authority, or completed OS identity."
+  },
+  "selector_surfaces": [
+    {
+      "surface_id": "ranking_witness_surface",
+      "base_surface": "policy_candidate_surface",
+      "tracks": ["candidate_order", "support_score_hint", "tie_notice"],
+      "allowed_projection": ["ranking_witness_receipt"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "surface_id": "abstention_gate_surface",
+      "base_surface": "value_witness_surface",
+      "tracks": ["insufficient_support", "conflict_notice", "uncertainty_notice"],
+      "allowed_projection": ["abstention_notice"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "surface_id": "handover_boundary_surface",
+      "base_surface": "barrier_witness_surface",
+      "tracks": ["boundary_blocker", "handover_needed", "quarantine_needed"],
+      "allowed_projection": ["handover_boundary_receipt"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "selector_checks": [
+    {
+      "check_id": "SEL_ranking_visible",
+      "requires": ["ranking_witness_surface", "policy_candidate_surface"],
+      "must_preserve": ["candidate_only", "policy_evaluation_candidate_receipt"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "SEL_abstention_available",
+      "requires": ["abstention_gate_surface", "value_witness_surface"],
+      "must_preserve": ["hold_notice", "reobserve_request"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "SEL_handover_boundary_noncollapse",
+      "requires": ["handover_boundary_surface", "barrier_witness_surface"],
+      "must_preserve": ["two_truths_gap", "no_truth_authority", "no_completed_os_identity"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "check_id": "SEL_no_final_commitment",
+      "forbids": ["selector_candidate_as_final_commitment", "ranking_as_truth", "handover_as_world_identity"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "selector_debt_classes": [
+    {
+      "debt_id": "SD_ranking_gap",
+      "meaning": "Candidate ordering is missing, tied without support, or unsupported.",
+      "opens": ["selector_debt_notice", "hold_notice"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "SD_abstention_required",
+      "meaning": "Insufficient support or conflict requires abstention rather than selection.",
+      "opens": ["abstention_notice", "reobserve_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "SD_boundary_handover",
+      "meaning": "Boundary condition requires handover or quarantine notice.",
+      "opens": ["handover_notice", "quarantine_notice"],
+      "result_state": "QUARANTINE"
+    }
+  ],
+  "selector_outcomes": [
+    {
+      "outcome": "SELECTOR_CANDIDATE",
+      "requires": ["ranking_visible", "abstention_available", "handover_boundary_preserved", "no_final_commitment"],
+      "allowed_projection": ["selector_candidate_receipt"],
+      "does_not_grant": ["truth authority", "final commitment authority", "memory overwrite authority", "theorem authority"]
+    },
+    {
+      "outcome": "SELECTOR_HOLD",
+      "arises_when_any": ["ranking gap", "abstention required", "visible selector debt"],
+      "allowed_projection": ["selector_debt_notice", "abstention_notice", "hold_notice", "reobserve_request"]
+    },
+    {
+      "outcome": "SELECTOR_QUARANTINE",
+      "arises_when_any": ["boundary handover", "final commitment attempt", "authority collapse"],
+      "allowed_projection": ["handover_notice", "quarantine_notice", "boundary_recheck_request"]
+    }
+  ],
+  "selector_witness_surface": {
+    "name": "selector_boundary_witness",
+    "required_fields": ["cycle_id", "kernel_state", "selector_surfaces_used", "selector_checks_run", "selector_debt", "selector_outcome", "abstention_gate", "handover_boundary", "allowed_projection"],
+    "allowed_projection": ["selector_candidate_receipt", "selector_debt_notice", "abstention_notice", "reobserve_request", "hold_notice", "handover_notice", "quarantine_notice"],
+    "forbidden_projection": ["truth_commit", "memory_overwrite_commit", "clinical_commit", "theorem_commit", "global_truth_object_commit", "completed_os_identity_commit", "world_identity_commit", "silent_pass_commit"]
+  },
+  "integration_points": [
+    "specs/kuuos_policy_barrier_os_bridge_v0_1.json",
+    "specs/kuuos_variational_stability_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "scripts/validate_kuuos_policy_barrier_os_bridge_v0_1_min.py"
+  ],
+  "required_invariants": [
+    "selector candidate remains candidate-only",
+    "ranking witness is not truth authority",
+    "selection receipt is not final commitment authority",
+    "abstention is valid output",
+    "handover boundary preserves two-truths gap",
+    "future runtime kernel must keep selector output separate from commitment authority"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "policy_barrier_required": true,
+    "selector_boundary_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
