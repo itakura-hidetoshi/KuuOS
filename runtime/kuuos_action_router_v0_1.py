@@ -1,12 +1,4 @@
 #!/usr/bin/env python3
-"""KuuOS Action Router v0.1.
-
-Routes non-authoritative action packets from the Queue Worker outbox into
-append-only task queues.
-
-This is not an executor. It creates task packets for review/reobserve/recheck
-work and preserves non-authority boundaries.
-"""
 from __future__ import annotations
 
 from copy import deepcopy
@@ -16,7 +8,6 @@ import hashlib
 import json
 import sys
 from typing import Any, Mapping
-
 
 TASK_QUEUES = [
     "quarantine_tasks",
@@ -47,7 +38,6 @@ NON_AUTHORITY_FLAGS = {
     "grants_theorem_authority": False,
     "grants_completed_identity_authority": False,
 }
-
 
 @dataclass(frozen=True)
 class KuuOSActionRouterResult:
@@ -119,6 +109,7 @@ def _make_task_packet(action_packet: Mapping[str, Any], action_hash: str, target
         "opened_notices": list(action_packet.get("opened_notices", [])),
         "blocked_boundaries": list(action_packet.get("blocked_boundaries", [])),
         "missing_inputs": list(action_packet.get("missing_inputs", [])),
+        "qi_process_tensor_receipt": dict(action_packet.get("qi_process_tensor_receipt", {})),
         "routed_at_utc": routed_at,
         "task_status": "OPEN_NON_AUTHORITATIVE",
         "allowed_projection": ["task_packet", "router_log_entry"],
@@ -131,7 +122,6 @@ def route_next_action(worker_state: Mapping[str, Any], task_board: Mapping[str, 
     routed = set(str(item) for item in board.get("routed_action_hashes", []))
     outbox = worker_state.get("action_outbox", [])
     routed_at = datetime.now(timezone.utc).isoformat()
-
     for action in outbox:
         if not isinstance(action, Mapping):
             continue
@@ -149,6 +139,7 @@ def route_next_action(worker_state: Mapping[str, Any], task_board: Mapping[str, 
             "action_type": action_type,
             "target_task_queue": target_queue,
             "source_receipt_hash": action.get("receipt_hash"),
+            "qi_process_tensor_receipt": task_packet["qi_process_tensor_receipt"],
             **NON_AUTHORITY_FLAGS,
         })
         return KuuOSActionRouterResult(
@@ -158,7 +149,6 @@ def route_next_action(worker_state: Mapping[str, Any], task_board: Mapping[str, 
             task_packet=task_packet,
             updated_task_board=board,
         )
-
     return KuuOSActionRouterResult(
         router_status="NO_UNROUTED_ACTION_PACKET",
         selected_action_hash=None,
@@ -181,7 +171,6 @@ def main(argv: list[str]) -> int:
     result = route_next_action(worker_state, task_board)
     print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2, sort_keys=True))
     return 0
-
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv))
