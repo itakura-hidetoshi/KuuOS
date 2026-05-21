@@ -28,6 +28,33 @@ def load(path: pathlib.Path):
     return json.loads(path.read_text(encoding="utf-8"))
 
 
+def validate_process_summary(summary, errors: list[str], label: str) -> None:
+    required = [
+        "process_tensor_visible",
+        "transition_continuity_visible",
+        "memory_continuity_visible",
+        "nonmarkov_memory_visible",
+        "process_history_length",
+        "transition_support_count",
+        "memory_support_count",
+        "nonmarkov_support_count",
+        "missing_process_requirements",
+        "process_tensor_reason",
+        "grants_execution_authority",
+        "grants_truth_authority",
+    ]
+    if not isinstance(summary, dict):
+        errors.append(f"{label}: summary is not an object")
+        return
+    for key in required:
+        if key not in summary:
+            errors.append(f"{label}: missing process summary key {key}")
+    if summary.get("grants_execution_authority") is not False:
+        errors.append(f"{label}: execution authority flag not false")
+    if summary.get("grants_truth_authority") is not False:
+        errors.append(f"{label}: truth authority flag not false")
+
+
 def main() -> int:
     errors: list[str] = []
     if not RAW.is_file():
@@ -69,6 +96,10 @@ def main() -> int:
                 errors.append("step trace length mismatch")
             if len(bundle.get("loop_log", [])) != 2:
                 errors.append("bundle loop log length mismatch")
+            if trace:
+                validate_process_summary(trace[0].get("qi_process_tensor_summary"), errors, "step_trace[0]")
+            if bundle.get("loop_log"):
+                validate_process_summary(bundle["loop_log"][0].get("qi_process_tensor_summary"), errors, "loop_log[0]")
             for flag in [
                 "grants_execution_authority",
                 "grants_truth_authority",
