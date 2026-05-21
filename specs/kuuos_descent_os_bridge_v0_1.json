@@ -1,0 +1,133 @@
+{
+  "bridge_id": "kuuos_descent_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "DESCENT_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Extend Cech obstruction handling into descent data, cover refinement, effective descent checks, non-effective descent notices, and candidate-only global OS witnesses.",
+  "attached_cech_obstruction_bridge": "kuuos_cech_obstruction_os_bridge_v0_1",
+  "attached_cech_obstruction_spec": "specs/kuuos_cech_obstruction_os_bridge_v0_1.json",
+  "attached_sheaf_bridge": "kuuos_sheaf_os_gluing_bridge_v0_1",
+  "attached_sheaf_spec": "specs/kuuos_sheaf_os_gluing_bridge_v0_1.json",
+  "attached_gauge_bridge": "kuuos_gauge_os_transport_bridge_v0_1",
+  "attached_gauge_spec": "specs/kuuos_gauge_os_transport_bridge_v0_1.json",
+  "attached_indranet_bridge": "kuuos_indranet_os_dependency_bridge_v0_1",
+  "attached_indranet_spec": "specs/kuuos_indranet_os_dependency_bridge_v0_1.json",
+  "attached_dependent_origination_bridge": "kuuos_dependent_origination_os_bridge_v0_1",
+  "attached_dependent_origination_spec": "specs/kuuos_dependent_origination_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "descent_principle": {
+    "statement": "A global OS candidate is admitted only through explicit descent data over covers, compatible restrictions, visible obstruction status, and preserved non-authority boundaries.",
+    "runtime_formula": "effective_descent = cover + local_sections + compatible_restrictions + obstruction_status + boundary_gap",
+    "non_reification_rule": "Effective descent remains candidate-level witness and never becomes truth, authority, memory rewrite, theorem proof, or completed OS identity."
+  },
+  "descent_data": [
+    {
+      "descent_id": "D_core_runtime",
+      "cover": "core_runtime_cover",
+      "local_sections": ["repo_section", "policy_section", "module_section", "lineage_section", "boundary_section"],
+      "candidate_projection": "core_runtime_candidate_witness"
+    },
+    {
+      "descent_id": "D_evidence_lineage",
+      "cover": "evidence_lineage_cover",
+      "local_sections": ["module_section", "lineage_section", "boundary_section"],
+      "candidate_projection": "evidence_lineage_candidate_witness"
+    },
+    {
+      "descent_id": "D_policy_boundary",
+      "cover": "policy_boundary_cover",
+      "local_sections": ["policy_section", "boundary_section"],
+      "candidate_projection": "policy_boundary_candidate_witness"
+    }
+  ],
+  "effective_descent_checks": [
+    {
+      "check_id": "ED_cover_present",
+      "requires": ["core_runtime_cover", "evidence_lineage_cover", "policy_boundary_cover"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "ED_sections_compatible",
+      "requires": ["local_sections_present", "overlap_restrictions_compatible"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "ED_obstruction_visible",
+      "requires": ["cech_obstruction_witness", "obstruction_status_visible"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "ED_boundary_preserved",
+      "requires": ["two_truths_gap", "candidate_only", "no_truth_authority"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "check_id": "ED_global_candidate_not_identity",
+      "forbids": ["completed_os_identity_commit", "global_truth_object_commit"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "descent_outcomes": [
+    {
+      "outcome": "EFFECTIVE_DESCENT_CANDIDATE",
+      "requires": ["all_effective_descent_checks_pass", "boundary_preserved"],
+      "allowed_projection": ["descent_candidate_receipt", "core_runtime_candidate_witness"]
+    },
+    {
+      "outcome": "NON_EFFECTIVE_DESCENT_HOLD",
+      "arises_when_any": ["missing section", "restriction mismatch", "lineage gap", "repair pending"],
+      "allowed_projection": ["descent_gap_notice", "hold_notice", "repair_candidate_request"]
+    },
+    {
+      "outcome": "NON_EFFECTIVE_DESCENT_QUARANTINE",
+      "arises_when_any": ["boundary collapse", "global reification", "identity collapse"],
+      "allowed_projection": ["quarantine_notice", "boundary_recheck_request"]
+    }
+  ],
+  "descent_witness_surface": {
+    "name": "descent_witness",
+    "required_fields": ["cycle_id", "kernel_state", "cover_used", "descent_data_used", "effective_descent_checks_run", "obstruction_status", "descent_outcome", "non_reification_boundary", "allowed_projection"],
+    "allowed_projection": ["descent_candidate_receipt", "descent_gap_notice", "hold_notice", "repair_candidate_request", "quarantine_notice"],
+    "forbidden_projection": ["truth_commit", "memory_overwrite_commit", "theorem_commit", "global_truth_object_commit", "completed_os_identity_commit", "silent_pass_commit"]
+  },
+  "integration_points": [
+    "specs/kuuos_cech_obstruction_os_bridge_v0_1.json",
+    "specs/kuuos_sheaf_os_gluing_bridge_v0_1.json",
+    "specs/kuuos_gauge_os_transport_bridge_v0_1.json",
+    "specs/kuuos_indranet_os_dependency_bridge_v0_1.json",
+    "specs/kuuos_dependent_origination_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "scripts/validate_kuuos_cech_obstruction_os_bridge_v0_1.py"
+  ],
+  "required_invariants": [
+    "effective descent yields candidate witness only",
+    "non-effective descent opens HOLD or QUARANTINE",
+    "zero obstruction is not truth authority",
+    "global candidate is not completed OS identity",
+    "descent witness preserves two-truths gap and dependent origination"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "indranet_local_net_required": true,
+    "gauge_transport_required": true,
+    "sheaf_gluing_required": true,
+    "cech_obstruction_required": true,
+    "descent_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
