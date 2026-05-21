@@ -2,6 +2,11 @@ import unittest
 
 from runtime.kuuos_closed_loop_driver_v0_1 import run_closed_loop_driver
 
+PROCESS_HISTORY = [
+    {"step_id": "p0", "transition_visible": True, "memory_link_visible": True, "nonmarkov_link_visible": False},
+    {"step_id": "p1", "transition_visible": True, "memory_link_visible": False, "nonmarkov_link_visible": False},
+    {"step_id": "p2", "transition_visible": True, "memory_link_visible": False, "nonmarkov_link_visible": True},
+]
 
 BASE_RAW = {
     "cycle_id": "driver-001",
@@ -16,7 +21,7 @@ BASE_RAW = {
     "world_identity_blocker": True,
     "physical_process_visible": True,
     "thermodynamic_activity_visible": True,
-    "process_tensor_visible": True,
+    "process_history": PROCESS_HISTORY,
     "barrier_witness_visible": True,
     "receipt_hash": True,
     "support_refs": True,
@@ -47,6 +52,17 @@ FULL_EVIDENCE = {
 }
 
 
+def assert_process_summary(testcase, summary):
+    testcase.assertTrue(summary["process_tensor_visible"])
+    testcase.assertTrue(summary["transition_continuity_visible"])
+    testcase.assertTrue(summary["memory_continuity_visible"])
+    testcase.assertTrue(summary["nonmarkov_memory_visible"])
+    testcase.assertEqual(summary["process_history_length"], 3)
+    testcase.assertEqual(summary["process_tensor_reason"], "process_tensor_support_visible")
+    testcase.assertFalse(summary["grants_execution_authority"])
+    testcase.assertFalse(summary["grants_truth_authority"])
+
+
 class KuuOSClosedLoopDriverTests(unittest.TestCase):
     def test_driver_runs_bounded_steps_until_max_steps(self):
         result = run_closed_loop_driver(BASE_RAW, FULL_EVIDENCE, max_steps=2)
@@ -55,6 +71,8 @@ class KuuOSClosedLoopDriverTests(unittest.TestCase):
         self.assertEqual(result.steps_run, 2)
         self.assertEqual(len(result.step_trace), 2)
         self.assertEqual(len(result.final_state_bundle["loop_log"]), 2)
+        assert_process_summary(self, result.step_trace[0]["qi_process_tensor_summary"])
+        assert_process_summary(self, result.final_state_bundle["loop_log"][0]["qi_process_tensor_summary"])
         self.assertFalse(result.grants_execution_authority)
         self.assertFalse(result.grants_truth_authority)
         self.assertFalse(result.grants_final_commitment_authority)
@@ -64,6 +82,7 @@ class KuuOSClosedLoopDriverTests(unittest.TestCase):
         raw = dict(BASE_RAW)
         raw["physical_process_visible"] = False
         raw["thermodynamic_activity_visible"] = False
+        raw["process_history"] = []
         evidence = dict(FULL_EVIDENCE)
         evidence["value_witness_receipt"] = False
         result = run_closed_loop_driver(raw, evidence, max_steps=5)
@@ -72,6 +91,9 @@ class KuuOSClosedLoopDriverTests(unittest.TestCase):
         self.assertEqual(result.steps_run, 1)
         self.assertTrue(result.final_raw_state["feedback_waiting"])
         self.assertIn("value_witness_receipt", result.final_raw_state["feedback_missing_evidence"])
+        summary = result.step_trace[0]["qi_process_tensor_summary"]
+        self.assertFalse(summary["process_tensor_visible"])
+        self.assertIn("process_history_min_length_or_explicit_process_tensor", summary["missing_process_requirements"])
 
     def test_driver_stops_on_quarantine_retained(self):
         raw = dict(BASE_RAW)
@@ -82,6 +104,9 @@ class KuuOSClosedLoopDriverTests(unittest.TestCase):
         self.assertEqual(result.steps_run, 1)
         self.assertTrue(result.final_raw_state["quarantine_retained"])
         self.assertFalse(result.final_raw_state["world_identity_blocker"])
+        summary = result.step_trace[0]["qi_process_tensor_summary"]
+        self.assertFalse(summary["process_tensor_visible"])
+        self.assertEqual(summary["process_tensor_reason"], "boundary_blocks_process_tensor_support")
 
     def test_driver_uses_evidence_sequence_per_step(self):
         evidence_sequence = [FULL_EVIDENCE, FULL_EVIDENCE]
@@ -89,15 +114,18 @@ class KuuOSClosedLoopDriverTests(unittest.TestCase):
         self.assertEqual(result.steps_run, 2)
         self.assertEqual(result.step_trace[0]["task_status"], "CANDIDATE_NEXT_READY_NONFINAL")
         self.assertEqual(result.step_trace[1]["task_status"], "CANDIDATE_NEXT_READY_NONFINAL")
+        assert_process_summary(self, result.step_trace[0]["qi_process_tensor_summary"])
 
     def test_driver_hard_caps_large_max_steps(self):
         result = run_closed_loop_driver(BASE_RAW, FULL_EVIDENCE, max_steps=100)
         self.assertEqual(result.stop_reason, "MAX_STEPS_REACHED")
         self.assertEqual(result.steps_run, 25)
+        assert_process_summary(self, result.step_trace[0]["qi_process_tensor_summary"])
 
     def test_driver_minimum_one_step_for_zero_max_steps(self):
         result = run_closed_loop_driver(BASE_RAW, FULL_EVIDENCE, max_steps=0)
         self.assertEqual(result.steps_run, 1)
+        assert_process_summary(self, result.step_trace[0]["qi_process_tensor_summary"])
 
     def test_driver_accepts_existing_state_bundle_append_only(self):
         first = run_closed_loop_driver(BASE_RAW, FULL_EVIDENCE, max_steps=1)
@@ -110,6 +138,7 @@ class KuuOSClosedLoopDriverTests(unittest.TestCase):
         self.assertEqual(len(second.final_state_bundle["queue_state"]["dispatch_log"]), 2)
         self.assertEqual(len(second.final_state_bundle["worker_state"]["worker_log"]), 2)
         self.assertEqual(len(second.final_state_bundle["review_state"]["task_result_receipts"]), 2)
+        assert_process_summary(self, second.step_trace[0]["qi_process_tensor_summary"])
 
 
 if __name__ == "__main__":
