@@ -1,0 +1,186 @@
+{
+  "bridge_id": "kuuos_qi_runtime_binding_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "QI_RUNTIME_BINDING_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Bind Qi circulation to the actual KuuOS runtime cycle so Qi can influence candidate progression through explicit HOLD, QUARANTINE, reobserve, lineage recheck, delivery recheck, and candidate-allow signals without becoming authority.",
+  "replaces_removed_layer": "kuuos_qi_sanjiao_os_bridge_v0_1",
+  "attached_qi_circulation_bridge": "kuuos_qi_circulation_os_bridge_v0_1",
+  "attached_qi_circulation_spec": "specs/kuuos_qi_circulation_os_bridge_v0_1.json",
+  "attached_qi_meridian_bridge": "kuuos_qi_meridian_os_bridge_v0_1",
+  "attached_qi_meridian_spec": "specs/kuuos_qi_meridian_os_bridge_v0_1.json",
+  "attached_policy_barrier_bridge": "kuuos_policy_barrier_os_bridge_v0_1",
+  "attached_policy_barrier_spec": "specs/kuuos_policy_barrier_os_bridge_v0_1.json",
+  "attached_view_delivery_bridge": "kuuos_view_delivery_os_bridge_v0_1",
+  "attached_view_delivery_spec": "specs/kuuos_view_delivery_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "runtime_binding_principle": {
+    "statement": "Qi must be operational: it reads runtime signals, lineage signals, boundary signals, and delivery signals, then emits bounded OS control signals that change candidate flow state without granting truth, finality, memory overwrite, or execution authority.",
+    "runtime_formula": "qi_runtime_binding(state) -> {ALLOW_CANDIDATE | HOLD | QUARANTINE | REOBSERVE | LINEAGE_RECHECK | DELIVERY_RECHECK}",
+    "non_reification_rule": "Qi runtime binding changes OS candidate flow state only; it is not truth authority, execution authority, final commitment authority, memory overwrite authority, theorem proof, clinical authority, or completed OS identity."
+  },
+  "runtime_hooks": [
+    {
+      "hook_id": "QI_HOOK_PRE_CYCLE",
+      "called_before": "candidate_cycle_start",
+      "reads": ["two_truths_gap", "candidate_only", "nonfinal_marker"],
+      "emits": ["HOLD", "QUARANTINE", "ALLOW_CANDIDATE"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "hook_id": "QI_HOOK_POLICY_GATE",
+      "called_after": "policy_barrier_evaluation",
+      "reads": ["policy_candidate_receipt", "value_witness_receipt", "barrier_witness_receipt"],
+      "emits": ["ALLOW_CANDIDATE", "HOLD", "REOBSERVE", "QUARANTINE"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "hook_id": "QI_HOOK_LINEAGE_GATE",
+      "called_after": "receipt_lineage_update",
+      "reads": ["receipt_hash", "support_refs", "registry_key"],
+      "emits": ["ALLOW_CANDIDATE", "HOLD", "LINEAGE_RECHECK", "QUARANTINE"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "hook_id": "QI_HOOK_BOUNDARY_GATE",
+      "called_before": "candidate_output_boundary",
+      "reads": ["two_truths_gap", "noncollapse_guard", "memory_overwrite_blocker", "world_identity_blocker"],
+      "emits": ["ALLOW_CANDIDATE", "QUARANTINE", "BOUNDARY_RECHECK"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "hook_id": "QI_HOOK_DELIVERY_GATE",
+      "called_before": "view_delivery",
+      "reads": ["view_delivery_receipt", "channel_scope", "acknowledgment_marker", "nonfinal_marker"],
+      "emits": ["ALLOW_CANDIDATE", "HOLD", "DELIVERY_RECHECK", "QUARANTINE"],
+      "failure_effect": "HOLD"
+    }
+  ],
+  "binding_inputs": [
+    "candidate_only",
+    "two_truths_gap",
+    "runtime_variation_visible",
+    "policy_candidate_receipt",
+    "value_witness_receipt",
+    "barrier_witness_receipt",
+    "receipt_hash",
+    "support_refs",
+    "registry_key",
+    "noncollapse_guard",
+    "memory_overwrite_blocker",
+    "world_identity_blocker",
+    "view_delivery_receipt",
+    "channel_scope",
+    "acknowledgment_marker",
+    "nonfinal_marker"
+  ],
+  "binding_outputs": [
+    {
+      "signal": "ALLOW_CANDIDATE",
+      "meaning": "Qi permits candidate flow to continue to the next non-final OS stage.",
+      "does_not_grant": ["execution authority", "truth authority", "final commitment authority"]
+    },
+    {
+      "signal": "HOLD",
+      "meaning": "Qi pauses candidate flow because required support is missing or unstable.",
+      "opens": ["hold_notice", "qi_debt_notice"]
+    },
+    {
+      "signal": "REOBSERVE",
+      "meaning": "Qi requests new observation because runtime or policy flow is insufficient.",
+      "opens": ["reobserve_request", "qi_debt_notice"]
+    },
+    {
+      "signal": "LINEAGE_RECHECK",
+      "meaning": "Qi requests receipt, support, or registry continuity recheck.",
+      "opens": ["lineage_recheck_request", "qi_debt_notice"]
+    },
+    {
+      "signal": "DELIVERY_RECHECK",
+      "meaning": "Qi requests delivery envelope, channel scope, or acknowledgment recheck.",
+      "opens": ["delivery_debt_notice", "qi_debt_notice"]
+    },
+    {
+      "signal": "BOUNDARY_RECHECK",
+      "meaning": "Qi requests boundary review before any further candidate output.",
+      "opens": ["boundary_recheck_request", "quarantine_notice"]
+    },
+    {
+      "signal": "QUARANTINE",
+      "meaning": "Qi blocks candidate flow because a noncollapse boundary is at risk.",
+      "opens": ["quarantine_notice", "boundary_recheck_request"]
+    }
+  ],
+  "binding_rules": [
+    {
+      "rule_id": "QIR_boundary_first",
+      "if_any_false": ["two_truths_gap", "noncollapse_guard", "memory_overwrite_blocker", "world_identity_blocker"],
+      "emit": "QUARANTINE"
+    },
+    {
+      "rule_id": "QIR_candidate_marker_required",
+      "if_any_false": ["candidate_only", "nonfinal_marker"],
+      "emit": "HOLD"
+    },
+    {
+      "rule_id": "QIR_policy_flow_required",
+      "if_any_false": ["runtime_variation_visible", "policy_candidate_receipt", "value_witness_receipt", "barrier_witness_receipt"],
+      "emit": "REOBSERVE"
+    },
+    {
+      "rule_id": "QIR_lineage_flow_required",
+      "if_any_false": ["receipt_hash", "support_refs", "registry_key"],
+      "emit": "LINEAGE_RECHECK"
+    },
+    {
+      "rule_id": "QIR_delivery_flow_required",
+      "if_any_false": ["view_delivery_receipt", "channel_scope", "acknowledgment_marker"],
+      "emit": "DELIVERY_RECHECK"
+    },
+    {
+      "rule_id": "QIR_all_visible",
+      "if_all_true": ["candidate_only", "two_truths_gap", "runtime_variation_visible", "policy_candidate_receipt", "value_witness_receipt", "barrier_witness_receipt", "receipt_hash", "support_refs", "registry_key", "noncollapse_guard", "memory_overwrite_blocker", "world_identity_blocker", "view_delivery_receipt", "channel_scope", "acknowledgment_marker", "nonfinal_marker"],
+      "emit": "ALLOW_CANDIDATE"
+    }
+  ],
+  "runtime_receipt_surface": {
+    "name": "qi_runtime_binding_receipt",
+    "required_fields": ["cycle_id", "kernel_state", "qi_binding_inputs", "qi_signal", "qi_reason", "opened_notices", "blocked_boundaries", "allowed_projection"],
+    "allowed_projection": ["qi_runtime_binding_receipt", "qi_debt_notice", "hold_notice", "reobserve_request", "lineage_recheck_request", "delivery_debt_notice", "boundary_recheck_request", "quarantine_notice"],
+    "forbidden_projection": ["truth_commit", "execution_commit", "memory_overwrite_commit", "clinical_commit", "theorem_commit", "global_truth_object_commit", "completed_os_identity_commit", "world_identity_commit", "silent_pass_commit"]
+  },
+  "integration_points": [
+    "specs/kuuos_qi_circulation_os_bridge_v0_1.json",
+    "specs/kuuos_qi_meridian_os_bridge_v0_1.json",
+    "specs/kuuos_policy_barrier_os_bridge_v0_1.json",
+    "specs/kuuos_view_delivery_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json"
+  ],
+  "required_invariants": [
+    "qi runtime binding must affect OS candidate flow through explicit signals",
+    "qi runtime binding must not be a classification-only layer",
+    "boundary risk is evaluated before candidate continuation",
+    "missing runtime support opens REOBSERVE",
+    "missing lineage support opens LINEAGE_RECHECK",
+    "missing delivery support opens DELIVERY_RECHECK",
+    "qi binding is not reified as substance, authority, world identity, or completed OS identity"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "runtime_binding_required": true,
+    "two_truths_gap_required": true,
+    "qi_circulation_required": true,
+    "qi_meridian_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}

@@ -1,9 +1,12 @@
-name: KuuOS Qi Sanjiao Validation
+name: KuuOS Qi Runtime Binding Validation
 
 on:
   workflow_dispatch:
   pull_request:
     paths:
+      - 'specs/kuuos_qi_runtime_binding_os_bridge_v0_1.json'
+      - 'scripts/validate_kuuos_qi_runtime_binding_os_bridge_v0_1_min.py'
+      - '.github/workflows/kuuos_qi_runtime_binding_validation.yml'
       - 'specs/kuuos_qi_sanjiao_os_bridge_v0_1.json'
       - 'scripts/validate_kuuos_qi_sanjiao_os_bridge_v0_1_min.py'
       - '.github/workflows/kuuos_qi_sanjiao_validation.yml'
@@ -16,4 +19,4 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python3 scripts/validate_kuuos_qi_sanjiao_os_bridge_v0_1_min.py
+      - run: python3 scripts/validate_kuuos_qi_runtime_binding_os_bridge_v0_1_min.py
