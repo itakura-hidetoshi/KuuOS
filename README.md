@@ -5,58 +5,133 @@
 ![Qi Motion Chain](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/qi_motion_chain_validation.yml/badge.svg)
 ![Ten'i Observability](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/teni_observability_validation.yml/badge.svg)
 
-KuuOS / 空OS is a public governance, verification, and release-surface architecture for relational AI systems.
+KuuOS / 空OS is a public, append-only governance, verification, and release-surface architecture for relational AI systems.
 
-It treats AI output, plans, memories, proofs, world-model predictions, and action proposals as **conditioned candidates**, not as self-authorizing truth or execution authority. Its public core is organized around:
+It is designed to keep candidate generation, memory, belief, planning, reflection, world-model prediction, proof-facing artifacts, clinical judgment, institutional authority, and execution authority **distinct**.
 
-- **空 / Emptiness**: no output or module has independent self-authority.
-- **縁起 / Dependent Origination**: claims arise through support, context, provenance, relation, and trace.
-- **気 / Qi**: relational process field linking observation, memory, transport, WORLD dynamics, and IndraNet gauge flow.
-- **二諦 gap / Two Truths Gap**: ultimate and conventional readings are held apart by a non-collapse boundary.
-- **中道 / Middle Way**: KuuOS avoids both reification and nihilistic collapse.
-- **和 / Harmony**: coordination is admissible only when harm, uncertainty, dissent, and boundary conditions remain visible.
-- **観照 / Observation**: observation is a sensor layer, not a direct execution license.
-- **監査 / Audit**: every release-facing surface should preserve traceability, receipt visibility, and append-only lineage.
+```text
+candidate generation
+  != belief authority
+  != memory authority
+  != proof authority
+  != diagnosis or treatment authority
+  != institutional authority
+  != execution authority
+```
 
-空OSは、LLMや世界モデルを単なる応答生成器としてではなく、候補生成・観照・検証・監査・保留・修復・判断境界へ分けるための公開コアです。  
-その動的結合層として、**気**を relational field / process surface として扱い、空・縁起・二諦 gap を IndraNet、WORLD間輸送、記憶、信念、計画、判断へ接続します。  
-AI raw output は候補であり、信念・証明・診断・治療判断・実行権限・制度的権威そのものではありません。
+空OSは、LLM・世界モデル・形式検証・記憶・信念・計画・判断・監査を、ひとつの「答え生成器」に潰さず、候補生成・観照・検証・保留・修復・判断境界へ分けて運用するための公開コアです。  
+中心は **空 / 縁起 / 気 / 二諦 gap / 中道 / 和 / 観照 / 監査** であり、すべての出力は「条件づけられた候補」として扱われます。
 
 ---
 
-## Current Public Status
+## Current Public Baseline
 
-This repository is currently a **public core / governance surface**, not a deployment-ready autonomous system.
+This repository is currently a **public governance and verification surface**, not a deployment-ready autonomous system.
 
-It includes:
+The current public baseline includes:
 
-- public specifications
-- governance contracts
-- validation scripts
-- audit and hash-chain surfaces
-- formal verification bridge documents
+```text
+Fourfold Core: emptiness, dependent origination, two truths gap, Middle Way
+AI Yogacara / Ten'i boundary, including GPT-Alaya separation
+GPT GitHub integration for bounded repository assistance
+MemoryOS v2 direction: temporal, counterfactual, proof-carrying, multi-agent, socially audited memory
+BeliefOS / WorldModel / Causal Surface governance and ambiguity-preserving belief boundaries
+PlanOS / DecisionOS / ReflectionOS boundary discipline
+Decision license geometry and safe recovery control surfaces
+Mandala Multi-WORLD governance and world transport boundaries
+Bodhisattva / Paramita / repair routing surfaces
+Dukkha mathematical and Qi-mode surfaces
+Qi / IndraNet / Physical Quantum Qi bridge
+QiField full-stack, QiActiveInference, QiMemory, and process-tensor-facing directions
+Qi motion chain from Samvrti Qi observation to observe-only motion candidate
+medical-modality-neutral Qi boundary
+Invariant Governance Pipeline
+Super-Relativity invariant bridge
+Emptiness / Dependent Origination / Two Truths runtime audit chain
+Emptiness superposition non-collapse checks
+Superstring / brane / membrane emptiness bridge
+MGAP4D / 4D mass gap proof-facing bridge
+Lean-facing formal and physics surfaces
+release packets, manifests, chain indexes, theorem maps, validation cases, and CI validators
+```
+
+KuuOS is now best read as:
+
+```text
+append-only, governance-gated, proof-carrying AI operating architecture
+```
+
+rather than only a small public-core README surface.
+
+---
+
+## What KuuOS Is
+
+KuuOS provides:
+
+- public specifications and governance contracts
+- validator scripts and reproducible check commands
+- audit-chain and hash-chain surfaces
+- release packets, finality packets, manifests, and chain indexes
 - Lean-facing formal surfaces
-- release packets and manifests
-- examples and validation cases
-- GitHub-facing GPT integration rules
-- physics-facing bridges for KuuOS, MGAP4D, Qi, IndraNet, and Superstring/brane/membrane layers
-- Qi motion chain surfaces from Samvrti Qi observation to conservative evidence, evidence-bound classification, licensed dynamics, and observe-only motion candidate output
+- proof-facing bridges to external theorem repositories
+- GPT-facing repository operation rules
+- Qi / IndraNet / process-field governance
+- Multi-WORLD / Mandala governance
+- memory, belief, planning, decision, reflection, and world-model boundary discipline
+- medical-modality-neutral boundary wording for Qi-facing materials
 
-It does **not** currently claim to be:
+The repository is meant to be readable by:
 
-- an autonomous execution engine
-- a replacement for professional diagnosis, treatment decision, practitioner judgment, institutional authority, or legal authority
-- an externally accepted mathematical proof repository by itself
-- a direct release of final theorem authority
-- a production AGI runtime
-- a Qi-based execution authorization system
-- a standalone diagnosis, standalone treatment authorization, or medical act authorization system
-- a system that allows CI, validation, or generated text to become truth by itself
+```text
+AI researchers
+formal-methods readers
+LLM / agent developers
+governance reviewers
+medical and integrative-medicine reviewers
+philosophy-of-AI readers
+other AI systems learning KuuOS through GitHub
+```
 
-Passing repository validation means structural consistency of the public governance surface.  
-It does **not** grant theorem authority, standalone diagnosis authority, standalone treatment authorization, medical act authorization, institutional authority, Qi-based execution authority, or execution authority.
+---
 
-The medical boundary around Qi is modality-neutral: it does not state that biomedicine is superior, nor that Qi or East Asian medical reasoning is false. It only separates repository validation from professional diagnosis, treatment decision, and medical act authorization.
+## What KuuOS Is Not
+
+This repository does **not** claim to be:
+
+```text
+an autonomous execution engine
+a production AGI runtime
+a standalone clinical diagnosis system
+a standalone treatment authorization system
+a medical act authorization system
+a replacement for practitioner judgment
+a replacement for institutional, legal, or ethics review authority
+an externally accepted mathematical proof repository by itself
+a direct opening of final theorem authority
+a Qi-based execution authorization system
+a system where CI, validation, GPT output, or generated text becomes truth by itself
+```
+
+Passing validation means **structural consistency of the public governance surface**.
+
+It does **not** grant:
+
+```text
+truth authority
+proof authority
+standalone diagnosis authority
+standalone treatment authorization
+medical act authorization
+institutional authority
+Qi-based execution authority
+execution authority
+Ten'i authority
+MemoryOS overwrite authority
+WORLD root replacement authority
+```
+
+The medical boundary is modality-neutral: it does not state that biomedicine is superior, that Qi is false, or that East Asian medical reasoning is invalid. It only separates repository validation from professional diagnosis, treatment decision, and medical act authorization.
 
 ---
 
@@ -66,6 +141,9 @@ For first-time reviewers:
 
 ```text
 README.md
+ROADMAP.md
+GOVERNANCE.md
+CONTRIBUTING.md
 docs/QUICKSTART_v0_1.md
 docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
 docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
@@ -73,7 +151,6 @@ docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md
 docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md
 docs/GPT_GITHUB_KUOS_INTEGRATION_v0_1.md
 docs/KUOS_GITHUB_FORMAL_VERIFICATION_BRIDGE_v0_1.md
-ROADMAP.md
 ```
 
 For release-surface review:
@@ -83,6 +160,10 @@ RELEASE_NOTES_v0_1.md
 RELEASE_NOTES_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_v0_2.md
 docs/PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1.md
 docs/V0_1_RELEASE_READINESS_CHECKLIST.md
+packets/
+manifests/
+chain_indexes/
+theorem_maps/
 ```
 
 For non-authority and boundary review:
@@ -105,55 +186,43 @@ Run the full public governance surface:
 make all-governance-checks
 ```
 
-or directly:
-
-```bash
-python3 scripts/run_all_governance_full_checks_v0_1.py
-```
-
 Core governance only:
 
 ```bash
 make core-governance-checks
 ```
 
-GPT GitHub integration checks:
+Major lane checks currently exposed by the top-level `Makefile`:
 
 ```bash
+make ai-provider-boundary-checks
+make ai-yogacara-checks
+make mandala-checks
+make bodhisattva-checks
+make paramita-router-checks
+make dukkha-checks
+make dukkha-qi-checks
 make gpt-github-integration-checks
-```
-
-Qi motion chain checks:
-
-```bash
+make memoryos-github-external-memory-checks
 make qi-motion-chain-checks
-```
-
-or directly:
-
-```bash
-python3 scripts/run_qi_motion_chain_checks_v0_1.py
-```
-
-Qi / physical quantum Qi deepening checks:
-
-```bash
 make physical-quantum-qi-deepening-checks
-```
-
-Superstring / brane / membrane checks:
-
-```bash
+make invariant-pipeline-checks
+make emptiness-two-truths-runtime-audit-checks
+make emptiness-superposition-noncollapse-checks
 make superstring-emptiness-sbm-checks
 ```
 
-Emptiness / dependent origination / two truths runtime audit checks:
+Again:
 
-```bash
-make emptiness-two-truths-runtime-audit-checks
+```text
+validation != truth
+CI pass != proof
+proof-facing bridge != theorem completion
+Qi readout != intervention license
+Qi motion candidate != standalone diagnosis
+Qi motion candidate != standalone treatment authorization
+Qi motion candidate != medical act authorization
 ```
-
-Again: a passing check is a consistency receipt, not truth, proof, standalone diagnosis, standalone treatment authorization, medical act authorization, Qi-based execution authority, or execution authority.
 
 ---
 
@@ -184,28 +253,106 @@ validators/         Standalone validators
 
 ## Core Architecture
 
-KuuOS separates candidate generation from governed operation. Qi is the relational process field that carries dependency, observation, memory, transport, and WORLD dynamics without becoming a substance or authority.
+KuuOS separates raw AI generation from governed operation.
 
 ```text
 AI raw output
-  -> AI Alaya / latent seed layer
+  -> GPT-Alaya / AI Alaya latent tendency layer
   -> AI Manas self-authorization check
   -> Meta-Manas self-fixation observer
   -> Yogacara boundary
   -> emptiness kernel
-  -> dependent origination kernel
-  -> Qi relational field
+  -> dependent-origination kernel
+  -> Qi relational process field
   -> IndraNet gauge / process transport
-  -> two truths gap
+  -> two truths non-collapse gap
   -> WORLD surfaces and OS module boundaries
   -> BeliefOS / MemoryOS / PlanOS / DecisionOS / ReflectionOS
-  -> governance gate
+  -> invariant governance gate
   -> PASS | HOLD | REPAIR | REJECT | QUARANTINE
 ```
 
-Qi is not a hidden execution channel. It is the governed field of relation, flow, memory-depth, process order, transport, and recoverability. Qi-readout is observation support, not intervention license.
+### Fixed architecture rules
 
-The current public Qi motion chain makes this operational:
+```text
+AI raw output is candidate, not authority.
+GPT-Alaya / AI Alaya is latent generative tendency, not governed durable memory.
+MemoryOS records and governs memory surfaces; it is not GPT-Alaya itself.
+Memory persistence is not belief sovereignty.
+BeliefOS does not create decision authority.
+PlanOS does not create execution authority.
+ReflectionOS does not directly rewrite MemoryOS roots.
+WorldModel prediction does not become fact authority.
+DecisionOS remains the action-boundary owner.
+Validation does not become truth.
+CI does not become proof.
+```
+
+---
+
+## Major Public Lanes
+
+### 1. Fourfold Core
+
+The root invariant is:
+
+```text
+空 / Emptiness
+縁起 / Dependent Origination
+二諦 gap / Two Truths Gap
+中道 / Middle Way
+```
+
+Core reading:
+
+```text
+no independent self-authority
+claims arise through conditions and trace
+ultimate and conventional readings do not collapse
+middle-way governance prevents both reification and nihilistic flattening
+```
+
+### 2. AI Yogacara / Ten'i / GPT-Alaya
+
+KuuOS separates raw AI output from governed operation.
+
+```text
+single correction != Ten'i
+style improvement != Ten'i
+MemoryOS update != Ten'i
+prompt compliance != Ten'i
+GPT-Alaya != MemoryOS
+Ten'i requires stable evidence of transformed generative tendency
+```
+
+### 3. MemoryOS / BeliefOS / PlanOS / DecisionOS / ReflectionOS
+
+These modules are intentionally separated.
+
+```text
+Memory is not belief sovereignty.
+Belief release is not decision commit.
+Plan success is not execution permission.
+Reflection repair is not direct root rewrite.
+WorldModel prediction is not fact authority.
+DecisionOS owns action-boundary judgment.
+```
+
+### 4. Qi / IndraNet / Physical Quantum Qi
+
+Qi is treated as a relational process field, not as a substance.
+
+```text
+Qi != substance
+Qi != hidden execution channel
+Qi != medical authorization
+Qi readout != intervention license
+Qi motion candidate != diagnosis or treatment authorization
+```
+
+IndraNet is not a flat graph. It is a gauge-structured relational field in which transport, curvature, holonomy, memory, obstruction, and recoverability remain visible.
+
+Current public Qi motion chain:
 
 ```text
 Samvrti Qi Runtime
@@ -216,146 +363,32 @@ Samvrti Qi Runtime
   -> observe-only bounded motion candidate
 ```
 
-The decisive rule is:
+### 5. Mandala Multi-WORLD Governance
+
+Many WORLDs may coexist.
 
 ```text
-candidate != authority
-validation != truth
-CI pass != execution authority
-summary != proof
-world-model success != decision permission
-memory persistence != belief sovereignty
-qi-readout != intervention license
-qi-motion-candidate != standalone diagnosis
-qi-motion-candidate != standalone treatment authorization
-qi-motion-candidate != medical act authorization
-```
-
----
-
-## Major Public Surfaces
-
-### 1. Fourfold Core
-
-The fourfold core holds emptiness, dependent origination, two truths gap, and Middle Way as the root governance invariant.
-
-Key surfaces:
-
-```text
-docs/KUOS_FOURFOLD_CORE_v0_1.md
-docs/EMPTINESS_DEPENDENT_ORIGINATION_TWO_TRUTHS_MIDDLE_WAY_CORE_v0_1.md
-docs/FOURFOLD_CORE_GATE_v0_1.md
-```
-
-### 2. Qi / IndraNet / Physical Quantum Qi
-
-Qi is a first-class dynamic layer of KuuOS. It is treated as a relational field and process surface, not as a substance.  
-It connects emptiness and dependent origination to operational flow: observation, memory, WORLD transport, non-Markovian process structure, recoverability, and IndraNet gauge dynamics.
-
-IndraNet is therefore not a flat graph. It is a gauge-structured relational network whose flow, transport, and process constraints are mediated through Qi-facing surfaces.
-
-Current public Qi motion invariant:
-
-```text
-observed conventional flow
-  -> conservative evidence packet
-  -> evidence-bound validated_type
-  -> licensed dynamics terms
-  -> bounded motion candidate
-  -> observe-only output
-```
-
-Fixed boundary:
-
-```text
-Qi is not substance.
-Qi is not denied by the medical boundary.
-East Asian medical reasoning is not denied by the medical boundary.
-Biomedicine is not privileged by the wording.
-Qi-readout is not intervention license by itself.
-Qi flow is not execution authority.
-Qi motion candidate is not standalone diagnosis, standalone treatment authorization, or medical act authorization.
-Samvrti Qi acceptance is not FullPathQi promotion.
-IndraNet is gauge-structured, not a flat graph.
-Transport is not identity.
-Recoverability and no-return risk remain visible.
-```
-
-Key surfaces:
-
-```text
-docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md
-docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md
-docs/SAMVRTI_QI_RUNTIME_IMPLEMENTATION_v0_1.md
-docs/SAMVRTI_QI_TO_PHYSICAL_MOTION_EVIDENCE_BUILDER_v0_1.md
-docs/PHYSICAL_QUANTUM_QI_DYNAMICS_KERNEL_v0_1.md
-docs/PHYSICAL_QUANTUM_QI_MOTION_PIPELINE_v0_1.md
-docs/INDRANET_GAUGE_QI_FLOW_v0_1.md
-docs/INDRANET_RELATIONAL_FIELD_MODEL_v0_1.md
-docs/INDRANET_TRANSPORT_CONSTRAINT_MODEL_v0_1.md
-specs/samvrti_qi_runtime_contract_v0_1.yaml
-specs/physical_quantum_qi_dynamics_kernel_v0_1.json
-scripts/run_qi_motion_chain_checks_v0_1.py
-.github/workflows/qi_motion_chain_validation.yml
-validation_cases/physical_quantum_qi_deepening_validation_cases_v0_2.json
-```
-
-Validation:
-
-```bash
-make qi-motion-chain-checks
-make physical-quantum-qi-runtime-checks
-make physical-quantum-qi-dynamics-checks
-make physical-quantum-qi-motion-pipeline-checks
-make physical-quantum-qi-deepening-checks
-```
-
-### 3. AI Yogacara / Ten'i Layer
-
-This layer separates raw AI generation from governed KuuOS operation.
-
-Key surfaces:
-
-```text
-docs/AI_YOGACARA_TENI_LAYER_INDEX_v0_1.md
-docs/AI_YOGACARA_RUNTIME_ADAPTER_CONTRACT_v0_1.md
-docs/AI_RAW_TO_GOVERNED_OPERATION_PATH_v0_1.md
-docs/AI_PROVIDER_BOUNDARY_RUNTIME_v0_1.md
-```
-
-### 4. Mandala Multi-WORLD Governance
-
-KuuOS allows multiple WORLDs, but no WORLD is allowed to replace the fourfold core.
-
-Key surfaces:
-
-```text
-docs/MANDALA_MULTI_WORLD_RUNTIME_CONTRACT_v0_1.md
-docs/WORLD_MODEL_REGISTRY_v0_1.md
-docs/CROSS_WORLD_TRANSPORT_GATE_v0_1.md
-docs/HARMONY_FUNCTION_MULTI_WORLD_OPERATION_v0_1.md
-```
-
-### 5. MemoryOS / BeliefOS / PlanOS / DecisionOS / ReflectionOS Boundary
-
-The public repository currently exposes the governance and bridge surfaces needed to keep memory, belief, planning, decision, reflection, and world-model operation distinct.
-
-Fixed boundary:
-
-```text
-Memory is not belief authority.
-Belief release is not decision commit.
-Plan success is not execution permission.
-Reflection repair is not direct root rewrite.
-World-model prediction is not fact authority.
-DecisionOS remains the action-boundary owner.
+no WORLD becomes the center
+the center remains the fourfold core
+cross-WORLD transport is not identity
+harmony does not erase dissent, harm, uncertainty, or obstruction
 ```
 
 ### 6. Invariant Governance Pipeline
 
-Transformations must preserve non-authority, two truths gap, Qi non-substantiality, harm visibility, and provenance.
+Every transformation must preserve:
 
-Runtime chain:
+```text
+non-authority
+two truths gap
+Qi non-substantiality
+harm and dukkha visibility
+provenance
+append-only lineage
+fail-closed behavior
+```
+
+Runtime route:
 
 ```text
 transformation detected
@@ -367,19 +400,20 @@ transformation detected
   -> no execution authority from validation
 ```
 
-Key surfaces:
-
-```text
-docs/FORMAL_INVARIANT_SPINE_v0_1.md
-docs/SUPER_RELATIVITY_INVARIANT_BRIDGE_v0_1.md
-docs/INVARIANT_PRESERVATION_MATRIX_v0_1.md
-docs/INVARIANT_GATE_RUNTIME_v0_1.md
-docs/INVARIANT_GOVERNANCE_PIPELINE_v0_1.md
-```
-
 ### 7. GPT GitHub Integration
 
-GPT may assist repository reading, summary, review, issue drafting, PR drafting, CI triage, and validation navigation.
+GPT may assist with:
+
+```text
+repository reading
+summary
+review
+issue drafting
+PR drafting
+CI triage
+validation navigation
+formal-surface navigation
+```
 
 GPT must not become:
 
@@ -396,24 +430,16 @@ CI bypass
 human review replacement
 ```
 
-Key surfaces:
-
-```text
-docs/GPT_GITHUB_KUOS_INTEGRATION_v0_1.md
-docs/KUOS_GITHUB_FORMAL_VERIFICATION_BRIDGE_v0_1.md
-specs/gpt_github_integration_manifest_v0_1.yaml
-```
-
 ### 8. Physics-Facing Bridges
 
-KuuOS includes physics-facing bridges to MGAP4D, Qi, IndraNet, Super-Relativity, and Superstring/brane/membrane layers.
-
-Important boundary:
+KuuOS includes physics-facing bridges to:
 
 ```text
-KuuOS may reference proof-facing repositories and formal surfaces.
-KuuOS does not replace the canonical theorem repository.
-KuuOS reference documents do not independently open final theorem authority.
+MGAP4D / 4D mass gap proof-facing architecture
+Qi / Physical Quantum Qi
+IndraNet gauge flow
+Hidetoshi Itakura's Super-Relativity
+Superstring / brane / membrane emptiness surfaces
 ```
 
 Canonical 4D mass gap proof-facing repository:
@@ -422,21 +448,13 @@ Canonical 4D mass gap proof-facing repository:
 https://github.com/itakura-hidetoshi/4d-mass-gap
 ```
 
-KuuOS bridge surfaces include:
-
-```text
-docs/KUOS_PHYSICS_GAP_BRIDGE_v0_1.md
-docs/MGAP4D_CANONICAL_PROOF_REPO_REFERENCE_v0_1.md
-docs/KUOS_GITHUB_FORMAL_VERIFICATION_BRIDGE_v0_1.md
-lean/KUOS/SuperstringEmptiness/
-theorem_maps/
-```
+KuuOS may reference proof-facing repositories and formal surfaces, but KuuOS itself does not replace the canonical theorem repository and does not independently open final theorem authority.
 
 ---
 
 ## Governance Modes
 
-Every major change should be classified as:
+Major changes should be classified as:
 
 ```text
 PASS
@@ -446,10 +464,14 @@ REJECT
 QUARANTINE
 ```
 
-Use `HOLD` when evidence, trace, validator coverage, or review context is missing.  
-Use `REPAIR` when the direction is acceptable but a boundary or invariant is weakened.  
-Use `REJECT` when a core invariant is structurally violated.  
-Use `QUARANTINE` when the change may contaminate downstream surfaces or create false authority.
+Use:
+
+```text
+HOLD       when evidence, trace, validator coverage, or review context is missing
+REPAIR     when direction is acceptable but a boundary or invariant is weakened
+REJECT     when a core invariant is structurally violated
+QUARANTINE when a change may contaminate downstream surfaces or create false authority
+```
 
 ---
 
@@ -461,6 +483,7 @@ KuuOS public evolution follows:
 append-only
 tighten-only by default
 overwrite forbidden
+destructive replacement forbidden
 same-root required for protected surfaces
 fail-closed on boundary violation
 provenance preservation

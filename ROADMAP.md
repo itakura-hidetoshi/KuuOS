@@ -2,22 +2,43 @@
 
 This roadmap describes the current public direction of `itakura-hidetoshi/KuuOS`.
 
-KuuOS is no longer only a small “public core” README surface. It now contains a wider public governance and verification framework spanning:
+KuuOS has moved beyond a small public-core surface. It is now an append-only, governance-gated, proof-carrying AI operating architecture spanning:
 
-- fourfold core governance
-- AI Yogacara / Ten'i boundary
-- GPT GitHub integration
-- invariant governance pipeline
-- MemoryOS / BeliefOS / PlanOS / DecisionOS / ReflectionOS boundary discipline
-- Qi / IndraNet / physical quantum Qi bridge
-- Qi motion chain from Samvrti Qi observation to observe-only physical motion candidate output
-- medical-modality-neutral Qi boundary that does not deny Qi or East Asian medical reasoning
-- Super-Relativity invariant bridge
-- MGAP4D / 4D mass gap proof-facing bridge
-- Superstring / brane / membrane emptiness bridge
-- release packets, manifests, validation cases, theorem maps, and CI-facing validators
+```text
+Fourfold Core
+AI Yogacara / Ten'i / GPT-Alaya boundary
+GPT GitHub integration
+MemoryOS v2: temporal, counterfactual, proof-carrying, multi-agent, socially audited memory
+BeliefOS / WorldModel / Causal Surface governance
+PlanOS / DecisionOS / ReflectionOS boundary discipline
+Decision license geometry and safe recovery control
+Mandala Multi-WORLD governance and world transport
+Bodhisattva / Paramita / repair routing
+Dukkha mathematical and Qi-mode surfaces
+Qi / IndraNet / Physical Quantum Qi
+QiField full-stack, QiActiveInference, QiMemory, and process-tensor directions
+Qi motion chain
+medical-modality-neutral Qi boundary
+Invariant Governance Pipeline
+Super-Relativity invariant bridge
+Emptiness / Dependent Origination / Two Truths runtime audit chain
+Superstring / brane / membrane emptiness bridge
+MGAP4D / 4D mass gap proof-facing bridge
+Lean-facing formal surfaces
+release packets, manifests, chain indexes, theorem maps, validation cases, and CI validators
+```
 
-The roadmap therefore shifts from “KuuOS as a single public-core release surface” to **KuuOS as an append-only, governance-gated, proof-carrying AI operating architecture**.
+The roadmap therefore shifts from:
+
+```text
+single public-core release surface
+```
+
+to:
+
+```text
+multi-surface governance OS with proof-carrying release discipline
+```
 
 ---
 
@@ -36,22 +57,26 @@ institutional authority
 final theorem authority
 unreviewed AGI deployment authority
 Qi-based execution authority
-Qi motion candidate as standalone diagnosis, standalone treatment authorization, or medical act authorization
+Qi motion candidate as standalone diagnosis
+Qi motion candidate as standalone treatment authorization
+Qi motion candidate as medical act authorization
 CI-pass-as-truth
 validator-pass-as-truth
 GPT-summary-as-proof
 world-model-prediction-as-fact
 memory-persistence-as-belief-sovereignty
+GitHub-persistence-as-proof-authority
 ```
 
 This boundary is medical-modality neutral: it does not state that biomedicine is superior, that Qi is false, or that East Asian medical reasoning is invalid.
 
-All phases below preserve:
+All roadmap phases preserve:
 
 ```text
 append-only
 tighten-only by default
 overwrite forbidden
+destructive replacement forbidden
 same-root required for protected surfaces
 fail-closed validation behavior
 non-authority preservation
@@ -62,170 +87,88 @@ provenance preservation
 
 ## 1. Current Public Baseline
 
-### 1.1 Public Core v0.1
-
 Status: **active public baseline**
 
-Core surfaces:
+Current baseline surfaces:
 
 ```text
 README.md
+ROADMAP.md
 GOVERNANCE.md
 CONTRIBUTING.md
 CITATION.cff
+COPYRIGHT.md
+LICENSE
 docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
-docs/KUOS_FOURFOLD_CORE_v0_1.md
+docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
 docs/BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1.md
 docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md
-docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
 ```
 
-Validation:
+Repository structure:
+
+```text
+.github/
+benchmarks/
+chain_indexes/
+contracts/
+docs/
+examples/
+formal/
+lean/
+manifests/
+packets/
+roadmap/
+scripts/
+specs/
+src/
+tests/
+theorem_maps/
+validation_cases/
+validators/
+```
+
+Primary validation:
 
 ```bash
-make core-governance-checks
 make all-governance-checks
 ```
 
-Purpose:
-
-```text
-Expose the public core.
-Define non-authority.
-Make validation reproducible.
-Give reviewers a stable entry path.
-```
-
-### 1.2 Emptiness / Dependent Origination / Two Truths Runtime Audit Chain
-
-Status: **active public audit-chain surface**
-
-Core rule:
-
-```text
-runtime audit chain structural consistency is not theorem authority
-hash-chain continuity is not truth
-two truths non-collapse barrier must not reify ultimate truth
-```
-
-Validation:
+Major lane validation exposed by the top-level `Makefile`:
 
 ```bash
+make core-governance-checks
+make ai-provider-boundary-checks
+make ai-yogacara-checks
+make mandala-checks
+make bodhisattva-checks
+make paramita-router-checks
+make dukkha-checks
+make dukkha-qi-checks
+make gpt-github-integration-checks
+make memoryos-github-external-memory-checks
+make qi-motion-chain-checks
+make physical-quantum-qi-deepening-checks
+make invariant-pipeline-checks
 make emptiness-two-truths-runtime-audit-checks
 make emptiness-superposition-noncollapse-checks
-```
-
-### 1.3 GPT GitHub Integration
-
-Status: **active repository-operation surface**
-
-Purpose:
-
-```text
-Allow GPT to help read, summarize, review, triage, and draft repository changes
-without allowing GPT output to become truth, proof, standalone diagnosis authority,
-standalone treatment authorization, medical act authorization, or execution authority.
-```
-
-Validation:
-
-```bash
-make gpt-github-integration-checks
-```
-
-### 1.4 Invariant Governance Pipeline
-
-Status: **active invariant-preservation surface**
-
-Runtime chain:
-
-```text
-transformation detected
-  -> Super-Relativity Invariant Bridge
-  -> Formal Invariant Spine
-  -> Invariant Preservation Matrix
-  -> Invariant Gate Runtime
-  -> PASS | HOLD | REPAIR | REJECT | QUARANTINE
-  -> no execution authority
-```
-
-Validation:
-
-```bash
-make formal-invariant-checks
-make super-relativity-checks
-make invariant-matrix-checks
-make invariant-gate-checks
-make invariant-pipeline-checks
-```
-
-### 1.5 Qi / IndraNet / Physical Quantum Qi
-
-Status: **active bridge, motion-chain, and deepening surface**
-
-Core direction:
-
-```text
-Qi is a relational field, not a substance.
-Qi is not denied by the medical boundary.
-East Asian medical reasoning is not denied by the medical boundary.
-Biomedicine is not privileged by the wording.
-IndraNet is gauge-structured, not a flat graph.
-Process / memory / transport / recoverability surfaces remain first-class.
-Qi motion is evidence-bound, licensed by validated type, and observe-only.
-```
-
-Current public Qi motion chain:
-
-```text
-Samvrti Qi Runtime
-  -> Samvrti Qi to Physical Motion Evidence Builder
-  -> Physical Quantum Qi Runtime
-  -> Physical Quantum Qi Dynamics Kernel
-  -> Physical Quantum Qi Motion Pipeline
-  -> observe-only bounded motion candidate
-```
-
-Validation:
-
-```bash
-make qi-motion-chain-checks
-make physical-quantum-qi-runtime-checks
-make physical-quantum-qi-dynamics-checks
-make physical-quantum-qi-motion-pipeline-checks
-make physical-quantum-qi-deepening-checks
-```
-
-Near-term next steps:
-
-```text
-Keep Qi motion chain in all-governance checks.
-Maintain dedicated GitHub Actions workflow for Qi motion chain.
-Keep medical-modality-neutral wording visible in reviewer docs.
-Extend diagrams and reviewer docs only through append-only tightening.
-Do not convert Qi motion candidate into execution, standalone diagnosis, standalone treatment authorization, medical act authorization, or theorem authority.
-```
-
-### 1.6 Superstring / Brane / Membrane Emptiness Bridge
-
-Status: **active proof-facing bridge surface**
-
-Purpose:
-
-```text
-Connect string / brane / membrane language to KuuOS emptiness, observer-record,
-IndraNet gauge interface, and multi-scale governance without collapsing semantics.
-```
-
-Validation:
-
-```bash
 make superstring-emptiness-sbm-checks
+```
+
+Current interpretation:
+
+```text
+validation pass = structural consistency receipt
+validation pass != truth
+validation pass != proof
+validation pass != diagnosis authority
+validation pass != treatment authorization
+validation pass != execution authority
 ```
 
 ---
 
-## 2. Phase A — Public Orientation Cleanup
+## 2. Phase A — Public Orientation Refresh
 
 Status: **current priority**
 
@@ -233,31 +176,35 @@ Goal:
 
 ```text
 Make the repository understandable to first-time reviewers, other AI systems,
-formal-methods readers, governance reviewers, and medical/integrative medicine reviewers.
+formal-methods readers, governance reviewers, and medical / integrative medicine reviewers.
 ```
 
 Tasks:
 
-- maintain `README.md` as the top-level public orientation surface
-- maintain `ROADMAP.md` so it covers the current integrated repository, not only MGAP4D
-- keep MGAP4D references as a canonical proof-facing bridge, not the whole roadmap
-- add clear “what this is / what this is not” boundaries
-- keep the first run path short:
+- keep `README.md` as the top-level orientation surface
+- keep `ROADMAP.md` aligned with the integrated repository, not only MGAP4D
+- make the current major lanes visible:
+  - Fourfold Core
+  - AI Yogacara / Ten'i / GPT-Alaya
+  - GPT GitHub integration
+  - MemoryOS v2 direction
+  - BeliefOS / WorldModel / Causal Surface
+  - PlanOS / DecisionOS / ReflectionOS boundary discipline
+  - Qi / IndraNet / Qi motion chain
+  - medical-modality-neutral Qi boundary
+  - invariant governance
+  - Super-Relativity
+  - Superstring / brane / membrane
+  - MGAP4D bridge
+- shorten the first-review path:
   - `README.md`
+  - `ROADMAP.md`
   - `docs/QUICKSTART_v0_1.md`
   - `docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md`
   - `docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md`
   - `docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md`
   - `make all-governance-checks`
-- make the current major lanes visible:
-  - AI Yogacara / Ten'i
-  - GPT GitHub integration
-  - invariant governance
-  - Qi / IndraNet / Qi motion chain
-  - medical-modality-neutral Qi boundary
-  - Super-Relativity
-  - Superstring / brane / membrane
-  - MGAP4D bridge
+- preserve non-authority wording throughout the top-level docs
 
 Acceptance criteria:
 
@@ -284,41 +231,45 @@ Status: **next**
 Goal:
 
 ```text
-Turn scattered public surfaces into a navigable release package.
+Turn scattered public surfaces into navigable release packages.
 ```
 
 Tasks:
 
 - consolidate release notes and package manifests
+- add release navigation from README and docs index
+- group release surfaces into:
+  - public core package
+  - AI Yogacara / Ten'i package
+  - GPT GitHub integration package
+  - MemoryOS GitHub external memory package
+  - Qi motion chain package
+  - Physical Quantum Qi deepening package
+  - medical-modality-neutral Qi boundary package
+  - invariant governance package
+  - emptiness / two truths runtime audit package
+  - superstring / brane / membrane package
+  - MGAP4D proof-facing bridge package
 - ensure each public release package has:
-  - release note
-  - manifest
-  - validation command
+  - version
+  - author
+  - date
+  - purpose
+  - validator
   - known limitations
   - non-authority statement
+  - upstream/downstream relation
   - reproducibility note
-- add release navigation from README
-- separate:
-  - public release package
-  - proof-facing bridge package
-  - runtime adapter package
-  - audit-chain package
-  - validation fixture package
-  - Qi motion chain package
-  - medical-modality-neutral Qi boundary package
-- preserve append-only lineage
 
 Acceptance criteria:
 
 ```text
 Every release-facing surface has:
-- version
-- author
-- date
-- purpose
-- validator
+- release note or packet
+- manifest or chain index
+- validator command
 - boundary statement
-- upstream/downstream relation
+- traceable lineage
 ```
 
 ---
@@ -330,7 +281,7 @@ Status: **next**
 Goal:
 
 ```text
-Make validator coverage visible and reproducible.
+Make validator coverage visible, reproducible, and interpretable.
 ```
 
 Tasks:
@@ -355,26 +306,153 @@ Tasks:
   - medical-modality-neutral wording regression
   - Lean / formal surface failure
   - environment drift
-- keep stdlib-only Python validator policy where possible
-- avoid hidden dependency on local private files
-- keep GitHub Actions and local commands aligned
+- keep stdlib-only Python validators where possible
+- align GitHub Actions, `Makefile`, docs, and validator scripts
+- add clear pass/fail interpretation for reviewers
 
 Acceptance criteria:
 
 ```text
-A reviewer can reproduce:
-make all-governance-checks
-make gpt-github-integration-checks
-make qi-motion-chain-checks
-make physical-quantum-qi-deepening-checks
-make superstring-emptiness-sbm-checks
+A reviewer can reproduce the main validation commands and understand:
+1. what each check covers
+2. what each check does not cover
+3. which authority remains closed after a pass
+4. which file or invariant caused a failure
 ```
-
-and understand what each pass means and does not mean.
 
 ---
 
-## 5. Phase D — Formal Verification Bridge Maturity
+## 5. Phase D — Qi / IndraNet / Process Tensor Maturity
+
+Status: **parallel track**
+
+Goal:
+
+```text
+Mature Qi as a relational process field while preserving non-substantiality and non-authority.
+```
+
+Tasks:
+
+- keep Qi as open relational process field, not scalar stock or substance
+- keep IndraNet as gauge-structured relational transport, not flat graph
+- keep process tensor / non-Markovian memory surfaces visible
+- maintain Physical Quantum Qi deepening checks
+- preserve Qi OS handoff boundaries
+- keep no-return risk, recoverability, and transport residue visible
+- prevent Samvrti Qi acceptance from becoming FullPathQi promotion
+- prevent Qi motion candidate from becoming diagnosis, treatment authorization, medical act authorization, or execution authority
+
+Acceptance criteria:
+
+```text
+Qi-facing public docs and validators preserve:
+- Qi non-substantiality
+- IndraNet gauge structure
+- evidence-bound motion chain
+- observe-only output
+- medical-modality-neutral wording
+- authority-boundary completion
+```
+
+---
+
+## 6. Phase E — MemoryOS / GPT-Alaya / External Memory Boundary
+
+Status: **parallel track**
+
+Goal:
+
+```text
+Keep governed memory, AI latent tendency, and GitHub external memory separate.
+```
+
+Tasks:
+
+- clarify that MemoryOS is a governed memory/release surface, not GPT-Alaya itself
+- treat GPT-Alaya / AI Alaya as latent generative tendency layer
+- keep Ten'i distinct from MemoryOS update, style change, and prompt compliance
+- mature `memoryos-github-external-memory-checks`
+- define GitHub as external memory / public trace surface, not internal proof authority
+- prevent repository persistence from becoming belief sovereignty
+- keep append-only lineage, provenance, and review gates visible
+
+Acceptance criteria:
+
+```text
+A reviewer can distinguish:
+MemoryOS record
+AI Alaya tendency
+Ten'i evidence
+GitHub external memory
+belief authority
+decision authority
+```
+
+---
+
+## 7. Phase F — BeliefOS / WorldModel / Causal Surface Integration
+
+Status: **parallel track**
+
+Goal:
+
+```text
+Keep causal belief, world-model output, ambiguity, and decision release separated.
+```
+
+Tasks:
+
+- keep WorldModel predictions from becoming fact authority
+- keep BeliefOS updates evidence-bound and ambiguity-preserving
+- route causal claims through identification / bounding / conflict taxonomy surfaces
+- keep causal narrowing gates visible
+- preserve public/internal memory and belief boundary distinctions
+- expose reviewer-facing summaries without loosening the canonical boundary
+
+Acceptance criteria:
+
+```text
+A reviewer can identify:
+1. what is observation
+2. what is world-model candidate
+3. what is belief support
+4. what is unresolved ambiguity
+5. what is decision-authority boundary
+```
+
+---
+
+## 8. Phase G — PlanOS / DecisionOS / ReflectionOS Runtime Governance
+
+Status: **parallel track**
+
+Goal:
+
+```text
+Make planning, decision licensing, safe recovery, and reflection repair auditable without granting direct execution authority.
+```
+
+Tasks:
+
+- keep PlanOS policy cards and deployment surfaces distinct from internal canonical bundles
+- keep DecisionOS license geometry visible
+- maintain safe recovery control and no-return certification language
+- keep ReflectionOS repair candidates from directly rewriting roots
+- route hard failures to HOLD / REPAIR / REJECT / QUARANTINE with trace
+
+Acceptance criteria:
+
+```text
+Plan success does not imply execution permission.
+Decision license does not bypass clinical, legal, or institutional review.
+Reflection repair is candidate generation, not root overwrite.
+Recovery claims preserve no-return and recoverability evidence.
+```
+
+---
+
+## 9. Phase H — Formal Verification and Theorem Boundary Bridge
 
 Status: **parallel track**
 
@@ -391,8 +469,8 @@ Tasks:
   - formal invariant spine
   - Lean / proof repository
   - CI check
-  - external review gate
   - theorem boundary statement
+  - external review gate
 - prevent:
   - `formal_file_not_proof_by_itself`
   - `lean_stub_not_theorem_completion`
@@ -408,4 +486,133 @@ https://github.com/itakura-hidetoshi/4d-mass-gap
 
 KuuOS role:
 reference bridge, governance boundary, release routing, theorem-boundary discipline
+```
+
+Acceptance criteria:
+
+```text
+KuuOS can cite and route proof-facing artifacts without becoming the theorem repository itself.
+```
+
+---
+
+## 10. Phase I — Documentation Site and Reviewer Experience
+
+Status: **next**
+
+Goal:
+
+```text
+Make KuuOS learnable by humans and other AI systems.
+```
+
+Tasks:
+
+- maintain `mkdocs.yml` and docs navigation
+- add diagrams only when they preserve boundary wording
+- provide reviewer paths:
+  - quickstart path
+  - governance path
+  - formal verification path
+  - Qi / IndraNet path
+  - MemoryOS path
+  - BeliefOS / WorldModel path
+  - PlanOS / DecisionOS / ReflectionOS path
+  - medical boundary path
+  - GitHub / GPT integration path
+- keep Japanese and English explanations aligned where possible
+- keep conceptual terms exact:
+  - 空
+  - 縁起
+  - 気
+  - 二諦
+  - 中道
+  - 和
+  - 観照
+  - 監査
+
+Acceptance criteria:
+
+```text
+A first-time reader can move from README to a runnable validator without losing the non-authority boundary.
+```
+
+---
+
+## 11. Phase J — External Review and Publication Bridge
+
+Status: **future**
+
+Goal:
+
+```text
+Prepare public artifacts for external review without overclaiming authority.
+```
+
+Tasks:
+
+- separate:
+  - repository validation
+  - formal proof check
+  - theorem claim
+  - external acceptance
+  - release note
+  - citation package
+- keep Zenodo / GitHub / paper-facing artifacts traceable
+- define public theorem boundary statements explicitly
+- keep medical, institutional, and execution boundaries closed unless separately reviewed and opened
+- maintain author, copyright, and citation metadata
+
+Acceptance criteria:
+
+```text
+External reviewers can identify:
+1. what artifact is being reviewed
+2. what authority it has
+3. what authority it does not have
+4. what validator or proof surface supports it
+5. what remains unresolved
+```
+
+---
+
+## 12. Near-Term Checklist
+
+```text
+[ ] Keep README and ROADMAP synchronized with current repository structure.
+[ ] Add or update release package navigation.
+[ ] Add a validation matrix document.
+[ ] Keep Qi motion chain in all-governance checks.
+[ ] Keep Physical Quantum Qi deepening checks visible.
+[ ] Keep MemoryOS external memory checks visible.
+[ ] Keep medical-modality-neutral Qi boundary visible.
+[ ] Keep MGAP4D bridge as proof-facing reference, not final theorem authority.
+[ ] Keep GPT GitHub integration bounded by non-authority.
+[ ] Keep docs and Makefile command names aligned.
+[ ] Keep all public evolution append-only / tighten-only.
+```
+
+---
+
+## 13. Development Rule
+
+The roadmap follows the same rule as the public KuuOS core:
+
+```text
+append-only
+tighten-only by default
+overwrite forbidden
+destructive replacement forbidden
+same-root required
+fail-closed on boundary violation
+```
+
+---
+
+## 14. Version
+
+```text
+Version: v0.3-current-integrated-baseline
+Date: 2026-05-21
+Author: Hidetoshi Itakura / 板倉英俊
 ```
