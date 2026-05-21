@@ -1,0 +1,99 @@
+{
+  "manifest_version": "kuuos_runtime_manifest_v0_1",
+  "runtime_status": "bounded_non_authoritative_closed_loop",
+  "core_runtime_files": [
+    "runtime/qi_process_tensor_v0_1.py",
+    "runtime/qi_total_field_v0_1.py",
+    "runtime/qi_runtime_binding_v0_1.py",
+    "runtime/qi_cycle_runner_v0_1.py",
+    "runtime/kuuos_candidate_cycle_v0_1.py",
+    "runtime/kuuos_queue_dispatcher_v0_1.py",
+    "runtime/kuuos_queue_worker_v0_1.py",
+    "runtime/kuuos_action_router_v0_1.py",
+    "runtime/kuuos_task_board_processor_v0_1.py",
+    "runtime/kuuos_feedback_merger_v0_1.py",
+    "runtime/kuuos_closed_loop_v0_1.py",
+    "runtime/kuuos_closed_loop_driver_v0_1.py",
+    "runtime/kuuos_state_io_runner_v0_1.py"
+  ],
+  "core_test_files": [
+    "tests/test_qi_process_tensor_v0_1.py",
+    "tests/test_qi_total_field_v0_1.py",
+    "tests/test_qi_runtime_binding_v0_1.py",
+    "tests/test_qi_cycle_runner_v0_1.py",
+    "tests/test_kuuos_candidate_cycle_v0_1.py",
+    "tests/test_kuuos_queue_dispatcher_v0_1.py",
+    "tests/test_kuuos_queue_worker_v0_1.py",
+    "tests/test_kuuos_action_router_v0_1.py",
+    "tests/test_kuuos_task_board_processor_v0_1.py",
+    "tests/test_kuuos_feedback_merger_v0_1.py",
+    "tests/test_kuuos_closed_loop_v0_1.py",
+    "tests/test_kuuos_closed_loop_driver_v0_1.py",
+    "tests/test_kuuos_state_io_runner_v0_1.py",
+    "tests/test_qi_process_tensor_downstream_v0_1.py"
+  ],
+  "example_files": [
+    "examples/qi_state_io_v0_1/raw_state.json",
+    "examples/qi_state_io_v0_1/evidence.json",
+    "examples/qi_state_io_v0_1/README.md",
+    "examples/qi_process_tensor_v0_1/raw_state_process_history.json",
+    "examples/qi_process_tensor_v0_1/evidence.json",
+    "examples/qi_process_tensor_v0_1/README.md"
+  ],
+  "script_files": [
+    "scripts/run_kuuos_state_io_example_v0_1.py",
+    "scripts/check_kuuos_state_io_example_v0_1.py",
+    "scripts/check_kuuos_qi_process_tensor_example_v0_1.py",
+    "scripts/check_kuuos_example_runner_import_v0_1.py"
+  ],
+  "workflow_files": [
+    ".github/workflows/kuuos_qi_process_tensor_validation.yml",
+    ".github/workflows/kuuos_qi_process_tensor_downstream_validation.yml",
+    ".github/workflows/kuuos_qi_process_tensor_example_validation.yml",
+    ".github/workflows/kuuos_state_io_validation.yml",
+    ".github/workflows/kuuos_state_io_example_validation.yml",
+    ".github/workflows/kuuos_example_runner_validation.yml",
+    ".github/workflows/kuuos_closed_loop_validation.yml",
+    ".github/workflows/kuuos_loop_driver_validation.yml"
+  ],
+  "required_output_paths": [
+    "kuuos_driver_result_v0_1.json",
+    "next_raw_state_v0_1.json",
+    "state_bundle_v0_1.json",
+    "step_trace_v0_1.json",
+    "run_manifest_v0_1.json"
+  ],
+  "required_trace_fields": [
+    "qi_process_tensor_summary",
+    "process_tensor_visible",
+    "transition_continuity_visible",
+    "memory_continuity_visible",
+    "nonmarkov_memory_visible",
+    "process_history_length",
+    "transition_support_count",
+    "memory_support_count",
+    "nonmarkov_support_count",
+    "missing_process_requirements",
+    "process_tensor_reason"
+  ],
+  "authority_flags_must_be_false": [
+    "grants_execution_authority",
+    "grants_truth_authority",
+    "grants_final_commitment_authority",
+    "grants_memory_overwrite_authority",
+    "grants_clinical_authority",
+    "grants_theorem_authority",
+    "grants_completed_identity_authority"
+  ],
+  "stop_reasons": [
+    "MAX_STEPS_REACHED",
+    "WAITING_FOR_MORE_EVIDENCE",
+    "QUARANTINE_RETAINED",
+    "UNKNOWN_RESULT_HELD"
+  ],
+  "notes": [
+    "Runtime is bounded and non-authoritative.",
+    "Qi process tensor evidence is exposed as compact summaries in State IO traces.",
+    "Boundary failure blocks process tensor support and cannot be repaired by process support."
+  ]
+}
