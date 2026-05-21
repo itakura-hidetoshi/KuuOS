@@ -10,7 +10,11 @@ REMOVED = [
     ROOT / "specs" / "kuuos_qi_sanjiao_os_bridge_v0_1.json",
     ROOT / "scripts" / "validate_kuuos_qi_sanjiao_os_bridge_v0_1_min.py",
     ROOT / ".github" / "workflows" / "kuuos_qi_sanjiao_validation.yml",
+    ROOT / "specs" / "kuuos_qi_meridian_os_bridge_v0_1.json",
+    ROOT / "scripts" / "validate_kuuos_qi_meridian_os_bridge_v0_1_min.py",
+    ROOT / ".github" / "workflows" / "kuuos_qi_meridian_validation.yml",
 ]
+FORBIDDEN_TEXT = ["qi_meridian", "Qi Meridian", "meridian"]
 REQUIRED_HOOKS = [
     "QI_HOOK_PRE_CYCLE",
     "QI_HOOK_POLICY_GATE",
@@ -41,20 +45,28 @@ def main() -> int:
     errors: list[str] = []
     for path in REMOVED:
         if path.exists():
-            errors.append(f"removed Sanjiao file still exists: {path.relative_to(ROOT)}")
+            errors.append(f"removed Qi naming-only file still exists: {path.relative_to(ROOT)}")
 
     if not SPEC.is_file():
         print("ERROR: missing Qi Runtime Binding OS bridge spec")
         return 1
 
-    data = json.loads(SPEC.read_text(encoding="utf-8"))
+    text = SPEC.read_text(encoding="utf-8")
+    for forbidden in FORBIDDEN_TEXT:
+        if forbidden in text:
+            errors.append(f"runtime binding spec still contains forbidden naming-only reference: {forbidden}")
+
+    data = json.loads(text)
 
     if data.get("bridge_id") != "kuuos_qi_runtime_binding_os_bridge_v0_1":
         errors.append("bridge_id mismatch")
     if data.get("status") != "QI_RUNTIME_BINDING_OS_BRIDGE_BASELINE":
         errors.append("status mismatch")
-    if data.get("replaces_removed_layer") != "kuuos_qi_sanjiao_os_bridge_v0_1":
+    replaced = data.get("replaces_removed_layers", [])
+    if "kuuos_qi_sanjiao_os_bridge_v0_1" not in replaced:
         errors.append("must explicitly replace removed Sanjiao layer")
+    if "kuuos_qi_meridian_os_bridge_v0_1" not in replaced:
+        errors.append("must explicitly replace removed Meridian layer")
     if data.get("attached_qi_circulation_bridge") != "kuuos_qi_circulation_os_bridge_v0_1":
         errors.append("qi circulation attachment mismatch")
 
@@ -100,6 +112,8 @@ def main() -> int:
         errors.append("missing anti-classification-only invariant")
     if "boundary risk is evaluated before candidate continuation" not in invariants:
         errors.append("missing boundary-first invariant")
+    if "qi runtime binding must not depend on Qi Meridian naming layer" not in invariants:
+        errors.append("missing no-Meridian invariant")
 
     boundary = data.get("authority_boundary", {})
     for key in ["validation_only", "candidate_only", "runtime_binding_required", "two_truths_gap_required", "qi_circulation_required"]:
@@ -108,8 +122,12 @@ def main() -> int:
     for key in ["grants_execution_authority", "grants_truth_authority", "grants_memory_overwrite_authority", "grants_governance_bypass_authority"]:
         if boundary.get(key) is not False:
             errors.append(f"boundary must be false: {key}")
+    if "qi_meridian_required" in boundary:
+        errors.append("boundary must not require Qi Meridian")
 
     for rel in data.get("integration_points", []):
+        if "qi_meridian" in rel:
+            errors.append(f"integration point must not reference Qi Meridian: {rel}")
         if not isinstance(rel, str) or not (ROOT / rel).is_file():
             errors.append(f"missing integration point: {rel}")
 
