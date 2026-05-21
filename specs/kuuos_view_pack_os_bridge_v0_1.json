@@ -1,0 +1,143 @@
+{
+  "bridge_id": "kuuos_view_pack_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "VIEW_PACK_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Extend Seal Projection Boundary OS bridge with view packs, audience scopes, redaction boundaries, stale-view debt, and non-authorizing pack outcomes.",
+  "attached_seal_projection_boundary_bridge": "kuuos_seal_projection_boundary_os_bridge_v0_1",
+  "attached_seal_projection_boundary_spec": "specs/kuuos_seal_projection_boundary_os_bridge_v0_1.json",
+  "attached_review_seal_bridge": "kuuos_review_seal_os_bridge_v0_1",
+  "attached_review_seal_spec": "specs/kuuos_review_seal_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "view_pack_principle": {
+    "statement": "Projected seal metadata may be bundled into scoped view packs, but a view pack is communication metadata only and never truth, finality, overwrite, or completed identity.",
+    "runtime_formula": "view_pack = seal_projection_receipt + audience_scope + redaction_boundary + renewal_window + view_debt",
+    "non_reification_rule": "A view pack is bounded projection metadata only; it is not truth authority, final commitment authority, memory overwrite, theorem proof, clinical authority, or completed OS identity."
+  },
+  "view_pack_lanes": [
+    {
+      "lane_id": "lane_user_view_pack",
+      "base_lane": "lane_user_projection",
+      "tracks": ["human_readable_status", "nonfinal_marker", "audience_scope"],
+      "allowed_projection": ["user_view_pack_notice"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "lane_id": "lane_audit_view_pack",
+      "base_lane": "lane_audit_projection",
+      "tracks": ["registry_key", "review_refs", "renewal_window", "support_refs"],
+      "allowed_projection": ["audit_view_pack_notice"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "lane_id": "lane_machine_view_pack",
+      "base_lane": "lane_machine_projection",
+      "tracks": ["json_projection", "redaction_boundary", "boundary_marker"],
+      "allowed_projection": ["machine_view_pack_notice"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "view_pack_checks": [
+    {
+      "check_id": "VP_lanes_present",
+      "requires": ["lane_user_view_pack", "lane_audit_view_pack", "lane_machine_view_pack"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "VP_scope_visible",
+      "requires": ["audience_scope", "nonfinal_marker", "renewal_window"],
+      "must_preserve": ["candidate_only", "projection_metadata_only"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "VP_redaction_boundary_noncollapse",
+      "requires": ["lane_machine_view_pack", "redaction_boundary", "two_truths_gap"],
+      "must_preserve": ["no_truth_authority", "no_memory_overwrite_authority", "no_completed_os_identity"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "check_id": "VP_no_pack_reification",
+      "forbids": ["view_pack_as_truth", "view_pack_as_final_commitment", "view_pack_as_world_identity", "silent_view_overwrite"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "view_debt_classes": [
+    {
+      "debt_id": "VPD_missing_view_lane",
+      "meaning": "A required view pack lane is absent or unbound.",
+      "opens": ["view_debt_notice", "hold_notice"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "VPD_scope_gap",
+      "meaning": "View pack lacks visible audience scope, nonfinal marker, or renewal window.",
+      "opens": ["view_debt_notice", "reobserve_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "VPD_boundary_gap",
+      "meaning": "View pack risks collapsing projection metadata into authority or identity.",
+      "opens": ["quarantine_notice", "view_boundary_notice"],
+      "result_state": "QUARANTINE"
+    }
+  ],
+  "view_pack_outcomes": [
+    {
+      "outcome": "VIEW_PACK_READY",
+      "requires": ["lanes_present", "scope_visible", "redaction_boundary_noncollapse", "no_pack_reification"],
+      "allowed_projection": ["view_pack_receipt"],
+      "does_not_grant": ["truth authority", "final commitment authority", "memory overwrite authority", "theorem authority"]
+    },
+    {
+      "outcome": "VIEW_PACK_HOLD",
+      "arises_when_any": ["missing view lane", "scope gap", "visible view debt"],
+      "allowed_projection": ["view_debt_notice", "hold_notice", "reobserve_request"]
+    },
+    {
+      "outcome": "VIEW_PACK_QUARANTINE",
+      "arises_when_any": ["boundary gap", "pack reification", "identity collapse"],
+      "allowed_projection": ["quarantine_notice", "view_boundary_notice"]
+    }
+  ],
+  "view_pack_witness_surface": {
+    "name": "view_pack_witness",
+    "required_fields": ["cycle_id", "kernel_state", "view_pack_lanes_used", "view_pack_checks_run", "view_debt", "view_pack_outcome", "audience_scope", "redaction_boundary", "allowed_projection"],
+    "allowed_projection": ["view_pack_receipt", "view_debt_notice", "hold_notice", "reobserve_request", "view_boundary_notice", "quarantine_notice"],
+    "forbidden_projection": ["truth_commit", "memory_overwrite_commit", "clinical_commit", "theorem_commit", "global_truth_object_commit", "completed_os_identity_commit", "world_identity_commit", "silent_pass_commit"]
+  },
+  "integration_points": [
+    "specs/kuuos_seal_projection_boundary_os_bridge_v0_1.json",
+    "specs/kuuos_review_seal_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "scripts/validate_kuuos_seal_projection_boundary_os_bridge_v0_1_min.py"
+  ],
+  "required_invariants": [
+    "view pack remains candidate-only metadata",
+    "user view pack is not truth authority",
+    "audit view pack is not final commitment authority",
+    "machine view pack is not world identity",
+    "redaction boundary gap opens QUARANTINE",
+    "future runtime kernel must keep view metadata separate from authority"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "seal_projection_boundary_required": true,
+    "view_pack_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
