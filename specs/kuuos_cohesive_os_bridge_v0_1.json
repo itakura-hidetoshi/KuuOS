@@ -1,0 +1,148 @@
+{
+  "bridge_id": "kuuos_cohesive_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "COHESIVE_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Extend Infinity Topos OS bridge into a cohesive modal runtime surface that separates continuous runtime flow, discrete audit facts, sharp boundary requirements, and candidate-only cohesion witnesses.",
+  "attached_infinity_topos_bridge": "kuuos_infinity_topos_os_bridge_v0_1",
+  "attached_infinity_topos_spec": "specs/kuuos_infinity_topos_os_bridge_v0_1.json",
+  "attached_stack_bridge": "kuuos_stack_os_bridge_v0_1",
+  "attached_stack_spec": "specs/kuuos_stack_os_bridge_v0_1.json",
+  "attached_hyperdescent_bridge": "kuuos_hyperdescent_os_bridge_v0_1",
+  "attached_hyperdescent_spec": "specs/kuuos_hyperdescent_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "cohesive_principle": {
+    "statement": "KuuOS runtime candidates have cohesive structure: continuous runtime flow, discrete audit observables, and sharp boundary constraints must remain related but non-collapsed.",
+    "runtime_formula": "cohesive_candidate = shape(runtime_flow) + flat(audit_observables) + sharp(boundary_constraints) + non_collapse_gap",
+    "non_reification_rule": "Cohesion relates modalities but does not create truth authority, execution authority, memory overwrite, theorem proof, clinical authority, or completed OS identity."
+  },
+  "cohesive_modalities": [
+    {
+      "modality_id": "shape_runtime_flow",
+      "role": "Forgets local implementation detail and records the coarse runtime trajectory candidate.",
+      "input_worlds": ["W_runtime"],
+      "allowed_projection": ["runtime_shape_receipt"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "modality_id": "flat_audit_observable",
+      "role": "Records discrete audit facts, hashes, receipts, and checkpoint observables.",
+      "input_worlds": ["W_evidence"],
+      "allowed_projection": ["flat_audit_receipt"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "modality_id": "sharp_boundary_constraint",
+      "role": "Requires non-authority and non-identity boundaries to remain crisp under projection.",
+      "input_worlds": ["W_boundary"],
+      "allowed_projection": ["sharp_boundary_receipt"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "cohesion_checks": [
+    {
+      "check_id": "COH_shape_runtime_visible",
+      "requires": ["W_runtime", "M_possible_candidate", "shape_runtime_flow"],
+      "must_preserve": ["candidate_only", "runtime_world_receipt"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "COH_flat_audit_lineage_visible",
+      "requires": ["W_evidence", "flat_audit_observable"],
+      "must_preserve": ["audit_receipt_only", "state_checkpoint_only"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "COH_sharp_boundary_noncollapse",
+      "requires": ["W_boundary", "M_necessary_boundary", "sharp_boundary_constraint"],
+      "must_preserve": ["two_truths_gap", "no_truth_authority", "no_execution_authority", "no_completed_os_identity"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "check_id": "COH_modalities_do_not_collapse",
+      "forbids": ["runtime_flow_as_truth", "audit_as_authority", "boundary_as_world_identity", "completed_os_identity_commit"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "cohesive_debt_classes": [
+    {
+      "debt_id": "CD_shape_gap",
+      "meaning": "Runtime flow cannot be summarized as a stable candidate shape.",
+      "opens": ["hold_notice", "reobserve_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "CD_flat_audit_gap",
+      "meaning": "Discrete audit observables or checkpoint lineage are incomplete.",
+      "opens": ["hold_notice", "lineage_recheck_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "CD_sharp_boundary_gap",
+      "meaning": "A boundary constraint risks becoming vague or collapsed into authority.",
+      "opens": ["quarantine_notice", "boundary_recheck_request"],
+      "result_state": "QUARANTINE"
+    }
+  ],
+  "cohesive_outcomes": [
+    {
+      "outcome": "COHESIVE_CANDIDATE",
+      "requires": ["shape_runtime_flow", "flat_audit_observable", "sharp_boundary_constraint", "modalities_do_not_collapse"],
+      "allowed_projection": ["cohesive_candidate_receipt"],
+      "does_not_grant": ["truth authority", "execution authority", "memory overwrite authority", "theorem authority"]
+    },
+    {
+      "outcome": "COHESIVE_HOLD",
+      "arises_when_any": ["shape gap", "flat audit gap", "visible cohesion debt"],
+      "allowed_projection": ["cohesive_debt_notice", "hold_notice", "reobserve_request", "repair_candidate_request"]
+    },
+    {
+      "outcome": "COHESIVE_QUARANTINE",
+      "arises_when_any": ["sharp boundary gap", "authority collapse", "identity collapse"],
+      "allowed_projection": ["quarantine_notice", "boundary_recheck_request"]
+    }
+  ],
+  "cohesive_witness_surface": {
+    "name": "cohesive_witness",
+    "required_fields": ["cycle_id", "kernel_state", "cohesive_modalities_used", "cohesion_checks_run", "cohesive_debt", "cohesive_outcome", "sharp_boundary", "allowed_projection"],
+    "allowed_projection": ["cohesive_candidate_receipt", "cohesive_debt_notice", "reobserve_request", "hold_notice", "repair_candidate_request", "quarantine_notice"],
+    "forbidden_projection": ["truth_commit", "execution_commit", "memory_overwrite_commit", "clinical_commit", "theorem_commit", "global_truth_object_commit", "completed_os_identity_commit", "world_identity_commit", "silent_pass_commit"]
+  },
+  "integration_points": [
+    "specs/kuuos_infinity_topos_os_bridge_v0_1.json",
+    "specs/kuuos_stack_os_bridge_v0_1.json",
+    "specs/kuuos_hyperdescent_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "scripts/validate_kuuos_infinity_topos_os_bridge_v0_1_min.py"
+  ],
+  "required_invariants": [
+    "cohesive candidate remains candidate-only",
+    "shape runtime flow is not truth authority",
+    "flat audit observable is not external acceptance",
+    "sharp boundary constraint is not world identity",
+    "cohesion debt remains visible",
+    "future runtime kernel must preserve modal non-collapse"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "stack_required": true,
+    "infinity_topos_required": true,
+    "cohesion_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
