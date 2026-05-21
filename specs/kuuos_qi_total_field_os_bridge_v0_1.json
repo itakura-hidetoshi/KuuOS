@@ -8,8 +8,6 @@
   "attached_qi_runtime_binding_spec": "specs/kuuos_qi_runtime_binding_os_bridge_v0_1.json",
   "attached_qi_circulation_bridge": "kuuos_qi_circulation_os_bridge_v0_1",
   "attached_qi_circulation_spec": "specs/kuuos_qi_circulation_os_bridge_v0_1.json",
-  "attached_qi_meridian_bridge": "kuuos_qi_meridian_os_bridge_v0_1",
-  "attached_qi_meridian_spec": "specs/kuuos_qi_meridian_os_bridge_v0_1.json",
   "attached_cycle_runner": "runtime/qi_cycle_runner_v0_1.py",
   "attached_runtime_evaluator": "runtime/qi_runtime_binding_v0_1.py",
   "total_field_principle": {
@@ -102,6 +100,7 @@
     "lineage qi must remain hash-bound and append-only",
     "delivery qi must remain nonfinal communication metadata",
     "qi total field is not a classification-only layer",
+    "qi total field must not depend on Qi Meridian naming layer",
     "qi total field is not reified as substance, authority, world identity, or completed OS identity"
   ],
   "authority_boundary": {
