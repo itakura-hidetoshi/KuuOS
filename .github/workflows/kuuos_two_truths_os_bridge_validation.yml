@@ -1,0 +1,45 @@
+name: KuuOS Two Truths OS Bridge Validation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'specs/kuuos_two_truths_os_bridge_v0_1.json'
+      - 'specs/kuuos_os_autonomy_kernel_v0_1.json'
+      - 'specs/kuuos_core_autonomy_contract_v0_1.json'
+      - 'scripts/validate_kuuos_two_truths_os_bridge_v0_1.py'
+      - 'scripts/run_kuuos_core_autonomy_v0_1.py'
+      - 'scripts/validate_kuuos_core_autonomy_contract_v0_1.py'
+      - '.github/workflows/kuuos_two_truths_os_bridge_validation.yml'
+  pull_request:
+    paths:
+      - 'specs/kuuos_two_truths_os_bridge_v0_1.json'
+      - 'specs/kuuos_os_autonomy_kernel_v0_1.json'
+      - 'specs/kuuos_core_autonomy_contract_v0_1.json'
+      - 'scripts/validate_kuuos_two_truths_os_bridge_v0_1.py'
+      - 'scripts/run_kuuos_core_autonomy_v0_1.py'
+      - 'scripts/validate_kuuos_core_autonomy_contract_v0_1.py'
+      - '.github/workflows/kuuos_two_truths_os_bridge_validation.yml'
+
+jobs:
+  validate-two-truths-os-bridge:
+    name: Validate KuuOS two truths OS bridge v0.1
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Show bridge boundary
+        run: |
+          python3 --version
+          echo "Validating the two-truths gap between runtime success and authority claims."
+
+      - name: Validate two truths OS bridge
+        run: python3 scripts/validate_kuuos_two_truths_os_bridge_v0_1.py
