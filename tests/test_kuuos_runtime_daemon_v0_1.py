@@ -86,10 +86,17 @@ class KuuOSRuntimeDaemonTests(unittest.TestCase):
             self.assertTrue(Path(result.tick_log_path).is_file())
             self.assertTrue(Path(result.final_raw_state_path).is_file())
             self.assertTrue(Path(result.final_state_bundle_path).is_file())
+            self.assertTrue(Path(result.qi_policy_result_path).is_file())
+            self.assertEqual(result.qi_policy_recommended_tick_mode, "CONTINUE_WITH_QI_MEMORY_MONITOR")
             tick_log = load(Path(result.tick_log_path))
             self.assertEqual(len(tick_log), 2)
             self.assertFalse(tick_log[0]["grants_execution_authority"])
-            self.assertFalse(load(daemon_dir / "daemon_result_v0_1.json")["grants_truth_authority"])
+            daemon_result = load(daemon_dir / "daemon_result_v0_1.json")
+            policy_result = load(Path(result.qi_policy_result_path))
+            self.assertEqual(daemon_result["qi_policy_recommended_tick_mode"], "CONTINUE_WITH_QI_MEMORY_MONITOR")
+            self.assertEqual(policy_result["recommended_tick_mode"], "CONTINUE_WITH_QI_MEMORY_MONITOR")
+            self.assertFalse(policy_result["grants_execution_authority"])
+            self.assertFalse(daemon_result["grants_truth_authority"])
 
     def test_daemon_stops_on_waiting(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -114,6 +121,7 @@ class KuuOSRuntimeDaemonTests(unittest.TestCase):
             self.assertEqual(result.daemon_status, "DAEMON_WAITING_APPEND_ONLY")
             self.assertEqual(result.stop_reason, "WAITING_FOR_MORE_EVIDENCE")
             self.assertEqual(result.ticks_run, 1)
+            self.assertEqual(result.qi_policy_recommended_tick_mode, "REQUEST_MORE_EVIDENCE")
 
     def test_daemon_stops_on_quarantine(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -134,6 +142,7 @@ class KuuOSRuntimeDaemonTests(unittest.TestCase):
             self.assertEqual(result.daemon_status, "DAEMON_QUARANTINE_RETAINED_APPEND_ONLY")
             self.assertEqual(result.stop_reason, "QUARANTINE_RETAINED")
             self.assertEqual(result.ticks_run, 1)
+            self.assertEqual(result.qi_policy_recommended_tick_mode, "QUARANTINE_REVIEW")
 
     def test_daemon_caps_tick_and_step_bounds(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -150,6 +159,7 @@ class KuuOSRuntimeDaemonTests(unittest.TestCase):
                 max_steps_per_tick=0,
             )
             self.assertEqual(result.ticks_run, 1)
+            self.assertTrue(Path(result.qi_policy_result_path).is_file())
 
 
 if __name__ == "__main__":
