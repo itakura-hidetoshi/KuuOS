@@ -30,8 +30,9 @@ REQUIRED_OUTCOMES = [
 ]
 
 
-def mentions_identity_boundary(values: list[str]) -> bool:
-    return any("identity" in str(value) for value in values)
+def has_any(values: list[str], needles: list[str]) -> bool:
+    joined = " ".join(str(value) for value in values)
+    return any(needle in joined for needle in needles)
 
 
 def main() -> int:
@@ -66,13 +67,19 @@ def main() -> int:
             errors.append(f"invalid fiber failure_effect: {fiber_id}")
 
     equivalences = {item.get("witness_id"): item for item in data.get("equivalence_witnesses", []) if isinstance(item, dict)}
+    required_negative_markers = {
+        "EQ_core_refinement_equivalence": ["identity", "truth", "execution authority"],
+        "EQ_lineage_receipt_equivalence": ["external audit acceptance", "memory overwrite"],
+        "EQ_boundary_noncollapse_equivalence": ["truth authority", "world identity"],
+    }
     for witness_id in REQUIRED_EQUIVALENCES:
         item = equivalences.get(witness_id)
         if item is None:
             errors.append(f"missing equivalence witness: {witness_id}")
             continue
-        if not mentions_identity_boundary(item.get("does_not_mean", [])):
-            errors.append(f"equivalence must preserve non-identity boundary: {witness_id}")
+        markers = required_negative_markers[witness_id]
+        if not has_any(item.get("does_not_mean", []), markers):
+            errors.append(f"equivalence witness missing required negative boundary: {witness_id}")
         if item.get("failure_effect") not in {"HOLD", "QUARANTINE"}:
             errors.append(f"invalid equivalence failure_effect: {witness_id}")
 
