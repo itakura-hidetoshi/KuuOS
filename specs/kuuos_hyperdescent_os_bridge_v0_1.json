@@ -1,0 +1,155 @@
+{
+  "bridge_id": "kuuos_hyperdescent_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "HYPERDESCENT_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Extend Descent OS bridge with iterated cover refinement, higher overlap coherence, coherence debt visibility, reobserve branching, and candidate-only hyperdescent witnesses.",
+  "attached_descent_bridge": "kuuos_descent_os_bridge_v0_1",
+  "attached_descent_spec": "specs/kuuos_descent_os_bridge_v0_1.json",
+  "attached_cech_obstruction_bridge": "kuuos_cech_obstruction_os_bridge_v0_1",
+  "attached_cech_obstruction_spec": "specs/kuuos_cech_obstruction_os_bridge_v0_1.json",
+  "attached_sheaf_bridge": "kuuos_sheaf_os_gluing_bridge_v0_1",
+  "attached_sheaf_spec": "specs/kuuos_sheaf_os_gluing_bridge_v0_1.json",
+  "attached_gauge_bridge": "kuuos_gauge_os_transport_bridge_v0_1",
+  "attached_gauge_spec": "specs/kuuos_gauge_os_transport_bridge_v0_1.json",
+  "attached_indranet_bridge": "kuuos_indranet_os_dependency_bridge_v0_1",
+  "attached_indranet_spec": "specs/kuuos_indranet_os_dependency_bridge_v0_1.json",
+  "attached_dependent_origination_bridge": "kuuos_dependent_origination_os_bridge_v0_1",
+  "attached_dependent_origination_spec": "specs/kuuos_dependent_origination_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "hyperdescent_principle": {
+    "statement": "A candidate global OS witness must remain stable under iterated cover refinement and higher overlap checks; unresolved coherence debt opens HOLD or REOBSERVE rather than silent promotion.",
+    "runtime_formula": "hyperdescent_candidate = descent_witness + refinement_stability + higher_overlap_coherence + visible_coherence_debt + boundary_gap",
+    "non_reification_rule": "Hyperdescent stability remains candidate-level evidence and never becomes truth authority, execution authority, theorem proof, memory overwrite, or completed OS identity."
+  },
+  "refinement_levels": [
+    {
+      "level_id": "R0_base_cover",
+      "source": "descent_data",
+      "checks": ["ED_cover_present", "ED_sections_compatible"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "level_id": "R1_refined_overlap_cover",
+      "source": "cech_obstruction_witness",
+      "checks": ["pairwise_overlap_compatibility", "lineage_boundary_cocycle"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "level_id": "R2_higher_coherence_cover",
+      "source": "gauge_transport_witness",
+      "checks": ["cycle_transport_noncollapse", "global_non_reification_cocycle"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "higher_coherence_checks": [
+    {
+      "check_id": "HC_refinement_stability",
+      "requires": ["D_core_runtime", "D_evidence_lineage", "D_policy_boundary"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "HC_overlap_coherence_visible",
+      "requires": ["cech_obstruction_witness", "obstruction_status"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "HC_holonomy_noncollapse",
+      "requires": ["cycle_transport_noncollapse", "two_truths_gap"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "check_id": "HC_candidate_not_identity",
+      "forbids": ["completed_os_identity_commit", "global_truth_object_commit", "world_identity_commit"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "coherence_debt_classes": [
+    {
+      "debt_id": "CD_refinement_gap",
+      "meaning": "A refined cover is needed before candidate descent can be trusted as stable evidence.",
+      "opens": ["reobserve_request", "descent_gap_notice"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "CD_overlap_gap",
+      "meaning": "Higher overlap compatibility is unresolved.",
+      "opens": ["local_overlap_recheck_request", "hold_notice"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "CD_boundary_gap",
+      "meaning": "Candidate gluing risks authority-boundary collapse.",
+      "opens": ["boundary_recheck_request", "quarantine_notice"],
+      "result_state": "QUARANTINE"
+    }
+  ],
+  "hyperdescent_outcomes": [
+    {
+      "outcome": "HYPERDESCENT_CANDIDATE",
+      "requires": ["descent_witness", "refinement_stability", "higher_coherence_checks_pass", "boundary_preserved"],
+      "allowed_projection": ["hyperdescent_candidate_receipt"],
+      "does_not_grant": ["truth authority", "execution authority", "memory overwrite authority", "theorem authority"]
+    },
+    {
+      "outcome": "HYPERDESCENT_HOLD",
+      "arises_when_any": ["refinement gap", "overlap gap", "visible coherence debt"],
+      "allowed_projection": ["coherence_debt_notice", "reobserve_request", "hold_notice", "repair_candidate_request"]
+    },
+    {
+      "outcome": "HYPERDESCENT_QUARANTINE",
+      "arises_when_any": ["boundary gap", "identity collapse", "global truth reification"],
+      "allowed_projection": ["quarantine_notice", "boundary_recheck_request"]
+    }
+  ],
+  "hyperdescent_witness_surface": {
+    "name": "hyperdescent_witness",
+    "required_fields": ["cycle_id", "kernel_state", "refinement_levels_used", "higher_coherence_checks_run", "coherence_debt", "hyperdescent_outcome", "non_reification_boundary", "allowed_projection"],
+    "allowed_projection": ["hyperdescent_candidate_receipt", "coherence_debt_notice", "reobserve_request", "hold_notice", "repair_candidate_request", "quarantine_notice"],
+    "forbidden_projection": ["truth_commit", "execution_commit", "memory_overwrite_commit", "clinical_commit", "theorem_commit", "global_truth_object_commit", "completed_os_identity_commit", "silent_pass_commit"]
+  },
+  "integration_points": [
+    "specs/kuuos_descent_os_bridge_v0_1.json",
+    "specs/kuuos_cech_obstruction_os_bridge_v0_1.json",
+    "specs/kuuos_sheaf_os_gluing_bridge_v0_1.json",
+    "specs/kuuos_gauge_os_transport_bridge_v0_1.json",
+    "specs/kuuos_indranet_os_dependency_bridge_v0_1.json",
+    "specs/kuuos_dependent_origination_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "scripts/validate_kuuos_descent_os_bridge_v0_1.py"
+  ],
+  "required_invariants": [
+    "hyperdescent yields candidate witness only",
+    "refinement instability opens HOLD or REOBSERVE",
+    "higher coherence failure opens HOLD or QUARANTINE",
+    "coherence debt remains visible",
+    "candidate stability is not truth authority",
+    "global candidate is not completed OS identity",
+    "future runtime kernel must preserve higher coherence and non-reification boundaries"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "indranet_local_net_required": true,
+    "gauge_transport_required": true,
+    "sheaf_gluing_required": true,
+    "cech_obstruction_required": true,
+    "descent_required": true,
+    "hyperdescent_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
