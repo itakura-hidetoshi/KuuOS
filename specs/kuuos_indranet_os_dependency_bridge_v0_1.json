@@ -1,0 +1,215 @@
+{
+  "bridge_id": "kuuos_indranet_os_dependency_bridge_v0_1",
+  "version": "v0.1",
+  "status": "INDRANET_OS_DEPENDENCY_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Lift dependent origination in the KuuOS OS layer from isolated dependency edges into an IndraNet-style local dependency net with overlaps, gluing checks, blocker propagation, and non-collapse boundary preservation.",
+  "attached_dependent_origination_bridge": "kuuos_dependent_origination_os_bridge_v0_1",
+  "attached_dependent_origination_spec": "specs/kuuos_dependent_origination_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "indranet_principle": {
+    "statement": "Each runtime condition reflects and constrains the others through local dependency overlaps; no condition, edge, state, or audit receipt is self-standing.",
+    "runtime_formula": "local_state_i = glue(local_conditions_i, overlaps_ij, blocker_flow_i, boundary_gap_i)",
+    "non_reification_rule": "The IndraNet dependency net is an evidence structure and must not become a graph ontology, truth authority, or execution authority."
+  },
+  "local_dependency_nodes": [
+    {
+      "node_id": "repo_node",
+      "surface": "repository_condition",
+      "observables": ["required_files", "spec_presence", "script_presence"],
+      "may_open": ["boot", "load_registry"],
+      "may_block": ["boot", "schedule_modules"]
+    },
+    {
+      "node_id": "policy_node",
+      "surface": "policy_condition",
+      "observables": ["fail_closed", "bounded_cycle", "non_authority", "no_external_api"],
+      "may_open": ["boot", "decide", "audit"],
+      "may_block": ["decide", "audit"]
+    },
+    {
+      "node_id": "module_node",
+      "surface": "module_condition",
+      "observables": ["scheduled_modules", "required_module_results", "optional_module_results"],
+      "may_open": ["run_modules", "decide"],
+      "may_block": ["decide"]
+    },
+    {
+      "node_id": "lineage_node",
+      "surface": "audit_condition",
+      "observables": ["state_hash", "event_hash", "previous_event_hash"],
+      "may_open": ["checkpoint_state", "audit"],
+      "may_block": ["audit"]
+    },
+    {
+      "node_id": "boundary_node",
+      "surface": "boundary_condition",
+      "observables": ["two_truths_gap", "non_authority_boundary", "blocked_promotions"],
+      "may_open": ["hold_notice", "repair_candidate_request"],
+      "may_block": ["truth_commit", "execution_commit", "memory_overwrite_commit"]
+    }
+  ],
+  "overlap_relations": [
+    {
+      "overlap_id": "repo_policy_overlap",
+      "nodes": ["repo_node", "policy_node"],
+      "shared_observable": "boot_admissibility",
+      "gluing_rule": "boot opens only when repository presence and policy boundary both hold",
+      "failure_effect": "HOLD"
+    },
+    {
+      "overlap_id": "policy_module_overlap",
+      "nodes": ["policy_node", "module_node"],
+      "shared_observable": "bounded_module_admissibility",
+      "gluing_rule": "module result can enter decide only under fail-closed non-authority policy",
+      "failure_effect": "HOLD"
+    },
+    {
+      "overlap_id": "module_lineage_overlap",
+      "nodes": ["module_node", "lineage_node"],
+      "shared_observable": "evidence_receipt_continuity",
+      "gluing_rule": "module evidence must be checkpointed or audited before release-facing projection",
+      "failure_effect": "HOLD"
+    },
+    {
+      "overlap_id": "lineage_boundary_overlap",
+      "nodes": ["lineage_node", "boundary_node"],
+      "shared_observable": "non_authoritative_receipt",
+      "gluing_rule": "audit lineage records support but cannot become authority",
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "overlap_id": "boundary_repo_overlap",
+      "nodes": ["boundary_node", "repo_node"],
+      "shared_observable": "bootstrap_identity_noncollapse",
+      "gluing_rule": "repository bootstrap identity must not collapse into completed OS self-entity",
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "gluing_checks": [
+    {
+      "check_id": "all_required_nodes_present",
+      "requires": ["repo_node", "policy_node", "module_node", "lineage_node", "boundary_node"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "overlap_coverage_nonempty",
+      "requires": ["repo_policy_overlap", "policy_module_overlap", "module_lineage_overlap", "lineage_boundary_overlap"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "no_authority_collapse_on_overlap",
+      "forbids": ["truth_commit", "execution_commit", "memory_overwrite_commit", "clinical_commit", "theorem_commit"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "check_id": "hold_is_globalizable",
+      "requires": ["failed_conditions", "dependency_edges_used", "blockers"],
+      "failure_effect": "HOLD"
+    }
+  ],
+  "blocker_propagation": {
+    "blocker_classes": [
+      "missing_repository_support",
+      "policy_boundary_mismatch",
+      "module_evidence_failure",
+      "lineage_break",
+      "two_truths_gap_collapse"
+    ],
+    "propagation_rules": [
+      {
+        "from": "repo_node",
+        "to": ["policy_node", "module_node"],
+        "when": "missing_repository_support",
+        "result": "HOLD"
+      },
+      {
+        "from": "policy_node",
+        "to": ["module_node", "lineage_node", "boundary_node"],
+        "when": "policy_boundary_mismatch",
+        "result": "HOLD"
+      },
+      {
+        "from": "module_node",
+        "to": ["lineage_node", "boundary_node"],
+        "when": "module_evidence_failure",
+        "result": "HOLD"
+      },
+      {
+        "from": "lineage_node",
+        "to": ["boundary_node"],
+        "when": "lineage_break",
+        "result": "HOLD"
+      },
+      {
+        "from": "boundary_node",
+        "to": ["repo_node", "policy_node", "module_node", "lineage_node"],
+        "when": "two_truths_gap_collapse",
+        "result": "QUARANTINE"
+      }
+    ]
+  },
+  "indranet_witness_surface": {
+    "name": "indranet_dependency_witness",
+    "required_fields": [
+      "cycle_id",
+      "kernel_state",
+      "local_nodes_used",
+      "overlaps_used",
+      "gluing_checks_passed",
+      "blocker_propagation_trace",
+      "non_collapse_boundary",
+      "allowed_projection"
+    ],
+    "allowed_projection": [
+      "evidence_receipt",
+      "dependency_gap_notice",
+      "local_overlap_recheck_request",
+      "hold_notice",
+      "repair_candidate_request",
+      "quarantine_notice"
+    ],
+    "forbidden_projection": [
+      "truth_commit",
+      "execution_commit",
+      "memory_overwrite_commit",
+      "clinical_commit",
+      "theorem_commit",
+      "graph_ontology_commit"
+    ]
+  },
+  "integration_points": [
+    "specs/kuuos_dependent_origination_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "scripts/validate_kuuos_dependent_origination_os_bridge_v0_1.py"
+  ],
+  "required_invariants": [
+    "dependent origination is represented as local net structure, not isolated self-existing edges",
+    "overlaps must preserve the two-truths gap",
+    "gluing failure opens HOLD or QUARANTINE rather than silent continuation",
+    "blocker propagation is explicit and auditable",
+    "IndraNet witness remains candidate-only evidence",
+    "the dependency net must not become graph ontology or authority",
+    "future gauge transport must preserve non-collapse and local overlap semantics"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "indranet_local_net_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
