@@ -15,6 +15,7 @@ CHECK_MODULES = [
     "scripts.check_kuuos_example_runner_import_v0_1",
     "scripts.check_kuuos_state_io_example_v0_1",
     "scripts.check_kuuos_qi_process_tensor_example_v0_1",
+    "scripts.check_kuuos_runtime_daemon_example_v0_1",
 ]
 
 TEST_MODULES = [
@@ -23,6 +24,7 @@ TEST_MODULES = [
     "tests.test_kuuos_closed_loop_v0_1",
     "tests.test_kuuos_closed_loop_driver_v0_1",
     "tests.test_kuuos_state_io_runner_v0_1",
+    "tests.test_kuuos_runtime_daemon_v0_1",
 ]
 
 
