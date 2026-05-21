@@ -1,0 +1,145 @@
+{
+  "bridge_id": "kuuos_policy_barrier_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "POLICY_BARRIER_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Extend Variational Stability OS bridge with candidate-only policy evaluation, value witnesses, barrier witnesses, blocker debt, and non-authorizing policy outcomes.",
+  "attached_variational_stability_bridge": "kuuos_variational_stability_os_bridge_v0_1",
+  "attached_variational_stability_spec": "specs/kuuos_variational_stability_os_bridge_v0_1.json",
+  "attached_jet_stability_bridge": "kuuos_jet_stability_os_bridge_v0_1",
+  "attached_jet_stability_spec": "specs/kuuos_jet_stability_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "policy_principle": {
+    "statement": "KuuOS policy evaluation is candidate-only: value hints, descent hints, and barrier witnesses may rank or block local candidates but cannot authorize final commitment.",
+    "runtime_formula": "policy_candidate = variational_candidate + value_witness + barrier_witness + blocker_debt",
+    "non_reification_rule": "A policy witness is decision-support evidence only; it is not truth authority, final commitment authority, memory overwrite, theorem proof, clinical authority, or completed OS identity."
+  },
+  "policy_surfaces": [
+    {
+      "surface_id": "policy_candidate_surface",
+      "base_surface": "action_delta_surface",
+      "tracks": ["candidate_policy", "admissible_set_hint", "policy_score_hint"],
+      "allowed_projection": ["policy_candidate_receipt"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "surface_id": "value_witness_surface",
+      "base_surface": "descent_witness_surface",
+      "tracks": ["value_hint", "residual_hint", "descent_support"],
+      "allowed_projection": ["value_witness_receipt"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "surface_id": "barrier_witness_surface",
+      "base_surface": "barrier_guard_surface",
+      "tracks": ["boundary_margin", "blocker_hint", "noncollapse_guard"],
+      "allowed_projection": ["barrier_witness_receipt"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "policy_checks": [
+    {
+      "check_id": "POL_policy_candidate_visible",
+      "requires": ["policy_candidate_surface", "action_delta_surface"],
+      "must_preserve": ["candidate_only", "variational_stability_candidate_receipt"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "POL_value_witness_supported",
+      "requires": ["value_witness_surface", "descent_witness_surface"],
+      "must_preserve": ["audit_receipt_only", "state_checkpoint_only"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "POL_barrier_witness_noncollapse",
+      "requires": ["barrier_witness_surface", "barrier_guard_surface"],
+      "must_preserve": ["two_truths_gap", "no_truth_authority", "no_completed_os_identity"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "check_id": "POL_no_direct_commitment",
+      "forbids": ["policy_candidate_as_commitment", "value_hint_as_truth", "barrier_witness_as_world_identity"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "policy_debt_classes": [
+    {
+      "debt_id": "PD_policy_gap",
+      "meaning": "Candidate policy is missing, unsupported, or outside admissible hint set.",
+      "opens": ["hold_notice", "reobserve_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "PD_value_gap",
+      "meaning": "Value witness is missing or unsupported.",
+      "opens": ["policy_debt_notice", "hold_notice"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "PD_barrier_gap",
+      "meaning": "Barrier witness blocks candidate promotion or indicates boundary risk.",
+      "opens": ["quarantine_notice", "boundary_recheck_request"],
+      "result_state": "QUARANTINE"
+    }
+  ],
+  "policy_outcomes": [
+    {
+      "outcome": "POLICY_EVALUATION_CANDIDATE",
+      "requires": ["policy_candidate_visible", "value_witness_supported", "barrier_witness_preserved", "no_direct_commitment"],
+      "allowed_projection": ["policy_evaluation_candidate_receipt"],
+      "does_not_grant": ["truth authority", "final commitment authority", "memory overwrite authority", "theorem authority"]
+    },
+    {
+      "outcome": "POLICY_EVALUATION_HOLD",
+      "arises_when_any": ["policy gap", "value gap", "visible policy debt"],
+      "allowed_projection": ["policy_debt_notice", "hold_notice", "reobserve_request", "repair_candidate_request"]
+    },
+    {
+      "outcome": "POLICY_EVALUATION_QUARANTINE",
+      "arises_when_any": ["barrier gap", "direct commitment attempt", "authority collapse"],
+      "allowed_projection": ["quarantine_notice", "boundary_recheck_request"]
+    }
+  ],
+  "policy_witness_surface": {
+    "name": "policy_barrier_witness",
+    "required_fields": ["cycle_id", "kernel_state", "policy_surfaces_used", "policy_checks_run", "policy_debt", "policy_outcome", "barrier_witness", "allowed_projection"],
+    "allowed_projection": ["policy_evaluation_candidate_receipt", "policy_debt_notice", "reobserve_request", "hold_notice", "repair_candidate_request", "quarantine_notice"],
+    "forbidden_projection": ["truth_commit", "memory_overwrite_commit", "clinical_commit", "theorem_commit", "global_truth_object_commit", "completed_os_identity_commit", "world_identity_commit", "silent_pass_commit"]
+  },
+  "integration_points": [
+    "specs/kuuos_variational_stability_os_bridge_v0_1.json",
+    "specs/kuuos_jet_stability_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "scripts/validate_kuuos_variational_stability_os_bridge_v0_1_min.py"
+  ],
+  "required_invariants": [
+    "policy evaluation candidate remains candidate-only",
+    "value witness is not truth authority",
+    "policy candidate is not final commitment authority",
+    "barrier witness preserves two-truths gap",
+    "barrier gap opens QUARANTINE",
+    "future runtime kernel must preserve policy/value/barrier separation"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "jet_stability_required": true,
+    "variational_stability_required": true,
+    "policy_barrier_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
