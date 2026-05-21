@@ -1,0 +1,175 @@
+{
+  "bridge_id": "kuuos_qi_circulation_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "QI_CIRCULATION_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Connect the KuuOS autonomy bridge chain to Qi as candidate-only runtime circulation across flow, lineage, boundary, projection, and delivery surfaces.",
+  "attached_view_delivery_bridge": "kuuos_view_delivery_os_bridge_v0_1",
+  "attached_view_delivery_spec": "specs/kuuos_view_delivery_os_bridge_v0_1.json",
+  "attached_view_pack_bridge": "kuuos_view_pack_os_bridge_v0_1",
+  "attached_view_pack_spec": "specs/kuuos_view_pack_os_bridge_v0_1.json",
+  "attached_output_receipt_lineage_bridge": "kuuos_output_receipt_lineage_os_bridge_v0_1",
+  "attached_output_receipt_lineage_spec": "specs/kuuos_output_receipt_lineage_os_bridge_v0_1.json",
+  "attached_policy_barrier_bridge": "kuuos_policy_barrier_os_bridge_v0_1",
+  "attached_policy_barrier_spec": "specs/kuuos_policy_barrier_os_bridge_v0_1.json",
+  "attached_differential_cohesive_bridge": "kuuos_differential_cohesive_os_bridge_v0_1",
+  "attached_differential_cohesive_spec": "specs/kuuos_differential_cohesive_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "qi_principle": {
+    "statement": "Qi in KuuOS is modeled as candidate-only circulation of runtime variation, lineage evidence, boundary guards, projection metadata, and delivery receipts without reifying Qi as a substance or authority.",
+    "runtime_formula": "qi_circulation = runtime_flow + lineage_flow + boundary_guard_flow + projection_flow + delivery_flow + qi_debt",
+    "non_reification_rule": "A Qi circulation witness is relational flow metadata only; it is not truth authority, execution authority, final commitment authority, memory overwrite, theorem proof, clinical authority, or completed OS identity."
+  },
+  "qi_channels": [
+    {
+      "channel_id": "qi_runtime_flow_channel",
+      "base_surface": "runtime_tangent_surface",
+      "tracks": ["runtime_variation", "policy_candidate_receipt", "value_witness_receipt"],
+      "allowed_projection": ["qi_runtime_flow_notice"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "channel_id": "qi_lineage_flow_channel",
+      "base_surface": "receipt_hash_surface",
+      "tracks": ["receipt_hash", "support_refs", "registry_key"],
+      "allowed_projection": ["qi_lineage_flow_notice"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "channel_id": "qi_boundary_guard_channel",
+      "base_surface": "barrier_witness_surface",
+      "tracks": ["two_truths_gap", "noncollapse_guard", "quarantine_notice"],
+      "allowed_projection": ["qi_boundary_guard_notice"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "channel_id": "qi_projection_delivery_channel",
+      "base_surface": "view_delivery_witness",
+      "tracks": ["view_pack_receipt", "channel_scope", "acknowledgment_marker"],
+      "allowed_projection": ["qi_projection_delivery_notice"],
+      "failure_effect": "HOLD"
+    }
+  ],
+  "qi_circulation_checks": [
+    {
+      "check_id": "QI_runtime_flow_visible",
+      "requires": ["qi_runtime_flow_channel", "policy_candidate_receipt"],
+      "must_preserve": ["candidate_only", "no_execution_authority"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "QI_lineage_flow_visible",
+      "requires": ["qi_lineage_flow_channel", "receipt_hash"],
+      "must_preserve": ["audit_evidence_only", "no_truth_authority"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "QI_boundary_guard_noncollapse",
+      "requires": ["qi_boundary_guard_channel", "two_truths_gap"],
+      "must_preserve": ["no_truth_authority", "no_memory_overwrite_authority", "no_completed_os_identity"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "check_id": "QI_delivery_nonreified",
+      "requires": ["qi_projection_delivery_channel", "view_delivery_receipt"],
+      "must_preserve": ["communication_metadata_only", "no_final_commitment_authority"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "QI_no_qi_reification",
+      "forbids": ["qi_as_substance", "qi_as_truth", "qi_as_final_commitment", "qi_as_world_identity", "silent_qi_overwrite"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "qi_debt_classes": [
+    {
+      "debt_id": "QID_runtime_stagnation",
+      "meaning": "Runtime flow lacks visible candidate variation or supported policy/value witness.",
+      "opens": ["qi_debt_notice", "hold_notice", "reobserve_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "QID_lineage_stagnation",
+      "meaning": "Lineage flow lacks receipt hash, support reference, or registry key.",
+      "opens": ["qi_debt_notice", "lineage_recheck_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "QID_boundary_block",
+      "meaning": "Boundary guard detects possible authority collapse, identity collapse, or overwrite risk.",
+      "opens": ["quarantine_notice", "boundary_recheck_request"],
+      "result_state": "QUARANTINE"
+    },
+    {
+      "debt_id": "QID_projection_gap",
+      "meaning": "Projection or delivery flow lacks channel scope, nonfinal marker, or acknowledgment marker.",
+      "opens": ["qi_debt_notice", "delivery_debt_notice"],
+      "result_state": "HOLD"
+    }
+  ],
+  "qi_outcomes": [
+    {
+      "outcome": "QI_CIRCULATION_READY",
+      "requires": ["runtime_flow_visible", "lineage_flow_visible", "boundary_guard_noncollapse", "delivery_nonreified", "no_qi_reification"],
+      "allowed_projection": ["qi_circulation_receipt"],
+      "does_not_grant": ["truth authority", "execution authority", "final commitment authority", "memory overwrite authority", "theorem authority"]
+    },
+    {
+      "outcome": "QI_CIRCULATION_HOLD",
+      "arises_when_any": ["runtime stagnation", "lineage stagnation", "projection gap", "visible qi debt"],
+      "allowed_projection": ["qi_debt_notice", "hold_notice", "reobserve_request", "lineage_recheck_request"]
+    },
+    {
+      "outcome": "QI_CIRCULATION_QUARANTINE",
+      "arises_when_any": ["boundary block", "qi reification", "identity collapse", "overwrite risk"],
+      "allowed_projection": ["quarantine_notice", "boundary_recheck_request"]
+    }
+  ],
+  "qi_witness_surface": {
+    "name": "qi_circulation_witness",
+    "required_fields": ["cycle_id", "kernel_state", "qi_channels_used", "qi_circulation_checks_run", "qi_debt", "qi_outcome", "runtime_flow", "lineage_flow", "boundary_guard", "projection_delivery_flow", "allowed_projection"],
+    "allowed_projection": ["qi_circulation_receipt", "qi_debt_notice", "hold_notice", "reobserve_request", "lineage_recheck_request", "delivery_debt_notice", "quarantine_notice", "boundary_recheck_request"],
+    "forbidden_projection": ["truth_commit", "execution_commit", "memory_overwrite_commit", "clinical_commit", "theorem_commit", "global_truth_object_commit", "completed_os_identity_commit", "world_identity_commit", "silent_pass_commit"]
+  },
+  "integration_points": [
+    "specs/kuuos_view_delivery_os_bridge_v0_1.json",
+    "specs/kuuos_view_pack_os_bridge_v0_1.json",
+    "specs/kuuos_output_receipt_lineage_os_bridge_v0_1.json",
+    "specs/kuuos_policy_barrier_os_bridge_v0_1.json",
+    "specs/kuuos_differential_cohesive_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "scripts/validate_kuuos_view_delivery_os_bridge_v0_1_min.py"
+  ],
+  "required_invariants": [
+    "qi circulation remains candidate-only relational flow",
+    "qi runtime flow is not execution authority",
+    "qi lineage flow is not truth authority",
+    "qi boundary guard preserves two-truths gap",
+    "qi projection delivery is not final commitment authority",
+    "qi is not reified as substance, world identity, or completed OS identity"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "view_delivery_required": true,
+    "output_receipt_lineage_required": true,
+    "policy_barrier_required": true,
+    "differential_cohesion_required": true,
+    "qi_circulation_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
