@@ -1,0 +1,184 @@
+{
+  "bridge_id": "kuuos_stack_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "STACK_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Extend Hyperdescent OS bridge into a stack-like runtime surface where local candidates, equivalence witnesses, refinement stability, and non-identity boundaries are tracked without granting truth or execution authority.",
+  "attached_hyperdescent_bridge": "kuuos_hyperdescent_os_bridge_v0_1",
+  "attached_hyperdescent_spec": "specs/kuuos_hyperdescent_os_bridge_v0_1.json",
+  "attached_descent_bridge": "kuuos_descent_os_bridge_v0_1",
+  "attached_descent_spec": "specs/kuuos_descent_os_bridge_v0_1.json",
+  "attached_cech_obstruction_bridge": "kuuos_cech_obstruction_os_bridge_v0_1",
+  "attached_cech_obstruction_spec": "specs/kuuos_cech_obstruction_os_bridge_v0_1.json",
+  "attached_sheaf_bridge": "kuuos_sheaf_os_gluing_bridge_v0_1",
+  "attached_sheaf_spec": "specs/kuuos_sheaf_os_gluing_bridge_v0_1.json",
+  "attached_gauge_bridge": "kuuos_gauge_os_transport_bridge_v0_1",
+  "attached_gauge_spec": "specs/kuuos_gauge_os_transport_bridge_v0_1.json",
+  "attached_indranet_bridge": "kuuos_indranet_os_dependency_bridge_v0_1",
+  "attached_indranet_spec": "specs/kuuos_indranet_os_dependency_bridge_v0_1.json",
+  "attached_dependent_origination_bridge": "kuuos_dependent_origination_os_bridge_v0_1",
+  "attached_dependent_origination_spec": "specs/kuuos_dependent_origination_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "stack_principle": {
+    "statement": "A KuuOS runtime candidate is not a single global object but a stack-like family of local candidates and compatibility witnesses over refinements.",
+    "runtime_formula": "stack_candidate = {local_candidate_i, equivalence_witness_ij, higher_coherence, boundary_gap}",
+    "non_reification_rule": "Stack equivalence is not identity, and a stack candidate is not truth authority, execution authority, memory overwrite, theorem proof, or completed OS identity."
+  },
+  "runtime_fibers": [
+    {
+      "fiber_id": "F_core_runtime_candidates",
+      "base": "D_core_runtime",
+      "objects": ["core_runtime_candidate_witness", "hyperdescent_candidate_receipt"],
+      "allowed_projection": ["stack_candidate_receipt"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "fiber_id": "F_evidence_lineage_candidates",
+      "base": "D_evidence_lineage",
+      "objects": ["evidence_lineage_candidate_witness", "lineage_notice"],
+      "allowed_projection": ["lineage_stack_receipt"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "fiber_id": "F_policy_boundary_candidates",
+      "base": "D_policy_boundary",
+      "objects": ["policy_boundary_candidate_witness", "boundary_recheck_request"],
+      "allowed_projection": ["boundary_stack_receipt"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "equivalence_witnesses": [
+    {
+      "witness_id": "EQ_core_refinement_equivalence",
+      "between": ["D_core_runtime", "HYPERDESCENT_CANDIDATE"],
+      "must_preserve": ["candidate_only", "two_truths_gap", "obstruction_status_visible"],
+      "does_not_mean": ["identity", "truth", "execution authority"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "witness_id": "EQ_lineage_receipt_equivalence",
+      "between": ["D_evidence_lineage", "gauge_transport_witness"],
+      "must_preserve": ["audit_receipt_only", "state_checkpoint_only"],
+      "does_not_mean": ["external audit acceptance", "memory overwrite"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "witness_id": "EQ_boundary_noncollapse_equivalence",
+      "between": ["D_policy_boundary", "two_truths_os_gap"],
+      "must_preserve": ["no_truth_authority", "no_execution_authority", "no_completed_os_identity"],
+      "does_not_mean": ["truth authority", "world identity"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "stack_coherence_checks": [
+    {
+      "check_id": "SC_fibers_present",
+      "requires": ["F_core_runtime_candidates", "F_evidence_lineage_candidates", "F_policy_boundary_candidates"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "SC_equivalence_witnesses_present",
+      "requires": ["EQ_core_refinement_equivalence", "EQ_lineage_receipt_equivalence", "EQ_boundary_noncollapse_equivalence"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "SC_equivalence_not_identity",
+      "forbids": ["completed_os_identity_commit", "world_identity_commit", "global_truth_object_commit"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "check_id": "SC_boundary_preserved_across_fibers",
+      "requires": ["two_truths_gap", "candidate_only", "hyperdescent_required"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "stack_debt_classes": [
+    {
+      "debt_id": "SD_missing_fiber",
+      "meaning": "A required runtime fiber is absent.",
+      "opens": ["hold_notice", "reobserve_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "SD_missing_equivalence_witness",
+      "meaning": "Local candidates cannot be related across refinements.",
+      "opens": ["coherence_debt_notice", "repair_candidate_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "SD_identity_collapse",
+      "meaning": "Equivalence is being treated as identity or authority.",
+      "opens": ["quarantine_notice", "boundary_recheck_request"],
+      "result_state": "QUARANTINE"
+    }
+  ],
+  "stack_outcomes": [
+    {
+      "outcome": "STACK_CANDIDATE",
+      "requires": ["fibers_present", "equivalence_witnesses_present", "boundary_preserved", "equivalence_not_identity"],
+      "allowed_projection": ["stack_candidate_receipt"],
+      "does_not_grant": ["truth authority", "execution authority", "memory overwrite authority", "theorem authority"]
+    },
+    {
+      "outcome": "STACK_HOLD",
+      "arises_when_any": ["missing fiber", "missing equivalence witness", "coherence debt visible"],
+      "allowed_projection": ["coherence_debt_notice", "hold_notice", "repair_candidate_request", "reobserve_request"]
+    },
+    {
+      "outcome": "STACK_QUARANTINE",
+      "arises_when_any": ["identity collapse", "authority collapse", "global truth reification"],
+      "allowed_projection": ["quarantine_notice", "boundary_recheck_request"]
+    }
+  ],
+  "stack_witness_surface": {
+    "name": "stack_witness",
+    "required_fields": ["cycle_id", "kernel_state", "runtime_fibers_used", "equivalence_witnesses_used", "stack_coherence_checks_run", "stack_debt", "stack_outcome", "non_identity_boundary", "allowed_projection"],
+    "allowed_projection": ["stack_candidate_receipt", "coherence_debt_notice", "reobserve_request", "hold_notice", "repair_candidate_request", "quarantine_notice"],
+    "forbidden_projection": ["truth_commit", "execution_commit", "memory_overwrite_commit", "clinical_commit", "theorem_commit", "global_truth_object_commit", "completed_os_identity_commit", "world_identity_commit", "silent_pass_commit"]
+  },
+  "integration_points": [
+    "specs/kuuos_hyperdescent_os_bridge_v0_1.json",
+    "specs/kuuos_descent_os_bridge_v0_1.json",
+    "specs/kuuos_cech_obstruction_os_bridge_v0_1.json",
+    "specs/kuuos_sheaf_os_gluing_bridge_v0_1.json",
+    "specs/kuuos_gauge_os_transport_bridge_v0_1.json",
+    "specs/kuuos_indranet_os_dependency_bridge_v0_1.json",
+    "specs/kuuos_dependent_origination_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "scripts/validate_kuuos_hyperdescent_os_bridge_v0_1.py"
+  ],
+  "required_invariants": [
+    "stack candidate remains candidate-only",
+    "equivalence witness is not identity",
+    "missing fiber opens HOLD",
+    "identity collapse opens QUARANTINE",
+    "stack witness preserves two-truths gap and dependent origination",
+    "future runtime kernel must keep stack outcome separate from execution authority"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "indranet_local_net_required": true,
+    "gauge_transport_required": true,
+    "sheaf_gluing_required": true,
+    "cech_obstruction_required": true,
+    "descent_required": true,
+    "hyperdescent_required": true,
+    "stack_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
