@@ -1,0 +1,121 @@
+{
+  "bridge_id": "kuuos_two_truths_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "TWO_TRUTHS_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Make the two-truths structure explicit in the KuuOS OS bootstrap layer by separating conventional runtime operation from ultimate non-authority boundary conditions.",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "attached_bootstrap_host": "scripts/run_kuuos_core_autonomy_v0_1.py",
+  "two_truths_mapping": {
+    "conventional_truth_surface": {
+      "description": "The runnable, inspectable, auditable local OS surface.",
+      "objects": [
+        "boot",
+        "load_registry",
+        "schedule_modules",
+        "run_modules",
+        "decide",
+        "checkpoint_state",
+        "audit",
+        "module_registry",
+        "state_schema",
+        "audit_schema",
+        "kernel_states"
+      ],
+      "allowed_claims": [
+        "a module was scheduled",
+        "a validation returned PASS or HOLD",
+        "a state checkpoint was written",
+        "an audit receipt was emitted",
+        "a hash-chain relation was recorded",
+        "the local bootstrap host completed a bounded cycle"
+      ]
+    },
+    "ultimate_truth_boundary": {
+      "description": "The non-reifying boundary that prevents runtime outputs from becoming self-authorizing truth or action authority.",
+      "non_authority_clauses": [
+        "validation is not truth by itself",
+        "audit receipt is not external audit acceptance",
+        "kernel state is not ultimate truth",
+        "module PASS is not execution authority",
+        "state checkpoint is not semantic memory overwrite",
+        "scheduler selection is not action permission",
+        "local autonomy is not unrestricted agency"
+      ],
+      "forbidden_collapses": [
+        "PASS -> truth",
+        "audit -> authority",
+        "state -> memory sovereignty",
+        "scheduler -> execution license",
+        "module output -> direct commitment",
+        "bootstrap host -> completed OS identity"
+      ]
+    }
+  },
+  "gap_operator": {
+    "name": "two_truths_os_gap",
+    "role": "Maintain a non-collapse gap between conventional runtime success and ultimate authority claims.",
+    "input_surfaces": [
+      "phase_results",
+      "module_results",
+      "kernel_state",
+      "state_hash",
+      "event_hash"
+    ],
+    "blocked_promotions": [
+      "runtime_pass_to_truth_authority",
+      "audit_receipt_to_external_acceptance",
+      "checkpoint_to_memory_overwrite",
+      "module_pass_to_execution_authority",
+      "local_supervision_to_clinical_authority",
+      "kernel_state_to_theorem_authority"
+    ],
+    "allowed_projections": [
+      "evidence_receipt",
+      "support_recheck_request",
+      "state_checkpoint_notice",
+      "hold_notice",
+      "repair_candidate_request",
+      "quarantine_notice"
+    ]
+  },
+  "os_design_consequence": {
+    "kernel_role": "boundary operator rather than sovereign authority",
+    "scheduler_role": "conditioned placement rather than command sovereignty",
+    "state_role": "checkpoint rather than truth-bearing self",
+    "audit_role": "receipt rather than proof",
+    "hold_role": "middle-way safety state rather than mere failure",
+    "repair_role": "candidate-only continuation rather than direct correction"
+  },
+  "required_invariants": [
+    "conventional runtime remains useful and inspectable",
+    "ultimate boundary prevents self-authorizing collapse",
+    "runtime success and authority claims remain separated",
+    "state checkpoint cannot overwrite semantic memory",
+    "audit receipt cannot substitute for external acceptance",
+    "module pass cannot authorize action",
+    "HOLD is a valid safety-preserving state",
+    "future kernel implementations must preserve this two-truths gap"
+  ],
+  "integration_points": [
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "specs/kuuos_core_autonomy_contract_v0_1.json",
+    "scripts/run_kuuos_core_autonomy_v0_1.py",
+    "scripts/validate_kuuos_core_autonomy_contract_v0_1.py"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "two_truths_gap_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
