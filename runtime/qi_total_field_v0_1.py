@@ -4,7 +4,7 @@
 Unifies multiple Qi inputs into the OS-cycle state consumed by Qi Runtime
 Binding / Qi Cycle Runner.
 
-This is not a taxonomy layer.  It actively normalizes physical/process/runtime/
+This is not a taxonomy layer. It actively normalizes physical/process/runtime/
 lineage/boundary/delivery Qi evidence into candidate-flow inputs, then calls the
 Qi cycle runner to determine the next OS queue.
 """
@@ -17,8 +17,10 @@ from typing import Any, Mapping
 
 try:
     from runtime.qi_cycle_runner_v0_1 import QiCycleDecision, run_qi_cycle
+    from runtime.qi_process_tensor_v0_1 import enrich_state_with_qi_process_tensor
 except ModuleNotFoundError:  # direct script execution from runtime/
     from qi_cycle_runner_v0_1 import QiCycleDecision, run_qi_cycle
+    from qi_process_tensor_v0_1 import enrich_state_with_qi_process_tensor
 
 
 AUTHORITY_FALSE_FIELDS = [
@@ -74,6 +76,7 @@ def normalize_qi_total_field(raw: Mapping[str, Any]) -> dict[str, Any]:
     Physical and process Qi can support runtime/value/policy fields only when
     candidate/nonfinal markers and boundary visibility are present.
     """
+    raw = enrich_state_with_qi_process_tensor(raw)
     normalized: dict[str, Any] = {
         "cycle_id": raw.get("cycle_id", "unknown-cycle"),
         "kernel_state": raw.get("kernel_state", "candidate"),
@@ -135,6 +138,7 @@ def normalize_qi_total_field(raw: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def evaluate_qi_total_field(raw: Mapping[str, Any]) -> QiTotalFieldResult:
+    raw = enrich_state_with_qi_process_tensor(raw)
     normalized = normalize_qi_total_field(raw)
     decision: QiCycleDecision = run_qi_cycle(normalized)
     support = {
@@ -149,6 +153,7 @@ def evaluate_qi_total_field(raw: Mapping[str, Any]) -> QiTotalFieldResult:
             "process_tensor_visible",
             "transition_continuity_visible",
             "memory_continuity_visible",
+            "nonmarkov_memory_visible",
         ]),
         "runtime_qi": _supporting_fields(raw, [
             "runtime_variation_visible",
@@ -165,7 +170,7 @@ def evaluate_qi_total_field(raw: Mapping[str, Any]) -> QiTotalFieldResult:
         cycle_id=str(normalized.get("cycle_id", "unknown-cycle")),
         normalized_qi_state=normalized,
         qi_cycle_decision=decision.to_dict(),
-        qi_total_reason="normalized_total_qi_field_then_ran_qi_cycle",
+        qi_total_reason="normalized_total_qi_field_with_process_tensor_then_ran_qi_cycle",
         source_support=support,
     )
 
