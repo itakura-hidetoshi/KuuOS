@@ -1,0 +1,41 @@
+name: KuuOS Dependent Origination OS Bridge Validation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'specs/kuuos_dependent_origination_os_bridge_v0_1.json'
+      - 'specs/kuuos_two_truths_os_bridge_v0_1.json'
+      - 'specs/kuuos_os_autonomy_kernel_v0_1.json'
+      - 'scripts/validate_kuuos_dependent_origination_os_bridge_v0_1.py'
+      - '.github/workflows/kuuos_dependent_origination_os_bridge_validation.yml'
+  pull_request:
+    paths:
+      - 'specs/kuuos_dependent_origination_os_bridge_v0_1.json'
+      - 'specs/kuuos_two_truths_os_bridge_v0_1.json'
+      - 'specs/kuuos_os_autonomy_kernel_v0_1.json'
+      - 'scripts/validate_kuuos_dependent_origination_os_bridge_v0_1.py'
+      - '.github/workflows/kuuos_dependent_origination_os_bridge_validation.yml'
+
+jobs:
+  validate-dependent-origination-os-bridge:
+    name: Validate KuuOS dependent origination OS bridge v0.1
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Show dependent origination boundary
+        run: |
+          python3 --version
+          echo "Validating dependent origination conditions, dependency edges, blockers, and non-authority projections."
+
+      - name: Validate dependent origination OS bridge
+        run: python3 scripts/validate_kuuos_dependent_origination_os_bridge_v0_1.py
