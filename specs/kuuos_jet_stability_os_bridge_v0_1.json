@@ -1,0 +1,156 @@
+{
+  "bridge_id": "kuuos_jet_stability_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "JET_STABILITY_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Extend Differential Cohesive OS bridge with higher-order local variation, jet witnesses, truncation debt, stability checks, and boundary-preserving candidate-only outcomes.",
+  "attached_differential_cohesive_bridge": "kuuos_differential_cohesive_os_bridge_v0_1",
+  "attached_differential_cohesive_spec": "specs/kuuos_differential_cohesive_os_bridge_v0_1.json",
+  "attached_cohesive_bridge": "kuuos_cohesive_os_bridge_v0_1",
+  "attached_cohesive_spec": "specs/kuuos_cohesive_os_bridge_v0_1.json",
+  "attached_infinity_topos_bridge": "kuuos_infinity_topos_os_bridge_v0_1",
+  "attached_infinity_topos_spec": "specs/kuuos_infinity_topos_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "jet_principle": {
+    "statement": "KuuOS runtime stability must be checked across finite-order local jets of runtime variation, audit deltas, and boundary derivatives; truncation must remain visible.",
+    "runtime_formula": "jet_candidate_k = differential_candidate + J1(runtime) + J2(audit) + Jk(boundary) + truncation_debt + stability_guard",
+    "non_reification_rule": "A jet witness is finite-order local evidence only; it is not truth authority, execution authority, memory overwrite, theorem proof, clinical authority, or completed OS identity."
+  },
+  "jet_surfaces": [
+    {
+      "surface_id": "J1_runtime_flow",
+      "base_surface": "runtime_tangent_surface",
+      "order": 1,
+      "tracks": ["first_order_runtime_delta", "flow_direction", "candidate_velocity"],
+      "allowed_projection": ["runtime_jet_receipt"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "surface_id": "J2_audit_lineage",
+      "base_surface": "audit_difference_surface",
+      "order": 2,
+      "tracks": ["audit_delta", "checkpoint_delta", "lineage_curvature_hint"],
+      "allowed_projection": ["audit_jet_receipt"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "surface_id": "Jk_boundary_guard",
+      "base_surface": "boundary_derivative_surface",
+      "order": "bounded_k",
+      "tracks": ["boundary_delta", "boundary_acceleration", "noncollapse_margin"],
+      "allowed_projection": ["boundary_jet_receipt"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "jet_stability_checks": [
+    {
+      "check_id": "JET_runtime_order1_visible",
+      "requires": ["J1_runtime_flow", "runtime_tangent_surface"],
+      "must_preserve": ["candidate_only", "runtime_tangent_receipt"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "JET_audit_order2_visible",
+      "requires": ["J2_audit_lineage", "audit_difference_surface"],
+      "must_preserve": ["audit_receipt_only", "state_checkpoint_only"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "JET_boundary_orderk_noncollapse",
+      "requires": ["Jk_boundary_guard", "boundary_derivative_surface"],
+      "must_preserve": ["two_truths_gap", "no_truth_authority", "no_execution_authority", "no_completed_os_identity"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "check_id": "JET_truncation_visible",
+      "requires": ["finite_order_declared", "truncation_debt_visible"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "JET_no_high_order_boundary_drift",
+      "forbids": ["unbounded_boundary_drift", "silent_truncation", "truth_commit_from_jet"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "jet_debt_classes": [
+    {
+      "debt_id": "JD_missing_jet_surface",
+      "meaning": "A required finite-order jet surface is missing.",
+      "opens": ["hold_notice", "reobserve_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "JD_truncation_gap",
+      "meaning": "Finite-order truncation is not visible or not bounded.",
+      "opens": ["jet_debt_notice", "hold_notice"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "JD_boundary_instability",
+      "meaning": "Higher-order boundary variation threatens non-collapse constraints.",
+      "opens": ["quarantine_notice", "boundary_recheck_request"],
+      "result_state": "QUARANTINE"
+    }
+  ],
+  "jet_outcomes": [
+    {
+      "outcome": "JET_STABLE_CANDIDATE",
+      "requires": ["jet_surfaces_present", "stability_checks_pass", "truncation_visible", "boundary_noncollapse_preserved"],
+      "allowed_projection": ["jet_stability_candidate_receipt"],
+      "does_not_grant": ["truth authority", "execution authority", "memory overwrite authority", "theorem authority"]
+    },
+    {
+      "outcome": "JET_STABILITY_HOLD",
+      "arises_when_any": ["missing jet surface", "truncation gap", "runtime jet instability", "audit jet gap"],
+      "allowed_projection": ["jet_debt_notice", "hold_notice", "reobserve_request", "repair_candidate_request"]
+    },
+    {
+      "outcome": "JET_STABILITY_QUARANTINE",
+      "arises_when_any": ["boundary instability", "silent truncation", "authority drift"],
+      "allowed_projection": ["quarantine_notice", "boundary_recheck_request"]
+    }
+  ],
+  "jet_witness_surface": {
+    "name": "jet_stability_witness",
+    "required_fields": ["cycle_id", "kernel_state", "jet_surfaces_used", "jet_orders_declared", "jet_stability_checks_run", "jet_debt", "jet_outcome", "truncation_boundary", "allowed_projection"],
+    "allowed_projection": ["jet_stability_candidate_receipt", "jet_debt_notice", "reobserve_request", "hold_notice", "repair_candidate_request", "quarantine_notice"],
+    "forbidden_projection": ["truth_commit", "execution_commit", "memory_overwrite_commit", "clinical_commit", "theorem_commit", "global_truth_object_commit", "completed_os_identity_commit", "world_identity_commit", "silent_pass_commit"]
+  },
+  "integration_points": [
+    "specs/kuuos_differential_cohesive_os_bridge_v0_1.json",
+    "specs/kuuos_cohesive_os_bridge_v0_1.json",
+    "specs/kuuos_infinity_topos_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "scripts/validate_kuuos_differential_cohesive_os_bridge_v0_1_min.py"
+  ],
+  "required_invariants": [
+    "jet stability candidate remains candidate-only",
+    "finite-order jet witness is not theorem proof",
+    "truncation debt remains visible",
+    "higher-order boundary drift opens QUARANTINE",
+    "runtime jet evidence does not grant execution authority",
+    "future runtime kernel must preserve finite-order and non-collapse boundaries"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "cohesion_required": true,
+    "differential_cohesion_required": true,
+    "jet_stability_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
