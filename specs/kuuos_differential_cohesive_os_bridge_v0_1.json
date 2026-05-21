@@ -1,0 +1,148 @@
+{
+  "bridge_id": "kuuos_differential_cohesive_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "DIFFERENTIAL_COHESIVE_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Extend Cohesive OS bridge with differential runtime flow, infinitesimal variation witnesses, tangent stability checks, boundary derivative guards, and candidate-only differential cohesion outcomes.",
+  "attached_cohesive_bridge": "kuuos_cohesive_os_bridge_v0_1",
+  "attached_cohesive_spec": "specs/kuuos_cohesive_os_bridge_v0_1.json",
+  "attached_infinity_topos_bridge": "kuuos_infinity_topos_os_bridge_v0_1",
+  "attached_infinity_topos_spec": "specs/kuuos_infinity_topos_os_bridge_v0_1.json",
+  "attached_stack_bridge": "kuuos_stack_os_bridge_v0_1",
+  "attached_stack_spec": "specs/kuuos_stack_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "differential_principle": {
+    "statement": "KuuOS runtime cohesion must remain stable not only at states but under small candidate variations, tangent-like updates, and boundary-sensitive changes.",
+    "runtime_formula": "differential_candidate = cohesive_candidate + tangent_flow_witness + boundary_derivative_guard + variation_debt",
+    "non_reification_rule": "A differential witness is local evidence about variation and stability; it is not truth authority, execution authority, memory overwrite, theorem proof, clinical authority, or completed OS identity."
+  },
+  "differential_surfaces": [
+    {
+      "surface_id": "runtime_tangent_surface",
+      "base_modality": "shape_runtime_flow",
+      "tracks": ["runtime_variation", "cycle_delta", "flow_direction"],
+      "allowed_projection": ["runtime_tangent_receipt"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "surface_id": "audit_difference_surface",
+      "base_modality": "flat_audit_observable",
+      "tracks": ["state_hash_delta", "event_hash_delta", "checkpoint_delta"],
+      "allowed_projection": ["audit_difference_receipt"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "surface_id": "boundary_derivative_surface",
+      "base_modality": "sharp_boundary_constraint",
+      "tracks": ["authority_boundary_delta", "identity_boundary_delta", "two_truths_gap_delta"],
+      "allowed_projection": ["boundary_derivative_receipt"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "differential_checks": [
+    {
+      "check_id": "DIFF_runtime_variation_visible",
+      "requires": ["runtime_tangent_surface", "shape_runtime_flow"],
+      "must_preserve": ["candidate_only", "runtime_shape_receipt"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "DIFF_audit_difference_visible",
+      "requires": ["audit_difference_surface", "flat_audit_observable"],
+      "must_preserve": ["audit_receipt_only", "state_checkpoint_only"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "DIFF_boundary_derivative_noncollapse",
+      "requires": ["boundary_derivative_surface", "sharp_boundary_constraint"],
+      "must_preserve": ["two_truths_gap", "no_truth_authority", "no_execution_authority", "no_completed_os_identity"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "check_id": "DIFF_no_silent_boundary_drift",
+      "forbids": ["authority_boundary_drift_unseen", "identity_boundary_drift_unseen", "truth_commit_from_variation"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "variation_debt_classes": [
+    {
+      "debt_id": "VD_runtime_flow_gap",
+      "meaning": "Runtime variation is too unstable to summarize as a candidate tangent witness.",
+      "opens": ["hold_notice", "reobserve_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "VD_audit_delta_gap",
+      "meaning": "Audit or checkpoint differences are missing or inconsistent.",
+      "opens": ["hold_notice", "lineage_recheck_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "VD_boundary_drift_gap",
+      "meaning": "Boundary variation risks collapsing non-authority or non-identity constraints.",
+      "opens": ["quarantine_notice", "boundary_recheck_request"],
+      "result_state": "QUARANTINE"
+    }
+  ],
+  "differential_outcomes": [
+    {
+      "outcome": "DIFFERENTIAL_COHESIVE_CANDIDATE",
+      "requires": ["runtime_tangent_surface", "audit_difference_surface", "boundary_derivative_surface", "no_silent_boundary_drift"],
+      "allowed_projection": ["differential_cohesive_candidate_receipt"],
+      "does_not_grant": ["truth authority", "execution authority", "memory overwrite authority", "theorem authority"]
+    },
+    {
+      "outcome": "DIFFERENTIAL_COHESIVE_HOLD",
+      "arises_when_any": ["runtime flow gap", "audit delta gap", "visible variation debt"],
+      "allowed_projection": ["variation_debt_notice", "hold_notice", "reobserve_request", "repair_candidate_request"]
+    },
+    {
+      "outcome": "DIFFERENTIAL_COHESIVE_QUARANTINE",
+      "arises_when_any": ["boundary drift gap", "authority drift", "identity drift"],
+      "allowed_projection": ["quarantine_notice", "boundary_recheck_request"]
+    }
+  ],
+  "differential_witness_surface": {
+    "name": "differential_cohesive_witness",
+    "required_fields": ["cycle_id", "kernel_state", "differential_surfaces_used", "differential_checks_run", "variation_debt", "differential_outcome", "boundary_derivative_guard", "allowed_projection"],
+    "allowed_projection": ["differential_cohesive_candidate_receipt", "variation_debt_notice", "reobserve_request", "hold_notice", "repair_candidate_request", "quarantine_notice"],
+    "forbidden_projection": ["truth_commit", "execution_commit", "memory_overwrite_commit", "clinical_commit", "theorem_commit", "global_truth_object_commit", "completed_os_identity_commit", "world_identity_commit", "silent_pass_commit"]
+  },
+  "integration_points": [
+    "specs/kuuos_cohesive_os_bridge_v0_1.json",
+    "specs/kuuos_infinity_topos_os_bridge_v0_1.json",
+    "specs/kuuos_stack_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "scripts/validate_kuuos_cohesive_os_bridge_v0_1_min.py"
+  ],
+  "required_invariants": [
+    "differential cohesive candidate remains candidate-only",
+    "runtime tangent witness is not execution authority",
+    "audit difference witness is not external acceptance",
+    "boundary derivative guard preserves two-truths gap",
+    "silent boundary drift opens QUARANTINE",
+    "future runtime kernel must preserve variation visibility"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "infinity_topos_required": true,
+    "cohesion_required": true,
+    "differential_cohesion_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
