@@ -1,0 +1,20 @@
+name: KuuOS State IO Example Validation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'examples/qi_state_io_v0_1/raw_state.json'
+      - 'examples/qi_state_io_v0_1/evidence.json'
+      - 'scripts/check_kuuos_state_io_example_v0_1.py'
+      - '.github/workflows/kuuos_state_io_example_validation.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 scripts/check_kuuos_state_io_example_v0_1.py
