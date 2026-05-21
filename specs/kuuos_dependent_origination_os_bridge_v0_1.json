@@ -1,0 +1,195 @@
+{
+  "bridge_id": "kuuos_dependent_origination_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "DEPENDENT_ORIGINATION_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Connect the KuuOS two-truths OS bridge to dependent origination by making runtime states arise from explicit conditions, dependency edges, support relations, blockers, and auditable causes rather than from self-existing module authority.",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "dependent_origination_principle": {
+    "statement": "No kernel state, module result, audit event, or checkpoint exists by itself; each arises from conditions and remains candidate-level evidence.",
+    "runtime_formula": "state_t = f(conditions_t, module_support_t, blockers_t, audit_lineage_t, boundary_policy_t)",
+    "non_reification_rule": "Dependency explanation must not become truth authority, execution authority, or memory overwrite authority."
+  },
+  "condition_surfaces": [
+    {
+      "surface_id": "repository_condition",
+      "description": "Required files, specs, scripts, and workflows are present and readable.",
+      "feeds": ["boot", "load_registry"]
+    },
+    {
+      "surface_id": "policy_condition",
+      "description": "Fail-closed, bounded cycle, non-authority, and no external API policies are satisfied.",
+      "feeds": ["boot", "decide", "audit"]
+    },
+    {
+      "surface_id": "module_condition",
+      "description": "Scheduled modules exist, are required or optional, and return bounded PASS/HOLD evidence.",
+      "feeds": ["schedule_modules", "run_modules", "decide"]
+    },
+    {
+      "surface_id": "audit_condition",
+      "description": "Hash-chain continuity and receipt emission are available for runtime observation.",
+      "feeds": ["checkpoint_state", "audit"]
+    },
+    {
+      "surface_id": "boundary_condition",
+      "description": "Two-truths gap prevents runtime success from collapsing into ultimate authority claims.",
+      "feeds": ["decide", "audit", "hold_notice"]
+    }
+  ],
+  "dependency_edges": [
+    {
+      "edge_id": "repository_to_boot",
+      "from": "repository_condition",
+      "to": "boot",
+      "edge_kind": "support",
+      "failure_effect": "HOLD"
+    },
+    {
+      "edge_id": "policy_to_boot",
+      "from": "policy_condition",
+      "to": "boot",
+      "edge_kind": "guard",
+      "failure_effect": "HOLD"
+    },
+    {
+      "edge_id": "registry_to_schedule",
+      "from": "module_registry",
+      "to": "schedule_modules",
+      "edge_kind": "support",
+      "failure_effect": "HOLD"
+    },
+    {
+      "edge_id": "module_to_decide",
+      "from": "run_modules",
+      "to": "decide",
+      "edge_kind": "evidence",
+      "failure_effect": "HOLD"
+    },
+    {
+      "edge_id": "checkpoint_to_audit",
+      "from": "checkpoint_state",
+      "to": "audit",
+      "edge_kind": "lineage",
+      "failure_effect": "HOLD"
+    },
+    {
+      "edge_id": "two_truths_gap_to_decide",
+      "from": "two_truths_os_gap",
+      "to": "decide",
+      "edge_kind": "non_collapse_guard",
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "dependent_state_rules": [
+    {
+      "state": "PASS",
+      "requires": [
+        "repository_condition satisfied",
+        "policy_condition satisfied",
+        "required modules PASS",
+        "state checkpoint available",
+        "audit condition satisfied",
+        "two_truths_gap preserved"
+      ],
+      "does_not_grant": [
+        "truth authority",
+        "execution authority",
+        "clinical authority",
+        "memory overwrite authority"
+      ]
+    },
+    {
+      "state": "HOLD",
+      "arises_when_any": [
+        "required file missing",
+        "policy mismatch",
+        "required module HOLD",
+        "audit hash-chain broken",
+        "dependency support insufficient"
+      ],
+      "meaning": "Safety-preserving dependent state, not mere failure."
+    },
+    {
+      "state": "REPAIR_PENDING",
+      "arises_when": [
+        "HOLD has traceable dependency cause",
+        "repair can be proposed without direct commit",
+        "two_truths_gap remains preserved"
+      ],
+      "meaning": "Candidate-only repair path."
+    },
+    {
+      "state": "QUARANTINE",
+      "arises_when_any": [
+        "two_truths_gap collapse detected",
+        "authority boundary mismatch",
+        "state checkpoint attempts semantic memory overwrite",
+        "audit receipt is treated as external acceptance"
+      ],
+      "meaning": "Non-destructive isolation of unsafe interpretation."
+    }
+  ],
+  "causal_explanation_surface": {
+    "name": "dependent_origination_witness",
+    "required_fields": [
+      "cycle_id",
+      "kernel_state",
+      "supporting_conditions",
+      "failed_conditions",
+      "dependency_edges_used",
+      "blockers",
+      "non_authority_boundary",
+      "allowed_projection"
+    ],
+    "allowed_projection": [
+      "evidence_receipt",
+      "support_recheck_request",
+      "dependency_gap_notice",
+      "hold_notice",
+      "repair_candidate_request",
+      "quarantine_notice"
+    ],
+    "forbidden_projection": [
+      "truth_commit",
+      "execution_commit",
+      "memory_overwrite_commit",
+      "clinical_commit",
+      "theorem_commit"
+    ]
+  },
+  "integration_points": [
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "specs/kuuos_core_autonomy_contract_v0_1.json",
+    "scripts/validate_kuuos_two_truths_os_bridge_v0_1.py",
+    "scripts/run_kuuos_core_autonomy_v0_1.py"
+  ],
+  "required_invariants": [
+    "nothing in the OS runtime is self-arising",
+    "PASS and HOLD must be explainable through conditions and dependency edges",
+    "dependency explanation remains evidence, not truth authority",
+    "dependency failure opens HOLD or QUARANTINE rather than silent continuation",
+    "repair remains candidate-only",
+    "two-truths gap is a required condition for dependent runtime state",
+    "audit lineage records conditions but does not create authority"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
