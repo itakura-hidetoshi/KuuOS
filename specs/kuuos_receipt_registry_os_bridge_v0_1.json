@@ -1,0 +1,144 @@
+{
+  "bridge_id": "kuuos_receipt_registry_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "RECEIPT_REGISTRY_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Extend Output Receipt Lineage OS bridge with receipt registry entries, verification pointers, registry debt, append-only registration boundaries, and candidate-only registry outcomes.",
+  "attached_output_receipt_lineage_bridge": "kuuos_output_receipt_lineage_os_bridge_v0_1",
+  "attached_output_receipt_lineage_spec": "specs/kuuos_output_receipt_lineage_os_bridge_v0_1.json",
+  "attached_candidate_output_boundary_bridge": "kuuos_candidate_output_boundary_os_bridge_v0_1",
+  "attached_candidate_output_boundary_spec": "specs/kuuos_candidate_output_boundary_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "registry_principle": {
+    "statement": "Every output lineage receipt may enter a registry as a candidate evidence entry, but registry presence does not make the receipt true, final, or authoritative.",
+    "runtime_formula": "registry_entry = output_lineage_receipt + receipt_hash + support_refs + validation_refs + append_only_marker",
+    "non_reification_rule": "A registry entry is indexed evidence only; it is not truth authority, final commitment authority, memory overwrite, theorem proof, clinical authority, or completed OS identity."
+  },
+  "registry_surfaces": [
+    {
+      "surface_id": "registry_entry_surface",
+      "base_surface": "receipt_hash_surface",
+      "tracks": ["registry_key", "receipt_hash", "previous_receipt_hash"],
+      "allowed_projection": ["registry_entry_notice"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "surface_id": "verification_pointer_surface",
+      "base_surface": "support_reference_surface",
+      "tracks": ["validator_refs", "ci_refs", "support_refs"],
+      "allowed_projection": ["verification_pointer_notice"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "surface_id": "registry_append_boundary_surface",
+      "base_surface": "append_only_boundary_surface",
+      "tracks": ["append_only_marker", "registry_overwrite_blocker", "quarantine_marker"],
+      "allowed_projection": ["registry_append_boundary_notice"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "registry_checks": [
+    {
+      "check_id": "REG_entry_key_visible",
+      "requires": ["registry_entry_surface", "output_lineage_receipt"],
+      "must_preserve": ["candidate_only", "receipt_hash"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "REG_verification_pointers_visible",
+      "requires": ["verification_pointer_surface", "support_reference_notice"],
+      "must_preserve": ["validator_refs", "ci_refs"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "REG_append_only_nonoverwrite",
+      "requires": ["registry_append_boundary_surface", "append_only_boundary_notice"],
+      "must_preserve": ["two_truths_gap", "no_memory_overwrite_authority", "no_completed_os_identity"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "check_id": "REG_no_registry_reification",
+      "forbids": ["registry_entry_as_truth", "registry_presence_as_final_commitment", "validation_ref_as_world_identity", "silent_registry_overwrite"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "registry_debt_classes": [
+    {
+      "debt_id": "RD_missing_registry_key",
+      "meaning": "Receipt cannot be indexed because registry key or hash is missing.",
+      "opens": ["registry_debt_notice", "hold_notice"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "RD_missing_validation_ref",
+      "meaning": "Registry entry lacks validation or support pointers.",
+      "opens": ["registry_debt_notice", "reobserve_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "RD_registry_overwrite_risk",
+      "meaning": "Registry update risks replacing prior receipt evidence rather than appending.",
+      "opens": ["quarantine_notice", "registry_append_boundary_notice"],
+      "result_state": "QUARANTINE"
+    }
+  ],
+  "registry_outcomes": [
+    {
+      "outcome": "RECEIPT_REGISTRY_ENTRY_READY",
+      "requires": ["entry_key_visible", "verification_pointers_visible", "append_only_nonoverwrite", "no_registry_reification"],
+      "allowed_projection": ["receipt_registry_entry"],
+      "does_not_grant": ["truth authority", "final commitment authority", "memory overwrite authority", "theorem authority"]
+    },
+    {
+      "outcome": "RECEIPT_REGISTRY_HOLD",
+      "arises_when_any": ["missing registry key", "missing validation ref", "visible registry debt"],
+      "allowed_projection": ["registry_debt_notice", "hold_notice", "reobserve_request"]
+    },
+    {
+      "outcome": "RECEIPT_REGISTRY_QUARANTINE",
+      "arises_when_any": ["registry overwrite risk", "registry reification", "identity collapse"],
+      "allowed_projection": ["quarantine_notice", "registry_append_boundary_notice"]
+    }
+  ],
+  "registry_witness_surface": {
+    "name": "receipt_registry_witness",
+    "required_fields": ["cycle_id", "kernel_state", "registry_surfaces_used", "registry_checks_run", "registry_debt", "registry_outcome", "registry_key", "receipt_hash", "append_only_boundary", "allowed_projection"],
+    "allowed_projection": ["receipt_registry_entry", "registry_debt_notice", "hold_notice", "reobserve_request", "registry_append_boundary_notice", "quarantine_notice"],
+    "forbidden_projection": ["truth_commit", "memory_overwrite_commit", "clinical_commit", "theorem_commit", "global_truth_object_commit", "completed_os_identity_commit", "world_identity_commit", "silent_pass_commit"]
+  },
+  "integration_points": [
+    "specs/kuuos_output_receipt_lineage_os_bridge_v0_1.json",
+    "specs/kuuos_candidate_output_boundary_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "scripts/validate_kuuos_output_receipt_lineage_os_bridge_v0_1_min.py"
+  ],
+  "required_invariants": [
+    "receipt registry entry remains candidate-only evidence",
+    "registry presence is not truth authority",
+    "validation pointers are not theorem proof",
+    "append-only boundary blocks registry overwrite",
+    "registry overwrite risk opens QUARANTINE",
+    "future runtime kernel must keep registry entries separate from authority"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "output_receipt_lineage_required": true,
+    "receipt_registry_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
