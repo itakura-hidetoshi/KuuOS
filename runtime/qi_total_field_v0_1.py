@@ -17,10 +17,10 @@ from typing import Any, Mapping
 
 try:
     from runtime.qi_cycle_runner_v0_1 import QiCycleDecision, run_qi_cycle
-    from runtime.qi_process_tensor_v0_1 import enrich_state_with_qi_process_tensor
+    from runtime.qi_process_tensor_v0_1 import evaluate_qi_process_tensor
 except ModuleNotFoundError:  # direct script execution from runtime/
     from qi_cycle_runner_v0_1 import QiCycleDecision, run_qi_cycle
-    from qi_process_tensor_v0_1 import enrich_state_with_qi_process_tensor
+    from qi_process_tensor_v0_1 import evaluate_qi_process_tensor
 
 
 AUTHORITY_FALSE_FIELDS = [
@@ -49,6 +49,7 @@ class QiTotalFieldResult:
     qi_cycle_decision: dict[str, Any]
     qi_total_reason: str
     source_support: dict[str, list[str]]
+    qi_process_tensor_receipt: dict[str, Any]
     grants_execution_authority: bool = False
     grants_truth_authority: bool = False
     grants_final_commitment_authority: bool = False
@@ -69,6 +70,11 @@ def _supporting_fields(state: Mapping[str, Any], fields: list[str]) -> list[str]
     return [field for field in fields if _truthy(state, field)]
 
 
+def _enrich_with_process_tensor(raw: Mapping[str, Any]) -> tuple[dict[str, Any], dict[str, Any]]:
+    receipt = evaluate_qi_process_tensor(raw)
+    return receipt.enriched_state, receipt.to_dict()
+
+
 def normalize_qi_total_field(raw: Mapping[str, Any]) -> dict[str, Any]:
     """Normalize total Qi evidence into Qi Runtime Binding input state.
 
@@ -76,7 +82,7 @@ def normalize_qi_total_field(raw: Mapping[str, Any]) -> dict[str, Any]:
     Physical and process Qi can support runtime/value/policy fields only when
     candidate/nonfinal markers and boundary visibility are present.
     """
-    raw = enrich_state_with_qi_process_tensor(raw)
+    raw, _process_receipt = _enrich_with_process_tensor(raw)
     normalized: dict[str, Any] = {
         "cycle_id": raw.get("cycle_id", "unknown-cycle"),
         "kernel_state": raw.get("kernel_state", "candidate"),
@@ -138,7 +144,7 @@ def normalize_qi_total_field(raw: Mapping[str, Any]) -> dict[str, Any]:
 
 
 def evaluate_qi_total_field(raw: Mapping[str, Any]) -> QiTotalFieldResult:
-    raw = enrich_state_with_qi_process_tensor(raw)
+    raw, process_receipt = _enrich_with_process_tensor(raw)
     normalized = normalize_qi_total_field(raw)
     decision: QiCycleDecision = run_qi_cycle(normalized)
     support = {
@@ -172,6 +178,7 @@ def evaluate_qi_total_field(raw: Mapping[str, Any]) -> QiTotalFieldResult:
         qi_cycle_decision=decision.to_dict(),
         qi_total_reason="normalized_total_qi_field_with_process_tensor_then_ran_qi_cycle",
         source_support=support,
+        qi_process_tensor_receipt=process_receipt,
     )
 
 
