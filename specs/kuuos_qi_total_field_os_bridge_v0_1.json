@@ -1,0 +1,123 @@
+{
+  "bridge_id": "kuuos_qi_total_field_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "QI_TOTAL_FIELD_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Unify physical Qi, process Qi, runtime Qi, lineage Qi, boundary Qi, and delivery Qi into a single operational candidate-state field that feeds Qi Runtime Binding and Qi Cycle Runner.",
+  "attached_qi_runtime_binding_bridge": "kuuos_qi_runtime_binding_os_bridge_v0_1",
+  "attached_qi_runtime_binding_spec": "specs/kuuos_qi_runtime_binding_os_bridge_v0_1.json",
+  "attached_qi_circulation_bridge": "kuuos_qi_circulation_os_bridge_v0_1",
+  "attached_qi_circulation_spec": "specs/kuuos_qi_circulation_os_bridge_v0_1.json",
+  "attached_qi_meridian_bridge": "kuuos_qi_meridian_os_bridge_v0_1",
+  "attached_qi_meridian_spec": "specs/kuuos_qi_meridian_os_bridge_v0_1.json",
+  "attached_cycle_runner": "runtime/qi_cycle_runner_v0_1.py",
+  "attached_runtime_evaluator": "runtime/qi_runtime_binding_v0_1.py",
+  "total_field_principle": {
+    "statement": "Qi total field is not a category map. It is a state-normalization and coupling layer that turns physical, process, runtime, lineage, boundary, and delivery Qi evidence into OS-cycle inputs for Qi Runtime Binding.",
+    "runtime_formula": "qi_total_state = normalize(physical_qi, process_qi, runtime_qi, lineage_qi, boundary_qi, delivery_qi) -> qi_runtime_binding -> qi_cycle_runner",
+    "non_reification_rule": "Qi total field is relational operational evidence only; it is not substance, truth authority, execution authority, final commitment authority, memory overwrite authority, theorem proof, clinical authority, or completed OS identity."
+  },
+  "qi_sources": [
+    {
+      "source_id": "physical_qi_source",
+      "meaning": "Physical or biophysical Qi evidence as observable support for process continuity, thermodynamic activity, recovery, or path-weight visibility.",
+      "accepted_fields": ["physical_process_visible", "thermodynamic_activity_visible", "path_integral_weight_visible", "recovery_witness_visible", "nonmarkov_memory_visible"],
+      "feeds_runtime_inputs": ["runtime_variation_visible", "value_witness_receipt"],
+      "does_not_grant": ["clinical authority", "treatment authority", "truth authority"]
+    },
+    {
+      "source_id": "process_qi_source",
+      "meaning": "Process-level Qi evidence from transition continuity, memory continuity, and non-Markovian support.",
+      "accepted_fields": ["process_tensor_visible", "transition_continuity_visible", "memory_continuity_visible"],
+      "feeds_runtime_inputs": ["runtime_variation_visible", "policy_candidate_receipt"],
+      "does_not_grant": ["execution authority", "truth authority"]
+    },
+    {
+      "source_id": "runtime_qi_source",
+      "meaning": "OS runtime Qi evidence from candidate variation, policy, value, and barrier surfaces.",
+      "accepted_fields": ["runtime_variation_visible", "policy_candidate_receipt", "value_witness_receipt", "barrier_witness_receipt"],
+      "feeds_runtime_inputs": ["runtime_variation_visible", "policy_candidate_receipt", "value_witness_receipt", "barrier_witness_receipt"],
+      "does_not_grant": ["execution authority", "final commitment authority"]
+    },
+    {
+      "source_id": "lineage_qi_source",
+      "meaning": "Audit and memory lineage Qi evidence from receipt hash, support refs, registry key, and review continuity.",
+      "accepted_fields": ["receipt_hash", "support_refs", "registry_key", "review_status_visible"],
+      "feeds_runtime_inputs": ["receipt_hash", "support_refs", "registry_key"],
+      "does_not_grant": ["memory overwrite authority", "truth authority"]
+    },
+    {
+      "source_id": "boundary_qi_source",
+      "meaning": "Boundary Qi evidence from two-truths gap, noncollapse guard, overwrite blocker, and identity blocker.",
+      "accepted_fields": ["two_truths_gap", "noncollapse_guard", "memory_overwrite_blocker", "world_identity_blocker"],
+      "feeds_runtime_inputs": ["two_truths_gap", "noncollapse_guard", "memory_overwrite_blocker", "world_identity_blocker"],
+      "does_not_grant": ["truth authority", "world identity", "governance bypass authority"]
+    },
+    {
+      "source_id": "delivery_qi_source",
+      "meaning": "Projection and delivery Qi evidence from view delivery receipt, channel scope, acknowledgment marker, and nonfinal marker.",
+      "accepted_fields": ["view_delivery_receipt", "channel_scope", "acknowledgment_marker", "nonfinal_marker"],
+      "feeds_runtime_inputs": ["view_delivery_receipt", "channel_scope", "acknowledgment_marker", "nonfinal_marker"],
+      "does_not_grant": ["final commitment authority", "truth authority"]
+    }
+  ],
+  "normalization_rules": [
+    {
+      "rule_id": "QTF_boundary_first",
+      "meaning": "Boundary Qi cannot be weakened by physical/process/runtime Qi support.",
+      "if_any_false": ["two_truths_gap", "noncollapse_guard", "memory_overwrite_blocker", "world_identity_blocker"],
+      "runtime_effect": "preserve_false_boundary_for_Qi_Runtime_Binding"
+    },
+    {
+      "rule_id": "QTF_physical_qi_supports_but_does_not_override",
+      "meaning": "Physical Qi can support runtime variation or value witness only when boundary and nonfinal markers remain visible.",
+      "requires": ["candidate_only", "nonfinal_marker", "two_truths_gap"],
+      "feeds": ["runtime_variation_visible", "value_witness_receipt"],
+      "does_not_feed": ["execution_commit", "truth_commit", "clinical_commit"]
+    },
+    {
+      "rule_id": "QTF_process_qi_supports_candidate_motion",
+      "meaning": "Process Qi supports candidate motion when process tensor or transition continuity is visible.",
+      "feeds": ["runtime_variation_visible", "policy_candidate_receipt"],
+      "does_not_feed": ["execution_commit", "final_commitment"]
+    },
+    {
+      "rule_id": "QTF_lineage_qi_must_remain_hash_bound",
+      "meaning": "Lineage Qi requires receipt hash, support refs, and registry key before allowing lineage flow.",
+      "feeds": ["receipt_hash", "support_refs", "registry_key"],
+      "does_not_feed": ["memory_overwrite_commit", "truth_commit"]
+    },
+    {
+      "rule_id": "QTF_delivery_qi_must_remain_nonfinal",
+      "meaning": "Delivery Qi requires view delivery receipt, channel scope, acknowledgment marker, and nonfinal marker.",
+      "feeds": ["view_delivery_receipt", "channel_scope", "acknowledgment_marker", "nonfinal_marker"],
+      "does_not_feed": ["final_commitment", "world_identity_commit"]
+    }
+  ],
+  "total_field_outputs": ["normalized_qi_state", "qi_cycle_decision", "qi_total_receipt"],
+  "required_invariants": [
+    "qi total field must feed Qi Runtime Binding and Qi Cycle Runner",
+    "physical qi must affect runtime support but must not override boundary failure",
+    "process qi must affect candidate motion but must not grant execution authority",
+    "lineage qi must remain hash-bound and append-only",
+    "delivery qi must remain nonfinal communication metadata",
+    "qi total field is not a classification-only layer",
+    "qi total field is not reified as substance, authority, world identity, or completed OS identity"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "qi_total_field_required": true,
+    "feeds_runtime_binding": true,
+    "feeds_cycle_runner": true,
+    "two_truths_gap_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
