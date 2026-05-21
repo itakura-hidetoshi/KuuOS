@@ -1,13 +1,4 @@
 #!/usr/bin/env python3
-"""KuuOS Feedback Merger v0.1.
-
-Closes the non-authoritative Qi runtime loop by merging task result receipts
-back into the next raw Qi/OS state.
-
-This is not an executor and not a finalizer. It only prepares the next candidate
-cycle input from reviewed evidence while preserving boundary-first behavior,
-append-only receipt lineage, and non-authority flags.
-"""
 from __future__ import annotations
 
 from copy import deepcopy
@@ -17,7 +8,6 @@ import hashlib
 import json
 import sys
 from typing import Any, Mapping
-
 
 NON_AUTHORITY_FLAGS = {
     "grants_execution_authority": False,
@@ -30,37 +20,12 @@ NON_AUTHORITY_FLAGS = {
 }
 
 RESOLVED_STATUS_TO_UPDATES = {
-    "REOBSERVE_RESOLVED": {
-        "runtime_variation_visible": True,
-        "policy_candidate_receipt": True,
-        "value_witness_receipt": True,
-        "barrier_witness_receipt": True,
-    },
-    "LINEAGE_RECHECK_RESOLVED": {
-        "receipt_hash": True,
-        "support_refs": True,
-        "registry_key": True,
-    },
-    "DELIVERY_RECHECK_RESOLVED": {
-        "view_delivery_receipt": True,
-        "channel_scope": True,
-        "acknowledgment_marker": True,
-    },
-    "BOUNDARY_RECHECK_RESOLVED": {
-        "two_truths_gap": True,
-        "noncollapse_guard": True,
-        "memory_overwrite_blocker": True,
-        "world_identity_blocker": True,
-    },
-    "HOLD_REVIEW_RESOLVED": {
-        "candidate_only": True,
-        "nonfinal_marker": True,
-    },
-    "CANDIDATE_NEXT_READY_NONFINAL": {
-        "candidate_only": True,
-        "nonfinal_marker": True,
-        "ready_for_next_candidate_stage": True,
-    },
+    "REOBSERVE_RESOLVED": {"runtime_variation_visible": True, "policy_candidate_receipt": True, "value_witness_receipt": True, "barrier_witness_receipt": True},
+    "LINEAGE_RECHECK_RESOLVED": {"receipt_hash": True, "support_refs": True, "registry_key": True},
+    "DELIVERY_RECHECK_RESOLVED": {"view_delivery_receipt": True, "channel_scope": True, "acknowledgment_marker": True},
+    "BOUNDARY_RECHECK_RESOLVED": {"two_truths_gap": True, "noncollapse_guard": True, "memory_overwrite_blocker": True, "world_identity_blocker": True},
+    "HOLD_REVIEW_RESOLVED": {"candidate_only": True, "nonfinal_marker": True},
+    "CANDIDATE_NEXT_READY_NONFINAL": {"candidate_only": True, "nonfinal_marker": True, "ready_for_next_candidate_stage": True},
 }
 
 WAITING_STATUSES = {
@@ -72,9 +37,7 @@ WAITING_STATUSES = {
     "CANDIDATE_NEXT_WAITING",
     "QUARANTINE_REVIEW_WAITING",
 }
-
 QUARANTINE_RETAIN_STATUSES = {"QUARANTINE_REVIEWED_RETAINED"}
-
 
 @dataclass(frozen=True)
 class KuuOSFeedbackMergeResult:
@@ -108,6 +71,9 @@ def _base_next_state(previous_raw_state: Mapping[str, Any], task_result_receipt:
     source_receipt_hash = task_result_receipt.get("source_receipt_hash") or task_result_receipt.get("receipt_hash")
     if source_receipt_hash:
         next_state["previous_receipt_hash"] = str(source_receipt_hash)
+    process_receipt = dict(task_result_receipt.get("qi_process_tensor_receipt", {}))
+    next_state["previous_qi_process_tensor_receipt"] = process_receipt
+    next_state["feedback_qi_process_tensor_receipt"] = process_receipt
     next_state["feedback_source_task_hash"] = task_result_receipt.get("task_hash")
     next_state["feedback_source_result_hash"] = task_result_receipt.get("receipt_hash")
     next_state["feedback_applied_at_utc"] = datetime.now(timezone.utc).isoformat()
@@ -122,6 +88,7 @@ def merge_task_result_into_next_state(previous_raw_state: Mapping[str, Any], tas
     applied_updates: dict[str, Any] = {}
     opened_notices = list(task_result_receipt.get("opened_notices", []))
     missing = list(task_result_receipt.get("missing_evidence", []))
+    process_receipt = dict(task_result_receipt.get("qi_process_tensor_receipt", {}))
 
     if task_status in RESOLVED_STATUS_TO_UPDATES:
         applied_updates = dict(RESOLVED_STATUS_TO_UPDATES[task_status])
@@ -140,7 +107,6 @@ def merge_task_result_into_next_state(previous_raw_state: Mapping[str, Any], tas
         next_state["feedback_status"] = "QUARANTINE_RETAINED_FOR_NEXT_REVIEW"
         next_state["feedback_waiting"] = True
         next_state["quarantine_retained"] = True
-        # Do not repair boundary fields automatically from quarantine review.
         merge_status = "MERGED_QUARANTINE_RETAINED_APPEND_ONLY"
     else:
         next_state["feedback_status"] = "UNKNOWN_RESULT_HELD"
@@ -161,6 +127,7 @@ def merge_task_result_into_next_state(previous_raw_state: Mapping[str, Any], tas
         "opened_notices": opened_notices,
         "missing_evidence": missing,
         "quarantine_retained": bool(next_state.get("quarantine_retained", False)),
+        "qi_process_tensor_receipt": process_receipt,
         "allowed_projection": ["feedback_merge_receipt", "next_raw_state_candidate"],
         **NON_AUTHORITY_FLAGS,
     }
@@ -168,7 +135,6 @@ def merge_task_result_into_next_state(previous_raw_state: Mapping[str, Any], tas
     merge_receipt = {"receipt_hash": receipt_hash, **receipt_payload}
     next_state["feedback_merge_receipt_hash"] = receipt_hash
     next_state["feedback_merge_status"] = merge_status
-
     return KuuOSFeedbackMergeResult(
         merge_status=merge_status,
         task_status=task_status,
@@ -188,7 +154,6 @@ def main(argv: list[str]) -> int:
     result = merge_task_result_into_next_state(previous_raw_state, task_result_receipt)
     print(json.dumps(result.to_dict(), ensure_ascii=False, indent=2, sort_keys=True))
     return 0
-
 
 if __name__ == "__main__":
     raise SystemExit(main(sys.argv))
