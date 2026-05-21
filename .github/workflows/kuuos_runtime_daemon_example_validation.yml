@@ -1,0 +1,21 @@
+name: KuuOS Runtime Daemon Example Validation
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_daemon_v0_1.py'
+      - 'scripts/run_kuuos_runtime_daemon_example_v0_1.py'
+      - 'scripts/check_kuuos_runtime_daemon_example_v0_1.py'
+      - 'examples/runtime_daemon_v0_1/README.md'
+      - '.github/workflows/kuuos_runtime_daemon_example_validation.yml'
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 scripts/check_kuuos_runtime_daemon_example_v0_1.py
