@@ -1,0 +1,149 @@
+{
+  "bridge_id": "kuuos_view_delivery_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "VIEW_DELIVERY_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Extend View Pack OS bridge with delivery envelopes, channel scopes, acknowledgment receipts, delivery debt, and non-authorizing delivery outcomes.",
+  "attached_view_pack_bridge": "kuuos_view_pack_os_bridge_v0_1",
+  "attached_view_pack_spec": "specs/kuuos_view_pack_os_bridge_v0_1.json",
+  "attached_seal_projection_boundary_bridge": "kuuos_seal_projection_boundary_os_bridge_v0_1",
+  "attached_seal_projection_boundary_spec": "specs/kuuos_seal_projection_boundary_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "delivery_principle": {
+    "statement": "A view pack may be placed into a delivery envelope for a scoped channel, but delivery is communication metadata only and never truth, finality, overwrite, or completed identity.",
+    "runtime_formula": "view_delivery = view_pack_receipt + delivery_envelope + channel_scope + acknowledgment_marker + delivery_debt",
+    "non_reification_rule": "A delivery witness is bounded communication metadata only; it is not truth authority, final commitment authority, memory overwrite, theorem proof, clinical authority, or completed OS identity."
+  },
+  "delivery_lanes": [
+    {
+      "lane_id": "lane_user_delivery",
+      "base_lane": "lane_user_view_pack",
+      "tracks": ["user_view_pack_notice", "channel_scope", "nonfinal_marker"],
+      "allowed_projection": ["user_delivery_notice"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "lane_id": "lane_audit_delivery",
+      "base_lane": "lane_audit_view_pack",
+      "tracks": ["audit_view_pack_notice", "registry_key", "delivery_envelope"],
+      "allowed_projection": ["audit_delivery_notice"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "lane_id": "lane_machine_delivery",
+      "base_lane": "lane_machine_view_pack",
+      "tracks": ["machine_view_pack_notice", "redaction_boundary", "acknowledgment_marker"],
+      "allowed_projection": ["machine_delivery_notice"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "delivery_checks": [
+    {
+      "check_id": "DEL_lanes_present",
+      "requires": ["lane_user_delivery", "lane_audit_delivery", "lane_machine_delivery"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "DEL_channel_scope_visible",
+      "requires": ["channel_scope", "delivery_envelope", "nonfinal_marker"],
+      "must_preserve": ["candidate_only", "view_metadata_only"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "DEL_acknowledgment_nonfinal",
+      "requires": ["acknowledgment_marker", "view_pack_receipt"],
+      "must_preserve": ["receipt_only", "no_final_commitment_authority"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "DEL_boundary_noncollapse",
+      "requires": ["lane_machine_delivery", "redaction_boundary", "two_truths_gap"],
+      "must_preserve": ["no_truth_authority", "no_memory_overwrite_authority", "no_completed_os_identity"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "check_id": "DEL_no_delivery_reification",
+      "forbids": ["delivery_as_truth", "delivery_as_final_commitment", "ack_as_world_identity", "silent_delivery_overwrite"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "delivery_debt_classes": [
+    {
+      "debt_id": "DD_missing_delivery_lane",
+      "meaning": "A required delivery lane is absent or unbound.",
+      "opens": ["delivery_debt_notice", "hold_notice"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "DD_channel_scope_gap",
+      "meaning": "Delivery envelope lacks visible channel scope or nonfinal marker.",
+      "opens": ["delivery_debt_notice", "reobserve_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "DD_delivery_boundary_gap",
+      "meaning": "Delivery risks collapsing communication metadata into authority or identity.",
+      "opens": ["quarantine_notice", "delivery_boundary_notice"],
+      "result_state": "QUARANTINE"
+    }
+  ],
+  "delivery_outcomes": [
+    {
+      "outcome": "VIEW_DELIVERY_READY",
+      "requires": ["lanes_present", "channel_scope_visible", "acknowledgment_nonfinal", "boundary_noncollapse", "no_delivery_reification"],
+      "allowed_projection": ["view_delivery_receipt"],
+      "does_not_grant": ["truth authority", "final commitment authority", "memory overwrite authority", "theorem authority"]
+    },
+    {
+      "outcome": "VIEW_DELIVERY_HOLD",
+      "arises_when_any": ["missing delivery lane", "channel scope gap", "visible delivery debt"],
+      "allowed_projection": ["delivery_debt_notice", "hold_notice", "reobserve_request"]
+    },
+    {
+      "outcome": "VIEW_DELIVERY_QUARANTINE",
+      "arises_when_any": ["delivery boundary gap", "delivery reification", "identity collapse"],
+      "allowed_projection": ["quarantine_notice", "delivery_boundary_notice"]
+    }
+  ],
+  "delivery_witness_surface": {
+    "name": "view_delivery_witness",
+    "required_fields": ["cycle_id", "kernel_state", "delivery_lanes_used", "delivery_checks_run", "delivery_debt", "delivery_outcome", "delivery_envelope", "channel_scope", "acknowledgment_marker", "allowed_projection"],
+    "allowed_projection": ["view_delivery_receipt", "delivery_debt_notice", "hold_notice", "reobserve_request", "delivery_boundary_notice", "quarantine_notice"],
+    "forbidden_projection": ["truth_commit", "memory_overwrite_commit", "clinical_commit", "theorem_commit", "global_truth_object_commit", "completed_os_identity_commit", "world_identity_commit", "silent_pass_commit"]
+  },
+  "integration_points": [
+    "specs/kuuos_view_pack_os_bridge_v0_1.json",
+    "specs/kuuos_seal_projection_boundary_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "scripts/validate_kuuos_view_pack_os_bridge_v0_1_min.py"
+  ],
+  "required_invariants": [
+    "view delivery remains candidate-only metadata",
+    "delivery receipt is not truth authority",
+    "acknowledgment marker is not final commitment authority",
+    "machine delivery is not world identity",
+    "delivery boundary gap opens QUARANTINE",
+    "future runtime kernel must keep delivery metadata separate from authority"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "view_pack_required": true,
+    "view_delivery_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
