@@ -1,0 +1,148 @@
+{
+  "bridge_id": "kuuos_variational_stability_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "VARIATIONAL_STABILITY_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Extend Jet Stability OS bridge with candidate-only action variation, descent witnesses, barrier guards, stationarity debt, and non-authorizing stability outcomes.",
+  "attached_jet_stability_bridge": "kuuos_jet_stability_os_bridge_v0_1",
+  "attached_jet_stability_spec": "specs/kuuos_jet_stability_os_bridge_v0_1.json",
+  "attached_differential_cohesive_bridge": "kuuos_differential_cohesive_os_bridge_v0_1",
+  "attached_differential_cohesive_spec": "specs/kuuos_differential_cohesive_os_bridge_v0_1.json",
+  "attached_cohesive_bridge": "kuuos_cohesive_os_bridge_v0_1",
+  "attached_cohesive_spec": "specs/kuuos_cohesive_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "variational_principle": {
+    "statement": "KuuOS runtime variation is evaluated through candidate action, descent, and barrier witnesses; stationarity or descent is evidence only and cannot authorize action.",
+    "runtime_formula": "variational_candidate = jet_candidate + action_delta + descent_witness + barrier_guard + stationarity_debt",
+    "non_reification_rule": "A variational witness is local stability evidence only; it is not truth authority, execution authority, memory overwrite, theorem proof, clinical authority, or completed OS identity."
+  },
+  "variational_surfaces": [
+    {
+      "surface_id": "action_delta_surface",
+      "base_surface": "J1_runtime_flow",
+      "tracks": ["candidate_action_delta", "runtime_cost_delta", "support_variation"],
+      "allowed_projection": ["action_delta_receipt"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "surface_id": "descent_witness_surface",
+      "base_surface": "J2_audit_lineage",
+      "tracks": ["descent_hint", "nonincrease_hint", "lineage_supported_descent"],
+      "allowed_projection": ["descent_witness_receipt"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "surface_id": "barrier_guard_surface",
+      "base_surface": "Jk_boundary_guard",
+      "tracks": ["boundary_margin", "barrier_violation_hint", "noncollapse_guard"],
+      "allowed_projection": ["barrier_guard_receipt"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "variational_checks": [
+    {
+      "check_id": "VAR_action_delta_visible",
+      "requires": ["action_delta_surface", "J1_runtime_flow"],
+      "must_preserve": ["candidate_only", "jet_stability_candidate_receipt"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "VAR_descent_supported_by_lineage",
+      "requires": ["descent_witness_surface", "J2_audit_lineage"],
+      "must_preserve": ["audit_receipt_only", "state_checkpoint_only"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "VAR_barrier_guard_noncollapse",
+      "requires": ["barrier_guard_surface", "Jk_boundary_guard"],
+      "must_preserve": ["two_truths_gap", "no_truth_authority", "no_execution_authority", "no_completed_os_identity"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "check_id": "VAR_stationarity_not_authority",
+      "forbids": ["stationarity_as_truth", "descent_as_execution_license", "barrier_as_world_identity"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "variational_debt_classes": [
+    {
+      "debt_id": "VD_action_gap",
+      "meaning": "Action variation is missing, unstable, or unsupported.",
+      "opens": ["hold_notice", "reobserve_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "VD_descent_gap",
+      "meaning": "Descent witness is absent or not supported by audit lineage.",
+      "opens": ["variational_debt_notice", "hold_notice"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "VD_barrier_gap",
+      "meaning": "Barrier guard indicates possible boundary collapse or insufficient margin.",
+      "opens": ["quarantine_notice", "boundary_recheck_request"],
+      "result_state": "QUARANTINE"
+    }
+  ],
+  "variational_outcomes": [
+    {
+      "outcome": "VARIATIONAL_STABLE_CANDIDATE",
+      "requires": ["action_delta_visible", "descent_supported", "barrier_guard_preserved", "stationarity_not_authority"],
+      "allowed_projection": ["variational_stability_candidate_receipt"],
+      "does_not_grant": ["truth authority", "execution authority", "memory overwrite authority", "theorem authority"]
+    },
+    {
+      "outcome": "VARIATIONAL_STABILITY_HOLD",
+      "arises_when_any": ["action gap", "descent gap", "visible variational debt"],
+      "allowed_projection": ["variational_debt_notice", "hold_notice", "reobserve_request", "repair_candidate_request"]
+    },
+    {
+      "outcome": "VARIATIONAL_STABILITY_QUARANTINE",
+      "arises_when_any": ["barrier gap", "stationarity authority collapse", "identity drift"],
+      "allowed_projection": ["quarantine_notice", "boundary_recheck_request"]
+    }
+  ],
+  "variational_witness_surface": {
+    "name": "variational_stability_witness",
+    "required_fields": ["cycle_id", "kernel_state", "variational_surfaces_used", "variational_checks_run", "variational_debt", "variational_outcome", "barrier_guard", "allowed_projection"],
+    "allowed_projection": ["variational_stability_candidate_receipt", "variational_debt_notice", "reobserve_request", "hold_notice", "repair_candidate_request", "quarantine_notice"],
+    "forbidden_projection": ["truth_commit", "execution_commit", "memory_overwrite_commit", "clinical_commit", "theorem_commit", "global_truth_object_commit", "completed_os_identity_commit", "world_identity_commit", "silent_pass_commit"]
+  },
+  "integration_points": [
+    "specs/kuuos_jet_stability_os_bridge_v0_1.json",
+    "specs/kuuos_differential_cohesive_os_bridge_v0_1.json",
+    "specs/kuuos_cohesive_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "scripts/validate_kuuos_jet_stability_os_bridge_v0_1_min.py"
+  ],
+  "required_invariants": [
+    "variational stable candidate remains candidate-only",
+    "stationarity is not truth authority",
+    "descent witness is not execution authority",
+    "barrier guard preserves two-truths gap",
+    "barrier gap opens QUARANTINE",
+    "future runtime kernel must preserve action/descent/barrier separation"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "differential_cohesion_required": true,
+    "jet_stability_required": true,
+    "variational_stability_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
