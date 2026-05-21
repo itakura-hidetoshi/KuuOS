@@ -16,4 +16,4 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python3 -m pytest tests/test_qi_runtime_binding_v0_1.py
+      - run: python3 -m unittest tests.test_qi_runtime_binding_v0_1
