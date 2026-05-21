@@ -6,6 +6,11 @@ from runtime.kuuos_queue_dispatcher_v0_1 import dispatch_candidate_cycle, empty_
 from runtime.kuuos_queue_worker_v0_1 import process_next_queue_item
 from runtime.kuuos_task_board_processor_v0_1 import process_next_task
 
+PROCESS_HISTORY = [
+    {"step_id": "p0", "transition_visible": True, "memory_link_visible": True, "nonmarkov_link_visible": False},
+    {"step_id": "p1", "transition_visible": True, "memory_link_visible": False, "nonmarkov_link_visible": False},
+    {"step_id": "p2", "transition_visible": True, "memory_link_visible": False, "nonmarkov_link_visible": True},
+]
 
 BASE_RAW = {
     "cycle_id": "feedback-001",
@@ -20,7 +25,7 @@ BASE_RAW = {
     "world_identity_blocker": True,
     "physical_process_visible": True,
     "thermodynamic_activity_visible": True,
-    "process_tensor_visible": True,
+    "process_history": PROCESS_HISTORY,
     "barrier_witness_visible": True,
     "receipt_hash": True,
     "support_refs": True,
@@ -51,6 +56,20 @@ FULL_EVIDENCE = {
 }
 
 
+def assert_process_receipt(testcase, receipt):
+    testcase.assertTrue(receipt["process_tensor_visible"])
+    testcase.assertTrue(receipt["transition_continuity_visible"])
+    testcase.assertTrue(receipt["memory_continuity_visible"])
+    testcase.assertTrue(receipt["nonmarkov_memory_visible"])
+    testcase.assertEqual(receipt["process_history_length"], 3)
+    testcase.assertEqual(receipt["transition_support_count"], 3)
+    testcase.assertEqual(receipt["memory_support_count"], 1)
+    testcase.assertEqual(receipt["nonmarkov_support_count"], 1)
+    testcase.assertEqual(receipt["process_tensor_reason"], "process_tensor_support_visible")
+    testcase.assertFalse(receipt["grants_execution_authority"])
+    testcase.assertFalse(receipt["grants_truth_authority"])
+
+
 def task_result_for(raw, evidence=FULL_EVIDENCE):
     queue_state = dispatch_candidate_cycle(raw, empty_queue_state()).updated_queue_state
     worker_state = process_next_queue_item(queue_state).updated_worker_state
@@ -75,10 +94,19 @@ class KuuOSFeedbackMergerTests(unittest.TestCase):
         self.assertFalse(result.grants_memory_overwrite_authority)
         self.assertEqual(len(result.merge_receipt["receipt_hash"]), 64)
 
+    def test_process_tensor_receipt_returns_to_next_state_and_merge_receipt(self):
+        receipt = task_result_for(BASE_RAW)
+        assert_process_receipt(self, receipt["qi_process_tensor_receipt"])
+        result = merge_task_result_into_next_state(BASE_RAW, receipt)
+        assert_process_receipt(self, result.next_raw_state["feedback_qi_process_tensor_receipt"])
+        assert_process_receipt(self, result.next_raw_state["previous_qi_process_tensor_receipt"])
+        assert_process_receipt(self, result.merge_receipt["qi_process_tensor_receipt"])
+
     def test_reobserve_resolved_repairs_runtime_policy_inputs_for_next_cycle(self):
         raw = dict(BASE_RAW)
         raw["physical_process_visible"] = False
         raw["thermodynamic_activity_visible"] = False
+        raw["process_history"] = []
         receipt = task_result_for(raw, FULL_EVIDENCE)
         self.assertEqual(receipt["task_status"], "REOBSERVE_RESOLVED")
         result = merge_task_result_into_next_state(raw, receipt)
@@ -112,6 +140,7 @@ class KuuOSFeedbackMergerTests(unittest.TestCase):
         raw = dict(BASE_RAW)
         raw["physical_process_visible"] = False
         raw["thermodynamic_activity_visible"] = False
+        raw["process_history"] = []
         evidence = dict(FULL_EVIDENCE)
         evidence["value_witness_receipt"] = False
         receipt = task_result_for(raw, evidence)
@@ -130,6 +159,7 @@ class KuuOSFeedbackMergerTests(unittest.TestCase):
         self.assertEqual(result.merge_status, "MERGED_QUARANTINE_RETAINED_APPEND_ONLY")
         self.assertTrue(result.next_raw_state["quarantine_retained"])
         self.assertFalse(result.next_raw_state["world_identity_blocker"])
+        self.assertFalse(result.merge_receipt["qi_process_tensor_receipt"]["process_tensor_visible"])
 
     def test_unknown_task_status_is_held(self):
         receipt = dict(task_result_for(BASE_RAW))
