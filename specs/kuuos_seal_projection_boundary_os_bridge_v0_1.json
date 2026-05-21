@@ -1,0 +1,143 @@
+{
+  "bridge_id": "kuuos_seal_projection_boundary_os_bridge_v0_1",
+  "version": "v0.1",
+  "status": "SEAL_PROJECTION_BOUNDARY_OS_BRIDGE_BASELINE",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "purpose": "Extend Review Seal OS bridge with user, audit, and machine projection lanes, visibility boundaries, projection debt, stale seal guards, and non-authorizing projection outcomes.",
+  "attached_review_seal_bridge": "kuuos_review_seal_os_bridge_v0_1",
+  "attached_review_seal_spec": "specs/kuuos_review_seal_os_bridge_v0_1.json",
+  "attached_registry_review_bridge": "kuuos_registry_review_os_bridge_v0_1",
+  "attached_registry_review_spec": "specs/kuuos_registry_review_os_bridge_v0_1.json",
+  "attached_two_truths_bridge": "kuuos_two_truths_os_bridge_v0_1",
+  "attached_two_truths_bridge_spec": "specs/kuuos_two_truths_os_bridge_v0_1.json",
+  "attached_kernel": "kuuos_os_autonomy_kernel_v0_1",
+  "attached_kernel_spec": "specs/kuuos_os_autonomy_kernel_v0_1.json",
+  "projection_principle": {
+    "statement": "A review seal may be projected to user, audit, and machine lanes as bounded metadata, but projection is not truth, finality, memory overwrite, or completed identity.",
+    "runtime_formula": "seal_projection = review_seal_receipt + projection_lane + visibility_boundary + renewal_window + projection_debt",
+    "non_reification_rule": "A seal projection is bounded communication metadata only; it is not truth authority, final commitment authority, memory overwrite, theorem proof, clinical authority, or completed OS identity."
+  },
+  "projection_lanes": [
+    {
+      "lane_id": "lane_user_projection",
+      "base_surface": "seal_status_surface",
+      "tracks": ["human_readable_status", "nonfinal_marker", "renewal_notice"],
+      "allowed_projection": ["user_projection_notice"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "lane_id": "lane_audit_projection",
+      "base_surface": "renewal_window_surface",
+      "tracks": ["registry_key", "seal_status", "review_refs", "renewal_window"],
+      "allowed_projection": ["audit_projection_notice"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "lane_id": "lane_machine_projection",
+      "base_surface": "seal_boundary_surface",
+      "tracks": ["json_projection", "boundary_marker", "quarantine_marker"],
+      "allowed_projection": ["machine_projection_notice"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "projection_checks": [
+    {
+      "check_id": "PROJ_lanes_present",
+      "requires": ["lane_user_projection", "lane_audit_projection", "lane_machine_projection"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "PROJ_visibility_boundary_visible",
+      "requires": ["nonfinal_marker", "renewal_window", "seal_status"],
+      "must_preserve": ["candidate_only", "review_metadata_only"],
+      "failure_effect": "HOLD"
+    },
+    {
+      "check_id": "PROJ_boundary_noncollapse",
+      "requires": ["lane_machine_projection", "two_truths_gap"],
+      "must_preserve": ["no_truth_authority", "no_memory_overwrite_authority", "no_completed_os_identity"],
+      "failure_effect": "QUARANTINE"
+    },
+    {
+      "check_id": "PROJ_no_projection_reification",
+      "forbids": ["projection_as_truth", "projection_as_final_commitment", "projection_as_world_identity", "silent_projection_overwrite"],
+      "failure_effect": "QUARANTINE"
+    }
+  ],
+  "projection_debt_classes": [
+    {
+      "debt_id": "PD_missing_projection_lane",
+      "meaning": "A required projection lane is absent or unbound.",
+      "opens": ["projection_debt_notice", "hold_notice"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "PD_visibility_gap",
+      "meaning": "Projection lacks a visible nonfinal marker, renewal window, or audience boundary.",
+      "opens": ["projection_debt_notice", "reobserve_request"],
+      "result_state": "HOLD"
+    },
+    {
+      "debt_id": "PD_projection_boundary_gap",
+      "meaning": "Projection risks collapsing metadata into authority or identity.",
+      "opens": ["quarantine_notice", "projection_boundary_notice"],
+      "result_state": "QUARANTINE"
+    }
+  ],
+  "projection_outcomes": [
+    {
+      "outcome": "SEAL_PROJECTION_READY",
+      "requires": ["lanes_present", "visibility_boundary_visible", "boundary_noncollapse", "no_projection_reification"],
+      "allowed_projection": ["seal_projection_receipt"],
+      "does_not_grant": ["truth authority", "final commitment authority", "memory overwrite authority", "theorem authority"]
+    },
+    {
+      "outcome": "SEAL_PROJECTION_HOLD",
+      "arises_when_any": ["missing projection lane", "visibility gap", "visible projection debt"],
+      "allowed_projection": ["projection_debt_notice", "hold_notice", "reobserve_request"]
+    },
+    {
+      "outcome": "SEAL_PROJECTION_QUARANTINE",
+      "arises_when_any": ["projection boundary gap", "projection reification", "identity collapse"],
+      "allowed_projection": ["quarantine_notice", "projection_boundary_notice"]
+    }
+  ],
+  "projection_witness_surface": {
+    "name": "seal_projection_boundary_witness",
+    "required_fields": ["cycle_id", "kernel_state", "projection_lanes_used", "projection_checks_run", "projection_debt", "projection_outcome", "seal_status", "renewal_window", "visibility_boundary", "allowed_projection"],
+    "allowed_projection": ["seal_projection_receipt", "projection_debt_notice", "hold_notice", "reobserve_request", "projection_boundary_notice", "quarantine_notice"],
+    "forbidden_projection": ["truth_commit", "memory_overwrite_commit", "clinical_commit", "theorem_commit", "global_truth_object_commit", "completed_os_identity_commit", "world_identity_commit", "silent_pass_commit"]
+  },
+  "integration_points": [
+    "specs/kuuos_review_seal_os_bridge_v0_1.json",
+    "specs/kuuos_registry_review_os_bridge_v0_1.json",
+    "specs/kuuos_two_truths_os_bridge_v0_1.json",
+    "specs/kuuos_os_autonomy_kernel_v0_1.json",
+    "scripts/validate_kuuos_review_seal_os_bridge_v0_1_min.py"
+  ],
+  "required_invariants": [
+    "seal projection remains candidate-only metadata",
+    "user projection is not truth authority",
+    "audit projection is not final commitment authority",
+    "machine projection is not world identity",
+    "projection boundary gap opens QUARANTINE",
+    "future runtime kernel must keep projection metadata separate from authority"
+  ],
+  "authority_boundary": {
+    "validation_only": true,
+    "candidate_only": true,
+    "local_os_supervision_only": true,
+    "dependent_origination_required": true,
+    "two_truths_gap_required": true,
+    "review_seal_required": true,
+    "seal_projection_boundary_required": true,
+    "grants_execution_authority": false,
+    "grants_clinical_authority": false,
+    "grants_diagnosis_authority": false,
+    "grants_treatment_authority": false,
+    "grants_theorem_authority": false,
+    "grants_truth_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_governance_bypass_authority": false
+  }
+}
