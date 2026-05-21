@@ -73,24 +73,35 @@ def main() -> int:
             errors.append("stop reason mismatch")
         if result.ticks_run != 2:
             errors.append("ticks_run mismatch")
+        if result.qi_policy_recommended_tick_mode != "CONTINUE_WITH_QI_MEMORY_MONITOR":
+            errors.append("qi policy mode mismatch")
         if not pathlib.Path(result.tick_log_path).is_file():
             errors.append("missing tick log")
         if not pathlib.Path(result.final_raw_state_path).is_file():
             errors.append("missing final raw state")
         if not pathlib.Path(result.final_state_bundle_path).is_file():
             errors.append("missing final state bundle")
+        if not result.qi_policy_result_path or not pathlib.Path(result.qi_policy_result_path).is_file():
+            errors.append("missing qi policy result")
         if not (daemon_dir / "daemon_result_v0_1.json").is_file():
             errors.append("missing daemon result")
 
         if not errors:
             tick_log = load(pathlib.Path(result.tick_log_path))
             daemon_result = load(daemon_dir / "daemon_result_v0_1.json")
+            policy_result = load(pathlib.Path(result.qi_policy_result_path))
             if len(tick_log) != 2:
                 errors.append("tick log length mismatch")
             for index, entry in enumerate(tick_log):
                 validate_tick_entry(entry, errors, f"tick_log[{index}]")
             if daemon_result.get("ticks_run") != 2:
                 errors.append("daemon_result ticks_run mismatch")
+            if daemon_result.get("qi_policy_recommended_tick_mode") != "CONTINUE_WITH_QI_MEMORY_MONITOR":
+                errors.append("daemon_result qi policy mismatch")
+            if policy_result.get("recommended_tick_mode") != "CONTINUE_WITH_QI_MEMORY_MONITOR":
+                errors.append("policy_result mode mismatch")
+            if policy_result.get("grants_execution_authority") is not False:
+                errors.append("policy_result execution flag not false")
             if daemon_result.get("grants_execution_authority") is not False:
                 errors.append("daemon_result execution flag not false")
 

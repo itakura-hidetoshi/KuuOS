@@ -11,8 +11,10 @@ from typing import Any
 
 try:
     from runtime.kuuos_state_io_runner_v0_1 import run_state_io
+    from runtime.kuuos_runtime_daemon_qi_policy_v0_1 import read_and_evaluate_daemon_qi_policy
 except ModuleNotFoundError:
     from kuuos_state_io_runner_v0_1 import run_state_io
+    from kuuos_runtime_daemon_qi_policy_v0_1 import read_and_evaluate_daemon_qi_policy
 
 NON_AUTHORITY_FLAGS = {
     "grants_execution_authority": False,
@@ -39,6 +41,8 @@ class KuuOSDaemonResult:
     tick_log_path: str
     final_raw_state_path: str | None
     final_state_bundle_path: str | None
+    qi_policy_result_path: str | None = None
+    qi_policy_recommended_tick_mode: str | None = None
     grants_execution_authority: bool = False
     grants_truth_authority: bool = False
     grants_final_commitment_authority: bool = False
@@ -49,10 +53,6 @@ class KuuOSDaemonResult:
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
-
-
-def _read_json(path: Path) -> Any:
-    return json.loads(path.read_text(encoding="utf-8"))
 
 
 def _write_json(path: Path, payload: Any) -> None:
@@ -66,6 +66,16 @@ def _utc_stamp() -> str:
 
 def _tick_output_dir(daemon_dir: Path, tick_index: int) -> Path:
     return daemon_dir / f"tick_{tick_index:04d}_{_utc_stamp()}"
+
+
+def _daemon_status_from_stop_reason(stop_reason: str) -> str:
+    if stop_reason == "MAX_TICKS_REACHED":
+        return "DAEMON_MAX_TICKS_REACHED_APPEND_ONLY"
+    if stop_reason == "WAITING_FOR_MORE_EVIDENCE":
+        return "DAEMON_WAITING_APPEND_ONLY"
+    if stop_reason == "QUARANTINE_RETAINED":
+        return "DAEMON_QUARANTINE_RETAINED_APPEND_ONLY"
+    return "DAEMON_STOPPED_APPEND_ONLY"
 
 
 def run_runtime_daemon(
@@ -134,13 +144,23 @@ def run_runtime_daemon(
 
     tick_log_path = daemon_dir / "daemon_tick_log_v0_1.json"
     _write_json(tick_log_path, tick_log)
-    daemon_status = "DAEMON_STOPPED_APPEND_ONLY"
-    if stop_reason == "MAX_TICKS_REACHED":
-        daemon_status = "DAEMON_MAX_TICKS_REACHED_APPEND_ONLY"
-    elif stop_reason == "WAITING_FOR_MORE_EVIDENCE":
-        daemon_status = "DAEMON_WAITING_APPEND_ONLY"
-    elif stop_reason == "QUARANTINE_RETAINED":
-        daemon_status = "DAEMON_QUARANTINE_RETAINED_APPEND_ONLY"
+    daemon_status = _daemon_status_from_stop_reason(stop_reason)
+    daemon_result_path = daemon_dir / "daemon_result_v0_1.json"
+
+    provisional_result = KuuOSDaemonResult(
+        daemon_status=daemon_status,
+        stop_reason=stop_reason,
+        ticks_run=len(tick_log),
+        daemon_dir=str(daemon_dir),
+        tick_log_path=str(tick_log_path),
+        final_raw_state_path=str(final_raw) if final_raw else None,
+        final_state_bundle_path=str(final_bundle) if final_bundle else None,
+    )
+    _write_json(daemon_result_path, provisional_result.to_dict())
+
+    policy_result = read_and_evaluate_daemon_qi_policy(daemon_dir)
+    policy_result_path = daemon_dir / "daemon_qi_policy_result_v0_1.json"
+    _write_json(policy_result_path, policy_result.to_dict())
 
     result = KuuOSDaemonResult(
         daemon_status=daemon_status,
@@ -150,8 +170,10 @@ def run_runtime_daemon(
         tick_log_path=str(tick_log_path),
         final_raw_state_path=str(final_raw) if final_raw else None,
         final_state_bundle_path=str(final_bundle) if final_bundle else None,
+        qi_policy_result_path=str(policy_result_path),
+        qi_policy_recommended_tick_mode=policy_result.recommended_tick_mode,
     )
-    _write_json(daemon_dir / "daemon_result_v0_1.json", result.to_dict())
+    _write_json(daemon_result_path, result.to_dict())
     return result
 
 
