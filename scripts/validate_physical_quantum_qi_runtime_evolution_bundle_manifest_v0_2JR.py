@@ -29,10 +29,12 @@ REQUIRED_SPAN = [
 REQUIRED_PATHS = [
     "docs/PHYSICAL_QUANTUM_QI_RUNTIME_EVOLUTION_CI_POST_MERGE_RECEIPT_v0_2JR.md",
     "docs/PHYSICAL_QUANTUM_QI_RUNTIME_EVOLUTION_FINALITY_PACKET_v0_2JR.md",
+    "docs/PHYSICAL_QUANTUM_QI_RUNTIME_EVOLUTION_FINALITY_POST_MERGE_RECEIPT_v0_2JR.md",
     "specs/physical_quantum_qi_runtime_evolution_bundle_manifest_v0_2JR.json",
     "scripts/check_physical_quantum_qi_runtime_evolution_ci_receipt_v0_2JR.py",
     "scripts/validate_physical_quantum_qi_runtime_evolution_bundle_manifest_v0_2JR.py",
     "scripts/check_physical_quantum_qi_runtime_evolution_finality_packet_v0_2JR.py",
+    "scripts/check_physical_quantum_qi_runtime_evolution_finality_post_merge_receipt_v0_2JR.py",
     "scripts/run_all_governance_full_checks_v0_1.py",
     "Makefile",
     ".github/workflows/physical_quantum_qi_runtime_evolution_validation.yml",
@@ -42,6 +44,14 @@ REQUIRED_TARGETS = [
     "make physical-quantum-qi-runtime-evolution-checks",
     "make physical-quantum-qi-runtime-evolution-bundle-checks",
     "make physical-quantum-qi-runtime-evolution-finality-checks",
+    "make physical-quantum-qi-runtime-evolution-finality-post-merge-receipt-checks",
+]
+
+REQUIRED_LINEAGE_FIELDS = [
+    "ci_receipt_surface",
+    "bundle_surface",
+    "finality_surface",
+    "finality_post_merge_receipt_surface",
 ]
 
 
@@ -64,7 +74,7 @@ def main() -> int:
         errors.append("unexpected manifest_id")
     if data.get("version") != "v0.2J-R":
         errors.append("unexpected version")
-    if data.get("status") != "FINALITY_BUNDLE_MANIFEST_RECORDED":
+    if data.get("status") != "FINALITY_POST_MERGE_RECEIPT_BUNDLE_MANIFEST_RECORDED":
         errors.append("unexpected status")
     if data.get("repository") != "itakura-hidetoshi/KuuOS":
         errors.append("unexpected repository")
@@ -74,7 +84,7 @@ def main() -> int:
     for item in REQUIRED_SPAN:
         if item not in span:
             errors.append(f"missing span: {item}")
-    for key in ["ci_receipt_surface", "bundle_surface", "finality_surface"]:
+    for key in REQUIRED_LINEAGE_FIELDS:
         if lineage.get(key) != "v0.2J-R":
             errors.append(f"unexpected lineage field: {key}")
 
@@ -94,7 +104,7 @@ def main() -> int:
             errors.append(f"files missing: {path}")
         if not (ROOT / path).is_file():
             errors.append(f"path missing on disk: {path}")
-    for path in REQUIRED_PATHS[3:7]:
+    for path in REQUIRED_PATHS[4:9]:
         if path not in validators:
             errors.append(f"validators missing: {path}")
     for target in REQUIRED_TARGETS:
@@ -111,7 +121,7 @@ def main() -> int:
             print("ERROR:", err)
         return 1
 
-    print("PASS: Physical Quantum Qi runtime evolution finality bundle manifest v0.2J-R validated")
+    print("PASS: Physical Quantum Qi runtime evolution post-merge receipt bundle manifest v0.2J-R validated")
     return 0
 
 

@@ -1,15 +1,16 @@
 {
   "manifest_id": "physical_quantum_qi_runtime_evolution_bundle_manifest_v0_2JR",
   "version": "v0.2J-R",
-  "status": "FINALITY_BUNDLE_MANIFEST_RECORDED",
+  "status": "FINALITY_POST_MERGE_RECEIPT_BUNDLE_MANIFEST_RECORDED",
   "repository": "itakura-hidetoshi/KuuOS",
-  "scope": "Physical Quantum Qi runtime evolution from v0.2J through v0.2R plus CI receipt, bundle manifest, and finality packet surface",
+  "scope": "Physical Quantum Qi runtime evolution from v0.2J through v0.2R plus CI receipt, bundle manifest, finality packet, and finality post-merge receipt surface",
   "lineage": {
     "base_series": "physical_quantum_qi_v0_2",
     "runtime_evolution_span": ["v0.2J", "v0.2K", "v0.2L", "v0.2M", "v0.2N", "v0.2O", "v0.2P", "v0.2Q", "v0.2R"],
     "ci_receipt_surface": "v0.2J-R",
     "bundle_surface": "v0.2J-R",
-    "finality_surface": "v0.2J-R"
+    "finality_surface": "v0.2J-R",
+    "finality_post_merge_receipt_surface": "v0.2J-R"
   },
   "authority_boundary": {
     "validation_only": true,
@@ -44,6 +45,7 @@
     "docs/PHYSICAL_QUANTUM_QI_RESPONSE_FEEDBACK_LOOP_v0_2R.md",
     "docs/PHYSICAL_QUANTUM_QI_RUNTIME_EVOLUTION_CI_POST_MERGE_RECEIPT_v0_2JR.md",
     "docs/PHYSICAL_QUANTUM_QI_RUNTIME_EVOLUTION_FINALITY_PACKET_v0_2JR.md",
+    "docs/PHYSICAL_QUANTUM_QI_RUNTIME_EVOLUTION_FINALITY_POST_MERGE_RECEIPT_v0_2JR.md",
     "specs/qi_bensho_treatment_route_candidate_contract_v0_2J.json",
     "specs/qi_bensho_decisionos_clinician_handoff_contract_v0_2K.json",
     "specs/qi_clinical_red_flag_handover_governor_contract_v0_2L.json",
@@ -82,6 +84,7 @@
     "scripts/check_physical_quantum_qi_runtime_evolution_ci_receipt_v0_2JR.py",
     "scripts/validate_physical_quantum_qi_runtime_evolution_bundle_manifest_v0_2JR.py",
     "scripts/check_physical_quantum_qi_runtime_evolution_finality_packet_v0_2JR.py",
+    "scripts/check_physical_quantum_qi_runtime_evolution_finality_post_merge_receipt_v0_2JR.py",
     "scripts/run_all_governance_full_checks_v0_1.py",
     "Makefile",
     ".github/workflows/physical_quantum_qi_runtime_evolution_validation.yml"
@@ -90,12 +93,14 @@
     "scripts/validate_physical_quantum_qi_runtime_evolution_bundle_manifest_v0_2JR.py",
     "scripts/check_physical_quantum_qi_runtime_evolution_ci_receipt_v0_2JR.py",
     "scripts/check_physical_quantum_qi_runtime_evolution_finality_packet_v0_2JR.py",
+    "scripts/check_physical_quantum_qi_runtime_evolution_finality_post_merge_receipt_v0_2JR.py",
     "scripts/run_all_governance_full_checks_v0_1.py"
   ],
   "ci_targets": [
     "make physical-quantum-qi-runtime-evolution-checks",
     "make physical-quantum-qi-runtime-evolution-bundle-checks",
     "make physical-quantum-qi-runtime-evolution-finality-checks",
+    "make physical-quantum-qi-runtime-evolution-finality-post-merge-receipt-checks",
     "python3 scripts/run_all_governance_full_checks_v0_1.py"
   ],
   "invariants": [
@@ -104,7 +109,9 @@
     "CI green is integration evidence, not clinical authority",
     "bundle manifest records traceability and does not create execution authority",
     "finality packet records repository closure and does not create execution authority",
+    "finality post-merge receipt records repository merge evidence and does not create execution authority",
     "finality is integration closure, not theorem truth by itself",
+    "post-merge receipt is evidence only, not external audit acceptance",
     "observation and state-transition kernels remain non-authoritative readout surfaces",
     "transition ledgers remain append-only trace surfaces",
     "phase transition detection remains signal classification, not direct action",
@@ -130,6 +137,9 @@
     "bundle manifest grants execution authority",
     "finality grants clinical authority",
     "finality grants execution authority",
-    "finality proves clinical truth"
+    "finality proves clinical truth",
+    "post-merge receipt grants clinical authority",
+    "post-merge receipt grants execution authority",
+    "post-merge receipt proves clinical truth"
   ]
 }
