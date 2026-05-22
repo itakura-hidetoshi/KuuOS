@@ -19,7 +19,8 @@
     "runtime/kuuos_runtime_daemon_status_v0_1.py",
     "runtime/kuuos_runtime_daemon_qi_policy_v0_1.py",
     "runtime/kuuos_runtime_daemon_qique_gauge_v0_1.py",
-    "runtime/kuuos_runtime_daemon_emptiness_gate_v0_1.py"
+    "runtime/kuuos_runtime_daemon_emptiness_gate_v0_1.py",
+    "runtime/kuuos_runtime_daemon_wa_function_v0_1.py"
   ],
   "core_test_files": [
     "tests/test_qi_process_tensor_v0_1.py",
@@ -40,6 +41,7 @@
     "tests/test_kuuos_runtime_daemon_qi_policy_v0_1.py",
     "tests/test_kuuos_runtime_daemon_qique_gauge_v0_1.py",
     "tests/test_kuuos_runtime_daemon_emptiness_gate_v0_1.py",
+    "tests/test_kuuos_runtime_daemon_wa_function_v0_1.py",
     "tests/test_qi_process_tensor_downstream_v0_1.py"
   ],
   "example_files": [
@@ -77,7 +79,8 @@
     ".github/workflows/kuuos_runtime_daemon_status_validation.yml",
     ".github/workflows/kuuos_runtime_daemon_qi_policy_validation.yml",
     ".github/workflows/kuuos_runtime_daemon_qique_gauge_validation.yml",
-    ".github/workflows/kuuos_runtime_daemon_emptiness_gate_validation.yml"
+    ".github/workflows/kuuos_runtime_daemon_emptiness_gate_validation.yml",
+    ".github/workflows/kuuos_runtime_daemon_wa_function_validation.yml"
   ],
   "required_output_paths": [
     "kuuos_driver_result_v0_1.json",
@@ -124,6 +127,7 @@
     "Daemon status reader reports latest tick and compact Qi process tensor summary.",
     "Daemon Qi policy gives advisory tick mode from latest Qi process tensor summary.",
     "Daemon Qi-QUE gauge reports advisory regime, scores, and policy hints from daemon status.",
-    "Daemon emptiness gate gives advisory compact, reobserve, hold, or continue actions under density."
+    "Daemon emptiness gate gives advisory compact, reobserve, hold, or continue actions under density.",
+    "Daemon Wa function gives advisory runtime posture between Qi scope and emptiness action."
   ]
 }
