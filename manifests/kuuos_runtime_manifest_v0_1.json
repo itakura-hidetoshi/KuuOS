@@ -39,6 +39,7 @@
     "tests/test_kuuos_closed_loop_driver_v0_1.py",
     "tests/test_kuuos_state_io_runner_v0_1.py",
     "tests/test_kuuos_runtime_daemon_v0_1.py",
+    "tests/test_kuuos_runtime_daemon_wa_output_v0_1.py",
     "tests/test_kuuos_runtime_daemon_status_v0_1.py",
     "tests/test_kuuos_runtime_daemon_yinyang_polarity_gauge_v0_1.py",
     "tests/test_kuuos_runtime_daemon_four_image_phase_gauge_v0_1.py",
@@ -86,7 +87,8 @@
     ".github/workflows/kuuos_runtime_daemon_qi_policy_validation.yml",
     ".github/workflows/kuuos_runtime_daemon_qique_gauge_validation.yml",
     ".github/workflows/kuuos_runtime_daemon_emptiness_gate_validation.yml",
-    ".github/workflows/kuuos_runtime_daemon_wa_function_validation.yml"
+    ".github/workflows/kuuos_runtime_daemon_wa_function_validation.yml",
+    ".github/workflows/kuuos_runtime_daemon_wa_output_validation.yml"
   ],
   "required_output_paths": [
     "kuuos_driver_result_v0_1.json",
@@ -95,6 +97,11 @@
     "step_trace_v0_1.json",
     "run_manifest_v0_1.json",
     "daemon_tick_log_v0_1.json",
+    "daemon_yinyang_polarity_result_v0_1.json",
+    "daemon_four_image_phase_result_v0_1.json",
+    "daemon_qi_policy_result_v0_1.json",
+    "daemon_emptiness_gate_result_v0_1.json",
+    "daemon_wa_function_result_v0_1.json",
     "daemon_result_v0_1.json"
   ],
   "required_trace_fields": [
@@ -136,6 +143,7 @@
     "Daemon Qi policy gives advisory tick mode from latest Qi process tensor summary.",
     "Daemon Qi-QUE gauge reports advisory regime, scores, and policy hints from daemon status.",
     "Daemon emptiness gate gives advisory compact, reobserve, hold, or continue actions under density.",
-    "Daemon Wa function gives advisory runtime posture between Qi scope and emptiness action."
+    "Daemon Wa function gives advisory runtime posture between Qi scope and emptiness action.",
+    "Daemon Wa output validation fixes Wa result as a standard daemon artifact."
   ]
 }
