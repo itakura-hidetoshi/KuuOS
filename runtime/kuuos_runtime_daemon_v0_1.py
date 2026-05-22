@@ -12,9 +12,11 @@ from typing import Any
 try:
     from runtime.kuuos_state_io_runner_v0_1 import run_state_io
     from runtime.kuuos_runtime_daemon_qi_policy_v0_1 import read_and_evaluate_daemon_qi_policy
+    from runtime.kuuos_runtime_daemon_emptiness_gate_v0_1 import read_and_evaluate_daemon_emptiness_gate
 except ModuleNotFoundError:
     from kuuos_state_io_runner_v0_1 import run_state_io
     from kuuos_runtime_daemon_qi_policy_v0_1 import read_and_evaluate_daemon_qi_policy
+    from kuuos_runtime_daemon_emptiness_gate_v0_1 import read_and_evaluate_daemon_emptiness_gate
 
 NON_AUTHORITY_FLAGS = {
     "grants_execution_authority": False,
@@ -43,6 +45,8 @@ class KuuOSDaemonResult:
     final_state_bundle_path: str | None
     qi_policy_result_path: str | None = None
     qi_policy_recommended_tick_mode: str | None = None
+    emptiness_gate_result_path: str | None = None
+    emptiness_recommended_action: str | None = None
     grants_execution_authority: bool = False
     grants_truth_authority: bool = False
     grants_final_commitment_authority: bool = False
@@ -162,6 +166,10 @@ def run_runtime_daemon(
     policy_result_path = daemon_dir / "daemon_qi_policy_result_v0_1.json"
     _write_json(policy_result_path, policy_result.to_dict())
 
+    emptiness_result = read_and_evaluate_daemon_emptiness_gate(daemon_dir)
+    emptiness_result_path = daemon_dir / "daemon_emptiness_gate_result_v0_1.json"
+    _write_json(emptiness_result_path, emptiness_result.to_dict())
+
     result = KuuOSDaemonResult(
         daemon_status=daemon_status,
         stop_reason=stop_reason,
@@ -172,6 +180,8 @@ def run_runtime_daemon(
         final_state_bundle_path=str(final_bundle) if final_bundle else None,
         qi_policy_result_path=str(policy_result_path),
         qi_policy_recommended_tick_mode=policy_result.recommended_tick_mode,
+        emptiness_gate_result_path=str(emptiness_result_path),
+        emptiness_recommended_action=emptiness_result.recommended_emptiness_action,
     )
     _write_json(daemon_result_path, result.to_dict())
     return result
