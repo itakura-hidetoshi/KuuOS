@@ -23,6 +23,7 @@
     "runtime/kuuos_runtime_daemon_qique_gauge_v0_1.py",
     "runtime/kuuos_runtime_daemon_emptiness_gate_v0_1.py",
     "runtime/kuuos_runtime_daemon_wa_function_v0_1.py",
+    "runtime/kuuos_runtime_daemon_active_inference_feature_compiler_v0_1.py",
     "runtime/kuuos_runtime_daemon_active_inference_kernel_v0_1.py"
   ],
   "core_test_files": [
@@ -48,6 +49,7 @@
     "tests/test_kuuos_runtime_daemon_qique_gauge_v0_1.py",
     "tests/test_kuuos_runtime_daemon_emptiness_gate_v0_1.py",
     "tests/test_kuuos_runtime_daemon_wa_function_v0_1.py",
+    "tests/test_kuuos_runtime_daemon_active_inference_feature_compiler_v0_1.py",
     "tests/test_kuuos_runtime_daemon_active_inference_kernel_v0_1.py",
     "tests/test_qi_process_tensor_downstream_v0_1.py"
   ],
@@ -91,6 +93,7 @@
     ".github/workflows/kuuos_runtime_daemon_emptiness_gate_validation.yml",
     ".github/workflows/kuuos_runtime_daemon_wa_function_validation.yml",
     ".github/workflows/kuuos_runtime_daemon_wa_output_validation.yml",
+    ".github/workflows/kuuos_runtime_daemon_active_inference_feature_compiler_validation.yml",
     ".github/workflows/kuuos_runtime_daemon_active_inference_kernel_validation.yml"
   ],
   "required_output_paths": [
@@ -147,6 +150,7 @@
     "Daemon Qi-QUE gauge reports advisory regime, scores, and policy hints from daemon status.",
     "Daemon emptiness gate gives advisory compact, reobserve, hold, or continue actions under density.",
     "Daemon Wa function gives advisory runtime posture between Qi scope and emptiness action.",
+    "Daemon Active Inference feature compiler treats Qi Process Tensor as primary input and lenses as optional features.",
     "Daemon Active Inference kernel selects advisory policy by expected free energy under hard constraints."
   ]
 }
