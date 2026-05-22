@@ -75,6 +75,8 @@ def main() -> int:
             errors.append("ticks_run mismatch")
         if result.qi_policy_recommended_tick_mode != "CONTINUE_WITH_QI_MEMORY_MONITOR":
             errors.append("qi policy mode mismatch")
+        if result.emptiness_recommended_action != "CONTINUE_ADVISORY_ONLY":
+            errors.append("emptiness action mismatch")
         if not pathlib.Path(result.tick_log_path).is_file():
             errors.append("missing tick log")
         if not pathlib.Path(result.final_raw_state_path).is_file():
@@ -83,6 +85,8 @@ def main() -> int:
             errors.append("missing final state bundle")
         if not result.qi_policy_result_path or not pathlib.Path(result.qi_policy_result_path).is_file():
             errors.append("missing qi policy result")
+        if not result.emptiness_gate_result_path or not pathlib.Path(result.emptiness_gate_result_path).is_file():
+            errors.append("missing emptiness gate result")
         if not (daemon_dir / "daemon_result_v0_1.json").is_file():
             errors.append("missing daemon result")
 
@@ -90,6 +94,7 @@ def main() -> int:
             tick_log = load(pathlib.Path(result.tick_log_path))
             daemon_result = load(daemon_dir / "daemon_result_v0_1.json")
             policy_result = load(pathlib.Path(result.qi_policy_result_path))
+            emptiness_result = load(pathlib.Path(result.emptiness_gate_result_path))
             if len(tick_log) != 2:
                 errors.append("tick log length mismatch")
             for index, entry in enumerate(tick_log):
@@ -98,10 +103,18 @@ def main() -> int:
                 errors.append("daemon_result ticks_run mismatch")
             if daemon_result.get("qi_policy_recommended_tick_mode") != "CONTINUE_WITH_QI_MEMORY_MONITOR":
                 errors.append("daemon_result qi policy mismatch")
+            if daemon_result.get("emptiness_recommended_action") != "CONTINUE_ADVISORY_ONLY":
+                errors.append("daemon_result emptiness action mismatch")
             if policy_result.get("recommended_tick_mode") != "CONTINUE_WITH_QI_MEMORY_MONITOR":
                 errors.append("policy_result mode mismatch")
+            if emptiness_result.get("recommended_emptiness_action") != "CONTINUE_ADVISORY_ONLY":
+                errors.append("emptiness_result action mismatch")
+            if not emptiness_result.get("non_reification_assertions", {}).get("policy_hint_is_not_command"):
+                errors.append("emptiness_result missing non-reification assertion")
             if policy_result.get("grants_execution_authority") is not False:
                 errors.append("policy_result execution flag not false")
+            if emptiness_result.get("grants_execution_authority") is not False:
+                errors.append("emptiness_result execution flag not false")
             if daemon_result.get("grants_execution_authority") is not False:
                 errors.append("daemon_result execution flag not false")
 
