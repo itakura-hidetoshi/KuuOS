@@ -28,6 +28,7 @@ TEST_MODULES = [
     "tests.test_kuuos_runtime_daemon_status_v0_1",
     "tests.test_kuuos_runtime_daemon_qi_policy_v0_1",
     "tests.test_kuuos_runtime_daemon_qique_gauge_v0_1",
+    "tests.test_kuuos_runtime_daemon_emptiness_gate_v0_1",
 ]
 
 
