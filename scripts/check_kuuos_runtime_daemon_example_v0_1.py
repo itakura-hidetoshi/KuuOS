@@ -73,6 +73,10 @@ def main() -> int:
             errors.append("stop reason mismatch")
         if result.ticks_run != 2:
             errors.append("ticks_run mismatch")
+        if result.yinyang_polarity_state != "RECOVERY_YANG_PRESENT":
+            errors.append("yinyang polarity mismatch")
+        if result.four_image_phase != "LESSER_YANG":
+            errors.append("four image phase mismatch")
         if result.qi_policy_recommended_tick_mode != "CONTINUE_WITH_QI_MEMORY_MONITOR":
             errors.append("qi policy mode mismatch")
         if result.emptiness_recommended_action != "CONTINUE_ADVISORY_ONLY":
@@ -83,6 +87,10 @@ def main() -> int:
             errors.append("missing final raw state")
         if not pathlib.Path(result.final_state_bundle_path).is_file():
             errors.append("missing final state bundle")
+        if not result.yinyang_polarity_result_path or not pathlib.Path(result.yinyang_polarity_result_path).is_file():
+            errors.append("missing yinyang polarity result")
+        if not result.four_image_phase_result_path or not pathlib.Path(result.four_image_phase_result_path).is_file():
+            errors.append("missing four image phase result")
         if not result.qi_policy_result_path or not pathlib.Path(result.qi_policy_result_path).is_file():
             errors.append("missing qi policy result")
         if not result.emptiness_gate_result_path or not pathlib.Path(result.emptiness_gate_result_path).is_file():
@@ -93,6 +101,8 @@ def main() -> int:
         if not errors:
             tick_log = load(pathlib.Path(result.tick_log_path))
             daemon_result = load(daemon_dir / "daemon_result_v0_1.json")
+            yy_result = load(pathlib.Path(result.yinyang_polarity_result_path))
+            four_result = load(pathlib.Path(result.four_image_phase_result_path))
             policy_result = load(pathlib.Path(result.qi_policy_result_path))
             emptiness_result = load(pathlib.Path(result.emptiness_gate_result_path))
             if len(tick_log) != 2:
@@ -101,16 +111,28 @@ def main() -> int:
                 validate_tick_entry(entry, errors, f"tick_log[{index}]")
             if daemon_result.get("ticks_run") != 2:
                 errors.append("daemon_result ticks_run mismatch")
+            if daemon_result.get("yinyang_polarity_state") != "RECOVERY_YANG_PRESENT":
+                errors.append("daemon_result yinyang mismatch")
+            if daemon_result.get("four_image_phase") != "LESSER_YANG":
+                errors.append("daemon_result four image mismatch")
             if daemon_result.get("qi_policy_recommended_tick_mode") != "CONTINUE_WITH_QI_MEMORY_MONITOR":
                 errors.append("daemon_result qi policy mismatch")
             if daemon_result.get("emptiness_recommended_action") != "CONTINUE_ADVISORY_ONLY":
                 errors.append("daemon_result emptiness action mismatch")
+            if yy_result.get("yinyang_polarity_state") != "RECOVERY_YANG_PRESENT":
+                errors.append("yinyang_result state mismatch")
+            if four_result.get("four_image_phase") != "LESSER_YANG":
+                errors.append("four_result phase mismatch")
             if policy_result.get("recommended_tick_mode") != "CONTINUE_WITH_QI_MEMORY_MONITOR":
                 errors.append("policy_result mode mismatch")
             if emptiness_result.get("recommended_emptiness_action") != "CONTINUE_ADVISORY_ONLY":
                 errors.append("emptiness_result action mismatch")
             if not emptiness_result.get("non_reification_assertions", {}).get("policy_hint_is_not_command"):
                 errors.append("emptiness_result missing non-reification assertion")
+            if yy_result.get("grants_execution_authority") is not False:
+                errors.append("yinyang_result execution flag not false")
+            if four_result.get("grants_execution_authority") is not False:
+                errors.append("four_result execution flag not false")
             if policy_result.get("grants_execution_authority") is not False:
                 errors.append("policy_result execution flag not false")
             if emptiness_result.get("grants_execution_authority") is not False:
