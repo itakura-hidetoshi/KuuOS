@@ -11,10 +11,14 @@ from typing import Any
 
 try:
     from runtime.kuuos_state_io_runner_v0_1 import run_state_io
+    from runtime.kuuos_runtime_daemon_yinyang_polarity_gauge_v0_1 import read_and_evaluate_daemon_yinyang_polarity
+    from runtime.kuuos_runtime_daemon_four_image_phase_gauge_v0_1 import read_and_evaluate_daemon_four_image_phase
     from runtime.kuuos_runtime_daemon_qi_policy_v0_1 import read_and_evaluate_daemon_qi_policy
     from runtime.kuuos_runtime_daemon_emptiness_gate_v0_1 import read_and_evaluate_daemon_emptiness_gate
 except ModuleNotFoundError:
     from kuuos_state_io_runner_v0_1 import run_state_io
+    from kuuos_runtime_daemon_yinyang_polarity_gauge_v0_1 import read_and_evaluate_daemon_yinyang_polarity
+    from kuuos_runtime_daemon_four_image_phase_gauge_v0_1 import read_and_evaluate_daemon_four_image_phase
     from kuuos_runtime_daemon_qi_policy_v0_1 import read_and_evaluate_daemon_qi_policy
     from kuuos_runtime_daemon_emptiness_gate_v0_1 import read_and_evaluate_daemon_emptiness_gate
 
@@ -43,6 +47,10 @@ class KuuOSDaemonResult:
     tick_log_path: str
     final_raw_state_path: str | None
     final_state_bundle_path: str | None
+    yinyang_polarity_result_path: str | None = None
+    yinyang_polarity_state: str | None = None
+    four_image_phase_result_path: str | None = None
+    four_image_phase: str | None = None
     qi_policy_result_path: str | None = None
     qi_policy_recommended_tick_mode: str | None = None
     emptiness_gate_result_path: str | None = None
@@ -162,6 +170,14 @@ def run_runtime_daemon(
     )
     _write_json(daemon_result_path, provisional_result.to_dict())
 
+    yinyang_result = read_and_evaluate_daemon_yinyang_polarity(daemon_dir)
+    yinyang_result_path = daemon_dir / "daemon_yinyang_polarity_result_v0_1.json"
+    _write_json(yinyang_result_path, yinyang_result.to_dict())
+
+    four_image_result = read_and_evaluate_daemon_four_image_phase(daemon_dir)
+    four_image_result_path = daemon_dir / "daemon_four_image_phase_result_v0_1.json"
+    _write_json(four_image_result_path, four_image_result.to_dict())
+
     policy_result = read_and_evaluate_daemon_qi_policy(daemon_dir)
     policy_result_path = daemon_dir / "daemon_qi_policy_result_v0_1.json"
     _write_json(policy_result_path, policy_result.to_dict())
@@ -178,6 +194,10 @@ def run_runtime_daemon(
         tick_log_path=str(tick_log_path),
         final_raw_state_path=str(final_raw) if final_raw else None,
         final_state_bundle_path=str(final_bundle) if final_bundle else None,
+        yinyang_polarity_result_path=str(yinyang_result_path),
+        yinyang_polarity_state=yinyang_result.yinyang_polarity_state,
+        four_image_phase_result_path=str(four_image_result_path),
+        four_image_phase=four_image_result.four_image_phase,
         qi_policy_result_path=str(policy_result_path),
         qi_policy_recommended_tick_mode=policy_result.recommended_tick_mode,
         emptiness_gate_result_path=str(emptiness_result_path),
