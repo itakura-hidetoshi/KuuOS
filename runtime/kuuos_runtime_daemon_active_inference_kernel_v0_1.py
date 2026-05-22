@@ -157,7 +157,6 @@ def _policy_components(policy: str, belief: Mapping[str, float]) -> dict[str, fl
     u = belief["uncertainty"]
     d = belief["density_pressure"]
     r = belief["recovery_need"]
-    n = belief["nihilism_risk"]
     a = belief["action_drive"]
 
     if policy == "QUARANTINE_WITH_RETURN_PATH":
@@ -169,9 +168,9 @@ def _policy_components(policy: str, belief: Mapping[str, float]) -> dict[str, fl
     elif policy == "HOLD_WITH_RECOVERY":
         risk = 0.25 * b + 0.15 * d
         ambiguity = 0.35 * u
-        epistemic_value = 0.2 * u + 0.25 * r
-        control_cost = 0.45
-        preference_misalignment = 0.1 if r >= 0.6 else 0.45
+        epistemic_value = 0.2 * u + 0.3 * r
+        control_cost = 0.42
+        preference_misalignment = 0.04 if r >= 0.8 else (0.1 if r >= 0.6 else 0.45)
     elif policy == "SLOW_DOWN_AND_REOBSERVE":
         risk = 0.2 * b + 0.1 * d
         ambiguity = 0.15 * u
@@ -193,9 +192,9 @@ def _policy_components(policy: str, belief: Mapping[str, float]) -> dict[str, fl
     elif policy == "BRANCH_EXPLORE_LIGHTLY":
         risk = 0.55 * b + 0.25 * u + 0.2 * d
         ambiguity = 0.35 * u
-        epistemic_value = 0.25 * (1.0 - a) + 0.2 * r
+        epistemic_value = 0.25 * (1.0 - a) + (0.08 * r if r < 0.8 else 0.0)
         control_cost = 0.4
-        preference_misalignment = 0.08 if r >= 0.55 and b < 0.5 else 0.32
+        preference_misalignment = 0.5 if r >= 0.8 else (0.08 if r >= 0.55 and b < 0.5 else 0.32)
     else:  # CONTINUE_HARMONIZED
         risk = 0.65 * b + 0.35 * u + 0.3 * d
         ambiguity = 0.45 * u
