@@ -15,12 +15,14 @@ try:
     from runtime.kuuos_runtime_daemon_four_image_phase_gauge_v0_1 import read_and_evaluate_daemon_four_image_phase
     from runtime.kuuos_runtime_daemon_qi_policy_v0_1 import read_and_evaluate_daemon_qi_policy
     from runtime.kuuos_runtime_daemon_emptiness_gate_v0_1 import read_and_evaluate_daemon_emptiness_gate
+    from runtime.kuuos_runtime_daemon_wa_function_v0_1 import read_and_evaluate_daemon_wa_function
 except ModuleNotFoundError:
     from kuuos_state_io_runner_v0_1 import run_state_io
     from kuuos_runtime_daemon_yinyang_polarity_gauge_v0_1 import read_and_evaluate_daemon_yinyang_polarity
     from kuuos_runtime_daemon_four_image_phase_gauge_v0_1 import read_and_evaluate_daemon_four_image_phase
     from kuuos_runtime_daemon_qi_policy_v0_1 import read_and_evaluate_daemon_qi_policy
     from kuuos_runtime_daemon_emptiness_gate_v0_1 import read_and_evaluate_daemon_emptiness_gate
+    from kuuos_runtime_daemon_wa_function_v0_1 import read_and_evaluate_daemon_wa_function
 
 NON_AUTHORITY_FLAGS = {
     "grants_execution_authority": False,
@@ -55,6 +57,8 @@ class KuuOSDaemonResult:
     qi_policy_recommended_tick_mode: str | None = None
     emptiness_gate_result_path: str | None = None
     emptiness_recommended_action: str | None = None
+    wa_function_result_path: str | None = None
+    recommended_runtime_posture: str | None = None
     grants_execution_authority: bool = False
     grants_truth_authority: bool = False
     grants_final_commitment_authority: bool = False
@@ -186,6 +190,10 @@ def run_runtime_daemon(
     emptiness_result_path = daemon_dir / "daemon_emptiness_gate_result_v0_1.json"
     _write_json(emptiness_result_path, emptiness_result.to_dict())
 
+    wa_result = read_and_evaluate_daemon_wa_function(daemon_dir)
+    wa_result_path = daemon_dir / "daemon_wa_function_result_v0_1.json"
+    _write_json(wa_result_path, wa_result.to_dict())
+
     result = KuuOSDaemonResult(
         daemon_status=daemon_status,
         stop_reason=stop_reason,
@@ -202,6 +210,8 @@ def run_runtime_daemon(
         qi_policy_recommended_tick_mode=policy_result.recommended_tick_mode,
         emptiness_gate_result_path=str(emptiness_result_path),
         emptiness_recommended_action=emptiness_result.recommended_emptiness_action,
+        wa_function_result_path=str(wa_result_path),
+        recommended_runtime_posture=wa_result.recommended_runtime_posture,
     )
     _write_json(daemon_result_path, result.to_dict())
     return result
