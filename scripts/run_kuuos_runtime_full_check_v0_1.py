@@ -26,6 +26,7 @@ TEST_MODULES = [
     "tests.test_kuuos_state_io_runner_v0_1",
     "tests.test_kuuos_runtime_daemon_v0_1",
     "tests.test_kuuos_runtime_daemon_wa_output_v0_1",
+    "tests.test_kuuos_runtime_daemon_active_inference_output_v0_1",
     "tests.test_kuuos_runtime_daemon_status_v0_1",
     "tests.test_kuuos_runtime_daemon_yinyang_polarity_gauge_v0_1",
     "tests.test_kuuos_runtime_daemon_four_image_phase_gauge_v0_1",
