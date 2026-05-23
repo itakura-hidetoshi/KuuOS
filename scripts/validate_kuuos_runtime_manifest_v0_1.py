@@ -27,6 +27,7 @@ NEEDED_KEYS = [
 ALLOWED_RUNTIME_STATUS = {
     "bounded_non_authoritative_closed_loop",
     "bounded_non_authoritative_closed_loop_with_daemon",
+    "bounded_non_authoritative_closed_loop_with_daemon_geometric_active_inference",
 }
 
 NEEDED_TRACE = [
@@ -77,7 +78,7 @@ def main() -> int:
     for item in NEEDED_OUTPUTS:
         if item not in outputs:
             errors.append(f"missing output item: {item}")
-    if data.get("runtime_status") == "bounded_non_authoritative_closed_loop_with_daemon":
+    if data.get("runtime_status") in {"bounded_non_authoritative_closed_loop_with_daemon", "bounded_non_authoritative_closed_loop_with_daemon_geometric_active_inference"}:
         for item in DAEMON_OUTPUTS:
             if item not in outputs:
                 errors.append(f"missing daemon output item: {item}")
