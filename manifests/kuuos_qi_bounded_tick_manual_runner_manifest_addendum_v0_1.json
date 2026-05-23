@@ -1,0 +1,43 @@
+{
+  "addendum_version": "kuuos_qi_bounded_tick_manual_runner_manifest_addendum_v0_1",
+  "addendum_status": "active_manifest_addendum",
+  "parent_manifest": "manifests/kuuos_runtime_manifest_v0_1.json",
+  "purpose": "Register the explicit Qi Process Tensor bounded tick manual runner without requiring a large rewrite of the primary runtime manifest.",
+  "script_files": [
+    "scripts/run_qi_process_tensor_bounded_tick_from_daemon_v0_1.py"
+  ],
+  "test_files": [
+    "tests/test_qi_process_tensor_bounded_tick_manual_runner_v0_1.py"
+  ],
+  "runtime_full_check_modules": [
+    "tests.test_qi_process_tensor_bounded_tick_manual_runner_v0_1"
+  ],
+  "input_receipts": [
+    "daemon_qi_process_tensor_reentry_license_gate_v0_1.json",
+    "daemon_qi_process_tensor_bounded_tick_invocation_boundary_v0_1.json"
+  ],
+  "output_receipts": [
+    "daemon_qi_process_tensor_bounded_tick_executor_receipt_v0_1.json"
+  ],
+  "execution_boundary": {
+    "daemon_auto_invocation_allowed": false,
+    "manual_invocation_required": true,
+    "requires_single_tick_invocation_token": true,
+    "max_invocation_depth": 0,
+    "executor_invokes_at_most_one_state_io_tick": true
+  },
+  "authority_boundary": {
+    "manual_runner_may_open_bounded_tick_execution": true,
+    "grants_truth_authority": false,
+    "grants_final_commitment_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_clinical_authority": false,
+    "grants_theorem_authority": false,
+    "grants_completed_identity_authority": false
+  },
+  "notes": [
+    "This addendum is intentionally small so that the primary runtime manifest is not rewritten for each narrow runner registration.",
+    "The daemon exposes reentry receipts and boundary tokens, but the manual runner is the explicit outer invocation entrypoint.",
+    "The manual runner must not bypass the single-tick invocation boundary."
+  ]
+}
