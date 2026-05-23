@@ -147,12 +147,6 @@ def compile_qi_process_tensor_health_projection(
         action = "hold"
         reason = recoverability.recovery_reason
         next_receipt = recoverability.recommended_next_receipt
-    elif recoverability.recoverability_status == "LOCAL_RECOVERY_BLOCKED":
-        phase = "QI_LOCAL_RECOVERY_BLOCKED"
-        health = "LOCAL_RECOVERY_BLOCKED"
-        action = "hold"
-        reason = recoverability.recovery_reason
-        next_receipt = recoverability.recommended_next_receipt
     elif not process_visible:
         phase = "QI_PROCESS_TENSOR_FORMATION_INCOMPLETE"
         health = "WAITING_FOR_PROCESS_TENSOR_SUPPORT"
@@ -207,6 +201,12 @@ def compile_qi_process_tensor_health_projection(
         action = "hold"
         reason = str(license_gate.get("denied_reason") or daemon_result.get("reentry_license_denied_reason") or recoverability.recovery_reason)
         next_receipt = recoverability.recommended_next_receipt or "daemon_qi_process_tensor_reentry_license_gate_v0_1.json"
+    elif recoverability.recoverability_status == "LOCAL_RECOVERY_BLOCKED":
+        phase = "QI_LOCAL_RECOVERY_BLOCKED"
+        health = "LOCAL_RECOVERY_BLOCKED"
+        action = "hold"
+        reason = recoverability.recovery_reason
+        next_receipt = recoverability.recommended_next_receipt
     else:
         phase = "QI_PROCESS_TENSOR_REENTRY_UNRESOLVED"
         health = "REOBSERVE_REQUIRED"
