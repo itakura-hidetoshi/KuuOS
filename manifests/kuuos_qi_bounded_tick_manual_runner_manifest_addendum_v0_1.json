@@ -4,13 +4,26 @@
   "parent_manifest": "manifests/kuuos_runtime_manifest_v0_1.json",
   "purpose": "Register the explicit Qi Process Tensor bounded tick manual runner without requiring a large rewrite of the primary runtime manifest.",
   "script_files": [
-    "scripts/run_qi_process_tensor_bounded_tick_from_daemon_v0_1.py"
+    "scripts/run_qi_process_tensor_bounded_tick_from_daemon_v0_1.py",
+    "scripts/check_qi_bounded_tick_manual_runner_example_v0_1.py",
+    "scripts/validate_qi_bounded_tick_manual_runner_manifest_addendum_v0_1.py"
   ],
   "test_files": [
     "tests/test_qi_process_tensor_bounded_tick_manual_runner_v0_1.py"
   ],
+  "example_files": [
+    "examples/qi_bounded_tick_manual_runner_v0_1/raw_state.json",
+    "examples/qi_bounded_tick_manual_runner_v0_1/evidence.json",
+    "examples/qi_bounded_tick_manual_runner_v0_1/daemon/daemon_qi_process_tensor_reentry_license_gate_v0_1.json",
+    "examples/qi_bounded_tick_manual_runner_v0_1/daemon/daemon_qi_process_tensor_bounded_tick_invocation_boundary_v0_1.json",
+    "examples/qi_bounded_tick_manual_runner_v0_1/README.md"
+  ],
+  "workflow_files": [
+    ".github/workflows/qi_bounded_tick_manual_runner_example_validation.yml"
+  ],
   "runtime_full_check_modules": [
-    "tests.test_qi_process_tensor_bounded_tick_manual_runner_v0_1"
+    "tests.test_qi_process_tensor_bounded_tick_manual_runner_v0_1",
+    "scripts.check_qi_bounded_tick_manual_runner_example_v0_1"
   ],
   "input_receipts": [
     "daemon_qi_process_tensor_reentry_license_gate_v0_1.json",
@@ -38,6 +51,7 @@
   "notes": [
     "This addendum is intentionally small so that the primary runtime manifest is not rewritten for each narrow runner registration.",
     "The daemon exposes reentry receipts and boundary tokens, but the manual runner is the explicit outer invocation entrypoint.",
-    "The manual runner must not bypass the single-tick invocation boundary."
+    "The manual runner must not bypass the single-tick invocation boundary.",
+    "The manual runner example has a dedicated workflow and is also checked by the runtime full check."
   ]
 }
