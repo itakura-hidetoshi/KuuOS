@@ -56,6 +56,14 @@ DAEMON_OUTPUTS = [
     "daemon_qi_process_tensor_closed_loop_receipt_v0_1.json",
 ]
 
+REQUIRED_RUNTIME_FILES = [
+    "runtime/kuuos_runtime_daemon_qi_process_tensor_reentry_plan_v0_1.py",
+]
+
+REQUIRED_TEST_FILES = [
+    "tests/test_qi_process_tensor_reentry_plan_v0_1.py",
+]
+
 REQUIRED_POLICY_FILES = [
     "manifests/kuuos_validator_tiering_policy_v0_1.json",
 ]
@@ -97,6 +105,14 @@ def main() -> int:
         for item in DAEMON_OUTPUTS:
             if item not in outputs:
                 errors.append(f"missing daemon output item: {item}")
+    runtime_files = data.get("core_runtime_files", [])
+    for item in REQUIRED_RUNTIME_FILES:
+        if item not in runtime_files:
+            errors.append(f"missing runtime file item: {item}")
+    test_files = data.get("core_test_files", [])
+    for item in REQUIRED_TEST_FILES:
+        if item not in test_files:
+            errors.append(f"missing test file item: {item}")
     policy_files = data.get("policy_files", [])
     for item in REQUIRED_POLICY_FILES:
         if item not in policy_files:
