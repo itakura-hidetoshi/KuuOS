@@ -37,6 +37,21 @@ class QiProcessTensorClosedLoopReceiptDaemonResultFieldsTests(unittest.TestCase)
         self.assertIn("recursive_invocation_denied", fields)
         self.assertIn("invocation_boundary_denied_reason", fields)
 
+    def test_daemon_result_contains_qi_projection_fields(self):
+        fields = KuuOSDaemonResult.__dataclass_fields__
+        self.assertIn("qi_process_tensor_recoverability_projection_path", fields)
+        self.assertIn("recoverability_status", fields)
+        self.assertIn("dominant_recovery_path", fields)
+        self.assertIn("recommended_recovery_action", fields)
+        self.assertIn("recoverability_score", fields)
+        self.assertIn("recovery_unsafe", fields)
+        self.assertIn("local_recovery_allowed", fields)
+        self.assertIn("qi_process_tensor_health_projection_path", fields)
+        self.assertIn("qi_process_tensor_phase", fields)
+        self.assertIn("daemon_health_status", fields)
+        self.assertIn("next_operator_action", fields)
+        self.assertIn("health_reason", fields)
+
 
 if __name__ == "__main__":
     unittest.main()
