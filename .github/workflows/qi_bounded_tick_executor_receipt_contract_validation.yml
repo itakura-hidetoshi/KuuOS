@@ -4,13 +4,17 @@ on:
   push:
     paths:
       - 'scripts/validate_qi_bounded_tick_executor_receipt_v0_1.py'
+      - 'scripts/check_qi_bounded_tick_executor_receipt_contract_cases_v0_1.py'
       - 'tests/test_qi_bounded_tick_executor_receipt_validator_v0_1.py'
+      - 'validation/qi_bounded_tick_executor_receipt_contract_v0_1/**'
       - 'manifests/kuuos_qi_bounded_tick_manual_runner_manifest_addendum_v0_1.json'
       - '.github/workflows/qi_bounded_tick_executor_receipt_contract_validation.yml'
   pull_request:
     paths:
       - 'scripts/validate_qi_bounded_tick_executor_receipt_v0_1.py'
+      - 'scripts/check_qi_bounded_tick_executor_receipt_contract_cases_v0_1.py'
       - 'tests/test_qi_bounded_tick_executor_receipt_validator_v0_1.py'
+      - 'validation/qi_bounded_tick_executor_receipt_contract_v0_1/**'
       - 'manifests/kuuos_qi_bounded_tick_manual_runner_manifest_addendum_v0_1.json'
       - '.github/workflows/qi_bounded_tick_executor_receipt_contract_validation.yml'
 
@@ -26,5 +30,7 @@ jobs:
           python-version: '3.11'
       - name: Run receipt validator unit tests
         run: python3 -m unittest tests.test_qi_bounded_tick_executor_receipt_validator_v0_1
+      - name: Run receipt contract validation cases
+        run: python3 scripts/check_qi_bounded_tick_executor_receipt_contract_cases_v0_1.py
       - name: Validate manual runner addendum registration
         run: python3 scripts/validate_qi_bounded_tick_manual_runner_manifest_addendum_v0_1.py
