@@ -15,6 +15,7 @@ REQUIRED_VALIDATOR = "scripts/validate_qi_bounded_tick_manual_runner_manifest_ad
 REQUIRED_TEST = "tests/test_qi_process_tensor_bounded_tick_manual_runner_v0_1.py"
 REQUIRED_RECEIPT_VALIDATOR_TEST = "tests/test_qi_bounded_tick_executor_receipt_validator_v0_1.py"
 REQUIRED_WORKFLOW = ".github/workflows/qi_bounded_tick_manual_runner_example_validation.yml"
+REQUIRED_RECEIPT_WORKFLOW = ".github/workflows/qi_bounded_tick_executor_receipt_contract_validation.yml"
 REQUIRED_OUTPUT = "daemon_qi_process_tensor_bounded_tick_executor_receipt_v0_1.json"
 REQUIRED_INPUTS = {
     "daemon_qi_process_tensor_reentry_license_gate_v0_1.json",
@@ -71,8 +72,12 @@ def main() -> int:
             errors.append(f"{label} not registered")
     if REQUIRED_RECEIPT_VALIDATOR not in receipt_validators:
         errors.append("receipt contract validator not registered")
-    if REQUIRED_WORKFLOW not in workflows:
-        errors.append("manual runner example workflow not registered")
+    for item, label in [
+        (REQUIRED_WORKFLOW, "manual runner example workflow"),
+        (REQUIRED_RECEIPT_WORKFLOW, "receipt contract workflow"),
+    ]:
+        if item not in workflows:
+            errors.append(f"{label} not registered")
     if REQUIRED_OUTPUT not in outputs:
         errors.append("executor receipt output not registered")
     for item in REQUIRED_INPUTS - inputs:
@@ -95,6 +100,7 @@ def main() -> int:
         REQUIRED_TEST,
         REQUIRED_RECEIPT_VALIDATOR_TEST,
         REQUIRED_WORKFLOW,
+        REQUIRED_RECEIPT_WORKFLOW,
         *sorted(REQUIRED_EXAMPLES),
     ]:
         if not (ROOT / rel).exists():
