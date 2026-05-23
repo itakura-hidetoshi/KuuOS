@@ -1,6 +1,6 @@
 {
   "manifest_version": "kuuos_runtime_manifest_v0_1",
-  "runtime_status": "bounded_non_authoritative_closed_loop_with_daemon",
+  "runtime_status": "bounded_non_authoritative_closed_loop_with_daemon_geometric_active_inference",
   "core_runtime_files": [
     "runtime/qi_process_tensor_v0_1.py",
     "runtime/qi_total_field_v0_1.py",
@@ -24,7 +24,11 @@
     "runtime/kuuos_runtime_daemon_emptiness_gate_v0_1.py",
     "runtime/kuuos_runtime_daemon_wa_function_v0_1.py",
     "runtime/kuuos_runtime_daemon_active_inference_feature_compiler_v0_1.py",
-    "runtime/kuuos_runtime_daemon_active_inference_kernel_v0_1.py"
+    "runtime/kuuos_runtime_daemon_belief_state_manifold_v0_1.py",
+    "runtime/kuuos_runtime_daemon_precision_geometry_v0_1.py",
+    "runtime/kuuos_runtime_daemon_active_inference_kernel_v0_1.py",
+    "runtime/kuuos_runtime_daemon_efe_landscape_v0_1.py",
+    "runtime/kuuos_runtime_daemon_policy_flow_v0_1.py"
   ],
   "core_test_files": [
     "tests/test_qi_process_tensor_v0_1.py",
@@ -51,6 +55,13 @@
     "tests/test_kuuos_runtime_daemon_wa_function_v0_1.py",
     "tests/test_kuuos_runtime_daemon_active_inference_feature_compiler_v0_1.py",
     "tests/test_kuuos_runtime_daemon_active_inference_kernel_v0_1.py",
+    "tests/test_kuuos_runtime_daemon_active_inference_output_v0_1.py",
+    "tests/test_kuuos_runtime_daemon_belief_state_manifold_v0_1.py",
+    "tests/test_kuuos_runtime_daemon_precision_geometry_v0_1.py",
+    "tests/test_kuuos_runtime_daemon_efe_landscape_v0_1.py",
+    "tests/test_policy_flow_v0_1.py",
+    "tests/test_policy_flow_output_fields_v0_1.py",
+    "tests/test_kuuos_runtime_daemon_geometric_chain_fields_v0_1.py",
     "tests/test_qi_process_tensor_downstream_v0_1.py"
   ],
   "example_files": [
@@ -94,7 +105,12 @@
     ".github/workflows/kuuos_runtime_daemon_wa_function_validation.yml",
     ".github/workflows/kuuos_runtime_daemon_wa_output_validation.yml",
     ".github/workflows/kuuos_runtime_daemon_active_inference_feature_compiler_validation.yml",
-    ".github/workflows/kuuos_runtime_daemon_active_inference_kernel_validation.yml"
+    ".github/workflows/kuuos_runtime_daemon_active_inference_kernel_validation.yml",
+    ".github/workflows/kuuos_runtime_daemon_active_inference_output_validation.yml",
+    ".github/workflows/kuuos_runtime_daemon_belief_state_manifold_validation.yml",
+    ".github/workflows/precision_geometry_validation.yml",
+    ".github/workflows/efe_landscape_validation.yml",
+    ".github/workflows/policy_flow_validation.yml"
   ],
   "required_output_paths": [
     "kuuos_driver_result_v0_1.json",
@@ -108,6 +124,12 @@
     "daemon_qi_policy_result_v0_1.json",
     "daemon_emptiness_gate_result_v0_1.json",
     "daemon_wa_function_result_v0_1.json",
+    "daemon_active_inference_feature_bundle_v0_1.json",
+    "daemon_belief_state_manifold_v0_1.json",
+    "daemon_precision_geometry_v0_1.json",
+    "daemon_active_inference_kernel_result_v0_1.json",
+    "daemon_efe_landscape_v0_1.json",
+    "daemon_policy_flow_v0_1.json",
     "daemon_result_v0_1.json"
   ],
   "required_trace_fields": [
@@ -151,6 +173,10 @@
     "Daemon emptiness gate gives advisory compact, reobserve, hold, or continue actions under density.",
     "Daemon Wa function gives advisory runtime posture between Qi scope and emptiness action.",
     "Daemon Active Inference feature compiler treats Qi Process Tensor as primary input and lenses as optional features.",
-    "Daemon Active Inference kernel selects advisory policy by expected free energy under hard constraints."
+    "Daemon Belief State Manifold compiles features into continuous belief coordinates.",
+    "Daemon Precision Geometry adds directional precision and coupling hints.",
+    "Daemon Active Inference kernel selects advisory policy by expected free energy under hard constraints.",
+    "Daemon EFE Landscape lifts policy selection to policy manifold with curvature and harmonic smoothing.",
+    "Daemon Policy Flow emits nonexecuting geodesic-like policy transition advisories."
   ]
 }
