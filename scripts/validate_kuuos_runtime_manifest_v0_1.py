@@ -59,12 +59,14 @@ DAEMON_OUTPUTS = [
 REQUIRED_RUNTIME_FILES = [
     "runtime/kuuos_runtime_daemon_qi_process_tensor_reentry_plan_v0_1.py",
     "runtime/kuuos_runtime_daemon_qi_process_tensor_reentry_license_gate_v0_1.py",
+    "runtime/kuuos_runtime_daemon_qi_process_tensor_bounded_tick_invocation_boundary_v0_1.py",
     "runtime/kuuos_runtime_daemon_qi_process_tensor_bounded_tick_executor_v0_1.py",
 ]
 
 REQUIRED_TEST_FILES = [
     "tests/test_qi_process_tensor_reentry_plan_v0_1.py",
     "tests/test_qi_process_tensor_reentry_license_gate_v0_1.py",
+    "tests/test_qi_process_tensor_bounded_tick_invocation_boundary_v0_1.py",
     "tests/test_qi_process_tensor_bounded_tick_executor_v0_1.py",
 ]
 
