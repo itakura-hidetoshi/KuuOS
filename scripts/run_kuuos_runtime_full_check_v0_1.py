@@ -36,6 +36,12 @@ TEST_MODULES = [
     "tests.test_kuuos_runtime_daemon_wa_function_v0_1",
     "tests.test_kuuos_runtime_daemon_active_inference_feature_compiler_v0_1",
     "tests.test_kuuos_runtime_daemon_active_inference_kernel_v0_1",
+    "tests.test_kuuos_runtime_daemon_belief_state_manifold_v0_1",
+    "tests.test_kuuos_runtime_daemon_precision_geometry_v0_1",
+    "tests.test_kuuos_runtime_daemon_efe_landscape_v0_1",
+    "tests.test_policy_flow_v0_1",
+    "tests.test_policy_flow_output_fields_v0_1",
+    "tests.test_kuuos_runtime_daemon_geometric_chain_fields_v0_1",
 ]
 
 
