@@ -30,6 +30,8 @@ class QiProcessTensorHealthProjectionTests(unittest.TestCase):
         self.assertEqual(projection.qi_process_tensor_phase, "QI_PROCESS_TENSOR_FORMATION_INCOMPLETE")
         self.assertEqual(projection.daemon_health_status, "WAITING_FOR_PROCESS_TENSOR_SUPPORT")
         self.assertEqual(projection.next_operator_action, "observe")
+        self.assertEqual(projection.recoverability_status, "RECOVERABLE_BY_OBSERVATION")
+        self.assertEqual(projection.dominant_recovery_path, "observation")
         self.assertFalse(projection.grants_execution_authority)
 
     def test_reentry_compact_first_requests_compaction(self):
@@ -43,6 +45,7 @@ class QiProcessTensorHealthProjectionTests(unittest.TestCase):
         self.assertEqual(projection.qi_process_tensor_phase, "QI_REENTRY_COMPACT_FIRST")
         self.assertEqual(projection.daemon_health_status, "NEEDS_COMPACTION")
         self.assertEqual(projection.next_operator_action, "compact_trace")
+        self.assertEqual(projection.recoverability_status, "RECOVERABLE_BY_COMPACTION")
 
     def test_reentry_reobserve_first_requests_reobserve(self):
         projection = compile_qi_process_tensor_health_projection(
@@ -55,6 +58,7 @@ class QiProcessTensorHealthProjectionTests(unittest.TestCase):
         self.assertEqual(projection.qi_process_tensor_phase, "QI_REENTRY_REOBSERVE_FIRST")
         self.assertEqual(projection.daemon_health_status, "REOBSERVE_REQUIRED")
         self.assertEqual(projection.next_operator_action, "reobserve")
+        self.assertEqual(projection.recoverability_status, "RECOVERY_UNRESOLVED")
 
     def test_single_tick_token_ready_requests_manual_runner(self):
         projection = compile_qi_process_tensor_health_projection(
@@ -69,6 +73,7 @@ class QiProcessTensorHealthProjectionTests(unittest.TestCase):
         self.assertEqual(projection.qi_process_tensor_phase, "QI_SINGLE_TICK_TOKEN_READY")
         self.assertEqual(projection.daemon_health_status, "HEALTHY_REENTRY_READY")
         self.assertEqual(projection.next_operator_action, "invoke_manual_runner")
+        self.assertEqual(projection.recoverability_status, "RECOVERABLE_BY_MANUAL_RUNNER")
         self.assertEqual(projection.recommended_next_receipt, "daemon_qi_process_tensor_bounded_tick_executor_receipt_v0_1.json")
         self.assertFalse(projection.grants_execution_authority)
 
@@ -77,12 +82,28 @@ class QiProcessTensorHealthProjectionTests(unittest.TestCase):
             process_tensor_summary=BASE_SUMMARY,
             executor_receipt={
                 "executor_status": "QI_PROCESS_TENSOR_BOUNDED_TICK_INVOKED",
+                "single_tick_invocation_token": True,
                 "tick_invoked": True,
             },
         )
         self.assertEqual(projection.qi_process_tensor_phase, "QI_BOUNDED_TICK_COMPLETED")
         self.assertEqual(projection.daemon_health_status, "EXECUTOR_INVOKED")
         self.assertEqual(projection.next_operator_action, "no_action")
+        self.assertEqual(projection.recoverability_status, "RECOVERED_BY_MANUAL_RUNNER")
+
+    def test_unsafe_recovery_overrides_health_to_hold(self):
+        projection = compile_qi_process_tensor_health_projection(
+            process_tensor_summary=BASE_SUMMARY,
+            executor_receipt={
+                "executor_status": "QI_PROCESS_TENSOR_BOUNDED_TICK_INVOKED",
+                "tick_invoked": True,
+            },
+        )
+        self.assertEqual(projection.qi_process_tensor_phase, "QI_PROCESS_TENSOR_RECOVERY_UNSAFE")
+        self.assertEqual(projection.daemon_health_status, "RECOVERY_UNSAFE")
+        self.assertEqual(projection.next_operator_action, "hold")
+        self.assertEqual(projection.recoverability_status, "UNSAFE_RECOVERY")
+        self.assertTrue(projection.recovery_unsafe)
 
     def test_license_denied_requests_hold(self):
         projection = compile_qi_process_tensor_health_projection(
@@ -95,6 +116,7 @@ class QiProcessTensorHealthProjectionTests(unittest.TestCase):
         self.assertEqual(projection.qi_process_tensor_phase, "QI_REENTRY_LICENSE_DENIED")
         self.assertEqual(projection.daemon_health_status, "EXECUTOR_DENIED")
         self.assertEqual(projection.next_operator_action, "hold")
+        self.assertEqual(projection.recoverability_status, "LOCAL_RECOVERY_BLOCKED")
         self.assertEqual(projection.health_reason, "reentry_plan_is_held")
 
 
