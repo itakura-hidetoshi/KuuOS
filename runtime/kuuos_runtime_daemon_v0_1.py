@@ -17,7 +17,10 @@ try:
     from runtime.kuuos_runtime_daemon_emptiness_gate_v0_1 import read_and_evaluate_daemon_emptiness_gate
     from runtime.kuuos_runtime_daemon_wa_function_v0_1 import read_and_evaluate_daemon_wa_function
     from runtime.kuuos_runtime_daemon_active_inference_feature_compiler_v0_1 import read_and_compile_active_inference_features
+    from runtime.kuuos_runtime_daemon_belief_state_manifold_v0_1 import read_and_compile_belief_state_manifold
+    from runtime.kuuos_runtime_daemon_precision_geometry_v0_1 import read_and_compile_precision_geometry
     from runtime.kuuos_runtime_daemon_active_inference_kernel_v0_1 import read_and_run_daemon_active_inference_kernel
+    from runtime.kuuos_runtime_daemon_efe_landscape_v0_1 import read_and_compile_efe_landscape
 except ModuleNotFoundError:
     from kuuos_state_io_runner_v0_1 import run_state_io
     from kuuos_runtime_daemon_yinyang_polarity_gauge_v0_1 import read_and_evaluate_daemon_yinyang_polarity
@@ -26,7 +29,10 @@ except ModuleNotFoundError:
     from kuuos_runtime_daemon_emptiness_gate_v0_1 import read_and_evaluate_daemon_emptiness_gate
     from kuuos_runtime_daemon_wa_function_v0_1 import read_and_evaluate_daemon_wa_function
     from kuuos_runtime_daemon_active_inference_feature_compiler_v0_1 import read_and_compile_active_inference_features
+    from kuuos_runtime_daemon_belief_state_manifold_v0_1 import read_and_compile_belief_state_manifold
+    from kuuos_runtime_daemon_precision_geometry_v0_1 import read_and_compile_precision_geometry
     from kuuos_runtime_daemon_active_inference_kernel_v0_1 import read_and_run_daemon_active_inference_kernel
+    from kuuos_runtime_daemon_efe_landscape_v0_1 import read_and_compile_efe_landscape
 
 NON_AUTHORITY_FLAGS = {
     "grants_execution_authority": False,
@@ -64,10 +70,16 @@ class KuuOSDaemonResult:
     wa_function_result_path: str | None = None
     recommended_runtime_posture: str | None = None
     active_inference_feature_bundle_path: str | None = None
+    belief_state_manifold_path: str | None = None
+    precision_geometry_path: str | None = None
     active_inference_kernel_result_path: str | None = None
     active_inference_selected_policy: str | None = None
     active_inference_expected_free_energy: float | None = None
     active_inference_posterior_precision: float | None = None
+    efe_landscape_path: str | None = None
+    efe_smoothed_selected_policy: str | None = None
+    efe_transition_distance: float | None = None
+    efe_curvature_barrier: float | None = None
     grants_execution_authority: bool = False
     grants_truth_authority: bool = False
     grants_final_commitment_authority: bool = False
@@ -207,9 +219,21 @@ def run_runtime_daemon(
     feature_bundle_path = daemon_dir / "daemon_active_inference_feature_bundle_v0_1.json"
     _write_json(feature_bundle_path, feature_bundle.to_dict())
 
+    belief_result = read_and_compile_belief_state_manifold(daemon_dir)
+    belief_result_path = daemon_dir / "daemon_belief_state_manifold_v0_1.json"
+    _write_json(belief_result_path, belief_result.to_dict())
+
+    precision_result = read_and_compile_precision_geometry(daemon_dir)
+    precision_result_path = daemon_dir / "daemon_precision_geometry_v0_1.json"
+    _write_json(precision_result_path, precision_result.to_dict())
+
     active_result = read_and_run_daemon_active_inference_kernel(daemon_dir)
     active_result_path = daemon_dir / "daemon_active_inference_kernel_result_v0_1.json"
     _write_json(active_result_path, active_result.to_dict())
+
+    efe_result = read_and_compile_efe_landscape(daemon_dir)
+    efe_result_path = daemon_dir / "daemon_efe_landscape_v0_1.json"
+    _write_json(efe_result_path, efe_result.to_dict())
 
     result = KuuOSDaemonResult(
         daemon_status=daemon_status,
@@ -230,10 +254,16 @@ def run_runtime_daemon(
         wa_function_result_path=str(wa_result_path),
         recommended_runtime_posture=wa_result.recommended_runtime_posture,
         active_inference_feature_bundle_path=str(feature_bundle_path),
+        belief_state_manifold_path=str(belief_result_path),
+        precision_geometry_path=str(precision_result_path),
         active_inference_kernel_result_path=str(active_result_path),
         active_inference_selected_policy=active_result.selected_policy,
         active_inference_expected_free_energy=active_result.selected_expected_free_energy,
         active_inference_posterior_precision=active_result.posterior_precision,
+        efe_landscape_path=str(efe_result_path),
+        efe_smoothed_selected_policy=efe_result.smoothed_selected_policy,
+        efe_transition_distance=efe_result.transition_distance,
+        efe_curvature_barrier=efe_result.curvature_barrier,
     )
     _write_json(daemon_result_path, result.to_dict())
     return result
