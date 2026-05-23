@@ -1,0 +1,40 @@
+{
+  "cases_manifest_version": "qi_bounded_tick_executor_receipt_contract_cases_v0_1",
+  "validator": "scripts/validate_qi_bounded_tick_executor_receipt_v0_1.py",
+  "cases": [
+    {
+      "case_id": "valid_invoked_receipt",
+      "path": "validation/qi_bounded_tick_executor_receipt_contract_v0_1/valid_invoked_receipt.json",
+      "expected_valid": true
+    },
+    {
+      "case_id": "valid_denied_receipt",
+      "path": "validation/qi_bounded_tick_executor_receipt_contract_v0_1/valid_denied_receipt.json",
+      "expected_valid": true
+    },
+    {
+      "case_id": "invalid_invoked_missing_token",
+      "path": "validation/qi_bounded_tick_executor_receipt_contract_v0_1/invalid_invoked_missing_token.json",
+      "expected_valid": false,
+      "expected_error_contains": "single_tick_invocation_token"
+    },
+    {
+      "case_id": "invalid_denied_grants_execution",
+      "path": "validation/qi_bounded_tick_executor_receipt_contract_v0_1/invalid_denied_grants_execution.json",
+      "expected_valid": false,
+      "expected_error_contains": "execution authority"
+    },
+    {
+      "case_id": "invalid_truth_authority",
+      "path": "validation/qi_bounded_tick_executor_receipt_contract_v0_1/invalid_truth_authority.json",
+      "expected_valid": false,
+      "expected_error_contains": "grants_truth_authority"
+    },
+    {
+      "case_id": "invalid_unbounded_max_steps",
+      "path": "validation/qi_bounded_tick_executor_receipt_contract_v0_1/invalid_unbounded_max_steps.json",
+      "expected_valid": false,
+      "expected_error_contains": "licensed_max_steps_per_tick"
+    }
+  ]
+}
