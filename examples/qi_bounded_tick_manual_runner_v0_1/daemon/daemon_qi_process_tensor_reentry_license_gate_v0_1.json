@@ -1,0 +1,9 @@
+{
+  "gate_status": "QI_PROCESS_TENSOR_REENTRY_LICENSE_GRANTED",
+  "license_decision": "BOUNDED_TICK_LICENSE_GRANTED",
+  "bounded_tick_license": true,
+  "may_invoke_next_tick": true,
+  "licensed_max_steps_per_tick": 1,
+  "denied_reason": null,
+  "required_preconditions": []
+}
