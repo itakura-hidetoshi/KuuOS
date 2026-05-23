@@ -1,0 +1,11 @@
+{
+  "boundary_status": "QI_PROCESS_TENSOR_INVOCATION_BOUNDARY_GRANTED_SINGLE_TICK",
+  "invocation_decision": "SINGLE_TICK_INVOCATION_TOKEN_GRANTED",
+  "bounded_tick_license": true,
+  "single_tick_invocation_token": true,
+  "recursive_invocation_denied": false,
+  "requested_invocation_depth": 0,
+  "max_allowed_invocation_depth": 0,
+  "licensed_max_steps_per_tick": 1,
+  "denied_reason": null
+}
