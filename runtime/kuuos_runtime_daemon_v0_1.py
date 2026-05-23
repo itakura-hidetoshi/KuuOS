@@ -16,6 +16,7 @@ try:
     from runtime.kuuos_runtime_daemon_qi_policy_v0_1 import read_and_evaluate_daemon_qi_policy
     from runtime.kuuos_runtime_daemon_emptiness_gate_v0_1 import read_and_evaluate_daemon_emptiness_gate
     from runtime.kuuos_runtime_daemon_wa_function_v0_1 import read_and_evaluate_daemon_wa_function
+    from runtime.kuuos_runtime_daemon_active_inference_feature_compiler_v0_1 import read_and_compile_active_inference_features
     from runtime.kuuos_runtime_daemon_active_inference_kernel_v0_1 import read_and_run_daemon_active_inference_kernel
 except ModuleNotFoundError:
     from kuuos_state_io_runner_v0_1 import run_state_io
@@ -24,6 +25,7 @@ except ModuleNotFoundError:
     from kuuos_runtime_daemon_qi_policy_v0_1 import read_and_evaluate_daemon_qi_policy
     from kuuos_runtime_daemon_emptiness_gate_v0_1 import read_and_evaluate_daemon_emptiness_gate
     from kuuos_runtime_daemon_wa_function_v0_1 import read_and_evaluate_daemon_wa_function
+    from kuuos_runtime_daemon_active_inference_feature_compiler_v0_1 import read_and_compile_active_inference_features
     from kuuos_runtime_daemon_active_inference_kernel_v0_1 import read_and_run_daemon_active_inference_kernel
 
 NON_AUTHORITY_FLAGS = {
@@ -61,6 +63,7 @@ class KuuOSDaemonResult:
     emptiness_recommended_action: str | None = None
     wa_function_result_path: str | None = None
     recommended_runtime_posture: str | None = None
+    active_inference_feature_bundle_path: str | None = None
     active_inference_kernel_result_path: str | None = None
     active_inference_selected_policy: str | None = None
     active_inference_expected_free_energy: float | None = None
@@ -200,6 +203,10 @@ def run_runtime_daemon(
     wa_result_path = daemon_dir / "daemon_wa_function_result_v0_1.json"
     _write_json(wa_result_path, wa_result.to_dict())
 
+    feature_bundle = read_and_compile_active_inference_features(daemon_dir)
+    feature_bundle_path = daemon_dir / "daemon_active_inference_feature_bundle_v0_1.json"
+    _write_json(feature_bundle_path, feature_bundle.to_dict())
+
     active_result = read_and_run_daemon_active_inference_kernel(daemon_dir)
     active_result_path = daemon_dir / "daemon_active_inference_kernel_result_v0_1.json"
     _write_json(active_result_path, active_result.to_dict())
@@ -222,6 +229,7 @@ def run_runtime_daemon(
         emptiness_recommended_action=emptiness_result.recommended_emptiness_action,
         wa_function_result_path=str(wa_result_path),
         recommended_runtime_posture=wa_result.recommended_runtime_posture,
+        active_inference_feature_bundle_path=str(feature_bundle_path),
         active_inference_kernel_result_path=str(active_result_path),
         active_inference_selected_policy=active_result.selected_policy,
         active_inference_expected_free_energy=active_result.selected_expected_free_energy,
