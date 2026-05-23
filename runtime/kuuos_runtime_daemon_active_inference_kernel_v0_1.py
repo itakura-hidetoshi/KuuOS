@@ -253,6 +253,10 @@ def run_active_inference_kernel(inputs: Mapping[str, Any]) -> KuuOSDaemonActiveI
 
 
 def read_and_run_daemon_active_inference_kernel(daemon_dir: Path) -> KuuOSDaemonActiveInferenceResult:
+    feature_bundle = _read_json(daemon_dir / "daemon_active_inference_feature_bundle_v0_1.json")
+    if isinstance(feature_bundle, dict) and isinstance(feature_bundle.get("active_inference_inputs"), dict):
+        return run_active_inference_kernel(feature_bundle["active_inference_inputs"])
+
     yy = _read_json(daemon_dir / "daemon_yinyang_polarity_result_v0_1.json")
     four = _read_json(daemon_dir / "daemon_four_image_phase_result_v0_1.json")
     policy = _read_json(daemon_dir / "daemon_qi_policy_result_v0_1.json")
