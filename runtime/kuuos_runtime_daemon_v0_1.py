@@ -23,6 +23,7 @@ try:
     from runtime.kuuos_runtime_daemon_efe_landscape_v0_1 import read_and_compile_efe_landscape
     from runtime.kuuos_runtime_daemon_policy_flow_v0_1 import read_and_compile_policy_flow
     from runtime.kuuos_runtime_daemon_policy_flow_governor_v0_1 import read_and_compile_policy_flow_governor
+    from runtime.kuuos_runtime_daemon_qi_process_tensor_actuator_v0_1 import read_and_compile_qi_process_tensor_actuator
 except ModuleNotFoundError:
     from kuuos_state_io_runner_v0_1 import run_state_io
     from kuuos_runtime_daemon_yinyang_polarity_gauge_v0_1 import read_and_evaluate_daemon_yinyang_polarity
@@ -37,6 +38,7 @@ except ModuleNotFoundError:
     from kuuos_runtime_daemon_efe_landscape_v0_1 import read_and_compile_efe_landscape
     from kuuos_runtime_daemon_policy_flow_v0_1 import read_and_compile_policy_flow
     from kuuos_runtime_daemon_policy_flow_governor_v0_1 import read_and_compile_policy_flow_governor
+    from kuuos_runtime_daemon_qi_process_tensor_actuator_v0_1 import read_and_compile_qi_process_tensor_actuator
 
 NON_AUTHORITY_FLAGS = {
     "grants_execution_authority": False,
@@ -95,6 +97,13 @@ class KuuOSDaemonResult:
     policy_flow_transition_mode: str | None = None
     policy_flow_ramp_fraction: float | None = None
     policy_flow_max_step_fraction: float | None = None
+    qi_process_tensor_actuator_path: str | None = None
+    next_tick_advisory: str | None = None
+    actuator_sleep_scale_hint: float | None = None
+    actuator_max_steps_hint: int | None = None
+    actuator_compact_trace_hint: bool | None = None
+    actuator_reobserve_hint: bool | None = None
+    actuator_hold_transition_hint: bool | None = None
     grants_execution_authority: bool = False
     grants_truth_authority: bool = False
     grants_final_commitment_authority: bool = False
@@ -258,6 +267,10 @@ def run_runtime_daemon(
     policy_governor_path = daemon_dir / "daemon_policy_flow_governor_v0_1.json"
     _write_json(policy_governor_path, policy_governor_result.to_dict())
 
+    actuator_result = read_and_compile_qi_process_tensor_actuator(daemon_dir)
+    actuator_path = daemon_dir / "daemon_qi_process_tensor_actuator_v0_1.json"
+    _write_json(actuator_path, actuator_result.to_dict())
+
     result = KuuOSDaemonResult(
         daemon_status=daemon_status,
         stop_reason=stop_reason,
@@ -298,6 +311,13 @@ def run_runtime_daemon(
         policy_flow_transition_mode=policy_governor_result.transition_mode,
         policy_flow_ramp_fraction=policy_governor_result.ramp_fraction,
         policy_flow_max_step_fraction=policy_governor_result.max_step_fraction,
+        qi_process_tensor_actuator_path=str(actuator_path),
+        next_tick_advisory=actuator_result.next_tick_advisory,
+        actuator_sleep_scale_hint=actuator_result.sleep_scale_hint,
+        actuator_max_steps_hint=actuator_result.max_steps_hint,
+        actuator_compact_trace_hint=actuator_result.compact_trace_hint,
+        actuator_reobserve_hint=actuator_result.reobserve_hint,
+        actuator_hold_transition_hint=actuator_result.hold_transition_hint,
     )
     _write_json(daemon_result_path, result.to_dict())
     return result
