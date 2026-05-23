@@ -26,6 +26,9 @@ try:
     from runtime.kuuos_runtime_daemon_qi_process_tensor_actuator_v0_1 import read_and_compile_qi_process_tensor_actuator
     from runtime.kuuos_runtime_daemon_qi_process_tensor_tick_scheduler_v0_1 import compile_qi_process_tensor_tick_scheduler
     from runtime.kuuos_runtime_daemon_qi_process_tensor_closed_loop_receipt_v0_1 import compile_qi_process_tensor_closed_loop_receipt
+    from runtime.kuuos_runtime_daemon_qi_process_tensor_reentry_plan_v0_1 import compile_qi_process_tensor_reentry_plan
+    from runtime.kuuos_runtime_daemon_qi_process_tensor_reentry_license_gate_v0_1 import compile_qi_process_tensor_reentry_license_gate
+    from runtime.kuuos_runtime_daemon_qi_process_tensor_bounded_tick_invocation_boundary_v0_1 import compile_qi_process_tensor_bounded_tick_invocation_boundary
 except ModuleNotFoundError:
     from kuuos_state_io_runner_v0_1 import run_state_io
     from kuuos_runtime_daemon_yinyang_polarity_gauge_v0_1 import read_and_evaluate_daemon_yinyang_polarity
@@ -43,6 +46,9 @@ except ModuleNotFoundError:
     from kuuos_runtime_daemon_qi_process_tensor_actuator_v0_1 import read_and_compile_qi_process_tensor_actuator
     from kuuos_runtime_daemon_qi_process_tensor_tick_scheduler_v0_1 import compile_qi_process_tensor_tick_scheduler
     from kuuos_runtime_daemon_qi_process_tensor_closed_loop_receipt_v0_1 import compile_qi_process_tensor_closed_loop_receipt
+    from kuuos_runtime_daemon_qi_process_tensor_reentry_plan_v0_1 import compile_qi_process_tensor_reentry_plan
+    from kuuos_runtime_daemon_qi_process_tensor_reentry_license_gate_v0_1 import compile_qi_process_tensor_reentry_license_gate
+    from kuuos_runtime_daemon_qi_process_tensor_bounded_tick_invocation_boundary_v0_1 import compile_qi_process_tensor_bounded_tick_invocation_boundary
 
 NON_AUTHORITY_FLAGS = {
     "grants_execution_authority": False,
@@ -120,6 +126,22 @@ class KuuOSDaemonResult:
     closed_loop_next_state: str | None = None
     closed_loop_observation_required: bool | None = None
     closed_loop_compact_required: bool | None = None
+    qi_process_tensor_reentry_plan_path: str | None = None
+    reentry_plan_status: str | None = None
+    reentry_next_invocation_mode: str | None = None
+    reentry_compact_before_reentry: bool | None = None
+    reentry_reobserve_before_reentry: bool | None = None
+    reentry_hold_until_observation: bool | None = None
+    qi_process_tensor_reentry_license_gate_path: str | None = None
+    reentry_license_decision: str | None = None
+    reentry_may_invoke_next_tick: bool | None = None
+    reentry_bounded_tick_license: bool | None = None
+    reentry_license_denied_reason: str | None = None
+    qi_process_tensor_bounded_tick_invocation_boundary_path: str | None = None
+    invocation_boundary_decision: str | None = None
+    single_tick_invocation_token: bool | None = None
+    recursive_invocation_denied: bool | None = None
+    invocation_boundary_denied_reason: str | None = None
     grants_execution_authority: bool = False
     grants_truth_authority: bool = False
     grants_final_commitment_authority: bool = False
@@ -310,6 +332,25 @@ def run_runtime_daemon(
     closed_loop_receipt_path = daemon_dir / "daemon_qi_process_tensor_closed_loop_receipt_v0_1.json"
     _write_json(closed_loop_receipt_path, closed_loop_receipt.to_dict())
 
+    reentry_plan = compile_qi_process_tensor_reentry_plan(
+        closed_loop_receipt.to_dict(),
+        {"daemon_status": daemon_status, "stop_reason": stop_reason, "ticks_run": len(tick_log)},
+    )
+    reentry_plan_path = daemon_dir / "daemon_qi_process_tensor_reentry_plan_v0_1.json"
+    _write_json(reentry_plan_path, reentry_plan.to_dict())
+
+    reentry_license_gate = compile_qi_process_tensor_reentry_license_gate(reentry_plan.to_dict())
+    reentry_license_gate_path = daemon_dir / "daemon_qi_process_tensor_reentry_license_gate_v0_1.json"
+    _write_json(reentry_license_gate_path, reentry_license_gate.to_dict())
+
+    invocation_boundary = compile_qi_process_tensor_bounded_tick_invocation_boundary(
+        reentry_license_gate.to_dict(),
+        requested_invocation_depth=0,
+        max_allowed_invocation_depth=0,
+    )
+    invocation_boundary_path = daemon_dir / "daemon_qi_process_tensor_bounded_tick_invocation_boundary_v0_1.json"
+    _write_json(invocation_boundary_path, invocation_boundary.to_dict())
+
     result = KuuOSDaemonResult(
         daemon_status=daemon_status,
         stop_reason=stop_reason,
@@ -369,6 +410,22 @@ def run_runtime_daemon(
         closed_loop_next_state=closed_loop_receipt.closed_loop_next_state,
         closed_loop_observation_required=closed_loop_receipt.observation_required,
         closed_loop_compact_required=closed_loop_receipt.compact_required,
+        qi_process_tensor_reentry_plan_path=str(reentry_plan_path),
+        reentry_plan_status=reentry_plan.plan_status,
+        reentry_next_invocation_mode=reentry_plan.next_invocation_mode,
+        reentry_compact_before_reentry=reentry_plan.compact_before_reentry,
+        reentry_reobserve_before_reentry=reentry_plan.reobserve_before_reentry,
+        reentry_hold_until_observation=reentry_plan.hold_until_observation,
+        qi_process_tensor_reentry_license_gate_path=str(reentry_license_gate_path),
+        reentry_license_decision=reentry_license_gate.license_decision,
+        reentry_may_invoke_next_tick=reentry_license_gate.may_invoke_next_tick,
+        reentry_bounded_tick_license=reentry_license_gate.bounded_tick_license,
+        reentry_license_denied_reason=reentry_license_gate.denied_reason,
+        qi_process_tensor_bounded_tick_invocation_boundary_path=str(invocation_boundary_path),
+        invocation_boundary_decision=invocation_boundary.invocation_decision,
+        single_tick_invocation_token=invocation_boundary.single_tick_invocation_token,
+        recursive_invocation_denied=invocation_boundary.recursive_invocation_denied,
+        invocation_boundary_denied_reason=invocation_boundary.denied_reason,
     )
     _write_json(daemon_result_path, result.to_dict())
     return result
