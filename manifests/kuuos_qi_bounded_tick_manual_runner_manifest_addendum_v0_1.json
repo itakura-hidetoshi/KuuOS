@@ -21,7 +21,8 @@
     "examples/qi_bounded_tick_manual_runner_v0_1/README.md"
   ],
   "workflow_files": [
-    ".github/workflows/qi_bounded_tick_manual_runner_example_validation.yml"
+    ".github/workflows/qi_bounded_tick_manual_runner_example_validation.yml",
+    ".github/workflows/qi_bounded_tick_executor_receipt_contract_validation.yml"
   ],
   "runtime_full_check_modules": [
     "tests.test_qi_process_tensor_bounded_tick_manual_runner_v0_1",
@@ -59,6 +60,7 @@
     "The daemon exposes reentry receipts and boundary tokens, but the manual runner is the explicit outer invocation entrypoint.",
     "The manual runner must not bypass the single-tick invocation boundary.",
     "The manual runner example has a dedicated workflow and is also checked by the runtime full check.",
-    "The bounded tick executor receipt is validated by a dedicated receipt contract validator."
+    "The bounded tick executor receipt is validated by a dedicated receipt contract validator.",
+    "The bounded tick executor receipt contract has its own dedicated workflow."
   ]
 }
