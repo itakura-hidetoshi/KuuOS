@@ -10,6 +10,10 @@ import tempfile
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 EXAMPLE = ROOT / "examples" / "qi_bounded_tick_manual_runner_v0_1"
+if str(ROOT) not in sys.path:
+    sys.path.insert(0, str(ROOT))
+
+from scripts.validate_qi_bounded_tick_executor_receipt_v0_1 import validate_receipt  # noqa: E402
 
 
 def main() -> int:
@@ -47,6 +51,11 @@ def main() -> int:
             print("ERROR: missing executor receipt")
             return 1
         receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+        receipt_errors = validate_receipt(receipt, require_paths_exist=True)
+        if receipt_errors:
+            for error in receipt_errors:
+                print("ERROR:", error)
+            return 1
         expected = {
             "executor_status": "QI_PROCESS_TENSOR_BOUNDED_TICK_INVOKED",
             "source_invocation_decision": "SINGLE_TICK_INVOCATION_TOKEN_GRANTED",
