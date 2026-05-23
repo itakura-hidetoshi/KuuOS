@@ -76,12 +76,25 @@ class QiProcessTensorRecoverabilityProjectionTests(unittest.TestCase):
             process_tensor_summary=BASE_SUMMARY,
             executor_receipt={
                 "executor_status": "QI_PROCESS_TENSOR_BOUNDED_TICK_INVOKED",
+                "single_tick_invocation_token": True,
                 "tick_invoked": True,
             },
         )
         self.assertEqual(projection.recoverability_status, "RECOVERED_BY_MANUAL_RUNNER")
         self.assertEqual(projection.recommended_recovery_action, "no_action")
         self.assertFalse(projection.local_recovery_allowed)
+
+    def test_tick_invoked_without_token_is_unsafe(self):
+        projection = compile_qi_process_tensor_recoverability_projection(
+            process_tensor_summary=BASE_SUMMARY,
+            executor_receipt={
+                "executor_status": "QI_PROCESS_TENSOR_BOUNDED_TICK_INVOKED",
+                "tick_invoked": True,
+            },
+        )
+        self.assertEqual(projection.recoverability_status, "UNSAFE_RECOVERY")
+        self.assertTrue(projection.recovery_unsafe)
+        self.assertEqual(projection.recommended_recovery_action, "hold")
 
     def test_license_denied_blocks_local_recovery(self):
         projection = compile_qi_process_tensor_recoverability_projection(
