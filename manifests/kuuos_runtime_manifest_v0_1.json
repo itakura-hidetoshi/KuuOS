@@ -28,7 +28,9 @@
     "runtime/kuuos_runtime_daemon_precision_geometry_v0_1.py",
     "runtime/kuuos_runtime_daemon_active_inference_kernel_v0_1.py",
     "runtime/kuuos_runtime_daemon_efe_landscape_v0_1.py",
-    "runtime/kuuos_runtime_daemon_policy_flow_v0_1.py"
+    "runtime/kuuos_runtime_daemon_policy_flow_v0_1.py",
+    "runtime/kuuos_runtime_daemon_policy_flow_governor_v0_1.py",
+    "runtime/kuuos_runtime_daemon_qi_process_tensor_actuator_v0_1.py"
   ],
   "core_test_files": [
     "tests/test_qi_process_tensor_v0_1.py",
@@ -61,6 +63,10 @@
     "tests/test_kuuos_runtime_daemon_efe_landscape_v0_1.py",
     "tests/test_policy_flow_v0_1.py",
     "tests/test_policy_flow_output_fields_v0_1.py",
+    "tests/test_policy_flow_governor_v0_1.py",
+    "tests/test_policy_flow_governor_output_fields_v0_1.py",
+    "tests/test_qi_process_tensor_actuator_v0_1.py",
+    "tests/test_qi_process_tensor_actuator_output_fields_v0_1.py",
     "tests/test_kuuos_runtime_daemon_geometric_chain_fields_v0_1.py",
     "tests/test_qi_process_tensor_downstream_v0_1.py"
   ],
@@ -110,7 +116,9 @@
     ".github/workflows/kuuos_runtime_daemon_belief_state_manifold_validation.yml",
     ".github/workflows/precision_geometry_validation.yml",
     ".github/workflows/efe_landscape_validation.yml",
-    ".github/workflows/policy_flow_validation.yml"
+    ".github/workflows/policy_flow_validation.yml",
+    ".github/workflows/policy_flow_governor_validation.yml",
+    ".github/workflows/qi_process_tensor_actuator_validation.yml"
   ],
   "required_output_paths": [
     "kuuos_driver_result_v0_1.json",
@@ -130,6 +138,8 @@
     "daemon_active_inference_kernel_result_v0_1.json",
     "daemon_efe_landscape_v0_1.json",
     "daemon_policy_flow_v0_1.json",
+    "daemon_policy_flow_governor_v0_1.json",
+    "daemon_qi_process_tensor_actuator_v0_1.json",
     "daemon_result_v0_1.json"
   ],
   "required_trace_fields": [
@@ -177,6 +187,8 @@
     "Daemon Precision Geometry adds directional precision and coupling hints.",
     "Daemon Active Inference kernel selects advisory policy by expected free energy under hard constraints.",
     "Daemon EFE Landscape lifts policy selection to policy manifold with curvature and harmonic smoothing.",
-    "Daemon Policy Flow emits nonexecuting geodesic-like policy transition advisories."
+    "Daemon Policy Flow emits nonexecuting geodesic-like policy transition advisories.",
+    "Daemon Policy Flow Governor applies hysteresis, ramp, and hold/reobserve advisories to policy flow.",
+    "Daemon Qi Process Tensor Actuator converts process-tensor continuity, non-Markov inertia, missingness, density, and damping into next-tick advisories."
   ]
 }
