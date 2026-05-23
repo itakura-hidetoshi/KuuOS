@@ -90,6 +90,12 @@ class KuuOSRuntimeDaemonTests(unittest.TestCase):
             self.assertTrue(Path(result.four_image_phase_result_path).is_file())
             self.assertTrue(Path(result.qi_policy_result_path).is_file())
             self.assertTrue(Path(result.emptiness_gate_result_path).is_file())
+            self.assertTrue(Path(result.qi_process_tensor_recoverability_projection_path).is_file())
+            self.assertTrue(Path(result.qi_process_tensor_health_projection_path).is_file())
+            self.assertIsNotNone(result.recoverability_status)
+            self.assertIsNotNone(result.qi_process_tensor_phase)
+            self.assertIsNotNone(result.daemon_health_status)
+            self.assertIsNotNone(result.next_operator_action)
             self.assertEqual(result.yinyang_polarity_state, "RECOVERY_YANG_PRESENT")
             self.assertEqual(result.four_image_phase, "LESSER_YANG")
             self.assertEqual(result.qi_policy_recommended_tick_mode, "CONTINUE_WITH_QI_MEMORY_MONITOR")
@@ -102,10 +108,18 @@ class KuuOSRuntimeDaemonTests(unittest.TestCase):
             four_result = load(Path(result.four_image_phase_result_path))
             policy_result = load(Path(result.qi_policy_result_path))
             emptiness_result = load(Path(result.emptiness_gate_result_path))
+            recoverability_result = load(Path(result.qi_process_tensor_recoverability_projection_path))
+            health_result = load(Path(result.qi_process_tensor_health_projection_path))
             self.assertEqual(daemon_result["yinyang_polarity_state"], "RECOVERY_YANG_PRESENT")
             self.assertEqual(daemon_result["four_image_phase"], "LESSER_YANG")
             self.assertEqual(daemon_result["qi_policy_recommended_tick_mode"], "CONTINUE_WITH_QI_MEMORY_MONITOR")
             self.assertEqual(daemon_result["emptiness_recommended_action"], "CONTINUE_ADVISORY_ONLY")
+            self.assertEqual(daemon_result["recoverability_status"], result.recoverability_status)
+            self.assertEqual(daemon_result["qi_process_tensor_phase"], result.qi_process_tensor_phase)
+            self.assertEqual(daemon_result["daemon_health_status"], result.daemon_health_status)
+            self.assertEqual(daemon_result["next_operator_action"], result.next_operator_action)
+            self.assertEqual(recoverability_result["recoverability_status"], result.recoverability_status)
+            self.assertEqual(health_result["daemon_health_status"], result.daemon_health_status)
             self.assertEqual(yy_result["yinyang_polarity_state"], "RECOVERY_YANG_PRESENT")
             self.assertEqual(four_result["four_image_phase"], "LESSER_YANG")
             self.assertEqual(policy_result["recommended_tick_mode"], "CONTINUE_WITH_QI_MEMORY_MONITOR")
@@ -115,6 +129,8 @@ class KuuOSRuntimeDaemonTests(unittest.TestCase):
             self.assertFalse(four_result["grants_execution_authority"])
             self.assertFalse(policy_result["grants_execution_authority"])
             self.assertFalse(emptiness_result["grants_execution_authority"])
+            self.assertFalse(recoverability_result["grants_execution_authority"])
+            self.assertFalse(health_result["grants_execution_authority"])
             self.assertFalse(daemon_result["grants_truth_authority"])
 
     def test_daemon_stops_on_waiting(self):
@@ -144,6 +160,8 @@ class KuuOSRuntimeDaemonTests(unittest.TestCase):
             self.assertEqual(result.four_image_phase, "LESSER_YIN")
             self.assertEqual(result.qi_policy_recommended_tick_mode, "REQUEST_MORE_EVIDENCE")
             self.assertEqual(result.emptiness_recommended_action, "REOBSERVE_WITH_NON_REIFICATION")
+            self.assertTrue(Path(result.qi_process_tensor_recoverability_projection_path).is_file())
+            self.assertTrue(Path(result.qi_process_tensor_health_projection_path).is_file())
 
     def test_daemon_stops_on_quarantine(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -168,6 +186,8 @@ class KuuOSRuntimeDaemonTests(unittest.TestCase):
             self.assertEqual(result.four_image_phase, "LESSER_YIN")
             self.assertEqual(result.qi_policy_recommended_tick_mode, "QUARANTINE_REVIEW")
             self.assertEqual(result.emptiness_recommended_action, "HOLD_OR_QUARANTINE_NONFINAL")
+            self.assertTrue(Path(result.qi_process_tensor_recoverability_projection_path).is_file())
+            self.assertTrue(Path(result.qi_process_tensor_health_projection_path).is_file())
 
     def test_daemon_caps_tick_and_step_bounds(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -188,6 +208,8 @@ class KuuOSRuntimeDaemonTests(unittest.TestCase):
             self.assertTrue(Path(result.four_image_phase_result_path).is_file())
             self.assertTrue(Path(result.qi_policy_result_path).is_file())
             self.assertTrue(Path(result.emptiness_gate_result_path).is_file())
+            self.assertTrue(Path(result.qi_process_tensor_recoverability_projection_path).is_file())
+            self.assertTrue(Path(result.qi_process_tensor_health_projection_path).is_file())
 
 
 if __name__ == "__main__":

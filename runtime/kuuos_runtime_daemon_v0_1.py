@@ -29,6 +29,7 @@ try:
     from runtime.kuuos_runtime_daemon_qi_process_tensor_reentry_plan_v0_1 import compile_qi_process_tensor_reentry_plan
     from runtime.kuuos_runtime_daemon_qi_process_tensor_reentry_license_gate_v0_1 import compile_qi_process_tensor_reentry_license_gate
     from runtime.kuuos_runtime_daemon_qi_process_tensor_bounded_tick_invocation_boundary_v0_1 import compile_qi_process_tensor_bounded_tick_invocation_boundary
+    from runtime.kuuos_runtime_daemon_qi_projection_output_writer_v0_1 import write_qi_projection_outputs
 except ModuleNotFoundError:
     from kuuos_state_io_runner_v0_1 import run_state_io
     from kuuos_runtime_daemon_yinyang_polarity_gauge_v0_1 import read_and_evaluate_daemon_yinyang_polarity
@@ -49,6 +50,7 @@ except ModuleNotFoundError:
     from kuuos_runtime_daemon_qi_process_tensor_reentry_plan_v0_1 import compile_qi_process_tensor_reentry_plan
     from kuuos_runtime_daemon_qi_process_tensor_reentry_license_gate_v0_1 import compile_qi_process_tensor_reentry_license_gate
     from kuuos_runtime_daemon_qi_process_tensor_bounded_tick_invocation_boundary_v0_1 import compile_qi_process_tensor_bounded_tick_invocation_boundary
+    from kuuos_runtime_daemon_qi_projection_output_writer_v0_1 import write_qi_projection_outputs
 
 NON_AUTHORITY_FLAGS = {
     "grants_execution_authority": False,
@@ -142,6 +144,18 @@ class KuuOSDaemonResult:
     single_tick_invocation_token: bool | None = None
     recursive_invocation_denied: bool | None = None
     invocation_boundary_denied_reason: str | None = None
+    qi_process_tensor_recoverability_projection_path: str | None = None
+    recoverability_status: str | None = None
+    dominant_recovery_path: str | None = None
+    recommended_recovery_action: str | None = None
+    recoverability_score: float | None = None
+    recovery_unsafe: bool | None = None
+    local_recovery_allowed: bool | None = None
+    qi_process_tensor_health_projection_path: str | None = None
+    qi_process_tensor_phase: str | None = None
+    daemon_health_status: str | None = None
+    next_operator_action: str | None = None
+    health_reason: str | None = None
     grants_execution_authority: bool = False
     grants_truth_authority: bool = False
     grants_final_commitment_authority: bool = False
@@ -351,6 +365,8 @@ def run_runtime_daemon(
     invocation_boundary_path = daemon_dir / "daemon_qi_process_tensor_bounded_tick_invocation_boundary_v0_1.json"
     _write_json(invocation_boundary_path, invocation_boundary.to_dict())
 
+    projection_writer_result = write_qi_projection_outputs(daemon_dir)
+
     result = KuuOSDaemonResult(
         daemon_status=daemon_status,
         stop_reason=stop_reason,
@@ -426,6 +442,18 @@ def run_runtime_daemon(
         single_tick_invocation_token=invocation_boundary.single_tick_invocation_token,
         recursive_invocation_denied=invocation_boundary.recursive_invocation_denied,
         invocation_boundary_denied_reason=invocation_boundary.denied_reason,
+        qi_process_tensor_recoverability_projection_path=projection_writer_result.recoverability_projection_path,
+        recoverability_status=projection_writer_result.recoverability_status,
+        dominant_recovery_path=projection_writer_result.dominant_recovery_path,
+        recommended_recovery_action=projection_writer_result.recommended_recovery_action,
+        recoverability_score=projection_writer_result.recoverability_score,
+        recovery_unsafe=projection_writer_result.recovery_unsafe,
+        local_recovery_allowed=projection_writer_result.local_recovery_allowed,
+        qi_process_tensor_health_projection_path=projection_writer_result.health_projection_path,
+        qi_process_tensor_phase=projection_writer_result.qi_process_tensor_phase,
+        daemon_health_status=projection_writer_result.daemon_health_status,
+        next_operator_action=projection_writer_result.next_operator_action,
+        health_reason=projection_writer_result.health_reason,
     )
     _write_json(daemon_result_path, result.to_dict())
     return result
