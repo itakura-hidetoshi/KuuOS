@@ -21,6 +21,7 @@ try:
     from runtime.kuuos_runtime_daemon_precision_geometry_v0_1 import read_and_compile_precision_geometry
     from runtime.kuuos_runtime_daemon_active_inference_kernel_v0_1 import read_and_run_daemon_active_inference_kernel
     from runtime.kuuos_runtime_daemon_efe_landscape_v0_1 import read_and_compile_efe_landscape
+    from runtime.kuuos_runtime_daemon_policy_flow_v0_1 import read_and_compile_policy_flow
 except ModuleNotFoundError:
     from kuuos_state_io_runner_v0_1 import run_state_io
     from kuuos_runtime_daemon_yinyang_polarity_gauge_v0_1 import read_and_evaluate_daemon_yinyang_polarity
@@ -33,6 +34,7 @@ except ModuleNotFoundError:
     from kuuos_runtime_daemon_precision_geometry_v0_1 import read_and_compile_precision_geometry
     from kuuos_runtime_daemon_active_inference_kernel_v0_1 import read_and_run_daemon_active_inference_kernel
     from kuuos_runtime_daemon_efe_landscape_v0_1 import read_and_compile_efe_landscape
+    from kuuos_runtime_daemon_policy_flow_v0_1 import read_and_compile_policy_flow
 
 NON_AUTHORITY_FLAGS = {
     "grants_execution_authority": False,
@@ -80,6 +82,12 @@ class KuuOSDaemonResult:
     efe_smoothed_selected_policy: str | None = None
     efe_transition_distance: float | None = None
     efe_curvature_barrier: float | None = None
+    policy_flow_path: str | None = None
+    policy_flow_from_policy: str | None = None
+    policy_flow_to_policy: str | None = None
+    policy_flow_distance: float | None = None
+    policy_flow_velocity: float | None = None
+    policy_flow_oscillation_damping: float | None = None
     grants_execution_authority: bool = False
     grants_truth_authority: bool = False
     grants_final_commitment_authority: bool = False
@@ -235,6 +243,10 @@ def run_runtime_daemon(
     efe_result_path = daemon_dir / "daemon_efe_landscape_v0_1.json"
     _write_json(efe_result_path, efe_result.to_dict())
 
+    policy_flow_result = read_and_compile_policy_flow(daemon_dir)
+    policy_flow_path = daemon_dir / "daemon_policy_flow_v0_1.json"
+    _write_json(policy_flow_path, policy_flow_result.to_dict())
+
     result = KuuOSDaemonResult(
         daemon_status=daemon_status,
         stop_reason=stop_reason,
@@ -264,6 +276,12 @@ def run_runtime_daemon(
         efe_smoothed_selected_policy=efe_result.smoothed_selected_policy,
         efe_transition_distance=efe_result.transition_distance,
         efe_curvature_barrier=efe_result.curvature_barrier,
+        policy_flow_path=str(policy_flow_path),
+        policy_flow_from_policy=policy_flow_result.from_policy,
+        policy_flow_to_policy=policy_flow_result.to_policy,
+        policy_flow_distance=policy_flow_result.flow_distance,
+        policy_flow_velocity=policy_flow_result.flow_velocity,
+        policy_flow_oscillation_damping=policy_flow_result.oscillation_damping,
     )
     _write_json(daemon_result_path, result.to_dict())
     return result
