@@ -64,6 +64,10 @@ REQUIRED_SCRIPT_FILES = [
     "scripts/validate_kuuos_validator_tiering_policy_v0_1.py",
 ]
 
+REQUIRED_WORKFLOW_FILES = [
+    ".github/workflows/validator_tiering_policy_validation.yml",
+]
+
 
 def main() -> int:
     errors: list[str] = []
@@ -101,6 +105,10 @@ def main() -> int:
     for item in REQUIRED_SCRIPT_FILES:
         if item not in script_files:
             errors.append(f"missing script file item: {item}")
+    workflow_files = data.get("workflow_files", [])
+    for item in REQUIRED_WORKFLOW_FILES:
+        if item not in workflow_files:
+            errors.append(f"missing workflow file item: {item}")
     if errors:
         for error in errors:
             print("ERROR:", error)
