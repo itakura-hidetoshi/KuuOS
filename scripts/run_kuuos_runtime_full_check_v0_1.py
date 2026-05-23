@@ -14,6 +14,7 @@ CHECK_MODULES = [
     "scripts.validate_kuuos_runtime_manifest_v0_1",
     "scripts.validate_kuuos_validator_tiering_policy_v0_1",
     "scripts.validate_qi_bounded_tick_manual_runner_manifest_addendum_v0_1",
+    "scripts.check_qi_bounded_tick_executor_receipt_contract_cases_v0_1",
     "scripts.check_kuuos_example_runner_import_v0_1",
     "scripts.check_kuuos_state_io_example_v0_1",
     "scripts.check_kuuos_qi_process_tensor_example_v0_1",
