@@ -9,8 +9,14 @@ from typing import Any, Mapping
 
 try:
     from runtime.kuuos_state_io_runner_v0_1 import run_state_io
+    from runtime.kuuos_runtime_daemon_qi_process_tensor_bounded_tick_invocation_boundary_v0_1 import (
+        compile_qi_process_tensor_bounded_tick_invocation_boundary,
+    )
 except ModuleNotFoundError:
     from kuuos_state_io_runner_v0_1 import run_state_io
+    from kuuos_runtime_daemon_qi_process_tensor_bounded_tick_invocation_boundary_v0_1 import (
+        compile_qi_process_tensor_bounded_tick_invocation_boundary,
+    )
 
 NON_AUTHORITY_FLAGS = {
     "grants_truth_authority": False,
@@ -27,7 +33,10 @@ class KuuOSQiProcessTensorBoundedTickExecutorReceipt:
     executor_status: str
     source_gate_status: str
     source_license_decision: str
+    source_boundary_status: str
+    source_invocation_decision: str
     bounded_tick_license: bool
+    single_tick_invocation_token: bool
     tick_invoked: bool
     denied_reason: str | None
     required_preconditions: list[str]
@@ -82,20 +91,28 @@ def _as_int(value: Any, default: int = 1) -> int:
 
 def compile_denied_bounded_tick_executor_receipt(
     license_gate: Mapping[str, Any],
+    invocation_boundary: Mapping[str, Any] | None = None,
     *,
     raw_state_path: Path | None = None,
     evidence_path: Path | None = None,
     state_bundle_path: Path | None = None,
     output_dir: Path | None = None,
 ) -> KuuOSQiProcessTensorBoundedTickExecutorReceipt:
+    invocation_boundary = invocation_boundary or {}
+    boundary_denial = invocation_boundary.get("denied_reason")
+    gate_denial = license_gate.get("denied_reason")
+    denied_reason = str(boundary_denial or gate_denial or "single_tick_invocation_token_not_granted")
     return KuuOSQiProcessTensorBoundedTickExecutorReceipt(
         executor_version="kuuos_runtime_daemon_qi_process_tensor_bounded_tick_executor_v0_1",
         executor_status="QI_PROCESS_TENSOR_BOUNDED_TICK_NOT_INVOKED",
         source_gate_status=str(license_gate.get("gate_status") or "UNKNOWN_GATE_STATUS"),
         source_license_decision=str(license_gate.get("license_decision") or "NO_BOUNDED_TICK_LICENSE"),
+        source_boundary_status=str(invocation_boundary.get("boundary_status") or "UNKNOWN_INVOCATION_BOUNDARY_STATUS"),
+        source_invocation_decision=str(invocation_boundary.get("invocation_decision") or "NO_SINGLE_TICK_INVOCATION_TOKEN"),
         bounded_tick_license=_as_bool(license_gate.get("bounded_tick_license")),
+        single_tick_invocation_token=_as_bool(invocation_boundary.get("single_tick_invocation_token")),
         tick_invoked=False,
-        denied_reason=str(license_gate.get("denied_reason") or "bounded_tick_license_not_granted"),
+        denied_reason=denied_reason,
         required_preconditions=list(license_gate.get("required_preconditions") or []),
         raw_state_path=str(raw_state_path) if raw_state_path else None,
         evidence_path=str(evidence_path) if evidence_path else None,
@@ -110,7 +127,7 @@ def compile_denied_bounded_tick_executor_receipt(
         licensed_max_steps_per_tick=0,
         runtime_hot_path_tier="T0_hot_path_guard",
         validation_tier="T3_runtime_full_check",
-        executor_reason="license_gate_denied_or_missing_bounded_tick_license",
+        executor_reason="invocation_boundary_denied_or_missing_single_tick_token",
         grants_execution_authority=False,
     )
 
@@ -122,26 +139,36 @@ def run_qi_process_tensor_bounded_tick_executor(
     evidence_path: Path,
     output_dir: Path,
     state_bundle_path: Path | None = None,
+    invocation_boundary: Mapping[str, Any] | None = None,
+    requested_invocation_depth: int = 0,
 ) -> KuuOSQiProcessTensorBoundedTickExecutorReceipt:
-    if not _as_bool(license_gate.get("bounded_tick_license")) or not _as_bool(license_gate.get("may_invoke_next_tick")):
+    boundary = dict(invocation_boundary or compile_qi_process_tensor_bounded_tick_invocation_boundary(
+        license_gate,
+        requested_invocation_depth=requested_invocation_depth,
+        max_allowed_invocation_depth=0,
+    ).to_dict())
+
+    if not _as_bool(boundary.get("single_tick_invocation_token")):
         return compile_denied_bounded_tick_executor_receipt(
             license_gate,
+            boundary,
             raw_state_path=raw_state_path,
             evidence_path=evidence_path,
             state_bundle_path=state_bundle_path,
             output_dir=output_dir,
         )
 
-    if str(license_gate.get("license_decision")) != "BOUNDED_TICK_LICENSE_GRANTED":
+    if str(boundary.get("invocation_decision")) != "SINGLE_TICK_INVOCATION_TOKEN_GRANTED":
         return compile_denied_bounded_tick_executor_receipt(
             license_gate,
+            boundary,
             raw_state_path=raw_state_path,
             evidence_path=evidence_path,
             state_bundle_path=state_bundle_path,
             output_dir=output_dir,
         )
 
-    max_steps = max(1, _as_int(license_gate.get("licensed_max_steps_per_tick"), 1))
+    max_steps = max(1, _as_int(boundary.get("licensed_max_steps_per_tick"), 1))
     max_steps = min(max_steps, 25)
     manifest = run_state_io(
         raw_state_path=raw_state_path,
@@ -155,7 +182,10 @@ def run_qi_process_tensor_bounded_tick_executor(
         executor_status="QI_PROCESS_TENSOR_BOUNDED_TICK_INVOKED",
         source_gate_status=str(license_gate.get("gate_status") or "UNKNOWN_GATE_STATUS"),
         source_license_decision=str(license_gate.get("license_decision") or "UNKNOWN_LICENSE_DECISION"),
-        bounded_tick_license=True,
+        source_boundary_status=str(boundary.get("boundary_status") or "UNKNOWN_INVOCATION_BOUNDARY_STATUS"),
+        source_invocation_decision=str(boundary.get("invocation_decision") or "UNKNOWN_INVOCATION_DECISION"),
+        bounded_tick_license=_as_bool(license_gate.get("bounded_tick_license")),
+        single_tick_invocation_token=True,
         tick_invoked=True,
         denied_reason=None,
         required_preconditions=[],
@@ -172,7 +202,7 @@ def run_qi_process_tensor_bounded_tick_executor(
         licensed_max_steps_per_tick=max_steps,
         runtime_hot_path_tier="T0_hot_path_guard",
         validation_tier="T3_runtime_full_check",
-        executor_reason="bounded_tick_license_granted_and_state_io_invoked_once",
+        executor_reason="single_tick_invocation_token_granted_and_state_io_invoked_once",
         grants_execution_authority=True,
     )
 
@@ -184,10 +214,14 @@ def read_and_run_qi_process_tensor_bounded_tick_executor(
     evidence_path: Path,
     output_dir: Path,
     state_bundle_path: Path | None = None,
+    requested_invocation_depth: int = 0,
 ) -> KuuOSQiProcessTensorBoundedTickExecutorReceipt:
     license_gate = _read_json(daemon_dir / "daemon_qi_process_tensor_reentry_license_gate_v0_1.json") or {}
+    invocation_boundary = _read_json(daemon_dir / "daemon_qi_process_tensor_bounded_tick_invocation_boundary_v0_1.json")
     return run_qi_process_tensor_bounded_tick_executor(
         license_gate=license_gate,
+        invocation_boundary=invocation_boundary,
+        requested_invocation_depth=requested_invocation_depth,
         raw_state_path=raw_state_path,
         evidence_path=evidence_path,
         output_dir=output_dir,
@@ -202,6 +236,7 @@ def build_parser() -> argparse.ArgumentParser:
     parser.add_argument("--evidence", type=Path, required=True)
     parser.add_argument("--output-dir", type=Path, required=True)
     parser.add_argument("--state-bundle", type=Path, default=None)
+    parser.add_argument("--requested-invocation-depth", type=int, default=0)
     parser.add_argument("--write", action="store_true")
     return parser
 
@@ -214,6 +249,7 @@ def main(argv: list[str] | None = None) -> int:
         evidence_path=args.evidence,
         output_dir=args.output_dir,
         state_bundle_path=args.state_bundle,
+        requested_invocation_depth=args.requested_invocation_depth,
     )
     if args.write:
         _write_json(args.daemon_dir / "daemon_qi_process_tensor_bounded_tick_executor_receipt_v0_1.json", result.to_dict())
