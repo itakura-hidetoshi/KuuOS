@@ -116,7 +116,7 @@ def compile_qi_process_tensor_recoverability_projection(
     plan_status = str(rp.get("plan_status") or "")
     license_decision = str(lg.get("license_decision") or "")
     boundary_decision = str(ib.get("invocation_decision") or "")
-    token = _b(ib.get("single_tick_invocation_token"))
+    token = _b(ib.get("single_tick_invocation_token")) or _b(er.get("single_tick_invocation_token"))
     tick_invoked = _b(er.get("tick_invoked"))
     executor_status = str(er.get("executor_status") or "")
 
