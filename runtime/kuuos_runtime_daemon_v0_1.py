@@ -25,6 +25,7 @@ try:
     from runtime.kuuos_runtime_daemon_policy_flow_governor_v0_1 import read_and_compile_policy_flow_governor
     from runtime.kuuos_runtime_daemon_qi_process_tensor_actuator_v0_1 import read_and_compile_qi_process_tensor_actuator
     from runtime.kuuos_runtime_daemon_qi_process_tensor_tick_scheduler_v0_1 import compile_qi_process_tensor_tick_scheduler
+    from runtime.kuuos_runtime_daemon_qi_process_tensor_closed_loop_receipt_v0_1 import compile_qi_process_tensor_closed_loop_receipt
 except ModuleNotFoundError:
     from kuuos_state_io_runner_v0_1 import run_state_io
     from kuuos_runtime_daemon_yinyang_polarity_gauge_v0_1 import read_and_evaluate_daemon_yinyang_polarity
@@ -41,6 +42,7 @@ except ModuleNotFoundError:
     from kuuos_runtime_daemon_policy_flow_governor_v0_1 import read_and_compile_policy_flow_governor
     from kuuos_runtime_daemon_qi_process_tensor_actuator_v0_1 import read_and_compile_qi_process_tensor_actuator
     from kuuos_runtime_daemon_qi_process_tensor_tick_scheduler_v0_1 import compile_qi_process_tensor_tick_scheduler
+    from kuuos_runtime_daemon_qi_process_tensor_closed_loop_receipt_v0_1 import compile_qi_process_tensor_closed_loop_receipt
 
 NON_AUTHORITY_FLAGS = {
     "grants_execution_authority": False,
@@ -113,6 +115,11 @@ class KuuOSDaemonResult:
     scheduled_compact_before_next_tick: bool | None = None
     scheduled_reobserve_before_next_tick: bool | None = None
     scheduled_hold_until_observation: bool | None = None
+    qi_process_tensor_closed_loop_receipt_path: str | None = None
+    closed_loop_receipt_status: str | None = None
+    closed_loop_next_state: str | None = None
+    closed_loop_observation_required: bool | None = None
+    closed_loop_compact_required: bool | None = None
     grants_execution_authority: bool = False
     grants_truth_authority: bool = False
     grants_final_commitment_authority: bool = False
@@ -289,6 +296,20 @@ def run_runtime_daemon(
     scheduler_path = daemon_dir / "daemon_qi_process_tensor_tick_scheduler_v0_1.json"
     _write_json(scheduler_path, scheduler_result.to_dict())
 
+    daemon_result_for_receipt = {
+        "daemon_status": daemon_status,
+        "stop_reason": stop_reason,
+        "ticks_run": len(tick_log),
+        "qi_process_tensor_actuator_path": str(actuator_path),
+        "qi_process_tensor_tick_scheduler_path": str(scheduler_path),
+    }
+    closed_loop_receipt = compile_qi_process_tensor_closed_loop_receipt(
+        daemon_result_for_receipt,
+        scheduler_result.to_dict(),
+    )
+    closed_loop_receipt_path = daemon_dir / "daemon_qi_process_tensor_closed_loop_receipt_v0_1.json"
+    _write_json(closed_loop_receipt_path, closed_loop_receipt.to_dict())
+
     result = KuuOSDaemonResult(
         daemon_status=daemon_status,
         stop_reason=stop_reason,
@@ -343,6 +364,11 @@ def run_runtime_daemon(
         scheduled_compact_before_next_tick=scheduler_result.compact_before_next_tick,
         scheduled_reobserve_before_next_tick=scheduler_result.reobserve_before_next_tick,
         scheduled_hold_until_observation=scheduler_result.hold_until_observation,
+        qi_process_tensor_closed_loop_receipt_path=str(closed_loop_receipt_path),
+        closed_loop_receipt_status=closed_loop_receipt.receipt_status,
+        closed_loop_next_state=closed_loop_receipt.closed_loop_next_state,
+        closed_loop_observation_required=closed_loop_receipt.observation_required,
+        closed_loop_compact_required=closed_loop_receipt.compact_required,
     )
     _write_json(daemon_result_path, result.to_dict())
     return result
