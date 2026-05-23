@@ -1,0 +1,148 @@
+{
+  "policy_version": "kuuos_validator_tiering_policy_v0_1",
+  "policy_status": "active_non_authoritative_runtime_cost_boundary",
+  "purpose": "Prevent full governance and manifest validators from entering the runtime hot path while preserving CI, release, and finality validation coverage.",
+  "hot_path_rule": "Runtime ticks may emit receipts and run bounded local guards only; full validators are not runtime tick work.",
+  "tiers": [
+    {
+      "tier_id": "T0_hot_path_guard",
+      "trigger": "every_runtime_tick_or_artifact_emit",
+      "allowed_work": [
+        "field_presence_check",
+        "numeric_clamp",
+        "authority_flags_false_check",
+        "bounded_status_enum_check",
+        "single_artifact_receipt_emit"
+      ],
+      "forbidden_work": [
+        "runtime_full_check",
+        "all_governance_validation",
+        "manifest_tree_scan",
+        "network_io",
+        "repository_wide_search",
+        "recursive_validator_chain"
+      ],
+      "cost_boundary": "constant_or_artifact_local",
+      "may_block_runtime": true,
+      "may_open_execution_authority": false
+    },
+    {
+      "tier_id": "T1_local_artifact_validator",
+      "trigger": "on_artifact_write_or_targeted_local_check",
+      "allowed_work": [
+        "single_artifact_schema_check",
+        "single_artifact_consistency_check",
+        "paired_artifact_receipt_check"
+      ],
+      "forbidden_work": [
+        "repository_wide_governance_validation",
+        "release_finality_validation"
+      ],
+      "cost_boundary": "bounded_local_artifact_set",
+      "may_block_runtime": false,
+      "may_open_execution_authority": false
+    },
+    {
+      "tier_id": "T2_changed_path_ci_validator",
+      "trigger": "pull_request_or_commit_changed_path",
+      "allowed_work": [
+        "changed_file_tests",
+        "adjacent_manifest_checks",
+        "targeted_workflow_validation"
+      ],
+      "forbidden_work": [
+        "runtime_tick_loop_execution",
+        "finality_archive_mutation"
+      ],
+      "cost_boundary": "changed_path_plus_declared_neighbors",
+      "may_block_runtime": false,
+      "may_open_execution_authority": false
+    },
+    {
+      "tier_id": "T3_runtime_full_check",
+      "trigger": "ci_runtime_full_check_or_manual_runtime_audit",
+      "allowed_work": [
+        "runtime_manifest_validation",
+        "runtime_unit_test_bundle",
+        "daemon_output_contract_tests"
+      ],
+      "forbidden_work": [
+        "per_tick_invocation",
+        "release_finality_mutation"
+      ],
+      "cost_boundary": "runtime_subsystem_full_check",
+      "may_block_runtime": false,
+      "may_open_execution_authority": false
+    },
+    {
+      "tier_id": "T4_governance_full_check",
+      "trigger": "pull_request_governance_ci_or_pre_release_gate",
+      "allowed_work": [
+        "all_governance_validation",
+        "cross_manifest_consistency_check",
+        "policy_surface_check"
+      ],
+      "forbidden_work": [
+        "per_tick_invocation",
+        "hot_path_invocation"
+      ],
+      "cost_boundary": "repository_governance_bundle",
+      "may_block_runtime": false,
+      "may_open_execution_authority": false
+    },
+    {
+      "tier_id": "T5_release_freeze_finality_check",
+      "trigger": "release_freeze_finality_or_archive_boundary",
+      "allowed_work": [
+        "release_packet_validation",
+        "freeze_packet_validation",
+        "finality_packet_validation",
+        "append_only_archive_receipt_check"
+      ],
+      "forbidden_work": [
+        "routine_runtime_tick_invocation",
+        "direct_execution_authorization"
+      ],
+      "cost_boundary": "release_or_finality_event",
+      "may_block_runtime": false,
+      "may_open_execution_authority": false
+    }
+  ],
+  "qi_process_tensor_runtime_mapping": {
+    "daemon_qi_process_tensor_tick_scheduler_v0_1.json": {
+      "runtime_emit_tier": "T0_hot_path_guard",
+      "schema_validation_tier": "T1_local_artifact_validator",
+      "ci_coverage_tier": "T3_runtime_full_check",
+      "manifest_coverage_tier": "T3_runtime_full_check"
+    },
+    "daemon_qi_process_tensor_closed_loop_receipt_v0_1.json": {
+      "runtime_emit_tier": "T0_hot_path_guard",
+      "schema_validation_tier": "T1_local_artifact_validator",
+      "ci_coverage_tier": "T3_runtime_full_check",
+      "manifest_coverage_tier": "T3_runtime_full_check"
+    },
+    "daemon_result_v0_1.json": {
+      "runtime_emit_tier": "T0_hot_path_guard",
+      "schema_validation_tier": "T1_local_artifact_validator",
+      "ci_coverage_tier": "T3_runtime_full_check",
+      "governance_coverage_tier": "T4_governance_full_check"
+    }
+  },
+  "global_invariants": [
+    "hot_path_must_not_run_full_validator",
+    "full_check_must_not_be_required_per_tick",
+    "governance_validation_must_not_be_required_per_tick",
+    "release_finality_validation_must_not_be_required_per_tick",
+    "runtime_receipts_remain_non_authoritative",
+    "validators_may_block_admission_but_do_not_grant_execution_authority"
+  ],
+  "authority_flags_must_remain_false": [
+    "grants_execution_authority",
+    "grants_truth_authority",
+    "grants_final_commitment_authority",
+    "grants_memory_overwrite_authority",
+    "grants_clinical_authority",
+    "grants_theorem_authority",
+    "grants_completed_identity_authority"
+  ]
+}
