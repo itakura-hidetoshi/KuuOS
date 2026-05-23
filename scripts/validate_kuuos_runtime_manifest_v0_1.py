@@ -13,6 +13,7 @@ LIST_KEYS = [
     "example_files",
     "script_files",
     "workflow_files",
+    "policy_files",
 ]
 
 NEEDED_KEYS = [
@@ -55,6 +56,14 @@ DAEMON_OUTPUTS = [
     "daemon_qi_process_tensor_closed_loop_receipt_v0_1.json",
 ]
 
+REQUIRED_POLICY_FILES = [
+    "manifests/kuuos_validator_tiering_policy_v0_1.json",
+]
+
+REQUIRED_SCRIPT_FILES = [
+    "scripts/validate_kuuos_validator_tiering_policy_v0_1.py",
+]
+
 
 def main() -> int:
     errors: list[str] = []
@@ -84,6 +93,14 @@ def main() -> int:
         for item in DAEMON_OUTPUTS:
             if item not in outputs:
                 errors.append(f"missing daemon output item: {item}")
+    policy_files = data.get("policy_files", [])
+    for item in REQUIRED_POLICY_FILES:
+        if item not in policy_files:
+            errors.append(f"missing policy file item: {item}")
+    script_files = data.get("script_files", [])
+    for item in REQUIRED_SCRIPT_FILES:
+        if item not in script_files:
+            errors.append(f"missing script file item: {item}")
     if errors:
         for error in errors:
             print("ERROR:", error)
