@@ -6,10 +6,12 @@
   "script_files": [
     "scripts/run_qi_process_tensor_bounded_tick_from_daemon_v0_1.py",
     "scripts/check_qi_bounded_tick_manual_runner_example_v0_1.py",
+    "scripts/validate_qi_bounded_tick_executor_receipt_v0_1.py",
     "scripts/validate_qi_bounded_tick_manual_runner_manifest_addendum_v0_1.py"
   ],
   "test_files": [
-    "tests/test_qi_process_tensor_bounded_tick_manual_runner_v0_1.py"
+    "tests/test_qi_process_tensor_bounded_tick_manual_runner_v0_1.py",
+    "tests/test_qi_bounded_tick_executor_receipt_validator_v0_1.py"
   ],
   "example_files": [
     "examples/qi_bounded_tick_manual_runner_v0_1/raw_state.json",
@@ -23,6 +25,7 @@
   ],
   "runtime_full_check_modules": [
     "tests.test_qi_process_tensor_bounded_tick_manual_runner_v0_1",
+    "tests.test_qi_bounded_tick_executor_receipt_validator_v0_1",
     "scripts.check_qi_bounded_tick_manual_runner_example_v0_1"
   ],
   "input_receipts": [
@@ -31,6 +34,9 @@
   ],
   "output_receipts": [
     "daemon_qi_process_tensor_bounded_tick_executor_receipt_v0_1.json"
+  ],
+  "receipt_contract_validators": [
+    "scripts/validate_qi_bounded_tick_executor_receipt_v0_1.py"
   ],
   "execution_boundary": {
     "daemon_auto_invocation_allowed": false,
@@ -52,6 +58,7 @@
     "This addendum is intentionally small so that the primary runtime manifest is not rewritten for each narrow runner registration.",
     "The daemon exposes reentry receipts and boundary tokens, but the manual runner is the explicit outer invocation entrypoint.",
     "The manual runner must not bypass the single-tick invocation boundary.",
-    "The manual runner example has a dedicated workflow and is also checked by the runtime full check."
+    "The manual runner example has a dedicated workflow and is also checked by the runtime full check.",
+    "The bounded tick executor receipt is validated by a dedicated receipt contract validator."
   ]
 }
