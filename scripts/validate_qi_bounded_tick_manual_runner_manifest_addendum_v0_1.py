@@ -10,8 +10,10 @@ ADDENDUM = ROOT / "manifests" / "kuuos_qi_bounded_tick_manual_runner_manifest_ad
 
 REQUIRED_SCRIPT = "scripts/run_qi_process_tensor_bounded_tick_from_daemon_v0_1.py"
 REQUIRED_CHECKER = "scripts/check_qi_bounded_tick_manual_runner_example_v0_1.py"
+REQUIRED_RECEIPT_VALIDATOR = "scripts/validate_qi_bounded_tick_executor_receipt_v0_1.py"
 REQUIRED_VALIDATOR = "scripts/validate_qi_bounded_tick_manual_runner_manifest_addendum_v0_1.py"
 REQUIRED_TEST = "tests/test_qi_process_tensor_bounded_tick_manual_runner_v0_1.py"
+REQUIRED_RECEIPT_VALIDATOR_TEST = "tests/test_qi_bounded_tick_executor_receipt_validator_v0_1.py"
 REQUIRED_WORKFLOW = ".github/workflows/qi_bounded_tick_manual_runner_example_validation.yml"
 REQUIRED_OUTPUT = "daemon_qi_process_tensor_bounded_tick_executor_receipt_v0_1.json"
 REQUIRED_INPUTS = {
@@ -51,16 +53,24 @@ def main() -> int:
     inputs = set(_as_list(data.get("input_receipts")))
     outputs = set(_as_list(data.get("output_receipts")))
     modules = set(_as_list(data.get("runtime_full_check_modules")))
+    receipt_validators = set(_as_list(data.get("receipt_contract_validators")))
 
     for item, label in [
         (REQUIRED_SCRIPT, "manual runner script"),
         (REQUIRED_CHECKER, "manual runner example checker"),
+        (REQUIRED_RECEIPT_VALIDATOR, "bounded tick executor receipt validator"),
         (REQUIRED_VALIDATOR, "manual runner addendum validator"),
     ]:
         if item not in scripts:
             errors.append(f"{label} not registered")
-    if REQUIRED_TEST not in tests:
-        errors.append("manual runner test not registered")
+    for item, label in [
+        (REQUIRED_TEST, "manual runner test"),
+        (REQUIRED_RECEIPT_VALIDATOR_TEST, "receipt validator test"),
+    ]:
+        if item not in tests:
+            errors.append(f"{label} not registered")
+    if REQUIRED_RECEIPT_VALIDATOR not in receipt_validators:
+        errors.append("receipt contract validator not registered")
     if REQUIRED_WORKFLOW not in workflows:
         errors.append("manual runner example workflow not registered")
     if REQUIRED_OUTPUT not in outputs:
@@ -69,12 +79,24 @@ def main() -> int:
         errors.append(f"missing input receipt: {item}")
     for item in REQUIRED_EXAMPLES - examples:
         errors.append(f"missing example file: {item}")
-    if "tests.test_qi_process_tensor_bounded_tick_manual_runner_v0_1" not in modules:
-        errors.append("manual runner test module not registered")
-    if "scripts.check_qi_bounded_tick_manual_runner_example_v0_1" not in modules:
-        errors.append("manual runner example checker not registered")
+    for module in [
+        "tests.test_qi_process_tensor_bounded_tick_manual_runner_v0_1",
+        "tests.test_qi_bounded_tick_executor_receipt_validator_v0_1",
+        "scripts.check_qi_bounded_tick_manual_runner_example_v0_1",
+    ]:
+        if module not in modules:
+            errors.append(f"runtime full check module not registered: {module}")
 
-    for rel in [REQUIRED_SCRIPT, REQUIRED_CHECKER, REQUIRED_VALIDATOR, REQUIRED_TEST, REQUIRED_WORKFLOW, *sorted(REQUIRED_EXAMPLES)]:
+    for rel in [
+        REQUIRED_SCRIPT,
+        REQUIRED_CHECKER,
+        REQUIRED_RECEIPT_VALIDATOR,
+        REQUIRED_VALIDATOR,
+        REQUIRED_TEST,
+        REQUIRED_RECEIPT_VALIDATOR_TEST,
+        REQUIRED_WORKFLOW,
+        *sorted(REQUIRED_EXAMPLES),
+    ]:
         if not (ROOT / rel).exists():
             errors.append(f"registered path missing: {rel}")
 
