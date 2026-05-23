@@ -49,6 +49,7 @@ TEST_MODULES = [
     "tests.test_qi_process_tensor_tick_scheduler_output_fields_v0_1",
     "tests.test_qi_process_tensor_closed_loop_receipt_v0_1",
     "tests.test_qi_process_tensor_reentry_plan_v0_1",
+    "tests.test_qi_process_tensor_reentry_license_gate_v0_1",
     "tests.test_qi_process_tensor_closed_loop_receipt_daemon_result_fields_v0_1",
     "tests.test_kuuos_runtime_daemon_geometric_chain_fields_v0_1",
 ]
