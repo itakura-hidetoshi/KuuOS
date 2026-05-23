@@ -34,7 +34,8 @@
     "runtime/kuuos_runtime_daemon_qi_process_tensor_tick_scheduler_v0_1.py",
     "runtime/kuuos_runtime_daemon_qi_process_tensor_closed_loop_receipt_v0_1.py",
     "runtime/kuuos_runtime_daemon_qi_process_tensor_reentry_plan_v0_1.py",
-    "runtime/kuuos_runtime_daemon_qi_process_tensor_reentry_license_gate_v0_1.py"
+    "runtime/kuuos_runtime_daemon_qi_process_tensor_reentry_license_gate_v0_1.py",
+    "runtime/kuuos_runtime_daemon_qi_process_tensor_bounded_tick_executor_v0_1.py"
   ],
   "core_test_files": [
     "tests/test_qi_process_tensor_v0_1.py",
@@ -75,6 +76,7 @@
     "tests/test_qi_process_tensor_closed_loop_receipt_v0_1.py",
     "tests/test_qi_process_tensor_reentry_plan_v0_1.py",
     "tests/test_qi_process_tensor_reentry_license_gate_v0_1.py",
+    "tests/test_qi_process_tensor_bounded_tick_executor_v0_1.py",
     "tests/test_qi_process_tensor_closed_loop_receipt_daemon_result_fields_v0_1.py",
     "tests/test_kuuos_runtime_daemon_geometric_chain_fields_v0_1.py",
     "tests/test_qi_process_tensor_downstream_v0_1.py"
@@ -210,6 +212,7 @@
     "Daemon Qi Process Tensor Closed-Loop Receipt seals scheduler hints and daemon context into nonexecuting runtime receipt summaries.",
     "Daemon Qi Process Tensor Reentry Plan turns closed-loop receipts into nonexecuting next-tick reentry advisories.",
     "Daemon Qi Process Tensor Reentry License Gate converts reentry plans into bounded tick licenses or explicit denial reasons.",
+    "Daemon Qi Process Tensor Bounded Tick Executor invokes one bounded State IO tick only when a bounded tick license is granted.",
     "Validator Tiering Policy keeps full validators out of the runtime hot path while preserving CI, governance, release, and finality validation tiers."
   ]
 }
