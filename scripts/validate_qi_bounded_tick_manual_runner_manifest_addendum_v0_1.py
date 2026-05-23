@@ -9,11 +9,21 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 ADDENDUM = ROOT / "manifests" / "kuuos_qi_bounded_tick_manual_runner_manifest_addendum_v0_1.json"
 
 REQUIRED_SCRIPT = "scripts/run_qi_process_tensor_bounded_tick_from_daemon_v0_1.py"
+REQUIRED_CHECKER = "scripts/check_qi_bounded_tick_manual_runner_example_v0_1.py"
+REQUIRED_VALIDATOR = "scripts/validate_qi_bounded_tick_manual_runner_manifest_addendum_v0_1.py"
 REQUIRED_TEST = "tests/test_qi_process_tensor_bounded_tick_manual_runner_v0_1.py"
+REQUIRED_WORKFLOW = ".github/workflows/qi_bounded_tick_manual_runner_example_validation.yml"
 REQUIRED_OUTPUT = "daemon_qi_process_tensor_bounded_tick_executor_receipt_v0_1.json"
 REQUIRED_INPUTS = {
     "daemon_qi_process_tensor_reentry_license_gate_v0_1.json",
     "daemon_qi_process_tensor_bounded_tick_invocation_boundary_v0_1.json",
+}
+REQUIRED_EXAMPLES = {
+    "examples/qi_bounded_tick_manual_runner_v0_1/raw_state.json",
+    "examples/qi_bounded_tick_manual_runner_v0_1/evidence.json",
+    "examples/qi_bounded_tick_manual_runner_v0_1/daemon/daemon_qi_process_tensor_reentry_license_gate_v0_1.json",
+    "examples/qi_bounded_tick_manual_runner_v0_1/daemon/daemon_qi_process_tensor_bounded_tick_invocation_boundary_v0_1.json",
+    "examples/qi_bounded_tick_manual_runner_v0_1/README.md",
 }
 
 
@@ -36,22 +46,35 @@ def main() -> int:
 
     scripts = set(_as_list(data.get("script_files")))
     tests = set(_as_list(data.get("test_files")))
+    examples = set(_as_list(data.get("example_files")))
+    workflows = set(_as_list(data.get("workflow_files")))
     inputs = set(_as_list(data.get("input_receipts")))
     outputs = set(_as_list(data.get("output_receipts")))
     modules = set(_as_list(data.get("runtime_full_check_modules")))
 
-    if REQUIRED_SCRIPT not in scripts:
-        errors.append("manual runner script not registered")
+    for item, label in [
+        (REQUIRED_SCRIPT, "manual runner script"),
+        (REQUIRED_CHECKER, "manual runner example checker"),
+        (REQUIRED_VALIDATOR, "manual runner addendum validator"),
+    ]:
+        if item not in scripts:
+            errors.append(f"{label} not registered")
     if REQUIRED_TEST not in tests:
         errors.append("manual runner test not registered")
+    if REQUIRED_WORKFLOW not in workflows:
+        errors.append("manual runner example workflow not registered")
     if REQUIRED_OUTPUT not in outputs:
         errors.append("executor receipt output not registered")
     for item in REQUIRED_INPUTS - inputs:
         errors.append(f"missing input receipt: {item}")
+    for item in REQUIRED_EXAMPLES - examples:
+        errors.append(f"missing example file: {item}")
     if "tests.test_qi_process_tensor_bounded_tick_manual_runner_v0_1" not in modules:
         errors.append("manual runner test module not registered")
+    if "scripts.check_qi_bounded_tick_manual_runner_example_v0_1" not in modules:
+        errors.append("manual runner example checker not registered")
 
-    for rel in [REQUIRED_SCRIPT, REQUIRED_TEST]:
+    for rel in [REQUIRED_SCRIPT, REQUIRED_CHECKER, REQUIRED_VALIDATOR, REQUIRED_TEST, REQUIRED_WORKFLOW, *sorted(REQUIRED_EXAMPLES)]:
         if not (ROOT / rel).exists():
             errors.append(f"registered path missing: {rel}")
 
