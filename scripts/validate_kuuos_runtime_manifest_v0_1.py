@@ -51,6 +51,8 @@ NEEDED_OUTPUTS = [
 DAEMON_OUTPUTS = [
     "daemon_tick_log_v0_1.json",
     "daemon_result_v0_1.json",
+    "daemon_qi_process_tensor_tick_scheduler_v0_1.json",
+    "daemon_qi_process_tensor_closed_loop_receipt_v0_1.json",
 ]
 
 
