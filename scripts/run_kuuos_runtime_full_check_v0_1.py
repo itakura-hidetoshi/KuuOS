@@ -45,6 +45,8 @@ TEST_MODULES = [
     "tests.test_policy_flow_governor_output_fields_v0_1",
     "tests.test_qi_process_tensor_actuator_v0_1",
     "tests.test_qi_process_tensor_actuator_output_fields_v0_1",
+    "tests.test_qi_process_tensor_tick_scheduler_v0_1",
+    "tests.test_qi_process_tensor_tick_scheduler_output_fields_v0_1",
     "tests.test_kuuos_runtime_daemon_geometric_chain_fields_v0_1",
 ]
 
