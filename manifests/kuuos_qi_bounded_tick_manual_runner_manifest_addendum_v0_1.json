@@ -7,6 +7,7 @@
     "scripts/run_qi_process_tensor_bounded_tick_from_daemon_v0_1.py",
     "scripts/check_qi_bounded_tick_manual_runner_example_v0_1.py",
     "scripts/validate_qi_bounded_tick_executor_receipt_v0_1.py",
+    "scripts/check_qi_bounded_tick_executor_receipt_contract_cases_v0_1.py",
     "scripts/validate_qi_bounded_tick_manual_runner_manifest_addendum_v0_1.py"
   ],
   "test_files": [
@@ -27,6 +28,7 @@
   "runtime_full_check_modules": [
     "tests.test_qi_process_tensor_bounded_tick_manual_runner_v0_1",
     "tests.test_qi_bounded_tick_executor_receipt_validator_v0_1",
+    "scripts.check_qi_bounded_tick_executor_receipt_contract_cases_v0_1",
     "scripts.check_qi_bounded_tick_manual_runner_example_v0_1"
   ],
   "input_receipts": [
@@ -38,6 +40,15 @@
   ],
   "receipt_contract_validators": [
     "scripts/validate_qi_bounded_tick_executor_receipt_v0_1.py"
+  ],
+  "receipt_contract_case_manifest": "validation/qi_bounded_tick_executor_receipt_contract_v0_1/cases_manifest.json",
+  "receipt_contract_case_files": [
+    "validation/qi_bounded_tick_executor_receipt_contract_v0_1/valid_invoked_receipt.json",
+    "validation/qi_bounded_tick_executor_receipt_contract_v0_1/valid_denied_receipt.json",
+    "validation/qi_bounded_tick_executor_receipt_contract_v0_1/invalid_invoked_missing_token.json",
+    "validation/qi_bounded_tick_executor_receipt_contract_v0_1/invalid_denied_grants_execution.json",
+    "validation/qi_bounded_tick_executor_receipt_contract_v0_1/invalid_truth_authority.json",
+    "validation/qi_bounded_tick_executor_receipt_contract_v0_1/invalid_unbounded_max_steps.json"
   ],
   "execution_boundary": {
     "daemon_auto_invocation_allowed": false,
@@ -61,6 +72,7 @@
     "The manual runner must not bypass the single-tick invocation boundary.",
     "The manual runner example has a dedicated workflow and is also checked by the runtime full check.",
     "The bounded tick executor receipt is validated by a dedicated receipt contract validator.",
-    "The bounded tick executor receipt contract has its own dedicated workflow."
+    "The bounded tick executor receipt contract has its own dedicated workflow.",
+    "The bounded tick executor receipt contract has explicit positive and negative validation cases."
   ]
 }
