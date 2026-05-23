@@ -22,6 +22,7 @@ try:
     from runtime.kuuos_runtime_daemon_active_inference_kernel_v0_1 import read_and_run_daemon_active_inference_kernel
     from runtime.kuuos_runtime_daemon_efe_landscape_v0_1 import read_and_compile_efe_landscape
     from runtime.kuuos_runtime_daemon_policy_flow_v0_1 import read_and_compile_policy_flow
+    from runtime.kuuos_runtime_daemon_policy_flow_governor_v0_1 import read_and_compile_policy_flow_governor
 except ModuleNotFoundError:
     from kuuos_state_io_runner_v0_1 import run_state_io
     from kuuos_runtime_daemon_yinyang_polarity_gauge_v0_1 import read_and_evaluate_daemon_yinyang_polarity
@@ -35,6 +36,7 @@ except ModuleNotFoundError:
     from kuuos_runtime_daemon_active_inference_kernel_v0_1 import read_and_run_daemon_active_inference_kernel
     from kuuos_runtime_daemon_efe_landscape_v0_1 import read_and_compile_efe_landscape
     from kuuos_runtime_daemon_policy_flow_v0_1 import read_and_compile_policy_flow
+    from kuuos_runtime_daemon_policy_flow_governor_v0_1 import read_and_compile_policy_flow_governor
 
 NON_AUTHORITY_FLAGS = {
     "grants_execution_authority": False,
@@ -88,6 +90,11 @@ class KuuOSDaemonResult:
     policy_flow_distance: float | None = None
     policy_flow_velocity: float | None = None
     policy_flow_oscillation_damping: float | None = None
+    policy_flow_governor_path: str | None = None
+    governed_policy_advisory: str | None = None
+    policy_flow_transition_mode: str | None = None
+    policy_flow_ramp_fraction: float | None = None
+    policy_flow_max_step_fraction: float | None = None
     grants_execution_authority: bool = False
     grants_truth_authority: bool = False
     grants_final_commitment_authority: bool = False
@@ -247,6 +254,10 @@ def run_runtime_daemon(
     policy_flow_path = daemon_dir / "daemon_policy_flow_v0_1.json"
     _write_json(policy_flow_path, policy_flow_result.to_dict())
 
+    policy_governor_result = read_and_compile_policy_flow_governor(daemon_dir)
+    policy_governor_path = daemon_dir / "daemon_policy_flow_governor_v0_1.json"
+    _write_json(policy_governor_path, policy_governor_result.to_dict())
+
     result = KuuOSDaemonResult(
         daemon_status=daemon_status,
         stop_reason=stop_reason,
@@ -282,6 +293,11 @@ def run_runtime_daemon(
         policy_flow_distance=policy_flow_result.flow_distance,
         policy_flow_velocity=policy_flow_result.flow_velocity,
         policy_flow_oscillation_damping=policy_flow_result.oscillation_damping,
+        policy_flow_governor_path=str(policy_governor_path),
+        governed_policy_advisory=policy_governor_result.governed_policy_advisory,
+        policy_flow_transition_mode=policy_governor_result.transition_mode,
+        policy_flow_ramp_fraction=policy_governor_result.ramp_fraction,
+        policy_flow_max_step_fraction=policy_governor_result.max_step_fraction,
     )
     _write_json(daemon_result_path, result.to_dict())
     return result
