@@ -10,6 +10,7 @@ ADDENDUM = ROOT / "manifests" / "kuuos_qi_bounded_tick_manual_runner_manifest_ad
 
 REQUIRED_SCRIPT = "scripts/run_qi_process_tensor_bounded_tick_from_daemon_v0_1.py"
 REQUIRED_CHECKER = "scripts/check_qi_bounded_tick_manual_runner_example_v0_1.py"
+REQUIRED_CASE_CHECKER = "scripts/check_qi_bounded_tick_executor_receipt_contract_cases_v0_1.py"
 REQUIRED_RECEIPT_VALIDATOR = "scripts/validate_qi_bounded_tick_executor_receipt_v0_1.py"
 REQUIRED_VALIDATOR = "scripts/validate_qi_bounded_tick_manual_runner_manifest_addendum_v0_1.py"
 REQUIRED_TEST = "tests/test_qi_process_tensor_bounded_tick_manual_runner_v0_1.py"
@@ -17,6 +18,7 @@ REQUIRED_RECEIPT_VALIDATOR_TEST = "tests/test_qi_bounded_tick_executor_receipt_v
 REQUIRED_WORKFLOW = ".github/workflows/qi_bounded_tick_manual_runner_example_validation.yml"
 REQUIRED_RECEIPT_WORKFLOW = ".github/workflows/qi_bounded_tick_executor_receipt_contract_validation.yml"
 REQUIRED_OUTPUT = "daemon_qi_process_tensor_bounded_tick_executor_receipt_v0_1.json"
+REQUIRED_CASE_MANIFEST = "validation/qi_bounded_tick_executor_receipt_contract_v0_1/cases_manifest.json"
 REQUIRED_INPUTS = {
     "daemon_qi_process_tensor_reentry_license_gate_v0_1.json",
     "daemon_qi_process_tensor_bounded_tick_invocation_boundary_v0_1.json",
@@ -27,6 +29,14 @@ REQUIRED_EXAMPLES = {
     "examples/qi_bounded_tick_manual_runner_v0_1/daemon/daemon_qi_process_tensor_reentry_license_gate_v0_1.json",
     "examples/qi_bounded_tick_manual_runner_v0_1/daemon/daemon_qi_process_tensor_bounded_tick_invocation_boundary_v0_1.json",
     "examples/qi_bounded_tick_manual_runner_v0_1/README.md",
+}
+REQUIRED_CASE_FILES = {
+    "validation/qi_bounded_tick_executor_receipt_contract_v0_1/valid_invoked_receipt.json",
+    "validation/qi_bounded_tick_executor_receipt_contract_v0_1/valid_denied_receipt.json",
+    "validation/qi_bounded_tick_executor_receipt_contract_v0_1/invalid_invoked_missing_token.json",
+    "validation/qi_bounded_tick_executor_receipt_contract_v0_1/invalid_denied_grants_execution.json",
+    "validation/qi_bounded_tick_executor_receipt_contract_v0_1/invalid_truth_authority.json",
+    "validation/qi_bounded_tick_executor_receipt_contract_v0_1/invalid_unbounded_max_steps.json",
 }
 
 
@@ -55,10 +65,12 @@ def main() -> int:
     outputs = set(_as_list(data.get("output_receipts")))
     modules = set(_as_list(data.get("runtime_full_check_modules")))
     receipt_validators = set(_as_list(data.get("receipt_contract_validators")))
+    case_files = set(_as_list(data.get("receipt_contract_case_files")))
 
     for item, label in [
         (REQUIRED_SCRIPT, "manual runner script"),
         (REQUIRED_CHECKER, "manual runner example checker"),
+        (REQUIRED_CASE_CHECKER, "receipt contract case checker"),
         (REQUIRED_RECEIPT_VALIDATOR, "bounded tick executor receipt validator"),
         (REQUIRED_VALIDATOR, "manual runner addendum validator"),
     ]:
@@ -72,6 +84,10 @@ def main() -> int:
             errors.append(f"{label} not registered")
     if REQUIRED_RECEIPT_VALIDATOR not in receipt_validators:
         errors.append("receipt contract validator not registered")
+    if data.get("receipt_contract_case_manifest") != REQUIRED_CASE_MANIFEST:
+        errors.append("receipt contract case manifest not registered")
+    for item in REQUIRED_CASE_FILES - case_files:
+        errors.append(f"missing receipt contract case file: {item}")
     for item, label in [
         (REQUIRED_WORKFLOW, "manual runner example workflow"),
         (REQUIRED_RECEIPT_WORKFLOW, "receipt contract workflow"),
@@ -87,6 +103,7 @@ def main() -> int:
     for module in [
         "tests.test_qi_process_tensor_bounded_tick_manual_runner_v0_1",
         "tests.test_qi_bounded_tick_executor_receipt_validator_v0_1",
+        "scripts.check_qi_bounded_tick_executor_receipt_contract_cases_v0_1",
         "scripts.check_qi_bounded_tick_manual_runner_example_v0_1",
     ]:
         if module not in modules:
@@ -95,12 +112,15 @@ def main() -> int:
     for rel in [
         REQUIRED_SCRIPT,
         REQUIRED_CHECKER,
+        REQUIRED_CASE_CHECKER,
         REQUIRED_RECEIPT_VALIDATOR,
         REQUIRED_VALIDATOR,
         REQUIRED_TEST,
         REQUIRED_RECEIPT_VALIDATOR_TEST,
         REQUIRED_WORKFLOW,
         REQUIRED_RECEIPT_WORKFLOW,
+        REQUIRED_CASE_MANIFEST,
+        *sorted(REQUIRED_CASE_FILES),
         *sorted(REQUIRED_EXAMPLES),
     ]:
         if not (ROOT / rel).exists():
