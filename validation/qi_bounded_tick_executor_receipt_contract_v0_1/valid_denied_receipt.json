@@ -1,0 +1,22 @@
+{
+  "executor_version": "kuuos_runtime_daemon_qi_process_tensor_bounded_tick_executor_v0_1",
+  "executor_status": "QI_PROCESS_TENSOR_BOUNDED_TICK_NOT_INVOKED",
+  "source_gate_status": "QI_PROCESS_TENSOR_REENTRY_LICENSE_DENIED_HOLD",
+  "source_license_decision": "NO_BOUNDED_TICK_LICENSE",
+  "source_boundary_status": "QI_PROCESS_TENSOR_INVOCATION_BOUNDARY_DENIED_NO_LICENSE",
+  "source_invocation_decision": "NO_SINGLE_TICK_INVOCATION_TOKEN",
+  "bounded_tick_license": false,
+  "single_tick_invocation_token": false,
+  "tick_invoked": false,
+  "denied_reason": "bounded_tick_license_missing_or_not_granted",
+  "steps_run": 0,
+  "licensed_max_steps_per_tick": 0,
+  "run_manifest_path": null,
+  "grants_execution_authority": false,
+  "grants_truth_authority": false,
+  "grants_final_commitment_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_clinical_authority": false,
+  "grants_theorem_authority": false,
+  "grants_completed_identity_authority": false
+}
