@@ -67,6 +67,7 @@ TEST_MODULES = [
     "tests.test_qi_runtime_output_surface_v0_1",
     "tests.test_qi_runtime_output_action_router_v0_1",
     "tests.test_qi_runtime_output_action_dispatcher_v0_1",
+    "tests.test_qi_routed_daemon_cycle_runner_v0_1",
     "tests.test_qi_bounded_reentry_cycle_runner_v0_1",
     "tests.test_qi_reentry_handoff_chain_runner_v0_1",
     "tests.test_qi_reentry_chain_controller_v0_1",
