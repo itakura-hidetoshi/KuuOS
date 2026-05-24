@@ -71,10 +71,19 @@ class QiBoundedReentryCycleRunnerTests(unittest.TestCase):
             self.assertEqual(result.cycle_status, "QI_BOUNDED_REENTRY_CYCLE_INVOKED")
             self.assertTrue(result.tick_invoked)
             self.assertTrue(result.grants_execution_authority)
+            self.assertTrue(result.handoff_available)
+            self.assertEqual(result.handoff_steps_run, 1)
+            self.assertTrue(Path(result.handoff_raw_state_path).is_file())
+            self.assertTrue(Path(result.handoff_state_bundle_path).is_file())
+            self.assertTrue(Path(result.handoff_run_manifest_path).is_file())
+            self.assertTrue(Path(result.handoff_step_trace_path).is_file())
             self.assertEqual(result.pre_next_operator_action, "invoke_manual_runner")
             self.assertTrue((output_dir / "run_manifest_v0_1.json").exists())
             receipt = json.loads(Path(result.executor_receipt_path).read_text(encoding="utf-8"))
             self.assertEqual(receipt["executor_status"], "QI_PROCESS_TENSOR_BOUNDED_TICK_INVOKED")
+            self.assertEqual(receipt["next_raw_state_path"], result.handoff_raw_state_path)
+            self.assertEqual(receipt["state_bundle_path"], result.handoff_state_bundle_path)
+            self.assertEqual(receipt["step_trace_path"], result.handoff_step_trace_path)
 
     def test_cycle_blocks_unsafe_health_even_with_token(self):
         with tempfile.TemporaryDirectory() as tmp:
@@ -91,6 +100,11 @@ class QiBoundedReentryCycleRunnerTests(unittest.TestCase):
             self.assertEqual(result.cycle_status, "QI_BOUNDED_REENTRY_CYCLE_NOT_INVOKED")
             self.assertFalse(result.tick_invoked)
             self.assertFalse(result.grants_execution_authority)
+            self.assertFalse(result.handoff_available)
+            self.assertIsNone(result.handoff_raw_state_path)
+            self.assertIsNone(result.handoff_state_bundle_path)
+            self.assertIsNone(result.handoff_step_trace_path)
+            self.assertEqual(result.handoff_steps_run, 0)
             self.assertEqual(result.denied_reason, "health_projection_recovery_unsafe")
             self.assertFalse((output_dir / "run_manifest_v0_1.json").exists())
 
@@ -108,6 +122,7 @@ class QiBoundedReentryCycleRunnerTests(unittest.TestCase):
             )
             self.assertEqual(result.cycle_status, "QI_BOUNDED_REENTRY_CYCLE_NOT_INVOKED")
             self.assertFalse(result.tick_invoked)
+            self.assertFalse(result.handoff_available)
             self.assertEqual(result.denied_reason, "health_projection_next_operator_action_not_invoke_manual_runner")
 
     def test_cycle_refresh_after_updates_post_health(self):
@@ -123,6 +138,7 @@ class QiBoundedReentryCycleRunnerTests(unittest.TestCase):
                 refresh_after=True,
             )
             self.assertEqual(result.cycle_status, "QI_BOUNDED_REENTRY_CYCLE_INVOKED")
+            self.assertTrue(result.handoff_available)
             self.assertTrue(Path(result.post_health_projection_path).is_file())
             self.assertIsNotNone(result.post_daemon_health_status)
             self.assertIsNotNone(result.post_recoverability_status)

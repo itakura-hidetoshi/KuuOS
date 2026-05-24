@@ -36,6 +36,13 @@ class KuuOSQiBoundedReentryCycleResult:
     executor_status: str
     tick_invoked: bool
     denied_reason: str | None
+    handoff_available: bool
+    handoff_raw_state_path: str | None
+    handoff_state_bundle_path: str | None
+    handoff_run_manifest_path: str | None
+    handoff_step_trace_path: str | None
+    handoff_stop_reason: str | None
+    handoff_steps_run: int
     post_health_projection_path: str | None
     post_daemon_health_status: str | None
     post_next_operator_action: str | None
@@ -151,6 +158,7 @@ def run_qi_bounded_reentry_cycle(
     if refresh_after:
         write_qi_projection_outputs(daemon_dir)
     post_health = _read_json(health_path)
+    handoff_available = bool(receipt.tick_invoked and receipt.next_raw_state_path and receipt.state_bundle_path)
 
     return KuuOSQiBoundedReentryCycleResult(
         cycle_version="kuuos_runtime_daemon_qi_bounded_reentry_cycle_runner_v0_1",
@@ -166,6 +174,13 @@ def run_qi_bounded_reentry_cycle(
         executor_status=receipt.executor_status,
         tick_invoked=receipt.tick_invoked,
         denied_reason=receipt.denied_reason,
+        handoff_available=handoff_available,
+        handoff_raw_state_path=receipt.next_raw_state_path if handoff_available else None,
+        handoff_state_bundle_path=receipt.state_bundle_path if handoff_available else None,
+        handoff_run_manifest_path=receipt.run_manifest_path if handoff_available else None,
+        handoff_step_trace_path=receipt.step_trace_path if handoff_available else None,
+        handoff_stop_reason=receipt.stop_reason if handoff_available else None,
+        handoff_steps_run=receipt.steps_run if handoff_available else 0,
         post_health_projection_path=str(health_path) if post_health else None,
         post_daemon_health_status=str(post_health.get("daemon_health_status")) if post_health else None,
         post_next_operator_action=str(post_health.get("next_operator_action")) if post_health else None,
