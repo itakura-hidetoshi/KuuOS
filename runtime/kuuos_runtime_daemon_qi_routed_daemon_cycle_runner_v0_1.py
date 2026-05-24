@@ -12,11 +12,13 @@ try:
     from runtime.kuuos_runtime_daemon_qi_runtime_output_surface_v0_1 import compile_qi_runtime_output_surface
     from runtime.kuuos_runtime_daemon_qi_runtime_output_action_router_v0_1 import route_qi_runtime_output_surface
     from runtime.kuuos_runtime_daemon_qi_runtime_output_action_dispatcher_v0_1 import dispatch_qi_runtime_output_action
+    from runtime.kuuos_runtime_daemon_qi_recovery_feedback_bridge_v0_1 import compile_qi_recovery_feedback
 except ModuleNotFoundError:
     from kuuos_runtime_daemon_v0_1 import run_runtime_daemon
     from kuuos_runtime_daemon_qi_runtime_output_surface_v0_1 import compile_qi_runtime_output_surface
     from kuuos_runtime_daemon_qi_runtime_output_action_router_v0_1 import route_qi_runtime_output_surface
     from kuuos_runtime_daemon_qi_runtime_output_action_dispatcher_v0_1 import dispatch_qi_runtime_output_action
+    from kuuos_runtime_daemon_qi_recovery_feedback_bridge_v0_1 import compile_qi_recovery_feedback
 
 
 @dataclass(frozen=True)
@@ -29,6 +31,7 @@ class KuuOSQiRoutedDaemonCycleResult:
     surface_path: str
     route_path: str
     dispatch_result_path: str
+    feedback_path: str
     daemon_status: str
     daemon_stop_reason: str
     daemon_ticks_run: int
@@ -40,6 +43,10 @@ class KuuOSQiRoutedDaemonCycleResult:
     invoked_action: str | None
     reentry_cycles_run: int
     reentry_ticks_invoked: int
+    feedback_signal: str
+    feedback_priority: str
+    policy_adjustment_hint: str
+    active_inference_hint: str
     final_raw_state_path: str | None
     final_state_bundle_path: str | None
     runner_reason: str
@@ -112,6 +119,14 @@ def run_qi_routed_daemon_cycle(
     dispatch_path = dispatch_dir / "qi_runtime_output_action_dispatch_result_v0_1.json"
     _write_json(dispatch_path, dispatch.to_dict())
 
+    feedback = compile_qi_recovery_feedback(
+        routed_cycle_result={},
+        dispatch_result=dispatch.to_dict(),
+        route_result=route.to_dict(),
+    )
+    feedback_path = dispatch_dir / "qi_recovery_feedback_v0_1.json"
+    _write_json(feedback_path, feedback.to_dict())
+
     final_raw = dispatch.final_raw_state_path or daemon_result.final_raw_state_path
     final_bundle = dispatch.final_state_bundle_path or daemon_result.final_state_bundle_path
     runner_status = "QI_ROUTED_DAEMON_CYCLE_DISPATCHED" if dispatch.action_invoked else "QI_ROUTED_DAEMON_CYCLE_ROUTED_NON_EXECUTING"
@@ -125,6 +140,7 @@ def run_qi_routed_daemon_cycle(
         surface_path=str(surface_path),
         route_path=str(route_path),
         dispatch_result_path=str(dispatch_path),
+        feedback_path=str(feedback_path),
         daemon_status=daemon_result.daemon_status,
         daemon_stop_reason=daemon_result.stop_reason,
         daemon_ticks_run=daemon_result.ticks_run,
@@ -136,6 +152,10 @@ def run_qi_routed_daemon_cycle(
         invoked_action=dispatch.invoked_action,
         reentry_cycles_run=dispatch.reentry_cycles_run,
         reentry_ticks_invoked=dispatch.reentry_ticks_invoked,
+        feedback_signal=feedback.feedback_signal,
+        feedback_priority=feedback.feedback_priority,
+        policy_adjustment_hint=feedback.policy_adjustment_hint,
+        active_inference_hint=feedback.active_inference_hint,
         final_raw_state_path=final_raw,
         final_state_bundle_path=final_bundle,
         runner_reason=dispatch.dispatch_reason,
