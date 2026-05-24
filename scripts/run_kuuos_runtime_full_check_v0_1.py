@@ -59,6 +59,7 @@ TEST_MODULES = [
     "tests.test_qi_bounded_tick_executor_receipt_validator_v0_1",
     "tests.test_qi_process_tensor_health_projection_v0_1",
     "tests.test_qi_process_tensor_recoverability_projection_v0_1",
+    "tests.test_qi_process_tensor_observation_debt_scheduler_v0_1",
     "tests.test_qi_projection_output_writer_v0_1",
     "tests.test_qi_bounded_reentry_cycle_runner_v0_1",
     "tests.test_qi_reentry_handoff_chain_runner_v0_1",
