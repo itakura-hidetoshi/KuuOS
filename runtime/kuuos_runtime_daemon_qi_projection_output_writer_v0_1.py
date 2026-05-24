@@ -14,12 +14,24 @@ try:
     from runtime.kuuos_runtime_daemon_qi_process_tensor_health_projection_v0_1 import (
         read_and_compile_qi_process_tensor_health_projection,
     )
+    from runtime.kuuos_runtime_daemon_qi_process_tensor_observation_debt_scheduler_v0_1 import (
+        read_and_compile_qi_process_tensor_observation_debt_schedule,
+    )
+    from runtime.kuuos_runtime_daemon_qi_process_tensor_trace_compaction_planner_v0_1 import (
+        read_and_compile_qi_process_tensor_trace_compaction_plan,
+    )
 except ModuleNotFoundError:
     from kuuos_runtime_daemon_qi_process_tensor_recoverability_projection_v0_1 import (
         read_and_compile_qi_process_tensor_recoverability_projection,
     )
     from kuuos_runtime_daemon_qi_process_tensor_health_projection_v0_1 import (
         read_and_compile_qi_process_tensor_health_projection,
+    )
+    from kuuos_runtime_daemon_qi_process_tensor_observation_debt_scheduler_v0_1 import (
+        read_and_compile_qi_process_tensor_observation_debt_schedule,
+    )
+    from kuuos_runtime_daemon_qi_process_tensor_trace_compaction_planner_v0_1 import (
+        read_and_compile_qi_process_tensor_trace_compaction_plan,
     )
 
 
@@ -30,6 +42,8 @@ class KuuOSQiProjectionOutputWriterResult:
     daemon_dir: str
     recoverability_projection_path: str
     health_projection_path: str
+    observation_debt_schedule_path: str
+    trace_compaction_plan_path: str
     recoverability_status: str
     dominant_recovery_path: str
     recommended_recovery_action: str
@@ -40,6 +54,12 @@ class KuuOSQiProjectionOutputWriterResult:
     daemon_health_status: str
     next_operator_action: str
     health_reason: str
+    observation_debt_status: str
+    recommended_observation_action: str
+    observation_priority: str
+    compaction_plan_status: str
+    recommended_compaction_action: str
+    compaction_priority: str
     grants_execution_authority: bool = False
     grants_truth_authority: bool = False
     grants_final_commitment_authority: bool = False
@@ -67,12 +87,22 @@ def write_qi_projection_outputs(daemon_dir: Path) -> KuuOSQiProjectionOutputWrit
     health_path = daemon_dir / "daemon_qi_process_tensor_health_projection_v0_1.json"
     _write_json(health_path, health.to_dict())
 
+    observation = read_and_compile_qi_process_tensor_observation_debt_schedule(daemon_dir)
+    observation_path = daemon_dir / "daemon_qi_process_tensor_observation_debt_schedule_v0_1.json"
+    _write_json(observation_path, observation.to_dict())
+
+    compaction = read_and_compile_qi_process_tensor_trace_compaction_plan(daemon_dir)
+    compaction_path = daemon_dir / "daemon_qi_process_tensor_trace_compaction_plan_v0_1.json"
+    _write_json(compaction_path, compaction.to_dict())
+
     return KuuOSQiProjectionOutputWriterResult(
         writer_version="kuuos_runtime_daemon_qi_projection_output_writer_v0_1",
         writer_status="QI_PROJECTION_OUTPUTS_WRITTEN",
         daemon_dir=str(daemon_dir),
         recoverability_projection_path=str(recoverability_path),
         health_projection_path=str(health_path),
+        observation_debt_schedule_path=str(observation_path),
+        trace_compaction_plan_path=str(compaction_path),
         recoverability_status=recoverability.recoverability_status,
         dominant_recovery_path=recoverability.dominant_recovery_path,
         recommended_recovery_action=recoverability.recommended_recovery_action,
@@ -83,6 +113,12 @@ def write_qi_projection_outputs(daemon_dir: Path) -> KuuOSQiProjectionOutputWrit
         daemon_health_status=health.daemon_health_status,
         next_operator_action=health.next_operator_action,
         health_reason=health.health_reason,
+        observation_debt_status=observation.observation_debt_status,
+        recommended_observation_action=observation.recommended_observation_action,
+        observation_priority=observation.observation_priority,
+        compaction_plan_status=compaction.compaction_plan_status,
+        recommended_compaction_action=compaction.recommended_compaction_action,
+        compaction_priority=compaction.compaction_priority,
     )
 
 
