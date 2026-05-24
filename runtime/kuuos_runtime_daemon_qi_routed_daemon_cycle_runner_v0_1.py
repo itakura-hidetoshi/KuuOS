@@ -15,6 +15,7 @@ try:
     from runtime.kuuos_runtime_daemon_qi_recovery_feedback_bridge_v0_1 import compile_qi_recovery_feedback
     from runtime.kuuos_runtime_daemon_qi_policy_feedback_surface_v0_1 import compile_qi_policy_feedback_surface
     from runtime.kuuos_runtime_daemon_qi_policy_feedback_candidate_adapter_v0_1 import compile_qi_policy_feedback_candidate_adapter
+    from runtime.kuuos_runtime_daemon_qi_policy_candidate_admission_gate_v0_1 import compile_qi_policy_candidate_admission
 except ModuleNotFoundError:
     from kuuos_runtime_daemon_v0_1 import run_runtime_daemon
     from kuuos_runtime_daemon_qi_runtime_output_surface_v0_1 import compile_qi_runtime_output_surface
@@ -23,6 +24,7 @@ except ModuleNotFoundError:
     from kuuos_runtime_daemon_qi_recovery_feedback_bridge_v0_1 import compile_qi_recovery_feedback
     from kuuos_runtime_daemon_qi_policy_feedback_surface_v0_1 import compile_qi_policy_feedback_surface
     from kuuos_runtime_daemon_qi_policy_feedback_candidate_adapter_v0_1 import compile_qi_policy_feedback_candidate_adapter
+    from kuuos_runtime_daemon_qi_policy_candidate_admission_gate_v0_1 import compile_qi_policy_candidate_admission
 
 
 @dataclass(frozen=True)
@@ -38,6 +40,7 @@ class KuuOSQiRoutedDaemonCycleResult:
     feedback_path: str
     policy_feedback_surface_path: str
     policy_candidate_adapter_path: str
+    policy_candidate_admission_path: str
     daemon_status: str
     daemon_stop_reason: str
     daemon_ticks_run: int
@@ -59,6 +62,9 @@ class KuuOSQiRoutedDaemonCycleResult:
     candidate_adjustment_class: str
     recommended_candidate_action: str
     candidate_priority: str
+    admission_decision: str
+    admission_reason: str
+    admitted_candidate_action: str | None
     final_raw_state_path: str | None
     final_state_bundle_path: str | None
     runner_reason: str
@@ -153,6 +159,13 @@ def run_qi_routed_daemon_cycle(
     candidate_adapter_path = dispatch_dir / "qi_policy_feedback_candidate_adapter_v0_1.json"
     _write_json(candidate_adapter_path, candidate_adapter.to_dict())
 
+    admission = compile_qi_policy_candidate_admission(
+        candidate_adapter=candidate_adapter.to_dict(),
+        source_candidate_adapter_path=candidate_adapter_path,
+    )
+    admission_path = dispatch_dir / "qi_policy_candidate_admission_gate_v0_1.json"
+    _write_json(admission_path, admission.to_dict())
+
     final_raw = dispatch.final_raw_state_path or daemon_result.final_raw_state_path
     final_bundle = dispatch.final_state_bundle_path or daemon_result.final_state_bundle_path
     runner_status = "QI_ROUTED_DAEMON_CYCLE_DISPATCHED" if dispatch.action_invoked else "QI_ROUTED_DAEMON_CYCLE_ROUTED_NON_EXECUTING"
@@ -169,6 +182,7 @@ def run_qi_routed_daemon_cycle(
         feedback_path=str(feedback_path),
         policy_feedback_surface_path=str(policy_feedback_path),
         policy_candidate_adapter_path=str(candidate_adapter_path),
+        policy_candidate_admission_path=str(admission_path),
         daemon_status=daemon_result.daemon_status,
         daemon_stop_reason=daemon_result.stop_reason,
         daemon_ticks_run=daemon_result.ticks_run,
@@ -190,6 +204,9 @@ def run_qi_routed_daemon_cycle(
         candidate_adjustment_class=candidate_adapter.candidate_adjustment_class,
         recommended_candidate_action=candidate_adapter.recommended_candidate_action,
         candidate_priority=candidate_adapter.candidate_priority,
+        admission_decision=admission.admission_decision,
+        admission_reason=admission.admission_reason,
+        admitted_candidate_action=admission.admitted_candidate_action,
         final_raw_state_path=final_raw,
         final_state_bundle_path=final_bundle,
         runner_reason=dispatch.dispatch_reason,
