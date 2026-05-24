@@ -9,10 +9,10 @@ from typing import Any
 
 try:
     from runtime.kuuos_runtime_daemon_qi_projection_output_writer_v0_1 import write_qi_projection_outputs
-    from runtime.kuuos_runtime_daemon_qi_routed_cycle_operational_summary_v0_1 import read_and_compile_qi_routed_cycle_operational_summary
+    from runtime.kuuos_runtime_daemon_qi_routed_cycle_operational_summary_v0_1 import compile_qi_routed_cycle_operational_summary
 except ModuleNotFoundError:
     from kuuos_runtime_daemon_qi_projection_output_writer_v0_1 import write_qi_projection_outputs
-    from kuuos_runtime_daemon_qi_routed_cycle_operational_summary_v0_1 import read_and_compile_qi_routed_cycle_operational_summary
+    from kuuos_runtime_daemon_qi_routed_cycle_operational_summary_v0_1 import compile_qi_routed_cycle_operational_summary
 
 
 @dataclass(frozen=True)
@@ -51,6 +51,13 @@ class KuuOSQiProjectionSummaryBridgeResult:
         return asdict(self)
 
 
+def _read_json(path: Path) -> dict[str, Any]:
+    if not Path(path).is_file():
+        return {}
+    value = json.loads(Path(path).read_text(encoding="utf-8"))
+    return value if isinstance(value, dict) else {}
+
+
 def _write_json(path: Path, payload: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
@@ -63,7 +70,26 @@ def run_qi_projection_summary_bridge(*, daemon_dir: Path, dispatch_dir: Path) ->
     projection_result_path = daemon_dir / "daemon_qi_projection_output_writer_result_v0_1.json"
     _write_json(projection_result_path, projection.to_dict())
 
-    summary = read_and_compile_qi_routed_cycle_operational_summary(daemon_dir, dispatch_dir)
+    daemon_result_path = daemon_dir / "daemon_result_v0_1.json"
+    summary = compile_qi_routed_cycle_operational_summary(
+        daemon_result=_read_json(daemon_result_path),
+        route_result=_read_json(dispatch_dir / "qi_runtime_output_action_route_v0_1.json"),
+        dispatch_result=_read_json(dispatch_dir / "qi_runtime_output_action_dispatch_result_v0_1.json"),
+        recovery_feedback=_read_json(dispatch_dir / "qi_recovery_feedback_v0_1.json"),
+        shadow_evaluation=_read_json(dispatch_dir / "qi_policy_flow_candidate_shadow_evaluator_v0_1.json"),
+        shadow_admission=_read_json(dispatch_dir / "qi_policy_flow_candidate_shadow_admission_gate_v0_1.json"),
+        health_projection=_read_json(Path(projection.health_projection_path)),
+        recoverability_projection=_read_json(Path(projection.recoverability_projection_path)),
+        observation_debt=_read_json(Path(projection.observation_debt_schedule_path)),
+        trace_compaction=_read_json(Path(projection.trace_compaction_plan_path)),
+        source_paths={
+            "daemon_result": str(daemon_result_path) if daemon_result_path.is_file() else None,
+            "recoverability_projection": projection.recoverability_projection_path,
+            "health_projection": projection.health_projection_path,
+            "observation_debt": projection.observation_debt_schedule_path,
+            "trace_compaction": projection.trace_compaction_plan_path,
+        },
+    )
     summary_path = dispatch_dir / "qi_routed_cycle_operational_summary_v0_1.json"
     _write_json(summary_path, summary.to_dict())
 
