@@ -23,6 +23,7 @@ try:
     from runtime.kuuos_runtime_daemon_qi_policy_flow_candidate_shadow_evaluator_v0_1 import compile_qi_policy_flow_candidate_shadow_evaluation
     from runtime.kuuos_runtime_daemon_qi_policy_flow_candidate_shadow_admission_gate_v0_1 import compile_qi_policy_flow_candidate_shadow_admission
     from runtime.kuuos_runtime_daemon_qi_routed_cycle_operational_summary_v0_1 import compile_qi_routed_cycle_operational_summary
+    from runtime.kuuos_runtime_daemon_qi_next_runtime_mode_plan_v0_1 import compile_qi_next_runtime_mode_plan
 except ModuleNotFoundError:
     from kuuos_runtime_daemon_v0_1 import run_runtime_daemon
     from kuuos_runtime_daemon_qi_runtime_output_surface_v0_1 import compile_qi_runtime_output_surface
@@ -39,6 +40,7 @@ except ModuleNotFoundError:
     from kuuos_runtime_daemon_qi_policy_flow_candidate_shadow_evaluator_v0_1 import compile_qi_policy_flow_candidate_shadow_evaluation
     from kuuos_runtime_daemon_qi_policy_flow_candidate_shadow_admission_gate_v0_1 import compile_qi_policy_flow_candidate_shadow_admission
     from kuuos_runtime_daemon_qi_routed_cycle_operational_summary_v0_1 import compile_qi_routed_cycle_operational_summary
+    from kuuos_runtime_daemon_qi_next_runtime_mode_plan_v0_1 import compile_qi_next_runtime_mode_plan
 
 
 @dataclass(frozen=True)
@@ -62,6 +64,7 @@ class KuuOSQiRoutedDaemonCycleResult:
     policy_flow_candidate_shadow_evaluator_path: str
     policy_flow_candidate_shadow_admission_path: str
     qi_routed_cycle_operational_summary_path: str
+    qi_next_runtime_mode_plan_path: str
     daemon_status: str
     daemon_stop_reason: str
     daemon_ticks_run: int
@@ -109,10 +112,14 @@ class KuuOSQiRoutedDaemonCycleResult:
     operational_blockers: list[str]
     operational_warnings: list[str]
     operational_positive_signals: list[str]
+    next_tick_preparation: str
+    required_pre_tick_actions: list[str]
+    forbidden_actions: list[str]
     final_raw_state_path: str | None
     final_state_bundle_path: str | None
     runner_reason: str
     grants_execution_authority: bool
+    grants_next_tick_execution_authority: bool = False
     grants_truth_authority: bool = False
     grants_final_commitment_authority: bool = False
     grants_memory_overwrite_authority: bool = False
@@ -283,6 +290,13 @@ def run_qi_routed_daemon_cycle(
     operational_summary_path = dispatch_dir / "qi_routed_cycle_operational_summary_v0_1.json"
     _write_json(operational_summary_path, operational_summary.to_dict())
 
+    next_plan = compile_qi_next_runtime_mode_plan(
+        operational_summary=operational_summary.to_dict(),
+        source_operational_summary_path=operational_summary_path,
+    )
+    next_plan_path = dispatch_dir / "qi_next_runtime_mode_plan_v0_1.json"
+    _write_json(next_plan_path, next_plan.to_dict())
+
     final_raw = dispatch.final_raw_state_path or daemon_result.final_raw_state_path
     final_bundle = dispatch.final_state_bundle_path or daemon_result.final_state_bundle_path
     runner_status = "QI_ROUTED_DAEMON_CYCLE_DISPATCHED" if dispatch.action_invoked else "QI_ROUTED_DAEMON_CYCLE_ROUTED_NON_EXECUTING"
@@ -307,6 +321,7 @@ def run_qi_routed_daemon_cycle(
         policy_flow_candidate_shadow_evaluator_path=str(shadow_eval_path),
         policy_flow_candidate_shadow_admission_path=str(shadow_admission_path),
         qi_routed_cycle_operational_summary_path=str(operational_summary_path),
+        qi_next_runtime_mode_plan_path=str(next_plan_path),
         daemon_status=daemon_result.daemon_status,
         daemon_stop_reason=daemon_result.stop_reason,
         daemon_ticks_run=daemon_result.ticks_run,
@@ -354,6 +369,9 @@ def run_qi_routed_daemon_cycle(
         operational_blockers=operational_summary.operational_blockers,
         operational_warnings=operational_summary.operational_warnings,
         operational_positive_signals=operational_summary.operational_positive_signals,
+        next_tick_preparation=next_plan.next_tick_preparation,
+        required_pre_tick_actions=next_plan.required_pre_tick_actions,
+        forbidden_actions=next_plan.forbidden_actions,
         final_raw_state_path=final_raw,
         final_state_bundle_path=final_bundle,
         runner_reason=dispatch.dispatch_reason,

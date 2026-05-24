@@ -65,7 +65,7 @@ def load(path: Path):
 
 
 class QiRoutedDaemonCycleRunnerTests(unittest.TestCase):
-    def test_routed_daemon_cycle_writes_full_policy_candidate_feedback_chain_and_operational_summary(self):
+    def test_routed_daemon_cycle_writes_full_policy_candidate_feedback_chain_operational_summary_and_next_plan(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             raw_path = root / "raw.json"
@@ -103,6 +103,7 @@ class QiRoutedDaemonCycleRunnerTests(unittest.TestCase):
             self.assertTrue(Path(result.policy_flow_candidate_shadow_evaluator_path).is_file())
             self.assertTrue(Path(result.policy_flow_candidate_shadow_admission_path).is_file())
             self.assertTrue(Path(result.qi_routed_cycle_operational_summary_path).is_file())
+            self.assertTrue(Path(result.qi_next_runtime_mode_plan_path).is_file())
             self.assertTrue(Path(result.final_raw_state_path).is_file())
             self.assertTrue(Path(result.final_state_bundle_path).is_file())
             route = load(Path(result.route_path))
@@ -118,6 +119,7 @@ class QiRoutedDaemonCycleRunnerTests(unittest.TestCase):
             shadow_eval = load(Path(result.policy_flow_candidate_shadow_evaluator_path))
             shadow_admission = load(Path(result.policy_flow_candidate_shadow_admission_path))
             operational_summary = load(Path(result.qi_routed_cycle_operational_summary_path))
+            next_plan = load(Path(result.qi_next_runtime_mode_plan_path))
             self.assertEqual(route["next_outer_action"], result.next_outer_action)
             self.assertEqual(dispatch["dispatcher_status"], result.dispatcher_status)
             self.assertEqual(feedback["feedback_signal"], result.feedback_signal)
@@ -154,6 +156,8 @@ class QiRoutedDaemonCycleRunnerTests(unittest.TestCase):
             self.assertEqual(operational_summary["operational_blockers"], result.operational_blockers)
             self.assertEqual(operational_summary["operational_warnings"], result.operational_warnings)
             self.assertEqual(operational_summary["operational_positive_signals"], result.operational_positive_signals)
+            self.assertEqual(next_plan["next_tick_preparation"], result.next_tick_preparation)
+            self.assertEqual(next_plan["required_pre_tick_actions"], result.required_pre_tick_actions)
             self.assertIn("candidate_weight_hints", candidate_adapter)
             self.assertIn("policy_candidate_constraints", candidate_adapter)
             self.assertIn("policy_flow_handoff_payload", handoff)
@@ -163,12 +167,15 @@ class QiRoutedDaemonCycleRunnerTests(unittest.TestCase):
             self.assertIn("boundary_markers", shadow_eval)
             self.assertIn("gate_blockers", shadow_admission)
             self.assertIn("one_page_summary", operational_summary)
+            self.assertIn("plan_packet", next_plan)
             self.assertTrue(shadow_eval["shadow_only"])
             self.assertTrue(shadow_eval["read_only"])
             self.assertTrue(shadow_admission["shadow_only"])
             self.assertTrue(shadow_admission["read_only"])
             self.assertTrue(operational_summary["operational_summary_only"])
             self.assertTrue(operational_summary["read_only"])
+            self.assertTrue(next_plan["plan_only"])
+            self.assertTrue(next_plan["read_only"])
             self.assertFalse(result.grants_truth_authority)
             self.assertFalse(result.grants_memory_overwrite_authority)
 
