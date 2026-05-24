@@ -65,7 +65,7 @@ def load(path: Path):
 
 
 class QiRoutedDaemonCycleRunnerTests(unittest.TestCase):
-    def test_routed_daemon_cycle_writes_surface_route_dispatch_feedback_and_policy_surface(self):
+    def test_routed_daemon_cycle_writes_full_policy_candidate_feedback_chain(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             raw_path = root / "raw.json"
@@ -94,12 +94,14 @@ class QiRoutedDaemonCycleRunnerTests(unittest.TestCase):
             self.assertTrue(Path(result.dispatch_result_path).is_file())
             self.assertTrue(Path(result.feedback_path).is_file())
             self.assertTrue(Path(result.policy_feedback_surface_path).is_file())
+            self.assertTrue(Path(result.policy_candidate_adapter_path).is_file())
             self.assertTrue(Path(result.final_raw_state_path).is_file())
             self.assertTrue(Path(result.final_state_bundle_path).is_file())
             route = load(Path(result.route_path))
             dispatch = load(Path(result.dispatch_result_path))
             feedback = load(Path(result.feedback_path))
             policy_feedback = load(Path(result.policy_feedback_surface_path))
+            candidate_adapter = load(Path(result.policy_candidate_adapter_path))
             self.assertEqual(route["next_outer_action"], result.next_outer_action)
             self.assertEqual(dispatch["dispatcher_status"], result.dispatcher_status)
             self.assertEqual(feedback["feedback_signal"], result.feedback_signal)
@@ -107,7 +109,11 @@ class QiRoutedDaemonCycleRunnerTests(unittest.TestCase):
             self.assertEqual(policy_feedback["policy_feedback_class"], result.policy_feedback_class)
             self.assertEqual(policy_feedback["policy_flow_candidate_signal"], result.policy_flow_candidate_signal)
             self.assertEqual(policy_feedback["active_inference_candidate_signal"], result.active_inference_candidate_signal)
-            self.assertIsNotNone(result.active_inference_hint)
+            self.assertEqual(candidate_adapter["candidate_adjustment_class"], result.candidate_adjustment_class)
+            self.assertEqual(candidate_adapter["recommended_candidate_action"], result.recommended_candidate_action)
+            self.assertEqual(candidate_adapter["candidate_priority"], result.candidate_priority)
+            self.assertIn("candidate_weight_hints", candidate_adapter)
+            self.assertIn("policy_candidate_constraints", candidate_adapter)
             self.assertFalse(result.grants_truth_authority)
             self.assertFalse(result.grants_memory_overwrite_authority)
 
