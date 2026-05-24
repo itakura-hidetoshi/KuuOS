@@ -144,16 +144,19 @@ def compile_qi_process_tensor_trace_compaction_plan(
         urgency = max(urgency, 0.85)
 
     if not transition_visible:
+        blockers.append("transition_continuity_missing")
         retain_targets.append("adjacent_transition_edges")
         no_compaction_targets.append("transition_witnesses")
         urgency = max(urgency, 0.75)
 
     if not memory_visible:
+        blockers.append("memory_continuity_missing")
         retain_targets.append("memory_link_witnesses")
         no_compaction_targets.append("memory_continuity_witnesses")
         urgency = max(urgency, 0.7)
 
     if not nonmarkov_visible:
+        blockers.append("nonmarkov_memory_missing")
         retain_targets.append("nonmarkov_history_witnesses")
         no_compaction_targets.append("nonmarkov_memory_witnesses")
         urgency = max(urgency, 0.6)
