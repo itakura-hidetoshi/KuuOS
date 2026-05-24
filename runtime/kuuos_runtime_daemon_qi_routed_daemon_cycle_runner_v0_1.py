@@ -22,6 +22,7 @@ try:
     from runtime.kuuos_runtime_daemon_qi_policy_flow_candidate_intake_view_v0_1 import compile_qi_policy_flow_candidate_intake_view
     from runtime.kuuos_runtime_daemon_qi_policy_flow_candidate_shadow_evaluator_v0_1 import compile_qi_policy_flow_candidate_shadow_evaluation
     from runtime.kuuos_runtime_daemon_qi_policy_flow_candidate_shadow_admission_gate_v0_1 import compile_qi_policy_flow_candidate_shadow_admission
+    from runtime.kuuos_runtime_daemon_qi_routed_cycle_operational_summary_v0_1 import compile_qi_routed_cycle_operational_summary
 except ModuleNotFoundError:
     from kuuos_runtime_daemon_v0_1 import run_runtime_daemon
     from kuuos_runtime_daemon_qi_runtime_output_surface_v0_1 import compile_qi_runtime_output_surface
@@ -37,6 +38,7 @@ except ModuleNotFoundError:
     from kuuos_runtime_daemon_qi_policy_flow_candidate_intake_view_v0_1 import compile_qi_policy_flow_candidate_intake_view
     from kuuos_runtime_daemon_qi_policy_flow_candidate_shadow_evaluator_v0_1 import compile_qi_policy_flow_candidate_shadow_evaluation
     from kuuos_runtime_daemon_qi_policy_flow_candidate_shadow_admission_gate_v0_1 import compile_qi_policy_flow_candidate_shadow_admission
+    from kuuos_runtime_daemon_qi_routed_cycle_operational_summary_v0_1 import compile_qi_routed_cycle_operational_summary
 
 
 @dataclass(frozen=True)
@@ -59,6 +61,7 @@ class KuuOSQiRoutedDaemonCycleResult:
     policy_flow_candidate_intake_view_path: str
     policy_flow_candidate_shadow_evaluator_path: str
     policy_flow_candidate_shadow_admission_path: str
+    qi_routed_cycle_operational_summary_path: str
     daemon_status: str
     daemon_stop_reason: str
     daemon_ticks_run: int
@@ -101,6 +104,11 @@ class KuuOSQiRoutedDaemonCycleResult:
     policy_flow_shadow_admission_decision: str
     policy_flow_shadow_admission_reason: str
     policy_flow_shadow_admitted_action: str | None
+    recommended_next_runtime_mode: str
+    recommended_next_reason: str
+    operational_blockers: list[str]
+    operational_warnings: list[str]
+    operational_positive_signals: list[str]
     final_raw_state_path: str | None
     final_state_bundle_path: str | None
     runner_reason: str
@@ -119,6 +127,16 @@ class KuuOSQiRoutedDaemonCycleResult:
 def _write_json(path: Path, payload: Any) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     path.write_text(json.dumps(payload, ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+
+
+def _to_dict(value: Any) -> dict[str, Any]:
+    if isinstance(value, dict):
+        return value
+    if hasattr(value, "to_dict"):
+        return value.to_dict()
+    if hasattr(value, "__dataclass_fields__"):
+        return asdict(value)
+    return {}
 
 
 def run_qi_routed_daemon_cycle(
@@ -246,6 +264,25 @@ def run_qi_routed_daemon_cycle(
     shadow_admission_path = dispatch_dir / "qi_policy_flow_candidate_shadow_admission_gate_v0_1.json"
     _write_json(shadow_admission_path, shadow_admission.to_dict())
 
+    operational_summary = compile_qi_routed_cycle_operational_summary(
+        daemon_result=_to_dict(daemon_result),
+        route_result=route.to_dict(),
+        dispatch_result=dispatch.to_dict(),
+        recovery_feedback=feedback.to_dict(),
+        shadow_evaluation=shadow_eval.to_dict(),
+        shadow_admission=shadow_admission.to_dict(),
+        source_paths={
+            "daemon_result": str(daemon_result_path),
+            "route_result": str(route_path),
+            "dispatch_result": str(dispatch_path),
+            "recovery_feedback": str(feedback_path),
+            "shadow_evaluation": str(shadow_eval_path),
+            "shadow_admission": str(shadow_admission_path),
+        },
+    )
+    operational_summary_path = dispatch_dir / "qi_routed_cycle_operational_summary_v0_1.json"
+    _write_json(operational_summary_path, operational_summary.to_dict())
+
     final_raw = dispatch.final_raw_state_path or daemon_result.final_raw_state_path
     final_bundle = dispatch.final_state_bundle_path or daemon_result.final_state_bundle_path
     runner_status = "QI_ROUTED_DAEMON_CYCLE_DISPATCHED" if dispatch.action_invoked else "QI_ROUTED_DAEMON_CYCLE_ROUTED_NON_EXECUTING"
@@ -269,6 +306,7 @@ def run_qi_routed_daemon_cycle(
         policy_flow_candidate_intake_view_path=str(intake_view_path),
         policy_flow_candidate_shadow_evaluator_path=str(shadow_eval_path),
         policy_flow_candidate_shadow_admission_path=str(shadow_admission_path),
+        qi_routed_cycle_operational_summary_path=str(operational_summary_path),
         daemon_status=daemon_result.daemon_status,
         daemon_stop_reason=daemon_result.stop_reason,
         daemon_ticks_run=daemon_result.ticks_run,
@@ -311,6 +349,11 @@ def run_qi_routed_daemon_cycle(
         policy_flow_shadow_admission_decision=shadow_admission.shadow_admission_decision,
         policy_flow_shadow_admission_reason=shadow_admission.shadow_admission_reason,
         policy_flow_shadow_admitted_action=shadow_admission.admitted_shadow_candidate_action,
+        recommended_next_runtime_mode=operational_summary.recommended_next_runtime_mode,
+        recommended_next_reason=operational_summary.recommended_next_reason,
+        operational_blockers=operational_summary.operational_blockers,
+        operational_warnings=operational_summary.operational_warnings,
+        operational_positive_signals=operational_summary.operational_positive_signals,
         final_raw_state_path=final_raw,
         final_state_bundle_path=final_bundle,
         runner_reason=dispatch.dispatch_reason,
