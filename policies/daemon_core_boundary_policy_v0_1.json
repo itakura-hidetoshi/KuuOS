@@ -1,0 +1,64 @@
+{
+  "policy_version": "daemon_core_boundary_policy_v0_1",
+  "policy_status": "DAEMON_CORE_BOUNDARY_POLICY_ACTIVE",
+  "scope": "runtime.kuuos_runtime_daemon_v0_1",
+  "core_principle": "daemon_core_is_minimal_runtime_orchestrator_not_semantic_authority",
+  "allowed_core_changes": [
+    "append_only_output_field",
+    "path_field",
+    "summary_field",
+    "non_executing_projection_call",
+    "bounded_parameter_handoff",
+    "fail_closed_stop_reason",
+    "authority_flag_false_preservation",
+    "runtime_surface_write",
+    "hot_path_lightweight_summary"
+  ],
+  "forbidden_core_changes": [
+    "unbounded_loop",
+    "heavy_validator_invocation",
+    "direct_observation_execution",
+    "direct_trace_compaction_execution",
+    "direct_file_deletion",
+    "memory_overwrite",
+    "truth_authority_grant",
+    "final_commitment_authority_grant",
+    "clinical_authority_grant",
+    "theorem_authority_grant",
+    "policy_mutation",
+    "controller_bypass",
+    "health_projection_bypass",
+    "recoverability_projection_bypass",
+    "manual_runner_bypass",
+    "background_daemon_loop"
+  ],
+  "externalized_layers": [
+    "recoverability_projection",
+    "health_projection",
+    "observation_debt_scheduler",
+    "trace_compaction_planner",
+    "runtime_output_surface",
+    "manual_runner_gate",
+    "bounded_reentry_cycle_runner",
+    "handoff_chain_runner",
+    "chain_controller",
+    "managed_chain_runner",
+    "managed_daemon_cycle_runner"
+  ],
+  "authority_invariants": {
+    "grants_execution_authority": false,
+    "grants_truth_authority": false,
+    "grants_final_commitment_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_clinical_authority": false,
+    "grants_theorem_authority": false,
+    "grants_completed_identity_authority": false
+  },
+  "validator_expectations": {
+    "daemon_core_must_not_import_heavy_validator_modules": true,
+    "daemon_core_must_not_call_delete_unlink_remove_rmtree": true,
+    "daemon_core_must_not_grant_truth_final_memory_clinical_theorem_authority": true,
+    "daemon_core_loop_must_remain_bounded_by_max_ticks": true,
+    "daemon_core_projection_calls_must_be_non_executing": true
+  }
+}
