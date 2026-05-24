@@ -79,6 +79,7 @@ TEST_MODULES = [
     "tests.test_qi_policy_flow_candidate_shadow_evaluator_v0_1",
     "tests.test_qi_policy_flow_candidate_shadow_admission_gate_v0_1",
     "tests.test_qi_routed_cycle_operational_summary_v0_1",
+    "tests.test_qi_next_runtime_mode_plan_v0_1",
     "tests.test_qi_bounded_reentry_cycle_runner_v0_1",
     "tests.test_qi_reentry_handoff_chain_runner_v0_1",
     "tests.test_qi_reentry_chain_controller_v0_1",
