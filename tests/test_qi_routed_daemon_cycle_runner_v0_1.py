@@ -65,7 +65,7 @@ def load(path: Path):
 
 
 class QiRoutedDaemonCycleRunnerTests(unittest.TestCase):
-    def test_routed_daemon_cycle_writes_surface_route_dispatch_and_feedback(self):
+    def test_routed_daemon_cycle_writes_surface_route_dispatch_feedback_and_policy_surface(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             raw_path = root / "raw.json"
@@ -93,15 +93,20 @@ class QiRoutedDaemonCycleRunnerTests(unittest.TestCase):
             self.assertTrue(Path(result.route_path).is_file())
             self.assertTrue(Path(result.dispatch_result_path).is_file())
             self.assertTrue(Path(result.feedback_path).is_file())
+            self.assertTrue(Path(result.policy_feedback_surface_path).is_file())
             self.assertTrue(Path(result.final_raw_state_path).is_file())
             self.assertTrue(Path(result.final_state_bundle_path).is_file())
             route = load(Path(result.route_path))
             dispatch = load(Path(result.dispatch_result_path))
             feedback = load(Path(result.feedback_path))
+            policy_feedback = load(Path(result.policy_feedback_surface_path))
             self.assertEqual(route["next_outer_action"], result.next_outer_action)
             self.assertEqual(dispatch["dispatcher_status"], result.dispatcher_status)
             self.assertEqual(feedback["feedback_signal"], result.feedback_signal)
             self.assertEqual(feedback["policy_adjustment_hint"], result.policy_adjustment_hint)
+            self.assertEqual(policy_feedback["policy_feedback_class"], result.policy_feedback_class)
+            self.assertEqual(policy_feedback["policy_flow_candidate_signal"], result.policy_flow_candidate_signal)
+            self.assertEqual(policy_feedback["active_inference_candidate_signal"], result.active_inference_candidate_signal)
             self.assertIsNotNone(result.active_inference_hint)
             self.assertFalse(result.grants_truth_authority)
             self.assertFalse(result.grants_memory_overwrite_authority)
