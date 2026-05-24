@@ -13,6 +13,7 @@ if str(ROOT) not in sys.path:
 CHECK_MODULES = [
     "scripts.validate_kuuos_runtime_manifest_v0_1",
     "scripts.validate_kuuos_validator_tiering_policy_v0_1",
+    "scripts.validate_daemon_core_boundary_policy_v0_1",
     "scripts.validate_qi_bounded_tick_manual_runner_manifest_addendum_v0_1",
     "scripts.check_qi_bounded_tick_executor_receipt_contract_cases_v0_1",
     "scripts.check_kuuos_example_runner_import_v0_1",
@@ -23,6 +24,7 @@ CHECK_MODULES = [
 ]
 
 TEST_MODULES = [
+    "tests.test_validate_daemon_core_boundary_policy_v0_1",
     "tests.test_qi_process_tensor_v0_1",
     "tests.test_qi_process_tensor_downstream_v0_1",
     "tests.test_kuuos_closed_loop_v0_1",
