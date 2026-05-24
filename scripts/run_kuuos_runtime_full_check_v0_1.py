@@ -64,6 +64,7 @@ TEST_MODULES = [
     "tests.test_qi_reentry_handoff_chain_runner_v0_1",
     "tests.test_qi_reentry_chain_controller_v0_1",
     "tests.test_qi_managed_reentry_chain_runner_v0_1",
+    "tests.test_qi_managed_daemon_cycle_runner_v0_1",
     "tests.test_qi_process_tensor_closed_loop_receipt_daemon_result_fields_v0_1",
     "tests.test_kuuos_runtime_daemon_geometric_chain_fields_v0_1",
 ]
