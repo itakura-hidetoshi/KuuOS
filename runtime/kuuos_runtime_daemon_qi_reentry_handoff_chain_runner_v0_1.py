@@ -88,7 +88,7 @@ def run_qi_reentry_handoff_chain(
             evidence_path=evidence_path,
             output_dir=out_dir,
             state_bundle_path=current_bundle,
-            refresh_before=refresh_before_first if index == 0 else True,
+            refresh_before=refresh_before_first,
             refresh_after=refresh_after_each,
         )
         cycle_path = out_dir / "qi_bounded_reentry_cycle_result_v0_1.json"
