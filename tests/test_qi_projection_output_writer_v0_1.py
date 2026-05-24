@@ -65,7 +65,7 @@ def load(path: Path):
 
 
 class QiProjectionOutputWriterTests(unittest.TestCase):
-    def test_writer_emits_recoverability_and_health_projection_outputs(self):
+    def test_writer_emits_recoverability_health_observation_and_compaction_outputs(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             raw_path = root / "raw.json"
@@ -85,17 +85,27 @@ class QiProjectionOutputWriterTests(unittest.TestCase):
             self.assertEqual(result.writer_status, "QI_PROJECTION_OUTPUTS_WRITTEN")
             self.assertTrue(Path(result.recoverability_projection_path).is_file())
             self.assertTrue(Path(result.health_projection_path).is_file())
+            self.assertTrue(Path(result.observation_debt_schedule_path).is_file())
+            self.assertTrue(Path(result.trace_compaction_plan_path).is_file())
             recoverability = load(Path(result.recoverability_projection_path))
             health = load(Path(result.health_projection_path))
+            observation = load(Path(result.observation_debt_schedule_path))
+            compaction = load(Path(result.trace_compaction_plan_path))
             self.assertEqual(recoverability["projection_status"], "QI_PROCESS_TENSOR_RECOVERABILITY_PROJECTED")
             self.assertEqual(health["projection_status"], "QI_PROCESS_TENSOR_HEALTH_PROJECTED_WITH_RECOVERABILITY")
+            self.assertEqual(observation["scheduler_status"], "QI_PROCESS_TENSOR_OBSERVATION_DEBT_SCHEDULED")
+            self.assertEqual(compaction["planner_status"], "QI_PROCESS_TENSOR_TRACE_COMPACTION_PLANNED")
             self.assertIn("recoverability_status", health)
             self.assertIn("daemon_health_status", health)
             self.assertEqual(result.recoverability_status, recoverability["recoverability_status"])
             self.assertEqual(result.daemon_health_status, health["daemon_health_status"])
+            self.assertEqual(result.observation_debt_status, observation["observation_debt_status"])
+            self.assertEqual(result.compaction_plan_status, compaction["compaction_plan_status"])
             self.assertFalse(result.grants_execution_authority)
             self.assertFalse(health["grants_execution_authority"])
             self.assertFalse(recoverability["grants_execution_authority"])
+            self.assertFalse(observation["grants_execution_authority"])
+            self.assertFalse(compaction["grants_execution_authority"])
 
 
 if __name__ == "__main__":
