@@ -75,6 +75,7 @@ TEST_MODULES = [
     "tests.test_qi_admitted_policy_candidate_handoff_v0_1",
     "tests.test_qi_policy_flow_handoff_receiver_v0_1",
     "tests.test_qi_policy_flow_candidate_inbox_v0_1",
+    "tests.test_qi_policy_flow_candidate_intake_view_v0_1",
     "tests.test_qi_bounded_reentry_cycle_runner_v0_1",
     "tests.test_qi_reentry_handoff_chain_runner_v0_1",
     "tests.test_qi_reentry_chain_controller_v0_1",
