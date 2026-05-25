@@ -26,6 +26,7 @@ CHECK_MODULES = [
     "scripts.check_qi_daemon_once_operator_docs_v0_1",
     "scripts.check_qi_supervised_loop_operator_cli_v0_1",
     "scripts.check_qi_controlled_loop_operator_cli_v0_1",
+    "scripts.check_qi_persistent_supervisor_operator_cli_v0_1",
 ]
 
 TEST_MODULES = [
