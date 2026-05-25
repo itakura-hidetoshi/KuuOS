@@ -21,6 +21,7 @@ CHECK_MODULES = [
     "scripts.check_kuuos_qi_process_tensor_example_v0_1",
     "scripts.check_qi_bounded_tick_manual_runner_example_v0_1",
     "scripts.check_kuuos_runtime_daemon_example_v0_1",
+    "scripts.check_qi_routed_cycle_projection_plan_example_v0_1",
 ]
 
 TEST_MODULES = [
