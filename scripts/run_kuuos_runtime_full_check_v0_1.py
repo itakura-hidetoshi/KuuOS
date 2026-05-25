@@ -29,6 +29,7 @@ CHECK_MODULES = [
     "scripts.check_qi_persistent_supervisor_operator_cli_v0_1",
     "scripts.check_qi_persistent_supervisor_status_view_cli_v0_1",
     "scripts.check_qi_supervisor_control_writer_v0_1",
+    "scripts.check_qi_persistent_supervisor_runbook_v0_1",
 ]
 
 TEST_MODULES = [
