@@ -11,6 +11,7 @@ if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from runtime.kuuos_runtime_daemon_qi_routed_cycle_projection_plan_runner_v0_1 import run_qi_routed_cycle_projection_plan
+from runtime.kuuos_runtime_daemon_qi_projection_plan_readable_summary_v0_1 import compile_qi_projection_plan_readable_summary
 
 RAW = ROOT / "examples" / "qi_process_tensor_v0_1" / "raw_state_process_history.json"
 EVIDENCE = ROOT / "examples" / "qi_process_tensor_v0_1" / "evidence.json"
@@ -45,11 +46,22 @@ def main() -> int:
             sleep_seconds=0.0,
             requested_max_reentry_cycles=1,
         )
+        result_path = dispatch_dir / "qi_routed_cycle_projection_plan_result_v0_1.json"
+        result_path.write_text(json.dumps(result.to_dict(), ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        readable = compile_qi_projection_plan_readable_summary(projection_plan_result=result.to_dict())
+        readable_json_path = dispatch_dir / "qi_projection_plan_readable_summary_v0_1.json"
+        readable_text_path = dispatch_dir / "qi_projection_plan_readable_summary_v0_1.txt"
+        readable_json_path.write_text(json.dumps(readable.to_dict(), ensure_ascii=False, indent=2, sort_keys=True) + "\n", encoding="utf-8")
+        readable_text_path.write_text(readable.to_text(), encoding="utf-8")
+
         required_files = [
             result.routed_cycle_result_path,
             result.projection_plan_bridge_result_path,
             result.qi_routed_cycle_operational_summary_path,
             result.qi_next_runtime_mode_plan_path,
+            str(result_path),
+            str(readable_json_path),
+            str(readable_text_path),
         ]
         for item in required_files:
             if not pathlib.Path(item).is_file():
@@ -75,12 +87,19 @@ def main() -> int:
         if not errors:
             summary = load(pathlib.Path(result.qi_routed_cycle_operational_summary_path))
             plan = load(pathlib.Path(result.qi_next_runtime_mode_plan_path))
+            readable_text = readable_text_path.read_text(encoding="utf-8")
             if summary.get("recommended_next_runtime_mode") != result.recommended_next_runtime_mode:
                 errors.append("summary mode mismatch")
             if plan.get("next_tick_preparation") != result.next_tick_preparation:
                 errors.append("plan preparation mismatch")
             if plan.get("required_pre_tick_actions") != result.required_pre_tick_actions:
                 errors.append("plan actions mismatch")
+            if "recommended_next_runtime_mode:" not in readable_text:
+                errors.append("readable summary missing mode")
+            if "projection_statuses:" not in readable_text:
+                errors.append("readable summary missing projection statuses")
+            if "authority: none" not in readable_text:
+                errors.append("readable summary missing authority line")
 
     if errors:
         for error in errors:
