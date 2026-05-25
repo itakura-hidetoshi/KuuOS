@@ -1,0 +1,14 @@
+{
+  "profile_version": "qi_persistent_supervisor_profile_v0_1",
+  "raw_state_path": "../qi_process_tensor_v0_1/raw_state_process_history.json",
+  "evidence_path": "../qi_process_tensor_v0_1/evidence.json",
+  "control_path": "control.json",
+  "out_dir": "out",
+  "max_outer_iterations": 1,
+  "max_daemon_ticks": 1,
+  "max_steps_per_tick": 1,
+  "requested_max_reentry_cycles": 1,
+  "sleep_seconds_between_iterations": 0,
+  "authority": "none",
+  "scope": "persistent_supervisor_profile_example"
+}
