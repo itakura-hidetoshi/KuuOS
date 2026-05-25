@@ -68,6 +68,7 @@ TEST_MODULES = [
     "tests.test_qi_projection_summary_bridge_runner_v0_1",
     "tests.test_qi_projection_summary_plan_bridge_runner_v0_1",
     "tests.test_qi_routed_cycle_projection_plan_runner_v0_1",
+    "tests.test_qi_projection_plan_readable_summary_v0_1",
     "tests.test_qi_runtime_output_surface_v0_1",
     "tests.test_qi_runtime_output_action_router_v0_1",
     "tests.test_qi_runtime_output_action_dispatcher_v0_1",
