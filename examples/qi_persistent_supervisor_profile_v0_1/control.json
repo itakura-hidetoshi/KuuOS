@@ -1,0 +1,12 @@
+{
+  "control_packet_version": "qi_supervisor_control_packet_v0_1",
+  "written_at_utc": "2026-05-25T00:00:00Z",
+  "mode": "allow",
+  "enabled": true,
+  "stop_requested": false,
+  "max_cycles": 1,
+  "sleep_seconds_between_cycles": 0,
+  "operator_reason": "example profile allow",
+  "authority": "none",
+  "scope": "supervisor_control_packet_only"
+}
