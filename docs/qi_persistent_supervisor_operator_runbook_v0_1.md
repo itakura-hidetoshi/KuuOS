@@ -15,17 +15,19 @@ allow control
   -> stop / disable
 ```
 
-The current process-tensor extension keeps that path unchanged and adds only a read-only review path after status:
+The current process-tensor extension keeps that path unchanged and adds a current phase-boundary review path after status:
 
 ```text
 status view
   -> probe plan artifact
   -> artifact index
   -> trend summary
-  -> operator review only
+  -> current phase boundary
+  -> dry-run license candidate
+  -> operator / governor review
 ```
 
-The extension does not introduce probe execution, next-tick execution authority, control-packet mutation, or memory overwrite authority.
+This extension does not introduce probe execution, next-tick execution authority, control-packet mutation, or memory overwrite authority. The current phase boundary is mutable by PR and replaceable; it is not a finality lock and it is not an append-only policy.
 
 ## 1. Write an allow control packet
 
@@ -187,11 +189,58 @@ Examples:
 - `multi_time_correlation_probe` -> `multi_time_correlation_low_visibility_qi_process_tensor`
 - `continue_process_tensor_supervision_probe` -> `stable_supervision_qi_process_tensor`
 
-## 3e. Review-only rule
+## 3e. Current phase boundary
 
-The process-tensor review extension ends at trend summary.
+The current phase boundary is:
 
-The operator may review the summary, compare repeated probe recommendations, and decide whether more observation is needed. The summary does not authorize a probe executor.
+```text
+packets/qi_process_tensor_review_phase_boundary_packet_v0_1.json
+```
+
+This packet is the active design boundary for the Qi process-tensor review surface. It declares:
+
+- `mutable_by_pr: true`
+- `replacement_allowed: true`
+- `finality_claimed: false`
+- `append_only_required: false`
+- `overwrite_forbidden: false`
+
+The old release/finality packet files are retained only as deprecated legacy records. They are not active design constraints.
+
+## 3f. Write a dry-run license candidate
+
+Use the phase-boundary entrypoint:
+
+```bash
+python scripts/write_qi_license_candidate_phase_v0_1.py \
+  --trend-summary .out/qi-supervisor/probe_plan_trend_summary.json \
+  --phase-packet packets/qi_process_tensor_review_phase_boundary_packet_v0_1.json \
+  --mode dry_run_probe_simulation \
+  --write .out/qi-supervisor/qi_license_candidate.json
+```
+
+This writes a license candidate only. It does not grant execution authority.
+
+Current candidate boundary:
+
+- `license_candidate_only: true`
+- `dry_run_candidate_only: true`
+- `requires_governor_approval: true`
+- `requires_operator_review: true`
+- `authority: none`
+- `grants_probe_execution_authority: false`
+- `grants_dry_run_execution_authority: false`
+- `grants_next_tick_execution_authority: false`
+- `grants_control_packet_authority: false`
+- `grants_memory_overwrite_authority: false`
+
+Deprecated legacy entrypoint:
+
+```bash
+python scripts/write_qi_actuation_license_candidate_v0_1.py
+```
+
+This old finality-based entrypoint intentionally returns a deprecation notice and should not be used for active operation.
 
 ## 4. Request stop
 
@@ -219,7 +268,7 @@ Use disable when the operator wants the supervisor to remain off until an explic
 
 ## Boundary
 
-The persistent supervisor and process-tensor review surfaces are bounded and read-only at the authority layer:
+The persistent supervisor and process-tensor review surfaces are bounded at the authority layer:
 
 - no unbounded daemon loop
 - `max_outer_iterations` required
@@ -229,6 +278,12 @@ The persistent supervisor and process-tensor review surfaces are bounded and rea
 - probe plan artifact is proposal-only
 - artifact index is read-only
 - trend summary is read-only
+- active phase boundary is mutable by PR
+- active phase boundary is replaceable
+- active phase boundary does not claim finality
+- active phase boundary does not require append-only evolution
+- active phase boundary does not forbid overwrite
+- license candidate does not grant execution authority
 - no probe execution authority
 - no next tick execution authority
 - no control packet authority from review artifacts
@@ -258,6 +313,8 @@ python scripts/check_qi_process_tensor_probe_plan_artifact_writer_v0_1.py
 python scripts/check_qi_process_tensor_probe_plan_artifact_index_v0_1.py
 python scripts/check_qi_process_tensor_probe_plan_trend_summary_v0_1.py
 python scripts/check_qi_process_tensor_review_flow_e2e_v0_1.py
+python scripts/check_qi_license_phase_boundary_gate_v0_1.py
+python scripts/check_qi_actuation_license_gate_v0_1.py
 ```
 
 The process-tensor review checks can also be run as one suite:
