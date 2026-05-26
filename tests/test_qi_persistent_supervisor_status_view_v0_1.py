@@ -64,7 +64,7 @@ def dump(path: Path, payload):
 
 
 class QiPersistentSupervisorStatusViewTests(unittest.TestCase):
-    def test_status_view_reads_manifest_latest_heartbeat_and_status(self):
+    def test_status_view_reads_manifest_latest_heartbeat_status_and_advantage(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             raw_path = root / "raw.json"
@@ -94,8 +94,22 @@ class QiPersistentSupervisorStatusViewTests(unittest.TestCase):
             self.assertEqual(view.latest_iteration_index, supervisor.iteration_records[-1]["iteration_index"])
             self.assertTrue(Path(view.latest_heartbeat_path).is_file())
             self.assertTrue(Path(view.latest_status_path).is_file())
+            self.assertTrue(Path(view.latest_controlled_loop_result_path).is_file())
             self.assertIn("heartbeat_utc", view.latest_heartbeat)
             self.assertIn("status", view.latest_status)
+            self.assertEqual(
+                view.latest_process_tensor_advantage_metrics["metrics_status"],
+                "QI_PROCESS_TENSOR_ADVANTAGE_READY",
+            )
+            self.assertGreater(view.process_tensor_advantage_score, 0)
+            self.assertIn(view.process_tensor_advantage_level, {"high", "medium", "low", "minimal"})
+            self.assertIn(view.recommended_next_process_focus, {
+                "continue_process_tensor_supervision",
+                "resolve_observation_debt",
+                "open_recoverability_branch",
+                "preserve_memory_kernel",
+                "widen_safe_reentry_window",
+            })
             self.assertTrue(view.status_view_only)
             self.assertTrue(view.read_only)
             self.assertFalse(view.grants_execution_authority)
@@ -107,6 +121,9 @@ class QiPersistentSupervisorStatusViewTests(unittest.TestCase):
             self.assertEqual(view.status_view_status, "QI_PERSISTENT_SUPERVISOR_STATUS_VIEW_BLOCKED")
             self.assertIn("supervisor_manifest_missing", view.view_blockers)
             self.assertEqual(view.iterations_run, 0)
+            self.assertEqual(view.latest_process_tensor_advantage_metrics, {})
+            self.assertIsNone(view.process_tensor_advantage_score)
+            self.assertIsNone(view.process_tensor_advantage_level)
             self.assertTrue(view.read_only)
 
 

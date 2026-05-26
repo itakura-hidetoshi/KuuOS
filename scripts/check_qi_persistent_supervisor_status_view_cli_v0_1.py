@@ -100,12 +100,26 @@ def main() -> int:
                 errors.append("read_only mismatch")
             if view.get("grants_execution_authority") is not False:
                 errors.append("execution authority mismatch")
+            if not view.get("latest_process_tensor_advantage_metrics"):
+                errors.append("advantage metrics missing")
+            if view.get("process_tensor_advantage_score") is None:
+                errors.append("advantage score missing")
+            if view.get("process_tensor_advantage_level") is None:
+                errors.append("advantage level missing")
+            if view.get("recommended_next_process_focus") is None:
+                errors.append("recommended focus missing")
             if "Qi Persistent Supervisor Status" not in text:
                 errors.append("status text title missing")
             if "authority: none" not in text:
                 errors.append("status text authority missing")
             if "latest_heartbeat_path:" not in text:
                 errors.append("status text heartbeat missing")
+            if "process_tensor_advantage_score:" not in text:
+                errors.append("status text advantage score missing")
+            if "process_tensor_advantage_level:" not in text:
+                errors.append("status text advantage level missing")
+            if "recommended_next_process_focus:" not in text:
+                errors.append("status text recommended focus missing")
 
         missing_out = root / "missing_supervisor"
         missing_json = root / "missing_status_view.json"
@@ -131,6 +145,8 @@ def main() -> int:
             missing_text_value = missing_text.read_text(encoding="utf-8")
             if missing_view.get("status_view_status") != "QI_PERSISTENT_SUPERVISOR_STATUS_VIEW_BLOCKED":
                 errors.append("missing view should be blocked")
+            if missing_view.get("latest_process_tensor_advantage_metrics") != {}:
+                errors.append("missing view advantage metrics should be empty")
             if "supervisor_manifest_missing" not in missing_text_value:
                 errors.append("missing view text lacks blocker")
 

@@ -30,6 +30,9 @@ def build_overview(view) -> str:
         f"latest_iteration_index: {view.latest_iteration_index if view.latest_iteration_index is not None else 'UNKNOWN'}",
         f"latest_heartbeat_path: {view.latest_heartbeat_path or 'UNKNOWN'}",
         f"latest_status_path: {view.latest_status_path or 'UNKNOWN'}",
+        f"process_tensor_advantage_score: {view.process_tensor_advantage_score if view.process_tensor_advantage_score is not None else 'UNKNOWN'}",
+        f"process_tensor_advantage_level: {view.process_tensor_advantage_level or 'UNKNOWN'}",
+        f"recommended_next_process_focus: {view.recommended_next_process_focus or 'UNKNOWN'}",
         "view_blockers:",
     ]
     if view.view_blockers:
