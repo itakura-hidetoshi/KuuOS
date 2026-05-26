@@ -266,3 +266,11 @@ The process-tensor review checks can also be run as one suite:
 python scripts/run_qi_process_tensor_review_checks_v0_1.py \
   --write-json .out/qi-supervisor/process_tensor_review_check_suite.json
 ```
+
+The same suite is wired to GitHub Actions as `Qi Process Tensor Review Checks`:
+
+```text
+.github/workflows/qi-process-tensor-review.yml
+```
+
+The workflow is manually runnable with `workflow_dispatch` and also runs on pull requests that touch the Qi process-tensor review surface.
