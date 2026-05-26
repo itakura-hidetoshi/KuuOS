@@ -121,10 +121,22 @@ def main() -> int:
             text = status_text.read_text(encoding="utf-8")
             if status.get("status_view_status") != "QI_PERSISTENT_SUPERVISOR_STATUS_VIEW_READY":
                 errors.append("status view should be ready")
+            if status.get("process_tensor_advantage_score") is None:
+                errors.append("status advantage score missing")
+            if status.get("process_tensor_advantage_level") is None:
+                errors.append("status advantage level missing")
+            if status.get("recommended_next_process_focus") is None:
+                errors.append("status recommended focus missing")
             if "Qi Supervisorctl Status v0.1" not in text:
                 errors.append("status text title missing")
             if "authority: none" not in text:
                 errors.append("status text authority missing")
+            if "process_tensor_advantage_score:" not in text:
+                errors.append("status text advantage score missing")
+            if "process_tensor_advantage_level:" not in text:
+                errors.append("status text advantage level missing")
+            if "recommended_next_process_focus:" not in text:
+                errors.append("status text recommended focus missing")
 
         completed = run_ctl([
             "stop",
