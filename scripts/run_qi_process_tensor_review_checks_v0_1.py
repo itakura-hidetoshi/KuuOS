@@ -16,6 +16,7 @@ CHECKS = [
     "scripts/check_qi_process_tensor_probe_plan_trend_summary_v0_1.py",
     "scripts/check_qi_process_tensor_review_flow_e2e_v0_1.py",
     "scripts/check_qi_process_tensor_review_bundle_manifest_v0_1.py",
+    "scripts/check_qi_process_tensor_review_finality_packets_v0_1.py",
 ]
 
 
