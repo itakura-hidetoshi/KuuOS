@@ -14,6 +14,10 @@ REQUIRED_BOUNDARIES = {
     "summary_only",
     "suite_only",
     "workflow_ci_only",
+    "release_only",
+    "finality_only",
+    "additive_only_future",
+    "overwrite_forbidden",
     "no_probe_execution_authority",
     "no_next_tick_execution_authority",
     "no_control_packet_authority_from_review_artifacts",
@@ -24,6 +28,7 @@ FILE_GROUPS = [
     "runtime_files",
     "script_files",
     "test_files",
+    "packet_files",
     "docs_files",
     "workflow_files",
     "example_files",
@@ -87,6 +92,12 @@ def main() -> int:
 
     if not any(path.endswith("run_qi_process_tensor_review_checks_v0_1.py") for path in manifest.get("script_files", [])):
         errors.append("suite_runner_not_listed")
+    if not any(path.endswith("check_qi_process_tensor_review_finality_packets_v0_1.py") for path in manifest.get("script_files", [])):
+        errors.append("finality_packet_checker_not_listed")
+    if not any(path.endswith("qi_process_tensor_review_release_packet_v0_1.json") for path in manifest.get("packet_files", [])):
+        errors.append("release_packet_not_listed")
+    if not any(path.endswith("qi_process_tensor_review_finality_packet_v0_1.json") for path in manifest.get("packet_files", [])):
+        errors.append("finality_packet_not_listed")
     if not any(path.endswith("qi-process-tensor-review.yml") for path in manifest.get("workflow_files", [])):
         errors.append("github_actions_workflow_not_listed")
     if not any(path.endswith("qi_persistent_supervisor_operator_runbook_v0_1.md") for path in manifest.get("docs_files", [])):
