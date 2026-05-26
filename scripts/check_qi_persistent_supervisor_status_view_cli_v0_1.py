@@ -100,6 +100,8 @@ def main() -> int:
                 errors.append("read_only mismatch")
             if view.get("grants_execution_authority") is not False:
                 errors.append("execution authority mismatch")
+            if view.get("grants_probe_execution_authority") is not False:
+                errors.append("probe execution authority mismatch")
             if not view.get("latest_process_tensor_advantage_metrics"):
                 errors.append("advantage metrics missing")
             if view.get("process_tensor_advantage_score") is None:
@@ -108,6 +110,23 @@ def main() -> int:
                 errors.append("advantage level missing")
             if view.get("recommended_next_process_focus") is None:
                 errors.append("recommended focus missing")
+            if not view.get("latest_process_tensor_probe_plan"):
+                errors.append("probe plan missing")
+            if view.get("recommended_probe_type") is None:
+                errors.append("recommended probe type missing")
+            if view.get("probe_target_time_slice") is None:
+                errors.append("probe target time slice missing")
+            if view.get("probe_risk_level") is None:
+                errors.append("probe risk level missing")
+            probe_plan = view.get("latest_process_tensor_probe_plan", {})
+            if probe_plan.get("probe_plan_only") is not True:
+                errors.append("probe plan should be proposal-only")
+            if probe_plan.get("read_only") is not True:
+                errors.append("probe plan should be read-only")
+            if probe_plan.get("authority") != "none":
+                errors.append("probe plan authority should be none")
+            if probe_plan.get("grants_probe_execution_authority") is not False:
+                errors.append("probe plan execution authority mismatch")
             if "Qi Persistent Supervisor Status" not in text:
                 errors.append("status text title missing")
             if "authority: none" not in text:
@@ -120,6 +139,12 @@ def main() -> int:
                 errors.append("status text advantage level missing")
             if "recommended_next_process_focus:" not in text:
                 errors.append("status text recommended focus missing")
+            if "recommended_probe_type:" not in text:
+                errors.append("status text recommended probe missing")
+            if "probe_target_time_slice:" not in text:
+                errors.append("status text probe target missing")
+            if "probe_risk_level:" not in text:
+                errors.append("status text probe risk missing")
 
         missing_out = root / "missing_supervisor"
         missing_json = root / "missing_status_view.json"
@@ -147,6 +172,10 @@ def main() -> int:
                 errors.append("missing view should be blocked")
             if missing_view.get("latest_process_tensor_advantage_metrics") != {}:
                 errors.append("missing view advantage metrics should be empty")
+            if missing_view.get("latest_process_tensor_probe_plan") != {}:
+                errors.append("missing view probe plan should be empty")
+            if missing_view.get("recommended_probe_type") is not None:
+                errors.append("missing view recommended probe should be none")
             if "supervisor_manifest_missing" not in missing_text_value:
                 errors.append("missing view text lacks blocker")
 
