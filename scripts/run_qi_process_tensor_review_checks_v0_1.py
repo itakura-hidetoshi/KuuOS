@@ -18,6 +18,7 @@ CHECKS = [
     "scripts/check_qi_process_tensor_review_bundle_manifest_v0_1.py",
     "scripts/check_qi_license_phase_boundary_gate_v0_1.py",
     "scripts/check_qi_actuation_license_gate_v0_1.py",
+    "scripts/check_qi_dry_run_probe_simulator_addendum_v0_1.py",
 ]
 
 
