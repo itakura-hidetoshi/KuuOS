@@ -10,6 +10,7 @@ on:
       - 'scripts/qi_supervisorctl_v0_1.py'
       - 'docs/qi_persistent_supervisor_operator_runbook_v0_1.md'
       - 'examples/qi_process_tensor_v0_1/**'
+      - 'manifests/qi_process_tensor_review_bundle_manifest_v0_1.json'
       - '.github/workflows/qi-process-tensor-review.yml'
 
 permissions:
