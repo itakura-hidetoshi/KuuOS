@@ -3,7 +3,6 @@ from __future__ import annotations
 
 import json
 import pathlib
-import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "manifests" / "qi_process_tensor_review_bundle_manifest_v0_1.json"
@@ -14,10 +13,12 @@ REQUIRED_BOUNDARIES = {
     "summary_only",
     "suite_only",
     "workflow_ci_only",
-    "release_only",
-    "finality_only",
-    "additive_only_future",
-    "overwrite_forbidden",
+    "phase_boundary_only",
+    "mutable_by_pr",
+    "replacement_allowed",
+    "finality_not_claimed",
+    "append_only_not_required",
+    "overwrite_not_forbidden",
     "no_probe_execution_authority",
     "no_next_tick_execution_authority",
     "no_control_packet_authority_from_review_artifacts",
@@ -51,14 +52,20 @@ def main() -> int:
         errors.append("manifest_version_mismatch")
     if manifest.get("bundle_status") != "QI_PROCESS_TENSOR_REVIEW_BUNDLE_MANIFEST_READY":
         errors.append("bundle_status_mismatch")
-    if manifest.get("bundle_scope") != "qi-process-tensor-review-only":
+    if manifest.get("bundle_scope") != "qi-process-tensor-review":
         errors.append("bundle_scope_mismatch")
     if manifest.get("authority") != "none":
         errors.append("authority_not_none")
-    if manifest.get("review_only") is not True:
-        errors.append("review_only_not_true")
-    if manifest.get("read_only") is not True:
-        errors.append("read_only_not_true")
+    if manifest.get("mutable_by_pr") is not True:
+        errors.append("mutable_by_pr_not_true")
+    if manifest.get("replacement_allowed") is not True:
+        errors.append("replacement_allowed_not_true")
+    if manifest.get("finality_claimed") is not False:
+        errors.append("finality_claimed_not_false")
+    if manifest.get("append_only_required") is not False:
+        errors.append("append_only_required_not_false")
+    if manifest.get("overwrite_forbidden") is not False:
+        errors.append("overwrite_forbidden_not_false")
     for key in [
         "grants_execution_authority",
         "grants_probe_execution_authority",
@@ -69,8 +76,7 @@ def main() -> int:
         if manifest.get(key) is not False:
             errors.append(f"{key}_not_false")
 
-    boundaries = set(manifest.get("required_boundaries", []))
-    missing_boundaries = sorted(REQUIRED_BOUNDARIES - boundaries)
+    missing_boundaries = sorted(REQUIRED_BOUNDARIES - set(manifest.get("required_boundaries", [])))
     if missing_boundaries:
         errors.append("missing_boundaries:" + ",".join(missing_boundaries))
 
@@ -92,12 +98,14 @@ def main() -> int:
 
     if not any(path.endswith("run_qi_process_tensor_review_checks_v0_1.py") for path in manifest.get("script_files", [])):
         errors.append("suite_runner_not_listed")
-    if not any(path.endswith("check_qi_process_tensor_review_finality_packets_v0_1.py") for path in manifest.get("script_files", [])):
-        errors.append("finality_packet_checker_not_listed")
-    if not any(path.endswith("qi_process_tensor_review_release_packet_v0_1.json") for path in manifest.get("packet_files", [])):
-        errors.append("release_packet_not_listed")
-    if not any(path.endswith("qi_process_tensor_review_finality_packet_v0_1.json") for path in manifest.get("packet_files", [])):
-        errors.append("finality_packet_not_listed")
+    if not any(path.endswith("check_qi_license_phase_boundary_gate_v0_1.py") for path in manifest.get("script_files", [])):
+        errors.append("phase_boundary_gate_checker_not_listed")
+    if not any(path.endswith("qi_process_tensor_review_phase_boundary_packet_v0_1.json") for path in manifest.get("packet_files", [])):
+        errors.append("phase_boundary_packet_not_listed")
+    if any("finality" in path for path in manifest.get("packet_files", [])):
+        errors.append("finality_packet_should_not_be_active_manifest_packet")
+    if any("release_packet" in path for path in manifest.get("packet_files", [])):
+        errors.append("release_packet_should_not_be_active_manifest_packet")
     if not any(path.endswith("qi-process-tensor-review.yml") for path in manifest.get("workflow_files", [])):
         errors.append("github_actions_workflow_not_listed")
     if not any(path.endswith("qi_persistent_supervisor_operator_runbook_v0_1.md") for path in manifest.get("docs_files", [])):
