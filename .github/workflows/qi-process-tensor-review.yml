@@ -9,6 +9,7 @@ on:
       - 'scripts/*qi_process_tensor*'
       - 'scripts/*qi_persistent_supervisor*'
       - 'scripts/*qi_license*'
+      - 'scripts/*qi_actuation*'
       - 'scripts/qi_supervisorctl_v0_1.py'
       - 'docs/qi_persistent_supervisor_operator_runbook_v0_1.md'
       - 'examples/qi_process_tensor_v0_1/**'
