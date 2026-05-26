@@ -1,0 +1,40 @@
+{
+  "packet_version": "qi_process_tensor_review_phase_boundary_packet_v0_1",
+  "packet_status": "QI_PROCESS_TENSOR_REVIEW_PHASE_BOUNDARY_READY",
+  "source_manifest": "manifests/qi_process_tensor_review_bundle_manifest_v0_1.json",
+  "phase_scope": "qi-process-tensor-review-phase",
+  "phase_type": "current-review-phase-boundary",
+  "authority": "none",
+  "phase_boundary_only": true,
+  "current_phase_only": true,
+  "mutable_by_pr": true,
+  "replacement_allowed": true,
+  "finality_claimed": false,
+  "append_only_required": false,
+  "overwrite_forbidden": false,
+  "grants_execution_authority": false,
+  "grants_probe_execution_authority": false,
+  "grants_next_tick_execution_authority": false,
+  "grants_control_packet_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "phase_claims": [
+    "current_review_phase_is_observation_and_license_candidate_preparation",
+    "phase_boundary_can_be_replaced_by_future_pr",
+    "phase_boundary_does_not_claim_finality",
+    "phase_boundary_does_not_require_append_only_evolution",
+    "probe_execution_boundary_currently_closed",
+    "next_tick_authority_boundary_currently_closed",
+    "control_packet_authority_boundary_currently_closed",
+    "memory_overwrite_boundary_currently_closed"
+  ],
+  "non_claims": [
+    "not_finality",
+    "not_append_only_policy",
+    "not_overwrite_forbidden_policy",
+    "not_a_probe_executor",
+    "not_a_runtime_authority_upgrade",
+    "not_a_control_policy_mutation",
+    "not_a_memory_update_commit",
+    "not_a_world_fact_commit"
+  ]
+}
