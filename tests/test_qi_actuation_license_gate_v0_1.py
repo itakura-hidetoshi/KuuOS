@@ -16,14 +16,15 @@ READY_SUMMARY = {
     "grants_memory_overwrite_authority": False,
 }
 
-READY_FINALITY = {
-    "packet_status": "QI_PROCESS_TENSOR_REVIEW_FINALITY_READY",
-    "finality_only": True,
-    "release_only": True,
-    "review_only": True,
-    "read_only": True,
-    "additive_only_future": True,
-    "overwrite_forbidden": True,
+READY_PHASE = {
+    "packet_status": "QI_PROCESS_TENSOR_REVIEW_PHASE_BOUNDARY_READY",
+    "phase_boundary_only": True,
+    "current_phase_only": True,
+    "mutable_by_pr": True,
+    "replacement_allowed": True,
+    "finality_claimed": False,
+    "append_only_required": False,
+    "overwrite_forbidden": False,
     "authority": "none",
     "grants_execution_authority": False,
     "grants_probe_execution_authority": False,
@@ -37,7 +38,7 @@ class QiActuationLicenseGateTests(unittest.TestCase):
     def test_dry_run_candidate_ready_without_authority(self):
         candidate = build_qi_actuation_license_candidate(
             trend_summary=READY_SUMMARY,
-            finality_packet=READY_FINALITY,
+            phase_boundary_packet=READY_PHASE,
             requested_actuation_mode="dry_run_probe_simulation",
         )
         self.assertEqual(candidate.gate_status, "QI_ACTUATION_LICENSE_DRY_RUN_CANDIDATE_READY")
@@ -59,7 +60,7 @@ class QiActuationLicenseGateTests(unittest.TestCase):
     def test_non_dry_run_request_is_blocked(self):
         candidate = build_qi_actuation_license_candidate(
             trend_summary=READY_SUMMARY,
-            finality_packet=READY_FINALITY,
+            phase_boundary_packet=READY_PHASE,
             requested_actuation_mode="probe_execution",
         )
         self.assertEqual(candidate.gate_status, "QI_ACTUATION_LICENSE_GATE_BLOCKED")
@@ -67,16 +68,16 @@ class QiActuationLicenseGateTests(unittest.TestCase):
         self.assertIsNone(candidate.candidate_license_kind)
         self.assertFalse(candidate.grants_execution_authority)
 
-    def test_finality_authority_claim_blocks_candidate(self):
-        finality = dict(READY_FINALITY)
-        finality["grants_probe_execution_authority"] = True
+    def test_phase_finality_claim_blocks_candidate(self):
+        phase = dict(READY_PHASE)
+        phase["finality_claimed"] = True
         candidate = build_qi_actuation_license_candidate(
             trend_summary=READY_SUMMARY,
-            finality_packet=finality,
+            phase_boundary_packet=phase,
             requested_actuation_mode="dry_run_probe_simulation",
         )
         self.assertEqual(candidate.gate_status, "QI_ACTUATION_LICENSE_GATE_BLOCKED")
-        self.assertIn("review_finality_grants_probe_execution_authority_not_false", candidate.gate_blockers)
+        self.assertIn("review_phase_boundary_finality_claimed_not_false", candidate.gate_blockers)
         self.assertFalse(candidate.grants_probe_execution_authority)
 
 
