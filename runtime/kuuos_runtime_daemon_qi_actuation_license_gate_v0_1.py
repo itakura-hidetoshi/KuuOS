@@ -14,7 +14,7 @@ class QiActuationLicenseCandidate:
     allowed_next_surface: str | None
     source_summary_status: str | None
     source_characterization: str | None
-    source_finality_status: str | None
+    source_phase_status: str | None
     gate_blockers: list[str]
     gate_warnings: list[str]
     license_candidate_only: bool
@@ -55,11 +55,11 @@ def _no_authority(prefix: str, payload: Mapping[str, Any], blockers: list[str]) 
 def build_qi_actuation_license_candidate(
     *,
     trend_summary: Mapping[str, Any],
-    finality_packet: Mapping[str, Any],
+    phase_boundary_packet: Mapping[str, Any],
     requested_actuation_mode: str,
 ) -> QiActuationLicenseCandidate:
     summary = _mapping(trend_summary)
-    finality = _mapping(finality_packet)
+    phase = _mapping(phase_boundary_packet)
     blockers: list[str] = []
     warnings: list[str] = []
 
@@ -71,12 +71,18 @@ def build_qi_actuation_license_candidate(
         blockers.append("trend_summary_boundary_flags_invalid")
     _no_authority("trend_summary", summary, blockers)
 
-    if finality.get("packet_status") != "QI_PROCESS_TENSOR_REVIEW_FINALITY_READY":
-        blockers.append("review_finality_not_ready")
-    for key in ["finality_only", "release_only", "review_only", "read_only", "additive_only_future", "overwrite_forbidden"]:
-        if finality.get(key) is not True:
-            blockers.append(f"review_finality_{key}_not_true")
-    _no_authority("review_finality", finality, blockers)
+    if phase.get("packet_status") != "QI_PROCESS_TENSOR_REVIEW_PHASE_BOUNDARY_READY":
+        blockers.append("review_phase_boundary_not_ready")
+    for key in ["phase_boundary_only", "current_phase_only", "mutable_by_pr", "replacement_allowed"]:
+        if phase.get(key) is not True:
+            blockers.append(f"review_phase_boundary_{key}_not_true")
+    if phase.get("finality_claimed") is not False:
+        blockers.append("review_phase_boundary_finality_claimed_not_false")
+    if phase.get("append_only_required") is not False:
+        blockers.append("review_phase_boundary_append_only_required_not_false")
+    if phase.get("overwrite_forbidden") is not False:
+        blockers.append("review_phase_boundary_overwrite_forbidden_not_false")
+    _no_authority("review_phase_boundary", phase, blockers)
 
     characterization = summary.get("qi_process_tensor_characterization")
     if characterization in (None, "undetermined_qi_process_tensor"):
@@ -91,7 +97,7 @@ def build_qi_actuation_license_candidate(
         allowed_next_surface="dry_run_probe_executor_candidate_review" if ready else None,
         source_summary_status=str(summary.get("summary_status")) if summary.get("summary_status") else None,
         source_characterization=str(characterization) if characterization else None,
-        source_finality_status=str(finality.get("packet_status")) if finality.get("packet_status") else None,
+        source_phase_status=str(phase.get("packet_status")) if phase.get("packet_status") else None,
         gate_blockers=blockers,
         gate_warnings=warnings,
         license_candidate_only=True,
