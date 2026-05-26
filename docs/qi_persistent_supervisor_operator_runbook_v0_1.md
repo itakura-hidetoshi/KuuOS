@@ -258,3 +258,9 @@ python scripts/check_qi_process_tensor_probe_plan_artifact_writer_v0_1.py
 python scripts/check_qi_process_tensor_probe_plan_artifact_index_v0_1.py
 python scripts/check_qi_process_tensor_probe_plan_trend_summary_v0_1.py
 ```
+
+The full runbook extension path is covered end-to-end with:
+
+```bash
+python scripts/check_qi_process_tensor_review_flow_e2e_v0_1.py
+```
