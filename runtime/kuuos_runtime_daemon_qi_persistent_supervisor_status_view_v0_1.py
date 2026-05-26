@@ -9,8 +9,10 @@ from typing import Any
 
 try:
     from runtime.kuuos_runtime_daemon_qi_process_tensor_advantage_metrics_v0_1 import compute_qi_process_tensor_advantage_metrics
+    from runtime.kuuos_runtime_daemon_qi_process_tensor_probe_planner_v0_1 import plan_qi_process_tensor_probe
 except ModuleNotFoundError:
     from kuuos_runtime_daemon_qi_process_tensor_advantage_metrics_v0_1 import compute_qi_process_tensor_advantage_metrics
+    from kuuos_runtime_daemon_qi_process_tensor_probe_planner_v0_1 import plan_qi_process_tensor_probe
 
 
 @dataclass(frozen=True)
@@ -34,11 +36,16 @@ class KuuOSQiPersistentSupervisorStatusView:
     process_tensor_advantage_score: float | None
     process_tensor_advantage_level: str | None
     recommended_next_process_focus: str | None
+    latest_process_tensor_probe_plan: dict[str, Any]
+    recommended_probe_type: str | None
+    probe_target_time_slice: str | None
+    probe_risk_level: str | None
     view_blockers: list[str]
     view_warnings: list[str]
     status_view_only: bool
     read_only: bool
     grants_execution_authority: bool = False
+    grants_probe_execution_authority: bool = False
     grants_next_tick_execution_authority: bool = False
     grants_truth_authority: bool = False
     grants_final_commitment_authority: bool = False
@@ -80,36 +87,44 @@ def _latest_allowed_cycle_record(controlled_loop_result: dict[str, Any]) -> dict
     return None
 
 
-def _advantage_from_latest_iteration(latest_record: dict[str, Any] | None, warnings: list[str]) -> tuple[str | None, dict[str, Any]]:
+def _process_tensor_surfaces_from_latest_iteration(
+    latest_record: dict[str, Any] | None,
+    warnings: list[str],
+) -> tuple[str | None, dict[str, Any], dict[str, Any]]:
     if not latest_record:
-        warnings.append("latest_iteration_record_missing_for_advantage_metrics")
-        return None, {}
+        warnings.append("latest_iteration_record_missing_for_process_tensor_surfaces")
+        return None, {}, {}
     loop_result_path = latest_record.get("controlled_loop_result_path")
     if not loop_result_path:
-        warnings.append("controlled_loop_result_path_missing_for_advantage_metrics")
-        return None, {}
+        warnings.append("controlled_loop_result_path_missing_for_process_tensor_surfaces")
+        return None, {}, {}
     controlled_loop_result = _read_json(Path(loop_result_path))
     if not controlled_loop_result:
-        warnings.append("controlled_loop_result_missing_for_advantage_metrics")
-        return str(loop_result_path), {}
+        warnings.append("controlled_loop_result_missing_for_process_tensor_surfaces")
+        return str(loop_result_path), {}, {}
     cycle_record = _latest_allowed_cycle_record(controlled_loop_result)
     if not cycle_record:
-        warnings.append("allowed_cycle_record_missing_for_advantage_metrics")
-        return str(loop_result_path), {}
+        warnings.append("allowed_cycle_record_missing_for_process_tensor_surfaces")
+        return str(loop_result_path), {}, {}
     raw_state_path = cycle_record.get("input_raw_state_path")
     projection_path = cycle_record.get("routed_projection_plan_result_path")
     if not raw_state_path:
-        warnings.append("raw_state_path_missing_for_advantage_metrics")
-        return str(loop_result_path), {}
+        warnings.append("raw_state_path_missing_for_process_tensor_surfaces")
+        return str(loop_result_path), {}, {}
     raw_state = _read_json(Path(raw_state_path))
     if not raw_state:
-        warnings.append("raw_state_missing_for_advantage_metrics")
-        return str(loop_result_path), {}
+        warnings.append("raw_state_missing_for_process_tensor_surfaces")
+        return str(loop_result_path), {}, {}
     projection = _read_json(Path(projection_path)) if projection_path else {}
     if not projection:
-        warnings.append("projection_summary_missing_for_advantage_metrics")
-    metrics = compute_qi_process_tensor_advantage_metrics(raw_state=raw_state, projection_summary=projection)
-    return str(loop_result_path), metrics.to_dict()
+        warnings.append("projection_summary_missing_for_process_tensor_surfaces")
+    metrics = compute_qi_process_tensor_advantage_metrics(raw_state=raw_state, projection_summary=projection).to_dict()
+    probe_plan = plan_qi_process_tensor_probe(
+        latest_process_tensor_advantage_metrics=metrics,
+        raw_state=raw_state,
+        projection_summary=projection,
+    ).to_dict()
+    return str(loop_result_path), metrics, probe_plan
 
 
 def compile_qi_persistent_supervisor_status_view(*, out_dir: Path) -> KuuOSQiPersistentSupervisorStatusView:
@@ -136,10 +151,13 @@ def compile_qi_persistent_supervisor_status_view(*, out_dir: Path) -> KuuOSQiPer
     if latest_record and not status:
         warnings.append("latest_status_missing")
 
-    loop_result_path, advantage_metrics = _advantage_from_latest_iteration(latest_record, warnings) if manifest else (None, {})
+    loop_result_path, advantage_metrics, probe_plan = _process_tensor_surfaces_from_latest_iteration(latest_record, warnings) if manifest else (None, {}, {})
     advantage_score = advantage_metrics.get("process_tensor_advantage_score") if advantage_metrics else None
     advantage_level = advantage_metrics.get("process_tensor_advantage_level") if advantage_metrics else None
     next_focus = advantage_metrics.get("recommended_next_process_focus") if advantage_metrics else None
+    recommended_probe_type = probe_plan.get("recommended_probe_type") if probe_plan else None
+    probe_target_time_slice = probe_plan.get("probe_target_time_slice") if probe_plan else None
+    probe_risk_level = probe_plan.get("probe_risk_level") if probe_plan else None
 
     status_view_status = "QI_PERSISTENT_SUPERVISOR_STATUS_VIEW_READY" if not blockers else "QI_PERSISTENT_SUPERVISOR_STATUS_VIEW_BLOCKED"
     return KuuOSQiPersistentSupervisorStatusView(
@@ -162,6 +180,10 @@ def compile_qi_persistent_supervisor_status_view(*, out_dir: Path) -> KuuOSQiPer
         process_tensor_advantage_score=float(advantage_score) if advantage_score is not None else None,
         process_tensor_advantage_level=str(advantage_level) if advantage_level is not None else None,
         recommended_next_process_focus=str(next_focus) if next_focus is not None else None,
+        latest_process_tensor_probe_plan=probe_plan,
+        recommended_probe_type=str(recommended_probe_type) if recommended_probe_type is not None else None,
+        probe_target_time_slice=str(probe_target_time_slice) if probe_target_time_slice is not None else None,
+        probe_risk_level=str(probe_risk_level) if probe_risk_level is not None else None,
         view_blockers=blockers,
         view_warnings=warnings,
         status_view_only=True,

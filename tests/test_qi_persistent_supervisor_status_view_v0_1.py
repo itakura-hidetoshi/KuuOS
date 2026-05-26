@@ -64,7 +64,7 @@ def dump(path: Path, payload):
 
 
 class QiPersistentSupervisorStatusViewTests(unittest.TestCase):
-    def test_status_view_reads_manifest_latest_heartbeat_status_and_advantage(self):
+    def test_status_view_reads_manifest_latest_heartbeat_status_advantage_and_probe_plan(self):
         with tempfile.TemporaryDirectory() as tmp:
             root = Path(tmp)
             raw_path = root / "raw.json"
@@ -110,9 +110,29 @@ class QiPersistentSupervisorStatusViewTests(unittest.TestCase):
                 "preserve_memory_kernel",
                 "widen_safe_reentry_window",
             })
+            self.assertIn(
+                view.latest_process_tensor_probe_plan["probe_plan_status"],
+                {"QI_PROCESS_TENSOR_PROBE_PLAN_READY", "QI_PROCESS_TENSOR_PROBE_PLAN_READY_WITH_WARNINGS"},
+            )
+            self.assertIn(view.recommended_probe_type, {
+                "continue_process_tensor_supervision_probe",
+                "observation_debt_probe",
+                "recoverability_branch_probe",
+                "memory_kernel_probe",
+                "safe_reentry_window_probe",
+                "nonmarkov_memory_link_probe",
+                "multi_time_correlation_probe",
+            })
+            self.assertIsNotNone(view.probe_target_time_slice)
+            self.assertIn(view.probe_risk_level, {"low", "medium", "high"})
+            self.assertTrue(view.latest_process_tensor_probe_plan["probe_plan_only"])
+            self.assertTrue(view.latest_process_tensor_probe_plan["read_only"])
+            self.assertEqual(view.latest_process_tensor_probe_plan["authority"], "none")
+            self.assertFalse(view.latest_process_tensor_probe_plan["grants_probe_execution_authority"])
             self.assertTrue(view.status_view_only)
             self.assertTrue(view.read_only)
             self.assertFalse(view.grants_execution_authority)
+            self.assertFalse(view.grants_probe_execution_authority)
             self.assertFalse(view.grants_next_tick_execution_authority)
 
     def test_status_view_blocks_when_manifest_missing(self):
@@ -122,8 +142,12 @@ class QiPersistentSupervisorStatusViewTests(unittest.TestCase):
             self.assertIn("supervisor_manifest_missing", view.view_blockers)
             self.assertEqual(view.iterations_run, 0)
             self.assertEqual(view.latest_process_tensor_advantage_metrics, {})
+            self.assertEqual(view.latest_process_tensor_probe_plan, {})
             self.assertIsNone(view.process_tensor_advantage_score)
             self.assertIsNone(view.process_tensor_advantage_level)
+            self.assertIsNone(view.recommended_probe_type)
+            self.assertIsNone(view.probe_target_time_slice)
+            self.assertIsNone(view.probe_risk_level)
             self.assertTrue(view.read_only)
 
 
