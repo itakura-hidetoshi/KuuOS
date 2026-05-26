@@ -1,0 +1,39 @@
+{
+  "packet_version": "qi_process_tensor_review_release_packet_v0_1",
+  "packet_status": "QI_PROCESS_TENSOR_REVIEW_RELEASE_READY",
+  "source_manifest": "manifests/qi_process_tensor_review_bundle_manifest_v0_1.json",
+  "source_manifest_version": "qi_process_tensor_review_bundle_manifest_v0_1",
+  "release_scope": "qi-process-tensor-review-only",
+  "release_type": "read-only-review-bundle-release",
+  "authority": "none",
+  "release_only": true,
+  "review_only": true,
+  "read_only": true,
+  "grants_execution_authority": false,
+  "grants_probe_execution_authority": false,
+  "grants_next_tick_execution_authority": false,
+  "grants_control_packet_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "release_claims": [
+    "process_tensor_advantage_metrics_exposed",
+    "probe_planner_proposal_only",
+    "status_view_read_only",
+    "supervisorctl_status_read_only",
+    "probe_plan_artifact_proposal_only",
+    "artifact_index_read_only",
+    "trend_summary_read_only",
+    "runbook_review_flow_documented",
+    "e2e_review_flow_checked",
+    "suite_runner_connected",
+    "github_actions_connected",
+    "bundle_manifest_present"
+  ],
+  "non_claims": [
+    "does_not_execute_probe",
+    "does_not_authorize_next_tick",
+    "does_not_mutate_control_packet",
+    "does_not_overwrite_memory",
+    "does_not_commit_world_fact",
+    "does_not_grant_clinical_or_theorem_authority"
+  ]
+}
