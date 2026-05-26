@@ -250,17 +250,19 @@ python scripts/check_qi_persistent_supervisor_status_view_cli_v0_1.py
 python scripts/check_qi_supervisorctl_v0_1.py
 ```
 
-The process-tensor review extension is covered with:
+The process-tensor review extension is covered with individual checks:
 
 ```bash
 python scripts/check_qi_process_tensor_probe_planner_v0_1.py
 python scripts/check_qi_process_tensor_probe_plan_artifact_writer_v0_1.py
 python scripts/check_qi_process_tensor_probe_plan_artifact_index_v0_1.py
 python scripts/check_qi_process_tensor_probe_plan_trend_summary_v0_1.py
+python scripts/check_qi_process_tensor_review_flow_e2e_v0_1.py
 ```
 
-The full runbook extension path is covered end-to-end with:
+The process-tensor review checks can also be run as one suite:
 
 ```bash
-python scripts/check_qi_process_tensor_review_flow_e2e_v0_1.py
+python scripts/run_qi_process_tensor_review_checks_v0_1.py \
+  --write-json .out/qi-supervisor/process_tensor_review_check_suite.json
 ```
