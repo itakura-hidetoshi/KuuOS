@@ -161,6 +161,9 @@ def command_status(args: argparse.Namespace) -> int:
         f"process_tensor_advantage_score: {view.process_tensor_advantage_score if view.process_tensor_advantage_score is not None else 'UNKNOWN'}",
         f"process_tensor_advantage_level: {view.process_tensor_advantage_level or 'UNKNOWN'}",
         f"recommended_next_process_focus: {view.recommended_next_process_focus or 'UNKNOWN'}",
+        f"recommended_probe_type: {view.recommended_probe_type or 'UNKNOWN'}",
+        f"probe_target_time_slice: {view.probe_target_time_slice or 'UNKNOWN'}",
+        f"probe_risk_level: {view.probe_risk_level or 'UNKNOWN'}",
         "authority: none",
         "scope: supervisorctl-status-read-only",
     ]

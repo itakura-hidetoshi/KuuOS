@@ -127,6 +127,21 @@ def main() -> int:
                 errors.append("status advantage level missing")
             if status.get("recommended_next_process_focus") is None:
                 errors.append("status recommended focus missing")
+            if status.get("recommended_probe_type") is None:
+                errors.append("status recommended probe missing")
+            if status.get("probe_target_time_slice") is None:
+                errors.append("status probe target missing")
+            if status.get("probe_risk_level") is None:
+                errors.append("status probe risk missing")
+            probe_plan = status.get("latest_process_tensor_probe_plan", {})
+            if probe_plan.get("probe_plan_only") is not True:
+                errors.append("status probe plan should be proposal-only")
+            if probe_plan.get("read_only") is not True:
+                errors.append("status probe plan should be read-only")
+            if probe_plan.get("authority") != "none":
+                errors.append("status probe plan authority should be none")
+            if probe_plan.get("grants_probe_execution_authority") is not False:
+                errors.append("status probe plan authority mismatch")
             if "Qi Supervisorctl Status v0.1" not in text:
                 errors.append("status text title missing")
             if "authority: none" not in text:
@@ -137,6 +152,12 @@ def main() -> int:
                 errors.append("status text advantage level missing")
             if "recommended_next_process_focus:" not in text:
                 errors.append("status text recommended focus missing")
+            if "recommended_probe_type:" not in text:
+                errors.append("status text recommended probe missing")
+            if "probe_target_time_slice:" not in text:
+                errors.append("status text probe target missing")
+            if "probe_risk_level:" not in text:
+                errors.append("status text probe risk missing")
 
         completed = run_ctl([
             "stop",
