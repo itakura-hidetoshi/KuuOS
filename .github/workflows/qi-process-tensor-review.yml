@@ -1,0 +1,47 @@
+name: Qi Process Tensor Review Checks
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_daemon_qi_process_tensor_*.py'
+      - 'scripts/*qi_process_tensor*'
+      - 'scripts/*qi_persistent_supervisor*'
+      - 'scripts/qi_supervisorctl_v0_1.py'
+      - 'docs/qi_persistent_supervisor_operator_runbook_v0_1.md'
+      - 'examples/qi_process_tensor_v0_1/**'
+      - '.github/workflows/qi-process-tensor-review.yml'
+
+permissions:
+  contents: read
+
+defaults:
+  run:
+    shell: bash
+
+jobs:
+  qi-process-tensor-review:
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+
+      - name: Run Qi process tensor review check suite
+        run: |
+          mkdir -p .out/qi-supervisor
+          python scripts/run_qi_process_tensor_review_checks_v0_1.py \
+            --write-json .out/qi-supervisor/process_tensor_review_check_suite.json
+
+      - name: Upload Qi process tensor review suite result
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qi-process-tensor-review-check-suite
+          path: .out/qi-supervisor/process_tensor_review_check_suite.json
+          if-no-files-found: warn
