@@ -158,6 +158,9 @@ def command_status(args: argparse.Namespace) -> int:
         f"final_stop_reason: {view.final_stop_reason or 'UNKNOWN'}",
         f"latest_heartbeat_path: {view.latest_heartbeat_path or 'UNKNOWN'}",
         f"latest_status_path: {view.latest_status_path or 'UNKNOWN'}",
+        f"process_tensor_advantage_score: {view.process_tensor_advantage_score if view.process_tensor_advantage_score is not None else 'UNKNOWN'}",
+        f"process_tensor_advantage_level: {view.process_tensor_advantage_level or 'UNKNOWN'}",
+        f"recommended_next_process_focus: {view.recommended_next_process_focus or 'UNKNOWN'}",
         "authority: none",
         "scope: supervisorctl-status-read-only",
     ]
