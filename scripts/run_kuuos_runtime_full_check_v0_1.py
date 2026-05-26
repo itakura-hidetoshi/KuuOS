@@ -33,6 +33,7 @@ CHECK_MODULES = [
     "scripts.check_qi_persistent_supervisor_operator_e2e_v0_1",
     "scripts.check_qi_persistent_supervisor_profile_runner_v0_1",
     "scripts.check_qi_persistent_supervisor_profile_validator_v0_1",
+    "scripts.check_qi_supervisorctl_v0_1",
 ]
 
 TEST_MODULES = [
