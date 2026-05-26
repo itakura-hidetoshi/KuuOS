@@ -86,6 +86,7 @@ TEST_MODULES = [
     "tests.test_qi_controlled_loop_runner_v0_1",
     "tests.test_qi_persistent_supervisor_v0_1",
     "tests.test_qi_persistent_supervisor_status_view_v0_1",
+    "tests.test_qi_process_tensor_advantage_metrics_v0_1",
     "tests.test_qi_runtime_output_surface_v0_1",
     "tests.test_qi_runtime_output_action_router_v0_1",
     "tests.test_qi_runtime_output_action_dispatcher_v0_1",
