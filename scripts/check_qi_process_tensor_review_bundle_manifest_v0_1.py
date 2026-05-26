@@ -28,8 +28,10 @@ REQUIRED_BOUNDARIES = {
 FILE_GROUPS = [
     "runtime_files",
     "script_files",
+    "deprecated_legacy_script_files",
     "test_files",
     "packet_files",
+    "deprecated_legacy_packet_files",
     "docs_files",
     "workflow_files",
     "example_files",
@@ -96,16 +98,29 @@ def main() -> int:
             if not (ROOT / item).is_file():
                 errors.append(f"missing_file:{item}")
 
-    if not any(path.endswith("run_qi_process_tensor_review_checks_v0_1.py") for path in manifest.get("script_files", [])):
+    active_packets = manifest.get("packet_files", [])
+    legacy_packets = manifest.get("deprecated_legacy_packet_files", [])
+    active_scripts = manifest.get("script_files", [])
+    legacy_scripts = manifest.get("deprecated_legacy_script_files", [])
+
+    if not any(path.endswith("run_qi_process_tensor_review_checks_v0_1.py") for path in active_scripts):
         errors.append("suite_runner_not_listed")
-    if not any(path.endswith("check_qi_license_phase_boundary_gate_v0_1.py") for path in manifest.get("script_files", [])):
+    if not any(path.endswith("check_qi_license_phase_boundary_gate_v0_1.py") for path in active_scripts):
         errors.append("phase_boundary_gate_checker_not_listed")
-    if not any(path.endswith("qi_process_tensor_review_phase_boundary_packet_v0_1.json") for path in manifest.get("packet_files", [])):
+    if not any(path.endswith("qi_process_tensor_review_phase_boundary_packet_v0_1.json") for path in active_packets):
         errors.append("phase_boundary_packet_not_listed")
-    if any("finality" in path for path in manifest.get("packet_files", [])):
+    if any("finality" in path for path in active_packets):
         errors.append("finality_packet_should_not_be_active_manifest_packet")
-    if any("release_packet" in path for path in manifest.get("packet_files", [])):
+    if any("release_packet" in path for path in active_packets):
         errors.append("release_packet_should_not_be_active_manifest_packet")
+    if not any(path.endswith("qi_process_tensor_review_finality_packet_v0_1.json") for path in legacy_packets):
+        errors.append("legacy_finality_packet_not_listed")
+    if not any(path.endswith("qi_process_tensor_review_release_packet_v0_1.json") for path in legacy_packets):
+        errors.append("legacy_release_packet_not_listed")
+    if not any(path.endswith("write_qi_actuation_license_candidate_v0_1.py") for path in legacy_scripts):
+        errors.append("legacy_license_cli_not_listed")
+    if not any(path.endswith("check_qi_actuation_license_gate_v0_1.py") for path in legacy_scripts):
+        errors.append("legacy_license_check_not_listed")
     if not any(path.endswith("qi-process-tensor-review.yml") for path in manifest.get("workflow_files", [])):
         errors.append("github_actions_workflow_not_listed")
     if not any(path.endswith("qi_persistent_supervisor_operator_runbook_v0_1.md") for path in manifest.get("docs_files", [])):
