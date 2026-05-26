@@ -26,9 +26,7 @@ def run(args: list[str]):
     return subprocess.run(args, cwd=str(ROOT), text=True, capture_output=True, check=False)
 
 
-def require_no_authority(payload: dict, errors: list[str], prefix: str) -> None:
-    if payload.get("authority") != "none":
-        errors.append(f"{prefix}:authority_not_none")
+def require_grants_false(payload: dict, errors: list[str], prefix: str) -> None:
     for key in [
         "grants_execution_authority",
         "grants_probe_execution_authority",
@@ -38,6 +36,12 @@ def require_no_authority(payload: dict, errors: list[str], prefix: str) -> None:
     ]:
         if payload.get(key) is not False:
             errors.append(f"{prefix}:{key}_not_false")
+
+
+def require_no_authority(payload: dict, errors: list[str], prefix: str) -> None:
+    if payload.get("authority") != "none":
+        errors.append(f"{prefix}:authority_not_none")
+    require_grants_false(payload, errors, prefix)
 
 
 def main() -> int:
@@ -111,7 +115,7 @@ def main() -> int:
             if "authority: none" not in text:
                 errors.append("summary_text_authority_missing")
 
-            require_no_authority(status, errors, "status")
+            require_grants_false(status, errors, "status")
             require_no_authority(artifact, errors, "artifact_a")
             require_no_authority(artifact_b_value, errors, "artifact_b")
             require_no_authority(index, errors, "index")
