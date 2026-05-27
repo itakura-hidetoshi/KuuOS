@@ -1,0 +1,44 @@
+{
+  "manifest_version": "qi_process_tensor_aware_scheduler_addendum_v0_1",
+  "addendum_status": "QI_PROCESS_TENSOR_AWARE_SCHEDULER_ADDENDUM_READY",
+  "extends_manifest": "manifests/qi_cf_probe_lattice_addendum_v0_1.json",
+  "scope": "qi-process-tensor-aware-scheduler-state",
+  "authority": "scheduler_state",
+  "grants_scheduler_authority": true,
+  "scheduler_authority_scope": "scheduler_state_only",
+  "process_tensor_aware": true,
+  "uses_process_tensor_metrics": [
+    "history_depth",
+    "observation_debt_resolution_priority",
+    "safe_reentry_window_score",
+    "nonmarkov_link_density",
+    "memory_kernel_preservation_score"
+  ],
+  "control_packet_mutation_performed": false,
+  "probe_execution_performed": false,
+  "memory_write_performed": false,
+  "world_update_performed": false,
+  "grants_execution_authority": false,
+  "grants_probe_execution_authority": false,
+  "grants_dry_run_execution_authority": false,
+  "grants_next_tick_execution_authority": false,
+  "grants_control_packet_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_world_update_authority": false,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_scheduler_state_v0_1.py",
+    "runtime/kuuos_runtime_daemon_qi_process_tensor_aware_scheduler_state_v0_1.py"
+  ],
+  "script_files": [
+    "scripts/write_qi_probe_scheduler_proposal_v0_1.py",
+    "scripts/check_qi_probe_scheduler_proposal_v0_1.py",
+    "scripts/write_qi_process_tensor_aware_scheduler_state_v0_1.py",
+    "scripts/check_qi_process_tensor_aware_scheduler_state_v0_1.py"
+  ],
+  "test_files": [
+    "tests/test_qi_scheduler_state_v0_1.py",
+    "tests/test_qi_process_tensor_aware_scheduler_state_v0_1.py"
+  ],
+  "position": "counterfactual probe lattice -> scheduler proposal -> process-tensor-aware scheduler state",
+  "next_integration_target": "connect this addendum to scheduler suite and Qi process tensor review workflow"
+}
