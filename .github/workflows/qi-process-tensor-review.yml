@@ -6,14 +6,18 @@ on:
     paths:
       - 'runtime/kuuos_runtime_daemon_qi_process_tensor_*.py'
       - 'runtime/kuuos_runtime_daemon_qi_actuation_license_gate_v0_1.py'
+      - 'runtime/kuuos_runtime_daemon_qi_dry_run_probe_simulator_v0_1.py'
       - 'scripts/*qi_process_tensor*'
       - 'scripts/*qi_persistent_supervisor*'
       - 'scripts/*qi_license*'
       - 'scripts/*qi_actuation*'
+      - 'scripts/*qi_dry_run*'
       - 'scripts/qi_supervisorctl_v0_1.py'
       - 'docs/qi_persistent_supervisor_operator_runbook_v0_1.md'
+      - 'docs/qi_dry_run_probe_simulator_addendum_note_v0_1.md'
       - 'examples/qi_process_tensor_v0_1/**'
       - 'manifests/qi_process_tensor_review_bundle_manifest_v0_1.json'
+      - 'manifests/qi_dry_run_probe_simulator_addendum_v0_1.json'
       - 'packets/qi_process_tensor_review_phase_boundary_packet_v0_1.json'
       - '.github/workflows/qi-process-tensor-review.yml'
 
