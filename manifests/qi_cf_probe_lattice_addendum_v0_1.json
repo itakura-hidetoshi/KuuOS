@@ -1,0 +1,32 @@
+{
+  "manifest_version": "qi_cf_probe_lattice_addendum_v0_1",
+  "addendum_status": "QI_CF_PROBE_LATTICE_ADDENDUM_READY",
+  "extends_manifest": "manifests/qi_dry_run_probe_simulator_addendum_v0_1.json",
+  "scope": "qi-process-tensor-counterfactual-probe-lattice",
+  "authority": "none",
+  "counterfactual_only": true,
+  "simulation_only": true,
+  "dry_run_only": true,
+  "state_mutation_performed": false,
+  "control_packet_mutation_performed": false,
+  "memory_write_performed": false,
+  "grants_execution_authority": false,
+  "grants_probe_execution_authority": false,
+  "grants_dry_run_execution_authority": false,
+  "grants_next_tick_execution_authority": false,
+  "grants_control_packet_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_world_update_authority": false,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_counterfactual_probe_lattice_v0_1.py"
+  ],
+  "script_files": [
+    "scripts/write_qi_cf_probe_lattice_v0_1.py",
+    "scripts/check_qi_cf_probe_lattice_v0_1.py"
+  ],
+  "test_files": [
+    "tests/test_qi_counterfactual_probe_lattice_v0_1.py"
+  ],
+  "position": "dry-run probe simulation -> counterfactual probe lattice",
+  "next_integration_target": "connect this addendum to the review suite and workflow path filters"
+}
