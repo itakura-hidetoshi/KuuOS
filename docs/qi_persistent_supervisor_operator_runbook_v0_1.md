@@ -15,7 +15,7 @@ allow control
   -> stop / disable
 ```
 
-The current process-tensor extension keeps that path unchanged and adds a current phase-boundary review path after status:
+The current process-tensor extension keeps that path unchanged and adds a current phase-boundary review and scheduler path after status:
 
 ```text
 status view
@@ -24,10 +24,15 @@ status view
   -> trend summary
   -> current phase boundary
   -> dry-run license candidate
+  -> dry-run probe simulation
+  -> counterfactual probe lattice
+  -> scheduler proposal
+  -> scheduler state
+  -> process-tensor-aware scheduler state
   -> operator / governor review
 ```
 
-This extension does not introduce probe execution, next-tick execution authority, control-packet mutation, or memory overwrite authority. The current phase boundary is mutable by PR and replaceable; it is not a finality lock and it is not an append-only policy.
+This extension does not introduce probe execution, next-tick execution authority, control-packet mutation, or memory overwrite authority. The current phase boundary is mutable by PR and replaceable; it is not a finality lock and it is not an append-only policy. The scheduler path only opens `scheduler_state` authority with `scheduler_authority_scope: scheduler_state_only`.
 
 ## 1. Write an allow control packet
 
@@ -242,6 +247,84 @@ python scripts/write_qi_actuation_license_candidate_v0_1.py
 
 This old finality-based entrypoint intentionally returns a deprecation notice and should not be used for active operation.
 
+## 3g. Write a dry-run probe simulation
+
+After a dry-run license candidate exists, project the probe effects without executing the probe:
+
+```bash
+python scripts/write_qi_dry_run_probe_sim_v0_1.py \
+  --license .out/qi-supervisor/qi_license_candidate.json \
+  --summary .out/qi-supervisor/probe_plan_trend_summary.json \
+  --plan .out/qi-supervisor/probe_plan_artifact_001.json \
+  --write .out/qi-supervisor/qi_dry_run_probe_simulation.json
+```
+
+This remains a simulation surface only. It preserves:
+
+- `simulation_only: true`
+- `dry_run_only: true`
+- `authority: none`
+- `state_mutation_performed: false`
+- `control_packet_mutation_performed: false`
+- `memory_write_performed: false`
+
+## 3h. Build a counterfactual probe lattice
+
+Compare the chosen probe against unchosen counterfactual probe candidates:
+
+```bash
+python scripts/write_qi_cf_probe_lattice_v0_1.py \
+  --simulation .out/qi-supervisor/qi_dry_run_probe_simulation.json \
+  --summary .out/qi-supervisor/probe_plan_trend_summary.json \
+  --write .out/qi-supervisor/qi_cf_probe_lattice.json
+```
+
+This remains counterfactual-only and does not grant execution authority. It is used to decide which probe surface should be revisited and compared, not to execute a probe.
+
+## 3i. Write a scheduler proposal
+
+Turn the counterfactual lattice into a proposal-only revisit schedule:
+
+```bash
+python scripts/write_qi_probe_scheduler_proposal_v0_1.py \
+  --lattice .out/qi-supervisor/qi_cf_probe_lattice.json \
+  --write .out/qi-supervisor/qi_probe_scheduler_proposal.json
+```
+
+This proposal preserves:
+
+- `schedule_proposal_only: true`
+- `authority: none`
+- `grants_scheduler_authority: false`
+- `grants_probe_execution_authority: false`
+- `grants_next_tick_execution_authority: false`
+
+## 3j. Write a process-tensor-aware scheduler state
+
+Apply process-tensor pressure to the scheduler state. High observation debt, a narrow safe reentry window, sparse non-Markov links, or a fragile memory kernel can shorten the recommended revisit interval:
+
+```bash
+python scripts/write_qi_process_tensor_aware_scheduler_state_v0_1.py \
+  --state .out/qi-supervisor/qi_scheduler_state.json \
+  --proposal .out/qi-supervisor/qi_probe_scheduler_proposal.json \
+  --metrics .out/qi-supervisor/status_view.json \
+  --current-tick 5 \
+  --write .out/qi-supervisor/qi_process_tensor_aware_scheduler_result.json \
+  --write-state .out/qi-supervisor/qi_scheduler_state.json
+```
+
+This is the first scheduler step that may update scheduler state. The authority boundary is still narrow:
+
+- `authority: scheduler_state`
+- `grants_scheduler_authority: true`
+- `scheduler_authority_scope: scheduler_state_only`
+- `grants_probe_execution_authority: false`
+- `grants_dry_run_execution_authority: false`
+- `grants_next_tick_execution_authority: false`
+- `grants_control_packet_authority: false`
+- `grants_memory_overwrite_authority: false`
+- `grants_world_update_authority: false`
+
 ## 4. Request stop
 
 ```bash
@@ -284,12 +367,18 @@ The persistent supervisor and process-tensor review surfaces are bounded at the 
 - active phase boundary does not require append-only evolution
 - active phase boundary does not forbid overwrite
 - license candidate does not grant execution authority
+- dry-run simulation does not execute probes
+- counterfactual lattice does not execute probes
+- scheduler proposal does not mutate scheduler state
+- process-tensor-aware scheduler state mutates scheduler state only
 - no probe execution authority
+- no dry-run execution authority
 - no next tick execution authority
 - no control packet authority from review artifacts
 - no policy mutation authority
 - no belief update authority
 - no memory overwrite authority
+- no world update authority
 - no truth authority
 - no clinical authority
 - no theorem authority
@@ -324,10 +413,22 @@ python scripts/run_qi_process_tensor_review_checks_v0_1.py \
   --write-json .out/qi-supervisor/process_tensor_review_check_suite.json
 ```
 
-The same suite is wired to GitHub Actions as `Qi Process Tensor Review Checks`:
+The counterfactual lattice checks can be run as one suite:
+
+```bash
+python scripts/run_qi_cf_lattice_checks_v0_1.py
+```
+
+The process-tensor scheduler checks can be run as one suite:
+
+```bash
+python scripts/run_qi_process_tensor_scheduler_checks_v0_1.py
+```
+
+The same suites are wired to GitHub Actions as `Qi Process Tensor Review Checks`:
 
 ```text
 .github/workflows/qi-process-tensor-review.yml
 ```
 
-The workflow is manually runnable with `workflow_dispatch` and also runs on pull requests that touch the Qi process-tensor review surface.
+The workflow is manually runnable with `workflow_dispatch` and also runs on pull requests that touch the Qi process-tensor review, counterfactual lattice, or scheduler surfaces.
