@@ -47,6 +47,7 @@ class KuuOSQiPersistentSupervisorStatusView:
     grants_execution_authority: bool = False
     grants_probe_execution_authority: bool = False
     grants_next_tick_execution_authority: bool = False
+    grants_control_packet_authority: bool = False
     grants_truth_authority: bool = False
     grants_final_commitment_authority: bool = False
     grants_memory_overwrite_authority: bool = False
