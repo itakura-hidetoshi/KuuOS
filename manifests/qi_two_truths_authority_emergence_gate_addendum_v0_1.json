@@ -1,0 +1,59 @@
+{
+  "manifest_version": "qi_two_truths_authority_emergence_gate_addendum_v0_1",
+  "addendum_status": "QI_TWO_TRUTHS_AUTHORITY_EMERGENCE_GATE_ADDENDUM_READY",
+  "extends_manifest": "manifests/qi_probe_execution_review_gate_addendum_v0_1.json",
+  "scope": "qi-two-truths-authority-emergence-gate",
+  "authority": "none",
+  "authority_grant_candidate_only": true,
+  "actual_probe_execution_authority": false,
+  "authority_review_gate_only": true,
+  "execution_requires_separate_gate": true,
+  "local_limited_revocable": true,
+  "theoretical_authority_conditions": [
+    "ultimate_non_reification_preserved",
+    "dependent_origination_trace_present",
+    "two_truths_boundary_preserved",
+    "mass_gap_barrier_preserved",
+    "superstring_membrane_boundary_preserved",
+    "super_relativity_record_surface_present",
+    "causal_trace_present",
+    "rollback_path_present",
+    "safe_reentry_window_acceptable",
+    "observation_debt_targeted_or_bounded",
+    "memory_kernel_preservation_acceptable"
+  ],
+  "forbidden_authority_claims": [
+    "authority_claims_ultimate_truth",
+    "authority_scope_unbounded",
+    "authority_irrevocable",
+    "mass_gap_collapsed",
+    "direct_execution_requested"
+  ],
+  "scheduler_state_mutation_performed": false,
+  "control_packet_mutation_performed": false,
+  "probe_execution_performed": false,
+  "dry_run_execution_performed": false,
+  "next_tick_execution_performed": false,
+  "memory_write_performed": false,
+  "world_update_performed": false,
+  "grants_execution_authority": false,
+  "grants_probe_execution_authority": false,
+  "grants_dry_run_execution_authority": false,
+  "grants_next_tick_execution_authority": false,
+  "grants_scheduler_authority": false,
+  "grants_control_packet_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_world_update_authority": false,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_two_truths_authority_emergence_gate_v0_1.py"
+  ],
+  "script_files": [
+    "scripts/write_qi_two_truths_authority_emergence_gate_v0_1.py",
+    "scripts/check_qi_two_truths_authority_emergence_gate_v0_1.py"
+  ],
+  "test_files": [
+    "tests/test_qi_two_truths_authority_emergence_gate_v0_1.py"
+  ],
+  "position": "probe execution review gate -> two-truths authority emergence gate",
+  "next_integration_target": "connect authority emergence gate to scheduler suite and workflow without opening actual probe execution authority"
+}
