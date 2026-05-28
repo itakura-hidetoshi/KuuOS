@@ -1,0 +1,39 @@
+{
+  "manifest_version": "qi_probe_execution_candidate_addendum_v0_1",
+  "addendum_status": "QI_PROBE_EXECUTION_CANDIDATE_ADDENDUM_READY",
+  "extends_manifest": "manifests/qi_process_tensor_aware_scheduler_addendum_v0_1.json",
+  "scope": "qi-probe-execution-candidate",
+  "authority": "none",
+  "execution_candidate_only": true,
+  "scheduler_due_required": true,
+  "requires_operator_review": true,
+  "requires_governor_approval": true,
+  "scheduler_state_mutation_performed": false,
+  "control_packet_mutation_performed": false,
+  "probe_execution_performed": false,
+  "dry_run_execution_performed": false,
+  "next_tick_execution_performed": false,
+  "memory_write_performed": false,
+  "world_update_performed": false,
+  "grants_execution_authority": false,
+  "grants_probe_execution_authority": false,
+  "grants_dry_run_execution_authority": false,
+  "grants_next_tick_execution_authority": false,
+  "grants_scheduler_authority": false,
+  "grants_control_packet_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_world_update_authority": false,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_probe_execution_candidate_v0_1.py"
+  ],
+  "script_files": [
+    "scripts/write_qi_probe_execution_candidate_v0_1.py",
+    "scripts/check_qi_probe_execution_candidate_v0_1.py",
+    "scripts/check_qi_probe_execution_candidate_addendum_v0_1.py"
+  ],
+  "test_files": [
+    "tests/test_qi_probe_execution_candidate_v0_1.py"
+  ],
+  "position": "process-tensor-aware scheduler state -> probe execution candidate",
+  "next_integration_target": "connect this addendum to Qi process tensor scheduler suite and review workflow without opening probe execution authority"
+}

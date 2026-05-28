@@ -10,6 +10,8 @@ CHECKS = [
     "scripts/check_qi_probe_scheduler_proposal_v0_1.py",
     "scripts/check_qi_process_tensor_aware_scheduler_state_v0_1.py",
     "scripts/check_qi_process_tensor_aware_scheduler_addendum_v0_1.py",
+    "scripts/check_qi_probe_execution_candidate_v0_1.py",
+    "scripts/check_qi_probe_execution_candidate_addendum_v0_1.py",
 ]
 
 
