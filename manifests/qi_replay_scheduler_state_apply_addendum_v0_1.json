@@ -1,0 +1,45 @@
+{
+  "manifest_version": "qi_replay_scheduler_state_apply_addendum_v0_1",
+  "addendum_status": "QI_REPLAY_SCHEDULER_STATE_APPLY_ADDENDUM_READY",
+  "extends_manifest": "manifests/qi_memoryos_process_tensor_retrieval_replay_addendum_v0_1.json",
+  "scope": "qi-replay-scheduler-state-apply",
+  "authority": "scheduler_state_only",
+  "scheduler_state_mutation_performed": true,
+  "scheduler_update_scope": "replay_hint_only",
+  "scheduler_lineage_preserved": true,
+  "memory_read_performed": true,
+  "memory_write_performed": false,
+  "memory_append_performed": false,
+  "memory_overwrite_performed": false,
+  "world_update_performed": false,
+  "control_packet_mutation_performed": false,
+  "probe_execution_performed": false,
+  "grants_scheduler_authority": false,
+  "grants_memory_write_authority": false,
+  "grants_world_update_authority": false,
+  "grants_control_packet_authority": false,
+  "grants_probe_execution_authority": false,
+  "required_apply_conditions": [
+    "allow_scheduler_state_update",
+    "scheduler_update_scope:replay_hint_only",
+    "scheduler_lineage_preserved"
+  ],
+  "forbidden_requests": [
+    "request_probe_execution",
+    "request_memory_write",
+    "request_world_update",
+    "request_control_packet_mutation"
+  ],
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_replay_scheduler_state_apply_v0_1.py"
+  ],
+  "script_files": [
+    "scripts/write_qi_replay_scheduler_state_apply_v0_1.py",
+    "scripts/check_qi_replay_scheduler_state_apply_v0_1.py"
+  ],
+  "test_files": [
+    "tests/test_qi_replay_scheduler_state_apply_v0_1.py"
+  ],
+  "position": "MemoryOS process tensor retrieval/replay surface -> scheduler state replay-hint apply",
+  "next_integration_target": "feed replay-updated scheduler state into probe scheduler proposal without opening memory/world/probe authority"
+}
