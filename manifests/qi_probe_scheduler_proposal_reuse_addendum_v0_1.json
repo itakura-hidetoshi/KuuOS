@@ -1,0 +1,46 @@
+{
+  "manifest_version": "qi_probe_scheduler_proposal_reuse_addendum_v0_1",
+  "addendum_status": "QI_PROBE_SCHEDULER_PROPOSAL_REUSE_ADDENDUM_READY",
+  "extends_manifest": "manifests/qi_replay_scheduler_state_apply_addendum_v0_1.json",
+  "scope": "qi-probe-scheduler-proposal-reuse",
+  "authority": "none",
+  "proposal_reuse_only": true,
+  "schedule_proposal_only": true,
+  "scheduler_state_read_performed": true,
+  "scheduler_state_mutation_performed": false,
+  "memory_read_performed": false,
+  "memory_write_performed": false,
+  "world_update_performed": false,
+  "control_packet_mutation_performed": false,
+  "probe_execution_performed": false,
+  "grants_scheduler_authority": false,
+  "grants_memory_write_authority": false,
+  "grants_world_update_authority": false,
+  "grants_control_packet_authority": false,
+  "grants_probe_execution_authority": false,
+  "required_reuse_inputs": [
+    "scheduler_update_kind:memoryos_process_tensor_replay_hint",
+    "replay_dominant_probe_type",
+    "replay_scheduler_reuse_hint",
+    "lineage_preserved"
+  ],
+  "forbidden_requests": [
+    "request_scheduler_state_mutation",
+    "request_probe_execution",
+    "request_memory_write",
+    "request_world_update",
+    "request_control_packet_mutation"
+  ],
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_probe_scheduler_proposal_reuse_v0_1.py"
+  ],
+  "script_files": [
+    "scripts/write_qi_probe_scheduler_proposal_reuse_v0_1.py",
+    "scripts/check_qi_probe_scheduler_proposal_reuse_v0_1.py"
+  ],
+  "test_files": [
+    "tests/test_qi_probe_scheduler_proposal_reuse_v0_1.py"
+  ],
+  "position": "scheduler state replay-hint apply -> probe scheduler proposal reuse",
+  "next_integration_target": "merge proposal reuse with process-tensor-aware scheduler state without opening probe execution authority"
+}
