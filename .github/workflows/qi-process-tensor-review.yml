@@ -24,6 +24,7 @@ on:
       - 'docs/qi_persistent_supervisor_operator_runbook_v0_1.md'
       - 'docs/qi_dry_run_probe_simulator_addendum_note_v0_1.md'
       - 'docs/qi_cf_probe_lattice_addendum_note_v0_1.md'
+      - 'docs/qi_probe_execution_candidate_addendum_note_v0_1.md'
       - 'examples/qi_process_tensor_v0_1/**'
       - 'manifests/qi_process_tensor_review_bundle_manifest_v0_1.json'
       - 'manifests/qi_dry_run_probe_simulator_addendum_v0_1.json'
