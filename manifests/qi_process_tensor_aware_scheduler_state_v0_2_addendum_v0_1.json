@@ -1,0 +1,42 @@
+{
+  "manifest_version": "qi_process_tensor_aware_scheduler_state_v0_2_addendum_v0_1",
+  "addendum_status": "QI_PROCESS_TENSOR_AWARE_SCHEDULER_STATE_V0_2_ADDENDUM_READY",
+  "extends_manifest": "manifests/qi_probe_scheduler_proposal_reuse_addendum_v0_1.json",
+  "scope": "qi-process-tensor-aware-scheduler-state-v0-2",
+  "authority": "scheduler_state",
+  "replay_reuse_integrated": true,
+  "process_tensor_aware": true,
+  "scheduler_state_updated": true,
+  "scheduler_state_mutation_performed": true,
+  "scheduler_authority_scope": "scheduler_state_only",
+  "control_packet_mutation_performed": false,
+  "probe_execution_performed": false,
+  "memory_write_performed": false,
+  "world_update_performed": false,
+  "grants_scheduler_authority": true,
+  "grants_execution_authority": false,
+  "grants_probe_execution_authority": false,
+  "grants_dry_run_execution_authority": false,
+  "grants_next_tick_execution_authority": false,
+  "grants_control_packet_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_world_update_authority": false,
+  "required_inputs": [
+    "scheduler_state",
+    "scheduler_proposal",
+    "process_tensor_metrics",
+    "proposal_reuse"
+  ],
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_process_tensor_aware_scheduler_state_v0_2.py"
+  ],
+  "script_files": [
+    "scripts/write_qi_process_tensor_aware_scheduler_state_v0_2.py",
+    "scripts/check_qi_process_tensor_aware_scheduler_state_v0_2.py"
+  ],
+  "test_files": [
+    "tests/test_qi_process_tensor_aware_scheduler_state_v0_2.py"
+  ],
+  "position": "probe scheduler proposal reuse -> process-tensor-aware scheduler state v0.2",
+  "next_integration_target": "connect v0.2 scheduler state into review workflow and downstream execution candidate without opening probe execution authority"
+}
