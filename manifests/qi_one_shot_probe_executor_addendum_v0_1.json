@@ -1,0 +1,52 @@
+{
+  "manifest_version": "qi_one_shot_probe_executor_addendum_v0_1",
+  "addendum_status": "QI_ONE_SHOT_PROBE_EXECUTOR_ADDENDUM_READY",
+  "extends_manifest": "manifests/qi_limited_one_shot_execution_authority_grant_gate_addendum_v0_1.json",
+  "scope": "qi-one-shot-probe-executor",
+  "authority": "none",
+  "consumes_authority_token_kind": "single_use_probe_execution_authority",
+  "probe_execution_performed": true,
+  "probe_result_artifact_only": true,
+  "one_shot_token_consumed": true,
+  "token_reuse_allowed": false,
+  "single_probe_only": true,
+  "rollback_required": true,
+  "reentry_window_bound": true,
+  "grants_execution_authority": false,
+  "grants_probe_execution_authority": false,
+  "grants_dry_run_execution_authority": false,
+  "grants_next_tick_execution_authority": false,
+  "grants_scheduler_authority": false,
+  "grants_control_packet_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_world_update_authority": false,
+  "memory_write_allowed": false,
+  "world_update_allowed": false,
+  "control_packet_mutation_allowed": false,
+  "dry_run_execution_performed": false,
+  "next_tick_execution_performed": false,
+  "scheduler_state_mutation_performed": false,
+  "control_packet_mutation_performed": false,
+  "memory_write_performed": false,
+  "world_update_performed": false,
+  "blocked_by": [
+    "token_already_consumed",
+    "request_multi_probe",
+    "request_memory_write",
+    "request_world_update",
+    "request_control_packet_mutation",
+    "request_scheduler_mutation"
+  ],
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_one_shot_probe_executor_v0_1.py"
+  ],
+  "script_files": [
+    "scripts/write_qi_one_shot_probe_executor_v0_1.py",
+    "scripts/check_qi_one_shot_probe_executor_v0_1.py"
+  ],
+  "test_files": [
+    "tests/test_qi_one_shot_probe_executor_v0_1.py"
+  ],
+  "position": "limited one-shot execution-authority grant gate -> one-shot probe executor",
+  "next_integration_target": "append artifact-only probe result to review flow without memory/world/control mutation"
+}
