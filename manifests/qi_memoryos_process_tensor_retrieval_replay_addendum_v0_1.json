@@ -1,0 +1,43 @@
+{
+  "manifest_version": "qi_memoryos_process_tensor_retrieval_replay_addendum_v0_1",
+  "addendum_status": "QI_MEMORYOS_PROCESS_TENSOR_RETRIEVAL_REPLAY_ADDENDUM_READY",
+  "extends_manifest": "manifests/qi_memoryos_process_tensor_append_writeback_addendum_v0_1.json",
+  "scope": "qi-memoryos-process-tensor-retrieval-replay",
+  "authority": "memory_read_only",
+  "retrieval_only": true,
+  "replay_surface_only": true,
+  "memory_read_performed": true,
+  "memory_write_performed": false,
+  "memory_append_performed": false,
+  "memory_overwrite_performed": false,
+  "memory_delete_performed": false,
+  "world_update_performed": false,
+  "control_packet_mutation_performed": false,
+  "scheduler_state_mutation_performed": false,
+  "grants_memory_write_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_world_update_authority": false,
+  "grants_control_packet_authority": false,
+  "grants_scheduler_authority": false,
+  "grants_probe_execution_authority": false,
+  "required_available_traces": [
+    "process_tensor_trace_available",
+    "nonmarkov_trace_available",
+    "observation_debt_trace_available",
+    "recoverability_trace_available",
+    "safe_reentry_trace_available",
+    "lineage_available"
+  ],
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_memoryos_process_tensor_retrieval_replay_v0_1.py"
+  ],
+  "script_files": [
+    "scripts/write_qi_memoryos_process_tensor_retrieval_replay_v0_1.py",
+    "scripts/check_qi_memoryos_process_tensor_retrieval_replay_v0_1.py"
+  ],
+  "test_files": [
+    "tests/test_qi_memoryos_process_tensor_retrieval_replay_v0_1.py"
+  ],
+  "position": "append-only MemoryOS process tensor writeback -> retrieval/replay surface",
+  "next_integration_target": "feed replay hints into scheduler/probe planner as advisory non-mutating inputs"
+}
