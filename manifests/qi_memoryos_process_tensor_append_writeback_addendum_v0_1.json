@@ -1,0 +1,36 @@
+{
+  "manifest_version": "qi_memoryos_process_tensor_append_writeback_addendum_v0_1",
+  "addendum_status": "QI_MEMORYOS_PROCESS_TENSOR_APPEND_WRITEBACK_ADDENDUM_READY",
+  "extends_manifest": "manifests/qi_one_shot_probe_executor_addendum_v0_1.json",
+  "scope": "qi-memoryos-process-tensor-append-writeback",
+  "authority": "memory_append_only",
+  "memory_append_performed": true,
+  "memory_write_performed": true,
+  "append_only": true,
+  "lineage_preserved": true,
+  "process_tensor_trace_preserved": true,
+  "nonmarkov_trace_preserved": true,
+  "observation_debt_trace_preserved": true,
+  "recoverability_trace_preserved": true,
+  "safe_reentry_trace_preserved": true,
+  "memory_overwrite_performed": false,
+  "memory_delete_performed": false,
+  "world_update_performed": false,
+  "control_packet_mutation_performed": false,
+  "scheduler_state_mutation_performed": false,
+  "grants_memory_append_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_world_update_authority": false,
+  "grants_control_packet_authority": false,
+  "grants_scheduler_authority": false,
+  "grants_probe_execution_authority": false,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_memoryos_process_tensor_append_writeback_v0_1.py"
+  ],
+  "script_files": [
+    "scripts/write_qi_memoryos_process_tensor_append_writeback_v0_1.py",
+    "scripts/check_qi_memoryos_process_tensor_append_writeback_v0_1.py"
+  ],
+  "position": "one-shot probe executor -> append-only MemoryOS process tensor writeback",
+  "next_integration_target": "feed append-only process tensor memory stream into future process tensor retrieval and replay"
+}
