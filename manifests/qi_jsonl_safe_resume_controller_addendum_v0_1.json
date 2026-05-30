@@ -1,0 +1,39 @@
+{
+  "manifest_version": "qi_jsonl_safe_resume_controller_addendum_v0_1",
+  "addendum_status": "QI_JSONL_SAFE_RESUME_CONTROLLER_ADDENDUM_READY",
+  "extends_manifest": "manifests/qi_jsonl_persistent_daemon_wrapper_addendum_v0_1.json",
+  "scope": "qi-jsonl-safe-resume-controller",
+  "authority": "jsonl_safe_resume_controller_only",
+  "safe_resume_performed": true,
+  "skip_processed_ticks": true,
+  "no_op_resume_allowed": true,
+  "jsonl_backend_required": true,
+  "replay_cursor_monotone": true,
+  "idempotency_enforced": true,
+  "duplicate_tick_blocked": true,
+  "token_ledger_checked": true,
+  "memory_read_performed": true,
+  "memory_write_performed": false,
+  "memory_append_performed": false,
+  "memory_overwrite_performed": false,
+  "world_update_performed": false,
+  "control_packet_mutation_performed": false,
+  "probe_execution_performed": false,
+  "grants_probe_execution_authority": false,
+  "grants_world_update_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_jsonl_safe_resume_controller_v0_1.py"
+  ],
+  "script_files": [
+    "scripts/write_qi_jsonl_safe_resume_controller_v0_1.py",
+    "scripts/check_qi_jsonl_safe_resume_controller_v0_1.py",
+    "scripts/check_qi_jsonl_safe_resume_controller_addendum_v0_1.py",
+    "scripts/run_qi_jsonl_safe_resume_controller_checks_v0_1.py"
+  ],
+  "test_files": [
+    "tests/test_qi_jsonl_safe_resume_controller_v0_1.py"
+  ],
+  "position": "JSONL persistent daemon wrapper -> safe stop/resume controller",
+  "next_integration_target": "deployment wrapper with safe stop/resume using JSONL ledger state"
+}
