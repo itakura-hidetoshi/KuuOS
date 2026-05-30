@@ -1,0 +1,27 @@
+{
+  "manifest_version": "qi_v02_memoryos_replay_loop_closure_addendum_v0_1",
+  "addendum_status": "QI_V02_MEMORYOS_REPLAY_LOOP_CLOSURE_ADDENDUM_READY",
+  "extends_manifest": "manifests/qi_v02_executor_loop_integration_addendum_v0_1.json",
+  "scope": "qi-v02-memoryos-replay-loop-closure",
+  "authority": "integration_suite_only",
+  "chain_position": "v0.2 MemoryOS append-only writeback -> retrieval/replay -> scheduler apply -> proposal reuse -> process-tensor-aware scheduler state v0.2",
+  "loop_closure_verified": true,
+  "memory_replay_required": true,
+  "scheduler_hint_apply_required": true,
+  "proposal_reuse_required": true,
+  "v02_scheduler_reintegration_required": true,
+  "scheduler_state_mutation_performed": true,
+  "scheduler_update_scope": "replay_hint_only",
+  "probe_execution_performed": false,
+  "memory_write_performed": false,
+  "world_update_performed": false,
+  "control_packet_mutation_performed": false,
+  "grants_probe_execution_authority": false,
+  "grants_world_update_authority": false,
+  "grants_control_packet_authority": false,
+  "script_files": [
+    "scripts/run_qi_v02_memoryos_replay_loop_closure_checks.py"
+  ],
+  "position": "v0.2 append-only MemoryOS writeback -> closed replay scheduler loop",
+  "next_integration_target": "promote closed-loop suite into Qi process tensor review workflow"
+}
