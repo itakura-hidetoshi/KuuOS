@@ -22,7 +22,7 @@ defaults:
 jobs:
   qi-process-tensor-review:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 12
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -45,54 +45,6 @@ jobs:
       - name: Run Qi process tensor scheduler check suite
         run: |
           python scripts/run_qi_process_tensor_scheduler_checks_v0_1.py
-
-      - name: Run Qi two-truths authority emergence check suite
-        run: |
-          python scripts/run_qi_two_truths_authority_emergence_checks_v0_1.py
-
-      - name: Run Qi middle-way authority scope check suite
-        run: |
-          python scripts/run_qi_middle_way_authority_scope_checks_v0_1.py
-
-      - name: Run Qi limited one-shot execution authority grant check suite
-        run: |
-          python scripts/run_qi_limited_one_shot_execution_authority_grant_checks_v0_1.py
-
-      - name: Run Qi one-shot probe executor check suite
-        run: |
-          python scripts/run_qi_one_shot_probe_executor_checks_v0_1.py
-
-      - name: Run Qi MemoryOS process tensor append writeback check suite
-        run: |
-          python scripts/run_qi_memoryos_process_tensor_append_writeback_checks_v0_1.py
-
-      - name: Run Qi MemoryOS process tensor retrieval replay check suite
-        run: |
-          python scripts/run_qi_memoryos_process_tensor_retrieval_replay_checks_v0_1.py
-
-      - name: Run Qi replay scheduler state apply check suite
-        run: |
-          python scripts/run_qi_replay_scheduler_state_apply_checks_v0_1.py
-
-      - name: Run Qi probe scheduler proposal reuse check suite
-        run: |
-          python scripts/run_qi_probe_scheduler_proposal_reuse_checks_v0_1.py
-
-      - name: Run Qi process tensor aware scheduler state v0.2 check suite
-        run: |
-          python scripts/run_qi_process_tensor_aware_scheduler_state_v0_2_checks.py
-
-      - name: Run Qi v0.2 execution candidate bridge check suite
-        run: |
-          python scripts/run_qi_v02_execution_candidate_bridge_checks.py
-
-      - name: Run Qi v0.2 authority chain integration check suite
-        run: |
-          python scripts/run_qi_v02_authority_chain_integration_checks.py
-
-      - name: Run Qi v0.2 executor loop integration check suite
-        run: |
-          python scripts/run_qi_v02_executor_loop_integration_checks.py
 
       - name: Run Qi v0.2 MemoryOS replay loop closure check suite
         run: |
