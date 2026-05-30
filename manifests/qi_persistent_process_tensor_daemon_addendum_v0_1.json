@@ -1,0 +1,44 @@
+{
+  "manifest_version": "qi_persistent_process_tensor_daemon_addendum_v0_1",
+  "addendum_status": "QI_PERSISTENT_PROCESS_TENSOR_DAEMON_ADDENDUM_READY",
+  "extends_manifest": "manifests/qi_process_tensor_review_v02_closed_loop_workflow_addendum_v0_1.json",
+  "scope": "qi-persistent-process-tensor-daemon",
+  "authority": "persistent_runtime_tick_only",
+  "daemon_mode": "bounded_persistent_tick",
+  "heartbeat_required": true,
+  "heartbeat_emitted": true,
+  "closed_loop_tick_performed": true,
+  "uses_process_tensor_memory": true,
+  "uses_nonmarkov_trace": true,
+  "uses_observation_debt_trace": true,
+  "uses_recoverability_trace": true,
+  "uses_safe_reentry_trace": true,
+  "scheduler_state_mutation_performed": true,
+  "scheduler_update_scope": "replay_hint_only",
+  "memory_read_performed": true,
+  "memory_write_performed": false,
+  "memory_append_performed": false,
+  "memory_overwrite_performed": false,
+  "world_update_performed": false,
+  "control_packet_mutation_performed": false,
+  "probe_execution_performed": false,
+  "grants_scheduler_authority": false,
+  "grants_memory_write_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_world_update_authority": false,
+  "grants_control_packet_authority": false,
+  "grants_probe_execution_authority": false,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_persistent_process_tensor_daemon_v0_1.py"
+  ],
+  "script_files": [
+    "scripts/write_qi_persistent_process_tensor_daemon_v0_1.py",
+    "scripts/check_qi_persistent_process_tensor_daemon_v0_1.py",
+    "scripts/run_qi_persistent_process_tensor_daemon_checks_v0_1.py"
+  ],
+  "test_files": [
+    "tests/test_qi_persistent_process_tensor_daemon_v0_1.py"
+  ],
+  "position": "v0.2 closed-loop workflow -> bounded persistent runtime tick",
+  "next_integration_target": "persistent event log / replay cursor / token ledger"
+}
