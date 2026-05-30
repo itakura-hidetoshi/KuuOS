@@ -1,0 +1,19 @@
+[Unit]
+Description=KuuOS Qi JSONL Persistent Process Tensor Daemon
+After=network-online.target
+Wants=network-online.target
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/kuuos
+ExecStart=/usr/bin/python3 /opt/kuuos/scripts/qi_jsonl_daemon_entrypoint_v0_1.py --config /etc/kuuos/qi_jsonl_daemon_config_v0_1.json --quiet
+User=kuuos
+Group=kuuos
+NoNewPrivileges=true
+PrivateTmp=true
+ProtectSystem=strict
+ProtectHome=true
+ReadWritePaths=/var/lib/kuuos
+
+[Install]
+WantedBy=multi-user.target
