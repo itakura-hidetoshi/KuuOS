@@ -1,0 +1,52 @@
+{
+  "manifest_version": "qi_process_tensor_review_v02_closed_loop_workflow_addendum_v0_1",
+  "addendum_status": "QI_PROCESS_TENSOR_REVIEW_V02_CLOSED_LOOP_WORKFLOW_ADDENDUM_READY",
+  "extends_manifest": "manifests/qi_process_tensor_review_bundle_manifest_v0_1.json",
+  "scope": "qi-process-tensor-review-v02-closed-loop-workflow",
+  "authority": "workflow_ci_only",
+  "additive_only": true,
+  "does_not_replace_v0_1_manifest": true,
+  "closed_loop_workflow_step_required": true,
+  "closed_loop_suite": "scripts/run_qi_v02_memoryos_replay_loop_closure_checks.py",
+  "workflow_file": ".github/workflows/qi-process-tensor-review.yml",
+  "validated_chain": [
+    "v0.2 append-only MemoryOS writeback",
+    "MemoryOS process-tensor retrieval/replay",
+    "scheduler state replay-hint apply",
+    "probe scheduler proposal reuse",
+    "process-tensor-aware scheduler state v0.2 reintegration"
+  ],
+  "allowed_authority": [
+    "workflow_ci_only",
+    "memory_read_only",
+    "scheduler_state_only"
+  ],
+  "forbidden_authority": [
+    "probe_execution_authority",
+    "world_update_authority",
+    "control_packet_authority",
+    "memory_overwrite_authority"
+  ],
+  "scheduler_state_mutation_performed": true,
+  "scheduler_update_scope": "replay_hint_only",
+  "probe_execution_performed": false,
+  "memory_write_performed": false,
+  "world_update_performed": false,
+  "control_packet_mutation_performed": false,
+  "grants_probe_execution_authority": false,
+  "grants_world_update_authority": false,
+  "grants_control_packet_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "script_files": [
+    "scripts/run_qi_v02_memoryos_replay_loop_closure_checks.py",
+    "scripts/check_qi_process_tensor_review_v02_closed_loop_workflow_addendum_v0_1.py"
+  ],
+  "workflow_files": [
+    ".github/workflows/qi-process-tensor-review.yml"
+  ],
+  "docs_files": [
+    "docs/qi_process_tensor_v02_closed_loop_review_workflow_note_v0_1.md"
+  ],
+  "position": "Qi Process Tensor Review workflow -> v0.2 closed-loop CI step",
+  "next_integration_target": "operator runbook update for v0.2 closed-loop review workflow"
+}
