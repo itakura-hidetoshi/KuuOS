@@ -1,0 +1,38 @@
+{
+  "manifest_version": "qi_persistent_event_log_cursor_ledger_addendum_v0_1",
+  "addendum_status": "QI_PERSISTENT_EVENT_LOG_CURSOR_LEDGER_ADDENDUM_READY",
+  "extends_manifest": "manifests/qi_persistent_process_tensor_daemon_addendum_v0_1.json",
+  "scope": "qi-persistent-event-log-cursor-ledger",
+  "authority": "persistent_ledger_append_only",
+  "event_append_performed": true,
+  "append_only": true,
+  "idempotency_required": true,
+  "replay_cursor_required": true,
+  "replay_cursor_monotone": true,
+  "token_ledger_checked": true,
+  "token_double_consume_blocked": true,
+  "memory_read_performed": true,
+  "memory_write_performed": false,
+  "memory_append_performed": false,
+  "memory_overwrite_performed": false,
+  "world_update_performed": false,
+  "control_packet_mutation_performed": false,
+  "probe_execution_performed": false,
+  "grants_probe_execution_authority": false,
+  "grants_world_update_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_persistent_event_log_cursor_ledger_v0_1.py"
+  ],
+  "script_files": [
+    "scripts/write_qi_persistent_event_log_cursor_ledger_v0_1.py",
+    "scripts/check_qi_persistent_event_log_cursor_ledger_v0_1.py",
+    "scripts/check_qi_persistent_event_log_cursor_ledger_addendum_v0_1.py",
+    "scripts/run_qi_persistent_event_log_cursor_ledger_checks_v0_1.py"
+  ],
+  "test_files": [
+    "tests/test_qi_persistent_event_log_cursor_ledger_v0_1.py"
+  ],
+  "position": "persistent bounded tick -> append-only event log / replay cursor / token ledger",
+  "next_integration_target": "wire persistent ledger into persistent daemon tick workflow and deployment surface"
+}
