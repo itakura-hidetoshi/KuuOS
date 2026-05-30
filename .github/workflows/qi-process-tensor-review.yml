@@ -4,38 +4,12 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
-      - 'runtime/kuuos_runtime_daemon_qi_process_tensor_*.py'
-      - 'runtime/kuuos_runtime_daemon_qi_actuation_license_gate_v0_1.py'
-      - 'runtime/kuuos_runtime_daemon_qi_dry_run_probe_simulator_v0_1.py'
-      - 'runtime/kuuos_runtime_daemon_qi_counterfactual_probe_lattice_v0_1.py'
-      - 'runtime/kuuos_runtime_daemon_qi_probe_scheduler_proposal_v0_1.py'
-      - 'runtime/kuuos_runtime_daemon_qi_scheduler_state_v0_1.py'
-      - 'runtime/kuuos_runtime_daemon_qi_probe_execution_candidate_v0_1.py'
-      - 'runtime/kuuos_runtime_daemon_qi_probe_execution_review_gate_v0_1.py'
-      - 'scripts/*qi_process_tensor*'
-      - 'scripts/*qi_persistent_supervisor*'
-      - 'scripts/*qi_license*'
-      - 'scripts/*qi_actuation*'
-      - 'scripts/*qi_dry_run*'
-      - 'scripts/*qi_cf*'
-      - 'scripts/*qi_probe_scheduler*'
-      - 'scripts/*qi_scheduler_state*'
-      - 'scripts/*qi_probe_execution_candidate*'
-      - 'scripts/*qi_probe_execution_review_gate*'
-      - 'scripts/qi_supervisorctl_v0_1.py'
-      - 'docs/qi_persistent_supervisor_operator_runbook_v0_1.md'
-      - 'docs/qi_dry_run_probe_simulator_addendum_note_v0_1.md'
-      - 'docs/qi_cf_probe_lattice_addendum_note_v0_1.md'
-      - 'docs/qi_probe_execution_candidate_addendum_note_v0_1.md'
-      - 'docs/qi_probe_execution_review_gate_addendum_note_v0_1.md'
+      - 'runtime/kuuos_runtime_daemon_qi_*.py'
+      - 'scripts/*qi_*'
+      - 'docs/qi_*.md'
       - 'examples/qi_process_tensor_v0_1/**'
-      - 'manifests/qi_process_tensor_review_bundle_manifest_v0_1.json'
-      - 'manifests/qi_dry_run_probe_simulator_addendum_v0_1.json'
-      - 'manifests/qi_cf_probe_lattice_addendum_v0_1.json'
-      - 'manifests/qi_process_tensor_aware_scheduler_addendum_v0_1.json'
-      - 'manifests/qi_probe_execution_candidate_addendum_v0_1.json'
-      - 'manifests/qi_probe_execution_review_gate_addendum_v0_1.json'
-      - 'packets/qi_process_tensor_review_phase_boundary_packet_v0_1.json'
+      - 'manifests/qi_*.json'
+      - 'packets/qi_*.json'
       - '.github/workflows/qi-process-tensor-review.yml'
 
 permissions:
@@ -48,7 +22,7 @@ defaults:
 jobs:
   qi-process-tensor-review:
     runs-on: ubuntu-latest
-    timeout-minutes: 10
+    timeout-minutes: 15
     steps:
       - name: Checkout
         uses: actions/checkout@v4
@@ -71,6 +45,58 @@ jobs:
       - name: Run Qi process tensor scheduler check suite
         run: |
           python scripts/run_qi_process_tensor_scheduler_checks_v0_1.py
+
+      - name: Run Qi two-truths authority emergence check suite
+        run: |
+          python scripts/run_qi_two_truths_authority_emergence_checks_v0_1.py
+
+      - name: Run Qi middle-way authority scope check suite
+        run: |
+          python scripts/run_qi_middle_way_authority_scope_checks_v0_1.py
+
+      - name: Run Qi limited one-shot execution authority grant check suite
+        run: |
+          python scripts/run_qi_limited_one_shot_execution_authority_grant_checks_v0_1.py
+
+      - name: Run Qi one-shot probe executor check suite
+        run: |
+          python scripts/run_qi_one_shot_probe_executor_checks_v0_1.py
+
+      - name: Run Qi MemoryOS process tensor append writeback check suite
+        run: |
+          python scripts/run_qi_memoryos_process_tensor_append_writeback_checks_v0_1.py
+
+      - name: Run Qi MemoryOS process tensor retrieval replay check suite
+        run: |
+          python scripts/run_qi_memoryos_process_tensor_retrieval_replay_checks_v0_1.py
+
+      - name: Run Qi replay scheduler state apply check suite
+        run: |
+          python scripts/run_qi_replay_scheduler_state_apply_checks_v0_1.py
+
+      - name: Run Qi probe scheduler proposal reuse check suite
+        run: |
+          python scripts/run_qi_probe_scheduler_proposal_reuse_checks_v0_1.py
+
+      - name: Run Qi process tensor aware scheduler state v0.2 check suite
+        run: |
+          python scripts/run_qi_process_tensor_aware_scheduler_state_v0_2_checks.py
+
+      - name: Run Qi v0.2 execution candidate bridge check suite
+        run: |
+          python scripts/run_qi_v02_execution_candidate_bridge_checks.py
+
+      - name: Run Qi v0.2 authority chain integration check suite
+        run: |
+          python scripts/run_qi_v02_authority_chain_integration_checks.py
+
+      - name: Run Qi v0.2 executor loop integration check suite
+        run: |
+          python scripts/run_qi_v02_executor_loop_integration_checks.py
+
+      - name: Run Qi v0.2 MemoryOS replay loop closure check suite
+        run: |
+          python scripts/run_qi_v02_memoryos_replay_loop_closure_checks.py
 
       - name: Upload Qi process tensor review suite result
         if: always()
