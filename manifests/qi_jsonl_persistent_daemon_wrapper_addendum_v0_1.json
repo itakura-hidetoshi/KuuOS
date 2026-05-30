@@ -1,0 +1,40 @@
+{
+  "manifest_version": "qi_jsonl_persistent_daemon_wrapper_addendum_v0_1",
+  "addendum_status": "QI_JSONL_PERSISTENT_DAEMON_WRAPPER_ADDENDUM_READY",
+  "extends_manifest": "manifests/qi_jsonl_ledger_backend_adapter_addendum_v0_1.json",
+  "scope": "qi-jsonl-persistent-daemon-wrapper",
+  "authority": "jsonl_persistent_wrapper_only",
+  "backend_kind": "jsonl_event_log_plus_json_sidecar",
+  "repeated_bounded_ticks_performed": true,
+  "heartbeat_emitted": true,
+  "jsonl_event_lines_appended": true,
+  "replay_cursor_monotone": true,
+  "idempotency_enforced": true,
+  "duplicate_tick_blocked": true,
+  "token_ledger_checked": true,
+  "token_double_consume_blocked": true,
+  "memory_read_performed": true,
+  "memory_write_performed": false,
+  "memory_append_performed": false,
+  "memory_overwrite_performed": false,
+  "world_update_performed": false,
+  "control_packet_mutation_performed": false,
+  "probe_execution_performed": false,
+  "grants_probe_execution_authority": false,
+  "grants_world_update_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_jsonl_persistent_daemon_wrapper_v0_1.py"
+  ],
+  "script_files": [
+    "scripts/write_qi_jsonl_persistent_daemon_wrapper_v0_1.py",
+    "scripts/check_qi_jsonl_persistent_daemon_wrapper_v0_1.py",
+    "scripts/check_qi_jsonl_persistent_daemon_wrapper_addendum_v0_1.py",
+    "scripts/run_qi_jsonl_persistent_daemon_wrapper_checks_v0_1.py"
+  ],
+  "test_files": [
+    "tests/test_qi_jsonl_persistent_daemon_wrapper_v0_1.py"
+  ],
+  "position": "JSONL ledger backend adapter -> repeated bounded persistent daemon wrapper",
+  "next_integration_target": "systemd/docker deployment surface with safe stop/resume"
+}
