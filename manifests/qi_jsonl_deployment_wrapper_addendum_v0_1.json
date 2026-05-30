@@ -1,0 +1,41 @@
+{
+  "manifest_version": "qi_jsonl_deployment_wrapper_addendum_v0_1",
+  "addendum_status": "QI_JSONL_DEPLOYMENT_WRAPPER_ADDENDUM_READY",
+  "extends_manifest": "manifests/qi_jsonl_safe_resume_controller_addendum_v0_1.json",
+  "scope": "qi-jsonl-deployment-wrapper",
+  "authority": "deployment_entrypoint_only",
+  "entrypoint_file": "scripts/qi_jsonl_daemon_entrypoint_v0_1.py",
+  "config_example": "examples/qi_jsonl_daemon_config_v0_1.json",
+  "safe_resume_required": true,
+  "jsonl_backend_required": true,
+  "state_dir_required": true,
+  "input_dir_required": true,
+  "no_op_resume_allowed": true,
+  "idempotency_enforced": true,
+  "replay_cursor_monotone": true,
+  "memory_write_performed": false,
+  "memory_append_performed": false,
+  "memory_overwrite_performed": false,
+  "world_update_performed": false,
+  "control_packet_mutation_performed": false,
+  "probe_execution_performed": false,
+  "grants_probe_execution_authority": false,
+  "grants_world_update_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "script_files": [
+    "scripts/qi_jsonl_daemon_entrypoint_v0_1.py",
+    "scripts/check_qi_jsonl_daemon_entrypoint_v0_1.py",
+    "scripts/check_qi_jsonl_deployment_wrapper_addendum_v0_1.py",
+    "scripts/run_qi_jsonl_deployment_wrapper_checks_v0_1.py"
+  ],
+  "example_files": [
+    "examples/qi_jsonl_daemon_config_v0_1.json"
+  ],
+  "docs_files": [
+    "docs/qi_jsonl_deployment_wrapper_note_v0_1.md",
+    "deploy/systemd/qi-jsonl-daemon.service.example",
+    "deploy/docker/Dockerfile.qi-jsonl-daemon.example"
+  ],
+  "position": "safe resume controller -> deployment entrypoint",
+  "next_integration_target": "health endpoint / metrics exporter / watchdog status"
+}
