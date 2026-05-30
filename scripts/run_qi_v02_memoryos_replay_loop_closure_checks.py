@@ -70,13 +70,25 @@ REUSE_CONTEXT = {
 
 BASE_SCHEDULER_STATE = {
     "current_tick": 9,
-    "last_revisit_tick": 8,
+    "last_scheduled_tick": 8,
     "scheduler_status": "QI_SCHEDULER_STATE_UPDATED"
 }
 
 BASE_PROPOSAL = {
+    "scheduler_status": "QI_PROBE_SCHEDULER_PROPOSAL_READY",
+    "recommended_schedule_mode": "routine_revisit",
     "recommended_revisit_after_ticks": 5,
-    "source_recommended_probe_type": "continue_process_tensor_supervision_probe"
+    "recommended_revisit_reason": "base routine",
+    "source_recommended_probe_type": "continue_process_tensor_supervision_probe",
+    "schedule_proposal_only": True,
+    "authority": "none",
+    "grants_execution_authority": False,
+    "grants_probe_execution_authority": False,
+    "grants_dry_run_execution_authority": False,
+    "grants_next_tick_execution_authority": False,
+    "grants_control_packet_authority": False,
+    "grants_memory_overwrite_authority": False,
+    "grants_world_update_authority": False
 }
 
 PROCESS_TENSOR_METRICS = {
