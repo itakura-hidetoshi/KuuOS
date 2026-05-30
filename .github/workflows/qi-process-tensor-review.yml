@@ -50,6 +50,10 @@ jobs:
         run: |
           python scripts/run_qi_v02_memoryos_replay_loop_closure_checks.py
 
+      - name: Run Qi v0.2 closed-loop workflow addendum check
+        run: |
+          python scripts/check_qi_process_tensor_review_v02_closed_loop_workflow_addendum_v0_1.py
+
       - name: Upload Qi process tensor review suite result
         if: always()
         uses: actions/upload-artifact@v4
