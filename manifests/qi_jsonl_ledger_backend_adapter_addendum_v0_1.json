@@ -1,0 +1,37 @@
+{
+  "manifest_version": "qi_jsonl_ledger_backend_adapter_addendum_v0_1",
+  "addendum_status": "QI_JSONL_LEDGER_BACKEND_ADAPTER_ADDENDUM_READY",
+  "extends_manifest": "manifests/qi_persistent_event_log_cursor_ledger_addendum_v0_1.json",
+  "scope": "qi-jsonl-ledger-backend-adapter",
+  "authority": "jsonl_backend_append_only",
+  "backend_kind": "jsonl_event_log_plus_json_sidecar",
+  "event_line_appended": true,
+  "ledger_state_written": true,
+  "append_only_event_log": true,
+  "replay_cursor_monotone": true,
+  "idempotency_enforced": true,
+  "token_double_consume_blocked": true,
+  "memory_write_performed": false,
+  "memory_append_performed": false,
+  "memory_overwrite_performed": false,
+  "world_update_performed": false,
+  "control_packet_mutation_performed": false,
+  "probe_execution_performed": false,
+  "grants_probe_execution_authority": false,
+  "grants_world_update_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_jsonl_ledger_backend_adapter_v0_1.py"
+  ],
+  "script_files": [
+    "scripts/write_qi_jsonl_ledger_backend_adapter_v0_1.py",
+    "scripts/check_qi_jsonl_ledger_backend_adapter_v0_1.py",
+    "scripts/check_qi_jsonl_ledger_backend_adapter_addendum_v0_1.py",
+    "scripts/run_qi_jsonl_ledger_backend_adapter_checks_v0_1.py"
+  ],
+  "test_files": [
+    "tests/test_qi_jsonl_ledger_backend_adapter_v0_1.py"
+  ],
+  "position": "packet-level persistent ledger -> JSONL append-only backend adapter",
+  "next_integration_target": "systemd/docker persistent daemon wrapper using JSONL ledger backend"
+}
