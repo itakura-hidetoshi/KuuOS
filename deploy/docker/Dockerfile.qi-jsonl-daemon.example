@@ -1,0 +1,13 @@
+FROM python:3.11-slim
+
+WORKDIR /opt/kuuos
+COPY . /opt/kuuos
+
+RUN useradd --system --create-home --home-dir /var/lib/kuuos kuuos \
+  && mkdir -p /var/lib/kuuos \
+  && chown -R kuuos:kuuos /var/lib/kuuos /opt/kuuos
+
+USER kuuos
+
+ENTRYPOINT ["python", "/opt/kuuos/scripts/qi_jsonl_daemon_entrypoint_v0_1.py"]
+CMD ["--config", "/var/lib/kuuos/qi_jsonl_daemon_config_v0_1.json", "--quiet"]

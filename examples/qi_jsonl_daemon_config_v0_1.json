@@ -1,0 +1,16 @@
+{
+  "base_dir": ".",
+  "state_dir": ".state/qi-jsonl",
+  "input_dir": ".state/qi-input",
+  "memory_path": "memory.json",
+  "scheduler_state_path": "scheduler_state.json",
+  "scheduler_proposal_path": "scheduler_proposal.json",
+  "process_tensor_metrics_path": "process_tensor_metrics.json",
+  "event_log_path": "event_log.jsonl",
+  "ledger_state_path": "ledger_state.json",
+  "status_path": "daemon_status.json",
+  "desired_start_tick": 1,
+  "desired_tick_count": 1,
+  "max_tick_count": 1,
+  "tick_id_prefix": "deploy"
+}
