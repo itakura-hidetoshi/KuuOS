@@ -1,0 +1,27 @@
+{
+  "manifest_version": "qi_v02_authority_chain_integration_addendum_v0_1",
+  "addendum_status": "QI_V02_AUTHORITY_CHAIN_INTEGRATION_ADDENDUM_READY",
+  "extends_manifest": "manifests/qi_v02_execution_candidate_bridge_addendum_v0_1.json",
+  "scope": "qi-v02-authority-chain-integration",
+  "authority": "none",
+  "chain_position": "v0.2 execution candidate bridge -> review gate -> two-truths authority emergence -> middle-way authority scope -> limited one-shot grant",
+  "integrates_existing_chain": true,
+  "v02_candidate_bridge_required": true,
+  "review_gate_required": true,
+  "two_truths_authority_emergence_required": true,
+  "middle_way_authority_scope_required": true,
+  "limited_one_shot_grant_required": true,
+  "direct_probe_execution_performed": false,
+  "memory_write_performed": false,
+  "world_update_performed": false,
+  "control_packet_mutation_performed": false,
+  "scheduler_state_mutation_performed": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_world_update_authority": false,
+  "grants_control_packet_authority": false,
+  "script_files": [
+    "scripts/run_qi_v02_authority_chain_integration_checks.py"
+  ],
+  "position": "v0.2 execution candidate bridge -> existing review/authority chain integration suite",
+  "next_integration_target": "consume v0.2 one-shot grant in the existing one-shot probe executor path"
+}
