@@ -2,22 +2,12 @@
 
 This roadmap describes the current public direction of `itakura-hidetoshi/KuuOS`.
 
-KuuOS is no longer only a small “public core” README surface. It now contains a wider public governance and verification framework spanning:
+KuuOS has moved beyond a small public-core documentation surface. It is now an append-only, governance-gated, validation-backed, proof-facing, and bounded-runtime architecture for relational AI systems.
 
-- fourfold core governance
-- AI Yogacara / Ten'i boundary
-- GPT GitHub integration
-- invariant governance pipeline
-- MemoryOS / BeliefOS / PlanOS / DecisionOS / ReflectionOS boundary discipline
-- Qi / IndraNet / physical quantum Qi bridge
-- Qi motion chain from Samvrti Qi observation to observe-only physical motion candidate output
-- medical-modality-neutral Qi boundary that does not deny Qi or East Asian medical reasoning
-- Super-Relativity invariant bridge
-- MGAP4D / 4D mass gap proof-facing bridge
-- Superstring / brane / membrane emptiness bridge
-- release packets, manifests, validation cases, theorem maps, and CI-facing validators
+The roadmap is therefore organized around two simultaneous movements:
 
-The roadmap therefore shifts from “KuuOS as a single public-core release surface” to **KuuOS as an append-only, governance-gated, proof-carrying AI operating architecture**.
+1. **Public repository maturity** — make the current governance, validation, runtime, Qi, proof-facing, and boundary surfaces understandable and reproducible.
+2. **KuuOS internal baseline projection** — gradually mirror the larger KuuOS baseline into public artifacts without collapsing candidate, validation, runtime, proof, medical, institutional, or execution authority.
 
 ---
 
@@ -36,15 +26,17 @@ institutional authority
 final theorem authority
 unreviewed AGI deployment authority
 Qi-based execution authority
-Qi motion candidate as standalone diagnosis, standalone treatment authorization, or medical act authorization
+Qi motion candidate as standalone diagnosis or treatment authorization
 CI-pass-as-truth
 validator-pass-as-truth
+runtime-tick-as-execution-authority
 GPT-summary-as-proof
 world-model-prediction-as-fact
 memory-persistence-as-belief-sovereignty
+reflection-summary-as-root-rewrite
 ```
 
-This boundary is medical-modality neutral: it does not state that biomedicine is superior, that Qi is false, or that East Asian medical reasoning is invalid.
+This boundary is medical-modality neutral. It does not state that biomedicine is superior, that Qi is false, or that East Asian medical reasoning is invalid.
 
 All phases below preserve:
 
@@ -56,13 +48,15 @@ same-root required for protected surfaces
 fail-closed validation behavior
 non-authority preservation
 provenance preservation
+bounded runtime operation
+validator tier separation
 ```
 
 ---
 
 ## 1. Current Public Baseline
 
-### 1.1 Public Core v0.1
+### 1.1 Public Core Governance v0.1
 
 Status: **active public baseline**
 
@@ -161,7 +155,7 @@ make invariant-pipeline-checks
 
 ### 1.5 Qi / IndraNet / Physical Quantum Qi
 
-Status: **active bridge, motion-chain, and deepening surface**
+Status: **active bridge, motion-chain, process-tensor, and deepening surface**
 
 Core direction:
 
@@ -200,13 +194,75 @@ Near-term next steps:
 
 ```text
 Keep Qi motion chain in all-governance checks.
-Maintain dedicated GitHub Actions workflow for Qi motion chain.
-Keep medical-modality-neutral wording visible in reviewer docs.
-Extend diagrams and reviewer docs only through append-only tightening.
+Keep process-tensor and non-Markovian memory surfaces visible.
+Maintain medical-modality-neutral wording in reviewer docs.
 Do not convert Qi motion candidate into execution, standalone diagnosis, standalone treatment authorization, medical act authorization, or theorem authority.
 ```
 
-### 1.6 Superstring / Brane / Membrane Emptiness Bridge
+### 1.6 KuuOS Bounded Runtime v0.1
+
+Status: **active bounded non-authoritative runtime surface**
+
+Core direction:
+
+```text
+Runtime is bounded.
+Runtime is non-authoritative.
+Runtime is receipt-producing.
+Runtime may advance State IO by bounded ticks.
+Runtime does not open autonomous execution authority.
+Runtime does not open truth, theorem, clinical, memory-overwrite, or final-commitment authority.
+```
+
+Current runtime path:
+
+```text
+State IO
+  -> Qi process tensor summary
+  -> closed-loop driver
+  -> runtime daemon
+  -> geometric / active-inference advisory chain
+  -> policy-flow governor
+  -> process-tensor actuator
+  -> bounded tick scheduler
+  -> closed-loop receipt
+  -> reentry plan
+  -> reentry license gate
+  -> bounded tick invocation boundary
+  -> single bounded tick or explicit denial
+```
+
+Key files:
+
+```text
+runtime/
+manifests/kuuos_runtime_manifest_v0_1.json
+manifests/kuuos_validator_tiering_policy_v0_1.json
+scripts/run_kuuos_runtime_full_check_v0_1.py
+examples/qi_state_io_v0_1/
+examples/qi_process_tensor_v0_1/
+examples/runtime_daemon_v0_1/
+tests/
+```
+
+Validation:
+
+```bash
+python3 scripts/run_kuuos_runtime_full_check_v0_1.py
+```
+
+Near-term next steps:
+
+```text
+Add a Makefile alias for runtime full check.
+Expose runtime runbook in README.
+Document bounded daemon operation separately from governance validation.
+Keep validator tiering explicit.
+Keep authority flags false.
+Keep stop reasons visible.
+```
+
+### 1.7 Superstring / Brane / Membrane Emptiness Bridge
 
 Status: **active proof-facing bridge surface**
 
@@ -223,6 +279,26 @@ Validation:
 make superstring-emptiness-sbm-checks
 ```
 
+### 1.8 MGAP4D / Formal Verification Bridge
+
+Status: **active proof-facing bridge surface**
+
+Boundary:
+
+```text
+KuuOS references canonical proof-facing repositories and formal surfaces.
+KuuOS does not independently grant final theorem authority.
+CI pass does not equal mathematical acceptance.
+Formal stub does not equal completed theorem.
+GPT summary does not equal proof.
+```
+
+Canonical proof-facing repository:
+
+```text
+https://github.com/itakura-hidetoshi/4d-mass-gap
+```
+
 ---
 
 ## 2. Phase A — Public Orientation Cleanup
@@ -233,31 +309,27 @@ Goal:
 
 ```text
 Make the repository understandable to first-time reviewers, other AI systems,
-formal-methods readers, governance reviewers, and medical/integrative medicine reviewers.
+formal-methods readers, governance reviewers, runtime reviewers, and medical/integrative medicine reviewers.
 ```
 
 Tasks:
 
 - maintain `README.md` as the top-level public orientation surface
-- maintain `ROADMAP.md` so it covers the current integrated repository, not only MGAP4D
-- keep MGAP4D references as a canonical proof-facing bridge, not the whole roadmap
+- maintain `ROADMAP.md` as the current integrated repository map
+- keep MGAP4D references as canonical proof-facing bridges, not the whole roadmap
 - add clear “what this is / what this is not” boundaries
+- add bounded runtime status to the README
+- add runtime full check to Quick Validation
+- make validator tiering visible
 - keep the first run path short:
   - `README.md`
   - `docs/QUICKSTART_v0_1.md`
   - `docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md`
   - `docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md`
   - `docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md`
+  - `manifests/kuuos_runtime_manifest_v0_1.json`
+  - `python3 scripts/run_kuuos_runtime_full_check_v0_1.py`
   - `make all-governance-checks`
-- make the current major lanes visible:
-  - AI Yogacara / Ten'i
-  - GPT GitHub integration
-  - invariant governance
-  - Qi / IndraNet / Qi motion chain
-  - medical-modality-neutral Qi boundary
-  - Super-Relativity
-  - Superstring / brane / membrane
-  - MGAP4D bridge
 
 Acceptance criteria:
 
@@ -268,23 +340,74 @@ A new reviewer can identify:
 3. how to run checks
 4. where the core index is
 5. where the Qi motion chain is
-6. where the medical-modality-neutral Qi boundary is
-7. which surfaces are proof-facing only
-8. which surfaces are runtime/governance-facing only
-9. why validation is not authority
-10. why Qi is not denied by the medical boundary
+6. where the runtime manifest is
+7. where the medical-modality-neutral Qi boundary is
+8. which surfaces are proof-facing only
+9. which surfaces are runtime/governance-facing only
+10. why validation is not authority
+11. why runtime tick is not execution authority
+12. why Qi is not denied by the medical boundary
 ```
 
 ---
 
-## 3. Phase B — Release Surface Consolidation
+## 3. Phase B — Runtime Surface Consolidation
 
 Status: **next**
 
 Goal:
 
 ```text
-Turn scattered public surfaces into a navigable release package.
+Make bounded runtime operation reproducible, inspectable, and clearly non-authoritative.
+```
+
+Tasks:
+
+- add `make runtime-full-check`
+- add `make runtime-manifest-checks`
+- add `make validator-tiering-checks`
+- write a runtime runbook for:
+  - State IO
+  - process-tensor summary
+  - runtime daemon
+  - status reader
+  - active-inference advisory chain
+  - policy-flow governor
+  - bounded tick scheduler
+  - closed-loop receipt
+  - reentry license gate
+  - bounded tick executor
+- separate:
+  - runtime hot path checks
+  - local unit tests
+  - CI checks
+  - governance checks
+  - release checks
+  - finality checks
+- make authority flags and stop reasons visible in reviewer docs
+
+Acceptance criteria:
+
+```text
+A reviewer can run the runtime full check, inspect outputs, and verify:
+- bounded tick behavior
+- non-recursive invocation
+- receipt visibility
+- process tensor summary visibility
+- stop reasons
+- authority flags remain false
+```
+
+---
+
+## 4. Phase C — Release Surface Consolidation
+
+Status: **next**
+
+Goal:
+
+```text
+Turn scattered public surfaces into navigable release packages.
 ```
 
 Tasks:
@@ -305,6 +428,7 @@ Tasks:
   - audit-chain package
   - validation fixture package
   - Qi motion chain package
+  - bounded runtime package
   - medical-modality-neutral Qi boundary package
 - preserve append-only lineage
 
@@ -323,7 +447,7 @@ Every release-facing surface has:
 
 ---
 
-## 4. Phase C — Validation Matrix and CI Hardening
+## 5. Phase D — Validation Matrix and CI Hardening
 
 Status: **next**
 
@@ -352,6 +476,9 @@ Tasks:
   - Qi motion chain stage mismatch
   - Qi evidence builder overpromotion
   - Qi dynamics license mismatch
+  - runtime tick overpromotion
+  - recursive invocation leakage
+  - authority flag regression
   - medical-modality-neutral wording regression
   - Lean / formal surface failure
   - environment drift
@@ -368,13 +495,99 @@ make gpt-github-integration-checks
 make qi-motion-chain-checks
 make physical-quantum-qi-deepening-checks
 make superstring-emptiness-sbm-checks
+python3 scripts/run_kuuos_runtime_full_check_v0_1.py
 ```
 
 and understand what each pass means and does not mean.
 
 ---
 
-## 5. Phase D — Formal Verification Bridge Maturity
+## 6. Phase E — Qi Process Tensor / Runtime Reentry Maturity
+
+Status: **parallel track**
+
+Goal:
+
+```text
+Stabilize Qi process tensor as the bounded-runtime memory/process spine without turning it into authority.
+```
+
+Tasks:
+
+- preserve process history visibility
+- preserve transition continuity visibility
+- preserve memory continuity visibility
+- preserve non-Markovian memory visibility
+- preserve missing-process-requirement reporting
+- keep process tensor summaries compact but inspectable
+- maintain reentry planning as advisory
+- keep reentry license gate explicit
+- prevent recursive daemon self-invocation
+- keep bounded tick executor to one licensed State IO tick
+- add reviewer examples for failure, hold, reobserve, quarantine, and denial
+
+Acceptance criteria:
+
+```text
+Qi process tensor can guide bounded runtime posture,
+but cannot grant truth, theorem, clinical, final-commitment, memory-overwrite,
+or unrestricted execution authority.
+```
+
+---
+
+## 7. Phase F — OS Bridge Projection
+
+Status: **planned additive projection**
+
+Goal:
+
+```text
+Project the broader KuuOS baseline into public repository surfaces in a controlled, additive, non-authoritative manner.
+```
+
+Candidate projection lanes:
+
+```text
+MemoryOS ecology and append-only memory boundary
+BeliefOS causal belief surface and identifiability gap taxonomy
+WorldModel process tensor / observation-intervention reciprocity surface
+PlanOS hierarchical temporal lattice and rollback corridors
+DecisionOS generative front and validated adjudication boundary
+ReflectionOS scalable oversight and institutional-public governance
+CausalSurface semantic mapping and bridge discipline
+HybridControl continuous-discrete governance bridge
+Yin-Yang / Wuxing / Qi tensor runtime surfaces
+```
+
+Rules:
+
+```text
+No internal baseline is silently projected as public authority.
+Each projection needs a manifest, validator, validation cases, boundary statement, and release note.
+Reflection summaries cannot rewrite world roots.
+WorldModel predictions cannot become facts.
+DecisionOS candidates cannot become commits without gate validation.
+MemoryOS persistence cannot become belief sovereignty.
+PlanOS success cannot become execution permission.
+```
+
+Acceptance criteria:
+
+```text
+Each OS bridge projection has:
+- public artifact name
+- source baseline reference
+- scope boundary
+- validator
+- failure cases
+- non-authority clause
+- release packet
+```
+
+---
+
+## 8. Phase G — Formal Verification Bridge Maturity
 
 Status: **parallel track**
 
@@ -386,7 +599,7 @@ Make proof-facing and governance-facing surfaces distinct but connected.
 
 Tasks:
 
-- keep KuuOS formal bridge separate from the canonical 4D mass gap proof repository
+- keep KuuOS formal bridge separate from canonical theorem repositories
 - route proof-facing claims through:
   - formal invariant spine
   - Lean / proof repository
@@ -399,6 +612,8 @@ Tasks:
   - `ci_pass_not_theorem_truth`
   - `validator_pass_not_mathematical_acceptance`
   - `GPT_summary_not_proof_authority`
+- add theorem-target maps only with explicit scope
+- keep MGAP4D / Super-Relativity / Superstring bridges proof-facing, not authority-opening
 
 MGAP4D relation:
 
@@ -408,4 +623,101 @@ https://github.com/itakura-hidetoshi/4d-mass-gap
 
 KuuOS role:
 reference bridge, governance boundary, release routing, theorem-boundary discipline
+```
+
+---
+
+## 9. Phase H — Reviewer Experience and External Audit Readiness
+
+Status: **planned**
+
+Goal:
+
+```text
+Make KuuOS readable, reproducible, and reviewable by humans and AI systems without simplifying away its boundary discipline.
+```
+
+Tasks:
+
+- add a reviewer index by audience:
+  - general AI safety / governance reviewer
+  - formal methods reviewer
+  - runtime engineer
+  - Qi / East Asian medicine reviewer
+  - physics-facing reviewer
+  - GitHub / CI reviewer
+- add diagrams for:
+  - fourfold core
+  - Qi / IndraNet process tensor path
+  - runtime daemon bounded tick loop
+  - non-authority gates
+  - proof-facing vs runtime-facing separation
+- keep diagram labels short and English-friendly for broad review
+- add reproducibility recipes
+- add failure-mode examples
+- add “what a pass does not mean” callouts
+
+Acceptance criteria:
+
+```text
+A reviewer can inspect the repository without confusing:
+- candidate with authority
+- validation with truth
+- runtime tick with execution authority
+- Qi readout with intervention license
+- formal bridge with theorem completion
+- medical boundary with denial of Qi
+```
+
+---
+
+## 10. Long-Term Direction
+
+KuuOS aims to become a public, formally constrained AI operating architecture where:
+
+```text
+raw model output is candidate only
+memory is append-only and non-sovereign
+belief is evidence-bound
+world-model prediction is advisory
+planning is reversible and rollback-aware
+decision is multi-value and gate-validated
+reflection is advisory and non-rewriting
+Qi is relational process field
+IndraNet is gauge-structured
+runtime is bounded and receipt-producing
+validation is reproducible but non-authoritative
+formal proof surfaces remain theorem-boundary aware
+```
+
+The public repository should eventually provide:
+
+```text
+clear entry path
+stable release packages
+runtime examples
+formal bridge documents
+validator matrix
+CI reproducibility
+boundary taxonomy
+non-authority receipts
+OS bridge manifests
+reviewer-facing diagrams
+```
+
+---
+
+## 11. Final Roadmap Rule
+
+KuuOS development remains:
+
+```text
+additive-only
+tighten-only by default
+overwrite forbidden
+same-root required
+fail-closed on boundary violation
+candidate never self-authorizes
+validation never becomes truth by itself
+runtime never becomes autonomous authority by itself
 ```
