@@ -1,0 +1,6 @@
+{
+  "live_receipt_query_enabled": true,
+  "query_mode": "operator_replay_query",
+  "read_only_surface_required": true,
+  "replay_query_key": "qi/live/example"
+}
