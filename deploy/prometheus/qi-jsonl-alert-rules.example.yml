@@ -1,0 +1,44 @@
+# Example Prometheus alert rules for the Qi JSONL read-only metrics surface.
+# These alerts notify only. They do not restart, resume, repair, or mutate the daemon.
+groups:
+  - name: kuuos_qi_jsonl_watchdog
+    rules:
+      - alert: KuuOSQiJsonlWatchdogBlocked
+        expr: kuos_qi_watchdog_supervisor_blocked{daemon="qi_jsonl"} == 1
+        for: 2m
+        labels:
+          severity: critical
+          authority: read_only_alert
+        annotations:
+          summary: "KuuOS Qi JSONL watchdog is blocked"
+          description: "The read-only watchdog supervisor reports blocked state. Manual review required; no daemon control authority is granted."
+
+      - alert: KuuOSQiJsonlWatchdogDegraded
+        expr: kuos_qi_watchdog_supervisor_degraded{daemon="qi_jsonl"} == 1
+        for: 5m
+        labels:
+          severity: warning
+          authority: read_only_alert
+        annotations:
+          summary: "KuuOS Qi JSONL watchdog is degraded"
+          description: "The read-only watchdog supervisor reports degraded state. Review health packet and JSONL cursor consistency."
+
+      - alert: KuuOSQiJsonlHealthNotOk
+        expr: kuos_qi_daemon_health_ok{daemon="qi_jsonl"} == 0
+        for: 2m
+        labels:
+          severity: warning
+          authority: read_only_alert
+        annotations:
+          summary: "KuuOS Qi JSONL daemon health is not OK"
+          description: "The health surface is reporting non-OK status without granting restart or mutation authority."
+
+      - alert: KuuOSQiJsonlHighProcessTensorPressure
+        expr: kuos_qi_process_tensor_pressure{daemon="qi_jsonl"} >= 3
+        for: 10m
+        labels:
+          severity: info
+          authority: read_only_alert
+        annotations:
+          summary: "KuuOS Qi process tensor pressure is high"
+          description: "Process tensor pressure is high. This alert is observational only and should not trigger automatic daemon control."
