@@ -1,0 +1,63 @@
+{
+  "schema": "kuos.memoryos.registry.v2_5_repo_seed",
+  "status": "complete",
+  "authority": "repository_pinned_operational_evidence_only",
+  "registry_missing_count": 0,
+  "entries": [
+    {
+      "id": "run_status",
+      "path": "memoryos/ops/current/run_status.json",
+      "required": true
+    },
+    {
+      "id": "policy_report",
+      "path": "memoryos/ops/current/policy/report.json",
+      "required": true
+    },
+    {
+      "id": "signature_eval",
+      "path": "memoryos/ops/current/policy/signature_eval.json",
+      "required": true
+    },
+    {
+      "id": "lockset",
+      "path": "memoryos/ops/current/lockset/lockset.json",
+      "required": true
+    },
+    {
+      "id": "registry",
+      "path": "memoryos/ops/current/registry/registry.json",
+      "required": true
+    },
+    {
+      "id": "alerts",
+      "path": "memoryos/ops/current/mandala/alerts.json",
+      "required": true
+    },
+    {
+      "id": "current_anchor_skeleton",
+      "path": "memoryos/ops/current/mandala/anchor_skeleton.json",
+      "required": true
+    },
+    {
+      "id": "current_drift",
+      "path": "memoryos/ops/current/mandala/drift.json",
+      "required": true
+    },
+    {
+      "id": "prev_anchor_skeleton",
+      "path": "memoryos/ops/prev/mandala/anchor_skeleton.json",
+      "required": true
+    },
+    {
+      "id": "prev_drift",
+      "path": "memoryos/ops/prev/mandala/drift.json",
+      "required": true
+    }
+  ],
+  "boundary": [
+    "registry_is_not_authority_root",
+    "registry_completion_is_not_truth_completion",
+    "missing_entries_must_remain_visible"
+  ]
+}
