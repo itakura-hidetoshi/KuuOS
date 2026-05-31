@@ -1,0 +1,47 @@
+{
+  "addendum_status": "QI_REVIEW_REQUEST_PACKET_ADDENDUM_READY",
+  "authority": "review_request_packet_only",
+  "auto_remediation_performed": false,
+  "case_open_request_rendering_enabled": true,
+  "case_opened": false,
+  "control_packet_mutation_performed": false,
+  "daemon_control_performed": false,
+  "daemon_restart_performed": false,
+  "daemon_resume_performed": false,
+  "daemon_stop_performed": false,
+  "docs_files": [
+    "docs/qi_review_request_packet_note_v0_1.md"
+  ],
+  "example_files": [
+    "examples/qi_review_request_context_v0_1.json"
+  ],
+  "explicit_delivery_gate_required": true,
+  "extends_manifest": "manifests/qi_incident_handoff_packet_addendum_v0_1.json",
+  "grants_daemon_control_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_probe_execution_authority": false,
+  "grants_world_update_authority": false,
+  "manifest_version": "qi_review_request_packet_addendum_v0_1",
+  "memory_append_performed": false,
+  "memory_overwrite_performed": false,
+  "memory_write_performed": false,
+  "next_integration_target": "explicit delivery gate / approved case opener adapter",
+  "outbound_delivery_performed": false,
+  "outbound_review_message_rendering_enabled": true,
+  "position": "incident handoff packet -> review request packet",
+  "probe_execution_performed": false,
+  "read_only_required": true,
+  "request_packet_only_required": true,
+  "review_request_packet_enabled": true,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_review_request_packet_v0_1.py"
+  ],
+  "scope": "qi-review-request-packet",
+  "script_files": [
+    "scripts/run_qi_review_request_packet_v0_1.py",
+    "scripts/check_qi_review_request_packet_v0_1.py",
+    "scripts/check_qi_review_request_packet_addendum_v0_1.py",
+    "scripts/run_qi_review_packet_checks_v0_1.py"
+  ],
+  "world_update_performed": false
+}
