@@ -1,0 +1,26 @@
+{
+  "schema": "kuos.memoryos.anchor_skeleton.v2_5_repo_seed",
+  "role": "prev",
+  "authority": "repository_pinned_operational_evidence_only",
+  "anchors": [
+    "append_only",
+    "same_root_required",
+    "lineage_preserved",
+    "uncertainty_visibility_required",
+    "grave_is_non_destructive",
+    "no_blind_promotion",
+    "no_hidden_uncertainty",
+    "no_repair_to_governance_direct_jump",
+    "reconstructive_recall_is_not_world_rewrite",
+    "compressed_memory_is_non_authoritative",
+    "filesystem_obstruction_is_visible_not_silently_failed",
+    "ci_pass_is_not_truth_authority",
+    "json_persistence_is_not_memory_sovereignty",
+    "local_integrity_signature_is_not_identity_signature",
+    "followup_bundle_is_candidate_not_release",
+    "drift_numbers_require_observed_json",
+    "prev_current_comparison_required",
+    "alerts_visible"
+  ],
+  "anchor_count": 18
+}
