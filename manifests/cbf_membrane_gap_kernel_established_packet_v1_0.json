@@ -6,7 +6,8 @@
   "validator": "scripts/validate_cbf_membrane_gap_kernel_contract_v1_0.py",
   "validation_case_checker": "scripts/check_cbf_membrane_gap_validation_cases_v1_0.py",
   "tests": [
-    "tests/test_cbf_membrane_gap_kernel_contract_v1_0.py"
+    "tests/test_cbf_membrane_gap_kernel_contract_v1_0.py",
+    "tests/test_cbf_membrane_gap_validation_cases_v1_0.py"
   ],
   "validation_cases": "manifests/cbf_membrane_gap_kernel_validation_cases_v1_0.json",
   "workflow": ".github/workflows/cbf_membrane_gap_kernel_validation.yml",
