@@ -1,0 +1,12 @@
+{
+  "schema": "kuos.memoryos.alerts.v2_5_repo_seed",
+  "status": "clear",
+  "authority": "repository_pinned_operational_evidence_only",
+  "alerts_count": 0,
+  "alerts": [],
+  "boundary": [
+    "empty_alerts_does_not_mean_truth_completion",
+    "alerts_must_remain_visible_when_present",
+    "alerts_trigger_followup_candidate_not_direct_release"
+  ]
+}
