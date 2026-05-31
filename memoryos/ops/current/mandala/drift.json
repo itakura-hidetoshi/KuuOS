@@ -1,0 +1,14 @@
+{
+  "schema": "kuos.memoryos.drift.v2_5_repo_seed",
+  "role": "current",
+  "authority": "repository_pinned_operational_evidence_only",
+  "anchor_skeleton_jaccard": 1.0,
+  "prev_anchor_count": 18,
+  "current_anchor_count": 18,
+  "added_anchors": [],
+  "removed_anchors": [],
+  "chain_ok": true,
+  "alerts_count": 0,
+  "signature_fail_count": 0,
+  "drift_status": "stable_seed"
+}
