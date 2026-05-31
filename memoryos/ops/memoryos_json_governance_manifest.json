@@ -1,0 +1,36 @@
+{
+  "schema": "kuos.memoryos.json_governance.manifest.v0_1",
+  "status": "established",
+  "authority": "repository_pinned_operational_evidence_only",
+  "workflow": ".github/workflows/memoryos-json-governance.yml",
+  "guard": "tools/memoryos/json_governance_guard.py",
+  "current_root": "memoryos/ops/current",
+  "prev_root": "memoryos/ops/prev",
+  "required_current": [
+    "run_status.json",
+    "policy/report.json",
+    "policy/signature_eval.json",
+    "lockset/lockset.json",
+    "registry/registry.json",
+    "mandala/alerts.json",
+    "mandala/anchor_skeleton.json",
+    "mandala/drift.json"
+  ],
+  "required_prev": [
+    "mandala/anchor_skeleton.json",
+    "mandala/drift.json"
+  ],
+  "thresholds": {
+    "anchor_skeleton_jaccard_min": 0.6,
+    "alerts_count_max": 0,
+    "signature_fail_count_max": 0
+  },
+  "fixed_points": [
+    "ci_pass_is_not_truth_authority",
+    "json_persistence_is_not_memory_sovereignty",
+    "append_only_followup_for_failures",
+    "no_hidden_uncertainty",
+    "same_root_visibility_required",
+    "followup_bundle_is_candidate_not_release"
+  ]
+}
