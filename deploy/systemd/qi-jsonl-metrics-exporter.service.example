@@ -1,0 +1,20 @@
+# Example only. This contract service renders a local metrics exporter snapshot.
+# It does not start an HTTP server and does not control the daemon.
+[Unit]
+Description=KuuOS Qi JSONL local metrics exporter snapshot
+After=qi-jsonl-watchdog.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/KuuOS
+ExecStart=/usr/bin/python3 /opt/KuuOS/scripts/run_qi_local_metrics_http_exporter_v0_1.py \
+  --metrics-file /var/lib/kuuos/qi-jsonl/watchdog_metrics.prom \
+  --health-report /var/lib/kuuos/qi-jsonl/watchdog_report.json \
+  --context /opt/KuuOS/examples/qi_local_metrics_http_exporter_context_v0_1.json \
+  --write /var/lib/kuuos/qi-jsonl/local_metrics_exporter_snapshot.json \
+  --write-response /var/lib/kuuos/qi-jsonl/local_metrics_response.json \
+  --quiet
+User=kuuos
+Group=kuuos
+
+# No daemon restart/stop/resume authority is granted here.
