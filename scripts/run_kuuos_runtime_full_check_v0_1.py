@@ -15,6 +15,7 @@ CHECK_MODULES = [
     "scripts.validate_kuuos_validator_tiering_policy_v0_1",
     "scripts.validate_cbf_membrane_gap_kernel_contract_v1_0",
     "scripts.check_cbf_membrane_gap_validation_cases_v1_0",
+    "scripts.validate_cbf_membrane_gap_kernel_established_packet_v1_0",
     "scripts.validate_daemon_core_boundary_policy_v0_1",
     "scripts.validate_qi_bounded_tick_manual_runner_manifest_addendum_v0_1",
     "scripts.check_qi_bounded_tick_executor_receipt_contract_cases_v0_1",
