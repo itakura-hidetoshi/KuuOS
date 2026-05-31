@@ -1,0 +1,8 @@
+{
+  "index_registry_key": "qi/static-dashboard/example",
+  "publication_base": "static/qi-dashboard",
+  "publication_uri": "file://static/qi-dashboard/qi-dashboard-example.html",
+  "read_only_surface_required": true,
+  "registry_mode": "static_artifact_index",
+  "static_publication_index_enabled": true
+}

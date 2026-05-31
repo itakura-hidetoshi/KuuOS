@@ -1,0 +1,44 @@
+{
+  "addendum_status": "QI_STATIC_PUBLICATION_INDEX_REGISTRY_ADDENDUM_READY",
+  "authority": "static_publication_index_registry",
+  "auto_remediation_performed": false,
+  "control_packet_mutation_performed": false,
+  "daemon_control_performed": false,
+  "daemon_restart_performed": false,
+  "daemon_resume_performed": false,
+  "daemon_stop_performed": false,
+  "docs_files": [
+    "docs/qi_static_publication_index_registry_note_v0_1.md"
+  ],
+  "example_files": [
+    "examples/qi_static_publication_index_context_v0_1.json"
+  ],
+  "extends_manifest": "manifests/qi_static_dashboard_surface_addendum_v0_1.json",
+  "external_network_required": false,
+  "grants_daemon_control_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_probe_execution_authority": false,
+  "grants_world_update_authority": false,
+  "index_entry_hash_enabled": true,
+  "index_entry_registered": true,
+  "manifest_version": "qi_static_publication_index_registry_addendum_v0_1",
+  "memory_append_performed": false,
+  "memory_overwrite_performed": false,
+  "memory_write_performed": false,
+  "next_integration_target": "published dashboard catalog / operator navigation index",
+  "position": "static HTML surface -> static dashboard publication / index registry",
+  "probe_execution_performed": false,
+  "publication_receipt_enabled": true,
+  "read_only_surface_required": true,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_static_publication_index_registry_v0_1.py"
+  ],
+  "scope": "qi-static-publication-index-registry",
+  "script_files": [
+    "scripts/run_qi_static_publication_index_registry_v0_1.py",
+    "scripts/check_qi_static_publication_index_registry_v0_1.py",
+    "scripts/run_qi_static_publication_index_registry_checks_v0_1.py"
+  ],
+  "static_dashboard_published": true,
+  "world_update_performed": false
+}
