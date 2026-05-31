@@ -1,0 +1,21 @@
+{
+  "incident_handoff_enabled": true,
+  "read_only_required": true,
+  "review_only_required": true,
+  "route_key": "qi-jsonl-review",
+  "source_system": "prometheus_alertmanager",
+  "request_auto_remediation": false,
+  "request_control_packet_mutation": false,
+  "request_daemon_restart": false,
+  "request_daemon_resume": false,
+  "request_daemon_stop": false,
+  "request_email_send": false,
+  "request_external_notification_send": false,
+  "request_memory_write": false,
+  "request_pagerduty_trigger": false,
+  "request_probe_execution": false,
+  "request_slack_message": false,
+  "request_ticket_create": false,
+  "request_webhook_call": false,
+  "request_world_update": false
+}

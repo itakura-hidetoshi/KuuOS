@@ -1,0 +1,20 @@
+{
+  "receiver": "qi-jsonl-review",
+  "status": "firing",
+  "groupKey": "qi-jsonl-watchdog",
+  "alerts": [
+    {
+      "status": "firing",
+      "labels": {
+        "alertname": "KuuOSQiJsonlWatchdogNeedsReview",
+        "severity": "warning",
+        "authority": "read_only_alert",
+        "daemon": "qi_jsonl"
+      },
+      "annotations": {
+        "summary": "KuuOS Qi JSONL watchdog needs review",
+        "description": "The read-only watchdog supervisor asks for manual review. No daemon control authority is granted."
+      }
+    }
+  ]
+}
