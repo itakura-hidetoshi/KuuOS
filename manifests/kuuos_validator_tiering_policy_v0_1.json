@@ -128,13 +128,26 @@
       "governance_coverage_tier": "T4_governance_full_check"
     }
   },
+  "cbf_membrane_gap_runtime_mapping": {
+    "cbf_membrane_gap_kernel_contract_v1_0.json": {
+      "runtime_emit_tier": "T0_hot_path_guard",
+      "schema_validation_tier": "T1_local_artifact_validator",
+      "ci_coverage_tier": "T3_runtime_full_check",
+      "governance_coverage_tier": "T4_governance_full_check",
+      "release_finality_tier": "T5_release_freeze_finality_check",
+      "may_open_execution_authority": false,
+      "may_open_truth_authority": false,
+      "license_surface": "membrane_license_only"
+    }
+  },
   "global_invariants": [
     "hot_path_must_not_run_full_validator",
     "full_check_must_not_be_required_per_tick",
     "governance_validation_must_not_be_required_per_tick",
     "release_finality_validation_must_not_be_required_per_tick",
     "runtime_receipts_remain_non_authoritative",
-    "validators_may_block_admission_but_do_not_grant_execution_authority"
+    "validators_may_block_admission_but_do_not_grant_execution_authority",
+    "cbf_membrane_license_must_not_grant_truth_or_execution_authority"
   ],
   "authority_flags_must_remain_false": [
     "grants_execution_authority",
