@@ -1,0 +1,8 @@
+{
+  "cbf_profile": "qi_connector_live_result_ingestion_v0_1",
+  "connector_cbf_gate_enabled": true,
+  "duplicate_risk_score": 0.0,
+  "max_duplicate_risk": 0.0,
+  "max_scope_risk": 0.0,
+  "scope_risk_score": 0.0
+}

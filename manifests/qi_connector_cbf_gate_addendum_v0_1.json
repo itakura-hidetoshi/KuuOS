@@ -1,0 +1,42 @@
+{
+  "addendum_status": "QI_CONNECTOR_CBF_GATE_ADDENDUM_READY",
+  "authority": "connector_cbf_gate",
+  "auto_remediation_performed": false,
+  "barrier_nonnegative_allows_progress": true,
+  "cbf_certificate_enabled": true,
+  "cbf_margin_min_required": true,
+  "connector_result_ingestion_gated": true,
+  "control_packet_mutation_performed": false,
+  "daemon_control_performed": false,
+  "daemon_restart_performed": false,
+  "daemon_resume_performed": false,
+  "daemon_stop_performed": false,
+  "docs_files": [
+    "docs/qi_connector_cbf_gate_note_v0_1.md"
+  ],
+  "example_files": [
+    "examples/qi_connector_cbf_gate_context_v0_1.json"
+  ],
+  "extends_manifest": "manifests/qi_connector_case_adapter_addendum_v0_1.json",
+  "grants_daemon_control_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_probe_execution_authority": false,
+  "grants_world_update_authority": false,
+  "manifest_version": "qi_connector_cbf_gate_addendum_v0_1",
+  "memory_append_performed": false,
+  "memory_overwrite_performed": false,
+  "memory_write_performed": false,
+  "next_integration_target": "cbf-certified live result archive receipt",
+  "position": "connector case adapter -> connector CBF gate",
+  "probe_execution_performed": false,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_connector_cbf_gate_v0_1.py"
+  ],
+  "scope": "qi-connector-cbf-gate",
+  "script_files": [
+    "scripts/run_qi_cbf_gate_certificate_v0_1.py",
+    "scripts/check_qi_cbf_gate_certificate_v0_1.py",
+    "scripts/run_qi_cbf_gate_certificate_checks_v0_1.py"
+  ],
+  "world_update_performed": false
+}
