@@ -1,0 +1,12 @@
+# Example only. Copy to /etc/systemd/system/qi-jsonl-watchdog.timer after adapting paths.
+[Unit]
+Description=Run KuuOS Qi JSONL read-only watchdog supervisor periodically
+
+[Timer]
+OnBootSec=30s
+OnUnitActiveSec=60s
+AccuracySec=5s
+Unit=qi-jsonl-watchdog.service
+
+[Install]
+WantedBy=timers.target

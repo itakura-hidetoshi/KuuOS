@@ -1,0 +1,48 @@
+{
+  "addendum_status": "QI_WATCHDOG_SUPERVISOR_TIMER_ADDENDUM_READY",
+  "authority": "watchdog_supervisor_timer_read_only",
+  "control_packet_mutation_performed": false,
+  "daemon_control_performed": false,
+  "daemon_restart_performed": false,
+  "daemon_resume_performed": false,
+  "daemon_stop_performed": false,
+  "deploy_files": [
+    "deploy/systemd/qi-jsonl-watchdog.service.example",
+    "deploy/systemd/qi-jsonl-watchdog.timer.example"
+  ],
+  "docs_files": [
+    "docs/qi_watchdog_supervisor_timer_note_v0_1.md"
+  ],
+  "example_files": [
+    "examples/qi_watchdog_supervisor_timer_context_v0_1.json"
+  ],
+  "extends_manifest": "manifests/qi_health_metrics_watchdog_surface_addendum_v0_1.json",
+  "grants_daemon_control_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_probe_execution_authority": false,
+  "grants_world_update_authority": false,
+  "health_surface_required": true,
+  "manifest_version": "qi_watchdog_supervisor_timer_addendum_v0_1",
+  "memory_append_performed": false,
+  "memory_overwrite_performed": false,
+  "memory_write_performed": false,
+  "next_integration_target": "alert rule examples / optional local metrics HTTP exporter",
+  "position": "health / metrics / watchdog surface -> bounded supervisor timer",
+  "probe_execution_performed": false,
+  "prometheus_metrics_forwarded": true,
+  "read_only_required": true,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_watchdog_supervisor_timer_v0_1.py"
+  ],
+  "scope": "qi-watchdog-supervisor-timer",
+  "script_files": [
+    "scripts/run_qi_watchdog_supervisor_timer_v0_1.py",
+    "scripts/check_qi_watchdog_supervisor_timer_v0_1.py",
+    "scripts/check_qi_watchdog_supervisor_timer_addendum_v0_1.py",
+    "scripts/run_qi_watchdog_supervisor_timer_checks_v0_1.py"
+  ],
+  "systemd_timer_examples_included": true,
+  "timer_only": true,
+  "watchdog_exit_code_forwarded": true,
+  "world_update_performed": false
+}

@@ -1,0 +1,13 @@
+{
+  "max_allowed_iterations": 3,
+  "min_heartbeat_count": 1,
+  "read_only_required": true,
+  "request_control_packet_mutation": false,
+  "request_daemon_restart": false,
+  "request_daemon_resume": false,
+  "request_daemon_stop": false,
+  "request_memory_write": false,
+  "request_probe_execution": false,
+  "request_world_update": false,
+  "timer_only": true
+}
