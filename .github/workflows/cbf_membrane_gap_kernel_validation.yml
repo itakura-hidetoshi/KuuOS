@@ -9,6 +9,7 @@ on:
       - 'scripts/validate_cbf_membrane_gap_kernel_contract_v1_0.py'
       - 'scripts/check_cbf_membrane_gap_validation_cases_v1_0.py'
       - 'tests/test_cbf_membrane_gap_kernel_contract_v1_0.py'
+      - 'tests/test_cbf_membrane_gap_validation_cases_v1_0.py'
       - 'manifests/kuuos_runtime_manifest_v0_1.json'
       - 'manifests/kuuos_validator_tiering_policy_v0_1.json'
       - '.github/workflows/cbf_membrane_gap_kernel_validation.yml'
@@ -20,6 +21,7 @@ on:
       - 'scripts/validate_cbf_membrane_gap_kernel_contract_v1_0.py'
       - 'scripts/check_cbf_membrane_gap_validation_cases_v1_0.py'
       - 'tests/test_cbf_membrane_gap_kernel_contract_v1_0.py'
+      - 'tests/test_cbf_membrane_gap_validation_cases_v1_0.py'
       - 'manifests/kuuos_runtime_manifest_v0_1.json'
       - 'manifests/kuuos_validator_tiering_policy_v0_1.json'
       - '.github/workflows/cbf_membrane_gap_kernel_validation.yml'
@@ -34,9 +36,11 @@ jobs:
         uses: actions/setup-python@v5
         with:
           python-version: '3.11'
-      - name: Run CBF contract validator
+      - name: Run contract validator
         run: python3 scripts/validate_cbf_membrane_gap_kernel_contract_v1_0.py
-      - name: Run CBF validation case checker
+      - name: Run case checker
         run: python3 scripts/check_cbf_membrane_gap_validation_cases_v1_0.py
-      - name: Run CBF contract tests
+      - name: Run contract tests
         run: python3 -m unittest tests/test_cbf_membrane_gap_kernel_contract_v1_0.py
+      - name: Run case tests
+        run: python3 -m unittest tests/test_cbf_membrane_gap_validation_cases_v1_0.py
