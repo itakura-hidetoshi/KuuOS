@@ -33,6 +33,7 @@ REQUIRED_GLOBAL_INVARIANTS = {
     "release_finality_validation_must_not_be_required_per_tick",
     "runtime_receipts_remain_non_authoritative",
     "validators_may_block_admission_but_do_not_grant_execution_authority",
+    "cbf_membrane_license_must_not_grant_truth_or_execution_authority",
 }
 
 REQUIRED_QI_OUTPUTS = {
@@ -40,6 +41,8 @@ REQUIRED_QI_OUTPUTS = {
     "daemon_qi_process_tensor_closed_loop_receipt_v0_1.json",
     "daemon_result_v0_1.json",
 }
+
+REQUIRED_CBF_MAPPING_KEY = "cbf_membrane_gap_kernel_contract_v1_0.json"
 
 
 def _as_list(value: Any) -> list[Any]:
@@ -95,6 +98,31 @@ def main() -> int:
             errors.append(f"bad runtime_emit_tier for {output}")
         if entry.get("ci_coverage_tier") not in {"T3_runtime_full_check", "T4_governance_full_check"}:
             errors.append(f"bad ci_coverage_tier for {output}")
+
+    cbf_mapping = data.get("cbf_membrane_gap_runtime_mapping")
+    if not isinstance(cbf_mapping, dict):
+        errors.append("missing cbf_membrane_gap_runtime_mapping")
+        cbf_mapping = {}
+    cbf_entry = cbf_mapping.get(REQUIRED_CBF_MAPPING_KEY)
+    if not isinstance(cbf_entry, dict):
+        errors.append(f"missing cbf mapping: {REQUIRED_CBF_MAPPING_KEY}")
+        cbf_entry = {}
+    if cbf_entry.get("runtime_emit_tier") != "T0_hot_path_guard":
+        errors.append("bad CBF runtime_emit_tier")
+    if cbf_entry.get("schema_validation_tier") != "T1_local_artifact_validator":
+        errors.append("bad CBF schema_validation_tier")
+    if cbf_entry.get("ci_coverage_tier") != "T3_runtime_full_check":
+        errors.append("bad CBF ci_coverage_tier")
+    if cbf_entry.get("governance_coverage_tier") != "T4_governance_full_check":
+        errors.append("bad CBF governance_coverage_tier")
+    if cbf_entry.get("release_finality_tier") != "T5_release_freeze_finality_check":
+        errors.append("bad CBF release_finality_tier")
+    if cbf_entry.get("may_open_execution_authority") is not False:
+        errors.append("CBF may_open_execution_authority must be false")
+    if cbf_entry.get("may_open_truth_authority") is not False:
+        errors.append("CBF may_open_truth_authority must be false")
+    if cbf_entry.get("license_surface") != "membrane_license_only":
+        errors.append("CBF license surface must be membrane_license_only")
 
     for flag in data.get("authority_flags_must_remain_false", []):
         if not isinstance(flag, str) or not flag.startswith("grants_"):
