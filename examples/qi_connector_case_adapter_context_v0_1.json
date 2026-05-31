@@ -1,0 +1,17 @@
+{
+  "approved": true,
+  "approved_by": "itakura-hidetoshi",
+  "connector_case_adapter_enabled": true,
+  "connector_kind": "github_issue",
+  "connector_mode": "github_issue_connector",
+  "external_case_number": 0,
+  "external_case_title": "KuuOS Qi connector case example",
+  "external_case_url": "https://github.com/itakura-hidetoshi/KuuOS/issues/0",
+  "external_labels": [
+    "kuuos",
+    "qi-jsonl",
+    "connector-case"
+  ],
+  "idempotency_key": "qi-connector-case-example-0001",
+  "target_repo": "itakura-hidetoshi/KuuOS"
+}
