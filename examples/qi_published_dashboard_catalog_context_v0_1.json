@@ -1,0 +1,6 @@
+{
+  "catalog_key": "qi/published-dashboard/catalog",
+  "navigation_index_key": "qi/published-dashboard/navigation",
+  "published_dashboard_catalog_enabled": true,
+  "read_only_surface_required": true
+}
