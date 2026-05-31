@@ -135,7 +135,8 @@
     ".github/workflows/policy_flow_validation.yml",
     ".github/workflows/policy_flow_governor_validation.yml",
     ".github/workflows/qi_process_tensor_actuator_validation.yml",
-    ".github/workflows/validator_tiering_policy_validation.yml"
+    ".github/workflows/validator_tiering_policy_validation.yml",
+    ".github/workflows/cbf_membrane_gap_kernel_validation.yml"
   ],
   "policy_files": [
     "manifests/kuuos_validator_tiering_policy_v0_1.json",
