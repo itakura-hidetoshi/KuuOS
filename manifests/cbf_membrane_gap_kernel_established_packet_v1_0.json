@@ -5,6 +5,7 @@
   "documentation": "docs/CBF_MEMBRANE_GAP_KERNEL_v1_0.md",
   "validator": "scripts/validate_cbf_membrane_gap_kernel_contract_v1_0.py",
   "validation_case_checker": "scripts/check_cbf_membrane_gap_validation_cases_v1_0.py",
+  "established_packet_validator": "scripts/validate_cbf_membrane_gap_kernel_established_packet_v1_0.py",
   "tests": [
     "tests/test_cbf_membrane_gap_kernel_contract_v1_0.py",
     "tests/test_cbf_membrane_gap_validation_cases_v1_0.py"
