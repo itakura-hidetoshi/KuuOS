@@ -1,0 +1,130 @@
+{
+  "validation_cases_version": "cbf_membrane_gap_kernel_validation_cases_v1_0",
+  "cases": [
+    {
+      "case_id": "cbf_pass_does_not_grant_execution",
+      "input": {
+        "cbf_pass": true,
+        "requested_claim": "grants_execution_authority"
+      },
+      "expected": {
+        "allowed": false,
+        "decision": "BLOCK_AUTHORITY_BOUNDARY",
+        "reason_code": "CBF_PASS_IS_MEMBRANE_LICENSE_ONLY"
+      }
+    },
+    {
+      "case_id": "cbf_pass_does_not_grant_truth",
+      "input": {
+        "cbf_pass": true,
+        "requested_claim": "grants_truth_authority"
+      },
+      "expected": {
+        "allowed": false,
+        "decision": "BLOCK_AUTHORITY_BOUNDARY",
+        "reason_code": "CBF_PASS_IS_NOT_TRUTH_PASS"
+      }
+    },
+    {
+      "case_id": "grave_membrane_negative_margin_not_offset_by_average",
+      "input": {
+        "grave_margin": -1,
+        "soft_margin_sum": 100,
+        "average_margin": 10
+      },
+      "expected": {
+        "allowed": false,
+        "decision": "BLOCK_MEMBRANE_BREACH",
+        "reason_code": "NEGATIVE_GRAVE_MARGIN_CANNOT_BE_AVERAGED_AWAY"
+      }
+    },
+    {
+      "case_id": "soft_slack_requires_residue",
+      "input": {
+        "soft_slack_used": true,
+        "residue_recorded": false
+      },
+      "expected": {
+        "allowed": false,
+        "decision": "PASS_WITH_RESIDUE",
+        "reason_code": "SOFT_SLACK_REQUIRES_RESIDUE_RECORD"
+      }
+    },
+    {
+      "case_id": "belief_uncertainty_blocks_strong_pass",
+      "input": {
+        "belief_pass": true,
+        "uncertainty_total": "high",
+        "requested_release_strength": "ROBUST_SPECTRAL_MEMBRANE_LICENSE"
+      },
+      "expected": {
+        "allowed": false,
+        "decision": "PASS_WITH_UNCERTAINTY",
+        "reason_code": "BELIEF_PASS_IS_NOT_TRUE_STATE_PROOF"
+      }
+    },
+    {
+      "case_id": "local_pass_does_not_grant_global_pass",
+      "input": {
+        "local_pass": true,
+        "overlap_compatible": false,
+        "cocycle_pass": false
+      },
+      "expected": {
+        "allowed": false,
+        "decision": "LOCAL_PASS_GLOBAL_HOLD",
+        "reason_code": "GLUING_REQUIRED_FOR_GLOBAL_LICENSE"
+      }
+    },
+    {
+      "case_id": "cptp_pass_does_not_grant_membrane_pass",
+      "input": {
+        "cptp_ok": true,
+        "operator_membrane_gap": -1
+      },
+      "expected": {
+        "allowed": false,
+        "decision": "BLOCK_MEMBRANE_BREACH",
+        "reason_code": "CPTP_PASS_IS_NOT_MEMBRANE_PASS"
+      }
+    },
+    {
+      "case_id": "positive_expectation_cannot_mask_negative_spectral_mass",
+      "input": {
+        "expected_operator_gap": 10,
+        "negative_spectral_mass": 0.1
+      },
+      "expected": {
+        "allowed": false,
+        "decision": "BLOCK_NEGATIVE_SPECTRAL_MASS",
+        "reason_code": "POSITIVE_EXPECTATION_CANNOT_MASK_NEGATIVE_SPECTRAL_MASS"
+      }
+    },
+    {
+      "case_id": "domain_unclear_blocks_strong_pass",
+      "input": {
+        "self_adjoint_verified": true,
+        "operator_domain_ok": false,
+        "form_domain_ok": false,
+        "trace_integrability_ok": false
+      },
+      "expected": {
+        "allowed": false,
+        "decision": "HOLD_DOMAIN_UNCLEAR",
+        "reason_code": "UNBOUNDED_OPERATOR_DOMAIN_UNCLEAR"
+      }
+    },
+    {
+      "case_id": "projected_pass_with_large_distortion_is_hold",
+      "input": {
+        "projected_pass": true,
+        "projection_distortion_within_limit": false
+      },
+      "expected": {
+        "allowed": false,
+        "decision": "HANDOVER_REQUIRED",
+        "reason_code": "PROJECTION_DISTORTION_TOO_LARGE"
+      }
+    }
+  ]
+}
