@@ -1,0 +1,18 @@
+{
+  "adapter_mode": "approved_local_case_receipt",
+  "approval_receipt_sha": "sha256:approved-review-request-example",
+  "approved": true,
+  "approved_by": "itakura-hidetoshi",
+  "approved_case_opener_enabled": true,
+  "dry_run": false,
+  "idempotency_key": "qi-case-example-0001",
+  "idempotency_key_required": true,
+  "perform_auto_remediation": false,
+  "perform_control_packet_mutation": false,
+  "perform_daemon_restart": false,
+  "perform_daemon_resume": false,
+  "perform_daemon_stop": false,
+  "perform_memory_write": false,
+  "perform_probe_execution": false,
+  "perform_world_update": false
+}
