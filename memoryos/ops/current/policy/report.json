@@ -1,0 +1,36 @@
+{
+  "schema": "kuos.memoryos.policy_report.v2_5_repo_seed",
+  "verdict": "PASS",
+  "policy_verdict": "PASS",
+  "authority": "repository_pinned_operational_evidence_only",
+  "strict": true,
+  "never_fail": false,
+  "checks": [
+    {
+      "id": "anchor_skeleton_jaccard_min",
+      "ok": true,
+      "observed": 1.0,
+      "threshold": 0.6
+    },
+    {
+      "id": "chain_ok",
+      "ok": true,
+      "observed": true
+    },
+    {
+      "id": "alerts_count_zero",
+      "ok": true,
+      "observed": 0
+    },
+    {
+      "id": "signature_fail_count_zero",
+      "ok": true,
+      "observed": 0
+    }
+  ],
+  "boundary": [
+    "policy_pass_is_not_truth_authority",
+    "policy_report_is_operational_evidence_only",
+    "followup_bundle_candidate_required_on_failure"
+  ]
+}
