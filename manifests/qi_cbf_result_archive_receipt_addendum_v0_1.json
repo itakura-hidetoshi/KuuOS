@@ -1,0 +1,45 @@
+{
+  "addendum_status": "QI_CBF_RESULT_ARCHIVE_RECEIPT_ADDENDUM_READY",
+  "append_only_required": true,
+  "archive_record_hash_enabled": true,
+  "archive_receipt_enabled": true,
+  "authority": "cbf_result_archive_receipt",
+  "auto_remediation_performed": false,
+  "cbf_barrier_digest_enabled": true,
+  "cbf_certificate_required": true,
+  "cbf_ok_required": true,
+  "control_packet_mutation_performed": false,
+  "daemon_control_performed": false,
+  "daemon_restart_performed": false,
+  "daemon_resume_performed": false,
+  "daemon_stop_performed": false,
+  "docs_files": [
+    "docs/qi_cbf_result_archive_receipt_note_v0_1.md"
+  ],
+  "example_files": [
+    "examples/qi_cbf_result_archive_context_v0_1.json"
+  ],
+  "extends_manifest": "manifests/qi_connector_cbf_gate_addendum_v0_1.json",
+  "grants_daemon_control_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_probe_execution_authority": false,
+  "grants_world_update_authority": false,
+  "live_result_archive_enabled": true,
+  "manifest_version": "qi_cbf_result_archive_receipt_addendum_v0_1",
+  "memory_append_performed": false,
+  "memory_overwrite_performed": false,
+  "memory_write_performed": false,
+  "next_integration_target": "archive ledger backend / WORM projection",
+  "position": "connector CBF gate -> CBF-certified live result archive receipt",
+  "probe_execution_performed": false,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_cbf_result_archive_receipt_v0_1.py"
+  ],
+  "scope": "qi-cbf-result-archive-receipt",
+  "script_files": [
+    "scripts/run_qi_cbf_result_archive_receipt_v0_1.py",
+    "scripts/check_qi_cbf_result_archive_receipt_v0_1.py",
+    "scripts/run_qi_cbf_result_archive_receipt_checks_v0_1.py"
+  ],
+  "world_update_performed": false
+}
