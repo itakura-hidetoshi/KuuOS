@@ -1,0 +1,23 @@
+{
+  "schema": "kuos.memoryos.run_status.v2_5_repo_seed",
+  "runner_version": "memoryos_weekly_strict_v2_5_current_compat",
+  "status": "PASS",
+  "logical_pass": true,
+  "chain_ok": true,
+  "authority": "repository_pinned_operational_evidence_only",
+  "chain_checks_all_exist": true,
+  "anchor_skeleton_jaccard": 1.0,
+  "current_anchor_count": 18,
+  "prev_anchor_count": 18,
+  "alerts_count": 0,
+  "signature_fail_count": 0,
+  "policy_verdict": "PASS",
+  "registry_missing_count": 0,
+  "followup_created": false,
+  "invariants": [
+    "ci_pass_is_not_truth_authority",
+    "json_persistence_is_not_memory_sovereignty",
+    "local_integrity_signature_is_not_identity_signature",
+    "followup_bundle_is_candidate_not_release"
+  ]
+}
