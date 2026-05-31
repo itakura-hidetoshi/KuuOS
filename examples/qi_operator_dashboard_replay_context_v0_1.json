@@ -1,0 +1,6 @@
+{
+  "dashboard_title": "Qi Live Receipt Operator Dashboard",
+  "operator_dashboard_enabled": true,
+  "read_only_surface_required": true,
+  "replay_index_key": "qi/replay/example"
+}
