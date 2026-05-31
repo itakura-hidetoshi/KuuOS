@@ -82,7 +82,8 @@
     "tests/test_qi_process_tensor_closed_loop_receipt_daemon_result_fields_v0_1.py",
     "tests/test_kuuos_runtime_daemon_geometric_chain_fields_v0_1.py",
     "tests/test_qi_process_tensor_downstream_v0_1.py",
-    "tests/test_cbf_membrane_gap_kernel_contract_v1_0.py"
+    "tests/test_cbf_membrane_gap_kernel_contract_v1_0.py",
+    "tests/test_cbf_membrane_gap_validation_cases_v1_0.py"
   ],
   "example_files": [
     "examples/qi_state_io_v0_1/raw_state.json",
