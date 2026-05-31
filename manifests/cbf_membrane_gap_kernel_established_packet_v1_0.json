@@ -1,0 +1,38 @@
+{
+  "packet_version": "cbf_membrane_gap_kernel_established_packet_v1_0",
+  "packet_status": "established_baseline",
+  "root_contract": "manifests/cbf_membrane_gap_kernel_contract_v1_0.json",
+  "documentation": "docs/CBF_MEMBRANE_GAP_KERNEL_v1_0.md",
+  "validator": "scripts/validate_cbf_membrane_gap_kernel_contract_v1_0.py",
+  "tests": [
+    "tests/test_cbf_membrane_gap_kernel_contract_v1_0.py"
+  ],
+  "validation_cases": "manifests/cbf_membrane_gap_kernel_validation_cases_v1_0.json",
+  "workflow": ".github/workflows/cbf_membrane_gap_kernel_validation.yml",
+  "lean_surface": [
+    "formal/KUOS/CBFMembrane/Defs.lean",
+    "formal/KUOS/CBFMembrane/Soundness.lean"
+  ],
+  "registered_in": [
+    "manifests/kuuos_runtime_manifest_v0_1.json",
+    "manifests/kuuos_validator_tiering_policy_v0_1.json",
+    "scripts/run_kuuos_runtime_full_check_v0_1.py"
+  ],
+  "baseline_statement": "CBF Membrane-Gap Kernel v1.0 is fixed as a non-authoritative membrane-license surface. A CBF pass is not truth and is not execution. A CBF fail is not falsity; it means the current declared membrane stack does not license the candidate action.",
+  "core_invariants": [
+    "membrane_license_only",
+    "hard_and_grave_margins_cannot_be_offset",
+    "belief_pass_is_not_true_state_proof",
+    "local_pass_is_not_global_pass",
+    "cptp_pass_is_not_membrane_pass",
+    "expectation_pass_is_not_strong_spectral_pass",
+    "negative_spectral_mass_blocks_strong_pass",
+    "domain_unclear_blocks_strong_pass"
+  ],
+  "update_policy": {
+    "additive_only": true,
+    "tighten_only_default": true,
+    "same_root_required": true,
+    "overwrite_forbidden": true
+  }
+}
