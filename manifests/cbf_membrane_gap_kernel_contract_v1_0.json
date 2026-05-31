@@ -1,0 +1,121 @@
+{
+  "contract_version": "cbf_membrane_gap_kernel_contract_v1_0",
+  "contract_status": "active_non_authoritative_membrane_license_kernel",
+  "kernel_definition": "Integrated CBF Membrane Kernel projects nominal actions into declared membrane-permeable candidates while preserving safety-gap constraints across classical, belief, temporal, learning, gauge, noncommutative, and spectral surfaces.",
+  "authority_boundary": {
+    "cbf_truth_authority": false,
+    "cbf_execute_authority": false,
+    "cbf_final_commitment_authority": false,
+    "cbf_memory_overwrite_authority": false,
+    "cbf_theorem_authority": false,
+    "cbf_clinical_authority": false,
+    "membrane_license_only": true
+  },
+  "fixed_invariants": [
+    "cbf_pass_is_not_truth_pass",
+    "cbf_pass_is_not_execute",
+    "cbf_fail_is_not_falsity",
+    "cbf_license_is_membrane_license_only",
+    "hard_and_grave_membranes_cannot_be_offset_by_score_average_usefulness_or_soft_slack",
+    "negative_margin_cannot_be_averaged_away",
+    "negative_spectral_mass_cannot_be_masked_by_positive_expectation",
+    "belief_pass_is_not_true_state_proof",
+    "uncertainty_is_subtracted_from_effective_membrane_thickness_by_default",
+    "missing_barrier_evidence_is_not_pass_evidence",
+    "safe_is_not_equivalent_to_recoverable",
+    "learned_membrane_requires_calibration_counterexample_nonregression_and_promotion_gate",
+    "local_pass_is_not_global_pass",
+    "cptp_pass_is_not_membrane_pass",
+    "expectation_pass_is_not_strong_spectral_pass",
+    "domain_unclear_blocks_strong_pass",
+    "projection_soundness_is_limited_to_declared_membrane_stack"
+  ],
+  "membrane_tiers": [
+    {
+      "tier": "grave",
+      "slack_allowed": false,
+      "average_offset_allowed": false,
+      "score_offset_allowed": false
+    },
+    {
+      "tier": "hard",
+      "slack_allowed": false,
+      "average_offset_allowed": false,
+      "score_offset_allowed": false
+    },
+    {
+      "tier": "soft",
+      "slack_allowed": true,
+      "residue_required": true,
+      "average_offset_allowed": false,
+      "score_offset_allowed": false
+    }
+  ],
+  "release_strengths": [
+    "NO_LICENSE",
+    "LOCAL_MEMBRANE_LICENSE",
+    "BELIEF_MEMBRANE_LICENSE",
+    "PROJECTED_MEMBRANE_LICENSE",
+    "GLOBAL_GLUED_MEMBRANE_LICENSE",
+    "ROBUST_SPECTRAL_MEMBRANE_LICENSE"
+  ],
+  "decision_enum": [
+    "PASS_NOMINAL",
+    "PASS_PROJECTED",
+    "PASS_WITH_RESIDUE",
+    "PASS_BUT_THIN",
+    "PASS_WITH_UNCERTAINTY",
+    "LOCAL_PASS_GLOBAL_HOLD",
+    "REOBSERVE_REQUIRED",
+    "REDECOMPOSE_REQUIRED",
+    "RECOVERY_MODE_REQUIRED",
+    "HOLD_MEMBRANE_THIN",
+    "HOLD_DOMAIN_UNCLEAR",
+    "BLOCK_MEMBRANE_BREACH",
+    "BLOCK_NEGATIVE_SPECTRAL_MASS",
+    "BLOCK_AUTHORITY_BOUNDARY",
+    "HANDOVER_REQUIRED"
+  ],
+  "required_receipt_sections": [
+    "state_carrier",
+    "action_candidate",
+    "membrane_stack",
+    "gap_bundle",
+    "uncertainty",
+    "projection",
+    "gluing",
+    "spectral",
+    "learning_calibration",
+    "release_strength",
+    "decision",
+    "reason_codes",
+    "authority",
+    "same_root",
+    "append_only"
+  ],
+  "forbidden_receipt_claims": [
+    "grants_execution_authority",
+    "grants_truth_authority",
+    "grants_final_commitment_authority",
+    "grants_memory_overwrite_authority",
+    "grants_clinical_authority",
+    "grants_theorem_authority",
+    "proves_true_state_safety",
+    "proves_global_safety_from_local_pass_only",
+    "proves_strong_spectral_safety_from_expectation_only"
+  ],
+  "runtime_tiering": {
+    "runtime_emit_tier": "T0_hot_path_guard",
+    "schema_validation_tier": "T1_local_artifact_validator",
+    "ci_coverage_tier": "T3_runtime_full_check",
+    "governance_coverage_tier": "T4_governance_full_check",
+    "may_block_runtime": true,
+    "may_open_execution_authority": false
+  },
+  "update_policy": {
+    "additive_only": true,
+    "tighten_only_default": true,
+    "same_root_required": true,
+    "overwrite_forbidden": true
+  }
+}
