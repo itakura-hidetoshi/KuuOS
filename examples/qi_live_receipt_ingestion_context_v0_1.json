@@ -1,0 +1,7 @@
+{
+  "connector_executor_performed": true,
+  "external_result_confirmed": true,
+  "idempotency_key": "qi-live-ingestion-example-0001",
+  "ingestion_mode": "live_result_receipt_ingestion",
+  "live_receipt_ingestion_enabled": true
+}
