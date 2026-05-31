@@ -5,7 +5,9 @@ on:
     paths:
       - 'docs/CBF_MEMBRANE_GAP_KERNEL_v1_0.md'
       - 'manifests/cbf_membrane_gap_kernel_contract_v1_0.json'
+      - 'manifests/cbf_membrane_gap_kernel_validation_cases_v1_0.json'
       - 'scripts/validate_cbf_membrane_gap_kernel_contract_v1_0.py'
+      - 'scripts/check_cbf_membrane_gap_validation_cases_v1_0.py'
       - 'tests/test_cbf_membrane_gap_kernel_contract_v1_0.py'
       - 'manifests/kuuos_runtime_manifest_v0_1.json'
       - 'manifests/kuuos_validator_tiering_policy_v0_1.json'
@@ -14,7 +16,9 @@ on:
     paths:
       - 'docs/CBF_MEMBRANE_GAP_KERNEL_v1_0.md'
       - 'manifests/cbf_membrane_gap_kernel_contract_v1_0.json'
+      - 'manifests/cbf_membrane_gap_kernel_validation_cases_v1_0.json'
       - 'scripts/validate_cbf_membrane_gap_kernel_contract_v1_0.py'
+      - 'scripts/check_cbf_membrane_gap_validation_cases_v1_0.py'
       - 'tests/test_cbf_membrane_gap_kernel_contract_v1_0.py'
       - 'manifests/kuuos_runtime_manifest_v0_1.json'
       - 'manifests/kuuos_validator_tiering_policy_v0_1.json'
@@ -32,5 +36,7 @@ jobs:
           python-version: '3.11'
       - name: Run CBF contract validator
         run: python3 scripts/validate_cbf_membrane_gap_kernel_contract_v1_0.py
+      - name: Run CBF validation case checker
+        run: python3 scripts/check_cbf_membrane_gap_validation_cases_v1_0.py
       - name: Run CBF contract tests
         run: python3 -m unittest tests/test_cbf_membrane_gap_kernel_contract_v1_0.py
