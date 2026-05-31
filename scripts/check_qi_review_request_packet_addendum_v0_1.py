@@ -41,7 +41,7 @@ REQUIRED_FILES = [
     "scripts/run_qi_review_request_packet_v0_1.py",
     "scripts/check_qi_review_request_packet_v0_1.py",
     "scripts/check_qi_review_request_packet_addendum_v0_1.py",
-    "scripts/run_qi_review_request_packet_checks_v0_1.py",
+    "scripts/run_qi_review_packet_checks_v0_1.py",
     "examples/qi_review_request_context_v0_1.json",
     "docs/qi_review_request_packet_note_v0_1.md",
 ]
