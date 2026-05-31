@@ -1,0 +1,44 @@
+{
+  "addendum_status": "QI_LIVE_RECEIPT_INGESTION_ADDENDUM_READY",
+  "archive_receipt_required": true,
+  "archive_record_hash_required": true,
+  "authority": "live_receipt_ingestion",
+  "auto_remediation_performed": false,
+  "control_packet_mutation_performed": false,
+  "daemon_control_performed": false,
+  "daemon_restart_performed": false,
+  "daemon_resume_performed": false,
+  "daemon_stop_performed": false,
+  "docs_files": [
+    "docs/qi_live_receipt_ingestion_note_v0_1.md"
+  ],
+  "example_files": [
+    "examples/qi_live_receipt_ingestion_context_v0_1.json"
+  ],
+  "extends_manifest": "manifests/qi_cbf_result_archive_receipt_addendum_v0_1.json",
+  "external_result_confirmation_supported": true,
+  "grants_daemon_control_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_probe_execution_authority": false,
+  "grants_world_update_authority": false,
+  "idempotency_digest_enabled": true,
+  "ingestion_receipt_enabled": true,
+  "live_receipt_ingestion_enabled": true,
+  "manifest_version": "qi_live_receipt_ingestion_addendum_v0_1",
+  "memory_append_performed": false,
+  "memory_overwrite_performed": false,
+  "memory_write_performed": false,
+  "next_integration_target": "operator-facing live receipt dashboard / replay query",
+  "position": "CBF-certified live result archive receipt -> live receipt ingestion",
+  "probe_execution_performed": false,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_live_receipt_ingestion_v0_1.py"
+  ],
+  "scope": "qi-live-receipt-ingestion",
+  "script_files": [
+    "scripts/run_qi_live_receipt_ingestion_v0_1.py",
+    "scripts/check_qi_live_receipt_ingestion_v0_1.py",
+    "scripts/run_qi_live_ingestion_checks_v0_1.py"
+  ],
+  "world_update_performed": false
+}
