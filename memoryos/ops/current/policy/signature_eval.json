@@ -1,0 +1,24 @@
+{
+  "schema": "kuos.memoryos.signature_eval.v2_5_repo_seed",
+  "verdict": "PASS",
+  "authority": "local_integrity_only_not_identity_signature",
+  "signature_fail_count": 0,
+  "checks": [
+    {
+      "id": "repo_seed_integrity_surface_present",
+      "ok": true,
+      "signature_type": "repository_commit_history_and_local_integrity_only"
+    },
+    {
+      "id": "external_identity_signature_not_claimed",
+      "ok": true,
+      "signature_type": "none"
+    }
+  ],
+  "boundary": [
+    "not_external_ca_signature",
+    "not_pades_signature",
+    "not_release_authority",
+    "not_truth_authority"
+  ]
+}
