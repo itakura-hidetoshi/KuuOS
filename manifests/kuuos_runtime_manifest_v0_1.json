@@ -103,6 +103,7 @@
     "scripts/validate_kuuos_validator_tiering_policy_v0_1.py",
     "scripts/validate_cbf_membrane_gap_kernel_contract_v1_0.py",
     "scripts/check_cbf_membrane_gap_validation_cases_v1_0.py",
+    "scripts/validate_cbf_membrane_gap_kernel_established_packet_v1_0.py",
     "scripts/run_kuuos_runtime_full_check_v0_1.py",
     "scripts/run_kuuos_runtime_daemon_example_v0_1.py",
     "scripts/check_kuuos_runtime_daemon_example_v0_1.py"
