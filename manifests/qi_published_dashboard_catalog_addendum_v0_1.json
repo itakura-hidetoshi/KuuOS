@@ -1,0 +1,45 @@
+{
+  "addendum_status": "QI_PUBLISHED_DASHBOARD_CATALOG_ADDENDUM_READY",
+  "authority": "published_dashboard_catalog",
+  "auto_remediation_performed": false,
+  "catalog_entry_count_min": 1,
+  "control_packet_mutation_performed": false,
+  "daemon_control_performed": false,
+  "daemon_restart_performed": false,
+  "daemon_resume_performed": false,
+  "daemon_stop_performed": false,
+  "docs_files": [
+    "docs/qi_published_dashboard_catalog_note_v0_1.md"
+  ],
+  "example_files": [
+    "examples/qi_published_dashboard_catalog_context_v0_1.json"
+  ],
+  "extends_manifest": "manifests/qi_static_publication_index_registry_addendum_v0_1.json",
+  "grants_daemon_control_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_probe_execution_authority": false,
+  "grants_world_update_authority": false,
+  "manifest_version": "qi_published_dashboard_catalog_addendum_v0_1",
+  "memory_append_performed": false,
+  "memory_overwrite_performed": false,
+  "memory_write_performed": false,
+  "navigation_index_enabled": true,
+  "navigation_index_hash_enabled": true,
+  "next_integration_target": "catalog static renderer / multi-dashboard HTML index",
+  "operator_navigation_index_rendered": true,
+  "position": "static dashboard publication / index registry -> published dashboard catalog / operator navigation index",
+  "probe_execution_performed": false,
+  "published_dashboard_catalog_enabled": true,
+  "published_dashboard_catalog_rendered": true,
+  "read_only_surface_required": true,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_published_dashboard_catalog_v0_1.py"
+  ],
+  "scope": "qi-published-dashboard-catalog",
+  "script_files": [
+    "scripts/run_qi_published_dashboard_catalog_v0_1.py",
+    "scripts/check_qi_published_dashboard_catalog_v0_1.py",
+    "scripts/run_qi_published_dashboard_catalog_checks_v0_1.py"
+  ],
+  "world_update_performed": false
+}
