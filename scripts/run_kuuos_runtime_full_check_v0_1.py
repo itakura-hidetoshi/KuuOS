@@ -42,6 +42,7 @@ CHECK_MODULES = [
 TEST_MODULES = [
     "tests.test_cbf_membrane_gap_kernel_contract_v1_0",
     "tests.test_cbf_membrane_gap_validation_cases_v1_0",
+    "tests.test_cbf_membrane_gap_established_packet_v1_0",
     "tests.test_validate_daemon_core_boundary_policy_v0_1",
     "tests.test_qi_process_tensor_v0_1",
     "tests.test_qi_process_tensor_downstream_v0_1",
