@@ -1,0 +1,33 @@
+{
+  "schema": "kuos.memoryos.lockset.v2_5_repo_seed",
+  "status": "locked",
+  "authority": "repository_pinned_operational_evidence_only",
+  "mode": "append_only_tighten_only",
+  "locks": [
+    {
+      "id": "append_only",
+      "ok": true
+    },
+    {
+      "id": "same_root_required",
+      "ok": true
+    },
+    {
+      "id": "lineage_preserved",
+      "ok": true
+    },
+    {
+      "id": "no_hidden_uncertainty",
+      "ok": true
+    },
+    {
+      "id": "ci_pass_is_not_truth_authority",
+      "ok": true
+    },
+    {
+      "id": "json_persistence_is_not_memory_sovereignty",
+      "ok": true
+    }
+  ],
+  "lock_fail_count": 0
+}
