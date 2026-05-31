@@ -1,0 +1,22 @@
+# Example only. Copy to /etc/systemd/system/qi-jsonl-watchdog.service after adapting paths.
+[Unit]
+Description=KuuOS Qi JSONL read-only watchdog supervisor
+After=qi-jsonl-daemon.service
+
+[Service]
+Type=oneshot
+WorkingDirectory=/opt/KuuOS
+ExecStart=/usr/bin/python3 /opt/KuuOS/scripts/run_qi_watchdog_supervisor_timer_v0_1.py \
+  --daemon-status /var/lib/kuuos/qi-jsonl/daemon_status.json \
+  --event-log /var/lib/kuuos/qi-jsonl/event_log.jsonl \
+  --ledger-state /var/lib/kuuos/qi-jsonl/ledger_state.json \
+  --context /opt/KuuOS/examples/qi_watchdog_supervisor_timer_context_v0_1.json \
+  --max-iterations 1 \
+  --write /var/lib/kuuos/qi-jsonl/watchdog_report.json \
+  --write-prometheus /var/lib/kuuos/qi-jsonl/watchdog_metrics.prom \
+  --quiet
+User=kuuos
+Group=kuuos
+
+# This service intentionally does not restart, stop, or resume the daemon.
+# It only reads daemon status / JSONL ledger / replay cursor and exits with watchdog status.
