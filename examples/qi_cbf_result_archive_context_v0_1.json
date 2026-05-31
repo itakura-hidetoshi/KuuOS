@@ -1,0 +1,6 @@
+{
+  "append_only_required": true,
+  "archive_key": "qi/cbf-result/example",
+  "archive_mode": "append_only_receipt",
+  "cbf_result_archive_enabled": true
+}
