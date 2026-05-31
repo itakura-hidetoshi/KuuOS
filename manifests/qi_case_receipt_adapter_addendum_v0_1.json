@@ -1,0 +1,46 @@
+{
+  "addendum_status": "QI_CASE_RECEIPT_ADAPTER_ADDENDUM_READY",
+  "approval_receipt_required": true,
+  "approved_case_opener_enabled": true,
+  "approved_local_case_open_enabled": true,
+  "authority": "approved_case_opener_adapter",
+  "auto_remediation_performed": false,
+  "case_receipt_rendering_enabled": true,
+  "control_packet_mutation_performed": false,
+  "daemon_control_performed": false,
+  "daemon_restart_performed": false,
+  "daemon_resume_performed": false,
+  "daemon_stop_performed": false,
+  "docs_files": [
+    "docs/qi_case_receipt_adapter_note_v0_1.md"
+  ],
+  "example_files": [
+    "examples/qi_case_receipt_adapter_context_v0_1.json"
+  ],
+  "extends_manifest": "manifests/qi_review_request_packet_addendum_v0_1.json",
+  "external_api_call_performed": false,
+  "grants_daemon_control_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_probe_execution_authority": false,
+  "grants_world_update_authority": false,
+  "idempotency_key_required": true,
+  "manifest_version": "qi_case_receipt_adapter_addendum_v0_1",
+  "memory_append_performed": false,
+  "memory_overwrite_performed": false,
+  "memory_write_performed": false,
+  "next_integration_target": "external connector binding / outbox delivery adapter",
+  "outbound_delivery_performed": false,
+  "position": "review request packet -> approved case receipt adapter",
+  "probe_execution_performed": false,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_approved_case_opener_adapter_v0_1.py"
+  ],
+  "scope": "qi-approved-case-receipt-adapter",
+  "script_files": [
+    "scripts/run_qi_case_receipt_adapter_v0_1.py",
+    "scripts/check_qi_case_receipt_adapter_v0_1.py",
+    "scripts/check_qi_case_receipt_adapter_addendum_v0_1.py",
+    "scripts/run_qi_case_receipt_adapter_checks_v0_1.py"
+  ],
+  "world_update_performed": false
+}
