@@ -1,0 +1,49 @@
+{
+  "addendum_status": "QI_LOCAL_METRICS_HTTP_EXPORTER_ADDENDUM_READY",
+  "alert_rules_example_enabled": true,
+  "authority": "local_metrics_http_exporter_read_only",
+  "control_packet_mutation_performed": false,
+  "daemon_control_performed": false,
+  "daemon_restart_performed": false,
+  "daemon_resume_performed": false,
+  "daemon_stop_performed": false,
+  "deploy_files": [
+    "deploy/prometheus/qi-jsonl-scrape.example.yml",
+    "deploy/prometheus/qi-jsonl-alert-rules.example.yml",
+    "deploy/systemd/qi-jsonl-metrics-exporter.service.example"
+  ],
+  "docs_files": [
+    "docs/qi_local_metrics_http_exporter_note_v0_1.md"
+  ],
+  "example_files": [
+    "examples/qi_local_metrics_http_exporter_context_v0_1.json"
+  ],
+  "extends_manifest": "manifests/qi_watchdog_supervisor_timer_addendum_v0_1.json",
+  "grants_daemon_control_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_probe_execution_authority": false,
+  "grants_world_update_authority": false,
+  "http_server_started": false,
+  "local_http_exporter_contract_enabled": true,
+  "manifest_version": "qi_local_metrics_http_exporter_addendum_v0_1",
+  "memory_append_performed": false,
+  "memory_overwrite_performed": false,
+  "memory_write_performed": false,
+  "metrics_response_rendering_enabled": true,
+  "next_integration_target": "external alert routing / incident handoff packet",
+  "position": "bounded supervisor timer -> local metrics HTTP exporter contract / alert examples",
+  "probe_execution_performed": false,
+  "prometheus_scrape_example_enabled": true,
+  "read_only_required": true,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_local_metrics_http_exporter_v0_1.py"
+  ],
+  "scope": "qi-local-metrics-http-exporter-alerts",
+  "script_files": [
+    "scripts/run_qi_local_metrics_http_exporter_v0_1.py",
+    "scripts/check_qi_local_metrics_http_exporter_v0_1.py",
+    "scripts/check_qi_local_metrics_http_exporter_addendum_v0_1.py",
+    "scripts/run_qi_local_metrics_http_exporter_checks_v0_1.py"
+  ],
+  "world_update_performed": false
+}

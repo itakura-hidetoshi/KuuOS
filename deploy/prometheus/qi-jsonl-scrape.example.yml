@@ -1,0 +1,12 @@
+# Example Prometheus scrape config for the Qi local metrics exporter contract.
+# Adapt host/port after wiring an actual local HTTP service around the rendered metrics response.
+scrape_configs:
+  - job_name: "kuuos-qi-jsonl"
+    metrics_path: "/metrics"
+    scheme: "http"
+    static_configs:
+      - targets:
+          - "127.0.0.1:9187"
+        labels:
+          service: "kuuos-qi-jsonl"
+          surface: "local_metrics_http_exporter"
