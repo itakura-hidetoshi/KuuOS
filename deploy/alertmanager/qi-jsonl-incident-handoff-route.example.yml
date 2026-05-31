@@ -1,0 +1,25 @@
+# Example Alertmanager route for review-only incident handoff.
+# This config is documentation-oriented and does not send notifications by itself.
+route:
+  receiver: "qi-jsonl-review"
+  group_by:
+    - alertname
+    - daemon
+  group_wait: 30s
+  group_interval: 5m
+  repeat_interval: 4h
+  routes:
+    - receiver: "qi-jsonl-review"
+      matchers:
+        - daemon="qi_jsonl"
+        - authority="read_only_alert"
+
+receivers:
+  - name: "qi-jsonl-review"
+    webhook_configs: []
+
+# Handoff boundary:
+# - external notification send: closed
+# - ticket creation: closed
+# - daemon restart/stop/resume: closed
+# - auto-remediation: closed
