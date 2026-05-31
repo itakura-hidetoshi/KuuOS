@@ -1,0 +1,55 @@
+{
+  "schema": "kuos.memoryos.json_management.manifest.v0_1",
+  "artifact_id": "memoryos_json_management_manifest_v0_1",
+  "status": "active_append_only_management_surface",
+  "scope": {
+    "primary_surface": "repository_json_files",
+    "managed_by": "github_actions",
+    "entrypoint": "scripts/manage_memoryos_json_v0_1.py",
+    "workflow": ".github/workflows/memoryos_json_management.yml",
+    "report_artifact_dir": ".kuos_json_report"
+  },
+  "memoryos_invariants": [
+    "append_only",
+    "same_root_required",
+    "lineage_preserved",
+    "uncertainty_visibility_required",
+    "grave_is_non_destructive",
+    "no_blind_promotion",
+    "no_hidden_uncertainty",
+    "no_destructive_deletion",
+    "no_repair_to_governance_direct_jump",
+    "reconstructive_recall_not_world_rewrite",
+    "compressed_memory_non_authoritative",
+    "filesystem_obstruction_visible_not_silent_failure"
+  ],
+  "checks": {
+    "utf8_required": true,
+    "valid_json_required": true,
+    "duplicate_object_keys_forbidden": true,
+    "machine_readable_report_required": true,
+    "canonical_candidate_generation": true,
+    "canonical_rewrite_on_ci": false,
+    "destructive_delete_on_ci": false
+  },
+  "authority_boundary": {
+    "json_validity": "not_truth_authority",
+    "ci_pass": "not_theorem_authority",
+    "memory_persistence": "not_belief_sovereignty",
+    "canonical_rendering": "not_destructive_rewrite",
+    "github_artifact": "not_worm_storage"
+  },
+  "failure_policy": {
+    "invalid_json": "fail_closed",
+    "duplicate_key": "fail_closed",
+    "utf8_decode_error": "fail_closed",
+    "missing_memoryos_invariant": "fail_closed_in_strict_mode",
+    "canonical_mismatch": "report_or_fail_by_flag"
+  },
+  "append_only_policy": {
+    "direct_runtime_mutation": false,
+    "pull_request_required_for_repository_change": true,
+    "normalization_candidates_are_unsigned": true,
+    "signed_release_boundary": "outside_this_ci_surface"
+  }
+}
