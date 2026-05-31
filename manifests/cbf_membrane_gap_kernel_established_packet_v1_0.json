@@ -4,6 +4,7 @@
   "root_contract": "manifests/cbf_membrane_gap_kernel_contract_v1_0.json",
   "documentation": "docs/CBF_MEMBRANE_GAP_KERNEL_v1_0.md",
   "validator": "scripts/validate_cbf_membrane_gap_kernel_contract_v1_0.py",
+  "validation_case_checker": "scripts/check_cbf_membrane_gap_validation_cases_v1_0.py",
   "tests": [
     "tests/test_cbf_membrane_gap_kernel_contract_v1_0.py"
   ],
@@ -29,6 +30,11 @@
     "negative_spectral_mass_blocks_strong_pass",
     "domain_unclear_blocks_strong_pass"
   ],
+  "runtime_binding": {
+    "hot_path": "bounded_local_receipt_only",
+    "full_contract_validation": "ci_or_governance_tier",
+    "runtime_authority_expansion": false
+  },
   "update_policy": {
     "additive_only": true,
     "tighten_only_default": true,
