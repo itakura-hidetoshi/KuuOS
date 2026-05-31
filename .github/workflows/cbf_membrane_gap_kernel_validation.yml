@@ -12,6 +12,7 @@ on:
       - 'scripts/validate_cbf_membrane_gap_kernel_established_packet_v1_0.py'
       - 'tests/test_cbf_membrane_gap_kernel_contract_v1_0.py'
       - 'tests/test_cbf_membrane_gap_validation_cases_v1_0.py'
+      - 'tests/test_cbf_membrane_gap_established_packet_v1_0.py'
       - 'manifests/kuuos_runtime_manifest_v0_1.json'
       - 'manifests/kuuos_validator_tiering_policy_v0_1.json'
       - '.github/workflows/cbf_membrane_gap_kernel_validation.yml'
@@ -26,6 +27,7 @@ on:
       - 'scripts/validate_cbf_membrane_gap_kernel_established_packet_v1_0.py'
       - 'tests/test_cbf_membrane_gap_kernel_contract_v1_0.py'
       - 'tests/test_cbf_membrane_gap_validation_cases_v1_0.py'
+      - 'tests/test_cbf_membrane_gap_established_packet_v1_0.py'
       - 'manifests/kuuos_runtime_manifest_v0_1.json'
       - 'manifests/kuuos_validator_tiering_policy_v0_1.json'
       - '.github/workflows/cbf_membrane_gap_kernel_validation.yml'
@@ -50,3 +52,5 @@ jobs:
         run: python3 -m unittest tests/test_cbf_membrane_gap_kernel_contract_v1_0.py
       - name: Run case tests
         run: python3 -m unittest tests/test_cbf_membrane_gap_validation_cases_v1_0.py
+      - name: Run established packet tests
+        run: python3 -m unittest tests/test_cbf_membrane_gap_established_packet_v1_0.py
