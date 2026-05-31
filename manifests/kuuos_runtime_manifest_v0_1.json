@@ -81,7 +81,8 @@
     "tests/test_qi_process_tensor_bounded_tick_executor_v0_1.py",
     "tests/test_qi_process_tensor_closed_loop_receipt_daemon_result_fields_v0_1.py",
     "tests/test_kuuos_runtime_daemon_geometric_chain_fields_v0_1.py",
-    "tests/test_qi_process_tensor_downstream_v0_1.py"
+    "tests/test_qi_process_tensor_downstream_v0_1.py",
+    "tests/test_cbf_membrane_gap_kernel_contract_v1_0.py"
   ],
   "example_files": [
     "examples/qi_state_io_v0_1/raw_state.json",
@@ -99,6 +100,7 @@
     "scripts/check_kuuos_example_runner_import_v0_1.py",
     "scripts/validate_kuuos_runtime_manifest_v0_1.py",
     "scripts/validate_kuuos_validator_tiering_policy_v0_1.py",
+    "scripts/validate_cbf_membrane_gap_kernel_contract_v1_0.py",
     "scripts/run_kuuos_runtime_full_check_v0_1.py",
     "scripts/run_kuuos_runtime_daemon_example_v0_1.py",
     "scripts/check_kuuos_runtime_daemon_example_v0_1.py"
@@ -136,7 +138,8 @@
     ".github/workflows/validator_tiering_policy_validation.yml"
   ],
   "policy_files": [
-    "manifests/kuuos_validator_tiering_policy_v0_1.json"
+    "manifests/kuuos_validator_tiering_policy_v0_1.json",
+    "manifests/cbf_membrane_gap_kernel_contract_v1_0.json"
   ],
   "required_output_paths": [
     "kuuos_driver_result_v0_1.json",
@@ -216,6 +219,7 @@
     "Daemon Qi Process Tensor Reentry License Gate converts reentry plans into bounded tick licenses or explicit denial reasons.",
     "Daemon Qi Process Tensor Bounded Tick Invocation Boundary emits a single-tick token and denies recursive invocation.",
     "Daemon Qi Process Tensor Bounded Tick Executor invokes one bounded State IO tick only when a single-tick invocation token is granted.",
-    "Validator Tiering Policy keeps full validators out of the runtime hot path while preserving CI, governance, release, and finality validation tiers."
+    "Validator Tiering Policy keeps full validators out of the runtime hot path while preserving CI, governance, release, and finality validation tiers.",
+    "CBF Membrane-Gap Kernel v1.0 is registered as a non-authoritative membrane-license policy surface; CBF pass is not truth pass and not execution authority."
   ]
 }
