@@ -1,0 +1,54 @@
+{
+  "addendum_status": "QI_INCIDENT_HANDOFF_PACKET_ADDENDUM_READY",
+  "alertmanager_payload_intake_enabled": true,
+  "authority": "incident_handoff_review_only",
+  "auto_remediation_performed": false,
+  "control_packet_mutation_performed": false,
+  "daemon_control_performed": false,
+  "daemon_restart_performed": false,
+  "daemon_resume_performed": false,
+  "daemon_stop_performed": false,
+  "deploy_files": [
+    "deploy/alertmanager/qi-jsonl-incident-handoff-route.example.yml"
+  ],
+  "docs_files": [
+    "docs/qi_incident_handoff_packet_note_v0_1.md"
+  ],
+  "email_sent": false,
+  "example_files": [
+    "examples/qi_incident_handoff_context_v0_1.json",
+    "examples/qi_alertmanager_payload_v0_1.json"
+  ],
+  "extends_manifest": "manifests/qi_local_metrics_http_exporter_addendum_v0_1.json",
+  "external_notification_send_performed": false,
+  "grants_daemon_control_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_probe_execution_authority": false,
+  "grants_world_update_authority": false,
+  "incident_handoff_packet_enabled": true,
+  "manual_review_required": true,
+  "manifest_version": "qi_incident_handoff_packet_addendum_v0_1",
+  "memory_append_performed": false,
+  "memory_overwrite_performed": false,
+  "memory_write_performed": false,
+  "next_integration_target": "review queue persistence / incident archive receipt",
+  "pagerduty_triggered": false,
+  "position": "local metrics HTTP exporter contract / alert examples -> incident handoff packet",
+  "probe_execution_performed": false,
+  "read_only_required": true,
+  "review_only_required": true,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_incident_handoff_packet_v0_1.py"
+  ],
+  "scope": "qi-incident-handoff-packet",
+  "script_files": [
+    "scripts/run_qi_incident_handoff_packet_v0_1.py",
+    "scripts/check_qi_incident_handoff_packet_v0_1.py",
+    "scripts/check_qi_incident_handoff_packet_addendum_v0_1.py",
+    "scripts/run_qi_incident_handoff_packet_checks_v0_1.py"
+  ],
+  "slack_message_sent": false,
+  "ticket_created": false,
+  "webhook_called": false,
+  "world_update_performed": false
+}
