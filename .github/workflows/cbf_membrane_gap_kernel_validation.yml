@@ -1,0 +1,36 @@
+name: CBF Membrane Gap Kernel Validation
+
+on:
+  push:
+    paths:
+      - 'docs/CBF_MEMBRANE_GAP_KERNEL_v1_0.md'
+      - 'manifests/cbf_membrane_gap_kernel_contract_v1_0.json'
+      - 'scripts/validate_cbf_membrane_gap_kernel_contract_v1_0.py'
+      - 'tests/test_cbf_membrane_gap_kernel_contract_v1_0.py'
+      - 'manifests/kuuos_runtime_manifest_v0_1.json'
+      - 'manifests/kuuos_validator_tiering_policy_v0_1.json'
+      - '.github/workflows/cbf_membrane_gap_kernel_validation.yml'
+  pull_request:
+    paths:
+      - 'docs/CBF_MEMBRANE_GAP_KERNEL_v1_0.md'
+      - 'manifests/cbf_membrane_gap_kernel_contract_v1_0.json'
+      - 'scripts/validate_cbf_membrane_gap_kernel_contract_v1_0.py'
+      - 'tests/test_cbf_membrane_gap_kernel_contract_v1_0.py'
+      - 'manifests/kuuos_runtime_manifest_v0_1.json'
+      - 'manifests/kuuos_validator_tiering_policy_v0_1.json'
+      - '.github/workflows/cbf_membrane_gap_kernel_validation.yml'
+
+jobs:
+  validate-cbf-membrane-gap-kernel:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.11'
+      - name: Run CBF contract validator
+        run: python3 scripts/validate_cbf_membrane_gap_kernel_contract_v1_0.py
+      - name: Run CBF contract tests
+        run: python3 -m unittest tests/test_cbf_membrane_gap_kernel_contract_v1_0.py
