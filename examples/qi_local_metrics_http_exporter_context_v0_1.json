@@ -1,0 +1,18 @@
+{
+  "alert_rules_example_enabled": true,
+  "bind_host": "127.0.0.1",
+  "bind_port": 9187,
+  "health_endpoint": "/healthz",
+  "local_http_exporter_enabled": true,
+  "metrics_endpoint": "/metrics",
+  "prometheus_scrape_enabled": true,
+  "read_only_required": true,
+  "ready_endpoint": "/readyz",
+  "request_control_packet_mutation": false,
+  "request_daemon_restart": false,
+  "request_daemon_resume": false,
+  "request_daemon_stop": false,
+  "request_memory_write": false,
+  "request_probe_execution": false,
+  "request_world_update": false
+}
