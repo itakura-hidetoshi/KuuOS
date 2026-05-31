@@ -1,0 +1,42 @@
+{
+  "addendum_status": "QI_LIVE_RECEIPT_QUERY_SURFACE_ADDENDUM_READY",
+  "authority": "live_receipt_query_surface",
+  "auto_remediation_performed": false,
+  "control_packet_mutation_performed": false,
+  "daemon_control_performed": false,
+  "daemon_restart_performed": false,
+  "daemon_resume_performed": false,
+  "daemon_stop_performed": false,
+  "dashboard_ready_enabled": true,
+  "docs_files": [
+    "docs/qi_live_receipt_query_surface_note_v0_1.md"
+  ],
+  "example_files": [
+    "examples/qi_live_receipt_query_context_v0_1.json"
+  ],
+  "extends_manifest": "manifests/qi_live_receipt_ingestion_addendum_v0_1.json",
+  "grants_daemon_control_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_probe_execution_authority": false,
+  "grants_world_update_authority": false,
+  "live_receipt_query_enabled": true,
+  "manifest_version": "qi_live_receipt_query_surface_addendum_v0_1",
+  "memory_append_performed": false,
+  "memory_overwrite_performed": false,
+  "memory_write_performed": false,
+  "next_integration_target": "operator dashboard renderer / replay index",
+  "position": "live receipt ingestion -> operator-facing query surface",
+  "probe_execution_performed": false,
+  "read_only_surface_required": true,
+  "replay_packet_rendering_enabled": true,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_live_receipt_query_surface_v0_1.py"
+  ],
+  "scope": "qi-live-receipt-query-surface",
+  "script_files": [
+    "scripts/run_qi_live_receipt_query_surface_v0_1.py",
+    "scripts/check_qi_live_receipt_query_surface_v0_1.py",
+    "scripts/run_qi_live_receipt_query_surface_checks_v0_1.py"
+  ],
+  "world_update_performed": false
+}
