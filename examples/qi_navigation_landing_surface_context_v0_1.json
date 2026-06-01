@@ -1,0 +1,6 @@
+{
+  "landing_base": "static/qi-dashboard",
+  "navigation_landing_key": "qi/navigation/landing/example",
+  "navigation_landing_surface_enabled": true,
+  "read_only_surface_required": true
+}

@@ -1,0 +1,43 @@
+{
+  "addendum_status": "QI_NAVIGATION_LANDING_SURFACE_ADDENDUM_READY",
+  "authority": "navigation_landing_surface",
+  "auto_remediation_performed": false,
+  "control_packet_mutation_performed": false,
+  "daemon_control_performed": false,
+  "daemon_restart_performed": false,
+  "daemon_resume_performed": false,
+  "daemon_stop_performed": false,
+  "docs_files": [
+    "docs/qi_navigation_landing_surface_note_v0_1.md"
+  ],
+  "example_files": [
+    "examples/qi_navigation_landing_surface_context_v0_1.json"
+  ],
+  "extends_manifest": "manifests/qi_catalog_static_renderer_addendum_v0_1.json",
+  "external_network_required": false,
+  "grants_daemon_control_authority": false,
+  "grants_memory_overwrite_authority": false,
+  "grants_probe_execution_authority": false,
+  "grants_world_update_authority": false,
+  "landing_surface_registered": true,
+  "manifest_version": "qi_navigation_landing_surface_addendum_v0_1",
+  "memory_append_performed": false,
+  "memory_overwrite_performed": false,
+  "memory_write_performed": false,
+  "navigation_entrypoint_ready": true,
+  "navigation_landing_hash_enabled": true,
+  "next_integration_target": "operator entrypoint smoke test / published landing receipt",
+  "position": "catalog static renderer / multi-dashboard HTML index -> catalog publication registry / navigation landing surface",
+  "probe_execution_performed": false,
+  "read_only_surface_required": true,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_navigation_landing_surface_v0_1.py"
+  ],
+  "scope": "qi-navigation-landing-surface",
+  "script_files": [
+    "scripts/run_qi_navigation_landing_surface_v0_1.py",
+    "scripts/check_qi_navigation_landing_surface_v0_1.py",
+    "scripts/run_qi_navigation_landing_surface_checks_v0_1.py"
+  ],
+  "world_update_performed": false
+}
