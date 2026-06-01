@@ -1,0 +1,5 @@
+{
+  "operator_entrypoint_smoke_enabled": true,
+  "read_only_surface_required": true,
+  "smoke_mode": "read_only_entrypoint_receipt"
+}
