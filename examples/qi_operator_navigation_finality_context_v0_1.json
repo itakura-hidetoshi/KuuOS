@@ -1,0 +1,5 @@
+{
+  "operator_navigation_finality_enabled": true,
+  "read_only_surface_required": true,
+  "release_marker": "QI_OPERATOR_NAVIGATION_ENTRYPOINT_RELEASED_V0_1"
+}
