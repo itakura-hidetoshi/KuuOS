@@ -1,0 +1,30 @@
+{
+  "manifest_version": "qi_operator_surface_confirmed_baseline_packet_addendum_v0_1",
+  "addendum_status": "QI_OPERATOR_SURFACE_CONFIRMED_BASELINE_PACKET_ADDENDUM_READY",
+  "scope": "qi-operator-surface-confirmed-baseline-packet",
+  "authority": "operator_surface_confirmed_baseline_packet",
+  "position": "Qi daemon operator surface baseline established packet -> Qi daemon operator surface confirmed baseline packet",
+  "extends_manifest": "manifests/qi_operator_surface_baseline_established_packet_addendum_v0_1.json",
+  "operator_surface_confirmed_baseline": true,
+  "established_packet_confirmed": true,
+  "navigation_chain_finalized": true,
+  "release_ready_confirmed": true,
+  "read_only_surface_required": true,
+  "additive_only_future_required": true,
+  "external_network_required": false,
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_operator_surface_confirmed_baseline_packet_v0_1.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_operator_surface_confirmed_baseline_packet_v0_1.py",
+    "scripts/check_qi_operator_surface_confirmed_baseline_packet_v0_1.py",
+    "scripts/run_qi_operator_surface_confirmed_baseline_packet_checks_v0_1.py"
+  ],
+  "example_files": [
+    "examples/qi_operator_surface_confirmed_baseline_context_v0_1.json"
+  ],
+  "docs_files": [
+    "docs/qi_operator_surface_confirmed_baseline_packet_note_v0_1.md"
+  ],
+  "next_integration_target": "Qi daemon operator surface baseline established final packet"
+}
