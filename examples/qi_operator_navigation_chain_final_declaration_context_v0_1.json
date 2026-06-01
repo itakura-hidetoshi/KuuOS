@@ -1,0 +1,5 @@
+{
+  "additive_only_future_required": true,
+  "chain_final_declaration_enabled": true,
+  "read_only_surface_required": true
+}
