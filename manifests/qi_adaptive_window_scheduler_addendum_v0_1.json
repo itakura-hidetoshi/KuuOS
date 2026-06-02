@@ -1,0 +1,51 @@
+{
+  "addendum_status": "QI_ADAPTIVE_WINDOW_SCHEDULER_ADDENDUM_READY",
+  "authority": "adaptive_window_scheduler_only",
+  "cadence_modes": [
+    "wide_compressed_window",
+    "moderate_guarded_window",
+    "single_tick_high_pressure",
+    "observe_first_single_tick",
+    "full_history_single_tick"
+  ],
+  "docs_files": [
+    "docs/qi_adaptive_window_scheduler_note_v0_1.md"
+  ],
+  "example_files": [
+    "examples/qi_adaptive_window_scheduler_packet_v0_1.json"
+  ],
+  "extends_manifest": "manifests/qi_autonomous_multi_tick_window_governor_addendum_v0_1.json",
+  "invariants": [
+    "bounded_adaptation_enforced",
+    "delegates_only_to_multi_tick_window_governor",
+    "scheduler_grants_no_new_authority",
+    "window_bound_preserved",
+    "one_tick_receipt_delegation_preserved",
+    "memory_write_performed_false",
+    "memory_overwrite_performed_false",
+    "world_update_performed_false",
+    "probe_execution_performed_false"
+  ],
+  "manifest_version": "qi_adaptive_window_scheduler_addendum_v0_1",
+  "position": "autonomous multi-tick window governor -> adaptive window scheduler / pressure-aware cadence governor",
+  "pressure_inputs": [
+    "process_tensor_pressure",
+    "memory_complexity_score",
+    "qcmi_value",
+    "recovery_witness_present",
+    "non_markov_unresolved",
+    "token_budget_available",
+    "observation_debt_resolution_priority",
+    "safe_reentry_window_score",
+    "memory_kernel_preservation_score"
+  ],
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_adaptive_window_scheduler_v0_1.py"
+  ],
+  "scope": "qi-adaptive-window-scheduler",
+  "script_files": [
+    "scripts/run_qi_adaptive_window_scheduler_v0_1.py",
+    "scripts/check_qi_adaptive_window_scheduler_v0_1.py",
+    "scripts/run_qi_adaptive_window_scheduler_checks_v0_1.py"
+  ]
+}
