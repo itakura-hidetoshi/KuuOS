@@ -1,0 +1,70 @@
+{
+  "addendum_status": "QI_AUTONOMOUS_TICK_POLICY_RECEIPT_LOOP_BINDING_ADDENDUM_READY",
+  "advance_requires": [
+    "policy_ready",
+    "same_root",
+    "read_only_policy_surface",
+    "advance_tick_allowed",
+    "next_tick_number",
+    "process_tensor_no_observation_required",
+    "process_tensor_no_full_history_required",
+    "recovery_witness_not_missing"
+  ],
+  "authority": "receipt_loop_binding_only",
+  "docs_files": [
+    "docs/qi_autonomous_tick_policy_receipt_loop_binding_note_v0_1.md"
+  ],
+  "example_files": [
+    "examples/qi_autonomous_tick_loop_binding_packet_v0_1.json"
+  ],
+  "extends_manifest": "manifests/qi_autonomous_tick_policy_kernel_addendum_v0_1.json",
+  "freeze_never_invokes_safe_resume": true,
+  "invariants": [
+    "receipt_id_deterministic",
+    "policy_packet_id_bound",
+    "process_tensor_metrics_sealed",
+    "advance_delegates_only_to_safe_resume_controller",
+    "non_advance_never_advances_tick",
+    "loop_binding_grants_no_new_authority",
+    "memory_write_performed_false",
+    "world_update_performed_false",
+    "probe_execution_performed_false"
+  ],
+  "manifest_version": "qi_autonomous_tick_policy_receipt_loop_binding_addendum_v0_1",
+  "non_advance_never_invokes_safe_resume": true,
+  "position": "autonomous tick policy kernel -> process-tensor-optimized receipt -> daemon loop binding",
+  "process_tensor_optimization_inputs": [
+    "memory_complexity_score",
+    "memory_complexity_threshold",
+    "qcmi_value",
+    "recovery_epsilon",
+    "recovery_witness_present",
+    "non_markov_unresolved",
+    "process_tensor_pressure"
+  ],
+  "receipt_actions": [
+    "advance_tick",
+    "hold",
+    "observe",
+    "notify",
+    "ticket",
+    "handover",
+    "freeze"
+  ],
+  "rollout_modes": [
+    "markov",
+    "compressed",
+    "partial_history",
+    "full_history"
+  ],
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_autonomous_tick_policy_receipt_v0_1.py",
+    "runtime/kuuos_runtime_daemon_qi_autonomous_tick_loop_binding_v0_1.py"
+  ],
+  "scope": "qi-autonomous-tick-policy-receipt-loop-binding",
+  "script_files": [
+    "scripts/run_qi_autonomous_tick_loop_binding_v0_1.py",
+    "scripts/check_qi_autonomous_tick_policy_receipt_loop_binding_v0_1.py",
+    "scripts/run_qi_autonomous_tick_policy_receipt_loop_binding_checks_v0_1.py"
+  ]
+}
