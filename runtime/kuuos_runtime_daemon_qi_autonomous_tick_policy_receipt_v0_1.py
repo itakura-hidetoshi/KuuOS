@@ -52,6 +52,9 @@ class QiAutonomousTickPolicyReceipt:
     freeze_required: bool
     read_only_policy_surface: bool
     grants_new_authority: bool
+    grants_probe_execution_authority: bool
+    grants_world_update_authority: bool
+    grants_memory_overwrite_authority: bool
     memory_write_performed: bool
     memory_append_performed: bool
     memory_overwrite_performed: bool
@@ -268,6 +271,9 @@ def build_qi_autonomous_tick_policy_receipt(
         freeze_required=daemon_loop_action == A_FREEZE,
         read_only_policy_surface=policy.get("read_only_policy_surface") is True,
         grants_new_authority=False,
+        grants_probe_execution_authority=False,
+        grants_world_update_authority=False,
+        grants_memory_overwrite_authority=False,
         memory_write_performed=False,
         memory_append_performed=False,
         memory_overwrite_performed=False,
