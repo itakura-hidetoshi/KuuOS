@@ -96,7 +96,7 @@ def _require_false(prefix: str, packet: Mapping[str, Any], blockers: list[str]) 
         "grants_world_update_authority",
         "grants_memory_overwrite_authority",
     ]:
-        if packet.get(key) is not False:
+        if key in packet and packet.get(key) is not False:
             blockers.append(f"{prefix}_{key}_not_false")
 
 
@@ -244,7 +244,7 @@ def run_qi_autonomous_multi_tick_window_governor(
                 stop_reason = "process_tensor_full_history_after_tick"
                 break
     ready = not blockers
-    stopped_early = ready and attempted < requested or (stop_reason is not None and completed < requested)
+    stopped_early = (ready and attempted < requested) or (stop_reason is not None and completed < requested)
     next_tick = start_current_tick + completed if ready else None
     receipt_ids = [str(p.get("receipt_id")) for p in loop_packets if p.get("receipt_id")]
     policy_ids = [str(p.get("policy_packet_id")) for p in policy_packets if p.get("policy_packet_id")]
