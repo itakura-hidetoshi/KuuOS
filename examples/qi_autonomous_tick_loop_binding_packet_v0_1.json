@@ -1,0 +1,39 @@
+{
+  "example_version": "qi_autonomous_tick_loop_binding_packet_v0_1",
+  "expected_receipt": {
+    "process_tensor_optimization_mode": "compressed_recovery_advance",
+    "process_tensor_rollout_mode": "compressed",
+    "safe_resume_allowed": true,
+    "safe_resume_tick_count": 1
+  },
+  "loop_context": {
+    "jsonl_backend_required": true,
+    "loop_binding_enabled": true,
+    "memory_complexity_threshold": 1.0,
+    "read_only_loop_binding": true,
+    "recovery_epsilon": 0.1,
+    "tick_id_prefix": "qi-loop"
+  },
+  "policy_packet": {
+    "advance_tick_allowed": true,
+    "blockers": [],
+    "next_tick_number": 8,
+    "policy_packet_id": "qi-tick-policy-example",
+    "policy_status": "QI_AUTONOMOUS_TICK_POLICY_READY",
+    "read_only_policy_surface": true,
+    "same_root": true,
+    "selected_action": "advance_tick"
+  },
+  "process_tensor_packet": {
+    "memory_complexity_score": 0.2,
+    "memory_complexity_threshold": 1.0,
+    "non_markov_unresolved": false,
+    "process_tensor_id": "pt-example",
+    "process_tensor_ok": true,
+    "qcmi_value": 0.01,
+    "recovery_epsilon": 0.1,
+    "recovery_witness_present": true,
+    "root_id": "qi-root-loop-binding-0001"
+  },
+  "root_id": "qi-root-loop-binding-0001"
+}
