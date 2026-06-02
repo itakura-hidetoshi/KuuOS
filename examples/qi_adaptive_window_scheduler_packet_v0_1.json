@@ -1,0 +1,30 @@
+{
+  "adaptive_context": {
+    "absolute_max_window_ticks": 16,
+    "adaptive_window_scheduler_enabled": true,
+    "current_tick": 7,
+    "jsonl_backend_required": true,
+    "max_window_ticks": 4,
+    "min_window_ticks": 1,
+    "read_only_adaptive_scheduler": true,
+    "tick_id_prefix": "qi-adaptive"
+  },
+  "example_version": "qi_adaptive_window_scheduler_packet_v0_1",
+  "expected": {
+    "bounded_adaptation_enforced": true,
+    "cadence_mode": "wide_compressed_window",
+    "delegates_only_to_multi_tick_window_governor": true,
+    "recommended_window_ticks": 4
+  },
+  "process_tensor_packet": {
+    "memory_complexity_score": 0.2,
+    "memory_complexity_threshold": 1.0,
+    "non_markov_unresolved": false,
+    "process_tensor_id": "pt-adaptive-example",
+    "process_tensor_ok": true,
+    "qcmi_value": 0.01,
+    "recovery_epsilon": 0.1,
+    "recovery_witness_present": true,
+    "root_id": "qi-root-adaptive-0001"
+  }
+}
