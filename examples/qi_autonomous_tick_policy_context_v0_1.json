@@ -1,0 +1,8 @@
+{
+  "current_tick": 7,
+  "handover_uncertainty_threshold": 0.85,
+  "notify_uncertainty_threshold": 0.45,
+  "read_only_policy_surface": true,
+  "tick_policy_enabled": true,
+  "ticket_uncertainty_threshold": 0.65
+}

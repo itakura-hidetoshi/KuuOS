@@ -1,0 +1,48 @@
+{
+  "manifest_version": "qi_autonomous_tick_policy_kernel_addendum_v0_1",
+  "addendum_status": "QI_AUTONOMOUS_TICK_POLICY_KERNEL_ADDENDUM_READY",
+  "scope": "qi-autonomous-tick-policy-kernel",
+  "authority": "autonomous_tick_policy_kernel",
+  "position": "DecisionOS / CBF / token ledger / process tensor -> autonomous tick policy kernel",
+  "extends_manifest": "manifests/qi_operator_surface_confirmed_baseline_packet_addendum_v0_1.json",
+  "actions": [
+    "advance_tick",
+    "hold",
+    "observe",
+    "notify",
+    "ticket",
+    "handover",
+    "freeze"
+  ],
+  "advance_requires": [
+    "same_root",
+    "cbf_ok",
+    "token_ledger_ok",
+    "process_tensor_ok",
+    "decisionos_allows_advance",
+    "read_only_policy_surface"
+  ],
+  "fallbacks": [
+    "hold",
+    "observe",
+    "notify",
+    "ticket",
+    "handover",
+    "freeze"
+  ],
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_autonomous_tick_policy_kernel_v0_1.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_autonomous_tick_policy_kernel_v0_1.py",
+    "scripts/check_qi_autonomous_tick_policy_kernel_v0_1.py",
+    "scripts/run_qi_autonomous_tick_policy_kernel_checks_v0_1.py"
+  ],
+  "example_files": [
+    "examples/qi_autonomous_tick_policy_context_v0_1.json"
+  ],
+  "docs_files": [
+    "docs/qi_autonomous_tick_policy_kernel_note_v0_1.md"
+  ],
+  "next_integration_target": "Qi autonomous tick policy receipt / daemon loop binding"
+}
