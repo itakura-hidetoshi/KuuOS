@@ -1,0 +1,38 @@
+{
+  "example_version": "qi_autonomous_multi_tick_window_governor_packet_v0_1",
+  "expected_window": {
+    "completed_tick_count": 3,
+    "process_tensor_window_mode": "compressed_window",
+    "requested_window_ticks": 3,
+    "stop_reason": "window_completed",
+    "window_bound_enforced": true
+  },
+  "process_tensor_schedule": [
+    {
+      "memory_complexity_score": 0.2,
+      "qcmi_value": 0.01,
+      "recovery_witness_present": true
+    },
+    {
+      "memory_complexity_score": 0.3,
+      "qcmi_value": 0.02,
+      "recovery_witness_present": true
+    },
+    {
+      "memory_complexity_score": 0.4,
+      "qcmi_value": 0.03,
+      "recovery_witness_present": true
+    }
+  ],
+  "window_context": {
+    "absolute_max_window_ticks": 16,
+    "jsonl_backend_required": true,
+    "max_window_ticks": 3,
+    "read_only_window_governor": true,
+    "requested_window_ticks": 3,
+    "stop_on_full_history": true,
+    "stop_on_observe": true,
+    "tick_id_prefix": "qi-window",
+    "window_governor_enabled": true
+  }
+}
