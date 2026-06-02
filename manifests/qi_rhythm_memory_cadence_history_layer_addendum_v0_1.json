@@ -1,0 +1,59 @@
+{
+  "addendum_status": "QI_RHYTHM_MEMORY_CADENCE_HISTORY_LAYER_ADDENDUM_READY",
+  "authority": "rhythm_memory_cadence_history_projection_only",
+  "docs_files": [
+    "docs/qi_rhythm_memory_cadence_history_layer_note_v0_1.md"
+  ],
+  "example_files": [
+    "examples/qi_rhythm_memory_cadence_history_layer_packet_v0_1.json"
+  ],
+  "extends_manifest": "manifests/qi_adaptive_window_scheduler_addendum_v0_1.json",
+  "history_signals": [
+    "process_tensor_pressure_score",
+    "recommended_window_ticks",
+    "completed_tick_count",
+    "delegated_completed_tick_count",
+    "stop_reason",
+    "delegated_stop_reason",
+    "cadence_mode"
+  ],
+  "invariants": [
+    "rhythm_history_projection_only",
+    "delegates_only_to_adaptive_window_scheduler",
+    "rhythm_layer_grants_no_new_authority",
+    "adaptive_scheduler_delegation_preserved",
+    "multi_tick_governor_delegation_preserved",
+    "memory_write_performed_false",
+    "memory_append_performed_false",
+    "memory_overwrite_performed_false",
+    "world_update_performed_false",
+    "probe_execution_performed_false"
+  ],
+  "manifest_version": "qi_rhythm_memory_cadence_history_layer_addendum_v0_1",
+  "position": "adaptive window scheduler / pressure-aware cadence governor -> long-horizon daemon rhythm memory / cadence history layer",
+  "rhythm_biases": [
+    "expand_if_low_pressure",
+    "hold_steady",
+    "contract_window",
+    "observe_sensitive",
+    "full_history_sensitive",
+    "freeze_guarded"
+  ],
+  "rhythm_modes": [
+    "stable_expansion",
+    "steady_guarded",
+    "contracted_guarded",
+    "observation_guarded",
+    "full_history_guarded",
+    "freeze_guarded"
+  ],
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_rhythm_memory_cadence_history_layer_v0_1.py"
+  ],
+  "scope": "qi-rhythm-memory-cadence-history-layer",
+  "script_files": [
+    "scripts/run_qi_rhythm_memory_cadence_history_layer_v0_1.py",
+    "scripts/check_qi_rhythm_memory_cadence_history_layer_v0_1.py",
+    "scripts/run_qi_rhythm_memory_cadence_history_layer_checks_v0_1.py"
+  ]
+}
