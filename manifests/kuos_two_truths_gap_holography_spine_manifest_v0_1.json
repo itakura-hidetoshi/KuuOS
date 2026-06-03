@@ -15,6 +15,21 @@
     ],
     "lean_spine": [
       "lean/KSTHolo/TwoTruthGapHolographySpine_v0_1.lean"
+    ],
+    "manifest": [
+      "manifests/kuos_two_truths_gap_holography_spine_manifest_v0_1.json"
+    ],
+    "validation_cases": [
+      "validation_cases/kuos_two_truths_gap_holography_spine_validation_cases_v0_1.yaml"
+    ],
+    "chain_index": [
+      "chain_indexes/kuos_two_truths_gap_holography_spine_chain_index_v0_1.yaml"
+    ],
+    "validator": [
+      "validators/validate_kuos_two_truths_gap_holography_spine_v0_1.py"
+    ],
+    "runbook": [
+      "docs/KUOS_TWO_TRUTHS_GAP_HOLOGRAPHY_SPINE_RUNBOOK_v0_1.md"
     ]
   },
   "core_chain": [
@@ -58,6 +73,20 @@
     "DecisionOS": "adjudicates scoped prediction sufficiency without collapsing ultimate residue",
     "ClaimSurface": "authorizes prediction claims and forbids kernel-zero / ultimate-identity claims",
     "CertificateLayer": "exports proof-carrying claim surfaces without exporting forbidden witnesses"
+  },
+  "validation": {
+    "validator": "validators/validate_kuos_two_truths_gap_holography_spine_v0_1.py",
+    "runbook": "docs/KUOS_TWO_TRUTHS_GAP_HOLOGRAPHY_SPINE_RUNBOOK_v0_1.md",
+    "cases": "validation_cases/kuos_two_truths_gap_holography_spine_validation_cases_v0_1.yaml",
+    "pass_means": "repository-surface consistency receipt only",
+    "pass_does_not_mean": [
+      "truth authority",
+      "theorem authority",
+      "execution authority",
+      "kernel-zero authority",
+      "ultimate-identity authority",
+      "ultimate-exhaustion authority"
+    ]
   },
   "update_policy": {
     "append_only": true,
