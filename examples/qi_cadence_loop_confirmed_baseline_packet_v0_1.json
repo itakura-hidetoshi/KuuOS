@@ -1,0 +1,39 @@
+{
+  "baseline_context": {
+    "baseline_context_id": "qi-cadence-baseline-demo-0001",
+    "cadence_loop_confirmed_baseline_enabled": true,
+    "confirmed_baseline_required": true,
+    "receipt_only_required": true
+  },
+  "cycle_packet": {
+    "cadence_cycle_closed": true,
+    "cycle_lineage_digest": "cycle-lineage-demo",
+    "cycle_packet": {
+      "lineage": {
+        "advisory_packet_id": "qi-forecast-advisory-demo",
+        "forecast_packet_id": "qi-rhythm-forecast-demo",
+        "last_entry_digest": "last-entry-demo",
+        "ledger_root_digest": "ledger-root-demo"
+      }
+    },
+    "cycle_packet_id": "qi-cadence-cycle-demo",
+    "cycle_packet_status": "QI_END_TO_END_CADENCE_CYCLE_PACKET_READY",
+    "cycle_root_digest": "cycle-root-demo",
+    "lineage_complete": true,
+    "memory_append_performed": false,
+    "memory_write_performed": false,
+    "no_authority_boundary_preserved": true,
+    "probe_execution_performed": false,
+    "receipt_only_cycle_packet": true,
+    "scheduler_bypass_performed": false,
+    "world_update_performed": false
+  },
+  "example_version": "qi_cadence_loop_confirmed_baseline_packet_v0_1",
+  "expected": {
+    "autonomous_qi_cadence_loop_confirmed": true,
+    "confirmed_baseline": true,
+    "memory_write_performed": false,
+    "receipt_only_baseline_packet": true,
+    "scheduler_bypass_performed": false
+  }
+}
