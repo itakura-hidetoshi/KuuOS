@@ -1,0 +1,47 @@
+{
+  "addendum_status": "QI_RHYTHM_TREND_FORECAST_ADDENDUM_READY",
+  "authority": "rhythm_trend_forecast_projection_only",
+  "docs_files": [
+    "docs/qi_rhythm_trend_forecast_note_v0_1.md"
+  ],
+  "example_files": [
+    "examples/qi_rhythm_trend_forecast_packet_v0_1.json"
+  ],
+  "extends_manifest": "manifests/qi_append_only_rhythm_receipt_ledger_addendum_v0_1.json",
+  "forecast_outputs": [
+    "forecast_packet_id",
+    "ledger_root_digest",
+    "source_last_entry_digest",
+    "pressure_trend",
+    "stability_trend",
+    "completion_trend",
+    "observe_trend",
+    "full_history_trend",
+    "freeze_trend",
+    "forecast_window_bias",
+    "forecast_cadence_mode_hint",
+    "forecast_risk_class",
+    "forecast_confidence"
+  ],
+  "invariants": [
+    "projection_only",
+    "replaces_ledger_root_false",
+    "ledger_root_digest_preserved_as_reference",
+    "source_last_entry_digest_preserved",
+    "memory_write_performed_false",
+    "memory_append_performed_false",
+    "memory_overwrite_performed_false",
+    "world_update_performed_false",
+    "probe_execution_performed_false"
+  ],
+  "manifest_version": "qi_rhythm_trend_forecast_addendum_v0_1",
+  "position": "append-only rhythm receipt ledger -> rhythm trend summarizer / projection-only cadence forecast",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_rhythm_trend_forecast_v0_1.py"
+  ],
+  "scope": "qi-rhythm-trend-forecast",
+  "script_files": [
+    "scripts/run_qi_rhythm_trend_forecast_v0_1.py",
+    "scripts/check_qi_rhythm_trend_forecast_v0_1.py"
+  ]
+}
