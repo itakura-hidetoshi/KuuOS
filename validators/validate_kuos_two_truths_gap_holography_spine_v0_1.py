@@ -26,6 +26,9 @@ REQUIRED_FILES = [
     "validation_cases/kuos_two_truths_gap_holography_spine_validation_cases_v0_1.yaml",
     "chain_indexes/kuos_two_truths_gap_holography_spine_chain_index_v0_1.yaml",
     "docs/KUOS_TWO_TRUTHS_GAP_HOLOGRAPHY_SPINE_RUNBOOK_v0_1.md",
+    "validators/validate_kuos_two_truths_gap_holography_spine_v0_1.py",
+    "scripts/run_kuos_two_truths_gap_holography_spine_checks_v0_1.py",
+    ".github/workflows/two_truths_gap_holography_spine_validation.yml",
 ]
 
 REQUIRED_DOC_SNIPPETS = [
@@ -94,6 +97,14 @@ REQUIRED_CHAIN_SNIPPETS = [
     "validation_case_bundle",
     "standalone_validator",
     "reviewer_runbook",
+    "ci_workflow",
+    "make_target",
+]
+
+REQUIRED_WORKFLOW_SNIPPETS = [
+    "Two-Truth Gap-Holography Spine Validation",
+    "scripts/run_kuos_two_truths_gap_holography_spine_checks_v0_1.py",
+    "PASS is a consistency receipt only",
 ]
 
 
@@ -149,6 +160,9 @@ def validate_manifest() -> None:
         "docs/KUOS_TWO_TRUTHS_GAP_HOLOGRAPHY_SPINE_v0_1.md",
         "specs/kuos_two_truths_gap_holography_spine_v0_1.yaml",
         "lean/KSTHolo/TwoTruthGapHolographySpine_v0_1.lean",
+        "validators/validate_kuos_two_truths_gap_holography_spine_v0_1.py",
+        "scripts/run_kuos_two_truths_gap_holography_spine_checks_v0_1.py",
+        ".github/workflows/two_truths_gap_holography_spine_validation.yml",
     ]:
         if rel_path not in flattened:
             fail(f"manifest artifacts missing {rel_path}")
@@ -174,6 +188,8 @@ def main() -> int:
     cases = read_text("validation_cases/kuos_two_truths_gap_holography_spine_validation_cases_v0_1.yaml")
     chain = read_text("chain_indexes/kuos_two_truths_gap_holography_spine_chain_index_v0_1.yaml")
     runbook = read_text("docs/KUOS_TWO_TRUTHS_GAP_HOLOGRAPHY_SPINE_RUNBOOK_v0_1.md")
+    workflow = read_text(".github/workflows/two_truths_gap_holography_spine_validation.yml")
+    makefile = read_text("Makefile")
 
     require_snippets("doc", doc, REQUIRED_DOC_SNIPPETS)
     require_snippets("spec", spec, REQUIRED_SPEC_SNIPPETS)
@@ -182,6 +198,8 @@ def main() -> int:
     require_snippets("chain index", chain, REQUIRED_CHAIN_SNIPPETS)
     require_snippets("validation cases", cases, ["fail_lean_contains_sorry", "pass_complete_baseline_bundle"])
     require_snippets("runbook", runbook, ["validator", "PASS is a consistency receipt", "not theorem authority"])
+    require_snippets("workflow", workflow, REQUIRED_WORKFLOW_SNIPPETS)
+    require_snippets("Makefile", makefile, ["two-truths-gap-holography-spine-checks"])
 
     validate_manifest()
 
