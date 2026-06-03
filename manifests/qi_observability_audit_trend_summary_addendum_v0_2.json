@@ -1,0 +1,33 @@
+{
+  "addendum_status": "QI_OBSERVABILITY_AUDIT_TREND_SUMMARY_ADDENDUM_READY",
+  "authority": "qi_observability_audit_trend_summary_read_only",
+  "docs_files": [
+    "docs/qi_observability_audit_trend_summary_v0_2.md"
+  ],
+  "example_files": [
+    "examples/qi_observability_audit_trend_summary_v0_2.json"
+  ],
+  "extends_manifest": "manifests/qi_incident_review_audit_ledger_addendum_v0_2.json",
+  "invariants": [
+    "read_only_summary",
+    "projection_only",
+    "ledger_append_performed_false",
+    "notification_sent_false",
+    "ticket_created_false",
+    "runtime_control_authority_false",
+    "memory_write_performed_false",
+    "memory_append_performed_false",
+    "world_update_performed_false",
+    "probe_execution_performed_false"
+  ],
+  "manifest_version": "qi_observability_audit_trend_summary_addendum_v0_2",
+  "position": "append-only observability audit ledger -> read-only reliability trend summary",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_observability_audit_trend_summary_v0_2.py"
+  ],
+  "scope": "qi-observability-audit-trend-summary",
+  "script_files": [
+    "scripts/run_qi_observability_audit_trend_summary_v0_2.py",
+    "scripts/check_qi_observability_audit_trend_summary_v0_2.py"
+  ]
+}
