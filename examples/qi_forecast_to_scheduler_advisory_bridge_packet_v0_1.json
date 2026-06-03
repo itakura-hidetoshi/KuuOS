@@ -1,0 +1,33 @@
+{
+  "bridge_context": {
+    "absolute_max_window_ticks": 16,
+    "advisory_only_required": true,
+    "base_max_window_ticks": 4,
+    "base_min_window_ticks": 1,
+    "forecast_to_scheduler_bridge_enabled": true,
+    "projection_only_required": true
+  },
+  "example_version": "qi_forecast_to_scheduler_advisory_bridge_packet_v0_1",
+  "expected": {
+    "advisory_cadence_mode_hint": "wide_compressed_window",
+    "advisory_max_window_ticks_hint": 4,
+    "advisory_only": true,
+    "forecast_directly_sets_window": false,
+    "scheduler_context_patch_authoritative": false
+  },
+  "forecast_packet": {
+    "forecast_cadence_mode_hint": "wide_compressed_window",
+    "forecast_confidence": 1.0,
+    "forecast_packet_id": "qi-rhythm-forecast-demo",
+    "forecast_risk_class": "low",
+    "forecast_status": "QI_RHYTHM_TREND_FORECAST_READY",
+    "forecast_window_bias": "expand_if_low_pressure",
+    "ledger_root_digest": "ledger-root-demo",
+    "memory_append_performed": false,
+    "memory_write_performed": false,
+    "probe_execution_performed": false,
+    "projection_only": true,
+    "replaces_ledger_root": false,
+    "source_last_entry_digest": "last-entry-demo"
+  }
+}
