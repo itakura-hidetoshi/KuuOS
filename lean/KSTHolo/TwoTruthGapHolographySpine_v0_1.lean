@@ -3,7 +3,7 @@ KST-Holo / KuuOS Two-Truth Gap-Holography Spine v0.1
 
 Status: confirmed baseline / append-only.
 
-This Lean-facing file is a theorem spine for the KuuOS baseline:
+This Lean-facing file is a lightweight theorem spine for the KuuOS baseline:
 
   positive gap
   + positive visible spectral weight
@@ -12,9 +12,9 @@ This Lean-facing file is a theorem spine for the KuuOS baseline:
   => scoped prediction sufficiency
   != ultimate exhaustion
 
-It is intentionally lightweight. Heavy spectral/PVM formalization is represented
-through structures and theorem-facing interfaces so this file can serve as a
-stable integration surface for later mathlib refinements.
+Heavy spectral/PVM formalization is represented through structures and
+interfaces so this file can serve as a stable integration surface for later
+mathlib refinements.
 -/
 
 import Mathlib
@@ -34,7 +34,6 @@ instance : Zero UltimateBulk where
 structure GapRecord where
   Delta : ℝ
   coeff : ℝ
-deriving DecidableEq
 
 instance : Zero GapRecord where
   zero := { Delta := 0, coeff := 0 }
@@ -75,9 +74,6 @@ structure CorrelationDecomposition (D : SpectralGapData) where
   decomp : ∀ t : ℝ, C t = leadingTerm D t + Remainder t
   remainder_nonneg : ∀ t : ℝ, 0 ≤ Remainder t
   remainder_bound : ∀ t : ℝ, Remainder t ≤ highBound D t
-
-def scaledError (D : SpectralGapData) (CD : CorrelationDecomposition D) (t : ℝ) : ℝ :=
-  CD.C t * Real.exp (D.Delta * t) - D.aDelta
 
 def gapRecordOfSpectralData (D : SpectralGapData) : GapRecord :=
   { Delta := D.Delta, coeff := D.aDelta }
@@ -254,76 +250,7 @@ theorem predictionSufficient_of_stableConventionalRecord
       no_kernel_zero_claim := hNoKernelZero
       no_ultimate_exhaustion_claim := hNoUltimate }
 
-/-! ## Full analytic spine -/
-
-structure FullAnalyticGapAssumptions
-  (F : GapRecordFunctor)
-  (R : Type*) [AddCommGroup R] where
-  spectral : SpectralGapData
-  correlation : CorrelationDecomposition spectral
-  image_witness : GapRecordImageWitness spectral
-  interpretation : RecordInterpretation R
-  Π : GapProjection R
-  translation : R → R
-  gap_holonomy_zero : GapHolonomyZeroFromTranslation Π translation
-  scope_specified : Prop
-  no_scope_free_truth : Prop
-  no_kernel_zero_claim : Prop
-  no_ultimate_exhaustion_claim : Prop
-
-structure FullAnalyticGapConclusion
-  (F : GapRecordFunctor)
-  (R : Type*) [AddCommGroup R]
-  (A : FullAnalyticGapAssumptions F R) where
-  scaled_limit_claim : Prop
-  unique_nonvacuous_record : UniqueNonVacuousGapRecord A.spectral
-  image_nonvacuous : ImageNonVacuous F
-  stable_record : StableConventionalRecord F R
-  prediction_sufficient : PredictionSufficientConcrete F R
-
-/-
-The heavy limit theorem is intentionally kept as a claim field in this spine.
-Later refinements can replace `scaled_limit_claim : Prop` with:
-
-  Filter.Tendsto
-    (fun t : ℝ => A.correlation.C t * Real.exp (A.spectral.Delta * t))
-    Filter.atTop
-    (nhds A.spectral.aDelta)
-
-once the exponential squeeze proof is imported into the formal layer.
--/
-
-theorem fullAnalyticGap_theorem
-  (F : GapRecordFunctor)
-  (R : Type*) [AddCommGroup R]
-  (A : FullAnalyticGapAssumptions F R)
-  (hScaledLimit : Prop) :
-  FullAnalyticGapConclusion F R A := by
-  let U : UniqueNonVacuousGapRecord A.spectral :=
-    unique_nonvacuous_gapRecord_of_spectralData A.spectral
-  let hImg : ImageNonVacuous F := by
-    -- `A.image_witness.F` is expected to be the same functor as `F` in the
-    -- integration layer. This lightweight spine keeps the witness functor-local.
-    -- Use `fullAnalyticGap_theorem_local` below for direct functor-local use.
-    exact by
-      -- placeholder-free conservative packaging requires functor equality;
-      -- therefore this theorem is intentionally not used by CI without a bridge.
-      classical
-      exact False.elim (by contradiction)
-  let record : GapRecord := gapRecordOfSpectralData A.spectral
-  have hImageLocal : record ∈ RecordImage A.image_witness.F := by
-    exact extracted_gapRecord_mem_image A.spectral A.image_witness
-  have hNonzero : record ≠ 0 := by
-    exact gapRecordOfSpectralData_nonvacuous A.spectral
-  -- This global theorem requires a functor equality bridge. See the local theorem.
-  exact False.elim (by contradiction)
-
-/-! ## Functor-local full theorem
-
-This is the safer integration theorem. It uses the functor carried by the
-image witness, avoiding an unnecessary equality proof between `F` and the
-witness functor.
--/
+/-! ## Functor-local full analytic theorem -/
 
 structure FullAnalyticGapConclusionLocal
   (D : SpectralGapData)
@@ -334,6 +261,16 @@ structure FullAnalyticGapConclusionLocal
   image_nonvacuous : ImageNonVacuous W.F
   stable_record : StableConventionalRecord W.F R
   prediction_sufficient : PredictionSufficientConcrete W.F R
+
+/-
+`scaled_limit_claim` is kept as a theorem-facing claim in this baseline spine.
+A later analytic layer may replace it with an explicit `Filter.Tendsto` theorem:
+
+  Filter.Tendsto
+    (fun t : ℝ => C t * Real.exp (Delta * t))
+    Filter.atTop
+    (nhds aDelta)
+-/
 
 theorem fullAnalyticGap_theorem_local
   (D : SpectralGapData)
