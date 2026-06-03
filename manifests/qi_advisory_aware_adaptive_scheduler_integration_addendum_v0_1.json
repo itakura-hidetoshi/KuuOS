@@ -1,0 +1,32 @@
+{
+  "addendum_status": "QI_ADVISORY_AWARE_ADAPTIVE_SCHEDULER_INTEGRATION_ADDENDUM_READY",
+  "authority": "advisory_aware_adaptive_scheduler_integration_only",
+  "docs_files": [
+    "docs/qi_advisory_aware_adaptive_scheduler_integration_note_v0_1.md"
+  ],
+  "example_files": [
+    "examples/qi_advisory_aware_adaptive_scheduler_integration_packet_v0_1.json"
+  ],
+  "extends_manifest": "manifests/qi_forecast_to_scheduler_advisory_bridge_addendum_v0_1.json",
+  "invariants": [
+    "advisory_applied_as_hint",
+    "advisory_direct_authority_false",
+    "live_scheduler_still_decides",
+    "adaptive_scheduler_delegation_preserved",
+    "memory_write_performed_false",
+    "memory_append_performed_false",
+    "memory_overwrite_performed_false",
+    "world_update_performed_false",
+    "probe_execution_performed_false"
+  ],
+  "manifest_version": "qi_advisory_aware_adaptive_scheduler_integration_addendum_v0_1",
+  "position": "forecast-to-scheduler advisory bridge -> advisory-aware adaptive scheduler integration",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_advisory_aware_adaptive_scheduler_integration_v0_1.py"
+  ],
+  "scope": "qi-advisory-aware-adaptive-scheduler-integration",
+  "script_files": [
+    "scripts/run_qi_advisory_aware_adaptive_scheduler_integration_v0_1.py",
+    "scripts/check_qi_advisory_aware_adaptive_scheduler_integration_v0_1.py"
+  ]
+}
