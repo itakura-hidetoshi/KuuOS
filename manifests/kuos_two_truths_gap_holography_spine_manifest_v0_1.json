@@ -1,0 +1,68 @@
+{
+  "id": "kuos_two_truths_gap_holography_spine_manifest_v0_1",
+  "title": "KuuOS Two-Truth Gap-Holography Spine Manifest",
+  "status": "confirmed_baseline",
+  "version": "v0.1",
+  "mode": "append_only",
+  "overwrite_forbidden": true,
+  "same_root_required": true,
+  "artifacts": {
+    "documentation": [
+      "docs/KUOS_TWO_TRUTHS_GAP_HOLOGRAPHY_SPINE_v0_1.md"
+    ],
+    "specification": [
+      "specs/kuos_two_truths_gap_holography_spine_v0_1.yaml"
+    ],
+    "lean_spine": [
+      "lean/KSTHolo/TwoTruthGapHolographySpine_v0_1.lean"
+    ]
+  },
+  "core_chain": [
+    "positive_gap",
+    "positive_visible_spectral_weight",
+    "unique_non_vacuous_gap_record",
+    "conventional_image_membership",
+    "gap_holonomy_zero",
+    "gap_visible_stability",
+    "scoped_prediction_sufficiency",
+    "no_ultimate_exhaustion"
+  ],
+  "authorized_claims": [
+    "gap_prediction_sufficient",
+    "stable_conventional_record",
+    "image_non_vacuity",
+    "kernel_residue_retained",
+    "no_ultimate_exhaustion_guardrail"
+  ],
+  "forbidden_claims": [
+    "kernel_zero",
+    "ultimate_identity",
+    "ultimate_exhaustion",
+    "full_flatness_from_gap_closed",
+    "residue_erasure",
+    "scope_free_truth"
+  ],
+  "fixed_invariants": [
+    "positive mass gap plus positive visible spectral weight yields a unique non-vacuous gap-visible conventional record",
+    "scaled correlation limit is the gap-record coefficient",
+    "gap record image non-vacuity does not authorize kernel collapse",
+    "gap holonomy zero yields gap-visible stability",
+    "stable conventional record implies scoped prediction sufficiency",
+    "prediction sufficiency does not authorize ultimate exhaustion",
+    "high-mode and unrecorded residue remain first-class"
+  ],
+  "os_binding": {
+    "WorldModel": "supplies structured world / spectral / process data",
+    "TwoTruthGapHolographySpine": "extracts stable conventional records through gap-mediated projection",
+    "BeliefOS": "reads stable records as belief snapshots without owning truth",
+    "DecisionOS": "adjudicates scoped prediction sufficiency without collapsing ultimate residue",
+    "ClaimSurface": "authorizes prediction claims and forbids kernel-zero / ultimate-identity claims",
+    "CertificateLayer": "exports proof-carrying claim surfaces without exporting forbidden witnesses"
+  },
+  "update_policy": {
+    "append_only": true,
+    "tighten_only_default": true,
+    "destructive_replacement_forbidden": true,
+    "overwrite_forbidden": true
+  }
+}
