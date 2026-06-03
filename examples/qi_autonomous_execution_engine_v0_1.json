@@ -1,0 +1,58 @@
+{
+  "cadence_release_packet": {
+    "established_receipt_only": true,
+    "ledger_append_performed": false,
+    "memory_append_performed": false,
+    "memory_write_performed": false,
+    "packet_status": "QI_CADENCE_V0_2_RELEASE_ESTABLISHED_PACKET_READY",
+    "projection_only": true,
+    "release_packet_id": "qi-cadence-v0-2-release-demo",
+    "release_receipt_only": true,
+    "runtime_control_authority": false,
+    "scheduler_bypass_performed": false,
+    "v0_2_established": true,
+    "v0_2_release_ready": true,
+    "world_update_performed": false
+  },
+  "cbf_packet": {
+    "barrier_closed": false,
+    "cbf_action": "advance_tick",
+    "cbf_ok": true
+  },
+  "decisionos_packet": {
+    "decision_action": "advance_tick"
+  },
+  "example_version": "qi_autonomous_execution_engine_v0_1",
+  "execution_context": {
+    "allowed_actions": [
+      "advance_tick"
+    ],
+    "execution_authority_granted": true,
+    "governance_bounded_execution_required": true,
+    "projection_only_required": true,
+    "qi_autonomous_execution_engine_enabled": true,
+    "read_only_required": true,
+    "receipt_only_required": true,
+    "staged_execution_only": true
+  },
+  "expected": {
+    "execution_committed": false,
+    "execution_intent_staged": true,
+    "projection_only": true,
+    "runtime_control_performed": false,
+    "selected_action": "advance_tick"
+  },
+  "process_tensor_packet": {
+    "non_markov_unresolved": false,
+    "process_tensor_action": "advance_tick",
+    "process_tensor_ok": true,
+    "recovery_witness_missing": false,
+    "recovery_witness_present": true
+  },
+  "token_ledger_packet": {
+    "minimum_required_tokens": 1,
+    "remaining_tokens": 8,
+    "token_ledger_action": "advance_tick",
+    "token_ledger_ok": true
+  }
+}
