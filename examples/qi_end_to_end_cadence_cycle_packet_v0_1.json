@@ -1,0 +1,45 @@
+{
+  "cycle_context": {
+    "cycle_context_id": "qi-cycle-demo-0001",
+    "end_to_end_cadence_cycle_packet_enabled": true,
+    "receipt_only_required": true,
+    "scheduler_bypass_forbidden": true
+  },
+  "example_version": "qi_end_to_end_cadence_cycle_packet_v0_1",
+  "expected": {
+    "cadence_cycle_closed": true,
+    "receipt_only_cycle_packet": true,
+    "scheduler_bypass_performed": false,
+    "memory_write_performed": false,
+    "probe_execution_performed": false
+  },
+  "integration_packet": {
+    "advisory_applied_as_hint": true,
+    "advisory_direct_authority": false,
+    "advisory_packet_id": "qi-forecast-advisory-demo",
+    "delegated_adaptive_packet": {
+      "adaptive_scheduler_status": "QI_ADAPTIVE_WINDOW_SCHEDULER_COMPLETED",
+      "delegates_only_to_multi_tick_window_governor": true,
+      "grants_memory_overwrite_authority": false,
+      "grants_probe_execution_authority": false,
+      "grants_world_update_authority": false,
+      "memory_append_performed": false,
+      "memory_overwrite_performed": false,
+      "memory_write_performed": false,
+      "probe_execution_performed": false,
+      "world_update_performed": false
+    },
+    "delegated_adaptive_status": "QI_ADAPTIVE_WINDOW_SCHEDULER_COMPLETED",
+    "delegated_cadence_mode": "wide_compressed_window",
+    "delegated_completed_tick_count": 4,
+    "delegated_recommended_window_ticks": 4,
+    "integration_status": "QI_ADVISORY_AWARE_ADAPTIVE_SCHEDULER_INTEGRATION_COMPLETED",
+    "live_scheduler_still_decides": true,
+    "memory_append_performed": false,
+    "memory_overwrite_performed": false,
+    "memory_write_performed": false,
+    "probe_execution_performed": false,
+    "source_forecast_packet_id": "qi-rhythm-forecast-demo",
+    "world_update_performed": false
+  }
+}
