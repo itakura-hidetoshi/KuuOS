@@ -1,0 +1,43 @@
+{
+  "id": "kuos_two_truths_gap_holography_spine_baseline_lock_packet_v0_1",
+  "title": "KuuOS Two-Truth Gap-Holography Spine Baseline Lock Packet",
+  "status": "baseline_locked",
+  "version": "v0.1",
+  "locks": {
+    "spine": "kuos_two_truths_gap_holography_spine_v0_1",
+    "release_packet": "packets/kuos_two_truths_gap_holography_spine_release_packet_v0_1.json",
+    "manifest": "manifests/kuos_two_truths_gap_holography_spine_manifest_v0_1.json",
+    "chain_index": "chain_indexes/kuos_two_truths_gap_holography_spine_chain_index_v0_1.yaml"
+  },
+  "locked_canonical_chain": [
+    "gapから記録へ",
+    "記録から安定へ",
+    "安定から予測へ",
+    "ただし予測から勝義尽尽へは進ませない"
+  ],
+  "locked_invariants": [
+    "positive_gap_visible_weight_to_record",
+    "scaled_limit_record_coefficient",
+    "image_non_vacuity_no_kernel_collapse",
+    "gap_holonomy_to_stability",
+    "prediction_sufficient_not_exhaustive",
+    "residue_retained"
+  ],
+  "locked_forbidden_transitions": [
+    "image_non_vacuity_to_kernel_zero",
+    "prediction_sufficiency_to_ultimate_identity",
+    "prediction_sufficiency_to_ultimate_exhaustion",
+    "gap_stability_to_full_flatness",
+    "record_extraction_to_residue_erasure",
+    "validation_pass_to_theorem_authority"
+  ],
+  "lock_policy": {
+    "overwrite_forbidden": true,
+    "destructive_replacement_forbidden": true,
+    "append_only": true,
+    "tighten_only_default": true,
+    "same_root_required": true,
+    "weakening_requires_reject": true
+  },
+  "boundary_note": "This lock preserves KST-Holo as a KuuOS baseline spine. It does not claim truth authority, theorem authority, kernel-zero authority, ultimate-identity authority, or ultimate-exhaustion authority."
+}
