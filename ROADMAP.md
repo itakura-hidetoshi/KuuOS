@@ -1,13 +1,13 @@
 # KuuOS / 空OS Roadmap
 
-This roadmap describes the current public direction of `itakura-hidetoshi/KuuOS`.
+This roadmap describes the current public direction of `itakura-hidetoshi/KuuOS` as of June 2026.
 
-KuuOS has moved beyond a small public-core documentation surface. It is now an append-only, governance-gated, validation-backed, proof-facing, and bounded-runtime architecture for relational AI systems.
+KuuOS has moved beyond a small public-core documentation surface. It is now an append-only, governance-gated, validation-backed, proof-facing, memory-aware, and bounded-runtime architecture for relational AI systems.
 
-The roadmap is therefore organized around two simultaneous movements:
+The roadmap is organized around two simultaneous movements:
 
-1. **Public repository maturity** — make the current governance, validation, runtime, Qi, proof-facing, and boundary surfaces understandable and reproducible.
-2. **KuuOS internal baseline projection** — gradually mirror the larger KuuOS baseline into public artifacts without collapsing candidate, validation, runtime, proof, medical, institutional, or execution authority.
+1. **Public repository maturity** — make the current governance, validation, runtime, Qi, memory, proof-facing, and boundary surfaces understandable and reproducible.
+2. **Controlled KuuOS baseline projection** — gradually project the larger KuuOS baseline into public artifacts without collapsing candidate, validation, runtime, proof, medical, institutional, memory, or execution authority.
 
 ---
 
@@ -33,7 +33,9 @@ runtime-tick-as-execution-authority
 GPT-summary-as-proof
 world-model-prediction-as-fact
 memory-persistence-as-belief-sovereignty
+plan-success-as-execution-permission
 reflection-summary-as-root-rewrite
+audit-trigger-as-infinite-escalation
 ```
 
 This boundary is medical-modality neutral. It does not state that biomedicine is superior, that Qi is false, or that East Asian medical reasoning is invalid.
@@ -42,7 +44,7 @@ All phases below preserve:
 
 ```text
 append-only
-tighten-only by default
+tighten-only by default, but not automatic grave escalation
 overwrite forbidden
 same-root required for protected surfaces
 fail-closed validation behavior
@@ -50,6 +52,8 @@ non-authority preservation
 provenance preservation
 bounded runtime operation
 validator tier separation
+audit proportionality
+harmony and visible cost
 ```
 
 ---
@@ -64,6 +68,7 @@ Core surfaces:
 
 ```text
 README.md
+ROADMAP.md
 GOVERNANCE.md
 CONTRIBUTING.md
 CITATION.cff
@@ -100,6 +105,7 @@ Core rule:
 runtime audit chain structural consistency is not theorem authority
 hash-chain continuity is not truth
 two truths non-collapse barrier must not reify ultimate truth
+audit must not silently become infinite escalation
 ```
 
 Validation:
@@ -109,7 +115,7 @@ make emptiness-two-truths-runtime-audit-checks
 make emptiness-superposition-noncollapse-checks
 ```
 
-### 1.3 GPT GitHub Integration
+### 1.3 GPT GitHub Integration and Anti-Loop Repair
 
 Status: **active repository-operation surface**
 
@@ -118,7 +124,18 @@ Purpose:
 ```text
 Allow GPT to help read, summarize, review, triage, and draft repository changes
 without allowing GPT output to become truth, proof, standalone diagnosis authority,
-standalone treatment authorization, medical act authorization, or execution authority.
+standalone treatment authorization, medical act authorization, memory overwrite,
+or execution authority.
+```
+
+Current emphasis:
+
+```text
+Detect repeated wrong-code patterns.
+Separate similar-looking fixes from verified repairs.
+Preserve trace of failed generations.
+Require bounded repair candidates and validation receipts.
+Avoid AI self-authorization through plausible repetition.
 ```
 
 Validation:
@@ -196,7 +213,8 @@ Near-term next steps:
 Keep Qi motion chain in all-governance checks.
 Keep process-tensor and non-Markovian memory surfaces visible.
 Maintain medical-modality-neutral wording in reviewer docs.
-Do not convert Qi motion candidate into execution, standalone diagnosis, standalone treatment authorization, medical act authorization, or theorem authority.
+Do not convert Qi motion candidate into execution, standalone diagnosis,
+standalone treatment authorization, medical act authorization, or theorem authority.
 ```
 
 ### 1.6 KuuOS Bounded Runtime v0.1
@@ -211,7 +229,8 @@ Runtime is non-authoritative.
 Runtime is receipt-producing.
 Runtime may advance State IO by bounded ticks.
 Runtime does not open autonomous execution authority.
-Runtime does not open truth, theorem, clinical, memory-overwrite, or final-commitment authority.
+Runtime does not open truth, theorem, clinical, memory-overwrite,
+or final-commitment authority.
 ```
 
 Current runtime path:
@@ -254,15 +273,46 @@ python3 scripts/run_kuuos_runtime_full_check_v0_1.py
 Near-term next steps:
 
 ```text
-Add a Makefile alias for runtime full check.
-Expose runtime runbook in README.
+Add a Makefile alias for runtime full check if absent.
+Expose runtime runbook in README and docs.
 Document bounded daemon operation separately from governance validation.
 Keep validator tiering explicit.
 Keep authority flags false.
 Keep stop reasons visible.
 ```
 
-### 1.7 Superstring / Brane / Membrane Emptiness Bridge
+### 1.7 MemoryOS / Non-Markovian Memory Baseline Projection
+
+Status: **active internal baseline; public projection in progress**
+
+Core direction:
+
+```text
+Memory is append-only lineage and reconstructive support.
+Memory is not belief authority.
+Memory is not root overwrite authority.
+Memory must preserve trace, scar, holonomy, relapse lineage, process continuity,
+collective reconstruction, and uncertainty visibility.
+```
+
+Near-term next steps:
+
+```text
+Create public MemoryOS index surfaces.
+Expose non-Markovian memory examples through validation cases.
+Document process-tensor memory linkage.
+Separate memory persistence from belief promotion.
+Add reviewer examples for relapse, scar, reobserve, repair, and handover.
+```
+
+Acceptance criteria:
+
+```text
+A reviewer can see how memory informs future posture without granting belief,
+decision, clinical, theorem, or execution authority.
+```
+
+### 1.8 Superstring / Brane / Membrane Emptiness Bridge
 
 Status: **active proof-facing bridge surface**
 
@@ -279,7 +329,7 @@ Validation:
 make superstring-emptiness-sbm-checks
 ```
 
-### 1.8 MGAP4D / Formal Verification Bridge
+### 1.9 MGAP4D / Formal Verification / Lean Bridge
 
 Status: **active proof-facing bridge surface**
 
@@ -290,6 +340,8 @@ KuuOS references canonical proof-facing repositories and formal surfaces.
 KuuOS does not independently grant final theorem authority.
 CI pass does not equal mathematical acceptance.
 Formal stub does not equal completed theorem.
+Lean file does not equal external theorem acceptance.
+mathlib alignment is proof support, not final authority.
 GPT summary does not equal proof.
 ```
 
@@ -309,7 +361,8 @@ Goal:
 
 ```text
 Make the repository understandable to first-time reviewers, other AI systems,
-formal-methods readers, governance reviewers, runtime reviewers, and medical/integrative medicine reviewers.
+formal-methods readers, governance reviewers, runtime reviewers, memory-system reviewers,
+and medical/integrative medicine reviewers.
 ```
 
 Tasks:
@@ -317,10 +370,12 @@ Tasks:
 - maintain `README.md` as the top-level public orientation surface
 - maintain `ROADMAP.md` as the current integrated repository map
 - keep MGAP4D references as canonical proof-facing bridges, not the whole roadmap
-- add clear “what this is / what this is not” boundaries
-- add bounded runtime status to the README
-- add runtime full check to Quick Validation
+- keep “what this is / what this is not” boundaries visible
+- keep bounded runtime status visible in README
+- keep runtime full check visible in Quick Validation
 - make validator tiering visible
+- expose audit proportionality and anti-infinite-audit rules
+- expose anti-loop repair for repeated AI wrong-code patterns
 - keep the first run path short:
   - `README.md`
   - `docs/QUICKSTART_v0_1.md`
@@ -347,6 +402,8 @@ A new reviewer can identify:
 10. why validation is not authority
 11. why runtime tick is not execution authority
 12. why Qi is not denied by the medical boundary
+13. why memory is not belief sovereignty
+14. why audit is not infinite escalation
 ```
 
 ---
@@ -363,9 +420,9 @@ Make bounded runtime operation reproducible, inspectable, and clearly non-author
 
 Tasks:
 
-- add `make runtime-full-check`
-- add `make runtime-manifest-checks`
-- add `make validator-tiering-checks`
+- add or confirm `make runtime-full-check`
+- add or confirm `make runtime-manifest-checks`
+- add or confirm `make validator-tiering-checks`
 - write a runtime runbook for:
   - State IO
   - process-tensor summary
@@ -430,6 +487,7 @@ Tasks:
   - Qi motion chain package
   - bounded runtime package
   - medical-modality-neutral Qi boundary package
+  - MemoryOS projection package
 - preserve append-only lineage
 
 Acceptance criteria:
@@ -480,6 +538,9 @@ Tasks:
   - recursive invocation leakage
   - authority flag regression
   - medical-modality-neutral wording regression
+  - memory-to-belief overpromotion
+  - audit escalation loop
+  - repeated AI wrong-code loop
   - Lean / formal surface failure
   - environment drift
 - keep stdlib-only Python validator policy where possible
@@ -536,14 +597,56 @@ or unrestricted execution authority.
 
 ---
 
-## 7. Phase F — OS Bridge Projection
+## 7. Phase F — MemoryOS Public Projection
+
+Status: **parallel priority**
+
+Goal:
+
+```text
+Project the non-Markovian, reconstructive, ecology-aware MemoryOS baseline into
+public repository surfaces in a controlled, additive, non-authoritative way.
+```
+
+Candidate surfaces:
+
+```text
+MemoryOS public index
+append-only memory lineage boundary
+non-Markovian process trace examples
+scar / holonomy / relapse lineage examples
+collective reconstructive recall examples
+memory-to-belief separation validator
+memory reobserve / repair / handover examples
+```
+
+Rules:
+
+```text
+Memory persistence cannot become belief sovereignty.
+Memory repair cannot become root overwrite.
+Memory recall cannot erase uncertainty.
+Collective reconstruction cannot silently overwrite individual lineage.
+```
+
+Acceptance criteria:
+
+```text
+A reviewer can inspect how memory influences posture, repair, reobserve, or handover
+without granting belief, decision, clinical, proof, or execution authority.
+```
+
+---
+
+## 8. Phase G — OS Bridge Projection
 
 Status: **planned additive projection**
 
 Goal:
 
 ```text
-Project the broader KuuOS baseline into public repository surfaces in a controlled, additive, non-authoritative manner.
+Project the broader KuuOS baseline into public repository surfaces in a controlled,
+additive, non-authoritative manner.
 ```
 
 Candidate projection lanes:
@@ -558,6 +661,8 @@ ReflectionOS scalable oversight and institutional-public governance
 CausalSurface semantic mapping and bridge discipline
 HybridControl continuous-discrete governance bridge
 Yin-Yang / Wuxing / Qi tensor runtime surfaces
+Witness / LocalGlobal / Boundary bridge surfaces
+Recovery Governance surfaces
 ```
 
 Rules:
@@ -570,6 +675,8 @@ WorldModel predictions cannot become facts.
 DecisionOS candidates cannot become commits without gate validation.
 MemoryOS persistence cannot become belief sovereignty.
 PlanOS success cannot become execution permission.
+Witness shells cannot bypass proof spine.
+Local validation cannot silently become global truth.
 ```
 
 Acceptance criteria:
@@ -587,7 +694,7 @@ Each OS bridge projection has:
 
 ---
 
-## 8. Phase G — Formal Verification Bridge Maturity
+## 9. Phase H — Formal Verification Bridge Maturity
 
 Status: **parallel track**
 
@@ -602,13 +709,14 @@ Tasks:
 - keep KuuOS formal bridge separate from canonical theorem repositories
 - route proof-facing claims through:
   - formal invariant spine
-  - Lean / proof repository
+  - Lean / mathlib-facing theorem target
   - CI check
   - external review gate
   - theorem boundary statement
 - prevent:
   - `formal_file_not_proof_by_itself`
   - `lean_stub_not_theorem_completion`
+  - `mathlib_mapping_not_theorem_authority`
   - `ci_pass_not_theorem_truth`
   - `validator_pass_not_mathematical_acceptance`
   - `GPT_summary_not_proof_authority`
@@ -620,104 +728,133 @@ MGAP4D relation:
 ```text
 Canonical proof-facing repository:
 https://github.com/itakura-hidetoshi/4d-mass-gap
-
-KuuOS role:
-reference bridge, governance boundary, release routing, theorem-boundary discipline
 ```
-
----
-
-## 9. Phase H — Reviewer Experience and External Audit Readiness
-
-Status: **planned**
-
-Goal:
-
-```text
-Make KuuOS readable, reproducible, and reviewable by humans and AI systems without simplifying away its boundary discipline.
-```
-
-Tasks:
-
-- add a reviewer index by audience:
-  - general AI safety / governance reviewer
-  - formal methods reviewer
-  - runtime engineer
-  - Qi / East Asian medicine reviewer
-  - physics-facing reviewer
-  - GitHub / CI reviewer
-- add diagrams for:
-  - fourfold core
-  - Qi / IndraNet process tensor path
-  - runtime daemon bounded tick loop
-  - non-authority gates
-  - proof-facing vs runtime-facing separation
-- keep diagram labels short and English-friendly for broad review
-- add reproducibility recipes
-- add failure-mode examples
-- add “what a pass does not mean” callouts
 
 Acceptance criteria:
 
 ```text
-A reviewer can inspect the repository without confusing:
-- candidate with authority
-- validation with truth
-- runtime tick with execution authority
-- Qi readout with intervention license
-- formal bridge with theorem completion
-- medical boundary with denial of Qi
+A reviewer can distinguish:
+- governance invariant
+- theorem target
+- Lean stub
+- completed formal proof
+- external mathematical acceptance
 ```
 
 ---
 
-## 10. Long-Term Direction
+## 10. Phase I — Audit Proportionality and Harmony Repair
 
-KuuOS aims to become a public, formally constrained AI operating architecture where:
+Status: **current correction track**
+
+Goal:
 
 ```text
-raw model output is candidate only
-memory is append-only and non-sovereign
-belief is evidence-bound
-world-model prediction is advisory
-planning is reversible and rollback-aware
-decision is multi-value and gate-validated
-reflection is advisory and non-rewriting
-Qi is relational process field
-IndraNet is gauge-structured
-runtime is bounded and receipt-producing
-validation is reproducible but non-authoritative
-formal proof surfaces remain theorem-boundary aware
+Prevent audit and tighten-only rules from becoming automatic grave escalation,
+infinite monitoring, or disharmonious governance behavior.
 ```
 
-The public repository should eventually provide:
+Tasks:
+
+- define finite audit budgets by surface and risk class
+- expose stop reasons for audit termination
+- distinguish observation from escalation
+- add hold / reobserve / repair / handover as normal, non-punitive outcomes
+- add grave-mode criteria only for explicit severe boundary violations
+- prevent low-risk validator drift from triggering high-severity audit loops
+- document visible cost, proportionality, and harmony constraints
+
+Acceptance criteria:
 
 ```text
-clear entry path
-stable release packages
-runtime examples
-formal bridge documents
-validator matrix
-CI reproducibility
-boundary taxonomy
-non-authority receipts
-OS bridge manifests
-reviewer-facing diagrams
+A reviewer can see why an audit starts, why it stops, what it costs,
+and why it does not automatically escalate to grave mode.
 ```
 
 ---
 
-## 11. Final Roadmap Rule
+## 11. Phase J — Public Reviewer Experience
 
-KuuOS development remains:
+Status: **ongoing**
+
+Goal:
 
 ```text
-additive-only
-tighten-only by default
-overwrite forbidden
-same-root required
-fail-closed on boundary violation
-candidate never self-authorizes
-validation never becomes truth by itself
-runtime never becomes autonomous authority by itself
+Make KuuOS legible to several audiences without flattening its structure.
+```
+
+Reviewer lanes:
+
+```text
+first-time AI governance reviewer
+formal methods / Lean reviewer
+runtime engineer
+memory-system reviewer
+East Asian medicine / integrative medicine reviewer
+physics-facing proof reviewer
+GitHub / CI maintainer
+```
+
+Tasks:
+
+- keep README short enough to orient
+- keep ROADMAP structured by phase
+- add compact diagrams where useful
+- preserve Japanese and English orientation
+- avoid turning deep internal baselines into unreviewable public noise
+- use append-only addenda for new surfaces
+
+Acceptance criteria:
+
+```text
+A reviewer can enter through README, choose a lane, run relevant checks,
+and understand the boundary of every result.
+```
+
+---
+
+## 12. Long-Term Direction
+
+KuuOS is moving toward a public architecture where:
+
+```text
+AI generation remains candidate-level.
+Memory remains lineage and reconstructive support.
+Belief remains calibrated and evidence-bound.
+Planning remains rollback-aware and non-authoritative.
+Decision remains boundary-owned and receipt-producing.
+Reflection remains repair-facing, not root-rewriting.
+Qi remains relational/process-facing, not substance or license.
+Formal verification remains proof-facing, not self-authorizing.
+Runtime remains bounded and non-authoritative.
+Audit remains proportional and finite.
+```
+
+The long-term goal is not to make an AI that simply acts more freely.
+
+The goal is to make a relational AI architecture in which:
+
+```text
+claims know their support,
+plans know their boundary,
+memories know their lineage,
+proofs know their status,
+Qi readouts know their non-authority,
+runtime knows its stop conditions,
+and governance knows when not to escalate.
+```
+
+---
+
+## 13. Current Priority Summary
+
+```text
+1. Keep README and ROADMAP aligned with current public status.
+2. Consolidate runtime and validator tiering documentation.
+3. Project MemoryOS non-Markovian memory surfaces carefully.
+4. Add anti-loop repair for repeated wrong-code AI behavior.
+5. Strengthen Lean/mathlib bridge without claiming theorem authority.
+6. Preserve Qi motion as observe-only and medical-modality neutral.
+7. Prevent audit from becoming infinite or disharmonious.
+8. Keep all public projections additive, bounded, and non-authoritative.
 ```
