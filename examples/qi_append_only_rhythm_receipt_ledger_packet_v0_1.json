@@ -1,0 +1,44 @@
+{
+  "context": {
+    "append_only_required": true,
+    "append_only_rhythm_ledger_enabled": true,
+    "append_receipt": true,
+    "jsonl_backend_required": true
+  },
+  "example_version": "qi_append_only_rhythm_receipt_ledger_packet_v0_1",
+  "expected": {
+    "append_only_enforced": true,
+    "ledger_append_performed": true,
+    "memory_append_performed": false,
+    "memory_write_performed": false,
+    "rhythm_receipt_ledger_only": true
+  },
+  "rhythm_layer_packet": {
+    "delegated_cadence_mode": "wide_compressed_window",
+    "delegated_completed_tick_count": 4,
+    "delegated_recommended_window_ticks": 4,
+    "delegated_stop_reason": "window_completed",
+    "recent_pressure_mean": 0.15,
+    "rhythm_bias": "expand_if_low_pressure",
+    "rhythm_entry_candidate": {
+      "cadence_mode": "wide_compressed_window",
+      "delegated_completed_tick_count": 4,
+      "delegated_stop_reason": "window_completed",
+      "entry_kind": "rhythm_cadence_history_candidate",
+      "memory_append_performed": false,
+      "memory_write_performed": false,
+      "process_tensor_pressure_score": 0.15,
+      "projection_only": true,
+      "recommended_window_ticks": 4,
+      "rhythm_bias": "expand_if_low_pressure",
+      "rhythm_mode": "stable_expansion",
+      "world_update_performed": false
+    },
+    "rhythm_history_projection_only": true,
+    "rhythm_layer_grants_no_new_authority": true,
+    "rhythm_layer_status": "QI_RHYTHM_MEMORY_CADENCE_HISTORY_LAYER_COMPLETED",
+    "rhythm_layer_version": "kuuos_runtime_daemon_qi_rhythm_memory_cadence_history_layer_v0_1",
+    "rhythm_mode": "stable_expansion",
+    "rhythm_stability_score": 0.88
+  }
+}
