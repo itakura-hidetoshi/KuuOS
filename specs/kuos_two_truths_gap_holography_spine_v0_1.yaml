@@ -1,0 +1,105 @@
+id: kuos_two_truths_gap_holography_spine_v0_1
+title: KuuOS Two-Truth Gap-Holography Spine
+status: confirmed_baseline
+version: v0.1
+mode: append_only
+owner: KuuOS
+
+summary: >
+  Core KuuOS spine connecting two-truths gap, spectral / operational gap,
+  stable conventional record extraction, scoped prediction sufficiency,
+  and no-ultimate-exhaustion guardrails.
+
+canonical_sentence: >
+  KuuOS uses gap-stabilized conventional records for scoped prediction while
+  preserving the unrecorded emptiness that those records do not exhaust.
+
+japanese_canonical_sentence: >
+  空OSは、gap によって安定に現れる世俗諦側の記録を予測に用いるが、
+  その記録が尽くさない未記録の空を消さない。
+
+core_chain:
+  - positive_gap
+  - positive_visible_spectral_weight
+  - unique_non_vacuous_gap_record
+  - conventional_image_membership
+  - gap_holonomy_zero
+  - gap_visible_stability
+  - scoped_prediction_sufficiency
+  - no_ultimate_exhaustion
+
+analytic_kernel:
+  assumptions:
+    delta_positive: "Delta > 0"
+    eta_positive: "eta > 0"
+    visible_weight_positive: "a_Delta > 0"
+    correlation_decomposition: "C_A(t) = a_Delta * exp(-Delta*t) + R_A(t)"
+    high_mode_bound: "0 <= R_A(t) <= M * exp(-(Delta + eta)*t)"
+  conclusions:
+    scaled_limit: "lim_{t -> infinity} exp(Delta*t) * C_A(t) = a_Delta"
+    gap_record: "R_Delta = (Delta, a_Delta)"
+    coefficient_unique: true
+    record_non_vacuous: true
+
+image_kernel:
+  functor: "F_Delta : UltimateBulk -> ConventionalRecord"
+  placement_rule: "F_Delta(X_A) = R_Delta implies R_Delta in Image(F_Delta)"
+  image_non_vacuity: "exists R in Image(F_Delta), R != record_zero"
+  does_not_authorize:
+    - kernel_zero
+    - ultimate_identity
+    - ultimate_exhaustion
+
+stability_kernel:
+  projection: "Pi_Delta additive idempotent projection"
+  holonomy: "H_gamma = T_gamma - id"
+  assumption: "Pi_Delta H_gamma Pi_Delta = 0"
+  conclusion: "Pi_Delta T_gamma Pi_Delta = Pi_Delta"
+  record_stability: "Pi_Delta T_gamma(Pi_Delta R_Delta) = Pi_Delta R_Delta"
+  does_not_authorize:
+    - full_flatness
+    - residue_erasure
+
+prediction_kernel:
+  authorized_claims:
+    - gap_prediction_sufficient
+    - stable_conventional_record
+    - image_non_vacuity
+    - kernel_residue_retained
+    - no_ultimate_exhaustion_guardrail
+  forbidden_claims:
+    - kernel_zero
+    - ultimate_identity
+    - ultimate_exhaustion
+    - full_flatness_from_gap_closed
+    - residue_erasure
+    - scope_free_truth
+
+os_binding:
+  WorldModel: supplies structured world / spectral / process data
+  TwoTruthGapHolographySpine: extracts stable conventional records through gap-mediated projection
+  BeliefOS: reads stable records as belief snapshots without owning truth
+  DecisionOS: adjudicates scoped prediction sufficiency without collapsing ultimate residue
+  ClaimSurface: authorizes prediction claims and forbids kernel-zero / ultimate-identity claims
+  CertificateLayer: exports proof-carrying claim surfaces without exporting forbidden witnesses
+
+baseline_invariants:
+  - id: positive_gap_visible_weight_to_record
+    statement: Positive mass gap plus positive visible spectral weight yields a unique non-vacuous gap-visible conventional record.
+  - id: scaled_limit_record_coefficient
+    statement: The scaled correlation limit is the record coefficient.
+  - id: image_non_vacuity_no_kernel_collapse
+    statement: Image non-vacuity does not authorize kernel collapse.
+  - id: gap_holonomy_to_stability
+    statement: Gap-holonomy zero yields gap-visible stability.
+  - id: prediction_sufficient_not_exhaustive
+    statement: Stable conventional record implies scoped prediction sufficiency, not ultimate exhaustion.
+  - id: residue_retained
+    statement: High-mode and unrecorded residue remain first-class.
+
+update_policy:
+  overwrite_forbidden: true
+  additive_only: true
+  tighten_only_default: true
+  same_root_required: true
+  destructive_replacement_forbidden: true
