@@ -1,0 +1,32 @@
+{
+  "example_version": "qi_cadence_observability_projection_v0_2",
+  "finality_packet": {
+    "canonical_chain_complete": true,
+    "chain_index_count": 12,
+    "finality_confirmed": true,
+    "finality_packet_id": "qi-cadence-finality-demo",
+    "finality_packet_status": "QI_CADENCE_SUPERCHAIN_FINALITY_PACKET_READY",
+    "memory_append_performed": false,
+    "memory_write_performed": false,
+    "no_authority_boundary_preserved": true,
+    "probe_execution_performed": false,
+    "receipt_only_finality_packet": true,
+    "scheduler_bypass_performed": false,
+    "source_baseline_packet_id": "qi-cadence-baseline-demo",
+    "superchain_root_digest": "superchain-root-demo",
+    "world_update_performed": false
+  },
+  "observability_context": {
+    "cadence_observability_enabled": true,
+    "dashboard_projection_only_required": true,
+    "projection_only_required": true
+  },
+  "expected": {
+    "dashboard_projection_only": true,
+    "finality_confirmed_gauge": 1,
+    "memory_write_gauge": 0,
+    "projection_only": true,
+    "runtime_control_authority": false,
+    "scheduler_bypass_gauge": 0
+  }
+}
