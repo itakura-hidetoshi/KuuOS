@@ -1,0 +1,32 @@
+{
+  "alert_context": {
+    "cadence_alert_policy_enabled": true,
+    "projection_only_required": true,
+    "read_only_incident_surface_required": true
+  },
+  "example_version": "qi_cadence_alert_policy_v0_2",
+  "expected": {
+    "alert_count": 0,
+    "alert_policy_projection_only": true,
+    "alert_severity": "none",
+    "notification_sent": false,
+    "read_only_incident_surface": true,
+    "ticket_created": false
+  },
+  "observability_packet": {
+    "canonical_chain_complete_gauge": 1,
+    "dashboard_projection_only": true,
+    "finality_confirmed_gauge": 1,
+    "memory_append_gauge": 0,
+    "memory_write_gauge": 0,
+    "metrics_packet_id": "qi-cadence-metrics-demo",
+    "no_authority_boundary_gauge": 1,
+    "observability_status": "QI_CADENCE_OBSERVABILITY_PROJECTION_READY",
+    "probe_execution_gauge": 0,
+    "projection_only": true,
+    "runtime_control_authority": false,
+    "scheduler_bypass_gauge": 0,
+    "source_finality_packet_id": "qi-cadence-finality-demo",
+    "world_update_gauge": 0
+  }
+}
