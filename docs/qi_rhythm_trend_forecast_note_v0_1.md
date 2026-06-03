@@ -54,13 +54,13 @@ probe_execution_performed = false
 ## Validation
 
 ```bash
-python scripts/run_qi_rhythm_trend_forecast_checks_v0_1.py
+python scripts/check_qi_rhythm_trend_forecast_v0_1.py
 ```
 
 Expected result:
 
 ```text
-PASS: Qi rhythm trend forecast checks
+PASS: Qi rhythm trend forecast check
 ```
 
 ## Next layer
