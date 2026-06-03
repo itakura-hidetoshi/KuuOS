@@ -29,6 +29,8 @@ REQUIRED_FILES = [
     "validators/validate_kuos_two_truths_gap_holography_spine_v0_1.py",
     "scripts/run_kuos_two_truths_gap_holography_spine_checks_v0_1.py",
     ".github/workflows/two_truths_gap_holography_spine_validation.yml",
+    "packets/kuos_two_truths_gap_holography_spine_release_packet_v0_1.json",
+    "packets/kuos_two_truths_gap_holography_spine_baseline_lock_packet_v0_1.json",
 ]
 
 REQUIRED_DOC_SNIPPETS = [
@@ -107,6 +109,9 @@ REQUIRED_WORKFLOW_SNIPPETS = [
     "PASS is a consistency receipt only",
 ]
 
+RELEASE_PACKET = "packets/kuos_two_truths_gap_holography_spine_release_packet_v0_1.json"
+BASELINE_LOCK_PACKET = "packets/kuos_two_truths_gap_holography_spine_baseline_lock_packet_v0_1.json"
+
 
 def read_text(rel: str) -> str:
     return (ROOT / rel).read_text(encoding="utf-8")
@@ -163,6 +168,8 @@ def validate_manifest() -> None:
         "validators/validate_kuos_two_truths_gap_holography_spine_v0_1.py",
         "scripts/run_kuos_two_truths_gap_holography_spine_checks_v0_1.py",
         ".github/workflows/two_truths_gap_holography_spine_validation.yml",
+        RELEASE_PACKET,
+        BASELINE_LOCK_PACKET,
     ]:
         if rel_path not in flattened:
             fail(f"manifest artifacts missing {rel_path}")
@@ -176,6 +183,41 @@ def validate_manifest() -> None:
     for key in ["append_only", "overwrite_forbidden", "destructive_replacement_forbidden"]:
         if update_policy.get(key) is not True:
             fail(f"manifest update_policy.{key} must be true")
+
+
+def validate_release_packet() -> None:
+    data = json.loads(read_text(RELEASE_PACKET))
+    if data.get("status") != "released_baseline":
+        fail("release packet status must be released_baseline")
+    if data.get("update_policy", {}).get("overwrite_forbidden") is not True:
+        fail("release packet must be overwrite_forbidden")
+    for claim in ["kernel_zero", "ultimate_identity", "ultimate_exhaustion", "residue_erasure"]:
+        if claim not in set(data.get("forbidden_claims", [])):
+            fail(f"release packet forbidden_claims missing {claim}")
+    boundary = data.get("validation_boundary", {})
+    if boundary.get("pass_means") != "repository-surface consistency receipt only":
+        fail("release packet pass_means must be repository-surface consistency receipt only")
+
+
+def validate_baseline_lock_packet() -> None:
+    data = json.loads(read_text(BASELINE_LOCK_PACKET))
+    if data.get("status") != "baseline_locked":
+        fail("baseline lock packet status must be baseline_locked")
+    lock_policy = data.get("lock_policy", {})
+    for key in ["overwrite_forbidden", "destructive_replacement_forbidden", "append_only", "same_root_required"]:
+        if lock_policy.get(key) is not True:
+            fail(f"baseline lock lock_policy.{key} must be true")
+    locked_forbidden = set(data.get("locked_forbidden_transitions", []))
+    for transition in [
+        "image_non_vacuity_to_kernel_zero",
+        "prediction_sufficiency_to_ultimate_identity",
+        "prediction_sufficiency_to_ultimate_exhaustion",
+        "gap_stability_to_full_flatness",
+        "record_extraction_to_residue_erasure",
+        "validation_pass_to_theorem_authority",
+    ]:
+        if transition not in locked_forbidden:
+            fail(f"baseline lock missing forbidden transition {transition}")
 
 
 def main() -> int:
@@ -202,6 +244,8 @@ def main() -> int:
     require_snippets("Makefile", makefile, ["two-truths-gap-holography-spine-checks"])
 
     validate_manifest()
+    validate_release_packet()
+    validate_baseline_lock_packet()
 
     print("PASS: KuuOS Two-Truth Gap-Holography Spine v0.1 validation succeeded")
     print("NOTE: PASS is a consistency receipt, not truth/theorem/execution/ultimate-exhaustion authority.")
