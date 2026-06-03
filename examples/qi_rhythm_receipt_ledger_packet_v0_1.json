@@ -1,0 +1,26 @@
+{
+  "context": {
+    "append_only_required": true,
+    "deduplicate_receipt_id": true,
+    "jsonl_backend_required": true,
+    "ledger_scope": "qi_rhythm_receipt_ledger",
+    "rhythm_receipt_ledger_enabled": true,
+    "root_id": "qi-root-rhythm-ledger-0001"
+  },
+  "example_version": "qi_rhythm_receipt_ledger_packet_v0_1",
+  "rhythm_entry_candidate": {
+    "cadence_mode": "wide_compressed_window",
+    "delegated_completed_tick_count": 4,
+    "delegated_stop_reason": "window_completed",
+    "entry_kind": "rhythm_cadence_history_candidate",
+    "memory_append_performed": false,
+    "memory_write_performed": false,
+    "process_tensor_pressure_score": 0.12,
+    "projection_only": true,
+    "recommended_window_ticks": 4,
+    "rhythm_bias": "expand_if_low_pressure",
+    "rhythm_mode": "stable_expansion",
+    "rhythm_stability_score": 0.91,
+    "world_update_performed": false
+  }
+}
