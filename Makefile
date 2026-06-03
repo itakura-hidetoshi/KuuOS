@@ -193,3 +193,8 @@ core-governance-checks:
 
 all-governance-checks:
 	python3 scripts/run_all_governance_full_checks_v0_1.py
+
+.PHONY: two-truths-gap-holography-spine-checks
+
+two-truths-gap-holography-spine-checks:
+	python3 scripts/run_kuos_two_truths_gap_holography_spine_checks_v0_1.py
