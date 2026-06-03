@@ -1,0 +1,39 @@
+{
+  "example_version": "qi_rhythm_memory_cadence_history_layer_packet_v0_1",
+  "expected": {
+    "delegates_only_to_adaptive_window_scheduler": true,
+    "recommended_max_window_ticks": 8,
+    "rhythm_bias": "expand_if_low_pressure",
+    "rhythm_history_projection_only": true,
+    "rhythm_mode": "stable_expansion"
+  },
+  "rhythm_context": {
+    "absolute_max_window_ticks": 16,
+    "base_max_window_ticks": 4,
+    "base_min_window_ticks": 1,
+    "current_tick": 7,
+    "history_window_size": 8,
+    "jsonl_backend_required": true,
+    "read_only_rhythm_memory": true,
+    "rhythm_memory_layer_enabled": true,
+    "tick_id_prefix": "qi-rhythm"
+  },
+  "rhythm_history": {
+    "entries": [
+      {
+        "cadence_mode": "wide_compressed_window",
+        "delegated_completed_tick_count": 4,
+        "process_tensor_pressure_score": 0.1,
+        "recommended_window_ticks": 4,
+        "stop_reason": "window_completed"
+      },
+      {
+        "cadence_mode": "wide_compressed_window",
+        "delegated_completed_tick_count": 4,
+        "process_tensor_pressure_score": 0.15,
+        "recommended_window_ticks": 4,
+        "stop_reason": "window_completed"
+      }
+    ]
+  }
+}
