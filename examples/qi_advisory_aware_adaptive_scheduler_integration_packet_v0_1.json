@@ -1,0 +1,35 @@
+{
+  "advisory_packet": {
+    "advisory_cadence_mode_hint": "wide_compressed_window",
+    "advisory_max_window_ticks_hint": 4,
+    "advisory_min_window_ticks_hint": 1,
+    "advisory_only": true,
+    "advisory_packet_id": "qi-forecast-advisory-demo",
+    "advisory_reason": "stable_low_pressure_forecast",
+    "bounded_hint_enforced": true,
+    "bridge_status": "QI_FORECAST_TO_SCHEDULER_ADVISORY_BRIDGE_READY",
+    "forecast_directly_sets_window": false,
+    "memory_append_performed": false,
+    "memory_write_performed": false,
+    "probe_execution_performed": false,
+    "replaces_forecast_packet": false,
+    "replaces_ledger_root": false,
+    "scheduler_context_patch_authoritative": false,
+    "source_forecast_packet_id": "qi-rhythm-forecast-demo"
+  },
+  "example_version": "qi_advisory_aware_adaptive_scheduler_integration_packet_v0_1",
+  "expected": {
+    "advisory_applied_as_hint": true,
+    "advisory_direct_authority": false,
+    "integration_status": "QI_ADVISORY_AWARE_ADAPTIVE_SCHEDULER_INTEGRATION_COMPLETED",
+    "live_scheduler_still_decides": true
+  },
+  "integration_context": {
+    "advisory_aware_scheduler_enabled": true,
+    "advisory_only_required": true,
+    "base_max_window_ticks": 4,
+    "base_min_window_ticks": 1,
+    "jsonl_backend_required": true,
+    "live_scheduler_must_decide": true
+  }
+}
