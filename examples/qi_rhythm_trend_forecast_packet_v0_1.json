@@ -1,0 +1,47 @@
+{
+  "context": {
+    "projection_only_required": true,
+    "read_only_forecast": true,
+    "rhythm_trend_forecast_enabled": true,
+    "trend_window_size": 4
+  },
+  "example_version": "qi_rhythm_trend_forecast_packet_v0_1",
+  "expected": {
+    "forecast_cadence_mode_hint": "wide_compressed_window",
+    "forecast_risk_class": "low",
+    "forecast_window_bias": "expand_if_low_pressure",
+    "projection_only": true,
+    "replaces_ledger_root": false
+  },
+  "ledger_entries": [
+    {
+      "entry_digest": "demo-1",
+      "ledger_version": "kuuos_runtime_daemon_qi_append_only_rhythm_receipt_ledger_v0_1",
+      "source_candidate": {
+        "cadence_mode": "wide_compressed_window",
+        "delegated_completed_tick_count": 4,
+        "delegated_stop_reason": "window_completed",
+        "process_tensor_pressure_score": 0.1,
+        "recommended_window_ticks": 4,
+        "rhythm_bias": "expand_if_low_pressure",
+        "rhythm_mode": "stable_expansion"
+      },
+      "rhythm_stability_score": 0.85
+    },
+    {
+      "entry_digest": "demo-2",
+      "prev_entry_digest": "demo-1",
+      "ledger_version": "kuuos_runtime_daemon_qi_append_only_rhythm_receipt_ledger_v0_1",
+      "source_candidate": {
+        "cadence_mode": "wide_compressed_window",
+        "delegated_completed_tick_count": 4,
+        "delegated_stop_reason": "window_completed",
+        "process_tensor_pressure_score": 0.12,
+        "recommended_window_ticks": 4,
+        "rhythm_bias": "expand_if_low_pressure",
+        "rhythm_mode": "stable_expansion"
+      },
+      "rhythm_stability_score": 0.9
+    }
+  ]
+}
