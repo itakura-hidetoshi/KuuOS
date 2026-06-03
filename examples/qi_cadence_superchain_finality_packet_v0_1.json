@@ -1,0 +1,34 @@
+{
+  "baseline_packet": {
+    "autonomous_qi_cadence_loop_confirmed": true,
+    "baseline_packet_id": "qi-cadence-baseline-demo",
+    "baseline_packet_status": "QI_CADENCE_LOOP_CONFIRMED_BASELINE_PACKET_READY",
+    "baseline_root_digest": "baseline-root-demo",
+    "confirmed_baseline": true,
+    "cycle_lineage_preserved": true,
+    "memory_append_performed": false,
+    "memory_write_performed": false,
+    "no_authority_boundary_preserved": true,
+    "probe_execution_performed": false,
+    "receipt_only_baseline_packet": true,
+    "scheduler_bypass_performed": false,
+    "source_cycle_lineage_digest": "cycle-lineage-demo",
+    "source_cycle_packet_id": "qi-cadence-cycle-demo",
+    "source_cycle_root_digest": "cycle-root-demo",
+    "world_update_performed": false
+  },
+  "example_version": "qi_cadence_superchain_finality_packet_v0_1",
+  "expected": {
+    "canonical_chain_complete": true,
+    "finality_confirmed": true,
+    "memory_write_performed": false,
+    "receipt_only_finality_packet": true,
+    "scheduler_bypass_performed": false
+  },
+  "finality_context": {
+    "cadence_superchain_finality_enabled": true,
+    "finality_context_id": "qi-finality-demo-0001",
+    "finality_required": true,
+    "receipt_only_required": true
+  }
+}
