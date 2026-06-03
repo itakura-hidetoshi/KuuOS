@@ -1,0 +1,49 @@
+{
+  "addendum_status": "QI_APPEND_ONLY_RHYTHM_RECEIPT_LEDGER_ADDENDUM_READY",
+  "authority": "append_only_rhythm_receipt_ledger_only",
+  "docs_files": [
+    "docs/qi_append_only_rhythm_receipt_ledger_note_v0_1.md"
+  ],
+  "example_files": [
+    "examples/qi_append_only_rhythm_receipt_ledger_packet_v0_1.json"
+  ],
+  "extends_manifest": "manifests/qi_rhythm_memory_cadence_history_layer_addendum_v0_1.json",
+  "invariants": [
+    "append_only_enforced",
+    "prev_entry_digest_preserved",
+    "entry_digest_deterministic",
+    "ledger_root_digest_reported",
+    "rhythm_receipt_ledger_only",
+    "memory_write_performed_false",
+    "memory_append_performed_false",
+    "memory_overwrite_performed_false",
+    "world_update_performed_false",
+    "probe_execution_performed_false"
+  ],
+  "ledger_format": "jsonl",
+  "manifest_version": "qi_append_only_rhythm_receipt_ledger_addendum_v0_1",
+  "position": "long-horizon daemon rhythm memory / cadence history layer -> append-only rhythm receipt ledger",
+  "receipt_fields": [
+    "receipt_id",
+    "entry_digest",
+    "prev_entry_digest",
+    "ledger_root_digest",
+    "rhythm_bias",
+    "rhythm_mode",
+    "cadence_mode",
+    "process_tensor_pressure_score",
+    "rhythm_stability_score",
+    "recommended_window_ticks",
+    "delegated_completed_tick_count",
+    "delegated_stop_reason"
+  ],
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_append_only_rhythm_receipt_ledger_v0_1.py"
+  ],
+  "scope": "qi-append-only-rhythm-receipt-ledger",
+  "script_files": [
+    "scripts/run_qi_append_only_rhythm_receipt_ledger_v0_1.py",
+    "scripts/check_qi_append_only_rhythm_receipt_ledger_v0_1.py",
+    "scripts/run_qi_append_only_rhythm_receipt_ledger_checks_v0_1.py"
+  ]
+}
