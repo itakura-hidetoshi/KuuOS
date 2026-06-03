@@ -40,6 +40,21 @@ chain:
     path: docs/KUOS_TWO_TRUTHS_GAP_HOLOGRAPHY_SPINE_RUNBOOK_v0_1.md
     role: reviewer_runbook
 
+  - order: 8
+    artifact_id: run_kuos_two_truths_gap_holography_spine_checks_v0_1
+    path: scripts/run_kuos_two_truths_gap_holography_spine_checks_v0_1.py
+    role: validator_runner
+
+  - order: 9
+    artifact_id: two_truths_gap_holography_spine_validation_workflow_v0_1
+    path: .github/workflows/two_truths_gap_holography_spine_validation.yml
+    role: ci_workflow
+
+  - order: 10
+    artifact_id: two_truths_gap_holography_spine_make_target_v0_1
+    path: Makefile
+    role: make_target
+
 invariants:
   - positive_gap_visible_weight_to_record
   - scaled_limit_record_coefficient
