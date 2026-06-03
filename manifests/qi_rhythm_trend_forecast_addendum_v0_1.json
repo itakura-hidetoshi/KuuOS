@@ -42,7 +42,6 @@
   "scope": "qi-rhythm-trend-forecast",
   "script_files": [
     "scripts/run_qi_rhythm_trend_forecast_v0_1.py",
-    "scripts/check_qi_rhythm_trend_forecast_v0_1.py",
-    "scripts/run_qi_rhythm_trend_forecast_checks_v0_1.py"
+    "scripts/check_qi_rhythm_trend_forecast_v0_1.py"
   ]
 }
