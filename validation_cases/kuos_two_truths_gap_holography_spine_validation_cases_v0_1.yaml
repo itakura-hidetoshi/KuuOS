@@ -1,0 +1,70 @@
+id: kuos_two_truths_gap_holography_spine_validation_cases_v0_1
+title: KuuOS Two-Truth Gap-Holography Spine Validation Cases
+status: baseline_validation_cases
+version: v0.1
+
+cases:
+  - id: pass_complete_baseline_bundle
+    expected: PASS
+    description: >
+      Required doc, spec, manifest, Lean spine, runbook, chain index, and validation
+      cases are present and contain the required baseline invariants.
+    required_invariants:
+      - positive_gap_visible_weight_to_record
+      - scaled_limit_record_coefficient
+      - image_non_vacuity_no_kernel_collapse
+      - gap_holonomy_to_stability
+      - prediction_sufficient_not_exhaustive
+      - residue_retained
+
+  - id: fail_missing_doc
+    expected: FAIL
+    description: Missing docs/KUOS_TWO_TRUTHS_GAP_HOLOGRAPHY_SPINE_v0_1.md must fail.
+
+  - id: fail_missing_spec
+    expected: FAIL
+    description: Missing specs/kuos_two_truths_gap_holography_spine_v0_1.yaml must fail.
+
+  - id: fail_missing_manifest
+    expected: FAIL
+    description: Missing manifests/kuos_two_truths_gap_holography_spine_manifest_v0_1.json must fail.
+
+  - id: fail_missing_lean_spine
+    expected: FAIL
+    description: Missing lean/KSTHolo/TwoTruthGapHolographySpine_v0_1.lean must fail.
+
+  - id: fail_missing_canonical_sentence
+    expected: FAIL
+    description: The canonical sentence about gap-stabilized conventional records and unrecorded emptiness must be present.
+
+  - id: fail_missing_no_kernel_collapse_guardrail
+    expected: FAIL
+    description: The bundle must explicitly forbid deriving kernel-zero from image non-vacuity or prediction sufficiency.
+
+  - id: fail_missing_no_ultimate_identity_guardrail
+    expected: FAIL
+    description: The bundle must explicitly forbid UltimateBulk = Image(F_delta) / ultimate identity claims.
+
+  - id: fail_missing_no_ultimate_exhaustion_guardrail
+    expected: FAIL
+    description: The bundle must explicitly forbid ultimate exhaustion.
+
+  - id: fail_lean_contains_sorry
+    expected: FAIL
+    description: Lean spine must not contain sorry.
+
+  - id: fail_lean_contains_admit
+    expected: FAIL
+    description: Lean spine must not contain admit.
+
+  - id: fail_lean_contains_false_elim
+    expected: FAIL
+    description: Lean spine must not contain False.elim placeholder proofs.
+
+  - id: pass_functor_local_theorem_present
+    expected: PASS
+    description: Lean spine must expose fullAnalyticGap_theorem_local as the safe functor-local integration theorem.
+
+  - id: pass_append_only_policy_present
+    expected: PASS
+    description: The manifest and docs must state append-only / overwrite-forbidden baseline policy.
