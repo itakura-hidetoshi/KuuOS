@@ -1,0 +1,51 @@
+{
+  "cadence_finality_packet": {
+    "canonical_chain_complete": true,
+    "finality_confirmed": true,
+    "finality_packet_id": "qi-cadence-finality-demo",
+    "finality_packet_status": "QI_CADENCE_SUPERCHAIN_FINALITY_PACKET_READY",
+    "memory_append_performed": false,
+    "memory_write_performed": false,
+    "no_authority_boundary_preserved": true,
+    "probe_execution_performed": false,
+    "receipt_only_finality_packet": true,
+    "scheduler_bypass_performed": false,
+    "superchain_root_digest": "cadence-root-demo",
+    "world_update_performed": false
+  },
+  "example_version": "qi_cadence_v0_2_release_established_packet",
+  "expected": {
+    "established_receipt_only": true,
+    "ledger_append_performed": false,
+    "packet_status": "QI_CADENCE_V0_2_RELEASE_ESTABLISHED_PACKET_READY",
+    "runtime_control_authority": false,
+    "v0_2_established": true,
+    "v0_2_release_ready": true
+  },
+  "observability_finality_packet": {
+    "finality_packet_id": "qi-observe-finality-demo",
+    "finality_root_digest": "observe-root-demo",
+    "finality_status": "QI_OBSERVABILITY_SUPERCHAIN_FINALITY_PACKET_READY",
+    "ledger_append_performed": false,
+    "memory_append_performed": false,
+    "memory_write_performed": false,
+    "notification_sent": false,
+    "observability_chain_complete": true,
+    "observability_finality_confirmed": true,
+    "probe_execution_performed": false,
+    "projection_only": true,
+    "read_only_finality_packet": true,
+    "receipt_only_finality_packet": true,
+    "runtime_control_authority": false,
+    "ticket_created": false,
+    "world_update_performed": false
+  },
+  "release_context": {
+    "established_packet_required": true,
+    "projection_only_required": true,
+    "qi_cadence_v0_2_release_enabled": true,
+    "read_only_required": true,
+    "receipt_only_required": true,
+    "release_context_id": "qi-cadence-v0-2-release-demo"
+  }
+}
