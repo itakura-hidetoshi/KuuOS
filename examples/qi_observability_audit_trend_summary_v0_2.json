@@ -1,0 +1,51 @@
+{
+  "audit_ledger_entries": [
+    {
+      "alert_count": 0,
+      "alert_reasons": [],
+      "alert_severity": "none",
+      "append_only": true,
+      "audit_receipt_id": "qi-incident-audit-demo-1",
+      "entry_digest": "demo-1",
+      "memory_append_performed": false,
+      "memory_write_performed": false,
+      "notification_sent": false,
+      "probe_execution_performed": false,
+      "read_only_review_receipt": true,
+      "runtime_control_authority": false,
+      "ticket_created": false,
+      "world_update_performed": false
+    },
+    {
+      "alert_count": 0,
+      "alert_reasons": [],
+      "alert_severity": "none",
+      "append_only": true,
+      "audit_receipt_id": "qi-incident-audit-demo-2",
+      "entry_digest": "demo-2",
+      "memory_append_performed": false,
+      "memory_write_performed": false,
+      "notification_sent": false,
+      "prev_entry_digest": "demo-1",
+      "probe_execution_performed": false,
+      "read_only_review_receipt": true,
+      "runtime_control_authority": false,
+      "ticket_created": false,
+      "world_update_performed": false
+    }
+  ],
+  "example_version": "qi_observability_audit_trend_summary_v0_2",
+  "expected": {
+    "ledger_append_performed": false,
+    "mean_reliability_score": 1.0,
+    "projection_only": true,
+    "read_only_summary": true,
+    "reliability_class": "excellent",
+    "review_recommended": false
+  },
+  "trend_context": {
+    "audit_trend_summary_enabled": true,
+    "projection_only_required": true,
+    "read_only_summary_required": true
+  }
+}
