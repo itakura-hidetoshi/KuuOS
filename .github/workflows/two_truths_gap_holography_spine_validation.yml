@@ -1,0 +1,48 @@
+name: Two-Truth Gap-Holography Spine Validation
+
+on:
+  push:
+    paths:
+      - "docs/KUOS_TWO_TRUTHS_GAP_HOLOGRAPHY_SPINE_v0_1.md"
+      - "docs/KUOS_TWO_TRUTHS_GAP_HOLOGRAPHY_SPINE_RUNBOOK_v0_1.md"
+      - "specs/kuos_two_truths_gap_holography_spine_v0_1.yaml"
+      - "lean/KSTHolo/TwoTruthGapHolographySpine_v0_1.lean"
+      - "manifests/kuos_two_truths_gap_holography_spine_manifest_v0_1.json"
+      - "validation_cases/kuos_two_truths_gap_holography_spine_validation_cases_v0_1.yaml"
+      - "chain_indexes/kuos_two_truths_gap_holography_spine_chain_index_v0_1.yaml"
+      - "validators/validate_kuos_two_truths_gap_holography_spine_v0_1.py"
+      - "scripts/run_kuos_two_truths_gap_holography_spine_checks_v0_1.py"
+      - ".github/workflows/two_truths_gap_holography_spine_validation.yml"
+  pull_request:
+    paths:
+      - "docs/KUOS_TWO_TRUTHS_GAP_HOLOGRAPHY_SPINE_v0_1.md"
+      - "docs/KUOS_TWO_TRUTHS_GAP_HOLOGRAPHY_SPINE_RUNBOOK_v0_1.md"
+      - "specs/kuos_two_truths_gap_holography_spine_v0_1.yaml"
+      - "lean/KSTHolo/TwoTruthGapHolographySpine_v0_1.lean"
+      - "manifests/kuos_two_truths_gap_holography_spine_manifest_v0_1.json"
+      - "validation_cases/kuos_two_truths_gap_holography_spine_validation_cases_v0_1.yaml"
+      - "chain_indexes/kuos_two_truths_gap_holography_spine_chain_index_v0_1.yaml"
+      - "validators/validate_kuos_two_truths_gap_holography_spine_v0_1.py"
+      - "scripts/run_kuos_two_truths_gap_holography_spine_checks_v0_1.py"
+      - ".github/workflows/two_truths_gap_holography_spine_validation.yml"
+  workflow_dispatch:
+
+jobs:
+  validate-two-truths-gap-holography-spine:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+
+      - name: Run Two-Truth Gap-Holography spine validator
+        run: python3 scripts/run_kuos_two_truths_gap_holography_spine_checks_v0_1.py
+
+      - name: Boundary note
+        run: |
+          echo "PASS is a consistency receipt only."
+          echo "PASS is not truth authority, theorem authority, execution authority, kernel-zero authority, ultimate-identity authority, or ultimate-exhaustion authority."
