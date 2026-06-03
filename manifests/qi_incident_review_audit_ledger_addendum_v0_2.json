@@ -1,0 +1,32 @@
+{
+  "addendum_status": "QI_INCIDENT_REVIEW_AUDIT_LEDGER_ADDENDUM_READY",
+  "authority": "qi_incident_review_audit_ledger_append_only",
+  "docs_files": [
+    "docs/qi_incident_review_audit_ledger_v0_2.md"
+  ],
+  "example_files": [
+    "examples/qi_incident_review_audit_ledger_v0_2.json"
+  ],
+  "extends_manifest": "manifests/qi_cadence_alert_policy_addendum_v0_2.json",
+  "invariants": [
+    "append_only_enforced",
+    "read_only_review_receipt",
+    "notification_sent_false",
+    "ticket_created_false",
+    "runtime_control_authority_false",
+    "memory_write_performed_false",
+    "memory_append_performed_false",
+    "world_update_performed_false",
+    "probe_execution_performed_false"
+  ],
+  "manifest_version": "qi_incident_review_audit_ledger_addendum_v0_2",
+  "position": "read-only incident surface -> append-only observability audit ledger",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_incident_review_audit_ledger_v0_2.py"
+  ],
+  "scope": "qi-incident-review-audit-ledger",
+  "script_files": [
+    "scripts/run_qi_incident_review_audit_ledger_v0_2.py",
+    "scripts/check_qi_incident_review_audit_ledger_v0_2.py"
+  ]
+}

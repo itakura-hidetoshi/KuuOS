@@ -1,0 +1,42 @@
+{
+  "alert_policy_packet": {
+    "alert_count": 0,
+    "alert_packet_id": "qi-cadence-alert-demo",
+    "alert_policy_projection_only": true,
+    "alert_policy_status": "QI_CADENCE_ALERT_POLICY_READY",
+    "alert_reasons": [],
+    "alert_severity": "none",
+    "incident_surface": {
+      "alert_packet_id": "qi-cadence-alert-demo",
+      "notification_sent": false,
+      "projection_only": true,
+      "runtime_control_authority": false,
+      "severity": "none",
+      "surface_kind": "qi_cadence_read_only_incident_surface_v0_2",
+      "ticket_created": false
+    },
+    "memory_append_performed": false,
+    "memory_write_performed": false,
+    "notification_sent": false,
+    "probe_execution_performed": false,
+    "read_only_incident_surface": true,
+    "source_metrics_packet_id": "qi-cadence-metrics-demo",
+    "ticket_created": false,
+    "world_update_performed": false
+  },
+  "example_version": "qi_incident_review_audit_ledger_v0_2",
+  "ledger_context": {
+    "append_only_required": true,
+    "append_receipt": true,
+    "incident_review_audit_ledger_enabled": true,
+    "jsonl_backend_required": true,
+    "read_only_review_required": true
+  },
+  "expected": {
+    "append_only_enforced": true,
+    "ledger_append_performed": true,
+    "notification_sent": false,
+    "read_only_review_receipt": true,
+    "ticket_created": false
+  }
+}
