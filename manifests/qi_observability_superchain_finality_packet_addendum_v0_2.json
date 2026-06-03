@@ -1,0 +1,35 @@
+{
+  "addendum_status": "QI_OBSERVABILITY_SUPERCHAIN_FINALITY_PACKET_ADDENDUM_READY",
+  "authority": "qi_observability_superchain_finality_receipt_only",
+  "docs_files": [
+    "docs/qi_observability_superchain_finality_packet_v0_2.md"
+  ],
+  "example_files": [
+    "examples/qi_observability_superchain_finality_packet_v0_2.json"
+  ],
+  "extends_manifest": "manifests/qi_observability_health_baseline_packet_addendum_v0_2.json",
+  "invariants": [
+    "observability_finality_confirmed",
+    "receipt_only_finality_packet",
+    "read_only_finality_packet",
+    "projection_only",
+    "ledger_append_performed_false",
+    "notification_sent_false",
+    "ticket_created_false",
+    "runtime_control_authority_false",
+    "memory_write_performed_false",
+    "memory_append_performed_false",
+    "world_update_performed_false",
+    "probe_execution_performed_false"
+  ],
+  "manifest_version": "qi_observability_superchain_finality_packet_addendum_v0_2",
+  "position": "confirmed observability health baseline -> observability superchain finality packet",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_observability_superchain_finality_packet_v0_2.py"
+  ],
+  "scope": "qi-observability-superchain-finality-packet",
+  "script_files": [
+    "scripts/run_qi_observability_superchain_finality_packet_v0_2.py",
+    "scripts/check_qi_observability_superchain_finality_packet_v0_2.py"
+  ]
+}

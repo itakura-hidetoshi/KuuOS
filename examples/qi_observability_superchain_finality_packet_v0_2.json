@@ -1,0 +1,40 @@
+{
+  "example_version": "qi_observability_superchain_finality_packet_v0_2",
+  "expected": {
+    "finality_status": "QI_OBSERVABILITY_SUPERCHAIN_FINALITY_PACKET_READY",
+    "ledger_append_performed": false,
+    "observability_chain_complete": true,
+    "observability_finality_confirmed": true,
+    "projection_only": true,
+    "runtime_control_authority": false
+  },
+  "finality_context": {
+    "finality_context_id": "qi-observe-finality-demo-0001",
+    "observability_superchain_finality_enabled": true,
+    "projection_only_required": true,
+    "read_only_required": true,
+    "receipt_only_required": true
+  },
+  "health_baseline_packet": {
+    "confirmed_observability_packet": true,
+    "health_baseline_packet_id": "qi-observe-health-demo",
+    "health_baseline_root_digest": "health-root-demo",
+    "health_baseline_status": "QI_OBSERVABILITY_HEALTH_BASELINE_PACKET_READY",
+    "ledger_append_performed": false,
+    "mean_reliability_score": 0.98,
+    "memory_append_performed": false,
+    "memory_write_performed": false,
+    "notification_sent": false,
+    "observability_health_confirmed": true,
+    "projection_only": true,
+    "read_only_health_baseline": true,
+    "receipt_only_health_baseline": true,
+    "reliability_class": "excellent",
+    "runtime_control_authority": false,
+    "source_audit_root_digest": "audit-root-demo",
+    "source_last_entry_digest": "audit-last-demo",
+    "source_trend_packet_id": "qi-audit-trend-demo",
+    "ticket_created": false,
+    "world_update_performed": false
+  }
+}
