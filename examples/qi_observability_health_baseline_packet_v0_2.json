@@ -1,0 +1,39 @@
+{
+  "example_version": "qi_observability_health_baseline_packet_v0_2",
+  "expected": {
+    "confirmed_observability_packet": true,
+    "health_baseline_status": "QI_OBSERVABILITY_HEALTH_BASELINE_PACKET_READY",
+    "ledger_append_performed": false,
+    "observability_health_confirmed": true,
+    "projection_only": true,
+    "runtime_control_authority": false
+  },
+  "health_context": {
+    "confirmed_observability_required": true,
+    "health_context_id": "qi-observe-health-demo-0001",
+    "min_confirmed_reliability_score": 0.75,
+    "observability_health_baseline_enabled": true,
+    "read_only_required": true,
+    "receipt_only_required": true
+  },
+  "trend_packet": {
+    "audit_root_digest": "audit-root-demo",
+    "last_entry_digest": "audit-last-demo",
+    "ledger_append_performed": false,
+    "mean_reliability_score": 0.98,
+    "memory_append_performed": false,
+    "memory_write_performed": false,
+    "notification_sent": false,
+    "projection_only": true,
+    "read_only_summary": true,
+    "reliability_class": "excellent",
+    "reliability_trend": "reliability_flat",
+    "review_recommended": false,
+    "review_reasons": [],
+    "runtime_control_authority": false,
+    "ticket_created": false,
+    "trend_packet_id": "qi-audit-trend-demo",
+    "trend_status": "QI_OBSERVABILITY_AUDIT_TREND_SUMMARY_READY",
+    "world_update_performed": false
+  }
+}
