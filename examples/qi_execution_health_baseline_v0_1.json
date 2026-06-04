@@ -1,0 +1,60 @@
+{
+  "example_version": "qi_execution_health_baseline_v0_1",
+  "input_trend_summary": {
+    "audit_entry_count": 2,
+    "audit_root_digest": "audit-root-demo",
+    "autonomy_reliability_class": "stable",
+    "autonomy_trend": "autonomy_reliability_flat",
+    "committed_execution_count": 0,
+    "control_packet_mutation_performed": false,
+    "execution_committed": false,
+    "handover_performed": false,
+    "last_entry_digest": "entry-2",
+    "ledger_append_performed": false,
+    "mean_autonomy_reliability_score": 0.91,
+    "memory_append_performed": false,
+    "memory_overwrite_performed": false,
+    "memory_write_performed": false,
+    "notification_sent": false,
+    "probe_execution_performed": false,
+    "projection_only": true,
+    "read_only_summary": true,
+    "review_reasons": [],
+    "review_recommended": false,
+    "runtime_control_performed": false,
+    "safe_fallback_count": 1,
+    "scheduler_bypass_performed": false,
+    "staged_intent_count": 1,
+    "ticket_created": false,
+    "trend_packet_id": "qi-exec-trend-demo",
+    "trend_status": "QI_EXECUTION_AUDIT_TREND_SUMMARY_READY",
+    "trend_version": "kuuos_runtime_daemon_qi_execution_audit_trend_summary_v0_1",
+    "world_update_performed": false
+  },
+  "health_context": {
+    "execution_health_baseline_enabled": true,
+    "projection_only_required": true,
+    "read_only_baseline_required": true,
+    "reliability_threshold": 0.8
+  },
+  "expected": {
+    "confirmed_autonomy": true,
+    "confirmed_autonomy_scope": "read_only_health_baseline_not_execution_authority",
+    "execution_committed": false,
+    "health_status": "QI_EXECUTION_HEALTH_BASELINE_READY",
+    "ledger_append_performed": false,
+    "projection_only": true,
+    "read_only_baseline": true,
+    "runtime_control_performed": false
+  },
+  "forbidden_openings": {
+    "execution_authority_granted": false,
+    "execution_commit_allowed": false,
+    "ledger_append_allowed": false,
+    "memory_write_allowed": false,
+    "probe_execution_allowed": false,
+    "runtime_control_allowed": false,
+    "scheduler_bypass_allowed": false,
+    "world_update_allowed": false
+  }
+}
