@@ -1,0 +1,54 @@
+{
+  "engine_packet": {
+    "authority_guard_passed": true,
+    "cbf_guard_passed": true,
+    "decisionos_guard_passed": true,
+    "engine_packet_id": "qi-exec-engine-demo",
+    "engine_status": "QI_AUTONOMOUS_EXECUTION_ENGINE_READY",
+    "execution_committed": false,
+    "execution_intent_packet": {
+      "engine_packet_id": "qi-exec-engine-demo",
+      "execution_committed": false,
+      "execution_intent_staged": true,
+      "execution_mode": "staged_intent_only",
+      "projection_only": true,
+      "read_only": true,
+      "receipt_only": true,
+      "selected_action": "advance_tick"
+    },
+    "execution_intent_staged": true,
+    "execution_mode": "staged_intent_only",
+    "memory_append_performed": false,
+    "memory_write_performed": false,
+    "nonmarkov_guard_passed": true,
+    "notification_sent": false,
+    "process_tensor_guard_passed": true,
+    "projection_only": true,
+    "read_only": true,
+    "receipt_only": true,
+    "recovery_guard_passed": true,
+    "runtime_control_performed": false,
+    "scheduler_bypass_performed": false,
+    "selected_action": "advance_tick",
+    "selected_reason": "staged_execution_intent_ready",
+    "ticket_created": false,
+    "token_guard_passed": true,
+    "world_update_performed": false
+  },
+  "example_version": "qi_execution_intent_audit_ledger_v0_1",
+  "expected": {
+    "append_only_enforced": true,
+    "execution_committed": false,
+    "intent_receipt_only": true,
+    "ledger_append_performed": true,
+    "runtime_control_performed": false,
+    "scheduler_bypass_performed": false
+  },
+  "ledger_context": {
+    "append_only_required": true,
+    "append_receipt": true,
+    "execution_intent_audit_ledger_enabled": true,
+    "intent_receipt_only_required": true,
+    "jsonl_backend_required": true
+  }
+}
