@@ -1,0 +1,39 @@
+{
+  "manifest_version": "qi_local_adapter_addendum_v0_2",
+  "addendum_status": "QI_LOCAL_ADAPTER_ADDENDUM_READY",
+  "position": "bounded step plan -> local runtime state and append-only log adapter",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_local_execution_adapter_v0_2.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_local_execution_adapter_v0_2.py",
+    "scripts/check_qi_local_execution_adapter_v0_2.py"
+  ],
+  "example_files": [
+    "examples/qi_local_adapter_v0_2.json"
+  ],
+  "docs_files": [
+    "docs/qi_local_adapter_v0_2.md"
+  ],
+  "local_outputs": [
+    "runtime_state.json",
+    "execution_ledger.jsonl",
+    "outbox/*.jsonl"
+  ],
+  "guards": [
+    "engine_ready",
+    "health_finality_ready",
+    "local_license_ready",
+    "allowed_action",
+    "idempotency_key"
+  ],
+  "closed_surfaces": [
+    "network_call",
+    "os_process_spawn",
+    "scheduler_bypass",
+    "external_send",
+    "world_update",
+    "memory_overwrite",
+    "probe_run"
+  ]
+}
