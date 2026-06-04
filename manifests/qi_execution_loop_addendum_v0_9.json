@@ -1,0 +1,10 @@
+{
+  "manifest_version": "qi_execution_loop_addendum_v0_9",
+  "status": "READY",
+  "runtime_files": ["runtime/kuuos_runtime_daemon_qi_execution_loop_v0_9.py"],
+  "script_files": ["scripts/run_qi_execution_loop_v0_9.py", "scripts/check_qi_execution_loop_v0_9.py"],
+  "example_files": ["examples/qi_execution_loop_v0_9.json"],
+  "docs_files": ["docs/qi_execution_loop_v0_9.md"],
+  "local_files": ["queue.ready.jsonl", "work_graph.json", "state.json", "loop.jsonl", "loop_feedback.jsonl", "run_summary.json", "loop_reports/*.md", "loop_checkpoints/*.json"],
+  "status_values": ["QI_EXECUTION_LOOP_APPLIED", "QI_EXECUTION_LOOP_IDLE", "QI_EXECUTION_LOOP_BLOCKED"]
+}

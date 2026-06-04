@@ -1,0 +1,24 @@
+{
+  "example_version": "qi_execution_loop_v0_9",
+  "purpose": "multi-cycle PT-shaped execution loop",
+  "runtime_files": [
+    "queue.ready.jsonl",
+    "work_graph.json",
+    "state.json",
+    "loop.jsonl",
+    "loop_feedback.jsonl",
+    "run_summary.json",
+    "loop_reports/*.md",
+    "loop_checkpoints/*.json"
+  ],
+  "loop_inputs": [
+    "runtime_context",
+    "process_tensor_packet",
+    "loop_license_packet"
+  ],
+  "status_values": [
+    "QI_EXECUTION_LOOP_APPLIED",
+    "QI_EXECUTION_LOOP_IDLE",
+    "QI_EXECUTION_LOOP_BLOCKED"
+  ]
+}
