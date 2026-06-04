@@ -1,0 +1,11 @@
+{
+  "example_version": "qi_pt_flow_v0_4",
+  "purpose": "pt aware queue policy",
+  "runtime_files": [
+    "queue.jsonl",
+    "queue.ready.jsonl",
+    "queue.deferred.jsonl",
+    "pt_policy_state.json",
+    "pt_policy_log.jsonl"
+  ]
+}
