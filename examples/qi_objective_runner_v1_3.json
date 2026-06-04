@@ -1,0 +1,26 @@
+{
+  "example_version": "qi_objective_runner_v1_3",
+  "purpose": "objective file to tasks, graph, and epoch run",
+  "runtime_files": [
+    "objectives.json",
+    "objective_plan.json",
+    "objective_plan_log.jsonl",
+    "objective_final.json",
+    "epoch_tasks.jsonl",
+    "work_graph.json",
+    "epoch_final.json",
+    "pt_next.json",
+    "next_loop_context.json"
+  ],
+  "stages": [
+    "load_objectives",
+    "generate_epoch_tasks",
+    "generate_work_graph",
+    "run_epoch_runner"
+  ],
+  "status_values": [
+    "QI_OBJECTIVE_RUNNER_APPLIED",
+    "QI_OBJECTIVE_RUNNER_IDLE",
+    "QI_OBJECTIVE_RUNNER_BLOCKED"
+  ]
+}
