@@ -1,0 +1,16 @@
+{
+  "example_version": "qi_pt_ready_flow_v0_5",
+  "purpose": "apply PT-ready rows and append feedback",
+  "runtime_files": [
+    "queue.ready.jsonl",
+    "applied.jsonl",
+    "state.json",
+    "pt_feedback.jsonl"
+  ],
+  "status_values": [
+    "QI_PT_READY_FLOW_APPLIED",
+    "QI_PT_READY_FLOW_REPLAYED",
+    "QI_PT_READY_FLOW_IDLE",
+    "QI_PT_READY_FLOW_BLOCKED"
+  ]
+}
