@@ -1,0 +1,10 @@
+{
+  "manifest_version": "qi_pt_state_step_addendum_v0_6",
+  "status": "READY",
+  "runtime_files": ["runtime/kuuos_runtime_daemon_qi_pt_state_step_v0_6.py"],
+  "script_files": ["scripts/run_qi_pt_state_step_v0_6.py", "scripts/check_qi_pt_state_step_v0_6.py"],
+  "example_files": ["examples/qi_pt_state_step_v0_6.json"],
+  "docs_files": ["docs/qi_pt_state_step_v0_6.md"],
+  "local_files": ["queue.ready.jsonl", "state.json", "pt_step_log.jsonl", "pt_feedback.jsonl"],
+  "status_values": ["QI_PT_STATE_STEP_APPLIED", "QI_PT_STATE_STEP_REPLAYED", "QI_PT_STATE_STEP_IDLE", "QI_PT_STATE_STEP_BLOCKED"]
+}
