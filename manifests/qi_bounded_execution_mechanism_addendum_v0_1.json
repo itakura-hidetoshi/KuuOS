@@ -1,0 +1,86 @@
+{
+  "addendum_status": "QI_BOUNDED_EXECUTION_MECHANISM_ADDENDUM_READY",
+  "authority": "qi_bounded_execution_mechanism_dry_run_adapter",
+  "docs_files": [
+    "docs/qi_bounded_execution_mechanism_v0_1.md"
+  ],
+  "example_files": [
+    "examples/qi_bounded_execution_mechanism_v0_1.json"
+  ],
+  "extends_manifest": "manifests/qi_execution_health_packet_chain_addendum_v0_1.json",
+  "input": [
+    "qi_autonomous_execution_engine_v0_1",
+    "qi_execution_health_packet_chain_v0_1"
+  ],
+  "outputs": [
+    "bounded_execution_step_plan",
+    "dry_run_actuator_receipt",
+    "idempotency_key"
+  ],
+  "action_adapters": {
+    "advance_tick": "tick_step_adapter_dry_run",
+    "freeze": "freeze_noop_adapter",
+    "handover": "handover_adapter_dry_run",
+    "hold": "hold_noop_adapter",
+    "notify": "notification_adapter_dry_run",
+    "observe": "observe_plan_adapter_dry_run",
+    "ticket": "ticket_adapter_dry_run"
+  },
+  "must_verify": [
+    "engine_status_ready",
+    "engine_receipt_only_true",
+    "engine_read_only_true",
+    "engine_projection_only_true",
+    "engine_execution_committed_false",
+    "packet_chain_status_ready",
+    "finality_packet_ready",
+    "finality_scope_not_authority_surface",
+    "bounded_adapter_scope_granted",
+    "dry_run_only_required",
+    "adapter_allowlisted",
+    "executable_actions_require_staged_intent",
+    "all_effect_openings_denied",
+    "all_authority_openings_denied"
+  ],
+  "invariants": [
+    "governance_bounded",
+    "staged_intent_only_lineage",
+    "bounded_adapter_only",
+    "dry_run_only",
+    "receipt_only",
+    "read_only",
+    "projection_only",
+    "idempotency_key_required",
+    "execution_committed_false",
+    "runtime_control_performed_false",
+    "scheduler_bypass_performed_false",
+    "notification_sent_false",
+    "ticket_created_false",
+    "handover_performed_false",
+    "ledger_append_performed_false",
+    "memory_write_performed_false",
+    "memory_append_performed_false",
+    "memory_overwrite_performed_false",
+    "world_update_performed_false",
+    "control_packet_mutation_performed_false",
+    "probe_execution_performed_false",
+    "execution_authority_granted_false",
+    "execution_commit_allowed_false",
+    "runtime_control_allowed_false",
+    "scheduler_bypass_allowed_false",
+    "ledger_append_allowed_false",
+    "memory_write_allowed_false",
+    "world_update_allowed_false",
+    "probe_execution_allowed_false"
+  ],
+  "manifest_version": "qi_bounded_execution_mechanism_addendum_v0_1",
+  "position": "execution intent + health finality -> bounded step plan / dry-run actuator receipt",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_bounded_execution_mechanism_v0_1.py"
+  ],
+  "scope": "qi-bounded-execution-mechanism",
+  "script_files": [
+    "scripts/run_qi_bounded_execution_mechanism_v0_1.py",
+    "scripts/check_qi_bounded_execution_mechanism_v0_1.py"
+  ]
+}
