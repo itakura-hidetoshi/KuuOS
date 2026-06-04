@@ -1,0 +1,9 @@
+{
+  "example_version": "qi_local_adapter_v0_2",
+  "purpose": "local runtime state and append-only log adapter example",
+  "runtime_files": [
+    "runtime_state.json",
+    "run_log.jsonl",
+    "outbox/notifications.jsonl"
+  ]
+}
