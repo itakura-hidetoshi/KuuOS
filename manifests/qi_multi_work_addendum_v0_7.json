@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_multi_work_addendum_v0_7",
+  "status": "READY",
+  "runtime_files": ["runtime/kuuos_runtime_daemon_qi_multi_work_v0_7.py"],
+  "script_files": ["scripts/run_qi_multi_work_v0_7.py", "scripts/check_qi_multi_work_v0_7.py"],
+  "example_files": ["examples/qi_multi_work_v0_7.json"],
+  "docs_files": ["docs/qi_multi_work_v0_7.md"],
+  "work_kinds": ["metric", "note", "record", "state_patch", "counter", "snapshot", "pull_deferred"],
+  "local_files": ["metrics.jsonl", "notes.md", "records/*.json", "snapshots/*.json", "state.json", "queue.ready.jsonl", "multi_work_log.jsonl"],
+  "status_values": ["QI_MULTI_WORK_APPLIED", "QI_MULTI_WORK_REPLAYED", "QI_MULTI_WORK_IDLE", "QI_MULTI_WORK_BLOCKED"]
+}
