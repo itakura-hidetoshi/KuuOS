@@ -1,0 +1,20 @@
+{
+  "example_version": "qi_local_flow_v0_3",
+  "purpose": "queue to applied log and local state flow",
+  "runtime_files": [
+    "queue.jsonl",
+    "applied.jsonl",
+    "state.json"
+  ],
+  "expected_status": [
+    "QI_LOCAL_FLOW_APPLIED",
+    "QI_LOCAL_FLOW_REPLAYED",
+    "QI_LOCAL_FLOW_IDLE",
+    "QI_LOCAL_FLOW_BLOCKED"
+  ],
+  "license_keys": [
+    "queue_read_allowed",
+    "state_write_allowed",
+    "applied_log_append_allowed"
+  ]
+}
