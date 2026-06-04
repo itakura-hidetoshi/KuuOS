@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_local_flow_addendum_v0_3",
+  "status": "READY",
+  "position": "queue to applied log and state",
+  "runtime_files": ["runtime/kuuos_runtime_daemon_qi_local_flow_v0_3.py"],
+  "script_files": ["scripts/run_qi_local_flow_v0_3.py", "scripts/check_qi_local_flow_v0_3.py"],
+  "example_files": ["examples/qi_local_flow_v0_3.json"],
+  "docs_files": ["docs/qi_local_flow_v0_3.md"],
+  "local_files": ["queue.jsonl", "applied.jsonl", "state.json"],
+  "status_values": ["QI_LOCAL_FLOW_APPLIED", "QI_LOCAL_FLOW_REPLAYED", "QI_LOCAL_FLOW_IDLE", "QI_LOCAL_FLOW_BLOCKED"]
+}
