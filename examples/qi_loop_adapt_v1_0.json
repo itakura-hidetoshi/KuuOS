@@ -1,0 +1,22 @@
+{
+  "example_version": "qi_loop_adapt_v1_0",
+  "purpose": "feedback to next PT and next loop context",
+  "runtime_files": [
+    "state.json",
+    "run_summary.json",
+    "loop_feedback.jsonl",
+    "pt_next.json",
+    "next_loop_context.json",
+    "adapt_log.jsonl"
+  ],
+  "inputs": [
+    "runtime_context",
+    "pt_packet",
+    "adapt_license_packet"
+  ],
+  "status_values": [
+    "QI_LOOP_ADAPT_APPLIED",
+    "QI_LOOP_ADAPT_IDLE",
+    "QI_LOOP_ADAPT_BLOCKED"
+  ]
+}

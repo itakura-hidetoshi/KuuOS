@@ -1,0 +1,10 @@
+{
+  "manifest_version": "qi_loop_adapt_addendum_v1_0",
+  "status": "READY",
+  "runtime_files": ["runtime/kuuos_runtime_daemon_qi_loop_adapt_v1_0.py"],
+  "script_files": ["scripts/run_qi_loop_adapt_v1_0.py", "scripts/check_qi_loop_adapt_v1_0.py"],
+  "example_files": ["examples/qi_loop_adapt_v1_0.json"],
+  "docs_files": ["docs/qi_loop_adapt_v1_0.md"],
+  "local_files": ["state.json", "run_summary.json", "loop_feedback.jsonl", "pt_next.json", "next_loop_context.json", "adapt_log.jsonl"],
+  "status_values": ["QI_LOOP_ADAPT_APPLIED", "QI_LOOP_ADAPT_IDLE", "QI_LOOP_ADAPT_BLOCKED"]
+}
