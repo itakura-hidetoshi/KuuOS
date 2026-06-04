@@ -1,0 +1,23 @@
+{
+  "manifest_version": "qi_pr_merge_gate_addendum_v2_1",
+  "status": "READY",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_pr_merge_gate_v2_1.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_pr_merge_gate_v2_1.py",
+    "scripts/check_qi_pr_merge_gate_v2_1.py"
+  ],
+  "example_files": [
+    "examples/qi_pr_merge_gate_v2_1.json"
+  ],
+  "local_files": [
+    "pr_merge_gate_packet.json",
+    "pr_merge_receipt.json",
+    "pr_merge_gate_audit.jsonl"
+  ],
+  "status_values": [
+    "QI_PR_MERGE_GATE_PASSED",
+    "QI_PR_MERGE_GATE_BLOCKED"
+  ]
+}
