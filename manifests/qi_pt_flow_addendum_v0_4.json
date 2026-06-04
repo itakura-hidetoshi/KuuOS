@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_pt_flow_addendum_v0_4",
+  "status": "READY",
+  "position": "queue to ready/deferred queues with PT policy",
+  "runtime_files": ["runtime/kuuos_runtime_daemon_qi_process_tensor_flow_policy_v0_4.py"],
+  "script_files": ["scripts/run_qi_process_tensor_flow_policy_v0_4.py", "scripts/check_qi_process_tensor_flow_policy_v0_4.py"],
+  "example_files": ["examples/qi_pt_flow_v0_4.json"],
+  "docs_files": ["docs/qi_pt_flow_v0_4.md"],
+  "local_files": ["queue.jsonl", "queue.ready.jsonl", "queue.deferred.jsonl", "pt_policy_state.json", "pt_policy_log.jsonl"],
+  "status_values": ["QI_PROCESS_TENSOR_FLOW_POLICY_APPLIED", "QI_PROCESS_TENSOR_FLOW_POLICY_REPLAYED", "QI_PROCESS_TENSOR_FLOW_POLICY_IDLE", "QI_PROCESS_TENSOR_FLOW_POLICY_BLOCKED"]
+}
