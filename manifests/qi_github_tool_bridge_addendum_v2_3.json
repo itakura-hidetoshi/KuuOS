@@ -1,0 +1,37 @@
+{
+  "manifest_version": "qi_github_tool_bridge_addendum_v2_3",
+  "status": "READY",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_github_tool_bridge_v2_3.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_github_tool_bridge_v2_3.py",
+    "scripts/check_qi_github_tool_bridge_v2_3.py"
+  ],
+  "example_files": [
+    "examples/qi_github_tool_bridge_v2_3.json"
+  ],
+  "local_files": [
+    "github_tool_bridge_plan.json",
+    "github_tool_bridge_receipt.json",
+    "github_tool_bridge_audit.jsonl"
+  ],
+  "modes": [
+    "mock",
+    "real"
+  ],
+  "action_kinds": [
+    "create_branch",
+    "create_file",
+    "update_file",
+    "file_patch",
+    "create_pr",
+    "merge_pr"
+  ],
+  "status_values": [
+    "QI_GITHUB_TOOL_BRIDGE_APPLIED",
+    "QI_GITHUB_TOOL_BRIDGE_PARTIAL",
+    "QI_GITHUB_TOOL_BRIDGE_IDLE",
+    "QI_GITHUB_TOOL_BRIDGE_BLOCKED"
+  ]
+}
