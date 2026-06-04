@@ -1,0 +1,25 @@
+{
+  "example_version": "qi_epoch_runner_v1_2",
+  "purpose": "multi-epoch closed run with task injection and PT/context carry",
+  "runtime_files": [
+    "epoch_tasks.jsonl",
+    "queue.ready.jsonl",
+    "closed_run_chain.jsonl",
+    "closed_run_final.json",
+    "pt_next.json",
+    "next_loop_context.json",
+    "epoch_chain.jsonl",
+    "epoch_injections.jsonl",
+    "epoch_final.json"
+  ],
+  "stages": [
+    "inject_due_tasks",
+    "closed_run",
+    "carry_next_pt_and_context"
+  ],
+  "status_values": [
+    "QI_EPOCH_RUNNER_APPLIED",
+    "QI_EPOCH_RUNNER_IDLE",
+    "QI_EPOCH_RUNNER_BLOCKED"
+  ]
+}
