@@ -1,0 +1,21 @@
+{
+  "example_version": "qi_multi_work_v0_7",
+  "work_kinds": [
+    "metric",
+    "note",
+    "record",
+    "state_patch",
+    "counter",
+    "snapshot",
+    "pull_deferred"
+  ],
+  "runtime_files": [
+    "metrics.jsonl",
+    "notes.md",
+    "records/*.json",
+    "snapshots/*.json",
+    "state.json",
+    "queue.ready.jsonl",
+    "multi_work_log.jsonl"
+  ]
+}
