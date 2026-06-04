@@ -1,0 +1,29 @@
+{
+  "example_version": "qi_pt_state_step_v0_6",
+  "purpose": "PT-derived gain changes local state deltas",
+  "runtime_files": [
+    "queue.ready.jsonl",
+    "state.json",
+    "pt_step_log.jsonl",
+    "pt_feedback.jsonl"
+  ],
+  "pt_fields": [
+    "execution_pressure",
+    "coherence_score",
+    "memory_depth",
+    "recovery_witness_present",
+    "non_markov_unresolved"
+  ],
+  "state_fields": [
+    "tick",
+    "qi_energy",
+    "qi_stability",
+    "qi_recovery"
+  ],
+  "status_values": [
+    "QI_PT_STATE_STEP_APPLIED",
+    "QI_PT_STATE_STEP_REPLAYED",
+    "QI_PT_STATE_STEP_IDLE",
+    "QI_PT_STATE_STEP_BLOCKED"
+  ]
+}
