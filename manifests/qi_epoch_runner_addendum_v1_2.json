@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_epoch_runner_addendum_v1_2",
+  "status": "READY",
+  "runtime_files": ["runtime/kuuos_runtime_daemon_qi_epoch_runner_v1_2.py"],
+  "script_files": ["scripts/run_qi_epoch_runner_v1_2.py", "scripts/check_qi_epoch_runner_v1_2.py"],
+  "example_files": ["examples/qi_epoch_runner_v1_2.json"],
+  "docs_files": ["docs/qi_epoch_runner_v1_2.md"],
+  "local_files": ["epoch_tasks.jsonl", "epoch_injections.jsonl", "epoch_chain.jsonl", "epoch_final.json", "pt_next.json", "next_loop_context.json", "queue.ready.jsonl", "closed_run_chain.jsonl", "closed_run_final.json"],
+  "stages": ["inject_due_tasks", "closed_run", "carry_next_pt_and_context"],
+  "status_values": ["QI_EPOCH_RUNNER_APPLIED", "QI_EPOCH_RUNNER_IDLE", "QI_EPOCH_RUNNER_BLOCKED"]
+}
