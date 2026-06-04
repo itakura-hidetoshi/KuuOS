@@ -1,0 +1,12 @@
+{
+  "manifest_version": "qi_work_graph_addendum_v0_8",
+  "status": "READY",
+  "runtime_files": ["runtime/kuuos_runtime_daemon_qi_work_graph_v0_8.py"],
+  "script_files": ["scripts/run_qi_work_graph_v0_8.py", "scripts/check_qi_work_graph_v0_8.py"],
+  "example_files": ["examples/qi_work_graph_v0_8.json"],
+  "docs_files": ["docs/qi_work_graph_v0_8.md"],
+  "graph_file": "work_graph.json",
+  "node_kinds": ["metric_rollup", "report", "checkpoint", "index", "state_patch", "append_note", "ready_seed"],
+  "local_files": ["work_graph_log.jsonl", "rollups/*.json", "reports/*.md", "checkpoints/*.json", "index.json", "graph_notes.md", "queue.ready.jsonl", "state.json"],
+  "status_values": ["QI_WORK_GRAPH_APPLIED", "QI_WORK_GRAPH_REPLAYED", "QI_WORK_GRAPH_IDLE", "QI_WORK_GRAPH_BLOCKED"]
+}
