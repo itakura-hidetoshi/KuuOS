@@ -1,0 +1,32 @@
+{
+  "example_version": "qi_pr_merge_gate_v2_1",
+  "purpose": "bounded PR merge gate with pinned head SHA and checks",
+  "input_files": [
+    "pr_merge_gate_packet.json"
+  ],
+  "output_files": [
+    "pr_merge_receipt.json",
+    "pr_merge_gate_audit.jsonl"
+  ],
+  "required_fields": [
+    "repository_full_name",
+    "pr_number",
+    "expected_head_sha",
+    "actual_head_sha",
+    "explicit_automerge_license",
+    "allowed_repository",
+    "allowed_base_branch",
+    "pull_request_created",
+    "pull_request_not_draft",
+    "mergeable",
+    "required_checks",
+    "no_unresolved_blockers",
+    "receipt_written",
+    "audit_written",
+    "merge_allowed"
+  ],
+  "status_values": [
+    "QI_PR_MERGE_GATE_PASSED",
+    "QI_PR_MERGE_GATE_BLOCKED"
+  ]
+}
