@@ -1,0 +1,33 @@
+{
+  "manifest_version": "qi_github_actuator_addendum_v2_2",
+  "status": "READY",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_github_actuator_v2_2.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_github_actuator_v2_2.py",
+    "scripts/check_qi_github_actuator_v2_2.py"
+  ],
+  "example_files": [
+    "examples/qi_github_actuator_v2_2.json"
+  ],
+  "local_files": [
+    "github_actuator_plan.json",
+    "github_actuator_receipt.json",
+    "github_actuator_audit.jsonl",
+    "pr_merge_gate_packet.json",
+    "pr_merge_receipt.json",
+    "pr_merge_gate_audit.jsonl"
+  ],
+  "action_kinds": [
+    "create_branch",
+    "file_patch",
+    "create_pr",
+    "merge_pr"
+  ],
+  "status_values": [
+    "QI_GITHUB_ACTUATOR_READY",
+    "QI_GITHUB_ACTUATOR_MERGE_BLOCKED",
+    "QI_GITHUB_ACTUATOR_BLOCKED"
+  ]
+}
