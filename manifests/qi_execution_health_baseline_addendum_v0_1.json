@@ -1,0 +1,56 @@
+{
+  "addendum_status": "QI_EXECUTION_HEALTH_BASELINE_ADDENDUM_READY",
+  "authority": "qi_execution_health_baseline_read_only_projection",
+  "docs_files": [
+    "docs/qi_execution_health_baseline_v0_1.md"
+  ],
+  "example_files": [
+    "examples/qi_execution_health_baseline_v0_1.json"
+  ],
+  "extends_manifest": "manifests/qi_execution_audit_trend_summary_addendum_v0_1.json",
+  "input": "qi_execution_audit_trend_summary_v0_1",
+  "outputs": [
+    "qi_execution_health_baseline_packet_v0_1",
+    "confirmed_autonomy_packet",
+    "autonomy_health_root_digest"
+  ],
+  "must_verify": [
+    "trend_status_ready",
+    "committed_execution_count_zero",
+    "mean_autonomy_reliability_score_at_or_above_threshold",
+    "review_recommended_false_unless_explicitly_allowed",
+    "read_only_summary_true",
+    "projection_only_true"
+  ],
+  "invariants": [
+    "governance_bounded",
+    "staged_intent_only",
+    "receipt_only_source",
+    "read_only_baseline",
+    "projection_only",
+    "ledger_append_performed_false",
+    "execution_committed_false",
+    "runtime_control_performed_false",
+    "scheduler_bypass_performed_false",
+    "notification_sent_false",
+    "ticket_created_false",
+    "handover_performed_false",
+    "memory_write_performed_false",
+    "memory_append_performed_false",
+    "memory_overwrite_performed_false",
+    "world_update_performed_false",
+    "control_packet_mutation_performed_false",
+    "probe_execution_performed_false",
+    "confirmed_autonomy_is_health_baseline_not_execution_authority"
+  ],
+  "manifest_version": "qi_execution_health_baseline_addendum_v0_1",
+  "position": "execution audit trend summary -> execution health baseline / confirmed autonomy packet",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_execution_health_baseline_v0_1.py"
+  ],
+  "scope": "qi-execution-health-baseline",
+  "script_files": [
+    "scripts/run_qi_execution_health_baseline_v0_1.py",
+    "scripts/check_qi_execution_health_baseline_v0_1.py"
+  ]
+}
