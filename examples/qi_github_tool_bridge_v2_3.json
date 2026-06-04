@@ -1,0 +1,35 @@
+{
+  "example_version": "qi_github_tool_bridge_v2_3",
+  "purpose": "actual GitHub REST bridge with mock CI validation and gated real mode",
+  "input_files": [
+    "github_tool_bridge_plan.json"
+  ],
+  "output_files": [
+    "github_tool_bridge_receipt.json",
+    "github_tool_bridge_audit.jsonl"
+  ],
+  "modes": [
+    "mock",
+    "real"
+  ],
+  "action_kinds": [
+    "create_branch",
+    "create_file",
+    "update_file",
+    "file_patch",
+    "create_pr",
+    "merge_pr"
+  ],
+  "real_mode_required_conditions": [
+    "execute_external_actions=true in runtime context",
+    "execute_external_actions=true in plan",
+    "GITHUB_TOKEN or token_env present",
+    "license allows external actions"
+  ],
+  "status_values": [
+    "QI_GITHUB_TOOL_BRIDGE_APPLIED",
+    "QI_GITHUB_TOOL_BRIDGE_PARTIAL",
+    "QI_GITHUB_TOOL_BRIDGE_IDLE",
+    "QI_GITHUB_TOOL_BRIDGE_BLOCKED"
+  ]
+}
