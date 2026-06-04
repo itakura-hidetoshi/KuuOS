@@ -1,0 +1,65 @@
+{
+  "audit_ledger_entries": [
+    {
+      "append_only": true,
+      "audit_root_digest": "root-demo",
+      "authority_guard_passed": true,
+      "cbf_guard_passed": true,
+      "decisionos_guard_passed": true,
+      "entry_digest": "entry-1",
+      "execution_committed": false,
+      "execution_intent_staged": true,
+      "intent_receipt_only": true,
+      "memory_append_performed": false,
+      "memory_write_performed": false,
+      "nonmarkov_guard_passed": true,
+      "process_tensor_guard_passed": true,
+      "projection_only_receipt": true,
+      "read_only_receipt": true,
+      "recovery_guard_passed": true,
+      "runtime_control_performed": false,
+      "scheduler_bypass_performed": false,
+      "selected_action": "advance_tick",
+      "ticket_created": false,
+      "token_guard_passed": true,
+      "world_update_performed": false
+    },
+    {
+      "append_only": true,
+      "authority_guard_passed": false,
+      "cbf_guard_passed": true,
+      "decisionos_guard_passed": true,
+      "entry_digest": "entry-2",
+      "execution_committed": false,
+      "execution_intent_staged": false,
+      "intent_receipt_only": true,
+      "memory_append_performed": false,
+      "memory_write_performed": false,
+      "nonmarkov_guard_passed": true,
+      "prev_entry_digest": "entry-1",
+      "process_tensor_guard_passed": true,
+      "projection_only_receipt": true,
+      "read_only_receipt": true,
+      "recovery_guard_passed": true,
+      "runtime_control_performed": false,
+      "scheduler_bypass_performed": false,
+      "selected_action": "hold",
+      "ticket_created": false,
+      "token_guard_passed": true,
+      "world_update_performed": false
+    }
+  ],
+  "example_version": "qi_execution_audit_trend_summary_v0_1",
+  "expected": {
+    "committed_execution_count": 0,
+    "ledger_append_performed": false,
+    "projection_only": true,
+    "read_only_summary": true,
+    "review_recommended": false
+  },
+  "trend_context": {
+    "execution_audit_trend_summary_enabled": true,
+    "projection_only_required": true,
+    "read_only_summary_required": true
+  }
+}
