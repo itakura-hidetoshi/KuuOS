@@ -1,0 +1,76 @@
+{
+  "addendum_status": "QI_EXECUTION_HEALTH_PACKET_CHAIN_ADDENDUM_READY",
+  "authority": "qi_execution_health_packet_chain_read_only_projection",
+  "docs_files": [
+    "docs/qi_execution_health_packet_chain_v0_1.md"
+  ],
+  "example_files": [
+    "examples/qi_execution_health_packet_chain_v0_1.json"
+  ],
+  "extends_manifest": "manifests/qi_execution_health_baseline_addendum_v0_1.json",
+  "input": "qi_execution_health_baseline_packet_v0_1",
+  "outputs": [
+    "qi_execution_health_release_packet_v0_1",
+    "qi_execution_health_established_packet_v0_1",
+    "qi_execution_health_confirmed_baseline_packet_v0_1",
+    "qi_execution_health_finality_packet_v0_1",
+    "packet_chain_root_digest"
+  ],
+  "must_verify": [
+    "health_status_ready",
+    "confirmed_autonomy_true",
+    "confirmed_autonomy_scope_is_read_only_health_baseline_not_execution_authority",
+    "confirmed_autonomy_packet_denies_all_authority_openings",
+    "read_only_baseline_true",
+    "projection_only_true",
+    "same_root_required_true",
+    "autonomy_health_root_digest_matches_when_expected"
+  ],
+  "invariants": [
+    "governance_bounded",
+    "staged_intent_only_lineage",
+    "receipt_only_source_lineage",
+    "read_only_chain",
+    "projection_only",
+    "additive_only",
+    "tighten_only",
+    "same_root_required",
+    "overwrite_forbidden",
+    "packet_chain_is_not_authority_surface",
+    "release_packet_is_not_execution_release",
+    "established_packet_is_not_runtime_authority",
+    "confirmed_baseline_packet_is_not_execution_permission",
+    "finality_packet_is_not_authority_surface",
+    "ledger_append_performed_false",
+    "execution_committed_false",
+    "runtime_control_performed_false",
+    "scheduler_bypass_performed_false",
+    "notification_sent_false",
+    "ticket_created_false",
+    "handover_performed_false",
+    "memory_write_performed_false",
+    "memory_append_performed_false",
+    "memory_overwrite_performed_false",
+    "world_update_performed_false",
+    "control_packet_mutation_performed_false",
+    "probe_execution_performed_false",
+    "execution_authority_granted_false",
+    "execution_commit_allowed_false",
+    "runtime_control_allowed_false",
+    "scheduler_bypass_allowed_false",
+    "ledger_append_allowed_false",
+    "memory_write_allowed_false",
+    "world_update_allowed_false",
+    "probe_execution_allowed_false"
+  ],
+  "manifest_version": "qi_execution_health_packet_chain_addendum_v0_1",
+  "position": "execution health baseline / confirmed autonomy packet -> release / established / confirmed baseline / finality packet chain",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_execution_health_packet_chain_v0_1.py"
+  ],
+  "scope": "qi-execution-health-packet-chain",
+  "script_files": [
+    "scripts/run_qi_execution_health_packet_chain_v0_1.py",
+    "scripts/check_qi_execution_health_packet_chain_v0_1.py"
+  ]
+}

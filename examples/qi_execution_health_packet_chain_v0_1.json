@@ -1,0 +1,80 @@
+{
+  "chain_context": {
+    "additive_only_required": true,
+    "execution_health_packet_chain_enabled": true,
+    "expected_autonomy_health_root_digest": "health-root-demo",
+    "projection_only_required": true,
+    "read_only_chain_required": true,
+    "same_root_required": true,
+    "tighten_only_required": true
+  },
+  "example_version": "qi_execution_health_packet_chain_v0_1",
+  "expected": {
+    "additive_only": true,
+    "chain_status": "QI_EXECUTION_HEALTH_PACKET_CHAIN_READY",
+    "execution_committed": false,
+    "ledger_append_performed": false,
+    "projection_only": true,
+    "read_only_chain": true,
+    "runtime_control_performed": false,
+    "same_root_required": true,
+    "tighten_only": true
+  },
+  "forbidden_authority_openings": {
+    "execution_authority_granted": false,
+    "execution_commit_allowed": false,
+    "ledger_append_allowed": false,
+    "memory_write_allowed": false,
+    "probe_execution_allowed": false,
+    "runtime_control_allowed": false,
+    "scheduler_bypass_allowed": false,
+    "world_update_allowed": false
+  },
+  "input_health_baseline": {
+    "autonomy_health_root_digest": "health-root-demo",
+    "confirmed_autonomy": true,
+    "confirmed_autonomy_packet": {
+      "autonomy_health_root_digest": "health-root-demo",
+      "confirmed_autonomy_packet_id": "qi-confirmed-autonomy-demo",
+      "confirmed_autonomy_scope": "read_only_health_baseline_not_execution_authority",
+      "confirmed_autonomy_status": "CONFIRMED_AUTONOMY_HEALTH_BASELINE_READY",
+      "execution_authority_granted": false,
+      "execution_commit_allowed": false,
+      "ledger_append_allowed": false,
+      "memory_write_allowed": false,
+      "probe_execution_allowed": false,
+      "projection_only": true,
+      "read_only_baseline": true,
+      "runtime_control_allowed": false,
+      "scheduler_bypass_allowed": false,
+      "source_health_baseline_packet_id": "qi-exec-health-demo",
+      "world_update_allowed": false
+    },
+    "confirmed_autonomy_packet_id": "qi-confirmed-autonomy-demo",
+    "confirmed_autonomy_scope": "read_only_health_baseline_not_execution_authority",
+    "control_packet_mutation_performed": false,
+    "execution_committed": false,
+    "handover_performed": false,
+    "health_baseline_packet_id": "qi-exec-health-demo",
+    "health_status": "QI_EXECUTION_HEALTH_BASELINE_READY",
+    "health_version": "kuuos_runtime_daemon_qi_execution_health_baseline_v0_1",
+    "ledger_append_performed": false,
+    "memory_append_performed": false,
+    "memory_overwrite_performed": false,
+    "memory_write_performed": false,
+    "notification_sent": false,
+    "probe_execution_performed": false,
+    "projection_only": true,
+    "read_only_baseline": true,
+    "runtime_control_performed": false,
+    "scheduler_bypass_performed": false,
+    "ticket_created": false,
+    "world_update_performed": false
+  },
+  "packet_chain": [
+    "qi_execution_health_release_packet_v0_1",
+    "qi_execution_health_established_packet_v0_1",
+    "qi_execution_health_confirmed_baseline_packet_v0_1",
+    "qi_execution_health_finality_packet_v0_1"
+  ]
+}
