@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_closed_run_addendum_v1_1",
+  "status": "READY",
+  "runtime_files": ["runtime/kuuos_runtime_daemon_qi_closed_run_v1_1.py"],
+  "script_files": ["scripts/run_qi_closed_run_v1_1.py", "scripts/check_qi_closed_run_v1_1.py"],
+  "example_files": ["examples/qi_closed_run_v1_1.json"],
+  "docs_files": ["docs/qi_closed_run_v1_1.md"],
+  "local_files": ["queue.ready.jsonl", "work_graph.json", "loop.jsonl", "loop_feedback.jsonl", "run_summary.json", "pt_next.json", "next_loop_context.json", "adapt_log.jsonl", "closed_run_chain.jsonl", "closed_run_final.json"],
+  "stages": ["loop", "adapt"],
+  "status_values": ["QI_CLOSED_RUN_APPLIED", "QI_CLOSED_RUN_IDLE", "QI_CLOSED_RUN_BLOCKED"]
+}

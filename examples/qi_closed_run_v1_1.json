@@ -1,0 +1,25 @@
+{
+  "example_version": "qi_closed_run_v1_1",
+  "purpose": "single-call loop plus adapt closed run",
+  "runtime_files": [
+    "queue.ready.jsonl",
+    "work_graph.json",
+    "loop.jsonl",
+    "loop_feedback.jsonl",
+    "run_summary.json",
+    "pt_next.json",
+    "next_loop_context.json",
+    "adapt_log.jsonl",
+    "closed_run_chain.jsonl",
+    "closed_run_final.json"
+  ],
+  "stages": [
+    "loop",
+    "adapt"
+  ],
+  "status_values": [
+    "QI_CLOSED_RUN_APPLIED",
+    "QI_CLOSED_RUN_IDLE",
+    "QI_CLOSED_RUN_BLOCKED"
+  ]
+}
