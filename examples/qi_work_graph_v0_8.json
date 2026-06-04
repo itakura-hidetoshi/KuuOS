@@ -1,0 +1,31 @@
+{
+  "example_version": "qi_work_graph_v0_8",
+  "purpose": "PT-budgeted dependency graph work",
+  "graph_file": "work_graph.json",
+  "node_kinds": [
+    "metric_rollup",
+    "report",
+    "checkpoint",
+    "index",
+    "state_patch",
+    "append_note",
+    "ready_seed"
+  ],
+  "runtime_files": [
+    "work_graph.json",
+    "work_graph_log.jsonl",
+    "rollups/*.json",
+    "reports/*.md",
+    "checkpoints/*.json",
+    "index.json",
+    "graph_notes.md",
+    "queue.ready.jsonl",
+    "state.json"
+  ],
+  "status_values": [
+    "QI_WORK_GRAPH_APPLIED",
+    "QI_WORK_GRAPH_REPLAYED",
+    "QI_WORK_GRAPH_IDLE",
+    "QI_WORK_GRAPH_BLOCKED"
+  ]
+}
