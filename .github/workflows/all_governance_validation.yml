@@ -63,6 +63,8 @@ jobs:
           echo "Qi Process Tensor conventional autonomy v0.2G regression: tests/test_kuuos_qi_process_tensor_conventional_autonomy_v0_2G.py"
           echo "Qi Process Tensor conventional autonomy v0.2G fixes Process Tensor as conventional-truth temporal substrate, not ultimate truth or fixed ontology; autonomy is safety-gated candidate generation, not ungated execution."
           echo "IndraNet PlanOS handoff v0.2D demo: examples/run_physical_quantum_qi_indranet_planos_handoff_demo_v0_2D.py"
+          echo "Regge Zero governance: scripts/run_regge_zero_governance_checks_v0_1.py"
+          echo "Regge Zero governance locks minimal consistency null constraints, nested inheritance, no extra blocker without witness, and no single-scalar authority collapse."
           echo "Invariant pipeline includes audit event, audit hash-chain, WORM receipt, release bundle, attestation, closure, and finality validators."
           echo "Emptiness two truths runtime audit includes runtime checks, audit chain, release packet, and release bundle manifest validators."
           echo "GPT GitHub and MemoryOS GitHub bridge validators are included in the top-level runner."
