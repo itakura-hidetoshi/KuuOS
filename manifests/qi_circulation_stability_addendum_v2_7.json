@@ -1,0 +1,30 @@
+{
+  "manifest_version": "qi_circulation_stability_addendum_v2_7",
+  "status": "READY",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_circulation_stability_v2_7.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_circulation_stability_v2_7.py",
+    "scripts/check_qi_circulation_stability_v2_7.py"
+  ],
+  "example_files": [
+    "examples/qi_circulation_stability_v2_7.json"
+  ],
+  "local_files": [
+    "qi_circulation_packet.json",
+    "qi_circulation_receipt.json",
+    "qi_circulation_audit.jsonl"
+  ],
+  "principle": "circulation_first_stability",
+  "recommended_actions": [
+    "continue_cycle",
+    "rebalance_and_continue",
+    "reopen_flow",
+    "concrete_stop"
+  ],
+  "status_values": [
+    "QI_CIRCULATION_STABILITY_READY",
+    "QI_CIRCULATION_STABILITY_BLOCKED"
+  ]
+}
