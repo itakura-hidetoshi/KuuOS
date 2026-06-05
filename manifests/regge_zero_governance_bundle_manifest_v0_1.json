@@ -31,6 +31,7 @@
     "packets/regge_zero_governance_established_packet_v0_1.yaml",
     "packets/regge_zero_governance_ci_receipt_v0_1.yaml",
     "chain_indexes/regge_zero_governance_chain_index_v0_1.yaml",
+    "chain_indexes/regge_zero_governance_regression_addendum_v0_1.yaml",
     ".github/workflows/regge_zero_governance_validation.yml"
   ],
   "core_invariants": [
@@ -47,6 +48,7 @@
   "make_target": "regge-zero-governance-checks",
   "ci_workflow": ".github/workflows/regge_zero_governance_validation.yml",
   "chain_index": "chain_indexes/regge_zero_governance_chain_index_v0_1.yaml",
+  "chain_addendum": "chain_indexes/regge_zero_governance_regression_addendum_v0_1.yaml",
   "ci_receipt": "packets/regge_zero_governance_ci_receipt_v0_1.yaml",
   "non_claims": [
     "does_not_prove_string_theory",
