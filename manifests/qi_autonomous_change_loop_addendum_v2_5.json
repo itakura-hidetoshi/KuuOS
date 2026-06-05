@@ -1,0 +1,30 @@
+{
+  "manifest_version": "qi_autonomous_change_loop_addendum_v2_5",
+  "status": "READY",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_autonomous_change_loop_v2_5.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_autonomous_change_loop_v2_5.py",
+    "scripts/check_qi_autonomous_change_loop_v2_5.py"
+  ],
+  "example_files": [
+    "examples/qi_autonomous_change_loop_v2_5.json"
+  ],
+  "local_files": [
+    "autonomous_change_loop_packet.json",
+    "github_tool_bridge_plan.json",
+    "automerge_packet.json",
+    "autonomous_change_loop_receipt.json",
+    "autonomous_change_loop_audit.jsonl"
+  ],
+  "stages": [
+    "github_tool_bridge",
+    "automerge_executor"
+  ],
+  "status_values": [
+    "QI_AUTONOMOUS_CHANGE_LOOP_MERGED",
+    "QI_AUTONOMOUS_CHANGE_LOOP_IDLE",
+    "QI_AUTONOMOUS_CHANGE_LOOP_BLOCKED"
+  ]
+}

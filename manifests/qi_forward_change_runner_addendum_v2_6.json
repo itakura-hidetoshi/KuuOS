@@ -1,0 +1,25 @@
+{
+  "manifest_version": "qi_forward_change_runner_addendum_v2_6",
+  "status": "READY",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_forward_change_runner_v2_6.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_forward_change_runner_v2_6.py",
+    "scripts/check_qi_forward_change_runner_v2_6.py"
+  ],
+  "example_files": [
+    "examples/qi_forward_change_runner_v2_6.json"
+  ],
+  "local_files": [
+    "forward_change_packet.json",
+    "autonomous_change_loop_packet.json",
+    "forward_change_receipt.json",
+    "forward_change_audit.jsonl"
+  ],
+  "posture": "forward-biased concrete-stop",
+  "status_values": [
+    "QI_FORWARD_CHANGE_RUNNER_MERGED",
+    "QI_FORWARD_CHANGE_RUNNER_BLOCKED"
+  ]
+}

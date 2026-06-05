@@ -1,0 +1,22 @@
+{
+  "example_version": "qi_circulation_stability_v2_7",
+  "purpose": "Qi process-tensor circulation-first stability scoring",
+  "input_files": [
+    "qi_circulation_packet.json"
+  ],
+  "output_files": [
+    "qi_circulation_receipt.json",
+    "qi_circulation_audit.jsonl"
+  ],
+  "principle": "circulation is more stable than stagnation when no concrete stop reason is present",
+  "recommended_actions": [
+    "continue_cycle",
+    "rebalance_and_continue",
+    "reopen_flow",
+    "concrete_stop"
+  ],
+  "status_values": [
+    "QI_CIRCULATION_STABILITY_READY",
+    "QI_CIRCULATION_STABILITY_BLOCKED"
+  ]
+}
