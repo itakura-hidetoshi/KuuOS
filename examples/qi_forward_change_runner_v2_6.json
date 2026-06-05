@@ -1,0 +1,21 @@
+{
+  "example_version": "qi_forward_change_runner_v2_6",
+  "purpose": "forward-biased wrapper for Qi autonomous change loops",
+  "input_files": [
+    "forward_change_packet.json"
+  ],
+  "output_files": [
+    "autonomous_change_loop_packet.json",
+    "forward_change_receipt.json",
+    "forward_change_audit.jsonl"
+  ],
+  "posture": "forward-biased concrete-stop",
+  "stages": [
+    "normalize_forward_intent",
+    "autonomous_change_loop"
+  ],
+  "status_values": [
+    "QI_FORWARD_CHANGE_RUNNER_MERGED",
+    "QI_FORWARD_CHANGE_RUNNER_BLOCKED"
+  ]
+}
