@@ -1,0 +1,29 @@
+{
+  "example_version": "qi_circulation_feedback_controller_v2_9",
+  "purpose": "close the Qi circulation loop by producing the next Qi process tensor packet",
+  "input_files": [
+    "qi_circulation_feedback_packet.json"
+  ],
+  "output_files": [
+    "next_qi_process_tensor_packet.json",
+    "qi_circulation_feedback_receipt.json",
+    "qi_circulation_feedback_audit.jsonl"
+  ],
+  "feedback_actions": [
+    "maintain_circulation",
+    "rebalance_circulation",
+    "reopen_circulation",
+    "hold_for_concrete_reason"
+  ],
+  "controlled_terms": [
+    "qi_flow",
+    "coherence_score",
+    "circulation_pressure",
+    "friction",
+    "recovery_witness_present"
+  ],
+  "status_values": [
+    "QI_CIRCULATION_FEEDBACK_READY",
+    "QI_CIRCULATION_FEEDBACK_BLOCKED"
+  ]
+}
