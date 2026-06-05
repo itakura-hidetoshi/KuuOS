@@ -1,0 +1,22 @@
+{
+  "example_version": "qi_scheduled_closed_loop_runner_v3_2",
+  "purpose": "scheduled closed-loop run",
+  "input_files": [
+    "qi_scheduled_closed_loop_packet.json"
+  ],
+  "output_files": [
+    "qi_circulation_scheduler_packet.json",
+    "qi_circulation_closed_loop_packet.json",
+    "qi_scheduled_closed_loop_receipt.json",
+    "qi_scheduled_closed_loop_audit.jsonl"
+  ],
+  "stages": [
+    "scheduler",
+    "closed_loop"
+  ],
+  "status_values": [
+    "QI_SCHEDULED_CLOSED_LOOP_READY",
+    "QI_SCHEDULED_CLOSED_LOOP_CONVERGED",
+    "QI_SCHEDULED_CLOSED_LOOP_BLOCKED"
+  ]
+}
