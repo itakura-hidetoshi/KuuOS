@@ -1,0 +1,26 @@
+{
+  "example_version": "qi_autonomous_change_loop_v2_5",
+  "purpose": "top-level autonomous change loop: bridge plan, PR creation path, automerge packet, merge receipt",
+  "input_files": [
+    "autonomous_change_loop_packet.json"
+  ],
+  "output_files": [
+    "github_tool_bridge_plan.json",
+    "automerge_packet.json",
+    "autonomous_change_loop_receipt.json",
+    "autonomous_change_loop_audit.jsonl"
+  ],
+  "stages": [
+    "github_tool_bridge",
+    "automerge_executor"
+  ],
+  "modes": [
+    "mock",
+    "real"
+  ],
+  "status_values": [
+    "QI_AUTONOMOUS_CHANGE_LOOP_MERGED",
+    "QI_AUTONOMOUS_CHANGE_LOOP_IDLE",
+    "QI_AUTONOMOUS_CHANGE_LOOP_BLOCKED"
+  ]
+}
