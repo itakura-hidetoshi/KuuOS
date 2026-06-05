@@ -1,0 +1,30 @@
+{
+  "manifest_version": "qi_adaptive_objective_scheduler_addendum_v3_4",
+  "status": "READY",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_adaptive_objective_scheduler_v3_4.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_adaptive_objective_scheduler_v3_4.py",
+    "scripts/check_qi_adaptive_objective_scheduler_v3_4.py"
+  ],
+  "example_files": [
+    "examples/qi_adaptive_objective_scheduler_v3_4.json"
+  ],
+  "local_files": [
+    "qi_adaptive_scheduler_packet.json",
+    "qi_circulation_scheduler_packet.json",
+    "qi_circulation_closed_loop_packet.json",
+    "qi_adaptive_scheduler_receipt.json",
+    "qi_adaptive_scheduler_audit.jsonl"
+  ],
+  "adapted_fields": [
+    "objective_hint",
+    "max_cycles_delta",
+    "convergence_threshold_delta"
+  ],
+  "status_values": [
+    "QI_ADAPTIVE_SCHEDULER_READY",
+    "QI_ADAPTIVE_SCHEDULER_BLOCKED"
+  ]
+}
