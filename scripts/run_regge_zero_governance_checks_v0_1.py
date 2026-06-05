@@ -14,6 +14,7 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "validators/validate_regge_zero_governance_v0_1.py"],
     [sys.executable, "tests/test_regge_zero_governance_validator_v0_1.py"],
     [sys.executable, "validators/validate_regge_zero_governance_regression_addendum_v0_1.py"],
+    [sys.executable, "validators/check_regge_zero_governance_finality_packet_v0_1.py"],
 ]
 
 
