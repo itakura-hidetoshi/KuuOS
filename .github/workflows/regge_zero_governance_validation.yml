@@ -1,0 +1,55 @@
+name: Regge Zero Governance Validation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'docs/REGGE_ZERO_GOVERNANCE_v0_1.md'
+      - 'contracts/kuos_regge_zero_governance_contract_v0_1.yaml'
+      - 'validation_cases/regge_zero_governance_validation_cases_v0_1.yaml'
+      - 'validators/validate_regge_zero_governance_v0_1.py'
+      - 'scripts/run_regge_zero_governance_checks_v0_1.py'
+      - 'formal/ReggeZeroGovernance.lean'
+      - 'manifests/regge_zero_governance_bundle_manifest_v0_1.json'
+      - 'manifests/regge_zero_governance_runner_manifest_v0_1.json'
+      - 'packets/regge_zero_governance_established_packet_v0_1.yaml'
+      - 'scripts/run_all_governance_full_checks_v0_1.py'
+      - '.github/workflows/regge_zero_governance_validation.yml'
+  pull_request:
+    paths:
+      - 'docs/REGGE_ZERO_GOVERNANCE_v0_1.md'
+      - 'contracts/kuos_regge_zero_governance_contract_v0_1.yaml'
+      - 'validation_cases/regge_zero_governance_validation_cases_v0_1.yaml'
+      - 'validators/validate_regge_zero_governance_v0_1.py'
+      - 'scripts/run_regge_zero_governance_checks_v0_1.py'
+      - 'formal/ReggeZeroGovernance.lean'
+      - 'manifests/regge_zero_governance_bundle_manifest_v0_1.json'
+      - 'manifests/regge_zero_governance_runner_manifest_v0_1.json'
+      - 'packets/regge_zero_governance_established_packet_v0_1.yaml'
+      - 'scripts/run_all_governance_full_checks_v0_1.py'
+      - '.github/workflows/regge_zero_governance_validation.yml'
+
+jobs:
+  validate-regge-zero-governance:
+    name: Validate Regge Zero governance checks
+    runs-on: ubuntu-latest
+    permissions:
+      contents: read
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v4
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Show Regge Zero governance entrypoints
+        run: |
+          python3 --version
+          echo "Regge Zero governance validator: validators/validate_regge_zero_governance_v0_1.py"
+          echo "Regge Zero governance runner: scripts/run_regge_zero_governance_checks_v0_1.py"
+          echo "Boundary: consistency-mandated nulls only; no extra blocker without witness."
+
+      - name: Run Regge Zero governance checks
+        run: python3 scripts/run_regge_zero_governance_checks_v0_1.py
