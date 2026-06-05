@@ -1,0 +1,50 @@
+id: regge_zero_governance_ci_receipt_v0_1
+status: additive_ci_receipt_defined
+version: v0.1
+parent_packet: regge_zero_governance_established_packet_v0_1
+workflow: .github/workflows/regge_zero_governance_validation.yml
+runner: scripts/run_regge_zero_governance_checks_v0_1.py
+validator: validators/validate_regge_zero_governance_v0_1.py
+make_target: regge-zero-governance-checks
+receipt_scope:
+  - dedicated_regge_zero_governance_lane
+  - all_governance_runner_inclusion
+  - dependency_free_validator
+  - minimal_null_constraint_only
+  - no_extra_blocker_without_witness
+  - nested_null_inheritance
+  - no_single_scalar_authority_collapse
+  - non_authority_boundary_preservation
+semantic_locks:
+  append_only: true
+  same_root_required: true
+  overwrite_forbidden: true
+  destructive_replacement_forbidden: true
+  authority_expansion_forbidden: true
+  ci_pass_not_truth: true
+  ci_pass_not_theorem_authority: true
+  ci_pass_not_execution_authority: true
+  ci_pass_not_medical_authorization: true
+authority_created:
+  truth_authority: false
+  theorem_authority: false
+  execution_authority: false
+  medical_authorization: false
+  institutional_authority: false
+expected_outputs:
+  validator: REGGE_ZERO_GOVERNANCE_VALIDATION_PASS
+  runner: REGGE_ZERO_GOVERNANCE_CHECKS_PASS
+ci_visibility:
+  dedicated_workflow_defined: true
+  all_governance_workflow_advertises_lane: true
+  all_governance_runner_executes_lane: true
+workflow_run_observed_at_creation: false
+workflow_run_observation_note: >-
+  The workflow file is defined. A concrete GitHub Actions run may appear after
+  GitHub schedules the workflow for a subsequent push, pull request, or manual
+  workflow_dispatch.
+non_claims:
+  - CI pass does not become truth.
+  - CI pass does not become theorem authority.
+  - CI pass does not become autonomous execution authority.
+  - CI pass does not become medical authorization.
