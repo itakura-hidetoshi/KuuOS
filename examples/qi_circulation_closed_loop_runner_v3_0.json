@@ -1,0 +1,28 @@
+{
+  "example_version": "qi_circulation_closed_loop_runner_v3_0",
+  "purpose": "run multiple Qi circulation cycles by composing router v2.8 and feedback controller v2.9",
+  "input_files": [
+    "qi_circulation_closed_loop_packet.json"
+  ],
+  "output_files": [
+    "qi_circulation_closed_loop_receipt.json",
+    "qi_circulation_closed_loop_audit.jsonl",
+    "cycle_N/circulation_change_route_packet.json",
+    "cycle_N/qi_circulation_feedback_packet.json"
+  ],
+  "composed_layers": [
+    "qi_circulation_change_router_v2_8",
+    "qi_circulation_feedback_controller_v2_9"
+  ],
+  "loop_semantics": [
+    "route circulation into change loop",
+    "read router action",
+    "produce next Qi process tensor packet",
+    "repeat until convergence threshold or max_cycles"
+  ],
+  "status_values": [
+    "QI_CIRCULATION_CLOSED_LOOP_READY",
+    "QI_CIRCULATION_CLOSED_LOOP_CONVERGED",
+    "QI_CIRCULATION_CLOSED_LOOP_BLOCKED"
+  ]
+}
