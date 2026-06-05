@@ -1,0 +1,32 @@
+{
+  "manifest_version": "qi_circulation_change_router_addendum_v2_8",
+  "status": "READY",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_circulation_change_router_v2_8.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_circulation_change_router_v2_8.py",
+    "scripts/check_qi_circulation_change_router_v2_8.py"
+  ],
+  "example_files": [
+    "examples/qi_circulation_change_router_v2_8.json"
+  ],
+  "local_files": [
+    "circulation_change_route_packet.json",
+    "qi_circulation_packet.json",
+    "forward_change_packet.json",
+    "circulation_change_router_receipt.json",
+    "circulation_change_router_audit.jsonl"
+  ],
+  "routing_actions": [
+    "continue_cycle",
+    "rebalance_and_continue",
+    "reopen_flow"
+  ],
+  "stop_action": "concrete_stop",
+  "status_values": [
+    "QI_CIRCULATION_CHANGE_ROUTER_ROUTED",
+    "QI_CIRCULATION_CHANGE_ROUTER_IDLE",
+    "QI_CIRCULATION_CHANGE_ROUTER_BLOCKED"
+  ]
+}
