@@ -1,0 +1,24 @@
+{
+  "example_version": "qi_circulation_trajectory_adaptor_v3_3",
+  "purpose": "adapt the next Qi scheduler packet from prior circulation trajectory results",
+  "input_files": [
+    "qi_circulation_trajectory_packet.json"
+  ],
+  "output_files": [
+    "next_qi_circulation_scheduler_packet.json",
+    "qi_circulation_trajectory_receipt.json",
+    "qi_circulation_trajectory_audit.jsonl"
+  ],
+  "adaptation_classes": [
+    "stable_lighten",
+    "blocked_recovery",
+    "needs_more_reopen",
+    "long_cycle_rebalance",
+    "continue_adapt",
+    "no_trajectory"
+  ],
+  "status_values": [
+    "QI_CIRCULATION_TRAJECTORY_ADAPTOR_READY",
+    "QI_CIRCULATION_TRAJECTORY_ADAPTOR_BLOCKED"
+  ]
+}
