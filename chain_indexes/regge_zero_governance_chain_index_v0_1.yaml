@@ -1,0 +1,87 @@
+id: regge_zero_governance_chain_index_v0_1
+status: additive_chain_index
+version: v0.1
+root: KuuOS
+same_root_required: true
+overwrite_forbidden: true
+destructive_replacement_forbidden: true
+authority_expansion_forbidden: true
+chain:
+  - order: 1
+    id: regge_zero_governance_design_note_v0_1
+    path: docs/REGGE_ZERO_GOVERNANCE_v0_1.md
+    role: design_surface
+    authority: non_authoritative_governance_support
+  - order: 2
+    id: kuos_regge_zero_governance_contract_v0_1
+    path: contracts/kuos_regge_zero_governance_contract_v0_1.yaml
+    role: contract_surface
+    authority: non_authoritative_governance_contract
+  - order: 3
+    id: regge_zero_governance_validation_cases_v0_1
+    path: validation_cases/regge_zero_governance_validation_cases_v0_1.yaml
+    role: validation_cases
+    authority: test_fixture_support
+  - order: 4
+    id: validate_regge_zero_governance_v0_1
+    path: validators/validate_regge_zero_governance_v0_1.py
+    role: dependency_free_validator
+    authority: consistency_receipt_generator
+  - order: 5
+    id: run_regge_zero_governance_checks_v0_1
+    path: scripts/run_regge_zero_governance_checks_v0_1.py
+    role: check_runner
+    authority: consistency_receipt_runner
+  - order: 6
+    id: ReggeZeroGovernance_lean_surface
+    path: formal/ReggeZeroGovernance.lean
+    role: lean_facing_formal_surface
+    authority: proof_support_only
+  - order: 7
+    id: regge_zero_governance_bundle_manifest_v0_1
+    path: manifests/regge_zero_governance_bundle_manifest_v0_1.json
+    role: bundle_manifest
+    authority: non_authoritative_manifest
+  - order: 8
+    id: regge_zero_governance_runner_manifest_v0_1
+    path: manifests/regge_zero_governance_runner_manifest_v0_1.json
+    role: runner_manifest
+    authority: non_authoritative_manifest
+  - order: 9
+    id: regge_zero_governance_established_packet_v0_1
+    path: packets/regge_zero_governance_established_packet_v0_1.yaml
+    role: established_packet
+    authority: non_authoritative_established_hold
+  - order: 10
+    id: regge_zero_governance_ci_receipt_v0_1
+    path: packets/regge_zero_governance_ci_receipt_v0_1.yaml
+    role: ci_receipt_definition
+    authority: ci_receipt_not_truth
+  - order: 11
+    id: regge_zero_governance_runbook_v0_1
+    path: docs/REGGE_ZERO_GOVERNANCE_RUNBOOK_v0_1.md
+    role: runbook
+    authority: operational_guidance_only
+  - order: 12
+    id: regge_zero_governance_validation_workflow_v0_1
+    path: .github/workflows/regge_zero_governance_validation.yml
+    role: dedicated_ci_workflow
+    authority: ci_check_not_truth
+  - order: 13
+    id: all_governance_runner_inclusion
+    path: scripts/run_all_governance_full_checks_v0_1.py
+    role: all_governance_runner_inclusion
+    authority: consistency_runner_only
+core_invariants:
+  - minimal_null_constraint_only
+  - nested_null_inheritance
+  - no_extra_blocker_without_witness
+  - no_single_scalar_authority_collapse
+  - cyclic_consistency_required_for_promotion
+non_claims:
+  - does_not_prove_string_theory
+  - does_not_derive_physical_amplitudes
+  - does_not_create_autonomous_execution_authority
+  - does_not_create_medical_authorization
+  - does_not_turn_CI_success_into_theorem_authority
+  - does_not_turn_validation_into_truth
