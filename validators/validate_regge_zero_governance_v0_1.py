@@ -17,13 +17,19 @@ from typing import Iterable, List
 ROOT = Path(__file__).resolve().parents[1]
 
 DOC = ROOT / "docs" / "REGGE_ZERO_GOVERNANCE_v0_1.md"
+RUNBOOK = ROOT / "docs" / "REGGE_ZERO_GOVERNANCE_RUNBOOK_v0_1.md"
 CONTRACT = ROOT / "contracts" / "kuos_regge_zero_governance_contract_v0_1.yaml"
 CASES = ROOT / "validation_cases" / "regge_zero_governance_validation_cases_v0_1.yaml"
 MANIFEST = ROOT / "manifests" / "regge_zero_governance_bundle_manifest_v0_1.json"
 RUNNER_MANIFEST = ROOT / "manifests" / "regge_zero_governance_runner_manifest_v0_1.json"
 PACKET = ROOT / "packets" / "regge_zero_governance_established_packet_v0_1.yaml"
+CI_RECEIPT = ROOT / "packets" / "regge_zero_governance_ci_receipt_v0_1.yaml"
+CHAIN_INDEX = ROOT / "chain_indexes" / "regge_zero_governance_chain_index_v0_1.yaml"
 FORMAL = ROOT / "formal" / "ReggeZeroGovernance.lean"
 RUNNER = ROOT / "scripts" / "run_regge_zero_governance_checks_v0_1.py"
+WORKFLOW = ROOT / ".github" / "workflows" / "regge_zero_governance_validation.yml"
+ALL_RUNNER = ROOT / "scripts" / "run_all_governance_full_checks_v0_1.py"
+MAKEFILE = ROOT / "Makefile"
 
 REQUIRED_NON_AUTHORITY = [
     "candidate_not_authority: true",
@@ -70,6 +76,21 @@ REQUIRED_CASE_IDS = {
     "hold_cyclic_inconsistency": "HOLD",
     "reject_silent_root_rewrite": "REJECT",
 }
+
+REQUIRED_BUNDLE_PATHS = [
+    "docs/REGGE_ZERO_GOVERNANCE_v0_1.md",
+    "docs/REGGE_ZERO_GOVERNANCE_RUNBOOK_v0_1.md",
+    "contracts/kuos_regge_zero_governance_contract_v0_1.yaml",
+    "validation_cases/regge_zero_governance_validation_cases_v0_1.yaml",
+    "validators/validate_regge_zero_governance_v0_1.py",
+    "scripts/run_regge_zero_governance_checks_v0_1.py",
+    "formal/ReggeZeroGovernance.lean",
+    "manifests/regge_zero_governance_runner_manifest_v0_1.json",
+    "packets/regge_zero_governance_established_packet_v0_1.yaml",
+    "packets/regge_zero_governance_ci_receipt_v0_1.yaml",
+    "chain_indexes/regge_zero_governance_chain_index_v0_1.yaml",
+    ".github/workflows/regge_zero_governance_validation.yml",
+]
 
 
 def read_text(path: Path) -> str:
@@ -128,7 +149,7 @@ def validate_cases(text: str) -> List[str]:
     return errors
 
 
-def validate_manifest(path: Path, require_runner: bool = False) -> List[str]:
+def validate_manifest(path: Path, require_runner: bool = False, require_bundle_paths: bool = False) -> List[str]:
     errors: List[str] = []
     try:
         manifest = json.loads(read_text(path))
@@ -143,9 +164,14 @@ def validate_manifest(path: Path, require_runner: bool = False) -> List[str]:
     for key in ["execution_authority_created", "medical_authorization_created", "theorem_authority_created"]:
         if locks.get(key) is not False:
             errors.append(f"{path.relative_to(ROOT)} semantic_locks.{key} must be false")
-    for rel in manifest.get("paths", []):
+    paths = manifest.get("paths", [])
+    for rel in paths:
         if not (ROOT / rel).exists():
             errors.append(f"manifest path missing: {rel}")
+    if require_bundle_paths:
+        for rel in REQUIRED_BUNDLE_PATHS:
+            if rel not in paths:
+                errors.append(f"bundle manifest missing path: {rel}")
     if require_runner and not (ROOT / manifest.get("runner_path", "")).exists():
         errors.append("runner manifest points to missing runner_path")
     return errors
@@ -156,6 +182,38 @@ def validate_packet(text: str) -> List[str]:
     errors.extend(require_contains(text, ["id: regge_zero_governance_established_packet_v0_1", "append_only: true", "same_root_required: true", "overwrite_forbidden: true", "authority_expansion_forbidden: true"], "packet"))
     errors.extend(require_contains(text, ["execution_authority: false", "medical_authorization: false", "theorem_authority: false", "truth_authority: false", "runtime_commit_authority: false"], "packet.non_authority"))
     return errors
+
+
+def validate_ci_receipt(text: str) -> List[str]:
+    return require_contains(
+        text,
+        [
+            "id: regge_zero_governance_ci_receipt_v0_1",
+            "ci_pass_not_truth: true",
+            "ci_pass_not_theorem_authority: true",
+            "ci_pass_not_execution_authority: true",
+            "ci_pass_not_medical_authorization: true",
+            "all_governance_runner_executes_lane: true",
+        ],
+        "ci_receipt",
+    )
+
+
+def validate_chain_index(text: str) -> List[str]:
+    return require_contains(
+        text,
+        [
+            "id: regge_zero_governance_chain_index_v0_1",
+            "same_root_required: true",
+            "overwrite_forbidden: true",
+            "authority_expansion_forbidden: true",
+            "docs/REGGE_ZERO_GOVERNANCE_RUNBOOK_v0_1.md",
+            "packets/regge_zero_governance_ci_receipt_v0_1.yaml",
+            ".github/workflows/regge_zero_governance_validation.yml",
+            "scripts/run_all_governance_full_checks_v0_1.py",
+        ],
+        "chain_index",
+    )
 
 
 def validate_formal(text: str) -> List[str]:
@@ -177,13 +235,19 @@ def validate_formal(text: str) -> List[str]:
 def main() -> int:
     errors: List[str] = []
     errors.extend(require_contains(read_text(DOC), ["Regge Zero Governance v0.1", "Only consistency-mandated null constraints may block a candidate", "KuuOS does not prove string theory"], "doc"))
+    errors.extend(require_contains(read_text(RUNBOOK), ["Regge Zero Governance Runbook v0.1", "REGGE_ZERO_GOVERNANCE_VALIDATION: PASS", "KuuOS does not prove string theory"], "runbook"))
     errors.extend(validate_contract(read_text(CONTRACT)))
     errors.extend(validate_cases(read_text(CASES)))
-    errors.extend(validate_manifest(MANIFEST))
+    errors.extend(validate_manifest(MANIFEST, require_bundle_paths=True))
     errors.extend(validate_manifest(RUNNER_MANIFEST, require_runner=True))
     errors.extend(validate_packet(read_text(PACKET)))
+    errors.extend(validate_ci_receipt(read_text(CI_RECEIPT)))
+    errors.extend(validate_chain_index(read_text(CHAIN_INDEX)))
     errors.extend(validate_formal(read_text(FORMAL)))
     errors.extend(require_contains(read_text(RUNNER), ["validate_regge_zero_governance_v0_1.py", "REGGE_ZERO_GOVERNANCE_CHECKS: PASS"], "runner"))
+    errors.extend(require_contains(read_text(WORKFLOW), ["Regge Zero Governance Validation", "scripts/run_regge_zero_governance_checks_v0_1.py"], "workflow"))
+    errors.extend(require_contains(read_text(ALL_RUNNER), ["scripts/run_regge_zero_governance_checks_v0_1.py"], "all_governance_runner"))
+    errors.extend(require_contains(read_text(MAKEFILE), ["regge-zero-governance-checks:", "scripts/run_regge_zero_governance_checks_v0_1.py"], "makefile"))
 
     if errors:
         print("REGGE_ZERO_GOVERNANCE_VALIDATION: FAIL")
