@@ -1,0 +1,18 @@
+{
+  "id": "regge_zero_governance_runner_manifest_v0_1",
+  "status": "additive_runner_manifest",
+  "authority": "non_authoritative_governance_addendum",
+  "parent_manifest": "regge_zero_governance_bundle_manifest_v0_1",
+  "runner_path": "scripts/run_regge_zero_governance_checks_v0_1.py",
+  "runner_command": "python3 scripts/run_regge_zero_governance_checks_v0_1.py",
+  "validator_path": "validators/validate_regge_zero_governance_v0_1.py",
+  "semantic_locks": {
+    "append_only": true,
+    "same_root_required": true,
+    "overwrite_forbidden": true,
+    "authority_expansion_forbidden": true,
+    "execution_authority_created": false,
+    "medical_authorization_created": false,
+    "theorem_authority_created": false
+  }
+}
