@@ -1,0 +1,30 @@
+{
+  "manifest_version": "qi_scheduled_closed_loop_runner_addendum_v3_2",
+  "status": "READY",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_scheduled_closed_loop_runner_v3_2.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_scheduled_closed_loop_runner_v3_2.py",
+    "scripts/check_qi_scheduled_closed_loop_runner_v3_2.py"
+  ],
+  "example_files": [
+    "examples/qi_scheduled_closed_loop_runner_v3_2.json"
+  ],
+  "local_files": [
+    "qi_scheduled_closed_loop_packet.json",
+    "qi_circulation_scheduler_packet.json",
+    "qi_circulation_closed_loop_packet.json",
+    "qi_scheduled_closed_loop_receipt.json",
+    "qi_scheduled_closed_loop_audit.jsonl"
+  ],
+  "stages": [
+    "scheduler",
+    "closed_loop"
+  ],
+  "status_values": [
+    "QI_SCHEDULED_CLOSED_LOOP_READY",
+    "QI_SCHEDULED_CLOSED_LOOP_CONVERGED",
+    "QI_SCHEDULED_CLOSED_LOOP_BLOCKED"
+  ]
+}
