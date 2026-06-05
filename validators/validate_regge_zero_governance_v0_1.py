@@ -27,6 +27,7 @@ CI_RECEIPT = ROOT / "packets" / "regge_zero_governance_ci_receipt_v0_1.yaml"
 CHAIN_INDEX = ROOT / "chain_indexes" / "regge_zero_governance_chain_index_v0_1.yaml"
 FORMAL = ROOT / "formal" / "ReggeZeroGovernance.lean"
 RUNNER = ROOT / "scripts" / "run_regge_zero_governance_checks_v0_1.py"
+REGRESSION = ROOT / "tests" / "test_regge_zero_governance_validator_v0_1.py"
 WORKFLOW = ROOT / ".github" / "workflows" / "regge_zero_governance_validation.yml"
 ALL_RUNNER = ROOT / "scripts" / "run_all_governance_full_checks_v0_1.py"
 MAKEFILE = ROOT / "Makefile"
@@ -84,6 +85,7 @@ REQUIRED_BUNDLE_PATHS = [
     "validation_cases/regge_zero_governance_validation_cases_v0_1.yaml",
     "validators/validate_regge_zero_governance_v0_1.py",
     "scripts/run_regge_zero_governance_checks_v0_1.py",
+    "tests/test_regge_zero_governance_validator_v0_1.py",
     "formal/ReggeZeroGovernance.lean",
     "manifests/regge_zero_governance_runner_manifest_v0_1.json",
     "packets/regge_zero_governance_established_packet_v0_1.yaml",
@@ -244,8 +246,9 @@ def main() -> int:
     errors.extend(validate_ci_receipt(read_text(CI_RECEIPT)))
     errors.extend(validate_chain_index(read_text(CHAIN_INDEX)))
     errors.extend(validate_formal(read_text(FORMAL)))
-    errors.extend(require_contains(read_text(RUNNER), ["validate_regge_zero_governance_v0_1.py", "REGGE_ZERO_GOVERNANCE_CHECKS: PASS"], "runner"))
-    errors.extend(require_contains(read_text(WORKFLOW), ["Regge Zero Governance Validation", "scripts/run_regge_zero_governance_checks_v0_1.py"], "workflow"))
+    errors.extend(require_contains(read_text(RUNNER), ["validate_regge_zero_governance_v0_1.py", "tests/test_regge_zero_governance_validator_v0_1.py", "REGGE_ZERO_GOVERNANCE_CHECKS: PASS"], "runner"))
+    errors.extend(require_contains(read_text(REGRESSION), ["REGGE_ZERO_GOVERNANCE_REGRESSION: PASS", "test_validation_cases_keep_soft_concern_advisory_only", "expected: ADVISORY_ONLY"], "regression"))
+    errors.extend(require_contains(read_text(WORKFLOW), ["Regge Zero Governance Validation", "tests/test_regge_zero_governance_validator_v0_1.py", "scripts/run_regge_zero_governance_checks_v0_1.py"], "workflow"))
     errors.extend(require_contains(read_text(ALL_RUNNER), ["scripts/run_regge_zero_governance_checks_v0_1.py"], "all_governance_runner"))
     errors.extend(require_contains(read_text(MAKEFILE), ["regge-zero-governance-checks:", "scripts/run_regge_zero_governance_checks_v0_1.py"], "makefile"))
 
