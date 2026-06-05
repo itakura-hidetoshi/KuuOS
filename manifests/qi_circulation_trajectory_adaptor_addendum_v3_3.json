@@ -1,0 +1,32 @@
+{
+  "manifest_version": "qi_circulation_trajectory_adaptor_addendum_v3_3",
+  "status": "READY",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_circulation_trajectory_adaptor_v3_3.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_circulation_trajectory_adaptor_v3_3.py",
+    "scripts/check_qi_circulation_trajectory_adaptor_v3_3.py"
+  ],
+  "example_files": [
+    "examples/qi_circulation_trajectory_adaptor_v3_3.json"
+  ],
+  "local_files": [
+    "qi_circulation_trajectory_packet.json",
+    "next_qi_circulation_scheduler_packet.json",
+    "qi_circulation_trajectory_receipt.json",
+    "qi_circulation_trajectory_audit.jsonl"
+  ],
+  "adaptation_classes": [
+    "stable_lighten",
+    "blocked_recovery",
+    "needs_more_reopen",
+    "long_cycle_rebalance",
+    "continue_adapt",
+    "no_trajectory"
+  ],
+  "status_values": [
+    "QI_CIRCULATION_TRAJECTORY_ADAPTOR_READY",
+    "QI_CIRCULATION_TRAJECTORY_ADAPTOR_BLOCKED"
+  ]
+}
