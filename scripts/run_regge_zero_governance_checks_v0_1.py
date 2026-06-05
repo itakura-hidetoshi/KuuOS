@@ -6,16 +6,28 @@ from __future__ import annotations
 import subprocess
 import sys
 from pathlib import Path
+from typing import Sequence
 
 ROOT = Path(__file__).resolve().parents[1]
-VALIDATOR = ROOT / "validators" / "validate_regge_zero_governance_v0_1.py"
+
+COMMANDS: list[list[str]] = [
+    [sys.executable, "validators/validate_regge_zero_governance_v0_1.py"],
+    [sys.executable, "tests/test_regge_zero_governance_validator_v0_1.py"],
+]
+
+
+def run_command(cmd: Sequence[str]) -> int:
+    print("\n>>> " + " ".join(cmd), flush=True)
+    completed = subprocess.run(list(cmd), cwd=str(ROOT), check=False)
+    return completed.returncode
 
 
 def main() -> int:
-    result = subprocess.run([sys.executable, str(VALIDATOR)], cwd=str(ROOT), check=False)
-    if result.returncode != 0:
-        print("REGGE_ZERO_GOVERNANCE_CHECKS: FAIL")
-        return result.returncode
+    for cmd in COMMANDS:
+        code = run_command(cmd)
+        if code != 0:
+            print("REGGE_ZERO_GOVERNANCE_CHECKS: FAIL")
+            return code
     print("REGGE_ZERO_GOVERNANCE_CHECKS: PASS")
     return 0
 
