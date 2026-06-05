@@ -9,6 +9,7 @@ on:
       - 'contracts/kuos_regge_zero_governance_contract_v0_1.yaml'
       - 'validation_cases/regge_zero_governance_validation_cases_v0_1.yaml'
       - 'validators/validate_regge_zero_governance_v0_1.py'
+      - 'validators/validate_regge_zero_governance_regression_addendum_v0_1.py'
       - 'scripts/run_regge_zero_governance_checks_v0_1.py'
       - 'tests/test_regge_zero_governance_validator_v0_1.py'
       - 'formal/ReggeZeroGovernance.lean'
@@ -17,6 +18,7 @@ on:
       - 'packets/regge_zero_governance_established_packet_v0_1.yaml'
       - 'packets/regge_zero_governance_ci_receipt_v0_1.yaml'
       - 'chain_indexes/regge_zero_governance_chain_index_v0_1.yaml'
+      - 'chain_indexes/regge_zero_governance_regression_addendum_v0_1.yaml'
       - 'scripts/run_all_governance_full_checks_v0_1.py'
       - 'Makefile'
       - '.github/workflows/regge_zero_governance_validation.yml'
@@ -27,6 +29,7 @@ on:
       - 'contracts/kuos_regge_zero_governance_contract_v0_1.yaml'
       - 'validation_cases/regge_zero_governance_validation_cases_v0_1.yaml'
       - 'validators/validate_regge_zero_governance_v0_1.py'
+      - 'validators/validate_regge_zero_governance_regression_addendum_v0_1.py'
       - 'scripts/run_regge_zero_governance_checks_v0_1.py'
       - 'tests/test_regge_zero_governance_validator_v0_1.py'
       - 'formal/ReggeZeroGovernance.lean'
@@ -35,6 +38,7 @@ on:
       - 'packets/regge_zero_governance_established_packet_v0_1.yaml'
       - 'packets/regge_zero_governance_ci_receipt_v0_1.yaml'
       - 'chain_indexes/regge_zero_governance_chain_index_v0_1.yaml'
+      - 'chain_indexes/regge_zero_governance_regression_addendum_v0_1.yaml'
       - 'scripts/run_all_governance_full_checks_v0_1.py'
       - 'Makefile'
       - '.github/workflows/regge_zero_governance_validation.yml'
@@ -59,6 +63,7 @@ jobs:
           python3 --version
           echo "Regge Zero governance validator: validators/validate_regge_zero_governance_v0_1.py"
           echo "Regge Zero governance regression: tests/test_regge_zero_governance_validator_v0_1.py"
+          echo "Regge Zero regression addendum validator: validators/validate_regge_zero_governance_regression_addendum_v0_1.py"
           echo "Regge Zero governance runner: scripts/run_regge_zero_governance_checks_v0_1.py"
           echo "Boundary: consistency-mandated nulls only; no extra blocker without witness."
 
