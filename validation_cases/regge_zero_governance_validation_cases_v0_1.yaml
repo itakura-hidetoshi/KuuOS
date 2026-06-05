@@ -1,0 +1,122 @@
+id: regge_zero_governance_validation_cases_v0_1
+status: additive_validation_cases
+contract: kuos_regge_zero_governance_contract_v0_1
+cases:
+  - id: pass_bounded_candidate_with_no_null_witness
+    description: A bounded candidate with provenance and no authority shortcut should not be blocked merely for novelty.
+    candidate:
+      candidate_id: c_pass_001
+      candidate_type: design_candidate
+      provenance_present: true
+      support_present: true
+      boundary_claims:
+        claims_authority: false
+        claims_execution_permission: false
+      concern_basis:
+        - novelty
+      inherited_null_conditions: []
+      cyclic_consistency_receipt: PASS
+    expected: ADVISORY_ONLY
+    required_reason: no_extra_blocker_without_witness
+
+  - id: hold_runtime_tick_authority_shortcut
+    description: Runtime tick is incorrectly treated as autonomous execution authority.
+    candidate:
+      candidate_id: c_hold_001
+      candidate_type: runtime_tick
+      provenance_present: true
+      support_present: true
+      boundary_claims:
+        claims_authority: true
+        authority_kind: autonomous_execution_authority
+      concern_basis:
+        - authority_shortcut
+      inherited_null_conditions: []
+      cyclic_consistency_receipt: PASS
+    expected: HOLD
+    required_reason: authority_shortcut
+
+  - id: hold_qi_readout_medical_authorization_shortcut
+    description: Qi readout is incorrectly treated as standalone treatment authorization.
+    candidate:
+      candidate_id: c_hold_002
+      candidate_type: qi_readout
+      provenance_present: true
+      support_present: true
+      boundary_claims:
+        claims_authority: true
+        authority_kind: treatment_authorization
+      concern_basis:
+        - medical_authorization_shortcut
+      inherited_null_conditions: []
+      cyclic_consistency_receipt: PASS
+    expected: HOLD
+    required_reason: qi_intervention_shortcut
+
+  - id: hold_ci_pass_theorem_authority_shortcut
+    description: CI pass is incorrectly treated as theorem authority.
+    candidate:
+      candidate_id: c_hold_003
+      candidate_type: ci_receipt
+      provenance_present: true
+      support_present: true
+      boundary_claims:
+        claims_authority: true
+        authority_kind: theorem_authority
+      concern_basis:
+        - proof_authority_shortcut
+      inherited_null_conditions: []
+      cyclic_consistency_receipt: PASS
+    expected: HOLD
+    required_reason: proof_shortcut
+
+  - id: inherit_lower_tier_hold
+    description: A lower-tier null condition must not be erased by higher-tier pass.
+    candidate:
+      candidate_id: c_inherit_001
+      candidate_type: release_candidate
+      provenance_present: true
+      support_present: true
+      boundary_claims:
+        claims_authority: false
+      concern_basis: []
+      inherited_null_conditions:
+        - provenance_gap
+      cyclic_consistency_receipt: PASS
+    expected: HOLD
+    required_reason: nested_null_inheritance
+
+  - id: hold_cyclic_inconsistency
+    description: Multi-module loop hides unresolved contradiction or lost provenance.
+    candidate:
+      candidate_id: c_cycle_001
+      candidate_type: cross_os_candidate
+      provenance_present: true
+      support_present: true
+      boundary_claims:
+        claims_authority: false
+      concern_basis:
+        - cyclic_inconsistency
+      inherited_null_conditions: []
+      cyclic_consistency_receipt: FAIL
+    expected: HOLD
+    required_reason: cyclic_inconsistency
+
+  - id: reject_silent_root_rewrite
+    description: Reflection summary is used as direct root rewrite and should be rejected when destructive replacement is claimed.
+    candidate:
+      candidate_id: c_reject_001
+      candidate_type: reflection_summary
+      provenance_present: true
+      support_present: true
+      boundary_claims:
+        claims_authority: true
+        authority_kind: root_rewrite
+        destructive_replacement_claimed: true
+      concern_basis:
+        - authority_shortcut
+        - silent_overwrite_risk
+      inherited_null_conditions: []
+      cyclic_consistency_receipt: PASS
+    expected: REJECT
+    required_reason: reflection_summary_not_root_rewrite
