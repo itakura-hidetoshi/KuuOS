@@ -1,0 +1,22 @@
+{
+  "example_version": "qi_adaptive_objective_scheduler_v3_4",
+  "purpose": "apply trajectory adaptor hints to the next circulation schedule",
+  "input_files": [
+    "qi_adaptive_scheduler_packet.json"
+  ],
+  "output_files": [
+    "qi_circulation_scheduler_packet.json",
+    "qi_circulation_closed_loop_packet.json",
+    "qi_adaptive_scheduler_receipt.json",
+    "qi_adaptive_scheduler_audit.jsonl"
+  ],
+  "adapted_fields": [
+    "objective_hint",
+    "max_cycles_delta",
+    "convergence_threshold_delta"
+  ],
+  "status_values": [
+    "QI_ADAPTIVE_SCHEDULER_READY",
+    "QI_ADAPTIVE_SCHEDULER_BLOCKED"
+  ]
+}
