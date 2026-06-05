@@ -1,0 +1,36 @@
+{
+  "manifest_version": "qi_automerge_executor_addendum_v2_4",
+  "status": "READY",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_automerge_executor_v2_4.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_automerge_executor_v2_4.py",
+    "scripts/check_qi_automerge_executor_v2_4.py"
+  ],
+  "example_files": [
+    "examples/qi_automerge_executor_v2_4.json"
+  ],
+  "local_files": [
+    "automerge_packet.json",
+    "automerge_receipt.json",
+    "automerge_audit.jsonl",
+    "pr_merge_gate_packet.json",
+    "github_tool_bridge_plan.json"
+  ],
+  "required_gates": [
+    "explicit_automerge_license",
+    "head_sha_pinned",
+    "pull_request_not_draft",
+    "mergeable",
+    "required_checks_success",
+    "merge_allowed",
+    "receipt_written",
+    "audit_written"
+  ],
+  "status_values": [
+    "QI_AUTOMERGE_EXECUTOR_MERGED",
+    "QI_AUTOMERGE_EXECUTOR_IDLE",
+    "QI_AUTOMERGE_EXECUTOR_BLOCKED"
+  ]
+}
