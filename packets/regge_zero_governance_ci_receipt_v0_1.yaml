@@ -3,12 +3,14 @@ status: additive_ci_receipt_defined
 version: v0.1
 parent_packet: regge_zero_governance_established_packet_v0_1
 finality_packet: packets/regge_zero_governance_finality_packet_v0_1.yaml
+baseline_lock: packets/regge_zero_governance_baseline_lock_v0_1.yaml
 workflow: .github/workflows/regge_zero_governance_validation.yml
 runner: scripts/run_regge_zero_governance_checks_v0_1.py
 validator: validators/validate_regge_zero_governance_v0_1.py
 regression_test: tests/test_regge_zero_governance_validator_v0_1.py
 regression_addendum_validator: validators/validate_regge_zero_governance_regression_addendum_v0_1.py
 finality_validator: validators/check_regge_zero_governance_finality_packet_v0_1.py
+baseline_lock_validator: validators/check_regge_zero_governance_baseline_lock_v0_1.py
 make_target: regge-zero-governance-checks
 receipt_scope:
   - dedicated_regge_zero_governance_lane
@@ -17,6 +19,7 @@ receipt_scope:
   - dependency_free_regression_test
   - regression_addendum_validator
   - finality_packet_validator
+  - baseline_lock_validator
   - minimal_null_constraint_only
   - no_extra_blocker_without_witness
   - nested_null_inheritance
@@ -43,12 +46,14 @@ expected_outputs:
   regression: REGGE_ZERO_GOVERNANCE_REGRESSION_PASS
   regression_addendum_validator: REGGE_ZERO_GOVERNANCE_REGRESSION_ADDENDUM_VALIDATION_PASS
   finality_validator: REGGE_ZERO_GOVERNANCE_FINALITY_VALIDATION_PASS
+  baseline_lock_validator: REGGE_ZERO_GOVERNANCE_BASELINE_LOCK_VALIDATION_PASS
   runner: REGGE_ZERO_GOVERNANCE_CHECKS_PASS
 ci_visibility:
   dedicated_workflow_defined: true
   dedicated_workflow_runs_regression: true
   dedicated_workflow_runs_regression_addendum_validator: true
   dedicated_workflow_runs_finality_validator: true
+  dedicated_workflow_runs_baseline_lock_validator: true
   all_governance_workflow_advertises_lane: true
   all_governance_runner_executes_lane: true
   workflow_run_observed_at_creation: false
@@ -63,3 +68,5 @@ non_claims:
   - CI pass does not become medical authorization.
   - Finality validation does not become truth.
   - Finality validation does not become execution authority.
+  - Baseline lock validation does not become truth.
+  - Baseline lock validation does not become execution authority.
