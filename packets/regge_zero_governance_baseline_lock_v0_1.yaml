@@ -1,0 +1,53 @@
+id: regge_zero_governance_baseline_lock_v0_1
+status: additive_baseline_lock
+version: v0.1
+parent_finality_packet: packets/regge_zero_governance_finality_packet_v0_1.yaml
+bundle_manifest: manifests/regge_zero_governance_bundle_manifest_v0_1.json
+runner_manifest: manifests/regge_zero_governance_runner_manifest_v0_1.json
+ci_receipt: packets/regge_zero_governance_ci_receipt_v0_1.yaml
+workflow: .github/workflows/regge_zero_governance_validation.yml
+lock_scope:
+  - ReggeZeroGovernance_v0_1
+  - minimal_null_constraint_only
+  - nested_null_inheritance
+  - no_extra_blocker_without_witness
+  - no_single_scalar_authority_collapse
+  - cyclic_consistency_required_for_promotion
+  - dependency_free_validator_lane
+  - regression_lane
+  - finality_lane
+baseline_meaning: >-
+  Regge Zero Governance v0.1 is locked as a non-authoritative governance
+  baseline. Future work must proceed through additive v0.2+ extensions or
+  tighten-only addenda. This lock does not create truth, theorem, execution,
+  medical, institutional, or root rewrite authority.
+semantic_locks:
+  append_only: true
+  same_root_required: true
+  overwrite_forbidden: true
+  destructive_replacement_forbidden: true
+  authority_expansion_forbidden: true
+  tighten_only_default: true
+  baseline_lock_not_truth: true
+  baseline_lock_not_theorem_authority: true
+  baseline_lock_not_execution_authority: true
+  baseline_lock_not_medical_authorization: true
+authority_created:
+  truth_authority: false
+  theorem_authority: false
+  execution_authority: false
+  medical_authorization: false
+  institutional_authority: false
+  root_rewrite_authority: false
+future_update_policy:
+  v0_1_overwrite_forbidden: true
+  v0_1_destructive_replacement_forbidden: true
+  v0_2_plus_additive_extension_allowed: true
+  semantic_change_requires_new_version: true
+non_claims:
+  - Baseline lock does not prove string theory.
+  - Baseline lock does not derive physical scattering amplitudes.
+  - Baseline lock does not create autonomous execution authority.
+  - Baseline lock does not create medical authorization.
+  - Baseline lock does not turn CI success into theorem authority.
+  - Baseline lock does not turn validation into truth.
