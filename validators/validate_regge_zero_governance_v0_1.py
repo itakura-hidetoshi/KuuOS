@@ -1,184 +1,189 @@
 #!/usr/bin/env python3
 """Validate Regge Zero Governance v0.1 artifacts.
 
-This validator is intentionally small and conservative. It checks that the
-contract, validation cases, manifest, and established packet preserve the
-non-authority and minimal-null-constraint boundaries.
+This validator is intentionally dependency-free.  It avoids requiring PyYAML in
+GitHub Actions and validates the Regge Zero governance surface through explicit
+text, JSON, manifest-path, and case-block checks.
 """
 
 from __future__ import annotations
 
 import json
+import re
 import sys
 from pathlib import Path
-from typing import Any, Dict, List
-
-try:
-    import yaml  # type: ignore
-except Exception:  # pragma: no cover
-    yaml = None
+from typing import Iterable, List
 
 ROOT = Path(__file__).resolve().parents[1]
 
+DOC = ROOT / "docs" / "REGGE_ZERO_GOVERNANCE_v0_1.md"
 CONTRACT = ROOT / "contracts" / "kuos_regge_zero_governance_contract_v0_1.yaml"
 CASES = ROOT / "validation_cases" / "regge_zero_governance_validation_cases_v0_1.yaml"
 MANIFEST = ROOT / "manifests" / "regge_zero_governance_bundle_manifest_v0_1.json"
+RUNNER_MANIFEST = ROOT / "manifests" / "regge_zero_governance_runner_manifest_v0_1.json"
 PACKET = ROOT / "packets" / "regge_zero_governance_established_packet_v0_1.yaml"
+FORMAL = ROOT / "formal" / "ReggeZeroGovernance.lean"
+RUNNER = ROOT / "scripts" / "run_regge_zero_governance_checks_v0_1.py"
 
 REQUIRED_NON_AUTHORITY = [
-    "candidate_not_authority",
-    "validation_not_truth",
-    "ci_pass_not_theorem_authority",
-    "runtime_tick_not_autonomous_execution_authority",
-    "qi_readout_not_intervention_license",
-    "memory_persistence_not_belief_sovereignty",
-    "reflection_summary_not_root_rewrite",
-    "audit_not_infinite_escalation",
+    "candidate_not_authority: true",
+    "validation_not_truth: true",
+    "ci_pass_not_theorem_authority: true",
+    "runtime_tick_not_autonomous_execution_authority: true",
+    "qi_readout_not_intervention_license: true",
+    "memory_persistence_not_belief_sovereignty: true",
+    "reflection_summary_not_root_rewrite: true",
+    "audit_not_infinite_escalation: true",
 ]
 
-REQUIRED_INVARIANTS = {
+REQUIRED_INVARIANTS = [
     "minimal_null_constraint_only",
     "nested_null_inheritance",
     "no_extra_blocker_without_witness",
     "no_single_scalar_authority_collapse",
     "cyclic_consistency_required_for_promotion",
+]
+
+REQUIRED_NULL_CONDITIONS = [
+    "authority_shortcut:",
+    "proof_shortcut:",
+    "qi_intervention_shortcut:",
+    "memory_sovereignty_shortcut:",
+    "over_audit_extra_zero:",
+    "cyclic_inconsistency:",
+]
+
+REQUIRED_NON_CLAIMS = [
+    "does_not_prove_string_theory",
+    "does_not_create_autonomous_execution_authority",
+    "does_not_create_medical_authorization",
+    "does_not_turn_CI_success_into_theorem_authority",
+    "does_not_turn_validation_into_truth",
+]
+
+REQUIRED_CASE_IDS = {
+    "pass_bounded_candidate_with_no_null_witness": "ADVISORY_ONLY",
+    "hold_runtime_tick_authority_shortcut": "HOLD",
+    "hold_qi_readout_medical_authorization_shortcut": "HOLD",
+    "hold_ci_pass_theorem_authority_shortcut": "HOLD",
+    "inherit_lower_tier_hold": "HOLD",
+    "hold_cyclic_inconsistency": "HOLD",
+    "reject_silent_root_rewrite": "REJECT",
 }
 
-ALLOWED_BLOCKING_RESULTS = {"HOLD", "REPAIR", "REJECT", "QUARANTINE"}
-NON_BLOCKING_RESULTS = {"PASS", "ADVISORY_ONLY", "PASS_WITH_ADVISORY"}
 
-
-def load_yaml(path: Path) -> Dict[str, Any]:
+def read_text(path: Path) -> str:
     if not path.exists():
-        raise AssertionError(f"missing file: {path}")
-    text = path.read_text(encoding="utf-8")
-    if yaml is None:
-        raise AssertionError("PyYAML is required to validate YAML artifacts")
-    data = yaml.safe_load(text)
-    if not isinstance(data, dict):
-        raise AssertionError(f"expected mapping in {path}")
-    return data
+        raise AssertionError(f"missing file: {path.relative_to(ROOT)}")
+    return path.read_text(encoding="utf-8")
 
 
-def load_json(path: Path) -> Dict[str, Any]:
-    if not path.exists():
-        raise AssertionError(f"missing file: {path}")
-    data = json.loads(path.read_text(encoding="utf-8"))
-    if not isinstance(data, dict):
-        raise AssertionError(f"expected object in {path}")
-    return data
-
-
-def validate_contract(contract: Dict[str, Any]) -> List[str]:
+def require_contains(text: str, needles: Iterable[str], label: str) -> List[str]:
     errors: List[str] = []
-    if contract.get("id") != "kuos_regge_zero_governance_contract_v0_1":
-        errors.append("contract id mismatch")
-    lineage = contract.get("lineage", {})
-    for key in ["same_root_required", "overwrite_forbidden", "destructive_replacement_forbidden"]:
-        if lineage.get(key) is not True:
-            errors.append(f"lineage.{key} must be true")
-    non_auth = contract.get("non_authority_boundary", {})
-    for key in REQUIRED_NON_AUTHORITY:
-        if non_auth.get(key) is not True:
-            errors.append(f"non_authority_boundary.{key} must be true")
-    invariants = contract.get("invariants", [])
-    invariant_ids = {item.get("id") for item in invariants if isinstance(item, dict)}
-    missing = REQUIRED_INVARIANTS - invariant_ids
-    if missing:
-        errors.append(f"missing invariants: {sorted(missing)}")
-    gate = contract.get("canonical_gate", {})
-    outputs = set(gate.get("output_values", []))
-    expected_outputs = ALLOWED_BLOCKING_RESULTS | {"PASS", "ADVISORY_ONLY"}
-    if not expected_outputs.issubset(outputs):
-        errors.append("canonical_gate.output_values is incomplete")
-    null_conditions = contract.get("null_conditions", {})
-    for key in ["authority_shortcut", "proof_shortcut", "qi_intervention_shortcut", "memory_sovereignty_shortcut", "over_audit_extra_zero", "cyclic_inconsistency"]:
-        if key not in null_conditions:
-            errors.append(f"missing null condition: {key}")
-    non_claims = set(contract.get("non_claims", []))
-    for key in [
-        "does_not_prove_string_theory",
-        "does_not_create_autonomous_execution_authority",
-        "does_not_create_medical_authorization",
-        "does_not_turn_CI_success_into_theorem_authority",
-        "does_not_turn_validation_into_truth",
-    ]:
-        if key not in non_claims:
-            errors.append(f"missing non-claim: {key}")
+    for needle in needles:
+        if needle not in text:
+            errors.append(f"{label} missing required text: {needle}")
     return errors
 
 
-def validate_cases(cases_doc: Dict[str, Any], contract: Dict[str, Any]) -> List[str]:
+def validate_contract(text: str) -> List[str]:
     errors: List[str] = []
-    cases = cases_doc.get("cases")
-    if not isinstance(cases, list) or not cases:
-        return ["validation cases must be a non-empty list"]
-    allowed_witnesses = set(contract.get("allowed_blocker_witnesses", []))
-    forbidden_without_witness = set(contract.get("forbidden_blocker_bases_without_witness", []))
-    seen_ids = set()
-    for case in cases:
-        if not isinstance(case, dict):
-            errors.append("case must be mapping")
+    errors.extend(require_contains(text, ["id: kuos_regge_zero_governance_contract_v0_1"], "contract"))
+    errors.extend(require_contains(text, ["same_root_required: true", "overwrite_forbidden: true", "destructive_replacement_forbidden: true"], "contract.lineage"))
+    errors.extend(require_contains(text, REQUIRED_NON_AUTHORITY, "contract.non_authority_boundary"))
+    errors.extend(require_contains(text, REQUIRED_INVARIANTS, "contract.invariants"))
+    errors.extend(require_contains(text, REQUIRED_NULL_CONDITIONS, "contract.null_conditions"))
+    errors.extend(require_contains(text, ["ReggeZeroGate", "PASS", "HOLD", "REPAIR", "REJECT", "QUARANTINE", "ADVISORY_ONLY"], "contract.canonical_gate"))
+    errors.extend(require_contains(text, REQUIRED_NON_CLAIMS, "contract.non_claims"))
+    return errors
+
+
+def split_case_blocks(text: str) -> dict[str, str]:
+    blocks: dict[str, str] = {}
+    matches = list(re.finditer(r"^\s*- id: ([A-Za-z0-9_\-]+)\s*$", text, flags=re.MULTILINE))
+    for idx, match in enumerate(matches):
+        case_id = match.group(1)
+        start = match.start()
+        end = matches[idx + 1].start() if idx + 1 < len(matches) else len(text)
+        blocks[case_id] = text[start:end]
+    return blocks
+
+
+def validate_cases(text: str) -> List[str]:
+    errors: List[str] = []
+    blocks = split_case_blocks(text)
+    for case_id, expected in REQUIRED_CASE_IDS.items():
+        block = blocks.get(case_id)
+        if block is None:
+            errors.append(f"validation case missing: {case_id}")
             continue
-        cid = case.get("id")
-        if not cid or cid in seen_ids:
-            errors.append(f"invalid or duplicate case id: {cid}")
-        seen_ids.add(cid)
-        expected = case.get("expected")
-        candidate = case.get("candidate", {})
-        basis = set(candidate.get("concern_basis", []) or [])
-        inherited = set(candidate.get("inherited_null_conditions", []) or [])
-        has_blocker_witness = bool((basis | inherited) & allowed_witnesses)
-        only_forbidden_soft_basis = bool(basis) and basis.issubset(forbidden_without_witness)
-        if expected in ALLOWED_BLOCKING_RESULTS and not has_blocker_witness:
-            errors.append(f"{cid}: blocking result without allowed blocker witness")
-        if only_forbidden_soft_basis and expected not in NON_BLOCKING_RESULTS:
-            errors.append(f"{cid}: soft basis without witness must not block")
-        if candidate.get("cyclic_consistency_receipt") == "FAIL" and expected not in ALLOWED_BLOCKING_RESULTS:
-            errors.append(f"{cid}: cyclic FAIL must block or repair")
+        if f"expected: {expected}" not in block:
+            errors.append(f"{case_id}: expected outcome must be {expected}")
+        if expected in {"HOLD", "REPAIR", "REJECT", "QUARANTINE"}:
+            if not any(token in block for token in ["authority_shortcut", "medical_authorization_shortcut", "proof_authority_shortcut", "provenance_gap", "cyclic_inconsistency", "silent_overwrite_risk"]):
+                errors.append(f"{case_id}: blocking case lacks an explicit blocker witness")
+        if case_id == "pass_bounded_candidate_with_no_null_witness":
+            if "novelty" not in block or "ADVISORY_ONLY" not in block:
+                errors.append(f"{case_id}: novelty-only case must remain advisory-only")
     return errors
 
 
-def validate_manifest(manifest: Dict[str, Any]) -> List[str]:
+def validate_manifest(path: Path, require_runner: bool = False) -> List[str]:
     errors: List[str] = []
-    paths = manifest.get("paths", [])
-    if not isinstance(paths, list):
-        return ["manifest.paths must be a list"]
-    for rel in paths:
-        p = ROOT / rel
-        if not p.exists():
-            errors.append(f"manifest path missing: {rel}")
+    try:
+        manifest = json.loads(read_text(path))
+    except json.JSONDecodeError as exc:
+        return [f"{path.relative_to(ROOT)} is not valid JSON: {exc}"]
     if manifest.get("authority") != "non_authoritative_governance_addendum":
-        errors.append("manifest authority must remain non_authoritative_governance_addendum")
-    return errors
-
-
-def validate_packet(packet: Dict[str, Any]) -> List[str]:
-    errors: List[str] = []
-    if packet.get("id") != "regge_zero_governance_established_packet_v0_1":
-        errors.append("packet id mismatch")
-    locks = packet.get("semantic_locks", {})
+        errors.append(f"{path.relative_to(ROOT)} authority must remain non_authoritative_governance_addendum")
+    locks = manifest.get("semantic_locks", {})
     for key in ["append_only", "same_root_required", "overwrite_forbidden", "authority_expansion_forbidden"]:
         if locks.get(key) is not True:
-            errors.append(f"semantic_locks.{key} must be true")
-    if packet.get("execution_authority") is not False:
-        errors.append("execution_authority must be false")
-    if packet.get("medical_authorization") is not False:
-        errors.append("medical_authorization must be false")
+            errors.append(f"{path.relative_to(ROOT)} semantic_locks.{key} must be true")
+    for key in ["execution_authority_created", "medical_authorization_created", "theorem_authority_created"]:
+        if locks.get(key) is not False:
+            errors.append(f"{path.relative_to(ROOT)} semantic_locks.{key} must be false")
+    for rel in manifest.get("paths", []):
+        if not (ROOT / rel).exists():
+            errors.append(f"manifest path missing: {rel}")
+    if require_runner and not (ROOT / manifest.get("runner_path", "")).exists():
+        errors.append("runner manifest points to missing runner_path")
     return errors
+
+
+def validate_packet(text: str) -> List[str]:
+    errors: List[str] = []
+    errors.extend(require_contains(text, ["id: regge_zero_governance_established_packet_v0_1", "append_only: true", "same_root_required: true", "overwrite_forbidden: true", "authority_expansion_forbidden: true"], "packet"))
+    errors.extend(require_contains(text, ["execution_authority: false", "medical_authorization: false", "theorem_authority: false", "truth_authority: false", "runtime_commit_authority: false"], "packet.non_authority"))
+    return errors
+
+
+def validate_formal(text: str) -> List[str]:
+    return require_contains(
+        text,
+        [
+            "namespace KuuOS",
+            "namespace ReggeZeroGovernance",
+            "def reggeZeroGate",
+            "theorem no_soft_concern_blocks_without_witness",
+            "theorem authority_shortcut_holds",
+            "theorem destructive_reflection_rewrite_rejects",
+            "theorem cyclic_failure_holds_without_authority_shortcut",
+        ],
+        "formal",
+    )
 
 
 def main() -> int:
     errors: List[str] = []
-    contract = load_yaml(CONTRACT)
-    cases_doc = load_yaml(CASES)
-    manifest = load_json(MANIFEST)
-    packet = load_yaml(PACKET)
-
-    errors.extend(validate_contract(contract))
-    errors.extend(validate_cases(cases_doc, contract))
-    errors.extend(validate_manifest(manifest))
-    errors.extend(validate_packet(packet))
+    errors.extend(require_contains(read_text(DOC), ["Regge Zero Governance v0.1", "Only consistency-mandated null constraints may block a candidate", "KuuOS does not prove string theory"], "doc"))
+    errors.extend(validate_contract(read_text(CONTRACT)))
+    errors.extend(validate_cases(read_text(CASES)))
+    errors.extend(validate_manifest(MANIFEST))
+    errors.extend(validate_manifest(RUNNER_MANIFEST, require_runner=True))
+    errors.extend(validate_packet(read_text(PACKET)))
+    errors.extend(validate_formal(read_text(FORMAL)))
+    errors.extend(require_contains(read_text(RUNNER), ["validate_regge_zero_governance_v0_1.py", "REGGE_ZERO_GOVERNANCE_CHECKS: PASS"], "runner"))
 
     if errors:
         print("REGGE_ZERO_GOVERNANCE_VALIDATION: FAIL")
