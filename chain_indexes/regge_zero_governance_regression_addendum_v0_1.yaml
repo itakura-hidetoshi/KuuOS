@@ -1,0 +1,29 @@
+id: regge_zero_governance_regression_addendum_v0_1
+status: additive_chain_addendum
+version: v0.1
+parent_chain: regge_zero_governance_chain_index_v0_1
+same_root_required: true
+overwrite_forbidden: true
+authority_expansion_forbidden: true
+addendum_scope:
+  - dependency_free_regression_test
+  - runner_invokes_regression_test
+  - workflow_triggers_on_regression_test
+entries:
+  - id: test_regge_zero_governance_validator_v0_1
+    path: tests/test_regge_zero_governance_validator_v0_1.py
+    role: dependency_free_regression_test
+    authority: regression_receipt_only
+  - id: run_regge_zero_governance_checks_v0_1_regression_inclusion
+    path: scripts/run_regge_zero_governance_checks_v0_1.py
+    role: runner_invokes_validator_and_regression
+    authority: consistency_runner_only
+  - id: regge_zero_governance_workflow_regression_trigger
+    path: .github/workflows/regge_zero_governance_validation.yml
+    role: workflow_trigger_and_execution_surface
+    authority: ci_check_not_truth
+non_claims:
+  - regression pass does not become truth
+  - regression pass does not become theorem authority
+  - regression pass does not become execution authority
+  - regression pass does not become medical authorization
