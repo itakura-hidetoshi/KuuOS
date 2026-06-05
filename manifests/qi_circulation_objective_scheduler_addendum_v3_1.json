@@ -1,0 +1,30 @@
+{
+  "manifest_version": "qi_circulation_objective_scheduler_addendum_v3_1",
+  "status": "READY",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_circulation_objective_scheduler_v3_1.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_circulation_objective_scheduler_v3_1.py",
+    "scripts/check_qi_circulation_objective_scheduler_v3_1.py"
+  ],
+  "example_files": [
+    "examples/qi_circulation_objective_scheduler_v3_1.json"
+  ],
+  "local_files": [
+    "qi_circulation_scheduler_packet.json",
+    "qi_circulation_closed_loop_packet.json",
+    "qi_circulation_scheduler_receipt.json",
+    "qi_circulation_scheduler_audit.jsonl"
+  ],
+  "objective_classes": [
+    "maintain",
+    "rebalance",
+    "reopen",
+    "concrete_stop"
+  ],
+  "status_values": [
+    "QI_CIRCULATION_SCHEDULER_READY",
+    "QI_CIRCULATION_SCHEDULER_BLOCKED"
+  ]
+}

@@ -1,0 +1,36 @@
+{
+  "example_version": "qi_circulation_objective_scheduler_v3_1",
+  "purpose": "derive closed-loop circulation objectives and scheduling parameters from the Qi process tensor state",
+  "input_files": [
+    "qi_circulation_scheduler_packet.json"
+  ],
+  "output_files": [
+    "qi_circulation_closed_loop_packet.json",
+    "qi_circulation_scheduler_receipt.json",
+    "qi_circulation_scheduler_audit.jsonl"
+  ],
+  "objective_classes": [
+    "maintain",
+    "rebalance",
+    "reopen",
+    "concrete_stop"
+  ],
+  "schedule_policy": {
+    "maintain": {
+      "max_cycles": 2,
+      "convergence_threshold": 0.015
+    },
+    "rebalance": {
+      "max_cycles": 4,
+      "convergence_threshold": 0.025
+    },
+    "reopen": {
+      "max_cycles": 6,
+      "convergence_threshold": 0.04
+    }
+  },
+  "status_values": [
+    "QI_CIRCULATION_SCHEDULER_READY",
+    "QI_CIRCULATION_SCHEDULER_BLOCKED"
+  ]
+}
