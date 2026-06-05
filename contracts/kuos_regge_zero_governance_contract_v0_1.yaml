@@ -1,0 +1,156 @@
+id: kuos_regge_zero_governance_contract_v0_1
+status: additive_non_authoritative_governance_contract
+version: v0.1
+lineage:
+  root: KuuOS
+  same_root_required: true
+  overwrite_forbidden: true
+  destructive_replacement_forbidden: true
+  future_updates: additive_only_tighten_only
+source_inspiration:
+  title: Strings from Almost Nothing
+  arxiv: "2508.09246"
+  imported_as: governance_pattern_only
+  physics_claim_imported: false
+purpose: >-
+  Preserve consistency-mandated null constraints while preventing arbitrary
+  blockers, over-audit drift, single-scalar authority collapse, and silent
+  authority shortcuts.
+core_sentence: >-
+  Only consistency-mandated null constraints may block a candidate; extra
+  blockers require explicit witness or remain advisory-only.
+non_authority_boundary:
+  candidate_not_authority: true
+  validation_not_truth: true
+  ci_pass_not_theorem_authority: true
+  runtime_tick_not_autonomous_execution_authority: true
+  qi_readout_not_intervention_license: true
+  qi_motion_candidate_not_standalone_diagnosis_or_treatment_authorization: true
+  memory_persistence_not_belief_sovereignty: true
+  world_model_prediction_not_fact_authority: true
+  plan_success_not_execution_permission: true
+  reflection_summary_not_root_rewrite: true
+  audit_not_infinite_escalation: true
+invariants:
+  - id: minimal_null_constraint_only
+    rule: >-
+      A blocking outcome requires an explicit consistency, boundary,
+      provenance, support, harm, authority, runtime-license, or cyclic-loop
+      witness.
+  - id: nested_null_inheritance
+    rule: >-
+      A lower-tier null condition must be carried into higher tiers until
+      explicitly repaired, superseded, or preserved as unresolved.
+  - id: no_extra_blocker_without_witness
+    rule: >-
+      A gate may emit advisory notes without a blocker witness, but may not
+      convert such notes into HOLD, REPAIR, REJECT, or QUARANTINE.
+  - id: no_single_scalar_authority_collapse
+    rule: >-
+      No scalar score may become global proof, belief, risk, Qi, plan,
+      decision, runtime, or medical authority.
+  - id: cyclic_consistency_required_for_promotion
+    rule: >-
+      Promotion-facing candidates must preserve visible consistency across
+      MemoryOS, BeliefOS, PlanOS, DecisionOS, ReflectionOS, WorldModel,
+      Runtime, receipt, and memory-lineage surfaces.
+allowed_blocker_witnesses:
+  - boundary_violation
+  - provenance_gap
+  - support_gap
+  - harm_visibility_gap
+  - authority_shortcut
+  - consistency_failure
+  - cyclic_inconsistency
+  - runtime_license_failure
+  - medical_authorization_shortcut
+  - proof_authority_shortcut
+  - memory_sovereignty_shortcut
+  - silent_overwrite_risk
+  - uncertainty_collapse
+forbidden_blocker_bases_without_witness:
+  - novelty
+  - complexity
+  - unfamiliarity
+  - nonstandard_framing
+  - low_aesthetic_fit
+  - bounded_low_confidence
+  - reviewer_discomfort_without_boundary_reason
+canonical_gate:
+  id: ReggeZeroGate
+  authority: non_executing_governance_gate
+  input_fields:
+    - candidate_id
+    - candidate_type
+    - support_witnesses
+    - boundary_claims
+    - provenance
+    - module_path
+    - prior_null_conditions
+    - cyclic_consistency_receipt
+  output_values:
+    - PASS
+    - HOLD
+    - REPAIR
+    - REJECT
+    - QUARANTINE
+    - ADVISORY_ONLY
+  block_rule: >-
+    HOLD, REPAIR, REJECT, and QUARANTINE are valid only when at least one
+    allowed_blocker_witness is present or inherited.
+  advisory_rule: >-
+    If concern exists without an allowed blocker witness, return ADVISORY_ONLY
+    or PASS_WITH_ADVISORY when supported by the surrounding runtime.
+null_conditions:
+  authority_shortcut:
+    description: Candidate claims final authority without a boundary witness.
+    examples:
+      - runtime_tick_to_autonomous_execution_authority
+      - qi_readout_to_treatment_authorization
+      - memory_persistence_to_belief_truth
+      - reflection_summary_to_root_rewrite
+      - ci_pass_to_theorem_authority
+    default_result: HOLD
+  proof_shortcut:
+    description: Formal-facing artifact is claimed as theorem authority without proof witness.
+    default_result: HOLD
+  qi_intervention_shortcut:
+    description: Qi observation or motion candidate is treated as standalone medical authorization.
+    default_result: HOLD
+  memory_sovereignty_shortcut:
+    description: Memory persistence is treated as belief or world-fact sovereignty.
+    default_result: HOLD
+  over_audit_extra_zero:
+    description: Gate tries to block without an allowed blocker witness.
+    default_result: ADVISORY_ONLY
+  cyclic_inconsistency:
+    description: Module loop hides contradiction, provenance loss, overwrite, uncertainty collapse, or unbounded runtime license.
+    default_result: HOLD
+cyclic_path:
+  - MemoryOS
+  - BeliefOS
+  - PlanOS
+  - DecisionOS
+  - ReflectionOS
+  - WorldModel
+  - Runtime
+  - receipt
+  - MemoryOS_lineage_surface
+runtime_principles:
+  observation_not_escalation: true
+  audit_trigger_not_infinite_audit: true
+  tighten_only_not_automatic_grave_mode: true
+  conservative_outcomes_are_first_class:
+    - hold
+    - reobserve
+    - repair
+    - handover
+    - abstain
+    - advisory_only
+non_claims:
+  - does_not_prove_string_theory
+  - does_not_derive_physical_amplitudes
+  - does_not_create_autonomous_execution_authority
+  - does_not_create_medical_authorization
+  - does_not_turn_CI_success_into_theorem_authority
+  - does_not_turn_validation_into_truth
