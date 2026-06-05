@@ -8,10 +8,12 @@
   "validator_path": "validators/validate_regge_zero_governance_v0_1.py",
   "regression_test_path": "tests/test_regge_zero_governance_validator_v0_1.py",
   "regression_addendum_validator_path": "validators/validate_regge_zero_governance_regression_addendum_v0_1.py",
+  "finality_validator_path": "validators/check_regge_zero_governance_finality_packet_v0_1.py",
   "runner_sequence": [
     "validators/validate_regge_zero_governance_v0_1.py",
     "tests/test_regge_zero_governance_validator_v0_1.py",
-    "validators/validate_regge_zero_governance_regression_addendum_v0_1.py"
+    "validators/validate_regge_zero_governance_regression_addendum_v0_1.py",
+    "validators/check_regge_zero_governance_finality_packet_v0_1.py"
   ],
   "semantic_locks": {
     "append_only": true,
