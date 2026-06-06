@@ -1,0 +1,24 @@
+{
+  "example_version": "qi_executable_action_recipe_compiler_v4_4",
+  "input_files": [
+    "qi_executable_action_recipe_packet.json"
+  ],
+  "output_files": [
+    "qi_executable_action_sequence_packet.json",
+    "qi_executable_action_recipe_compiler_receipt.json",
+    "qi_executable_action_recipe_compiler_audit.jsonl"
+  ],
+  "recipe_examples": [
+    "observe_and_adapt",
+    "observe_adapt_and_run",
+    "supervise_then_summarize",
+    "single_cycle_then_summarize",
+    "return_loop_then_cycle"
+  ],
+  "license_status": "QI_EXECUTABLE_ACTION_RECIPE_COMPILER_LICENSE_READY",
+  "status_values": [
+    "QI_EXECUTABLE_ACTION_RECIPE_COMPILER_READY",
+    "QI_EXECUTABLE_ACTION_RECIPE_COMPILER_BLOCKED"
+  ],
+  "purpose": "compile named safe Qi executable recipes into bounded v4.3 sequence packets"
+}
