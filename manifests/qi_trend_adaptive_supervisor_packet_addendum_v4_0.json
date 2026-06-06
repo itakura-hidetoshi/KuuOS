@@ -1,0 +1,21 @@
+{
+  "example_files": [
+    "examples/qi_trend_adaptive_supervisor_packet_v4_0.json"
+  ],
+  "local_files": [
+    "qi_process_tensor_cycle_trend_summary.json",
+    "qi_process_tensor_cycle_trend_summary_receipt.json",
+    "next_qi_process_tensor_cycle_supervisor_packet.json",
+    "qi_trend_adaptive_supervisor_packet_receipt.json",
+    "qi_trend_adaptive_supervisor_packet_audit.jsonl"
+  ],
+  "manifest_version": "qi_trend_adaptive_supervisor_packet_addendum_v4_0",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_trend_adaptive_supervisor_packet_v4_0.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_trend_adaptive_supervisor_packet_v4_0.py",
+    "scripts/check_qi_trend_adaptive_supervisor_packet_v4_0.py"
+  ],
+  "status": "READY"
+}
