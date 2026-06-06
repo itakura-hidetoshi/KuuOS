@@ -2,34 +2,39 @@
 
 This roadmap describes the current public direction of `itakura-hidetoshi/KuuOS` as of June 2026.
 
-KuuOS has moved beyond a small public-core documentation surface. It is now an append-only, governance-gated, validation-backed, proof-facing, memory-aware, and bounded-runtime architecture for relational AI systems.
+KuuOS has moved beyond a small public-core documentation surface. It is now an append-only, governance-gated, validation-backed, proof-facing, memory-aware, Qi-process-aware, and bounded executable runtime architecture for relational AI systems.
 
 The roadmap is organized around two simultaneous movements:
 
-1. **Public repository maturity** — make the current governance, validation, runtime, Qi, memory, proof-facing, and boundary surfaces understandable and reproducible.
-2. **Controlled KuuOS baseline projection** — gradually project the larger KuuOS baseline into public artifacts without collapsing candidate, validation, runtime, proof, medical, institutional, memory, or execution authority.
+1. **Public repository maturity** — make the current governance, validation, runtime, Qi, memory, proof-facing, GitHub/CI, and boundary surfaces understandable and reproducible.
+2. **Controlled KuuOS baseline projection** — gradually project the larger KuuOS baseline into public artifacts without collapsing candidate, validation, runtime, proof, medical, institutional, memory, GitHub, or execution authority.
 
 ---
 
 ## 0. Non-Authority Boundary
 
-This roadmap does not open execution authority.
+This roadmap does not open unrestricted autonomous authority.
 
 The following remain closed unless a later, explicitly versioned, externally reviewed release opens them:
 
 ```text
-autonomous execution authority
+unrestricted autonomous execution authority
+arbitrary shell execution authority
+arbitrary network execution authority
 standalone diagnosis authority
 standalone treatment authorization
 medical act authorization
 institutional authority
 final theorem authority
 unreviewed AGI deployment authority
-Qi-based execution authority
+Qi-based intervention authority
 Qi motion candidate as standalone diagnosis or treatment authorization
 CI-pass-as-truth
 validator-pass-as-truth
 runtime-tick-as-execution-authority
+allowlisted-action-as-arbitrary-execution-authority
+finite-sequence-runner-as-unbounded-agent
+GitHub Actions live adapter as repository authority
 GPT-summary-as-proof
 world-model-prediction-as-fact
 memory-persistence-as-belief-sovereignty
@@ -51,6 +56,7 @@ fail-closed validation behavior
 non-authority preservation
 provenance preservation
 bounded runtime operation
+allowlist discipline
 validator tier separation
 audit proportionality
 harmony and visible cost
@@ -115,62 +121,7 @@ make emptiness-two-truths-runtime-audit-checks
 make emptiness-superposition-noncollapse-checks
 ```
 
-### 1.3 GPT GitHub Integration and Anti-Loop Repair
-
-Status: **active repository-operation surface**
-
-Purpose:
-
-```text
-Allow GPT to help read, summarize, review, triage, and draft repository changes
-without allowing GPT output to become truth, proof, standalone diagnosis authority,
-standalone treatment authorization, medical act authorization, memory overwrite,
-or execution authority.
-```
-
-Current emphasis:
-
-```text
-Detect repeated wrong-code patterns.
-Separate similar-looking fixes from verified repairs.
-Preserve trace of failed generations.
-Require bounded repair candidates and validation receipts.
-Avoid AI self-authorization through plausible repetition.
-```
-
-Validation:
-
-```bash
-make gpt-github-integration-checks
-```
-
-### 1.4 Invariant Governance Pipeline
-
-Status: **active invariant-preservation surface**
-
-Runtime chain:
-
-```text
-transformation detected
-  -> Super-Relativity Invariant Bridge
-  -> Formal Invariant Spine
-  -> Invariant Preservation Matrix
-  -> Invariant Gate Runtime
-  -> PASS | HOLD | REPAIR | REJECT | QUARANTINE
-  -> no execution authority
-```
-
-Validation:
-
-```bash
-make formal-invariant-checks
-make super-relativity-checks
-make invariant-matrix-checks
-make invariant-gate-checks
-make invariant-pipeline-checks
-```
-
-### 1.5 Qi / IndraNet / Physical Quantum Qi
+### 1.3 Qi / IndraNet / Physical Quantum Qi
 
 Status: **active bridge, motion-chain, process-tensor, and deepening surface**
 
@@ -186,17 +137,6 @@ Process / memory / transport / recoverability surfaces remain first-class.
 Qi motion is evidence-bound, licensed by validated type, and observe-only.
 ```
 
-Current public Qi motion chain:
-
-```text
-Samvrti Qi Runtime
-  -> Samvrti Qi to Physical Motion Evidence Builder
-  -> Physical Quantum Qi Runtime
-  -> Physical Quantum Qi Dynamics Kernel
-  -> Physical Quantum Qi Motion Pipeline
-  -> observe-only bounded motion candidate
-```
-
 Validation:
 
 ```bash
@@ -207,61 +147,21 @@ make physical-quantum-qi-motion-pipeline-checks
 make physical-quantum-qi-deepening-checks
 ```
 
-Near-term next steps:
-
-```text
-Keep Qi motion chain in all-governance checks.
-Keep process-tensor and non-Markovian memory surfaces visible.
-Maintain medical-modality-neutral wording in reviewer docs.
-Do not convert Qi motion candidate into execution, standalone diagnosis,
-standalone treatment authorization, medical act authorization, or theorem authority.
-```
-
-### 1.6 KuuOS Bounded Runtime v0.1
+### 1.4 KuuOS Bounded Runtime v0.1
 
 Status: **active bounded non-authoritative runtime surface**
 
-Core direction:
+Current direction:
 
 ```text
 Runtime is bounded.
 Runtime is non-authoritative.
 Runtime is receipt-producing.
 Runtime may advance State IO by bounded ticks.
-Runtime does not open autonomous execution authority.
+Runtime may execute allowlisted bounded actions.
+Runtime does not open arbitrary execution authority.
 Runtime does not open truth, theorem, clinical, memory-overwrite,
-or final-commitment authority.
-```
-
-Current runtime path:
-
-```text
-State IO
-  -> Qi process tensor summary
-  -> closed-loop driver
-  -> runtime daemon
-  -> geometric / active-inference advisory chain
-  -> policy-flow governor
-  -> process-tensor actuator
-  -> bounded tick scheduler
-  -> closed-loop receipt
-  -> reentry plan
-  -> reentry license gate
-  -> bounded tick invocation boundary
-  -> single bounded tick or explicit denial
-```
-
-Key files:
-
-```text
-runtime/
-manifests/kuuos_runtime_manifest_v0_1.json
-manifests/kuuos_validator_tiering_policy_v0_1.json
-scripts/run_kuuos_runtime_full_check_v0_1.py
-examples/qi_state_io_v0_1/
-examples/qi_process_tensor_v0_1/
-examples/runtime_daemon_v0_1/
-tests/
+repository, or final-commitment authority.
 ```
 
 Validation:
@@ -270,18 +170,112 @@ Validation:
 python3 scripts/run_kuuos_runtime_full_check_v0_1.py
 ```
 
-Near-term next steps:
+### 1.5 Qi Process Tensor Cycle / Trend / Reliability Surface
+
+Status: **active runtime maturity surface**
+
+Current chain:
 
 ```text
-Add a Makefile alias for runtime full check if absent.
-Expose runtime runbook in README and docs.
-Document bounded daemon operation separately from governance validation.
-Keep validator tiering explicit.
-Keep authority flags false.
-Keep stop reasons visible.
+cycle supervisor receipts + audit history + trajectory packet
+  -> cycle trend summary
+  -> trend class
+  -> recommendation
+  -> reliability score
+  -> trend-adaptive supervisor packet
+  -> trend-adaptive bounded supervisor run
 ```
 
-### 1.7 MemoryOS / Non-Markovian Memory Baseline Projection
+Validation:
+
+```bash
+python scripts/check_qi_process_tensor_cycle_trend_summary_v3_9.py
+python scripts/check_qi_trend_adaptive_supervisor_packet_v4_0.py
+python scripts/check_qi_trend_adaptive_supervisor_run_v4_1.py
+```
+
+Acceptance criteria:
+
+```text
+A reviewer can see whether runtime cycles are stable, blocked, hold-dominant,
+no-progress, or insufficient-history without converting trend into authority.
+```
+
+### 1.6 Allowlisted Executable Action Surface
+
+Status: **active bounded executable surface**
+
+Current chain:
+
+```text
+qi_executable_action_packet
+  -> executable action dispatcher
+  -> exactly one allowlisted action
+
+qi_executable_action_sequence_packet
+  -> executable action sequence runner
+  -> finite declared sequence
+  -> stop on completion or first blocked action
+```
+
+Validation:
+
+```bash
+python scripts/check_qi_executable_action_dispatcher_v4_2.py
+python scripts/check_qi_executable_action_sequence_runner_v4_3.py
+```
+
+Acceptance criteria:
+
+```text
+A reviewer can identify the action allowlist, see the finite sequence,
+inspect receipts, and verify that blocked actions stop the sequence.
+```
+
+### 1.7 GitHub Actions / PR Live-Loop Surface
+
+Status: **active bounded repository-operation surface**
+
+Current direction:
+
+```text
+GitHub/CI integration is becoming a bounded live-loop surface.
+It can prepare connector requests, adapt connector results, collect PR/workflow
+snapshots, and prepare bounded policy decisions.
+It cannot grant repository authority by itself.
+It cannot merge, rerun, or mutate without explicit downstream authority.
+```
+
+Current public chain:
+
+```text
+PR live query packet
+  -> PR live request planner
+  -> connector request packet
+  -> connector result packet
+  -> PR live result adapter
+  -> raw PR info / workflow-runs packet
+  -> live snapshot collector
+  -> policy decision / action-prepared packet
+  -> receipt + audit JSONL
+```
+
+Validation:
+
+```bash
+python scripts/check_qi_github_actions_pr_live_request_planner_v7_5.py
+python scripts/check_qi_github_actions_pr_live_result_adapter_v7_6.py
+```
+
+Acceptance criteria:
+
+```text
+A reviewer can see the requested GitHub action, expected result file,
+adapted packet, policy decision, action-prepared state, blockers, warnings,
+and stop reason without treating the live-loop as repository authority.
+```
+
+### 1.8 MemoryOS / Non-Markovian Memory Baseline Projection
 
 Status: **active internal baseline; public projection in progress**
 
@@ -303,30 +297,6 @@ Expose non-Markovian memory examples through validation cases.
 Document process-tensor memory linkage.
 Separate memory persistence from belief promotion.
 Add reviewer examples for relapse, scar, reobserve, repair, and handover.
-```
-
-Acceptance criteria:
-
-```text
-A reviewer can see how memory informs future posture without granting belief,
-decision, clinical, theorem, or execution authority.
-```
-
-### 1.8 Superstring / Brane / Membrane Emptiness Bridge
-
-Status: **active proof-facing bridge surface**
-
-Purpose:
-
-```text
-Connect string / brane / membrane language to KuuOS emptiness, observer-record,
-IndraNet gauge interface, and multi-scale governance without collapsing semantics.
-```
-
-Validation:
-
-```bash
-make superstring-emptiness-sbm-checks
 ```
 
 ### 1.9 MGAP4D / Formal Verification / Lean Bridge
@@ -353,111 +323,105 @@ https://github.com/itakura-hidetoshi/4d-mass-gap
 
 ---
 
-## 2. Phase A — Public Orientation Cleanup
+## 2. Phase A — Public Orientation Alignment
 
 Status: **current priority**
 
 Goal:
 
 ```text
-Make the repository understandable to first-time reviewers, other AI systems,
-formal-methods readers, governance reviewers, runtime reviewers, memory-system reviewers,
-and medical/integrative medicine reviewers.
+Keep README and ROADMAP aligned with the v7.6 public state:
+bounded runtime, Qi process tensor cycle maturity, allowlisted executable actions,
+and GitHub Actions PR live-loop adapters.
 ```
 
 Tasks:
 
-- maintain `README.md` as the top-level public orientation surface
-- maintain `ROADMAP.md` as the current integrated repository map
+- keep `README.md` as the top-level public orientation surface
+- keep `ROADMAP.md` as the current integrated repository map
+- replace stale wording that implies there is no executable runtime surface
+- keep the stronger boundary: executable surface exists, but is bounded and non-authoritative
 - keep MGAP4D references as canonical proof-facing bridges, not the whole roadmap
-- keep “what this is / what this is not” boundaries visible
-- keep bounded runtime status visible in README
-- keep runtime full check visible in Quick Validation
-- make validator tiering visible
+- expose Qi process tensor trend summary and reliability scoring
+- expose trend-adaptive supervisor packet/run
+- expose allowlisted action dispatcher and finite sequence runner
+- expose GitHub Actions PR live request/result adapter path
+- keep validator tiering visible
 - expose audit proportionality and anti-infinite-audit rules
-- expose anti-loop repair for repeated AI wrong-code patterns
-- keep the first run path short:
-  - `README.md`
-  - `docs/QUICKSTART_v0_1.md`
-  - `docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md`
-  - `docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md`
-  - `docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md`
-  - `manifests/kuuos_runtime_manifest_v0_1.json`
-  - `python3 scripts/run_kuuos_runtime_full_check_v0_1.py`
-  - `make all-governance-checks`
 
 Acceptance criteria:
 
 ```text
-A new reviewer can identify:
-1. what KuuOS is
-2. what it is not
-3. how to run checks
-4. where the core index is
-5. where the Qi motion chain is
-6. where the runtime manifest is
-7. where the medical-modality-neutral Qi boundary is
-8. which surfaces are proof-facing only
-9. which surfaces are runtime/governance-facing only
-10. why validation is not authority
-11. why runtime tick is not execution authority
-12. why Qi is not denied by the medical boundary
-13. why memory is not belief sovereignty
-14. why audit is not infinite escalation
+A new reviewer can identify what KuuOS is, what it is not, how to run checks,
+where the Qi motion/runtime/GitHub live-loop surfaces are, and why validation,
+runtime ticks, allowlisted actions, and PR live adapters are not authority.
 ```
 
 ---
 
-## 3. Phase B — Runtime Surface Consolidation
+## 3. Phase B — Bounded Executable Runtime Consolidation
 
 Status: **next**
 
 Goal:
 
 ```text
-Make bounded runtime operation reproducible, inspectable, and clearly non-authoritative.
+Make bounded executable runtime operation reproducible, inspectable, and clearly non-authoritative.
 ```
 
 Tasks:
 
-- add or confirm `make runtime-full-check`
-- add or confirm `make runtime-manifest-checks`
-- add or confirm `make validator-tiering-checks`
-- write a runtime runbook for:
-  - State IO
-  - process-tensor summary
-  - runtime daemon
-  - status reader
-  - active-inference advisory chain
-  - policy-flow governor
-  - bounded tick scheduler
-  - closed-loop receipt
-  - reentry license gate
-  - bounded tick executor
-- separate:
-  - runtime hot path checks
-  - local unit tests
-  - CI checks
-  - governance checks
-  - release checks
-  - finality checks
-- make authority flags and stop reasons visible in reviewer docs
+- add or confirm Makefile aliases for v3.9 / v4.0 / v4.1 / v4.2 / v4.3 / v7.5 / v7.6 checks
+- document the executable action allowlist
+- document the finite sequence runner packet schema
+- document stop-on-first-blocked-action semantics
+- make receipt and audit JSONL paths visible
+- distinguish bounded tick, allowlisted action, finite sequence, connector request, connector result adaptation, policy-prepared action, and actual repository mutation
+- keep authority flags false unless a downstream explicit authority layer is introduced
 
 Acceptance criteria:
 
 ```text
-A reviewer can run the runtime full check, inspect outputs, and verify:
-- bounded tick behavior
-- non-recursive invocation
-- receipt visibility
-- process tensor summary visibility
-- stop reasons
-- authority flags remain false
+A reviewer can run checks, inspect outputs, and verify bounded tick behavior,
+allowlisted action behavior, finite sequence behavior, PR live-loop adaptation,
+stop reasons, and false authority flags.
 ```
 
 ---
 
-## 4. Phase C — Release Surface Consolidation
+## 4. Phase C — GitHub Actions Live-Loop Hardening
+
+Status: **next**
+
+Goal:
+
+```text
+Turn the PR live-loop into a safe, connector-explicit, audit-visible repository-operation surface.
+```
+
+Tasks:
+
+- document the query packet
+- document connector request packets
+- document raw connector result packets
+- document result adapter behavior
+- document live snapshot collector behavior
+- document policy-decision classes
+- separate request planning, connector invocation, result adaptation, snapshot collection, policy recommendation, and actual mutation authority
+- add examples for all-green workflows, failed workflows, pending workflows, draft PRs, closed PRs, mergeability unknown, missing head SHA, and stale connector results
+- prevent live-loop output from being treated as merge authority
+
+Acceptance criteria:
+
+```text
+A reviewer can follow a PR from query packet to connector request,
+result adapter, workflow snapshot, policy decision, and stop reason without
+a hidden repository mutation.
+```
+
+---
+
+## 5. Phase D — Release Surface Consolidation
 
 Status: **next**
 
@@ -470,42 +434,21 @@ Turn scattered public surfaces into navigable release packages.
 Tasks:
 
 - consolidate release notes and package manifests
-- ensure each public release package has:
-  - release note
-  - manifest
-  - validation command
-  - known limitations
-  - non-authority statement
-  - reproducibility note
+- ensure each public release package has release note, manifest, validation command, limitations, non-authority statement, and reproducibility note
 - add release navigation from README
-- separate:
-  - public release package
-  - proof-facing bridge package
-  - runtime adapter package
-  - audit-chain package
-  - validation fixture package
-  - Qi motion chain package
-  - bounded runtime package
-  - medical-modality-neutral Qi boundary package
-  - MemoryOS projection package
+- separate public release package, proof-facing bridge package, runtime adapter package, audit-chain package, validation fixture package, Qi motion chain package, bounded runtime package, executable action package, GitHub Actions PR live-loop package, medical-modality-neutral Qi boundary package, and MemoryOS projection package
 - preserve append-only lineage
 
 Acceptance criteria:
 
 ```text
-Every release-facing surface has:
-- version
-- author
-- date
-- purpose
-- validator
-- boundary statement
-- upstream/downstream relation
+Every release-facing surface has version, author, date, purpose, validator,
+boundary statement, and upstream/downstream relation.
 ```
 
 ---
 
-## 5. Phase D — Validation Matrix and CI Hardening
+## 6. Phase E — Validation Matrix and CI Hardening
 
 Status: **next**
 
@@ -517,32 +460,8 @@ Make validator coverage visible and reproducible.
 
 Tasks:
 
-- build a compact validation matrix:
-  - command
-  - touched files
-  - invariant checked
-  - expected output
-  - failure class
-- classify failure modes:
-  - missing required file
-  - fixture mismatch
-  - validator drift
-  - hash-chain mismatch
-  - WORM receipt mismatch
-  - non-authority boundary weakening
-  - runtime route mismatch
-  - Qi motion chain stage mismatch
-  - Qi evidence builder overpromotion
-  - Qi dynamics license mismatch
-  - runtime tick overpromotion
-  - recursive invocation leakage
-  - authority flag regression
-  - medical-modality-neutral wording regression
-  - memory-to-belief overpromotion
-  - audit escalation loop
-  - repeated AI wrong-code loop
-  - Lean / formal surface failure
-  - environment drift
+- build a compact validation matrix: command, touched files, invariant checked, expected output, failure class
+- classify failure modes: fixture mismatch, validator drift, non-authority weakening, runtime route mismatch, Qi evidence overpromotion, runtime tick overpromotion, allowlisted action overpromotion, sequence runner unboundedness, PR live-loop repository-authority leakage, recursive invocation leakage, memory-to-belief overpromotion, audit escalation loop, repeated AI wrong-code loop, Lean/formal surface failure, and environment drift
 - keep stdlib-only Python validator policy where possible
 - avoid hidden dependency on local private files
 - keep GitHub Actions and local commands aligned
@@ -550,20 +469,13 @@ Tasks:
 Acceptance criteria:
 
 ```text
-A reviewer can reproduce:
-make all-governance-checks
-make gpt-github-integration-checks
-make qi-motion-chain-checks
-make physical-quantum-qi-deepening-checks
-make superstring-emptiness-sbm-checks
-python3 scripts/run_kuuos_runtime_full_check_v0_1.py
+A reviewer can reproduce the governance, runtime, Qi trend, executable sequence,
+and PR live-loop checks and understand what each pass means and does not mean.
 ```
-
-and understand what each pass means and does not mean.
 
 ---
 
-## 6. Phase E — Qi Process Tensor / Runtime Reentry Maturity
+## 7. Phase F — Qi Process Tensor / Runtime Reentry Maturity
 
 Status: **parallel track**
 
@@ -575,29 +487,26 @@ Stabilize Qi process tensor as the bounded-runtime memory/process spine without 
 
 Tasks:
 
-- preserve process history visibility
-- preserve transition continuity visibility
-- preserve memory continuity visibility
-- preserve non-Markovian memory visibility
-- preserve missing-process-requirement reporting
+- preserve process history, transition continuity, memory continuity, non-Markovian memory, and missing-process-requirement visibility
 - keep process tensor summaries compact but inspectable
+- maintain trend classes and reliability score semantics
 - maintain reentry planning as advisory
 - keep reentry license gate explicit
 - prevent recursive daemon self-invocation
-- keep bounded tick executor to one licensed State IO tick
-- add reviewer examples for failure, hold, reobserve, quarantine, and denial
+- keep bounded tick executor to declared State IO ticks
+- keep allowlisted executable actions explicit
+- add reviewer examples for failure, hold, reobserve, quarantine, blocked action, and denial
 
 Acceptance criteria:
 
 ```text
-Qi process tensor can guide bounded runtime posture,
-but cannot grant truth, theorem, clinical, final-commitment, memory-overwrite,
-or unrestricted execution authority.
+Qi process tensor can guide bounded runtime posture, but cannot grant truth,
+theorem, clinical, final-commitment, memory-overwrite, repository, or unrestricted execution authority.
 ```
 
 ---
 
-## 7. Phase F — MemoryOS Public Projection
+## 8. Phase G — MemoryOS Public Projection
 
 Status: **parallel priority**
 
@@ -618,6 +527,7 @@ scar / holonomy / relapse lineage examples
 collective reconstructive recall examples
 memory-to-belief separation validator
 memory reobserve / repair / handover examples
+Qi process tensor memory linkage examples
 ```
 
 Rules:
@@ -629,16 +539,9 @@ Memory recall cannot erase uncertainty.
 Collective reconstruction cannot silently overwrite individual lineage.
 ```
 
-Acceptance criteria:
-
-```text
-A reviewer can inspect how memory influences posture, repair, reobserve, or handover
-without granting belief, decision, clinical, proof, or execution authority.
-```
-
 ---
 
-## 8. Phase G — OS Bridge Projection
+## 9. Phase H — OS Bridge Projection
 
 Status: **planned additive projection**
 
@@ -679,22 +582,9 @@ Witness shells cannot bypass proof spine.
 Local validation cannot silently become global truth.
 ```
 
-Acceptance criteria:
-
-```text
-Each OS bridge projection has:
-- public artifact name
-- source baseline reference
-- scope boundary
-- validator
-- failure cases
-- non-authority clause
-- release packet
-```
-
 ---
 
-## 9. Phase H — Formal Verification Bridge Maturity
+## 10. Phase I — Formal Verification Bridge Maturity
 
 Status: **parallel track**
 
@@ -707,43 +597,14 @@ Make proof-facing and governance-facing surfaces distinct but connected.
 Tasks:
 
 - keep KuuOS formal bridge separate from canonical theorem repositories
-- route proof-facing claims through:
-  - formal invariant spine
-  - Lean / mathlib-facing theorem target
-  - CI check
-  - external review gate
-  - theorem boundary statement
-- prevent:
-  - `formal_file_not_proof_by_itself`
-  - `lean_stub_not_theorem_completion`
-  - `mathlib_mapping_not_theorem_authority`
-  - `ci_pass_not_theorem_truth`
-  - `validator_pass_not_mathematical_acceptance`
-  - `GPT_summary_not_proof_authority`
+- route proof-facing claims through formal invariant spine, Lean/mathlib-facing theorem targets, CI checks, external review gates, and theorem boundary statements
+- prevent `formal_file_not_proof_by_itself`, `lean_stub_not_theorem_completion`, `mathlib_mapping_not_theorem_authority`, `ci_pass_not_theorem_truth`, `validator_pass_not_mathematical_acceptance`, and `GPT_summary_not_proof_authority`
 - add theorem-target maps only with explicit scope
 - keep MGAP4D / Super-Relativity / Superstring bridges proof-facing, not authority-opening
 
-MGAP4D relation:
-
-```text
-Canonical proof-facing repository:
-https://github.com/itakura-hidetoshi/4d-mass-gap
-```
-
-Acceptance criteria:
-
-```text
-A reviewer can distinguish:
-- governance invariant
-- theorem target
-- Lean stub
-- completed formal proof
-- external mathematical acceptance
-```
-
 ---
 
-## 10. Phase I — Audit Proportionality and Harmony Repair
+## 11. Phase J — Audit Proportionality and Harmony Repair
 
 Status: **current correction track**
 
@@ -764,16 +625,9 @@ Tasks:
 - prevent low-risk validator drift from triggering high-severity audit loops
 - document visible cost, proportionality, and harmony constraints
 
-Acceptance criteria:
-
-```text
-A reviewer can see why an audit starts, why it stops, what it costs,
-and why it does not automatically escalate to grave mode.
-```
-
 ---
 
-## 11. Phase J — Public Reviewer Experience
+## 12. Phase K — Public Reviewer Experience
 
 Status: **ongoing**
 
@@ -804,16 +658,9 @@ Tasks:
 - avoid turning deep internal baselines into unreviewable public noise
 - use append-only addenda for new surfaces
 
-Acceptance criteria:
-
-```text
-A reviewer can enter through README, choose a lane, run relevant checks,
-and understand the boundary of every result.
-```
-
 ---
 
-## 12. Long-Term Direction
+## 13. Long-Term Direction
 
 KuuOS is moving toward a public architecture where:
 
@@ -826,7 +673,9 @@ Decision remains boundary-owned and receipt-producing.
 Reflection remains repair-facing, not root-rewriting.
 Qi remains relational/process-facing, not substance or license.
 Formal verification remains proof-facing, not self-authorizing.
-Runtime remains bounded and non-authoritative.
+Runtime remains bounded and receipt-producing.
+Allowlisted execution remains finite and non-authoritative.
+GitHub/CI live-loop remains connector-explicit and non-authoritative.
 Audit remains proportional and finite.
 ```
 
@@ -841,20 +690,24 @@ memories know their lineage,
 proofs know their status,
 Qi readouts know their non-authority,
 runtime knows its stop conditions,
+actions know their allowlist,
+GitHub/CI adapters know their repository boundary,
 and governance knows when not to escalate.
 ```
 
 ---
 
-## 13. Current Priority Summary
+## 14. Current Priority Summary
 
 ```text
-1. Keep README and ROADMAP aligned with current public status.
-2. Consolidate runtime and validator tiering documentation.
-3. Project MemoryOS non-Markovian memory surfaces carefully.
-4. Add anti-loop repair for repeated wrong-code AI behavior.
-5. Strengthen Lean/mathlib bridge without claiming theorem authority.
-6. Preserve Qi motion as observe-only and medical-modality neutral.
-7. Prevent audit from becoming infinite or disharmonious.
-8. Keep all public projections additive, bounded, and non-authoritative.
+1. Keep README and ROADMAP aligned with v7.6 public runtime state.
+2. Consolidate bounded executable runtime documentation.
+3. Harden GitHub Actions PR live-loop request/result adapter path.
+4. Consolidate runtime and validator tiering documentation.
+5. Project MemoryOS non-Markovian memory surfaces carefully.
+6. Add anti-loop repair for repeated wrong-code AI behavior.
+7. Strengthen Lean/mathlib bridge without claiming theorem authority.
+8. Preserve Qi motion as observe-only and medical-modality neutral.
+9. Prevent audit from becoming infinite or disharmonious.
+10. Keep all public projections additive, bounded, and non-authoritative.
 ```
