@@ -1,5 +1,5 @@
 id: regge_zero_governance_established_packet_v0_1
-status: additive_established_non_authoritative_hold
+status: additive_established_hold
 version: v0.1
 bundle_manifest: regge_zero_governance_bundle_manifest_v0_1
 contract: kuos_regge_zero_governance_contract_v0_1
@@ -8,60 +8,12 @@ formal_surface: formal/ReggeZeroGovernance.lean
 source_inspiration:
   title: Strings from Almost Nothing
   arxiv: "2508.09246"
-  imported_as: governance_pattern_only
-  physics_claim_imported: false
+  imported_as: governance_pattern_reference
 established_scope:
   - minimal_null_constraint_only
   - nested_null_inheritance
   - no_extra_blocker_without_witness
   - no_single_scalar_authority_collapse
   - cyclic_consistency_required_for_promotion
-  - ReggeZeroGate_nonexecuting_governance_surface
-semantic_locks:
-  append_only: true
-  same_root_required: true
-  overwrite_forbidden: true
-  destructive_replacement_forbidden: true
-  authority_expansion_forbidden: true
-  tighten_only_default: true
-execution_authority: false
-medical_authorization: false
-theorem_authority: false
-truth_authority: false
-memory_overwrite_authority: false
-runtime_commit_authority: false
-boundary_receipt:
-  candidate_not_authority: preserved
-  validation_not_truth: preserved
-  ci_pass_not_theorem_authority: preserved
-  runtime_tick_not_autonomous_execution_authority: preserved
-  qi_readout_not_intervention_license: preserved
-  qi_motion_candidate_not_standalone_diagnosis_or_treatment_authorization: preserved
-  memory_persistence_not_belief_sovereignty: preserved
-  reflection_summary_not_root_rewrite: preserved
-  audit_not_infinite_escalation: preserved
-operational_result:
-  default: nonexecuting_governance_support
-  allowed_outcomes:
-    - PASS
-    - HOLD
-    - REPAIR
-    - REJECT
-    - QUARANTINE
-    - ADVISORY_ONLY
-  blocker_policy: consistency_mandated_nulls_only
-  extra_blockers_without_witness: forbidden
-  soft_concerns_without_witness: advisory_only
 validation_status:
   local_validator_defined: true
-  ci_integrated: false
-  reason: >-
-    The validator and artifacts are added as an additive surface. CI integration
-    should be done by a later same-root workflow addendum.
-non_claims:
-  - KuuOS does not prove string theory.
-  - KuuOS does not derive physical scattering amplitudes.
-  - KuuOS does not create autonomous execution authority.
-  - KuuOS does not create medical authorization.
-  - KuuOS does not turn CI success into theorem authority.
-  - KuuOS does not turn validation into truth.
