@@ -1,0 +1,27 @@
+{
+  "example_files": [
+    "examples/qi_process_tensor_return_loop_orchestrator_v3_6.json"
+  ],
+  "local_files": [
+    "qi_circulation_trajectory_packet.json",
+    "qi_process_tensor_packet.json",
+    "next_qi_circulation_scheduler_packet.json",
+    "qi_scheduled_closed_loop_packet.json",
+    "qi_process_tensor_return_loop_receipt.json",
+    "qi_process_tensor_return_loop_audit.jsonl"
+  ],
+  "manifest_version": "qi_process_tensor_return_loop_orchestrator_addendum_v3_6",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_process_tensor_return_loop_orchestrator_v3_6.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_process_tensor_return_loop_orchestrator_v3_6.py",
+    "scripts/check_qi_process_tensor_return_loop_orchestrator_v3_6.py"
+  ],
+  "stage_order": [
+    "qi_circulation_trajectory_adaptor_v3_3",
+    "qi_circulation_scheduler_packet_v3_4",
+    "qi_process_tensor_scheduler_overlay_v3_5"
+  ],
+  "status": "READY"
+}
