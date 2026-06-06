@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_github_actions_policy_action_external_call_bridge_addendum_v8_7",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_github_actions_policy_action_external_call_bridge_v8_7.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_github_actions_policy_action_external_call_bridge_v8_7.py",
+    "scripts/check_qi_github_actions_policy_action_external_call_bridge_v8_7.py"
+  ],
+  "status": "READY"
+}
