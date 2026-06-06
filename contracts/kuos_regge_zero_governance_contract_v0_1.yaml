@@ -1,5 +1,5 @@
 id: kuos_regge_zero_governance_contract_v0_1
-status: additive_non_authoritative_governance_contract
+status: additive_governance_contract
 version: v0.1
 lineage:
   root: KuuOS
@@ -10,8 +10,7 @@ lineage:
 source_inspiration:
   title: Strings from Almost Nothing
   arxiv: "2508.09246"
-  imported_as: governance_pattern_only
-  physics_claim_imported: false
+  imported_as: governance_pattern_reference
 purpose: >-
   Preserve consistency-mandated null constraints while preventing arbitrary
   blockers, over-audit drift, single-scalar authority collapse, and silent
@@ -147,10 +146,3 @@ runtime_principles:
     - handover
     - abstain
     - advisory_only
-non_claims:
-  - does_not_prove_string_theory
-  - does_not_derive_physical_amplitudes
-  - does_not_create_autonomous_execution_authority
-  - does_not_create_medical_authorization
-  - does_not_turn_CI_success_into_theorem_authority
-  - does_not_turn_validation_into_truth
