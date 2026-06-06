@@ -1,0 +1,28 @@
+{
+  "example_files": [
+    "examples/qi_process_tensor_cycle_supervisor_v3_8.json"
+  ],
+  "local_files": [
+    "qi_circulation_trajectory_packet.json",
+    "qi_process_tensor_packet.json",
+    "qi_process_tensor_cycle_supervisor_state.json",
+    "qi_process_tensor_cycle_supervisor_receipt.json",
+    "qi_process_tensor_cycle_supervisor_audit.jsonl"
+  ],
+  "manifest_version": "qi_process_tensor_cycle_supervisor_addendum_v3_8",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_process_tensor_cycle_supervisor_v3_8.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_process_tensor_cycle_supervisor_v3_8.py",
+    "scripts/check_qi_process_tensor_cycle_supervisor_v3_8.py"
+  ],
+  "stop_reasons": [
+    "converged",
+    "blocked",
+    "hold_overlay",
+    "cycle_cap_reached",
+    "no_progress"
+  ],
+  "status": "READY"
+}
