@@ -1,0 +1,26 @@
+{
+  "example_version": "qi_github_actions_direct_operator_v5_6",
+  "input_files": [
+    "qi_github_actions_direct_operation_packet.json"
+  ],
+  "output_files": [
+    "qi_github_actions_direct_operator_receipt.json",
+    "qi_github_actions_direct_operator_audit.jsonl"
+  ],
+  "supported_operations": [
+    "rerun_failed_workflow_run_jobs",
+    "rerun_workflow_job",
+    "workflow_dispatch",
+    "merge_pull_request"
+  ],
+  "execution_modes": [
+    "dry_run",
+    "live"
+  ],
+  "license_status": "QI_GITHUB_ACTIONS_DIRECT_OPERATOR_LICENSE_READY",
+  "status_values": [
+    "QI_GITHUB_ACTIONS_DIRECT_OPERATOR_READY",
+    "QI_GITHUB_ACTIONS_DIRECT_OPERATOR_BLOCKED"
+  ],
+  "purpose": "directly perform explicitly authorized GitHub Actions or PR operations"
+}
