@@ -1,0 +1,19 @@
+{
+  "example_version": "qi_process_tensor_cycle_trend_summary_v3_9",
+  "input_files": [
+    "qi_process_tensor_cycle_supervisor_receipt.json",
+    "qi_process_tensor_cycle_supervisor_audit.jsonl",
+    "qi_circulation_trajectory_packet.json"
+  ],
+  "output_files": [
+    "qi_process_tensor_cycle_trend_summary.json",
+    "qi_process_tensor_cycle_trend_summary_receipt.json",
+    "qi_process_tensor_cycle_trend_summary_audit.jsonl"
+  ],
+  "license_status": "QI_PROCESS_TENSOR_CYCLE_TREND_SUMMARY_LICENSE_READY",
+  "status_values": [
+    "QI_PROCESS_TENSOR_CYCLE_TREND_SUMMARY_READY",
+    "QI_PROCESS_TENSOR_CYCLE_TREND_SUMMARY_BLOCKED"
+  ],
+  "purpose": "summarize supervised Qi process tensor cycle history into trend class, reliability score, and next supervision recommendation"
+}
