@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_github_actions_external_cycle_runner_addendum_v6_7",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_github_actions_external_cycle_runner_v6_7.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_github_actions_external_cycle_runner_v6_7.py",
+    "scripts/check_qi_github_actions_external_cycle_runner_v6_7.py"
+  ],
+  "status": "READY"
+}
