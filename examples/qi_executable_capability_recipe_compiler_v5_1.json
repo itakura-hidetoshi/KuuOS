@@ -1,0 +1,24 @@
+{
+  "example_version": "qi_executable_capability_recipe_compiler_v5_1",
+  "input_files": [
+    "qi_executable_capability_recipe_packet.json"
+  ],
+  "output_files": [
+    "qi_executable_capability_sequence_packet.json",
+    "qi_executable_capability_recipe_compiler_receipt.json",
+    "qi_executable_capability_recipe_compiler_audit.jsonl"
+  ],
+  "capability_recipe_examples": [
+    "compile_recipe_and_batch",
+    "compile_then_execute_recipe",
+    "compile_batch_then_execute_batch",
+    "route_observe_then_compile",
+    "safe_compile_full_surface"
+  ],
+  "license_status": "QI_EXECUTABLE_CAPABILITY_RECIPE_COMPILER_LICENSE_READY",
+  "status_values": [
+    "QI_EXECUTABLE_CAPABILITY_RECIPE_COMPILER_READY",
+    "QI_EXECUTABLE_CAPABILITY_RECIPE_COMPILER_BLOCKED"
+  ],
+  "purpose": "compile named safe Qi capability recipes into bounded v5.0 capability sequence packets"
+}
