@@ -1,0 +1,25 @@
+{
+  "example_version": "qi_process_tensor_scheduler_overlay_v3_5",
+  "input_files": [
+    "qi_scheduled_closed_loop_packet.json",
+    "qi_process_tensor_packet.json"
+  ],
+  "output_files": [
+    "qi_scheduled_closed_loop_packet.json",
+    "qi_process_tensor_scheduler_overlay_receipt.json",
+    "qi_process_tensor_scheduler_overlay_audit.jsonl"
+  ],
+  "overlay_classes": [
+    "process_tensor_stabilize_overlay",
+    "process_tensor_rebalance_overlay",
+    "process_tensor_recovery_overlay",
+    "process_tensor_hold_overlay",
+    "process_tensor_continue_overlay"
+  ],
+  "license_status": "QI_PROCESS_TENSOR_SCHEDULER_OVERLAY_LICENSE_READY",
+  "status_values": [
+    "QI_PROCESS_TENSOR_SCHEDULER_OVERLAY_READY",
+    "QI_PROCESS_TENSOR_SCHEDULER_OVERLAY_BLOCKED"
+  ],
+  "purpose": "inject process tensor memory, non-Markov, and recovery context into the next Qi scheduled closed-loop packet"
+}
