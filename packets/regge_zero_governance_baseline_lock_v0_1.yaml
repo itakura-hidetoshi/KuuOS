@@ -44,10 +44,3 @@ future_update_policy:
   v0_1_destructive_replacement_forbidden: true
   v0_2_plus_additive_extension_allowed: true
   semantic_change_requires_new_version: true
-non_claims:
-  - Baseline lock does not prove string theory.
-  - Baseline lock does not derive physical scattering amplitudes.
-  - Baseline lock does not create autonomous execution authority.
-  - Baseline lock does not create medical authorization.
-  - Baseline lock does not turn CI success into theorem authority.
-  - Baseline lock does not turn validation into truth.
