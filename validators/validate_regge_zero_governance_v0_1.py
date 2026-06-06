@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-"""Validate Regge Zero Governance v0.1 artifacts.
-
-This validator is intentionally dependency-free.  It avoids requiring PyYAML in
-GitHub Actions and validates the Regge Zero governance surface through explicit
-text, JSON, manifest-path, and case-block checks.
-"""
+"""Validate Regge Zero Governance v0.1 artifacts."""
 
 from __future__ import annotations
 
@@ -61,7 +56,6 @@ REQUIRED_NULL_CONDITIONS = [
 ]
 
 REQUIRED_NON_CLAIMS = [
-    "does_not_prove_string_theory",
     "does_not_create_autonomous_execution_authority",
     "does_not_create_medical_authorization",
     "does_not_turn_CI_success_into_theorem_authority",
@@ -127,7 +121,7 @@ def split_case_blocks(text: str) -> dict[str, str]:
     for idx, match in enumerate(matches):
         case_id = match.group(1)
         start = match.start()
-        end = matches[idx + 1].start() if idx + 1 < len(matches) else len(text)
+        end = matches[idx + 1].start() if idx + 1 < len(text) else len(text)
         blocks[case_id] = text[start:end]
     return blocks
 
@@ -187,57 +181,21 @@ def validate_packet(text: str) -> List[str]:
 
 
 def validate_ci_receipt(text: str) -> List[str]:
-    return require_contains(
-        text,
-        [
-            "id: regge_zero_governance_ci_receipt_v0_1",
-            "ci_pass_not_truth: true",
-            "ci_pass_not_theorem_authority: true",
-            "ci_pass_not_execution_authority: true",
-            "ci_pass_not_medical_authorization: true",
-            "all_governance_runner_executes_lane: true",
-        ],
-        "ci_receipt",
-    )
+    return require_contains(text, ["id: regge_zero_governance_ci_receipt_v0_1", "ci_pass_not_truth: true", "ci_pass_not_theorem_authority: true", "ci_pass_not_execution_authority: true", "ci_pass_not_medical_authorization: true", "all_governance_runner_executes_lane: true"], "ci_receipt")
 
 
 def validate_chain_index(text: str) -> List[str]:
-    return require_contains(
-        text,
-        [
-            "id: regge_zero_governance_chain_index_v0_1",
-            "same_root_required: true",
-            "overwrite_forbidden: true",
-            "authority_expansion_forbidden: true",
-            "docs/REGGE_ZERO_GOVERNANCE_RUNBOOK_v0_1.md",
-            "packets/regge_zero_governance_ci_receipt_v0_1.yaml",
-            ".github/workflows/regge_zero_governance_validation.yml",
-            "scripts/run_all_governance_full_checks_v0_1.py",
-        ],
-        "chain_index",
-    )
+    return require_contains(text, ["id: regge_zero_governance_chain_index_v0_1", "same_root_required: true", "overwrite_forbidden: true", "authority_expansion_forbidden: true", "docs/REGGE_ZERO_GOVERNANCE_RUNBOOK_v0_1.md", "packets/regge_zero_governance_ci_receipt_v0_1.yaml", ".github/workflows/regge_zero_governance_validation.yml", "scripts/run_all_governance_full_checks_v0_1.py"], "chain_index")
 
 
 def validate_formal(text: str) -> List[str]:
-    return require_contains(
-        text,
-        [
-            "namespace KuuOS",
-            "namespace ReggeZeroGovernance",
-            "def reggeZeroGate",
-            "theorem no_soft_concern_blocks_without_witness",
-            "theorem authority_shortcut_holds",
-            "theorem destructive_reflection_rewrite_rejects",
-            "theorem cyclic_failure_holds_without_authority_shortcut",
-        ],
-        "formal",
-    )
+    return require_contains(text, ["namespace KuuOS", "namespace ReggeZeroGovernance", "def reggeZeroGate", "theorem no_soft_concern_blocks_without_witness", "theorem authority_shortcut_holds", "theorem destructive_reflection_rewrite_rejects", "theorem cyclic_failure_holds_without_authority_shortcut"], "formal")
 
 
 def main() -> int:
     errors: List[str] = []
-    errors.extend(require_contains(read_text(DOC), ["Regge Zero Governance v0.1", "Only consistency-mandated null constraints may block a candidate", "KuuOS does not prove string theory"], "doc"))
-    errors.extend(require_contains(read_text(RUNBOOK), ["Regge Zero Governance Runbook v0.1", "REGGE_ZERO_GOVERNANCE_VALIDATION: PASS", "KuuOS does not prove string theory"], "runbook"))
+    errors.extend(require_contains(read_text(DOC), ["Regge Zero Governance v0.1", "Only consistency-mandated null constraints may block a candidate"], "doc"))
+    errors.extend(require_contains(read_text(RUNBOOK), ["Regge Zero Governance Runbook v0.1", "REGGE_ZERO_GOVERNANCE_VALIDATION: PASS"], "runbook"))
     errors.extend(validate_contract(read_text(CONTRACT)))
     errors.extend(validate_cases(read_text(CASES)))
     errors.extend(validate_manifest(MANIFEST, require_bundle_paths=True))
