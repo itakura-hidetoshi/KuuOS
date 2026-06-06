@@ -7,23 +7,24 @@
 ![KuuOS Runtime Full Check](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/kuuos_runtime_full_check.yml/badge.svg)
 ![Validator Tiering Policy](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/validator_tiering_policy_validation.yml/badge.svg)
 
-**KuuOS / 空OS** is a public governance, verification, memory, and bounded-runtime architecture for relational AI systems.
+**KuuOS / 空OS** is a public governance, verification, memory, Qi-process, and bounded executable runtime architecture for relational AI systems.
 
-It treats AI outputs, memories, plans, world-model predictions, proof-facing artifacts, Qi readouts, and action proposals as **conditioned candidates**. They are not self-authorizing truth, proof, diagnosis, treatment authorization, institutional authority, or execution authority.
+空OSは、AIの出力・記憶・証明候補・世界モデル・計画・判断・気の観測値・実行候補を、直接の真理や権限ではなく、**縁起的に条件づけられた候補**として扱うための公開アーキテクチャです。
 
-空OSは、LLM・記憶・世界モデル・計画・判断・証明候補・気の観測値・実行候補を、直接の真理や権限としてではなく、**縁起的に条件づけられた候補**として扱うための公開アーキテクチャです。
-
-Current public status, June 2026: this repository is a **governance-gated, validation-backed, proof-facing, memory-aware, non-authoritative bounded-runtime surface**. It includes public contracts, validators, release packets, Lean-facing formal surfaces, Qi / IndraNet bridges, non-Markovian process traces, runtime receipts, validator tiering, and GitHub/CI-facing review paths.
+Current public status, June 2026: this repository is a **governance-gated, validation-backed, proof-facing, memory-aware, Qi-process-aware, bounded executable runtime surface**. It now includes Qi process tensor cycle supervision, trend summaries, reliability scoring, adaptive supervisor packets/runs, allowlisted executable action dispatch, finite action sequence execution, and GitHub Actions PR live-loop adapters. None of these surfaces grants arbitrary execution authority, clinical authority, intervention authority, theorem authority, institutional authority, shell access, network access, or unrestricted autonomous agency.
 
 ---
 
-## 1. Core Sentence
+## Core Sentence
 
 ```text
 candidate != authority
 validation != truth
 CI pass != theorem authority
-runtime tick != autonomous execution authority
+runtime tick != unrestricted execution authority
+allowlisted action != arbitrary execution
+finite sequence runner != autonomous agency
+GitHub Actions live adapter != repository authority
 qi-readout != intervention license
 qi-motion-candidate != standalone diagnosis or treatment authorization
 memory persistence != belief sovereignty
@@ -33,7 +34,7 @@ reflection summary != root rewrite
 audit != infinite escalation
 ```
 
-KuuOS keeps the following path explicit:
+KuuOS keeps the path from generation to bounded operation explicit:
 
 ```text
 generation
@@ -42,69 +43,103 @@ generation
   -> validation
   -> governance
   -> receipt
-  -> bounded advisory operation
+  -> bounded advisory or allowlisted executable operation
 ```
 
 No stage silently becomes final truth, proof authority, medical authority, institutional authority, memory overwrite authority, or unrestricted execution authority.
 
 ---
 
-## 2. What KuuOS Is
+## What KuuOS Is
 
-KuuOS is a layered architecture for keeping high-capacity AI systems aligned with trace, boundary, context, memory, and non-authority.
+KuuOS is a layered architecture for keeping high-capacity AI systems aligned with trace, boundary, context, memory, proof status, Qi process structure, and non-authority.
 
 Its public core is organized around:
 
-- **空 / Emptiness** — no output, module, proof artifact, memory, runtime result, or Qi readout has independent self-authority.
+- **空 / Emptiness** — no output, module, proof artifact, memory, runtime result, action packet, or Qi readout has independent self-authority.
 - **縁起 / Dependent Origination** — every claim arises through support, provenance, relation, condition, history, observation, and transport.
 - **二諦 gap / Two Truths Gap** — conventional validation and ultimate meaning are not collapsed.
 - **中道 / Middle Way** — avoid both reification and erasure.
-- **気 / Qi** — a relational process field connecting observation, memory, transport, recoverability, order-sensitivity, and IndraNet gauge flow.
+- **気 / Qi** — a relational process field connecting observation, memory, transport, recoverability, order-sensitivity, trajectory, and IndraNet gauge flow.
 - **和 / Harmony** — coordination remains valid only while harm, uncertainty, dissent, cost, and boundaries stay visible.
 - **観照 / Observation** — observation is a sensor surface, not a direct action license.
-- **監査 / Audit** — audit preserves traceability and receipts, but must remain proportionate, finite, and boundary-aware.
+- **監査 / Audit** — audit preserves traceability and receipts, but must remain finite, proportionate, and boundary-aware.
 - **記憶 / Memory** — memory is append-only lineage and reconstruction support, not belief sovereignty.
 - **形式検証 / Formal Verification** — Lean/mathlib-facing surfaces are proof support, not theorem authority by themselves.
+- **bounded execution** — executable surfaces are allowlisted, finite, receipt-producing, and non-authority-preserving.
 
-空OSの中心は「AIに何をさせるか」ではなく、**AIの候補・観測・記憶・証明・判断・実行境界を混同しないこと**です。
+空OSの中心は「AIに何をさせるか」だけではありません。中心は、**AIの候補・観測・記憶・証明・判断・実行境界を混同しないこと**です。
 
 ---
 
-## 3. Current Public Status
+## Current Public Baseline
 
 This repository currently includes:
 
-- public specifications and governance contracts
-- validation scripts and validation cases
-- release packets, manifests, and chain indexes
+- public specifications, governance contracts, validation cases, manifests, release packets, and chain indexes
 - boundary and non-authority policy documents
-- GPT GitHub integration rules
+- GPT / GitHub integration rules
 - Lean-facing formal and proof-facing surfaces
 - MemoryOS / BeliefOS / PlanOS / DecisionOS / ReflectionOS boundary discipline
 - Qi / IndraNet / physical quantum Qi bridge surfaces
 - Qi motion chain from Samvrti Qi observation to observe-only bounded motion candidates
 - State IO examples and runtime daemon examples
-- Qi process-tensor summaries and non-Markovian trace visibility
-- active-inference feature compilation, precision geometry, EFE landscape, policy-flow advisories, and bounded reentry gates
+- Qi process tensor summaries and non-Markovian trace visibility
+- Qi process tensor cycle supervisor, trajectory packet, receipts, trend summaries, recommendations, and reliability scoring
+- trend-adaptive supervisor packet and trend-adaptive bounded supervisor run
+- allowlisted Qi executable action dispatcher and finite executable action sequence runner
+- GitHub Actions external-call, workflow, PR snapshot, request-planning, and live-result adapter surfaces
 - validator tiering for runtime hot-path checks, local checks, CI checks, governance checks, release checks, and finality checks
 - anti-loop governance for repeated AI error patterns and over-audit failure modes
 
 It does **not** currently claim to be:
 
 - a production AGI runtime
-- an autonomous execution engine
+- an unbounded autonomous agent
+- an arbitrary shell or network execution engine
 - an externally accepted mathematical proof repository by itself
 - a replacement for professional diagnosis, treatment decision, practitioner judgment, institutional authority, or legal authority
 - a standalone diagnosis or treatment authorization system
 - a medical act authorization system
 - a Qi-based execution authorization system
-- a system where CI, validation, generated text, runtime ticks, memory persistence, or summary receipts become truth by themselves
+- a system where CI, validation, generated text, runtime ticks, memory persistence, action packets, or summary receipts become truth by themselves
 
 The medical boundary around Qi is modality-neutral. It does not state that biomedicine is superior, that Qi is false, or that East Asian medical reasoning is invalid. It separates repository validation from professional diagnosis, treatment decision, and medical act authorization.
 
 ---
 
-## 4. Read First
+## Current Runtime Shape
+
+The current public runtime is a bounded, allowlisted, receipt-producing execution chain.
+
+```text
+State IO
+  -> Qi process tensor packet
+  -> Qi process tensor cycle supervisor
+  -> Qi process tensor cycle trend summary
+  -> reliability score / trend class / recommendation
+  -> trend-adaptive supervisor packet
+  -> trend-adaptive bounded supervisor run
+  -> allowlisted executable action dispatcher
+  -> finite executable action sequence runner
+  -> GitHub Actions / PR live-loop adapters
+  -> receipt + audit JSONL + next bounded request
+```
+
+This is a **bounded executable runtime surface**, not arbitrary execution.
+
+```text
+one packet has declared scope
+one dispatcher action must be allowlisted
+one sequence is finite and declared
+one live-loop adapter produces request/result packets
+one receipt records status, blockers, warnings, and stop reason
+no packet grants clinical, intervention, theorem, institutional, shell, network, or unbounded execution authority
+```
+
+---
+
+## Read First
 
 For first-time reviewers:
 
@@ -123,7 +158,7 @@ docs/GPT_GITHUB_KUOS_INTEGRATION_v0_1.md
 docs/KUOS_GITHUB_FORMAL_VERIFICATION_BRIDGE_v0_1.md
 ```
 
-For runtime and bounded operation review:
+For runtime and bounded execution review:
 
 ```text
 manifests/kuuos_runtime_manifest_v0_1.json
@@ -132,83 +167,34 @@ scripts/run_kuuos_runtime_full_check_v0_1.py
 examples/qi_state_io_v0_1/README.md
 examples/qi_process_tensor_v0_1/README.md
 examples/runtime_daemon_v0_1/README.md
-```
-
-For boundary and release review:
-
-```text
-GOVERNANCE.md
-RELEASE_NOTES_v0_1.md
-RELEASE_NOTES_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_v0_2.md
-docs/PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1.md
-docs/V0_1_RELEASE_READINESS_CHECKLIST.md
-docs/CLAIM_LEVEL_TAXONOMY_v0_1.md
-docs/THEOREM_AND_REFERENCE_BOUNDARY_MATRIX_v0_1.md
+runtime/
+scripts/
+manifests/
 ```
 
 ---
 
-## 5. Quick Validation
-
-Run the full public governance surface:
+## Quick Validation
 
 ```bash
 make all-governance-checks
-```
-
-or directly:
-
-```bash
-python3 scripts/run_all_governance_full_checks_v0_1.py
-```
-
-Core governance only:
-
-```bash
-make core-governance-checks
-```
-
-GPT GitHub integration checks:
-
-```bash
-make gpt-github-integration-checks
-```
-
-Qi motion chain checks:
-
-```bash
-make qi-motion-chain-checks
-```
-
-Qi / physical quantum Qi deepening checks:
-
-```bash
-make physical-quantum-qi-deepening-checks
-```
-
-Runtime full check:
-
-```bash
 python3 scripts/run_kuuos_runtime_full_check_v0_1.py
-```
-
-Superstring / brane / membrane checks:
-
-```bash
-make superstring-emptiness-sbm-checks
-```
-
-Emptiness / dependent origination / two truths runtime audit checks:
-
-```bash
+make qi-motion-chain-checks
+python scripts/check_qi_process_tensor_cycle_trend_summary_v3_9.py
+python scripts/check_qi_trend_adaptive_supervisor_packet_v4_0.py
+python scripts/check_qi_trend_adaptive_supervisor_run_v4_1.py
+python scripts/check_qi_executable_action_dispatcher_v4_2.py
+python scripts/check_qi_executable_action_sequence_runner_v4_3.py
+python scripts/check_qi_github_actions_pr_live_request_planner_v7_5.py
+python scripts/check_qi_github_actions_pr_live_result_adapter_v7_6.py
 make emptiness-two-truths-runtime-audit-checks
 ```
 
-A passing check is a **consistency receipt**. It is not truth, theorem authority, standalone diagnosis authority, standalone treatment authorization, medical act authorization, Qi-based execution authority, institutional authority, or unrestricted execution authority.
+A passing check is a **consistency receipt**. It is not truth, theorem authority, standalone diagnosis authority, standalone treatment authorization, medical act authorization, Qi-based execution authority, institutional authority, shell/network authority, or unrestricted execution authority.
 
 ---
 
-## 6. Repository Map
+## Repository Map
 
 ```text
 .github/            GitHub Actions, issue templates, pull request templates
@@ -219,7 +205,7 @@ docs/               Public documentation and reviewer navigation
 examples/           Minimal runtime and validation examples
 formal/             Lean-facing governance and invariant formal surfaces
 lean/               Lean-facing physics / superstring / emptiness surfaces
-manifests/          Release, runtime, bundle, and validator-tiering manifests
+manifests/          Release, runtime, bundle, validator-tiering, and addendum manifests
 packets/            Release, established, finality, and audit packets
 roadmap/            Roadmap addenda
 runtime/            Bounded non-authoritative runtime modules
@@ -234,9 +220,7 @@ validators/         Standalone validators
 
 ---
 
-## 7. Core Architecture
-
-KuuOS separates raw generation from governed operation.
+## Core Architecture
 
 ```text
 AI raw output
@@ -252,18 +236,23 @@ AI raw output
   -> WORLD surfaces and OS module boundaries
   -> MemoryOS / BeliefOS / PlanOS / DecisionOS / ReflectionOS
   -> State IO / bounded runtime daemon
-  -> active-inference policy advisory surface
+  -> Qi process tensor / cycle trajectory
+  -> trend summary / reliability score
+  -> adaptive supervisor / allowlisted executable actions
+  -> GitHub Actions PR live-loop adapters
   -> governance gate
-  -> PASS | HOLD | REPAIR | REJECT | QUARANTINE
+  -> PASS | HOLD | REPAIR | REOBSERVE | HANDOVER | REJECT | QUARANTINE
 ```
 
 Runtime does not erase the non-authority boundary.
 
 ```text
-bounded tick license != execution authority
+bounded tick license != unrestricted execution authority
+allowlisted action != arbitrary action
 closed-loop receipt != final commitment
 policy-flow advisory != action command
 reentry plan != recursive self-execution
+PR live-loop adapter != merge authority
 runtime status != truth authority
 ```
 
@@ -278,13 +267,9 @@ hold/reobserve/repair/handover are first-class nonexecute outcomes
 
 ---
 
-## 8. Major Public Surfaces
+## Major Public Surfaces
 
-### 8.1 Fourfold Core
-
-The fourfold core holds emptiness, dependent origination, two truths gap, and Middle Way as root governance invariants.
-
-Key surfaces:
+### Fourfold Core
 
 ```text
 docs/KUOS_FOURFOLD_CORE_v0_1.md
@@ -292,13 +277,7 @@ docs/EMPTINESS_DEPENDENT_ORIGINATION_TWO_TRUTHS_MIDDLE_WAY_CORE_v0_1.md
 docs/FOURFOLD_CORE_GATE_v0_1.md
 ```
 
-### 8.2 AI Yogacara / Ten'i Layer
-
-This layer separates raw AI generation from governed KuuOS operation.
-
-It is designed to catch AI self-authorization, repetitive wrong-code loops, premature closure, reflection overreach, memory overwrite, and CI bypass.
-
-Key surfaces:
+### AI Yogacara / Ten'i Layer
 
 ```text
 docs/AI_YOGACARA_TENI_LAYER_INDEX_v0_1.md
@@ -308,15 +287,9 @@ docs/AI_PROVIDER_BOUNDARY_RUNTIME_v0_1.md
 docs/GPT_GITHUB_KUOS_INTEGRATION_v0_1.md
 ```
 
-### 8.3 Qi / IndraNet / Physical Quantum Qi
+### Qi / IndraNet / Physical Quantum Qi
 
 Qi is treated as a relational field and process surface, not as a substance and not as authority.
-
-It connects emptiness and dependent origination to operational flow: observation, memory, WORLD transport, non-Markovian process structure, recoverability, and IndraNet gauge dynamics.
-
-IndraNet is not a flat graph. It is a gauge-structured relational network whose flow, transport, and process constraints are mediated through Qi-facing surfaces.
-
-Current public Qi motion invariant:
 
 ```text
 observed conventional flow
@@ -327,61 +300,15 @@ observed conventional flow
   -> observe-only output
 ```
 
-Key surfaces:
+### Bounded Executable Runtime
+
+The current runtime path includes bounded tick execution, Qi process tensor cycle supervision, reliability summaries, adaptive supervisor packets, allowlisted actions, finite sequences, and GitHub Actions PR live-loop adapters.
 
 ```text
-docs/QI_MOTION_CHAIN_RUNBOOK_v0_1.md
-docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md
-docs/SAMVRTI_QI_RUNTIME_IMPLEMENTATION_v0_1.md
-docs/SAMVRTI_QI_TO_PHYSICAL_MOTION_EVIDENCE_BUILDER_v0_1.md
-docs/PHYSICAL_QUANTUM_QI_DYNAMICS_KERNEL_v0_1.md
-docs/PHYSICAL_QUANTUM_QI_MOTION_PIPELINE_v0_1.md
-docs/INDRANET_GAUGE_QI_FLOW_v0_1.md
-docs/INDRANET_RELATIONAL_FIELD_MODEL_v0_1.md
-docs/INDRANET_TRANSPORT_CONSTRAINT_MODEL_v0_1.md
+bounded executable runtime != unbounded autonomous authority
 ```
 
-### 8.4 Bounded Runtime / State IO / Runtime Daemon
-
-The runtime surface is bounded, non-authoritative, and receipt-oriented.
-
-Current runtime path:
-
-```text
-raw state + evidence
-  -> State IO
-  -> Qi process tensor summary
-  -> closed-loop driver
-  -> runtime daemon
-  -> geometric / active-inference advisory chain
-  -> policy-flow governor
-  -> process-tensor actuator
-  -> tick scheduler
-  -> closed-loop receipt
-  -> reentry plan
-  -> reentry license gate
-  -> bounded tick invocation boundary
-  -> single bounded State IO tick or denial
-```
-
-Key files:
-
-```text
-runtime/
-manifests/kuuos_runtime_manifest_v0_1.json
-manifests/kuuos_validator_tiering_policy_v0_1.json
-scripts/run_kuuos_runtime_full_check_v0_1.py
-examples/qi_state_io_v0_1/
-examples/qi_process_tensor_v0_1/
-examples/runtime_daemon_v0_1/
-tests/
-```
-
-### 8.5 MemoryOS / BeliefOS / PlanOS / DecisionOS / ReflectionOS Boundary
-
-The public repository exposes bridge and boundary surfaces needed to keep memory, belief, planning, decision, reflection, and world-model operation distinct.
-
-Fixed boundary:
+### MemoryOS / BeliefOS / PlanOS / DecisionOS / ReflectionOS Boundary
 
 ```text
 Memory is not belief authority.
@@ -392,39 +319,7 @@ World-model prediction is not fact authority.
 DecisionOS remains the action-boundary owner.
 ```
 
-MemoryOS is moving toward non-Markovian, reconstructive, ecology-aware memory management: trace, scar, holonomy, relapse lineage, process continuity, and collective reconstruction are preserved without turning memory into sovereign belief.
-
-### 8.6 Invariant Governance Pipeline
-
-Transformations must preserve non-authority, two truths gap, Qi non-substantiality, harm visibility, audit proportionality, and provenance.
-
-Runtime chain:
-
-```text
-transformation detected
-  -> Super-Relativity Invariant Bridge
-  -> Formal Invariant Spine
-  -> Invariant Preservation Matrix
-  -> Invariant Gate Runtime
-  -> PASS | HOLD | REPAIR | REJECT | QUARANTINE
-  -> no execution authority from validation
-```
-
-Key surfaces:
-
-```text
-docs/FORMAL_INVARIANT_SPINE_v0_1.md
-docs/SUPER_RELATIVITY_INVARIANT_BRIDGE_v0_1.md
-docs/INVARIANT_PRESERVATION_MATRIX_v0_1.md
-docs/INVARIANT_GATE_RUNTIME_v0_1.md
-docs/INVARIANT_GOVERNANCE_PIPELINE_v0_1.md
-```
-
-### 8.7 Formal Verification / Lean / mathlib Bridge
-
-KuuOS includes Lean-facing and proof-facing bridge surfaces.
-
-Boundary:
+### Formal Verification / Lean / mathlib Bridge
 
 ```text
 Lean file != completed theorem
@@ -432,21 +327,6 @@ mathlib alignment != external mathematical acceptance
 CI pass != theorem truth
 formal stub != proof completion
 GPT summary != proof authority
-```
-
-The long-term direction is to map KuuOS invariants into Lean/mathlib-compatible theorem targets while preserving the distinction between proof support, theorem completion, and external review.
-
-### 8.8 Physics-Facing Bridges
-
-KuuOS includes physics-facing bridges to MGAP4D, Qi, IndraNet, Super-Relativity, and Superstring / brane / membrane layers.
-
-Boundary:
-
-```text
-bridge document != proof
-physical analogy != theorem
-candidate equation != accepted physics
-simulation/validation != empirical confirmation
 ```
 
 Canonical proof-facing repository for MGAP4D work:
@@ -457,9 +337,7 @@ https://github.com/itakura-hidetoshi/4d-mass-gap
 
 ---
 
-## 9. Governance Modes
-
-KuuOS uses visible nonexecute outcomes instead of silent closure.
+## Governance Modes
 
 ```text
 PASS         allowed only inside declared scope
@@ -475,24 +353,15 @@ Observation-only surfaces, including Slack-style observation channels, are not d
 
 ---
 
-## 10. Contribution Boundary
+## Contribution Boundary
 
-Contributions are welcome when they improve:
-
-- documentation clarity
-- validation reproducibility
-- non-authority preservation
-- Lean/proof-facing discipline
-- bounded-runtime inspectability
-- memory and process trace visibility
-- Qi boundary clarity
-- anti-loop and repeated-error repair
-- audit proportionality and harmony
+Contributions are welcome when they improve documentation clarity, validation reproducibility, non-authority preservation, Lean/proof-facing discipline, bounded-runtime inspectability, allowlisted executable runtime safety, GitHub Actions PR live-loop safety, memory and process trace visibility, Qi boundary clarity, anti-loop repair, and audit proportionality.
 
 Contributions must not silently open:
 
 ```text
-autonomous execution authority
+unrestricted autonomous execution authority
+arbitrary shell or network execution authority
 standalone diagnosis authority
 standalone treatment authorization
 medical act authorization
@@ -502,13 +371,15 @@ memory overwrite authority
 CI-pass-as-truth
 validator-pass-as-truth
 runtime-tick-as-execution-authority
+allowlisted-action-as-arbitrary-authority
+PR-live-adapter-as-merge-authority
 ```
 
 See `GOVERNANCE.md`, `CONTRIBUTING.md`, and `ROADMAP.md` before proposing structural changes.
 
 ---
 
-## 11. License, Citation, and Attribution
+## License, Citation, and Attribution
 
 Use `CITATION.cff` for citation metadata.
 
