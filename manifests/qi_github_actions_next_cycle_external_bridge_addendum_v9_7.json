@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_github_actions_next_cycle_external_bridge_addendum_v9_7",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_github_actions_next_cycle_external_bridge_v9_7.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_github_actions_next_cycle_external_bridge_v9_7.py",
+    "scripts/check_qi_github_actions_next_cycle_external_bridge_v9_7.py"
+  ],
+  "status": "READY"
+}
