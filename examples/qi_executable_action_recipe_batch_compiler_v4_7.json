@@ -1,0 +1,24 @@
+{
+  "example_version": "qi_executable_action_recipe_batch_compiler_v4_7",
+  "input_files": [
+    "qi_executable_action_recipe_batch_compiler_packet.json"
+  ],
+  "output_files": [
+    "qi_executable_action_recipe_batch_packet.json",
+    "qi_executable_action_recipe_batch_compiler_receipt.json",
+    "qi_executable_action_recipe_batch_compiler_audit.jsonl"
+  ],
+  "batch_recipe_examples": [
+    "observe_adapt_twice",
+    "observe_supervise_adapt",
+    "cycle_observe_adapt",
+    "return_cycle_observe",
+    "safe_full_observe_adapt_run"
+  ],
+  "license_status": "QI_EXECUTABLE_ACTION_RECIPE_BATCH_COMPILER_LICENSE_READY",
+  "status_values": [
+    "QI_EXECUTABLE_ACTION_RECIPE_BATCH_COMPILER_READY",
+    "QI_EXECUTABLE_ACTION_RECIPE_BATCH_COMPILER_BLOCKED"
+  ],
+  "purpose": "compile named safe Qi recipe batch plans into bounded v4.6 batch packets"
+}
