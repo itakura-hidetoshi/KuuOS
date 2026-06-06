@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_github_actions_next_cycle_result_bridge_addendum_v9_8",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_github_actions_next_cycle_result_bridge_v9_8.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_github_actions_next_cycle_result_bridge_v9_8.py",
+    "scripts/check_qi_github_actions_next_cycle_result_bridge_v9_8.py"
+  ],
+  "status": "READY"
+}
