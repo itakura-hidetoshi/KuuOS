@@ -1,0 +1,17 @@
+{
+  "example_version": "qi_executable_action_recipe_executor_v4_5",
+  "input_files": [
+    "qi_executable_action_recipe_packet.json"
+  ],
+  "output_files": [
+    "qi_executable_action_sequence_packet.json",
+    "qi_executable_action_recipe_executor_receipt.json",
+    "qi_executable_action_recipe_executor_audit.jsonl"
+  ],
+  "license_status": "QI_EXECUTABLE_ACTION_RECIPE_EXECUTOR_LICENSE_READY",
+  "status_values": [
+    "QI_EXECUTABLE_ACTION_RECIPE_EXECUTOR_READY",
+    "QI_EXECUTABLE_ACTION_RECIPE_EXECUTOR_BLOCKED"
+  ],
+  "purpose": "compile a named safe recipe and run the resulting bounded action sequence"
+}
