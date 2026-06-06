@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_github_actions_status_reobserver_addendum_v5_8",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_github_actions_status_reobserver_v5_8.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_github_actions_status_reobserver_v5_8.py",
+    "scripts/check_qi_github_actions_status_reobserver_v5_8.py"
+  ],
+  "status": "READY"
+}
