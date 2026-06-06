@@ -1,0 +1,21 @@
+{
+  "example_version": "qi_executable_capability_recipe_batch_executor_v5_3",
+  "input_files": [
+    "qi_executable_capability_recipe_batch_packet.json"
+  ],
+  "output_files": [
+    "qi_executable_capability_recipe_packet.json",
+    "qi_executable_capability_recipe_batch_executor_receipt.json",
+    "qi_executable_capability_recipe_batch_executor_audit.jsonl"
+  ],
+  "batch_example": [
+    "compile_recipe_and_batch",
+    "safe_compile_full_surface"
+  ],
+  "license_status": "QI_EXECUTABLE_CAPABILITY_RECIPE_BATCH_EXECUTOR_LICENSE_READY",
+  "status_values": [
+    "QI_EXECUTABLE_CAPABILITY_RECIPE_BATCH_EXECUTOR_READY",
+    "QI_EXECUTABLE_CAPABILITY_RECIPE_BATCH_EXECUTOR_BLOCKED"
+  ],
+  "purpose": "run a bounded batch of allowlisted Qi executable capability recipes"
+}
