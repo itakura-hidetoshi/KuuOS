@@ -1,7 +1,7 @@
 # Regge Zero Governance v0.1
 
 Status: additive design surface  
-Authority: non-authoritative governance addendum  
+Authority: governance addendum  
 Lineage: same-root KuuOS governance / verification / bounded-runtime architecture  
 Source inspiration: Cheung, Remmen, Sciotti, Tarquini, `Strings from Almost Nothing`, arXiv:2508.09246
 
@@ -17,7 +17,7 @@ Do preserve consistency-mandated null points.
 Let constrained candidates survive or vanish by explicit witness.
 ```
 
-In the physics source, Regge zeros are residue zeros forced by scattering consistency. Under ultrasoft behavior and a minimal-zero assumption, the allowed amplitude space is sharply constrained. KuuOS does not import the physical claim as an operational theorem. KuuOS imports the governance pattern:
+In the physics source, Regge zeros are residue zeros forced by scattering consistency. Under ultrasoft behavior and a minimal-zero assumption, the allowed amplitude space is sharply constrained. KuuOS imports the governance pattern as a design reference:
 
 ```text
 consistency -> mandated null witness -> minimal blocker -> nested inheritance -> cyclic consistency
@@ -34,7 +34,7 @@ This addendum is therefore a governance layer for preventing two opposite failur
 
 ```text
 Only consistency-mandated null constraints may block a candidate.
-Extra blockers require explicit witness or remain non-authoritative advisory notes.
+Extra blockers require explicit witness or remain advisory notes.
 ```
 
 This preserves the existing KuuOS boundary:
@@ -136,7 +136,7 @@ vector evidence + provenance + boundary + temporal validity + uncertainty + modu
 
 ## 5. ReggeZeroGate
 
-`ReggeZeroGate` is a minimal governance gate. It is not a physics module, not an execution engine, and not a theorem prover.
+`ReggeZeroGate` is a minimal governance gate for consistency-mandated null conditions.
 
 Input:
 
@@ -252,23 +252,7 @@ hold/reobserve/repair/handover are first-class nonexecute outcomes
 
 ---
 
-## 9. Non-Claims
-
-This file does not claim:
-
-```text
-KuuOS derives physical amplitudes.
-KuuOS has autonomous execution authority.
-KuuOS creates medical authorization.
-KuuOS converts CI success into theorem authority.
-KuuOS converts validation into truth.
-```
-
-It only defines a governance transfer pattern from minimal consistency bootstrap to KuuOS boundary design.
-
----
-
-## 10. Release Rule
+## 9. Release Rule
 
 Future updates are:
 
