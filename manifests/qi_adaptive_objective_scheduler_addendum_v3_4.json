@@ -1,6 +1,21 @@
 {
   "manifest_version": "qi_adaptive_objective_scheduler_addendum_v3_4",
   "status": "READY",
+  "governance_boundary": {
+    "governance_bounded": true,
+    "hint_only": true,
+    "scheduler_mediated": true,
+    "packet_only": true,
+    "direct_runtime_control": false,
+    "direct_scheduler_bypass": false,
+    "direct_execution_authority": false,
+    "memoryos_write_authority": false,
+    "world_update_authority": false,
+    "notification_authority": false,
+    "ticket_authority": false,
+    "handover_authority": false,
+    "probe_execution_authority": false
+  },
   "runtime_files": [
     "runtime/kuuos_runtime_daemon_qi_adaptive_objective_scheduler_v3_4.py"
   ],
@@ -11,14 +26,14 @@
   "example_files": [
     "examples/qi_adaptive_objective_scheduler_v3_4.json"
   ],
-  "local_files": [
+  "local_packet_files": [
     "qi_adaptive_scheduler_packet.json",
     "qi_circulation_scheduler_packet.json",
     "qi_circulation_closed_loop_packet.json",
     "qi_adaptive_scheduler_receipt.json",
     "qi_adaptive_scheduler_audit.jsonl"
   ],
-  "adapted_fields": [
+  "hint_fields": [
     "objective_hint",
     "max_cycles_delta",
     "convergence_threshold_delta"
