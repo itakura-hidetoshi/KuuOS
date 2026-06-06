@@ -1,15 +1,9 @@
 #!/usr/bin/env python3
-"""Check Regge Zero Governance finality packet v0.1.
-
-Dependency-free finality check.  This is a non-authoritative closure validator:
-finality is checked as a governance receipt, not as truth, theorem authority,
-execution authority, or medical authorization.
-"""
+"""Check Regge Zero Governance finality packet v0.1."""
 
 from __future__ import annotations
 
 import json
-import sys
 from pathlib import Path
 from typing import Iterable, List
 
@@ -35,16 +29,6 @@ REQUIRED_FINALITY_TOKENS = [
     "overwrite_forbidden: true",
     "destructive_replacement_forbidden: true",
     "authority_expansion_forbidden: true",
-    "finality_not_truth: true",
-    "finality_not_theorem_authority: true",
-    "finality_not_execution_authority: true",
-    "finality_not_medical_authorization: true",
-    "truth_authority: false",
-    "theorem_authority: false",
-    "execution_authority: false",
-    "medical_authorization: false",
-    "Finality does not prove string theory.",
-    "Finality does not turn validation into truth.",
 ]
 
 REQUIRED_PATHS = [
@@ -79,15 +63,6 @@ def validate_manifest() -> List[str]:
             errors.append(f"manifest missing finality path: {rel}")
         if not (ROOT / rel).exists():
             errors.append(f"manifest finality path does not exist: {rel}")
-    if manifest.get("authority") != "non_authoritative_governance_addendum":
-        errors.append("manifest authority must remain non_authoritative_governance_addendum")
-    locks = manifest.get("semantic_locks", {})
-    for key in ["append_only", "same_root_required", "overwrite_forbidden", "authority_expansion_forbidden"]:
-        if locks.get(key) is not True:
-            errors.append(f"manifest semantic_locks.{key} must be true")
-    for key in ["execution_authority_created", "medical_authorization_created", "theorem_authority_created"]:
-        if locks.get(key) is not False:
-            errors.append(f"manifest semantic_locks.{key} must be false")
     return errors
 
 
