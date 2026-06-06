@@ -1,0 +1,21 @@
+{
+  "example_version": "qi_executable_capability_sequence_runner_v5_0",
+  "input_files": [
+    "qi_executable_capability_sequence_packet.json"
+  ],
+  "output_files": [
+    "qi_executable_capability_packet.json",
+    "qi_executable_capability_sequence_runner_receipt.json",
+    "qi_executable_capability_sequence_runner_audit.jsonl"
+  ],
+  "sequence_example": [
+    "recipe_compile",
+    "batch_recipe_compile"
+  ],
+  "license_status": "QI_EXECUTABLE_CAPABILITY_SEQUENCE_RUNNER_LICENSE_READY",
+  "status_values": [
+    "QI_EXECUTABLE_CAPABILITY_SEQUENCE_RUNNER_READY",
+    "QI_EXECUTABLE_CAPABILITY_SEQUENCE_RUNNER_BLOCKED"
+  ],
+  "purpose": "run a bounded sequence of allowlisted Qi executable capability routes"
+}
