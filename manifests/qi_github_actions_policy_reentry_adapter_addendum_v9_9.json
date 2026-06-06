@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_github_actions_policy_reentry_adapter_addendum_v9_9",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_github_actions_policy_reentry_adapter_v9_9.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_github_actions_policy_reentry_adapter_v9_9.py",
+    "scripts/check_qi_github_actions_policy_reentry_adapter_v9_9.py"
+  ],
+  "status": "READY"
+}
