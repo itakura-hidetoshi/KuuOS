@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_github_actions_closed_loop_supercycle_addendum_v10_0",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_github_actions_closed_loop_supercycle_v10_0.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_github_actions_closed_loop_supercycle_v10_0.py",
+    "scripts/check_qi_github_actions_closed_loop_supercycle_v10_0.py"
+  ],
+  "status": "READY"
+}
