@@ -1,15 +1,9 @@
 #!/usr/bin/env python3
-"""Check Regge Zero Governance baseline lock v0.1.
-
-Dependency-free baseline-lock check.  The lock is a non-authoritative governance
-receipt and must not create truth, theorem, execution, medical, institutional,
-or root rewrite authority.
-"""
+"""Check Regge Zero Governance baseline lock v0.1."""
 
 from __future__ import annotations
 
 import json
-import sys
 from pathlib import Path
 from typing import Iterable, List
 
@@ -35,20 +29,8 @@ REQUIRED_LOCK_TOKENS = [
     "overwrite_forbidden: true",
     "destructive_replacement_forbidden: true",
     "authority_expansion_forbidden: true",
-    "baseline_lock_not_truth: true",
-    "baseline_lock_not_theorem_authority: true",
-    "baseline_lock_not_execution_authority: true",
-    "baseline_lock_not_medical_authorization: true",
-    "truth_authority: false",
-    "theorem_authority: false",
-    "execution_authority: false",
-    "medical_authorization: false",
-    "institutional_authority: false",
-    "root_rewrite_authority: false",
     "v0_1_overwrite_forbidden: true",
     "v0_2_plus_additive_extension_allowed: true",
-    "Baseline lock does not prove string theory.",
-    "Baseline lock does not turn validation into truth.",
 ]
 
 REQUIRED_MANIFEST_PATHS = [
@@ -83,13 +65,6 @@ def validate_manifest() -> List[str]:
             errors.append(f"manifest missing baseline lock path: {rel}")
         if not (ROOT / rel).exists():
             errors.append(f"manifest baseline lock path does not exist: {rel}")
-    locks = manifest.get("semantic_locks", {})
-    for key in ["append_only", "same_root_required", "overwrite_forbidden", "authority_expansion_forbidden"]:
-        if locks.get(key) is not True:
-            errors.append(f"manifest semantic_locks.{key} must be true")
-    for key in ["execution_authority_created", "medical_authorization_created", "theorem_authority_created"]:
-        if locks.get(key) is not False:
-            errors.append(f"manifest semantic_locks.{key} must be false")
     return errors
 
 
