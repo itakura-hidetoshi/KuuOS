@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_github_actions_loop_step_executor_addendum_v6_1",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_github_actions_loop_step_executor_v6_1.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_github_actions_loop_step_executor_v6_1.py",
+    "scripts/check_qi_github_actions_loop_step_executor_v6_1.py"
+  ],
+  "status": "READY"
+}
