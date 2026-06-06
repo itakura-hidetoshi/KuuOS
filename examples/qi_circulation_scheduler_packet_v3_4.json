@@ -1,0 +1,23 @@
+{
+  "example_version": "qi_circulation_scheduler_packet_v3_4",
+  "handoff_classes": [
+    "stable_lighten_handoff",
+    "reopen_handoff",
+    "rebalance_handoff",
+    "continue_handoff"
+  ],
+  "input_files": [
+    "next_qi_circulation_scheduler_packet.json"
+  ],
+  "license_status": "QI_CIRCULATION_SCHEDULER_PACKET_LICENSE_READY",
+  "output_files": [
+    "qi_scheduled_closed_loop_packet.json",
+    "qi_circulation_scheduler_packet_receipt.json",
+    "qi_circulation_scheduler_packet_audit.jsonl"
+  ],
+  "purpose": "materialize the next scheduled closed-loop packet from the trajectory-adapted Qi circulation scheduler packet",
+  "status_values": [
+    "QI_CIRCULATION_SCHEDULER_PACKET_READY",
+    "QI_CIRCULATION_SCHEDULER_PACKET_BLOCKED"
+  ]
+}
