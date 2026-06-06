@@ -1,0 +1,25 @@
+{
+  "example_version": "qi_executable_capability_router_v4_9",
+  "input_files": [
+    "qi_executable_capability_packet.json"
+  ],
+  "output_files": [
+    "qi_executable_capability_router_receipt.json",
+    "qi_executable_capability_router_audit.jsonl"
+  ],
+  "capability_kinds": [
+    "action_dispatch",
+    "action_sequence",
+    "recipe_compile",
+    "recipe_execute",
+    "recipe_batch_execute",
+    "batch_recipe_compile",
+    "batch_recipe_execute"
+  ],
+  "license_status": "QI_EXECUTABLE_CAPABILITY_ROUTER_LICENSE_READY",
+  "status_values": [
+    "QI_EXECUTABLE_CAPABILITY_ROUTER_READY",
+    "QI_EXECUTABLE_CAPABILITY_ROUTER_BLOCKED"
+  ],
+  "purpose": "route one explicitly allowed Qi executable capability to an existing bounded execution surface"
+}
