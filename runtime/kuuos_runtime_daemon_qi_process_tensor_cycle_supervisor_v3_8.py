@@ -106,23 +106,14 @@ def _cycle_context(root: pathlib.Path, max_trajectory_records: int) -> dict[str,
     }
 
 
-def _last_stage(records: list[Mapping[str, Any]], stage: str) -> Mapping[str, Any]:
-    for record in reversed(records):
-        if record.get("stage") == stage:
-            return record
-    return {}
-
-
 def _classify_stop(cycle_payload: Mapping[str, Any], previous_trajectory_len: int | None) -> str:
     if cycle_payload.get("status") != "QI_PROCESS_TENSOR_CYCLE_RUNNER_READY":
         return "blocked"
-    records = [item for item in cycle_payload.get("stage_records", []) if isinstance(item, Mapping)]
-    return_record = _last_stage(records, "return_loop_orchestrator_v3_6")
-    if return_record and "hold" in str(return_record.get("digest", "")):
-        return "continue"
     final = _m(cycle_payload.get("final_qi_packet", {}))
     scheduled_status = str(cycle_payload.get("scheduled_closed_loop_status", ""))
     trajectory_len = _i(cycle_payload.get("trajectory_length"), 0)
+    if "BLOCKED" in scheduled_status:
+        return "blocked"
     if final.get("critical_blocker_present") is True or final.get("process_tensor_hold_required") is True:
         return "hold_overlay"
     if scheduled_status == "QI_SCHEDULED_CLOSED_LOOP_CONVERGED":
