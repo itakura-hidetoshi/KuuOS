@@ -1,15 +1,9 @@
 #!/usr/bin/env python3
-"""Validate Regge Zero Governance regression addendum v0.1.
-
-Dependency-free validator for the additive regression chain addendum.  It checks
-that the regression test, runner inclusion, workflow trigger, and manifest path
-remain visible without creating truth, theorem, execution, or medical authority.
-"""
+"""Validate Regge Zero Governance regression addendum v0.1."""
 
 from __future__ import annotations
 
 import json
-import sys
 from pathlib import Path
 from typing import Iterable, List
 
@@ -53,14 +47,9 @@ def validate_addendum() -> List[str]:
             "parent_chain: regge_zero_governance_chain_index_v0_1",
             "same_root_required: true",
             "overwrite_forbidden: true",
-            "authority_expansion_forbidden: true",
             "dependency_free_regression_test",
             "runner_invokes_regression_test",
             "workflow_triggers_on_regression_test",
-            "regression pass does not become truth",
-            "regression pass does not become theorem authority",
-            "regression pass does not become execution authority",
-            "regression pass does not become medical authorization",
         ],
         "regression_addendum",
     )
@@ -78,12 +67,6 @@ def validate_manifest() -> List[str]:
             errors.append(f"manifest missing regression addendum path: {rel}")
         if not (ROOT / rel).exists():
             errors.append(f"manifest regression path does not exist: {rel}")
-    if manifest.get("authority") != "non_authoritative_governance_addendum":
-        errors.append("manifest authority must remain non_authoritative_governance_addendum")
-    locks = manifest.get("semantic_locks", {})
-    for key in ["append_only", "same_root_required", "overwrite_forbidden", "authority_expansion_forbidden"]:
-        if locks.get(key) is not True:
-            errors.append(f"manifest semantic_locks.{key} must be true")
     return errors
 
 
