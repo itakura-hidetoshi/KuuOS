@@ -1,0 +1,26 @@
+{
+  "example_files": [
+    "examples/qi_process_tensor_cycle_runner_v3_7.json"
+  ],
+  "local_files": [
+    "qi_circulation_trajectory_packet.json",
+    "qi_process_tensor_packet.json",
+    "qi_scheduled_closed_loop_packet.json",
+    "qi_process_tensor_cycle_runner_receipt.json",
+    "qi_process_tensor_cycle_runner_audit.jsonl"
+  ],
+  "manifest_version": "qi_process_tensor_cycle_runner_addendum_v3_7",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_process_tensor_cycle_runner_v3_7.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_process_tensor_cycle_runner_v3_7.py",
+    "scripts/check_qi_process_tensor_cycle_runner_v3_7.py"
+  ],
+  "stage_order": [
+    "qi_process_tensor_return_loop_orchestrator_v3_6",
+    "qi_scheduled_closed_loop_runner_v3_2",
+    "trajectory_history_append"
+  ],
+  "status": "READY"
+}
