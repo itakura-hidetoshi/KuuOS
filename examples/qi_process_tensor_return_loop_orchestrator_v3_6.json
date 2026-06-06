@@ -1,0 +1,27 @@
+{
+  "example_version": "qi_process_tensor_return_loop_orchestrator_v3_6",
+  "input_files": [
+    "qi_circulation_trajectory_packet.json",
+    "qi_process_tensor_packet.json"
+  ],
+  "intermediate_files": [
+    "next_qi_circulation_scheduler_packet.json",
+    "qi_scheduled_closed_loop_packet.json"
+  ],
+  "output_files": [
+    "qi_scheduled_closed_loop_packet.json",
+    "qi_process_tensor_return_loop_receipt.json",
+    "qi_process_tensor_return_loop_audit.jsonl"
+  ],
+  "stage_order": [
+    "qi_circulation_trajectory_adaptor_v3_3",
+    "qi_circulation_scheduler_packet_v3_4",
+    "qi_process_tensor_scheduler_overlay_v3_5"
+  ],
+  "license_status": "QI_PROCESS_TENSOR_RETURN_LOOP_LICENSE_READY",
+  "status_values": [
+    "QI_PROCESS_TENSOR_RETURN_LOOP_READY",
+    "QI_PROCESS_TENSOR_RETURN_LOOP_BLOCKED"
+  ],
+  "purpose": "run the Qi circulation return loop from trajectory history through process tensor overlay"
+}
