@@ -133,7 +133,7 @@ The full governance workflow also advertises this lane and the all-governance ru
 This runbook does not claim:
 
 ```text
-KuuOS proves string theory.
+KuuOS does not prove string theory.
 KuuOS derives physical scattering amplitudes.
 KuuOS creates autonomous execution authority.
 KuuOS creates medical authorization.
