@@ -1,0 +1,17 @@
+{
+  "example_version": "qi_executable_capability_recipe_executor_v5_2",
+  "input_files": [
+    "qi_executable_capability_recipe_packet.json"
+  ],
+  "output_files": [
+    "qi_executable_capability_sequence_packet.json",
+    "qi_executable_capability_recipe_executor_receipt.json",
+    "qi_executable_capability_recipe_executor_audit.jsonl"
+  ],
+  "license_status": "QI_EXECUTABLE_CAPABILITY_RECIPE_EXECUTOR_LICENSE_READY",
+  "status_values": [
+    "QI_EXECUTABLE_CAPABILITY_RECIPE_EXECUTOR_READY",
+    "QI_EXECUTABLE_CAPABILITY_RECIPE_EXECUTOR_BLOCKED"
+  ],
+  "purpose": "compile a named safe capability recipe and run the resulting bounded capability sequence"
+}
