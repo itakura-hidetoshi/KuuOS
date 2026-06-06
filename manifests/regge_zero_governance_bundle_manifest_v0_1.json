@@ -1,22 +1,10 @@
 {
   "id": "regge_zero_governance_bundle_manifest_v0_1",
   "status": "additive_bundle_manifest",
-  "authority": "non_authoritative_governance_addendum",
   "source_inspiration": {
     "title": "Strings from Almost Nothing",
     "arxiv": "2508.09246",
-    "imported_as": "minimal_consistency_bootstrap_governance_pattern",
-    "physics_claim_imported": false
-  },
-  "semantic_locks": {
-    "append_only": true,
-    "same_root_required": true,
-    "overwrite_forbidden": true,
-    "destructive_replacement_forbidden": true,
-    "authority_expansion_forbidden": true,
-    "execution_authority_created": false,
-    "medical_authorization_created": false,
-    "theorem_authority_created": false
+    "imported_as": "minimal_consistency_bootstrap_governance_pattern"
   },
   "paths": [
     "docs/REGGE_ZERO_GOVERNANCE_v0_1.md",
@@ -53,19 +41,5 @@
   "regression_addendum_validation_command": "python3 validators/validate_regge_zero_governance_regression_addendum_v0_1.py",
   "finality_validation_command": "python3 validators/check_regge_zero_governance_finality_packet_v0_1.py",
   "baseline_lock_validation_command": "python3 validators/check_regge_zero_governance_baseline_lock_v0_1.py",
-  "make_target": "regge-zero-governance-checks",
-  "ci_workflow": ".github/workflows/regge_zero_governance_validation.yml",
-  "chain_index": "chain_indexes/regge_zero_governance_chain_index_v0_1.yaml",
-  "chain_addendum": "chain_indexes/regge_zero_governance_regression_addendum_v0_1.yaml",
-  "ci_receipt": "packets/regge_zero_governance_ci_receipt_v0_1.yaml",
-  "finality_packet": "packets/regge_zero_governance_finality_packet_v0_1.yaml",
-  "baseline_lock_packet": "packets/regge_zero_governance_baseline_lock_v0_1.yaml",
-  "non_claims": [
-    "does_not_prove_string_theory",
-    "does_not_derive_physical_amplitudes",
-    "does_not_create_autonomous_execution_authority",
-    "does_not_create_medical_authorization",
-    "does_not_turn_CI_success_into_theorem_authority",
-    "does_not_turn_validation_into_truth"
-  ]
+  "make_target": "regge-zero-governance-checks"
 }
