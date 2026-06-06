@@ -109,7 +109,9 @@ def _pr_number(raw_pr: Mapping[str, Any], config: Mapping[str, Any], blockers: l
 
 
 def _head_sha(raw_pr: Mapping[str, Any], config: Mapping[str, Any], blockers: list[str]) -> str:
-    sha = str(config.get("head_sha") or config.get("expected_head_sha") or raw_pr.get("head_sha") or raw_pr.get("head", {}).get("sha") if isinstance(raw_pr.get("head"), Mapping) else "").strip()
+    nested_head = raw_pr.get("head")
+    nested_sha = nested_head.get("sha") if isinstance(nested_head, Mapping) else ""
+    sha = str(config.get("head_sha") or config.get("expected_head_sha") or raw_pr.get("head_sha") or nested_sha or "").strip()
     if not sha:
         blockers.append("head_sha_missing")
     return sha
