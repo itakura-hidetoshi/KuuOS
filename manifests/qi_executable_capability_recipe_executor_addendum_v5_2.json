@@ -1,0 +1,20 @@
+{
+  "example_files": [
+    "examples/qi_executable_capability_recipe_executor_v5_2.json"
+  ],
+  "local_files": [
+    "qi_executable_capability_recipe_packet.json",
+    "qi_executable_capability_sequence_packet.json",
+    "qi_executable_capability_recipe_executor_receipt.json",
+    "qi_executable_capability_recipe_executor_audit.jsonl"
+  ],
+  "manifest_version": "qi_executable_capability_recipe_executor_addendum_v5_2",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_executable_capability_recipe_executor_v5_2.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_executable_capability_recipe_executor_v5_2.py",
+    "scripts/check_qi_executable_capability_recipe_executor_v5_2.py"
+  ],
+  "status": "READY"
+}
