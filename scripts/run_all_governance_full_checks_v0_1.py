@@ -9,6 +9,7 @@ import sys
 from typing import Sequence
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
+TAIL_LIMIT = 4000
 
 COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/run_ai_yogacara_full_checks_v0_1.py"],
@@ -22,6 +23,7 @@ COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/validate_mass_gap_memory_reflection_record_bridge_v0_1.py"],
     [sys.executable, "scripts/validate_memoryos_github_external_memory_v0_1.py"],
     [sys.executable, "scripts/run_qi_motion_chain_checks_v0_1.py"],
+    [sys.executable, "scripts/check_qi_adaptive_objective_scheduler_v3_4.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_runtime_contract_v0_1.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_runtime_release_packet_v0_1.py"],
     [sys.executable, "scripts/validate_physical_quantum_qi_equations_v0_2.py"],
@@ -82,9 +84,26 @@ COMMANDS: list[list[str]] = [
 ]
 
 
+def _tail(value: str) -> str:
+    return value[-TAIL_LIMIT:] if len(value) > TAIL_LIMIT else value
+
+
 def run_command(cmd: Sequence[str]) -> int:
     print("\n>>> " + " ".join(cmd), flush=True)
-    completed = subprocess.run(list(cmd), cwd=ROOT)
+    completed = subprocess.run(list(cmd), cwd=ROOT, text=True, capture_output=True, check=False)
+    if completed.returncode == 0:
+        stdout = _tail(completed.stdout.strip())
+        if stdout:
+            print(stdout)
+        return 0
+    stdout = _tail(completed.stdout.strip())
+    stderr = _tail(completed.stderr.strip())
+    if stdout:
+        print("--- stdout tail ---")
+        print(stdout)
+    if stderr:
+        print("--- stderr tail ---")
+        print(stderr)
     return completed.returncode
 
 
