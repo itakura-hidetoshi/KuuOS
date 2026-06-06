@@ -1,0 +1,24 @@
+{
+  "example_version": "qi_executable_action_dispatcher_v4_2",
+  "input_files": [
+    "qi_executable_action_packet.json"
+  ],
+  "output_files": [
+    "qi_executable_action_dispatcher_receipt.json",
+    "qi_executable_action_dispatcher_audit.jsonl"
+  ],
+  "allowlisted_actions": [
+    "cycle_trend_summary",
+    "trend_adaptive_supervisor_packet",
+    "trend_adaptive_supervisor_run",
+    "cycle_supervisor",
+    "cycle_runner",
+    "return_loop"
+  ],
+  "license_status": "QI_EXECUTABLE_ACTION_DISPATCHER_LICENSE_READY",
+  "status_values": [
+    "QI_EXECUTABLE_ACTION_DISPATCHER_READY",
+    "QI_EXECUTABLE_ACTION_DISPATCHER_BLOCKED"
+  ],
+  "purpose": "execute one explicitly allowlisted bounded Qi runtime action"
+}

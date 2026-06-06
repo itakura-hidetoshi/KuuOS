@@ -1,0 +1,19 @@
+{
+  "example_files": [
+    "examples/qi_executable_action_dispatcher_v4_2.json"
+  ],
+  "local_files": [
+    "qi_executable_action_packet.json",
+    "qi_executable_action_dispatcher_receipt.json",
+    "qi_executable_action_dispatcher_audit.jsonl"
+  ],
+  "manifest_version": "qi_executable_action_dispatcher_addendum_v4_2",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_executable_action_dispatcher_v4_2.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_executable_action_dispatcher_v4_2.py",
+    "scripts/check_qi_executable_action_dispatcher_v4_2.py"
+  ],
+  "status": "READY"
+}
