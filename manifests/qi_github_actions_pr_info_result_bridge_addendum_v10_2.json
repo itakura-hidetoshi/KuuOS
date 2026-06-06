@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_github_actions_pr_info_result_bridge_addendum_v10_2",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_github_actions_pr_info_result_bridge_v10_2.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_github_actions_pr_info_result_bridge_v10_2.py",
+    "scripts/check_qi_github_actions_pr_info_result_bridge_v10_2.py"
+  ],
+  "status": "READY"
+}
