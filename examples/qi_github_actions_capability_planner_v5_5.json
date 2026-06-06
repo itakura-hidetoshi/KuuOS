@@ -1,0 +1,25 @@
+{
+  "example_version": "qi_github_actions_capability_planner_v5_5",
+  "input_files": [
+    "qi_github_actions_status_packet.json"
+  ],
+  "output_files": [
+    "qi_executable_capability_recipe_batch_packet.json",
+    "qi_github_actions_capability_planner_receipt.json",
+    "qi_github_actions_capability_planner_audit.jsonl"
+  ],
+  "required_workflows": [
+    "All Governance Validation",
+    "Core Governance Validation",
+    "Emptiness Superposition Non-Collapse Validation",
+    "Emptiness Two Truths Runtime Audit Validation",
+    "KuuOS Runtime Full Check",
+    "Qi Process Tensor Review Checks"
+  ],
+  "license_status": "QI_GITHUB_ACTIONS_CAPABILITY_PLANNER_LICENSE_READY",
+  "status_values": [
+    "QI_GITHUB_ACTIONS_CAPABILITY_PLANNER_READY",
+    "QI_GITHUB_ACTIONS_CAPABILITY_PLANNER_BLOCKED"
+  ],
+  "purpose": "turn observed GitHub Actions status into a bounded v5.3 capability recipe batch packet"
+}
