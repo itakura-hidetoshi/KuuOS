@@ -1,0 +1,27 @@
+{
+  "example_files": [
+    "examples/qi_process_tensor_scheduler_overlay_v3_5.json"
+  ],
+  "local_files": [
+    "qi_scheduled_closed_loop_packet.json",
+    "qi_process_tensor_packet.json",
+    "qi_process_tensor_scheduler_overlay_receipt.json",
+    "qi_process_tensor_scheduler_overlay_audit.jsonl"
+  ],
+  "manifest_version": "qi_process_tensor_scheduler_overlay_addendum_v3_5",
+  "overlay_classes": [
+    "process_tensor_stabilize_overlay",
+    "process_tensor_rebalance_overlay",
+    "process_tensor_recovery_overlay",
+    "process_tensor_hold_overlay",
+    "process_tensor_continue_overlay"
+  ],
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_process_tensor_scheduler_overlay_v3_5.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_process_tensor_scheduler_overlay_v3_5.py",
+    "scripts/check_qi_process_tensor_scheduler_overlay_v3_5.py"
+  ],
+  "status": "READY"
+}
