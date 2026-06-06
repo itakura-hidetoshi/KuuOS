@@ -1,6 +1,6 @@
 {
   "example_version": "qi_adaptive_objective_scheduler_v3_4",
-  "purpose": "apply trajectory adaptor hints to the next circulation schedule",
+  "purpose": "convert trajectory adaptor hints into scheduler-mediated packet parameters without direct runtime control",
   "input_files": [
     "qi_adaptive_scheduler_packet.json"
   ],
@@ -10,11 +10,22 @@
     "qi_adaptive_scheduler_receipt.json",
     "qi_adaptive_scheduler_audit.jsonl"
   ],
-  "adapted_fields": [
+  "hint_fields": [
     "objective_hint",
     "max_cycles_delta",
     "convergence_threshold_delta"
   ],
+  "governance_boundary": {
+    "hint_only": true,
+    "scheduler_mediated": true,
+    "packet_only": true,
+    "direct_runtime_control": false,
+    "direct_scheduler_bypass": false,
+    "direct_execution_authority": false,
+    "memoryos_write_authority": false,
+    "world_update_authority": false,
+    "probe_execution_authority": false
+  },
   "status_values": [
     "QI_ADAPTIVE_SCHEDULER_READY",
     "QI_ADAPTIVE_SCHEDULER_BLOCKED"
