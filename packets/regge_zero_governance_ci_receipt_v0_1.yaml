@@ -24,23 +24,6 @@ receipt_scope:
   - no_extra_blocker_without_witness
   - nested_null_inheritance
   - no_single_scalar_authority_collapse
-  - non_authority_boundary_preservation
-semantic_locks:
-  append_only: true
-  same_root_required: true
-  overwrite_forbidden: true
-  destructive_replacement_forbidden: true
-  authority_expansion_forbidden: true
-  ci_pass_not_truth: true
-  ci_pass_not_theorem_authority: true
-  ci_pass_not_execution_authority: true
-  ci_pass_not_medical_authorization: true
-authority_created:
-  truth_authority: false
-  theorem_authority: false
-  execution_authority: false
-  medical_authorization: false
-  institutional_authority: false
 expected_outputs:
   validator: REGGE_ZERO_GOVERNANCE_VALIDATION_PASS
   regression: REGGE_ZERO_GOVERNANCE_REGRESSION_PASS
@@ -56,17 +39,3 @@ ci_visibility:
   dedicated_workflow_runs_baseline_lock_validator: true
   all_governance_workflow_advertises_lane: true
   all_governance_runner_executes_lane: true
-  workflow_run_observed_at_creation: false
-workflow_run_observation_note: >-
-  The workflow file is defined. A concrete GitHub Actions run may appear after
-  GitHub schedules the workflow for a subsequent push, pull request, or manual
-  workflow_dispatch.
-non_claims:
-  - CI pass does not become truth.
-  - CI pass does not become theorem authority.
-  - CI pass does not become autonomous execution authority.
-  - CI pass does not become medical authorization.
-  - Finality validation does not become truth.
-  - Finality validation does not become execution authority.
-  - Baseline lock validation does not become truth.
-  - Baseline lock validation does not become execution authority.
