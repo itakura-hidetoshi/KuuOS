@@ -35,6 +35,10 @@ def workflow_success() -> list[dict[str, Any]]:
     return [{"id": 10, "name": "Qi Process Tensor Review Checks", "status": "completed", "conclusion": "success"}]
 
 
+def live_query() -> dict[str, Any]:
+    return {"query_allowed": True, "repo_full_name": "itakura-hidetoshi/KuuOS", "pr_number": 1, "head_sha": "abc", "merge_method": "merge", "required_workflows": ["Qi Process Tensor Review Checks"], "merge_when_green": True, "rerun_when_failed": True, "reobserve_when_pending": True}
+
+
 def reentry_packet() -> dict[str, Any]:
     runs = workflow_success()
     return {"policy_reentry_allowed": True, "reentry_state": "policy_reentry_ready", "query_context": {"repo_full_name": "itakura-hidetoshi/KuuOS", "pr_number": 1, "required_workflows": ["Qi Process Tensor Review Checks"], "merge_when_green": True, "rerun_when_failed": True, "reobserve_when_pending": True}, "status_summary": {"all_success": True, "any_failed": False, "any_pending": False, "all_completed": True, "workflow_run_count": len(runs), "workflow_runs": runs}, "workflow_runs": runs}
@@ -82,7 +86,7 @@ def main() -> int:
         assert out["final_stage"] == "await_pr_info_external_result"
         assert out["connector_action"] == "GitHub.get_pr_info"
 
-        files = {"qi_github_actions_policy_reentry_external_call_packet.json": pr_info_call(), "qi_github_actions_policy_reentry_pr_info_raw_result_packet.json": pr_info_raw()}
+        files = {"qi_github_actions_policy_reentry_external_call_packet.json": pr_info_call(), "qi_github_actions_policy_reentry_pr_info_raw_result_packet.json": pr_info_raw(), "qi_github_actions_pr_live_query_packet.json": live_query()}
         code, out = run(root, "pr_info_to_merge_wait", files, lic())
         assert_ready("pr_info_to_merge_wait", code, out)
         assert out["final_stage"] == "await_policy_action_external_result"
