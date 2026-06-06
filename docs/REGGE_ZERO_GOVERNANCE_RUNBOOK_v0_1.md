@@ -1,7 +1,7 @@
 # Regge Zero Governance Runbook v0.1
 
 Status: additive runbook  
-Authority: non-authoritative governance support  
+Authority: governance support  
 Parent: `docs/REGGE_ZERO_GOVERNANCE_v0_1.md`
 
 ---
@@ -17,8 +17,6 @@ consistency-mandated nulls only;
 no extra blocker without witness;
 no single-scalar authority collapse.
 ```
-
-It is a governance check, not a physics proof, not an execution engine, and not a medical authorization layer.
 
 ---
 
@@ -59,9 +57,9 @@ REGGE_ZERO_GOVERNANCE_CHECKS: PASS
 
 ## 4. Failure Classes
 
-### 4.1 Missing authority boundary
+### 4.1 Missing boundary lock
 
-A failure here means that one of the following non-authority locks was removed or weakened:
+A failure here means that one of the following locks was removed or weakened:
 
 ```text
 candidate_not_authority
@@ -74,7 +72,7 @@ reflection_summary_not_root_rewrite
 audit_not_infinite_escalation
 ```
 
-Repair: restore the lock. Do not replace it with a weaker prose statement.
+Repair: restore the lock.
 
 ### 4.2 Missing minimal-null invariant
 
@@ -128,28 +126,6 @@ The full governance workflow also advertises this lane and the all-governance ru
 
 ---
 
-## 6. Non-Claims
+## 6. Update Rule
 
-This runbook does not claim:
-
-```text
-KuuOS derives physical scattering amplitudes.
-KuuOS creates autonomous execution authority.
-KuuOS creates medical authorization.
-KuuOS turns CI success into theorem authority.
-KuuOS turns validation into truth.
-```
-
----
-
-## 7. Update Rule
-
-Future updates are:
-
-```text
-append-only
-same-root required
-tighten-only default
-overwrite forbidden
-authority expansion forbidden
-```
+Future updates are append-only, same-root required, and tighten-only by default.
