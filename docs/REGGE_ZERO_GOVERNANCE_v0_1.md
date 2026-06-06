@@ -257,7 +257,7 @@ hold/reobserve/repair/handover are first-class nonexecute outcomes
 This file does not claim:
 
 ```text
-KuuOS proves string theory.
+KuuOS does not prove string theory.
 KuuOS derives physical amplitudes.
 KuuOS has autonomous execution authority.
 KuuOS creates medical authorization.
