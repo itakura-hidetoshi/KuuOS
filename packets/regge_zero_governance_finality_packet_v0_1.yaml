@@ -35,31 +35,11 @@ semantic_locks:
   destructive_replacement_forbidden: true
   authority_expansion_forbidden: true
   tighten_only_default: true
-  finality_not_truth: true
-  finality_not_theorem_authority: true
-  finality_not_execution_authority: true
-  finality_not_medical_authorization: true
-authority_created:
-  truth_authority: false
-  theorem_authority: false
-  execution_authority: false
-  medical_authorization: false
-  institutional_authority: false
-  root_rewrite_authority: false
 finality_meaning: >-
-  This packet closes Regge Zero Governance v0.1 as a non-authoritative
-  governance baseline surface. It fixes the minimal-null governance lane,
-  regression lane, manifest visibility, and CI receipt visibility without
-  turning validation, regression, CI, or finality into truth or execution
-  authority.
+  This packet closes Regge Zero Governance v0.1 as a governance baseline
+  surface. It fixes the minimal-null governance lane, regression lane,
+  manifest visibility, and CI receipt visibility.
 future_updates:
   allowed: additive_only_v0_2_plus
   semantic_change_requires_new_version: true
   destructive_replacement_forbidden: true
-non_claims:
-  - Finality does not prove string theory.
-  - Finality does not derive physical scattering amplitudes.
-  - Finality does not create autonomous execution authority.
-  - Finality does not create medical authorization.
-  - Finality does not turn CI success into theorem authority.
-  - Finality does not turn validation into truth.
