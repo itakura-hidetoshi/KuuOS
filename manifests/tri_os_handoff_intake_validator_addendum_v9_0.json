@@ -1,0 +1,11 @@
+{
+  "manifest_version": "tri_os_handoff_intake_validator_addendum_v9_0",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_tri_os_handoff_intake_validator_v9_0.py"
+  ],
+  "script_files": [
+    "scripts/run_tri_os_handoff_intake_validator_v9_0.py",
+    "scripts/check_tri_os_handoff_intake_validator_v9_0.py"
+  ],
+  "status": "READY"
+}
