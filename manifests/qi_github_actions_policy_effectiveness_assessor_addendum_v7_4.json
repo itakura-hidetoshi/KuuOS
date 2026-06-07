@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_github_actions_policy_effectiveness_assessor_addendum_v7_4",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_github_actions_policy_effectiveness_assessor_v7_4.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_github_actions_policy_effectiveness_assessor_v7_4.py",
+    "scripts/check_qi_github_actions_policy_effectiveness_assessor_v7_4.py"
+  ],
+  "status": "READY"
+}
