@@ -1,0 +1,11 @@
+{
+  "manifest_version": "tri_os_stage_feedback_action_intake_validator_addendum_v10_2",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_tri_os_stage_feedback_action_intake_validator_v10_2.py"
+  ],
+  "script_files": [
+    "scripts/run_tri_os_stage_feedback_action_intake_validator_v10_2.py",
+    "scripts/check_tri_os_stage_feedback_action_intake_validator_v10_2.py"
+  ],
+  "status": "READY"
+}
