@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_github_actions_policy_outcome_ledger_addendum_v7_3",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_github_actions_policy_outcome_ledger_v7_3.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_github_actions_policy_outcome_ledger_v7_3.py",
+    "scripts/check_qi_github_actions_policy_outcome_ledger_v7_3.py"
+  ],
+  "status": "READY"
+}
