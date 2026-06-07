@@ -23,6 +23,14 @@ INTERNAL_WAIT_STOP_REASONS = {
     "waiting_for_external_observation",
 }
 
+EXTERNAL_SOURCE_FILES = [
+    "qi_github_actions_external_call_raw_result_packet.json",
+    "qi_github_actions_external_call_packet.json",
+    "qi_github_actions_connector_execution_request.json",
+    "qi_github_actions_observation_connector_request.json",
+    "qi_github_actions_loop_command_packet.json",
+]
+
 
 @dataclass(frozen=True)
 class QiGitHubActionsIntegratedBridgeRunnerResult:
@@ -71,6 +79,16 @@ def _root(value: Any, blockers: list[str]) -> pathlib.Path:
     return root
 
 
+def _read_json(path: pathlib.Path) -> dict[str, Any]:
+    if not path.is_file():
+        return {}
+    try:
+        value = json.loads(path.read_text(encoding="utf-8"))
+    except json.JSONDecodeError:
+        return {}
+    return value if isinstance(value, dict) else {}
+
+
 def _write_json(path: pathlib.Path, payload: Mapping[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     tmp = path.with_suffix(path.suffix + ".tmp")
@@ -82,6 +100,19 @@ def _append_jsonl(path: pathlib.Path, payload: Mapping[str, Any]) -> None:
     path.parent.mkdir(parents=True, exist_ok=True)
     with path.open("a", encoding="utf-8") as handle:
         handle.write(json.dumps(dict(payload), ensure_ascii=False, sort_keys=True) + "\n")
+
+
+def _external_work_available(root: pathlib.Path) -> bool:
+    for name in EXTERNAL_SOURCE_FILES:
+        if _read_json(root / name):
+            return True
+    for path in root.glob("qi_github_actions_dispatch_*_packet.json"):
+        if _read_json(path):
+            return True
+    for path in root.glob("qi_github_actions_dispatch_*_result.json"):
+        if _read_json(path):
+            return True
+    return False
 
 
 def _loop_context(root: pathlib.Path, max_loop_steps: int) -> dict[str, Any]:
@@ -189,8 +220,9 @@ def build_qi_github_actions_integrated_bridge_runner(*, runtime_context: Mapping
                 stop_reason = "internal_loop_blocked"
                 records.append(_record(index, internal, {}))
                 break
-            if str(internal.get("stop_reason", "")) not in INTERNAL_WAIT_STOP_REASONS:
-                stop_reason = str(internal.get("stop_reason", "unknown"))
+            internal_stop = str(internal.get("stop_reason", ""))
+            if internal_stop not in INTERNAL_WAIT_STOP_REASONS and not _external_work_available(root):
+                stop_reason = internal_stop or "internal_loop_stopped"
                 records.append(_record(index, internal, {}))
                 break
             external = build_qi_github_actions_external_bridge_executor(
