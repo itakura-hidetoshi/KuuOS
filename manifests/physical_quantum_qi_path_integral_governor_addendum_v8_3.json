@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_path_integral_governor_addendum_v8_3",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_path_integral_governor_v8_3.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_path_integral_governor_v8_3.py",
+    "scripts/check_physical_quantum_qi_path_integral_governor_v8_3.py"
+  ],
+  "status": "READY"
+}
