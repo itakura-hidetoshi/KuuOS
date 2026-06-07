@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_policy_bias_applier_addendum_v7_6",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_policy_bias_applier_v7_6.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_policy_bias_applier_v7_6.py",
+    "scripts/check_qi_policy_bias_applier_v7_6.py"
+  ],
+  "status": "READY"
+}
