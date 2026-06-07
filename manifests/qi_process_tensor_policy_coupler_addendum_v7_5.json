@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_process_tensor_policy_coupler_addendum_v7_5",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_process_tensor_policy_coupler_v7_5.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_process_tensor_policy_coupler_v7_5.py",
+    "scripts/check_qi_process_tensor_policy_coupler_v7_5.py"
+  ],
+  "status": "READY"
+}
