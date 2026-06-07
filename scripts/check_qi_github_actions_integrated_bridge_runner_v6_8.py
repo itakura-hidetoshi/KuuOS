@@ -65,10 +65,9 @@ def main() -> int:
         root = pathlib.Path(td)
         code, out = run(root, "from_status", {"qi_github_actions_status_packet.json": status_packet()}, lic())
         assert_ready("from_status", code, out)
-        assert out["stop_reason"] == "await_dispatch_result"
-        assert out["cycle_records"][0]["internal_final_stage"] == "await_connector_operation"
-        assert out["final_external_stage"] == "await_dispatch_result"
-        assert (root / "from_status" / "qi_github_actions_dispatch_merge_pull_request_packet.json").is_file() or (root / "from_status" / "qi_github_actions_dispatch_commit_workflow_runs_packet.json").is_file() or (root / "from_status" / "qi_github_actions_external_call_packet.json").is_file()
+        assert out["stop_reason"] == "max_steps_reached"
+        assert out["cycle_records"][0]["internal_final_stage"] == "plan_from_status"
+        assert (root / "from_status" / "qi_executable_capability_recipe_batch_packet.json").is_file()
 
         req = {"reobserve_allowed": True, "observation_kind": "commit_workflow_runs", "repo_full_name": "itakura-hidetoshi/KuuOS", "commit_sha": "abc"}
         code, out = run(root, "from_reobserve", {"qi_github_actions_status_reobserve_request.json": req}, lic())
@@ -79,9 +78,9 @@ def main() -> int:
 
         code, out = run(root, "empty", {}, lic())
         assert_ready("empty", code, out)
-        assert out["stop_reason"] in {"await_external_call", "await_dispatch_result", "max_bridge_cycles_reached", "waiting_for_external_observation"}
+        assert out["stop_reason"] in {"await_external_call", "max_bridge_cycles_reached", "waiting_for_external_observation"}
 
-        code, out = run(root, "max_cycle", {"qi_github_actions_status_packet.json": status_packet()}, lic(), {"max_bridge_cycles": 1})
+        code, out = run(root, "max_cycle", {"qi_github_actions_status_reobserve_request.json": req}, lic(), {"max_bridge_cycles": 1})
         assert_ready("max_cycle", code, out)
         assert out["cycles_run"] == 1
 
