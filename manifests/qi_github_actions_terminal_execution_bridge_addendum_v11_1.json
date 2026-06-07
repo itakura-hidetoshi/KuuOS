@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_github_actions_terminal_execution_bridge_addendum_v11_1",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_github_actions_terminal_execution_bridge_v11_1.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_github_actions_terminal_execution_bridge_v11_1.py",
+    "scripts/check_qi_github_actions_terminal_execution_bridge_v11_1.py"
+  ],
+  "status": "READY"
+}
