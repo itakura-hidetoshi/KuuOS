@@ -1,0 +1,11 @@
+{
+  "manifest_version": "tri_os_readiness_stage_intake_decision_ledger_addendum_v9_9",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_tri_os_readiness_stage_intake_decision_ledger_v9_9.py"
+  ],
+  "script_files": [
+    "scripts/run_tri_os_readiness_stage_intake_decision_ledger_v9_9.py",
+    "scripts/check_tri_os_readiness_stage_intake_decision_ledger_v9_9.py"
+  ],
+  "status": "READY"
+}
