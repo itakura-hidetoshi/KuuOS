@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_github_actions_integrated_bridge_runner_addendum_v6_8",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_github_actions_integrated_bridge_runner_v6_8.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_github_actions_integrated_bridge_runner_v6_8.py",
+    "scripts/check_qi_github_actions_integrated_bridge_runner_v6_8.py"
+  ],
+  "status": "READY"
+}
