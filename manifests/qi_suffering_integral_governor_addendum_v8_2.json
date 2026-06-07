@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_suffering_integral_governor_addendum_v8_2",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_suffering_integral_governor_v8_2.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_suffering_integral_governor_v8_2.py",
+    "scripts/check_qi_suffering_integral_governor_v8_2.py"
+  ],
+  "status": "READY"
+}
