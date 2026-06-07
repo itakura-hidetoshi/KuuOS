@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_github_actions_lifecycle_trend_assessor_addendum_v7_0",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_github_actions_lifecycle_trend_assessor_v7_0.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_github_actions_lifecycle_trend_assessor_v7_0.py",
+    "scripts/check_qi_github_actions_lifecycle_trend_assessor_v7_0.py"
+  ],
+  "status": "READY"
+}
