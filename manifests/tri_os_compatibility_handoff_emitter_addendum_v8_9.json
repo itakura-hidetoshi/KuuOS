@@ -1,0 +1,11 @@
+{
+  "manifest_version": "tri_os_compatibility_handoff_emitter_addendum_v8_9",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_tri_os_compatibility_handoff_emitter_v8_9.py"
+  ],
+  "script_files": [
+    "scripts/run_tri_os_compatibility_handoff_emitter_v8_9.py",
+    "scripts/check_tri_os_compatibility_handoff_emitter_v8_9.py"
+  ],
+  "status": "READY"
+}
