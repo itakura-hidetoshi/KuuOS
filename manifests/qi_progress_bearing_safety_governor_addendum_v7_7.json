@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_progress_bearing_safety_governor_addendum_v7_7",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_progress_bearing_safety_governor_v7_7.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_progress_bearing_safety_governor_v7_7.py",
+    "scripts/check_qi_progress_bearing_safety_governor_v7_7.py"
+  ],
+  "status": "READY"
+}
