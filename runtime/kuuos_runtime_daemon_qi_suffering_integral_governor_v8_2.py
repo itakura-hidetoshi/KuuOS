@@ -157,12 +157,12 @@ def _classify(suffering: Mapping[str, Any], rows: list[dict[str, Any]]) -> tuple
     if counts.get("progress_completed", 0) + counts.get("gap_probe_completed", 0) > 0 and net <= 0:
         reasons.append("progress_relief_reduces_integral")
         return "integral_relief_observed", "continue_light_progress", reasons, transient, stagnant, net, counts
-    if pressure_class == "suffering_pressure_high" or stagnant >= transient + 4:
-        reasons.append("staying_suffering_exceeds_transient_progress_pain")
-        return "staying_suffering_dominates", "accept_small_progress_pain", reasons, transient, stagnant, net, counts
     if counts.get("exit_preserved_hold", 0) >= 2 and counts.get("progress_completed", 0) == 0:
         reasons.append("hold_preserves_exit_but_does_not_reduce_integral")
         return "hold_requires_exit", "force_review_exit_or_small_probe", reasons, transient, stagnant, net, counts
+    if pressure_class == "suffering_pressure_high" or stagnant >= transient + 4:
+        reasons.append("staying_suffering_exceeds_transient_progress_pain")
+        return "staying_suffering_dominates", "accept_small_progress_pain", reasons, transient, stagnant, net, counts
     if counts.get("progress_blocked", 0) >= 2:
         reasons.append("progress_attempt_blocked_repeatedly")
         return "rebalance_required", "rebalance_before_next_probe", reasons, transient, stagnant, net, counts
