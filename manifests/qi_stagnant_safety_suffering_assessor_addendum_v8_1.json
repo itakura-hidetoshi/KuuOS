@@ -1,0 +1,11 @@
+{
+  "manifest_version": "qi_stagnant_safety_suffering_assessor_addendum_v8_1",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_qi_stagnant_safety_suffering_assessor_v8_1.py"
+  ],
+  "script_files": [
+    "scripts/run_qi_stagnant_safety_suffering_assessor_v8_1.py",
+    "scripts/check_qi_stagnant_safety_suffering_assessor_v8_1.py"
+  ],
+  "status": "READY"
+}
