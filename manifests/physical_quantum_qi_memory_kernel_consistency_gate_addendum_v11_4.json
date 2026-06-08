@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_memory_kernel_consistency_gate_addendum_v11_4",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_memory_kernel_consistency_gate_v11_4.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_memory_kernel_consistency_gate_v11_4.py",
+    "scripts/check_physical_quantum_qi_memory_kernel_consistency_gate_v11_4.py"
+  ],
+  "status": "READY"
+}
