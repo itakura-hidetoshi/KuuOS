@@ -80,10 +80,10 @@ def _os_reentry(packet: Mapping[str, Any], os_name: str) -> Mapping[str, Any]:
     return _m(_m(packet.get("os_reentry")).get(os_name))
 
 
-def _decision_from_counts(ready: int, probe: int, barrier: int) -> str:
+def _decision_from_counts(ready: int, probe: int, barrier: int, warnings: list[str]) -> str:
     if barrier > 0:
         return "block"
-    if probe > 0:
+    if probe > 0 or warnings:
         return "hold"
     return "accept"
 
@@ -140,7 +140,7 @@ def _packet(reentry: Mapping[str, Any]) -> dict[str, Any]:
     ready = sum(1 for m in modes.values() if m == "reinforce_path_weight")
     probe = sum(1 for m in modes.values() if m == "open_probe_potential")
     barrier = sum(1 for m in modes.values() if m == "add_barrier_potential")
-    decision = "block" if blockers else _decision_from_counts(ready, probe, barrier)
+    decision = "block" if blockers else _decision_from_counts(ready, probe, barrier, warnings)
     return {
         "version": "physical_quantum_qi_path_integral_reentry_intake_decision_packet_v10_6",
         "physical_quantum_qi_path_integral_reentry_intake_considered": True,
