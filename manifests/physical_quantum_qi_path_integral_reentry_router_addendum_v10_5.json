@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_path_integral_reentry_router_addendum_v10_5",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_path_integral_reentry_router_v10_5.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_path_integral_reentry_router_v10_5.py",
+    "scripts/check_physical_quantum_qi_path_integral_reentry_router_v10_5.py"
+  ],
+  "status": "READY"
+}
