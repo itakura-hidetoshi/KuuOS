@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_path_integral_reentry_intake_validator_addendum_v10_6",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_path_integral_reentry_intake_validator_v10_6.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_path_integral_reentry_intake_validator_v10_6.py",
+    "scripts/check_physical_quantum_qi_path_integral_reentry_intake_validator_v10_6.py"
+  ],
+  "status": "READY"
+}
