@@ -1,0 +1,11 @@
+{
+  "manifest_version": "tri_os_final_stage_readiness_router_addendum_v10_4",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_tri_os_final_stage_readiness_router_v10_4.py"
+  ],
+  "script_files": [
+    "scripts/run_tri_os_final_stage_readiness_router_v10_4.py",
+    "scripts/check_tri_os_final_stage_readiness_router_v10_4.py"
+  ],
+  "status": "READY"
+}
