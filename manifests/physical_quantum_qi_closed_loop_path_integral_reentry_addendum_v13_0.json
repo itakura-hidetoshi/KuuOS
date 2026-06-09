@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_closed_loop_path_integral_reentry_addendum_v13_0",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_closed_loop_path_integral_reentry_v13_0.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_closed_loop_path_integral_reentry_v13_0.py",
+    "scripts/check_physical_quantum_qi_closed_loop_path_integral_reentry_v13_0.py"
+  ],
+  "status": "READY"
+}
