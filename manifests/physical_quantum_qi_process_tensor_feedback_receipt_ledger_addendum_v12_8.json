@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_process_tensor_feedback_receipt_ledger_addendum_v12_8",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_process_tensor_feedback_receipt_ledger_v12_8.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_process_tensor_feedback_receipt_ledger_v12_8.py",
+    "scripts/check_physical_quantum_qi_process_tensor_feedback_receipt_ledger_v12_8.py"
+  ],
+  "status": "READY"
+}
