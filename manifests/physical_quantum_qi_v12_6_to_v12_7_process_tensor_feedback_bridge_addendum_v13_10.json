@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_v12_6_to_v12_7_process_tensor_feedback_bridge_addendum_v13_10",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_v12_6_to_v12_7_process_tensor_feedback_bridge_v13_10.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_v12_6_to_v12_7_process_tensor_feedback_bridge_v13_10.py",
+    "scripts/check_physical_quantum_qi_v12_6_to_v12_7_process_tensor_feedback_bridge_v13_10.py"
+  ],
+  "status": "READY"
+}
