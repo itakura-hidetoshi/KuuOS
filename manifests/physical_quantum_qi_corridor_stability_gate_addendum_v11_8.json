@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_corridor_stability_gate_addendum_v11_8",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_corridor_stability_gate_v11_8.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_corridor_stability_gate_v11_8.py",
+    "scripts/check_physical_quantum_qi_corridor_stability_gate_v11_8.py"
+  ],
+  "status": "READY"
+}
