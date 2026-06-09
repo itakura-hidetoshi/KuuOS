@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_closed_loop_reentry_receipt_ledger_addendum_v13_1",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_closed_loop_reentry_receipt_ledger_v13_1.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_closed_loop_reentry_receipt_ledger_v13_1.py",
+    "scripts/check_physical_quantum_qi_closed_loop_reentry_receipt_ledger_v13_1.py"
+  ],
+  "status": "READY"
+}
