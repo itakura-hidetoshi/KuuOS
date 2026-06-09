@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_transition_candidate_envelope_addendum_v12_2",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_transition_candidate_envelope_v12_2.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_transition_candidate_envelope_v12_2.py",
+    "scripts/check_physical_quantum_qi_transition_candidate_envelope_v12_2.py"
+  ],
+  "status": "READY"
+}
