@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_guarded_intent_receipt_ledger_compatibility_bridge_addendum_v13_8",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_guarded_intent_receipt_ledger_compatibility_bridge_v13_8.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_guarded_intent_receipt_ledger_compatibility_bridge_v13_8.py",
+    "scripts/check_physical_quantum_qi_guarded_intent_receipt_ledger_compatibility_bridge_v13_8.py"
+  ],
+  "status": "READY"
+}
