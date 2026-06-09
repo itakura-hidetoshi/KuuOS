@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_history_aware_candidate_corridor_addendum_v11_6",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_history_aware_candidate_corridor_v11_6.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_history_aware_candidate_corridor_v11_6.py",
+    "scripts/check_physical_quantum_qi_history_aware_candidate_corridor_v11_6.py"
+  ],
+  "status": "READY"
+}
