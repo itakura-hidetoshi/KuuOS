@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_stable_corridor_transition_precheck_receipt_ledger_addendum_v12_1",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_stable_corridor_transition_precheck_receipt_ledger_v12_1.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_stable_corridor_transition_precheck_receipt_ledger_v12_1.py",
+    "scripts/check_physical_quantum_qi_stable_corridor_transition_precheck_receipt_ledger_v12_1.py"
+  ],
+  "status": "READY"
+}
