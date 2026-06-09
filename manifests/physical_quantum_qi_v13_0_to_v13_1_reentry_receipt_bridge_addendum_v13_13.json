@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_v13_0_to_v13_1_reentry_receipt_bridge_addendum_v13_13",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_v13_0_to_v13_1_reentry_receipt_bridge_v13_13.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_v13_0_to_v13_1_reentry_receipt_bridge_v13_13.py",
+    "scripts/check_physical_quantum_qi_v13_0_to_v13_1_reentry_receipt_bridge_v13_13.py"
+  ],
+  "status": "READY"
+}
