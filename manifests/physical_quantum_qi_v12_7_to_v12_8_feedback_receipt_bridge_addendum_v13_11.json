@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_v12_7_to_v12_8_feedback_receipt_bridge_addendum_v13_11",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_v12_7_to_v12_8_feedback_receipt_bridge_v13_11.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_v12_7_to_v12_8_feedback_receipt_bridge_v13_11.py",
+    "scripts/check_physical_quantum_qi_v12_7_to_v12_8_feedback_receipt_bridge_v13_11.py"
+  ],
+  "status": "READY"
+}
