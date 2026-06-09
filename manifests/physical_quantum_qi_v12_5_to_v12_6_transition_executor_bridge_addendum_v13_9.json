@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_v12_5_to_v12_6_transition_executor_bridge_addendum_v13_9",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_v12_5_to_v12_6_transition_executor_bridge_v13_9.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_v12_5_to_v12_6_transition_executor_bridge_v13_9.py",
+    "scripts/check_physical_quantum_qi_v12_5_to_v12_6_transition_executor_bridge_v13_9.py"
+  ],
+  "status": "READY"
+}
