@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_v12_5_receipt_to_v12_6_executor_readiness_bridge_addendum_v13_22",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_v12_5_receipt_to_v12_6_executor_readiness_bridge_v13_22.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_v13_22_readiness_bridge.py",
+    "scripts/check_physical_quantum_qi_v13_22_readiness_bridge.py"
+  ],
+  "status": "READY"
+}
