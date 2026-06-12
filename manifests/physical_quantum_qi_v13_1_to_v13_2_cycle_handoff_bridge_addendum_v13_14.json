@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_v13_1_to_v13_2_cycle_handoff_bridge_addendum_v13_14",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_v13_1_to_v13_2_cycle_handoff_bridge_v13_14.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_v13_1_to_v13_2_cycle_handoff_bridge_v13_14.py",
+    "scripts/check_physical_quantum_qi_v13_1_to_v13_2_cycle_handoff_bridge_v13_14.py"
+  ],
+  "status": "READY"
+}
