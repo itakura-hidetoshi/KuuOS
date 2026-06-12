@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_v13_8_to_v12_5_guarded_execution_receipt_bridge_addendum_v13_21",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_v13_8_to_v12_5_guarded_execution_receipt_bridge_v13_21.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_v13_8_to_v12_5_guarded_execution_receipt_bridge_v13_21.py",
+    "scripts/check_physical_quantum_qi_v13_8_to_v12_5_guarded_execution_receipt_bridge_v13_21.py"
+  ],
+  "status": "READY"
+}
