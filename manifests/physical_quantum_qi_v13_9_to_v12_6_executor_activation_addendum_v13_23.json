@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_v13_9_to_v12_6_executor_activation_addendum_v13_23",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_v13_9_to_v12_6_executor_activation_v13_23.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_v13_23_executor_activation.py",
+    "scripts/check_physical_quantum_qi_v13_23_executor_activation.py"
+  ],
+  "status": "READY"
+}
