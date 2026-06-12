@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_v13_7_to_v13_8_compatibility_bridge_addendum_v13_20",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_v13_7_to_v13_8_compatibility_bridge_v13_20.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_v13_7_to_v13_8_compatibility_bridge_v13_20.py",
+    "scripts/check_physical_quantum_qi_v13_7_to_v13_8_compatibility_bridge_v13_20.py"
+  ],
+  "status": "READY"
+}
