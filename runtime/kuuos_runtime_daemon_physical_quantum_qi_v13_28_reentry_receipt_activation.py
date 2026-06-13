@@ -170,6 +170,7 @@ def build_physical_quantum_qi_v13_28_reentry_receipt_activation(
     ledger_invoked = False
     bridge_result: dict[str, Any] = {}
     ledger_result: dict[str, Any] = {}
+    ledger_receipt: dict[str, Any] = {}
 
     if not blockers:
         bridge_result = build_physical_quantum_qi_v13_0_to_v13_1_reentry_receipt_bridge(
@@ -200,6 +201,9 @@ def build_physical_quantum_qi_v13_28_reentry_receipt_activation(
             blockers.append("v13_1_reentry_receipt_ledger_not_ready")
         if str(ledger_result.get("closed_loop_reentry_status", "")) != closed_status:
             blockers.append("v13_1_closed_loop_status_mismatch")
+        ledger_receipt = _read_json(root / "physical_quantum_qi_closed_loop_reentry_receipt_ledger_receipt.json")
+        if not str(ledger_receipt.get("record_digest", "")):
+            blockers.append("v13_1_reentry_receipt_record_digest_missing")
 
     activation_status = (
         "reentry_receipt_activation_completed"
@@ -226,7 +230,7 @@ def build_physical_quantum_qi_v13_28_reentry_receipt_activation(
             "source_v13_13_receipt_ready_state_digest": str(
                 ready_state.get("closed_loop_reentry_receipt_ready_state_digest", "")
             ),
-            "source_v13_1_receipt_record_digest": str(ledger_result.get("latest_record_digest", "")),
+            "source_v13_1_receipt_record_digest": str(ledger_receipt.get("record_digest", "")),
             "boundary": {
                 "two_stage_reentry_receipt_activation": True,
                 "uses_process_tensor_feedback": True,
