@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_v13_28_reentry_receipt_activation_addendum",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_v13_28_reentry_receipt_activation.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_v13_28_reentry_receipt_activation.py",
+    "scripts/check_physical_quantum_qi_v13_28_reentry_receipt_activation.py"
+  ],
+  "status": "READY"
+}
