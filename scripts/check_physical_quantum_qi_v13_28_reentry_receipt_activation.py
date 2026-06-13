@@ -232,6 +232,18 @@ def main() -> int:
             assert result["receipt_ledger_appended"] is True
             ledger = root / "physical_quantum_qi_closed_loop_reentry_receipt_ledger.jsonl"
             assert ledger.is_file() and ledger.read_text(encoding="utf-8").strip()
+            activation_record = json.loads(
+                (root / "physical_quantum_qi_v13_28_reentry_receipt_activation_record.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            ledger_receipt = json.loads(
+                (root / "physical_quantum_qi_closed_loop_reentry_receipt_ledger_receipt.json").read_text(
+                    encoding="utf-8"
+                )
+            )
+            assert ledger_receipt["record_digest"]
+            assert activation_record["source_v13_1_receipt_record_digest"] == ledger_receipt["record_digest"]
 
         root = base / "digest_mismatch"
         prepare(root, "reinforced", bad_activation_digest=True)
