@@ -10,5 +10,6 @@ ENTRYPOINT_NAME = "build_indra_qi_parent_cycle_assimilation_reentry_v0_11"
 
 def build_link(request: Mapping[str, Any]) -> dict[str, Any]:
     module = importlib.import_module(MODULE_NAME)
-    entrypoint = getattr(module, ENTRYPOINT_NAME, None)
-    return {"module_loaded": module is not None, "entrypoint_loaded": callable(entrypoint)}
+    entrypoint = getattr(module, ENTRYPOINT_NAME)
+    result = entrypoint(**dict(request))
+    return result.to_dict()
