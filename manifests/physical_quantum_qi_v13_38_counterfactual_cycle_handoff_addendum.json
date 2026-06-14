@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_v13_38_counterfactual_cycle_handoff_addendum",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_v13_38_counterfactual_cycle_handoff.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_v13_38_counterfactual_cycle_handoff.py",
+    "scripts/check_physical_quantum_qi_v13_38_counterfactual_cycle_handoff.py"
+  ],
+  "status": "READY"
+}
