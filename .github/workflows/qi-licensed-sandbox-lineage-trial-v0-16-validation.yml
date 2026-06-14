@@ -1,0 +1,36 @@
+name: Qi Licensed Sandbox Lineage Trial v0.16 Validation
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_indra_qi_licensed_sandbox_lineage_trial_*_v0_16.py"
+      - "scripts/check_qi_licensed_sandbox_lineage_trial_v0_16.py"
+      - "manifests/qi_licensed_sandbox_lineage_trial_v0_16.json"
+      - "examples/indra_qi_licensed_sandbox_lineage_trial_plan_v0_16.json"
+      - "docs/KU_INDRA_QI_LICENSED_SANDBOX_LINEAGE_TRIAL_v0_16.md"
+      - ".github/workflows/qi-licensed-sandbox-lineage-trial-v0-16-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_indra_qi_licensed_sandbox_lineage_trial_*_v0_16.py"
+      - "scripts/check_qi_licensed_sandbox_lineage_trial_v0_16.py"
+      - "manifests/qi_licensed_sandbox_lineage_trial_v0_16.json"
+      - "examples/indra_qi_licensed_sandbox_lineage_trial_plan_v0_16.json"
+      - "docs/KU_INDRA_QI_LICENSED_SANDBOX_LINEAGE_TRIAL_v0_16.md"
+      - ".github/workflows/qi-licensed-sandbox-lineage-trial-v0-16-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile v0.16 runtime
+        run: python -m py_compile runtime/kuuos_indra_qi_licensed_sandbox_lineage_trial_core_v0_16.py runtime/kuuos_indra_qi_licensed_sandbox_lineage_trial_runtime_v0_16.py scripts/check_qi_licensed_sandbox_lineage_trial_v0_16.py
+      - name: Run v0.16 checks
+        run: python scripts/check_qi_licensed_sandbox_lineage_trial_v0_16.py
