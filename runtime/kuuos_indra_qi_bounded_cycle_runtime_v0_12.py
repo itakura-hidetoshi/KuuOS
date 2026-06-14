@@ -56,3 +56,25 @@ class IndraQiBoundedCycleV0_12Result:
 
     def to_dict(self) -> dict[str, Any]:
         return asdict(self)
+
+
+def build_cycle(
+    *,
+    runtime_context: Mapping[str, Any],
+    cycle_plan: Mapping[str, Any],
+    cycle_license: Mapping[str, Any],
+) -> IndraQiBoundedCycleV0_12Result:
+    return IndraQiBoundedCycleV0_12Result(
+        VERSION,
+        BLOCKED,
+        "indra-qi-bounded-cycle-empty",
+        str(cycle_plan.get("runner_id", "")),
+        int(cycle_plan.get("generation_index", 0) or 0),
+        0,
+        "bounded_cycle_blocked",
+        "",
+        False,
+        False,
+        "",
+        [],
+    )
