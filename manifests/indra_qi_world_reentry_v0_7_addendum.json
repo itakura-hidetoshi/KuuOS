@@ -10,7 +10,8 @@
   "script_files": [
     "scripts/run_world_reentry_v0_7.py",
     "scripts/world_reentry_v0_7_test_support.py",
-    "scripts/check_world_reentry_v0_7.py"
+    "scripts/check_world_reentry_v0_7.py",
+    "scripts/qi_world_reentry_check_v0_7.py"
   ],
   "example_files": [
     "examples/indra_qi_world_reentry_plan_v0_7.json"
