@@ -1,0 +1,42 @@
+{
+  "version": "indra_qi_causal_feedback_plan_v0_3",
+  "feedback_id": "indra-qi-feedback-example-001",
+  "source_projection_id": "FILL_FROM_V0_2_PROJECTION",
+  "source_world_model_id": "indra-qi-mandala-example",
+  "source_indra_qi_world_state_digest": "FILL_FROM_INDRA_STATE",
+  "causal_world_id": "FILL_FROM_V14_WORLD",
+  "source_transaction_id": "FILL_FROM_V14_EVENT",
+  "source_causal_event_digest": "FILL_FROM_V14_EVENT",
+  "source_causal_world_model_digest": "FILL_FROM_V14_EVENT",
+  "feedback_policy": {
+    "event_kind_base_weight": {
+      "observe": 0.9,
+      "intervene": 0.75,
+      "counterfactual": 0.45,
+      "undo": 0.65
+    },
+    "uncertainty_penalty": 0.5,
+    "minimum_candidate_weight": 0.1,
+    "maximum_candidate_weight": 0.95
+  },
+  "infer_gauge_connection_update_from_causal_edges": false,
+  "apply_feedback_directly": false,
+  "boundary": {
+    "feedback_is_candidate_not_direct_mutation": true,
+    "source_indra_state_not_mutated": true,
+    "causal_result_not_truth": true,
+    "causal_edge_not_gauge_connection": true,
+    "qi_feedback_not_qi_substance": true,
+    "operator_algebra_unchanged": true,
+    "gauge_connection_unchanged": true,
+    "holonomy_preserved": true,
+    "transport_residue_visible": true,
+    "noncommutative_order_preserved": true,
+    "non_markov_feedback_preserved": true,
+    "candidate_weighting_not_truth": true,
+    "not_direct_execution_authority": true,
+    "not_world_update_authority": true,
+    "approval_required_before_world_mutation": true,
+    "fail_closed_on_boundary_loss": true
+  }
+}
