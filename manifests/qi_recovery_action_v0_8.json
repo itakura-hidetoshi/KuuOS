@@ -1,0 +1,1 @@
+{"manifest_version":"qi_recovery_action_v0_8","runtime":["runtime/kuuos_indra_qi_recovery_action_core_v0_8.py","runtime/kuuos_runtime_daemon_qi_recoverability_action_envelope_v0_8.py"],"scripts":["scripts/run_qi_recoverability_action_envelope_v0_8.py","scripts/check_qi_recoverability_action_envelope_v0_8.py"],"status":"READY"}
