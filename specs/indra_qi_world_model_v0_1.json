@@ -1,0 +1,56 @@
+{
+  "spec_version": "indra_qi_world_model_v0_1",
+  "status": "ACTIVE_BASELINE",
+  "core": {
+    "indra_net": "gauge_structured_relational_substrate",
+    "qi": "gauge_covariant_relational_effective_flow",
+    "qi_is_substance": false
+  },
+  "operator_roles": [
+    "observation",
+    "projection",
+    "parallel_transport",
+    "bounded_mutation",
+    "rollback_repair",
+    "history_feedback",
+    "emptiness_non_reification"
+  ],
+  "process_context": [
+    "process_tensor_digest",
+    "memory_kernel_digest",
+    "history_window_digest",
+    "instrument_trace_digest",
+    "non_markov_context_digest"
+  ],
+  "required_boundaries": {
+    "indra_net_is_gauge_structured": true,
+    "qi_is_indra_net_relational_flow": true,
+    "qi_substance_claim": false,
+    "noncommutative_operator_order_preserved": true,
+    "holonomy_preserved": true,
+    "transport_residue_visible": true,
+    "multi_world_noncollapse_preserved": true,
+    "two_truths_gap_preserved": true,
+    "emptiness_non_reification_preserved": true,
+    "non_markov_feedback_preserved": true,
+    "candidate_weighting_not_truth": true,
+    "not_direct_execution_authority": true,
+    "not_world_update_authority": true,
+    "structural_bridge_not_physical_theorem_authority": true,
+    "fail_closed_on_boundary_loss": true
+  },
+  "default_permissions": {
+    "direct_world_update": false,
+    "operator_algebra_update": false,
+    "execution": false,
+    "theorem": false,
+    "clinical": false
+  },
+  "mutation_requirements": [
+    "bounded_digest_bound_license",
+    "rollback_snapshot",
+    "post_write_verification",
+    "reobservation",
+    "append_only_lineage"
+  ]
+}
