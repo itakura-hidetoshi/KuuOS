@@ -1,0 +1,25 @@
+{
+  "manifest_version": "indra_qi_world_reentry_v0_7_addendum",
+  "documentation_files": [
+    "docs/KU_INDRA_QI_POST_ASSIMILATION_CAUSAL_REENTRY_v0_7.md"
+  ],
+  "runtime_files": [
+    "runtime/kuuos_indra_qi_post_assimilation_reentry_core_v0_7.py",
+    "runtime/kuuos_runtime_daemon_indra_qi_post_assimilation_reentry_v0_7.py"
+  ],
+  "script_files": [
+    "scripts/run_world_reentry_v0_7.py",
+    "scripts/world_reentry_v0_7_test_support.py",
+    "scripts/check_world_reentry_v0_7.py"
+  ],
+  "example_files": [
+    "examples/indra_qi_world_reentry_plan_v0_7.json"
+  ],
+  "source_models": [
+    "indra_qi_world_model_v0_1",
+    "indra_qi_causal_projection_bridge_v0_2",
+    "indra_qi_process_tensor_world_assimilation_v0_6",
+    "kuuos_causal_world_model_os_v14_0"
+  ],
+  "status": "READY"
+}
