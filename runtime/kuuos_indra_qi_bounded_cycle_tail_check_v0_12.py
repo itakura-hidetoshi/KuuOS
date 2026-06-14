@@ -1,7 +1,8 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-from typing import Any
+import pathlib
+from typing import Any, Mapping
 
 
 def check_tail(**kwargs: Any) -> dict[str, Any]:
