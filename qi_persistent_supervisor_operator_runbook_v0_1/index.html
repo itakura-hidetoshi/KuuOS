@@ -1,0 +1,1820 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Boundary-aware governance architecture for relational AI systems">
+      
+      
+        <meta name="author" content="Hidetoshi Itakura">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.6">
+    
+    
+      
+        <title>Qi Persistent Supervisor Operator Runbook v0.1 - KuuOS / 空OS Public Core</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.484c7ddc.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#qi-persistent-supervisor-operator-runbook-v01" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="KuuOS / 空OS Public Core" class="md-header__button md-logo" aria-label="KuuOS / 空OS Public Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            KuuOS / 空OS Public Core
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              Qi Persistent Supervisor Operator Runbook v0.1
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/itakura-hidetoshi/KuuOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    itakura-hidetoshi/KuuOS
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="KuuOS / 空OS Public Core" class="md-nav__button md-logo" aria-label="KuuOS / 空OS Public Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    KuuOS / 空OS Public Core
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/itakura-hidetoshi/KuuOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    itakura-hidetoshi/KuuOS
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start Here
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Start Here
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PUBLIC_DOCS_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Docs Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../QUICKSTART_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../EXTERNAL_REVIEW_GUIDE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    External Review Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../WHY_KUUOS_EXISTS_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why KuuOS Exists
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE_DIAGRAM_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GOVERNANCE_FLOW_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Flow Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GOVERNANCE_DIAGRAM_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATOR_GRAPH_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validator Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Governance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../KUUOS_GOVERNANCE_MANIFESTO_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Manifesto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boundary and Non-Authority Policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BOUNDARY_RISK_MODEL_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boundary Risk Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CLAIM_LEVEL_TAXONOMY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Claim Level Taxonomy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONTRIBUTOR_REVIEW_WORKFLOW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributor Review Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATION_COVERAGE_MATRIX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation Coverage Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../REPRODUCIBILITY_MATRIX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reproducibility Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PUBLIC_AUDIT_CHECKLIST_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Audit Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATOR_DEPENDENCY_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validator Dependency Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../LEAN_COVERAGE_MAP_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lean Coverage Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Terminology
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FORMAL_TERMINOLOGY_GLOSSARY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Terminology Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TERMINOLOGY_CROSS_REFERENCE_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology Cross Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Release
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Release Package Manifest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../V0_1_RELEASE_READINESS_CHECKLIST/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1 Release Readiness Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../KUOS_CORE_GOVERNANCE_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Governance Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../KUOS_FOURFOLD_CORE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fourfold Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GOVERNANCE_RELEASE_GATE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Release Gate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="qi-persistent-supervisor-operator-runbook-v01">Qi Persistent Supervisor Operator Runbook v0.1<a class="headerlink" href="#qi-persistent-supervisor-operator-runbook-v01" title="Permanent link">&para;</a></h1>
+<p>This runbook describes the bounded operator workflow for the Qi persistent supervisor.</p>
+<p>It is not an unbounded autonomous daemon procedure. Every run is bounded by explicit control and outer iteration limits.</p>
+<h2 id="0-comparison-with-the-original-runbook">0. Comparison with the original runbook<a class="headerlink" href="#0-comparison-with-the-original-runbook" title="Permanent link">&para;</a></h2>
+<p>The original runbook covered the bounded supervisor path:</p>
+<div class="highlight"><pre><span></span><code>allow control
+  -&gt; bounded persistent supervisor
+  -&gt; status view
+  -&gt; stop / disable
+</code></pre></div>
+<p>The current process-tensor extension keeps that path unchanged and adds a current phase-boundary review and scheduler path after status:</p>
+<div class="highlight"><pre><span></span><code>status view
+  -&gt; probe plan artifact
+  -&gt; artifact index
+  -&gt; trend summary
+  -&gt; current phase boundary
+  -&gt; dry-run license candidate
+  -&gt; dry-run probe simulation
+  -&gt; counterfactual probe lattice
+  -&gt; scheduler proposal
+  -&gt; scheduler state
+  -&gt; process-tensor-aware scheduler state
+  -&gt; operator / governor review
+</code></pre></div>
+<p>This extension does not introduce probe execution, next-tick execution authority, control-packet mutation, or memory overwrite authority. The current phase boundary is mutable by PR and replaceable; it is not a finality lock and it is not an append-only policy. The scheduler path only opens <code>scheduler_state</code> authority with <code>scheduler_authority_scope: scheduler_state_only</code>.</p>
+<h2 id="1-write-an-allow-control-packet">1. Write an allow control packet<a class="headerlink" href="#1-write-an-allow-control-packet" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/write_qi_supervisor_control_v0_1.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--allow<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--write<span class="w"> </span>.out/qi-supervisor/control.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--max-cycles<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sleep-seconds-between-cycles<span class="w"> </span><span class="m">0</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--reason<span class="w"> </span><span class="s2">&quot;operator allow bounded run&quot;</span>
+</code></pre></div>
+<p>This writes:</p>
+<ul>
+<li><code>.out/qi-supervisor/control.json</code></li>
+<li><code>.out/qi-supervisor/control_compiled_v0_1.json</code></li>
+</ul>
+<h2 id="2-start-the-bounded-persistent-supervisor">2. Start the bounded persistent supervisor<a class="headerlink" href="#2-start-the-bounded-persistent-supervisor" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/run_qi_persistent_supervisor_v0_1.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--raw-state<span class="w"> </span>examples/qi_process_tensor_v0_1/raw_state_process_history.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--evidence<span class="w"> </span>examples/qi_process_tensor_v0_1/evidence.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--control<span class="w"> </span>.out/qi-supervisor/control.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--out-dir<span class="w"> </span>.out/qi-supervisor/run<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--max-outer-iterations<span class="w"> </span><span class="m">3</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--max-daemon-ticks<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--max-steps-per-tick<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--requested-max-reentry-cycles<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--sleep-seconds-between-iterations<span class="w"> </span><span class="m">0</span>
+</code></pre></div>
+<p>This writes:</p>
+<ul>
+<li><code>.out/qi-supervisor/run/qi_persistent_supervisor_result_v0_1.json</code></li>
+<li><code>.out/qi-supervisor/run/qi_persistent_supervisor_overview_v0_1.txt</code></li>
+<li><code>.out/qi-supervisor/run/qi_persistent_supervisor_operator_manifest_v0_1.json</code></li>
+<li><code>.out/qi-supervisor/run/qi_persistent_supervisor_manifest_v0_1.json</code></li>
+<li>per-iteration heartbeat files</li>
+<li>per-iteration status files</li>
+</ul>
+<h2 id="3-view-supervisor-status">3. View supervisor status<a class="headerlink" href="#3-view-supervisor-status" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/view_qi_persistent_supervisor_status_v0_1.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--out-dir<span class="w"> </span>.out/qi-supervisor/run<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--write-json<span class="w"> </span>.out/qi-supervisor/status_view.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--write-text<span class="w"> </span>.out/qi-supervisor/status_view.txt
+</code></pre></div>
+<p>The status view reports the bounded supervisor surface:</p>
+<ul>
+<li><code>supervisor_status</code></li>
+<li><code>iterations_run</code></li>
+<li><code>total_cycles_run</code></li>
+<li><code>total_control_checks</code></li>
+<li><code>final_stop_reason</code></li>
+<li><code>latest_iteration_index</code></li>
+<li><code>latest_heartbeat_path</code></li>
+<li><code>latest_status_path</code></li>
+<li><code>view_blockers</code></li>
+<li><code>view_warnings</code></li>
+</ul>
+<p>It also reports the current process-tensor review surface:</p>
+<ul>
+<li><code>latest_process_tensor_advantage_metrics</code></li>
+<li><code>process_tensor_advantage_score</code></li>
+<li><code>process_tensor_advantage_level</code></li>
+<li><code>recommended_next_process_focus</code></li>
+<li><code>latest_process_tensor_probe_plan</code></li>
+<li><code>recommended_probe_type</code></li>
+<li><code>probe_target_time_slice</code></li>
+<li><code>probe_risk_level</code></li>
+</ul>
+<h2 id="3a-optional-read-the-same-status-through-supervisorctl">3a. Optional: read the same status through supervisorctl<a class="headerlink" href="#3a-optional-read-the-same-status-through-supervisorctl" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/qi_supervisorctl_v0_1.py<span class="w"> </span>status<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--out-dir<span class="w"> </span>.out/qi-supervisor/run<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--write-json<span class="w"> </span>.out/qi-supervisor/supervisorctl_status.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--write-text<span class="w"> </span>.out/qi-supervisor/supervisorctl_status.txt
+</code></pre></div>
+<p>This is still a read-only status surface. It is useful when the operator wants one unified entry point for <code>validate</code>, <code>allow</code>, <code>run</code>, <code>status</code>, <code>stop</code>, and <code>disable</code>.</p>
+<h2 id="3b-write-a-probe-plan-artifact">3b. Write a probe plan artifact<a class="headerlink" href="#3b-write-a-probe-plan-artifact" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/write_qi_process_tensor_probe_plan_artifact_v0_1.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--status-view<span class="w"> </span>.out/qi-supervisor/status_view.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--write<span class="w"> </span>.out/qi-supervisor/probe_plan_artifact_001.json
+</code></pre></div>
+<p>Alternatively, the artifact can be generated directly from the supervisor output directory:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/write_qi_process_tensor_probe_plan_artifact_v0_1.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--out-dir<span class="w"> </span>.out/qi-supervisor/run<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--write<span class="w"> </span>.out/qi-supervisor/probe_plan_artifact_001.json
+</code></pre></div>
+<p>The artifact is a proposal artifact only. It preserves:</p>
+<ul>
+<li><code>recommended_probe_type</code></li>
+<li><code>probe_target_time_slice</code></li>
+<li><code>probe_risk_level</code></li>
+<li><code>probe_expected_recoverability_gain</code></li>
+<li><code>probe_expected_observation_debt_reduction</code></li>
+<li><code>latest_process_tensor_probe_plan</code></li>
+</ul>
+<h2 id="3c-build-a-probe-plan-artifact-index">3c. Build a probe plan artifact index<a class="headerlink" href="#3c-build-a-probe-plan-artifact-index" title="Permanent link">&para;</a></h2>
+<p>After multiple bounded runs, build an index from proposal artifacts:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/write_qi_process_tensor_probe_plan_artifact_index_v0_1.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--artifact<span class="w"> </span>.out/qi-supervisor/probe_plan_artifact_001.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--artifact<span class="w"> </span>.out/qi-supervisor/probe_plan_artifact_002.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--artifact<span class="w"> </span>.out/qi-supervisor/probe_plan_artifact_003.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--write<span class="w"> </span>.out/qi-supervisor/probe_plan_artifact_index.json
+</code></pre></div>
+<p>The index reports:</p>
+<ul>
+<li><code>artifact_count</code></li>
+<li><code>ready_artifact_count</code></li>
+<li><code>blocked_artifact_count</code></li>
+<li><code>probe_type_counts</code></li>
+<li><code>risk_level_counts</code></li>
+<li><code>dominant_probe_type</code></li>
+<li><code>latest_recommended_probe_type</code></li>
+<li><code>latest_probe_target_time_slice</code></li>
+<li><code>repeated_probe_types</code></li>
+<li><code>mean_expected_recoverability_gain</code></li>
+<li><code>mean_expected_observation_debt_reduction</code></li>
+</ul>
+<h2 id="3d-write-a-trend-summary">3d. Write a trend summary<a class="headerlink" href="#3d-write-a-trend-summary" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/write_qi_process_tensor_probe_plan_trend_summary_v0_1.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--index<span class="w"> </span>.out/qi-supervisor/probe_plan_artifact_index.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--write-json<span class="w"> </span>.out/qi-supervisor/probe_plan_trend_summary.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--write-text<span class="w"> </span>.out/qi-supervisor/probe_plan_trend_summary.txt
+</code></pre></div>
+<p>The trend summary translates index fields into operator-readable Qi process tensor language:</p>
+<ul>
+<li><code>qi_process_tensor_characterization</code></li>
+<li><code>trend_interpretation</code></li>
+<li><code>recommended_operator_focus</code></li>
+</ul>
+<p>Examples:</p>
+<ul>
+<li><code>observation_debt_probe</code> -&gt; <code>observation_debt_limited_qi_process_tensor</code></li>
+<li><code>recoverability_branch_probe</code> -&gt; <code>recoverability_branch_limited_qi_process_tensor</code></li>
+<li><code>memory_kernel_probe</code> -&gt; <code>memory_kernel_fragile_qi_process_tensor</code></li>
+<li><code>safe_reentry_window_probe</code> -&gt; <code>safe_reentry_window_narrow_qi_process_tensor</code></li>
+<li><code>nonmarkov_memory_link_probe</code> -&gt; <code>nonmarkov_link_sparse_qi_process_tensor</code></li>
+<li><code>multi_time_correlation_probe</code> -&gt; <code>multi_time_correlation_low_visibility_qi_process_tensor</code></li>
+<li><code>continue_process_tensor_supervision_probe</code> -&gt; <code>stable_supervision_qi_process_tensor</code></li>
+</ul>
+<h2 id="3e-current-phase-boundary">3e. Current phase boundary<a class="headerlink" href="#3e-current-phase-boundary" title="Permanent link">&para;</a></h2>
+<p>The current phase boundary is:</p>
+<div class="highlight"><pre><span></span><code>packets/qi_process_tensor_review_phase_boundary_packet_v0_1.json
+</code></pre></div>
+<p>This packet is the active design boundary for the Qi process-tensor review surface. It declares:</p>
+<ul>
+<li><code>mutable_by_pr: true</code></li>
+<li><code>replacement_allowed: true</code></li>
+<li><code>finality_claimed: false</code></li>
+<li><code>append_only_required: false</code></li>
+<li><code>overwrite_forbidden: false</code></li>
+</ul>
+<p>The old release/finality packet files are retained only as deprecated legacy records. They are not active design constraints.</p>
+<h2 id="3f-write-a-dry-run-license-candidate">3f. Write a dry-run license candidate<a class="headerlink" href="#3f-write-a-dry-run-license-candidate" title="Permanent link">&para;</a></h2>
+<p>Use the phase-boundary entrypoint:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/write_qi_license_candidate_phase_v0_1.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--trend-summary<span class="w"> </span>.out/qi-supervisor/probe_plan_trend_summary.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--phase-packet<span class="w"> </span>packets/qi_process_tensor_review_phase_boundary_packet_v0_1.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--mode<span class="w"> </span>dry_run_probe_simulation<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--write<span class="w"> </span>.out/qi-supervisor/qi_license_candidate.json
+</code></pre></div>
+<p>This writes a license candidate only. It does not grant execution authority.</p>
+<p>Current candidate boundary:</p>
+<ul>
+<li><code>license_candidate_only: true</code></li>
+<li><code>dry_run_candidate_only: true</code></li>
+<li><code>requires_governor_approval: true</code></li>
+<li><code>requires_operator_review: true</code></li>
+<li><code>authority: none</code></li>
+<li><code>grants_probe_execution_authority: false</code></li>
+<li><code>grants_dry_run_execution_authority: false</code></li>
+<li><code>grants_next_tick_execution_authority: false</code></li>
+<li><code>grants_control_packet_authority: false</code></li>
+<li><code>grants_memory_overwrite_authority: false</code></li>
+</ul>
+<p>Deprecated legacy entrypoint:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/write_qi_actuation_license_candidate_v0_1.py
+</code></pre></div>
+<p>This old finality-based entrypoint intentionally returns a deprecation notice and should not be used for active operation.</p>
+<h2 id="3g-write-a-dry-run-probe-simulation">3g. Write a dry-run probe simulation<a class="headerlink" href="#3g-write-a-dry-run-probe-simulation" title="Permanent link">&para;</a></h2>
+<p>After a dry-run license candidate exists, project the probe effects without executing the probe:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/write_qi_dry_run_probe_sim_v0_1.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--license<span class="w"> </span>.out/qi-supervisor/qi_license_candidate.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--summary<span class="w"> </span>.out/qi-supervisor/probe_plan_trend_summary.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--plan<span class="w"> </span>.out/qi-supervisor/probe_plan_artifact_001.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--write<span class="w"> </span>.out/qi-supervisor/qi_dry_run_probe_simulation.json
+</code></pre></div>
+<p>This remains a simulation surface only. It preserves:</p>
+<ul>
+<li><code>simulation_only: true</code></li>
+<li><code>dry_run_only: true</code></li>
+<li><code>authority: none</code></li>
+<li><code>state_mutation_performed: false</code></li>
+<li><code>control_packet_mutation_performed: false</code></li>
+<li><code>memory_write_performed: false</code></li>
+</ul>
+<h2 id="3h-build-a-counterfactual-probe-lattice">3h. Build a counterfactual probe lattice<a class="headerlink" href="#3h-build-a-counterfactual-probe-lattice" title="Permanent link">&para;</a></h2>
+<p>Compare the chosen probe against unchosen counterfactual probe candidates:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/write_qi_cf_probe_lattice_v0_1.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--simulation<span class="w"> </span>.out/qi-supervisor/qi_dry_run_probe_simulation.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--summary<span class="w"> </span>.out/qi-supervisor/probe_plan_trend_summary.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--write<span class="w"> </span>.out/qi-supervisor/qi_cf_probe_lattice.json
+</code></pre></div>
+<p>This remains counterfactual-only and does not grant execution authority. It is used to decide which probe surface should be revisited and compared, not to execute a probe.</p>
+<h2 id="3i-write-a-scheduler-proposal">3i. Write a scheduler proposal<a class="headerlink" href="#3i-write-a-scheduler-proposal" title="Permanent link">&para;</a></h2>
+<p>Turn the counterfactual lattice into a proposal-only revisit schedule:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/write_qi_probe_scheduler_proposal_v0_1.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--lattice<span class="w"> </span>.out/qi-supervisor/qi_cf_probe_lattice.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--write<span class="w"> </span>.out/qi-supervisor/qi_probe_scheduler_proposal.json
+</code></pre></div>
+<p>This proposal preserves:</p>
+<ul>
+<li><code>schedule_proposal_only: true</code></li>
+<li><code>authority: none</code></li>
+<li><code>grants_scheduler_authority: false</code></li>
+<li><code>grants_probe_execution_authority: false</code></li>
+<li><code>grants_next_tick_execution_authority: false</code></li>
+</ul>
+<h2 id="3j-write-a-process-tensor-aware-scheduler-state">3j. Write a process-tensor-aware scheduler state<a class="headerlink" href="#3j-write-a-process-tensor-aware-scheduler-state" title="Permanent link">&para;</a></h2>
+<p>Apply process-tensor pressure to the scheduler state. High observation debt, a narrow safe reentry window, sparse non-Markov links, or a fragile memory kernel can shorten the recommended revisit interval:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/write_qi_process_tensor_aware_scheduler_state_v0_1.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--state<span class="w"> </span>.out/qi-supervisor/qi_scheduler_state.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--proposal<span class="w"> </span>.out/qi-supervisor/qi_probe_scheduler_proposal.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--metrics<span class="w"> </span>.out/qi-supervisor/status_view.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--current-tick<span class="w"> </span><span class="m">5</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--write<span class="w"> </span>.out/qi-supervisor/qi_process_tensor_aware_scheduler_result.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--write-state<span class="w"> </span>.out/qi-supervisor/qi_scheduler_state.json
+</code></pre></div>
+<p>This is the first scheduler step that may update scheduler state. The authority boundary is still narrow:</p>
+<ul>
+<li><code>authority: scheduler_state</code></li>
+<li><code>grants_scheduler_authority: true</code></li>
+<li><code>scheduler_authority_scope: scheduler_state_only</code></li>
+<li><code>grants_probe_execution_authority: false</code></li>
+<li><code>grants_dry_run_execution_authority: false</code></li>
+<li><code>grants_next_tick_execution_authority: false</code></li>
+<li><code>grants_control_packet_authority: false</code></li>
+<li><code>grants_memory_overwrite_authority: false</code></li>
+<li><code>grants_world_update_authority: false</code></li>
+</ul>
+<h2 id="4-request-stop">4. Request stop<a class="headerlink" href="#4-request-stop" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/write_qi_supervisor_control_v0_1.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--stop<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--write<span class="w"> </span>.out/qi-supervisor/control.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--max-cycles<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--reason<span class="w"> </span><span class="s2">&quot;operator stop requested&quot;</span>
+</code></pre></div>
+<p>A controlled loop reads the control file before entering each cycle. A persistent supervisor also performs a control precheck before each outer iteration.</p>
+<h2 id="5-disable-loop-start">5. Disable loop start<a class="headerlink" href="#5-disable-loop-start" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/write_qi_supervisor_control_v0_1.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--disable<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--write<span class="w"> </span>.out/qi-supervisor/control.json<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--max-cycles<span class="w"> </span><span class="m">1</span><span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--reason<span class="w"> </span><span class="s2">&quot;operator disabled supervisor&quot;</span>
+</code></pre></div>
+<p>Use disable when the operator wants the supervisor to remain off until an explicit allow packet is written again.</p>
+<h2 id="boundary">Boundary<a class="headerlink" href="#boundary" title="Permanent link">&para;</a></h2>
+<p>The persistent supervisor and process-tensor review surfaces are bounded at the authority layer:</p>
+<ul>
+<li>no unbounded daemon loop</li>
+<li><code>max_outer_iterations</code> required</li>
+<li>control packet required</li>
+<li>heartbeat/status output required</li>
+<li>status view is read-only</li>
+<li>probe plan artifact is proposal-only</li>
+<li>artifact index is read-only</li>
+<li>trend summary is read-only</li>
+<li>active phase boundary is mutable by PR</li>
+<li>active phase boundary is replaceable</li>
+<li>active phase boundary does not claim finality</li>
+<li>active phase boundary does not require append-only evolution</li>
+<li>active phase boundary does not forbid overwrite</li>
+<li>license candidate does not grant execution authority</li>
+<li>dry-run simulation does not execute probes</li>
+<li>counterfactual lattice does not execute probes</li>
+<li>scheduler proposal does not mutate scheduler state</li>
+<li>process-tensor-aware scheduler state mutates scheduler state only</li>
+<li>no probe execution authority</li>
+<li>no dry-run execution authority</li>
+<li>no next tick execution authority</li>
+<li>no control packet authority from review artifacts</li>
+<li>no policy mutation authority</li>
+<li>no belief update authority</li>
+<li>no memory overwrite authority</li>
+<li>no world update authority</li>
+<li>no truth authority</li>
+<li>no clinical authority</li>
+<li>no theorem authority</li>
+</ul>
+<h2 id="ci-checks">CI checks<a class="headerlink" href="#ci-checks" title="Permanent link">&para;</a></h2>
+<p>The runtime full check covers the original bounded operator path with:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/check_qi_supervisor_control_writer_v0_1.py
+python<span class="w"> </span>scripts/check_qi_persistent_supervisor_operator_cli_v0_1.py
+python<span class="w"> </span>scripts/check_qi_persistent_supervisor_status_view_cli_v0_1.py
+python<span class="w"> </span>scripts/check_qi_supervisorctl_v0_1.py
+</code></pre></div>
+<p>The process-tensor review extension is covered with individual checks:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/check_qi_process_tensor_probe_planner_v0_1.py
+python<span class="w"> </span>scripts/check_qi_process_tensor_probe_plan_artifact_writer_v0_1.py
+python<span class="w"> </span>scripts/check_qi_process_tensor_probe_plan_artifact_index_v0_1.py
+python<span class="w"> </span>scripts/check_qi_process_tensor_probe_plan_trend_summary_v0_1.py
+python<span class="w"> </span>scripts/check_qi_process_tensor_review_flow_e2e_v0_1.py
+python<span class="w"> </span>scripts/check_qi_license_phase_boundary_gate_v0_1.py
+python<span class="w"> </span>scripts/check_qi_actuation_license_gate_v0_1.py
+</code></pre></div>
+<p>The process-tensor review checks can also be run as one suite:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/run_qi_process_tensor_review_checks_v0_1.py<span class="w"> </span><span class="se">\</span>
+<span class="w">  </span>--write-json<span class="w"> </span>.out/qi-supervisor/process_tensor_review_check_suite.json
+</code></pre></div>
+<p>The counterfactual lattice checks can be run as one suite:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/run_qi_cf_lattice_checks_v0_1.py
+</code></pre></div>
+<p>The process-tensor scheduler checks can be run as one suite:</p>
+<div class="highlight"><pre><span></span><code>python<span class="w"> </span>scripts/run_qi_process_tensor_scheduler_checks_v0_1.py
+</code></pre></div>
+<p>The same suites are wired to GitHub Actions as <code>Qi Process Tensor Review Checks</code>:</p>
+<div class="highlight"><pre><span></span><code>.github/workflows/qi-process-tensor-review.yml
+</code></pre></div>
+<p>The workflow is manually runnable with <code>workflow_dispatch</code> and also runs on pull requests that touch the Qi process-tensor review, counterfactual lattice, or scheduler surfaces.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.79ae519e.min.js"></script>
+      
+    
+  </body>
+</html>
