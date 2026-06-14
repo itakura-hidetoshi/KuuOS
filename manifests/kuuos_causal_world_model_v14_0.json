@@ -1,0 +1,15 @@
+{
+  "manifest_version": "kuuos_causal_world_model_v14_0",
+  "runtime_files": [
+    "runtime/kuuos_causal_world_model_core_v14_0.py",
+    "runtime/kuuos_causal_world_model_os_v14_0.py"
+  ],
+  "script_files": [
+    "scripts/run_kuuos_causal_world_model_os_v14_0.py",
+    "scripts/check_kuuos_causal_world_model_os_v14_0.py"
+  ],
+  "docs": [
+    "docs/KUUOS_CAUSAL_WORLD_MODEL_OS_v14_0.md"
+  ],
+  "status": "READY"
+}

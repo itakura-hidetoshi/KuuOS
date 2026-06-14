@@ -5,10 +5,14 @@ on:
   pull_request:
     paths:
       - 'runtime/kuuos_runtime_daemon_qi_*.py'
+      - 'runtime/kuuos_causal_world_model_*_v14_0.py'
       - 'scripts/*qi_*'
+      - 'scripts/*causal_world_model*_v14_0.py'
       - 'docs/qi_*.md'
+      - 'docs/KUUOS_CAUSAL_WORLD_MODEL_OS_v14_0.md'
       - 'examples/qi_process_tensor_v0_1/**'
       - 'manifests/qi_*.json'
+      - 'manifests/kuuos_causal_world_model_v14_0.json'
       - 'packets/qi_*.json'
       - '.github/workflows/qi-process-tensor-review.yml'
 
@@ -53,6 +57,10 @@ jobs:
       - name: Run Qi v0.2 closed-loop workflow addendum check
         run: |
           python scripts/check_qi_process_tensor_review_v02_closed_loop_workflow_addendum_v0_1.py
+
+      - name: Run KuuOS v14 causal world model check
+        run: |
+          python scripts/check_kuuos_causal_world_model_os_v14_0.py
 
       - name: Upload Qi process tensor review suite result
         if: always()
