@@ -1,0 +1,36 @@
+name: Qi Multi-Lineage Evolution v0.15 Validation
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_indra_qi_multi_lineage_evolution_*_v0_15.py"
+      - "scripts/check_qi_multi_lineage_evolution_v0_15.py"
+      - "manifests/qi_multi_lineage_evolution_v0_15.json"
+      - "examples/indra_qi_multi_lineage_evolution_plan_v0_15.json"
+      - "docs/KU_INDRA_QI_MULTI_LINEAGE_EVOLUTION_v0_15.md"
+      - ".github/workflows/qi-multi-lineage-evolution-v0-15-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_indra_qi_multi_lineage_evolution_*_v0_15.py"
+      - "scripts/check_qi_multi_lineage_evolution_v0_15.py"
+      - "manifests/qi_multi_lineage_evolution_v0_15.json"
+      - "examples/indra_qi_multi_lineage_evolution_plan_v0_15.json"
+      - "docs/KU_INDRA_QI_MULTI_LINEAGE_EVOLUTION_v0_15.md"
+      - ".github/workflows/qi-multi-lineage-evolution-v0-15-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile v0.15 runtime
+        run: python -m py_compile runtime/kuuos_indra_qi_multi_lineage_evolution_core_v0_15.py runtime/kuuos_indra_qi_multi_lineage_evolution_runtime_v0_15.py scripts/check_qi_multi_lineage_evolution_v0_15.py
+      - name: Run v0.15 checks
+        run: python scripts/check_qi_multi_lineage_evolution_v0_15.py
