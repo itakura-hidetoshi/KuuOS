@@ -1,0 +1,38 @@
+{
+  "version": "indra_qi_process_tensor_cycle_plan_v0_5",
+  "cycle_id": "indra-qi-process-tensor-cycle-example-001",
+  "source_activation_id": "FILL_FROM_V0_4_ACTIVATION",
+  "source_activation_record_digest": "FILL_FROM_V0_4_ACTIVATION",
+  "source_process_tensor_review_digest": "FILL_FROM_V0_4_REVIEW",
+  "source_world_state_digest": "FILL_FROM_CURRENT_INDRA_WORLD",
+  "expected_previous_cycle_state_digest": "GENESIS",
+  "evolution_mode": "non_markov_overlay_assimilation",
+  "evolution_policy": {
+    "memory_retention": 0.75,
+    "intervention_residue_retention": 0.70,
+    "nonmarkov_retention": 0.75,
+    "recoverability_retention": 0.70,
+    "observation_debt_retention": 0.80,
+    "min_next_cycle_prior_weight": 0.50,
+    "max_next_cycle_observation_debt": 0.20,
+    "min_next_cycle_recoverability": 0.25,
+    "max_channels": 16
+  },
+  "boundary": {
+    "cycle_evolution_not_truth": true,
+    "process_tensor_state_not_execution_authority": true,
+    "source_world_state_not_mutated": true,
+    "runtime_local_external_state_only": true,
+    "non_markov_feedback_preserved": true,
+    "uses_process_tensor_feedback": true,
+    "candidate_weighting_not_truth": true,
+    "next_cycle_seed_not_fact": true,
+    "next_cycle_seed_not_direct_execution_authority": true,
+    "operator_algebra_unchanged": true,
+    "gauge_connection_unchanged": true,
+    "holonomy_preserved": true,
+    "two_truths_gap_preserved": true,
+    "fail_closed_on_boundary_loss": true
+  },
+  "cycle_plan_digest": "FILL_AFTER_CANONICAL_DIGEST"
+}

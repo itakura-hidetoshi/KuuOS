@@ -1,0 +1,24 @@
+{
+  "manifest_version": "indra_qi_process_tensor_cycle_v0_5_addendum",
+  "documentation_files": [
+    "docs/KU_INDRA_QI_PROCESS_TENSOR_CYCLE_EVOLUTION_v0_5.md"
+  ],
+  "runtime_files": [
+    "runtime/kuuos_indra_qi_process_tensor_cycle_core_v0_5.py",
+    "runtime/kuuos_runtime_daemon_indra_qi_process_tensor_cycle_v0_5.py"
+  ],
+  "script_files": [
+    "scripts/run_indra_qi_process_tensor_cycle_v0_5.py",
+    "scripts/check_indra_qi_process_tensor_cycle_v0_5.py"
+  ],
+  "example_files": [
+    "examples/indra_qi_process_tensor_cycle_plan_v0_5.json"
+  ],
+  "source_models": [
+    "indra_qi_world_model_v0_1",
+    "indra_qi_causal_feedback_bridge_v0_3",
+    "indra_qi_process_tensor_activation_v0_4",
+    "qi_process_tensor_v0_1"
+  ],
+  "status": "READY"
+}
