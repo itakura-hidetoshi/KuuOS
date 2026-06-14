@@ -1,0 +1,62 @@
+{
+  "version": "indra_qi_process_tensor_activation_plan_v0_4",
+  "activation_id": "indra-qi-process-tensor-activation-example-001",
+  "source_feedback_id": "FILL_FROM_V0_3_FEEDBACK",
+  "source_feedback_packet_digest": "FILL_FROM_V0_3_FEEDBACK_PACKET",
+  "source_approval_handoff_digest": "FILL_FROM_V0_3_APPROVAL_HANDOFF",
+  "source_indra_qi_world_state_digest": "FILL_FROM_INDRA_WORLD_STATE",
+  "mutation_scope": "runtime_observation_overlays_only",
+  "apply_order": "feedback_packet_order",
+  "rollback_required": true,
+  "review_decisions": [
+    {
+      "candidate_id": "FILL_FROM_FEEDBACK_CANDIDATE_1",
+      "decision": "approve",
+      "reason": "history-supported local observation update"
+    },
+    {
+      "candidate_id": "FILL_FROM_FEEDBACK_CANDIDATE_2",
+      "decision": "approve",
+      "reason": "history-supported Qi-flow observation update"
+    },
+    {
+      "candidate_id": "FILL_FROM_FEEDBACK_CANDIDATE_3",
+      "decision": "reject",
+      "reason": "retain as reviewed evidence without WORLD mutation"
+    }
+  ],
+  "process_tensor_policy": {
+    "min_history_depth": 3,
+    "min_transition_continuity_score": 0.75,
+    "min_memory_continuity_score": 0.75,
+    "min_nonmarkov_link_density": 0.5,
+    "min_recoverability_branching_capacity": 0.75,
+    "max_observation_debt_pressure": 0.1,
+    "min_candidate_weight": 0.5,
+    "require_process_tensor_visible": true,
+    "require_transition_continuity_visible": true,
+    "require_memory_continuity_visible": true,
+    "require_nonmarkov_memory_visible": true,
+    "require_recoverability_witness": true
+  },
+  "boundary": {
+    "qi_process_tensor_conditions_not_authority": true,
+    "explicit_mutation_license_required": true,
+    "runtime_observation_overlay_only": true,
+    "source_feedback_candidate_not_truth": true,
+    "source_indra_structure_preserved": true,
+    "operator_algebra_unchanged": true,
+    "gauge_connection_unchanged": true,
+    "holonomy_preserved": true,
+    "transport_residue_visible": true,
+    "noncommutative_order_preserved": true,
+    "non_markov_feedback_preserved": true,
+    "candidate_weighting_not_truth": true,
+    "rollback_snapshot_required": true,
+    "post_write_verification_required": true,
+    "not_direct_execution_authority": true,
+    "external_world_actuation_authority": false,
+    "fail_closed_on_boundary_loss": true
+  },
+  "activation_plan_digest": "FILL_AFTER_CANONICAL_DIGEST"
+}
