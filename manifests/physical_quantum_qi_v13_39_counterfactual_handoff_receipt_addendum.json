@@ -1,0 +1,11 @@
+{
+  "manifest_version": "physical_quantum_qi_v13_39_counterfactual_handoff_receipt_addendum",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_v13_39_counterfactual_handoff_receipt.py"
+  ],
+  "script_files": [
+    "scripts/run_physical_quantum_qi_v13_39_counterfactual_handoff_receipt.py",
+    "scripts/check_physical_quantum_qi_v13_39_counterfactual_handoff_receipt.py"
+  ],
+  "status": "READY"
+}
