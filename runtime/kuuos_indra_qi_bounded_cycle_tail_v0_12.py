@@ -13,5 +13,26 @@ from runtime.kuuos_indra_qi_world_assimilation_core_v0_6 import dynamic_world_st
 from runtime.kuuos_runtime_daemon_indra_qi_world_model_v0_1 import compute_indra_qi_world_state_digest
 
 
+def _prepare(
+    *,
+    root: pathlib.Path,
+    plan: Mapping[str, Any],
+    license_value: Mapping[str, Any],
+    source: Mapping[str, Any],
+) -> tuple[dict[str, Any], dict[str, Any]]:
+    loop_plan = build_loop_plan(
+        plan=plan,
+        world=read_json(root / "ku_indra_qi_noncommutative_mandala_world_state.json"),
+        handoff=mapping(source.get("bridge_handoff")),
+        bridge_record=mapping(source.get("bridge_record")),
+        bridge_ledger=mapping(source.get("bridge_ledger")),
+        cycle=mapping(source.get("cycle_state")),
+        seed=mapping(source.get("cycle_seed")),
+    )
+    nested = dict(mapping(license_value.get("v0_11_license_template")))
+    nested["bound_loop_plan_digest"] = loop_plan["loop_plan_digest"]
+    return loop_plan, nested
+
+
 def build_tail(**kwargs: Any) -> dict[str, Any]:
     return {}
