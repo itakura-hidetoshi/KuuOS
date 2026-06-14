@@ -1,0 +1,53 @@
+{
+  "version": "indra_qi_world_qique_path_ecology_plan_v0_14",
+  "ecology_id": "world-qique-path-ecology-example",
+  "review_run_id": "world-qique-path-ecology-review-0",
+  "world_model_id": "FILL_FROM_WORLD_STATE",
+  "expected_source_world_state_digest": "FILL_FROM_WORLD_STATE",
+  "expected_source_governance_state_digest": "FILL_FROM_V0_13_STATE",
+  "expected_source_governance_recommendation_digest": "FILL_FROM_V0_13_RECOMMENDATION",
+  "ecology_policy": {
+    "minimum_patch_participation_ratio": 0.55,
+    "maximum_flow_concentration": 0.45,
+    "maximum_overdiffusion_score": 0.55,
+    "maximum_loop_mode_lock": 0.55,
+    "minimum_branch_energy": 0.45,
+    "maximum_scar_reentry_score": 0.55,
+    "minimum_multi_world_diversity": 0.55,
+    "maximum_false_stability_pressure": 0.45,
+    "quarantine_false_stability_pressure": 0.75,
+    "licensed_localization_relief": 0.20,
+    "licensed_localization_patch_ids": [],
+    "false_stability_weights": {
+      "localization": 0.25,
+      "branch_loss": 0.25,
+      "loop_lock": 0.20,
+      "scar_reentry": 0.15,
+      "diversity_loss": 0.15
+    }
+  },
+  "boundary": {
+    "source_world_state_required": true,
+    "source_world_state_digest_exact": true,
+    "source_v0_13_governance_required": true,
+    "source_v0_13_digest_chain_exact": true,
+    "world_source_read_only": true,
+    "governance_source_read_only": true,
+    "qique_is_derived_diagnostic_field": true,
+    "licensed_localization_not_automatic_failure": true,
+    "multi_world_noncollapse_preserved": true,
+    "path_diversity_required_for_promotion": true,
+    "false_stability_blocks_promotion": true,
+    "holonomy_scar_visible": true,
+    "candidate_weighting_not_truth": true,
+    "non_markov_feedback_preserved": true,
+    "uses_process_tensor_feedback": true,
+    "recommendation_only": true,
+    "not_truth_authority": true,
+    "not_world_update_authority": true,
+    "not_external_world_actuation_authority": true,
+    "not_unlicensed_execution_authority": true,
+    "fail_closed_on_boundary_loss": true
+  },
+  "path_ecology_plan_digest": "FILL_AFTER_CANONICAL_DIGEST"
+}
