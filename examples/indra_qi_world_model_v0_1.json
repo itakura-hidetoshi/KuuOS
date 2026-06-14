@@ -1,0 +1,187 @@
+{
+  "version": "indra_qi_world_model_v0_1",
+  "world_model_id": "indra-qi-mandala-example",
+  "local_world_patches": [
+    {
+      "patch_id": "world-a",
+      "operator_algebra": {
+        "operator_roles": [
+          "observation",
+          "projection",
+          "parallel_transport",
+          "bounded_mutation",
+          "rollback_repair",
+          "history_feedback",
+          "emptiness_non_reification"
+        ],
+        "noncommutative_ordering_required": true,
+        "commutator_witnesses": [
+          {
+            "left_operator": "observation",
+            "right_operator": "bounded_mutation",
+            "order_sensitive": true
+          }
+        ]
+      },
+      "representation_space": "world-a-representation",
+      "state_functional_digest": "world-a-state-digest",
+      "change_generator_digest": "world-a-generator-digest",
+      "gauge_chart_id": "world-a-chart"
+    },
+    {
+      "patch_id": "world-b",
+      "operator_algebra": {
+        "operator_roles": [
+          "observation",
+          "projection",
+          "parallel_transport",
+          "bounded_mutation",
+          "rollback_repair",
+          "history_feedback",
+          "emptiness_non_reification"
+        ],
+        "noncommutative_ordering_required": true,
+        "commutator_witnesses": [
+          {
+            "left_operator": "parallel_transport",
+            "right_operator": "projection",
+            "order_sensitive": true
+          }
+        ]
+      },
+      "representation_space": "world-b-representation",
+      "state_functional_digest": "world-b-state-digest",
+      "change_generator_digest": "world-b-generator-digest",
+      "gauge_chart_id": "world-b-chart"
+    }
+  ],
+  "indra_connections": [
+    {
+      "connection_id": "a-to-b",
+      "source_patch": "world-a",
+      "target_patch": "world-b",
+      "connection_form_digest": "a-b-connection-digest",
+      "parallel_transport_digest": "a-b-transport-digest",
+      "gauge_equivalence_preserved": true,
+      "transport_residue_visible": true
+    },
+    {
+      "connection_id": "b-to-a",
+      "source_patch": "world-b",
+      "target_patch": "world-a",
+      "connection_form_digest": "b-a-connection-digest",
+      "parallel_transport_digest": "b-a-transport-digest",
+      "gauge_equivalence_preserved": true,
+      "transport_residue_visible": true
+    }
+  ],
+  "qi_flow_channels": [
+    {
+      "flow_id": "qi-a-to-b",
+      "connection_id": "a-to-b",
+      "source_patch": "world-a",
+      "target_patch": "world-b",
+      "flow_kind": "gauge_covariant_relational_effective_flow",
+      "substance_claim": false,
+      "flow_observable_digest": "qi-a-b-observable-digest",
+      "process_tensor_context": {
+        "process_tensor_digest": "process-a-b",
+        "memory_kernel_digest": "memory-a-b",
+        "history_window_digest": "history-a-b",
+        "instrument_trace_digest": "instrument-a-b",
+        "non_markov_context_digest": "non-markov-a-b"
+      }
+    },
+    {
+      "flow_id": "qi-b-to-a",
+      "connection_id": "b-to-a",
+      "source_patch": "world-b",
+      "target_patch": "world-a",
+      "flow_kind": "gauge_covariant_relational_effective_flow",
+      "substance_claim": false,
+      "flow_observable_digest": "qi-b-a-observable-digest",
+      "process_tensor_context": {
+        "process_tensor_digest": "process-b-a",
+        "memory_kernel_digest": "memory-b-a",
+        "history_window_digest": "history-b-a",
+        "instrument_trace_digest": "instrument-b-a",
+        "non_markov_context_digest": "non-markov-b-a"
+      }
+    }
+  ],
+  "holonomy_cycles": [
+    {
+      "cycle_id": "a-b-a",
+      "connection_ids": ["a-to-b", "b-to-a"],
+      "holonomy_preserved": true,
+      "holonomy_digest": "a-b-a-holonomy",
+      "transport_residue_digest": "a-b-a-residue"
+    }
+  ],
+  "ku_string_correspondences": [
+    {
+      "string_id": "open-a-b",
+      "source_patch": "world-a",
+      "target_patch": "world-b",
+      "correspondence_kind": "open_relational_correspondence",
+      "relation_substance_claim": false,
+      "correspondence_digest": "open-a-b-digest"
+    },
+    {
+      "string_id": "closed-b-a",
+      "source_patch": "world-b",
+      "target_patch": "world-a",
+      "correspondence_kind": "closed_collective_correspondence",
+      "relation_substance_claim": false,
+      "correspondence_digest": "closed-b-a-digest"
+    }
+  ],
+  "extended_m_brane_surfaces": [
+    {
+      "surface_id": "interaction-m2",
+      "brane_kind": "m2_interaction_surface",
+      "included_patch_ids": ["world-a", "world-b"],
+      "surface_digest": "interaction-m2-digest",
+      "semantic_dimension_not_physical_spacetime_claim": true
+    },
+    {
+      "surface_id": "history-m5",
+      "brane_kind": "m5_history_surface",
+      "included_patch_ids": ["world-a", "world-b"],
+      "surface_digest": "history-m5-digest",
+      "semantic_dimension_not_physical_spacetime_claim": true
+    }
+  ],
+  "mandala_inclusion": {
+    "included_patch_ids": ["world-a", "world-b"],
+    "multi_world_noncollapse": true,
+    "single_ontology_forced": false,
+    "contradiction_visibility_preserved": true
+  },
+  "two_truths_boundary": {
+    "two_truths_gap_preserved": true,
+    "emptiness_non_reification_preserved": true,
+    "model_prediction_not_fact": true,
+    "validator_pass_not_truth": true,
+    "receipt_not_theorem": true
+  },
+  "governance_boundary": {
+    "indra_net_is_gauge_structured": true,
+    "qi_is_indra_net_relational_flow": true,
+    "qi_substance_claim": false,
+    "noncommutative_operator_order_preserved": true,
+    "holonomy_preserved": true,
+    "transport_residue_visible": true,
+    "multi_world_noncollapse_preserved": true,
+    "two_truths_gap_preserved": true,
+    "emptiness_non_reification_preserved": true,
+    "non_markov_feedback_preserved": true,
+    "candidate_weighting_not_truth": true,
+    "not_direct_execution_authority": true,
+    "not_world_update_authority": true,
+    "structural_bridge_not_physical_theorem_authority": true,
+    "fail_closed_on_boundary_loss": true,
+    "direct_world_update_authority": false,
+    "operator_algebra_update_authority": false
+  }
+}
