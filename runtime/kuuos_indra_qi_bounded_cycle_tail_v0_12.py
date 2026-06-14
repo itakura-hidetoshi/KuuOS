@@ -34,5 +34,43 @@ def _prepare(
     return loop_plan, nested
 
 
-def build_tail(**kwargs: Any) -> dict[str, Any]:
-    return {}
+def build_tail(
+    *,
+    root: pathlib.Path,
+    plan: Mapping[str, Any],
+    license_value: Mapping[str, Any],
+    source: Mapping[str, Any],
+    blockers: list[str],
+) -> dict[str, Any]:
+    output: dict[str, Any] = {
+        "invoked": False,
+        "ready": False,
+        "target_child_runtime_root": "",
+    }
+    if blockers:
+        return output
+    loop_plan, nested = _prepare(
+        root=root,
+        plan=plan,
+        license_value=license_value,
+        source=source,
+    )
+    output["invoked"] = True
+    result = run(
+        compose(
+            runtime_root=str(root),
+            loop_plan=loop_plan,
+            loop_license=nested,
+        )
+    )
+    output["target_child_runtime_root"] = str(result.get("child_runtime_root", ""))
+    if not str(result.get("status", "")).endswith("_READY"):
+        blockers.append("bounded_cycle_tail_not_ready")
+        blockers.extend(
+            f"bounded_cycle_tail:{value}"
+            for value in result.get("blockers", [])
+            if isinstance(value, str)
+        )
+        return output
+    output["ready"] = True
+    return output
