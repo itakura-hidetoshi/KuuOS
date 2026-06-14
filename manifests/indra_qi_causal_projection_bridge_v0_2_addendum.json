@@ -1,0 +1,23 @@
+{
+  "manifest_version": "indra_qi_causal_projection_bridge_v0_2_addendum",
+  "documentation_files": [
+    "docs/KU_INDRA_QI_CAUSAL_PROJECTION_BRIDGE_v0_2.md"
+  ],
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_indra_qi_causal_projection_bridge_v0_2.py"
+  ],
+  "script_files": [
+    "scripts/run_indra_qi_causal_projection_bridge_v0_2.py",
+    "scripts/check_indra_qi_causal_projection_bridge_v0_2.py"
+  ],
+  "example_files": [
+    "examples/indra_qi_causal_projection_plan_v0_2.json"
+  ],
+  "source_models": [
+    "indra_qi_world_model_v0_1"
+  ],
+  "integration_targets": [
+    "kuuos_causal_world_model_os_v14_0"
+  ],
+  "status": "READY"
+}

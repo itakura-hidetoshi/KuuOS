@@ -1,0 +1,86 @@
+{
+  "version": "indra_qi_causal_projection_plan_v0_2",
+  "projection_id": "indra-qi-projection-example-001",
+  "source_world_model_id": "indra-qi-mandala-example",
+  "source_indra_qi_world_state_digest": "FILL_FROM_RUNTIME_STATE",
+  "causal_world_id": "indra-qi-causal-world-example",
+  "transaction_id": "indra-qi-causal-init-example-001",
+  "variables": {
+    "relational_load": {
+      "value": 0.4,
+      "uncertainty": 0.1,
+      "status": "observed",
+      "unit": "normalized",
+      "source_binding": {
+        "binding_kind": "local_patch_observable",
+        "patch_id": "world-a",
+        "observable_id": "world-a-relational-load",
+        "source_digest": "world-a-state-digest"
+      }
+    },
+    "qi_flow_signal": {
+      "value": 0.6,
+      "uncertainty": 0.15,
+      "status": "observed",
+      "unit": "normalized",
+      "source_binding": {
+        "binding_kind": "qi_flow_observable_projection",
+        "flow_id": "qi-a-to-b",
+        "observable_id": "qi-a-to-b-observed-signal",
+        "source_digest": "qi-a-b-observable-digest",
+        "qi_itself": false,
+        "projection_not_flow_identity": true
+      }
+    },
+    "adaptive_response": {
+      "value": 0.0,
+      "uncertainty": 0.2,
+      "status": "derived",
+      "unit": "normalized",
+      "source_binding": {
+        "binding_kind": "local_patch_observable",
+        "patch_id": "world-b",
+        "observable_id": "world-b-adaptive-response",
+        "source_digest": "world-b-generator-digest"
+      }
+    }
+  },
+  "mechanisms": {
+    "adaptive_response": {
+      "type": "affine",
+      "parents": ["relational_load", "qi_flow_signal"],
+      "weights": {
+        "relational_load": 0.5,
+        "qi_flow_signal": 0.8
+      },
+      "bias": 0.1,
+      "noise": 0.05
+    }
+  },
+  "edge_annotations": {
+    "relational_load->adaptive_response": {
+      "edge_kind": "local_causal_projection_only",
+      "not_indra_connection": true,
+      "not_gauge_equivalence_claim": true,
+      "not_qi_flow_identity": true
+    },
+    "qi_flow_signal->adaptive_response": {
+      "edge_kind": "local_causal_projection_only",
+      "not_indra_connection": true,
+      "not_gauge_equivalence_claim": true,
+      "not_qi_flow_identity": true
+    }
+  },
+  "boundary": {
+    "projection_only_from_indra_substrate": true,
+    "qi_projected_as_observable_not_substance": true,
+    "causal_dag_not_complete_world_ontology": true,
+    "causal_edge_not_gauge_connection": true,
+    "source_indra_state_not_mutated": true,
+    "not_external_world_actuation_authority": true,
+    "not_operator_algebra_mutation_authority": true,
+    "candidate_weighting_not_truth": true,
+    "non_markov_feedback_preserved": true,
+    "fail_closed_on_boundary_loss": true
+  }
+}
