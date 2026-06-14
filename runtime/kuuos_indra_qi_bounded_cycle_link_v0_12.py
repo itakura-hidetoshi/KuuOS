@@ -30,3 +30,7 @@ def build_link(request: Mapping[str, Any]) -> dict[str, Any]:
     entrypoint = getattr(module, ENTRYPOINT_NAME)
     result = entrypoint(**dict(request))
     return result.to_dict()
+
+
+compose = make_request
+run = build_link
