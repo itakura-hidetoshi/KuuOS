@@ -1,0 +1,47 @@
+{
+  "version": "indra_qi_generational_governance_plan_v0_13",
+  "monitor_id": "bounded-runner-governance",
+  "review_run_id": "bounded-runner-governance-review-0",
+  "runner_id": "bounded-runner-example",
+  "expected_source_v0_12_runner_state_digest": "FILL_FROM_CURRENT_V0_12_STATE",
+  "governance_policy": {
+    "minimum_window_generations": 2,
+    "maximum_window_generations": 8,
+    "minimum_replay_cases": 2,
+    "minimum_replay_pass_ratio": 1.0,
+    "maximum_observation_debt_drift": 0.05,
+    "maximum_intervention_residue_drift": 0.05,
+    "maximum_recoverability_loss": 0.05,
+    "regression_epsilon": 0.01,
+    "maximum_regression_steps": 1,
+    "maximum_collapse_pressure": 0.35,
+    "quarantine_collapse_pressure": 0.75,
+    "quarantine_consecutive_regressions": 3,
+    "collapse_weights": {
+      "observation_debt": 0.35,
+      "recoverability_loss": 0.40,
+      "intervention_residue": 0.25
+    }
+  },
+  "boundary": {
+    "source_v0_12_artifacts_required": true,
+    "source_v0_12_digest_chain_exact": true,
+    "multi_generation_window_bounded": true,
+    "generation_index_monotone": true,
+    "replay_required_for_promotion": true,
+    "drift_bounded_for_promotion": true,
+    "collapse_pressure_bounded_for_promotion": true,
+    "quarantine_on_integrity_failure": true,
+    "rollback_is_recommendation_only": true,
+    "promotion_is_recommendation_only": true,
+    "quarantine_is_recommendation_only": true,
+    "candidate_weighting_not_truth": true,
+    "non_markov_feedback_preserved": true,
+    "uses_process_tensor_feedback": true,
+    "not_truth_authority": true,
+    "not_external_world_actuation_authority": true,
+    "not_unlicensed_execution_authority": true,
+    "fail_closed_on_boundary_loss": true
+  },
+  "governance_plan_digest": "FILL_AFTER_CANONICAL_DIGEST"
+}
