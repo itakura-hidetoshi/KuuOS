@@ -1,0 +1,17 @@
+{
+  "manifest_version": "qi_bounded_plural_shadow_routing_v0_20",
+  "runtime": [
+    "runtime/kuuos_indra_qi_bounded_plural_shadow_routing_core_v0_20.py",
+    "runtime/kuuos_indra_qi_bounded_plural_shadow_routing_runtime_v0_20.py"
+  ],
+  "scripts": [
+    "scripts/check_qi_bounded_plural_shadow_routing_v0_20.py"
+  ],
+  "docs": [
+    "docs/KU_INDRA_QI_BOUNDED_PLURAL_SHADOW_ROUTING_v0_20.md"
+  ],
+  "example": [
+    "examples/indra_qi_bounded_plural_shadow_routing_plan_v0_20.json"
+  ],
+  "status": "READY"
+}
