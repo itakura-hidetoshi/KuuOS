@@ -1,0 +1,67 @@
+{
+  "root_principles": {
+    "version": "kuuos_open_horizon_root_principles_v0_1",
+    "root_id": "kuuos-root-example",
+    "principles": [
+      "emptiness",
+      "dependent_origination",
+      "harmony",
+      "contemplation",
+      "repairability",
+      "benefit_others"
+    ],
+    "protected": true,
+    "self_rewrite_allowed": false,
+    "root_principles_digest": "compute_with_root_digest"
+  },
+  "observation": {
+    "version": "kuuos_open_horizon_observation_packet_v0_1",
+    "observation_id": "observation-example-001",
+    "world_context_digest": "world-context-example",
+    "process_tensor_context_digest": "process-context-example",
+    "non_markov_context_digest": "memory-context-example",
+    "signals": [
+      {
+        "signal_id": "signal-opportunity-001",
+        "kind": "opportunity",
+        "target": "autonomous tool synthesis",
+        "magnitude": 0.8,
+        "urgency": 0.7,
+        "evidence": 0.75,
+        "uncertainty": 0.3,
+        "irreversibility": 0.15,
+        "recoverability": 0.9,
+        "relational_benefit": 0.85,
+        "autonomy_gain": 0.95
+      }
+    ],
+    "observation_digest": "compute_with_observation_digest"
+  },
+  "plan": {
+    "version": "kuuos_open_horizon_telos_genesis_plan_v0_1",
+    "telos_run_id": "telos-example-001",
+    "agent_id": "kuuos-agent-example",
+    "expected_root_principles_digest": "bind_exact_root_digest",
+    "expected_observation_digest": "bind_exact_observation_digest",
+    "expected_previous_state_digest": "",
+    "max_generated_goals": 8,
+    "max_selected_goals": 4,
+    "min_goal_score": 0.35,
+    "min_action_scale": 0.12,
+    "renewal_window_steps": 3,
+    "boundary": {
+      "open_horizon_enabled": true,
+      "local_step_bounded": true,
+      "renewable_horizon": true,
+      "self_generated_subgoals_allowed": true,
+      "root_principles_self_rewrite_forbidden": true,
+      "contextual_default_allow": true,
+      "uncertainty_scales_action_not_automatic_stop": true,
+      "repair_before_abandonment": true,
+      "candidate_weighting_not_truth": true,
+      "non_markov_lineage_preserved": true,
+      "process_tensor_context_preserved": true
+    },
+    "telos_plan_digest": "compute_with_plan_digest"
+  }
+}
