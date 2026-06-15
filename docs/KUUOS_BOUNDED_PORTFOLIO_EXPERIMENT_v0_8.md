@@ -13,7 +13,7 @@ v0.6 capability field
   -> finite license, budget, risk, recoverability, cooldown, count gates
   -> one live adapter
   -> one actual effect
-  -> capability update + shadow resolution + experiment record
+  -> capability update + compatible shadow resolution + experiment record
 ```
 
 The layer does not make every uncertain adapter live. It allows one candidate to replace
@@ -185,8 +185,13 @@ actual live effect
   -> updates v0.6 capability connection
 
 compatible earlier shadow prediction
+  -> same adapter + same context + same covariant step
   -> realization error
   -> updates isolated working portfolio bias
+
+step-incompatible earlier shadow prediction
+  -> remains pending
+  -> is not force-fitted to the new live result
 
 new non-live candidates
   -> new non-actuating shadow projections
@@ -194,9 +199,14 @@ new non-live candidates
 
 A trial is therefore useful in two ways:
 
-1. it directly calibrates the chosen adapter's v0.6 capability;
-2. when a compatible pending prediction exists, it resolves a previously
+1. it always directly calibrates the chosen adapter's v0.6 capability from the actual
+   live effect;
+2. when an exact compatible pending prediction exists, it additionally resolves that
    counterfactual estimate against reality.
+
+The second outcome is conditional. Gauge progression may move the next cycle to a new
+covariant step, in which case the older prediction remains pending rather than being
+incorrectly treated as comparable evidence.
 
 ## Experiment record
 
@@ -229,7 +239,8 @@ The v0.8 ledger has pending and committed phases.
 2. a pending row binds the previous v0.6 and v0.8 digests;
 3. one deterministic child run `<experiment_run_id>:capability` is invoked;
 4. the exact effect is validated;
-5. shadow resolution, new projections, working portfolio, and trial record are written;
+5. compatible shadow resolution, new projections, working portfolio, and trial record
+   are written;
 6. budget and counters are committed;
 7. state, committed ledger row, receipt, and audit are appended.
 
@@ -271,7 +282,7 @@ adapter B
   prior capability 0.42
   route -> advance_tick
   high uncertainty
-  one compatible pending shadow prediction
+  one pending shadow prediction from the v0.7 seed
 ```
 
 First, one v0.7 seed cycle executes A and creates a B shadow prediction.
@@ -281,15 +292,18 @@ Then v0.8 runs:
 ```text
 cycle 1
   baseline A
-  B has high information gain
-  licensed experiment selects B
-  B live effect resolves earlier B shadow prediction
+  B selected as licensed experiment
+  B live
+  B capability updated from actual effect
+  prior B shadow resolves only if covariant step is exactly compatible;
+  otherwise it remains pending
   trial cost 0.2 debited
 
 cycle 2
   global trial limit reached
   baseline A executed
-  A resolves the shadow created during cycle 1
+  compatible pending A prediction may resolve;
+  step-incompatible predictions remain pending
   no new trial debit
 
 cycle 3
@@ -308,7 +322,9 @@ trial budget spent       = 0.2
 ```
 
 Including the v0.7 seed, the local execution ledger contains four effects and the
-runtime tick reaches four.
+runtime tick reaches four. The test also verifies that each reported
+`resolved_shadow_count` exactly matches the resolution packet, whether the compatible
+prediction exists or remains pending.
 
 ## Formal surface
 
@@ -348,7 +364,8 @@ v0.8 does not grant:
 - WORLD update authority;
 - MemoryOS overwrite authority;
 - truth authority to information-gain estimates;
-- permanent replacement of baseline exploitation.
+- permanent replacement of baseline exploitation;
+- permission to collapse step-incompatible predictions into false evidence.
 
 The scheduler expands real learning while retaining singular, recoverable, finite
 intervention.
@@ -358,7 +375,7 @@ intervention.
 A natural v0.9 is an Experiment Outcome and Policy Scheduler:
 
 ```text
-trial utility + realization error + cost + risk + recoverability
+trial utility + compatible realization error + cost + risk + recoverability
   -> experiment policy posterior
   -> context-local trial cadence
   -> exploit / experiment / reobserve recommendation
