@@ -1,0 +1,65 @@
+name: Policy Regret Cadence v0.10 Validation
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_policy_regret_cadence*_v0_10.py"
+      - "scripts/policy_regret_cadence_v0_10_test_support.py"
+      - "scripts/check_policy_regret_cadence_v0_10.py"
+      - "formal/KUOS/OpenHorizon/PolicyRegretCadenceV0_10.lean"
+      - "docs/KUUOS_POLICY_REGRET_CADENCE_v0_10.md"
+      - "examples/kuuos_policy_regret_cadence_input_v0_10.json"
+      - "manifests/kuuos_policy_regret_cadence_v0_10.json"
+      - ".github/workflows/policy-regret-cadence-v0-10-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_policy_regret_cadence*_v0_10.py"
+      - "scripts/policy_regret_cadence_v0_10_test_support.py"
+      - "scripts/check_policy_regret_cadence_v0_10.py"
+      - "formal/KUOS/OpenHorizon/PolicyRegretCadenceV0_10.lean"
+      - "docs/KUUOS_POLICY_REGRET_CADENCE_v0_10.md"
+      - "examples/kuuos_policy_regret_cadence_input_v0_10.json"
+      - "manifests/kuuos_policy_regret_cadence_v0_10.json"
+      - ".github/workflows/policy-regret-cadence-v0-10-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile policy regret cadence
+        run: >-
+          python -m py_compile
+          runtime/kuuos_policy_regret_cadence_types_v0_10.py
+          runtime/kuuos_policy_regret_cadence_model_v0_10.py
+          runtime/kuuos_policy_regret_cadence_validation_v0_10.py
+          runtime/kuuos_policy_regret_cadence_bridge_v0_10.py
+          runtime/kuuos_policy_regret_cadence_records_v0_10.py
+          runtime/kuuos_policy_regret_cadence_core_v0_10.py
+          runtime/kuuos_policy_regret_cadence_bootstrap_v0_10.py
+          runtime/kuuos_policy_regret_cadence_cycle_v0_10.py
+          scripts/policy_regret_cadence_v0_10_test_support.py
+          scripts/check_policy_regret_cadence_v0_10.py
+      - name: Run policy regret cadence checks
+        id: regret_checks
+        continue-on-error: true
+        run: python scripts/check_policy_regret_cadence_v0_10.py > policy-regret-v010.log 2>&1
+      - name: Upload regret log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: policy-regret-cadence-v010-log
+          path: policy-regret-v010.log
+      - name: Report regret failure
+        if: steps.regret_checks.outcome == 'failure'
+        shell: bash
+        run: |
+          tail -n 260 policy-regret-v010.log
+          exit 1
