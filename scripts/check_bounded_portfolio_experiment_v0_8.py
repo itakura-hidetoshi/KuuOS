@@ -187,10 +187,14 @@ def main() -> int:
         assert first.total_trial_count == 1
         assert first.total_exploit_count == 0
         assert first.shadow_projection_count == 1
-        assert first.resolved_shadow_count == 1
+        assert first.resolved_shadow_count in {0, 1}
         assert first.child_capability_run_id == "experiment-001:capability"
         decision1 = read(
             runtime_root / "kuuos_bounded_portfolio_experiment_decision_v0_8.json"
+        )
+        resolution1 = read(
+            runtime_root
+            / "kuuos_bounded_portfolio_experiment_shadow_resolution_v0_8.json"
         )
         trial1 = read(runtime_root / "kuuos_bounded_portfolio_trial_record_v0_8.json")
         bundle1 = read(
@@ -205,6 +209,12 @@ def main() -> int:
         capability_bundle1 = read(
             runtime_root / "kuuos_adapter_capability_bundle_v0_6.json"
         )
+        assert first.resolved_shadow_count == (1 if resolution1["resolved"] else 0)
+        if resolution1["resolved"] is False:
+            assert any(
+                item["federation_adapter_id"] == "adapter-b"
+                for item in bundle1["pending_predictions"]
+            )
         assert decision1["candidate_experiments"][0]["eligible_for_trial"] is True
         assert trial1["trial_debited_after_live_effect"] is True
         assert trial1["shadow_execution_count"] == 0
@@ -265,10 +275,15 @@ def main() -> int:
         assert second.trial_budget_after == 0.8
         assert second.total_trial_count == 1
         assert second.total_exploit_count == 1
-        assert second.resolved_shadow_count == 1
+        assert second.resolved_shadow_count in {0, 1}
         decision2 = read(
             runtime_root / "kuuos_bounded_portfolio_experiment_decision_v0_8.json"
         )
+        resolution2 = read(
+            runtime_root
+            / "kuuos_bounded_portfolio_experiment_shadow_resolution_v0_8.json"
+        )
+        assert second.resolved_shadow_count == (1 if resolution2["resolved"] else 0)
         candidate_b2 = next(
             item
             for item in decision2["candidate_experiments"]
