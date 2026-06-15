@@ -1,0 +1,20 @@
+{
+  "manifest_version": "kuuos_open_horizon_telos_genesis_v0_1",
+  "status": "READY",
+  "runtime": [
+    "runtime/kuuos_open_horizon_telos_genesis_core_v0_1.py",
+    "runtime/kuuos_open_horizon_telos_genesis_runtime_v0_1.py"
+  ],
+  "scripts": [
+    "scripts/check_open_horizon_telos_genesis_v0_1.py"
+  ],
+  "docs": [
+    "docs/KUUOS_OPEN_HORIZON_TELOS_GENESIS_v0_1.md"
+  ],
+  "examples": [
+    "examples/kuuos_open_horizon_telos_genesis_input_v0_1.json"
+  ],
+  "workflows": [
+    ".github/workflows/open-horizon-telos-genesis-v0-1-validation.yml"
+  ]
+}
