@@ -18,7 +18,10 @@ from runtime.kuuos_active_gauge_intervention_types_v0_3 import clamp, read_json,
 def effect_metrics(
     routed_action: str, action_scale: float, adapter: Mapping[str, Any]
 ) -> tuple[str, str, float, float, float, float, float]:
-    confidence = 0.65 if adapter.get("idempotent_replay") is True else 0.92
+    # Confidence describes the committed local effect, not whether this invocation
+    # reconstructed it through an idempotent adapter replay. Keeping it stable makes
+    # the curvature receipt reproducible during pending-run recovery.
+    confidence = 0.92
     if routed_action == "advance_tick":
         return (
             "success", "continue", round(max(0.08, action_scale * 0.35), 6),
@@ -65,7 +68,6 @@ def build_effect_receipt(
         "local_execution_id": adapter.get("local_execution_id"),
         "intervention_id": intervention_id,
         "adapter_execution_committed": adapter.get("execution_committed") is True,
-        "adapter_idempotent_replay": adapter.get("idempotent_replay") is True,
     }
     receipt["effect_receipt_digest"] = effect_digest(receipt)
     return receipt
