@@ -1,1 +1,2 @@
-# v0.12 entrypoint
+import runtime.kuuos_horizon_gauge_arbitration_core_v0_12 as _core
+build_horizon_gauge_arbitration = _core.build_horizon_gauge_arbitration
