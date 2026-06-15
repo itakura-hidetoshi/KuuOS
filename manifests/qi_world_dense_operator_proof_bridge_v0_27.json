@@ -1,0 +1,12 @@
+{
+  "manifest_version": "qi_world_dense_operator_proof_bridge_v0_27",
+  "runtime": [
+    "runtime/kuuos_indra_qi_world_dense_operator_proof_bridge_core_v0_27.py",
+    "runtime/kuuos_indra_qi_world_dense_operator_proof_bridge_runtime_v0_27.py"
+  ],
+  "scripts": ["scripts/check_qi_world_dense_operator_proof_bridge_v0_27.py"],
+  "docs": ["docs/KU_INDRA_QI_WORLD_DENSE_OPERATOR_PROOF_BRIDGE_v0_27.md"],
+  "formal": ["formal/KUOS/WORLD/RealHilbertL2DenseOperatorProofBridgeV0_27.lean"],
+  "example": ["examples/indra_qi_world_dense_operator_proof_bridge_plan_v0_27.json"],
+  "status": "READY"
+}
