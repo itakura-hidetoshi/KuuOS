@@ -1,0 +1,65 @@
+{
+  "source_packets": [
+    {
+      "version": "kuuos_federated_event_source_packet_v0_5",
+      "source_id": "source-a",
+      "source_event_id": "event-001",
+      "source_kind": "observation",
+      "priority": 0.9,
+      "trust_weight": 0.9,
+      "world_context_digest": "world-digest",
+      "process_tensor_context_digest": "process-digest",
+      "non_markov_context_digest": "memory-digest",
+      "signals": [],
+      "telos_renewal_requested": false,
+      "intervention_requested": true,
+      "source_packet_digest": "compute_with_source_digest"
+    }
+  ],
+  "adapter_registry": {
+    "version": "kuuos_federated_adapter_registry_v0_5",
+    "registry_id": "registry-example",
+    "adapters": [
+      {
+        "federation_adapter_id": "local-example",
+        "enabled": true,
+        "priority": 10,
+        "accepted_source_kinds": ["observation"],
+        "accepted_source_ids": [],
+        "external_network_effect_allowed": false,
+        "adapter_profile": {
+          "version": "kuuos_active_gauge_adapter_profile_v0_3",
+          "adapter_id": "local-example-profile",
+          "backend": "qi_local_execution_adapter_v0_2",
+          "supported_domain_actions": ["advance_tick", "observe"],
+          "result_to_curvature_mapping": "deterministic_local_effect_v0_3",
+          "adapter_profile_digest": "compute_with_profile_digest"
+        }
+      }
+    ],
+    "adapter_registry_digest": "compute_with_registry_digest"
+  },
+  "federation_plan": {
+    "version": "kuuos_event_adapter_federation_plan_v0_5",
+    "federation_run_id": "federation-example-001",
+    "agent_id": "kuuos-agent-example",
+    "expected_source_batch_digest": "compute_with_batch_digest",
+    "expected_root_principles_digest": "bind_exact_root_digest",
+    "expected_adapter_registry_digest": "bind_exact_registry_digest",
+    "expected_previous_federation_state_digest": "",
+    "max_sources_per_cycle": 8,
+    "max_signals_per_source": 8,
+    "max_total_signals": 32,
+    "max_generated_goals": 8,
+    "max_selected_goals": 4,
+    "min_goal_score": 0.35,
+    "min_action_scale": 0.12,
+    "renewal_window_steps": 3,
+    "max_bundle_sections": 256,
+    "max_new_sections_per_run": 8,
+    "max_transports_per_section": 4,
+    "routing_table": {},
+    "boundary": "copy_REQUIRED_BOUNDARY",
+    "federation_plan_digest": "compute_with_plan_digest"
+  }
+}
