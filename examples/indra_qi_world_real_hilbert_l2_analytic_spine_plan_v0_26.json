@@ -1,0 +1,37 @@
+{
+  "version": "indra_qi_world_real_hilbert_l2_analytic_spine_plan_v0_26",
+  "spine_id": "world-real-hilbert-l2-example",
+  "analysis_run_id": "world-real-hilbert-l2-run-0",
+  "world_model_id": "FILL_FROM_WORLD_STATE",
+  "expected_source_world_state_digest": "FILL_FROM_WORLD_STATE",
+  "analytic_policy": {
+    "minimum_coordinate_count": 1,
+    "maximum_coordinate_count": 256,
+    "maximum_absolute_coordinate": 1.0,
+    "minimum_coercivity_lower_bound": 1.0,
+    "maximum_norm_squared": 256.0,
+    "maximum_weighted_energy": 1024.0,
+    "numeric_tolerance": 1e-09,
+    "required_source_kinds": [
+      "local_patch",
+      "indra_connection",
+      "qi_flow",
+      "holonomy_cycle",
+      "ku_string",
+      "m_brane_surface"
+    ],
+    "require_full_source_coverage": true,
+    "require_unique_basis_ids": true,
+    "require_unique_source_coordinates": true,
+    "require_finite_support_witness": true,
+    "require_positive_diagonal_weights": true,
+    "require_declared_observables_match": true,
+    "require_projection_roles": true,
+    "require_projection_contractive": true,
+    "require_dense_core_template": true,
+    "forbid_self_adjointness_runtime_claim": true,
+    "forbid_unbounded_operator_execution": true
+  },
+  "boundary_profile": "Copy REQUIRED_BOUNDARY from kuuos_indra_qi_world_real_hilbert_l2_analytic_spine_core_v0_26.py before canonical digesting.",
+  "world_l2_spine_plan_digest": "FILL_AFTER_CANONICAL_DIGEST"
+}
