@@ -1,0 +1,20 @@
+{
+  "manifest_version": "qi_world_real_hilbert_l2_analytic_spine_v0_26",
+  "runtime": [
+    "runtime/kuuos_indra_qi_world_real_hilbert_l2_analytic_spine_base_v0_26.py",
+    "runtime/kuuos_indra_qi_world_real_hilbert_l2_analytic_spine_embedding_v0_26.py",
+    "runtime/kuuos_indra_qi_world_real_hilbert_l2_analytic_spine_packet_v0_26.py",
+    "runtime/kuuos_indra_qi_world_real_hilbert_l2_analytic_spine_core_v0_26.py",
+    "runtime/kuuos_indra_qi_world_real_hilbert_l2_analytic_spine_runtime_v0_26.py"
+  ],
+  "scripts": [
+    "scripts/check_qi_world_real_hilbert_l2_analytic_spine_v0_26.py"
+  ],
+  "docs": [
+    "docs/KU_INDRA_QI_WORLD_REAL_HILBERT_L2_ANALYTIC_SPINE_v0_26.md"
+  ],
+  "example": [
+    "examples/indra_qi_world_real_hilbert_l2_analytic_spine_plan_v0_26.json"
+  ],
+  "status": "READY"
+}
