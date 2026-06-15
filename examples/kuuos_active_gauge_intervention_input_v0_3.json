@@ -1,0 +1,49 @@
+{
+  "adapter_profile": {
+    "adapter_id": "kuuos-local-domain-adapter",
+    "adapter_profile_digest": "compute_with_profile_digest",
+    "backend": "qi_local_execution_adapter_v0_2",
+    "result_to_curvature_mapping": "deterministic_local_effect_v0_3",
+    "supported_domain_actions": [
+      "advance_tick",
+      "freeze",
+      "handover",
+      "hold",
+      "notify",
+      "observe",
+      "ticket"
+    ],
+    "version": "kuuos_active_gauge_adapter_profile_v0_3"
+  },
+  "plan": {
+    "adapter_id": "kuuos-local-domain-adapter",
+    "agent_id": "kuuos-agent-example",
+    "auto_reenter_gauge": true,
+    "boundary": {
+      "active_domain_intervention": true,
+      "adapter_effect_is_observed_evidence": true,
+      "candidate_weighting_not_truth": true,
+      "covariant_action_is_executable_intent": true,
+      "effect_receipt_generated": true,
+      "exact_action_binding": true,
+      "external_adapter_replaceable": true,
+      "idempotent_intervention": true,
+      "immediate_gauge_reentry": true,
+      "local_adapter_initial_backend": true,
+      "next_covariant_action_continues_loop": true,
+      "non_markov_holonomy_preserved": true
+    },
+    "expected_covariant_action_digest": "bind_exact_v0_2_action_digest",
+    "expected_gauge_bundle_digest": "bind_exact_v0_2_bundle_digest",
+    "expected_gauge_state_digest": "bind_exact_v0_2_state_digest",
+    "gauge_reentry_run_id": "gauge-reentry-example-001",
+    "intervention_plan_digest": "compute_with_plan_digest",
+    "intervention_run_id": "intervention-example-001",
+    "reentry_max_bundle_sections": 256,
+    "reentry_max_new_sections_per_run": 8,
+    "reentry_max_transports_per_section": 4,
+    "reentry_min_action_scale": 0.02,
+    "routing_table": {},
+    "version": "kuuos_active_gauge_intervention_plan_v0_3"
+  }
+}
