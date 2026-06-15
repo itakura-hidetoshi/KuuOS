@@ -11,11 +11,11 @@ from runtime.kuuos_open_horizon_commitment_gauge_core_v0_2 import (
 from runtime.kuuos_event_adapter_federation_core_v0_5 import (
     BLOCKED as FEDERATION_BLOCKED,
     READY as FEDERATION_READY,
-    REPLAYED as FEDERATION_REPLAYED,
     build_event_adapter_federation,
 )
 from runtime.kuuos_event_adapter_federation_types_v0_5 import (
     EVIDENCE_VERSION,
+    REPLAYED as FEDERATION_REPLAYED,
     evidence_digest,
 )
 from runtime.kuuos_adapter_capability_federation_bridge_v0_6 import (
