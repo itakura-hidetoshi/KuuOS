@@ -1,0 +1,42 @@
+name: Open-Horizon Commitment Gauge v0.2 Validation
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_open_horizon_commitment_gauge*_v0_2.py"
+      - "scripts/check_open_horizon_commitment_gauge_v0_2.py"
+      - "formal/KUOS/OpenHorizon/CommitmentGaugeV0_2.lean"
+      - "docs/KUUOS_OPEN_HORIZON_COMMITMENT_GAUGE_v0_2.md"
+      - "manifests/kuuos_open_horizon_commitment_gauge_v0_2.json"
+      - "examples/kuuos_open_horizon_commitment_gauge_input_v0_2.json"
+      - ".github/workflows/open-horizon-commitment-gauge-v0-2-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_open_horizon_commitment_gauge*_v0_2.py"
+      - "scripts/check_open_horizon_commitment_gauge_v0_2.py"
+      - "formal/KUOS/OpenHorizon/CommitmentGaugeV0_2.lean"
+      - "docs/KUUOS_OPEN_HORIZON_COMMITMENT_GAUGE_v0_2.md"
+      - "manifests/kuuos_open_horizon_commitment_gauge_v0_2.json"
+      - "examples/kuuos_open_horizon_commitment_gauge_input_v0_2.json"
+      - ".github/workflows/open-horizon-commitment-gauge-v0-2-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile gauge runtime
+        run: >-
+          python -m py_compile
+          runtime/kuuos_open_horizon_commitment_gauge_core_v0_2.py
+          runtime/kuuos_open_horizon_commitment_gauge_runtime_v0_2.py
+          scripts/check_open_horizon_commitment_gauge_v0_2.py
+      - name: Run gauge runtime checks
+        run: python scripts/check_open_horizon_commitment_gauge_v0_2.py
