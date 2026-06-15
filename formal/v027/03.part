@@ -1,0 +1,9 @@
+structure ExtensionCertificate
+    (H : RealHilbertCarrier) (C : DenseOperatorCore H) where
+  boundedExtensionExists : Prop
+  boundedExtensionWitness : boundedExtensionExists
+  coreCompatibility : Prop
+  coreCompatibilityWitness : coreCompatibility
+  globalSymmetry : Prop
+  globalSymmetryWitness : globalSymmetry
+
