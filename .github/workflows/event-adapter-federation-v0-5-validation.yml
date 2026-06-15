@@ -1,0 +1,63 @@
+name: Event Adapter Federation v0.5 Validation
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_event_adapter_federation*_v0_5.py"
+      - "runtime/kuuos_federated_cycle_v0_5.py"
+      - "scripts/check_event_adapter_federation_v0_5.py"
+      - "formal/KUOS/OpenHorizon/EventAdapterFederationV0_5.lean"
+      - "docs/KUUOS_EVENT_ADAPTER_FEDERATION_v0_5.md"
+      - "examples/kuuos_event_adapter_federation_input_v0_5.json"
+      - "manifests/kuuos_event_adapter_federation_v0_5.json"
+      - ".github/workflows/event-adapter-federation-v0-5-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_event_adapter_federation*_v0_5.py"
+      - "runtime/kuuos_federated_cycle_v0_5.py"
+      - "scripts/check_event_adapter_federation_v0_5.py"
+      - "formal/KUOS/OpenHorizon/EventAdapterFederationV0_5.lean"
+      - "docs/KUUOS_EVENT_ADAPTER_FEDERATION_v0_5.md"
+      - "examples/kuuos_event_adapter_federation_input_v0_5.json"
+      - "manifests/kuuos_event_adapter_federation_v0_5.json"
+      - ".github/workflows/event-adapter-federation-v0-5-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile event adapter federation
+        run: >-
+          python -m py_compile
+          runtime/kuuos_event_adapter_federation_types_v0_5.py
+          runtime/kuuos_event_adapter_federation_normalization_v0_5.py
+          runtime/kuuos_event_adapter_federation_supervisor_bridge_v0_5.py
+          runtime/kuuos_event_adapter_federation_validation_v0_5.py
+          runtime/kuuos_event_adapter_federation_records_v0_5.py
+          runtime/kuuos_event_adapter_federation_core_v0_5.py
+          runtime/kuuos_federated_cycle_v0_5.py
+          scripts/check_event_adapter_federation_v0_5.py
+      - name: Run event adapter federation checks
+        id: federation_checks
+        continue-on-error: true
+        run: python scripts/check_event_adapter_federation_v0_5.py > federation-v05.log 2>&1
+      - name: Upload federation log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: event-adapter-federation-v05-log
+          path: federation-v05.log
+      - name: Report federation failure
+        if: steps.federation_checks.outcome == 'failure'
+        shell: bash
+        run: |
+          tail -n 100 federation-v05.log
+          exit 1

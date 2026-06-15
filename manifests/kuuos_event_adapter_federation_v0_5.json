@@ -1,0 +1,34 @@
+{
+  "docs": [
+    "docs/KUUOS_EVENT_ADAPTER_FEDERATION_v0_5.md"
+  ],
+  "examples": [
+    "examples/kuuos_event_adapter_federation_input_v0_5.json"
+  ],
+  "formal": [
+    "formal/KUOS/OpenHorizon/EventAdapterFederationV0_5.lean"
+  ],
+  "manifest_version": "kuuos_event_adapter_federation_v0_5",
+  "runtime": [
+    "runtime/kuuos_event_adapter_federation_types_v0_5.py",
+    "runtime/kuuos_event_adapter_federation_normalization_v0_5.py",
+    "runtime/kuuos_event_adapter_federation_supervisor_bridge_v0_5.py",
+    "runtime/kuuos_event_adapter_federation_validation_v0_5.py",
+    "runtime/kuuos_event_adapter_federation_records_v0_5.py",
+    "runtime/kuuos_event_adapter_federation_core_v0_5.py",
+    "runtime/kuuos_federated_cycle_v0_5.py"
+  ],
+  "scripts": [
+    "scripts/check_event_adapter_federation_v0_5.py"
+  ],
+  "status": "READY",
+  "upstream": [
+    "kuuos_open_horizon_telos_genesis_v0_1",
+    "kuuos_open_horizon_commitment_gauge_v0_2",
+    "kuuos_active_gauge_intervention_loop_v0_3",
+    "kuuos_renewable_gauge_supervisor_v0_4"
+  ],
+  "workflows": [
+    ".github/workflows/event-adapter-federation-v0-5-validation.yml"
+  ]
+}
