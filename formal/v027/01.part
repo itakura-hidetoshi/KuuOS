@@ -1,0 +1,15 @@
+import Mathlib
+
+namespace KUOS
+namespace WORLD
+
+structure RealHilbertCarrier where
+  Carrier : Type
+  [normedAddCommGroup : NormedAddCommGroup Carrier]
+  [innerProductSpace : InnerProductSpace ℝ Carrier]
+  [completeSpace : CompleteSpace Carrier]
+
+attribute [instance] RealHilbertCarrier.normedAddCommGroup
+attribute [instance] RealHilbertCarrier.innerProductSpace
+attribute [instance] RealHilbertCarrier.completeSpace
+
