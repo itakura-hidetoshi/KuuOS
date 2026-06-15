@@ -1,0 +1,41 @@
+{
+  "docs": [
+    "docs/KUUOS_POLICY_REGRET_CADENCE_v0_10.md"
+  ],
+  "examples": [
+    "examples/kuuos_policy_regret_cadence_input_v0_10.json"
+  ],
+  "formal": [
+    "formal/KUOS/OpenHorizon/PolicyRegretCadenceV0_10.lean"
+  ],
+  "manifest_version": "kuuos_policy_regret_cadence_v0_10",
+  "runtime": [
+    "runtime/kuuos_policy_regret_cadence_types_v0_10.py",
+    "runtime/kuuos_policy_regret_cadence_model_v0_10.py",
+    "runtime/kuuos_policy_regret_cadence_validation_v0_10.py",
+    "runtime/kuuos_policy_regret_cadence_bridge_v0_10.py",
+    "runtime/kuuos_policy_regret_cadence_records_v0_10.py",
+    "runtime/kuuos_policy_regret_cadence_core_v0_10.py",
+    "runtime/kuuos_policy_regret_cadence_bootstrap_v0_10.py",
+    "runtime/kuuos_policy_regret_cadence_cycle_v0_10.py"
+  ],
+  "scripts": [
+    "scripts/policy_regret_cadence_v0_10_test_support.py",
+    "scripts/check_policy_regret_cadence_v0_10.py"
+  ],
+  "status": "READY",
+  "upstream": [
+    "kuuos_open_horizon_telos_genesis_v0_1",
+    "kuuos_open_horizon_commitment_gauge_v0_2",
+    "kuuos_active_gauge_intervention_loop_v0_3",
+    "kuuos_renewable_gauge_supervisor_v0_4",
+    "kuuos_event_adapter_federation_v0_5",
+    "kuuos_adapter_capability_gauge_v0_6",
+    "kuuos_adapter_portfolio_shadow_v0_7",
+    "kuuos_bounded_portfolio_experiment_v0_8",
+    "kuuos_experiment_outcome_policy_v0_9"
+  ],
+  "workflows": [
+    ".github/workflows/policy-regret-cadence-v0-10-validation.yml"
+  ]
+}
