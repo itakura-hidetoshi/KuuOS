@@ -1,0 +1,76 @@
+{
+  "adapter_profile": {
+    "adapter_id": "kuuos-local-domain-adapter",
+    "adapter_profile_digest": "compute_with_profile_digest",
+    "backend": "qi_local_execution_adapter_v0_2",
+    "result_to_curvature_mapping": "deterministic_local_effect_v0_3",
+    "supported_domain_actions": [
+      "advance_tick",
+      "freeze",
+      "handover",
+      "hold",
+      "notify",
+      "observe",
+      "ticket"
+    ],
+    "version": "kuuos_active_gauge_adapter_profile_v0_3"
+  },
+  "plan": {
+    "agent_id": "kuuos-agent-example",
+    "boundary": {
+      "at_most_one_local_intervention": true,
+      "candidate_weighting_not_truth": true,
+      "curvature_feedback_reenters_same_field": true,
+      "gauge_bundle_extended_not_replaced": true,
+      "local_recovery_idempotent": true,
+      "next_wake_is_explicit": true,
+      "non_markov_holonomy_preserved": true,
+      "one_finite_cycle_per_invocation": true,
+      "root_principles_unchanged": true,
+      "telos_renewal_when_context_changes": true,
+      "wake_driven_supervision": true
+    },
+    "expected_adapter_profile_digest": "bind_exact_adapter_profile_digest",
+    "expected_previous_supervisor_state_digest": "",
+    "expected_root_principles_digest": "bind_exact_root_principles_digest",
+    "expected_wake_event_digest": "bind_exact_wake_event_digest",
+    "max_bundle_sections": 256,
+    "max_generated_goals": 8,
+    "max_new_sections_per_run": 8,
+    "max_selected_goals": 4,
+    "max_transports_per_section": 4,
+    "min_action_scale": 0.12,
+    "min_goal_score": 0.35,
+    "renewal_window_steps": 3,
+    "routing_table": {},
+    "supervisor_plan_digest": "compute_with_plan_digest",
+    "supervisor_run_id": "supervisor-example-001",
+    "version": "kuuos_renewable_gauge_supervisor_plan_v0_4"
+  },
+  "wake_event": {
+    "intervention_requested": true,
+    "non_markov_context_digest": "memory-context-digest",
+    "process_tensor_context_digest": "process-context-digest",
+    "signals": [
+      {
+        "autonomy_gain": 0.8,
+        "evidence": 0.8,
+        "irreversibility": 0.1,
+        "kind": "opportunity",
+        "magnitude": 0.75,
+        "recoverability": 0.9,
+        "relational_benefit": 0.85,
+        "signal_id": "signal-example-001",
+        "target": "renewable local action",
+        "uncertainty": 0.2,
+        "urgency": 0.8
+      }
+    ],
+    "telos_renewal_requested": true,
+    "version": "kuuos_renewable_gauge_wake_event_v0_4",
+    "wake_event_digest": "compute_with_wake_digest",
+    "wake_event_id": "wake-example-001",
+    "wake_kind": "bootstrap",
+    "world_context_digest": "world-context-digest"
+  }
+}
