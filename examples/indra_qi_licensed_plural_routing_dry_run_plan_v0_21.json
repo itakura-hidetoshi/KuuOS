@@ -1,0 +1,31 @@
+{
+  "version": "indra_qi_licensed_plural_routing_dry_run_plan_v0_21",
+  "dry_run_program_id": "licensed-plural-routing-dry-run-example",
+  "dry_run_id": "licensed-plural-routing-dry-run-0",
+  "world_model_id": "FILL_FROM_WORLD_STATE",
+  "expected_source_world_state_digest": "FILL_FROM_WORLD_STATE",
+  "expected_plural_routing_proposal_digest": "FILL_FROM_V0_20_PROPOSAL",
+  "expected_source_plural_routing_state_digest": "FILL_FROM_V0_20_STATE",
+  "expected_source_plural_routing_recommendation_digest": "FILL_FROM_V0_20_RECOMMENDATION",
+  "dry_run_policy": {
+    "minimum_schedule_ticks": 9,
+    "maximum_schedule_ticks": 18,
+    "maximum_consecutive_ticks_per_lineage": 3,
+    "maximum_idle_ticks": 1,
+    "maximum_allocation_error": 0.1,
+    "minimum_jain_fairness_index": 0.8,
+    "minimum_lineage_service_ratio": 1.0,
+    "maximum_replica_failure_ratio": 0.0,
+    "require_exact_replica_input_binding": true,
+    "require_deterministic_replay": true,
+    "require_rollback_receipt": true,
+    "require_replica_restore": true,
+    "require_routing_activation_disabled": true,
+    "require_live_route_disabled": true,
+    "require_external_actuation_disabled": true,
+    "require_world_update_disabled": true,
+    "require_policy_boundary_preserved": true
+  },
+  "boundary_profile": "Copy REQUIRED_BOUNDARY from kuuos_indra_qi_licensed_plural_routing_dry_run_core_v0_21.py before canonical digesting.",
+  "plural_routing_dry_run_plan_digest": "FILL_AFTER_CANONICAL_DIGEST"
+}

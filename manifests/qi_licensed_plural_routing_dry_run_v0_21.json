@@ -1,0 +1,17 @@
+{
+  "manifest_version": "qi_licensed_plural_routing_dry_run_v0_21",
+  "runtime": [
+    "runtime/kuuos_indra_qi_licensed_plural_routing_dry_run_core_v0_21.py",
+    "runtime/kuuos_indra_qi_licensed_plural_routing_dry_run_runtime_v0_21.py"
+  ],
+  "scripts": [
+    "scripts/check_qi_licensed_plural_routing_dry_run_v0_21.py"
+  ],
+  "docs": [
+    "docs/KU_INDRA_QI_LICENSED_PLURAL_ROUTING_DRY_RUN_v0_21.md"
+  ],
+  "example": [
+    "examples/indra_qi_licensed_plural_routing_dry_run_plan_v0_21.json"
+  ],
+  "status": "READY"
+}
