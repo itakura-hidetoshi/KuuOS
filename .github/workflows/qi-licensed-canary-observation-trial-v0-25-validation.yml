@@ -31,6 +31,6 @@ jobs:
         with:
           python-version: "3.12"
       - name: Compile v0.25 runtime
-        run: python -m py_compile runtime/kuuos_indra_qi_licensed_canary_observation_trial_core_v0_25.py runtime/kuuos_indra_qi_licensed_canary_observation_trial_runtime_v0_25.py scripts/check_qi_licensed_canary_observation_trial_v0_25.py
+        run: python -m py_compile runtime/kuuos_indra_qi_licensed_canary_observation_trial_support_v0_25.py runtime/kuuos_indra_qi_licensed_canary_observation_trial_core_v0_25.py runtime/kuuos_indra_qi_licensed_canary_observation_trial_runtime_v0_25.py scripts/check_qi_licensed_canary_observation_trial_v0_25.py
       - name: Run v0.25 checks
         run: python scripts/check_qi_licensed_canary_observation_trial_v0_25.py
