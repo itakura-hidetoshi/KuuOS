@@ -1,11 +1,15 @@
 {
   "manifest_version": "qi_licensed_canary_observation_trial_v0_25",
   "runtime": [
-    "runtime/kuuos_indra_qi_licensed_canary_observation_trial_core_v0_25.py",
+    "runtime/kuuos_indra_qi_licensed_canary_observation_trial_base_v0_25.py",
+    "runtime/kuuos_indra_qi_licensed_canary_observation_trial_source_v0_25.py",
+    "runtime/kuuos_indra_qi_licensed_canary_observation_trial_analysis_v0_25.py",
     "runtime/kuuos_indra_qi_licensed_canary_observation_trial_support_v0_25.py",
+    "runtime/kuuos_indra_qi_licensed_canary_observation_trial_core_v0_25.py",
     "runtime/kuuos_indra_qi_licensed_canary_observation_trial_runtime_v0_25.py"
   ],
   "scripts": [
+    "scripts/qi_licensed_canary_observation_trial_fixtures_v0_25.py",
     "scripts/check_qi_licensed_canary_observation_trial_v0_25.py"
   ],
   "docs": [
