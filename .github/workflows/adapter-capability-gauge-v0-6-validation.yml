@@ -1,0 +1,66 @@
+name: Adapter Capability Gauge v0.6 Validation
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_adapter_capability*_v0_6.py"
+      - "scripts/adapter_capability_v0_6_test_support.py"
+      - "scripts/check_adapter_capability_gauge_v0_6.py"
+      - "formal/KUOS/OpenHorizon/AdapterCapabilityGaugeV0_6.lean"
+      - "docs/KUUOS_ADAPTER_CAPABILITY_GAUGE_v0_6.md"
+      - "examples/kuuos_adapter_capability_gauge_input_v0_6.json"
+      - "manifests/kuuos_adapter_capability_gauge_v0_6.json"
+      - ".github/workflows/adapter-capability-gauge-v0-6-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_adapter_capability*_v0_6.py"
+      - "scripts/adapter_capability_v0_6_test_support.py"
+      - "scripts/check_adapter_capability_gauge_v0_6.py"
+      - "formal/KUOS/OpenHorizon/AdapterCapabilityGaugeV0_6.lean"
+      - "docs/KUUOS_ADAPTER_CAPABILITY_GAUGE_v0_6.md"
+      - "examples/kuuos_adapter_capability_gauge_input_v0_6.json"
+      - "manifests/kuuos_adapter_capability_gauge_v0_6.json"
+      - ".github/workflows/adapter-capability-gauge-v0-6-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile adapter capability gauge
+        run: >-
+          python -m py_compile
+          runtime/kuuos_adapter_capability_gauge_types_v0_6.py
+          runtime/kuuos_adapter_capability_gauge_model_v0_6.py
+          runtime/kuuos_adapter_capability_bundle_validation_v0_6.py
+          runtime/kuuos_adapter_capability_plan_validation_v0_6.py
+          runtime/kuuos_adapter_capability_federation_bridge_v0_6.py
+          runtime/kuuos_adapter_capability_gauge_execution_v0_6.py
+          runtime/kuuos_adapter_capability_gauge_records_v0_6.py
+          runtime/kuuos_adapter_capability_gauge_core_v0_6.py
+          runtime/kuuos_adapter_capability_cycle_v0_6.py
+          scripts/adapter_capability_v0_6_test_support.py
+          scripts/check_adapter_capability_gauge_v0_6.py
+      - name: Run adapter capability gauge checks
+        id: capability_checks
+        continue-on-error: true
+        run: python scripts/check_adapter_capability_gauge_v0_6.py > capability-v06.log 2>&1
+      - name: Upload capability log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adapter-capability-gauge-v06-log
+          path: capability-v06.log
+      - name: Report capability failure
+        if: steps.capability_checks.outcome == 'failure'
+        shell: bash
+        run: |
+          tail -n 120 capability-v06.log
+          exit 1
