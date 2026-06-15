@@ -1,0 +1,64 @@
+name: Bounded Portfolio Experiment v0.8 Validation
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_bounded_portfolio_experiment*_v0_8.py"
+      - "scripts/bounded_portfolio_experiment_v0_8_test_support.py"
+      - "scripts/check_bounded_portfolio_experiment_v0_8.py"
+      - "formal/KUOS/OpenHorizon/BoundedPortfolioExperimentV0_8.lean"
+      - "docs/KUUOS_BOUNDED_PORTFOLIO_EXPERIMENT_v0_8.md"
+      - "examples/kuuos_bounded_portfolio_experiment_input_v0_8.json"
+      - "manifests/kuuos_bounded_portfolio_experiment_v0_8.json"
+      - ".github/workflows/bounded-portfolio-experiment-v0-8-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_bounded_portfolio_experiment*_v0_8.py"
+      - "scripts/bounded_portfolio_experiment_v0_8_test_support.py"
+      - "scripts/check_bounded_portfolio_experiment_v0_8.py"
+      - "formal/KUOS/OpenHorizon/BoundedPortfolioExperimentV0_8.lean"
+      - "docs/KUUOS_BOUNDED_PORTFOLIO_EXPERIMENT_v0_8.md"
+      - "examples/kuuos_bounded_portfolio_experiment_input_v0_8.json"
+      - "manifests/kuuos_bounded_portfolio_experiment_v0_8.json"
+      - ".github/workflows/bounded-portfolio-experiment-v0-8-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile bounded portfolio experiment
+        run: >-
+          python -m py_compile
+          runtime/kuuos_bounded_portfolio_experiment_types_v0_8.py
+          runtime/kuuos_bounded_portfolio_experiment_model_v0_8.py
+          runtime/kuuos_bounded_portfolio_experiment_validation_v0_8.py
+          runtime/kuuos_bounded_portfolio_experiment_bridge_v0_8.py
+          runtime/kuuos_bounded_portfolio_experiment_records_v0_8.py
+          runtime/kuuos_bounded_portfolio_experiment_core_v0_8.py
+          runtime/kuuos_bounded_portfolio_experiment_cycle_v0_8.py
+          scripts/bounded_portfolio_experiment_v0_8_test_support.py
+          scripts/check_bounded_portfolio_experiment_v0_8.py
+      - name: Run bounded portfolio experiment checks
+        id: experiment_checks
+        continue-on-error: true
+        run: python scripts/check_bounded_portfolio_experiment_v0_8.py > bounded-experiment-v08.log 2>&1
+      - name: Upload experiment log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: bounded-portfolio-experiment-v08-log
+          path: bounded-experiment-v08.log
+      - name: Report experiment failure
+        if: steps.experiment_checks.outcome == 'failure'
+        shell: bash
+        run: |
+          tail -n 200 bounded-experiment-v08.log
+          exit 1
