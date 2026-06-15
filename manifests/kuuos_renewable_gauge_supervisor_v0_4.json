@@ -1,0 +1,30 @@
+{
+  "docs": [
+    "docs/KUUOS_RENEWABLE_GAUGE_SUPERVISOR_v0_4.md"
+  ],
+  "examples": [
+    "examples/kuuos_renewable_gauge_supervisor_input_v0_4.json"
+  ],
+  "formal": [
+    "formal/KUOS/OpenHorizon/RenewableGaugeSupervisorV0_4.lean"
+  ],
+  "manifest_version": "kuuos_renewable_gauge_supervisor_v0_4",
+  "runtime": [
+    "runtime/kuuos_renewable_gauge_supervisor_types_v0_4.py",
+    "runtime/kuuos_renewable_gauge_supervisor_children_v0_4.py",
+    "runtime/kuuos_renewable_gauge_supervisor_core_v0_4.py",
+    "runtime/kuuos_renewable_gauge_supervisor_v0_4.py"
+  ],
+  "scripts": [
+    "scripts/check_renewable_gauge_supervisor_v0_4.py"
+  ],
+  "status": "READY",
+  "upstream": [
+    "kuuos_open_horizon_telos_genesis_v0_1",
+    "kuuos_open_horizon_commitment_gauge_v0_2",
+    "kuuos_active_gauge_intervention_loop_v0_3"
+  ],
+  "workflows": [
+    ".github/workflows/renewable-gauge-supervisor-v0-4-validation.yml"
+  ]
+}
