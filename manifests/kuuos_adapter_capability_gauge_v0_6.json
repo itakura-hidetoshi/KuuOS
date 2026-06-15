@@ -1,0 +1,38 @@
+{
+  "docs": [
+    "docs/KUUOS_ADAPTER_CAPABILITY_GAUGE_v0_6.md"
+  ],
+  "examples": [
+    "examples/kuuos_adapter_capability_gauge_input_v0_6.json"
+  ],
+  "formal": [
+    "formal/KUOS/OpenHorizon/AdapterCapabilityGaugeV0_6.lean"
+  ],
+  "manifest_version": "kuuos_adapter_capability_gauge_v0_6",
+  "runtime": [
+    "runtime/kuuos_adapter_capability_gauge_types_v0_6.py",
+    "runtime/kuuos_adapter_capability_gauge_model_v0_6.py",
+    "runtime/kuuos_adapter_capability_bundle_validation_v0_6.py",
+    "runtime/kuuos_adapter_capability_plan_validation_v0_6.py",
+    "runtime/kuuos_adapter_capability_federation_bridge_v0_6.py",
+    "runtime/kuuos_adapter_capability_gauge_execution_v0_6.py",
+    "runtime/kuuos_adapter_capability_gauge_records_v0_6.py",
+    "runtime/kuuos_adapter_capability_gauge_core_v0_6.py",
+    "runtime/kuuos_adapter_capability_cycle_v0_6.py"
+  ],
+  "scripts": [
+    "scripts/adapter_capability_v0_6_test_support.py",
+    "scripts/check_adapter_capability_gauge_v0_6.py"
+  ],
+  "status": "READY",
+  "upstream": [
+    "kuuos_open_horizon_telos_genesis_v0_1",
+    "kuuos_open_horizon_commitment_gauge_v0_2",
+    "kuuos_active_gauge_intervention_loop_v0_3",
+    "kuuos_renewable_gauge_supervisor_v0_4",
+    "kuuos_event_adapter_federation_v0_5"
+  ],
+  "workflows": [
+    ".github/workflows/adapter-capability-gauge-v0-6-validation.yml"
+  ]
+}
