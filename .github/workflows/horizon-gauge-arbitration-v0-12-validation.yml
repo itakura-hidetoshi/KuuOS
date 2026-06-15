@@ -29,4 +29,17 @@ jobs:
       - name: Compile v0.12
         run: python -m compileall -q runtime scripts
       - name: Run v0.12 scenario
-        run: python -c "from scripts.horizon_gauge_arbitration_v0_12_scenario import run_scenario; run_scenario()"
+        id: checks
+        continue-on-error: true
+        run: python -c "from scripts.horizon_gauge_arbitration_v0_12_scenario import run_scenario; run_scenario()" > horizon-gauge-v012.log 2>&1
+      - name: Upload v0.12 log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: horizon-gauge-v012-log
+          path: horizon-gauge-v012.log
+      - name: Report v0.12 failure
+        if: steps.checks.outcome == 'failure'
+        run: |
+          tail -n 260 horizon-gauge-v012.log
+          exit 1
