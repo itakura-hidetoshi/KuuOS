@@ -1,0 +1,49 @@
+{
+  "effect_receipt_example": {
+    "action_id": "bind_exact_action_id",
+    "confidence": 0.75,
+    "continuation_signal": "continue",
+    "effect_receipt_digest": "compute_with_effect_digest",
+    "effect_receipt_id": "effect-example-001",
+    "node_id_forbidden": false,
+    "observed_benefit": 0.6,
+    "observed_harm": 0.1,
+    "outcome": "partial",
+    "progress_delta": 0.25,
+    "recoverability": 0.85,
+    "result_digest": "domain-result-digest",
+    "section_id": "bind_exact_section_id",
+    "source_action_digest": "bind_exact_covariant_action_digest",
+    "version": "kuuos_open_horizon_effect_receipt_v0_2"
+  },
+  "plan": {
+    "agent_id": "kuuos-agent-example",
+    "boundary": {
+      "candidate_weighting_not_truth": true,
+      "connection_parallel_transport": true,
+      "effect_receipt_interpreted_as_curvature": true,
+      "gauge_bundle_runtime": true,
+      "gauge_covariant_replanning": true,
+      "gauge_invariant_action_selection": true,
+      "holonomy_preserves_non_markov_memory": true,
+      "local_sections_not_global_graph": true,
+      "new_telos_generations_extend_bundle": true,
+      "one_covariant_action_per_invocation": true,
+      "process_tensor_context_preserved": true,
+      "renewable_horizon": true,
+      "repair_by_local_gauge_correction": true
+    },
+    "expected_commitment_seed_digest": "bind_exact_v0_1_commitment_seed_digest",
+    "expected_effect_receipt_digest": "",
+    "expected_goal_set_digest": "bind_exact_v0_1_goal_set_digest",
+    "expected_previous_gauge_state_digest": "",
+    "expected_telos_state_digest": "bind_exact_v0_1_telos_state_digest",
+    "gauge_plan_digest": "compute_with_plan_digest",
+    "gauge_run_id": "gauge-run-example-001",
+    "max_bundle_sections": 256,
+    "max_new_sections_per_run": 8,
+    "max_transports_per_section": 4,
+    "min_action_scale": 0.02,
+    "version": "kuuos_open_horizon_commitment_gauge_plan_v0_2"
+  }
+}
