@@ -1,0 +1,36 @@
+name: Qi Licensed Plural Routing Dry Run v0.21 Validation
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_indra_qi_licensed_plural_routing_dry_run_*_v0_21.py"
+      - "scripts/check_qi_licensed_plural_routing_dry_run_v0_21.py"
+      - "manifests/qi_licensed_plural_routing_dry_run_v0_21.json"
+      - "examples/indra_qi_licensed_plural_routing_dry_run_plan_v0_21.json"
+      - "docs/KU_INDRA_QI_LICENSED_PLURAL_ROUTING_DRY_RUN_v0_21.md"
+      - ".github/workflows/qi-licensed-plural-routing-dry-run-v0-21-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_indra_qi_licensed_plural_routing_dry_run_*_v0_21.py"
+      - "scripts/check_qi_licensed_plural_routing_dry_run_v0_21.py"
+      - "manifests/qi_licensed_plural_routing_dry_run_v0_21.json"
+      - "examples/indra_qi_licensed_plural_routing_dry_run_plan_v0_21.json"
+      - "docs/KU_INDRA_QI_LICENSED_PLURAL_ROUTING_DRY_RUN_v0_21.md"
+      - ".github/workflows/qi-licensed-plural-routing-dry-run-v0-21-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile v0.21 runtime
+        run: python -m py_compile runtime/kuuos_indra_qi_licensed_plural_routing_dry_run_core_v0_21.py runtime/kuuos_indra_qi_licensed_plural_routing_dry_run_runtime_v0_21.py scripts/check_qi_licensed_plural_routing_dry_run_v0_21.py
+      - name: Run v0.21 checks
+        run: python scripts/check_qi_licensed_plural_routing_dry_run_v0_21.py
