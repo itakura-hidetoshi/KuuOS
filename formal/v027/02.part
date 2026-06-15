@@ -1,0 +1,8 @@
+structure DenseOperatorCore (H : RealHilbertCarrier) where
+  domain : Submodule ℝ H.Carrier
+  operator : domain →ₗ[ℝ] H.Carrier
+  denseDomain : Dense (domain : Set H.Carrier)
+  symmetricCore : ∀ x y : domain,
+    inner ℝ (operator x) (y : H.Carrier) =
+      inner ℝ (x : H.Carrier) (operator y)
+
