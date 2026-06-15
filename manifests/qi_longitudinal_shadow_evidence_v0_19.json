@@ -1,0 +1,17 @@
+{
+  "manifest_version": "qi_longitudinal_shadow_evidence_v0_19",
+  "runtime": [
+    "runtime/kuuos_indra_qi_longitudinal_shadow_evidence_core_v0_19.py",
+    "runtime/kuuos_indra_qi_longitudinal_shadow_evidence_runtime_v0_19.py"
+  ],
+  "scripts": [
+    "scripts/check_qi_longitudinal_shadow_evidence_v0_19.py"
+  ],
+  "docs": [
+    "docs/KU_INDRA_QI_LONGITUDINAL_SHADOW_EVIDENCE_v0_19.md"
+  ],
+  "example": [
+    "examples/indra_qi_longitudinal_shadow_evidence_plan_v0_19.json"
+  ],
+  "status": "READY"
+}
