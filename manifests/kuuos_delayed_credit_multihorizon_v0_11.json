@@ -1,0 +1,30 @@
+{
+  "manifest_version": "kuuos_delayed_credit_multihorizon_v0_11",
+  "status": "READY",
+  "docs": ["docs/KUUOS_DELAYED_CREDIT_MULTIHORIZON_v0_11.md"],
+  "examples": ["examples/kuuos_delayed_credit_multihorizon_input_v0_11.json"],
+  "formal": ["formal/KUOS/OpenHorizon/DelayedCreditMultiHorizonV0_11.lean"],
+  "runtime": [
+    "runtime/kuuos_delayed_credit_multihorizon_types_v0_11.py",
+    "runtime/kuuos_delayed_credit_multihorizon_model_v0_11.py",
+    "runtime/kuuos_delayed_credit_multihorizon_validation_v0_11.py",
+    "runtime/kuuos_delayed_credit_multihorizon_bridge_v0_11.py",
+    "runtime/kuuos_delayed_credit_multihorizon_paths_v0_11.py",
+    "runtime/kuuos_delayed_credit_multihorizon_ledger_v0_11.py",
+    "runtime/kuuos_delayed_credit_multihorizon_receipt_v0_11.py",
+    "runtime/kuuos_delayed_credit_multihorizon_recovery_v0_11.py",
+    "runtime/kuuos_delayed_credit_multihorizon_core_v0_11.py",
+    "runtime/kuuos_delayed_credit_multihorizon_cycle_v0_11.py"
+  ],
+  "scripts": [
+    "scripts/delayed_credit_multihorizon_v0_11_test_support.py",
+    "scripts/delayed_credit_multihorizon_v0_11_runner.py",
+    "scripts/delayed_credit_multihorizon_v0_11_smoke.py",
+    "scripts/delayed_credit_multihorizon_v0_11_smoke_b.py",
+    "scripts/delayed_credit_multihorizon_v0_11_stale.py",
+    "scripts/delayed_credit_multihorizon_v0_11_scenario.py",
+    "scripts/delayed_credit_multihorizon_v0_11_artifacts.py",
+    "scripts/check_delayed_credit_multihorizon_v0_11.py"
+  ],
+  "workflows": [".github/workflows/delayed-credit-multihorizon-v0-11-validation.yml"]
+}
