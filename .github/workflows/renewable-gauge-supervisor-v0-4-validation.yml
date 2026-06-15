@@ -44,7 +44,18 @@ jobs:
           runtime/kuuos_active_gauge_intervention_effect_v0_3.py
           scripts/check_renewable_gauge_supervisor_v0_4.py
       - name: Run renewable gauge supervisor checks
+        id: supervisor_checks
+        continue-on-error: true
+        run: python scripts/check_renewable_gauge_supervisor_v0_4.py > renewable-v04.log 2>&1
+      - name: Upload renewable supervisor log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: renewable-gauge-supervisor-v04-log
+          path: renewable-v04.log
+      - name: Report renewable supervisor failure
+        if: steps.supervisor_checks.outcome == 'failure'
         shell: bash
         run: |
-          set -o pipefail
-          python scripts/check_renewable_gauge_supervisor_v0_4.py 2>&1 | tail -n 80
+          tail -n 80 renewable-v04.log
+          exit 1
