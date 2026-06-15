@@ -1,0 +1,17 @@
+{
+  "manifest_version": "qi_licensed_mirror_observation_admission_v0_22",
+  "runtime": [
+    "runtime/kuuos_indra_qi_licensed_mirror_observation_admission_core_v0_22.py",
+    "runtime/kuuos_indra_qi_licensed_mirror_observation_admission_runtime_v0_22.py"
+  ],
+  "scripts": [
+    "scripts/check_qi_licensed_mirror_observation_admission_v0_22.py"
+  ],
+  "docs": [
+    "docs/KU_INDRA_QI_LICENSED_MIRROR_OBSERVATION_ADMISSION_v0_22.md"
+  ],
+  "example": [
+    "examples/indra_qi_licensed_mirror_observation_admission_plan_v0_22.json"
+  ],
+  "status": "READY"
+}
