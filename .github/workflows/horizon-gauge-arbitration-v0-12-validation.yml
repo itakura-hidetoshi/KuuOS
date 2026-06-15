@@ -6,12 +6,18 @@ on:
       - "runtime/kuuos_horizon_gauge_arbitration*_v0_12.py"
       - "scripts/*horizon_gauge_arbitration_v0_12*.py"
       - "formal/KUOS/OpenHorizon/HorizonGaugeArbitrationV0_12.lean"
+      - "docs/KUUOS_HORIZON_GAUGE_ARBITRATION_v0_12.md"
+      - "examples/kuuos_horizon_gauge_arbitration_input_v0_12.json"
+      - "manifests/kuuos_horizon_gauge_arbitration_v0_12.json"
       - ".github/workflows/horizon-gauge-arbitration-v0-12-validation.yml"
   pull_request:
     paths:
       - "runtime/kuuos_horizon_gauge_arbitration*_v0_12.py"
       - "scripts/*horizon_gauge_arbitration_v0_12*.py"
       - "formal/KUOS/OpenHorizon/HorizonGaugeArbitrationV0_12.lean"
+      - "docs/KUUOS_HORIZON_GAUGE_ARBITRATION_v0_12.md"
+      - "examples/kuuos_horizon_gauge_arbitration_input_v0_12.json"
+      - "manifests/kuuos_horizon_gauge_arbitration_v0_12.json"
       - ".github/workflows/horizon-gauge-arbitration-v0-12-validation.yml"
   workflow_dispatch:
 
@@ -28,10 +34,10 @@ jobs:
           python-version: "3.12"
       - name: Compile v0.12
         run: python -m compileall -q runtime scripts
-      - name: Run v0.12 scenario
+      - name: Run v0.12 checks
         id: checks
         continue-on-error: true
-        run: python -c "from scripts.horizon_gauge_arbitration_v0_12_scenario_fixed import run_scenario; run_scenario()" > horizon-gauge-v012.log 2>&1
+        run: python scripts/check_horizon_gauge_arbitration_v0_12.py > horizon-gauge-v012.log 2>&1
       - name: Upload v0.12 log
         if: always()
         uses: actions/upload-artifact@v4
