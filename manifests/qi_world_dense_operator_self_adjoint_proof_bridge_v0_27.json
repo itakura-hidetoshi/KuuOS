@@ -1,0 +1,21 @@
+{
+  "manifest_version": "qi_world_dense_operator_self_adjoint_proof_bridge_v0_27",
+  "runtime": [
+    "runtime/kuuos_indra_qi_world_dense_operator_self_adjoint_proof_bridge_base_v0_27.py",
+    "runtime/kuuos_indra_qi_world_dense_operator_self_adjoint_proof_bridge_core_v0_27.py",
+    "runtime/kuuos_indra_qi_world_dense_operator_self_adjoint_proof_bridge_runtime_v0_27.py"
+  ],
+  "formal": [
+    "formal/KUOS/WORLD/DenseOperatorSelfAdjointBridge_v0_27.lean"
+  ],
+  "scripts": [
+    "scripts/check_qi_world_dense_operator_self_adjoint_proof_bridge_v0_27.py"
+  ],
+  "docs": [
+    "docs/KU_INDRA_QI_WORLD_DENSE_OPERATOR_SELF_ADJOINT_PROOF_BRIDGE_v0_27.md"
+  ],
+  "example": [
+    "examples/indra_qi_world_dense_operator_self_adjoint_proof_bridge_plan_v0_27.json"
+  ],
+  "status": "READY"
+}
