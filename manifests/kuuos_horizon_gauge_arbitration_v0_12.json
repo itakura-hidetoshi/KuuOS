@@ -1,0 +1,82 @@
+{
+  "manifest_version": "kuuos_horizon_gauge_arbitration_v0_12",
+  "status": "READY",
+  "docs": [
+    "docs/KUUOS_HORIZON_GAUGE_ARBITRATION_v0_12.md"
+  ],
+  "examples": [
+    "examples/kuuos_horizon_gauge_arbitration_input_v0_12.json"
+  ],
+  "formal": [
+    "formal/KUOS/OpenHorizon/HorizonGaugeArbitrationV0_12.lean"
+  ],
+  "runtime": [
+    "runtime/kuuos_horizon_gauge_arbitration_types_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_basis_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_geometry_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_transport_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_decision_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_outcome_class_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_outcome_packet_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_section_update_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_bundle_update_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_commit_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_child_plan_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_child_license_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_validation_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_paths_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_pending_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_state_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_record_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_receipt_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_recovery_load_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_upstream_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_child_execute_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_result_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_prepare_base_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_prepare_guard_basic_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_prepare_guard_digest_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_prepare_identity_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_packet_build_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_packet_write_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_pending_append_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_child_phase_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_commit_compute_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_commit_write_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_state_base_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_finalize_state_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_receipt_build_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_receipt_store_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_audit_store_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_pipeline_start_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_pipeline_finish_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_core_v0_12.py",
+    "runtime/kuuos_horizon_gauge_arbitration_cycle_v0_12.py"
+  ],
+  "scripts": [
+    "scripts/horizon_gauge_arbitration_v0_12_test_support.py",
+    "scripts/horizon_gauge_arbitration_v0_12_snapshots.py",
+    "scripts/horizon_gauge_arbitration_v0_12_execute.py",
+    "scripts/horizon_gauge_arbitration_v0_12_phase_a_fixed.py",
+    "scripts/horizon_gauge_arbitration_v0_12_phase_b.py",
+    "scripts/horizon_gauge_arbitration_v0_12_stale.py",
+    "scripts/horizon_gauge_arbitration_v0_12_scenario_fixed.py",
+    "scripts/horizon_gauge_arbitration_v0_12_artifacts.py",
+    "scripts/check_horizon_gauge_arbitration_v0_12.py"
+  ],
+  "workflows": [
+    ".github/workflows/horizon-gauge-arbitration-v0-12-validation.yml"
+  ],
+  "upstream": [
+    "kuuos_delayed_credit_multihorizon_v0_11",
+    "kuuos_policy_regret_cadence_v0_10",
+    "kuuos_experiment_outcome_policy_v0_9",
+    "kuuos_bounded_portfolio_experiment_v0_8",
+    "kuuos_adapter_portfolio_shadow_v0_7",
+    "kuuos_adapter_capability_gauge_v0_6",
+    "kuuos_event_adapter_federation_v0_5",
+    "kuuos_renewable_gauge_supervisor_v0_4",
+    "kuuos_active_gauge_intervention_loop_v0_3",
+    "kuuos_open_horizon_commitment_gauge_v0_2"
+  ]
+}
