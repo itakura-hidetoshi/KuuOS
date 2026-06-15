@@ -35,4 +35,17 @@ jobs:
       - name: Compile v0.11
         run: python -m compileall -q runtime scripts
       - name: Run v0.11 checks
-        run: python scripts/check_delayed_credit_multihorizon_v0_11.py
+        id: checks
+        continue-on-error: true
+        run: python scripts/check_delayed_credit_multihorizon_v0_11.py > delayed-credit-v011.log 2>&1
+      - name: Upload v0.11 log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: delayed-credit-v011-log
+          path: delayed-credit-v011.log
+      - name: Report v0.11 failure
+        if: steps.checks.outcome == 'failure'
+        run: |
+          tail -n 240 delayed-credit-v011.log
+          exit 1
