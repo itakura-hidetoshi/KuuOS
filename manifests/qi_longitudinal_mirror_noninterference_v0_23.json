@@ -1,0 +1,17 @@
+{
+  "manifest_version": "qi_longitudinal_mirror_noninterference_v0_23",
+  "runtime": [
+    "runtime/kuuos_indra_qi_longitudinal_mirror_noninterference_core_v0_23.py",
+    "runtime/kuuos_indra_qi_longitudinal_mirror_noninterference_runtime_v0_23.py"
+  ],
+  "scripts": [
+    "scripts/check_qi_longitudinal_mirror_noninterference_v0_23.py"
+  ],
+  "docs": [
+    "docs/KU_INDRA_QI_LONGITUDINAL_MIRROR_NONINTERFERENCE_v0_23.md"
+  ],
+  "example": [
+    "examples/indra_qi_longitudinal_mirror_noninterference_plan_v0_23.json"
+  ],
+  "status": "READY"
+}
