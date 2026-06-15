@@ -1,0 +1,17 @@
+{
+  "manifest_version": "qi_bounded_canary_observation_v0_24",
+  "runtime": [
+    "runtime/kuuos_indra_qi_bounded_canary_observation_core_v0_24.py",
+    "runtime/kuuos_indra_qi_bounded_canary_observation_runtime_v0_24.py"
+  ],
+  "scripts": [
+    "scripts/check_qi_bounded_canary_observation_v0_24.py"
+  ],
+  "docs": [
+    "docs/KU_INDRA_QI_BOUNDED_CANARY_OBSERVATION_v0_24.md"
+  ],
+  "example": [
+    "examples/indra_qi_bounded_canary_observation_plan_v0_24.json"
+  ],
+  "status": "READY"
+}
