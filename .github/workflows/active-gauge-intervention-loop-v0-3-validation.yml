@@ -3,7 +3,7 @@ name: Active Gauge Intervention Loop v0.3 Validation
 on:
   push:
     paths:
-      - "runtime/kuuos_active_gauge_intervention_loop*_v0_3.py"
+      - "runtime/kuuos_active_gauge_intervention_*_v0_3.py"
       - "scripts/check_active_gauge_intervention_loop_v0_3.py"
       - "formal/KUOS/OpenHorizon/ActiveGaugeInterventionV0_3.lean"
       - "docs/KUUOS_ACTIVE_GAUGE_INTERVENTION_LOOP_v0_3.md"
@@ -12,7 +12,7 @@ on:
       - ".github/workflows/active-gauge-intervention-loop-v0-3-validation.yml"
   pull_request:
     paths:
-      - "runtime/kuuos_active_gauge_intervention_loop*_v0_3.py"
+      - "runtime/kuuos_active_gauge_intervention_*_v0_3.py"
       - "scripts/check_active_gauge_intervention_loop_v0_3.py"
       - "formal/KUOS/OpenHorizon/ActiveGaugeInterventionV0_3.lean"
       - "docs/KUUOS_ACTIVE_GAUGE_INTERVENTION_LOOP_v0_3.md"
@@ -35,6 +35,10 @@ jobs:
       - name: Compile active gauge intervention runtime
         run: >-
           python -m py_compile
+          runtime/kuuos_active_gauge_intervention_types_v0_3.py
+          runtime/kuuos_active_gauge_intervention_validation_v0_3.py
+          runtime/kuuos_active_gauge_intervention_local_adapter_v0_3.py
+          runtime/kuuos_active_gauge_intervention_effect_v0_3.py
           runtime/kuuos_active_gauge_intervention_loop_core_v0_3.py
           runtime/kuuos_active_gauge_intervention_loop_v0_3.py
           scripts/check_active_gauge_intervention_loop_v0_3.py
