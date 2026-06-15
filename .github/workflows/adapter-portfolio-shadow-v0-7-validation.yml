@@ -1,0 +1,64 @@
+name: Adapter Portfolio Shadow v0.7 Validation
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_adapter_portfolio_shadow*_v0_7.py"
+      - "scripts/adapter_portfolio_shadow_v0_7_test_support.py"
+      - "scripts/check_adapter_portfolio_shadow_v0_7.py"
+      - "formal/KUOS/OpenHorizon/AdapterPortfolioShadowV0_7.lean"
+      - "docs/KUUOS_ADAPTER_PORTFOLIO_SHADOW_v0_7.md"
+      - "examples/kuuos_adapter_portfolio_shadow_input_v0_7.json"
+      - "manifests/kuuos_adapter_portfolio_shadow_v0_7.json"
+      - ".github/workflows/adapter-portfolio-shadow-v0-7-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_adapter_portfolio_shadow*_v0_7.py"
+      - "scripts/adapter_portfolio_shadow_v0_7_test_support.py"
+      - "scripts/check_adapter_portfolio_shadow_v0_7.py"
+      - "formal/KUOS/OpenHorizon/AdapterPortfolioShadowV0_7.lean"
+      - "docs/KUUOS_ADAPTER_PORTFOLIO_SHADOW_v0_7.md"
+      - "examples/kuuos_adapter_portfolio_shadow_input_v0_7.json"
+      - "manifests/kuuos_adapter_portfolio_shadow_v0_7.json"
+      - ".github/workflows/adapter-portfolio-shadow-v0-7-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile adapter portfolio shadow
+        run: >-
+          python -m py_compile
+          runtime/kuuos_adapter_portfolio_shadow_types_v0_7.py
+          runtime/kuuos_adapter_portfolio_shadow_model_v0_7.py
+          runtime/kuuos_adapter_portfolio_shadow_validation_v0_7.py
+          runtime/kuuos_adapter_portfolio_shadow_bridge_v0_7.py
+          runtime/kuuos_adapter_portfolio_shadow_records_v0_7.py
+          runtime/kuuos_adapter_portfolio_shadow_core_v0_7.py
+          runtime/kuuos_adapter_portfolio_shadow_cycle_v0_7.py
+          scripts/adapter_portfolio_shadow_v0_7_test_support.py
+          scripts/check_adapter_portfolio_shadow_v0_7.py
+      - name: Run adapter portfolio shadow checks
+        id: portfolio_checks
+        continue-on-error: true
+        run: python scripts/check_adapter_portfolio_shadow_v0_7.py > portfolio-v07.log 2>&1
+      - name: Upload portfolio log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: adapter-portfolio-shadow-v07-log
+          path: portfolio-v07.log
+      - name: Report portfolio failure
+        if: steps.portfolio_checks.outcome == 'failure'
+        shell: bash
+        run: |
+          tail -n 160 portfolio-v07.log
+          exit 1
