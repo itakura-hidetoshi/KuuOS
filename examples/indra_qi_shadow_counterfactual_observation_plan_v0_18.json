@@ -1,0 +1,30 @@
+{
+  "version": "indra_qi_shadow_counterfactual_observation_plan_v0_18",
+  "observation_program_id": "shadow-counterfactual-observation-example",
+  "observation_cycle_id": "shadow-counterfactual-observation-cycle-0",
+  "world_model_id": "FILL_FROM_WORLD_STATE",
+  "expected_source_world_state_digest": "FILL_FROM_WORLD_STATE",
+  "expected_shadow_roster_digest": "FILL_FROM_V0_17_SHADOW_ROSTER",
+  "expected_source_admission_state_digest": "FILL_FROM_V0_17_STATE",
+  "expected_source_admission_recommendation_digest": "FILL_FROM_V0_17_RECOMMENDATION",
+  "observation_policy": {
+    "minimum_projection_lineages": 3,
+    "maximum_projection_lineages": 4,
+    "minimum_projection_coverage_ratio": 1.0,
+    "minimum_deterministic_replay_ratio": 1.0,
+    "maximum_adverse_metric_shift": 0.2,
+    "minimum_pareto_frontier_lineages": 2,
+    "minimum_distinct_counterfactual_signatures": 3,
+    "minimum_recovery_projections": 1,
+    "minimum_minority_projections": 1,
+    "require_shared_observation_input": true,
+    "require_shadow_baseline_binding": true,
+    "require_shadow_overlay_binding": true,
+    "require_live_route_disabled": true,
+    "require_external_actuation_disabled": true,
+    "require_world_update_disabled": true,
+    "require_policy_boundary_preserved": true
+  },
+  "boundary_profile": "Copy REQUIRED_BOUNDARY from kuuos_indra_qi_shadow_counterfactual_observation_core_v0_18.py before canonical digesting.",
+  "counterfactual_observation_plan_digest": "FILL_AFTER_CANONICAL_DIGEST"
+}
