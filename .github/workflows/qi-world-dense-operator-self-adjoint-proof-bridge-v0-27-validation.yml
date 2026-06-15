@@ -1,0 +1,38 @@
+name: Qi WORLD Dense Operator Self-Adjoint Proof Bridge v0.27 Validation
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_indra_qi_world_dense_operator_self_adjoint_proof_bridge_*_v0_27.py"
+      - "formal/KUOS/WORLD/DenseOperatorSelfAdjointBridge_v0_27.lean"
+      - "scripts/check_qi_world_dense_operator_self_adjoint_proof_bridge_v0_27.py"
+      - "manifests/qi_world_dense_operator_self_adjoint_proof_bridge_v0_27.json"
+      - "examples/indra_qi_world_dense_operator_self_adjoint_proof_bridge_plan_v0_27.json"
+      - "docs/KU_INDRA_QI_WORLD_DENSE_OPERATOR_SELF_ADJOINT_PROOF_BRIDGE_v0_27.md"
+      - ".github/workflows/qi-world-dense-operator-self-adjoint-proof-bridge-v0-27-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_indra_qi_world_dense_operator_self_adjoint_proof_bridge_*_v0_27.py"
+      - "formal/KUOS/WORLD/DenseOperatorSelfAdjointBridge_v0_27.lean"
+      - "scripts/check_qi_world_dense_operator_self_adjoint_proof_bridge_v0_27.py"
+      - "manifests/qi_world_dense_operator_self_adjoint_proof_bridge_v0_27.json"
+      - "examples/indra_qi_world_dense_operator_self_adjoint_proof_bridge_plan_v0_27.json"
+      - "docs/KU_INDRA_QI_WORLD_DENSE_OPERATOR_SELF_ADJOINT_PROOF_BRIDGE_v0_27.md"
+      - ".github/workflows/qi-world-dense-operator-self-adjoint-proof-bridge-v0-27-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile v0.27 runtime
+        run: python -m py_compile runtime/kuuos_indra_qi_world_dense_operator_self_adjoint_proof_bridge_base_v0_27.py runtime/kuuos_indra_qi_world_dense_operator_self_adjoint_proof_bridge_core_v0_27.py runtime/kuuos_indra_qi_world_dense_operator_self_adjoint_proof_bridge_runtime_v0_27.py scripts/check_qi_world_dense_operator_self_adjoint_proof_bridge_v0_27.py
+      - name: Run v0.27 checks
+        run: python scripts/check_qi_world_dense_operator_self_adjoint_proof_bridge_v0_27.py
