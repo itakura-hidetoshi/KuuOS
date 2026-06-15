@@ -96,8 +96,10 @@ def validate_upstream(
         blockers.append("gauge_state_bundle_digest_mismatch")
     if gauge_state.get("covariant_action_digest") != action.get("covariant_action_digest"):
         blockers.append("gauge_state_action_digest_mismatch")
-    if action.get("source_bundle_digest") != bundle.get("gauge_bundle_digest"):
-        blockers.append("action_source_bundle_digest_mismatch")
+    # An outstanding action is deliberately byte-stable while unrelated Telos
+    # sections extend the bundle. Therefore its source_bundle_digest may name the
+    # earlier dispatch bundle. Exact authority is carried by the action digest plus
+    # the current bundle's active action and section bindings below.
     if bundle.get("active_action_id") != action.get("action_id"):
         blockers.append("bundle_active_action_id_mismatch")
     if bundle.get("active_section_id") != action.get("section_id"):
