@@ -44,4 +44,7 @@ jobs:
           runtime/kuuos_active_gauge_intervention_effect_v0_3.py
           scripts/check_renewable_gauge_supervisor_v0_4.py
       - name: Run renewable gauge supervisor checks
-        run: python scripts/check_renewable_gauge_supervisor_v0_4.py
+        shell: bash
+        run: |
+          set -o pipefail
+          python scripts/check_renewable_gauge_supervisor_v0_4.py 2>&1 | tail -n 80
