@@ -1,26 +1,47 @@
 # KuuOS / 空OS Roadmap
 
-This roadmap describes the current public direction of `itakura-hidetoshi/KuuOS` as of June 2026.
+This roadmap describes the current public direction of `itakura-hidetoshi/KuuOS` as of June 16, 2026.
 
-KuuOS has moved beyond a small public-core documentation surface. It is now an append-only, governance-gated, validation-backed, proof-facing, memory-aware, Qi-process-aware, and bounded executable runtime architecture for relational AI systems.
+KuuOS is an append-only, governance-gated, validation-backed, proof-facing, memory-aware, Qi-process-aware, **gauge-theoretic**, and bounded executable runtime architecture for relational AI systems.
 
 The roadmap is organized around two simultaneous movements:
 
-1. **Public repository maturity** — make the current governance, validation, runtime, Qi, memory, proof-facing, GitHub/CI, and boundary surfaces understandable and reproducible.
-2. **Controlled KuuOS baseline projection** — gradually project the larger KuuOS baseline into public artifacts without collapsing candidate, validation, runtime, proof, medical, institutional, memory, GitHub, or execution authority.
+1. **Public repository maturity** — keep governance, validation, runtime, Qi, memory, proof-facing, GitHub/CI, gauge-control, and boundary surfaces understandable and reproducible.
+2. **Controlled KuuOS baseline projection** — project the broader KuuOS baseline into public artifacts without collapsing local section, chart, validation, runtime, proof, medical, institutional, memory, GitHub, or execution authority.
+
+The current architectural direction is explicitly gauge-theoretic:
+
+```text
+context = local chart
+policy state = local section
+compatible context relation = chart overlap
+context change = transition function
+section movement = parallel transport
+disagreement = curvature / cocycle defect
+path-dependent retained history = holonomy
+```
+
+KuuOS does not use a global context graph, universal context winner, central node, or shortest-path policy as its governing model.
 
 ---
 
-## 0. Non-Authority Boundary
+## 0. Non-Authority and Non-Collapse Boundary
 
 This roadmap does not open unrestricted autonomous authority.
 
-The following remain closed unless a later, explicitly versioned, externally reviewed release opens them:
+The following remain closed unless a later, explicitly versioned and reviewed release opens them:
 
 ```text
 unrestricted autonomous execution authority
 arbitrary shell execution authority
 arbitrary network execution authority
+global-context-graph authority
+shortest-path-as-policy authority
+local-section-as-global-truth
+chart-overlap-as-permanent-edge
+curvature-as-veto
+cocycle-defect-as-prohibition
+holonomy-as-sovereign-memory
 standalone diagnosis authority
 standalone treatment authorization
 medical act authorization
@@ -28,7 +49,6 @@ institutional authority
 final theorem authority
 unreviewed AGI deployment authority
 Qi-based intervention authority
-Qi motion candidate as standalone diagnosis or treatment authorization
 CI-pass-as-truth
 validator-pass-as-truth
 runtime-tick-as-execution-authority
@@ -45,15 +65,18 @@ audit-trigger-as-infinite-escalation
 
 This boundary is medical-modality neutral. It does not state that biomedicine is superior, that Qi is false, or that East Asian medical reasoning is invalid.
 
-All phases below preserve:
+All phases preserve:
 
 ```text
-append-only
-tighten-only by default, but not automatic grave escalation
-overwrite forbidden
+append-only lineage
+additive projection
 same-root required for protected surfaces
+overwrite forbidden
 fail-closed validation behavior
 non-authority preservation
+local-chart preservation
+plurality floor preservation
+residue visibility
 provenance preservation
 bounded runtime operation
 allowlist discipline
@@ -61,6 +84,8 @@ validator tier separation
 audit proportionality
 harmony and visible cost
 ```
+
+`tighten-only` remains a local, bounded, contextual tool rather than an automatic root principle or grave-escalation rule.
 
 ---
 
@@ -82,7 +107,6 @@ docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
 docs/KUOS_FOURFOLD_CORE_v0_1.md
 docs/BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1.md
 docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md
-docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md
 ```
 
 Validation:
@@ -96,7 +120,7 @@ Purpose:
 
 ```text
 Expose the public core.
-Define non-authority.
+Define non-authority and non-collapse.
 Make validation reproducible.
 Give reviewers a stable entry path.
 ```
@@ -105,12 +129,10 @@ Give reviewers a stable entry path.
 
 Status: **active public audit-chain surface**
 
-Core rule:
-
 ```text
-runtime audit chain structural consistency is not theorem authority
-hash-chain continuity is not truth
-two truths non-collapse barrier must not reify ultimate truth
+runtime structural consistency != theorem authority
+hash-chain continuity != truth
+two-truths barrier must not reify ultimate truth
 audit must not silently become infinite escalation
 ```
 
@@ -123,18 +145,16 @@ make emptiness-superposition-noncollapse-checks
 
 ### 1.3 Qi / IndraNet / Physical Quantum Qi
 
-Status: **active bridge, motion-chain, process-tensor, and deepening surface**
-
-Core direction:
+Status: **active bridge, process-tensor, motion, and gauge-flow surface**
 
 ```text
 Qi is a relational field, not a substance.
 Qi is not denied by the medical boundary.
 East Asian medical reasoning is not denied by the medical boundary.
 Biomedicine is not privileged by the wording.
-IndraNet is gauge-structured, not a flat graph.
-Process / memory / transport / recoverability surfaces remain first-class.
-Qi motion is evidence-bound, licensed by validated type, and observe-only.
+IndraNet is a higher gauge / holonomy field, not a flat graph.
+Process, memory, transport, recoverability, and order sensitivity remain first-class.
+Qi motion remains evidence-bound and scope-bound.
 ```
 
 Validation:
@@ -147,21 +167,17 @@ make physical-quantum-qi-motion-pipeline-checks
 make physical-quantum-qi-deepening-checks
 ```
 
-### 1.4 KuuOS Bounded Runtime v0.1
+### 1.4 KuuOS Bounded Runtime
 
 Status: **active bounded non-authoritative runtime surface**
 
-Current direction:
-
 ```text
 Runtime is bounded.
-Runtime is non-authoritative.
 Runtime is receipt-producing.
-Runtime may advance State IO by bounded ticks.
+Runtime may advance declared State IO ticks.
 Runtime may execute allowlisted bounded actions.
-Runtime does not open arbitrary execution authority.
-Runtime does not open truth, theorem, clinical, memory-overwrite,
-repository, or final-commitment authority.
+Runtime does not open arbitrary shell, network, truth, theorem, clinical,
+memory-overwrite, repository, or final-commitment authority.
 ```
 
 Validation:
@@ -170,11 +186,9 @@ Validation:
 python3 scripts/run_kuuos_runtime_full_check_v0_1.py
 ```
 
-### 1.5 Qi Process Tensor Cycle / Trend / Reliability Surface
+### 1.5 Qi Process Tensor / Trend / Reliability Surface
 
 Status: **active runtime maturity surface**
-
-Current chain:
 
 ```text
 cycle supervisor receipts + audit history + trajectory packet
@@ -182,40 +196,23 @@ cycle supervisor receipts + audit history + trajectory packet
   -> trend class
   -> recommendation
   -> reliability score
-  -> trend-adaptive supervisor packet
-  -> trend-adaptive bounded supervisor run
+  -> bounded supervisor packet/run
 ```
 
-Validation:
-
-```bash
-python scripts/check_qi_process_tensor_cycle_trend_summary_v3_9.py
-python scripts/check_qi_trend_adaptive_supervisor_packet_v4_0.py
-python scripts/check_qi_trend_adaptive_supervisor_run_v4_1.py
-```
-
-Acceptance criteria:
-
-```text
-A reviewer can see whether runtime cycles are stable, blocked, hold-dominant,
-no-progress, or insufficient-history without converting trend into authority.
-```
+The process tensor guides posture without becoming truth or action authority.
 
 ### 1.6 Allowlisted Executable Action Surface
 
 Status: **active bounded executable surface**
 
-Current chain:
-
 ```text
-qi_executable_action_packet
-  -> executable action dispatcher
-  -> exactly one allowlisted action
+executable action packet
+  -> allowlisted dispatcher
+  -> exactly one declared action
 
-qi_executable_action_sequence_packet
-  -> executable action sequence runner
-  -> finite declared sequence
-  -> stop on completion or first blocked action
+finite sequence packet
+  -> finite sequence runner
+  -> completion or first blocked action
 ```
 
 Validation:
@@ -225,89 +222,40 @@ python scripts/check_qi_executable_action_dispatcher_v4_2.py
 python scripts/check_qi_executable_action_sequence_runner_v4_3.py
 ```
 
-Acceptance criteria:
-
-```text
-A reviewer can identify the action allowlist, see the finite sequence,
-inspect receipts, and verify that blocked actions stop the sequence.
-```
-
-### 1.7 GitHub Actions / PR Live-Loop Surface
+### 1.7 GitHub Actions / PR Adapter Surface
 
 Status: **active bounded repository-operation surface**
 
-Current direction:
-
 ```text
-GitHub/CI integration is becoming a bounded live-loop surface.
-It can prepare connector requests, adapt connector results, collect PR/workflow
-snapshots, and prepare bounded policy decisions.
-It cannot grant repository authority by itself.
-It cannot merge, rerun, or mutate without explicit downstream authority.
+query packet
+  -> connector request
+  -> connector result
+  -> result adapter
+  -> workflow / PR snapshot
+  -> bounded policy preparation
+  -> receipt + audit
 ```
 
-Current public chain:
+The adapter does not acquire merge, rerun, mutation, or repository authority by itself.
 
-```text
-PR live query packet
-  -> PR live request planner
-  -> connector request packet
-  -> connector result packet
-  -> PR live result adapter
-  -> raw PR info / workflow-runs packet
-  -> live snapshot collector
-  -> policy decision / action-prepared packet
-  -> receipt + audit JSONL
-```
+### 1.8 MemoryOS / Non-Markovian Memory Baseline
 
-Validation:
-
-```bash
-python scripts/check_qi_github_actions_pr_live_request_planner_v7_5.py
-python scripts/check_qi_github_actions_pr_live_result_adapter_v7_6.py
-```
-
-Acceptance criteria:
-
-```text
-A reviewer can see the requested GitHub action, expected result file,
-adapted packet, policy decision, action-prepared state, blockers, warnings,
-and stop reason without treating the live-loop as repository authority.
-```
-
-### 1.8 MemoryOS / Non-Markovian Memory Baseline Projection
-
-Status: **active internal baseline; public projection in progress**
-
-Core direction:
+Status: **active internal baseline; controlled public projection continues**
 
 ```text
 Memory is append-only lineage and reconstructive support.
 Memory is not belief authority.
 Memory is not root overwrite authority.
-Memory must preserve trace, scar, holonomy, relapse lineage, process continuity,
+Memory preserves trace, scar, holonomy, relapse lineage, process continuity,
 collective reconstruction, and uncertainty visibility.
-```
-
-Near-term next steps:
-
-```text
-Create public MemoryOS index surfaces.
-Expose non-Markovian memory examples through validation cases.
-Document process-tensor memory linkage.
-Separate memory persistence from belief promotion.
-Add reviewer examples for relapse, scar, reobserve, repair, and handover.
 ```
 
 ### 1.9 MGAP4D / Formal Verification / Lean Bridge
 
 Status: **active proof-facing bridge surface**
 
-Boundary:
-
 ```text
 KuuOS references canonical proof-facing repositories and formal surfaces.
-KuuOS does not independently grant final theorem authority.
 CI pass does not equal mathematical acceptance.
 Formal stub does not equal completed theorem.
 Lean file does not equal external theorem acceptance.
@@ -321,246 +269,280 @@ Canonical proof-facing repository:
 https://github.com/itakura-hidetoshi/4d-mass-gap
 ```
 
+### 1.10 Horizon Gauge Arbitration v0.12
+
+Status: **implemented, validated, merged public baseline**
+
+Purpose:
+
+```text
+Preserve short-, medium-, and long-horizon policy sections.
+Measure their pairwise connection residuals.
+Construct bounded arbitration curvature.
+Perform active plurality-preserving parallel transport.
+Start exactly one v0.11 child cycle.
+Classify the realized commitment outcome.
+Append replay-safe arbitration holonomy.
+```
+
+Current demonstrated sequence:
+
+```text
+experiment -> reobserve -> exploit -> exploit
+```
+
+Current invariants:
+
+```text
+weight sum = 1
+all horizon weights >= plurality floor
+one v0.11 child per v0.12 invocation
+winner-take-all collapse count = 0
+hard-gate bypass count = 0
+committed replay produces no duplicate effect
+stale bundle digest is rejected
+```
+
+Validation:
+
+```bash
+python scripts/check_horizon_gauge_arbitration_v0_12.py
+```
+
+Primary surfaces:
+
+```text
+docs/KUUOS_HORIZON_GAUGE_ARBITRATION_v0_12.md
+runtime/kuuos_horizon_gauge_arbitration_core_v0_12.py
+formal/KUOS/OpenHorizon/HorizonGaugeArbitrationV0_12.lean
+```
+
+### 1.11 Context Gauge Atlas v0.13
+
+Status: **implemented transition kernel, persistence surfaces, local-lift surfaces, formal surface, and dedicated CI**
+
+Purpose:
+
+```text
+Keep each context as a local chart.
+Keep each policy state as a local section.
+Use chart overlap to determine transition eligibility.
+Parallel-transport only compatible local sections.
+Record atlas curvature and cocycle defect without converting either into a veto.
+Preserve chart-local state and non-Markov atlas holonomy.
+Lift transported horizon weights toward one local v0.12 cycle.
+```
+
+Current classifications:
+
+```text
+isolated_chart
+compatible_chart_transport
+plural_atlas_transport
+```
+
+Current invariants:
+
+```text
+chart locality is preserved
+no global context winner is created
+transported horizon weights sum to 1
+plurality floor remains visible
+curvature and cocycle defect are bounded
+processed child outcome / effect digests are not attributed twice
+atlas holonomy advances append-only
+```
+
+Validation:
+
+```bash
+python scripts/run_context_gauge_atlas_v0_13.py
+```
+
+Primary surfaces:
+
+```text
+runtime/kuuos_context_gauge_atlas_transport_v0_13.py
+runtime/kuuos_context_gauge_atlas_decision_v0_13.py
+runtime/kuuos_context_gauge_atlas_lift_plan_v0_13.py
+runtime/kuuos_context_gauge_atlas_lift_license_v0_13.py
+formal/KUOS/OpenHorizon/ContextGaugeAtlasV0_13.lean
+```
+
 ---
 
 ## 2. Phase A — Public Orientation Alignment
 
-Status: **current priority**
+Status: **completed through v0.13; ongoing maintenance**
 
 Goal:
 
 ```text
-Keep README and ROADMAP aligned with the v7.6 public state:
-bounded runtime, Qi process tensor cycle maturity, allowlisted executable actions,
-and GitHub Actions PR live-loop adapters.
+Keep README and ROADMAP aligned with the actual public baseline:
+Qi and Memory surfaces, bounded executable runtime, v0.12 horizon gauge arbitration,
+and v0.13 context gauge atlas transport.
 ```
 
-Tasks:
+Completed:
 
-- keep `README.md` as the top-level public orientation surface
-- keep `ROADMAP.md` as the current integrated repository map
-- replace stale wording that implies there is no executable runtime surface
-- keep the stronger boundary: executable surface exists, but is bounded and non-authoritative
-- keep MGAP4D references as canonical proof-facing bridges, not the whole roadmap
-- expose Qi process tensor trend summary and reliability scoring
-- expose trend-adaptive supervisor packet/run
-- expose allowlisted action dispatcher and finite sequence runner
-- expose GitHub Actions PR live request/result adapter path
-- keep validator tiering visible
-- expose audit proportionality and anti-infinite-audit rules
+- README identifies KuuOS as gauge-theoretic rather than graph-theoretic;
+- v0.12 and v0.13 badges, validation commands, primary files, and boundaries are visible;
+- chart, section, overlap, transition, curvature, cocycle defect, and holonomy are defined for first-time reviewers;
+- curvature is explicitly separated from veto authority;
+- chart overlap is explicitly separated from graph edges;
+- the canonical MGAP4D proof-facing boundary remains visible;
+- bounded execution and repository adapters remain distinct from authority.
 
-Acceptance criteria:
+Maintenance criterion:
 
 ```text
-A new reviewer can identify what KuuOS is, what it is not, how to run checks,
-where the Qi motion/runtime/GitHub live-loop surfaces are, and why validation,
-runtime ticks, allowlisted actions, and PR live adapters are not authority.
+No newly merged runtime or gauge layer may leave README and ROADMAP materially stale.
 ```
 
 ---
 
-## 3. Phase B — Bounded Executable Runtime Consolidation
+## 3. Phase B — Complete v0.13-to-v0.12 Local Gauge Execution
+
+Status: **current next implementation priority**
+
+Goal:
+
+```text
+Turn the validated v0.13 atlas transition kernel and local-lift surfaces into a
+single replay-safe atlas invocation that starts exactly one v0.12 child cycle.
+```
+
+Tasks:
+
+- add the v0.13 orchestration entrypoint;
+- load current v0.12 and v0.13 state/bundle surfaces;
+- bind source, root, registry, previous atlas state, and previous atlas bundle digests;
+- persist atlas decision plus exact lifted v0.12 plan/license before child execution;
+- execute exactly one v0.12 cycle;
+- validate the exact child arbitration outcome and effect receipt;
+- update only the target chart after realized effect evidence;
+- append atlas outcome, state, committed ledger row, receipt, audit, and holonomy;
+- recover pending runs using the exact saved transition and child packets;
+- reject stale atlas digests before any child effect;
+- demonstrate a multi-context sequence containing isolated, compatible, and plural transport cycles;
+- retain `graph_semantics_forbidden` as a tested invariant.
+
+Acceptance criteria:
+
+```text
+one v0.13 invocation -> zero or one v0.12 child
+committed replay -> zero new child effects
+pending recovery -> exact packet reuse
+target chart only -> effect-grounded update
+all transition residue remains visible
+no global graph or context winner is created
+```
+
+---
+
+## 4. Phase C — Gauge Atlas Composition and Holonomy Maturity
 
 Status: **next**
 
 Goal:
 
 ```text
-Make bounded executable runtime operation reproducible, inspectable, and clearly non-authoritative.
+Strengthen chart composition without replacing local transition functions with a graph.
 ```
 
 Tasks:
 
-- add or confirm Makefile aliases for v3.9 / v4.0 / v4.1 / v4.2 / v4.3 / v7.5 / v7.6 checks
-- document the executable action allowlist
-- document the finite sequence runner packet schema
-- document stop-on-first-blocked-action semantics
-- make receipt and audit JSONL paths visible
-- distinguish bounded tick, allowlisted action, finite sequence, connector request, connector result adaptation, policy-prepared action, and actual repository mutation
-- keep authority flags false unless a downstream explicit authority layer is introduced
+- represent direct and composed transition functions explicitly;
+- define finite cocycle composition checks on triple chart overlap;
+- distinguish low-curvature compatible transport from persistent plural residue;
+- preserve different transport paths in atlas holonomy;
+- add recovery-cost and context-return examples;
+- add bounded chart aging and reobservation rules without deleting historical lineage;
+- formalize the relation between direct transport, composed transport, and cocycle defect;
+- keep chart compatibility typed and context-specific.
 
 Acceptance criteria:
 
 ```text
-A reviewer can run checks, inspect outputs, and verify bounded tick behavior,
-allowlisted action behavior, finite sequence behavior, PR live-loop adaptation,
-stop reasons, and false authority flags.
+A reviewer can compare direct and composed local transports,
+see the retained residue, and verify that no path is promoted to universal truth.
 ```
 
 ---
 
-## 4. Phase C — GitHub Actions Live-Loop Hardening
-
-Status: **next**
-
-Goal:
-
-```text
-Turn the PR live-loop into a safe, connector-explicit, audit-visible repository-operation surface.
-```
-
-Tasks:
-
-- document the query packet
-- document connector request packets
-- document raw connector result packets
-- document result adapter behavior
-- document live snapshot collector behavior
-- document policy-decision classes
-- separate request planning, connector invocation, result adaptation, snapshot collection, policy recommendation, and actual mutation authority
-- add examples for all-green workflows, failed workflows, pending workflows, draft PRs, closed PRs, mergeability unknown, missing head SHA, and stale connector results
-- prevent live-loop output from being treated as merge authority
-
-Acceptance criteria:
-
-```text
-A reviewer can follow a PR from query packet to connector request,
-result adapter, workflow snapshot, policy decision, and stop reason without
-a hidden repository mutation.
-```
-
----
-
-## 5. Phase D — Release Surface Consolidation
-
-Status: **next**
-
-Goal:
-
-```text
-Turn scattered public surfaces into navigable release packages.
-```
-
-Tasks:
-
-- consolidate release notes and package manifests
-- ensure each public release package has release note, manifest, validation command, limitations, non-authority statement, and reproducibility note
-- add release navigation from README
-- separate public release package, proof-facing bridge package, runtime adapter package, audit-chain package, validation fixture package, Qi motion chain package, bounded runtime package, executable action package, GitHub Actions PR live-loop package, medical-modality-neutral Qi boundary package, and MemoryOS projection package
-- preserve append-only lineage
-
-Acceptance criteria:
-
-```text
-Every release-facing surface has version, author, date, purpose, validator,
-boundary statement, and upstream/downstream relation.
-```
-
----
-
-## 6. Phase E — Validation Matrix and CI Hardening
-
-Status: **next**
-
-Goal:
-
-```text
-Make validator coverage visible and reproducible.
-```
-
-Tasks:
-
-- build a compact validation matrix: command, touched files, invariant checked, expected output, failure class
-- classify failure modes: fixture mismatch, validator drift, non-authority weakening, runtime route mismatch, Qi evidence overpromotion, runtime tick overpromotion, allowlisted action overpromotion, sequence runner unboundedness, PR live-loop repository-authority leakage, recursive invocation leakage, memory-to-belief overpromotion, audit escalation loop, repeated AI wrong-code loop, Lean/formal surface failure, and environment drift
-- keep stdlib-only Python validator policy where possible
-- avoid hidden dependency on local private files
-- keep GitHub Actions and local commands aligned
-
-Acceptance criteria:
-
-```text
-A reviewer can reproduce the governance, runtime, Qi trend, executable sequence,
-and PR live-loop checks and understand what each pass means and does not mean.
-```
-
----
-
-## 7. Phase F — Qi Process Tensor / Runtime Reentry Maturity
+## 5. Phase D — Bounded Runtime and Repository Adapter Consolidation
 
 Status: **parallel track**
 
-Goal:
-
-```text
-Stabilize Qi process tensor as the bounded-runtime memory/process spine without turning it into authority.
-```
-
 Tasks:
 
-- preserve process history, transition continuity, memory continuity, non-Markovian memory, and missing-process-requirement visibility
-- keep process tensor summaries compact but inspectable
-- maintain trend classes and reliability score semantics
-- maintain reentry planning as advisory
-- keep reentry license gate explicit
-- prevent recursive daemon self-invocation
-- keep bounded tick executor to declared State IO ticks
-- keep allowlisted executable actions explicit
-- add reviewer examples for failure, hold, reobserve, quarantine, blocked action, and denial
-
-Acceptance criteria:
-
-```text
-Qi process tensor can guide bounded runtime posture, but cannot grant truth,
-theorem, clinical, final-commitment, memory-overwrite, repository, or unrestricted execution authority.
-```
+- document executable action allowlists and finite sequence semantics;
+- keep receipt and audit JSONL paths visible;
+- distinguish bounded tick, local gauge transport, action preparation, actual effect, connector request, connector result, and repository mutation;
+- add examples for failed, pending, blocked, stale, reobserve, repair, and handover outcomes;
+- prevent PR adapter output from being treated as merge authority;
+- align local commands and GitHub Actions checks.
 
 ---
 
-## 8. Phase G — MemoryOS Public Projection
+## 6. Phase E — Validation Matrix and Release Consolidation
+
+Status: **next**
+
+Tasks:
+
+- publish a compact validation matrix: command, files, invariant, output, failure class;
+- include v0.12 and v0.13 failure classes;
+- classify chart-overlap mismatch, stale atlas digest, cocycle overpromotion, curvature-veto leakage, local-to-global collapse, duplicate effect attribution, and graph-semantics leakage;
+- ensure each release-facing package has a manifest, validation command, limitation statement, non-authority statement, and reproducibility note;
+- keep stdlib-only Python checks where practical;
+- preserve append-only release lineage.
+
+---
+
+## 7. Phase F — MemoryOS and Process-Tensor Integration
 
 Status: **parallel priority**
 
 Goal:
 
 ```text
-Project the non-Markovian, reconstructive, ecology-aware MemoryOS baseline into
-public repository surfaces in a controlled, additive, non-authoritative way.
+Connect non-Markov process memory to chart-local gauge history without granting memory sovereignty.
 ```
 
-Candidate surfaces:
+Tasks:
 
-```text
-MemoryOS public index
-append-only memory lineage boundary
-non-Markovian process trace examples
-scar / holonomy / relapse lineage examples
-collective reconstructive recall examples
-memory-to-belief separation validator
-memory reobserve / repair / handover examples
-Qi process tensor memory linkage examples
-```
+- expose scar, relapse, reobserve, repair, and return-to-context examples;
+- distinguish atlas holonomy from belief promotion;
+- preserve individual chart lineage during collective reconstruction;
+- prevent memory consolidation from erasing cocycle residue;
+- connect Qi process tensor history to chart-local transport evidence;
+- add memory-to-belief separation validators.
 
 Rules:
 
 ```text
 Memory persistence cannot become belief sovereignty.
 Memory repair cannot become root overwrite.
-Memory recall cannot erase uncertainty.
+Memory recall cannot erase uncertainty or chart residue.
 Collective reconstruction cannot silently overwrite individual lineage.
 ```
 
 ---
 
-## 9. Phase H — OS Bridge Projection
+## 8. Phase G — OS Bridge Projection
 
 Status: **planned additive projection**
 
-Goal:
+Candidate lanes:
 
 ```text
-Project the broader KuuOS baseline into public repository surfaces in a controlled,
-additive, non-authoritative manner.
-```
-
-Candidate projection lanes:
-
-```text
-MemoryOS ecology and append-only memory boundary
-BeliefOS causal belief surface and identifiability gap taxonomy
-WorldModel process tensor / observation-intervention reciprocity surface
-PlanOS hierarchical temporal lattice and rollback corridors
+MemoryOS ecology and append-only lineage
+BeliefOS causal belief surface and identifiability gaps
+WorldModel observation-intervention reciprocity
+PlanOS hierarchical temporal structure and rollback corridors
 DecisionOS generative front and validated adjudication boundary
-ReflectionOS scalable oversight and institutional-public governance
+ReflectionOS repair and institutional-public governance
 CausalSurface semantic mapping and bridge discipline
 HybridControl continuous-discrete governance bridge
 Yin-Yang / Wuxing / Qi tensor runtime surfaces
@@ -568,74 +550,55 @@ Witness / LocalGlobal / Boundary bridge surfaces
 Recovery Governance surfaces
 ```
 
-Rules:
+Projection rules:
 
 ```text
 No internal baseline is silently projected as public authority.
-Each projection needs a manifest, validator, validation cases, boundary statement, and release note.
+Each projection needs a manifest, validator, cases, boundary statement, and release note.
 Reflection summaries cannot rewrite world roots.
 WorldModel predictions cannot become facts.
-DecisionOS candidates cannot become commits without gate validation.
-MemoryOS persistence cannot become belief sovereignty.
-PlanOS success cannot become execution permission.
-Witness shells cannot bypass proof spine.
+Decision candidates cannot become commits without gate validation.
+Memory persistence cannot become belief sovereignty.
+Plan success cannot become execution permission.
 Local validation cannot silently become global truth.
 ```
 
 ---
 
-## 10. Phase I — Formal Verification Bridge Maturity
+## 9. Phase H — Formal Verification Bridge Maturity
 
 Status: **parallel track**
 
-Goal:
-
-```text
-Make proof-facing and governance-facing surfaces distinct but connected.
-```
-
 Tasks:
 
-- keep KuuOS formal bridge separate from canonical theorem repositories
-- route proof-facing claims through formal invariant spine, Lean/mathlib-facing theorem targets, CI checks, external review gates, and theorem boundary statements
-- prevent `formal_file_not_proof_by_itself`, `lean_stub_not_theorem_completion`, `mathlib_mapping_not_theorem_authority`, `ci_pass_not_theorem_truth`, `validator_pass_not_mathematical_acceptance`, and `GPT_summary_not_proof_authority`
-- add theorem-target maps only with explicit scope
-- keep MGAP4D / Super-Relativity / Superstring bridges proof-facing, not authority-opening
+- keep KuuOS formal surfaces distinct from canonical theorem repositories;
+- expand v0.12 and v0.13 finite invariants;
+- formalize bounded overlap, transition composition, cocycle defect, plurality floor, one-child execution, replay uniqueness, and holonomy monotonicity;
+- route proof-facing claims through Lean/mathlib-facing theorem targets, CI, external review, and theorem-boundary statements;
+- prevent formal-file, Lean-stub, mathlib-mapping, CI-pass, validator-pass, or GPT-summary overpromotion;
+- keep MGAP4D, Super-Relativity, and superstring bridges proof-facing rather than authority-opening.
 
 ---
 
-## 11. Phase J — Audit Proportionality and Harmony Repair
+## 10. Phase I — Audit Proportionality and Harmony Repair
 
-Status: **current correction track**
-
-Goal:
-
-```text
-Prevent audit and tighten-only rules from becoming automatic grave escalation,
-infinite monitoring, or disharmonious governance behavior.
-```
+Status: **ongoing correction track**
 
 Tasks:
 
-- define finite audit budgets by surface and risk class
-- expose stop reasons for audit termination
-- distinguish observation from escalation
-- add hold / reobserve / repair / handover as normal, non-punitive outcomes
-- add grave-mode criteria only for explicit severe boundary violations
-- prevent low-risk validator drift from triggering high-severity audit loops
-- document visible cost, proportionality, and harmony constraints
+- define finite audit budgets by surface and risk class;
+- expose stop reasons for audit termination;
+- distinguish observation, curvature, and residue from escalation;
+- keep hold / reobserve / repair / handover as normal non-punitive outcomes;
+- reserve grave-mode criteria for explicit severe boundary violations;
+- prevent low-risk validator drift or nonzero curvature from triggering high-severity audit loops;
+- preserve visible cost, proportionality, repairability, and harmony.
 
 ---
 
-## 12. Phase K — Public Reviewer Experience
+## 11. Public Reviewer Experience
 
 Status: **ongoing**
-
-Goal:
-
-```text
-Make KuuOS legible to several audiences without flattening its structure.
-```
 
 Reviewer lanes:
 
@@ -643,6 +606,7 @@ Reviewer lanes:
 first-time AI governance reviewer
 formal methods / Lean reviewer
 runtime engineer
+gauge-theory / local-global reviewer
 memory-system reviewer
 East Asian medicine / integrative medicine reviewer
 physics-facing proof reviewer
@@ -651,21 +615,27 @@ GitHub / CI maintainer
 
 Tasks:
 
-- keep README short enough to orient
-- keep ROADMAP structured by phase
-- add compact diagrams where useful
-- preserve Japanese and English orientation
-- avoid turning deep internal baselines into unreviewable public noise
-- use append-only addenda for new surfaces
+- keep README concise enough to orient;
+- keep ROADMAP structured by baseline and phase;
+- use gauge-theory diagrams rather than graph diagrams for context transport;
+- preserve Japanese and English orientation;
+- add “what a pass does not mean” callouts;
+- avoid turning deep internal baselines into unreviewable public noise;
+- use append-only addenda for deep surfaces.
 
 ---
 
-## 13. Long-Term Direction
+## 12. Long-Term Direction
 
 KuuOS is moving toward a public architecture where:
 
 ```text
 AI generation remains candidate-level.
+Contexts remain local charts.
+Policy states remain local sections.
+Chart changes use typed transition functions.
+Curvature and cocycle defects remain visible residue, not veto authority.
+Holonomy remains path history, not sovereign truth.
 Memory remains lineage and reconstructive support.
 Belief remains calibrated and evidence-bound.
 Planning remains rollback-aware and non-authoritative.
@@ -675,39 +645,40 @@ Qi remains relational/process-facing, not substance or license.
 Formal verification remains proof-facing, not self-authorizing.
 Runtime remains bounded and receipt-producing.
 Allowlisted execution remains finite and non-authoritative.
-GitHub/CI live-loop remains connector-explicit and non-authoritative.
-Audit remains proportional and finite.
+GitHub/CI adapters remain connector-explicit and non-authoritative.
+Audit remains proportional, finite, repairable, and harmony-preserving.
 ```
 
-The long-term goal is not to make an AI that simply acts more freely.
+The long-term goal is not to make an AI that simply acts more freely or searches a larger global graph.
 
-The goal is to make a relational AI architecture in which:
+The goal is to build a relational AI architecture in which:
 
 ```text
 claims know their support,
+sections know their chart,
+transitions know their overlap,
+curvature knows it is residue rather than prohibition,
 plans know their boundary,
 memories know their lineage,
 proofs know their status,
-Qi readouts know their non-authority,
 runtime knows its stop conditions,
 actions know their allowlist,
-GitHub/CI adapters know their repository boundary,
 and governance knows when not to escalate.
 ```
 
 ---
 
-## 14. Current Priority Summary
+## 13. Current Priority Summary
 
 ```text
-1. Keep README and ROADMAP aligned with v7.6 public runtime state.
-2. Consolidate bounded executable runtime documentation.
-3. Harden GitHub Actions PR live-loop request/result adapter path.
-4. Consolidate runtime and validator tiering documentation.
-5. Project MemoryOS non-Markovian memory surfaces carefully.
-6. Add anti-loop repair for repeated wrong-code AI behavior.
-7. Strengthen Lean/mathlib bridge without claiming theorem authority.
-8. Preserve Qi motion as observe-only and medical-modality neutral.
-9. Prevent audit from becoming infinite or disharmonious.
-10. Keep all public projections additive, bounded, and non-authoritative.
+1. Complete the replay-safe v0.13 orchestration that starts exactly one v0.12 child.
+2. Demonstrate isolated, compatible, and plural chart transport across multiple contexts.
+3. Preserve chart locality, plurality floor, cocycle residue, and atlas holonomy.
+4. Keep graph semantics forbidden in context transport surfaces.
+5. Expand Lean invariants for transition composition and cocycle defect.
+6. Consolidate bounded executable runtime and repository-adapter documentation.
+7. Project MemoryOS non-Markovian surfaces into chart-local gauge history carefully.
+8. Strengthen validation matrices and release packages for v0.12/v0.13.
+9. Preserve Qi and IndraNet as gauge/process fields and remain medical-modality neutral.
+10. Prevent audit, curvature, or validation residue from becoming automatic escalation.
 ```
