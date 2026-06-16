@@ -29,4 +29,17 @@ jobs:
       - name: Compile v0.13
         run: python -m compileall -q runtime scripts
       - name: Run atlas kernel checks
-        run: python scripts/check_context_gauge_atlas_kernel_v0_13.py
+        id: checks
+        continue-on-error: true
+        run: python scripts/check_context_gauge_atlas_kernel_v0_13.py > context-gauge-atlas-v013.log 2>&1
+      - name: Upload atlas kernel log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: context-gauge-atlas-v013-log
+          path: context-gauge-atlas-v013.log
+      - name: Report atlas kernel failure
+        if: steps.checks.outcome == 'failure'
+        run: |
+          cat context-gauge-atlas-v013.log
+          exit 1
