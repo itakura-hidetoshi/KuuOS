@@ -1,0 +1,47 @@
+name: Context Gauge Atlas v0.13 Validation
+
+on:
+  push:
+    paths:
+      - "runtime/context_math_v013.py"
+      - "runtime/kuuos_context_gauge_atlas*_v0_13.py"
+      - "scripts/check_context_gauge_atlas_kernel_v0_13.py"
+      - "scripts/run_context_gauge_atlas_v0_13.py"
+      - ".github/workflows/context-gauge-atlas-v0-13-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/context_math_v013.py"
+      - "runtime/kuuos_context_gauge_atlas*_v0_13.py"
+      - "scripts/check_context_gauge_atlas_kernel_v0_13.py"
+      - "scripts/run_context_gauge_atlas_v0_13.py"
+      - ".github/workflows/context-gauge-atlas-v0-13-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile v0.13
+        run: python -m compileall -q runtime scripts
+      - name: Run atlas kernel checks
+        id: checks
+        continue-on-error: true
+        run: python scripts/run_context_gauge_atlas_v0_13.py > context-gauge-atlas-v013.log 2>&1
+      - name: Upload atlas kernel log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: context-gauge-atlas-v013-log
+          path: context-gauge-atlas-v013.log
+      - name: Report atlas kernel failure
+        if: steps.checks.outcome == 'failure'
+        run: |
+          cat context-gauge-atlas-v013.log
+          exit 1
