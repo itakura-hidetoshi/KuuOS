@@ -1,0 +1,49 @@
+name: Context Gerbe Coherence v0.14 Validation
+
+on:
+  push:
+    paths:
+      - "runtime/context_gerbe_math_v014.py"
+      - "runtime/kuuos_context_gerbe_coherence*_v0_14.py"
+      - "scripts/check_context_gerbe_coherence_kernel_v0_14.py"
+      - "scripts/run_context_gerbe_coherence_v0_14.py"
+      - "formal/KUOS/OpenHorizon/ContextGerbeCoherenceV0_14.lean"
+      - ".github/workflows/context-gerbe-coherence-v0-14-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/context_gerbe_math_v014.py"
+      - "runtime/kuuos_context_gerbe_coherence*_v0_14.py"
+      - "scripts/check_context_gerbe_coherence_kernel_v0_14.py"
+      - "scripts/run_context_gerbe_coherence_v0_14.py"
+      - "formal/KUOS/OpenHorizon/ContextGerbeCoherenceV0_14.lean"
+      - ".github/workflows/context-gerbe-coherence-v0-14-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile v0.14
+        run: python -m compileall -q runtime scripts
+      - name: Run gerbe coherence kernel checks
+        id: checks
+        continue-on-error: true
+        run: python scripts/run_context_gerbe_coherence_v0_14.py > context-gerbe-coherence-v014.log 2>&1
+      - name: Upload gerbe coherence kernel log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: context-gerbe-coherence-v014-log
+          path: context-gerbe-coherence-v014.log
+      - name: Report gerbe coherence kernel failure
+        if: steps.checks.outcome == 'failure'
+        run: |
+          cat context-gerbe-coherence-v014.log
+          exit 1
