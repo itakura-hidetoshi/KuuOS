@@ -5,15 +5,15 @@ on:
     paths:
       - "runtime/context_math_v013.py"
       - "runtime/kuuos_context_gauge_atlas*_v0_13.py"
-      - "scripts/check_context_gauge_atlas_kernel_v0_13.py"
-      - "scripts/run_context_gauge_atlas_v0_13.py"
+      - "scripts/*context_gauge_atlas*v0_13*.py"
+      - "formal/KUOS/OpenHorizon/ContextGaugeAtlasV0_13.lean"
       - ".github/workflows/context-gauge-atlas-v0-13-validation.yml"
   pull_request:
     paths:
       - "runtime/context_math_v013.py"
       - "runtime/kuuos_context_gauge_atlas*_v0_13.py"
-      - "scripts/check_context_gauge_atlas_kernel_v0_13.py"
-      - "scripts/run_context_gauge_atlas_v0_13.py"
+      - "scripts/*context_gauge_atlas*v0_13*.py"
+      - "formal/KUOS/OpenHorizon/ContextGaugeAtlasV0_13.lean"
       - ".github/workflows/context-gauge-atlas-v0-13-validation.yml"
   workflow_dispatch:
 
@@ -30,17 +30,20 @@ jobs:
           python-version: "3.12"
       - name: Compile v0.13
         run: python -m compileall -q runtime scripts
-      - name: Run atlas kernel checks
+      - name: Run v0.13 checks
         id: checks
         continue-on-error: true
-        run: python scripts/run_context_gauge_atlas_v0_13.py > context-gauge-atlas-v013.log 2>&1
-      - name: Upload atlas kernel log
+        run: |
+          python scripts/run_context_gauge_atlas_v0_13.py
+          python scripts/check_context_gauge_atlas_runtime_v0_13.py
+        > context-gauge-atlas-v013.log 2>&1
+      - name: Upload v0.13 log
         if: always()
         uses: actions/upload-artifact@v4
         with:
           name: context-gauge-atlas-v013-log
           path: context-gauge-atlas-v013.log
-      - name: Report atlas kernel failure
+      - name: Report v0.13 failure
         if: steps.checks.outcome == 'failure'
         run: |
           cat context-gauge-atlas-v013.log
