@@ -33,10 +33,7 @@ jobs:
       - name: Run v0.13 checks
         id: checks
         continue-on-error: true
-        run: |
-          python scripts/run_context_gauge_atlas_v0_13.py
-          python scripts/check_context_gauge_atlas_runtime_v0_13.py
-        > context-gauge-atlas-v013.log 2>&1
+        run: python scripts/run_context_gauge_atlas_v0_13.py > context-gauge-atlas-v013.log 2>&1 && python scripts/check_context_gauge_atlas_runtime_v0_13.py >> context-gauge-atlas-v013.log 2>&1
       - name: Upload v0.13 log
         if: always()
         uses: actions/upload-artifact@v4
