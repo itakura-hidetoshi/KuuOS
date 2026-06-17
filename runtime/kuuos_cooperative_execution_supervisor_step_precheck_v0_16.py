@@ -38,4 +38,28 @@ def precheck_step(*, job: Mapping[str, Any], policy: Mapping[str, Any], spent_co
             "result": {"outcome": "permission_denied", "summary": f"Required permission is not granted: {required_permission}"},
             "policy": dict(policy),
         }
-    return {"kind": "ready", "step": step, "estimate": estimate, "attempt": 1, "policy": dict(policy)}
+    attempts = dict(mapping(job.get("step_attempts")))
+    step_id = str(step.get("step_id", ""))
+    previous_attempts = int(attempts.get(step_id, 0) or 0)
+    maximum_attempts = max(1, int(step.get("max_attempts", 1) or 1))
+    if previous_attempts >= maximum_attempts:
+        local_policy = dict(policy)
+        local_policy["max_retries"] = maximum_attempts
+        return {
+            "kind": "pause",
+            "step": step,
+            "phase": "attempt_limit",
+            "result": {
+                "outcome": "transient_error",
+                "error_kind": "transient_error",
+                "summary": "The step reached its bounded maximum attempt count.",
+            },
+            "policy": local_policy,
+        }
+    return {
+        "kind": "ready",
+        "step": step,
+        "estimate": estimate,
+        "attempt": previous_attempts + 1,
+        "policy": dict(policy),
+    }
