@@ -1,0 +1,76 @@
+name: Mission Contract Kernel v0.20 Validation
+
+on:
+  push:
+    paths:
+      - "docs/KUUOS_MISSION_CONTRACT_KERNEL_v0_20.md"
+      - "docs/KUUOS_AUTONOMOUS_AGENT_STATUS_v0_20.md"
+      - "manifests/kuuos_autonomous_agent_completion_status_v0_20.json"
+      - "runtime/kuuos_mission_contract_types_v0_20.py"
+      - "runtime/kuuos_mission_state_v0_20.py"
+      - "runtime/kuuos_mission_lifecycle_v0_20.py"
+      - "runtime/kuuos_mission_io_v0_20.py"
+      - "runtime/kuuos_mission_contract_kernel_v0_20.py"
+      - "runtime/kuuos_goal_portfolio_v0_20.py"
+      - "runtime/kuuos_mission_kernel_v0_20.py"
+      - "runtime/kuuos_autonomous_agent_readiness_v0_20.py"
+      - "runtime/v020_mission_kernel.py"
+      - "scripts/check_mission_contract_kernel_v0_20.py"
+      - "formal/KUOS/OpenHorizon/MissionContractKernelV0_20.lean"
+      - ".github/workflows/mission-contract-kernel-v0-20-validation.yml"
+  pull_request:
+    paths:
+      - "docs/KUUOS_MISSION_CONTRACT_KERNEL_v0_20.md"
+      - "docs/KUUOS_AUTONOMOUS_AGENT_STATUS_v0_20.md"
+      - "manifests/kuuos_autonomous_agent_completion_status_v0_20.json"
+      - "runtime/kuuos_mission_contract_types_v0_20.py"
+      - "runtime/kuuos_mission_state_v0_20.py"
+      - "runtime/kuuos_mission_lifecycle_v0_20.py"
+      - "runtime/kuuos_mission_io_v0_20.py"
+      - "runtime/kuuos_mission_contract_kernel_v0_20.py"
+      - "runtime/kuuos_goal_portfolio_v0_20.py"
+      - "runtime/kuuos_mission_kernel_v0_20.py"
+      - "runtime/kuuos_autonomous_agent_readiness_v0_20.py"
+      - "runtime/v020_mission_kernel.py"
+      - "scripts/check_mission_contract_kernel_v0_20.py"
+      - "formal/KUOS/OpenHorizon/MissionContractKernelV0_20.lean"
+      - ".github/workflows/mission-contract-kernel-v0-20-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile v0.20 runtime
+        run: python -m compileall -q runtime
+      - name: Validate mission contract kernel
+        id: kernel
+        continue-on-error: true
+        run: python -m runtime.v020_mission_kernel > mission-contract-kernel-v020.log 2>&1
+      - name: Check v0.20 Lean surface when available
+        id: lean
+        continue-on-error: true
+        run: |
+          if command -v lake >/dev/null 2>&1 && { [ -f lakefile.lean ] || [ -f lakefile.toml ]; }; then
+            lake env lean formal/KUOS/OpenHorizon/MissionContractKernelV0_20.lean >> mission-contract-kernel-v020.log 2>&1
+          else
+            echo "SKIP: repository Lean environment unavailable on this runner" >> mission-contract-kernel-v020.log
+          fi
+      - name: Upload v0.20 validation log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: mission-contract-kernel-v020-log
+          path: mission-contract-kernel-v020.log
+      - name: Report v0.20 failure
+        if: steps.kernel.outcome == 'failure' || steps.lean.outcome == 'failure'
+        run: |
+          cat mission-contract-kernel-v020.log
+          exit 1
