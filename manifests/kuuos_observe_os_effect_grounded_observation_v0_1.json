@@ -1,0 +1,110 @@
+{
+  "version": "kuuos_observe_os_effect_grounded_observation_v0_1",
+  "source_authorities": {
+    "mission_cycle": "kuuos_autonomous_mission_cycle_kernel_v0_21",
+    "plan_os": "kuuos_plan_os_replan_bound_synthesis_v0_1",
+    "act_os": "kuuos_act_os_authority_bound_invocation_v0_1",
+    "host_adapter": "kuuos_cooperative_host_adapter_v0_17"
+  },
+  "strict_phases": [
+    "bind",
+    "scope",
+    "collect",
+    "trace",
+    "assess",
+    "compare",
+    "commit"
+  ],
+  "routes": [
+    "PENDING",
+    "OBSERVATION_MATCHED",
+    "OBSERVATION_DIVERGENT",
+    "OBSERVATION_INCONCLUSIVE",
+    "OBSERVATION_CONFLICTED"
+  ],
+  "source_effect_contract": {
+    "committed_act_state_required": true,
+    "effect_recorded_required": true,
+    "observation_debt_required": true,
+    "canonical_ready_host_receipt_required": true,
+    "host_invocation_binding_required": true,
+    "selected_step_binding_required": true,
+    "operation_binding_required": true,
+    "expected_observation_binding_required": true,
+    "verification_criterion_binding_required": true
+  },
+  "scope_contract": {
+    "explicit_window_required": true,
+    "explicit_channels_required": true,
+    "minimum_evidence_items_required": true,
+    "observation_protocol_digest_required": true,
+    "target_substitution_forbidden": true
+  },
+  "evidence_contract": {
+    "raw_artifact_digest_required": true,
+    "value_digest_required": true,
+    "collector_identity_required": true,
+    "independent_source_identity_required": true,
+    "collection_time_required": true,
+    "uncertainty_digest_required": true,
+    "calibration_digest_required": true,
+    "context_digest_required": true,
+    "tamper_evidence_digest_required": true,
+    "provenance_chain_required": true,
+    "out_of_window_evidence_forbidden": true,
+    "undeclared_channel_forbidden": true,
+    "duplicate_evidence_id_forbidden": true
+  },
+  "quality_contract": {
+    "bounded_scores": true,
+    "coverage_required": true,
+    "freshness_required": true,
+    "provenance_required": true,
+    "calibration_required": true,
+    "completeness_required": true,
+    "conflict_required": true,
+    "low_quality_match_or_diverge_forbidden": true,
+    "quality_is_truth_authority": false
+  },
+  "comparison_contract": {
+    "expected_target_binding": true,
+    "evidence_packet_binding": true,
+    "quality_report_binding": true,
+    "comparison_method_binding": true,
+    "comparison_is_verification": false,
+    "matched_implies_truth": false,
+    "divergent_implies_causal_attribution": false
+  },
+  "debt_semantics": {
+    "matched_discharges_observation_debt": true,
+    "divergent_discharges_observation_debt": true,
+    "inconclusive_preserves_observation_debt": true,
+    "conflicted_preserves_observation_debt": true,
+    "all_routes_preserve_verification_debt": true,
+    "automatic_truth_promotion": false,
+    "automatic_belief_update": false,
+    "automatic_plan_completion": false,
+    "automatic_causal_attribution": false
+  },
+  "persistence": {
+    "genesis": "observe-genesis.json",
+    "ledger": "observe-ledger.jsonl",
+    "snapshot": "observe-snapshot.json",
+    "lock": ".observe-os.lock",
+    "append_only": true,
+    "snapshot_derived_from_ledger": true,
+    "atomic_snapshot": true,
+    "replay_idempotent": true
+  },
+  "non_authority": {
+    "truth_authority_granted": false,
+    "verification_authority_granted": false,
+    "execution_authority_granted": false,
+    "final_commitment_authority_granted": false,
+    "memory_overwrite_authority_granted": false,
+    "clinical_authority_granted": false,
+    "legal_authority_granted": false,
+    "institutional_authority_granted": false,
+    "theorem_authority_granted": false
+  }
+}
