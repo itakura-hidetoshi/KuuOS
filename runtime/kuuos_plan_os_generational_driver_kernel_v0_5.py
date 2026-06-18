@@ -67,7 +67,10 @@ def validate_generation_sources(
         raise ValueError("generational_replan_not_committed")
     if committed_replan_state.get("event_index") != len(EXPECTED_REPLAN_PHASES):
         raise ValueError("generational_replan_event_count_invalid")
-    actual_phases = [item.get("target_phase") for item in committed_replan_state.get("event_history", [])]
+    actual_phases = [
+        item.get("target_phase")
+        for item in committed_replan_state.get("event_history", [])
+    ]
     if actual_phases != EXPECTED_REPLAN_PHASES:
         raise ValueError("generational_replan_phase_order_invalid")
     if committed_replan_state.get("committed_records") != 1:
@@ -85,15 +88,21 @@ def validate_generation_sources(
         "active_from_cycle": bind_receipt.get("active_from_cycle"),
     }.items():
         _equal(committed_replan_state, field, expected, "generational_replan")
-    _equal(source_plan_state, "plan_state_digest", bind_receipt.get("source_plan_state_digest"), "generational_source_plan")
+    _equal(
+        source_plan_state,
+        "plan_state_digest",
+        bind_receipt.get("source_plan_state_digest"),
+        "generational_source_plan",
+    )
 
-    if replan_phase_receipt.get("replan_phase_receipt_digest") != replan_phase_receipt_digest(replan_phase_receipt):
+    if replan_phase_receipt.get(
+        "replan_phase_receipt_digest"
+    ) != replan_phase_receipt_digest(replan_phase_receipt):
         raise ValueError("generational_replan_phase_receipt_digest_invalid")
     for field, expected in {
         "replan_id": committed_replan_state.get("replan_id"),
         "replan_state_digest": committed_replan_state.get("replan_state_digest"),
         "next_plan_basis_digest": committed_replan_state.get("next_plan_basis_digest"),
-        "selected_candidate_digest": committed_replan_state.get("selected_candidate_digest"),
         "decision_receipt_digest": committed_replan_state.get("decision_receipt_digest"),
         "qi_condition_packet_digest": committed_replan_state.get("qi_condition_packet_digest"),
         "current_cycle_index": committed_replan_state.get("current_cycle_index"),
@@ -101,14 +110,20 @@ def validate_generation_sources(
     }.items():
         _equal(replan_phase_receipt, field, expected, "generational_replan_receipt")
 
-    if compiler_receipt.get("next_cycle_compiler_receipt_digest") != next_cycle_compiler_receipt_digest(compiler_receipt):
+    if compiler_receipt.get(
+        "next_cycle_compiler_receipt_digest"
+    ) != next_cycle_compiler_receipt_digest(compiler_receipt):
         raise ValueError("generational_compiler_receipt_digest_invalid")
     for field, expected in {
         "previous_plan_state_digest": source_plan_state.get("plan_state_digest"),
         "replan_state_digest": committed_replan_state.get("replan_state_digest"),
-        "replan_phase_receipt_digest": replan_phase_receipt.get("replan_phase_receipt_digest"),
+        "replan_phase_receipt_digest": replan_phase_receipt.get(
+            "replan_phase_receipt_digest"
+        ),
         "next_plan_basis_digest": committed_replan_state.get("next_plan_basis_digest"),
-        "selected_candidate_digest": committed_replan_state.get("selected_candidate_digest"),
+        "selected_candidate_digest": committed_replan_state.get(
+            "selected_candidate_digest"
+        ),
         "compiled_plan_id": compiled_plan_state.get("plan_id"),
         "compiled_plan_state_digest": compiled_plan_state.get("plan_state_digest"),
         "compiled_plan_basis_digest": compiled_plan_state.get("plan_basis_digest"),
@@ -116,15 +131,23 @@ def validate_generation_sources(
     }.items():
         _equal(compiler_receipt, field, expected, "generational_compiler")
 
-    if act_handoff_receipt.get("act_lineage_handoff_receipt_digest") != handoff_receipt_digest(act_handoff_receipt):
+    if act_handoff_receipt.get(
+        "act_lineage_handoff_receipt_digest"
+    ) != handoff_receipt_digest(act_handoff_receipt):
         raise ValueError("generational_act_handoff_digest_invalid")
     for field, expected in {
         "compiled_plan_id": compiled_plan_state.get("plan_id"),
         "compiled_plan_state_digest": compiled_plan_state.get("plan_state_digest"),
-        "next_cycle_compiler_receipt_digest": compiler_receipt.get("next_cycle_compiler_receipt_digest"),
+        "next_cycle_compiler_receipt_digest": compiler_receipt.get(
+            "next_cycle_compiler_receipt_digest"
+        ),
         "mission_cycle_cycle_index": committed_replan_state.get("active_from_cycle"),
-        "selected_candidate_digest": committed_replan_state.get("selected_candidate_digest"),
-        "qi_condition_packet_digest": committed_replan_state.get("qi_condition_packet_digest"),
+        "selected_candidate_digest": committed_replan_state.get(
+            "selected_candidate_digest"
+        ),
+        "qi_condition_packet_digest": committed_replan_state.get(
+            "qi_condition_packet_digest"
+        ),
         "execution_granted": False,
         "host_license_granted": False,
     }.items():
@@ -152,33 +175,64 @@ def build_generational_cycle_receipt(
         compiler_receipt=compiler_receipt,
         act_handoff_receipt=act_handoff_receipt,
     )
-    source_cycle = require_int(committed_replan_state.get("current_cycle_index"), "source_cycle_index")
-    next_cycle = require_int(committed_replan_state.get("active_from_cycle"), "next_cycle_index")
+    source_cycle = require_int(
+        committed_replan_state.get("current_cycle_index"), "source_cycle_index"
+    )
+    next_cycle = require_int(
+        committed_replan_state.get("active_from_cycle"), "next_cycle_index"
+    )
     if next_cycle != source_cycle + 1:
         raise ValueError("generational_successor_cycle_invalid")
     packet = {
         "version": RECEIPT_VERSION,
-        "lineage_id": require_string(committed_replan_state.get("lineage_id"), "lineage_id"),
-        "mission_contract_digest": require_string(committed_replan_state.get("mission_contract_digest"), "mission_contract_digest"),
-        "source_bind_receipt_digest": bind_receipt["closed_loop_bind_receipt_digest"],
+        "lineage_id": require_string(
+            committed_replan_state.get("lineage_id"), "lineage_id"
+        ),
+        "mission_contract_digest": require_string(
+            committed_replan_state.get("mission_contract_digest"),
+            "mission_contract_digest",
+        ),
+        "source_bind_receipt_digest": bind_receipt[
+            "closed_loop_bind_receipt_digest"
+        ],
         "source_plan_id": source_plan_state["plan_id"],
         "source_plan_state_digest": source_plan_state["plan_state_digest"],
         "source_plan_basis_digest": source_plan_state["plan_basis_digest"],
-        "source_learn_state_digest": committed_replan_state["source_learn_state_digest"],
-        "source_learning_delta_digest": committed_replan_state["source_learning_delta_digest"],
+        "source_learn_state_digest": committed_replan_state[
+            "source_learn_state_digest"
+        ],
+        "source_learning_delta_digest": committed_replan_state[
+            "source_learning_delta_digest"
+        ],
         "planos_replan_input_digest": bind_receipt["planos_replan_input_digest"],
         "replan_id": committed_replan_state["replan_id"],
-        "committed_replan_state_digest": committed_replan_state["replan_state_digest"],
-        "replan_phase_receipt_digest": replan_phase_receipt["replan_phase_receipt_digest"],
+        "committed_replan_state_digest": committed_replan_state[
+            "replan_state_digest"
+        ],
+        "replan_phase_receipt_digest": replan_phase_receipt[
+            "replan_phase_receipt_digest"
+        ],
         "history_packet_digest": committed_replan_state["history_packet_digest"],
-        "qi_condition_packet_digest": committed_replan_state["qi_condition_packet_digest"],
+        "qi_condition_packet_digest": committed_replan_state[
+            "qi_condition_packet_digest"
+        ],
         "candidate_field_digest": committed_replan_state["candidate_field_digest"],
-        "constraint_field_digest": committed_replan_state["constraint_field_digest"],
-        "decision_receipt_digest": committed_replan_state["decision_receipt_digest"],
+        "constraint_field_digest": committed_replan_state[
+            "constraint_field_digest"
+        ],
+        "decision_receipt_digest": committed_replan_state[
+            "decision_receipt_digest"
+        ],
         "selected_candidate_id": committed_replan_state["selected_candidate_id"],
-        "selected_candidate_digest": committed_replan_state["selected_candidate_digest"],
-        "synthesis_packet_digest": committed_replan_state["synthesis_packet_digest"],
-        "next_plan_basis_digest": committed_replan_state["next_plan_basis_digest"],
+        "selected_candidate_digest": committed_replan_state[
+            "selected_candidate_digest"
+        ],
+        "synthesis_packet_digest": committed_replan_state[
+            "synthesis_packet_digest"
+        ],
+        "next_plan_basis_digest": committed_replan_state[
+            "next_plan_basis_digest"
+        ],
         "replan_route": committed_replan_state["route"],
         "replan_event_count": committed_replan_state["event_index"],
         "replan_phase_sequence": list(EXPECTED_REPLAN_PHASES),
@@ -187,9 +241,16 @@ def build_generational_cycle_receipt(
         "compiled_plan_id": compiled_plan_state["plan_id"],
         "compiled_plan_state_digest": compiled_plan_state["plan_state_digest"],
         "compiled_plan_basis_digest": compiled_plan_state["plan_basis_digest"],
-        "compiler_receipt_digest": compiler_receipt["next_cycle_compiler_receipt_digest"],
-        "plan_activation_receipt_digest": require_string(plan_activation_receipt.get("plan_phase_activation_receipt_digest"), "plan_activation_receipt_digest"),
-        "act_handoff_receipt_digest": act_handoff_receipt["act_lineage_handoff_receipt_digest"],
+        "compiler_receipt_digest": compiler_receipt[
+            "next_cycle_compiler_receipt_digest"
+        ],
+        "plan_activation_receipt_digest": require_string(
+            plan_activation_receipt.get("plan_phase_activation_receipt_digest"),
+            "plan_activation_receipt_digest",
+        ),
+        "act_handoff_receipt_digest": act_handoff_receipt[
+            "act_lineage_handoff_receipt_digest"
+        ],
         "act_selected_step_id": act_handoff_receipt["selected_step_id"],
         "strict_phase_order_completed": True,
         "successor_cycle_compiled": True,
@@ -214,24 +275,45 @@ def validate_generational_cycle_receipt(receipt: Mapping[str, Any]) -> list[str]
     try:
         if receipt.get("version") != RECEIPT_VERSION:
             errors.append("generational_receipt_version_invalid")
-        if receipt.get("generational_cycle_receipt_digest") != generational_receipt_digest(receipt):
+        if receipt.get(
+            "generational_cycle_receipt_digest"
+        ) != generational_receipt_digest(receipt):
             errors.append("generational_receipt_digest_invalid")
         for field in (
-            "lineage_id", "mission_contract_digest", "source_bind_receipt_digest",
-            "source_plan_id", "source_plan_state_digest", "source_plan_basis_digest",
-            "source_learn_state_digest", "source_learning_delta_digest",
-            "planos_replan_input_digest", "replan_id", "committed_replan_state_digest",
-            "replan_phase_receipt_digest", "history_packet_digest",
-            "qi_condition_packet_digest", "candidate_field_digest",
-            "constraint_field_digest", "decision_receipt_digest",
-            "selected_candidate_id", "selected_candidate_digest",
-            "synthesis_packet_digest", "next_plan_basis_digest", "replan_route",
-            "compiled_plan_id", "compiled_plan_state_digest", "compiled_plan_basis_digest",
-            "compiler_receipt_digest", "plan_activation_receipt_digest",
-            "act_handoff_receipt_digest", "act_selected_step_id",
+            "lineage_id",
+            "mission_contract_digest",
+            "source_bind_receipt_digest",
+            "source_plan_id",
+            "source_plan_state_digest",
+            "source_plan_basis_digest",
+            "source_learn_state_digest",
+            "source_learning_delta_digest",
+            "planos_replan_input_digest",
+            "replan_id",
+            "committed_replan_state_digest",
+            "replan_phase_receipt_digest",
+            "history_packet_digest",
+            "qi_condition_packet_digest",
+            "candidate_field_digest",
+            "constraint_field_digest",
+            "decision_receipt_digest",
+            "selected_candidate_id",
+            "selected_candidate_digest",
+            "synthesis_packet_digest",
+            "next_plan_basis_digest",
+            "replan_route",
+            "compiled_plan_id",
+            "compiled_plan_state_digest",
+            "compiled_plan_basis_digest",
+            "compiler_receipt_digest",
+            "plan_activation_receipt_digest",
+            "act_handoff_receipt_digest",
+            "act_selected_step_id",
         ):
             require_string(receipt.get(field), field)
-        source_cycle = require_int(receipt.get("source_cycle_index"), "source_cycle_index")
+        source_cycle = require_int(
+            receipt.get("source_cycle_index"), "source_cycle_index"
+        )
         next_cycle = require_int(receipt.get("next_cycle_index"), "next_cycle_index")
         if next_cycle != source_cycle + 1:
             errors.append("generational_receipt_successor_cycle_invalid")
