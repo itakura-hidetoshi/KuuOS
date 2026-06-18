@@ -1,0 +1,92 @@
+{
+  "version": "kuuos_belief_os_relational_conditional_kernel_v0_1",
+  "root_principles": [
+    "emptiness_non_reification",
+    "dependent_origination_traceability",
+    "two_truths_non_collapse",
+    "middle_way_dynamic_stabilization",
+    "qi_process_history_conditioning"
+  ],
+  "phase_order": [
+    "propose",
+    "contextualize",
+    "trace",
+    "weigh",
+    "challenge",
+    "qi_condition",
+    "two_truths_check",
+    "middle_way_gate",
+    "commit"
+  ],
+  "routes": [
+    "CANDIDATE",
+    "OBSERVE",
+    "HOLD",
+    "REPAIR",
+    "REJECT",
+    "QUARANTINE",
+    "RETIRED"
+  ],
+  "belief_representation": {
+    "single_probability_is_not_required": true,
+    "credal_interval": true,
+    "lower_probability_required": true,
+    "upper_probability_required": true,
+    "uncertainty_dimensions": [
+      "epistemic",
+      "aleatory",
+      "contextual",
+      "temporal",
+      "model",
+      "observer",
+      "process_history"
+    ]
+  },
+  "qi_process_boundary": {
+    "samvrti_context_only": true,
+    "non_markov_history_digest_required": true,
+    "allowed_roles": [
+      "contextual_prior_modifier",
+      "likelihood_context_modifier",
+      "temporal_transition_constraint",
+      "anomaly_signal",
+      "recovery_trajectory_signal",
+      "context_transport_support"
+    ],
+    "forbidden_roles": [
+      "standalone_truth_evidence",
+      "automatic_fact_promotion",
+      "direct_execution_license",
+      "proof_substitute",
+      "standalone_clinical_certainty",
+      "unrestricted_causal_explanation"
+    ]
+  },
+  "persistence": {
+    "genesis": "belief-genesis.json",
+    "snapshot": "belief-snapshot.json",
+    "ledger": "belief-ledger.jsonl",
+    "lock": ".belief-os.lock",
+    "append_only": true,
+    "snapshot_derived_from_ledger": true,
+    "atomic_snapshot": true,
+    "restart_recovery": true
+  },
+  "mission_cycle_bridge": {
+    "source": "kuuos_autonomous_mission_cycle_kernel_v0_21",
+    "belief_commit_is_future_only": true,
+    "memory_overwrite": false,
+    "activation_phase": "replan",
+    "next_plan_basis_digest_required": true
+  },
+  "non_authority": {
+    "truth_authority_granted": false,
+    "execution_authority_granted": false,
+    "proof_authority_granted": false,
+    "clinical_authority_granted": false,
+    "institutional_authority_granted": false,
+    "essence_authority_granted": false,
+    "memory_overwrite_authority_granted": false,
+    "self_modification_authority_granted": false
+  }
+}
