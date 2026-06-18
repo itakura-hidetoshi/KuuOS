@@ -48,6 +48,17 @@ def _backpressure(
     return "normal"
 
 
+def _queued_or_reclaimable(candidate: Mapping[str, Any], now_ms: int) -> bool:
+    state = str(candidate.get("supervisor_state", ""))
+    if state == "background_queued":
+        return True
+    return (
+        state == "background_leased"
+        and str(candidate.get("ticket_status", "")) == "leased"
+        and int(candidate.get("lease_expires_at_ms", 0) or 0) <= max(0, int(now_ms))
+    )
+
+
 def build_orchestrator_plan(
     *,
     cycle_id: str,
@@ -101,25 +112,34 @@ def build_orchestrator_plan(
         operation_allowlist=union_operations,
     )
     candidates = [dict(mapping(item)) for item in as_list(base_projection.get("candidates"))]
-    queued_count = sum(
-        1
-        for item in candidates
-        if str(item.get("supervisor_state", "")) in {"background_queued", "background_leased"}
-    )
+    queued_count = sum(1 for item in candidates if _queued_or_reclaimable(item, now_ms))
+
     dead_letters = active_dead_letter_keys(orchestrator_state)
-    eligible_job_ids: set[str] = set()
-    for item in candidates:
-        if item.get("eligible") is not True:
-            continue
-        job_id = str(item.get("job_id", ""))
-        state_digest = str(item.get("job_state_digest", ""))
-        key = candidate_key(job_id=job_id, job_state_digest_value=state_digest)
-        if job_id and key not in dead_letters:
-            eligible_job_ids.add(job_id)
+    worker_eligible_job_ids: dict[str, list[str]] = {}
+    assignable_job_ids: set[str] = set()
+    for worker in worker_order:
+        worker_id = str(worker.get("worker_id", ""))
+        worker_projection = project_host_work(
+            supervisor_bundle=supervisor_bundle,
+            now_ms=now_ms,
+            operation_allowlist=as_list(worker.get("shared_operation_allowlist")),
+        )
+        worker_jobs: set[str] = set()
+        for raw in as_list(worker_projection.get("candidates")):
+            item = mapping(raw)
+            if item.get("eligible") is not True:
+                continue
+            job_id = str(item.get("job_id", ""))
+            state_digest = str(item.get("job_state_digest", ""))
+            key = candidate_key(job_id=job_id, job_state_digest_value=state_digest)
+            if job_id and key not in dead_letters:
+                worker_jobs.add(job_id)
+        worker_eligible_job_ids[worker_id] = sorted(worker_jobs)
+        assignable_job_ids.update(worker_jobs)
 
     max_assignments = max(1, int(policy.get("max_assignments_per_cycle", 1) or 1))
     healthy_worker_count = len(worker_order)
-    eligible_count = len(eligible_job_ids)
+    eligible_count = len(assignable_job_ids)
     capacity = min(max_assignments, healthy_worker_count, eligible_count)
     deferred = max(0, eligible_count - capacity)
     pressure = _backpressure(
@@ -143,6 +163,7 @@ def build_orchestrator_plan(
         "worker_report_digests": sorted(str(report.get("worker_report_digest", "")) for report in reports),
         "worker_health": health,
         "ordered_worker_ids": [str(item.get("worker_id", "")) for item in worker_order],
+        "worker_eligible_job_ids": worker_eligible_job_ids,
         "queued_or_reclaimable_job_count": queued_count,
         "eligible_job_count": eligible_count,
         "healthy_worker_count": healthy_worker_count,
