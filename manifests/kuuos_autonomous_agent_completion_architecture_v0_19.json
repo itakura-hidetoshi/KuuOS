@@ -1,0 +1,320 @@
+{
+  "version": "kuuos_autonomous_agent_completion_architecture_v0_19",
+  "architecture_id": "kuuos-autonomous-agent-completion-v0.19",
+  "status": "architecture_contract_only",
+  "current_baseline": {
+    "merge_commit": "67ea352400240ad4c66778f1efca89c6b0e0258c",
+    "implemented_releases": ["v0.15", "v0.16", "v0.17", "v0.18"],
+    "classification": "durable_bounded_autonomous_execution_substrate"
+  },
+  "target_definition": {
+    "name": "indefinitely_continuing_autonomous_agent",
+    "definition": "An unbounded number of separately bounded, licensed, observable, interruptible, replay-safe, renewable cycles.",
+    "explicit_non_equivalences": [
+      "unbounded_authority",
+      "unbounded_resource_use",
+      "arbitrary_shell_execution",
+      "arbitrary_network_execution",
+      "irreversible_self_modification",
+      "hidden_background_execution"
+    ]
+  },
+  "global_invariants": [
+    "bounded_cycle",
+    "explicit_authority",
+    "append_only_lineage",
+    "checkpoint_before_handoff",
+    "foreground_user_control_available",
+    "unknown_not_false",
+    "execution_success_not_mission_success",
+    "plan_not_permission",
+    "memory_not_truth",
+    "learning_not_self_license",
+    "wake_up_not_authority",
+    "queue_not_running",
+    "running_not_verified",
+    "verified_not_automatic_renewal",
+    "resource_exhaustion_requires_feedback",
+    "self_modification_requires_externalized_gate_and_rollback",
+    "graph_semantics_forbidden"
+  ],
+  "planes": [
+    {
+      "plane_id": "mission_commitment",
+      "purpose": "Persist mission identity, goal plurality, and renewal or termination boundaries.",
+      "component_ids": [
+        "mission_contract_kernel",
+        "goal_portfolio_arbitration",
+        "mission_renewal_termination"
+      ]
+    },
+    {
+      "plane_id": "cognition_epistemic_control",
+      "purpose": "Maintain evidence-bound belief, synthesize plans, and verify outcomes.",
+      "component_ids": [
+        "observation_belief_kernel",
+        "semantic_planner_replanner",
+        "outcome_verifier"
+      ]
+    },
+    {
+      "plane_id": "memory_learning",
+      "purpose": "Consolidate experience and learn bounded reversible strategy updates.",
+      "component_ids": [
+        "cognitive_memory_consolidator",
+        "bounded_credit_assignment"
+      ]
+    },
+    {
+      "plane_id": "effects_environment",
+      "purpose": "Execute authorized external effects transactionally and reconcile intended with observed world state.",
+      "component_ids": [
+        "transactional_tool_fabric",
+        "world_state_reconciliation"
+      ]
+    },
+    {
+      "plane_id": "control_resources_evolution",
+      "purpose": "Wake, steer, resource, and improve the agent without self-authorizing.",
+      "component_ids": [
+        "event_wakeup_fabric",
+        "user_control_status_plane",
+        "resource_model_governor",
+        "governed_self_modification",
+        "integrated_indefinite_operation"
+      ]
+    }
+  ],
+  "components": [
+    {
+      "component_id": "execution_substrate",
+      "plane_id": "existing_substrate",
+      "dependency_rank": 0,
+      "target_release": "v0.15-v0.18",
+      "status": "implemented",
+      "depends_on": [],
+      "consumes": ["declared_jobs", "host_licenses", "worker_reports"],
+      "produces": ["checkpoints", "receipts", "background_tickets", "bounded_cycles"],
+      "failure_states": ["blocked_bug", "budget_paused", "permission_blocked", "retry_backoff", "dead_lettered"],
+      "non_authority": "Durable execution cannot define mission truth or widen authority."
+    },
+    {
+      "component_id": "mission_contract_kernel",
+      "plane_id": "mission_commitment",
+      "dependency_rank": 1,
+      "target_release": "v0.20",
+      "status": "open_gap",
+      "depends_on": ["execution_substrate"],
+      "consumes": ["mission_proposal", "governance_root", "resource_envelope", "domain_boundary"],
+      "produces": ["mission_contract", "success_criteria", "failure_criteria", "invariants", "renewal_policy"],
+      "failure_states": ["mission_ambiguous", "success_criteria_missing", "constraint_conflict", "resource_envelope_missing", "authority_scope_missing", "mission_expired"],
+      "non_authority": "Mission persistence is not an execution license."
+    },
+    {
+      "component_id": "goal_portfolio_arbitration",
+      "plane_id": "mission_commitment",
+      "dependency_rank": 1,
+      "target_release": "v0.20",
+      "status": "open_gap",
+      "depends_on": ["mission_contract_kernel"],
+      "consumes": ["mission_contracts", "goal_proposals", "horizon_sections", "resource_state", "user_priorities"],
+      "produces": ["goal_portfolio", "conflict_residues", "priority_recommendation", "defer_or_handover_proposal"],
+      "failure_states": ["goal_conflict_unresolved", "priority_collapse_risk", "resource_contention", "invariant_collision", "human_arbitration_required"],
+      "non_authority": "Priority ranking cannot grant effect authority."
+    },
+    {
+      "component_id": "mission_renewal_termination",
+      "plane_id": "mission_commitment",
+      "dependency_rank": 1,
+      "target_release": "v0.20",
+      "status": "open_gap",
+      "depends_on": ["mission_contract_kernel"],
+      "consumes": ["mission_contract", "verifier_evidence", "resource_state", "elapsed_horizon", "user_commands"],
+      "produces": ["continue", "renewal_required", "pause", "complete", "terminate", "handover"],
+      "failure_states": ["renewal_evidence_missing", "termination_conflict", "user_decision_required"],
+      "non_authority": "Persistence cannot silently become permanent mission authority."
+    },
+    {
+      "component_id": "observation_belief_kernel",
+      "plane_id": "cognition_epistemic_control",
+      "dependency_rank": 2,
+      "target_release": "v0.21",
+      "status": "open_gap",
+      "depends_on": ["mission_contract_kernel", "goal_portfolio_arbitration"],
+      "consumes": ["observations", "provenance", "temporal_validity", "prior_belief_state"],
+      "produces": ["local_belief_sections", "confidence", "uncertainty", "contradiction_residues", "observation_requests"],
+      "failure_states": ["evidence_missing", "source_conflict", "belief_stale", "uncertainty_exceeds_threshold"],
+      "non_authority": "Belief is evidence-bound state, not truth authority."
+    },
+    {
+      "component_id": "semantic_planner_replanner",
+      "plane_id": "cognition_epistemic_control",
+      "dependency_rank": 3,
+      "target_release": "v0.22",
+      "status": "open_gap",
+      "depends_on": ["mission_contract_kernel", "goal_portfolio_arbitration", "observation_belief_kernel"],
+      "consumes": ["mission_contract", "selected_goal", "belief_state", "capabilities", "resource_envelope", "failure_evidence"],
+      "produces": ["subgoals", "bounded_plan_proposal", "typed_dependencies", "alternative_plans", "expected_observations", "stale_plan_receipt"],
+      "failure_states": ["plan_infeasible", "capability_missing", "resource_infeasible", "plan_stale", "replan_exhausted"],
+      "non_authority": "Plan remains proposal-level until lower licenses authorize effects."
+    },
+    {
+      "component_id": "outcome_verifier",
+      "plane_id": "cognition_epistemic_control",
+      "dependency_rank": 3,
+      "target_release": "v0.22",
+      "status": "open_gap",
+      "depends_on": ["mission_contract_kernel", "observation_belief_kernel", "semantic_planner_replanner"],
+      "consumes": ["success_criteria", "plan_claims", "effect_receipts", "independent_observations", "regression_evidence"],
+      "produces": ["verified_success", "partial_success", "inconclusive", "contradicted", "regression_detected", "human_verification_required"],
+      "failure_states": ["verification_evidence_missing", "verification_conflict", "independence_requirement_unsatisfied"],
+      "non_authority": "Execution success does not imply mission success."
+    },
+    {
+      "component_id": "cognitive_memory_consolidator",
+      "plane_id": "memory_learning",
+      "dependency_rank": 4,
+      "target_release": "v0.23",
+      "status": "open_gap",
+      "depends_on": ["observation_belief_kernel", "semantic_planner_replanner", "outcome_verifier"],
+      "consumes": ["observations", "plans", "verifier_outcomes", "contradictions", "mission_lineage"],
+      "produces": ["episodic_memory", "semantic_memory_candidates", "procedural_memory_candidates", "negative_memory", "working_memory", "supersession_links"],
+      "failure_states": ["provenance_missing", "contradiction_unresolved", "retention_conflict", "privacy_boundary_blocked"],
+      "non_authority": "Memory persistence cannot become belief sovereignty or root overwrite authority."
+    },
+    {
+      "component_id": "bounded_credit_assignment",
+      "plane_id": "memory_learning",
+      "dependency_rank": 4,
+      "target_release": "v0.23",
+      "status": "open_gap",
+      "depends_on": ["outcome_verifier", "cognitive_memory_consolidator"],
+      "consumes": ["verified_outcomes", "cost", "latency", "strategy_provenance", "counterfactual_evidence"],
+      "produces": ["strategy_scores", "tool_reliability", "plan_template_rankings", "retry_recommendations", "resource_recommendations"],
+      "failure_states": ["credit_ambiguous", "outcome_unverified", "sample_insufficient", "update_out_of_bounds"],
+      "non_authority": "Learning is advisory, reversible, and cannot widen its own license."
+    },
+    {
+      "component_id": "transactional_tool_fabric",
+      "plane_id": "effects_environment",
+      "dependency_rank": 5,
+      "target_release": "v0.24",
+      "status": "open_gap",
+      "depends_on": ["semantic_planner_replanner", "outcome_verifier", "bounded_credit_assignment"],
+      "consumes": ["effect_proposal", "capability_lease", "idempotency_key", "exact_input_binding"],
+      "produces": ["prepared_effect", "effect_receipt", "compensation_receipt", "non_compensability_record"],
+      "failure_states": ["prepare_failed", "license_missing", "effect_timeout", "effect_partial", "compensation_failed", "handover_required"],
+      "non_authority": "Connector access remains capability-scoped and externally licensed."
+    },
+    {
+      "component_id": "world_state_reconciliation",
+      "plane_id": "effects_environment",
+      "dependency_rank": 5,
+      "target_release": "v0.24",
+      "status": "open_gap",
+      "depends_on": ["observation_belief_kernel", "outcome_verifier", "transactional_tool_fabric"],
+      "consumes": ["intended_effect", "tool_response", "independent_world_observation"],
+      "produces": ["effect_confirmed", "effect_partial", "effect_not_observed", "effect_conflicted", "external_state_changed", "compensation_required"],
+      "failure_states": ["world_observation_unavailable", "effect_identity_ambiguous", "external_conflict"],
+      "non_authority": "Tool response success is not sufficient world-state evidence."
+    },
+    {
+      "component_id": "event_wakeup_fabric",
+      "plane_id": "control_resources_evolution",
+      "dependency_rank": 6,
+      "target_release": "v0.25",
+      "status": "open_gap",
+      "depends_on": ["transactional_tool_fabric", "world_state_reconciliation"],
+      "consumes": ["clock_events", "queue_events", "lease_expiry", "dependency_completion", "resource_replenishment", "webhooks", "user_commands"],
+      "produces": ["bounded_cycle_wakeup_request"],
+      "failure_states": ["trigger_stale", "trigger_duplicate", "trigger_not_authorized", "host_unavailable"],
+      "non_authority": "Every wake-up starts a new bounded licensed cycle."
+    },
+    {
+      "component_id": "user_control_status_plane",
+      "plane_id": "control_resources_evolution",
+      "dependency_rank": 6,
+      "target_release": "v0.25",
+      "status": "partial_gap",
+      "depends_on": ["mission_contract_kernel", "semantic_planner_replanner", "event_wakeup_fabric", "execution_substrate"],
+      "consumes": ["job_status", "mission_status", "user_commands", "checkpoints"],
+      "produces": ["status_stream", "pause", "resume", "cancel", "reprioritize", "revise_mission", "approve_permission", "force_replan", "handover"],
+      "failure_states": ["command_stale", "command_conflict", "status_unavailable", "user_decision_required"],
+      "non_authority": "The control plane cannot silently reinterpret user intent."
+    },
+    {
+      "component_id": "resource_model_governor",
+      "plane_id": "control_resources_evolution",
+      "dependency_rank": 6,
+      "target_release": "v0.25",
+      "status": "partial_gap",
+      "depends_on": ["goal_portfolio_arbitration", "bounded_credit_assignment", "transactional_tool_fabric"],
+      "consumes": ["budgets", "reserve_floors", "model_capabilities", "storage_growth", "worker_health", "verification_cost"],
+      "produces": ["finite_resource_envelope", "model_tier_recommendation", "scaling_recommendation", "replenishment_request"],
+      "failure_states": ["budget_exhausted", "reserve_floor_reached", "model_unavailable", "storage_pressure", "replenishment_required"],
+      "non_authority": "Indefinite duration uses renewable finite envelopes, never removed limits."
+    },
+    {
+      "component_id": "governed_self_modification",
+      "plane_id": "control_resources_evolution",
+      "dependency_rank": 7,
+      "target_release": "v0.26",
+      "status": "open_gap",
+      "depends_on": ["outcome_verifier", "cognitive_memory_consolidator", "bounded_credit_assignment", "transactional_tool_fabric", "resource_model_governor"],
+      "consumes": ["improvement_proposal", "static_analysis", "sandbox_results", "regression_results", "formal_results", "external_approval"],
+      "produces": ["canary_plan", "limited_deployment", "rollback_plan", "rejected_modification"],
+      "failure_states": ["self_authorization_attempt", "regression_failed", "rollback_missing", "approval_missing", "canary_failed"],
+      "non_authority": "The component cannot widen its own authority or disable audit and rollback."
+    },
+    {
+      "component_id": "integrated_indefinite_operation",
+      "plane_id": "control_resources_evolution",
+      "dependency_rank": 8,
+      "target_release": "v0.27",
+      "status": "open_gap",
+      "depends_on": [
+        "mission_renewal_termination",
+        "observation_belief_kernel",
+        "semantic_planner_replanner",
+        "outcome_verifier",
+        "cognitive_memory_consolidator",
+        "bounded_credit_assignment",
+        "transactional_tool_fabric",
+        "world_state_reconciliation",
+        "event_wakeup_fabric",
+        "user_control_status_plane",
+        "resource_model_governor",
+        "governed_self_modification"
+      ],
+      "consumes": ["all_lower_contracts"],
+      "produces": ["mission_observe_plan_act_verify_learn_replan_cycle"],
+      "failure_states": ["integration_contract_missing", "cross_layer_digest_mismatch", "renewal_required", "human_handover_required"],
+      "non_authority": "Integration composes lower authority; it does not create new authority."
+    }
+  ],
+  "release_order": [
+    {"release": "v0.20", "dependency_rank": 1, "title": "Mission Contract and Goal Portfolio"},
+    {"release": "v0.21", "dependency_rank": 2, "title": "Observation and Belief State"},
+    {"release": "v0.22", "dependency_rank": 3, "title": "Semantic Planning and Verification"},
+    {"release": "v0.23", "dependency_rank": 4, "title": "Cognitive Memory and Bounded Learning"},
+    {"release": "v0.24", "dependency_rank": 5, "title": "Transactional Effects and World Reconciliation"},
+    {"release": "v0.25", "dependency_rank": 6, "title": "Wake-up, User Control, and Resource Governance"},
+    {"release": "v0.26", "dependency_rank": 7, "title": "Governed Self-Modification"},
+    {"release": "v0.27", "dependency_rank": 8, "title": "Integrated Indefinite Operation"}
+  ],
+  "completion_rule": {
+    "required_status": "implemented",
+    "required_evidence": [
+      "versioned_contract",
+      "typed_inputs_outputs",
+      "failure_states",
+      "non_authority_boundary",
+      "identity_binding",
+      "replay_and_stale_state_behavior",
+      "persistence_semantics",
+      "kernel_validation",
+      "lower_layer_integration_validation",
+      "honest_formal_status"
+    ]
+  }
+}

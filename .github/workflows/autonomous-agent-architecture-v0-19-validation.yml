@@ -1,0 +1,62 @@
+name: Autonomous Agent Architecture v0.19 Validation
+
+on:
+  push:
+    paths:
+      - "docs/KUUOS_AUTONOMOUS_AGENT_COMPLETION_ARCHITECTURE_v0_19.md"
+      - "docs/KUUOS_ROADMAP_AUTONOMOUS_AGENT_ADDENDUM_v0_19.md"
+      - "manifests/kuuos_autonomous_agent_completion_architecture_v0_19.json"
+      - "runtime/kuuos_autonomous_agent_completion_architecture_v0_19.py"
+      - "runtime/v019_autonomous_agent_architecture_kernel.py"
+      - "scripts/check_autonomous_agent_completion_architecture_v0_19.py"
+      - "formal/KUOS/OpenHorizon/AutonomousAgentCompletionArchitectureV0_19.lean"
+      - ".github/workflows/autonomous-agent-architecture-v0-19-validation.yml"
+  pull_request:
+    paths:
+      - "docs/KUUOS_AUTONOMOUS_AGENT_COMPLETION_ARCHITECTURE_v0_19.md"
+      - "docs/KUUOS_ROADMAP_AUTONOMOUS_AGENT_ADDENDUM_v0_19.md"
+      - "manifests/kuuos_autonomous_agent_completion_architecture_v0_19.json"
+      - "runtime/kuuos_autonomous_agent_completion_architecture_v0_19.py"
+      - "runtime/v019_autonomous_agent_architecture_kernel.py"
+      - "scripts/check_autonomous_agent_completion_architecture_v0_19.py"
+      - "formal/KUOS/OpenHorizon/AutonomousAgentCompletionArchitectureV0_19.lean"
+      - ".github/workflows/autonomous-agent-architecture-v0-19-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile v0.19 architecture runtime
+        run: python -m compileall -q runtime
+      - name: Validate autonomous-agent completion architecture
+        id: kernel
+        continue-on-error: true
+        run: python -m runtime.v019_autonomous_agent_architecture_kernel > autonomous-agent-architecture-v019.log 2>&1
+      - name: Check v0.19 Lean surface when available
+        id: lean
+        continue-on-error: true
+        run: |
+          if command -v lake >/dev/null 2>&1 && { [ -f lakefile.lean ] || [ -f lakefile.toml ]; }; then
+            lake env lean formal/KUOS/OpenHorizon/AutonomousAgentCompletionArchitectureV0_19.lean >> autonomous-agent-architecture-v019.log 2>&1
+          else
+            echo "SKIP: repository Lean environment unavailable on this runner" >> autonomous-agent-architecture-v019.log
+          fi
+      - name: Upload v0.19 architecture log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: autonomous-agent-architecture-v019-log
+          path: autonomous-agent-architecture-v019.log
+      - name: Report v0.19 failure
+        if: steps.kernel.outcome == 'failure' || steps.lean.outcome == 'failure'
+        run: |
+          cat autonomous-agent-architecture-v019.log
+          exit 1
