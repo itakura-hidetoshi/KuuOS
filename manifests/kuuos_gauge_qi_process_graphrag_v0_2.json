@@ -1,0 +1,55 @@
+{
+  "version": "kuuos_gauge_qi_process_graphrag_v0_2",
+  "source_kernel": "kuuos_gauge_qi_process_graphrag_v0_1",
+  "scope": {
+    "one_lineage": true,
+    "one_query": true,
+    "persistent_global_context_graph": false,
+    "network_retrieval_performed": false,
+    "execution_performed": false
+  },
+  "persistence": {
+    "genesis": "graph-rag-genesis.json",
+    "ledger": "graph-rag-ledger.jsonl",
+    "snapshot": "graph-rag-snapshot.json",
+    "lock": ".graph-rag.lock",
+    "append_only": true,
+    "restart_recovery": true,
+    "idempotent_replay": true,
+    "snapshot_derived_from_ledger": true,
+    "snapshot_repair_from_verified_ledger_only": true
+  },
+  "history_chains": [
+    "evidence_chain_digest",
+    "holonomy_chain_digest",
+    "observation_debt_chain_digest"
+  ],
+  "belief_bridge": {
+    "exports_evidence_packet": true,
+    "belief_authority_granted": false,
+    "truth_authority_granted": false,
+    "belief_os_independent_commit_required": true,
+    "future_only": true,
+    "memory_overwrite": false
+  },
+  "replan_adoption": {
+    "graph_rag_candidate_required": true,
+    "belief_os_candidate_required": true,
+    "belief_commit_receipt_required": true,
+    "mission_phase": "replan",
+    "mission_cycle_state_digest_required": true,
+    "replan_receipt_digest_required": true,
+    "next_plan_basis_digest_required": true,
+    "decision_commit_granted": false,
+    "execution_authority_granted": false,
+    "clinical_authority_granted": false,
+    "theorem_authority_granted": false
+  },
+  "routes": [
+    "CANDIDATE",
+    "OBSERVE",
+    "HOLD",
+    "REPAIR",
+    "QUARANTINE"
+  ]
+}
