@@ -1,0 +1,44 @@
+name: PlanOS v0.4 Validation
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_plan_os_closed_loop_fixture_v0_4.py"
+      - "runtime/kuuos_plan_os_closed_loop_intake_types_v0_4.py"
+      - "runtime/kuuos_plan_os_closed_loop_intake_kernel_v0_4.py"
+      - "runtime/kuuos_plan_os_closed_loop_intake_store_v0_4.py"
+      - "runtime/v04_plan_os_closed_loop_replan_intake_adapter.py"
+      - "scripts/check_plan_os_closed_loop_replan_intake_adapter_v0_4.py"
+      - "formal/KUOS/PlanOS/ClosedLoopReplanIntakeAdapterV0_4.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/plan-os-v0-4-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_plan_os_closed_loop_fixture_v0_4.py"
+      - "runtime/kuuos_plan_os_closed_loop_intake_types_v0_4.py"
+      - "runtime/kuuos_plan_os_closed_loop_intake_kernel_v0_4.py"
+      - "runtime/kuuos_plan_os_closed_loop_intake_store_v0_4.py"
+      - "runtime/v04_plan_os_closed_loop_replan_intake_adapter.py"
+      - "scripts/check_plan_os_closed_loop_replan_intake_adapter_v0_4.py"
+      - "formal/KUOS/PlanOS/ClosedLoopReplanIntakeAdapterV0_4.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/plan-os-v0-4-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile PlanOS v0.4 runtime
+        run: python -m compileall -q runtime scripts/check_plan_os_closed_loop_replan_intake_adapter_v0_4.py
+      - name: Validate PlanOS v0.4 closed loop
+        run: python -m runtime.v04_plan_os_closed_loop_replan_intake_adapter
+      - name: Validate PlanOS v0.4 check entry point
+        run: python scripts/check_plan_os_closed_loop_replan_intake_adapter_v0_4.py
