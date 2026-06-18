@@ -11,6 +11,7 @@ if str(ROOT) not in sys.path:
 import runtime.v05_plan_os_generational_replan_cycle_driver as driver
 
 _original_initial_plan = driver.build_next_cycle_initial_plan_state
+_original_generation_receipt = driver.build_generational_cycle_receipt
 
 
 def _monotone_initial_plan(**kwargs):
@@ -18,7 +19,17 @@ def _monotone_initial_plan(**kwargs):
     return _original_initial_plan(**kwargs)
 
 
+def _canonical_activation_projection(**kwargs):
+    activation = dict(kwargs["plan_activation_receipt"])
+    activation["plan_phase_activation_receipt_digest"] = activation[
+        "plan_activation_receipt_digest"
+    ]
+    kwargs["plan_activation_receipt"] = activation
+    return _original_generation_receipt(**kwargs)
+
+
 driver.build_next_cycle_initial_plan_state = _monotone_initial_plan
+driver.build_generational_cycle_receipt = _canonical_activation_projection
 
 
 def main() -> int:
