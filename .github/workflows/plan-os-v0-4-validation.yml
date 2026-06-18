@@ -19,4 +19,16 @@ jobs:
       - name: Compile PlanOS v0.4 runtime
         run: python -m compileall -q runtime scripts/check_plan_os_closed_loop_replan_intake_adapter_v0_4.py
       - name: Validate PlanOS v0.4 closed loop
-        run: python scripts/check_plan_os_closed_loop_replan_intake_adapter_v0_4.py
+        shell: bash
+        run: |
+          set +e
+          python scripts/check_plan_os_closed_loop_replan_intake_adapter_v0_4.py > plan-os-v04-runtime.log 2>&1
+          status=$?
+          cat plan-os-v04-runtime.log
+          exit $status
+      - name: Upload PlanOS v0.4 diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: plan-os-v04-runtime-log
+          path: plan-os-v04-runtime.log
