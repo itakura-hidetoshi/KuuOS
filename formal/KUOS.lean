@@ -5,5 +5,6 @@ import KUOS.BeliefOS.RelationalConditionalKernelV0_1
 import KUOS.BeliefOS.ContextGaugeCredalTransportV0_2
 import KUOS.BeliefOS.ContextGerbeCoherenceV0_3
 import KUOS.DecisionOS.RelationalDeliberationKernelV0_1
+import KUOS.DecisionOS.WaRelationalHarmonyV0_2
 import KUOS.GraphRAG.GaugeQiProcessGraphRAGV0_1
 import KUOS.GraphRAG.GaugeQiProcessGraphRAGV0_2
