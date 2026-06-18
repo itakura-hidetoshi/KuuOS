@@ -46,6 +46,7 @@ CHECK_MODULES = [
     "scripts.check_observe_os_effect_grounded_observation_v0_1",
     "scripts.check_observe_os_replan_lineage_observation_envelope_v0_2",
     "scripts.check_verify_os_evidence_bound_verification_v0_1",
+    "scripts.check_verify_os_replan_lineage_verification_envelope_v0_2",
     "scripts.check_learn_os_future_only_evidence_learning_v0_1",
 ]
 
