@@ -1,0 +1,50 @@
+name: Gauge-Qi Process GraphRAG v0.1 Validation
+
+on:
+  push:
+    paths:
+      - "docs/KUUOS_GAUGE_QI_PROCESS_GRAPHRAG_v0_1.md"
+      - "manifests/kuuos_gauge_qi_process_graphrag_v0_1.json"
+      - "runtime/kuuos_gauge_qi_process_graphrag_v0_1.py"
+      - "runtime/v01_gauge_qi_process_graphrag.py"
+      - "scripts/check_gauge_qi_process_graphrag_v0_1.py"
+      - "formal/KUOS/GraphRAG/GaugeQiProcessGraphRAGV0_1.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/gauge-qi-process-graphrag-v0-1-validation.yml"
+  pull_request:
+    paths:
+      - "docs/KUUOS_GAUGE_QI_PROCESS_GRAPHRAG_v0_1.md"
+      - "manifests/kuuos_gauge_qi_process_graphrag_v0_1.json"
+      - "runtime/kuuos_gauge_qi_process_graphrag_v0_1.py"
+      - "runtime/v01_gauge_qi_process_graphrag.py"
+      - "scripts/check_gauge_qi_process_graphrag_v0_1.py"
+      - "formal/KUOS/GraphRAG/GaugeQiProcessGraphRAGV0_1.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/gauge-qi-process-graphrag-v0-1-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Gauge-Qi Process GraphRAG runtime
+        run: python -m compileall -q runtime scripts/check_gauge_qi_process_graphrag_v0_1.py
+      - name: Validate manifest JSON
+        run: python -m json.tool manifests/kuuos_gauge_qi_process_graphrag_v0_1.json > /dev/null
+      - name: Run Gauge-Qi Process GraphRAG demo
+        run: python -m runtime.v01_gauge_qi_process_graphrag > gauge-qi-graphrag-v01.log 2>&1
+      - name: Run Gauge-Qi Process GraphRAG checks
+        run: python scripts/check_gauge_qi_process_graphrag_v0_1.py >> gauge-qi-graphrag-v01.log 2>&1
+      - name: Upload Gauge-Qi Process GraphRAG log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: gauge-qi-graphrag-v01-log
+          path: gauge-qi-graphrag-v01.log
