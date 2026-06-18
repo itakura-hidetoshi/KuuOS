@@ -1,0 +1,105 @@
+{
+  "version": "kuuos_plan_os_replan_bound_synthesis_v0_1",
+  "source_authorities": {
+    "mission_contract": "kuuos_mission_contract_kernel_v0_20",
+    "belief_basis": "kuuos_belief_os_context_gerbe_coherence_v0_3",
+    "decision_basis": "kuuos_decision_os_wa_relational_harmony_v0_3",
+    "mission_cycle": "kuuos_autonomous_mission_cycle_kernel_v0_21"
+  },
+  "strict_phases": [
+    "bind",
+    "decompose",
+    "order",
+    "resource",
+    "guard",
+    "checkpoint",
+    "verify",
+    "commit"
+  ],
+  "routes": [
+    "PLAN_CANDIDATE",
+    "OBSERVATION_PLAN",
+    "REPAIR_PLAN",
+    "HANDOVER_PLAN",
+    "HOLD",
+    "REJECT",
+    "QUARANTINE"
+  ],
+  "source_route_mapping": {
+    "ENDORSE": "PLAN_CANDIDATE",
+    "REOBSERVE": "OBSERVATION_PLAN",
+    "REPAIR": "REPAIR_PLAN",
+    "ESCALATE": "HANDOVER_PLAN",
+    "HOLD": "HOLD",
+    "REJECT": "REJECT",
+    "QUARANTINE": "QUARANTINE"
+  },
+  "step_classes": [
+    "observe",
+    "prepare",
+    "act_candidate",
+    "verify",
+    "repair",
+    "handover",
+    "hold"
+  ],
+  "dependency_contract": {
+    "all_dependencies_exist": true,
+    "dependency_rank_strictly_lower": true,
+    "self_dependency_forbidden": true,
+    "cycles_forbidden": true,
+    "topological_order_required": true
+  },
+  "resource_contract": {
+    "total_cost_bounded": true,
+    "peak_step_risk_bounded": true,
+    "resource_validation_grants_resources": false
+  },
+  "effect_guard": {
+    "rollback_or_explicit_escalation_required": true,
+    "stop_condition_required": true,
+    "expected_observation_required": true,
+    "verification_criterion_required": true,
+    "later_checkpoint_required": true,
+    "plan_step_is_execution": false
+  },
+  "plurality_preservation": {
+    "source_selected_identity_preserved": true,
+    "stakeholder_sections_preserved": true,
+    "veto_appeal_history_preserved": true,
+    "wa_basis_preserved": true,
+    "silent_option_substitution_forbidden": true
+  },
+  "persistence": {
+    "genesis": "plan-genesis.json",
+    "ledger": "plan-ledger.jsonl",
+    "snapshot": "plan-snapshot.json",
+    "lock": ".plan-os.lock",
+    "append_only": true,
+    "snapshot_derived_from_ledger": true,
+    "atomic_snapshot": true,
+    "replay_idempotent": true
+  },
+  "activation": {
+    "mission_phase": "plan",
+    "replan_activation_receipt_required": true,
+    "next_plan_basis_digest_required": true,
+    "future_only": true,
+    "memory_overwrite": false,
+    "plan_not_execution": true,
+    "host_license_granted": false
+  },
+  "non_authority": {
+    "truth_authority_granted": false,
+    "execution_authority_granted": false,
+    "proof_authority_granted": false,
+    "clinical_authority_granted": false,
+    "institutional_authority_granted": false,
+    "legal_authority_granted": false,
+    "host_license_granted": false,
+    "memory_overwrite_authority_granted": false,
+    "tool_authority_granted": false,
+    "network_authority_granted": false,
+    "shell_authority_granted": false
+  }
+}

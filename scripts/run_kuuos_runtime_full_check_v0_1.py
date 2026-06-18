@@ -38,6 +38,7 @@ CHECK_MODULES = [
     "scripts.check_qi_persistent_supervisor_profile_validator_v0_1",
     "scripts.check_qi_supervisorctl_v0_1",
     "scripts.check_decision_os_wa_relational_harmony_v0_3",
+    "scripts.check_plan_os_replan_bound_synthesis_v0_1",
 ]
 
 TEST_MODULES = [

@@ -1,0 +1,56 @@
+name: PlanOS v0.1 Validation
+
+on:
+  push:
+    paths:
+      - "docs/KUUOS_PLAN_OS_REPLAN_BOUND_SYNTHESIS_v0_1.md"
+      - "manifests/kuuos_plan_os_replan_bound_synthesis_v0_1.json"
+      - "runtime/kuuos_plan_os_types_v0_1.py"
+      - "runtime/kuuos_plan_os_state_v0_1.py"
+      - "runtime/kuuos_plan_os_kernel_v0_1.py"
+      - "runtime/kuuos_plan_os_store_v0_1.py"
+      - "runtime/v01_plan_os_replan_bound_synthesis.py"
+      - "scripts/check_plan_os_replan_bound_synthesis_v0_1.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - "formal/KUOS/PlanOS/ReplanBoundSynthesisV0_1.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/plan-os-v0-1-validation.yml"
+  pull_request:
+    paths:
+      - "docs/KUUOS_PLAN_OS_REPLAN_BOUND_SYNTHESIS_v0_1.md"
+      - "manifests/kuuos_plan_os_replan_bound_synthesis_v0_1.json"
+      - "runtime/kuuos_plan_os_types_v0_1.py"
+      - "runtime/kuuos_plan_os_state_v0_1.py"
+      - "runtime/kuuos_plan_os_kernel_v0_1.py"
+      - "runtime/kuuos_plan_os_store_v0_1.py"
+      - "runtime/v01_plan_os_replan_bound_synthesis.py"
+      - "scripts/check_plan_os_replan_bound_synthesis_v0_1.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - "formal/KUOS/PlanOS/ReplanBoundSynthesisV0_1.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/plan-os-v0-1-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile PlanOS runtime
+        run: python -m compileall -q runtime scripts/check_plan_os_replan_bound_synthesis_v0_1.py
+      - name: Validate PlanOS synthesis kernel
+        run: python -m runtime.v01_plan_os_replan_bound_synthesis > plan-os-v01.log 2>&1
+      - name: Validate PlanOS check entry point
+        run: python scripts/check_plan_os_replan_bound_synthesis_v0_1.py >> plan-os-v01.log 2>&1
+      - name: Upload PlanOS validation log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: plan-os-v01-log
+          path: plan-os-v01.log
