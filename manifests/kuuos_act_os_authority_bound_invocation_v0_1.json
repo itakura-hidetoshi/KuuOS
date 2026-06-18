@@ -1,0 +1,97 @@
+{
+  "version": "kuuos_act_os_authority_bound_invocation_v0_1",
+  "source_authorities": {
+    "mission_contract": "kuuos_mission_contract_kernel_v0_20",
+    "mission_cycle": "kuuos_autonomous_mission_cycle_kernel_v0_21",
+    "plan_os": "kuuos_plan_os_replan_bound_synthesis_v0_1",
+    "host_adapter": "kuuos_cooperative_host_adapter_v0_17"
+  },
+  "strict_phases": [
+    "bind",
+    "select",
+    "authorize",
+    "project",
+    "invoke",
+    "verify",
+    "commit"
+  ],
+  "routes": [
+    "PENDING",
+    "EFFECT_RECORDED",
+    "BLOCKED",
+    "REPLAYED"
+  ],
+  "fivefold_binding": {
+    "committed_plan_and_activation": true,
+    "exact_act_candidate_step": true,
+    "act_phase_and_step_authorization": true,
+    "valid_v017_host_license": true,
+    "exact_v017_projection_and_receipt": true
+  },
+  "selected_step_contract": {
+    "plan_route": "PLAN_CANDIDATE",
+    "step_class": "act_candidate",
+    "effectful": true,
+    "stop_conditions_required": true,
+    "expected_observation_required": true,
+    "verification_criterion_required": true,
+    "source_option_identity_preserved": true
+  },
+  "authorization_contract": {
+    "act_phase_receipt_required": true,
+    "single_use": true,
+    "human_approval_required_when_declared": true,
+    "host_license_digest_binding": true,
+    "operation_id_binding": true,
+    "operation_input_digest_binding": true,
+    "authorization_cannot_widen_host_license": true
+  },
+  "host_adapter_contract": {
+    "version": "kuuos_cooperative_host_adapter_v0_17",
+    "explicit_license_required": true,
+    "one_job_per_invocation": true,
+    "one_bounded_slice_per_invocation": true,
+    "trusted_registry_only": true,
+    "source_bundle_digest_binding": true,
+    "ticket_checkpoint_binding": true,
+    "duplicate_invocation_idempotent": true,
+    "input_bundle_not_overwritten_by_default": true,
+    "lower_host_receipt_is_canonical": true
+  },
+  "effect_semantics": {
+    "ready_means_one_bounded_slice_committed": true,
+    "ready_implies_intended_effect_true": false,
+    "ready_implies_plan_complete": false,
+    "blocked_implies_successful_effect": false,
+    "replay_creates_duplicate_effect": false
+  },
+  "post_effect_debt": {
+    "observation_required": true,
+    "verification_required": true,
+    "automatic_truth_promotion": false,
+    "automatic_plan_completion": false,
+    "automatic_rollback": false
+  },
+  "persistence": {
+    "genesis": "act-genesis.json",
+    "ledger": "act-ledger.jsonl",
+    "snapshot": "act-snapshot.json",
+    "lock": ".act-os.lock",
+    "append_only": true,
+    "snapshot_derived_from_ledger": true,
+    "atomic_snapshot": true,
+    "replay_idempotent": true
+  },
+  "non_authority": {
+    "truth_authority_granted": false,
+    "final_commitment_authority_granted": false,
+    "memory_overwrite_authority_granted": false,
+    "clinical_authority_granted": false,
+    "legal_authority_granted": false,
+    "institutional_authority_granted": false,
+    "theorem_authority_granted": false,
+    "unrestricted_tool_authority_granted": false,
+    "unrestricted_shell_authority_granted": false,
+    "unrestricted_network_authority_granted": false
+  }
+}
