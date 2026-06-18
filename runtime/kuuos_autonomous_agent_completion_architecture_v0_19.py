@@ -4,7 +4,7 @@ import hashlib
 import json
 from collections import Counter
 from copy import deepcopy
-from typing import Any, Mapping, Sequence
+from typing import Any, Mapping
 
 VERSION = "kuuos_autonomous_agent_completion_architecture_v0_19"
 REQUIRED_GLOBAL_INVARIANTS = {
@@ -79,6 +79,46 @@ def _as_mapping(value: Any) -> dict[str, Any]:
     return dict(value) if isinstance(value, Mapping) else {}
 
 
+def _rank(value: Mapping[str, Any]) -> int:
+    try:
+        return int(value.get("dependency_rank", -1))
+    except (TypeError, ValueError):
+        return -1
+
+
+def _dependency_cycle_errors(component_by_id: Mapping[str, Mapping[str, Any]]) -> list[str]:
+    state: dict[str, int] = {}
+    stack: list[str] = []
+    errors: list[str] = []
+    recorded: set[str] = set()
+
+    def visit(component_id: str) -> None:
+        marker = state.get(component_id, 0)
+        if marker == 2:
+            return
+        if marker == 1:
+            if component_id in stack:
+                start = stack.index(component_id)
+                cycle = stack[start:] + [component_id]
+                canonical = "->".join(cycle)
+                if canonical not in recorded:
+                    recorded.add(canonical)
+                    errors.append("component_dependency_cycle:" + canonical)
+            return
+        state[component_id] = 1
+        stack.append(component_id)
+        component = component_by_id.get(component_id, {})
+        for dependency_id in sorted(str(item) for item in _as_list(component.get("depends_on"))):
+            if dependency_id in component_by_id:
+                visit(dependency_id)
+        stack.pop()
+        state[component_id] = 2
+
+    for component_id in sorted(component_by_id):
+        visit(component_id)
+    return errors
+
+
 def validate_architecture(manifest: Mapping[str, Any]) -> list[str]:
     errors: list[str] = []
     if str(manifest.get("version", "")) != VERSION:
@@ -109,7 +149,11 @@ def validate_architecture(manifest: Mapping[str, Any]) -> list[str]:
     duplicate_components = sorted(key for key, count in Counter(component_ids).items() if key and count > 1)
     if duplicate_components:
         errors.append("duplicate_component_id:" + ",".join(duplicate_components))
-    component_by_id = {str(item.get("component_id", "")): item for item in components if str(item.get("component_id", ""))}
+    component_by_id = {
+        str(item.get("component_id", "")): item
+        for item in components
+        if str(item.get("component_id", ""))
+    }
 
     planes = [_as_mapping(item) for item in _as_list(manifest.get("planes"))]
     plane_ids = [str(item.get("plane_id", "")) for item in planes]
@@ -138,10 +182,7 @@ def validate_architecture(manifest: Mapping[str, Any]) -> list[str]:
         status = str(component.get("status", ""))
         if status not in ALLOWED_STATUSES:
             errors.append(f"component_status_invalid:{component_id}:{status}")
-        try:
-            rank = int(component.get("dependency_rank", -1))
-        except (TypeError, ValueError):
-            rank = -1
+        rank = _rank(component)
         if rank < 0:
             errors.append(f"component_rank_invalid:{component_id}")
         target_release = str(component.get("target_release", ""))
@@ -163,17 +204,16 @@ def validate_architecture(manifest: Mapping[str, Any]) -> list[str]:
             if dependency is None:
                 errors.append(f"component_dependency_unknown:{component_id}:{dependency_id}")
                 continue
-            try:
-                dependency_rank = int(dependency.get("dependency_rank", -1))
-            except (TypeError, ValueError):
-                dependency_rank = -1
+            dependency_rank = _rank(dependency)
             if dependency_rank > rank:
                 errors.append(
                     f"component_dependency_rank_reversed:{component_id}:{dependency_id}:{rank}:{dependency_rank}"
                 )
 
+    errors.extend(_dependency_cycle_errors(component_by_id))
+
     substrate = component_by_id.get("execution_substrate", {})
-    if substrate.get("status") != "implemented" or int(substrate.get("dependency_rank", -1) or -1) != 0:
+    if substrate.get("status") != "implemented" or _rank(substrate) != 0:
         errors.append("execution_substrate_baseline_invalid")
 
     integration = component_by_id.get("integrated_indefinite_operation", {})
@@ -181,17 +221,20 @@ def validate_architecture(manifest: Mapping[str, Any]) -> list[str]:
     missing_integration_dependencies = sorted(REQUIRED_INTEGRATION_DEPENDENCIES - integration_dependencies)
     if missing_integration_dependencies:
         errors.append("integration_dependencies_missing:" + ",".join(missing_integration_dependencies))
-    if int(integration.get("dependency_rank", -1) or -1) != 8:
+    if _rank(integration) != 8:
         errors.append("integration_rank_invalid")
 
     releases = [_as_mapping(item) for item in _as_list(manifest.get("release_order"))]
-    release_ranks = [int(item.get("dependency_rank", -1) or -1) for item in releases]
+    release_ranks = [_rank(item) for item in releases]
     if release_ranks != sorted(release_ranks) or release_ranks != list(range(1, 9)):
         errors.append("release_order_invalid")
-    releases_by_rank = {int(item.get("dependency_rank", -1) or -1): str(item.get("release", "")) for item in releases}
+    releases_by_rank = {
+        _rank(item): str(item.get("release", ""))
+        for item in releases
+    }
     for component in components:
         status = str(component.get("status", ""))
-        rank = int(component.get("dependency_rank", -1) or -1)
+        rank = _rank(component)
         if status == "implemented" or rank == 0:
             continue
         expected_release = releases_by_rank.get(rank)
@@ -228,7 +271,7 @@ def readiness_report(manifest: Mapping[str, Any]) -> dict[str, Any]:
         {
             "component_id": str(item.get("component_id", "")),
             "target_release": str(item.get("target_release", "")),
-            "dependency_rank": int(item.get("dependency_rank", -1) or -1),
+            "dependency_rank": _rank(item),
             "status": str(item.get("status", "")),
         }
         for item in components
