@@ -1,0 +1,12 @@
+{
+  "version": "kuuos_plan_os_bounded_multi_generation_supervisor_v0_6",
+  "source_generation": "kuuos_plan_os_generational_cycle_receipt_v0_5",
+  "bounded": true,
+  "exact_successor_cycle": true,
+  "receipt_chain": true,
+  "automatic_continuation_after_terminal_state": false,
+  "execution_granted": false,
+  "host_license_granted": false,
+  "memory_overwrite": false,
+  "append_only_recovery": true
+}
