@@ -1,0 +1,52 @@
+name: BeliefOS v0.2 Context-Gauge Transport Validation
+
+on:
+  push:
+    paths:
+      - "docs/KUUOS_BELIEF_OS_CONTEXT_GAUGE_CREDAL_TRANSPORT_v0_2.md"
+      - "manifests/kuuos_belief_os_context_gauge_credal_transport_v0_2.json"
+      - "runtime/kuuos_belief_os_context_transport_types_v0_2.py"
+      - "runtime/kuuos_belief_os_context_transport_v0_2.py"
+      - "runtime/kuuos_belief_os_context_transport_store_v0_2.py"
+      - "runtime/v02_belief_os_context_gauge_transport.py"
+      - "scripts/check_belief_os_context_gauge_transport_v0_2.py"
+      - "formal/KUOS/BeliefOS/ContextGaugeCredalTransportV0_2.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/belief-os-v0-2-context-gauge-transport-validation.yml"
+  pull_request:
+    paths:
+      - "docs/KUUOS_BELIEF_OS_CONTEXT_GAUGE_CREDAL_TRANSPORT_v0_2.md"
+      - "manifests/kuuos_belief_os_context_gauge_credal_transport_v0_2.json"
+      - "runtime/kuuos_belief_os_context_transport_types_v0_2.py"
+      - "runtime/kuuos_belief_os_context_transport_v0_2.py"
+      - "runtime/kuuos_belief_os_context_transport_store_v0_2.py"
+      - "runtime/v02_belief_os_context_gauge_transport.py"
+      - "scripts/check_belief_os_context_gauge_transport_v0_2.py"
+      - "formal/KUOS/BeliefOS/ContextGaugeCredalTransportV0_2.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/belief-os-v0-2-context-gauge-transport-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile BeliefOS v0.2 runtime
+        run: python -m compileall -q runtime scripts/check_belief_os_context_gauge_transport_v0_2.py
+      - name: Validate context-gauge credal transport
+        run: python -m runtime.v02_belief_os_context_gauge_transport > belief-os-v02.log 2>&1
+      - name: Validate check entry point
+        run: python scripts/check_belief_os_context_gauge_transport_v0_2.py >> belief-os-v02.log 2>&1
+      - name: Upload BeliefOS v0.2 validation log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: belief-os-v02-log
+          path: belief-os-v02.log
