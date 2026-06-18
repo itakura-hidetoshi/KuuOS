@@ -1,118 +1,88 @@
 import Mathlib
 
-namespace KUOS
-namespace GraphRAG
+namespace KUOS.GraphRAG
 
 universe u v w
 
 structure GaugeConnection (Vertex : Type u) (Gauge : Type v) [Group Gauge] where
   transport : Vertex → Vertex → Gauge
 
-
 def GaugeConnection.gaugeTransform
-    {Vertex : Type u}
-    {Gauge : Type v}
-    [Group Gauge]
+    {Vertex : Type u} {Gauge : Type v} [Group Gauge]
     (connection : GaugeConnection Vertex Gauge)
     (frame : Vertex → Gauge) : GaugeConnection Vertex Gauge where
   transport source target :=
     frame target * connection.transport source target * (frame source)⁻¹
 
-
 def pathEndpoint {Vertex : Type u} (start : Vertex) : List Vertex → Vertex
   | [] => start
   | target :: rest => pathEndpoint target rest
 
-
 def pathTransport
-    {Vertex : Type u}
-    {Gauge : Type v}
-    [Group Gauge]
-    (connection : GaugeConnection Vertex Gauge) :
-    Vertex → List Vertex → Gauge
+    {Vertex : Type u} {Gauge : Type v} [Group Gauge]
+    (connection : GaugeConnection Vertex Gauge) : Vertex → List Vertex → Gauge
   | _, [] => 1
   | source, target :: rest =>
       pathTransport connection target rest * connection.transport source target
 
-
 theorem pathTransport_gaugeCovariant
-    {Vertex : Type u}
-    {Gauge : Type v}
-    [Group Gauge]
+    {Vertex : Type u} {Gauge : Type v} [Group Gauge]
     (connection : GaugeConnection Vertex Gauge)
-    (frame : Vertex → Gauge)
-    (start : Vertex)
-    (tail : List Vertex) :
+    (frame : Vertex → Gauge) (start : Vertex) (tail : List Vertex) :
     pathTransport (connection.gaugeTransform frame) start tail =
-      frame (pathEndpoint start tail) *
-        pathTransport connection start tail *
-          (frame start)⁻¹ := by
+      frame (pathEndpoint start tail) * pathTransport connection start tail *
+        (frame start)⁻¹ := by
   induction tail generalizing start with
-  | nil =>
-      simp [pathTransport, pathEndpoint]
+  | nil => simp [pathTransport, pathEndpoint]
   | cons target rest ih =>
-      simp only [pathTransport, pathEndpoint, GaugeConnection.gaugeTransform]
+      change
+        pathTransport (connection.gaugeTransform frame) target rest *
+            (connection.gaugeTransform frame).transport start target =
+          frame (pathEndpoint target rest) *
+              (pathTransport connection target rest *
+                connection.transport start target) *
+            (frame start)⁻¹
       rw [ih target]
+      simp only [GaugeConnection.gaugeTransform]
       group
 
-
 def loopHolonomy
-    {Vertex : Type u}
-    {Gauge : Type v}
-    [Group Gauge]
+    {Vertex : Type u} {Gauge : Type v} [Group Gauge]
     (connection : GaugeConnection Vertex Gauge)
-    (start : Vertex)
-    (tail : List Vertex) : Gauge :=
+    (start : Vertex) (tail : List Vertex) : Gauge :=
   pathTransport connection start tail
 
-
 theorem loopHolonomy_conjugates
-    {Vertex : Type u}
-    {Gauge : Type v}
-    [Group Gauge]
+    {Vertex : Type u} {Gauge : Type v} [Group Gauge]
     (connection : GaugeConnection Vertex Gauge)
-    (frame : Vertex → Gauge)
-    (start : Vertex)
-    (tail : List Vertex)
+    (frame : Vertex → Gauge) (start : Vertex) (tail : List Vertex)
     (closed : pathEndpoint start tail = start) :
     loopHolonomy (connection.gaugeTransform frame) start tail =
       frame start * loopHolonomy connection start tail * (frame start)⁻¹ := by
   unfold loopHolonomy
   rw [pathTransport_gaugeCovariant, closed]
 
-
 def ConjugationInvariant
-    {Gauge : Type v}
-    [Group Gauge]
-    {Result : Type w}
+    {Gauge : Type v} [Group Gauge] {Result : Type w}
     (observable : Gauge → Result) : Prop :=
-  ∀ gauge element,
-    observable (gauge * element * gauge⁻¹) = observable element
-
+  ∀ gauge element, observable (gauge * element * gauge⁻¹) = observable element
 
 theorem loopObservable_gaugeInvariant
-    {Vertex : Type u}
-    {Gauge : Type v}
-    [Group Gauge]
-    {Result : Type w}
+    {Vertex : Type u} {Gauge : Type v} [Group Gauge] {Result : Type w}
     (connection : GaugeConnection Vertex Gauge)
-    (frame : Vertex → Gauge)
-    (observable : Gauge → Result)
+    (frame : Vertex → Gauge) (observable : Gauge → Result)
     (invariant : ConjugationInvariant observable)
-    (start : Vertex)
-    (tail : List Vertex)
+    (start : Vertex) (tail : List Vertex)
     (closed : pathEndpoint start tail = start) :
     observable (loopHolonomy (connection.gaugeTransform frame) start tail) =
       observable (loopHolonomy connection start tail) := by
   rw [loopHolonomy_conjugates connection frame start tail closed]
   exact invariant (frame start) (loopHolonomy connection start tail)
 
-
 structure UnitScore where
   value : ℝ
   nonnegative : 0 ≤ value
   atMostOne : value ≤ 1
-
 
 def UnitScore.mul (left right : UnitScore) : UnitScore where
   value := left.value * right.value
@@ -124,17 +94,6 @@ def UnitScore.mul (left right : UnitScore) : UnitScore where
       _ = right.value := one_mul right.value
       _ ≤ 1 := right.atMostOne
 
-
-theorem unitScore_product_nonnegative (left right : UnitScore) :
-    0 ≤ (left.mul right).value := by
-  exact (left.mul right).nonnegative
-
-
-theorem unitScore_product_atMostOne (left right : UnitScore) :
-    (left.mul right).value ≤ 1 := by
-  exact (left.mul right).atMostOne
-
-
 structure QiProcessWindow where
   transitionContinuity : UnitScore
   memoryContinuity : UnitScore
@@ -143,22 +102,14 @@ structure QiProcessWindow where
   debtRelease : UnitScore
   residueRelease : UnitScore
 
-
 def QiProcessWindow.compatibility (window : QiProcessWindow) : UnitScore :=
   (((window.transitionContinuity.mul window.memoryContinuity).mul
       window.nonMarkovVisibility).mul window.recoverability).mul
         (window.debtRelease.mul window.residueRelease)
 
-
-theorem qiProcessCompatibility_nonnegative (window : QiProcessWindow) :
-    0 ≤ window.compatibility.value := by
-  exact window.compatibility.nonnegative
-
-
-theorem qiProcessCompatibility_atMostOne (window : QiProcessWindow) :
-    window.compatibility.value ≤ 1 := by
-  exact window.compatibility.atMostOne
-
+theorem qiProcessCompatibility_bounded (window : QiProcessWindow) :
+    0 ≤ window.compatibility.value ∧ window.compatibility.value ≤ 1 :=
+  ⟨window.compatibility.nonnegative, window.compatibility.atMostOne⟩
 
 structure EvidencePathScores where
   relevance : UnitScore
@@ -169,22 +120,18 @@ structure EvidencePathScores where
   qiCompatibility : UnitScore
   recoverability : UnitScore
 
-
 def EvidencePathScores.jointSupport (scores : EvidencePathScores) : UnitScore :=
   (((((scores.relevance.mul scores.sourceConfidence).mul scores.provenance).mul
       scores.transportReliability).mul scores.temporalConsistency).mul
         scores.qiCompatibility).mul scores.recoverability
 
-
 theorem evidencePathJointSupport_bounded (scores : EvidencePathScores) :
-    0 ≤ scores.jointSupport.value ∧ scores.jointSupport.value ≤ 1 := by
-  exact ⟨scores.jointSupport.nonnegative, scores.jointSupport.atMostOne⟩
-
+    0 ≤ scores.jointSupport.value ∧ scores.jointSupport.value ≤ 1 :=
+  ⟨scores.jointSupport.nonnegative, scores.jointSupport.atMostOne⟩
 
 structure GaugeQiGraphRAGBoundary where
   querySpecificEvidenceBundle : Bool
   persistentGlobalContextGraph : Bool
-  shortestPathSearchUsed : Bool
   globalWinnerSelected : Bool
   globalTruthGranted : Bool
   executionAuthorityGranted : Bool
@@ -192,49 +139,28 @@ structure GaugeQiGraphRAGBoundary where
   curvatureVetoGranted : Bool
   querySpecificRequired : querySpecificEvidenceBundle = true
   persistentGlobalGraphForbidden : persistentGlobalContextGraph = false
-  shortestPathSearchForbidden : shortestPathSearchUsed = false
   globalWinnerForbidden : globalWinnerSelected = false
   globalTruthForbidden : globalTruthGranted = false
   executionAuthorityForbidden : executionAuthorityGranted = false
   qiAuthorityForbidden : qiHistoryAuthorityGranted = false
   curvatureVetoForbidden : curvatureVetoGranted = false
 
-
-theorem gaugeQiGraphRAG_is_querySpecific
+theorem gaugeQiGraphRAG_preserves_boundaries
     (boundary : GaugeQiGraphRAGBoundary) :
-    boundary.querySpecificEvidenceBundle = true := by
-  exact boundary.querySpecificRequired
-
-
-theorem gaugeQiGraphRAG_has_no_persistent_global_graph
-    (boundary : GaugeQiGraphRAGBoundary) :
-    boundary.persistentGlobalContextGraph = false := by
-  exact boundary.persistentGlobalGraphForbidden
-
-
-theorem gaugeQiGraphRAG_does_not_grant_global_truth
-    (boundary : GaugeQiGraphRAGBoundary) :
-    boundary.globalTruthGranted = false := by
-  exact boundary.globalTruthForbidden
-
-
-theorem gaugeQiGraphRAG_does_not_grant_execution_authority
-    (boundary : GaugeQiGraphRAGBoundary) :
-    boundary.executionAuthorityGranted = false := by
-  exact boundary.executionAuthorityForbidden
-
-
-theorem qiHistory_does_not_become_authority
-    (boundary : GaugeQiGraphRAGBoundary) :
-    boundary.qiHistoryAuthorityGranted = false := by
-  exact boundary.qiAuthorityForbidden
-
-
-theorem curvature_does_not_become_veto
-    (boundary : GaugeQiGraphRAGBoundary) :
+    boundary.querySpecificEvidenceBundle = true ∧
+    boundary.persistentGlobalContextGraph = false ∧
+    boundary.globalWinnerSelected = false ∧
+    boundary.globalTruthGranted = false ∧
+    boundary.executionAuthorityGranted = false ∧
+    boundary.qiHistoryAuthorityGranted = false ∧
     boundary.curvatureVetoGranted = false := by
-  exact boundary.curvatureVetoForbidden
-
+  exact ⟨boundary.querySpecificRequired,
+    boundary.persistentGlobalGraphForbidden,
+    boundary.globalWinnerForbidden,
+    boundary.globalTruthForbidden,
+    boundary.executionAuthorityForbidden,
+    boundary.qiAuthorityForbidden,
+    boundary.curvatureVetoForbidden⟩
 
 structure PluralityReceipt where
   declaredPathCount : ℕ
@@ -243,17 +169,10 @@ structure PluralityReceipt where
   noUniversalWinner : Bool
   universalWinnerForbidden : noUniversalWinner = true
 
-
-theorem pluralityReceipt_retains_bounded_set
+theorem pluralityReceipt_preserves_finite_plurality
     (receipt : PluralityReceipt) :
-    receipt.retainedPathCount ≤ receipt.declaredPathCount := by
-  exact receipt.retainedNotGreater
+    receipt.retainedPathCount ≤ receipt.declaredPathCount ∧
+      receipt.noUniversalWinner = true :=
+  ⟨receipt.retainedNotGreater, receipt.universalWinnerForbidden⟩
 
-
-theorem pluralityReceipt_has_no_universal_winner
-    (receipt : PluralityReceipt) :
-    receipt.noUniversalWinner = true := by
-  exact receipt.universalWinnerForbidden
-
-end GraphRAG
-end KUOS
+end KUOS.GraphRAG
