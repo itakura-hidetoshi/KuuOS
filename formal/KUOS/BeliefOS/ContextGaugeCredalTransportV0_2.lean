@@ -1,6 +1,5 @@
 import Mathlib
 import KUOS.BeliefOS.RelationalConditionalKernelV0_1
-import KUOS.OpenHorizon.ContextGaugeAtlasV0_13
 
 namespace KUOS
 namespace BeliefOS
