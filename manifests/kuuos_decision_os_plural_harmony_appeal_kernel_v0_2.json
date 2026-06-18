@@ -1,0 +1,116 @@
+{
+  "version": "kuuos_decision_os_plural_harmony_appeal_kernel_v0_2",
+  "additive_over": "kuuos_decision_os_relational_deliberation_kernel_v0_1",
+  "source_authorities": {
+    "mission_contract": "kuuos_mission_contract_kernel_v0_20",
+    "belief_basis": "kuuos_belief_os_context_gerbe_coherence_v0_3",
+    "decision_basis": "kuuos_decision_os_relational_deliberation_kernel_v0_1",
+    "activation_boundary": "kuuos_autonomous_mission_cycle_kernel_v0_21"
+  },
+  "strict_phases": [
+    "bind_v01",
+    "register_stakeholders",
+    "evaluate_plurality",
+    "validate_vetoes",
+    "aggregate",
+    "explain",
+    "appeal_window",
+    "adjudicate",
+    "commit"
+  ],
+  "routes": [
+    "CONSENSUS_CANDIDATE",
+    "NEGOTIATE",
+    "APPEAL",
+    "HANDOVER",
+    "HOLD",
+    "REJECT",
+    "QUARANTINE"
+  ],
+  "stakeholder_section": {
+    "required_fields": [
+      "stakeholder_id",
+      "role",
+      "weight",
+      "profile_weights",
+      "minimum_acceptable_value",
+      "disagreement_point",
+      "protected_constraint_digests",
+      "veto",
+      "appeal_right"
+    ],
+    "weights_nonnegative": true,
+    "weights_sum_to_one": true,
+    "profile_weights_nonnegative": true,
+    "profile_weights_sum_to_one": true,
+    "local_value_sections_preserved": true
+  },
+  "plural_aggregation": {
+    "utility_representation": "stakeholder_local_interval",
+    "weighted_median": true,
+    "nash_surplus_lower_and_upper": true,
+    "worst_case_lower_floor": true,
+    "universal_total_order_forbidden": true,
+    "ranking_scope": "broadly_acceptable_options_only",
+    "ranking_order": [
+      "worst_case_lower",
+      "nash_product_lower",
+      "weighted_median",
+      "stable_option_id"
+    ]
+  },
+  "veto_boundary": {
+    "raw_veto_is_signal_only": true,
+    "raw_veto_grants_authority": false,
+    "validated_veto_requires_mission_binding": true,
+    "validated_veto_requires_stakeholder_protection_binding": true,
+    "validated_veto_requires_evidence": true,
+    "validated_veto_excludes_consensus_option": true,
+    "validated_veto_is_truth": false
+  },
+  "appeal_boundary": {
+    "append_only": true,
+    "future_only": true,
+    "prior_decision_rewrite": false,
+    "material_appeal_can_reopen": true,
+    "appeal_grants_execution_authority": false
+  },
+  "explanation": {
+    "method": "stakeholder_ablation",
+    "utility_intervals_preserved": true,
+    "support_opposition_uncertainty_preserved": true,
+    "veto_records_preserved": true,
+    "ablation_is_causal_truth": false,
+    "ablation_is_moral_worth": false
+  },
+  "persistence": {
+    "genesis": "plural-genesis.json",
+    "ledger": "plural-ledger.jsonl",
+    "snapshot": "plural-snapshot.json",
+    "lock": ".decision-os-v02.lock",
+    "append_only": true,
+    "snapshot_derived_from_ledger": true,
+    "atomic_snapshot": true,
+    "replay_idempotent": true
+  },
+  "activation": {
+    "mission_phase": "replan",
+    "future_only": true,
+    "memory_overwrite": false,
+    "plural_decision_not_execution": true,
+    "consensus_not_truth": true,
+    "host_license_granted": false
+  },
+  "non_authority": {
+    "truth_authority_granted": false,
+    "execution_authority_granted": false,
+    "clinical_authority_granted": false,
+    "institutional_authority_granted": false,
+    "legal_authority_granted": false,
+    "host_license_granted": false,
+    "stakeholder_sovereignty_granted": false,
+    "raw_veto_authority_granted": false,
+    "consensus_truth_authority_granted": false,
+    "memory_overwrite_authority_granted": false
+  }
+}
