@@ -1,0 +1,79 @@
+{
+  "version": "kuuos_act_os_replan_lineage_authority_envelope_v0_2",
+  "source_authorities": {
+    "plan_compiler_adapter": "kuuos_plan_os_next_cycle_basis_compiler_adapter_v0_3",
+    "plan_compiler": "kuuos_plan_os_replan_bound_synthesis_v0_1",
+    "act_kernel": "kuuos_act_os_authority_bound_invocation_v0_1",
+    "host_adapter": "kuuos_cooperative_host_adapter_v0_17"
+  },
+  "receipts": [
+    "act_lineage_handoff_receipt",
+    "lineage_bound_step_authorization_envelope",
+    "act_lineage_completion_receipt"
+  ],
+  "handoff_contract": {
+    "committed_plan_required": true,
+    "plan_candidate_route_required": true,
+    "canonical_plan_activation_required": true,
+    "canonical_v03_compiler_receipt_required": true,
+    "exact_effectful_act_candidate_required": true,
+    "exact_act_cycle_required": true,
+    "act_phase_required": true,
+    "stop_observation_verification_boundaries_preserved": true,
+    "single_use": true
+  },
+  "lineage_contract": {
+    "replan_phase_receipt_preserved": true,
+    "next_plan_activation_preserved": true,
+    "materialization_preserved": true,
+    "next_plan_basis_preserved": true,
+    "selected_candidate_preserved": true,
+    "qi_condition_preserved": true,
+    "decision_receipt_preserved": true,
+    "synthesis_packet_preserved": true,
+    "selected_plan_step_preserved": true
+  },
+  "authorization_contract": {
+    "inner_v01_authorization_canonical": true,
+    "inner_authorization_unchanged": true,
+    "operation_identity_preserved": true,
+    "operation_input_preserved": true,
+    "act_phase_receipt_preserved": true,
+    "host_license_preserved": true,
+    "human_approval_preserved_when_required": true,
+    "authorization_cannot_widen_license": true
+  },
+  "completion_contract": {
+    "committed_act_state_required": true,
+    "lower_host_receipt_canonical": true,
+    "effect_route_consistency_required": true,
+    "observation_debt_preserved_on_effect": true,
+    "verification_debt_preserved_on_effect": true,
+    "blocked_not_promoted": true,
+    "replayed_not_promoted": true
+  },
+  "persistence": {
+    "genesis": "act-lineage-genesis.json",
+    "ledger": "act-lineage-ledger.jsonl",
+    "snapshot": "act-lineage-snapshot.json",
+    "lock": ".act-os-v02-lineage.lock",
+    "stages": ["HANDOFF_ISSUED", "COMPLETION_COMMITTED"],
+    "append_only": true,
+    "atomic_snapshot": true,
+    "exact_replay_idempotent": true,
+    "conflicting_reuse_rejected": true
+  },
+  "non_authority": {
+    "truth_authority_granted": false,
+    "causal_authority_granted": false,
+    "execution_authority_granted_by_handoff": false,
+    "clinical_authority_granted": false,
+    "legal_authority_granted": false,
+    "institutional_authority_granted": false,
+    "host_license_granted": false,
+    "memory_overwrite_authority_granted": false,
+    "unrestricted_tool_authority_granted": false,
+    "unrestricted_shell_authority_granted": false,
+    "unrestricted_network_authority_granted": false
+  }
+}

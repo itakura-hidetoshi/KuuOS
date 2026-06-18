@@ -1,0 +1,56 @@
+name: ActOS v0.2 Validation
+
+on:
+  push:
+    paths:
+      - "docs/KUUOS_ACT_OS_REPLAN_LINEAGE_AUTHORITY_ENVELOPE_v0_2.md"
+      - "manifests/kuuos_act_os_replan_lineage_authority_envelope_v0_2.json"
+      - "runtime/kuuos_act_os_fixture_v0_1.py"
+      - "runtime/kuuos_act_os_lineage_types_v0_2.py"
+      - "runtime/kuuos_act_os_lineage_kernel_v0_2.py"
+      - "runtime/kuuos_act_os_lineage_store_v0_2.py"
+      - "runtime/v02_act_os_replan_lineage_authority_envelope.py"
+      - "scripts/check_act_os_replan_lineage_authority_envelope_v0_2.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - "formal/KUOS/ActOS/ReplanLineageAuthorityEnvelopeV0_2.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/act-os-v0-2-validation.yml"
+  pull_request:
+    paths:
+      - "docs/KUUOS_ACT_OS_REPLAN_LINEAGE_AUTHORITY_ENVELOPE_v0_2.md"
+      - "manifests/kuuos_act_os_replan_lineage_authority_envelope_v0_2.json"
+      - "runtime/kuuos_act_os_fixture_v0_1.py"
+      - "runtime/kuuos_act_os_lineage_types_v0_2.py"
+      - "runtime/kuuos_act_os_lineage_kernel_v0_2.py"
+      - "runtime/kuuos_act_os_lineage_store_v0_2.py"
+      - "runtime/v02_act_os_replan_lineage_authority_envelope.py"
+      - "scripts/check_act_os_replan_lineage_authority_envelope_v0_2.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - "formal/KUOS/ActOS/ReplanLineageAuthorityEnvelopeV0_2.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/act-os-v0-2-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile ActOS v0.2 runtime
+        run: python -m compileall -q runtime scripts/check_act_os_replan_lineage_authority_envelope_v0_2.py
+      - name: Validate ActOS v0.2 lineage envelope
+        run: python -m runtime.v02_act_os_replan_lineage_authority_envelope > act-os-v02.log 2>&1
+      - name: Validate ActOS v0.2 check entry point
+        run: python scripts/check_act_os_replan_lineage_authority_envelope_v0_2.py >> act-os-v02.log 2>&1
+      - name: Upload ActOS v0.2 log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: act-os-v02-log
+          path: act-os-v02.log
