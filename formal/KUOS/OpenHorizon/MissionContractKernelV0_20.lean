@@ -59,6 +59,7 @@ structure MissionTransition where
 
 theorem transition_history_advances (transition : MissionTransition) :
     transition.nextIndex > transition.previousIndex := by
+  rw [transition.appended]
   omega
 
 
