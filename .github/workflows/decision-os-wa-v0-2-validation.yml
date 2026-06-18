@@ -1,0 +1,54 @@
+name: DecisionOS Wa v0.2 Validation
+
+on:
+  push:
+    paths:
+      - "docs/KUUOS_DECISION_OS_WA_RELATIONAL_HARMONY_v0_2.md"
+      - "manifests/kuuos_decision_os_wa_relational_harmony_v0_2.json"
+      - "runtime/kuuos_decision_os_wa_types_v0_2.py"
+      - "runtime/kuuos_decision_os_wa_state_v0_2.py"
+      - "runtime/kuuos_decision_os_wa_kernel_v0_2.py"
+      - "runtime/kuuos_decision_os_wa_store_v0_2.py"
+      - "runtime/v02_decision_os_wa_relational_harmony.py"
+      - "scripts/check_decision_os_wa_relational_harmony_v0_2.py"
+      - "formal/KUOS/DecisionOS/WaRelationalHarmonyV0_2.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/decision-os-wa-v0-2-validation.yml"
+  pull_request:
+    paths:
+      - "docs/KUUOS_DECISION_OS_WA_RELATIONAL_HARMONY_v0_2.md"
+      - "manifests/kuuos_decision_os_wa_relational_harmony_v0_2.json"
+      - "runtime/kuuos_decision_os_wa_types_v0_2.py"
+      - "runtime/kuuos_decision_os_wa_state_v0_2.py"
+      - "runtime/kuuos_decision_os_wa_kernel_v0_2.py"
+      - "runtime/kuuos_decision_os_wa_store_v0_2.py"
+      - "runtime/v02_decision_os_wa_relational_harmony.py"
+      - "scripts/check_decision_os_wa_relational_harmony_v0_2.py"
+      - "formal/KUOS/DecisionOS/WaRelationalHarmonyV0_2.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/decision-os-wa-v0-2-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Wa runtime
+        run: python -m compileall -q runtime scripts/check_decision_os_wa_relational_harmony_v0_2.py
+      - name: Validate Wa relational harmony kernel
+        run: python -m runtime.v02_decision_os_wa_relational_harmony > decision-os-wa-v02.log 2>&1
+      - name: Validate Wa check entry point
+        run: python scripts/check_decision_os_wa_relational_harmony_v0_2.py >> decision-os-wa-v02.log 2>&1
+      - name: Upload Wa validation log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: decision-os-wa-v02-log
+          path: decision-os-wa-v02.log
