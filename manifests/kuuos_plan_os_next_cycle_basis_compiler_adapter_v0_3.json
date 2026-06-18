@@ -1,0 +1,96 @@
+{
+  "version": "kuuos_plan_os_next_cycle_basis_compiler_adapter_v0_3",
+  "source_authorities": {
+    "plan_os_v0_1": "kuuos_plan_os_replan_bound_synthesis_v0_1",
+    "plan_os_v0_2": "kuuos_plan_os_qi_conditioned_nonmarkov_replan_v0_2",
+    "decision_os_wa": "kuuos_decision_os_wa_relational_harmony_v0_3",
+    "mission_cycle": "kuuos_autonomous_mission_cycle_kernel_v0_21"
+  },
+  "purpose": "activate exactly one PlanOS v0.2 next-cycle basis through the existing PlanOS v0.1 structured compiler during the exact next Plan phase",
+  "route_projection": {
+    "NEXT_PLAN_CANDIDATE": "PLAN_CANDIDATE",
+    "REPAIR_PLAN_CANDIDATE": "REPAIR_PLAN",
+    "REOBSERVATION_PLAN_CANDIDATE": "OBSERVATION_PLAN",
+    "REROUTE_PLAN_CANDIDATE": "HANDOVER_PLAN",
+    "TERMINATION_PLAN_CANDIDATE": "HANDOVER_PLAN",
+    "HOLD": "HOLD"
+  },
+  "source_contract": {
+    "committed_current_plan_required": true,
+    "exact_source_wa_required": true,
+    "committed_replan_required": true,
+    "canonical_replan_phase_receipt_required": true,
+    "current_plan_digest_match_required": true,
+    "mission_contract_match_required": true,
+    "lineage_match_required": true,
+    "selected_candidate_identity_required": true,
+    "qi_condition_digest_required": true,
+    "decision_receipt_digest_required": true,
+    "synthesis_packet_digest_required": true,
+    "next_plan_basis_digest_required": true
+  },
+  "cycle_gate": {
+    "mission_cycle_phase": "plan",
+    "exact_active_from_cycle_required": true,
+    "active_from_cycle_is_previous_plus_one": true,
+    "old_cycle_rejected": true,
+    "future_cycle_skip_rejected": true,
+    "stale_mission_state_rejected": true
+  },
+  "dual_lineage": {
+    "wa_lineage_role": "authorization_provenance_only",
+    "replan_lineage_role": "next_plan_identity",
+    "wa_identity_not_replan_identity": true,
+    "lineage_collapse_forbidden": true
+  },
+  "materialization": {
+    "exact_template_count_required": true,
+    "exact_template_order_required": true,
+    "exact_template_identity_required": true,
+    "observation_coverage_required": true,
+    "verification_coverage_required": true,
+    "stop_condition_coverage_required": true,
+    "rollback_coverage_required": true,
+    "selected_candidate_binding_required": true,
+    "hold_has_no_executable_steps": true,
+    "hold_withheld_templates_visible": true
+  },
+  "compiler_contract": {
+    "sole_structured_compiler": "PlanOS_v0_1",
+    "dependency_validation_reused": true,
+    "resource_validation_reused": true,
+    "effect_guard_reused": true,
+    "checkpoint_validation_reused": true,
+    "verification_reused": true,
+    "append_only_plan_store_reused": true
+  },
+  "single_use": {
+    "replan_receipt_consumed_once": true,
+    "next_plan_basis_consumed_once": true,
+    "exact_replay_idempotent": true,
+    "conflicting_replay_rejected": true
+  },
+  "persistence": {
+    "genesis": "next-cycle-adapter-genesis.json",
+    "ledger": "next-cycle-adapter-ledger.jsonl",
+    "snapshot": "next-cycle-adapter-snapshot.json",
+    "lock": ".plan-os-v03-adapter.lock",
+    "append_only": true,
+    "atomic_snapshot": true,
+    "snapshot_derived_from_ledger": true,
+    "restart_recovery": true
+  },
+  "non_authority": {
+    "truth_authority_granted": false,
+    "causal_authority_granted": false,
+    "execution_authority_granted": false,
+    "final_commitment_authority_granted": false,
+    "clinical_authority_granted": false,
+    "legal_authority_granted": false,
+    "institutional_authority_granted": false,
+    "memory_overwrite_authority_granted": false,
+    "self_modification_authority_granted": false,
+    "theorem_authority_granted": false,
+    "host_license_granted": false
+  }
+}
