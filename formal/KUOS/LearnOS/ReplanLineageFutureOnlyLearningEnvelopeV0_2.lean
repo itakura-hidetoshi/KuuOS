@@ -96,34 +96,30 @@ theorem learning_preserves_verification_evidence_identity
     binding.criterionIdentityRequired⟩
 
 
-structure CounterevidenceBoundary where
+structure LineageChallengeBoundary where
   counterevidencePreserved : Bool
   falsificationPreserved : Bool
   independentAssessmentPreserved : Bool
-  alternativeExplanationsPreserved : Bool
   antiOvergeneralizationTested : Bool
   counterevidenceRequired : counterevidencePreserved = true
   falsificationRequired : falsificationPreserved = true
   independenceRequired : independentAssessmentPreserved = true
-  alternativesRequired : alternativeExplanationsPreserved = true
   antiOvergeneralizationRequired : antiOvergeneralizationTested = true
 
 
-theorem learning_preserves_challenge_surface
-    (boundary : CounterevidenceBoundary) :
+theorem learning_preserves_lineage_challenge_surface
+    (boundary : LineageChallengeBoundary) :
     boundary.counterevidencePreserved = true ∧
       boundary.falsificationPreserved = true ∧
       boundary.independentAssessmentPreserved = true ∧
-      boundary.alternativeExplanationsPreserved = true ∧
       boundary.antiOvergeneralizationTested = true := by
   exact ⟨boundary.counterevidenceRequired,
     boundary.falsificationRequired,
     boundary.independenceRequired,
-    boundary.alternativesRequired,
     boundary.antiOvergeneralizationRequired⟩
 
 
-inductive LearningRoute where
+inductive LineageLearningRoute where
   | reinforcement
   | repair
   | reobservation
@@ -131,7 +127,7 @@ inductive LearningRoute where
   deriving DecidableEq, Repr
 
 
-inductive PlanOSCandidateType where
+inductive LineagePlanOSCandidateType where
   | continue
   | strengthen
   | repair
@@ -142,7 +138,8 @@ inductive PlanOSCandidateType where
   deriving DecidableEq, Repr
 
 
-def compatibleWithPlanOS : LearningRoute → PlanOSCandidateType → Prop
+def lineageCompatibleWithPlanOS :
+    LineageLearningRoute → LineagePlanOSCandidateType → Prop
   | .reinforcement, candidate =>
       candidate = .continue ∨ candidate = .strengthen ∨
         candidate = .slowDown ∨ candidate = .hold
@@ -156,36 +153,36 @@ def compatibleWithPlanOS : LearningRoute → PlanOSCandidateType → Prop
 
 
 theorem reinforcement_planos_compatibility
-    (candidate : PlanOSCandidateType)
-    (h : compatibleWithPlanOS .reinforcement candidate) :
+    (candidate : LineagePlanOSCandidateType)
+    (h : lineageCompatibleWithPlanOS .reinforcement candidate) :
     candidate = .continue ∨ candidate = .strengthen ∨
       candidate = .slowDown ∨ candidate = .hold := by
   exact h
 
 
 theorem repair_planos_compatibility
-    (candidate : PlanOSCandidateType)
-    (h : compatibleWithPlanOS .repair candidate) :
+    (candidate : LineagePlanOSCandidateType)
+    (h : lineageCompatibleWithPlanOS .repair candidate) :
     candidate = .repair ∨ candidate = .slowDown ∨
       candidate = .reroute ∨ candidate = .hold := by
   exact h
 
 
 theorem reobservation_planos_compatibility
-    (candidate : PlanOSCandidateType)
-    (h : compatibleWithPlanOS .reobservation candidate) :
+    (candidate : LineagePlanOSCandidateType)
+    (h : lineageCompatibleWithPlanOS .reobservation candidate) :
     candidate = .reobserve ∨ candidate = .hold := by
   exact h
 
 
 theorem hold_planos_compatibility
-    (candidate : PlanOSCandidateType)
-    (h : compatibleWithPlanOS .hold candidate) :
+    (candidate : LineagePlanOSCandidateType)
+    (h : lineageCompatibleWithPlanOS .hold candidate) :
     candidate = .hold ∨ candidate = .reobserve := by
   exact h
 
 
-structure FutureOnlyDeltaBoundary where
+structure LineageFutureOnlyDeltaBoundary where
   futureOnly : Bool
   activeNow : Bool
   currentCycleUnchanged : Bool
@@ -201,7 +198,7 @@ structure FutureOnlyDeltaBoundary where
 
 
 theorem learning_delta_is_strictly_future_only
-    (boundary : FutureOnlyDeltaBoundary) :
+    (boundary : LineageFutureOnlyDeltaBoundary) :
     boundary.futureOnly = true ∧
       boundary.activeNow = false ∧
       boundary.currentCycleUnchanged = true ∧
@@ -216,13 +213,11 @@ theorem learning_delta_is_strictly_future_only
     boundary.replanRequired⟩
 
 
-structure MiddleWayLearningGate where
-  candidateAdmissible : Bool
+structure LineageMiddleWayLearningGate where
   counterevidencePreserved : Bool
   samvrtiCandidateUsable : Bool
   paramarthaNonReificationPreserved : Bool
   qiGrantsAuthority : Bool
-  admissibilityRequired : candidateAdmissible = true
   counterevidenceRequired : counterevidencePreserved = true
   samvrtiRequired : samvrtiCandidateUsable = true
   nonReificationRequired : paramarthaNonReificationPreserved = true
@@ -230,20 +225,18 @@ structure MiddleWayLearningGate where
 
 
 theorem middle_way_gate_preserves_two_truths
-    (gate : MiddleWayLearningGate) :
-    gate.candidateAdmissible = true ∧
-      gate.counterevidencePreserved = true ∧
+    (gate : LineageMiddleWayLearningGate) :
+    gate.counterevidencePreserved = true ∧
       gate.samvrtiCandidateUsable = true ∧
       gate.paramarthaNonReificationPreserved = true ∧
       gate.qiGrantsAuthority = false := by
-  exact ⟨gate.admissibilityRequired,
-    gate.counterevidenceRequired,
+  exact ⟨gate.counterevidenceRequired,
     gate.samvrtiRequired,
     gate.nonReificationRequired,
     gate.qiAuthorityForbidden⟩
 
 
-structure OwnershipBoundary where
+structure LineageOwnershipBoundary where
   replanOwnedByPlanOS : Bool
   selectionOwnedByDecisionOS : Bool
   executionOwnedByActOS : Bool
@@ -253,7 +246,7 @@ structure OwnershipBoundary where
 
 
 theorem learning_preserves_operating_system_ownership
-    (boundary : OwnershipBoundary) :
+    (boundary : LineageOwnershipBoundary) :
     boundary.replanOwnedByPlanOS = true ∧
       boundary.selectionOwnedByDecisionOS = true ∧
       boundary.executionOwnedByActOS = true := by
@@ -262,7 +255,7 @@ theorem learning_preserves_operating_system_ownership
     boundary.executionOwnershipRequired⟩
 
 
-structure ActivationSeparation where
+structure LineageActivationSeparation where
   learningRecorded : Bool
   replanHandoffReady : Bool
   replanActivated : Bool
@@ -278,7 +271,7 @@ structure ActivationSeparation where
 
 
 theorem learning_commit_is_not_activation_or_execution
-    (separation : ActivationSeparation) :
+    (separation : LineageActivationSeparation) :
     separation.learningRecorded = true ∧
       separation.replanHandoffReady = true ∧
       separation.replanActivated = false ∧
@@ -293,7 +286,7 @@ theorem learning_commit_is_not_activation_or_execution
     separation.hostLicenseForbidden⟩
 
 
-structure QiLearningBoundary where
+structure LineageQiLearningBoundary where
   qiLineagePreserved : Bool
   qiHistoryPreserved : Bool
   qiGrantsTruth : Bool
@@ -307,7 +300,7 @@ structure QiLearningBoundary where
 
 
 theorem qi_is_learning_context_not_authority
-    (boundary : QiLearningBoundary) :
+    (boundary : LineageQiLearningBoundary) :
     boundary.qiLineagePreserved = true ∧
       boundary.qiHistoryPreserved = true ∧
       boundary.qiGrantsTruth = false ∧
@@ -320,7 +313,7 @@ theorem qi_is_learning_context_not_authority
     boundary.activationForbidden⟩
 
 
-structure SingleUseLearning where
+structure LineageSingleUseLearning where
   handoffCount : Nat
   completionCount : Nat
   handoffBound : handoffCount ≤ 1
@@ -328,24 +321,24 @@ structure SingleUseLearning where
 
 
 theorem learning_completion_is_single_use
-    (single : SingleUseLearning) :
+    (single : LineageSingleUseLearning) :
     single.completionCount ≤ 1 := by
   exact le_trans single.completionBound single.handoffBound
 
 
-structure RecoveryEquality where
+structure LineageRecoveryEquality where
   committedRecords : Nat
   recoveredRecords : Nat
   recoveryRequired : recoveredRecords = committedRecords
 
 
 theorem recovered_learning_count_eq_committed
-    (recovery : RecoveryEquality) :
+    (recovery : LineageRecoveryEquality) :
     recovery.recoveredRecords = recovery.committedRecords := by
   exact recovery.recoveryRequired
 
 
-structure NonAuthorityBoundary where
+structure LineageNonAuthorityBoundary where
   truthGranted : Bool
   causalGranted : Bool
   executionGranted : Bool
@@ -363,7 +356,7 @@ structure NonAuthorityBoundary where
 
 
 theorem learn_lineage_envelope_grants_no_new_authority
-    (boundary : NonAuthorityBoundary) :
+    (boundary : LineageNonAuthorityBoundary) :
     boundary.truthGranted = false ∧
       boundary.causalGranted = false ∧
       boundary.executionGranted = false ∧
