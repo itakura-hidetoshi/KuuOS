@@ -262,9 +262,11 @@ structure HysteresisGate where
   recoveryProtectionPenalty : ℚ
   switchExempt : Bool
   hysteresisPassed : Bool
-  requiredMargin :
-    baseSwitchThreshold + qiHysteresis + oscillationPenalty +
-      recoveryProtectionPenalty
+  requiredMargin : ℚ
+  requiredMarginEq :
+    requiredMargin =
+      baseSwitchThreshold + qiHysteresis + oscillationPenalty +
+        recoveryProtectionPenalty
   switchedRule : switchExempt = false → hysteresisPassed = true →
     requiredMargin ≤ switchBenefit
   exemptRule : switchExempt = true → hysteresisPassed = true
@@ -276,7 +278,8 @@ theorem switching_candidate_requires_hysteresis_margin
     (hpassed : gate.hysteresisPassed = true) :
     gate.baseSwitchThreshold + gate.qiHysteresis + gate.oscillationPenalty +
       gate.recoveryProtectionPenalty ≤ gate.switchBenefit := by
-  simpa [gate.requiredMargin] using gate.switchedRule hnotExempt hpassed
+  rw [← gate.requiredMarginEq]
+  exact gate.switchedRule hnotExempt hpassed
 
 
 theorem exempt_candidate_may_pass_without_switch_benefit
