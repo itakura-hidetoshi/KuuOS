@@ -4,3 +4,4 @@ import KUOS.OpenHorizon.AutonomousMissionCycleKernelV0_21
 import KUOS.BeliefOS.RelationalConditionalKernelV0_1
 import KUOS.BeliefOS.ContextGaugeCredalTransportV0_2
 import KUOS.GraphRAG.GaugeQiProcessGraphRAGV0_1
+import KUOS.GraphRAG.GaugeQiProcessGraphRAGV0_2
