@@ -1,0 +1,23 @@
+{
+  "version": "kuuos_learn_os_replan_lineage_future_only_learning_envelope_v0_2",
+  "sources": [
+    "kuuos_verify_os_replan_lineage_verification_envelope_v0_2",
+    "kuuos_learn_os_future_only_evidence_learning_v0_1"
+  ],
+  "phase": "learn",
+  "exact_cycle_required": true,
+  "source_lineage_preserved": true,
+  "verification_evidence_preserved": true,
+  "criterion_identity_preserved": true,
+  "counterevidence_preserved": true,
+  "anti_overgeneralization_required": true,
+  "middle_way_gate_required": true,
+  "qi_context_non_authority": true,
+  "future_only_delta": true,
+  "activation_requires_planos_replan": true,
+  "replan_owned_by_planos": true,
+  "selection_owned_by_decisionos": true,
+  "execution_owned_by_actos": true,
+  "single_use_handoff": true,
+  "append_only_recovery": true
+}
