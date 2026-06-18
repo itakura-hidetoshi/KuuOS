@@ -1,0 +1,75 @@
+{
+  "version": "kuuos_belief_os_context_gauge_credal_transport_v0_2",
+  "source_belief_kernel": "kuuos_belief_os_relational_conditional_kernel_v0_1",
+  "source_context_atlas": "kuuos_context_gauge_atlas_v0_13",
+  "transport": {
+    "declared_paths_only": true,
+    "path_search_used": false,
+    "global_chart_ranking_used": false,
+    "universal_winner_selected": false,
+    "reliability_factors": [
+      "overlap",
+      "one_minus_curvature",
+      "one_minus_cocycle_defect",
+      "one_minus_holonomy_residual",
+      "qi_history_compatibility"
+    ],
+    "interval_map": {
+      "lower": "reliability * source_lower",
+      "upper": "reliability * source_upper + (1 - reliability)"
+    },
+    "aggregation": "plurality_preserving_hull",
+    "point_estimate_required": false
+  },
+  "preserved_surfaces": [
+    "source_belief_state_digest",
+    "source_context_id",
+    "declared_path",
+    "transported_interval",
+    "transport_reliability",
+    "curvature",
+    "cocycle_defect",
+    "holonomy_residual",
+    "qi_history_compatibility",
+    "evidence_digests",
+    "counterevidence_digests",
+    "conflict_index"
+  ],
+  "routes": [
+    "CANDIDATE",
+    "OBSERVE",
+    "HOLD",
+    "REPAIR",
+    "REJECT",
+    "QUARANTINE"
+  ],
+  "persistence": {
+    "genesis": "belief-transport-genesis.json",
+    "ledger": "belief-transport-ledger.jsonl",
+    "snapshot": "belief-transport-snapshot.json",
+    "lock": ".belief-transport.lock",
+    "append_only": true,
+    "snapshot_derived_from_ledger": true,
+    "atomic_snapshot": true,
+    "replay_idempotent": true,
+    "holonomy_chain_preserved": true
+  },
+  "activation_boundary": {
+    "mission_cycle_source": "kuuos_autonomous_mission_cycle_kernel_v0_21",
+    "candidate_route_required": true,
+    "mission_phase": "replan",
+    "future_only": true,
+    "memory_overwrite": false,
+    "next_plan_basis_digest_required": true
+  },
+  "non_authority": {
+    "truth_authority_granted": false,
+    "execution_authority_granted": false,
+    "proof_authority_granted": false,
+    "clinical_authority_granted": false,
+    "institutional_authority_granted": false,
+    "global_context_authority_granted": false,
+    "memory_overwrite_authority_granted": false,
+    "graph_route_authority_granted": false
+  }
+}
