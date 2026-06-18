@@ -6,9 +6,11 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 from runtime.kuuos_belief_os_types_v0_1 import sha
+from runtime.kuuos_decision_os_plural_store_v0_2 import PluralDecisionStore
 from runtime.kuuos_decision_os_wa_kernel_v0_3 import (
     build_replan_wa_activation_receipt,
 )
+from runtime.kuuos_decision_os_wa_store_v0_3 import WaDecisionStore
 from runtime.kuuos_plan_os_kernel_v0_1 import (
     build_initial_plan_state,
     build_plan_event,
@@ -16,6 +18,7 @@ from runtime.kuuos_plan_os_kernel_v0_1 import (
 )
 from runtime.kuuos_plan_os_store_v0_1 import PlanStore, PlanStoreError
 from runtime.kuuos_plan_os_types_v0_1 import copy_non_authority
+from runtime.v02_decision_os_plural_harmony_appeal import _appeal
 from runtime.v03_decision_os_wa_relational_harmony import (
     _complete_wa_cycle,
     _initial_wa,
@@ -25,30 +28,29 @@ from runtime.v03_decision_os_wa_relational_harmony import (
 )
 
 
-def _wa_source(
+def _make_wa_source(
     root: Path,
     name: str,
     *,
-    source_plural_route: str,
+    plural_route: str,
     wa_route: str,
-    weak_dialogue: bool = False,
+    appeals: Sequence[Mapping[str, Any]] = (),
     handover_required: bool = False,
+    weak_dialogue: bool = False,
 ) -> dict[str, Any]:
-    plural = _plural_source(
+    plural_state = _plural_source(
         root,
         name + "-plural",
-        requested_route=source_plural_route,
+        requested_route=plural_route,
+        appeals=appeals,
         handover_required=handover_required,
     )
-    store_root = root / (name + "-wa")
-    from runtime.kuuos_decision_os_wa_store_v0_3 import WaDecisionStore
-
-    store = WaDecisionStore(store_root)
-    state = store.initialize(_initial_wa(plural, name + "-wa-state"))
-    profiles = _standard_profiles(plural)
+    store = WaDecisionStore(root / (name + "-wa"))
+    state = store.initialize(_initial_wa(plural_state, name + "-wa-state"))
+    profiles = _standard_profiles(plural_state)
     if weak_dialogue:
         profiles[0] = _profile(
-            plural,
+            plural_state,
             "option-a",
             positive_lower=0.82,
             positive_upper=0.92,
@@ -77,14 +79,13 @@ def _wa_activation(state: Mapping[str, Any], suffix: str) -> dict[str, Any]:
 
 
 def _step(
-    *,
     step_id: str,
     step_class: str,
     rank: int,
+    *,
     depends_on: Sequence[str] = (),
     cost: float = 0.10,
     risk: float = 0.10,
-    reversibility: float = 0.90,
     rollback_step_id: str = "",
     effectful: bool = False,
     external: bool = False,
@@ -99,27 +100,27 @@ def _step(
         "depends_on": list(depends_on),
         "precondition_digests": [sha("precondition-" + step_id)],
         "expected_observation_digest": sha("observation-" + step_id),
-        "verification_criterion_digest": sha("verify-" + step_id),
+        "verification_criterion_digest": sha("verification-" + step_id),
         "estimated_cost": cost,
         "estimated_risk": risk,
-        "reversibility": reversibility,
+        "reversibility": 0.90,
         "rollback_step_id": rollback_step_id,
         "stop_condition_digests": list(stop_conditions),
         "requires_external_license": external,
         "requires_human_review": human,
         "effectful": effectful,
         "source_option_id": source_option_id,
-        "stakeholder_scope_digests": [sha("stakeholder-scope-" + step_id)],
+        "stakeholder_scope_digests": [sha("stakeholder-" + step_id)],
     }
 
 
 def _candidate_steps() -> list[dict[str, Any]]:
     return [
-        _step(step_id="prepare", step_class="prepare", rank=0),
+        _step("prepare", "prepare", 0),
         _step(
-            step_id="act-candidate",
-            step_class="act_candidate",
-            rank=1,
+            "act-candidate",
+            "act_candidate",
+            1,
             depends_on=["prepare"],
             rollback_step_id="rollback",
             effectful=True,
@@ -127,25 +128,9 @@ def _candidate_steps() -> list[dict[str, Any]]:
             human=True,
             stop_conditions=[sha("stop-risk"), sha("stop-dissent")],
         ),
-        _step(
-            step_id="rollback",
-            step_class="repair",
-            rank=2,
-            depends_on=["act-candidate"],
-            source_option_id="option-a",
-        ),
-        _step(
-            step_id="observe",
-            step_class="observe",
-            rank=2,
-            depends_on=["act-candidate"],
-        ),
-        _step(
-            step_id="verify",
-            step_class="verify",
-            rank=3,
-            depends_on=["observe"],
-        ),
+        _step("rollback", "repair", 2, depends_on=["act-candidate"]),
+        _step("observe", "observe", 2, depends_on=["act-candidate"]),
+        _step("verify", "verify", 3, depends_on=["observe"]),
     ]
 
 
@@ -182,46 +167,19 @@ def _apply(
 def _complete_plan(
     store: PlanStore,
     state: Mapping[str, Any],
-    *,
     steps: Sequence[Mapping[str, Any]],
     tick_base: int,
 ) -> tuple[dict[str, Any], dict[str, Any]]:
-    state = _apply(store, state, "decompose", {"steps": list(steps)}, tick_base + 1)
-    state = _apply(
-        store,
-        state,
-        "order",
-        {"dependency_receipt_digest": sha("dependency-receipt")},
-        tick_base + 2,
+    phases = (
+        ("decompose", {"steps": list(steps)}),
+        ("order", {"dependency_receipt_digest": sha("dependency-receipt")}),
+        ("resource", {"resource_receipt_digest": sha("resource-receipt")}),
+        ("guard", {"guard_receipt_digest": sha("guard-receipt")}),
+        ("checkpoint", {"checkpoint_receipt_digest": sha("checkpoint-receipt")}),
+        ("verify", {"verification_receipt_digest": sha("verification-receipt")}),
     )
-    state = _apply(
-        store,
-        state,
-        "resource",
-        {"resource_receipt_digest": sha("resource-receipt")},
-        tick_base + 3,
-    )
-    state = _apply(
-        store,
-        state,
-        "guard",
-        {"guard_receipt_digest": sha("guard-receipt")},
-        tick_base + 4,
-    )
-    state = _apply(
-        store,
-        state,
-        "checkpoint",
-        {"checkpoint_receipt_digest": sha("checkpoint-receipt")},
-        tick_base + 5,
-    )
-    state = _apply(
-        store,
-        state,
-        "verify",
-        {"verification_receipt_digest": sha("verification-receipt")},
-        tick_base + 6,
-    )
+    for offset, (phase, payload) in enumerate(phases, start=1):
+        state = _apply(store, state, phase, payload, tick_base + offset)
     commit_event = _event(
         state,
         "commit",
@@ -242,83 +200,215 @@ def _complete_plan(
     return result["state"], commit_event
 
 
-def _initial_plan(
+def _new_plan_state(
     *,
     plan_id: str,
     wa_state: Mapping[str, Any],
     activation: Mapping[str, Any],
     budget: float = 2.0,
-    max_risk: float = 0.40,
 ) -> dict[str, Any]:
     return build_initial_plan_state(
         plan_id=plan_id,
         source_wa_state=wa_state,
         replan_activation_receipt=activation,
         plan_budget=budget,
-        maximum_step_risk=max_risk,
+        maximum_step_risk=0.40,
         now_ms=60_000,
     )
+
+
+def _validate_candidate_plan(root: Path) -> tuple[dict[str, Any], dict[str, Any], PlanStore]:
+    wa_state = _make_wa_source(
+        root,
+        "endorse-source",
+        plural_route="CONSENSUS_CANDIDATE",
+        wa_route="ENDORSE",
+    )
+    activation = _wa_activation(wa_state, "endorse")
+    store = PlanStore(root / "candidate")
+    state = store.initialize(
+        _new_plan_state(
+            plan_id="plan-candidate-001",
+            wa_state=wa_state,
+            activation=activation,
+        )
+    )
+    skipped = store.apply(
+        _event(state, "order", {"dependency_receipt_digest": sha("skip")}, 1)
+    )
+    assert skipped["status"] == "REJECTED"
+    assert "plan_event_phase_order_invalid" in skipped["errors"]
+    state, commit_event = _complete_plan(store, state, _candidate_steps(), 10)
+    assert state["route"] == "PLAN_CANDIDATE"
+    assert state["topological_order"] == [
+        "prepare",
+        "act-candidate",
+        "observe",
+        "rollback",
+        "verify",
+    ]
+    assert state["guard_summary"]["source_identity_preserved"] is True
+    assert state["checkpoint_summary"]["all_effects_have_checkpoint"] is True
+    assert state["verification_summary"]["plan_verified"] is True
+    before_replay = store.ledger_commit_count()
+    assert store.apply(commit_event)["status"] == "REPLAYED"
+    assert store.ledger_commit_count() == before_replay
+    return state, activation, store
+
+
+def _validate_negative_cases(
+    root: Path,
+    wa_state: Mapping[str, Any],
+    activation: Mapping[str, Any],
+) -> None:
+    cycle_store = PlanStore(root / "cycle-invalid")
+    cycle_state = cycle_store.initialize(
+        _new_plan_state(
+            plan_id="plan-cycle-invalid",
+            wa_state=wa_state,
+            activation=activation,
+        )
+    )
+    cycle_state = _apply(
+        cycle_store,
+        cycle_state,
+        "decompose",
+        {
+            "steps": [
+                _step("a", "prepare", 1, depends_on=["b"]),
+                _step("b", "verify", 1, depends_on=["a"]),
+            ]
+        },
+        100,
+    )
+    cycle_result = cycle_store.apply(
+        _event(
+            cycle_state,
+            "order",
+            {"dependency_receipt_digest": sha("cycle")},
+            101,
+        )
+    )
+    assert cycle_result["status"] == "REJECTED"
+    assert "plan_dependency_rank_not_lower" in cycle_result["errors"][0]
+
+    budget_store = PlanStore(root / "budget-invalid")
+    budget_state = budget_store.initialize(
+        _new_plan_state(
+            plan_id="plan-budget-invalid",
+            wa_state=wa_state,
+            activation=activation,
+            budget=0.20,
+        )
+    )
+    budget_state = _apply(
+        budget_store, budget_state, "decompose", {"steps": _candidate_steps()}, 110
+    )
+    budget_state = _apply(
+        budget_store,
+        budget_state,
+        "order",
+        {"dependency_receipt_digest": sha("budget-order")},
+        111,
+    )
+    budget_result = budget_store.apply(
+        _event(
+            budget_state,
+            "resource",
+            {"resource_receipt_digest": sha("budget-resource")},
+            112,
+        )
+    )
+    assert budget_result["status"] == "REJECTED"
+    assert budget_result["errors"] == ["plan_budget_exceeded"]
+
+    guard_store = PlanStore(root / "guard-invalid")
+    guard_state = guard_store.initialize(
+        _new_plan_state(
+            plan_id="plan-guard-invalid",
+            wa_state=wa_state,
+            activation=activation,
+        )
+    )
+    unguarded = _candidate_steps()
+    unguarded[1]["rollback_step_id"] = ""
+    unguarded[1]["requires_external_license"] = False
+    unguarded[1]["requires_human_review"] = False
+    guard_state = _apply(
+        guard_store, guard_state, "decompose", {"steps": unguarded}, 120
+    )
+    guard_state = _apply(
+        guard_store,
+        guard_state,
+        "order",
+        {"dependency_receipt_digest": sha("guard-order")},
+        121,
+    )
+    guard_state = _apply(
+        guard_store,
+        guard_state,
+        "resource",
+        {"resource_receipt_digest": sha("guard-resource")},
+        122,
+    )
+    guard_result = guard_store.apply(
+        _event(
+            guard_state,
+            "guard",
+            {"guard_receipt_digest": sha("guard-invalid")},
+            123,
+        )
+    )
+    assert guard_result["status"] == "REJECTED"
+    assert guard_result["errors"] == ["plan_effect_guard_invalid"]
+
+
+def _validate_routed_plan(
+    root: Path,
+    *,
+    name: str,
+    plural_route: str,
+    wa_route: str,
+    expected_plan_route: str,
+    steps: Sequence[Mapping[str, Any]],
+    appeals: Sequence[Mapping[str, Any]] = (),
+    handover_required: bool = False,
+    weak_dialogue: bool = False,
+    tick_base: int,
+) -> dict[str, Any]:
+    wa_state = _make_wa_source(
+        root,
+        name,
+        plural_route=plural_route,
+        wa_route=wa_route,
+        appeals=appeals,
+        handover_required=handover_required,
+        weak_dialogue=weak_dialogue,
+    )
+    activation = _wa_activation(wa_state, name)
+    store = PlanStore(root / (name + "-plan"))
+    state = store.initialize(
+        _new_plan_state(
+            plan_id=name + "-plan-state",
+            wa_state=wa_state,
+            activation=activation,
+        )
+    )
+    state, _ = _complete_plan(store, state, steps, tick_base)
+    assert state["route"] == expected_plan_route
+    return state
 
 
 def run_kernel() -> dict[str, Any]:
     with tempfile.TemporaryDirectory(prefix="kuuos-plan-os-v01-") as temporary:
         root = Path(temporary)
-        endorse_wa = _wa_source(
-            root,
-            "endorse-source",
-            source_plural_route="CONSENSUS_CANDIDATE",
-            wa_route="ENDORSE",
-        )
-        endorse_activation = _wa_activation(endorse_wa, "endorse")
-        store = PlanStore(root / "candidate")
-        state = store.initialize(
-            _initial_plan(
-                plan_id="plan-candidate-001",
-                wa_state=endorse_wa,
-                activation=endorse_activation,
-            )
-        )
-        assert state["route"] == "PLAN_CANDIDATE"
-
-        skipped = store.apply(
-            _event(
-                state,
-                "order",
-                {"dependency_receipt_digest": sha("skip")},
-                1,
-            )
-        )
-        assert skipped["status"] == "REJECTED"
-        assert "plan_event_phase_order_invalid" in skipped["errors"]
-        assert store.ledger_commit_count() == 0
-
-        state, commit_event = _complete_plan(
-            store,
-            state,
-            steps=_candidate_steps(),
-            tick_base=10,
-        )
-        assert state["route"] == "PLAN_CANDIDATE"
-        assert state["topological_order"] == [
-            "prepare",
-            "act-candidate",
-            "observe",
-            "rollback",
-            "verify",
-        ]
-        assert state["guard_summary"]["source_identity_preserved"] is True
-        assert state["checkpoint_summary"]["all_effects_have_checkpoint"] is True
-        assert state["verification_summary"]["plan_verified"] is True
-        assert state["pending_plan_phase_activation"] is True
-
-        before_replay = store.ledger_commit_count()
-        replay = store.apply(commit_event)
-        assert replay["status"] == "REPLAYED"
-        assert store.ledger_commit_count() == before_replay
+        candidate, replan_activation, candidate_store = _validate_candidate_plan(root)
+        source_wa_state = candidate_store._read_json(candidate_store.genesis_path)
+        _validate_negative_cases(root, source_wa_state, replan_activation)
 
         try:
             build_plan_phase_activation_receipt(
-                state=state,
+                state=candidate,
                 mission_cycle_phase="replan",
                 mission_cycle_state_digest=sha("mission-plan-state"),
                 plan_phase_receipt_digest=sha("plan-phase-receipt"),
@@ -330,7 +420,7 @@ def run_kernel() -> dict[str, Any]:
             raise AssertionError("plan_activation_outside_plan_phase_was_accepted")
 
         plan_activation = build_plan_phase_activation_receipt(
-            state=state,
+            state=candidate,
             mission_cycle_phase="plan",
             mission_cycle_state_digest=sha("mission-plan-state"),
             plan_phase_receipt_digest=sha("plan-phase-receipt"),
@@ -343,250 +433,76 @@ def run_kernel() -> dict[str, Any]:
         snapshot_path = root / "candidate" / "plan-snapshot.json"
         snapshot_path.write_text(json.dumps({"corrupt": True}), encoding="utf-8")
         try:
-            store.recover(require_snapshot_match=True)
+            candidate_store.recover(require_snapshot_match=True)
         except PlanStoreError as exc:
             assert str(exc) == "plan_snapshot_ledger_mismatch"
         else:
             raise AssertionError("corrupt_plan_snapshot_was_accepted")
-        repaired = store.repair_snapshot()
-        recovered = store.recover(require_snapshot_match=True)
+        repaired = candidate_store.repair_snapshot()
+        recovered = candidate_store.recover(require_snapshot_match=True)
         assert repaired["plan_state_digest"] == recovered["plan_state_digest"]
 
-        cycle_store = PlanStore(root / "cycle-invalid")
-        cycle_state = cycle_store.initialize(
-            _initial_plan(
-                plan_id="plan-cycle-invalid",
-                wa_state=endorse_wa,
-                activation=endorse_activation,
-            )
-        )
-        cycle_steps = [
-            _step(
-                step_id="a",
-                step_class="prepare",
-                rank=1,
-                depends_on=["b"],
-            ),
-            _step(
-                step_id="b",
-                step_class="verify",
-                rank=1,
-                depends_on=["a"],
-            ),
-        ]
-        cycle_state = _apply(
-            cycle_store,
-            cycle_state,
-            "decompose",
-            {"steps": cycle_steps},
-            100,
-        )
-        cycle_result = cycle_store.apply(
-            _event(
-                cycle_state,
-                "order",
-                {"dependency_receipt_digest": sha("cycle")},
-                101,
-            )
-        )
-        assert cycle_result["status"] == "REJECTED"
-        assert "plan_dependency_rank_not_lower" in cycle_result["errors"][0]
-
-        budget_store = PlanStore(root / "budget-invalid")
-        budget_state = budget_store.initialize(
-            _initial_plan(
-                plan_id="plan-budget-invalid",
-                wa_state=endorse_wa,
-                activation=endorse_activation,
-                budget=0.20,
-            )
-        )
-        budget_state = _apply(
-            budget_store,
-            budget_state,
-            "decompose",
-            {"steps": _candidate_steps()},
-            110,
-        )
-        budget_state = _apply(
-            budget_store,
-            budget_state,
-            "order",
-            {"dependency_receipt_digest": sha("budget-order")},
-            111,
-        )
-        budget_result = budget_store.apply(
-            _event(
-                budget_state,
-                "resource",
-                {"resource_receipt_digest": sha("budget-resource")},
-                112,
-            )
-        )
-        assert budget_result["status"] == "REJECTED"
-        assert budget_result["errors"] == ["plan_budget_exceeded"]
-
-        guard_store = PlanStore(root / "guard-invalid")
-        guard_state = guard_store.initialize(
-            _initial_plan(
-                plan_id="plan-guard-invalid",
-                wa_state=endorse_wa,
-                activation=endorse_activation,
-            )
-        )
-        unguarded = _candidate_steps()
-        unguarded[1]["rollback_step_id"] = ""
-        unguarded[1]["requires_external_license"] = False
-        unguarded[1]["requires_human_review"] = False
-        guard_state = _apply(
-            guard_store,
-            guard_state,
-            "decompose",
-            {"steps": unguarded},
-            120,
-        )
-        guard_state = _apply(
-            guard_store,
-            guard_state,
-            "order",
-            {"dependency_receipt_digest": sha("guard-order")},
-            121,
-        )
-        guard_state = _apply(
-            guard_store,
-            guard_state,
-            "resource",
-            {"resource_receipt_digest": sha("guard-resource")},
-            122,
-        )
-        guard_result = guard_store.apply(
-            _event(
-                guard_state,
-                "guard",
-                {"guard_receipt_digest": sha("guard-invalid")},
-                123,
-            )
-        )
-        assert guard_result["status"] == "REJECTED"
-        assert guard_result["errors"] == ["plan_effect_guard_invalid"]
-
-        observe_wa = _wa_source(
+        observation = _validate_routed_plan(
             root,
-            "observe-source",
-            source_plural_route="APPEAL",
+            name="observation",
+            plural_route="APPEAL",
             wa_route="REOBSERVE",
-        )
-        observe_activation = _wa_activation(observe_wa, "observe")
-        observe_store = PlanStore(root / "observe")
-        observe_state = observe_store.initialize(
-            _initial_plan(
-                plan_id="plan-observe-001",
-                wa_state=observe_wa,
-                activation=observe_activation,
-            )
-        )
-        observe_steps = [
-            _step(
-                step_id="collect",
-                step_class="observe",
-                rank=0,
-                source_option_id="option-a",
-            ),
-            _step(
-                step_id="verify-observation",
-                step_class="verify",
-                rank=1,
-                depends_on=["collect"],
-                source_option_id="option-a",
-            ),
-        ]
-        observe_state, _ = _complete_plan(
-            observe_store,
-            observe_state,
-            steps=observe_steps,
+            expected_plan_route="OBSERVATION_PLAN",
+            appeals=[
+                _appeal(
+                    appeal_id="plan-observation-appeal",
+                    stakeholder_id="patient",
+                    target_option_id="option-a",
+                    materiality=0.80,
+                    protected=True,
+                )
+            ],
+            steps=[
+                _step("collect", "observe", 0),
+                _step("verify-observation", "verify", 1, depends_on=["collect"]),
+            ],
             tick_base=200,
         )
-        assert observe_state["route"] == "OBSERVATION_PLAN"
-
-        repair_wa = _wa_source(
+        repair = _validate_routed_plan(
             root,
-            "repair-source",
-            source_plural_route="CONSENSUS_CANDIDATE",
+            name="repair",
+            plural_route="CONSENSUS_CANDIDATE",
             wa_route="REPAIR",
+            expected_plan_route="REPAIR_PLAN",
             weak_dialogue=True,
-        )
-        repair_activation = _wa_activation(repair_wa, "repair")
-        repair_store = PlanStore(root / "repair")
-        repair_state = repair_store.initialize(
-            _initial_plan(
-                plan_id="plan-repair-001",
-                wa_state=repair_wa,
-                activation=repair_activation,
-            )
-        )
-        repair_steps = [
-            _step(step_id="repair-dialogue", step_class="repair", rank=0),
-            _step(
-                step_id="observe-repair",
-                step_class="observe",
-                rank=1,
-                depends_on=["repair-dialogue"],
-            ),
-        ]
-        repair_state, _ = _complete_plan(
-            repair_store,
-            repair_state,
-            steps=repair_steps,
+            steps=[
+                _step("repair-dialogue", "repair", 0),
+                _step("observe-repair", "observe", 1, depends_on=["repair-dialogue"]),
+            ],
             tick_base=300,
         )
-        assert repair_state["route"] == "REPAIR_PLAN"
-
-        handover_wa = _wa_source(
+        handover = _validate_routed_plan(
             root,
-            "handover-source",
-            source_plural_route="HANDOVER",
+            name="handover",
+            plural_route="HANDOVER",
             wa_route="ESCALATE",
+            expected_plan_route="HANDOVER_PLAN",
             handover_required=True,
-        )
-        handover_activation = _wa_activation(handover_wa, "handover")
-        handover_store = PlanStore(root / "handover")
-        handover_state = handover_store.initialize(
-            _initial_plan(
-                plan_id="plan-handover-001",
-                wa_state=handover_wa,
-                activation=handover_activation,
-            )
-        )
-        handover_steps = [
-            _step(step_id="prepare-handover", step_class="prepare", rank=0),
-            _step(
-                step_id="handover",
-                step_class="handover",
-                rank=1,
-                depends_on=["prepare-handover"],
-            ),
-        ]
-        handover_state, _ = _complete_plan(
-            handover_store,
-            handover_state,
-            steps=handover_steps,
+            steps=[
+                _step("prepare-handover", "prepare", 0),
+                _step("handover", "handover", 1, depends_on=["prepare-handover"]),
+            ],
             tick_base=400,
         )
-        assert handover_state["route"] == "HANDOVER_PLAN"
-        assert not any(step["effectful"] for step in handover_state["steps"])
+        assert not any(step["effectful"] for step in handover["steps"])
 
         return {
             "status": "PLAN_OS_REPLAN_BOUND_SYNTHESIS_V0_1_OK",
-            "candidate_route": state["route"],
-            "candidate_topological_order": state["topological_order"],
-            "candidate_plan_digest": state["latest_committed_plan_digest"],
+            "candidate_route": candidate["route"],
+            "candidate_topological_order": candidate["topological_order"],
+            "candidate_plan_digest": candidate["latest_committed_plan_digest"],
             "plan_activation_receipt_digest": plan_activation[
                 "plan_activation_receipt_digest"
             ],
-            "observation_route": observe_state["route"],
-            "repair_route": repair_state["route"],
-            "handover_route": handover_state["route"],
-            "ledger_commits": store.ledger_commit_count(),
+            "observation_route": observation["route"],
+            "repair_route": repair["route"],
+            "handover_route": handover["route"],
+            "ledger_commits": candidate_store.ledger_commit_count(),
             "recovered_plan_state_digest": recovered["plan_state_digest"],
         }
 
