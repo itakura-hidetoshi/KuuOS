@@ -74,6 +74,13 @@ def main() -> bool:
     _component(unknown_dependency, "semantic_planner_replanner")["depends_on"].append("unknown_component")
     assert "component_dependency_unknown:semantic_planner_replanner:unknown_component" in validate_architecture(unknown_dependency)
 
+    dependency_cycle = deepcopy(manifest)
+    _component(dependency_cycle, "mission_contract_kernel")["depends_on"].append("goal_portfolio_arbitration")
+    assert any(
+        error.startswith("component_dependency_cycle:")
+        for error in validate_architecture(dependency_cycle)
+    )
+
     wrong_release = deepcopy(manifest)
     _component(wrong_release, "observation_belief_kernel")["target_release"] = "v0.26"
     assert "component_release_rank_mismatch:observation_belief_kernel:v0.26:v0.21" in validate_architecture(wrong_release)
