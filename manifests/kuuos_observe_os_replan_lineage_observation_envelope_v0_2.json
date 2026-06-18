@@ -1,0 +1,15 @@
+{
+  "version": "kuuos_observe_os_replan_lineage_observation_envelope_v0_2",
+  "sources": [
+    "kuuos_act_os_replan_lineage_authority_envelope_v0_2",
+    "kuuos_observe_os_effect_grounded_observation_v0_1"
+  ],
+  "phase": "observe",
+  "exact_cycle_required": true,
+  "source_lineage_preserved": true,
+  "observation_target_preserved": true,
+  "comparison_not_verification": true,
+  "verification_debt_preserved": true,
+  "single_use_handoff": true,
+  "exact_replay_idempotent": true
+}
