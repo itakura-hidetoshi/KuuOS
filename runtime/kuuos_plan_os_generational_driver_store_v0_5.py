@@ -1,0 +1,244 @@
+from __future__ import annotations
+
+import json
+import os
+import tempfile
+from contextlib import contextmanager
+from copy import deepcopy
+from pathlib import Path
+from typing import Any, Iterator, Mapping
+
+import fcntl
+
+from runtime.kuuos_belief_os_types_v0_1 import canonical_json
+from runtime.kuuos_plan_os_generational_driver_kernel_v0_5 import (
+    validate_generational_cycle_receipt,
+)
+from runtime.kuuos_plan_os_generational_driver_types_v0_5 import (
+    STORE_COMMIT_VERSION,
+    STORE_STATE_VERSION,
+    generation_key,
+    require_int,
+    require_string,
+    store_commit_digest,
+    store_state_digest,
+)
+
+
+class GenerationalCycleStoreError(RuntimeError):
+    pass
+
+
+def build_initial_generational_store_state(*, store_id: str, now_ms: int) -> dict[str, Any]:
+    state = {
+        "version": STORE_STATE_VERSION,
+        "store_id": require_string(store_id, "store_id"),
+        "commit_count": 0,
+        "updated_at_ms": require_int(now_ms, "now_ms"),
+        "generations": [],
+        "processed_receipt_digests": [],
+        "generational_cycle_store_state_digest": "",
+    }
+    state["generational_cycle_store_state_digest"] = store_state_digest(state)
+    return state
+
+
+def validate_generational_store_state(state: Mapping[str, Any]) -> list[str]:
+    errors: list[str] = []
+    try:
+        if state.get("version") != STORE_STATE_VERSION:
+            errors.append("generational_store_version_invalid")
+        require_string(state.get("store_id"), "store_id")
+        require_int(state.get("commit_count"), "commit_count")
+        require_int(state.get("updated_at_ms"), "updated_at_ms")
+        if state.get("generational_cycle_store_state_digest") != store_state_digest(state):
+            errors.append("generational_store_digest_invalid")
+        generations = list(state.get("generations", []))
+        processed = list(state.get("processed_receipt_digests", []))
+        keys = [str(item.get("generation_key", "")) for item in generations]
+        receipts = [str(item.get("receipt_digest", "")) for item in generations]
+        if len(keys) != len(set(keys)):
+            errors.append("generational_store_key_duplicate")
+        if len(receipts) != len(set(receipts)):
+            errors.append("generational_store_receipt_duplicate")
+        if len(processed) != len(set(processed)):
+            errors.append("generational_store_processed_duplicate")
+        if int(state.get("commit_count", -1)) != len(processed):
+            errors.append("generational_store_commit_count_mismatch")
+    except (TypeError, ValueError) as exc:
+        errors.append(str(exc))
+    return errors
+
+
+class GenerationalCycleStore:
+    def __init__(self, root: str | Path) -> None:
+        self.root = Path(root)
+        self.genesis_path = self.root / "generational-cycle-genesis.json"
+        self.ledger_path = self.root / "generational-cycle-ledger.jsonl"
+        self.snapshot_path = self.root / "generational-cycle-snapshot.json"
+        self.lock_path = self.root / ".plan-os-v05-generation.lock"
+
+    @contextmanager
+    def _locked(self) -> Iterator[None]:
+        self.root.mkdir(parents=True, exist_ok=True)
+        with self.lock_path.open("a+", encoding="utf-8") as handle:
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX)
+            try:
+                yield
+            finally:
+                fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+
+    @staticmethod
+    def _write_atomic(path: Path, value: Mapping[str, Any]) -> None:
+        fd, temporary = tempfile.mkstemp(prefix=path.name + ".", dir=path.parent)
+        try:
+            with os.fdopen(fd, "w", encoding="utf-8") as handle:
+                handle.write(canonical_json(value) + "\n")
+                handle.flush()
+                os.fsync(handle.fileno())
+            os.replace(temporary, path)
+        finally:
+            if os.path.exists(temporary):
+                os.unlink(temporary)
+
+    @staticmethod
+    def _read_json(path: Path) -> dict[str, Any]:
+        try:
+            value = json.loads(path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            raise GenerationalCycleStoreError(f"generational_json_read_failed:{path.name}") from exc
+        if not isinstance(value, dict):
+            raise GenerationalCycleStoreError(f"generational_json_object_required:{path.name}")
+        return value
+
+    def initialize(self, initial_state: Mapping[str, Any]) -> dict[str, Any]:
+        errors = validate_generational_store_state(initial_state)
+        if errors:
+            raise GenerationalCycleStoreError("generational_initial_state_invalid:" + ";".join(errors))
+        with self._locked():
+            if self.genesis_path.exists() or self.ledger_path.exists():
+                raise GenerationalCycleStoreError("generational_store_already_initialized")
+            self._write_atomic(self.genesis_path, dict(initial_state))
+            self.ledger_path.touch(exist_ok=False)
+            with self.ledger_path.open("a", encoding="utf-8") as handle:
+                handle.flush()
+                os.fsync(handle.fileno())
+            self._write_atomic(self.snapshot_path, dict(initial_state))
+        return deepcopy(dict(initial_state))
+
+    def _read_ledger(self) -> list[dict[str, Any]]:
+        commits: list[dict[str, Any]] = []
+        try:
+            with self.ledger_path.open("r", encoding="utf-8") as handle:
+                for line_number, raw in enumerate(handle, start=1):
+                    line = raw.strip()
+                    if not line:
+                        raise GenerationalCycleStoreError(f"generational_ledger_blank_line:{line_number}")
+                    item = json.loads(line)
+                    if not isinstance(item, dict):
+                        raise GenerationalCycleStoreError(f"generational_ledger_object_required:{line_number}")
+                    commits.append(item)
+        except (OSError, json.JSONDecodeError) as exc:
+            raise GenerationalCycleStoreError("generational_ledger_read_failed") from exc
+        return commits
+
+    @staticmethod
+    def _apply(state: Mapping[str, Any], receipt: Mapping[str, Any], now_ms: int) -> tuple[str, dict[str, Any]]:
+        errors = validate_generational_cycle_receipt(receipt)
+        if errors:
+            raise GenerationalCycleStoreError("generational_receipt_invalid:" + ";".join(errors))
+        next_state = deepcopy(dict(state))
+        digest = str(receipt["generational_cycle_receipt_digest"])
+        if digest in set(next_state["processed_receipt_digests"]):
+            return "REPLAYED", next_state
+        key = generation_key(receipt)
+        if key in {str(item["generation_key"]) for item in next_state["generations"]}:
+            raise GenerationalCycleStoreError("generational_source_already_consumed")
+        next_state["generations"] = list(next_state["generations"]) + [{
+            "generation_key": key,
+            "receipt_digest": digest,
+            "source_cycle_index": receipt["source_cycle_index"],
+            "next_cycle_index": receipt["next_cycle_index"],
+            "source_plan_state_digest": receipt["source_plan_state_digest"],
+            "compiled_plan_state_digest": receipt["compiled_plan_state_digest"],
+            "act_handoff_receipt_digest": receipt["act_handoff_receipt_digest"],
+        }]
+        next_state["processed_receipt_digests"] = list(next_state["processed_receipt_digests"]) + [digest]
+        next_state["commit_count"] = int(next_state["commit_count"]) + 1
+        next_state["updated_at_ms"] = require_int(now_ms, "now_ms")
+        next_state["generational_cycle_store_state_digest"] = ""
+        next_state["generational_cycle_store_state_digest"] = store_state_digest(next_state)
+        errors = validate_generational_store_state(next_state)
+        if errors:
+            raise GenerationalCycleStoreError("generational_next_state_invalid:" + ";".join(errors))
+        return "COMMITTED", next_state
+
+    def _recover_unlocked(self) -> tuple[dict[str, Any], list[dict[str, Any]]]:
+        if not self.genesis_path.exists() or not self.ledger_path.exists():
+            raise GenerationalCycleStoreError("generational_store_not_initialized")
+        state = self._read_json(self.genesis_path)
+        errors = validate_generational_store_state(state)
+        if errors:
+            raise GenerationalCycleStoreError("generational_genesis_invalid:" + ";".join(errors))
+        commits = self._read_ledger()
+        previous_commit = ""
+        for index, commit in enumerate(commits, start=1):
+            if commit.get("version") != STORE_COMMIT_VERSION:
+                raise GenerationalCycleStoreError(f"generational_commit_version_invalid:{index}")
+            if commit.get("generational_cycle_store_commit_digest") != store_commit_digest(commit):
+                raise GenerationalCycleStoreError(f"generational_commit_digest_invalid:{index}")
+            if commit.get("predecessor_commit_digest") != previous_commit:
+                raise GenerationalCycleStoreError(f"generational_commit_chain_broken:{index}")
+            if commit.get("predecessor_state_digest") != state.get("generational_cycle_store_state_digest"):
+                raise GenerationalCycleStoreError(f"generational_state_chain_broken:{index}")
+            status, state = self._apply(state, dict(commit.get("receipt", {})), int(commit.get("committed_at_ms", 0)))
+            if status != "COMMITTED":
+                raise GenerationalCycleStoreError(f"generational_recovery_replay_unexpected:{index}")
+            if commit.get("result_state_digest") != state.get("generational_cycle_store_state_digest"):
+                raise GenerationalCycleStoreError(f"generational_result_digest_mismatch:{index}")
+            previous_commit = commit["generational_cycle_store_commit_digest"]
+        return state, commits
+
+    def commit(self, receipt: Mapping[str, Any], *, now_ms: int) -> dict[str, Any]:
+        with self._locked():
+            state, commits = self._recover_unlocked()
+            status, next_state = self._apply(state, receipt, now_ms)
+            if status == "REPLAYED":
+                return {"status": status, "state": deepcopy(next_state)}
+            commit = {
+                "version": STORE_COMMIT_VERSION,
+                "commit_index": len(commits) + 1,
+                "predecessor_commit_digest": commits[-1]["generational_cycle_store_commit_digest"] if commits else "",
+                "predecessor_state_digest": state["generational_cycle_store_state_digest"],
+                "receipt": deepcopy(dict(receipt)),
+                "committed_at_ms": require_int(now_ms, "now_ms"),
+                "result_state_digest": next_state["generational_cycle_store_state_digest"],
+                "generational_cycle_store_commit_digest": "",
+            }
+            commit["generational_cycle_store_commit_digest"] = store_commit_digest(commit)
+            with self.ledger_path.open("a", encoding="utf-8") as handle:
+                handle.write(canonical_json(commit) + "\n")
+                handle.flush()
+                os.fsync(handle.fileno())
+            self._write_atomic(self.snapshot_path, next_state)
+            return {"status": "COMMITTED", "state": deepcopy(next_state), "commit": deepcopy(commit)}
+
+    def recover(self, *, require_snapshot_match: bool = True) -> dict[str, Any]:
+        with self._locked():
+            state, _ = self._recover_unlocked()
+            if require_snapshot_match:
+                snapshot = self._read_json(self.snapshot_path)
+                if snapshot.get("generational_cycle_store_state_digest") != state.get("generational_cycle_store_state_digest"):
+                    raise GenerationalCycleStoreError("generational_snapshot_ledger_mismatch")
+            return deepcopy(state)
+
+    def repair_snapshot(self) -> dict[str, Any]:
+        with self._locked():
+            state, _ = self._recover_unlocked()
+            self._write_atomic(self.snapshot_path, state)
+            return deepcopy(state)
+
+    def ledger_commit_count(self) -> int:
+        with self._locked():
+            _, commits = self._recover_unlocked()
+            return len(commits)

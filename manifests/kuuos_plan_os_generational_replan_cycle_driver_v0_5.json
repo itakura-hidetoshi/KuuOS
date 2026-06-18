@@ -1,0 +1,25 @@
+{
+  "version": "kuuos_plan_os_generational_replan_cycle_driver_v0_5",
+  "source": "kuuos_plan_os_closed_loop_replan_intake_adapter_v0_4",
+  "replan_kernel": "kuuos_plan_os_qi_conditioned_nonmarkov_replan_v0_2",
+  "compiler": "kuuos_plan_os_next_cycle_basis_compiler_adapter_v0_3",
+  "strict_phase_sequence": [
+    "history",
+    "qi_condition",
+    "generate",
+    "constrain",
+    "deliberate",
+    "synthesize",
+    "commit_next"
+  ],
+  "exact_successor_cycle_required": true,
+  "second_generation_plan_compiled": true,
+  "act_os_handoff_generated": true,
+  "execution_granted": false,
+  "host_license_granted": false,
+  "current_cycle_unchanged_during_replan": true,
+  "past_plan_unchanged": true,
+  "memory_overwrite": false,
+  "single_generation_consumption": true,
+  "append_only_recovery": true
+}

@@ -11,6 +11,7 @@ import KUOS.PlanOS.ReplanBoundSynthesisV0_1
 import KUOS.PlanOS.QiConditionedNonMarkovReplanV0_2
 import KUOS.PlanOS.NextCycleBasisCompilerAdapterV0_3
 import KUOS.PlanOS.ClosedLoopReplanIntakeAdapterV0_4
+import KUOS.PlanOS.GenerationalReplanCycleDriverV0_5
 import KUOS.ActOS.AuthorityBoundInvocationV0_1
 import KUOS.ActOS.ReplanLineageAuthorityEnvelopeV0_2
 import KUOS.ObserveOS.EffectGroundedObservationV0_1
