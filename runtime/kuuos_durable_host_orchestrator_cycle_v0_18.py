@@ -7,6 +7,7 @@ from runtime.kuuos_context_gauge_atlas_types_v0_13 import as_list, mapping
 from runtime.kuuos_cooperative_execution_supervisor_registry_v0_16 import Executor
 from runtime.kuuos_cooperative_execution_supervisor_types_v0_16 import bundle_digest
 from runtime.kuuos_cooperative_host_adapter_idempotent_tick_v0_17 import run_host_tick
+from runtime.kuuos_cooperative_host_adapter_license_v0_17 import validate_host_license
 from runtime.kuuos_cooperative_host_adapter_projection_v0_17 import project_host_work
 from runtime.kuuos_cooperative_host_adapter_types_v0_17 import (
     BLOCKED as HOST_BLOCKED,
@@ -126,8 +127,13 @@ def run_orchestrator_cycle(
     now_ms: int,
 ) -> dict[str, Any]:
     plan_key = str(plan.get("orchestrator_plan_digest", ""))
+    plan_integrity_valid = (
+        str(plan.get("version", "")) == PLAN_VERSION
+        and bool(plan_key)
+        and plan_key == plan_digest(plan)
+    )
     processed = {str(item) for item in as_list(orchestrator_state.get("processed_plan_digests"))}
-    if plan_key and plan_key in processed:
+    if plan_integrity_valid and plan_key in processed:
         bundle_digest_value = str(supervisor_bundle.get("supervisor_bundle_digest", ""))
         state_digest_value = str(orchestrator_state.get("orchestrator_state_digest", ""))
         receipt = _receipt(
@@ -175,6 +181,8 @@ def run_orchestrator_cycle(
         validate_orchestrator_policy(policy)
     except ValueError as error:
         blockers.append(str(error))
+    blockers.extend(validate_host_license(host_license, now_ms=now_ms))
+
     source_bundle_digest = str(supervisor_bundle.get("supervisor_bundle_digest", ""))
     source_state_digest = str(orchestrator_state.get("orchestrator_state_digest", ""))
     if not source_bundle_digest or source_bundle_digest != bundle_digest(supervisor_bundle):
@@ -187,6 +195,10 @@ def run_orchestrator_cycle(
         blockers.append("orchestrator_plan_host_license_mismatch")
     if str(plan.get("orchestrator_policy_digest", "")) != str(policy.get("orchestrator_policy_digest", "")):
         blockers.append("orchestrator_plan_policy_mismatch")
+
+    report_ids = [str(report.get("worker_id", "")) for report in worker_reports]
+    if len(report_ids) != len(set(report_ids)):
+        blockers.append("duplicate_worker_id")
     report_digests = sorted(str(report.get("worker_report_digest", "")) for report in worker_reports)
     if report_digests != sorted(str(item) for item in as_list(plan.get("worker_report_digests"))):
         blockers.append("orchestrator_plan_worker_reports_mismatch")
@@ -228,7 +240,18 @@ def run_orchestrator_cycle(
     current_bundle = deepcopy(dict(supervisor_bundle))
     assignments: list[dict[str, Any]] = []
     dispatched_jobs: set[str] = set()
-    capacity = max(0, int(plan.get("dispatch_capacity", 0) or 0))
+    dispatched_workers: set[str] = set()
+    ordered_worker_ids: list[str] = []
+    for raw_worker_id in as_list(plan.get("ordered_worker_ids")):
+        worker_id = str(raw_worker_id)
+        if worker_id and worker_id not in ordered_worker_ids:
+            ordered_worker_ids.append(worker_id)
+    policy_capacity = max(1, int(policy.get("max_assignments_per_cycle", 1) or 1))
+    capacity = min(
+        max(0, int(plan.get("dispatch_capacity", 0) or 0)),
+        policy_capacity,
+        len(ordered_worker_ids),
+    )
     next_cycle_index = int(working_state.get("cycle_index", 0) or 0) + 1
 
     job_service = dict(mapping(working_state.get("job_service_counts")))
@@ -236,9 +259,11 @@ def run_orchestrator_cycle(
     worker_service = dict(mapping(working_state.get("worker_service_counts")))
     worker_failures = dict(mapping(working_state.get("worker_failure_counts")))
 
-    for worker_id in [str(item) for item in as_list(plan.get("ordered_worker_ids"))]:
+    for worker_id in ordered_worker_ids:
         if len(assignments) >= capacity:
             break
+        if worker_id in dispatched_workers:
+            continue
         health = health_map.get(worker_id, {})
         if health.get("dispatchable") is not True:
             continue
@@ -283,6 +308,7 @@ def run_orchestrator_cycle(
         }
         assignments.append(assignment)
         dispatched_jobs.add(job_id)
+        dispatched_workers.add(worker_id)
         if host_status == HOST_READY:
             current_bundle = deepcopy(dict(mapping(tick.get("result_supervisor_bundle"))))
             job_service[job_id] = int(job_service.get(job_id, 0) or 0) + 1
@@ -337,6 +363,7 @@ def run_orchestrator_cycle(
         "status": status,
         "cycle_id": str(plan.get("cycle_id", "")),
         "orchestrator_plan_digest": plan_key,
+        "effective_dispatch_capacity": capacity,
         "result_supervisor_bundle": current_bundle,
         "result_orchestrator_state": working_state,
         "assignments": assignments,
