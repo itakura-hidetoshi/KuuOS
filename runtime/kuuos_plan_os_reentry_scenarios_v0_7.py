@@ -89,9 +89,9 @@ def run_handover_acceptance() -> dict:
     try:
         valid_receipt(state)
     except ValueError as exc:
-        assert str(exc) == "reentry_controller_state_invalid:reentry_source_status_invalid"
-    except Exception:
-        pass
+        assert str(exc) == "reentry_controller_already_consumed"
+    else:
+        raise AssertionError("consumed controller issued a second receipt")
     return state
 
 
