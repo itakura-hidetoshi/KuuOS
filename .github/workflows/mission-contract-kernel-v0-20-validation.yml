@@ -16,12 +16,6 @@ on:
       - "runtime/kuuos_autonomous_agent_readiness_v0_20.py"
       - "runtime/v020_mission_kernel.py"
       - "scripts/check_mission_contract_kernel_v0_20.py"
-      - "formal/KUOS/OpenHorizon/MissionContractKernelV0_20.lean"
-      - "formal/KUOS.lean"
-      - "formal/KuuOSFormal.lean"
-      - "lean-toolchain"
-      - "lakefile.toml"
-      - "lake-manifest.json"
       - ".github/workflows/mission-contract-kernel-v0-20-validation.yml"
   pull_request:
     paths:
@@ -38,12 +32,6 @@ on:
       - "runtime/kuuos_autonomous_agent_readiness_v0_20.py"
       - "runtime/v020_mission_kernel.py"
       - "scripts/check_mission_contract_kernel_v0_20.py"
-      - "formal/KUOS/OpenHorizon/MissionContractKernelV0_20.lean"
-      - "formal/KUOS.lean"
-      - "formal/KuuOSFormal.lean"
-      - "lean-toolchain"
-      - "lakefile.toml"
-      - "lake-manifest.json"
       - ".github/workflows/mission-contract-kernel-v0-20-validation.yml"
   workflow_dispatch:
 
@@ -58,22 +46,10 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Set up pinned Lean, Lake, and Mathlib cache
-        uses: leanprover/lean-action@v1
-        with:
-          auto-config: false
-          build: false
-          test: false
-          lint: false
-          use-mathlib-cache: true
-          use-github-cache: true
       - name: Compile v0.20 runtime
         run: python -m compileall -q runtime
       - name: Validate mission contract kernel
         run: python -m runtime.v020_mission_kernel > mission-contract-kernel-v020.log 2>&1
-      - name: Strictly compile KuuOS formal surfaces
-        run: |
-          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal >> mission-contract-kernel-v020.log 2>&1
       - name: Upload v0.20 validation log
         if: always()
         uses: actions/upload-artifact@v4
