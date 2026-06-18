@@ -84,11 +84,13 @@
     "truth_authority_granted": false,
     "causal_authority_granted": false,
     "execution_authority_granted": false,
+    "final_commitment_authority_granted": false,
     "clinical_authority_granted": false,
     "legal_authority_granted": false,
     "institutional_authority_granted": false,
     "memory_overwrite_authority_granted": false,
     "self_modification_authority_granted": false,
+    "theorem_authority_granted": false,
     "host_license_granted": false
   }
 }
