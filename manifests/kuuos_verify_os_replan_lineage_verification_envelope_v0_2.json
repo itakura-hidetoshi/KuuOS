@@ -1,0 +1,20 @@
+{
+  "version": "kuuos_verify_os_replan_lineage_verification_envelope_v0_2",
+  "sources": [
+    "kuuos_observe_os_replan_lineage_observation_envelope_v0_2",
+    "kuuos_verify_os_evidence_bound_verification_v0_1"
+  ],
+  "phase": "verify",
+  "exact_cycle_required": true,
+  "source_lineage_preserved": true,
+  "criterion_identity_preserved": true,
+  "evidence_identity_preserved": true,
+  "falsification_required": true,
+  "counterevidence_preserved": true,
+  "independent_assessment_required": true,
+  "verification_not_truth": true,
+  "qi_context_non_authority": true,
+  "learning_future_only": true,
+  "single_use_handoff": true,
+  "append_only_recovery": true
+}
