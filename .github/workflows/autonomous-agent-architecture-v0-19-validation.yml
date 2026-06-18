@@ -47,16 +47,26 @@ jobs:
           build: false
           test: false
           lint: false
-          use-mathlib-cache: true
-          use-github-cache: true
+          use-mathlib-cache: false
+          use-github-cache: false
       - name: Compile v0.19 architecture runtime
         run: python -m compileall -q runtime
       - name: Validate autonomous-agent completion architecture
         id: kernel
         continue-on-error: true
         run: python -m runtime.v019_autonomous_agent_architecture_kernel > autonomous-agent-architecture-v019.log 2>&1
+      - name: Resolve pinned Lake dependencies
+        id: dependencies
+        continue-on-error: true
+        run: lake update >> autonomous-agent-architecture-v019.log 2>&1
+      - name: Fetch Mathlib cache
+        id: mathlib_cache
+        if: steps.dependencies.outcome == 'success'
+        continue-on-error: true
+        run: lake exe cache get >> autonomous-agent-architecture-v019.log 2>&1
       - name: Strictly compile KuuOS formal surfaces
         id: lean
+        if: steps.dependencies.outcome == 'success' && steps.mathlib_cache.outcome == 'success'
         continue-on-error: true
         run: |
           lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal >> autonomous-agent-architecture-v019.log 2>&1
@@ -67,7 +77,7 @@ jobs:
           name: autonomous-agent-architecture-v019-log
           path: autonomous-agent-architecture-v019.log
       - name: Report v0.19 failure
-        if: steps.kernel.outcome == 'failure' || steps.lean.outcome == 'failure'
+        if: steps.kernel.outcome == 'failure' || steps.dependencies.outcome == 'failure' || steps.mathlib_cache.outcome == 'failure' || steps.lean.outcome == 'failure'
         run: |
           cat autonomous-agent-architecture-v019.log
           exit 1
