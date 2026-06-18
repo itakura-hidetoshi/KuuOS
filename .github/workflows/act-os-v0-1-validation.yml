@@ -1,0 +1,56 @@
+name: ActOS v0.1 Validation
+
+on:
+  push:
+    paths:
+      - "docs/KUUOS_ACT_OS_AUTHORITY_BOUND_INVOCATION_v0_1.md"
+      - "manifests/kuuos_act_os_authority_bound_invocation_v0_1.json"
+      - "runtime/kuuos_act_os_types_v0_1.py"
+      - "runtime/kuuos_act_os_kernel_v0_1.py"
+      - "runtime/kuuos_act_os_store_v0_1.py"
+      - "runtime/kuuos_act_os_fixture_v0_1.py"
+      - "runtime/v01_act_os_authority_bound_invocation.py"
+      - "scripts/check_act_os_authority_bound_invocation_v0_1.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - "formal/KUOS/ActOS/AuthorityBoundInvocationV0_1.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/act-os-v0-1-validation.yml"
+  pull_request:
+    paths:
+      - "docs/KUUOS_ACT_OS_AUTHORITY_BOUND_INVOCATION_v0_1.md"
+      - "manifests/kuuos_act_os_authority_bound_invocation_v0_1.json"
+      - "runtime/kuuos_act_os_types_v0_1.py"
+      - "runtime/kuuos_act_os_kernel_v0_1.py"
+      - "runtime/kuuos_act_os_store_v0_1.py"
+      - "runtime/kuuos_act_os_fixture_v0_1.py"
+      - "runtime/v01_act_os_authority_bound_invocation.py"
+      - "scripts/check_act_os_authority_bound_invocation_v0_1.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - "formal/KUOS/ActOS/AuthorityBoundInvocationV0_1.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/act-os-v0-1-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile ActOS runtime
+        run: python -m compileall -q runtime scripts/check_act_os_authority_bound_invocation_v0_1.py
+      - name: Validate ActOS authority-bound invocation
+        run: python -m runtime.v01_act_os_authority_bound_invocation > act-os-v01.log 2>&1
+      - name: Validate ActOS check entry point
+        run: python scripts/check_act_os_authority_bound_invocation_v0_1.py >> act-os-v01.log 2>&1
+      - name: Upload ActOS validation log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: act-os-v01-log
+          path: act-os-v01.log
