@@ -76,7 +76,7 @@ structure StakeholderUtilityInterval where
   ordered : lower ≤ upper
 
 
-def StakeholderUtilityInterval.midpoint
+noncomputable def StakeholderUtilityInterval.midpoint
     (interval : StakeholderUtilityInterval) : ℝ :=
   (interval.lower + interval.upper) / 2
 
