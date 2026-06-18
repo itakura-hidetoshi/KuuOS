@@ -25,11 +25,13 @@ NON_AUTHORITY_FLAGS = {
     "truth_authority_granted": False,
     "causal_authority_granted": False,
     "execution_authority_granted": False,
+    "final_commitment_authority_granted": False,
     "clinical_authority_granted": False,
     "legal_authority_granted": False,
     "institutional_authority_granted": False,
     "memory_overwrite_authority_granted": False,
     "self_modification_authority_granted": False,
+    "theorem_authority_granted": False,
     "host_license_granted": False,
 }
 
