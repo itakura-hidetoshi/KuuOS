@@ -21,6 +21,35 @@ def _validate(job: Mapping[str, Any], command: Mapping[str, Any]) -> str:
     return digest
 
 
+def _simple_transition(packet: dict[str, Any], action: str, payload: Mapping[str, Any]) -> dict[str, Any]:
+    if action == "continue_foreground":
+        packet["execution_mode"] = "foreground"
+        packet["supervisor_state"] = "ready"
+        packet["active_continuation_ticket"] = {}
+    elif action == "increase_budget":
+        addition = max(0.0, float(payload.get("add_cost_units", 0.0) or 0.0))
+        if addition <= 0.0:
+            raise ValueError("budget_increase_must_be_positive")
+        packet["remaining_budget_units"] = max(0.0, float(packet.get("remaining_budget_units", 0.0) or 0.0)) + addition
+        packet["supervisor_state"] = "ready"
+    elif action == "grant_permission":
+        permission = str(payload.get("permission", "")).strip()
+        if not permission:
+            raise ValueError("permission_name_missing")
+        permissions = {str(item) for item in as_list(packet.get("granted_permissions"))}
+        permissions.add(permission)
+        packet["granted_permissions"] = sorted(permissions)
+        packet["supervisor_state"] = "ready"
+    elif action == "retry_now":
+        packet["supervisor_state"] = "ready"
+    elif action == "retry_later":
+        packet["supervisor_state"] = "retry_backoff"
+    elif action == "cancel_job":
+        packet["supervisor_state"] = "cancelled"
+        packet["active_continuation_ticket"] = {}
+    return packet
+
+
 def apply_command(job: Mapping[str, Any], command: Mapping[str, Any], policy: Mapping[str, Any]) -> tuple[dict[str, Any], bool]:
     validate_job(job)
     digest = _validate(job, command)
@@ -30,4 +59,7 @@ def apply_command(job: Mapping[str, Any], command: Mapping[str, Any], policy: Ma
     packet = deepcopy(dict(job))
     action = str(command.get("action", ""))
     payload = dict(mapping(command.get("payload")))
+    packet = _simple_transition(packet, action, payload)
+    processed.add(digest)
+    packet["processed_command_digests"] = sorted(processed)
     return reseal_job(packet), False
