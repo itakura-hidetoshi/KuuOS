@@ -1,3 +1,8 @@
+from pathlib import Path
+import sys
+
+sys.path.insert(0, str(Path(__file__).resolve().parents[1]))
+
 from runtime.v021_autonomous_mission_cycle_kernel import run_kernel
 
 
