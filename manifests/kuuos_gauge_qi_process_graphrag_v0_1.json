@@ -1,0 +1,76 @@
+{
+  "version": "kuuos_gauge_qi_process_graphrag_v0_1",
+  "position": {
+    "upstream": [
+      "kuuos_context_gauge_atlas_v0_13",
+      "qi_process_tensor",
+      "query_specific_evidence_sources"
+    ],
+    "downstream": [
+      "observe_verify_learn_receipts",
+      "autonomous_mission_cycle_v0_21_replan_only"
+    ]
+  },
+  "bundle": {
+    "query_specific": true,
+    "finite_patches": true,
+    "finite_connections": true,
+    "caller_declared_paths": true,
+    "caller_declared_cycles": true,
+    "persistent_global_context_graph": false,
+    "shortest_path_search": false,
+    "global_winner_selection": false
+  },
+  "gauge_layer": {
+    "local_frame_dimension": 2,
+    "transport_group": "O(2)",
+    "connection_transform": "U'(v<-u)=g(v)U(v<-u)g(u)^T",
+    "path_transport": "ordered_connection_product",
+    "cycle_diagnostic": "bounded_holonomy_residual",
+    "curvature_is_veto": false
+  },
+  "qi_process_layer": {
+    "history_bearing": true,
+    "non_markov": true,
+    "required_digests": [
+      "process_tensor_digest",
+      "history_window_digest"
+    ],
+    "visible_fields": [
+      "history_depth",
+      "transition_continuity",
+      "memory_continuity",
+      "nonmarkov_link_density",
+      "recoverability_branching_capacity",
+      "observation_debt_pressure",
+      "intervention_residue"
+    ],
+    "qi_history_is_authority": false
+  },
+  "path_action_weights": {
+    "relevance_loss": 0.2,
+    "source_confidence_loss": 0.15,
+    "provenance_loss": 0.15,
+    "transport_loss": 0.15,
+    "alignment_residual": 0.1,
+    "temporal_inconsistency": 0.05,
+    "qi_history_loss": 0.1,
+    "irrecoverability": 0.1
+  },
+  "routes": [
+    "CANDIDATE",
+    "OBSERVE",
+    "HOLD",
+    "REPAIR",
+    "QUARANTINE"
+  ],
+  "non_authority": {
+    "evidence_bundle_is_truth": false,
+    "path_score_is_truth": false,
+    "global_truth_granted": false,
+    "execution_authority_granted": false,
+    "clinical_authority_granted": false,
+    "theorem_authority_granted": false,
+    "receipt_is_execution_license": false
+  }
+}
