@@ -35,8 +35,8 @@ def main() -> bool:
     assert report["component_count"] == 16
     assert report["status_counts"] == {
         "implemented": 1,
-        "open_gap": 12,
-        "partial_gap": 3,
+        "open_gap": 13,
+        "partial_gap": 2,
     }
     assert report["open_component_count"] == 15
     assert report["next_dependency_rank"] == 1
