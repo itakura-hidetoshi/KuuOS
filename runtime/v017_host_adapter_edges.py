@@ -3,10 +3,9 @@ from __future__ import annotations
 from copy import deepcopy
 
 from runtime.kuuos_cooperative_execution_supervisor_bundle_v0_16 import find_job
-from runtime.kuuos_cooperative_execution_supervisor_job_v0_16 import job_state_digest
-from runtime.kuuos_cooperative_execution_supervisor_types_v0_16 import bundle_digest
+from runtime.kuuos_cooperative_execution_supervisor_types_v0_16 import bundle_digest, job_state_digest
 from runtime.kuuos_cooperative_execution_supervisor_worker_v0_16 import claim_background_job
-from runtime.kuuos_cooperative_host_adapter_types_v0_17 import BLOCKED, READY
+from runtime.kuuos_cooperative_host_adapter_types_v0_17 import BLOCKED, READY, license_digest
 from runtime.kuuos_cooperative_host_adapter_v0_17 import build_host_license, project_host_work, run_host_tick
 from runtime.kuuos_resumable_execution_handoff_types_v0_15 import ticket_digest
 from runtime.v017_host_adapter_fixtures import queued_bundle, registry, steps, supervisor_policy
@@ -24,7 +23,6 @@ def _license(**updates):
     )
     packet.update(updates)
     if updates:
-        from runtime.kuuos_cooperative_host_adapter_types_v0_17 import license_digest
         packet["host_license_digest"] = ""
         packet["host_license_digest"] = license_digest(packet)
     return packet
