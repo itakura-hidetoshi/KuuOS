@@ -1,0 +1,118 @@
+{
+  "version": "kuuos_decision_os_relational_deliberation_kernel_v0_1",
+  "source_authorities": {
+    "mission_contract": "kuuos_mission_contract_kernel_v0_20",
+    "belief_basis": "kuuos_belief_os_context_gerbe_coherence_v0_3",
+    "mission_cycle": "kuuos_autonomous_mission_cycle_kernel_v0_21",
+    "advisory_policy_layers": [
+      "kuuos_bounded_portfolio_experiment_v0_8",
+      "kuuos_experiment_outcome_policy_v0_9",
+      "kuuos_policy_regret_cadence_v0_10",
+      "kuuos_delayed_credit_multihorizon_v0_11",
+      "kuuos_horizon_gauge_arbitration_v0_12"
+    ]
+  },
+  "strict_phases": [
+    "frame",
+    "generate",
+    "constrain",
+    "evaluate",
+    "challenge",
+    "qi_condition",
+    "two_truths_check",
+    "middle_way_gate",
+    "decide",
+    "commit"
+  ],
+  "routes": [
+    "SELECT_CANDIDATE",
+    "OBSERVE",
+    "EXPERIMENT_RECOMMENDED",
+    "HOLD",
+    "REPAIR",
+    "ESCALATE",
+    "REJECT",
+    "QUARANTINE"
+  ],
+  "evaluation": {
+    "representation": "interval_valued_multi_criteria",
+    "positive_dimensions": [
+      "mission_alignment",
+      "expected_benefit",
+      "information_gain",
+      "recoverability",
+      "reversibility",
+      "stakeholder_fit",
+      "qi_process_compatibility"
+    ],
+    "negative_dimensions": [
+      "expected_harm",
+      "cost_burden",
+      "delay_risk",
+      "uncertainty_burden"
+    ],
+    "weights_nonnegative": true,
+    "weights_sum_to_one": true,
+    "point_estimate_required": false,
+    "robust_dominance": "lower(a) > upper(b) + margin",
+    "universal_total_order_forbidden": true,
+    "alternatives_retained": true
+  },
+  "qi_process": {
+    "allowed_roles": [
+      "temporal_transition_context",
+      "recovery_trajectory_signal",
+      "reversibility_context",
+      "timing_context",
+      "stakeholder_resonance_context",
+      "uncertainty_context"
+    ],
+    "forbidden_roles": [
+      "truth_authority",
+      "execution_license",
+      "moral_veto",
+      "clinical_order",
+      "universal_priority"
+    ],
+    "authority_source": false
+  },
+  "hard_gates": [
+    "mission_allowed",
+    "not_prohibited",
+    "budget",
+    "risk",
+    "recoverability",
+    "reversibility",
+    "required_evidence",
+    "no_authority_escalation"
+  ],
+  "persistence": {
+    "genesis": "decision-genesis.json",
+    "ledger": "decision-ledger.jsonl",
+    "snapshot": "decision-snapshot.json",
+    "lock": ".decision-os.lock",
+    "append_only": true,
+    "snapshot_derived_from_ledger": true,
+    "atomic_snapshot": true,
+    "replay_idempotent": true
+  },
+  "activation_boundary": {
+    "mission_phase": "replan",
+    "future_only": true,
+    "memory_overwrite": false,
+    "decision_not_execution": true,
+    "next_plan_basis_digest_required": true
+  },
+  "non_authority": {
+    "truth_authority_granted": false,
+    "execution_authority_granted": false,
+    "proof_authority_granted": false,
+    "clinical_authority_granted": false,
+    "institutional_authority_granted": false,
+    "legal_authority_granted": false,
+    "host_license_granted": false,
+    "memory_overwrite_authority_granted": false,
+    "global_value_authority_granted": false,
+    "universal_priority_authority_granted": false
+  }
+}
