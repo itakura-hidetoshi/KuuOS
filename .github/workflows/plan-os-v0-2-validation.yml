@@ -1,0 +1,56 @@
+name: PlanOS v0.2 Validation
+
+on:
+  push:
+    paths:
+      - "docs/KUUOS_PLAN_OS_QI_CONDITIONED_NONMARKOV_REPLAN_v0_2.md"
+      - "manifests/kuuos_plan_os_qi_conditioned_nonmarkov_replan_v0_2.json"
+      - "runtime/kuuos_plan_os_replan_types_v0_2.py"
+      - "runtime/kuuos_plan_os_replan_kernel_v0_2.py"
+      - "runtime/kuuos_plan_os_replan_store_v0_2.py"
+      - "runtime/kuuos_plan_os_replan_fixture_v0_2.py"
+      - "runtime/v02_plan_os_qi_conditioned_nonmarkov_replan.py"
+      - "scripts/check_plan_os_qi_conditioned_nonmarkov_replan_v0_2.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - "formal/KUOS/PlanOS/QiConditionedNonMarkovReplanV0_2.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/plan-os-v0-2-validation.yml"
+  pull_request:
+    paths:
+      - "docs/KUUOS_PLAN_OS_QI_CONDITIONED_NONMARKOV_REPLAN_v0_2.md"
+      - "manifests/kuuos_plan_os_qi_conditioned_nonmarkov_replan_v0_2.json"
+      - "runtime/kuuos_plan_os_replan_types_v0_2.py"
+      - "runtime/kuuos_plan_os_replan_kernel_v0_2.py"
+      - "runtime/kuuos_plan_os_replan_store_v0_2.py"
+      - "runtime/kuuos_plan_os_replan_fixture_v0_2.py"
+      - "runtime/v02_plan_os_qi_conditioned_nonmarkov_replan.py"
+      - "scripts/check_plan_os_qi_conditioned_nonmarkov_replan_v0_2.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - "formal/KUOS/PlanOS/QiConditionedNonMarkovReplanV0_2.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/plan-os-v0-2-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile PlanOS v0.2 runtime
+        run: python -m compileall -q runtime scripts/check_plan_os_qi_conditioned_nonmarkov_replan_v0_2.py
+      - name: Validate PlanOS v0.2 replan
+        run: python -m runtime.v02_plan_os_qi_conditioned_nonmarkov_replan > plan-os-v02.log 2>&1
+      - name: Validate PlanOS v0.2 check entry point
+        run: python scripts/check_plan_os_qi_conditioned_nonmarkov_replan_v0_2.py >> plan-os-v02.log 2>&1
+      - name: Upload PlanOS v0.2 log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: plan-os-v02-log
+          path: plan-os-v02.log
