@@ -33,8 +33,11 @@ BACKPRESSURE_CLASSES = frozenset(
 
 PERMANENT_CANDIDATE_BLOCKERS = frozenset(
     {
-        "supervisor_job_state_digest_invalid",
-        "supervisor_manifest_digest_invalid",
+        "job_version_invalid",
+        "job_manifest_digest_invalid",
+        "job_state_digest_invalid",
+        "job_current_step_index_invalid",
+        "job_completed_prefix_invalid",
         "background_ticket_digest_invalid",
         "background_ticket_job_mismatch",
         "background_ticket_checkpoint_missing",
