@@ -39,7 +39,7 @@ jobs:
       - name: Validate autonomous-agent completion architecture
         id: kernel
         continue-on-error: true
-        run: python scripts/check_autonomous_agent_completion_architecture_v0_19.py > autonomous-agent-architecture-v019.log 2>&1
+        run: python -m runtime.v019_autonomous_agent_architecture_kernel > autonomous-agent-architecture-v019.log 2>&1
       - name: Check v0.19 Lean surface when available
         id: lean
         continue-on-error: true
