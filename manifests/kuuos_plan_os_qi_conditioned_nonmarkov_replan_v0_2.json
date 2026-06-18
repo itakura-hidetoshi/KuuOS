@@ -1,0 +1,162 @@
+{
+  "version": "kuuos_plan_os_qi_conditioned_nonmarkov_replan_v0_2",
+  "source_authorities": {
+    "mission_cycle": "kuuos_autonomous_mission_cycle_kernel_v0_21",
+    "plan_os_v0_1": "kuuos_plan_os_replan_bound_synthesis_v0_1",
+    "learn_os": "kuuos_learn_os_future_only_evidence_learning_v0_1",
+    "decision_os": "kuuos_decision_os_wa_relational_harmony_v0_3"
+  },
+  "strict_phases": [
+    "bind",
+    "history",
+    "qi_condition",
+    "generate",
+    "constrain",
+    "deliberate",
+    "synthesize",
+    "commit_next"
+  ],
+  "routes": [
+    "PENDING",
+    "NEXT_PLAN_CANDIDATE",
+    "REPAIR_PLAN_CANDIDATE",
+    "REOBSERVATION_PLAN_CANDIDATE",
+    "REROUTE_PLAN_CANDIDATE",
+    "TERMINATION_PLAN_CANDIDATE",
+    "HOLD"
+  ],
+  "ownership": {
+    "replan_owner": "PlanOS",
+    "decision_owner": "DecisionOS",
+    "synthesis_owner": "PlanOS",
+    "execution_owner": "ActOS",
+    "learn_delta_is_activation": false,
+    "replan_commit_is_execution": false
+  },
+  "source_contract": {
+    "committed_current_plan_required": true,
+    "committed_learn_state_required": true,
+    "same_mission_contract_required": true,
+    "future_only_learn_delta_required": true,
+    "inactive_learn_delta_required": true,
+    "replan_required_from_learn_os": true,
+    "canonical_learning_delta_required": true,
+    "canonical_middle_way_report_required": true
+  },
+  "history_contract": {
+    "non_markov_history_required": true,
+    "path_dependence_visible": true,
+    "action_history_visible": true,
+    "observation_history_visible": true,
+    "verification_history_visible": true,
+    "learning_history_visible": true,
+    "oscillation_history_visible": true,
+    "recovery_history_visible": true,
+    "stagnation_history_visible": true,
+    "source_history_mutation_forbidden": true
+  },
+  "qi_contract": {
+    "process_tensor_digest_required": true,
+    "process_history_digest_required": true,
+    "activation_visible": true,
+    "stagnation_visible": true,
+    "tension_visible": true,
+    "recovery_visible": true,
+    "coherence_visible": true,
+    "coupling_visible": true,
+    "transition_readiness_visible": true,
+    "local_global_balance_visible": true,
+    "observation_debt_visible": true,
+    "hysteresis_visible": true,
+    "memory_horizon_visible": true,
+    "qi_is_context_only": true,
+    "qi_grants_truth_authority": false,
+    "qi_grants_causal_authority": false,
+    "qi_grants_execution_authority": false,
+    "qi_grants_clinical_authority": false,
+    "qi_activates_plan": false
+  },
+  "candidate_contract": {
+    "allowed_types": [
+      "continue",
+      "strengthen",
+      "repair",
+      "slow_down",
+      "reobserve",
+      "reroute",
+      "hold",
+      "terminate_candidate"
+    ],
+    "finite_candidate_field_required": true,
+    "learn_delta_binding_required": true,
+    "future_only": true,
+    "active_now": false,
+    "stop_conditions_required": true,
+    "rollback_or_escalation_required_for_effectful_change": true
+  },
+  "constraint_contract": {
+    "mission_invariants_required": true,
+    "authority_boundary_required": true,
+    "resource_envelope_required": true,
+    "applicability_condition_required": true,
+    "reversal_condition_required": true,
+    "expiration_condition_required": true,
+    "observation_debt_visible": true,
+    "verification_debt_visible": true,
+    "scope_compatibility_required": true,
+    "qi_transition_readiness_visible": true,
+    "hysteresis_required_for_switching": true
+  },
+  "hysteresis_contract": {
+    "required_switch_margin_components": [
+      "base_switch_threshold",
+      "qi_hysteresis",
+      "oscillation_penalty",
+      "recovery_protection_penalty"
+    ],
+    "switch_benefit_must_cover_margin": true,
+    "continue_hold_reobserve_exempt_from_switch_benefit": true
+  },
+  "decision_os_contract": {
+    "all_candidates_considered": true,
+    "selected_candidate_must_be_admissible": true,
+    "retained_alternatives_preserved": true,
+    "minority_preserved": true,
+    "dissent_visible": true,
+    "decision_not_execution": true,
+    "silent_substitution_forbidden": true
+  },
+  "synthesis_contract": {
+    "selected_candidate_identity_preserved": true,
+    "next_cycle_only": true,
+    "active_from_cycle_is_current_plus_one": true,
+    "current_cycle_unchanged": true,
+    "past_plan_unchanged": true,
+    "memory_overwrite": false,
+    "host_license_granted": false,
+    "next_plan_phase_required": true
+  },
+  "persistence": {
+    "genesis": "replan-genesis.json",
+    "ledger": "replan-ledger.jsonl",
+    "snapshot": "replan-snapshot.json",
+    "lock": ".plan-os-v02-replan.lock",
+    "append_only": true,
+    "snapshot_derived_from_ledger": true,
+    "atomic_snapshot": true,
+    "replay_idempotent": true
+  },
+  "non_authority": {
+    "truth_authority_granted": false,
+    "causal_authority_granted": false,
+    "execution_authority_granted": false,
+    "final_commitment_authority_granted": false,
+    "memory_overwrite_authority_granted": false,
+    "self_modification_authority_granted": false,
+    "clinical_authority_granted": false,
+    "legal_authority_granted": false,
+    "institutional_authority_granted": false,
+    "theorem_authority_granted": false,
+    "host_license_granted": false
+  }
+}
