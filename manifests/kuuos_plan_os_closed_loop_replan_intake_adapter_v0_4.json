@@ -1,0 +1,27 @@
+{
+  "version": "kuuos_plan_os_closed_loop_replan_intake_adapter_v0_4",
+  "sources": [
+    "kuuos_plan_os_next_cycle_basis_compiler_adapter_v0_3",
+    "kuuos_learn_os_replan_lineage_future_only_learning_envelope_v0_2",
+    "kuuos_plan_os_qi_conditioned_nonmarkov_replan_v0_2"
+  ],
+  "phase": "replan",
+  "current_plan_identity_required": true,
+  "committed_learning_identity_required": true,
+  "canonical_compiler_receipt_required": true,
+  "canonical_learn_lineage_required": true,
+  "exact_cycle_required": true,
+  "active_from_successor_cycle": true,
+  "planos_v02_bind_only": true,
+  "history_phase_required_after_bind": true,
+  "future_only": true,
+  "current_cycle_unchanged": true,
+  "past_plan_unchanged": true,
+  "memory_overwrite": false,
+  "replan_activation": false,
+  "plan_activation": false,
+  "execution_permission": false,
+  "host_license_granted": false,
+  "single_use_intake": true,
+  "append_only_recovery": true
+}
