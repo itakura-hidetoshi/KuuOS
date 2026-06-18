@@ -3,30 +3,37 @@ from __future__ import annotations
 from typing import Any
 
 import runtime.kuuos_plan_os_closed_loop_fixture_v0_4 as source_fixture
-from runtime.kuuos_plan_os_closed_loop_stage_fixture_v0_4 import (
-    committed_learn_after_verify,
-    committed_observe_after_effect,
-    committed_verify_after_observe,
-)
+import runtime.kuuos_plan_os_closed_loop_stage_fixture_v0_4 as stage_fixture
 
 
 def install_monotone_stage_fixtures() -> None:
+    original_observe_event = stage_fixture._observe_event
+
+    def normalized_observe_event(
+        state: dict, phase: str, payload: dict, now_ms: int
+    ) -> dict:
+        if phase == "scope" and set(payload) == {"observation_scope"}:
+            payload = dict(payload["observation_scope"])
+        return original_observe_event(state, phase, payload, now_ms)
+
+    stage_fixture._observe_event = normalized_observe_event
+
     def prepare_observe(*, root: Any, observe_id: str, act_state: dict, **_: Any):
-        return None, committed_observe_after_effect(
+        return None, stage_fixture.committed_observe_after_effect(
             root,
             observe_id=observe_id,
             act_state=act_state,
         )
 
     def prepare_verify(*, root: Any, verify_id: str, observe_state: dict, **_: Any):
-        return None, committed_verify_after_observe(
+        return None, stage_fixture.committed_verify_after_observe(
             root,
             verify_id=verify_id,
             observe_state=observe_state,
         )
 
     def prepare_learn(*, root: Any, learn_id: str, verify_state: dict, **_: Any):
-        return None, committed_learn_after_verify(
+        return None, stage_fixture.committed_learn_after_verify(
             root,
             learn_id=learn_id,
             verify_state=verify_state,
