@@ -4,7 +4,7 @@ from copy import deepcopy
 from typing import Any, Mapping
 
 from runtime.kuuos_context_gauge_atlas_types_v0_13 import as_list, integer, mapping
-from runtime.kuuos_cooperative_execution_command_apply_v016 import apply_command
+from runtime.kuuos_cooperative_execution_supervisor_command_apply_v0_16 import apply_command
 from runtime.kuuos_cooperative_execution_supervisor_bundle_v0_16 import find_job
 from runtime.kuuos_cooperative_execution_supervisor_job_v0_16 import validate_job
 from runtime.kuuos_cooperative_execution_supervisor_types_v0_16 import bundle_digest, command_digest
