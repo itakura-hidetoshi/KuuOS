@@ -1,0 +1,78 @@
+{
+  "version": "kuuos_belief_os_context_gerbe_coherence_v0_3",
+  "source_belief_transport": "kuuos_belief_os_context_gauge_credal_transport_v0_2",
+  "source_context_gerbe": "kuuos_context_gerbe_coherence_v0_14",
+  "coherence": {
+    "declared_paths_only": true,
+    "path_search_used": false,
+    "global_chart_ranking_used": false,
+    "universal_winner_selected": false,
+    "global_trivialization_used": false,
+    "two_cell_residue": "max(abs(lower_left-lower_right), abs(upper_left-upper_right))",
+    "higher_witness": "maximum pairwise two-cell residue over path triples",
+    "path_hull": "[min_i lower_i, max_i upper_i]",
+    "coherence_widening": "[max(0, hull_lower-defect), min(1, hull_upper+defect)]",
+    "point_estimate_required": false
+  },
+  "defect_sources": [
+    "local_two_cell_residue",
+    "local_higher_defect",
+    "source_gerbe_two_curvature",
+    "source_higher_cocycle_defect"
+  ],
+  "preserved_surfaces": [
+    "source_transport_receipt_digests",
+    "source_belief_state_digests",
+    "source_context_ids",
+    "target_context_id",
+    "declared_paths",
+    "path_intervals",
+    "two_cells",
+    "higher_witnesses",
+    "evidence_digests",
+    "counterevidence_digests",
+    "source_gerbe_decision_digest",
+    "source_gerbe_bundle_digest",
+    "surface_holonomy_chain_digest"
+  ],
+  "routes": [
+    "CANDIDATE",
+    "OBSERVE",
+    "HOLD",
+    "REPAIR",
+    "REJECT",
+    "QUARANTINE"
+  ],
+  "persistence": {
+    "genesis": "belief-gerbe-genesis.json",
+    "ledger": "belief-gerbe-ledger.jsonl",
+    "snapshot": "belief-gerbe-snapshot.json",
+    "lock": ".belief-gerbe.lock",
+    "append_only": true,
+    "snapshot_derived_from_ledger": true,
+    "atomic_snapshot": true,
+    "replay_idempotent": true,
+    "surface_holonomy_append_only": true
+  },
+  "activation_boundary": {
+    "mission_cycle_source": "kuuos_autonomous_mission_cycle_kernel_v0_21",
+    "candidate_route_required": true,
+    "mission_phase": "replan",
+    "future_only": true,
+    "memory_overwrite": false,
+    "next_plan_basis_digest_required": true
+  },
+  "non_authority": {
+    "truth_authority_granted": false,
+    "execution_authority_granted": false,
+    "proof_authority_granted": false,
+    "clinical_authority_granted": false,
+    "institutional_authority_granted": false,
+    "global_context_authority_granted": false,
+    "global_trivialization_authority_granted": false,
+    "coherence_veto_authority_granted": false,
+    "surface_holonomy_authority_granted": false,
+    "memory_overwrite_authority_granted": false,
+    "graph_route_authority_granted": false
+  }
+}
