@@ -31,4 +31,12 @@ def install_generational_entry_adapter() -> None:
 
 def run_kernel() -> dict:
     install_generational_entry_adapter()
-    return driver.run_kernel()
+    result = driver.run_kernel()
+    from runtime.v06_plan_os_bounded_multi_generation_supervisor import (
+        run_kernel as run_next,
+    )
+
+    next_result = run_next()
+    if next_result.get("status") != "PLAN_OS_BOUNDED_MULTI_GENERATION_SUPERVISOR_V0_6_OK":
+        raise AssertionError(next_result)
+    return result
