@@ -323,7 +323,10 @@ def run_kernel() -> dict:
             )
         )
         next_plan, _ = _complete_plan(
-            next_plan_store, next_plan, materialization["v01_steps"], 100
+            next_plan_store,
+            next_plan,
+            materialization["v01_steps"],
+            300_000,
         )
         receipt = build_next_cycle_compiler_receipt(
             previous_plan_state=current_plan,
@@ -331,7 +334,7 @@ def run_kernel() -> dict:
             next_plan_activation_receipt=activation,
             materialization_packet=materialization,
             compiled_plan_state=next_plan,
-            now_ms=360_000,
+            now_ms=370_000,
         )
         adapter_store = NextCycleAdapterStore(root / "adapter-store")
         adapter_store.initialize(
