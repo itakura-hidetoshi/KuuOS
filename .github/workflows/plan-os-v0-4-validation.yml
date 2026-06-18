@@ -41,7 +41,16 @@ jobs:
       - name: Validate PlanOS v0.4 closed loop
         shell: bash
         run: |
-          set -o pipefail
-          python -m runtime.v04_plan_os_closed_loop_replan_intake_adapter 2>&1 | tail -n 120
+          set +e
+          python -m runtime.v04_plan_os_closed_loop_replan_intake_adapter > plan-os-v04-runtime.log 2>&1
+          status=$?
+          cat plan-os-v04-runtime.log
+          exit $status
+      - name: Upload PlanOS v0.4 diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: plan-os-v04-runtime-log
+          path: plan-os-v04-runtime.log
       - name: Validate PlanOS v0.4 check entry point
         run: python scripts/check_plan_os_closed_loop_replan_intake_adapter_v0_4.py
