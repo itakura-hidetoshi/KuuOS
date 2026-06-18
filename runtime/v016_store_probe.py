@@ -1,14 +1,33 @@
 from __future__ import annotations
 
+from copy import deepcopy
 from typing import Any, Mapping
 
-from runtime.kuuos_context_gauge_atlas_types_v0_13 import as_list
+from runtime.kuuos_context_gauge_atlas_types_v0_13 import as_list, integer, mapping
 from runtime.kuuos_cooperative_execution_command_apply_v016 import apply_command
 from runtime.kuuos_cooperative_execution_supervisor_bundle_v0_16 import find_job
-from runtime.kuuos_cooperative_execution_supervisor_types_v0_16 import command_digest
+from runtime.kuuos_cooperative_execution_supervisor_job_v0_16 import validate_job
+from runtime.kuuos_cooperative_execution_supervisor_types_v0_16 import bundle_digest, command_digest
 
 
-def store_command(bundle: Mapping[str, Any], command: Mapping[str, Any], policy: Mapping[str, Any]) -> tuple[dict[str, Any], bool]:
+def _replace_job(bundle: Mapping[str, Any], job: Mapping[str, Any]) -> dict[str, Any]:
+    jobs = [dict(mapping(item)) for item in as_list(bundle.get("jobs"))]
+    job_id = str(job.get("job_id", ""))
+    replaced = False
+    for index, existing in enumerate(jobs):
+        if str(existing.get("job_id", "")) == job_id:
+            jobs[index] = deepcopy(dict(job))
+            replaced = True
+            break
+    if not replaced:
+        jobs.append(deepcopy(dict(job)))
+    jobs.sort(key=lambda item: str(item.get("job_id", "")))
+    packet = deepcopy(dict(bundle))
+    packet["jobs"] = jobs
+    return packet
+
+
+def store_command(bundle: Mapping[str, Any], command: Mapping[str, Any], policy: Mapping[str, Any], max_history: int = 512) -> tuple[dict[str, Any], bool]:
     digest = str(command.get("command_digest", ""))
     if not digest or digest != command_digest(command):
         raise ValueError("supervisor_command_digest_invalid")
@@ -19,4 +38,5 @@ def store_command(bundle: Mapping[str, Any], command: Mapping[str, Any], policy:
     result_job, replayed = apply_command(current, command, policy)
     if replayed:
         return dict(bundle), True
-    return dict(bundle), False
+    validate_job(result_job)
+    return _replace_job(bundle, result_job), False
