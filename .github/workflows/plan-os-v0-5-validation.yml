@@ -19,4 +19,16 @@ jobs:
       - name: Compile runtime
         run: python -m compileall -q runtime scripts/check_plan_os_generational_replan_cycle_driver_v0_5.py
       - name: Validate generational cycle
-        run: python scripts/check_plan_os_generational_replan_cycle_driver_v0_5.py
+        shell: bash
+        run: |
+          set +e
+          python scripts/check_plan_os_generational_replan_cycle_driver_v0_5.py > plan-os-v05-runtime.log 2>&1
+          status=$?
+          cat plan-os-v05-runtime.log
+          exit $status
+      - name: Upload diagnostic
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: plan-os-v05-runtime-log
+          path: plan-os-v05-runtime.log
