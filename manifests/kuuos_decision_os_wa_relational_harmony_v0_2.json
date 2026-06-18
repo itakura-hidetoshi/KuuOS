@@ -1,0 +1,106 @@
+{
+  "version": "kuuos_decision_os_wa_relational_harmony_v0_2",
+  "source_authorities": {
+    "mission_contract": "kuuos_mission_contract_kernel_v0_20",
+    "belief_basis": "kuuos_belief_os_context_gerbe_coherence_v0_3",
+    "source_decision": "kuuos_decision_os_relational_deliberation_kernel_v0_1",
+    "activation_boundary": "kuuos_autonomous_mission_cycle_kernel_v0_21"
+  },
+  "fixed_definition": "Wa is dynamic, generative harmony among distinct individuals in an Indra network through inclusion, dialogue, mutual reflection, emergence, adjustment, non-hierarchy, and recursive feedback.",
+  "strict_phases": [
+    "bind",
+    "profile",
+    "evaluate",
+    "false_harmony_check",
+    "plurality_check",
+    "gate",
+    "commit"
+  ],
+  "positive_dimensions": [
+    "inclusion",
+    "dialogue",
+    "mutual_reflection",
+    "emergence",
+    "dynamic_adaptation",
+    "non_hierarchy",
+    "recursive_feedback"
+  ],
+  "alert_dimensions": [
+    "coercive_conformity",
+    "exclusion",
+    "oppression",
+    "hierarchy_concentration",
+    "minority_erasure",
+    "false_stability",
+    "complacency_in_safe_conditions"
+  ],
+  "formula": {
+    "weighted_interval": "sum_i weight_i * axis_interval_i",
+    "weakest_interval": "componentwise minimum across positive axes",
+    "relational_interval": "(1-beta)*weighted_interval + beta*weakest_interval",
+    "alert_interval": "componentwise maximum across alert axes",
+    "wa_lower": "relational_lower * (1-alert_upper)",
+    "wa_upper": "relational_upper * (1-alert_lower)",
+    "point_estimate_required": false,
+    "weakest_link_compensation_forbidden": true
+  },
+  "routes": [
+    "ENDORSE",
+    "REOBSERVE",
+    "REPAIR",
+    "ESCALATE",
+    "HOLD",
+    "REJECT",
+    "QUARANTINE"
+  ],
+  "false_harmony": {
+    "confirmed_when": [
+      "alert_lower reaches confirmed threshold",
+      "minority_preserved is false"
+    ],
+    "suspected_when": [
+      "alert_upper reaches suspicion threshold",
+      "dissent_considered is false"
+    ],
+    "confirmed_route": "ESCALATE",
+    "suspected_route": "REOBSERVE",
+    "smooth_surface_is_not_proof": true
+  },
+  "plurality": {
+    "all_source_admissible_options_profiled": true,
+    "retained_alternatives_preserved": true,
+    "silent_option_substitution_forbidden": true,
+    "absence_of_dissent_is_not_agreement": true,
+    "minority_preservation_required": true
+  },
+  "persistence": {
+    "genesis": "wa-genesis.json",
+    "ledger": "wa-ledger.jsonl",
+    "snapshot": "wa-snapshot.json",
+    "lock": ".wa-decision-os.lock",
+    "append_only": true,
+    "snapshot_derived_from_ledger": true,
+    "atomic_snapshot": true,
+    "replay_idempotent": true
+  },
+  "activation": {
+    "future_only": true,
+    "memory_overwrite": false,
+    "wa_not_truth": true,
+    "wa_not_execution": true,
+    "wa_not_moral_veto": true,
+    "mission_replan_required": true
+  },
+  "non_authority": {
+    "truth_authority_granted": false,
+    "execution_authority_granted": false,
+    "moral_veto_granted": false,
+    "clinical_authority_granted": false,
+    "institutional_authority_granted": false,
+    "legal_authority_granted": false,
+    "host_license_granted": false,
+    "memory_overwrite_authority_granted": false,
+    "global_value_authority_granted": false,
+    "universal_priority_authority_granted": false
+  }
+}
