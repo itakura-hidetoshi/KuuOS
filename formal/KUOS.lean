@@ -10,5 +10,6 @@ import KUOS.DecisionOS.WaRelationalHarmonyV0_3
 import KUOS.PlanOS.ReplanBoundSynthesisV0_1
 import KUOS.ActOS.AuthorityBoundInvocationV0_1
 import KUOS.ObserveOS.EffectGroundedObservationV0_1
+import KUOS.VerifyOS.EvidenceBoundVerificationV0_1
 import KUOS.GraphRAG.GaugeQiProcessGraphRAGV0_1
 import KUOS.GraphRAG.GaugeQiProcessGraphRAGV0_2

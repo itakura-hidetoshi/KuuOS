@@ -41,6 +41,7 @@ CHECK_MODULES = [
     "scripts.check_plan_os_replan_bound_synthesis_v0_1",
     "scripts.check_act_os_authority_bound_invocation_v0_1",
     "scripts.check_observe_os_effect_grounded_observation_v0_1",
+    "scripts.check_verify_os_evidence_bound_verification_v0_1",
 ]
 
 TEST_MODULES = [

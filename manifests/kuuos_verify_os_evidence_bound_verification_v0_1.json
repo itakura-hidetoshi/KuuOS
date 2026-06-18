@@ -1,0 +1,106 @@
+{
+  "version": "kuuos_verify_os_evidence_bound_verification_v0_1",
+  "source_authorities": {
+    "mission_cycle": "kuuos_autonomous_mission_cycle_kernel_v0_21",
+    "act_os": "kuuos_act_os_authority_bound_invocation_v0_1",
+    "observe_os": "kuuos_observe_os_effect_grounded_observation_v0_1"
+  },
+  "strict_phases": [
+    "bind",
+    "criterion",
+    "challenge",
+    "corroborate",
+    "adjudicate",
+    "commit"
+  ],
+  "routes": [
+    "PENDING",
+    "VERIFICATION_PASSED",
+    "VERIFICATION_FAILED",
+    "VERIFICATION_INDETERMINATE"
+  ],
+  "source_contract": {
+    "committed_observe_state_required": true,
+    "observation_recorded_required": true,
+    "verification_debt_required": true,
+    "comparison_receipt_canonical_required": true,
+    "source_effect_identity_binding_required": true,
+    "evidence_packet_binding_required": true,
+    "quality_report_binding_required": true,
+    "verification_criterion_binding_required": true
+  },
+  "criterion_contract": {
+    "exact_inherited_criterion_digest_required": true,
+    "evaluation_method_digest_required": true,
+    "success_condition_digest_required": true,
+    "failure_condition_digest_required": true,
+    "falsification_condition_digest_required": true,
+    "evidence_requirements_digest_required": true,
+    "minimum_independent_assessors_required": true,
+    "post_observation_criterion_substitution_forbidden": true,
+    "permits_causal_attribution": false
+  },
+  "challenge_contract": {
+    "counterevidence_field_required": true,
+    "counterevidence_preservation_required": true,
+    "falsification_attempt_required": true,
+    "independent_assessor_identity_required": true,
+    "assessor_receipt_required": true,
+    "assessor_identity_collision_forbidden": true,
+    "challenge_complete_required": true
+  },
+  "corroboration_contract": {
+    "bounded_scores": true,
+    "evidence_sufficiency_required": true,
+    "assessor_independence_required": true,
+    "provenance_integrity_required": true,
+    "method_reproducibility_required": true,
+    "criterion_coverage_required": true,
+    "unresolved_conflict_visible": true,
+    "directional_observation_required_for_conclusive_verdict": true,
+    "open_reobservation_debt_forbids_conclusive_verdict": true
+  },
+  "adjudication_contract": {
+    "passed_requires_matched_observation": true,
+    "passed_requires_criterion_satisfied": true,
+    "passed_forbids_triggered_falsifier": true,
+    "failed_requires_conclusive_failure_basis": true,
+    "indeterminate_requires_nonadmissible_corroboration": true,
+    "verification_is_absolute_truth": false,
+    "verification_grants_causal_attribution": false
+  },
+  "debt_semantics": {
+    "passed_discharges_verification_debt": true,
+    "failed_discharges_verification_debt": true,
+    "indeterminate_preserves_verification_debt": true,
+    "indeterminate_requires_reobservation": true,
+    "failed_requires_corrective_action": true,
+    "all_routes_require_learning": true,
+    "automatic_truth_promotion": false,
+    "automatic_belief_update": false,
+    "automatic_plan_completion": false,
+    "automatic_rollback": false,
+    "automatic_causal_attribution": false
+  },
+  "persistence": {
+    "genesis": "verify-genesis.json",
+    "ledger": "verify-ledger.jsonl",
+    "snapshot": "verify-snapshot.json",
+    "lock": ".verify-os.lock",
+    "append_only": true,
+    "snapshot_derived_from_ledger": true,
+    "atomic_snapshot": true,
+    "replay_idempotent": true
+  },
+  "non_authority": {
+    "truth_authority_granted": false,
+    "causal_authority_granted": false,
+    "execution_authority_granted": false,
+    "final_commitment_authority_granted": false,
+    "memory_overwrite_authority_granted": false,
+    "clinical_authority_granted": false,
+    "legal_authority_granted": false,
+    "institutional_authority_granted": false,
+    "theorem_authority_granted": false
+  }
+}
