@@ -7,5 +7,6 @@ import KUOS.BeliefOS.ContextGerbeCoherenceV0_3
 import KUOS.DecisionOS.RelationalDeliberationKernelV0_1
 import KUOS.DecisionOS.PluralHarmonyAppealKernelV0_2
 import KUOS.DecisionOS.WaRelationalHarmonyV0_3
+import KUOS.PlanOS.ReplanBoundSynthesisV0_1
 import KUOS.GraphRAG.GaugeQiProcessGraphRAGV0_1
 import KUOS.GraphRAG.GaugeQiProcessGraphRAGV0_2
