@@ -188,10 +188,13 @@ theorem waUpper_atMostOne
     linarith [alert.lowerAtMostOne]
   have hFactorAtMostOne : 1 - alert.lower ≤ 1 := by
     linarith [alert.lowerNonnegative]
-  have hProduct :=
-    mul_le_mul relational.upperAtMostOne hFactorAtMostOne
-      relational.upperNonnegative hFactorNonnegative
-  nlinarith
+  calc
+    relational.upper * (1 - alert.lower)
+        ≤ 1 * (1 - alert.lower) :=
+          mul_le_mul_of_nonneg_right relational.upperAtMostOne hFactorNonnegative
+    _ ≤ 1 * 1 :=
+          mul_le_mul_of_nonneg_left hFactorAtMostOne (by norm_num)
+    _ = 1 := by norm_num
 
 
 def waInterval
