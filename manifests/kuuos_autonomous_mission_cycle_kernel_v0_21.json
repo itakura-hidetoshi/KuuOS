@@ -1,0 +1,25 @@
+{
+  "version": "kuuos_autonomous_mission_cycle_kernel_v0_21",
+  "source_authority": "kuuos_mission_contract_kernel_v0_20",
+  "cycle": ["mission", "plan", "act", "observe", "verify", "learn", "replan"],
+  "persistence": {
+    "genesis": "genesis.json",
+    "snapshot": "snapshot.json",
+    "ledger": "cycle-ledger.jsonl",
+    "snapshot_derived_from_ledger": true,
+    "append_only": true,
+    "atomic_snapshot": true,
+    "restart_recovery": true
+  },
+  "act_boundary": {
+    "dry_run_only": false,
+    "requires_action_receipt_digest": true,
+    "requires_lower_authority_receipt_digest": true,
+    "requires_licensed_effect_applied": true
+  },
+  "learning_boundary": {
+    "future_only": true,
+    "memory_overwrite": false
+  },
+  "verification_verdicts": ["passed", "failed", "indeterminate"]
+}
