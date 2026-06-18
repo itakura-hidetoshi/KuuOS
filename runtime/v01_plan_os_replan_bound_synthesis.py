@@ -6,7 +6,6 @@ from pathlib import Path
 from typing import Any, Mapping, Sequence
 
 from runtime.kuuos_belief_os_types_v0_1 import sha
-from runtime.kuuos_decision_os_plural_store_v0_2 import PluralDecisionStore
 from runtime.kuuos_decision_os_wa_kernel_v0_3 import (
     build_replan_wa_activation_receipt,
 )
@@ -114,23 +113,26 @@ def _step(
     }
 
 
-def _candidate_steps() -> list[dict[str, Any]]:
+def _candidate_steps(*, cost: float = 0.10) -> list[dict[str, Any]]:
     return [
-        _step("prepare", "prepare", 0),
+        _step("prepare", "prepare", 0, cost=cost),
         _step(
             "act-candidate",
             "act_candidate",
             1,
             depends_on=["prepare"],
+            cost=cost,
             rollback_step_id="rollback",
             effectful=True,
             external=True,
             human=True,
             stop_conditions=[sha("stop-risk"), sha("stop-dissent")],
         ),
-        _step("rollback", "repair", 2, depends_on=["act-candidate"]),
-        _step("observe", "observe", 2, depends_on=["act-candidate"]),
-        _step("verify", "verify", 3, depends_on=["observe"]),
+        _step(
+            "rollback", "repair", 2, depends_on=["act-candidate"], cost=cost
+        ),
+        _step("observe", "observe", 2, depends_on=["act-candidate"], cost=cost),
+        _step("verify", "verify", 3, depends_on=["observe"], cost=cost),
     ]
 
 
@@ -217,7 +219,9 @@ def _new_plan_state(
     )
 
 
-def _validate_candidate_plan(root: Path) -> tuple[dict[str, Any], dict[str, Any], PlanStore]:
+def _validate_candidate_plan(
+    root: Path,
+) -> tuple[dict[str, Any], PlanStore, dict[str, Any]]:
     wa_state = _make_wa_source(
         root,
         "endorse-source",
@@ -225,14 +229,13 @@ def _validate_candidate_plan(root: Path) -> tuple[dict[str, Any], dict[str, Any]
         wa_route="ENDORSE",
     )
     activation = _wa_activation(wa_state, "endorse")
-    store = PlanStore(root / "candidate")
-    state = store.initialize(
-        _new_plan_state(
-            plan_id="plan-candidate-001",
-            wa_state=wa_state,
-            activation=activation,
-        )
+    initial_state = _new_plan_state(
+        plan_id="plan-candidate-001",
+        wa_state=wa_state,
+        activation=activation,
     )
+    store = PlanStore(root / "candidate")
+    state = store.initialize(initial_state)
     skipped = store.apply(
         _event(state, "order", {"dependency_receipt_digest": sha("skip")}, 1)
     )
@@ -253,22 +256,12 @@ def _validate_candidate_plan(root: Path) -> tuple[dict[str, Any], dict[str, Any]
     before_replay = store.ledger_commit_count()
     assert store.apply(commit_event)["status"] == "REPLAYED"
     assert store.ledger_commit_count() == before_replay
-    return state, activation, store
+    return state, store, initial_state
 
 
-def _validate_negative_cases(
-    root: Path,
-    wa_state: Mapping[str, Any],
-    activation: Mapping[str, Any],
-) -> None:
+def _validate_negative_cases(root: Path, initial_state: Mapping[str, Any]) -> None:
     cycle_store = PlanStore(root / "cycle-invalid")
-    cycle_state = cycle_store.initialize(
-        _new_plan_state(
-            plan_id="plan-cycle-invalid",
-            wa_state=wa_state,
-            activation=activation,
-        )
-    )
+    cycle_state = cycle_store.initialize(initial_state)
     cycle_state = _apply(
         cycle_store,
         cycle_state,
@@ -293,16 +286,13 @@ def _validate_negative_cases(
     assert "plan_dependency_rank_not_lower" in cycle_result["errors"][0]
 
     budget_store = PlanStore(root / "budget-invalid")
-    budget_state = budget_store.initialize(
-        _new_plan_state(
-            plan_id="plan-budget-invalid",
-            wa_state=wa_state,
-            activation=activation,
-            budget=0.20,
-        )
-    )
+    budget_state = budget_store.initialize(initial_state)
     budget_state = _apply(
-        budget_store, budget_state, "decompose", {"steps": _candidate_steps()}, 110
+        budget_store,
+        budget_state,
+        "decompose",
+        {"steps": _candidate_steps(cost=0.50)},
+        110,
     )
     budget_state = _apply(
         budget_store,
@@ -323,13 +313,7 @@ def _validate_negative_cases(
     assert budget_result["errors"] == ["plan_budget_exceeded"]
 
     guard_store = PlanStore(root / "guard-invalid")
-    guard_state = guard_store.initialize(
-        _new_plan_state(
-            plan_id="plan-guard-invalid",
-            wa_state=wa_state,
-            activation=activation,
-        )
-    )
+    guard_state = guard_store.initialize(initial_state)
     unguarded = _candidate_steps()
     unguarded[1]["rollback_step_id"] = ""
     unguarded[1]["requires_external_license"] = False
@@ -402,9 +386,8 @@ def _validate_routed_plan(
 def run_kernel() -> dict[str, Any]:
     with tempfile.TemporaryDirectory(prefix="kuuos-plan-os-v01-") as temporary:
         root = Path(temporary)
-        candidate, replan_activation, candidate_store = _validate_candidate_plan(root)
-        source_wa_state = candidate_store._read_json(candidate_store.genesis_path)
-        _validate_negative_cases(root, source_wa_state, replan_activation)
+        candidate, candidate_store, initial_plan_state = _validate_candidate_plan(root)
+        _validate_negative_cases(root, initial_plan_state)
 
         try:
             build_plan_phase_activation_receipt(
