@@ -1,0 +1,117 @@
+{
+  "version": "kuuos_learn_os_future_only_evidence_learning_v0_1",
+  "source_authorities": {
+    "mission_cycle": "kuuos_autonomous_mission_cycle_kernel_v0_21",
+    "verify_os": "kuuos_verify_os_evidence_bound_verification_v0_1",
+    "belief_os": "kuuos_belief_os_relational_conditional_kernel_v0_1"
+  },
+  "strict_phases": [
+    "bind",
+    "abstract",
+    "challenge",
+    "delta",
+    "middle_way_gate",
+    "commit"
+  ],
+  "routes": [
+    "PENDING",
+    "LEARNING_REINFORCEMENT_CANDIDATE",
+    "LEARNING_REPAIR_CANDIDATE",
+    "LEARNING_REOBSERVATION_CANDIDATE",
+    "LEARNING_HOLD"
+  ],
+  "source_contract": {
+    "committed_verify_state_required": true,
+    "verification_recorded_required": true,
+    "learning_required": true,
+    "verification_evidence_binding_required": true,
+    "criterion_binding_required": true,
+    "challenge_binding_required": true,
+    "corroboration_binding_required": true,
+    "adjudication_binding_required": true,
+    "mission_contract_binding_required": true
+  },
+  "abstraction_contract": {
+    "source_lineage_preserved": true,
+    "counterevidence_preserved": true,
+    "unresolved_residuals_preserved": true,
+    "uncertainty_visible": true,
+    "scope_visible": true,
+    "qi_process_history_digest_required": true,
+    "summary_replaces_source_evidence": false
+  },
+  "challenge_contract": {
+    "alternative_explanations_visible": true,
+    "anti_overgeneralization_test_required": true,
+    "distribution_shift_risk_visible": true,
+    "observer_bias_risk_visible": true,
+    "negative_transfer_risk_visible": true,
+    "counterevidence_preservation_required": true,
+    "challenge_complete_required": true
+  },
+  "delta_contract": {
+    "future_only": true,
+    "memory_overwrite": false,
+    "active_now": false,
+    "activation_requires_replan": true,
+    "scope_widening_forbidden": true,
+    "present_cycle_mutation_forbidden": true,
+    "past_record_mutation_forbidden": true,
+    "invariant_removal_forbidden": true,
+    "reversal_condition_required": true,
+    "expiration_condition_required": true
+  },
+  "verdict_route_contract": {
+    "passed_allows": ["reinforcement", "hold"],
+    "failed_allows": ["repair", "hold"],
+    "indeterminate_allows": ["reobservation", "hold"]
+  },
+  "middle_way_contract": {
+    "reification_risk_bounded": true,
+    "nihilistic_erasure_risk_bounded": true,
+    "overgeneralization_risk_bounded": true,
+    "negative_transfer_risk_bounded": true,
+    "premature_activation_risk_bounded": true,
+    "scope_drift_risk_bounded": true,
+    "nonadmissible_candidate_routes_to_hold": true
+  },
+  "qi_boundary": {
+    "qi_is_process_history_context": true,
+    "qi_can_condition_applicability": true,
+    "qi_can_condition_observation_policy": true,
+    "qi_grants_truth_authority": false,
+    "qi_grants_causal_authority": false,
+    "qi_grants_execution_authority": false,
+    "qi_grants_clinical_authority": false,
+    "qi_activates_delta": false
+  },
+  "mission_cycle_adapter": {
+    "mission_cycle_phase": "learn",
+    "future_only": true,
+    "memory_overwrite": false,
+    "active_now": false,
+    "replan_required": true
+  },
+  "persistence": {
+    "genesis": "learn-genesis.json",
+    "ledger": "learn-ledger.jsonl",
+    "snapshot": "learn-snapshot.json",
+    "lock": ".learn-os.lock",
+    "append_only": true,
+    "snapshot_derived_from_ledger": true,
+    "atomic_snapshot": true,
+    "replay_idempotent": true
+  },
+  "non_authority": {
+    "truth_authority_granted": false,
+    "causal_authority_granted": false,
+    "execution_authority_granted": false,
+    "final_commitment_authority_granted": false,
+    "memory_overwrite_authority_granted": false,
+    "self_modification_authority_granted": false,
+    "clinical_authority_granted": false,
+    "legal_authority_granted": false,
+    "institutional_authority_granted": false,
+    "theorem_authority_granted": false
+  }
+}
