@@ -1,0 +1,54 @@
+name: PlanOS v0.3 Validation
+
+on:
+  push:
+    paths:
+      - "docs/KUUOS_PLAN_OS_NEXT_CYCLE_BASIS_COMPILER_ADAPTER_v0_3.md"
+      - "manifests/kuuos_plan_os_next_cycle_basis_compiler_adapter_v0_3.json"
+      - "runtime/kuuos_plan_os_next_cycle_types_v0_3.py"
+      - "runtime/kuuos_plan_os_next_cycle_kernel_v0_3.py"
+      - "runtime/kuuos_plan_os_next_cycle_store_v0_3.py"
+      - "runtime/v03_plan_os_next_cycle_basis_compiler_adapter.py"
+      - "scripts/check_plan_os_next_cycle_basis_compiler_adapter_v0_3.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - "formal/KUOS/PlanOS/NextCycleBasisCompilerAdapterV0_3.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/plan-os-v0-3-validation.yml"
+  pull_request:
+    paths:
+      - "docs/KUUOS_PLAN_OS_NEXT_CYCLE_BASIS_COMPILER_ADAPTER_v0_3.md"
+      - "manifests/kuuos_plan_os_next_cycle_basis_compiler_adapter_v0_3.json"
+      - "runtime/kuuos_plan_os_next_cycle_types_v0_3.py"
+      - "runtime/kuuos_plan_os_next_cycle_kernel_v0_3.py"
+      - "runtime/kuuos_plan_os_next_cycle_store_v0_3.py"
+      - "runtime/v03_plan_os_next_cycle_basis_compiler_adapter.py"
+      - "scripts/check_plan_os_next_cycle_basis_compiler_adapter_v0_3.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - "formal/KUOS/PlanOS/NextCycleBasisCompilerAdapterV0_3.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/plan-os-v0-3-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile PlanOS v0.3 runtime
+        run: python -m compileall -q runtime scripts/check_plan_os_next_cycle_basis_compiler_adapter_v0_3.py
+      - name: Validate PlanOS v0.3 adapter
+        run: python -m runtime.v03_plan_os_next_cycle_basis_compiler_adapter > plan-os-v03.log 2>&1
+      - name: Validate PlanOS v0.3 check entry point
+        run: python scripts/check_plan_os_next_cycle_basis_compiler_adapter_v0_3.py >> plan-os-v03.log 2>&1
+      - name: Upload PlanOS v0.3 log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: plan-os-v03-log
+          path: plan-os-v03.log
