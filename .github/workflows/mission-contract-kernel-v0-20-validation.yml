@@ -17,6 +17,9 @@ on:
       - "runtime/v020_mission_kernel.py"
       - "scripts/check_mission_contract_kernel_v0_20.py"
       - "formal/KUOS/OpenHorizon/MissionContractKernelV0_20.lean"
+      - "formal/KuuOSFormal.lean"
+      - "lean-toolchain"
+      - "lakefile.toml"
       - ".github/workflows/mission-contract-kernel-v0-20-validation.yml"
   pull_request:
     paths:
@@ -34,6 +37,9 @@ on:
       - "runtime/v020_mission_kernel.py"
       - "scripts/check_mission_contract_kernel_v0_20.py"
       - "formal/KUOS/OpenHorizon/MissionContractKernelV0_20.lean"
+      - "formal/KuuOSFormal.lean"
+      - "lean-toolchain"
+      - "lakefile.toml"
       - ".github/workflows/mission-contract-kernel-v0-20-validation.yml"
   workflow_dispatch:
 
@@ -44,25 +50,30 @@ jobs:
   validate:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: true
+          use-github-cache: true
       - name: Compile v0.20 runtime
         run: python -m compileall -q runtime
       - name: Validate mission contract kernel
         id: kernel
         continue-on-error: true
         run: python -m runtime.v020_mission_kernel > mission-contract-kernel-v020.log 2>&1
-      - name: Check v0.20 Lean surface when available
+      - name: Strictly compile KuuOS formal surfaces
         id: lean
         continue-on-error: true
         run: |
-          if command -v lake >/dev/null 2>&1 && { [ -f lakefile.lean ] || [ -f lakefile.toml ]; }; then
-            lake env lean formal/KUOS/OpenHorizon/MissionContractKernelV0_20.lean >> mission-contract-kernel-v020.log 2>&1
-          else
-            echo "SKIP: repository Lean environment unavailable on this runner" >> mission-contract-kernel-v020.log
-          fi
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal >> mission-contract-kernel-v020.log 2>&1
       - name: Upload v0.20 validation log
         if: always()
         uses: actions/upload-artifact@v4
