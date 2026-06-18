@@ -9,6 +9,7 @@ import KUOS.DecisionOS.PluralHarmonyAppealKernelV0_2
 import KUOS.DecisionOS.WaRelationalHarmonyV0_3
 import KUOS.PlanOS.ReplanBoundSynthesisV0_1
 import KUOS.PlanOS.QiConditionedNonMarkovReplanV0_2
+import KUOS.PlanOS.NextCycleBasisCompilerAdapterV0_3
 import KUOS.ActOS.AuthorityBoundInvocationV0_1
 import KUOS.ObserveOS.EffectGroundedObservationV0_1
 import KUOS.VerifyOS.EvidenceBoundVerificationV0_1
