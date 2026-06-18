@@ -1,0 +1,56 @@
+name: Durable Host Orchestrator v0.18 Validation
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_durable_host_orchestrator*_v0_18.py"
+      - "runtime/v018_orchestrator_*.py"
+      - "formal/KUOS/OpenHorizon/DurableHostInvocationOrchestratorV0_18.lean"
+      - "docs/KUUOS_DURABLE_HOST_INVOCATION_ORCHESTRATOR_v0_18.md"
+      - ".github/workflows/durable-host-orchestrator-v0-18-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_durable_host_orchestrator*_v0_18.py"
+      - "runtime/v018_orchestrator_*.py"
+      - "formal/KUOS/OpenHorizon/DurableHostInvocationOrchestratorV0_18.lean"
+      - "docs/KUUOS_DURABLE_HOST_INVOCATION_ORCHESTRATOR_v0_18.md"
+      - ".github/workflows/durable-host-orchestrator-v0-18-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile v0.18 runtime
+        run: python -m compileall -q runtime
+      - name: Run durable host orchestrator kernel
+        id: kernel
+        continue-on-error: true
+        run: python -m runtime.v018_orchestrator_all > durable-host-orchestrator-v018.log 2>&1
+      - name: Check v0.18 Lean surface when available
+        id: lean
+        continue-on-error: true
+        run: |
+          if command -v lake >/dev/null 2>&1 && { [ -f lakefile.lean ] || [ -f lakefile.toml ]; }; then
+            lake env lean formal/KUOS/OpenHorizon/DurableHostInvocationOrchestratorV0_18.lean >> durable-host-orchestrator-v018.log 2>&1
+          else
+            echo "SKIP: repository Lean environment unavailable on this runner" >> durable-host-orchestrator-v018.log
+          fi
+      - name: Upload v0.18 validation log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: durable-host-orchestrator-v018-log
+          path: durable-host-orchestrator-v018.log
+      - name: Report v0.18 failure
+        if: steps.kernel.outcome == 'failure' || steps.lean.outcome == 'failure'
+        run: |
+          cat durable-host-orchestrator-v018.log
+          exit 1
