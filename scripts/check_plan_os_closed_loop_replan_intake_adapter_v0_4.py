@@ -8,6 +8,12 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from runtime.kuuos_plan_os_closed_loop_monotone_patch_v0_4 import (
+    install_monotone_stage_fixtures,
+)
+
+install_monotone_stage_fixtures()
+
 from runtime.v04_plan_os_closed_loop_replan_intake_adapter import run_kernel
 
 
