@@ -11,5 +11,6 @@ import KUOS.PlanOS.ReplanBoundSynthesisV0_1
 import KUOS.ActOS.AuthorityBoundInvocationV0_1
 import KUOS.ObserveOS.EffectGroundedObservationV0_1
 import KUOS.VerifyOS.EvidenceBoundVerificationV0_1
+import KUOS.LearnOS.FutureOnlyEvidenceLearningV0_1
 import KUOS.GraphRAG.GaugeQiProcessGraphRAGV0_1
 import KUOS.GraphRAG.GaugeQiProcessGraphRAGV0_2
