@@ -32,7 +32,7 @@ def source_plan(root: Path) -> tuple[dict[str, Any], dict[str, Any]]:
 
 
 def host_inputs(
-    *, job_id: str, expires_at_ms: int = 200_000
+    *, job_id: str, expires_at_ms: int = 600_000
 ) -> tuple[dict[str, Any], dict[str, Any], dict[str, Any], dict[str, Any]]:
     policy = supervisor_policy()
     bundle = queued_bundle(job_id=job_id, job_steps=steps(1), policy=policy)
