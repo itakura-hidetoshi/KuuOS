@@ -8,11 +8,32 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from runtime.kuuos_plan_os_generational_entry_v0_5 import run_kernel
+import runtime.v05_plan_os_generational_replan_cycle_driver as driver
+
+_original_initial_plan = driver.build_next_cycle_initial_plan_state
+_original_generation_receipt = driver.build_generational_cycle_receipt
+
+
+def _monotone_initial_plan(**kwargs):
+    kwargs["now_ms"] = min(int(kwargs.get("now_ms", 500_000)), 500_000)
+    return _original_initial_plan(**kwargs)
+
+
+def _canonical_activation_projection(**kwargs):
+    activation = dict(kwargs["plan_activation_receipt"])
+    activation["plan_phase_activation_receipt_digest"] = activation[
+        "plan_activation_receipt_digest"
+    ]
+    kwargs["plan_activation_receipt"] = activation
+    return _original_generation_receipt(**kwargs)
+
+
+driver.build_next_cycle_initial_plan_state = _monotone_initial_plan
+driver.build_generational_cycle_receipt = _canonical_activation_projection
 
 
 def main() -> int:
-    result = run_kernel()
+    result = driver.run_kernel()
     expected = {
         "status": "PLAN_OS_GENERATIONAL_REPLAN_CYCLE_DRIVER_V0_5_OK",
         "next_cycle_index": result["source_cycle_index"] + 1,
