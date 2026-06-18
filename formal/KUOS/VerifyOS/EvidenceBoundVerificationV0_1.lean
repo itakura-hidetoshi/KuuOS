@@ -199,7 +199,7 @@ theorem admissible_corroboration_closes_observation_debt
     surface.observationDebtDischarged = true ∧
       surface.reobservationRequired = false := by
   have h := surface.admissibilityRule hadmissible
-  exact ⟨h.2.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2.2⟩
+  exact ⟨h.2.2.2.2.2.2.2.1, h.2.2.2.2.2.2.2.2⟩
 
 
 inductive VerificationVerdict where
