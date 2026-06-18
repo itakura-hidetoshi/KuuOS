@@ -4,19 +4,29 @@ import KUOS.PlanOS.BoundedMultiGenerationSupervisorV0_6
 namespace KUOS.PlanOS
 
 inductive TerminalKind where
-  | hold | handover | stopped
+  | hold
+  | handover
+  | stopped
   deriving DecidableEq
 
 inductive ReentryKind where
-  | resumeHold | acceptHandover
+  | resumeHold
+  | acceptHandover
   deriving DecidableEq
 
 structure ReentryReceipt where
   kind : ReentryKind
   source : TerminalKind
-  currentOwner proposedOwner delegatedBy acceptedBy : Nat
-  sourceDigest expectedDigest : Nat
-  lineagePreserved missionPreserved policyPreserved singleUse : Bool
+  currentOwner : Nat
+  proposedOwner : Nat
+  delegatedBy : Nat
+  acceptedBy : Nat
+  sourceDigest : Nat
+  expectedDigest : Nat
+  lineagePreserved : Bool
+  missionPreserved : Bool
+  policyPreserved : Bool
+  singleUse : Bool
 
 
 def admissibleReentry (r : ReentryReceipt) : Prop :=
@@ -26,11 +36,11 @@ def admissibleReentry (r : ReentryReceipt) : Prop :=
   r.policyPreserved = true ∧
   r.singleUse = true ∧
   match r.kind, r.source with
-  | .resumeHold, .hold =>
+  | ReentryKind.resumeHold, TerminalKind.hold =>
       r.proposedOwner = r.currentOwner ∧
       r.delegatedBy = r.currentOwner ∧
       r.acceptedBy = r.currentOwner
-  | .acceptHandover, .handover =>
+  | ReentryKind.acceptHandover, TerminalKind.handover =>
       r.proposedOwner ≠ r.currentOwner ∧
       r.delegatedBy = r.currentOwner ∧
       r.acceptedBy = r.proposedOwner
@@ -38,29 +48,37 @@ def admissibleReentry (r : ReentryReceipt) : Prop :=
 
 
 theorem stopped_not_reenterable (r : ReentryReceipt)
-    (h : r.source = .stopped) : ¬ admissibleReentry r := by
+    (h : r.source = TerminalKind.stopped) :
+    ¬ admissibleReentry r := by
   intro hadm
   rcases hadm with ⟨_, _, _, _, _, route⟩
-  cases r.kind <;> simp [h] at route
+  rw [h] at route
+  cases r.kind <;> simp at route
 
 
 theorem hold_resume_preserves_owner (r : ReentryReceipt)
-    (hk : r.kind = .resumeHold) (hs : r.source = .hold)
+    (hk : r.kind = ReentryKind.resumeHold)
+    (hs : r.source = TerminalKind.hold)
     (hadm : admissibleReentry r) :
     r.proposedOwner = r.currentOwner := by
   rcases hadm with ⟨_, _, _, _, _, route⟩
-  simpa [hk, hs] using route.1
+  rw [hk, hs] at route
+  exact route.1
 
 
 theorem handover_requires_new_owner (r : ReentryReceipt)
-    (hk : r.kind = .acceptHandover) (hs : r.source = .handover)
+    (hk : r.kind = ReentryKind.acceptHandover)
+    (hs : r.source = TerminalKind.handover)
     (hadm : admissibleReentry r) :
     r.proposedOwner ≠ r.currentOwner := by
   rcases hadm with ⟨_, _, _, _, _, route⟩
-  simpa [hk, hs] using route.1
+  rw [hk, hs] at route
+  exact route.1
 
 structure ReentryBoundary where
-  executionGranted hostLicenseGranted memoryOverwrite : Bool
+  executionGranted : Bool
+  hostLicenseGranted : Bool
+  memoryOverwrite : Bool
   noExecution : executionGranted = false
   noHostLicense : hostLicenseGranted = false
   noOverwrite : memoryOverwrite = false
@@ -73,7 +91,8 @@ theorem reentry_grants_no_authority (b : ReentryBoundary) :
   exact ⟨b.noExecution, b.noHostLicense, b.noOverwrite⟩
 
 structure ReentryTransition where
-  sourceDigest preservedSourceDigest : Nat
+  sourceDigest : Nat
+  preservedSourceDigest : Nat
   nextGenerationAuthorized : Bool
   sourcePreserved : preservedSourceDigest = sourceDigest
   nextAuthorized : nextGenerationAuthorized = true
