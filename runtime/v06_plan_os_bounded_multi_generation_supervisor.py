@@ -14,7 +14,7 @@ def run_kernel() -> dict:
     with tempfile.TemporaryDirectory(prefix="kuuos-plan-os-v06-") as temporary:
         state, store = run_primary_store_scenario(Path(temporary))
         decisions = verify_decision_matrix()
-        return {
+        result = {
             "status": "PLAN_OS_BOUNDED_MULTI_GENERATION_SUPERVISOR_V0_6_OK",
             "completed_generations": state["completed_generations"],
             "current_cycle_index": state["current_cycle_index"],
@@ -27,6 +27,14 @@ def run_kernel() -> dict:
                 "multi_generation_supervisor_state_digest"
             ],
         }
+    from runtime.v07_plan_os_external_resume_handover_reentry import (
+        run_kernel as run_next,
+    )
+
+    next_result = run_next()
+    if next_result.get("status") != "PLAN_OS_EXTERNAL_RESUME_HANDOVER_REENTRY_V0_7_OK":
+        raise AssertionError(next_result)
+    return result
 
 
 if __name__ == "__main__":

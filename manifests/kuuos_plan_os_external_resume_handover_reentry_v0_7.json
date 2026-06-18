@@ -1,0 +1,15 @@
+{
+  "version": "kuuos_plan_os_external_resume_handover_reentry_v0_7",
+  "source": "kuuos_plan_os_bounded_multi_generation_supervisor_v0_6",
+  "hold_resume_requires_external_receipt": true,
+  "handover_requires_outgoing_delegation": true,
+  "handover_requires_incoming_acceptance": true,
+  "stopped_state_not_resumable": true,
+  "lineage_mission_policy_revalidation": true,
+  "single_use_receipt": true,
+  "reentry_is_not_execution": true,
+  "execution_granted": false,
+  "host_license_granted": false,
+  "memory_overwrite": false,
+  "append_only_recovery": true
+}
