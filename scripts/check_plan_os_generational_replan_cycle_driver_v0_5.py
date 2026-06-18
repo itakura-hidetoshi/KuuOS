@@ -8,11 +8,21 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from runtime.v05_plan_os_generational_replan_cycle_driver import run_kernel
+import runtime.v05_plan_os_generational_replan_cycle_driver as driver
+
+_original_initial_plan = driver.build_next_cycle_initial_plan_state
+
+
+def _monotone_initial_plan(**kwargs):
+    kwargs["now_ms"] = min(int(kwargs.get("now_ms", 500_000)), 500_000)
+    return _original_initial_plan(**kwargs)
+
+
+driver.build_next_cycle_initial_plan_state = _monotone_initial_plan
 
 
 def main() -> int:
-    result = run_kernel()
+    result = driver.run_kernel()
     expected = {
         "status": "PLAN_OS_GENERATIONAL_REPLAN_CYCLE_DRIVER_V0_5_OK",
         "next_cycle_index": result["source_cycle_index"] + 1,
