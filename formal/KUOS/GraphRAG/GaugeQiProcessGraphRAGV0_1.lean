@@ -51,7 +51,9 @@ theorem pathTransport_gaugeCovariant
   | nil =>
       simp [pathTransport, pathEndpoint]
   | cons target rest ih =>
-      simp [pathTransport, pathEndpoint, GaugeConnection.gaugeTransform, ih, mul_assoc]
+      simp only [pathTransport, pathEndpoint, GaugeConnection.gaugeTransform]
+      rw [ih target]
+      group
 
 
 def loopHolonomy
