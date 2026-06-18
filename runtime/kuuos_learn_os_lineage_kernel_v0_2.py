@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from typing import Any, Mapping
 
+from runtime.kuuos_belief_os_types_v0_1 import sha
 from runtime.kuuos_learn_os_kernel_v0_1 import validate_learn_state
 from runtime.kuuos_learn_os_types_v0_1 import (
     LEARN_PHASE_RECEIPT_VERSION,
@@ -47,24 +48,17 @@ def build_learn_lineage_handoff_receipt(
     now_ms: int,
 ) -> dict[str, Any]:
     verify_errors = validate_verify_state(committed_verify_state)
-    handoff_errors = validate_verify_handoff_receipt(
-        verify_lineage_handoff_receipt
-    )
+    handoff_errors = validate_verify_handoff_receipt(verify_lineage_handoff_receipt)
     completion_errors = validate_verify_completion_receipt(
         verify_lineage_completion_receipt
     )
     if verify_errors:
-        raise ValueError(
-            "learn_lineage_verify_state_invalid:" + ";".join(verify_errors)
-        )
+        raise ValueError("learn_lineage_verify_state_invalid:" + ";".join(verify_errors))
     if handoff_errors:
-        raise ValueError(
-            "learn_lineage_verify_handoff_invalid:" + ";".join(handoff_errors)
-        )
+        raise ValueError("learn_lineage_verify_handoff_invalid:" + ";".join(handoff_errors))
     if completion_errors:
         raise ValueError(
-            "learn_lineage_verify_completion_invalid:"
-            + ";".join(completion_errors)
+            "learn_lineage_verify_completion_invalid:" + ";".join(completion_errors)
         )
     if committed_verify_state.get("current_phase") != "commit":
         raise ValueError("learn_lineage_verify_state_not_committed")
@@ -78,24 +72,16 @@ def build_learn_lineage_handoff_receipt(
     _require_equal(
         verify_lineage_completion_receipt,
         "verify_lineage_handoff_receipt_digest",
-        verify_lineage_handoff_receipt.get(
-            "verify_lineage_handoff_receipt_digest"
-        ),
+        verify_lineage_handoff_receipt.get("verify_lineage_handoff_receipt_digest"),
         "learn_lineage_verify_completion",
     )
     for field, expected in {
-        "committed_verify_state_digest": committed_verify_state.get(
-            "verify_state_digest"
-        ),
+        "committed_verify_state_digest": committed_verify_state.get("verify_state_digest"),
         "verification_criterion_digest": committed_verify_state.get(
             "verification_criterion_digest"
         ),
-        "criterion_packet_digest": committed_verify_state.get(
-            "criterion_packet_digest"
-        ),
-        "challenge_packet_digest": committed_verify_state.get(
-            "challenge_packet_digest"
-        ),
+        "criterion_packet_digest": committed_verify_state.get("criterion_packet_digest"),
+        "challenge_packet_digest": committed_verify_state.get("challenge_packet_digest"),
         "corroboration_report_digest": committed_verify_state.get(
             "corroboration_report_digest"
         ),
@@ -105,9 +91,7 @@ def build_learn_lineage_handoff_receipt(
         "verification_evidence_digest": committed_verify_state.get(
             "verification_evidence_digest"
         ),
-        "evidence_packet_digest": committed_verify_state.get(
-            "evidence_packet_digest"
-        ),
+        "evidence_packet_digest": committed_verify_state.get("evidence_packet_digest"),
         "comparison_receipt_digest": committed_verify_state.get(
             "comparison_receipt_digest"
         ),
@@ -127,34 +111,22 @@ def build_learn_lineage_handoff_receipt(
         )
 
     for field, expected in {
-        "committed_verify_state_digest": committed_verify_state.get(
-            "verify_state_digest"
-        ),
         "committed_observe_state_digest": committed_verify_state.get(
             "source_observe_state_digest"
         ),
-        "source_act_state_digest": committed_verify_state.get(
-            "source_act_state_digest"
-        ),
+        "source_act_state_digest": committed_verify_state.get("source_act_state_digest"),
         "verification_criterion_digest": committed_verify_state.get(
             "verification_criterion_digest"
         ),
-        "evidence_packet_digest": committed_verify_state.get(
-            "evidence_packet_digest"
-        ),
+        "evidence_packet_digest": committed_verify_state.get("evidence_packet_digest"),
         "comparison_receipt_digest": committed_verify_state.get(
             "comparison_receipt_digest"
         ),
-        "mission_contract_digest": committed_verify_state.get(
-            "mission_contract_digest"
-        ),
+        "mission_contract_digest": committed_verify_state.get("mission_contract_digest"),
     }.items():
-        source_field = field
-        if field == "committed_verify_state_digest":
-            source_field = "committed_verify_state_digest"
         _require_equal(
             verify_lineage_handoff_receipt,
-            source_field,
+            field,
             expected,
             "learn_lineage_verify_handoff",
         )
@@ -162,11 +134,7 @@ def build_learn_lineage_handoff_receipt(
     if mission_cycle_phase != "learn":
         raise ValueError("learn_lineage_learn_phase_required")
     cycle = require_int(mission_cycle_cycle_index, "mission_cycle_cycle_index")
-    expected_cycle = int(
-        verify_lineage_handoff_receipt.get(
-            "mission_cycle_cycle_index", -1
-        )
-    )
+    expected_cycle = int(verify_lineage_handoff_receipt.get("mission_cycle_cycle_index", -1))
     if cycle != expected_cycle:
         raise ValueError("learn_lineage_cycle_mismatch")
 
@@ -174,12 +142,8 @@ def build_learn_lineage_handoff_receipt(
     if not isinstance(challenge, Mapping):
         raise ValueError("learn_lineage_source_challenge_missing")
     counterevidence = list(challenge.get("counterevidence_digests", []))
-    falsification_attempts = list(
-        challenge.get("falsification_attempt_digests", [])
-    )
-    independent_assessors = list(
-        challenge.get("independent_assessor_ids", [])
-    )
+    falsification_attempts = list(challenge.get("falsification_attempt_digests", []))
+    independent_assessors = list(challenge.get("independent_assessor_ids", []))
     if not falsification_attempts:
         raise ValueError("learn_lineage_source_falsification_missing")
     if not independent_assessors:
@@ -229,25 +193,19 @@ def build_learn_lineage_handoff_receipt(
         "committed_observe_state_digest": verify_lineage_completion_receipt[
             "committed_observe_state_digest"
         ],
-        "committed_verify_state_digest": committed_verify_state[
-            "verify_state_digest"
-        ],
+        "committed_verify_state_digest": committed_verify_state["verify_state_digest"],
         "verify_phase_receipt_digest": verify_lineage_completion_receipt[
             "verify_phase_receipt_digest"
         ],
         "source_verification_route": committed_verify_state["route"],
-        "source_verification_verdict": verify_lineage_completion_receipt[
-            "verdict"
-        ],
+        "source_verification_verdict": verify_lineage_completion_receipt["verdict"],
         "source_verification_evidence_digest": committed_verify_state[
             "verification_evidence_digest"
         ],
         "verification_criterion_digest": committed_verify_state[
             "verification_criterion_digest"
         ],
-        "criterion_packet_digest": committed_verify_state[
-            "criterion_packet_digest"
-        ],
+        "criterion_packet_digest": committed_verify_state["criterion_packet_digest"],
         "source_challenge_packet_digest": committed_verify_state[
             "challenge_packet_digest"
         ],
@@ -257,17 +215,12 @@ def build_learn_lineage_handoff_receipt(
         "adjudication_receipt_digest": committed_verify_state[
             "adjudication_receipt_digest"
         ],
-        "evidence_packet_digest": committed_verify_state[
-            "evidence_packet_digest"
-        ],
+        "evidence_packet_digest": committed_verify_state["evidence_packet_digest"],
         "comparison_receipt_digest": committed_verify_state[
             "comparison_receipt_digest"
         ],
         "source_counterevidence_digests": counterevidence,
-        "source_counterevidence_digest": require_string(
-            committed_verify_state.get("challenge_packet_digest"),
-            "source_counterevidence_digest",
-        ),
+        "source_counterevidence_digest": sha(counterevidence),
         "source_falsification_attempt_digests": falsification_attempts,
         "source_independent_assessor_ids": independent_assessors,
         "source_reobservation_required": bool(
@@ -302,9 +255,7 @@ def build_learn_lineage_handoff_receipt(
         "boundary": copy_boundary(),
         "learn_lineage_handoff_receipt_digest": "",
     }
-    packet["learn_lineage_handoff_receipt_digest"] = handoff_receipt_digest(
-        packet
-    )
+    packet["learn_lineage_handoff_receipt_digest"] = handoff_receipt_digest(packet)
     return packet
 
 
@@ -349,14 +300,12 @@ def validate_handoff_receipt(receipt: Mapping[str, Any]) -> list[str]:
             "learn_phase_event_digest",
         ):
             require_string(receipt.get(field), field)
-        require_int(
-            receipt.get("mission_cycle_cycle_index"),
-            "mission_cycle_cycle_index",
-        )
+        require_int(receipt.get("mission_cycle_cycle_index"), "mission_cycle_cycle_index")
         if receipt.get("mission_cycle_phase") != "learn":
             errors.append("learn_lineage_handoff_phase_invalid")
-        if not isinstance(receipt.get("source_counterevidence_digests"), list):
-            errors.append("learn_lineage_handoff_counterevidence_invalid")
+        counterevidence = list(receipt.get("source_counterevidence_digests", []))
+        if receipt.get("source_counterevidence_digest") != sha(counterevidence):
+            errors.append("learn_lineage_handoff_counterevidence_digest_invalid")
         if not list(receipt.get("source_falsification_attempt_digests", [])):
             errors.append("learn_lineage_handoff_falsification_missing")
         if not list(receipt.get("source_independent_assessor_ids", [])):
@@ -409,28 +358,20 @@ def build_learn_lineage_completion_receipt(
     ):
         raise ValueError("learn_lineage_phase_receipt_digest_invalid")
 
-    bindings = {
-        "source_verify_state_digest": handoff_receipt.get(
-            "committed_verify_state_digest"
-        ),
-        "source_verification_route": handoff_receipt.get(
-            "source_verification_route"
-        ),
+    for field, expected in {
+        "source_verify_state_digest": handoff_receipt.get("committed_verify_state_digest"),
+        "source_verification_route": handoff_receipt.get("source_verification_route"),
         "source_verification_evidence_digest": handoff_receipt.get(
             "source_verification_evidence_digest"
         ),
         "source_observe_state_digest": handoff_receipt.get(
             "committed_observe_state_digest"
         ),
-        "source_act_state_digest": handoff_receipt.get(
-            "committed_act_state_digest"
-        ),
+        "source_act_state_digest": handoff_receipt.get("committed_act_state_digest"),
         "verification_criterion_digest": handoff_receipt.get(
             "verification_criterion_digest"
         ),
-        "criterion_packet_digest": handoff_receipt.get(
-            "criterion_packet_digest"
-        ),
+        "criterion_packet_digest": handoff_receipt.get("criterion_packet_digest"),
         "source_challenge_packet_digest": handoff_receipt.get(
             "source_challenge_packet_digest"
         ),
@@ -440,14 +381,12 @@ def build_learn_lineage_completion_receipt(
         "adjudication_receipt_digest": handoff_receipt.get(
             "adjudication_receipt_digest"
         ),
-        "mission_contract_digest": handoff_receipt.get(
-            "mission_contract_digest"
+        "mission_contract_digest": handoff_receipt.get("mission_contract_digest"),
+        "source_counterevidence_digest": handoff_receipt.get(
+            "source_counterevidence_digest"
         ),
-    }
-    for field, expected in bindings.items():
-        _require_equal(
-            committed_learn_state, field, expected, "learn_lineage_state"
-        )
+    }.items():
+        _require_equal(committed_learn_state, field, expected, "learn_lineage_state")
 
     delta = committed_learn_state.get("learning_delta")
     middle_way = committed_learn_state.get("middle_way_report")
@@ -493,9 +432,7 @@ def build_learn_lineage_completion_receipt(
         "source_verification_evidence_digest": committed_learn_state.get(
             "source_verification_evidence_digest"
         ),
-        "learning_delta_digest": committed_learn_state.get(
-            "learning_delta_digest"
-        ),
+        "learning_delta_digest": committed_learn_state.get("learning_delta_digest"),
         "middle_way_report_digest": committed_learn_state.get(
             "middle_way_report_digest"
         ),
@@ -507,15 +444,10 @@ def build_learn_lineage_completion_receipt(
         "replan_required": True,
     }.items():
         _require_equal(
-            learn_phase_receipt,
-            field,
-            expected,
-            "learn_lineage_phase_receipt",
+            learn_phase_receipt, field, expected, "learn_lineage_phase_receipt"
         )
 
-    learning_route = require_string(
-        committed_learn_state.get("route"), "learning_route"
-    )
+    learning_route = require_string(committed_learn_state.get("route"), "learning_route")
     allowed = PLANOS_CANDIDATE_TYPES_BY_LEARNING_ROUTE.get(learning_route)
     if allowed is None:
         raise ValueError("learn_lineage_learning_route_invalid")
@@ -543,9 +475,7 @@ def build_learn_lineage_completion_receipt(
         "qi_condition_packet_digest": handoff_receipt[
             "qi_condition_packet_digest"
         ],
-        "decision_receipt_digest": handoff_receipt[
-            "decision_receipt_digest"
-        ],
+        "decision_receipt_digest": handoff_receipt["decision_receipt_digest"],
         "selected_candidate_digest": handoff_receipt[
             "selected_candidate_digest"
         ],
@@ -583,15 +513,11 @@ def build_learn_lineage_completion_receipt(
         "learning_challenge_packet_digest": committed_learn_state[
             "learning_challenge_packet_digest"
         ],
-        "learning_delta_digest": committed_learn_state[
-            "learning_delta_digest"
-        ],
+        "learning_delta_digest": committed_learn_state["learning_delta_digest"],
         "middle_way_report_digest": committed_learn_state[
             "middle_way_report_digest"
         ],
-        "qi_process_history_digest": abstraction[
-            "qi_process_history_digest"
-        ],
+        "qi_process_history_digest": abstraction["qi_process_history_digest"],
         "learning_route": learning_route,
         "learning_kind": delta["learning_kind"],
         "target_scope": delta["target_scope"],
@@ -599,9 +525,7 @@ def build_learn_lineage_completion_receipt(
             "next_plan_basis_candidate_digest"
         ],
         "planos_candidate_type_allowlist": list(allowed),
-        "learning_recorded": bool(
-            committed_learn_state.get("learning_recorded")
-        ),
+        "learning_recorded": bool(committed_learn_state.get("learning_recorded")),
         "learning_debt_discharged": bool(
             committed_learn_state.get("learning_debt_discharged")
         ),
@@ -626,9 +550,7 @@ def build_learn_lineage_completion_receipt(
         "learn_lineage_completion_receipt_digest": "",
     }
     packet["planos_replan_input_digest"] = planos_replan_input_digest(packet)
-    packet["learn_lineage_completion_receipt_digest"] = completion_receipt_digest(
-        packet
-    )
+    packet["learn_lineage_completion_receipt_digest"] = completion_receipt_digest(packet)
     return packet
 
 
