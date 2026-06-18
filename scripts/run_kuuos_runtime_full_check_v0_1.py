@@ -40,6 +40,7 @@ CHECK_MODULES = [
     "scripts.check_decision_os_wa_relational_harmony_v0_3",
     "scripts.check_plan_os_replan_bound_synthesis_v0_1",
     "scripts.check_plan_os_qi_conditioned_nonmarkov_replan_v0_2",
+    "scripts.check_plan_os_next_cycle_basis_compiler_adapter_v0_3",
     "scripts.check_act_os_authority_bound_invocation_v0_1",
     "scripts.check_observe_os_effect_grounded_observation_v0_1",
     "scripts.check_verify_os_evidence_bound_verification_v0_1",
