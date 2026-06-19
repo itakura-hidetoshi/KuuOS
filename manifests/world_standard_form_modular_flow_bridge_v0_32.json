@@ -1,0 +1,13 @@
+{
+  "manifest_version": "world_standard_form_modular_flow_bridge_v0_32",
+  "files": {
+    "formal": ["formal/KUOS/WORLD/StandardFormModularFlowBridgeV0_32.lean"],
+    "runtime": [
+      "runtime/kuuos_world_standard_form_modular_flow_bridge_core_v0_32.py",
+      "runtime/kuuos_world_standard_form_modular_flow_bridge_runtime_v0_32.py"
+    ],
+    "scripts": ["scripts/check_world_standard_form_modular_flow_bridge_v0_32.py"],
+    "docs": ["docs/KU_WORLD_STANDARD_FORM_MODULAR_FLOW_BRIDGE_v0_32.md"]
+  },
+  "status": "READY"
+}
