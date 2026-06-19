@@ -21,9 +21,9 @@ structure CanonicalSelfAdjointProofReceipt
   globalRayleighClaim : Prop
   globalRayleighProof : globalRayleighClaim
   sourceDenseDomainBound : Dense (B.domain : Set C.H)
-  sourceSymmetricCoreBound : ∀ x y,
+  sourceSymmetricCoreBound : ∀ (x y : B.domain),
     inner ℝ (B.operator x) (y : C.H) = inner ℝ (x : C.H) (B.operator y)
-  sourceRayleighBound : ∀ x,
+  sourceRayleighBound : ∀ (x : B.domain),
     B.lowerBound * ‖(x : C.H)‖ ^ 2 ≤ inner ℝ (B.operator x) (x : C.H)
   immutableCommitBound : Prop
   immutableCommitProof : immutableCommitBound
@@ -39,11 +39,11 @@ variable (R : CanonicalSelfAdjointProofReceipt C B)
 theorem source_dense_domain_preserved : Dense (B.domain : Set C.H) :=
   R.sourceDenseDomainBound
 
-theorem source_symmetric_core_preserved : ∀ x y,
+theorem source_symmetric_core_preserved : ∀ (x y : B.domain),
     inner ℝ (B.operator x) (y : C.H) = inner ℝ (x : C.H) (B.operator y) :=
   R.sourceSymmetricCoreBound
 
-theorem source_global_rayleigh_bound_preserved : ∀ x,
+theorem source_global_rayleigh_bound_preserved : ∀ (x : B.domain),
     B.lowerBound * ‖(x : C.H)‖ ^ 2 ≤ inner ℝ (B.operator x) (x : C.H) :=
   R.sourceRayleighBound
 
