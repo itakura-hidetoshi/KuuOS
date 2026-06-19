@@ -78,6 +78,7 @@ theorem local_subset_spacelike_commutant
     (h : B.spacelike i j) :
     B.localCarrier i ⊆ B.localCommutant j := by
   intro a ha
+  change a ∈ (B.localCarrier j).centralizer
   rw [Set.mem_centralizer_iff]
   intro b hb
   exact (B.locality h ⟨a, ha⟩ ⟨b, hb⟩).eq.symm
@@ -86,8 +87,11 @@ theorem localBicommutant_subset_spacelike_commutant
     {i j : W.Region}
     (h : B.spacelike i j) :
     B.localBicommutant i ⊆ B.localCommutant j := by
-  have hji : B.localCarrier j ⊆ B.localCommutant i :=
-    B.local_subset_spacelike_commutant (B.spacelikeSymmetric h)
+  have hji : B.localCarrier j ⊆ (B.localCarrier i).centralizer := by
+    simpa [localCommutant, commutant] using
+      B.local_subset_spacelike_commutant (B.spacelikeSymmetric h)
+  change (B.localCarrier i).centralizer.centralizer ⊆
+    (B.localCarrier j).centralizer
   exact Set.centralizer_subset hji
 
 theorem localBicommutants_commute
@@ -97,10 +101,13 @@ theorem localBicommutants_commute
     (ha : a ∈ B.localBicommutant i)
     (hb : b ∈ B.localBicommutant j) :
     Commute a b := by
-  have ha' : a ∈ B.localCommutant j :=
-    B.localBicommutant_subset_spacelike_commutant h ha
+  have ha' : a ∈ (B.localCarrier j).centralizer := by
+    simpa [localCommutant, commutant] using
+      B.localBicommutant_subset_spacelike_commutant h ha
+  have hb' : b ∈ (B.localCarrier j).centralizer.centralizer := by
+    simpa [localBicommutant, bicommutant] using hb
   change a * b = b * a
-  exact (Set.mem_centralizer_iff.mp hb) a ha'
+  exact (Set.mem_centralizer_iff.mp hb') a ha'
 
 end WorldCStarLocalNetBridge
 
