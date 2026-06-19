@@ -57,6 +57,7 @@ def run_cross_cycle_reentry_scenarios() -> dict:
         ]
         assert wa["source_plural_state_digest"] == plural["plural_state_digest"]
         assert plan["source_wa_state_digest"] == wa["wa_state_digest"]
+        assert plan["next_plan_basis_digest"] == learn["learning_delta_digest"]
         assert receipt["previous_cycle_immutable"] is True
         assert receipt["next_act_not_started"] is True
 
@@ -106,6 +107,22 @@ def run_cross_cycle_reentry_scenarios() -> dict:
         mutated_plan["plan_state_digest"] = ""
         mutated_plan["plan_state_digest"] = plan_state_digest(mutated_plan)
         _require_error(plan_substitution, "cross_cycle_plan_wa_mismatch")
+
+        plan_basis_substitution = deepcopy(receipt)
+        mutated_plan_basis = plan_basis_substitution["next_cycle_artifacts"][
+            "PlanOS"
+        ]
+        mutated_plan_basis["next_plan_basis_digest"] = sha(
+            "substituted-plan-basis"
+        )
+        mutated_plan_basis["plan_state_digest"] = ""
+        mutated_plan_basis["plan_state_digest"] = plan_state_digest(
+            mutated_plan_basis
+        )
+        _require_error(
+            plan_basis_substitution,
+            "cross_cycle_plan_learning_basis_mismatch",
+        )
 
         lineage_substitution = deepcopy(receipt)
         mutated_lineage_belief = lineage_substitution["next_cycle_artifacts"][
@@ -162,6 +179,7 @@ def run_cross_cycle_reentry_scenarios() -> dict:
             "next_decision_state_digest": decision["decision_state_digest"],
             "next_wa_state_digest": wa["wa_state_digest"],
             "next_plan_state_digest": plan["plan_state_digest"],
+            "next_plan_basis_digest": plan["next_plan_basis_digest"],
             "cross_cycle_process_lineage_digest": receipt[
                 "cross_cycle_process_lineage_digest"
             ],
