@@ -14,7 +14,7 @@ def run_kernel() -> dict:
     with tempfile.TemporaryDirectory(prefix="kuuos-plan-os-v08-") as temporary:
         handover = run_handover_continuity(Path(temporary))
         hold = run_hold_continuity()
-        return {
+        result = {
             "status": "PLAN_OS_REENTRY_OWNERSHIP_CONTINUITY_V0_8_OK",
             "handover_status": handover["status"],
             "handover_previous_owner_id": handover["previous_owner_id"],
@@ -27,6 +27,14 @@ def run_kernel() -> dict:
             "host_license_granted": handover["host_license_granted"],
             "memory_overwrite": handover["memory_overwrite"],
         }
+    from runtime.v09_plan_os_capability_rotation_revocation import (
+        run_kernel as run_next,
+    )
+
+    next_result = run_next()
+    if next_result.get("status") != "PLAN_OS_CAPABILITY_ROTATION_REVOCATION_V0_9_OK":
+        raise AssertionError(next_result)
+    return result
 
 
 if __name__ == "__main__":
