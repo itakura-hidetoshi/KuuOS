@@ -2,7 +2,7 @@
 
 ## Purpose
 
-This document freezes the upper architecture used to evolve KuuOS. New behavior is no longer admitted merely as the next sequential PlanOS version. Every implementation must refine an explicit plane, runtime model, event, transition, invariant, and recovery contract defined here.
+This document provides an organizing map for KuuOS components, runtime relations, and safety boundaries. It is descriptive and advisory: it does not restrict new ideas, require development to close model coverage, or act as a feature-admission gate. New functions may arise from research, clinical needs, implementation experience, or conceptual exploration; the architecture helps place them coherently without making the map the purpose of development.
 
 ## Research basis
 
@@ -49,6 +49,8 @@ KuuOS Adaptive Agent
 
 Behavior adaptation and configuration/authority adaptation are separate planes. A planner may request authority but may not create it. An assurance monitor may suspend control but may not renew or rotate capabilities. A recovery router may select a recovery contract but may not execute the recovery itself.
 
+These planes are explanatory boundaries, not exclusive ownership rules. A new capability may span several planes when its design requires it, provided the authority and safety consequences remain explicit.
+
 ## Runtime megamodel
 
 The runtime megamodel contains twelve model kinds:
@@ -68,7 +70,7 @@ LEARNING
 RECOVERY
 ```
 
-Required relations are fixed:
+The current reference relations are:
 
 ```text
 BELIEF supports DECISION
@@ -84,7 +86,7 @@ RECOVERY resolves SESSION suspension
 RECOVERY requires a fresh CAPABILITY_EPOCH when re-rotation is selected
 ```
 
-A digest is not sufficient merely because it exists. Its source and target models must be connected by one of these declared relations.
+These relations document and validate the current runtime spine. They may be extended when a new, justified design introduces another model or relation; the existing set is not a closed catalogue of all future KuuOS concepts.
 
 ## Global state
 
@@ -145,7 +147,7 @@ REQUEST_HUMAN
 ABORT
 ```
 
-Every recovery decision has a fixed contract containing:
+Every currently modeled recovery decision has a contract containing:
 
 - whether suspension is required;
 - whether a separate authority receipt is required;
@@ -154,6 +156,8 @@ Every recovery decision has a fixed contract containing:
 - whether the route is terminal.
 
 A terminal session is never resumed. All nonterminal recovery from a suspended session creates a fresh lineage and requires a new activation and session.
+
+The algebra is finite for validation of the present implementation, but it is not a policy forbidding future recovery concepts. Extensions require explicit semantics and safety review, not satisfaction of a coverage quota.
 
 ## Global invariants
 
@@ -188,7 +192,7 @@ evidence does not grant truth
 no architecture component grants memory overwrite by implication
 ```
 
-## Refinement map for existing implementation
+## Map of the existing implementation
 
 ```text
 PlanOS v0.1–v0.8   → Deliberation Plane
@@ -203,30 +207,27 @@ VerifyOS           → Execution Plane
 LearnOS            → Learning Plane
 ```
 
-The existing implementations remain valid. Their role changes from an ever-growing PlanOS sequence to plane-local refinements of this reference model.
+This is a retrospective map of the current implementation. It does not redefine those modules, require all future work to fit one existing category, or turn architectural coverage into a development objective.
 
-## Feature admission rule
+## Use of the reference architecture
 
-A new feature may be implemented only after all of the following are declared:
+The reference architecture may be used to:
 
-1. owning plane;
-2. runtime model kind;
-3. global event kind;
-4. source-state precondition;
-5. target-state postcondition;
-6. safety, consistency, liveness, and non-authority effects;
-7. recovery contract and terminality;
-8. megamodel relations used;
-9. refinement target in the existing implementation;
-10. model-based positive and negative tests.
+- understand where a new idea touches existing state and authority boundaries;
+- identify dependencies before implementation;
+- avoid accidental duplication or contradictory state transitions;
+- make safety and recovery consequences visible;
+- compare alternative designs.
 
-A proposal that cannot identify these ten items is an architecture question, not an implementation task.
+It must not be used to:
 
-## Versioning rule
+- block a feature because it is not already represented in the model;
+- require development to close every uncovered transition or relation;
+- make coverage completion the purpose of KuuOS development;
+- replace exploratory, theoretical, clinical, or creative development;
+- freeze the future vocabulary of KuuOS.
 
-The next missing capability is selected from an uncovered transition or unproved invariant in the global model. It is not selected by incrementing the latest PlanOS number.
-
-Changes to plane-local implementation may keep their local versioning. Changes to the global state space, recovery algebra, or invariants require an explicit reference-architecture revision.
+New work may use local versioning and may extend, revise, or bypass parts of this reference map when there is a sound reason. Changes to the map record an architectural understanding; they are not prerequisites for having a new idea.
 
 ## Current v1.0 validation scenarios
 
@@ -239,5 +240,7 @@ The executable model validates:
 - routing and completion of re-rotation with epoch successor and fresh lineage;
 - rejection of terminal-session reactivation;
 - abort reaching a non-executing terminal state;
-- complete PlanOS v0.1–v0.17 plane coverage;
-- complete runtime-megamodel relation coverage.
+- consistency of the current PlanOS v0.1–v0.17 mapping;
+- consistency of the current runtime-megamodel relations.
+
+These checks protect the implemented model. They do not define a coverage-closure roadmap.
