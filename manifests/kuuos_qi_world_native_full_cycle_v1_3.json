@@ -1,0 +1,38 @@
+{
+  "version": "kuuos_qi_world_native_full_cycle_v1_3",
+  "native_artifacts": [
+    "BeliefOSState",
+    "BeliefOSReceipt",
+    "DecisionOS",
+    "DecisionOSPlural",
+    "DecisionOSWa",
+    "PlanOS",
+    "ActOS",
+    "ObserveOS",
+    "VerifyOS",
+    "LearnOS"
+  ],
+  "interface_packets": [
+    "BeliefOS",
+    "DecisionOS",
+    "PlanOS",
+    "Governance",
+    "ActOS",
+    "ObserveOS",
+    "VerifyOS",
+    "LearnOS"
+  ],
+  "same_lineage_required": true,
+  "same_mission_contract_required_from_decision": true,
+  "direct_source_digest_equalities_required": true,
+  "native_validators_required": true,
+  "governance_step_authorization_required": true,
+  "external_host_license_required": true,
+  "world_projection_read_only": true,
+  "exact_world_identified": false,
+  "learning_future_only": true,
+  "adapter_grants_execution": false,
+  "adapter_issues_authority": false,
+  "adapter_updates_exact_world": false,
+  "adapter_overwrites_history": false
+}
