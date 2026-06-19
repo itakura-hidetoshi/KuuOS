@@ -1,0 +1,28 @@
+{
+  "version": "kuuos_qi_world_cross_cycle_reentry_v1_4",
+  "source": "kuuos_qi_world_native_full_cycle_v1_3",
+  "previous_cycle_immutable": true,
+  "previous_learning_future_only": true,
+  "next_native_artifacts": [
+    "BeliefOS",
+    "BeliefActivation",
+    "DecisionOS",
+    "DecisionOSPlural",
+    "DecisionOSWa",
+    "PlanOS"
+  ],
+  "learn_state_binds_belief_memory": true,
+  "observe_verify_learn_bind_belief_evidence": true,
+  "learning_delta_binds_belief_plan_basis": true,
+  "learning_delta_binds_final_plan_basis": true,
+  "same_lineage_required": true,
+  "same_mission_contract_required": true,
+  "qi_memory_continuity_required": true,
+  "qi_nonmarkov_visibility_required": true,
+  "world_projection_read_only": true,
+  "next_act_not_started": true,
+  "bridge_grants_execution": false,
+  "bridge_issues_authority": false,
+  "bridge_updates_exact_world": false,
+  "bridge_overwrites_previous_cycle": false
+}
