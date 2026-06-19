@@ -1,0 +1,8 @@
+{
+  "version": "kuuos_qi_world_cross_cycle_reentry_runtime_v1_4",
+  "runtime_entry": "runtime/v1_4_qi_world_cross_cycle_reentry.py",
+  "source_cycle": "kuuos_qi_world_native_full_cycle_v1_3",
+  "target_boundary": "committed_plan_before_act",
+  "previous_cycle_immutable": true,
+  "learning_delta_preserved_to_plan": true
+}
