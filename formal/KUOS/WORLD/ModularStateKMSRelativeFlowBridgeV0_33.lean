@@ -44,10 +44,10 @@ structure WorldModularStateKMSRelativeFlowBridge
   referenceState_modular_invariant : ∀ t a,
     referenceState (M.modularFlow t a) = referenceState a
   kmsContinuation : B.A → B.A → ℂ → ℂ
-  kmsLowerBoundary : ∀ a b t,
+  kmsLowerBoundary : ∀ a b (t : ℝ),
     kmsContinuation a b (t : ℂ) =
       referenceState (a * M.modularFlow t b)
-  kmsUpperBoundary : ∀ a b t,
+  kmsUpperBoundary : ∀ a b (t : ℝ),
     kmsContinuation a b
         ((t : ℂ) + (inverseTemperature : ℂ) * Complex.I) =
       referenceState (M.modularFlow t b * a)
