@@ -11,7 +11,7 @@ def run_kernel() -> dict:
     with tempfile.TemporaryDirectory(prefix="kuuos-plan-os-v016-") as temporary:
         state = run_lease_monitor(Path(temporary))
         tick = state["latest_tick"]
-        return {
+        result = {
             "status": "PLAN_OS_LEASE_MONITOR_SUSPENSION_V0_16_OK",
             "session_status_after": tick["session_status_after"],
             "tick_index": tick["tick_index"],
@@ -24,6 +24,14 @@ def run_kernel() -> dict:
             "host_license_granted": tick["host_license_granted"],
             "memory_overwrite": tick["memory_overwrite"],
         }
+    from runtime.v017_plan_os_suspension_recovery_router import (
+        run_kernel as run_next,
+    )
+
+    next_result = run_next()
+    if next_result.get("status") != "PLAN_OS_SUSPENSION_RECOVERY_ROUTER_V0_17_OK":
+        raise AssertionError(next_result)
+    return result
 
 
 if __name__ == "__main__":
