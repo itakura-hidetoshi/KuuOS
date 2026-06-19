@@ -1,0 +1,13 @@
+{
+  "manifest_version": "world_canonical_endomorphism_qsystem_frobenius_bridge_v0_39",
+  "files": {
+    "formal": ["formal/KUOS/WORLD/CanonicalEndomorphismQSystemFrobeniusBridgeV0_39.lean"],
+    "runtime": [
+      "runtime/kuuos_world_canonical_endomorphism_qsystem_frobenius_bridge_core_v0_39.py",
+      "runtime/kuuos_world_canonical_endomorphism_qsystem_frobenius_bridge_runtime_v0_39.py"
+    ],
+    "scripts": ["scripts/check_world_canonical_endomorphism_qsystem_frobenius_bridge_v0_39.py"],
+    "docs": ["docs/KU_WORLD_CANONICAL_ENDOMORPHISM_QSYSTEM_FROBENIUS_BRIDGE_v0_39.md"]
+  },
+  "status": "READY"
+}
