@@ -28,6 +28,11 @@ class QiWorldCrossCycleReentryV14Tests(unittest.TestCase):
                 next_artifacts["BeliefActivation"]["next_plan_basis_digest"],
                 previous["LearnOS"]["learning_delta_digest"],
             )
+            self.assertEqual(
+                next_artifacts["PlanOS"]["next_plan_basis_digest"],
+                previous["LearnOS"]["learning_delta_digest"],
+            )
+            self.assertTrue(receipt["previous_cycle_immutable"])
             self.assertTrue(receipt["next_act_not_started"])
 
     def test_negative_scenarios(self) -> None:
@@ -35,6 +40,10 @@ class QiWorldCrossCycleReentryV14Tests(unittest.TestCase):
         self.assertEqual(
             result["status"],
             "KUUOS_QI_WORLD_CROSS_CYCLE_REENTRY_V1_4_OK",
+        )
+        self.assertEqual(
+            result["next_plan_basis_digest"],
+            result["previous_learning_delta_digest"],
         )
 
 
