@@ -1,0 +1,38 @@
+from __future__ import annotations
+
+import json
+import tempfile
+from pathlib import Path
+
+from runtime.kuuos_plan_os_materialized_chain_activation_scenarios_v0_14 import (
+    run_activation,
+)
+
+
+def run_kernel() -> dict:
+    with tempfile.TemporaryDirectory(prefix="kuuos-plan-os-v014-") as temporary:
+        receipt = run_activation(Path(temporary))
+        return {
+            "status": "PLAN_OS_MATERIALIZED_CHAIN_ACTIVATION_V0_14_OK",
+            "activation_status": receipt["status"],
+            "owner_id": receipt["owner_id"],
+            "epoch_index": receipt["epoch_index"],
+            "current_cycle_index": receipt["current_cycle_index"],
+            "active_from_cycle": receipt["active_from_cycle"],
+            "mission_cycle_phase": receipt["mission_cycle_phase"],
+            "scope_count": len(receipt["scope_inventory"]),
+            "next_plan_cycle_handoff_ready": receipt[
+                "next_plan_cycle_handoff_ready"
+            ],
+            "chain_activation_authorized": receipt[
+                "chain_activation_authorized"
+            ],
+            "activation_single_use": receipt["activation_single_use"],
+            "execution_granted": receipt["execution_granted"],
+            "host_license_granted": receipt["host_license_granted"],
+            "memory_overwrite": receipt["memory_overwrite"],
+        }
+
+
+if __name__ == "__main__":
+    print(json.dumps(run_kernel(), ensure_ascii=False, sort_keys=True))
