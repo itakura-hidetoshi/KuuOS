@@ -1,0 +1,19 @@
+{
+  "manifest_version": "world_bimodule_sector_fusion_category_bridge_v0_40",
+  "files": {
+    "formal": [
+      "formal/KUOS/WORLD/BimoduleSectorFusionCategoryBridgeV0_40.lean"
+    ],
+    "runtime": [
+      "runtime/kuuos_world_bimodule_sector_fusion_category_bridge_core_v0_40.py",
+      "runtime/kuuos_world_bimodule_sector_fusion_category_bridge_runtime_v0_40.py"
+    ],
+    "scripts": [
+      "scripts/check_world_bimodule_sector_fusion_category_bridge_v0_40.py"
+    ],
+    "docs": [
+      "docs/KU_WORLD_BIMODULE_SECTOR_FUSION_CATEGORY_BRIDGE_v0_40.md"
+    ]
+  },
+  "status": "READY"
+}
