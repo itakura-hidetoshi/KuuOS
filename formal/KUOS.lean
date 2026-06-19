@@ -31,3 +31,4 @@ import KUOS.WORLD.RealHilbertL2DenseOperatorProofBridgeV0_27
 import KUOS.WORLD.RealHilbertL2SelfAdjointProofReceiptBridgeV0_28
 import KUOS.WORLD.NoncommutativeOperatorAlgebraModuleV0_29
 import KUOS.WORLD.CStarLocalNetBridgeV0_30
+import KUOS.WORLD.VonNeumannBicommutantBridgeV0_31
