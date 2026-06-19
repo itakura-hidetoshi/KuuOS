@@ -6,11 +6,21 @@ from typing import Any, Mapping
 
 import runtime.kuuos_qi_world_cross_cycle_reentry_v1_4_new as _impl
 from runtime.kuuos_belief_os_types_v0_1 import sha
+from runtime.kuuos_decision_os_kernel_v0_1 import build_initial_decision_state
+from runtime.kuuos_decision_os_store_v0_1 import DecisionStore
 from runtime.kuuos_decision_os_wa_kernel_v0_3 import (
     build_replan_wa_activation_receipt,
 )
 from runtime.kuuos_plan_os_kernel_v0_1 import build_initial_plan_state
 from runtime.kuuos_plan_os_store_v0_1 import PlanStore
+from runtime.v01_decision_os_relational_deliberation import (
+    THRESHOLDS as DECISION_THRESHOLDS,
+    WEIGHTS as DECISION_WEIGHTS,
+    _challenge,
+    _complete_cycle,
+    _middle,
+    _option,
+)
 from runtime.v01_plan_os_replan_bound_synthesis import (
     _candidate_steps,
     _complete_plan,
@@ -21,6 +31,69 @@ RECEIPT_VERSION = _impl.RECEIPT_VERSION
 CYCLE_ID = _impl.CYCLE_ID
 CROSS_CYCLE_NON_AUTHORITY = _impl.CROSS_CYCLE_NON_AUTHORITY
 cross_cycle_receipt_digest = _impl.cross_cycle_receipt_digest
+
+
+def _build_next_decision(
+    root: Path,
+    *,
+    lineage_id: str,
+    mission_contract_digest: str,
+    previous_learn_state_digest: str,
+    belief_activation: Mapping[str, Any],
+) -> dict[str, Any]:
+    store = DecisionStore(root)
+    state = store.initialize(
+        build_initial_decision_state(
+            decision_id="cross-cycle-decision-v14",
+            lineage_id=lineage_id,
+            mission_contract_digest=mission_contract_digest,
+            mission_state_digest=previous_learn_state_digest,
+            source_belief_receipt_digest=belief_activation[
+                "belief_activation_receipt_digest"
+            ],
+            decision_context_digest=sha("cross-cycle-decision-context"),
+            decision_budget=1.0,
+            weights=DECISION_WEIGHTS,
+            thresholds=DECISION_THRESHOLDS,
+            now_ms=1_000,
+        )
+    )
+    evidence = sha("cross-cycle-required-evidence")
+    options = [
+        _option(
+            option_id="option-a",
+            action_class="exploit",
+            positive=(0.84, 0.93),
+            negative=(0.05, 0.11),
+            information_gain=(0.34, 0.48),
+            required_evidence=[evidence],
+            available_evidence=[evidence],
+        ),
+        _option(
+            option_id="option-b",
+            action_class="observe",
+            positive=(0.42, 0.58),
+            negative=(0.22, 0.34),
+            information_gain=(0.54, 0.70),
+        ),
+        _option(
+            option_id="option-c",
+            action_class="local_action",
+            positive=(0.88, 0.95),
+            negative=(0.03, 0.08),
+            prohibited=True,
+        ),
+    ]
+    state, _ = _complete_cycle(
+        store,
+        state,
+        options=options,
+        challenge=_challenge(),
+        middle_way=_middle(),
+        tick_base=10,
+        requested_route="SELECT_CANDIDATE",
+    )
+    return state
 
 
 def _build_next_plan_from_learning(
@@ -84,7 +157,7 @@ def build_cross_cycle_reentry_receipt(root: Path) -> dict[str, Any]:
         lineage_id=lineage_id,
         previous_receipt=previous,
     )
-    decision = _impl._build_next_decision(
+    decision = _build_next_decision(
         root / "next-decision",
         lineage_id=lineage_id,
         mission_contract_digest=mission_contract_digest,
