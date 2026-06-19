@@ -44,7 +44,19 @@ jobs:
           scripts/check_qi_world_native_full_cycle_v1_3.py
           tests/test_qi_world_native_full_cycle_v1_3.py
       - name: Validate native full OS cycle
-        run: python scripts/check_qi_world_native_full_cycle_v1_3.py
+        shell: bash
+        run: |
+          set +e
+          python scripts/check_qi_world_native_full_cycle_v1_3.py > native-full-cycle.log 2>&1
+          status=$?
+          cat native-full-cycle.log
+          exit $status
+      - name: Upload native full cycle diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: native-full-cycle-diagnostics
+          path: native-full-cycle.log
       - name: Run native full cycle tests
         run: python -m unittest -v tests.test_qi_world_native_full_cycle_v1_3
       - name: Run canonical runtime regression
