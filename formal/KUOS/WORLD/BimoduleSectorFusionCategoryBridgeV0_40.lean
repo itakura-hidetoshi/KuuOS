@@ -255,12 +255,12 @@ theorem dualCanonical_dimension_fusion_sum :
 
 theorem qSystemSpecialnessScalar_eq_jonesIndex :
     Q.qSystemSpecialnessScalar = J.jonesIndex :=
-  F.qSystemSpecialnessScalar_eq_index
+  WorldBimoduleSectorFusionCategoryBridge.qSystemSpecialnessScalar_eq_index F
 
 theorem qSystemSpecialnessScalar_eq_fundamentalDimension_sq :
     Q.qSystemSpecialnessScalar =
       F.sectorDimension F.fundamentalSector ^ 2 := by
-  rw [F.qSystemSpecialnessScalar_eq_index]
+  rw [WorldBimoduleSectorFusionCategoryBridge.qSystemSpecialnessScalar_eq_index F]
   exact F.jonesIndex_eq_fundamentalDimension_sq
 
 theorem jonesIndex_pos_from_sector : 0 < J.jonesIndex :=
@@ -333,7 +333,7 @@ theorem qSystem_standardInvariant_sector_package :
       F.principalGraphEdgeMultiplicity e o =
         F.fusionMultiplicity (F.evenSector e) F.fundamentalSector
           (F.oddSector o)) :=
-  ⟨F.qSystemSpecialnessScalar_eq_index,
+  ⟨WorldBimoduleSectorFusionCategoryBridge.qSystemSpecialnessScalar_eq_index F,
     F.jonesIndex_eq_fundamentalDimension_sq,
     F.dualCanonical_dimension_fusion_sum,
     F.principalGraphEdge_formula⟩
