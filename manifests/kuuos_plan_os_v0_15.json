@@ -1,0 +1,14 @@
+{
+  "version": "plan_os_v0_15",
+  "source": "plan_os_v0_14",
+  "exact_v13_materialization_required": true,
+  "active_from_cycle_exact": true,
+  "target_phase": "plan",
+  "owner_epoch_scope_preserved": true,
+  "lease_monitor_started": true,
+  "initial_plan_phase": "bind",
+  "initial_plan_state_empty": true,
+  "single_activation_consumption": true,
+  "session_grants_execution": false,
+  "durable_recovery": true
+}
