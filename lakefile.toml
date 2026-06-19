@@ -13,5 +13,5 @@ srcDir = "formal"
 roots = [
   "KuuOSFormal",
   "KUOS",
-  "KUOS.WORLD.ModuleCategoryNimrepTubeCenterBridgeV0_41"
+  "KuuOSFormalV0_41"
 ]
