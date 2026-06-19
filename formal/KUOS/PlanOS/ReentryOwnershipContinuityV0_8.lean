@@ -71,16 +71,15 @@ theorem admissible_stage_uses_current_owner
     (index : Nat)
     (h : stageAdmissible root stage index receipt) :
     receipt.owner = root.currentOwner := by
-  exact h.2.2.1
+  exact h.2.2.1.1
 
 
 theorem handover_previous_owner_not_admissible
     (root : OwnershipRoot)
-    (handover : root.handover = true)
-    (ownersDiffer : root.previousOwner ≠ root.currentOwner) :
+    (handover : root.handover = true) :
     ¬ ownerAdmissible root root.previousOwner := by
   intro h
-  exact ownersDiffer h.1
+  exact (h.2 handover) rfl
 
 
 theorem admissible_stage_preserves_reentry_bindings
