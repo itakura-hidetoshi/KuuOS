@@ -15,7 +15,7 @@ def run_kernel() -> dict:
         capability_state = receipt["capability_state"]
         lease_state = receipt["lease_state"]
         renewal_state = receipt["renewal_state"]
-        return {
+        result = {
             "status": "PLAN_OS_REROTATION_MATERIALIZATION_V0_13_OK",
             "materialization_status": receipt["status"],
             "previous_epoch_index": receipt["previous_epoch_index"],
@@ -43,6 +43,14 @@ def run_kernel() -> dict:
             "host_license_granted": receipt["host_license_granted"],
             "memory_overwrite": receipt["memory_overwrite"],
         }
+    from runtime.v014_plan_os_materialized_chain_activation import (
+        run_kernel as run_next,
+    )
+
+    next_result = run_next()
+    if next_result.get("status") != "PLAN_OS_MATERIALIZED_CHAIN_ACTIVATION_V0_14_OK":
+        raise AssertionError(next_result)
+    return result
 
 
 if __name__ == "__main__":
