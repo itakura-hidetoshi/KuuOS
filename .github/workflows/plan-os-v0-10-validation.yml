@@ -1,0 +1,14 @@
+name: PlanOS v0.10 Validation
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m compileall -q runtime scripts/check_plan_os_v0_10.py
+      - run: python scripts/check_plan_os_v0_10.py
