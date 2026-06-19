@@ -1,8 +1,0 @@
-{
-  "version": "kuuos_adaptive_agent_reference_architecture_policy_note_v1_0",
-  "reference_architecture_is_advisory": true,
-  "coverage_closure_required": false,
-  "feature_admission_gate": false,
-  "next_development_target_determined_by_reference_model": false,
-  "open_extension_allowed": true
-}
