@@ -1,0 +1,29 @@
+{
+  "version": "kuuos_qi_world_cross_cycle_blocker_theory_v1_5",
+  "source": "kuuos_qi_world_cross_cycle_reentry_v1_4",
+  "blocker_algebra": "pointwise_boolean_meet_semilattice",
+  "required_blockers": [
+    "present_activation_blocker",
+    "execution_authority_blocker",
+    "memory_overwrite_blocker",
+    "world_identity_blocker",
+    "truth_authority_blocker",
+    "same_cycle_self_loop_blocker",
+    "multi_world_collapse_blocker"
+  ],
+  "all_required_blockers_active": true,
+  "fail_closed_on_boundary_loss": true,
+  "quarantine_on_incomplete_blocker_evidence": true,
+  "bounded_to_cross_cycle_transition": true,
+  "contextual_not_root_sovereignty": true,
+  "repairable_by_new_evidence": true,
+  "candidate_weighting_not_truth": true,
+  "barrier_potential_can_only_block_or_probe": true,
+  "blocker_grants_execution": false,
+  "blocker_grants_truth": false,
+  "blocker_issues_authority": false,
+  "blocker_starts_act": false,
+  "blocker_updates_exact_world": false,
+  "blocker_overwrites_previous_cycle": false,
+  "blocker_commits_plan": false
+}
