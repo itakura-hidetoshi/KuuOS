@@ -57,6 +57,7 @@ CHECK_MODULES = [
     "scripts.check_world_von_neumann_bicommutant_bridge_v0_31",
     "scripts.check_world_standard_form_modular_flow_bridge_v0_32",
     "scripts.check_world_modular_state_kms_relative_flow_bridge_v0_33",
+    "scripts.check_world_araki_relative_entropy_bridge_v0_34",
 ]
 
 TEST_MODULES = [
