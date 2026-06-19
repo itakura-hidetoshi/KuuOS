@@ -1,0 +1,13 @@
+{
+  "manifest_version": "world_jones_basic_construction_index_bridge_v0_37",
+  "files": {
+    "formal": ["formal/KUOS/WORLD/JonesBasicConstructionIndexBridgeV0_37.lean"],
+    "runtime": [
+      "runtime/kuuos_world_jones_basic_construction_index_bridge_core_v0_37.py",
+      "runtime/kuuos_world_jones_basic_construction_index_bridge_runtime_v0_37.py"
+    ],
+    "scripts": ["scripts/check_world_jones_basic_construction_index_bridge_v0_37.py"],
+    "docs": ["docs/KU_WORLD_JONES_BASIC_CONSTRUCTION_INDEX_BRIDGE_v0_37.md"]
+  },
+  "status": "READY"
+}

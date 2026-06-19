@@ -60,6 +60,7 @@ CHECK_MODULES = [
     "scripts.check_world_araki_relative_entropy_bridge_v0_34",
     "scripts.check_world_petz_recovery_sufficiency_bridge_v0_35",
     "scripts.check_world_conditional_expectation_takesaki_bridge_v0_36",
+    "scripts.check_world_jones_basic_construction_index_bridge_v0_37",
 ]
 
 TEST_MODULES = [
