@@ -2,6 +2,8 @@ import KUOS.OpenHorizon.AutonomousAgentCompletionArchitectureV0_19
 import KUOS.OpenHorizon.MissionContractKernelV0_20
 import KUOS.OpenHorizon.AutonomousMissionCycleKernelV0_21
 import KUOS.Architecture.AdaptiveAgentReferenceArchitectureV1_0
+import KUOS.Architecture.QiWorldOSInterfaceBridgeV1_0
+import KUOS.Architecture.QiWorldAdaptiveTraceAdapterV1_1
 import KUOS.BeliefOS.RelationalConditionalKernelV0_1
 import KUOS.BeliefOS.ContextGaugeCredalTransportV0_2
 import KUOS.BeliefOS.ContextGerbeCoherenceV0_3
@@ -48,3 +50,4 @@ import KUOS.WORLD.ConditionalExpectationTakesakiBridgeV0_36
 import KUOS.WORLD.JonesBasicConstructionIndexBridgeV0_37
 import KUOS.WORLD.JonesTowerStandardInvariantBridgeV0_38
 import KUOS.WORLD.CanonicalEndomorphismQSystemFrobeniusBridgeV0_39
+import KUOS.WORLD.BimoduleSectorFusionCategoryBridgeV0_40
