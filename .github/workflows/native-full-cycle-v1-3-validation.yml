@@ -1,0 +1,63 @@
+name: Native Full Cycle v1.3
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_qi_world_native_upstream_cycle_v1_3.py"
+      - "runtime/kuuos_qi_world_native_full_cycle_v1_3.py"
+      - "runtime/kuuos_qi_world_native_full_cycle_scenarios_v1_3.py"
+      - "scripts/check_qi_world_native_full_cycle_v1_3.py"
+      - "tests/test_qi_world_native_full_cycle_v1_3.py"
+      - ".github/workflows/native-full-cycle-v1-3-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_qi_world_native_upstream_cycle_v1_3.py"
+      - "runtime/kuuos_qi_world_native_full_cycle_v1_3.py"
+      - "runtime/kuuos_qi_world_native_full_cycle_scenarios_v1_3.py"
+      - "scripts/check_qi_world_native_full_cycle_v1_3.py"
+      - "tests/test_qi_world_native_full_cycle_v1_3.py"
+      - ".github/workflows/native-full-cycle-v1-3-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python -m compileall -q
+          runtime/kuuos_qi_world_native_upstream_cycle_v1_3.py
+          runtime/kuuos_qi_world_native_full_cycle_v1_3.py
+          runtime/kuuos_qi_world_native_full_cycle_scenarios_v1_3.py
+          scripts/check_qi_world_native_full_cycle_v1_3.py
+          tests/test_qi_world_native_full_cycle_v1_3.py
+      - name: Validate native full cycle
+        run: python scripts/check_qi_world_native_full_cycle_v1_3.py
+      - name: Run native full-cycle tests
+        run: python -m unittest -v tests.test_qi_world_native_full_cycle_v1_3
+      - name: Run central runtime regression
+        run: python scripts/run_kuuos_runtime_full_check_v0_1.py
+      - name: Set up Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve dependencies
+        run: lake update
+      - name: Fetch Mathlib cache
+        run: lake exe cache get
+      - name: Strictly compile formal root
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true build KuuOSFormal
