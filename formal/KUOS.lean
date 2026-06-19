@@ -16,6 +16,7 @@ import KUOS.PlanOS.BoundedMultiGenerationSupervisorV0_6
 import KUOS.PlanOS.ExternalResumeHandoverReentryV0_7
 import KUOS.PlanOS.ReentryOwnershipContinuityV0_8
 import KUOS.PlanOS.CapabilityRotationRevocationV0_9
+import KUOS.PlanOS.ScopedCapabilityLeaseV0_10
 import KUOS.ActOS.AuthorityBoundInvocationV0_1
 import KUOS.ActOS.ReplanLineageAuthorityEnvelopeV0_2
 import KUOS.ObserveOS.EffectGroundedObservationV0_1
