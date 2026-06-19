@@ -5,7 +5,7 @@ import KUOS.Architecture.QiWorldNativeFullCycleV1_3
 Qi–WORLD cross-cycle re-entry v1.4.
 
 This structure records how a completed native cycle contributes only to a
-future Belief → Decision → Plan branch.  The previous cycle remains immutable,
+future Belief → Decision → Plan branch. The previous cycle remains immutable,
 LearnOS remains future-only, and no ActOS state is created by this bridge.
 -/
 
@@ -36,6 +36,7 @@ structure QiWorldCrossCycleReentry where
   nextWaSourcePluralDigest : Nat
   nextPlanStateDigest : Nat
   nextPlanSourceWaDigest : Nat
+  nextPlanBasisDigest : Nat
 
   previousLearnLineage : Nat
   nextBeliefLineage : Nat
@@ -60,7 +61,7 @@ structure QiWorldCrossCycleReentry where
     previousLearningDeltaDigest ∈ nextBeliefEvidenceDigests
   belief_activation_binds_state :
     nextBeliefActivationStateDigest = nextBeliefStateDigest
-  learning_delta_is_next_plan_basis :
+  learning_delta_is_belief_plan_basis :
     nextBeliefNextPlanBasisDigest = previousLearningDeltaDigest
   decision_binds_belief_activation :
     nextDecisionSourceBeliefReceiptDigest = nextBeliefActivationDigest
@@ -68,6 +69,8 @@ structure QiWorldCrossCycleReentry where
     nextPluralSourceDecisionDigest = nextDecisionStateDigest
   wa_binds_plural : nextWaSourcePluralDigest = nextPluralStateDigest
   plan_binds_wa : nextPlanSourceWaDigest = nextWaStateDigest
+  learning_delta_reaches_plan :
+    nextPlanBasisDigest = previousLearningDeltaDigest
 
   previous_learn_lineage_eq : previousLearnLineage = lineage
   next_belief_lineage_eq : nextBeliefLineage = lineage
@@ -127,9 +130,17 @@ theorem prior_evidence_enters_next_belief :
     R.belief_contains_verification_evidence,
     R.belief_contains_learning_delta⟩
 
-theorem learning_delta_drives_future_plan_basis :
+theorem learning_delta_drives_belief_plan_basis :
     R.nextBeliefNextPlanBasisDigest = R.previousLearningDeltaDigest :=
-  R.learning_delta_is_next_plan_basis
+  R.learning_delta_is_belief_plan_basis
+
+theorem learning_delta_drives_committed_plan_basis :
+    R.nextPlanBasisDigest = R.previousLearningDeltaDigest :=
+  R.learning_delta_reaches_plan
+
+theorem learning_basis_preserved_end_to_end :
+    R.nextBeliefNextPlanBasisDigest = R.nextPlanBasisDigest := by
+  rw [R.learning_delta_is_belief_plan_basis, R.learning_delta_reaches_plan]
 
 theorem next_reasoning_chain_is_digest_bound :
     R.nextDecisionSourceBeliefReceiptDigest = R.nextBeliefActivationDigest ∧
@@ -203,12 +214,14 @@ theorem cross_cycle_non_authority :
 theorem cross_cycle_safety_package :
     R.nextBeliefSourceMemoryDigest = R.previousLearnStateDigest ∧
     R.nextBeliefNextPlanBasisDigest = R.previousLearningDeltaDigest ∧
+    R.nextPlanBasisDigest = R.previousLearningDeltaDigest ∧
     R.previousCycleImmutable ∧
     R.nextActStarted = false ∧
     R.exactWorldUpdated = false ∧
     R.bridgeGrantsExecution = false :=
   ⟨R.belief_memory_from_learning,
-    R.learning_delta_is_next_plan_basis,
+    R.learning_delta_is_belief_plan_basis,
+    R.learning_delta_reaches_plan,
     R.previousCycleImmutableProof,
     R.next_act_not_started,
     R.exact_world_not_updated,
