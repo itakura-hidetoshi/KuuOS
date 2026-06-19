@@ -25,3 +25,5 @@ import KUOS.LearnOS.FutureOnlyEvidenceLearningV0_1
 import KUOS.LearnOS.ReplanLineageFutureOnlyLearningEnvelopeV0_2
 import KUOS.GraphRAG.GaugeQiProcessGraphRAGV0_1
 import KUOS.GraphRAG.GaugeQiProcessGraphRAGV0_2
+import KUOS.WORLD.RealHilbertL2DenseOperatorProofBridgeV0_27
+import KUOS.WORLD.RealHilbertL2SelfAdjointProofReceiptBridgeV0_28
