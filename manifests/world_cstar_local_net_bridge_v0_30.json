@@ -1,0 +1,13 @@
+{
+  "manifest_version": "world_cstar_local_net_bridge_v0_30",
+  "files": {
+    "formal": ["formal/KUOS/WORLD/CStarLocalNetBridgeV0_30.lean"],
+    "runtime": [
+      "runtime/kuuos_world_cstar_local_net_bridge_core_v0_30.py",
+      "runtime/kuuos_world_cstar_local_net_bridge_runtime_v0_30.py"
+    ],
+    "scripts": ["scripts/check_world_cstar_local_net_bridge_v0_30.py"],
+    "docs": ["docs/KU_WORLD_CSTAR_LOCAL_NET_BRIDGE_v0_30.md"]
+  },
+  "status": "READY"
+}

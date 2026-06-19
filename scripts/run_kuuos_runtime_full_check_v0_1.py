@@ -53,6 +53,7 @@ CHECK_MODULES = [
     "scripts.check_learn_os_replan_lineage_future_only_learning_envelope_v0_2",
     "scripts.check_qi_world_self_adjoint_lean_receipt_bridge_v0_28",
     "scripts.check_world_noncommutative_operator_algebra_module_v0_29",
+    "scripts.check_world_cstar_local_net_bridge_v0_30",
 ]
 
 TEST_MODULES = [

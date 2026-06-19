@@ -1,0 +1,40 @@
+name: WORLD CStar Local Net Bridge v0.30 Validation
+
+on:
+  push:
+    paths:
+      - "formal/KUOS/WORLD/CStarLocalNetBridgeV0_30.lean"
+      - "formal/KUOS.lean"
+      - "runtime/kuuos_world_cstar_local_net_bridge_*_v0_30.py"
+      - "scripts/check_world_cstar_local_net_bridge_v0_30.py"
+      - "manifests/world_cstar_local_net_bridge_v0_30.json"
+      - "docs/KU_WORLD_CSTAR_LOCAL_NET_BRIDGE_v0_30.md"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - ".github/workflows/world-cstar-local-net-bridge-v0-30-validation.yml"
+  pull_request:
+    paths:
+      - "formal/KUOS/WORLD/CStarLocalNetBridgeV0_30.lean"
+      - "formal/KUOS.lean"
+      - "runtime/kuuos_world_cstar_local_net_bridge_*_v0_30.py"
+      - "scripts/check_world_cstar_local_net_bridge_v0_30.py"
+      - "manifests/world_cstar_local_net_bridge_v0_30.json"
+      - "docs/KU_WORLD_CSTAR_LOCAL_NET_BRIDGE_v0_30.md"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - ".github/workflows/world-cstar-local-net-bridge-v0-30-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile v0.30 runtime
+        run: python -m py_compile runtime/kuuos_world_cstar_local_net_bridge_core_v0_30.py runtime/kuuos_world_cstar_local_net_bridge_runtime_v0_30.py scripts/check_world_cstar_local_net_bridge_v0_30.py
+      - name: Run v0.30 checks
+        run: python scripts/check_world_cstar_local_net_bridge_v0_30.py
