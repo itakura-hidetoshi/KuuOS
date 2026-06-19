@@ -16,7 +16,7 @@ def run_kernel() -> dict:
         hold = run_hold_resume(Path(temporary))
         handover = run_handover_acceptance()
         rejections = verify_rejections()
-        return {
+        result = {
             "status": "PLAN_OS_EXTERNAL_RESUME_HANDOVER_REENTRY_V0_7_OK",
             "hold_reentered": hold["status"] == "REENTERED",
             "hold_owner_id": hold["current_owner_id"],
@@ -29,6 +29,14 @@ def run_kernel() -> dict:
             "execution_granted": handover["execution_granted"],
             "rejection_checks": rejections,
         }
+    from runtime.v08_plan_os_reentry_ownership_continuity import (
+        run_kernel as run_next,
+    )
+
+    next_result = run_next()
+    if next_result.get("status") != "PLAN_OS_REENTRY_OWNERSHIP_CONTINUITY_V0_8_OK":
+        raise AssertionError(next_result)
+    return result
 
 
 if __name__ == "__main__":
