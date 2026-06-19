@@ -1,0 +1,19 @@
+{
+  "manifest_version": "world_module_category_nimrep_tube_center_bridge_v0_41",
+  "files": {
+    "formal": [
+      "formal/KUOS/WORLD/ModuleCategoryNimrepTubeCenterBridgeV0_41.lean"
+    ],
+    "runtime": [
+      "runtime/kuuos_world_module_category_nimrep_tube_center_bridge_core_v0_41.py",
+      "runtime/kuuos_world_module_category_nimrep_tube_center_bridge_runtime_v0_41.py"
+    ],
+    "scripts": [
+      "scripts/check_world_module_category_nimrep_tube_center_bridge_v0_41.py"
+    ],
+    "docs": [
+      "docs/KU_WORLD_MODULE_CATEGORY_NIMREP_TUBE_CENTER_BRIDGE_v0_41.md"
+    ]
+  },
+  "status": "READY"
+}
