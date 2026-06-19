@@ -1,0 +1,16 @@
+{
+  "version": "kuuos_plan_os_reentry_ownership_continuity_v0_8",
+  "source": "kuuos_plan_os_external_resume_handover_reentry_v0_7",
+  "stages": ["PLAN", "ACT", "OBSERVE", "VERIFY", "LEARN"],
+  "current_owner_required_for_every_stage": true,
+  "previous_owner_reuse_forbidden_after_handover": true,
+  "exact_reentry_receipt_binding": true,
+  "exact_reentry_decision_binding": true,
+  "exact_reentry_event_binding": true,
+  "single_use_stage_receipt": true,
+  "append_only_recovery": true,
+  "ownership_wrapper_not_execution": true,
+  "execution_granted": false,
+  "host_license_granted": false,
+  "memory_overwrite": false
+}
