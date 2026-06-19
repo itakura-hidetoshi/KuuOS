@@ -1,0 +1,25 @@
+{
+  "version": "kuuos_adaptive_agent_reference_architecture_v1_0",
+  "planes": [
+    "DELIBERATION",
+    "EXECUTION",
+    "LEARNING",
+    "AUTHORITY",
+    "ASSURANCE",
+    "RECOVERY"
+  ],
+  "runtime_model_count": 12,
+  "required_relation_count": 11,
+  "finite_recovery_algebra": true,
+  "global_transition_system": true,
+  "behavior_configuration_separation": true,
+  "runtime_megamodel_required": true,
+  "feedback_loop_formalized": true,
+  "advanced_assurance_separation": true,
+  "terminal_session_reactivation_forbidden": true,
+  "observation_before_verification": true,
+  "execution_requires_active_leased_session": true,
+  "fresh_lineage_after_recovery": true,
+  "planos_v0_1_to_v0_17_mapped": true,
+  "feature_admission_rule_frozen": true
+}
