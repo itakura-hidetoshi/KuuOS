@@ -10,6 +10,7 @@ on:
       - "formal/KUOS/Architecture/QiWorldNativeFullCycleV1_3.lean"
       - "formal/KUOS.lean"
       - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_41.py"
       - ".github/workflows/qi-world-native-full-cycle-v1-3-validation.yml"
   pull_request:
     paths:
@@ -20,6 +21,7 @@ on:
       - "formal/KUOS/Architecture/QiWorldNativeFullCycleV1_3.lean"
       - "formal/KUOS.lean"
       - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_41.py"
       - ".github/workflows/qi-world-native-full-cycle-v1-3-validation.yml"
   workflow_dispatch:
 
@@ -45,8 +47,8 @@ jobs:
         run: python scripts/check_qi_world_native_full_cycle_v1_3.py
       - name: Run native full cycle tests
         run: python -m unittest -v tests.test_qi_world_native_full_cycle_v1_3
-      - name: Run central runtime regression
-        run: python scripts/run_kuuos_runtime_full_check_v0_1.py
+      - name: Run canonical runtime regression
+        run: python scripts/run_kuuos_runtime_full_check_v0_41.py
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
