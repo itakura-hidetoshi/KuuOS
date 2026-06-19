@@ -1,0 +1,27 @@
+{
+  "version": "kuuos_qi_world_native_evidence_loop_v1_2",
+  "native_state_kinds": [
+    "ActOS",
+    "ObserveOS",
+    "VerifyOS",
+    "LearnOS"
+  ],
+  "upstream_identity_projection_kinds": [
+    "BeliefOS",
+    "DecisionOS",
+    "PlanOS"
+  ],
+  "governance_binding": "native_step_authorization_digest",
+  "external_authority_binding": "native_host_license_digest",
+  "native_validators_required": true,
+  "same_lineage_id_required": true,
+  "same_mission_contract_required": true,
+  "direct_source_digest_equalities_required": true,
+  "world_projection_read_only": true,
+  "exact_world_identified": false,
+  "learning_future_only": true,
+  "adapter_grants_execution": false,
+  "adapter_issues_authority": false,
+  "adapter_updates_exact_world": false,
+  "adapter_overwrites_history": false
+}
