@@ -31,13 +31,13 @@ structure WorldArakiRelativeEntropyBridge
   thirdStateNormalProof : thirdStateNormalClaim
   thirdStateFaithfulClaim : Prop
   thirdStateFaithfulProof : thirdStateFaithfulClaim
-  localRelativeEntropy : W.Region → ℝ≥0∞
-  globalRelativeEntropy : ℝ≥0∞
+  localRelativeEntropy : W.Region → ENNReal
+  globalRelativeEntropy : ENNReal
   localRelativeEntropy_le_global : ∀ i,
     localRelativeEntropy i ≤ globalRelativeEntropy
   localDataProcessing : ∀ {i j : W.Region}, i ≤ j →
     localRelativeEntropy i ≤ localRelativeEntropy j
-  selfRelativeEntropy : W.Region → ℝ≥0∞
+  selfRelativeEntropy : W.Region → ENNReal
   selfRelativeEntropy_zero : ∀ i, selfRelativeEntropy i = 0
   thirdOverComparisonCocycle : ℝ → B.A
   thirdOverReferenceCocycle : ℝ → B.A
