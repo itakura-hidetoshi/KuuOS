@@ -15,10 +15,10 @@ namespace WORLD
 
 structure WorldCStarLocalNetBridge
     (C : RealHilbertL2Carrier)
-    (W : WorldNoncommutativeOperatorAlgebra C) where
+    (W : WorldNoncommutativeOperatorAlgebra C)
+    [PartialOrder W.Region] where
   A : Type
   [cstarAlgebra : CStarAlgebra A]
-  [regionPartialOrder : PartialOrder W.Region]
   algebraicEmbedding : W.global.A →+* A
   embeddingInjective : Function.Injective algebraicEmbedding
   embeddingDense : DenseRange algebraicEmbedding
@@ -46,12 +46,12 @@ structure WorldCStarLocalNetBridge
   twoTruthsGapProof : twoTruthsGapPreserved
 
 attribute [instance] WorldCStarLocalNetBridge.cstarAlgebra
-attribute [instance] WorldCStarLocalNetBridge.regionPartialOrder
 
 namespace WorldCStarLocalNetBridge
 
 variable {C : RealHilbertL2Carrier}
 variable {W : WorldNoncommutativeOperatorAlgebra C}
+variable [PartialOrder W.Region]
 variable (B : WorldCStarLocalNetBridge C W)
 
 theorem cstar_identity (x : B.A) :
@@ -96,8 +96,8 @@ theorem closedLocal_isotony {i j : W.Region} (h : i ≤ j) :
 
 theorem closedLocal_isClosed (i : W.Region) :
     IsClosed (B.closedLocal i : Set B.A) := by
-  simpa [closedLocal] using
-    StarSubalgebra.isClosed_topologicalClosure (B.localAlgebra i)
+  change IsClosed ((B.localAlgebra i).topologicalClosure : Set B.A)
+  exact StarSubalgebra.isClosed_topologicalClosure _
 
 theorem source_local_mem_closedLocal
     (i : W.Region) (x : W.localObservable i) :
