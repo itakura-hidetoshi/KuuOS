@@ -10,7 +10,7 @@ from runtime.kuuos_belief_os_types_v0_1 import (
     state_digest as belief_state_digest,
 )
 from runtime.kuuos_decision_os_types_v0_1 import state_digest as decision_state_digest
-from runtime.kuuos_plan_os_types_v0_1 import state_digest as plan_state_digest
+from runtime.kuuos_plan_os_types_v0_1 import plan_state_digest
 from runtime.kuuos_qi_world_cross_cycle_reentry_v1_4 import (
     build_cross_cycle_reentry_receipt,
     cross_cycle_receipt_digest,
