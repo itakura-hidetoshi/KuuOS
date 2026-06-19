@@ -17,7 +17,7 @@ def run_kernel() -> dict:
         denied = run_deny(root / "deny")
         handover = run_handover(root / "handover")
         rerotation = run_rerotation(root / "rerotation")
-        return {
+        result = {
             "status": "PLAN_OS_RENEWAL_ESCALATION_REROTATION_V0_12_OK",
             "deny_status": denied["status"],
             "handover_status": handover["status"],
@@ -42,6 +42,14 @@ def run_kernel() -> dict:
             ],
             "memory_overwrite": rerotation["memory_overwrite"],
         }
+    from runtime.v013_plan_os_rerotation_materialization import (
+        run_kernel as run_next,
+    )
+
+    next_result = run_next()
+    if next_result.get("status") != "PLAN_OS_REROTATION_MATERIALIZATION_V0_13_OK":
+        raise AssertionError(next_result)
+    return result
 
 
 if __name__ == "__main__":

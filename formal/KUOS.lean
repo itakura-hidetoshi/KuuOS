@@ -19,6 +19,7 @@ import KUOS.PlanOS.CapabilityRotationRevocationV0_9
 import KUOS.PlanOS.ScopedCapabilityLeaseV0_10
 import KUOS.PlanOS.BoundedRenewalGovernanceV0_11
 import KUOS.PlanOS.RenewalEscalationRerotationV0_12
+import KUOS.PlanOS.RerotationMaterializationV0_13
 import KUOS.ActOS.AuthorityBoundInvocationV0_1
 import KUOS.ActOS.ReplanLineageAuthorityEnvelopeV0_2
 import KUOS.ObserveOS.EffectGroundedObservationV0_1
