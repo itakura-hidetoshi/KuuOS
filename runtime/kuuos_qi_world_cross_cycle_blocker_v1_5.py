@@ -23,6 +23,11 @@ def _derive_component_vectors(
         and activation.get("memory_overwrite") is False
         and non_authority.get("bridge_overwrites_previous_cycle") is False
     )
+    components["lineage_surface"]["same_cycle_self_loop_blocker"] = bool(
+        learn.get("active_now") is False
+        and learn.get("current_cycle_unchanged") is True
+        and receipt.get("next_act_not_started") is True
+    )
     return components
 
 
