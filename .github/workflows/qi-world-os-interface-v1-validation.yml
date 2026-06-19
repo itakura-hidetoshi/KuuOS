@@ -13,22 +13,18 @@ jobs:
       - run: python -m compileall -q runtime scripts/check_qi_world_os_interface_bridge_v1_0.py
       - run: python scripts/check_qi_world_os_interface_bridge_v1_0.py
       - run: python scripts/run_kuuos_runtime_full_check_v0_1.py
-      - name: Install elan
-        run: |
-          curl https://elan.lean-lang.org/elan-init.sh -sSf | sh -s -- -y
-          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
-      - name: Compile Lean bridge
-        shell: bash
-        run: |
-          source "$HOME/.elan/env"
-          set +e
-          lake env lean formal/KUOS/Architecture/QiWorldOSInterfaceBridgeV1_0.lean > qi-world-os-lean.log 2>&1
-          status=$?
-          cat qi-world-os-lean.log
-          exit $status
-      - name: Upload Lean diagnostics
-        if: always()
-        uses: actions/upload-artifact@v4
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
         with:
-          name: qi-world-os-lean-diagnostics
-          path: qi-world-os-lean.log
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Compile Lean bridge
+        run: lake env lean formal/KUOS/Architecture/QiWorldOSInterfaceBridgeV1_0.lean
