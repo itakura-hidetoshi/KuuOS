@@ -1,0 +1,1 @@
+The public v1.5 module delegates to an immutable core and binds the memory blocker to BeliefActivation.memory_overwrite=false.
