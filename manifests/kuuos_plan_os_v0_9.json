@@ -1,0 +1,10 @@
+{
+  "version": "plan_os_v0_9",
+  "source": "plan_os_v0_8",
+  "epoch_rotation": true,
+  "old_epoch_invalid": true,
+  "current_owner_only": true,
+  "lower_receipt_required": true,
+  "wrapper_grants_authority": false,
+  "durable_recovery": true
+}
