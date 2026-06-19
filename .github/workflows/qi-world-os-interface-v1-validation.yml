@@ -1,0 +1,21 @@
+name: Qi-WORLD OS Interface Bridge v1.0
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m compileall -q runtime scripts/check_qi_world_os_interface_bridge_v1_0.py
+      - run: python scripts/check_qi_world_os_interface_bridge_v1_0.py
+      - run: python scripts/run_kuuos_runtime_full_check_v0_1.py
+      - name: Install elan and compile Lean bridge
+        run: |
+          curl https://elan.lean-lang.org/elan-init.sh -sSf | sh -s -- -y
+          echo "$HOME/.elan/bin" >> "$GITHUB_PATH"
+          source "$HOME/.elan/env"
+          lake env lean formal/KUOS/Architecture/QiWorldOSInterfaceBridgeV1_0.lean
