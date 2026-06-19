@@ -31,6 +31,18 @@ REQUIRED_STAGES = {
     "mathlib_is_self_adjoint",
     "global_rayleigh_lower_bound",
 }
+REQUIRED_DECLARATIONS = {
+    "dense_linear_pmap": "concreteL2R2DenseDiagonalDomainLinearPMap",
+    "graph_adjoint_fixed_point": "concrete_l2_r2_dense_diagonal_domain_linear_pmap_graph_adjoint_eq_graph",
+    "actual_adjoint_eq_self": "concrete_l2_r2_dense_diagonal_domain_linear_pmap_actual_adjoint_eq_self",
+    "mathlib_is_self_adjoint": "concrete_l2_r2_dense_diagonal_domain_linear_pmap_isSelfAdjoint",
+    "global_rayleigh_lower_bound": "concrete_l2_r2_self_adjoint_diagonal_global_rayleigh_lower_edge_one",
+}
+REQUIRED_THEOREM_BUNDLE = {
+    "energy_lower_bound_theorem": "concrete_l2_r2_actual_energy_ge_norm_sq",
+    "self_adjoint_theorem": "concrete_l2_r2_dense_diagonal_domain_linear_pmap_isSelfAdjoint",
+    "global_rayleigh_theorem": "concrete_l2_r2_self_adjoint_diagonal_global_rayleigh_lower_edge_one",
+}
 REQUIRED_BOUNDARY = {
     "source_v0_27_bridge_exact": True,
     "source_v0_26_analytic_state_exact": True,
@@ -224,12 +236,14 @@ def validate_proof(proof: Mapping[str, Any], plan: Mapping[str, Any], source: Ma
         gaps.append("required_proof_stages_incomplete")
     for stage in REQUIRED_STAGES:
         row = stages.get(stage, {})
-        if row.get("status") != "proved" or not str(row.get("declaration", "")) or not HEX64.fullmatch(str(row.get("source_file_sha256", ""))):
+        if row.get("status") != "proved" or not HEX64.fullmatch(str(row.get("source_file_sha256", ""))):
             gaps.append(f"stage_{stage}_not_proved")
+        if row and row.get("declaration") != REQUIRED_DECLARATIONS[stage]:
+            blockers.append(f"v028_stage_{stage}_declaration_mismatch")
     bundle = M(proof.get("theorem_bundle"))
-    for field in ("energy_lower_bound_theorem", "self_adjoint_theorem", "global_rayleigh_theorem"):
-        if not str(bundle.get(field, "")):
-            gaps.append(f"theorem_bundle_{field}_missing")
+    for field, expected in REQUIRED_THEOREM_BUNDLE.items():
+        if bundle.get(field) != expected:
+            blockers.append(f"v028_theorem_bundle_{field}_mismatch")
     if bundle.get("actual_mathlib_is_self_adjoint") is not True:
         gaps.append("mathlib_is_self_adjoint_not_attested")
     if bundle.get("whole_domain_rayleigh_lower_bound") is not True:
