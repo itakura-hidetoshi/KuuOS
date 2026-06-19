@@ -1,0 +1,30 @@
+name: Qi-WORLD OS Interface Bridge v1.0
+on: [push, pull_request, workflow_dispatch]
+permissions:
+  contents: read
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python -m compileall -q runtime scripts/check_qi_world_os_interface_bridge_v1_0.py
+      - run: python scripts/check_qi_world_os_interface_bridge_v1_0.py
+      - run: python scripts/run_kuuos_runtime_full_check_v0_1.py
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Compile Lean bridge
+        run: lake env lean formal/KUOS/Architecture/QiWorldOSInterfaceBridgeV1_0.lean
