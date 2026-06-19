@@ -94,7 +94,7 @@ structure AdaptiveControlState where
   requiresNewActivation : Bool
   requiresNewSession : Bool
   executionAllowed : Bool
-  deriving DecidableEq, Repr
+  deriving DecidableEq
 
 
 def SafeState (state : AdaptiveControlState) : Prop :=
