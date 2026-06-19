@@ -1,0 +1,13 @@
+{
+  "version": "kuuos_qi_world_native_full_cycle_v1_3",
+  "native_artifact_count": 9,
+  "interface_packet_count": 8,
+  "shared_lineage_required": true,
+  "shared_mission_from_decision_required": true,
+  "direct_source_bindings_required": true,
+  "world_projection_read_only": true,
+  "future_only_learning": true,
+  "adapter_performs_action": false,
+  "adapter_changes_world": false,
+  "adapter_rewrites_history": false
+}
