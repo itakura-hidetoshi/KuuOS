@@ -41,3 +41,4 @@ import KUOS.WORLD.StandardFormModularFlowBridgeV0_32
 import KUOS.WORLD.ModularStateKMSRelativeFlowBridgeV0_33
 import KUOS.WORLD.ArakiRelativeEntropyBridgeV0_34
 import KUOS.WORLD.PetzRecoverySufficiencyBridgeV0_35
+import KUOS.WORLD.ConditionalExpectationTakesakiBridgeV0_36
