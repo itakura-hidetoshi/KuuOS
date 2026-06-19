@@ -1,15 +1,6 @@
 import Mathlib
 import KUOS.WORLD.RealHilbertL2DenseOperatorProofBridgeV0_27
 
-/-!
-Kū–Indra WORLD real Hilbert ℓ² self-adjoint proof-receipt bridge v0.28.
-
-The mathematical proof remains in the canonical theorem repository. This module
-formalizes the typed handoff: an existing v0.27 dense-operator bridge, an external
-self-adjointness proposition with its proof, a global Rayleigh proposition with
-its proof, and a runtime boundary that grants no theorem or execution authority.
--/
-
 namespace KUOS
 namespace WORLD
 
@@ -20,11 +11,6 @@ structure CanonicalSelfAdjointProofReceipt
   selfAdjointProof : selfAdjointClaim
   globalRayleighClaim : Prop
   globalRayleighProof : globalRayleighClaim
-  sourceDenseDomainBound : Dense (B.domain : Set C.H)
-  sourceSymmetricCoreBound : ∀ (x y : B.domain),
-    inner ℝ (B.operator x) (y : C.H) = inner ℝ (x : C.H) (B.operator y)
-  sourceRayleighBound : ∀ (x : B.domain),
-    B.lowerBound * ‖(x : C.H)‖ ^ 2 ≤ inner ℝ (B.operator x) (x : C.H)
   immutableCommitBound : Prop
   immutableCommitProof : immutableCommitBound
   leanBuildSucceeded : Prop
@@ -37,15 +23,15 @@ variable {B : DenseOperatorProofBridge C}
 variable (R : CanonicalSelfAdjointProofReceipt C B)
 
 theorem source_dense_domain_preserved : Dense (B.domain : Set C.H) :=
-  R.sourceDenseDomainBound
+  B.denseDomain
 
 theorem source_symmetric_core_preserved : ∀ (x y : B.domain),
     inner ℝ (B.operator x) (y : C.H) = inner ℝ (x : C.H) (B.operator y) :=
-  R.sourceSymmetricCoreBound
+  B.symmetricOnCore
 
 theorem source_global_rayleigh_bound_preserved : ∀ (x : B.domain),
     B.lowerBound * ‖(x : C.H)‖ ^ 2 ≤ inner ℝ (B.operator x) (x : C.H) :=
-  R.sourceRayleighBound
+  B.globalRayleighLowerBound
 
 theorem canonical_self_adjoint_claim : R.selfAdjointClaim :=
   R.selfAdjointProof
