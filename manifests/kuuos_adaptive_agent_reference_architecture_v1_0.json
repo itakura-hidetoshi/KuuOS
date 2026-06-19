@@ -21,5 +21,8 @@
   "execution_requires_active_leased_session": true,
   "fresh_lineage_after_recovery": true,
   "planos_v0_1_to_v0_17_mapped": true,
-  "feature_admission_rule_frozen": true
+  "reference_model_is_advisory": true,
+  "feature_admission_gate": false,
+  "coverage_closure_required": false,
+  "open_extension_allowed": true
 }
