@@ -1,0 +1,14 @@
+{
+  "version": "plan_os_v0_16",
+  "source": "plan_os_v0_15",
+  "all_lease_observations_required": true,
+  "tick_index_and_time_monotone": true,
+  "owner_epoch_scope_revalidated": true,
+  "expiry_and_budget_revalidated": true,
+  "budget_increase_forbidden": true,
+  "healthy_tick_allows_plan_progress": true,
+  "any_anomaly_suspends_session": true,
+  "suspension_terminal_for_session": true,
+  "monitor_grants_execution": false,
+  "durable_recovery": true
+}

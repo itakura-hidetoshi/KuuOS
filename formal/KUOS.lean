@@ -22,6 +22,7 @@ import KUOS.PlanOS.RenewalEscalationRerotationV0_12
 import KUOS.PlanOS.RerotationMaterializationV0_13
 import KUOS.PlanOS.MaterializedChainActivationV0_14
 import KUOS.PlanOS.NextCycleSessionBootstrapV0_15
+import KUOS.PlanOS.LeaseMonitorSuspensionV0_16
 import KUOS.ActOS.AuthorityBoundInvocationV0_1
 import KUOS.ActOS.ReplanLineageAuthorityEnvelopeV0_2
 import KUOS.ObserveOS.EffectGroundedObservationV0_1
