@@ -1,0 +1,80 @@
+name: Qi-WORLD Cross-Cycle Blocker v1.5
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_qi_world_cross_cycle_blocker_core_v1_5.py"
+      - "runtime/kuuos_qi_world_cross_cycle_blocker_v1_5.py"
+      - "runtime/kuuos_qi_world_cross_cycle_blocker_scenarios_v1_5.py"
+      - "scripts/check_qi_world_cross_cycle_blocker_v1_5.py"
+      - "tests/test_qi_world_cross_cycle_blocker_v1_5.py"
+      - "formal/KUOS/Architecture/QiWorldCrossCycleBlockerTheoryV1_5.lean"
+      - "formal/KUOS.lean"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - ".github/workflows/qi-world-cross-cycle-blocker-v1-5-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_qi_world_cross_cycle_blocker_core_v1_5.py"
+      - "runtime/kuuos_qi_world_cross_cycle_blocker_v1_5.py"
+      - "runtime/kuuos_qi_world_cross_cycle_blocker_scenarios_v1_5.py"
+      - "scripts/check_qi_world_cross_cycle_blocker_v1_5.py"
+      - "tests/test_qi_world_cross_cycle_blocker_v1_5.py"
+      - "formal/KUOS/Architecture/QiWorldCrossCycleBlockerTheoryV1_5.lean"
+      - "formal/KUOS.lean"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - ".github/workflows/qi-world-cross-cycle-blocker-v1-5-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python -m compileall -q
+          runtime/kuuos_qi_world_cross_cycle_blocker_core_v1_5.py
+          runtime/kuuos_qi_world_cross_cycle_blocker_v1_5.py
+          runtime/kuuos_qi_world_cross_cycle_blocker_scenarios_v1_5.py
+          scripts/check_qi_world_cross_cycle_blocker_v1_5.py
+          tests/test_qi_world_cross_cycle_blocker_v1_5.py
+      - name: Validate blocker certificate and semilattice laws
+        run: >-
+          python scripts/check_qi_world_cross_cycle_blocker_v1_5.py
+          > blocker-v1-5-validation.log 2>&1
+      - name: Upload blocker diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qi-world-cross-cycle-blocker-v1-5-diagnostics
+          path: blocker-v1-5-validation.log
+          if-no-files-found: error
+      - name: Run blocker unit tests
+        run: >-
+          python -m unittest -v
+          tests.test_qi_world_cross_cycle_blocker_v1_5
+      - name: Run central runtime regression
+        run: python scripts/run_kuuos_runtime_full_check_v0_1.py
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile formal root
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true build KuuOSFormal
