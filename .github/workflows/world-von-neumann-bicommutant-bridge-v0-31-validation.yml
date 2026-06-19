@@ -1,0 +1,40 @@
+name: WORLD von Neumann Bicommutant Bridge v0.31 Validation
+
+on:
+  push:
+    paths:
+      - "formal/KUOS/WORLD/VonNeumannBicommutantBridgeV0_31.lean"
+      - "formal/KUOS.lean"
+      - "runtime/kuuos_world_von_neumann_bicommutant_bridge_*_v0_31.py"
+      - "scripts/check_world_von_neumann_bicommutant_bridge_v0_31.py"
+      - "manifests/world_von_neumann_bicommutant_bridge_v0_31.json"
+      - "docs/KU_WORLD_VON_NEUMANN_BICOMMUTANT_BRIDGE_v0_31.md"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - ".github/workflows/world-von-neumann-bicommutant-bridge-v0-31-validation.yml"
+  pull_request:
+    paths:
+      - "formal/KUOS/WORLD/VonNeumannBicommutantBridgeV0_31.lean"
+      - "formal/KUOS.lean"
+      - "runtime/kuuos_world_von_neumann_bicommutant_bridge_*_v0_31.py"
+      - "scripts/check_world_von_neumann_bicommutant_bridge_v0_31.py"
+      - "manifests/world_von_neumann_bicommutant_bridge_v0_31.json"
+      - "docs/KU_WORLD_VON_NEUMANN_BICOMMUTANT_BRIDGE_v0_31.md"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - ".github/workflows/world-von-neumann-bicommutant-bridge-v0-31-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile v0.31 runtime
+        run: python -m py_compile runtime/kuuos_world_von_neumann_bicommutant_bridge_core_v0_31.py runtime/kuuos_world_von_neumann_bicommutant_bridge_runtime_v0_31.py scripts/check_world_von_neumann_bicommutant_bridge_v0_31.py
+      - name: Run v0.31 checks
+        run: python scripts/check_world_von_neumann_bicommutant_bridge_v0_31.py
