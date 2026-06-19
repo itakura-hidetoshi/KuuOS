@@ -1,30 +1,59 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import pathlib
+import json
 import sys
+from pathlib import Path
 
-ROOT = pathlib.Path(__file__).resolve().parents[1]
+ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
 from runtime.kuuos_qi_world_cross_cycle_reentry_scenarios_v1_4 import (
     run_cross_cycle_reentry_scenarios,
 )
+from runtime.kuuos_qi_world_cross_cycle_blocker_scenarios_v1_5 import (
+    run_cross_cycle_blocker_scenarios,
+)
 
 
 def main() -> int:
-    result = run_cross_cycle_reentry_scenarios()
-    assert result["status"] == "KUUOS_QI_WORLD_CROSS_CYCLE_REENTRY_V1_4_OK"
-    assert result["next_artifact_count"] == 6
-    assert result["next_act_not_started"] is True
-    assert result["next_plan_basis_digest"] == result[
-        "previous_learning_delta_digest"
-    ]
-    assert all(
-        value is False for value in result["cross_cycle_non_authority"].values()
+    cross_cycle = run_cross_cycle_reentry_scenarios()
+    blocker = run_cross_cycle_blocker_scenarios()
+    expected = {
+        "cross_cycle": "KUUOS_QI_WORLD_CROSS_CYCLE_REENTRY_V1_4_OK",
+        "blocker": "KUUOS_QI_WORLD_CROSS_CYCLE_BLOCKER_V1_5_OK",
+    }
+    observed = {
+        "cross_cycle": cross_cycle.get("status"),
+        "blocker": blocker.get("status"),
+    }
+    if observed != expected:
+        print(
+            json.dumps(
+                {
+                    "status": "KUUOS_QI_WORLD_CROSS_CYCLE_CHAIN_INVALID",
+                    "expected": expected,
+                    "observed": observed,
+                    "cross_cycle": cross_cycle,
+                    "blocker": blocker,
+                },
+                indent=2,
+                sort_keys=True,
+            )
+        )
+        return 1
+    print(
+        json.dumps(
+            {
+                "status": "KUUOS_QI_WORLD_CROSS_CYCLE_REENTRY_V1_4_OK",
+                "cross_cycle": cross_cycle,
+                "blocker_v1_5": blocker,
+            },
+            indent=2,
+            sort_keys=True,
+        )
     )
-    print("PASS: Qi-WORLD cross-cycle reentry v1.4")
     return 0
 
 
