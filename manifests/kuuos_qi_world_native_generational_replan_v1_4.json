@@ -1,0 +1,32 @@
+{
+  "version": "kuuos_qi_world_native_generational_replan_v1_4",
+  "source": "kuuos_qi_world_native_full_cycle_v1_3",
+  "native_artifacts": [
+    "DecisionOS",
+    "DecisionOSPlural",
+    "DecisionOSWa",
+    "PlanOSReplan"
+  ],
+  "replan_owner": "PlanOS",
+  "source_plan_binding_required": true,
+  "source_learn_binding_required": true,
+  "source_learning_delta_binding_required": true,
+  "qi_process_history_prefix_preserved": true,
+  "qi_nonmarkov_context_required": true,
+  "qi_grants_execution": false,
+  "world_projection_read_only": true,
+  "exact_world_identified": false,
+  "runtime_updates_world": false,
+  "target_generation_is_source_plus_one": true,
+  "future_only": true,
+  "active_now": false,
+  "current_cycle_unchanged": true,
+  "past_history_unchanged": true,
+  "next_plan_not_execution": true,
+  "host_license_granted": false,
+  "external_authority_required_for_future_act": true,
+  "adapter_grants_execution": false,
+  "adapter_grants_truth": false,
+  "adapter_issues_authority": false,
+  "adapter_overwrites_history": false
+}
