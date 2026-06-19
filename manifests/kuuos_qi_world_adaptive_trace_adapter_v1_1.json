@@ -1,0 +1,30 @@
+{
+  "version": "kuuos_qi_world_adaptive_trace_adapter_v1_1",
+  "source_kernel": "kuuos_adaptive_agent_transition_kernel_v1_0",
+  "source_bridge": "kuuos_qi_world_os_interface_bridge_v1_0",
+  "event_count": 10,
+  "state_count": 11,
+  "ordered_events": [
+    "DECISION_COMMITTED",
+    "PLAN_BOUND",
+    "AUTHORITY_BOUND",
+    "LEASE_ACTIVATED",
+    "SESSION_BOOTSTRAPPED",
+    "ACT_AUTHORIZED",
+    "EFFECT_RECORDED",
+    "OBSERVATION_COMMITTED",
+    "VERIFICATION_PASSED",
+    "LEARNING_COMMITTED"
+  ],
+  "same_process_lineage_required": true,
+  "state_event_replay_required": true,
+  "world_projection_read_only": true,
+  "act_requires_governance_binding": true,
+  "act_requires_external_authority_receipt": true,
+  "observation_precedes_verification": true,
+  "learning_future_only": true,
+  "adapter_grants_execution": false,
+  "adapter_issues_authority": false,
+  "adapter_updates_exact_world": false,
+  "adapter_overwrites_history": false
+}
