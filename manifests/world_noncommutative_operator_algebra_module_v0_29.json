@@ -1,0 +1,13 @@
+{
+  "manifest_version": "world_noncommutative_operator_algebra_module_v0_29",
+  "files": {
+    "formal": ["formal/KUOS/WORLD/NoncommutativeOperatorAlgebraModuleV0_29.lean"],
+    "runtime": [
+      "runtime/kuuos_world_noncommutative_operator_algebra_module_core_v0_29.py",
+      "runtime/kuuos_world_noncommutative_operator_algebra_module_runtime_v0_29.py"
+    ],
+    "scripts": ["scripts/check_world_noncommutative_operator_algebra_module_v0_29.py"],
+    "docs": ["docs/KU_WORLD_NONCOMMUTATIVE_OPERATOR_ALGEBRA_MODULE_v0_29.md"]
+  },
+  "status": "READY"
+}
