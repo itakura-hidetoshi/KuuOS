@@ -1,0 +1,13 @@
+{
+  "version": "plan_os_v0_14",
+  "source": "plan_os_v0_13",
+  "bound_capability_state_required": true,
+  "all_leases_active_and_current": true,
+  "owner_epoch_scope_cross_links_required": true,
+  "fresh_renewal_governance_required": true,
+  "active_from_next_cycle": true,
+  "target_phase": "plan",
+  "single_activation_handoff": true,
+  "activation_grants_execution": false,
+  "durable_recovery": true
+}
