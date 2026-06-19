@@ -1,0 +1,13 @@
+{
+  "version": "plan_os_v0_11",
+  "source": "plan_os_v0_10",
+  "renewal_count_bounded": true,
+  "cumulative_use_extension_bounded": true,
+  "cumulative_cost_extension_bounded": true,
+  "absolute_expiry_horizon_bounded": true,
+  "cooldown_enforced": true,
+  "fixed_renewal_authority": true,
+  "automatic_renewal": false,
+  "ceiling_requires_escalation": true,
+  "durable_recovery": true
+}
