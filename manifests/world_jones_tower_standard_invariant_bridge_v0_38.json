@@ -1,0 +1,13 @@
+{
+  "manifest_version": "world_jones_tower_standard_invariant_bridge_v0_38",
+  "files": {
+    "formal": ["formal/KUOS/WORLD/JonesTowerStandardInvariantBridgeV0_38.lean"],
+    "runtime": [
+      "runtime/kuuos_world_jones_tower_standard_invariant_bridge_core_v0_38.py",
+      "runtime/kuuos_world_jones_tower_standard_invariant_bridge_runtime_v0_38.py"
+    ],
+    "scripts": ["scripts/check_world_jones_tower_standard_invariant_bridge_v0_38.py"],
+    "docs": ["docs/KU_WORLD_JONES_TOWER_STANDARD_INVARIANT_BRIDGE_v0_38.md"]
+  },
+  "status": "READY"
+}

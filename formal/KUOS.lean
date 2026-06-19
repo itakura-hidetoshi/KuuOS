@@ -45,3 +45,4 @@ import KUOS.WORLD.ArakiRelativeEntropyBridgeV0_34
 import KUOS.WORLD.PetzRecoverySufficiencyBridgeV0_35
 import KUOS.WORLD.ConditionalExpectationTakesakiBridgeV0_36
 import KUOS.WORLD.JonesBasicConstructionIndexBridgeV0_37
+import KUOS.WORLD.JonesTowerStandardInvariantBridgeV0_38
