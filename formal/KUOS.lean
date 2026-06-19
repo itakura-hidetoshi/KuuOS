@@ -5,6 +5,7 @@ import KUOS.Architecture.AdaptiveAgentReferenceArchitectureV1_0
 import KUOS.Architecture.QiWorldOSInterfaceBridgeV1_0
 import KUOS.Architecture.QiWorldAdaptiveTraceAdapterV1_1
 import KUOS.Architecture.QiWorldNativeEvidenceLoopV1_2
+import KUOS.Architecture.QiWorldNativeFullCycleV1_3
 import KUOS.BeliefOS.RelationalConditionalKernelV0_1
 import KUOS.BeliefOS.ContextGaugeCredalTransportV0_2
 import KUOS.BeliefOS.ContextGerbeCoherenceV0_3
@@ -52,3 +53,4 @@ import KUOS.WORLD.JonesBasicConstructionIndexBridgeV0_37
 import KUOS.WORLD.JonesTowerStandardInvariantBridgeV0_38
 import KUOS.WORLD.CanonicalEndomorphismQSystemFrobeniusBridgeV0_39
 import KUOS.WORLD.BimoduleSectorFusionCategoryBridgeV0_40
+import KUOS.WORLD.ModuleCategoryNimrepTubeCenterBridgeV0_41
