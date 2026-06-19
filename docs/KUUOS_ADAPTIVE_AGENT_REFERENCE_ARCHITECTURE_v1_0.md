@@ -2,16 +2,16 @@
 
 ## Purpose
 
-This document provides an organizing map for KuuOS components, runtime relations, and safety boundaries. It is descriptive and advisory: it does not restrict new ideas, require development to close model coverage, or act as a feature-admission gate. New functions may arise from research, clinical needs, implementation experience, or conceptual exploration; the architecture helps place them coherently without making the map the purpose of development.
+This document is an organizing map for KuuOS components, runtime relations, and safety boundaries. It supports design review and communication while remaining open to revision as research, clinical needs, implementation experience, and conceptual exploration develop.
 
 ## Research basis
 
-The architecture combines five established ideas.
+The architecture draws on several established ideas.
 
 1. **MORPH** separates behavior adaptation from configuration adaptation while coordinating both through a reference architecture: <https://arxiv.org/abs/1504.08339>.
-2. **Models and Megamodels at Runtime** treats runtime models and their relations as explicit managed objects rather than ad-hoc cross-links: <https://arxiv.org/abs/1805.07396>.
-3. **ActivFORMS** makes the feedback-loop behavior itself a formally modeled and verified lifecycle artifact: <https://arxiv.org/abs/1908.11179>.
-4. **Simplex runtime assurance** separates an advanced controller from a small assurance mechanism that can block or replace unsafe control: <https://arxiv.org/abs/2102.12981>.
+2. **Models and Megamodels at Runtime** treats runtime models and their relations as explicit managed objects rather than scattered cross-links: <https://arxiv.org/abs/1805.07396>.
+3. **ActivFORMS** makes feedback-loop behavior itself a formally modeled and verified lifecycle artifact: <https://arxiv.org/abs/1908.11179>.
+4. **Simplex runtime assurance** separates a flexible controller from a small assurance mechanism capable of blocking unsafe control: <https://arxiv.org/abs/2102.12981>.
 5. KuuOS preserves its existing non-authority, future-only learning, observation/verification separation, bounded renewal, fresh-lineage recovery, and repairability constraints.
 
 ## Planes
@@ -40,20 +40,20 @@ KuuOS Adaptive Agent
 │  ├─ suspension
 │  └─ safe halt
 └─ Recovery Plane
-   ├─ finite recovery algebra
+   ├─ recovery decisions
    ├─ bounded routing
    ├─ human escalation
    ├─ abort
    └─ fresh-lineage bootstrap
 ```
 
-Behavior adaptation and configuration/authority adaptation are separate planes. A planner may request authority but may not create it. An assurance monitor may suspend control but may not renew or rotate capabilities. A recovery router may select a recovery contract but may not execute the recovery itself.
+Behavior adaptation and configuration/authority adaptation are represented separately so their interactions can be inspected. A planner may request authority but may not create it. An assurance monitor may suspend control but may not renew or rotate capabilities. A recovery router may select a recovery path but may not execute the recovery itself.
 
-These planes are explanatory boundaries, not exclusive ownership rules. A new capability may span several planes when its design requires it, provided the authority and safety consequences remain explicit.
+The planes are explanatory boundaries rather than exclusive ownership rules. A capability may span several planes when its design requires it, provided its state, authority, and safety consequences remain explicit.
 
 ## Runtime megamodel
 
-The runtime megamodel contains twelve model kinds:
+The current runtime megamodel contains twelve model kinds:
 
 ```text
 MISSION
@@ -86,7 +86,7 @@ RECOVERY resolves SESSION suspension
 RECOVERY requires a fresh CAPABILITY_EPOCH when re-rotation is selected
 ```
 
-These relations document and validate the current runtime spine. They may be extended when a new, justified design introduces another model or relation; the existing set is not a closed catalogue of all future KuuOS concepts.
+These relations describe the present runtime spine and may be revised or extended when the design evolves.
 
 ## Global state
 
@@ -105,7 +105,7 @@ The global adaptive-control state contains:
 - runtime-megamodel identity;
 - non-authority boundaries.
 
-## Finite task and control states
+## Task and control states
 
 Task stages:
 
@@ -133,7 +133,9 @@ Visible module status:
 IDLE | RUNNING | SUCCEEDED | FAILED | BLOCKED | SUSPENDED
 ```
 
-## Finite recovery algebra
+## Recovery decisions
+
+The current implementation models:
 
 ```text
 CONTINUE
@@ -147,7 +149,7 @@ REQUEST_HUMAN
 ABORT
 ```
 
-Every currently modeled recovery decision has a contract containing:
+Each modeled decision records:
 
 - whether suspension is required;
 - whether a separate authority receipt is required;
@@ -155,9 +157,7 @@ Every currently modeled recovery decision has a contract containing:
 - whether a new session is required;
 - whether the route is terminal.
 
-A terminal session is never resumed. All nonterminal recovery from a suspended session creates a fresh lineage and requires a new activation and session.
-
-The algebra is finite for validation of the present implementation, but it is not a policy forbidding future recovery concepts. Extensions require explicit semantics and safety review, not satisfaction of a coverage quota.
+A terminal session is never resumed. Nonterminal recovery from a suspended session creates a fresh lineage and requires a new activation and session.
 
 ## Global invariants
 
@@ -172,14 +172,14 @@ The algebra is finite for validation of the present implementation, but it is no
 ### Consistency
 
 1. Verification cannot be committed before observation.
-2. Session, lease, epoch, owner, evidence, verification, and recovery models remain connected through the runtime megamodel.
+2. Session, lease, epoch, owner, evidence, verification, and recovery models remain coherently related.
 3. Recovery does not reactivate or overwrite the old session lineage.
 4. Observation is evidence production, not verification or truth authority.
 
 ### Liveness boundary
 
 1. A suspended state must be routed to a recovery decision or abort.
-2. Nonterminal recovery completion returns to `PLAN` with fresh-lineage debt discharged but fresh activation/session still required.
+2. Nonterminal recovery completion returns to `PLAN` with a fresh lineage while a fresh activation and session remain required.
 3. Recovery that cannot satisfy its contract must escalate, request human review, or abort rather than loop without a bound.
 
 ### Non-authority
@@ -192,7 +192,7 @@ evidence does not grant truth
 no architecture component grants memory overwrite by implication
 ```
 
-## Map of the existing implementation
+## Map of the current implementation
 
 ```text
 PlanOS v0.1–v0.8   → Deliberation Plane
@@ -207,27 +207,19 @@ VerifyOS           → Execution Plane
 LearnOS            → Learning Plane
 ```
 
-This is a retrospective map of the current implementation. It does not redefine those modules, require all future work to fit one existing category, or turn architectural coverage into a development objective.
+This is a retrospective map of the current implementation. It does not redefine the modules or determine the direction of future development.
 
 ## Use of the reference architecture
 
-The reference architecture may be used to:
+The reference architecture can help:
 
-- understand where a new idea touches existing state and authority boundaries;
-- identify dependencies before implementation;
-- avoid accidental duplication or contradictory state transitions;
+- show how a new idea touches existing state and authority boundaries;
+- reveal dependencies before implementation;
+- avoid accidental duplication or contradictory transitions;
 - make safety and recovery consequences visible;
 - compare alternative designs.
 
-It must not be used to:
-
-- block a feature because it is not already represented in the model;
-- require development to close every uncovered transition or relation;
-- make coverage completion the purpose of KuuOS development;
-- replace exploratory, theoretical, clinical, or creative development;
-- freeze the future vocabulary of KuuOS.
-
-New work may use local versioning and may extend, revise, or bypass parts of this reference map when there is a sound reason. Changes to the map record an architectural understanding; they are not prerequisites for having a new idea.
+New work may extend, revise, or bypass parts of this map when there is a sound reason. The architecture records current understanding and remains subordinate to the purposes of KuuOS.
 
 ## Current v1.0 validation scenarios
 
@@ -242,5 +234,3 @@ The executable model validates:
 - abort reaching a non-executing terminal state;
 - consistency of the current PlanOS v0.1–v0.17 mapping;
 - consistency of the current runtime-megamodel relations.
-
-These checks protect the implemented model. They do not define a coverage-closure roadmap.
