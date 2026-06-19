@@ -75,7 +75,7 @@ def main() -> int:
     assert blocked.status == BLOCKED
     assert "q_system_executed_by_runtime_forbidden" in blocked.blockers
 
-    manifest_path = ROOT / "manifests/world_canonical_endomorphism_qsystem_frobenius_bridge_v0_39.json"
+    manifest_path = ROOT / "manifests/world_qsystem_bridge_v0_39.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     for values in manifest["files"].values():
         for relative in values:
