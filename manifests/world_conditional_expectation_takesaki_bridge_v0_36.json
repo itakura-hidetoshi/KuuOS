@@ -1,0 +1,13 @@
+{
+  "manifest_version": "world_conditional_expectation_takesaki_bridge_v0_36",
+  "files": {
+    "formal": ["formal/KUOS/WORLD/ConditionalExpectationTakesakiBridgeV0_36.lean"],
+    "runtime": [
+      "runtime/kuuos_world_conditional_expectation_takesaki_bridge_core_v0_36.py",
+      "runtime/kuuos_world_conditional_expectation_takesaki_bridge_runtime_v0_36.py"
+    ],
+    "scripts": ["scripts/check_world_conditional_expectation_takesaki_bridge_v0_36.py"],
+    "docs": ["docs/KU_WORLD_CONDITIONAL_EXPECTATION_TAKESAKI_BRIDGE_v0_36.md"]
+  },
+  "status": "READY"
+}
