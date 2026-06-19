@@ -1,0 +1,13 @@
+{
+  "version": "plan_os_v0_12",
+  "source": "plan_os_v0_11",
+  "routes": ["DENY", "HUMAN_HANDOVER", "RE_ROTATE"],
+  "single_resolution": true,
+  "old_lease_lineage_closed": true,
+  "handover_requires_distinct_owner": true,
+  "human_acceptance_required": true,
+  "rerotation_epoch_strictly_increases": true,
+  "new_v09_chain_required": true,
+  "decision_grants_execution": false,
+  "durable_recovery": true
+}
