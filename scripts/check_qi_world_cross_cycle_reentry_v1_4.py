@@ -18,6 +18,9 @@ def main() -> int:
     assert result["status"] == "KUUOS_QI_WORLD_CROSS_CYCLE_REENTRY_V1_4_OK"
     assert result["next_artifact_count"] == 6
     assert result["next_act_not_started"] is True
+    assert result["next_plan_basis_digest"] == result[
+        "previous_learning_delta_digest"
+    ]
     assert all(
         value is False for value in result["cross_cycle_non_authority"].values()
     )
