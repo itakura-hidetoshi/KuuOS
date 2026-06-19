@@ -1,0 +1,13 @@
+{
+  "manifest_version": "world_petz_recovery_sufficiency_bridge_v0_35",
+  "files": {
+    "formal": ["formal/KUOS/WORLD/PetzRecoverySufficiencyBridgeV0_35.lean"],
+    "runtime": [
+      "runtime/kuuos_world_petz_recovery_sufficiency_bridge_core_v0_35.py",
+      "runtime/kuuos_world_petz_recovery_sufficiency_bridge_runtime_v0_35.py"
+    ],
+    "scripts": ["scripts/check_world_petz_recovery_sufficiency_bridge_v0_35.py"],
+    "docs": ["docs/KU_WORLD_PETZ_RECOVERY_SUFFICIENCY_BRIDGE_v0_35.md"]
+  },
+  "status": "READY"
+}
