@@ -1,0 +1,69 @@
+name: Qi-WORLD Cross-Cycle Re-entry v1.4
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_qi_world_cross_cycle_reentry_v1_4.py"
+      - "runtime/kuuos_qi_world_cross_cycle_reentry_v1_4_new.py"
+      - "runtime/kuuos_qi_world_cross_cycle_reentry_scenarios_v1_4.py"
+      - "scripts/check_qi_world_cross_cycle_reentry_v1_4.py"
+      - "tests/test_qi_world_cross_cycle_reentry_v1_4.py"
+      - "formal/KUOS/Architecture/QiWorldCrossCycleReentryV1_4.lean"
+      - "formal/KUOS.lean"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - ".github/workflows/qi-world-cross-cycle-v1-4-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_qi_world_cross_cycle_reentry_v1_4.py"
+      - "runtime/kuuos_qi_world_cross_cycle_reentry_v1_4_new.py"
+      - "runtime/kuuos_qi_world_cross_cycle_reentry_scenarios_v1_4.py"
+      - "scripts/check_qi_world_cross_cycle_reentry_v1_4.py"
+      - "tests/test_qi_world_cross_cycle_reentry_v1_4.py"
+      - "formal/KUOS/Architecture/QiWorldCrossCycleReentryV1_4.lean"
+      - "formal/KUOS.lean"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - ".github/workflows/qi-world-cross-cycle-v1-4-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python -m compileall -q
+          runtime/kuuos_qi_world_cross_cycle_reentry_v1_4.py
+          runtime/kuuos_qi_world_cross_cycle_reentry_v1_4_new.py
+          runtime/kuuos_qi_world_cross_cycle_reentry_scenarios_v1_4.py
+          scripts/check_qi_world_cross_cycle_reentry_v1_4.py
+          tests/test_qi_world_cross_cycle_reentry_v1_4.py
+      - name: Validate cross-cycle re-entry
+        run: python scripts/check_qi_world_cross_cycle_reentry_v1_4.py
+      - name: Run cross-cycle unit tests
+        run: python -m unittest -v tests.test_qi_world_cross_cycle_reentry_v1_4
+      - name: Run canonical runtime regression
+        run: python scripts/run_kuuos_runtime_full_check_v0_41.py
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile formal root
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true build KuuOSFormal
