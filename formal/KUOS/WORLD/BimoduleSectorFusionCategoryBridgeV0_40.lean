@@ -253,9 +253,10 @@ theorem dualCanonical_dimension_fusion_sum :
   rw [← F.dualCanonicalDimension_eq_sum]
   exact F.dualCanonicalDimension_eq_index
 
-theorem qSystemSpecialnessScalar_eq_jonesIndex :
+theorem qSystemSpecialnessScalar_eq_jonesIndex
+    (bridge : WorldBimoduleSectorFusionCategoryBridge Q) :
     Q.qSystemSpecialnessScalar = J.jonesIndex :=
-  WorldBimoduleSectorFusionCategoryBridge.qSystemSpecialnessScalar_eq_index F
+  WorldBimoduleSectorFusionCategoryBridge.qSystemSpecialnessScalar_eq_index bridge
 
 theorem qSystemSpecialnessScalar_eq_fundamentalDimension_sq :
     Q.qSystemSpecialnessScalar =
