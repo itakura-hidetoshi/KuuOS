@@ -61,6 +61,7 @@ CHECK_MODULES = [
     "scripts.check_world_petz_recovery_sufficiency_bridge_v0_35",
     "scripts.check_world_conditional_expectation_takesaki_bridge_v0_36",
     "scripts.check_world_jones_basic_construction_index_bridge_v0_37",
+    "scripts.check_world_jones_tower_standard_invariant_bridge_v0_38",
 ]
 
 TEST_MODULES = [
