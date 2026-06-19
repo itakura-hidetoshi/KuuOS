@@ -1,0 +1,24 @@
+{
+  "version": "kuuos_qi_world_os_interface_bridge_v1_0",
+  "os_kinds": [
+    "BeliefOS",
+    "DecisionOS",
+    "PlanOS",
+    "ActOS",
+    "ObserveOS",
+    "VerifyOS",
+    "LearnOS",
+    "Governance"
+  ],
+  "world_projection_read_only": true,
+  "exact_world_identified": false,
+  "qi_process_temporal_substrate": true,
+  "same_process_lineage_required": true,
+  "governance_cross_cutting": true,
+  "governance_single_stage": false,
+  "plan_grants_execution": false,
+  "observation_grants_verification": false,
+  "learning_future_only": true,
+  "runtime_updates_exact_world": false,
+  "open_extension_allowed": true
+}
