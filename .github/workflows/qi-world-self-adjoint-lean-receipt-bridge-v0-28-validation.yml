@@ -1,0 +1,42 @@
+name: Qi WORLD Self-Adjoint Lean Receipt Bridge v0.28 Validation
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_indra_qi_world_self_adjoint_lean_receipt_bridge_*_v0_28.py"
+      - "scripts/check_qi_world_self_adjoint_lean_receipt_bridge_v0_28.py"
+      - "formal/KUOS/WORLD/RealHilbertL2SelfAdjointProofReceiptBridgeV0_28.lean"
+      - "formal/KUOS.lean"
+      - "manifests/qi_world_self_adjoint_lean_receipt_bridge_v0_28.json"
+      - "examples/indra_qi_world_self_adjoint_lean_receipt_bridge_plan_v0_28.json"
+      - "docs/KU_INDRA_QI_WORLD_SELF_ADJOINT_LEAN_RECEIPT_BRIDGE_v0_28.md"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - ".github/workflows/qi-world-self-adjoint-lean-receipt-bridge-v0-28-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_indra_qi_world_self_adjoint_lean_receipt_bridge_*_v0_28.py"
+      - "scripts/check_qi_world_self_adjoint_lean_receipt_bridge_v0_28.py"
+      - "formal/KUOS/WORLD/RealHilbertL2SelfAdjointProofReceiptBridgeV0_28.lean"
+      - "formal/KUOS.lean"
+      - "manifests/qi_world_self_adjoint_lean_receipt_bridge_v0_28.json"
+      - "examples/indra_qi_world_self_adjoint_lean_receipt_bridge_plan_v0_28.json"
+      - "docs/KU_INDRA_QI_WORLD_SELF_ADJOINT_LEAN_RECEIPT_BRIDGE_v0_28.md"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - ".github/workflows/qi-world-self-adjoint-lean-receipt-bridge-v0-28-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile v0.28 runtime
+        run: python -m py_compile runtime/kuuos_indra_qi_world_self_adjoint_lean_receipt_bridge_core_v0_28.py runtime/kuuos_indra_qi_world_self_adjoint_lean_receipt_bridge_runtime_v0_28.py scripts/check_qi_world_self_adjoint_lean_receipt_bridge_v0_28.py
+      - name: Run v0.28 checks
+        run: python scripts/check_qi_world_self_adjoint_lean_receipt_bridge_v0_28.py
