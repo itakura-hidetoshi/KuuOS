@@ -104,7 +104,7 @@ variable {E : WorldArakiRelativeEntropyBridge R}
 variable (P : WorldPetzRecoverySufficiencyBridge E)
 
 /-- The recovered channel `R_Petz ∘ Φ`. -/
-def recoveredChannel : B.A →ₗ[ℂ] B.A :=
+noncomputable def recoveredChannel : B.A →ₗ[ℂ] B.A :=
   P.petzRecovery.comp P.coarseChannel
 
 theorem recoveredChannel_apply (a : B.A) :
