@@ -1,0 +1,20 @@
+{
+  "version": "indra_qi_world_self_adjoint_lean_receipt_bridge_plan_v0_28",
+  "bridge_id": "FILL_BRIDGE_ID",
+  "proof_run_id": "FILL_PROOF_RUN_ID",
+  "world_model_id": "FILL_WORLD_MODEL_ID",
+  "expected_v027_bridge_state_digest": "FILL_FROM_V027_STATE",
+  "expected_v026_analytic_state_digest": "FILL_FROM_V026_STATE",
+  "expected_formal_module_sha256": "FILL_FROM_FORMAL_MODULE",
+  "canonical_repository": "itakura-hidetoshi/4d-mass-gap",
+  "required_proof_stages": [
+    "actual_adjoint_eq_self",
+    "dense_linear_pmap",
+    "global_rayleigh_lower_bound",
+    "graph_adjoint_fixed_point",
+    "mathlib_is_self_adjoint"
+  ],
+  "minimum_rayleigh_lower_bound": 1.0,
+  "boundary": "Copy REQUIRED_BOUNDARY from the v0.28 runtime before canonical digesting.",
+  "self_adjoint_bridge_plan_digest": "FILL_AFTER_CANONICAL_DIGEST"
+}
