@@ -1,0 +1,14 @@
+{
+  "version": "plan_os_v0_10",
+  "source": "plan_os_v0_9",
+  "scope_bound": true,
+  "stage_bound": true,
+  "operation_bound": true,
+  "use_budget_monotone": true,
+  "cost_budget_monotone": true,
+  "time_window_enforced": true,
+  "external_renewal_required": true,
+  "automatic_renewal": false,
+  "wrapper_grants_authority": false,
+  "durable_recovery": true
+}
