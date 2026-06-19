@@ -1,0 +1,14 @@
+{
+  "version": "plan_os_v0_13",
+  "source": "plan_os_v0_12",
+  "exact_decision_binding": true,
+  "exact_seed_binding": true,
+  "fresh_v09_state": true,
+  "fresh_v10_leases": true,
+  "fresh_v11_ceilings": true,
+  "old_capabilities_revoked": true,
+  "old_history_carried_forward": false,
+  "single_materialization": true,
+  "materialization_grants_execution": false,
+  "durable_recovery": true
+}
