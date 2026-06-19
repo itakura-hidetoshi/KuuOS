@@ -45,7 +45,19 @@ jobs:
           scripts/check_qi_world_cross_cycle_reentry_v1_4.py
           tests/test_qi_world_cross_cycle_reentry_v1_4.py
       - name: Validate cross-cycle re-entry
-        run: python scripts/check_qi_world_cross_cycle_reentry_v1_4.py
+        shell: bash
+        run: |
+          set +e
+          python scripts/check_qi_world_cross_cycle_reentry_v1_4.py > cross-cycle-v14.log 2>&1
+          status=$?
+          cat cross-cycle-v14.log
+          exit $status
+      - name: Upload cross-cycle diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cross-cycle-v14-diagnostics
+          path: cross-cycle-v14.log
       - name: Run cross-cycle unit tests
         run: python -m unittest -v tests.test_qi_world_cross_cycle_reentry_v1_4
       - name: Run canonical runtime regression
