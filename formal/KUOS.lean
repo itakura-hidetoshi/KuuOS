@@ -4,6 +4,7 @@ import KUOS.OpenHorizon.AutonomousMissionCycleKernelV0_21
 import KUOS.Architecture.AdaptiveAgentReferenceArchitectureV1_0
 import KUOS.Architecture.QiWorldOSInterfaceBridgeV1_0
 import KUOS.Architecture.QiWorldAdaptiveTraceAdapterV1_1
+import KUOS.Architecture.QiWorldNativeEvidenceLoopV1_2
 import KUOS.BeliefOS.RelationalConditionalKernelV0_1
 import KUOS.BeliefOS.ContextGaugeCredalTransportV0_2
 import KUOS.BeliefOS.ContextGerbeCoherenceV0_3
