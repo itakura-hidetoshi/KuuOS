@@ -22,14 +22,14 @@ structure WorldCStarLocalNetBridge
   algebraicEmbedding : W.global.A →+* A
   embeddingInjective : Function.Injective algebraicEmbedding
   embeddingDense : DenseRange algebraicEmbedding
-  local : W.Region → StarSubalgebra ℂ A
-  isotony : ∀ {i j : W.Region}, i ≤ j → local i ≤ local j
+  localAlgebra : W.Region → StarSubalgebra ℂ A
+  isotony : ∀ {i j : W.Region}, i ≤ j → localAlgebra i ≤ localAlgebra j
   sourceLocalIncluded : ∀ (i : W.Region) (x : W.localObservable i),
-    algebraicEmbedding (x : W.global.A) ∈ local i
+    algebraicEmbedding (x : W.global.A) ∈ localAlgebra i
   spacelike : W.Region → W.Region → Prop
   spacelikeSymmetric : Symmetric spacelike
   locality : ∀ {i j : W.Region}, spacelike i j →
-    ∀ (a : local i) (b : local j), Commute (a : A) (b : A)
+    ∀ (a : localAlgebra i) (b : localAlgebra j), Commute (a : A) (b : A)
   background : StarSubalgebra ℂ A
   action : StarSubalgebra ℂ A
   sourceBackgroundIncluded : ∀ x : W.background,
@@ -80,14 +80,14 @@ theorem embedded_noncommuting :
           rw [map_mul]
 
 theorem local_isotony {i j : W.Region} (h : i ≤ j) :
-    B.local i ≤ B.local j :=
+    B.localAlgebra i ≤ B.localAlgebra j :=
   B.isotony h
 
 def closedLocal (i : W.Region) : StarSubalgebra ℂ B.A :=
-  (B.local i).topologicalClosure
+  (B.localAlgebra i).topologicalClosure
 
 theorem local_le_closedLocal (i : W.Region) :
-    B.local i ≤ B.closedLocal i :=
+    B.localAlgebra i ≤ B.closedLocal i :=
   StarSubalgebra.le_topologicalClosure _
 
 theorem closedLocal_isotony {i j : W.Region} (h : i ≤ j) :
@@ -95,8 +95,9 @@ theorem closedLocal_isotony {i j : W.Region} (h : i ≤ j) :
   StarSubalgebra.topologicalClosure_mono (B.isotony h)
 
 theorem closedLocal_isClosed (i : W.Region) :
-    IsClosed (B.closedLocal i : Set B.A) :=
-  StarSubalgebra.isClosed_topologicalClosure _
+    IsClosed (B.closedLocal i : Set B.A) := by
+  simpa [closedLocal] using
+    StarSubalgebra.isClosed_topologicalClosure (B.localAlgebra i)
 
 theorem source_local_mem_closedLocal
     (i : W.Region) (x : W.localObservable i) :
@@ -110,8 +111,8 @@ theorem spacelike_symmetric {i j : W.Region} (h : B.spacelike i j) :
 theorem local_observables_commute
     {i j : W.Region}
     (h : B.spacelike i j)
-    (a : B.local i)
-    (b : B.local j) :
+    (a : B.localAlgebra i)
+    (b : B.localAlgebra j) :
     Commute (a : B.A) (b : B.A) :=
   B.locality h a b
 
