@@ -1,0 +1,16 @@
+{
+  "version": "plan_os_v0_17",
+  "source": "plan_os_v0_16",
+  "terminal_suspension_required": true,
+  "exact_session_tick_materialization_binding": true,
+  "revalidation_route": true,
+  "renewal_policy_recheck": true,
+  "v11_or_v12_routing": true,
+  "rerotation_route": true,
+  "old_session_resume_allowed": false,
+  "new_lineage_required": true,
+  "new_activation_required": true,
+  "new_session_required": true,
+  "router_grants_execution": false,
+  "durable_recovery": true
+}
