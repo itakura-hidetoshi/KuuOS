@@ -1,0 +1,68 @@
+name: Qi-WORLD Native Full OS Cycle v1.3
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_qi_world_native_full_cycle_v1_3.py"
+      - "runtime/kuuos_qi_world_native_full_cycle_scenarios_v1_3.py"
+      - "scripts/check_qi_world_native_full_cycle_v1_3.py"
+      - "tests/test_qi_world_native_full_cycle_v1_3.py"
+      - "formal/KUOS/Architecture/QiWorldNativeFullCycleV1_3.lean"
+      - "formal/KUOS.lean"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_41.py"
+      - ".github/workflows/qi-world-native-full-cycle-v1-3-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_qi_world_native_full_cycle_v1_3.py"
+      - "runtime/kuuos_qi_world_native_full_cycle_scenarios_v1_3.py"
+      - "scripts/check_qi_world_native_full_cycle_v1_3.py"
+      - "tests/test_qi_world_native_full_cycle_v1_3.py"
+      - "formal/KUOS/Architecture/QiWorldNativeFullCycleV1_3.lean"
+      - "formal/KUOS.lean"
+      - "scripts/run_kuuos_runtime_full_check_v0_1.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_41.py"
+      - ".github/workflows/qi-world-native-full-cycle-v1-3-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python -m compileall -q
+          runtime/kuuos_qi_world_native_full_cycle_v1_3.py
+          runtime/kuuos_qi_world_native_full_cycle_scenarios_v1_3.py
+          scripts/check_qi_world_native_full_cycle_v1_3.py
+          tests/test_qi_world_native_full_cycle_v1_3.py
+      - name: Validate native full OS cycle
+        run: python scripts/check_qi_world_native_full_cycle_v1_3.py
+      - name: Run native full cycle tests
+        run: python -m unittest -v tests.test_qi_world_native_full_cycle_v1_3
+      - name: Run canonical runtime regression
+        run: python scripts/run_kuuos_runtime_full_check_v0_41.py
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile formal root
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true build KuuOSFormal
