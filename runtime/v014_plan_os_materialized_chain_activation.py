@@ -12,7 +12,7 @@ from runtime.kuuos_plan_os_materialized_chain_activation_scenarios_v0_14 import 
 def run_kernel() -> dict:
     with tempfile.TemporaryDirectory(prefix="kuuos-plan-os-v014-") as temporary:
         receipt = run_activation(Path(temporary))
-        return {
+        result = {
             "status": "PLAN_OS_MATERIALIZED_CHAIN_ACTIVATION_V0_14_OK",
             "activation_status": receipt["status"],
             "owner_id": receipt["owner_id"],
@@ -32,6 +32,14 @@ def run_kernel() -> dict:
             "host_license_granted": receipt["host_license_granted"],
             "memory_overwrite": receipt["memory_overwrite"],
         }
+    from runtime.v015_plan_os_next_cycle_session_bootstrap import (
+        run_kernel as run_next,
+    )
+
+    next_result = run_next()
+    if next_result.get("status") != "PLAN_OS_NEXT_CYCLE_SESSION_BOOTSTRAP_V0_15_OK":
+        raise AssertionError(next_result)
+    return result
 
 
 if __name__ == "__main__":
