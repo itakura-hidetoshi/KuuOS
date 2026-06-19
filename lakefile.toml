@@ -10,4 +10,8 @@ rev = "v4.30.0-rc2"
 [[lean_lib]]
 name = "KuuOSFormal"
 srcDir = "formal"
-roots = ["KuuOSFormal", "KUOS"]
+roots = [
+  "KuuOSFormal",
+  "KUOS",
+  "KuuOSFormalV0_41"
+]
