@@ -39,3 +39,4 @@ import KUOS.WORLD.CStarLocalNetBridgeV0_30
 import KUOS.WORLD.VonNeumannBicommutantBridgeV0_31
 import KUOS.WORLD.StandardFormModularFlowBridgeV0_32
 import KUOS.WORLD.ModularStateKMSRelativeFlowBridgeV0_33
+import KUOS.WORLD.ArakiRelativeEntropyBridgeV0_34
