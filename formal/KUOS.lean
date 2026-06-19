@@ -46,3 +46,4 @@ import KUOS.WORLD.PetzRecoverySufficiencyBridgeV0_35
 import KUOS.WORLD.ConditionalExpectationTakesakiBridgeV0_36
 import KUOS.WORLD.JonesBasicConstructionIndexBridgeV0_37
 import KUOS.WORLD.JonesTowerStandardInvariantBridgeV0_38
+import KUOS.WORLD.CanonicalEndomorphismQSystemFrobeniusBridgeV0_39
