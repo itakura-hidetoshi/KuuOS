@@ -81,13 +81,15 @@ def run_native_full_cycle_scenarios() -> dict:
         assert interface["os_packets"]["PlanOS"]["native_artifact"] is True
 
         belief_substitution = deepcopy(receipt)
-        belief_substitution["native_artifacts"]["BeliefOSReceipt"][
-            "belief_gerbe_receipt_digest"
-        ] = ""
-        belief_substitution["native_artifacts"]["BeliefOSReceipt"][
-            "belief_gerbe_receipt_digest"
-        ] = belief_receipt_digest(
-            belief_substitution["native_artifacts"]["BeliefOSReceipt"]
+        substituted_belief = belief_substitution["native_artifacts"][
+            "BeliefOSReceipt"
+        ]
+        substituted_belief["counterevidence_digests"] = list(
+            substituted_belief.get("counterevidence_digests", [])
+        ) + ["substituted-counterevidence"]
+        substituted_belief["belief_gerbe_receipt_digest"] = ""
+        substituted_belief["belief_gerbe_receipt_digest"] = belief_receipt_digest(
+            substituted_belief
         )
         _require_error(
             belief_substitution,
