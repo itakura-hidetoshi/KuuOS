@@ -13,7 +13,7 @@ def run_kernel() -> dict:
     with tempfile.TemporaryDirectory(prefix="kuuos-plan-os-v015-") as temporary:
         session = run_session_bootstrap(Path(temporary))
         bootstrap = session["plan_bootstrap_state"]
-        return {
+        result = {
             "status": "PLAN_OS_NEXT_CYCLE_SESSION_BOOTSTRAP_V0_15_OK",
             "session_status": session["status"],
             "mission_cycle_index": session["mission_cycle_index"],
@@ -34,6 +34,14 @@ def run_kernel() -> dict:
             "host_license_granted": session["host_license_granted"],
             "memory_overwrite": session["memory_overwrite"],
         }
+    from runtime.v016_plan_os_lease_monitor_suspension import (
+        run_kernel as run_next,
+    )
+
+    next_result = run_next()
+    if next_result.get("status") != "PLAN_OS_LEASE_MONITOR_SUSPENSION_V0_16_OK":
+        raise AssertionError(next_result)
+    return result
 
 
 if __name__ == "__main__":
