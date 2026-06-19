@@ -64,6 +64,7 @@ CHECK_MODULES = [
     "scripts.check_world_jones_basic_construction_index_bridge_v0_37",
     "scripts.check_world_jones_tower_standard_invariant_bridge_v0_38",
     "scripts.check_world_canonical_endomorphism_qsystem_frobenius_bridge_v0_39",
+    "scripts.check_world_bimodule_sector_fusion_category_bridge_v0_40",
 ]
 
 TEST_MODULES = [
