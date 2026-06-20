@@ -5,6 +5,9 @@ from copy import deepcopy
 from pathlib import Path
 
 from runtime.kuuos_qi_world_concrete_third_licensed_cycle_materialization_public_v2_2 import (
+    binding_digest,
+    build_concrete_three_cycle_bundle,
+    build_third_cycle_binding_receipt,
     bundle_digest,
     closure_digest,
     handoff_digest,
@@ -13,9 +16,9 @@ from runtime.kuuos_qi_world_concrete_third_licensed_cycle_materialization_public
     validate_concrete_three_cycle_bundle,
     validate_third_closed_cycle_receipt,
     validate_third_cycle_authority_requirement,
+    validate_third_cycle_binding_receipt,
     validate_third_licensed_act_handoff_receipt,
     validate_third_native_evidence_closure_receipt,
-    build_concrete_three_cycle_bundle,
 )
 from runtime.kuuos_qi_world_licensed_multi_cycle_chain_induction_v2_1 import (
     extension_witness_digest,
@@ -58,6 +61,12 @@ def _retag_bundle(value: dict) -> dict:
     return value
 
 
+def _retag_binding(value: dict) -> dict:
+    value["third_cycle_binding_receipt_digest"] = ""
+    value["third_cycle_binding_receipt_digest"] = binding_digest(value)
+    return value
+
+
 def run_concrete_third_licensed_cycle_materialization_scenarios() -> dict:
     with tempfile.TemporaryDirectory(prefix="kuuos-third-cycle-v22-") as temporary:
         bundle = build_concrete_three_cycle_bundle(Path(temporary))
@@ -72,19 +81,43 @@ def run_concrete_third_licensed_cycle_materialization_scenarios() -> dict:
         chain = bundle["three_cycle_chain"]
         states = closure["native_evidence_states"]
         authority = handoff["external_authority_packet"]
+        binding = build_third_cycle_binding_receipt(base, third)
 
+        assert validate_third_cycle_binding_receipt(binding) == []
+        assert binding["materialized_extension_witness"] == witness
+        assert binding["third_cycle_receipt_digest"] == third[
+            "licensed_cycle_receipt_digest"
+        ]
         assert handoff["target_act_state"]["effect_recorded"] is True
-        assert states["ObserveOS"]["source_act_state_digest"] == states["ActOS"]["act_state_digest"]
-        assert states["VerifyOS"]["source_observe_state_digest"] == states["ObserveOS"]["observe_state_digest"]
-        assert states["LearnOS"]["source_verify_state_digest"] == states["VerifyOS"]["verify_state_digest"]
-        assert closure["next_cycle_artifacts"]["PlanOS"]["next_plan_basis_digest"] == states["LearnOS"]["learning_delta_digest"]
+        assert states["ObserveOS"]["source_act_state_digest"] == states["ActOS"][
+            "act_state_digest"
+        ]
+        assert states["VerifyOS"]["source_observe_state_digest"] == states[
+            "ObserveOS"
+        ]["observe_state_digest"]
+        assert states["LearnOS"]["source_verify_state_digest"] == states[
+            "VerifyOS"
+        ]["verify_state_digest"]
+        assert closure["next_cycle_artifacts"]["PlanOS"][
+            "next_plan_basis_digest"
+        ] == states["LearnOS"]["learning_delta_digest"]
         assert third["cycle_ordinal"] == 3
-        assert third["predecessor_cycle_receipt_digest"] == base["cycle_nodes"][1]["closed_cycle_receipt_digest"]
-        assert authority["external_authority_packet_digest"] not in base["authority_packet_digests"]
-        assert authority["human_approval_receipt_digest"] not in base["human_approval_receipt_digests"]
+        assert third["predecessor_cycle_receipt_digest"] == base["cycle_nodes"][1][
+            "closed_cycle_receipt_digest"
+        ]
+        assert authority["external_authority_packet_digest"] not in base[
+            "authority_packet_digests"
+        ]
+        assert authority["human_approval_receipt_digest"] not in base[
+            "human_approval_receipt_digests"
+        ]
         assert authority["host_license_digest"] not in base["host_license_digests"]
-        assert witness["source_materialization_receipt_digest"] == handoff["third_licensed_act_handoff_receipt_digest"]
-        assert witness["source_native_closure_receipt_digest"] == closure["third_native_evidence_closure_receipt_digest"]
+        assert witness["source_materialization_receipt_digest"] == handoff[
+            "third_licensed_act_handoff_receipt_digest"
+        ]
+        assert witness["source_native_closure_receipt_digest"] == closure[
+            "third_native_evidence_closure_receipt_digest"
+        ]
         assert chain["cycle_count"] == 3
         assert chain["cycle_ordinals"] == [1, 2, 3]
         assert chain["cycle_nodes"][:2] == base["cycle_nodes"]
@@ -165,6 +198,37 @@ def run_concrete_third_licensed_cycle_materialization_scenarios() -> dict:
             "witness_authority_reuse",
         )
 
+        closure_binding_tamper = deepcopy(binding)
+        closure_binding_tamper["source_native_closure_receipt_digest"] = "0" * 64
+        _expect(
+            validate_third_cycle_binding_receipt(
+                _retag_binding(closure_binding_tamper)
+            ),
+            "binding_native_closure_digest_mismatch",
+        )
+
+        authority_binding_tamper = deepcopy(binding)
+        authority_binding_tamper["fresh_external_authority_packet_digest"] = (
+            base["authority_packet_digests"][0]
+        )
+        _expect(
+            validate_third_cycle_binding_receipt(
+                _retag_binding(authority_binding_tamper)
+            ),
+            "binding_authority_digest_mismatch",
+        )
+
+        binding_escalation = deepcopy(binding)
+        binding_escalation["non_authority"][
+            "binding_is_execution_capability"
+        ] = True
+        _expect(
+            validate_third_cycle_binding_receipt(
+                _retag_binding(binding_escalation)
+            ),
+            "binding_non_authority_invalid",
+        )
+
         bundle_escalation = deepcopy(bundle)
         bundle_escalation["non_authority"]["bundle_is_execution_capability"] = True
         _expect(
@@ -185,6 +249,9 @@ def run_concrete_third_licensed_cycle_materialization_scenarios() -> dict:
             ],
             "third_cycle_receipt_digest": third[
                 "licensed_cycle_receipt_digest"
+            ],
+            "third_cycle_binding_receipt_digest": binding[
+                "third_cycle_binding_receipt_digest"
             ],
             "materialized_extension_witness_digest": witness[
                 "extension_witness_digest"
