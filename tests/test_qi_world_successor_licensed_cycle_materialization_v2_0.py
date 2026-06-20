@@ -2,7 +2,7 @@ from __future__ import annotations
 
 import unittest
 
-from runtime.kuuos_qi_world_successor_licensed_cycle_materialization_scenarios_v2_0 import (
+from runtime.kuuos_qi_world_successor_licensed_cycle_materialization_public_scenarios_v2_0 import (
     run_successor_licensed_cycle_materialization_scenarios,
 )
 
