@@ -1,0 +1,77 @@
+name: Qi-WORLD Licensed Cycle Receipt v1.9
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_qi_world_licensed_cycle_receipt_v1_9.py"
+      - "runtime/kuuos_qi_world_licensed_cycle_receipt_scenarios_v1_9.py"
+      - "scripts/check_qi_world_licensed_cycle_receipt_v1_9.py"
+      - "tests/test_qi_world_licensed_cycle_receipt_v1_9.py"
+      - "formal/KUOS/Architecture/QiWorldLicensedCycleReceiptV1_9.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/qi-world-licensed-cycle-receipt-v1-9-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_qi_world_licensed_cycle_receipt_v1_9.py"
+      - "runtime/kuuos_qi_world_licensed_cycle_receipt_scenarios_v1_9.py"
+      - "scripts/check_qi_world_licensed_cycle_receipt_v1_9.py"
+      - "tests/test_qi_world_licensed_cycle_receipt_v1_9.py"
+      - "formal/KUOS/Architecture/QiWorldLicensedCycleReceiptV1_9.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/qi-world-licensed-cycle-receipt-v1-9-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python -m compileall -q
+          runtime/kuuos_qi_world_licensed_cycle_receipt_v1_9.py
+          runtime/kuuos_qi_world_licensed_cycle_receipt_scenarios_v1_9.py
+          scripts/check_qi_world_licensed_cycle_receipt_v1_9.py
+          tests/test_qi_world_licensed_cycle_receipt_v1_9.py
+      - name: Validate licensed cycle receipt
+        run: >-
+          python scripts/check_qi_world_licensed_cycle_receipt_v1_9.py
+          > licensed-cycle-receipt-v1-9.log 2>&1
+      - name: Upload v1.9 diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qi-world-licensed-cycle-receipt-v1-9-diagnostics
+          path: licensed-cycle-receipt-v1-9.log
+          if-no-files-found: error
+      - name: Run v1.9 unit tests
+        run: >-
+          python -m unittest -v
+          tests.test_qi_world_licensed_cycle_receipt_v1_9
+      - name: Run v1.8 closure regression
+        run: python scripts/check_qi_world_licensed_effect_evidence_closure_v1_8.py
+      - name: Run central runtime regression
+        run: python scripts/run_kuuos_runtime_full_check_v0_43.py
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile formal root
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true build KuuOSFormal
