@@ -1,0 +1,87 @@
+name: Qi-WORLD Successor Licensed Cycle Materialization v2.0
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_qi_world_successor_licensed_cycle_materialization_v2_0.py"
+      - "runtime/kuuos_qi_world_successor_licensed_cycle_materialization_public_v2_0.py"
+      - "runtime/kuuos_qi_world_successor_licensed_cycle_materialization_scenarios_v2_0.py"
+      - "runtime/kuuos_qi_world_successor_licensed_cycle_materialization_public_scenarios_v2_0.py"
+      - "scripts/check_qi_world_successor_licensed_cycle_materialization_v2_0.py"
+      - "tests/test_qi_world_successor_licensed_cycle_materialization_v2_0.py"
+      - "formal/KUOS/Architecture/QiWorldSuccessorLicensedCycleMaterializationV2_0.lean"
+      - "formal/KUOS.lean"
+      - "docs/KUUOS_QI_WORLD_SUCCESSOR_LICENSED_CYCLE_MATERIALIZATION_v2_0.md"
+      - "manifests/kuuos_qi_world_successor_licensed_cycle_materialization_v2_0.json"
+      - ".github/workflows/qi-world-successor-licensed-cycle-materialization-v2-0-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_qi_world_successor_licensed_cycle_materialization_v2_0.py"
+      - "runtime/kuuos_qi_world_successor_licensed_cycle_materialization_public_v2_0.py"
+      - "runtime/kuuos_qi_world_successor_licensed_cycle_materialization_scenarios_v2_0.py"
+      - "runtime/kuuos_qi_world_successor_licensed_cycle_materialization_public_scenarios_v2_0.py"
+      - "scripts/check_qi_world_successor_licensed_cycle_materialization_v2_0.py"
+      - "tests/test_qi_world_successor_licensed_cycle_materialization_v2_0.py"
+      - "formal/KUOS/Architecture/QiWorldSuccessorLicensedCycleMaterializationV2_0.lean"
+      - "formal/KUOS.lean"
+      - "docs/KUUOS_QI_WORLD_SUCCESSOR_LICENSED_CYCLE_MATERIALIZATION_v2_0.md"
+      - "manifests/kuuos_qi_world_successor_licensed_cycle_materialization_v2_0.json"
+      - ".github/workflows/qi-world-successor-licensed-cycle-materialization-v2-0-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python -m compileall -q
+          runtime/kuuos_qi_world_successor_licensed_cycle_materialization_v2_0.py
+          runtime/kuuos_qi_world_successor_licensed_cycle_materialization_public_v2_0.py
+          runtime/kuuos_qi_world_successor_licensed_cycle_materialization_scenarios_v2_0.py
+          runtime/kuuos_qi_world_successor_licensed_cycle_materialization_public_scenarios_v2_0.py
+          scripts/check_qi_world_successor_licensed_cycle_materialization_v2_0.py
+          tests/test_qi_world_successor_licensed_cycle_materialization_v2_0.py
+      - name: Validate successor licensed cycle materialization
+        run: >-
+          python scripts/check_qi_world_successor_licensed_cycle_materialization_v2_0.py
+          > successor-licensed-cycle-materialization-v2-0.log 2>&1
+      - name: Upload v2.0 diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qi-world-successor-licensed-cycle-materialization-v2-0-diagnostics
+          path: successor-licensed-cycle-materialization-v2-0.log
+          if-no-files-found: error
+      - name: Run v2.0 unit tests
+        run: >-
+          python -m unittest -v
+          tests.test_qi_world_successor_licensed_cycle_materialization_v2_0
+      - name: Run v1.9 receipt regression
+        run: python scripts/check_qi_world_licensed_cycle_receipt_v1_9.py
+      - name: Run central runtime regression
+        run: python scripts/run_kuuos_runtime_full_check_v0_48.py
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile formal root
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true build KuuOSFormal
