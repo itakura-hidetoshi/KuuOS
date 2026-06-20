@@ -58,3 +58,5 @@ import KUOS.WORLD.CanonicalEndomorphismQSystemFrobeniusBridgeV0_39
 import KUOS.WORLD.BimoduleSectorFusionCategoryBridgeV0_40
 import KUOS.WORLD.ModuleCategoryNimrepTubeCenterBridgeV0_41
 import KUOS.WORLD.GaugeCategoricalIndraNetBridgeV0_42
+import KUOS.WORLD.InformationGeometricHigherGaugeBridgeV0_43
+import KUOS.WORLD.ArakiPetzQuantumInformationGeometryBridgeV0_44
