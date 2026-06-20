@@ -1,8 +1,10 @@
 from __future__ import annotations
 
+from copy import deepcopy
 from typing import Any, Mapping
 
 from runtime import kuuos_qi_world_concrete_third_licensed_cycle_materialization_v2_2 as _core
+from runtime import kuuos_qi_world_successor_native_evidence_clock_v2_0 as _clock
 from runtime.kuuos_act_os_kernel_v0_1 import build_act_event
 from runtime.kuuos_act_os_store_v0_1 import ActStore
 from runtime.kuuos_belief_os_types_v0_1 import sha
@@ -43,8 +45,22 @@ def _apply_third_cycle_event(
     return result["state"]
 
 
+_original_evidence_items = getattr(
+    _clock, "_v22_original_evidence_items", _clock._evidence_items
+)
+_clock._v22_original_evidence_items = _original_evidence_items
+
+
+def _third_cycle_evidence_items() -> list[dict[str, Any]]:
+    items = deepcopy(_original_evidence_items())
+    for index, item in enumerate(items, start=1):
+        item["collected_at_ms"] = 699_000 + index * 100
+    return items
+
+
 _core.apply_act = _apply_third_cycle_event
 _core.build_fixture_event = _third_cycle_event
+_clock._evidence_items = _third_cycle_evidence_items
 
 build_concrete_three_cycle_bundle = _core.build_concrete_three_cycle_bundle
 build_materialized_third_cycle_extension_witness = _core.build_materialized_third_cycle_extension_witness
