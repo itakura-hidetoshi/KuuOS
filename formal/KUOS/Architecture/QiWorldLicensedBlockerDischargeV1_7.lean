@@ -163,6 +163,7 @@ theorem all_invariant_blockers_retained
   rw [D.retainedMask_eq]
   change (D.sourceBlocker.vector blocker && licensedInvariantMask blocker) = true
   rw [D.sourceBlocker.all_active blocker, hInvariant]
+  rfl
 
 theorem memory_world_truth_cycle_noncollapse_retained :
     D.retainedMask .memoryPreservation = true ∧
