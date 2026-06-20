@@ -32,11 +32,11 @@ def licensedInvariantMask : CrossCycleBlockerVector
   | .noncollapse => true
 
 theorem licensed_masks_partition (blocker : CrossCycleBlocker) :
-    licensedDischargeMask blocker || licensedInvariantMask blocker = true := by
+    (licensedDischargeMask blocker || licensedInvariantMask blocker) = true := by
   cases blocker <;> rfl
 
 theorem licensed_masks_disjoint (blocker : CrossCycleBlocker) :
-    licensedDischargeMask blocker && licensedInvariantMask blocker = false := by
+    (licensedDischargeMask blocker && licensedInvariantMask blocker) = false := by
   cases blocker <;> rfl
 
 theorem invariant_mask_excludes_discharge
@@ -161,8 +161,8 @@ theorem all_invariant_blockers_retained
     (hInvariant : licensedInvariantMask blocker = true) :
     D.retainedMask blocker = true := by
   rw [D.retainedMask_eq]
-  rw [D.sourceBlocker.all_active blocker]
-  rw [hInvariant]
+  change (D.sourceBlocker.vector blocker && licensedInvariantMask blocker) = true
+  rw [D.sourceBlocker.all_active blocker, hInvariant]
 
 theorem memory_world_truth_cycle_noncollapse_retained :
     D.retainedMask .memoryPreservation = true ∧
