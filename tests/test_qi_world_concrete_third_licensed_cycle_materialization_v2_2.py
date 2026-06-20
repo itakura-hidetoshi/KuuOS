@@ -4,7 +4,7 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from runtime.kuuos_qi_world_concrete_third_licensed_cycle_materialization_v2_2 import (
+from runtime.kuuos_qi_world_concrete_third_licensed_cycle_materialization_public_v2_2 import (
     build_concrete_three_cycle_bundle,
     validate_concrete_three_cycle_bundle,
     validate_third_closed_cycle_receipt,
