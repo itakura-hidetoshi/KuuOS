@@ -4,7 +4,7 @@ import tempfile
 from copy import deepcopy
 from pathlib import Path
 
-from runtime.kuuos_qi_world_concrete_third_licensed_cycle_materialization_v2_2 import (
+from runtime.kuuos_qi_world_concrete_third_licensed_cycle_materialization_public_v2_2 import (
     bundle_digest,
     closure_digest,
     handoff_digest,
