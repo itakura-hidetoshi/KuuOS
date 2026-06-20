@@ -1,0 +1,24 @@
+{
+  "schema_version": "v0.2-validation-receipt",
+  "date": "2026-06-21",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "branch": "main",
+  "validation": {
+    "mode": "isolated_reconstruction_smoke_test",
+    "exit_code": 0,
+    "outputs": [
+      "PASS: KuuOS MemoryOS writeback finality v0.2 validates",
+      "PASS: KuuOS MemoryOS GitHub chat long-term writeback v0.2 validates"
+    ]
+  },
+  "commits": [
+    "ab94069ff3c8c1428e76078c1fdead30e2eb43d7",
+    "349673c74413cd1165aebb511f7d1806b53b2a17",
+    "ef35188c1c17ed3258eb1d3000b7106616dc3546",
+    "b1ac1a3a6dcd1b684d6b9280485dbcd94979433e",
+    "639041a5da0ad4e227e48c842887681dece0dd9d"
+  ],
+  "dedicated_workflow_installed": false,
+  "global_runner_fallback_installed": true,
+  "release_mode": "append-only"
+}
