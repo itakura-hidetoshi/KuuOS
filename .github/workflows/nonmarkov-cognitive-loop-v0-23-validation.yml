@@ -1,4 +1,4 @@
-name: Non-Markov Cognitive Loop v0.23
+name: Non-Markov Cognitive Loop v0.23 Probe macOS
 
 on:
   push:
@@ -44,7 +44,7 @@ permissions:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
@@ -115,7 +115,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: nonmarkov-cognitive-loop-v0-23-diagnostics
+          name: nonmarkov-cognitive-loop-v0-23-macos-probe-diagnostics
           path: |
             nonmarkov-cognitive-loop-v0-23.log
             nonmarkov-cognitive-loop-v0-23-lean-module.log
