@@ -1,0 +1,61 @@
+name: Qi-WORLD Concrete Third Licensed Cycle v2.2
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py"
+      - "runtime/kuuos_qi_world_concrete_third_licensed_cycle_materialization_scenarios_v2_2.py"
+      - "scripts/check_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py"
+      - "tests/test_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py"
+      - ".github/workflows/qi-world-concrete-third-licensed-cycle-v2-2-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py"
+      - "runtime/kuuos_qi_world_concrete_third_licensed_cycle_materialization_scenarios_v2_2.py"
+      - "scripts/check_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py"
+      - "tests/test_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py"
+      - ".github/workflows/qi-world-concrete-third-licensed-cycle-v2-2-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-runtime:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python -m compileall -q
+          runtime/kuuos_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py
+          runtime/kuuos_qi_world_concrete_third_licensed_cycle_materialization_scenarios_v2_2.py
+          scripts/check_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py
+          tests/test_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py
+      - name: Validate concrete third licensed cycle
+        run: >-
+          PYTHONPATH=. python scripts/check_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py
+          > v2-2-runtime.log 2>&1
+      - name: Run v2.2 unit tests
+        run: >-
+          PYTHONPATH=. python -m unittest -v
+          tests.test_qi_world_concrete_third_licensed_cycle_materialization_v2_2
+          >> v2-2-runtime.log 2>&1
+      - name: Run v2.1 induction regression
+        run: >-
+          PYTHONPATH=. python scripts/check_qi_world_licensed_multi_cycle_chain_induction_v2_1.py
+          >> v2-2-runtime.log 2>&1
+      - name: Run central runtime regression
+        run: >-
+          PYTHONPATH=. python scripts/run_kuuos_runtime_full_check_v0_48.py
+          >> v2-2-runtime.log 2>&1
+      - name: Upload v2.2 runtime diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qi-world-v2-2-runtime-diagnostics
+          path: v2-2-runtime.log
+          if-no-files-found: error
