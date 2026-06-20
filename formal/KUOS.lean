@@ -8,6 +8,7 @@ import KUOS.Architecture.QiWorldNativeEvidenceLoopV1_2
 import KUOS.Architecture.QiWorldNativeFullCycleV1_3
 import KUOS.Architecture.QiWorldCrossCycleReentryV1_4
 import KUOS.Architecture.QiWorldCrossCycleBlockerTheoryV1_5
+import KUOS.Architecture.QiWorldIndraTransportRequestV1_6
 import KUOS.BeliefOS.RelationalConditionalKernelV0_1
 import KUOS.BeliefOS.ContextGaugeCredalTransportV0_2
 import KUOS.BeliefOS.ContextGerbeCoherenceV0_3
@@ -56,3 +57,4 @@ import KUOS.WORLD.JonesTowerStandardInvariantBridgeV0_38
 import KUOS.WORLD.CanonicalEndomorphismQSystemFrobeniusBridgeV0_39
 import KUOS.WORLD.BimoduleSectorFusionCategoryBridgeV0_40
 import KUOS.WORLD.ModuleCategoryNimrepTubeCenterBridgeV0_41
+import KUOS.WORLD.GaugeCategoricalIndraNetBridgeV0_42
