@@ -160,17 +160,17 @@ variable {Vary : WorldQuantumGeodesicMirrorDescentFreeEnergyBridge D}
 variable {Flow : WorldQuantumGradientJKOEntropyProductionBridge Vary}
 variable (Mix : WorldQuantumLogSobolevContractivityMixingBridge Flow)
 
-include Mix in
 def relativeEntropyToEquilibrium
+    (_Mix : WorldQuantumLogSobolevContractivityMixingBridge Flow)
     (i : G.Patch) (θ : I.Parameter) : ℝ :=
   D.quantumBregmanDivergence i θ (Flow.equilibrium i)
 
-include Mix in
 def iteratedGradientFlow
+    (_Mix : WorldQuantumLogSobolevContractivityMixingBridge Flow)
     (i : G.Patch) (θ : I.Parameter) (h : ℝ) : ℕ → I.Parameter
   | 0 => θ
   | n + 1 =>
-      Flow.gradientFlowStep i (iteratedGradientFlow Mix i θ h n) h
+      Flow.gradientFlowStep i (iteratedGradientFlow _Mix i θ h n) h
 
 theorem relative_entropy_to_equilibrium_nonnegative
     (i : G.Patch) (θ : I.Parameter) :
