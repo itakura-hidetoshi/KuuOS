@@ -82,3 +82,11 @@ jobs:
         run: >-
           lake -KleanArgs=-DwarningAsError=true
           -KleanArgs=-DsorryAsError=true build KuuOSFormal
+          > lean-v1-7.log 2>&1
+      - name: Upload strict Lean diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qi-world-licensed-blocker-discharge-v1-7-lean-diagnostics
+          path: lean-v1-7.log
+          if-no-files-found: error
