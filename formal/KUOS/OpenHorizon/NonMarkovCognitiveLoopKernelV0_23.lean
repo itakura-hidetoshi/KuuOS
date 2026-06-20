@@ -150,7 +150,7 @@ theorem nonmarkov_cognitive_loop_boundary
       recoveryRoot recoveryHandoff hRecovery
   exact ⟨hBeliefPlurality, hBeliefWinner,
     hObserve.2.1, hObserve.2.2,
-    hVerify.1.2.1, hVerify.2.2,
+    hVerify.2.1, hVerify.2.2,
     hLearn.1, hLearn.2.1, hLearn.2.2,
     hPlanProposal, hPlanExecution, hPlanMemory,
     hHistory.1, hHistory.2,
