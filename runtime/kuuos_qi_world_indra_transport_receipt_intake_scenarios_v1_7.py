@@ -8,6 +8,7 @@ from runtime.kuuos_belief_os_types_v0_1 import sha
 from runtime.kuuos_qi_world_indra_transport_receipt_intake_v1_7 import (
     REQUIRED_RECEIPT_KINDS,
     build_fixture_indra_transport_receipt_intake,
+    build_indra_transport_receipt_intake,
     external_receipt_digest,
     intake_receipt_digest,
     validate_indra_transport_receipt_intake,
@@ -46,6 +47,16 @@ def run_indra_transport_receipt_intake_scenarios() -> dict:
         assert all(item["fixture_only"] is True for item in receipts)
         assert intake["semantic_review_required"] is True
         assert intake["runtime_transport_realized"] is False
+
+        try:
+            build_indra_transport_receipt_intake(
+                source_request_receipt=intake["source_request_receipt"],
+                external_receipts=[*receipts, deepcopy(receipts[0])],
+            )
+        except ValueError as exc:
+            assert str(exc) == "indra_intake_duplicate_receipt_kind"
+        else:
+            raise AssertionError("duplicate external receipt kind was accepted")
 
         missing = deepcopy(intake)
         missing["external_receipts"] = missing["external_receipts"][:-1]
