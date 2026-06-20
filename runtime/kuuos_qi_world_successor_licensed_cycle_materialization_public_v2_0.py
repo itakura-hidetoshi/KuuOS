@@ -10,7 +10,7 @@ _ORIGINAL_BUILD_FIXTURE_EVENT = _core.build_fixture_event
 _ORIGINAL_BUILD_BLOCKER = _core.build_post_effect_blocker_certificate
 _ORIGINAL_VALIDATE_BLOCKER = _core.validate_post_effect_blocker_certificate
 
-_SUCCESSOR_CLOCK_EPOCH_MS = 290_000
+_SUCCESSOR_CLOCK_EPOCH_MS = 200_000
 
 
 def _successor_event_time(now_ms: int) -> int:
