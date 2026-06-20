@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from runtime.kuuos_qi_world_licensed_effect_evidence_closure_scenarios_v1_8 import (
+from runtime.kuuos_qi_world_licensed_effect_evidence_closure_public_scenarios_v1_8 import (
     run_licensed_effect_evidence_closure_scenarios,
 )
 
