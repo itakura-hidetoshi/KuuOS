@@ -5,10 +5,10 @@ import unittest
 from pathlib import Path
 
 from runtime.kuuos_act_os_fixture_v0_1 import host_inputs
-from runtime.kuuos_qi_world_successor_cycle_materialization_scenarios_v2_0 import (
+from runtime.kuuos_qi_world_successor_cycle_materialization_public_scenarios_v2_0 import (
     run_successor_cycle_materialization_scenarios,
 )
-from runtime.kuuos_qi_world_successor_cycle_materialization_v2_0 import (
+from runtime.kuuos_qi_world_successor_cycle_materialization_public_v2_0 import (
     build_successor_cycle_materialization_receipt,
     validate_successor_cycle_materialization_receipt,
 )
