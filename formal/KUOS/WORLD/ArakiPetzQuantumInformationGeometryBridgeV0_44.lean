@@ -193,11 +193,11 @@ noncomputable def recoveredTangent
     (i : G.Patch) (θ : I.Parameter) : I.Tangent →ₗ[ℝ] I.Tangent :=
   (H.petzRecoveryTangent i θ).comp (H.coarseTangent i θ)
 
-def IsPetzRecoverable
+noncomputable def IsPetzRecoverable
     (i : G.Patch) (θ : I.Parameter) (u : I.Tangent) : Prop :=
   H.recoveredTangent i θ u = u
 
-def informationLoss
+noncomputable def informationLoss
     (i : G.Patch) (θ : I.Parameter) (u : I.Tangent) : ℝ :=
   H.quantumFisherMetric i θ
     (u - H.recoveredTangent i θ u)
