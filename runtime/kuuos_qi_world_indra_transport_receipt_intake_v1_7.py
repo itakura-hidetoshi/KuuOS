@@ -335,11 +335,12 @@ def build_indra_transport_receipt_intake(
     if source_errors:
         raise ValueError("indra_intake_source_invalid:" + ";".join(source_errors))
     normalized = [deepcopy(dict(item)) for item in external_receipts]
-    receipt_map = {
-        str(item.get("receipt_kind")): item
-        for item in normalized
-        if isinstance(item, Mapping)
-    }
+    input_kinds = [str(item.get("receipt_kind", "")) for item in normalized]
+    if len(input_kinds) != len(set(input_kinds)):
+        raise ValueError("indra_intake_duplicate_receipt_kind")
+    if any(kind not in REQUIRED_RECEIPT_KINDS for kind in input_kinds):
+        raise ValueError("indra_intake_unknown_receipt_kind")
+    receipt_map = {str(item.get("receipt_kind")): item for item in normalized}
     ordered = [receipt_map[kind] for kind in REQUIRED_RECEIPT_KINDS if kind in receipt_map]
     receipt_set_digest = sha(
         [item.get("external_analytic_receipt_digest") for item in ordered]
