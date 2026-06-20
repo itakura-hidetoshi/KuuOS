@@ -1,0 +1,38 @@
+{
+  "version": "kuuos_qi_world_licensed_blocker_discharge_v1_6",
+  "source": "kuuos_qi_world_cross_cycle_blocker_theory_v1_5",
+  "released_blockers": [
+    "present_activation_blocker",
+    "execution_authority_blocker"
+  ],
+  "retained_invariant_blockers": [
+    "memory_overwrite_blocker",
+    "world_identity_blocker",
+    "truth_authority_blocker",
+    "same_cycle_self_loop_blocker",
+    "multi_world_collapse_blocker"
+  ],
+  "external_issuer_required": true,
+  "self_issue_forbidden": true,
+  "human_approval_required": true,
+  "host_license_required": true,
+  "exact_plan_binding_required": true,
+  "step_authorization_binding_required": true,
+  "single_use": true,
+  "maximum_invocations": 1,
+  "maximum_effectful_steps": 1,
+  "source_cycle_immutable": true,
+  "source_blocker_certificate_immutable": true,
+  "target_cycle_strictly_later": true,
+  "effect_recorded": true,
+  "observation_required": true,
+  "verification_required": true,
+  "memory_overwritten": false,
+  "exact_world_updated": false,
+  "truth_promoted": false,
+  "same_cycle_recursive_invocation": false,
+  "multi_world_collapsed": false,
+  "release_grants_further_authority": false,
+  "release_grants_plan_completion": false,
+  "release_grants_automatic_rollback": false
+}
