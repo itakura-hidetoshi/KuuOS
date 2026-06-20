@@ -4,10 +4,10 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from runtime.kuuos_qi_world_licensed_cycle_receipt_scenarios_v1_9 import (
+from runtime.kuuos_qi_world_licensed_cycle_receipt_public_scenarios_v1_9 import (
     run_licensed_cycle_receipt_scenarios,
 )
-from runtime.kuuos_qi_world_licensed_cycle_receipt_v1_9 import (
+from runtime.kuuos_qi_world_licensed_cycle_receipt_public_v1_9 import (
     build_licensed_cycle_receipt,
     build_successor_authority_requirement,
     validate_licensed_cycle_receipt,
@@ -45,6 +45,10 @@ class QiWorldLicensedCycleReceiptV19Tests(unittest.TestCase):
                 ),
                 [],
             )
+            self.assertEqual(
+                requirement["predecessor_cycle_ordinal"],
+                receipt["cycle_ordinal"],
+            )
             self.assertTrue(requirement["fresh_external_authority_required"])
             self.assertTrue(
                 requirement["distinct_external_authority_digest_required"]
@@ -71,6 +75,8 @@ class QiWorldLicensedCycleReceiptV19Tests(unittest.TestCase):
         self.assertTrue(result["freshness_qualified"])
         self.assertFalse(result["successor_act_started"])
         self.assertTrue(result["explicit_v1_7_discharge_still_required"])
+        self.assertTrue(result["independent_candidate_revalidation"])
+        self.assertTrue(result["predecessor_ordinal_revalidation"])
 
 
 if __name__ == "__main__":
