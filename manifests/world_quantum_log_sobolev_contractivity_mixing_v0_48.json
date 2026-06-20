@@ -1,0 +1,25 @@
+{
+  "manifest_version": "world_quantum_log_sobolev_contractivity_mixing_v0_48",
+  "files": {
+    "formal": [
+      "formal/KUOS/WORLD/QuantumLogSobolevContractivityMixingBridgeV0_48.lean",
+      "formal/KuuOSFormalV0_48.lean"
+    ],
+    "runtime": [
+      "runtime/kuuos_world_quantum_log_sobolev_contractivity_mixing_core_v0_48.py",
+      "runtime/kuuos_world_quantum_log_sobolev_contractivity_mixing_runtime_v0_48.py"
+    ],
+    "scripts": [
+      "scripts/check_world_quantum_log_sobolev_contractivity_mixing_v0_48.py",
+      "scripts/run_kuuos_runtime_full_check_v0_48.py"
+    ],
+    "docs": [
+      "docs/KU_WORLD_QUANTUM_LOG_SOBOLEV_CONTRACTIVITY_MIXING_v0_48.md"
+    ],
+    "config": [
+      "lakefile.toml",
+      ".github/workflows/kuuos_runtime_full_check.yml"
+    ]
+  },
+  "status": "READY"
+}
