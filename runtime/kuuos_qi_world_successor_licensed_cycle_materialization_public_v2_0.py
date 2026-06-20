@@ -5,8 +5,46 @@ from typing import Any, Mapping
 
 from runtime import kuuos_qi_world_successor_licensed_cycle_materialization_v2_0 as _core
 
+_ORIGINAL_APPLY_ACT = _core.apply_act
+_ORIGINAL_BUILD_FIXTURE_EVENT = _core.build_fixture_event
 _ORIGINAL_BUILD_BLOCKER = _core.build_post_effect_blocker_certificate
 _ORIGINAL_VALIDATE_BLOCKER = _core.validate_post_effect_blocker_certificate
+
+_SUCCESSOR_CLOCK_EPOCH_MS = 290_000
+
+
+def _successor_event_time(now_ms: int) -> int:
+    return now_ms if now_ms >= _SUCCESSOR_CLOCK_EPOCH_MS else _SUCCESSOR_CLOCK_EPOCH_MS + now_ms
+
+
+def _apply_act_with_successor_clock(
+    store: Any,
+    state: Mapping[str, Any],
+    event_type: str,
+    payload: Mapping[str, Any],
+    now_ms: int,
+) -> dict[str, Any]:
+    return _ORIGINAL_APPLY_ACT(
+        store,
+        state,
+        event_type,
+        payload,
+        _successor_event_time(now_ms),
+    )
+
+
+def _build_fixture_event_with_successor_clock(
+    state: Mapping[str, Any],
+    event_type: str,
+    payload: Mapping[str, Any],
+    now_ms: int,
+) -> dict[str, Any]:
+    return _ORIGINAL_BUILD_FIXTURE_EVENT(
+        state,
+        event_type,
+        payload,
+        _successor_event_time(now_ms),
+    )
 
 
 def _v18_compatible_source(source: Mapping[str, Any]) -> dict[str, Any]:
@@ -29,6 +67,8 @@ def _validate_post_effect_blocker_certificate(**kwargs: Any) -> list[str]:
     return _ORIGINAL_VALIDATE_BLOCKER(**adapted)
 
 
+_core.apply_act = _apply_act_with_successor_clock
+_core.build_fixture_event = _build_fixture_event_with_successor_clock
 _core.build_post_effect_blocker_certificate = _build_post_effect_blocker_certificate
 _core.validate_post_effect_blocker_certificate = _validate_post_effect_blocker_certificate
 
