@@ -3,6 +3,7 @@
   "predecessor": "kuuos_qi_world_licensed_cycle_receipt_v1_9",
   "runtime_core": "runtime/kuuos_qi_world_successor_licensed_cycle_materialization_v2_0.py",
   "runtime_public": "runtime/kuuos_qi_world_successor_licensed_cycle_materialization_public_v2_0.py",
+  "runtime_native_evidence_clock": "runtime/kuuos_qi_world_successor_native_evidence_clock_v2_0.py",
   "runtime_scenarios": "runtime/kuuos_qi_world_successor_licensed_cycle_materialization_public_scenarios_v2_0.py",
   "validation_script": "scripts/check_qi_world_successor_licensed_cycle_materialization_v2_0.py",
   "unit_test": "tests/test_qi_world_successor_licensed_cycle_materialization_v2_0.py",
@@ -18,6 +19,7 @@
   "second_receipt_consumption_count": 0,
   "all_post_effect_blockers_active": true,
   "next_act_started": false,
+  "native_evidence_clock_monotone": true,
   "runtime_updates_exact_world": false,
   "runtime_overwrites_history": false,
   "runtime_promotes_truth": false
