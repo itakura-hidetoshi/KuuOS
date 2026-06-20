@@ -1,4 +1,4 @@
-name: Semantic Planner Verifier v0.22
+name: Semantic Planner Verifier v0.22 Probe macOS
 
 on:
   push:
@@ -34,7 +34,7 @@ permissions:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
@@ -97,7 +97,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: semantic-planner-verifier-v0-22-diagnostics
+          name: semantic-planner-verifier-v0-22-macos-probe-diagnostics
           path: |
             semantic-planner-verifier-v0-22.log
             semantic-planner-verifier-v0-22-lean-module.log
