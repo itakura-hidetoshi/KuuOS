@@ -1,4 +1,4 @@
-name: Observation Belief State v0.21
+name: Observation Belief State v0.21 Probe macOS
 
 on:
   push:
@@ -34,7 +34,7 @@ permissions:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
@@ -93,7 +93,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: observation-belief-v0-21-diagnostics
+          name: observation-belief-v0-21-macos-probe-diagnostics
           path: |
             observation-belief-v0-21.log
             observation-belief-v0-21-lean-module.log
