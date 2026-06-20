@@ -6,13 +6,9 @@ Kū–Indra WORLD information-geometric higher-gauge bridge v0.43.
 
 The exact nonlinear, noncommutative, non-Markovian WORLD state is not a
 statistical manifold, probability distribution, Fisher metric, divergence, or
-information projection.  This file adds a read-only information-geometric
-sidecar over the v0.42 gauge-categorical Indra net.  Lean directly checks the
-finite statistical representation, Fisher metric laws, dual connections,
-alpha connections, divergence and information projection identities, gauge
-covariance, higher coherence holonomy, branch preservation, and runtime
-non-authority.  Smooth, analytic, quantum-statistical, and continuum
-realizations remain explicit external receipts.
+information projection. This read-only sidecar equips each v0.42 WORLD patch
+with a finite observational statistical representation and transports its
+information geometry through the higher gauge coherence cells.
 -/
 
 namespace KUOS
@@ -47,14 +43,12 @@ structure WorldInformationGeometricHigherGaugeBridge
 
   probabilityMass : G.Patch → StatisticalPoint → Observation → ℝ
   probabilityMass_nonnegative : ∀ i p o, 0 ≤ probabilityMass i p o
-  probabilityMass_normalized : ∀ i p,
-    (∑ o, probabilityMass i p o) = 1
+  probabilityMass_normalized : ∀ i p, (∑ o, probabilityMass i p o) = 1
 
   score : G.Patch → StatisticalPoint → Observation → Tangent → ℝ
   score_add : ∀ i p o u v,
     score i p o (u + v) = score i p o u + score i p o v
-  score_smul : ∀ i p o r v,
-    score i p o (r • v) = r * score i p o v
+  score_smul : ∀ i p o r v, score i p o (r • v) = r * score i p o v
   score_mean_zero : ∀ i p v,
     (∑ o, probabilityMass i p o * score i p o v) = 0
 
@@ -65,18 +59,15 @@ structure WorldInformationGeometricHigherGaugeBridge
   fisherMetric_symmetric : ∀ i p u v,
     fisherMetric i p u v = fisherMetric i p v u
   fisherMetric_add_left : ∀ i p u v w,
-    fisherMetric i p (u + v) w =
-      fisherMetric i p u w + fisherMetric i p v w
+    fisherMetric i p (u + v) w = fisherMetric i p u w + fisherMetric i p v w
   fisherMetric_add_right : ∀ i p u v w,
-    fisherMetric i p u (v + w) =
-      fisherMetric i p u v + fisherMetric i p u w
+    fisherMetric i p u (v + w) = fisherMetric i p u v + fisherMetric i p u w
   fisherMetric_smul_left : ∀ i p r u v,
     fisherMetric i p (r • u) v = r * fisherMetric i p u v
   fisherMetric_smul_right : ∀ i p r u v,
     fisherMetric i p u (r • v) = r * fisherMetric i p u v
   fisherMetric_nonnegative : ∀ i p v, 0 ≤ fisherMetric i p v v
-  fisherMetric_definite : ∀ i p v,
-    fisherMetric i p v v = 0 → v = 0
+  fisherMetric_definite : ∀ i p v, fisherMetric i p v v = 0 → v = 0
 
   metricDerivative :
     G.Patch → StatisticalPoint → Tangent → Tangent → Tangent → ℝ
@@ -96,9 +87,8 @@ structure WorldInformationGeometricHigherGaugeBridge
   cubicTensor_swap_right : ∀ i p x y z,
     cubicTensor i p x y z = cubicTensor i p x z y
   connectionDifference_metric : ∀ i p x y z,
-    fisherMetric i p
-      (dualConnection i p x y - primalConnection i p x y) z =
-        cubicTensor i p x y z
+    fisherMetric i p (dualConnection i p x y - primalConnection i p x y) z =
+      cubicTensor i p x y z
 
   primalCurvature :
     G.Patch → StatisticalPoint → Tangent → Tangent → Tangent → Tangent
@@ -109,19 +99,16 @@ structure WorldInformationGeometricHigherGaugeBridge
     G.Patch → StatisticalPoint → StatisticalPoint → ℝ
   informationDivergence_nonnegative : ∀ i p q,
     0 ≤ informationDivergence i p q
-  informationDivergence_self : ∀ i p,
-    informationDivergence i p p = 0
+  informationDivergence_self : ∀ i p, informationDivergence i p p = 0
   informationDivergence_separates : ∀ i p q,
     informationDivergence i p q = 0 → p = q
 
   entropyPotential : G.Patch → StatisticalPoint → ℝ
   dualEntropyPotential : G.Patch → StatisticalPoint → ℝ
-  legendrePairing :
-    G.Patch → StatisticalPoint → StatisticalPoint → ℝ
+  legendrePairing : G.Patch → StatisticalPoint → StatisticalPoint → ℝ
   canonicalDivergence_formula : ∀ i p q,
     informationDivergence i p q =
-      entropyPotential i p + dualEntropyPotential i q -
-        legendrePairing i p q
+      entropyPotential i p + dualEntropyPotential i q - legendrePairing i p q
 
   ModelPoint : G.Patch → StatisticalPoint → Prop
   informationProjection : G.Patch → StatisticalPoint → StatisticalPoint
@@ -139,14 +126,10 @@ structure WorldInformationGeometricHigherGaugeBridge
     G.Patch → StatisticalPoint → StatisticalPoint → ℝ → StatisticalPoint
   mixtureGeodesic :
     G.Patch → StatisticalPoint → StatisticalPoint → ℝ → StatisticalPoint
-  exponentialGeodesic_zero : ∀ i p q,
-    exponentialGeodesic i p q 0 = p
-  exponentialGeodesic_one : ∀ i p q,
-    exponentialGeodesic i p q 1 = q
-  mixtureGeodesic_zero : ∀ i p q,
-    mixtureGeodesic i p q 0 = p
-  mixtureGeodesic_one : ∀ i p q,
-    mixtureGeodesic i p q 1 = q
+  exponentialGeodesic_zero : ∀ i p q, exponentialGeodesic i p q 0 = p
+  exponentialGeodesic_one : ∀ i p q, exponentialGeodesic i p q 1 = q
+  mixtureGeodesic_zero : ∀ i p q, mixtureGeodesic i p q 0 = p
+  mixtureGeodesic_one : ∀ i p q, mixtureGeodesic i p q 1 = q
 
   statisticalGaugeAction : G.GaugePhase → StatisticalPoint → StatisticalPoint
   tangentGaugeAction : G.GaugePhase → Tangent → Tangent
@@ -155,16 +138,12 @@ structure WorldInformationGeometricHigherGaugeBridge
   tangentGaugeAction_one : ∀ v, tangentGaugeAction 1 v = v
   observationGaugeAction_one : ∀ o, observationGaugeAction 1 o = o
 
-  statisticalTransport :
-    G.Patch → G.Patch → StatisticalPoint → StatisticalPoint
+  statisticalTransport : G.Patch → G.Patch → StatisticalPoint → StatisticalPoint
   tangentTransport : G.Patch → G.Patch → Tangent → Tangent
   observationTransport : G.Patch → G.Patch → Observation → Observation
-  statisticalTransport_identity : ∀ i p,
-    statisticalTransport i i p = p
-  tangentTransport_identity : ∀ i v,
-    tangentTransport i i v = v
-  observationTransport_identity : ∀ i o,
-    observationTransport i i o = o
+  statisticalTransport_identity : ∀ i p, statisticalTransport i i p = p
+  tangentTransport_identity : ∀ i v, tangentTransport i i v = v
+  observationTransport_identity : ∀ i o, observationTransport i i o = o
   statisticalTransport_inverse : ∀ i j p,
     statisticalTransport j i (statisticalTransport i j p) = p
   tangentTransport_inverse : ∀ i j v,
@@ -174,27 +153,23 @@ structure WorldInformationGeometricHigherGaugeBridge
 
   statisticalTransport_composition : ∀ i j k p,
     statisticalTransport j k (statisticalTransport i j p) =
-      statisticalGaugeAction (G.coherenceTwoCell i j k)
-        (statisticalTransport i k p)
+      statisticalGaugeAction (G.coherenceTwoCell i j k) (statisticalTransport i k p)
   tangentTransport_composition : ∀ i j k v,
     tangentTransport j k (tangentTransport i j v) =
-      tangentGaugeAction (G.coherenceTwoCell i j k)
-        (tangentTransport i k v)
+      tangentGaugeAction (G.coherenceTwoCell i j k) (tangentTransport i k v)
   observationTransport_composition : ∀ i j k o,
     observationTransport j k (observationTransport i j o) =
-      observationGaugeAction (G.coherenceTwoCell i j k)
-        (observationTransport i k o)
+      observationGaugeAction (G.coherenceTwoCell i j k) (observationTransport i k o)
 
   probabilityTransport_covariant : ∀ i j p o,
-    probabilityMass j (statisticalTransport i j p)
-      (observationTransport i j o) = probabilityMass i p o
+    probabilityMass j (statisticalTransport i j p) (observationTransport i j o) =
+      probabilityMass i p o
   scoreTransport_covariant : ∀ i j p o v,
     score j (statisticalTransport i j p) (observationTransport i j o)
       (tangentTransport i j v) = score i p o v
   fisherMetricTransport_covariant : ∀ i j p u v,
     fisherMetric j (statisticalTransport i j p)
-      (tangentTransport i j u) (tangentTransport i j v) =
-        fisherMetric i p u v
+      (tangentTransport i j u) (tangentTransport i j v) = fisherMetric i p u v
   primalConnectionTransport_covariant : ∀ i j p x y,
     tangentTransport i j (primalConnection i p x y) =
       primalConnection j (statisticalTransport i j p)
@@ -206,16 +181,14 @@ structure WorldInformationGeometricHigherGaugeBridge
   primalCurvatureTransport_covariant : ∀ i j p x y z,
     tangentTransport i j (primalCurvature i p x y z) =
       primalCurvature j (statisticalTransport i j p)
-        (tangentTransport i j x) (tangentTransport i j y)
-        (tangentTransport i j z)
+        (tangentTransport i j x) (tangentTransport i j y) (tangentTransport i j z)
   dualCurvatureTransport_covariant : ∀ i j p x y z,
     tangentTransport i j (dualCurvature i p x y z) =
       dualCurvature j (statisticalTransport i j p)
-        (tangentTransport i j x) (tangentTransport i j y)
-        (tangentTransport i j z)
+        (tangentTransport i j x) (tangentTransport i j y) (tangentTransport i j z)
   informationDivergenceTransport_invariant : ∀ i j p q,
-    informationDivergence j (statisticalTransport i j p)
-      (statisticalTransport i j q) = informationDivergence i p q
+    informationDivergence j (statisticalTransport i j p) (statisticalTransport i j q) =
+      informationDivergence i p q
   informationProjectionTransport_covariant : ∀ i j p,
     statisticalTransport i j (informationProjection i p) =
       informationProjection j (statisticalTransport i j p)
@@ -226,16 +199,13 @@ structure WorldInformationGeometricHigherGaugeBridge
     statisticalTransport i j (branchStatisticalPoint b) =
       branchStatisticalPoint (G.branchTransport i j b)
 
-  historyInformationPotential :
-    G.History → G.Patch → StatisticalPoint → ℝ
+  historyInformationPotential : G.History → G.Patch → StatisticalPoint → ℝ
   historyInformationTransport_covariant : ∀ h i j p,
     historyInformationPotential h j
       (statisticalGaugeAction (G.historyDependentPhase h i j)
-        (statisticalTransport i j p)) =
-      historyInformationPotential h i p
+        (statisticalTransport i j p)) = historyInformationPotential h i p
   nonMarkovianInformationGeometryPreserved : Prop
-  nonMarkovianInformationGeometryProof :
-    nonMarkovianInformationGeometryPreserved
+  nonMarkovianInformationGeometryProof : nonMarkovianInformationGeometryPreserved
 
   arakiRelativeEntropyShadow :
     G.Patch → StatisticalPoint → StatisticalPoint → ℝ
@@ -259,8 +229,7 @@ structure WorldInformationGeometricHigherGaugeBridge
   petzOrthogonalProjectionClaim : Prop
   petzOrthogonalProjectionProof : petzOrthogonalProjectionClaim
   higherGaugeStackInformationGeometryClaim : Prop
-  higherGaugeStackInformationGeometryProof :
-    higherGaugeStackInformationGeometryClaim
+  higherGaugeStackInformationGeometryProof : higherGaugeStackInformationGeometryClaim
   continuumInformationGeometryClaim : Prop
   continuumInformationGeometryProof : continuumInformationGeometryClaim
 
@@ -271,8 +240,7 @@ structure WorldInformationGeometricHigherGaugeBridge
   runtimeExecutesPolicy : Bool
   runtimeClaimsChentsovTheorem : Bool
   runtimeUpdatesWorld : Bool
-  noRuntimeStatisticalManifoldConstruction :
-    runtimeConstructsStatisticalManifold = false
+  noRuntimeStatisticalManifoldConstruction : runtimeConstructsStatisticalManifold = false
   noRuntimeFisherMetricComputation : runtimeComputesFisherMetric = false
   noRuntimeInformationProjection : runtimePerformsInformationProjection = false
   noRuntimeBeliefOptimization : runtimeOptimizesBelief = false
@@ -281,26 +249,21 @@ structure WorldInformationGeometricHigherGaugeBridge
   noRuntimeWorldUpdate : runtimeUpdatesWorld = false
 
   worldNotIdentifiedWithStatisticalManifold : Prop
-  worldNotIdentifiedWithStatisticalManifoldProof :
-    worldNotIdentifiedWithStatisticalManifold
+  worldNotIdentifiedWithStatisticalManifoldProof : worldNotIdentifiedWithStatisticalManifold
   worldNotIdentifiedWithProbabilityDistribution : Prop
   worldNotIdentifiedWithProbabilityDistributionProof :
     worldNotIdentifiedWithProbabilityDistribution
   worldNotIdentifiedWithFisherMetric : Prop
-  worldNotIdentifiedWithFisherMetricProof :
-    worldNotIdentifiedWithFisherMetric
+  worldNotIdentifiedWithFisherMetricProof : worldNotIdentifiedWithFisherMetric
   worldNotIdentifiedWithInformationProjection : Prop
   worldNotIdentifiedWithInformationProjectionProof :
     worldNotIdentifiedWithInformationProjection
   informationDistanceNotOntologicalDistance : Prop
-  informationDistanceNotOntologicalDistanceProof :
-    informationDistanceNotOntologicalDistance
+  informationDistanceNotOntologicalDistanceProof : informationDistanceNotOntologicalDistance
   gaugeEquivalentCoordinatesNotWorldIdentity : Prop
-  gaugeEquivalentCoordinatesNotWorldIdentityProof :
-    gaugeEquivalentCoordinatesNotWorldIdentity
+  gaugeEquivalentCoordinatesNotWorldIdentityProof : gaugeEquivalentCoordinatesNotWorldIdentity
   informationGeometryReadOnlyAnalyticSidecar : Prop
-  informationGeometryReadOnlyAnalyticSidecarProof :
-    informationGeometryReadOnlyAnalyticSidecar
+  informationGeometryReadOnlyAnalyticSidecarProof : informationGeometryReadOnlyAnalyticSidecar
   candidateNotAuthority : Prop
   candidateNotAuthorityProof : candidateNotAuthority
   validationNotTruth : Prop
@@ -338,7 +301,7 @@ variable {Z : WorldModuleCategoryNimrepTubeCenterBridge F}
 variable {G : WorldGaugeCategoricalIndraNetBridge Z}
 variable (I : WorldInformationGeometricHigherGaugeBridge G)
 
-def alphaConnection
+noncomputable def alphaConnection
     (alpha : ℝ) (i : G.Patch) (p : I.StatisticalPoint)
     (x y : I.Tangent) : I.Tangent :=
   ((1 + alpha) / 2) • I.primalConnection i p x y +
@@ -368,8 +331,7 @@ theorem score_expectation_zero
 theorem fisher_metric_is_score_covariance
     (i : G.Patch) (p : I.StatisticalPoint) (u v : I.Tangent) :
     I.fisherMetric i p u v =
-      ∑ o, I.probabilityMass i p o * I.score i p o u *
-        I.score i p o v :=
+      ∑ o, I.probabilityMass i p o * I.score i p o u * I.score i p o v :=
   I.fisherMetric_score_formula i p u v
 
 theorem fisher_metric_positive
@@ -384,7 +346,8 @@ theorem fisher_metric_zero_iff
   · exact I.fisherMetric_definite i p v
   · intro h
     subst v
-    simpa using I.fisherMetric_smul_left i p 0 0 0
+    have hzero := I.fisherMetric_smul_left i p 0 (0 : I.Tangent) (0 : I.Tangent)
+    simpa using hzero
 
 theorem alphaConnection_one
     (i : G.Patch) (p : I.StatisticalPoint) (x y : I.Tangent) :
@@ -420,8 +383,7 @@ theorem information_divergence_zero_iff
     I.informationDivergence i p q = 0 ↔ p = q := by
   constructor
   · exact I.informationDivergence_separates i p q
-  · intro h
-    subst q
+  · rintro rfl
     exact I.informationDivergence_self i p
 
 theorem information_projection_idempotent
@@ -432,37 +394,30 @@ theorem information_projection_idempotent
     (I.informationProjection_in_model i p)
 
 theorem information_projection_pythagorean
-    (i : G.Patch) (p q : I.StatisticalPoint)
-    (hq : I.ModelPoint i q) :
+    (i : G.Patch) (p q : I.StatisticalPoint) (hq : I.ModelPoint i q) :
     I.informationDivergence i p q =
       I.informationDivergence i p (I.informationProjection i p) +
         I.informationDivergence i (I.informationProjection i p) q :=
   I.informationProjection_pythagorean i p q hq
 
 theorem statistical_transport_injective (i j : G.Patch) :
-    Function.Injective (I.statisticalTransport i j) := by
-  intro p q h
-  have h' := congrArg (I.statisticalTransport j i) h
-  simpa [I.statisticalTransport_inverse] using h'
+    Function.Injective (I.statisticalTransport i j) :=
+  (I.statisticalTransport_inverse i j).injective
 
 theorem tangent_transport_injective (i j : G.Patch) :
-    Function.Injective (I.tangentTransport i j) := by
-  intro u v h
-  have h' := congrArg (I.tangentTransport j i) h
-  simpa [I.tangentTransport_inverse] using h'
+    Function.Injective (I.tangentTransport i j) :=
+  (I.tangentTransport_inverse i j).injective
 
 theorem fisher_metric_gauge_invariant
     (i j : G.Patch) (p : I.StatisticalPoint) (u v : I.Tangent) :
     I.fisherMetric j (I.statisticalTransport i j p)
-      (I.tangentTransport i j u) (I.tangentTransport i j v) =
-        I.fisherMetric i p u v :=
+      (I.tangentTransport i j u) (I.tangentTransport i j v) = I.fisherMetric i p u v :=
   I.fisherMetricTransport_covariant i j p u v
 
 theorem divergence_gauge_invariant
     (i j : G.Patch) (p q : I.StatisticalPoint) :
     I.informationDivergence j (I.statisticalTransport i j p)
-      (I.statisticalTransport i j q) =
-        I.informationDivergence i p q :=
+      (I.statisticalTransport i j q) = I.informationDivergence i p q :=
   I.informationDivergenceTransport_invariant i j p q
 
 theorem information_projection_gauge_covariant
@@ -481,14 +436,14 @@ theorem statistical_transport_composes_up_to_two_cell
 theorem identity_left_information_triangle_flat (i j : G.Patch) :
     I.IsInformationFlatTriangle i i j := by
   intro p
-  unfold IsInformationFlatTriangle informationTriangleHolonomy
+  change I.statisticalGaugeAction (G.coherenceTwoCell i i j) p = p
   rw [G.coherence_identity_left]
   exact I.statisticalGaugeAction_one p
 
 theorem identity_right_information_triangle_flat (i j : G.Patch) :
     I.IsInformationFlatTriangle i j j := by
   intro p
-  unfold IsInformationFlatTriangle informationTriangleHolonomy
+  change I.statisticalGaugeAction (G.coherenceTwoCell i j j) p = p
   rw [G.coherence_identity_right]
   exact I.statisticalGaugeAction_one p
 
@@ -531,12 +486,10 @@ theorem information_projection_package :
 theorem higher_gauge_information_geometry_package :
     (∀ i j p u v,
       I.fisherMetric j (I.statisticalTransport i j p)
-        (I.tangentTransport i j u) (I.tangentTransport i j v) =
-          I.fisherMetric i p u v) ∧
+        (I.tangentTransport i j u) (I.tangentTransport i j v) = I.fisherMetric i p u v) ∧
     (∀ i j p q,
       I.informationDivergence j (I.statisticalTransport i j p)
-        (I.statisticalTransport i j q) =
-          I.informationDivergence i p q) ∧
+        (I.statisticalTransport i j q) = I.informationDivergence i p q) ∧
     (∀ i j k p,
       I.statisticalTransport j k (I.statisticalTransport i j p) =
         I.statisticalGaugeAction (G.coherenceTwoCell i j k)
