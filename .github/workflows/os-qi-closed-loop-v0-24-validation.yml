@@ -1,0 +1,75 @@
+name: OS-Qi Closed Loop v0.24
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_os_qi_closed_loop_integration_v0_24.py"
+      - "runtime/kuuos_os_qi_closed_loop_scenarios_v0_24.py"
+      - "scripts/check_os_qi_closed_loop_v0_24.py"
+      - "tests/test_os_qi_closed_loop_v0_24.py"
+      - "formal/KUOS/OpenHorizon/OSQiClosedLoopIntegrationV0_24.lean"
+      - "formal/KUOS.lean"
+      - "docs/KUUOS_OS_QI_CLOSED_LOOP_INTEGRATION_v0_24.md"
+      - "manifests/kuuos_os_qi_closed_loop_integration_v0_24.json"
+      - ".github/workflows/os-qi-closed-loop-v0-24-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_os_qi_closed_loop_integration_v0_24.py"
+      - "runtime/kuuos_os_qi_closed_loop_scenarios_v0_24.py"
+      - "scripts/check_os_qi_closed_loop_v0_24.py"
+      - "tests/test_os_qi_closed_loop_v0_24.py"
+      - "formal/KUOS/OpenHorizon/OSQiClosedLoopIntegrationV0_24.lean"
+      - "formal/KUOS.lean"
+      - "docs/KUUOS_OS_QI_CLOSED_LOOP_INTEGRATION_v0_24.md"
+      - "manifests/kuuos_os_qi_closed_loop_integration_v0_24.json"
+      - ".github/workflows/os-qi-closed-loop-v0-24-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python -m compileall -q
+          runtime/kuuos_os_qi_closed_loop_integration_v0_24.py
+          runtime/kuuos_os_qi_closed_loop_scenarios_v0_24.py
+          scripts/check_os_qi_closed_loop_v0_24.py
+          tests/test_os_qi_closed_loop_v0_24.py
+      - name: Validate v0.24 scenarios
+        run: PYTHONPATH=. python scripts/check_os_qi_closed_loop_v0_24.py
+      - name: Run v0.24 unit tests
+        run: PYTHONPATH=. python -m unittest -v tests.test_os_qi_closed_loop_v0_24
+      - name: Run v0.23 memory-credit regression
+        run: PYTHONPATH=. python scripts/check_cognitive_memory_credit_v0_23.py
+      - name: Run v0.22 planner-verifier regression
+        run: PYTHONPATH=. python scripts/check_semantic_planner_verifier_v0_22.py
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile v0.24 formal module
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true
+          build KUOS.OpenHorizon.OSQiClosedLoopIntegrationV0_24
+      - name: Strictly compile formal root
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true build KuuOSFormal
