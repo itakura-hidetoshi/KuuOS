@@ -1,0 +1,45 @@
+{
+  "schema_version": "v0.2",
+  "record_type": "memoryos_github_chat_long_term_writeback_packet",
+  "github_receipt": {
+    "status": "verified",
+    "repository": "itakura-hidetoshi/KuuOS",
+    "stable_pointer": "commit:<sha>",
+    "pr_number": null,
+    "merge_commit": null,
+    "workflow_runs": []
+  },
+  "handoff_digest": {
+    "repository": "itakura-hidetoshi/KuuOS",
+    "branch": "main",
+    "pr_number": null,
+    "head_commit": "<sha>",
+    "merge_commit": null,
+    "workflow_runs": [],
+    "completed_spine": [
+      "GitHub operation verified",
+      "durable handoff digest normalized"
+    ],
+    "open_frontier": [],
+    "invariants": [
+      "GitHub_tool_use_does_not_block_long_term_memory_writeback",
+      "no_false_saved_claim",
+      "no_false_coexistence_failure_claim",
+      "existing_confirmed_baselines_are_not_overwritten"
+    ],
+    "release_mode": "append-only",
+    "recorded_at": "2026-06-21T00:00:00+09:00"
+  },
+  "memory_writeback_receipt": {
+    "status": "stored",
+    "scope": "long_term_memory",
+    "mode": "additive_only",
+    "github_tool_coexistence_was_not_the_cause_of_any_failure": true
+  },
+  "authority": {
+    "github": "external_pointer_only",
+    "handoff_digest": "semantic_recall_only",
+    "execution_permission": false,
+    "truth_authority": false
+  }
+}
