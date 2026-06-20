@@ -43,7 +43,16 @@ theorem invariant_mask_excludes_discharge
     (blocker : CrossCycleBlocker)
     (hInvariant : licensedInvariantMask blocker = true) :
     licensedDischargeMask blocker = false := by
-  simpa [hInvariant] using licensed_masks_disjoint blocker
+  cases blocker with
+  | presentActivation =>
+      simp [licensedInvariantMask] at hInvariant
+  | executionBoundary =>
+      simp [licensedInvariantMask] at hInvariant
+  | memoryPreservation => rfl
+  | worldPreservation => rfl
+  | truthSeparation => rfl
+  | cycleSeparation => rfl
+  | noncollapse => rfl
 
 structure QiWorldLicensedBlockerDischarge where
   sourceBlocker : CrossCycleBlockerCertificate
@@ -152,7 +161,8 @@ theorem all_invariant_blockers_retained
     (hInvariant : licensedInvariantMask blocker = true) :
     D.retainedMask blocker = true := by
   rw [D.retainedMask_eq]
-  simp [D.sourceBlocker.all_active blocker, hInvariant]
+  rw [D.sourceBlocker.all_active blocker]
+  rw [hInvariant]
 
 theorem memory_world_truth_cycle_noncollapse_retained :
     D.retainedMask .memoryPreservation = true ∧
