@@ -64,10 +64,13 @@ def _build_post_effect_blocker_certificate(**kwargs: Any) -> dict[str, Any]:
     return _ORIGINAL_BUILD_BLOCKER(**adapted)
 
 
-def _validate_post_effect_blocker_certificate(**kwargs: Any) -> list[str]:
+def _validate_post_effect_blocker_certificate(
+    certificate: Mapping[str, Any],
+    **kwargs: Any,
+) -> list[str]:
     adapted = dict(kwargs)
     adapted["source"] = _v18_compatible_source(kwargs["source"])
-    return _ORIGINAL_VALIDATE_BLOCKER(**adapted)
+    return _ORIGINAL_VALIDATE_BLOCKER(certificate, **adapted)
 
 
 _core.apply_act = _apply_act_with_successor_clock
