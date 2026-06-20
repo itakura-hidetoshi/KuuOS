@@ -1,0 +1,31 @@
+{
+  "version": "kuuos_qi_world_indra_transport_request_v1_6",
+  "source_cross_cycle": "kuuos_qi_world_cross_cycle_reentry_v1_4",
+  "source_blocker": "kuuos_qi_world_cross_cycle_blocker_theory_v1_5",
+  "world_sidecar": "world_gauge_categorical_indra_net_bridge_v0_42",
+  "source_target_patch_binding": true,
+  "branch_binding": true,
+  "history_binding": true,
+  "all_cross_cycle_blockers_required": true,
+  "world_v042_sidecar_ready_required": true,
+  "external_receipts_required": [
+    "normal_star_isomorphism",
+    "pseudofunctor_realization",
+    "stack_descent",
+    "branch_transport",
+    "coherence_two_cell",
+    "history_dependent_phase",
+    "continuum_nonmarkov_connection"
+  ],
+  "request_only": true,
+  "transport_realized": false,
+  "gauge_connection_constructed": false,
+  "physical_holonomy_computed": false,
+  "exact_world_identity_asserted": false,
+  "world_updated": false,
+  "branch_collapsed": false,
+  "history_overwritten": false,
+  "request_grants_execution": false,
+  "request_grants_truth": false,
+  "request_issues_authority": false
+}
