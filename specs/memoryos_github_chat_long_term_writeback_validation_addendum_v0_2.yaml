@@ -1,0 +1,20 @@
+schema_version: v0.2-addendum
+name: memoryos_github_chat_long_term_writeback_validation_addendum_v0_2
+author: Hidetoshi Itakura / 板倉英俊
+date: '2026-06-21'
+extends:
+  - specs/memoryos_github_chat_long_term_writeback_manifest_v0_2.yaml
+canonical_validator:
+  - scripts/validate_github_handoff_sequence_v0_2.py
+canonical_validation_document:
+  - docs/MEMORYOS_GITHUB_CHAT_LONG_TERM_WRITEBACK_v0_2_VALIDATION_ADDENDUM.md
+validation_expected_output: 'PASS: KuuOS MemoryOS GitHub chat long-term writeback v0.2 validates'
+workflow_integration:
+  dedicated_workflow_installed: false
+  reason: connector_rejected_new_workflow_file
+  protocol_validity_affected: false
+  github_memory_coexistence_was_not_the_cause: true
+release_mode:
+  append_only: true
+  tighten_only: true
+  overwrite_forbidden: true
