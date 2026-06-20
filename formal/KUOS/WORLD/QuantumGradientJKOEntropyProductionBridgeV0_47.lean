@@ -252,7 +252,7 @@ theorem free_energy_drop_gauge_invariant
     Flow.freeEnergyDrop j (I.parameterTransport i j θ) h =
       Flow.freeEnergyDrop i θ h := by
   unfold freeEnergyDrop
-  rw [Flow.gradientFlowStep_transport]
+  rw [← Flow.gradientFlowStep_transport i j θ h]
   rw [Vary.variationalFreeEnergy_transport, Vary.variationalFreeEnergy_transport]
 
 theorem jko_cost_gauge_invariant
