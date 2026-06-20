@@ -65,3 +65,4 @@ import KUOS.WORLD.InformationGeometricHigherGaugeBridgeV0_43
 import KUOS.WORLD.ArakiPetzQuantumInformationGeometryBridgeV0_44
 import KUOS.WORLD.QuantumExponentialDualAffineProjectionBridgeV0_45
 import KUOS.WORLD.QuantumGeodesicMirrorDescentFreeEnergyBridgeV0_46
+import KUOS.WORLD.QuantumGradientJKOEntropyProductionBridgeV0_47
