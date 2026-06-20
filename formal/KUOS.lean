@@ -12,6 +12,7 @@ import KUOS.Architecture.QiWorldIndraTransportRequestV1_6
 import KUOS.Architecture.QiWorldLicensedBlockerDischargeV1_7
 import KUOS.Architecture.QiWorldLicensedEffectEvidenceClosureV1_8
 import KUOS.Architecture.QiWorldLicensedCycleReceiptV1_9
+import KUOS.Architecture.QiWorldSuccessorLicensedCycleMaterializationV2_0
 import KUOS.BeliefOS.RelationalConditionalKernelV0_1
 import KUOS.BeliefOS.ContextGaugeCredalTransportV0_2
 import KUOS.BeliefOS.ContextGerbeCoherenceV0_3
