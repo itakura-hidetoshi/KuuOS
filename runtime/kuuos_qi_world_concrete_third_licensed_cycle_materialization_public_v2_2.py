@@ -1,6 +1,5 @@
 from __future__ import annotations
 
-from copy import deepcopy
 from typing import Any, Mapping
 
 from runtime import kuuos_qi_world_concrete_third_licensed_cycle_materialization_v2_2 as _core
@@ -45,16 +44,32 @@ def _apply_third_cycle_event(
     return result["state"]
 
 
-_original_evidence_items = getattr(
-    _clock, "_v22_original_evidence_items", _clock._evidence_items
-)
-_clock._v22_original_evidence_items = _original_evidence_items
-
-
 def _third_cycle_evidence_items() -> list[dict[str, Any]]:
-    items = deepcopy(_original_evidence_items())
-    for index, item in enumerate(items, start=1):
-        item["collected_at_ms"] = 699_000 + index * 100
+    items: list[dict[str, Any]] = []
+    for index, source_kind in enumerate(("system", "human"), start=1):
+        label = f"third-cycle-{source_kind}-{index}"
+        items.append(
+            {
+                "evidence_id": f"third-cycle-evidence-{index}",
+                "channel_id": (
+                    "system-output" if source_kind == "system" else "independent-check"
+                ),
+                "source_kind": source_kind,
+                "collector_id": f"third-cycle-collector-{source_kind}",
+                "independent_source_id": f"third-cycle-source-{source_kind}",
+                "collected_at_ms": 699_000 + index * 100,
+                "raw_artifact_digest": sha(label + "-raw"),
+                "value_digest": sha(label + "-value"),
+                "uncertainty_digest": sha(label + "-uncertainty"),
+                "calibration_digest": sha(label + "-calibration"),
+                "context_digest": sha(label + "-context"),
+                "tamper_evidence_digest": sha(label + "-tamper"),
+                "provenance_hop_digests": [
+                    sha(label + "-source"),
+                    sha(label + "-collector"),
+                ],
+            }
+        )
     return items
 
 
