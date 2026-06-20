@@ -4,44 +4,11 @@ from typing import Any, Mapping
 
 from runtime import kuuos_qi_world_concrete_third_licensed_cycle_materialization_v2_2 as _core
 from runtime import kuuos_qi_world_successor_native_evidence_clock_v2_0 as _clock
-from runtime.kuuos_act_os_kernel_v0_1 import build_act_event
-from runtime.kuuos_act_os_store_v0_1 import ActStore
 from runtime.kuuos_belief_os_types_v0_1 import sha
-
-
-def _third_cycle_event(
-    state: Mapping[str, Any],
-    phase: str,
-    payload: Mapping[str, Any],
-    tick: int,
-) -> dict[str, Any]:
-    return build_act_event(
-        state=state,
-        target_phase=phase,
-        artifact_digest=sha(
-            {
-                "phase": phase,
-                "payload": dict(payload),
-                "tick": tick,
-                "clock": "qi-world-third-cycle-v2.2",
-            }
-        ),
-        payload=payload,
-        now_ms=tick,
-    )
-
-
-def _apply_third_cycle_event(
-    store: ActStore,
-    state: Mapping[str, Any],
-    phase: str,
-    payload: Mapping[str, Any],
-    tick: int,
-) -> dict[str, Any]:
-    result = store.apply(_third_cycle_event(state, phase, payload, tick))
-    if result.get("status") != "APPLIED":
-        raise AssertionError(result)
-    return result["state"]
+from runtime.kuuos_qi_world_third_cycle_clock_adapter_v2_2 import (
+    apply as _apply_third_cycle_event,
+    event as _third_cycle_event,
+)
 
 
 def _third_cycle_evidence_items() -> list[dict[str, Any]]:
