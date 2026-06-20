@@ -1,0 +1,32 @@
+{
+  "version": "kuuos_qi_world_licensed_effect_evidence_closure_v1_8",
+  "source": "kuuos_qi_world_licensed_blocker_discharge_v1_7",
+  "native_chain": [
+    "ActOS",
+    "ObserveOS",
+    "VerifyOS",
+    "LearnOS",
+    "BeliefOS",
+    "DecisionOS",
+    "DecisionOSPlural",
+    "DecisionOSWa",
+    "PlanOS"
+  ],
+  "observation_debt_discharged": true,
+  "verification_debt_discharged": true,
+  "learning_recorded": true,
+  "learning_future_only": true,
+  "replan_debt_discharged": true,
+  "next_act_not_started": true,
+  "all_post_effect_blockers_active": true,
+  "source_authority_consumed_once": true,
+  "authority_renewal_forbidden": true,
+  "indra_transport_still_unrealized": true,
+  "world_projection_read_only": true,
+  "exact_world_updated": false,
+  "history_overwritten": false,
+  "truth_promoted": false,
+  "closure_grants_execution": false,
+  "closure_grants_truth": false,
+  "closure_issues_authority": false
+}
