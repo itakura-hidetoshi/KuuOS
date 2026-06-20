@@ -1,0 +1,45 @@
+name: Patch v0.44 Noncomputable Definitions
+
+on:
+  push:
+    branches:
+      - world-araki-petz-quantum-information-geometry-v0-44-rebased
+    paths:
+      - '.github/workflows/patch_v044_noncomputable.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: world-araki-petz-quantum-information-geometry-v0-44-rebased
+          fetch-depth: 0
+      - name: Patch noncomputable definitions
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('formal/KUOS/WORLD/ArakiPetzQuantumInformationGeometryBridgeV0_44.lean')
+          text = path.read_text(encoding='utf-8')
+          replacements = {
+              '\ndef IsPetzRecoverable\n': '\nnoncomputable def IsPetzRecoverable\n',
+              '\ndef informationLoss\n': '\nnoncomputable def informationLoss\n',
+          }
+          for old, new in replacements.items():
+              if text.count(old) != 1:
+                  raise SystemExit(f'expected one target {old!r}, found {text.count(old)}')
+              text = text.replace(old, new)
+          path.write_text(text, encoding='utf-8')
+          PY
+      - name: Commit proof-surface repair and remove patch workflow
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git rm .github/workflows/patch_v044_noncomputable.yml
+          git add formal/KUOS/WORLD/ArakiPetzQuantumInformationGeometryBridgeV0_44.lean
+          git commit -m 'Mark v0.44 recovered-information definitions noncomputable'
+          git push origin HEAD:world-araki-petz-quantum-information-geometry-v0-44-rebased
