@@ -93,6 +93,8 @@ Lean directly verifies:
 - branch-preserving information transport;
 - bundled formal, runtime, and representation-boundary receipts.
 
+Transport injectivity is not assumed separately. Lean derives it from the explicit reverse transport: applying `T_ji` to an equality `T_ij(x) = T_ij(y)` and using both inverse laws recovers `x = y`.
+
 ## External receipts
 
 The following are not claimed as Lean-constructed analytic objects:
