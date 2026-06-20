@@ -1,0 +1,25 @@
+{
+  "manifest_version": "world_quantum_exponential_dual_affine_projection_v0_45",
+  "files": {
+    "formal": [
+      "formal/KUOS/WORLD/QuantumExponentialDualAffineProjectionBridgeV0_45.lean",
+      "formal/KuuOSFormalV0_45.lean"
+    ],
+    "runtime": [
+      "runtime/kuuos_world_quantum_exponential_dual_affine_projection_core_v0_45.py",
+      "runtime/kuuos_world_quantum_exponential_dual_affine_projection_runtime_v0_45.py"
+    ],
+    "scripts": [
+      "scripts/check_world_quantum_exponential_dual_affine_projection_v0_45.py",
+      "scripts/run_kuuos_runtime_full_check_v0_45.py"
+    ],
+    "docs": [
+      "docs/KU_WORLD_QUANTUM_EXPONENTIAL_DUAL_AFFINE_PROJECTION_v0_45.md"
+    ],
+    "config": [
+      "lakefile.toml",
+      ".github/workflows/kuuos_runtime_full_check.yml"
+    ]
+  },
+  "status": "READY"
+}
