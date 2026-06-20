@@ -4,7 +4,9 @@ on:
   push:
     paths:
       - "runtime/kuuos_qi_world_licensed_cycle_receipt_v1_9.py"
+      - "runtime/kuuos_qi_world_licensed_cycle_receipt_public_v1_9.py"
       - "runtime/kuuos_qi_world_licensed_cycle_receipt_scenarios_v1_9.py"
+      - "runtime/kuuos_qi_world_licensed_cycle_receipt_public_scenarios_v1_9.py"
       - "scripts/check_qi_world_licensed_cycle_receipt_v1_9.py"
       - "tests/test_qi_world_licensed_cycle_receipt_v1_9.py"
       - "formal/KUOS/Architecture/QiWorldLicensedCycleReceiptV1_9.lean"
@@ -15,7 +17,9 @@ on:
   pull_request:
     paths:
       - "runtime/kuuos_qi_world_licensed_cycle_receipt_v1_9.py"
+      - "runtime/kuuos_qi_world_licensed_cycle_receipt_public_v1_9.py"
       - "runtime/kuuos_qi_world_licensed_cycle_receipt_scenarios_v1_9.py"
+      - "runtime/kuuos_qi_world_licensed_cycle_receipt_public_scenarios_v1_9.py"
       - "scripts/check_qi_world_licensed_cycle_receipt_v1_9.py"
       - "tests/test_qi_world_licensed_cycle_receipt_v1_9.py"
       - "formal/KUOS/Architecture/QiWorldLicensedCycleReceiptV1_9.lean"
@@ -40,7 +44,9 @@ jobs:
         run: >-
           python -m compileall -q
           runtime/kuuos_qi_world_licensed_cycle_receipt_v1_9.py
+          runtime/kuuos_qi_world_licensed_cycle_receipt_public_v1_9.py
           runtime/kuuos_qi_world_licensed_cycle_receipt_scenarios_v1_9.py
+          runtime/kuuos_qi_world_licensed_cycle_receipt_public_scenarios_v1_9.py
           scripts/check_qi_world_licensed_cycle_receipt_v1_9.py
           tests/test_qi_world_licensed_cycle_receipt_v1_9.py
       - name: Validate licensed cycle receipt
