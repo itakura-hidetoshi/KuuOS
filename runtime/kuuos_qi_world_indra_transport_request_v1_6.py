@@ -6,7 +6,7 @@ from typing import Any, Mapping
 import hashlib
 
 from runtime.kuuos_belief_os_types_v0_1 import sha
-from runtime.kuuos_qi_world_cross_cycle_blocker_core_v1_5 import (
+from runtime.kuuos_qi_world_cross_cycle_blocker_v1_5 import (
     build_cross_cycle_blocker_receipt,
     validate_cross_cycle_blocker_receipt,
 )
