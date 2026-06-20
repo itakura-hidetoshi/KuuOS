@@ -5,6 +5,12 @@ from typing import Any, Mapping
 from runtime import kuuos_qi_world_concrete_third_licensed_cycle_materialization_v2_2 as _core
 from runtime import kuuos_qi_world_successor_native_evidence_clock_v2_0 as _clock
 from runtime.kuuos_belief_os_types_v0_1 import sha
+from runtime.kuuos_qi_world_third_cycle_binding_adapter_v2_2 import (
+    binding_digest,
+    build_bound_materialized_extension_witness,
+    build_third_cycle_binding_receipt,
+    validate_third_cycle_binding_receipt,
+)
 from runtime.kuuos_qi_world_third_cycle_clock_adapter_v2_2 import (
     apply as _apply_third_cycle_event,
     event as _third_cycle_event,
@@ -60,7 +66,9 @@ _core.build_fixture_event = _third_cycle_event
 _core._third_evidence = _third_cycle_native_evidence
 
 build_concrete_three_cycle_bundle = _core.build_concrete_three_cycle_bundle
-build_materialized_third_cycle_extension_witness = _core.build_materialized_third_cycle_extension_witness
+build_materialized_third_cycle_extension_witness = (
+    build_bound_materialized_extension_witness
+)
 build_third_closed_cycle_receipt = _core.build_third_closed_cycle_receipt
 build_third_cycle_authority_intake = _core.build_third_cycle_authority_intake
 build_third_cycle_authority_requirement = _core.build_third_cycle_authority_requirement
@@ -79,17 +87,21 @@ receipt_digest = _core.receipt_digest
 requirement_digest = _core.requirement_digest
 
 __all__ = [
+    "binding_digest",
+    "build_bound_materialized_extension_witness",
     "build_concrete_three_cycle_bundle",
     "build_materialized_third_cycle_extension_witness",
     "build_third_closed_cycle_receipt",
     "build_third_cycle_authority_intake",
     "build_third_cycle_authority_requirement",
+    "build_third_cycle_binding_receipt",
     "build_third_licensed_act_handoff_receipt",
     "build_third_native_evidence_closure_receipt",
     "validate_concrete_three_cycle_bundle",
     "validate_third_closed_cycle_receipt",
     "validate_third_cycle_authority_intake",
     "validate_third_cycle_authority_requirement",
+    "validate_third_cycle_binding_receipt",
     "validate_third_licensed_act_handoff_receipt",
     "validate_third_native_evidence_closure_receipt",
     "bundle_digest",
