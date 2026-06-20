@@ -4,25 +4,9 @@ import KUOS.WORLD.InformationGeometricHigherGaugeBridgeV0_43
 /-!
 Kū–Indra WORLD Araki–Petz quantum information geometry bridge v0.44.
 
-This file connects the finite information-geometric sidecar of v0.43 to the
-Araki relative-entropy and Petz-recovery spine of v0.34–v0.35. The exact WORLD
-state is not identified with an entropy Hessian, a quantum Fisher metric, or an
-information projection.
-
-Lean directly verifies the finite algebraic shadow:
-
-* Araki-Hessian shadow = quantum Fisher metric = the v0.43 Fisher metric;
-* positivity, definiteness, and gauge covariance of that metric;
-* a coarse tangent channel and Petz tangent recovery;
-* idempotence of the recovered tangent channel;
-* orthogonal residual decomposition and a Pythagorean identity;
-* nonnegative information loss and its zero/recoverability characterization;
-* a nonnegative data-processing defect and the equality/recoverability case;
-* compatibility with the operator-algebraic coarse channel and Petz recovery.
-
-Actual differentiability of Araki relative entropy, BKM/Kubo–Mori
-identification, monotonicity under normal UCP maps, and the full Petz equality
-and sufficiency theorem remain explicit external analytic receipts.
+This finite read-only sidecar links the v0.43 information geometry to the
+Araki-relative-entropy and Petz-recovery spine.  It does not identify WORLD
+with an entropy Hessian, quantum Fisher metric, or Petz projection.
 -/
 
 namespace KUOS
@@ -56,15 +40,12 @@ structure WorldArakiPetzQuantumInformationGeometryBridge
   quantumFisher_eq_arakiHessian : ∀ i θ u v,
     quantumFisherMetric i θ u v = arakiHessianShadow i θ u v
 
-  coarseTangent :
-    G.Patch → I.Parameter → I.Tangent →ₗ[ℝ] I.Tangent
-  petzRecoveryTangent :
-    G.Patch → I.Parameter → I.Tangent →ₗ[ℝ] I.Tangent
+  coarseTangent : G.Patch → I.Parameter → I.Tangent →ₗ[ℝ] I.Tangent
+  petzRecoveryTangent : G.Patch → I.Parameter → I.Tangent →ₗ[ℝ] I.Tangent
 
   coarseTangent_metric_monotone : ∀ i θ u,
     quantumFisherMetric i θ (coarseTangent i θ u)
-        (coarseTangent i θ u) ≤
-      quantumFisherMetric i θ u u
+        (coarseTangent i θ u) ≤ quantumFisherMetric i θ u u
 
   recoveredTangent_idempotent : ∀ i θ u,
     petzRecoveryTangent i θ
@@ -100,8 +81,6 @@ structure WorldArakiPetzQuantumInformationGeometryBridge
   tangentObservable_zero : tangentObservable 0 = 0
   tangentObservable_add : ∀ u v,
     tangentObservable (u + v) = tangentObservable u + tangentObservable v
-  tangentObservable_smul : ∀ r u,
-    tangentObservable (r • u) = r • tangentObservable u
   coarseTangent_operator_link : ∀ i θ u,
     tangentObservable (coarseTangent i θ u) =
       P.coarseChannel (tangentObservable u)
@@ -127,8 +106,7 @@ structure WorldArakiPetzQuantumInformationGeometryBridge
         (I.tangentTransport i j u)
 
   arakiEntropyTwiceDifferentiableClaim : Prop
-  arakiEntropyTwiceDifferentiableProof :
-    arakiEntropyTwiceDifferentiableClaim
+  arakiEntropyTwiceDifferentiableProof : arakiEntropyTwiceDifferentiableClaim
   arakiHessianEqualsBKMClaim : Prop
   arakiHessianEqualsBKMProof : arakiHessianEqualsBKMClaim
   bogoliubovKuboMoriMetricClaim : Prop
@@ -136,17 +114,14 @@ structure WorldArakiPetzQuantumInformationGeometryBridge
   quantumFisherMonotonicityClaim : Prop
   quantumFisherMonotonicityProof : quantumFisherMonotonicityClaim
   petzOrthogonalProjectionTheoremClaim : Prop
-  petzOrthogonalProjectionTheoremProof :
-    petzOrthogonalProjectionTheoremClaim
+  petzOrthogonalProjectionTheoremProof : petzOrthogonalProjectionTheoremClaim
   entropyEqualityIffMetricRecoveryClaim : Prop
-  entropyEqualityIffMetricRecoveryProof :
-    entropyEqualityIffMetricRecoveryClaim
+  entropyEqualityIffMetricRecoveryProof : entropyEqualityIffMetricRecoveryClaim
   sufficientSubalgebraInformationGeometryClaim : Prop
   sufficientSubalgebraInformationGeometryProof :
     sufficientSubalgebraInformationGeometryClaim
   noncommutativeExponentialFamilyClaim : Prop
-  noncommutativeExponentialFamilyProof :
-    noncommutativeExponentialFamilyClaim
+  noncommutativeExponentialFamilyProof : noncommutativeExponentialFamilyClaim
   continuumQuantumInformationGeometryClaim : Prop
   continuumQuantumInformationGeometryProof :
     continuumQuantumInformationGeometryClaim
@@ -161,26 +136,21 @@ structure WorldArakiPetzQuantumInformationGeometryBridge
   runtimeInfersSufficiency : Bool
   runtimeOptimizesWorldState : Bool
   runtimeUpdatesWorld : Bool
-  noRuntimeArakiDifferentiation :
-    runtimeDifferentiatesArakiEntropy = false
-  noRuntimeQuantumFisherComputation :
-    runtimeComputesQuantumFisherMetric = false
+  noRuntimeArakiDifferentiation : runtimeDifferentiatesArakiEntropy = false
+  noRuntimeQuantumFisherComputation : runtimeComputesQuantumFisherMetric = false
   noRuntimeBKMConstruction : runtimeConstructsBKMMetric = false
-  noRuntimePetzProjectionExecution :
-    runtimeExecutesPetzProjection = false
+  noRuntimePetzProjectionExecution : runtimeExecutesPetzProjection = false
   noRuntimeSufficiencyInference : runtimeInfersSufficiency = false
   noRuntimeWorldOptimization : runtimeOptimizesWorldState = false
   noRuntimeWorldUpdate : runtimeUpdatesWorld = false
 
   worldNotIdentifiedWithArakiHessian : Prop
-  worldNotIdentifiedWithArakiHessianProof :
-    worldNotIdentifiedWithArakiHessian
+  worldNotIdentifiedWithArakiHessianProof : worldNotIdentifiedWithArakiHessian
   worldNotIdentifiedWithQuantumFisherMetric : Prop
   worldNotIdentifiedWithQuantumFisherMetricProof :
     worldNotIdentifiedWithQuantumFisherMetric
   worldNotIdentifiedWithPetzProjection : Prop
-  worldNotIdentifiedWithPetzProjectionProof :
-    worldNotIdentifiedWithPetzProjection
+  worldNotIdentifiedWithPetzProjectionProof : worldNotIdentifiedWithPetzProjection
   metricRecoverabilityNotOntologicalIdentity : Prop
   metricRecoverabilityNotOntologicalIdentityProof :
     metricRecoverabilityNotOntologicalIdentity
@@ -227,13 +197,13 @@ def IsPetzRecoverable
     (i : G.Patch) (θ : I.Parameter) (u : I.Tangent) : Prop :=
   H.recoveredTangent i θ u = u
 
-noncomputable def informationLoss
+def informationLoss
     (i : G.Patch) (θ : I.Parameter) (u : I.Tangent) : ℝ :=
   H.quantumFisherMetric i θ
     (u - H.recoveredTangent i θ u)
     (u - H.recoveredTangent i θ u)
 
-noncomputable def dataProcessingDefect
+def dataProcessingDefect
     (i : G.Patch) (θ : I.Parameter) (u : I.Tangent) : ℝ :=
   H.quantumFisherMetric i θ u u -
     H.quantumFisherMetric i θ
@@ -252,8 +222,10 @@ theorem quantum_fisher_eq_araki_hessian
 theorem quantum_fisher_eq_fisher
     (i : G.Patch) (θ : I.Parameter) (u v : I.Tangent) :
     H.quantumFisherMetric i θ u v = I.fisherMetric i θ u v := by
-  rw [H.quantumFisher_eq_arakiHessian,
-    H.arakiHessianShadow_eq_fisher]
+  calc
+    H.quantumFisherMetric i θ u v = H.arakiHessianShadow i θ u v :=
+      H.quantumFisher_eq_arakiHessian i θ u v
+    _ = I.fisherMetric i θ u v := H.arakiHessianShadow_eq_fisher i θ u v
 
 theorem quantum_fisher_symmetric
     (i : G.Patch) (θ : I.Parameter) (u v : I.Tangent) :
@@ -282,39 +254,40 @@ theorem recoveredTangent_apply
 theorem recoveredTangent_idempotent_apply
     (i : G.Patch) (θ : I.Parameter) (u : I.Tangent) :
     H.recoveredTangent i θ (H.recoveredTangent i θ u) =
-      H.recoveredTangent i θ u :=
-  H.recoveredTangent_idempotent i θ u
+      H.recoveredTangent i θ u := by
+  simpa [recoveredTangent] using H.recoveredTangent_idempotent i θ u
 
 theorem recovered_tangent_is_recoverable
     (i : G.Patch) (θ : I.Parameter) (u : I.Tangent) :
-    H.IsPetzRecoverable i θ (H.recoveredTangent i θ u) :=
-  H.recoveredTangent_idempotent i θ u
+    H.IsPetzRecoverable i θ (H.recoveredTangent i θ u) := by
+  exact H.recoveredTangent_idempotent_apply i θ u
 
 theorem residual_orthogonal_to_recovered
     (i : G.Patch) (θ : I.Parameter) (u v : I.Tangent) :
     H.quantumFisherMetric i θ
         (u - H.recoveredTangent i θ u)
-        (H.recoveredTangent i θ v) = 0 :=
-  H.recoveredResidual_orthogonal i θ u v
+        (H.recoveredTangent i θ v) = 0 := by
+  simpa [recoveredTangent] using H.recoveredResidual_orthogonal i θ u v
 
 theorem recovered_pythagorean
     (i : G.Patch) (θ : I.Parameter) (u : I.Tangent) :
     H.quantumFisherMetric i θ u u =
       H.informationLoss i θ u +
         H.quantumFisherMetric i θ
-          (H.recoveredTangent i θ u) (H.recoveredTangent i θ u) :=
-  H.recoveredPythagorean i θ u
+          (H.recoveredTangent i θ u) (H.recoveredTangent i θ u) := by
+  simpa [informationLoss, recoveredTangent] using H.recoveredPythagorean i θ u
 
 theorem information_loss_nonnegative
     (i : G.Patch) (θ : I.Parameter) (u : I.Tangent) :
-    0 ≤ H.informationLoss i θ u :=
-  H.quantum_fisher_nonnegative i θ
+    0 ≤ H.informationLoss i θ u := by
+  exact H.quantum_fisher_nonnegative i θ
     (u - H.recoveredTangent i θ u)
 
 theorem information_loss_zero_iff_recoverable
     (i : G.Patch) (θ : I.Parameter) (u : I.Tangent) :
     H.informationLoss i θ u = 0 ↔ H.IsPetzRecoverable i θ u := by
-  rw [informationLoss, H.quantum_fisher_zero_iff]
+  unfold informationLoss IsPetzRecoverable
+  rw [H.quantum_fisher_zero_iff]
   constructor
   · intro h
     exact (sub_eq_zero.mp h).symm
@@ -329,7 +302,8 @@ theorem data_processing_defect_nonnegative
 theorem data_processing_defect_zero_iff_recoverable
     (i : G.Patch) (θ : I.Parameter) (u : I.Tangent) :
     H.dataProcessingDefect i θ u = 0 ↔ H.IsPetzRecoverable i θ u := by
-  rw [dataProcessingDefect, sub_eq_zero]
+  unfold dataProcessingDefect IsPetzRecoverable
+  rw [sub_eq_zero]
   constructor
   · intro h
     exact (H.quantumFisherEquality_iff_recoverable i θ u).mp h.symm
@@ -340,8 +314,11 @@ theorem recovered_observable_is_operator_petz_channel
     (i : G.Patch) (θ : I.Parameter) (u : I.Tangent) :
     H.tangentObservable (H.recoveredTangent i θ u) =
       P.petzRecovery (P.coarseChannel (H.tangentObservable u)) := by
-  rw [H.recoveredTangent_apply, H.petzTangent_operator_link,
-    H.coarseTangent_operator_link]
+  change
+    H.tangentObservable
+        (H.petzRecoveryTangent i θ (H.coarseTangent i θ u)) =
+      P.petzRecovery (P.coarseChannel (H.tangentObservable u))
+  rw [H.petzTangent_operator_link, H.coarseTangent_operator_link]
 
 theorem quantum_fisher_gauge_invariant
     (i j : G.Patch) (θ : I.Parameter) (u v : I.Tangent) :
@@ -367,7 +344,7 @@ theorem information_loss_gauge_invariant
     (i j : G.Patch) (θ : I.Parameter) (u : I.Tangent) :
     H.informationLoss j (I.parameterTransport i j θ)
         (I.tangentTransport i j u) = H.informationLoss i θ u := by
-  rw [informationLoss, informationLoss]
+  unfold informationLoss
   rw [← H.recovered_tangent_gauge_covariant i j θ u]
   rw [← (I.tangentTransport i j).map_sub]
   exact H.quantumFisher_transport i j θ
