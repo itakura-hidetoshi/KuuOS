@@ -89,14 +89,27 @@ jobs:
         run: lake update
       - name: Fetch Mathlib olean cache
         run: lake exe cache get
+      - name: Strictly compile v2.2 formal module
+        shell: bash
+        run: |
+          set -o pipefail
+          lake env lean -DwarningAsError=true -DsorryAsError=true \
+            formal/KUOS/Architecture/QiWorldConcreteThirdLicensedCycleMaterializationV2_2.lean \
+            2>&1 | tee v2-2-lean-module.log
       - name: Strictly compile formal root
-        run: >-
-          lake -KleanArgs=-DwarningAsError=true
-          -KleanArgs=-DsorryAsError=true build KuuOSFormal
+        shell: bash
+        run: |
+          set -o pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true build KuuOSFormal \
+            2>&1 | tee v2-2-lean-root.log
       - name: Upload v2.2 diagnostics
         if: failure()
         uses: actions/upload-artifact@v4
         with:
           name: qi-world-v2-2-diagnostics
-          path: v2-2-runtime.log
+          path: |
+            v2-2-runtime.log
+            v2-2-lean-module.log
+            v2-2-lean-root.log
           if-no-files-found: warn
