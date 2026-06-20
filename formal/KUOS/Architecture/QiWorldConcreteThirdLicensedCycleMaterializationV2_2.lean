@@ -76,7 +76,7 @@ def toExtensionWitness
   allBlockersActive := true
   witnessGrantsExecution := false
   target_is_immediate_successor := by
-    simpa [m.source_count_two]
+    simp [m.source_count_two]
   predecessor_link_exact := m.predecessor_exact
   authority_fresh := m.authority_fresh
   approval_fresh := m.approval_fresh
@@ -114,11 +114,9 @@ theorem concrete_third_cycle_boundary
       next.nextActStarted = false ∧
       next.allBlockersActive = true ∧
       next.chainGrantsExecution = false := by
-  simp only [toExtensionWitness, appendClosedCycle]
-  exact ⟨by simpa [m.source_count_two], rfl, rfl, rfl, rfl,
-    m.act_effect_recorded, m.observation_closed,
-    m.verification_closed, m.learning_closed, m.replan_closed,
-    rfl, rfl, rfl, rfl, rfl⟩
+  simp [toExtensionWitness, appendClosedCycle, m.source_count_two,
+    m.act_effect_recorded, m.observation_closed, m.verification_closed,
+    m.learning_closed, m.replan_closed]
 
 end ConcreteThirdCycle
 
