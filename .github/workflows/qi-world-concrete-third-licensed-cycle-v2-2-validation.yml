@@ -1,35 +1,8 @@
-name: Qi-WORLD Concrete Third Licensed Cycle v2.2
+name: Qi-WORLD v2.2 Full Probe macOS
 
 on:
-  push:
-    paths:
-      - "runtime/kuuos_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py"
-      - "runtime/kuuos_qi_world_third_cycle_clock_adapter_v2_2.py"
-      - "runtime/kuuos_qi_world_third_cycle_binding_adapter_v2_2.py"
-      - "runtime/kuuos_qi_world_concrete_third_licensed_cycle_materialization_public_v2_2.py"
-      - "runtime/kuuos_qi_world_concrete_third_licensed_cycle_materialization_scenarios_v2_2.py"
-      - "runtime/kuuos_qi_world_concrete_third_licensed_cycle_materialization_public_scenarios_v2_2.py"
-      - "scripts/check_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py"
-      - "tests/test_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py"
-      - "formal/KUOS/Architecture/QiWorldConcreteThirdLicensedCycleMaterializationV2_2.lean"
-      - "formal/KUOS.lean"
-      - "docs/KUUOS_QI_WORLD_CONCRETE_THIRD_LICENSED_CYCLE_MATERIALIZATION_v2_2.md"
-      - "manifests/kuuos_qi_world_concrete_third_licensed_cycle_materialization_v2_2.json"
-      - ".github/workflows/qi-world-concrete-third-licensed-cycle-v2-2-validation.yml"
   pull_request:
     paths:
-      - "runtime/kuuos_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py"
-      - "runtime/kuuos_qi_world_third_cycle_clock_adapter_v2_2.py"
-      - "runtime/kuuos_qi_world_third_cycle_binding_adapter_v2_2.py"
-      - "runtime/kuuos_qi_world_concrete_third_licensed_cycle_materialization_public_v2_2.py"
-      - "runtime/kuuos_qi_world_concrete_third_licensed_cycle_materialization_scenarios_v2_2.py"
-      - "runtime/kuuos_qi_world_concrete_third_licensed_cycle_materialization_public_scenarios_v2_2.py"
-      - "scripts/check_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py"
-      - "tests/test_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py"
-      - "formal/KUOS/Architecture/QiWorldConcreteThirdLicensedCycleMaterializationV2_2.lean"
-      - "formal/KUOS.lean"
-      - "docs/KUUOS_QI_WORLD_CONCRETE_THIRD_LICENSED_CYCLE_MATERIALIZATION_v2_2.md"
-      - "manifests/kuuos_qi_world_concrete_third_licensed_cycle_materialization_v2_2.json"
       - ".github/workflows/qi-world-concrete-third-licensed-cycle-v2-2-validation.yml"
   workflow_dispatch:
 
@@ -38,7 +11,7 @@ permissions:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
@@ -93,10 +66,10 @@ jobs:
         run: >-
           lake -KleanArgs=-DwarningAsError=true
           -KleanArgs=-DsorryAsError=true build KuuOSFormal
-      - name: Upload v2.2 diagnostics
+      - name: Upload diagnostics
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: qi-world-v2-2-diagnostics
+          name: qi-world-v2-2-macos-full-diagnostics
           path: v2-2-runtime.log
           if-no-files-found: warn
