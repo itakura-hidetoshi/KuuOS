@@ -160,14 +160,17 @@ variable {Vary : WorldQuantumGeodesicMirrorDescentFreeEnergyBridge D}
 variable {Flow : WorldQuantumGradientJKOEntropyProductionBridge Vary}
 variable (Mix : WorldQuantumLogSobolevContractivityMixingBridge Flow)
 
+include Mix in
 def relativeEntropyToEquilibrium
     (i : G.Patch) (θ : I.Parameter) : ℝ :=
   D.quantumBregmanDivergence i θ (Flow.equilibrium i)
 
+include Mix in
 def iteratedGradientFlow
     (i : G.Patch) (θ : I.Parameter) (h : ℝ) : ℕ → I.Parameter
   | 0 => θ
-  | n + 1 => Flow.gradientFlowStep i (iteratedGradientFlow i θ h n) h
+  | n + 1 =>
+      Flow.gradientFlowStep i (iteratedGradientFlow Mix i θ h n) h
 
 theorem relative_entropy_to_equilibrium_nonnegative
     (i : G.Patch) (θ : I.Parameter) :
@@ -227,6 +230,7 @@ theorem relative_entropy_iterate_contracts
                 (Mix.contractionFactor_nonnegative i)
         _ = (Mix.contractionFactor i) ^ (n + 1) *
               Mix.relativeEntropyToEquilibrium i θ := by
+              rw [pow_succ]
               ring
 
 theorem lyapunov_iterate_contracts
@@ -253,6 +257,7 @@ theorem lyapunov_iterate_contracts
                 (Mix.contractionFactor_nonnegative i)
         _ = (Mix.contractionFactor i) ^ (n + 1) *
               Flow.lyapunovGap i θ := by
+              rw [pow_succ]
               ring
 
 theorem mixing_distance_iterate_bound
