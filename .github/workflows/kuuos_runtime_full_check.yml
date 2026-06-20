@@ -12,9 +12,11 @@ on:
       - 'scripts/run_kuuos_runtime_full_check_v0_41.py'
       - 'scripts/run_kuuos_runtime_full_check_v0_42.py'
       - 'scripts/run_kuuos_runtime_full_check_v0_43.py'
+      - 'scripts/run_kuuos_runtime_full_check_v0_44.py'
       - 'scripts/check_world_module_category_nimrep_tube_center_bridge_v0_41.py'
       - 'scripts/check_world_gauge_categorical_indra_net_bridge_v0_42.py'
       - 'scripts/check_world_information_geometric_higher_gauge_v0_43.py'
+      - 'scripts/check_world_araki_petz_quantum_information_geometry_v0_44.py'
       - 'scripts/validate_kuuos_runtime_manifest_v0_1.py'
       - 'scripts/check_kuuos_state_io_example_v0_1.py'
       - 'scripts/check_kuuos_qi_process_tensor_example_v0_1.py'
@@ -22,6 +24,7 @@ on:
       - 'manifests/world_module_category_nimrep_tube_center_bridge_v0_41.json'
       - 'manifests/world_gauge_categorical_indra_net_bridge_v0_42.json'
       - 'manifests/world_information_geometric_higher_gauge_v0_43.json'
+      - 'manifests/world_araki_petz_quantum_information_geometry_v0_44.json'
       - '.github/workflows/kuuos_runtime_full_check.yml'
 
 jobs:
@@ -32,4 +35,4 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python3 scripts/run_kuuos_runtime_full_check_v0_43.py
+      - run: python3 scripts/run_kuuos_runtime_full_check_v0_44.py
