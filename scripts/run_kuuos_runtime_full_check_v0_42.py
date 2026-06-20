@@ -15,6 +15,9 @@ from scripts.check_qi_world_cross_cycle_blocker_v1_5 import (
 from scripts.check_qi_world_indra_transport_request_v1_6 import (
     main as check_qi_world_v16,
 )
+from scripts.check_qi_world_indra_transport_receipt_intake_v1_7 import (
+    main as check_qi_world_v17,
+)
 from scripts.check_world_gauge_categorical_indra_net_bridge_v0_42 import (
     main as check_v042,
 )
@@ -27,6 +30,7 @@ def _run_qi_world_tests() -> int:
     for module in (
         "tests.test_qi_world_cross_cycle_blocker_v1_5",
         "tests.test_qi_world_indra_transport_request_v1_6",
+        "tests.test_qi_world_indra_transport_receipt_intake_v1_7",
     ):
         suite.addTests(loader.loadTestsFromName(module))
     result = unittest.TextTestRunner(verbosity=2).run(suite)
@@ -34,7 +38,12 @@ def _run_qi_world_tests() -> int:
 
 
 def main() -> int:
-    for check in (check_v042, check_qi_world_v15, check_qi_world_v16):
+    for check in (
+        check_v042,
+        check_qi_world_v15,
+        check_qi_world_v16,
+        check_qi_world_v17,
+    ):
         if check() != 0:
             return 1
     if _run_qi_world_tests() != 0:
