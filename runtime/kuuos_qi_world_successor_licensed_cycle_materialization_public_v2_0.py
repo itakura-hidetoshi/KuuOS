@@ -4,6 +4,9 @@ from copy import deepcopy
 from typing import Any, Mapping
 
 from runtime import kuuos_qi_world_successor_licensed_cycle_materialization_v2_0 as _core
+from runtime.kuuos_qi_world_successor_native_evidence_clock_v2_0 import (
+    build_successor_native_evidence_downstream,
+)
 
 _ORIGINAL_APPLY_ACT = _core.apply_act
 _ORIGINAL_BUILD_FIXTURE_EVENT = _core.build_fixture_event
@@ -71,6 +74,7 @@ _core.apply_act = _apply_act_with_successor_clock
 _core.build_fixture_event = _build_fixture_event_with_successor_clock
 _core.build_post_effect_blocker_certificate = _build_post_effect_blocker_certificate
 _core.validate_post_effect_blocker_certificate = _validate_post_effect_blocker_certificate
+_core._build_downstream = build_successor_native_evidence_downstream
 
 CHAIN_NON_AUTHORITY = _core.CHAIN_NON_AUTHORITY
 CHAIN_VERSION = _core.CHAIN_VERSION
