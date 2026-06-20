@@ -1,1 +1,25 @@
-{}
+{
+  "manifest_version": "world_quantum_geodesic_mirror_free_energy_v0_46",
+  "files": {
+    "formal": [
+      "formal/KUOS/WORLD/QuantumGeodesicMirrorDescentFreeEnergyBridgeV0_46.lean",
+      "formal/KuuOSFormalV0_46.lean"
+    ],
+    "runtime": [
+      "runtime/kuuos_world_quantum_geodesic_mirror_free_energy_core_v0_46.py",
+      "runtime/kuuos_world_quantum_geodesic_mirror_free_energy_runtime_v0_46.py"
+    ],
+    "scripts": [
+      "scripts/check_world_quantum_geodesic_mirror_free_energy_v0_46.py",
+      "scripts/run_kuuos_runtime_full_check_v0_46.py"
+    ],
+    "docs": [
+      "docs/KU_WORLD_QUANTUM_GEODESIC_MIRROR_FREE_ENERGY_v0_46.md"
+    ],
+    "config": [
+      "lakefile.toml",
+      ".github/workflows/kuuos_runtime_full_check.yml"
+    ]
+  },
+  "status": "READY"
+}
