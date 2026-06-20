@@ -3,6 +3,7 @@ import KUOS.OpenHorizon.MissionContractKernelV0_20
 import KUOS.OpenHorizon.AutonomousMissionCycleKernelV0_21
 import KUOS.OpenHorizon.ObservationBeliefStateKernelV0_21
 import KUOS.OpenHorizon.SemanticPlannerVerifierKernelV0_22
+import KUOS.OpenHorizon.CognitiveMemoryCreditKernelV0_23
 import KUOS.Architecture.AdaptiveAgentReferenceArchitectureV1_0
 import KUOS.Architecture.QiWorldOSInterfaceBridgeV1_0
 import KUOS.Architecture.QiWorldAdaptiveTraceAdapterV1_1
