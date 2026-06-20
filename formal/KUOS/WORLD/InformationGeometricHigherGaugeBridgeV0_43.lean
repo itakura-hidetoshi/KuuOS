@@ -401,12 +401,24 @@ theorem information_projection_pythagorean
   I.informationProjection_pythagorean i p q hq
 
 theorem statistical_transport_injective (i j : G.Patch) :
-    Function.Injective (I.statisticalTransport i j) :=
-  (I.statisticalTransport_inverse i j).injective
+    Function.Injective (I.statisticalTransport i j) := by
+  intro p q h
+  calc
+    p = I.statisticalTransport j i (I.statisticalTransport i j p) :=
+      (I.statisticalTransport_inverse i j p).symm
+    _ = I.statisticalTransport j i (I.statisticalTransport i j q) :=
+      congrArg (I.statisticalTransport j i) h
+    _ = q := I.statisticalTransport_inverse i j q
 
 theorem tangent_transport_injective (i j : G.Patch) :
-    Function.Injective (I.tangentTransport i j) :=
-  (I.tangentTransport_inverse i j).injective
+    Function.Injective (I.tangentTransport i j) := by
+  intro u v h
+  calc
+    u = I.tangentTransport j i (I.tangentTransport i j u) :=
+      (I.tangentTransport_inverse i j u).symm
+    _ = I.tangentTransport j i (I.tangentTransport i j v) :=
+      congrArg (I.tangentTransport j i) h
+    _ = v := I.tangentTransport_inverse i j v
 
 theorem fisher_metric_gauge_invariant
     (i j : G.Patch) (p : I.StatisticalPoint) (u v : I.Tangent) :
