@@ -1,4 +1,4 @@
-name: OS-Qi Closed Loop v0.24
+name: OS-Qi Closed Loop v0.24 Probe macOS
 
 on:
   push:
@@ -30,7 +30,7 @@ permissions:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
