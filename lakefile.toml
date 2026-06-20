@@ -15,5 +15,6 @@ roots = [
   "KUOS",
   "KuuOSFormalV0_41",
   "KuuOSFormalV0_42",
-  "KuuOSFormalV0_43"
+  "KuuOSFormalV0_43",
+  "KuuOSFormalV0_44"
 ]
