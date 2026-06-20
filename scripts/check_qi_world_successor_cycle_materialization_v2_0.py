@@ -9,7 +9,7 @@ ROOT = Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
-from runtime.kuuos_qi_world_successor_cycle_materialization_scenarios_v2_0 import (
+from runtime.kuuos_qi_world_successor_cycle_materialization_public_scenarios_v2_0 import (
     run_successor_cycle_materialization_scenarios,
 )
 
