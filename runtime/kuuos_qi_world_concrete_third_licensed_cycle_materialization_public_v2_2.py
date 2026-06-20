@@ -1,0 +1,112 @@
+from __future__ import annotations
+
+from typing import Any, Mapping
+
+from runtime import kuuos_qi_world_concrete_third_licensed_cycle_materialization_v2_2 as _core
+from runtime import kuuos_qi_world_successor_native_evidence_clock_v2_0 as _clock
+from runtime.kuuos_belief_os_types_v0_1 import sha
+from runtime.kuuos_qi_world_third_cycle_binding_adapter_v2_2 import (
+    binding_digest,
+    build_bound_materialized_extension_witness,
+    build_third_cycle_binding_receipt,
+    validate_third_cycle_binding_receipt,
+)
+from runtime.kuuos_qi_world_third_cycle_clock_adapter_v2_2 import (
+    apply as _apply_third_cycle_event,
+    event as _third_cycle_event,
+)
+
+
+def _third_cycle_evidence_items() -> list[dict[str, Any]]:
+    items: list[dict[str, Any]] = []
+    for index, source_kind in enumerate(("system", "human"), start=1):
+        label = f"third-cycle-{source_kind}-{index}"
+        items.append(
+            {
+                "evidence_id": f"third-cycle-evidence-{index}",
+                "channel_id": (
+                    "system-output" if source_kind == "system" else "independent-check"
+                ),
+                "source_kind": source_kind,
+                "collector_id": f"third-cycle-collector-{source_kind}",
+                "independent_source_id": f"third-cycle-source-{source_kind}",
+                "collected_at_ms": 699_000 + index * 100,
+                "raw_artifact_digest": sha(label + "-raw"),
+                "value_digest": sha(label + "-value"),
+                "uncertainty_digest": sha(label + "-uncertainty"),
+                "calibration_digest": sha(label + "-calibration"),
+                "context_digest": sha(label + "-context"),
+                "tamper_evidence_digest": sha(label + "-tamper"),
+                "provenance_hop_digests": [
+                    sha(label + "-source"),
+                    sha(label + "-collector"),
+                ],
+            }
+        )
+    return items
+
+
+_original_third_evidence = getattr(
+    _core, "_v22_original_third_evidence", _core._third_evidence
+)
+_core._v22_original_third_evidence = _original_third_evidence
+
+
+def _third_cycle_native_evidence(root: Any, act: Mapping[str, Any]) -> Any:
+    previous = _clock._evidence_items
+    try:
+        _clock._evidence_items = _third_cycle_evidence_items
+        return _original_third_evidence(root, act)
+    finally:
+        _clock._evidence_items = previous
+
+
+_core.apply_act = _apply_third_cycle_event
+_core.build_fixture_event = _third_cycle_event
+_core._third_evidence = _third_cycle_native_evidence
+
+build_concrete_three_cycle_bundle = _core.build_concrete_three_cycle_bundle
+build_materialized_third_cycle_extension_witness = (
+    build_bound_materialized_extension_witness
+)
+build_third_closed_cycle_receipt = _core.build_third_closed_cycle_receipt
+build_third_cycle_authority_intake = _core.build_third_cycle_authority_intake
+build_third_cycle_authority_requirement = _core.build_third_cycle_authority_requirement
+build_third_licensed_act_handoff_receipt = _core.build_third_licensed_act_handoff_receipt
+build_third_native_evidence_closure_receipt = _core.build_third_native_evidence_closure_receipt
+validate_concrete_three_cycle_bundle = _core.validate_concrete_three_cycle_bundle
+validate_third_closed_cycle_receipt = _core.validate_third_closed_cycle_receipt
+validate_third_cycle_authority_intake = _core.validate_third_cycle_authority_intake
+validate_third_cycle_authority_requirement = _core.validate_third_cycle_authority_requirement
+validate_third_licensed_act_handoff_receipt = _core.validate_third_licensed_act_handoff_receipt
+validate_third_native_evidence_closure_receipt = _core.validate_third_native_evidence_closure_receipt
+bundle_digest = _core.bundle_digest
+closure_digest = _core.closure_digest
+handoff_digest = _core.handoff_digest
+receipt_digest = _core.receipt_digest
+requirement_digest = _core.requirement_digest
+
+__all__ = [
+    "binding_digest",
+    "build_bound_materialized_extension_witness",
+    "build_concrete_three_cycle_bundle",
+    "build_materialized_third_cycle_extension_witness",
+    "build_third_closed_cycle_receipt",
+    "build_third_cycle_authority_intake",
+    "build_third_cycle_authority_requirement",
+    "build_third_cycle_binding_receipt",
+    "build_third_licensed_act_handoff_receipt",
+    "build_third_native_evidence_closure_receipt",
+    "validate_concrete_three_cycle_bundle",
+    "validate_third_closed_cycle_receipt",
+    "validate_third_cycle_authority_intake",
+    "validate_third_cycle_authority_requirement",
+    "validate_third_cycle_binding_receipt",
+    "validate_third_licensed_act_handoff_receipt",
+    "validate_third_native_evidence_closure_receipt",
+    "bundle_digest",
+    "closure_digest",
+    "handoff_digest",
+    "receipt_digest",
+    "requirement_digest",
+]
