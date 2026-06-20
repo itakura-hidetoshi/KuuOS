@@ -4,14 +4,18 @@ on:
   push:
     paths:
       - "runtime/kuuos_qi_world_successor_cycle_materialization_v2_0.py"
+      - "runtime/kuuos_qi_world_successor_cycle_materialization_public_v2_0.py"
       - "runtime/kuuos_qi_world_successor_cycle_materialization_scenarios_v2_0.py"
+      - "runtime/kuuos_qi_world_successor_cycle_materialization_public_scenarios_v2_0.py"
       - "scripts/check_qi_world_successor_cycle_materialization_v2_0.py"
       - "tests/test_qi_world_successor_cycle_materialization_v2_0.py"
       - ".github/workflows/qi-world-successor-cycle-materialization-v2-0-validation.yml"
   pull_request:
     paths:
       - "runtime/kuuos_qi_world_successor_cycle_materialization_v2_0.py"
+      - "runtime/kuuos_qi_world_successor_cycle_materialization_public_v2_0.py"
       - "runtime/kuuos_qi_world_successor_cycle_materialization_scenarios_v2_0.py"
+      - "runtime/kuuos_qi_world_successor_cycle_materialization_public_scenarios_v2_0.py"
       - "scripts/check_qi_world_successor_cycle_materialization_v2_0.py"
       - "tests/test_qi_world_successor_cycle_materialization_v2_0.py"
       - ".github/workflows/qi-world-successor-cycle-materialization-v2-0-validation.yml"
@@ -32,7 +36,9 @@ jobs:
         run: >-
           python -m compileall -q
           runtime/kuuos_qi_world_successor_cycle_materialization_v2_0.py
+          runtime/kuuos_qi_world_successor_cycle_materialization_public_v2_0.py
           runtime/kuuos_qi_world_successor_cycle_materialization_scenarios_v2_0.py
+          runtime/kuuos_qi_world_successor_cycle_materialization_public_scenarios_v2_0.py
           scripts/check_qi_world_successor_cycle_materialization_v2_0.py
           tests/test_qi_world_successor_cycle_materialization_v2_0.py
       - name: Validate successor cycle materialization
