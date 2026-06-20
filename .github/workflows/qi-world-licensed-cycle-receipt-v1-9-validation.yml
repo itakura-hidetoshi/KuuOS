@@ -9,6 +9,8 @@ on:
       - "tests/test_qi_world_licensed_cycle_receipt_v1_9.py"
       - "formal/KUOS/Architecture/QiWorldLicensedCycleReceiptV1_9.lean"
       - "formal/KUOS.lean"
+      - "docs/KUUOS_QI_WORLD_LICENSED_CYCLE_RECEIPT_v1_9.md"
+      - "manifests/kuuos_qi_world_licensed_cycle_receipt_v1_9.json"
       - ".github/workflows/qi-world-licensed-cycle-receipt-v1-9-validation.yml"
   pull_request:
     paths:
@@ -18,6 +20,8 @@ on:
       - "tests/test_qi_world_licensed_cycle_receipt_v1_9.py"
       - "formal/KUOS/Architecture/QiWorldLicensedCycleReceiptV1_9.lean"
       - "formal/KUOS.lean"
+      - "docs/KUUOS_QI_WORLD_LICENSED_CYCLE_RECEIPT_v1_9.md"
+      - "manifests/kuuos_qi_world_licensed_cycle_receipt_v1_9.json"
       - ".github/workflows/qi-world-licensed-cycle-receipt-v1-9-validation.yml"
   workflow_dispatch:
 
