@@ -13,5 +13,6 @@ srcDir = "formal"
 roots = [
   "KuuOSFormal",
   "KUOS",
-  "KuuOSFormalV0_41"
+  "KuuOSFormalV0_41",
+  "KuuOSFormalV0_42"
 ]

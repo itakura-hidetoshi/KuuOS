@@ -1,0 +1,25 @@
+{
+  "manifest_version": "world_gauge_categorical_indra_net_bridge_v0_42",
+  "files": {
+    "formal": [
+      "formal/KUOS/WORLD/GaugeCategoricalIndraNetBridgeV0_42.lean",
+      "formal/KuuOSFormalV0_42.lean"
+    ],
+    "runtime": [
+      "runtime/kuuos_world_gauge_categorical_indra_net_bridge_core_v0_42.py",
+      "runtime/kuuos_world_gauge_categorical_indra_net_bridge_runtime_v0_42.py"
+    ],
+    "scripts": [
+      "scripts/check_world_gauge_categorical_indra_net_bridge_v0_42.py",
+      "scripts/run_kuuos_runtime_full_check_v0_42.py"
+    ],
+    "docs": [
+      "docs/KU_WORLD_GAUGE_CATEGORICAL_INDRA_NET_BRIDGE_v0_42.md"
+    ],
+    "config": [
+      "lakefile.toml",
+      ".github/workflows/kuuos_runtime_full_check.yml"
+    ]
+  },
+  "status": "READY"
+}
