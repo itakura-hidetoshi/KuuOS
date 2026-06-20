@@ -4,10 +4,10 @@ import tempfile
 import unittest
 from pathlib import Path
 
-from runtime.kuuos_qi_world_licensed_effect_evidence_closure_scenarios_v1_8 import (
+from runtime.kuuos_qi_world_licensed_effect_evidence_closure_public_scenarios_v1_8 import (
     run_licensed_effect_evidence_closure_scenarios,
 )
-from runtime.kuuos_qi_world_licensed_effect_evidence_closure_v1_8 import (
+from runtime.kuuos_qi_world_licensed_effect_evidence_closure_public_v1_8 import (
     BLOCKER_ORDER,
     build_licensed_effect_evidence_closure_receipt,
     validate_licensed_effect_evidence_closure_receipt,
@@ -45,6 +45,13 @@ class QiWorldLicensedEffectEvidenceClosureV18Tests(unittest.TestCase):
                 ],
                 states["LearnOS"]["learning_delta_digest"],
             )
+            delta = states["LearnOS"]["learning_delta"]
+            self.assertTrue(delta["future_only"])
+            self.assertFalse(delta["memory_overwrite"])
+            self.assertFalse(delta["active_now"])
+            self.assertTrue(delta["activation_requires_replan"])
+            self.assertTrue(states["LearnOS"]["learning_debt_discharged"])
+            self.assertTrue(states["LearnOS"]["replan_required"])
 
     def test_debts_are_closed_and_next_act_is_blocked(self) -> None:
         with tempfile.TemporaryDirectory(
