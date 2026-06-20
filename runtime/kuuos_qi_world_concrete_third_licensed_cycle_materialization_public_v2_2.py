@@ -73,9 +73,24 @@ def _third_cycle_evidence_items() -> list[dict[str, Any]]:
     return items
 
 
+_original_third_evidence = getattr(
+    _core, "_v22_original_third_evidence", _core._third_evidence
+)
+_core._v22_original_third_evidence = _original_third_evidence
+
+
+def _third_cycle_native_evidence(root: Any, act: Mapping[str, Any]) -> Any:
+    previous = _clock._evidence_items
+    try:
+        _clock._evidence_items = _third_cycle_evidence_items
+        return _original_third_evidence(root, act)
+    finally:
+        _clock._evidence_items = previous
+
+
 _core.apply_act = _apply_third_cycle_event
 _core.build_fixture_event = _third_cycle_event
-_clock._evidence_items = _third_cycle_evidence_items
+_core._third_evidence = _third_cycle_native_evidence
 
 build_concrete_three_cycle_bundle = _core.build_concrete_three_cycle_bundle
 build_materialized_third_cycle_extension_witness = _core.build_materialized_third_cycle_extension_witness
