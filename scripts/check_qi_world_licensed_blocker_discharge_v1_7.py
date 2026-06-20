@@ -12,7 +12,7 @@ if str(ROOT) not in sys.path:
 from runtime.kuuos_qi_world_licensed_blocker_discharge_scenarios_v1_7 import (
     run_licensed_blocker_discharge_scenarios,
 )
-from runtime.kuuos_qi_world_licensed_effect_evidence_closure_scenarios_v1_8 import (
+from runtime.kuuos_qi_world_licensed_effect_evidence_closure_public_scenarios_v1_8 import (
     run_licensed_effect_evidence_closure_scenarios,
 )
 
