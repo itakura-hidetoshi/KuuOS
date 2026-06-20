@@ -51,7 +51,7 @@ jobs:
           tests/test_qi_world_successor_licensed_cycle_materialization_v2_0.py
       - name: Validate successor licensed cycle materialization
         run: >-
-          python scripts/check_qi_world_successor_licensed_cycle_materialization_v2_0.py
+          PYTHONPATH=. python scripts/check_qi_world_successor_licensed_cycle_materialization_v2_0.py
           > successor-licensed-cycle-materialization-v2-0.log 2>&1
       - name: Upload v2.0 diagnostics
         if: failure()
