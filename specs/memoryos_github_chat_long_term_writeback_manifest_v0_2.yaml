@@ -1,0 +1,91 @@
+schema_version: v0.2
+name: memoryos_github_chat_long_term_writeback_manifest_v0_2
+title: KuuOS MemoryOS GitHub Chat Long-Term Writeback Manifest v0.2
+author: Hidetoshi Itakura / 板倉英俊
+date: '2026-06-21'
+release_mode:
+  append_only: true
+  tighten_only: true
+  overwrite_forbidden: true
+extends:
+  - specs/memoryos_github_external_memory_manifest_v0_1.yaml
+canonical_documents:
+  - docs/MEMORYOS_GITHUB_CHAT_LONG_TERM_WRITEBACK_v0_2.md
+canonical_example:
+  - examples/memoryos_github_chat_long_term_writeback_packet_v0_2.json
+canonical_validator:
+  - scripts/validate_memoryos_github_chat_long_term_writeback_v0_2.py
+canonical_workflow:
+  - .github/workflows/memoryos-github-chat-long-term-writeback-v0-2-validation.yml
+core_rule: GitHub_tool_use_does_not_block_long_term_memory_writeback
+execution_model:
+  github_lane:
+    - perform_github_operations
+    - verify_github_result
+    - emit_stable_github_receipt
+  memory_writeback_lane:
+    - build_handoff_digest
+    - invoke_long_term_memory_writeback
+    - verify_writeback_result
+    - emit_memory_writeback_receipt
+  composition: sequential_same_conversation
+save_triggers:
+  - explicit_user_save_request
+  - durable_repository_state_change
+  - formal_proof_frontier_change
+  - pull_request_or_merge_closure
+  - workflow_or_release_closure
+  - promised_cross_conversation_retention
+required_handoff_fields:
+  - repository
+  - branch
+  - pr_number
+  - head_commit
+  - merge_commit
+  - workflow_runs
+  - completed_spine
+  - open_frontier
+  - invariants
+  - release_mode
+  - recorded_at
+receipt_states:
+  github_receipt:
+    - verified
+    - failed
+    - partial
+  memory_writeback_receipt:
+    - stored
+    - capability_unavailable
+    - rejected
+    - failed
+prohibited_claims:
+  - GitHub操作ツールとの併用制約により長期メモリへ保存できませんでした
+  - GitHub_tool_coexistence_blocks_memory_writeback
+  - new_conversation_required_merely_because_GitHub_was_used
+required_constraints:
+  no_false_saved_claim: true
+  no_false_coexistence_failure_claim: true
+  actual_memory_receipt_required: true
+  same_conversation_writeback_default: true
+  additive_only_handoff: true
+  preserve_existing_confirmed_baselines: true
+  github_remains_external_pointer_only: true
+genuine_capability_failure_protocol:
+  attribute_actual_condition_only: true
+  preserve_handoff_digest_in_current_conversation: true
+  do_not_claim_storage_success: true
+  do_not_attribute_to_github_coexistence: true
+  retry_in_same_conversation_when_available: true
+fixed_points:
+  - GitHub_tool_use_does_not_block_long_term_memory_writeback
+  - GitHub_and_memory_writeback_are_separate_sequential_phases
+  - same_conversation_writeback_is_the_default
+  - new_conversation_is_not_required_by_GitHub_use
+  - no_false_saved_claim
+  - no_false_coexistence_failure_claim
+  - actual_memory_receipt_required
+  - handoff_digest_is_additive_only
+  - GitHub_stores_full_evidence
+  - long_term_memory_stores_durable_semantic_handoff
+  - existing_confirmed_baselines_are_not_overwritten
+validation_expected_output: 'PASS: KuuOS MemoryOS GitHub chat long-term writeback v0.2 validates'
