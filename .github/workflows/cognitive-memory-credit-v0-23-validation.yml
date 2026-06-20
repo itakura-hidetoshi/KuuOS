@@ -1,0 +1,113 @@
+name: Cognitive Memory Credit v0.23
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_cognitive_memory_credit_kernel_v0_23.py"
+      - "runtime/kuuos_cognitive_memory_credit_store_v0_23.py"
+      - "runtime/kuuos_cognitive_memory_credit_scenarios_v0_23.py"
+      - "scripts/check_cognitive_memory_credit_v0_23.py"
+      - "tests/test_cognitive_memory_credit_v0_23.py"
+      - "formal/KUOS/OpenHorizon/CognitiveMemoryCreditKernelV0_23.lean"
+      - "formal/KUOS.lean"
+      - "docs/KUUOS_COGNITIVE_MEMORY_CREDIT_KERNEL_v0_23.md"
+      - "docs/KUUOS_AUTONOMOUS_AGENT_STATUS_v0_23.md"
+      - "manifests/kuuos_cognitive_memory_credit_kernel_v0_23.json"
+      - ".github/workflows/cognitive-memory-credit-v0-23-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_cognitive_memory_credit_kernel_v0_23.py"
+      - "runtime/kuuos_cognitive_memory_credit_store_v0_23.py"
+      - "runtime/kuuos_cognitive_memory_credit_scenarios_v0_23.py"
+      - "scripts/check_cognitive_memory_credit_v0_23.py"
+      - "tests/test_cognitive_memory_credit_v0_23.py"
+      - "formal/KUOS/OpenHorizon/CognitiveMemoryCreditKernelV0_23.lean"
+      - "formal/KUOS.lean"
+      - "docs/KUUOS_COGNITIVE_MEMORY_CREDIT_KERNEL_v0_23.md"
+      - "docs/KUUOS_AUTONOMOUS_AGENT_STATUS_v0_23.md"
+      - "manifests/kuuos_cognitive_memory_credit_kernel_v0_23.json"
+      - ".github/workflows/cognitive-memory-credit-v0-23-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python -m compileall -q
+          runtime/kuuos_cognitive_memory_credit_kernel_v0_23.py
+          runtime/kuuos_cognitive_memory_credit_store_v0_23.py
+          runtime/kuuos_cognitive_memory_credit_scenarios_v0_23.py
+          scripts/check_cognitive_memory_credit_v0_23.py
+          tests/test_cognitive_memory_credit_v0_23.py
+      - name: Validate v0.23 integrated scenarios
+        run: >-
+          PYTHONPATH=. python scripts/check_cognitive_memory_credit_v0_23.py
+          > cognitive-memory-credit-v0-23.log 2>&1
+      - name: Run v0.23 unit tests
+        run: >-
+          PYTHONPATH=. python -m unittest -v
+          tests.test_cognitive_memory_credit_v0_23
+          >> cognitive-memory-credit-v0-23.log 2>&1
+      - name: Run v0.22 semantic planner regression
+        run: >-
+          PYTHONPATH=. python scripts/check_semantic_planner_verifier_v0_22.py
+          >> cognitive-memory-credit-v0-23.log 2>&1
+      - name: Run v0.21 observation-belief regression
+        run: >-
+          PYTHONPATH=. python scripts/check_observation_belief_state_v0_21.py
+          >> cognitive-memory-credit-v0-23.log 2>&1
+      - name: Run Qi MemoryOS append regression
+        run: >-
+          PYTHONPATH=. python scripts/check_qi_memoryos_process_tensor_append_writeback_v0_1.py
+          >> cognitive-memory-credit-v0-23.log 2>&1
+      - name: Run Qi MemoryOS replay regression
+        run: >-
+          PYTHONPATH=. python scripts/check_qi_memoryos_process_tensor_retrieval_replay_v0_1.py
+          >> cognitive-memory-credit-v0-23.log 2>&1
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile v0.23 formal module
+        shell: bash
+        run: |
+          set -o pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KUOS.OpenHorizon.CognitiveMemoryCreditKernelV0_23 \
+            2>&1 | tee cognitive-memory-credit-v0-23-lean-module.log
+      - name: Strictly compile formal root
+        shell: bash
+        run: |
+          set -o pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true build KuuOSFormal \
+            2>&1 | tee cognitive-memory-credit-v0-23-lean-root.log
+      - name: Upload v0.23 diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: cognitive-memory-credit-v0-23-diagnostics
+          path: |
+            cognitive-memory-credit-v0-23.log
+            cognitive-memory-credit-v0-23-lean-module.log
+            cognitive-memory-credit-v0-23-lean-root.log
+          if-no-files-found: warn
