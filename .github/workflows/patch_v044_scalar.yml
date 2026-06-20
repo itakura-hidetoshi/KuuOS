@@ -1,0 +1,44 @@
+name: Patch v0.44 Scalar Binder
+
+on:
+  push:
+    branches:
+      - world-araki-petz-quantum-information-geometry-v0-44-rebased
+    paths:
+      - '.github/workflows/patch_v044_scalar.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          ref: world-araki-petz-quantum-information-geometry-v0-44-rebased
+          fetch-depth: 0
+      - name: Patch scalar binder
+        run: |
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path('formal/KUOS/WORLD/ArakiPetzQuantumInformationGeometryBridgeV0_44.lean')
+          text = path.read_text(encoding='utf-8')
+          old = '''  tangentObservable_smul : ∀ r u,
+              tangentObservable (r • u) = r • tangentObservable u
+          '''
+          new = '''  tangentObservable_smul : ∀ (r : ℝ) u,
+              tangentObservable (r • u) = r • tangentObservable u
+          '''
+          if text.count(old) != 1:
+              raise SystemExit(f'expected one target block, found {text.count(old)}')
+          path.write_text(text.replace(old, new), encoding='utf-8')
+          PY
+      - name: Commit proof-surface repair
+        run: |
+          git config user.name github-actions[bot]
+          git config user.email 41898282+github-actions[bot]@users.noreply.github.com
+          git add formal/KUOS/WORLD/ArakiPetzQuantumInformationGeometryBridgeV0_44.lean
+          git commit -m 'Annotate v0.44 tangent-observable scalar as real'
+          git push origin HEAD:world-araki-petz-quantum-information-geometry-v0-44-rebased
