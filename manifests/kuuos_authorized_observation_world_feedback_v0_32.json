@@ -44,10 +44,14 @@
     "world_update_candidate_not_root_rewrite",
     "observation_not_automatic_mission_completion",
     "one_evidence_one_feedback_candidate",
+    "all_existing_official_ledger_entries_strictly_validated",
     "append_only_replay_safe_ledgers"
   ],
   "checker": "scripts/check_authorized_observation_world_feedback_v0_32.py",
-  "tests": "tests/test_authorized_observation_world_feedback_v0_32.py",
+  "tests": [
+    "tests/test_authorized_observation_world_feedback_v0_32.py",
+    "tests/test_authorized_observation_world_feedback_entry_v0_32.py"
+  ],
   "formal": "formal/KUOS/OpenHorizon/AuthorizedObservationWorldFeedbackKernelV0_32.lean",
   "documentation": "docs/KUUOS_AUTHORIZED_OBSERVATION_WORLD_FEEDBACK_v0_32.md"
 }
