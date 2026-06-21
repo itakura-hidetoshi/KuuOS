@@ -1,0 +1,53 @@
+{
+  "version": "v0.32",
+  "name": "KuuOS Authorized Observation Acquisition and WORLD Feedback",
+  "classification": "authorized_single_use_observation_and_world_feedback_candidate_kernel",
+  "predecessor": "v0.31",
+  "official_runtime_entry": "runtime/kuuos_authorized_observation_world_feedback_entry_v0_32.py",
+  "runtime_core": "runtime/kuuos_authorized_observation_world_feedback_v0_32.py",
+  "authorization_bindings": [
+    "source_report_digest",
+    "source_state_digest",
+    "root_lineage_digest",
+    "world_fragment_digest",
+    "mission_candidate_id",
+    "observation_candidate_id",
+    "channel_id",
+    "tool_id",
+    "scope_digest",
+    "host_license_digest",
+    "finite_time_window",
+    "single_use"
+  ],
+  "evidence_relations": [
+    "SUPPORTS",
+    "CONTRADICTS",
+    "INCONCLUSIVE",
+    "CONFLICTED"
+  ],
+  "feedback_routes": [
+    "WORLD_UPDATE_CANDIDATE",
+    "REOBSERVE"
+  ],
+  "invariants": [
+    "candidate_not_authorization",
+    "authorization_not_generic_execution_authority",
+    "one_authorization_one_request",
+    "evidence_collection_inside_authorization_window",
+    "one_request_one_evidence_receipt",
+    "observation_not_verification",
+    "verification_debt_preserved",
+    "support_not_truth",
+    "contradiction_not_causal_attribution",
+    "counterevidence_preserved",
+    "uncertainty_preserved",
+    "world_update_candidate_not_root_rewrite",
+    "observation_not_automatic_mission_completion",
+    "one_evidence_one_feedback_candidate",
+    "append_only_replay_safe_ledgers"
+  ],
+  "checker": "scripts/check_authorized_observation_world_feedback_v0_32.py",
+  "tests": "tests/test_authorized_observation_world_feedback_v0_32.py",
+  "formal": "formal/KUOS/OpenHorizon/AuthorizedObservationWorldFeedbackKernelV0_32.lean",
+  "documentation": "docs/KUUOS_AUTHORIZED_OBSERVATION_WORLD_FEEDBACK_v0_32.md"
+}
