@@ -1,0 +1,64 @@
+name: Authorized Atomic WORLD Commit v0.34
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_authorized_atomic_world_commit_v0_34.py"
+      - "runtime/kuuos_authorized_atomic_world_commit_entry_v0_34.py"
+      - "scripts/check_authorized_atomic_world_commit_v0_34.py"
+      - "tests/test_authorized_atomic_world_commit_v0_34.py"
+      - "docs/KUUOS_AUTHORIZED_ATOMIC_WORLD_COMMIT_v0_34.md"
+      - "docs/KUUOS_AUTHORIZED_ATOMIC_WORLD_COMMIT_v0_34_ACCEPTANCE.md"
+      - "manifests/kuuos_authorized_atomic_world_commit_v0_34.json"
+      - "formal/KUOS/OpenHorizon/AuthorizedAtomicWorldCommitKernelV0_34.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/authorized-atomic-world-commit-v0-34.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_authorized_atomic_world_commit_v0_34.py"
+      - "runtime/kuuos_authorized_atomic_world_commit_entry_v0_34.py"
+      - "scripts/check_authorized_atomic_world_commit_v0_34.py"
+      - "tests/test_authorized_atomic_world_commit_v0_34.py"
+      - "docs/KUUOS_AUTHORIZED_ATOMIC_WORLD_COMMIT_v0_34.md"
+      - "docs/KUUOS_AUTHORIZED_ATOMIC_WORLD_COMMIT_v0_34_ACCEPTANCE.md"
+      - "manifests/kuuos_authorized_atomic_world_commit_v0_34.json"
+      - "formal/KUOS/OpenHorizon/AuthorizedAtomicWorldCommitKernelV0_34.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/authorized-atomic-world-commit-v0-34.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python checks
+        run: |
+          python -m compileall -q runtime/kuuos_authorized_atomic_world_commit_v0_34.py runtime/kuuos_authorized_atomic_world_commit_entry_v0_34.py scripts/check_authorized_atomic_world_commit_v0_34.py tests/test_authorized_atomic_world_commit_v0_34.py
+          PYTHONPATH=. python scripts/check_authorized_atomic_world_commit_v0_34.py
+          PYTHONPATH=. python -m unittest -v tests.test_authorized_atomic_world_commit_v0_34
+          PYTHONPATH=. python scripts/check_verifyos_world_adoption_v0_33.py
+          PYTHONPATH=. python scripts/check_authorized_observation_world_feedback_v0_32.py
+          PYTHONPATH=. python scripts/check_endogenous_mission_observation_v0_31.py
+          PYTHONPATH=. python scripts/check_open_ended_background_agency_v0_30.py
+          PYTHONPATH=. python scripts/run_qi_candidate_lineage_v0_29.py
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Lean checks
+        run: |
+          lake update
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.OpenHorizon.AuthorizedAtomicWorldCommitKernelV0_34
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal
