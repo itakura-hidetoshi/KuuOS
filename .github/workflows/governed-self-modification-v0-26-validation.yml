@@ -1,4 +1,4 @@
-name: Governed Self-Modification v0.26
+name: Governed Self-Modification v0.26 Probe macOS
 
 on:
   push:
@@ -40,7 +40,7 @@ permissions:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
@@ -104,7 +104,7 @@ jobs:
         if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: governed-self-mod-v0-26-diagnostics
+          name: governed-self-mod-v0-26-macos-probe-diagnostics
           path: |
             governed-self-mod-v0-26.log
             governed-self-mod-v0-26-lean-module.log
