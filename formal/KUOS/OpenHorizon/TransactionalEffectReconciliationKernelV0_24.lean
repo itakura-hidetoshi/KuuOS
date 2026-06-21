@@ -244,7 +244,7 @@ theorem transactional_effect_reconciliation_boundary
     hPrepareNoCall.1,
     hWorld.1, hWorld.2.1,
     hCompensation.1, hCompensation.2.2.2.1,
-    hCompensation.2.2.2.2.1, hCompensation.2.2.2.2.2,
+    hCompensation.2.2.2.2.1, hCompensation.2.2.2.2.2.2,
     hCompensationAutomatic.1, hCompensationAutomatic.2,
     hCommitReceipts.1, hCommitReceipts.2.1,
     hCommitReceipts.2.2.1, hCommitReceipts.2.2.2,
