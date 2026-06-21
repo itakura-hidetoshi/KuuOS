@@ -27,11 +27,18 @@
     "admission_not_self_authorization",
     "no_global_cycle_ceiling",
     "additive_new_horizon_allowed",
-    "append_only_replay_safe_persistence"
+    "append_only_replay_safe_persistence",
+    "request_identity_is_stable",
+    "replay_repairs_only_the_source_snapshot",
+    "old_replay_does_not_roll_back_later_state"
   ],
-  "runtime": "runtime/kuuos_open_ended_background_agency_v0_30.py",
+  "runtime_entry": "runtime/kuuos_open_ended_background_agency_entry_v0_30.py",
+  "runtime_core": "runtime/kuuos_open_ended_background_agency_v0_30.py",
   "checker": "scripts/check_open_ended_background_agency_v0_30.py",
-  "tests": "tests/test_open_ended_background_agency_v0_30.py",
+  "tests": [
+    "tests/test_open_ended_background_agency_v0_30.py",
+    "tests/test_open_ended_background_agency_entry_v0_30.py"
+  ],
   "formal": "formal/KUOS/OpenHorizon/OpenEndedBackgroundAgencyKernelV0_30.lean",
   "documentation": "docs/KUUOS_OPEN_ENDED_BACKGROUND_AGENCY_v0_30.md"
 }
