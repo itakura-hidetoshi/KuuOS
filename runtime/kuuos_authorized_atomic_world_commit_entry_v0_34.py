@@ -21,10 +21,25 @@ validate_world_store = core.validate_world_store
 def commit_world_fragment_atomic(
     *,
     store_path: Path,
+    source_disposition_envelope: Mapping[str, Any],
+    authorization_envelope: Mapping[str, Any],
     request_envelope: Mapping[str, Any],
     committed_at_ms: int,
 ) -> AtomicCommitResult:
+    authorization = validate_world_commit_authorization_receipt(authorization_envelope)
     request = validate_authorized_world_commit_request(request_envelope)
+    rebuilt = build_authorized_world_commit_request(
+        source_disposition_envelope,
+        authorization_envelope,
+        requested_at_ms=request["requested_at_ms"],
+    )
+    if rebuilt["body_digest"] != request_envelope.get("body_digest"):
+        raise ValueError("world_commit_request_not_exactly_reconstructible")
+    if request["authorization_digest"] != authorization_envelope.get("body_digest"):
+        raise ValueError("world_commit_request_authorization_mismatch")
+    if request["authorization_id"] != authorization["authorization_id"]:
+        raise ValueError("world_commit_request_authorization_id_mismatch")
+
     store = read_world_store(store_path)
     for receipt_envelope in store["body"]["commits"]:
         receipt = validate_atomic_world_commit_receipt(receipt_envelope)
