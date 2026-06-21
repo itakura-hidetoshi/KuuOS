@@ -1,684 +1,509 @@
 # KuuOS / 空OS Roadmap
 
-This roadmap describes the current public direction of `itakura-hidetoshi/KuuOS` as of June 16, 2026.
+**Baseline date: 2026-06-21**
 
-KuuOS is an append-only, governance-gated, validation-backed, proof-facing, memory-aware, Qi-process-aware, **gauge-theoretic**, and bounded executable runtime architecture for relational AI systems.
+This roadmap replaces the former v0.12–v0.13-centered orientation with the current multi-spine state of the repository.
 
-The roadmap is organized around two simultaneous movements:
-
-1. **Public repository maturity** — keep governance, validation, runtime, Qi, memory, proof-facing, GitHub/CI, gauge-control, and boundary surfaces understandable and reproducible.
-2. **Controlled KuuOS baseline projection** — project the broader KuuOS baseline into public artifacts without collapsing local section, chart, validation, runtime, proof, medical, institutional, memory, GitHub, or execution authority.
-
-The current architectural direction is explicitly gauge-theoretic:
+KuuOS now has five concurrently maintained public lanes:
 
 ```text
-context = local chart
-policy state = local section
-compatible context relation = chart overlap
-context change = transition function
-section movement = parallel transport
-disagreement = curvature / cocycle defect
-path-dependent retained history = holonomy
+A. governance and local-context gauge architecture
+B. OS responsibility and bounded finite-cycle operation
+C. Qi process history and diagnostic-candidate projection
+D. Qi-WORLD externally licensed closed-cycle materialization
+E. WORLD read-only mathematical and formal sidecar
 ```
 
-KuuOS does not use a global context graph, universal context winner, central node, or shortest-path policy as its governing model.
+The goal is not unrestricted autonomy. The goal is a system in which every candidate, state transition, proof surface, memory record, licensed effect and WORLD representation knows its source, scope, owner, boundary and stop condition.
 
 ---
 
-## 0. Non-Authority and Non-Collapse Boundary
+## 0. Fixed non-collapse boundary
 
-This roadmap does not open unrestricted autonomous authority.
-
-The following remain closed unless a later, explicitly versioned and reviewed release opens them:
+The following remain fixed unless a later, explicit, reviewed release changes them:
 
 ```text
-unrestricted autonomous execution authority
-arbitrary shell execution authority
-arbitrary network execution authority
-global-context-graph authority
-shortest-path-as-policy authority
-local-section-as-global-truth
-chart-overlap-as-permanent-edge
-curvature-as-veto
-cocycle-defect-as-prohibition
-holonomy-as-sovereign-memory
-standalone diagnosis authority
-standalone treatment authorization
-medical act authorization
-institutional authority
-final theorem authority
-unreviewed AGI deployment authority
-Qi-based intervention authority
-CI-pass-as-truth
-validator-pass-as-truth
-runtime-tick-as-execution-authority
-allowlisted-action-as-arbitrary-execution-authority
-finite-sequence-runner-as-unbounded-agent
-GitHub Actions live adapter as repository authority
-GPT-summary-as-proof
-world-model-prediction-as-fact
-memory-persistence-as-belief-sovereignty
-plan-success-as-execution-permission
-reflection-summary-as-root-rewrite
-audit-trigger-as-infinite-escalation
+candidate != authority
+validation != truth
+CI pass != external theorem acceptance
+observation != intervention license
+belief state != fact
+DecisionOS selection != execution
+PlanOS replan != activation
+LearnOS delta != present action
+ActOS receipt != successor authority
+closed-cycle receipt != next-cycle start
+memory persistence != belief sovereignty
+diagnostic candidate != final diagnosis
+recovery-window interval != healing guarantee
+red flag != automatic triage
+WORLD sidecar != exact WORLD
+finite analytic certificate != physical realization
+local chart != global graph node
+curvature != veto
+holonomy != sovereign memory
 ```
 
-This boundary is medical-modality neutral. It does not state that biomedicine is superior, that Qi is false, or that East Asian medical reasoning is invalid.
-
-All phases preserve:
+All roadmap phases preserve:
 
 ```text
 append-only lineage
-additive projection
-same-root required for protected surfaces
-overwrite forbidden
-fail-closed validation behavior
-non-authority preservation
-local-chart preservation
-plurality floor preservation
-residue visibility
-provenance preservation
-bounded runtime operation
-allowlist discipline
-validator tier separation
-audit proportionality
-harmony and visible cost
-```
-
-`tighten-only` remains a local, bounded, contextual tool rather than an automatic root principle or grave-escalation rule.
-
----
-
-## 1. Current Public Baseline
-
-### 1.1 Public Core Governance v0.1
-
-Status: **active public baseline**
-
-Core surfaces:
-
-```text
-README.md
-ROADMAP.md
-GOVERNANCE.md
-CONTRIBUTING.md
-CITATION.cff
-docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
-docs/KUOS_FOURFOLD_CORE_v0_1.md
-docs/BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1.md
-docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md
-```
-
-Validation:
-
-```bash
-make core-governance-checks
-make all-governance-checks
-```
-
-Purpose:
-
-```text
-Expose the public core.
-Define non-authority and non-collapse.
-Make validation reproducible.
-Give reviewers a stable entry path.
-```
-
-### 1.2 Emptiness / Dependent Origination / Two Truths Runtime Audit Chain
-
-Status: **active public audit-chain surface**
-
-```text
-runtime structural consistency != theorem authority
-hash-chain continuity != truth
-two-truths barrier must not reify ultimate truth
-audit must not silently become infinite escalation
-```
-
-Validation:
-
-```bash
-make emptiness-two-truths-runtime-audit-checks
-make emptiness-superposition-noncollapse-checks
-```
-
-### 1.3 Qi / IndraNet / Physical Quantum Qi
-
-Status: **active bridge, process-tensor, motion, and gauge-flow surface**
-
-```text
-Qi is a relational field, not a substance.
-Qi is not denied by the medical boundary.
-East Asian medical reasoning is not denied by the medical boundary.
-Biomedicine is not privileged by the wording.
-IndraNet is a higher gauge / holonomy field, not a flat graph.
-Process, memory, transport, recoverability, and order sensitivity remain first-class.
-Qi motion remains evidence-bound and scope-bound.
-```
-
-Validation:
-
-```bash
-make qi-motion-chain-checks
-make physical-quantum-qi-runtime-checks
-make physical-quantum-qi-dynamics-checks
-make physical-quantum-qi-motion-pipeline-checks
-make physical-quantum-qi-deepening-checks
-```
-
-### 1.4 KuuOS Bounded Runtime
-
-Status: **active bounded non-authoritative runtime surface**
-
-```text
-Runtime is bounded.
-Runtime is receipt-producing.
-Runtime may advance declared State IO ticks.
-Runtime may execute allowlisted bounded actions.
-Runtime does not open arbitrary shell, network, truth, theorem, clinical,
-memory-overwrite, repository, or final-commitment authority.
-```
-
-Validation:
-
-```bash
-python3 scripts/run_kuuos_runtime_full_check_v0_1.py
-```
-
-### 1.5 Qi Process Tensor / Trend / Reliability Surface
-
-Status: **active runtime maturity surface**
-
-```text
-cycle supervisor receipts + audit history + trajectory packet
-  -> cycle trend summary
-  -> trend class
-  -> recommendation
-  -> reliability score
-  -> bounded supervisor packet/run
-```
-
-The process tensor guides posture without becoming truth or action authority.
-
-### 1.6 Allowlisted Executable Action Surface
-
-Status: **active bounded executable surface**
-
-```text
-executable action packet
-  -> allowlisted dispatcher
-  -> exactly one declared action
-
-finite sequence packet
-  -> finite sequence runner
-  -> completion or first blocked action
-```
-
-Validation:
-
-```bash
-python scripts/check_qi_executable_action_dispatcher_v4_2.py
-python scripts/check_qi_executable_action_sequence_runner_v4_3.py
-```
-
-### 1.7 GitHub Actions / PR Adapter Surface
-
-Status: **active bounded repository-operation surface**
-
-```text
-query packet
-  -> connector request
-  -> connector result
-  -> result adapter
-  -> workflow / PR snapshot
-  -> bounded policy preparation
-  -> receipt + audit
-```
-
-The adapter does not acquire merge, rerun, mutation, or repository authority by itself.
-
-### 1.8 MemoryOS / Non-Markovian Memory Baseline
-
-Status: **active internal baseline; controlled public projection continues**
-
-```text
-Memory is append-only lineage and reconstructive support.
-Memory is not belief authority.
-Memory is not root overwrite authority.
-Memory preserves trace, scar, holonomy, relapse lineage, process continuity,
-collective reconstruction, and uncertainty visibility.
-```
-
-### 1.9 MGAP4D / Formal Verification / Lean Bridge
-
-Status: **active proof-facing bridge surface**
-
-```text
-KuuOS references canonical proof-facing repositories and formal surfaces.
-CI pass does not equal mathematical acceptance.
-Formal stub does not equal completed theorem.
-Lean file does not equal external theorem acceptance.
-mathlib alignment is proof support, not final authority.
-GPT summary does not equal proof.
-```
-
-Canonical proof-facing repository:
-
-```text
-https://github.com/itakura-hidetoshi/4d-mass-gap
-```
-
-### 1.10 Horizon Gauge Arbitration v0.12
-
-Status: **implemented, validated, merged public baseline**
-
-Purpose:
-
-```text
-Preserve short-, medium-, and long-horizon policy sections.
-Measure their pairwise connection residuals.
-Construct bounded arbitration curvature.
-Perform active plurality-preserving parallel transport.
-Start exactly one v0.11 child cycle.
-Classify the realized commitment outcome.
-Append replay-safe arbitration holonomy.
-```
-
-Current demonstrated sequence:
-
-```text
-experiment -> reobserve -> exploit -> exploit
-```
-
-Current invariants:
-
-```text
-weight sum = 1
-all horizon weights >= plurality floor
-one v0.11 child per v0.12 invocation
-winner-take-all collapse count = 0
-hard-gate bypass count = 0
-committed replay produces no duplicate effect
-stale bundle digest is rejected
-```
-
-Validation:
-
-```bash
-python scripts/check_horizon_gauge_arbitration_v0_12.py
-```
-
-Primary surfaces:
-
-```text
-docs/KUUOS_HORIZON_GAUGE_ARBITRATION_v0_12.md
-runtime/kuuos_horizon_gauge_arbitration_core_v0_12.py
-formal/KUOS/OpenHorizon/HorizonGaugeArbitrationV0_12.lean
-```
-
-### 1.11 Context Gauge Atlas v0.13
-
-Status: **implemented transition kernel, persistence surfaces, local-lift surfaces, formal surface, and dedicated CI**
-
-Purpose:
-
-```text
-Keep each context as a local chart.
-Keep each policy state as a local section.
-Use chart overlap to determine transition eligibility.
-Parallel-transport only compatible local sections.
-Record atlas curvature and cocycle defect without converting either into a veto.
-Preserve chart-local state and non-Markov atlas holonomy.
-Lift transported horizon weights toward one local v0.12 cycle.
-```
-
-Current classifications:
-
-```text
-isolated_chart
-compatible_chart_transport
-plural_atlas_transport
-```
-
-Current invariants:
-
-```text
-chart locality is preserved
-no global context winner is created
-transported horizon weights sum to 1
-plurality floor remains visible
-curvature and cocycle defect are bounded
-processed child outcome / effect digests are not attributed twice
-atlas holonomy advances append-only
-```
-
-Validation:
-
-```bash
-python scripts/run_context_gauge_atlas_v0_13.py
-```
-
-Primary surfaces:
-
-```text
-runtime/kuuos_context_gauge_atlas_transport_v0_13.py
-runtime/kuuos_context_gauge_atlas_decision_v0_13.py
-runtime/kuuos_context_gauge_atlas_lift_plan_v0_13.py
-runtime/kuuos_context_gauge_atlas_lift_license_v0_13.py
-formal/KUOS/OpenHorizon/ContextGaugeAtlasV0_13.lean
+exact source and digest binding
+fresh authority where execution is involved
+finite cost, time, steps and resource lease
+foreground pause / terminate / handover
+independent post-effect observation
+replay idempotence and stale-state rejection
+visible uncertainty, dissent, residue and counterevidence
+medical-modality neutrality
+proof-status separation
 ```
 
 ---
 
-## 2. Phase A — Public Orientation Alignment
+## 1. Current public baseline
 
-Status: **completed through v0.13; ongoing maintenance**
+| Lane | Current baseline | Status |
+|---|---|---|
+| Core governance | v0.1 public governance and boundary documents | active, maintained |
+| Horizon/context gauge | Horizon v0.12 + Context Gauge Atlas v0.13 | implemented baseline |
+| PlanOS | Qi-conditioned non-Markov Replan v0.2 | implemented and merged |
+| Autonomous-agent completion | v0.20–v0.27 finite-cycle continuity | implemented and merged |
+| Qi diagnostic candidate | v0.28 recovery-window layer | implemented and merged |
+| Qi-WORLD | v2.2 concrete third licensed cycle | implemented and merged |
+| WORLD | v0.48 finite log-Sobolev, contraction and mixing bridge | implemented and merged |
+| Formal root | `KuuOSFormal` | strict Lean build surface |
+| Central runtime | `run_kuuos_runtime_full_check_v0_48.py` | active regression root |
 
-Goal:
+---
 
-```text
-Keep README and ROADMAP aligned with the actual public baseline:
-Qi and Memory surfaces, bounded executable runtime, v0.12 horizon gauge arbitration,
-and v0.13 context gauge atlas transport.
-```
+## 2. Completed foundations
+
+### 2.1 Public governance and validation
+
+**Status: complete baseline; ongoing maintenance**
 
 Completed:
 
-- README identifies KuuOS as gauge-theoretic rather than graph-theoretic;
-- v0.12 and v0.13 badges, validation commands, primary files, and boundaries are visible;
-- chart, section, overlap, transition, curvature, cocycle defect, and holonomy are defined for first-time reviewers;
-- curvature is explicitly separated from veto authority;
-- chart overlap is explicitly separated from graph edges;
-- the canonical MGAP4D proof-facing boundary remains visible;
-- bounded execution and repository adapters remain distinct from authority.
+- public core governance, non-authority and medical-modality-neutral boundaries;
+- validator tier separation and anti-loop governance;
+- manifests, cases, receipts and reproducible GitHub Actions;
+- finite audit and repair-oriented outcomes;
+- separation of validation, theorem status, clinical authority and execution authority.
 
-Maintenance criterion:
+Maintenance requirement:
 
 ```text
-No newly merged runtime or gauge layer may leave README and ROADMAP materially stale.
+No merged runtime or formal layer may leave README, ROADMAP,
+the formal root or the central runtime full check materially stale.
 ```
+
+### 2.2 Horizon and context gauge architecture
+
+**Status: implemented baseline**
+
+Completed:
+
+```text
+short / medium / long horizon sections
+  -> connection residuals
+  -> bounded arbitration curvature
+  -> plurality-preserving transport
+  -> one bounded child cycle
+  -> effect-grounded outcome
+  -> replay-safe holonomy
+```
+
+and:
+
+```text
+context chart
+  -> overlap eligibility
+  -> local-section parallel transport
+  -> atlas curvature and cocycle defect
+  -> chart-local state and holonomy
+```
+
+Future work is composition maturity, not conversion into a global graph.
+
+### 2.3 OS ownership and Replan
+
+**Status: implemented**
+
+The responsibility boundary is now explicit:
+
+```text
+ObserveOS observes
+BeliefOS maintains local/plural belief
+DecisionOS selects an admissible candidate
+PlanOS synthesizes plans and replans
+ActOS executes only under an exact license
+VerifyOS evaluates independent evidence
+LearnOS records future-only deltas
+MemoryOS preserves lineage and reconstruction
+```
+
+PlanOS v0.2 is the owner of Replan synthesis. No separate ReplanOS is planned.
+
+### 2.4 Finite-cycle autonomous-agent completion
+
+**Status: implemented through v0.27**
+
+The v0.20–v0.26 contracts are composed into:
+
+```text
+restart-safe
+user-interruptible
+resource-bounded
+repeatable finite-cycle
+autonomous-agent kernel
+```
+
+Completed capabilities include:
+
+- persistent mission binding;
+- observation and plural belief state;
+- semantic planning and independent verification;
+- bounded learning and cognitive memory;
+- transactional intended-versus-observed effect reconciliation;
+- wake-up, foreground control and resource admission;
+- governed change management;
+- exact checkpoints, append-only ledger replay and snapshot repair;
+- process-restart and host-restart recovery;
+- explicit finite renewal followed by explicit resume.
+
+This is repeatable continuity, not an unbounded cycle.
+
+### 2.5 Qi recovery-window diagnostic candidate
+
+**Status: implemented through v0.28**
+
+Completed:
+
+- multi-time Qi Process Tensor history;
+- plural diagnostic hypotheses;
+- support, counterevidence, uncertainty and source traces;
+- bounded recovery-window interval;
+- separation of severity from irreversibility;
+- open-future preservation after negative response;
+- clinician-review handoff for declared red flags;
+- append-only replay-safe candidate ledger;
+- formal non-authority boundaries.
+
+This lane does not generate treatment, triage or final diagnosis.
+
+### 2.6 Qi-WORLD licensed-cycle materialization
+
+**Status: concrete three-cycle chain completed at v2.2**
+
+Completed path:
+
+```text
+first licensed effect and native closure
+  -> immutable closed-cycle receipt
+  -> fresh successor authority intake
+  -> second licensed cycle
+  -> verified two-cycle prefix
+  -> fresh third authority / approval / host license
+  -> explicit single-use discharge
+  -> concrete third ActOS effect
+  -> native ObserveOS / VerifyOS / LearnOS / PlanOS closure
+  -> immutable third receipt
+  -> append-only three-cycle chain
+```
+
+The cycle count is three. No fourth cycle is started or implied.
+
+### 2.7 WORLD mathematical sidecar
+
+**Status: implemented through v0.48**
+
+The current typed spine is:
+
+```text
+real Hilbert ℓ²
+-> dense/self-adjoint operator bridge
+-> noncommutative operator algebra
+-> C*-local net
+-> von Neumann and modular theory
+-> Araki relative entropy
+-> Petz recovery and conditional expectation
+-> Jones basic construction and Jones tower
+-> standard invariant, Q-system and fusion-category bridges
+-> module category, tube/center and categorical IndraNet
+-> higher-gauge information geometry
+-> Araki-Petz quantum information geometry
+-> dual-affine / Bregman projections
+-> geodesic / mirror-descent / free-energy certificates
+-> gradient-flow / JKO / entropy-production certificates
+-> finite log-Sobolev contraction and mixing bounds
+```
+
+The runtime validates read-only, hash-bound receipts. It does not execute these mathematical structures or update WORLD.
 
 ---
 
-## 3. Phase B — Complete v0.13-to-v0.12 Local Gauge Execution
+## 3. Immediate priorities
 
-Status: **current next implementation priority**
+### Priority 1 — Keep public orientation synchronized
+
+**Status: active**
+
+Tasks:
+
+- keep README, ROADMAP, formal root and central full check aligned;
+- maintain a compact current-baseline table;
+- remove obsolete language that makes v0.13 appear to be the overall frontier;
+- link each current lane to its primary specification, manifest, validator and Lean module;
+- distinguish implemented, assumed, externally receipted and planned statements.
+
+Acceptance:
+
+```text
+A first-time reviewer can identify the current frontier in under five minutes
+without reading historical addenda.
+```
+
+### Priority 2 — Consolidate the v0.20–v0.28 agent status
+
+**Status: next documentation and integration task**
+
+Tasks:
+
+- publish one current status document covering v0.20 through v0.28;
+- bind v0.28 candidate reports explicitly to v0.27 checkpoints and lineage;
+- preserve multiple reports without source-packet substitution;
+- expose a compact validation matrix for every lower contract;
+- clarify which failures lead to HOLD, REOBSERVE, REVIEW, TERMINATE or HANDOVER;
+- keep diagnostic review routes separate from treatment and ActOS routes.
+
+Acceptance:
+
+```text
+Every v0.28 report has an exact v0.27 source,
+plural hypotheses remain visible,
+and no diagnostic route grants action authority.
+```
+
+### Priority 3 — Generalize Qi-WORLD finite licensed-cycle construction
+
+**Status: next formal/runtime frontier**
 
 Goal:
 
 ```text
-Turn the validated v0.13 atlas transition kernel and local-lift surfaces into a
-single replay-safe atlas invocation that starts exactly one v0.12 child cycle.
+concrete three-cycle evidence
+  -> reusable exact successor-cycle constructor
+  -> arbitrary finite-prefix theorem
+  -> concrete receipt binding for each new cycle
 ```
 
 Tasks:
 
-- add the v0.13 orchestration entrypoint;
-- load current v0.12 and v0.13 state/bundle surfaces;
-- bind source, root, registry, previous atlas state, and previous atlas bundle digests;
-- persist atlas decision plus exact lifted v0.12 plan/license before child execution;
-- execute exactly one v0.12 cycle;
-- validate the exact child arbitration outcome and effect receipt;
-- update only the target chart after realized effect evidence;
-- append atlas outcome, state, committed ledger row, receipt, audit, and holonomy;
-- recover pending runs using the exact saved transition and child packets;
-- reject stale atlas digests before any child effect;
-- demonstrate a multi-context sequence containing isolated, compatible, and plural transport cycles;
-- retain `graph_semantics_forbidden` as a tested invariant.
+- generalize the v2.2 third-cycle constructor to a finite successor-cycle schema;
+- preserve exact predecessor receipt and ordinal binding;
+- require fresh external authority, human approval and host license for every effectful cycle;
+- keep freshness qualification separate from explicit single-use discharge;
+- preserve immutable closed prefixes;
+- prove that an `n`-cycle receipt chain grants no `(n+1)`-cycle authority;
+- add failure cases for authority reuse, skipped ordinal, altered prefix, stale plan basis and substituted native closure;
+- retain explicit stop, hold and handover states.
 
-Acceptance criteria:
+Acceptance:
 
 ```text
-one v0.13 invocation -> zero or one v0.12 child
-committed replay -> zero new child effects
-pending recovery -> exact packet reuse
-target chart only -> effect-grounded update
-all transition residue remains visible
-no global graph or context winner is created
+for every finite prefix:
+  exact predecessor binding
+  + fresh authority
+  + one explicit discharge
+  + one concrete effect
+  + native closure
+  + immutable append
+  + no automatic successor activation
 ```
 
----
+### Priority 4 — Strengthen WORLD v0.48 proof status
 
-## 4. Phase C — Gauge Atlas Composition and Holonomy Maturity
-
-Status: **next**
-
-Goal:
-
-```text
-Strengthen chart composition without replacing local transition functions with a graph.
-```
+**Status: parallel mathematical track**
 
 Tasks:
 
-- represent direct and composed transition functions explicitly;
-- define finite cocycle composition checks on triple chart overlap;
-- distinguish low-curvature compatible transport from persistent plural residue;
-- preserve different transport paths in atlas holonomy;
-- add recovery-cost and context-return examples;
-- add bounded chart aging and reobservation rules without deleting historical lineage;
-- formalize the relation between direct transport, composed transport, and cocycle defect;
-- keep chart compatibility typed and context-specific.
+- replace supplied finite certificate fields with derived mathlib theorems when hypotheses are sufficient;
+- state external analytic receipts next to every finite Lean-direct result;
+- separate finite recursive iteration from continuous-time semigroup claims;
+- formalize contraction-factor iteration, equilibrium separation and mixing bounds as reusable lemmas;
+- improve links between spectral gap, log-Sobolev and hypercontractive receipts without asserting equivalence prematurely;
+- preserve higher-gauge covariance and multi-WORLD noncollapse;
+- keep runtime read-only.
 
-Acceptance criteria:
-
-```text
-A reviewer can compare direct and composed local transports,
-see the retained residue, and verify that no path is promoted to universal truth.
-```
-
----
-
-## 5. Phase D — Bounded Runtime and Repository Adapter Consolidation
-
-Status: **parallel track**
-
-Tasks:
-
-- document executable action allowlists and finite sequence semantics;
-- keep receipt and audit JSONL paths visible;
-- distinguish bounded tick, local gauge transport, action preparation, actual effect, connector request, connector result, and repository mutation;
-- add examples for failed, pending, blocked, stale, reobserve, repair, and handover outcomes;
-- prevent PR adapter output from being treated as merge authority;
-- align local commands and GitHub Actions checks.
-
----
-
-## 6. Phase E — Validation Matrix and Release Consolidation
-
-Status: **next**
-
-Tasks:
-
-- publish a compact validation matrix: command, files, invariant, output, failure class;
-- include v0.12 and v0.13 failure classes;
-- classify chart-overlap mismatch, stale atlas digest, cocycle overpromotion, curvature-veto leakage, local-to-global collapse, duplicate effect attribution, and graph-semantics leakage;
-- ensure each release-facing package has a manifest, validation command, limitation statement, non-authority statement, and reproducibility note;
-- keep stdlib-only Python checks where practical;
-- preserve append-only release lineage.
-
----
-
-## 7. Phase F — MemoryOS and Process-Tensor Integration
-
-Status: **parallel priority**
-
-Goal:
+Acceptance:
 
 ```text
-Connect non-Markov process memory to chart-local gauge history without granting memory sovereignty.
+Every WORLD theorem is visibly classified as:
+Lean-derived / hypothesis-supplied / external analytic receipt / future target.
 ```
 
-Tasks:
+### Priority 5 — Unified validation and release matrix
 
-- expose scar, relapse, reobserve, repair, and return-to-context examples;
-- distinguish atlas holonomy from belief promotion;
-- preserve individual chart lineage during collective reconstruction;
-- prevent memory consolidation from erasing cocycle residue;
-- connect Qi process tensor history to chart-local transport evidence;
-- add memory-to-belief separation validators.
+**Status: next infrastructure task**
 
-Rules:
+Publish a matrix with:
 
 ```text
-Memory persistence cannot become belief sovereignty.
-Memory repair cannot become root overwrite.
-Memory recall cannot erase uncertainty or chart residue.
-Collective reconstruction cannot silently overwrite individual lineage.
+component
+version
+source files
+manifest
+validator
+tests
+Lean module
+formal-root registration
+workflow
+failure classes
+non-authority boundary
 ```
+
+Required failure classes include:
+
+- stale digest;
+- replay duplication;
+- substituted source packet;
+- authority reuse;
+- host-license mismatch;
+- skipped phase or cycle ordinal;
+- memory-root overwrite attempt;
+- local-to-global context collapse;
+- diagnostic finality promotion;
+- WORLD physical-realization overclaim.
 
 ---
 
-## 8. Phase G — OS Bridge Projection
+## 4. Near-term parallel tracks
 
-Status: **planned additive projection**
+### 4.1 Context Gauge Atlas composition
 
-Candidate lanes:
+- direct versus composed transition functions;
+- triple-overlap cocycle checks;
+- path-sensitive holonomy comparison;
+- chart aging and reobservation without lineage deletion;
+- explicit proof that chart composition does not create a universal route.
+
+### 4.2 MemoryOS and process-history integration
+
+- connect scar, relapse, recovery and return-to-context history to chart-local transport;
+- preserve individual lineage during collective reconstruction;
+- prevent memory consolidation from erasing cocycle residue or uncertainty;
+- distinguish memory reconstruction from belief promotion;
+- integrate v0.27 checkpoints and v0.28 process histories without root overwrite.
+
+### 4.3 Governed change management maturity
+
+- strengthen rollback evidence and independent closure;
+- preserve permanent forbidden-action categories;
+- maintain bounded canary scope and finite deployment authorization;
+- separate change review from ActOS deployment;
+- add explicit expiry and post-deployment observation requirements.
+
+### 4.4 Reviewer experience
+
+- Japanese-first orientation with precise English technical names;
+- compact architecture diagrams;
+- current-versus-historical version map;
+- “what a pass does not mean” callouts;
+- direct links from roadmap items to validators and formal modules.
+
+---
+
+## 5. Medium-term research directions
+
+### 5.1 Finite licensed autonomy theorem family
+
+Develop a reusable theorem family for:
 
 ```text
-MemoryOS ecology and append-only lineage
-BeliefOS causal belief surface and identifiability gaps
-WorldModel observation-intervention reciprocity
-PlanOS hierarchical temporal structure and rollback corridors
-DecisionOS generative front and validated adjudication boundary
-ReflectionOS repair and institutional-public governance
-CausalSurface semantic mapping and bridge discipline
-HybridControl continuous-discrete governance bridge
-Yin-Yang / Wuxing / Qi tensor runtime surfaces
-Witness / LocalGlobal / Boundary bridge surfaces
-Recovery Governance surfaces
+finite mission prefix
+finite resource lease
+finite authority inventory
+finite effect chain
+append-only evidence
+foreground interruption
+restart recovery
+no inherited successor authority
 ```
 
-Projection rules:
+The target is mathematically explicit finite continuity, not an unbounded autonomous license.
+
+### 5.2 WORLD-to-OS read-only observation bridge
+
+Explore a bridge in which WORLD sidecar quantities can become typed observation candidates while preserving:
 
 ```text
-No internal baseline is silently projected as public authority.
-Each projection needs a manifest, validator, cases, boundary statement, and release note.
-Reflection summaries cannot rewrite world roots.
-WorldModel predictions cannot become facts.
-Decision candidates cannot become commits without gate validation.
-Memory persistence cannot become belief sovereignty.
-Plan success cannot become execution permission.
-Local validation cannot silently become global truth.
+WORLD representation != fact
+sidecar quantity != control objective
+low free energy != permission
+mixing certificate != intervention recommendation
 ```
 
----
+No WORLD formal result should directly activate PlanOS or ActOS.
 
-## 9. Phase H — Formal Verification Bridge Maturity
+### 5.3 Stronger proof discharge
 
-Status: **parallel track**
+For formal structures that currently carry external claim/proof receipt fields:
 
-Tasks:
+- identify minimal hypotheses;
+- derive the finite consequence directly in Lean;
+- isolate genuinely analytic or physical existence claims;
+- keep theorem statements stable under stronger future discharge;
+- avoid equating formal compilation with external mathematical acceptance.
 
-- keep KuuOS formal surfaces distinct from canonical theorem repositories;
-- expand v0.12 and v0.13 finite invariants;
-- formalize bounded overlap, transition composition, cocycle defect, plurality floor, one-child execution, replay uniqueness, and holonomy monotonicity;
-- route proof-facing claims through Lean/mathlib-facing theorem targets, CI, external review, and theorem-boundary statements;
-- prevent formal-file, Lean-stub, mathlib-mapping, CI-pass, validator-pass, or GPT-summary overpromotion;
-- keep MGAP4D, Super-Relativity, and superstring bridges proof-facing rather than authority-opening.
+### 5.4 Public reproducibility
 
----
-
-## 10. Phase I — Audit Proportionality and Harmony Repair
-
-Status: **ongoing correction track**
-
-Tasks:
-
-- define finite audit budgets by surface and risk class;
-- expose stop reasons for audit termination;
-- distinguish observation, curvature, and residue from escalation;
-- keep hold / reobserve / repair / handover as normal non-punitive outcomes;
-- reserve grave-mode criteria for explicit severe boundary violations;
-- prevent low-risk validator drift or nonzero curvature from triggering high-severity audit loops;
-- preserve visible cost, proportionality, repairability, and harmony.
+- pinned Lean/mathlib toolchain;
+- stdlib-only Python validators where practical;
+- deterministic fixtures;
+- exact hash/digest documentation;
+- machine-readable release index;
+- versioned evidence bundles.
 
 ---
 
-## 11. Public Reviewer Experience
-
-Status: **ongoing**
-
-Reviewer lanes:
-
-```text
-first-time AI governance reviewer
-formal methods / Lean reviewer
-runtime engineer
-gauge-theory / local-global reviewer
-memory-system reviewer
-East Asian medicine / integrative medicine reviewer
-physics-facing proof reviewer
-GitHub / CI maintainer
-```
-
-Tasks:
-
-- keep README concise enough to orient;
-- keep ROADMAP structured by baseline and phase;
-- use gauge-theory diagrams rather than graph diagrams for context transport;
-- preserve Japanese and English orientation;
-- add “what a pass does not mean” callouts;
-- avoid turning deep internal baselines into unreviewable public noise;
-- use append-only addenda for deep surfaces.
-
----
-
-## 12. Long-Term Direction
+## 6. Long-term direction
 
 KuuOS is moving toward a public architecture where:
 
 ```text
-AI generation remains candidate-level.
-Contexts remain local charts.
-Policy states remain local sections.
-Chart changes use typed transition functions.
-Curvature and cocycle defects remain visible residue, not veto authority.
-Holonomy remains path history, not sovereign truth.
-Memory remains lineage and reconstructive support.
-Belief remains calibrated and evidence-bound.
-Planning remains rollback-aware and non-authoritative.
-Decision remains boundary-owned and receipt-producing.
-Reflection remains repair-facing, not root-rewriting.
-Qi remains relational/process-facing, not substance or license.
-Formal verification remains proof-facing, not self-authorizing.
-Runtime remains bounded and receipt-producing.
-Allowlisted execution remains finite and non-authoritative.
-GitHub/CI adapters remain connector-explicit and non-authoritative.
-Audit remains proportional, finite, repairable, and harmony-preserving.
+claims know their support
+observations know their source
+beliefs know their uncertainty
+sections know their chart
+transitions know their overlap
+memories know their lineage
+plans know their owner and activation boundary
+actions know their exact license
+effects know their independent observation
+learning knows it is future-only
+receipts know they are evidence rather than authority
+proofs know their formal and external status
+WORLD representations know they are read-only sidecars
+governance knows when to stop, hold, repair or hand over
 ```
 
-The long-term goal is not to make an AI that simply acts more freely or searches a larger global graph.
-
-The goal is to build a relational AI architecture in which:
-
-```text
-claims know their support,
-sections know their chart,
-transitions know their overlap,
-curvature knows it is residue rather than prohibition,
-plans know their boundary,
-memories know their lineage,
-proofs know their status,
-runtime knows its stop conditions,
-actions know their allowlist,
-and governance knows when not to escalate.
-```
+The long-term target is not “more freedom for the agent.”  
+It is **more exact relational continuity without authority collapse**.
 
 ---
 
-## 13. Current Priority Summary
+## 7. Current priority summary
 
 ```text
-1. Complete the replay-safe v0.13 orchestration that starts exactly one v0.12 child.
-2. Demonstrate isolated, compatible, and plural chart transport across multiple contexts.
-3. Preserve chart locality, plurality floor, cocycle residue, and atlas holonomy.
-4. Keep graph semantics forbidden in context transport surfaces.
-5. Expand Lean invariants for transition composition and cocycle defect.
-6. Consolidate bounded executable runtime and repository-adapter documentation.
-7. Project MemoryOS non-Markovian surfaces into chart-local gauge history carefully.
-8. Strengthen validation matrices and release packages for v0.12/v0.13.
-9. Preserve Qi and IndraNet as gauge/process fields and remain medical-modality neutral.
-10. Prevent audit, curvature, or validation residue from becoming automatic escalation.
+1. Keep README/ROADMAP/formal root/full check synchronized.
+2. Consolidate v0.20-v0.28 into one current public status and validation matrix.
+3. Generalize Qi-WORLD v2.2 from a concrete third cycle to arbitrary finite prefixes.
+4. Prove no finite closed chain grants automatic successor authority.
+5. Strengthen WORLD v0.48 by replacing supplied certificates with derived theorems where possible.
+6. Keep finite iteration separate from continuous-time and physical claims.
+7. Integrate MemoryOS and Qi history without belief or root sovereignty.
+8. Mature gauge-atlas composition without introducing global graph semantics.
+9. Preserve foreground control, finite resources, explicit renewal and handover.
+10. Keep diagnostic candidates, clinical authority, theorem status and execution authority separate.
 ```
