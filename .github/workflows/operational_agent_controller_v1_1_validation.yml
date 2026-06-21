@@ -1,0 +1,76 @@
+name: Operational Agent Controller v1.1 Validation
+
+on:
+  pull_request:
+    paths:
+      - "runtime/kuuos_operational_agent_*_v1_1.py"
+      - "scripts/check_operational_agent_controller_v1_1.py"
+      - "scripts/validate_operational_agent_controller_manifest_v1_1.py"
+      - "scripts/run_kuuos_runtime_full_check_v1_1.py"
+      - "tests/test_operational_agent_controller_v1_1.py"
+      - "docs/KUUOS_OPERATIONAL_AGENT_CONTROLLER_v1_1.md"
+      - "manifests/kuuos_operational_agent_controller_v1_1.json"
+      - "formal/KUOS/Architecture/OperationalAgentControllerV1_1.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/operational_agent_controller_v1_1_validation.yml"
+  push:
+    branches: [main]
+    paths:
+      - "runtime/kuuos_operational_agent_*_v1_1.py"
+      - "scripts/check_operational_agent_controller_v1_1.py"
+      - "scripts/validate_operational_agent_controller_manifest_v1_1.py"
+      - "scripts/run_kuuos_runtime_full_check_v1_1.py"
+      - "tests/test_operational_agent_controller_v1_1.py"
+      - "docs/KUUOS_OPERATIONAL_AGENT_CONTROLLER_v1_1.md"
+      - "manifests/kuuos_operational_agent_controller_v1_1.json"
+      - "formal/KUOS/Architecture/OperationalAgentControllerV1_1.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/operational_agent_controller_v1_1_validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surface
+        run: |
+          python -m compileall -q \
+            runtime/kuuos_operational_agent_types_v1_1.py \
+            runtime/kuuos_operational_agent_capability_registry_v1_1.py \
+            runtime/kuuos_operational_agent_lease_ledger_v1_1.py \
+            runtime/kuuos_operational_agent_receipt_store_v1_1.py \
+            runtime/kuuos_operational_agent_recovery_v1_1.py \
+            runtime/kuuos_operational_agent_adapter_contract_v1_1.py \
+            runtime/kuuos_operational_agent_controller_v1_1.py \
+            runtime/kuuos_operational_agent_scenarios_v1_1.py \
+            scripts/check_operational_agent_controller_v1_1.py \
+            scripts/validate_operational_agent_controller_manifest_v1_1.py \
+            scripts/run_kuuos_runtime_full_check_v1_1.py \
+            tests/test_operational_agent_controller_v1_1.py
+      - name: Validate manifest
+        run: PYTHONPATH=. python scripts/validate_operational_agent_controller_manifest_v1_1.py
+      - name: Run operational scenarios
+        run: PYTHONPATH=. python scripts/check_operational_agent_controller_v1_1.py
+      - name: Run operational tests
+        run: PYTHONPATH=. python -m unittest -v tests.test_operational_agent_controller_v1_1
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Lean checks
+        run: |
+          lake update
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.Architecture.OperationalAgentControllerV1_1
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal

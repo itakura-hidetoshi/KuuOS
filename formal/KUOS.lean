@@ -16,6 +16,7 @@ import KUOS.OpenHorizon.EndogenousMissionObservationKernelV0_31
 import KUOS.OpenHorizon.AuthorizedObservationWorldFeedbackKernelV0_32
 import KUOS.OpenHorizon.VerifyOSWorldAdoptionKernelV0_33
 import KUOS.Architecture.AdaptiveAgentReferenceArchitectureV1_0
+import KUOS.Architecture.OperationalAgentControllerV1_1
 import KUOS.Architecture.QiWorldOSInterfaceBridgeV1_0
 import KUOS.Architecture.QiWorldAdaptiveTraceAdapterV1_1
 import KUOS.Architecture.QiWorldNativeEvidenceLoopV1_2
