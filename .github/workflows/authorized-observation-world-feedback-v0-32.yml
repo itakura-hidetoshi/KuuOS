@@ -7,6 +7,7 @@ on:
       - "runtime/kuuos_authorized_observation_world_feedback_entry_v0_32.py"
       - "scripts/check_authorized_observation_world_feedback_v0_32.py"
       - "tests/test_authorized_observation_world_feedback_v0_32.py"
+      - "tests/test_authorized_observation_world_feedback_entry_v0_32.py"
       - "docs/KUUOS_AUTHORIZED_OBSERVATION_WORLD_FEEDBACK_v0_32.md"
       - "docs/KUUOS_AUTHORIZED_OBSERVATION_WORLD_FEEDBACK_v0_32_ACCEPTANCE.md"
       - "manifests/kuuos_authorized_observation_world_feedback_v0_32.json"
@@ -19,6 +20,7 @@ on:
       - "runtime/kuuos_authorized_observation_world_feedback_entry_v0_32.py"
       - "scripts/check_authorized_observation_world_feedback_v0_32.py"
       - "tests/test_authorized_observation_world_feedback_v0_32.py"
+      - "tests/test_authorized_observation_world_feedback_entry_v0_32.py"
       - "docs/KUUOS_AUTHORIZED_OBSERVATION_WORLD_FEEDBACK_v0_32.md"
       - "docs/KUUOS_AUTHORIZED_OBSERVATION_WORLD_FEEDBACK_v0_32_ACCEPTANCE.md"
       - "manifests/kuuos_authorized_observation_world_feedback_v0_32.json"
@@ -40,9 +42,9 @@ jobs:
           python-version: "3.12"
       - name: Python checks
         run: |
-          python -m compileall -q runtime/kuuos_authorized_observation_world_feedback_v0_32.py runtime/kuuos_authorized_observation_world_feedback_entry_v0_32.py scripts/check_authorized_observation_world_feedback_v0_32.py tests/test_authorized_observation_world_feedback_v0_32.py
+          python -m compileall -q runtime/kuuos_authorized_observation_world_feedback_v0_32.py runtime/kuuos_authorized_observation_world_feedback_entry_v0_32.py scripts/check_authorized_observation_world_feedback_v0_32.py tests/test_authorized_observation_world_feedback_v0_32.py tests/test_authorized_observation_world_feedback_entry_v0_32.py
           PYTHONPATH=. python scripts/check_authorized_observation_world_feedback_v0_32.py
-          PYTHONPATH=. python -m unittest -v tests.test_authorized_observation_world_feedback_v0_32
+          PYTHONPATH=. python -m unittest -v tests.test_authorized_observation_world_feedback_v0_32 tests.test_authorized_observation_world_feedback_entry_v0_32
           PYTHONPATH=. python scripts/check_endogenous_mission_observation_v0_31.py
           PYTHONPATH=. python scripts/check_open_ended_background_agency_v0_30.py
           PYTHONPATH=. python scripts/run_qi_candidate_lineage_v0_29.py
