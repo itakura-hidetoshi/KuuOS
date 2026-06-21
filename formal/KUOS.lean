@@ -7,6 +7,7 @@ import KUOS.OpenHorizon.CognitiveMemoryCreditKernelV0_23
 import KUOS.OpenHorizon.NonMarkovCognitiveLoopKernelV0_23
 import KUOS.OpenHorizon.TransactionalEffectReconciliationKernelV0_24
 import KUOS.OpenHorizon.EventWakeupControlResourceKernelV0_25
+import KUOS.OpenHorizon.GovernedSelfModificationKernelV0_26
 import KUOS.Architecture.AdaptiveAgentReferenceArchitectureV1_0
 import KUOS.Architecture.QiWorldOSInterfaceBridgeV1_0
 import KUOS.Architecture.QiWorldAdaptiveTraceAdapterV1_1
