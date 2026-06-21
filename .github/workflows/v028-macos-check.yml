@@ -1,0 +1,37 @@
+name: v028 macOS check
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/v028-macos-check.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  check:
+    runs-on: macos-14
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python
+        run: |
+          PYTHONPATH=. python scripts/check_qi_healing_potential_diagnostic_v0_28.py
+          PYTHONPATH=. python -m unittest -v tests.test_qi_process_diagnostic_v0_28
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Lean
+        run: |
+          lake update
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.OpenHorizon.QiHealingPotentialDiagnosticKernelV0_28
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal
