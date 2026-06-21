@@ -67,7 +67,7 @@ proof-status separation
 |---|---|---|
 | Core governance | v0.1 public governance and boundary documents | active, maintained |
 | Horizon/context gauge | Horizon v0.12 + Context Gauge Atlas v0.13 | implemented baseline |
-| PlanOS | Qi-conditioned non-Markov Replan v0.2 | implemented and merged |
+| PlanOS | v0.17 suspension recovery router; Replan ownership fixed at v0.2 | implemented and merged |
 | Autonomous-agent completion | v0.20–v0.27 finite-cycle continuity | implemented and merged |
 | Qi diagnostic candidate | v0.28 recovery-window layer | implemented and merged |
 | Qi-WORLD | v2.2 concrete third licensed cycle | implemented and merged |
@@ -143,7 +143,21 @@ LearnOS records future-only deltas
 MemoryOS preserves lineage and reconstruction
 ```
 
-PlanOS v0.2 is the owner of Replan synthesis. No separate ReplanOS is planned.
+PlanOS v0.2 fixes the ownership of Replan synthesis. No separate ReplanOS is planned.
+
+The public PlanOS control series now reaches v0.17:
+
+```text
+plan / replan synthesis
+  -> activation and capability control
+  -> bounded lease and renewal policy
+  -> capability rotation and materialization
+  -> next-cycle control session
+  -> lease monitoring and terminal suspension
+  -> revalidation / renewal review / escalation / re-rotation handoff
+```
+
+A terminal v0.16 session is never resumed. v0.17 closes the old session and requires a new lineage, activation and control session while granting no execution, host access or memory overwrite.
 
 ### 2.4 Finite-cycle autonomous-agent completion
 
