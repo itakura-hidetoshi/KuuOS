@@ -1,0 +1,40 @@
+{
+  "version": "v0.33",
+  "name": "KuuOS VerifyOS WORLD Disposition",
+  "classification": "verifyos_world_disposition_candidate_kernel",
+  "predecessor": "v0.32",
+  "official_runtime_entry": "runtime/kuuos_verifyos_world_adoption_entry_v0_33.py",
+  "runtime_core": "runtime/kuuos_verifyos_world_adoption_v0_33.py",
+  "verdicts": ["PASSED", "FAILED", "INDETERMINATE"],
+  "routes": [
+    "ADOPT_CANDIDATE",
+    "REJECT_CANDIDATE",
+    "DEFER_CANDIDATE",
+    "REOBSERVE_CANDIDATE"
+  ],
+  "properties": [
+    "exact_source_binding",
+    "criterion_prebound",
+    "finite_single_use_protocol",
+    "independent_assessor_identity",
+    "completion_inside_protocol_window",
+    "passed_requires_admissible_corroboration",
+    "failed_requires_failure_basis",
+    "indeterminate_preserves_debt",
+    "verification_not_truth",
+    "verification_not_world_commit",
+    "disposition_candidate_only",
+    "separate_governance_review",
+    "same_root_required",
+    "counterevidence_preserved",
+    "uncertainty_preserved",
+    "future_only_learning",
+    "strict_append_only_ledgers",
+    "idempotent_replay"
+  ],
+  "checker": "scripts/check_verifyos_world_adoption_v0_33.py",
+  "tests": "tests/test_verifyos_world_adoption_v0_33.py",
+  "formal": "formal/KUOS/OpenHorizon/VerifyOSWorldAdoptionKernelV0_33.lean",
+  "documentation": "docs/KUUOS_VERIFYOS_WORLD_ADOPTION_v0_33.md",
+  "acceptance": "docs/KUUOS_VERIFYOS_WORLD_ADOPTION_v0_33_ACCEPTANCE.md"
+}
