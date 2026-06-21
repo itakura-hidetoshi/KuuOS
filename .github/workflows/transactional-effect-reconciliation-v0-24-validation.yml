@@ -1,0 +1,127 @@
+name: Transactional Effect Reconciliation v0.24
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_transactional_effect_types_v0_24.py"
+      - "runtime/kuuos_transactional_effect_reconciliation_kernel_v0_24.py"
+      - "runtime/kuuos_transactional_effect_commit_v0_24.py"
+      - "runtime/kuuos_transactional_effect_store_v0_24.py"
+      - "runtime/kuuos_transactional_effect_scenarios_v0_24.py"
+      - "scripts/check_transactional_effect_reconciliation_v0_24.py"
+      - "tests/test_transactional_effect_reconciliation_v0_24.py"
+      - "formal/KUOS/OpenHorizon/TransactionalEffectReconciliationKernelV0_24.lean"
+      - "formal/KUOS.lean"
+      - "docs/KUUOS_TRANSACTIONAL_EFFECT_RECONCILIATION_KERNEL_v0_24.md"
+      - "docs/KUUOS_AUTONOMOUS_AGENT_STATUS_v0_24.md"
+      - "manifests/kuuos_transactional_effect_reconciliation_kernel_v0_24.json"
+      - ".github/workflows/transactional-effect-reconciliation-v0-24-validation.yml"
+      - "runtime/kuuos_act_os_kernel_v0_1.py"
+      - "runtime/kuuos_observe_os_kernel_v0_1.py"
+      - "runtime/kuuos_verify_os_kernel_v0_1.py"
+      - "runtime/kuuos_cooperative_host_adapter_idempotent_tick_v0_17.py"
+  pull_request:
+    paths:
+      - "runtime/kuuos_transactional_effect_types_v0_24.py"
+      - "runtime/kuuos_transactional_effect_reconciliation_kernel_v0_24.py"
+      - "runtime/kuuos_transactional_effect_commit_v0_24.py"
+      - "runtime/kuuos_transactional_effect_store_v0_24.py"
+      - "runtime/kuuos_transactional_effect_scenarios_v0_24.py"
+      - "scripts/check_transactional_effect_reconciliation_v0_24.py"
+      - "tests/test_transactional_effect_reconciliation_v0_24.py"
+      - "formal/KUOS/OpenHorizon/TransactionalEffectReconciliationKernelV0_24.lean"
+      - "formal/KUOS.lean"
+      - "docs/KUUOS_TRANSACTIONAL_EFFECT_RECONCILIATION_KERNEL_v0_24.md"
+      - "docs/KUUOS_AUTONOMOUS_AGENT_STATUS_v0_24.md"
+      - "manifests/kuuos_transactional_effect_reconciliation_kernel_v0_24.json"
+      - ".github/workflows/transactional-effect-reconciliation-v0-24-validation.yml"
+      - "runtime/kuuos_act_os_kernel_v0_1.py"
+      - "runtime/kuuos_observe_os_kernel_v0_1.py"
+      - "runtime/kuuos_verify_os_kernel_v0_1.py"
+      - "runtime/kuuos_cooperative_host_adapter_idempotent_tick_v0_17.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python -m compileall -q
+          runtime/kuuos_transactional_effect_types_v0_24.py
+          runtime/kuuos_transactional_effect_reconciliation_kernel_v0_24.py
+          runtime/kuuos_transactional_effect_commit_v0_24.py
+          runtime/kuuos_transactional_effect_store_v0_24.py
+          runtime/kuuos_transactional_effect_scenarios_v0_24.py
+          scripts/check_transactional_effect_reconciliation_v0_24.py
+          tests/test_transactional_effect_reconciliation_v0_24.py
+      - name: Validate v0.24 transactional scenarios
+        run: >-
+          PYTHONPATH=. python scripts/check_transactional_effect_reconciliation_v0_24.py
+          > transactional-effect-v0-24.log 2>&1
+      - name: Run v0.24 unit tests
+        run: >-
+          PYTHONPATH=. python -m unittest -v
+          tests.test_transactional_effect_reconciliation_v0_24
+          >> transactional-effect-v0-24.log 2>&1
+      - name: Run ActOS regression
+        run: >-
+          PYTHONPATH=. python scripts/check_act_os_authority_bound_invocation_v0_1.py
+          >> transactional-effect-v0-24.log 2>&1
+      - name: Run ObserveOS regression
+        run: >-
+          PYTHONPATH=. python scripts/check_observe_os_effect_grounded_observation_v0_1.py
+          >> transactional-effect-v0-24.log 2>&1
+      - name: Run VerifyOS regression
+        run: >-
+          PYTHONPATH=. python scripts/check_verify_os_evidence_bound_verification_v0_1.py
+          >> transactional-effect-v0-24.log 2>&1
+      - name: Run v0.23 non-Markov cognitive regression
+        run: >-
+          PYTHONPATH=. python scripts/check_nonmarkov_cognitive_loop_v0_23.py
+          >> transactional-effect-v0-24.log 2>&1
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile v0.24 formal module
+        shell: bash
+        run: |
+          set -o pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KUOS.OpenHorizon.TransactionalEffectReconciliationKernelV0_24 \
+            2>&1 | tee transactional-effect-v0-24-lean-module.log
+      - name: Strictly compile formal root
+        shell: bash
+        run: |
+          set -o pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true build KuuOSFormal \
+            2>&1 | tee transactional-effect-v0-24-lean-root.log
+      - name: Upload v0.24 diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: transactional-effect-v0-24-diagnostics
+          path: |
+            transactional-effect-v0-24.log
+            transactional-effect-v0-24-lean-module.log
+            transactional-effect-v0-24-lean-root.log
+          if-no-files-found: warn
