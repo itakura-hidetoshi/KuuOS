@@ -1,0 +1,16 @@
+{
+  "version": "v0.30",
+  "acceptance_cases": 12,
+  "required_properties": [
+    "all_core_horizons_open",
+    "no_global_cycle_ceiling",
+    "candidate_not_authority",
+    "local_hold_not_constitutional_closure",
+    "instance_termination_preserves_successor_possibility",
+    "additive_new_horizon_allowed",
+    "contraction_rejected",
+    "replay_idempotent",
+    "stale_state_rejected",
+    "tamper_detected"
+  ]
+}
