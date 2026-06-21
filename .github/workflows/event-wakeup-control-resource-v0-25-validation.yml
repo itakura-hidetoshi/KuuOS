@@ -1,0 +1,112 @@
+name: Event Wake-up Control Resource v0.25
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_event_wakeup_control_resource_types_v0_25.py"
+      - "runtime/kuuos_event_wakeup_control_resource_kernel_v0_25.py"
+      - "runtime/kuuos_event_wakeup_control_resource_store_v0_25.py"
+      - "runtime/kuuos_event_wakeup_control_resource_scenarios_v0_25.py"
+      - "scripts/check_event_wakeup_control_resource_v0_25.py"
+      - "tests/test_event_wakeup_control_resource_v0_25.py"
+      - "formal/KUOS/OpenHorizon/EventWakeupControlResourceKernelV0_25.lean"
+      - "formal/KUOS.lean"
+      - "docs/KUUOS_EVENT_WAKEUP_CONTROL_RESOURCE_KERNEL_v0_25.md"
+      - "docs/KUUOS_AUTONOMOUS_AGENT_STATUS_v0_25.md"
+      - "manifests/kuuos_event_wakeup_control_resource_kernel_v0_25.json"
+      - ".github/workflows/event-wakeup-control-resource-v0-25-validation.yml"
+      - "runtime/kuuos_transactional_effect_reconciliation_kernel_v0_24.py"
+      - "runtime/kuuos_transactional_effect_scenarios_v0_24.py"
+  pull_request:
+    paths:
+      - "runtime/kuuos_event_wakeup_control_resource_types_v0_25.py"
+      - "runtime/kuuos_event_wakeup_control_resource_kernel_v0_25.py"
+      - "runtime/kuuos_event_wakeup_control_resource_store_v0_25.py"
+      - "runtime/kuuos_event_wakeup_control_resource_scenarios_v0_25.py"
+      - "scripts/check_event_wakeup_control_resource_v0_25.py"
+      - "tests/test_event_wakeup_control_resource_v0_25.py"
+      - "formal/KUOS/OpenHorizon/EventWakeupControlResourceKernelV0_25.lean"
+      - "formal/KUOS.lean"
+      - "docs/KUUOS_EVENT_WAKEUP_CONTROL_RESOURCE_KERNEL_v0_25.md"
+      - "docs/KUUOS_AUTONOMOUS_AGENT_STATUS_v0_25.md"
+      - "manifests/kuuos_event_wakeup_control_resource_kernel_v0_25.json"
+      - ".github/workflows/event-wakeup-control-resource-v0-25-validation.yml"
+      - "runtime/kuuos_transactional_effect_reconciliation_kernel_v0_24.py"
+      - "runtime/kuuos_transactional_effect_scenarios_v0_24.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python -m compileall -q
+          runtime/kuuos_event_wakeup_control_resource_types_v0_25.py
+          runtime/kuuos_event_wakeup_control_resource_kernel_v0_25.py
+          runtime/kuuos_event_wakeup_control_resource_store_v0_25.py
+          runtime/kuuos_event_wakeup_control_resource_scenarios_v0_25.py
+          scripts/check_event_wakeup_control_resource_v0_25.py
+          tests/test_event_wakeup_control_resource_v0_25.py
+      - name: Validate v0.25 scenarios
+        run: >-
+          PYTHONPATH=. python scripts/check_event_wakeup_control_resource_v0_25.py
+          > event-wakeup-v0-25.log 2>&1
+      - name: Run v0.25 unit tests
+        run: >-
+          PYTHONPATH=. python -m unittest -v
+          tests.test_event_wakeup_control_resource_v0_25
+          >> event-wakeup-v0-25.log 2>&1
+      - name: Run v0.24 transaction regression
+        run: >-
+          PYTHONPATH=. python scripts/check_transactional_effect_reconciliation_v0_24.py
+          >> event-wakeup-v0-25.log 2>&1
+      - name: Run v0.23 non-Markov cognitive regression
+        run: >-
+          PYTHONPATH=. python scripts/check_nonmarkov_cognitive_loop_v0_23.py
+          >> event-wakeup-v0-25.log 2>&1
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile v0.25 formal module
+        shell: bash
+        run: |
+          set -o pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KUOS.OpenHorizon.EventWakeupControlResourceKernelV0_25 \
+            2>&1 | tee event-wakeup-v0-25-lean-module.log
+      - name: Strictly compile formal root
+        shell: bash
+        run: |
+          set -o pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true build KuuOSFormal \
+            2>&1 | tee event-wakeup-v0-25-lean-root.log
+      - name: Upload v0.25 diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: event-wakeup-v0-25-diagnostics
+          path: |
+            event-wakeup-v0-25.log
+            event-wakeup-v0-25-lean-module.log
+            event-wakeup-v0-25-lean-root.log
+          if-no-files-found: warn
