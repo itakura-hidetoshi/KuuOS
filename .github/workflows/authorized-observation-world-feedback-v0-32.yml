@@ -1,0 +1,64 @@
+name: Authorized Observation WORLD Feedback v0.32
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_authorized_observation_world_feedback_v0_32.py"
+      - "runtime/kuuos_authorized_observation_world_feedback_entry_v0_32.py"
+      - "scripts/check_authorized_observation_world_feedback_v0_32.py"
+      - "tests/test_authorized_observation_world_feedback_v0_32.py"
+      - "tests/test_authorized_observation_world_feedback_entry_v0_32.py"
+      - "docs/KUUOS_AUTHORIZED_OBSERVATION_WORLD_FEEDBACK_v0_32.md"
+      - "docs/KUUOS_AUTHORIZED_OBSERVATION_WORLD_FEEDBACK_v0_32_ACCEPTANCE.md"
+      - "manifests/kuuos_authorized_observation_world_feedback_v0_32.json"
+      - "formal/KUOS/OpenHorizon/AuthorizedObservationWorldFeedbackKernelV0_32.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/authorized-observation-world-feedback-v0-32.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_authorized_observation_world_feedback_v0_32.py"
+      - "runtime/kuuos_authorized_observation_world_feedback_entry_v0_32.py"
+      - "scripts/check_authorized_observation_world_feedback_v0_32.py"
+      - "tests/test_authorized_observation_world_feedback_v0_32.py"
+      - "tests/test_authorized_observation_world_feedback_entry_v0_32.py"
+      - "docs/KUUOS_AUTHORIZED_OBSERVATION_WORLD_FEEDBACK_v0_32.md"
+      - "docs/KUUOS_AUTHORIZED_OBSERVATION_WORLD_FEEDBACK_v0_32_ACCEPTANCE.md"
+      - "manifests/kuuos_authorized_observation_world_feedback_v0_32.json"
+      - "formal/KUOS/OpenHorizon/AuthorizedObservationWorldFeedbackKernelV0_32.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/authorized-observation-world-feedback-v0-32.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python checks
+        run: |
+          python -m compileall -q runtime/kuuos_authorized_observation_world_feedback_v0_32.py runtime/kuuos_authorized_observation_world_feedback_entry_v0_32.py scripts/check_authorized_observation_world_feedback_v0_32.py tests/test_authorized_observation_world_feedback_v0_32.py tests/test_authorized_observation_world_feedback_entry_v0_32.py
+          PYTHONPATH=. python scripts/check_authorized_observation_world_feedback_v0_32.py
+          PYTHONPATH=. python -m unittest -v tests.test_authorized_observation_world_feedback_v0_32 tests.test_authorized_observation_world_feedback_entry_v0_32
+          PYTHONPATH=. python scripts/check_endogenous_mission_observation_v0_31.py
+          PYTHONPATH=. python scripts/check_open_ended_background_agency_v0_30.py
+          PYTHONPATH=. python scripts/run_qi_candidate_lineage_v0_29.py
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Lean checks
+        run: |
+          lake update
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.OpenHorizon.AuthorizedObservationWorldFeedbackKernelV0_32
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal
