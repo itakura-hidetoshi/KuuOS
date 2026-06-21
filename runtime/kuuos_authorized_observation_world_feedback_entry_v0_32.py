@@ -2,6 +2,7 @@ from __future__ import annotations
 
 from pathlib import Path
 from typing import Any, Mapping
+import json
 
 from runtime import kuuos_authorized_observation_world_feedback_v0_32 as core
 
@@ -11,6 +12,19 @@ digest = core.digest
 make_envelope = core.make_envelope
 make_observation_authorization_receipt = core.make_observation_authorization_receipt
 validate_authorization_receipt = core.validate_authorization_receipt
+
+
+def _validate_existing_ledger(path: Path, validator) -> None:
+    path = Path(path)
+    if not path.exists():
+        return
+    for line in path.read_text(encoding="utf-8").splitlines():
+        if not line.strip():
+            continue
+        value = json.loads(line)
+        if not isinstance(value, dict):
+            raise ValueError("ledger_entry_invalid")
+        validator(value)
 
 
 def build_authorized_observe_request(
@@ -140,6 +154,7 @@ def validate_world_feedback_candidate(feedback_envelope: Mapping[str, Any]) -> d
 
 
 def commit_observe_request(*, ledger_path: Path, request_envelope: Mapping[str, Any]) -> CommitResult:
+    _validate_existing_ledger(ledger_path, validate_observe_request)
     validate_observe_request(request_envelope)
     result = core.commit_observe_request(ledger_path=ledger_path, request_envelope=request_envelope)
     validate_observe_request(result.artifact)
@@ -147,6 +162,7 @@ def commit_observe_request(*, ledger_path: Path, request_envelope: Mapping[str, 
 
 
 def commit_evidence_receipt(*, ledger_path: Path, receipt_envelope: Mapping[str, Any]) -> CommitResult:
+    _validate_existing_ledger(ledger_path, validate_evidence_receipt)
     validate_evidence_receipt(receipt_envelope)
     result = core.commit_evidence_receipt(ledger_path=ledger_path, receipt_envelope=receipt_envelope)
     validate_evidence_receipt(result.artifact)
@@ -154,6 +170,7 @@ def commit_evidence_receipt(*, ledger_path: Path, receipt_envelope: Mapping[str,
 
 
 def commit_world_feedback(*, ledger_path: Path, feedback_envelope: Mapping[str, Any]) -> CommitResult:
+    _validate_existing_ledger(ledger_path, validate_world_feedback_candidate)
     validate_world_feedback_candidate(feedback_envelope)
     result = core.commit_world_feedback(ledger_path=ledger_path, feedback_envelope=feedback_envelope)
     validate_world_feedback_candidate(result.artifact)
