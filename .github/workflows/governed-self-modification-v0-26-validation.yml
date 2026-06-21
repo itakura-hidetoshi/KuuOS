@@ -1,0 +1,112 @@
+name: Governed Self-Modification v0.26
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_governed_self_modification_types_v0_26.py"
+      - "runtime/kuuos_governed_self_modification_kernel_v0_26.py"
+      - "runtime/kuuos_governed_self_modification_store_v0_26.py"
+      - "runtime/kuuos_governed_self_modification_scenarios_v0_26.py"
+      - "scripts/check_governed_self_modification_v0_26.py"
+      - "tests/test_governed_self_modification_v0_26.py"
+      - "formal/KUOS/OpenHorizon/GovernedSelfModificationKernelV0_26.lean"
+      - "formal/KUOS.lean"
+      - "docs/KUUOS_GOVERNED_SELF_MODIFICATION_KERNEL_v0_26.md"
+      - "docs/KUUOS_AUTONOMOUS_AGENT_STATUS_v0_26.md"
+      - "manifests/kuuos_governed_self_modification_kernel_v0_26.json"
+      - ".github/workflows/governed-self-modification-v0-26-validation.yml"
+      - "runtime/kuuos_event_wakeup_control_resource_kernel_v0_25.py"
+      - "runtime/kuuos_event_wakeup_control_resource_scenarios_v0_25.py"
+  pull_request:
+    paths:
+      - "runtime/kuuos_governed_self_modification_types_v0_26.py"
+      - "runtime/kuuos_governed_self_modification_kernel_v0_26.py"
+      - "runtime/kuuos_governed_self_modification_store_v0_26.py"
+      - "runtime/kuuos_governed_self_modification_scenarios_v0_26.py"
+      - "scripts/check_governed_self_modification_v0_26.py"
+      - "tests/test_governed_self_modification_v0_26.py"
+      - "formal/KUOS/OpenHorizon/GovernedSelfModificationKernelV0_26.lean"
+      - "formal/KUOS.lean"
+      - "docs/KUUOS_GOVERNED_SELF_MODIFICATION_KERNEL_v0_26.md"
+      - "docs/KUUOS_AUTONOMOUS_AGENT_STATUS_v0_26.md"
+      - "manifests/kuuos_governed_self_modification_kernel_v0_26.json"
+      - ".github/workflows/governed-self-modification-v0-26-validation.yml"
+      - "runtime/kuuos_event_wakeup_control_resource_kernel_v0_25.py"
+      - "runtime/kuuos_event_wakeup_control_resource_scenarios_v0_25.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python -m compileall -q
+          runtime/kuuos_governed_self_modification_types_v0_26.py
+          runtime/kuuos_governed_self_modification_kernel_v0_26.py
+          runtime/kuuos_governed_self_modification_store_v0_26.py
+          runtime/kuuos_governed_self_modification_scenarios_v0_26.py
+          scripts/check_governed_self_modification_v0_26.py
+          tests/test_governed_self_modification_v0_26.py
+      - name: Validate v0.26 scenarios
+        run: >-
+          PYTHONPATH=. python scripts/check_governed_self_modification_v0_26.py
+          > governed-self-mod-v0-26.log 2>&1
+      - name: Run v0.26 unit tests
+        run: >-
+          PYTHONPATH=. python -m unittest -v
+          tests.test_governed_self_modification_v0_26
+          >> governed-self-mod-v0-26.log 2>&1
+      - name: Run v0.25 event wake-up regression
+        run: >-
+          PYTHONPATH=. python scripts/check_event_wakeup_control_resource_v0_25.py
+          >> governed-self-mod-v0-26.log 2>&1
+      - name: Run v0.24 transaction regression
+        run: >-
+          PYTHONPATH=. python scripts/check_transactional_effect_reconciliation_v0_24.py
+          >> governed-self-mod-v0-26.log 2>&1
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile v0.26 formal module
+        shell: bash
+        run: |
+          set -o pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KUOS.OpenHorizon.GovernedSelfModificationKernelV0_26 \
+            2>&1 | tee governed-self-mod-v0-26-lean-module.log
+      - name: Strictly compile formal root
+        shell: bash
+        run: |
+          set -o pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true build KuuOSFormal \
+            2>&1 | tee governed-self-mod-v0-26-lean-root.log
+      - name: Upload v0.26 diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: governed-self-mod-v0-26-diagnostics
+          path: |
+            governed-self-mod-v0-26.log
+            governed-self-mod-v0-26-lean-module.log
+            governed-self-mod-v0-26-lean-root.log
+          if-no-files-found: warn
