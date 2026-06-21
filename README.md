@@ -5,7 +5,7 @@
 ![KuuOS Runtime Full Check](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/kuuos_runtime_full_check.yml/badge.svg)
 ![Finite Cycle Continuity v0.27](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/finite-cycle-continuity-v0-27-validation.yml/badge.svg)
 ![Qi Process Diagnostic v0.28](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/qi-process-diagnostic-v0-28.yml/badge.svg)
-![PlanOS v0.2](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/plan-os-v0-2-validation.yml/badge.svg)
+![PlanOS v0.17](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/plan-os-v0-17-validation.yml/badge.svg)
 ![Qi-WORLD v2.2](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/qi-world-concrete-third-licensed-cycle-v2-2-validation.yml/badge.svg)
 
 **KuuOS / 空OS** は、生成・観測・信念・計画・判断・記憶・学習・実行・WORLD 表現を、独立した真理や権限ではなく、**由来・文脈・履歴・境界に拘束された局所候補**として扱う、公開研究アーキテクチャです。
@@ -16,7 +16,7 @@ KuuOS is a public, governance-gated, proof-facing, non-Markovian, Qi-process-awa
 
 ```text
 Context Gauge Atlas / Horizon Governance        v0.13 / v0.12
-PlanOS Qi-conditioned non-Markov Replan         v0.2
+PlanOS control and suspension recovery series   v0.17 (Replan ownership fixed at v0.2)
 Repeatable finite-cycle agent kernel            v0.27
 Qi recovery-window diagnostic candidate         v0.28
 Qi-WORLD concrete licensed-cycle chain          v2.2 (three closed cycles)
@@ -151,7 +151,7 @@ red flag != automatic triage or treatment
 
 ### 3. PlanOS and Qi-WORLD licensed-cycle spine
 
-PlanOS v0.2 owns Replan synthesis.
+PlanOS v0.2 fixes Replan synthesis ownership, while the public PlanOS control series now reaches **v0.17 Suspension Recovery Router**.
 
 ```text
 current committed plan
@@ -161,8 +161,12 @@ current committed plan
   -> finite replan candidate field
   -> DecisionOS-bound selection
   -> next-cycle PlanOS basis
-  -> next Plan phase still required
+  -> activation / capability / lease / session control
+  -> terminal suspension
+  -> revalidate / renewal review / escalation / re-rotation handoff
 ```
+
+At v0.17 the old suspended session is permanently closed. Recovery requires a new lineage, a new activation receipt and a new control session; the router itself grants no execution, host access or memory overwrite.
 
 Qi-WORLD v2.2 materializes a concrete third licensed cycle from a verified two-cycle prefix:
 
@@ -256,6 +260,7 @@ CONTRIBUTING.md
 docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
 docs/BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1.md
 docs/KUUOS_PLAN_OS_QI_CONDITIONED_NONMARKOV_REPLAN_v0_2.md
+docs/KUUOS_PLAN_OS_SUSPENSION_RECOVERY_ROUTER_v0_17.md
 docs/KUUOS_AUTONOMOUS_AGENT_STATUS_v0_27.md
 docs/KUUOS_FINITE_CYCLE_CONTINUITY_KERNEL_v0_27.md
 docs/KUUOS_QI_RECOVERY_WINDOW_DIAGNOSTIC_v0_28.md
@@ -278,6 +283,7 @@ PYTHONPATH=. python scripts/check_integrated_long_duration_operation_v0_27.py
 PYTHONPATH=. python scripts/check_qi_healing_potential_diagnostic_v0_28.py
 PYTHONPATH=. python scripts/check_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py
 python scripts/check_plan_os_qi_conditioned_nonmarkov_replan_v0_2.py
+python scripts/check_plan_os_v0_17.py
 
 lake -KleanArgs=-DwarningAsError=true \
   -KleanArgs=-DsorryAsError=true \
