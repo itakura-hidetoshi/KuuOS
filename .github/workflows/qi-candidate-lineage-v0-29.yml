@@ -1,0 +1,61 @@
+name: Qi Candidate Lineage v0.29
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_qi_candidate_lineage_*_v0_29.py"
+      - "scripts/run_qi_candidate_lineage_v0_29.py"
+      - "tests/test_qi_candidate_lineage_v0_29.py"
+      - "formal/KUOS/OpenHorizon/QiCandidateLineageSourceV0_29.lean"
+      - "formal/KUOS/OpenHorizon/QiLineagePluralityV0_29.lean"
+      - "formal/KUOS/OpenHorizon/QiLineageReviewCoreV0_29.lean"
+      - "formal/KUOS/OpenHorizon/QiLineagePersistenceV0_29.lean"
+      - "formal/KUOS/OpenHorizon/QiCandidateLineageV0_29.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/qi-candidate-lineage-v0-29.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_qi_candidate_lineage_*_v0_29.py"
+      - "scripts/run_qi_candidate_lineage_v0_29.py"
+      - "tests/test_qi_candidate_lineage_v0_29.py"
+      - "formal/KUOS/OpenHorizon/QiCandidateLineageSourceV0_29.lean"
+      - "formal/KUOS/OpenHorizon/QiLineagePluralityV0_29.lean"
+      - "formal/KUOS/OpenHorizon/QiLineageReviewCoreV0_29.lean"
+      - "formal/KUOS/OpenHorizon/QiLineagePersistenceV0_29.lean"
+      - "formal/KUOS/OpenHorizon/QiCandidateLineageV0_29.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/qi-candidate-lineage-v0-29.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python checks
+        run: |
+          python -m compileall -q runtime/kuuos_qi_candidate_lineage_*_v0_29.py scripts/run_qi_candidate_lineage_v0_29.py tests/test_qi_candidate_lineage_v0_29.py
+          PYTHONPATH=. python scripts/run_qi_candidate_lineage_v0_29.py
+          PYTHONPATH=. python -m unittest -v tests.test_qi_candidate_lineage_v0_29
+          PYTHONPATH=. python scripts/check_integrated_long_duration_operation_v0_27.py
+          PYTHONPATH=. python scripts/check_qi_healing_potential_diagnostic_v0_28.py
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Lean checks
+        run: |
+          lake update
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.OpenHorizon.QiCandidateLineageV0_29
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal
