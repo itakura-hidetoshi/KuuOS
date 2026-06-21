@@ -1,0 +1,61 @@
+{
+  "version": "v0.34",
+  "name": "KuuOS Authorized Atomic WORLD Commit",
+  "classification": "authorized_atomic_world_fragment_commit_kernel",
+  "predecessor": "v0.33",
+  "official_runtime_entry": "runtime/kuuos_authorized_atomic_world_commit_entry_v0_34.py",
+  "runtime_core": "runtime/kuuos_authorized_atomic_world_commit_v0_34.py",
+  "accepted_source_route": "ADOPT_CANDIDATE",
+  "store_backend": "single_host_posix_atomic_json",
+  "local_commit_limits": {
+    "max_commits_per_authorization": 1,
+    "finite_authorization_window": true
+  },
+  "global_horizon": {
+    "open_horizon_preserved": true,
+    "global_cycle_limit": null,
+    "global_generation_limit": null,
+    "global_time_horizon_limit": null
+  },
+  "concurrency": [
+    "exact_store_identity",
+    "exact_root_lineage",
+    "exact_prior_fragment",
+    "exact_prior_commit_receipt",
+    "exact_expected_generation",
+    "successor_target_generation",
+    "strictly_fresh_fencing_token",
+    "nondecreasing_lease_epoch",
+    "exclusive_store_lock",
+    "atomic_replace",
+    "directory_fsync",
+    "post_commit_readback"
+  ],
+  "provenance": [
+    "single_atomic_store_and_receipt_state",
+    "append_only_receipt_history",
+    "fragment_chain",
+    "receipt_chain",
+    "immutable_commit_receipt",
+    "rollback_reference",
+    "exact_replay_after_expiry"
+  ],
+  "boundaries": [
+    "world_commit_not_truth",
+    "world_commit_not_causal_attribution",
+    "world_fragment_commit_not_constitutional_root_rewrite",
+    "current_pointer_update_not_history_overwrite",
+    "rollback_reference_not_rollback_authority",
+    "rollback_requires_fresh_authorization",
+    "no_automatic_rollback",
+    "no_automatic_mission_completion",
+    "no_plan_activation",
+    "no_actos_invocation",
+    "finite_local_authority_not_global_horizon_shrinkage"
+  ],
+  "checker": "scripts/check_authorized_atomic_world_commit_v0_34.py",
+  "tests": "tests/test_authorized_atomic_world_commit_v0_34.py",
+  "formal": "formal/KUOS/OpenHorizon/AuthorizedAtomicWorldCommitKernelV0_34.lean",
+  "documentation": "docs/KUUOS_AUTHORIZED_ATOMIC_WORLD_COMMIT_v0_34.md",
+  "acceptance": "docs/KUUOS_AUTHORIZED_ATOMIC_WORLD_COMMIT_v0_34_ACCEPTANCE.md"
+}
