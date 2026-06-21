@@ -24,6 +24,11 @@ def validate_report_core(report: Mapping[str, Any]) -> tuple[list[str], str]:
             errors.append("source_v028_report_digest_invalid")
         if report.get("candidate_only") is not True:
             errors.append("source_v028_report_candidate_only_required")
+        for key, value in report.items():
+            if key.endswith("_instruction") and value is not False:
+                errors.append("source_v028_instruction_boundary_invalid")
+            if key.endswith("_route_generated") and value is not False:
+                errors.append("source_v028_action_route_boundary_invalid")
     except (TypeError, ValueError) as exc:
         errors.append(str(exc))
     return errors, digest_field
