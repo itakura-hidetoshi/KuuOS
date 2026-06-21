@@ -1,0 +1,37 @@
+{
+  "version": "v0.30",
+  "name": "KuuOS Open-Ended Background Agency Kernel",
+  "classification": "open_ended_background_agency_constitutional_and_transition_kernel",
+  "source": {
+    "minimum_predecessor": "v0.29",
+    "root_lineage_digest_required": true,
+    "root_rewrite_allowed": false
+  },
+  "open_horizons": [
+    "background_continuity",
+    "goal_formation",
+    "observation_seeking",
+    "world_model_expansion",
+    "tool_creation",
+    "architecture_extension",
+    "memory_reinterpretation",
+    "multi_agent_formation",
+    "resource_acquisition",
+    "self_modification"
+  ],
+  "invariants": [
+    "local_control_not_global_constitution",
+    "pause_not_horizon_closure",
+    "instance_termination_not_successor_impossibility",
+    "candidate_not_execution_authority",
+    "admission_not_self_authorization",
+    "no_global_cycle_ceiling",
+    "additive_new_horizon_allowed",
+    "append_only_replay_safe_persistence"
+  ],
+  "runtime": "runtime/kuuos_open_ended_background_agency_v0_30.py",
+  "checker": "scripts/check_open_ended_background_agency_v0_30.py",
+  "tests": "tests/test_open_ended_background_agency_v0_30.py",
+  "formal": "formal/KUOS/OpenHorizon/OpenEndedBackgroundAgencyKernelV0_30.lean",
+  "documentation": "docs/KUUOS_OPEN_ENDED_BACKGROUND_AGENCY_v0_30.md"
+}
