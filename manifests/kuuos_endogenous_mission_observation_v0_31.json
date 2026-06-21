@@ -1,0 +1,35 @@
+{
+  "version": "v0.31",
+  "name": "KuuOS Endogenous Mission Formation and Autonomous Observation Seeking",
+  "classification": "endogenous_mission_candidate_and_observation_portfolio_kernel",
+  "predecessor": "v0.30",
+  "source_bindings": [
+    "exact_v0_30_state_digest",
+    "exact_world_fragment_digest",
+    "stable_packet_identity"
+  ],
+  "routes": [
+    "NO_NEW_MISSION",
+    "MISSION_PORTFOLIO_READY",
+    "CAPABILITY_DISCOVERY",
+    "HOLD",
+    "HANDOVER"
+  ],
+  "invariants": [
+    "unresolved_world_evidence_retained",
+    "counterevidence_retained",
+    "uncertainty_retained",
+    "plural_mission_candidates",
+    "plural_observation_candidates",
+    "mission_candidate_not_activation",
+    "observation_candidate_not_tool_invocation",
+    "observation_candidate_not_actos_invocation",
+    "missing_channel_becomes_capability_candidate",
+    "append_only_replay_safe_persistence"
+  ],
+  "runtime": "runtime/kuuos_endogenous_mission_observation_v0_31.py",
+  "checker": "scripts/check_endogenous_mission_observation_v0_31.py",
+  "tests": "tests/test_endogenous_mission_observation_v0_31.py",
+  "formal": "formal/KUOS/OpenHorizon/EndogenousMissionObservationKernelV0_31.lean",
+  "documentation": "docs/KUUOS_ENDOGENOUS_MISSION_OBSERVATION_v0_31.md"
+}
