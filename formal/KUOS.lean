@@ -12,6 +12,7 @@ import KUOS.OpenHorizon.FiniteCycleContinuityKernelV0_27
 import KUOS.OpenHorizon.QiHealingPotentialDiagnosticKernelV0_28
 import KUOS.OpenHorizon.QiCandidateLineageV0_29
 import KUOS.OpenHorizon.OpenEndedBackgroundAgencyKernelV0_30
+import KUOS.OpenHorizon.EndogenousMissionObservationKernelV0_31
 import KUOS.Architecture.AdaptiveAgentReferenceArchitectureV1_0
 import KUOS.Architecture.QiWorldOSInterfaceBridgeV1_0
 import KUOS.Architecture.QiWorldAdaptiveTraceAdapterV1_1
