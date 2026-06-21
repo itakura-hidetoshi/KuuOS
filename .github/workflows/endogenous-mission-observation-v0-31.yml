@@ -1,0 +1,57 @@
+name: Endogenous Mission Observation v0.31
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_endogenous_mission_observation_v0_31.py"
+      - "scripts/check_endogenous_mission_observation_v0_31.py"
+      - "tests/test_endogenous_mission_observation_v0_31.py"
+      - "docs/KUUOS_ENDOGENOUS_MISSION_OBSERVATION_v0_31.md"
+      - "manifests/kuuos_endogenous_mission_observation_v0_31.json"
+      - "formal/KUOS/OpenHorizon/EndogenousMissionObservationKernelV0_31.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/endogenous-mission-observation-v0-31.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_endogenous_mission_observation_v0_31.py"
+      - "scripts/check_endogenous_mission_observation_v0_31.py"
+      - "tests/test_endogenous_mission_observation_v0_31.py"
+      - "docs/KUUOS_ENDOGENOUS_MISSION_OBSERVATION_v0_31.md"
+      - "manifests/kuuos_endogenous_mission_observation_v0_31.json"
+      - "formal/KUOS/OpenHorizon/EndogenousMissionObservationKernelV0_31.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/endogenous-mission-observation-v0-31.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Python checks
+        run: |
+          python -m compileall -q runtime/kuuos_endogenous_mission_observation_v0_31.py scripts/check_endogenous_mission_observation_v0_31.py tests/test_endogenous_mission_observation_v0_31.py
+          PYTHONPATH=. python scripts/check_endogenous_mission_observation_v0_31.py
+          PYTHONPATH=. python -m unittest -v tests.test_endogenous_mission_observation_v0_31
+          PYTHONPATH=. python scripts/check_open_ended_background_agency_v0_30.py
+          PYTHONPATH=. python scripts/run_qi_candidate_lineage_v0_29.py
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Lean checks
+        run: |
+          lake update
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.OpenHorizon.EndogenousMissionObservationKernelV0_31
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal
