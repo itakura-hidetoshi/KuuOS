@@ -27,3 +27,14 @@
 | Temporary-file crash before replace | Prior store remains authoritative |
 | Successful atomic replace | No temporary state file remains |
 | WORLD commit interpreted as truth, causality, PlanOS activation, or ActOS invocation | Rejected by boundary flags |
+
+## Validation result
+
+Dedicated pull-request workflow run 2 completed successfully on the final branch head.
+
+- Python compilation: success
+- two-generation atomic commit checker: success
+- 25 unit tests: success
+- v0.33 through v0.29 regression checks: success
+- targeted Lean build: success
+- full `KuuOSFormal` build: success
