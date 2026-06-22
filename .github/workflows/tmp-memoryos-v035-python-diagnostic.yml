@@ -1,0 +1,34 @@
+name: Temporary MemoryOS v0.35 Python Diagnostic
+
+on:
+  push:
+    paths:
+      - ".github/workflows/tmp-memoryos-v035-python-diagnostic.yml"
+      - "runtime/kuuos_memoryos_qi_world_blocker_integration_v0_35.py"
+      - "scripts/check_memoryos_qi_world_blocker_integration_v0_35.py"
+      - "tests/test_memoryos_qi_world_blocker_integration_v0_35.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  diagnose:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile
+        run: python -m compileall -q runtime/kuuos_memoryos_qi_world_blocker_integration_v0_35.py scripts/check_memoryos_qi_world_blocker_integration_v0_35.py tests/test_memoryos_qi_world_blocker_integration_v0_35.py
+      - name: Registration
+        run: PYTHONPATH=. python scripts/check_memoryos_qi_world_blocker_integration_v0_35.py
+      - name: Unit tests
+        run: PYTHONPATH=. python -m unittest -v tests.test_memoryos_qi_world_blocker_integration_v0_35
+      - name: Source v0.23
+        run: PYTHONPATH=. python scripts/check_nonmarkov_cognitive_loop_v0_23.py
+      - name: Source v1.5
+        run: PYTHONPATH=. python scripts/check_qi_world_cross_cycle_blocker_v1_5.py
+      - name: Source v0.34
+        run: PYTHONPATH=. python scripts/check_authorized_atomic_world_commit_v0_34.py
