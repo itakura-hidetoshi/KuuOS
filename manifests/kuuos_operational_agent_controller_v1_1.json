@@ -1,0 +1,46 @@
+{
+  "version": "kuuos_operational_agent_controller_v1_1",
+  "base": "kuuos_adaptive_agent_reference_architecture_v1_0",
+  "current_runtime_base": "kuuos_runtime_full_check_v0_48",
+  "lineage_mode": "additive_only",
+  "same_root_required": true,
+  "overwrite_forbidden": true,
+  "fail_closed": true,
+  "open_extension_allowed": true,
+  "controller_owns_ordering_only": true,
+  "external_commit_supported": false,
+  "independent_observation_required": true,
+  "future_only_learning_required": true,
+  "required_gates": [
+    "valid_active_adaptive_plan_state",
+    "active_capability_record",
+    "fresh_capability_epoch",
+    "adapter_kind_match",
+    "valid_finite_lease",
+    "operation_allowlist",
+    "resource_scope",
+    "effect_ceiling",
+    "owner_lineage_session_binding",
+    "host_license_binding",
+    "intent_not_replayed"
+  ],
+  "runtime_files": [
+    "runtime/kuuos_operational_agent_types_v1_1.py",
+    "runtime/kuuos_operational_agent_capability_registry_v1_1.py",
+    "runtime/kuuos_operational_agent_lease_ledger_v1_1.py",
+    "runtime/kuuos_operational_agent_receipt_store_v1_1.py",
+    "runtime/kuuos_operational_agent_recovery_v1_1.py",
+    "runtime/kuuos_operational_agent_adapter_contract_v1_1.py",
+    "runtime/kuuos_operational_agent_controller_v1_1.py",
+    "runtime/kuuos_operational_agent_scenarios_v1_1.py"
+  ],
+  "validation_files": [
+    "scripts/check_operational_agent_controller_v1_1.py",
+    "scripts/validate_operational_agent_controller_manifest_v1_1.py",
+    "scripts/run_kuuos_runtime_full_check_v1_1.py",
+    "tests/test_operational_agent_controller_v1_1.py",
+    "docs/KUUOS_OPERATIONAL_AGENT_CONTROLLER_v1_1.md",
+    "formal/KUOS/Architecture/OperationalAgentControllerV1_1.lean",
+    ".github/workflows/operational_agent_controller_v1_1_validation.yml"
+  ]
+}
