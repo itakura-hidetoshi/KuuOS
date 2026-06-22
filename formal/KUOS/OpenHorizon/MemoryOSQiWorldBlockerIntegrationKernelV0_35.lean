@@ -57,18 +57,27 @@ theorem memoryos_qi_world_blocker_integration_boundary
       k.worldChangedByMemory = false ∧
       k.retrievalCandidateOnly = true ∧
       k.durableAppendClaimed = false := by
-  have hMemory :=
-    NonMarkovCognitiveLoop.memory_consolidation_is_append_only k.memory
-  have hHistory :=
-    NonMarkovCognitiveLoop.process_history_is_not_snapshot_replacement k.memory
-  have hQi :=
-    NonMarkovCognitiveLoop.qi_process_tensor_is_context_not_authority k.qi
-  have hBlocker :=
-    KUOS.Architecture.CrossCycleBlockerCertificate.active_package k.blocker
-  have hWorld :=
-    AuthorizedAtomicWorldCommit.atomic_world_commit_preserves_history_and_root
-      k.world
-  aesop
+  exact ⟨k.memory.historyRequired,
+    k.memory.snapshotReplacementForbidden,
+    k.memory.appendOnlyRequired,
+    k.memory.overwriteForbidden,
+    k.qi.backactionRequired,
+    k.qi.residueRequired,
+    k.qi.nonMarkovRequired,
+    k.blocker.all_active .memoryPreservation,
+    k.blocker.all_active .worldPreservation,
+    k.blocker.all_active .noncollapse,
+    k.world.appendOnlyRequired,
+    k.world.sameRootRequired,
+    k.world.truthForbidden,
+    k.world.historyOverwriteForbidden,
+    k.contextRequired,
+    k.releaseForbidden,
+    k.silentRepairForbidden,
+    k.readOnlyRequired,
+    k.worldChangeForbidden,
+    k.candidateRequired,
+    k.durableClaimForbidden⟩
 
 end MemoryOSQiWorldBlockerIntegration
 
