@@ -23,8 +23,7 @@ This is implementation closure only. It is not proof, truth, essence authority, 
 Validation:
 
 - scripts/check_do_sheaf_gauge_runtime_closure_v0_2.py
-- scripts/run_do_sheaf_gauge_runtime_closure_checks_v0_2.py
 
 Version: v0.2
-Date: 2026-05-14
+Date: 2026-06-24
 Author: Hidetoshi Itakura / 板倉英俊
