@@ -1,5 +1,7 @@
 name: WORLD Vacuum Expectation OS Receipt Composition v0.53
 
+# Workflow-only targeted CI marker.
+
 on:
   workflow_dispatch:
   pull_request:
