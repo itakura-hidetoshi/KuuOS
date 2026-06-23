@@ -161,7 +161,7 @@ theorem selected_constraint_is_admissible_and_non_authoritative (r : Receipt) :
       r.constraintGate.evidencePresent = true := by
   exact ⟨r.constraintAdmissible.2.1,
     r.constraintAdmissible.2.2.1,
-    r.constraintAdmissible.2.2.2.2.2.2.2.2⟩
+    r.constraintAdmissible.2.2.2.2.2.2.2⟩
 
 theorem robust_certificate_separates_every_alternative
     (r : Receipt) (alternative : DecisionValueInterval)
