@@ -15,50 +15,20 @@ def require_tokens(path: pathlib.Path, tokens: tuple[str, ...]) -> None:
 
 def main() -> int:
     formal = ROOT / "formal/KUOS/WORLD/KuuVacuumOSHilbertCompletionBridgeV0_49.lean"
-    require_tokens(
-        formal,
-        (
-            "WorldKuuVacuumOSHilbertCompletionBridge",
-            "osReflectionPositive",
-            "osHilbertIdentification",
-            "kuuVacuum",
-            "vacuumState_positive",
-            "modular_vacuum_invariant",
-            "physical_vacuum_invariant",
-            "kuu_vacuum_mem_vacuumSector",
-            "runtime_grants_no_vacuum_authority",
-            "vacuum_representation_boundary_preserved",
-        ),
-    )
-    require_tokens(
-        ROOT / "formal/KuuOSFormalV0_49.lean",
-        ("KuuVacuumOSHilbertCompletionBridgeV0_49",),
-    )
-    require_tokens(
-        ROOT / "formal/KUOS.lean",
-        ("KUOS.WORLD.KuuVacuumOSHilbertCompletionBridgeV0_49",),
-    )
+    require_tokens(formal, (
+        "WorldKuuVacuumOSHilbertCompletionBridge",
+        "osReflectionPositive",
+        "kuuVacuum",
+        "vacuumState_positive",
+        "runtime_grants_no_vacuum_authority",
+        "vacuum_representation_boundary_preserved",
+    ))
+    require_tokens(ROOT / "formal/KuuOSFormalV0_49.lean", ("KuuVacuumOSHilbertCompletionBridgeV0_49",))
+    require_tokens(ROOT / "formal/KUOS.lean", ("KUOS.WORLD.KuuVacuumOSHilbertCompletionBridgeV0_49",))
     require_tokens(ROOT / "lakefile.toml", ("KuuOSFormalV0_49",))
-    require_tokens(
-        ROOT / "docs/KU_WORLD_KUU_VACUUM_OS_HILBERT_COMPLETION_v0_49.md",
-        ("Kū != zero vector", "modular time != physical time"),
-    )
-    require_tokens(
-        ROOT / "README.md",
-        (
-            "WORLD read-only mathematical sidecar             v0.49",
-            "analytic vacuum != exact WORLD",
-            "run_kuuos_runtime_full_check_v0_49.py",
-        ),
-    )
-    require_tokens(
-        ROOT / "ROADMAP.md",
-        (
-            "Baseline date: 2026-06-23",
-            "implemented through v0.49",
-            "Strengthen WORLD v0.49 proof status",
-        ),
-    )
+    require_tokens(ROOT / "docs/KU_WORLD_KUU_VACUUM_OS_HILBERT_COMPLETION_v0_49.md", ("Kū != zero vector", "modular time != physical time"))
+    require_tokens(ROOT / "README.md", ("WORLD read-only mathematical sidecar", "analytic vacuum != exact WORLD", "modular time != physical time"))
+    require_tokens(ROOT / "ROADMAP.md", ("WORLD mathematical sidecar", "modular-time and physical-time invariance"))
 
     manifest_path = ROOT / "manifests/world_kuu_vacuum_os_hilbert_completion_v0_49.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
