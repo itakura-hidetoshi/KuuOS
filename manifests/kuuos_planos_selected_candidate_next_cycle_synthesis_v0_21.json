@@ -1,0 +1,25 @@
+{
+  "version": "kuuos_planos_selected_candidate_next_cycle_synthesis_v0_21",
+  "status": "formal_next_cycle_synthesis_receipt",
+  "source_selection_module": "formal/KUOS/DecisionOS/VacuumExpectationAdmissibleCandidateSelectionV0_4.lean",
+  "formal_module": "formal/KUOS/PlanOS/VacuumExpectationSelectedCandidateNextCycleSynthesisV0_21.lean",
+  "documentation": "docs/KUUOS_PLANOS_SELECTED_CANDIDATE_NEXT_CYCLE_SYNTHESIS_v0_21.md",
+  "validator": "scripts/check_planos_selected_candidate_next_cycle_synthesis_v0_21.py",
+  "workflow": ".github/workflows/planos-selected-candidate-next-cycle-synthesis-v0-21.yml",
+  "required": {
+    "exact_decision_selection": true,
+    "selected_identity_preserved": true,
+    "history_qi_learning_mission_bound": true,
+    "next_cycle_exact": true,
+    "future_only": true,
+    "next_plan_basis_committed": true,
+    "next_plan_phase_required": true
+  },
+  "forbidden": {
+    "active_now": false,
+    "execution": false,
+    "host_license": false,
+    "memory_overwrite": false,
+    "world_update": false
+  }
+}
