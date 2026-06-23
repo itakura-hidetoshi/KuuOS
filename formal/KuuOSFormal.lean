@@ -10,3 +10,4 @@ import KUOS.PlanOS.VacuumExpectationCompilerMaterializationV0_22
 import KUOS.PlanOS.«VacuumExpectationActivationAdmissionActOSHandoffV0_23»
 import KUOS.ActOS.«VacuumExpectationActivationAuthorizationIntakeV0_3»
 import KUOS.ActOS.VacuumExpectationBoundedAdapterInvocationV0_4
+import KUOS.WORLD.VacuumExpectationHostEffectAtomicCommitIntakeV0_52
