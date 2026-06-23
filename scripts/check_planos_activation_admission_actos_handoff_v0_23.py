@@ -31,7 +31,7 @@ def main() -> int:
     for path in (formal_root, aggregate_root, formal, source, docs, manifest_path, workflow):
         require(path.is_file(), f"missing file: {path}")
 
-    import_token = "KUOS.PlanOS.VacuumExpectationActivationAdmissionActOSHandoffV0_23"
+    import_token = "KUOS.PlanOS.«VacuumExpectationActivationAdmissionActOSHandoffV0_23»"
     require_tokens(formal_root, (import_token,))
     require_tokens(aggregate_root, (import_token,))
     require_tokens(
