@@ -1,0 +1,37 @@
+{
+  "version": "kuuos_learnos_world_host_effect_future_only_learning_v0_4",
+  "status": "formal_future_only_learning_receipt",
+  "base_branch": "verify-v04-clean",
+  "source_module": "formal/KUOS/VerifyOS/WorldHostEffectVerificationReceiptV0_4.lean",
+  "formal_module": "formal/KUOS/LearnOS/WorldHostEffectVerificationFutureOnlyLearningV0_4.lean",
+  "formal_root": "formal/KuuOSLearnOSV0_4.lean",
+  "documentation": "docs/KUUOS_LEARNOS_WORLD_HOST_EFFECT_FUTURE_ONLY_LEARNING_v0_4.md",
+  "validator": "scripts/check_learnos_world_host_effect_future_only_learning_v0_4.py",
+  "workflow": ".github/workflows/learnos-world-host-effect-v0-4.yml",
+  "required": {
+    "committed_verification_receipt": true,
+    "verification_lineage_preserved": true,
+    "evidence_and_counterevidence_preserved": true,
+    "uncertainty_and_qi_context_preserved": true,
+    "verdict_kind_compatibility": true,
+    "future_only_delta": true,
+    "middle_way_admissibility": true,
+    "world_disposition_candidate_preserved": true,
+    "replan_required": true,
+    "immutable_append_only_receipt": true
+  },
+  "forbidden": {
+    "automatic_replan_activation": false,
+    "automatic_plan_activation": false,
+    "automatic_execution": false,
+    "automatic_memory_overwrite": false,
+    "automatic_world_update": false,
+    "automatic_world_adoption": false,
+    "automatic_world_rejection": false,
+    "automatic_world_commit": false,
+    "automatic_rollback": false,
+    "self_modification_authority": false,
+    "truth_authority": false,
+    "causal_authority": false
+  }
+}
