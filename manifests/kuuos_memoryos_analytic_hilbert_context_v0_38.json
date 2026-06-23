@@ -1,0 +1,101 @@
+{
+  "version": "kuuos_memoryos_analytic_hilbert_context_v0_38",
+  "memory_predecessor": "kuuos_memoryos_predictive_shielded_memory_v0_37",
+  "world_predecessor": "KUOS.WORLD.KuuVacuumOSHilbertCompletionBridgeV0_49",
+  "runtime_kernel": "runtime/kuuos_memoryos_analytic_hilbert_context_v0_38.py",
+  "unit_test": "tests/test_memoryos_analytic_hilbert_context_v0_38.py",
+  "validation_script": "scripts/check_memoryos_analytic_hilbert_context_v0_38.py",
+  "documentation": "docs/KUUOS_MEMORYOS_ANALYTIC_HILBERT_CONTEXT_v0_38.md",
+  "formal_module": "formal/KUOS/OpenHorizon/MemoryOSAnalyticHilbertContextKernelV0_38.lean",
+  "formal_root": "formal/KUOS.lean",
+  "workflow": ".github/workflows/memoryos-analytic-hilbert-context-v0-38.yml",
+  "central_runtime_check": "scripts/run_kuuos_runtime_full_check_v0_48.py",
+  "source_runtime": "runtime/kuuos_memoryos_predictive_shielded_memory_v0_37.py",
+  "source_world_formal": "formal/KUOS/WORLD/KuuVacuumOSHilbertCompletionBridgeV0_49.lean",
+  "analytic_packet_version": "world_kuu_vacuum_os_hilbert_analytic_packet_v0_49",
+  "capsule_version": "memoryos_analytic_hilbert_context_capsule_v0_38",
+  "retrieval_version": "memoryos_analytic_hilbert_context_retrieval_v0_38",
+  "analytic_surfaces": [
+    "os_reflection_form",
+    "os_hilbert_vacuum",
+    "vacuum_state",
+    "gauge_invariance",
+    "modular_time",
+    "physical_time",
+    "hamiltonian_vacuum"
+  ],
+  "capsule_routes": [
+    "QUARANTINE_MEMORY_SOURCE",
+    "REOBSERVE_ANALYTIC_EVIDENCE",
+    "PRESERVE_RESIDUE_WITH_ANALYTIC_CONTEXT",
+    "READY_FOR_READ_ONLY_ANALYTIC_RETRIEVAL"
+  ],
+  "retrieval_routes": [
+    "QUARANTINE_ANALYTIC_RETRIEVAL",
+    "RETURN_ANALYTIC_CONTEXT_WITH_ACTIVE_SHIELD",
+    "REOBSERVE_ANALYTIC_EVIDENCE",
+    "RETURN_ANALYTIC_CONTEXT_WITH_RESIDUE",
+    "RETURN_READ_ONLY_HILBERT_CONTEXT"
+  ],
+  "required_analytic_evidence": [
+    "os_reflection_positive",
+    "os_null_characterization_available",
+    "os_quotient_completion_supplied",
+    "vacuum_state_normalized",
+    "vacuum_state_positive",
+    "gauge_invariant",
+    "modular_vacuum_invariant",
+    "physical_vacuum_invariant",
+    "physical_hamiltonian_vacuum",
+    "physical_hamiltonian_self_adjoint_supplied",
+    "physical_time_stone_supplied",
+    "modular_time_distinct_from_physical_time"
+  ],
+  "forbidden_packet_claims": [
+    "runtime_constructed_os_completion",
+    "runtime_executed_physical_hamiltonian",
+    "runtime_executed_physical_time",
+    "unique_vacuum_claim",
+    "kuu_zero_vector_identification",
+    "metaphysical_kuu_identification",
+    "world_vacuum_identification",
+    "world_truth_claim",
+    "world_update_authority",
+    "execution_authority"
+  ],
+  "boundaries": {
+    "source_v037_capsule_preserved": true,
+    "source_world_fragment_exactly_bound": true,
+    "analytic_packet_candidate_only": true,
+    "reflection_positivity_is_supplied_evidence": true,
+    "runtime_constructs_os_completion": false,
+    "vacuum_state_is_truth_authority": false,
+    "analytic_vacuum_is_unique_vacuum_claim": false,
+    "analytic_vacuum_is_metaphysical_kuu": false,
+    "analytic_vacuum_is_exact_world": false,
+    "modular_time_is_physical_time": false,
+    "runtime_executes_physical_time": false,
+    "runtime_executes_hamiltonian": false,
+    "contradiction_residue_preserved": true,
+    "blocker_shield_precedes_analytic_return": true,
+    "append_only_analytic_lineage": true,
+    "multiworld_noncollapse_preserved": true,
+    "memory_overwrite_allowed": false,
+    "world_update_allowed": false,
+    "retrieval_grants_plan_activation": false,
+    "retrieval_grants_actos_invocation": false,
+    "retrieval_grants_truth": false
+  },
+  "proof_status": {
+    "runtime": "validated over declared regression cases",
+    "formal": "Lean-derived joint MemoryOS and WORLD sidecar boundary",
+    "analytic_packet": "supplied evidence with exact digest binding",
+    "empirical_truth": "not established",
+    "unique_vacuum": "not established",
+    "physical_execution": "not performed"
+  },
+  "final_theorems": [
+    "analytic_context_cannot_promote_vacuum_or_world",
+    "memoryos_analytic_hilbert_context_boundary"
+  ]
+}
