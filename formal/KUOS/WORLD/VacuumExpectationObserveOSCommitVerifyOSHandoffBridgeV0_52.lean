@@ -337,9 +337,9 @@ theorem verify_handoff_source_ready
     handoff.sourceBinding.observationRecorded = true ∧
     handoff.sourceBinding.verificationRequired = true := by
   rw [handoff.sourceBindingExact]
-  exact WorldAnalyticSourceObservationBinding.
-    verification_requires_committed_analytic_observation
-      Bridge.sourceObservationBinding
+  exact ⟨Bridge.sourceObservationBinding.committedRequired,
+    Bridge.sourceObservationBinding.recordedRequired,
+    Bridge.sourceObservationBinding.debtRequired⟩
 
 
 theorem verify_handoff_preserves_analytic_source_identity
@@ -351,8 +351,12 @@ theorem verify_handoff_preserves_analytic_source_identity
     handoff.sourceBinding.sourceClassAnalytic = true ∧
     handoff.sourceBinding.sourceEffectBound = false := by
   rw [handoff.sourceBindingExact]
-  exact WorldAnalyticSourceObservationBinding.preserves_analytic_source_identity
-    Bridge.sourceObservationBinding
+  exact ⟨Bridge.sourceObservationBinding.comparisonRequired,
+    Bridge.sourceObservationBinding.intakeRequired,
+    Bridge.sourceObservationBinding.commitRequired,
+    Bridge.sourceObservationBinding.provenanceRequired,
+    Bridge.sourceObservationBinding.analyticRequired,
+    Bridge.sourceObservationBinding.effectReclassificationForbidden⟩
 
 
 theorem verify_handoff_uses_exact_observe_cycle
