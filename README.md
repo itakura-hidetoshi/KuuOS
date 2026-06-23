@@ -5,7 +5,8 @@
 ![KuuOS Runtime Full Check](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/kuuos_runtime_full_check.yml/badge.svg)
 ![Finite Cycle Continuity v0.27](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/finite-cycle-continuity-v0-27-validation.yml/badge.svg)
 ![Qi Process Diagnostic v0.28](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/qi-process-diagnostic-v0-28.yml/badge.svg)
-![PlanOS v0.22](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/planos-compiler-materialization-v0-22.yml/badge.svg)
+![PlanOS v0.23](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/planos-activation-admission-actos-handoff-v0-23.yml/badge.svg)
+![ActOS v0.4](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/actos-bounded-invocation-v0-4.yml/badge.svg)
 ![Qi-WORLD v2.2](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/qi-world-concrete-third-licensed-cycle-v2-2-validation.yml/badge.svg)
 ![WORLD v0.52](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/world-vacuum-expectation-observeos-commit-verify-v0-52.yml/badge.svg)
 
@@ -19,7 +20,8 @@ KuuOS is a public, governance-gated, proof-facing, non-Markovian, Qi-process-awa
 
 ```text
 Context Gauge Atlas / Horizon Governance        v0.13 / v0.12
-PlanOS WORLD-derived compiler materialization    v0.22
+PlanOS activation admission and ActOS handoff     v0.23
+ActOS bounded adapter invocation                  v0.4
 DecisionOS admissible candidate selection        v0.4
 Repeatable finite-cycle agent kernel             v0.27
 Qi recovery-window diagnostic candidate          v0.28
@@ -44,6 +46,15 @@ compiler route != selected candidate identity
 materialization != plan activation
 materialization != execution permission
 materialization != host license
+admission != activation
+PlanOS handoff != ActOS authorization
+ActOS authorization != plan activation
+ActOS authorization != adapter invocation
+plan activation != external effect
+blocked route != effect
+replayed route != new invocation
+host receipt != truth
+bounded invocation != WORLD commit
 closed-cycle receipt != next-cycle activation
 diagnostic candidate != final diagnosis
 recovery-window interval != healing guarantee
@@ -80,7 +91,9 @@ belief-state ownership = BeliefOS
 candidate selection = DecisionOS
 plan and replan synthesis = PlanOS
 compiler materialization = PlanOS
-execution = ActOS
+activation admission and ActOS handoff = PlanOS
+activation authorization = ActOS
+plan activation and bounded invocation = ActOS
 verification = VerifyOS
 future-only update = LearnOS
 lineage and reconstruction = MemoryOS
@@ -89,7 +102,10 @@ lineage and reconstruction = MemoryOS
 ```text
 LearnOS delta != activation
 DecisionOS selection != execution
-PlanOS materialization != execution
+PlanOS admission != activation
+PlanOS handoff != authorization
+ActOS authorization != invocation
+ActOS invocation != WORLD commit
 ActOS receipt != successor authority
 ObserveOS record != verification result
 VerifyOS result != absolute truth
@@ -128,11 +144,13 @@ negative response != permanent closure
 red flag != automatic triage or treatment
 ```
 
-### PlanOS, DecisionOS, LearnOS and Qi-WORLD
+### PlanOS, DecisionOS, ActOS, LearnOS and Qi-WORLD
 
-PlanOS owns plan and replan synthesis and compiler materialization.
+PlanOS owns plan synthesis, compiler materialization, activation admission and the nonauthorizing handoff to ActOS.
 
 DecisionOS owns admissible-candidate selection.
+
+ActOS owns independent authorization revalidation, plan activation and bounded adapter invocation.
 
 LearnOS v0.3 consumes an explicit VerifyOS v0.3 receipt and records one future-only learning receipt.
 
@@ -144,7 +162,7 @@ indeterminate verification -> reobservation or hold
 
 The learning delta is inactive in the current cycle, preserves past records and requires a later PlanOS-owned replan handoff without activating it.
 
-The current WORLD-derived planning route reaches:
+The current WORLD-derived route reaches:
 
 ```text
 LearnOS v0.3 future-only learning receipt
@@ -154,9 +172,12 @@ LearnOS v0.3 future-only learning receipt
   -> DecisionOS v0.4 admissible candidate selection
   -> PlanOS v0.21 next-cycle synthesis and basis commit
   -> PlanOS v0.22 compiler route projection and template materialization
+  -> PlanOS v0.23 activation admission and nonexecuting ActOS handoff
+  -> ActOS v0.3 independent authorization intake and one lease-use reservation
+  -> ActOS v0.4 plan activation and bounded adapter invocation
 ```
 
-The route preserves source identity, history, Qi conditioning, constraints, selected-candidate identity and ownership.
+The route preserves source identity, history, Qi conditioning, constraints, selected-candidate identity, exact step identity, scope, effect ceiling and OS ownership.
 
 PlanOS v0.22 reuses the v0.1 structured compiler and the v0.3 adapter rather than introducing a new compiler.
 
@@ -164,9 +185,33 @@ The materialization receipt is single-use and exact replay is idempotent.
 
 A hold candidate produces zero executable steps while leaving withheld templates visible.
 
-The materialized plan remains inactive.
+PlanOS v0.23 accepts only a materialized non-hold candidate with fresh generation material, exact target cycle, complete authority binding and scope-effect concordance.
 
-It does not activate a plan, permit execution, grant a host license, overwrite memory or update WORLD.
+Its admission and handoff remain nonexecuting.
+
+```text
+admitted = true
+plan activated = false
+ActOS authorization committed = false
+adapter invoked = false
+external effect performed = false
+```
+
+ActOS v0.3 independently revalidates freshness, capability-registry status, lease scope, session identity and action-intent replay safety.
+
+It reserves exactly one lease use and commits one single-use authorization without activating the plan or invoking the adapter.
+
+ActOS v0.4 separates plan activation from adapter invocation and classifies the host route as `effectRecorded`, `blocked` or `replayed`.
+
+```text
+effectRecorded -> invoke once and record once
+blocked -> no call, no effect and no record
+replayed -> exact replay is idempotent and starts no new invocation
+```
+
+An effect-recorded route preserves post-effect ObserveOS and VerifyOS debt.
+
+Neither the invocation receipt nor the canonical host receipt commits WORLD, promotes truth, completes the plan automatically or performs rollback automatically.
 
 Qi-WORLD v2.2 contains three concrete closed licensed cycles with fresh external authority, human approval, host license, one explicit discharge, one effect and native closure for each cycle.
 
@@ -229,7 +274,9 @@ It does not construct or replay any OS-owned transition.
 - Qi process history and recovery-window diagnostic candidates;
 - three concrete Qi-WORLD licensed cycles;
 - ObserveOS v0.3 commit, VerifyOS v0.3 verification and LearnOS v0.3 future-only receipts;
-- PlanOS v0.18 through v0.22 with DecisionOS v0.4 selection, future-only basis commit and compiler materialization;
+- PlanOS v0.18 through v0.23 with DecisionOS v0.4 selection, basis commit, compiler materialization and nonexecuting ActOS handoff;
+- ActOS v0.3 authorization intake with independent revalidation and one lease-use reservation;
+- ActOS v0.4 bounded adapter invocation with effect-recorded, blocked and replayed routes;
 - Lean/mathlib-facing formal surfaces under `KuuOSFormal`;
 - WORLD v0.52 read-only composition of the existing OS receipt lineage.
 
@@ -244,8 +291,10 @@ KuuOS is not currently:
 - an externally accepted proof merely because Lean or CI succeeds;
 - a physical quantum Markov semigroup or exact WORLD simulator;
 - a system in which a composition digest proves that WORLD performed an OS transition;
-- a system in which a compiled or materialized plan is active, licensed or executable merely because its receipt exists;
-- a system in which a verification, learning, selection, synthesis or materialization result becomes truth, causal authority, current-cycle mutation, plan activation or action permission by itself.
+- a system in which PlanOS admission itself authorizes or performs ActOS work;
+- a system in which ActOS authorization itself activates a plan or invokes an adapter;
+- a system in which a host receipt commits WORLD or promotes truth;
+- a system in which a verification, learning, selection, synthesis, materialization, admission, authorization or invocation result silently becomes broader authority.
 
 ## Read first
 
@@ -258,6 +307,9 @@ docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
 docs/BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1.md
 docs/KUUOS_PLAN_OS_SUSPENSION_RECOVERY_ROUTER_v0_17.md
 docs/KUUOS_PLANOS_COMPILER_MATERIALIZATION_v0_22.md
+docs/KUUOS_PLANOS_ACTIVATION_ADMISSION_ACTOS_HANDOFF_v0_23.md
+docs/KUUOS_ACTOS_ACTIVATION_AUTHORIZATION_INTAKE_v0_3.md
+docs/KUUOS_ACTOS_BOUNDED_ADAPTER_INVOCATION_v0_4.md
 docs/KUUOS_AUTONOMOUS_AGENT_STATUS_v0_27.md
 docs/KUUOS_QI_RECOVERY_WINDOW_DIAGNOSTIC_v0_28.md
 docs/KUUOS_QI_WORLD_CONCRETE_THIRD_LICENSED_CYCLE_MATERIALIZATION_v2_2.md
@@ -277,8 +329,10 @@ make all-governance-checks
 
 python3 scripts/run_kuuos_runtime_full_check_v0_52.py
 python3 scripts/check_world_vacuum_expectation_observeos_commit_verify_handoff_v0_52.py
+python3 scripts/check_actos_bounded_adapter_invocation_v0_4.py
+python3 scripts/check_actos_activation_authorization_intake_v0_3.py
+python3 scripts/check_planos_activation_admission_actos_handoff_v0_23.py
 python3 scripts/check_planos_compiler_materialization_v0_22.py
-python3 scripts/check_planos_selected_candidate_next_cycle_synthesis_v0_21.py
 python3 scripts/check_decisionos_admissible_candidate_selection_v0_4.py
 
 lake -KleanArgs=-DwarningAsError=true \
