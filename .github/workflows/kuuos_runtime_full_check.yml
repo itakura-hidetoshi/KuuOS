@@ -22,6 +22,7 @@ on:
       - 'scripts/run_kuuos_runtime_full_check_v0_49.py'
       - 'scripts/run_kuuos_runtime_full_check_v0_50.py'
       - 'scripts/run_kuuos_runtime_full_check_v0_51.py'
+      - 'scripts/run_kuuos_runtime_full_check_v0_52.py'
       - 'scripts/check_world_module_category_nimrep_tube_center_bridge_v0_41.py'
       - 'scripts/check_world_gauge_categorical_indra_net_bridge_v0_42.py'
       - 'scripts/check_world_information_geometric_higher_gauge_v0_43.py'
@@ -33,6 +34,7 @@ on:
       - 'scripts/check_world_kuu_vacuum_os_hilbert_completion_v0_49.py'
       - 'scripts/check_world_vacuum_expectation_observation_candidate_v0_50.py'
       - 'scripts/check_world_vacuum_expectation_observeos_evidence_intake_v0_51.py'
+      - 'scripts/check_world_vacuum_expectation_observeos_commit_verify_handoff_v0_52.py'
       - 'scripts/validate_kuuos_runtime_manifest_v0_1.py'
       - 'scripts/check_kuuos_state_io_example_v0_1.py'
       - 'scripts/check_kuuos_qi_process_tensor_example_v0_1.py'
@@ -48,18 +50,23 @@ on:
       - 'manifests/world_kuu_vacuum_os_hilbert_completion_v0_49.json'
       - 'manifests/world_vacuum_expectation_observation_candidate_v0_50.json'
       - 'manifests/world_vacuum_expectation_observeos_evidence_intake_v0_51.json'
+      - 'manifests/world_vacuum_expectation_observeos_commit_verify_handoff_v0_52.json'
       - 'formal/KUOS/WORLD/KuuVacuumOSHilbertCompletionBridgeV0_49.lean'
       - 'formal/KUOS/WORLD/VacuumExpectationObservationCandidateBridgeV0_50.lean'
       - 'formal/KUOS/WORLD/VacuumExpectationObserveOSEvidenceIntakeBridgeV0_51.lean'
+      - 'formal/KUOS/WORLD/VacuumExpectationObserveOSCommitVerifyHandoffBridgeV0_52.lean'
       - 'formal/KuuOSFormalV0_49.lean'
       - 'formal/KuuOSFormalV0_50.lean'
       - 'formal/KuuOSFormalV0_51.lean'
+      - 'formal/KuuOSFormalV0_52.lean'
       - 'docs/KU_WORLD_KUU_VACUUM_OS_HILBERT_COMPLETION_v0_49.md'
       - 'docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVATION_CANDIDATE_v0_50.md'
       - 'docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVEOS_EVIDENCE_INTAKE_v0_51.md'
+      - 'docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVEOS_COMMIT_VERIFY_HANDOFF_v0_52.md'
       - '.github/workflows/world-kuu-vacuum-os-hilbert-v0-49.yml'
       - '.github/workflows/world-vacuum-expectation-observation-v0-50.yml'
       - '.github/workflows/world-vacuum-expectation-observeos-intake-v0-51.yml'
+      - '.github/workflows/world-vacuum-expectation-observeos-commit-verify-v0-52.yml'
       - '.github/workflows/kuuos_runtime_full_check.yml'
 
 jobs:
@@ -70,4 +77,4 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python3 scripts/run_kuuos_runtime_full_check_v0_51.py
+      - run: python3 scripts/run_kuuos_runtime_full_check_v0_52.py
