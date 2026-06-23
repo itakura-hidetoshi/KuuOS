@@ -17,19 +17,19 @@
       "description": "Specifies required fields, admission gate, non-collapse laws, and governance boundaries."
     },
     {
-      "path": "validators/validate_superstring_emptiness_string_brane_membrane_v0_1.py",
+      "path": "validators/validate_superstring_emptiness_string_brane_membrane_v0_2.py",
       "role": "validator",
-      "description": "Checks packet-level non-reification, two-truths gap, observer-record, obstruction visibility, and authority non-expansion."
+      "description": "Consolidated validator for both the v0.1 compatibility surface and the strengthened v0.2 invariants."
     },
     {
-      "path": "validators/run_superstring_emptiness_string_brane_membrane_cases_v0_1.py",
+      "path": "validators/run_superstring_emptiness_string_brane_membrane_cases_v0_2.py",
       "role": "validation_case_runner",
-      "description": "Runs the validation cases against the validator."
+      "description": "Runs both legacy v0.1 and strengthened v0.2 validation cases against the consolidated validator."
     },
     {
       "path": "validation_cases/superstring_emptiness_string_brane_membrane_validation_cases_v0_1.json",
       "role": "validation_cases",
-      "description": "Positive and negative cases including substance-claim, missing observer-record, and graph-only IndraNet rejection."
+      "description": "Legacy compatibility cases including substance-claim, missing observer-record, and graph-only IndraNet rejection."
     },
     {
       "path": "examples/superstring_emptiness_string_brane_membrane_packet_v0_1.json",
