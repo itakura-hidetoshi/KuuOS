@@ -1,0 +1,31 @@
+{
+  "version": "kuuos_planos_compiler_materialization_v0_22",
+  "status": "formal_compiler_materialization_receipt",
+  "source_synthesis_module": "formal/KUOS/PlanOS/VacuumExpectationSelectedCandidateNextCycleSynthesisV0_21.lean",
+  "adapter_module": "formal/KUOS/PlanOS/NextCycleBasisCompilerAdapterV0_3.lean",
+  "formal_module": "formal/KUOS/PlanOS/VacuumExpectationCompilerMaterializationV0_22.lean",
+  "documentation": "docs/KUUOS_PLANOS_COMPILER_MATERIALIZATION_v0_22.md",
+  "validator": "scripts/check_planos_compiler_materialization_v0_22.py",
+  "workflow": ".github/workflows/planos-compiler-materialization-v0-22.yml",
+  "required": {
+    "committed_next_plan_basis": true,
+    "exact_route_projection": true,
+    "selected_identity_preserved": true,
+    "exact_next_cycle_gate": true,
+    "v01_compiler_reused": true,
+    "template_identity_and_order_preserved": true,
+    "hold_zero_executable_steps": true,
+    "single_use": true,
+    "exact_replay_idempotent": true
+  },
+  "forbidden": {
+    "plan_activation": false,
+    "execution": false,
+    "host_license": false,
+    "truth_authority": false,
+    "clinical_authority": false,
+    "legal_authority": false,
+    "memory_overwrite": false,
+    "world_update": false
+  }
+}
