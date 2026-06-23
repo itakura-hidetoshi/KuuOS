@@ -1,0 +1,81 @@
+name: MemoryOS Qi-WORLD Validation Matrix v0.36
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_memoryos_qi_world_blocker_integration_v0_35.py"
+      - "scripts/check_memoryos_qi_world_blocker_integration_v0_35.py"
+      - "tests/test_memoryos_qi_world_blocker_integration_v0_35.py"
+      - "docs/KUUOS_MEMORYOS_QI_WORLD_BLOCKER_INTEGRATION_v0_35.md"
+      - "manifests/kuuos_memoryos_qi_world_blocker_integration_v0_35.json"
+      - "formal/KUOS/OpenHorizon/MemoryOSQiWorldBlockerIntegrationKernelV0_35.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/memoryos-qi-world-blocker-integration-v0-35.yml"
+      - "docs/KUUOS_MEMORYOS_QI_WORLD_VALIDATION_MATRIX_v0_36.md"
+      - "manifests/kuuos_memoryos_qi_world_validation_matrix_v0_36.json"
+      - "scripts/check_memoryos_qi_world_validation_matrix_v0_36.py"
+      - "tests/test_memoryos_qi_world_validation_matrix_v0_36.py"
+      - "validation_cases/kuuos_memoryos_qi_world_validation_matrix_cases_v0_36.json"
+      - ".github/workflows/memoryos-qi-world-validation-matrix-v0-36.yml"
+      - "scripts/run_kuuos_runtime_full_check_v0_48.py"
+  pull_request:
+    paths:
+      - "runtime/kuuos_memoryos_qi_world_blocker_integration_v0_35.py"
+      - "scripts/check_memoryos_qi_world_blocker_integration_v0_35.py"
+      - "tests/test_memoryos_qi_world_blocker_integration_v0_35.py"
+      - "docs/KUUOS_MEMORYOS_QI_WORLD_BLOCKER_INTEGRATION_v0_35.md"
+      - "manifests/kuuos_memoryos_qi_world_blocker_integration_v0_35.json"
+      - "formal/KUOS/OpenHorizon/MemoryOSQiWorldBlockerIntegrationKernelV0_35.lean"
+      - "formal/KUOS.lean"
+      - ".github/workflows/memoryos-qi-world-blocker-integration-v0-35.yml"
+      - "docs/KUUOS_MEMORYOS_QI_WORLD_VALIDATION_MATRIX_v0_36.md"
+      - "manifests/kuuos_memoryos_qi_world_validation_matrix_v0_36.json"
+      - "scripts/check_memoryos_qi_world_validation_matrix_v0_36.py"
+      - "tests/test_memoryos_qi_world_validation_matrix_v0_36.py"
+      - "validation_cases/kuuos_memoryos_qi_world_validation_matrix_cases_v0_36.json"
+      - ".github/workflows/memoryos-qi-world-validation-matrix-v0-36.yml"
+      - "scripts/run_kuuos_runtime_full_check_v0_48.py"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile validation matrix Python
+        run: |
+          python -m compileall -q \
+            scripts/check_memoryos_qi_world_validation_matrix_v0_36.py \
+            tests/test_memoryos_qi_world_validation_matrix_v0_36.py
+      - name: Check validation matrix registration
+        run: PYTHONPATH=. python scripts/check_memoryos_qi_world_validation_matrix_v0_36.py
+      - name: Test validation matrix
+        run: PYTHONPATH=. python -m unittest -v tests.test_memoryos_qi_world_validation_matrix_v0_36
+      - name: Recheck MemoryOS v0.35 registration
+        run: PYTHONPATH=. python scripts/check_memoryos_qi_world_blocker_integration_v0_35.py
+      - name: Recheck MemoryOS v0.35 runtime
+        run: PYTHONPATH=. python -m unittest -v tests.test_memoryos_qi_world_blocker_integration_v0_35
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Recheck typed boundary
+        run: |
+          lake update
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KUOS.OpenHorizon.MemoryOSQiWorldBlockerIntegrationKernelV0_35
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSFormal
