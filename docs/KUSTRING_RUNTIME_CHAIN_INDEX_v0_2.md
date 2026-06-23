@@ -41,10 +41,11 @@ This index records the KuString-MGAP4D-Emptiness runtime implementation chain an
    - `docs/KUSTRING_RUNTIME_CLOSURE_PACKET_v0_2.md`
    - `scripts/check_kustring_runtime_closure_v0_2.py`
 
-9. Finality packet
+9. Finality packet and report
    - `docs/KUSTRING_RUNTIME_FINALITY_PACKET_v0_2.md`
    - `scripts/check_kustring_runtime_finality_v0_2.py`
-   - `scripts/run_kustring_runtime_finality_suite_v0_2.py`
+   - `scripts/build_kustring_runtime_finality_report_v0_2.py`
+   - `scripts/check_kustring_runtime_finality_report_v0_2.py`
 
 10. CI green ledger and finality report artifact
     - `docs/kustring_runtime_finality_ci_ledger_v0_2.md`
