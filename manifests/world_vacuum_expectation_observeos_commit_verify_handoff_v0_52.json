@@ -1,0 +1,39 @@
+{
+  "manifest_version": "world_vacuum_expectation_observeos_commit_verify_handoff_v0_52",
+  "status": "formal_read_only_observeos_commit_verifyos_handoff_bridge",
+  "formal_root": "formal/KuuOSFormalV0_52.lean",
+  "formal_module": "formal/KUOS/WORLD/VacuumExpectationObserveOSCommitVerifyHandoffBridgeV0_52.lean",
+  "documentation": "docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVEOS_COMMIT_VERIFY_HANDOFF_v0_52.md",
+  "validator": "scripts/check_world_vacuum_expectation_observeos_commit_verify_handoff_v0_52.py",
+  "full_check": "scripts/run_kuuos_runtime_full_check_v0_52.py",
+  "workflow": ".github/workflows/world-vacuum-expectation-observeos-commit-verify-v0-52.yml",
+  "derived_results": [
+    "observe_commit_source_exact",
+    "observe_commit_is_recorded_but_not_verification",
+    "observe_commit_ownership_preserved",
+    "verify_handoff_source_exact",
+    "verify_handoff_is_ready_but_not_started",
+    "verify_handoff_preserves_challenge_surface",
+    "bridge_ownership_boundary_preserved",
+    "bridge_grants_no_observe_or_verify_authority",
+    "runtime_remains_read_only"
+  ],
+  "boundaries": [
+    "validated_receipt_not_world_performed_commit",
+    "observation_not_verification",
+    "verification_handoff_not_verification_start",
+    "verification_start_not_verification_result",
+    "verification_result_not_truth",
+    "analytic_candidate_not_actos_effect",
+    "world_not_observeos_owner",
+    "world_not_verifyos_owner",
+    "verification_debt_preserved",
+    "challenge_and_falsification_required",
+    "no_belief_promotion",
+    "no_planos_activation",
+    "no_actos_authority",
+    "no_memory_overwrite",
+    "no_world_update",
+    "runtime_read_only"
+  ]
+}
