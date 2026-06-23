@@ -60,6 +60,8 @@ def main() -> int:
     worm = read_json(WORM)
     root, count = chain_root_and_count()
 
+    if report.get("suite") != "scripts/check_kustring_runtime_finality_report_v0_2.py":
+        errors.append("canonical validation entry point mismatch")
     if report.get("suite_result") != "PASS":
         errors.append("suite_result must be PASS")
     if report.get("implementation_not_proof") is not True:
