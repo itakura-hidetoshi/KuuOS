@@ -26,14 +26,23 @@ def main() -> int:
     docs = ROOT / "docs/KUUOS_VERIFYOS_WORLD_HOST_EFFECT_VERIFICATION_v0_4.md"
     manifest_path = ROOT / "manifests/kuuos_verifyos_world_host_effect_verification_v0_4.json"
     workflow = ROOT / ".github/workflows/verifyos-world-host-effect-v0-4.yml"
+    standalone = ROOT / "scripts/run_verifyos_v0_4_registration.py"
 
-    for path in (formal, formal_root, aggregate_root, docs, manifest_path, workflow):
+    for path in (
+        formal,
+        formal_root,
+        aggregate_root,
+        docs,
+        manifest_path,
+        workflow,
+        standalone,
+    ):
         require(path.is_file(), f"missing file: {path}")
 
     import_token = "KUOS.VerifyOS.WorldHostEffectVerificationReceiptV0_4"
-    require_tokens(formal_root, (import_token,))
-    require_tokens(aggregate_root, (import_token,))
-    require_tokens(ROOT / "formal/KUOS.lean", (import_token,))
+    require_tokens(formal_root, ("import KUOS", import_token))
+    require_tokens(aggregate_root, ("import KUOS",))
+    require_tokens(standalone, ("check_verifyos_world_host_effect_verification_v0_4",))
     require_tokens(
         formal,
         (
