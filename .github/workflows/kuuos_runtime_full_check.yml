@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      - 'README.md'
+      - 'ROADMAP.md'
       - 'runtime/**'
       - 'tests/**'
       - 'examples/qi_state_io_v0_1/**'
@@ -42,6 +44,7 @@ on:
       - 'formal/KUOS/WORLD/KuuVacuumOSHilbertCompletionBridgeV0_49.lean'
       - 'formal/KuuOSFormalV0_49.lean'
       - 'docs/KU_WORLD_KUU_VACUUM_OS_HILBERT_COMPLETION_v0_49.md'
+      - '.github/workflows/world-kuu-vacuum-os-hilbert-v0-49.yml'
       - '.github/workflows/kuuos_runtime_full_check.yml'
 
 jobs:
