@@ -43,23 +43,7 @@ jobs:
       - name: Check MemoryOS v0.35 registration
         run: PYTHONPATH=. python scripts/check_memoryos_qi_world_blocker_integration_v0_35.py
       - name: Test MemoryOS v0.35 runtime
-        id: memoryos_tests
-        continue-on-error: true
-        run: |
-          set -o pipefail
-          PYTHONPATH=. python -m unittest -v \
-            tests.test_memoryos_qi_world_blocker_integration_v0_35 \
-            2>&1 | tee memoryos-v035-unittest.log
-      - name: Upload MemoryOS v0.35 unittest log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: memoryos-v035-unittest-log
-          path: memoryos-v035-unittest.log
-          if-no-files-found: error
-      - name: Require MemoryOS v0.35 runtime tests
-        if: steps.memoryos_tests.outcome == 'failure'
-        run: exit 1
+        run: PYTHONPATH=. python -m unittest -v tests.test_memoryos_qi_world_blocker_integration_v0_35
       - name: Check non-Markov cognitive source
         run: PYTHONPATH=. python scripts/check_nonmarkov_cognitive_loop_v0_23.py
       - name: Check Qi-WORLD blocker source
