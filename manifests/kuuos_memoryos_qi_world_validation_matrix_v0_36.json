@@ -1,0 +1,132 @@
+{
+  "version": "kuuos_memoryos_qi_world_validation_matrix_v0_36",
+  "subject_version": "kuuos_memoryos_qi_world_blocker_integration_v0_35",
+  "classification": "validation_and_release_matrix",
+  "component": {
+    "name": "MemoryOS Qi-WORLD Blocker Integration",
+    "version": "v0.35",
+    "runtime": "runtime/kuuos_memoryos_qi_world_blocker_integration_v0_35.py",
+    "manifest": "manifests/kuuos_memoryos_qi_world_blocker_integration_v0_35.json",
+    "validator": "scripts/check_memoryos_qi_world_blocker_integration_v0_35.py",
+    "tests": "tests/test_memoryos_qi_world_blocker_integration_v0_35.py",
+    "documentation": "docs/KUUOS_MEMORYOS_QI_WORLD_BLOCKER_INTEGRATION_v0_35.md",
+    "formal_module": "formal/KUOS/OpenHorizon/MemoryOSQiWorldBlockerIntegrationKernelV0_35.lean",
+    "formal_root": "formal/KUOS.lean",
+    "workflow": ".github/workflows/memoryos-qi-world-blocker-integration-v0-35.yml"
+  },
+  "matrix_artifacts": {
+    "documentation": "docs/KUUOS_MEMORYOS_QI_WORLD_VALIDATION_MATRIX_v0_36.md",
+    "manifest": "manifests/kuuos_memoryos_qi_world_validation_matrix_v0_36.json",
+    "validator": "scripts/check_memoryos_qi_world_validation_matrix_v0_36.py",
+    "tests": "tests/test_memoryos_qi_world_validation_matrix_v0_36.py",
+    "validation_cases": "validation_cases/kuuos_memoryos_qi_world_validation_matrix_cases_v0_36.json",
+    "workflow": ".github/workflows/memoryos-qi-world-validation-matrix-v0-36.yml",
+    "central_runtime_check": "scripts/run_kuuos_runtime_full_check_v0_48.py"
+  },
+  "validation_layers": [
+    {
+      "id": "static_registration",
+      "command": "PYTHONPATH=. python scripts/check_memoryos_qi_world_blocker_integration_v0_35.py",
+      "pass_means": [
+        "declared v0.35 files and fixed boundary phrases are present",
+        "formal root registration is visible"
+      ],
+      "pass_does_not_mean": [
+        "runtime behavior is complete",
+        "empirical truth is established",
+        "execution authority is granted"
+      ]
+    },
+    {
+      "id": "runtime_unit_regression",
+      "command": "PYTHONPATH=. python -m unittest -v tests.test_memoryos_qi_world_blocker_integration_v0_35",
+      "pass_means": [
+        "declared runtime regression cases pass",
+        "inactive-only exact blocker evidence is quarantined",
+        "structural corruption and inventory mismatch are rejected"
+      ],
+      "pass_does_not_mean": [
+        "all future inputs are safe",
+        "blockers are discharged",
+        "WORLD state is true"
+      ]
+    },
+    {
+      "id": "upstream_source_validation",
+      "command": "PYTHONPATH=. python scripts/check_nonmarkov_cognitive_loop_v0_23.py && PYTHONPATH=. python scripts/check_qi_world_cross_cycle_blocker_v1_5.py && PYTHONPATH=. python scripts/check_authorized_atomic_world_commit_v0_34.py",
+      "pass_means": [
+        "referenced Qi process, blocker, and WORLD source contracts remain registered",
+        "v0.35 source assumptions are checked against their own validators"
+      ],
+      "pass_does_not_mean": [
+        "source evidence is empirically correct",
+        "cross-cycle authority exists",
+        "MemoryOS may mutate WORLD"
+      ]
+    },
+    {
+      "id": "lean_typed_boundary",
+      "command": "lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.OpenHorizon.MemoryOSQiWorldBlockerIntegrationKernelV0_35 KuuOSFormal",
+      "pass_means": [
+        "the typed non-authority boundary compiles without sorry",
+        "the v0.35 module remains registered in the formal root"
+      ],
+      "pass_does_not_mean": [
+        "empirical truth is proved",
+        "institutional authorization is proved",
+        "physical persistence is proved"
+      ]
+    },
+    {
+      "id": "central_runtime_regression",
+      "command": "PYTHONPATH=. python scripts/run_kuuos_runtime_full_check_v0_48.py",
+      "pass_means": [
+        "the v0.36 matrix checker is included in the current central runtime regression root",
+        "the current central regression chain accepts the registered integration"
+      ],
+      "pass_does_not_mean": [
+        "CI pass is truth",
+        "CI pass is execution permission",
+        "CI pass is blocker discharge"
+      ]
+    }
+  ],
+  "required_failure_classes": [
+    "stale_digest",
+    "replay_duplication",
+    "substituted_source_packet",
+    "blocker_certificate_structural_error",
+    "inactive_blocker_evidence",
+    "blocked_capability_inventory_mismatch",
+    "memory_root_overwrite_attempt",
+    "world_store_identity_change",
+    "world_root_lineage_change",
+    "world_generation_regression",
+    "world_fragment_change_without_generation",
+    "authority_promotion_from_validation",
+    "test_fixture_inventory_inconsistency"
+  ],
+  "proof_status": {
+    "runtime_behavior": "runtime-validated over declared regression cases",
+    "formal_boundary": "Lean-derived typed boundary",
+    "source_evidence": "validator-checked supplied artifacts",
+    "empirical_truth": "not established",
+    "physical_persistence": "not established"
+  },
+  "non_authority": {
+    "ci_pass_promotes_truth": false,
+    "ci_pass_grants_execution": false,
+    "ci_pass_discharges_blocker": false,
+    "matrix_grants_world_commit": false,
+    "matrix_grants_memory_overwrite": false,
+    "matrix_activates_plan": false,
+    "matrix_invokes_actos": false
+  },
+  "release_gate": {
+    "all_validation_layers_required": true,
+    "all_required_failure_classes_visible": true,
+    "non_authority_flags_must_remain_false": true,
+    "unknown_failure_fails_closed": true,
+    "historical_failure_is_not_current_regression_without_reproduction": true
+  }
+}
