@@ -188,3 +188,5 @@ runtime performs no mutation
 ```
 
 v0.52 does not judge empirical adequacy, execute VerifyOS, issue a verdict, authorize clinical or institutional action, or establish external theorem acceptance.
+
+<!-- Narrow CI trigger for WORLD v0.52 strict validation. -->
