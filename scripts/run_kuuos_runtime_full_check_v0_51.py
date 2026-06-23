@@ -8,6 +8,15 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from scripts.check_planos_hysteresis_constraint_decision_handoff_v0_20 import (
+    main as check_planos_v020,
+)
+from scripts.check_planos_history_qi_candidate_generation_v0_19 import (
+    main as check_planos_v019,
+)
+from scripts.check_planos_vacuum_expectation_learning_replan_intake_v0_18 import (
+    main as check_planos_v018,
+)
 from scripts.check_learnos_vacuum_expectation_verification_future_only_delta_v0_3 import (
     main as check_learnos_v03,
 )
@@ -24,6 +33,12 @@ from scripts.run_kuuos_runtime_full_check_v0_50 import main as run_v050_full_che
 
 
 def main() -> int:
+    if check_planos_v020() != 0:
+        return 1
+    if check_planos_v019() != 0:
+        return 1
+    if check_planos_v018() != 0:
+        return 1
     if check_learnos_v03() != 0:
         return 1
     if check_verifyos_v03() != 0:

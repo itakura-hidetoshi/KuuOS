@@ -1,0 +1,53 @@
+{
+  "version": "kuuos_planos_history_qi_candidate_generation_v0_19",
+  "status": "formal_planos_candidate_generation_prefix",
+  "source_replan_intake_module": "formal/KUOS/PlanOS/VacuumExpectationLearningReplanIntakeV0_18.lean",
+  "formal_module": "formal/KUOS/PlanOS/VacuumExpectationHistoryQiCandidateGenerationV0_19.lean",
+  "documentation": "docs/KUUOS_PLANOS_HISTORY_QI_CANDIDATE_GENERATION_v0_19.md",
+  "validator": "scripts/check_planos_history_qi_candidate_generation_v0_19.py",
+  "workflow": ".github/workflows/planos-history-qi-candidate-generation-v0-19.yml",
+  "candidate_mapping": {
+    "reinforcement": "strengthen",
+    "repair": "repair",
+    "reobservation": "reobserve",
+    "hold": "hold"
+  },
+  "derived_results": [
+    "generation_requires_exact_planos_intake",
+    "generation_follows_deterministic_phase_prefix",
+    "generation_phase_events_append_strictly",
+    "generation_history_is_nonmarkov_and_read_only",
+    "generation_qi_is_context_without_authority",
+    "passed_verification_generates_strengthen_or_hold",
+    "failed_verification_generates_repair_or_hold",
+    "indeterminate_verification_generates_reobserve_or_hold",
+    "generation_preserves_explicit_hold_alternative",
+    "generation_history_appends_three_phase_records",
+    "generation_commit_is_not_selection_synthesis_or_activation",
+    "generation_preserves_os_ownership",
+    "generation_bridge_grants_no_new_authority",
+    "generation_digest_is_exact",
+    "generated_candidate_value_remains_exact"
+  ],
+  "boundaries": {
+    "exact_planos_intake_required": true,
+    "nonmarkov_history_required": true,
+    "history_read_only": true,
+    "qi_context_required": true,
+    "qi_authority_granted": false,
+    "hold_alternative_preserved": true,
+    "phase_event_append_count": 3,
+    "candidate_generation_owned_by_planos": true,
+    "candidate_selection_owned_by_decisionos": true,
+    "plan_synthesis_owned_by_planos": true,
+    "execution_owned_by_actos": true,
+    "candidate_selected": false,
+    "plan_synthesized": false,
+    "replan_activated": false,
+    "plan_activated": false,
+    "execution_permitted": false,
+    "host_license_granted": false,
+    "memory_overwritten": false,
+    "world_updated": false
+  }
+}
