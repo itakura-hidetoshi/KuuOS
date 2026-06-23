@@ -1,20 +1,29 @@
 import Mathlib
-import KUOS.WORLD.VacuumExpectationObserveOSEvidenceIntakeBridgeV0_51
-import KUOS.VerifyOS.ReplanLineageVerificationEnvelopeV0_2
+import KUOS.ObserveOS.VacuumExpectationIntakeCommitReceiptV0_3
+import KUOS.VerifyOS.VacuumExpectationCommitVerificationReceiptV0_3
+import KUOS.LearnOS.VacuumExpectationVerificationFutureOnlyDeltaV0_3
 
 /-!
-WORLD vacuum-expectation ObserveOS commit and VerifyOS handoff bridge v0.52.
+WORLD vacuum-expectation OS receipt-composition bridge v0.52.
 
-This additive read-only layer validates externally supplied ObserveOS commit and
-VerifyOS handoff receipts for a v0.51 intake envelope. It does not construct an
-ObserveOS commit, start VerifyOS, produce a verification verdict, activate
-PlanOS, grant ActOS authority, overwrite memory, or update WORLD.
+This additive read-only layer composes the existing ObserveOS v0.3 commit,
+VerifyOS v0.3 verification, and LearnOS v0.3 future-only learning receipts.
+It introduces no parallel receipt type for those OS-owned transitions.
+
+The WORLD layer registers an exact digest over the supplied receipt lineage and
+proves source continuity, ownership separation, non-reification, future-only
+learning, and runtime non-authority. It does not construct, execute, or replay
+any ObserveOS, VerifyOS, LearnOS, PlanOS, ActOS, MemoryOS, or WORLD transition.
 -/
 
 namespace KUOS
 namespace WORLD
 
-structure WorldVacuumExpectationObserveOSCommitVerifyHandoffBridge
+open ObserveOS
+open VerifyOS
+open LearnOS
+
+structure WorldVacuumExpectationOSReceiptCompositionBridge
     {C : RealHilbertL2Carrier}
     {W : WorldNoncommutativeOperatorAlgebra C}
     [PartialOrder W.Region]
@@ -39,51 +48,47 @@ structure WorldVacuumExpectationObserveOSCommitVerifyHandoffBridge
     {Mix : WorldQuantumLogSobolevContractivityMixingBridge Flow}
     (K : WorldKuuVacuumOSHilbertCompletionBridge Mix)
     (O : WorldVacuumExpectationObservationBridge K)
-    (Intake : WorldVacuumExpectationObserveOSEvidenceIntakeBridge K O) where
-  ObserveCommitId : Type
-  ObserveRecordDigest : Type
-  VerifyHandoffId : Type
-  VerifyInputDigest : Type
-  CriterionDigest : Type
+    (Intake : WorldVacuumExpectationObserveOSEvidenceIntakeBridge K O)
+    (ObserveBridge : VacuumExpectationIntakeCommitBridge K O Intake)
+    (VerifyBridge :
+      VacuumExpectationCommitVerificationBridge K O Intake ObserveBridge)
+    (LearnBridge :
+      VacuumExpectationVerificationLearningBridge
+        K O Intake ObserveBridge VerifyBridge) where
+  LineageDigest : Type
+  lineageDigestOf :
+    VacuumExpectationVerificationLearningReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge → LineageDigest
 
-  observeRecordDigestOf :
-    VacuumExpectationObserveOSEvidenceEnvelope K O Intake → ObserveRecordDigest
-  verifyInputDigestOf : ObserveRecordDigest → VerifyInputDigest
-  criterionDigestOf : ObserveOS.EvidenceRequirements → CriterionDigest
-
-  observeNonAuthority : ObserveOS.ObserveNonAuthority
-  verifyNonAuthority : VerifyOS.VerifyNonAuthority
-  verifyLineageNonAuthority : VerifyOS.NonAuthorityBoundary
-
-  observeOSOwnsCommit : Bool
-  worldOwnsCommit : Bool
-  verifyOSOwnsVerification : Bool
-  worldOwnsVerification : Bool
   analyticCandidateIsActEffect : Bool
-  observeOwnershipRequired : observeOSOwnsCommit = true
-  worldCommitOwnershipForbidden : worldOwnsCommit = false
-  verifyOwnershipRequired : verifyOSOwnsVerification = true
-  worldVerificationOwnershipForbidden : worldOwnsVerification = false
-  actEffectImpersonationForbidden : analyticCandidateIsActEffect = false
-
-  runtimeCreatesObserveCommit : Bool
-  runtimeStartsVerification : Bool
-  runtimeCreatesVerificationResult : Bool
+  worldConstructsObserveReceipt : Bool
+  worldConstructsVerificationReceipt : Bool
+  worldConstructsLearningReceipt : Bool
+  runtimeReplaysObserveCommit : Bool
+  runtimeReplaysVerification : Bool
+  runtimeReplaysLearning : Bool
   runtimePromotesBelief : Bool
+  runtimeActivatesReplan : Bool
   runtimeActivatesPlanOS : Bool
   runtimeGrantsActOSAuthority : Bool
   runtimeOverwritesMemory : Bool
   runtimeUpdatesWorld : Bool
-  noRuntimeObserveCommit : runtimeCreatesObserveCommit = false
-  noRuntimeVerificationStart : runtimeStartsVerification = false
-  noRuntimeVerificationResult : runtimeCreatesVerificationResult = false
+
+  actEffectImpersonationForbidden : analyticCandidateIsActEffect = false
+  noWorldObserveReceipt : worldConstructsObserveReceipt = false
+  noWorldVerificationReceipt : worldConstructsVerificationReceipt = false
+  noWorldLearningReceipt : worldConstructsLearningReceipt = false
+  noRuntimeObserveReplay : runtimeReplaysObserveCommit = false
+  noRuntimeVerificationReplay : runtimeReplaysVerification = false
+  noRuntimeLearningReplay : runtimeReplaysLearning = false
   noRuntimeBeliefPromotion : runtimePromotesBelief = false
+  noRuntimeReplanActivation : runtimeActivatesReplan = false
   noRuntimePlanActivation : runtimeActivatesPlanOS = false
   noRuntimeActAuthority : runtimeGrantsActOSAuthority = false
   noRuntimeMemoryOverwrite : runtimeOverwritesMemory = false
   noRuntimeWorldUpdate : runtimeUpdatesWorld = false
 
-structure VacuumExpectationObserveOSCommitReceipt
+structure VacuumExpectationOSReceiptComposition
     {C : RealHilbertL2Carrier}
     {W : WorldNoncommutativeOperatorAlgebra C}
     [PartialOrder W.Region]
@@ -109,108 +114,20 @@ structure VacuumExpectationObserveOSCommitReceipt
     (K : WorldKuuVacuumOSHilbertCompletionBridge Mix)
     (O : WorldVacuumExpectationObservationBridge K)
     (Intake : WorldVacuumExpectationObserveOSEvidenceIntakeBridge K O)
-    (Bridge : WorldVacuumExpectationObserveOSCommitVerifyHandoffBridge K O Intake) where
-  sourceEnvelope : VacuumExpectationObserveOSEvidenceEnvelope K O Intake
-  observeCommitId : Bridge.ObserveCommitId
-  observeRecordDigest : Bridge.ObserveRecordDigest
+    (ObserveBridge : VacuumExpectationIntakeCommitBridge K O Intake)
+    (VerifyBridge :
+      VacuumExpectationCommitVerificationBridge K O Intake ObserveBridge)
+    (LearnBridge :
+      VacuumExpectationVerificationLearningBridge
+        K O Intake ObserveBridge VerifyBridge)
+    (Bridge : WorldVacuumExpectationOSReceiptCompositionBridge
+      K O Intake ObserveBridge VerifyBridge LearnBridge) where
+  learningReceipt : VacuumExpectationVerificationLearningReceipt
+    K O Intake ObserveBridge VerifyBridge LearnBridge
+  lineageDigest : Bridge.LineageDigest
+  lineageDigestExact : lineageDigest = Bridge.lineageDigestOf learningReceipt
 
-  sourceCandidateDigest : Intake.CandidateDigest
-  sourceValueDigest : Intake.ValueDigest
-  sourceContextDigest : Intake.ContextDigest
-  sourceReceiptDigest : Intake.ReceiptDigest
-
-  observeRecordDigestExact :
-    observeRecordDigest = Bridge.observeRecordDigestOf sourceEnvelope
-  candidateDigestExact : sourceCandidateDigest = sourceEnvelope.candidateDigest
-  valueDigestExact : sourceValueDigest = sourceEnvelope.valueDigest
-  contextDigestExact : sourceContextDigest = sourceEnvelope.contextDigest
-  receiptDigestExact : sourceReceiptDigest = sourceEnvelope.receiptDigest
-
-  committedObserveState : Bool
-  observationRecorded : Bool
-  observationNotVerification : Bool
-  verificationRequired : Bool
-  committedRequired : committedObserveState = true
-  recordedRequired : observationRecorded = true
-  distinctionRequired : observationNotVerification = true
-  verificationDebtRequired : verificationRequired = true
-
-  committedByObserveOS : Bool
-  committedByWorld : Bool
-  analyticCandidateReclassifiedAsActEffect : Bool
-  observeCommitRequired : committedByObserveOS = true
-  worldCommitForbidden : committedByWorld = false
-  actEffectReclassificationForbidden :
-    analyticCandidateReclassifiedAsActEffect = false
-
-structure VacuumExpectationVerifyOSHandoffReceipt
-    {C : RealHilbertL2Carrier}
-    {W : WorldNoncommutativeOperatorAlgebra C}
-    [PartialOrder W.Region]
-    {B : WorldCStarLocalNetBridge C W}
-    {V : WorldVonNeumannBicommutantBridge B}
-    {M : WorldStandardFormModularFlowBridge V}
-    {R : WorldModularStateKMSRelativeFlowBridge M}
-    {E : WorldArakiRelativeEntropyBridge R}
-    {P : WorldPetzRecoverySufficiencyBridge E}
-    {T : WorldConditionalExpectationTakesakiBridge P}
-    {J : WorldJonesBasicConstructionIndexBridge T}
-    {S : WorldJonesTowerStandardInvariantBridge J}
-    {Q : WorldCanonicalEndomorphismQSystemFrobeniusBridge S}
-    {F : WorldBimoduleSectorFusionCategoryBridge Q}
-    {Z : WorldModuleCategoryNimrepTubeCenterBridge F}
-    {G : WorldGaugeCategoricalIndraNetBridge Z}
-    {I : WorldInformationGeometricHigherGaugeBridge G}
-    {H : WorldArakiPetzQuantumInformationGeometryBridge I}
-    {D : WorldQuantumExponentialDualAffineProjectionBridge H}
-    {Vary : WorldQuantumGeodesicMirrorDescentFreeEnergyBridge D}
-    {Flow : WorldQuantumGradientJKOEntropyProductionBridge Vary}
-    {Mix : WorldQuantumLogSobolevContractivityMixingBridge Flow}
-    (K : WorldKuuVacuumOSHilbertCompletionBridge Mix)
-    (O : WorldVacuumExpectationObservationBridge K)
-    (Intake : WorldVacuumExpectationObserveOSEvidenceIntakeBridge K O)
-    (Bridge : WorldVacuumExpectationObserveOSCommitVerifyHandoffBridge K O Intake) where
-  sourceCommit : VacuumExpectationObserveOSCommitReceipt K O Intake Bridge
-  verifyHandoffId : Bridge.VerifyHandoffId
-  sourceObserveDigest : Bridge.ObserveRecordDigest
-  handoffObserveDigest : Bridge.ObserveRecordDigest
-  verifyInputDigest : Bridge.VerifyInputDigest
-  criterionDigest : Bridge.CriterionDigest
-
-  sourceObserveDigestExact :
-    sourceObserveDigest = sourceCommit.observeRecordDigest
-  handoffObserveDigestExact : handoffObserveDigest = sourceObserveDigest
-  verifyInputDigestExact :
-    verifyInputDigest = Bridge.verifyInputDigestOf handoffObserveDigest
-  criterionDigestExact :
-    criterionDigest =
-      Bridge.criterionDigestOf sourceCommit.sourceEnvelope.requirements
-
-  handoffReady : Bool
-  verifyOSOwnsVerification : Bool
-  worldOwnsVerification : Bool
-  verificationStarted : Bool
-  verificationResultCreated : Bool
-  verificationDebtOpen : Bool
-  handoffReadyRequired : handoffReady = true
-  verifyOwnershipRequired : verifyOSOwnsVerification = true
-  worldOwnershipForbidden : worldOwnsVerification = false
-  verificationStartNotPerformed : verificationStarted = false
-  verificationResultNotCreated : verificationResultCreated = false
-  verificationDebtRequired : verificationDebtOpen = true
-
-  independentChallengeRequired : Bool
-  falsificationRequired : Bool
-  counterevidencePreserved : Bool
-  verificationIsTruth : Bool
-  causalAttributionGranted : Bool
-  challengeRequired : independentChallengeRequired = true
-  falsificationRequiredProof : falsificationRequired = true
-  counterevidenceRequired : counterevidencePreserved = true
-  truthPromotionForbidden : verificationIsTruth = false
-  causalAttributionForbidden : causalAttributionGranted = false
-
-namespace WorldVacuumExpectationObserveOSCommitVerifyHandoffBridge
+namespace WorldVacuumExpectationOSReceiptCompositionBridge
 
 variable {C : RealHilbertL2Carrier}
 variable {W : WorldNoncommutativeOperatorAlgebra C}
@@ -237,150 +154,158 @@ variable {Mix : WorldQuantumLogSobolevContractivityMixingBridge Flow}
 variable (K : WorldKuuVacuumOSHilbertCompletionBridge Mix)
 variable (O : WorldVacuumExpectationObservationBridge K)
 variable (Intake : WorldVacuumExpectationObserveOSEvidenceIntakeBridge K O)
-variable (Bridge : WorldVacuumExpectationObserveOSCommitVerifyHandoffBridge K O Intake)
+variable (ObserveBridge : VacuumExpectationIntakeCommitBridge K O Intake)
+variable (VerifyBridge :
+  VacuumExpectationCommitVerificationBridge K O Intake ObserveBridge)
+variable (LearnBridge :
+  VacuumExpectationVerificationLearningBridge
+    K O Intake ObserveBridge VerifyBridge)
+variable (Bridge : WorldVacuumExpectationOSReceiptCompositionBridge
+  K O Intake ObserveBridge VerifyBridge LearnBridge)
 
 
-theorem observe_commit_source_exact
-    (receipt : VacuumExpectationObserveOSCommitReceipt K O Intake Bridge) :
-    receipt.observeRecordDigest =
-        Bridge.observeRecordDigestOf receipt.sourceEnvelope ∧
-    receipt.sourceCandidateDigest = receipt.sourceEnvelope.candidateDigest ∧
-    receipt.sourceValueDigest = receipt.sourceEnvelope.valueDigest ∧
-    receipt.sourceContextDigest = receipt.sourceEnvelope.contextDigest ∧
-    receipt.sourceReceiptDigest = receipt.sourceEnvelope.receiptDigest :=
-  ⟨receipt.observeRecordDigestExact,
-    receipt.candidateDigestExact,
-    receipt.valueDigestExact,
-    receipt.contextDigestExact,
-    receipt.receiptDigestExact⟩
+theorem composition_lineage_digest_exact
+    (composition : VacuumExpectationOSReceiptComposition
+      K O Intake ObserveBridge VerifyBridge LearnBridge Bridge) :
+    composition.lineageDigest =
+      Bridge.lineageDigestOf composition.learningReceipt :=
+  composition.lineageDigestExact
 
 
-theorem observe_commit_is_recorded_but_not_verification
-    (receipt : VacuumExpectationObserveOSCommitReceipt K O Intake Bridge) :
-    receipt.committedObserveState = true ∧
-    receipt.observationRecorded = true ∧
-    receipt.observationNotVerification = true ∧
-    receipt.verificationRequired = true :=
-  ⟨receipt.committedRequired,
-    receipt.recordedRequired,
-    receipt.distinctionRequired,
-    receipt.verificationDebtRequired⟩
+theorem observe_stage_composes_exactly
+    (composition : VacuumExpectationOSReceiptComposition
+      K O Intake ObserveBridge VerifyBridge LearnBridge Bridge) :
+    composition.learningReceipt.verification.observeCommit.sourceEnvelopeAccepted = true ∧
+    composition.learningReceipt.verification.observeCommit.explicitCommitReceiptSupplied = true ∧
+    composition.learningReceipt.verification.observeCommit.observationRecordCommitted = true ∧
+    composition.learningReceipt.verification.observeCommit.comparison.comparisonIsVerification = false ∧
+    composition.learningReceipt.verification.observeCommit.debtSemantics.verificationRequired = true ∧
+    composition.learningReceipt.verification.observeCommit.verifyOSHandoffRequired = true :=
+  ⟨composition.learningReceipt.verification.observeCommit.sourceAcceptedRequired,
+    composition.learningReceipt.verification.observeCommit.explicitReceiptRequired,
+    composition.learningReceipt.verification.observeCommit.recordCommitRequired,
+    composition.learningReceipt.verification.observeCommit.comparison.verificationForbidden,
+    composition.learningReceipt.verification.observeCommit.debtSemantics.verificationPreserved,
+    composition.learningReceipt.verification.observeCommit.verifyHandoffRequired⟩
 
 
-theorem observe_commit_ownership_preserved
-    (receipt : VacuumExpectationObserveOSCommitReceipt K O Intake Bridge) :
-    receipt.committedByObserveOS = true ∧
-    receipt.committedByWorld = false ∧
-    receipt.analyticCandidateReclassifiedAsActEffect = false :=
-  ⟨receipt.observeCommitRequired,
-    receipt.worldCommitForbidden,
-    receipt.actEffectReclassificationForbidden⟩
+theorem verification_stage_composes_exactly
+    (composition : VacuumExpectationOSReceiptComposition
+      K O Intake ObserveBridge VerifyBridge LearnBridge Bridge) :
+    composition.learningReceipt.verification.sourceObserveCommitBound = true ∧
+    composition.learningReceipt.verification.verificationReceiptSupplied = true ∧
+    composition.learningReceipt.verification.verificationRecorded = true ∧
+    composition.learningReceipt.verification.adjudication.verificationIsTruth = false ∧
+    composition.learningReceipt.verification.adjudication.causalAttributionGranted = false :=
+  ⟨composition.learningReceipt.verification.sourceCommitRequired,
+    composition.learningReceipt.verification.suppliedRequired,
+    composition.learningReceipt.verification.recordedRequired,
+    composition.learningReceipt.verification.adjudication.truthForbidden,
+    composition.learningReceipt.verification.adjudication.causalForbidden⟩
 
 
-theorem verify_handoff_source_exact
-    (handoff : VacuumExpectationVerifyOSHandoffReceipt K O Intake Bridge) :
-    handoff.sourceObserveDigest = handoff.sourceCommit.observeRecordDigest ∧
-    handoff.handoffObserveDigest = handoff.sourceObserveDigest ∧
-    handoff.verifyInputDigest =
-        Bridge.verifyInputDigestOf handoff.handoffObserveDigest ∧
-    handoff.criterionDigest =
-      Bridge.criterionDigestOf handoff.sourceCommit.sourceEnvelope.requirements :=
-  ⟨handoff.sourceObserveDigestExact,
-    handoff.handoffObserveDigestExact,
-    handoff.verifyInputDigestExact,
-    handoff.criterionDigestExact⟩
+theorem learning_stage_is_future_only
+    (composition : VacuumExpectationOSReceiptComposition
+      K O Intake ObserveBridge VerifyBridge LearnBridge Bridge) :
+    composition.learningReceipt.sourceVerificationBound = true ∧
+    composition.learningReceipt.explicitLearningReceiptSupplied = true ∧
+    composition.learningReceipt.learningRecorded = true ∧
+    composition.learningReceipt.delta.futureOnly = true ∧
+    composition.learningReceipt.delta.activeNow = false ∧
+    composition.learningReceipt.delta.activationRequiresReplan = true ∧
+    LearnBridge.automaticReplanActivation = false ∧
+    LearnBridge.automaticPlanActivation = false ∧
+    LearnBridge.automaticExecution = false :=
+  ⟨composition.learningReceipt.sourceRequired,
+    composition.learningReceipt.suppliedRequired,
+    composition.learningReceipt.recordedRequired,
+    composition.learningReceipt.delta.futureRequired,
+    composition.learningReceipt.delta.activationForbidden,
+    composition.learningReceipt.delta.replanRequired,
+    LearnBridge.replanActivationForbidden,
+    LearnBridge.planActivationForbidden,
+    LearnBridge.executionForbidden⟩
 
 
-theorem verify_handoff_is_ready_but_not_started
-    (handoff : VacuumExpectationVerifyOSHandoffReceipt K O Intake Bridge) :
-    handoff.handoffReady = true ∧
-    handoff.verifyOSOwnsVerification = true ∧
-    handoff.worldOwnsVerification = false ∧
-    handoff.verificationStarted = false ∧
-    handoff.verificationResultCreated = false ∧
-    handoff.verificationDebtOpen = true :=
-  ⟨handoff.handoffReadyRequired,
-    handoff.verifyOwnershipRequired,
-    handoff.worldOwnershipForbidden,
-    handoff.verificationStartNotPerformed,
-    handoff.verificationResultNotCreated,
-    handoff.verificationDebtRequired⟩
+theorem os_ownership_boundary_preserved
+    (_composition : VacuumExpectationOSReceiptComposition
+      K O Intake ObserveBridge VerifyBridge LearnBridge Bridge) :
+    ObserveBridge.commitOwnedByObserveOS = true ∧
+    ObserveBridge.worldSidecarCommitsObservation = false ∧
+    VerifyBridge.verifyOSOwnsAdjudication = true ∧
+    VerifyBridge.worldSidecarOwnsVerification = false ∧
+    ObserveBridge.verificationCompletedByBridge = false ∧
+    LearnBridge.learningOwnedByLearnOS = true ∧
+    LearnBridge.verifyOSCommitsLearning = false :=
+  ⟨ObserveBridge.observeOwnershipRequired,
+    ObserveBridge.worldCommitForbidden,
+    VerifyBridge.verifyOwnershipRequired,
+    VerifyBridge.worldVerificationForbidden,
+    ObserveBridge.verificationCompletionForbidden,
+    LearnBridge.learnOwnershipRequired,
+    LearnBridge.verifyLearningForbidden⟩
 
 
-theorem verify_handoff_preserves_challenge_surface
-    (handoff : VacuumExpectationVerifyOSHandoffReceipt K O Intake Bridge) :
-    handoff.independentChallengeRequired = true ∧
-    handoff.falsificationRequired = true ∧
-    handoff.counterevidencePreserved = true ∧
-    handoff.verificationIsTruth = false ∧
-    handoff.causalAttributionGranted = false :=
-  ⟨handoff.challengeRequired,
-    handoff.falsificationRequiredProof,
-    handoff.counterevidenceRequired,
-    handoff.truthPromotionForbidden,
-    handoff.causalAttributionForbidden⟩
+theorem composed_candidate_value_remains_exact
+    (composition : VacuumExpectationOSReceiptComposition
+      K O Intake ObserveBridge VerifyBridge LearnBridge Bridge) :
+    composition.learningReceipt.verification.observeCommit.envelope.candidate.value =
+      K.vacuumState
+        composition.learningReceipt.verification.observeCommit.envelope.candidate.observable :=
+  composition.learningReceipt.verification.observeCommit.envelope.candidate.value_eq_vacuum_expectation
 
 
-theorem bridge_ownership_boundary_preserved :
-    Bridge.observeOSOwnsCommit = true ∧
-    Bridge.worldOwnsCommit = false ∧
-    Bridge.verifyOSOwnsVerification = true ∧
-    Bridge.worldOwnsVerification = false ∧
-    Bridge.analyticCandidateIsActEffect = false :=
-  ⟨Bridge.observeOwnershipRequired,
-    Bridge.worldCommitOwnershipForbidden,
-    Bridge.verifyOwnershipRequired,
-    Bridge.worldVerificationOwnershipForbidden,
-    Bridge.actEffectImpersonationForbidden⟩
-
-
-theorem bridge_grants_no_observe_or_verify_authority :
-    Bridge.observeNonAuthority.truthAuthority = false ∧
-    Bridge.observeNonAuthority.verificationAuthority = false ∧
-    Bridge.observeNonAuthority.executionAuthority = false ∧
-    Bridge.observeNonAuthority.finalCommitmentAuthority = false ∧
-    Bridge.verifyNonAuthority.truthAuthority = false ∧
-    Bridge.verifyNonAuthority.causalAuthority = false ∧
-    Bridge.verifyNonAuthority.executionAuthority = false ∧
-    Bridge.verifyNonAuthority.finalCommitmentAuthority = false ∧
-    Bridge.verifyLineageNonAuthority.truthGranted = false ∧
-    Bridge.verifyLineageNonAuthority.causalGranted = false ∧
-    Bridge.verifyLineageNonAuthority.executionGranted = false ∧
-    Bridge.verifyLineageNonAuthority.memoryOverwrite = false ∧
-    Bridge.verifyLineageNonAuthority.automaticLearning = false :=
-  ⟨Bridge.observeNonAuthority.truthForbidden,
-    Bridge.observeNonAuthority.verificationForbidden,
-    Bridge.observeNonAuthority.executionForbidden,
-    Bridge.observeNonAuthority.finalForbidden,
-    Bridge.verifyNonAuthority.truthForbidden,
-    Bridge.verifyNonAuthority.causalForbidden,
-    Bridge.verifyNonAuthority.executionForbidden,
-    Bridge.verifyNonAuthority.finalForbidden,
-    Bridge.verifyLineageNonAuthority.truthForbidden,
-    Bridge.verifyLineageNonAuthority.causalForbidden,
-    Bridge.verifyLineageNonAuthority.executionForbidden,
-    Bridge.verifyLineageNonAuthority.overwriteForbidden,
-    Bridge.verifyLineageNonAuthority.automaticLearningForbidden⟩
+theorem composition_preserves_non_authority
+    (_composition : VacuumExpectationOSReceiptComposition
+      K O Intake ObserveBridge VerifyBridge LearnBridge Bridge) :
+    Bridge.analyticCandidateIsActEffect = false ∧
+    ObserveBridge.beliefPromotedByBridge = false ∧
+    ObserveBridge.planActivatedByBridge = false ∧
+    ObserveBridge.actAuthorityGrantedByBridge = false ∧
+    VerifyBridge.automaticLearning = false ∧
+    VerifyBridge.automaticPlanActivation = false ∧
+    VerifyBridge.automaticExecution = false ∧
+    LearnBridge.automaticReplanActivation = false ∧
+    LearnBridge.automaticPlanActivation = false ∧
+    LearnBridge.automaticExecution = false :=
+  ⟨Bridge.actEffectImpersonationForbidden,
+    ObserveBridge.beliefPromotionForbidden,
+    ObserveBridge.planActivationForbidden,
+    ObserveBridge.actAuthorityForbidden,
+    VerifyBridge.learningForbidden,
+    VerifyBridge.planActivationForbidden,
+    VerifyBridge.executionForbidden,
+    LearnBridge.replanActivationForbidden,
+    LearnBridge.planActivationForbidden,
+    LearnBridge.executionForbidden⟩
 
 
 theorem runtime_remains_read_only :
-    Bridge.runtimeCreatesObserveCommit = false ∧
-    Bridge.runtimeStartsVerification = false ∧
-    Bridge.runtimeCreatesVerificationResult = false ∧
+    Bridge.worldConstructsObserveReceipt = false ∧
+    Bridge.worldConstructsVerificationReceipt = false ∧
+    Bridge.worldConstructsLearningReceipt = false ∧
+    Bridge.runtimeReplaysObserveCommit = false ∧
+    Bridge.runtimeReplaysVerification = false ∧
+    Bridge.runtimeReplaysLearning = false ∧
     Bridge.runtimePromotesBelief = false ∧
+    Bridge.runtimeActivatesReplan = false ∧
     Bridge.runtimeActivatesPlanOS = false ∧
     Bridge.runtimeGrantsActOSAuthority = false ∧
     Bridge.runtimeOverwritesMemory = false ∧
     Bridge.runtimeUpdatesWorld = false :=
-  ⟨Bridge.noRuntimeObserveCommit,
-    Bridge.noRuntimeVerificationStart,
-    Bridge.noRuntimeVerificationResult,
+  ⟨Bridge.noWorldObserveReceipt,
+    Bridge.noWorldVerificationReceipt,
+    Bridge.noWorldLearningReceipt,
+    Bridge.noRuntimeObserveReplay,
+    Bridge.noRuntimeVerificationReplay,
+    Bridge.noRuntimeLearningReplay,
     Bridge.noRuntimeBeliefPromotion,
+    Bridge.noRuntimeReplanActivation,
     Bridge.noRuntimePlanActivation,
     Bridge.noRuntimeActAuthority,
     Bridge.noRuntimeMemoryOverwrite,
     Bridge.noRuntimeWorldUpdate⟩
 
-end WorldVacuumExpectationObserveOSCommitVerifyHandoffBridge
+end WorldVacuumExpectationOSReceiptCompositionBridge
 end WORLD
 end KUOS
