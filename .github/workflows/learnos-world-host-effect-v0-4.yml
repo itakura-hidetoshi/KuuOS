@@ -1,0 +1,58 @@
+name: LearnOS World Host-Effect v0.4
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "formal/KUOS/LearnOS/WorldHostEffectVerificationFutureOnlyLearningV0_4.lean"
+      - "formal/KUOS/VerifyOS/WorldHostEffectVerificationReceiptV0_4.lean"
+      - "formal/KuuOSLearnOSV0_4.lean"
+      - "formal/KuuOSFormal.lean"
+      - "docs/KUUOS_LEARNOS_WORLD_HOST_EFFECT_FUTURE_ONLY_LEARNING_v0_4.md"
+      - "manifests/kuuos_learnos_world_host_effect_future_only_learning_v0_4.json"
+      - "scripts/check_learnos_world_host_effect_future_only_learning_v0_4.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_52.py"
+      - ".github/workflows/learnos-world-host-effect-v0-4.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check LearnOS v0.4 registration
+        run: python3 scripts/check_learnos_world_host_effect_future_only_learning_v0_4.py
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Verify canonical manifest
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib cache
+        run: lake exe cache get
+      - name: Compile LearnOS v0.4 module
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true
+          build KUOS.LearnOS.WorldHostEffectVerificationFutureOnlyLearningV0_4
+      - name: Compile LearnOS v0.4 composed root
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true
+          build KuuOSLearnOSV0_4
+      - name: Compile aggregate formal root
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true
+          build KuuOSFormal
