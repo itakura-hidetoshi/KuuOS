@@ -33,6 +33,15 @@ compiler route != selected candidate identity
 materialization != plan activation
 materialization != execution permission
 materialization != host license
+admission != activation
+PlanOS handoff != ActOS authorization
+ActOS authorization != plan activation
+ActOS authorization != adapter invocation
+plan activation != external effect
+blocked route != effect
+replayed route != new invocation
+host receipt != truth
+bounded invocation != WORLD commit
 LearnOS delta != present action
 ActOS receipt != successor authority
 closed-cycle receipt != next-cycle start
@@ -91,8 +100,9 @@ proof-status separation
 |---|---|---|
 | Core governance | v0.1 public governance and boundary documents | active and maintained |
 | Horizon and context gauge | Horizon v0.12 and Context Gauge Atlas v0.13 | implemented baseline |
-| PlanOS | v0.22 compiler materialization over a committed next-cycle basis | implemented and merged |
+| PlanOS | v0.23 activation admission and nonexecuting ActOS handoff | implemented and merged |
 | DecisionOS | v0.4 admissible candidate selection | implemented and merged |
+| ActOS | v0.4 bounded adapter invocation over v0.3 authorization intake | implemented and merged |
 | Autonomous-agent completion | v0.20 through v0.27 finite-cycle continuity | implemented and merged |
 | Qi diagnostic candidate | v0.28 recovery-window layer | implemented and merged |
 | Qi-WORLD | v2.2 concrete third licensed cycle | implemented and merged |
@@ -154,8 +164,9 @@ Future work is composition maturity, not conversion into a universal graph.
 ObserveOS owns observation
 BeliefOS owns local and plural belief state
 DecisionOS selects an admissible candidate
-PlanOS synthesizes plans, replans and compiler materializations
-ActOS executes only under an exact license
+PlanOS synthesizes plans, replans, materializations and activation admissions
+PlanOS hands admitted material to ActOS without authorizing execution
+ActOS independently authorizes, activates and invokes under an exact license
 VerifyOS evaluates independent evidence
 LearnOS records future-only deltas
 MemoryOS preserves lineage and reconstruction
@@ -165,7 +176,7 @@ PlanOS v0.2 fixes Replan synthesis ownership.
 
 The public PlanOS control series reaches v0.17 and preserves terminal suspension, fresh-lineage recovery and no automatic execution.
 
-The WORLD-derived planning series then reaches v0.22 while preserving the same ownership split.
+The WORLD-derived planning and effect route reaches PlanOS v0.23 and ActOS v0.4 while preserving the ownership split.
 
 ### Finite-cycle autonomous-agent completion
 
@@ -213,7 +224,7 @@ VerifyOS records one passed, failed or indeterminate result while preserving tru
 
 LearnOS maps the result to reinforcement, repair, reobservation or hold, but the delta remains inactive now and requires a later PlanOS-owned replan handoff.
 
-### PlanOS v0.18 through v0.22 and DecisionOS v0.4
+### PlanOS v0.18 through v0.23, DecisionOS v0.4 and ActOS v0.3 through v0.4
 
 The future-only learning route now continues as:
 
@@ -225,6 +236,9 @@ LearnOS v0.3 future-only learning receipt
   -> DecisionOS v0.4 admissible candidate selection
   -> PlanOS v0.21 next-cycle synthesis and basis commit
   -> PlanOS v0.22 compiler route projection and template materialization
+  -> PlanOS v0.23 activation admission and nonexecuting ActOS handoff
+  -> ActOS v0.3 independent authorization intake and lease-use reservation
+  -> ActOS v0.4 plan activation and bounded adapter invocation
 ```
 
 PlanOS v0.18 commits an exact replan intake and pristine bind without activating replan.
@@ -245,7 +259,25 @@ A hold candidate materializes zero executable steps and keeps withheld templates
 
 The materialization receipt is single-use, while exact replay is idempotent and conflicting replay is rejected.
 
-The current cycle and past plan remain unchanged.
+PlanOS v0.23 accepts only a materialized non-hold candidate with an exact target cycle, fresh generation material, complete authority binding and exact scope-effect concordance.
+
+It stages a distinct action intent and commits an ActOS handoff without activation, authorization or execution.
+
+ActOS v0.3 independently revalidates freshness, registry status, capability identity, lease scope, session identity and action-intent replay safety.
+
+It reserves exactly one lease use and commits a single-use authorization without plan activation, adapter invocation, external effect or effect record.
+
+ActOS v0.4 constructs a separate plan-activation receipt and then performs one bounded adapter route.
+
+```text
+effectRecorded -> invokes once and records once
+blocked -> no call, no effect and no record
+replayed -> exact replay is idempotent and starts no new invocation
+```
+
+An effect-recorded route preserves post-effect observation and verification debt.
+
+The canonical host receipt does not commit WORLD, promote truth, complete the plan automatically or perform rollback automatically.
 
 ```text
 replan intake != replan activation
@@ -255,8 +287,15 @@ selected candidate != execution permission
 basis commit != plan activation
 compiler route != selected candidate identity
 materialization != plan activation
-materialization != execution permission
-materialization != host license
+admission != activation
+PlanOS handoff != ActOS authorization
+ActOS authorization != plan activation
+ActOS authorization != adapter invocation
+plan activation != external effect
+blocked route != effect
+replayed route != new invocation
+bounded invocation != WORLD commit
+host receipt != truth
 ```
 
 ## WORLD mathematical sidecar
@@ -329,7 +368,7 @@ The following remain external analytic or institutional claims:
 
 - keep README, ROADMAP, formal roots and central full check aligned;
 - maintain a compact current-baseline table;
-- preserve newly merged ObserveOS, VerifyOS, LearnOS, PlanOS and DecisionOS stages during later WORLD updates;
+- preserve newly merged ObserveOS, VerifyOS, LearnOS, PlanOS, DecisionOS and ActOS stages during later WORLD updates;
 - distinguish Lean-derived, hypothesis-supplied, external-receipt and future-target claims.
 
 ### Priority 2: Consolidate v0.20 through v0.28
@@ -387,6 +426,16 @@ Required failure classes include:
 - compiler-route projection to selected-candidate identity substitution;
 - materialization receipt to active plan, execution permission or host license promotion;
 - conflicting materialization replay acceptance;
+- admission receipt to plan activation promotion;
+- PlanOS handoff to ActOS authorization promotion;
+- authorization receipt to plan activation, invocation, effect or effect record promotion;
+- revoked or mismatched capability registry acceptance;
+- duplicate lease-use reservation;
+- reused session or action-intent nonce;
+- blocked route producing an effect or record;
+- replayed route starting a new invocation;
+- host receipt to WORLD commit, truth promotion, automatic plan completion or rollback promotion;
+- loss of post-effect ObserveOS or VerifyOS debt;
 - WORLD-side ObserveOS, VerifyOS or LearnOS ownership promotion;
 - analytic candidate to ActOS-effect reclassification;
 - observation-candidate belief, PlanOS or ActOS promotion;
@@ -441,6 +490,11 @@ DecisionOS selections know they do not synthesize or execute plans
 next-cycle basis commits know they are inactive now
 compiler routes know they do not replace selected-candidate identity
 materialization receipts know they do not activate or execute plans
+PlanOS admissions know they do not authorize ActOS
+ActOS authorizations know they do not activate or invoke
+plan activations know they do not imply external effects
+blocked and replayed routes know they do not create effects
+host receipts know they do not commit WORLD or promote truth
 composition digests know they do not construct or replay transitions
 governance knows when to stop, hold, repair or hand over
 ```
@@ -454,12 +508,12 @@ It is more exact relational continuity without authority collapse.
 ```text
 1. Keep README, ROADMAP, formal roots and full checks synchronized.
 2. Preserve ObserveOS v0.3, VerifyOS v0.3 and LearnOS v0.3 in later integrations.
-3. Preserve PlanOS v0.18-v0.22 and DecisionOS v0.4 ownership and non-activation boundaries.
+3. Preserve PlanOS v0.18-v0.23, DecisionOS v0.4 and ActOS v0.3-v0.4 ownership boundaries.
 4. Consolidate v0.20 through v0.28 into one current status and validation matrix.
 5. Generalize Qi-WORLD v2.2 to arbitrary finite prefixes without inherited authority.
 6. Strengthen WORLD v0.52 receipt composition and OS completion proofs.
 7. Keep verification results separate from truth and causality.
-8. Keep learning, selection, synthesis and materialization receipts separate from activation or execution.
+8. Keep planning, admission, authorization, activation and invocation receipts distinct.
 9. Keep modular time, physical time and runtime execution strictly separate.
 10. Keep all candidate, receipt, theorem and execution statuses distinct.
 ```
