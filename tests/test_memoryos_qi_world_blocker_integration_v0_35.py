@@ -34,7 +34,7 @@ class MemoryOSQiWorldBlockerIntegrationV035Tests(unittest.TestCase):
         return {"cross_cycle_receipt_digest": "cross-cycle-receipt-1"}
 
     def blocker_certificate(self, *, complete: bool = True) -> dict:
-        vector = {name: complete for name in kernel.blocker_v15.BLOCKER_ORDER}
+        vector = {name: True for name in kernel.blocker_v15.BLOCKER_ORDER}
         if complete:
             active = list(kernel.blocker_v15.BLOCKER_ORDER)
             missing = []
