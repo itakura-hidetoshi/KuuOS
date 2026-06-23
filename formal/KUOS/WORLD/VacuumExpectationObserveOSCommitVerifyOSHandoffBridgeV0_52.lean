@@ -8,13 +8,62 @@ WORLD vacuum-expectation ObserveOS commit and VerifyOS handoff bridge v0.52.
 This additive read-only layer requires explicit ObserveOS-owned commit evidence
 before a v0.51 pre-commit intake envelope can produce a committed-observation
 receipt. A second explicit handoff evidence item is required before the receipt
-can become VerifyOS-intake material. The handoff does not execute verification,
-issue a verdict, discharge verification debt, trigger learning, activate PlanOS,
-grant ActOS authority, overwrite memory, or update WORLD.
+can become VerifyOS-intake material. The analytic source is not reclassified as
+an ActOS effect observation. The handoff does not execute verification, issue a
+verdict, discharge verification debt, trigger learning, activate PlanOS, grant
+ActOS authority, overwrite memory, or update WORLD.
 -/
 
 namespace KUOS
 namespace WORLD
+
+structure WorldAnalyticSourceObservationBinding where
+  committedObserveState : Bool
+  observationRecorded : Bool
+  verificationRequired : Bool
+  comparisonReceiptCanonical : Bool
+  intakeEnvelopeBound : Bool
+  commitReceiptBound : Bool
+  provenanceBound : Bool
+  sourceClassAnalytic : Bool
+  sourceEffectBound : Bool
+  committedRequired : committedObserveState = true
+  recordedRequired : observationRecorded = true
+  debtRequired : verificationRequired = true
+  comparisonRequired : comparisonReceiptCanonical = true
+  intakeRequired : intakeEnvelopeBound = true
+  commitRequired : commitReceiptBound = true
+  provenanceRequired : provenanceBound = true
+  analyticRequired : sourceClassAnalytic = true
+  effectReclassificationForbidden : sourceEffectBound = false
+
+namespace WorldAnalyticSourceObservationBinding
+
+
+theorem verification_requires_committed_analytic_observation
+    (binding : WorldAnalyticSourceObservationBinding) :
+    binding.committedObserveState = true ∧
+    binding.observationRecorded = true ∧
+    binding.verificationRequired = true :=
+  ⟨binding.committedRequired, binding.recordedRequired, binding.debtRequired⟩
+
+
+theorem preserves_analytic_source_identity
+    (binding : WorldAnalyticSourceObservationBinding) :
+    binding.comparisonReceiptCanonical = true ∧
+    binding.intakeEnvelopeBound = true ∧
+    binding.commitReceiptBound = true ∧
+    binding.provenanceBound = true ∧
+    binding.sourceClassAnalytic = true ∧
+    binding.sourceEffectBound = false :=
+  ⟨binding.comparisonRequired,
+    binding.intakeRequired,
+    binding.commitRequired,
+    binding.provenanceRequired,
+    binding.analyticRequired,
+    binding.effectReclassificationForbidden⟩
+
+end WorldAnalyticSourceObservationBinding
 
 structure WorldVacuumExpectationObserveOSCommitVerifyHandoffBridge
     {C : RealHilbertL2Carrier}
@@ -57,7 +106,7 @@ structure WorldVacuumExpectationObserveOSCommitVerifyHandoffBridge
       VacuumExpectationObserveOSEvidenceEnvelope K O Intake → Prop
   handoffEvidenceValid : HandoffEvidence → CommitId → Prop
 
-  sourceObservationBinding : VerifyOS.SourceObservationBinding
+  sourceObservationBinding : WorldAnalyticSourceObservationBinding
   exactVerifyCycleGate : VerifyOS.ExactVerifyCycleGate
   verifyNonAuthority : VerifyOS.VerifyNonAuthority
   lineageNonAuthority : VerifyOS.NonAuthorityBoundary
@@ -176,7 +225,7 @@ structure VacuumExpectationVerifyOSHandoff
   commitReceipt : VacuumExpectationObserveOSCommitReceipt K O Intake Bridge
   handoffEvidence : Bridge.HandoffEvidence
   handoffId : Bridge.HandoffId
-  sourceBinding : VerifyOS.SourceObservationBinding
+  sourceBinding : WorldAnalyticSourceObservationBinding
   cycleGate : VerifyOS.ExactVerifyCycleGate
   handoffEvidenceValid :
     Bridge.handoffEvidenceValid handoffEvidence commitReceipt.commitId
@@ -288,18 +337,21 @@ theorem verify_handoff_source_ready
     handoff.sourceBinding.observationRecorded = true ∧
     handoff.sourceBinding.verificationRequired = true := by
   rw [handoff.sourceBindingExact]
-  exact VerifyOS.verification_requires_committed_observation
-    Bridge.sourceObservationBinding
+  exact WorldAnalyticSourceObservationBinding.
+    verification_requires_committed_analytic_observation
+      Bridge.sourceObservationBinding
 
 
-theorem verify_handoff_preserves_source_identity
+theorem verify_handoff_preserves_analytic_source_identity
     (handoff : VacuumExpectationVerifyOSHandoff K O Intake Bridge) :
     handoff.sourceBinding.comparisonReceiptCanonical = true ∧
-    handoff.sourceBinding.sourceEffectBound = true ∧
-    handoff.sourceBinding.evidencePacketBound = true ∧
-    handoff.sourceBinding.qualityReportBound = true := by
+    handoff.sourceBinding.intakeEnvelopeBound = true ∧
+    handoff.sourceBinding.commitReceiptBound = true ∧
+    handoff.sourceBinding.provenanceBound = true ∧
+    handoff.sourceBinding.sourceClassAnalytic = true ∧
+    handoff.sourceBinding.sourceEffectBound = false := by
   rw [handoff.sourceBindingExact]
-  exact VerifyOS.verification_preserves_observation_identity
+  exact WorldAnalyticSourceObservationBinding.preserves_analytic_source_identity
     Bridge.sourceObservationBinding
 
 
