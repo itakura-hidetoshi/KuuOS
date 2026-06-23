@@ -22,6 +22,7 @@ open WORLD
 open ObserveOS
 open VerifyOS
 open LearnOS
+open KUOS.LearnOS.VacuumExpectationVerificationLearningBridge
 
 
 def replanCandidateOfLearningKind : LearningKind → ReplanCandidateType
@@ -317,10 +318,8 @@ theorem passed_verification_generates_strengthen_or_hold
       receipt.intake.learning.verification.adjudication.verdict = .passed) :
     receipt.primaryCandidate = .strengthen ∨
       receipt.primaryCandidate = .hold := by
-  have hkind :=
-    KUOS.LearnOS.VacuumExpectationVerificationLearningBridge.
-      passed_verification_yields_reinforcement_or_hold
-        receipt.intake.learning hpassed
+  have hkind := passed_verification_yields_reinforcement_or_hold
+    receipt.intake.learning hpassed
   rcases hkind with hreinforcement | hhold
   · left
     calc
@@ -346,10 +345,8 @@ theorem failed_verification_generates_repair_or_hold
       receipt.intake.learning.verification.adjudication.verdict = .failed) :
     receipt.primaryCandidate = .repair ∨
       receipt.primaryCandidate = .hold := by
-  have hkind :=
-    KUOS.LearnOS.VacuumExpectationVerificationLearningBridge.
-      failed_verification_yields_repair_or_hold
-        receipt.intake.learning hfailed
+  have hkind := failed_verification_yields_repair_or_hold
+    receipt.intake.learning hfailed
   rcases hkind with hrepair | hhold
   · left
     calc
@@ -376,10 +373,8 @@ theorem indeterminate_verification_generates_reobserve_or_hold
         .indeterminate) :
     receipt.primaryCandidate = .reobserve ∨
       receipt.primaryCandidate = .hold := by
-  have hkind :=
-    KUOS.LearnOS.VacuumExpectationVerificationLearningBridge.
-      indeterminate_verification_yields_reobservation_or_hold
-        receipt.intake.learning hindeterminate
+  have hkind := indeterminate_verification_yields_reobservation_or_hold
+    receipt.intake.learning hindeterminate
   rcases hkind with hreobserve | hhold
   · left
     calc
@@ -414,8 +409,7 @@ theorem generation_history_appends_three_phase_records
       receipt.historyAfterGeneration.snapshotRecords =
         receipt.intake.historyAfter.committedRecords + 3 := by
   refine ⟨receipt.historyAppendExact, ?_⟩
-  rw [replanHistory_snapshot_matches_commits
-    receipt.historyAfterGeneration]
+  rw [replanHistory_snapshot_matches_commits receipt.historyAfterGeneration]
   exact receipt.historyAppendExact
 
 
@@ -498,8 +492,7 @@ theorem generated_candidate_value_remains_exact
     receipt.intake.learning.verification.observeCommit.envelope.candidate.value =
       K.vacuumState
         receipt.intake.learning.verification.observeCommit.envelope.candidate.observable := by
-  exact receipt.intake.learning.verification.observeCommit.envelope.candidate.
-    value_eq_vacuum_expectation
+  exact learned_candidate_value_remains_exact receipt.intake.learning
 
 end VacuumExpectationHistoryQiCandidateGenerationBridge
 end PlanOS
