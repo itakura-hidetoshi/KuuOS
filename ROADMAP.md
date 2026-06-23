@@ -44,6 +44,11 @@ Hilbert vacuum != metaphysical Kū
 vacuum expectation != fact
 vacuum expectation != truth authority
 observation candidate != belief promotion
+intake-ready envelope != committed observation
+observation != verification
+WORLD sidecar != observation owner
+WORLD candidate != ActOS effect observation
+verification debt remains open
 observation candidate != PlanOS activation
 observation candidate != ActOS authority
 modular time != physical time
@@ -81,9 +86,9 @@ proof-status separation
 | Autonomous-agent completion | v0.20–v0.27 finite-cycle continuity | implemented and merged |
 | Qi diagnostic candidate | v0.28 recovery-window layer | implemented and merged |
 | Qi-WORLD | v2.2 concrete third licensed cycle | implemented and merged |
-| WORLD | v0.50 vacuum-expectation observation-candidate bridge | implemented and merged |
+| WORLD | v0.51 ObserveOS evidence-intake envelope | implemented on current integration branch |
 | Formal root | `KuuOSFormal` | strict Lean build surface |
-| Central runtime | `run_kuuos_runtime_full_check_v0_50.py` | active regression root |
+| Central runtime | `run_kuuos_runtime_full_check_v0_51.py` | active regression root |
 
 ---
 
@@ -240,7 +245,7 @@ The cycle count is three. No fourth cycle is started or implied.
 
 ### 2.7 WORLD mathematical sidecar
 
-**Status: implemented through v0.50 and merged**
+**Status: implemented through v0.51 on the current integration branch**
 
 The current typed spine is:
 
@@ -272,9 +277,14 @@ real Hilbert ℓ²
 -> normalized identity candidate
 -> nonnegative star-square candidate
 -> gauge-equivalent candidate values
+-> exact ObserveOS evidence-intake envelope
+-> candidate, value, context and receipt digest binding
+-> complete evidence requirements and immutable provenance
+-> observation recorded without verification discharge
+-> ObserveOS ownership with independent verification debt
 ```
 
-The runtime validates read-only structural registration. It does not construct the OS quotient completion, execute the Hamiltonian, execute physical time, promote an observation candidate to fact or belief, activate PlanOS, grant ActOS authority, declare a unique vacuum or update WORLD.
+The runtime validates read-only structural registration. It does not construct the OS quotient completion, execute the Hamiltonian, execute physical time, commit an ObserveOS record, discharge verification, promote belief, activate PlanOS, grant ActOS authority, overwrite MemoryOS, declare a unique vacuum or update WORLD.
 
 The following remain explicit external analytic receipts:
 
@@ -283,6 +293,7 @@ The following remain explicit external analytic receipts:
 - Stone generation of physical time;
 - vacuum gauge implementation;
 - vacuum cluster property;
+- empirical adequacy of an observation candidate;
 - any physical realization or external theorem acceptance.
 
 ---
@@ -366,7 +377,7 @@ for every finite prefix:
   + no automatic successor activation
 ```
 
-### Priority 4 — Strengthen WORLD v0.50 proof status
+### Priority 4 — Strengthen WORLD v0.51 proof status
 
 **Status: parallel mathematical track**
 
@@ -377,6 +388,8 @@ Tasks:
 - construct the OS quotient and completion from a typed sesquilinear form when minimal hypotheses are available;
 - derive vacuum normalization and positivity from the completed representation rather than duplicate receipt fields;
 - derive further vacuum-expectation observation-candidate properties without introducing belief or authority promotion;
+- derive more ObserveOS envelope consistency from digest equality and provenance hypotheses;
+- connect the intake envelope to a separately owned VerifyOS handoff without discharging verification;
 - replace the abstract physical Hamiltonian map with a densely defined self-adjoint operator bridge;
 - connect Stone generation, spectral support and cluster claims without identifying modular time with physical time;
 - preserve higher-gauge covariance, degenerate vacuum sectors and multi-WORLD noncollapse;
@@ -423,6 +436,12 @@ Required failure classes include:
 - WORLD physical-realization overclaim;
 - vacuum uniqueness overclaim;
 - vacuum-expectation fact promotion;
+- ObserveOS envelope substitution;
+- intake-ready to committed-observation promotion;
+- observation and verification conflation;
+- WORLD-side observation-ownership promotion;
+- analytic candidate to ActOS-effect reclassification;
+- verification-debt erasure;
 - observation-candidate belief promotion;
 - observation-candidate PlanOS activation;
 - observation-candidate ActOS authority grant;
@@ -488,13 +507,18 @@ The target is mathematically explicit finite continuity, not an unbounded autono
 
 ### 5.2 WORLD-to-OS read-only observation bridge
 
-**Status: initial vacuum-expectation bridge implemented at v0.50**
+**Status: exact ObserveOS evidence-intake envelope implemented at v0.51**
 
-v0.50 turns admissible v0.49 vacuum-state evaluations into source-bound typed observation candidates while preserving:
+v0.51 wraps an admissible v0.50 vacuum-expectation candidate in exact ObserveOS evidence requirements, provenance, digest binding and verification-debt semantics while preserving:
 
 ```text
 WORLD representation != fact
 vacuum expectation != truth authority
+intake-ready envelope != committed observation
+observation != verification
+WORLD sidecar != observation owner
+WORLD candidate != ActOS effect observation
+verification debt remains open
 observation candidate != belief promotion
 observation candidate != PlanOS activation
 observation candidate != ActOS authority
@@ -503,7 +527,7 @@ low free energy != permission
 mixing certificate != intervention recommendation
 ```
 
-The next step is exact intake compatibility with ObserveOS evidence envelopes without allowing WORLD formal results to bypass observation ownership, independent verification, review or authority gates.
+The next step is a separately owned VerifyOS handoff receipt that consumes an ObserveOS record without allowing WORLD formal results or the intake bridge to perform verification.
 
 No WORLD formal result should directly activate PlanOS or ActOS.
 
@@ -548,6 +572,8 @@ proofs know their formal and external status
 WORLD representations know they are read-only sidecars
 analytic vacua know they are representations rather than exact WORLD
 vacuum-expectation candidates know they are observations rather than facts
+ObserveOS envelopes know they are intake artifacts rather than committed truth
+verification debts know they remain open until VerifyOS acts
 candidate equalities know they do not collapse WORLD contexts
 governance knows when to stop, hold, repair or hand over
 ```
@@ -564,10 +590,10 @@ It is **more exact relational continuity without authority collapse**.
 2. Consolidate v0.20-v0.28 into one current public status and validation matrix.
 3. Generalize Qi-WORLD v2.2 from a concrete third cycle to arbitrary finite prefixes.
 4. Prove no finite closed chain grants automatic successor authority.
-5. Strengthen WORLD v0.50 by deriving more of the OS completion, vacuum and observation-candidate layer in Lean.
-6. Keep modular time, physical time and runtime execution strictly separate.
-7. Integrate MemoryOS and Qi history without belief or root sovereignty.
-8. Mature gauge-atlas composition without introducing global graph semantics.
-9. Preserve foreground control, finite resources, explicit renewal and handover.
-10. Keep diagnostic candidates, WORLD observation candidates, clinical authority, theorem status and execution authority separate.
+5. Strengthen WORLD v0.51 by deriving more of the OS completion, vacuum, observation-candidate and ObserveOS-intake layers in Lean.
+6. Connect v0.51 to a separately owned VerifyOS handoff without verification collapse.
+7. Keep modular time, physical time and runtime execution strictly separate.
+8. Integrate MemoryOS and Qi history without belief or root sovereignty.
+9. Mature gauge-atlas composition without introducing global graph semantics.
+10. Keep diagnostic candidates, WORLD observation candidates, ObserveOS intake, clinical authority, theorem status and execution authority separate.
 ```
