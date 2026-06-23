@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import pathlib
 
+# Comment-only diagnostic marker for the narrow v0.52 validator and full-check.
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 
