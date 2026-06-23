@@ -158,3 +158,5 @@ runtime performs no downstream mutation
 ```
 
 v0.51 does not determine whether an observation should be accepted by a human, institution, scientific community, clinical process, VerifyOS implementation, or external theorem reviewer.
+
+<!-- Narrow CI trigger for the corrected pre-commit boundary. -->
