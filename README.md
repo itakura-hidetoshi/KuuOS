@@ -23,6 +23,7 @@ PlanOS control and suspension recovery series   v0.17
 Repeatable finite-cycle agent kernel            v0.27
 Qi recovery-window diagnostic candidate         v0.28
 Qi-WORLD concrete licensed-cycle chain          v2.2
+LearnOS WORLD-derived future-only delta          v0.3
 WORLD read-only mathematical sidecar             v0.52
 Lean formal root                                KuuOSFormal
 ```
@@ -52,6 +53,9 @@ WORLD sidecar != verification owner
 observation candidate != belief promotion
 observation candidate != PlanOS activation
 observation candidate != ActOS authority
+learning receipt != current-cycle mutation
+learning receipt != Replan activation
+learning receipt != execution permission
 modular time != physical time
 finite analytic certificate != physical realization
 ```
@@ -114,9 +118,19 @@ negative response != permanent closure
 red flag != automatic triage or treatment
 ```
 
-### PlanOS and Qi-WORLD
+### PlanOS, LearnOS and Qi-WORLD
 
 PlanOS owns plan and replan synthesis.
+
+LearnOS v0.3 consumes an explicit VerifyOS v0.3 receipt and records one future-only learning receipt.
+
+```text
+passed verification -> reinforcement or hold
+failed verification -> repair or hold
+indeterminate verification -> reobservation or hold
+```
+
+The learning delta is inactive in the current cycle, preserves past records and requires a later PlanOS-owned replan handoff without activating it.
 
 Qi-WORLD v2.2 contains three concrete closed licensed cycles with fresh external authority, human approval, host license, one explicit discharge, one effect and native closure for each cycle.
 
@@ -176,6 +190,7 @@ runtime does not update WORLD
 - repeatable finite-cycle continuity with foreground control;
 - Qi process history and recovery-window diagnostic candidates;
 - three concrete Qi-WORLD licensed cycles;
+- LearnOS v0.3 future-only delta over an explicit VerifyOS receipt;
 - Lean/mathlib-facing formal surfaces under `KuuOSFormal`;
 - WORLD v0.52 read-only validation of supplied ObserveOS commit and VerifyOS handoff receipts.
 
@@ -191,7 +206,7 @@ KuuOS is not currently:
 - a physical quantum Markov semigroup or exact WORLD simulator;
 - a system in which a receipt proves that WORLD performed an OS transition;
 - a system in which a verification handoff automatically creates a verdict;
-- a system in which a verification result becomes truth, causal authority, belief, plan or action permission by itself.
+- a system in which a verification or learning result becomes truth, causal authority, current-cycle mutation, plan activation or action permission by itself.
 
 ## Read first
 
@@ -206,6 +221,7 @@ docs/KUUOS_PLAN_OS_SUSPENSION_RECOVERY_ROUTER_v0_17.md
 docs/KUUOS_AUTONOMOUS_AGENT_STATUS_v0_27.md
 docs/KUUOS_QI_RECOVERY_WINDOW_DIAGNOSTIC_v0_28.md
 docs/KUUOS_QI_WORLD_CONCRETE_THIRD_LICENSED_CYCLE_MATERIALIZATION_v2_2.md
+docs/KUUOS_LEARNOS_VACUUM_EXPECTATION_VERIFICATION_FUTURE_ONLY_DELTA_v0_3.md
 docs/KU_WORLD_KUU_VACUUM_OS_HILBERT_COMPLETION_v0_49.md
 docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVATION_CANDIDATE_v0_50.md
 docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVEOS_EVIDENCE_INTAKE_v0_51.md
@@ -221,6 +237,7 @@ make all-governance-checks
 
 python3 scripts/run_kuuos_runtime_full_check_v0_52.py
 python3 scripts/check_world_vacuum_expectation_observeos_commit_verify_handoff_v0_52.py
+python3 scripts/check_learnos_vacuum_expectation_verification_future_only_delta_v0_3.py
 
 lake -KleanArgs=-DwarningAsError=true \
   -KleanArgs=-DsorryAsError=true \
