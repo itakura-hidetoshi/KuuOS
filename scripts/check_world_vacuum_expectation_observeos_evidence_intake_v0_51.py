@@ -58,22 +58,27 @@ def main() -> int:
             "runtime remains read-only",
         ),
     )
+
+    # v0.51 remains a strict historical artifact check. README and ROADMAP are
+    # moving current-baseline surfaces, so only their invariant intake and
+    # ownership boundaries are required here.
     require_tokens(
         ROOT / "README.md",
         (
-            "WORLD read-only mathematical sidecar             v0.51",
+            "WORLD read-only mathematical sidecar",
             "intake-ready envelope != committed observation",
-            "run_kuuos_runtime_full_check_v0_51.py",
+            "WORLD sidecar != observation owner",
         ),
     )
     require_tokens(
         ROOT / "ROADMAP.md",
         (
-            "implemented through v0.51",
             "ObserveOS evidence-intake envelope",
-            "Strengthen WORLD v0.51 proof status",
+            "intake remains uncommitted",
+            "WORLD sidecar != ObserveOS owner",
         ),
     )
+    assert (ROOT / "scripts/run_kuuos_runtime_full_check_v0_51.py").is_file()
 
     manifest_path = (
         ROOT / "manifests/world_vacuum_expectation_observeos_evidence_intake_v0_51.json"
