@@ -1,0 +1,26 @@
+{
+  "version": "kuuos_planos_activation_admission_actos_handoff_v0_23",
+  "status": "formal_admission_handoff_receipt",
+  "source": "formal/KUOS/PlanOS/VacuumExpectationCompilerMaterializationV0_22.lean",
+  "formal_module": "formal/KUOS/PlanOS/VacuumExpectationActivationAdmissionActOSHandoffV0_23.lean",
+  "documentation": "docs/KUUOS_PLANOS_ACTIVATION_ADMISSION_ACTOS_HANDOFF_v0_23.md",
+  "validator": "scripts/check_planos_activation_admission_actos_handoff_v0_23.py",
+  "workflow": ".github/workflows/planos-activation-admission-actos-handoff-v0-23.yml",
+  "required": {
+    "non_hold_material": true,
+    "next_cycle_freshness": true,
+    "approval_and_license": true,
+    "capability_lease_session_intent": true,
+    "scope_and_effect_concordance": true,
+    "distinct_intent": true,
+    "admission_and_handoff": true
+  },
+  "closed": {
+    "activation": false,
+    "invocation": false,
+    "execution": false,
+    "lease_reservation": false,
+    "external_commit": false,
+    "memory_overwrite": false
+  }
+}

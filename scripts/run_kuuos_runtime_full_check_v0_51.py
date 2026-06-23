@@ -8,6 +8,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from scripts.check_planos_activation_admission_actos_handoff_v0_23 import main as check_planos_v023
 from scripts.check_planos_compiler_materialization_v0_22 import main as check_planos_v022
 from scripts.check_planos_selected_candidate_next_cycle_synthesis_v0_21 import main as check_planos_v021
 from scripts.check_decisionos_admissible_candidate_selection_v0_4 import main as check_decisionos_v04
@@ -23,6 +24,7 @@ from scripts.run_kuuos_runtime_full_check_v0_50 import main as run_v050_full_che
 
 def main() -> int:
     checks = (
+        check_planos_v023,
         check_planos_v022,
         check_planos_v021,
         check_decisionos_v04,
