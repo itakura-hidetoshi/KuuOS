@@ -1,0 +1,35 @@
+{
+  "version": "kuuos_observeos_vacuum_expectation_intake_commit_receipt_v0_3",
+  "status": "formal_explicit_observeos_commit_receipt",
+  "source_world_bridge": "KUOS.WORLD.VacuumExpectationObserveOSEvidenceIntakeBridgeV0_51",
+  "observe_predecessor": "KUOS.ObserveOS.ReplanLineageObservationEnvelopeV0_2",
+  "formal_module": "formal/KUOS/ObserveOS/VacuumExpectationIntakeCommitReceiptV0_3.lean",
+  "documentation": "docs/KUUOS_OBSERVEOS_VACUUM_EXPECTATION_INTAKE_COMMIT_RECEIPT_v0_3.md",
+  "validator": "scripts/check_observeos_vacuum_expectation_intake_commit_receipt_v0_3.py",
+  "workflow": ".github/workflows/observeos-vacuum-expectation-intake-commit-v0-3.yml",
+  "derived_results": [
+    "source_intake_remains_precommit",
+    "explicit_receipt_records_observation",
+    "commit_preserves_verification_debt",
+    "commit_receipt_digest_is_exact",
+    "committed_history_snapshot_is_exact",
+    "bridge_grants_no_downstream_authority",
+    "committed_candidate_value_remains_exact"
+  ],
+  "boundaries": {
+    "source_intake_uncommitted": true,
+    "explicit_observeos_receipt_required": true,
+    "append_exactly_one_observation_record": true,
+    "observation_commit_is_verification": false,
+    "world_sidecar_commits_observation": false,
+    "bridge_runtime_commits_observation": false,
+    "verification_completed_by_bridge": false,
+    "verifyos_handoff_required": true,
+    "truth_authority_granted": false,
+    "belief_promoted": false,
+    "planos_activated": false,
+    "actos_authority_granted": false,
+    "memory_overwritten": false,
+    "world_updated": false
+  }
+}
