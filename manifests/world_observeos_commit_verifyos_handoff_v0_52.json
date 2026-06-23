@@ -1,0 +1,41 @@
+{
+  "manifest_version": "world_observeos_commit_verifyos_handoff_v0_52",
+  "status": "formal_read_only_commit_handoff_bridge",
+  "formal_root": "formal/KuuOSFormalV0_52.lean",
+  "formal_module": "formal/KUOS/WORLD/VacuumExpectationObserveOSCommitVerifyOSHandoffBridgeV0_52.lean",
+  "documentation": "docs/KU_WORLD_OBSERVEOS_COMMIT_VERIFYOS_HANDOFF_v0_52.md",
+  "validator": "scripts/check_world_observeos_commit_verifyos_handoff_v0_52.py",
+  "full_check": "scripts/run_kuuos_runtime_full_check_v0_52.py",
+  "workflow": ".github/workflows/world-observeos-commit-verifyos-handoff-v0-52.yml",
+  "derived_results": [
+    "commit_receipt_exact",
+    "commit_requires_explicit_evidence",
+    "observe_commit_owner_and_recorded",
+    "observe_commit_is_single_use",
+    "verify_handoff_requires_explicit_evidence",
+    "verify_handoff_source_ready",
+    "verify_handoff_preserves_analytic_source_identity",
+    "verify_handoff_uses_exact_observe_cycle",
+    "verify_handoff_is_single_use",
+    "handoff_preserves_open_verification_debt",
+    "verify_handoff_grants_no_authority",
+    "runtime_remains_read_only"
+  ],
+  "boundaries": [
+    "intake_not_committed_observation",
+    "explicit_observeos_commit_evidence_required",
+    "world_does_not_commit_observation",
+    "commit_receipt_not_verification_result",
+    "analytic_source_not_actos_effect_observation",
+    "explicit_verifyos_handoff_evidence_required",
+    "handoff_not_verification_execution",
+    "handoff_not_verdict",
+    "verification_debt_preserved",
+    "no_automatic_learning",
+    "no_planos_activation",
+    "no_actos_authority",
+    "no_memory_overwrite",
+    "no_world_update",
+    "runtime_read_only"
+  ]
+}
