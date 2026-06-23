@@ -136,10 +136,10 @@ def main() -> int:
         "OBSERVABLE_PREDICTIVE_STATE_CANDIDATE",
         "SEMANTIC_CONSOLIDATION_CANDIDATE",
         "PROCEDURAL_REUSE_CANDIDATE",
-        "memory_records_append_only_violation",
+        "append_only_violation",
         "RETURN_CONTEXT_WITH_ACTIVE_SHIELD",
         "READ_ONLY_CONTEXT_OR_REOBSERVE",
-        "world_candidate_replaces_sourced_world_forbidden",
+        "world_candidate_{field}_forbidden",
     ):
         require(phrase in runtime, f"runtime boundary missing: {phrase}")
 
