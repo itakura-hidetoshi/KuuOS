@@ -42,6 +42,16 @@ Qi Motion Chain Runner
 
 The internal dependency is conservative: Samvrti Qi acceptance opens packet construction only; it does not promote a packet to FullPathQi by assertion.
 
+## Canonical Entry Points
+
+Each validation layer should expose one canonical checker or suite.
+
+Higher-level validation may call its direct prerequisite once.
+
+A sibling wrapper should not repeat the same prerequisite.
+
+A superseded validator may be removed after the canonical validator covers its compatibility cases.
+
 ## Public Entry Points
 
 | Entry Point | Purpose |
@@ -63,6 +73,7 @@ Aggregate governance validation assumes:
 - governance boundaries remain explicit
 - validator outputs remain structurally interpretable
 - Qi motion chain outputs remain observe-only and non-authoritative
+- each prerequisite is executed once per canonical path
 
 ## Important Clarification
 
