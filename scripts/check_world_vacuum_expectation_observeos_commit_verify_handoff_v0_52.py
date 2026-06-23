@@ -87,8 +87,8 @@ def main() -> int:
     require_tokens(
         ROOT / "README.md",
         (
-            "WORLD read-only mathematical sidecar             v0.52",
-            "LearnOS WORLD-derived future-only delta          v0.3",
+            "WORLD read-only mathematical sidecar              v0.52",
+            "LearnOS WORLD-derived future-only delta           v0.3",
             "receipt composition != receipt construction",
             "run_kuuos_runtime_full_check_v0_52.py",
         ),
