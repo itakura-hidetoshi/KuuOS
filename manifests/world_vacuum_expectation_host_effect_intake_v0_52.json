@@ -1,0 +1,37 @@
+{
+  "manifest_version": "world_vacuum_expectation_host_effect_intake_v0_52",
+  "status": "formal_host_effect_intake_candidate",
+  "formal_root": "formal/KuuOSFormalV0_52.lean",
+  "formal_module": "formal/KUOS/WORLD/VacuumExpectationHostEffectAtomicCommitIntakeV0_52.lean",
+  "documentation": "docs/KU_WORLD_HOST_EFFECT_INTAKE_v0_52.md",
+  "validator": "scripts/check_world_vacuum_expectation_host_effect_intake_v0_52.py",
+  "workflow": ".github/workflows/world-host-effect-intake-v0-52.yml",
+  "boundaries": [
+    "effect_recorded_route_only",
+    "canonical_host_receipt_required",
+    "effect_identity_preserved",
+    "observation_debt_unpaid",
+    "verification_debt_unpaid",
+    "verified_disposition_not_yet_supplied",
+    "fresh_authorization_not_yet_supplied",
+    "world_update_not_ready",
+    "world_update_not_performed",
+    "no_truth_or_causal_promotion"
+  ],
+  "derived_results": [
+    "intake_requires_canonical_effect_record",
+    "candidate_preserves_effect_identity",
+    "observeos_source_binding_is_complete",
+    "evidence_requirements_are_complete",
+    "provenance_is_complete_and_immutable",
+    "observation_and_verification_debts_remain_unpaid",
+    "atomic_commit_prerequisites_are_explicit_but_unsupplied",
+    "intake_is_not_atomic_commit",
+    "pending_debt_forbids_automatic_promotion_completion_or_rollback",
+    "intake_history_appends_one_record",
+    "intake_index_follows_host_receipt",
+    "ownership_boundaries_are_preserved",
+    "intake_grants_no_truth_causality_observation_verification_or_execution",
+    "intake_digest_is_exact"
+  ]
+}
