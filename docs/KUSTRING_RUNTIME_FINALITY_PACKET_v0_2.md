@@ -22,7 +22,9 @@ This is implementation finality only. It is not proof, truth, clinical authority
 Validation:
 
 - scripts/check_kustring_runtime_finality_v0_2.py
-- scripts/run_kustring_runtime_finality_suite_v0_2.py
+- scripts/check_kustring_runtime_finality_report_v0_2.py
+
+The finality report checker is the single complete validation entry point.
 
 CI green evidence:
 
@@ -39,11 +41,7 @@ CI interpretation:
 
 The CI green record confirms configured implementation checks, audit continuity, finality report generation, and artifact upload for the referenced run. It does not grant proof authority, truth authority, clinical authority, execution authority, or governance-bypass authority.
 
-Append-only note:
-
-Later proof-level, semantic, governance, or publication strengthening must be added as a same-root append-only entry. This packet must not be destructively rewritten into a stronger authority claim.
-
 Version: v0.2
-Date: 2026-05-13
+Date: 2026-06-24
 CI ledger date: 2026-05-16
 Author: Hidetoshi Itakura / 板倉英俊
