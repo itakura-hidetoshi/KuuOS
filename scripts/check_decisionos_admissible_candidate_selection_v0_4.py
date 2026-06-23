@@ -21,19 +21,18 @@ def require_tokens(path: Path, tokens: tuple[str, ...]) -> None:
 
 def main() -> int:
     formal_root = ROOT / "formal/KuuOSDecisionOSV0_4.lean"
-    top_root = ROOT / "formal/KuuOSFormal.lean"
+    aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     formal = ROOT / "formal/KUOS/DecisionOS/VacuumExpectationAdmissibleCandidateSelectionV0_4.lean"
     source = ROOT / "formal/KUOS/PlanOS/VacuumExpectationHysteresisConstraintDecisionHandoffV0_20.lean"
     docs = ROOT / "docs/KUUOS_DECISIONOS_ADMISSIBLE_CANDIDATE_SELECTION_v0_4.md"
     manifest_path = ROOT / "manifests/kuuos_decisionos_admissible_candidate_selection_v0_4.json"
     workflow = ROOT / ".github/workflows/decisionos-admissible-candidate-selection-v0-4.yml"
 
-    for path in (formal_root, top_root, formal, source, docs, manifest_path, workflow):
+    for path in (formal_root, aggregate_root, formal, source, docs, manifest_path, workflow):
         require(path.is_file(), f"missing file: {path}")
 
     import_token = "KUOS.DecisionOS.VacuumExpectationAdmissibleCandidateSelectionV0_4"
     require_tokens(formal_root, (import_token,))
-    require_tokens(top_root, (import_token,))
     require_tokens(
         formal,
         (
