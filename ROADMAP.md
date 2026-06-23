@@ -29,6 +29,10 @@ PlanOS replan != activation
 PlanOS intake != replan activation
 selected candidate != execution permission
 next-cycle basis commit != plan activation
+compiler route != selected candidate identity
+materialization != plan activation
+materialization != execution permission
+materialization != host license
 LearnOS delta != present action
 ActOS receipt != successor authority
 closed-cycle receipt != next-cycle start
@@ -87,7 +91,7 @@ proof-status separation
 |---|---|---|
 | Core governance | v0.1 public governance and boundary documents | active and maintained |
 | Horizon and context gauge | Horizon v0.12 and Context Gauge Atlas v0.13 | implemented baseline |
-| PlanOS | v0.21 selected-candidate next-cycle synthesis and basis commit | implemented and merged |
+| PlanOS | v0.22 compiler materialization over a committed next-cycle basis | implemented and merged |
 | DecisionOS | v0.4 admissible candidate selection | implemented and merged |
 | Autonomous-agent completion | v0.20 through v0.27 finite-cycle continuity | implemented and merged |
 | Qi diagnostic candidate | v0.28 recovery-window layer | implemented and merged |
@@ -150,7 +154,7 @@ Future work is composition maturity, not conversion into a universal graph.
 ObserveOS owns observation
 BeliefOS owns local and plural belief state
 DecisionOS selects an admissible candidate
-PlanOS synthesizes plans and replans
+PlanOS synthesizes plans, replans and compiler materializations
 ActOS executes only under an exact license
 VerifyOS evaluates independent evidence
 LearnOS records future-only deltas
@@ -161,7 +165,7 @@ PlanOS v0.2 fixes Replan synthesis ownership.
 
 The public PlanOS control series reaches v0.17 and preserves terminal suspension, fresh-lineage recovery and no automatic execution.
 
-The WORLD-derived planning series then reaches v0.21 while preserving the same ownership split.
+The WORLD-derived planning series then reaches v0.22 while preserving the same ownership split.
 
 ### Finite-cycle autonomous-agent completion
 
@@ -209,7 +213,7 @@ VerifyOS records one passed, failed or indeterminate result while preserving tru
 
 LearnOS maps the result to reinforcement, repair, reobservation or hold, but the delta remains inactive now and requires a later PlanOS-owned replan handoff.
 
-### PlanOS v0.18 through v0.21 and DecisionOS v0.4
+### PlanOS v0.18 through v0.22 and DecisionOS v0.4
 
 The future-only learning route now continues as:
 
@@ -220,6 +224,7 @@ LearnOS v0.3 future-only learning receipt
   -> PlanOS v0.20 hysteresis and constraint handoff
   -> DecisionOS v0.4 admissible candidate selection
   -> PlanOS v0.21 next-cycle synthesis and basis commit
+  -> PlanOS v0.22 compiler route projection and template materialization
 ```
 
 PlanOS v0.18 commits an exact replan intake and pristine bind without activating replan.
@@ -232,6 +237,14 @@ DecisionOS v0.4 owns selection and prevents silent candidate substitution.
 
 PlanOS v0.21 owns synthesis and commits a future-only next-cycle basis.
 
+PlanOS v0.22 projects the selected candidate into an adapter route and reuses the v0.1 structured compiler and v0.3 adapter to materialize ordered templates.
+
+The selected-candidate identity remains separately digest-bound even when multiple candidates project to the same compiler route.
+
+A hold candidate materializes zero executable steps and keeps withheld templates visible.
+
+The materialization receipt is single-use, while exact replay is idempotent and conflicting replay is rejected.
+
 The current cycle and past plan remain unchanged.
 
 ```text
@@ -240,7 +253,10 @@ candidate generation != selection
 DecisionOS selection != PlanOS synthesis
 selected candidate != execution permission
 basis commit != plan activation
-basis commit != host license
+compiler route != selected candidate identity
+materialization != plan activation
+materialization != execution permission
+materialization != host license
 ```
 
 ## WORLD mathematical sidecar
@@ -368,6 +384,9 @@ Required failure classes include:
 - history or Qi candidate generation to DecisionOS selection promotion;
 - silent selected-candidate substitution;
 - next-cycle basis commit to current plan activation or execution promotion;
+- compiler-route projection to selected-candidate identity substitution;
+- materialization receipt to active plan, execution permission or host license promotion;
+- conflicting materialization replay acceptance;
 - WORLD-side ObserveOS, VerifyOS or LearnOS ownership promotion;
 - analytic candidate to ActOS-effect reclassification;
 - observation-candidate belief, PlanOS or ActOS promotion;
@@ -420,6 +439,8 @@ LearnOS receipts know they are future-only and inactive now
 PlanOS intakes know they do not activate replan
 DecisionOS selections know they do not synthesize or execute plans
 next-cycle basis commits know they are inactive now
+compiler routes know they do not replace selected-candidate identity
+materialization receipts know they do not activate or execute plans
 composition digests know they do not construct or replay transitions
 governance knows when to stop, hold, repair or hand over
 ```
@@ -433,12 +454,12 @@ It is more exact relational continuity without authority collapse.
 ```text
 1. Keep README, ROADMAP, formal roots and full checks synchronized.
 2. Preserve ObserveOS v0.3, VerifyOS v0.3 and LearnOS v0.3 in later integrations.
-3. Preserve PlanOS v0.18-v0.21 and DecisionOS v0.4 ownership and future-only boundaries.
+3. Preserve PlanOS v0.18-v0.22 and DecisionOS v0.4 ownership and non-activation boundaries.
 4. Consolidate v0.20 through v0.28 into one current status and validation matrix.
 5. Generalize Qi-WORLD v2.2 to arbitrary finite prefixes without inherited authority.
 6. Strengthen WORLD v0.52 receipt composition and OS completion proofs.
 7. Keep verification results separate from truth and causality.
-8. Keep learning, selection and basis receipts separate from activation or execution.
+8. Keep learning, selection, synthesis and materialization receipts separate from activation or execution.
 9. Keep modular time, physical time and runtime execution strictly separate.
 10. Keep all candidate, receipt, theorem and execution statuses distinct.
 ```
