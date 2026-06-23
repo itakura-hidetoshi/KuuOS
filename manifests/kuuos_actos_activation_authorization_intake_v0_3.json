@@ -1,0 +1,31 @@
+{
+  "version": "kuuos_actos_activation_authorization_intake_v0_3",
+  "status": "formal_activation_authorization_intake_receipt",
+  "source": "formal/KUOS/PlanOS/VacuumExpectationActivationAdmissionActOSHandoffV0_23.lean",
+  "formal_module": "formal/KUOS/ActOS/VacuumExpectationActivationAuthorizationIntakeV0_3.lean",
+  "documentation": "docs/KUUOS_ACTOS_ACTIVATION_AUTHORIZATION_INTAKE_v0_3.md",
+  "validator": "scripts/check_actos_activation_authorization_intake_v0_3.py",
+  "workflow": ".github/workflows/actos-authorization-intake-v0-3.yml",
+  "required": {
+    "committed_planos_handoff": true,
+    "exact_act_cycle": true,
+    "fivefold_binding": true,
+    "independent_freshness_revalidation": true,
+    "registry_entry_present_and_unrevoked": true,
+    "exact_scope_and_effect_ceiling": true,
+    "single_lease_use_reservation": true,
+    "session_and_intent_replay_exclusion": true,
+    "single_use_authorization": true,
+    "activation_authorization_receipt": true
+  },
+  "forbidden": {
+    "plan_activation": false,
+    "adapter_invocation": false,
+    "external_effect": false,
+    "effect_record": false,
+    "clinical_authority": false,
+    "legal_authority": false,
+    "institutional_authority": false,
+    "theorem_authority": false
+  }
+}
