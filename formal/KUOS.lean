@@ -61,6 +61,7 @@ import KUOS.ActOS.AuthorityBoundInvocationV0_1
 import KUOS.ActOS.ReplanLineageAuthorityEnvelopeV0_2
 import KUOS.ObserveOS.EffectGroundedObservationV0_1
 import KUOS.ObserveOS.ReplanLineageObservationEnvelopeV0_2
+import KUOS.ObserveOS.VacuumExpectationIntakeCommitReceiptV0_3
 import KUOS.VerifyOS.EvidenceBoundVerificationV0_1
 import KUOS.VerifyOS.ReplanLineageVerificationEnvelopeV0_2
 import KUOS.LearnOS.FutureOnlyEvidenceLearningV0_1
