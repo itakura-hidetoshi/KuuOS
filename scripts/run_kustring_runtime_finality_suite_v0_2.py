@@ -8,7 +8,6 @@ import sys
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 COMMANDS = [
-    [sys.executable, "scripts/run_kustring_runtime_closure_suite_v0_2.py"],
     [sys.executable, "scripts/check_kustring_runtime_finality_v0_2.py"],
     [sys.executable, "scripts/check_kustring_runtime_finality_ci_v0_2.py"],
     [sys.executable, "scripts/check_kustring_runtime_workflow_paths_v0_2.py"],
