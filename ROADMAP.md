@@ -1,6 +1,6 @@
 # KuuOS / 空OS Roadmap
 
-**Baseline date: 2026-06-21**
+**Baseline date: 2026-06-23**
 
 This roadmap replaces the former v0.12–v0.13-centered orientation with the current multi-spine state of the repository.
 
@@ -38,6 +38,12 @@ diagnostic candidate != final diagnosis
 recovery-window interval != healing guarantee
 red flag != automatic triage
 WORLD sidecar != exact WORLD
+WORLD != vacuum vector
+Kū != zero vector
+Hilbert vacuum != metaphysical Kū
+modular time != physical time
+vacuum state != truth authority
+vacuum sector != WORLD collapse
 finite analytic certificate != physical realization
 local chart != global graph node
 curvature != veto
@@ -71,9 +77,9 @@ proof-status separation
 | Autonomous-agent completion | v0.20–v0.27 finite-cycle continuity | implemented and merged |
 | Qi diagnostic candidate | v0.28 recovery-window layer | implemented and merged |
 | Qi-WORLD | v2.2 concrete third licensed cycle | implemented and merged |
-| WORLD | v0.48 finite log-Sobolev, contraction and mixing bridge | implemented and merged |
+| WORLD | v0.49 Kū vacuum and OS Hilbert completion bridge | implemented on current integration branch |
 | Formal root | `KuuOSFormal` | strict Lean build surface |
-| Central runtime | `run_kuuos_runtime_full_check_v0_48.py` | active regression root |
+| Central runtime | `run_kuuos_runtime_full_check_v0_49.py` | active regression root |
 
 ---
 
@@ -230,7 +236,7 @@ The cycle count is three. No fourth cycle is started or implied.
 
 ### 2.7 WORLD mathematical sidecar
 
-**Status: implemented through v0.48**
+**Status: implemented through v0.49 on the current integration branch**
 
 The current typed spine is:
 
@@ -251,9 +257,25 @@ real Hilbert ℓ²
 -> geodesic / mirror-descent / free-energy certificates
 -> gradient-flow / JKO / entropy-production certificates
 -> finite log-Sobolev contraction and mixing bounds
+-> reflection-positive positive-time form
+-> OS null directions and Hilbert-completion interface
+-> constant-observable vacuum class
+-> standard-form cyclic and separating vacuum identification
+-> normalized positive gauge-invariant vacuum state
+-> separate modular-time and physical-time invariance
+-> zero-energy vacuum sector without uniqueness or WORLD collapse
 ```
 
-The runtime validates read-only, hash-bound receipts. It does not execute these mathematical structures or update WORLD.
+The runtime validates read-only structural registration. It does not construct the OS quotient completion, execute the Hamiltonian, execute physical time, declare a unique vacuum or update WORLD.
+
+The following remain explicit external analytic receipts:
+
+- OS quotient and completion existence;
+- physical Hamiltonian self-adjointness;
+- Stone generation of physical time;
+- vacuum gauge implementation;
+- vacuum cluster property;
+- any physical realization or external theorem acceptance.
 
 ---
 
@@ -336,18 +358,19 @@ for every finite prefix:
   + no automatic successor activation
 ```
 
-### Priority 4 — Strengthen WORLD v0.48 proof status
+### Priority 4 — Strengthen WORLD v0.49 proof status
 
 **Status: parallel mathematical track**
 
 Tasks:
 
 - replace supplied finite certificate fields with derived mathlib theorems when hypotheses are sufficient;
-- state external analytic receipts next to every finite Lean-direct result;
-- separate finite recursive iteration from continuous-time semigroup claims;
-- formalize contraction-factor iteration, equilibrium separation and mixing bounds as reusable lemmas;
-- improve links between spectral gap, log-Sobolev and hypercontractive receipts without asserting equivalence prematurely;
-- preserve higher-gauge covariance and multi-WORLD noncollapse;
+- state external analytic receipts next to every Lean-direct result;
+- construct the OS quotient and completion from a typed sesquilinear form when minimal hypotheses are available;
+- derive vacuum normalization and positivity from the completed representation rather than duplicate receipt fields;
+- replace the abstract physical Hamiltonian map with a densely defined self-adjoint operator bridge;
+- connect Stone generation, spectral support and cluster claims without identifying modular time with physical time;
+- preserve higher-gauge covariance, degenerate vacuum sectors and multi-WORLD noncollapse;
 - keep runtime read-only.
 
 Acceptance:
@@ -388,7 +411,10 @@ Required failure classes include:
 - memory-root overwrite attempt;
 - local-to-global context collapse;
 - diagnostic finality promotion;
-- WORLD physical-realization overclaim.
+- WORLD physical-realization overclaim;
+- vacuum uniqueness overclaim;
+- modular-time and physical-time conflation;
+- Kū and zero-vector identification.
 
 ---
 
@@ -449,10 +475,11 @@ The target is mathematically explicit finite continuity, not an unbounded autono
 
 ### 5.2 WORLD-to-OS read-only observation bridge
 
-Explore a bridge in which WORLD sidecar quantities can become typed observation candidates while preserving:
+Explore a bridge in which WORLD sidecar quantities and v0.49 vacuum-state evaluations can become typed observation candidates while preserving:
 
 ```text
 WORLD representation != fact
+vacuum expectation != truth authority
 sidecar quantity != control objective
 low free energy != permission
 mixing certificate != intervention recommendation
@@ -499,6 +526,7 @@ learning knows it is future-only
 receipts know they are evidence rather than authority
 proofs know their formal and external status
 WORLD representations know they are read-only sidecars
+analytic vacua know they are representations rather than exact WORLD
 governance knows when to stop, hold, repair or hand over
 ```
 
@@ -514,8 +542,8 @@ It is **more exact relational continuity without authority collapse**.
 2. Consolidate v0.20-v0.28 into one current public status and validation matrix.
 3. Generalize Qi-WORLD v2.2 from a concrete third cycle to arbitrary finite prefixes.
 4. Prove no finite closed chain grants automatic successor authority.
-5. Strengthen WORLD v0.48 by replacing supplied certificates with derived theorems where possible.
-6. Keep finite iteration separate from continuous-time and physical claims.
+5. Strengthen WORLD v0.49 by deriving more of the OS completion and vacuum layer in Lean.
+6. Keep modular time, physical time and runtime execution strictly separate.
 7. Integrate MemoryOS and Qi history without belief or root sovereignty.
 8. Mature gauge-atlas composition without introducing global graph semantics.
 9. Preserve foreground control, finite resources, explicit renewal and handover.
