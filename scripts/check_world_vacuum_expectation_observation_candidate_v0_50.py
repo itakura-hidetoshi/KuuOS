@@ -63,7 +63,7 @@ def main() -> int:
         (
             "WORLD mathematical sidecar",
             "vacuum-expectation observation candidates",
-            "observation-candidate PlanOS activation",
+            "observation candidate != PlanOS activation",
         ),
     )
     assert (ROOT / "scripts/run_kuuos_runtime_full_check_v0_50.py").is_file()
