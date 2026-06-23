@@ -98,6 +98,20 @@ class MemoryOSQiWorldBlockerIntegrationV035Tests(unittest.TestCase):
             ),
         )
 
+    def source_only_patches(self):
+        return (
+            patch.object(
+                kernel.memory_v023,
+                "validate_nonmarkov_cognitive_episode",
+                return_value=[],
+            ),
+            patch.object(
+                kernel.world_v034,
+                "validate_world_store",
+                side_effect=lambda envelope: deepcopy(envelope["body"]),
+            ),
+        )
+
     def build_snapshot(
         self,
         *,
@@ -147,6 +161,74 @@ class MemoryOSQiWorldBlockerIntegrationV035Tests(unittest.TestCase):
             snapshot["blocker_context"]["missing_blockers"],
             ["world_identity_blocker"],
         )
+
+    def test_real_incomplete_blocker_certificate_is_quarantined(self) -> None:
+        source = {
+            "cross_cycle_receipt_digest": "cross-cycle-receipt-incomplete"
+        }
+        certificate = kernel.blocker_v15.build_cross_cycle_blocker_certificate(source)
+        blocker_errors = kernel.blocker_v15.validate_cross_cycle_blocker_certificate(
+            source, certificate
+        )
+        self.assertTrue(blocker_errors)
+        self.assertTrue(
+            all(
+                error.startswith("blocker_") and error.endswith("_inactive")
+                for error in blocker_errors
+            )
+        )
+        p1, p2 = self.source_only_patches()
+        with p1, p2:
+            snapshot = kernel.build_memoryos_qi_world_blocker_snapshot(
+                cognitive_episode=self.episode(),
+                source_cross_cycle_receipt=source,
+                blocker_certificate=certificate,
+                world_store=self.world_store(),
+                created_at_ms=1100,
+            )
+        self.assertEqual(
+            snapshot["memory_route"],
+            "QUARANTINE_INCOMPLETE_BLOCKER_EVIDENCE",
+        )
+        self.assertTrue(snapshot["blocker_context"]["missing_blockers"])
+        self.assertFalse(
+            snapshot["blocker_context"]["all_required_blockers_active"]
+        )
+
+    def test_real_structural_blocker_corruption_is_rejected(self) -> None:
+        source = {
+            "cross_cycle_receipt_digest": "cross-cycle-receipt-corrupt"
+        }
+        certificate = kernel.blocker_v15.build_cross_cycle_blocker_certificate(source)
+        certificate["blocked_capabilities"] = ["invented-capability"]
+        p1, p2 = self.source_only_patches()
+        with p1, p2, self.assertRaisesRegex(
+            ValueError,
+            "blocker_certificate_invalid",
+        ):
+            kernel.build_memoryos_qi_world_blocker_snapshot(
+                cognitive_episode=self.episode(),
+                source_cross_cycle_receipt=source,
+                blocker_certificate=certificate,
+                world_store=self.world_store(),
+                created_at_ms=1101,
+            )
+
+    def test_blocked_capability_inventory_mismatch_is_rejected(self) -> None:
+        certificate = self.blocker_certificate()
+        certificate["blocked_capabilities"] = ["invented-capability"]
+        p1, p2, p3 = self.patches()
+        with p1, p2, p3, self.assertRaisesRegex(
+            ValueError,
+            "blocked_capability_inventory_mismatch",
+        ):
+            kernel.build_memoryos_qi_world_blocker_snapshot(
+                cognitive_episode=self.episode(),
+                source_cross_cycle_receipt=self.source_receipt(),
+                blocker_certificate=certificate,
+                world_store=self.world_store(),
+                created_at_ms=1102,
+            )
 
     def test_world_generation_advance_is_recorded_append_only(self) -> None:
         first = self.build_snapshot()
