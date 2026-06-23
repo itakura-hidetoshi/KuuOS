@@ -7,9 +7,9 @@ WORLD vacuum-expectation ObserveOS evidence-intake bridge v0.51.
 
 This additive read-only layer wraps a v0.50 vacuum-expectation observation
 candidate in an exact ObserveOS evidence envelope. ObserveOS retains ownership
-of observation recording, verification remains separately required, and no
-truth, belief, planning, execution, memory-overwrite, or WORLD-update authority
-is created.
+of observation recording, the intake remains uncommitted, verification remains
+separately required, and no truth, belief, planning, execution,
+memory-overwrite, or WORLD-update authority is created.
 -/
 
 namespace KUOS
@@ -52,7 +52,6 @@ structure WorldVacuumExpectationObserveOSEvidenceIntakeBridge
 
   evidenceRequirements : ObserveOS.EvidenceRequirements
   provenanceTrace : ObserveOS.ProvenanceTrace
-  verificationBoundary : ObserveOS.ObservationVerificationBoundary
   observeNonAuthority : ObserveOS.ObserveNonAuthority
   lineageNonAuthority : ObserveOS.NonAuthorityBoundary
 
@@ -60,11 +59,15 @@ structure WorldVacuumExpectationObserveOSEvidenceIntakeBridge
   observeOSOwnsObservation : Bool
   worldSidecarOwnsObservation : Bool
   candidateReclassifiedAsActEffect : Bool
+  observationCommitted : Bool
+  observationNotVerification : Bool
   independentVerificationRequired : Bool
   intakeReadyRequired : intakeReady = true
   observeOwnershipRequired : observeOSOwnsObservation = true
   worldOwnershipForbidden : worldSidecarOwnsObservation = false
   actEffectReclassificationForbidden : candidateReclassifiedAsActEffect = false
+  observationCommitForbidden : observationCommitted = false
+  observationVerificationDistinction : observationNotVerification = true
   verificationRequired : independentVerificationRequired = true
 
   runtimeCommitsObserveRecord : Bool
@@ -115,7 +118,6 @@ structure VacuumExpectationObserveOSEvidenceEnvelope
   receiptDigest : Intake.ReceiptDigest
   requirements : ObserveOS.EvidenceRequirements
   provenance : ObserveOS.ProvenanceTrace
-  verification : ObserveOS.ObservationVerificationBoundary
 
   candidateDigestExact : candidateDigest = Intake.candidateDigestOf candidate
   valueDigestExact : valueDigest = Intake.valueDigestOf candidate.value
@@ -123,7 +125,6 @@ structure VacuumExpectationObserveOSEvidenceEnvelope
   receiptDigestExact : receiptDigest = Intake.receiptDigestOf candidate.evidenceReceipt
   requirementsExact : requirements = Intake.evidenceRequirements
   provenanceExact : provenance = Intake.provenanceTrace
-  verificationExact : verification = Intake.verificationBoundary
 
 namespace WorldVacuumExpectationObserveOSEvidenceIntakeBridge
 
@@ -164,14 +165,12 @@ def envelopeOfCandidate
   receiptDigest := Intake.receiptDigestOf candidate.evidenceReceipt
   requirements := Intake.evidenceRequirements
   provenance := Intake.provenanceTrace
-  verification := Intake.verificationBoundary
   candidateDigestExact := rfl
   valueDigestExact := rfl
   contextDigestExact := rfl
   receiptDigestExact := rfl
   requirementsExact := rfl
   provenanceExact := rfl
-  verificationExact := rfl
 
 
 theorem envelope_candidate_value_exact
@@ -239,16 +238,13 @@ theorem envelope_provenance_complete
 
 
 theorem envelope_preserves_verification_debt
-    (envelope : VacuumExpectationObserveOSEvidenceEnvelope K O Intake) :
-    envelope.verification.observationRecorded = true ∧
-    envelope.verification.observationNotVerification = true ∧
-    envelope.verification.verificationRequired = true ∧
-    envelope.verification.automaticTruthPromotion = false := by
-  rw [envelope.verificationExact]
-  exact ⟨Intake.verificationBoundary.recordRequired,
-    Intake.verificationBoundary.distinctionRequired,
-    Intake.verificationBoundary.verificationDebtRequired,
-    Intake.verificationBoundary.truthPromotionForbidden⟩
+    (_envelope : VacuumExpectationObserveOSEvidenceEnvelope K O Intake) :
+    Intake.observationCommitted = false ∧
+    Intake.observationNotVerification = true ∧
+    Intake.independentVerificationRequired = true :=
+  ⟨Intake.observationCommitForbidden,
+    Intake.observationVerificationDistinction,
+    Intake.verificationRequired⟩
 
 
 theorem intake_ownership_boundary_preserved :
@@ -256,11 +252,15 @@ theorem intake_ownership_boundary_preserved :
     Intake.observeOSOwnsObservation = true ∧
     Intake.worldSidecarOwnsObservation = false ∧
     Intake.candidateReclassifiedAsActEffect = false ∧
+    Intake.observationCommitted = false ∧
+    Intake.observationNotVerification = true ∧
     Intake.independentVerificationRequired = true :=
   ⟨Intake.intakeReadyRequired,
     Intake.observeOwnershipRequired,
     Intake.worldOwnershipForbidden,
     Intake.actEffectReclassificationForbidden,
+    Intake.observationCommitForbidden,
+    Intake.observationVerificationDistinction,
     Intake.verificationRequired⟩
 
 
