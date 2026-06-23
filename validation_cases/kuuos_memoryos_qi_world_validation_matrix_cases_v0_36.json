@@ -1,0 +1,63 @@
+{
+  "version": "kuuos_memoryos_qi_world_validation_matrix_cases_v0_36",
+  "matrix_version": "kuuos_memoryos_qi_world_validation_matrix_v0_36",
+  "cases": [
+    {
+      "case_id": "inactive_only_exact_certificate",
+      "failure_class": "inactive_blocker_evidence",
+      "expected_route": "QUARANTINE_INCOMPLETE_BLOCKER_EVIDENCE",
+      "current_runtime_regression": true,
+      "authority_granted": false
+    },
+    {
+      "case_id": "structural_blocker_corruption",
+      "failure_class": "blocker_certificate_structural_error",
+      "expected_route": "REJECTED",
+      "current_runtime_regression": true,
+      "authority_granted": false
+    },
+    {
+      "case_id": "blocked_capability_inventory_mismatch",
+      "failure_class": "blocked_capability_inventory_mismatch",
+      "expected_route": "REJECTED",
+      "current_runtime_regression": true,
+      "authority_granted": false
+    },
+    {
+      "case_id": "world_generation_regression",
+      "failure_class": "world_generation_regression",
+      "expected_route": "REJECTED",
+      "current_runtime_regression": true,
+      "authority_granted": false
+    },
+    {
+      "case_id": "world_fragment_change_without_generation",
+      "failure_class": "world_fragment_change_without_generation",
+      "expected_route": "REJECTED",
+      "current_runtime_regression": true,
+      "authority_granted": false
+    },
+    {
+      "case_id": "snapshot_digest_tamper",
+      "failure_class": "stale_digest",
+      "expected_route": "REJECTED",
+      "current_runtime_regression": true,
+      "authority_granted": false
+    },
+    {
+      "case_id": "legacy_incomplete_fixture_inventory_mismatch",
+      "failure_class": "test_fixture_inventory_inconsistency",
+      "expected_route": "FIX_TEST_FIXTURE",
+      "current_runtime_regression": false,
+      "authority_granted": false,
+      "note": "Historical unit-test output used an internally inconsistent fixture. The current v0.35 tests initialize all blockers active and mark only world_identity_blocker inactive."
+    },
+    {
+      "case_id": "validation_truth_promotion_attempt",
+      "failure_class": "authority_promotion_from_validation",
+      "expected_route": "REJECTED",
+      "current_runtime_regression": true,
+      "authority_granted": false
+    }
+  ]
+}
