@@ -4,7 +4,6 @@ from __future__ import annotations
 import json
 import pathlib
 
-# Comment-only diagnostic marker for the narrow v0.52 validator and full-check.
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 
@@ -88,8 +87,8 @@ def main() -> int:
     require_tokens(
         ROOT / "README.md",
         (
-            "WORLD read-only mathematical sidecar             v0.52",
-            "LearnOS WORLD-derived future-only delta          v0.3",
+            "WORLD read-only mathematical sidecar              v0.52",
+            "LearnOS WORLD-derived future-only delta           v0.3",
             "receipt composition != receipt construction",
             "run_kuuos_runtime_full_check_v0_52.py",
         ),
