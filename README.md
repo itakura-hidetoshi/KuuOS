@@ -220,11 +220,11 @@ real Hilbert ℓ² carrier
   -> normalized, positive and gauge-equivalent candidate values
   -> exact ObserveOS evidence-intake envelope
   -> immutable digest and provenance binding
-  -> observation recorded without verification discharge
+  -> intake remains uncommitted with verification debt open
   -> ObserveOS ownership and independent verification preserved
 ```
 
-Lean verifies the declared typed consequences. v0.51 preserves the exact v0.50 candidate value and source, binds candidate, value, context and receipt digests, discharges the structural ObserveOS evidence checklist, preserves provenance and verification debt, and grants no downstream authority. The OS quotient-completion theorem, physical Hamiltonian self-adjointness, Stone generation, cluster property, physical realization and external mathematical acceptance remain explicit analytic receipts.
+Lean verifies the declared typed consequences. v0.51 preserves the exact v0.50 candidate value and source, binds candidate, value, context and receipt digests, discharges the structural ObserveOS evidence checklist, preserves provenance, fixes `observationCommitted = false`, and keeps independent verification debt open without granting downstream authority. The post-record ObserveOS verification boundary remains a separately owned later stage. The OS quotient-completion theorem, physical Hamiltonian self-adjointness, Stone generation, cluster property, physical realization and external mathematical acceptance remain explicit analytic receipts.
 
 ```text
 WORLD != Markov semigroup
