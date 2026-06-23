@@ -1,131 +1,119 @@
-# WORLD Vacuum Expectation ObserveOS Commit and VerifyOS Handoff Bridge v0.52
+# WORLD Vacuum Expectation OS Receipt Composition Bridge v0.52
 
-v0.52 extends the v0.51 pre-commit intake envelope with externally supplied receipts for an ObserveOS-owned commit and a VerifyOS-owned handoff.
+v0.52 composes the existing ObserveOS v0.3, VerifyOS v0.3 and LearnOS v0.3 receipt types over the WORLD v0.51 intake envelope.
+
+It does not define parallel ObserveOS, VerifyOS or LearnOS receipts.
 
 ```text
 v0.51 intake-ready envelope
-  → external ObserveOS commit receipt
-  → exact candidate, value, context and evidence-receipt digest preservation
-  → committed observation record
-  → observation remains distinct from verification
-  → verification debt remains open
-  → external VerifyOS handoff receipt
-  → exact ObserveOS-record digest preservation
-  → exact verification-input and criterion digest binding
-  → handoff ready
-  → verification not started
-  → verification result not created
+  → supplied ObserveOS v0.3 commit receipt
+  → supplied VerifyOS v0.3 verification receipt
+  → supplied LearnOS v0.3 future-only learning receipt
+  → exact WORLD composition-lineage digest
 ```
 
-The bridge verifies supplied receipts.
-
-It does not create either receipt.
-
-## ObserveOS commit receipt
-
-The ObserveOS receipt binds one v0.51 envelope to:
+The nested types preserve the exact source chain:
 
 ```text
-ObserveOS commit identity
-ObserveOS record digest
-candidate digest
-value digest
-context digest
-evidence-receipt digest
+learning receipt
+  contains verification receipt
+    contains ObserveOS commit receipt
+      contains v0.51 intake envelope
+        contains v0.50 vacuum-expectation candidate
 ```
 
-The receipt must state:
+## ObserveOS stage
+
+The existing ObserveOS v0.3 receipt proves:
 
 ```text
-committed ObserveOS state = true
-observation recorded = true
-observation is verification = false
+source envelope accepted = true
+explicit commit receipt supplied = true
+observation record committed = true
+ObserveOS comparison is verification = false
 verification required = true
-committed by ObserveOS = true
-committed by WORLD = false
-analytic candidate reclassified as ActOS effect = false
+VerifyOS handoff required = true
 ```
 
-The transition from v0.51 to the committed observation is owned by ObserveOS.
+ObserveOS owns the commit.
 
-The WORLD sidecar only checks the receipt after it has been supplied.
+The WORLD sidecar and the v0.52 runtime do not perform it.
 
-## VerifyOS handoff receipt
+## VerifyOS stage
 
-The VerifyOS handoff binds the committed ObserveOS record to:
-
-```text
-VerifyOS handoff identity
-source ObserveOS digest
-handoff ObserveOS digest
-verification-input digest
-criterion digest
-```
-
-The receipt must state:
+The existing VerifyOS v0.3 receipt proves:
 
 ```text
-handoff ready = true
-VerifyOS owns verification = true
-WORLD owns verification = false
-verification started = false
-verification result created = false
-verification debt open = true
-independent challenge required = true
-falsification required = true
-counterevidence preserved = true
-verification is truth = false
+source ObserveOS commit bound = true
+verification receipt supplied = true
+verification recorded = true
+verification result is truth = false
 causal attribution granted = false
 ```
 
-The v0.52 handoff is not a verification verdict.
+VerifyOS owns adjudication.
 
-VerifyOS must still perform its own criterion, challenge, corroboration, adjudication and commit phases.
+ObserveOS and WORLD do not perform verification.
 
-## Route separation
+The passed, failed and indeterminate routes retain the debt semantics defined by VerifyOS v0.3.
 
-The analytic WORLD candidate is not an ActOS effect observation.
+## LearnOS stage
 
-Therefore v0.52 does not instantiate the effect-grounded `VerifyOS.SourceObservationBinding` route.
-
-It preserves a distinct analytic-observation route whose source is an ObserveOS-owned committed record.
+The existing LearnOS v0.3 receipt proves:
 
 ```text
-WORLD analytic candidate != ActOS effect
-ObserveOS analytic commit != effect-grounded observation lineage
-VerifyOS handoff ready != VerifyOS started
-VerifyOS started != verification result
-verification result != truth
+source verification bound = true
+explicit learning receipt supplied = true
+learning recorded = true
+learning delta is future-only = true
+learning delta active now = false
+activation requires Replan = true
+automatic Replan activation = false
+automatic PlanOS activation = false
+automatic execution = false
 ```
 
-## Non-authority boundary
+LearnOS owns the future-only learning commit.
 
-The bridge carries existing ObserveOS and VerifyOS non-authority structures.
+VerifyOS and WORLD do not commit learning.
 
-It grants no:
+## Composition digest
+
+v0.52 adds only a WORLD-side composition digest over the supplied LearnOS receipt.
+
+Because that receipt contains the complete VerifyOS and ObserveOS lineage, the digest identifies the entire typed chain without recreating any OS-owned transition.
 
 ```text
-truth authority
-verification authority to WORLD
-causal authority
-execution authority
-final commitment authority
-memory overwrite
-automatic learning
-PlanOS activation
-ActOS authority
-WORLD update
+composition digest = digest(existing learning receipt)
+```
+
+The original vacuum-expectation value remains exact at the bottom of the nested chain.
+
+## Ownership boundary
+
+```text
+ObserveOS owns observation commit
+WORLD does not own observation commit
+VerifyOS owns verification adjudication
+WORLD does not own verification
+LearnOS owns future-only learning
+VerifyOS does not commit learning
+WORLD analytic candidate != ActOS effect observation
 ```
 
 ## Runtime boundary
 
-The runtime fields remain false for:
+The v0.52 runtime flags are fixed to false for:
 
 ```text
-creating an ObserveOS commit
-starting verification
-creating a verification result
+constructing an ObserveOS receipt
+constructing a VerifyOS receipt
+constructing a LearnOS receipt
+replaying an ObserveOS commit
+replaying verification
+replaying learning
 promoting belief
+activating Replan
 activating PlanOS
 granting ActOS authority
 overwriting MemoryOS
@@ -135,14 +123,17 @@ updating WORLD
 ## Fixed boundary
 
 ```text
-validated commit receipt != WORLD performed commit
+receipt composition != receipt construction
+validated receipt != WORLD performed transition
 committed observation != verification
-verification handoff != verification start
-verification start != verification result
 verification result != truth
-analytic candidate != ActOS effect
+verification result != causal authority
+learning receipt != current-cycle mutation
+learning receipt != Replan activation
+learning receipt != execution permission
 WORLD sidecar != ObserveOS owner
 WORLD sidecar != VerifyOS owner
+WORLD sidecar != LearnOS owner
 runtime remains read-only
 ```
 
@@ -151,14 +142,15 @@ runtime remains read-only
 Lean directly verifies:
 
 ```text
-exact ObserveOS record and v0.51 source binding
-observation is recorded but not verification
-verification debt remains open after ObserveOS commit
-ObserveOS owns commit and WORLD does not
-exact VerifyOS handoff source and criterion binding
-handoff is ready but verification is not started
-no verification result exists at handoff
-challenge, falsification and counterevidence remain required
-verification does not become truth or causal authority
-runtime performs no downstream mutation
+exact composition-lineage digest
+exact ObserveOS source, commit and verification-debt stage
+exact VerifyOS source, record and non-reification stage
+exact LearnOS source, recording and future-only stage
+ObserveOS, VerifyOS and LearnOS ownership separation
+vacuum-expectation value preservation across the full nested lineage
+no downstream belief, planning, execution, memory or WORLD authority
 ```
+
+Compilation validates the declared typed consequences.
+
+It does not establish empirical adequacy, physical realization, external theorem acceptance or institutional authorization.
