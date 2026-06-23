@@ -1,0 +1,153 @@
+{
+  "version": "kuuos_memoryos_predictive_shielded_memory_v0_37",
+  "predecessor": "kuuos_memoryos_qi_world_blocker_integration_v0_35",
+  "validation_predecessor": "kuuos_memoryos_qi_world_validation_matrix_v0_36",
+  "runtime_kernel": "runtime/kuuos_memoryos_predictive_shielded_memory_v0_37.py",
+  "unit_test": "tests/test_memoryos_predictive_shielded_memory_v0_37.py",
+  "validation_script": "scripts/check_memoryos_predictive_shielded_memory_v0_37.py",
+  "documentation": "docs/KUUOS_MEMORYOS_PREDICTIVE_SHIELDED_MEMORY_v0_37.md",
+  "research_basis": "docs/research/MEMORYOS_QI_BLOCKER_AI_THEORY_RESEARCH_v0_37.md",
+  "formal_module": "formal/KUOS/OpenHorizon/MemoryOSPredictiveShieldedMemoryKernelV0_37.lean",
+  "formal_root": "formal/KUOS.lean",
+  "workflow": ".github/workflows/memoryos-predictive-shielded-memory-v0-37.yml",
+  "central_runtime_check": "scripts/run_kuuos_runtime_full_check_v0_48.py",
+  "memory_types": [
+    "working",
+    "episodic",
+    "semantic",
+    "procedural"
+  ],
+  "capsule_routes": [
+    "QUARANTINE_SOURCE_BLOCKER_EVIDENCE",
+    "REOBSERVE_PREDICTIVE_STATE",
+    "REVIEW_CONTRADICTION_RESIDUE",
+    "PRESERVE_RESIDUE_WITH_CONTEXT",
+    "READY_FOR_SHIELDED_RETRIEVAL"
+  ],
+  "retrieval_routes": [
+    "QUARANTINE_RETRIEVAL",
+    "RETURN_CONTEXT_WITH_ACTIVE_SHIELD",
+    "REOBSERVE_BEFORE_RETRIEVAL",
+    "REVIEW_BEFORE_RETRIEVAL",
+    "RETURN_CONTEXT_WITH_RESIDUE",
+    "RETURN_PREDICTIVE_CONTEXT_CANDIDATE"
+  ],
+  "research_sources": [
+    {
+      "id": "arXiv:1512.00589",
+      "title": "Non-Markovian quantum processes: complete framework and efficient characterisation",
+      "adopted_scope": "multi-time history preservation and operational process representation",
+      "claim_boundary": "MemoryOS is not claimed to be a quantum process"
+    },
+    {
+      "id": "arXiv:1906.10437",
+      "title": "Learning Causal State Representations of Partially Observable Environments",
+      "adopted_scope": "history-bound predictive state candidates",
+      "claim_boundary": "predictive state is not latent-state truth"
+    },
+    {
+      "id": "arXiv:2207.05738",
+      "title": "PAC Reinforcement Learning for Predictive State Representations",
+      "adopted_scope": "observable predictive-state representation",
+      "claim_boundary": "no PAC or optimality claim is inherited"
+    },
+    {
+      "id": "arXiv:2309.02427",
+      "title": "Cognitive Architectures for Language Agents",
+      "adopted_scope": "working episodic semantic procedural memory separation",
+      "claim_boundary": "semantic memory is not fact and procedural memory is not authority"
+    },
+    {
+      "id": "arXiv:2310.08560",
+      "title": "MemGPT: Towards LLMs as Operating Systems",
+      "adopted_scope": "hierarchical context management and memory control separation",
+      "claim_boundary": "no unbounded context or persistence claim"
+    },
+    {
+      "id": "arXiv:2505.22101",
+      "title": "MemOS: An Operating System for Memory-Augmented Generation in Large Language Models",
+      "adopted_scope": "memory lifecycle governance and traceable memory resources",
+      "claim_boundary": "no parametric-memory or model-weight update"
+    },
+    {
+      "id": "arXiv:2304.03442",
+      "title": "Generative Agents: Interactive Simulacra of Human Behavior",
+      "adopted_scope": "observation retrieval reflection planning separation",
+      "claim_boundary": "reflection does not promote truth"
+    },
+    {
+      "id": "arXiv:2303.11366",
+      "title": "Reflexion: Language Agents with Verbal Reinforcement Learning",
+      "adopted_scope": "episodic feedback and procedural reuse candidates",
+      "claim_boundary": "stored reflection is not executable policy"
+    },
+    {
+      "id": "arXiv:2510.04851",
+      "title": "LEGOMem: Modular Procedural Memory for Multi-agent LLM Systems for Workflow Automation",
+      "adopted_scope": "modular procedural-memory candidates",
+      "claim_boundary": "procedural memory grants no delegation authority"
+    },
+    {
+      "id": "arXiv:2501.13956",
+      "title": "Zep: A Temporal Knowledge Graph Architecture for Agent Memory",
+      "adopted_scope": "temporal relation preservation and contradiction residue",
+      "claim_boundary": "temporal integration does not collapse competing claims"
+    },
+    {
+      "id": "arXiv:1708.08611",
+      "title": "Safe Reinforcement Learning via Shielding",
+      "adopted_scope": "capability return shield gate",
+      "claim_boundary": "shield activity is not blocker discharge"
+    },
+    {
+      "id": "arXiv:2204.00755",
+      "title": "Safe Reinforcement Learning via Shielding under Partial Observability",
+      "adopted_scope": "reobserve route under insufficient predictive history",
+      "claim_boundary": "the shield cannot self-disable"
+    },
+    {
+      "id": "arXiv:2102.12981",
+      "title": "The Black-Box Simplex Architecture for Runtime Assurance of Autonomous CPS",
+      "adopted_scope": "safe read-only or reobserve fallback",
+      "claim_boundary": "MemoryOS is not an execution controller"
+    },
+    {
+      "id": "arXiv:2301.04104",
+      "title": "Mastering Diverse Domains through World Models",
+      "adopted_scope": "counterfactual world imagination candidates",
+      "claim_boundary": "world imagination is not sourced WORLD truth or commit authority"
+    }
+  ],
+  "recent_preprints_used_as_support_only": [
+    "arXiv:2605.17625",
+    "arXiv:2603.29194"
+  ],
+  "boundaries": {
+    "memory_hierarchy_separated": true,
+    "episodic_source_immutable": true,
+    "automatic_consolidation_performed": false,
+    "semantic_candidate_is_truth": false,
+    "procedural_candidate_grants_execution": false,
+    "predictive_state_is_latent_truth": false,
+    "contradiction_residue_preserved": true,
+    "blocker_shield_precedes_capability_return": true,
+    "memory_can_discharge_blocker": false,
+    "safe_fallback_is_task_success": false,
+    "world_imagination_is_sourced_world": false,
+    "world_imagination_can_commit": false,
+    "capsule_append_only": true,
+    "memory_overwrite_allowed": false,
+    "retrieval_grants_plan_activation": false,
+    "retrieval_grants_actos_invocation": false,
+    "retrieval_grants_truth": false
+  },
+  "proof_status": {
+    "paper_mapping": "design basis with explicit non-equivalence boundaries",
+    "runtime": "validated over declared regression cases",
+    "formal": "Lean-derived Boolean boundary theorem",
+    "empirical_performance": "not established",
+    "clinical_validity": "not established",
+    "physical_world_truth": "not established"
+  },
+  "final_theorem": "memoryos_predictive_shielded_memory_boundary"
+}
