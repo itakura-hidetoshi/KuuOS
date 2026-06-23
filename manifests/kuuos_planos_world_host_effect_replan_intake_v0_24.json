@@ -1,0 +1,39 @@
+{
+  "version": "kuuos_planos_world_host_effect_replan_intake_v0_24",
+  "status": "formal_replan_intake_receipt",
+  "base_branch": "learnos-v04-host-effect-future-only",
+  "source_module": "formal/KUOS/LearnOS/WorldHostEffectVerificationFutureOnlyLearningV0_4.lean",
+  "formal_module": "formal/KUOS/PlanOS/WorldHostEffectLearningReplanIntakeV0_24.lean",
+  "formal_root": "formal/KuuOSPlanOSV0_24.lean",
+  "documentation": "docs/KUUOS_PLANOS_WORLD_HOST_EFFECT_REPLAN_INTAKE_v0_24.md",
+  "validator": "scripts/check_planos_world_host_effect_replan_intake_v0_24.py",
+  "workflow": ".github/workflows/planos-world-host-effect-replan-intake-v0-24.yml",
+  "required": {
+    "committed_future_only_learning": true,
+    "current_plan_committed": true,
+    "existing_replan_source_binding": true,
+    "pristine_planos_bind": true,
+    "future_boundary_preserved": true,
+    "world_disposition_candidate_preserved": true,
+    "os_ownership_preserved": true,
+    "immutable_append_only_receipt": true,
+    "single_event_append": true,
+    "single_history_append": true
+  },
+  "forbidden": {
+    "replan_activation": false,
+    "candidate_generation": false,
+    "candidate_selection": false,
+    "plan_synthesis": false,
+    "plan_activation": false,
+    "execution_permission": false,
+    "host_license": false,
+    "world_disposition_resolution": false,
+    "world_update": false,
+    "memory_overwrite": false,
+    "automatic_world_adoption": false,
+    "automatic_world_rejection": false,
+    "automatic_world_commit": false,
+    "automatic_rollback": false
+  }
+}
