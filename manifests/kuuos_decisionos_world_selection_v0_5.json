@@ -1,0 +1,38 @@
+{
+  "version": "kuuos_decisionos_world_selection_v0_5",
+  "status": "formal_admissible_candidate_selection_receipt",
+  "base_branch": "planos-v026-host-effect-constraint-handoff",
+  "source_module": "formal/KUOS/PlanOS/WorldHostEffectConstraintDecisionHandoffV0_26.lean",
+  "core_module": "formal/KUOS/DecisionOS/WorldHostEffectAdmissibleSelectionCoreV0_5.lean",
+  "bridge_module": "formal/KUOS/DecisionOS/WorldSelectionBridgeV0_5.lean",
+  "receipt_module": "formal/KUOS/DecisionOS/WorldSelectionReceiptV0_5.lean",
+  "types_module": "formal/KUOS/DecisionOS/WorldHostEffectAdmissibleSelectionTypesV0_5.lean",
+  "formal_module": "formal/KUOS/DecisionOS/SelectionV0_5.lean",
+  "formal_root": "formal/KuuOSDecisionOSV0_5.lean",
+  "documentation": "docs/KUUOS_DECISIONOS_WORLD_SELECTION_v0_5.md",
+  "validator": "scripts/check_decisionos_world_selection_v0_5.py",
+  "workflow": ".github/workflows/decisionos-world-selection-v0-5.yml",
+  "required": {
+    "unselected_handoff_source": true,
+    "selected_from_admissible_set": true,
+    "identity_and_alternatives_preserved": true,
+    "robust_selection_certificate": true,
+    "wa_plurality_preserved": true,
+    "two_truths_middle_way_preserved": true,
+    "world_disposition_candidate_preserved": true,
+    "future_only_decision": true,
+    "immutable_append_only_receipt": true,
+    "single_event_and_history_append": true
+  },
+  "forbidden": {
+    "plan_synthesis": false,
+    "plan_activation": false,
+    "execution": false,
+    "host_license": false,
+    "world_disposition_resolution": false,
+    "world_update": false,
+    "memory_overwrite": false,
+    "silent_substitution": false,
+    "truth_reification": false
+  }
+}
