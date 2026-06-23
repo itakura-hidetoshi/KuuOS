@@ -26,6 +26,9 @@ observation != intervention license
 belief state != fact
 DecisionOS selection != execution
 PlanOS replan != activation
+PlanOS intake != replan activation
+selected candidate != execution permission
+next-cycle basis commit != plan activation
 LearnOS delta != present action
 ActOS receipt != successor authority
 closed-cycle receipt != next-cycle start
@@ -84,7 +87,8 @@ proof-status separation
 |---|---|---|
 | Core governance | v0.1 public governance and boundary documents | active and maintained |
 | Horizon and context gauge | Horizon v0.12 and Context Gauge Atlas v0.13 | implemented baseline |
-| PlanOS | v0.17 suspension recovery router; Replan ownership fixed at v0.2 | implemented and merged |
+| PlanOS | v0.21 selected-candidate next-cycle synthesis and basis commit | implemented and merged |
+| DecisionOS | v0.4 admissible candidate selection | implemented and merged |
 | Autonomous-agent completion | v0.20 through v0.27 finite-cycle continuity | implemented and merged |
 | Qi diagnostic candidate | v0.28 recovery-window layer | implemented and merged |
 | Qi-WORLD | v2.2 concrete third licensed cycle | implemented and merged |
@@ -157,6 +161,8 @@ PlanOS v0.2 fixes Replan synthesis ownership.
 
 The public PlanOS control series reaches v0.17 and preserves terminal suspension, fresh-lineage recovery and no automatic execution.
 
+The WORLD-derived planning series then reaches v0.21 while preserving the same ownership split.
+
 ### Finite-cycle autonomous-agent completion
 
 The v0.20 through v0.26 contracts are composed at v0.27 into a restart-safe, user-interruptible and resource-bounded sequence of separately authorized finite cycles.
@@ -202,6 +208,40 @@ ObserveOS comparison remains distinct from verification.
 VerifyOS records one passed, failed or indeterminate result while preserving truth and causal non-authority.
 
 LearnOS maps the result to reinforcement, repair, reobservation or hold, but the delta remains inactive now and requires a later PlanOS-owned replan handoff.
+
+### PlanOS v0.18 through v0.21 and DecisionOS v0.4
+
+The future-only learning route now continues as:
+
+```text
+LearnOS v0.3 future-only learning receipt
+  -> PlanOS v0.18 exact replan intake
+  -> PlanOS v0.19 read-only history and Qi-conditioned candidate generation
+  -> PlanOS v0.20 hysteresis and constraint handoff
+  -> DecisionOS v0.4 admissible candidate selection
+  -> PlanOS v0.21 next-cycle synthesis and basis commit
+```
+
+PlanOS v0.18 commits an exact replan intake and pristine bind without activating replan.
+
+PlanOS v0.19 derives candidate material from immutable history, Qi conditioning and the learning route without creating execution authority.
+
+PlanOS v0.20 preserves hysteresis and constraints while handing admissible material to DecisionOS.
+
+DecisionOS v0.4 owns selection and prevents silent candidate substitution.
+
+PlanOS v0.21 owns synthesis and commits a future-only next-cycle basis.
+
+The current cycle and past plan remain unchanged.
+
+```text
+replan intake != replan activation
+candidate generation != selection
+DecisionOS selection != PlanOS synthesis
+selected candidate != execution permission
+basis commit != plan activation
+basis commit != host license
+```
 
 ## WORLD mathematical sidecar
 
@@ -273,7 +313,7 @@ The following remain external analytic or institutional claims:
 
 - keep README, ROADMAP, formal roots and central full check aligned;
 - maintain a compact current-baseline table;
-- preserve newly merged OS stages during later WORLD updates;
+- preserve newly merged ObserveOS, VerifyOS, LearnOS, PlanOS and DecisionOS stages during later WORLD updates;
 - distinguish Lean-derived, hypothesis-supplied, external-receipt and future-target claims.
 
 ### Priority 2: Consolidate v0.20 through v0.28
@@ -324,6 +364,10 @@ Required failure classes include:
 - observation and verification conflation;
 - verification-result to truth or causality promotion;
 - learning-result to current mutation, Replan activation or execution promotion;
+- PlanOS intake to replan activation promotion;
+- history or Qi candidate generation to DecisionOS selection promotion;
+- silent selected-candidate substitution;
+- next-cycle basis commit to current plan activation or execution promotion;
 - WORLD-side ObserveOS, VerifyOS or LearnOS ownership promotion;
 - analytic candidate to ActOS-effect reclassification;
 - observation-candidate belief, PlanOS or ActOS promotion;
@@ -373,6 +417,9 @@ intake envelopes know they are not committed observations
 ObserveOS receipts know they are not verification
 VerifyOS results know they are not absolute truth or causal authority
 LearnOS receipts know they are future-only and inactive now
+PlanOS intakes know they do not activate replan
+DecisionOS selections know they do not synthesize or execute plans
+next-cycle basis commits know they are inactive now
 composition digests know they do not construct or replay transitions
 governance knows when to stop, hold, repair or hand over
 ```
@@ -386,12 +433,12 @@ It is more exact relational continuity without authority collapse.
 ```text
 1. Keep README, ROADMAP, formal roots and full checks synchronized.
 2. Preserve ObserveOS v0.3, VerifyOS v0.3 and LearnOS v0.3 in later integrations.
-3. Consolidate v0.20 through v0.28 into one current status and validation matrix.
-4. Generalize Qi-WORLD v2.2 to arbitrary finite prefixes without inherited authority.
-5. Strengthen WORLD v0.52 receipt composition and OS completion proofs.
-6. Keep verification results separate from truth and causality.
-7. Keep learning receipts future-only and separate from activation or execution.
-8. Keep modular time, physical time and runtime execution strictly separate.
-9. Integrate MemoryOS and Qi history without belief or root sovereignty.
+3. Preserve PlanOS v0.18-v0.21 and DecisionOS v0.4 ownership and future-only boundaries.
+4. Consolidate v0.20 through v0.28 into one current status and validation matrix.
+5. Generalize Qi-WORLD v2.2 to arbitrary finite prefixes without inherited authority.
+6. Strengthen WORLD v0.52 receipt composition and OS completion proofs.
+7. Keep verification results separate from truth and causality.
+8. Keep learning, selection and basis receipts separate from activation or execution.
+9. Keep modular time, physical time and runtime execution strictly separate.
 10. Keep all candidate, receipt, theorem and execution statuses distinct.
 ```
