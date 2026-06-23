@@ -12,6 +12,7 @@ on:
       - "docs/KUUOS_VERIFYOS_WORLD_HOST_EFFECT_VERIFICATION_v0_4.md"
       - "manifests/kuuos_verifyos_world_host_effect_verification_v0_4.json"
       - "scripts/check_verifyos_world_host_effect_verification_v0_4.py"
+      - "scripts/run_verifyos_v0_4_registration.py"
       - "scripts/run_kuuos_runtime_full_check_v0_52.py"
       - ".github/workflows/verifyos-world-host-effect-v0-4.yml"
 
@@ -27,7 +28,7 @@ jobs:
         with:
           python-version: "3.12"
       - name: Check VerifyOS v0.4 registration
-        run: python3 scripts/check_verifyos_world_host_effect_verification_v0_4.py
+        run: python3 scripts/run_verifyos_v0_4_registration.py
       - uses: leanprover/lean-action@v1
         with:
           auto-config: false
@@ -47,6 +48,11 @@ jobs:
           lake -KleanArgs=-DwarningAsError=true
           -KleanArgs=-DsorryAsError=true
           build KUOS.VerifyOS.WorldHostEffectVerificationReceiptV0_4
+      - name: Compile VerifyOS v0.4 composed root
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true
+          build KuuOSVerifyOSV0_4
       - name: Compile aggregate formal root
         run: >-
           lake -KleanArgs=-DwarningAsError=true
