@@ -3,6 +3,7 @@ name: ObserveOS Vacuum Expectation Intake Commit v0.3
 on:
   push:
     paths:
+      - "formal/KuuOSObserveOSV0_3.lean"
       - "formal/KUOS/ObserveOS/VacuumExpectationIntakeCommitReceiptV0_3.lean"
       - "formal/KUOS/WORLD/VacuumExpectationObserveOSEvidenceIntakeBridgeV0_51.lean"
       - "formal/KUOS/ObserveOS/EffectGroundedObservationV0_1.lean"
@@ -12,6 +13,7 @@ on:
       - ".github/workflows/observeos-vacuum-expectation-intake-commit-v0-3.yml"
   pull_request:
     paths:
+      - "formal/KuuOSObserveOSV0_3.lean"
       - "formal/KUOS/ObserveOS/VacuumExpectationIntakeCommitReceiptV0_3.lean"
       - "formal/KUOS/WORLD/VacuumExpectationObserveOSEvidenceIntakeBridgeV0_51.lean"
       - "formal/KUOS/ObserveOS/EffectGroundedObservationV0_1.lean"
