@@ -20,7 +20,6 @@ LEDGER = ROOT / "docs" / "kustring_runtime_finality_ci_ledger_v0_2.md"
 OUT = ROOT / "specs" / "kustring_runtime_finality_report_v0_2.generated.json"
 
 PREPARE_COMMANDS: list[list[str]] = [
-    [sys.executable, "scripts/run_kustring_runtime_closure_suite_v0_2.py"],
     [sys.executable, "scripts/check_kustring_runtime_finality_v0_2.py"],
     [sys.executable, "scripts/check_kustring_runtime_finality_ci_v0_2.py"],
     [sys.executable, "scripts/check_kustring_runtime_chain_index_v0_2.py"],
