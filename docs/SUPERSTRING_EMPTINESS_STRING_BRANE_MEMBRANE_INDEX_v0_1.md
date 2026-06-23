@@ -6,6 +6,8 @@ This index connects the Superstring Emptiness String / Brane / Membrane Runtime 
 
 The layer implements strings, branes, and membranes as emptiness-preserving, dependent-origination-bound runtime objects.
 
+The v0.2 validator is the consolidated implementation for the v0.1 compatibility surface and the v0.2 validation cases.
+
 ## Conceptual Core
 
 ```text
@@ -41,9 +43,10 @@ EmptinessString
 ```text
 docs/SUPERSTRING_EMPTINESS_STRING_BRANE_MEMBRANE_RUNTIME_v0_1.md
 contracts/superstring_emptiness_string_brane_membrane_contract_v0_1.yaml
-validators/validate_superstring_emptiness_string_brane_membrane_v0_1.py
-validators/run_superstring_emptiness_string_brane_membrane_cases_v0_1.py
+validators/validate_superstring_emptiness_string_brane_membrane_v0_2.py
+validators/run_superstring_emptiness_string_brane_membrane_cases_v0_2.py
 validation_cases/superstring_emptiness_string_brane_membrane_validation_cases_v0_1.json
+validation_cases/superstring_emptiness_string_brane_membrane_validation_cases_v0_2.json
 examples/superstring_emptiness_string_brane_membrane_packet_v0_1.json
 lean/KUOS/SuperstringEmptiness/StringBraneMembrane.lean
 manifests/superstring_emptiness_string_brane_membrane_manifest_v0_1.json
@@ -57,15 +60,22 @@ packets/superstring_emptiness_string_brane_membrane_finality_packet_v0_1.json
 Validate the example packet:
 
 ```bash
-python3 validators/validate_superstring_emptiness_string_brane_membrane_v0_1.py \
+python3 validators/validate_superstring_emptiness_string_brane_membrane_v0_2.py \
   examples/superstring_emptiness_string_brane_membrane_packet_v0_1.json
 ```
 
-Run the validation cases:
+Run the v0.1 compatibility cases:
 
 ```bash
-python3 validators/run_superstring_emptiness_string_brane_membrane_cases_v0_1.py \
+python3 validators/run_superstring_emptiness_string_brane_membrane_cases_v0_2.py \
   validation_cases/superstring_emptiness_string_brane_membrane_validation_cases_v0_1.json
+```
+
+Run the v0.2 cases:
+
+```bash
+python3 validators/run_superstring_emptiness_string_brane_membrane_cases_v0_2.py \
+  validation_cases/superstring_emptiness_string_brane_membrane_validation_cases_v0_2.json
 ```
 
 ## CI
@@ -76,14 +86,7 @@ The GitHub Actions workflow is:
 .github/workflows/superstring_emptiness_sbm_validation.yml
 ```
 
-It validates:
-
-1. the minimal example packet,
-2. the positive validation case,
-3. the negative validation cases for:
-   - string-as-substance collapse,
-   - missing observer-record surface,
-   - graph-only IndraNet reduction.
+It validates the example packet, the v0.1 compatibility cases, and the strengthened v0.2 cases.
 
 ## Governance Boundary
 
@@ -113,6 +116,6 @@ It does not grant:
 
 ## Version
 
-Version: v0.1
-Date: 2026-05-17
+Version: v0.1 compatibility surface
+Date: 2026-06-24
 Author: Hidetoshi Itakura / 板倉英俊
