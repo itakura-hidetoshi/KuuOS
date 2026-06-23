@@ -21,23 +21,50 @@ def main() -> int:
     require_tokens(
         formal,
         (
-            "WorldVacuumExpectationObserveOSCommitVerifyHandoffBridge",
-            "VacuumExpectationObserveOSCommitReceipt",
-            "VacuumExpectationVerifyOSHandoffReceipt",
-            "observe_commit_source_exact",
-            "observe_commit_is_recorded_but_not_verification",
-            "observe_commit_ownership_preserved",
-            "verify_handoff_source_exact",
-            "verify_handoff_is_ready_but_not_started",
-            "verify_handoff_preserves_challenge_surface",
-            "bridge_ownership_boundary_preserved",
-            "bridge_grants_no_observe_or_verify_authority",
+            "WorldVacuumExpectationOSReceiptCompositionBridge",
+            "VacuumExpectationOSReceiptComposition",
+            "VacuumExpectationIntakeCommitReceiptV0_3",
+            "VacuumExpectationCommitVerificationReceiptV0_3",
+            "VacuumExpectationVerificationFutureOnlyDeltaV0_3",
+            "composition_lineage_digest_exact",
+            "observe_stage_composes_exactly",
+            "verification_stage_composes_exactly",
+            "learning_stage_is_future_only",
+            "os_ownership_boundary_preserved",
+            "composed_candidate_value_remains_exact",
+            "composition_preserves_non_authority",
             "runtime_remains_read_only",
-            "committedByWorld",
-            "verificationStarted",
-            "verificationResultCreated",
+            "worldConstructsObserveReceipt",
+            "worldConstructsVerificationReceipt",
+            "worldConstructsLearningReceipt",
         ),
     )
+
+    require_tokens(
+        ROOT / "formal/KUOS/ObserveOS/VacuumExpectationIntakeCommitReceiptV0_3.lean",
+        (
+            "VacuumExpectationIntakeCommitReceipt",
+            "explicit_receipt_records_observation",
+            "commit_preserves_verification_debt",
+        ),
+    )
+    require_tokens(
+        ROOT / "formal/KUOS/VerifyOS/VacuumExpectationCommitVerificationReceiptV0_3.lean",
+        (
+            "VacuumExpectationCommitVerificationReceipt",
+            "verification_verdict_and_record_are_exact",
+            "verification_never_becomes_truth_or_causality",
+        ),
+    )
+    require_tokens(
+        ROOT / "formal/KUOS/LearnOS/VacuumExpectationVerificationFutureOnlyDeltaV0_3.lean",
+        (
+            "VacuumExpectationVerificationLearningReceipt",
+            "learning_delta_remains_future_only",
+            "learning_commit_requires_replan_but_not_activation",
+        ),
+    )
+
     require_tokens(
         ROOT / "formal/KuuOSFormalV0_52.lean",
         ("VacuumExpectationObserveOSCommitVerifyHandoffBridgeV0_52",),
@@ -50,10 +77,10 @@ def main() -> int:
     require_tokens(
         ROOT / "docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVEOS_COMMIT_VERIFY_HANDOFF_v0_52.md",
         (
-            "validated commit receipt != WORLD performed commit",
-            "verification handoff != verification start",
-            "verification start != verification result",
-            "WORLD sidecar != VerifyOS owner",
+            "receipt composition != receipt construction",
+            "verification result != truth",
+            "learning receipt != current-cycle mutation",
+            "WORLD sidecar != LearnOS owner",
             "runtime remains read-only",
         ),
     )
@@ -61,7 +88,8 @@ def main() -> int:
         ROOT / "README.md",
         (
             "WORLD read-only mathematical sidecar             v0.52",
-            "verification handoff != verification start",
+            "LearnOS WORLD-derived future-only delta          v0.3",
+            "receipt composition != receipt construction",
             "run_kuuos_runtime_full_check_v0_52.py",
         ),
     )
@@ -69,7 +97,7 @@ def main() -> int:
         ROOT / "ROADMAP.md",
         (
             "implemented through v0.52",
-            "ObserveOS commit receipt",
+            "OS receipt composition",
             "Strengthen WORLD v0.52 proof status",
         ),
     )
@@ -83,16 +111,19 @@ def main() -> int:
         manifest["manifest_version"]
         == "world_vacuum_expectation_observeos_commit_verify_handoff_v0_52"
     )
+    assert manifest["status"] == "formal_read_only_os_receipt_composition_bridge"
     assert manifest["formal_root"] == "formal/KuuOSFormalV0_52.lean"
     assert manifest["formal_module"] == str(formal.relative_to(ROOT))
-    assert "validated_receipt_not_world_performed_commit" in manifest["boundaries"]
-    assert "verification_handoff_not_verification_start" in manifest["boundaries"]
-    assert "verification_start_not_verification_result" in manifest["boundaries"]
-    assert "world_not_verifyos_owner" in manifest["boundaries"]
+    assert len(manifest["composes_existing_modules"]) == 3
+    assert "receipt_composition_not_receipt_construction" in manifest["boundaries"]
+    assert "verification_result_not_truth" in manifest["boundaries"]
+    assert "learning_future_only" in manifest["boundaries"]
+    assert "world_not_learnos_owner" in manifest["boundaries"]
     assert "runtime_read_only" in manifest["boundaries"]
-    assert "verify_handoff_source_exact" in manifest["derived_results"]
+    assert "composition_lineage_digest_exact" in manifest["derived_results"]
+    assert "learning_stage_is_future_only" in manifest["derived_results"]
 
-    print("world_vacuum_expectation_observeos_commit_verify_handoff_v0_52 checks passed")
+    print("world_vacuum_expectation_os_receipt_composition_v0_52 checks passed")
     return 0
 
 
