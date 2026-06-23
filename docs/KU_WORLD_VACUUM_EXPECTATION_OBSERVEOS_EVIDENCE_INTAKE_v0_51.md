@@ -10,7 +10,8 @@ v0.50 vacuum-expectation observation candidate
   → evidence-receipt digest
   → ObserveOS evidence requirements
   → immutable provenance trace
-  → observation-recorded but not-verified boundary
+  → intake remains uncommitted
+  → observation and verification remain distinct
   → independent verification debt preserved
   → intake-ready ObserveOS envelope
 ```
@@ -30,9 +31,9 @@ context digest = digest(candidate context)
 receipt digest = digest(candidate evidence receipt)
 ```
 
-The envelope also carries exact equality to the registered ObserveOS evidence requirements, provenance trace, and verification boundary.
+The envelope also carries exact equality to the registered ObserveOS evidence requirements and provenance trace.
 
-A digest, context, receipt, requirements packet, provenance packet, or verification packet may not be substituted while retaining the same envelope identity.
+A digest, context, receipt, requirements packet, or provenance packet may not be substituted while retaining the same envelope identity.
 
 ## ObserveOS evidence requirements
 
@@ -55,7 +56,7 @@ Lean derives that every field is present from the supplied `ObserveOS.EvidenceRe
 
 This is structural intake completeness.
 
-It is not empirical truth or external scientific validation.
+It is not an ObserveOS commit, empirical truth, or external scientific validation.
 
 ## Provenance
 
@@ -72,14 +73,17 @@ The v0.50 observation identifier, context, evidence receipt, observable, and vac
 
 ## Verification debt
 
-The existing ObserveOS v0.2 boundary is preserved:
+The pre-commit intake boundary is:
 
 ```text
-observation recorded = true
+observation committed = false
 observation is verification = false
 verification required = true
-automatic truth promotion = false
 ```
+
+The post-record `ObserveOS.ObservationVerificationBoundary`, which requires `observationRecorded = true`, is deliberately not embedded in the v0.51 intake envelope.
+
+Only a separately owned later ObserveOS stage may create a committed observation record.
 
 A completed intake does not discharge VerifyOS review.
 
@@ -92,6 +96,8 @@ intake ready = true
 ObserveOS owns observation = true
 WORLD sidecar owns observation = false
 candidate reclassified as ActOS effect observation = false
+observation committed = false
+observation is verification = false
 independent verification required = true
 ```
 
@@ -143,6 +149,7 @@ candidate source binding remains exact
 all four digest bindings remain exact
 all ObserveOS evidence requirements are present
 provenance is complete and source preserving
+observation remains uncommitted
 observation and verification remain distinct
 independent verification remains required
 ObserveOS ownership remains fixed
