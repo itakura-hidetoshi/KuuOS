@@ -90,3 +90,4 @@ import KUOS.WORLD.QuantumGradientJKOEntropyProductionBridgeV0_47
 import KUOS.WORLD.QuantumLogSobolevContractivityMixingBridgeV0_48
 import KUOS.WORLD.KuuVacuumOSHilbertCompletionBridgeV0_49
 import KUOS.WORLD.VacuumExpectationObservationCandidateBridgeV0_50
+import KUOS.WORLD.VacuumExpectationObserveOSEvidenceIntakeBridgeV0_51
