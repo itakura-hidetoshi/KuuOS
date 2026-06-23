@@ -33,6 +33,8 @@ def main() -> int:
     import_token = "KUOS.WORLD.VacuumExpectationHostEffectAtomicCommitIntakeV0_52"
     require_tokens(formal_root, (import_token,))
     require_tokens(aggregate_root, (import_token,))
+    require_tokens(ROOT / "formal/KUOS.lean", (import_token,))
+    require_tokens(ROOT / "lakefile.toml", ("KuuOSFormalV0_52",))
     require_tokens(
         formal,
         (
@@ -67,6 +69,10 @@ def main() -> int:
     require_tokens(
         ROOT / "scripts/run_kuuos_runtime_full_check_v0_52.py",
         ("check_world_v052",),
+    )
+    require_tokens(
+        ROOT / ".github/workflows/kuuos_runtime_full_check.yml",
+        ("run_kuuos_runtime_full_check_v0_52.py",),
     )
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
