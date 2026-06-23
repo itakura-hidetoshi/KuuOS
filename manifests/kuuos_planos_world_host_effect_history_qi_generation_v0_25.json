@@ -1,0 +1,38 @@
+{
+  "version": "kuuos_planos_world_host_effect_history_qi_generation_v0_25",
+  "status": "formal_history_qi_candidate_generation_receipt",
+  "base_branch": "planos-v024-host-effect-replan-intake",
+  "source_module": "formal/KUOS/PlanOS/WorldHostEffectLearningReplanIntakeV0_24.lean",
+  "core_module": "formal/KUOS/PlanOS/WorldHostEffectHistoryQiCandidateGenerationCoreV0_25.lean",
+  "types_module": "formal/KUOS/PlanOS/WorldHostEffectHistoryQiCandidateGenerationTypesV0_25.lean",
+  "formal_module": "formal/KUOS/PlanOS/WorldHostEffectHistoryQiCandidateGenerationV0_25.lean",
+  "formal_root": "formal/KuuOSPlanOSV0_25.lean",
+  "documentation": "docs/KUUOS_PLANOS_WORLD_HOST_EFFECT_HISTORY_QI_GENERATION_v0_25.md",
+  "validator": "scripts/check_planos_world_host_effect_history_qi_generation_v0_25.py",
+  "workflow": ".github/workflows/planos-world-host-effect-history-qi-v0-25.yml",
+  "required": {
+    "exact_planos_intake": true,
+    "deterministic_phase_prefix": true,
+    "read_only_nonmarkov_history": true,
+    "qi_context_without_authority": true,
+    "verdict_candidate_mapping": true,
+    "explicit_hold_alternative": true,
+    "world_disposition_candidate_preserved": true,
+    "immutable_append_only_receipt": true,
+    "three_phase_history_append": true,
+    "os_ownership_preserved": true
+  },
+  "forbidden": {
+    "candidate_selection": false,
+    "plan_synthesis": false,
+    "replan_activation": false,
+    "plan_activation": false,
+    "execution_permission": false,
+    "host_license": false,
+    "world_disposition_resolution": false,
+    "world_update": false,
+    "memory_overwrite": false,
+    "truth_authority": false,
+    "causal_authority": false
+  }
+}

@@ -1,0 +1,29 @@
+name: PlanOS World Host-Effect History Qi v0.25
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Validate PlanOS v0.25
+        run: |
+          python3 scripts/check_planos_world_host_effect_history_qi_generation_v0_25.py
+          lake update
+          git diff --exit-code -- lake-manifest.json
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.PlanOS.WorldHostEffectHistoryQiCandidateGenerationCoreV0_25 KUOS.PlanOS.WorldHostEffectHistoryQiCandidateGenerationTypesV0_25 KUOS.PlanOS.WorldHostEffectHistoryQiCandidateGenerationV0_25 KuuOSPlanOSV0_25 KuuOSFormal
