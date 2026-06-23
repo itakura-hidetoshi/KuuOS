@@ -125,7 +125,7 @@ def main() -> int:
         runtime,
         (
             "world_candidate_source_world_mismatch",
-            "world_candidate_observation_record_claim_forbidden",
+            "world_candidate_{field}_forbidden",
             "act_effect_observation_route_impersonated",
             "raw_evidence_required",
             "RETURN_CANDIDATE_WITH_ACTIVE_SHIELD",
