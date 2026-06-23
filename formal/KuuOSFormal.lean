@@ -3,3 +3,4 @@ import KUOS.WORLD.BimoduleSectorFusionCategoryBridgeV0_40
 import KUOS.VerifyOS.VacuumExpectationCommitVerificationReceiptV0_3
 import KUOS.LearnOS.VacuumExpectationVerificationFutureOnlyDeltaV0_3
 import KUOS.PlanOS.VacuumExpectationLearningReplanIntakeV0_18
+import KUOS.PlanOS.VacuumExpectationHistoryQiCandidateGenerationV0_19
