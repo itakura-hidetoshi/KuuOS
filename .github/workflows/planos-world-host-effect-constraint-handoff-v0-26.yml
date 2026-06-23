@@ -1,0 +1,29 @@
+name: PlanOS World Host-Effect Constraint Handoff v0.26
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Validate PlanOS v0.26
+        run: |
+          python3 scripts/check_planos_world_host_effect_constraint_handoff_v0_26.py
+          lake update
+          git diff --exit-code -- lake-manifest.json
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.PlanOS.WorldHostEffectConstraintDecisionHandoffCoreV0_26 KUOS.PlanOS.WorldHostEffectConstraintDecisionHandoffTypesV0_26 KUOS.PlanOS.WorldHostEffectConstraintDecisionHandoffV0_26 KuuOSPlanOSV0_26 KuuOSFormal

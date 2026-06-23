@@ -1,0 +1,39 @@
+{
+  "version": "kuuos_planos_world_host_effect_constraint_handoff_v0_26",
+  "status": "formal_constraint_decision_handoff_receipt",
+  "base_branch": "planos-v025-host-effect-history-qi-generation",
+  "source_module": "formal/KUOS/PlanOS/WorldHostEffectHistoryQiCandidateGenerationV0_25.lean",
+  "core_module": "formal/KUOS/PlanOS/WorldHostEffectConstraintDecisionHandoffCoreV0_26.lean",
+  "types_module": "formal/KUOS/PlanOS/WorldHostEffectConstraintDecisionHandoffTypesV0_26.lean",
+  "formal_module": "formal/KUOS/PlanOS/WorldHostEffectConstraintDecisionHandoffV0_26.lean",
+  "formal_root": "formal/KuuOSPlanOSV0_26.lean",
+  "documentation": "docs/KUUOS_PLANOS_WORLD_HOST_EFFECT_CONSTRAINT_HANDOFF_v0_26.md",
+  "validator": "scripts/check_planos_world_host_effect_constraint_handoff_v0_26.py",
+  "workflow": ".github/workflows/planos-world-host-effect-constraint-handoff-v0-26.yml",
+  "required": {
+    "committed_generation_source": true,
+    "constraint_deliberation_prefix": true,
+    "primary_hysteresis_margin": true,
+    "hold_always_admissible": true,
+    "admissible_set_preserved": true,
+    "identity_dissent_minority_preserved": true,
+    "world_disposition_candidate_preserved": true,
+    "immutable_append_only_receipt": true,
+    "two_phase_history_append": true,
+    "os_ownership_preserved": true
+  },
+  "forbidden": {
+    "selection_receipt": false,
+    "candidate_selection": false,
+    "plan_synthesis": false,
+    "activation": false,
+    "execution": false,
+    "host_license": false,
+    "world_disposition_resolution": false,
+    "world_update": false,
+    "memory_overwrite": false,
+    "silent_substitution": false,
+    "truth_authority": false,
+    "causal_authority": false
+  }
+}
