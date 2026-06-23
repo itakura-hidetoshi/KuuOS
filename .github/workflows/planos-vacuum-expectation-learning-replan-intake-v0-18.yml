@@ -1,0 +1,55 @@
+name: PlanOS Vacuum Expectation Learning Replan Intake v0.18
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "formal/KuuOSPlanOSV0_18.lean"
+      - "formal/KuuOSFormal.lean"
+      - "formal/KUOS/PlanOS/VacuumExpectationLearningReplanIntakeV0_18.lean"
+      - "formal/KUOS/LearnOS/VacuumExpectationVerificationFutureOnlyDeltaV0_3.lean"
+      - "formal/KUOS/PlanOS/QiConditionedNonMarkovReplanV0_2.lean"
+      - "formal/KUOS/PlanOS/ClosedLoopReplanIntakeAdapterV0_4.lean"
+      - "docs/KUUOS_PLANOS_VACUUM_EXPECTATION_LEARNING_REPLAN_INTAKE_v0_18.md"
+      - "manifests/kuuos_planos_vacuum_expectation_learning_replan_intake_v0_18.json"
+      - "scripts/check_planos_vacuum_expectation_learning_replan_intake_v0_18.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_51.py"
+      - ".github/workflows/planos-vacuum-expectation-learning-replan-intake-v0-18.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check PlanOS v0.18 registration
+        run: python3 scripts/check_planos_vacuum_expectation_learning_replan_intake_v0_18.py
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Verify committed manifest is canonical
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Compile PlanOS v0.18 module
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true
+          build KUOS.PlanOS.VacuumExpectationLearningReplanIntakeV0_18
+      - name: Compile aggregate KuuOS formal root
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true
+          build KuuOSFormal
