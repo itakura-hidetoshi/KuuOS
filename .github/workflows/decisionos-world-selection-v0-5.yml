@@ -1,0 +1,29 @@
+name: DecisionOS World Selection v0.5
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Validate DecisionOS v0.5
+        run: |
+          python3 scripts/check_decisionos_world_selection_v0_5.py
+          lake update
+          git diff --exit-code -- lake-manifest.json
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.DecisionOS.WorldHostEffectAdmissibleSelectionCoreV0_5 KUOS.DecisionOS.WorldSelectionBridgeV0_5 KUOS.DecisionOS.WorldSelectionReceiptV0_5 KUOS.DecisionOS.WorldHostEffectAdmissibleSelectionTypesV0_5 KUOS.DecisionOS.SelectionV0_5 KuuOSDecisionOSV0_5 KuuOSFormal
