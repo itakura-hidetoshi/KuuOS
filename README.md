@@ -43,11 +43,11 @@ WORLD sidecar != exact WORLD
 analytic vacuum != exact WORLD
 vacuum expectation != fact
 intake-ready envelope != committed observation
-validated commit receipt != WORLD performed commit
+receipt composition != receipt construction
+validated receipt != WORLD performed transition
 observation != verification
-verification handoff != verification start
-verification start != verification result
 verification result != truth
+verification result != causal authority
 WORLD sidecar != observation owner
 WORLD sidecar != verification owner
 observation candidate != belief promotion
@@ -159,27 +159,29 @@ real Hilbert l2 carrier
   -> zero-energy vacuum sector without uniqueness or WORLD collapse
   -> source-bound vacuum-expectation observation candidate
   -> v0.51 ObserveOS evidence-intake envelope
-  -> v0.52 externally supplied ObserveOS commit receipt
-  -> v0.52 externally supplied VerifyOS handoff receipt
+  -> existing ObserveOS v0.3 commit receipt
+  -> existing VerifyOS v0.3 verification receipt
+  -> existing LearnOS v0.3 future-only learning receipt
+  -> v0.52 exact OS receipt-composition digest
 ```
 
-v0.52 preserves the v0.51 candidate, value, context and evidence-receipt digests through an ObserveOS-owned commit receipt.
+v0.52 does not define parallel ObserveOS, VerifyOS or LearnOS receipt types.
 
-It then preserves the ObserveOS record, verification input and criterion digests through a VerifyOS-owned handoff receipt.
-
-The bridge validates supplied receipts but does not create an ObserveOS commit, start VerifyOS or create a verification result.
-
-Independent challenge, falsification and counterevidence remain required.
+It composes the existing nested receipt lineage and proves:
 
 ```text
-WORLD candidate != ActOS effect observation
-validated receipt != performed transition
-committed observation != verification
-verification handoff != verification start
-verification start != verification verdict
-verification verdict != truth or causal authority
-runtime does not update WORLD
+ObserveOS source and commit stage remain exact
+ObserveOS comparison is not verification
+VerifyOS source and recorded result remain exact
+verification is neither truth nor causal authority
+LearnOS delta remains future-only and inactive now
+Replan, PlanOS and execution remain unactivated
+vacuum-expectation value remains exact through the full lineage
 ```
+
+The WORLD layer registers only the composition digest.
+
+It does not construct or replay any OS-owned transition.
 
 ## Implemented surfaces
 
@@ -190,9 +192,9 @@ runtime does not update WORLD
 - repeatable finite-cycle continuity with foreground control;
 - Qi process history and recovery-window diagnostic candidates;
 - three concrete Qi-WORLD licensed cycles;
-- LearnOS v0.3 future-only delta over an explicit VerifyOS receipt;
+- ObserveOS v0.3 commit, VerifyOS v0.3 verification and LearnOS v0.3 future-only receipts;
 - Lean/mathlib-facing formal surfaces under `KuuOSFormal`;
-- WORLD v0.52 read-only validation of supplied ObserveOS commit and VerifyOS handoff receipts.
+- WORLD v0.52 read-only composition of the existing OS receipt lineage.
 
 ## Non-claims
 
@@ -204,8 +206,7 @@ KuuOS is not currently:
 - a standalone medical diagnostic, triage or treatment authorization system;
 - an externally accepted proof merely because Lean or CI succeeds;
 - a physical quantum Markov semigroup or exact WORLD simulator;
-- a system in which a receipt proves that WORLD performed an OS transition;
-- a system in which a verification handoff automatically creates a verdict;
+- a system in which a composition digest proves that WORLD performed an OS transition;
 - a system in which a verification or learning result becomes truth, causal authority, current-cycle mutation, plan activation or action permission by itself.
 
 ## Read first
