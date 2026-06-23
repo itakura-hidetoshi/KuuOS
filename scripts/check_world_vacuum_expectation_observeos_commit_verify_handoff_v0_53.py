@@ -45,7 +45,25 @@ def main() -> int:
             "receipt composition != receipt construction",
             "verification result != truth",
             "learning receipt != current-cycle mutation",
+            "OS receipt composition != host-effect atomic-commit intake",
             "runtime remains read-only",
+        ),
+    )
+    require_tokens(
+        ROOT / "README.md",
+        (
+            "WORLD read-only mathematical sidecar             v0.53",
+            "receipt composition != receipt construction",
+            "WORLD sidecar != LearnOS owner",
+            "run_kuuos_runtime_full_check_v0_53.py",
+        ),
+    )
+    require_tokens(
+        ROOT / "ROADMAP.md",
+        (
+            "implemented through v0.53",
+            "OS receipt composition",
+            "Strengthen WORLD v0.53 proof status",
         ),
     )
 
