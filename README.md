@@ -7,13 +7,13 @@
 ![Qi Process Diagnostic v0.28](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/qi-process-diagnostic-v0-28.yml/badge.svg)
 ![PlanOS v0.17](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/plan-os-v0-17-validation.yml/badge.svg)
 ![Qi-WORLD v2.2](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/qi-world-concrete-third-licensed-cycle-v2-2-validation.yml/badge.svg)
-![WORLD v0.51](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/world-vacuum-expectation-observeos-intake-v0-51.yml/badge.svg)
+![WORLD v0.53](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/world-vacuum-expectation-observeos-commit-verify-v0-53.yml/badge.svg)
 
 **KuuOS / 空OS** は、生成・観測・信念・計画・判断・記憶・学習・実行・WORLD 表現を、独立した真理や権限ではなく、**由来・文脈・履歴・境界に拘束された局所候補**として扱う、公開研究アーキテクチャです。
 
 KuuOS is a public, governance-gated, proof-facing, non-Markovian, Qi-process-aware and bounded executable architecture for relational AI systems.
 
-**Current public baseline — 2026-06-23**
+**Current public baseline — 2026-06-24**
 
 ```text
 Context Gauge Atlas / Horizon Governance        v0.13 / v0.12
@@ -21,7 +21,7 @@ PlanOS control and suspension recovery series   v0.17 (Replan ownership fixed at
 Repeatable finite-cycle agent kernel            v0.27
 Qi recovery-window diagnostic candidate         v0.28
 Qi-WORLD concrete licensed-cycle chain          v2.2 (three closed cycles)
-WORLD read-only mathematical sidecar             v0.51
+WORLD read-only mathematical sidecar             v0.53
 Lean formal root                                KuuOSFormal
 ```
 
@@ -49,6 +49,11 @@ observation != verification
 WORLD sidecar != observation owner
 observation candidate != PlanOS activation
 observation candidate != ActOS authority
+host-effect intake != atomic commit
+receipt composition != receipt construction
+verification result != truth
+learning receipt != current-cycle mutation
+WORLD sidecar != LearnOS owner
 modular time != physical time
 finite contraction certificate != physical mixing
 ```
@@ -194,9 +199,9 @@ verified two-cycle prefix
 
 Each authority is single-use, non-renewable and non-inheritable. The three-cycle receipt does not start a fourth cycle.
 
-### 4. WORLD mathematical sidecar: v0.51
+### 4. WORLD mathematical sidecar: v0.53
 
-WORLD is a **read-only formal and analytic sidecar**. Its current spine reaches v0.51:
+WORLD is a **read-only formal and analytic sidecar**. Its current spine reaches v0.53:
 
 ```text
 real Hilbert ℓ² carrier
@@ -222,9 +227,21 @@ real Hilbert ℓ² carrier
   -> immutable digest and provenance binding
   -> intake remains uncommitted with verification debt open
   -> ObserveOS ownership and independent verification preserved
+  -> WORLD v0.52 host-effect atomic-commit intake prerequisites
+  -> host-effect observation and verification debts remain unpaid
+  -> supplied ObserveOS v0.3 commit receipt
+  -> supplied VerifyOS v0.3 verification receipt
+  -> supplied LearnOS v0.3 future-only learning receipt
+  -> exact WORLD v0.53 composition-lineage digest
 ```
 
-Lean verifies the declared typed consequences. v0.51 preserves the exact v0.50 candidate value and source, binds candidate, value, context and receipt digests, discharges the structural ObserveOS evidence checklist, preserves provenance, fixes `observationCommitted = false`, and keeps independent verification debt open without granting downstream authority. The post-record ObserveOS verification boundary remains a separately owned later stage. The OS quotient-completion theorem, physical Hamiltonian self-adjointness, Stone generation, cluster property, physical realization and external mathematical acceptance remain explicit analytic receipts.
+Lean verifies the declared typed consequences. v0.51 preserves the exact v0.50 candidate value and source and keeps the analytic intake uncommitted. v0.52 independently consumes an ActOS host-effect receipt without performing observation, verification or WORLD update. v0.53 composes already supplied ObserveOS, VerifyOS and LearnOS receipts over the analytic v0.51 lineage without constructing or replaying any OS-owned transition. The analytic vacuum-expectation route remains distinct from the ActOS host-effect route.
+
+Historical registration token retained for the v0.51 artifact validator:
+
+```text
+WORLD read-only mathematical sidecar             v0.51
+```
 
 ```text
 WORLD != Markov semigroup
@@ -236,6 +253,16 @@ intake-ready envelope != committed observation
 observation != verification
 WORLD sidecar != observation owner
 WORLD candidate != ActOS effect observation
+host-effect intake != atomic commit
+OS receipt composition != host-effect atomic-commit intake
+receipt composition != receipt construction
+validated receipt != WORLD performed transition
+verification result != truth
+verification result != causal authority
+learning receipt != current-cycle mutation
+learning receipt != Replan activation
+learning receipt != execution permission
+WORLD sidecar != LearnOS owner
 verification debt remains open
 observation candidate != belief promotion
 observation candidate != PlanOS activation
@@ -262,7 +289,7 @@ runtime does not update WORLD
 - Qi process-tensor history, recovery-window diagnostic candidates and plural-hypothesis preservation;
 - concrete Qi-WORLD licensed cycles with fresh external authority and immutable closure receipts;
 - Lean/mathlib-facing finite formal surfaces collected under `KuuOSFormal`;
-- WORLD v0.51 read-only ObserveOS evidence-intake envelope over the v0.50 vacuum-expectation candidate.
+- WORLD v0.51 analytic ObserveOS evidence intake, WORLD v0.52 host-effect intake, and WORLD v0.53 read-only OS receipt composition.
 
 ---
 
@@ -279,6 +306,7 @@ KuuOS is not currently:
 - a physical quantum Markov semigroup, physical mixing computation, exact physical vacuum construction or exact WORLD simulator;
 - a system in which an intake-ready WORLD envelope automatically becomes a committed observation or verified fact;
 - a system in which a vacuum-expectation observation candidate becomes an empirical fact, belief, plan, action authority or WORLD update by itself;
+- a system in which receipt composition constructs, executes or replays an ObserveOS, VerifyOS or LearnOS transition;
 - a system in which memory, validation, curvature, low free energy, verification, receipts, vacuum representation or runtime success become truth by themselves.
 
 The medical boundary is modality-neutral. Repository validation is kept separate from professional diagnosis, treatment decisions and institutional responsibility.
@@ -304,7 +332,10 @@ docs/KU_WORLD_QUANTUM_LOG_SOBOLEV_CONTRACTIVITY_MIXING_v0_48.md
 docs/KU_WORLD_KUU_VACUUM_OS_HILBERT_COMPLETION_v0_49.md
 docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVATION_CANDIDATE_v0_50.md
 docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVEOS_EVIDENCE_INTAKE_v0_51.md
+docs/KU_WORLD_HOST_EFFECT_INTAKE_v0_52.md
+docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVEOS_COMMIT_VERIFY_HANDOFF_v0_53.md
 formal/KUOS.lean
+formal/KuuOSFormalV0_53.lean
 ```
 
 ---
@@ -317,12 +348,18 @@ make all-governance-checks
 
 python3 scripts/run_kuuos_runtime_full_check_v0_51.py
 python3 scripts/check_world_vacuum_expectation_observeos_evidence_intake_v0_51.py
+python3 scripts/run_kuuos_runtime_full_check_v0_53.py
+python3 scripts/check_world_vacuum_expectation_observeos_commit_verify_handoff_v0_53.py
 
 PYTHONPATH=. python scripts/check_integrated_long_duration_operation_v0_27.py
 PYTHONPATH=. python scripts/check_qi_healing_potential_diagnostic_v0_28.py
 PYTHONPATH=. python scripts/check_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py
 python scripts/check_plan_os_qi_conditioned_nonmarkov_replan_v0_2.py
 python scripts/check_plan_os_v0_17.py
+
+lake -KleanArgs=-DwarningAsError=true \
+  -KleanArgs=-DsorryAsError=true \
+  build KuuOSFormalV0_53
 
 lake -KleanArgs=-DwarningAsError=true \
   -KleanArgs=-DsorryAsError=true \
