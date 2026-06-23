@@ -1,0 +1,48 @@
+{
+  "version": "kuuos_memoryos_world_observe_intake_v0_39",
+  "status": "read_only_observe_owner_intake",
+  "memory_predecessor": "kuuos_memoryos_analytic_hilbert_context_v0_38",
+  "world_predecessor": "KUOS.WORLD.VacuumExpectationObservationCandidateBridgeV0_50",
+  "observe_boundary": "KUOS.ObserveOS.ReplanLineageObservationEnvelopeV0_2",
+  "runtime_kernel": "runtime/kuuos_memoryos_world_observe_intake_v0_39.py",
+  "unit_test": "tests/test_memoryos_world_observe_intake_v0_39.py",
+  "validation_script": "scripts/check_memoryos_world_observe_intake_v0_39.py",
+  "documentation": "docs/KUUOS_MEMORYOS_WORLD_OBSERVE_INTAKE_v0_39.md",
+  "formal_module": "formal/KUOS/OpenHorizon/MemoryOSWorldObserveIntakeKernelV0_39.lean",
+  "formal_root": "formal/KUOS.lean",
+  "workflow": ".github/workflows/memoryos-world-observe-intake-v0-39.yml",
+  "central_runtime_check": "scripts/run_kuuos_runtime_full_check_v0_50.py",
+  "capsule_routes": [
+    "QUARANTINE_ANALYTIC_SOURCE",
+    "REOBSERVE_ANALYTIC_SOURCE",
+    "HOLD_INCOMPLETE_WORLD_CANDIDATE",
+    "PRESERVE_RESIDUE_FOR_OBSERVE_OWNER",
+    "READY_FOR_OBSERVE_OWNER_REVIEW"
+  ],
+  "intake_routes": [
+    "QUARANTINE_OBSERVE_INTAKE",
+    "REOBSERVE_BEFORE_OBSERVE_INTAKE",
+    "HOLD_WORLD_CANDIDATE_INCOMPLETE",
+    "RETURN_CANDIDATE_WITH_ACTIVE_SHIELD",
+    "RETURN_CANDIDATE_WITH_RESIDUE_TO_OBSERVE_OWNER",
+    "RETURN_READ_ONLY_CANDIDATE_TO_OBSERVE_OWNER"
+  ],
+  "boundaries": {
+    "world_candidate_is_raw_evidence": false,
+    "world_candidate_is_observation_record": false,
+    "world_candidate_is_verification_result": false,
+    "world_candidate_has_act_effect_lineage": false,
+    "automatic_observe_activation": false,
+    "automatic_observe_commit": false,
+    "retrieval_grants_plan_activation": false,
+    "retrieval_grants_actos_authority": false,
+    "memory_may_discharge_blocker": false,
+    "world_update_allowed": false,
+    "memory_overwrite_allowed": false,
+    "observeos_owner_review_required": true,
+    "raw_evidence_still_required": true,
+    "observation_not_verification": true,
+    "verification_required": true,
+    "append_only_lineage": true
+  }
+}
