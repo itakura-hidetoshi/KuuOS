@@ -1,0 +1,50 @@
+{
+  "version": "kuuos_planos_vacuum_expectation_learning_replan_intake_v0_18",
+  "status": "formal_planos_owned_replan_intake",
+  "source_learn_module": "formal/KUOS/LearnOS/VacuumExpectationVerificationFutureOnlyDeltaV0_3.lean",
+  "formal_module": "formal/KUOS/PlanOS/VacuumExpectationLearningReplanIntakeV0_18.lean",
+  "documentation": "docs/KUUOS_PLANOS_VACUUM_EXPECTATION_LEARNING_REPLAN_INTAKE_v0_18.md",
+  "validator": "scripts/check_planos_vacuum_expectation_learning_replan_intake_v0_18.py",
+  "workflow": ".github/workflows/planos-vacuum-expectation-learning-replan-intake-v0-18.yml",
+  "reused_contracts": [
+    "KUOS.PlanOS.ReplanSourceBinding",
+    "KUOS.PlanOS.ReplanOwnership",
+    "KUOS.PlanOS.ClosedLoopBindState",
+    "KUOS.PlanOS.ClosedLoopFutureBoundary",
+    "KUOS.PlanOS.ClosedLoopActivationSeparation",
+    "KUOS.PlanOS.ReplanEventIndex",
+    "KUOS.PlanOS.ReplanHistory"
+  ],
+  "derived_results": [
+    "intake_requires_committed_future_only_learning",
+    "intake_binds_existing_replan_source",
+    "intake_enters_pristine_planos_bind",
+    "intake_event_index_appends_exactly_once",
+    "intake_history_appends_exactly_once",
+    "intake_preserves_planos_decisionos_actos_ownership",
+    "intake_commit_is_not_activation_plan_or_execution",
+    "intake_future_boundary_preserves_current_and_past",
+    "intake_bridge_grants_no_new_authority",
+    "intake_digest_is_exact",
+    "intake_candidate_value_remains_exact"
+  ],
+  "boundaries": {
+    "source_learning_required": true,
+    "committed_current_plan_required": true,
+    "pristine_bind_required": true,
+    "intake_event_append_once": true,
+    "planos_owns_replan": true,
+    "decisionos_owns_selection": true,
+    "planos_owns_synthesis": true,
+    "actos_owns_execution": true,
+    "future_only": true,
+    "current_cycle_unchanged": true,
+    "past_plan_unchanged": true,
+    "replan_activated": false,
+    "plan_activated": false,
+    "execution_permitted": false,
+    "host_license_granted": false,
+    "memory_overwritten": false,
+    "world_updated": false
+  }
+}
