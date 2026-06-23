@@ -280,11 +280,13 @@ real Hilbert ℓ²
 -> exact ObserveOS evidence-intake envelope
 -> candidate, value, context and receipt digest binding
 -> complete evidence requirements and immutable provenance
--> observation recorded without verification discharge
+-> intake remains uncommitted with verification debt open
 -> ObserveOS ownership with independent verification debt
 ```
 
 The runtime validates read-only structural registration. It does not construct the OS quotient completion, execute the Hamiltonian, execute physical time, commit an ObserveOS record, discharge verification, promote belief, activate PlanOS, grant ActOS authority, overwrite MemoryOS, declare a unique vacuum or update WORLD.
+
+The post-record `ObserveOS.ObservationVerificationBoundary` remains a separately owned later-stage contract and is not embedded in the v0.51 intake envelope.
 
 The following remain explicit external analytic receipts:
 
@@ -389,7 +391,7 @@ Tasks:
 - derive vacuum normalization and positivity from the completed representation rather than duplicate receipt fields;
 - derive further vacuum-expectation observation-candidate properties without introducing belief or authority promotion;
 - derive more ObserveOS envelope consistency from digest equality and provenance hypotheses;
-- connect the intake envelope to a separately owned VerifyOS handoff without discharging verification;
+- connect the intake envelope to a separately owned ObserveOS commit and VerifyOS handoff without performing either transition;
 - replace the abstract physical Hamiltonian map with a densely defined self-adjoint operator bridge;
 - connect Stone generation, spectral support and cluster claims without identifying modular time with physical time;
 - preserve higher-gauge covariance, degenerate vacuum sectors and multi-WORLD noncollapse;
@@ -509,7 +511,7 @@ The target is mathematically explicit finite continuity, not an unbounded autono
 
 **Status: exact ObserveOS evidence-intake envelope implemented at v0.51**
 
-v0.51 wraps an admissible v0.50 vacuum-expectation candidate in exact ObserveOS evidence requirements, provenance, digest binding and verification-debt semantics while preserving:
+v0.51 wraps an admissible v0.50 vacuum-expectation candidate in exact ObserveOS evidence requirements, provenance, digest binding and pre-commit verification-debt semantics while preserving:
 
 ```text
 WORLD representation != fact
@@ -527,7 +529,7 @@ low free energy != permission
 mixing certificate != intervention recommendation
 ```
 
-The next step is a separately owned VerifyOS handoff receipt that consumes an ObserveOS record without allowing WORLD formal results or the intake bridge to perform verification.
+The next step is a separately owned ObserveOS commit receipt and VerifyOS handoff that consume the intake envelope without allowing WORLD formal results or the intake bridge to perform either transition.
 
 No WORLD formal result should directly activate PlanOS or ActOS.
 
@@ -591,7 +593,7 @@ It is **more exact relational continuity without authority collapse**.
 3. Generalize Qi-WORLD v2.2 from a concrete third cycle to arbitrary finite prefixes.
 4. Prove no finite closed chain grants automatic successor authority.
 5. Strengthen WORLD v0.51 by deriving more of the OS completion, vacuum, observation-candidate and ObserveOS-intake layers in Lean.
-6. Connect v0.51 to a separately owned VerifyOS handoff without verification collapse.
+6. Connect v0.51 to separately owned ObserveOS commit and VerifyOS handoff receipts without authority collapse.
 7. Keep modular time, physical time and runtime execution strictly separate.
 8. Integrate MemoryOS and Qi history without belief or root sovereignty.
 9. Mature gauge-atlas composition without introducing global graph semantics.
