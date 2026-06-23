@@ -1,0 +1,32 @@
+{
+  "version": "kuuos_observeos_world_host_effect_observation_v0_4",
+  "status": "formal_effect_grounded_observation_receipt",
+  "source": "formal/KUOS/WORLD/VacuumExpectationHostEffectAtomicCommitIntakeV0_52.lean",
+  "formal_module": "formal/KUOS/ObserveOS/WorldHostEffectObservationReceiptV0_4.lean",
+  "formal_root": "formal/KuuOSObserveOSV0_4.lean",
+  "documentation": "docs/KUUOS_OBSERVEOS_WORLD_HOST_EFFECT_OBSERVATION_v0_4.md",
+  "validator": "scripts/check_observeos_world_host_effect_observation_v0_4.py",
+  "workflow": ".github/workflows/observeos-world-host-effect-v0-4.yml",
+  "required": {
+    "ready_uncommitted_world_intake": true,
+    "exact_act_cycle": true,
+    "upstream_lineage_preserved": true,
+    "source_effect_identity_exact": true,
+    "independent_evidence_collection": true,
+    "uncertainty_calibration_and_provenance": true,
+    "four_route_observation_verdict": true,
+    "conditional_observation_debt_discharge": true,
+    "immutable_append_only_receipt": true,
+    "verification_debt_preserved": true
+  },
+  "forbidden": {
+    "host_receipt_as_independent_evidence": false,
+    "verification_completion": false,
+    "truth_promotion": false,
+    "causal_attribution": false,
+    "world_update": false,
+    "execution_authority": false,
+    "memory_overwrite": false,
+    "atomic_commit_readiness": false
+  }
+}

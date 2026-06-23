@@ -11,3 +11,4 @@ import KUOS.PlanOS.«VacuumExpectationActivationAdmissionActOSHandoffV0_23»
 import KUOS.ActOS.«VacuumExpectationActivationAuthorizationIntakeV0_3»
 import KUOS.ActOS.VacuumExpectationBoundedAdapterInvocationV0_4
 import KUOS.WORLD.VacuumExpectationHostEffectAtomicCommitIntakeV0_52
+import KUOS.ObserveOS.WorldHostEffectObservationReceiptV0_4
