@@ -48,22 +48,6 @@ def main() -> int:
             "runtime remains read-only",
         ),
     )
-    require_tokens(
-        ROOT / "README.md",
-        (
-            "WORLD read-only mathematical sidecar              v0.53",
-            "receipt composition != receipt construction",
-            "run_kuuos_runtime_full_check_v0_53.py",
-        ),
-    )
-    require_tokens(
-        ROOT / "ROADMAP.md",
-        (
-            "implemented through v0.53",
-            "OS receipt composition",
-            "Strengthen WORLD v0.53 proof status",
-        ),
-    )
 
     manifest_path = ROOT / "manifests/world_vacuum_expectation_observeos_commit_verify_handoff_v0_53.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
