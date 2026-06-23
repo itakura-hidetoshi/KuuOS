@@ -1,0 +1,55 @@
+name: PlanOS History Qi Candidate Generation v0.19
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "formal/KuuOSPlanOSV0_19.lean"
+      - "formal/KuuOSFormal.lean"
+      - "formal/KUOS/PlanOS/VacuumExpectationHistoryQiCandidateGenerationV0_19.lean"
+      - "formal/KUOS/PlanOS/VacuumExpectationLearningReplanIntakeV0_18.lean"
+      - "formal/KUOS/PlanOS/QiConditionedNonMarkovReplanV0_2.lean"
+      - "formal/KUOS/LearnOS/VacuumExpectationVerificationFutureOnlyDeltaV0_3.lean"
+      - "docs/KUUOS_PLANOS_HISTORY_QI_CANDIDATE_GENERATION_v0_19.md"
+      - "manifests/kuuos_planos_history_qi_candidate_generation_v0_19.json"
+      - "scripts/check_planos_history_qi_candidate_generation_v0_19.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_51.py"
+      - ".github/workflows/planos-history-qi-candidate-generation-v0-19.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check PlanOS v0.19 registration
+        run: python3 scripts/check_planos_history_qi_candidate_generation_v0_19.py
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Verify committed manifest is canonical
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Compile PlanOS v0.19 module
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true
+          build KUOS.PlanOS.VacuumExpectationHistoryQiCandidateGenerationV0_19
+      - name: Compile aggregate KuuOS formal root
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true
+          build KuuOSFormal
