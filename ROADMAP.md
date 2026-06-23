@@ -45,10 +45,15 @@ vacuum expectation != fact
 vacuum expectation != truth authority
 observation candidate != belief promotion
 intake-ready envelope != committed observation
-observation != verification
-WORLD sidecar != observation owner
-WORLD candidate != ActOS effect observation
+commit evidence required
+ObserveOS commit receipt != verification result
+analytic source != ActOS effect observation
+VerifyOS handoff evidence required
+VerifyOS handoff != verification execution
+handoff != verdict
 verification debt remains open
+verification result != truth authority
+verification result != execution authority
 observation candidate != PlanOS activation
 observation candidate != ActOS authority
 modular time != physical time
@@ -86,9 +91,9 @@ proof-status separation
 | Autonomous-agent completion | v0.20–v0.27 finite-cycle continuity | implemented and merged |
 | Qi diagnostic candidate | v0.28 recovery-window layer | implemented and merged |
 | Qi-WORLD | v2.2 concrete third licensed cycle | implemented and merged |
-| WORLD | v0.51 ObserveOS evidence-intake envelope | implemented and merged |
+| WORLD | v0.52 ObserveOS commit and VerifyOS handoff | implemented on current integration branch |
 | Formal root | `KuuOSFormal` | strict Lean build surface |
-| Central runtime | `run_kuuos_runtime_full_check_v0_51.py` | active regression root |
+| Central runtime | `run_kuuos_runtime_full_check_v0_52.py` | active regression root |
 
 ---
 
@@ -245,7 +250,7 @@ The cycle count is three. No fourth cycle is started or implied.
 
 ### 2.7 WORLD mathematical sidecar
 
-**Status: implemented through v0.51 and merged**
+**Status: implemented through v0.52 on the current integration branch**
 
 The current typed spine is:
 
@@ -274,21 +279,25 @@ real Hilbert ℓ²
 -> separate modular-time and physical-time invariance
 -> zero-energy vacuum sector without uniqueness or WORLD collapse
 -> source-bound vacuum-expectation observation candidates
--> normalized identity candidate
--> nonnegative star-square candidate
--> gauge-equivalent candidate values
--> exact ObserveOS evidence-intake envelope
--> candidate, value, context and receipt digest binding
--> complete evidence requirements and immutable provenance
--> intake remains uncommitted with verification debt open
--> ObserveOS ownership with independent verification debt
+-> exact pre-commit ObserveOS evidence-intake envelope
+-> explicit ObserveOS commit evidence
+-> exact single-use committed-observation receipt
+-> analytic source binding with sourceEffectBound = false
+-> explicit VerifyOS handoff evidence
+-> exact-cycle single-use VerifyOS handoff
+-> open verification debt without verdict or execution
 ```
 
-The runtime validates read-only structural registration. It does not construct the OS quotient completion, execute the Hamiltonian, execute physical time, commit an ObserveOS record, discharge verification, promote belief, activate PlanOS, grant ActOS authority, overwrite MemoryOS, declare a unique vacuum or update WORLD.
+The runtime validates read-only structural registration. It does not create commit evidence, commit an ObserveOS record, create handoff evidence, execute VerifyOS, issue a verdict, discharge verification debt, trigger learning, promote belief, activate PlanOS, grant ActOS authority, overwrite MemoryOS, declare a unique vacuum or update WORLD.
 
-The post-record `ObserveOS.ObservationVerificationBoundary` remains a separately owned later-stage contract and is not embedded in the v0.51 intake envelope.
+The analytic source binding remains distinct from the effect-grounded VerifyOS source contract:
 
-The following remain explicit external analytic receipts:
+```text
+sourceClassAnalytic = true
+sourceEffectBound = false
+```
+
+The following remain explicit external or downstream receipts:
 
 - OS quotient and completion existence;
 - physical Hamiltonian self-adjointness;
@@ -296,6 +305,9 @@ The following remain explicit external analytic receipts:
 - vacuum gauge implementation;
 - vacuum cluster property;
 - empirical adequacy of an observation candidate;
+- actual ObserveOS commit evidence;
+- actual VerifyOS handoff evidence;
+- VerifyOS challenge, corroboration, adjudication and verdict;
 - any physical realization or external theorem acceptance.
 
 ---
@@ -379,7 +391,7 @@ for every finite prefix:
   + no automatic successor activation
 ```
 
-### Priority 4 — Strengthen WORLD v0.51 proof status
+### Priority 4 — Strengthen WORLD v0.52 proof status
 
 **Status: parallel mathematical track**
 
@@ -389,9 +401,10 @@ Tasks:
 - state external analytic receipts next to every Lean-direct result;
 - construct the OS quotient and completion from a typed sesquilinear form when minimal hypotheses are available;
 - derive vacuum normalization and positivity from the completed representation rather than duplicate receipt fields;
-- derive further vacuum-expectation observation-candidate properties without introducing belief or authority promotion;
-- derive more ObserveOS envelope consistency from digest equality and provenance hypotheses;
-- connect the intake envelope to a separately owned ObserveOS commit and VerifyOS handoff without performing either transition;
+- derive further vacuum-expectation observation-candidate properties without belief or authority promotion;
+- derive stronger commit-receipt consistency from envelope digest and commit evidence;
+- bind VerifyOS criterion, challenge and corroboration inputs without synthesizing a verdict;
+- preserve the analytic source class without effect-grounded reclassification;
 - replace the abstract physical Hamiltonian map with a densely defined self-adjoint operator bridge;
 - connect Stone generation, spectral support and cluster claims without identifying modular time with physical time;
 - preserve higher-gauge covariance, degenerate vacuum sectors and multi-WORLD noncollapse;
@@ -438,12 +451,14 @@ Required failure classes include:
 - WORLD physical-realization overclaim;
 - vacuum uniqueness overclaim;
 - vacuum-expectation fact promotion;
-- ObserveOS envelope substitution;
-- intake-ready to committed-observation promotion;
-- observation and verification conflation;
-- WORLD-side observation-ownership promotion;
-- analytic candidate to ActOS-effect reclassification;
+- intake-ready to committed-observation promotion without evidence;
+- substituted ObserveOS commit receipt;
+- analytic-source to ActOS-effect reclassification;
+- VerifyOS handoff without evidence;
+- observe-cycle and verify-cycle mismatch;
+- handoff to verdict promotion;
 - verification-debt erasure;
+- automatic-learning promotion;
 - observation-candidate belief promotion;
 - observation-candidate PlanOS activation;
 - observation-candidate ActOS authority grant;
@@ -509,27 +524,25 @@ The target is mathematically explicit finite continuity, not an unbounded autono
 
 ### 5.2 WORLD-to-OS read-only observation bridge
 
-**Status: exact ObserveOS evidence-intake envelope implemented at v0.51**
+**Status: explicit ObserveOS commit and VerifyOS handoff implemented at v0.52**
 
-v0.51 wraps an admissible v0.50 vacuum-expectation candidate in exact ObserveOS evidence requirements, provenance, digest binding and pre-commit verification-debt semantics while preserving:
+v0.52 consumes the v0.51 pre-commit intake only under explicit ObserveOS commit evidence, preserves a committed analytic source class, and creates VerifyOS intake material only under explicit handoff evidence while preserving:
 
 ```text
-WORLD representation != fact
-vacuum expectation != truth authority
-intake-ready envelope != committed observation
-observation != verification
-WORLD sidecar != observation owner
-WORLD candidate != ActOS effect observation
+intake envelope != committed observation
+commit evidence required
+ObserveOS commit receipt != verification result
+analytic source != ActOS effect observation
+VerifyOS handoff evidence required
+VerifyOS handoff != verification execution
+handoff != verdict
 verification debt remains open
-observation candidate != belief promotion
-observation candidate != PlanOS activation
-observation candidate != ActOS authority
-sidecar quantity != control objective
-low free energy != permission
-mixing certificate != intervention recommendation
+verification result != truth authority
+verification result != execution authority
+automatic learning = false
 ```
 
-The next step is a separately owned ObserveOS commit receipt and VerifyOS handoff that consume the intake envelope without allowing WORLD formal results or the intake bridge to perform either transition.
+The next step is a criterion-bound VerifyOS challenge and corroboration intake that remains pre-verdict and preserves falsification, counterevidence and assessor independence.
 
 No WORLD formal result should directly activate PlanOS or ActOS.
 
@@ -560,7 +573,7 @@ KuuOS is moving toward a public architecture where:
 
 ```text
 claims know their support
-observations know their source
+observations know their source and commit evidence
 beliefs know their uncertainty
 sections know their chart
 transitions know their overlap
@@ -574,7 +587,8 @@ proofs know their formal and external status
 WORLD representations know they are read-only sidecars
 analytic vacua know they are representations rather than exact WORLD
 vacuum-expectation candidates know they are observations rather than facts
-ObserveOS envelopes know they are intake artifacts rather than committed truth
+ObserveOS commits know their explicit evidence
+VerifyOS handoffs know they are intake rather than verdicts
 verification debts know they remain open until VerifyOS acts
 candidate equalities know they do not collapse WORLD contexts
 governance knows when to stop, hold, repair or hand over
@@ -592,10 +606,10 @@ It is **more exact relational continuity without authority collapse**.
 2. Consolidate v0.20-v0.28 into one current public status and validation matrix.
 3. Generalize Qi-WORLD v2.2 from a concrete third cycle to arbitrary finite prefixes.
 4. Prove no finite closed chain grants automatic successor authority.
-5. Strengthen WORLD v0.51 by deriving more of the OS completion, vacuum, observation-candidate and ObserveOS-intake layers in Lean.
-6. Connect v0.51 to separately owned ObserveOS commit and VerifyOS handoff receipts without authority collapse.
-7. Keep modular time, physical time and runtime execution strictly separate.
-8. Integrate MemoryOS and Qi history without belief or root sovereignty.
-9. Mature gauge-atlas composition without introducing global graph semantics.
-10. Keep diagnostic candidates, WORLD observation candidates, ObserveOS intake, clinical authority, theorem status and execution authority separate.
+5. Strengthen WORLD v0.52 commit receipts and VerifyOS handoff consistency in Lean.
+6. Add criterion, falsification and corroboration intake without verdict synthesis.
+7. Keep analytic sources distinct from ActOS effect observations.
+8. Keep modular time, physical time and runtime execution strictly separate.
+9. Integrate MemoryOS and Qi history without belief or root sovereignty.
+10. Keep diagnostic candidates, WORLD observations, verification status, clinical authority, theorem status and execution authority separate.
 ```
