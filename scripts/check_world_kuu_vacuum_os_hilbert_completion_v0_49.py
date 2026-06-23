@@ -42,6 +42,22 @@ def main() -> int:
         ROOT / "docs/KU_WORLD_KUU_VACUUM_OS_HILBERT_COMPLETION_v0_49.md",
         ("Kū != zero vector", "modular time != physical time"),
     )
+    require_tokens(
+        ROOT / "README.md",
+        (
+            "WORLD read-only mathematical sidecar             v0.49",
+            "analytic vacuum != exact WORLD",
+            "run_kuuos_runtime_full_check_v0_49.py",
+        ),
+    )
+    require_tokens(
+        ROOT / "ROADMAP.md",
+        (
+            "Baseline date: 2026-06-23",
+            "implemented through v0.49",
+            "Strengthen WORLD v0.49 proof status",
+        ),
+    )
     print("world_kuu_vacuum_os_hilbert_completion_v0_49 checks passed")
     return 0
 
