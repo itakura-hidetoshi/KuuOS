@@ -1,0 +1,13 @@
+name: PlanOS World Host-Effect History Qi v0.25
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
