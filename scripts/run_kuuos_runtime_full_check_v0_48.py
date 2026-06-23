@@ -8,6 +8,9 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from scripts.check_memoryos_predictive_shielded_memory_v0_37 import (
+    main as check_memoryos_v037,
+)
 from scripts.check_memoryos_qi_world_validation_matrix_v0_36 import (
     main as check_memoryos_v036,
 )
@@ -18,6 +21,8 @@ from scripts.run_kuuos_runtime_full_check_v0_47 import main as run_v047_full_che
 
 
 def main() -> int:
+    if check_memoryos_v037() != 0:
+        return 1
     if check_memoryos_v036() != 0:
         return 1
     if check_v048() != 0:
