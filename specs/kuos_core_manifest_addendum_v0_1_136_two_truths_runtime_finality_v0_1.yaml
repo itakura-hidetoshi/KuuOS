@@ -14,20 +14,17 @@ adapter:
 added_documents:
   - docs/TWO_TRUTHS_RUNTIME_FINALITY_PACKET_v0_1.md
   - scripts/check_two_truths_runtime_finality_v0_1.py
-  - scripts/run_two_truths_finality_v0_1.py
 
 runtime_finality:
   finality_packet: docs/TWO_TRUTHS_RUNTIME_FINALITY_PACKET_v0_1.md
   checker: scripts/check_two_truths_runtime_finality_v0_1.py
-  runner: scripts/run_two_truths_finality_v0_1.py
-  closure_runner: scripts/run_two_truths_runtime_closure_checks_v0_1.py
+  closure_checker: scripts/check_two_truths_runtime_closure_v0_1.py
   mass_gap_bridge_role: reference_only_non_collapse_barrier
   mass_gap_bridge_authority: forbidden
 
 validation:
   commands:
     - python3 scripts/check_two_truths_runtime_finality_v0_1.py
-    - python3 scripts/run_two_truths_finality_v0_1.py
 
 fixed_points:
   - implementation_finality_only
