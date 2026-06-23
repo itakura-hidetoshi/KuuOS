@@ -182,7 +182,6 @@ structure VacuumExpectationHysteresisConstraintDecisionHandoffReceipt
 namespace VacuumExpectationHysteresisConstraintDecisionHandoffBridge
 
 variable
-    {K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge GenerationBridge}
     {Bridge : VacuumExpectationHysteresisConstraintDecisionHandoffBridge
       K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge GenerationBridge}
 
@@ -209,6 +208,10 @@ theorem hold_is_admissible_and_forwarded (r : Receipt) :
       r.handoff.holdForwarded = r.hold.included := r.holdForwardExact
       _ = true := r.holdIncluded
   exact ⟨hc, ha, hg.2.2.2, hf⟩
+
+theorem hold_exemption_is_explicit (r : Receipt) :
+    r.hold.hysteresis.switchExempt = true := by
+  exact r.holdExempt
 
 theorem included_primary_requires_hysteresis_margin
     (r : Receipt) (hi : r.primary.included = true)
