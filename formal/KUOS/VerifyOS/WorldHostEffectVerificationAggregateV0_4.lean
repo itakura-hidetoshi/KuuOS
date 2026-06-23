@@ -1,1 +1,0 @@
-import KUOS.VerifyOS.WorldHostEffectVerificationRegistrationV0_4
