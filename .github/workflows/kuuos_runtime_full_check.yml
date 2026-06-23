@@ -17,6 +17,7 @@ on:
       - 'scripts/run_kuuos_runtime_full_check_v0_46.py'
       - 'scripts/run_kuuos_runtime_full_check_v0_47.py'
       - 'scripts/run_kuuos_runtime_full_check_v0_48.py'
+      - 'scripts/run_kuuos_runtime_full_check_v0_49.py'
       - 'scripts/check_world_module_category_nimrep_tube_center_bridge_v0_41.py'
       - 'scripts/check_world_gauge_categorical_indra_net_bridge_v0_42.py'
       - 'scripts/check_world_information_geometric_higher_gauge_v0_43.py'
@@ -25,6 +26,7 @@ on:
       - 'scripts/check_world_quantum_geodesic_mirror_free_energy_v0_46.py'
       - 'scripts/check_world_quantum_gradient_jko_entropy_production_v0_47.py'
       - 'scripts/check_world_quantum_log_sobolev_contractivity_mixing_v0_48.py'
+      - 'scripts/check_world_kuu_vacuum_os_hilbert_completion_v0_49.py'
       - 'scripts/validate_kuuos_runtime_manifest_v0_1.py'
       - 'scripts/check_kuuos_state_io_example_v0_1.py'
       - 'scripts/check_kuuos_qi_process_tensor_example_v0_1.py'
@@ -37,6 +39,9 @@ on:
       - 'manifests/world_quantum_geodesic_mirror_free_energy_v0_46.json'
       - 'manifests/world_quantum_gradient_jko_entropy_production_v0_47.json'
       - 'manifests/world_quantum_log_sobolev_contractivity_mixing_v0_48.json'
+      - 'formal/KUOS/WORLD/KuuVacuumOSHilbertCompletionBridgeV0_49.lean'
+      - 'formal/KuuOSFormalV0_49.lean'
+      - 'docs/KU_WORLD_KUU_VACUUM_OS_HILBERT_COMPLETION_v0_49.md'
       - '.github/workflows/kuuos_runtime_full_check.yml'
 
 jobs:
@@ -47,4 +52,4 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python3 scripts/run_kuuos_runtime_full_check_v0_48.py
+      - run: python3 scripts/run_kuuos_runtime_full_check_v0_49.py
