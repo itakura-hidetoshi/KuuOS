@@ -1,0 +1,25 @@
+{
+  "version": "kuuos_decisionos_admissible_candidate_selection_v0_4",
+  "status": "formal_selection_receipt",
+  "source": "formal/KUOS/PlanOS/VacuumExpectationHysteresisConstraintDecisionHandoffV0_20.lean",
+  "formal_module": "formal/KUOS/DecisionOS/VacuumExpectationAdmissibleCandidateSelectionV0_4.lean",
+  "documentation": "docs/KUUOS_DECISIONOS_ADMISSIBLE_CANDIDATE_SELECTION_v0_4.md",
+  "validator": "scripts/check_decisionos_admissible_candidate_selection_v0_4.py",
+  "workflow": ".github/workflows/decisionos-admissible-candidate-selection-v0-4.yml",
+  "required": {
+    "source_handoff": true,
+    "admissible_selection": true,
+    "identity_preserved": true,
+    "alternatives_preserved": true,
+    "dissent_and_minority_preserved": true,
+    "two_truths_and_middle_way": true
+  },
+  "forbidden": {
+    "plan_synthesis": false,
+    "plan_activation": false,
+    "execution": false,
+    "host_license": false,
+    "memory_overwrite": false,
+    "world_update": false
+  }
+}

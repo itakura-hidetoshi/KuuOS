@@ -8,6 +8,9 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from scripts.check_decisionos_admissible_candidate_selection_v0_4 import (
+    main as check_decisionos_v04,
+)
 from scripts.check_planos_hysteresis_constraint_decision_handoff_v0_20 import (
     main as check_planos_v020,
 )
@@ -33,6 +36,8 @@ from scripts.run_kuuos_runtime_full_check_v0_50 import main as run_v050_full_che
 
 
 def main() -> int:
+    if check_decisionos_v04() != 0:
+        return 1
     if check_planos_v020() != 0:
         return 1
     if check_planos_v019() != 0:
