@@ -65,14 +65,14 @@ jobs:
         with:
           python-version: '3.11'
 
-      - name: Validate v0.1 example packet
+      - name: Validate legacy example with consolidated validator
         run: |
-          python3 validators/validate_superstring_emptiness_string_brane_membrane_v0_1.py \
+          python3 validators/validate_superstring_emptiness_string_brane_membrane_v0_2.py \
             examples/superstring_emptiness_string_brane_membrane_packet_v0_1.json
 
-      - name: Run v0.1 validation cases
+      - name: Run legacy validation cases with consolidated runner
         run: |
-          python3 validators/run_superstring_emptiness_string_brane_membrane_cases_v0_1.py \
+          python3 validators/run_superstring_emptiness_string_brane_membrane_cases_v0_2.py \
             validation_cases/superstring_emptiness_string_brane_membrane_validation_cases_v0_1.json
 
       - name: Run v0.2 validation cases
