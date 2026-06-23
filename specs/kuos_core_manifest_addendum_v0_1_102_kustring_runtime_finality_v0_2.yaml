@@ -17,7 +17,7 @@ runtime_finality:
   finality_packet: docs/KUSTRING_RUNTIME_FINALITY_PACKET_v0_2.md
   checker: scripts/check_kustring_runtime_finality_v0_2.py
   finality_suite: scripts/run_kustring_runtime_finality_suite_v0_2.py
-  closure_suite: scripts/run_kustring_runtime_closure_suite_v0_2.py
+  closure_checker: scripts/check_kustring_runtime_closure_v0_2.py
   authority_note: implementation_finality_only
 
 finality_chain:
@@ -40,4 +40,4 @@ fixed_points:
   - runtime_finality_is_implementation_not_proof
   - finality_packet_does_not_grant_authority
   - runtime_chain_is_reviewable_from_packet_to_finality
-  - finality_suite_runs_closure_suite_then_finality_check
+  - finality_suite_runs_finality_checker_and_auxiliary_ci_checks
