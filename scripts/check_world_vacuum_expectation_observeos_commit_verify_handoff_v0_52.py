@@ -4,6 +4,7 @@ from __future__ import annotations
 import json
 import pathlib
 
+# Comment-only diagnostic marker for the current v0.52 feature head.
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
 
