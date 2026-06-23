@@ -21,18 +21,18 @@ def require_tokens(path: Path, tokens: tuple[str, ...]) -> None:
 
 def main() -> int:
     formal_root = ROOT / "formal/KuuOSObserveOSV0_3.lean"
+    aggregate_root = ROOT / "formal/KUOS.lean"
     formal = ROOT / "formal/KUOS/ObserveOS/VacuumExpectationIntakeCommitReceiptV0_3.lean"
     docs = ROOT / "docs/KUUOS_OBSERVEOS_VACUUM_EXPECTATION_INTAKE_COMMIT_RECEIPT_v0_3.md"
     manifest_path = ROOT / "manifests/kuuos_observeos_vacuum_expectation_intake_commit_receipt_v0_3.json"
     workflow = ROOT / ".github/workflows/observeos-vacuum-expectation-intake-commit-v0-3.yml"
 
-    for path in (formal_root, formal, docs, manifest_path, workflow):
+    for path in (formal_root, aggregate_root, formal, docs, manifest_path, workflow):
         require(path.is_file(), f"missing file: {path}")
 
-    require_tokens(
-        formal_root,
-        ("KUOS.ObserveOS.VacuumExpectationIntakeCommitReceiptV0_3",),
-    )
+    import_token = "KUOS.ObserveOS.VacuumExpectationIntakeCommitReceiptV0_3"
+    require_tokens(formal_root, (import_token,))
+    require_tokens(aggregate_root, (import_token,))
     require_tokens(
         formal,
         (
