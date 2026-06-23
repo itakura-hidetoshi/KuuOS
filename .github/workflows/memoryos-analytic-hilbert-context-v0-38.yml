@@ -1,0 +1,77 @@
+name: MemoryOS Analytic Hilbert Context v0.38
+
+on:
+  push:
+    paths:
+      - "runtime/kuuos_memoryos_analytic_hilbert_context_v0_38.py"
+      - "tests/test_memoryos_analytic_hilbert_context_v0_38.py"
+      - "scripts/check_memoryos_analytic_hilbert_context_v0_38.py"
+      - "docs/KUUOS_MEMORYOS_ANALYTIC_HILBERT_CONTEXT_v0_38.md"
+      - "manifests/kuuos_memoryos_analytic_hilbert_context_v0_38.json"
+      - "formal/KUOS/OpenHorizon/MemoryOSAnalyticHilbertContextKernelV0_38.lean"
+      - "formal/KUOS.lean"
+      - "scripts/run_kuuos_runtime_full_check_v0_48.py"
+      - ".github/workflows/memoryos-analytic-hilbert-context-v0-38.yml"
+      - "runtime/kuuos_memoryos_predictive_shielded_memory_v0_37.py"
+      - "formal/KUOS/WORLD/KuuVacuumOSHilbertCompletionBridgeV0_49.lean"
+  pull_request:
+    paths:
+      - "runtime/kuuos_memoryos_analytic_hilbert_context_v0_38.py"
+      - "tests/test_memoryos_analytic_hilbert_context_v0_38.py"
+      - "scripts/check_memoryos_analytic_hilbert_context_v0_38.py"
+      - "docs/KUUOS_MEMORYOS_ANALYTIC_HILBERT_CONTEXT_v0_38.md"
+      - "manifests/kuuos_memoryos_analytic_hilbert_context_v0_38.json"
+      - "formal/KUOS/OpenHorizon/MemoryOSAnalyticHilbertContextKernelV0_38.lean"
+      - "formal/KUOS.lean"
+      - "scripts/run_kuuos_runtime_full_check_v0_48.py"
+      - ".github/workflows/memoryos-analytic-hilbert-context-v0-38.yml"
+      - "runtime/kuuos_memoryos_predictive_shielded_memory_v0_37.py"
+      - "formal/KUOS/WORLD/KuuVacuumOSHilbertCompletionBridgeV0_49.lean"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile MemoryOS v0.38 Python
+        run: |
+          python -m compileall -q \
+            runtime/kuuos_memoryos_analytic_hilbert_context_v0_38.py \
+            tests/test_memoryos_analytic_hilbert_context_v0_38.py \
+            scripts/check_memoryos_analytic_hilbert_context_v0_38.py
+      - name: Check MemoryOS v0.38 registration
+        run: PYTHONPATH=. python scripts/check_memoryos_analytic_hilbert_context_v0_38.py
+      - name: Test MemoryOS v0.38 runtime
+        run: PYTHONPATH=. python -m unittest -v tests.test_memoryos_analytic_hilbert_context_v0_38
+      - name: Recheck MemoryOS v0.37 source boundary
+        run: |
+          PYTHONPATH=. python scripts/check_memoryos_predictive_shielded_memory_v0_37.py
+          PYTHONPATH=. python -m unittest -v tests.test_memoryos_predictive_shielded_memory_v0_37
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Lean checks
+        run: |
+          lake update
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KUOS.WORLD.KuuVacuumOSHilbertCompletionBridgeV0_49
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KUOS.OpenHorizon.MemoryOSAnalyticHilbertContextKernelV0_38
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSFormal
