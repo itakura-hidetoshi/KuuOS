@@ -24,6 +24,10 @@ def main() -> int:
             "WorldVacuumExpectationObserveOSEvidenceIntakeBridge",
             "VacuumExpectationObserveOSEvidenceEnvelope",
             "envelopeOfCandidate",
+            "observationCommitted",
+            "observationCommitForbidden",
+            "observationNotVerification",
+            "observationVerificationDistinction",
             "envelope_candidate_value_exact",
             "envelope_candidate_source_exact",
             "envelope_digest_binding_exact",
@@ -48,6 +52,7 @@ def main() -> int:
         ROOT / "docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVEOS_EVIDENCE_INTAKE_v0_51.md",
         (
             "intake-ready envelope != committed observation",
+            "observation committed = false",
             "observation != verification",
             "WORLD sidecar != observation owner",
             "runtime remains read-only",
@@ -80,6 +85,7 @@ def main() -> int:
     )
     assert manifest["formal_root"] == "formal/KuuOSFormalV0_51.lean"
     assert manifest["formal_module"] == str(formal.relative_to(ROOT))
+    assert "intake_ready_not_committed_observation" in manifest["boundaries"]
     assert "verification_debt_preserved" in manifest["boundaries"]
     assert "world_sidecar_not_observation_owner" in manifest["boundaries"]
     assert "runtime_read_only" in manifest["boundaries"]
