@@ -40,7 +40,8 @@ BOUNDARY = {
 }
 
 BLOCKED_CAPABILITY_TO_BLOCKER = {
-    value: key for key, value in blocker_v15.BLOCKED_CAPABILITY_BY_BLOCKER.items()
+    capability: blocker
+    for blocker, capability in blocker_v15.BLOCKED_CAPABILITY_BY_BLOCKER.items()
 }
 
 
@@ -77,7 +78,9 @@ def _strings(values: Sequence[Any], field: str) -> list[str]:
     return result
 
 
-def _validate_prior_snapshot(prior_snapshot: Mapping[str, Any] | None) -> dict[str, Any] | None:
+def _validate_prior_snapshot(
+    prior_snapshot: Mapping[str, Any] | None,
+) -> dict[str, Any] | None:
     if prior_snapshot is None:
         return None
     errors = validate_memoryos_qi_world_blocker_snapshot(prior_snapshot)
@@ -100,8 +103,20 @@ def _validate_sources(
     blocker_errors = blocker_v15.validate_cross_cycle_blocker_certificate(
         source_cross_cycle_receipt, blocker_certificate
     )
-    if blocker_errors:
-        raise ValueError("blocker_certificate_invalid:" + ";".join(blocker_errors))
+    inactive_errors = {
+        f"blocker_{name}_inactive" for name in blocker_v15.BLOCKER_ORDER
+    }
+    structural_errors = [
+        error for error in blocker_errors if error not in inactive_errors
+    ]
+    if structural_errors:
+        raise ValueError(
+            "blocker_certificate_invalid:" + ";".join(structural_errors)
+        )
+    if blocker_errors and blocker_certificate.get("disposition") != (
+        "QUARANTINE_BLOCKER_EVIDENCE_INCOMPLETE"
+    ):
+        raise ValueError("inactive_blocker_without_quarantine")
 
     world_body = world_v034.validate_world_store(world_store)
     if blocker_certificate.get("source_cross_cycle_receipt_digest") != (
@@ -141,18 +156,23 @@ def build_memoryos_qi_world_blocker_snapshot(
     )
     all_active = blocker_certificate.get("all_required_blockers_active") is True
 
+    vector = blocker_certificate.get("composed_blocker_vector", {})
+    if not isinstance(vector, Mapping):
+        raise ValueError("blocker_vector_invalid")
     expected_active = [
-        name
-        for name in blocker_v15.BLOCKER_ORDER
-        if blocker_certificate.get("composed_blocker_vector", {}).get(name) is True
+        name for name in blocker_v15.BLOCKER_ORDER if vector.get(name) is True
     ]
     expected_missing = [
-        name
-        for name in blocker_v15.BLOCKER_ORDER
-        if blocker_certificate.get("composed_blocker_vector", {}).get(name) is not True
+        name for name in blocker_v15.BLOCKER_ORDER if vector.get(name) is not True
+    ]
+    expected_blocked_capabilities = [
+        blocker_v15.BLOCKED_CAPABILITY_BY_BLOCKER[name]
+        for name in expected_active
     ]
     if active_blockers != expected_active or missing_blockers != expected_missing:
         raise ValueError("blocker_inventory_mismatch")
+    if blocked_capabilities != expected_blocked_capabilities:
+        raise ValueError("blocked_capability_inventory_mismatch")
     if all_active != (not missing_blockers):
         raise ValueError("blocker_all_active_flag_mismatch")
 
@@ -188,10 +208,11 @@ def build_memoryos_qi_world_blocker_snapshot(
             world_transition = "WORLD_GENERATION_ADVANCED"
 
     disposition = str(blocker_certificate.get("disposition", ""))
-    if all_active:
-        memory_route = "PRESERVE_BLOCKED_CONTEXT"
-    else:
-        memory_route = "QUARANTINE_INCOMPLETE_BLOCKER_EVIDENCE"
+    memory_route = (
+        "PRESERVE_BLOCKED_CONTEXT"
+        if all_active
+        else "QUARANTINE_INCOMPLETE_BLOCKER_EVIDENCE"
+    )
 
     handoff = episode.get("handoff", {})
     if not isinstance(handoff, Mapping):
