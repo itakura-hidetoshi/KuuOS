@@ -7,7 +7,7 @@
 ![Qi Process Diagnostic v0.28](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/qi-process-diagnostic-v0-28.yml/badge.svg)
 ![PlanOS v0.17](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/plan-os-v0-17-validation.yml/badge.svg)
 ![Qi-WORLD v2.2](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/qi-world-concrete-third-licensed-cycle-v2-2-validation.yml/badge.svg)
-![WORLD v0.49](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/world-kuu-vacuum-os-hilbert-v0-49.yml/badge.svg)
+![WORLD v0.50](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/world-vacuum-expectation-observation-v0-50.yml/badge.svg)
 
 **KuuOS / 空OS** は、生成・観測・信念・計画・判断・記憶・学習・実行・WORLD 表現を、独立した真理や権限ではなく、**由来・文脈・履歴・境界に拘束された局所候補**として扱う、公開研究アーキテクチャです。
 
@@ -21,7 +21,7 @@ PlanOS control and suspension recovery series   v0.17 (Replan ownership fixed at
 Repeatable finite-cycle agent kernel            v0.27
 Qi recovery-window diagnostic candidate         v0.28
 Qi-WORLD concrete licensed-cycle chain          v2.2 (three closed cycles)
-WORLD read-only mathematical sidecar             v0.49
+WORLD read-only mathematical sidecar             v0.50
 Lean formal root                                KuuOSFormal
 ```
 
@@ -42,6 +42,10 @@ diagnostic candidate != final diagnosis
 recovery-window interval != healing guarantee
 WORLD sidecar != exact WORLD
 analytic vacuum != exact WORLD
+vacuum expectation != fact
+observation candidate != belief promotion
+observation candidate != PlanOS activation
+observation candidate != ActOS authority
 modular time != physical time
 finite contraction certificate != physical mixing
 ```
@@ -187,9 +191,9 @@ verified two-cycle prefix
 
 Each authority is single-use, non-renewable and non-inheritable. The three-cycle receipt does not start a fourth cycle.
 
-### 4. WORLD mathematical sidecar: v0.49
+### 4. WORLD mathematical sidecar: v0.50
 
-WORLD is a **read-only formal and analytic sidecar**. Its current spine reaches v0.49:
+WORLD is a **read-only formal and analytic sidecar**. Its current spine reaches v0.50:
 
 ```text
 real Hilbert ℓ² carrier
@@ -209,15 +213,21 @@ real Hilbert ℓ² carrier
   -> normalized nonzero analytic vacuum
   -> gauge, modular-time and physical-time vacuum invariance
   -> zero-energy vacuum sector without uniqueness or WORLD collapse
+  -> source-bound vacuum-expectation observation candidates
+  -> normalized, positive and gauge-equivalent candidate values
 ```
 
-Lean verifies the declared typed consequences. The OS quotient-completion theorem, physical Hamiltonian self-adjointness, Stone generation, cluster property, physical realization and external mathematical acceptance remain explicit analytic receipts.
+Lean verifies the declared typed consequences. v0.50 derives identity normalization, star-square nonnegativity, gauge-equivalent candidate values and exact source binding from the v0.49 vacuum state. The OS quotient-completion theorem, physical Hamiltonian self-adjointness, Stone generation, cluster property, physical realization and external mathematical acceptance remain explicit analytic receipts.
 
 ```text
 WORLD != Markov semigroup
 WORLD != vacuum vector
 Kū != zero vector
 Hilbert vacuum != metaphysical Kū
+vacuum expectation != fact
+observation candidate != belief promotion
+observation candidate != PlanOS activation
+observation candidate != ActOS authority
 modular time != physical time
 equilibrium witness != WORLD collapse
 low free energy != truth
@@ -240,7 +250,7 @@ runtime does not update WORLD
 - Qi process-tensor history, recovery-window diagnostic candidates and plural-hypothesis preservation;
 - concrete Qi-WORLD licensed cycles with fresh external authority and immutable closure receipts;
 - Lean/mathlib-facing finite formal surfaces collected under `KuuOSFormal`;
-- WORLD v0.49 read-only OS Hilbert completion and analytic vacuum bridge.
+- WORLD v0.50 read-only vacuum-expectation observation-candidate bridge over the v0.49 analytic vacuum.
 
 ---
 
@@ -255,6 +265,7 @@ KuuOS is not currently:
 - proof that Qi is a physical substance, nor a denial of East Asian medical reasoning;
 - an externally accepted proof merely because Lean or CI succeeds;
 - a physical quantum Markov semigroup, physical mixing computation, exact physical vacuum construction or exact WORLD simulator;
+- a system in which a vacuum-expectation observation candidate becomes an empirical fact, belief, plan, action authority or WORLD update by itself;
 - a system in which memory, validation, curvature, low free energy, verification, receipts, vacuum representation or runtime success become truth by themselves.
 
 The medical boundary is modality-neutral. Repository validation is kept separate from professional diagnosis, treatment decisions and institutional responsibility.
@@ -278,6 +289,7 @@ docs/KUUOS_QI_RECOVERY_WINDOW_DIAGNOSTIC_v0_28.md
 docs/KUUOS_QI_WORLD_CONCRETE_THIRD_LICENSED_CYCLE_MATERIALIZATION_v2_2.md
 docs/KU_WORLD_QUANTUM_LOG_SOBOLEV_CONTRACTIVITY_MIXING_v0_48.md
 docs/KU_WORLD_KUU_VACUUM_OS_HILBERT_COMPLETION_v0_49.md
+docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVATION_CANDIDATE_v0_50.md
 formal/KUOS.lean
 ```
 
@@ -289,8 +301,8 @@ formal/KUOS.lean
 make core-governance-checks
 make all-governance-checks
 
-python3 scripts/run_kuuos_runtime_full_check_v0_49.py
-python3 scripts/check_world_kuu_vacuum_os_hilbert_completion_v0_49.py
+python3 scripts/run_kuuos_runtime_full_check_v0_50.py
+python3 scripts/check_world_vacuum_expectation_observation_candidate_v0_50.py
 
 PYTHONPATH=. python scripts/check_integrated_long_duration_operation_v0_27.py
 PYTHONPATH=. python scripts/check_qi_healing_potential_diagnostic_v0_28.py
