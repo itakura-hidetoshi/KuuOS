@@ -1,0 +1,27 @@
+{
+  "manifest_version": "world_vacuum_expectation_observation_candidate_v0_50",
+  "status": "formal_read_only_observation_bridge",
+  "formal_root": "formal/KuuOSFormalV0_50.lean",
+  "formal_module": "formal/KUOS/WORLD/VacuumExpectationObservationCandidateBridgeV0_50.lean",
+  "documentation": "docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVATION_CANDIDATE_v0_50.md",
+  "validator": "scripts/check_world_vacuum_expectation_observation_candidate_v0_50.py",
+  "full_check": "scripts/run_kuuos_runtime_full_check_v0_50.py",
+  "workflow": ".github/workflows/world-vacuum-expectation-observation-v0-50.yml",
+  "derived_results": [
+    "identity_candidate_normalized",
+    "star_square_candidate_nonnegative",
+    "gauge_candidate_value_eq",
+    "candidate_source_exact"
+  ],
+  "boundaries": [
+    "vacuum_expectation_not_fact",
+    "vacuum_expectation_not_truth_authority",
+    "candidate_not_belief_promotion",
+    "candidate_not_plan_activation",
+    "candidate_not_act_authority",
+    "world_sidecar_not_control_objective",
+    "modular_time_not_physical_time",
+    "multi_world_noncollapse",
+    "runtime_read_only"
+  ]
+}
