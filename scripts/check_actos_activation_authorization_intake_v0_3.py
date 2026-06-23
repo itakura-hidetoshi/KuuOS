@@ -43,7 +43,7 @@ def main() -> int:
     ):
         require(path.is_file(), f"missing file: {path}")
 
-    import_token = "KUOS.ActOS.VacuumExpectationActivationAuthorizationIntakeV0_3"
+    import_token = "KUOS.ActOS.«VacuumExpectationActivationAuthorizationIntakeV0_3»"
     require_tokens(formal_root, (import_token,))
     require_tokens(aggregate_root, (import_token,))
     require_tokens(
