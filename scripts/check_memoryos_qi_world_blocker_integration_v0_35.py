@@ -46,6 +46,7 @@ def main() -> None:
         "qi_history_preserved",
         "blocker_certificate_preserved_as_context",
         "memory_cannot_discharge_blocker",
+        "missing_blocker_evidence_fails_closed",
         "world_store_is_exact_source_not_truth",
         "world_generation_history_is_append_only",
         "memory_projection_is_read_only",
@@ -69,16 +70,39 @@ def main() -> None:
         "MemoryOS WORLD commit authority must remain forbidden",
     )
 
+    runtime = (
+        ROOT / "runtime/kuuos_memoryos_qi_world_blocker_integration_v0_35.py"
+    ).read_text(encoding="utf-8")
+    for phrase in (
+        "inactive_errors = {",
+        "structural_errors = [",
+        "QUARANTINE_BLOCKER_EVIDENCE_INCOMPLETE",
+        "blocked_capability_inventory_mismatch",
+    ):
+        require(phrase in runtime, f"runtime quarantine boundary missing: {phrase}")
+
     documentation = (
         ROOT / "docs/KUUOS_MEMORYOS_QI_WORLD_BLOCKER_INTEGRATION_v0_35.md"
     ).read_text(encoding="utf-8")
     for phrase in (
         "Qi process history ≠ current snapshot",
+        "structurally exact inactive evidence → quarantine",
+        "structurally inconsistent evidence → reject",
         "blocker memory ≠ blocker discharge",
         "WORLD-store commit ≠ truth",
         "MemoryOS retrieval ≠ execution authority",
     ):
         require(phrase in documentation, f"documentation boundary missing: {phrase}")
+
+    tests = (
+        ROOT / "tests/test_memoryos_qi_world_blocker_integration_v0_35.py"
+    ).read_text(encoding="utf-8")
+    for phrase in (
+        "test_real_incomplete_blocker_certificate_is_quarantined",
+        "test_real_structural_blocker_corruption_is_rejected",
+        "test_blocked_capability_inventory_mismatch_is_rejected",
+    ):
+        require(phrase in tests, f"regression test missing: {phrase}")
 
     formal = (
         ROOT

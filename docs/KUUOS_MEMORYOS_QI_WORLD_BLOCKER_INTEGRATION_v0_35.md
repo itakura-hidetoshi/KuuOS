@@ -53,15 +53,17 @@ noncollapse
 
 全 blocker が有効なら、無許可遷移を抑止した文脈として保存する。
 
-inactive blocker のみが検出された場合は、構造破損とは区別して次へ送る。
+上流validatorが返すエラーが、正確に `blocker_<name>_inactive` のみである場合は、certificateの構造とdigestを保持した不完全証拠として次へ送る。
 
 ```text
 QUARANTINE_INCOMPLETE_BLOCKER_EVIDENCE
 ```
 
-それ以外の証明不整合は拒否する。
+version、digest、source binding、component vector、composed vector、active inventory、missing inventory、blocked capability inventory、disposition、non-authorityのいずれかが不一致なら、構造破損として拒否する。
 
 ```text
+structurally exact inactive evidence → quarantine
+structurally inconsistent evidence → reject
 blocker memory ≠ blocker discharge
 missing evidence ≠ silent repair
 blocker success ≠ execution license
