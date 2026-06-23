@@ -40,7 +40,6 @@ This index records the KuString-MGAP4D-Emptiness runtime implementation chain an
 8. Closure packet
    - `docs/KUSTRING_RUNTIME_CLOSURE_PACKET_v0_2.md`
    - `scripts/check_kustring_runtime_closure_v0_2.py`
-   - `scripts/run_kustring_runtime_closure_suite_v0_2.py`
 
 9. Finality packet
    - `docs/KUSTRING_RUNTIME_FINALITY_PACKET_v0_2.md`
@@ -75,5 +74,5 @@ CI success confirms configured CI passage for the referenced run. It does not co
 Future changes must be added as same-root append-only entries or as a new versioned chain index. Destructive replacement of the CI-green evidence or authority boundary is forbidden.
 
 Version: v0.2
-Date: 2026-05-16
+Date: 2026-06-24
 Author: Hidetoshi Itakura / 板倉英俊
