@@ -11,12 +11,10 @@ implementation_not_proof: true
 added_documents:
   - docs/EMPTINESS_RUNTIME_CLOSURE_PACKET_v0_1.md
   - scripts/check_emptiness_runtime_closure_v0_1.py
-  - scripts/run_emptiness_runtime_closure_checks_v0_1.py
 
 runtime_closure:
   closure_packet: docs/EMPTINESS_RUNTIME_CLOSURE_PACKET_v0_1.md
   checker: scripts/check_emptiness_runtime_closure_v0_1.py
-  runner: scripts/run_emptiness_runtime_closure_checks_v0_1.py
   base_runner: scripts/run_emptiness_runtime_attestation_checks_v0_1.py
   authority_note: implementation_closure_only
 
@@ -33,10 +31,9 @@ closure_chain:
 validation:
   commands:
     - python3 scripts/check_emptiness_runtime_closure_v0_1.py
-    - python3 scripts/run_emptiness_runtime_closure_checks_v0_1.py
 
 fixed_points:
   - emptiness_runtime_closure_is_implementation_not_proof
   - closure_packet_does_not_grant_authority
   - emptiness_runtime_chain_is_reviewable_from_claim_to_attestation
-  - closure_runner_runs_attestation_runner_then_closure_check
+  - closure_checker_runs_attestation_runner_before_closure_validation
