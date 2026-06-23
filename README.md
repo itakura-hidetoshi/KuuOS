@@ -7,7 +7,7 @@
 ![Qi Process Diagnostic v0.28](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/qi-process-diagnostic-v0-28.yml/badge.svg)
 ![PlanOS v0.17](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/plan-os-v0-17-validation.yml/badge.svg)
 ![Qi-WORLD v2.2](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/qi-world-concrete-third-licensed-cycle-v2-2-validation.yml/badge.svg)
-![WORLD v0.51](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/world-vacuum-expectation-observeos-intake-v0-51.yml/badge.svg)
+![WORLD v0.52](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/world-observeos-commit-verifyos-handoff-v0-52.yml/badge.svg)
 
 **KuuOS / 空OS** は、生成・観測・信念・計画・判断・記憶・学習・実行・WORLD 表現を、独立した真理や権限ではなく、**由来・文脈・履歴・境界に拘束された局所候補**として扱う、公開研究アーキテクチャです。
 
@@ -21,7 +21,7 @@ PlanOS control and suspension recovery series   v0.17 (Replan ownership fixed at
 Repeatable finite-cycle agent kernel            v0.27
 Qi recovery-window diagnostic candidate         v0.28
 Qi-WORLD concrete licensed-cycle chain          v2.2 (three closed cycles)
-WORLD read-only mathematical sidecar             v0.51
+WORLD read-only mathematical sidecar             v0.52
 Lean formal root                                KuuOSFormal
 ```
 
@@ -45,8 +45,13 @@ analytic vacuum != exact WORLD
 vacuum expectation != fact
 observation candidate != belief promotion
 intake-ready envelope != committed observation
-observation != verification
-WORLD sidecar != observation owner
+commit evidence required
+commit receipt != verification result
+analytic source != ActOS effect observation
+VerifyOS handoff evidence required
+VerifyOS handoff != verification execution
+handoff != verdict
+verification debt remains open
 observation candidate != PlanOS activation
 observation candidate != ActOS authority
 modular time != physical time
@@ -194,9 +199,9 @@ verified two-cycle prefix
 
 Each authority is single-use, non-renewable and non-inheritable. The three-cycle receipt does not start a fourth cycle.
 
-### 4. WORLD mathematical sidecar: v0.51
+### 4. WORLD mathematical sidecar: v0.52
 
-WORLD is a **read-only formal and analytic sidecar**. Its current spine reaches v0.51:
+WORLD is a **read-only formal and analytic sidecar**. Its current spine reaches v0.52:
 
 ```text
 real Hilbert ℓ² carrier
@@ -217,14 +222,16 @@ real Hilbert ℓ² carrier
   -> gauge, modular-time and physical-time vacuum invariance
   -> zero-energy vacuum sector without uniqueness or WORLD collapse
   -> source-bound vacuum-expectation observation candidates
-  -> normalized, positive and gauge-equivalent candidate values
-  -> exact ObserveOS evidence-intake envelope
-  -> immutable digest and provenance binding
-  -> intake remains uncommitted with verification debt open
-  -> ObserveOS ownership and independent verification preserved
+  -> exact pre-commit ObserveOS evidence-intake envelope
+  -> explicit ObserveOS commit evidence
+  -> exact single-use committed-observation receipt
+  -> analytic source binding with sourceEffectBound = false
+  -> explicit VerifyOS handoff evidence
+  -> exact-cycle single-use VerifyOS handoff
+  -> open verification debt without verdict or execution
 ```
 
-Lean verifies the declared typed consequences. v0.51 preserves the exact v0.50 candidate value and source, binds candidate, value, context and receipt digests, discharges the structural ObserveOS evidence checklist, preserves provenance, fixes `observationCommitted = false`, and keeps independent verification debt open without granting downstream authority. The post-record ObserveOS verification boundary remains a separately owned later stage. The OS quotient-completion theorem, physical Hamiltonian self-adjointness, Stone generation, cluster property, physical realization and external mathematical acceptance remain explicit analytic receipts.
+Lean verifies the declared typed consequences. v0.52 requires explicit evidence for both the ObserveOS commit and VerifyOS handoff, preserves exact identifiers and digests, fixes the committed source class as analytic rather than ActOS-effect-grounded, requires the verify cycle to equal the observe cycle, and leaves verification execution, verdict formation, debt discharge and all downstream authority external. The OS quotient-completion theorem, physical Hamiltonian self-adjointness, Stone generation, cluster property, empirical adequacy, physical realization and external mathematical acceptance remain explicit receipts.
 
 ```text
 WORLD != Markov semigroup
@@ -232,18 +239,20 @@ WORLD != vacuum vector
 Kū != zero vector
 Hilbert vacuum != metaphysical Kū
 vacuum expectation != fact
-intake-ready envelope != committed observation
-observation != verification
-WORLD sidecar != observation owner
-WORLD candidate != ActOS effect observation
+intake envelope != committed observation
+commit evidence required
+ObserveOS commit receipt != verification result
+analytic source != ActOS effect observation
+VerifyOS handoff evidence required
+VerifyOS handoff != verification execution
+handoff != verdict
 verification debt remains open
+verification result != truth authority
+verification result != execution authority
 observation candidate != belief promotion
 observation candidate != PlanOS activation
 observation candidate != ActOS authority
 modular time != physical time
-equilibrium witness != WORLD collapse
-low free energy != truth
-gradient/JKO witness != execution authority
 runtime does not update WORLD
 ```
 
@@ -262,7 +271,7 @@ runtime does not update WORLD
 - Qi process-tensor history, recovery-window diagnostic candidates and plural-hypothesis preservation;
 - concrete Qi-WORLD licensed cycles with fresh external authority and immutable closure receipts;
 - Lean/mathlib-facing finite formal surfaces collected under `KuuOSFormal`;
-- WORLD v0.51 read-only ObserveOS evidence-intake envelope over the v0.50 vacuum-expectation candidate.
+- WORLD v0.52 explicit ObserveOS commit and VerifyOS handoff bridge over the v0.51 pre-commit intake envelope.
 
 ---
 
@@ -277,8 +286,9 @@ KuuOS is not currently:
 - proof that Qi is a physical substance, nor a denial of East Asian medical reasoning;
 - an externally accepted proof merely because Lean or CI succeeds;
 - a physical quantum Markov semigroup, physical mixing computation, exact physical vacuum construction or exact WORLD simulator;
-- a system in which an intake-ready WORLD envelope automatically becomes a committed observation or verified fact;
-- a system in which a vacuum-expectation observation candidate becomes an empirical fact, belief, plan, action authority or WORLD update by itself;
+- a system in which an intake envelope commits itself or hands itself to VerifyOS without explicit evidence;
+- a system in which a committed analytic observation is silently reclassified as an ActOS effect observation;
+- a system in which a VerifyOS handoff automatically executes verification, issues a verdict or discharges verification debt;
 - a system in which memory, validation, curvature, low free energy, verification, receipts, vacuum representation or runtime success become truth by themselves.
 
 The medical boundary is modality-neutral. Repository validation is kept separate from professional diagnosis, treatment decisions and institutional responsibility.
@@ -304,6 +314,7 @@ docs/KU_WORLD_QUANTUM_LOG_SOBOLEV_CONTRACTIVITY_MIXING_v0_48.md
 docs/KU_WORLD_KUU_VACUUM_OS_HILBERT_COMPLETION_v0_49.md
 docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVATION_CANDIDATE_v0_50.md
 docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVEOS_EVIDENCE_INTAKE_v0_51.md
+docs/KU_WORLD_OBSERVEOS_COMMIT_VERIFYOS_HANDOFF_v0_52.md
 formal/KUOS.lean
 ```
 
@@ -315,8 +326,8 @@ formal/KUOS.lean
 make core-governance-checks
 make all-governance-checks
 
-python3 scripts/run_kuuos_runtime_full_check_v0_51.py
-python3 scripts/check_world_vacuum_expectation_observeos_evidence_intake_v0_51.py
+python3 scripts/run_kuuos_runtime_full_check_v0_52.py
+python3 scripts/check_world_observeos_commit_verifyos_handoff_v0_52.py
 
 PYTHONPATH=. python scripts/check_integrated_long_duration_operation_v0_27.py
 PYTHONPATH=. python scripts/check_qi_healing_potential_diagnostic_v0_28.py
