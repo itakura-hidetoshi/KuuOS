@@ -43,22 +43,27 @@ def main() -> int:
         ROOT / "docs/KU_WORLD_KUU_VACUUM_OS_HILBERT_COMPLETION_v0_49.md",
         ("Kū != zero vector", "modular time != physical time"),
     )
+
+    # Public orientation is a moving current-baseline surface. Historical
+    # validators therefore check invariant boundaries rather than requiring
+    # README or ROADMAP to continue presenting v0.49 as the current version.
     require_tokens(
         ROOT / "README.md",
         (
-            "WORLD read-only mathematical sidecar             v0.49",
+            "WORLD read-only mathematical sidecar",
             "analytic vacuum != exact WORLD",
-            "run_kuuos_runtime_full_check_v0_49.py",
+            "modular time != physical time",
         ),
     )
     require_tokens(
         ROOT / "ROADMAP.md",
         (
             "Baseline date: 2026-06-23",
-            "implemented through v0.49",
-            "Strengthen WORLD v0.49 proof status",
+            "WORLD mathematical sidecar",
+            "modular-time and physical-time invariance",
         ),
     )
+    assert (ROOT / "scripts/run_kuuos_runtime_full_check_v0_49.py").is_file()
 
     manifest_path = ROOT / "manifests/world_kuu_vacuum_os_hilbert_completion_v0_49.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
