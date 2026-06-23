@@ -5,7 +5,7 @@
 ![KuuOS Runtime Full Check](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/kuuos_runtime_full_check.yml/badge.svg)
 ![Finite Cycle Continuity v0.27](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/finite-cycle-continuity-v0-27-validation.yml/badge.svg)
 ![Qi Process Diagnostic v0.28](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/qi-process-diagnostic-v0-28.yml/badge.svg)
-![PlanOS v0.17](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/plan-os-v0-17-validation.yml/badge.svg)
+![PlanOS v0.21](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/planos-selected-candidate-next-cycle-synthesis-v0-21.yml/badge.svg)
 ![Qi-WORLD v2.2](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/qi-world-concrete-third-licensed-cycle-v2-2-validation.yml/badge.svg)
 ![WORLD v0.52](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/world-vacuum-expectation-observeos-commit-verify-v0-52.yml/badge.svg)
 
@@ -19,13 +19,14 @@ KuuOS is a public, governance-gated, proof-facing, non-Markovian, Qi-process-awa
 
 ```text
 Context Gauge Atlas / Horizon Governance        v0.13 / v0.12
-PlanOS control and suspension recovery series   v0.17
-Repeatable finite-cycle agent kernel            v0.27
-Qi recovery-window diagnostic candidate         v0.28
-Qi-WORLD concrete licensed-cycle chain          v2.2
-LearnOS WORLD-derived future-only delta          v0.3
-WORLD read-only mathematical sidecar             v0.52
-Lean formal root                                KuuOSFormal
+PlanOS WORLD-derived next-cycle route            v0.21
+DecisionOS admissible candidate selection        v0.4
+Repeatable finite-cycle agent kernel             v0.27
+Qi recovery-window diagnostic candidate          v0.28
+Qi-WORLD concrete licensed-cycle chain           v2.2
+LearnOS WORLD-derived future-only delta           v0.3
+WORLD read-only mathematical sidecar              v0.52
+Lean formal root                                 KuuOSFormal
 ```
 
 ## Core boundary
@@ -36,6 +37,9 @@ validation != truth
 proof-facing artifact != external theorem acceptance
 memory persistence != belief sovereignty
 plan or replan commit != execution permission
+replan intake != replan activation
+selected candidate != execution permission
+next-cycle basis commit != plan activation
 closed-cycle receipt != next-cycle activation
 diagnostic candidate != final diagnosis
 recovery-window interval != healing guarantee
@@ -118,9 +122,11 @@ negative response != permanent closure
 red flag != automatic triage or treatment
 ```
 
-### PlanOS, LearnOS and Qi-WORLD
+### PlanOS, DecisionOS, LearnOS and Qi-WORLD
 
 PlanOS owns plan and replan synthesis.
+
+DecisionOS owns admissible-candidate selection.
 
 LearnOS v0.3 consumes an explicit VerifyOS v0.3 receipt and records one future-only learning receipt.
 
@@ -131,6 +137,23 @@ indeterminate verification -> reobservation or hold
 ```
 
 The learning delta is inactive in the current cycle, preserves past records and requires a later PlanOS-owned replan handoff without activating it.
+
+The current WORLD-derived planning route reaches:
+
+```text
+LearnOS v0.3 future-only learning receipt
+  -> PlanOS v0.18 exact replan intake
+  -> PlanOS v0.19 history and Qi candidate generation
+  -> PlanOS v0.20 hysteresis and constraint handoff
+  -> DecisionOS v0.4 admissible candidate selection
+  -> PlanOS v0.21 next-cycle synthesis and basis commit
+```
+
+The route preserves source identity, history, Qi conditioning, constraints and selection ownership.
+
+The v0.21 basis remains future-only and inactive now.
+
+It does not activate a plan, permit execution, grant a host license, overwrite memory or update WORLD.
 
 Qi-WORLD v2.2 contains three concrete closed licensed cycles with fresh external authority, human approval, host license, one explicit discharge, one effect and native closure for each cycle.
 
@@ -193,6 +216,7 @@ It does not construct or replay any OS-owned transition.
 - Qi process history and recovery-window diagnostic candidates;
 - three concrete Qi-WORLD licensed cycles;
 - ObserveOS v0.3 commit, VerifyOS v0.3 verification and LearnOS v0.3 future-only receipts;
+- PlanOS v0.18 through v0.21 with DecisionOS v0.4 selection and future-only next-cycle basis commit;
 - Lean/mathlib-facing formal surfaces under `KuuOSFormal`;
 - WORLD v0.52 read-only composition of the existing OS receipt lineage.
 
@@ -207,7 +231,7 @@ KuuOS is not currently:
 - an externally accepted proof merely because Lean or CI succeeds;
 - a physical quantum Markov semigroup or exact WORLD simulator;
 - a system in which a composition digest proves that WORLD performed an OS transition;
-- a system in which a verification or learning result becomes truth, causal authority, current-cycle mutation, plan activation or action permission by itself.
+- a system in which a verification, learning, selection or synthesis result becomes truth, causal authority, current-cycle mutation, plan activation or action permission by itself.
 
 ## Read first
 
@@ -238,7 +262,8 @@ make all-governance-checks
 
 python3 scripts/run_kuuos_runtime_full_check_v0_52.py
 python3 scripts/check_world_vacuum_expectation_observeos_commit_verify_handoff_v0_52.py
-python3 scripts/check_learnos_vacuum_expectation_verification_future_only_delta_v0_3.py
+python3 scripts/check_planos_selected_candidate_next_cycle_synthesis_v0_21.py
+python3 scripts/check_decisionos_admissible_candidate_selection_v0_4.py
 
 lake -KleanArgs=-DwarningAsError=true \
   -KleanArgs=-DsorryAsError=true \
