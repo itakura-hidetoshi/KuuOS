@@ -20,15 +20,20 @@ def require_tokens(path: Path, tokens: tuple[str, ...]) -> None:
 
 
 def main() -> int:
+    formal_root = ROOT / "formal/KuuOSVerifyOSV0_3.lean"
+    top_root = ROOT / "formal/KuuOSFormal.lean"
     formal = ROOT / "formal/KUOS/VerifyOS/VacuumExpectationCommitVerificationReceiptV0_3.lean"
     observe = ROOT / "formal/KUOS/ObserveOS/VacuumExpectationIntakeCommitReceiptV0_3.lean"
     docs = ROOT / "docs/KUUOS_VERIFYOS_VACUUM_EXPECTATION_COMMIT_VERIFICATION_RECEIPT_v0_3.md"
     manifest_path = ROOT / "manifests/kuuos_verifyos_vacuum_expectation_commit_verification_receipt_v0_3.json"
     workflow = ROOT / ".github/workflows/verifyos-vacuum-expectation-commit-verification-v0-3.yml"
 
-    for path in (formal, observe, docs, manifest_path, workflow):
+    for path in (formal_root, top_root, formal, observe, docs, manifest_path, workflow):
         require(path.is_file(), f"missing file: {path}")
 
+    import_token = "KUOS.VerifyOS.VacuumExpectationCommitVerificationReceiptV0_3"
+    require_tokens(formal_root, (import_token,))
+    require_tokens(top_root, (import_token,))
     require_tokens(
         formal,
         (
@@ -73,6 +78,10 @@ def main() -> int:
             "verification receipt != automatic learning",
             "verification receipt != PlanOS activation",
         ),
+    )
+    require_tokens(
+        ROOT / "scripts/run_kuuos_runtime_full_check_v0_51.py",
+        ("check_verifyos_v03",),
     )
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
