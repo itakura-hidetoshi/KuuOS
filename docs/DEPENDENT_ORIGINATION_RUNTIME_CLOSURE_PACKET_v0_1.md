@@ -19,8 +19,7 @@ This is implementation closure only. It is not proof, truth, essence authority, 
 Validation:
 
 - scripts/check_dependent_origination_runtime_closure_v0_1.py
-- scripts/run_dependent_origination_runtime_closure_checks_v0_1.py
 
 Version: v0.1
-Date: 2026-05-14
+Date: 2026-06-24
 Author: Hidetoshi Itakura / 板倉英俊
