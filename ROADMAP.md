@@ -81,7 +81,7 @@ proof-status separation
 | Autonomous-agent completion | v0.20–v0.27 finite-cycle continuity | implemented and merged |
 | Qi diagnostic candidate | v0.28 recovery-window layer | implemented and merged |
 | Qi-WORLD | v2.2 concrete third licensed cycle | implemented and merged |
-| WORLD | v0.50 vacuum-expectation observation-candidate bridge | implemented on current integration branch |
+| WORLD | v0.50 vacuum-expectation observation-candidate bridge | implemented and merged |
 | Formal root | `KuuOSFormal` | strict Lean build surface |
 | Central runtime | `run_kuuos_runtime_full_check_v0_50.py` | active regression root |
 
@@ -240,7 +240,7 @@ The cycle count is three. No fourth cycle is started or implied.
 
 ### 2.7 WORLD mathematical sidecar
 
-**Status: implemented through v0.50 on the current integration branch**
+**Status: implemented through v0.50 and merged**
 
 The current typed spine is:
 
