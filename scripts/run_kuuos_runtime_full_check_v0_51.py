@@ -8,6 +8,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from scripts.check_actos_bounded_adapter_invocation_v0_4 import main as check_actos_v04
 from scripts.check_actos_activation_authorization_intake_v0_3 import main as check_actos_v03
 from scripts.check_planos_activation_admission_actos_handoff_v0_23 import main as check_planos_v023
 from scripts.check_planos_compiler_materialization_v0_22 import main as check_planos_v022
@@ -25,6 +26,7 @@ from scripts.run_kuuos_runtime_full_check_v0_50 import main as run_v050_full_che
 
 def main() -> int:
     checks = (
+        check_actos_v04,
         check_actos_v03,
         check_planos_v023,
         check_planos_v022,
