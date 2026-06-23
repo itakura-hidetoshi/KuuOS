@@ -4,6 +4,8 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      - 'README.md'
+      - 'ROADMAP.md'
       - 'formal/KUOS/WORLD/KuuVacuumOSHilbertCompletionBridgeV0_49.lean'
       - 'formal/KuuOSFormalV0_49.lean'
       - 'formal/KUOS.lean'
