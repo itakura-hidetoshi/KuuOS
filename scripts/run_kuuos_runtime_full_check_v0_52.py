@@ -8,6 +8,9 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 if str(ROOT) not in sys.path:
     sys.path.insert(0, str(ROOT))
 
+from scripts.check_decisionos_world_selection_v0_5 import (
+    main as check_decisionos_v05,
+)
 from scripts.check_planos_world_host_effect_constraint_handoff_v0_26 import (
     main as check_planos_v026,
 )
@@ -33,6 +36,8 @@ from scripts.run_kuuos_runtime_full_check_v0_51 import main as run_v051_full_che
 
 
 def main() -> int:
+    if check_decisionos_v05() != 0:
+        return 1
     if check_planos_v026() != 0:
         return 1
     if check_planos_v025() != 0:
