@@ -10,6 +10,7 @@ on:
       - 'formal/KuuOSFormalV0_49.lean'
       - 'formal/KUOS.lean'
       - 'lakefile.toml'
+      - 'manifests/world_kuu_vacuum_os_hilbert_completion_v0_49.json'
       - 'scripts/check_world_kuu_vacuum_os_hilbert_completion_v0_49.py'
       - 'docs/KU_WORLD_KUU_VACUUM_OS_HILBERT_COMPLETION_v0_49.md'
       - '.github/workflows/world-kuu-vacuum-os-hilbert-v0-49.yml'
