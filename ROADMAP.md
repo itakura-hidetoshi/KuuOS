@@ -40,13 +40,17 @@ Hilbert vacuum != metaphysical Kū
 vacuum expectation != fact
 vacuum expectation != truth authority
 intake-ready envelope != committed observation
-validated commit receipt != WORLD performed commit
+receipt composition != receipt construction
+validated receipt != WORLD-performed transition
 observation != verification
-verification handoff != verification start
-verification start != verification result
 verification result != truth
+verification result != causal authority
+learning receipt != current-cycle mutation
+learning receipt != Replan activation
+learning receipt != execution permission
 WORLD sidecar != ObserveOS owner
 WORLD sidecar != VerifyOS owner
+WORLD sidecar != LearnOS owner
 WORLD candidate != ActOS effect observation
 observation candidate != belief promotion
 observation candidate != PlanOS activation
@@ -84,7 +88,10 @@ proof-status separation
 | Autonomous-agent completion | v0.20 through v0.27 finite-cycle continuity | implemented and merged |
 | Qi diagnostic candidate | v0.28 recovery-window layer | implemented and merged |
 | Qi-WORLD | v2.2 concrete third licensed cycle | implemented and merged |
-| WORLD | v0.52 ObserveOS commit and VerifyOS handoff receipt bridge | implemented through v0.52 on current integration branch |
+| ObserveOS | v0.3 WORLD intake commit receipt | implemented and merged |
+| VerifyOS | v0.3 WORLD commit verification receipt | implemented and merged |
+| LearnOS | v0.3 verification-derived future-only delta | implemented and merged |
+| WORLD | v0.52 OS receipt composition | implemented through v0.52 on current integration branch |
 | Formal root | `KuuOSFormal` | strict Lean build surface |
 | Central runtime | `run_kuuos_runtime_full_check_v0_52.py` | active regression root |
 
@@ -107,7 +114,9 @@ No merged runtime or formal layer may leave README, ROADMAP,
 the formal root or the central runtime full check materially stale.
 ```
 
-### Horizon and context gauge architecture
+Historical validators must strictly preserve their own versioned Lean modules, documents, manifests and roots while allowing README and ROADMAP to advance through invariant-boundary checks.
+
+### Context gauge architecture
 
 Completed baseline:
 
@@ -131,9 +140,7 @@ context chart
 
 Future work is composition maturity, not conversion into a universal graph.
 
-### OS ownership and Replan
-
-The responsibility boundary is fixed:
+### OS ownership
 
 ```text
 ObserveOS owns observation
@@ -148,78 +155,55 @@ MemoryOS preserves lineage and reconstruction
 
 PlanOS v0.2 fixes Replan synthesis ownership.
 
-The public PlanOS control series reaches v0.17:
-
-```text
-plan and replan synthesis
-  -> activation and capability control
-  -> bounded lease and renewal policy
-  -> capability rotation and materialization
-  -> next-cycle control session
-  -> lease monitoring and terminal suspension
-  -> revalidation, renewal review, escalation or re-rotation handoff
-```
-
-A terminal v0.16 session is never resumed.
-
-Recovery requires a new lineage, activation receipt and control session.
+The public PlanOS control series reaches v0.17 and preserves terminal suspension, fresh-lineage recovery and no automatic execution.
 
 ### Finite-cycle autonomous-agent completion
 
 The v0.20 through v0.26 contracts are composed at v0.27 into a restart-safe, user-interruptible and resource-bounded sequence of separately authorized finite cycles.
 
-Completed capabilities include:
-
-- persistent mission binding;
-- observation and plural belief state;
-- semantic planning and independent verification;
-- bounded learning and cognitive memory;
-- transactional intended-versus-observed effect reconciliation;
-- event wake-up, foreground control and resource admission;
-- governed change management;
-- exact checkpoints, append-only replay and snapshot repair;
-- process-restart and host-restart recovery;
-- explicit finite renewal followed by explicit resume.
+Completed capabilities include persistent mission binding, plural observation and belief, semantic planning, independent verification, bounded memory, transactional effect reconciliation, wake-up control, resource admission, governed change management, exact checkpoints and restart recovery.
 
 This is repeatable continuity, not an unbounded cycle.
 
 ### Qi recovery-window diagnostic candidate
 
-v0.28 completes:
+v0.28 completes multi-time Qi Process Tensor history, plural hypotheses, support and counterevidence, bounded recovery windows, open-future preservation and clinician-review handoff.
 
-- multi-time Qi Process Tensor history;
-- plural diagnostic hypotheses;
-- support, counterevidence, uncertainty and source traces;
-- bounded recovery-window interval;
-- separation of severity from irreversibility;
-- open-future preservation after negative response;
-- clinician-review handoff for declared red flags;
-- append-only replay-safe candidate lineage;
-- formal non-authority boundaries.
-
-This lane does not generate treatment, triage or final diagnosis.
+```text
+severity != irreversibility
+positive response != guaranteed healing
+negative response != permanent closure
+red flag != automatic triage or treatment
+```
 
 ### Qi-WORLD licensed-cycle materialization
 
-The concrete path reaches three closed cycles at v2.2:
+The concrete path reaches three closed cycles at v2.2.
 
-```text
-first licensed effect and native closure
-  -> immutable first receipt
-  -> fresh successor authority
-  -> second licensed cycle and closure
-  -> verified two-cycle prefix
-  -> fresh third authority, approval and host license
-  -> explicit single-use discharge
-  -> concrete third ActOS effect
-  -> native ObserveOS, VerifyOS, LearnOS and PlanOS closure
-  -> immutable third receipt
-  -> append-only three-cycle chain
-```
+Each effectful cycle requires fresh authority, human approval, host license, explicit single-use discharge, one concrete effect and native closure.
 
 The three-cycle receipt does not start or authorize a fourth cycle.
 
-### WORLD mathematical sidecar
+### ObserveOS, VerifyOS and LearnOS v0.3
+
+The WORLD-derived OS route is:
+
+```text
+v0.51 ObserveOS evidence-intake envelope
+  -> ObserveOS v0.3 explicit commit receipt
+  -> VerifyOS v0.3 explicit verification receipt
+  -> LearnOS v0.3 explicit future-only learning receipt
+```
+
+The ObserveOS evidence-intake envelope remains uncommitted until the separately supplied ObserveOS receipt records it.
+
+ObserveOS comparison remains distinct from verification.
+
+VerifyOS records one passed, failed or indeterminate result while preserving truth and causal non-authority.
+
+LearnOS maps the result to reinforcement, repair, reobservation or hold, but the delta remains inactive now and requires a later PlanOS-owned replan handoff.
+
+## WORLD mathematical sidecar
 
 **Status: implemented through v0.52 on the current integration branch**
 
@@ -249,30 +233,31 @@ real Hilbert l2 carrier
 -> normalized positive gauge-invariant vacuum state
 -> separate modular-time and physical-time invariance
 -> zero-energy vacuum sector without uniqueness or WORLD collapse
--> source-bound vacuum-expectation observation candidates
--> normalized identity candidate
--> nonnegative star-square candidate
--> gauge-equivalent candidate values
--> v0.51 ObserveOS evidence-intake envelope
--> candidate, value, context and receipt digest binding
+-> vacuum-expectation observation candidates
+-> normalized identity, nonnegative star-square and gauge-equivalent values
+-> ObserveOS evidence-intake envelope
 -> intake remains uncommitted with verification debt open
--> externally supplied ObserveOS commit receipt
--> exact v0.51 source and ObserveOS record binding
--> recorded observation remains distinct from verification
--> externally supplied VerifyOS handoff receipt
--> exact ObserveOS record, verification-input and criterion binding
--> handoff ready while verification remains unstarted
--> no verification result created
--> independent challenge, falsification and counterevidence preserved
+-> existing ObserveOS v0.3 commit receipt
+-> existing VerifyOS v0.3 verification receipt
+-> existing LearnOS v0.3 future-only learning receipt
+-> v0.52 exact OS receipt composition digest
 ```
 
-v0.52 validates supplied receipts only.
+v0.52 defines no parallel ObserveOS, VerifyOS or LearnOS receipt type.
 
-It does not create an ObserveOS commit, start VerifyOS, adjudicate evidence, create a verification result, promote belief, activate PlanOS, grant ActOS authority, overwrite MemoryOS or update WORLD.
+It composes the existing nested learning, verification and observation receipts and derives:
 
-The analytic WORLD candidate is not reclassified as an ActOS effect observation.
+- exact composition-lineage digest;
+- exact ObserveOS source, commit and verification-debt stage;
+- exact VerifyOS source, record and non-reification stage;
+- exact LearnOS source, recording and future-only stage;
+- ObserveOS, VerifyOS and LearnOS ownership separation;
+- exact vacuum-expectation value across the full lineage;
+- no belief, planning, execution, memory or WORLD authority.
 
-The following remain explicit external analytic or institutional receipts:
+The runtime does not construct or replay any of the three receipts.
+
+The following remain external analytic or institutional claims:
 
 - OS quotient and completion existence;
 - physical Hamiltonian self-adjointness;
@@ -280,127 +265,68 @@ The following remain explicit external analytic or institutional receipts:
 - vacuum gauge implementation;
 - vacuum cluster property;
 - empirical adequacy of an observation candidate;
-- an actual ObserveOS commit;
-- an actual VerifyOS start, adjudication and result;
-- any physical realization or external theorem acceptance.
+- physical realization or external theorem acceptance.
 
 ## Immediate priorities
 
 ### Priority 1: Keep public orientation synchronized
 
-Tasks:
-
-- keep README, ROADMAP, formal root and central full check aligned;
+- keep README, ROADMAP, formal roots and central full check aligned;
 - maintain a compact current-baseline table;
-- link each current lane to its primary specification, manifest, validator and Lean module;
-- distinguish implemented, supplied, externally receipted and planned statements.
+- preserve newly merged OS stages during later WORLD updates;
+- distinguish Lean-derived, hypothesis-supplied, external-receipt and future-target claims.
 
-Acceptance:
+### Priority 2: Consolidate v0.20 through v0.28
 
-```text
-A first-time reviewer can identify the current frontier in under five minutes.
-```
-
-### Priority 2: Consolidate the v0.20 through v0.28 agent status
-
-Tasks:
-
-- publish one current status document covering v0.20 through v0.28;
-- bind v0.28 candidate reports explicitly to v0.27 checkpoints and lineage;
-- preserve multiple reports without source-packet substitution;
-- expose a compact validation matrix for lower contracts;
+- publish one current status and validation matrix;
+- bind v0.28 reports to exact v0.27 checkpoints;
+- preserve multiple reports without source substitution;
 - clarify HOLD, REOBSERVE, REVIEW, TERMINATE and HANDOVER routes;
 - keep diagnostic review separate from treatment and ActOS routes.
 
-### Priority 3: Generalize Qi-WORLD finite licensed-cycle construction
-
-Goal:
+### Priority 3: Generalize finite licensed cycles
 
 ```text
 concrete three-cycle evidence
-  -> reusable exact successor-cycle constructor
+  -> reusable successor-cycle constructor
   -> arbitrary finite-prefix theorem
-  -> concrete receipt binding for each new cycle
+  -> no inherited next-cycle authority
 ```
-
-Tasks:
-
-- generalize the v2.2 third-cycle constructor to a finite successor schema;
-- preserve exact predecessor receipt and ordinal binding;
-- require fresh authority, human approval and host license for every effectful cycle;
-- preserve immutable closed prefixes;
-- prove that an n-cycle chain grants no n-plus-one-cycle authority;
-- add failure cases for authority reuse, skipped ordinal, altered prefix, stale basis and substituted closure.
 
 ### Priority 4: Strengthen WORLD v0.52 proof status
 
-Tasks:
-
-- replace supplied finite certificate fields with derived mathlib theorems where hypotheses are sufficient;
-- state external analytic receipts next to every Lean-direct result;
+- replace supplied finite certificate fields with derived mathlib theorems where hypotheses suffice;
 - construct more of the OS quotient and completion from typed forms;
-- derive vacuum normalization and positivity from completed representations;
-- derive more intake, commit-receipt and handoff consistency from digest equality and provenance;
-- connect the v0.52 handoff to a separately owned VerifyOS start and adjudication receipt without performing either transition;
-- preserve challenge, falsification, counterevidence and indeterminate routes;
-- replace the abstract physical Hamiltonian map with a densely defined self-adjoint operator bridge;
-- connect Stone generation, spectral support and cluster claims without identifying modular time with physical time;
+- derive further receipt-composition consistency from exact nested types and digests;
+- classify each theorem as Lean-derived, hypothesis-supplied, external receipt or future target;
+- preserve passed, failed and indeterminate verification routes;
+- preserve future-only learning without Replan, PlanOS or execution activation;
+- connect Stone generation and spectral support without identifying modular time with physical time;
 - preserve higher-gauge covariance, degenerate vacuum sectors and multi-WORLD noncollapse;
 - keep runtime read-only.
 
-Acceptance:
-
-```text
-Every WORLD theorem is visibly classified as:
-Lean-derived, hypothesis-supplied, external receipt or future target.
-```
-
 ### Priority 5: Unified validation and release matrix
 
-Publish a matrix with:
-
-```text
-component
-version
-source files
-manifest
-validator
-tests
-Lean module
-formal-root registration
-workflow
-failure classes
-non-authority boundary
-```
+Publish a matrix with component, version, source, manifest, validator, tests, Lean root, workflow, failure classes and non-authority boundary.
 
 Required failure classes include:
 
-- stale digest;
+- stale digest or substituted source packet;
 - replay duplication;
-- substituted source packet;
-- authority reuse;
-- host-license mismatch;
-- skipped phase or cycle ordinal;
+- authority reuse or host-license mismatch;
 - memory-root overwrite attempt;
 - local-to-global context collapse;
 - diagnostic finality promotion;
-- WORLD physical-realization overclaim;
-- vacuum uniqueness overclaim;
+- WORLD physical-realization or vacuum-uniqueness overclaim;
 - vacuum-expectation fact promotion;
-- ObserveOS envelope substitution;
-- intake-ready to committed-observation promotion;
-- validated receipt to WORLD-performed-transition promotion;
+- intake-ready to committed-observation promotion without an ObserveOS receipt;
+- receipt composition to receipt construction promotion;
 - observation and verification conflation;
-- WORLD-side observation ownership promotion;
-- WORLD-side verification ownership promotion;
-- analytic candidate to ActOS-effect reclassification;
-- verification-handoff to verification-start promotion;
-- verification-start to verification-result promotion;
 - verification-result to truth or causality promotion;
-- verification-debt erasure;
-- observation-candidate belief promotion;
-- observation-candidate PlanOS activation;
-- observation-candidate ActOS authority grant;
+- learning-result to current mutation, Replan activation or execution promotion;
+- WORLD-side ObserveOS, VerifyOS or LearnOS ownership promotion;
+- analytic candidate to ActOS-effect reclassification;
+- observation-candidate belief, PlanOS or ActOS promotion;
 - modular-time and physical-time conflation;
 - Kū and zero-vector identification.
 
@@ -414,29 +340,18 @@ Required failure classes include:
 - chart aging and reobservation without lineage deletion;
 - proof that chart composition does not create a universal route.
 
-### MemoryOS and process-history integration
+### MemoryOS and process history
 
-- connect scar, relapse, recovery and return-to-context history to chart-local transport;
 - preserve individual lineage during collective reconstruction;
-- prevent memory consolidation from erasing residue or uncertainty;
+- prevent consolidation from erasing residue or uncertainty;
 - distinguish memory reconstruction from belief promotion;
 - integrate finite-cycle checkpoints and Qi histories without root overwrite.
 
-### Governed change management
-
-- strengthen rollback evidence and independent closure;
-- preserve permanent forbidden-action categories;
-- maintain bounded canary scope and finite deployment authorization;
-- separate change review from ActOS deployment;
-- add explicit expiry and post-deployment observation requirements.
-
 ### Stronger proof discharge
-
-For structures carrying external claim or proof receipt fields:
 
 - identify minimal hypotheses;
 - derive finite consequences directly in Lean;
-- isolate genuinely analytic or physical existence claims;
+- isolate analytic or physical existence claims;
 - keep theorem statements stable under stronger future discharge;
 - avoid equating formal compilation with external mathematical acceptance.
 
@@ -446,22 +361,19 @@ For structures carrying external claim or proof receipt fields:
 claims know their support
 observations know their source
 beliefs know their uncertainty
-sections know their chart
-transitions know their overlap
 memories know their lineage
 plans know their owner and activation boundary
 actions know their exact license
-effects know their independent observation
-learning knows it is future-only
 receipts know they are evidence rather than authority
 proofs know their formal and external status
 WORLD representations know they are read-only sidecars
 analytic vacua know they are representations rather than exact WORLD
 vacuum-expectation candidates know they are observations rather than facts
 intake envelopes know they are not committed observations
-commit receipts know they do not prove WORLD performed a commit
-VerifyOS handoffs know they are not verification starts or results
-verification results know they are not absolute truth or causal authority
+ObserveOS receipts know they are not verification
+VerifyOS results know they are not absolute truth or causal authority
+LearnOS receipts know they are future-only and inactive now
+composition digests know they do not construct or replay transitions
 governance knows when to stop, hold, repair or hand over
 ```
 
@@ -472,14 +384,14 @@ It is more exact relational continuity without authority collapse.
 ## Current priority summary
 
 ```text
-1. Keep README, ROADMAP, formal root and full check synchronized.
-2. Consolidate v0.20 through v0.28 into one current public status and validation matrix.
-3. Generalize Qi-WORLD v2.2 from a concrete third cycle to arbitrary finite prefixes.
-4. Prove no finite closed chain grants automatic successor authority.
-5. Strengthen WORLD v0.52 across OS completion, vacuum, intake, commit-receipt and VerifyOS-handoff layers.
-6. Connect v0.52 to separately owned VerifyOS start and adjudication receipts without authority collapse.
-7. Keep modular time, physical time and runtime execution strictly separate.
-8. Integrate MemoryOS and Qi history without belief or root sovereignty.
-9. Mature gauge-atlas composition without introducing global graph semantics.
-10. Keep diagnostic candidates, WORLD candidates, ObserveOS records, VerifyOS handoffs, theorem status and execution authority separate.
+1. Keep README, ROADMAP, formal roots and full checks synchronized.
+2. Preserve ObserveOS v0.3, VerifyOS v0.3 and LearnOS v0.3 in later integrations.
+3. Consolidate v0.20 through v0.28 into one current status and validation matrix.
+4. Generalize Qi-WORLD v2.2 to arbitrary finite prefixes without inherited authority.
+5. Strengthen WORLD v0.52 receipt composition and OS completion proofs.
+6. Keep verification results separate from truth and causality.
+7. Keep learning receipts future-only and separate from activation or execution.
+8. Keep modular time, physical time and runtime execution strictly separate.
+9. Integrate MemoryOS and Qi history without belief or root sovereignty.
+10. Keep all candidate, receipt, theorem and execution statuses distinct.
 ```
