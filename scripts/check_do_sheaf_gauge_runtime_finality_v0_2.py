@@ -7,7 +7,7 @@ import subprocess
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-CLOSURE_RUNNER = ROOT / "scripts" / "run_do_sheaf_gauge_runtime_closure_checks_v0_2.py"
+CLOSURE_CHECKER = ROOT / "scripts" / "check_do_sheaf_gauge_runtime_closure_v0_2.py"
 DOC = ROOT / "docs" / "DO_SHEAF_GAUGE_RUNTIME_FINALITY_PACKET_v0_2.md"
 ATTEST = ROOT / "specs" / "do_sheaf_gauge_runtime_attestation_v0_2.generated.json"
 
@@ -18,7 +18,6 @@ REQUIRED = [
     "specs/do_sheaf_gauge_runtime_bundle_v0_2.generated.json",
     "specs/do_sheaf_gauge_runtime_worm_receipt_v0_2.generated.json",
     "scripts/check_do_sheaf_gauge_runtime_closure_v0_2.py",
-    "scripts/run_do_sheaf_gauge_runtime_closure_checks_v0_2.py",
 ]
 
 TRUE_FIELDS = [
@@ -31,7 +30,7 @@ TRUE_FIELDS = [
 
 
 def main() -> int:
-    code = subprocess.run([sys.executable, str(CLOSURE_RUNNER)], cwd=ROOT).returncode
+    code = subprocess.run([sys.executable, str(CLOSURE_CHECKER)], cwd=ROOT).returncode
     if code != 0:
         return code
     errors: list[str] = []
