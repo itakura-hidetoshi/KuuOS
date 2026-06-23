@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import json
 import pathlib
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -58,6 +59,15 @@ def main() -> int:
             "Strengthen WORLD v0.49 proof status",
         ),
     )
+
+    manifest_path = ROOT / "manifests/world_kuu_vacuum_os_hilbert_completion_v0_49.json"
+    manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
+    assert manifest["manifest_version"] == "world_kuu_vacuum_os_hilbert_completion_v0_49"
+    assert manifest["formal_root"] == "formal/KuuOSFormalV0_49.lean"
+    assert manifest["formal_module"] == str(formal.relative_to(ROOT))
+    assert "runtime_read_only" in manifest["boundaries"]
+    assert "modular_time_not_physical_time" in manifest["boundaries"]
+
     print("world_kuu_vacuum_os_hilbert_completion_v0_49 checks passed")
     return 0
 
