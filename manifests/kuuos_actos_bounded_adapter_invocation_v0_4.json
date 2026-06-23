@@ -1,0 +1,31 @@
+{
+  "version": "kuuos_actos_bounded_adapter_invocation_v0_4",
+  "status": "formal_bounded_adapter_invocation_receipt",
+  "source": "formal/KUOS/ActOS/VacuumExpectationActivationAuthorizationIntakeV0_3.lean",
+  "formal_module": "formal/KUOS/ActOS/VacuumExpectationBoundedAdapterInvocationV0_4.lean",
+  "documentation": "docs/KUUOS_ACTOS_BOUNDED_ADAPTER_INVOCATION_v0_4.md",
+  "validator": "scripts/check_actos_bounded_adapter_invocation_v0_4.py",
+  "workflow": ".github/workflows/actos-bounded-invocation-v0-4.yml",
+  "required": {
+    "committed_nonexecuting_authorization": true,
+    "exact_lease_reservation_consumption": true,
+    "separate_plan_activation_receipt": true,
+    "exact_step_operation_and_epoch_binding": true,
+    "safety_preserving_projection": true,
+    "one_job_one_slice_bound": true,
+    "effect_recorded_blocked_replayed_routes": true,
+    "canonical_host_receipt": true,
+    "posteffect_observation_and_verification_debt": true,
+    "append_only_act_history": true
+  },
+  "forbidden": {
+    "world_commit": false,
+    "automatic_truth_promotion": false,
+    "automatic_plan_completion": false,
+    "automatic_rollback": false,
+    "clinical_authority": false,
+    "legal_authority": false,
+    "institutional_authority": false,
+    "theorem_authority": false
+  }
+}
