@@ -34,6 +34,10 @@ flowchart TD
 
 The aggregate governance surface depends on multiple validator families.
 
+Each edge represents one canonical prerequisite invocation.
+
+Sibling wrappers must not repeat a prerequisite already invoked by the destination checker.
+
 `qi-motion-chain-checks` validates the bridge from Samvrti Qi observation to conservative evidence, evidence-bound classification, licensed dynamics, and observe-only Qi motion candidate output.
 
 Validator success indicates structural consistency of exposed governance surfaces.
