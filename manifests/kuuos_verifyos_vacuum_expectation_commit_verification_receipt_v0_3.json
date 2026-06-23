@@ -1,0 +1,37 @@
+{
+  "version": "kuuos_verifyos_vacuum_expectation_commit_verification_receipt_v0_3",
+  "status": "formal_separately_owned_verification_receipt",
+  "source_observe_module": "formal/KUOS/ObserveOS/VacuumExpectationIntakeCommitReceiptV0_3.lean",
+  "formal_module": "formal/KUOS/VerifyOS/VacuumExpectationCommitVerificationReceiptV0_3.lean",
+  "documentation": "docs/KUUOS_VERIFYOS_VACUUM_EXPECTATION_COMMIT_VERIFICATION_RECEIPT_v0_3.md",
+  "validator": "scripts/check_verifyos_vacuum_expectation_commit_verification_receipt_v0_3.py",
+  "workflow": ".github/workflows/verifyos-vacuum-expectation-commit-verification-v0-3.yml",
+  "derived_results": [
+    "verification_requires_explicit_observe_commit",
+    "verification_receipt_digest_is_exact",
+    "verification_index_appends_exactly_once",
+    "verification_verdict_and_record_are_exact",
+    "passed_receipt_discharges_verification_debt",
+    "failed_receipt_requires_corrective_action",
+    "indeterminate_receipt_preserves_verification_debt",
+    "verification_never_becomes_truth_or_causality",
+    "verification_bridge_grants_no_downstream_authority",
+    "verified_candidate_value_remains_exact"
+  ],
+  "boundaries": {
+    "source_observe_commit_required": true,
+    "verification_receipt_required": true,
+    "verification_index_append_once": true,
+    "verifyos_owns_adjudication": true,
+    "verification_is_truth": false,
+    "causal_authority_granted": false,
+    "world_sidecar_owns_verification": false,
+    "observeos_performs_verification": false,
+    "bridge_runtime_performs_verification": false,
+    "automatic_learning": false,
+    "automatic_plan_activation": false,
+    "automatic_execution": false,
+    "automatic_memory_overwrite": false,
+    "automatic_world_update": false
+  }
+}
