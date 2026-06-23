@@ -46,22 +46,27 @@ def main() -> int:
             "runtime remains read-only",
         ),
     )
+
+    # README and ROADMAP advance with the public frontier. Historical
+    # validators retain strict checks for v0.50 artifacts while checking only
+    # invariant public boundaries on the moving orientation surfaces.
     require_tokens(
         ROOT / "README.md",
         (
-            "WORLD read-only mathematical sidecar             v0.50",
+            "WORLD read-only mathematical sidecar",
             "vacuum expectation != fact",
-            "run_kuuos_runtime_full_check_v0_50.py",
+            "observation candidate != PlanOS activation",
         ),
     )
     require_tokens(
         ROOT / "ROADMAP.md",
         (
-            "implemented through v0.50",
+            "WORLD mathematical sidecar",
             "vacuum-expectation observation candidates",
-            "Strengthen WORLD v0.50 proof status",
+            "observation-candidate PlanOS activation",
         ),
     )
+    assert (ROOT / "scripts/run_kuuos_runtime_full_check_v0_50.py").is_file()
 
     manifest_path = ROOT / "manifests/world_vacuum_expectation_observation_candidate_v0_50.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
