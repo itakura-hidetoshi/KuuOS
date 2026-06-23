@@ -8,6 +8,7 @@
   "unit_test": "tests/test_qi_world_yinyang_process_blocker_complementarity_v2_3.py",
   "formal_module": "formal/KUOS/Architecture/QiWorldYinYangProcessBlockerComplementarityV2_3.lean",
   "formal_root": "formal/KUOS.lean",
+  "workflow": ".github/workflows/qi-world-yinyang-process-blocker-v2-3-validation.yml",
   "documentation": "docs/KUUOS_QI_WORLD_YINYANG_PROCESS_BLOCKER_COMPLEMENTARITY_v2_3.md",
   "final_theorem": "yin_yang_process_blocker_complementarity",
   "yin_occupation": "boolean_idempotent_boundary",
