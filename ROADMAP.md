@@ -1,10 +1,8 @@
 # KuuOS / 空OS Roadmap
 
-**Baseline date: 2026-06-23**
+**Baseline date: 2026-06-24**
 
-This roadmap replaces the former v0.12–v0.13-centered orientation with the current multi-spine state of the repository.
-
-KuuOS now has five concurrently maintained public lanes:
+KuuOS maintains five concurrently developed public lanes.
 
 ```text
 A. governance and local-context gauge architecture
@@ -14,13 +12,11 @@ D. Qi-WORLD externally licensed closed-cycle materialization
 E. WORLD read-only mathematical and formal sidecar
 ```
 
-The goal is not unrestricted autonomy. The goal is a system in which every candidate, state transition, proof surface, memory record, licensed effect and WORLD representation knows its source, scope, owner, boundary and stop condition.
+The goal is not unrestricted autonomy.
 
----
+The goal is a system in which every candidate, state transition, proof surface, memory record, licensed effect and WORLD representation knows its source, scope, owner, boundary and stop condition.
 
-## 0. Fixed non-collapse boundary
-
-The following remain fixed unless a later, explicit, reviewed release changes them:
+## Fixed non-collapse boundary
 
 ```text
 candidate != authority
@@ -41,13 +37,16 @@ WORLD sidecar != exact WORLD
 WORLD != vacuum vector
 Kū != zero vector
 Hilbert vacuum != metaphysical Kū
+central reference != algebraic center
 vacuum expectation != fact
-vacuum expectation != truth authority
+vacuum state != truth authority
+excitation state != truth authority
+relative entropy != ontological distance
+Petz recovery != WORLD overwrite
 observation candidate != belief promotion
 intake-ready envelope != committed observation
 observation != verification
 WORLD sidecar != observation owner
-WORLD candidate != ActOS effect observation
 verification debt remains open
 observation candidate != PlanOS activation
 observation candidate != ActOS authority
@@ -74,36 +73,33 @@ medical-modality neutrality
 proof-status separation
 ```
 
----
-
-## 1. Current public baseline
+## Current public baseline
 
 | Lane | Current baseline | Status |
 |---|---|---|
 | Core governance | v0.1 public governance and boundary documents | active, maintained |
-| Horizon/context gauge | Horizon v0.12 + Context Gauge Atlas v0.13 | implemented baseline |
-| PlanOS | v0.17 suspension recovery router; Replan ownership fixed at v0.2 | implemented and merged |
-| Autonomous-agent completion | v0.20–v0.27 finite-cycle continuity | implemented and merged |
+| Horizon/context gauge | Horizon v0.12 and Context Gauge Atlas v0.13 | implemented baseline |
+| PlanOS | v0.17 suspension recovery router | implemented and merged |
+| Autonomous-agent completion | v0.20 to v0.27 finite-cycle continuity | implemented and merged |
 | Qi diagnostic candidate | v0.28 recovery-window layer | implemented and merged |
-| Qi-WORLD | v2.2 concrete third licensed cycle | implemented and merged |
-| WORLD | v0.51 ObserveOS evidence-intake envelope | implemented and merged |
+| MemoryOS | v0.39 WORLD observation intake | implemented and merged |
+| Qi-WORLD | v2.3 Yin-Yang process and blocker complementarity | implemented and merged |
+| WORLD | v0.53 Kū vacuum central reference-state bridge | implemented on current integration branch |
 | Formal root | `KuuOSFormal` | strict Lean build surface |
-| Central runtime | `run_kuuos_runtime_full_check_v0_51.py` | active regression root |
+| Central runtime | `run_kuuos_runtime_full_check_v0_53.py` | active regression root |
 
----
+## Completed foundations
 
-## 2. Completed foundations
+### Public governance and validation
 
-### 2.1 Public governance and validation
-
-**Status: complete baseline; ongoing maintenance**
+**Status: complete baseline with ongoing maintenance**
 
 Completed:
 
-- public core governance, non-authority and medical-modality-neutral boundaries;
+- public core governance and non-authority boundaries;
+- medical-modality-neutral boundaries;
 - validator tier separation and anti-loop governance;
 - manifests, cases, receipts and reproducible GitHub Actions;
-- finite audit and repair-oriented outcomes;
 - separation of validation, theorem status, clinical authority and execution authority.
 
 Maintenance requirement:
@@ -113,11 +109,9 @@ No merged runtime or formal layer may leave README, ROADMAP,
 the formal root or the central runtime full check materially stale.
 ```
 
-### 2.2 Horizon and context gauge architecture
+### Horizon and context gauge architecture
 
 **Status: implemented baseline**
-
-Completed:
 
 ```text
 short / medium / long horizon sections
@@ -129,8 +123,6 @@ short / medium / long horizon sections
   -> replay-safe holonomy
 ```
 
-and:
-
 ```text
 context chart
   -> overlap eligibility
@@ -139,17 +131,15 @@ context chart
   -> chart-local state and holonomy
 ```
 
-Future work is composition maturity, not conversion into a global graph.
+Future work concerns composition maturity and does not convert the atlas into a universal graph.
 
-### 2.3 OS ownership and Replan
+### OS ownership and Replan
 
 **Status: implemented**
 
-The responsibility boundary is now explicit:
-
 ```text
 ObserveOS observes
-BeliefOS maintains local/plural belief
+BeliefOS maintains local and plural belief
 DecisionOS selects an admissible candidate
 PlanOS synthesizes plans and replans
 ActOS executes only under an exact license
@@ -158,35 +148,17 @@ LearnOS records future-only deltas
 MemoryOS preserves lineage and reconstruction
 ```
 
-PlanOS v0.2 fixes the ownership of Replan synthesis. No separate ReplanOS is planned.
+PlanOS v0.2 fixes Replan synthesis ownership.
 
-The public PlanOS control series now reaches v0.17:
+No separate ReplanOS is planned.
 
-```text
-plan / replan synthesis
-  -> activation and capability control
-  -> bounded lease and renewal policy
-  -> capability rotation and materialization
-  -> next-cycle control session
-  -> lease monitoring and terminal suspension
-  -> revalidation / renewal review / escalation / re-rotation handoff
-```
+The public PlanOS control series reaches v0.17.
 
-A terminal v0.16 session is never resumed. v0.17 closes the old session and requires a new lineage, activation and control session while granting no execution, host access or memory overwrite.
-
-### 2.4 Finite-cycle autonomous-agent completion
+### Finite-cycle autonomous-agent completion
 
 **Status: implemented through v0.27**
 
-The v0.20–v0.26 contracts are composed into:
-
-```text
-restart-safe
-user-interruptible
-resource-bounded
-repeatable finite-cycle
-autonomous-agent kernel
-```
+The v0.20 to v0.26 contracts are composed into a restart-safe, user-interruptible, resource-bounded and repeatable finite-cycle kernel.
 
 Completed capabilities include:
 
@@ -194,16 +166,16 @@ Completed capabilities include:
 - observation and plural belief state;
 - semantic planning and independent verification;
 - bounded learning and cognitive memory;
-- transactional intended-versus-observed effect reconciliation;
+- transactional effect reconciliation;
 - wake-up, foreground control and resource admission;
 - governed change management;
-- exact checkpoints, append-only ledger replay and snapshot repair;
+- exact checkpoints and append-only replay;
 - process-restart and host-restart recovery;
 - explicit finite renewal followed by explicit resume.
 
 This is repeatable continuity, not an unbounded cycle.
 
-### 2.5 Qi recovery-window diagnostic candidate
+### Qi recovery-window diagnostic candidate
 
 **Status: implemented through v0.28**
 
@@ -212,46 +184,52 @@ Completed:
 - multi-time Qi Process Tensor history;
 - plural diagnostic hypotheses;
 - support, counterevidence, uncertainty and source traces;
-- bounded recovery-window interval;
+- bounded recovery-window intervals;
 - separation of severity from irreversibility;
 - open-future preservation after negative response;
 - clinician-review handoff for declared red flags;
-- append-only replay-safe candidate ledger;
-- formal non-authority boundaries.
+- append-only replay-safe candidate lineage.
 
 This lane does not generate treatment, triage or final diagnosis.
 
-### 2.6 Qi-WORLD licensed-cycle materialization
+### MemoryOS predictive and analytic context
 
-**Status: concrete three-cycle chain completed at v2.2**
+**Status: implemented through v0.39**
 
-Completed path:
+The current route is:
 
 ```text
-first licensed effect and native closure
-  -> immutable closed-cycle receipt
-  -> fresh successor authority intake
-  -> second licensed cycle
-  -> verified two-cycle prefix
-  -> fresh third authority / approval / host license
-  -> explicit single-use discharge
-  -> concrete third ActOS effect
-  -> native ObserveOS / VerifyOS / LearnOS / PlanOS closure
-  -> immutable third receipt
-  -> append-only three-cycle chain
+v0.35 Qi history and blocker context
+  -> v0.37 predictive shielded memory
+  -> v0.38 analytic Hilbert context
+  -> v0.39 WORLD observation intake
 ```
 
-The cycle count is three. No fourth cycle is started or implied.
+Memory candidates remain source-bound and read-only.
 
-### 2.7 WORLD mathematical sidecar
+They do not become Hilbert vectors, vacuum identities, truth, blocker discharge, execution authority or WORLD commits.
 
-**Status: implemented through v0.51 and merged**
+### Qi-WORLD licensed-cycle materialization
+
+**Status: implemented through v2.3**
+
+The concrete three-cycle chain remains append-only and finite.
+
+v2.3 adds Yin-Yang process and blocker complementarity without changing the authority boundary.
+
+Every effectful cycle still requires fresh external authority, human approval, host license and explicit single-use discharge.
+
+No closed finite chain grants automatic successor activation.
+
+### WORLD mathematical sidecar
+
+**Status: implemented through v0.53 on the current integration branch**
 
 The current typed spine is:
 
 ```text
 real Hilbert ℓ²
--> dense/self-adjoint operator bridge
+-> dense and self-adjoint operator bridge
 -> noncommutative operator algebra
 -> C*-local net
 -> von Neumann and modular theory
@@ -262,47 +240,70 @@ real Hilbert ℓ²
 -> module category, tube/center and categorical IndraNet
 -> higher-gauge information geometry
 -> Araki-Petz quantum information geometry
--> dual-affine / Bregman projections
--> geodesic / mirror-descent / free-energy certificates
--> gradient-flow / JKO / entropy-production certificates
+-> dual-affine and Bregman projections
+-> geodesic, mirror-descent and free-energy certificates
+-> gradient-flow, JKO and entropy-production certificates
 -> finite log-Sobolev contraction and mixing bounds
 -> reflection-positive positive-time form
--> OS null directions and Hilbert-completion interface
--> constant-observable vacuum class
--> standard-form cyclic and separating vacuum identification
+-> OS null directions and Hilbert completion
+-> constant-observable vacuum Ω_Kū
 -> normalized positive gauge-invariant vacuum state
 -> separate modular-time and physical-time invariance
--> zero-energy vacuum sector without uniqueness or WORLD collapse
--> source-bound vacuum-expectation observation candidates
--> normalized identity candidate
--> nonnegative star-square candidate
--> gauge-equivalent candidate values
--> exact ObserveOS evidence-intake envelope
--> candidate, value, context and receipt digest binding
--> complete evidence requirements and immutable provenance
--> intake remains uncommitted with verification debt open
--> ObserveOS ownership with independent verification debt
+-> zero-energy vacuum sector without uniqueness
+-> v0.50 vacuum-expectation observation candidates
+-> v0.51 ObserveOS evidence-intake envelope
+-> v0.52 host-effect atomic-commit intake candidate
+-> v0.53 central vacuum reference-state bridge
 ```
 
-The runtime validates read-only structural registration. It does not construct the OS quotient completion, execute the Hamiltonian, execute physical time, commit an ObserveOS record, discharge verification, promote belief, activate PlanOS, grant ActOS authority, overwrite MemoryOS, declare a unique vacuum or update WORLD.
+The v0.53 unification is:
 
-The post-record `ObserveOS.ObservationVerificationBoundary` remains a separately owned later-stage contract and is not embedded in the v0.51 intake envelope.
+```text
+OS reflection positivity
+-> completed Hilbert-space vacuum Ω_Kū
+-> vacuum state ω_Kū
+-> vacuum correlations
+-> modular reference state
+-> Araki relative entropy against comparison states
+-> Petz recovery preserving ω_Kū
+-> excitation vectors π(a)Ω_Kū
+-> v0.50 observation candidates as read-only projections
+```
 
-The following remain explicit external analytic receipts:
+Lean directly verifies:
+
+- normalization and nonvanishing of the central vacuum;
+- equality with the standard-form cyclic and separating vector;
+- access to OS reflection positivity;
+- equality of the v0.33 reference state and v0.49 vacuum state;
+- vector-state formulas for one-point and two-point correlations;
+- modular stationarity;
+- local relative-entropy order consequences;
+- exact vacuum-reference preservation by the recovered channel;
+- unitality and idempotence of that channel;
+- excitation-vector generation;
+- central-reference interpretation of v0.50 observation-candidate values.
+
+The term central means an organizing reference.
+
+It does not claim algebraic centrality.
+
+The runtime remains read-only and does not compute correlations, compute relative entropy, construct recovery maps, build excitation vectors, execute modular or physical time, perform observation commits or update WORLD.
+
+The following remain explicit external receipts:
 
 - OS quotient and completion existence;
 - physical Hamiltonian self-adjointness;
 - Stone generation of physical time;
-- vacuum gauge implementation;
 - vacuum cluster property;
-- empirical adequacy of an observation candidate;
-- any physical realization or external theorem acceptance.
+- analytic Araki formulas and relative modular logarithms;
+- normal complete positivity and full Petz equality characterization;
+- empirical adequacy of observation candidates;
+- physical realization and external theorem acceptance.
 
----
+## Immediate priorities
 
-## 3. Immediate priorities
-
-### Priority 1 — Keep public orientation synchronized
+### Keep public orientation synchronized
 
 **Status: active**
 
@@ -310,89 +311,55 @@ Tasks:
 
 - keep README, ROADMAP, formal root and central full check aligned;
 - maintain a compact current-baseline table;
-- remove obsolete language that makes v0.13 appear to be the overall frontier;
-- link each current lane to its primary specification, manifest, validator and Lean module;
-- distinguish implemented, assumed, externally receipted and planned statements.
+- link each lane to its specification, manifest, validator and Lean module;
+- distinguish Lean-derived, hypothesis-supplied, externally receipted and planned statements.
 
-Acceptance:
-
-```text
-A first-time reviewer can identify the current frontier in under five minutes
-without reading historical addenda.
-```
-
-### Priority 2 — Consolidate the v0.20–v0.28 agent status
+### Consolidate the v0.20 to v0.28 agent status
 
 **Status: next documentation and integration task**
 
 Tasks:
 
 - publish one current status document covering v0.20 through v0.28;
-- bind v0.28 candidate reports explicitly to v0.27 checkpoints and lineage;
-- preserve multiple reports without source-packet substitution;
-- expose a compact validation matrix for every lower contract;
-- clarify which failures lead to HOLD, REOBSERVE, REVIEW, TERMINATE or HANDOVER;
-- keep diagnostic review routes separate from treatment and ActOS routes.
+- bind v0.28 reports to exact v0.27 checkpoints and lineage;
+- preserve plural reports without source-packet substitution;
+- expose a compact validation matrix;
+- separate diagnostic review from treatment and ActOS routes.
 
-Acceptance:
+### Generalize finite licensed-cycle construction
 
-```text
-Every v0.28 report has an exact v0.27 source,
-plural hypotheses remain visible,
-and no diagnostic route grants action authority.
-```
-
-### Priority 3 — Generalize Qi-WORLD finite licensed-cycle construction
-
-**Status: next formal/runtime frontier**
+**Status: formal and runtime frontier**
 
 Goal:
 
 ```text
-concrete three-cycle evidence
+concrete finite-cycle evidence
   -> reusable exact successor-cycle constructor
   -> arbitrary finite-prefix theorem
   -> concrete receipt binding for each new cycle
 ```
 
-Tasks:
+Required properties:
 
-- generalize the v2.2 third-cycle constructor to a finite successor-cycle schema;
-- preserve exact predecessor receipt and ordinal binding;
-- require fresh external authority, human approval and host license for every effectful cycle;
-- keep freshness qualification separate from explicit single-use discharge;
-- preserve immutable closed prefixes;
-- prove that an `n`-cycle receipt chain grants no `(n+1)`-cycle authority;
-- add failure cases for authority reuse, skipped ordinal, altered prefix, stale plan basis and substituted native closure;
-- retain explicit stop, hold and handover states.
+- exact predecessor and ordinal binding;
+- fresh authority for every effectful cycle;
+- single explicit discharge;
+- immutable closed prefixes;
+- no automatic successor activation;
+- explicit stop, hold and handover states.
 
-Acceptance:
-
-```text
-for every finite prefix:
-  exact predecessor binding
-  + fresh authority
-  + one explicit discharge
-  + one concrete effect
-  + native closure
-  + immutable append
-  + no automatic successor activation
-```
-
-### Priority 4 — Strengthen WORLD v0.51 proof status
+### Strengthen WORLD v0.53 proof status
 
 **Status: parallel mathematical track**
 
 Tasks:
 
-- replace supplied finite certificate fields with derived mathlib theorems when hypotheses are sufficient;
-- state external analytic receipts next to every Lean-direct result;
-- construct the OS quotient and completion from a typed sesquilinear form when minimal hypotheses are available;
-- derive vacuum normalization and positivity from the completed representation rather than duplicate receipt fields;
-- derive further vacuum-expectation observation-candidate properties without introducing belief or authority promotion;
-- derive more ObserveOS envelope consistency from digest equality and provenance hypotheses;
-- connect the intake envelope to a separately owned ObserveOS commit and VerifyOS handoff without performing either transition;
+- construct the OS quotient and completion from typed minimal hypotheses;
+- derive vacuum normalization and positivity rather than duplicating receipts;
 - replace the abstract physical Hamiltonian map with a densely defined self-adjoint operator bridge;
+- derive correlation properties from represented observable products;
+- connect relative entropy and recovery to support and faithfulness hypotheses;
+- formalize the excitation-sector closure generated by `π(a)Ω_Kū`;
 - connect Stone generation, spectral support and cluster claims without identifying modular time with physical time;
 - preserve higher-gauge covariance, degenerate vacuum sectors and multi-WORLD noncollapse;
 - keep runtime read-only.
@@ -404,11 +371,11 @@ Every WORLD theorem is visibly classified as:
 Lean-derived / hypothesis-supplied / external analytic receipt / future target.
 ```
 
-### Priority 5 — Unified validation and release matrix
+### Unified validation and release matrix
 
 **Status: next infrastructure task**
 
-Publish a matrix with:
+Publish a matrix containing:
 
 ```text
 component
@@ -438,59 +405,53 @@ Required failure classes include:
 - WORLD physical-realization overclaim;
 - vacuum uniqueness overclaim;
 - vacuum-expectation fact promotion;
-- ObserveOS envelope substitution;
 - intake-ready to committed-observation promotion;
 - observation and verification conflation;
-- WORLD-side observation-ownership promotion;
-- analytic candidate to ActOS-effect reclassification;
 - verification-debt erasure;
-- observation-candidate belief promotion;
-- observation-candidate PlanOS activation;
-- observation-candidate ActOS authority grant;
+- central-reference to algebraic-center promotion;
+- relative-entropy truth-score promotion;
+- Petz-recovery WORLD-overwrite promotion;
+- excitation-vector action promotion;
 - modular-time and physical-time conflation;
 - Kū and zero-vector identification.
 
----
+## Near-term parallel tracks
 
-## 4. Near-term parallel tracks
-
-### 4.1 Context Gauge Atlas composition
+### Context Gauge Atlas composition
 
 - direct versus composed transition functions;
 - triple-overlap cocycle checks;
 - path-sensitive holonomy comparison;
 - chart aging and reobservation without lineage deletion;
-- explicit proof that chart composition does not create a universal route.
+- proof that chart composition does not create a universal route.
 
-### 4.2 MemoryOS and process-history integration
+### MemoryOS and process-history integration
 
 - connect scar, relapse, recovery and return-to-context history to chart-local transport;
 - preserve individual lineage during collective reconstruction;
-- prevent memory consolidation from erasing cocycle residue or uncertainty;
+- prevent consolidation from erasing contradiction residue or uncertainty;
 - distinguish memory reconstruction from belief promotion;
-- integrate v0.27 checkpoints and v0.28 process histories without root overwrite.
+- connect v0.38 analytic context to v0.53 only through read-only references.
 
-### 4.3 Governed change management maturity
+### Governed change-management maturity
 
 - strengthen rollback evidence and independent closure;
 - preserve permanent forbidden-action categories;
 - maintain bounded canary scope and finite deployment authorization;
 - separate change review from ActOS deployment;
-- add explicit expiry and post-deployment observation requirements.
+- add expiry and post-deployment observation requirements.
 
-### 4.4 Reviewer experience
+### Reviewer experience
 
 - Japanese-first orientation with precise English technical names;
 - compact architecture diagrams;
-- current-versus-historical version map;
-- “what a pass does not mean” callouts;
-- direct links from roadmap items to validators and formal modules.
+- current-versus-historical version maps;
+- explicit statements of what a passing check does not mean;
+- direct links to validators and formal modules.
 
----
+## Medium-term research directions
 
-## 5. Medium-term research directions
-
-### 5.1 Finite licensed autonomy theorem family
+### Finite licensed autonomy theorem family
 
 Develop a reusable theorem family for:
 
@@ -507,56 +468,49 @@ no inherited successor authority
 
 The target is mathematically explicit finite continuity, not an unbounded autonomous license.
 
-### 5.2 WORLD-to-OS read-only observation bridge
+### WORLD-to-OS observation bridge
 
-**Status: exact ObserveOS evidence-intake envelope implemented at v0.51**
+**Status: operational intake implemented through v0.52 and analytic centralization added at v0.53**
 
-v0.51 wraps an admissible v0.50 vacuum-expectation candidate in exact ObserveOS evidence requirements, provenance, digest binding and pre-commit verification-debt semantics while preserving:
+The observation path preserves:
 
 ```text
 WORLD representation != fact
 vacuum expectation != truth authority
+central reference != algebraic center
 intake-ready envelope != committed observation
 observation != verification
 WORLD sidecar != observation owner
-WORLD candidate != ActOS effect observation
 verification debt remains open
-observation candidate != belief promotion
-observation candidate != PlanOS activation
-observation candidate != ActOS authority
 sidecar quantity != control objective
 low free energy != permission
 mixing certificate != intervention recommendation
 ```
 
-The next step is a separately owned ObserveOS commit receipt and VerifyOS handoff that consume the intake envelope without allowing WORLD formal results or the intake bridge to perform either transition.
+No WORLD formal result directly activates PlanOS or ActOS.
 
-No WORLD formal result should directly activate PlanOS or ActOS.
+### Stronger proof discharge
 
-### 5.3 Stronger proof discharge
-
-For formal structures that currently carry external claim/proof receipt fields:
+For structures that currently carry external claim and proof receipts:
 
 - identify minimal hypotheses;
-- derive the finite consequence directly in Lean;
+- derive finite consequences directly in Lean;
 - isolate genuinely analytic or physical existence claims;
-- keep theorem statements stable under stronger future discharge;
+- keep theorem statements stable under stronger discharge;
 - avoid equating formal compilation with external mathematical acceptance.
 
-### 5.4 Public reproducibility
+### Public reproducibility
 
-- pinned Lean/mathlib toolchain;
+- pinned Lean and mathlib toolchain;
 - stdlib-only Python validators where practical;
 - deterministic fixtures;
-- exact hash/digest documentation;
+- exact digest documentation;
 - machine-readable release index;
 - versioned evidence bundles.
 
----
+## Long-term direction
 
-## 6. Long-term direction
-
-KuuOS is moving toward a public architecture where:
+KuuOS is moving toward an architecture where:
 
 ```text
 claims know their support
@@ -573,29 +527,29 @@ receipts know they are evidence rather than authority
 proofs know their formal and external status
 WORLD representations know they are read-only sidecars
 analytic vacua know they are representations rather than exact WORLD
-vacuum-expectation candidates know they are observations rather than facts
-ObserveOS envelopes know they are intake artifacts rather than committed truth
+central reference states know they are not algebraic centers
+relative entropies know they are not truth scores
+recovery maps know they do not overwrite WORLD
+excitation vectors know they are not action instructions
 verification debts know they remain open until VerifyOS acts
-candidate equalities know they do not collapse WORLD contexts
 governance knows when to stop, hold, repair or hand over
 ```
 
-The long-term target is not “more freedom for the agent.”  
+The long-term target is not more freedom for the agent.
+
 It is **more exact relational continuity without authority collapse**.
 
----
-
-## 7. Current priority summary
+## Current priority summary
 
 ```text
-1. Keep README/ROADMAP/formal root/full check synchronized.
-2. Consolidate v0.20-v0.28 into one current public status and validation matrix.
-3. Generalize Qi-WORLD v2.2 from a concrete third cycle to arbitrary finite prefixes.
+1. Keep README, ROADMAP, formal root and full check synchronized.
+2. Consolidate v0.20 to v0.28 into one status and validation matrix.
+3. Generalize Qi-WORLD finite-cycle construction to arbitrary finite prefixes.
 4. Prove no finite closed chain grants automatic successor authority.
-5. Strengthen WORLD v0.51 by deriving more of the OS completion, vacuum, observation-candidate and ObserveOS-intake layers in Lean.
-6. Connect v0.51 to separately owned ObserveOS commit and VerifyOS handoff receipts without authority collapse.
-7. Keep modular time, physical time and runtime execution strictly separate.
+5. Strengthen WORLD v0.53 from supplied receipts toward derived OS, modular, entropy and recovery theorems.
+6. Formalize the vacuum-generated excitation-sector closure.
+7. Keep modular time, physical time and runtime execution separate.
 8. Integrate MemoryOS and Qi history without belief or root sovereignty.
-9. Mature gauge-atlas composition without introducing global graph semantics.
-10. Keep diagnostic candidates, WORLD observation candidates, ObserveOS intake, clinical authority, theorem status and execution authority separate.
+9. Mature gauge-atlas composition without global graph semantics.
+10. Keep diagnostic candidates, WORLD candidates, observation intake, theorem status and execution authority separate.
 ```
