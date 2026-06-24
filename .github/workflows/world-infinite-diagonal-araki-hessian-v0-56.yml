@@ -1,0 +1,44 @@
+name: WORLD Infinite Diagonal Araki Hessian v0.56
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'formal/KUOS/WORLD/InfiniteDiagonalArakiHessianBridgeV0_56.lean'
+      - 'formal/KuuOSFormalV0_56.lean'
+      - 'formal/KuuOSFormal.lean'
+      - 'lakefile.toml'
+      - '.github/workflows/world-infinite-diagonal-araki-hessian-v0-56.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Verify committed manifest is canonical
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Compile WORLD v0.56 root
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true
+          build KuuOSFormalV0_56
