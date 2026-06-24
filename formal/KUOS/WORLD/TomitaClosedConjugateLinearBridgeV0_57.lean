@@ -18,8 +18,6 @@ variable {T : TomitaGraphCore A B H}
 
 namespace TomitaRealLinearPMapRealization
 
-variable (R : TomitaRealLinearPMapRealization T)
-
 /-- The algebraic Tomita graph is stable under conjugate scalar multiplication. -/
 theorem algebraic_graph_complex_smul
     (Realization : TomitaRealLinearPMapRealization T)
@@ -40,6 +38,7 @@ theorem algebraic_graph_complex_smul
 
 /-- The closed Tomita graph is stable under conjugate scalar multiplication. -/
 theorem closure_graph_complex_smul
+    (Realization : TomitaRealLinearPMapRealization T)
     (c : Complex) {x y : H}
     (hxy : (closure T.graph) (x, y)) :
     (closure T.graph) (c • x, star c • y) := by
@@ -47,7 +46,7 @@ theorem closure_graph_complex_smul
   refine mem_closure_iff_seq_limit.mpr ?_
   refine ⟨(fun n => (c • (p n).1, star c • (p n).2)), ?_, ?_⟩
   · intro n
-    exact algebraic_graph_complex_smul R c (hp n)
+    exact algebraic_graph_complex_smul Realization c (hp n)
   · have hfst : Tendsto (fun n => (p n).1) atTop (nhds x) :=
       (continuous_fst.tendsto (x, y)).comp hpLim
     have hsnd : Tendsto (fun n => (p n).2) atTop (nhds y) :=
@@ -58,6 +57,8 @@ theorem closure_graph_complex_smul
         Tendsto (fun n => star c • (p n).2) atTop (nhds (star c • y)) :=
       tendsto_const_nhds.smul hsnd
     exact hc.prodMk hstar
+
+variable (R : TomitaRealLinearPMapRealization T)
 
 /-- The set-theoretic closed graph equals the graph of Mathlib's closure. -/
 theorem set_graph_closure_eq_mathlib_closure_graph :
@@ -83,7 +84,7 @@ theorem closure_complex_smul_mem
     (c • (x : H), star c • R.pmap.closure x) ∈
       (R.pmap.closure.graph : Set (H × H))
   rw [← R.set_graph_closure_eq_mathlib_closure_graph]
-  exact R.closure_graph_complex_smul c
+  exact closure_graph_complex_smul R c
     (R.mathlib_closure_graph_mem_set_closure x)
 
 /-- Mathlib's closed Tomita operator is conjugate-linear on its domain. -/
@@ -105,7 +106,7 @@ theorem mathlib_closure_map_complex_smul
       (c • (x : H), star c • R.pmap.closure x) ∈
         (R.pmap.closure.graph : Set (H × H))
     rw [← R.set_graph_closure_eq_mathlib_closure_graph]
-    exact R.closure_graph_complex_smul c
+    exact closure_graph_complex_smul R c
       (R.mathlib_closure_graph_mem_set_closure x)
   exact R.pmap.closure.mem_graph_snd_inj hActual hScaled rfl
 
