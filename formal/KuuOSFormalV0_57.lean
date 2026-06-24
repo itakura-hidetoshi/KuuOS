@@ -1,1 +1,1 @@
-import KUOS.WORLD.AlgebraicTomitaClosabilityV0_57
+import KUOS.WORLD.TomitaGraphCoreV0_57
