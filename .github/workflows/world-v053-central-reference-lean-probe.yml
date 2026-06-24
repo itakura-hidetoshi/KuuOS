@@ -2,6 +2,12 @@ name: WORLD v0.53 Central Reference Lean Probe
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - 'ci-probe-base-v053'
+    paths:
+      - 'probes/KuuVacuumCentralReferenceStateBridgeV0_53.lean'
+      - '.github/workflows/world-v053-central-reference-lean-probe.yml'
   pull_request:
     paths:
       - 'probes/KuuVacuumCentralReferenceStateBridgeV0_53.lean'
