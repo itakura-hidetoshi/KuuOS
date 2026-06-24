@@ -14,3 +14,4 @@ import KUOS.WORLD.VacuumExpectationHostEffectAtomicCommitIntakeV0_52
 import KUOS.ObserveOS.WorldHostEffectObservationReceiptV0_4
 import KUOS.WORLD.VacuumExpectationObserveOSCommitVerifyHandoffBridgeV0_53
 import KUOS.WORLD.KuuVacuumCentralReferenceStateBridgeV0_54
+import KUOS.WORLD.KuuVacuumInformationGeometryBridgeV0_55
