@@ -4,6 +4,7 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      - 'formal/InfiniteDiagonalArakiHessianStandaloneV0_56.lean'
       - 'formal/KUOS/WORLD/InfiniteDiagonalArakiHessianBridgeV0_56.lean'
       - 'formal/KuuOSFormalV0_56.lean'
       - 'formal/KuuOSFormal.lean'
@@ -37,6 +38,12 @@ jobs:
         run: git diff --exit-code -- lake-manifest.json
       - name: Fetch Mathlib olean cache
         run: lake exe cache get
+      - name: Compile standalone derivative proof
+        run: >-
+          lake env lean
+          -DwarningAsError=true
+          -DsorryAsError=true
+          formal/InfiniteDiagonalArakiHessianStandaloneV0_56.lean
       - name: Compile WORLD v0.56 root
         run: >-
           lake -KleanArgs=-DwarningAsError=true
