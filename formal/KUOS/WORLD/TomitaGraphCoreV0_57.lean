@@ -43,8 +43,8 @@ theorem value_independent {a1 a2 : A}
     (T.leftVector_injective h)
 
 theorem graph_right_unique {x y z : H}
-    (hxy : Set.mem T.graph (x, y))
-    (hxz : Set.mem T.graph (x, z)) :
+    (hxy : T.graph (x, y))
+    (hxz : T.graph (x, z)) :
     y = z := by
   let a : A := Classical.choose hxy
   let b : A := Classical.choose hxz
@@ -62,8 +62,8 @@ theorem graph_right_unique {x y z : H}
     _ = z := hzb.symm
 
 theorem graph_flip {x y : H}
-    (hxy : Set.mem T.graph (x, y)) :
-    Set.mem T.graph (y, x) := by
+    (hxy : T.graph (x, y)) :
+    T.graph (y, x) := by
   let a : A := Classical.choose hxy
   have hxa : x = T.leftVector a := (Classical.choose_spec hxy).1
   have hya : y = T.leftVector (T.leftStar a) :=
@@ -73,7 +73,7 @@ theorem graph_flip {x y : H}
       (by simpa only [T.leftStar_involutive a] using hxa))
 
 def IsClosableGraph (G : Set (Prod H H)) : Prop :=
-  forall z, Set.mem (closure G) (0, z) -> z = 0
+  forall z, (closure G) (0, z) -> z = 0
 
 theorem representative_closable
     (a : Nat -> A) (z : H)
@@ -128,7 +128,7 @@ theorem graph_closable : IsClosableGraph T.graph := by
   intro z hz
   let closureWitness := mem_closure_iff_seq_limit.mp hz
   let p : Nat -> Prod H H := Classical.choose closureWitness
-  have hp : forall n, Set.mem T.graph (p n) :=
+  have hp : forall n, T.graph (p n) :=
     (Classical.choose_spec closureWitness).1
   have hpLim : Tendsto p atTop (nhds (0, z)) :=
     (Classical.choose_spec closureWitness).2
@@ -141,10 +141,12 @@ theorem graph_closable : IsClosableGraph T.graph := by
     intro n
     exact (Classical.choose_spec (hp n)).2.symm
   apply T.representative_closable a z
-  . have hfst : Tendsto (fun n => (p n).1) atTop (nhds 0) :=
+  next =>
+    have hfst : Tendsto (fun n => (p n).1) atTop (nhds 0) :=
       (continuous_fst.tendsto (0, z)).comp hpLim
     simpa only [hxa] using hfst
-  . have hsnd : Tendsto (fun n => (p n).2) atTop (nhds z) :=
+  next =>
+    have hsnd : Tendsto (fun n => (p n).2) atTop (nhds z) :=
       (continuous_snd.tendsto (0, z)).comp hpLim
     simpa only [hya] using hsnd
 
