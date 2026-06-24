@@ -157,7 +157,7 @@ This is the first genuine analytic bridge beyond representative independence:
 it converts the dense commutant-core pairing into uniqueness of the vertical
 limit in `closure graph`.
 -/
-theorem graph_closable : T.IsClosableGraph T.graph := by
+theorem graph_closable : IsClosableGraph T.graph := by
   intro z hz
   obtain ⟨p, hpGraph, hpLimit⟩ :=
     (mem_closure_iff_seq_limit.mp hz)
