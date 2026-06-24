@@ -19,7 +19,7 @@ added_documents:
 runtime_closure:
   closure_packet: docs/TWO_TRUTHS_RUNTIME_CLOSURE_PACKET_v0_1.md
   checker: scripts/check_two_truths_runtime_closure_v0_1.py
-  base_runner: scripts/run_two_truths_runtime_checks_v0_1.py
+  base_checker: scripts/check_two_truths_attestation_v0_1.py
   authority_note: implementation_closure_only
   mass_gap_bridge_role: reference_only_non_collapse_barrier
   mass_gap_bridge_authority: forbidden
@@ -47,4 +47,4 @@ fixed_points:
   - two_truths_collapse_flags_remain_false
   - mass_gap_bridge_authority_remains_forbidden
   - two_truths_runtime_chain_is_reviewable_from_claim_to_attestation
-  - closure_checker_runs_base_runner_before_closure_validation
+  - closure_checker_runs_attestation_checker_before_closure_check
