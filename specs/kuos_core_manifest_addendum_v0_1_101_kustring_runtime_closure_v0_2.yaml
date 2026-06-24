@@ -15,7 +15,7 @@ added_documents:
 runtime_closure:
   closure_packet: docs/KUSTRING_RUNTIME_CLOSURE_PACKET_v0_2.md
   checker: scripts/check_kustring_runtime_closure_v0_2.py
-  base_suite: scripts/run_kustring_runtime_suite_v0_2.py
+  base_checker: scripts/check_kustring_runtime_attestation_v0_2.py
   authority_note: implementation_closure_only
 
 closure_chain:
@@ -36,4 +36,4 @@ fixed_points:
   - runtime_closure_is_implementation_not_proof
   - closure_packet_does_not_grant_authority
   - runtime_chain_is_reviewable_from_packet_to_attestation
-  - closure_checker_runs_runtime_suite_before_closure_validation
+  - closure_checker_runs_attestation_checker_before_closure_check
