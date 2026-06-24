@@ -13,21 +13,19 @@ added_documents:
   - scripts/check_kustring_runtime_worm_receipt_v0_2.py
 
 updated_documents:
-  - scripts/run_kustring_runtime_suite_v0_2.py
+  - scripts/build_kustring_runtime_bundle_v0_2.py
 
 worm_receipt_runtime:
   source_chain: specs/kustring_runtime_audit_chain_v0_2.generated.jsonl
   generated_receipt: specs/kustring_runtime_worm_receipt_v0_2.generated.json
   exporter: scripts/export_kustring_runtime_worm_receipt_v0_2.py
   checker: scripts/check_kustring_runtime_worm_receipt_v0_2.py
-  suite: scripts/run_kustring_runtime_suite_v0_2.py
+  validation_entry: scripts/check_kustring_runtime_bundle_v0_2.py
   export_mode: WORM
 
 validation:
   commands:
-    - python3 scripts/export_kustring_runtime_worm_receipt_v0_2.py
-    - python3 scripts/check_kustring_runtime_worm_receipt_v0_2.py
-    - python3 scripts/run_kustring_runtime_suite_v0_2.py
+    - python3 scripts/check_kustring_runtime_bundle_v0_2.py
 
 fixed_points:
   - runtime_audit_chain_root_is_exported_to_worm_receipt
