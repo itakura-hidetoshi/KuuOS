@@ -1,0 +1,37 @@
+{
+  "manifest_version": "world_kuu_vacuum_araki_hessian_physical_realization_v0_56",
+  "predecessor": "world_kuu_vacuum_information_geometry_v0_55",
+  "status": "formal_bounded_generator_araki_hessian_physical_realization",
+  "formal_module": "formal/KUOS/WORLD/KuuVacuumArakiHessianPhysicalRealizationV0_56.lean",
+  "formal_root": "formal/KuuOSFormalV0_56.lean",
+  "aggregate_formal_root": "formal/KuuOSFormal.lean",
+  "documentation": "docs/KU_WORLD_KUU_VACUUM_ARAKI_HESSIAN_PHYSICAL_REALIZATION_v0_56.md",
+  "validator": "scripts/check_world_kuu_vacuum_araki_hessian_physical_realization_v0_56.py",
+  "workflow": ".github/workflows/world-v056-araki-hessian-physical-realization.yml",
+  "proved_spine": [
+    "first_variation_derivative",
+    "mixed_hessian_bkm_identification",
+    "hessian_symmetry_and_nonnegativity",
+    "vacuum_quantum_fisher_transport",
+    "physical_excitation_gram_transport",
+    "os_reflection_form_transport"
+  ],
+  "scope": {
+    "sigma_finite_standard_form": true,
+    "faithful_normal_vacuum": true,
+    "bounded_selfadjoint_generators": true,
+    "infinite_dimensional_physical_hilbert": true,
+    "arbitrary_unbounded_generators": false,
+    "standard_form_constructed_from_mathlib_primitives": false,
+    "relative_modular_log_constructed_from_mathlib_primitives": false,
+    "os_reconstruction_constructed_from_mathlib_primitives": false
+  },
+  "boundaries": {
+    "physical_realization_is_world_identity": false,
+    "hessian_is_truth_authority": false,
+    "bkm_metric_is_ontology": false,
+    "os_representative_grants_execution": false,
+    "modular_time_equals_physical_time": false,
+    "runtime_updates_world": false
+  }
+}
