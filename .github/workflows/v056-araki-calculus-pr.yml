@@ -1,0 +1,30 @@
+name: WORLD v0.56 Araki Calculus PR
+
+on:
+  pull_request:
+    paths:
+      - '.github/workflows/v056-araki-calculus-pr.yml'
+      - 'formal/KUOS/WORLD/ArakiBoundedExponentialArcCalculusV0_56.lean'
+      - 'formal/KuuOSArakiCalculusV0_56.lean'
+      - 'lakefile.toml'
+
+permissions:
+  contents: read
+
+jobs:
+  calculus:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - run: lake update
+      - run: git diff --exit-code -- lake-manifest.json
+      - run: lake exe cache get
+      - run: lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSArakiCalculusV0_56
