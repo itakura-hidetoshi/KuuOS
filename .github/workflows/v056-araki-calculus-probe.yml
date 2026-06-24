@@ -1,0 +1,35 @@
+name: WORLD v0.56 Araki Calculus Probe
+
+on:
+  push:
+    branches:
+      - v056-araki-calculus-probe
+
+permissions:
+  contents: read
+
+jobs:
+  calculus:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Verify committed manifest is canonical
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Compile Mathlib-only Araki calculus
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true
+          build KuuOSArakiCalculusV0_56
