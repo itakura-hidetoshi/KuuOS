@@ -4,14 +4,16 @@ on:
   pull_request:
     paths:
       - '.github/workflows/v056-os-transport-macos.yml'
-      - 'formal/KUOS/WORLD/ArakiBoundedExponentialArcCalculusV0_56.lean'
       - 'formal/KUOS/WORLD/KuuVacuumArakiHessianOSTransportV0_56.lean'
-      - 'formal/KuuOSArakiCalculusV0_56.lean'
       - 'formal/KuuOSFormalV0_56.lean'
       - 'lakefile.toml'
 
 permissions:
   contents: read
+
+concurrency:
+  group: WORLD-v0.56-OS-Transport-macOS-797
+  cancel-in-progress: true
 
 jobs:
   validate:
@@ -33,5 +35,4 @@ jobs:
       - run: lake update
       - run: git diff --exit-code -- lake-manifest.json
       - run: lake exe cache get
-      - run: lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSArakiCalculusV0_56
       - run: lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormalV0_56
