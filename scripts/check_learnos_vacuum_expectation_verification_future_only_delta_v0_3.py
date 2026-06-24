@@ -58,7 +58,8 @@ def main() -> int:
         verify,
         (
             "verificationRecorded",
-            "learningRequired",
+            "automaticLearning",
+            "learningForbidden",
             "verification_bridge_grants_no_downstream_authority",
         ),
     )
