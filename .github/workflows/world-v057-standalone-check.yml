@@ -1,0 +1,29 @@
+name: WORLD v0.57 standalone check
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - run: lake update
+      - run: git diff --exit-code -- lake-manifest.json
+      - run: lake exe cache get
+      - name: Compile standalone proof
+        run: lake env lean -DwarningAsError=true -DsorryAsError=true formal/CompleteDiagonalBKMHilbertStandaloneV0_57.lean
+      - name: Compile product root
+        run: lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormalV0_57
