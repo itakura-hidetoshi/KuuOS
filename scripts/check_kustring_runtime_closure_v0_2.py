@@ -31,7 +31,7 @@ def main() -> int:
         if not (ROOT / rel).is_file():
             errors.append(f"missing: {rel}")
     text = DOC.read_text(encoding="utf-8") if DOC.is_file() else ""
-    for token in ["implementation-level closure", "leaves all proof, truth, and operational permissions unchanged"]:
+    for token in ["implementation closure only", "not proof", "not proof, truth, or execution authority"]:
         if token not in text:
             errors.append(f"closure doc missing: {token}")
     if errors:
