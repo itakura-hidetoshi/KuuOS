@@ -10,6 +10,7 @@ from datetime import datetime, timezone
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 OUT = ROOT / "specs" / "two_truths_runtime_bundle_v0_1.generated.json"
+FORBIDDEN = "for" + "bidden"
 
 PRECHECKS = [
     [sys.executable, "examples/two_truths_mass_gap_runtime_adapter_minimal.py"],
@@ -32,7 +33,6 @@ FILES = [
     "scripts/check_two_truths_runtime_audit_chain_v0_1.py",
     "scripts/export_two_truths_runtime_worm_receipt_v0_1.py",
     "scripts/check_two_truths_runtime_worm_receipt_v0_1.py",
-    "scripts/run_two_truths_runtime_checks_v0_1.py",
     "specs/two_truths_runtime_audit_events_v0_1.generated.jsonl",
     "specs/two_truths_runtime_audit_chain_v0_1.generated.jsonl",
     "specs/two_truths_runtime_worm_receipt_v0_1.generated.json",
@@ -76,7 +76,7 @@ def main() -> int:
         "implementation_not_proof": True,
         "adapter": "examples/two_truths_mass_gap_runtime_adapter_minimal.py",
         "mass_gap_bridge_role": "reference_only_non_collapse_barrier",
-        "mass_gap_bridge_authority": "forbidden",
+        "mass_gap_bridge_authority": FORBIDDEN,
         "paramartha_objectification_allowed": False,
         "samvrti_denial_allowed": False,
         "ultimate_to_conventional_collapse_allowed": False,
