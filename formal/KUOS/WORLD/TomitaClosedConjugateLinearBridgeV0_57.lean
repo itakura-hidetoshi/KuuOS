@@ -25,6 +25,8 @@ theorem algebraic_graph_complex_smul
     (hxy : T.graph (x, y)) :
     T.graph (c • x, star c • y) := by
   rw [← TomitaRealLinearPMapRealization.graph_eq Realization] at hxy ⊢
+  change (x, y) ∈ Realization.pmap.graph at hxy
+  change (c • x, star c • y) ∈ Realization.pmap.graph
   rw [LinearPMap.mem_graph_iff] at hxy ⊢
   rcases hxy with ⟨u, hux, huy⟩
   let v : Realization.pmap.domain :=
@@ -56,7 +58,7 @@ theorem closure_graph_complex_smul
     have hstar :
         Tendsto (fun n => star c • (p n).2) atTop (nhds (star c • y)) :=
       tendsto_const_nhds.smul hsnd
-    exact hc.prodMk hstar
+    simpa only [nhds_prod_eq] using hc.prodMk hstar
 
 variable (R : TomitaRealLinearPMapRealization T)
 
@@ -71,8 +73,7 @@ theorem set_graph_closure_eq_mathlib_closure_graph :
     _ = (R.pmap.closure.graph : Set (H × H)) := by
       exact congrArg
         (fun s : Submodule Real (H × H) => (s : Set (H × H)))
-        ((TomitaRealLinearPMapRealization.pmap_isClosable R).
-          graph_closure_eq_closure_graph)
+        (TomitaRealLinearPMapRealization.graph_closure_eq_mathlib_closure R)
 
 /-- The domain of the closed Tomita operator is stable under complex scalars. -/
 theorem closure_complex_smul_mem
