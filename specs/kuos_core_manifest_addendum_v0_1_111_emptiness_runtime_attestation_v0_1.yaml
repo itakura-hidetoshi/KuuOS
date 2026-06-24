@@ -11,20 +11,17 @@ implementation_not_proof: true
 added_documents:
   - scripts/build_emptiness_runtime_attestation_v0_1.py
   - scripts/check_emptiness_runtime_attestation_v0_1.py
-  - scripts/run_emptiness_runtime_attestation_checks_v0_1.py
 
 runtime_attestation:
   generated_attestation: specs/emptiness_runtime_attestation_v0_1.generated.json
   builder: scripts/build_emptiness_runtime_attestation_v0_1.py
   checker: scripts/check_emptiness_runtime_attestation_v0_1.py
-  runner: scripts/run_emptiness_runtime_attestation_checks_v0_1.py
+  validation_entry: scripts/check_emptiness_runtime_attestation_v0_1.py
   authority_note: emptiness_runtime_attestation_is_integrity_summary_only
 
 validation:
   commands:
-    - python3 scripts/build_emptiness_runtime_attestation_v0_1.py
     - python3 scripts/check_emptiness_runtime_attestation_v0_1.py
-    - python3 scripts/run_emptiness_runtime_attestation_checks_v0_1.py
 
 fixed_points:
   - emptiness_runtime_bundle_root_is_bound_to_attestation
