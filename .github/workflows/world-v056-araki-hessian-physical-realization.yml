@@ -1,66 +1,20 @@
 name: WORLD v0.56 Araki Hessian Physical Realization macOS current
 
 on:
+  push:
+    branches:
+      - world-v056-macos-current
   workflow_dispatch:
-  pull_request:
-    paths:
-      - 'formal/KUOS/WORLD/ArakiBoundedExponentialArcCalculusV0_56.lean'
-      - 'formal/KUOS/WORLD/KuuVacuumArakiHessianPhysicalRealizationV0_56.lean'
-      - 'formal/KuuOSArakiCalculusV0_56.lean'
-      - 'formal/KuuOSFormalV0_56.lean'
-      - 'formal/KuuOSFormal.lean'
-      - 'lakefile.toml'
-      - 'docs/KU_WORLD_KUU_VACUUM_ARAKI_HESSIAN_PHYSICAL_REALIZATION_v0_56.md'
-      - 'manifests/world_kuu_vacuum_araki_hessian_physical_realization_v0_56.json'
-      - 'scripts/check_world_kuu_vacuum_araki_hessian_physical_realization_v0_56.py'
-      - '.github/workflows/world-v056-araki-hessian-physical-realization.yml'
 
 permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: WORLD v0.56 Araki Hessian Physical Realization macOS current-794
   cancel-in-progress: true
 
 jobs:
-  validate:
+  release-runner:
     runs-on: macos-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Compile v0.56 Python validator
-        run: python -m compileall -q scripts/check_world_kuu_vacuum_araki_hessian_physical_realization_v0_56.py
-      - name: Run v0.56 static validation
-        run: python3 scripts/check_world_kuu_vacuum_araki_hessian_physical_realization_v0_56.py
-      - name: Set up pinned Lean and Lake
-        uses: leanprover/lean-action@v1
-        with:
-          auto-config: false
-          build: false
-          test: false
-          lint: false
-          use-mathlib-cache: false
-          use-github-cache: false
-      - name: Resolve pinned dependencies
-        run: lake update
-      - name: Verify committed manifest is canonical
-        run: git diff --exit-code -- lake-manifest.json
-      - name: Fetch Mathlib olean cache
-        run: lake exe cache get
-      - name: Compile Mathlib-only Araki calculus root
-        run: >-
-          lake -KleanArgs=-DwarningAsError=true
-          -KleanArgs=-DsorryAsError=true
-          build KuuOSArakiCalculusV0_56
-      - name: Compile WORLD v0.56 root
-        run: >-
-          lake -KleanArgs=-DwarningAsError=true
-          -KleanArgs=-DsorryAsError=true
-          build KuuOSFormalV0_56
-      - name: Compile aggregate formal root
-        run: >-
-          lake -KleanArgs=-DwarningAsError=true
-          -KleanArgs=-DsorryAsError=true
-          build KuuOSFormal
+      - run: echo 'Superseded by verified calculus OS transport PR 797.'
