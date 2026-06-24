@@ -1,5 +1,11 @@
 import KUOS.WORLD.TomitaClosedInvolutionBridgeV0_57
 
+/-!
+The closed Tomita operator preserves its closed domain and is involutive there.
+This file bundles that result as a real-linear automorphism of the closed
+operator domain.
+-/
+
 namespace KUOS.WORLD
 
 noncomputable section
