@@ -31,6 +31,8 @@ def main() -> int:
         "predecessor mismatch",
     )
     for key in (
+        "calculus_module",
+        "calculus_root",
         "formal_module",
         "formal_root",
         "aggregate_formal_root",
@@ -43,27 +45,40 @@ def main() -> int:
     require(manifest["scope"]["bounded_selfadjoint_generators"] is True, "bounded scope missing")
     require(manifest["scope"]["infinite_dimensional_physical_hilbert"] is True, "infinite dimension missing")
     require(manifest["scope"]["arbitrary_unbounded_generators"] is False, "unbounded scope promoted")
+    require(
+        manifest["scope"]["exponential_arc_response_constructed_from_mathlib_primitives"] is False,
+        "response derivative promoted to first-principles construction",
+    )
     require(all(value is False for value in manifest["boundaries"].values()), "boundary promotion")
 
     require_tokens(
-        ROOT / manifest["formal_module"],
+        ROOT / manifest["calculus_module"],
         (
-            "ArakiBoundedExponentialArcKernel",
-            "arakiFirstVariation",
-            "arakiMixedHessian",
-            "araki_first_variation_hasDerivAt",
-            "araki_mixed_hessian_eq_bkm",
-            "WorldKuuVacuumArakiHessianPhysicalRealization",
-            "InfiniteDimensional ℂ M.H",
-            "araki_hessian_eq_quantum_fisher",
-            "araki_hessian_eq_araki_hessian_shadow",
-            "araki_hessian_eq_physical_excitation_gram",
-            "araki_hessian_eq_os_reflection_form_re",
+            "ArakiBoundedExponentialArcCalculus",
+            "firstVariation",
+            "mixedHessian",
+            "firstVariation_hasDerivAt",
+            "mixedHessian_eq_bkm",
+            "mixedHessian_symmetric",
+            "mixedHessian_nonnegative",
         ),
     )
-    require_tokens(ROOT / manifest["formal_root"], ("KuuVacuumArakiHessianPhysicalRealizationV0_56",))
-    require_tokens(ROOT / manifest["aggregate_formal_root"], ("KUOS.WORLD.KuuVacuumArakiHessianPhysicalRealizationV0_56",))
-    require_tokens(ROOT / "lakefile.toml", ("KuuOSFormalV0_56",))
+    require_tokens(
+        ROOT / manifest["formal_module"],
+        (
+            "WorldKuuVacuumArakiHessianOSTransport",
+            "InfiniteDimensional ℂ M.H",
+            "hessian_eq_quantum_fisher",
+            "hessian_eq_araki_hessian_shadow",
+            "hessian_eq_physical_excitation_gram",
+            "hessian_eq_os_reflection_form_re",
+            "osHilbertIdentification.inner_map_map",
+        ),
+    )
+    require_tokens(ROOT / manifest["calculus_root"], ("ArakiBoundedExponentialArcCalculusV0_56",))
+    require_tokens(ROOT / manifest["formal_root"], ("KuuVacuumArakiHessianOSTransportV0_56",))
+    require_tokens(ROOT / manifest["aggregate_formal_root"], ("KUOS.WORLD.KuuVacuumArakiHessianOSTransportV0_56",))
+    require_tokens(ROOT / "lakefile.toml", ("KuuOSArakiCalculusV0_56", "KuuOSFormalV0_56"))
     require_tokens(
         ROOT / manifest["documentation"],
         (
@@ -76,7 +91,7 @@ def main() -> int:
         ),
     )
 
-    print("WORLD v0.56 Araki Hessian physical realization checks passed")
+    print("WORLD v0.56 Araki Hessian OS transport checks passed")
     return 0
 
 
