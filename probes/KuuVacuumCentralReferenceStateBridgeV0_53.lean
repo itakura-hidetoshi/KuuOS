@@ -3,6 +3,8 @@ import KUOS.WORLD.KuuVacuumOSHilbertCompletionBridgeV0_49
 import KUOS.WORLD.VacuumExpectationObservationCandidateBridgeV0_50
 import KUOS.WORLD.VacuumExpectationHostEffectAtomicCommitIntakeV0_52
 
+/-! Isolated compile probe for the WORLD v0.53 central reference state. -/
+
 namespace KUOS
 namespace WORLD
 
