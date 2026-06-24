@@ -52,6 +52,33 @@ def main() -> int:
             "central reference != algebraic center",
         ),
     )
+    require_tokens(
+        ROOT / "README.md",
+        (
+            "WORLD read-only mathematical sidecar             v0.53",
+            "central reference != algebraic center",
+            "relative entropy != ontological distance",
+            "Petz recovery != WORLD overwrite",
+            "run_kuuos_runtime_full_check_v0_53.py",
+        ),
+    )
+    require_tokens(
+        ROOT / "ROADMAP.md",
+        (
+            "Baseline date: 2026-06-24",
+            "v0.53 Kū vacuum central reference-state bridge",
+            "Strengthen WORLD v0.53 proof status",
+            "central-reference to algebraic-center promotion",
+        ),
+    )
+    require_tokens(
+        ROOT / ".github/workflows/kuuos_runtime_full_check.yml",
+        (
+            "run_kuuos_runtime_full_check_v0_53.py",
+            "check_world_kuu_vacuum_central_reference_state_v0_53.py",
+            "KuuVacuumCentralReferenceStateBridgeV0_53.lean",
+        ),
+    )
 
     manifest_path = ROOT / "manifests/world_kuu_vacuum_central_reference_state_v0_53.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
