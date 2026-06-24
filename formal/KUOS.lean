@@ -96,3 +96,4 @@ import KUOS.WORLD.KuuVacuumOSHilbertCompletionBridgeV0_49
 import KUOS.WORLD.VacuumExpectationObservationCandidateBridgeV0_50
 import KUOS.WORLD.VacuumExpectationObserveOSEvidenceIntakeBridgeV0_51
 import KUOS.WORLD.VacuumExpectationHostEffectAtomicCommitIntakeV0_52
+import KUOS.WORLD.KuuVacuumCentralReferenceStateBridgeV0_53
