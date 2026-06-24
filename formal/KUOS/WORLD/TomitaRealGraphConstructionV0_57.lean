@@ -82,6 +82,9 @@ theorem pmap_domain_eq :
     rcases hx with ⟨a, rfl⟩
     apply (LinearPMap.mem_domain_iff (f := D.pmap)).mpr
     refine ⟨T.leftVector (T.leftStar a), ?_⟩
+    change
+      (T.leftVector a, T.leftVector (T.leftStar a)) ∈
+        (D.pmap.graph : Set (H × H))
     rw [D.pmap_graph_eq]
     exact ⟨a, rfl, rfl⟩
 
