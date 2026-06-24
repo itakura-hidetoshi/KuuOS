@@ -42,3 +42,5 @@ jobs:
           -DwarningAsError=true
           -DsorryAsError=true
           probes/KuuVacuumCentralReferenceStateBridgeV0_53.lean
+      - name: Record probe completion
+        run: echo 'WORLD v0.53 isolated Lean probe completed'
