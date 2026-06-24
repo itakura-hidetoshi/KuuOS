@@ -83,6 +83,10 @@ on:
       - '.github/workflows/world-vacuum-expectation-observeos-commit-verify-v0-53.yml'
       - '.github/workflows/kuuos_runtime_full_check.yml'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   full-check:
     runs-on: ubuntu-latest
