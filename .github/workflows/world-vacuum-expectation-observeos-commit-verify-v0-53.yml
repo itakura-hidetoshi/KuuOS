@@ -22,17 +22,47 @@ concurrency:
 
 permissions:
   contents: read
+  issues: write
+  pull-requests: write
 
 jobs:
   validate:
     runs-on: macos-latest
     steps:
       - uses: actions/checkout@v6
+        with:
+          show-progress: false
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Run complete v0.53 regression chain
-        run: python3 scripts/run_kuuos_runtime_full_check_v0_53.py
+        id: regression
+        continue-on-error: true
+        run: |
+          set -o pipefail
+          python3 scripts/run_kuuos_runtime_full_check_v0_53.py 2>&1 | tee /tmp/world-v053-regression.log
+      - name: Report regression failure
+        if: steps.regression.outcome == 'failure'
+        uses: actions/github-script@v7
+        with:
+          script: |
+            const fs = require('fs');
+            const text = fs.readFileSync('/tmp/world-v053-regression.log', 'utf8');
+            const body = [
+              'WORLD v0.53 macOS regression failed.',
+              '```text',
+              text.slice(-5000),
+              '```'
+            ].join('\n');
+            await github.rest.issues.createComment({
+              owner: context.repo.owner,
+              repo: context.repo.repo,
+              issue_number: context.issue.number,
+              body
+            });
+      - name: Stop after regression failure
+        if: steps.regression.outcome == 'failure'
+        run: exit 1
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
