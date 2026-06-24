@@ -150,6 +150,57 @@ theorem graph_closable : IsClosableGraph T.graph := by
       (continuous_snd.tendsto (0, z)).comp hpLim
     simpa only [hya] using hsnd
 
+theorem closure_graph_right_unique
+    (graph_sub : forall {p q : Prod H H},
+      T.graph p -> T.graph q -> T.graph (p - q))
+    {x y z : H}
+    (hxy : (closure T.graph) (x, y))
+    (hxz : (closure T.graph) (x, z)) :
+    y = z := by
+  let wy := mem_closure_iff_seq_limit.mp hxy
+  let wz := mem_closure_iff_seq_limit.mp hxz
+  let py : Nat -> Prod H H := Classical.choose wy
+  let pz : Nat -> Prod H H := Classical.choose wz
+  have hpy : forall n, T.graph (py n) :=
+    (Classical.choose_spec wy).1
+  have hpz : forall n, T.graph (pz n) :=
+    (Classical.choose_spec wz).1
+  have hpyLim : Tendsto py atTop (nhds (x, y)) :=
+    (Classical.choose_spec wy).2
+  have hpzLim : Tendsto pz atTop (nhds (x, z)) :=
+    (Classical.choose_spec wz).2
+  have hdiffGraph : forall n, T.graph (py n - pz n) := by
+    intro n
+    exact graph_sub (hpy n) (hpz n)
+  have hdiffLim :
+      Tendsto (fun n => py n - pz n) atTop (nhds (0, y - z)) := by
+    simpa using hpyLim.sub hpzLim
+  have hvertical : (closure T.graph) (0, y - z) :=
+    mem_closure_iff_seq_limit.mpr
+      (Exists.intro (fun n => py n - pz n)
+        (And.intro hdiffGraph hdiffLim))
+  have hyz : y - z = 0 := T.graph_closable (y - z) hvertical
+  exact sub_eq_zero.mp hyz
+
+def closedDomain : Set H :=
+  fun x => Exists fun y => (closure T.graph) (x, y)
+
+def closedValue (x : H) (hx : T.closedDomain x) : H :=
+  Classical.choose hx
+
+theorem closedValue_mem_graph (x : H) (hx : T.closedDomain x) :
+    (closure T.graph) (x, T.closedValue x hx) :=
+  Classical.choose_spec hx
+
+theorem closedValue_unique
+    (graph_sub : forall {p q : Prod H H},
+      T.graph p -> T.graph q -> T.graph (p - q))
+    (x y : H) (hx : T.closedDomain x)
+    (hxy : (closure T.graph) (x, y)) :
+    y = T.closedValue x hx := by
+  exact T.closure_graph_right_unique graph_sub hxy
+    (T.closedValue_mem_graph x hx)
+
 end TomitaGraphCore
 end
 end KUOS.WORLD
