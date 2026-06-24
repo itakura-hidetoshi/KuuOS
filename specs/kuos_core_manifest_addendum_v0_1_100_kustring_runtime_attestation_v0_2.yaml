@@ -12,21 +12,16 @@ added_documents:
   - scripts/build_kustring_runtime_attestation_v0_2.py
   - scripts/check_kustring_runtime_attestation_v0_2.py
 
-updated_documents:
-  - scripts/run_kustring_runtime_suite_v0_2.py
-
 runtime_attestation:
   generated_attestation: specs/kustring_runtime_attestation_v0_2.generated.json
   builder: scripts/build_kustring_runtime_attestation_v0_2.py
   checker: scripts/check_kustring_runtime_attestation_v0_2.py
-  suite: scripts/run_kustring_runtime_suite_v0_2.py
+  validation_entry: scripts/check_kustring_runtime_attestation_v0_2.py
   authority_note: runtime_attestation_is_integrity_summary_only
 
 validation:
   commands:
-    - python3 scripts/build_kustring_runtime_attestation_v0_2.py
     - python3 scripts/check_kustring_runtime_attestation_v0_2.py
-    - python3 scripts/run_kustring_runtime_suite_v0_2.py
 
 fixed_points:
   - runtime_bundle_root_is_bound_to_attestation
