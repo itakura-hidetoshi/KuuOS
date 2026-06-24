@@ -36,6 +36,30 @@ theorem closedDomainLinearMap_involutive :
       (x : H)
   exact R.mathlib_closure_map_map x
 
+/-- The closed Tomita operator as a real-linear automorphism of its domain. -/
+def closedDomainLinearEquiv :
+    R.pmap.closure.domain ≃ₗ[Real] R.pmap.closure.domain :=
+  LinearEquiv.ofInvolutive R.closedDomainLinearMap
+    R.closedDomainLinearMap_involutive
+
+@[simp]
+theorem closedDomainLinearEquiv_apply
+    (x : R.pmap.closure.domain) :
+    R.closedDomainLinearEquiv x = R.closedDomainLinearMap x :=
+  rfl
+
+/-- Applying the closed-domain Tomita automorphism twice is the identity. -/
+@[simp]
+theorem closedDomainLinearEquiv_apply_apply
+    (x : R.pmap.closure.domain) :
+    R.closedDomainLinearEquiv (R.closedDomainLinearEquiv x) = x :=
+  R.closedDomainLinearMap_involutive x
+
+/-- The closed-domain Tomita automorphism is bijective. -/
+theorem closedDomainLinearEquiv_bijective :
+    Function.Bijective R.closedDomainLinearEquiv :=
+  R.closedDomainLinearEquiv.bijective
+
 end TomitaRealLinearPMapRealization
 end
 end KUOS.WORLD
