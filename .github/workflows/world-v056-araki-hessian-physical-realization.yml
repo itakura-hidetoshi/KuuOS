@@ -1,11 +1,11 @@
-name: WORLD v0.56 Araki Hessian Physical Realization
+name: WORLD v0.56 Araki Hessian OS Transport
 
 on:
   workflow_dispatch:
   pull_request:
     paths:
       - 'formal/KUOS/WORLD/ArakiBoundedExponentialArcCalculusV0_56.lean'
-      - 'formal/KUOS/WORLD/KuuVacuumArakiHessianPhysicalRealizationV0_56.lean'
+      - 'formal/KUOS/WORLD/KuuVacuumArakiHessianOSTransportV0_56.lean'
       - 'formal/KuuOSArakiCalculusV0_56.lean'
       - 'formal/KuuOSFormalV0_56.lean'
       - 'formal/KuuOSFormal.lean'
@@ -54,7 +54,7 @@ jobs:
           lake -KleanArgs=-DwarningAsError=true
           -KleanArgs=-DsorryAsError=true
           build KuuOSArakiCalculusV0_56
-      - name: Compile WORLD v0.56 root
+      - name: Compile WORLD v0.56 OS transport root
         run: >-
           lake -KleanArgs=-DwarningAsError=true
           -KleanArgs=-DsorryAsError=true
