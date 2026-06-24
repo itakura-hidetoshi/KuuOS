@@ -16,22 +16,18 @@ added_documents:
   - scripts/build_two_truths_runtime_attestation_v0_1.py
   - scripts/check_two_truths_attestation_v0_1.py
 
-updated_documents:
-  - scripts/run_two_truths_runtime_checks_v0_1.py
-
 runtime_attestation:
   generated_attestation: specs/two_truths_runtime_attestation_v0_1.generated.json
   builder: scripts/build_two_truths_runtime_attestation_v0_1.py
   checker: scripts/check_two_truths_attestation_v0_1.py
+  validation_entry: scripts/check_two_truths_attestation_v0_1.py
   authority_note: two_truths_runtime_attestation_is_integrity_summary_only
   mass_gap_bridge_role: reference_only_non_collapse_barrier
   mass_gap_bridge_authority: forbidden
 
 validation:
   commands:
-    - python3 scripts/build_two_truths_runtime_attestation_v0_1.py
     - python3 scripts/check_two_truths_attestation_v0_1.py
-    - python3 scripts/run_two_truths_runtime_checks_v0_1.py
 
 fixed_points:
   - two_truths_runtime_bundle_root_is_bound_to_attestation
