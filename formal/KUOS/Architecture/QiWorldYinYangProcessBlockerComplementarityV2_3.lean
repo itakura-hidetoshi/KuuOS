@@ -18,8 +18,10 @@ inductive ProcessRelation
 
 /-- Polarity is relational and contextual rather than an intrinsic essence. -/
 def polarityOfRelation : ProcessRelation → YinYangPolarity
-  | .contains | .constrains => .yin
-  | .propagates | .accumulates => .yang
+  | .contains => .yin
+  | .constrains => .yin
+  | .propagates => .yang
+  | .accumulates => .yang
 
 theorem polarity_is_relational :
     polarityOfRelation .contains = .yin ∧
