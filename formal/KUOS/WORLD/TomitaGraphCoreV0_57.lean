@@ -65,8 +65,11 @@ theorem representative_closable
     z = 0 := by
   refine DenseRange.eq_zero_of_inner_left â„‚ T.rightDense ?_
   intro b
-  have hz := hTa.inner (tendsto_const_nhds :
-    Tendsto (fun _ : â„• => T.rightVector b) atTop (ğ“ (T.rightVector b)))
+  have hz :
+      Tendsto
+        (fun n => inner â„‚ (T.leftVector (T.leftStar (a n))) (T.rightVector b))
+        atTop (ğ“ (inner â„‚ z (T.rightVector b))) :=
+    hTa.inner tendsto_const_nhds
   have hzero : Tendsto
       (fun n => inner â„‚ (T.leftVector (a n)) (T.rightVector (T.rightStar b)))
       atTop (ğ“ 0) := by
@@ -90,11 +93,7 @@ theorem graph_closable : IsClosableGraph T.graph := by
   obtain âŸ¨p, hp, hpLimâŸ© := mem_closure_iff_seq_limit.mp hz
   choose a hxa hya using hp
   apply T.representative_closable a z
-  Â· have hfst := (continuous_fst.tendsto (0, z)).comp hpLim
+  Â³ have hfst := (continuous_fst.tendsto (0, z)).comp hpLim
     simpa only [â† hxa] using hfst
   Â· have hsnd := (continuous_snd.tendsto (0, z)).comp hpLim
-    simpa only [â† hya] using hsnd
-
-end TomitaGraphCore
-end
-end KUOS.WORLD
+    simpa only [â†¡å…tÕÍ¥¹œ¡Í¹()•¹Q½µ¥Ñ…É…Á¡½É”)•¹)•¹-U=L¹]=I1
