@@ -1,4 +1,4 @@
-name: WORLD Infinite Diagonal Araki Hessian v0.56
+name: WORLD Infinite Diagonal Araki Hessian v0.56 macOS
 
 on:
   workflow_dispatch:
@@ -19,7 +19,7 @@ concurrency:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v6
       - name: Set up pinned Lean and Lake
