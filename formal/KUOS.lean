@@ -88,3 +88,4 @@ import KUOS.WORLD.QuantumGeodesicMirrorDescentFreeEnergyBridgeV0_46
 import KUOS.WORLD.QuantumGradientJKOEntropyProductionBridgeV0_47
 import KUOS.WORLD.QuantumLogSobolevContractivityMixingBridgeV0_48
 import KUOS.WORLD.KuuVacuumOSHilbertCompletionBridgeV0_49
+import KUOS.WORLD.KuuVacuumCentralReferenceStateBridgeV0_50
