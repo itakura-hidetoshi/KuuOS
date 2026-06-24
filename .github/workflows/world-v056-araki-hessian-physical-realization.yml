@@ -8,6 +8,9 @@ on:
       - 'formal/KuuOSFormalV0_56.lean'
       - 'formal/KuuOSFormal.lean'
       - 'lakefile.toml'
+      - 'docs/KU_WORLD_KUU_VACUUM_ARAKI_HESSIAN_PHYSICAL_REALIZATION_v0_56.md'
+      - 'manifests/world_kuu_vacuum_araki_hessian_physical_realization_v0_56.json'
+      - 'scripts/check_world_kuu_vacuum_araki_hessian_physical_realization_v0_56.py'
       - '.github/workflows/world-v056-araki-hessian-physical-realization.yml'
 
 permissions:
@@ -22,6 +25,13 @@ jobs:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile v0.56 Python validator
+        run: python -m compileall -q scripts/check_world_kuu_vacuum_araki_hessian_physical_realization_v0_56.py
+      - name: Run v0.56 static validation
+        run: python3 scripts/check_world_kuu_vacuum_araki_hessian_physical_realization_v0_56.py
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
