@@ -16,6 +16,10 @@ on:
       - 'docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVEOS_COMMIT_VERIFY_HANDOFF_v0_53.md'
       - '.github/workflows/world-vacuum-expectation-observeos-commit-verify-v0-53.yml'
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 permissions:
   contents: read
 
