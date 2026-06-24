@@ -18,6 +18,8 @@ Modular time and physical time remain distinct.
 namespace KUOS
 namespace WORLD
 
+noncomputable section
+
 structure WorldKuuVacuumCentralReferenceStateBridge
     {C : RealHilbertL2Carrier}
     {W : WorldNoncommutativeOperatorAlgebra C}
@@ -175,26 +177,28 @@ def vacuumRelativeEntropyGlobal : ENNReal :=
   E.globalRelativeEntropy
 
 theorem central_reference_normalized :
-    Central.centralReferenceState (1 : B.A) = 1 :=
-  K.vacuum_state_normalized
+    Central.centralReferenceState (1 : B.A) = 1 := by
+  simpa [centralReferenceState] using K.vacuum_state_normalized
 
 theorem central_reference_positive (observable : B.A) :
-    0 ≤ (Central.centralReferenceState (star observable * observable)).re :=
-  K.vacuum_state_positive observable
+    0 ≤ (Central.centralReferenceState (star observable * observable)).re := by
+  simpa [centralReferenceState] using K.vacuum_state_positive observable
 
 theorem central_reference_gauge_invariant
     (gauge : K.Gauge) (observable : B.A) :
     Central.centralReferenceState (K.gaugeAction gauge observable) =
-      Central.centralReferenceState observable :=
-  K.vacuum_state_gauge_invariant gauge observable
+      Central.centralReferenceState observable := by
+  simpa [centralReferenceState] using
+    K.vacuum_state_gauge_invariant gauge observable
 
 theorem os_form_is_central_two_point
     (left right : K.PositiveTimeObservable) :
     K.osReflectionForm left right =
       Central.vacuumTwoPoint
         (Central.positiveTimeObservableToAlgebra left)
-        (Central.positiveTimeObservableToAlgebra right) :=
-  Central.osCorrelationBinding left right
+        (Central.positiveTimeObservableToAlgebra right) := by
+  simpa [vacuumTwoPoint, centralReferenceState] using
+    Central.osCorrelationBinding left right
 
 theorem os_central_correlation_nonnegative
     (observable : K.PositiveTimeObservable) :
@@ -207,8 +211,8 @@ theorem os_central_correlation_nonnegative
 
 theorem empty_vacuum_correlation :
     Central.vacuumCorrelation [] = 1 := by
-  simp [vacuumCorrelation, centralReferenceState,
-    K.vacuum_state_normalized]
+  simpa [vacuumCorrelation, centralReferenceState] using
+    K.vacuum_state_normalized
 
 theorem singleton_vacuum_correlation (observable : B.A) :
     Central.vacuumCorrelation [observable] =
@@ -216,8 +220,9 @@ theorem singleton_vacuum_correlation (observable : B.A) :
   simp [vacuumCorrelation]
 
 theorem modular_reference_is_central (observable : B.A) :
-    R.referenceState observable = Central.centralReferenceState observable :=
-  Central.modularReferenceIsVacuum observable
+    R.referenceState observable = Central.centralReferenceState observable := by
+  simpa [centralReferenceState] using
+    Central.modularReferenceIsVacuum observable
 
 theorem central_reference_modular_invariant
     (time : ℝ) (observable : B.A) :
@@ -238,8 +243,9 @@ theorem excitation_inner_product_is_two_point
     inner ℂ
         (Central.excitationVector left)
         (Central.excitationVector right) =
-      Central.vacuumTwoPoint left right :=
-  Central.excitationCorrelationBinding left right
+      Central.vacuumTwoPoint left right := by
+  simpa [excitationVector, vacuumTwoPoint, centralReferenceState] using
+    Central.excitationCorrelationBinding left right
 
 theorem vacuum_is_identity_excitation :
     Central.excitationVector (1 : B.A) = K.kuuVacuum := by
@@ -281,18 +287,21 @@ theorem excited_state_normalized
     mul_assoc, nonzeroWeight]
 
 theorem vacuum_relative_entropy_local_nonnegative (region : W.Region) :
-    0 ≤ Central.vacuumRelativeEntropyLocal region :=
-  E.localRelativeEntropy_nonnegative region
+    0 ≤ Central.vacuumRelativeEntropyLocal region := by
+  simpa [vacuumRelativeEntropyLocal] using
+    E.localRelativeEntropy_nonnegative region
 
 theorem vacuum_relative_entropy_global_nonnegative :
-    0 ≤ Central.vacuumRelativeEntropyGlobal :=
-  E.globalRelativeEntropy_nonnegative
+    0 ≤ Central.vacuumRelativeEntropyGlobal := by
+  simpa [vacuumRelativeEntropyGlobal] using
+    E.globalRelativeEntropy_nonnegative
 
 theorem vacuum_relative_entropy_data_processing
     {smaller larger : W.Region} (included : smaller ≤ larger) :
     Central.vacuumRelativeEntropyLocal smaller ≤
-      Central.vacuumRelativeEntropyLocal larger :=
-  E.local_data_processing included
+      Central.vacuumRelativeEntropyLocal larger := by
+  simpa [vacuumRelativeEntropyLocal] using
+    E.local_data_processing included
 
 theorem central_reference_exactly_recovered (observable : B.A) :
     Central.centralReferenceState (P.recoveredChannel observable) =
@@ -308,8 +317,8 @@ theorem central_reference_exactly_recovered (observable : B.A) :
       Central.modular_reference_is_central observable
 
 theorem vacuum_recovery_entropy_equality :
-    P.coarseRelativeEntropy = Central.vacuumRelativeEntropyGlobal :=
-  P.entropy_equality_case
+    P.coarseRelativeEntropy = Central.vacuumRelativeEntropyGlobal := by
+  simpa [vacuumRelativeEntropyGlobal] using P.entropy_equality_case
 
 theorem central_analytic_spine_receipts :
     Central.osCompletionCentralityClaim ∧
@@ -372,5 +381,6 @@ theorem central_reference_boundary_preserved :
     Central.twoTruthsGapProof⟩
 
 end WorldKuuVacuumCentralReferenceStateBridge
+end
 end WORLD
 end KUOS
