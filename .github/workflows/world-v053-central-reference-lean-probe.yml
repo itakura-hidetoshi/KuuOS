@@ -36,3 +36,5 @@ jobs:
           -DwarningAsError=true
           -DsorryAsError=true
           probes/KuuVacuumCentralReferenceStateBridgeV0_53.lean
+      - name: Confirm isolated probe boundary
+        run: echo 'isolated v0.53 Lean probe completed'
