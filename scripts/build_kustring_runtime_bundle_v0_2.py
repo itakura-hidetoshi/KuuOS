@@ -13,8 +13,10 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 OUT = ROOT / "specs" / "kustring_runtime_bundle_v0_2.generated.json"
 
 PREPARE_COMMANDS: list[list[str]] = [
-    [sys.executable, "scripts/run_kustring_runtime_checks_v0_2.py"],
-    [sys.executable, "scripts/run_kustring_runtime_packet_checks_v0_2.py"],
+    [sys.executable, "examples/kustring_runtime_v0_2.py"],
+    [sys.executable, "-m", "unittest", "tests/test_kustring_runtime_v0_2.py"],
+    [sys.executable, "scripts/eval_kustring_runtime_packets_v0_2.py"],
+    [sys.executable, "scripts/eval_kustring_runtime_packets_v0_2.py", "--json"],
     [sys.executable, "scripts/check_kustring_runtime_audit_v0_2.py"],
     [sys.executable, "scripts/check_kustring_runtime_audit_chain_v0_2.py"],
     [sys.executable, "scripts/check_kustring_runtime_worm_receipt_v0_2.py"],
@@ -35,8 +37,6 @@ FILES = [
     "scripts/check_kustring_runtime_bundle_v0_2.py",
     "scripts/build_kustring_runtime_attestation_v0_2.py",
     "scripts/check_kustring_runtime_attestation_v0_2.py",
-    "scripts/run_kustring_runtime_checks_v0_2.py",
-    "scripts/run_kustring_runtime_packet_checks_v0_2.py",
     "specs/kustring_runtime_audit_events_v0_2.generated.jsonl",
     "specs/kustring_runtime_audit_chain_v0_2.generated.jsonl",
     "specs/kustring_runtime_worm_receipt_v0_2.generated.json",
