@@ -1,3 +1,4 @@
 import KUOS.WORLD.TomitaGraphCoreV0_57
 import KUOS.WORLD.TomitaRealLinearPMapBridgeV0_57
 import KUOS.WORLD.TomitaRealGraphConstructionV0_57
+import KUOS.WORLD.TomitaClosedConjugateLinearBridgeV0_57
