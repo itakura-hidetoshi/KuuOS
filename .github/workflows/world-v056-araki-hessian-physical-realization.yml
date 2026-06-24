@@ -4,7 +4,9 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
+      - 'formal/KUOS/WORLD/ArakiBoundedExponentialArcCalculusV0_56.lean'
       - 'formal/KUOS/WORLD/KuuVacuumArakiHessianPhysicalRealizationV0_56.lean'
+      - 'formal/KuuOSArakiCalculusV0_56.lean'
       - 'formal/KuuOSFormalV0_56.lean'
       - 'formal/KuuOSFormal.lean'
       - 'lakefile.toml'
@@ -47,6 +49,11 @@ jobs:
         run: git diff --exit-code -- lake-manifest.json
       - name: Fetch Mathlib olean cache
         run: lake exe cache get
+      - name: Compile Mathlib-only Araki calculus root
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true
+          build KuuOSArakiCalculusV0_56
       - name: Compile WORLD v0.56 root
         run: >-
           lake -KleanArgs=-DwarningAsError=true
