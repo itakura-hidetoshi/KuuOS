@@ -1,0 +1,36 @@
+{
+  "version": "kuuos_verifyos_world_host_effect_verification_v0_4",
+  "status": "formal_independent_verification_receipt",
+  "base_branch": "observeos-v04-effect-grounded-receipt",
+  "source_module": "formal/KUOS/ObserveOS/WorldHostEffectObservationReceiptV0_4.lean",
+  "formal_module": "formal/KUOS/VerifyOS/WorldHostEffectVerificationReceiptV0_4.lean",
+  "formal_root": "formal/KuuOSVerifyOSV0_4.lean",
+  "documentation": "docs/KUUOS_VERIFYOS_WORLD_HOST_EFFECT_VERIFICATION_v0_4.md",
+  "validator": "scripts/check_verifyos_world_host_effect_verification_v0_4.py",
+  "workflow": ".github/workflows/verifyos-world-host-effect-v0-4.yml",
+  "required": {
+    "qualifying_observation_gate": true,
+    "exact_verify_cycle": true,
+    "full_lineage_preserved": true,
+    "criterion_and_evidence_exact": true,
+    "falsification_and_counterevidence": true,
+    "independent_single_verification": true,
+    "passed_adopt_candidate": true,
+    "failed_reject_candidate": true,
+    "indeterminate_defer_or_reobserve": true,
+    "future_only_learning": true,
+    "immutable_append_only_receipt": true
+  },
+  "forbidden": {
+    "nonqualifying_observation_adjudication": false,
+    "automatic_world_adoption": false,
+    "automatic_world_rejection": false,
+    "automatic_world_commit": false,
+    "atomic_commit_ready": false,
+    "truth_authority": false,
+    "causal_authority": false,
+    "execution_authority": false,
+    "memory_overwrite": false,
+    "automatic_learning": false
+  }
+}
