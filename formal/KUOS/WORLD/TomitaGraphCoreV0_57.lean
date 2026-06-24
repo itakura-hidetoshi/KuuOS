@@ -63,9 +63,9 @@ theorem representative_closable
     (ha : Tendsto (fun n => T.leftVector (a n)) atTop (𝓝 0))
     (hTa : Tendsto (fun n => T.leftVector (T.leftStar (a n))) atTop (𝓝 z)) :
     z = 0 := by
-  refine T.rightDense.eq_zero_of_inner_left (𝐵 := ℂ) (x := z) ?_
+  refine DenseRange.eq_zero_of_inner_left ℂ T.rightDense ?_
   intro b
-  have hzj := hTa.inner (tendsto_const_nhds :
+  have hz := hTa.inner (tendsto_const_nhds :
     Tendsto (fun _ : ℕ => T.rightVector b) atTop (𝓝 (T.rightVector b)))
   have hzero : Tendsto
       (fun n => inner ℂ (T.leftVector (a n)) (T.rightVector (T.rightStar b)))
