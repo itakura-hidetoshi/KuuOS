@@ -1,0 +1,31 @@
+{
+  "manifest_version": "world_kuu_vacuum_central_reference_state_v0_50",
+  "predecessor": "world_kuu_vacuum_os_hilbert_completion_v0_49",
+  "status": "integration_candidate",
+  "formal_module": "formal/KUOS/WORLD/KuuVacuumCentralReferenceStateBridgeV0_50.lean",
+  "formal_root": "formal/KuuOSFormalV0_50.lean",
+  "documentation": "docs/KU_WORLD_KUU_VACUUM_CENTRAL_REFERENCE_STATE_v0_50.md",
+  "validator": "scripts/check_world_kuu_vacuum_central_reference_state_v0_50.py",
+  "full_check": "scripts/run_kuuos_runtime_full_check_v0_50.py",
+  "workflow": ".github/workflows/world-kuu-vacuum-central-reference-v0-50.yml",
+  "unified_surfaces": [
+    "os_reflection_positivity",
+    "completed_hilbert_vacuum",
+    "vacuum_correlations",
+    "modular_reference_state",
+    "araki_relative_entropy",
+    "petz_recovery",
+    "vacuum_generated_excitations"
+  ],
+  "boundaries": [
+    "central_reference_not_algebraic_center",
+    "vacuum_not_truth_authority",
+    "excitation_not_truth_authority",
+    "relative_entropy_not_ontological_distance",
+    "petz_recovery_not_world_overwrite",
+    "modular_time_not_physical_time",
+    "world_not_vacuum",
+    "kuu_not_zero_vector",
+    "runtime_read_only"
+  ]
+}
