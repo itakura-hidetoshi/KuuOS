@@ -11,12 +11,10 @@ implementation_not_proof: true
 added_documents:
   - specs/kustring_runtime_packets_v0_2.json
   - scripts/eval_kustring_runtime_packets_v0_2.py
-  - scripts/run_kustring_runtime_packet_checks_v0_2.py
 
 runtime_cli:
   input_fixture: specs/kustring_runtime_packets_v0_2.json
   evaluator: scripts/eval_kustring_runtime_packets_v0_2.py
-  packet_checks: scripts/run_kustring_runtime_packet_checks_v0_2.py
   validation_entry: scripts/check_kustring_runtime_bundle_v0_2.py
   modes:
     - text_output
