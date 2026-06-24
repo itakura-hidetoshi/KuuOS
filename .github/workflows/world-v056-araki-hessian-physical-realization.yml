@@ -1,16 +1,16 @@
 name: WORLD v0.56 Araki Hessian Physical Realization macOS
 
 on:
+  push:
+    branches:
+      - world-v056-macos-ci-v2
   workflow_dispatch:
-  pull_request:
-    paths:
-      - '.github/workflows/world-v056-araki-hessian-physical-realization.yml'
 
 permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  group: WORLD v0.56 Araki Hessian Physical Realization macOS-791
   cancel-in-progress: true
 
 jobs:
