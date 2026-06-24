@@ -2,7 +2,7 @@ import KUOS.WORLD.TomitaRealLinearPMapBridgeV0_57
 
 /-!
 The conjugate-linear scalar law of the algebraic Tomita map survives graph
-closure.  Consequently the Mathlib closure of its real-linear realization is
+closure. Consequently the Mathlib closure of its real-linear realization is
 complex conjugate-linear on its closed domain.
 -/
 
@@ -22,20 +22,21 @@ variable (R : TomitaRealLinearPMapRealization T)
 
 /-- The algebraic Tomita graph is stable under conjugate scalar multiplication. -/
 theorem algebraic_graph_complex_smul
+    (Realization : TomitaRealLinearPMapRealization T)
     (c : Complex) {x y : H}
     (hxy : T.graph (x, y)) :
     T.graph (c • x, star c • y) := by
-  rw [← TomitaRealLinearPMapRealization.graph_eq R] at hxy ⊢
+  rw [← TomitaRealLinearPMapRealization.graph_eq Realization] at hxy ⊢
   rw [LinearPMap.mem_graph_iff] at hxy ⊢
   rcases hxy with ⟨u, hux, huy⟩
-  let v : R.pmap.domain :=
-    ⟨c • (u : H), R.complex_smul_mem c u.property⟩
+  let v : Realization.pmap.domain :=
+    ⟨c • (u : H), Realization.complex_smul_mem c u.property⟩
   refine ⟨v, ?_, ?_⟩
   · change c • (u : H) = c • x
     rw [hux]
-  · change R.pmap v = star c • y
+  · change Realization.pmap v = star c • y
     dsimp [v]
-    rw [R.map_complex_smul c (u : H) u.property, huy]
+    rw [Realization.map_complex_smul c (u : H) u.property, huy]
 
 /-- The closed Tomita graph is stable under conjugate scalar multiplication. -/
 theorem closure_graph_complex_smul
@@ -46,7 +47,7 @@ theorem closure_graph_complex_smul
   refine mem_closure_iff_seq_limit.mpr ?_
   refine ⟨(fun n => (c • (p n).1, star c • (p n).2)), ?_, ?_⟩
   · intro n
-    exact R.algebraic_graph_complex_smul c (hp n)
+    exact algebraic_graph_complex_smul R c (hp n)
   · have hfst : Tendsto (fun n => (p n).1) atTop (nhds x) :=
       (continuous_fst.tendsto (x, y)).comp hpLim
     have hsnd : Tendsto (fun n => (p n).2) atTop (nhds y) :=
@@ -56,23 +57,31 @@ theorem closure_graph_complex_smul
     have hstar :
         Tendsto (fun n => star c • (p n).2) atTop (nhds (star c • y)) :=
       tendsto_const_nhds.smul hsnd
-    exact hc.prod_mk hstar
+    exact hc.prodMk hstar
 
 /-- The set-theoretic closed graph equals the graph of Mathlib's closure. -/
 theorem set_graph_closure_eq_mathlib_closure_graph :
     closure T.graph = (R.pmap.closure.graph : Set (H × H)) := by
-  ext p
-  change p ∈ closure T.graph ↔ p ∈ R.pmap.closure.graph
-  rw [← TomitaRealLinearPMapRealization.graph_eq R]
-  rw [← Submodule.topologicalClosure_coe]
-  rw [(R.pmap_isClosable).graph_closure_eq_closure_graph]
+  calc
+    closure T.graph = closure (R.pmap.graph : Set (H × H)) := by
+      rw [TomitaRealLinearPMapRealization.graph_eq R]
+    _ = (R.pmap.graph.topologicalClosure : Set (H × H)) := by
+      rw [Submodule.topologicalClosure_coe]
+    _ = (R.pmap.closure.graph : Set (H × H)) := by
+      exact congrArg
+        (fun s : Submodule Real (H × H) => (s : Set (H × H)))
+        ((TomitaRealLinearPMapRealization.pmap_isClosable R).
+          graph_closure_eq_closure_graph)
 
 /-- The domain of the closed Tomita operator is stable under complex scalars. -/
 theorem closure_complex_smul_mem
     (c : Complex) (x : R.pmap.closure.domain) :
     c • (x : H) ∈ R.pmap.closure.domain := by
-  rw [LinearPMap.mem_domain_iff]
+  apply (LinearPMap.mem_domain_iff (f := R.pmap.closure)).mpr
   refine ⟨star c • R.pmap.closure x, ?_⟩
+  change
+    (c • (x : H), star c • R.pmap.closure x) ∈
+      (R.pmap.closure.graph : Set (H × H))
   rw [← R.set_graph_closure_eq_mathlib_closure_graph]
   exact R.closure_graph_complex_smul c
     (R.mathlib_closure_graph_mem_set_closure x)
@@ -92,6 +101,9 @@ theorem mathlib_closure_map_complex_smul
   have hScaled :
       (c • (x : H), star c • R.pmap.closure x) ∈
         R.pmap.closure.graph := by
+    change
+      (c • (x : H), star c • R.pmap.closure x) ∈
+        (R.pmap.closure.graph : Set (H × H))
     rw [← R.set_graph_closure_eq_mathlib_closure_graph]
     exact R.closure_graph_complex_smul c
       (R.mathlib_closure_graph_mem_set_closure x)
