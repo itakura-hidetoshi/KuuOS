@@ -1,5 +1,5 @@
 import Mathlib
-import KUOS.WORLD.VacuumExpectationObserveOSCommitVerifyHandoffBridgeV0_53
+import KUOS.WORLD.KuuVacuumOSHilbertCompletionBridgeV0_49
 
 /-!
 WORLD Kū-vacuum central-reference-state bridge v0.54.
