@@ -1,0 +1,35 @@
+name: WORLD v0.57 log check
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: macos-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - run: lake update
+      - run: lake exe cache get
+      - name: Compile standalone proof
+        id: proof
+        continue-on-error: true
+        run: lake env lean -DwarningAsError=true -DsorryAsError=true formal/CompleteDiagonalBKMHilbertStandaloneV0_57.lean > v057.log 2>&1
+      - uses: actions/upload-artifact@v4
+        if: always()
+        with:
+          name: v057-lean-log
+          path: v057.log
+      - if: steps.proof.outcome != 'success'
+        run: exit 1
