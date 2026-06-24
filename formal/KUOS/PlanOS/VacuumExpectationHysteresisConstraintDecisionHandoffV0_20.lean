@@ -185,8 +185,9 @@ variable
     {Bridge : VacuumExpectationHysteresisConstraintDecisionHandoffBridge
       K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge GenerationBridge}
 
-abbrev Receipt := VacuumExpectationHysteresisConstraintDecisionHandoffReceipt
-  K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge GenerationBridge Bridge
+local notation "Receipt" =>
+  VacuumExpectationHysteresisConstraintDecisionHandoffReceipt
+    K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge GenerationBridge Bridge
 
 theorem follows_constraint_deliberation_prefix (_r : Receipt) :
     ReplanPhase.generate.next = some ReplanPhase.constrain ∧
@@ -210,8 +211,7 @@ theorem hold_is_admissible_and_forwarded (r : Receipt) :
   exact ⟨hc, ha, hg.2.2.2, hf⟩
 
 theorem hold_exemption_is_explicit (r : Receipt) :
-    r.hold.hysteresis.switchExempt = true := by
-  exact r.holdExempt
+    r.hold.hysteresis.switchExempt = true := r.holdExempt
 
 theorem included_primary_requires_hysteresis_margin
     (r : Receipt) (hi : r.primary.included = true)
@@ -227,8 +227,8 @@ theorem handoff_preserves_admissible_set (r : Receipt) :
     r.handoff.generatedSetBound = true ∧ r.handoff.admissibleSetBound = true ∧
       r.handoff.holdForwarded = true ∧
       r.handoff.allForwardedAdmissible = true ∧
-      r.handoff.alternativesPreserved = true := by
-  exact ⟨r.handoff.generatedRequired, r.handoff.admissibleRequired,
+      r.handoff.alternativesPreserved = true :=
+  ⟨r.handoff.generatedRequired, r.handoff.admissibleRequired,
     r.handoff.holdRequired, r.handoff.allAdmissibleRequired,
     r.handoff.alternativesRequired⟩
 
@@ -237,8 +237,8 @@ theorem handoff_is_not_selection_or_synthesis (r : Receipt) :
       r.handoff.selectionReceiptSupplied = false ∧
       r.handoff.selectionPerformed = false ∧
       r.handoff.planSynthesisPerformed = false ∧
-      r.handoff.decisionNotExecution = true := by
-  exact ⟨r.handoff.handoffRequired, r.handoff.ownerRequired,
+      r.handoff.decisionNotExecution = true :=
+  ⟨r.handoff.handoffRequired, r.handoff.ownerRequired,
     r.handoff.selectionReceiptForbidden, r.handoff.selectionForbidden,
     r.handoff.synthesisForbidden, r.handoff.executionForbidden⟩
 
@@ -263,8 +263,8 @@ theorem history_appends_two_records (r : Receipt) :
 theorem preserves_identity_dissent_and_minority (r : Receipt) :
     r.handoff.identitiesPreserved = true ∧ r.handoff.dissentVisible = true ∧
       r.handoff.minorityPreserved = true ∧
-      r.handoff.silentSubstitutionDetected = false := by
-  exact ⟨r.handoff.identitiesRequired, r.handoff.dissentRequired,
+      r.handoff.silentSubstitutionDetected = false :=
+  ⟨r.handoff.identitiesRequired, r.handoff.dissentRequired,
     r.handoff.minorityRequired, r.handoff.substitutionForbidden⟩
 
 theorem bridge_grants_no_new_authority (_r : Receipt) :
@@ -276,8 +276,8 @@ theorem bridge_grants_no_new_authority (_r : Receipt) :
       Bridge.runtimeUpdatesWorld = false ∧
       Bridge.nonAuthority.truthAuthority = false ∧
       Bridge.nonAuthority.causalAuthority = false ∧
-      Bridge.nonAuthority.executionAuthority = false := by
-  exact ⟨Bridge.constraintOwnerRequired, Bridge.selectionOwnerRequired,
+      Bridge.nonAuthority.executionAuthority = false :=
+  ⟨Bridge.constraintOwnerRequired, Bridge.selectionOwnerRequired,
     Bridge.synthesisOwnerRequired, Bridge.executionOwnerRequired,
     Bridge.selectionForbidden, Bridge.synthesisForbidden,
     Bridge.activationForbidden, Bridge.executionForbidden,
@@ -287,8 +287,8 @@ theorem bridge_grants_no_new_authority (_r : Receipt) :
 
 theorem digest_is_exact (r : Receipt) :
     r.digest = Bridge.digestOf r.generation r.primary r.hold r.handoff
-      r.constrainIndex r.handoffIndex r.historyAfter := by
-  exact r.digestExact
+      r.constrainIndex r.handoffIndex r.historyAfter :=
+  r.digestExact
 
 end VacuumExpectationHysteresisConstraintDecisionHandoffBridge
 end
