@@ -1,4 +1,4 @@
-name: WORLD v0.56 Araki Hessian Physical Realization
+name: WORLD v0.56 Araki Hessian Physical Realization macOS
 
 on:
   workflow_dispatch:
@@ -22,7 +22,7 @@ concurrency:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
