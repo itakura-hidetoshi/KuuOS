@@ -72,8 +72,7 @@ theorem pmap_domain_eq :
   ext x
   constructor
   · intro hx
-    rw [LinearPMap.mem_domain_iff] at hx
-    rcases hx with ⟨y, hxy⟩
+    rcases (LinearPMap.mem_domain_iff (f := D.pmap)).mp hx with ⟨y, hxy⟩
     have hxyT : T.graph (x, y) := by
       rw [← D.pmap_graph_eq]
       exact hxy
@@ -81,7 +80,7 @@ theorem pmap_domain_eq :
     exact ⟨a, hxa.symm⟩
   · intro hx
     rcases hx with ⟨a, rfl⟩
-    rw [LinearPMap.mem_domain_iff]
+    apply (LinearPMap.mem_domain_iff (f := D.pmap)).mpr
     refine ⟨T.leftVector (T.leftStar a), ?_⟩
     rw [D.pmap_graph_eq]
     exact ⟨a, rfl, rfl⟩
@@ -90,8 +89,8 @@ theorem pmap_domain_eq :
 theorem complex_smul_mem_domain
     (c : Complex) {x : H} (hx : x ∈ D.pmap.domain) :
     c • x ∈ D.pmap.domain := by
-  rw [LinearPMap.mem_domain_iff] at hx ⊢
-  rcases hx with ⟨y, hxy⟩
+  apply (LinearPMap.mem_domain_iff (f := D.pmap)).mpr
+  rcases (LinearPMap.mem_domain_iff (f := D.pmap)).mp hx with ⟨y, hxy⟩
   refine ⟨star c • y, ?_⟩
   rw [D.pmap_graph_eq_submodule] at hxy ⊢
   exact D.complex_smul_mem c hxy
@@ -126,12 +125,13 @@ def realization : TomitaRealLinearPMapRealization T where
 /-- The algebraic Tomita operator maps its domain back into its domain. -/
 theorem map_mem_domain (x : D.pmap.domain) :
     D.pmap x ∈ D.pmap.domain := by
-  rw [LinearPMap.mem_domain_iff]
+  apply (LinearPMap.mem_domain_iff (f := D.pmap)).mpr
   refine ⟨(x : H), ?_⟩
   have hxGraph : T.graph ((x : H), D.pmap x) := by
     rw [← D.pmap_graph_eq]
     exact LinearPMap.mem_graph D.pmap x
   have hFlip : T.graph (D.pmap x, (x : H)) := T.graph_flip hxGraph
+  change (D.pmap x, (x : H)) ∈ (D.pmap.graph : Set (H × H))
   rw [D.pmap_graph_eq]
   exact hFlip
 
@@ -145,6 +145,7 @@ theorem map_map (x : D.pmap.domain) :
     rw [← D.pmap_graph_eq]
     exact LinearPMap.mem_graph D.pmap x
   have hFlip : (D.pmap x, (x : H)) ∈ D.pmap.graph := by
+    change (D.pmap x, (x : H)) ∈ (D.pmap.graph : Set (H × H))
     rw [D.pmap_graph_eq]
     exact T.graph_flip hxGraph
   exact D.pmap.mem_graph_snd_inj hCanonical hFlip rfl
