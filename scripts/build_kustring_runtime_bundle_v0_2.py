@@ -37,7 +37,6 @@ FILES = [
     "scripts/check_kustring_runtime_attestation_v0_2.py",
     "scripts/run_kustring_runtime_checks_v0_2.py",
     "scripts/run_kustring_runtime_packet_checks_v0_2.py",
-    "scripts/run_kustring_runtime_suite_v0_2.py",
     "specs/kustring_runtime_audit_events_v0_2.generated.jsonl",
     "specs/kustring_runtime_audit_chain_v0_2.generated.jsonl",
     "specs/kustring_runtime_worm_receipt_v0_2.generated.json",
