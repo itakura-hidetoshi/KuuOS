@@ -48,12 +48,15 @@ theorem dense_domain : Dense (R.pmap.domain : Set H) := by
   exact T.domain_dense
 
 /-- The realized algebraic graph is closed under subtraction. -/
-include R in
+include R
+
 theorem algebraic_graph_sub {p q : H × H}
     (hp : T.graph p) (hq : T.graph q) :
     T.graph (p - q) := by
   rw [← TomitaRealLinearPMapRealization.graph_eq R] at hp hq ⊢
   exact R.pmap.graph.sub_mem hp hq
+
+omit R
 
 /--
 The graph-level closability theorem produces Mathlib's standard
