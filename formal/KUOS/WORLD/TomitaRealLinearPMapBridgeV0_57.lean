@@ -48,10 +48,11 @@ theorem dense_domain : Dense (R.pmap.domain : Set H) := by
   exact T.domain_dense
 
 /-- The realized algebraic graph is closed under subtraction. -/
+include R in
 theorem algebraic_graph_sub {p q : H × H}
     (hp : T.graph p) (hq : T.graph q) :
     T.graph (p - q) := by
-  rw [← R.graph_eq] at hp hq ⊢
+  rw [← TomitaRealLinearPMapRealization.graph_eq R] at hp hq ⊢
   exact R.pmap.graph.sub_mem hp hq
 
 /--
@@ -61,13 +62,14 @@ The graph-level closability theorem produces Mathlib's standard
 theorem pmap_isClosable : R.pmap.IsClosable := by
   let g := R.pmap.graph.topologicalClosure
   have hg : forall (x : H × H), x ∈ g -> x.1 = 0 -> x.2 = 0 := by
-    intro x hx hx0
-    have hxSet : x ∈ closure (R.pmap.graph : Set (H × H)) := by
+    rintro ⟨x1, x2⟩ hx hx0
+    simp only at hx0
+    subst x1
+    have hxSet : (0, x2) ∈ closure (R.pmap.graph : Set (H × H)) := by
       simpa only [Submodule.topologicalClosure_coe] using hx
-    have hVertical : (closure T.graph) (0, x.2) := by
-      rw [← R.graph_eq]
-      simpa [hx0] using hxSet
-    exact T.graph_closable x.2 hVertical
+    have hVertical : (closure T.graph) (0, x2) := by
+      rwa [← TomitaRealLinearPMapRealization.graph_eq R]
+    exact T.graph_closable x2 hVertical
   refine ⟨g.toLinearPMap, ?_⟩
   exact (Submodule.toLinearPMap_graph_eq g hg).symm
 
@@ -105,7 +107,7 @@ theorem mathlib_closure_graph_mem_set_closure
       ((x : H), R.pmap.closure x) ∈
         closure (R.pmap.graph : Set (H × H)) := by
     simpa only [Submodule.topologicalClosure_coe] using hxTopological
-  rwa [R.graph_eq] at hxSet
+  rwa [TomitaRealLinearPMapRealization.graph_eq R] at hxSet
 
 /-- Every point in the Mathlib closure domain belongs to the graph-level closed domain. -/
 def graphClosedDomainOfMathlib
@@ -120,7 +122,7 @@ theorem mathlib_closure_apply_eq_closedValue
     (x : R.pmap.closure.domain) :
     R.pmap.closure x =
       T.closedValue (x : H) (graphClosedDomainOfMathlib R x) := by
-  exact T.closedValue_unique (algebraic_graph_sub R)
+  exact T.closedValue_unique (algebraic_graph_sub (R := R))
     (x : H) (R.pmap.closure x) (graphClosedDomainOfMathlib R x)
     (mathlib_closure_graph_mem_set_closure R x)
 
