@@ -1,0 +1,1 @@
+CI-only probe for the current Qi-WORLD v2.2 validation workflow.
