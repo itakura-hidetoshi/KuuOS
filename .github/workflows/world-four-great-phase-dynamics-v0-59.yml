@@ -1,3 +1,4 @@
+# CI-only validation of the latest WORLD v0.59 product head.
 name: WORLD v0.59 Four-Great Phase Dynamics
 
 on:
@@ -34,7 +35,7 @@ concurrency:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: macos-14
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
