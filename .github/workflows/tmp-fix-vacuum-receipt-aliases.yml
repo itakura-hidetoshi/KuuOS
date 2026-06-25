@@ -1,0 +1,92 @@
+name: Temporary Vacuum Receipt Alias Fix
+
+on:
+  push:
+    branches:
+      - ci/verify-planos-v020-receipt-fix
+    paths:
+      - ".github/workflows/tmp-fix-vacuum-receipt-aliases.yml"
+
+permissions:
+  contents: write
+
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: ci/verify-planos-v020-receipt-fix
+      - name: Replace generalized receipt abbreviations
+        shell: python
+        run: |
+          from pathlib import Path
+
+          replacements = {
+              "formal/KUOS/PlanOS/VacuumExpectationCompilerMaterializationV0_22.lean": (
+                  """abbrev Receipt := VacuumExpectationCompilerMaterializationReceipt
+            K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+              GenerationBridge HandoffBridge SelectionBridge SynthesisBridge Bridge""",
+                  """local notation \"Receipt\" =>
+            VacuumExpectationCompilerMaterializationReceipt
+              K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+                GenerationBridge HandoffBridge SelectionBridge SynthesisBridge Bridge""",
+              ),
+              "formal/KUOS/PlanOS/VacuumExpectationActivationAdmissionActOSHandoffV0_23.lean": (
+                  """abbrev Receipt := VacuumExpectationActivationAdmissionActOSHandoffReceipt
+            K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+              GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
+                MaterializationBridge Bridge""",
+                  """local notation \"Receipt\" =>
+            VacuumExpectationActivationAdmissionActOSHandoffReceipt
+              K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+                GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
+                  MaterializationBridge Bridge""",
+              ),
+              "formal/KUOS/ActOS/VacuumExpectationActivationAuthorizationIntakeV0_3.lean": (
+                  """abbrev Receipt := VacuumExpectationActivationAuthorizationIntakeReceipt
+            K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+              GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
+                MaterializationBridge AdmissionBridge Bridge""",
+                  """local notation \"Receipt\" =>
+            VacuumExpectationActivationAuthorizationIntakeReceipt
+              K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+                GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
+                  MaterializationBridge AdmissionBridge Bridge""",
+              ),
+              "formal/KUOS/ActOS/VacuumExpectationBoundedAdapterInvocationV0_4.lean": (
+                  """abbrev Receipt := VacuumExpectationBoundedAdapterInvocationReceipt
+            K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+              GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
+                MaterializationBridge AdmissionBridge AuthorizationBridge Bridge""",
+                  """local notation \"Receipt\" =>
+            VacuumExpectationBoundedAdapterInvocationReceipt
+              K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+                GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
+                  MaterializationBridge AdmissionBridge AuthorizationBridge Bridge""",
+              ),
+          }
+
+          changed = []
+          for filename, (old, new) in replacements.items():
+              path = Path(filename)
+              text = path.read_text(encoding="utf-8")
+              if new in text:
+                  continue
+              if old not in text:
+                  raise SystemExit(f"expected receipt abbreviation not found: {filename}")
+              path.write_text(text.replace(old, new, 1), encoding="utf-8")
+              changed.append(filename)
+
+          print("patched:", *changed, sep="\n")
+      - name: Commit fixes
+        run: |
+          git config user.name "itakura-hidetoshi"
+          git config user.email "itakurahidetoshi@mac.com"
+          git add formal/KUOS/PlanOS/VacuumExpectationCompilerMaterializationV0_22.lean
+          git add formal/KUOS/PlanOS/VacuumExpectationActivationAdmissionActOSHandoffV0_23.lean
+          git add formal/KUOS/ActOS/VacuumExpectationActivationAuthorizationIntakeV0_3.lean
+          git add formal/KUOS/ActOS/VacuumExpectationBoundedAdapterInvocationV0_4.lean
+          git diff --cached --quiet && exit 0
+          git commit -m "Fix downstream vacuum receipt type aliases"
+          git push origin HEAD:ci/verify-planos-v020-receipt-fix
