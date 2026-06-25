@@ -263,10 +263,11 @@ variable
         GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
           MaterializationBridge AdmissionBridge AuthorizationBridge}
 
-abbrev Receipt := VacuumExpectationBoundedAdapterInvocationReceipt
-  K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
-    GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
-      MaterializationBridge AdmissionBridge AuthorizationBridge Bridge
+local notation "Receipt" =>
+  VacuumExpectationBoundedAdapterInvocationReceipt
+    K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+      GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
+        MaterializationBridge AdmissionBridge AuthorizationBridge Bridge
 
 theorem invocation_requires_committed_nonexecuting_authorization (r : Receipt) :
     r.sourceBound = true ∧

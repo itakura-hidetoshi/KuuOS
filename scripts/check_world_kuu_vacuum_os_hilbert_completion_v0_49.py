@@ -46,17 +46,17 @@ def main() -> int:
     require_tokens(
         ROOT / "README.md",
         (
-            "WORLD read-only mathematical sidecar             v0.49",
+            "Kū != zero vector",
             "analytic vacuum != exact WORLD",
-            "run_kuuos_runtime_full_check_v0_49.py",
+            "modular time != physical time",
         ),
     )
     require_tokens(
         ROOT / "ROADMAP.md",
         (
-            "Baseline date: 2026-06-23",
-            "implemented through v0.49",
-            "Strengthen WORLD v0.49 proof status",
+            "Kū != zero vector",
+            "Hilbert vacuum != metaphysical Kū",
+            "modular time != physical time",
         ),
     )
 

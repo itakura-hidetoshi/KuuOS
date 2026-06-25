@@ -272,11 +272,12 @@ variable
           MaterializationBridge AdmissionBridge AuthorizationBridge
             InvocationBridge}
 
-abbrev Envelope := WorldVacuumExpectationHostEffectAtomicCommitIntakeEnvelope
-  K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
-    GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
-      MaterializationBridge AdmissionBridge AuthorizationBridge
-        InvocationBridge Bridge
+local notation "Envelope" =>
+  WorldVacuumExpectationHostEffectAtomicCommitIntakeEnvelope
+    K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+      GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
+        MaterializationBridge AdmissionBridge AuthorizationBridge
+          InvocationBridge Bridge
 
 theorem intake_requires_canonical_effect_record (envelope : Envelope) :
     envelope.source.hostReceipt.route = .effectRecorded ∧
@@ -452,7 +453,7 @@ theorem ownership_boundaries_are_preserved (_envelope : Envelope) :
 
 theorem intake_grants_no_truth_causality_observation_verification_or_execution
     (_envelope : Envelope) :
-    Bridge.nonAuthority.commitRecordIsTruth = false ∧
+    Bridge.nonAuthority.truthAuthority = false ∧
       Bridge.nonAuthority.causalAttribution = false ∧
       Bridge.nonAuthority.observationAuthority = false ∧
       Bridge.nonAuthority.verificationAuthority = false ∧

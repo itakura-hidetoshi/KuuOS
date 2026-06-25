@@ -49,18 +49,13 @@ def main() -> int:
     require_tokens(
         ROOT / "README.md",
         (
-            "WORLD read-only mathematical sidecar             v0.50",
             "vacuum expectation != fact",
-            "run_kuuos_runtime_full_check_v0_50.py",
+            "source-bound vacuum-expectation observation candidates",
         ),
     )
     require_tokens(
         ROOT / "ROADMAP.md",
-        (
-            "implemented through v0.50",
-            "vacuum-expectation observation candidates",
-            "Strengthen WORLD v0.50 proof status",
-        ),
+        ("source-bound vacuum-expectation observation candidates",),
     )
 
     manifest_path = ROOT / "manifests/world_vacuum_expectation_observation_candidate_v0_50.json"

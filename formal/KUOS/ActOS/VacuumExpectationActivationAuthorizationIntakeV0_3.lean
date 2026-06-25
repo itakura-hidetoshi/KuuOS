@@ -279,10 +279,11 @@ variable
         GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
           MaterializationBridge AdmissionBridge}
 
-abbrev Receipt := VacuumExpectationActivationAuthorizationIntakeReceipt
-  K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
-    GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
-      MaterializationBridge AdmissionBridge Bridge
+local notation "Receipt" =>
+  VacuumExpectationActivationAuthorizationIntakeReceipt
+    K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+      GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
+        MaterializationBridge AdmissionBridge Bridge
 
 theorem intake_requires_committed_nonexecuting_planos_handoff (r : Receipt) :
     r.sourceBound = true ∧ r.source.handoff.handoffCommitted = true ∧
