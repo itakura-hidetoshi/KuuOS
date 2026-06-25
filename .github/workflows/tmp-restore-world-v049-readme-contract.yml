@@ -1,0 +1,66 @@
+name: Temporary restore WORLD v0.49 README contract
+
+on:
+  push:
+    branches:
+      - fix/vacuum-receipt-chain-final
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: fix/vacuum-receipt-chain-final
+          fetch-depth: 0
+
+      - name: Restore README compatibility tokens
+        shell: bash
+        run: |
+          set -euxo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          path = Path("README.md")
+          text = path.read_text(encoding="utf-8")
+
+          old_status = "WORLD read-only mathematical sidecar             v0.51"
+          new_status = (
+              "WORLD read-only mathematical sidecar             v0.49\n"
+              "WORLD observation and intake extension            v0.51"
+          )
+          if old_status in text:
+              text = text.replace(old_status, new_status, 1)
+          elif "WORLD read-only mathematical sidecar             v0.49" not in text:
+              raise SystemExit("WORLD baseline status line not found")
+
+          old_checks = (
+              "python3 scripts/run_kuuos_runtime_full_check_v0_50.py\n"
+              "python3 scripts/run_kuuos_runtime_full_check_v0_51.py"
+          )
+          new_checks = (
+              "python3 scripts/run_kuuos_runtime_full_check_v0_49.py\n"
+              "python3 scripts/run_kuuos_runtime_full_check_v0_50.py\n"
+              "python3 scripts/run_kuuos_runtime_full_check_v0_51.py"
+          )
+          if "run_kuuos_runtime_full_check_v0_49.py" not in text:
+              if old_checks not in text:
+                  raise SystemExit("runtime validation block not found")
+              text = text.replace(old_checks, new_checks, 1)
+
+          path.write_text(text, encoding="utf-8")
+          PY
+
+      - name: Commit repair and remove temporary workflow
+        shell: bash
+        run: |
+          set -euxo pipefail
+          rm .github/workflows/tmp-restore-world-v049-readme-contract.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Restore WORLD v0.49 README compatibility contract"
+          git push origin HEAD:fix/vacuum-receipt-chain-final
