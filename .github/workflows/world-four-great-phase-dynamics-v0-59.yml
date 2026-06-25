@@ -6,7 +6,9 @@ on:
     branches:
       - 'world-four-great-phase-dynamics-v0-59'
     paths:
+      - 'formal/KUOS/WORLD/FourGreatPhaseDynamicsCoreV0_59.lean'
       - 'formal/KUOS/WORLD/FourGreatPhaseDynamicsV0_59.lean'
+      - 'formal/KuuOSFourGreatCoreV0_59.lean'
       - 'formal/KuuOSFormalV0_59.lean'
       - 'formal/KuuOSFormal.lean'
       - 'lakefile.toml'
@@ -16,7 +18,9 @@ on:
       - '.github/workflows/world-four-great-phase-dynamics-v0-59.yml'
   pull_request:
     paths:
+      - 'formal/KUOS/WORLD/FourGreatPhaseDynamicsCoreV0_59.lean'
       - 'formal/KUOS/WORLD/FourGreatPhaseDynamicsV0_59.lean'
+      - 'formal/KuuOSFourGreatCoreV0_59.lean'
       - 'formal/KuuOSFormalV0_59.lean'
       - 'formal/KuuOSFormal.lean'
       - 'lakefile.toml'
@@ -59,7 +63,14 @@ jobs:
         run: git diff --exit-code -- lake-manifest.json
       - name: Fetch Mathlib olean cache
         run: lake exe cache get
-      - name: Compile WORLD v0.59 formal root
+      - name: Compile Mathlib-only WORLD v0.59 core
+        shell: bash
+        run: |
+          set -o pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSFourGreatCoreV0_59 2>&1 | tee world-v059-core-build.log
+      - name: Compile WORLD v0.59 Araki OS transport
         shell: bash
         run: |
           set -o pipefail
@@ -79,6 +90,7 @@ jobs:
         with:
           name: world-v059-lean-diagnostics
           path: |
+            world-v059-core-build.log
             world-v059-build.log
             aggregate-formal-build.log
           if-no-files-found: ignore
