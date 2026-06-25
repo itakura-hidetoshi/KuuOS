@@ -41,6 +41,8 @@ def main() -> int:
     )
 
     for key in (
+        "core_module",
+        "core_root",
         "formal_module",
         "formal_root",
         "aggregate_formal_root",
@@ -60,6 +62,7 @@ def main() -> int:
         },
         "four-great mapping mismatch",
     )
+    require(manifest["scope"]["mathlib_only_core"] is True, "core scope missing")
     require(manifest["scope"]["bounded_generator_araki_hessian"] is True, "earth scope missing")
     require(manifest["scope"]["completed_physical_hilbert_correlation"] is True, "water scope missing")
     require(manifest["scope"]["abstract_reversible_physical_flow"] is True, "air scope missing")
@@ -69,6 +72,23 @@ def main() -> int:
     require(manifest["scope"]["world_state_mutation"] is False, "WORLD mutation promoted")
     require(all(value is False for value in manifest["boundaries"].values()), "boundary promotion")
 
+    require_tokens(
+        ROOT / manifest["core_module"],
+        (
+            "WorldFourGreatCoreDiagnostic",
+            "WorldFourGreatAnalyticCore",
+            "diagnostic_earth_eq_water",
+            "diagnostic_air_zero",
+            "diagnostic_total_nonnegative",
+            "effectiveFireRequiresCoarseGraining",
+            "osContractionIsNotPhysicalFire",
+            "readOnlyDiagnostic",
+        ),
+    )
+    require_tokens(
+        ROOT / manifest["core_root"],
+        ("FourGreatPhaseDynamicsCoreV0_59",),
+    )
     require_tokens(
         ROOT / manifest["formal_module"],
         (
@@ -98,7 +118,10 @@ def main() -> int:
         ROOT / manifest["aggregate_formal_root"],
         ("KUOS.WORLD.FourGreatPhaseDynamicsV0_59",),
     )
-    require_tokens(ROOT / "lakefile.toml", ("KuuOSFormalV0_59",))
+    require_tokens(
+        ROOT / "lakefile.toml",
+        ("KuuOSFourGreatCoreV0_59", "KuuOSFormalV0_59"),
+    )
     require_tokens(
         ROOT / manifest["documentation"],
         (
