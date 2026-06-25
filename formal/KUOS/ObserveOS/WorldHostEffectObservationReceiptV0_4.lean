@@ -283,11 +283,12 @@ variable
           MaterializationBridge AdmissionBridge AuthorizationBridge
             InvocationBridge WorldIntakeBridge}
 
-abbrev Receipt := WorldHostEffectObservationReceipt
-  K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
-    GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
-      MaterializationBridge AdmissionBridge AuthorizationBridge
-        InvocationBridge WorldIntakeBridge Bridge
+local notation "Receipt" =>
+  WorldHostEffectObservationReceipt
+    K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+      GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
+        MaterializationBridge AdmissionBridge AuthorizationBridge
+          InvocationBridge WorldIntakeBridge Bridge
 
 theorem observation_requires_ready_uncommitted_world_intake (r : Receipt) :
     r.sourceAccepted = true ∧ r.source.intakeReady = true ∧
