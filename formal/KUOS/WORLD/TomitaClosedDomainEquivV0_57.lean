@@ -71,8 +71,8 @@ theorem closedDomainLinearEquiv_bijective :
 theorem closedDomainLinearEquiv_symm_apply
     (x : R.pmap.closure.domain) :
     R.closedDomainLinearEquiv.symm x = R.closedDomainLinearEquiv x := by
-  apply R.closedDomainLinearEquiv.injective
-  simp
+  apply (R.closedDomainLinearEquiv.symm_apply_eq).2
+  exact (R.closedDomainLinearEquiv_apply_apply x).symm
 
 end TomitaRealLinearPMapRealization
 end
