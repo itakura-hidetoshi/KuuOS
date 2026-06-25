@@ -8,6 +8,7 @@ on:
     paths:
       - 'formal/KUOS/WORLD/FourGreatPhaseDynamicsCoreV0_59.lean'
       - 'formal/KUOS/WORLD/FourGreatPhaseDynamicsV0_59.lean'
+      - 'formal/KUOS/WORLD/FourGreatPhaseDynamicsCoreBridgeV0_59.lean'
       - 'formal/KuuOSFourGreatCoreV0_59.lean'
       - 'formal/KuuOSFormalV0_59.lean'
       - 'formal/KuuOSFormal.lean'
@@ -20,6 +21,7 @@ on:
     paths:
       - 'formal/KUOS/WORLD/FourGreatPhaseDynamicsCoreV0_59.lean'
       - 'formal/KUOS/WORLD/FourGreatPhaseDynamicsV0_59.lean'
+      - 'formal/KUOS/WORLD/FourGreatPhaseDynamicsCoreBridgeV0_59.lean'
       - 'formal/KuuOSFourGreatCoreV0_59.lean'
       - 'formal/KuuOSFormalV0_59.lean'
       - 'formal/KuuOSFormal.lean'
