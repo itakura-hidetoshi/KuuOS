@@ -86,10 +86,18 @@ theorem mathlib_closure_map_map
 theorem mathlib_closure_injective :
     Function.Injective R.pmap.closure := by
   intro x y hxy
+  let sx : R.pmap.closure.domain :=
+    ⟨R.pmap.closure x, R.mathlib_closure_map_mem_domain x⟩
+  let sy : R.pmap.closure.domain :=
+    ⟨R.pmap.closure y, R.mathlib_closure_map_mem_domain y⟩
+  have hsxy : sx = sy := by
+    apply Subtype.ext
+    exact hxy
+  have hsecond : R.pmap.closure sx = R.pmap.closure sy :=
+    congrArg R.pmap.closure hsxy
   apply Subtype.ext
-  have hx := R.mathlib_closure_map_map x
-  have hy := R.mathlib_closure_map_map y
-  simpa only [hxy] using hx.trans hy.symm
+  exact (R.mathlib_closure_map_map x).symm.trans
+    (hsecond.trans (R.mathlib_closure_map_map y))
 
 end TomitaRealLinearPMapRealization
 end
