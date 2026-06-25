@@ -21,7 +21,8 @@ PlanOS control and suspension recovery series   v0.17 (Replan ownership fixed at
 Repeatable finite-cycle agent kernel            v0.27
 Qi recovery-window diagnostic candidate         v0.28
 Qi-WORLD concrete licensed-cycle chain          v2.2 (three closed cycles)
-WORLD read-only mathematical sidecar             v0.51
+WORLD read-only mathematical sidecar             v0.49
+WORLD observation and intake extension            v0.51
 Lean formal root                                KuuOSFormal
 ```
 
@@ -315,6 +316,7 @@ formal/KUOS.lean
 make core-governance-checks
 make all-governance-checks
 
+python3 scripts/run_kuuos_runtime_full_check_v0_49.py
 python3 scripts/run_kuuos_runtime_full_check_v0_50.py
 python3 scripts/run_kuuos_runtime_full_check_v0_51.py
 python3 scripts/check_world_vacuum_expectation_observeos_evidence_intake_v0_51.py
