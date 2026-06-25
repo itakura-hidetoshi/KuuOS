@@ -128,7 +128,7 @@ def main() -> int:
     )
     require_tokens(
         ROOT / manifest["aggregate_formal_root"],
-        ("KUOS.WORLD.FourGreatPhaseDynamicsV0_59",),
+        ("KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59",),
     )
     require_tokens(
         ROOT / "lakefile.toml",
