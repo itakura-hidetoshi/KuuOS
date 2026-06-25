@@ -26,8 +26,13 @@ def main() -> int:
         "manifest version mismatch",
     )
     require(
-        manifest["predecessor"] == "world_tomita_conjugate_adjoint_v0_58",
+        manifest["predecessor"]
+        == "world_kuu_vacuum_araki_hessian_physical_realization_v0_56",
         "predecessor mismatch",
+    )
+    require(
+        manifest["stack_base"] == "world_tomita_conjugate_adjoint_v0_58",
+        "stack base mismatch",
     )
     require(
         manifest["analytic_dependency"]
@@ -83,7 +88,11 @@ def main() -> int:
     )
     require_tokens(
         ROOT / manifest["formal_root"],
-        ("KuuOSFormalV0_58", "FourGreatPhaseDynamicsV0_59"),
+        ("FourGreatPhaseDynamicsV0_59",),
+    )
+    require(
+        "KuuOSFormalV0_58" not in (ROOT / manifest["formal_root"]).read_text(encoding="utf-8"),
+        "unrelated v0.58 formal root leaked into v0.59 validation",
     )
     require_tokens(
         ROOT / manifest["aggregate_formal_root"],
