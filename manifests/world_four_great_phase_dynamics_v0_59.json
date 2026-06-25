@@ -4,6 +4,8 @@
   "stack_base": "world_tomita_conjugate_adjoint_v0_58",
   "analytic_dependency": "world_kuu_vacuum_araki_hessian_physical_realization_v0_56",
   "status": "formal_read_only_four_great_phase_dynamics",
+  "core_module": "formal/KUOS/WORLD/FourGreatPhaseDynamicsCoreV0_59.lean",
+  "core_root": "formal/KuuOSFourGreatCoreV0_59.lean",
   "formal_module": "formal/KUOS/WORLD/FourGreatPhaseDynamicsV0_59.lean",
   "formal_root": "formal/KuuOSFormalV0_59.lean",
   "aggregate_formal_root": "formal/KuuOSFormal.lean",
@@ -16,7 +18,14 @@
     "fire": "nonnegative_effective_information_loss_after_coarse_graining",
     "air": "reversible_inner_product_preserving_physical_flow"
   },
-  "proved_spine": [
+  "core_proved_spine": [
+    "diagnostic_components_nonnegative",
+    "earth_equals_water",
+    "air_zero",
+    "diagnostic_total_nonnegative",
+    "read_only_boundary_package"
+  ],
+  "transport_proved_spine": [
     "earth_equals_water_on_diagonal",
     "earth_nonnegative",
     "water_nonnegative",
@@ -27,6 +36,7 @@
     "air_preserves_physical_inner_product"
   ],
   "scope": {
+    "mathlib_only_core": true,
     "bounded_generator_araki_hessian": true,
     "completed_physical_hilbert_correlation": true,
     "abstract_reversible_physical_flow": true,
