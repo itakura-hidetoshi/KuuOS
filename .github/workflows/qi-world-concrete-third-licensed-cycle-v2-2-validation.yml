@@ -10,11 +10,15 @@ on:
       - "runtime/kuuos_qi_world_concrete_third_licensed_cycle_materialization_scenarios_v2_2.py"
       - "runtime/kuuos_qi_world_concrete_third_licensed_cycle_materialization_public_scenarios_v2_2.py"
       - "scripts/check_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_52.py"
       - "tests/test_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py"
       - "formal/KUOS/Architecture/QiWorldConcreteThirdLicensedCycleMaterializationV2_2.lean"
       - "formal/KUOS.lean"
       - "docs/KUUOS_QI_WORLD_CONCRETE_THIRD_LICENSED_CYCLE_MATERIALIZATION_v2_2.md"
       - "manifests/kuuos_qi_world_concrete_third_licensed_cycle_materialization_v2_2.json"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
       - ".github/workflows/qi-world-concrete-third-licensed-cycle-v2-2-validation.yml"
   pull_request:
     paths:
@@ -25,11 +29,15 @@ on:
       - "runtime/kuuos_qi_world_concrete_third_licensed_cycle_materialization_scenarios_v2_2.py"
       - "runtime/kuuos_qi_world_concrete_third_licensed_cycle_materialization_public_scenarios_v2_2.py"
       - "scripts/check_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_52.py"
       - "tests/test_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py"
       - "formal/KUOS/Architecture/QiWorldConcreteThirdLicensedCycleMaterializationV2_2.lean"
       - "formal/KUOS.lean"
       - "docs/KUUOS_QI_WORLD_CONCRETE_THIRD_LICENSED_CYCLE_MATERIALIZATION_v2_2.md"
       - "manifests/kuuos_qi_world_concrete_third_licensed_cycle_materialization_v2_2.json"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
       - ".github/workflows/qi-world-concrete-third-licensed-cycle-v2-2-validation.yml"
   workflow_dispatch:
 
@@ -39,6 +47,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
@@ -55,27 +64,45 @@ jobs:
           runtime/kuuos_qi_world_concrete_third_licensed_cycle_materialization_public_scenarios_v2_2.py
           scripts/check_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py
           tests/test_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py
+      - name: Validate manifest JSON
+        run: >-
+          python -m json.tool
+          manifests/kuuos_qi_world_concrete_third_licensed_cycle_materialization_v2_2.json
+          > /dev/null
       - name: Validate concrete third licensed cycle
-        run: >-
-          PYTHONPATH=. python scripts/check_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py
-          > v2-2-runtime.log 2>&1
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python \
+            scripts/check_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py \
+            2>&1 | tee v2-2-runtime.log
       - name: Run v2.2 unit tests
-        run: >-
-          PYTHONPATH=. python -m unittest -v
-          tests.test_qi_world_concrete_third_licensed_cycle_materialization_v2_2
-          >> v2-2-runtime.log 2>&1
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python -m unittest -v \
+            tests.test_qi_world_concrete_third_licensed_cycle_materialization_v2_2 \
+            2>&1 | tee -a v2-2-runtime.log
       - name: Run v2.1 induction regression
-        run: >-
-          PYTHONPATH=. python scripts/check_qi_world_licensed_multi_cycle_chain_induction_v2_1.py
-          >> v2-2-runtime.log 2>&1
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python \
+            scripts/check_qi_world_licensed_multi_cycle_chain_induction_v2_1.py \
+            2>&1 | tee -a v2-2-runtime.log
       - name: Run v2.0 materialization regression
-        run: >-
-          PYTHONPATH=. python scripts/check_qi_world_successor_licensed_cycle_materialization_v2_0.py
-          >> v2-2-runtime.log 2>&1
-      - name: Run central runtime regression
-        run: >-
-          PYTHONPATH=. python scripts/run_kuuos_runtime_full_check_v0_48.py
-          >> v2-2-runtime.log 2>&1
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python \
+            scripts/check_qi_world_successor_licensed_cycle_materialization_v2_0.py \
+            2>&1 | tee -a v2-2-runtime.log
+      - name: Run current central runtime regression
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python scripts/run_kuuos_runtime_full_check_v0_52.py \
+            2>&1 | tee -a v2-2-runtime.log
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
@@ -87,6 +114,8 @@ jobs:
           use-github-cache: false
       - name: Resolve pinned dependencies
         run: lake update
+      - name: Verify lockfile stability
+        run: git diff --exit-code -- lake-manifest.json
       - name: Fetch Mathlib olean cache
         run: lake exe cache get
       - name: Strictly compile v2.2 formal module
