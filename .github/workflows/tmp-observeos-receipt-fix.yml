@@ -1,0 +1,40 @@
+name: Temporary ObserveOS Receipt Fix
+on:
+  pull_request:
+    branches: [main]
+    paths: [.github/workflows/tmp-observeos-receipt-fix.yml]
+permissions:
+  contents: write
+jobs:
+  patch:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: fix/vacuum-receipt-chain-green
+      - shell: python
+        run: |
+          from pathlib import Path
+          p = Path('formal/KUOS/ObserveOS/WorldHostEffectObservationReceiptV0_4.lean')
+          s = p.read_text()
+          old = '''abbrev Receipt := WorldHostEffectObservationReceipt
+  K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+    GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
+      MaterializationBridge AdmissionBridge AuthorizationBridge
+        InvocationBridge WorldIntakeBridge Bridge'''
+          new = '''local notation "Receipt" =>
+  WorldHostEffectObservationReceipt
+    K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+      GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
+        MaterializationBridge AdmissionBridge AuthorizationBridge
+          InvocationBridge WorldIntakeBridge Bridge'''
+          if new not in s:
+              assert old in s
+              p.write_text(s.replace(old, new, 1))
+      - run: |
+          git config user.name itakura-hidetoshi
+          git config user.email itakurahidetoshi@mac.com
+          git add formal/KUOS/ObserveOS/WorldHostEffectObservationReceiptV0_4.lean
+          git diff --cached --quiet && exit 0
+          git commit -m 'Fix ObserveOS v0.4 receipt type alias'
+          git push origin HEAD:fix/vacuum-receipt-chain-green
