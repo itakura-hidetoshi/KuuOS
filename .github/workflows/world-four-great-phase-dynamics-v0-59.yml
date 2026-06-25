@@ -1,0 +1,59 @@
+name: WORLD v0.59 Four-Great Phase Dynamics
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'formal/KUOS/WORLD/FourGreatPhaseDynamicsV0_59.lean'
+      - 'formal/KuuOSFormalV0_59.lean'
+      - 'formal/KuuOSFormal.lean'
+      - 'lakefile.toml'
+      - 'docs/KU_WORLD_FOUR_GREAT_PHASE_DYNAMICS_v0_59.md'
+      - 'manifests/world_four_great_phase_dynamics_v0_59.json'
+      - 'scripts/check_world_four_great_phase_dynamics_v0_59.py'
+      - '.github/workflows/world-four-great-phase-dynamics-v0-59.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile v0.59 Python validator
+        run: python -m compileall -q scripts/check_world_four_great_phase_dynamics_v0_59.py
+      - name: Run v0.59 static validation
+        run: python3 scripts/check_world_four_great_phase_dynamics_v0_59.py
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Verify committed manifest is canonical
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Compile WORLD v0.59 formal root
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true
+          build KuuOSFormalV0_59
+      - name: Compile aggregate formal root
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true
+          build KuuOSFormal
