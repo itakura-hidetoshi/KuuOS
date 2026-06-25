@@ -1,5 +1,6 @@
 name: Qi-WORLD Concrete Third Licensed Cycle v2.2
 
+# Validate the current production v2.2 runtime and formal surfaces.
 on:
   push:
     paths:
