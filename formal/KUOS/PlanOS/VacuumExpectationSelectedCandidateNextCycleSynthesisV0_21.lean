@@ -119,9 +119,10 @@ variable
       K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
         GenerationBridge HandoffBridge SelectionBridge}
 
-abbrev Receipt := VacuumExpectationSelectedCandidateNextCycleSynthesisReceipt
-  K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
-    GenerationBridge HandoffBridge SelectionBridge Bridge
+local notation "Receipt" =>
+  VacuumExpectationSelectedCandidateNextCycleSynthesisReceipt
+    K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+      GenerationBridge HandoffBridge SelectionBridge Bridge
 
 theorem synthesis_requires_exact_decision_selection (r : Receipt) :
     r.sourceBound = true ∧ r.selection.selectionPerformed = true ∧
