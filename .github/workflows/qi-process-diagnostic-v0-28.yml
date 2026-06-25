@@ -11,6 +11,17 @@ on:
       - "tests/test_qi_process_diagnostic_v0_28.py"
       - "formal/KUOS/OpenHorizon/QiHealingPotentialDiagnosticKernelV0_28.lean"
       - "formal/KUOS.lean"
+      - "docs/KUUOS_QI_RECOVERY_WINDOW_DIAGNOSTIC_v0_28.md"
+      - "manifests/kuuos_qi_recovery_window_diagnostic_v0_28.json"
+      - "runtime/kuuos_integrated_long_duration_operation_types_v0_27.py"
+      - "runtime/kuuos_integrated_long_duration_operation_kernel_v0_27.py"
+      - "runtime/kuuos_finite_cycle_continuity_store_v0_27.py"
+      - "runtime/kuuos_integrated_long_duration_operation_scenarios_v0_27.py"
+      - "scripts/check_integrated_long_duration_operation_v0_27.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_52.py"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
       - ".github/workflows/qi-process-diagnostic-v0-28.yml"
   pull_request:
     paths:
@@ -22,6 +33,17 @@ on:
       - "tests/test_qi_process_diagnostic_v0_28.py"
       - "formal/KUOS/OpenHorizon/QiHealingPotentialDiagnosticKernelV0_28.lean"
       - "formal/KUOS.lean"
+      - "docs/KUUOS_QI_RECOVERY_WINDOW_DIAGNOSTIC_v0_28.md"
+      - "manifests/kuuos_qi_recovery_window_diagnostic_v0_28.json"
+      - "runtime/kuuos_integrated_long_duration_operation_types_v0_27.py"
+      - "runtime/kuuos_integrated_long_duration_operation_kernel_v0_27.py"
+      - "runtime/kuuos_finite_cycle_continuity_store_v0_27.py"
+      - "runtime/kuuos_integrated_long_duration_operation_scenarios_v0_27.py"
+      - "scripts/check_integrated_long_duration_operation_v0_27.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_52.py"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
       - ".github/workflows/qi-process-diagnostic-v0-28.yml"
   workflow_dispatch:
 
@@ -31,18 +53,53 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Python checks
+      - name: Compile Python surfaces
+        run: >-
+          python -m compileall -q
+          runtime/kuuos_qi_healing_potential_diagnostic_types_v0_28.py
+          runtime/kuuos_qi_healing_potential_diagnostic_kernel_v0_28.py
+          runtime/kuuos_qi_diagnostic_candidate_ledger_v0_28.py
+          runtime/kuuos_qi_healing_potential_diagnostic_scenarios_v0_28.py
+          scripts/check_qi_healing_potential_diagnostic_v0_28.py
+          tests/test_qi_process_diagnostic_v0_28.py
+      - name: Validate manifest JSON
+        run: >-
+          python -m json.tool
+          manifests/kuuos_qi_recovery_window_diagnostic_v0_28.json
+          > /dev/null
+      - name: Validate v0.28 diagnostic scenarios
+        shell: bash
         run: |
-          python -m compileall -q runtime/kuuos_qi_healing_potential_diagnostic_types_v0_28.py runtime/kuuos_qi_healing_potential_diagnostic_kernel_v0_28.py runtime/kuuos_qi_diagnostic_candidate_ledger_v0_28.py runtime/kuuos_qi_healing_potential_diagnostic_scenarios_v0_28.py scripts/check_qi_healing_potential_diagnostic_v0_28.py tests/test_qi_process_diagnostic_v0_28.py
-          PYTHONPATH=. python scripts/check_qi_healing_potential_diagnostic_v0_28.py
-          PYTHONPATH=. python -m unittest -v tests.test_qi_process_diagnostic_v0_28
-          PYTHONPATH=. python scripts/check_integrated_long_duration_operation_v0_27.py
-      - uses: leanprover/lean-action@v1
+          set -o pipefail
+          PYTHONPATH=. python scripts/check_qi_healing_potential_diagnostic_v0_28.py \
+            2>&1 | tee qi-process-v0-28.log
+      - name: Run v0.28 unit tests
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python -m unittest -v \
+            tests.test_qi_process_diagnostic_v0_28 \
+            2>&1 | tee -a qi-process-v0-28.log
+      - name: Run v0.27 finite-cycle regression
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python scripts/check_integrated_long_duration_operation_v0_27.py \
+            2>&1 | tee -a qi-process-v0-28.log
+      - name: Run current central runtime regression
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python scripts/run_kuuos_runtime_full_check_v0_52.py \
+            2>&1 | tee -a qi-process-v0-28.log
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
         with:
           auto-config: false
           build: false
@@ -50,9 +107,34 @@ jobs:
           lint: false
           use-mathlib-cache: false
           use-github-cache: false
-      - name: Lean checks
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Verify lockfile stability
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile v0.28 formal module
+        shell: bash
         run: |
-          lake update
-          lake exe cache get
-          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KUOS.OpenHorizon.QiHealingPotentialDiagnosticKernelV0_28
-          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal
+          set -o pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KUOS.OpenHorizon.QiHealingPotentialDiagnosticKernelV0_28 \
+            2>&1 | tee qi-process-v0-28-lean-module.log
+      - name: Strictly compile formal root
+        shell: bash
+        run: |
+          set -o pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true build KuuOSFormal \
+            2>&1 | tee qi-process-v0-28-lean-root.log
+      - name: Upload v0.28 diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: qi-process-v0-28-diagnostics
+          path: |
+            qi-process-v0-28.log
+            qi-process-v0-28-lean-module.log
+            qi-process-v0-28-lean-root.log
+          if-no-files-found: warn
