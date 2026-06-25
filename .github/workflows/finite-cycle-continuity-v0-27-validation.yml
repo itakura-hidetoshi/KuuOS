@@ -14,10 +14,22 @@ on:
       - "docs/KUUOS_FINITE_CYCLE_CONTINUITY_KERNEL_v0_27.md"
       - "docs/KUUOS_AUTONOMOUS_AGENT_STATUS_v0_27.md"
       - "manifests/kuuos_finite_cycle_continuity_kernel_v0_27.json"
-      - ".github/workflows/finite-cycle-continuity-v0-27-validation.yml"
       - "runtime/kuuos_governed_self_modification_kernel_v0_26.py"
       - "runtime/kuuos_event_wakeup_control_resource_kernel_v0_25.py"
       - "runtime/kuuos_transactional_effect_reconciliation_kernel_v0_24.py"
+      - "scripts/check_governed_self_modification_v0_26.py"
+      - "scripts/check_event_wakeup_control_resource_v0_25.py"
+      - "scripts/check_transactional_effect_reconciliation_v0_24.py"
+      - "scripts/check_nonmarkov_cognitive_loop_v0_23.py"
+      - "scripts/check_semantic_planner_verifier_v0_22.py"
+      - "scripts/check_observation_belief_state_v0_21.py"
+      - "runtime/v021_autonomous_mission_cycle_kernel.py"
+      - "runtime/v020_mission_kernel.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_52.py"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
+      - ".github/workflows/finite-cycle-continuity-v0-27-validation.yml"
   pull_request:
     paths:
       - "runtime/kuuos_integrated_long_duration_operation_types_v0_27.py"
@@ -31,10 +43,22 @@ on:
       - "docs/KUUOS_FINITE_CYCLE_CONTINUITY_KERNEL_v0_27.md"
       - "docs/KUUOS_AUTONOMOUS_AGENT_STATUS_v0_27.md"
       - "manifests/kuuos_finite_cycle_continuity_kernel_v0_27.json"
-      - ".github/workflows/finite-cycle-continuity-v0-27-validation.yml"
       - "runtime/kuuos_governed_self_modification_kernel_v0_26.py"
       - "runtime/kuuos_event_wakeup_control_resource_kernel_v0_25.py"
       - "runtime/kuuos_transactional_effect_reconciliation_kernel_v0_24.py"
+      - "scripts/check_governed_self_modification_v0_26.py"
+      - "scripts/check_event_wakeup_control_resource_v0_25.py"
+      - "scripts/check_transactional_effect_reconciliation_v0_24.py"
+      - "scripts/check_nonmarkov_cognitive_loop_v0_23.py"
+      - "scripts/check_semantic_planner_verifier_v0_22.py"
+      - "scripts/check_observation_belief_state_v0_21.py"
+      - "runtime/v021_autonomous_mission_cycle_kernel.py"
+      - "runtime/v020_mission_kernel.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_52.py"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
+      - ".github/workflows/finite-cycle-continuity-v0-27-validation.yml"
   workflow_dispatch:
 
 permissions:
@@ -43,6 +67,7 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
@@ -57,47 +82,78 @@ jobs:
           runtime/kuuos_integrated_long_duration_operation_scenarios_v0_27.py
           scripts/check_integrated_long_duration_operation_v0_27.py
           tests/test_integrated_long_duration_operation_v0_27.py
+      - name: Validate manifest JSON
+        run: >-
+          python -m json.tool
+          manifests/kuuos_finite_cycle_continuity_kernel_v0_27.json
+          > /dev/null
       - name: Validate v0.27 scenarios
-        run: >-
-          PYTHONPATH=. python scripts/check_integrated_long_duration_operation_v0_27.py
-          > finite-cycle-v0-27.log 2>&1
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python scripts/check_integrated_long_duration_operation_v0_27.py \
+            2>&1 | tee finite-cycle-v0-27.log
       - name: Run v0.27 unit tests
-        run: >-
-          PYTHONPATH=. python -m unittest -v
-          tests.test_integrated_long_duration_operation_v0_27
-          >> finite-cycle-v0-27.log 2>&1
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python -m unittest -v \
+            tests.test_integrated_long_duration_operation_v0_27 \
+            2>&1 | tee -a finite-cycle-v0-27.log
       - name: Run v0.26 change-management regression
-        run: >-
-          PYTHONPATH=. python scripts/check_governed_self_modification_v0_26.py
-          >> finite-cycle-v0-27.log 2>&1
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python scripts/check_governed_self_modification_v0_26.py \
+            2>&1 | tee -a finite-cycle-v0-27.log
       - name: Run v0.25 event/control/resource regression
-        run: >-
-          PYTHONPATH=. python scripts/check_event_wakeup_control_resource_v0_25.py
-          >> finite-cycle-v0-27.log 2>&1
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python scripts/check_event_wakeup_control_resource_v0_25.py \
+            2>&1 | tee -a finite-cycle-v0-27.log
       - name: Run v0.24 transaction regression
-        run: >-
-          PYTHONPATH=. python scripts/check_transactional_effect_reconciliation_v0_24.py
-          >> finite-cycle-v0-27.log 2>&1
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python scripts/check_transactional_effect_reconciliation_v0_24.py \
+            2>&1 | tee -a finite-cycle-v0-27.log
       - name: Run v0.23 cognitive regression
-        run: >-
-          PYTHONPATH=. python scripts/check_nonmarkov_cognitive_loop_v0_23.py
-          >> finite-cycle-v0-27.log 2>&1
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python scripts/check_nonmarkov_cognitive_loop_v0_23.py \
+            2>&1 | tee -a finite-cycle-v0-27.log
       - name: Run v0.22 planner/verifier regression
-        run: >-
-          PYTHONPATH=. python scripts/check_semantic_planner_verifier_v0_22.py
-          >> finite-cycle-v0-27.log 2>&1
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python scripts/check_semantic_planner_verifier_v0_22.py \
+            2>&1 | tee -a finite-cycle-v0-27.log
       - name: Run v0.21 observation/belief regression
-        run: >-
-          PYTHONPATH=. python scripts/check_observation_belief_state_v0_21.py
-          >> finite-cycle-v0-27.log 2>&1
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python scripts/check_observation_belief_state_v0_21.py \
+            2>&1 | tee -a finite-cycle-v0-27.log
       - name: Run v0.21 mission-cycle regression
-        run: >-
-          PYTHONPATH=. python runtime/v021_autonomous_mission_cycle_kernel.py
-          >> finite-cycle-v0-27.log 2>&1
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python runtime/v021_autonomous_mission_cycle_kernel.py \
+            2>&1 | tee -a finite-cycle-v0-27.log
       - name: Run v0.20 mission regression
-        run: >-
-          PYTHONPATH=. python -m runtime.v020_mission_kernel
-          >> finite-cycle-v0-27.log 2>&1
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python -m runtime.v020_mission_kernel \
+            2>&1 | tee -a finite-cycle-v0-27.log
+      - name: Run current central runtime regression
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python scripts/run_kuuos_runtime_full_check_v0_52.py \
+            2>&1 | tee -a finite-cycle-v0-27.log
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
@@ -109,6 +165,8 @@ jobs:
           use-github-cache: false
       - name: Resolve pinned dependencies
         run: lake update
+      - name: Verify lockfile stability
+        run: git diff --exit-code -- lake-manifest.json
       - name: Fetch Mathlib olean cache
         run: lake exe cache get
       - name: Strictly compile v0.27 formal module
