@@ -127,9 +127,10 @@ variable
       K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
         GenerationBridge HandoffBridge}
 
-abbrev Receipt := VacuumExpectationAdmissibleCandidateSelectionReceipt
-  K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
-    GenerationBridge HandoffBridge Bridge
+local notation "Receipt" =>
+  VacuumExpectationAdmissibleCandidateSelectionReceipt
+    K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+      GenerationBridge HandoffBridge Bridge
 
 theorem selection_requires_unselected_decisionos_handoff (r : Receipt) :
     r.source.handoff.handoffCommitted = true ∧
