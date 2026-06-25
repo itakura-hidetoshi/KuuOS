@@ -1,0 +1,81 @@
+name: Temporary repair vacuum formal root
+
+on:
+  push:
+    branches:
+      - fix/vacuum-receipt-chain-final
+
+permissions:
+  contents: write
+
+jobs:
+  repair:
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: fix/vacuum-receipt-chain-final
+          fetch-depth: 0
+
+      - name: Apply exact source repairs
+        shell: bash
+        run: |
+          set -euxo pipefail
+          python3 - <<'PY'
+          from pathlib import Path
+
+          yin = Path("formal/KUOS/Architecture/QiWorldYinYangProcessBlockerComplementarityV2_3.lean")
+          text = yin.read_text(encoding="utf-8")
+          old = """theorem yin_occupation_idempotent (occupation : YinOccupation) :
+              occupation && occupation = occupation := by
+            simp
+          """
+          new = """theorem yin_occupation_idempotent (occupation : YinOccupation) :
+              occupation && occupation = occupation := by
+            cases occupation <;> rfl
+          """
+          if old not in text:
+              raise SystemExit("expected YinOccupation theorem body not found")
+          yin.write_text(text.replace(old, new, 1), encoding="utf-8")
+
+          world = Path("formal/KUOS/WORLD/VacuumExpectationHostEffectAtomicCommitIntakeV0_52.lean")
+          text = world.read_text(encoding="utf-8")
+          old = "Bridge.nonAuthority.commitRecordIsTruth = false"
+          new = "Bridge.nonAuthority.truthAuthority = false"
+          if old not in text:
+              raise SystemExit("expected obsolete non-authority projection not found")
+          world.write_text(text.replace(old, new, 1), encoding="utf-8")
+
+          induction = Path("formal/KUOS/Architecture/QiWorldLicensedMultiCycleChainInductionV2_1.lean")
+          text = induction.read_text(encoding="utf-8")
+          old = """  cycle_count_matches_last := by
+              simpa [w.target_is_immediate_successor]
+          """
+          new = """  cycle_count_matches_last := by
+              simp [w.target_is_immediate_successor]
+          """
+          if old not in text:
+              raise SystemExit("expected unnecessary simpa site not found")
+          induction.write_text(text.replace(old, new, 1), encoding="utf-8")
+
+          readme = Path("README.md")
+          text = readme.read_text(encoding="utf-8")
+          token = "python3 scripts/run_kuuos_runtime_full_check_v0_50.py"
+          if token not in text:
+              anchor = "python3 scripts/run_kuuos_runtime_full_check_v0_51.py"
+              if anchor not in text:
+                  raise SystemExit("README validation anchor not found")
+              text = text.replace(anchor, token + "\n" + anchor, 1)
+              readme.write_text(text, encoding="utf-8")
+          PY
+
+      - name: Remove temporary workflow and commit repairs
+        shell: bash
+        run: |
+          set -euxo pipefail
+          rm .github/workflows/tmp-repair-vacuum-formal-root.yml
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          git commit -m "Repair strict formal root and runtime documentation"
+          git push origin HEAD:fix/vacuum-receipt-chain-final
