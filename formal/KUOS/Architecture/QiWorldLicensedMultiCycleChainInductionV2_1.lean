@@ -203,7 +203,7 @@ def appendClosedCycle
   chainGrantsExecution := false
   cycle_count_positive := Nat.succ_pos c.cycleCount
   cycle_count_matches_last := by
-    simpa [w.target_is_immediate_successor]
+    simp [w.target_is_immediate_successor]
   receipt_count_exact := by
     simp [c.receipt_count_exact]
   authority_count_exact := by

@@ -315,6 +315,7 @@ formal/KUOS.lean
 make core-governance-checks
 make all-governance-checks
 
+python3 scripts/run_kuuos_runtime_full_check_v0_50.py
 python3 scripts/run_kuuos_runtime_full_check_v0_51.py
 python3 scripts/check_world_vacuum_expectation_observeos_evidence_intake_v0_51.py
 

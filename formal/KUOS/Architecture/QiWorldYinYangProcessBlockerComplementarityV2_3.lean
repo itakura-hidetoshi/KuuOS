@@ -36,7 +36,7 @@ abbrev YangOccupation := Nat
 
 theorem yin_occupation_idempotent (occupation : YinOccupation) :
     occupation && occupation = occupation := by
-  simp
+  cases occupation <;> rfl
 
 theorem blocker_vector_yin_idempotent (vector : CrossCycleBlockerVector) :
     blockerMeet vector vector = vector :=

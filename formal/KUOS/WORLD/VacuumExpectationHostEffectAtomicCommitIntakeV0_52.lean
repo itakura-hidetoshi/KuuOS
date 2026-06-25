@@ -453,7 +453,7 @@ theorem ownership_boundaries_are_preserved (_envelope : Envelope) :
 
 theorem intake_grants_no_truth_causality_observation_verification_or_execution
     (_envelope : Envelope) :
-    Bridge.nonAuthority.commitRecordIsTruth = false ∧
+    Bridge.nonAuthority.truthAuthority = false ∧
       Bridge.nonAuthority.causalAttribution = false ∧
       Bridge.nonAuthority.observationAuthority = false ∧
       Bridge.nonAuthority.verificationAuthority = false ∧
