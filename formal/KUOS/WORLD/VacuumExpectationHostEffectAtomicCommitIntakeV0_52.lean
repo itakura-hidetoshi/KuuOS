@@ -272,11 +272,12 @@ variable
           MaterializationBridge AdmissionBridge AuthorizationBridge
             InvocationBridge}
 
-abbrev Envelope := WorldVacuumExpectationHostEffectAtomicCommitIntakeEnvelope
-  K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
-    GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
-      MaterializationBridge AdmissionBridge AuthorizationBridge
-        InvocationBridge Bridge
+local notation "Envelope" =>
+  WorldVacuumExpectationHostEffectAtomicCommitIntakeEnvelope
+    K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+      GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
+        MaterializationBridge AdmissionBridge AuthorizationBridge
+          InvocationBridge Bridge
 
 theorem intake_requires_canonical_effect_record (envelope : Envelope) :
     envelope.source.hostReceipt.route = .effectRecorded ∧
