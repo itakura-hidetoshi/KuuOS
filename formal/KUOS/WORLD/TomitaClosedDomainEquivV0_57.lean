@@ -66,6 +66,14 @@ theorem closedDomainLinearEquiv_bijective :
     Function.Bijective R.closedDomainLinearEquiv :=
   R.closedDomainLinearEquiv.bijective
 
+/-- The inverse of the closed-domain Tomita automorphism is itself. -/
+@[simp]
+theorem closedDomainLinearEquiv_symm_apply
+    (x : R.pmap.closure.domain) :
+    R.closedDomainLinearEquiv.symm x = R.closedDomainLinearEquiv x := by
+  apply R.closedDomainLinearEquiv.injective
+  simp
+
 end TomitaRealLinearPMapRealization
 end
 end KUOS.WORLD
