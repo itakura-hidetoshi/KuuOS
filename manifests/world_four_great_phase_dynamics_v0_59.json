@@ -7,6 +7,7 @@
   "core_module": "formal/KUOS/WORLD/FourGreatPhaseDynamicsCoreV0_59.lean",
   "core_root": "formal/KuuOSFourGreatCoreV0_59.lean",
   "formal_module": "formal/KUOS/WORLD/FourGreatPhaseDynamicsV0_59.lean",
+  "bridge_module": "formal/KUOS/WORLD/FourGreatPhaseDynamicsCoreBridgeV0_59.lean",
   "formal_root": "formal/KuuOSFormalV0_59.lean",
   "aggregate_formal_root": "formal/KuuOSFormal.lean",
   "documentation": "docs/KU_WORLD_FOUR_GREAT_PHASE_DYNAMICS_v0_59.md",
@@ -33,10 +34,12 @@
     "air_activity_nonnegative",
     "air_zero_activity",
     "air_inverse",
-    "air_preserves_physical_inner_product"
+    "air_preserves_physical_inner_product",
+    "transport_realizes_analytic_core"
   ],
   "scope": {
     "mathlib_only_core": true,
+    "typed_araki_os_core_bridge": true,
     "bounded_generator_araki_hessian": true,
     "completed_physical_hilbert_correlation": true,
     "abstract_reversible_physical_flow": true,
