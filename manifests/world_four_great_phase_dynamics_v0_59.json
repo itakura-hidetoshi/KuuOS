@@ -1,6 +1,7 @@
 {
   "manifest_version": "world_four_great_phase_dynamics_v0_59",
-  "predecessor": "world_tomita_conjugate_adjoint_v0_58",
+  "predecessor": "world_kuu_vacuum_araki_hessian_physical_realization_v0_56",
+  "stack_base": "world_tomita_conjugate_adjoint_v0_58",
   "analytic_dependency": "world_kuu_vacuum_araki_hessian_physical_realization_v0_56",
   "status": "formal_read_only_four_great_phase_dynamics",
   "formal_module": "formal/KUOS/WORLD/FourGreatPhaseDynamicsV0_59.lean",
