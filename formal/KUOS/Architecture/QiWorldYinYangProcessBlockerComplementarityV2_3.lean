@@ -34,6 +34,7 @@ theorem polarity_is_relational :
 abbrev YinOccupation := Bool
 abbrev YangOccupation := Nat
 
+/-- Boolean Yin occupation is idempotent under conjunction. -/
 theorem yin_occupation_idempotent (occupation : YinOccupation) :
     (occupation && occupation) = occupation := by
   cases occupation <;> rfl
