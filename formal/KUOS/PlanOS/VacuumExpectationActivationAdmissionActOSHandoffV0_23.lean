@@ -225,10 +225,11 @@ variable
         GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
           MaterializationBridge}
 
-abbrev Receipt := VacuumExpectationActivationAdmissionActOSHandoffReceipt
-  K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
-    GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
-      MaterializationBridge Bridge
+local notation "Receipt" =>
+  VacuumExpectationActivationAdmissionActOSHandoffReceipt
+    K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+      GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
+        MaterializationBridge Bridge
 
 theorem requires_materialized_non_hold_candidate (r : Receipt) :
     r.sourceBound = true ∧ r.source.materializationCommitted = true ∧
