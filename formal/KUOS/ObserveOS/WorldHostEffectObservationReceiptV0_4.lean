@@ -283,7 +283,7 @@ variable
           MaterializationBridge AdmissionBridge AuthorizationBridge
             InvocationBridge WorldIntakeBridge}
 
-abbrev Receipt := WorldHostEffectObservationReceipt
+local notation "Receipt" => WorldHostEffectObservationReceipt
   K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
     GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
       MaterializationBridge AdmissionBridge AuthorizationBridge
