@@ -2,6 +2,18 @@ name: WORLD v0.59 Four-Great Phase Dynamics
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - 'world-four-great-phase-dynamics-v0-59'
+    paths:
+      - 'formal/KUOS/WORLD/FourGreatPhaseDynamicsV0_59.lean'
+      - 'formal/KuuOSFormalV0_59.lean'
+      - 'formal/KuuOSFormal.lean'
+      - 'lakefile.toml'
+      - 'docs/KU_WORLD_FOUR_GREAT_PHASE_DYNAMICS_v0_59.md'
+      - 'manifests/world_four_great_phase_dynamics_v0_59.json'
+      - 'scripts/check_world_four_great_phase_dynamics_v0_59.py'
+      - '.github/workflows/world-four-great-phase-dynamics-v0-59.yml'
   pull_request:
     paths:
       - 'formal/KUOS/WORLD/FourGreatPhaseDynamicsV0_59.lean'
