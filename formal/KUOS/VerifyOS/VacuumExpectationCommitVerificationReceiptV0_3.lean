@@ -199,6 +199,12 @@ variable
         receipt.verificationRecorded := receipt.debtRecordExact
     _ = true := receipt.recordedRequired
 
+ theorem verification_requires_learning
+    (receipt : VacuumExpectationCommitVerificationReceipt
+      K O Intake ObserveBridge VerifyBridge) :
+    receipt.debtSemantics.learningRequired = true := by
+  exact receipt.debtSemantics.learningAlways
+
  theorem passed_receipt_discharges_verification_debt
     (receipt : VacuumExpectationCommitVerificationReceipt
       K O Intake ObserveBridge VerifyBridge)
