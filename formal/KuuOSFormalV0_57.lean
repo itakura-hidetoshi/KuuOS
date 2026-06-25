@@ -5,3 +5,4 @@ import KUOS.WORLD.TomitaClosedConjugateLinearBridgeV0_57
 import KUOS.WORLD.TomitaClosedInvolutionBridgeV0_57
 import KUOS.WORLD.TomitaClosedDomainEquivV0_57
 import KUOS.WORLD.TomitaClosedComplexDomainV0_57
+import KUOS.WORLD.TomitaClosedInverseV0_57
