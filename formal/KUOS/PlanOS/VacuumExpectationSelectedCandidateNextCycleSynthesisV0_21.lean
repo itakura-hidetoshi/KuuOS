@@ -108,7 +108,7 @@ structure VacuumExpectationSelectedCandidateNextCycleSynthesisReceipt
     synthesisIndex = selection.source.handoffIndex.append
   commitIndexExact : commitIndex = synthesisIndex.append
   historyExact : historyAfter.committedRecords =
-    selection.source.historyAfterHandoff.committedRecords + 2
+    selection.source.historyAfter.committedRecords + 2
   digestExact : digest = Bridge.digestOf selection selectedCandidate synthesis
     commitBoundary synthesisIndex commitIndex historyAfter
 
@@ -183,9 +183,9 @@ theorem synthesis_events_append_strictly (r : Receipt) :
 
 theorem synthesis_history_appends_two_records (r : Receipt) :
     r.historyAfter.committedRecords =
-        r.selection.source.historyAfterHandoff.committedRecords + 2 ∧
+        r.selection.source.historyAfter.committedRecords + 2 ∧
       r.historyAfter.snapshotRecords =
-        r.selection.source.historyAfterHandoff.committedRecords + 2 := by
+        r.selection.source.historyAfter.committedRecords + 2 := by
   refine ⟨r.historyExact, ?_⟩
   rw [replanHistory_snapshot_matches_commits r.historyAfter]
   exact r.historyExact
