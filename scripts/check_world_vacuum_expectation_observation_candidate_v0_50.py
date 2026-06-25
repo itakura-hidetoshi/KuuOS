@@ -50,12 +50,12 @@ def main() -> int:
         ROOT / "README.md",
         (
             "vacuum expectation != fact",
-            "run_kuuos_runtime_full_check_v0_50.py",
+            "source-bound vacuum-expectation observation candidates",
         ),
     )
     require_tokens(
         ROOT / "ROADMAP.md",
-        ("vacuum-expectation observation candidates",),
+        ("source-bound vacuum-expectation observation candidates",),
     )
 
     manifest_path = ROOT / "manifests/world_vacuum_expectation_observation_candidate_v0_50.json"
