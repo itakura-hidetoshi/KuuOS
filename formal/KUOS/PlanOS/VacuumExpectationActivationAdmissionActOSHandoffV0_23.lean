@@ -246,6 +246,8 @@ theorem requires_exact_next_cycle_and_fresh_epoch (r : Receipt) :
   · calc
       r.freshness.targetCycle = r.source.exactNextCycle.activeFromCycle :=
         r.targetCycleExact
+      _ = r.source.source.synthesis.activeFromCycle :=
+        r.source.activeCycleExact
       _ = r.source.source.synthesis.currentCycle + 1 :=
         r.source.source.synthesis.nextCycleRequired
   exact ⟨r.freshness.adaptiveEpochRequired,
