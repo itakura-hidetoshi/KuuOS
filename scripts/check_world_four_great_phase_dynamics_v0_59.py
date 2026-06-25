@@ -44,6 +44,7 @@ def main() -> int:
         "core_module",
         "core_root",
         "formal_module",
+        "bridge_module",
         "formal_root",
         "aggregate_formal_root",
         "documentation",
@@ -63,6 +64,7 @@ def main() -> int:
         "four-great mapping mismatch",
     )
     require(manifest["scope"]["mathlib_only_core"] is True, "core scope missing")
+    require(manifest["scope"]["typed_araki_os_core_bridge"] is True, "bridge scope missing")
     require(manifest["scope"]["bounded_generator_araki_hessian"] is True, "earth scope missing")
     require(manifest["scope"]["completed_physical_hilbert_correlation"] is True, "water scope missing")
     require(manifest["scope"]["abstract_reversible_physical_flow"] is True, "air scope missing")
@@ -107,8 +109,18 @@ def main() -> int:
         ),
     )
     require_tokens(
+        ROOT / manifest["bridge_module"],
+        (
+            "FourGreatPhaseDynamicsCoreV0_59",
+            "FourGreatPhaseDynamicsV0_59",
+            "analyticCore",
+            "analyticCore_earth_eq_water",
+            "analyticCore_total_nonnegative",
+        ),
+    )
+    require_tokens(
         ROOT / manifest["formal_root"],
-        ("FourGreatPhaseDynamicsV0_59",),
+        ("FourGreatPhaseDynamicsCoreBridgeV0_59",),
     )
     require(
         "KuuOSFormalV0_58" not in (ROOT / manifest["formal_root"]).read_text(encoding="utf-8"),
