@@ -75,7 +75,14 @@ theorem diagnostic_total_nonnegative (t : ℝ) (h : Generator) :
       (Core.diagnostic t h).water +
       (Core.diagnostic t h).fire +
       (Core.diagnostic t h).air := by
-  positivity
+  exact
+    add_nonneg
+      (add_nonneg
+        (add_nonneg
+          (Core.earth_nonnegative h)
+          (Core.water_nonnegative h))
+        (Core.fire_nonnegative h))
+      (Core.air_nonnegative t h)
 
 theorem boundary_package :
     Core.effectiveFireRequiresCoarseGraining ∧
