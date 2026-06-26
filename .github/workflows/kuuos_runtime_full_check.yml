@@ -42,8 +42,8 @@ jobs:
       - name: Run cumulative runtime full check
         shell: bash
         run: |
-          set -o pipefail
-          PYTHONPATH=. python3 scripts/run_kuuos_runtime_full_check_v0_55.py \
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/run_kuuos_runtime_full_check_v0_60.py \
             2>&1 | tee kuuos-runtime-full-check.log
       - name: Upload runtime diagnostics
         if: failure()
