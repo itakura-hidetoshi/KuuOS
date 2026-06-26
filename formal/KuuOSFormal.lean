@@ -15,3 +15,5 @@ import KUOS.ObserveOS.WorldHostEffectObservationReceiptV0_4
 import KUOS.WORLD.VacuumExpectationObserveOSCommitVerifyHandoffBridgeV0_53
 import KUOS.WORLD.KuuVacuumCentralReferenceStateBridgeV0_54
 import KUOS.WORLD.KuuVacuumInformationGeometryBridgeV0_55
+import KUOS.WORLD.KuuVacuumArakiHessianOSTransportV0_56
+import KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59
