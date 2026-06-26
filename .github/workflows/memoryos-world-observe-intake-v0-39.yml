@@ -1,7 +1,10 @@
 name: MemoryOS WORLD ObserveOS Intake v0.39
 
 on:
+  workflow_dispatch:
   push:
+    branches:
+      - main
     paths:
       - "runtime/kuuos_memoryos_world_observe_intake_v0_39.py"
       - "tests/test_memoryos_world_observe_intake_v0_39.py"
@@ -23,10 +26,11 @@ on:
       - "formal/KUOS.lean"
       - "formal/KuuOSFormal.lean"
       - "scripts/run_kuuos_runtime_full_check_v0_50.py"
-      - "scripts/run_kuuos_runtime_full_check_v0_52.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_55.py"
       - "lakefile.toml"
       - "lake-manifest.json"
       - "lean-toolchain"
+      - ".github/workflows/kuuos_runtime_full_check.yml"
       - ".github/workflows/memoryos-world-observe-intake-v0-39.yml"
   pull_request:
     paths:
@@ -50,20 +54,27 @@ on:
       - "formal/KUOS.lean"
       - "formal/KuuOSFormal.lean"
       - "scripts/run_kuuos_runtime_full_check_v0_50.py"
-      - "scripts/run_kuuos_runtime_full_check_v0_52.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_55.py"
       - "lakefile.toml"
       - "lake-manifest.json"
       - "lean-toolchain"
+      - ".github/workflows/kuuos_runtime_full_check.yml"
       - ".github/workflows/memoryos-world-observe-intake-v0-39.yml"
-  workflow_dispatch:
 
 permissions:
   contents: read
 
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
 jobs:
   validate:
-    runs-on: ubuntu-latest
-    timeout-minutes: 60
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
@@ -71,7 +82,7 @@ jobs:
           python-version: "3.12"
       - name: Compile MemoryOS validation surfaces
         run: >-
-          python -m compileall -q
+          python3 -m compileall -q
           runtime/kuuos_memoryos_world_observe_intake_v0_39.py
           tests/test_memoryos_world_observe_intake_v0_39.py
           scripts/check_memoryos_world_observe_intake_v0_39.py
@@ -80,47 +91,47 @@ jobs:
           scripts/check_memoryos_analytic_hilbert_context_v0_38.py
       - name: Validate v0.39 manifest JSON
         run: >-
-          python -m json.tool
+          python3 -m json.tool
           manifests/kuuos_memoryos_world_observe_intake_v0_39.json
           > /dev/null
       - name: Validate v0.38 manifest JSON
         run: >-
-          python -m json.tool
+          python3 -m json.tool
           manifests/kuuos_memoryos_analytic_hilbert_context_v0_38.json
           > /dev/null
       - name: Check MemoryOS v0.39 registration
         shell: bash
         run: |
-          set -o pipefail
-          PYTHONPATH=. python scripts/check_memoryos_world_observe_intake_v0_39.py \
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/check_memoryos_world_observe_intake_v0_39.py \
             2>&1 | tee memoryos-v0-39.log
       - name: Test MemoryOS v0.39 runtime
         shell: bash
         run: |
-          set -o pipefail
-          PYTHONPATH=. python -m unittest -v \
+          set -euo pipefail
+          PYTHONPATH=. python3 -m unittest -v \
             tests.test_memoryos_world_observe_intake_v0_39 \
             2>&1 | tee -a memoryos-v0-39.log
       - name: Recheck MemoryOS v0.38
         shell: bash
         run: |
-          set -o pipefail
-          PYTHONPATH=. python scripts/check_memoryos_analytic_hilbert_context_v0_38.py \
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/check_memoryos_analytic_hilbert_context_v0_38.py \
             2>&1 | tee -a memoryos-v0-39.log
-          PYTHONPATH=. python -m unittest -v \
+          PYTHONPATH=. python3 -m unittest -v \
             tests.test_memoryos_analytic_hilbert_context_v0_38 \
             2>&1 | tee -a memoryos-v0-39.log
       - name: Recheck WORLD v0.50 source
         shell: bash
         run: |
-          set -o pipefail
-          PYTHONPATH=. python scripts/check_world_vacuum_expectation_observation_candidate_v0_50.py \
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/check_world_vacuum_expectation_observation_candidate_v0_50.py \
             2>&1 | tee -a memoryos-v0-39.log
       - name: Run current central runtime regression
         shell: bash
         run: |
-          set -o pipefail
-          PYTHONPATH=. python scripts/run_kuuos_runtime_full_check_v0_52.py \
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/run_kuuos_runtime_full_check_v0_55.py \
             2>&1 | tee -a memoryos-v0-39.log
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
@@ -140,7 +151,7 @@ jobs:
       - name: Strictly compile MemoryOS v0.39 formal module
         shell: bash
         run: |
-          set -o pipefail
+          set -euo pipefail
           lake -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
             build KUOS.OpenHorizon.MemoryOSWorldObserveIntakeKernelV0_39 \
@@ -148,17 +159,34 @@ jobs:
       - name: Strictly compile formal root
         shell: bash
         run: |
-          set -o pipefail
+          set -euo pipefail
           lake -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true build KuuOSFormal \
             2>&1 | tee memoryos-v0-39-lean-root.log
+      - name: Record failure context
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          {
+            echo "workflow=${GITHUB_WORKFLOW}"
+            echo "run_id=${GITHUB_RUN_ID}"
+            echo "run_attempt=${GITHUB_RUN_ATTEMPT}"
+            echo "event=${GITHUB_EVENT_NAME}"
+            echo "ref=${GITHUB_REF}"
+            echo "sha=${GITHUB_SHA}"
+            python3 --version
+            lake --version || true
+            lean --version || true
+          } > memoryos-v0-39-context.log
       - name: Upload MemoryOS v0.39 diagnostics
-        if: failure()
+        if: ${{ failure() }}
         uses: actions/upload-artifact@v4
         with:
-          name: memoryos-v0-39-diagnostics
+          name: memoryos-v0-39-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             memoryos-v0-39.log
             memoryos-v0-39-lean-module.log
             memoryos-v0-39-lean-root.log
+            memoryos-v0-39-context.log
           if-no-files-found: warn
+          retention-days: 14
