@@ -106,12 +106,10 @@ variable {Geom : WorldKuuVacuumInformationGeometryBridge Central}
 variable {Transport : WorldKuuVacuumArakiHessianOSTransport Geom}
 
 def earthStiffness
-    (Dyn : WorldFourGreatPhaseDynamics Transport)
     (h : Transport.calculus.Generator) : ℝ :=
   Transport.calculus.mixedHessian h h
 
 def waterCorrelation
-    (Dyn : WorldFourGreatPhaseDynamics Transport)
     (h : Transport.calculus.Generator) : ℝ :=
   (inner ℂ (Transport.physicalExcitation h)
     (Transport.physicalExcitation h)).re
@@ -123,25 +121,23 @@ def airActivity
       Transport.physicalExcitation h‖ ^ 2
 
 theorem earth_eq_water
-    (Dyn : WorldFourGreatPhaseDynamics Transport)
     (i : G.Patch) (h : Transport.calculus.Generator) :
-    Dyn.earthStiffness h = Dyn.waterCorrelation h := by
+    earthStiffness (Transport := Transport) h =
+      waterCorrelation (Transport := Transport) h := by
   unfold earthStiffness waterCorrelation
   exact Transport.hessian_eq_physical_excitation_gram i h h
 
 theorem earth_nonnegative
-    (Dyn : WorldFourGreatPhaseDynamics Transport)
     (h : Transport.calculus.Generator) :
-    0 ≤ Dyn.earthStiffness h := by
+    0 ≤ earthStiffness (Transport := Transport) h := by
   unfold earthStiffness
   exact Transport.hessian_nonnegative h
 
 theorem water_nonnegative
-    (Dyn : WorldFourGreatPhaseDynamics Transport)
     (i : G.Patch) (h : Transport.calculus.Generator) :
-    0 ≤ Dyn.waterCorrelation h := by
-  rw [← Dyn.earth_eq_water i h]
-  exact Dyn.earth_nonnegative h
+    0 ≤ waterCorrelation (Transport := Transport) h := by
+  rw [← earth_eq_water (Transport := Transport) i h]
+  exact earth_nonnegative (Transport := Transport) h
 
 theorem fire_nonnegative
     (Dyn : WorldFourGreatPhaseDynamics Transport)
@@ -188,12 +184,12 @@ def diagnostic
     (Dyn : WorldFourGreatPhaseDynamics Transport)
     (i : G.Patch) (t : ℝ) (h : Transport.calculus.Generator) :
     WorldFourGreatDiagnostic where
-  earth := Dyn.earthStiffness h
-  water := Dyn.waterCorrelation h
+  earth := earthStiffness (Transport := Transport) h
+  water := waterCorrelation (Transport := Transport) h
   fire := Dyn.fireLoss h
   air := Dyn.airActivity t h
-  earth_nonnegative := Dyn.earth_nonnegative h
-  water_nonnegative := Dyn.water_nonnegative i h
+  earth_nonnegative := earth_nonnegative (Transport := Transport) h
+  water_nonnegative := water_nonnegative (Transport := Transport) i h
   fire_nonnegative := Dyn.fire_nonnegative h
   air_nonnegative := Dyn.air_nonnegative t h
 
@@ -201,8 +197,9 @@ theorem diagnostic_earth_eq_water
     (Dyn : WorldFourGreatPhaseDynamics Transport)
     (i : G.Patch) (t : ℝ) (h : Transport.calculus.Generator) :
     (Dyn.diagnostic i t h).earth = (Dyn.diagnostic i t h).water := by
-  change Dyn.earthStiffness h = Dyn.waterCorrelation h
-  exact Dyn.earth_eq_water i h
+  change earthStiffness (Transport := Transport) h =
+    waterCorrelation (Transport := Transport) h
+  exact earth_eq_water (Transport := Transport) i h
 
 theorem boundary_package
     (Dyn : WorldFourGreatPhaseDynamics Transport) :
