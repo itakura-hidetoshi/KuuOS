@@ -19,7 +19,7 @@ on:
       - 'lakefile.toml'
       - 'lake-manifest.json'
       - 'lean-toolchain'
-      - '.github/workflows/kuuos_runtime_full_check.yml'
+      - '.github/workflows/**'
 
 permissions:
   contents: read
