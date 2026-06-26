@@ -29,6 +29,18 @@ jobs:
     timeout-minutes: 45
     steps:
       - uses: actions/checkout@v6
+      - name: Publish pending validation status
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STATUS_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          gh api --method POST \
+            -H 'Accept: application/vnd.github+json' \
+            "/repos/${GITHUB_REPOSITORY}/statuses/${STATUS_SHA}" \
+            -f state='pending' \
+            -f context='WORLD v0.60 strict validation' \
+            -f description='Strict validation is running' \
+            -f target_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
@@ -50,7 +62,23 @@ jobs:
       - name: Fetch Mathlib cache
         run: lake exe cache get
       - name: Build v0.60 and aggregate roots
-        run: lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormalV0_60 KuuOSFormal
+        shell: bash
+        run: |
+          set -o pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSFormalV0_60 KuuOSFormal \
+            2>&1 | tee world-v060-build.log
+      - name: Print Lean failure tail
+        if: failure()
+        run: tail -n 200 world-v060-build.log || true
+      - name: Upload Lean diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: world-v060-lean-diagnostics
+          path: world-v060-build.log
+          if-no-files-found: ignore
       - name: Publish strict validation status
         if: always()
         env:
@@ -63,4 +91,5 @@ jobs:
             "/repos/${GITHUB_REPOSITORY}/statuses/${STATUS_SHA}" \
             -f state="${STATUS_STATE}" \
             -f context='WORLD v0.60 strict validation' \
-            -f description='Static, dedicated Lean, and aggregate Lean validation'
+            -f description='Static, dedicated Lean, and aggregate Lean validation' \
+            -f target_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
