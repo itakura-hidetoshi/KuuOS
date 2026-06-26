@@ -2,14 +2,14 @@
 
 **基準日：2026年6月26日**
 
-この文書は、`main`の統合済み基準、積み上げ型の研究ブランチ、次の実装優先順位を分離します。
+この文書は、`main`の統合済み基準、外部receipt、次の実装優先順位を分離します。
 
 ## 状態分類
 
 | 表記 | 意味 |
 |---|---|
 | 統合済み | `main`に存在し、正式な累積ルートから参照される |
-| 検証中 | 専用PRまたは積み上げブランチにあり、`main`未統合 |
+| 継続検証 | 統合済みだが、依存更新時に専用rootとaggregate rootを再検証する |
 | 計画 | 仕様または受入条件はあるが、正式実装は未完了 |
 | 外部receipt | Leanまたはruntime内部だけでは構成していない解析的、物理的、制度的入力 |
 
@@ -27,6 +27,7 @@ memory != belief sovereignty
 selection != execution
 plan commit != activation
 receipt != successor authority
+receipt composition != receipt construction
 
 finite local control != global constitutional closure
 local chart != global graph
@@ -36,9 +37,16 @@ holonomy != sovereign memory
 WORLD sidecar != exact WORLD
 WORLD candidate != empirical fact
 WORLD commit != truth
+WORLD intake != WORLD update
 analytic vacuum != exact WORLD
+central reference state != exact WORLD
+vacuum parameter != exact WORLD
 Kū != zero vector
 modular time != physical time
+
+closed Tomita operator != completed modular theory
+four-great diagnostic != material-element identity
+four-great diagnostic != execution authority
 
 diagnostic candidate != final diagnosis
 recovery-window interval != healing guarantee
@@ -60,15 +68,15 @@ red flag != automatic triage
 | MemoryOS | v0.35、v0.37、v0.38、v0.39 | 統合済み |
 | Qi-WORLD | v2.3 | 統合済み |
 | Vacuum-expectation OS chain | VerifyOS v0.3、LearnOS v0.3、PlanOS v0.18からv0.23、ActOS v0.3からv0.4、ObserveOS v0.4 | 統合済み |
-| WORLD sidecar | v0.52 | 統合済み |
+| WORLD sidecar | v0.59 | 統合済み |
 | Lean root | `KuuOSFormal` | 厳格build surface |
-| Runtime root | `run_kuuos_runtime_full_check_v0_52.py` | 累積回帰ルート |
+| Runtime root | `run_kuuos_runtime_full_check_v0_55.py` | 累積回帰ルート |
 
 ## 完了した基盤
 
 ### ガバナンスと局所文脈
 
-完了済みです。
+次の局所文脈スパインは統合済みです。
 
 ```text
 multiple horizons
@@ -117,8 +125,6 @@ v0.34は単一ホストPOSIX reference adapterです。
 
 v0.35はQi process history、blocker context、sourced WORLD generationをappend-only memoryへ統合しました。
 
-v0.36はvalidation matrixを固定しました。
-
 v0.37はworking、episodic、semantic、proceduralの四層記憶、observable predictive-state candidate、contradiction residue、WORLD imaginationを追加しました。
 
 v0.38はWORLD v0.49のOS-Hilbert packetを読み取り専用解析文脈として接続しました。
@@ -128,8 +134,6 @@ v0.39はMemoryOS解析capsuleとWORLD v0.50候補をObserveOS owner reviewへ渡
 MemoryOSはtruth promotion、blocker discharge、PlanOS activation、ActOS invocation、WORLD updateを行いません。
 
 ### Qi-WORLD
-
-v1.0からv2.0は、Qi-WORLD interface、native evidence loop、licensed effect、cross-cycle reentry、blocker theory、closed-cycle receipt、successor materializationを構成しました。
 
 v2.1はlicensed multi-cycle chain inductionを実装しました。
 
@@ -147,7 +151,7 @@ Yang accumulation
 
 ### 真空期待値OS連結
 
-統合済み経路は次です。
+解析的経路は次のとおりです。
 
 ```text
 WORLD v0.50 vacuum-expectation candidate
@@ -155,6 +159,7 @@ WORLD v0.50 vacuum-expectation candidate
 → ObserveOS v0.3 supplied commit
 → VerifyOS v0.3 supplied verification
 → LearnOS v0.3 future-only delta
+→ WORLD v0.53 OS receipt composition
 → PlanOS v0.18 history intake
 → v0.19 candidate generation
 → v0.20 DecisionOS handoff
@@ -175,11 +180,11 @@ ActOS v0.4 effectRecorded receipt
 
 v0.52は観測、検証、WORLD更新を行いません。
 
+v0.53は既存receiptを合成しますが、receipt構成またはtransition実行を行いません。
+
 ### WORLD数学サイドカー
 
-`main`の統合済み数学系列はv0.27からv0.52です。
-
-主要経路は次です。
+`main`の統合済み数学系列はv0.27からv0.59です。
 
 ```text
 real Hilbert ℓ²
@@ -198,47 +203,58 @@ real Hilbert ℓ²
 → vacuum-expectation candidates
 → ObserveOS intake
 → host-effect intake
+→ OS receipt composition
+→ Kū vacuum central reference state
+→ Kū vacuum information geometry
+→ verified Araki calculus and OS transport
+→ closed Tomita operator bridge
+→ conjugate-adjoint intermediate layer
+→ four-great phase dynamics
 ```
 
 外部receiptとして残るものを、Lean直接定理と混同しません。
 
-## 検証中のWORLD研究前線
+## 統合済みWORLD v0.53からv0.59
 
 ### WORLD v0.53
 
-**状態：検証中、`main`未統合**
+**状態：統合済み**
 
-OS receipt composition bridgeです。
+v0.51の解析intakeと、供給済みObserveOS、VerifyOS、LearnOS receiptを、transitionを再実行せずexact composition-lineage digestへ束縛します。
+
+受入済み境界：
 
 ```text
-v0.51 analytic intake
-→ supplied ObserveOS v0.3 receipt
-→ supplied VerifyOS v0.3 receipt
-→ supplied LearnOS v0.3 receipt
-→ exact composition-lineage digest
+OS receipt composition != receipt construction
+OS receipt composition != host-effect atomic-commit intake
+verification result != truth
+learning receipt != current-cycle mutation
+runtime remains read-only
 ```
-
-receipt compositionはreceipt constructionまたはtransition executionではありません。
 
 ### WORLD v0.54
 
-**状態：積み上げブランチ、`main`未統合**
+**状態：統合済み**
 
 完成OS Hilbert空間の真空を、WORLD数学サイドカーの中心基準状態として接続します。
 
-central reference stateはexact WORLD、truth authority、control objectiveではありません。
+反射形式、真空二点相関、モジュラー不変性、Petz回復、励起ベクトルを一つのtyped bridgeへ集約します。
+
+中心基準状態はexact WORLD、truth authority、control objectiveではありません。
 
 ### WORLD v0.55
 
-**状態：積み上げブランチ、`main`未統合**
+**状態：統合済み**
 
-真空基準Araki相対エントロピー、量子Bregman divergence、vacuum quantum Fisher metric、Petz recovery tangent geometryを接続します。
+真空基準Araki相対エントロピー、量子Bregman divergence、vacuum quantum Fisher metric、励起Gram形式、Petz recovery tangent geometryを接続します。
 
 information geometryはread-onlyです。
 
+zero divergenceは形而上学的同一性を意味しません。
+
 ### WORLD v0.56
 
-**状態：積み上げブランチ、`main`未統合**
+**状態：統合済み**
 
 有界自己共役生成子によるAraki指数弧について、第一変分、BKM pairing、混合Hessian、vacuum quantum Fisher metric、completed-Hilbert excitation Gram form、OS reflection formを接続します。
 
@@ -246,15 +262,23 @@ information geometryはread-onlyです。
 
 ### WORLD v0.57
 
-**状態：積み上げブランチ、`main`未統合**
+**状態：統合済み**
 
-代数的Tomita graph、稠密定義域、可閉性、closed conjugate-linear operator、closed domain equivalenceを構成します。
+代数的Tomita graph、稠密定義域、可閉性、Mathlib `LinearPMap` closure、closed conjugate-linear operator、closed involution、closed domain equivalence、closed graph-space completenessを構成します。
 
 relative modular operator、polar decomposition、非有界functional calculusの完全基礎は、引き続き別課題です。
 
+### WORLD v0.58
+
+**状態：内部形式化層として統合済み**
+
+conjugate-adjoint graph、partial-map bridge、closednessをv0.57とv0.59の間に保持します。
+
+独立したruntime権限または公開診断権限を追加しません。
+
 ### WORLD v0.59
 
-**状態：積み上げブランチ、`main`未統合**
+**状態：統合済み**
 
 四大をread-only構造診断として接続します。
 
@@ -276,49 +300,29 @@ Air
 
 ## 直近の優先順位
 
-### 優先1：入口文書と累積ルートの同期
+### 優先1：統合後の厳格回帰検証
 
-**状態：継続保守**
+**状態：最優先**
 
-- README、ROADMAP、`formal/KUOS.lean`、`formal/KuuOSFormal.lean`、`lakefile.toml`、累積full checkを同期する。
-- 安定基準と研究ブランチを明示的に分ける。
-- 新しいmergeは、入口文書を旧版のまま残さない。
-- version-stringだけに依存する脆弱なvalidatorを避け、意味的boundaryを検査する。
-
-受入条件：
-
-```text
-初見のreviewerが5分以内に、
-mainの安定基準、
-未統合の前線、
-次の検証コマンドを識別できる。
-```
-
-### 優先2：WORLD v0.53以降の順序付き統合
-
-**状態：最重要の数学統合課題**
-
-- v0.53を現在の`main`へrebaseする。
-- v0.54、v0.55、v0.56、v0.57、v0.59の依存順序を固定する。
-- 各段階で専用rootとaggregate `KuuOSFormal`を厳格buildする。
-- `warningAsError = true`と`sorryAsError = true`を維持する。
-- 先行段階が未統合なら後続段階を安定基準と呼ばない。
-- superseded CI-only PRを製品実装としてmergeしない。
+- `run_kuuos_runtime_full_check_v0_55.py`を累積runtime入口として維持する。
+- v0.56のMathlib-only calculus rootとOS transport rootを厳格buildする。
+- v0.57、v0.58、v0.59の専用rootを厳格buildする。
+- aggregate `KuuOSFormal`を`warningAsError`と`sorryAsError`でbuildする。
+- README、ROADMAP、`formal/KUOS.lean`、`formal/KuuOSFormal.lean`、`lakefile.toml`の同期を検査する。
 
 受入条件：
 
 ```text
-各WORLD段階が、
-正確なbase、
-専用validator、
-専用Lean root、
-aggregate root、
-非主張境界を持つ。
+versioned validator success
++ canonical manifest unchanged
++ dedicated Lean roots success
++ aggregate KuuOSFormal success
++ no authority-boundary regression
 ```
 
-### 優先3：Tomitaから相対モジュラー解析への第一原理化
+### 優先2：Tomitaから相対モジュラー解析への第一原理化
 
-**状態：並行数学課題**
+**状態：次の数学課題**
 
 - closed Tomita operatorからpolar decompositionへ進む。
 - relative modular operatorとmodular conjugationの型付き基礎を構成する。
@@ -329,12 +333,22 @@ aggregate root、
 受入条件：
 
 ```text
-Lean-derived theorem、
-hypothesis-supplied structure、
-external analytic receipt、
-future targetが、
-各定理の近傍で判別できる。
+Lean-derived theorem
+hypothesis-supplied structure
+external analytic receipt
+future target
 ```
+
+各分類が定理の近傍で判別できることを要求します。
+
+### 優先3：四大相転移候補の形式化
+
+**状態：次のWORLD診断課題**
+
+- Earth、Water、Fire、Air間の変換条件をphase-transition candidateとして定義する。
+- order parameter、stability threshold、coarse-graining scale、transport directionを分離する。
+- 四大分類と物理的相転移理論の同一視を避ける。
+- 診断値をPlanOS objectiveまたはActOS authorityへ昇格させない。
 
 ### 優先4：実行後効果の観測検証閉路
 
@@ -355,16 +369,6 @@ ActOS v0.4 effect
 - failedまたはindeterminate verificationから自動rollbackしない。
 - rollbackはfresh authorizationとappend-only compensating receiptを要求する。
 
-受入条件：
-
-```text
-effect record
-!= observation
-!= verification
-!= truth
-!= WORLD commit
-```
-
 ### 優先5：MemoryOS v0.39からObserveOS owner workflowへ
 
 **状態：次のMemoryOS統合課題**
@@ -374,14 +378,6 @@ effect record
 - analytic candidateをActOS effect lineageへ偽装しない。
 - active blocker、contradiction residue、source capsuleを保持する。
 - ObserveOS commit後もVerifyOS debtを開いたままにする。
-
-受入条件：
-
-```text
-WORLD candidateが、
-raw evidenceなしに、
-ObserveOS recordまたはVerifyOS resultへ昇格しない。
-```
 
 ### 優先6：Open Horizonの運用強化
 
@@ -405,8 +401,6 @@ v2.1のfinite-chain inductionは存在します。
 n-cycle closed chain
 != automatic authority for cycle n+1
 ```
-
-v2.3の陰陽相補系は、licensed execution authorityを代替しません。
 
 ### 優先8：Context GaugeとGraphRAGのcomposition
 
@@ -455,6 +449,8 @@ non-authority boundary
 - WORLD truth promotion。
 - modular-time and physical-time conflation。
 - Kū and zero-vector identification。
+- closed Tomita and completed modular theory conflation。
+- four-great diagnostic and material-element identity conflation。
 - stable main and research branch conflation。
 
 ## 中期研究方向
@@ -477,10 +473,10 @@ non-authority boundary
 
 ### 四大相動力学
 
-- v0.59の四大を、観測可能な構造診断として定義する。
-- Earth、Water、Fire、Air間の変換条件をphase-transition candidateとして形式化する。
-- 四大分類と物理的相転移理論の同一視を避ける。
-- 診断値をPlanOS objectiveまたはActOS authorityへ昇格させない。
+- v0.59のread-only診断を、明示的な相転移候補条件へ拡張する。
+- Earth、Water、Fire、Airの各量の連続性、半連続性、閾値依存性を分離する。
+- coarse-grainingによるFireの増減と、Petz recoverabilityの関係を定理化する。
+- Air transportと物理時間発展を同一視しない。
 
 ### 公開再現性
 
@@ -506,6 +502,8 @@ learning knows it is future-only
 WORLD commits know they are not truth
 proofs know their formal and external status
 analytic vacua know they are representations
+closed operators know which modular structures remain open
+four-great diagnostics know they are not material elements
 local controls know they are not global constitutions
 governance knows when to stop, hold, repair or hand over
 ```
@@ -517,9 +515,9 @@ governance knows when to stop, hold, repair or hand over
 ## 現在の優先順位一覧
 
 ```text
-1. README、ROADMAP、formal roots、runtime full checkを同期する。
-2. WORLD v0.53からv0.59を依存順に検証し、mainへ順序付き統合する。
-3. Tomita作用素から相対モジュラー解析を第一原理化する。
+1. WORLD v0.53からv0.59の専用rootとaggregate rootを継続検証する。
+2. closed Tomita operatorから相対モジュラー解析へ進む。
+3. 四大の相転移候補条件をread-only形式で定理化する。
 4. ActOS v0.4後のObserveOS、VerifyOS、LearnOS、WORLD dispositionを閉じる。
 5. MemoryOS v0.39をObserveOS owner workflowへ接続する。
 6. Open Horizon v0.34のatomic storeを分散環境へ一般化する。
