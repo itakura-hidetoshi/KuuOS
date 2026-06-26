@@ -2,99 +2,27 @@ name: KuuOS Runtime Full Check
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
   pull_request:
     paths:
       - 'README.md'
       - 'ROADMAP.md'
       - 'runtime/**'
       - 'tests/**'
-      - 'examples/qi_state_io_v0_1/**'
-      - 'examples/qi_process_tensor_v0_1/**'
-      - 'scripts/run_kuuos_runtime_full_check_v0_1.py'
-      - 'scripts/run_kuuos_runtime_full_check_v0_41.py'
-      - 'scripts/run_kuuos_runtime_full_check_v0_42.py'
-      - 'scripts/run_kuuos_runtime_full_check_v0_43.py'
-      - 'scripts/run_kuuos_runtime_full_check_v0_44.py'
-      - 'scripts/run_kuuos_runtime_full_check_v0_45.py'
-      - 'scripts/run_kuuos_runtime_full_check_v0_46.py'
-      - 'scripts/run_kuuos_runtime_full_check_v0_47.py'
-      - 'scripts/run_kuuos_runtime_full_check_v0_48.py'
-      - 'scripts/run_kuuos_runtime_full_check_v0_49.py'
-      - 'scripts/run_kuuos_runtime_full_check_v0_50.py'
-      - 'scripts/run_kuuos_runtime_full_check_v0_51.py'
-      - 'scripts/run_kuuos_runtime_full_check_v0_52.py'
-      - 'scripts/run_kuuos_runtime_full_check_v0_53.py'
-      - 'scripts/run_kuuos_runtime_full_check_v0_54.py'
-      - 'scripts/run_kuuos_runtime_full_check_v0_55.py'
-      - 'scripts/check_world_module_category_nimrep_tube_center_bridge_v0_41.py'
-      - 'scripts/check_world_gauge_categorical_indra_net_bridge_v0_42.py'
-      - 'scripts/check_world_information_geometric_higher_gauge_v0_43.py'
-      - 'scripts/check_world_araki_petz_quantum_information_geometry_v0_44.py'
-      - 'scripts/check_world_quantum_exponential_dual_affine_projection_v0_45.py'
-      - 'scripts/check_world_quantum_geodesic_mirror_free_energy_v0_46.py'
-      - 'scripts/check_world_quantum_gradient_jko_entropy_production_v0_47.py'
-      - 'scripts/check_world_quantum_log_sobolev_contractivity_mixing_v0_48.py'
-      - 'scripts/check_world_kuu_vacuum_os_hilbert_completion_v0_49.py'
-      - 'scripts/check_world_vacuum_expectation_observation_candidate_v0_50.py'
-      - 'scripts/check_world_vacuum_expectation_observeos_evidence_intake_v0_51.py'
-      - 'scripts/check_world_vacuum_expectation_host_effect_intake_v0_52.py'
-      - 'scripts/check_observeos_world_host_effect_observation_v0_4.py'
-      - 'scripts/check_world_vacuum_expectation_observeos_commit_verify_handoff_v0_53.py'
-      - 'scripts/check_world_kuu_vacuum_central_reference_state_v0_54.py'
-      - 'scripts/check_world_kuu_vacuum_information_geometry_v0_55.py'
-      - 'scripts/validate_kuuos_runtime_manifest_v0_1.py'
-      - 'scripts/check_kuuos_state_io_example_v0_1.py'
-      - 'scripts/check_kuuos_qi_process_tensor_example_v0_1.py'
-      - 'manifests/kuuos_runtime_manifest_v0_1.json'
-      - 'manifests/world_module_category_nimrep_tube_center_bridge_v0_41.json'
-      - 'manifests/world_gauge_categorical_indra_net_bridge_v0_42.json'
-      - 'manifests/world_information_geometric_higher_gauge_v0_43.json'
-      - 'manifests/world_quantum_exponential_dual_affine_projection_v0_45.json'
-      - 'manifests/world_quantum_geodesic_mirror_free_energy_v0_46.json'
-      - 'manifests/world_quantum_gradient_jko_entropy_production_v0_47.json'
-      - 'manifests/world_quantum_log_sobolev_contractivity_mixing_v0_48.json'
-      - 'manifests/world_kuu_vacuum_os_hilbert_completion_v0_49.json'
-      - 'manifests/world_vacuum_expectation_observation_candidate_v0_50.json'
-      - 'manifests/world_vacuum_expectation_observeos_evidence_intake_v0_51.json'
-      - 'manifests/world_vacuum_expectation_host_effect_intake_v0_52.json'
-      - 'manifests/kuuos_observeos_world_host_effect_observation_v0_4.json'
-      - 'manifests/world_vacuum_expectation_observeos_commit_verify_handoff_v0_53.json'
-      - 'manifests/world_kuu_vacuum_central_reference_state_v0_54.json'
-      - 'manifests/world_kuu_vacuum_information_geometry_v0_55.json'
-      - 'formal/KUOS/WORLD/KuuVacuumOSHilbertCompletionBridgeV0_49.lean'
-      - 'formal/KUOS/WORLD/VacuumExpectationObservationCandidateBridgeV0_50.lean'
-      - 'formal/KUOS/WORLD/VacuumExpectationObserveOSEvidenceIntakeBridgeV0_51.lean'
-      - 'formal/KUOS/WORLD/VacuumExpectationHostEffectAtomicCommitIntakeV0_52.lean'
-      - 'formal/KUOS/ObserveOS/WorldHostEffectObservationReceiptV0_4.lean'
-      - 'formal/KUOS/WORLD/VacuumExpectationObserveOSCommitVerifyHandoffBridgeV0_53.lean'
-      - 'formal/KUOS/WORLD/KuuVacuumCentralReferenceStateBridgeV0_54.lean'
-      - 'formal/KUOS/WORLD/KuuVacuumInformationGeometryBridgeV0_55.lean'
-      - 'formal/KuuOSObserveOSV0_4.lean'
-      - 'formal/KuuOSFormalV0_49.lean'
-      - 'formal/KuuOSFormalV0_50.lean'
-      - 'formal/KuuOSFormalV0_51.lean'
-      - 'formal/KuuOSFormalV0_52.lean'
-      - 'formal/KuuOSFormalV0_53.lean'
-      - 'formal/KuuOSFormalV0_54.lean'
-      - 'formal/KuuOSFormalV0_55.lean'
-      - 'formal/KuuOSFormal.lean'
-      - 'docs/KU_WORLD_KUU_VACUUM_OS_HILBERT_COMPLETION_v0_49.md'
-      - 'docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVATION_CANDIDATE_v0_50.md'
-      - 'docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVEOS_EVIDENCE_INTAKE_v0_51.md'
-      - 'docs/KU_WORLD_HOST_EFFECT_INTAKE_v0_52.md'
-      - 'docs/KUUOS_OBSERVEOS_WORLD_HOST_EFFECT_OBSERVATION_v0_4.md'
-      - 'docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVEOS_COMMIT_VERIFY_HANDOFF_v0_53.md'
-      - 'docs/KU_WORLD_KUU_VACUUM_CENTRAL_REFERENCE_STATE_v0_54.md'
-      - 'docs/KU_WORLD_KUU_VACUUM_INFORMATION_GEOMETRY_v0_55.md'
-      - '.github/workflows/world-kuu-vacuum-os-hilbert-v0-49.yml'
-      - '.github/workflows/world-vacuum-expectation-observation-v0-50.yml'
-      - '.github/workflows/world-vacuum-expectation-observeos-intake-v0-51.yml'
-      - '.github/workflows/world-host-effect-intake-v0-52.yml'
-      - '.github/workflows/observeos-world-host-effect-v0-4.yml'
-      - '.github/workflows/world-vacuum-expectation-observeos-commit-verify-v0-53.yml'
-      - '.github/workflows/world-kuu-vacuum-central-reference-state-v0-54.yml'
-      - '.github/workflows/world-kuu-vacuum-information-geometry-v0-55.yml'
+      - 'examples/**'
+      - 'scripts/**'
+      - 'manifests/**'
+      - 'formal/**'
+      - 'docs/**'
+      - 'lakefile.toml'
+      - 'lake-manifest.json'
+      - 'lean-toolchain'
       - '.github/workflows/kuuos_runtime_full_check.yml'
+
+permissions:
+  contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
@@ -103,9 +31,24 @@ concurrency:
 jobs:
   full-check:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python3 scripts/run_kuuos_runtime_full_check_v0_55.py
+      - name: Compile runtime validation surfaces
+        run: python3 -m compileall -q scripts runtime tests examples
+      - name: Run cumulative runtime full check
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python3 scripts/run_kuuos_runtime_full_check_v0_55.py \
+            2>&1 | tee kuuos-runtime-full-check.log
+      - name: Upload runtime diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-runtime-full-check-diagnostics
+          path: kuuos-runtime-full-check.log
+          if-no-files-found: warn
