@@ -19,36 +19,69 @@ on:
       - 'lakefile.toml'
       - 'lake-manifest.json'
       - 'lean-toolchain'
-      - '.github/workflows/**'
+      - '.github/workflows/kuuos_runtime_full_check.yml'
 
 permissions:
   contents: read
 
 concurrency:
   group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   full-check:
     runs-on: ubuntu-latest
     timeout-minutes: 30
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v5
+      - name: Check out repository
+        uses: actions/checkout@v7
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
           python-version: '3.12'
+
+      - name: Prepare diagnostics
+        shell: bash
+        run: mkdir -p artifacts/diagnostics
+
       - name: Compile runtime validation surfaces
-        run: python3 -m compileall -q scripts runtime tests examples
-      - name: Run cumulative runtime full check
         shell: bash
         run: |
           set -euo pipefail
-          PYTHONPATH=. python3 scripts/run_kuuos_runtime_full_check_v0_60.py \
-            2>&1 | tee kuuos-runtime-full-check.log
+          python3 -m compileall -q scripts runtime tests examples \
+            2>&1 | tee artifacts/diagnostics/compileall.log
+
+      - name: Run cumulative runtime full check
+        shell: bash
+        env:
+          PYTHONPATH: .
+          PYTHONUNBUFFERED: '1'
+        run: |
+          set -euo pipefail
+          python3 scripts/run_kuuos_runtime_full_check_v0_60.py \
+            2>&1 | tee artifacts/diagnostics/kuuos-runtime-full-check.log
+
+      - name: Record failure context
+        if: ${{ failure() }}
+        shell: bash
+        run: |
+          mkdir -p artifacts/diagnostics
+          {
+            echo "workflow=${GITHUB_WORKFLOW}"
+            echo "run_id=${GITHUB_RUN_ID}"
+            echo "run_attempt=${GITHUB_RUN_ATTEMPT}"
+            echo "event=${GITHUB_EVENT_NAME}"
+            echo "ref=${GITHUB_REF}"
+            echo "sha=${GITHUB_SHA}"
+            python3 --version
+          } > artifacts/diagnostics/context.txt
+
       - name: Upload runtime diagnostics
-        if: failure()
+        if: ${{ failure() }}
         uses: actions/upload-artifact@v4
         with:
-          name: kuuos-runtime-full-check-diagnostics
-          path: kuuos-runtime-full-check.log
-          if-no-files-found: warn
+          name: kuuos-runtime-full-check-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/diagnostics/
+          if-no-files-found: error
+          retention-days: 14
