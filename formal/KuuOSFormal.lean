@@ -17,3 +17,5 @@ import KUOS.WORLD.KuuVacuumCentralReferenceStateBridgeV0_54
 import KUOS.WORLD.KuuVacuumInformationGeometryBridgeV0_55
 import KUOS.WORLD.KuuVacuumArakiHessianOSTransportV0_56
 import KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59
+
+-- Integration validation marker for the WORLD v0.53-v0.59 main baseline.
