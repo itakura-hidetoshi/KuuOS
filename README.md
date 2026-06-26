@@ -1,355 +1,436 @@
 # KuuOS / 空OS
 
 ![Core Governance](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/core_governance_validation.yml/badge.svg)
-![All Governance](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/all_governance_validation.yml/badge.svg)
 ![KuuOS Runtime Full Check](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/kuuos_runtime_full_check.yml/badge.svg)
-![Finite Cycle Continuity v0.27](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/finite-cycle-continuity-v0-27-validation.yml/badge.svg)
-![Qi Process Diagnostic v0.28](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/qi-process-diagnostic-v0-28.yml/badge.svg)
-![PlanOS v0.17](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/plan-os-v0-17-validation.yml/badge.svg)
-![Qi-WORLD v2.2](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/qi-world-concrete-third-licensed-cycle-v2-2-validation.yml/badge.svg)
-![WORLD v0.51](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/world-vacuum-expectation-observeos-intake-v0-51.yml/badge.svg)
+![MemoryOS v0.39](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/memoryos-world-observe-intake-v0-39.yml/badge.svg)
+![Qi-WORLD v2.3](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/qi-world-yinyang-process-blocker-v2-3-validation.yml/badge.svg)
+![WORLD v0.52](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/world-host-effect-intake-v0-52.yml/badge.svg)
 
-**KuuOS / 空OS** は、生成・観測・信念・計画・判断・記憶・学習・実行・WORLD 表現を、独立した真理や権限ではなく、**由来・文脈・履歴・境界に拘束された局所候補**として扱う、公開研究アーキテクチャです。
+**KuuOS / 空OS**は、観測、信念、記憶、計画、判断、実行、学習、WORLD表現を、独立した真理や恒久権限ではなく、由来、文脈、履歴、所有者、境界に拘束された局所候補として扱う公開研究アーキテクチャです。
 
-KuuOS is a public, governance-gated, proof-facing, non-Markovian, Qi-process-aware and bounded executable architecture for relational AI systems.
+KuuOS is a public, governance-gated, proof-facing, non-Markovian, Qi-process-aware architecture for relational AI systems.
 
-**Current public baseline — 2026-06-23**
+## 現在の状態
+
+**基準日：2026年6月26日**
+
+`main`の安定基準と、未統合の研究前線を分けて表示します。
+
+### mainの統合済み基準
+
+| 系列 | 現在の統合済み到達点 |
+|---|---|
+| 中核ガバナンス | v0.1 |
+| Horizon Governance / Context Gauge Atlas | v0.12 / v0.13 |
+| PlanOS制御系列 | v0.17 |
+| 有限サイクル自律エージェント | v0.27 |
+| 気の診断候補と系譜 | v0.28 / v0.29 |
+| Open Horizon | v0.30からv0.34 |
+| MemoryOS | v0.35、v0.37、v0.38、v0.39 |
+| Qi-WORLD | v2.3 |
+| 真空期待値OS連結 | VerifyOS v0.3、LearnOS v0.3、PlanOS v0.18からv0.23、ActOS v0.3からv0.4、ObserveOS v0.4 |
+| WORLD数学サイドカー | v0.52 |
+| Lean統合ルート | `KuuOSFormal` |
+| 累積ランタイム検証 | `scripts/run_kuuos_runtime_full_check_v0_52.py` |
+| Lean / mathlib | Lean 4、mathlib `v4.30.0-rc2` |
+
+### 未統合の研究前線
+
+次のWORLD系列は積み上げ型の開発ブランチにあり、`main`へ統合済みとは扱いません。
 
 ```text
-Context Gauge Atlas / Horizon Governance        v0.13 / v0.12
-PlanOS control and suspension recovery series   v0.17 (Replan ownership fixed at v0.2)
-Repeatable finite-cycle agent kernel            v0.27
-Qi recovery-window diagnostic candidate         v0.28
-Qi-WORLD concrete licensed-cycle chain          v2.2 (three closed cycles)
-WORLD read-only mathematical sidecar             v0.51
-Lean formal root                                KuuOSFormal
+WORLD v0.53
+OS receipt composition bridge
+
+WORLD v0.54
+Kū vacuum central reference state
+
+WORLD v0.55
+Kū vacuum information geometry
+
+WORLD v0.56
+verified Araki calculus and OS transport
+
+WORLD v0.57
+closed Tomita operator bridge
+
+WORLD v0.59
+four-great phase dynamics
 ```
 
----
+各段階は、個別のPR、専用検証、厳格Lean build、上流ブランチとの整合が確認されてから、順番に安定基準へ移します。
 
-## Core sentence / 中心命題
+## 中心命題
 
 ```text
 candidate != authority
 validation != truth
-proof-facing artifact != external theorem acceptance
-local section != global truth
-memory persistence != belief sovereignty
-plan or replan commit != execution permission
-licensed effect != inherited authority
-closed-cycle receipt != next-cycle activation
+formal compilation != external theorem acceptance
+
+observation != verification
+verification != truth
+learning != present-cycle mutation
+memory != belief sovereignty
+plan commit != activation
+selection != execution
+receipt != successor authority
+
+local control != global constitution
+local chart != global graph
+curvature != veto
+holonomy != sovereign memory
+
+WORLD sidecar != exact WORLD
+WORLD candidate != empirical fact
+WORLD commit != truth
+analytic vacuum != exact WORLD
+Kū != zero vector
+modular time != physical time
+
 diagnostic candidate != final diagnosis
 recovery-window interval != healing guarantee
-WORLD sidecar != exact WORLD
-analytic vacuum != exact WORLD
-vacuum expectation != fact
-observation candidate != belief promotion
-intake-ready envelope != committed observation
-observation != verification
-WORLD sidecar != observation owner
-observation candidate != PlanOS activation
-observation candidate != ActOS authority
-modular time != physical time
-finite contraction certificate != physical mixing
 ```
 
-空OSの中心は、AIを単に強く自律化することではありません。  
-中心は、**候補・観測・検証・記憶・計画・権限・効果・数学的表現の身分を分離し、縁起・二諦・中道・和・局所性・履歴を保ったまま接続すること**です。
+空OSの中心は、AIを単に強く自律化することではありません。
 
----
+候補、観測、検証、記憶、計画、権限、効果、数学的表現の身分を分離し、縁起、二諦、中道、和、局所性、履歴を保ったまま接続することです。
 
-## Current architecture / 現在の全体構造
-
-```text
-generation / external event
-  -> ObserveOS: evidence-bearing observation
-  -> BeliefOS: local and plural belief state
-  -> PlanOS: bounded plan / next-cycle replan synthesis
-  -> DecisionOS: admissible candidate selection
-  -> explicit authority + human approval + host license
-  -> ActOS: one licensed, bounded effect
-  -> independent ObserveOS world evidence
-  -> VerifyOS: evidence-bound verification
-  -> LearnOS: future-only learning delta
-  -> PlanOS: next-cycle basis
-  -> MemoryOS + Qi process history
-  -> finite checkpoint / pause / renew / terminate / handover
-```
-
-The ownership boundary is fixed:
+## 所有権境界
 
 ```text
-observation ownership = ObserveOS
-belief-state ownership = BeliefOS
-candidate selection = DecisionOS
-plan and replan synthesis = PlanOS
-execution = ActOS
-effect confirmation = independent ObserveOS + VerifyOS
-future-only update = LearnOS
-lineage and reconstruction = MemoryOS
+ObserveOS
+= observation ownership
+
+BeliefOS
+= local and plural belief-state ownership
+
+DecisionOS
+= admissible candidate selection
+
+PlanOS
+= plan and replan synthesis
+
+ActOS
+= exactly licensed bounded effect
+
+VerifyOS
+= evidence-bound independent verification
+
+LearnOS
+= future-only learning delta
+
+MemoryOS
+= lineage, reconstruction and conditioned retrieval
+
+WORLD
+= sourced world representation and governed fragment storage
 ```
 
 ```text
-LearnOS delta != activation
-Replan commit != current-cycle mutation
-DecisionOS selection != execution
-ActOS receipt != successor authority
+ObserveOS evidence != VerifyOS verdict
+VerifyOS verdict != truth authority
+LearnOS delta != immediate activation
+DecisionOS selection != ActOS invocation
+MemoryOS retrieval != PlanOS activation
+WORLD intake != WORLD update
 ```
 
----
+## 現在の主要スパイン
 
-## Four public spines / 4つの公開スパイン
+### ガバナンスと局所文脈
 
-### 1. Governance and local-context gauge spine
-
-KuuOS treats contexts as local charts rather than nodes in a universal search graph.
+KuuOSは文脈を普遍グラフの固定ノードではなく、局所チャートとして扱います。
 
 ```text
-context = local chart
-policy state = local section
-compatible relation = chart overlap
-context change = transition function
-section movement = parallel transport
-disagreement = curvature / cocycle defect
-path-dependent retained history = holonomy
+context
+→ local chart
+
+policy state
+→ local section
+
+compatible relation
+→ chart overlap
+
+context change
+→ transition function
+
+section movement
+→ parallel transport
+
+disagreement
+→ curvature / cocycle defect
+
+path-dependent retained history
+→ holonomy
 ```
 
-The v0.12–v0.13 baseline preserves horizon plurality, chart locality, bounded curvature, replay safety and non-Markov holonomy.
+Horizon v0.12とContext Gauge Atlas v0.13は、複数時間幅、局所性、曲率、cocycle residue、非マルコフ履歴を保持します。
+
+### 有限サイクルと開いた将来
+
+v0.20からv0.27は、再起動可能で、利用者が中断でき、資源境界を持つ反復可能な有限サイクルを構成します。
 
 ```text
-chart overlap != permanent graph edge
-curvature != veto
-cocycle defect != prohibition
-holonomy != sovereign memory
-local dominance != global truth
+mission
+→ observation and plural belief
+→ semantic planning and independent verification
+→ bounded memory and learning
+→ transactional effect reconciliation
+→ event wake-up and resource admission
+→ governed change management
+→ exact checkpoint and next finite cycle
 ```
 
-### 2. Bounded autonomous-agent spine: v0.20–v0.28
-
-The v0.20–v0.26 contracts are composed by v0.27 into a restart-safe sequence of **separately bounded cycles**.
+v0.30は、有限サイクルの局所制御を、将来可能性を閉じる全体憲法へ昇格させない境界を追加します。
 
 ```text
-persistent mission
-  -> observation and belief
-  -> semantic plan and independent verification
-  -> bounded memory and learning
-  -> transactional effect reconciliation
-  -> event wake-up, foreground control and resource admission
-  -> governed change management
-  -> checkpointed next finite cycle
+finite local control != permanent global ceiling
+paused instance != closed future horizon
+terminated instance != termination of successor possibility
 ```
 
-Every cycle requires finite cost, finite steps, finite duration, a finite lease, fresh cycle authorization and an exact host-license binding. Renewal and resume are separate explicit operations. Pause, terminate and handover remain foreground controls.
+### 観測からWORLDコミットまで
 
-v0.28 adds a process-history-based diagnostic **candidate** layer:
+v0.31からv0.34は、未解決WORLD証拠を候補化し、外部承認された観測と独立検証を経て、単一のWORLD fragmentを原子的に更新する経路を実装します。
 
 ```text
-v0.27 state
-  + Qi Process Tensor history
-  + observation candidate
-  + plural hypotheses and counterevidence
-  -> recovery-window interval
-  -> reobserve / preserve plurality / evaluate / clinician-review handoff
+v0.31 unresolved WORLD evidence
+→ plural mission candidates
+→ plural observation candidates
+
+v0.32 external single-use observation authorization
+→ provenance-complete ObserveOS evidence
+→ WORLD feedback candidate
+
+v0.33 independent VerifyOS assessment
+→ adopt / reject / defer / reobserve candidate
+
+v0.34 fresh commit authorization
+→ optimistic concurrency and fencing
+→ one atomic WORLD-fragment commit
+→ immutable receipt
+```
+
+v0.34の参照実装は単一ホストPOSIX adapterです。
+
+WORLD fragmentの更新は、憲法根、過去履歴、真理権限、因果権限を更新しません。
+
+### MemoryOS
+
+MemoryOSは、履歴を保存するだけでなく、予測候補、矛盾残渣、ブロッカー、解析的文脈を分離して保持します。
+
+```text
+v0.35
+Qi process history
++ blocker context
++ sourced WORLD generation
+→ append-only conditioned memory
+
+v0.37
+four-layer memory
++ observable predictive-state candidate
++ contradiction residue
++ counterfactual WORLD imagination
+→ blocker-shielded read-only retrieval
+
+v0.38
+MemoryOS predictive capsule
++ supplied WORLD v0.49 OS-Hilbert packet
+→ read-only analytic Hilbert context
+
+v0.39
+MemoryOS analytic capsule
++ WORLD v0.50 observation candidate
+→ ObserveOS owner-review intake
+```
+
+v0.39はraw evidence、ObserveOS commit、VerifyOS resultを生成しません。
+
+### 気のプロセスとQi-WORLD
+
+v0.28は、複数時点の気のプロセステンソル、複数仮説、反証、回復可能性区間を診断候補として保持します。
+
+v0.29は、その候補を正確なsource lineageへ束縛します。
+
+Qi-WORLD v2.1は有限multi-cycle chain inductionを持ち、v2.2は具体的な第三 licensed cycleを閉じます。
+
+v2.3は気のプロセスとブロッカー理論を陰陽相補系として接続します。
+
+```text
+Yang
+= accumulable process support
+
+Yin
+= idempotent boundary occupation
+
+coupled admissibility
+= process visibility
++ continuity
++ memory continuity
++ required blockers
++ capacity
++ context
+```
+
+この構造は、気を物理的ボース粒子へ、ブロッカーを物理的フェルミ粒子へ同一視しません。
+
+### 真空期待値から実行後観測まで
+
+`main`には、解析的WORLD候補と実行後効果を混同しない二つの経路があります。
+
+```text
+analytic route
+
+WORLD v0.50 vacuum-expectation candidate
+→ WORLD v0.51 ObserveOS evidence-intake envelope
+→ ObserveOS v0.3 supplied commit receipt
+→ VerifyOS v0.3 supplied verification receipt
+→ LearnOS v0.3 future-only delta
+→ PlanOS v0.18からv0.23
+→ ActOS v0.3からv0.4
 ```
 
 ```text
-severity != irreversibility
-positive response != guaranteed healing
-negative response != permanent closure
-red flag != automatic triage or treatment
+host-effect route
+
+ActOS v0.4 canonical effectRecorded receipt
+→ WORLD v0.52 host-effect intake candidate
+→ ObserveOS v0.4 effect-grounded observation receipt
+→ future VerifyOS and WORLD disposition
 ```
 
-### 3. PlanOS and Qi-WORLD licensed-cycle spine
+WORLD v0.52は観測、検証、WORLD更新を実行しません。
 
-PlanOS v0.2 fixes Replan synthesis ownership, while the public PlanOS control series now reaches **v0.17 Suspension Recovery Router**.
+ObserveOS v0.4は、解析的真空期待値候補をActOSのhost effectとして扱いません。
+
+### WORLD数学サイドカー
+
+統合済み数学サイドカーはv0.27からv0.52です。
 
 ```text
-current committed plan
-  + committed future-only LearnOS delta
-  + non-Markov history
-  + Qi process condition
-  -> finite replan candidate field
-  -> DecisionOS-bound selection
-  -> next-cycle PlanOS basis
-  -> activation / capability / lease / session control
-  -> terminal suspension
-  -> revalidate / renewal review / escalation / re-rotation handoff
+real Hilbert ℓ²
+→ dense and self-adjoint operator bridge
+→ noncommutative operator algebra
+→ C*-local net
+→ von Neumann bicommutant and modular theory
+→ Araki relative entropy
+→ Petz recovery and conditional expectation
+→ Jones basic construction and tower
+→ standard invariant, Q-system and fusion bridges
+→ categorical IndraNet and higher-gauge information geometry
+→ quantum dual-affine and Bregman geometry
+→ mirror descent, JKO and entropy-production certificates
+→ finite log-Sobolev contraction bounds
+→ OS reflection-positive Hilbert completion interface
+→ analytic vacuum sector
+→ vacuum-expectation observation candidates
+→ ObserveOS intake
+→ host-effect intake
 ```
 
-At v0.17 the old suspended session is permanently closed. Recovery requires a new lineage, a new activation receipt and a new control session; the router itself grants no execution, host access or memory overwrite.
+Leanは、宣言された型付き帰結を検証します。
 
-Qi-WORLD v2.2 materializes a concrete third licensed cycle from a verified two-cycle prefix:
+CI成功だけでは、外部数学界での定理受理、物理実現、経験的妥当性は成立しません。
 
-```text
-verified two-cycle prefix
-  -> fresh external authority
-  -> new human approval
-  -> new host license
-  -> explicit single-use discharge
-  -> third ActOS effect
-  -> native ObserveOS / VerifyOS / LearnOS / PlanOS closure
-  -> immutable third closed-cycle receipt
-  -> exact append-only three-cycle chain
-```
+## 実装済み
 
-Each authority is single-use, non-renewable and non-inheritable. The three-cycle receipt does not start a fourth cycle.
+- 公開ガバナンス、非権限境界、医療モダリティ中立境界。
+- State IO、allowlist、receipt、JSONL ledger、replay、stale-state rejection。
+- ObserveOS、BeliefOS、DecisionOS、PlanOS、ActOS、VerifyOS、LearnOS、MemoryOSの所有権分離。
+- 有限サイクル継続、Open Horizon、外因的観測承認、VerifyOS disposition、原子的WORLD commit。
+- 気のプロセステンソル、診断候補、系譜束縛、Qi-WORLD finite-chain、陰陽ブロッカー相補系。
+- 四層記憶、予測状態候補、矛盾残渣、WORLD imagination、blocker-shielded retrieval。
+- OS Hilbert解析文脈とWORLD候補のObserveOS owner-review intake。
+- WORLD v0.52までのPython validator、manifest、workflow、Lean formal surface。
+- `KuuOSFormal`に集約された厳格Lean build surface。
 
-### 4. WORLD mathematical sidecar: v0.51
+## 非主張
 
-WORLD is a **read-only formal and analytic sidecar**. Its current spine reaches v0.51:
+KuuOSは現時点で次を主張しません。
 
-```text
-real Hilbert ℓ² carrier
-  -> dense and self-adjoint operator bridge
-  -> noncommutative operator algebra
-  -> C*-local net and von Neumann bicommutant
-  -> modular theory and Araki relative entropy
-  -> Petz recovery and sufficient subalgebra
-  -> Jones basic construction, tower and standard invariant
-  -> Q-system / bimodule / fusion / module-category bridges
-  -> categorical IndraNet and higher-gauge information geometry
-  -> quantum dual-affine and Bregman projection
-  -> geodesic / mirror-descent / free-energy certificates
-  -> gradient-flow / JKO / entropy-production certificates
-  -> finite log-Sobolev contraction and mixing bounds
-  -> OS reflection-positive Hilbert completion interface
-  -> normalized nonzero analytic vacuum
-  -> gauge, modular-time and physical-time vacuum invariance
-  -> zero-energy vacuum sector without uniqueness or WORLD collapse
-  -> source-bound vacuum-expectation observation candidates
-  -> normalized, positive and gauge-equivalent candidate values
-  -> exact ObserveOS evidence-intake envelope
-  -> immutable digest and provenance binding
-  -> intake remains uncommitted with verification debt open
-  -> ObserveOS ownership and independent verification preserved
-```
+- 無制限の実行権限を持つproduction AGI。
+- 任意のshell、network、repository、deploymentへの包括権限。
+- 単一の真理へ収束する普遍的global-context graph。
+- 独立した医療診断、トリアージ、治療、医療行為承認システム。
+- 気が物理的粒子であることの証明。
+- LeanまたはCIの成功だけによる外部定理受理。
+- 完全な物理的量子Markov semigroup、正確な物理真空、正確なWORLD simulator。
+- 解析的真空と形而上学的な空の同一視。
+- 観測候補、検証結果、記憶、WORLD commit、receiptの真理権限化。
+- `main`へ未統合のWORLD v0.53以降を安定リリースとして扱うこと。
 
-Lean verifies the declared typed consequences. v0.51 preserves the exact v0.50 candidate value and source, binds candidate, value, context and receipt digests, discharges the structural ObserveOS evidence checklist, preserves provenance, fixes `observationCommitted = false`, and keeps independent verification debt open without granting downstream authority. The post-record ObserveOS verification boundary remains a separately owned later stage. The OS quotient-completion theorem, physical Hamiltonian self-adjointness, Stone generation, cluster property, physical realization and external mathematical acceptance remain explicit analytic receipts.
-
-```text
-WORLD != Markov semigroup
-WORLD != vacuum vector
-Kū != zero vector
-Hilbert vacuum != metaphysical Kū
-vacuum expectation != fact
-intake-ready envelope != committed observation
-observation != verification
-WORLD sidecar != observation owner
-WORLD candidate != ActOS effect observation
-verification debt remains open
-observation candidate != belief promotion
-observation candidate != PlanOS activation
-observation candidate != ActOS authority
-modular time != physical time
-equilibrium witness != WORLD collapse
-low free energy != truth
-gradient/JKO witness != execution authority
-runtime does not update WORLD
-```
-
----
-
-## What is implemented / 実装済み
-
-- public governance contracts, manifests, validators, release documents and append-only lineage;
-- local-chart gauge transport with visible curvature, cocycle residue and holonomy;
-- bounded State IO, allowlisted operations, receipts, JSONL ledgers, replay and stale-state rejection;
-- explicit OS ownership across ObserveOS, BeliefOS, PlanOS, DecisionOS, ActOS, VerifyOS, LearnOS and MemoryOS;
-- restart-safe, user-interruptible, resource-bounded, repeatable finite-cycle continuity;
-- transactional intended-versus-observed effect reconciliation;
-- event wake-up, independent foreground control and finite resource admission;
-- governed change management with sandbox, regression, formal/property checks, bounded canary, external review and rollback boundaries;
-- Qi process-tensor history, recovery-window diagnostic candidates and plural-hypothesis preservation;
-- concrete Qi-WORLD licensed cycles with fresh external authority and immutable closure receipts;
-- Lean/mathlib-facing finite formal surfaces collected under `KuuOSFormal`;
-- WORLD v0.51 read-only ObserveOS evidence-intake envelope over the v0.50 vacuum-expectation candidate.
-
----
-
-## What KuuOS does not claim / 非主張
-
-KuuOS is not currently:
-
-- a production AGI platform or an unbounded background agent;
-- arbitrary shell, network, repository or deployment authority;
-- a universal global-context graph, shortest-path policy engine or single-winner truth system;
-- a standalone medical diagnostic, triage, treatment or medical-act authorization system;
-- proof that Qi is a physical substance, nor a denial of East Asian medical reasoning;
-- an externally accepted proof merely because Lean or CI succeeds;
-- a physical quantum Markov semigroup, physical mixing computation, exact physical vacuum construction or exact WORLD simulator;
-- a system in which an intake-ready WORLD envelope automatically becomes a committed observation or verified fact;
-- a system in which a vacuum-expectation observation candidate becomes an empirical fact, belief, plan, action authority or WORLD update by itself;
-- a system in which memory, validation, curvature, low free energy, verification, receipts, vacuum representation or runtime success become truth by themselves.
-
-The medical boundary is modality-neutral. Repository validation is kept separate from professional diagnosis, treatment decisions and institutional responsibility.
-
----
-
-## Read first / 最初に読む文書
+## 最初に読む文書
 
 ```text
 README.md
 ROADMAP.md
 GOVERNANCE.md
 CONTRIBUTING.md
+
 docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
 docs/BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1.md
-docs/KUUOS_PLAN_OS_QI_CONDITIONED_NONMARKOV_REPLAN_v0_2.md
-docs/KUUOS_PLAN_OS_SUSPENSION_RECOVERY_ROUTER_v0_17.md
-docs/KUUOS_AUTONOMOUS_AGENT_STATUS_v0_27.md
-docs/KUUOS_FINITE_CYCLE_CONTINUITY_KERNEL_v0_27.md
+
+docs/KUUOS_OPEN_ENDED_BACKGROUND_AGENCY_v0_30.md
+docs/KUUOS_ENDOGENOUS_MISSION_OBSERVATION_v0_31.md
+docs/KUUOS_AUTHORIZED_OBSERVATION_WORLD_FEEDBACK_v0_32.md
+docs/KUUOS_VERIFYOS_WORLD_ADOPTION_v0_33.md
+docs/KUUOS_AUTHORIZED_ATOMIC_WORLD_COMMIT_v0_34.md
+
+docs/KUUOS_MEMORYOS_QI_WORLD_BLOCKER_INTEGRATION_v0_35.md
+docs/KUUOS_MEMORYOS_PREDICTIVE_SHIELDED_MEMORY_v0_37.md
+docs/KUUOS_MEMORYOS_ANALYTIC_HILBERT_CONTEXT_v0_38.md
+docs/KUUOS_MEMORYOS_WORLD_OBSERVE_INTAKE_v0_39.md
+
 docs/KUUOS_QI_RECOVERY_WINDOW_DIAGNOSTIC_v0_28.md
-docs/KUUOS_QI_WORLD_CONCRETE_THIRD_LICENSED_CYCLE_MATERIALIZATION_v2_2.md
-docs/KU_WORLD_QUANTUM_LOG_SOBOLEV_CONTRACTIVITY_MIXING_v0_48.md
+docs/KUUOS_QI_CANDIDATE_LINEAGE_BINDING_v0_29.md
+docs/KUUOS_QI_WORLD_YINYANG_PROCESS_BLOCKER_COMPLEMENTARITY_v2_3.md
+
 docs/KU_WORLD_KUU_VACUUM_OS_HILBERT_COMPLETION_v0_49.md
 docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVATION_CANDIDATE_v0_50.md
 docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVEOS_EVIDENCE_INTAKE_v0_51.md
+docs/KU_WORLD_HOST_EFFECT_INTAKE_v0_52.md
+
 formal/KUOS.lean
+formal/KuuOSFormal.lean
 ```
 
----
-
-## Quick validation / 検証
+## 検証
 
 ```bash
 make core-governance-checks
 make all-governance-checks
 
-python3 scripts/run_kuuos_runtime_full_check_v0_51.py
-python3 scripts/check_world_vacuum_expectation_observeos_evidence_intake_v0_51.py
+python3 scripts/run_kuuos_runtime_full_check_v0_52.py
 
-PYTHONPATH=. python scripts/check_integrated_long_duration_operation_v0_27.py
-PYTHONPATH=. python scripts/check_qi_healing_potential_diagnostic_v0_28.py
-PYTHONPATH=. python scripts/check_qi_world_concrete_third_licensed_cycle_materialization_v2_2.py
-python scripts/check_plan_os_qi_conditioned_nonmarkov_replan_v0_2.py
-python scripts/check_plan_os_v0_17.py
+PYTHONPATH=. python scripts/check_memoryos_world_observe_intake_v0_39.py
+PYTHONPATH=. python scripts/check_qi_world_yinyang_process_blocker_complementarity_v2_3.py
+python3 scripts/check_world_vacuum_expectation_host_effect_intake_v0_52.py
+python3 scripts/check_observeos_world_host_effect_observation_v0_4.py
 
 lake -KleanArgs=-DwarningAsError=true \
   -KleanArgs=-DsorryAsError=true \
   build KuuOSFormal
 ```
 
-A passing check is a reproducible consistency receipt. It is not truth, external theorem acceptance, clinical authorization, institutional authority or unrestricted execution permission.
+検証成功は再現可能な整合性receiptです。
 
----
+真理、外部定理受理、臨床承認、組織承認、無制限の実行許可ではありません。
 
-## Repository map / ディレクトリ
+## ディレクトリ
 
 ```text
 docs/         public specifications, boundaries and status documents
 runtime/      bounded runtime kernels, adapters, stores and scenarios
-scripts/      validators and full-check entry points
+scripts/      validators and cumulative full-check entry points
 tests/        runtime regression and boundary tests
-formal/       Lean/mathlib-facing formal surfaces
+formal/       Lean and mathlib-facing formal surfaces
 manifests/    versioned component and validation manifests
 cases/        governance and failure-mode cases
 roadmap/      specialized additive research roadmaps
 .github/      reproducible CI workflows
 ```
 
----
-
-## Development rule / 開発原則
+## 開発原則
 
 ```text
 additive lineage
@@ -357,28 +438,20 @@ same-root binding for protected surfaces
 append-only evidence
 explicit versioning
 fail closed on stale or substituted state
-finite authority and finite resource scope
+finite local authority
+open global possibility horizon
 independent observation after effect
 visible uncertainty, dissent, residue and cost
 no silent promotion from candidate to authority
+stable main != active research branch
 ```
 
-New layers should state:
-
-1. what they consume;
-2. what they produce;
-3. who owns the phase;
-4. what authority is required;
-5. what persists;
-6. how replay and stale state are handled;
-7. what the validator proves;
-8. what remains external or unproved;
-9. what the layer explicitly cannot authorize.
-
----
+新しい層は、入力、出力、所有者、必要権限、永続化、replay、stale-state処理、validatorの射程、外部仮定、非権限境界を明記します。
 
 ## Citation, governance and rights
 
-See [`CITATION.cff`](CITATION.cff), [`GOVERNANCE.md`](GOVERNANCE.md), [`CONTRIBUTING.md`](CONTRIBUTING.md) and the repository license files for citation, contribution and reuse conditions.
+引用、貢献、再利用条件は、[`CITATION.cff`](CITATION.cff)、[`GOVERNANCE.md`](GOVERNANCE.md)、[`CONTRIBUTING.md`](CONTRIBUTING.md)、repository license filesを参照してください。
 
-KuuOS / 空OS and its associated original architecture, including the named tensor and OS constructions published by Hidetoshi Itakura, retain their stated authorship and rights notices. Repository artifacts do not transfer clinical, institutional, mathematical or execution authority.
+KuuOS / 空OSと、板倉英俊が公開した名称付きtensorおよびOS構成を含む独自アーキテクチャは、記載された著作者表示と権利表示を保持します。
+
+Repository artifactは、臨床権限、組織権限、数学的受理、実行権限を移転しません。
