@@ -67,7 +67,7 @@ def main() -> int:
         ROOT / manifest["formal_module"],
         (
             "WorldKuuVacuumArakiHessianOSTransport",
-            "InfiniteDimensional ℂ M.H",
+            "¬ FiniteDimensional ℂ M.H",
             "hessian_eq_quantum_fisher",
             "hessian_eq_araki_hessian_shadow",
             "hessian_eq_physical_excitation_gram",
@@ -86,7 +86,7 @@ def main() -> int:
             "BKM",
             "量子Fisher計量",
             "OS反射形式",
-            "InfiniteDimensional",
+            "¬ FiniteDimensional ℂ H_phys",
             "任意の無界生成子は対象に含めない",
         ),
     )
