@@ -19,15 +19,23 @@ def require_tokens(path: Path, tokens: tuple[str, ...]) -> None:
         require(token in text, f"{path}: missing {token}")
 
 
+def require_tokens_across(paths: tuple[Path, ...], tokens: tuple[str, ...]) -> None:
+    require(bool(paths), "empty module family")
+    text = "\n".join(path.read_text(encoding="utf-8") for path in paths)
+    for token in tokens:
+        require(token in text, f"module family missing {token}")
+
+
 def main() -> int:
     formal = ROOT / "formal/KUOS/WORLD/VacuumExpectationHostEffectAtomicCommitIntakeV0_52.lean"
+    formal_family = tuple(sorted(formal.parent.glob("VacuumExpectationHostEffectAtomicCommitIntake*.lean")))
     formal_root = ROOT / "formal/KuuOSFormalV0_52.lean"
     aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KU_WORLD_HOST_EFFECT_INTAKE_v0_52.md"
     manifest_path = ROOT / "manifests/world_vacuum_expectation_host_effect_intake_v0_52.json"
     workflow = ROOT / ".github/workflows/world-host-effect-intake-v0-52.yml"
 
-    for path in (formal, formal_root, aggregate_root, docs, manifest_path, workflow):
+    for path in (formal, formal_root, aggregate_root, docs, manifest_path, workflow, *formal_family):
         require(path.is_file(), f"missing file: {path}")
 
     import_token = "KUOS.WORLD.VacuumExpectationHostEffectAtomicCommitIntakeV0_52"
@@ -35,8 +43,8 @@ def main() -> int:
     require_tokens(aggregate_root, (import_token,))
     require_tokens(ROOT / "formal/KUOS.lean", (import_token,))
     require_tokens(ROOT / "lakefile.toml", ("KuuOSFormalV0_52",))
-    require_tokens(
-        formal,
+    require_tokens_across(
+        formal_family,
         (
             "WorldVacuumExpectationHostEffectAtomicCommitIntakeBridge",
             "WorldVacuumExpectationHostEffectAtomicCommitIntakeEnvelope",

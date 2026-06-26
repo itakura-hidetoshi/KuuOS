@@ -127,24 +127,28 @@ variable
       K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
         GenerationBridge HandoffBridge}
 
-local notation "Receipt" =>
-  VacuumExpectationAdmissibleCandidateSelectionReceipt
-    K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
-      GenerationBridge HandoffBridge Bridge
-
-theorem selection_requires_unselected_decisionos_handoff (r : Receipt) :
+theorem selection_requires_unselected_decisionos_handoff
+    (r : VacuumExpectationAdmissibleCandidateSelectionReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge Bridge) :
     r.source.handoff.handoffCommitted = true ∧
       r.source.handoff.selectionPerformed = false ∧
       r.selectionReceiptSupplied = true ∧ r.selectionPerformed = true := by
   exact ⟨r.sourceHandoffCommitted, r.sourceSelectionNotPerformed,
     r.receiptRequired, r.selectionRequired⟩
 
-theorem selected_candidate_is_from_admissible_set (r : Receipt) :
+theorem selected_candidate_is_from_admissible_set
+    (r : VacuumExpectationAdmissibleCandidateSelectionReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge Bridge) :
     (r.selectedCandidate = r.source.primary.candidate ∧ r.source.primary.included = true) ∨
       (r.selectedCandidate = r.source.hold.candidate ∧ r.source.hold.included = true) := by
   exact r.selectedFromAdmissibleSet
 
-theorem selection_preserves_admissibility_identity_and_alternatives (r : Receipt) :
+theorem selection_preserves_admissibility_identity_and_alternatives
+    (r : VacuumExpectationAdmissibleCandidateSelectionReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge Bridge) :
     r.selection.allCandidatesConsidered = true ∧
       r.selection.selectedCandidateAdmissible = true ∧
       r.selection.selectedCandidateIdentityPreserved = true ∧
@@ -156,7 +160,10 @@ theorem selection_preserves_admissibility_identity_and_alternatives (r : Receipt
     r.selection.dissentRequired, r.selection.minorityRequired,
     r.selection.substitutionForbidden⟩
 
-theorem selected_constraint_is_admissible_and_non_authoritative (r : Receipt) :
+theorem selected_constraint_is_admissible_and_non_authoritative
+    (r : VacuumExpectationAdmissibleCandidateSelectionReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge Bridge) :
     r.constraintGate.prohibited = false ∧
       r.constraintGate.authorityClaimed = false ∧
       r.constraintGate.evidencePresent = true := by
@@ -165,12 +172,18 @@ theorem selected_constraint_is_admissible_and_non_authoritative (r : Receipt) :
     r.constraintAdmissible.2.2.2.2.2.2.2⟩
 
 theorem robust_certificate_separates_every_alternative
-    (r : Receipt) (alternative : DecisionValueInterval)
+    (r : VacuumExpectationAdmissibleCandidateSelectionReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge Bridge)
+    (alternative : DecisionValueInterval)
     (hmember : alternative ∈ r.certificate.alternatives) :
     alternative.upper < r.certificate.selected.lower := by
   exact selectionCertificate_separates_every_alternative r.certificate alternative hmember
 
-theorem wa_gate_preserves_dissent_minority_and_identity (r : Receipt) :
+theorem wa_gate_preserves_dissent_minority_and_identity
+    (r : VacuumExpectationAdmissibleCandidateSelectionReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge Bridge) :
     r.waGate.falseHarmony.confirmedFalseHarmony = false ∧
       r.waGate.falseHarmony.minorityPreserved = true ∧
       r.waGate.falseHarmony.dissentConsidered = true ∧
@@ -178,14 +191,20 @@ theorem wa_gate_preserves_dissent_minority_and_identity (r : Receipt) :
   exact ⟨r.waGate.confirmedForbidden, r.waGate.minorityRequired,
     r.waGate.dissentRequired, r.waGate.identityRequired⟩
 
-theorem wa_plurality_forbids_silent_substitution (r : Receipt) :
+theorem wa_plurality_forbids_silent_substitution
+    (r : VacuumExpectationAdmissibleCandidateSelectionReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge Bridge) :
     r.waPlurality.profiledOptionCount = r.waPlurality.sourceOptionCount ∧
       r.waPlurality.retainedAlternativeCount ≤ r.waPlurality.sourceOptionCount ∧
       r.waPlurality.silentSubstitution = false := by
   exact ⟨r.waPlurality.allProfiled, r.waPlurality.retainedWithinSource,
     r.waPlurality.substitutionForbidden⟩
 
-theorem selection_preserves_two_truths_and_middle_way (r : Receipt) :
+theorem selection_preserves_two_truths_and_middle_way
+    (r : VacuumExpectationAdmissibleCandidateSelectionReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge Bridge) :
     r.twoTruths.paramarthaNonReified = true ∧
       r.twoTruths.selectedOptionNotAbsolute = true ∧
       r.middleWay.prematureCollapse = false ∧
@@ -196,7 +215,10 @@ theorem selection_preserves_two_truths_and_middle_way (r : Receipt) :
     r.middleWay.collapseForbidden, r.middleWay.erasureForbidden,
     r.middleWay.abandonmentForbidden⟩
 
-theorem selection_is_not_truth_execution_or_license (r : Receipt) :
+theorem selection_is_not_truth_execution_or_license
+    (r : VacuumExpectationAdmissibleCandidateSelectionReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge Bridge) :
     r.authority.decisionIsTruth = false ∧
       r.authority.decisionIsExecution = false ∧
       r.authority.decisionIsHostLicense = false ∧
@@ -207,7 +229,10 @@ theorem selection_is_not_truth_execution_or_license (r : Receipt) :
     r.authority.licenseForbidden, r.commitBoundary.futureRequired,
     r.commitBoundary.overwriteForbidden, r.commitBoundary.nonExecutionRequired⟩
 
-theorem selection_event_and_history_append_once (r : Receipt) :
+theorem selection_event_and_history_append_once
+    (r : VacuumExpectationAdmissibleCandidateSelectionReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge Bridge) :
     r.indexBefore.current < r.indexAfter.current ∧
       r.historyAfter.commits = r.historyBefore.commits + 1 ∧
       r.historyAfter.summaries = r.historyBefore.summaries + 1 := by
@@ -217,7 +242,10 @@ theorem selection_event_and_history_append_once (r : Receipt) :
   rw [r.historyExact]
   exact ⟨rfl, rfl⟩
 
-theorem selection_bridge_grants_no_downstream_authority (_r : Receipt) :
+theorem selection_bridge_grants_no_downstream_authority
+    (_r : VacuumExpectationAdmissibleCandidateSelectionReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge Bridge) :
     Bridge.decisionOwnsSelection = true ∧ Bridge.planOSOwnsSynthesis = true ∧
       Bridge.actOSOwnsExecution = true ∧ Bridge.runtimeSynthesizesPlan = false ∧
       Bridge.runtimeActivatesPlan = false ∧ Bridge.runtimeExecutes = false ∧
@@ -229,7 +257,10 @@ theorem selection_bridge_grants_no_downstream_authority (_r : Receipt) :
     Bridge.licenseForbidden, Bridge.overwriteForbidden,
     Bridge.worldUpdateForbidden⟩
 
-theorem selection_digest_is_exact (r : Receipt) :
+theorem selection_digest_is_exact
+    (r : VacuumExpectationAdmissibleCandidateSelectionReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge Bridge) :
     r.digest = Bridge.digestOf r.source r.selectedCandidate r.selection r.certificate
       r.constraintGate r.qiBoundary r.twoTruths r.middleWay r.waGate
       r.waPlurality r.authority r.commitBoundary r.indexBefore r.indexAfter

@@ -19,11 +19,20 @@ def require_tokens(path: Path, tokens: tuple[str, ...]) -> None:
         require(token in text, f"{path}: missing {token}")
 
 
+def require_tokens_across(paths: tuple[Path, ...], tokens: tuple[str, ...]) -> None:
+    require(bool(paths), "empty module family")
+    text = "\n".join(path.read_text(encoding="utf-8") for path in paths)
+    for token in tokens:
+        require(token in text, f"module family missing {token}")
+
+
 def main() -> int:
     formal_root = ROOT / "formal/KuuOSActOSV0_3.lean"
     aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     formal = ROOT / "formal/KUOS/ActOS/VacuumExpectationActivationAuthorizationIntakeV0_3.lean"
+    formal_family = tuple(sorted(formal.parent.glob("VacuumExpectationActivationAuthorization*.lean")))
     source = ROOT / "formal/KUOS/PlanOS/VacuumExpectationActivationAdmissionActOSHandoffV0_23.lean"
+    source_family = tuple(sorted(source.parent.glob("VacuumExpectationActivationAdmissionActOSHandoff*.lean")))
     authority_v01 = ROOT / "formal/KUOS/ActOS/AuthorityBoundInvocationV0_1.lean"
     authority_v02 = ROOT / "formal/KUOS/ActOS/ReplanLineageAuthorityEnvelopeV0_2.lean"
     docs = ROOT / "docs/KUUOS_ACTOS_ACTIVATION_AUTHORIZATION_INTAKE_v0_3.md"
@@ -40,14 +49,16 @@ def main() -> int:
         docs,
         manifest_path,
         workflow,
+        *formal_family,
+        *source_family,
     ):
         require(path.is_file(), f"missing file: {path}")
 
     import_token = "KUOS.ActOS.«VacuumExpectationActivationAuthorizationIntakeV0_3»"
     require_tokens(formal_root, (import_token,))
     require_tokens(aggregate_root, (import_token,))
-    require_tokens(
-        formal,
+    require_tokens_across(
+        formal_family,
         (
             "IndependentActFreshnessRevalidation",
             "CapabilityRegistryConfirmation",
@@ -76,8 +87,8 @@ def main() -> int:
             "authorization_digest_is_exact",
         ),
     )
-    require_tokens(
-        source,
+    require_tokens_across(
+        source_family,
         (
             "VacuumExpectationActivationAdmissionActOSHandoffReceipt",
             "handoff_is_not_activation_authorization_or_execution",

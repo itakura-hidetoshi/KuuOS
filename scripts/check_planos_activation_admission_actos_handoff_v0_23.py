@@ -19,23 +19,42 @@ def require_tokens(path: Path, tokens: tuple[str, ...]) -> None:
         require(token in text, f"{path}: missing {token}")
 
 
+def require_tokens_across(paths: tuple[Path, ...], tokens: tuple[str, ...]) -> None:
+    require(bool(paths), "empty module family")
+    text = "\n".join(path.read_text(encoding="utf-8") for path in paths)
+    for token in tokens:
+        require(token in text, f"module family missing {token}")
+
+
 def main() -> int:
     formal_root = ROOT / "formal/KuuOSPlanOSV0_23.lean"
     aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     formal = ROOT / "formal/KUOS/PlanOS/VacuumExpectationActivationAdmissionActOSHandoffV0_23.lean"
+    formal_family = tuple(sorted(formal.parent.glob("VacuumExpectationActivationAdmissionActOSHandoff*.lean")))
     source = ROOT / "formal/KUOS/PlanOS/VacuumExpectationCompilerMaterializationV0_22.lean"
+    source_family = tuple(sorted(source.parent.glob("VacuumExpectationCompilerMaterialization*.lean")))
     docs = ROOT / "docs/KUUOS_PLANOS_ACTIVATION_ADMISSION_ACTOS_HANDOFF_v0_23.md"
     manifest_path = ROOT / "manifests/kuuos_planos_activation_admission_actos_handoff_v0_23.json"
     workflow = ROOT / ".github/workflows/planos-activation-admission-actos-handoff-v0-23.yml"
 
-    for path in (formal_root, aggregate_root, formal, source, docs, manifest_path, workflow):
+    for path in (
+        formal_root,
+        aggregate_root,
+        formal,
+        source,
+        docs,
+        manifest_path,
+        workflow,
+        *formal_family,
+        *source_family,
+    ):
         require(path.is_file(), f"missing file: {path}")
 
     import_token = "KUOS.PlanOS.«VacuumExpectationActivationAdmissionActOSHandoffV0_23»"
     require_tokens(formal_root, (import_token,))
     require_tokens(aggregate_root, (import_token,))
-    require_tokens(
-        formal,
+    require_tokens_across(
+        formal_family,
         (
             "ActivationMaterialFreshness",
             "ActivationAdmissionBinding",
@@ -59,8 +78,8 @@ def main() -> int:
             "digest_is_exact",
         ),
     )
-    require_tokens(
-        source,
+    require_tokens_across(
+        source_family,
         (
             "VacuumExpectationCompilerMaterializationReceipt",
             "hold_materializes_zero_executable_steps",

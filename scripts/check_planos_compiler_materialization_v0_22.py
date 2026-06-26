@@ -19,10 +19,18 @@ def require_tokens(path: Path, tokens: tuple[str, ...]) -> None:
         require(token in text, f"{path}: missing {token}")
 
 
+def require_tokens_across(paths: tuple[Path, ...], tokens: tuple[str, ...]) -> None:
+    require(bool(paths), "empty module family")
+    text = "\n".join(path.read_text(encoding="utf-8") for path in paths)
+    for token in tokens:
+        require(token in text, f"module family missing {token}")
+
+
 def main() -> int:
     formal_root = ROOT / "formal/KuuOSPlanOSV0_22.lean"
     aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     formal = ROOT / "formal/KUOS/PlanOS/VacuumExpectationCompilerMaterializationV0_22.lean"
+    formal_family = tuple(sorted(formal.parent.glob("VacuumExpectationCompilerMaterialization*.lean")))
     source = ROOT / "formal/KUOS/PlanOS/VacuumExpectationSelectedCandidateNextCycleSynthesisV0_21.lean"
     adapter = ROOT / "formal/KUOS/PlanOS/NextCycleBasisCompilerAdapterV0_3.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_COMPILER_MATERIALIZATION_v0_22.md"
@@ -38,14 +46,15 @@ def main() -> int:
         docs,
         manifest_path,
         workflow,
+        *formal_family,
     ):
         require(path.is_file(), f"missing file: {path}")
 
     import_token = "KUOS.PlanOS.VacuumExpectationCompilerMaterializationV0_22"
     require_tokens(formal_root, (import_token,))
     require_tokens(aggregate_root, (import_token,))
-    require_tokens(
-        formal,
+    require_tokens_across(
+        formal_family,
         (
             "compilerRouteOfCandidate",
             "VacuumExpectationCompilerMaterializationBridge",
