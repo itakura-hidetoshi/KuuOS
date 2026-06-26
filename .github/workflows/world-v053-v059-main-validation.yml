@@ -2,9 +2,55 @@ name: WORLD v0.53-v0.59 Main Validation
 
 on:
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'README.md'
+      - 'ROADMAP.md'
+      - 'formal/KUOS/WORLD/**'
+      - 'formal/KUOS.lean'
+      - 'formal/KuuOSArakiCalculusV0_56.lean'
+      - 'formal/KuuOSFourGreatCoreV0_59.lean'
+      - 'formal/KuuOSFormalV0_53.lean'
+      - 'formal/KuuOSFormalV0_54.lean'
+      - 'formal/KuuOSFormalV0_55.lean'
+      - 'formal/KuuOSFormalV0_56.lean'
+      - 'formal/KuuOSFormalV0_57.lean'
+      - 'formal/KuuOSFormalV0_58.lean'
+      - 'formal/KuuOSFormalV0_59.lean'
+      - 'formal/KuuOSFormal.lean'
+      - 'lakefile.toml'
+      - 'lake-manifest.json'
+      - 'lean-toolchain'
+      - 'docs/KU_WORLD_*'
+      - 'manifests/world_*'
+      - 'scripts/check_world_*'
+      - 'scripts/run_kuuos_runtime_full_check_v0_5*.py'
+      - '.github/workflows/world-v053-v059-main-validation.yml'
   pull_request:
     paths:
-      - '.github/validation/world-v053-v059-main.marker'
+      - 'README.md'
+      - 'ROADMAP.md'
+      - 'formal/KUOS/WORLD/**'
+      - 'formal/KUOS.lean'
+      - 'formal/KuuOSArakiCalculusV0_56.lean'
+      - 'formal/KuuOSFourGreatCoreV0_59.lean'
+      - 'formal/KuuOSFormalV0_53.lean'
+      - 'formal/KuuOSFormalV0_54.lean'
+      - 'formal/KuuOSFormalV0_55.lean'
+      - 'formal/KuuOSFormalV0_56.lean'
+      - 'formal/KuuOSFormalV0_57.lean'
+      - 'formal/KuuOSFormalV0_58.lean'
+      - 'formal/KuuOSFormalV0_59.lean'
+      - 'formal/KuuOSFormal.lean'
+      - 'lakefile.toml'
+      - 'lake-manifest.json'
+      - 'lean-toolchain'
+      - 'docs/KU_WORLD_*'
+      - 'manifests/world_*'
+      - 'scripts/check_world_*'
+      - 'scripts/run_kuuos_runtime_full_check_v0_5*.py'
       - '.github/workflows/world-v053-v059-main-validation.yml'
 
 permissions:
@@ -14,11 +60,14 @@ concurrency:
   group: world-v053-v059-main-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: true
 
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
 jobs:
   integrated-world-v053-v059:
     name: Integrated WORLD v0.53-v0.59
-    runs-on: ubuntu-latest
-    timeout-minutes: 90
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
@@ -36,7 +85,6 @@ jobs:
       - name: Verify canonical root registration
         shell: bash
         run: |
-          set -euo pipefail
           grep -Fq 'import KUOS.WORLD.VacuumExpectationObserveOSCommitVerifyHandoffBridgeV0_53' formal/KUOS.lean
           grep -Fq 'import KUOS.WORLD.KuuVacuumCentralReferenceStateBridgeV0_54' formal/KUOS.lean
           grep -Fq 'import KUOS.WORLD.KuuVacuumInformationGeometryBridgeV0_55' formal/KUOS.lean
