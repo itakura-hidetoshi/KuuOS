@@ -72,7 +72,7 @@ def main() -> int:
     )
     require_tokens(
         ROOT / ".github/workflows/kuuos_runtime_full_check.yml",
-        ("run_kuuos_runtime_full_check_v0_52.py",),
+        ("Run cumulative runtime full check", "run_kuuos_runtime_full_check_v0_55.py"),
     )
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))

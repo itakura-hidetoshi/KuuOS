@@ -185,8 +185,10 @@ variable
     {Bridge : VacuumExpectationHysteresisConstraintDecisionHandoffBridge
       K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge GenerationBridge}
 
-abbrev Receipt := VacuumExpectationHysteresisConstraintDecisionHandoffReceipt
-  K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge GenerationBridge Bridge
+local notation "Receipt" =>
+  VacuumExpectationHysteresisConstraintDecisionHandoffReceipt
+    K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+      GenerationBridge Bridge
 
 theorem follows_constraint_deliberation_prefix (_r : Receipt) :
     ReplanPhase.generate.next = some ReplanPhase.constrain ∧

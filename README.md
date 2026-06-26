@@ -4,7 +4,7 @@
 ![KuuOS Runtime Full Check](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/kuuos_runtime_full_check.yml/badge.svg)
 ![MemoryOS v0.39](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/memoryos-world-observe-intake-v0-39.yml/badge.svg)
 ![Qi-WORLD v2.3](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/qi-world-yinyang-process-blocker-v2-3-validation.yml/badge.svg)
-![WORLD v0.52](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/world-host-effect-intake-v0-52.yml/badge.svg)
+![WORLD v0.59](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/world-four-great-phase-dynamics-v0-59.yml/badge.svg)
 
 **KuuOS / 空OS**は、観測、信念、記憶、計画、判断、実行、学習、WORLD表現を、独立した真理や恒久権限ではなく、由来、文脈、履歴、所有者、境界に拘束された局所候補として扱う公開研究アーキテクチャです。
 
@@ -14,11 +14,9 @@ KuuOS is a public, governance-gated, proof-facing, non-Markovian, Qi-process-awa
 
 **基準日：2026年6月26日**
 
-`main`の安定基準と、未統合の研究前線を分けて表示します。
+`main`の統合済み基準は次のとおりです。
 
-### mainの統合済み基準
-
-| 系列 | 現在の統合済み到達点 |
+| 系列 | 統合済み到達点 |
 |---|---|
 | 中核ガバナンス | v0.1 |
 | Horizon Governance / Context Gauge Atlas | v0.12 / v0.13 |
@@ -29,14 +27,14 @@ KuuOS is a public, governance-gated, proof-facing, non-Markovian, Qi-process-awa
 | MemoryOS | v0.35、v0.37、v0.38、v0.39 |
 | Qi-WORLD | v2.3 |
 | 真空期待値OS連結 | VerifyOS v0.3、LearnOS v0.3、PlanOS v0.18からv0.23、ActOS v0.3からv0.4、ObserveOS v0.4 |
-| WORLD数学サイドカー | v0.52 |
+| WORLD数学サイドカー | v0.59 |
 | Lean統合ルート | `KuuOSFormal` |
-| 累積ランタイム検証 | `scripts/run_kuuos_runtime_full_check_v0_52.py` |
+| 累積ランタイム検証 | `scripts/run_kuuos_runtime_full_check_v0_55.py` |
 | Lean / mathlib | Lean 4、mathlib `v4.30.0-rc2` |
 
-### 未統合の研究前線
+## WORLD v0.53からv0.59
 
-次のWORLD系列は積み上げ型の開発ブランチにあり、`main`へ統合済みとは扱いません。
+次のWORLD系列は依存順に`main`へ統合されています。
 
 ```text
 WORLD v0.53
@@ -54,11 +52,16 @@ verified Araki calculus and OS transport
 WORLD v0.57
 closed Tomita operator bridge
 
+WORLD v0.58
+conjugate-adjoint intermediate formal layer
+
 WORLD v0.59
 four-great phase dynamics
 ```
 
-各段階は、個別のPR、専用検証、厳格Lean build、上流ブランチとの整合が確認されてから、順番に安定基準へ移します。
+各段階は専用formal root、aggregate `KuuOSFormal`登録、manifest、validator、文書、非権限境界を持ちます。
+
+v0.58はv0.57からv0.59へ進む内部の形式化層であり、独立した公開機能の権限を追加しません。
 
 ## 中心命題
 
@@ -74,6 +77,7 @@ memory != belief sovereignty
 plan commit != activation
 selection != execution
 receipt != successor authority
+receipt composition != receipt construction
 
 local control != global constitution
 local chart != global graph
@@ -83,9 +87,16 @@ holonomy != sovereign memory
 WORLD sidecar != exact WORLD
 WORLD candidate != empirical fact
 WORLD commit != truth
+WORLD intake != WORLD update
 analytic vacuum != exact WORLD
+central reference state != exact WORLD
+vacuum parameter != exact WORLD
 Kū != zero vector
 modular time != physical time
+
+closed Tomita operator != completed modular theory
+four-great diagnostic != material-element identity
+four-great diagnostic != execution authority
 
 diagnostic candidate != final diagnosis
 recovery-window interval != healing guarantee
@@ -170,17 +181,6 @@ Horizon v0.12とContext Gauge Atlas v0.13は、複数時間幅、局所性、曲
 
 v0.20からv0.27は、再起動可能で、利用者が中断でき、資源境界を持つ反復可能な有限サイクルを構成します。
 
-```text
-mission
-→ observation and plural belief
-→ semantic planning and independent verification
-→ bounded memory and learning
-→ transactional effect reconciliation
-→ event wake-up and resource admission
-→ governed change management
-→ exact checkpoint and next finite cycle
-```
-
 v0.30は、有限サイクルの局所制御を、将来可能性を閉じる全体憲法へ昇格させない境界を追加します。
 
 ```text
@@ -193,31 +193,11 @@ terminated instance != termination of successor possibility
 
 v0.31からv0.34は、未解決WORLD証拠を候補化し、外部承認された観測と独立検証を経て、単一のWORLD fragmentを原子的に更新する経路を実装します。
 
-```text
-v0.31 unresolved WORLD evidence
-→ plural mission candidates
-→ plural observation candidates
-
-v0.32 external single-use observation authorization
-→ provenance-complete ObserveOS evidence
-→ WORLD feedback candidate
-
-v0.33 independent VerifyOS assessment
-→ adopt / reject / defer / reobserve candidate
-
-v0.34 fresh commit authorization
-→ optimistic concurrency and fencing
-→ one atomic WORLD-fragment commit
-→ immutable receipt
-```
-
-v0.34の参照実装は単一ホストPOSIX adapterです。
-
 WORLD fragmentの更新は、憲法根、過去履歴、真理権限、因果権限を更新しません。
 
 ### MemoryOS
 
-MemoryOSは、履歴を保存するだけでなく、予測候補、矛盾残渣、ブロッカー、解析的文脈を分離して保持します。
+MemoryOSは、履歴、予測候補、矛盾残渣、ブロッカー、解析的文脈を分離して保持します。
 
 ```text
 v0.35
@@ -244,7 +224,7 @@ MemoryOS analytic capsule
 → ObserveOS owner-review intake
 ```
 
-v0.39はraw evidence、ObserveOS commit、VerifyOS resultを生成しません。
+MemoryOSはraw evidence、ObserveOS commit、VerifyOS result、PlanOS activationを自動生成しません。
 
 ### 気のプロセスとQi-WORLD
 
@@ -252,9 +232,7 @@ v0.28は、複数時点の気のプロセステンソル、複数仮説、反証
 
 v0.29は、その候補を正確なsource lineageへ束縛します。
 
-Qi-WORLD v2.1は有限multi-cycle chain inductionを持ち、v2.2は具体的な第三 licensed cycleを閉じます。
-
-v2.3は気のプロセスとブロッカー理論を陰陽相補系として接続します。
+Qi-WORLD v2.3は気のプロセスとブロッカー理論を陰陽相補系として接続します。
 
 ```text
 Yang
@@ -274,25 +252,24 @@ coupled admissibility
 
 この構造は、気を物理的ボース粒子へ、ブロッカーを物理的フェルミ粒子へ同一視しません。
 
-### 真空期待値から実行後観測まで
+### 真空期待値OS連結
 
-`main`には、解析的WORLD候補と実行後効果を混同しない二つの経路があります。
+解析的候補経路は次のとおりです。
 
 ```text
-analytic route
-
 WORLD v0.50 vacuum-expectation candidate
 → WORLD v0.51 ObserveOS evidence-intake envelope
 → ObserveOS v0.3 supplied commit receipt
 → VerifyOS v0.3 supplied verification receipt
 → LearnOS v0.3 future-only delta
+→ WORLD v0.53 exact OS receipt-composition digest
 → PlanOS v0.18からv0.23
 → ActOS v0.3からv0.4
 ```
 
-```text
-host-effect route
+実行後効果は別経路です。
 
+```text
 ActOS v0.4 canonical effectRecorded receipt
 → WORLD v0.52 host-effect intake candidate
 → ObserveOS v0.4 effect-grounded observation receipt
@@ -301,11 +278,11 @@ ActOS v0.4 canonical effectRecorded receipt
 
 WORLD v0.52は観測、検証、WORLD更新を実行しません。
 
-ObserveOS v0.4は、解析的真空期待値候補をActOSのhost effectとして扱いません。
+WORLD v0.53は既存receiptを合成しますが、receiptを新規構成せず、transitionを再実行しません。
 
 ### WORLD数学サイドカー
 
-統合済み数学サイドカーはv0.27からv0.52です。
+統合済み数学サイドカーはv0.27からv0.59です。
 
 ```text
 real Hilbert ℓ²
@@ -326,11 +303,32 @@ real Hilbert ℓ²
 → vacuum-expectation observation candidates
 → ObserveOS intake
 → host-effect intake
+→ OS receipt composition
+→ Kū vacuum central reference state
+→ Kū vacuum information geometry
+→ verified Araki calculus and OS transport
+→ closed Tomita operator bridge
+→ conjugate-adjoint intermediate layer
+→ four-great phase dynamics
 ```
 
 Leanは、宣言された型付き帰結を検証します。
 
 CI成功だけでは、外部数学界での定理受理、物理実現、経験的妥当性は成立しません。
+
+## v0.53からv0.59の証明境界
+
+**v0.53**は、ObserveOS、VerifyOS、LearnOSの供給済みreceiptの由来と順序をexact digestへ束縛します。
+
+**v0.54**は、完成OS Hilbert空間の真空を中心基準状態として接続し、反射形式、真空相関、モジュラー不変性、Petz回復の型付き関係を保持します。
+
+**v0.55**は、真空基準Araki相対エントロピー、量子Bregman divergence、quantum Fisher metric、励起Gram形式、Petz回復接空間を接続します。
+
+**v0.56**は、有界自己共役生成子の指数弧に対する第一変分、BKM pairing、混合Hessian、OS transportを直接Lean定理として実装します。
+
+**v0.57**は、代数的Tomita graphから稠密定義域、可閉性、closure、closed conjugate-linear involution、closed graph-space completenessを構成します。
+
+**v0.59**は、Earth、Water、Fire、AirをAraki Hessian、励起Gram相関、coarse-graining情報損失、transport成分に対応するread-only診断として構成します。
 
 ## 実装済み
 
@@ -340,8 +338,7 @@ CI成功だけでは、外部数学界での定理受理、物理実現、経験
 - 有限サイクル継続、Open Horizon、外因的観測承認、VerifyOS disposition、原子的WORLD commit。
 - 気のプロセステンソル、診断候補、系譜束縛、Qi-WORLD finite-chain、陰陽ブロッカー相補系。
 - 四層記憶、予測状態候補、矛盾残渣、WORLD imagination、blocker-shielded retrieval。
-- OS Hilbert解析文脈とWORLD候補のObserveOS owner-review intake。
-- WORLD v0.52までのPython validator、manifest、workflow、Lean formal surface。
+- WORLD v0.59までのversioned validator、manifest、workflow、Lean formal surface。
 - `KuuOSFormal`に集約された厳格Lean build surface。
 
 ## 非主張
@@ -356,8 +353,9 @@ KuuOSは現時点で次を主張しません。
 - LeanまたはCIの成功だけによる外部定理受理。
 - 完全な物理的量子Markov semigroup、正確な物理真空、正確なWORLD simulator。
 - 解析的真空と形而上学的な空の同一視。
+- closed Tomita operatorだけによるpolar decompositionまたは完全な相対モジュラー理論。
+- 四大診断と物質元素または確定した物理相との同一視。
 - 観測候補、検証結果、記憶、WORLD commit、receiptの真理権限化。
-- `main`へ未統合のWORLD v0.53以降を安定リリースとして扱うこと。
 
 ## 最初に読む文書
 
@@ -370,25 +368,16 @@ CONTRIBUTING.md
 docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md
 docs/BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1.md
 
-docs/KUUOS_OPEN_ENDED_BACKGROUND_AGENCY_v0_30.md
-docs/KUUOS_ENDOGENOUS_MISSION_OBSERVATION_v0_31.md
-docs/KUUOS_AUTHORIZED_OBSERVATION_WORLD_FEEDBACK_v0_32.md
-docs/KUUOS_VERIFYOS_WORLD_ADOPTION_v0_33.md
-docs/KUUOS_AUTHORIZED_ATOMIC_WORLD_COMMIT_v0_34.md
-
-docs/KUUOS_MEMORYOS_QI_WORLD_BLOCKER_INTEGRATION_v0_35.md
-docs/KUUOS_MEMORYOS_PREDICTIVE_SHIELDED_MEMORY_v0_37.md
-docs/KUUOS_MEMORYOS_ANALYTIC_HILBERT_CONTEXT_v0_38.md
-docs/KUUOS_MEMORYOS_WORLD_OBSERVE_INTAKE_v0_39.md
-
-docs/KUUOS_QI_RECOVERY_WINDOW_DIAGNOSTIC_v0_28.md
-docs/KUUOS_QI_CANDIDATE_LINEAGE_BINDING_v0_29.md
-docs/KUUOS_QI_WORLD_YINYANG_PROCESS_BLOCKER_COMPLEMENTARITY_v2_3.md
-
 docs/KU_WORLD_KUU_VACUUM_OS_HILBERT_COMPLETION_v0_49.md
 docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVATION_CANDIDATE_v0_50.md
 docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVEOS_EVIDENCE_INTAKE_v0_51.md
 docs/KU_WORLD_HOST_EFFECT_INTAKE_v0_52.md
+docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVEOS_COMMIT_VERIFY_HANDOFF_v0_53.md
+docs/KU_WORLD_KUU_VACUUM_CENTRAL_REFERENCE_STATE_v0_54.md
+docs/KU_WORLD_KUU_VACUUM_INFORMATION_GEOMETRY_v0_55.md
+docs/KU_WORLD_KUU_VACUUM_ARAKI_HESSIAN_PHYSICAL_REALIZATION_v0_56.md
+docs/KU_WORLD_ALGEBRAIC_TOMITA_CLOSABILITY_v0_57.md
+docs/KU_WORLD_FOUR_GREAT_PHASE_DYNAMICS_v0_59.md
 
 formal/KUOS.lean
 formal/KuuOSFormal.lean
@@ -400,12 +389,21 @@ formal/KuuOSFormal.lean
 make core-governance-checks
 make all-governance-checks
 
-python3 scripts/run_kuuos_runtime_full_check_v0_52.py
+python3 scripts/run_kuuos_runtime_full_check_v0_55.py
+python3 scripts/check_world_kuu_vacuum_araki_hessian_physical_realization_v0_56.py
+python3 scripts/check_world_four_great_phase_dynamics_v0_59.py
 
-PYTHONPATH=. python scripts/check_memoryos_world_observe_intake_v0_39.py
-PYTHONPATH=. python scripts/check_qi_world_yinyang_process_blocker_complementarity_v2_3.py
-python3 scripts/check_world_vacuum_expectation_host_effect_intake_v0_52.py
-python3 scripts/check_observeos_world_host_effect_observation_v0_4.py
+lake -KleanArgs=-DwarningAsError=true \
+  -KleanArgs=-DsorryAsError=true \
+  build KuuOSFormalV0_53 KuuOSFormalV0_54 KuuOSFormalV0_55
+
+lake -KleanArgs=-DwarningAsError=true \
+  -KleanArgs=-DsorryAsError=true \
+  build KuuOSArakiCalculusV0_56 KuuOSFormalV0_56
+
+lake -KleanArgs=-DwarningAsError=true \
+  -KleanArgs=-DsorryAsError=true \
+  build KuuOSFormalV0_57 KuuOSFormalV0_58 KuuOSFourGreatCoreV0_59 KuuOSFormalV0_59
 
 lake -KleanArgs=-DwarningAsError=true \
   -KleanArgs=-DsorryAsError=true \

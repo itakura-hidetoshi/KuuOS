@@ -9,12 +9,25 @@ on:
       - "docs/KUUOS_MEMORYOS_WORLD_OBSERVE_INTAKE_v0_39.md"
       - "manifests/kuuos_memoryos_world_observe_intake_v0_39.json"
       - "formal/KUOS/OpenHorizon/MemoryOSWorldObserveIntakeKernelV0_39.lean"
-      - "formal/KUOS.lean"
-      - "scripts/run_kuuos_runtime_full_check_v0_50.py"
-      - ".github/workflows/memoryos-world-observe-intake-v0-39.yml"
       - "runtime/kuuos_memoryos_analytic_hilbert_context_v0_38.py"
+      - "tests/test_memoryos_analytic_hilbert_context_v0_38.py"
+      - "scripts/check_memoryos_analytic_hilbert_context_v0_38.py"
+      - "docs/KUUOS_MEMORYOS_ANALYTIC_HILBERT_CONTEXT_v0_38.md"
+      - "manifests/kuuos_memoryos_analytic_hilbert_context_v0_38.json"
+      - "formal/KUOS/OpenHorizon/MemoryOSAnalyticHilbertContextKernelV0_38.lean"
+      - "scripts/check_world_vacuum_expectation_observation_candidate_v0_50.py"
+      - "docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVATION_CANDIDATE_v0_50.md"
+      - "manifests/world_vacuum_expectation_observation_candidate_v0_50.json"
       - "formal/KUOS/WORLD/VacuumExpectationObservationCandidateBridgeV0_50.lean"
       - "formal/KUOS/ObserveOS/ReplanLineageObservationEnvelopeV0_2.lean"
+      - "formal/KUOS.lean"
+      - "formal/KuuOSFormal.lean"
+      - "scripts/run_kuuos_runtime_full_check_v0_50.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_52.py"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
+      - ".github/workflows/memoryos-world-observe-intake-v0-39.yml"
   pull_request:
     paths:
       - "runtime/kuuos_memoryos_world_observe_intake_v0_39.py"
@@ -23,12 +36,25 @@ on:
       - "docs/KUUOS_MEMORYOS_WORLD_OBSERVE_INTAKE_v0_39.md"
       - "manifests/kuuos_memoryos_world_observe_intake_v0_39.json"
       - "formal/KUOS/OpenHorizon/MemoryOSWorldObserveIntakeKernelV0_39.lean"
-      - "formal/KUOS.lean"
-      - "scripts/run_kuuos_runtime_full_check_v0_50.py"
-      - ".github/workflows/memoryos-world-observe-intake-v0-39.yml"
       - "runtime/kuuos_memoryos_analytic_hilbert_context_v0_38.py"
+      - "tests/test_memoryos_analytic_hilbert_context_v0_38.py"
+      - "scripts/check_memoryos_analytic_hilbert_context_v0_38.py"
+      - "docs/KUUOS_MEMORYOS_ANALYTIC_HILBERT_CONTEXT_v0_38.md"
+      - "manifests/kuuos_memoryos_analytic_hilbert_context_v0_38.json"
+      - "formal/KUOS/OpenHorizon/MemoryOSAnalyticHilbertContextKernelV0_38.lean"
+      - "scripts/check_world_vacuum_expectation_observation_candidate_v0_50.py"
+      - "docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVATION_CANDIDATE_v0_50.md"
+      - "manifests/world_vacuum_expectation_observation_candidate_v0_50.json"
       - "formal/KUOS/WORLD/VacuumExpectationObservationCandidateBridgeV0_50.lean"
       - "formal/KUOS/ObserveOS/ReplanLineageObservationEnvelopeV0_2.lean"
+      - "formal/KUOS.lean"
+      - "formal/KuuOSFormal.lean"
+      - "scripts/run_kuuos_runtime_full_check_v0_50.py"
+      - "scripts/run_kuuos_runtime_full_check_v0_52.py"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
+      - ".github/workflows/memoryos-world-observe-intake-v0-39.yml"
   workflow_dispatch:
 
 permissions:
@@ -37,27 +63,67 @@ permissions:
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-      - name: Compile MemoryOS v0.39 Python
-        run: |
-          python -m compileall -q \
-            runtime/kuuos_memoryos_world_observe_intake_v0_39.py \
-            tests/test_memoryos_world_observe_intake_v0_39.py \
-            scripts/check_memoryos_world_observe_intake_v0_39.py
+      - name: Compile MemoryOS validation surfaces
+        run: >-
+          python -m compileall -q
+          runtime/kuuos_memoryos_world_observe_intake_v0_39.py
+          tests/test_memoryos_world_observe_intake_v0_39.py
+          scripts/check_memoryos_world_observe_intake_v0_39.py
+          runtime/kuuos_memoryos_analytic_hilbert_context_v0_38.py
+          tests/test_memoryos_analytic_hilbert_context_v0_38.py
+          scripts/check_memoryos_analytic_hilbert_context_v0_38.py
+      - name: Validate v0.39 manifest JSON
+        run: >-
+          python -m json.tool
+          manifests/kuuos_memoryos_world_observe_intake_v0_39.json
+          > /dev/null
+      - name: Validate v0.38 manifest JSON
+        run: >-
+          python -m json.tool
+          manifests/kuuos_memoryos_analytic_hilbert_context_v0_38.json
+          > /dev/null
       - name: Check MemoryOS v0.39 registration
-        run: PYTHONPATH=. python scripts/check_memoryos_world_observe_intake_v0_39.py
-      - name: Test MemoryOS v0.39 runtime
-        run: PYTHONPATH=. python -m unittest -v tests.test_memoryos_world_observe_intake_v0_39
-      - name: Recheck MemoryOS v0.38 and WORLD v0.50 sources
+        shell: bash
         run: |
-          PYTHONPATH=. python scripts/check_memoryos_analytic_hilbert_context_v0_38.py
-          PYTHONPATH=. python -m unittest -v tests.test_memoryos_analytic_hilbert_context_v0_38
-          python scripts/check_world_vacuum_expectation_observation_candidate_v0_50.py
-      - uses: leanprover/lean-action@v1
+          set -o pipefail
+          PYTHONPATH=. python scripts/check_memoryos_world_observe_intake_v0_39.py \
+            2>&1 | tee memoryos-v0-39.log
+      - name: Test MemoryOS v0.39 runtime
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python -m unittest -v \
+            tests.test_memoryos_world_observe_intake_v0_39 \
+            2>&1 | tee -a memoryos-v0-39.log
+      - name: Recheck MemoryOS v0.38
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python scripts/check_memoryos_analytic_hilbert_context_v0_38.py \
+            2>&1 | tee -a memoryos-v0-39.log
+          PYTHONPATH=. python -m unittest -v \
+            tests.test_memoryos_analytic_hilbert_context_v0_38 \
+            2>&1 | tee -a memoryos-v0-39.log
+      - name: Recheck WORLD v0.50 source
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python scripts/check_world_vacuum_expectation_observation_candidate_v0_50.py \
+            2>&1 | tee -a memoryos-v0-39.log
+      - name: Run current central runtime regression
+        shell: bash
+        run: |
+          set -o pipefail
+          PYTHONPATH=. python scripts/run_kuuos_runtime_full_check_v0_52.py \
+            2>&1 | tee -a memoryos-v0-39.log
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
         with:
           auto-config: false
           build: false
@@ -71,11 +137,28 @@ jobs:
         run: git diff --exit-code -- lake-manifest.json
       - name: Fetch Mathlib olean cache
         run: lake exe cache get
-      - name: Lean checks
+      - name: Strictly compile MemoryOS v0.39 formal module
+        shell: bash
         run: |
+          set -o pipefail
           lake -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
-            build KUOS.OpenHorizon.MemoryOSWorldObserveIntakeKernelV0_39
+            build KUOS.OpenHorizon.MemoryOSWorldObserveIntakeKernelV0_39 \
+            2>&1 | tee memoryos-v0-39-lean-module.log
+      - name: Strictly compile formal root
+        shell: bash
+        run: |
+          set -o pipefail
           lake -KleanArgs=-DwarningAsError=true \
-            -KleanArgs=-DsorryAsError=true \
-            build KuuOSFormal
+            -KleanArgs=-DsorryAsError=true build KuuOSFormal \
+            2>&1 | tee memoryos-v0-39-lean-root.log
+      - name: Upload MemoryOS v0.39 diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: memoryos-v0-39-diagnostics
+          path: |
+            memoryos-v0-39.log
+            memoryos-v0-39-lean-module.log
+            memoryos-v0-39-lean-root.log
+          if-no-files-found: warn

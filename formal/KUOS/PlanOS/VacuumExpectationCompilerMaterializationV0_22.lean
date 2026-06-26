@@ -151,9 +151,10 @@ variable
       K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
         GenerationBridge HandoffBridge SelectionBridge SynthesisBridge}
 
-abbrev Receipt := VacuumExpectationCompilerMaterializationReceipt
-  K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
-    GenerationBridge HandoffBridge SelectionBridge SynthesisBridge Bridge
+local notation "Receipt" =>
+  VacuumExpectationCompilerMaterializationReceipt
+    K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+      GenerationBridge HandoffBridge SelectionBridge SynthesisBridge Bridge
 
 
 theorem materialization_requires_committed_next_plan_basis (r : Receipt) :

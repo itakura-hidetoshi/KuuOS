@@ -225,10 +225,11 @@ variable
         GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
           MaterializationBridge}
 
-abbrev Receipt := VacuumExpectationActivationAdmissionActOSHandoffReceipt
-  K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
-    GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
-      MaterializationBridge Bridge
+local notation "Receipt" =>
+  VacuumExpectationActivationAdmissionActOSHandoffReceipt
+    K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+      GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
+        MaterializationBridge Bridge
 
 theorem requires_materialized_non_hold_candidate (r : Receipt) :
     r.sourceBound = true ∧ r.source.materializationCommitted = true ∧
@@ -245,6 +246,8 @@ theorem requires_exact_next_cycle_and_fresh_epoch (r : Receipt) :
   · calc
       r.freshness.targetCycle = r.source.exactNextCycle.activeFromCycle :=
         r.targetCycleExact
+      _ = r.source.source.synthesis.activeFromCycle :=
+        r.source.activeCycleExact
       _ = r.source.source.synthesis.currentCycle + 1 :=
         r.source.source.synthesis.nextCycleRequired
   exact ⟨r.freshness.adaptiveEpochRequired,

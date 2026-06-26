@@ -58,20 +58,24 @@ def main() -> int:
             "runtime remains read-only",
         ),
     )
+
+    # The entry documents are intentionally rolling summaries. Their required
+    # contract is the stable ownership and authority boundary, not an exact
+    # historical heading or version-status sentence.
     require_tokens(
         ROOT / "README.md",
         (
-            "WORLD read-only mathematical sidecar             v0.51",
-            "intake-ready envelope != committed observation",
-            "run_kuuos_runtime_full_check_v0_51.py",
+            "observation != verification",
+            "WORLD intake != WORLD update",
+            "WORLD sidecar != exact WORLD",
         ),
     )
     require_tokens(
         ROOT / "ROADMAP.md",
         (
-            "implemented through v0.51",
-            "ObserveOS evidence-intake envelope",
-            "Strengthen WORLD v0.51 proof status",
+            "observation != verification",
+            "WORLD sidecar != exact WORLD",
+            "WORLD commit != truth",
         ),
     )
 

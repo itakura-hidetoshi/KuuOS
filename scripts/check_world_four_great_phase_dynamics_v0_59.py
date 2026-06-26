@@ -21,48 +21,23 @@ def require_tokens(path: Path, tokens: tuple[str, ...]) -> None:
 
 def main() -> int:
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
-    require(
-        manifest["manifest_version"] == "world_four_great_phase_dynamics_v0_59",
-        "manifest version mismatch",
-    )
-    require(
-        manifest["predecessor"]
-        == "world_kuu_vacuum_araki_hessian_physical_realization_v0_56",
-        "predecessor mismatch",
-    )
-    require(
-        manifest["stack_base"] == "world_tomita_conjugate_adjoint_v0_58",
-        "stack base mismatch",
-    )
-    require(
-        manifest["analytic_dependency"]
-        == "world_kuu_vacuum_araki_hessian_physical_realization_v0_56",
-        "analytic dependency mismatch",
-    )
+    require(manifest["manifest_version"] == "world_four_great_phase_dynamics_v0_59", "manifest version mismatch")
+    require(manifest["predecessor"] == "world_kuu_vacuum_araki_hessian_physical_realization_v0_56", "predecessor mismatch")
+    require(manifest["stack_base"] == "world_tomita_conjugate_adjoint_v0_58", "stack base mismatch")
+    require(manifest["analytic_dependency"] == "world_kuu_vacuum_araki_hessian_physical_realization_v0_56", "analytic dependency mismatch")
 
     for key in (
-        "core_module",
-        "core_root",
-        "formal_module",
-        "bridge_module",
-        "formal_root",
-        "aggregate_formal_root",
-        "documentation",
-        "validator",
-        "workflow",
+        "core_module", "core_root", "formal_module", "bridge_module",
+        "formal_root", "aggregate_formal_root", "documentation", "validator", "workflow",
     ):
         require((ROOT / manifest[key]).is_file(), f"missing manifest path: {key}")
 
-    require(
-        manifest["four_greats"]
-        == {
-            "earth": "araki_hessian_stiffness",
-            "water": "physical_excitation_gram_correlation",
-            "fire": "nonnegative_effective_information_loss_after_coarse_graining",
-            "air": "reversible_inner_product_preserving_physical_flow",
-        },
-        "four-great mapping mismatch",
-    )
+    require(manifest["four_greats"] == {
+        "earth": "araki_hessian_stiffness",
+        "water": "physical_excitation_gram_correlation",
+        "fire": "nonnegative_effective_information_loss_after_coarse_graining",
+        "air": "reversible_inner_product_preserving_physical_flow",
+    }, "four-great mapping mismatch")
     require(manifest["scope"]["mathlib_only_core"] is True, "core scope missing")
     require(manifest["scope"]["typed_araki_os_core_bridge"] is True, "bridge scope missing")
     require(manifest["scope"]["bounded_generator_araki_hessian"] is True, "earth scope missing")
@@ -74,78 +49,47 @@ def main() -> int:
     require(manifest["scope"]["world_state_mutation"] is False, "WORLD mutation promoted")
     require(all(value is False for value in manifest["boundaries"].values()), "boundary promotion")
 
-    require_tokens(
-        ROOT / manifest["core_module"],
-        (
-            "WorldFourGreatCoreDiagnostic",
-            "WorldFourGreatAnalyticCore",
-            "diagnostic_earth_eq_water",
-            "diagnostic_air_zero",
-            "diagnostic_total_nonnegative",
-            "effectiveFireRequiresCoarseGraining",
-            "osContractionIsNotPhysicalFire",
-            "readOnlyDiagnostic",
-        ),
+    require_tokens(ROOT / manifest["core_module"], (
+        "WorldFourGreatCoreDiagnostic", "WorldFourGreatAnalyticCore",
+        "diagnostic_earth_eq_water", "diagnostic_air_zero", "diagnostic_total_nonnegative",
+        "effectiveFireRequiresCoarseGraining", "osContractionIsNotPhysicalFire", "readOnlyDiagnostic",
+    ))
+    require_tokens(ROOT / manifest["core_root"], ("FourGreatPhaseDynamicsCoreV0_59",))
+    require_tokens(ROOT / manifest["formal_module"], (
+        "WorldFourGreatDiagnostic", "WorldFourGreatPhaseDynamics", "earthStiffness",
+        "waterCorrelation", "fireLoss_nonnegative", "airEvolution", "earth_eq_water",
+        "air_inverse", "air_preserves_physical_inner", "diagnostic_earth_eq_water",
+        "osContractionIsNotPhysicalFire", "readOnlyDiagnostic",
+    ))
+    require_tokens(ROOT / manifest["bridge_module"], (
+        "FourGreatPhaseDynamicsCoreV0_59", "FourGreatPhaseDynamicsV0_59",
+        "analyticCore", "analyticCore_earth_eq_water", "analyticCore_total_nonnegative",
+    ))
+    require_tokens(ROOT / manifest["formal_root"], ("FourGreatPhaseDynamicsCoreBridgeV0_59",))
+    require("KuuOSFormalV0_58" not in (ROOT / manifest["formal_root"]).read_text(encoding="utf-8"),
+            "unrelated v0.58 formal root leaked into v0.59 validation")
+
+    spine_tokens = (
+        "KUOS.WORLD.VacuumExpectationObserveOSCommitVerifyHandoffBridgeV0_53",
+        "KUOS.WORLD.KuuVacuumCentralReferenceStateBridgeV0_54",
+        "KUOS.WORLD.KuuVacuumInformationGeometryBridgeV0_55",
+        "KUOS.WORLD.KuuVacuumArakiHessianOSTransportV0_56",
+        "KUOS.WORLD.TomitaClosedGraphIsometryV0_57",
+        "KUOS.WORLD.TomitaConjugateAdjointClosedV0_58",
+        "KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59",
     )
-    require_tokens(
-        ROOT / manifest["core_root"],
-        ("FourGreatPhaseDynamicsCoreV0_59",),
-    )
-    require_tokens(
-        ROOT / manifest["formal_module"],
-        (
-            "WorldFourGreatDiagnostic",
-            "WorldFourGreatPhaseDynamics",
-            "earthStiffness",
-            "waterCorrelation",
-            "fireLoss_nonnegative",
-            "airEvolution",
-            "earth_eq_water",
-            "air_inverse",
-            "air_preserves_physical_inner",
-            "diagnostic_earth_eq_water",
-            "osContractionIsNotPhysicalFire",
-            "readOnlyDiagnostic",
-        ),
-    )
-    require_tokens(
-        ROOT / manifest["bridge_module"],
-        (
-            "FourGreatPhaseDynamicsCoreV0_59",
-            "FourGreatPhaseDynamicsV0_59",
-            "analyticCore",
-            "analyticCore_earth_eq_water",
-            "analyticCore_total_nonnegative",
-        ),
-    )
-    require_tokens(
-        ROOT / manifest["formal_root"],
-        ("FourGreatPhaseDynamicsCoreBridgeV0_59",),
-    )
-    require(
-        "KuuOSFormalV0_58" not in (ROOT / manifest["formal_root"]).read_text(encoding="utf-8"),
-        "unrelated v0.58 formal root leaked into v0.59 validation",
-    )
-    require_tokens(
-        ROOT / manifest["aggregate_formal_root"],
-        ("KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59",),
-    )
-    require_tokens(
-        ROOT / "lakefile.toml",
-        ("KuuOSFourGreatCoreV0_59", "KuuOSFormalV0_59"),
-    )
-    require_tokens(
-        ROOT / manifest["documentation"],
-        (
-            "地大 = 構造安定性",
-            "水大 = 相関形成",
-            "火大 = 粗視化後の不可逆情報損失",
-            "風大 = 可逆な物理時間輸送",
-            "Earth(h) = Water(h)",
-            "OS Euclidean contraction != physical Fire",
-            "read-only diagnosis != execution authority",
-        ),
-    )
+    require_tokens(ROOT / manifest["aggregate_formal_root"], spine_tokens)
+    require_tokens(ROOT / "formal/KUOS.lean", spine_tokens)
+    require_tokens(ROOT / "lakefile.toml", (
+        "KuuOSFormalV0_53", "KuuOSFormalV0_54", "KuuOSFormalV0_55",
+        "KuuOSFormalV0_56", "KuuOSFormalV0_57", "KuuOSFormalV0_58",
+        "KuuOSFourGreatCoreV0_59", "KuuOSFormalV0_59",
+    ))
+    require_tokens(ROOT / manifest["documentation"], (
+        "地大 = 構造安定性", "水大 = 相関形成", "火大 = 粗視化後の不可逆情報損失",
+        "風大 = 可逆な物理時間輸送", "Earth(h) = Water(h)",
+        "OS Euclidean contraction != physical Fire", "read-only diagnosis != execution authority",
+    ))
 
     print("WORLD v0.59 four-great phase dynamics checks passed")
     return 0
