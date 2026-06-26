@@ -1,0 +1,66 @@
+{
+  "component": "CapabilityOS Qi-WORLD Capability Candidate Kernel",
+  "version": "v0.60",
+  "classification": "qi-conditioned, blocker-shaped, WORLD-grounded, read-only capability candidate kernel",
+  "runtime": [
+    "runtime/kuuos_capabilityos_types_v0_60.py",
+    "runtime/kuuos_capabilityos_qi_world_kernel_v0_60.py",
+    "runtime/kuuos_capabilityos_qi_world_scenarios_v0_60.py"
+  ],
+  "tests": [
+    "tests/test_capabilityos_qi_world_kernel_v0_60.py"
+  ],
+  "validator": "scripts/check_capabilityos_qi_world_kernel_v0_60.py",
+  "formal_module": "KUOS.CapabilityOS.QiWorldCapabilityKernelV0_60",
+  "formal_file": "formal/KUOS/CapabilityOS/QiWorldCapabilityKernelV0_60.lean",
+  "documentation": "docs/KUUOS_CAPABILITYOS_QI_WORLD_KERNEL_v0_60.md",
+  "inputs": [
+    "typed capability definition",
+    "Qi Process Tensor receipt",
+    "Qi-WORLD Yin-Yang process-blocker receipt",
+    "sourced plural WORLD context",
+    "read-only MemoryOS context",
+    "finite resource request",
+    "available tool and verifier inventories"
+  ],
+  "dispositions": [
+    "READY_FOR_PLANOS",
+    "READY_WITH_WORLD_PLURALITY",
+    "DECOMPOSE_CAPABILITY",
+    "SUBSTITUTE_CAPABILITY",
+    "REOBSERVE_PROCESS",
+    "REOBSERVE_WORLD_PRECONDITION",
+    "REVIEW_CONTRADICTION",
+    "CONTAIN_YANG_SATURATION",
+    "QUARANTINE_GUARD_EVIDENCE",
+    "HOLD_NO_VERIFIER",
+    "UNAVAILABLE_IN_CURRENT_WORLD"
+  ],
+  "invariants": [
+    "capability is contextual rather than intrinsic",
+    "Qi support is not truth authority",
+    "protective Yin Guard is distinct from situational impediment",
+    "missing Guard fails closed",
+    "Yang saturation produces containment",
+    "WORLD imagination does not mutate sourced WORLD",
+    "plural WORLD candidates are not silently collapsed",
+    "MemoryOS retrieval does not activate a plan",
+    "CapabilityOS disposition does not activate PlanOS",
+    "independent verification remains required",
+    "learning remains future-only",
+    "a strong path component cannot repair another component's missing Guard or active impediment"
+  ],
+  "non_authority": {
+    "grants_plan_activation": false,
+    "grants_execution_authority": false,
+    "grants_tool_authority": false,
+    "grants_truth_authority": false,
+    "grants_causal_authority": false,
+    "grants_world_commit": false,
+    "grants_blocker_discharge": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_automatic_learning_authority": false,
+    "grants_final_commitment_authority": false
+  },
+  "next_dependency": "CapabilityOS v0.61 typed capability composition graph"
+}
