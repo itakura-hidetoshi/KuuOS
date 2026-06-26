@@ -106,8 +106,9 @@ theorem active_impediment_implies_nonready
     state.effectiveCapability = 0 := by
   apply state.effectiveCapability_zero_of_not_ready
   intro ready
-  rw [active] at ready.noImpediment
-  cases ready.noImpediment
+  have noImpediment := ready.noImpediment
+  rw [active] at noImpediment
+  cases noImpediment
 
 
 theorem verifier_absence_implies_hold
@@ -115,8 +116,9 @@ theorem verifier_absence_implies_hold
     state.effectiveCapability = 0 := by
   apply state.effectiveCapability_zero_of_not_ready
   intro ready
-  rw [absent] at ready.verifierPresent
-  cases ready.verifierPresent
+  have verifierPresent := ready.verifierPresent
+  rw [absent] at verifierPresent
+  cases verifierPresent
 
 
 theorem unsupported_world_implies_nonready
@@ -124,8 +126,9 @@ theorem unsupported_world_implies_nonready
     state.effectiveCapability = 0 := by
   apply state.effectiveCapability_zero_of_not_ready
   intro ready
-  rw [unsupported] at ready.worldSupported
-  cases ready.worldSupported
+  have worldSupported := ready.worldSupported
+  rw [unsupported] at worldSupported
+  cases worldSupported
 
 
 theorem ready_flow_preserves_non_authority
