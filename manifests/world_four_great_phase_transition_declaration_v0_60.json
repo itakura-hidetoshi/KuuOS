@@ -1,0 +1,53 @@
+{
+  "manifest_version": "world_four_great_phase_transition_declaration_v0_60",
+  "predecessor": "world_four_great_phase_dynamics_v0_59",
+  "status": "formal_read_only_phase_transition_declaration",
+  "criteria_module": "formal/KUOS/WORLD/FourGreatPhaseTransitionCriteriaV0_60.lean",
+  "declaration_module": "formal/KUOS/WORLD/FourGreatPhaseTransitionDeclarationV0_60.lean",
+  "formal_root": "formal/KuuOSFormalV0_60.lean",
+  "canonical_root": "formal/KUOS.lean",
+  "aggregate_formal_root": "formal/KuuOSFormal.lean",
+  "documentation": "docs/KU_WORLD_FOUR_GREAT_PHASE_TRANSITION_DECLARATION_v0_60.md",
+  "validator": "scripts/check_world_four_great_phase_transition_declaration_v0_60.py",
+  "workflow": ".github/workflows/world-four-great-phase-transition-v0-60.yml",
+  "declaration_channels": [
+    "free_energy_nonanalyticity",
+    "spectral_gap_closure",
+    "fixed_point_subalgebra_change"
+  ],
+  "four_great_link": "local_four_great_coordinate_change",
+  "hierarchy": {
+    "candidate": "one_channel",
+    "concordant_candidate": "two_channels",
+    "strict_declaration": "three_channels_plus_four_great_change"
+  },
+  "proved_spine": [
+    "gap_zero_at_critical",
+    "gap_nonnegative",
+    "declaration_to_concordant",
+    "declaration_to_candidate",
+    "concordant_to_candidate",
+    "declaration_evidence_package",
+    "boundary_package"
+  ],
+  "scope": {
+    "mathlib_analytic_at": true,
+    "continuous_gap_closure": true,
+    "subalgebra_fixed_point_change": true,
+    "local_four_great_change": true,
+    "thermodynamic_limit_constructed": false,
+    "hamiltonian_gap_computed": false,
+    "empirical_confirmation": false,
+    "world_state_mutation": false
+  },
+  "boundaries": {
+    "single_witness_is_declaration": false,
+    "two_witnesses_are_strict_declaration": false,
+    "gap_implies_nonanalyticity": false,
+    "fixed_point_change_implies_gap_closure": false,
+    "four_great_change_implies_transition": false,
+    "declaration_is_material_ontology": false,
+    "declaration_is_empirical_confirmation": false,
+    "declaration_grants_execution_authority": false
+  }
+}
