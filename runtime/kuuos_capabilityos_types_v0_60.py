@@ -1,3 +1,9 @@
+"""Typed, digest-bound contracts for CapabilityOS v0.60.
+
+The contracts keep capability candidates contextual, plural-WORLD preserving,
+and non-authoritative before PlanOS, DecisionOS, and ActOS ownership boundaries.
+"""
+
 from __future__ import annotations
 
 from copy import deepcopy
