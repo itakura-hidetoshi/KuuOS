@@ -15,7 +15,8 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  validate:
+  integrated-world-v053-v059:
+    name: Integrated WORLD v0.53-v0.59
     runs-on: ubuntu-latest
     timeout-minutes: 90
     steps:
@@ -32,6 +33,20 @@ jobs:
           scripts/check_world_kuu_vacuum_araki_hessian_physical_realization_v0_56.py
           scripts/check_world_four_great_phase_dynamics_v0_59.py
           scripts/run_kuuos_runtime_full_check_v0_55.py
+      - name: Verify canonical root registration
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -Fq 'import KUOS.WORLD.VacuumExpectationObserveOSCommitVerifyHandoffBridgeV0_53' formal/KUOS.lean
+          grep -Fq 'import KUOS.WORLD.KuuVacuumCentralReferenceStateBridgeV0_54' formal/KUOS.lean
+          grep -Fq 'import KUOS.WORLD.KuuVacuumInformationGeometryBridgeV0_55' formal/KUOS.lean
+          grep -Fq 'import KUOS.WORLD.KuuVacuumArakiHessianOSTransportV0_56' formal/KUOS.lean
+          grep -Fq 'import KUOS.WORLD.TomitaClosedGraphIsometryV0_57' formal/KUOS.lean
+          grep -Fq 'import KUOS.WORLD.TomitaConjugateAdjointClosedV0_58' formal/KUOS.lean
+          grep -Fq 'import KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59' formal/KUOS.lean
+          grep -Fq 'import KUOS.WORLD.TomitaClosedGraphIsometryV0_57' formal/KuuOSFormal.lean
+          grep -Fq 'import KUOS.WORLD.TomitaConjugateAdjointClosedV0_58' formal/KuuOSFormal.lean
+          grep -Fq 'import KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59' formal/KuuOSFormal.lean
       - name: Run cumulative runtime validation
         run: python3 scripts/run_kuuos_runtime_full_check_v0_55.py
       - name: Run v0.56 static validation
