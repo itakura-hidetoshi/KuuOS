@@ -16,7 +16,7 @@ on:
       - 'formal/**'
       - 'src/**'
       - 'Makefile'
-      - '.github/workflows/**'
+      - '.github/**'
   pull_request:
     paths:
       - 'docs/**'
@@ -31,7 +31,7 @@ on:
       - 'formal/**'
       - 'src/**'
       - 'Makefile'
-      - '.github/workflows/**'
+      - '.github/**'
 
 jobs:
   validate-all-governance:
