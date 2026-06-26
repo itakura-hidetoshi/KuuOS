@@ -13,6 +13,8 @@ on:
       - 'manifests/**'
       - 'packets/**'
       - 'chain_indexes/**'
+      - 'formal/**'
+      - 'src/**'
       - 'Makefile'
       - '.github/workflows/**'
   pull_request:
@@ -26,6 +28,8 @@ on:
       - 'manifests/**'
       - 'packets/**'
       - 'chain_indexes/**'
+      - 'formal/**'
+      - 'src/**'
       - 'Makefile'
       - '.github/workflows/**'
 
