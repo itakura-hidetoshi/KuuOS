@@ -31,5 +31,7 @@ roots = [
   "KuuOSFormalV0_56",
   "KuuOSArakiCalculusV0_56",
   "KuuOSFormalV0_57",
-  "KuuOSFormalV0_58"
+  "KuuOSFormalV0_58",
+  "KuuOSFourGreatCoreV0_59",
+  "KuuOSFormalV0_59"
 ]
