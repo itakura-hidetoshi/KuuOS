@@ -19,3 +19,4 @@ import KUOS.WORLD.KuuVacuumArakiHessianOSTransportV0_56
 import KUOS.WORLD.TomitaClosedGraphIsometryV0_57
 import KUOS.WORLD.TomitaConjugateAdjointClosedV0_58
 import KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59
+import KUOS.WORLD.FourGreatPhaseTransitionDeclarationV0_60
