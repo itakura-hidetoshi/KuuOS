@@ -49,21 +49,24 @@ def main() -> int:
             "runtime remains read-only",
         ),
     )
+
+    # README and ROADMAP are rolling entry documents. Validate durable semantic
+    # boundaries rather than historical version headings or release prose.
     require_tokens(
         ROOT / "README.md",
         (
-            "WORLD read-only mathematical sidecar             v0.53",
             "receipt composition != receipt construction",
-            "WORLD sidecar != LearnOS owner",
-            "run_kuuos_runtime_full_check_v0_53.py",
+            "WORLD sidecar != exact WORLD",
+            "observation != verification",
+            "learning != present-cycle mutation",
         ),
     )
     require_tokens(
         ROOT / "ROADMAP.md",
         (
-            "implemented through v0.53",
             "OS receipt composition",
-            "Strengthen WORLD v0.53 proof status",
+            "WORLD sidecar != exact WORLD",
+            "WORLD commit != truth",
         ),
     )
 
