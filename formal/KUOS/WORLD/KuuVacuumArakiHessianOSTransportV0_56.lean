@@ -60,7 +60,7 @@ structure WorldKuuVacuumArakiHessianOSTransport
     K.osHilbertIdentification (K.osClass (positiveTimeRepresentative h)) =
       Central.excitationVector (physicalObservable h)
 
-  infiniteDimensionalPhysicalCarrier : InfiniteDimensional ℂ M.H
+  physicalCarrierNotFiniteDimensional : ¬ FiniteDimensional ℂ M.H
 
   boundedGeneratorScope : Prop
   boundedGeneratorScopeProof : boundedGeneratorScope
@@ -198,9 +198,11 @@ theorem hessian_nonnegative
     0 ≤ Transport.calculus.mixedHessian h h :=
   Transport.calculus.mixedHessian_nonnegative h
 
+include Transport
+
 theorem physical_carrier_infinite_dimensional :
-    InfiniteDimensional ℂ M.H :=
-  Transport.infiniteDimensionalPhysicalCarrier
+    ¬ FiniteDimensional ℂ M.H :=
+  Transport.physicalCarrierNotFiniteDimensional
 
 theorem exact_scope :
     Transport.boundedGeneratorScope ∧

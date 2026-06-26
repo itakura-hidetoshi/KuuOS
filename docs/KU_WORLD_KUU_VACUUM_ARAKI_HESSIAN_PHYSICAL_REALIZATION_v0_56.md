@@ -105,11 +105,13 @@ H_Araki(k,h) = Re E_OS(a_k^+,a_h^+)
 
 ## 無限次元性
 
-物理Hilbert担体には次を型として要求する。
+物理Hilbert担体には、現行mathlibの `FiniteDimensional` 命題を用いて次を型として要求する。
 
 ```text
-InfiniteDimensional ℂ H_phys
+¬ FiniteDimensional ℂ H_phys
 ```
+
+これは、物理Hilbert担体が複素数体上で有限次元ではないことを直接表す。
 
 このbridgeは有限行列状態空間への縮約ではない。
 
