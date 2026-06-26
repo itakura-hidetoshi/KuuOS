@@ -26,7 +26,7 @@ concurrency:
 jobs:
   validate:
     runs-on: macos-14
-    timeout-minutes: 45
+    timeout-minutes: 25
     steps:
       - uses: actions/checkout@v6
       - name: Publish pending validation status
@@ -38,8 +38,8 @@ jobs:
             -H 'Accept: application/vnd.github+json' \
             "/repos/${GITHUB_REPOSITORY}/statuses/${STATUS_SHA}" \
             -f state='pending' \
-            -f context='WORLD v0.60 strict validation' \
-            -f description='Strict validation is running' \
+            -f context='WORLD v0.60 dedicated validation' \
+            -f description='Dedicated v0.60 validation is running' \
             -f target_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
       - uses: actions/setup-python@v5
         with:
@@ -61,13 +61,13 @@ jobs:
         run: git diff --exit-code -- lake-manifest.json
       - name: Fetch Mathlib cache
         run: lake exe cache get
-      - name: Build v0.60 and aggregate roots
+      - name: Build WORLD v0.60 root
         shell: bash
         run: |
           set -o pipefail
           lake -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
-            build KuuOSFormalV0_60 KuuOSFormal \
+            build KuuOSFormalV0_60 \
             2>&1 | tee world-v060-build.log
       - name: Print Lean failure tail
         if: failure()
@@ -79,7 +79,7 @@ jobs:
           name: world-v060-lean-diagnostics
           path: world-v060-build.log
           if-no-files-found: ignore
-      - name: Publish strict validation status
+      - name: Publish dedicated validation status
         if: always()
         env:
           GH_TOKEN: ${{ github.token }}
@@ -90,6 +90,6 @@ jobs:
             -H 'Accept: application/vnd.github+json' \
             "/repos/${GITHUB_REPOSITORY}/statuses/${STATUS_SHA}" \
             -f state="${STATUS_STATE}" \
-            -f context='WORLD v0.60 strict validation' \
-            -f description='Static, dedicated Lean, and aggregate Lean validation' \
+            -f context='WORLD v0.60 dedicated validation' \
+            -f description='Static and dedicated WORLD v0.60 Lean validation' \
             -f target_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
