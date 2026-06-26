@@ -44,15 +44,18 @@ variable (Dyn : WorldFourGreatPhaseDynamics Transport)
 
 def analyticCore (i : G.Patch) :
     WorldFourGreatAnalyticCore Transport.calculus.Generator where
-  earth := Dyn.earthStiffness
-  water := Dyn.waterCorrelation
+  earth := fun h => earthStiffness (Transport := Transport) h
+  water := fun h => waterCorrelation (Transport := Transport) h
   fire := Dyn.fireLoss
   air := Dyn.airActivity
-  earth_nonnegative := Dyn.earth_nonnegative
-  water_nonnegative := Dyn.water_nonnegative i
+  earth_nonnegative := fun h =>
+    earth_nonnegative (Transport := Transport) h
+  water_nonnegative := fun h =>
+    water_nonnegative (Transport := Transport) i h
   fire_nonnegative := Dyn.fire_nonnegative
   air_nonnegative := Dyn.air_nonnegative
-  earth_eq_water := Dyn.earth_eq_water i
+  earth_eq_water := fun h =>
+    earth_eq_water (Transport := Transport) i h
   air_zero := Dyn.air_zero_activity
   effectiveFireRequiresCoarseGraining :=
     Dyn.effectiveFireRequiresCoarseGraining
