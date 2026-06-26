@@ -24,10 +24,6 @@ on:
 permissions:
   contents: read
 
-concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
-
 jobs:
   full-check:
     runs-on: ubuntu-latest
@@ -43,7 +39,7 @@ jobs:
         shell: bash
         run: |
           set -o pipefail
-          PYTHONPATH=. python3 scripts/run_kuuos_runtime_full_check_v0_55.py \
+          PYTHONPATH=. python3 scripts/run_kuuos_runtime_full_check_v0_52.py \
             2>&1 | tee kuuos-runtime-full-check.log
       - name: Upload runtime diagnostics
         if: failure()
