@@ -50,7 +50,8 @@ structure WorldFourGreatPhaseTransitionDeclaration where
 
 namespace WorldFourGreatPhaseTransitionDeclaration
 
-variable {System critical}
+variable {System : WorldFourGreatPhaseTransitionSystem 𝕜 A}
+variable {critical : ℝ}
 
 /-- A strict declaration always determines a concordant candidate. -/
 def toConcordant
@@ -89,7 +90,8 @@ end WorldFourGreatPhaseTransitionDeclaration
 
 namespace WorldFourGreatConcordantPhaseTransitionCandidate
 
-variable {System critical}
+variable {System : WorldFourGreatPhaseTransitionSystem 𝕜 A}
+variable {critical : ℝ}
 
 /-- A concordant candidate forgets to a single-channel candidate. -/
 def toCandidate
