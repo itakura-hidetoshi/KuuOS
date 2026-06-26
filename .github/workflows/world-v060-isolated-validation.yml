@@ -1,0 +1,100 @@
+name: WORLD v0.60 Isolated Strict Validation
+
+on:
+  push:
+    branches:
+      - 'validation/world-v060-af410399'
+
+permissions:
+  contents: read
+  statuses: write
+
+concurrency:
+  group: world-v060-isolated-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+      - name: Publish pending status
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          gh api --method POST \
+            -H 'Accept: application/vnd.github+json' \
+            "/repos/${GITHUB_REPOSITORY}/statuses/${GITHUB_SHA}" \
+            -f state='pending' \
+            -f context='WORLD v0.60 isolated strict validation' \
+            -f description='Isolated v0.60 and aggregate validation is running' \
+            -f target_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run static validation
+        run: python3 scripts/check_world_four_great_phase_transition_declaration_v0_60.py
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore Lake workspace cache
+        uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+      - name: Resolve pinned dependencies
+        run: |
+          set -o pipefail
+          lake update 2>&1 | tee world-v060-isolated.log
+      - name: Verify committed manifest is canonical
+        run: |
+          set -o pipefail
+          git diff --exit-code -- lake-manifest.json 2>&1 | tee -a world-v060-isolated.log
+      - name: Fetch Mathlib olean cache
+        run: |
+          set -o pipefail
+          lake exe cache get 2>&1 | tee -a world-v060-isolated.log
+      - name: Build dedicated WORLD v0.60 root
+        run: |
+          set -o pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSFormalV0_60 2>&1 | tee -a world-v060-isolated.log
+      - name: Build aggregate formal root
+        run: |
+          set -o pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSFormal 2>&1 | tee -a world-v060-isolated.log
+      - name: Print failure tail
+        if: failure()
+        run: tail -n 250 world-v060-isolated.log || true
+      - name: Upload validation log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: world-v060-isolated-validation-log
+          path: world-v060-isolated.log
+          if-no-files-found: ignore
+      - name: Publish final status
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STATUS_STATE: ${{ job.status == 'success' && 'success' || 'failure' }}
+        run: |
+          gh api --method POST \
+            -H 'Accept: application/vnd.github+json' \
+            "/repos/${GITHUB_REPOSITORY}/statuses/${GITHUB_SHA}" \
+            -f state="${STATUS_STATE}" \
+            -f context='WORLD v0.60 isolated strict validation' \
+            -f description='Static, dedicated Lean, and aggregate Lean validation' \
+            -f target_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
