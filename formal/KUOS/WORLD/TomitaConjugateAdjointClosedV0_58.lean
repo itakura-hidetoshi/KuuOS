@@ -18,6 +18,7 @@ def conjugateAdjointConstraint
     (x : R.pmap.closure.domain) : Set (H × H) :=
   {p | inner Complex (R.pmap.closure x) p.1 = inner Complex p.2 (x : H)}
 
+omit [IsScalarTower Real Complex H] in
 theorem conjugateAdjointConstraint_isClosed
     (x : R.pmap.closure.domain) :
     IsClosed (R.conjugateAdjointConstraint x) := by
