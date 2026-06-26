@@ -40,6 +40,30 @@ inductive WorldPhaseTransitionChannel where
 variable (𝕜 A : Type*)
 variable [CommSemiring 𝕜] [Semiring A] [Algebra 𝕜 A]
 
+/-- Order-theoretic classification of a fixed-point-subalgebra change. -/
+inductive WorldFixedPointAlgebraChangeWitness
+    (left right : Subalgebra 𝕜 A) : Prop where
+  | enlargement (h : left < right)
+  | reduction (h : right < left)
+  | incomparable (hLR : ¬ left ≤ right) (hRL : ¬ right ≤ left)
+
+namespace WorldFixedPointAlgebraChangeWitness
+
+variable {𝕜 A}
+variable {left right : Subalgebra 𝕜 A}
+
+theorem ne (h : WorldFixedPointAlgebraChangeWitness 𝕜 A left right) :
+    left ≠ right := by
+  cases h with
+  | enlargement hlt => exact ne_of_lt hlt
+  | reduction hlt => exact ne_of_gt hlt
+  | incomparable hLR _ =>
+      intro hEq
+      apply hLR
+      simpa [hEq]
+
+end WorldFixedPointAlgebraChangeWitness
+
 structure WorldFourGreatPhaseTransitionSystem where
   fourGreatDiagnostic : ℝ → WorldFourGreatCoreDiagnostic
   freeEnergy : ℝ → ℝ
@@ -86,7 +110,7 @@ def isolatedSpectralGapClosesAt (critical : ℝ) : Prop :=
         |t - critical| < ε ∧
         0 < System.spectralGap t
 
-/-- The supplied fixed-point subalgebra changes across every critical neighbourhood. -/
+/-- The fixed-point subalgebra changes locally by enlargement, reduction, or incomparability. -/
 def fixedPointAlgebraChangesAt (critical : ℝ) : Prop :=
   ∀ ε : ℝ, 0 < ε →
     ∃ left right : ℝ,
@@ -94,7 +118,9 @@ def fixedPointAlgebraChangesAt (critical : ℝ) : Prop :=
       left < critical ∧
       critical < right ∧
       right < critical + ε ∧
-      System.fixedPointAlgebra left ≠ System.fixedPointAlgebra right
+      WorldFixedPointAlgebraChangeWitness 𝕜 A
+        (System.fixedPointAlgebra left)
+        (System.fixedPointAlgebra right)
 
 /-- The v0.59 diagnostic coordinates change across every critical neighbourhood. -/
 def fourGreatCoordinatesChangeAt (critical : ℝ) : Prop :=
