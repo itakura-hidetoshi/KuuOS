@@ -107,6 +107,8 @@ variable {Transport : WorldKuuVacuumArakiHessianOSTransport Geom}
 
 variable (Dyn : WorldFourGreatPhaseDynamics Transport)
 
+include Dyn
+
 def earthStiffness
     (h : Transport.calculus.Generator) : ℝ :=
   Transport.calculus.mixedHessian h h
