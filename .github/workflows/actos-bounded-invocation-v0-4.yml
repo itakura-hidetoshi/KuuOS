@@ -2,6 +2,9 @@ name: ActOS Bounded Invocation v0.4
 on:
   workflow_dispatch:
   pull_request:
+  push:
+    branches:
+      - fix/vacuum-receipt-chain-final
 permissions:
   contents: read
 jobs:
