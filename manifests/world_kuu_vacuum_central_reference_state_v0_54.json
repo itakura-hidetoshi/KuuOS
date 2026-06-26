@@ -1,0 +1,45 @@
+{
+  "manifest_version": "world_kuu_vacuum_central_reference_state_v0_54",
+  "predecessor": "world_vacuum_expectation_observeos_commit_verify_handoff_v0_53",
+  "status": "formal_read_only_central_reference_state",
+  "formal_module": "formal/KUOS/WORLD/KuuVacuumCentralReferenceStateBridgeV0_54.lean",
+  "formal_root": "formal/KuuOSFormalV0_54.lean",
+  "aggregate_formal_root": "formal/KuuOSFormal.lean",
+  "documentation": "docs/KU_WORLD_KUU_VACUUM_CENTRAL_REFERENCE_STATE_v0_54.md",
+  "validator": "scripts/check_world_kuu_vacuum_central_reference_state_v0_54.py",
+  "full_check": "scripts/run_kuuos_runtime_full_check_v0_54.py",
+  "workflow": ".github/workflows/world-kuu-vacuum-central-reference-state-v0-54.yml",
+  "central_spine": [
+    "reflection_positivity",
+    "vacuum_correlations",
+    "modular_reference_state",
+    "araki_relative_entropy",
+    "petz_recovery",
+    "excitation_vectors",
+    "excited_states"
+  ],
+  "boundaries": {
+    "central_reference_is_exact_world": false,
+    "central_reference_grants_truth_authority": false,
+    "central_reference_is_control_objective": false,
+    "kuu_is_zero_vector": false,
+    "world_is_vacuum_vector": false,
+    "unique_vacuum_declared": false,
+    "excitation_creates_world": false,
+    "petz_recovery_grants_execution": false,
+    "modular_time_equals_physical_time": false,
+    "runtime_constructs_os_completion": false,
+    "runtime_computes_correlations": false,
+    "runtime_executes_modular_flow": false,
+    "runtime_computes_relative_entropy": false,
+    "runtime_constructs_petz_recovery": false,
+    "runtime_creates_excited_states": false,
+    "runtime_updates_world": false
+  },
+  "proof_status": {
+    "lean_direct": "typed finite consequences and exact bridge equalities",
+    "analytic_receipts": "OS completion, correlation continuity, excitation density, positivity, Araki and Petz analytic realization",
+    "physical_realization": "not established",
+    "external_acceptance": "not established"
+  }
+}

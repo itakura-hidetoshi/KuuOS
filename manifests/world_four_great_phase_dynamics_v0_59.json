@@ -1,0 +1,63 @@
+{
+  "manifest_version": "world_four_great_phase_dynamics_v0_59",
+  "predecessor": "world_kuu_vacuum_araki_hessian_physical_realization_v0_56",
+  "stack_base": "world_tomita_conjugate_adjoint_v0_58",
+  "analytic_dependency": "world_kuu_vacuum_araki_hessian_physical_realization_v0_56",
+  "status": "formal_read_only_four_great_phase_dynamics",
+  "core_module": "formal/KUOS/WORLD/FourGreatPhaseDynamicsCoreV0_59.lean",
+  "core_root": "formal/KuuOSFourGreatCoreV0_59.lean",
+  "formal_module": "formal/KUOS/WORLD/FourGreatPhaseDynamicsV0_59.lean",
+  "bridge_module": "formal/KUOS/WORLD/FourGreatPhaseDynamicsCoreBridgeV0_59.lean",
+  "formal_root": "formal/KuuOSFormalV0_59.lean",
+  "aggregate_formal_root": "formal/KuuOSFormal.lean",
+  "documentation": "docs/KU_WORLD_FOUR_GREAT_PHASE_DYNAMICS_v0_59.md",
+  "validator": "scripts/check_world_four_great_phase_dynamics_v0_59.py",
+  "workflow": ".github/workflows/world-four-great-phase-dynamics-v0-59.yml",
+  "four_greats": {
+    "earth": "araki_hessian_stiffness",
+    "water": "physical_excitation_gram_correlation",
+    "fire": "nonnegative_effective_information_loss_after_coarse_graining",
+    "air": "reversible_inner_product_preserving_physical_flow"
+  },
+  "core_proved_spine": [
+    "diagnostic_components_nonnegative",
+    "earth_equals_water",
+    "air_zero",
+    "diagnostic_total_nonnegative",
+    "read_only_boundary_package"
+  ],
+  "transport_proved_spine": [
+    "earth_equals_water_on_diagonal",
+    "earth_nonnegative",
+    "water_nonnegative",
+    "fire_nonnegative",
+    "air_activity_nonnegative",
+    "air_zero_activity",
+    "air_inverse",
+    "air_preserves_physical_inner_product",
+    "transport_realizes_analytic_core"
+  ],
+  "scope": {
+    "mathlib_only_core": true,
+    "typed_araki_os_core_bridge": true,
+    "bounded_generator_araki_hessian": true,
+    "completed_physical_hilbert_correlation": true,
+    "abstract_reversible_physical_flow": true,
+    "effective_fire_after_coarse_graining": true,
+    "first_principles_quantum_markov_fire": false,
+    "phase_transition_nonregularity_proved": false,
+    "world_state_mutation": false
+  },
+  "boundaries": {
+    "four_great_diagnostic_is_ontology": false,
+    "earth_is_solid_matter": false,
+    "water_is_liquid_matter": false,
+    "fire_is_temperature": false,
+    "air_is_gaseous_matter": false,
+    "os_contraction_is_physical_fire": false,
+    "modular_time_is_physical_time": false,
+    "diagnostic_change_is_phase_transition": false,
+    "diagnostic_grants_observation_ownership": false,
+    "diagnostic_grants_execution_authority": false
+  }
+}
