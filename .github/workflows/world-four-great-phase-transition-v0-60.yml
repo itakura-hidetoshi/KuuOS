@@ -1,0 +1,96 @@
+name: WORLD v0.60 Four-Great Phase Transition
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'formal/KUOS/WORLD/**'
+      - 'formal/KuuOSFormalV0_60.lean'
+      - 'formal/KUOS.lean'
+      - 'formal/KuuOSFormal.lean'
+      - 'lakefile.toml'
+      - 'lake-manifest.json'
+      - 'lean-toolchain'
+      - 'docs/KU_WORLD_FOUR_GREAT_PHASE_TRANSITION_DECLARATION_v0_60.md'
+      - 'manifests/world_four_great_phase_transition_declaration_v0_60.json'
+      - 'scripts/check_world_four_great_phase_transition_declaration_v0_60.py'
+      - '.github/workflows/world-four-great-phase-transition-v0-60.yml'
+
+permissions:
+  contents: read
+  statuses: write
+
+concurrency:
+  group: world-v060-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: macos-14
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+      - name: Publish pending validation status
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STATUS_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+        run: |
+          gh api --method POST \
+            -H 'Accept: application/vnd.github+json' \
+            "/repos/${GITHUB_REPOSITORY}/statuses/${STATUS_SHA}" \
+            -f state='pending' \
+            -f context='WORLD v0.60 dedicated validation' \
+            -f description='Dedicated v0.60 validation is running' \
+            -f target_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run static validation
+        run: python3 scripts/check_world_four_great_phase_transition_declaration_v0_60.py
+      - name: Set up Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve dependencies
+        run: lake update
+      - name: Verify manifest
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib cache
+        run: lake exe cache get
+      - name: Build WORLD v0.60 and aggregate roots
+        shell: bash
+        run: |
+          set -o pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSFormalV0_60 KuuOSFormal \
+            2>&1 | tee world-v060-build.log
+      - name: Print Lean failure tail
+        if: failure()
+        run: tail -n 200 world-v060-build.log || true
+      - name: Upload Lean diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: world-v060-lean-diagnostics
+          path: world-v060-build.log
+          if-no-files-found: ignore
+      - name: Publish dedicated validation status
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STATUS_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          STATUS_STATE: ${{ job.status == 'success' && 'success' || 'failure' }}
+        run: |
+          gh api --method POST \
+            -H 'Accept: application/vnd.github+json' \
+            "/repos/${GITHUB_REPOSITORY}/statuses/${STATUS_SHA}" \
+            -f state="${STATUS_STATE}" \
+            -f context='WORLD v0.60 dedicated validation' \
+            -f description='Static, WORLD v0.60, and aggregate Lean validation' \
+            -f target_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
