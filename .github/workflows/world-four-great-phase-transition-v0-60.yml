@@ -17,6 +17,11 @@ on:
 
 permissions:
   contents: read
+  statuses: write
+
+concurrency:
+  group: world-v060-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate:
@@ -46,3 +51,16 @@ jobs:
         run: lake exe cache get
       - name: Build v0.60 and aggregate roots
         run: lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormalV0_60 KuuOSFormal
+      - name: Publish strict validation status
+        if: always()
+        env:
+          GH_TOKEN: ${{ github.token }}
+          STATUS_SHA: ${{ github.event.pull_request.head.sha || github.sha }}
+          STATUS_STATE: ${{ job.status == 'success' && 'success' || 'failure' }}
+        run: |
+          gh api --method POST \
+            -H 'Accept: application/vnd.github+json' \
+            "/repos/${GITHUB_REPOSITORY}/statuses/${STATUS_SHA}" \
+            -f state="${STATUS_STATE}" \
+            -f context='WORLD v0.60 strict validation' \
+            -f description='Static, dedicated Lean, and aggregate Lean validation'
