@@ -1,0 +1,26 @@
+name: Temporary Dependent Receipt Expansion Check
+
+on:
+  pull_request:
+    types: [opened, synchronize, reopened]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  expand:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - name: Expand dependent Receipt notation
+        run: python3 scripts/fix_dependent_receipt_notation.py
+      - name: Validate generated patch
+        run: |
+          git diff --check
+          git diff -- formal/KUOS > dependent-receipt-expansion.patch
+          test -s dependent-receipt-expansion.patch
+      - uses: actions/upload-artifact@v4
+        with:
+          name: dependent-receipt-expansion
+          path: dependent-receipt-expansion.patch
