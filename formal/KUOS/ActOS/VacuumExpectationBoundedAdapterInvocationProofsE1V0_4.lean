@@ -1,0 +1,8 @@
+import KUOS.ActOS.VacuumExpectationBoundedAdapterInvocationCoreV0_4
+
+namespace KUOS.ActOS
+open WORLD ObserveOS VerifyOS LearnOS DecisionOS PlanOS
+namespace VacuumExpectationBoundedAdapterInvocationBridge
+
+end VacuumExpectationBoundedAdapterInvocationBridge
+end KUOS.ActOS
