@@ -198,10 +198,11 @@ theorem hessian_nonnegative
     0 ≤ Transport.calculus.mixedHessian h h :=
   Transport.calculus.mixedHessian_nonnegative h
 
+include Transport
+
 theorem physical_carrier_infinite_dimensional :
     ¬ FiniteDimensional ℂ M.H :=
-  WorldKuuVacuumArakiHessianOSTransport.physicalCarrierNotFiniteDimensional
-    Transport
+  Transport.physicalCarrierNotFiniteDimensional
 
 theorem exact_scope :
     Transport.boundedGeneratorScope ∧
