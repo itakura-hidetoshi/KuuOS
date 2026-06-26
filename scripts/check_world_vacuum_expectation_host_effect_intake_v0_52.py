@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 import json
+import re
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
@@ -17,6 +18,20 @@ def require_tokens(path: Path, tokens: tuple[str, ...]) -> None:
     text = path.read_text(encoding="utf-8")
     for token in tokens:
         require(token in text, f"{path}: missing {token}")
+
+
+def require_runtime_full_check_at_least(path: Path, minimum_minor: int) -> None:
+    text = path.read_text(encoding="utf-8")
+    require("Run cumulative runtime full check" in text, f"{path}: missing cumulative runtime step")
+    versions = [
+        int(match.group(1))
+        for match in re.finditer(r"run_kuuos_runtime_full_check_v0_(\d+)\.py", text)
+    ]
+    require(versions, f"{path}: missing cumulative runtime full-check runner")
+    require(
+        max(versions) >= minimum_minor,
+        f"{path}: cumulative runtime full-check runner must be v0.{minimum_minor} or later",
+    )
 
 
 def main() -> int:
@@ -70,9 +85,9 @@ def main() -> int:
         ROOT / "scripts/run_kuuos_runtime_full_check_v0_52.py",
         ("check_world_v052",),
     )
-    require_tokens(
+    require_runtime_full_check_at_least(
         ROOT / ".github/workflows/kuuos_runtime_full_check.yml",
-        ("Run cumulative runtime full check", "run_kuuos_runtime_full_check_v0_55.py"),
+        minimum_minor=55,
     )
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
