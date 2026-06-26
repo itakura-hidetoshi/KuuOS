@@ -1,0 +1,48 @@
+name: WORLD v0.60 Four-Great Phase Transition
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'formal/KUOS/WORLD/FourGreatPhaseTransitionCriteriaV0_60.lean'
+      - 'formal/KUOS/WORLD/FourGreatPhaseTransitionDeclarationV0_60.lean'
+      - 'formal/KuuOSFormalV0_60.lean'
+      - 'formal/KUOS.lean'
+      - 'formal/KuuOSFormal.lean'
+      - 'lakefile.toml'
+      - 'docs/KU_WORLD_FOUR_GREAT_PHASE_TRANSITION_DECLARATION_v0_60.md'
+      - 'manifests/world_four_great_phase_transition_declaration_v0_60.json'
+      - 'scripts/check_world_four_great_phase_transition_declaration_v0_60.py'
+      - '.github/workflows/world-four-great-phase-transition-v0-60.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 45
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run static validation
+        run: python3 scripts/check_world_four_great_phase_transition_declaration_v0_60.py
+      - name: Set up Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve dependencies
+        run: lake update
+      - name: Verify manifest
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib cache
+        run: lake exe cache get
+      - name: Build v0.60 and aggregate roots
+        run: lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormalV0_60 KuuOSFormal
