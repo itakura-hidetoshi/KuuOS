@@ -12,7 +12,8 @@ REQUIRED = [
     "actions/checkout@v4",
     "actions/setup-python@v5",
     "python-version: '3.12'",
-    "python3 scripts/run_do_sheaf_gauge_runtime_finality_checks_v0_2.py",
+    "python3 scripts/check_do_sheaf_gauge_runtime_finality_v0_2.py",
+    "python3 scripts/check_do_sheaf_gauge_runtime_finality_ci_v0_2.py",
 ]
 
 

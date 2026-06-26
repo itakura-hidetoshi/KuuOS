@@ -6,7 +6,7 @@ import subprocess
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-SUITE = ROOT / "scripts" / "run_kustring_runtime_suite_v0_2.py"
+ATTESTATION_CHECKER = ROOT / "scripts" / "check_kustring_runtime_attestation_v0_2.py"
 DOC = ROOT / "docs" / "KUSTRING_RUNTIME_CLOSURE_PACKET_v0_2.md"
 
 REQUIRED = [
@@ -23,7 +23,7 @@ REQUIRED = [
 
 
 def main() -> int:
-    code = subprocess.run([sys.executable, str(SUITE)], cwd=ROOT).returncode
+    code = subprocess.run([sys.executable, str(ATTESTATION_CHECKER)], cwd=ROOT).returncode
     if code != 0:
         return code
     errors: list[str] = []

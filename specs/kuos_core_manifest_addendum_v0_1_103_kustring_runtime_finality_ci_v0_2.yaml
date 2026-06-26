@@ -13,21 +13,21 @@ added_documents:
   - scripts/check_kustring_runtime_finality_ci_v0_2.py
 
 updated_documents:
-  - scripts/run_kustring_runtime_finality_suite_v0_2.py
+  - scripts/check_kustring_runtime_finality_report_v0_2.py
 
 ci:
   workflow: .github/workflows/kustring_runtime_finality_v0_2.yml
   checker: scripts/check_kustring_runtime_finality_ci_v0_2.py
-  finality_suite: scripts/run_kustring_runtime_finality_suite_v0_2.py
-  command: python3 scripts/run_kustring_runtime_finality_suite_v0_2.py
+  validation_entry: scripts/check_kustring_runtime_finality_report_v0_2.py
+  command: python3 scripts/check_kustring_runtime_finality_report_v0_2.py
 
 validation:
   commands:
     - python3 scripts/check_kustring_runtime_finality_ci_v0_2.py
-    - python3 scripts/run_kustring_runtime_finality_suite_v0_2.py
+    - python3 scripts/check_kustring_runtime_finality_report_v0_2.py
 
 fixed_points:
-  - runtime_finality_ci_runs_finality_suite
+  - runtime_finality_ci_runs_report_checker
   - ci_validation_is_implementation_not_proof
   - ci_pass_does_not_grant_authority
   - runtime_finality_chain_is_checked_on_push_pull_request_and_manual_dispatch

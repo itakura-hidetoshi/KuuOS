@@ -11,7 +11,7 @@ implementation_not_proof: true
 added_documents:
   - examples/kustring_runtime_v0_2.py
   - tests/test_kustring_runtime_v0_2.py
-  - scripts/run_kustring_runtime_checks_v0_2.py
+  - scripts/check_kustring_runtime_bundle_v0_2.py
 
 updated_documents:
   - scripts/run_emptiness_middle_way_core_full_checks_v0_1.py
@@ -19,6 +19,7 @@ updated_documents:
 runtime:
   packet: Packet
   evaluator: evaluate
+  validation_entry: scripts/check_kustring_runtime_bundle_v0_2.py
   default_gap: 33/20
   gap_domain: K_perp
   centered_observable: A_circ
@@ -30,7 +31,7 @@ runtime:
     - OBSERVE
 
 validation:
-  command: python3 scripts/run_kustring_runtime_checks_v0_2.py
+  command: python3 scripts/check_kustring_runtime_bundle_v0_2.py
   included_in:
     - scripts/run_emptiness_middle_way_core_full_checks_v0_1.py
 

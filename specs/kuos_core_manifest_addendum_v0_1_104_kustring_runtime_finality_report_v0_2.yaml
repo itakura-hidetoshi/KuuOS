@@ -12,24 +12,20 @@ added_documents:
   - scripts/build_kustring_runtime_finality_report_v0_2.py
   - scripts/check_kustring_runtime_finality_report_v0_2.py
 
-updated_documents:
-  - scripts/run_kustring_runtime_finality_suite_v0_2.py
-
 finality_report:
   generated_report: specs/kustring_runtime_finality_report_v0_2.generated.json
   builder: scripts/build_kustring_runtime_finality_report_v0_2.py
   checker: scripts/check_kustring_runtime_finality_report_v0_2.py
-  finality_suite: scripts/run_kustring_runtime_finality_suite_v0_2.py
+  validation_entry: scripts/check_kustring_runtime_finality_report_v0_2.py
   authority_note: generated_report_is_integrity_summary_only
 
 validation:
   commands:
-    - python3 scripts/build_kustring_runtime_finality_report_v0_2.py
     - python3 scripts/check_kustring_runtime_finality_report_v0_2.py
-    - python3 scripts/run_kustring_runtime_finality_suite_v0_2.py
 
 fixed_points:
   - finality_report_summarizes_runtime_roots
   - finality_report_is_implementation_not_proof
   - report_pass_does_not_grant_authority
   - bundle_chain_worm_and_attestation_roots_are_checked
+  - report_checker_runs_builder_and_complete_validation_path

@@ -6,7 +6,7 @@ import subprocess
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-CLOSURE_RUNNER = ROOT / "scripts" / "run_emptiness_runtime_closure_checks_v0_1.py"
+CLOSURE_CHECKER = ROOT / "scripts" / "check_emptiness_runtime_closure_v0_1.py"
 DOC = ROOT / "docs" / "EMPTINESS_RUNTIME_FINALITY_PACKET_v0_1.md"
 
 REQUIRED = [
@@ -16,12 +16,11 @@ REQUIRED = [
     "specs/emptiness_runtime_bundle_v0_1.generated.json",
     "specs/emptiness_runtime_worm_receipt_v0_1.generated.json",
     "scripts/check_emptiness_runtime_closure_v0_1.py",
-    "scripts/run_emptiness_runtime_closure_checks_v0_1.py",
 ]
 
 
 def main() -> int:
-    code = subprocess.run([sys.executable, str(CLOSURE_RUNNER)], cwd=ROOT).returncode
+    code = subprocess.run([sys.executable, str(CLOSURE_CHECKER)], cwd=ROOT).returncode
     if code != 0:
         return code
     errors: list[str] = []

@@ -11,7 +11,7 @@ implementation_not_proof: true
 added_documents:
   - examples/dependent_origination_runtime_v0_1.py
   - tests/test_dependent_origination_runtime_v0_1.py
-  - scripts/run_dependent_origination_runtime_checks_v0_1.py
+  - scripts/check_dependent_origination_runtime_bundle_v0_1.py
 
 updated_documents:
   - scripts/run_emptiness_middle_way_core_full_checks_v0_1.py
@@ -19,6 +19,7 @@ updated_documents:
 runtime:
   claim_type: DependentOriginationClaim
   evaluator: evaluate_dependent_origination
+  validation_entry: scripts/check_dependent_origination_runtime_bundle_v0_1.py
   principle: dependent_origination
   self_origin_allowed: false
   independent_essence_allowed: false
@@ -31,9 +32,7 @@ runtime:
 
 validation:
   commands:
-    - python3 examples/dependent_origination_runtime_v0_1.py
-    - python3 -m unittest tests/test_dependent_origination_runtime_v0_1.py
-    - python3 scripts/run_dependent_origination_runtime_checks_v0_1.py
+    - python3 scripts/check_dependent_origination_runtime_bundle_v0_1.py
     - python3 scripts/run_emptiness_middle_way_core_full_checks_v0_1.py
 
 fixed_points:

@@ -19,11 +19,12 @@ added_documents:
   - tests/test_two_truths_runtime_v0_1.py
   - specs/two_truths_runtime_claims_v0_1.json
   - scripts/eval_two_truths_runtime_claims_v0_1.py
-  - scripts/run_two_truths_runtime_checks_v0_1.py
+  - scripts/check_two_truths_runtime_bundle_compact_v0_1.py
 
 runtime:
   claim_type: TwoTruthsClaim
   evaluator: evaluate_two_truths
+  validation_entry: scripts/check_two_truths_runtime_bundle_compact_v0_1.py
   principle: two_truths_mass_gap_runtime
   statuses:
     - CANDIDATE
@@ -39,12 +40,7 @@ runtime:
 
 validation:
   commands:
-    - python3 examples/two_truths_mass_gap_runtime_adapter_minimal.py
-    - python3 examples/two_truths_runtime_v0_1.py
-    - python3 scripts/eval_two_truths_runtime_claims_v0_1.py
-    - python3 scripts/eval_two_truths_runtime_claims_v0_1.py --json
-    - python3 -m unittest tests/test_two_truths_runtime_v0_1.py
-    - python3 scripts/run_two_truths_runtime_checks_v0_1.py
+    - python3 scripts/check_two_truths_runtime_bundle_compact_v0_1.py
 
 fixed_points:
   - paramartha_direct_objectification_forbidden

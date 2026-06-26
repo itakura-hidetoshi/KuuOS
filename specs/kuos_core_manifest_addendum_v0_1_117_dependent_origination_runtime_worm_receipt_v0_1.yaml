@@ -13,20 +13,19 @@ added_documents:
   - scripts/check_dependent_origination_runtime_worm_receipt_v0_1.py
 
 updated_documents:
-  - scripts/run_dependent_origination_runtime_claim_checks_v0_1.py
+  - scripts/build_dependent_origination_runtime_bundle_v0_1.py
 
 worm_receipt_runtime:
   source_chain: specs/dependent_origination_runtime_audit_chain_v0_1.generated.jsonl
   generated_receipt: specs/dependent_origination_runtime_worm_receipt_v0_1.generated.json
   exporter: scripts/export_dependent_origination_runtime_worm_receipt_v0_1.py
   checker: scripts/check_dependent_origination_runtime_worm_receipt_v0_1.py
+  validation_entry: scripts/check_dependent_origination_runtime_bundle_v0_1.py
   export_mode: WORM
 
 validation:
   commands:
-    - python3 scripts/export_dependent_origination_runtime_worm_receipt_v0_1.py
-    - python3 scripts/check_dependent_origination_runtime_worm_receipt_v0_1.py
-    - python3 scripts/run_dependent_origination_runtime_claim_checks_v0_1.py
+    - python3 scripts/check_dependent_origination_runtime_bundle_v0_1.py
 
 fixed_points:
   - dependent_origination_runtime_audit_chain_root_is_exported_to_worm_receipt

@@ -12,24 +12,19 @@ added_documents:
   - scripts/build_kustring_runtime_bundle_v0_2.py
   - scripts/check_kustring_runtime_bundle_v0_2.py
 
-updated_documents:
-  - scripts/run_kustring_runtime_suite_v0_2.py
-
 runtime_bundle:
   generated_manifest: specs/kustring_runtime_bundle_v0_2.generated.json
   builder: scripts/build_kustring_runtime_bundle_v0_2.py
   checker: scripts/check_kustring_runtime_bundle_v0_2.py
-  suite: scripts/run_kustring_runtime_suite_v0_2.py
   authority_note: runtime_integrity_surface_only
 
 validation:
   commands:
-    - python3 scripts/build_kustring_runtime_bundle_v0_2.py
     - python3 scripts/check_kustring_runtime_bundle_v0_2.py
-    - python3 scripts/run_kustring_runtime_suite_v0_2.py
 
 fixed_points:
   - runtime_outputs_are_bundled_as_integrity_surface
   - runtime_bundle_generation_is_implementation_not_proof
   - bundle_root_hash_is_checked
   - bundle_pass_does_not_grant_authority
+  - bundle_checker_runs_the_complete_preparation_path

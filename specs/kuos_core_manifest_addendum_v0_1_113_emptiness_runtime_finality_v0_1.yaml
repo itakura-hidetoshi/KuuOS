@@ -11,13 +11,11 @@ implementation_not_proof: true
 added_documents:
   - docs/EMPTINESS_RUNTIME_FINALITY_PACKET_v0_1.md
   - scripts/check_emptiness_runtime_finality_v0_1.py
-  - scripts/run_emptiness_runtime_finality_checks_v0_1.py
 
 runtime_finality:
   finality_packet: docs/EMPTINESS_RUNTIME_FINALITY_PACKET_v0_1.md
   checker: scripts/check_emptiness_runtime_finality_v0_1.py
-  runner: scripts/run_emptiness_runtime_finality_checks_v0_1.py
-  closure_runner: scripts/run_emptiness_runtime_closure_checks_v0_1.py
+  closure_checker: scripts/check_emptiness_runtime_closure_v0_1.py
   authority_note: implementation_finality_only
 
 finality_chain:
@@ -34,10 +32,9 @@ finality_chain:
 validation:
   commands:
     - python3 scripts/check_emptiness_runtime_finality_v0_1.py
-    - python3 scripts/run_emptiness_runtime_finality_checks_v0_1.py
 
 fixed_points:
   - emptiness_runtime_finality_is_implementation_not_proof
   - finality_packet_does_not_grant_authority
   - emptiness_runtime_chain_is_reviewable_from_claim_to_finality
-  - finality_runner_runs_closure_runner_then_finality_check
+  - finality_checker_runs_closure_checker_before_finality_validation

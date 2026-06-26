@@ -11,13 +11,13 @@ implementation_not_proof: true
 added_documents:
   - docs/KUSTRING_RUNTIME_FINALITY_PACKET_v0_2.md
   - scripts/check_kustring_runtime_finality_v0_2.py
-  - scripts/run_kustring_runtime_finality_suite_v0_2.py
+  - scripts/check_kustring_runtime_finality_report_v0_2.py
 
 runtime_finality:
   finality_packet: docs/KUSTRING_RUNTIME_FINALITY_PACKET_v0_2.md
   checker: scripts/check_kustring_runtime_finality_v0_2.py
-  finality_suite: scripts/run_kustring_runtime_finality_suite_v0_2.py
-  closure_suite: scripts/run_kustring_runtime_closure_suite_v0_2.py
+  validation_entry: scripts/check_kustring_runtime_finality_report_v0_2.py
+  closure_checker: scripts/check_kustring_runtime_closure_v0_2.py
   authority_note: implementation_finality_only
 
 finality_chain:
@@ -30,14 +30,14 @@ finality_chain:
   - runtime_attestation
   - runtime_closure_packet
   - runtime_finality_packet
+  - runtime_finality_report
 
 validation:
   commands:
-    - python3 scripts/check_kustring_runtime_finality_v0_2.py
-    - python3 scripts/run_kustring_runtime_finality_suite_v0_2.py
+    - python3 scripts/check_kustring_runtime_finality_report_v0_2.py
 
 fixed_points:
   - runtime_finality_is_implementation_not_proof
   - finality_packet_does_not_grant_authority
   - runtime_chain_is_reviewable_from_packet_to_finality
-  - finality_suite_runs_closure_suite_then_finality_check
+  - report_checker_runs_the_complete_validation_path

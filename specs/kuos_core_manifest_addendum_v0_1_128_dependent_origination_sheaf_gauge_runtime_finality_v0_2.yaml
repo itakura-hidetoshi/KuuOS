@@ -11,13 +11,11 @@ implementation_not_proof: true
 added_documents:
   - docs/DO_SHEAF_GAUGE_RUNTIME_FINALITY_PACKET_v0_2.md
   - scripts/check_do_sheaf_gauge_runtime_finality_v0_2.py
-  - scripts/run_do_sheaf_gauge_runtime_finality_checks_v0_2.py
 
 runtime_finality:
   finality_packet: docs/DO_SHEAF_GAUGE_RUNTIME_FINALITY_PACKET_v0_2.md
   checker: scripts/check_do_sheaf_gauge_runtime_finality_v0_2.py
-  runner: scripts/run_do_sheaf_gauge_runtime_finality_checks_v0_2.py
-  closure_runner: scripts/run_do_sheaf_gauge_runtime_closure_checks_v0_2.py
+  closure_checker: scripts/check_do_sheaf_gauge_runtime_closure_v0_2.py
   authority_note: implementation_finality_only
   graph_only_model_allowed: false
   site_cover_required: true
@@ -40,7 +38,7 @@ finality_chain:
 validation:
   commands:
     - python3 scripts/check_do_sheaf_gauge_runtime_finality_v0_2.py
-    - python3 scripts/run_do_sheaf_gauge_runtime_finality_checks_v0_2.py
+    - python3 scripts/check_do_sheaf_gauge_runtime_finality_ci_v0_2.py
 
 fixed_points:
   - sheaf_gauge_runtime_finality_is_implementation_not_proof
@@ -48,4 +46,4 @@ fixed_points:
   - graph_only_model_allowed_remains_false
   - site_cover_gluing_gauge_holonomy_curvature_requirements_are_recorded
   - sheaf_gauge_runtime_chain_is_reviewable_from_claim_to_finality
-  - finality_runner_runs_closure_runner_then_finality_check
+  - workflow_runs_finality_and_ci_checkers_directly

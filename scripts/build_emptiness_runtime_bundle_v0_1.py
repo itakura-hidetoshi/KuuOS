@@ -30,7 +30,6 @@ FILES = [
     "scripts/check_emptiness_runtime_audit_chain_v0_1.py",
     "scripts/export_emptiness_runtime_worm_receipt_v0_1.py",
     "scripts/check_emptiness_runtime_worm_receipt_v0_1.py",
-    "scripts/run_emptiness_runtime_checks_v0_1.py",
     "specs/emptiness_runtime_audit_events_v0_1.generated.jsonl",
     "specs/emptiness_runtime_audit_chain_v0_1.generated.jsonl",
     "specs/emptiness_runtime_worm_receipt_v0_1.generated.json",

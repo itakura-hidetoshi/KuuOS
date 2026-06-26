@@ -7,7 +7,7 @@ import subprocess
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
-RUNNER = ROOT / "scripts" / "run_two_truths_runtime_checks_v0_1.py"
+ATTESTATION_CHECKER = ROOT / "scripts" / "check_two_truths_attestation_v0_1.py"
 DOC = ROOT / "docs" / "TWO_TRUTHS_RUNTIME_CLOSURE_PACKET_v0_1.md"
 ATTEST = ROOT / "specs" / "two_truths_runtime_attestation_v0_1.generated.json"
 
@@ -38,7 +38,7 @@ FALSE_KEYS = [
 
 
 def main() -> int:
-    code = subprocess.run([sys.executable, str(RUNNER)], cwd=ROOT).returncode
+    code = subprocess.run([sys.executable, str(ATTESTATION_CHECKER)], cwd=ROOT).returncode
     if code != 0:
         return code
     errors: list[str] = []
