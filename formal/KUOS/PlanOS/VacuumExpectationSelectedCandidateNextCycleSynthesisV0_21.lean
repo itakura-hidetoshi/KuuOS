@@ -119,12 +119,10 @@ variable
       K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
         GenerationBridge HandoffBridge SelectionBridge}
 
-local notation "Receipt" =>
-  VacuumExpectationSelectedCandidateNextCycleSynthesisReceipt
-    K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
-      GenerationBridge HandoffBridge SelectionBridge Bridge
-
-theorem synthesis_requires_exact_decision_selection (r : Receipt) :
+theorem synthesis_requires_exact_decision_selection
+    (r : VacuumExpectationSelectedCandidateNextCycleSynthesisReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge SelectionBridge Bridge) :
     r.sourceBound = true ∧ r.selection.selectionPerformed = true ∧
       r.selectedCandidate = r.selection.selectedCandidate ∧
       r.synthesis.selectedCandidateBound = true ∧
@@ -132,25 +130,37 @@ theorem synthesis_requires_exact_decision_selection (r : Receipt) :
   exact ⟨r.sourceRequired, r.sourceSelectionPerformed, r.selectedCandidateExact,
     r.synthesisSelectedExact, r.synthesisDecisionExact⟩
 
-theorem synthesis_binds_history_qi_learning_and_mission (r : Receipt) :
+theorem synthesis_binds_history_qi_learning_and_mission
+    (r : VacuumExpectationSelectedCandidateNextCycleSynthesisReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge SelectionBridge Bridge) :
     r.synthesis.historyBound = true ∧ r.synthesis.qiConditionBound = true ∧
       r.synthesis.learningDeltaBound = true ∧
       r.synthesis.missionContractBound = true := by
   exact ⟨r.synthesisHistoryExact, r.synthesisQiExact,
     r.synthesisLearningExact, r.synthesisMissionExact⟩
 
-theorem synthesis_starts_exactly_next_cycle (r : Receipt) :
+theorem synthesis_starts_exactly_next_cycle
+    (r : VacuumExpectationSelectedCandidateNextCycleSynthesisReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge SelectionBridge Bridge) :
     r.synthesis.activeFromCycle = r.synthesis.currentCycle + 1 := by
   exact r.synthesis.nextCycleRequired
 
-theorem synthesis_is_future_only_and_inactive (r : Receipt) :
+theorem synthesis_is_future_only_and_inactive
+    (r : VacuumExpectationSelectedCandidateNextCycleSynthesisReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge SelectionBridge Bridge) :
     r.synthesis.futureOnly = true ∧ r.synthesis.activeNow = false ∧
       r.synthesis.currentCycleUnchanged = true ∧
       r.synthesis.pastPlanUnchanged = true := by
   exact ⟨r.synthesis.futureRequired, r.synthesis.activationForbidden,
     r.synthesis.currentRequired, r.synthesis.pastRequired⟩
 
-theorem synthesis_commit_requires_next_plan_phase (r : Receipt) :
+theorem synthesis_commit_requires_next_plan_phase
+    (r : VacuumExpectationSelectedCandidateNextCycleSynthesisReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge SelectionBridge Bridge) :
     r.synthesisCommitted = true ∧ r.nextPlanBasisCommitted = true ∧
       r.commitBoundary.nextPlanBasisCommitted = true ∧
       r.commitBoundary.nextPlanPhaseRequired = true := by
@@ -162,7 +172,10 @@ theorem synthesis_commit_requires_next_plan_phase (r : Receipt) :
   exact ⟨r.synthesisRequired, r.basisRequired, hbasis,
     r.commitBoundary.nextPlanRequired⟩
 
-theorem synthesis_commit_does_not_activate_execute_or_license (r : Receipt) :
+theorem synthesis_commit_does_not_activate_execute_or_license
+    (r : VacuumExpectationSelectedCandidateNextCycleSynthesisReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge SelectionBridge Bridge) :
     r.synthesis.planNotExecution = true ∧
       r.synthesis.hostLicenseGranted = false ∧
       r.commitBoundary.activeNow = false ∧
@@ -172,7 +185,10 @@ theorem synthesis_commit_does_not_activate_execute_or_license (r : Receipt) :
     r.commitBoundary.activationForbidden, r.commitBoundary.overwriteForbidden,
     r.commitBoundary.licenseForbidden⟩
 
-theorem synthesis_events_append_strictly (r : Receipt) :
+theorem synthesis_events_append_strictly
+    (r : VacuumExpectationSelectedCandidateNextCycleSynthesisReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge SelectionBridge Bridge) :
     r.selection.source.handoffIndex.current < r.synthesisIndex.current ∧
       r.synthesisIndex.current < r.commitIndex.current := by
   constructor
@@ -181,7 +197,10 @@ theorem synthesis_events_append_strictly (r : Receipt) :
   · rw [r.commitIndexExact]
     exact replanEventIndex_strict r.synthesisIndex
 
-theorem synthesis_history_appends_two_records (r : Receipt) :
+theorem synthesis_history_appends_two_records
+    (r : VacuumExpectationSelectedCandidateNextCycleSynthesisReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge SelectionBridge Bridge) :
     r.historyAfter.committedRecords =
         r.selection.source.historyAfter.committedRecords + 2 ∧
       r.historyAfter.snapshotRecords =
@@ -190,14 +209,20 @@ theorem synthesis_history_appends_two_records (r : Receipt) :
   rw [replanHistory_snapshot_matches_commits r.historyAfter]
   exact r.historyExact
 
-theorem synthesis_bridge_preserves_ownership (_r : Receipt) :
+theorem synthesis_bridge_preserves_ownership
+    (_r : VacuumExpectationSelectedCandidateNextCycleSynthesisReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge SelectionBridge Bridge) :
     Bridge.synthesisOwnedByPlanOS = true ∧
       Bridge.selectionOwnedByDecisionOS = true ∧
       Bridge.executionOwnedByActOS = true := by
   exact ⟨Bridge.synthesisOwnerRequired, Bridge.selectionOwnerRequired,
     Bridge.executionOwnerRequired⟩
 
-theorem synthesis_bridge_grants_no_downstream_authority (_r : Receipt) :
+theorem synthesis_bridge_grants_no_downstream_authority
+    (_r : VacuumExpectationSelectedCandidateNextCycleSynthesisReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge SelectionBridge Bridge) :
     Bridge.runtimeActivatesPlan = false ∧ Bridge.runtimeExecutes = false ∧
       Bridge.runtimeGrantsHostLicense = false ∧
       Bridge.runtimeOverwritesMemory = false ∧ Bridge.runtimeUpdatesWorld = false ∧
@@ -211,7 +236,10 @@ theorem synthesis_bridge_grants_no_downstream_authority (_r : Receipt) :
     Bridge.nonAuthority.causalForbidden, Bridge.nonAuthority.executionForbidden,
     Bridge.nonAuthority.finalForbidden⟩
 
-theorem synthesis_digest_is_exact (r : Receipt) :
+theorem synthesis_digest_is_exact
+    (r : VacuumExpectationSelectedCandidateNextCycleSynthesisReceipt
+      K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
+        GenerationBridge HandoffBridge SelectionBridge Bridge) :
     r.digest = Bridge.digestOf r.selection r.selectedCandidate r.synthesis
       r.commitBoundary r.synthesisIndex r.commitIndex r.historyAfter := by
   exact r.digestExact
