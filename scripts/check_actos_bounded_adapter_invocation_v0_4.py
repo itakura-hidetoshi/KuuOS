@@ -19,11 +19,20 @@ def require_tokens(path: Path, tokens: tuple[str, ...]) -> None:
         require(token in text, f"{path}: missing {token}")
 
 
+def require_tokens_across(paths: tuple[Path, ...], tokens: tuple[str, ...]) -> None:
+    require(bool(paths), "empty module family")
+    text = "\n".join(path.read_text(encoding="utf-8") for path in paths)
+    for token in tokens:
+        require(token in text, f"module family missing {token}")
+
+
 def main() -> int:
     formal_root = ROOT / "formal/KuuOSActOSV0_4.lean"
     aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     formal = ROOT / "formal/KUOS/ActOS/VacuumExpectationBoundedAdapterInvocationV0_4.lean"
+    formal_family = tuple(sorted(formal.parent.glob("VacuumExpectationBoundedAdapterInvocation*.lean")))
     source = ROOT / "formal/KUOS/ActOS/VacuumExpectationActivationAuthorizationIntakeV0_3.lean"
+    source_family = tuple(sorted(source.parent.glob("VacuumExpectationActivationAuthorization*.lean")))
     authority = ROOT / "formal/KUOS/ActOS/AuthorityBoundInvocationV0_1.lean"
     docs = ROOT / "docs/KUUOS_ACTOS_BOUNDED_ADAPTER_INVOCATION_v0_4.md"
     manifest_path = ROOT / "manifests/kuuos_actos_bounded_adapter_invocation_v0_4.json"
@@ -38,14 +47,16 @@ def main() -> int:
         docs,
         manifest_path,
         workflow,
+        *formal_family,
+        *source_family,
     ):
         require(path.is_file(), f"missing file: {path}")
 
     import_token = "KUOS.ActOS.VacuumExpectationBoundedAdapterInvocationV0_4"
     require_tokens(formal_root, (import_token,))
     require_tokens(aggregate_root, (import_token,))
-    require_tokens(
-        formal,
+    require_tokens_across(
+        formal_family,
         (
             "ActOSPlanActivationBoundary",
             "ExactAdapterInvocationBinding",
@@ -62,8 +73,8 @@ def main() -> int:
             "invocation_digest_is_exact",
         ),
     )
-    require_tokens(
-        source,
+    require_tokens_across(
+        source_family,
         (
             "VacuumExpectationActivationAuthorizationIntakeReceipt",
             "activation_authorization_is_committed_without_activation_or_effect",
