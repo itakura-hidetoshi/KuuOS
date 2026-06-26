@@ -6,7 +6,8 @@ WORLD v0.60 phase-transition criteria.
 
 This module separates the v0.59 four-great diagnostic from three independent
 phase-transition witnesses: free-energy nonanalyticity, spectral-gap closure, and
-fixed-point-algebra change.
+fixed-point-algebra change. Stronger continuity and isolated-gap witnesses are
+available separately and are not required by the basic declaration.
 -/
 
 namespace KUOS.WORLD
@@ -62,20 +63,28 @@ variable {𝕜 A : Type*}
 variable [CommSemiring 𝕜] [Semiring A] [Algebra 𝕜 A]
 variable (System : WorldFourGreatPhaseTransitionSystem 𝕜 A)
 
-/-- The free energy is continuous but not analytic at the critical parameter. -/
+/-- Basic thermodynamic witness: loss of real analyticity. -/
 def freeEnergyNonanalyticAt (critical : ℝ) : Prop :=
-  ContinuousAt System.freeEnergy critical ∧
-    ¬ AnalyticAt ℝ System.freeEnergy critical
+  ¬ AnalyticAt ℝ System.freeEnergy critical
 
-/-- The nonnegative gap continuously closes and is positive arbitrarily nearby. -/
+/-- Strengthened thermodynamic witness retaining continuity at the critical point. -/
+def continuousFreeEnergyNonanalyticAt (critical : ℝ) : Prop :=
+  ContinuousAt System.freeEnergy critical ∧
+    System.freeEnergyNonanalyticAt critical
+
+/-- Basic spectral witness: a continuous nonnegative gap vanishes at the critical point. -/
 def spectralGapClosesAt (critical : ℝ) : Prop :=
   ContinuousAt System.spectralGap critical ∧
-    System.spectralGap critical = 0 ∧
-      ∀ ε : ℝ, 0 < ε →
-        ∃ t : ℝ,
-          0 < |t - critical| ∧
-          |t - critical| < ε ∧
-          0 < System.spectralGap t
+    System.spectralGap critical = 0
+
+/-- Strengthened isolated closure: positive gap values occur arbitrarily nearby. -/
+def isolatedSpectralGapClosesAt (critical : ℝ) : Prop :=
+  System.spectralGapClosesAt critical ∧
+    ∀ ε : ℝ, 0 < ε →
+      ∃ t : ℝ,
+        0 < |t - critical| ∧
+        |t - critical| < ε ∧
+        0 < System.spectralGap t
 
 /-- The supplied fixed-point subalgebra changes across every critical neighbourhood. -/
 def fixedPointAlgebraChangesAt (critical : ℝ) : Prop :=
@@ -104,7 +113,19 @@ def fourGreatCoordinatesChangeAt (critical : ℝ) : Prop :=
     {critical : ℝ}
     (h : System.spectralGapClosesAt critical) :
     System.spectralGap critical = 0 :=
-  h.2.1
+  h.2
+
+theorem continuous_nonanalytic_implies_nonanalytic
+    {critical : ℝ}
+    (h : System.continuousFreeEnergyNonanalyticAt critical) :
+    System.freeEnergyNonanalyticAt critical :=
+  h.2
+
+theorem isolated_gap_closure_implies_gap_closure
+    {critical : ℝ}
+    (h : System.isolatedSpectralGapClosesAt critical) :
+    System.spectralGapClosesAt critical :=
+  h.1
 
 theorem spectralGap_nonnegative_at (t : ℝ) :
     0 ≤ System.spectralGap t :=
