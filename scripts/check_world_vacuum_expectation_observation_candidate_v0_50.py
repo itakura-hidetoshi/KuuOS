@@ -46,17 +46,16 @@ def main() -> int:
             "runtime remains read-only",
         ),
     )
-    require_tokens(
-        ROOT / "README.md",
-        (
-            "vacuum expectation != fact",
-            "source-bound vacuum-expectation observation candidates",
-        ),
+
+    # README and ROADMAP are rolling entry documents. Check durable semantic
+    # boundaries rather than version-specific prose or headings.
+    stable_boundaries = (
+        "WORLD candidate != empirical fact",
+        "WORLD sidecar != exact WORLD",
+        "observation != verification",
     )
-    require_tokens(
-        ROOT / "ROADMAP.md",
-        ("source-bound vacuum-expectation observation candidates",),
-    )
+    require_tokens(ROOT / "README.md", stable_boundaries)
+    require_tokens(ROOT / "ROADMAP.md", stable_boundaries)
 
     manifest_path = ROOT / "manifests/world_vacuum_expectation_observation_candidate_v0_50.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
