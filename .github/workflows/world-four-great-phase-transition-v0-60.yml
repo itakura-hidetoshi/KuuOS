@@ -4,12 +4,13 @@ on:
   workflow_dispatch:
   pull_request:
     paths:
-      - 'formal/KUOS/WORLD/FourGreatPhaseTransitionCriteriaV0_60.lean'
-      - 'formal/KUOS/WORLD/FourGreatPhaseTransitionDeclarationV0_60.lean'
+      - 'formal/KUOS/WORLD/**'
       - 'formal/KuuOSFormalV0_60.lean'
       - 'formal/KUOS.lean'
       - 'formal/KuuOSFormal.lean'
       - 'lakefile.toml'
+      - 'lake-manifest.json'
+      - 'lean-toolchain'
       - 'docs/KU_WORLD_FOUR_GREAT_PHASE_TRANSITION_DECLARATION_v0_60.md'
       - 'manifests/world_four_great_phase_transition_declaration_v0_60.json'
       - 'scripts/check_world_four_great_phase_transition_declaration_v0_60.py'
@@ -61,13 +62,13 @@ jobs:
         run: git diff --exit-code -- lake-manifest.json
       - name: Fetch Mathlib cache
         run: lake exe cache get
-      - name: Build WORLD v0.60 root
+      - name: Build WORLD v0.60 and aggregate roots
         shell: bash
         run: |
           set -o pipefail
           lake -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
-            build KuuOSFormalV0_60 \
+            build KuuOSFormalV0_60 KuuOSFormal \
             2>&1 | tee world-v060-build.log
       - name: Print Lean failure tail
         if: failure()
@@ -91,5 +92,5 @@ jobs:
             "/repos/${GITHUB_REPOSITORY}/statuses/${STATUS_SHA}" \
             -f state="${STATUS_STATE}" \
             -f context='WORLD v0.60 dedicated validation' \
-            -f description='Static and dedicated WORLD v0.60 Lean validation' \
+            -f description='Static, WORLD v0.60, and aggregate Lean validation' \
             -f target_url="${GITHUB_SERVER_URL}/${GITHUB_REPOSITORY}/actions/runs/${GITHUB_RUN_ID}"
