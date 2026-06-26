@@ -1,0 +1,46 @@
+{
+  "manifest_version": "world_kuu_vacuum_information_geometry_v0_55",
+  "predecessor": "world_kuu_vacuum_central_reference_state_v0_54",
+  "status": "formal_read_only_vacuum_information_geometry",
+  "formal_module": "formal/KUOS/WORLD/KuuVacuumInformationGeometryBridgeV0_55.lean",
+  "formal_root": "formal/KuuOSFormalV0_55.lean",
+  "aggregate_formal_root": "formal/KuuOSFormal.lean",
+  "documentation": "docs/KU_WORLD_KUU_VACUUM_INFORMATION_GEOMETRY_v0_55.md",
+  "validator": "scripts/check_world_kuu_vacuum_information_geometry_v0_55.py",
+  "full_check": "scripts/run_kuuos_runtime_full_check_v0_55.py",
+  "workflow": ".github/workflows/world-kuu-vacuum-information-geometry-v0-55.yml",
+  "information_geometric_spine": [
+    "completed_hilbert_vacuum",
+    "central_vacuum_state",
+    "vacuum_parameter_origin",
+    "araki_relative_entropy_hessian",
+    "quantum_fisher_metric",
+    "hilbert_excitation_gram_form",
+    "petz_recovered_tangent",
+    "information_loss_pythagorean_decomposition"
+  ],
+  "boundaries": {
+    "vacuum_parameter_is_exact_world": false,
+    "vacuum_origin_is_absolute_truth": false,
+    "vacuum_origin_is_control_objective": false,
+    "zero_divergence_implies_ontological_identity": false,
+    "quantum_fisher_metric_is_ontology": false,
+    "petz_recovery_grants_execution": false,
+    "excitation_direction_creates_world": false,
+    "modular_time_equals_physical_time": false,
+    "runtime_constructs_vacuum_state_manifold": false,
+    "runtime_computes_araki_hessian": false,
+    "runtime_computes_quantum_fisher_metric": false,
+    "runtime_executes_petz_projection": false,
+    "runtime_creates_excitations": false,
+    "runtime_optimizes_toward_vacuum": false,
+    "runtime_promotes_vacuum_to_truth": false,
+    "runtime_updates_world": false
+  },
+  "proof_status": {
+    "lean_direct": "typed finite equalities, nonnegativity, zero separation, Petz recoverability, Pythagorean decomposition, and boundary receipts",
+    "analytic_receipts": "actual Araki second variation, standard-form tangent identification, excitation-chart density, infinite-dimensional vacuum manifold, and physical realization",
+    "physical_realization": "not established",
+    "external_acceptance": "not established"
+  }
+}
