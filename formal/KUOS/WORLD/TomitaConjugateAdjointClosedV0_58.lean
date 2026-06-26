@@ -30,12 +30,14 @@ theorem conjugateAdjointGraph_eq_iInter :
     R.conjugateAdjointGraph =
       ⋂ x : R.pmap.closure.domain, R.conjugateAdjointConstraint x := by
   ext p
-  change
-    (∀ x : R.pmap.closure.domain,
-      inner Complex (R.pmap.closure x) p.1 = inner Complex p.2 (x : H)) ↔
-    (∀ x : R.pmap.closure.domain,
-      inner Complex (R.pmap.closure x) p.1 = inner Complex p.2 (x : H))
-  rfl
+  constructor
+  · intro hp
+    apply Set.mem_iInter.mpr
+    intro x
+    exact hp x
+  · intro hp
+    intro x
+    exact Set.mem_iInter.mp hp x
 
 theorem conjugateAdjointGraph_isClosed :
     IsClosed R.conjugateAdjointGraph := by
