@@ -1,10 +1,13 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import json
 import pathlib
-import sys
+import re
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
+SELF = pathlib.Path(__file__).resolve()
+WORKFLOW_PATTERN = re.compile(r"[\"'](\.github/workflows/[^\"']+\.ya?ml)[\"']")
 
 REQUIRED_FILES = [
     ".github/workflows/decision-os-validation.yml",
@@ -59,6 +62,43 @@ REQUIRED_MARKERS = {
 }
 
 
+def workflow_values(value: object) -> list[str]:
+    found: list[str] = []
+    if isinstance(value, dict):
+        for key, nested in value.items():
+            if key == "workflow" and isinstance(nested, str):
+                found.append(nested)
+            found.extend(workflow_values(nested))
+    elif isinstance(value, list):
+        for nested in value:
+            found.extend(workflow_values(nested))
+    return found
+
+
+def check_embedded_workflow_references(errors: list[str]) -> None:
+    for manifest_path in sorted((ROOT / "manifests").rglob("*.json")):
+        try:
+            data = json.loads(manifest_path.read_text(encoding="utf-8"))
+        except (OSError, json.JSONDecodeError) as exc:
+            errors.append(f"cannot parse manifest {manifest_path.relative_to(ROOT)}: {exc}")
+            continue
+        for workflow in workflow_values(data):
+            if workflow.startswith(".github/workflows/") and not (ROOT / workflow).is_file():
+                errors.append(
+                    f"missing manifest workflow reference: {manifest_path.relative_to(ROOT)} -> {workflow}"
+                )
+
+    for script_path in sorted((ROOT / "scripts").rglob("*.py")):
+        if script_path.resolve() == SELF:
+            continue
+        text = script_path.read_text(encoding="utf-8")
+        for workflow in WORKFLOW_PATTERN.findall(text):
+            if not (ROOT / workflow).is_file():
+                errors.append(
+                    f"missing validator workflow reference: {script_path.relative_to(ROOT)} -> {workflow}"
+                )
+
+
 def main() -> int:
     errors: list[str] = []
 
@@ -78,6 +118,8 @@ def main() -> int:
         for marker in markers:
             if marker not in text:
                 errors.append(f"missing marker in {relative}: {marker}")
+
+    check_embedded_workflow_references(errors)
 
     if errors:
         for error in errors:
