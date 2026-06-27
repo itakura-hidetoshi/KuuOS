@@ -28,11 +28,12 @@ def review_attestation_issues(
         attestation,
         current_epoch=current_epoch,
     ))
-    if attestation.decision == APPROVE_EVIDENCE and attestation.production_apply_allowed:
+    expected = attestation.decision == APPROVE_EVIDENCE
+    if expected and attestation.production_apply_allowed:
         issues = [
             issue for issue in issues
             if issue != "evidence_review_production_apply_forbidden"
         ]
-    elif attestation.production_apply_allowed:
+    if attestation.production_apply_allowed != expected:
         issues.append("evidence_review_decision_flag_mismatch")
     return tuple(dict.fromkeys(issues))
