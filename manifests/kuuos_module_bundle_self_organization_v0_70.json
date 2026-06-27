@@ -1,0 +1,36 @@
+{
+  "manifest_version": "kuuos_module_bundle_self_organization_v0_70",
+  "predecessor": "kuuos_connection_external_evidence_review_v0_69",
+  "architecture": "context-algebra-module-bundle-connection-deformation",
+  "graph_semantics_required": false,
+  "runtime_modules": [
+    "runtime/kuuos_context_algebra_v0_70.py",
+    "runtime/kuuos_state_module_v0_70.py",
+    "runtime/kuuos_module_connection_v0_70.py",
+    "runtime/kuuos_connection_deformation_v0_70.py",
+    "runtime/kuuos_module_candidate_validation_v0_70.py",
+    "runtime/kuuos_module_rollback_v0_70.py"
+  ],
+  "validator": "scripts/check_kuuos_module_bundle_v070.py",
+  "lean_surface": "KuuOSModuleBundleSelfOrganizationV0_70",
+  "strict_formal_root": "KuuOSFormalV0_70",
+  "semantic_channels": [
+    "protected",
+    "observe",
+    "verify",
+    "memory",
+    "ethics"
+  ],
+  "semantic_projectors_commute": true,
+  "protected_deformation_zero": true,
+  "authority_filtration_preserved": true,
+  "curvature_nonincrease_required": true,
+  "gauge_observable_invariance_required": true,
+  "rollback_algebraic_exact": true,
+  "rollback_structural_exact": true,
+  "rollback_digest_exact": true,
+  "candidate_only": true,
+  "live_effect_allowed": false,
+  "state_write_allowed": false,
+  "authority_widening_allowed": false
+}
