@@ -18,7 +18,9 @@
   "documentation": "docs/KUUOS_GAUGE_FIELD_SELF_ORGANIZATION_v0_60.md",
   "validator": "scripts/check_kuuos_gauge_field_self_organization_v0_60.py",
   "tests": [
-    "tests/test_kuuos_gauge_field_self_organization_v0_60.py"
+    "tests/test_kuuos_gauge_field_self_organization_v0_60.py",
+    "tests/test_kuuos_gauge_field_fixed_connection_v0_60.py",
+    "tests/test_kuuos_gauge_field_fixed_domain_v0_60.py"
   ],
   "gauge_spine": [
     "constitutional_signed_permutation_group",
@@ -55,7 +57,7 @@
   },
   "proof_status": {
     "lean_direct": "gauge-covariant field transport, plaquette holonomy conjugation, Wilson class-function invariance, constitutional predicate preservation, fixed-domain admissibility, and fail-closed candidate boundary",
-    "runtime_direct": "finite signed-permutation gauge group, discrete connection, field action, Wilson observable, covariance residual, fixed-connection relaxation candidate, and source-digest rollback binding",
+    "runtime_direct": "finite signed-permutation gauge group, discrete connection, field action, Wilson observable, covariance residual, fixed-connection relaxation candidate, source-digest rollback binding, and fixed-domain regression checks",
     "continuous_yang_mills_flow": "not established",
     "connection_self_modification": "not authorized",
     "production_self_modification": "not authorized",
