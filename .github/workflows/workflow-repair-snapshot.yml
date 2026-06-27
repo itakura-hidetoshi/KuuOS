@@ -6,6 +6,9 @@ on:
       - workflow-repair-audit
     paths:
       - '.github/workflows/workflow-repair-snapshot.yml'
+  pull_request:
+    paths:
+      - '.github/workflows/workflow-repair-snapshot.yml'
   workflow_dispatch:
 
 permissions:
