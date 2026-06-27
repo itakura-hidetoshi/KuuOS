@@ -12,7 +12,7 @@
   "aggregate_formal_root": "formal/KuuOSFormal.lean",
   "documentation": "docs/KU_WORLD_FOUR_GREAT_PHASE_DYNAMICS_v0_59.md",
   "validator": "scripts/check_world_four_great_phase_dynamics_v0_59.py",
-  "workflow": ".github/workflows/world-four-great-phase-dynamics-v0-59.yml",
+  "workflow": ".github/workflows/world-v053-v059-main-validation.yml",
   "four_greats": {
     "earth": "araki_hessian_stiffness",
     "water": "physical_excitation_gram_correlation",
