@@ -1,0 +1,37 @@
+{
+  "id": "kuuos.verify.core",
+  "version": "0.1.0",
+  "capability": "verification.disposition",
+  "status": "active",
+  "authority_surface": "advisory",
+  "provides": [
+    "verification.disposition",
+    "verification.receipt"
+  ],
+  "requires": [
+    "observation.candidate",
+    "kernel.ledger.append",
+    "kernel.provenance.resolve"
+  ],
+  "owns": [
+    "verification_verdict"
+  ],
+  "must_not_own": [
+    "execution_license",
+    "effect_execution",
+    "world_truth",
+    "present_cycle_policy_activation"
+  ],
+  "subscribes": [
+    "observation.candidate.created"
+  ],
+  "emits": [
+    "verification.disposition.created",
+    "verification.receipt.committed"
+  ],
+  "implementation": "legacy:runtime.kuuos_verifyos_world_adoption_v0_33",
+  "validator": "scripts/check_modular_evolution_mesh_v0_1.py",
+  "rollback": "legacy:runtime.kuuos_verifyos_world_adoption_v0_33",
+  "documentation": "docs/KUUOS_MODULAR_EVOLUTION_MESH_v0_1.md",
+  "formal_module": "KUOS.Modular.CapabilityContractV0_1"
+}

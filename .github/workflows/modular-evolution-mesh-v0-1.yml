@@ -1,0 +1,111 @@
+name: Modular Evolution Mesh v0.1
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "src/kuuos/**"
+      - "manifests/modules/**"
+      - "manifests/kuuos_modular_evolution_mesh_v0_1.json"
+      - "schemas/kuuos_module_manifest_v0_1.schema.json"
+      - "scripts/check_modular_evolution_mesh_v0_1.py"
+      - "tests/test_modular_evolution_mesh_v0_1.py"
+      - "docs/KUUOS_MODULAR_EVOLUTION_MESH_v0_1.md"
+      - "formal/KUOS/Modular/**"
+      - "formal/KuuOSModularEvolutionMeshV0_1.lean"
+      - "formal/KUOS.lean"
+      - "formal/KuuOSFormal.lean"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
+      - ".github/workflows/modular-evolution-mesh-v0-1.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile modular Python surfaces
+        run: >-
+          python3 -m compileall -q
+          src/kuuos
+          scripts/check_modular_evolution_mesh_v0_1.py
+          tests/test_modular_evolution_mesh_v0_1.py
+      - name: Validate modular JSON surfaces
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m json.tool schemas/kuuos_module_manifest_v0_1.schema.json > /dev/null
+          python3 -m json.tool manifests/kuuos_modular_evolution_mesh_v0_1.json > /dev/null
+          for manifest in manifests/modules/*.json; do
+            python3 -m json.tool "${manifest}" > /dev/null
+          done
+      - name: Validate modular contracts and dependency graph
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=src:. python3 scripts/check_modular_evolution_mesh_v0_1.py \
+            2>&1 | tee modular-evolution-mesh-v0-1.log
+      - name: Test modular runtime foundation
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=src:. python3 -m unittest -v \
+            tests.test_modular_evolution_mesh_v0_1 \
+            2>&1 | tee -a modular-evolution-mesh-v0-1.log
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Verify committed manifest is canonical
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile modular formal root
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSModularEvolutionMeshV0_1 \
+            2>&1 | tee modular-evolution-mesh-v0-1-lean.log
+      - name: Strictly compile aggregate formal root
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSFormal \
+            2>&1 | tee modular-evolution-mesh-v0-1-lean-root.log
+      - name: Upload diagnostics
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: modular-evolution-mesh-v0-1-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            modular-evolution-mesh-v0-1.log
+            modular-evolution-mesh-v0-1-lean.log
+            modular-evolution-mesh-v0-1-lean-root.log
+          if-no-files-found: warn
+          retention-days: 14
