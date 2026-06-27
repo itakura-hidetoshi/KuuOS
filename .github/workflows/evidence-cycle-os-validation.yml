@@ -1,0 +1,121 @@
+name: ActOS-ObserveOS-VerifyOS-LearnOS Validation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'docs/KUUOS_ACT_OS_*.md'
+      - 'docs/KUUOS_OBSERVE_OS_*.md'
+      - 'docs/KUUOS_VERIFY_OS_*.md'
+      - 'docs/KUUOS_LEARN_OS_*.md'
+      - 'manifests/kuuos_act_os_*.json'
+      - 'manifests/kuuos_observe_os_*.json'
+      - 'manifests/kuuos_verify_os_*.json'
+      - 'manifests/kuuos_learn_os_*.json'
+      - 'runtime/kuuos_act_os_*.py'
+      - 'runtime/kuuos_observe_os_*.py'
+      - 'runtime/kuuos_verify_os_*.py'
+      - 'runtime/kuuos_learn_os_*.py'
+      - 'runtime/v0*_act_os_*.py'
+      - 'runtime/v0*_observe_os_*.py'
+      - 'runtime/v0*_verify_os_*.py'
+      - 'runtime/v0*_learn_os_*.py'
+      - 'scripts/check_act_os_*.py'
+      - 'scripts/check_observe_os_*.py'
+      - 'scripts/check_verify_os_*.py'
+      - 'scripts/check_learn_os_*.py'
+      - 'formal/KUOS/ActOS/**'
+      - 'formal/KUOS/ObserveOS/**'
+      - 'formal/KUOS/VerifyOS/**'
+      - 'formal/KUOS/LearnOS/**'
+      - 'formal/KUOS.lean'
+      - '.github/workflows/evidence-cycle-os-validation.yml'
+  pull_request:
+    paths:
+      - 'docs/KUUOS_ACT_OS_*.md'
+      - 'docs/KUUOS_OBSERVE_OS_*.md'
+      - 'docs/KUUOS_VERIFY_OS_*.md'
+      - 'docs/KUUOS_LEARN_OS_*.md'
+      - 'manifests/kuuos_act_os_*.json'
+      - 'manifests/kuuos_observe_os_*.json'
+      - 'manifests/kuuos_verify_os_*.json'
+      - 'manifests/kuuos_learn_os_*.json'
+      - 'runtime/kuuos_act_os_*.py'
+      - 'runtime/kuuos_observe_os_*.py'
+      - 'runtime/kuuos_verify_os_*.py'
+      - 'runtime/kuuos_learn_os_*.py'
+      - 'runtime/v0*_act_os_*.py'
+      - 'runtime/v0*_observe_os_*.py'
+      - 'runtime/v0*_verify_os_*.py'
+      - 'runtime/v0*_learn_os_*.py'
+      - 'scripts/check_act_os_*.py'
+      - 'scripts/check_observe_os_*.py'
+      - 'scripts/check_verify_os_*.py'
+      - 'scripts/check_learn_os_*.py'
+      - 'formal/KUOS/ActOS/**'
+      - 'formal/KUOS/ObserveOS/**'
+      - 'formal/KUOS/VerifyOS/**'
+      - 'formal/KUOS/LearnOS/**'
+      - 'formal/KUOS.lean'
+      - '.github/workflows/evidence-cycle-os-validation.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: evidence-cycle-os-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - id: act-os-v01
+            label: ActOS v0.1 authority-bound invocation
+            module: runtime.v01_act_os_authority_bound_invocation
+            check: scripts/check_act_os_authority_bound_invocation_v0_1.py
+            log: act-os-v01.log
+          - id: act-os-v02
+            label: ActOS v0.2 replan lineage authority envelope
+            module: runtime.v02_act_os_replan_lineage_authority_envelope
+            check: scripts/check_act_os_replan_lineage_authority_envelope_v0_2.py
+            log: act-os-v02.log
+          - id: observe-os-v01
+            label: ObserveOS v0.1 effect-grounded observation
+            module: runtime.v01_observe_os_effect_grounded_observation
+            check: scripts/check_observe_os_effect_grounded_observation_v0_1.py
+            log: observe-os-v01.log
+          - id: verify-os-v01
+            label: VerifyOS v0.1 evidence-bound verification
+            module: runtime.v01_verify_os_evidence_bound_verification
+            check: scripts/check_verify_os_evidence_bound_verification_v0_1.py
+            log: verify-os-v01.log
+          - id: learn-os-v01
+            label: LearnOS v0.1 future-only evidence learning
+            module: runtime.v01_learn_os_future_only_evidence_learning
+            check: scripts/check_learn_os_future_only_evidence_learning_v0_1.py
+            log: learn-os-v01.log
+    name: ${{ matrix.label }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile validation surfaces
+        run: python -m compileall -q runtime "${{ matrix.check }}"
+      - name: Run runtime and check
+        shell: bash
+        run: |
+          set -o pipefail
+          python -m "${{ matrix.module }}" > "${{ matrix.log }}" 2>&1
+          python "${{ matrix.check }}" >> "${{ matrix.log }}" 2>&1
+      - name: Upload validation log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.id }}-log
+          path: ${{ matrix.log }}
+          if-no-files-found: warn
