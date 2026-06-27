@@ -25,6 +25,7 @@
   "source_digest_bound": true,
   "rollback_digest_bound": true,
   "finite_validity_window": true,
+  "approval_binds_production_permission": true,
   "review_only": true,
   "live_effect": false,
   "state_write": false,
