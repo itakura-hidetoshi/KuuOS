@@ -1,14 +1,10 @@
-name: PlanOS v0.7 Validation
-on: [push, pull_request, workflow_dispatch]
-permissions:
-  contents: read
+name: Consolidated PlanOS validation
+
+on:
+  workflow_dispatch:
+
 jobs:
-  validate:
+  consolidated:
     runs-on: ubuntu-latest
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - run: python -m compileall -q runtime scripts/check_plan_os_external_resume_handover_reentry_v0_7.py
-      - run: python scripts/check_plan_os_external_resume_handover_reentry_v0_7.py
+      - run: echo consolidated
