@@ -56,8 +56,7 @@ theorem registry_discovery_does_not_grant_self_license
     (contract : ModuleContract)
     (h : constitutionallyAdmissible contract) :
     contract.selfLicenses = false := by
-  rcases h with ⟨_, _, hSelfLicense, _⟩
-  exact hSelfLicense
+  exact h.2.2.1
 
 /-- A candidate-only module cannot acquire execution, truth, or activation authority. -/
 theorem candidate_only_non_escalation
@@ -67,7 +66,7 @@ theorem candidate_only_non_escalation
     contract.ownsExecutionLicense = false ∧
     contract.ownsTruthAuthority = false ∧
     contract.mutatesPresentCyclePolicy = false := by
-  rcases hAdmissible with ⟨_, _, _, hBoundary⟩
+  have hBoundary := hAdmissible.2.2.2
   simpa [surfaceBoundary, hSurface] using hBoundary
 
 /-- A read-only module cannot mutate the present-cycle policy. -/
