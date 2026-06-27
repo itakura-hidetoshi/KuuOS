@@ -39,6 +39,7 @@ concurrency:
 jobs:
   early-versions:
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     strategy:
       fail-fast: false
       matrix:
@@ -83,6 +84,7 @@ jobs:
   current-version:
     name: DecisionOS v0.4 admissible candidate selection
     runs-on: ubuntu-latest
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
