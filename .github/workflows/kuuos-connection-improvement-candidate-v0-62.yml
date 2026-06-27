@@ -33,9 +33,12 @@ jobs:
           tests/kuuos_connection_candidate_fixture_v0_62.py
           tests/test_kuuos_connection_candidate_valid_v0_62.py
           tests/test_kuuos_connection_candidate_search_v0_62.py
+          tests/test_kuuos_connection_candidate_receipt_v0_62.py
           scripts/check_kuuos_connection_improvement_candidate_v0_62.py
       - name: Run v0.62 runtime validation
         run: PYTHONPATH=. python3 scripts/check_kuuos_connection_improvement_candidate_v0_62.py
+      - name: Run v0.62 boundary validation
+        run: PYTHONPATH=. python3 -m unittest -v tests.test_kuuos_connection_candidate_receipt_v0_62
       - name: Verify aggregate registration
         run: |
           grep -Fq 'KuuOSConnectionCandidateCoreV0_62' formal/KuuOSFormal.lean
