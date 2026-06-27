@@ -16,7 +16,9 @@ REQUIRED_FILES = [
     ".github/workflows/decision-os-validation.yml",
     ".github/workflows/evidence-cycle-os-validation.yml",
     ".github/workflows/plan-os-validation.yml",
+    ".github/workflows/kuuos_os_bridge_validation.yml",
     "scripts/run_plan_os_full_checks.py",
+    "scripts/run_kuuos_os_bridge_checks.py",
     ".github/WORKFLOW_INDEX.md",
 ]
 
@@ -46,6 +48,21 @@ FORBIDDEN_LEGACY_FILES = [
     ".github/workflows/memoryos-qi-world-blocker-integration-v0-35.yml",
     ".github/workflows/kuuos_qi_meridian_validation.yml",
     ".github/workflows/kuuos_qi_sanjiao_validation.yml",
+    ".github/workflows/kuuos_two_truths_os_bridge_validation.yml",
+    ".github/workflows/kuuos_dependent_origination_os_bridge_validation.yml",
+    ".github/workflows/kuuos_indranet_os_dependency_bridge_validation.yml",
+    ".github/workflows/kuuos_gauge_os_transport_bridge_validation.yml",
+    ".github/workflows/kuuos_sheaf_os_gluing_bridge_validation.yml",
+    ".github/workflows/kuuos_cech_obstruction_os_bridge_validation.yml",
+    ".github/workflows/kuuos_descent_os_bridge_validation.yml",
+    ".github/workflows/kuuos_hyperdescent_os_bridge_validation.yml",
+    ".github/workflows/kuuos_infinity_topos_os_bridge_validation.yml",
+    ".github/workflows/kuuos_cohesive_os_bridge_validation.yml",
+    ".github/workflows/kuuos_differential_cohesive_os_bridge_validation.yml",
+    ".github/workflows/kuuos_jet_stability_os_bridge_validation.yml",
+    ".github/workflows/kuuos_variational_stability_os_bridge_validation.yml",
+    ".github/workflows/kuuos_policy_barrier_os_bridge_validation.yml",
+    ".github/workflows/kuuos_selector_boundary_os_bridge_validation.yml",
     "scripts/run_plan_os_full_checks_v0_17.py",
 ]
 
@@ -70,12 +87,25 @@ REQUIRED_MARKERS = {
         "scripts/check_plan_os_*.py",
         "scripts/check_planos_*.py",
     ],
+    ".github/workflows/kuuos_os_bridge_validation.yml": [
+        "scripts/run_kuuos_os_bridge_checks.py",
+        "scripts/validate_kuuos_*_os_bridge_v0_1*.py",
+        "specs/kuuos_two_truths_os_bridge_v0_1.json",
+        "specs/kuuos_selector_boundary_os_bridge_v0_1.json",
+    ],
     "scripts/run_plan_os_full_checks.py": [
         "PYTHONPATH",
         "check_plan_os_closed_loop_replan_intake_adapter_v0_4.py",
         "check_plan_os_generational_replan_cycle_driver_v0_5.py",
         "check_planos_activation_admission_actos_handoff_v0_23.py",
         "PASS: PlanOS v0.1-v0.23 validation completed",
+    ],
+    "scripts/run_kuuos_os_bridge_checks.py": [
+        "validate_kuuos_two_truths_os_bridge_v0_1.py",
+        "validate_kuuos_cech_obstruction_os_bridge_v0_1.py",
+        "validate_kuuos_infinity_topos_os_bridge_v0_1_min.py",
+        "validate_kuuos_selector_boundary_os_bridge_v0_1_min.py",
+        "PASS: KuuOS foundational and geometric OS bridge checks completed",
     ],
 }
 
