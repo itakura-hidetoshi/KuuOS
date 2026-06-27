@@ -2,8 +2,8 @@
 """Validate the KuuOS Emptiness / Dependent Origination / Two Truths runtime audit release packet v0.1.
 
 Stdlib-only validator.
-It checks that the public release packet, CI workflow, Makefile target, and
-archive metadata preserve the non-authority boundary.
+It checks that the public release packet, consolidated CI workflow, Makefile target,
+and archive metadata preserve the non-authority boundary.
 
 Boundary notes:
 - Boundary documents are allowed to mention forbidden examples as forbidden examples.
@@ -94,8 +94,8 @@ REQUIRED_TOKENS = {
         "runtime_audit_not_execution_authority",
     ],
     ".github/workflows/all_governance_validation.yml": [
-        "Emptiness Two Truths Runtime Audit Validation",
-        "make emptiness-two-truths-runtime-audit-checks",
+        "All Governance Validation",
+        "scripts/run_all_governance_full_checks_v0_1.py",
         "python-version: '3.12'",
     ],
     "Makefile": [
