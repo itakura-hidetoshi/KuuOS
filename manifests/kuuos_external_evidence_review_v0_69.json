@@ -1,8 +1,12 @@
 {
   "manifest_version": "kuuos_external_evidence_review_v0_69",
-  "predecessor": "kuuos_connection_evidence_v0_68",
-  "validator": "scripts/check_kuuos_external_evidence_review_v069.py",
+  "predecessor": "kuuos_connection_evidence_capsule_v0_68",
+  "validator": "scripts/check_kuuos_evidence_review_v069.py",
   "lean_surface": "KuuOSExternalEvidenceReviewV0_69",
   "validity_window_required": true,
-  "immutable_receipt": true
+  "review_only": true,
+  "live_effect": false,
+  "state_write": false,
+  "authority_widening": false,
+  "rollback_replacement": false
 }
