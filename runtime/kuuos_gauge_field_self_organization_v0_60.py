@@ -5,19 +5,8 @@ from dataclasses import asdict, dataclass
 import math
 from typing import Any, Mapping
 
-from runtime.kuuos_discrete_gauge_connection_v0_60 import (
-    GaugeAction,
-    KuuConnection,
-    Plaquette,
-    gauge_action,
-)
-from runtime.kuuos_gauge_field_self_organization_types_v0_60 import (
-    VERSION,
-    AssociatedField,
-    ConstitutionalGaugeGroup,
-    SignedPermutation,
-    canonical_digest,
-)
+from runtime.kuuos_discrete_gauge_connection_v0_60 import GaugeAction, KuuConnection, Plaquette, gauge_action
+from runtime.kuuos_gauge_field_self_organization_types_v0_60 import VERSION, AssociatedField, ConstitutionalGaugeGroup, SignedPermutation, canonical_digest
 
 
 @dataclass(frozen=True)
@@ -47,17 +36,10 @@ class GaugeConfiguration:
     def gauge_transform(self, local_gauges: Mapping[str, SignedPermutation]) -> "GaugeConfiguration":
         identity = self.group.identity()
         fields = {
-            chart_id: field.gauge_transform(
-                self.group.require_admissible(local_gauges.get(chart_id, identity))
-            )
+            chart_id: field.gauge_transform(self.group.require_admissible(local_gauges.get(chart_id, identity)))
             for chart_id, field in self.fields.items()
         }
-        return GaugeConfiguration(
-            self.group,
-            self.connection.gauge_transform(local_gauges),
-            fields,
-            self.plaquettes,
-        )
+        return GaugeConfiguration(self.group, self.connection.gauge_transform(local_gauges), fields, self.plaquettes)
 
     def protected_state(self) -> dict[str, tuple[float, ...]]:
         return {
@@ -120,11 +102,7 @@ class SelfOrganizationReceipt:
         return payload
 
 
-def build_covariant_relaxation_candidate(
-    configuration: GaugeConfiguration,
-    *,
-    rate: float = 0.25,
-) -> GaugeConfiguration:
+def build_covariant_relaxation_candidate(configuration: GaugeConfiguration, *, rate: float = 0.25) -> GaugeConfiguration:
     if not 0.0 <= rate <= 1.0:
         raise ValueError("relaxation_rate_out_of_range")
     incoming = {chart: [field.values] for chart, field in configuration.fields.items()}
@@ -160,10 +138,12 @@ def evaluate_self_organization_candidate(
     source: GaugeConfiguration,
     candidate: GaugeConfiguration,
     *,
-    rollback_digest: str = "",
+    rollback_digest: str | None = None,
     tolerance: float = 1e-10,
 ) -> SelfOrganizationReceipt:
     blockers: list[str] = []
+    source_digest = canonical_digest(source.to_dict())
+    candidate_digest = canonical_digest(candidate.to_dict())
     if source.group != candidate.group:
         blockers.append("constitutional_gauge_group_changed")
     if set(source.fields) != set(candidate.fields):
@@ -183,15 +163,16 @@ def evaluate_self_organization_candidate(
     nonincreasing = candidate_action.total <= source_action.total + abs(tolerance)
     if not nonincreasing:
         blockers.append("gauge_action_increased")
-    rollback_bound = bool(str(rollback_digest).strip())
+    effective_rollback_digest = str(rollback_digest or source_digest)
+    rollback_bound = bool(effective_rollback_digest)
     if not rollback_bound:
         blockers.append("rollback_digest_missing")
     status = "KUUOS_GAUGE_SELF_ORGANIZATION_CANDIDATE_ADMISSIBLE" if not blockers else "KUUOS_GAUGE_SELF_ORGANIZATION_CANDIDATE_BLOCKED"
     return SelfOrganizationReceipt(
         VERSION,
         status,
-        canonical_digest(source.to_dict()),
-        canonical_digest(candidate.to_dict()),
+        source_digest,
+        candidate_digest,
         source_action,
         candidate_action,
         protected,
@@ -199,15 +180,12 @@ def evaluate_self_organization_candidate(
         authority,
         nonincreasing,
         rollback_bound,
-        str(rollback_digest),
+        effective_rollback_digest,
         tuple(blockers),
     )
 
 
-def gauge_covariance_residual(
-    configuration: GaugeConfiguration,
-    local_gauges: Mapping[str, SignedPermutation],
-) -> float:
+def gauge_covariance_residual(configuration: GaugeConfiguration, local_gauges: Mapping[str, SignedPermutation]) -> float:
     before = configuration.gauge_invariant_observables()
     after = configuration.gauge_transform(local_gauges).gauge_invariant_observables()
     residual = abs(float(before["action"]["total"]) - float(after["action"]["total"]))
