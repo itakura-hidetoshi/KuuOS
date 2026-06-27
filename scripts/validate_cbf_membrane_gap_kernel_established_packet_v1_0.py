@@ -16,7 +16,7 @@ REQUIRED_FILES = [
     "tests/test_cbf_membrane_gap_kernel_contract_v1_0.py",
     "tests/test_cbf_membrane_gap_validation_cases_v1_0.py",
     "manifests/cbf_membrane_gap_kernel_validation_cases_v1_0.json",
-    ".github/workflows/cbf_membrane_gap_kernel_validation.yml",
+    ".github/workflows/kuuos_runtime_full_check.yml",
     "formal/KUOS/CBFMembrane/Defs.lean",
     "formal/KUOS/CBFMembrane/Soundness.lean",
 ]

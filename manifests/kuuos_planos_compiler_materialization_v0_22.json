@@ -6,7 +6,7 @@
   "formal_module": "formal/KUOS/PlanOS/VacuumExpectationCompilerMaterializationV0_22.lean",
   "documentation": "docs/KUUOS_PLANOS_COMPILER_MATERIALIZATION_v0_22.md",
   "validator": "scripts/check_planos_compiler_materialization_v0_22.py",
-  "workflow": ".github/workflows/planos-compiler-materialization-v0-22.yml",
+  "workflow": ".github/workflows/plan-os-validation.yml",
   "required": {
     "committed_next_plan_basis": true,
     "exact_route_projection": true,

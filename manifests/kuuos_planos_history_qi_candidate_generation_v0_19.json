@@ -5,7 +5,7 @@
   "formal_module": "formal/KUOS/PlanOS/VacuumExpectationHistoryQiCandidateGenerationV0_19.lean",
   "documentation": "docs/KUUOS_PLANOS_HISTORY_QI_CANDIDATE_GENERATION_v0_19.md",
   "validator": "scripts/check_planos_history_qi_candidate_generation_v0_19.py",
-  "workflow": ".github/workflows/planos-history-qi-candidate-generation-v0-19.yml",
+  "workflow": ".github/workflows/plan-os-validation.yml",
   "candidate_mapping": {
     "reinforcement": "strengthen",
     "repair": "repair",

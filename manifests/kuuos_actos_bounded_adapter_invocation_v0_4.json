@@ -5,7 +5,7 @@
   "formal_module": "formal/KUOS/ActOS/VacuumExpectationBoundedAdapterInvocationV0_4.lean",
   "documentation": "docs/KUUOS_ACTOS_BOUNDED_ADAPTER_INVOCATION_v0_4.md",
   "validator": "scripts/check_actos_bounded_adapter_invocation_v0_4.py",
-  "workflow": ".github/workflows/actos-bounded-invocation-v0-4.yml",
+  "workflow": ".github/workflows/evidence-cycle-os-validation.yml",
   "required": {
     "committed_nonexecuting_authorization": true,
     "exact_lease_reservation_consumption": true,

@@ -53,7 +53,7 @@ BUNDLE_FILES = [
     "scripts/build_ai_yogacara_release_bundle_manifest_v0_1.py",
     "examples/ai_yogacara_runtime_adapter_minimal.py",
     "tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py",
-    ".github/workflows/teni_observability_validation.yml",
+    ".github/workflows/all_governance_validation.yml",
     ".github/pull_request_template.md",
 ]
 

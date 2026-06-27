@@ -27,7 +27,7 @@ def main() -> int:
     replan = ROOT / "formal/KUOS/PlanOS/QiConditionedNonMarkovReplanV0_2.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_HISTORY_QI_CANDIDATE_GENERATION_v0_19.md"
     manifest_path = ROOT / "manifests/kuuos_planos_history_qi_candidate_generation_v0_19.json"
-    workflow = ROOT / ".github/workflows/planos-history-qi-candidate-generation-v0-19.yml"
+    workflow = ROOT / ".github/workflows/plan-os-validation.yml"
 
     for path in (
         formal_root,

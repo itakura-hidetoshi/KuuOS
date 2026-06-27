@@ -6,7 +6,7 @@
   "formal_root": "formal/KuuOSObserveOSV0_4.lean",
   "documentation": "docs/KUUOS_OBSERVEOS_WORLD_HOST_EFFECT_OBSERVATION_v0_4.md",
   "validator": "scripts/check_observeos_world_host_effect_observation_v0_4.py",
-  "workflow": ".github/workflows/observeos-world-host-effect-v0-4.yml",
+  "workflow": ".github/workflows/evidence-cycle-os-validation.yml",
   "required": {
     "ready_uncommitted_world_intake": true,
     "exact_act_cycle": true,

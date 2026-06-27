@@ -25,7 +25,7 @@ ARTIFACTS = [
     "scripts/check_mgap4d_external_audit_readiness_pr8_merge_closure_v0_1.py",
     "scripts/check_mgap4d_external_audit_readiness_pr9_merge_closure_v0_1.py",
     "scripts/check_mgap4d_external_audit_readiness_pr10_merge_closure_v0_1.py",
-    ".github/workflows/mgap4d_external_audit_readiness_ci_ledger_v0_1.yml",
+    ".github/workflows/all_governance_validation.yml",
 ]
 
 BOUNDARY_FLAGS = {

@@ -5,7 +5,7 @@
   "formal_module": "formal/KUOS/PlanOS/VacuumExpectationHysteresisConstraintDecisionHandoffV0_20.lean",
   "documentation": "docs/KUUOS_PLANOS_HYSTERESIS_CONSTRAINT_DECISION_HANDOFF_v0_20.md",
   "validator": "scripts/check_planos_hysteresis_constraint_decision_handoff_v0_20.py",
-  "workflow": ".github/workflows/planos-hysteresis-constraint-decision-handoff-v0-20.yml",
+  "workflow": ".github/workflows/plan-os-validation.yml",
   "derived_results": [
     "follows_constraint_deliberation_prefix",
     "hold_is_admissible_and_forwarded",

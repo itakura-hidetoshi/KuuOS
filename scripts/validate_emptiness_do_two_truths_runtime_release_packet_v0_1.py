@@ -27,7 +27,7 @@ REQUIRED_FILES = [
     "docs/ZENODO_METADATA_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md",
     "docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md",
     "docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md",
-    ".github/workflows/emptiness_two_truths_runtime_audit_validation.yml",
+    ".github/workflows/all_governance_validation.yml",
     "Makefile",
 ]
 
@@ -47,7 +47,7 @@ REQUIRED_TOKENS = {
         "claim_K_as_object",
         "claim_execution_authority",
         "zenodo_metadata_present",
-        ".github/workflows/emptiness_two_truths_runtime_audit_validation.yml",
+        ".github/workflows/all_governance_validation.yml",
         "docs/ZENODO_METADATA_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md",
     ],
     "docs/EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_PUBLIC_RELEASE_v0_1.md": [
@@ -93,7 +93,7 @@ REQUIRED_TOKENS = {
         "scripts/check_emptiness_do_two_truths_runtime_audit_chain_v0_1.py",
         "runtime_audit_not_execution_authority",
     ],
-    ".github/workflows/emptiness_two_truths_runtime_audit_validation.yml": [
+    ".github/workflows/all_governance_validation.yml": [
         "Emptiness Two Truths Runtime Audit Validation",
         "make emptiness-two-truths-runtime-audit-checks",
         "python-version: '3.12'",

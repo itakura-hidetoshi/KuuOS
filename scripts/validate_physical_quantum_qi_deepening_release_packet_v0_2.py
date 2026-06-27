@@ -97,7 +97,7 @@ REQUIRED_FILES = {
     "packets/physical_quantum_qi_deepening_v0_2FG_docs_closure_addendum_packet.json",
     "packets/physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json",
     "packets/physical_quantum_qi_deepening_baseline_established_final_packet_v0_2.json",
-    ".github/workflows/physical_quantum_qi_deepening_validation.yml",
+    ".github/workflows/all_governance_validation.yml",
     ".github/workflows/all_governance_validation.yml",
     "Makefile",
     "scripts/run_all_governance_full_checks_v0_1.py",

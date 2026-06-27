@@ -26,7 +26,7 @@ def main() -> int:
     source = ROOT / "formal/KUOS/PlanOS/VacuumExpectationCompilerMaterializationV0_22.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_ACTIVATION_ADMISSION_ACTOS_HANDOFF_v0_23.md"
     manifest_path = ROOT / "manifests/kuuos_planos_activation_admission_actos_handoff_v0_23.json"
-    workflow = ROOT / ".github/workflows/planos-activation-admission-actos-handoff-v0-23.yml"
+    workflow = ROOT / ".github/workflows/plan-os-validation.yml"
 
     for path in (formal_root, aggregate_root, formal, source, docs, manifest_path, workflow):
         require(path.is_file(), f"missing file: {path}")

@@ -5,7 +5,7 @@
   "formal_module": "formal/KUOS/PlanOS/VacuumExpectationSelectedCandidateNextCycleSynthesisV0_21.lean",
   "documentation": "docs/KUUOS_PLANOS_SELECTED_CANDIDATE_NEXT_CYCLE_SYNTHESIS_v0_21.md",
   "validator": "scripts/check_planos_selected_candidate_next_cycle_synthesis_v0_21.py",
-  "workflow": ".github/workflows/planos-selected-candidate-next-cycle-synthesis-v0-21.yml",
+  "workflow": ".github/workflows/plan-os-validation.yml",
   "required": {
     "exact_decision_selection": true,
     "selected_identity_preserved": true,

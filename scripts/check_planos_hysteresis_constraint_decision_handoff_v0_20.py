@@ -27,7 +27,7 @@ def main() -> int:
     replan = ROOT / "formal/KUOS/PlanOS/QiConditionedNonMarkovReplanV0_2.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_HYSTERESIS_CONSTRAINT_DECISION_HANDOFF_v0_20.md"
     manifest_path = ROOT / "manifests/kuuos_planos_hysteresis_constraint_decision_handoff_v0_20.json"
-    workflow = ROOT / ".github/workflows/planos-hysteresis-constraint-decision-handoff-v0-20.yml"
+    workflow = ROOT / ".github/workflows/plan-os-validation.yml"
 
     for path in (formal_root, top_root, formal, generation, replan, docs, manifest_path, workflow):
         require(path.is_file(), f"missing file: {path}")

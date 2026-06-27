@@ -5,7 +5,7 @@
   "formal_module": "formal/KUOS/PlanOS/VacuumExpectationLearningReplanIntakeV0_18.lean",
   "documentation": "docs/KUUOS_PLANOS_VACUUM_EXPECTATION_LEARNING_REPLAN_INTAKE_v0_18.md",
   "validator": "scripts/check_planos_vacuum_expectation_learning_replan_intake_v0_18.py",
-  "workflow": ".github/workflows/planos-vacuum-expectation-learning-replan-intake-v0-18.yml",
+  "workflow": ".github/workflows/plan-os-validation.yml",
   "reused_contracts": [
     "KUOS.PlanOS.ReplanSourceBinding",
     "KUOS.PlanOS.ReplanOwnership",

@@ -28,7 +28,7 @@ def main() -> int:
     authority_v02 = ROOT / "formal/KUOS/ActOS/ReplanLineageAuthorityEnvelopeV0_2.lean"
     docs = ROOT / "docs/KUUOS_ACTOS_ACTIVATION_AUTHORIZATION_INTAKE_v0_3.md"
     manifest_path = ROOT / "manifests/kuuos_actos_activation_authorization_intake_v0_3.json"
-    workflow = ROOT / ".github/workflows/actos-authorization-intake-v0-3.yml"
+    workflow = ROOT / ".github/workflows/evidence-cycle-os-validation.yml"
 
     for path in (
         formal_root,

@@ -37,7 +37,7 @@ REQUIRED_PATHS = [
     "scripts/check_physical_quantum_qi_runtime_evolution_finality_post_merge_receipt_v0_2JR.py",
     "scripts/run_all_governance_full_checks_v0_1.py",
     "Makefile",
-    ".github/workflows/physical_quantum_qi_runtime_evolution_validation.yml",
+    ".github/workflows/all_governance_validation.yml",
 ]
 
 REQUIRED_TARGETS = [
