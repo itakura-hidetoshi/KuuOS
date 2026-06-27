@@ -1,24 +1,30 @@
-name: DecisionOS v0.1-v0.3 Validation
+name: DecisionOS Validation
 
 on:
   workflow_dispatch:
   push:
     paths:
       - 'docs/KUUOS_DECISION_OS_*.md'
+      - 'docs/KUUOS_DECISIONOS_*.md'
       - 'manifests/kuuos_decision_os_*.json'
-      - 'runtime/kuuos_decision_os_*.py'
-      - 'runtime/v0*_decision_os_*.py'
+      - 'manifests/kuuos_decisionos_*.json'
+      - 'runtime/**/*decision_os*.py'
+      - 'runtime/**/*decisionos*.py'
       - 'scripts/check_decision_os_*.py'
+      - 'scripts/check_decisionos_*.py'
       - 'formal/KUOS/DecisionOS/**'
       - 'formal/KUOS.lean'
       - '.github/workflows/decision-os-validation.yml'
   pull_request:
     paths:
       - 'docs/KUUOS_DECISION_OS_*.md'
+      - 'docs/KUUOS_DECISIONOS_*.md'
       - 'manifests/kuuos_decision_os_*.json'
-      - 'runtime/kuuos_decision_os_*.py'
-      - 'runtime/v0*_decision_os_*.py'
+      - 'manifests/kuuos_decisionos_*.json'
+      - 'runtime/**/*decision_os*.py'
+      - 'runtime/**/*decisionos*.py'
       - 'scripts/check_decision_os_*.py'
+      - 'scripts/check_decisionos_*.py'
       - 'formal/KUOS/DecisionOS/**'
       - 'formal/KUOS.lean'
       - '.github/workflows/decision-os-validation.yml'
@@ -31,7 +37,7 @@ concurrency:
   cancel-in-progress: true
 
 jobs:
-  validate:
+  early-versions:
     runs-on: ubuntu-latest
     strategy:
       fail-fast: false
@@ -63,7 +69,7 @@ jobs:
       - name: Run runtime and check
         shell: bash
         run: |
-          set -o pipefail
+          set -euo pipefail
           python -m "${{ matrix.module }}" > "${{ matrix.log }}" 2>&1
           python "${{ matrix.check }}" >> "${{ matrix.log }}" 2>&1
       - name: Upload validation log
@@ -73,3 +79,13 @@ jobs:
           name: ${{ matrix.id }}-log
           path: ${{ matrix.log }}
           if-no-files-found: warn
+
+  current-version:
+    name: DecisionOS v0.4 admissible candidate selection
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python scripts/check_decisionos_admissible_candidate_selection_v0_4.py
