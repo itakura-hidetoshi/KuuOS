@@ -6,11 +6,11 @@ from pathlib import Path
 ROOT = Path(__file__).resolve().parents[1]
 
 MAPPINGS = {
-    'ROOT / ".github" / "workflows" / "emptiness_superposition_noncollapse_validation.yml"':
+    'ROOT / "scripts" / "run_core_governance_full_checks_v0_1.py"':
         'ROOT / "scripts" / "run_core_governance_full_checks_v0_1.py"',
-    'ROOT / ".github" / "workflows" / "kuuos_qi_meridian_validation.yml"':
+    'ROOT / ".github" / "workflows" / "kuuos_qi_naming_cleanup_validation.yml"':
         'ROOT / ".github" / "workflows" / "kuuos_qi_naming_cleanup_validation.yml"',
-    'ROOT / ".github" / "workflows" / "kuuos_qi_sanjiao_validation.yml"':
+    'ROOT / ".github" / "workflows" / "kuuos_qi_naming_cleanup_validation.yml"':
         'ROOT / ".github" / "workflows" / "kuuos_qi_naming_cleanup_validation.yml"',
 }
 

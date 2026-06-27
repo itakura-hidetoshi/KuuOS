@@ -16,7 +16,7 @@ import pathlib
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 CONFIRMED = ROOT / "specs" / "kuos_emptiness_superposition_non_collapse_confirmed_baseline_packet_v0_2.yaml"
 ESTABLISHED = ROOT / "specs" / "kuos_emptiness_superposition_non_collapse_established_baseline_packet_v0_2.yaml"
-WORKFLOW = ROOT / ".github" / "workflows" / "emptiness_superposition_noncollapse_validation.yml"
+WORKFLOW = ROOT / "scripts" / "run_core_governance_full_checks_v0_1.py"
 PUBLIC_INDEX = ROOT / "docs" / "PUBLIC_DOCS_INDEX_v0_1.md"
 VALIDATION_MATRIX = ROOT / "docs" / "VALIDATION_COVERAGE_MATRIX_v0_1.md"
 PUBLIC_RELEASE_MANIFEST = ROOT / "docs" / "PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1.md"

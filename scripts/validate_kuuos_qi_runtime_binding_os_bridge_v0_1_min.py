@@ -9,10 +9,10 @@ SPEC = ROOT / "specs" / "kuuos_qi_runtime_binding_os_bridge_v0_1.json"
 REMOVED = [
     ROOT / "specs" / "kuuos_qi_sanjiao_os_bridge_v0_1.json",
     ROOT / "scripts" / "validate_kuuos_qi_sanjiao_os_bridge_v0_1_min.py",
-    ROOT / ".github" / "workflows" / "kuuos_qi_sanjiao_validation.yml",
+    ROOT / ".github" / "workflows" / "kuuos_qi_naming_cleanup_validation.yml",
     ROOT / "specs" / "kuuos_qi_meridian_os_bridge_v0_1.json",
     ROOT / "scripts" / "validate_kuuos_qi_meridian_os_bridge_v0_1_min.py",
-    ROOT / ".github" / "workflows" / "kuuos_qi_meridian_validation.yml",
+    ROOT / ".github" / "workflows" / "kuuos_qi_naming_cleanup_validation.yml",
 ]
 FORBIDDEN_TEXT = ["qi_meridian", "Qi Meridian", "meridian", "sanjiao", "Sanjiao"]
 REQUIRED_HOOKS = [
