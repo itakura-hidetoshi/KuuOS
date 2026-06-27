@@ -22,7 +22,7 @@ REQUIRED_FILES = [
     ROOT / "scripts" / "check_mgap4d_external_audit_readiness_pr9_merge_closure_v0_1.py",
     ROOT / "scripts" / "check_mgap4d_external_audit_readiness_pr10_merge_closure_v0_1.py",
     ROOT / "scripts" / "check_mgap4d_external_audit_readiness_bundle_manifest_v0_1.py",
-    ROOT / ".github" / "workflows" / "mgap4d_external_audit_readiness_ci_ledger_v0_1.yml",
+    ROOT / ".github" / "workflows" / "all_governance_validation.yml",
 ]
 
 REQUIRED_TOKENS = [
