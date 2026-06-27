@@ -1,0 +1,16 @@
+{
+  "manifest_version": "kuuos_connection_evidence_v0_68",
+  "predecessor": "kuuos_finite_gauge_validation_v0_67",
+  "runtime_modules": [
+    "runtime/kuuos_connection_evidence_types_v0_68.py",
+    "runtime/kuuos_connection_evidence_v0_68.py"
+  ],
+  "validator": "scripts/check_kuuos_evidence_v068.py",
+  "lean_surface": "KuuOSConnectionEvidenceV0_68",
+  "validity_window_required": true,
+  "evidence_only": true,
+  "candidate_only": true,
+  "live_effect": false,
+  "state_write": false,
+  "authority_widening": false
+}

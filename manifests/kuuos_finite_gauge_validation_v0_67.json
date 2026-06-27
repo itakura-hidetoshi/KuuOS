@@ -1,0 +1,14 @@
+{
+  "manifest_version": "kuuos_finite_gauge_validation_v0_67",
+  "predecessor": "kuuos_connection_shadow_v0_66",
+  "runtime_modules": [
+    "runtime/kuuos_connection_orbit_types_v0_67.py",
+    "runtime/kuuos_connection_orbit_validation_v0_67.py"
+  ],
+  "validator": "scripts/check_kuuos_orbit_v067.py",
+  "lean_surface": "KuuOSFiniteGaugeValidationV0_67",
+  "finite_samples": true,
+  "rollback_reconstruction": true,
+  "source_unchanged": true,
+  "production_ready": false
+}
