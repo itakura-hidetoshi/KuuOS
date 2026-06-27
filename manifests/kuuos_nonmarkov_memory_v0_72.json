@@ -1,0 +1,33 @@
+{
+  "manifest_version": "kuuos_nonmarkov_memory_connection_v0_72",
+  "predecessor": "kuuos_noncommutative_leibniz_connection_v0_71",
+  "architecture": "read-only-history-left-module-memory-kernel",
+  "graph_semantics_required": false,
+  "runtime_modules": [
+    "runtime/kuuos_memory_history_v0_72.py",
+    "runtime/kuuos_nonmarkov_memory_kernel_v0_72.py",
+    "runtime/kuuos_nonmarkov_memory_connection_v0_72.py",
+    "runtime/kuuos_nonmarkov_candidate_validation_v0_72.py"
+  ],
+  "validator": "scripts/check_kuuos_nonmarkov_memory_v072.py",
+  "lean_surface": "KuuOSNonMarkovMemoryConnectionV0_72",
+  "strict_formal_root": "KuuOSFormalV0_72",
+  "source_history_read_only": true,
+  "source_memory_capsule_mutation": false,
+  "finite_history_kernel": true,
+  "long_lag_history_dependence_required": true,
+  "memory_submodule_support_required": true,
+  "semantic_projectors_preserved": true,
+  "protected_kernel_zero": true,
+  "authority_filtration_preserved": true,
+  "kernel_left_module_linear": true,
+  "pathwise_leibniz_required": true,
+  "gauge_covariance_required": true,
+  "rollback_algebraic_exact": true,
+  "rollback_structural_exact": true,
+  "rollback_digest_exact": true,
+  "candidate_construction_live_effect": false,
+  "candidate_construction_state_write": false,
+  "authority_widening_allowed": false,
+  "approval_production_authority_inherited_from_v0_69": true
+}
