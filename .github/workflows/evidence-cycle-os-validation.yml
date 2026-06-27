@@ -93,6 +93,7 @@ concurrency:
 jobs:
   early-versions:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -162,6 +163,7 @@ jobs:
   later-versions:
     name: Later evidence-cycle checks
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
