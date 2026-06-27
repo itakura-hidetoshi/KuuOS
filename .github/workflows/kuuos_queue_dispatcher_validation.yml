@@ -21,6 +21,7 @@ on:
       - 'tests/test_qi_total_field_v0_1.py'
       - 'tests/test_kuuos_candidate_cycle_v0_1.py'
       - 'tests/test_kuuos_queue_dispatcher_v0_1.py'
+      - 'tests/test_kuuos_queue_worker_v0_1.py'
       - 'tests/test_kuuos_action_router_v0_1.py'
       - 'tests/test_kuuos_task_board_processor_v0_1.py'
       - 'tests/test_kuuos_feedback_merger_v0_1.py'
@@ -51,6 +52,7 @@ jobs:
           tests.test_qi_total_field_v0_1
           tests.test_kuuos_candidate_cycle_v0_1
           tests.test_kuuos_queue_dispatcher_v0_1
+          tests.test_kuuos_queue_worker_v0_1
           tests.test_kuuos_action_router_v0_1
           tests.test_kuuos_task_board_processor_v0_1
           tests.test_kuuos_feedback_merger_v0_1
