@@ -6,7 +6,7 @@
   "documentation": "docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVEOS_COMMIT_VERIFY_HANDOFF_v0_53.md",
   "validator": "scripts/check_world_vacuum_expectation_observeos_commit_verify_handoff_v0_53.py",
   "full_check": "scripts/run_kuuos_runtime_full_check_v0_53.py",
-  "workflow": ".github/workflows/world-vacuum-expectation-observeos-commit-verify-v0-53.yml",
+  "workflow": ".github/workflows/world-v053-v059-main-validation.yml",
   "predecessor_full_check": "scripts/run_kuuos_runtime_full_check_v0_52.py",
   "coexists_with_world_v0_52": "formal/KUOS/WORLD/VacuumExpectationHostEffectAtomicCommitIntakeV0_52.lean",
   "composes_existing_modules": [
