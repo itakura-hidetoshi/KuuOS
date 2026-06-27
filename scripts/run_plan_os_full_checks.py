@@ -1,11 +1,16 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import os
 import pathlib
 import subprocess
 import sys
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
+PYTHON_ENV = os.environ.copy()
+PYTHON_ENV["PYTHONPATH"] = os.pathsep.join(
+    part for part in (str(ROOT), PYTHON_ENV.get("PYTHONPATH", "")) if part
+)
 
 EARLY = [
     (
@@ -55,6 +60,7 @@ def run_logged(module: str, check: str, log_name: str) -> int:
         runtime_result = subprocess.run(
             [sys.executable, "-m", module],
             cwd=ROOT,
+            env=PYTHON_ENV,
             stdout=log,
             stderr=subprocess.STDOUT,
         )
@@ -63,6 +69,7 @@ def run_logged(module: str, check: str, log_name: str) -> int:
         check_result = subprocess.run(
             [sys.executable, check],
             cwd=ROOT,
+            env=PYTHON_ENV,
             stdout=log,
             stderr=subprocess.STDOUT,
         )
@@ -77,7 +84,7 @@ def main() -> int:
             failures.append(check)
 
     for check in CHECKS:
-        result = subprocess.run([sys.executable, check], cwd=ROOT)
+        result = subprocess.run([sys.executable, check], cwd=ROOT, env=PYTHON_ENV)
         if result.returncode != 0:
             failures.append(check)
 
