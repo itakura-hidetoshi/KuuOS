@@ -33,10 +33,21 @@ def main() -> int:
         "self_organization_produces_candidate_only": True,
         "production_mutation_not_performed": True,
         "rollback_required_before_promotion": True,
+        "source_configuration_is_default_rollback_target": True,
+        "connection_rewrite_not_authorized": True,
+        "plaquette_domain_rewrite_not_authorized": True,
+        "field_identity_rewrite_not_authorized": True,
+        "curvature_zero_not_required": True,
+        "holonomy_not_erased": True,
     }
     boundaries = manifest.get("boundaries", {})
-    if any(boundaries.get(key) is not value for key, value in expected.items()):
-        print(json.dumps({"status": "blocked", "reason": "manifest_boundary_mismatch"}, indent=2))
+    mismatches = {
+        key: {"expected": value, "actual": boundaries.get(key)}
+        for key, value in expected.items()
+        if boundaries.get(key) is not value
+    }
+    if mismatches:
+        print(json.dumps({"status": "blocked", "reason": "manifest_boundary_mismatch", "mismatches": mismatches}, indent=2))
         return 1
 
     completed = subprocess.run(
