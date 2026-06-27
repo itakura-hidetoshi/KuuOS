@@ -103,6 +103,8 @@ class SelfOrganizationReceipt:
     ownership_preserved: bool
     authority_preserved: bool
     action_nonincreasing: bool
+    rollback_bound: bool
+    rollback_digest: str
     blockers: tuple[str, ...]
 
     @property
@@ -158,6 +160,7 @@ def evaluate_self_organization_candidate(
     source: GaugeConfiguration,
     candidate: GaugeConfiguration,
     *,
+    rollback_digest: str = "",
     tolerance: float = 1e-10,
 ) -> SelfOrganizationReceipt:
     blockers: list[str] = []
@@ -180,8 +183,25 @@ def evaluate_self_organization_candidate(
     nonincreasing = candidate_action.total <= source_action.total + abs(tolerance)
     if not nonincreasing:
         blockers.append("gauge_action_increased")
+    rollback_bound = bool(str(rollback_digest).strip())
+    if not rollback_bound:
+        blockers.append("rollback_digest_missing")
     status = "KUUOS_GAUGE_SELF_ORGANIZATION_CANDIDATE_ADMISSIBLE" if not blockers else "KUUOS_GAUGE_SELF_ORGANIZATION_CANDIDATE_BLOCKED"
-    return SelfOrganizationReceipt(VERSION, status, canonical_digest(source.to_dict()), canonical_digest(candidate.to_dict()), source_action, candidate_action, protected, ownership, authority, nonincreasing, tuple(blockers))
+    return SelfOrganizationReceipt(
+        VERSION,
+        status,
+        canonical_digest(source.to_dict()),
+        canonical_digest(candidate.to_dict()),
+        source_action,
+        candidate_action,
+        protected,
+        ownership,
+        authority,
+        nonincreasing,
+        rollback_bound,
+        str(rollback_digest),
+        tuple(blockers),
+    )
 
 
 def gauge_covariance_residual(
