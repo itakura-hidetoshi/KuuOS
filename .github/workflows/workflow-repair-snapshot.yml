@@ -23,6 +23,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: workflow-repair-snapshot-${{ github.run_id }}
+          retention-days: 1
           path: |
             .github/**
             chain_indexes/**
