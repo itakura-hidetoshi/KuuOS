@@ -1,0 +1,137 @@
+name: CapabilityOS Qi-WORLD v0.60
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "runtime/kuuos_capabilityos_types_v0_60.py"
+      - "runtime/kuuos_capabilityos_qi_world_kernel_v0_60.py"
+      - "runtime/kuuos_capabilityos_qi_world_scenarios_v0_60.py"
+      - "scripts/check_capabilityos_qi_world_kernel_v0_60.py"
+      - "tests/test_capabilityos_qi_world_kernel_v0_60.py"
+      - "formal/KUOS/CapabilityOS/QiWorldCapabilityKernelV0_60.lean"
+      - "formal/KUOS.lean"
+      - "formal/KuuOSFormal.lean"
+      - "docs/KUUOS_CAPABILITYOS_QI_WORLD_KERNEL_v0_60.md"
+      - "manifests/kuuos_capabilityos_qi_world_kernel_v0_60.json"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
+      - ".github/workflows/capabilityos-qi-world-v0-60-validation.yml"
+  pull_request:
+    paths:
+      - "runtime/kuuos_capabilityos_types_v0_60.py"
+      - "runtime/kuuos_capabilityos_qi_world_kernel_v0_60.py"
+      - "runtime/kuuos_capabilityos_qi_world_scenarios_v0_60.py"
+      - "scripts/check_capabilityos_qi_world_kernel_v0_60.py"
+      - "tests/test_capabilityos_qi_world_kernel_v0_60.py"
+      - "formal/KUOS/CapabilityOS/QiWorldCapabilityKernelV0_60.lean"
+      - "formal/KUOS.lean"
+      - "formal/KuuOSFormal.lean"
+      - "docs/KUUOS_CAPABILITYOS_QI_WORLD_KERNEL_v0_60.md"
+      - "manifests/kuuos_capabilityos_qi_world_kernel_v0_60.json"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
+      - ".github/workflows/capabilityos-qi-world-v0-60-validation.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python3 -m compileall -q
+          runtime/kuuos_capabilityos_types_v0_60.py
+          runtime/kuuos_capabilityos_qi_world_kernel_v0_60.py
+          runtime/kuuos_capabilityos_qi_world_scenarios_v0_60.py
+          scripts/check_capabilityos_qi_world_kernel_v0_60.py
+          tests/test_capabilityos_qi_world_kernel_v0_60.py
+      - name: Validate manifest JSON
+        run: >-
+          python3 -m json.tool
+          manifests/kuuos_capabilityos_qi_world_kernel_v0_60.json
+          > /dev/null
+      - name: Validate CapabilityOS v0.60
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/check_capabilityos_qi_world_kernel_v0_60.py \
+            2>&1 | tee capabilityos-v0-60-runtime.log
+      - name: Run CapabilityOS v0.60 unit tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 -m unittest -v \
+            tests.test_capabilityos_qi_world_kernel_v0_60 \
+            2>&1 | tee -a capabilityos-v0-60-runtime.log
+      - name: Run Qi-WORLD v2.3 regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/check_qi_world_yinyang_process_blocker_complementarity_v2_3.py \
+            2>&1 | tee -a capabilityos-v0-60-runtime.log
+      - name: Run MemoryOS v0.37 regression
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/check_memoryos_predictive_shielded_memory_v0_37.py \
+            2>&1 | tee -a capabilityos-v0-60-runtime.log
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Verify lockfile stability
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile CapabilityOS v0.60 formal module
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KUOS.CapabilityOS.QiWorldCapabilityKernelV0_60 \
+            2>&1 | tee capabilityos-v0-60-lean-module.log
+      - name: Strictly compile formal root
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true build KuuOSFormal \
+            2>&1 | tee capabilityos-v0-60-lean-root.log
+      - name: Upload CapabilityOS v0.60 diagnostics
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: capabilityos-v0-60-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            capabilityos-v0-60-runtime.log
+            capabilityos-v0-60-lean-module.log
+            capabilityos-v0-60-lean-root.log
+          if-no-files-found: warn
+          retention-days: 14
