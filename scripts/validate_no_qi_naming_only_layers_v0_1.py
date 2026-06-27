@@ -7,10 +7,8 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 REMOVED_FILES = [
     "specs/kuuos_qi_meridian_os_bridge_v0_1.json",
     "scripts/validate_kuuos_qi_meridian_os_bridge_v0_1_min.py",
-    ".github/workflows/kuuos_qi_naming_cleanup_validation.yml",
     "specs/kuuos_qi_sanjiao_os_bridge_v0_1.json",
     "scripts/validate_kuuos_qi_sanjiao_os_bridge_v0_1_min.py",
-    ".github/workflows/kuuos_qi_naming_cleanup_validation.yml",
 ]
 # Only scan active Qi runtime / total-field files. Historical PR titles or
 # external docs are not part of the runtime path.
