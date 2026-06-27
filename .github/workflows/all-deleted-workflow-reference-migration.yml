@@ -7,6 +7,10 @@ on:
     paths:
       - 'scripts/apply_all_deleted_workflow_reference_migrations.py'
       - '.github/workflows/all-deleted-workflow-reference-migration.yml'
+  pull_request:
+    paths:
+      - 'scripts/apply_all_deleted_workflow_reference_migrations.py'
+      - '.github/workflows/all-deleted-workflow-reference-migration.yml'
 
 permissions:
   contents: write
