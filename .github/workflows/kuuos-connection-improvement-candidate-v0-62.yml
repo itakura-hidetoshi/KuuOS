@@ -59,11 +59,20 @@ jobs:
       - name: Fetch Mathlib cache
         run: lake exe cache get
       - name: Check v0.62 formal root
-        run: >-
-          lake env lean
-          -DwarningAsError=true
-          -DsorryAsError=true
-          formal/KuuOSFormalV0_62.lean
+        run: |
+          set -o pipefail
+          lake env lean \
+            -DwarningAsError=true \
+            -DsorryAsError=true \
+            formal/KuuOSFormalV0_62.lean 2>&1 | tee v0_62_lean.log
+      - name: Upload Lean diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-connection-v0-62-lean-diagnostics
+          path: v0_62_lean.log
+          if-no-files-found: error
+          retention-days: 7
       - name: Build aggregate formal root
         run: >-
           lake -KleanArgs=-DwarningAsError=true
