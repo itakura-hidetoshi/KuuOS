@@ -1,20 +1,36 @@
-name: KuuOS Queue Dispatcher Validation
+name: KuuOS Queue Runtime Chain Validation
 
 on:
   workflow_dispatch:
   pull_request:
     paths:
-      - 'runtime/kuuos_queue_dispatcher_v0_1.py'
-      - 'runtime/kuuos_candidate_cycle_v0_1.py'
-      - 'runtime/qi_total_field_v0_1.py'
+      - 'specs/kuuos_qi_total_field_os_bridge_v0_1.json'
+      - 'runtime/qi_process_tensor_v0_1.py'
       - 'runtime/qi_runtime_binding_v0_1.py'
       - 'runtime/qi_cycle_runner_v0_1.py'
-      - 'tests/test_kuuos_queue_dispatcher_v0_1.py'
-      - 'tests/test_kuuos_candidate_cycle_v0_1.py'
-      - 'tests/test_qi_total_field_v0_1.py'
+      - 'runtime/qi_total_field_v0_1.py'
+      - 'runtime/kuuos_candidate_cycle_v0_1.py'
+      - 'runtime/kuuos_queue_dispatcher_v0_1.py'
+      - 'runtime/kuuos_queue_worker_v0_1.py'
+      - 'runtime/kuuos_action_router_v0_1.py'
+      - 'runtime/kuuos_task_board_processor_v0_1.py'
+      - 'tests/test_qi_process_tensor_v0_1.py'
       - 'tests/test_qi_runtime_binding_v0_1.py'
       - 'tests/test_qi_cycle_runner_v0_1.py'
+      - 'tests/test_qi_total_field_v0_1.py'
+      - 'tests/test_kuuos_candidate_cycle_v0_1.py'
+      - 'tests/test_kuuos_queue_dispatcher_v0_1.py'
+      - 'tests/test_kuuos_action_router_v0_1.py'
+      - 'tests/test_kuuos_task_board_processor_v0_1.py'
+      - 'tests/test_qi_process_tensor_downstream_v0_1.py'
       - '.github/workflows/kuuos_queue_dispatcher_validation.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: queue-runtime-chain-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   validate:
@@ -24,4 +40,15 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python3 -m unittest tests.test_qi_runtime_binding_v0_1 tests.test_qi_cycle_runner_v0_1 tests.test_qi_total_field_v0_1 tests.test_kuuos_candidate_cycle_v0_1 tests.test_kuuos_queue_dispatcher_v0_1
+      - name: Run queue runtime chain tests
+        run: >-
+          python3 -m unittest
+          tests.test_qi_process_tensor_v0_1
+          tests.test_qi_runtime_binding_v0_1
+          tests.test_qi_cycle_runner_v0_1
+          tests.test_qi_total_field_v0_1
+          tests.test_kuuos_candidate_cycle_v0_1
+          tests.test_kuuos_queue_dispatcher_v0_1
+          tests.test_kuuos_action_router_v0_1
+          tests.test_kuuos_task_board_processor_v0_1
+          tests.test_qi_process_tensor_downstream_v0_1
