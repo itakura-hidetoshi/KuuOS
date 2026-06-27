@@ -62,12 +62,14 @@ theorem wilson_observable_gauge_invariant
   rw [gaugeTransform_plaquetteHolonomy]
   exact hW (h x₀) (plaquetteHolonomy A x₀ x₁ x₂ x₃)
 
-def IsConstitutionalInvariant (P : V → Prop) : Prop :=
-  ∀ g v, P (g • v) ↔ P v
+def IsConstitutionalInvariant
+    (G : Type*) [SMul G V]
+    (P : V → Prop) : Prop :=
+  ∀ (g : G) v, P (g • v) ↔ P v
 
 theorem constitutional_state_preserved
     (P : V → Prop)
-    (hP : IsConstitutionalInvariant P)
+    (hP : IsConstitutionalInvariant G P)
     (g : G)
     (v : V)
     (hv : P v) :
