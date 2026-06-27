@@ -12,7 +12,7 @@
     "runtime/kuuos_connection_evidence_review_validation_v0_69.py"
   ],
   "validator": "scripts/check_kuuos_evidence_review_v069.py",
-  "lean_surface": "KuuOSConnectionEvidenceReviewV0_69",
+  "lean_surface": "KuuOSExternalEvidenceReviewV0_69",
   "strict_formal_root": "KuuOSFormalV0_69",
   "decisions": [
     "APPROVE_EVIDENCE",
@@ -25,7 +25,7 @@
   "source_digest_bound": true,
   "rollback_digest_bound": true,
   "finite_validity_window": true,
-  "approval_binds_production_permission": true,
+  "approval_is_candidate_only": true,
   "review_only": true,
   "live_effect": false,
   "state_write": false,
