@@ -1,18 +1,18 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import json
 import pathlib
 import re
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 SELF = pathlib.Path(__file__).resolve()
-WORKFLOW_PATTERN = re.compile(r"[\"'](\.github/workflows/[^\"']+\.ya?ml)[\"']")
+DIRECT_WORKFLOW_PATTERN = re.compile(r"\.github/workflows/[A-Za-z0-9_./-]+\.ya?ml")
 CONSTRUCTED_WORKFLOW_PATTERN = re.compile(
     r"ROOT\s*/\s*[\"']\.github[\"']\s*/\s*[\"']workflows[\"']\s*/\s*[\"']([^\"']+\.ya?ml)[\"']"
 )
 
 REQUIRED_FILES = [
+    ".github/workflows/all_governance_validation.yml",
     ".github/workflows/decision-os-validation.yml",
     ".github/workflows/evidence-cycle-os-validation.yml",
     ".github/workflows/plan-os-validation.yml",
@@ -21,6 +21,15 @@ REQUIRED_FILES = [
 ]
 
 FORBIDDEN_LEGACY_FILES = [
+    ".github/workflows/core_governance_validation.yml",
+    ".github/workflows/gpt_github_integration_validation.yml",
+    ".github/workflows/teni_observability_validation.yml",
+    ".github/workflows/qi_motion_chain_validation.yml",
+    ".github/workflows/physical_quantum_qi_runtime_validation.yml",
+    ".github/workflows/physical_quantum_qi_deepening_validation.yml",
+    ".github/workflows/mgap4d_external_audit_readiness_ci_ledger_v0_1.yml",
+    ".github/workflows/emptiness_two_truths_runtime_audit_validation.yml",
+    ".github/workflows/emptiness_superposition_noncollapse_validation.yml",
     ".github/workflows/decision-os-v0-1-relational-deliberation-validation.yml",
     ".github/workflows/decision-os-v0-2-plural-harmony-appeal-validation.yml",
     ".github/workflows/decision-os-wa-v0-3-validation.yml",
@@ -33,6 +42,10 @@ FORBIDDEN_LEGACY_FILES = [
     ".github/workflows/plan-os-v0-2-validation.yml",
     ".github/workflows/plan-os-v0-3-validation.yml",
     ".github/workflows/plan-os-v0-17-validation.yml",
+    ".github/workflows/memoryos-analytic-hilbert-context-v0-38.yml",
+    ".github/workflows/memoryos-qi-world-blocker-integration-v0-35.yml",
+    ".github/workflows/kuuos_qi_meridian_validation.yml",
+    ".github/workflows/kuuos_qi_sanjiao_validation.yml",
     "scripts/run_plan_os_full_checks_v0_17.py",
 ]
 
@@ -45,6 +58,7 @@ REQUIRED_MARKERS = {
     ],
     ".github/workflows/evidence-cycle-os-validation.yml": [
         "set -euo pipefail",
+        "PYTHONPATH=.",
         "check_observe_os_replan_lineage_observation_envelope_v0_2.py",
         "check_verify_os_replan_lineage_verification_envelope_v0_2.py",
         "check_learn_os_replan_lineage_future_only_learning_envelope_v0_2.py",
@@ -57,6 +71,7 @@ REQUIRED_MARKERS = {
         "scripts/check_planos_*.py",
     ],
     "scripts/run_plan_os_full_checks.py": [
+        "PYTHONPATH",
         "check_plan_os_closed_loop_replan_intake_adapter_v0_4.py",
         "check_plan_os_generational_replan_cycle_driver_v0_5.py",
         "check_planos_activation_admission_actos_handoff_v0_23.py",
@@ -65,21 +80,8 @@ REQUIRED_MARKERS = {
 }
 
 
-def workflow_values(value: object) -> list[str]:
-    found: list[str] = []
-    if isinstance(value, dict):
-        for key, nested in value.items():
-            if key == "workflow" and isinstance(nested, str):
-                found.append(nested)
-            found.extend(workflow_values(nested))
-    elif isinstance(value, list):
-        for nested in value:
-            found.extend(workflow_values(nested))
-    return found
-
-
-def script_workflow_references(text: str) -> set[str]:
-    references = set(WORKFLOW_PATTERN.findall(text))
+def workflow_references(text: str) -> set[str]:
+    references = set(DIRECT_WORKFLOW_PATTERN.findall(text))
     references.update(
         f".github/workflows/{name}"
         for name in CONSTRUCTED_WORKFLOW_PATTERN.findall(text)
@@ -87,27 +89,18 @@ def script_workflow_references(text: str) -> set[str]:
     return references
 
 
-def check_embedded_workflow_references(errors: list[str]) -> None:
-    for manifest_path in sorted((ROOT / "manifests").rglob("*.json")):
+def check_repository_workflow_references(errors: list[str]) -> None:
+    for path in sorted(ROOT.rglob("*")):
+        if not path.is_file() or path.resolve() == SELF or ".git" in path.parts:
+            continue
         try:
-            data = json.loads(manifest_path.read_text(encoding="utf-8"))
-        except (OSError, json.JSONDecodeError) as exc:
-            errors.append(f"cannot parse manifest {manifest_path.relative_to(ROOT)}: {exc}")
+            text = path.read_text(encoding="utf-8")
+        except (UnicodeDecodeError, OSError):
             continue
-        for workflow in workflow_values(data):
-            if workflow.startswith(".github/workflows/") and not (ROOT / workflow).is_file():
-                errors.append(
-                    f"missing manifest workflow reference: {manifest_path.relative_to(ROOT)} -> {workflow}"
-                )
-
-    for script_path in sorted((ROOT / "scripts").rglob("*.py")):
-        if script_path.resolve() == SELF:
-            continue
-        text = script_path.read_text(encoding="utf-8")
-        for workflow in sorted(script_workflow_references(text)):
+        for workflow in sorted(workflow_references(text)):
             if not (ROOT / workflow).is_file():
                 errors.append(
-                    f"missing validator workflow reference: {script_path.relative_to(ROOT)} -> {workflow}"
+                    f"missing workflow reference: {path.relative_to(ROOT)} -> {workflow}"
                 )
 
 
@@ -131,7 +124,7 @@ def main() -> int:
             if marker not in text:
                 errors.append(f"missing marker in {relative}: {marker}")
 
-    check_embedded_workflow_references(errors)
+    check_repository_workflow_references(errors)
 
     if errors:
         for error in errors:
