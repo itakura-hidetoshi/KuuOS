@@ -89,6 +89,7 @@ def seal_external_review_attestation(
         valid_from_epoch=valid_from_epoch,
         valid_through_epoch=valid_through_epoch,
         production_apply_allowed=False,
+        live_effect_allowed=False,
         state_write_allowed=False,
         authority_widening_allowed=False,
         rollback_replacement_allowed=False,
