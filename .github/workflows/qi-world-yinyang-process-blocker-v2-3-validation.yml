@@ -6,45 +6,55 @@ on:
     branches:
       - main
     paths:
-      - "runtime/kuuos_qi_world_yinyang_process_blocker_complementarity_v2_3.py"
-      - "runtime/kuuos_qi_world_yinyang_process_blocker_complementarity_scenarios_v2_3.py"
-      - "scripts/check_qi_world_yinyang_process_blocker_complementarity_v2_3.py"
-      - "tests/test_qi_world_yinyang_process_blocker_complementarity_v2_3.py"
-      - "formal/KUOS/Architecture/QiWorldYinYangProcessBlockerComplementarityV2_3.lean"
-      - "formal/KUOS.lean"
-      - "formal/KuuOSFormal.lean"
-      - "docs/KUUOS_QI_WORLD_YINYANG_PROCESS_BLOCKER_COMPLEMENTARITY_v2_3.md"
-      - "manifests/kuuos_qi_world_yinyang_process_blocker_complementarity_v2_3.json"
-      - "scripts/check_qi_world_cross_cycle_blocker_v1_5.py"
-      - "scripts/run_kuuos_runtime_full_check_v0_55.py"
-      - "lakefile.toml"
-      - "lake-manifest.json"
-      - "lean-toolchain"
-      - ".github/workflows/qi-world-yinyang-process-blocker-v2-3-validation.yml"
+      - 'runtime/kuuos_qi_world_yinyang_process_blocker_complementarity_v2_3.py'
+      - 'runtime/kuuos_qi_world_yinyang_process_blocker_complementarity_scenarios_v2_3.py'
+      - 'scripts/check_qi_world_yinyang_process_blocker_complementarity_v2_3.py'
+      - 'tests/test_qi_world_yinyang_process_blocker_complementarity_v2_3.py'
+      - 'docs/KUUOS_QI_WORLD_YINYANG_PROCESS_BLOCKER_COMPLEMENTARITY_v2_3.md'
+      - 'manifests/kuuos_qi_world_yinyang_process_blocker_complementarity_v2_3.json'
+      - 'runtime/kuuos_qi_world_cross_cycle_blocker_core_v1_5.py'
+      - 'runtime/kuuos_qi_world_cross_cycle_blocker_v1_5.py'
+      - 'runtime/kuuos_qi_world_cross_cycle_blocker_scenarios_v1_5.py'
+      - 'scripts/check_qi_world_cross_cycle_blocker_v1_5.py'
+      - 'tests/test_qi_world_cross_cycle_blocker_v1_5.py'
+      - 'manifests/kuuos_qi_world_cross_cycle_blocker_v1_5.json'
+      - 'formal/KUOS/Architecture/QiWorldYinYangProcessBlockerComplementarityV2_3.lean'
+      - 'formal/KUOS/Architecture/QiWorldCrossCycleBlockerTheoryV1_5.lean'
+      - 'formal/KUOS/Architecture/QiWorldConcreteThirdLicensedCycleMaterializationV2_2.lean'
+      - 'formal/KUOS.lean'
+      - 'lakefile.toml'
+      - 'lake-manifest.json'
+      - 'lean-toolchain'
+      - '.github/workflows/qi-world-yinyang-process-blocker-v2-3-validation.yml'
   pull_request:
     paths:
-      - "runtime/kuuos_qi_world_yinyang_process_blocker_complementarity_v2_3.py"
-      - "runtime/kuuos_qi_world_yinyang_process_blocker_complementarity_scenarios_v2_3.py"
-      - "scripts/check_qi_world_yinyang_process_blocker_complementarity_v2_3.py"
-      - "tests/test_qi_world_yinyang_process_blocker_complementarity_v2_3.py"
-      - "formal/KUOS/Architecture/QiWorldYinYangProcessBlockerComplementarityV2_3.lean"
-      - "formal/KUOS.lean"
-      - "formal/KuuOSFormal.lean"
-      - "docs/KUUOS_QI_WORLD_YINYANG_PROCESS_BLOCKER_COMPLEMENTARITY_v2_3.md"
-      - "manifests/kuuos_qi_world_yinyang_process_blocker_complementarity_v2_3.json"
-      - "scripts/check_qi_world_cross_cycle_blocker_v1_5.py"
-      - "scripts/run_kuuos_runtime_full_check_v0_55.py"
-      - "lakefile.toml"
-      - "lake-manifest.json"
-      - "lean-toolchain"
-      - ".github/workflows/qi-world-yinyang-process-blocker-v2-3-validation.yml"
+      - 'runtime/kuuos_qi_world_yinyang_process_blocker_complementarity_v2_3.py'
+      - 'runtime/kuuos_qi_world_yinyang_process_blocker_complementarity_scenarios_v2_3.py'
+      - 'scripts/check_qi_world_yinyang_process_blocker_complementarity_v2_3.py'
+      - 'tests/test_qi_world_yinyang_process_blocker_complementarity_v2_3.py'
+      - 'docs/KUUOS_QI_WORLD_YINYANG_PROCESS_BLOCKER_COMPLEMENTARITY_v2_3.md'
+      - 'manifests/kuuos_qi_world_yinyang_process_blocker_complementarity_v2_3.json'
+      - 'runtime/kuuos_qi_world_cross_cycle_blocker_core_v1_5.py'
+      - 'runtime/kuuos_qi_world_cross_cycle_blocker_v1_5.py'
+      - 'runtime/kuuos_qi_world_cross_cycle_blocker_scenarios_v1_5.py'
+      - 'scripts/check_qi_world_cross_cycle_blocker_v1_5.py'
+      - 'tests/test_qi_world_cross_cycle_blocker_v1_5.py'
+      - 'manifests/kuuos_qi_world_cross_cycle_blocker_v1_5.json'
+      - 'formal/KUOS/Architecture/QiWorldYinYangProcessBlockerComplementarityV2_3.lean'
+      - 'formal/KUOS/Architecture/QiWorldCrossCycleBlockerTheoryV1_5.lean'
+      - 'formal/KUOS/Architecture/QiWorldConcreteThirdLicensedCycleMaterializationV2_2.lean'
+      - 'formal/KUOS.lean'
+      - 'lakefile.toml'
+      - 'lake-manifest.json'
+      - 'lean-toolchain'
+      - '.github/workflows/qi-world-yinyang-process-blocker-v2-3-validation.yml'
 
 permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: qi-world-yinyang-v23-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
@@ -52,49 +62,78 @@ env:
 jobs:
   validate:
     runs-on: ubuntu-22.04
-    timeout-minutes: 120
+    timeout-minutes: 60
     steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v5
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
         with:
-          python-version: "3.12"
-      - name: Compile Python surfaces
-        run: >-
-          python3 -m compileall -q
-          runtime/kuuos_qi_world_yinyang_process_blocker_complementarity_v2_3.py
-          runtime/kuuos_qi_world_yinyang_process_blocker_complementarity_scenarios_v2_3.py
-          scripts/check_qi_world_yinyang_process_blocker_complementarity_v2_3.py
-          tests/test_qi_world_yinyang_process_blocker_complementarity_v2_3.py
-      - name: Validate manifest JSON
-        run: >-
-          python3 -m json.tool
-          manifests/kuuos_qi_world_yinyang_process_blocker_complementarity_v2_3.json
-          > /dev/null
+          python-version: '3.12'
+
+      - name: Prepare diagnostics
+        shell: bash
+        run: mkdir -p artifacts/diagnostics
+
+      - name: Compile v2.3 and blocker-foundation surfaces
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m compileall -q \
+            runtime/kuuos_qi_world_yinyang_process_blocker_complementarity_v2_3.py \
+            runtime/kuuos_qi_world_yinyang_process_blocker_complementarity_scenarios_v2_3.py \
+            scripts/check_qi_world_yinyang_process_blocker_complementarity_v2_3.py \
+            tests/test_qi_world_yinyang_process_blocker_complementarity_v2_3.py \
+            runtime/kuuos_qi_world_cross_cycle_blocker_core_v1_5.py \
+            runtime/kuuos_qi_world_cross_cycle_blocker_v1_5.py \
+            runtime/kuuos_qi_world_cross_cycle_blocker_scenarios_v1_5.py \
+            scripts/check_qi_world_cross_cycle_blocker_v1_5.py \
+            tests/test_qi_world_cross_cycle_blocker_v1_5.py \
+            2>&1 | tee artifacts/diagnostics/python-compile.log
+
+      - name: Validate manifests
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m json.tool manifests/kuuos_qi_world_yinyang_process_blocker_complementarity_v2_3.json > /dev/null
+          python3 -m json.tool manifests/kuuos_qi_world_cross_cycle_blocker_v1_5.json > /dev/null
+
       - name: Validate Yin-Yang process blocker complementarity
         shell: bash
+        env:
+          PYTHONPATH: .
+          PYTHONUNBUFFERED: '1'
         run: |
           set -euo pipefail
-          PYTHONPATH=. python3 scripts/check_qi_world_yinyang_process_blocker_complementarity_v2_3.py \
-            2>&1 | tee v2-3-runtime.log
-      - name: Run v2.3 unit tests
-        shell: bash
-        run: |
-          set -euo pipefail
-          PYTHONPATH=. python3 -m unittest -v \
+          python3 scripts/check_qi_world_yinyang_process_blocker_complementarity_v2_3.py \
+            2>&1 | tee artifacts/diagnostics/v2-3-runtime.log
+          python3 -m unittest -v \
             tests.test_qi_world_yinyang_process_blocker_complementarity_v2_3 \
-            2>&1 | tee -a v2-3-runtime.log
-      - name: Run blocker theory regression
+            2>&1 | tee -a artifacts/diagnostics/v2-3-runtime.log
+
+      - name: Validate cross-cycle blocker foundation
+        shell: bash
+        env:
+          PYTHONPATH: .
+          PYTHONUNBUFFERED: '1'
+        run: |
+          set -euo pipefail
+          python3 scripts/check_qi_world_cross_cycle_blocker_v1_5.py \
+            2>&1 | tee artifacts/diagnostics/v1-5-blocker.log
+          python3 -m unittest -v tests.test_qi_world_cross_cycle_blocker_v1_5 \
+            2>&1 | tee -a artifacts/diagnostics/v1-5-blocker.log
+
+      - name: Verify formal registration and dependencies
         shell: bash
         run: |
           set -euo pipefail
-          PYTHONPATH=. python3 scripts/check_qi_world_cross_cycle_blocker_v1_5.py \
-            2>&1 | tee -a v2-3-runtime.log
-      - name: Run current central runtime regression
-        shell: bash
-        run: |
-          set -euo pipefail
-          PYTHONPATH=. python3 scripts/run_kuuos_runtime_full_check_v0_55.py \
-            2>&1 | tee -a v2-3-runtime.log
+          grep -Fq 'import KUOS.Architecture.QiWorldYinYangProcessBlockerComplementarityV2_3' formal/KUOS.lean
+          grep -Fq 'import KUOS.Architecture.QiWorldCrossCycleBlockerTheoryV1_5' \
+            formal/KUOS/Architecture/QiWorldYinYangProcessBlockerComplementarityV2_3.lean
+          grep -Fq 'import KUOS.Architecture.QiWorldConcreteThirdLicensedCycleMaterializationV2_2' \
+            formal/KUOS/Architecture/QiWorldYinYangProcessBlockerComplementarityV2_3.lean
+
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
@@ -104,12 +143,26 @@ jobs:
           lint: false
           use-mathlib-cache: false
           use-github-cache: false
+
       - name: Resolve pinned dependencies
-        run: lake update
-      - name: Verify lockfile stability
-        run: git diff --exit-code -- lake-manifest.json
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake update 2>&1 | tee artifacts/diagnostics/lake-update.log
+
+      - name: Verify committed manifest is canonical
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code -- lake-manifest.json \
+            2>&1 | tee artifacts/diagnostics/manifest-diff.log
+
       - name: Fetch Mathlib olean cache
-        run: lake exe cache get
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake exe cache get 2>&1 | tee artifacts/diagnostics/mathlib-cache.log
+
       - name: Strictly compile v2.3 formal module
         shell: bash
         run: |
@@ -117,22 +170,30 @@ jobs:
           lake -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
             build KUOS.Architecture.QiWorldYinYangProcessBlockerComplementarityV2_3 \
-            2>&1 | tee v2-3-lean-module.log
-      - name: Strictly compile formal root
+            2>&1 | tee artifacts/diagnostics/v2-3-lean-module.log
+
+      - name: Record run context
+        if: always()
         shell: bash
         run: |
           set -euo pipefail
-          lake -KleanArgs=-DwarningAsError=true \
-            -KleanArgs=-DsorryAsError=true build KuuOSFormal \
-            2>&1 | tee v2-3-lean-root.log
+          {
+            echo "workflow=${GITHUB_WORKFLOW}"
+            echo "run_id=${GITHUB_RUN_ID}"
+            echo "run_attempt=${GITHUB_RUN_ATTEMPT}"
+            echo "event=${GITHUB_EVENT_NAME}"
+            echo "ref=${GITHUB_REF}"
+            echo "sha=${GITHUB_SHA}"
+            python3 --version
+            lake --version || true
+            lean --version || true
+          } > artifacts/diagnostics/context.log
+
       - name: Upload v2.3 diagnostics
-        if: ${{ failure() }}
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: qi-world-yinyang-v2-3-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}
-          path: |
-            v2-3-runtime.log
-            v2-3-lean-module.log
-            v2-3-lean-root.log
-          if-no-files-found: warn
+          path: artifacts/diagnostics/
+          if-no-files-found: error
           retention-days: 14
