@@ -21,3 +21,8 @@ import KUOS.WORLD.TomitaConjugateAdjointClosedV0_58
 import KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59
 import KUOS.WORLD.KuuOSGaugeFieldSelfOrganizationV0_60
 import KUOS.WORLD.KuuOSOSAssociatedGaugeFieldsV0_61
+import KUOS.WORLD.KuuOSConnectionCandidateCoreV0_62
+import KUOS.WORLD.KuuOSConnectionCandidateGaugeInvarianceV0_62
+import KUOS.WORLD.KuuOSConnectionReviewCoreV0_63
+import KUOS.WORLD.KuuOSConnectionEvaluationCoreV0_64
+import KUOS.WORLD.KuuOSConnectionStagingV0_65
