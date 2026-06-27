@@ -1,0 +1,40 @@
+name: Core Governance Validation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - '.github/workflows/core_governance_validation.yml'
+  pull_request:
+    paths:
+      - '.github/workflows/core_governance_validation.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: core-governance-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate-core-governance:
+    name: Validate core governance checks
+    runs-on: ubuntu-latest
+    timeout-minutes: 20
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run core governance checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/run_core_governance_full_checks_v0_1.py 2>&1 | tee core-governance.log
+      - name: Upload core governance diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: core-governance-diagnostics-${{ github.run_id }}
+          path: core-governance.log
+          if-no-files-found: warn
