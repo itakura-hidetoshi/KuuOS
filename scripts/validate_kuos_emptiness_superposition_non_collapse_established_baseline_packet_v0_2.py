@@ -23,7 +23,7 @@ PUBLIC_RELEASE_MANIFEST = ROOT / "docs" / "PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1.
 
 REQUIRED_FILES = [
     ROOT / "docs" / "KUOS_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_v0_2.md",
-    ROOT / "docs" / "KUOS_EMPTINESS_SUPPOSITION_NON_COLLAPSE_CHAIN_INDEX_v0_2.md",
+    ROOT / "docs" / "KUOS_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_CHAIN_INDEX_v0_2.md",
     ROOT / "RELEASE_NOTES_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_v0_2.md",
     ROOT / "specs" / "kuos_emptiness_superposition_non_collapse_contract_v0_2.yaml",
     ROOT / "specs" / "kuos_emptiness_superposition_non_collapse_release_packet_v0_2.yaml",
