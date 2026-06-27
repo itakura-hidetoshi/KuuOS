@@ -50,7 +50,9 @@ The squash merge commit `69ad6b54d4c1bde480095fe56c3421aff4d14b2d` exists on `ma
 ## Integrated CI surfaces
 
 - `Makefile`
-- `.github/workflows/physical_quantum_qi_runtime_evolution_validation.yml`
+- `.github/workflows/all_governance_validation.yml`
+
+PR #27 originally introduced a dedicated workflow named `Physical Quantum Qi Runtime Evolution Validation`. Its checks are now preserved by the consolidated `All Governance Validation` workflow.
 
 The Makefile target added by PR #27 is:
 
