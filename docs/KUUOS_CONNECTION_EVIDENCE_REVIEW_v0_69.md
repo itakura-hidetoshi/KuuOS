@@ -4,7 +4,7 @@
 
 v0.69 performs an external, validity-bounded review of the exact v0.68 evidence capsule.
 
-It does not apply a connection and does not mutate the source bundle, committed OS state, ledger, or MemoryOS capsule.
+The review operation does not itself mutate the source bundle, committed OS state, ledger, or MemoryOS capsule.
 
 ## Flow
 
@@ -26,9 +26,13 @@ The only decisions are:
 - `REJECT_EVIDENCE`
 - `REQUEST_MORE_EVIDENCE`
 
-`APPROVE_EVIDENCE` produces only a governed admission candidate for a later stage.
+`APPROVE_EVIDENCE` binds `production_apply_allowed = true` in the reviewer attestation.
 
-It does not grant production application authority.
+`REJECT_EVIDENCE` and `REQUEST_MORE_EVIDENCE` bind `production_apply_allowed = false`.
+
+The permission is therefore not separated from the approval decision.
+
+The review operation still records no live effect or state write; permission and execution are independently auditable.
 
 ## Exact bindings
 
@@ -56,11 +60,12 @@ Review is blocked when any of the following occurs:
 - reviewer identity or class differs
 - attestation scope is widened
 - validity window exceeds the capsule window
-- live effect or state write is requested
+- the decision and production permission disagree
+- state write is requested
 - authority widening is requested
 - rollback replacement is requested
 
-## Fixed boundary
+## Recorded execution boundary
 
 Every generated review record has:
 
@@ -72,6 +77,8 @@ authority_widened = false
 rollback_target_replaced = false
 ```
 
+These fields describe what the review operation performed, not whether an approved attestation carries production permission.
+
 ## Formal statements
 
 The Lean surface proves:
@@ -80,4 +87,4 @@ The Lean surface proves:
 - `valid_review_remains_review_only`
 - `valid_approval_is_candidate_only`
 
-The formal statements preserve the v0.68 evidence chain and do not claim that finite evidence establishes truth for all future contexts.
+The current formal surface preserves the v0.68 evidence chain and the non-write property of the review operation. It does not claim that finite evidence establishes truth for all future contexts.
