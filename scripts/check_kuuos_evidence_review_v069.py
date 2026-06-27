@@ -77,7 +77,8 @@ def main() -> int:
     checks: list[str] = []
 
     approval = decide(request, APPROVE_EVIDENCE)
-    assert approval.production_apply_allowed is True
+    assert approval.production_apply_allowed is False
+    assert approval.live_effect_allowed is False
     approved = run_review(inputs, approval)
     assert approved.status == READY
     assert approved.governed_admission_candidate
@@ -93,16 +94,18 @@ def main() -> int:
         approval,
         current_epoch=15,
     ) == ()
-    checks.append("approve-binds-production-permission")
+    checks.append("approve-is-candidate-only")
 
     rejection = decide(request, REJECT_EVIDENCE)
     assert rejection.production_apply_allowed is False
+    assert rejection.live_effect_allowed is False
     rejected = run_review(inputs, rejection)
     assert rejected.status == REJECTED
     assert rejected.governed_admission_candidate is False
 
     more_attestation = decide(request, REQUEST_MORE_EVIDENCE)
     assert more_attestation.production_apply_allowed is False
+    assert more_attestation.live_effect_allowed is False
     more = run_review(inputs, more_attestation)
     assert more.status == MORE_EVIDENCE_REQUIRED
     assert more.governed_admission_candidate is False
