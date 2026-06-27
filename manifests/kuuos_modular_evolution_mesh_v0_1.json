@@ -1,0 +1,29 @@
+{
+  "manifest_version": "kuuos_modular_evolution_mesh_v0_1",
+  "status": "non_executing_modular_foundation",
+  "module_contract": "src/kuuos/contracts/module.py",
+  "capability_registry": "src/kuuos/orchestration/registry.py",
+  "dependency_graph": "src/kuuos/orchestration/dependency_graph.py",
+  "append_only_ledger": "src/kuuos/kernel/ledger.py",
+  "module_manifest_schema": "schemas/kuuos_module_manifest_v0_1.schema.json",
+  "registered_modules": [
+    "manifests/modules/observe_core_v0_1.json",
+    "manifests/modules/verify_core_v0_1.json",
+    "manifests/modules/memory_core_v0_1.json"
+  ],
+  "validator": "scripts/check_modular_evolution_mesh_v0_1.py",
+  "full_check": "scripts/run_kuuos_runtime_full_check_v0_55.py",
+  "tests": "tests/test_modular_evolution_mesh_v0_1.py",
+  "documentation": "docs/KUUOS_MODULAR_EVOLUTION_MESH_v0_1.md",
+  "formal_module": "formal/KUOS/Modular/CapabilityContractV0_1.lean",
+  "formal_root": "formal/KuuOSModularEvolutionMeshV0_1.lean",
+  "boundaries": {
+    "registry_grants_execution_authority": false,
+    "dependency_resolution_activates_effects": false,
+    "module_discovery_changes_current_policy": false,
+    "ledger_event_is_truth_authority": false,
+    "legacy_runtime_is_modified": false,
+    "self_modification_is_automatically_authorized": false,
+    "constitutional_kernel_is_rewritable": false
+  }
+}

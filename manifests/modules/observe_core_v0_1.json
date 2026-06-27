@@ -1,0 +1,38 @@
+{
+  "id": "kuuos.observe.core",
+  "version": "0.1.0",
+  "capability": "observation.candidate",
+  "status": "active",
+  "authority_surface": "candidate_only",
+  "provides": [
+    "observation.candidate",
+    "observation.receipt"
+  ],
+  "requires": [
+    "kernel.ledger.append",
+    "kernel.provenance.resolve"
+  ],
+  "owns": [
+    "observation_evidence"
+  ],
+  "must_not_own": [
+    "execution_license",
+    "effect_execution",
+    "verification_verdict",
+    "world_truth",
+    "present_cycle_policy_activation"
+  ],
+  "subscribes": [
+    "effect.recorded",
+    "world.reobserve.requested"
+  ],
+  "emits": [
+    "observation.candidate.created",
+    "observation.receipt.committed"
+  ],
+  "implementation": "legacy:runtime.kuuos_observe_os_fixture_v0_1",
+  "validator": "scripts/check_modular_evolution_mesh_v0_1.py",
+  "rollback": "legacy:runtime.kuuos_observe_os_fixture_v0_1",
+  "documentation": "docs/KUUOS_MODULAR_EVOLUTION_MESH_v0_1.md",
+  "formal_module": "KUOS.Modular.CapabilityContractV0_1"
+}

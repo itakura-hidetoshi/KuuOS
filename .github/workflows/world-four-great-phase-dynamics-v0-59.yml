@@ -1,0 +1,128 @@
+name: WORLD v0.59 Four-Great Phase Dynamics
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/world-four-great-phase-dynamics-v0-59.yml'
+  pull_request:
+    paths:
+      - '.github/workflows/world-four-great-phase-dynamics-v0-59.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: world-v059-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  validate-world-v059:
+    name: Validate WORLD v0.59 four-great phase dynamics
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Prepare diagnostics
+        shell: bash
+        run: mkdir -p artifacts/diagnostics
+
+      - name: Compile v0.59 validator
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m compileall -q scripts/check_world_four_great_phase_dynamics_v0_59.py \
+            2>&1 | tee artifacts/diagnostics/python-compile.log
+
+      - name: Run v0.59 static validation
+        shell: bash
+        env:
+          PYTHONPATH: .
+          PYTHONUNBUFFERED: '1'
+        run: |
+          set -euo pipefail
+          python3 scripts/check_world_four_great_phase_dynamics_v0_59.py \
+            2>&1 | tee artifacts/diagnostics/static-validation.log
+
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+
+      - name: Resolve pinned dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake update 2>&1 | tee artifacts/diagnostics/lake-update.log
+
+      - name: Verify committed manifest is canonical
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code -- lake-manifest.json \
+            2>&1 | tee artifacts/diagnostics/manifest-diff.log
+
+      - name: Fetch Mathlib olean cache
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake exe cache get 2>&1 | tee artifacts/diagnostics/mathlib-cache.log
+
+      - name: Build WORLD v0.59 strict roots
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSFourGreatCoreV0_59 KuuOSFormalV0_59 \
+            2>&1 | tee artifacts/diagnostics/world-v059-build.log
+
+      - name: Verify aggregate formal registration
+        shell: bash
+        run: |
+          set -euo pipefail
+          grep -Fq 'import KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59' formal/KuuOSFormal.lean
+          grep -Fq 'import KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59' formal/KUOS.lean
+
+      - name: Record run context
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo "workflow=${GITHUB_WORKFLOW}"
+            echo "run_id=${GITHUB_RUN_ID}"
+            echo "run_attempt=${GITHUB_RUN_ATTEMPT}"
+            echo "event=${GITHUB_EVENT_NAME}"
+            echo "ref=${GITHUB_REF}"
+            echo "sha=${GITHUB_SHA}"
+            python3 --version
+            lake --version || true
+            lean --version || true
+          } > artifacts/diagnostics/context.txt
+
+      - name: Upload WORLD v0.59 diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: world-v059-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/diagnostics/
+          if-no-files-found: error
+          retention-days: 14

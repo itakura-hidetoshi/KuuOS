@@ -5,6 +5,21 @@ on:
   push:
     branches:
       - main
+    paths:
+      - 'README.md'
+      - 'ROADMAP.md'
+      - 'runtime/**'
+      - 'tests/**'
+      - 'examples/**'
+      - 'scripts/**'
+      - 'manifests/**'
+      - 'formal/**'
+      - 'docs/**'
+      - 'lakefile.toml'
+      - 'lake-manifest.json'
+      - 'lean-toolchain'
+      - '.github/WORKFLOW_INDEX.md'
+      - '.github/workflows/kuuos_runtime_full_check.yml'
   pull_request:
     paths:
       - 'README.md'
@@ -19,18 +34,19 @@ on:
       - 'lakefile.toml'
       - 'lake-manifest.json'
       - 'lean-toolchain'
+      - '.github/WORKFLOW_INDEX.md'
       - '.github/workflows/kuuos_runtime_full_check.yml'
 
 permissions:
   contents: read
 
 concurrency:
-  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: kuuos-runtime-full-check-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
 
 jobs:
   full-check:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
       - name: Check out repository
@@ -44,6 +60,13 @@ jobs:
       - name: Prepare diagnostics
         shell: bash
         run: mkdir -p artifacts/diagnostics
+
+      - name: Check workflow reference integrity
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/check_workflow_consolidation_integrity.py \
+            2>&1 | tee artifacts/diagnostics/workflow-integrity.log
 
       - name: Compile runtime validation surfaces
         shell: bash
