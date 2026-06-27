@@ -1,0 +1,33 @@
+{
+  "manifest_version": "kuuos_connection_external_evidence_review_v0_69",
+  "predecessor": "kuuos_connection_evidence_capsule_v0_68",
+  "runtime_modules": [
+    "runtime/kuuos_connection_evidence_review_types_v0_69.py",
+    "runtime/kuuos_connection_evidence_review_attestation_v0_69.py",
+    "runtime/kuuos_connection_evidence_review_record_v0_69.py",
+    "runtime/kuuos_connection_external_review_v0_69.py",
+    "runtime/kuuos_connection_external_review_core_a_v0_69.py",
+    "runtime/kuuos_connection_external_review_core_b_v0_69.py",
+    "runtime/kuuos_connection_evidence_review_v0_69.py",
+    "runtime/kuuos_connection_evidence_review_validation_v0_69.py"
+  ],
+  "validator": "scripts/check_kuuos_evidence_review_v069.py",
+  "lean_surface": "KuuOSConnectionEvidenceReviewV0_69",
+  "strict_formal_root": "KuuOSFormalV0_69",
+  "decisions": [
+    "APPROVE_EVIDENCE",
+    "REJECT_EVIDENCE",
+    "REQUEST_MORE_EVIDENCE"
+  ],
+  "reviewer_identity_bound": true,
+  "reviewer_class_bound": true,
+  "evidence_capsule_digest_bound": true,
+  "source_digest_bound": true,
+  "rollback_digest_bound": true,
+  "finite_validity_window": true,
+  "review_only": true,
+  "live_effect": false,
+  "state_write": false,
+  "authority_widening": false,
+  "rollback_replacement": false
+}
