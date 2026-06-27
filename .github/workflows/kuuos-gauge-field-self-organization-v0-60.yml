@@ -9,7 +9,7 @@ on:
       - 'runtime/kuuos_gauge_field_self_organization_types_v0_60.py'
       - 'runtime/kuuos_discrete_gauge_connection_v0_60.py'
       - 'runtime/kuuos_gauge_field_self_organization_v0_60.py'
-      - 'tests/test_kuuos_gauge_field_self_organization_v0_60.py'
+      - 'tests/test_kuuos_gauge_field_*_v0_60.py'
       - 'scripts/check_kuuos_gauge_field_self_organization_v0_60.py'
       - 'docs/KUUOS_GAUGE_FIELD_SELF_ORGANIZATION_v0_60.md'
       - 'manifests/kuuos_gauge_field_self_organization_v0_60.json'
@@ -24,7 +24,7 @@ on:
       - 'runtime/kuuos_gauge_field_self_organization_types_v0_60.py'
       - 'runtime/kuuos_discrete_gauge_connection_v0_60.py'
       - 'runtime/kuuos_gauge_field_self_organization_v0_60.py'
-      - 'tests/test_kuuos_gauge_field_self_organization_v0_60.py'
+      - 'tests/test_kuuos_gauge_field_*_v0_60.py'
       - 'scripts/check_kuuos_gauge_field_self_organization_v0_60.py'
       - 'docs/KUUOS_GAUGE_FIELD_SELF_ORGANIZATION_v0_60.md'
       - 'manifests/kuuos_gauge_field_self_organization_v0_60.json'
@@ -62,6 +62,8 @@ jobs:
           runtime/kuuos_discrete_gauge_connection_v0_60.py
           runtime/kuuos_gauge_field_self_organization_v0_60.py
           tests/test_kuuos_gauge_field_self_organization_v0_60.py
+          tests/test_kuuos_gauge_field_fixed_connection_v0_60.py
+          tests/test_kuuos_gauge_field_fixed_domain_v0_60.py
           scripts/check_kuuos_gauge_field_self_organization_v0_60.py
       - name: Run gauge-field runtime validation
         run: PYTHONPATH=. python3 scripts/check_kuuos_gauge_field_self_organization_v0_60.py
