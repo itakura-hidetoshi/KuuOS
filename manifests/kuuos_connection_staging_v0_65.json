@@ -1,3 +1,25 @@
 {
-  "manifest_version": "kuuos_connection_staging_v0_65"
+  "manifest_version": "kuuos_connection_staging_v0_65",
+  "predecessor": "kuuos_connection_evaluation_v0_64",
+  "runtime_modules": [
+    "runtime/kuuos_connection_staging_types_v0_65.py",
+    "runtime/kuuos_connection_staging_v0_65.py"
+  ],
+  "validator": "scripts/check_kuuos_staging_v065.py",
+  "formal_module": "formal/KUOS/WORLD/KuuOSConnectionStagingV0_65.lean",
+  "required_namespace_prefix": "shadow/",
+  "bindings": [
+    "source_bundle",
+    "proposal",
+    "admission_receipt",
+    "evaluation_receipt",
+    "selected_receipt",
+    "candidate_payload",
+    "rollback_target"
+  ],
+  "immutable_envelope": true,
+  "candidate_only": true,
+  "production_ready": false,
+  "state_write": false,
+  "authority_widening": false
 }
