@@ -96,8 +96,8 @@ theorem gaugeTransform_curvature
     (D₀ D₁ : EndConnection (A := A) (M := M)) :
     curvature (gaugeTransform g D₀) (gaugeTransform g D₁) =
       gaugeTransform g (curvature D₀ D₁) := by
-  simp only [curvature, map_sub]
-  rw [gaugeTransform_comp, gaugeTransform_comp]
+  ext x
+  simp [curvature, gaugeTransform]
 
 def GaugeInvariantObservable
     (Q : EndConnection (A := A) (M := M) → β) : Prop :=
