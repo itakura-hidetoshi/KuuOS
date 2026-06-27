@@ -7,7 +7,7 @@ This file records the canonical GitHub Actions entry points and the consolidatio
 | Workflow | Responsibility |
 | --- | --- |
 | `all_governance_validation.yml` | Top-level governance checks and workflow-consolidation integrity audit |
-| `core_governance_validation.yml` | Stable dedicated Core Governance entry point for manual dispatch and automatic validation of relevant documentation, specifications, scripts, examples, validation data, manifests, packets, chain indexes, and formal sources |
+| `core_governance_validation.yml` | Stable dedicated Core Governance entry point for manual dispatch and scoped automatic validation of the Core Governance validators and their named documentation, specifications, evidence packets, and formal sources |
 | `kuuos_runtime_full_check.yml` | Cumulative KuuOS runtime and unit-test regression |
 | `lean-formal-validation.yml` | Aggregate strict Lean validation |
 | `decision-os-validation.yml` | DecisionOS v0.1-v0.4 validation with per-version logs for v0.1-v0.3 |
