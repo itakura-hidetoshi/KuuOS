@@ -8,8 +8,8 @@ update_mode: append-only
 overwrite: forbidden
 
 updated_documents:
-  - .github/workflows/teni_observability_validation.yml
-  - .github/workflows/core_governance_validation.yml
+  - .github/workflows/all_governance_validation.yml
+  - .github/workflows/all_governance_validation.yml
 
 fix_summary:
   - pinned GitHub Actions Python version to 3.12

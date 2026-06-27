@@ -16,7 +16,7 @@ added_documents:
   - scripts/validate_ai_yogacara_adapter_schema_v0_1.py
 
 updated_documents:
-  - .github/workflows/teni_observability_validation.yml
+  - .github/workflows/all_governance_validation.yml
 
 adapter_schema:
   role: machine_readable_io_contract_for_ai_yogacara_runtime_adapter
@@ -51,7 +51,7 @@ adapter_schema_validator:
   external_api_calls: false
 
 ci_integration:
-  workflow: .github/workflows/teni_observability_validation.yml
+  workflow: .github/workflows/all_governance_validation.yml
   runs:
     - python3 scripts/validate_teni_observability_v0_1.py
     - python3 scripts/validate_ai_yogacara_adapter_schema_v0_1.py

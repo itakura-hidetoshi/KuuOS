@@ -19,7 +19,7 @@ added_documents:
 
 updated_documents:
   - Makefile
-  - .github/workflows/core_governance_validation.yml
+  - .github/workflows/all_governance_validation.yml
 
 dukkha_model_minimal_runtime:
   role: stdlib_only_reference_runtime_for_dukkha_model
@@ -69,7 +69,7 @@ fixture_validator:
     - execution_authority_granted_false
 
 ci_integration:
-  workflow: .github/workflows/core_governance_validation.yml
+  workflow: .github/workflows/all_governance_validation.yml
   make_target: dukkha-checks
 
 fixed_points:

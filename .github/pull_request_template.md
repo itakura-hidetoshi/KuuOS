@@ -102,7 +102,7 @@ Identify touched invariants, non-authority boundaries, validation commands, and 
 - [ ] Direct execution request is blocked.
 - [ ] Qi motion validation is not treated as standalone diagnosis authority, standalone treatment authorization, medical act authorization, institutional authority, theorem authority, or execution authority.
 - [ ] Medical wording remains modality-neutral and does not imply that biomedicine is superior, Qi is false, or East Asian medical reasoning is invalid.
-- [ ] Dedicated workflow `.github/workflows/qi_motion_chain_validation.yml` remains aligned with `make qi-motion-chain-checks`.
+- [ ] Dedicated workflow `.github/workflows/all_governance_validation.yml` remains aligned with `make qi-motion-chain-checks`.
 
 ## Formal Invariant / Super-Relativity Check
 

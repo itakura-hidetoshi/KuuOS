@@ -30,7 +30,7 @@
 - [ ] `docs/MEDICAL_MODALITY_NEUTRAL_QI_BOUNDARY_v0_1.md` is reachable
 - [ ] `make qi-motion-chain-checks` is documented
 - [ ] `scripts/run_qi_motion_chain_checks_v0_1.py` is reachable
-- [ ] `.github/workflows/qi_motion_chain_validation.yml` is reachable
+- [ ] `.github/workflows/all_governance_validation.yml` is reachable
 - [ ] Samvrti Qi acceptance is not treated as FullPathQi promotion
 - [ ] conservative evidence building is explicit
 - [ ] evidence-bound classification is explicit

@@ -60,7 +60,7 @@ docs/TENI_OBSERVABILITY_CI_GUIDE_v0_1.md
 specs/teni_validation_cases_v0_1.yaml
 specs/teni_prometheus_alert_rules_v0_1.yaml
 scripts/validate_teni_observability_v0_1.py
-.github/workflows/teni_observability_validation.yml
+.github/workflows/all_governance_validation.yml
 ```
 
 ## 5. Fixed Points

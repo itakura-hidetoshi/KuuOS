@@ -15,7 +15,7 @@ updated_documents:
   - examples/invariant_governance_pipeline_minimal.py
   - Makefile
   - scripts/run_core_governance_full_checks_v0_1.py
-  - .github/workflows/core_governance_validation.yml
+  - .github/workflows/all_governance_validation.yml
 
 audit_event:
   role: record_surface_for_invariant_governance_pipeline_decisions

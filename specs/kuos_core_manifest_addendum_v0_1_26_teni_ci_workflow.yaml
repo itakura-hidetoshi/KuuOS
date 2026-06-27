@@ -12,7 +12,7 @@ added_core_kernels:
   - teni_observability_ci_guide
 
 added_documents:
-  - .github/workflows/teni_observability_validation.yml
+  - .github/workflows/all_governance_validation.yml
   - docs/TENI_OBSERVABILITY_CI_GUIDE_v0_1.md
 
 updated_validation_chain:
@@ -26,7 +26,7 @@ updated_validation_chain:
 
 teni_observability_ci_workflow:
   role: github_actions_workflow_for_teni_observability_validation
-  workflow: .github/workflows/teni_observability_validation.yml
+  workflow: .github/workflows/all_governance_validation.yml
   runs_on:
     - push
     - pull_request

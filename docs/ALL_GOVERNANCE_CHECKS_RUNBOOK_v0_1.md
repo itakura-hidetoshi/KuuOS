@@ -136,7 +136,7 @@ scripts/run_qi_motion_chain_checks_v0_1.py
 GitHub integration and runtime audit are also validated by:
 
 ```text
-.github/workflows/gpt_github_integration_validation.yml
+.github/workflows/all_governance_validation.yml
 .github/workflows/all_governance_validation.yml
 ```
 

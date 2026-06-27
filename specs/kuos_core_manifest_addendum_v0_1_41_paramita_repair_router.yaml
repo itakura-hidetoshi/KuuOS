@@ -19,7 +19,7 @@ added_documents:
 
 updated_documents:
   - Makefile
-  - .github/workflows/core_governance_validation.yml
+  - .github/workflows/all_governance_validation.yml
 
 paramita_repair_router:
   role: bounded_repair_orientation_router_for_residual_suffering
@@ -50,7 +50,7 @@ paramita_repair_router:
 validation:
   command: python3 scripts/validate_paramita_repair_router_v0_1.py
   make_target: paramita-router-checks
-  ci_workflow: .github/workflows/core_governance_validation.yml
+  ci_workflow: .github/workflows/all_governance_validation.yml
 
 fixed_points:
   - router_must_not_erase_residual_suffering

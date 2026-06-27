@@ -92,7 +92,7 @@ specs/ai_yogacara_release_bundle_manifest_v0_1.generated.json
 GitHub Actions workflow:
 
 ```text
-.github/workflows/teni_observability_validation.yml
+.github/workflows/all_governance_validation.yml
 ```
 
 The workflow runs the same full checks entrypoint:

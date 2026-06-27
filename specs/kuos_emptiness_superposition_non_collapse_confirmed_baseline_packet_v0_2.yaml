@@ -43,7 +43,7 @@ public_exposure:
   public_release_manifest: docs/PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1.md
   release_notes: RELEASE_NOTES_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_v0_2.md
 ci_surfaces:
-  dedicated_workflow: .github/workflows/emptiness_superposition_noncollapse_validation.yml
+  dedicated_workflow: .github/workflows/all_governance_validation.yml
   primary_validator_in_workflow: true
   release_validator_in_workflow: true
   finality_validator_in_workflow: true

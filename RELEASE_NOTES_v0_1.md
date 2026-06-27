@@ -86,7 +86,7 @@ observed conventional flow
 The Qi motion chain is validated locally, through all-governance checks, and through the dedicated GitHub Actions workflow:
 
 ```text
-.github/workflows/qi_motion_chain_validation.yml
+.github/workflows/all_governance_validation.yml
 ```
 
 ## Medical-Modality-Neutral Qi Boundary

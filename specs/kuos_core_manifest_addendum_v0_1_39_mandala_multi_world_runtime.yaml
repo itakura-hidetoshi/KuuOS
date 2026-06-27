@@ -17,7 +17,7 @@ added_documents:
   - docs/MANDALA_MULTI_WORLD_RUNTIME_CONTRACT_v0_1.md
   - specs/mandala_multi_world_validation_cases_v0_1.yaml
   - scripts/validate_mandala_multi_world_v0_1.py
-  - .github/workflows/core_governance_validation.yml
+  - .github/workflows/all_governance_validation.yml
 
 updated_documents:
   - Makefile
@@ -48,7 +48,7 @@ validation:
   make_targets:
     - mandala-checks
     - core-governance-checks
-  ci_workflow: .github/workflows/core_governance_validation.yml
+  ci_workflow: .github/workflows/all_governance_validation.yml
 
 fixed_points:
   - many_worlds_may_coexist_no_world_becomes_center

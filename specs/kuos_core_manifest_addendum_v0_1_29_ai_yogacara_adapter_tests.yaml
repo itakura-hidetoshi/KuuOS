@@ -15,7 +15,7 @@ added_documents:
   - tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py
 
 updated_documents:
-  - .github/workflows/teni_observability_validation.yml
+  - .github/workflows/all_governance_validation.yml
 
 adapter_unit_tests:
   role: stdlib_unittest_suite_for_minimal_adapter
@@ -28,7 +28,7 @@ adapter_unit_tests:
     - non_reifying_trace_seed_detected
 
 ci_integration:
-  workflow: .github/workflows/teni_observability_validation.yml
+  workflow: .github/workflows/all_governance_validation.yml
   runs:
     - python3 scripts/validate_teni_observability_v0_1.py
     - python3 -m unittest tests/test_ai_yogacara_runtime_adapter_minimal_v0_1.py

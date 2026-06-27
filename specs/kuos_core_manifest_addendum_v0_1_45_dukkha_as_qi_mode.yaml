@@ -19,7 +19,7 @@ added_documents:
 
 updated_documents:
   - Makefile
-  - .github/workflows/core_governance_validation.yml
+  - .github/workflows/all_governance_validation.yml
 
 dukkha_as_qi_mode:
   role: integration_of_dukkha_mathematical_model_with_samvrti_qi_layer
@@ -52,7 +52,7 @@ dukkha_as_qi_mode:
 validation:
   command: python3 scripts/validate_dukkha_as_qi_mode_v0_1.py
   make_target: dukkha-qi-checks
-  ci_workflow: .github/workflows/core_governance_validation.yml
+  ci_workflow: .github/workflows/all_governance_validation.yml
 
 fixed_points:
   - dukkha_is_qi_mode_not_separate_substance

@@ -16,7 +16,7 @@ added_documents:
   - docs/AI_YOGACARA_FULL_CHECKS_RUNBOOK_v0_1.md
 
 updated_documents:
-  - .github/workflows/teni_observability_validation.yml
+  - .github/workflows/all_governance_validation.yml
 
 full_checks_runner:
   role: single_entrypoint_for_ai_yogacara_teni_validation_suite
@@ -34,7 +34,7 @@ full_checks_runner:
   external_api_calls: false
 
 ci_integration:
-  workflow: .github/workflows/teni_observability_validation.yml
+  workflow: .github/workflows/all_governance_validation.yml
   run_command: python3 scripts/run_ai_yogacara_full_checks_v0_1.py
 
 runbook:

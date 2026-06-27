@@ -50,6 +50,6 @@ The validator is listed in:
 
 - `manifests/physical_quantum_qi_deepening_manifest_v0_2.json`
 - `chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json`
-- `.github/workflows/physical_quantum_qi_deepening_validation.yml`
+- `.github/workflows/all_governance_validation.yml`
 - `Makefile`
 - `scripts/run_all_governance_full_checks_v0_1.py`

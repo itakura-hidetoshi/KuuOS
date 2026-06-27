@@ -102,7 +102,7 @@ scripts/validate_ai_yogacara_release_bundle_manifest_v0_1.py
 
 ```text
 docs/TENI_AI_YOGACARA_RELEASE_PACKET_v0_1.md
-.github/workflows/teni_observability_validation.yml
+.github/workflows/all_governance_validation.yml
 .github/pull_request_template.md
 specs/kuos_core_manifest_addendum_v0_1_22_ai_alaya_seed_ledger_teni_runtime.yaml
 specs/kuos_core_manifest_addendum_v0_1_23_teni_probe_control_surface.yaml
