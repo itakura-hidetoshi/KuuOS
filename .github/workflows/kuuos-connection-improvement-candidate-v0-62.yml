@@ -62,6 +62,7 @@ jobs:
         run: |
           set -o pipefail
           lake env lean \
+            -R formal \
             -DwarningAsError=true \
             -DsorryAsError=true \
             formal/KuuOSFormalV0_62.lean 2>&1 | tee v0_62_lean.log
