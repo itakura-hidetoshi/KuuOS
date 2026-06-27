@@ -25,6 +25,7 @@ class ExternalEvidenceReviewAttestation:
     valid_from_epoch: int
     valid_through_epoch: int
     production_apply_allowed: bool
+    live_effect_allowed: bool
     state_write_allowed: bool
     authority_widening_allowed: bool
     rollback_replacement_allowed: bool
