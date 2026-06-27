@@ -81,6 +81,10 @@ class SelfOrganizationReceipt:
     candidate_digest: str
     source_action: GaugeAction
     candidate_action: GaugeAction
+    chart_domain_preserved: bool
+    field_identity_preserved: bool
+    connection_preserved: bool
+    plaquette_domain_preserved: bool
     protected_state_preserved: bool
     ownership_preserved: bool
     authority_preserved: bool
@@ -146,27 +150,46 @@ def evaluate_self_organization_candidate(
     candidate_digest = canonical_digest(candidate.to_dict())
     if source.group != candidate.group:
         blockers.append("constitutional_gauge_group_changed")
-    if set(source.fields) != set(candidate.fields):
+
+    chart_domain = set(source.fields) == set(candidate.fields)
+    if not chart_domain:
         blockers.append("chart_domain_changed")
+    common = set(source.fields) & set(candidate.fields)
+
+    field_identity = all(source.fields[x].field_id == candidate.fields[x].field_id for x in common)
+    if not field_identity:
+        blockers.append("field_identity_changed")
+
+    connection_preserved = source.connection.to_dict() == candidate.connection.to_dict()
+    if not connection_preserved:
+        blockers.append("connection_change_not_authorized")
+
+    plaquette_domain = source.plaquettes == candidate.plaquettes
+    if not plaquette_domain:
+        blockers.append("plaquette_domain_changed")
+
     protected = source.protected_state() == candidate.protected_state()
     if not protected:
         blockers.append("protected_state_changed")
-    common = set(source.fields) & set(candidate.fields)
+
     ownership = all(source.fields[x].owner == candidate.fields[x].owner for x in common)
     authority = all(source.fields[x].authority_class == candidate.fields[x].authority_class for x in common)
     if not ownership:
         blockers.append("field_ownership_changed")
     if not authority:
         blockers.append("field_authority_changed")
+
     source_action = source.action()
     candidate_action = candidate.action()
     nonincreasing = candidate_action.total <= source_action.total + abs(tolerance)
     if not nonincreasing:
         blockers.append("gauge_action_increased")
+
     effective_rollback_digest = str(rollback_digest or source_digest)
     rollback_bound = bool(effective_rollback_digest)
     if not rollback_bound:
         blockers.append("rollback_digest_missing")
+
     status = "KUUOS_GAUGE_SELF_ORGANIZATION_CANDIDATE_ADMISSIBLE" if not blockers else "KUUOS_GAUGE_SELF_ORGANIZATION_CANDIDATE_BLOCKED"
     return SelfOrganizationReceipt(
         VERSION,
@@ -175,6 +198,10 @@ def evaluate_self_organization_candidate(
         candidate_digest,
         source_action,
         candidate_action,
+        chart_domain,
+        field_identity,
+        connection_preserved,
+        plaquette_domain,
         protected,
         ownership,
         authority,
