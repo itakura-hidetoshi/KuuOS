@@ -1,0 +1,5 @@
+import KUOS.WORLD.KuuOSConnectionEvaluationCoreV0_64
+
+namespace KUOS.WORLD.KuuOSConnectionStagingV0_65
+
+end KUOS.WORLD.KuuOSConnectionStagingV0_65
