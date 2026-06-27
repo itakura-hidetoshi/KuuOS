@@ -64,6 +64,8 @@ def review_attestation_issues(
         issues.append("evidence_review_attestation_scope_invalid")
     if attestation.production_apply_allowed:
         issues.append("evidence_review_production_apply_forbidden")
+    if attestation.live_effect_allowed:
+        issues.append("evidence_review_live_effect_forbidden")
     flags = (
         not attestation.state_write_allowed,
         not attestation.authority_widening_allowed,
