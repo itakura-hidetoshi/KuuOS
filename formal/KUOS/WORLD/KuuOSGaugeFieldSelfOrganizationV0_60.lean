@@ -12,28 +12,28 @@ namespace KUOS.WORLD.KuuOSGaugeFieldSelfOrganizationV0_60
 
 variable {X G V R : Type*} [Group G] [MulAction G V]
 
-abbrev GaugeConnection := X → X → G
-abbrev GaugeField := X → V
+abbrev GaugeConnection (X G : Type*) := X → X → G
+abbrev GaugeField (X V : Type*) := X → V
 
 def gaugeTransformConnection
     (h : X → G)
-    (A : GaugeConnection (X := X) G) : GaugeConnection (X := X) G :=
+    (A : GaugeConnection X G) : GaugeConnection X G :=
   fun x y => h y * A x y * (h x)⁻¹
 
 def gaugeTransformField
     (h : X → G)
-    (φ : GaugeField (X := X) V) : GaugeField (X := X) V :=
+    (φ : GaugeField X V) : GaugeField X V :=
   fun x => h x • φ x
 
 def plaquetteHolonomy
-    (A : GaugeConnection (X := X) G)
+    (A : GaugeConnection X G)
     (x₀ x₁ x₂ x₃ : X) : G :=
   A x₃ x₀ * A x₂ x₃ * A x₁ x₂ * A x₀ x₁
 
 theorem gaugeTransform_transport_covariant
     (h : X → G)
-    (A : GaugeConnection (X := X) G)
-    (φ : GaugeField (X := X) V)
+    (A : GaugeConnection X G)
+    (φ : GaugeField X V)
     (x y : X) :
     gaugeTransformConnection h A x y • gaugeTransformField h φ x =
       h y • (A x y • φ x) := by
@@ -41,7 +41,7 @@ theorem gaugeTransform_transport_covariant
 
 theorem gaugeTransform_plaquetteHolonomy
     (h : X → G)
-    (A : GaugeConnection (X := X) G)
+    (A : GaugeConnection X G)
     (x₀ x₁ x₂ x₃ : X) :
     plaquetteHolonomy (gaugeTransformConnection h A) x₀ x₁ x₂ x₃ =
       h x₀ * plaquetteHolonomy A x₀ x₁ x₂ x₃ * (h x₀)⁻¹ := by
@@ -55,7 +55,7 @@ theorem wilson_observable_gauge_invariant
     (W : G → R)
     (hW : IsClassFunction W)
     (h : X → G)
-    (A : GaugeConnection (X := X) G)
+    (A : GaugeConnection X G)
     (x₀ x₁ x₂ x₃ : X) :
     W (plaquetteHolonomy (gaugeTransformConnection h A) x₀ x₁ x₂ x₃) =
       W (plaquetteHolonomy A x₀ x₁ x₂ x₃) := by
