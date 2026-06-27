@@ -55,11 +55,16 @@ jobs:
           set -o pipefail
           python3 scripts/check_workflow_consolidation_integrity.py 2>&1 | tee workflow-integrity.log
       - name: Run all governance checks
-        run: python3 scripts/run_all_governance_full_checks_v0_1.py
-      - name: Upload workflow integrity diagnostics
+        shell: bash
+        run: |
+          set -o pipefail
+          python3 scripts/run_all_governance_full_checks_v0_1.py 2>&1 | tee all-governance.log
+      - name: Upload governance diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: workflow-integrity-${{ github.run_id }}
-          path: workflow-integrity.log
+          name: governance-diagnostics-${{ github.run_id }}
+          path: |
+            workflow-integrity.log
+            all-governance.log
           if-no-files-found: warn
