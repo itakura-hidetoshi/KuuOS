@@ -32,4 +32,32 @@ structure StagingPackage.Valid (package : StagingPackage) : Prop where
   stateWriteDenied : package.stateWriteDenied
   authorityWideningDenied : package.authorityWideningDenied
 
+theorem valid_package_preserves_digest_chain
+    (package : StagingPackage)
+    (h : package.Valid) :
+    package.packageDigestMatches ∧
+      package.sourceDigestMatches ∧
+      package.proposalDigestMatches ∧
+      package.admissionDigestMatches ∧
+      package.evaluationDigestMatches ∧
+      package.candidateDigestMatches ∧
+      package.rollbackDigestMatches := by
+  exact ⟨h.packageDigestMatches, h.sourceDigestMatches,
+    h.proposalDigestMatches, h.admissionDigestMatches,
+    h.evaluationDigestMatches, h.candidateDigestMatches,
+    h.rollbackDigestMatches⟩
+
+theorem valid_package_remains_shadow_only
+    (package : StagingPackage)
+    (h : package.Valid) :
+    package.shadowNamespace ∧
+      package.immutableEnvelope ∧
+      package.candidateOnly ∧
+      package.productionApplyDenied ∧
+      package.stateWriteDenied ∧
+      package.authorityWideningDenied := by
+  exact ⟨h.shadowNamespace, h.immutableEnvelope, h.candidateOnly,
+    h.productionApplyDenied, h.stateWriteDenied,
+    h.authorityWideningDenied⟩
+
 end KUOS.WORLD.KuuOSConnectionStagingV0_65
