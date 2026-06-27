@@ -1,2 +1,2 @@
 import KuuOSFormal
-import KUOS.WORLD.KuuOSConnectionEvidenceReviewV0_69
+import KUOS.WORLD.KuuOSExternalEvidenceReviewV0_69
