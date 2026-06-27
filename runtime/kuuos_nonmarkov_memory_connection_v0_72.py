@@ -71,12 +71,13 @@ class NonMarkovMemoryConnection:
     def apply(
         self,
         calculus: InnerDifferentialCalculus,
+        module: KuuStateModule,
         direction_index: int,
         current: FreeLeftModuleSection,
         history: ReadOnlyMemoryHistory,
         current_epoch: int,
     ) -> FreeLeftModuleSection:
-        self.require_compatible(calculus, _module_stub(self), history)
+        self.require_compatible(calculus, module, history)
         direction_label = calculus.direction_labels[direction_index]
         base_value = self.base_connection.apply(calculus, direction_index, current)
         memory_value = memory_contribution(
@@ -114,10 +115,6 @@ class NonMarkovMemoryConnection:
         )
 
 
-def _module_stub(connection: NonMarkovMemoryConnection) -> KuuStateModule:
-    raise RuntimeError("module_argument_required")
-
-
 def apply_with_frames(
     connection: NonMarkovMemoryConnection,
     calculus: InnerDifferentialCalculus,
@@ -150,13 +147,12 @@ def apply_nonmarkov_connection(
     history: ReadOnlyMemoryHistory,
     current_epoch: int,
 ) -> FreeLeftModuleSection:
-    connection.require_compatible(calculus, module, history)
-    return apply_with_frames(
-        connection,
+    return connection.apply(
         calculus,
+        module,
         direction_index,
         current,
-        history.frames,
+        history,
         current_epoch,
     )
 
@@ -171,6 +167,7 @@ def pathwise_leibniz_residual(
     history: ReadOnlyMemoryHistory,
     current_epoch: int,
 ):
+    connection.require_compatible(calculus, module, history)
     acted_current = section_left_action(algebra_element, current)
     left = apply_with_frames(
         connection,
@@ -186,8 +183,7 @@ def pathwise_leibniz_residual(
     )
     transported = section_left_action(
         algebra_element,
-        apply_nonmarkov_connection(
-            connection,
+        connection.apply(
             calculus,
             module,
             direction_index,
