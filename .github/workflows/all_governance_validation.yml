@@ -50,6 +50,16 @@ jobs:
         with:
           python-version: '3.12'
       - name: Check workflow consolidation integrity
-        run: python3 scripts/check_workflow_consolidation_integrity.py
+        shell: bash
+        run: |
+          set -o pipefail
+          python3 scripts/check_workflow_consolidation_integrity.py 2>&1 | tee workflow-integrity.log
       - name: Run all governance checks
         run: python3 scripts/run_all_governance_full_checks_v0_1.py
+      - name: Upload workflow integrity diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: workflow-integrity-${{ github.run_id }}
+          path: workflow-integrity.log
+          if-no-files-found: warn
