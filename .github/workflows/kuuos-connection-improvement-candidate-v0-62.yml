@@ -1,0 +1,81 @@
+name: KuuOS Connection Improvement Candidate v0.62
+
+on:
+  workflow_dispatch:
+  pull_request:
+  push:
+    branches: [main]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-connection-v062-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile v0.62 runtime
+        run: >-
+          python3 -m compileall -q
+          runtime/kuuos_connection_candidate_receipt_v0_62.py
+          runtime/kuuos_connection_candidate_search_v0_62.py
+          tests/kuuos_connection_candidate_fixture_v0_62.py
+          tests/test_kuuos_connection_candidate_valid_v0_62.py
+          tests/test_kuuos_connection_candidate_search_v0_62.py
+          tests/test_kuuos_connection_candidate_receipt_v0_62.py
+          scripts/check_kuuos_connection_improvement_candidate_v0_62.py
+      - name: Run v0.62 runtime validation
+        run: PYTHONPATH=. python3 scripts/check_kuuos_connection_improvement_candidate_v0_62.py
+      - name: Run v0.62 boundary validation
+        run: PYTHONPATH=. python3 -m unittest -v tests.test_kuuos_connection_candidate_receipt_v0_62
+      - name: Verify canonical registration
+        run: |
+          grep -Fq 'KuuOSConnectionCandidateCoreV0_62' formal/KuuOSFormal.lean
+          grep -Fq 'KuuOSConnectionCandidateGaugeInvarianceV0_62' formal/KuuOSFormal.lean
+          grep -Fq 'KuuOSFormalV0_62' lakefile.toml
+      - name: Set up Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve dependencies
+        run: lake update
+      - name: Verify manifest stability
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib cache
+        run: lake exe cache get
+      - name: Build v0.62 formal root
+        run: |
+          set -o pipefail
+          lake \
+            -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSFormalV0_62 2>&1 | tee v0_62_lean.log
+      - name: Upload Lean diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-connection-v0-62-lean-diagnostics
+          path: v0_62_lean.log
+          if-no-files-found: error
+          retention-days: 7
+      - name: Build aggregate formal root
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true
+          build KuuOSFormal

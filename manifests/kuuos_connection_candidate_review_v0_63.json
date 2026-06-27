@@ -1,0 +1,39 @@
+{
+  "manifest_version": "kuuos_connection_candidate_review_v0_63",
+  "predecessor": "kuuos_connection_improvement_candidate_v0_62",
+  "status": "external_review_staging_boundary",
+  "runtime_modules": [
+    "runtime/kuuos_connection_admission_types_v0_63.py",
+    "runtime/kuuos_connection_admission_v0_63.py"
+  ],
+  "fixture": "tests/kuuos_connection_review_fixture_v0_63.py",
+  "validator": "scripts/check_kuuos_v063.py",
+  "formal_module": "formal/KUOS/WORLD/KuuOSConnectionReviewCoreV0_63.lean",
+  "runtime_decisions": ["ADMIT", "REJECT", "DEFER"],
+  "lean_admit_representation": "approve",
+  "required_scope": "stage_connection_candidate",
+  "boundaries": {
+    "external_or_governed_reviewer_required": true,
+    "exact_request_digest_binding": true,
+    "exact_source_bundle_binding": true,
+    "exact_proposal_binding": true,
+    "exact_selected_receipt_binding": true,
+    "exact_candidate_connection_binding": true,
+    "exact_rollback_binding": true,
+    "finite_validity_window_required": true,
+    "scope_widening_denied": true,
+    "candidate_only": true,
+    "production_apply_allowed": false,
+    "state_write_allowed": false,
+    "authority_widening_allowed": false,
+    "reject_not_staging_ready": true,
+    "defer_not_staging_ready": true
+  },
+  "non_claims": [
+    "no production connection deployment",
+    "no autonomous approval generation",
+    "no state mutation",
+    "no authority expansion",
+    "no replacement of rollback target"
+  ]
+}

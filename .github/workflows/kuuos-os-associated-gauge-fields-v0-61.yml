@@ -1,0 +1,112 @@
+name: KuuOS OS-Associated Gauge Fields v0.61
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'runtime/kuuos_os_gauge_field_types_v0_61.py'
+      - 'runtime/kuuos_os_associated_fields_v0_61.py'
+      - 'runtime/kuuos_os_curvature_holonomy_v0_61.py'
+      - 'tests/test_kuuos_os_*_v0_61.py'
+      - 'scripts/check_kuuos_os_associated_gauge_fields_v0_61.py'
+      - 'docs/KUUOS_OS_ASSOCIATED_GAUGE_FIELDS_v0_61.md'
+      - 'manifests/kuuos_os_associated_gauge_fields_v0_61.json'
+      - 'formal/KUOS/WORLD/KuuOSOSAssociatedGaugeFieldsV0_61.lean'
+      - 'formal/KuuOSFormalV0_61.lean'
+      - 'formal/KUOS.lean'
+      - 'formal/KuuOSFormal.lean'
+      - 'lakefile.toml'
+      - '.github/workflows/kuuos-os-associated-gauge-fields-v0-61.yml'
+  pull_request:
+    paths:
+      - 'runtime/kuuos_os_gauge_field_types_v0_61.py'
+      - 'runtime/kuuos_os_associated_fields_v0_61.py'
+      - 'runtime/kuuos_os_curvature_holonomy_v0_61.py'
+      - 'tests/test_kuuos_os_*_v0_61.py'
+      - 'scripts/check_kuuos_os_associated_gauge_fields_v0_61.py'
+      - 'docs/KUUOS_OS_ASSOCIATED_GAUGE_FIELDS_v0_61.md'
+      - 'manifests/kuuos_os_associated_gauge_fields_v0_61.json'
+      - 'formal/KUOS/WORLD/KuuOSOSAssociatedGaugeFieldsV0_61.lean'
+      - 'formal/KuuOSFormalV0_61.lean'
+      - 'formal/KUOS.lean'
+      - 'formal/KuuOSFormal.lean'
+      - 'lakefile.toml'
+      - '.github/workflows/kuuos-os-associated-gauge-fields-v0-61.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-os-gauge-v061-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  os-gauge-v061:
+    name: OS gauge fields v0.61 runtime and Lean
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile runtime and validator
+        run: >-
+          python3 -m compileall -q
+          runtime/kuuos_os_gauge_field_types_v0_61.py
+          runtime/kuuos_os_associated_fields_v0_61.py
+          runtime/kuuos_os_curvature_holonomy_v0_61.py
+          tests/test_kuuos_os_associated_fields_v0_61.py
+          tests/test_kuuos_os_curvature_holonomy_v0_61.py
+          scripts/check_kuuos_os_associated_gauge_fields_v0_61.py
+      - name: Run OS gauge-field runtime validation
+        run: PYTHONPATH=. python3 scripts/check_kuuos_os_associated_gauge_fields_v0_61.py
+      - name: Verify canonical registration
+        shell: bash
+        run: |
+          grep -Fq 'import KUOS.WORLD.KuuOSOSAssociatedGaugeFieldsV0_61' formal/KUOS.lean
+          grep -Fq 'import KUOS.WORLD.KuuOSOSAssociatedGaugeFieldsV0_61' formal/KuuOSFormal.lean
+          grep -Fq '"KuuOSFormalV0_61"' lakefile.toml
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Verify committed manifest is canonical
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Build v0.61 formal root
+        shell: bash
+        run: |
+          set -o pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSFormalV0_61 2>&1 | tee os-gauge-v061-build.log
+      - name: Build aggregate formal root
+        shell: bash
+        run: |
+          set -o pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSFormal 2>&1 | tee aggregate-formal-build.log
+      - name: Upload diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-os-gauge-v061-diagnostics
+          path: |
+            os-gauge-v061-build.log
+            aggregate-formal-build.log
+          if-no-files-found: ignore
