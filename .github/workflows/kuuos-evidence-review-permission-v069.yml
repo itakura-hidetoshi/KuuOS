@@ -1,0 +1,23 @@
+name: KuuOS Evidence Review Permission v0.69
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  validate-permission-binding:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile permission-bound runtime
+        run: |
+          python3 -m compileall -q runtime/kuuos_connection_*v0_69.py scripts/kuuos_evidence_review_checks_v069.py
+      - name: Validate decision and permission binding
+        run: |
+          PYTHONPATH=. python3 -c 'from scripts.kuuos_evidence_review_checks_v069 import main; raise SystemExit(main())'
