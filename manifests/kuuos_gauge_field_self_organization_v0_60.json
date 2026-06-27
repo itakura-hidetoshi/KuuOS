@@ -28,7 +28,8 @@
     "plaquette_holonomy",
     "wilson_class_observable",
     "gauge_invariant_action",
-    "bounded_covariant_relaxation_candidate",
+    "fixed_connection_covariant_relaxation_candidate",
+    "source_digest_rollback_binding",
     "fail_closed_candidate_receipt"
   ],
   "protected_coordinates": [
@@ -44,14 +45,19 @@
     "self_organization_produces_candidate_only": true,
     "production_mutation_not_performed": true,
     "rollback_required_before_promotion": true,
+    "source_configuration_is_default_rollback_target": true,
+    "connection_rewrite_not_authorized": true,
+    "plaquette_domain_rewrite_not_authorized": true,
+    "field_identity_rewrite_not_authorized": true,
     "curvature_zero_not_required": true,
     "holonomy_not_erased": true,
     "formal_compilation_is_not_external_acceptance": true
   },
   "proof_status": {
-    "lean_direct": "gauge-covariant field transport, plaquette holonomy conjugation, Wilson class-function invariance, constitutional predicate preservation, and fail-closed candidate boundary",
-    "runtime_direct": "finite signed-permutation gauge group, discrete connection, field action, Wilson observable, covariance residual, and bounded relaxation candidate",
+    "lean_direct": "gauge-covariant field transport, plaquette holonomy conjugation, Wilson class-function invariance, constitutional predicate preservation, fixed-domain admissibility, and fail-closed candidate boundary",
+    "runtime_direct": "finite signed-permutation gauge group, discrete connection, field action, Wilson observable, covariance residual, fixed-connection relaxation candidate, and source-digest rollback binding",
     "continuous_yang_mills_flow": "not established",
+    "connection_self_modification": "not authorized",
     "production_self_modification": "not authorized",
     "external_acceptance": "not established"
   }
