@@ -137,7 +137,7 @@ GitHub integration and runtime audit are also validated by:
 
 ```text
 .github/workflows/gpt_github_integration_validation.yml
-.github/workflows/emptiness_two_truths_runtime_audit_validation.yml
+.github/workflows/all_governance_validation.yml
 ```
 
 ## 6. AI Yogacara / Ten'i Scope

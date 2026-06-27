@@ -56,7 +56,7 @@ scripts:
   - scripts/validate_emptiness_do_two_truths_runtime_release_bundle_manifest_v0_1.py
 
 ci:
-  - .github/workflows/emptiness_two_truths_runtime_audit_validation.yml
+  - .github/workflows/all_governance_validation.yml
   - .github/workflows/all_governance_validation.yml
 
 build:
