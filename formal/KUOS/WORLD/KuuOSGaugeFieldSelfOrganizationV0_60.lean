@@ -77,33 +77,52 @@ theorem constitutional_state_preserved
 structure ImprovementCandidate where
   sourceAction : ℝ
   candidateAction : ℝ
+  chartDomainPreserved : Prop
+  fieldIdentityPreserved : Prop
+  connectionPreserved : Prop
+  plaquetteDomainPreserved : Prop
   protectedStatePreserved : Prop
   ownershipPreserved : Prop
   authorityPreserved : Prop
   rollbackBound : Prop
 
-def ImprovementCandidate.Admissible (c : ImprovementCandidate) : Prop :=
-  c.candidateAction ≤ c.sourceAction ∧
-    c.protectedStatePreserved ∧
-    c.ownershipPreserved ∧
-    c.authorityPreserved ∧
-    c.rollbackBound
+structure ImprovementCandidate.Admissible (c : ImprovementCandidate) : Prop where
+  actionNonincreasing : c.candidateAction ≤ c.sourceAction
+  chartDomainPreserved : c.chartDomainPreserved
+  fieldIdentityPreserved : c.fieldIdentityPreserved
+  connectionPreserved : c.connectionPreserved
+  plaquetteDomainPreserved : c.plaquetteDomainPreserved
+  protectedStatePreserved : c.protectedStatePreserved
+  ownershipPreserved : c.ownershipPreserved
+  authorityPreserved : c.authorityPreserved
+  rollbackBound : c.rollbackBound
 
 theorem admissible_candidate_preserves_authority
     (c : ImprovementCandidate)
     (hc : c.Admissible) :
-    c.authorityPreserved := by
-  rcases hc with ⟨_, _, _, authority, _⟩
-  exact authority
+    c.authorityPreserved :=
+  hc.authorityPreserved
 
 theorem gauge_self_organization_boundary
     (c : ImprovementCandidate)
     (hc : c.Admissible) :
     c.candidateAction ≤ c.sourceAction ∧
+      c.chartDomainPreserved ∧
+      c.fieldIdentityPreserved ∧
+      c.connectionPreserved ∧
+      c.plaquetteDomainPreserved ∧
       c.protectedStatePreserved ∧
       c.ownershipPreserved ∧
       c.authorityPreserved ∧
-      c.rollbackBound :=
-  hc
+      c.rollbackBound := by
+  exact ⟨hc.actionNonincreasing,
+    hc.chartDomainPreserved,
+    hc.fieldIdentityPreserved,
+    hc.connectionPreserved,
+    hc.plaquetteDomainPreserved,
+    hc.protectedStatePreserved,
+    hc.ownershipPreserved,
+    hc.authorityPreserved,
+    hc.rollbackBound⟩
 
 end KUOS.WORLD.KuuOSGaugeFieldSelfOrganizationV0_60
