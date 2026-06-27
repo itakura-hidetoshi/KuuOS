@@ -26,3 +26,6 @@ import KUOS.WORLD.KuuOSConnectionCandidateGaugeInvarianceV0_62
 import KUOS.WORLD.KuuOSConnectionReviewCoreV0_63
 import KUOS.WORLD.KuuOSConnectionEvaluationCoreV0_64
 import KUOS.WORLD.KuuOSConnectionStagingV0_65
+import KUOS.WORLD.KuuOSConnectionShadowV0_66
+import KUOS.WORLD.KuuOSFiniteGaugeValidationV0_67
+import KUOS.WORLD.KuuOSConnectionEvidenceV0_68
