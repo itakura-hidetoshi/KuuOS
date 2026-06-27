@@ -14,10 +14,11 @@ This file records the canonical GitHub Actions entry points and the consolidatio
 | `evidence-cycle-os-validation.yml` | ActOS v0.1-v0.4, ObserveOS v0.1-v0.4, VerifyOS v0.1-v0.3, and LearnOS v0.1-v0.3 |
 | `plan-os-validation.yml` | PlanOS v0.1-v0.23 through `scripts/run_plan_os_full_checks.py` |
 | `world-v053-v059-main-validation.yml` | Integrated WORLD v0.53-v0.59 strict validation |
+| `world-four-great-phase-dynamics-v0-59.yml` | Stable compatibility entry point for manual WORLD v0.59 Four-Great validation; automatic execution is limited to changes to this workflow itself |
 
 ## Integrity guard
 
-`scripts/check_workflow_consolidation_integrity.py` verifies that canonical workflows and the guarded Core Governance compatibility entry point exist, superseded files stay deleted, failure propagation remains enabled, and the migrated validation markers remain present.
+`scripts/check_workflow_consolidation_integrity.py` verifies that canonical workflows and guarded compatibility entry points exist, superseded files stay deleted, failure propagation remains enabled, and the migrated validation markers remain present.
 
 ## Retention rule
 

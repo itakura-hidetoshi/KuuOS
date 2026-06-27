@@ -14,6 +14,7 @@ CONSTRUCTED_WORKFLOW_PATTERN = re.compile(
 REQUIRED_FILES = [
     ".github/workflows/all_governance_validation.yml",
     ".github/workflows/core_governance_validation.yml",
+    ".github/workflows/world-four-great-phase-dynamics-v0-59.yml",
     ".github/workflows/decision-os-validation.yml",
     ".github/workflows/evidence-cycle-os-validation.yml",
     ".github/workflows/plan-os-validation.yml",
@@ -55,6 +56,14 @@ REQUIRED_MARKERS = {
         "set -euo pipefail",
         "scripts/run_core_governance_full_checks_v0_1.py",
         "core-governance.log",
+        "actions/upload-artifact@v4",
+    ],
+    ".github/workflows/world-four-great-phase-dynamics-v0-59.yml": [
+        "workflow_dispatch:",
+        "set -euo pipefail",
+        "scripts/check_world_four_great_phase_dynamics_v0_59.py",
+        "build KuuOSFourGreatCoreV0_59 KuuOSFormalV0_59",
+        "world-v059-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}",
         "actions/upload-artifact@v4",
     ],
     ".github/workflows/decision-os-validation.yml": [
