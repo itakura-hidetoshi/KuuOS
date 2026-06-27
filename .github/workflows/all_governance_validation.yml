@@ -63,3 +63,12 @@ jobs:
           name: workflow-integrity-${{ github.run_id }}
           path: workflow-integrity.log
           if-no-files-found: warn
+      - name: Upload temporary workflow-repair sources
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: workflow-repair-sources-${{ github.run_id }}
+          path: |
+            scripts/**/*.py
+            manifests/**/*.json
+          if-no-files-found: error
