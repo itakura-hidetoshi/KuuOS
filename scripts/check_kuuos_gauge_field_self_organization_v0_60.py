@@ -15,6 +15,8 @@ def main() -> int:
         ROOT / "runtime/kuuos_discrete_gauge_connection_v0_60.py",
         ROOT / "runtime/kuuos_gauge_field_self_organization_v0_60.py",
         ROOT / "tests/test_kuuos_gauge_field_self_organization_v0_60.py",
+        ROOT / "tests/test_kuuos_gauge_field_fixed_connection_v0_60.py",
+        ROOT / "tests/test_kuuos_gauge_field_fixed_domain_v0_60.py",
         ROOT / "docs/KUUOS_GAUGE_FIELD_SELF_ORGANIZATION_v0_60.md",
         ROOT / "formal/KUOS/WORLD/KuuOSGaugeFieldSelfOrganizationV0_60.lean",
         ROOT / "formal/KuuOSFormalV0_60.lean",
@@ -51,7 +53,15 @@ def main() -> int:
         return 1
 
     completed = subprocess.run(
-        [sys.executable, "-m", "unittest", "-v", "tests.test_kuuos_gauge_field_self_organization_v0_60"],
+        [
+            sys.executable,
+            "-m",
+            "unittest",
+            "-v",
+            "tests.test_kuuos_gauge_field_self_organization_v0_60",
+            "tests.test_kuuos_gauge_field_fixed_connection_v0_60",
+            "tests.test_kuuos_gauge_field_fixed_domain_v0_60",
+        ],
         cwd=ROOT,
         check=False,
     )
