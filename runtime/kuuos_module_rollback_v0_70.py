@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from typing import Any
 
 from runtime.kuuos_connection_deformation_v0_70 import ConnectionDeformation
@@ -64,6 +64,4 @@ def rollback_connection(
         digest_exact,
         "",
     )
-    return recovered, ModuleRollbackReceipt(
-        **(receipt.to_dict() | {"receipt_digest": rollback_receipt_digest(receipt)})
-    )
+    return recovered, replace(receipt, receipt_digest=rollback_receipt_digest(receipt))
