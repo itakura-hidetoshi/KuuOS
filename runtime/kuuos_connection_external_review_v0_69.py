@@ -9,6 +9,7 @@ from runtime.kuuos_connection_evidence_review_attestation_v0_69 import (
     exact_review_scope,
 )
 from runtime.kuuos_connection_evidence_review_types_v0_69 import (
+    APPROVE_EVIDENCE,
     EXTERNAL_REVIEWER_CLASS,
     REVIEW_SCOPE,
     ConnectionEvidenceReviewRequest,
@@ -88,7 +89,7 @@ def seal_external_review_attestation(
         allowed_scopes=exact_review_scope(),
         valid_from_epoch=valid_from_epoch,
         valid_through_epoch=valid_through_epoch,
-        production_apply_allowed=False,
+        production_apply_allowed=decision == APPROVE_EVIDENCE,
         state_write_allowed=False,
         authority_widening_allowed=False,
         rollback_replacement_allowed=False,
