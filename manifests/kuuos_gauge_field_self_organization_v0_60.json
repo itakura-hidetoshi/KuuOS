@@ -1,0 +1,66 @@
+{
+  "manifest_version": "kuuos_gauge_field_self_organization_v0_60",
+  "predecessors": [
+    "kuuos_context_gauge_atlas_v0_13",
+    "kuuos_context_gerbe_coherence_v0_14",
+    "kuuos_governed_self_modification_v0_26",
+    "world_four_great_phase_dynamics_v0_59"
+  ],
+  "status": "gauge_covariant_candidate_only",
+  "runtime_modules": [
+    "runtime/kuuos_gauge_field_self_organization_types_v0_60.py",
+    "runtime/kuuos_discrete_gauge_connection_v0_60.py",
+    "runtime/kuuos_gauge_field_self_organization_v0_60.py"
+  ],
+  "formal_module": "formal/KUOS/WORLD/KuuOSGaugeFieldSelfOrganizationV0_60.lean",
+  "formal_root": "formal/KuuOSFormalV0_60.lean",
+  "aggregate_formal_root": "formal/KuuOSFormal.lean",
+  "documentation": "docs/KUUOS_GAUGE_FIELD_SELF_ORGANIZATION_v0_60.md",
+  "validator": "scripts/check_kuuos_gauge_field_self_organization_v0_60.py",
+  "tests": [
+    "tests/test_kuuos_gauge_field_self_organization_v0_60.py",
+    "tests/test_kuuos_gauge_field_fixed_connection_v0_60.py",
+    "tests/test_kuuos_gauge_field_fixed_domain_v0_60.py"
+  ],
+  "gauge_spine": [
+    "constitutional_signed_permutation_group",
+    "context_local_associated_fields",
+    "discrete_admissible_connection",
+    "covariant_transport",
+    "plaquette_holonomy",
+    "wilson_class_observable",
+    "gauge_invariant_action",
+    "fixed_connection_covariant_relaxation_candidate",
+    "source_digest_rollback_binding",
+    "fail_closed_candidate_receipt"
+  ],
+  "protected_coordinates": [
+    "authority",
+    "audit",
+    "provenance",
+    "rollback"
+  ],
+  "boundaries": {
+    "graph_semantics_forbidden": true,
+    "constitutional_coordinates_fixed": true,
+    "gauge_change_does_not_grant_authority": true,
+    "self_organization_produces_candidate_only": true,
+    "production_mutation_not_performed": true,
+    "rollback_required_before_promotion": true,
+    "source_configuration_is_default_rollback_target": true,
+    "connection_rewrite_not_authorized": true,
+    "plaquette_domain_rewrite_not_authorized": true,
+    "field_identity_rewrite_not_authorized": true,
+    "curvature_zero_not_required": true,
+    "holonomy_not_erased": true,
+    "formal_compilation_is_not_external_acceptance": true
+  },
+  "proof_status": {
+    "lean_direct": "gauge-covariant field transport, plaquette holonomy conjugation, Wilson class-function invariance, constitutional predicate preservation, fixed-domain admissibility, and fail-closed candidate boundary",
+    "runtime_direct": "finite signed-permutation gauge group, discrete connection, field action, Wilson observable, covariance residual, fixed-connection relaxation candidate, source-digest rollback binding, and fixed-domain regression checks",
+    "continuous_yang_mills_flow": "not established",
+    "connection_self_modification": "not authorized",
+    "production_self_modification": "not authorized",
+    "external_acceptance": "not established"
+  }
+}
