@@ -1,3 +1,8 @@
 {
-  "manifest_version": "kuuos_connection_shadow_v0_66"
+  "manifest_version": "kuuos_connection_shadow_v0_66",
+  "predecessor": "kuuos_connection_staging_v0_65",
+  "runtime_modules": [
+    "runtime/kuuos_connection_shadow_types_v0_66.py",
+    "runtime/kuuos_connection_shadow_v0_66.py"
+  ]
 }
