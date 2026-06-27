@@ -9,7 +9,7 @@
   "aggregate_formal_root": "formal/KuuOSFormal.lean",
   "documentation": "docs/KU_WORLD_KUU_VACUUM_ARAKI_HESSIAN_PHYSICAL_REALIZATION_v0_56.md",
   "validator": "scripts/check_world_kuu_vacuum_araki_hessian_physical_realization_v0_56.py",
-  "workflow": ".github/workflows/world-v056-araki-hessian-physical-realization.yml",
+  "workflow": ".github/workflows/world-v053-v059-main-validation.yml",
   "proved_spine": [
     "first_variation_derivative",
     "mixed_hessian_bkm_identification",

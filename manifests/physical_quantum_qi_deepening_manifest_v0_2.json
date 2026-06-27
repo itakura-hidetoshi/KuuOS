@@ -101,7 +101,7 @@
       "chain_indexes/physical_quantum_qi_deepening_chain_index_v0_2.json"
     ],
     "ci": [
-      ".github/workflows/physical_quantum_qi_deepening_validation.yml",
+      ".github/workflows/all_governance_validation.yml",
       ".github/workflows/all_governance_validation.yml"
     ],
     "entrypoints": [

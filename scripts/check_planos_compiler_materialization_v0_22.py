@@ -27,7 +27,7 @@ def main() -> int:
     adapter = ROOT / "formal/KUOS/PlanOS/NextCycleBasisCompilerAdapterV0_3.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_COMPILER_MATERIALIZATION_v0_22.md"
     manifest_path = ROOT / "manifests/kuuos_planos_compiler_materialization_v0_22.json"
-    workflow = ROOT / ".github/workflows/planos-compiler-materialization-v0-22.yml"
+    workflow = ROOT / ".github/workflows/plan-os-validation.yml"
 
     for path in (
         formal_root,

@@ -8,7 +8,7 @@
   "documentation": "docs/KU_WORLD_KUU_VACUUM_INFORMATION_GEOMETRY_v0_55.md",
   "validator": "scripts/check_world_kuu_vacuum_information_geometry_v0_55.py",
   "full_check": "scripts/run_kuuos_runtime_full_check_v0_55.py",
-  "workflow": ".github/workflows/world-kuu-vacuum-information-geometry-v0-55.yml",
+  "workflow": ".github/workflows/world-v053-v059-main-validation.yml",
   "information_geometric_spine": [
     "completed_hilbert_vacuum",
     "central_vacuum_state",

@@ -79,7 +79,7 @@ REQUIRED_SCRIPT_FILES = [
 ]
 
 REQUIRED_WORKFLOW_FILES = [
-    ".github/workflows/validator_tiering_policy_validation.yml",
+    ".github/workflows/kuuos_runtime_full_check.yml",
 ]
 
 

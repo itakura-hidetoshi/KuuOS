@@ -16,7 +16,7 @@ added_documents:
 updated_documents:
   - Makefile
   - scripts/run_core_governance_full_checks_v0_1.py
-  - .github/workflows/core_governance_validation.yml
+  - .github/workflows/all_governance_validation.yml
 
 invariant_gate_runtime:
   role: runtime_gate_for_converting_invariant_matrix_violations_into_governance_status

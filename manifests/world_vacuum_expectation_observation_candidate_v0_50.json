@@ -6,7 +6,7 @@
   "documentation": "docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVATION_CANDIDATE_v0_50.md",
   "validator": "scripts/check_world_vacuum_expectation_observation_candidate_v0_50.py",
   "full_check": "scripts/run_kuuos_runtime_full_check_v0_50.py",
-  "workflow": ".github/workflows/world-vacuum-expectation-observation-v0-50.yml",
+  "workflow": ".github/workflows/kuuos_runtime_full_check.yml",
   "derived_results": [
     "identity_candidate_normalized",
     "star_square_candidate_nonnegative",

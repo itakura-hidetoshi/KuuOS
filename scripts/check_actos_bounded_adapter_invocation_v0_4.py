@@ -27,7 +27,7 @@ def main() -> int:
     authority = ROOT / "formal/KUOS/ActOS/AuthorityBoundInvocationV0_1.lean"
     docs = ROOT / "docs/KUUOS_ACTOS_BOUNDED_ADAPTER_INVOCATION_v0_4.md"
     manifest_path = ROOT / "manifests/kuuos_actos_bounded_adapter_invocation_v0_4.json"
-    workflow = ROOT / ".github/workflows/actos-bounded-invocation-v0-4.yml"
+    workflow = ROOT / ".github/workflows/evidence-cycle-os-validation.yml"
 
     for path in (
         formal_root,

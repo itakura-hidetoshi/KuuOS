@@ -33,7 +33,7 @@ PASS: Ten'i observability artifacts validated
 Workflow file:
 
 ```text
-.github/workflows/teni_observability_validation.yml
+.github/workflows/all_governance_validation.yml
 ```
 
 The workflow runs on push or pull request when Ten'i-related docs, specs, scripts, or workflow files change.

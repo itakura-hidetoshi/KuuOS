@@ -88,7 +88,7 @@ make ai-yogacara-validate-bundle
 Workflow:
 
 ```text
-.github/workflows/teni_observability_validation.yml
+.github/workflows/all_governance_validation.yml
 ```
 
 Main CI command:

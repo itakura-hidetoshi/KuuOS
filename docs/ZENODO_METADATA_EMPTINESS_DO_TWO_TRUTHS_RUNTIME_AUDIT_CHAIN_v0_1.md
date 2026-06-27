@@ -84,7 +84,7 @@ scripts/export_emptiness_do_two_truths_runtime_audit_v0_1.py
 scripts/build_emptiness_do_two_truths_runtime_audit_chain_v0_1.py
 scripts/check_emptiness_do_two_truths_runtime_audit_chain_v0_1.py
 scripts/run_emptiness_do_two_truths_runtime_checks_v0_1.py
-.github/workflows/emptiness_two_truths_runtime_audit_validation.yml
+.github/workflows/all_governance_validation.yml
 Makefile
 ```
 

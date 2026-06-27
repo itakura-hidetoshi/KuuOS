@@ -16,7 +16,7 @@ canonical_example:
 canonical_validator:
   - scripts/validate_memoryos_github_chat_long_term_writeback_v0_2.py
 canonical_workflow:
-  - .github/workflows/memoryos-github-chat-long-term-writeback-v0-2-validation.yml
+  - .github/workflows/all_governance_validation.yml
 core_rule: GitHub_tool_use_does_not_block_long_term_memory_writeback
 execution_model:
   github_lane:

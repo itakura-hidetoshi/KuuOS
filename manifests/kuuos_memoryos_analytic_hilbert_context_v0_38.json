@@ -8,7 +8,7 @@
   "documentation": "docs/KUUOS_MEMORYOS_ANALYTIC_HILBERT_CONTEXT_v0_38.md",
   "formal_module": "formal/KUOS/OpenHorizon/MemoryOSAnalyticHilbertContextKernelV0_38.lean",
   "formal_root": "formal/KUOS.lean",
-  "workflow": ".github/workflows/memoryos-analytic-hilbert-context-v0-38.yml",
+  "workflow": ".github/workflows/memoryos-world-observe-intake-v0-39.yml",
   "central_runtime_check": "scripts/run_kuuos_runtime_full_check_v0_48.py",
   "source_runtime": "runtime/kuuos_memoryos_predictive_shielded_memory_v0_37.py",
   "source_world_formal": "formal/KUOS/WORLD/KuuVacuumOSHilbertCompletionBridgeV0_49.lean",

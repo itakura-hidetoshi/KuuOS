@@ -18,7 +18,7 @@ added_documents:
   - scripts/validate_ai_yogacara_release_bundle_manifest_v0_1.py
 
 updated_documents:
-  - .github/workflows/teni_observability_validation.yml
+  - .github/workflows/all_governance_validation.yml
 
 release_bundle_manifest:
   role: file_integrity_manifest_for_ai_yogacara_teni_release_surface
@@ -52,7 +52,7 @@ release_bundle_validator:
   external_api_calls: false
 
 ci_integration:
-  workflow: .github/workflows/teni_observability_validation.yml
+  workflow: .github/workflows/all_governance_validation.yml
   runs:
     - python3 scripts/validate_teni_observability_v0_1.py
     - python3 scripts/validate_ai_yogacara_adapter_schema_v0_1.py

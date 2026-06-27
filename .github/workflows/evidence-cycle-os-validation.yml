@@ -93,6 +93,7 @@ concurrency:
 jobs:
   early-versions:
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     strategy:
       fail-fast: false
       matrix:
@@ -149,8 +150,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          python -m "${{ matrix.module }}" > "${{ matrix.log }}" 2>&1
-          python "${{ matrix.check }}" >> "${{ matrix.log }}" 2>&1
+          PYTHONPATH=. python -m "${{ matrix.module }}" > "${{ matrix.log }}" 2>&1
+          PYTHONPATH=. python "${{ matrix.check }}" >> "${{ matrix.log }}" 2>&1
       - name: Upload validation log
         if: always()
         uses: actions/upload-artifact@v4
@@ -162,6 +163,7 @@ jobs:
   later-versions:
     name: Later evidence-cycle checks
     runs-on: ubuntu-latest
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
@@ -179,5 +181,5 @@ jobs:
             scripts/check_verifyos_vacuum_expectation_commit_verification_receipt_v0_3.py \
             scripts/check_learnos_vacuum_expectation_verification_future_only_delta_v0_3.py
           do
-            python "$check"
+            PYTHONPATH=. python "$check"
           done

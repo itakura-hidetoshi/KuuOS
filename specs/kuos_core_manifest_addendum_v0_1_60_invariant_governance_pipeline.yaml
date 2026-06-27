@@ -14,7 +14,7 @@ added_documents:
 updated_documents:
   - Makefile
   - scripts/run_core_governance_full_checks_v0_1.py
-  - .github/workflows/core_governance_validation.yml
+  - .github/workflows/all_governance_validation.yml
 
 pipeline:
   role: operational_chain_for_preserving_core_invariants_across_contextual_transformations

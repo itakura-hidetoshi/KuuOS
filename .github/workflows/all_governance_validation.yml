@@ -33,44 +33,38 @@ on:
       - 'Makefile'
       - '.github/**'
 
+permissions:
+  contents: read
+
+concurrency:
+  group: all-governance-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
 jobs:
   validate-all-governance:
     name: Validate all governance checks
     runs-on: ubuntu-latest
-    permissions:
-      contents: read
     steps:
-      - name: Checkout repository
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-
-      - name: Show validation entrypoints
+      - name: Check workflow consolidation integrity
+        shell: bash
         run: |
-          python3 --version
-          echo "Top-level: scripts/run_all_governance_full_checks_v0_1.py"
-          echo "AI Yogacara: scripts/run_ai_yogacara_full_checks_v0_1.py"
-          echo "Core Governance: scripts/run_core_governance_full_checks_v0_1.py"
-          echo "Physical Quantum Qi runtime contract: scripts/validate_physical_quantum_qi_runtime_contract_v0_1.py"
-          echo "Physical Quantum Qi release/finality/chain: scripts/validate_physical_quantum_qi_runtime_release_packet_v0_1.py"
-          echo "Physical Quantum Qi v0.2 deepening: scripts/validate_physical_quantum_qi_deepening_release_packet_v0_2.py"
-          echo "Qi non-Markov memory v0.2E validator: scripts/validate_physical_quantum_qi_non_markov_memory_v0_2E.py"
-          echo "Qi non-Markov memory v0.2E regression: tests/test_physical_quantum_qi_non_markov_memory_v0_2E.py"
-          echo "Qi non-Markov memory v0.2E locks primary non-Markov semantics, forbids Markov reduction, requires tail-residue visibility, and prevents compressed memory from replacing source history."
-          echo "Qi Process Tensor v0.2F validator: scripts/validate_physical_quantum_qi_process_tensor_v0_2F.py"
-          echo "Qi Process Tensor v0.2F regression: tests/test_physical_quantum_qi_process_tensor_v0_2F.py"
-          echo "Qi Process Tensor v0.2F fixes multi-time non-Markov temporal structure and rejects Markov-channel collapse, Qi/process-tensor identity collapse, current-state-only prediction, and erased operation history/backaction/environment memory/temporal correlation."
-          echo "Qi Process Tensor conventional autonomy v0.2G validator: scripts/validate_kuuos_qi_process_tensor_conventional_autonomy_v0_2G.py"
-          echo "Qi Process Tensor conventional autonomy v0.2G regression: tests/test_kuuos_qi_process_tensor_conventional_autonomy_v0_2G.py"
-          echo "Qi Process Tensor conventional autonomy v0.2G fixes Process Tensor as conventional-truth temporal substrate, not ultimate truth or fixed ontology; autonomy is safety-gated candidate generation, not ungated execution."
-          echo "IndraNet PlanOS handoff v0.2D demo: examples/run_physical_quantum_qi_indranet_planos_handoff_demo_v0_2D.py"
-          echo "Invariant pipeline includes audit event, audit hash-chain, WORM receipt, release bundle, attestation, closure, and finality validators."
-          echo "Emptiness two truths runtime audit includes runtime checks, audit chain, release packet, and release bundle manifest validators."
-          echo "GPT GitHub and MemoryOS GitHub bridge validators are included in the top-level runner."
-          echo "MGAP4D external audit readiness includes CI ledger, chain index, finality packet, and bundle manifest validators."
-
-      - name: Run all governance full checks
-        run: python3 scripts/run_all_governance_full_checks_v0_1.py
+          set -o pipefail
+          python3 scripts/check_workflow_consolidation_integrity.py 2>&1 | tee workflow-integrity.log
+      - name: Run all governance checks
+        shell: bash
+        run: |
+          set -o pipefail
+          python3 scripts/run_all_governance_full_checks_v0_1.py 2>&1 | tee all-governance.log
+      - name: Upload governance diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: governance-diagnostics-${{ github.run_id }}
+          path: |
+            workflow-integrity.log
+            all-governance.log
+          if-no-files-found: warn

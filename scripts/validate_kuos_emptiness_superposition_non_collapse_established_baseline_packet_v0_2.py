@@ -16,7 +16,7 @@ import pathlib
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 BASELINE = ROOT / "specs" / "kuos_emptiness_superposition_non_collapse_established_baseline_packet_v0_2.yaml"
 CHAIN_INDEX = ROOT / "docs" / "KUOS_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_CHAIN_INDEX_v0_2.md"
-WORKFLOW = ROOT / ".github" / "workflows" / "emptiness_superposition_noncollapse_validation.yml"
+CONSOLIDATED_RUNNER = ROOT / "scripts" / "run_core_governance_full_checks_v0_1.py"
 PUBLIC_INDEX = ROOT / "docs" / "PUBLIC_DOCS_INDEX_v0_1.md"
 VALIDATION_MATRIX = ROOT / "docs" / "VALIDATION_COVERAGE_MATRIX_v0_1.md"
 PUBLIC_RELEASE_MANIFEST = ROOT / "docs" / "PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1.md"
@@ -52,7 +52,7 @@ BASELINE_TOKENS = [
 
 EXPOSURE_TOKENS = {
     CHAIN_INDEX: "KUOS_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_CHAIN_INDEX_v0_2",
-    WORKFLOW: "validate_kuos_emptiness_superposition_non_collapse_finality_packet_v0_2.py",
+    CONSOLIDATED_RUNNER: "validate_kuos_emptiness_superposition_non_collapse_finality_packet_v0_2.py",
     PUBLIC_INDEX: "KUOS_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_v0_2.md",
     VALIDATION_MATRIX: "emptiness-superposition-noncollapse-checks",
     PUBLIC_RELEASE_MANIFEST: "kuos_emptiness_superposition_non_collapse_contract_v0_2.yaml",

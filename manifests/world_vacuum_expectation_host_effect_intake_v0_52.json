@@ -5,7 +5,7 @@
   "formal_module": "formal/KUOS/WORLD/VacuumExpectationHostEffectAtomicCommitIntakeV0_52.lean",
   "documentation": "docs/KU_WORLD_HOST_EFFECT_INTAKE_v0_52.md",
   "validator": "scripts/check_world_vacuum_expectation_host_effect_intake_v0_52.py",
-  "workflow": ".github/workflows/world-host-effect-intake-v0-52.yml",
+  "workflow": ".github/workflows/kuuos_runtime_full_check.yml",
   "boundaries": [
     "effect_recorded_route_only",
     "canonical_host_receipt_required",

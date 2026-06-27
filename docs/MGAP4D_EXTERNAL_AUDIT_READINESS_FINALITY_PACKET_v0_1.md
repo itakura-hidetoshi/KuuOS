@@ -23,7 +23,7 @@ This packet does not grant proof, truth, clinical, execution, governance-bypass,
    - `docs/MGAP4D_EXTERNAL_AUDIT_READINESS_CI_LEDGER_v0_1.md`
    - `scripts/check_mgap4d_external_audit_readiness_ci_ledger_v0_1.py`
    - `scripts/check_mgap4d_external_audit_readiness_chain_index_v0_1.py`
-   - `.github/workflows/mgap4d_external_audit_readiness_ci_ledger_v0_1.yml`
+   - `.github/workflows/all_governance_validation.yml`
 
 3. Dedicated ledger CI green record
    - Workflow run ID: `25973305278`

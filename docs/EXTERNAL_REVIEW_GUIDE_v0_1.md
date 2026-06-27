@@ -91,7 +91,7 @@ examples/samvrti_qi_to_physical_motion_evidence_builder_minimal.py
 examples/physical_quantum_qi_dynamics_kernel_minimal.py
 examples/physical_quantum_qi_motion_pipeline_minimal.py
 scripts/run_qi_motion_chain_checks_v0_1.py
-.github/workflows/qi_motion_chain_validation.yml
+.github/workflows/all_governance_validation.yml
 ```
 
 Run:

@@ -41,7 +41,7 @@ REQUIRED_FILES = [
     "scripts/run_emptiness_do_two_truths_runtime_checks_v0_1.py",
     "scripts/validate_emptiness_do_two_truths_runtime_release_packet_v0_1.py",
     "scripts/validate_emptiness_do_two_truths_runtime_release_bundle_manifest_v0_1.py",
-    ".github/workflows/emptiness_two_truths_runtime_audit_validation.yml",
+    ".github/workflows/all_governance_validation.yml",
     ".github/workflows/all_governance_validation.yml",
     "Makefile",
 ]
@@ -57,7 +57,7 @@ PUBLIC_ARTIFACTS_TO_SCAN = [
     "docs/ZENODO_METADATA_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md",
     "docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md",
     "docs/ALL_GOVERNANCE_CHECKS_RUNBOOK_v0_1.md",
-    ".github/workflows/emptiness_two_truths_runtime_audit_validation.yml",
+    ".github/workflows/all_governance_validation.yml",
     ".github/workflows/all_governance_validation.yml",
     "Makefile",
 ]

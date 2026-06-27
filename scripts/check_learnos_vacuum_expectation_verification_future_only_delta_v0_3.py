@@ -26,7 +26,7 @@ def main() -> int:
     verify = ROOT / "formal/KUOS/VerifyOS/VacuumExpectationCommitVerificationReceiptV0_3.lean"
     docs = ROOT / "docs/KUUOS_LEARNOS_VACUUM_EXPECTATION_VERIFICATION_FUTURE_ONLY_DELTA_v0_3.md"
     manifest_path = ROOT / "manifests/kuuos_learnos_vacuum_expectation_verification_future_only_delta_v0_3.json"
-    workflow = ROOT / ".github/workflows/learnos-vacuum-expectation-verification-future-only-v0-3.yml"
+    workflow = ROOT / ".github/workflows/evidence-cycle-os-validation.yml"
 
     for path in (formal_root, top_root, formal, verify, docs, manifest_path, workflow):
         require(path.is_file(), f"missing file: {path}")

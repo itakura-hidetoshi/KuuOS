@@ -12,7 +12,7 @@
     "documentation": "docs/KUUOS_MEMORYOS_QI_WORLD_BLOCKER_INTEGRATION_v0_35.md",
     "formal_module": "formal/KUOS/OpenHorizon/MemoryOSQiWorldBlockerIntegrationKernelV0_35.lean",
     "formal_root": "formal/KUOS.lean",
-    "workflow": ".github/workflows/memoryos-qi-world-blocker-integration-v0-35.yml"
+    "workflow": ".github/workflows/memoryos-qi-world-validation-matrix-v0-36.yml"
   },
   "matrix_artifacts": {
     "documentation": "docs/KUUOS_MEMORYOS_QI_WORLD_VALIDATION_MATRIX_v0_36.md",

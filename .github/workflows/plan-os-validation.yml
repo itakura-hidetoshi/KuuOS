@@ -5,22 +5,28 @@ on:
   push:
     paths:
       - 'docs/KUUOS_PLAN_OS_*.md'
+      - 'docs/KUUOS_PLANOS_*.md'
       - 'manifests/kuuos_plan_os_*.json'
-      - 'runtime/kuuos_plan_os_*.py'
-      - 'runtime/v0*_plan_os_*.py'
+      - 'manifests/kuuos_planos_*.json'
+      - 'runtime/*plan_os*.py'
+      - 'runtime/*planos*.py'
       - 'scripts/check_plan_os_*.py'
-      - 'scripts/run_plan_os_full_checks_v0_17.py'
+      - 'scripts/check_planos_*.py'
+      - 'scripts/run_plan_os_full_checks.py'
       - 'formal/KUOS/PlanOS/**'
       - 'formal/KUOS.lean'
       - '.github/workflows/plan-os-validation.yml'
   pull_request:
     paths:
       - 'docs/KUUOS_PLAN_OS_*.md'
+      - 'docs/KUUOS_PLANOS_*.md'
       - 'manifests/kuuos_plan_os_*.json'
-      - 'runtime/kuuos_plan_os_*.py'
-      - 'runtime/v0*_plan_os_*.py'
+      - 'manifests/kuuos_planos_*.json'
+      - 'runtime/*plan_os*.py'
+      - 'runtime/*planos*.py'
       - 'scripts/check_plan_os_*.py'
-      - 'scripts/run_plan_os_full_checks_v0_17.py'
+      - 'scripts/check_planos_*.py'
+      - 'scripts/run_plan_os_full_checks.py'
       - 'formal/KUOS/PlanOS/**'
       - 'formal/KUOS.lean'
       - '.github/workflows/plan-os-validation.yml'
@@ -41,9 +47,9 @@ jobs:
         with:
           python-version: '3.12'
       - name: Compile PlanOS validation surfaces
-        run: python -m compileall -q runtime scripts/run_plan_os_full_checks_v0_17.py scripts/check_plan_os_*.py
+        run: python -m compileall -q runtime scripts/run_plan_os_full_checks.py
       - name: Run PlanOS full checks
-        run: python scripts/run_plan_os_full_checks_v0_17.py
+        run: python scripts/run_plan_os_full_checks.py
       - name: Upload early-version logs
         if: always()
         uses: actions/upload-artifact@v4

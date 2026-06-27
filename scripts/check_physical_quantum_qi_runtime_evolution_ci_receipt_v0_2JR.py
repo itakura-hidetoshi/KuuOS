@@ -41,7 +41,7 @@ REQUIRED_TOKENS = [
     "The squash merge commit `69ad6b54d4c1bde480095fe56c3421aff4d14b2d` exists on `main`",
     "does not claim independent external audit acceptance",
     "`Makefile`",
-    "`.github/workflows/physical_quantum_qi_runtime_evolution_validation.yml`",
+    "`.github/workflows/all_governance_validation.yml`",
     "make physical-quantum-qi-runtime-evolution-checks",
     "scripts/validate_qi_bensho_treatment_route_candidate_v0_2J.py",
     "scripts/validate_qi_bensho_decisionos_clinician_handoff_v0_2K.py",

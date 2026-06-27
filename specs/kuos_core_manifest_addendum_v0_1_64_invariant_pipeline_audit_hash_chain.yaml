@@ -15,7 +15,7 @@ added_documents:
 updated_documents:
   - Makefile
   - scripts/run_core_governance_full_checks_v0_1.py
-  - .github/workflows/core_governance_validation.yml
+  - .github/workflows/all_governance_validation.yml
 
 audit_hash_chain:
   role: append_only_hash_chain_for_invariant_pipeline_audit_events

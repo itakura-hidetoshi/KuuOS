@@ -33,7 +33,7 @@ K
 Dedicated runtime audit validation:
 
 ```text
-.github/workflows/emptiness_two_truths_runtime_audit_validation.yml
+.github/workflows/all_governance_validation.yml
 make emptiness-two-truths-runtime-audit-checks
 ```
 

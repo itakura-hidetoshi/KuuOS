@@ -6,7 +6,7 @@
   "documentation": "docs/KU_WORLD_KUU_VACUUM_OS_HILBERT_COMPLETION_v0_49.md",
   "validator": "scripts/check_world_kuu_vacuum_os_hilbert_completion_v0_49.py",
   "full_check": "scripts/run_kuuos_runtime_full_check_v0_49.py",
-  "workflow": ".github/workflows/world-kuu-vacuum-os-hilbert-v0-49.yml",
+  "workflow": ".github/workflows/kuuos_runtime_full_check.yml",
   "boundaries": [
     "kuu_not_zero_vector",
     "world_not_vacuum_vector",

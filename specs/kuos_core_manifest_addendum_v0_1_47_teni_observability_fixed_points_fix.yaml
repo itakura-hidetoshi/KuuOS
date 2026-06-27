@@ -24,7 +24,7 @@ added_fixed_points:
 
 validation:
   command: python3 scripts/validate_teni_observability_v0_1.py
-  workflow: .github/workflows/teni_observability_validation.yml
+  workflow: .github/workflows/all_governance_validation.yml
 
 fixed_points:
   - teni_observability_validator_requirements_are_now_explicit

@@ -6,13 +6,17 @@ This file records the canonical GitHub Actions entry points and the consolidatio
 
 | Workflow | Responsibility |
 | --- | --- |
-| `all_governance_validation.yml` | Top-level governance, AI Yogacara, core governance, Physical Quantum Qi, and audit-chain checks |
+| `all_governance_validation.yml` | Top-level governance checks and workflow-consolidation integrity audit |
 | `kuuos_runtime_full_check.yml` | Cumulative KuuOS runtime and unit-test regression |
 | `lean-formal-validation.yml` | Aggregate strict Lean validation |
-| `decision-os-validation.yml` | DecisionOS v0.1-v0.3 matrix validation with per-version logs |
-| `evidence-cycle-os-validation.yml` | ActOS, ObserveOS, VerifyOS, and LearnOS matrix validation with per-component logs |
-| `plan-os-validation.yml` | PlanOS v0.1-v0.17 validation through `scripts/run_plan_os_full_checks_v0_17.py` |
-| `world-v053-v059-main-validation.yml` | Integrated WORLD validation for the current formal series |
+| `decision-os-validation.yml` | DecisionOS v0.1-v0.4 validation with per-version logs for v0.1-v0.3 |
+| `evidence-cycle-os-validation.yml` | ActOS v0.1-v0.4, ObserveOS v0.1-v0.4, VerifyOS v0.1-v0.3, and LearnOS v0.1-v0.3 |
+| `plan-os-validation.yml` | PlanOS v0.1-v0.23 through `scripts/run_plan_os_full_checks.py` |
+| `world-v053-v059-main-validation.yml` | Integrated WORLD v0.53-v0.59 strict validation |
+
+## Integrity guard
+
+`scripts/check_workflow_consolidation_integrity.py` verifies that canonical workflows exist, superseded files stay deleted, failure propagation remains enabled, and the migrated validation markers remain present.
 
 ## Retention rule
 
@@ -32,10 +36,13 @@ A separate workflow is retained only when it provides at least one capability no
 4. Preserve diagnostic logs when old workflows uploaded them.
 5. Prefer stable filenames without a terminal version number for cumulative workflows.
 6. Delete superseded workflow files immediately after their validation paths are migrated.
+7. Preserve both legacy underscore names and compact subsystem names in path filters while both conventions exist.
+8. Use fail-fast shell settings when a step contains more than one validation command.
 
 ## Naming convention
 
 - cumulative subsystem workflow: `<subsystem>-validation.yml`
 - repository-wide regression: `<scope>-full-check.yml`
+- cumulative runner: `run_<subsystem>_full_checks.py`
 - release or deployment workflow: retain the explicit release or deployment name
 - temporary diagnostic workflow: never commit permanently

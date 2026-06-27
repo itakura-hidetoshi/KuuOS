@@ -19,7 +19,7 @@ added_documents:
 
 updated_documents:
   - Makefile
-  - .github/workflows/core_governance_validation.yml
+  - .github/workflows/all_governance_validation.yml
 
 bodhisattva_ten_paramita_runtime:
   role: runtime_practice_layer_for_residual_suffering_after_harmony
@@ -53,7 +53,7 @@ bodhisattva_ten_paramita_runtime:
 validation:
   command: python3 scripts/validate_bodhisattva_ten_paramita_v0_1.py
   make_target: bodhisattva-checks
-  ci_workflow: .github/workflows/core_governance_validation.yml
+  ci_workflow: .github/workflows/all_governance_validation.yml
 
 fixed_points:
   - bodhisattva_path_is_non_abandonment_orientation_not_moral_superiority

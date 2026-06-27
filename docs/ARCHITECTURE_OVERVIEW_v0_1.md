@@ -104,7 +104,7 @@ This chain is part of the public validation surface through:
 
 ```text
 make qi-motion-chain-checks
-.github/workflows/qi_motion_chain_validation.yml
+.github/workflows/all_governance_validation.yml
 ```
 
 Qi motion candidates remain non-authoritative: they do not grant clinical, institutional, theorem, or execution authority.

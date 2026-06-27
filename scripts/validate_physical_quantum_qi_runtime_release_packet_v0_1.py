@@ -31,7 +31,7 @@ REQUIRED_MANIFEST_FILES = {
     "packets/physical_quantum_qi_runtime_release_closure_packet_v0_1.json",
     "packets/physical_quantum_qi_runtime_validated_baseline_packet_v0_1.json",
     "chain_indexes/physical_quantum_qi_runtime_chain_index_v0_1.json",
-    ".github/workflows/physical_quantum_qi_runtime_validation.yml",
+    ".github/workflows/all_governance_validation.yml",
     ".github/workflows/all_governance_validation.yml",
     "Makefile",
     "scripts/run_all_governance_full_checks_v0_1.py",
@@ -75,7 +75,7 @@ REQUIRED_CHAIN_PATHS = [
     "packets/physical_quantum_qi_runtime_finality_packet_v0_1.json",
     "packets/physical_quantum_qi_runtime_release_closure_packet_v0_1.json",
     "packets/physical_quantum_qi_runtime_validated_baseline_packet_v0_1.json",
-    ".github/workflows/physical_quantum_qi_runtime_validation.yml",
+    ".github/workflows/all_governance_validation.yml",
 ]
 
 REQUIRED_CLOSURE_FLAGS = {

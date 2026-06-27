@@ -22,8 +22,8 @@
     "examples/qi_bounded_tick_manual_runner_v0_1/README.md"
   ],
   "workflow_files": [
-    ".github/workflows/qi_bounded_tick_manual_runner_example_validation.yml",
-    ".github/workflows/qi_bounded_tick_executor_receipt_contract_validation.yml"
+    ".github/workflows/kuuos_runtime_full_check.yml",
+    ".github/workflows/kuuos_runtime_full_check.yml"
   ],
   "runtime_full_check_modules": [
     "tests.test_qi_process_tensor_bounded_tick_manual_runner_v0_1",

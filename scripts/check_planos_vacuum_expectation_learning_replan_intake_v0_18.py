@@ -28,7 +28,7 @@ def main() -> int:
     closed_loop = ROOT / "formal/KUOS/PlanOS/ClosedLoopReplanIntakeAdapterV0_4.lean"
     docs = ROOT / "docs/KUUOS_PLANOS_VACUUM_EXPECTATION_LEARNING_REPLAN_INTAKE_v0_18.md"
     manifest_path = ROOT / "manifests/kuuos_planos_vacuum_expectation_learning_replan_intake_v0_18.json"
-    workflow = ROOT / ".github/workflows/planos-vacuum-expectation-learning-replan-intake-v0-18.yml"
+    workflow = ROOT / ".github/workflows/plan-os-validation.yml"
 
     for path in (
         formal_root,

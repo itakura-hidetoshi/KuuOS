@@ -12,7 +12,7 @@
     "tests/test_cbf_membrane_gap_established_packet_v1_0.py"
   ],
   "validation_cases": "manifests/cbf_membrane_gap_kernel_validation_cases_v1_0.json",
-  "workflow": ".github/workflows/cbf_membrane_gap_kernel_validation.yml",
+  "workflow": ".github/workflows/kuuos_runtime_full_check.yml",
   "lean_surface": [
     "formal/KUOS/CBFMembrane/Defs.lean",
     "formal/KUOS/CBFMembrane/Soundness.lean"

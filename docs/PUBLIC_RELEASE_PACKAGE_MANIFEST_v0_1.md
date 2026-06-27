@@ -81,7 +81,7 @@ This document summarizes the intended public release package for the KuuOS publi
 - validation_cases/samvrti_qi_to_physical_motion_evidence_builder_cases_v0_1.json
 - validation_cases/physical_quantum_qi_dynamics_kernel_cases_v0_1.json
 - validation_cases/physical_quantum_qi_motion_pipeline_cases_v0_1.json
-- .github/workflows/qi_motion_chain_validation.yml
+- .github/workflows/all_governance_validation.yml
 
 ### Spec and Release Packet Surface
 

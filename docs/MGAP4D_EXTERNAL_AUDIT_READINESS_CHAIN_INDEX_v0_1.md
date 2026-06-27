@@ -17,7 +17,7 @@ This index connects the observed `scripts/check.sh` CI green evidence to a machi
    - `scripts/check_mgap4d_external_audit_readiness_chain_index_v0_1.py`
 
 5. Dedicated GitHub Actions ledger workflow
-   - `.github/workflows/mgap4d_external_audit_readiness_ci_ledger_v0_1.yml`
+   - `.github/workflows/all_governance_validation.yml`
 
 6. Dedicated ledger CI green record
    - Workflow run ID: `25973305278`

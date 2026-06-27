@@ -55,7 +55,7 @@
     {"order": 48, "role": "release_closure_packet", "path": "packets/physical_quantum_qi_deepening_release_closure_packet_v0_2.json"},
     {"order": 49, "role": "validated_baseline_packet", "path": "packets/physical_quantum_qi_deepening_validated_baseline_packet_v0_2.json"},
     {"order": 50, "role": "baseline_established_final_packet", "path": "packets/physical_quantum_qi_deepening_baseline_established_final_packet_v0_2.json"},
-    {"order": 51, "role": "dedicated_ci_workflow", "path": ".github/workflows/physical_quantum_qi_deepening_validation.yml"},
+    {"order": 51, "role": "dedicated_ci_workflow", "path": ".github/workflows/all_governance_validation.yml"},
     {"order": 52, "role": "qi_process_tensor_release_chain_validator", "path": "scripts/validate_qi_process_tensor_release_chain_v0_2FG.py"},
     {"order": 53, "role": "qi_process_tensor_release_chain_docs", "path": "docs/KUUOS_QI_PROCESS_TENSOR_RELEASE_CHAIN_v0_2FG.md"},
     {"order": 54, "role": "qi_process_tensor_release_chain_docs_validator", "path": "scripts/validate_qi_process_tensor_release_chain_docs_v0_2FG.py"},

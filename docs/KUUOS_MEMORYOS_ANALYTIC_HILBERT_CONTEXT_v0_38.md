@@ -236,7 +236,7 @@ tests/test_memoryos_analytic_hilbert_context_v0_38.py
 scripts/check_memoryos_analytic_hilbert_context_v0_38.py
 manifests/kuuos_memoryos_analytic_hilbert_context_v0_38.json
 formal/KUOS/OpenHorizon/MemoryOSAnalyticHilbertContextKernelV0_38.lean
-.github/workflows/memoryos-analytic-hilbert-context-v0-38.yml
+.github/workflows/memoryos-world-observe-intake-v0-39.yml
 ```
 
 ## Validation

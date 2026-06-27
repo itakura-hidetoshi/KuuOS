@@ -46,10 +46,10 @@ All Governance
 ## 4. GitHub Actions
 
 ```text
-.github/workflows/teni_observability_validation.yml
-.github/workflows/core_governance_validation.yml
 .github/workflows/all_governance_validation.yml
-.github/workflows/gpt_github_integration_validation.yml
+.github/workflows/all_governance_validation.yml
+.github/workflows/all_governance_validation.yml
+.github/workflows/all_governance_validation.yml
 ```
 
 All workflows use Python 3.12 and stdlib-only validators.

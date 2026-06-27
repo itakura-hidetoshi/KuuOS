@@ -25,7 +25,7 @@ def main() -> int:
     aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KUUOS_OBSERVEOS_WORLD_HOST_EFFECT_OBSERVATION_v0_4.md"
     manifest_path = ROOT / "manifests/kuuos_observeos_world_host_effect_observation_v0_4.json"
-    workflow = ROOT / ".github/workflows/observeos-world-host-effect-v0-4.yml"
+    workflow = ROOT / ".github/workflows/evidence-cycle-os-validation.yml"
 
     for path in (formal, formal_root, aggregate_root, docs, manifest_path, workflow):
         require(path.is_file(), f"missing file: {path}")

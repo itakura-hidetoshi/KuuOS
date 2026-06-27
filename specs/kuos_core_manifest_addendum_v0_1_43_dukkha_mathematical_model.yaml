@@ -19,7 +19,7 @@ added_documents:
 
 updated_documents:
   - Makefile
-  - .github/workflows/core_governance_validation.yml
+  - .github/workflows/all_governance_validation.yml
 
 dukkha_mathematical_model:
   role: mathematical_observation_and_repair_routing_surface_for_suffering
@@ -53,7 +53,7 @@ dukkha_mathematical_model:
 validation:
   command: python3 scripts/validate_dukkha_mathematical_model_v0_1.py
   make_target: dukkha-checks
-  ci_workflow: .github/workflows/core_governance_validation.yml
+  ci_workflow: .github/workflows/all_governance_validation.yml
 
 fixed_points:
   - dukkha_must_remain_visible
