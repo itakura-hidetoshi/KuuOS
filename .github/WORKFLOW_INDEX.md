@@ -12,11 +12,12 @@ This file records the canonical GitHub Actions entry points and the consolidatio
 | `decision-os-validation.yml` | DecisionOS v0.1-v0.4 validation with per-version logs for v0.1-v0.3 |
 | `evidence-cycle-os-validation.yml` | ActOS v0.1-v0.4, ObserveOS v0.1-v0.4, VerifyOS v0.1-v0.3, and LearnOS v0.1-v0.3 |
 | `plan-os-validation.yml` | PlanOS v0.1-v0.23 through `scripts/run_plan_os_full_checks.py` |
+| `kuuos_os_bridge_validation.yml` | Foundational and geometric OS bridge chain from Two Truths through selector-boundary stability |
 | `world-v053-v059-main-validation.yml` | Integrated WORLD v0.53-v0.59 strict validation |
 
 ## Integrity guard
 
-`scripts/check_workflow_consolidation_integrity.py` verifies that canonical workflows exist, superseded files stay deleted, failure propagation remains enabled, and the migrated validation markers remain present.
+`scripts/check_workflow_consolidation_integrity.py` verifies that canonical workflows exist, superseded files stay deleted, failure propagation remains enabled, and all repository workflow references resolve to existing files.
 
 ## Retention rule
 
@@ -38,6 +39,7 @@ A separate workflow is retained only when it provides at least one capability no
 6. Delete superseded workflow files immediately after their validation paths are migrated.
 7. Preserve both legacy underscore names and compact subsystem names in path filters while both conventions exist.
 8. Use fail-fast shell settings when a step contains more than one validation command.
+9. Register every consolidated workflow and its deleted predecessors in the integrity guard.
 
 ## Naming convention
 
