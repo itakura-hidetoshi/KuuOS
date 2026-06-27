@@ -48,14 +48,8 @@ jobs:
         run: git diff --exit-code -- lake-manifest.json
       - name: Fetch Mathlib cache
         run: lake exe cache get
-      - name: Build aggregate formal root
+      - name: Build aggregate and v0.69 strict roots
         run: >-
           lake -KleanArgs=-DwarningAsError=true
           -KleanArgs=-DsorryAsError=true
-          build KuuOSFormal
-      - name: Check v0.69 strict formal root
-        run: >-
-          lake env lean
-          -DwarningAsError=true
-          -DsorryAsError=true
-          formal/KuuOSFormalV0_69.lean
+          build KuuOSFormal KuuOSFormalV0_69
