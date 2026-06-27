@@ -41,10 +41,12 @@ theorem historical_connection_satisfies_pathwise_leibniz
     (history : H) :
     connection.apply (a • current) (a • history) =
       δ a • current + a • connection.apply current history := by
-  rw [HistoricalConnection.apply]
+  change
+    connection.base (a • current) + connection.memoryKernel (a • history) =
+      δ a • current +
+        a • (connection.base current + connection.memoryKernel history)
   rw [connection.base.leibniz a current]
-  rw [connection.memoryKernel.map_smul a history]
-  rw [HistoricalConnection.apply, smul_add]
+  rw [connection.memoryKernel.map_smul a history, smul_add]
   abel
 
 
