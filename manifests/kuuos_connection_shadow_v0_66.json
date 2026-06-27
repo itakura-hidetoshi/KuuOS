@@ -4,5 +4,6 @@
   "runtime_modules": [
     "runtime/kuuos_connection_shadow_types_v0_66.py",
     "runtime/kuuos_connection_shadow_v0_66.py"
-  ]
+  ],
+  "validator": "scripts/check_kuuos_shadow_v066.py"
 }
