@@ -1,0 +1,37 @@
+{
+  "manifest_version": "kuuos_connection_evaluation_v0_64",
+  "predecessor": "kuuos_connection_candidate_review_v0_63",
+  "status": "finite_snapshot_connection_evaluation",
+  "runtime_modules": [
+    "runtime/kuuos_connection_evaluation_types_v0_64.py",
+    "runtime/kuuos_connection_case_evaluation_v0_64.py"
+  ],
+  "validator": "scripts/check_kuuos_evaluation_v064.py",
+  "formal_module": "formal/KUOS/WORLD/KuuOSConnectionEvaluationCoreV0_64.lean",
+  "boundaries": {
+    "finite_cases_required": true,
+    "case_limit_required": true,
+    "exact_admission_receipt_binding": true,
+    "exact_source_bundle_binding": true,
+    "exact_proposal_binding": true,
+    "exact_candidate_binding": true,
+    "exact_rollback_binding": true,
+    "same_gauge_group_required": true,
+    "same_connection_domain_required": true,
+    "fields_preserved": true,
+    "source_bindings_preserved": true,
+    "curvature_nonincrease_required": true,
+    "memory_holonomy_preserved": true,
+    "strict_improvement_configurable": true,
+    "staging_review_only": true,
+    "production_apply_ready": false,
+    "state_write_performed": false,
+    "authority_widened": false
+  },
+  "non_claims": [
+    "no production deployment",
+    "no live state mutation",
+    "no proof that finite cases cover all future contexts",
+    "no replacement of rollback target"
+  ]
+}
