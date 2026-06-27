@@ -1,0 +1,5 @@
+import KUOS.WORLD.KuuOSConnectionShadowV0_66
+
+namespace KUOS.WORLD.KuuOSFiniteGaugeValidationV0_67
+
+end KUOS.WORLD.KuuOSFiniteGaugeValidationV0_67
