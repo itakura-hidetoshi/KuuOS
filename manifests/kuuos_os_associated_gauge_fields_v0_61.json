@@ -1,0 +1,79 @@
+{
+  "manifest_version": "kuuos_os_associated_gauge_fields_v0_61",
+  "predecessors": [
+    "kuuos_gauge_field_self_organization_v0_60",
+    "kuuos_observe_os_effect_grounded_observation_v0_1",
+    "kuuos_verify_os_evidence_bound_verification_v0_1",
+    "kuuos_memoryos_predictive_shielded_memory_v0_37"
+  ],
+  "status": "read_only_os_associated_field_geometry",
+  "runtime_modules": [
+    "runtime/kuuos_os_gauge_field_types_v0_61.py",
+    "runtime/kuuos_os_associated_fields_v0_61.py",
+    "runtime/kuuos_os_curvature_holonomy_v0_61.py"
+  ],
+  "formal_module": "formal/KUOS/WORLD/KuuOSOSAssociatedGaugeFieldsV0_61.lean",
+  "formal_root": "formal/KuuOSFormalV0_61.lean",
+  "aggregate_formal_root": "formal/KuuOSFormal.lean",
+  "documentation": "docs/KUUOS_OS_ASSOCIATED_GAUGE_FIELDS_v0_61.md",
+  "validator": "scripts/check_kuuos_os_associated_gauge_fields_v0_61.py",
+  "tests": [
+    "tests/test_kuuos_os_associated_fields_v0_61.py",
+    "tests/test_kuuos_os_curvature_holonomy_v0_61.py"
+  ],
+  "fiber_coordinates": {
+    "protected": [
+      "authority",
+      "audit",
+      "provenance",
+      "rollback"
+    ],
+    "epistemic": [
+      "evidence_support",
+      "uncertainty",
+      "contradiction"
+    ],
+    "verification": [
+      "criterion_coverage",
+      "verification_debt"
+    ],
+    "memory": [
+      "history_depth",
+      "residue_load",
+      "predictive_uncertainty"
+    ]
+  },
+  "geometry": [
+    "observe_to_verify_epistemic_curvature",
+    "verify_to_memory_verification_curvature",
+    "memory_to_observe_return_curvature",
+    "observe_verify_memory_closed_holonomy",
+    "wilson_class_memory_observable"
+  ],
+  "boundaries": {
+    "source_os_validators_required": true,
+    "committed_observe_state_required": true,
+    "committed_verify_state_required": true,
+    "valid_memory_capsule_required": true,
+    "verify_observe_exact_binding_required": true,
+    "memory_verify_exact_source_binding_required": true,
+    "projection_is_read_only": true,
+    "source_digest_preserved": true,
+    "channel_decomposition_fixed": true,
+    "cross_channel_gauge_transform_forbidden": true,
+    "verification_is_not_truth": true,
+    "memory_projection_does_not_overwrite": true,
+    "curvature_channels_not_collapsed": true,
+    "memory_holonomy_not_erased": true,
+    "production_mutation_not_performed": true,
+    "formal_compilation_is_not_external_acceptance": true
+  },
+  "proof_status": {
+    "lean_direct": "covariant residual transformation, gauge-invariant channel curvature, split Observe-Verify-Memory curvature, triangle holonomy conjugation, and Wilson-class memory holonomy invariance",
+    "runtime_direct": "validated projection of committed ObserveOS and VerifyOS states and a valid MemoryOS capsule, channel-preserving finite gauge group, three curvature channels, and memory holonomy receipts",
+    "continuous_bundle_connection": "not established",
+    "learned_connection_update": "not authorized",
+    "production_self_modification": "not authorized",
+    "external_acceptance": "not established"
+  }
+}
