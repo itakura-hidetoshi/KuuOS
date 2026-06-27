@@ -26,7 +26,7 @@ def main() -> int:
     source = ROOT / "formal/KUOS/PlanOS/VacuumExpectationHysteresisConstraintDecisionHandoffV0_20.lean"
     docs = ROOT / "docs/KUUOS_DECISIONOS_ADMISSIBLE_CANDIDATE_SELECTION_v0_4.md"
     manifest_path = ROOT / "manifests/kuuos_decisionos_admissible_candidate_selection_v0_4.json"
-    workflow = ROOT / ".github/workflows/decisionos-admissible-candidate-selection-v0-4.yml"
+    workflow = ROOT / ".github/workflows/decision-os-validation.yml"
 
     for path in (formal_root, aggregate_root, formal, source, docs, manifest_path, workflow):
         require(path.is_file(), f"missing file: {path}")
@@ -72,6 +72,13 @@ def main() -> int:
     require_tokens(
         ROOT / "scripts/run_kuuos_runtime_full_check_v0_51.py",
         ("check_decisionos_v04",),
+    )
+    require_tokens(
+        workflow,
+        (
+            "check_decisionos_admissible_candidate_selection_v0_4.py",
+            "DecisionOS Validation",
+        ),
     )
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
