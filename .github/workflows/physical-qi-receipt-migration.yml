@@ -1,0 +1,36 @@
+name: Physical Qi Receipt Migration
+
+on:
+  push:
+    branches:
+      - workflow-repair-audit
+    paths:
+      - 'scripts/apply_physical_qi_receipt_workflow_migration.py'
+      - '.github/workflows/physical-qi-receipt-migration.yml'
+
+permissions:
+  contents: write
+
+jobs:
+  migrate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: workflow-repair-audit
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 scripts/apply_physical_qi_receipt_workflow_migration.py
+      - name: Commit migration
+        shell: bash
+        run: |
+          set -euo pipefail
+          if git diff --quiet -- docs; then
+            exit 0
+          fi
+          git config user.name 'github-actions[bot]'
+          git config user.email '41898282+github-actions[bot]@users.noreply.github.com'
+          git add docs
+          git commit -m 'Repair Physical Quantum Qi receipt workflow reference'
+          git push origin HEAD:workflow-repair-audit
