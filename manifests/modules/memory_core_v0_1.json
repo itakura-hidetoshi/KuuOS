@@ -1,0 +1,41 @@
+{
+  "id": "kuuos.memory.core",
+  "version": "0.1.0",
+  "capability": "memory.retrieval",
+  "status": "active",
+  "authority_surface": "read_only",
+  "provides": [
+    "memory.retrieval",
+    "memory.lineage"
+  ],
+  "requires": [
+    "observation.candidate",
+    "verification.disposition",
+    "kernel.ledger.append",
+    "kernel.provenance.resolve"
+  ],
+  "owns": [
+    "memory_lineage"
+  ],
+  "must_not_own": [
+    "execution_license",
+    "effect_execution",
+    "verification_verdict",
+    "world_truth",
+    "state_mutation",
+    "present_cycle_policy_activation"
+  ],
+  "subscribes": [
+    "observation.receipt.committed",
+    "verification.receipt.committed"
+  ],
+  "emits": [
+    "memory.candidate.created",
+    "memory.retrieval.prepared"
+  ],
+  "implementation": "legacy:runtime.kuuos_memoryos_world_observe_intake_v0_39",
+  "validator": "scripts/check_modular_evolution_mesh_v0_1.py",
+  "rollback": "legacy:runtime.kuuos_memoryos_world_observe_intake_v0_39",
+  "documentation": "docs/KUUOS_MODULAR_EVOLUTION_MESH_v0_1.md",
+  "formal_module": "KUOS.Modular.CapabilityContractV0_1"
+}
