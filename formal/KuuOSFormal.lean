@@ -24,3 +24,5 @@ import KUOS.WORLD.KuuOSOSAssociatedGaugeFieldsV0_61
 import KUOS.WORLD.KuuOSConnectionCandidateCoreV0_62
 import KUOS.WORLD.KuuOSConnectionCandidateGaugeInvarianceV0_62
 import KUOS.WORLD.KuuOSConnectionReviewCoreV0_63
+import KUOS.WORLD.KuuOSConnectionEvaluationCoreV0_64
+import KUOS.WORLD.KuuOSConnectionStagingV0_65
