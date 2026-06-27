@@ -8,6 +8,9 @@ import re
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 SELF = pathlib.Path(__file__).resolve()
 WORKFLOW_PATTERN = re.compile(r"[\"'](\.github/workflows/[^\"']+\.ya?ml)[\"']")
+CONSTRUCTED_WORKFLOW_PATTERN = re.compile(
+    r"ROOT\s*/\s*[\"']\.github[\"']\s*/\s*[\"']workflows[\"']\s*/\s*[\"']([^\"']+\.ya?ml)[\"']"
+)
 
 REQUIRED_FILES = [
     ".github/workflows/decision-os-validation.yml",
@@ -75,6 +78,15 @@ def workflow_values(value: object) -> list[str]:
     return found
 
 
+def script_workflow_references(text: str) -> set[str]:
+    references = set(WORKFLOW_PATTERN.findall(text))
+    references.update(
+        f".github/workflows/{name}"
+        for name in CONSTRUCTED_WORKFLOW_PATTERN.findall(text)
+    )
+    return references
+
+
 def check_embedded_workflow_references(errors: list[str]) -> None:
     for manifest_path in sorted((ROOT / "manifests").rglob("*.json")):
         try:
@@ -92,7 +104,7 @@ def check_embedded_workflow_references(errors: list[str]) -> None:
         if script_path.resolve() == SELF:
             continue
         text = script_path.read_text(encoding="utf-8")
-        for workflow in WORKFLOW_PATTERN.findall(text):
+        for workflow in sorted(script_workflow_references(text)):
             if not (ROOT / workflow).is_file():
                 errors.append(
                     f"missing validator workflow reference: {script_path.relative_to(ROOT)} -> {workflow}"
