@@ -1,0 +1,75 @@
+name: DecisionOS v0.1-v0.3 Validation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'docs/KUUOS_DECISION_OS_*.md'
+      - 'manifests/kuuos_decision_os_*.json'
+      - 'runtime/kuuos_decision_os_*.py'
+      - 'runtime/v0*_decision_os_*.py'
+      - 'scripts/check_decision_os_*.py'
+      - 'formal/KUOS/DecisionOS/**'
+      - 'formal/KUOS.lean'
+      - '.github/workflows/decision-os-validation.yml'
+  pull_request:
+    paths:
+      - 'docs/KUUOS_DECISION_OS_*.md'
+      - 'manifests/kuuos_decision_os_*.json'
+      - 'runtime/kuuos_decision_os_*.py'
+      - 'runtime/v0*_decision_os_*.py'
+      - 'scripts/check_decision_os_*.py'
+      - 'formal/KUOS/DecisionOS/**'
+      - 'formal/KUOS.lean'
+      - '.github/workflows/decision-os-validation.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: decision-os-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    strategy:
+      fail-fast: false
+      matrix:
+        include:
+          - id: decision-os-v01
+            label: DecisionOS v0.1 relational deliberation
+            module: runtime.v01_decision_os_relational_deliberation
+            check: scripts/check_decision_os_relational_deliberation_v0_1.py
+            log: decision-os-v01.log
+          - id: decision-os-v02
+            label: DecisionOS v0.2 plural harmony appeal
+            module: runtime.v02_decision_os_plural_harmony_appeal
+            check: scripts/check_decision_os_plural_harmony_appeal_v0_2.py
+            log: decision-os-v02.log
+          - id: decision-os-wa-v03
+            label: DecisionOS Wa v0.3 relational harmony
+            module: runtime.v03_decision_os_wa_relational_harmony
+            check: scripts/check_decision_os_wa_relational_harmony_v0_3.py
+            log: decision-os-wa-v03.log
+    name: ${{ matrix.label }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile validation surfaces
+        run: python -m compileall -q runtime "${{ matrix.check }}"
+      - name: Run runtime and check
+        shell: bash
+        run: |
+          set -o pipefail
+          python -m "${{ matrix.module }}" > "${{ matrix.log }}" 2>&1
+          python "${{ matrix.check }}" >> "${{ matrix.log }}" 2>&1
+      - name: Upload validation log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: ${{ matrix.id }}-log
+          path: ${{ matrix.log }}
+          if-no-files-found: warn
