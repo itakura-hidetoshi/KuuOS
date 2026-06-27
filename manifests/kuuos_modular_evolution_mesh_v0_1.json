@@ -12,6 +12,7 @@
     "manifests/modules/memory_core_v0_1.json"
   ],
   "validator": "scripts/check_modular_evolution_mesh_v0_1.py",
+  "full_check": "scripts/run_kuuos_runtime_full_check_v0_55.py",
   "tests": "tests/test_modular_evolution_mesh_v0_1.py",
   "documentation": "docs/KUUOS_MODULAR_EVOLUTION_MESH_v0_1.md",
   "formal_module": "formal/KUOS/Modular/CapabilityContractV0_1.lean",
