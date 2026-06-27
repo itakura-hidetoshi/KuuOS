@@ -88,7 +88,7 @@ def seal_external_review_attestation(
         allowed_scopes=exact_review_scope(),
         valid_from_epoch=valid_from_epoch,
         valid_through_epoch=valid_through_epoch,
-        production_apply_allowed=False,
+        production_apply_allowed=decision == "APPROVE_EVIDENCE",
         live_effect_allowed=False,
         state_write_allowed=False,
         authority_widening_allowed=False,
