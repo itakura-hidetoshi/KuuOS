@@ -68,10 +68,10 @@ def addLinearDeformation
     (alpha : M →ₗ[A] M) : DirectionalConnection (M := M) δ where
   toFun x := nabla x + alpha x
   map_add x y := by
-    rw [nabla.map_add x y, map_add]
+    rw [nabla.map_add x y, alpha.map_add x y]
     abel
   leibniz a x := by
-    rw [nabla.leibniz a x, map_smul, smul_add]
+    rw [nabla.leibniz a x, alpha.map_smul a x, smul_add]
     abel
 
 theorem add_module_linear_deformation_preserves_leibniz
