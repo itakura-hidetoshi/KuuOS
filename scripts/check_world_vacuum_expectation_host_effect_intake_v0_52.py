@@ -25,7 +25,7 @@ def main() -> int:
     aggregate_root = ROOT / "formal/KuuOSFormal.lean"
     docs = ROOT / "docs/KU_WORLD_HOST_EFFECT_INTAKE_v0_52.md"
     manifest_path = ROOT / "manifests/world_vacuum_expectation_host_effect_intake_v0_52.json"
-    workflow = ROOT / ".github/workflows/world-host-effect-intake-v0-52.yml"
+    workflow = ROOT / ".github/workflows/kuuos_runtime_full_check.yml"
 
     for path in (formal, formal_root, aggregate_root, docs, manifest_path, workflow):
         require(path.is_file(), f"missing file: {path}")
@@ -71,7 +71,7 @@ def main() -> int:
         ("check_world_v052",),
     )
     require_tokens(
-        ROOT / ".github/workflows/kuuos_runtime_full_check.yml",
+        workflow,
         ("Run cumulative runtime full check", "run_kuuos_runtime_full_check_v0_55.py"),
     )
 
