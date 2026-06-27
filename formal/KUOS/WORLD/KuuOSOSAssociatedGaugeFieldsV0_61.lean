@@ -36,6 +36,8 @@ theorem gaugeTransform_covariantResidual
       h y • covariantResidual A φ x y := by
   simp only [covariantResidual]
   rw [gaugeTransform_transport_covariant]
+  change h y • (A x y • φ x) - h y • φ y =
+    h y • (A x y • φ x - φ y)
   exact (smul_sub (h y) (A x y • φ x) (φ y)).symm
 
 def IsGaugeInvariantChannel (E : V → R) : Prop :=
@@ -88,6 +90,7 @@ theorem splitOSCurvature_gauge_invariant
         xObserve xVerify xMemory =
       splitOSCurvature channels A observe verify memory
         xObserve xVerify xMemory := by
+  simp only [splitOSCurvature]
   apply Prod.ext
   · exact channelCurvature_gauge_invariant
       channels.epistemic hchannels.epistemic h A observe xObserve xVerify
