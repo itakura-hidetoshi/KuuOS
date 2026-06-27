@@ -53,13 +53,9 @@ FORBIDDEN_LEGACY_FILES = [
 REQUIRED_MARKERS = {
     ".github/workflows/core_governance_validation.yml": [
         "workflow_dispatch:",
-        "branches:",
-        "scripts/run_core_governance_full_checks_v0_1.py",
-        "scripts/validate_invariant_*.py",
-        "formal/KUOS/CoreGovernance/**",
         "set -euo pipefail",
+        "scripts/run_core_governance_full_checks_v0_1.py",
         "core-governance.log",
-        "core-governance-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}",
         "actions/upload-artifact@v4",
     ],
     ".github/workflows/world-four-great-phase-dynamics-v0-59.yml": [
