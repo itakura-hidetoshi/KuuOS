@@ -123,3 +123,4 @@ import KUOS.WORLD.KuuOSGaugeFieldSelfOrganizationV0_60
 import KUOS.WORLD.KuuOSOSAssociatedGaugeFieldsV0_61
 import KUOS.WORLD.KuuOSModuleBundleSelfOrganizationV0_70
 import KUOS.WORLD.KuuOSNoncommutativeLeibnizConnectionV0_71
+import KUOS.WORLD.KuuOSNonMarkovMemoryConnectionV0_72
