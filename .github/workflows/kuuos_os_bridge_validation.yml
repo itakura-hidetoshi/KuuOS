@@ -1,0 +1,73 @@
+name: KuuOS OS Bridge Validation
+
+on:
+  workflow_dispatch:
+  push:
+    paths:
+      - 'specs/kuuos_two_truths_os_bridge_v0_1.json'
+      - 'specs/kuuos_dependent_origination_os_bridge_v0_1.json'
+      - 'specs/kuuos_indranet_os_dependency_bridge_v0_1.json'
+      - 'specs/kuuos_gauge_os_transport_bridge_v0_1.json'
+      - 'specs/kuuos_sheaf_os_gluing_bridge_v0_1.json'
+      - 'specs/kuuos_cech_obstruction_os_bridge_v0_1.json'
+      - 'specs/kuuos_descent_os_bridge_v0_1.json'
+      - 'specs/kuuos_hyperdescent_os_bridge_v0_1.json'
+      - 'specs/kuuos_infinity_topos_os_bridge_v0_1.json'
+      - 'specs/kuuos_cohesive_os_bridge_v0_1.json'
+      - 'specs/kuuos_differential_cohesive_os_bridge_v0_1.json'
+      - 'specs/kuuos_jet_stability_os_bridge_v0_1.json'
+      - 'specs/kuuos_variational_stability_os_bridge_v0_1.json'
+      - 'specs/kuuos_policy_barrier_os_bridge_v0_1.json'
+      - 'specs/kuuos_selector_boundary_os_bridge_v0_1.json'
+      - 'specs/kuuos_os_autonomy_kernel_v0_1.json'
+      - 'specs/kuuos_core_autonomy_contract_v0_1.json'
+      - 'scripts/validate_kuuos_*_os_bridge_v0_1*.py'
+      - 'scripts/run_kuuos_os_bridge_checks.py'
+      - 'scripts/run_kuuos_core_autonomy_v0_1.py'
+      - 'scripts/validate_kuuos_core_autonomy_contract_v0_1.py'
+      - '.github/workflows/kuuos_os_bridge_validation.yml'
+  pull_request:
+    paths:
+      - 'specs/kuuos_two_truths_os_bridge_v0_1.json'
+      - 'specs/kuuos_dependent_origination_os_bridge_v0_1.json'
+      - 'specs/kuuos_indranet_os_dependency_bridge_v0_1.json'
+      - 'specs/kuuos_gauge_os_transport_bridge_v0_1.json'
+      - 'specs/kuuos_sheaf_os_gluing_bridge_v0_1.json'
+      - 'specs/kuuos_cech_obstruction_os_bridge_v0_1.json'
+      - 'specs/kuuos_descent_os_bridge_v0_1.json'
+      - 'specs/kuuos_hyperdescent_os_bridge_v0_1.json'
+      - 'specs/kuuos_infinity_topos_os_bridge_v0_1.json'
+      - 'specs/kuuos_cohesive_os_bridge_v0_1.json'
+      - 'specs/kuuos_differential_cohesive_os_bridge_v0_1.json'
+      - 'specs/kuuos_jet_stability_os_bridge_v0_1.json'
+      - 'specs/kuuos_variational_stability_os_bridge_v0_1.json'
+      - 'specs/kuuos_policy_barrier_os_bridge_v0_1.json'
+      - 'specs/kuuos_selector_boundary_os_bridge_v0_1.json'
+      - 'specs/kuuos_os_autonomy_kernel_v0_1.json'
+      - 'specs/kuuos_core_autonomy_contract_v0_1.json'
+      - 'scripts/validate_kuuos_*_os_bridge_v0_1*.py'
+      - 'scripts/run_kuuos_os_bridge_checks.py'
+      - 'scripts/run_kuuos_core_autonomy_v0_1.py'
+      - 'scripts/validate_kuuos_core_autonomy_contract_v0_1.py'
+      - '.github/workflows/kuuos_os_bridge_validation.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-os-bridge-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile bridge validators
+        run: python -m compileall -q scripts/run_kuuos_os_bridge_checks.py scripts/validate_kuuos_*_os_bridge_v0_1*.py
+      - name: Run bridge validation chain
+        run: python scripts/run_kuuos_os_bridge_checks.py
