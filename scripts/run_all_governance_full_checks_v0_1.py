@@ -13,6 +13,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/run_ai_yogacara_full_checks_v0_1.py"],
     [sys.executable, "scripts/run_core_governance_full_checks_v0_1.py"],
+    [sys.executable, "scripts/check_adaptive_agent_reference_architecture_research_v1_0.py"],
     [sys.executable, "scripts/validate_gpt_github_integration_v0_1.py"],
     [sys.executable, "scripts/run_emptiness_do_two_truths_runtime_checks_v0_1.py"],
     [sys.executable, "scripts/check_emptiness_do_two_truths_runtime_audit_chain_v0_1.py"],
