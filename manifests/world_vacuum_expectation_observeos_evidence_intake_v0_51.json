@@ -6,7 +6,7 @@
   "documentation": "docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVEOS_EVIDENCE_INTAKE_v0_51.md",
   "validator": "scripts/check_world_vacuum_expectation_observeos_evidence_intake_v0_51.py",
   "full_check": "scripts/run_kuuos_runtime_full_check_v0_51.py",
-  "workflow": ".github/workflows/world-vacuum-expectation-observeos-intake-v0-51.yml",
+  "workflow": ".github/workflows/kuuos_runtime_full_check.yml",
   "derived_results": [
     "envelope_candidate_value_exact",
     "envelope_candidate_source_exact",
