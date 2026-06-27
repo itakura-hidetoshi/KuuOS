@@ -6,9 +6,33 @@ on:
     branches:
       - main
     paths:
+      - 'scripts/check_world_four_great_phase_dynamics_v0_59.py'
+      - 'manifests/world_four_great_phase_dynamics_v0_59.json'
+      - 'docs/KU_WORLD_FOUR_GREAT_PHASE_DYNAMICS_v0_59.md'
+      - 'formal/KUOS/WORLD/**'
+      - 'formal/KuuOSFourGreatCoreV0_59.lean'
+      - 'formal/KuuOSFormalV0_59.lean'
+      - 'formal/KuuOSFormal.lean'
+      - 'formal/KUOS.lean'
+      - 'lakefile.toml'
+      - 'lake-manifest.json'
+      - 'lean-toolchain'
+      - '.github/workflows/world-v053-v059-main-validation.yml'
       - '.github/workflows/world-four-great-phase-dynamics-v0-59.yml'
   pull_request:
     paths:
+      - 'scripts/check_world_four_great_phase_dynamics_v0_59.py'
+      - 'manifests/world_four_great_phase_dynamics_v0_59.json'
+      - 'docs/KU_WORLD_FOUR_GREAT_PHASE_DYNAMICS_v0_59.md'
+      - 'formal/KUOS/WORLD/**'
+      - 'formal/KuuOSFourGreatCoreV0_59.lean'
+      - 'formal/KuuOSFormalV0_59.lean'
+      - 'formal/KuuOSFormal.lean'
+      - 'formal/KUOS.lean'
+      - 'lakefile.toml'
+      - 'lake-manifest.json'
+      - 'lean-toolchain'
+      - '.github/workflows/world-v053-v059-main-validation.yml'
       - '.github/workflows/world-four-great-phase-dynamics-v0-59.yml'
 
 permissions:
@@ -45,6 +69,15 @@ jobs:
           set -euo pipefail
           python3 -m compileall -q scripts/check_world_four_great_phase_dynamics_v0_59.py \
             2>&1 | tee artifacts/diagnostics/python-compile.log
+
+      - name: Validate canonical manifest JSON
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m json.tool manifests/world_four_great_phase_dynamics_v0_59.json \
+            > /dev/null
+          echo 'PASS: WORLD v0.59 manifest JSON' \
+            | tee artifacts/diagnostics/manifest-validation.log
 
       - name: Run v0.59 static validation
         shell: bash
@@ -98,8 +131,15 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          grep -Fq 'import KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59' formal/KuuOSFormal.lean
-          grep -Fq 'import KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59' formal/KUOS.lean
+          {
+            grep -Fq \
+              'import KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59' \
+              formal/KuuOSFormal.lean
+            grep -Fq \
+              'import KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59' \
+              formal/KUOS.lean
+            echo 'PASS: WORLD v0.59 aggregate formal registration'
+          } 2>&1 | tee artifacts/diagnostics/formal-registration.log
 
       - name: Record run context
         if: always()
