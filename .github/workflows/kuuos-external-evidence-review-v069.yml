@@ -22,12 +22,17 @@ jobs:
       - name: Compile runtime
         run: >-
           python3 -m compileall -q
-          runtime/kuuos_external_evidence_review_types_v0_69.py
-          runtime/kuuos_external_evidence_review_request_v0_69.py
-          runtime/kuuos_external_evidence_review_v0_69.py
-          scripts/check_kuuos_external_evidence_review_v069.py
+          runtime/kuuos_connection_evidence_review_types_v0_69.py
+          runtime/kuuos_connection_evidence_review_attestation_v0_69.py
+          runtime/kuuos_connection_evidence_review_record_v0_69.py
+          runtime/kuuos_connection_external_review_core_a_v0_69.py
+          runtime/kuuos_connection_external_review_core_b_v0_69.py
+          runtime/kuuos_connection_external_review_v0_69.py
+          runtime/kuuos_connection_evidence_review_v0_69.py
+          runtime/kuuos_connection_evidence_review_validation_v0_69.py
+          scripts/check_kuuos_evidence_review_v069.py
       - name: Validate external evidence review
-        run: PYTHONPATH=. python3 scripts/check_kuuos_external_evidence_review_v069.py
+        run: PYTHONPATH=. python3 scripts/check_kuuos_evidence_review_v069.py
       - name: Set up Lean
         uses: leanprover/lean-action@v1
         with:
