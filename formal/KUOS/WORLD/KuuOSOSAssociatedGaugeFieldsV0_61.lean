@@ -40,12 +40,14 @@ theorem gaugeTransform_covariantResidual
     h y • (A x y • φ x - φ y)
   exact (smul_sub (h y) (A x y • φ x) (φ y)).symm
 
-def IsGaugeInvariantChannel (E : V → R) : Prop :=
-  ∀ g v, E (g • v) = E v
+def IsGaugeInvariantChannel
+    (G : Type*) [SMul G V]
+    (E : V → R) : Prop :=
+  ∀ (g : G) v, E (g • v) = E v
 
 theorem channelCurvature_gauge_invariant
     (E : V → R)
-    (hE : IsGaugeInvariantChannel E)
+    (hE : IsGaugeInvariantChannel G E)
     (h : X → G)
     (A : GaugeConnection X G)
     (φ : GaugeField X V)
@@ -62,10 +64,11 @@ structure OSChannelObservables (V R : Type*) where
   memory : V → R
 
 structure OSChannelObservables.Invariant
+    (G : Type*) [SMul G V]
     (channels : OSChannelObservables V R) : Prop where
-  epistemic : IsGaugeInvariantChannel channels.epistemic
-  verification : IsGaugeInvariantChannel channels.verification
-  memory : IsGaugeInvariantChannel channels.memory
+  epistemic : IsGaugeInvariantChannel G channels.epistemic
+  verification : IsGaugeInvariantChannel G channels.verification
+  memory : IsGaugeInvariantChannel G channels.memory
 
 def splitOSCurvature
     (channels : OSChannelObservables V R)
@@ -78,7 +81,7 @@ def splitOSCurvature
 
 theorem splitOSCurvature_gauge_invariant
     (channels : OSChannelObservables V R)
-    (hchannels : channels.Invariant)
+    (hchannels : OSChannelObservables.Invariant G channels)
     (h : X → G)
     (A : GaugeConnection X G)
     (observe verify memory : GaugeField X V)
