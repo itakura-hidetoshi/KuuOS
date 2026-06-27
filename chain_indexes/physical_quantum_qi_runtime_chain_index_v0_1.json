@@ -71,8 +71,8 @@
     },
     {
       "order": 14,
-      "role": "dedicated_ci_workflow",
-      "path": ".github/workflows/physical_quantum_qi_runtime_validation.yml"
+      "role": "consolidated_ci_workflow",
+      "path": ".github/workflows/all_governance_validation.yml"
     }
   ],
   "validation_entrypoints": [
