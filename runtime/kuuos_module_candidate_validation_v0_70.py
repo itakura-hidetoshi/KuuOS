@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-from dataclasses import asdict, dataclass
+from dataclasses import asdict, dataclass, replace
 from typing import Any
 
 from runtime.kuuos_connection_deformation_v0_70 import (
@@ -122,6 +122,7 @@ def validate_module_candidate(
         tuple(issues),
         "",
     )
-    return candidate, ModuleSelfOrganizationReceipt(
-        **(receipt.to_dict() | {"receipt_digest": self_organization_receipt_digest(receipt)})
+    return candidate, replace(
+        receipt,
+        receipt_digest=self_organization_receipt_digest(receipt),
     )
