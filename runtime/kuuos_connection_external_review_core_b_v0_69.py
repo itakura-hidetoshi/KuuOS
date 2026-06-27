@@ -11,7 +11,6 @@ from runtime.kuuos_connection_evidence_review_attestation_v0_69 import (
 )
 from runtime.kuuos_connection_evidence_review_types_v0_69 import (
     ALLOWED_DECISIONS,
-    APPROVE_EVIDENCE,
     EXTERNAL_REVIEWER_CLASS,
     ConnectionEvidenceReviewRequest,
 )
@@ -63,9 +62,8 @@ def review_attestation_issues(
         issues.append("evidence_review_attestation_digest_chain_mismatch")
     if attestation.allowed_scopes != exact_review_scope():
         issues.append("evidence_review_attestation_scope_invalid")
-    expected_permission = attestation.decision == APPROVE_EVIDENCE
-    if attestation.production_apply_allowed != expected_permission:
-        issues.append("evidence_review_production_permission_decision_mismatch")
+    if attestation.production_apply_allowed:
+        issues.append("evidence_review_production_apply_forbidden")
     flags = (
         not attestation.state_write_allowed,
         not attestation.authority_widening_allowed,
