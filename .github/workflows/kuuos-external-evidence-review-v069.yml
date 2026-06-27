@@ -1,0 +1,40 @@
+name: KuuOS External Evidence Review v0.69
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate runtime
+        run: |
+          python3 -m compileall -q runtime/kuuos_connection_*v0_69.py scripts/check_kuuos_evidence_review_v069.py
+          PYTHONPATH=. python3 scripts/check_kuuos_evidence_review_v069.py
+      - name: Set up Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Validate strict formal root
+        run: |
+          lake update
+          git diff --exit-code -- lake-manifest.json
+          lake exe cache get
+          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormalV0_69
