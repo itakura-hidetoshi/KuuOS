@@ -1,7 +1,10 @@
-name: PlanOS v0.17 Validation
+name: PlanOS v0.6-v0.17 Validation
+
 on: [push, pull_request, workflow_dispatch]
+
 permissions:
   contents: read
+
 jobs:
   validate:
     runs-on: ubuntu-latest
@@ -10,5 +13,38 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python -m compileall -q runtime scripts/check_plan_os_v0_17.py
-      - run: python scripts/check_plan_os_v0_17.py
+      - name: Compile PlanOS validation surfaces
+        run: >-
+          python -m compileall -q runtime
+          scripts/check_plan_os_bounded_multi_generation_supervisor_v0_6.py
+          scripts/check_plan_os_external_resume_handover_reentry_v0_7.py
+          scripts/check_plan_os_reentry_ownership_continuity_v0_8.py
+          scripts/check_plan_os_v0_9.py
+          scripts/check_plan_os_v0_10.py
+          scripts/check_plan_os_v0_11.py
+          scripts/check_plan_os_v0_12.py
+          scripts/check_plan_os_v0_13.py
+          scripts/check_plan_os_v0_14.py
+          scripts/check_plan_os_v0_15.py
+          scripts/check_plan_os_v0_16.py
+          scripts/check_plan_os_v0_17.py
+      - name: Run cumulative PlanOS checks
+        shell: bash
+        run: |
+          set -euo pipefail
+          for check in \
+            scripts/check_plan_os_bounded_multi_generation_supervisor_v0_6.py \
+            scripts/check_plan_os_external_resume_handover_reentry_v0_7.py \
+            scripts/check_plan_os_reentry_ownership_continuity_v0_8.py \
+            scripts/check_plan_os_v0_9.py \
+            scripts/check_plan_os_v0_10.py \
+            scripts/check_plan_os_v0_11.py \
+            scripts/check_plan_os_v0_12.py \
+            scripts/check_plan_os_v0_13.py \
+            scripts/check_plan_os_v0_14.py \
+            scripts/check_plan_os_v0_15.py \
+            scripts/check_plan_os_v0_16.py \
+            scripts/check_plan_os_v0_17.py
+          do
+            python "$check"
+          done
