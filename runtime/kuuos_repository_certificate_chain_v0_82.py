@@ -146,6 +146,7 @@ def start_repository_certificate_chain(
 
 
 def advance_repository_certificate_chain(
+    chain_id: str,
     previous_record: RepositoryCertificateChainRecord,
     previous_snapshot: RepositorySnapshot,
     current_snapshot: RepositorySnapshot,
@@ -157,6 +158,8 @@ def advance_repository_certificate_chain(
     previous_issues = certificate_chain_record_issues(previous_record)
     if previous_issues:
         raise ValueError(f"previous_record_invalid:{previous_issues[0]}")
+    if chain_id != previous_record.chain_id:
+        raise ValueError("chain_id_binding_mismatch")
     if not previous_record.current_normal_form_preserved:
         raise ValueError("previous_normal_form_not_preserved")
     if previous_record.current_snapshot_digest != previous_snapshot.digest:
