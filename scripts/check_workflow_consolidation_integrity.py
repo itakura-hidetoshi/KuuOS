@@ -18,14 +18,19 @@ REQUIRED_FILES = [
     ".github/workflows/all_governance_validation.yml",
     ".github/workflows/pr-governance-gate.yml",
     ".github/workflows/core_governance_validation.yml",
+    ".github/workflows/kuuos_runtime_full_check.yml",
+    ".github/workflows/lean-formal-validation.yml",
     ".github/workflows/world-four-great-phase-dynamics-v0-59.yml",
     ".github/workflows/decision-os-validation.yml",
     ".github/workflows/evidence-cycle-os-validation.yml",
     ".github/workflows/plan-os-validation.yml",
     "scripts/run_plan_os_full_checks.py",
+    "scripts/run_decision_os_full_checks.py",
+    "scripts/run_evidence_cycle_os_full_checks.py",
     "scripts/select_impacted_checks.py",
     "scripts/run_ci_check.py",
     "scripts/build_audit_summary.py",
+    "tests/test_ci_audit_selector_v0_1.py",
     "ci/check_registry.yaml",
     ".github/WORKFLOW_INDEX.md",
 ]
@@ -58,6 +63,16 @@ FORBIDDEN_LEGACY_FILES = [
     "scripts/run_plan_os_full_checks_v0_17.py",
 ]
 
+MIGRATED_PR_ENTRY_POINTS = [
+    ".github/workflows/all_governance_validation.yml",
+    ".github/workflows/core_governance_validation.yml",
+    ".github/workflows/kuuos_runtime_full_check.yml",
+    ".github/workflows/lean-formal-validation.yml",
+    ".github/workflows/decision-os-validation.yml",
+    ".github/workflows/evidence-cycle-os-validation.yml",
+    ".github/workflows/plan-os-validation.yml",
+]
+
 REQUIRED_MARKERS = {
     ".github/workflows/all_governance_validation.yml": [
         "workflow_dispatch:",
@@ -73,6 +88,7 @@ REQUIRED_MARKERS = {
         "max-parallel: 4",
         "scripts/run_ci_check.py",
         "scripts/build_audit_summary.py",
+        "path: artifacts/checks/",
         "audit-report.md",
     ],
     ".github/workflows/core_governance_validation.yml": [
@@ -81,6 +97,20 @@ REQUIRED_MARKERS = {
         "scripts/run_core_governance_full_checks_v0_1.py",
         "core-governance.log",
         "actions/upload-artifact@v4",
+    ],
+    ".github/workflows/kuuos_runtime_full_check.yml": [
+        "workflow_dispatch:",
+        "branches:",
+        "- main",
+        "scripts/run_kuuos_runtime_full_check_v0_55.py",
+        "cancel-in-progress: false",
+    ],
+    ".github/workflows/lean-formal-validation.yml": [
+        "workflow_dispatch:",
+        "branches:",
+        "- main",
+        "sorryAsError=true",
+        "cancel-in-progress: false",
     ],
     ".github/workflows/world-four-great-phase-dynamics-v0-59.yml": [
         "workflow_dispatch:",
@@ -95,24 +125,25 @@ REQUIRED_MARKERS = {
         "actions/upload-artifact@v4",
     ],
     ".github/workflows/decision-os-validation.yml": [
-        "set -euo pipefail",
-        "check_decisionos_admissible_candidate_selection_v0_4.py",
-        "scripts/check_decision_os_*.py",
-        "scripts/check_decisionos_*.py",
+        "workflow_dispatch:",
+        "branches:",
+        "- main",
+        "scripts/run_decision_os_full_checks.py",
+        "cancel-in-progress: false",
     ],
     ".github/workflows/evidence-cycle-os-validation.yml": [
-        "set -euo pipefail",
-        "PYTHONPATH=.",
-        "check_observe_os_replan_lineage_observation_envelope_v0_2.py",
-        "check_verify_os_replan_lineage_verification_envelope_v0_2.py",
-        "check_learn_os_replan_lineage_future_only_learning_envelope_v0_2.py",
-        "check_actos_bounded_adapter_invocation_v0_4.py",
-        "check_observeos_world_host_effect_observation_v0_4.py",
+        "workflow_dispatch:",
+        "branches:",
+        "- main",
+        "scripts/run_evidence_cycle_os_full_checks.py",
+        "cancel-in-progress: false",
     ],
     ".github/workflows/plan-os-validation.yml": [
+        "workflow_dispatch:",
+        "branches:",
+        "- main",
         "scripts/run_plan_os_full_checks.py",
-        "scripts/check_plan_os_*.py",
-        "scripts/check_planos_*.py",
+        "cancel-in-progress: false",
     ],
     "scripts/run_plan_os_full_checks.py": [
         "PYTHONPATH",
@@ -121,10 +152,21 @@ REQUIRED_MARKERS = {
         "check_planos_activation_admission_actos_handoff_v0_23.py",
         "PASS: PlanOS v0.1-v0.23 validation completed",
     ],
+    "scripts/run_decision_os_full_checks.py": [
+        "runtime.v01_decision_os_relational_deliberation",
+        "check_decisionos_admissible_candidate_selection_v0_4.py",
+        "PASS: DecisionOS v0.1-v0.4 validation completed",
+    ],
+    "scripts/run_evidence_cycle_os_full_checks.py": [
+        "runtime.v01_act_os_authority_bound_invocation",
+        "check_observeos_world_host_effect_observation_v0_4.py",
+        "PASS: Evidence Cycle OS validation completed",
+    ],
     "ci/check_registry.yaml": [
         "selection optimization != authority expansion",
         "unknown_impact",
-        "full_audit_paths",
+        "unmapped_impact",
+        "pr_supersedes",
         "full-governance",
     ],
 }
@@ -153,7 +195,6 @@ def selected_reference_files() -> list[pathlib.Path]:
 
     selection_path = os.environ.get("KUUOS_CI_SELECTION")
     if not selection_path:
-        # Local/manual use without a selection receipt remains conservative.
         return all_repository_files()
 
     try:
@@ -218,7 +259,7 @@ def check_registry(errors: list[str]) -> None:
         patterns = check.get("paths")
         if not isinstance(patterns, list):
             errors.append(f"CI paths must be a list for {check_id}")
-        for relation in ("depends_on", "supersedes"):
+        for relation in ("depends_on", "supersedes", "pr_supersedes"):
             values = check.get(relation, [])
             if not isinstance(values, list):
                 errors.append(f"CI {relation} must be a list for {check_id}")
@@ -249,6 +290,11 @@ def main() -> int:
     for relative in FORBIDDEN_LEGACY_FILES:
         if (ROOT / relative).exists():
             errors.append(f"legacy file still present: {relative}")
+
+    for relative in MIGRATED_PR_ENTRY_POINTS:
+        path = ROOT / relative
+        if path.is_file() and "pull_request:" in path.read_text(encoding="utf-8"):
+            errors.append(f"migrated workflow still has pull_request trigger: {relative}")
 
     for relative, markers in REQUIRED_MARKERS.items():
         path = ROOT / relative
