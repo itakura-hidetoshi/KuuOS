@@ -1,0 +1,30 @@
+{
+  "manifest_version": "kuuos_authority_role_topology_v0_76",
+  "predecessor": "kuuos_memory_commit_v0_75",
+  "architecture": "context-independent-role-topology",
+  "runtime_modules": [
+    "runtime/kuuos_authority_role_policy_v0_76.py"
+  ],
+  "validator": "scripts/check_kuuos_authority_role_policy_v076.py",
+  "lean_surface": "KuuOSAuthorityRoleTopologyV0_76",
+  "strict_formal_root": "KuuOSAuthorityRoleTopologyV0_76",
+  "role_topologies": [
+    "ROLE_AGGREGATED",
+    "ROLE_SEPARATED"
+  ],
+  "operating_contexts": [
+    "RESEARCH",
+    "PRODUCTION"
+  ],
+  "independent_approval_controlled_by_role_topology_only": true,
+  "operating_context_forces_independent_approval": false,
+  "solo_research_independent_approval_required": false,
+  "solo_production_independent_approval_required": false,
+  "separated_topology_independent_approval_required": true,
+  "separated_topology_requires_distinct_actor": true,
+  "v0_74_review_authority_required": true,
+  "v0_75_application_boundary_preserved": true,
+  "application_authority_is_immediate_execution": false,
+  "production_safety_claimed": false,
+  "institutional_approval_claimed": false
+}
