@@ -98,6 +98,11 @@ def apply_approved_memory_selection(
         issues.append("memory_application_history_binding_mismatch")
     if selected_connection.memory_kernel.source_module_digest != state.module_digest:
         issues.append("memory_application_module_binding_mismatch")
+    if (
+        selected_connection.base_connection.digest
+        != state.current_connection.base_connection.digest
+    ):
+        issues.append("memory_application_base_connection_mismatch")
     issues = list(dict.fromkeys(issues))
 
     if issues:
