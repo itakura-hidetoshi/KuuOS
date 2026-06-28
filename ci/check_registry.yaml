@@ -29,6 +29,8 @@
     "examples/**",
     "src/**",
     "specs/**",
+    "contracts/**",
+    "validators/**",
     "validation_cases/**",
     "manifests/**",
     "packets/**",
@@ -45,12 +47,15 @@
     "scripts/select_impacted_checks.py",
     "scripts/run_ci_check.py",
     "scripts/build_audit_summary.py",
+    "scripts/build_full_audit_selection_v0_2.py",
     "scripts/check_workflow_consolidation_integrity.py",
     "scripts/run_all_governance_full_checks_v0_1.py",
     "scripts/run_all_governance_shard_v0_2.py",
+    "scripts/run_full_governance_shard_ci_v0_2.py",
     "tests/test_ci_audit_selector_v0_1.py",
     "tests/test_governance_sharding_v0_2.py",
     ".github/workflows/all_governance_validation.yml",
+    ".github/workflows/all_governance_sharded_v0_2.yml",
     ".github/workflows/pr-governance-gate.yml",
     ".github/WORKFLOW_INDEX.md",
     "Makefile"
@@ -103,8 +108,11 @@
       "paths": [
         "scripts/run_all_governance_full_checks_v0_1.py",
         "scripts/run_all_governance_shard_v0_2.py",
+        "scripts/run_full_governance_shard_ci_v0_2.py",
+        "scripts/build_full_audit_selection_v0_2.py",
         "tests/test_governance_sharding_v0_2.py",
-        "ci/check_registry.yaml"
+        "ci/check_registry.yaml",
+        ".github/workflows/all_governance_sharded_v0_2.yml"
       ],
       "depends_on": [],
       "timeout_minutes": 5,
@@ -141,6 +149,30 @@
       "pr_required": true,
       "full_audit_member": true
     },
+    "regge-zero": {
+      "name": "Regge Zero governance validation",
+      "runner": "python",
+      "command": "python3 scripts/run_regge_zero_governance_checks_v0_1.py",
+      "group": "governance-subsystem",
+      "tier": "critical",
+      "paths": [
+        ".github/workflows/regge_zero_governance_validation.yml",
+        "docs/REGGE_ZERO_GOVERNANCE*.md",
+        "contracts/kuos_regge_zero_governance_contract_v0_1.yaml",
+        "validation_cases/regge_zero_governance_validation_cases_v0_1.yaml",
+        "validators/*regge_zero_governance*.py",
+        "scripts/run_regge_zero_governance_checks_v0_1.py",
+        "tests/test_regge_zero_governance_validator_v0_1.py",
+        "formal/ReggeZeroGovernance.lean",
+        "manifests/regge_zero_governance_*.json",
+        "packets/regge_zero_governance_*.yaml",
+        "chain_indexes/regge_zero_governance_*.yaml"
+      ],
+      "depends_on": [],
+      "timeout_minutes": 15,
+      "pr_required": true,
+      "full_audit_member": true
+    },
     "decision-os": {
       "name": "DecisionOS cumulative validation",
       "runner": "python",
@@ -163,9 +195,7 @@
         "formal/KUOS/DecisionOS/**"
       ],
       "depends_on": [],
-      "pr_supersedes": [
-        "runtime-full"
-      ],
+      "pr_supersedes": ["runtime-full"],
       "timeout_minutes": 20,
       "pr_required": true,
       "full_audit_member": true
@@ -217,9 +247,7 @@
         "formal/KUOS/LearnOS/**"
       ],
       "depends_on": [],
-      "pr_supersedes": [
-        "runtime-full"
-      ],
+      "pr_supersedes": ["runtime-full"],
       "timeout_minutes": 30,
       "pr_required": true,
       "full_audit_member": true
@@ -244,9 +272,7 @@
         "formal/KUOS/PlanOS/**"
       ],
       "depends_on": [],
-      "pr_supersedes": [
-        "runtime-full"
-      ],
+      "pr_supersedes": ["runtime-full"],
       "timeout_minutes": 30,
       "pr_required": true,
       "full_audit_member": true
@@ -303,12 +329,8 @@
         "scripts/run_all_governance_shard_v0_2.py",
         "tests/test_governance_sharding_v0_2.py"
       ],
-      "depends_on": [
-        "workflow-integrity"
-      ],
-      "supersedes": [
-        "core-governance"
-      ],
+      "depends_on": ["workflow-integrity"],
+      "supersedes": ["core-governance"],
       "timeout_minutes": 30,
       "pr_required": false,
       "full_audit_member": true
