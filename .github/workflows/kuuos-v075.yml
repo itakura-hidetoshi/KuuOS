@@ -1,1 +1,20 @@
 name: KuuOS v0.75
+
+on:
+  workflow_dispatch:
+  pull_request:
+
+permissions:
+  contents: read
+
+jobs:
+  runtime:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: python3 -m compileall -q runtime scripts/check_kuuos_memory_application_v075.py
+      - run: PYTHONPATH=. python3 scripts/check_kuuos_memory_application_v075.py
+      - run: python3 -m json.tool manifests/kuuos_memory_commit_v0_75.json >/dev/null
