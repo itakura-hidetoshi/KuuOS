@@ -8,6 +8,10 @@ from runtime.kuuos_self_organization_cycle_v0_78 import (
     observe_structure,
     run_self_organization_cycle,
 )
+from runtime.kuuos_self_organization_supervisor_v0_78 import (
+    STOP_NO_CHANGE,
+    run_bounded_self_organization,
+)
 from runtime.kuuos_self_organization_types_v0_78 import (
     ADOPTED,
     NO_CHANGE,
@@ -120,6 +124,26 @@ class SelfOrganizationV078Tests(unittest.TestCase):
         self.assertEqual(final_state.digest, self.source.digest)
         self.assertEqual(receipt.candidate_digests, ())
         self.assertFalse(receipt.external_approval_required)
+
+    def test_bounded_supervisor_reaches_no_change(self) -> None:
+        final_state, cycles, receipt = run_bounded_self_organization(
+            "bounded-supervisor",
+            self.source,
+            self.primary,
+            (self.shadow_a, self.shadow_b),
+            self.confirm,
+            self.policy,
+            max_cycles=4,
+        )
+        self.assertEqual(receipt.stop_reason, STOP_NO_CHANGE)
+        self.assertEqual(receipt.cycle_count, 2)
+        self.assertEqual(cycles[0].status, ADOPTED)
+        self.assertEqual(cycles[1].status, NO_CHANGE)
+        self.assertEqual(final_state.revision, self.source.revision + 1)
+        self.assertFalse(receipt.external_approval_required)
+        self.assertFalse(receipt.unbounded_execution_allowed)
+        self.assertFalse(receipt.host_state_write_performed)
+        self.assertTrue(receipt.receipt_digest)
 
 
 if __name__ == "__main__":
