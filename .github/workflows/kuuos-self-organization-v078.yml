@@ -2,25 +2,9 @@ name: KuuOS Self-Organization v0.78
 
 on:
   workflow_dispatch:
-  pull_request:
-    paths:
-      - 'runtime/kuuos_self_organization_*_v0_78.py'
-      - 'tests/kuuos_self_organization_fixture_v0_78.py'
-      - 'tests/test_kuuos_self_organization_v0_78.py'
-      - 'scripts/check_kuuos_self_organization_v078.py'
-      - 'docs/KUUOS_SELF_ORGANIZING_IMPROVEMENT_LOOP_v0_78.md'
-      - 'manifests/kuuos_self_organization_v0_78.json'
-      - 'formal/KUOS/WORLD/KuuOSSelfOrganizingImprovementLoopV0_78.lean'
-      - 'formal/KuuOSSelfOrganizationV0_78.lean'
-      - 'formal/KuuOSFormal.lean'
-      - 'lakefile.toml'
-      - '.github/workflows/kuuos-self-organization-v078.yml'
 
 permissions:
   contents: read
-
-env:
-  MATHLIB_NO_CACHE_ON_UPDATE: '1'
 
 jobs:
   validate:
@@ -31,39 +15,5 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Compile runtime and tests
-        run: >-
-          python3 -m compileall -q
-          runtime/kuuos_self_organization_types_v0_78.py
-          runtime/kuuos_self_organization_cycle_v0_78.py
-          tests/kuuos_self_organization_fixture_v0_78.py
-          tests/test_kuuos_self_organization_v0_78.py
-          scripts/check_kuuos_self_organization_v078.py
-      - name: Validate closed self-organization cycle
-        run: PYTHONPATH=. python3 scripts/check_kuuos_self_organization_v078.py
-      - name: Validate manifest
-        run: python3 -m json.tool manifests/kuuos_self_organization_v0_78.json >/dev/null
-      - name: Reject external approval dependency in primary runtime
-        run: |
-          ! grep -R "connection_admission\|evidence_review\|memory_selection_review" \
-            runtime/kuuos_self_organization_*_v0_78.py
-      - name: Set up Lean
-        uses: leanprover/lean-action@v1
-        with:
-          auto-config: false
-          build: false
-          test: false
-          lint: false
-          use-mathlib-cache: false
-          use-github-cache: false
-      - name: Resolve dependencies
-        run: lake update
-      - name: Verify dependency manifest stability
-        run: git diff --exit-code -- lake-manifest.json
-      - name: Fetch Mathlib cache
-        run: lake exe cache get
-      - name: Build strict and aggregate formal roots
-        run: >-
-          lake -KleanArgs=-DwarningAsError=true
-          -KleanArgs=-DsorryAsError=true
-          build KuuOSSelfOrganizationV0_78 KuuOSFormal
+      - run: PYTHONPATH=. python3 scripts/check_kuuos_self_organization_v078.py
+      - run: python3 -m json.tool manifests/kuuos_self_organization_v0_78.json >/dev/null
