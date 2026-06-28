@@ -14,6 +14,25 @@ CONSTRUCTED_WORKFLOW_PATTERN = re.compile(
     r"ROOT\s*/\s*[\"']\.github[\"']\s*/\s*[\"']workflows[\"']\s*/\s*[\"']([^\"']+\.ya?ml)[\"']"
 )
 
+# These paths exist only inside RepositorySnapshot test fixtures.  The source
+# files may mention them as virtual repository members, but they are not
+# dependencies on workflows in the checked-out repository.  Keep the exception
+# source-scoped so every other reference remains fail-closed.
+VIRTUAL_FIXTURE_WORKFLOW_REFERENCES: dict[str, frozenset[str]] = {
+    "tests/kuuos_repository_incremental_fixture_v0_81.py": frozenset(
+        {".github/workflows/alignment-fixture-v081.yml"}
+    ),
+    "tests/test_kuuos_repository_incremental_preservation_v0_81.py": frozenset(
+        {".github/workflows/alignment-fixture-v081.yml"}
+    ),
+    "tests/kuuos_repository_repair_fixture_v0_79.py": frozenset(
+        {".github/workflows/fixture-v079.yml"}
+    ),
+    "tests/test_kuuos_repository_repair_v0_79.py": frozenset(
+        {".github/workflows/fixture-v079.yml"}
+    ),
+}
+
 CANONICAL_FILES = [
     ".github/workflows/all_governance_validation.yml",
     ".github/workflows/all_governance_sharded_v0_2.yml",
@@ -186,9 +205,16 @@ def check_workflow_references(errors: list[str]) -> None:
             text = path.read_text(encoding="utf-8")
         except (UnicodeDecodeError, OSError):
             continue
+        relative = path.relative_to(ROOT).as_posix()
+        virtual_fixture_refs = VIRTUAL_FIXTURE_WORKFLOW_REFERENCES.get(
+            relative,
+            frozenset(),
+        )
         for workflow in sorted(workflow_references(text)):
+            if workflow in virtual_fixture_refs:
+                continue
             if not (ROOT / workflow).is_file():
-                errors.append(f"missing workflow reference: {path.relative_to(ROOT)} -> {workflow}")
+                errors.append(f"missing workflow reference: {relative} -> {workflow}")
 
 
 def check_registry(errors: list[str]) -> None:
