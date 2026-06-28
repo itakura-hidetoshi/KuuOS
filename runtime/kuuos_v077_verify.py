@@ -42,6 +42,8 @@ def verify_committed_memory_state(
         issues.append("commit_not_atomic")
     if not receipt.state_write_performed or not receipt.live_application_performed:
         issues.append("commit_effect_missing")
+    if not receipt.authority_consumed:
+        issues.append("commit_receipt_authority_not_consumed")
     if receipt.permission_expansion_performed:
         issues.append("commit_permission_expansion")
     if receipt.rollback_target_replaced:
@@ -70,7 +72,11 @@ def verify_committed_memory_state(
     if not state_chain:
         issues.append("commit_state_chain_mismatch")
 
-    authority_consumed = receipt.review_receipt_digest in observed_state.consumed_review_receipts
+    authority_consumed = (
+        receipt.authority_consumed
+        and receipt.review_receipt_digest
+        in observed_state.consumed_review_receipts
+    )
     if not authority_consumed:
         issues.append("commit_authority_consumption_missing")
 
@@ -115,6 +121,12 @@ def verify_rolled_back_memory_state(
         issues.append("rollback_commit_receipt_digest_mismatch")
     if rollback_receipt.commit_receipt_digest != commit_receipt.receipt_digest:
         issues.append("rollback_commit_receipt_binding_mismatch")
+    if commit_receipt.status != APPLICATION_COMMITTED:
+        issues.append("rollback_source_commit_not_committed")
+    if not commit_receipt.atomic_commit:
+        issues.append("rollback_source_commit_not_atomic")
+    if not commit_receipt.authority_consumed:
+        issues.append("rollback_source_authority_not_consumed")
     if rollback_receipt.status != ROLLBACK_COMMITTED:
         issues.append("rollback_receipt_not_committed")
     if not rollback_receipt.atomic_commit:
@@ -138,6 +150,10 @@ def verify_rolled_back_memory_state(
         rollback_receipt.restored_kernel_digest == observed_state.current_kernel.digest
         and rollback_receipt.restored_connection_digest
         == observed_state.current_connection.digest
+        and rollback_receipt.restored_kernel_digest
+        == commit_receipt.rollback_target_digest
+        and rollback_receipt.restored_kernel_digest
+        == commit_receipt.source_kernel_digest
     )
     if not exact_payload:
         issues.append("rollback_observed_payload_mismatch")
@@ -149,12 +165,17 @@ def verify_rolled_back_memory_state(
     if not revision_successor:
         issues.append("rollback_revision_not_successor")
 
-    state_chain = observed_state.previous_state_digest == rollback_receipt.before_state_digest
+    state_chain = (
+        observed_state.previous_state_digest == rollback_receipt.before_state_digest
+        and rollback_receipt.before_state_digest == commit_receipt.after_state_digest
+        and rollback_receipt.before_state_revision == commit_receipt.after_revision
+    )
     if not state_chain:
         issues.append("rollback_state_chain_mismatch")
 
     authority_consumed = (
-        commit_receipt.review_receipt_digest
+        commit_receipt.authority_consumed
+        and commit_receipt.review_receipt_digest
         in observed_state.consumed_review_receipts
     )
     if not authority_consumed:
