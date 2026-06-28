@@ -283,7 +283,7 @@ theorem effectivePathSupport_le_left :
     path.effectivePathSupport ≤ path.leftSupport := by
   classical
   by_cases ready : path.Ready
-  · simp [effectivePathSupport, ready, Nat.min_le_left]
+  · simp [effectivePathSupport, ready]
   · simp [effectivePathSupport, ready]
 
 
@@ -291,7 +291,7 @@ theorem effectivePathSupport_le_right :
     path.effectivePathSupport ≤ path.rightSupport := by
   classical
   by_cases ready : path.Ready
-  · simp [effectivePathSupport, ready, Nat.min_le_right]
+  · simp [effectivePathSupport, ready]
   · simp [effectivePathSupport, ready]
 
 
