@@ -1,1 +1,7 @@
-{}
+{
+  "manifest_version": "kuuos_memory_commit_v0_75",
+  "predecessor": "kuuos_memory_selection_review_v0_74",
+  "validator": "scripts/check_kuuos_memory_application_v075.py",
+  "lean_surface": "KuuOSAuthorizedMemoryApplicationV0_75",
+  "strict_formal_root": "KuuOSMemoryApplicationV0_75"
+}
