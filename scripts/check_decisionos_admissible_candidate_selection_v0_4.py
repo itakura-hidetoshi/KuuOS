@@ -6,6 +6,8 @@ from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 VERSION = "kuuos_decisionos_admissible_candidate_selection_v0_4"
+CHECKER_NAME = "check_decisionos_admissible_candidate_selection_v0_4.py"
+CUMULATIVE_RUNNER_NAME = "run_decision_os_full_checks.py"
 
 
 def require(condition: bool, message: str) -> None:
@@ -19,6 +21,26 @@ def require_tokens(path: Path, tokens: tuple[str, ...]) -> None:
         require(token in text, f"{path}: missing {token}")
 
 
+def validate_workflow_link(workflow: Path, cumulative_runner: Path) -> None:
+    workflow_text = workflow.read_text(encoding="utf-8")
+    require(
+        "DecisionOS Validation" in workflow_text,
+        f"{workflow}: missing DecisionOS Validation",
+    )
+
+    if CHECKER_NAME in workflow_text:
+        return
+
+    require(
+        CUMULATIVE_RUNNER_NAME in workflow_text,
+        (
+            f"{workflow}: missing direct {CHECKER_NAME} execution or "
+            f"cumulative {CUMULATIVE_RUNNER_NAME} execution"
+        ),
+    )
+    require_tokens(cumulative_runner, (CHECKER_NAME,))
+
+
 def main() -> int:
     formal_root = ROOT / "formal/KuuOSDecisionOSV0_4.lean"
     aggregate_root = ROOT / "formal/KuuOSFormal.lean"
@@ -27,8 +49,18 @@ def main() -> int:
     docs = ROOT / "docs/KUUOS_DECISIONOS_ADMISSIBLE_CANDIDATE_SELECTION_v0_4.md"
     manifest_path = ROOT / "manifests/kuuos_decisionos_admissible_candidate_selection_v0_4.json"
     workflow = ROOT / ".github/workflows/decision-os-validation.yml"
+    cumulative_runner = ROOT / "scripts/run_decision_os_full_checks.py"
 
-    for path in (formal_root, aggregate_root, formal, source, docs, manifest_path, workflow):
+    for path in (
+        formal_root,
+        aggregate_root,
+        formal,
+        source,
+        docs,
+        manifest_path,
+        workflow,
+        cumulative_runner,
+    ):
         require(path.is_file(), f"missing file: {path}")
 
     import_token = "KUOS.DecisionOS.VacuumExpectationAdmissibleCandidateSelectionV0_4"
@@ -73,13 +105,7 @@ def main() -> int:
         ROOT / "scripts/run_kuuos_runtime_full_check_v0_51.py",
         ("check_decisionos_v04",),
     )
-    require_tokens(
-        workflow,
-        (
-            "check_decisionos_admissible_candidate_selection_v0_4.py",
-            "DecisionOS Validation",
-        ),
-    )
+    validate_workflow_link(workflow, cumulative_runner)
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     require(manifest["version"] == VERSION, "manifest version mismatch")
