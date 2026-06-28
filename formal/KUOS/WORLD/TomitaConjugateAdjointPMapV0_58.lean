@@ -14,6 +14,7 @@ namespace TomitaRealLinearPMapRealization
 
 variable (R : TomitaRealLinearPMapRealization T)
 
+omit [IsScalarTower Real Complex H] in
 theorem conjugateAdjointGraph_complex_smul
     (c : Complex) {y z : H}
     (hyz : R.conjugateAdjointGraph (y, z)) :
