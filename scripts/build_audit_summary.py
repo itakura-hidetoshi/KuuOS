@@ -58,7 +58,15 @@ def markdown_report(summary: dict[str, Any]) -> str:
     if reasons:
         lines.append("- Reasons: " + "; ".join(str(item) for item in reasons))
 
-    lines.extend(["", "## Check results", "", "| Check | Status | Duration | Return code |", "|---|---:|---:|---:|"])
+    lines.extend(
+        [
+            "",
+            "## Check results",
+            "",
+            "| Check | Status | Duration | Return code |",
+            "|---|---:|---:|---:|",
+        ]
+    )
     for item in summary["check_results"]:
         duration = item.get("duration_seconds")
         duration_text = "-" if duration is None else f"{duration:.3f}s"
@@ -73,8 +81,12 @@ def markdown_report(summary: dict[str, Any]) -> str:
         lines.extend(f"- `{check_id}`" for check_id in summary["missing_receipts"])
 
     if summary["unknown_paths"]:
-        lines.extend(["", "## Unclassified paths", ""])
+        lines.extend(["", "## Unknown paths", ""])
         lines.extend(f"- `{path}`" for path in summary["unknown_paths"])
+
+    if summary["unmapped_paths"]:
+        lines.extend(["", "## Known but unmapped paths", ""])
+        lines.extend(f"- `{path}`" for path in summary["unmapped_paths"])
 
     lines.extend(["", "## Boundaries", ""])
     lines.extend(f"- {boundary}" for boundary in summary.get("boundaries", []))
@@ -142,6 +154,7 @@ def main() -> int:
         "failed_checks": failed,
         "workflow_failures": workflow_failures,
         "unknown_paths": selection.get("unknown_paths", []),
+        "unmapped_paths": selection.get("unmapped_paths", []),
         "reasons": selection.get("reasons", []),
         "boundaries": selection.get("boundaries", []),
     }
