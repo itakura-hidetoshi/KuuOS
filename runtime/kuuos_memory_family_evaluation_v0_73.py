@@ -170,9 +170,11 @@ def evaluate_memory_family(
         if not issues:
             issues.append("memory_family_has_no_accepted_member")
 
-    if history.digest != history_digest_before:
+    source_history_unchanged = history.digest == history_digest_before
+    source_kernel_unchanged = source_kernel.digest == kernel_digest_before
+    if not source_history_unchanged:
         issues.append("source_memory_history_changed")
-    if source_kernel.digest != kernel_digest_before:
+    if not source_kernel_unchanged:
         issues.append("source_memory_kernel_changed")
 
     record = MemorySelectionRecord(
@@ -189,6 +191,12 @@ def evaluate_memory_family(
         selected_assessment.evaluated_score if selected_assessment else source_score,
         len(evaluated),
         len(accepted),
+        source_history_unchanged,
+        source_kernel_unchanged,
+        True,
+        False,
+        False,
+        False,
         tuple(item[2] for item in evaluated),
         tuple(dict.fromkeys(issues)),
         "",
