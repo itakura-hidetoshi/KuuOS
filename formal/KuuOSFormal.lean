@@ -2,7 +2,7 @@
 # KuuOS aggregate formal root
 
 This is the strict aggregate build surface for the formal artifacts integrated on
-`main` through KuuOS Self-Organizing Improvement Loop v0.78.
+`main` through KuuOS Repository Structure Alignment v0.79.
 
 The root preserves the distinction between a Lean-derived theorem, a structure
 supplied by hypotheses, an external analytic or institutional receipt, and an
@@ -60,6 +60,7 @@ import KUOS.WORLD.KuuOSMemorySelectionReviewV0_74
 import KUOS.WORLD.KuuOSAuthorizedMemoryApplicationV0_75
 import KUOS.WORLD.KuuOSMemoryRollbackV0_76
 
--- Primary no-external-approval self-improvement loop.
+-- Primary self-organization and repository alignment.
 import KUOS.WORLD.KuuOSSelfOrganizingImprovementLoopV0_78
 import KUOS.WORLD.KuuOSBoundedSelfOrganizationSupervisorV0_78
+import KUOS.WORLD.KuuOSRepositoryStructureAlignmentV0_79
