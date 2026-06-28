@@ -140,9 +140,8 @@ theorem valid_review_remains_nonexecuting_under_governance_mode
       receipt.permissionExpansionDisabled ∧
       receipt.rollbackTargetReplacementDisabled := by
   refine ⟨hPolicy.1, ?_⟩
-  exact
-    KuuOSMemorySelectionReviewV0_74.
-      valid_review_has_no_immediate_application_effect request receipt hReview
+  exact KuuOSMemorySelectionReviewV0_74.valid_review_has_no_immediate_application_effect
+    request receipt hReview
 
 
 end KUOS.WORLD.KuuOSGovernanceModeRoleAggregationV0_75
