@@ -10,6 +10,13 @@ from runtime.kuuos_repository_structure_types_v0_79 import (
     RepositorySnapshot,
 )
 
+EvaluatedCandidate = tuple[
+    RepositorySnapshot,
+    RepositoryObservation,
+    RepositoryRepairCandidate,
+    RepositoryShadowAssessment,
+]
+
 
 def apply_candidate_to_snapshot(
     snapshot: RepositorySnapshot,
@@ -71,38 +78,21 @@ def evaluate_repository_candidates(
     snapshot: RepositorySnapshot,
     observation: RepositoryObservation,
     candidates: tuple[RepositoryRepairCandidate, ...],
-) -> tuple[
-    tuple[
-        RepositorySnapshot,
-        RepositoryObservation,
-        RepositoryRepairCandidate,
-        RepositoryShadowAssessment,
-    ],
-    ...,
-]:
-    return tuple(
-        (*compare_repository_candidate_in_shadow(snapshot, observation, candidate)[:2], candidate,
-         compare_repository_candidate_in_shadow(snapshot, observation, candidate)[2])
-        for candidate in candidates
-    )
+) -> tuple[EvaluatedCandidate, ...]:
+    evaluated: list[EvaluatedCandidate] = []
+    for candidate in candidates:
+        shadow, shadow_observation, assessment = compare_repository_candidate_in_shadow(
+            snapshot,
+            observation,
+            candidate,
+        )
+        evaluated.append((shadow, shadow_observation, candidate, assessment))
+    return tuple(evaluated)
 
 
 def select_repository_candidate(
-    evaluated: tuple[
-        tuple[
-            RepositorySnapshot,
-            RepositoryObservation,
-            RepositoryRepairCandidate,
-            RepositoryShadowAssessment,
-        ],
-        ...,
-    ],
-) -> tuple[
-    RepositorySnapshot,
-    RepositoryObservation,
-    RepositoryRepairCandidate,
-    RepositoryShadowAssessment,
-] | None:
+    evaluated: tuple[EvaluatedCandidate, ...],
+) -> EvaluatedCandidate | None:
     admissible = [entry for entry in evaluated if entry[3].admissible]
     if not admissible:
         return None
