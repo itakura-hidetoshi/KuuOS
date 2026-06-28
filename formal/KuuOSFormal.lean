@@ -2,13 +2,13 @@
 # KuuOS aggregate formal root
 
 This is the strict aggregate build surface for the formal artifacts integrated on
-`main` through KuuOS Memory Rollback v0.76.
+`main` through KuuOS Post-Transition Verification v0.77.
 
 The root preserves the distinction between a Lean-derived theorem, a structure
 supplied by hypotheses, an external analytic or institutional receipt, and an
 empirical claim.
 
-Version-specific roots remain available for local validation.  This aggregate
+Version-specific roots remain available for local validation. This aggregate
 root exists to detect missing imports and cross-version regressions.
 -/
 
@@ -59,3 +59,4 @@ import KUOS.WORLD.KuuOSFiniteMemoryEvaluationV0_73
 import KUOS.WORLD.KuuOSMemorySelectionReviewV0_74
 import KUOS.WORLD.KuuOSAuthorizedMemoryApplicationV0_75
 import KUOS.WORLD.KuuOSMemoryRollbackV0_76
+import KUOS.WORLD.KuuOSPostTransitionVerificationV0_77
