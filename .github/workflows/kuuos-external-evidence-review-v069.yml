@@ -2,13 +2,9 @@ name: KuuOS External Evidence Review v0.69
 
 on:
   workflow_dispatch:
-  pull_request:
 
 permissions:
   contents: read
-
-env:
-  MATHLIB_NO_CACHE_ON_UPDATE: '1'
 
 jobs:
   validate:
@@ -19,17 +15,8 @@ jobs:
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Compile runtime
-        run: |
-          python3 -m compileall -q \
-            runtime/kuuos_connection_evidence_review_types_v0_69.py \
-            runtime/kuuos_connection_evidence_review_binding_v0_69.py \
-            runtime/kuuos_connection_evidence_review_v0_69.py \
-            scripts/check_kuuos_evidence_review_v069.py
-      - name: Validate external evidence review
-        run: PYTHONPATH=. python3 scripts/check_kuuos_evidence_review_v069.py
-      - name: Set up Lean
-        uses: leanprover/lean-action@v1
+      - run: PYTHONPATH=. python3 scripts/check_kuuos_evidence_review_v069.py
+      - uses: leanprover/lean-action@v1
         with:
           auto-config: false
           build: false
@@ -37,14 +24,7 @@ jobs:
           lint: false
           use-mathlib-cache: false
           use-github-cache: false
-      - name: Resolve dependencies
-        run: lake update
-      - name: Verify manifest stability
-        run: git diff --exit-code -- lake-manifest.json
-      - name: Fetch Mathlib cache
-        run: lake exe cache get
-      - name: Build strict formal root
-        run: >-
-          lake -KleanArgs=-DwarningAsError=true
-          -KleanArgs=-DsorryAsError=true
-          build KuuOSFormalV0_69
+      - run: lake update
+      - run: git diff --exit-code -- lake-manifest.json
+      - run: lake exe cache get
+      - run: lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormalV0_69

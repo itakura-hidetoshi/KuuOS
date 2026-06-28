@@ -1,8 +1,10 @@
-name: All Governance Validation
+name: All Governance Validation (Full Audit)
 
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
     paths:
       - 'docs/**'
       - 'specs/**'
@@ -14,22 +16,9 @@ on:
       - 'packets/**'
       - 'chain_indexes/**'
       - 'formal/**'
+      - 'runtime/**'
       - 'src/**'
-      - 'Makefile'
-      - '.github/**'
-  pull_request:
-    paths:
-      - 'docs/**'
-      - 'specs/**'
-      - 'scripts/**'
-      - 'examples/**'
-      - 'tests/**'
-      - 'validation_cases/**'
-      - 'manifests/**'
-      - 'packets/**'
-      - 'chain_indexes/**'
-      - 'formal/**'
-      - 'src/**'
+      - 'ci/**'
       - 'Makefile'
       - '.github/**'
 
@@ -37,13 +26,14 @@ permissions:
   contents: read
 
 concurrency:
-  group: all-governance-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  group: all-governance-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   validate-all-governance:
     name: Validate all governance checks
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 60
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
@@ -51,20 +41,26 @@ jobs:
           python-version: '3.12'
       - name: Check workflow consolidation integrity
         shell: bash
+        env:
+          KUUOS_FULL_WORKFLOW_SCAN: '1'
         run: |
-          set -o pipefail
+          set -euo pipefail
           python3 scripts/check_workflow_consolidation_integrity.py 2>&1 | tee workflow-integrity.log
       - name: Run all governance checks
         shell: bash
+        env:
+          PYTHONPATH: .
+          PYTHONUNBUFFERED: '1'
         run: |
-          set -o pipefail
+          set -euo pipefail
           python3 scripts/run_all_governance_full_checks_v0_1.py 2>&1 | tee all-governance.log
       - name: Upload governance diagnostics
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: governance-diagnostics-${{ github.run_id }}
+          name: governance-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}
           path: |
             workflow-integrity.log
             all-governance.log
           if-no-files-found: warn
+          retention-days: 30

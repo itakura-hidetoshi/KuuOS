@@ -3,20 +3,8 @@ name: PlanOS Validation
 on:
   workflow_dispatch:
   push:
-    paths:
-      - 'docs/KUUOS_PLAN_OS_*.md'
-      - 'docs/KUUOS_PLANOS_*.md'
-      - 'manifests/kuuos_plan_os_*.json'
-      - 'manifests/kuuos_planos_*.json'
-      - 'runtime/*plan_os*.py'
-      - 'runtime/*planos*.py'
-      - 'scripts/check_plan_os_*.py'
-      - 'scripts/check_planos_*.py'
-      - 'scripts/run_plan_os_full_checks.py'
-      - 'formal/KUOS/PlanOS/**'
-      - 'formal/KUOS.lean'
-      - '.github/workflows/plan-os-validation.yml'
-  pull_request:
+    branches:
+      - main
     paths:
       - 'docs/KUUOS_PLAN_OS_*.md'
       - 'docs/KUUOS_PLANOS_*.md'
@@ -35,25 +23,30 @@ permissions:
   contents: read
 
 concurrency:
-  group: plan-os-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  group: plan-os-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Compile PlanOS validation surfaces
-        run: python -m compileall -q runtime scripts/run_plan_os_full_checks.py
-      - name: Run PlanOS full checks
-        run: python scripts/run_plan_os_full_checks.py
-      - name: Upload early-version logs
+      - name: Compile validation surfaces
+        run: python3 -m compileall -q runtime scripts/run_plan_os_full_checks.py
+      - name: Run cumulative checks
+        env:
+          PYTHONPATH: .
+          PYTHONUNBUFFERED: '1'
+        run: python3 scripts/run_plan_os_full_checks.py
+      - name: Upload validation logs
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: plan-os-validation-logs
+          name: plan-os-validation-logs-${{ github.run_id }}-${{ github.run_attempt }}
           path: plan-os-v0*.log
           if-no-files-found: warn
+          retention-days: 14

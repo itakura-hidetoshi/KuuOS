@@ -2,89 +2,13 @@ name: Core Governance Validation
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - 'scripts/run_core_governance_full_checks_v0_1.py'
-      - 'scripts/validate_emptiness_middle_way_core*.py'
-      - 'scripts/validate_kuos_emptiness_superposition_non_collapse*.py'
-      - 'scripts/validate_mandala_multi_world_v0_1.py'
-      - 'scripts/validate_bodhisattva_ten_paramita_v0_1.py'
-      - 'scripts/validate_paramita_repair_router*.py'
-      - 'scripts/validate_dukkha*.py'
-      - 'scripts/validate_formal_invariant_spine_v0_1.py'
-      - 'scripts/validate_super_relativity_invariant_bridge_v0_1.py'
-      - 'scripts/validate_invariant_*.py'
-      - 'scripts/check_invariant_pipeline_finality_packet_v0_1.py'
-      - 'docs/*EMPTINESS*'
-      - 'docs/*PARAMITA*'
-      - 'docs/*DUKKHA*'
-      - 'docs/*INVARIANT*'
-      - 'docs/*MANDALA*'
-      - 'docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md'
-      - 'RELEASE_NOTES_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_v0_2.md'
-      - 'specs/*emptiness*'
-      - 'specs/*paramita*'
-      - 'specs/*dukkha*'
-      - 'specs/*invariant*'
-      - 'specs/*mandala*'
-      - 'specs/*bodhisattva*'
-      - 'specs/*super_relativity*'
-      - 'validation_cases/*emptiness*'
-      - 'validation_cases/*invariant*'
-      - 'manifests/*emptiness*'
-      - 'manifests/*invariant*'
-      - 'packets/*emptiness*'
-      - 'packets/*invariant*'
-      - 'chain_indexes/*emptiness*'
-      - 'chain_indexes/*invariant*'
-      - 'formal/KUOS/CoreGovernance/**'
-      - '.github/workflows/core_governance_validation.yml'
-  pull_request:
-    paths:
-      - 'scripts/run_core_governance_full_checks_v0_1.py'
-      - 'scripts/validate_emptiness_middle_way_core*.py'
-      - 'scripts/validate_kuos_emptiness_superposition_non_collapse*.py'
-      - 'scripts/validate_mandala_multi_world_v0_1.py'
-      - 'scripts/validate_bodhisattva_ten_paramita_v0_1.py'
-      - 'scripts/validate_paramita_repair_router*.py'
-      - 'scripts/validate_dukkha*.py'
-      - 'scripts/validate_formal_invariant_spine_v0_1.py'
-      - 'scripts/validate_super_relativity_invariant_bridge_v0_1.py'
-      - 'scripts/validate_invariant_*.py'
-      - 'scripts/check_invariant_pipeline_finality_packet_v0_1.py'
-      - 'docs/*EMPTINESS*'
-      - 'docs/*PARAMITA*'
-      - 'docs/*DUKKHA*'
-      - 'docs/*INVARIANT*'
-      - 'docs/*MANDALA*'
-      - 'docs/KUOS_CORE_GOVERNANCE_INDEX_v0_1.md'
-      - 'RELEASE_NOTES_EMPTINESS_SUPERPOSITION_NON_COLLAPSE_v0_2.md'
-      - 'specs/*emptiness*'
-      - 'specs/*paramita*'
-      - 'specs/*dukkha*'
-      - 'specs/*invariant*'
-      - 'specs/*mandala*'
-      - 'specs/*bodhisattva*'
-      - 'specs/*super_relativity*'
-      - 'validation_cases/*emptiness*'
-      - 'validation_cases/*invariant*'
-      - 'manifests/*emptiness*'
-      - 'manifests/*invariant*'
-      - 'packets/*emptiness*'
-      - 'packets/*invariant*'
-      - 'chain_indexes/*emptiness*'
-      - 'chain_indexes/*invariant*'
-      - 'formal/KUOS/CoreGovernance/**'
-      - '.github/workflows/core_governance_validation.yml'
 
 permissions:
   contents: read
 
 concurrency:
-  group: core-governance-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  group: core-governance-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   validate-core-governance:
@@ -102,6 +26,7 @@ jobs:
         shell: bash
         env:
           PYTHONUNBUFFERED: '1'
+          PYTHONPATH: .
         run: |
           set -euo pipefail
           python3 scripts/run_core_governance_full_checks_v0_1.py 2>&1 | tee core-governance.log

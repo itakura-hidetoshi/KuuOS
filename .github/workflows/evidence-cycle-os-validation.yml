@@ -3,6 +3,8 @@ name: Evidence Cycle OS Validation
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
     paths:
       - 'docs/KUUOS_ACT_OS_*.md'
       - 'docs/KUUOS_ACTOS_*.md'
@@ -36,46 +38,7 @@ on:
       - 'scripts/check_verifyos_*.py'
       - 'scripts/check_learn_os_*.py'
       - 'scripts/check_learnos_*.py'
-      - 'formal/KUOS/ActOS/**'
-      - 'formal/KUOS/ObserveOS/**'
-      - 'formal/KUOS/VerifyOS/**'
-      - 'formal/KUOS/LearnOS/**'
-      - 'formal/KUOS.lean'
-      - '.github/workflows/evidence-cycle-os-validation.yml'
-  pull_request:
-    paths:
-      - 'docs/KUUOS_ACT_OS_*.md'
-      - 'docs/KUUOS_ACTOS_*.md'
-      - 'docs/KUUOS_OBSERVE_OS_*.md'
-      - 'docs/KUUOS_OBSERVEOS_*.md'
-      - 'docs/KUUOS_VERIFY_OS_*.md'
-      - 'docs/KUUOS_VERIFYOS_*.md'
-      - 'docs/KUUOS_LEARN_OS_*.md'
-      - 'docs/KUUOS_LEARNOS_*.md'
-      - 'manifests/kuuos_act_os_*.json'
-      - 'manifests/kuuos_actos_*.json'
-      - 'manifests/kuuos_observe_os_*.json'
-      - 'manifests/kuuos_observeos_*.json'
-      - 'manifests/kuuos_verify_os_*.json'
-      - 'manifests/kuuos_verifyos_*.json'
-      - 'manifests/kuuos_learn_os_*.json'
-      - 'manifests/kuuos_learnos_*.json'
-      - 'runtime/*act_os*.py'
-      - 'runtime/*actos*.py'
-      - 'runtime/*observe_os*.py'
-      - 'runtime/*observeos*.py'
-      - 'runtime/*verify_os*.py'
-      - 'runtime/*verifyos*.py'
-      - 'runtime/*learn_os*.py'
-      - 'runtime/*learnos*.py'
-      - 'scripts/check_act_os_*.py'
-      - 'scripts/check_actos_*.py'
-      - 'scripts/check_observe_os_*.py'
-      - 'scripts/check_observeos_*.py'
-      - 'scripts/check_verify_os_*.py'
-      - 'scripts/check_verifyos_*.py'
-      - 'scripts/check_learn_os_*.py'
-      - 'scripts/check_learnos_*.py'
+      - 'scripts/run_evidence_cycle_os_full_checks.py'
       - 'formal/KUOS/ActOS/**'
       - 'formal/KUOS/ObserveOS/**'
       - 'formal/KUOS/VerifyOS/**'
@@ -87,99 +50,31 @@ permissions:
   contents: read
 
 concurrency:
-  group: evidence-cycle-os-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  group: evidence-cycle-os-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  early-versions:
-    runs-on: ubuntu-latest
+  validate:
+    name: Evidence Cycle OS cumulative validation
+    runs-on: ubuntu-24.04
     timeout-minutes: 30
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - id: act-os-v01
-            label: ActOS v0.1 authority-bound invocation
-            module: runtime.v01_act_os_authority_bound_invocation
-            check: scripts/check_act_os_authority_bound_invocation_v0_1.py
-            log: act-os-v01.log
-          - id: act-os-v02
-            label: ActOS v0.2 replan lineage authority envelope
-            module: runtime.v02_act_os_replan_lineage_authority_envelope
-            check: scripts/check_act_os_replan_lineage_authority_envelope_v0_2.py
-            log: act-os-v02.log
-          - id: observe-os-v01
-            label: ObserveOS v0.1 effect-grounded observation
-            module: runtime.v01_observe_os_effect_grounded_observation
-            check: scripts/check_observe_os_effect_grounded_observation_v0_1.py
-            log: observe-os-v01.log
-          - id: observe-os-v02
-            label: ObserveOS v0.2 replan lineage observation envelope
-            module: runtime.v02_observe_os_replan_lineage_observation_envelope
-            check: scripts/check_observe_os_replan_lineage_observation_envelope_v0_2.py
-            log: observe-os-v02.log
-          - id: verify-os-v01
-            label: VerifyOS v0.1 evidence-bound verification
-            module: runtime.v01_verify_os_evidence_bound_verification
-            check: scripts/check_verify_os_evidence_bound_verification_v0_1.py
-            log: verify-os-v01.log
-          - id: verify-os-v02
-            label: VerifyOS v0.2 replan lineage verification envelope
-            module: runtime.v02_verify_os_replan_lineage_verification_envelope
-            check: scripts/check_verify_os_replan_lineage_verification_envelope_v0_2.py
-            log: verify-os-v02.log
-          - id: learn-os-v01
-            label: LearnOS v0.1 future-only evidence learning
-            module: runtime.v01_learn_os_future_only_evidence_learning
-            check: scripts/check_learn_os_future_only_evidence_learning_v0_1.py
-            log: learn-os-v01.log
-          - id: learn-os-v02
-            label: LearnOS v0.2 replan lineage future-only learning
-            module: runtime.v02_learn_os_replan_lineage_future_only_learning_envelope
-            check: scripts/check_learn_os_replan_lineage_future_only_learning_envelope_v0_2.py
-            log: learn-os-v02.log
-    name: ${{ matrix.label }}
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Compile validation surfaces
-        run: python -m compileall -q runtime "${{ matrix.check }}"
-      - name: Run runtime and check
-        shell: bash
-        run: |
-          set -euo pipefail
-          PYTHONPATH=. python -m "${{ matrix.module }}" > "${{ matrix.log }}" 2>&1
-          PYTHONPATH=. python "${{ matrix.check }}" >> "${{ matrix.log }}" 2>&1
+        run: python3 -m compileall -q runtime scripts/run_evidence_cycle_os_full_checks.py
+      - name: Run cumulative checks
+        env:
+          PYTHONPATH: .
+          PYTHONUNBUFFERED: '1'
+        run: python3 scripts/run_evidence_cycle_os_full_checks.py 2>&1 | tee evidence-cycle-os-validation.log
       - name: Upload validation log
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.id }}-log
-          path: ${{ matrix.log }}
+          name: evidence-cycle-os-validation-log-${{ github.run_id }}-${{ github.run_attempt }}
+          path: evidence-cycle-os-validation.log
           if-no-files-found: warn
-
-  later-versions:
-    name: Later evidence-cycle checks
-    runs-on: ubuntu-latest
-    timeout-minutes: 30
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Run later checks
-        shell: bash
-        run: |
-          set -euo pipefail
-          for check in \
-            scripts/check_actos_activation_authorization_intake_v0_3.py \
-            scripts/check_actos_bounded_adapter_invocation_v0_4.py \
-            scripts/check_observeos_vacuum_expectation_intake_commit_receipt_v0_3.py \
-            scripts/check_observeos_world_host_effect_observation_v0_4.py \
-            scripts/check_verifyos_vacuum_expectation_commit_verification_receipt_v0_3.py \
-            scripts/check_learnos_vacuum_expectation_verification_future_only_delta_v0_3.py
-          do
-            PYTHONPATH=. python "$check"
-          done
+          retention-days: 14

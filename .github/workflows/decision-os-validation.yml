@@ -3,6 +3,8 @@ name: DecisionOS Validation
 on:
   workflow_dispatch:
   push:
+    branches:
+      - main
     paths:
       - 'docs/KUUOS_DECISION_OS_*.md'
       - 'docs/KUUOS_DECISIONOS_*.md'
@@ -12,19 +14,7 @@ on:
       - 'runtime/**/*decisionos*.py'
       - 'scripts/check_decision_os_*.py'
       - 'scripts/check_decisionos_*.py'
-      - 'formal/KUOS/DecisionOS/**'
-      - 'formal/KUOS.lean'
-      - '.github/workflows/decision-os-validation.yml'
-  pull_request:
-    paths:
-      - 'docs/KUUOS_DECISION_OS_*.md'
-      - 'docs/KUUOS_DECISIONOS_*.md'
-      - 'manifests/kuuos_decision_os_*.json'
-      - 'manifests/kuuos_decisionos_*.json'
-      - 'runtime/**/*decision_os*.py'
-      - 'runtime/**/*decisionos*.py'
-      - 'scripts/check_decision_os_*.py'
-      - 'scripts/check_decisionos_*.py'
+      - 'scripts/run_decision_os_full_checks.py'
       - 'formal/KUOS/DecisionOS/**'
       - 'formal/KUOS.lean'
       - '.github/workflows/decision-os-validation.yml'
@@ -33,61 +23,31 @@ permissions:
   contents: read
 
 concurrency:
-  group: decision-os-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  group: decision-os-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  early-versions:
-    runs-on: ubuntu-latest
+  validate:
+    name: DecisionOS cumulative validation
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
-    strategy:
-      fail-fast: false
-      matrix:
-        include:
-          - id: decision-os-v01
-            label: DecisionOS v0.1 relational deliberation
-            module: runtime.v01_decision_os_relational_deliberation
-            check: scripts/check_decision_os_relational_deliberation_v0_1.py
-            log: decision-os-v01.log
-          - id: decision-os-v02
-            label: DecisionOS v0.2 plural harmony appeal
-            module: runtime.v02_decision_os_plural_harmony_appeal
-            check: scripts/check_decision_os_plural_harmony_appeal_v0_2.py
-            log: decision-os-v02.log
-          - id: decision-os-wa-v03
-            label: DecisionOS Wa v0.3 relational harmony
-            module: runtime.v03_decision_os_wa_relational_harmony
-            check: scripts/check_decision_os_wa_relational_harmony_v0_3.py
-            log: decision-os-wa-v03.log
-    name: ${{ matrix.label }}
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
       - name: Compile validation surfaces
-        run: python -m compileall -q runtime "${{ matrix.check }}"
-      - name: Run runtime and check
-        shell: bash
-        run: |
-          set -euo pipefail
-          python -m "${{ matrix.module }}" > "${{ matrix.log }}" 2>&1
-          python "${{ matrix.check }}" >> "${{ matrix.log }}" 2>&1
+        run: python3 -m compileall -q runtime scripts/run_decision_os_full_checks.py
+      - name: Run cumulative checks
+        env:
+          PYTHONPATH: .
+          PYTHONUNBUFFERED: '1'
+        run: python3 scripts/run_decision_os_full_checks.py 2>&1 | tee decision-os-validation.log
       - name: Upload validation log
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: ${{ matrix.id }}-log
-          path: ${{ matrix.log }}
+          name: decision-os-validation-log-${{ github.run_id }}-${{ github.run_attempt }}
+          path: decision-os-validation.log
           if-no-files-found: warn
-
-  current-version:
-    name: DecisionOS v0.4 admissible candidate selection
-    runs-on: ubuntu-latest
-    timeout-minutes: 20
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - run: python scripts/check_decisionos_admissible_candidate_selection_v0_4.py
+          retention-days: 14
