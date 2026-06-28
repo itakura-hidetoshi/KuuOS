@@ -1,0 +1,23 @@
+{
+  "manifest_version": "kuuos_repository_revision_dag_v0_85",
+  "repository_autorepair_contract": true,
+  "runtime_modules": [
+    "runtime/kuuos_repository_revision_dag_types_v0_85.py",
+    "runtime/kuuos_repository_revision_dag_v0_85.py"
+  ],
+  "tests": "tests/test_kuuos_repository_revision_dag_v0_85.py",
+  "validator": "scripts/check_kuuos_repository_revision_dag_v085.py",
+  "documentation": "docs/KUUOS_REPOSITORY_REVISION_DAG_v0_85.md",
+  "strict_formal_root": "KuuOSRepositoryRevisionDagV0_85",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryRevisionDagV0_85"
+  ],
+  "finite_revision_dag": true,
+  "single_root_required": true,
+  "source_reference_closure": true,
+  "parent_arity_checked": true,
+  "all_nodes_reachable": true,
+  "acyclicity_checked": true,
+  "normal_form_preserved": true,
+  "external_approval_required": false
+}

@@ -5,7 +5,7 @@ from __future__ import annotations
 
 The filename is retained for compatibility with existing workflows and external
 callers.  The actual validation frontier follows the integrated `main` branch
-through KuuOS Repository Merge Certificate v0.84.
+through KuuOS Repository Revision DAG v0.85.
 
 This runner executes validators in dependency order and stops at the first
 failure.  A successful run is an integrity receipt for the checked repository
@@ -32,7 +32,7 @@ from scripts.check_world_kuu_vacuum_information_geometry_v0_55 import (
 from scripts.run_kuuos_runtime_full_check_v0_54 import main as run_v054_full_check
 
 
-CURRENT_RUNTIME_FRONTIER = "v0.84"
+CURRENT_RUNTIME_FRONTIER = "v0.85"
 
 VALIDATORS_AFTER_V055: tuple[str, ...] = (
     # WORLD continuation with runtime-facing static validators.
@@ -65,6 +65,7 @@ VALIDATORS_AFTER_V055: tuple[str, ...] = (
     "scripts/check_kuuos_repository_certificate_chain_v082.py",
     "scripts/check_kuuos_repository_git_revision_adapter_v083.py",
     "scripts/check_kuuos_repository_merge_certificate_v084.py",
+    "scripts/check_kuuos_repository_revision_dag_v085.py",
 )
 
 

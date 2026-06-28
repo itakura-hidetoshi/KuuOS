@@ -74,8 +74,8 @@ def leibniz_receipt_digest(receipt: LeibnizSelfOrganizationReceipt) -> str:
 
 
 def validate_leibniz_candidate(
-    module: KuuStateModule,
-    calculus: InnerDifferentialCalculus,
+    module: KuuStateModule | InnerDifferentialCalculus,
+    calculus: InnerDifferentialCalculus | KuuStateModule,
     source: LeibnizModuleConnection,
     deformation: ConnectionDeformation,
     gauge: SignedPermutation,
@@ -83,6 +83,19 @@ def validate_leibniz_candidate(
     module_sections: tuple[FreeLeftModuleSection, ...],
     noncommutative_witness: tuple[Matrix, Matrix],
 ) -> tuple[LeibnizModuleConnection, LeibnizSelfOrganizationReceipt]:
+    # v0.71's original fixture exposed (calculus, module, ...), while the
+    # canonical runtime API was registered as (module, calculus, ...).  Keep
+    # the canonical order and normalize the already-published fixture order at
+    # this single boundary so v0.72-v0.76 remain replayable.
+    if isinstance(module, InnerDifferentialCalculus):
+        if not isinstance(calculus, KuuStateModule):
+            raise TypeError("leibniz_candidate_argument_types_invalid")
+        module, calculus = calculus, module
+    elif not isinstance(module, KuuStateModule) or not isinstance(
+        calculus, InnerDifferentialCalculus
+    ):
+        raise TypeError("leibniz_candidate_argument_types_invalid")
+
     issues: list[str] = []
     source_digest_before = source.digest
     try:
