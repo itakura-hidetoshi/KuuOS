@@ -7,6 +7,7 @@ from runtime.kuuos_memory_review_identity_v0_74 import MemoryReviewerIdentity
 from runtime.kuuos_memory_review_receipt_v0_74 import (
     ALLOWED_DECISIONS,
     APPROVE_MEMORY_SELECTION,
+    REJECT_MEMORY_SELECTION,
     MemoryReviewReceipt,
     memory_review_receipt_digest,
 )
@@ -14,6 +15,7 @@ from runtime.kuuos_memory_review_request_v0_74 import (
     MemoryReviewRequest,
     memory_review_request_digest,
 )
+from runtime.kuuos_memory_selection_reviewability_v0_74 import selection_review_issues
 from runtime.kuuos_memory_selection_v0_73 import (
     MemorySelectionRecord,
     selection_record_digest,
@@ -32,7 +34,7 @@ def review_memory_selection(
     decision: str,
     decided_at_epoch: int,
 ) -> MemoryReviewReceipt:
-    issues: list[str] = []
+    issues = list(selection_review_issues(selection))
     if request.request_digest != memory_review_request_digest(request):
         issues.append("memory_review_request_digest_mismatch")
     if selection.record_digest != selection_record_digest(selection):
@@ -76,7 +78,7 @@ def review_memory_selection(
         status = REVIEW_BLOCKED
     elif decision == APPROVE_MEMORY_SELECTION:
         status = REVIEW_APPROVED
-    elif decision == "REJECT_MEMORY_SELECTION":
+    elif decision == REJECT_MEMORY_SELECTION:
         status = REVIEW_REJECTED
     else:
         status = REVIEW_REEVALUATION_REQUESTED
