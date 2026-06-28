@@ -26,17 +26,15 @@ theorem conjugateAdjointConstraint_isClosed
   · exact continuous_const.inner continuous_fst
   · exact continuous_snd.inner continuous_const
 
+omit [IsScalarTower Real Complex H] in
 theorem conjugateAdjointGraph_eq_iInter :
     R.conjugateAdjointGraph =
       ⋂ x : R.pmap.closure.domain, R.conjugateAdjointConstraint x := by
   ext p
   constructor
-  · intro hp
-    apply Set.mem_iInter.mpr
-    intro x
+  · intro hp x
     exact hp x
-  · intro hp
-    intro x
+  · intro hp x
     exact Set.mem_iInter.mp hp x
 
 theorem conjugateAdjointGraph_isClosed :
