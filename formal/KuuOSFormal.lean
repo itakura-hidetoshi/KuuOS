@@ -2,7 +2,7 @@
 # KuuOS aggregate formal root
 
 This is the strict aggregate build surface for the formal artifacts integrated on
-`main` through KuuOS Memory Rollback v0.76.
+`main` through KuuOS Self-Organizing Improvement Loop v0.78.
 
 The root preserves the distinction between a Lean-derived theorem, a structure
 supplied by hypotheses, an external analytic or institutional receipt, and an
@@ -38,7 +38,7 @@ import KUOS.WORLD.TomitaClosedGraphIsometryV0_57
 import KUOS.WORLD.TomitaConjugateAdjointClosedV0_58
 import KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59
 
--- Gauge-field self-organization and approval boundary.
+-- Gauge-field self-organization and legacy approval boundary.
 import KUOS.WORLD.KuuOSGaugeFieldSelfOrganizationV0_60
 import KUOS.WORLD.KuuOSOSAssociatedGaugeFieldsV0_61
 import KUOS.WORLD.KuuOSConnectionCandidateCoreV0_62
@@ -59,3 +59,7 @@ import KUOS.WORLD.KuuOSFiniteMemoryEvaluationV0_73
 import KUOS.WORLD.KuuOSMemorySelectionReviewV0_74
 import KUOS.WORLD.KuuOSAuthorizedMemoryApplicationV0_75
 import KUOS.WORLD.KuuOSMemoryRollbackV0_76
+
+-- Primary no-external-approval self-improvement loop.
+import KUOS.WORLD.KuuOSSelfOrganizingImprovementLoopV0_78
+import KUOS.WORLD.KuuOSBoundedSelfOrganizationSupervisorV0_78

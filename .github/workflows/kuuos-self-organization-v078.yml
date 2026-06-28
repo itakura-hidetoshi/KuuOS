@@ -1,0 +1,19 @@
+name: KuuOS Self-Organization v0.78
+
+on:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - run: PYTHONPATH=. python3 scripts/check_kuuos_self_organization_v078.py
+      - run: python3 -m json.tool manifests/kuuos_self_organization_v0_78.json >/dev/null
