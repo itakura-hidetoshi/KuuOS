@@ -1,0 +1,21 @@
+{
+  "manifest_version": "kuuos_repository_merge_certificate_v0_84",
+  "repository_autorepair_contract": true,
+  "runtime_modules": [
+    "runtime/kuuos_repository_merge_certificate_types_v0_84.py",
+    "runtime/kuuos_repository_merge_certificate_v0_84.py"
+  ],
+  "tests": "tests/test_kuuos_repository_merge_certificate_v0_84.py",
+  "validator": "scripts/check_kuuos_repository_merge_certificate_v084.py",
+  "documentation": "docs/KUUOS_REPOSITORY_MERGE_CERTIFICATE_v0_84.md",
+  "strict_formal_root": "KuuOSRepositoryMergeCertificateV0_84",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryMergeCertificateV0_84"
+  ],
+  "two_parent_order_exact": true,
+  "common_root_required": true,
+  "branch_suffixes_disjoint": true,
+  "changed_paths_disjoint": true,
+  "merge_normal_form_required": true,
+  "external_approval_required": false
+}
