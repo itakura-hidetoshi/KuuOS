@@ -1,0 +1,31 @@
+{
+  "manifest_version": "kuuos_noncommutative_leibniz_connection_v0_71",
+  "predecessor": "kuuos_module_bundle_self_organization_v0_70",
+  "architecture": "noncommutative-context-algebra-left-module-leibniz-connection",
+  "graph_semantics_required": false,
+  "runtime_modules": [
+    "runtime/kuuos_noncommutative_differential_calculus_v0_71.py",
+    "runtime/kuuos_leibniz_module_connection_v0_71.py",
+    "runtime/kuuos_leibniz_candidate_validation_v0_71.py"
+  ],
+  "validator": "scripts/check_kuuos_noncommutative_leibniz_v071.py",
+  "lean_surface": "KuuOSNoncommutativeLeibnizConnectionV0_71",
+  "strict_formal_root": "KuuOSFormalV0_71",
+  "context_algebra_noncommutative": true,
+  "differential_calculus": "inner-derivations",
+  "differential_directions_commute": true,
+  "connection_leibniz_required": true,
+  "connection_difference_left_module_linear": true,
+  "curvature_left_module_linear": true,
+  "gauge_covariance_required": true,
+  "semantic_projectors_preserved": true,
+  "protected_deformation_zero": true,
+  "authority_filtration_preserved": true,
+  "rollback_algebraic_exact": true,
+  "rollback_structural_exact": true,
+  "rollback_digest_exact": true,
+  "candidate_construction_live_effect": false,
+  "candidate_construction_state_write": false,
+  "authority_widening_allowed": false,
+  "approval_production_authority_inherited_from_v0_69": true
+}

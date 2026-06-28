@@ -1,0 +1,65 @@
+name: KuuOS Noncommutative Leibniz Connection v0.71
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_noncommutative_differential_calculus_v0_71.py'
+      - 'runtime/kuuos_leibniz_module_connection_v0_71.py'
+      - 'runtime/kuuos_leibniz_candidate_validation_v0_71.py'
+      - 'scripts/check_kuuos_noncommutative_leibniz_v071.py'
+      - 'docs/KUUOS_NONCOMMUTATIVE_LEIBNIZ_CONNECTION_v0_71.md'
+      - 'manifests/kuuos_noncommutative_leibniz_v0_71.json'
+      - 'formal/KUOS/WORLD/KuuOSNoncommutativeLeibnizConnectionV0_71.lean'
+      - 'formal/KuuOSFormalV0_71.lean'
+      - 'formal/KUOS.lean'
+      - 'formal/KuuOSFormal.lean'
+      - 'lakefile.toml'
+      - '.github/workflows/kuuos-noncommutative-leibniz-v071.yml'
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile noncommutative Leibniz runtime
+        run: >-
+          python3 -m compileall -q
+          runtime/kuuos_noncommutative_differential_calculus_v0_71.py
+          runtime/kuuos_leibniz_module_connection_v0_71.py
+          runtime/kuuos_leibniz_candidate_validation_v0_71.py
+          scripts/check_kuuos_noncommutative_leibniz_v071.py
+      - name: Validate noncommutative Leibniz connections
+        run: PYTHONPATH=. python3 scripts/check_kuuos_noncommutative_leibniz_v071.py
+      - name: Validate manifest JSON
+        run: python3 -m json.tool manifests/kuuos_noncommutative_leibniz_v0_71.json >/dev/null
+      - name: Set up Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve dependencies
+        run: lake update
+      - name: Verify manifest stability
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib cache
+        run: lake exe cache get
+      - name: Build aggregate and v0.71 strict roots
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true
+          build KuuOSFormal KuuOSFormalV0_71
