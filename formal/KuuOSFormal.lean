@@ -62,3 +62,4 @@ import KUOS.WORLD.KuuOSMemoryRollbackV0_76
 
 -- Primary no-external-approval self-improvement loop.
 import KUOS.WORLD.KuuOSSelfOrganizingImprovementLoopV0_78
+import KUOS.WORLD.KuuOSBoundedSelfOrganizationSupervisorV0_78
