@@ -45,6 +45,7 @@ def assess_memory_member(
     base_connection: LeibnizModuleConnection,
     history: ReadOnlyMemoryHistory,
     source_kernel: FiniteMemoryKernel,
+    source_score: float,
     gauge: SignedPermutation,
     algebra_samples: tuple[Matrix, ...],
     current_sections: tuple[FreeLeftModuleSection, ...],
@@ -63,25 +64,38 @@ def assess_memory_member(
         current_sections,
         current_epoch,
     )
-    source_score = memory_return_score(source_kernel, history.frames, current_epoch)
-    evaluated_score = memory_return_score(
-        connection.memory_kernel,
-        history.frames,
-        current_epoch,
-    )
-    nonincreasing = evaluated_score <= source_score + policy.tolerance
-    strict_decrease = evaluated_score < source_score - policy.tolerance
-    gauge_invariant = (
-        score_is_gauge_invariant(source_kernel, history, current_epoch, gauge, policy.tolerance)
-        and score_is_gauge_invariant(
-            connection.memory_kernel,
-            history,
-            current_epoch,
-            gauge,
-            policy.tolerance,
-        )
-    )
     issues = list(validation.blockers)
+    try:
+        evaluated_score = memory_return_score(
+            connection.memory_kernel,
+            history.frames,
+            current_epoch,
+        )
+        nonincreasing = evaluated_score <= source_score + policy.tolerance
+        strict_decrease = evaluated_score < source_score - policy.tolerance
+        gauge_invariant = (
+            score_is_gauge_invariant(
+                source_kernel,
+                history,
+                current_epoch,
+                gauge,
+                policy.tolerance,
+            )
+            and score_is_gauge_invariant(
+                connection.memory_kernel,
+                history,
+                current_epoch,
+                gauge,
+                policy.tolerance,
+            )
+        )
+    except ValueError as error:
+        evaluated_score = source_score
+        nonincreasing = False
+        strict_decrease = False
+        gauge_invariant = False
+        issues.extend((str(error), "memory_score_unavailable"))
+
     if policy.require_nonincrease and not nonincreasing:
         issues.append("memory_score_increased")
     if policy.require_strict_decrease and not strict_decrease:
@@ -121,29 +135,51 @@ def evaluate_memory_family(
     policy: MemoryEvaluationPolicy,
 ) -> tuple[NonMarkovMemoryConnection, MemorySelectionRecord]:
     source_connection = NonMarkovMemoryConnection(base_connection, source_kernel)
-    source_score = memory_return_score(source_kernel, history.frames, current_epoch)
     history_digest_before = history.digest
     kernel_digest_before = source_kernel.digest
     issues: list[str] = []
+    try:
+        source_score = memory_return_score(source_kernel, history.frames, current_epoch)
+    except ValueError as error:
+        source_score = 0.0
+        issues.extend((str(error), "source_memory_score_unavailable"))
     if family.source_kernel_digest != source_kernel.digest:
         issues.append("memory_family_source_binding_mismatch")
 
     evaluated: list[tuple[MemoryFamilyMember, NonMarkovMemoryConnection, MemoryAssessment]] = []
     if not issues:
         for member in family.members:
-            connection, assessment = assess_memory_member(
-                member,
-                module,
-                calculus,
-                base_connection,
-                history,
-                source_kernel,
-                gauge,
-                algebra_samples,
-                current_sections,
-                current_epoch,
-                policy,
-            )
+            try:
+                connection, assessment = assess_memory_member(
+                    member,
+                    module,
+                    calculus,
+                    base_connection,
+                    history,
+                    source_kernel,
+                    source_score,
+                    gauge,
+                    algebra_samples,
+                    current_sections,
+                    current_epoch,
+                    policy,
+                )
+            except ValueError as error:
+                connection = source_connection
+                assessment = MemoryAssessment(
+                    member.member_id,
+                    member.digest,
+                    member.deformation.digest,
+                    source_connection.digest,
+                    source_score,
+                    source_score,
+                    False,
+                    False,
+                    0,
+                    False,
+                    False,
+                    (str(error), "memory_member_evaluation_failed"),
+                )
             evaluated.append((member, connection, assessment))
 
     accepted = [item for item in evaluated if item[2].accepted]
