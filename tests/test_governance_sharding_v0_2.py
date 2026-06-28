@@ -99,6 +99,27 @@ class GovernanceShardingV02Tests(unittest.TestCase):
         self.assertIn("index: [0, 1, 2, 3, 4, 5, 6, 7]", text)
         self.assertIn("scripts/build_audit_summary.py", text)
 
+    def test_workflow_has_post_merge_main_trigger(self) -> None:
+        text = (
+            ROOT / ".github/workflows/all_governance_sharded_v0_2.yml"
+        ).read_text(encoding="utf-8")
+        self.assertIn("push:", text)
+        self.assertIn("branches: [main]", text)
+        self.assertIn("- 'tests/**'", text)
+        self.assertNotIn("pull_request:", text)
+
+    def test_stable_manual_entry_delegates_to_sharded_workflow(self) -> None:
+        text = (
+            ROOT / ".github/workflows/all_governance_validation.yml"
+        ).read_text(encoding="utf-8")
+        self.assertIn("workflow_dispatch:", text)
+        self.assertIn(
+            "uses: ./.github/workflows/all_governance_sharded_v0_2.yml",
+            text,
+        )
+        self.assertNotIn("push:", text)
+        self.assertNotIn("pull_request:", text)
+
 
 if __name__ == "__main__":
     unittest.main()
