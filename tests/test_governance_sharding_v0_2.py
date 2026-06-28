@@ -108,6 +108,20 @@ class GovernanceShardingV02Tests(unittest.TestCase):
         self.assertIn("- 'tests/**'", text)
         self.assertNotIn("pull_request:", text)
 
+    def test_superseded_push_audits_cancel_without_canceling_manual_audits(self) -> None:
+        text = (
+            ROOT / ".github/workflows/all_governance_sharded_v0_2.yml"
+        ).read_text(encoding="utf-8")
+        self.assertIn(
+            "group: sharded-full-governance-${{ github.event_name }}-${{ github.ref }}",
+            text,
+        )
+        self.assertIn(
+            "cancel-in-progress: ${{ github.event_name == 'push' }}",
+            text,
+        )
+        self.assertNotIn("cancel-in-progress: false", text)
+
     def test_stable_manual_entry_delegates_to_sharded_workflow(self) -> None:
         text = (
             ROOT / ".github/workflows/all_governance_validation.yml"
