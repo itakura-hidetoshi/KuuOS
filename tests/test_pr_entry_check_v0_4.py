@@ -8,6 +8,7 @@ import unittest
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 sys.path.insert(0, str(ROOT / "scripts"))
 
+from audit_pr_workflows_v0_4 import build_inventory
 from run_pr_entry_check_v0_4 import CHECK_IDS, build_commands
 
 MIGRATED = {
@@ -43,6 +44,13 @@ class PrEntryCheckTests(unittest.TestCase):
             self.assertIn(check_id, checks)
             self.assertIn(workflow, checks[check_id]["paths"])
             self.assertIn("scripts/run_pr_entry_check_v0_4.py", checks[check_id]["command"])
+
+    def test_inventory_has_one_canonical_gate_and_no_target_trigger(self):
+        inventory = build_inventory()
+        canonical = [entry for entry in inventory["entries"] if entry["canonical"]]
+        self.assertEqual(len(canonical), 1)
+        self.assertEqual(inventory["pull_request_target"], [])
+        print(json.dumps(inventory, ensure_ascii=False, indent=2))
 
     def test_unknown_id_is_rejected(self):
         with self.assertRaises(ValueError):
