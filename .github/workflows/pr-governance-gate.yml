@@ -1,0 +1,228 @@
+name: KuuOS PR Governance Gate
+
+on:
+  pull_request:
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-pr-governance-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  select:
+    name: Select impacted audit checks
+    runs-on: ubuntu-24.04
+    outputs:
+      python_matrix: ${{ steps.selection.outputs.python_matrix }}
+      python_count: ${{ steps.selection.outputs.python_count }}
+      lean_required: ${{ steps.selection.outputs.lean_required }}
+      full_audit_required: ${{ steps.selection.outputs.full_audit_required }}
+    steps:
+      - name: Check out repository with history
+        uses: actions/checkout@v6
+        with:
+          fetch-depth: 0
+
+      - name: Resolve comparison refs
+        id: refs
+        shell: bash
+        env:
+          EVENT_NAME: ${{ github.event_name }}
+          PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
+          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          CURRENT_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          if [[ "${EVENT_NAME}" == "pull_request" ]]; then
+            echo "base=${PR_BASE_SHA}" >> "${GITHUB_OUTPUT}"
+            echo "head=${PR_HEAD_SHA}" >> "${GITHUB_OUTPUT}"
+          else
+            git fetch origin main --depth=2
+            echo "base=origin/main" >> "${GITHUB_OUTPUT}"
+            echo "head=${CURRENT_SHA}" >> "${GITHUB_OUTPUT}"
+          fi
+
+      - name: Select checks with fail-closed fallback
+        id: selection
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/selection
+          python3 scripts/select_impacted_checks.py \
+            --base '${{ steps.refs.outputs.base }}' \
+            --head '${{ steps.refs.outputs.head }}' \
+            --output artifacts/selection/selection.json \
+            --github-output "${GITHUB_OUTPUT}"
+
+      - name: Upload selection receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-selection-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/selection/selection.json
+          if-no-files-found: error
+          retention-days: 14
+
+  python-checks:
+    name: ${{ matrix.check.name }}
+    needs: select
+    if: needs.select.outputs.python_count != '0'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 50
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        check: ${{ fromJSON(needs.select.outputs.python_matrix) }}
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Download selection receipt
+        uses: actions/download-artifact@v5
+        with:
+          name: audit-selection-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/selection
+
+      - name: Run selected check
+        shell: bash
+        env:
+          PYTHONPATH: .
+          PYTHONUNBUFFERED: '1'
+        run: |
+          set -euo pipefail
+          python3 scripts/run_ci_check.py \
+            --check-id '${{ matrix.check.id }}' \
+            --command '${{ matrix.check.command }}' \
+            --selection artifacts/selection/selection.json
+
+      - name: Upload check receipt and log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-check-${{ matrix.check.id }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/checks/${{ matrix.check.id }}/
+          if-no-files-found: warn
+          retention-days: 14
+
+  lean-formal:
+    name: Strict Lean formal validation
+    needs: select
+    if: needs.select.outputs.lean_required == 'true'
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Download selection receipt
+        uses: actions/download-artifact@v5
+        with:
+          name: audit-selection-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/selection
+
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+
+      - name: Restore Lake workspace cache
+        uses: actions/cache@v5
+        with:
+          path: .lake
+          key: kuuos-pr-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}
+          restore-keys: |
+            kuuos-pr-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
+
+      - name: Resolve pinned dependencies
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake update
+          git diff --exit-code -- lake-manifest.json
+          lake exe cache get
+
+      - name: Run selected Lean check
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/run_ci_check.py \
+            --check-id lean-formal \
+            --command 'lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal' \
+            --selection artifacts/selection/selection.json
+
+      - name: Upload Lean receipt and log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-check-lean-formal-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/checks/lean-formal/
+          if-no-files-found: warn
+          retention-days: 14
+
+  governance-gate:
+    name: Governance gate and audit summary
+    needs:
+      - select
+      - python-checks
+      - lean-formal
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Download selection receipt
+        continue-on-error: true
+        uses: actions/download-artifact@v5
+        with:
+          name: audit-selection-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/selection
+
+      - name: Download check receipts
+        continue-on-error: true
+        uses: actions/download-artifact@v5
+        with:
+          pattern: audit-check-*-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/receipts
+          merge-multiple: true
+
+      - name: Build audit summary
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/build_audit_summary.py \
+            --selection artifacts/selection/selection.json \
+            --receipts-root artifacts/receipts \
+            --output-dir artifacts/summary \
+            --python-result '${{ needs.python-checks.result }}' \
+            --lean-result '${{ needs.lean-formal.result }}'
+
+      - name: Publish report in job summary
+        if: always()
+        shell: bash
+        run: |
+          if [[ -f artifacts/summary/audit-report.md ]]; then
+            cat artifacts/summary/audit-report.md >> "${GITHUB_STEP_SUMMARY}"
+          fi
+
+      - name: Upload audit summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-summary-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/summary/
+          if-no-files-found: warn
+          retention-days: 30
