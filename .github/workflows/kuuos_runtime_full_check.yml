@@ -19,28 +19,13 @@ on:
       - 'lake-manifest.json'
       - 'lean-toolchain'
       - '.github/workflows/kuuos_runtime_full_check.yml'
-  pull_request:
-    paths:
-      - 'README.md'
-      - 'ROADMAP.md'
-      - 'runtime/**'
-      - 'tests/**'
-      - 'examples/**'
-      - 'scripts/**'
-      - 'manifests/**'
-      - 'formal/**'
-      - 'docs/**'
-      - 'lakefile.toml'
-      - 'lake-manifest.json'
-      - 'lean-toolchain'
-      - '.github/workflows/kuuos_runtime_full_check.yml'
 
 permissions:
   contents: read
 
 concurrency:
-  group: kuuos-runtime-full-check-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  group: kuuos-runtime-full-check-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
   full-check:
