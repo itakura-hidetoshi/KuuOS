@@ -2,7 +2,8 @@ name: Qi Process Tensor Review Checks
 
 on:
   workflow_dispatch:
-  pull_request:
+  push:
+    branches: [main]
     paths:
       - 'runtime/kuuos_runtime_daemon_qi_*.py'
       - 'runtime/kuuos_causal_world_model_*_v14_0.py'
@@ -19,53 +20,19 @@ on:
 permissions:
   contents: read
 
-defaults:
-  run:
-    shell: bash
-
 jobs:
-  qi-process-tensor-review:
+  validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 12
+    timeout-minutes: 15
     steps:
-      - name: Checkout
-        uses: actions/checkout@v4
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
         with:
-          python-version: '3.11'
-
-      - name: Run Qi process tensor review check suite
-        run: |
-          mkdir -p .out/qi-supervisor
-          python scripts/run_qi_process_tensor_review_checks_v0_1.py \
-            --write-json .out/qi-supervisor/process_tensor_review_check_suite.json
-
-      - name: Run Qi CF lattice check suite
-        run: |
-          python scripts/run_qi_cf_lattice_checks_v0_1.py
-
-      - name: Run Qi process tensor scheduler check suite
-        run: |
-          python scripts/run_qi_process_tensor_scheduler_checks_v0_1.py
-
-      - name: Run Qi v0.2 MemoryOS replay loop closure check suite
-        run: |
-          python scripts/run_qi_v02_memoryos_replay_loop_closure_checks.py
-
-      - name: Run Qi v0.2 closed-loop workflow addendum check
-        run: |
-          python scripts/check_qi_process_tensor_review_v02_closed_loop_workflow_addendum_v0_1.py
-
-      - name: Run KuuOS v14 causal world model check
-        run: |
-          python scripts/check_kuuos_causal_world_model_os_v14_0.py
-
-      - name: Upload Qi process tensor review suite result
-        if: always()
+          python-version: '3.12'
+      - run: python3 scripts/run_pr_entry_check_v0_4.py --check-id qi-process-review --output-root .out/checks
+      - if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: qi-process-tensor-review-check-suite
-          path: .out/qi-supervisor/process_tensor_review_check_suite.json
+          name: qi-process-review-${{ github.run_id }}
+          path: .out/checks/qi-process-review
           if-no-files-found: warn

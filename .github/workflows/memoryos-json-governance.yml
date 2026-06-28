@@ -1,12 +1,6 @@
 name: MemoryOS JSON Governance
 
 on:
-  pull_request:
-    paths:
-      - "memoryos/**/*.json"
-      - "memoryos/**/*.md"
-      - "tools/memoryos/**/*.py"
-      - ".github/workflows/memoryos-json-governance.yml"
   push:
     branches: [main]
     paths:
@@ -36,16 +30,17 @@ jobs:
     steps:
       - name: Checkout
         uses: actions/checkout@v4
-
       - name: Set up Python
         uses: actions/setup-python@v5
         with:
           python-version: "3.12"
-
       - name: Validate current JSON governance state
         run: |
-          python3 tools/memoryos/json_governance_guard.py             --repo-root .             --current memoryos/ops/current             --prev memoryos/ops/prev             --out-dir _memoryos_json_governance
-
+          python3 tools/memoryos/json_governance_guard.py \
+            --repo-root . \
+            --current memoryos/ops/current \
+            --prev memoryos/ops/prev \
+            --out-dir _memoryos_json_governance
       - name: Upload JSON governance receipt
         if: always()
         uses: actions/upload-artifact@v4
