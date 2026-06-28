@@ -9,30 +9,30 @@ on:
       - 'scripts/check_world_four_great_phase_dynamics_v0_59.py'
       - 'manifests/world_four_great_phase_dynamics_v0_59.json'
       - 'docs/KU_WORLD_FOUR_GREAT_PHASE_DYNAMICS_v0_59.md'
-      - 'formal/KUOS/WORLD/**'
+      - 'formal/KUOS/WORLD/FourGreatPhaseDynamicsCoreV0_59.lean'
+      - 'formal/KUOS/WORLD/FourGreatPhaseDynamicsV0_59.lean'
+      - 'formal/KUOS/WORLD/FourGreatPhaseDynamicsCoreBridgeV0_59.lean'
+      - 'formal/KUOS/WORLD/KuuVacuumArakiHessianOSTransportV0_56.lean'
       - 'formal/KuuOSFourGreatCoreV0_59.lean'
       - 'formal/KuuOSFormalV0_59.lean'
-      - 'formal/KuuOSFormal.lean'
-      - 'formal/KUOS.lean'
       - 'lakefile.toml'
       - 'lake-manifest.json'
       - 'lean-toolchain'
-      - '.github/workflows/world-v053-v059-main-validation.yml'
       - '.github/workflows/world-four-great-phase-dynamics-v0-59.yml'
   pull_request:
     paths:
       - 'scripts/check_world_four_great_phase_dynamics_v0_59.py'
       - 'manifests/world_four_great_phase_dynamics_v0_59.json'
       - 'docs/KU_WORLD_FOUR_GREAT_PHASE_DYNAMICS_v0_59.md'
-      - 'formal/KUOS/WORLD/**'
+      - 'formal/KUOS/WORLD/FourGreatPhaseDynamicsCoreV0_59.lean'
+      - 'formal/KUOS/WORLD/FourGreatPhaseDynamicsV0_59.lean'
+      - 'formal/KUOS/WORLD/FourGreatPhaseDynamicsCoreBridgeV0_59.lean'
+      - 'formal/KUOS/WORLD/KuuVacuumArakiHessianOSTransportV0_56.lean'
       - 'formal/KuuOSFourGreatCoreV0_59.lean'
       - 'formal/KuuOSFormalV0_59.lean'
-      - 'formal/KuuOSFormal.lean'
-      - 'formal/KUOS.lean'
       - 'lakefile.toml'
       - 'lake-manifest.json'
       - 'lean-toolchain'
-      - '.github/workflows/world-v053-v059-main-validation.yml'
       - '.github/workflows/world-four-great-phase-dynamics-v0-59.yml'
 
 permissions:
@@ -40,7 +40,7 @@ permissions:
 
 concurrency:
   group: world-v059-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
