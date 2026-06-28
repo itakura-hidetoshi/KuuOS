@@ -5,7 +5,7 @@
   "runtime_module": "runtime/kuuos_governance_role_topology_v0_77.py",
   "validator": "scripts/check_kuuos_governance_role_topology_v077.py",
   "lean_surface": "KuuOSGovernanceRoleTopologyBundleV0_77",
-  "strict_formal_root": "KuuOSRoleConfigV0_77",
+  "strict_formal_file": "formal/KuuOSRoleConfigV0_77.lean",
   "formal_modules": [
     "KuuOSGovernanceRolePolicyV0_77",
     "KuuOSGovernanceRoleOrthogonalityV0_77",
