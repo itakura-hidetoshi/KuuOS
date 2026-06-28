@@ -43,7 +43,6 @@ theorem conjugateAdjointGraph_isClosed :
   rw [R.conjugateAdjointGraph_eq_iInter]
   exact isClosed_iInter fun x => R.conjugateAdjointConstraint_isClosed x
 
-omit [IsScalarTower Real Complex H] in
 theorem conjugateAdjointPMap_isClosed :
     R.conjugateAdjointPMap.IsClosed := by
   change IsClosed (R.conjugateAdjointPMap.graph : Set (H × H))
