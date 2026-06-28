@@ -7,6 +7,9 @@ import pathlib
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 MANIFEST = ROOT / "manifests" / "qi_process_tensor_review_v02_closed_loop_workflow_addendum_v0_1.json"
 WORKFLOW = ROOT / ".github" / "workflows" / "qi-process-tensor-review.yml"
+PR_ENTRY_RUNNER = ROOT / "scripts" / "run_pr_entry_check_v0_4.py"
+CLOSED_LOOP_SUITE = "run_qi_v02_memoryos_replay_loop_closure_checks.py"
+ADDENDUM_CHECK = "check_qi_process_tensor_review_v02_closed_loop_workflow_addendum_v0_1.py"
 
 
 def load(path: pathlib.Path) -> dict:
@@ -14,6 +17,34 @@ def load(path: pathlib.Path) -> dict:
         return {}
     value = json.loads(path.read_text(encoding="utf-8"))
     return value if isinstance(value, dict) else {}
+
+
+def validate_workflow_link(errors: list[str]) -> None:
+    if not WORKFLOW.is_file():
+        errors.append("workflow_missing")
+        return
+
+    workflow_text = WORKFLOW.read_text(encoding="utf-8")
+    if CLOSED_LOOP_SUITE in workflow_text:
+        return
+
+    delegated = (
+        "run_pr_entry_check_v0_4.py" in workflow_text
+        and "--check-id qi-process-review" in workflow_text
+    )
+    if not delegated:
+        errors.append("workflow_missing_closed_loop_step")
+        return
+
+    if not PR_ENTRY_RUNNER.is_file():
+        errors.append("pr_entry_runner_missing")
+        return
+
+    runner_text = PR_ENTRY_RUNNER.read_text(encoding="utf-8")
+    if CLOSED_LOOP_SUITE not in runner_text:
+        errors.append("pr_entry_runner_missing_closed_loop_suite")
+    if ADDENDUM_CHECK not in runner_text:
+        errors.append("pr_entry_runner_missing_addendum_check")
 
 
 def main() -> int:
@@ -42,12 +73,9 @@ def main() -> int:
         errors.append("closed_loop_suite_mismatch")
     if not (ROOT / suite).is_file():
         errors.append("closed_loop_suite_missing")
-    if not WORKFLOW.is_file():
-        errors.append("workflow_missing")
-    else:
-        text = WORKFLOW.read_text(encoding="utf-8")
-        if "run_qi_v02_memoryos_replay_loop_closure_checks.py" not in text:
-            errors.append("workflow_missing_closed_loop_step")
+
+    validate_workflow_link(errors)
+
     for group in ["script_files", "workflow_files", "docs_files"]:
         files = m.get(group, [])
         if not isinstance(files, list) or not files:
