@@ -24,7 +24,9 @@ jobs:
           runtime/kuuos_memory_review_identity_v0_74.py
           runtime/kuuos_memory_review_request_v0_74.py
           runtime/kuuos_memory_review_receipt_v0_74.py
+          runtime/kuuos_memory_selection_reviewability_v0_74.py
           runtime/kuuos_memory_selection_review_v0_74.py
+          runtime/kuuos_governed_memory_review_v0_74.py
           scripts/check_kuuos_memory_review_v074.py
       - name: Validate memory review
         run: PYTHONPATH=. python3 scripts/check_kuuos_memory_review_v074.py
