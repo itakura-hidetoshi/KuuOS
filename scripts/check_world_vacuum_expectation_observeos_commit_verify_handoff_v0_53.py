@@ -13,6 +13,19 @@ def require_tokens(path: pathlib.Path, tokens: tuple[str, ...]) -> None:
         assert token in text, f"{path}: {token}"
 
 
+def require_readme_composition_boundary(path: pathlib.Path) -> None:
+    text = path.read_text(encoding="utf-8")
+    exact_boundary = "receipt composition != receipt construction"
+    rolling_summary_boundary = (
+        "OS receipt composition" in text
+        and "receipt != successor authority" in text
+    )
+    assert exact_boundary in text or rolling_summary_boundary, (
+        f"{path}: missing exact receipt-composition boundary or "
+        "rolling README composition/non-authority coverage"
+    )
+
+
 def main() -> int:
     formal = ROOT / "formal/KUOS/WORLD/VacuumExpectationObserveOSCommitVerifyHandoffBridgeV0_53.lean"
     require_tokens(
@@ -50,12 +63,15 @@ def main() -> int:
         ),
     )
 
-    # README and ROADMAP are rolling entry documents. Validate durable semantic
-    # boundaries rather than historical version headings or release prose.
+    # README and ROADMAP are rolling entry documents. The versioned v0.53
+    # document above retains the exact construction boundary. README may carry
+    # either that exact sentence or the integrated composition spine together
+    # with its durable receipt non-authority boundary.
+    readme = ROOT / "README.md"
+    require_readme_composition_boundary(readme)
     require_tokens(
-        ROOT / "README.md",
+        readme,
         (
-            "receipt composition != receipt construction",
             "WORLD sidecar != exact WORLD",
             "observation != verification",
             "learning != present-cycle mutation",
