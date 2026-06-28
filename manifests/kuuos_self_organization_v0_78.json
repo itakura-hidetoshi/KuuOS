@@ -3,7 +3,8 @@
   "architecture": "observe-diagnose-finite-candidates-shadow-reobserve",
   "runtime_modules": [
     "runtime/kuuos_self_organization_types_v0_78.py",
-    "runtime/kuuos_self_organization_cycle_v0_78.py"
+    "runtime/kuuos_self_organization_cycle_v0_78.py",
+    "runtime/kuuos_self_organization_supervisor_v0_78.py"
   ],
   "fixture": "tests/kuuos_self_organization_fixture_v0_78.py",
   "tests": "tests/test_kuuos_self_organization_v0_78.py",
@@ -11,6 +12,8 @@
   "lean_surface": "KuuOSSelfOrganizingImprovementLoopV0_78",
   "strict_formal_root": "KuuOSSelfOrganizationV0_78",
   "finite_candidate_generation": true,
+  "bounded_multi_cycle_supervisor": true,
+  "unbounded_execution_allowed": false,
   "isolated_shadow_comparison": true,
   "reobservation_required": true,
   "automatic_rollback_on_reobservation_failure": true,
