@@ -32,16 +32,18 @@ theorem conjugateAdjointGraph_eq_iInter :
       ⋂ x : R.pmap.closure.domain, R.conjugateAdjointConstraint x := by
   ext p
   constructor
-  · intro hp x
-    exact hp x
+  · intro hp
+    exact Set.mem_iInter.mpr fun x => hp x
   · intro hp x
     exact Set.mem_iInter.mp hp x
 
+omit [IsScalarTower Real Complex H] in
 theorem conjugateAdjointGraph_isClosed :
     IsClosed R.conjugateAdjointGraph := by
   rw [R.conjugateAdjointGraph_eq_iInter]
   exact isClosed_iInter fun x => R.conjugateAdjointConstraint_isClosed x
 
+omit [IsScalarTower Real Complex H] in
 theorem conjugateAdjointPMap_isClosed :
     R.conjugateAdjointPMap.IsClosed := by
   change IsClosed (R.conjugateAdjointPMap.graph : Set (H × H))
