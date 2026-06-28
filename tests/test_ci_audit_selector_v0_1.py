@@ -45,6 +45,15 @@ class CiAuditSelectorV01Tests(unittest.TestCase):
         self.assertFalse(result["full_audit_required"])
         self.assertEqual(selected_ids(result), {"decision-os", "workflow-integrity"})
 
+    def test_regge_zero_change_uses_registered_subsystem_check(self) -> None:
+        result = select(
+            REGISTRY,
+            ["validators/validate_regge_zero_governance_v0_1.py"],
+            None,
+        )
+        self.assertFalse(result["full_audit_required"])
+        self.assertEqual(selected_ids(result), {"regge-zero", "workflow-integrity"})
+
     def test_formal_subsystem_change_keeps_lean_validation(self) -> None:
         result = select(REGISTRY, ["formal/KUOS/PlanOS/Model.lean"], None)
         self.assertFalse(result["full_audit_required"])
@@ -77,6 +86,7 @@ class CiAuditSelectorV01Tests(unittest.TestCase):
         self.assertIn("decision-os", ids)
         self.assertIn("evidence-cycle", ids)
         self.assertIn("plan-os", ids)
+        self.assertIn("regge-zero", ids)
         self.assertIn("governance-shard-tests", ids)
         self.assertNotIn("core-governance", ids)
 
