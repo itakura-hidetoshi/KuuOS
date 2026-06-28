@@ -1,0 +1,19 @@
+{
+  "manifest_version": "kuuos_repository_structure_alignment_v0_79",
+  "repository_autorepair_contract": true,
+  "runtime_modules": [
+    "runtime/kuuos_repository_structure_types_v0_79.py",
+    "runtime/kuuos_repository_structure_observer_v0_79.py",
+    "runtime/kuuos_repository_repair_candidates_v0_79.py",
+    "runtime/kuuos_repository_shadow_repair_v0_79.py",
+    "runtime/kuuos_repository_repair_cycle_v0_79.py"
+  ],
+  "fixture": "tests/kuuos_repository_repair_fixture_v0_79.py",
+  "tests": "tests/test_kuuos_repository_repair_v0_79.py",
+  "validator": "scripts/check_kuuos_repository_repair_v079.py",
+  "documentation": "docs/KUUOS_REPOSITORY_STRUCTURE_ALIGNMENT_v0_79.md",
+  "strict_formal_root": "KuuOSRepositoryAlignmentV0_79",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryStructureAlignmentV0_79"
+  ]
+}
