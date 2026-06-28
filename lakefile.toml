@@ -49,5 +49,6 @@ roots = [
   "KuuOSSelfOrganizationV0_78",
   "KuuOSRepositoryAlignmentV0_79",
   "KuuOSRepositoryNormalFormV0_80",
-  "KuuOSRepositoryIncrementalV0_81"
+  "KuuOSRepositoryIncrementalV0_81",
+  "KuuOSRepositoryCertificateChainV0_82"
 ]

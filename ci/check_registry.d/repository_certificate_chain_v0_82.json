@@ -1,0 +1,37 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "revision identifier binding != hosted history proof",
+      "certificate sequence != authority expansion"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/repository_certificate_chain_v0_82.json"
+  ],
+  "checks": {
+    "repository-certificate-chain-v082": {
+      "name": "KuuOS repository certificate chain v0.82",
+      "runner": "python",
+      "command": "python3 scripts/check_kuuos_repository_certificate_chain_v082.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_repository_certificate_chain*_v0_82.py",
+        "runtime/kuuos_repository_incremental_preservation*_v0_81.py",
+        "runtime/kuuos_repository_alignment_scopes_v0_81.py",
+        "tests/test_kuuos_repository_certificate_chain_v0_82.py",
+        "scripts/check_kuuos_repository_certificate_chain_v082.py",
+        "scripts/check_kuuos_repository_live_v079.py",
+        "docs/KUUOS_REPOSITORY_CERTIFICATE_SEQUENCE_v0_82.md",
+        "manifests/kuuos_repository_certificate_chain_v0_82.json"
+      ],
+      "depends_on": [
+        "repository-incremental-v081"
+      ],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
