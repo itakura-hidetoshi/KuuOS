@@ -207,6 +207,8 @@ def certify_repository_self_evolution_portfolio(
             raise ValueError("repository_evolution_changed_paths_not_canonical")
         if any(not _path_is_canonical(path) for path in candidate.changed_paths):
             raise ValueError("repository_evolution_changed_path_invalid")
+        if not _candidate_paths_nonconflicting((candidate,)):
+            raise ValueError("repository_evolution_candidate_internal_path_conflict")
         if candidate.baseline_score < 0 or candidate.predicted_score < 0:
             raise ValueError("repository_evolution_score_negative")
         if candidate.risk_score < 0:
