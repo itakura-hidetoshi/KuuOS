@@ -20,8 +20,31 @@ structure SelectionBinding where
   selectedConnectionDigest : String
   deriving DecidableEq
 
+structure SelectionBoundary where
+  selected : Prop
+  acceptedMemberExists : Prop
+  sourceHistoryUnchanged : Prop
+  sourceKernelUnchanged : Prop
+  candidateOnly : Prop
+  writesDisabled : Prop
+  liveApplicationDisabled : Prop
+  permissionExpansionDisabled : Prop
+  issueFree : Prop
+
+structure SelectionBoundary.Valid (boundary : SelectionBoundary) : Prop where
+  selected : boundary.selected
+  acceptedMemberExists : boundary.acceptedMemberExists
+  sourceHistoryUnchanged : boundary.sourceHistoryUnchanged
+  sourceKernelUnchanged : boundary.sourceKernelUnchanged
+  candidateOnly : boundary.candidateOnly
+  writesDisabled : boundary.writesDisabled
+  liveApplicationDisabled : boundary.liveApplicationDisabled
+  permissionExpansionDisabled : boundary.permissionExpansionDisabled
+  issueFree : boundary.issueFree
+
 structure ReviewRequest where
   binding : SelectionBinding
+  selectionBoundary : SelectionBoundary
   rollbackTargetDigest : String
   reviewerAllowed : String → Prop
   validFromEpoch : ℕ
@@ -42,6 +65,7 @@ structure ReviewReceipt where
 structure ReviewReceipt.Valid
     (request : ReviewRequest)
     (receipt : ReviewReceipt) : Prop where
+  reviewableSelection : request.selectionBoundary.Valid
   exactBinding : receipt.binding = request.binding
   exactRollbackTarget : receipt.rollbackTargetDigest = request.rollbackTargetDigest
   reviewerAllowed : request.reviewerAllowed receipt.reviewerClass
@@ -54,6 +78,13 @@ structure ReviewReceipt.Valid
   liveApplicationDisabled : receipt.liveApplicationDisabled
   permissionExpansionDisabled : receipt.permissionExpansionDisabled
   rollbackTargetReplacementDisabled : receipt.rollbackTargetReplacementDisabled
+
+theorem valid_review_requires_reviewable_selection
+    (request : ReviewRequest)
+    (receipt : ReviewReceipt)
+    (hValid : receipt.Valid request) :
+    request.selectionBoundary.Valid := by
+  exact hValid.reviewableSelection
 
 theorem approved_review_grants_application_authority
     (request : ReviewRequest)
