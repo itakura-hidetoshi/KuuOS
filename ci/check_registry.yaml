@@ -1,0 +1,157 @@
+{
+  "schema_version": "0.1",
+  "policy": {
+    "selection_rule": "impacted checks plus transitive dependency closure",
+    "unknown_impact": "full audit",
+    "boundaries": [
+      "local change != global re-audit",
+      "receipt preservation != repeated execution",
+      "validation != truth",
+      "CI pass != theorem authority",
+      "selection optimization != authority expansion"
+    ]
+  },
+  "known_paths": [
+    ".github/**",
+    "ci/**",
+    "docs/**",
+    "README.md",
+    "ROADMAP.md",
+    "LICENSE*",
+    "CITATION.cff",
+    "Makefile",
+    "scripts/**",
+    "runtime/**",
+    "tests/**",
+    "examples/**",
+    "src/**",
+    "specs/**",
+    "validation_cases/**",
+    "manifests/**",
+    "packets/**",
+    "chain_indexes/**",
+    "formal/**",
+    "lakefile.toml",
+    "lake-manifest.json",
+    "lean-toolchain",
+    "pyproject.toml",
+    "requirements*.txt"
+  ],
+  "full_audit_paths": [
+    "ci/check_registry.yaml",
+    "scripts/select_impacted_checks.py",
+    "scripts/run_ci_check.py",
+    "scripts/build_audit_summary.py",
+    "scripts/run_all_governance_full_checks_v0_1.py",
+    ".github/workflows/all_governance_validation.yml",
+    ".github/workflows/pr-governance-gate.yml",
+    ".github/WORKFLOW_INDEX.md",
+    "Makefile"
+  ],
+  "checks": {
+    "workflow-integrity": {
+      "name": "Workflow consolidation integrity",
+      "runner": "python",
+      "command": "python3 scripts/check_workflow_consolidation_integrity.py",
+      "group": "static",
+      "tier": "critical",
+      "paths": [
+        ".github/**",
+        "docs/**",
+        "README.md",
+        "ROADMAP.md",
+        "scripts/check_workflow_consolidation_integrity.py"
+      ],
+      "depends_on": [],
+      "timeout_minutes": 5,
+      "pr_required": true,
+      "full_audit_member": true
+    },
+    "core-governance": {
+      "name": "Core governance validation",
+      "runner": "python",
+      "command": "python3 scripts/run_core_governance_full_checks_v0_1.py",
+      "group": "core",
+      "tier": "critical",
+      "paths": [
+        "scripts/run_core_governance_full_checks_v0_1.py",
+        "scripts/validate_emptiness_*.py",
+        "scripts/validate_kuos_emptiness_*.py",
+        "scripts/validate_mandala_*.py",
+        "scripts/validate_bodhisattva_*.py",
+        "scripts/validate_paramita_*.py",
+        "scripts/validate_dukkha_*.py",
+        "scripts/validate_formal_invariant_*.py",
+        "scripts/validate_super_relativity_*.py",
+        "scripts/validate_invariant_*.py",
+        "scripts/check_invariant_*.py",
+        "specs/**",
+        "validation_cases/**",
+        "packets/**",
+        "chain_indexes/**",
+        "formal/KUOS/CoreGovernance/**"
+      ],
+      "depends_on": [],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    },
+    "runtime-full": {
+      "name": "Cumulative KuuOS runtime regression",
+      "runner": "python",
+      "command": "python3 scripts/run_kuuos_runtime_full_check_v0_55.py",
+      "group": "runtime",
+      "tier": "integration",
+      "paths": [
+        "runtime/**",
+        "tests/**",
+        "examples/**",
+        "src/**",
+        "scripts/check_kuuos_*.py",
+        "scripts/check_world_*.py",
+        "scripts/run_kuuos_runtime_full_check_*.py",
+        "manifests/**"
+      ],
+      "depends_on": [],
+      "timeout_minutes": 30,
+      "pr_required": true,
+      "full_audit_member": true
+    },
+    "lean-formal": {
+      "name": "Strict Lean formal validation",
+      "runner": "lean",
+      "command": "lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal",
+      "group": "formal",
+      "tier": "critical",
+      "paths": [
+        "formal/**",
+        "lean-toolchain",
+        "lakefile.toml",
+        "lake-manifest.json"
+      ],
+      "depends_on": [],
+      "timeout_minutes": 30,
+      "pr_required": true,
+      "full_audit_member": true
+    },
+    "full-governance": {
+      "name": "Repository-wide governance audit",
+      "runner": "python",
+      "command": "python3 scripts/run_all_governance_full_checks_v0_1.py",
+      "group": "full-audit",
+      "tier": "audit",
+      "paths": [
+        "scripts/run_all_governance_full_checks_v0_1.py"
+      ],
+      "depends_on": [
+        "workflow-integrity"
+      ],
+      "supersedes": [
+        "core-governance"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": false,
+      "full_audit_member": true
+    }
+  }
+}
