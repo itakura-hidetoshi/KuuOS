@@ -2,8 +2,8 @@
 """Select the smallest fail-closed KuuOS CI audit set for a change.
 
 The registry is JSON encoded inside a YAML-compatible file so the selector remains
-stdlib-only.  Selection reduces repeated execution; it does not weaken any
-KuuOS authority, truth, proof, or release boundary.
+stdlib-only. Selection reduces repeated execution; it does not weaken any KuuOS
+authority, truth, proof, or release boundary.
 """
 
 from __future__ import annotations
@@ -92,26 +92,37 @@ def select(registry: Mapping[str, Any], changed_paths: list[str], diff_error: st
     checks: Mapping[str, Mapping[str, Any]] = registry["checks"]
     reasons: list[str] = []
 
+    check_patterns: dict[str, list[str]] = {}
+    for check_id, check in checks.items():
+        patterns = check.get("paths", [])
+        if not isinstance(patterns, list):
+            raise ValueError(f"paths must be a list for {check_id}")
+        check_patterns[check_id] = patterns
+
     unknown_paths = [
         path for path in changed_paths if not matches(path, registry.get("known_paths", []))
     ]
     trigger_paths = [
         path for path in changed_paths if matches(path, registry.get("full_audit_paths", []))
     ]
+    unmapped_paths = [
+        path
+        for path in changed_paths
+        if not any(matches(path, patterns) for patterns in check_patterns.values())
+    ]
 
-    full_audit_required = bool(diff_error or unknown_paths or trigger_paths)
+    full_audit_required = bool(diff_error or unknown_paths or trigger_paths or unmapped_paths)
     if diff_error:
         reasons.append(f"change diff unavailable: {diff_error}")
     if unknown_paths:
         reasons.append("unclassified paths require fail-closed full audit")
+    if unmapped_paths:
+        reasons.append("known but unmapped paths require fail-closed full audit")
     if trigger_paths:
         reasons.append("audit-control surface changed")
 
     direct: set[str] = set()
-    for check_id, check in checks.items():
-        patterns = check.get("paths", [])
-        if not isinstance(patterns, list):
-            raise ValueError(f"paths must be a list for {check_id}")
+    for check_id, patterns in check_patterns.items():
         if any(matches(path, patterns) for path in changed_paths):
             direct.add(check_id)
 
@@ -171,6 +182,7 @@ def select(registry: Mapping[str, Any], changed_paths: list[str], diff_error: st
         "lean_required": lean_required,
         "full_audit_required": full_audit_required,
         "unknown_paths": unknown_paths,
+        "unmapped_paths": unmapped_paths,
         "full_audit_trigger_paths": trigger_paths,
         "reasons": reasons,
         "boundaries": registry.get("policy", {}).get("boundaries", []),
