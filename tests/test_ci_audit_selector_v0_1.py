@@ -32,6 +32,23 @@ class CiAuditSelectorV01Tests(unittest.TestCase):
         self.assertFalse(result["full_audit_required"])
         self.assertEqual(selected_ids(result), {"core-governance", "workflow-integrity"})
 
+    def test_decision_change_uses_subsystem_check_instead_of_runtime_full(self) -> None:
+        result = select(
+            REGISTRY,
+            ["runtime/v01_decision_os_relational_deliberation.py"],
+            None,
+        )
+        self.assertFalse(result["full_audit_required"])
+        self.assertEqual(selected_ids(result), {"decision-os", "workflow-integrity"})
+
+    def test_formal_subsystem_change_keeps_lean_validation(self) -> None:
+        result = select(REGISTRY, ["formal/KUOS/PlanOS/Model.lean"], None)
+        self.assertFalse(result["full_audit_required"])
+        self.assertEqual(
+            selected_ids(result),
+            {"lean-formal", "plan-os", "workflow-integrity"},
+        )
+
     def test_unknown_path_fails_closed_to_full_audit(self) -> None:
         result = select(REGISTRY, ["new_surface/example.txt"], None)
         self.assertTrue(result["full_audit_required"])
@@ -40,6 +57,9 @@ class CiAuditSelectorV01Tests(unittest.TestCase):
         self.assertIn("full-governance", ids)
         self.assertIn("runtime-full", ids)
         self.assertIn("lean-formal", ids)
+        self.assertIn("decision-os", ids)
+        self.assertIn("evidence-cycle", ids)
+        self.assertIn("plan-os", ids)
         self.assertNotIn("core-governance", ids)
 
     def test_known_but_unmapped_script_fails_closed(self) -> None:
