@@ -1,0 +1,5 @@
+import KUOS.WORLD.KuuOSRepositoryRevisionDagV0_85
+
+namespace KUOS.WORLD.KuuOSRepositoryFrontierCertificateV0_86
+
+end KUOS.WORLD.KuuOSRepositoryFrontierCertificateV0_86
