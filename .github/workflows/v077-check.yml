@@ -7,6 +7,9 @@ on:
 permissions:
   contents: read
 
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
 jobs:
   runtime:
     runs-on: ubuntu-22.04
@@ -17,3 +20,21 @@ jobs:
           python-version: '3.12'
       - run: PYTHONPATH=. python3 scripts/check_kuuos_v077.py
       - run: python3 -m json.tool manifests/v077.json >/dev/null
+
+  formal:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - run: lake update
+      - run: git diff --exit-code -- lake-manifest.json
+      - run: lake exe cache get
+      - run: lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal KuuOSPostTransitionV0_77
