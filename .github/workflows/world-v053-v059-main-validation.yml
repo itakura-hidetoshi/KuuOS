@@ -3,8 +3,7 @@ name: WORLD v0.53-v0.59 Main Validation
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
       - 'README.md'
       - 'ROADMAP.md'
@@ -26,144 +25,35 @@ on:
       - 'docs/KU_WORLD_*'
       - 'manifests/world_*'
       - 'scripts/check_world_*'
-      - 'scripts/run_kuuos_runtime_full_check_v0_5*.py'
-      - '.github/workflows/world-v053-v059-main-validation.yml'
-  pull_request:
-    paths:
-      - 'README.md'
-      - 'ROADMAP.md'
-      - 'formal/KUOS/WORLD/**'
-      - 'formal/KUOS.lean'
-      - 'formal/KuuOSArakiCalculusV0_56.lean'
-      - 'formal/KuuOSFourGreatCoreV0_59.lean'
-      - 'formal/KuuOSFormalV0_53.lean'
-      - 'formal/KuuOSFormalV0_54.lean'
-      - 'formal/KuuOSFormalV0_55.lean'
-      - 'formal/KuuOSFormalV0_56.lean'
-      - 'formal/KuuOSFormalV0_57.lean'
-      - 'formal/KuuOSFormalV0_58.lean'
-      - 'formal/KuuOSFormalV0_59.lean'
-      - 'formal/KuuOSFormal.lean'
-      - 'lakefile.toml'
-      - 'lake-manifest.json'
-      - 'lean-toolchain'
-      - 'docs/KU_WORLD_*'
-      - 'manifests/world_*'
-      - 'scripts/check_world_*'
-      - 'scripts/run_kuuos_runtime_full_check_v0_5*.py'
+      - 'scripts/run_pr_entry_check_v0_5.py'
       - '.github/workflows/world-v053-v059-main-validation.yml'
 
 permissions:
   contents: read
 
 concurrency:
-  group: world-v053-v059-main-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
-
-env:
-  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  group: world-v053-v059-main-${{ github.ref }}
+  cancel-in-progress: false
 
 jobs:
-  integrated-world-v053-v059:
-    name: Integrated WORLD v0.53-v0.59
-    runs-on: ubuntu-22.04
-    timeout-minutes: 120
+  focused-validation:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - name: Compile validators
-        run: >-
-          python3 -m compileall -q
-          scripts/check_world_vacuum_expectation_observeos_commit_verify_handoff_v0_53.py
-          scripts/check_world_kuu_vacuum_central_reference_state_v0_54.py
-          scripts/check_world_kuu_vacuum_information_geometry_v0_55.py
-          scripts/check_world_kuu_vacuum_araki_hessian_physical_realization_v0_56.py
-          scripts/check_world_four_great_phase_dynamics_v0_59.py
-          scripts/run_kuuos_runtime_full_check_v0_55.py
-      - name: Verify canonical root registration
-        shell: bash
-        run: |
-          grep -Fq 'import KUOS.WORLD.VacuumExpectationObserveOSCommitVerifyHandoffBridgeV0_53' formal/KUOS.lean
-          grep -Fq 'import KUOS.WORLD.KuuVacuumCentralReferenceStateBridgeV0_54' formal/KUOS.lean
-          grep -Fq 'import KUOS.WORLD.KuuVacuumInformationGeometryBridgeV0_55' formal/KUOS.lean
-          grep -Fq 'import KUOS.WORLD.KuuVacuumArakiHessianOSTransportV0_56' formal/KUOS.lean
-          grep -Fq 'import KUOS.WORLD.TomitaClosedGraphIsometryV0_57' formal/KUOS.lean
-          grep -Fq 'import KUOS.WORLD.TomitaConjugateAdjointClosedV0_58' formal/KUOS.lean
-          grep -Fq 'import KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59' formal/KUOS.lean
-          grep -Fq 'import KUOS.WORLD.TomitaClosedGraphIsometryV0_57' formal/KuuOSFormal.lean
-          grep -Fq 'import KUOS.WORLD.TomitaConjugateAdjointClosedV0_58' formal/KuuOSFormal.lean
-          grep -Fq 'import KUOS.WORLD.FourGreatPhaseDynamicsCoreBridgeV0_59' formal/KuuOSFormal.lean
-      - name: Run cumulative runtime validation
-        run: python3 scripts/run_kuuos_runtime_full_check_v0_55.py
-      - name: Run v0.56 static validation
-        run: python3 scripts/check_world_kuu_vacuum_araki_hessian_physical_realization_v0_56.py
-      - name: Run v0.59 static validation
-        run: python3 scripts/check_world_four_great_phase_dynamics_v0_59.py
-      - name: Set up pinned Lean and Lake
-        uses: leanprover/lean-action@v1
-        with:
-          auto-config: false
-          build: false
-          test: false
-          lint: false
-          use-mathlib-cache: false
-          use-github-cache: false
-      - name: Resolve pinned dependencies
-        run: lake update
-      - name: Verify committed manifest is canonical
-        run: git diff --exit-code -- lake-manifest.json
-      - name: Fetch Mathlib olean cache
-        run: lake exe cache get
-      - name: Build WORLD v0.53-v0.55 roots
-        shell: bash
-        run: |
-          set -o pipefail
-          lake -KleanArgs=-DwarningAsError=true \
-            -KleanArgs=-DsorryAsError=true \
-            build KuuOSFormalV0_53 KuuOSFormalV0_54 KuuOSFormalV0_55 \
-            2>&1 | tee world-v053-v055-build.log
-      - name: Build verified Araki calculus and OS transport
-        shell: bash
-        run: |
-          set -o pipefail
-          lake -KleanArgs=-DwarningAsError=true \
-            -KleanArgs=-DsorryAsError=true \
-            build KuuOSArakiCalculusV0_56 KuuOSFormalV0_56 \
-            2>&1 | tee world-v056-build.log
-      - name: Build closed Tomita and conjugate-adjoint roots
-        shell: bash
-        run: |
-          set -o pipefail
-          lake -KleanArgs=-DwarningAsError=true \
-            -KleanArgs=-DsorryAsError=true \
-            build KuuOSFormalV0_57 KuuOSFormalV0_58 \
-            2>&1 | tee world-v057-v058-build.log
-      - name: Build four-great roots
-        shell: bash
-        run: |
-          set -o pipefail
-          lake -KleanArgs=-DwarningAsError=true \
-            -KleanArgs=-DsorryAsError=true \
-            build KuuOSFourGreatCoreV0_59 KuuOSFormalV0_59 \
-            2>&1 | tee world-v059-build.log
-      - name: Build aggregate formal root
-        shell: bash
-        run: |
-          set -o pipefail
-          lake -KleanArgs=-DwarningAsError=true \
-            -KleanArgs=-DsorryAsError=true \
-            build KuuOSFormal 2>&1 | tee aggregate-formal-build.log
-      - name: Upload diagnostics
-        if: failure()
+      - name: Run focused WORLD validation
+        env:
+          PYTHONPATH: .
+          PYTHONUNBUFFERED: '1'
+        run: python3 scripts/run_pr_entry_check_v0_5.py --check-id world-v053-v059 --output-root artifacts/checks
+      - name: Upload focused diagnostics
+        if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: world-v053-v059-main-validation-diagnostics
-          path: |
-            world-v053-v055-build.log
-            world-v056-build.log
-            world-v057-v058-build.log
-            world-v059-build.log
-            aggregate-formal-build.log
-          if-no-files-found: ignore
+          name: world-v053-v059-focused-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/checks/world-v053-v059/
+          if-no-files-found: warn
+          retention-days: 30
