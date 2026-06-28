@@ -16,6 +16,7 @@ MANIFESTS = (
     "manifests/kuuos_repository_certificate_chain_v0_82.json",
     "manifests/kuuos_repository_git_revision_adapter_v0_83.json",
     "manifests/kuuos_repository_merge_certificate_v0_84.json",
+    "manifests/kuuos_repository_revision_dag_v0_85.json",
 )
 BASE_PATHS = (
     "scripts/run_kuuos_runtime_full_check_v0_55.py",
