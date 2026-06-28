@@ -24,7 +24,6 @@ on:
       - 'formal/KUOS/Architecture/QiWorldYinYangProcessBlockerComplementarityV2_3.lean'
       - 'formal/KUOS/Architecture/QiWorldCrossCycleBlockerTheoryV1_5.lean'
       - 'formal/KUOS/Architecture/QiWorldConcreteThirdLicensedCycleMaterializationV2_2.lean'
-      - 'formal/KUOS.lean'
       - 'lakefile.toml'
       - 'lake-manifest.json'
       - 'lean-toolchain'
@@ -49,7 +48,6 @@ on:
       - 'formal/KUOS/Architecture/QiWorldYinYangProcessBlockerComplementarityV2_3.lean'
       - 'formal/KUOS/Architecture/QiWorldCrossCycleBlockerTheoryV1_5.lean'
       - 'formal/KUOS/Architecture/QiWorldConcreteThirdLicensedCycleMaterializationV2_2.lean'
-      - 'formal/KUOS.lean'
       - 'lakefile.toml'
       - 'lake-manifest.json'
       - 'lean-toolchain'
@@ -60,7 +58,7 @@ permissions:
 
 concurrency:
   group: qi-world-yinyang-v23-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
