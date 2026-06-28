@@ -100,7 +100,8 @@ def main() -> int:
     parser.add_argument("--output-root", type=pathlib.Path, default=ROOT / "artifacts/checks")
     args = parser.parse_args()
 
-    output_dir = args.output_root / args.check_id
+    output_root = args.output_root if args.output_root.is_absolute() else ROOT / args.output_root
+    output_dir = output_root / args.check_id
     output_dir.mkdir(parents=True, exist_ok=True)
     commands = build_commands(args.check_id, output_dir)
     results = [run_command(command) for command in commands]
