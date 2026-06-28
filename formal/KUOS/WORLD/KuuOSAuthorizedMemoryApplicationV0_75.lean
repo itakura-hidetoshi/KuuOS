@@ -14,6 +14,7 @@ namespace KUOS.WORLD.KuuOSAuthorizedMemoryApplicationV0_75
 structure ProductionState where
   stateDigest : String
   revision : ℕ
+  baseConnectionDigest : String
   currentKernelDigest : String
   currentConnectionDigest : String
   consumedApproval : String → Prop
@@ -22,6 +23,7 @@ structure Approval where
   receiptDigest : String
   approved : Prop
   applicationAuthority : Prop
+  baseConnectionDigest : String
   sourceKernelDigest : String
   selectedKernelDigest : String
   selectedConnectionDigest : String
@@ -59,6 +61,9 @@ structure ApplicationResult.Valid (result : ApplicationResult) : Prop where
   stateDigestCAS :
     result.request.expectedStateDigest = result.beforeState.stateDigest
   revisionCAS : result.request.expectedRevision = result.beforeState.revision
+  baseConnectionBinding :
+    result.approval.baseConnectionDigest =
+      result.beforeState.baseConnectionDigest
   sourceKernelCAS :
     result.request.sourceKernelDigest = result.beforeState.currentKernelDigest
   approvalSourceBinding :
@@ -80,6 +85,9 @@ structure ApplicationResult.Valid (result : ApplicationResult) : Prop where
     ¬ result.beforeState.consumedApproval result.approval.receiptDigest
   revisionSuccessor :
     result.afterState.revision = result.beforeState.revision + 1
+  baseConnectionPreserved :
+    result.afterState.baseConnectionDigest =
+      result.beforeState.baseConnectionDigest
   selectedKernelInstalled :
     result.afterState.currentKernelDigest = result.approval.selectedKernelDigest
   selectedConnectionInstalled :
@@ -94,13 +102,13 @@ structure ApplicationResult.Valid (result : ApplicationResult) : Prop where
   noPermissionExpansion : ¬ result.permissionExpansionPerformed
   rollbackTargetPreserved : ¬ result.rollbackTargetReplaced
 
- theorem valid_application_advances_revision_once
+theorem valid_application_advances_revision_once
     (result : ApplicationResult)
     (h : result.Valid) :
     result.afterState.revision = result.beforeState.revision + 1 := by
   exact h.revisionSuccessor
 
- theorem valid_application_installs_exact_selection
+theorem valid_application_installs_exact_selection
     (result : ApplicationResult)
     (h : result.Valid) :
     result.afterState.currentKernelDigest = result.approval.selectedKernelDigest ∧
@@ -108,14 +116,23 @@ structure ApplicationResult.Valid (result : ApplicationResult) : Prop where
         result.approval.selectedConnectionDigest := by
   exact ⟨h.selectedKernelInstalled, h.selectedConnectionInstalled⟩
 
- theorem valid_application_consumes_authority_once
+theorem valid_application_preserves_base_connection
+    (result : ApplicationResult)
+    (h : result.Valid) :
+    result.approval.baseConnectionDigest =
+        result.beforeState.baseConnectionDigest ∧
+      result.afterState.baseConnectionDigest =
+        result.beforeState.baseConnectionDigest := by
+  exact ⟨h.baseConnectionBinding, h.baseConnectionPreserved⟩
+
+theorem valid_application_consumes_authority_once
     (result : ApplicationResult)
     (h : result.Valid) :
     (¬ result.beforeState.consumedApproval result.approval.receiptDigest) ∧
       result.afterState.consumedApproval result.approval.receiptDigest := by
   exact ⟨h.authorityUnused, h.authorityConsumed⟩
 
- theorem valid_application_preserves_rollback_target
+theorem valid_application_preserves_rollback_target
     (result : ApplicationResult)
     (h : result.Valid) :
     result.request.rollbackTargetDigest = result.beforeState.currentKernelDigest ∧
@@ -123,7 +140,7 @@ structure ApplicationResult.Valid (result : ApplicationResult) : Prop where
         result.beforeState.currentKernelDigest := by
   exact ⟨h.rollbackRequestBinding, h.rollbackApprovalBinding⟩
 
- theorem valid_application_is_atomic_authorized_write
+theorem valid_application_is_atomic_authorized_write
     (result : ApplicationResult)
     (h : result.Valid) :
     result.committed ∧ result.atomicCommit ∧
