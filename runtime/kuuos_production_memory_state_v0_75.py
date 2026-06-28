@@ -36,6 +36,11 @@ class ProductionMemoryState:
             raise ValueError("production_memory_module_binding_mismatch")
         if self.current_connection.memory_kernel.digest != self.current_kernel.digest:
             raise ValueError("production_memory_connection_kernel_mismatch")
+        if (
+            self.current_connection.base_connection.module_connection.source_module_digest
+            != self.module_digest
+        ):
+            raise ValueError("production_memory_base_module_binding_mismatch")
         if len(set(self.consumed_review_receipts)) != len(self.consumed_review_receipts):
             raise ValueError("production_memory_consumption_duplicate")
 
