@@ -1,0 +1,36 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "frontier certificate != preferred branch selection",
+      "terminal validation != repository mutation"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/repository_frontier_certificate_v0_86.json"
+  ],
+  "checks": {
+    "repository-frontier-certificate-v086": {
+      "name": "KuuOS repository frontier certificate v0.86",
+      "runner": "python",
+      "command": "python3 scripts/check_kuuos_repository_frontier_certificate_v086.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_repository_frontier_certificate*_v0_86.py",
+        "runtime/kuuos_repository_revision_dag*_v0_85.py",
+        "tests/test_kuuos_repository_frontier_certificate_v0_86.py",
+        "scripts/check_kuuos_repository_frontier_certificate_v086.py",
+        "scripts/check_kuuos_repository_live_v079.py",
+        "docs/KUUOS_REPOSITORY_FRONTIER_CERTIFICATE_v0_86.md",
+        "manifests/kuuos_repository_frontier_certificate_v0_86.json"
+      ],
+      "depends_on": [
+        "repository-revision-dag-v085"
+      ],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}

@@ -1,0 +1,22 @@
+{
+  "manifest_version": "kuuos_repository_frontier_certificate_v0_86",
+  "runtime_modules": [
+    "runtime/kuuos_repository_frontier_certificate_types_v0_86.py",
+    "runtime/kuuos_repository_frontier_certificate_v0_86.py"
+  ],
+  "tests": "tests/test_kuuos_repository_frontier_certificate_v0_86.py",
+  "validator": "scripts/check_kuuos_repository_frontier_certificate_v086.py",
+  "documentation": "docs/KUUOS_REPOSITORY_FRONTIER_CERTIFICATE_v0_86.md",
+  "strict_formal_root": "KuuOSRepositoryFrontierCertificateV0_86",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryFrontierCertificateV0_86"
+  ],
+  "source_dag_bound": true,
+  "source_edges_bound": true,
+  "exact_terminal_frontier": true,
+  "frontier_nonempty": true,
+  "frontier_antichain": true,
+  "all_nodes_frontier_covered": true,
+  "merged_ancestors_excluded": true,
+  "normal_form_preserved": true
+}
