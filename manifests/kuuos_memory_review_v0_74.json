@@ -1,0 +1,33 @@
+{
+  "manifest_version": "kuuos_memory_selection_review_v0_74",
+  "predecessor": "kuuos_memory_evaluation_v0_73",
+  "architecture": "external-selection-review",
+  "runtime_modules": [
+    "runtime/kuuos_memory_review_identity_v0_74.py",
+    "runtime/kuuos_memory_review_request_v0_74.py",
+    "runtime/kuuos_memory_review_receipt_v0_74.py",
+    "runtime/kuuos_memory_selection_reviewability_v0_74.py",
+    "runtime/kuuos_memory_selection_review_v0_74.py",
+    "runtime/kuuos_governed_memory_review_v0_74.py"
+  ],
+  "validator": "scripts/check_kuuos_memory_review_v074.py",
+  "lean_surface": "KuuOSMemorySelectionReviewV0_74",
+  "strict_formal_root": "KuuOSMemoryReviewV0_74",
+  "selection_record_binding_required": true,
+  "selected_status_required": true,
+  "source_preservation_required": true,
+  "candidate_only_required": true,
+  "selection_issues_forbidden": true,
+  "source_and_family_binding_required": true,
+  "reviewer_identity_binding_required": true,
+  "reviewer_class_scope_required": true,
+  "finite_validity_window_required": true,
+  "rollback_target_fixed_to_source_kernel": true,
+  "approve_grants_production_application_authority": true,
+  "reject_grants_authority": false,
+  "reevaluation_request_grants_authority": false,
+  "writes_enabled": false,
+  "live_application_enabled": false,
+  "permission_expansion_enabled": false,
+  "rollback_target_replacement_enabled": false
+}
