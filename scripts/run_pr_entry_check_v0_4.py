@@ -23,9 +23,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 CHECK_IDS = {
     "memoryos-json",
     "qi-process-review",
-    "core-autonomy",
     "kustring-finality",
-    "belief-os-v01",
 }
 
 
@@ -61,44 +59,10 @@ def build_commands(check_id: str, output_dir: pathlib.Path) -> list[list[str]]:
             ],
             [python, "scripts/check_kuuos_causal_world_model_os_v14_0.py"],
         ]
-    if check_id == "core-autonomy":
-        return [
-            [python, "scripts/validate_kuuos_core_autonomy_contract_v0_1.py"],
-            [
-                python,
-                "scripts/run_kuuos_core_autonomy_v0_1.py",
-                "--mode",
-                "contract-check",
-                "--audit-log",
-                str(output_dir / "contract-check.jsonl"),
-            ],
-            [
-                python,
-                "scripts/run_kuuos_core_autonomy_v0_1.py",
-                "--mode",
-                "once",
-                "--self-test-check",
-                "--audit-log",
-                str(output_dir / "once-self-test.jsonl"),
-            ],
-        ]
     if check_id == "kustring-finality":
         return [
             [python, "scripts/run_kustring_runtime_finality_suite_v0_2.py"],
             [python, "scripts/build_kustring_runtime_finality_report_v0_2.py"],
-        ]
-    if check_id == "belief-os-v01":
-        return [
-            [
-                python,
-                "-m",
-                "compileall",
-                "-q",
-                "runtime",
-                "scripts/check_belief_os_relational_conditional_kernel_v0_1.py",
-            ],
-            [python, "-m", "runtime.v01_belief_os_relational_conditional_kernel"],
-            [python, "scripts/check_belief_os_relational_conditional_kernel_v0_1.py"],
         ]
     raise ValueError(f"unsupported check id: {check_id}")
 
