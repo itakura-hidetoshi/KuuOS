@@ -3,6 +3,7 @@
   "policy": {
     "selection_rule": "impacted checks plus transitive dependency closure",
     "unknown_impact": "full audit",
+    "unmapped_impact": "full audit",
     "boundaries": [
       "local change != global re-audit",
       "receipt preservation != repeated execution",
@@ -42,7 +43,9 @@
     "scripts/select_impacted_checks.py",
     "scripts/run_ci_check.py",
     "scripts/build_audit_summary.py",
+    "scripts/check_workflow_consolidation_integrity.py",
     "scripts/run_all_governance_full_checks_v0_1.py",
+    "tests/test_ci_audit_selector_v0_1.py",
     ".github/workflows/all_governance_validation.yml",
     ".github/workflows/pr-governance-gate.yml",
     ".github/WORKFLOW_INDEX.md",
@@ -74,6 +77,7 @@
       "group": "core",
       "tier": "critical",
       "paths": [
+        ".github/workflows/core_governance_validation.yml",
         "scripts/run_core_governance_full_checks_v0_1.py",
         "scripts/validate_emptiness_*.py",
         "scripts/validate_kuos_emptiness_*.py",
@@ -96,6 +100,114 @@
       "pr_required": true,
       "full_audit_member": true
     },
+    "decision-os": {
+      "name": "DecisionOS cumulative validation",
+      "runner": "python",
+      "command": "python3 scripts/run_decision_os_full_checks.py",
+      "group": "os-subsystem",
+      "tier": "integration",
+      "paths": [
+        ".github/workflows/decision-os-validation.yml",
+        "docs/KUUOS_DECISION_OS_*.md",
+        "docs/KUUOS_DECISIONOS_*.md",
+        "manifests/kuuos_decision_os_*.json",
+        "manifests/kuuos_decisionos_*.json",
+        "runtime/**/*decision_os*.py",
+        "runtime/**/*decisionos*.py",
+        "scripts/check_decision_os_*.py",
+        "scripts/check_decisionos_*.py",
+        "scripts/run_decision_os_full_checks.py",
+        "formal/KUOS/DecisionOS/**"
+      ],
+      "depends_on": [],
+      "pr_supersedes": [
+        "runtime-full"
+      ],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    },
+    "evidence-cycle": {
+      "name": "Evidence Cycle OS cumulative validation",
+      "runner": "python",
+      "command": "python3 scripts/run_evidence_cycle_os_full_checks.py",
+      "group": "os-subsystem",
+      "tier": "integration",
+      "paths": [
+        ".github/workflows/evidence-cycle-os-validation.yml",
+        "docs/KUUOS_ACT_OS_*.md",
+        "docs/KUUOS_ACTOS_*.md",
+        "docs/KUUOS_OBSERVE_OS_*.md",
+        "docs/KUUOS_OBSERVEOS_*.md",
+        "docs/KUUOS_VERIFY_OS_*.md",
+        "docs/KUUOS_VERIFYOS_*.md",
+        "docs/KUUOS_LEARN_OS_*.md",
+        "docs/KUUOS_LEARNOS_*.md",
+        "manifests/kuuos_act_os_*.json",
+        "manifests/kuuos_actos_*.json",
+        "manifests/kuuos_observe_os_*.json",
+        "manifests/kuuos_observeos_*.json",
+        "manifests/kuuos_verify_os_*.json",
+        "manifests/kuuos_verifyos_*.json",
+        "manifests/kuuos_learn_os_*.json",
+        "manifests/kuuos_learnos_*.json",
+        "runtime/*act_os*.py",
+        "runtime/*actos*.py",
+        "runtime/*observe_os*.py",
+        "runtime/*observeos*.py",
+        "runtime/*verify_os*.py",
+        "runtime/*verifyos*.py",
+        "runtime/*learn_os*.py",
+        "runtime/*learnos*.py",
+        "scripts/check_act_os_*.py",
+        "scripts/check_actos_*.py",
+        "scripts/check_observe_os_*.py",
+        "scripts/check_observeos_*.py",
+        "scripts/check_verify_os_*.py",
+        "scripts/check_verifyos_*.py",
+        "scripts/check_learn_os_*.py",
+        "scripts/check_learnos_*.py",
+        "scripts/run_evidence_cycle_os_full_checks.py",
+        "formal/KUOS/ActOS/**",
+        "formal/KUOS/ObserveOS/**",
+        "formal/KUOS/VerifyOS/**",
+        "formal/KUOS/LearnOS/**"
+      ],
+      "depends_on": [],
+      "pr_supersedes": [
+        "runtime-full"
+      ],
+      "timeout_minutes": 30,
+      "pr_required": true,
+      "full_audit_member": true
+    },
+    "plan-os": {
+      "name": "PlanOS cumulative validation",
+      "runner": "python",
+      "command": "python3 scripts/run_plan_os_full_checks.py",
+      "group": "os-subsystem",
+      "tier": "integration",
+      "paths": [
+        ".github/workflows/plan-os-validation.yml",
+        "docs/KUUOS_PLAN_OS_*.md",
+        "docs/KUUOS_PLANOS_*.md",
+        "manifests/kuuos_plan_os_*.json",
+        "manifests/kuuos_planos_*.json",
+        "runtime/*plan_os*.py",
+        "runtime/*planos*.py",
+        "scripts/check_plan_os_*.py",
+        "scripts/check_planos_*.py",
+        "scripts/run_plan_os_full_checks.py",
+        "formal/KUOS/PlanOS/**"
+      ],
+      "depends_on": [],
+      "pr_supersedes": [
+        "runtime-full"
+      ],
+      "timeout_minutes": 30,
+      "pr_required": true,
+      "full_audit_member": true
+    },
     "runtime-full": {
       "name": "Cumulative KuuOS runtime regression",
       "runner": "python",
@@ -103,6 +215,7 @@
       "group": "runtime",
       "tier": "integration",
       "paths": [
+        ".github/workflows/kuuos_runtime_full_check.yml",
         "runtime/**",
         "tests/**",
         "examples/**",
@@ -124,6 +237,7 @@
       "group": "formal",
       "tier": "critical",
       "paths": [
+        ".github/workflows/lean-formal-validation.yml",
         "formal/**",
         "lean-toolchain",
         "lakefile.toml",
@@ -149,7 +263,7 @@
       "supersedes": [
         "core-governance"
       ],
-      "timeout_minutes": 45,
+      "timeout_minutes": 60,
       "pr_required": false,
       "full_audit_member": true
     }
