@@ -1,0 +1,19 @@
+{
+  "manifest_version": "kuuos_memory_rollback_v0_76",
+  "predecessor": "kuuos_memory_commit_v0_75",
+  "validator": "scripts/check_kuuos_memory_rollback_v076.py",
+  "lean_surface": "KuuOSMemoryRollbackV0_76",
+  "strict_formal_root": "KuuOSMemoryRollbackV0_76",
+  "precommit_snapshot_required": true,
+  "commit_receipt_required": true,
+  "state_digest_cas": true,
+  "state_revision_cas": true,
+  "ledger_digest_cas": true,
+  "ledger_revision_cas": true,
+  "single_use_rollback": true,
+  "payload_restoration": true,
+  "revision_monotonic": true,
+  "approval_reenabled": false,
+  "permission_expansion": false,
+  "source_unchanged_on_failure": true
+}
