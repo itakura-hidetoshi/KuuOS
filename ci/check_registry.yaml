@@ -11,7 +11,8 @@
       "validation != truth",
       "CI pass != theorem authority",
       "selection optimization != authority expansion",
-      "sharding != authority expansion"
+      "sharding != authority expansion",
+      "central scheduling != validator weakening"
     ]
   },
   "known_paths": [
@@ -36,6 +37,8 @@
     "packets/**",
     "chain_indexes/**",
     "formal/**",
+    "memoryos/**",
+    "tools/**",
     "lakefile.toml",
     "lake-manifest.json",
     "lean-toolchain",
@@ -52,8 +55,10 @@
     "scripts/run_all_governance_full_checks_v0_1.py",
     "scripts/run_all_governance_shard_v0_2.py",
     "scripts/run_full_governance_shard_ci_v0_2.py",
+    "scripts/run_pr_entry_check_v0_4.py",
     "tests/test_ci_audit_selector_v0_1.py",
     "tests/test_governance_sharding_v0_2.py",
+    "tests/test_pr_entry_check_v0_4.py",
     ".github/workflows/all_governance_validation.yml",
     ".github/workflows/all_governance_sharded_v0_2.yml",
     ".github/workflows/pr-governance-gate.yml",
@@ -119,6 +124,25 @@
       "pr_required": true,
       "full_audit_member": true
     },
+    "pr-entry-tests": {
+      "name": "Migrated PR entry self-test",
+      "runner": "python",
+      "command": "python3 tests/test_pr_entry_check_v0_4.py",
+      "group": "static",
+      "tier": "critical",
+      "paths": [
+        "scripts/run_pr_entry_check_v0_4.py",
+        "tests/test_pr_entry_check_v0_4.py",
+        "ci/check_registry.yaml",
+        ".github/workflows/memoryos-json-governance.yml",
+        ".github/workflows/qi-process-tensor-review.yml",
+        ".github/workflows/kustring_runtime_finality_v0_2.yml"
+      ],
+      "depends_on": [],
+      "timeout_minutes": 5,
+      "pr_required": true,
+      "full_audit_member": true
+    },
     "core-governance": {
       "name": "Core governance validation",
       "runner": "python",
@@ -169,6 +193,72 @@
         "chain_indexes/regge_zero_governance_*.yaml"
       ],
       "depends_on": [],
+      "timeout_minutes": 15,
+      "pr_required": true,
+      "full_audit_member": true
+    },
+    "memoryos-json": {
+      "name": "MemoryOS JSON governance",
+      "runner": "python",
+      "command": "python3 scripts/run_pr_entry_check_v0_4.py --check-id memoryos-json",
+      "group": "governance-subsystem",
+      "tier": "critical",
+      "paths": [
+        ".github/workflows/memoryos-json-governance.yml",
+        "memoryos/**/*.json",
+        "memoryos/**/*.md",
+        "tools/memoryos/**/*.py",
+        "scripts/run_pr_entry_check_v0_4.py"
+      ],
+      "depends_on": [],
+      "timeout_minutes": 15,
+      "pr_required": true,
+      "full_audit_member": true
+    },
+    "qi-process-review": {
+      "name": "Qi process tensor review",
+      "runner": "python",
+      "command": "python3 scripts/run_pr_entry_check_v0_4.py --check-id qi-process-review",
+      "group": "qi-subsystem",
+      "tier": "integration",
+      "paths": [
+        ".github/workflows/qi-process-tensor-review.yml",
+        "runtime/kuuos_runtime_daemon_qi_*.py",
+        "runtime/kuuos_causal_world_model_*_v14_0.py",
+        "scripts/*qi_*",
+        "scripts/*causal_world_model*_v14_0.py",
+        "docs/qi_*.md",
+        "docs/KUUOS_CAUSAL_WORLD_MODEL_OS_v14_0.md",
+        "examples/qi_process_tensor_v0_1/**",
+        "manifests/qi_*.json",
+        "manifests/kuuos_causal_world_model_v14_0.json",
+        "packets/qi_*.json",
+        "scripts/run_pr_entry_check_v0_4.py"
+      ],
+      "depends_on": [],
+      "pr_supersedes": ["runtime-full"],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    },
+    "kustring-finality": {
+      "name": "KuString runtime finality",
+      "runner": "python",
+      "command": "python3 scripts/run_pr_entry_check_v0_4.py --check-id kustring-finality",
+      "group": "runtime-subsystem",
+      "tier": "integration",
+      "paths": [
+        ".github/workflows/kustring_runtime_finality_v0_2.yml",
+        "examples/kustring_runtime_v0_2.py",
+        "tests/test_kustring_runtime_v0_2.py",
+        "specs/kustring_runtime_packets_v0_2.json",
+        "scripts/*kustring_runtime*_v0_2.py",
+        "docs/KUSTRING_RUNTIME_*_v0_2.md",
+        "docs/kustring_runtime_finality_ci_ledger_v0_2.md",
+        "scripts/run_pr_entry_check_v0_4.py"
+      ],
+      "depends_on": [],
+      "pr_supersedes": ["runtime-full"],
       "timeout_minutes": 15,
       "pr_required": true,
       "full_audit_member": true
