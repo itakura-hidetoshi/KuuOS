@@ -95,7 +95,6 @@ def main() -> int:
         code = run_command(cmd)
         if code != 0:
             failures.append((cmd, code))
-            break
 
     if failures:
         for cmd, code in failures:

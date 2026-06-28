@@ -2,65 +2,14 @@ name: All Governance Validation (Full Audit)
 
 on:
   workflow_dispatch:
-  push:
-    branches:
-      - main
-    paths:
-      - 'docs/**'
-      - 'specs/**'
-      - 'scripts/**'
-      - 'examples/**'
-      - 'tests/**'
-      - 'validation_cases/**'
-      - 'manifests/**'
-      - 'packets/**'
-      - 'chain_indexes/**'
-      - 'formal/**'
-      - 'runtime/**'
-      - 'src/**'
-      - 'ci/**'
-      - 'Makefile'
-      - '.github/**'
 
 permissions:
   contents: read
 
-concurrency:
-  group: all-governance-${{ github.ref }}
-  cancel-in-progress: false
-
 jobs:
-  validate-all-governance:
-    name: Validate all governance checks
-    runs-on: ubuntu-24.04
-    timeout-minutes: 60
-    steps:
-      - uses: actions/checkout@v6
-      - uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-      - name: Check workflow consolidation integrity
-        shell: bash
-        env:
-          KUUOS_FULL_WORKFLOW_SCAN: '1'
-        run: |
-          set -euo pipefail
-          python3 scripts/check_workflow_consolidation_integrity.py 2>&1 | tee workflow-integrity.log
-      - name: Run all governance checks
-        shell: bash
-        env:
-          PYTHONPATH: .
-          PYTHONUNBUFFERED: '1'
-        run: |
-          set -euo pipefail
-          python3 scripts/run_all_governance_full_checks_v0_1.py 2>&1 | tee all-governance.log
-      - name: Upload governance diagnostics
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: governance-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}
-          path: |
-            workflow-integrity.log
-            all-governance.log
-          if-no-files-found: warn
-          retention-days: 30
+  sharded-full-audit:
+    uses: ./.github/workflows/all_governance_sharded_v0_2.yml
+
+# max-parallel: 4
+# scripts/run_all_governance_shard_v0_2.py
+# scripts/build_audit_summary.py

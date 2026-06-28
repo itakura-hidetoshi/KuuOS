@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Select the smallest fail-closed KuuOS CI audit set for a change."""
+"""Fail-closed impact selector for KuuOS CI checks."""
 
 from __future__ import annotations
 
@@ -21,16 +21,15 @@ def load_registry(path: pathlib.Path) -> dict[str, Any]:
         data = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         raise ValueError(f"cannot load check registry {path}: {exc}") from exc
-    if data.get("schema_version") != "0.1":
+    if data.get("schema_version") not in {"0.1", "0.2"}:
         raise ValueError("unsupported or missing registry schema_version")
-    checks = data.get("checks")
-    if not isinstance(checks, dict) or not checks:
+    if not isinstance(data.get("checks"), dict) or not data["checks"]:
         raise ValueError("registry checks must be a non-empty object")
     return data
 
 
 def git_changed_paths(base: str, head: str) -> tuple[list[str], str | None]:
-    completed = subprocess.run(
+    result = subprocess.run(
         ["git", "diff", "--name-only", "--diff-filter=ACMR", f"{base}...{head}"],
         cwd=ROOT,
         text=True,
@@ -38,93 +37,112 @@ def git_changed_paths(base: str, head: str) -> tuple[list[str], str | None]:
         stderr=subprocess.PIPE,
         check=False,
     )
-    if completed.returncode != 0:
-        return [], completed.stderr.strip() or f"git diff exited {completed.returncode}"
-    return sorted({line.strip() for line in completed.stdout.splitlines() if line.strip()}), None
+    if result.returncode:
+        return [], result.stderr.strip() or f"git diff exited {result.returncode}"
+    return sorted({line.strip() for line in result.stdout.splitlines() if line.strip()}), None
 
 
 def matches(path: str, patterns: Iterable[str]) -> bool:
     return any(fnmatch.fnmatchcase(path, pattern) for pattern in patterns)
 
 
-def is_audit_control_path(path: str, registry: Mapping[str, Any]) -> bool:
-    return path.startswith(".github/workflows/") or matches(
-        path,
-        registry.get("full_audit_paths", []),
-    )
-
-
 def dependency_closure(
-    selected: set[str],
-    checks: Mapping[str, Mapping[str, Any]],
+    selected: set[str], checks: Mapping[str, Mapping[str, Any]]
 ) -> set[str]:
-    closure = set(selected)
+    result = set(selected)
     pending = list(selected)
     while pending:
         check_id = pending.pop()
-        check = checks.get(check_id)
-        if check is None:
-            raise ValueError(f"unknown check in dependency graph: {check_id}")
-        dependencies = check.get("depends_on", [])
+        dependencies = checks[check_id].get("depends_on", [])
         if not isinstance(dependencies, list):
             raise ValueError(f"depends_on must be a list for {check_id}")
         for dependency in dependencies:
             if dependency not in checks:
                 raise ValueError(f"unknown dependency {dependency!r} for {check_id}")
-            if dependency not in closure:
-                closure.add(dependency)
+            if dependency not in result:
+                result.add(dependency)
                 pending.append(dependency)
-    return closure
+    return result
 
 
 def apply_supersedence(
     selected: set[str],
     checks: Mapping[str, Mapping[str, Any]],
-    *,
-    full_audit_required: bool,
+    full_audit: bool,
 ) -> set[str]:
     result = set(selected)
+    relations = ("supersedes",) if full_audit else ("supersedes", "pr_supersedes")
     for check_id in sorted(selected):
-        relations = ["supersedes"]
-        if not full_audit_required:
-            relations.append("pr_supersedes")
         for relation in relations:
-            values = checks[check_id].get(relation, [])
-            if not isinstance(values, list):
+            targets = checks[check_id].get(relation, [])
+            if not isinstance(targets, list):
                 raise ValueError(f"{relation} must be a list for {check_id}")
-            for target in values:
+            for target in targets:
                 if target not in checks:
                     raise ValueError(f"unknown {relation} target {target!r} for {check_id}")
                 result.discard(target)
     return result
 
 
+def expand_check(check_id: str, check: Mapping[str, Any]) -> list[dict[str, Any]]:
+    runner = str(check.get("runner", "python"))
+    common = {
+        "group": check.get("group", ""),
+        "tier": check.get("tier", ""),
+        "timeout_minutes": int(check.get("timeout_minutes", 30)),
+    }
+    if runner != "python-sharded":
+        return [{
+            "id": check_id,
+            "name": check.get("name", check_id),
+            "runner": runner,
+            "command": check.get("command", ""),
+            **common,
+        }]
+
+    count = check.get("shard_count")
+    template = check.get("command")
+    if not isinstance(count, int) or count <= 0:
+        raise ValueError(f"positive shard_count required for {check_id}")
+    if not isinstance(template, str) or "{index}" not in template or "{count}" not in template:
+        raise ValueError(f"sharded command template invalid for {check_id}")
+    width = max(2, len(str(count - 1)))
+    return [{
+        "id": f"{check_id}-{index:0{width}d}",
+        "name": f"{check.get('name', check_id)} shard {index + 1}/{count}",
+        "runner": "python",
+        "command": template.format(index=index, count=count),
+        "parent_id": check_id,
+        "shard_index": index,
+        "shard_count": count,
+        **common,
+    } for index in range(count)]
+
+
 def select(
-    registry: Mapping[str, Any],
-    changed_paths: list[str],
-    diff_error: str | None,
+    registry: Mapping[str, Any], changed_paths: list[str], diff_error: str | None
 ) -> dict[str, Any]:
     checks: Mapping[str, Mapping[str, Any]] = registry["checks"]
-    check_patterns: dict[str, list[str]] = {}
+    patterns: dict[str, list[str]] = {}
     for check_id, check in checks.items():
-        patterns = check.get("paths", [])
-        if not isinstance(patterns, list):
+        value = check.get("paths", [])
+        if not isinstance(value, list):
             raise ValueError(f"paths must be a list for {check_id}")
-        check_patterns[check_id] = patterns
+        patterns[check_id] = value
 
-    unknown_paths = [
-        path for path in changed_paths if not matches(path, registry.get("known_paths", []))
-    ]
+    known = registry.get("known_paths", [])
+    control = registry.get("full_audit_paths", [])
+    unknown_paths = [path for path in changed_paths if not matches(path, known)]
     trigger_paths = [
-        path for path in changed_paths if is_audit_control_path(path, registry)
+        path for path in changed_paths
+        if path.startswith(".github/workflows/") or matches(path, control)
     ]
     unmapped_paths = [
-        path
-        for path in changed_paths
-        if not any(matches(path, patterns) for patterns in check_patterns.values())
+        path for path in changed_paths
+        if not any(matches(path, values) for values in patterns.values())
     ]
-
-    reasons: list[str] = []
+    full_audit = bool(diff_error or unknown_paths or trigger_paths or unmapped_paths)
+    reasons = []
     if diff_error:
         reasons.append(f"change diff unavailable: {diff_error}")
     if unknown_paths:
@@ -133,72 +151,40 @@ def select(
         reasons.append("known but unmapped paths require fail-closed full audit")
     if trigger_paths:
         reasons.append("audit-control surface changed")
-    full_audit_required = bool(diff_error or unknown_paths or unmapped_paths or trigger_paths)
 
     direct = {
-        check_id
-        for check_id, patterns in check_patterns.items()
-        if any(matches(path, patterns) for path in changed_paths)
+        check_id for check_id, values in patterns.items()
+        if any(matches(path, values) for path in changed_paths)
     }
     direct.add("workflow-integrity")
-
-    if full_audit_required:
-        selected = {
-            check_id
-            for check_id, check in checks.items()
-            if bool(check.get("full_audit_member", False))
-        }
-    else:
-        selected = set(direct)
-
+    selected = (
+        {check_id for check_id, check in checks.items() if check.get("full_audit_member")}
+        if full_audit else set(direct)
+    )
     selected = dependency_closure(selected, checks)
-    selected = apply_supersedence(
-        selected,
-        checks,
-        full_audit_required=full_audit_required,
-    )
+    selected = apply_supersedence(selected, checks, full_audit)
 
-    ordered_ids = sorted(
-        selected,
-        key=lambda item: (str(checks[item].get("group", "")), item),
-    )
-    selected_checks: list[dict[str, Any]] = []
-    python_matrix: list[dict[str, Any]] = []
-    lean_required = False
-    for check_id in ordered_ids:
-        check = checks[check_id]
-        runner = str(check.get("runner", "python"))
-        item = {
-            "id": check_id,
-            "name": check.get("name", check_id),
-            "runner": runner,
-            "group": check.get("group", ""),
-            "tier": check.get("tier", ""),
-            "command": check.get("command", ""),
-            "timeout_minutes": int(check.get("timeout_minutes", 30)),
-        }
-        selected_checks.append(item)
-        if runner == "lean":
-            lean_required = True
-        elif runner == "python":
-            python_matrix.append(
-                {
-                    "id": check_id,
-                    "name": item["name"],
-                    "command": item["command"],
-                }
-            )
-        else:
-            raise ValueError(f"unsupported runner {runner!r} for {check_id}")
+    expanded = [
+        item
+        for check_id in sorted(selected, key=lambda value: (str(checks[value].get("group", "")), value))
+        for item in expand_check(check_id, checks[check_id])
+    ]
+    python_matrix = [
+        {"id": item["id"], "name": item["name"], "command": item["command"]}
+        for item in expanded if item["runner"] == "python"
+    ]
+    unsupported = [item["runner"] for item in expanded if item["runner"] not in {"python", "lean"}]
+    if unsupported:
+        raise ValueError(f"unsupported expanded runner {unsupported[0]!r}")
 
     return {
-        "schema_version": "0.1",
+        "schema_version": "0.2",
         "changed_paths": changed_paths,
         "direct_checks": sorted(direct),
-        "selected_checks": selected_checks,
+        "selected_checks": expanded,
         "python_matrix": python_matrix,
-        "lean_required": lean_required,
-        "full_audit_required": full_audit_required,
+        "lean_required": any(item["runner"] == "lean" for item in expanded),
+        "full_audit_required": full_audit,
         "unknown_paths": unknown_paths,
         "unmapped_paths": unmapped_paths,
         "full_audit_trigger_paths": trigger_paths,
@@ -208,29 +194,25 @@ def select(
 
 
 def write_github_output(path: pathlib.Path, selection: Mapping[str, Any]) -> None:
-    lines = [
-        "python_matrix="
-        + json.dumps(selection["python_matrix"], separators=(",", ":")),
-        f"python_count={len(selection['python_matrix'])}",
-        f"lean_required={str(bool(selection['lean_required'])).lower()}",
-        f"full_audit_required={str(bool(selection['full_audit_required'])).lower()}",
-    ]
+    values = {
+        "python_matrix": json.dumps(selection["python_matrix"], separators=(",", ":")),
+        "python_count": len(selection["python_matrix"]),
+        "lean_required": str(bool(selection["lean_required"])).lower(),
+        "full_audit_required": str(bool(selection["full_audit_required"])).lower(),
+    }
     with path.open("a", encoding="utf-8") as handle:
-        handle.write("\n".join(lines) + "\n")
+        for key, value in values.items():
+            handle.write(f"{key}={value}\n")
 
 
-def parse_args() -> argparse.Namespace:
+def main() -> int:
     parser = argparse.ArgumentParser()
     parser.add_argument("--base", required=True)
     parser.add_argument("--head", required=True)
     parser.add_argument("--registry", type=pathlib.Path, default=DEFAULT_REGISTRY)
     parser.add_argument("--output", type=pathlib.Path, required=True)
     parser.add_argument("--github-output", type=pathlib.Path)
-    return parser.parse_args()
-
-
-def main() -> int:
-    args = parse_args()
+    args = parser.parse_args()
     try:
         registry = load_registry(args.registry)
         changed_paths, diff_error = git_changed_paths(args.base, args.head)
@@ -238,13 +220,9 @@ def main() -> int:
     except ValueError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
-
     args.output.parent.mkdir(parents=True, exist_ok=True)
-    args.output.write_text(
-        json.dumps(selection, ensure_ascii=False, indent=2) + "\n",
-        encoding="utf-8",
-    )
-    if args.github_output is not None:
+    args.output.write_text(json.dumps(selection, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+    if args.github_output:
         write_github_output(args.github_output, selection)
     print(json.dumps(selection, ensure_ascii=False, indent=2))
     return 0

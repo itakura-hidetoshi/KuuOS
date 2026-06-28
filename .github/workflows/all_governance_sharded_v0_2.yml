@@ -1,0 +1,109 @@
+name: Sharded Full Governance Audit v0.2
+
+on:
+  workflow_call:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/**'
+      - 'specs/**'
+      - 'scripts/**'
+      - 'examples/**'
+      - 'tests/**'
+      - 'validation_cases/**'
+      - 'manifests/**'
+      - 'packets/**'
+      - 'chain_indexes/**'
+      - 'formal/**'
+      - 'runtime/**'
+      - 'src/**'
+      - 'ci/**'
+      - 'Makefile'
+      - '.github/**'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: sharded-full-governance-${{ github.ref }}
+  cancel-in-progress: false
+
+jobs:
+  integrity:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run full integrity scan
+        env:
+          KUUOS_FULL_WORKFLOW_SCAN: '1'
+          PYTHONPATH: .
+        run: python3 scripts/run_ci_check.py --check-id workflow-integrity --command 'python3 scripts/check_workflow_consolidation_integrity.py'
+      - name: Upload integrity receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-audit-integrity-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/checks/
+          if-no-files-found: warn
+          retention-days: 30
+
+  shards:
+    name: Governance shard ${{ matrix.index }}
+    runs-on: ubuntu-24.04
+    timeout-minutes: 40
+    strategy:
+      fail-fast: false
+      max-parallel: 4
+      matrix:
+        index: [0, 1, 2, 3, 4, 5, 6, 7]
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Run shard
+        env:
+          PYTHONPATH: .
+          PYTHONUNBUFFERED: '1'
+        run: python3 scripts/run_full_governance_shard_ci_v0_2.py --index ${{ matrix.index }} --count 8
+      - name: Upload shard receipt
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-audit-shard-${{ matrix.index }}-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            artifacts/checks/
+            artifacts/governance-shards/
+          if-no-files-found: warn
+          retention-days: 30
+
+  summary:
+    needs: [integrity, shards]
+    if: always()
+    runs-on: ubuntu-24.04
+    steps:
+      - uses: actions/checkout@v6
+      - name: Download receipts
+        continue-on-error: true
+        uses: actions/download-artifact@v5
+        with:
+          pattern: full-audit-*-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/receipts
+          merge-multiple: true
+      - name: Build selection
+        run: python3 scripts/build_full_audit_selection_v0_2.py --output artifacts/selection/selection.json --count 8
+      - name: Build audit summary
+        run: python3 scripts/build_audit_summary.py --selection artifacts/selection/selection.json --receipts-root artifacts/receipts --output-dir artifacts/summary
+      - name: Upload summary
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: full-audit-summary-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/summary/
+          if-no-files-found: warn
+          retention-days: 30
