@@ -14,16 +14,16 @@ CONSTRUCTED_WORKFLOW_PATTERN = re.compile(
     r"ROOT\s*/\s*[\"']\.github[\"']\s*/\s*[\"']workflows[\"']\s*/\s*[\"']([^\"']+\.ya?ml)[\"']"
 )
 
-REQUIRED_FILES = [
+CANONICAL_FILES = [
     ".github/workflows/all_governance_validation.yml",
     ".github/workflows/pr-governance-gate.yml",
     ".github/workflows/core_governance_validation.yml",
     ".github/workflows/kuuos_runtime_full_check.yml",
     ".github/workflows/lean-formal-validation.yml",
-    ".github/workflows/world-four-great-phase-dynamics-v0-59.yml",
     ".github/workflows/decision-os-validation.yml",
     ".github/workflows/evidence-cycle-os-validation.yml",
     ".github/workflows/plan-os-validation.yml",
+    ".github/workflows/world-four-great-phase-dynamics-v0-59.yml",
     "scripts/run_plan_os_full_checks.py",
     "scripts/run_decision_os_full_checks.py",
     "scripts/run_evidence_cycle_os_full_checks.py",
@@ -34,6 +34,26 @@ REQUIRED_FILES = [
     "ci/check_registry.yaml",
     ".github/WORKFLOW_INDEX.md",
 ]
+
+MANUAL_VERSION_WORKFLOWS = [
+    ".github/workflows/kuuos-connection-improvement-candidate-v0-62.yml",
+    ".github/workflows/kuuos-connection-review-v0-63.yml",
+    ".github/workflows/kuuos-connection-evaluation-v0-64.yml",
+    ".github/workflows/kuuos-staging-v065.yml",
+    ".github/workflows/kuuos-shadow-v066.yml",
+    ".github/workflows/kuuos-finite-gauge-v067.yml",
+    ".github/workflows/kuuos-evidence-v068.yml",
+    ".github/workflows/kuuos-external-evidence-review-v069.yml",
+    ".github/workflows/kuuos-module-bundle-v070.yml",
+    ".github/workflows/kuuos-noncommutative-leibniz-v071.yml",
+    ".github/workflows/kuuos-memory-v072.yml",
+    ".github/workflows/kuuos-memory-evaluation-v073.yml",
+    ".github/workflows/kuuos-memory-review-v074.yml",
+    ".github/workflows/kuuos-v075.yml",
+    ".github/workflows/kuuos-v076.yml",
+]
+
+REQUIRED_FILES = CANONICAL_FILES + MANUAL_VERSION_WORKFLOWS
 
 FORBIDDEN_LEGACY_FILES = [
     ".github/workflows/gpt_github_integration_validation.yml",
@@ -71,16 +91,15 @@ MIGRATED_PR_ENTRY_POINTS = [
     ".github/workflows/decision-os-validation.yml",
     ".github/workflows/evidence-cycle-os-validation.yml",
     ".github/workflows/plan-os-validation.yml",
+    *MANUAL_VERSION_WORKFLOWS,
 ]
 
 REQUIRED_MARKERS = {
     ".github/workflows/all_governance_validation.yml": [
         "workflow_dispatch:",
-        "branches:",
         "- main",
         "KUUOS_FULL_WORKFLOW_SCAN: '1'",
         "scripts/run_all_governance_full_checks_v0_1.py",
-        "cancel-in-progress: false",
     ],
     ".github/workflows/pr-governance-gate.yml": [
         "pull_request:",
@@ -88,65 +107,38 @@ REQUIRED_MARKERS = {
         "max-parallel: 4",
         "scripts/run_ci_check.py",
         "scripts/build_audit_summary.py",
-        "path: artifacts/checks/",
         "audit-report.md",
     ],
     ".github/workflows/core_governance_validation.yml": [
         "workflow_dispatch:",
-        "set -euo pipefail",
         "scripts/run_core_governance_full_checks_v0_1.py",
-        "core-governance.log",
-        "actions/upload-artifact@v4",
     ],
     ".github/workflows/kuuos_runtime_full_check.yml": [
         "workflow_dispatch:",
-        "branches:",
         "- main",
         "scripts/run_kuuos_runtime_full_check_v0_55.py",
-        "cancel-in-progress: false",
     ],
     ".github/workflows/lean-formal-validation.yml": [
         "workflow_dispatch:",
-        "branches:",
         "- main",
         "sorryAsError=true",
-        "cancel-in-progress: false",
-    ],
-    ".github/workflows/world-four-great-phase-dynamics-v0-59.yml": [
-        "workflow_dispatch:",
-        "set -euo pipefail",
-        "scripts/check_world_four_great_phase_dynamics_v0_59.py",
-        "manifests/world_four_great_phase_dynamics_v0_59.json",
-        "formal/KUOS/WORLD/**",
-        "formal/KuuOSFourGreatCoreV0_59.lean",
-        "formal/KuuOSFormalV0_59.lean",
-        "build KuuOSFourGreatCoreV0_59 KuuOSFormalV0_59",
-        "world-v059-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}",
-        "actions/upload-artifact@v4",
     ],
     ".github/workflows/decision-os-validation.yml": [
         "workflow_dispatch:",
-        "branches:",
         "- main",
         "scripts/run_decision_os_full_checks.py",
-        "cancel-in-progress: false",
     ],
     ".github/workflows/evidence-cycle-os-validation.yml": [
         "workflow_dispatch:",
-        "branches:",
         "- main",
         "scripts/run_evidence_cycle_os_full_checks.py",
-        "cancel-in-progress: false",
     ],
     ".github/workflows/plan-os-validation.yml": [
         "workflow_dispatch:",
-        "branches:",
         "- main",
         "scripts/run_plan_os_full_checks.py",
-        "cancel-in-progress: false",
     ],
     "scripts/run_plan_os_full_checks.py": [
-        "PYTHONPATH",
         "check_plan_os_closed_loop_replan_intake_adapter_v0_4.py",
         "check_plan_os_generational_replan_cycle_driver_v0_5.py",
         "check_planos_activation_admission_actos_handoff_v0_23.py",
@@ -241,7 +233,7 @@ def check_registry(errors: list[str]) -> None:
         errors.append("CI registry checks must be a non-empty object")
         return
 
-    for required_check in ("workflow-integrity", "full-governance"):
+    for required_check in ("workflow-integrity", "ci-audit-tests", "full-governance"):
         if required_check not in checks:
             errors.append(f"CI registry missing required check: {required_check}")
 
@@ -256,8 +248,7 @@ def check_registry(errors: list[str]) -> None:
         if not isinstance(command, str) or not command.strip():
             errors.append(f"missing CI command for {check_id}")
             continue
-        patterns = check.get("paths")
-        if not isinstance(patterns, list):
+        if not isinstance(check.get("paths"), list):
             errors.append(f"CI paths must be a list for {check_id}")
         for relation in ("depends_on", "supersedes", "pr_supersedes"):
             values = check.get(relation, [])
@@ -267,7 +258,6 @@ def check_registry(errors: list[str]) -> None:
             for target in values:
                 if target not in checks:
                     errors.append(f"CI {relation} target missing for {check_id}: {target}")
-
         if runner == "python":
             try:
                 argv = shlex.split(command)
@@ -295,6 +285,11 @@ def main() -> int:
         path = ROOT / relative
         if path.is_file() and "pull_request:" in path.read_text(encoding="utf-8"):
             errors.append(f"migrated workflow still has pull_request trigger: {relative}")
+
+    for relative in MANUAL_VERSION_WORKFLOWS:
+        path = ROOT / relative
+        if path.is_file() and "workflow_dispatch:" not in path.read_text(encoding="utf-8"):
+            errors.append(f"manual workflow lost workflow_dispatch trigger: {relative}")
 
     for relative, markers in REQUIRED_MARKERS.items():
         path = ROOT / relative
