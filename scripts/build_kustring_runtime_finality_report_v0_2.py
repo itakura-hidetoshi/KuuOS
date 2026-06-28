@@ -17,7 +17,8 @@ CHAIN = ROOT / "specs" / "kustring_runtime_audit_chain_v0_2.generated.jsonl"
 INDEX = ROOT / "docs" / "KUSTRING_RUNTIME_CHAIN_INDEX_v0_2.md"
 FINALITY = ROOT / "docs" / "KUSTRING_RUNTIME_FINALITY_PACKET_v0_2.md"
 LEDGER = ROOT / "docs" / "kustring_runtime_finality_ci_ledger_v0_2.md"
-OUT = ROOT / "specs" / "kustring_runtime_finality_report_v0_2.generated.json"
+OUT_RELATIVE = "specs/kustring_runtime_finality_report_v0_2.generated.json"
+OUT = ROOT / OUT_RELATIVE
 
 PREPARE_COMMANDS: list[list[str]] = [
     [sys.executable, "scripts/run_kustring_runtime_closure_suite_v0_2.py"],
