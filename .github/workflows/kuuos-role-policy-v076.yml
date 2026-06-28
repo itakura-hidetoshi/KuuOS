@@ -1,0 +1,69 @@
+name: KuuOS Role Policy v0.76
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_governance_role_topology_v0_76.py'
+      - 'scripts/check_kuuos_governance_role_topology_v076.py'
+      - 'manifests/kuuos_governance_role_topology_v0_76.json'
+      - 'docs/KUUOS_GOVERNANCE_ROLE_TOPOLOGY_v0_76.md'
+      - 'formal/KUOS/WORLD/KuuOSGovernanceRolePolicyV0_76.lean'
+      - 'formal/KUOS/WORLD/KuuOSGovernanceRoleOrthogonalityV0_76.lean'
+      - 'formal/KUOS/WORLD/KuuOSGovernanceRoleDecisionV0_76.lean'
+      - 'formal/KUOS/WORLD/KuuOSGovernanceRoleTopologyBundleV0_76.lean'
+      - 'formal/KuuOSRolePolicyV0_76.lean'
+      - 'formal/KuuOSFormal.lean'
+      - 'lakefile.toml'
+      - 'lake-manifest.json'
+      - 'lean-toolchain'
+      - '.github/workflows/kuuos-role-policy-v076.yml'
+
+permissions:
+  contents: read
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  runtime:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile runtime and validator
+        run: >-
+          python3 -m compileall -q
+          runtime/kuuos_governance_role_topology_v0_76.py
+          scripts/check_kuuos_governance_role_topology_v076.py
+      - name: Validate role topology
+        run: PYTHONPATH=. python3 scripts/check_kuuos_governance_role_topology_v076.py
+      - name: Validate manifest
+        run: python3 -m json.tool manifests/kuuos_governance_role_topology_v0_76.json >/dev/null
+
+  formal:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve dependencies
+        run: lake update
+      - name: Verify manifest stability
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib cache
+        run: lake exe cache get
+      - name: Build aggregate and v0.76 root
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true
+          build KuuOSFormal KuuOSRolePolicyV0_76
