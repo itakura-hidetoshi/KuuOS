@@ -1,0 +1,45 @@
+#!/usr/bin/env python3
+from __future__ import annotations
+
+import json
+from pathlib import Path
+
+from runtime.kuuos_repository_snapshot_adapter_v0_79 import capture_explicit_repository_snapshot
+from runtime.kuuos_repository_structure_observer_v0_79 import observe_repository_structure
+
+ROOT = Path(__file__).resolve().parents[1]
+MANIFESTS = (
+    "manifests/kuuos_self_organization_v0_78.json",
+    "manifests/kuuos_repository_structure_alignment_v0_79.json",
+)
+BASE_PATHS = (
+    "scripts/run_kuuos_runtime_full_check_v0_55.py",
+    "formal/KuuOSFormal.lean",
+    "lakefile.toml",
+    ".github/workflows/kuuos-self-organization-v078.yml",
+)
+
+
+def contract_paths() -> tuple[str, ...]:
+    paths = set(BASE_PATHS + MANIFESTS)
+    for manifest in MANIFESTS:
+        payload = json.loads((ROOT / manifest).read_text(encoding="utf-8"))
+        for key in ("fixture", "tests", "validator", "documentation"):
+            value = payload.get(key)
+            if isinstance(value, str):
+                paths.add(value)
+        for value in payload.get("runtime_modules", []):
+            if isinstance(value, str):
+                paths.add(value)
+    return tuple(sorted(paths))
+
+
+def main() -> int:
+    snapshot = capture_explicit_repository_snapshot(ROOT, contract_paths())
+    observation = observe_repository_structure(snapshot)
+    print(json.dumps(observation.to_dict(), ensure_ascii=False, indent=2))
+    return 0 if observation.weighted_defect_score == 0 else 1
+
+
+if __name__ == "__main__":
+    raise SystemExit(main())
