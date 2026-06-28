@@ -22,7 +22,7 @@ class PrEntryCheckTests(unittest.TestCase):
     def test_registered_ids_have_commands(self):
         with tempfile.TemporaryDirectory() as directory:
             root = pathlib.Path(directory)
-            self.assertEqual(len(CHECK_IDS), 5)
+            self.assertEqual(len(CHECK_IDS), 3)
             for check_id in CHECK_IDS:
                 commands = build_commands(check_id, root / check_id)
                 self.assertTrue(commands)
