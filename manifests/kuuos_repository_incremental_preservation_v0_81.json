@@ -1,0 +1,22 @@
+{
+  "manifest_version": "kuuos_repository_incremental_preservation_v0_81",
+  "repository_autorepair_contract": true,
+  "runtime_modules": [
+    "runtime/kuuos_repository_incremental_preservation_types_v0_81.py",
+    "runtime/kuuos_repository_alignment_scopes_v0_81.py",
+    "runtime/kuuos_repository_incremental_preservation_v0_81.py"
+  ],
+  "fixture": "tests/kuuos_repository_incremental_fixture_v0_81.py",
+  "tests": "tests/test_kuuos_repository_incremental_preservation_v0_81.py",
+  "validator": "scripts/check_kuuos_repository_incremental_preservation_v081.py",
+  "documentation": "docs/KUUOS_REPOSITORY_INCREMENTAL_PRESERVATION_v0_81.md",
+  "strict_formal_root": "KuuOSRepositoryIncrementalV0_81",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryIncrementalPreservationV0_81"
+  ],
+  "scope_digest_reuse": true,
+  "local_contract_recheck": true,
+  "global_change_full_recheck": true,
+  "stale_certificate_rejected": true,
+  "external_approval_required": false
+}

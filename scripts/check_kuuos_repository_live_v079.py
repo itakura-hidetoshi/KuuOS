@@ -12,6 +12,7 @@ MANIFESTS = (
     "manifests/kuuos_self_organization_v0_78.json",
     "manifests/kuuos_repository_structure_alignment_v0_79.json",
     "manifests/kuuos_repository_alignment_normal_form_v0_80.json",
+    "manifests/kuuos_repository_incremental_preservation_v0_81.json",
 )
 BASE_PATHS = (
     "scripts/run_kuuos_runtime_full_check_v0_55.py",
