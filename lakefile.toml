@@ -45,5 +45,6 @@ roots = [
   "KuuOSMemoryEvaluationV0_73",
   "KuuOSMemoryReviewV0_74",
   "KuuOSMemoryApplicationV0_75",
-  "KuuOSMemoryRollbackV0_76"
+  "KuuOSMemoryRollbackV0_76",
+  "KuuOSPostTransitionV0_77"
 ]
