@@ -1,10 +1,5 @@
 #!/usr/bin/env python3
-"""Select the smallest fail-closed KuuOS CI audit set for a change.
-
-The registry is JSON encoded inside a YAML-compatible file so the selector remains
-stdlib-only. Selection reduces repeated execution; it does not weaken any KuuOS
-authority, truth, proof, or release boundary.
-"""
+"""Select the smallest fail-closed KuuOS CI audit set for a change."""
 
 from __future__ import annotations
 
@@ -35,9 +30,8 @@ def load_registry(path: pathlib.Path) -> dict[str, Any]:
 
 
 def git_changed_paths(base: str, head: str) -> tuple[list[str], str | None]:
-    command = ["git", "diff", "--name-only", "--diff-filter=ACMR", f"{base}...{head}"]
     completed = subprocess.run(
-        command,
+        ["git", "diff", "--name-only", "--diff-filter=ACMR", f"{base}...{head}"],
         cwd=ROOT,
         text=True,
         stdout=subprocess.PIPE,
@@ -45,17 +39,25 @@ def git_changed_paths(base: str, head: str) -> tuple[list[str], str | None]:
         check=False,
     )
     if completed.returncode != 0:
-        detail = completed.stderr.strip() or f"git diff exited {completed.returncode}"
-        return [], detail
-    paths = sorted({line.strip() for line in completed.stdout.splitlines() if line.strip()})
-    return paths, None
+        return [], completed.stderr.strip() or f"git diff exited {completed.returncode}"
+    return sorted({line.strip() for line in completed.stdout.splitlines() if line.strip()}), None
 
 
 def matches(path: str, patterns: Iterable[str]) -> bool:
     return any(fnmatch.fnmatchcase(path, pattern) for pattern in patterns)
 
 
-def dependency_closure(selected: set[str], checks: Mapping[str, Mapping[str, Any]]) -> set[str]:
+def is_audit_control_path(path: str, registry: Mapping[str, Any]) -> bool:
+    return path.startswith(".github/workflows/") or matches(
+        path,
+        registry.get("full_audit_paths", []),
+    )
+
+
+def dependency_closure(
+    selected: set[str],
+    checks: Mapping[str, Mapping[str, Any]],
+) -> set[str]:
     closure = set(selected)
     pending = list(selected)
     while pending:
@@ -87,22 +89,22 @@ def apply_supersedence(
         if not full_audit_required:
             relations.append("pr_supersedes")
         for relation in relations:
-            supersedes = checks[check_id].get(relation, [])
-            if not isinstance(supersedes, list):
+            values = checks[check_id].get(relation, [])
+            if not isinstance(values, list):
                 raise ValueError(f"{relation} must be a list for {check_id}")
-            for superseded in supersedes:
-                if superseded not in checks:
-                    raise ValueError(
-                        f"unknown {relation} target {superseded!r} for {check_id}"
-                    )
-                result.discard(superseded)
+            for target in values:
+                if target not in checks:
+                    raise ValueError(f"unknown {relation} target {target!r} for {check_id}")
+                result.discard(target)
     return result
 
 
-def select(registry: Mapping[str, Any], changed_paths: list[str], diff_error: str | None) -> dict[str, Any]:
+def select(
+    registry: Mapping[str, Any],
+    changed_paths: list[str],
+    diff_error: str | None,
+) -> dict[str, Any]:
     checks: Mapping[str, Mapping[str, Any]] = registry["checks"]
-    reasons: list[str] = []
-
     check_patterns: dict[str, list[str]] = {}
     for check_id, check in checks.items():
         patterns = check.get("paths", [])
@@ -114,7 +116,7 @@ def select(registry: Mapping[str, Any], changed_paths: list[str], diff_error: st
         path for path in changed_paths if not matches(path, registry.get("known_paths", []))
     ]
     trigger_paths = [
-        path for path in changed_paths if matches(path, registry.get("full_audit_paths", []))
+        path for path in changed_paths if is_audit_control_path(path, registry)
     ]
     unmapped_paths = [
         path
@@ -122,7 +124,7 @@ def select(registry: Mapping[str, Any], changed_paths: list[str], diff_error: st
         if not any(matches(path, patterns) for patterns in check_patterns.values())
     ]
 
-    full_audit_required = bool(diff_error or unknown_paths or trigger_paths or unmapped_paths)
+    reasons: list[str] = []
     if diff_error:
         reasons.append(f"change diff unavailable: {diff_error}")
     if unknown_paths:
@@ -131,13 +133,13 @@ def select(registry: Mapping[str, Any], changed_paths: list[str], diff_error: st
         reasons.append("known but unmapped paths require fail-closed full audit")
     if trigger_paths:
         reasons.append("audit-control surface changed")
+    full_audit_required = bool(diff_error or unknown_paths or unmapped_paths or trigger_paths)
 
-    direct: set[str] = set()
-    for check_id, patterns in check_patterns.items():
-        if any(matches(path, patterns) for path in changed_paths):
-            direct.add(check_id)
-
-    # This small structural invariant is always retained on pull requests.
+    direct = {
+        check_id
+        for check_id, patterns in check_patterns.items()
+        if any(matches(path, patterns) for path in changed_paths)
+    }
     direct.add("workflow-integrity")
 
     if full_audit_required:
@@ -156,33 +158,34 @@ def select(registry: Mapping[str, Any], changed_paths: list[str], diff_error: st
         full_audit_required=full_audit_required,
     )
 
-    ordered_ids = sorted(selected, key=lambda item: (str(checks[item].get("group", "")), item))
+    ordered_ids = sorted(
+        selected,
+        key=lambda item: (str(checks[item].get("group", "")), item),
+    )
+    selected_checks: list[dict[str, Any]] = []
     python_matrix: list[dict[str, Any]] = []
     lean_required = False
-    selected_checks: list[dict[str, Any]] = []
-
     for check_id in ordered_ids:
         check = checks[check_id]
         runner = str(check.get("runner", "python"))
-        selected_checks.append(
-            {
-                "id": check_id,
-                "name": check.get("name", check_id),
-                "runner": runner,
-                "group": check.get("group", ""),
-                "tier": check.get("tier", ""),
-                "command": check.get("command", ""),
-                "timeout_minutes": int(check.get("timeout_minutes", 30)),
-            }
-        )
+        item = {
+            "id": check_id,
+            "name": check.get("name", check_id),
+            "runner": runner,
+            "group": check.get("group", ""),
+            "tier": check.get("tier", ""),
+            "command": check.get("command", ""),
+            "timeout_minutes": int(check.get("timeout_minutes", 30)),
+        }
+        selected_checks.append(item)
         if runner == "lean":
             lean_required = True
         elif runner == "python":
             python_matrix.append(
                 {
                     "id": check_id,
-                    "name": check.get("name", check_id),
-                    "command": check.get("command", ""),
+                    "name": item["name"],
+                    "command": item["command"],
                 }
             )
         else:
@@ -205,9 +208,9 @@ def select(registry: Mapping[str, Any], changed_paths: list[str], diff_error: st
 
 
 def write_github_output(path: pathlib.Path, selection: Mapping[str, Any]) -> None:
-    python_matrix = json.dumps(selection["python_matrix"], separators=(",", ":"))
     lines = [
-        f"python_matrix={python_matrix}",
+        "python_matrix="
+        + json.dumps(selection["python_matrix"], separators=(",", ":")),
         f"python_count={len(selection['python_matrix'])}",
         f"lean_required={str(bool(selection['lean_required'])).lower()}",
         f"full_audit_required={str(bool(selection['full_audit_required'])).lower()}",
@@ -243,7 +246,6 @@ def main() -> int:
     )
     if args.github_output is not None:
         write_github_output(args.github_output, selection)
-
     print(json.dumps(selection, ensure_ascii=False, indent=2))
     return 0
 
