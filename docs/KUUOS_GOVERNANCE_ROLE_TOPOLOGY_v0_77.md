@@ -1,92 +1,78 @@
-# KuuOS Governance Role Topology v0.77
+# KuuOS Solo Direct Path v0.77
 
 ## 目的
 
-v0.77は、ガバナンスの運用モードと独立承認の要否を分離します。
+v0.77は、一人開発に追加承認層を持ち込まないことを明文化します。
 
-`SOLO_RESEARCH`、`TEAM_RESEARCH`、`PRODUCTION`は運用文脈を表すラベルです。
+概念上の役割分離だけを理由として、runtime stage、policy object、validator、receiptを追加しません。
 
-これらのラベル自体は、reviewerとapplication authority ownerを別主体にすることを要求しません。
+## ソロ経路
 
-## 基本原則
-
-```text
-governance mode != role-separation requirement
-
-PRODUCTION != independent approval mandatory
-
-shared actor != immediate execution
-
-application authority != state mutation
-```
-
-独立承認の要否は、各モードとは別のpolicyとして明示します。
+`SOLO_RESEARCH`では、既存の経路をそのまま使用します。
 
 ```text
-independent_authority_approval_required = false
+v0.74 review approval
+→ v0.75 bounded application
+→ v0.76 rollback when required
 ```
 
-の場合、reviewer自身をauthority actorとして使用できます。
+v0.77は、この経路の間に処理を追加しません。
 
-追加の承認操作は発生しません。
+次は存在しません。
+
+- 追加の承認操作
+- 追加のauthority actor
+- role topology policyの生成
+- role topology receiptの発行
+- actor identityの比較
+- v0.75適用前の追加validator
+- v0.76 rollback前後の追加gate
+
+したがって、ソロ経路で増える承認手順はゼロです。
+
+## PRODUCTIONラベル
+
+`PRODUCTION`は、独立承認を自動的に要求するラベルではありません。
+
+`PRODUCTION`を選んでも、既存の限定権限、validity window、digest binding、single-use consumption、compare-and-swap、rollback境界だけを使用します。
+
+運用ラベルから新しい手続きを導出しません。
+
+## 残す境界
+
+手続きを増やさなくても、既存層が保持する次の境界は残ります。
+
+- review approvalは即時実行ではない
+- application authorityは無制限権限ではない
+- state transitionはv0.75で一度だけ行う
+- stale stateと改変receiptはfail-closedで拒否する
+- rollbackはv0.76の前向き補償transactionとして行う
+- permission expansionを行わない
+
+これらは新しい承認層ではなく、既存application pathの内部条件です。
+
+## 複数人開発
+
+複数人開発になったという事実だけでも、独立承認を自動追加しません。
+
+実在する別主体、法的要件、契約上の分掌、または外部host境界が生じた場合に限り、その具体的境界へ追加規則を結びます。
+
+将来の追加規則はソロ経路を変更せず、対象となる外部境界だけをtightenします。
+
+## 過剰統治の禁止
+
+次の原則を採用します。
 
 ```text
-independent_authority_approval_required = true
+conceptual separation != mandatory runtime stage
+
+possible future team != present approval gate
+
+operating label != procedural burden
+
+solo development != simulated organization
 ```
 
-の場合だけ、reviewerとは異なるauthority actorを要求します。
+存在しない組織構造を先回りして模倣しません。
 
-この設定は三つのどのモードでも選択できます。
-
-## 既定動作
-
-既定値は全モードで次のとおりです。
-
-```text
-independent_authority_approval_required = false
-```
-
-したがって、`PRODUCTION`であることだけを理由として独立承認は追加されません。
-
-一人開発では、v0.74のreviewerが同じ操作内で限定的application authorityの主体となれます。
-
-チーム開発でも、役割分離が必要な案件に限ってpolicyを有効化できます。
-
-## v0.74との関係
-
-v0.77はv0.74のreview receiptについて次を検査します。
-
-- receipt self-digestが正しい
-- statusがapprovedである
-- production application authorityが存在する
-- review receiptに未解決issueがない
-- review関数がwriteまたはlive applicationを行っていない
-- permission expansionまたはrollback target replacementがない
-
-v0.77はv0.74のapproval decisionを再実行しません。
-
-## v0.75およびv0.76との関係
-
-v0.75の一回限りcompare-and-swap applicationと、v0.76の監査可能rollbackは変更しません。
-
-v0.77はstate write、live application、permission expansionを行いません。
-
-role topology receiptは、承認主体の構成が選択されたpolicyと整合することだけを表します。
-
-## fail-closed条件
-
-次を拒否します。
-
-- policy digestの改変
-- 未定義governance mode
-- review receipt digestの改変
-- 未承認review
-- application authorityの欠如
-- review境界でのwriteまたはlive application
-- policyが独立主体を要求する場合の同一主体指定
-
-## 将来の拡張
-
-役割分離を導入するときは、運用モードを変更せずpolicyだけをtightenできます。
-
-逆に、`PRODUCTION`へ移行しても、案件の規模、組織構造、法的要件、外部契約が独立承認を要求しない限り、追加手続きを自動的には導入しません。
+統治機構は、現実に制御すべき独立主体または外部作用が存在するときだけ追加します。
