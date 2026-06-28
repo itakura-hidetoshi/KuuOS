@@ -1,0 +1,35 @@
+{
+  "manifest_version": "kuuos_memory_evaluation_v0_73",
+  "predecessor": "kuuos_nonmarkov_memory_connection_v0_72",
+  "architecture": "finite-memory-family-evaluation",
+  "graph_semantics_required": false,
+  "runtime_modules": [
+    "runtime/kuuos_memory_family_v0_73.py",
+    "runtime/kuuos_memory_policy_v0_73.py",
+    "runtime/kuuos_memory_assessment_v0_73.py",
+    "runtime/kuuos_memory_score_v0_73.py",
+    "runtime/kuuos_memory_selection_v0_73.py",
+    "runtime/kuuos_memory_family_evaluation_v0_73.py"
+  ],
+  "validator": "scripts/check_kuuos_memory_evaluation_v073.py",
+  "lean_surface": "KuuOSFiniteMemoryEvaluationV0_73",
+  "strict_formal_root": "KuuOSFormalV0_73",
+  "finite_family_required": true,
+  "source_kernel_binding_required": true,
+  "v0_72_validation_reused": true,
+  "gauge_invariant_score_required": true,
+  "selection_order": [
+    "memory_return_score",
+    "changed_term_count",
+    "member_digest"
+  ],
+  "source_retained_when_none_accepted": true,
+  "source_history_read_only": true,
+  "source_kernel_read_only": true,
+  "candidate_only": true,
+  "writes_enabled": false,
+  "live_application_enabled": false,
+  "permission_expansion_enabled": false,
+  "lower_score_implies_truth": false,
+  "approval_production_authority_inherited_from_v0_69": true
+}
