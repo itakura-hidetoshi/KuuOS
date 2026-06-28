@@ -23,6 +23,11 @@ REQUIRED_PATHS = [
     ".github/workflows/regge_zero_governance_validation.yml",
 ]
 
+WORKFLOW_ADDENDUM_TRIGGER_ALTERNATIVES = [
+    "chain_indexes/regge_zero_governance_regression_addendum_v0_1.yaml",
+    "chain_indexes/regge_zero_governance_*.yaml",
+]
+
 
 def read_text(path: Path) -> str:
     if not path.exists():
@@ -36,6 +41,20 @@ def require_contains(text: str, needles: Iterable[str], label: str) -> List[str]
         if needle not in text:
             errors.append(f"{label} missing required text: {needle}")
     return errors
+
+
+def require_any_contains(
+    text: str,
+    alternatives: Iterable[str],
+    label: str,
+    requirement: str,
+) -> List[str]:
+    choices = list(alternatives)
+    if any(choice in text for choice in choices):
+        return []
+    return [
+        f"{label} missing {requirement}: " + " OR ".join(choices)
+    ]
 
 
 def validate_addendum() -> List[str]:
@@ -72,10 +91,51 @@ def validate_manifest() -> List[str]:
 
 def validate_runtime_links() -> List[str]:
     errors: List[str] = []
-    errors.extend(require_contains(read_text(RUNNER), ["tests/test_regge_zero_governance_validator_v0_1.py"], "runner"))
-    errors.extend(require_contains(read_text(REGRESSION), ["REGGE_ZERO_GOVERNANCE_REGRESSION: PASS", "expected: ADVISORY_ONLY"], "regression"))
-    errors.extend(require_contains(read_text(WORKFLOW), ["tests/test_regge_zero_governance_validator_v0_1.py", "chain_indexes/regge_zero_governance_regression_addendum_v0_1.yaml"], "workflow"))
-    errors.extend(require_contains(read_text(CI_RECEIPT), ["regression_test: tests/test_regge_zero_governance_validator_v0_1.py", "dedicated_workflow_runs_regression: true"], "ci_receipt"))
+    errors.extend(
+        require_contains(
+            read_text(RUNNER),
+            ["tests/test_regge_zero_governance_validator_v0_1.py"],
+            "runner",
+        )
+    )
+    errors.extend(
+        require_contains(
+            read_text(REGRESSION),
+            [
+                "REGGE_ZERO_GOVERNANCE_REGRESSION: PASS",
+                "expected: ADVISORY_ONLY",
+            ],
+            "regression",
+        )
+    )
+
+    workflow_text = read_text(WORKFLOW)
+    errors.extend(
+        require_contains(
+            workflow_text,
+            ["tests/test_regge_zero_governance_validator_v0_1.py"],
+            "workflow",
+        )
+    )
+    errors.extend(
+        require_any_contains(
+            workflow_text,
+            WORKFLOW_ADDENDUM_TRIGGER_ALTERNATIVES,
+            "workflow",
+            "Regge Zero addendum trigger coverage",
+        )
+    )
+
+    errors.extend(
+        require_contains(
+            read_text(CI_RECEIPT),
+            [
+                "regression_test: tests/test_regge_zero_governance_validator_v0_1.py",
+                "dedicated_workflow_runs_regression: true",
+            ],
+            "ci_receipt",
+        )
+    )
     return errors
 
 
