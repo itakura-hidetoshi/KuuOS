@@ -1,4 +1,4 @@
-/-!
+/-
 # KuuOS aggregate formal root
 
 This is the strict aggregate build surface for the formal artifacts integrated on
