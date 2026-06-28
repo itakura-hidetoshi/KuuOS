@@ -1,0 +1,21 @@
+{
+  "manifest_version": "kuuos_repository_git_revision_adapter_v0_83",
+  "repository_autorepair_contract": true,
+  "runtime_modules": [
+    "runtime/kuuos_repository_git_revision_types_v0_83.py",
+    "runtime/kuuos_repository_git_revision_adapter_v0_83.py"
+  ],
+  "tests": "tests/test_kuuos_repository_git_revision_adapter_v0_83.py",
+  "validator": "scripts/check_kuuos_repository_git_revision_adapter_v083.py",
+  "documentation": "docs/KUUOS_REPOSITORY_GIT_REVISION_ADAPTER_v0_83.md",
+  "strict_formal_root": "KuuOSRepositoryGitRevisionV0_83",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryGitRevisionAdapterV0_83"
+  ],
+  "git_object_database_read": true,
+  "working_tree_ignored": true,
+  "single_parent_advance": true,
+  "changed_paths_from_git_diff": true,
+  "inventory_escape_rejected": true,
+  "external_approval_required": false
+}
