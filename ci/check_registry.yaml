@@ -1,15 +1,17 @@
 {
-  "schema_version": "0.1",
+  "schema_version": "0.2",
   "policy": {
     "selection_rule": "impacted checks plus transitive dependency closure",
     "unknown_impact": "full audit",
     "unmapped_impact": "full audit",
+    "full_audit_parallelism": 4,
     "boundaries": [
       "local change != global re-audit",
       "receipt preservation != repeated execution",
       "validation != truth",
       "CI pass != theorem authority",
-      "selection optimization != authority expansion"
+      "selection optimization != authority expansion",
+      "sharding != authority expansion"
     ]
   },
   "known_paths": [
@@ -45,7 +47,9 @@
     "scripts/build_audit_summary.py",
     "scripts/check_workflow_consolidation_integrity.py",
     "scripts/run_all_governance_full_checks_v0_1.py",
+    "scripts/run_all_governance_shard_v0_2.py",
     "tests/test_ci_audit_selector_v0_1.py",
+    "tests/test_governance_sharding_v0_2.py",
     ".github/workflows/all_governance_validation.yml",
     ".github/workflows/pr-governance-gate.yml",
     ".github/WORKFLOW_INDEX.md",
@@ -84,6 +88,23 @@
         "scripts/check_workflow_consolidation_integrity.py",
         "tests/test_ci_audit_selector_v0_1.py",
         ".github/workflows/pr-governance-gate.yml"
+      ],
+      "depends_on": [],
+      "timeout_minutes": 5,
+      "pr_required": true,
+      "full_audit_member": true
+    },
+    "governance-shard-tests": {
+      "name": "Governance shard partition self-test",
+      "runner": "python",
+      "command": "python3 tests/test_governance_sharding_v0_2.py",
+      "group": "static",
+      "tier": "critical",
+      "paths": [
+        "scripts/run_all_governance_full_checks_v0_1.py",
+        "scripts/run_all_governance_shard_v0_2.py",
+        "tests/test_governance_sharding_v0_2.py",
+        "ci/check_registry.yaml"
       ],
       "depends_on": [],
       "timeout_minutes": 5,
@@ -272,12 +293,15 @@
     },
     "full-governance": {
       "name": "Repository-wide governance audit",
-      "runner": "python",
-      "command": "python3 scripts/run_all_governance_full_checks_v0_1.py",
+      "runner": "python-sharded",
+      "command": "python3 scripts/run_all_governance_shard_v0_2.py --index {index} --count {count} --output artifacts/governance-shards/{index}/summary.json",
+      "shard_count": 8,
       "group": "full-audit",
       "tier": "audit",
       "paths": [
-        "scripts/run_all_governance_full_checks_v0_1.py"
+        "scripts/run_all_governance_full_checks_v0_1.py",
+        "scripts/run_all_governance_shard_v0_2.py",
+        "tests/test_governance_sharding_v0_2.py"
       ],
       "depends_on": [
         "workflow-integrity"
@@ -285,7 +309,7 @@
       "supersedes": [
         "core-governance"
       ],
-      "timeout_minutes": 60,
+      "timeout_minutes": 30,
       "pr_required": false,
       "full_audit_member": true
     }
