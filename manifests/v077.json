@@ -1,6 +1,14 @@
 {
   "manifest_version": "kuuos_post_transition_verification_v0_77",
   "predecessor": "kuuos_memory_rollback_v0_76",
+  "runtime_modules": [
+    "runtime/kuuos_v077_types.py",
+    "runtime/kuuos_v077_runtime.py",
+    "runtime/kuuos_v077_a.py",
+    "runtime/kuuos_v077_b.py",
+    "runtime/kuuos_v077_c.py",
+    "runtime/kuuos_v077_d.py"
+  ],
   "validator": "scripts/check_kuuos_v077.py",
   "lean_surface": "KuuOSPostTransitionVerificationV0_77",
   "strict_formal_root": "KuuOSPostTransitionV0_77",
