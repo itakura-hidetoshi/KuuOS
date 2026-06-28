@@ -42,5 +42,6 @@ roots = [
   "KuuOSFormalV0_70",
   "KuuOSFormalV0_71",
   "KuuOSFormalV0_72",
-  "KuuOSMemoryEvaluationV0_73"
+  "KuuOSMemoryEvaluationV0_73",
+  "KuuOSMemoryReviewV0_74"
 ]
