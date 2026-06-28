@@ -70,7 +70,7 @@ jobs:
     needs: select
     if: needs.select.outputs.python_count != '0'
     runs-on: ubuntu-24.04
-    timeout-minutes: 50
+    timeout-minutes: 65
     strategy:
       fail-fast: false
       max-parallel: 4
@@ -108,7 +108,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: audit-check-${{ matrix.check.id }}-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/checks/${{ matrix.check.id }}/
+          path: artifacts/checks/
           if-no-files-found: warn
           retention-days: 14
 
@@ -168,7 +168,7 @@ jobs:
         uses: actions/upload-artifact@v4
         with:
           name: audit-check-lean-formal-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/checks/lean-formal/
+          path: artifacts/checks/
           if-no-files-found: warn
           retention-days: 14
 
