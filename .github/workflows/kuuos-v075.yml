@@ -7,6 +7,9 @@ on:
 permissions:
   contents: read
 
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
 jobs:
   runtime:
     runs-on: ubuntu-22.04
@@ -18,3 +21,21 @@ jobs:
       - run: python3 -m compileall -q runtime scripts/check_kuuos_memory_application_v075.py
       - run: PYTHONPATH=. python3 scripts/check_kuuos_memory_application_v075.py
       - run: python3 -m json.tool manifests/kuuos_memory_commit_v0_75.json >/dev/null
+
+  formal:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - run: lake update
+      - run: git diff --exit-code -- lake-manifest.json
+      - run: lake exe cache get
+      - run: lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal KuuOSMemoryApplicationV0_75
