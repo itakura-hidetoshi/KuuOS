@@ -50,5 +50,6 @@ roots = [
   "KuuOSRepositoryAlignmentV0_79",
   "KuuOSRepositoryNormalFormV0_80",
   "KuuOSRepositoryIncrementalV0_81",
-  "KuuOSRepositoryCertificateChainV0_82"
+  "KuuOSRepositoryCertificateChainV0_82",
+  "KuuOSRepositoryGitRevisionV0_83"
 ]
