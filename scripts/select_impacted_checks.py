@@ -99,6 +99,50 @@ def apply_supersedence(
     return result
 
 
+def expand_check(check_id: str, check: Mapping[str, Any]) -> list[dict[str, Any]]:
+    runner = str(check.get("runner", "python"))
+    base = {
+        "name": check.get("name", check_id),
+        "runner": runner,
+        "group": check.get("group", ""),
+        "tier": check.get("tier", ""),
+        "timeout_minutes": int(check.get("timeout_minutes", 30)),
+    }
+    if runner != "python-sharded":
+        return [
+            {
+                "id": check_id,
+                **base,
+                "command": check.get("command", ""),
+            }
+        ]
+
+    shard_count = check.get("shard_count")
+    template = check.get("command", "")
+    if not isinstance(shard_count, int) or shard_count <= 0:
+        raise ValueError(f"positive shard_count required for {check_id}")
+    if not isinstance(template, str) or "{index}" not in template or "{count}" not in template:
+        raise ValueError(f"sharded command template invalid for {check_id}")
+
+    width = max(2, len(str(shard_count - 1)))
+    expanded: list[dict[str, Any]] = []
+    for index in range(shard_count):
+        shard_id = f"{check_id}-{index:0{width}d}"
+        expanded.append(
+            {
+                "id": shard_id,
+                **base,
+                "runner": "python",
+                "name": f"{base['name']} shard {index + 1}/{shard_count}",
+                "command": template.format(index=index, count=shard_count),
+                "parent_id": check_id,
+                "shard_index": index,
+                "shard_count": shard_count,
+            }
+        )
+    return expanded
+
+
 def select(
     registry: Mapping[str, Any],
     changed_paths: list[str],
@@ -166,33 +210,23 @@ def select(
     python_matrix: list[dict[str, Any]] = []
     lean_required = False
     for check_id in ordered_ids:
-        check = checks[check_id]
-        runner = str(check.get("runner", "python"))
-        item = {
-            "id": check_id,
-            "name": check.get("name", check_id),
-            "runner": runner,
-            "group": check.get("group", ""),
-            "tier": check.get("tier", ""),
-            "command": check.get("command", ""),
-            "timeout_minutes": int(check.get("timeout_minutes", 30)),
-        }
-        selected_checks.append(item)
-        if runner == "lean":
-            lean_required = True
-        elif runner == "python":
-            python_matrix.append(
-                {
-                    "id": check_id,
-                    "name": item["name"],
-                    "command": item["command"],
-                }
-            )
-        else:
-            raise ValueError(f"unsupported runner {runner!r} for {check_id}")
+        for item in expand_check(check_id, checks[check_id]):
+            selected_checks.append(item)
+            if item["runner"] == "lean":
+                lean_required = True
+            elif item["runner"] == "python":
+                python_matrix.append(
+                    {
+                        "id": item["id"],
+                        "name": item["name"],
+                        "command": item["command"],
+                    }
+                )
+            else:
+                raise ValueError(f"unsupported expanded runner {item['runner']!r}")
 
     return {
-        "schema_version": "0.1",
+        "schema_version": "0.2",
         "changed_paths": changed_paths,
         "direct_checks": sorted(direct),
         "selected_checks": selected_checks,
