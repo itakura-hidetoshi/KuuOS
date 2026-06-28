@@ -70,6 +70,26 @@
       "pr_required": true,
       "full_audit_member": true
     },
+    "ci-audit-tests": {
+      "name": "CI audit fast gate self-test",
+      "runner": "python",
+      "command": "python3 tests/test_ci_audit_selector_v0_1.py",
+      "group": "static",
+      "tier": "critical",
+      "paths": [
+        "ci/check_registry.yaml",
+        "scripts/select_impacted_checks.py",
+        "scripts/run_ci_check.py",
+        "scripts/build_audit_summary.py",
+        "scripts/check_workflow_consolidation_integrity.py",
+        "tests/test_ci_audit_selector_v0_1.py",
+        ".github/workflows/pr-governance-gate.yml"
+      ],
+      "depends_on": [],
+      "timeout_minutes": 5,
+      "pr_required": true,
+      "full_audit_member": true
+    },
     "core-governance": {
       "name": "Core governance validation",
       "runner": "python",
@@ -112,6 +132,8 @@
         "docs/KUUOS_DECISIONOS_*.md",
         "manifests/kuuos_decision_os_*.json",
         "manifests/kuuos_decisionos_*.json",
+        "runtime/*decision_os*.py",
+        "runtime/*decisionos*.py",
         "runtime/**/*decision_os*.py",
         "runtime/**/*decisionos*.py",
         "scripts/check_decision_os_*.py",
