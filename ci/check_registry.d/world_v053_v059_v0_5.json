@@ -1,0 +1,44 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "registry fragmentation != policy fragmentation",
+      "deduplication != validation weakening"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/**",
+    "scripts/run_pr_entry_check_v0_5.py",
+    "tests/test_pr_entry_check_v0_5.py"
+  ],
+  "checks": {
+    "world-v053-v059": {
+      "name": "WORLD v0.53-v0.59 focused validation",
+      "runner": "python",
+      "command": "python3 scripts/run_pr_entry_check_v0_5.py --check-id world-v053-v059",
+      "group": "world-subsystem",
+      "tier": "integration",
+      "paths": [
+        ".github/workflows/world-v053-v059-main-validation.yml",
+        "formal/KUOS/WORLD/**",
+        "formal/KUOS.lean",
+        "formal/KuuOSArakiCalculusV0_56.lean",
+        "formal/KuuOSFourGreatCoreV0_59.lean",
+        "formal/KuuOSFormalV0_5*.lean",
+        "formal/KuuOSFormal.lean",
+        "docs/KU_WORLD_*",
+        "manifests/world_*",
+        "scripts/check_world_vacuum_expectation_observeos_commit_verify_handoff_v0_53.py",
+        "scripts/check_world_kuu_vacuum_central_reference_state_v0_54.py",
+        "scripts/check_world_kuu_vacuum_information_geometry_v0_55.py",
+        "scripts/check_world_kuu_vacuum_araki_hessian_physical_realization_v0_56.py",
+        "scripts/check_world_four_great_phase_dynamics_v0_59.py",
+        "scripts/run_pr_entry_check_v0_5.py"
+      ],
+      "depends_on": [],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
