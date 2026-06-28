@@ -33,6 +33,7 @@ structure CommitEvidence where
 
 structure RollbackState where
   stateDigest : String
+  previousStateDigest : String
   revision : ℕ
   kernelDigest : String
   connectionDigest : String
@@ -78,6 +79,13 @@ structure RollbackResult.Valid (result : RollbackResult) : Prop where
     result.request.expectedLedgerDigest = result.beforeLedger.digest
   ledgerRevisionCAS :
     result.request.expectedLedgerRevision = result.beforeLedger.revision
+  snapshotRequestBinding :
+    result.request.snapshotStateDigest = result.snapshotState.stateDigest
+  snapshotKernelRequestBinding :
+    result.request.snapshotKernelDigest = result.snapshotState.kernelDigest
+  snapshotConnectionRequestBinding :
+    result.request.snapshotConnectionDigest =
+      result.snapshotState.connectionDigest
   currentMatchesCommit :
     result.currentState.stateDigest = result.commitEvidence.afterStateDigest
   currentRevisionMatchesCommit :
@@ -86,6 +94,8 @@ structure RollbackResult.Valid (result : RollbackResult) : Prop where
     result.snapshotState.stateDigest = result.commitEvidence.beforeStateDigest
   snapshotRevisionMatchesCommit :
     result.snapshotState.revision = result.commitEvidence.beforeRevision
+  currentStateChain :
+    result.currentState.previousStateDigest = result.snapshotState.stateDigest
   rollbackTargetBinding :
     result.snapshotState.kernelDigest = result.commitEvidence.rollbackTargetDigest
   sourceKernelBinding :
@@ -108,6 +118,8 @@ structure RollbackResult.Valid (result : RollbackResult) : Prop where
     result.afterLedger.revision = result.beforeLedger.revision + 1
   productionRevisionSuccessor :
     result.restoredState.revision = result.currentState.revision + 1
+  restoredStateChain :
+    result.restoredState.previousStateDigest = result.currentState.stateDigest
   kernelRestored :
     result.restoredState.kernelDigest = result.snapshotState.kernelDigest
   connectionRestored :
@@ -115,6 +127,8 @@ structure RollbackResult.Valid (result : RollbackResult) : Prop where
   restoredBaseConnection :
     result.restoredState.baseConnectionDigest =
       result.snapshotState.baseConnectionDigest
+  currentApprovalConsumed :
+    result.currentState.approvalConsumed result.commitEvidence.reviewReceiptDigest
   approvalStillConsumed :
     result.restoredState.approvalConsumed result.commitEvidence.reviewReceiptDigest
   committed : result.committed
@@ -139,6 +153,14 @@ theorem valid_rollback_advances_revisions
       result.afterLedger.revision = result.beforeLedger.revision + 1 := by
   exact ⟨h.productionRevisionSuccessor, h.ledgerRevisionSuccessor⟩
 
+theorem valid_rollback_preserves_state_chain
+    (result : RollbackResult)
+    (h : result.Valid) :
+    result.currentState.previousStateDigest = result.snapshotState.stateDigest ∧
+      result.restoredState.previousStateDigest =
+        result.currentState.stateDigest := by
+  exact ⟨h.currentStateChain, h.restoredStateChain⟩
+
 theorem valid_rollback_is_single_use
     (result : RollbackResult)
     (h : result.Valid) :
@@ -149,9 +171,11 @@ theorem valid_rollback_is_single_use
 theorem valid_rollback_does_not_reenable_approval
     (result : RollbackResult)
     (h : result.Valid) :
-    result.restoredState.approvalConsumed result.commitEvidence.reviewReceiptDigest ∧
+    result.currentState.approvalConsumed result.commitEvidence.reviewReceiptDigest ∧
+      result.restoredState.approvalConsumed result.commitEvidence.reviewReceiptDigest ∧
       ¬ result.approvalReenabled := by
-  exact ⟨h.approvalStillConsumed, h.approvalNotReenabled⟩
+  exact ⟨h.currentApprovalConsumed, h.approvalStillConsumed,
+    h.approvalNotReenabled⟩
 
 theorem valid_rollback_is_atomic_compensation
     (result : RollbackResult)
