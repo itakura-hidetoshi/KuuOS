@@ -49,6 +49,13 @@ class CiAuditSelectorV01Tests(unittest.TestCase):
             {"lean-formal", "plan-os", "workflow-integrity"},
         )
 
+    def test_any_workflow_change_requires_full_audit(self) -> None:
+        path = ".github/workflows/kuuos-v076.yml"
+        result = select(REGISTRY, [path], None)
+        self.assertTrue(result["full_audit_required"])
+        self.assertIn(path, result["full_audit_trigger_paths"])
+        self.assertIn("full-governance", selected_ids(result))
+
     def test_unknown_path_fails_closed_to_full_audit(self) -> None:
         result = select(REGISTRY, ["new_surface/example.txt"], None)
         self.assertTrue(result["full_audit_required"])
