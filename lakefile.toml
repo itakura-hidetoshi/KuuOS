@@ -48,5 +48,6 @@ roots = [
   "KuuOSMemoryRollbackV0_76",
   "KuuOSSelfOrganizationV0_78",
   "KuuOSRepositoryAlignmentV0_79",
-  "KuuOSRepositoryNormalFormV0_80"
+  "KuuOSRepositoryNormalFormV0_80",
+  "KuuOSRepositoryIncrementalV0_81"
 ]
