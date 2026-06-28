@@ -1,0 +1,38 @@
+{
+  "manifest_version": "kuuos_governance_mode_role_aggregation_v0_75",
+  "predecessor": "kuuos_memory_selection_review_v0_74",
+  "architecture": "development-stage-governance-mode",
+  "default_mode": "SOLO_RESEARCH",
+  "modes": {
+    "SOLO_RESEARCH": {
+      "independent_authority_approval_required": false,
+      "role_aggregation_permitted": true
+    },
+    "TEAM_RESEARCH": {
+      "aggregated_policy_permitted": true,
+      "separated_policy_permitted": true
+    },
+    "PRODUCTION": {
+      "independent_authority_approval_required": true,
+      "role_aggregation_permitted": false
+    }
+  },
+  "future_role_separation_supported": true,
+  "transition_policy": "additive-or-tighten-only",
+  "existing_v0_74_review_path_unchanged": true,
+  "approval_implies_immediate_execution": false,
+  "approval_implies_state_write": false,
+  "application_authority_is_unbounded": false,
+  "bounded_scope_required": true,
+  "finite_validity_required": true,
+  "fixed_rollback_target_required": true,
+  "separate_execution_path_required": true,
+  "post_effect_observation_required": true,
+  "production_safety_claimed": false,
+  "institutional_approval_claimed": false,
+  "clinical_authority_claimed": false,
+  "runtime_module": "runtime/kuuos_governance_mode_v0_75.py",
+  "validator": "scripts/check_kuuos_governance_mode_v075.py",
+  "lean_surface": "KuuOSGovernanceModeRoleAggregationV0_75",
+  "strict_formal_root": "KuuOSGovernanceModeV0_75"
+}
