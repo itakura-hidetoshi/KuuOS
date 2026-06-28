@@ -1,8 +1,11 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import json
 import pathlib
+import subprocess
 import sys
+import tempfile
 import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -25,9 +28,10 @@ class GovernanceShardingV02Tests(unittest.TestCase):
         )
 
     def test_partition_is_deterministic(self) -> None:
-        first = partition_commands(COMMANDS, 8)
-        second = partition_commands(COMMANDS, 8)
-        self.assertEqual(first, second)
+        self.assertEqual(
+            partition_commands(COMMANDS, 8),
+            partition_commands(COMMANDS, 8),
+        )
 
     def test_round_robin_preserves_inventory_order_per_shard(self) -> None:
         shards = partition_commands(COMMANDS, 8)
@@ -44,6 +48,56 @@ class GovernanceShardingV02Tests(unittest.TestCase):
     def test_nonpositive_shard_count_is_rejected(self) -> None:
         with self.assertRaises(ValueError):
             partition_commands(COMMANDS, 0)
+
+    def test_selection_builder_emits_all_expected_receipts(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            output = pathlib.Path(directory) / "selection.json"
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "scripts/build_full_audit_selection_v0_2.py",
+                    "--output",
+                    str(output),
+                    "--count",
+                    "8",
+                ],
+                cwd=ROOT,
+                check=False,
+            )
+            self.assertEqual(result.returncode, 0)
+            payload = json.loads(output.read_text(encoding="utf-8"))
+            ids = {item["id"] for item in payload["selected_checks"]}
+            self.assertEqual(
+                ids,
+                {"workflow-integrity"}
+                | {f"full-governance-{index:02d}" for index in range(8)},
+            )
+
+    def test_selection_builder_rejects_nonpositive_count(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            result = subprocess.run(
+                [
+                    sys.executable,
+                    "scripts/build_full_audit_selection_v0_2.py",
+                    "--output",
+                    str(pathlib.Path(directory) / "selection.json"),
+                    "--count",
+                    "0",
+                ],
+                cwd=ROOT,
+                check=False,
+                stdout=subprocess.DEVNULL,
+                stderr=subprocess.DEVNULL,
+            )
+            self.assertNotEqual(result.returncode, 0)
+
+    def test_workflow_uses_eight_bounded_shards(self) -> None:
+        text = (
+            ROOT / ".github/workflows/all_governance_sharded_v0_2.yml"
+        ).read_text(encoding="utf-8")
+        self.assertIn("max-parallel: 4", text)
+        self.assertIn("index: [0, 1, 2, 3, 4, 5, 6, 7]", text)
+        self.assertIn("scripts/build_audit_summary.py", text)
 
 
 if __name__ == "__main__":
