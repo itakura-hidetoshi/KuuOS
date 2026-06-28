@@ -3,6 +3,7 @@ from __future__ import annotations
 
 import json
 
+from runtime.kuuos_gauge_field_self_organization_types_v0_60 import canonical_digest
 from runtime.kuuos_repository_structure_types_v0_79 import (
     RepositoryContract,
     RepositoryObservation,
@@ -51,7 +52,7 @@ def parse_repository_contracts(
                 references.add(value)
         contracts.append(RepositoryContract(
             path,
-            snapshot.digest,
+            canonical_digest(payload),
             tuple(sorted(references)),
             validator,
             strict_root,
