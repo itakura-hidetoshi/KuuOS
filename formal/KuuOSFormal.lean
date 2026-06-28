@@ -31,3 +31,4 @@ import KUOS.WORLD.KuuOSFiniteGaugeValidationV0_67
 import KUOS.WORLD.KuuOSConnectionEvidenceV0_68
 import KUOS.WORLD.KuuOSModuleBundleSelfOrganizationV0_70
 import KUOS.WORLD.KuuOSNoncommutativeLeibnizConnectionV0_71
+import KUOS.WORLD.KuuOSNonMarkovMemoryConnectionV0_72
