@@ -34,3 +34,4 @@ import KUOS.WORLD.KuuOSNoncommutativeLeibnizConnectionV0_71
 import KUOS.WORLD.KuuOSNonMarkovMemoryConnectionV0_72
 import KUOS.WORLD.KuuOSFiniteMemoryEvaluationV0_73
 import KUOS.WORLD.KuuOSMemorySelectionReviewV0_74
+import KUOS.WORLD.KuuOSAuthorizedMemoryApplicationV0_75

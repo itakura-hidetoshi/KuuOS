@@ -1,0 +1,17 @@
+{
+  "manifest_version": "kuuos_memory_commit_v0_75",
+  "predecessor": "kuuos_memory_selection_review_v0_74",
+  "validator": "scripts/check_kuuos_memory_application_v075.py",
+  "lean_surface": "KuuOSAuthorizedMemoryApplicationV0_75",
+  "strict_formal_root": "KuuOSMemoryApplicationV0_75",
+  "approval_required": true,
+  "state_digest_cas": true,
+  "revision_cas": true,
+  "single_use_receipt": true,
+  "atomic_transition": true,
+  "write_on_success": true,
+  "source_unchanged_on_failure": true,
+  "permission_expansion": false,
+  "rollback_target_replacement": false,
+  "external_host_adapter": false
+}
