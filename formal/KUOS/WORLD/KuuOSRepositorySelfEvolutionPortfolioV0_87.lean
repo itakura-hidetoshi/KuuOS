@@ -6,10 +6,7 @@ open KUOS.WORLD.KuuOSRepositoryRevisionDagV0_85
 open KUOS.WORLD.KuuOSRepositoryFrontierCertificateV0_86
 
 
-structure EvolutionCandidate
-    (Revision Path : Type*)
-    [DecidableEq Revision]
-    [DecidableEq Path] where
+structure EvolutionCandidate (Revision Path : Type*) where
   sourceTip : Revision
   changedPaths : Finset Path
   scoreBefore : Nat
@@ -18,13 +15,11 @@ structure EvolutionCandidate
   reversible : Bool
   protectedPathsPreserved : Bool
   normalFormPreserved : Bool
-  deriving DecidableEq
+deriving DecidableEq
 
 
 def EvolutionCandidate.Admissible
     {Revision Path : Type*}
-    [DecidableEq Revision]
-    [DecidableEq Path]
     (candidate : EvolutionCandidate Revision Path) : Prop :=
   candidate.scoreAfter < candidate.scoreBefore ∧
     candidate.reversible = true ∧
@@ -85,7 +80,7 @@ theorem selected_card_le_candidate_card
     [DecidableEq Path]
     {dag : RankedRevisionDag Revision}
     {frontier : RevisionFrontier dag}
-    (portfolio : FrontierEvolutionPortfolio dag frontier) :
+    (portfolio : FrontierEvolutionPortfolio (Path := Path) dag frontier) :
     portfolio.selected.card ≤ portfolio.candidates.card := by
   exact Finset.card_le_card portfolio.selectedSubset
 
@@ -96,7 +91,7 @@ theorem selected_candidate_source_is_frontier
     [DecidableEq Path]
     {dag : RankedRevisionDag Revision}
     {frontier : RevisionFrontier dag}
-    (portfolio : FrontierEvolutionPortfolio dag frontier)
+    (portfolio : FrontierEvolutionPortfolio (Path := Path) dag frontier)
     {candidate : EvolutionCandidate Revision Path}
     (hSelected : candidate ∈ portfolio.selected) :
     candidate.sourceTip ∈ frontier.tips := by
@@ -109,7 +104,7 @@ theorem selected_candidate_strictly_decreases_score
     [DecidableEq Path]
     {dag : RankedRevisionDag Revision}
     {frontier : RevisionFrontier dag}
-    (portfolio : FrontierEvolutionPortfolio dag frontier)
+    (portfolio : FrontierEvolutionPortfolio (Path := Path) dag frontier)
     {candidate : EvolutionCandidate Revision Path}
     (hSelected : candidate ∈ portfolio.selected) :
     candidate.scoreAfter < candidate.scoreBefore := by
@@ -122,7 +117,7 @@ theorem distinct_selected_candidates_have_disjoint_paths
     [DecidableEq Path]
     {dag : RankedRevisionDag Revision}
     {frontier : RevisionFrontier dag}
-    (portfolio : FrontierEvolutionPortfolio dag frontier)
+    (portfolio : FrontierEvolutionPortfolio (Path := Path) dag frontier)
     {first second : EvolutionCandidate Revision Path}
     (hFirst : first ∈ portfolio.selected)
     (hSecond : second ∈ portfolio.selected)
@@ -137,7 +132,7 @@ theorem same_frontier_tip_forces_same_selected_candidate
     [DecidableEq Path]
     {dag : RankedRevisionDag Revision}
     {frontier : RevisionFrontier dag}
-    (portfolio : FrontierEvolutionPortfolio dag frontier)
+    (portfolio : FrontierEvolutionPortfolio (Path := Path) dag frontier)
     {first second : EvolutionCandidate Revision Path}
     (hFirst : first ∈ portfolio.selected)
     (hSecond : second ∈ portfolio.selected)
@@ -148,8 +143,6 @@ theorem same_frontier_tip_forces_same_selected_candidate
 
 theorem strict_evolution_cannot_form_two_score_cycle
     {Revision Path : Type*}
-    [DecidableEq Revision]
-    [DecidableEq Path]
     (candidate : EvolutionCandidate Revision Path)
     (hAdmissible : candidate.Admissible) :
     ¬ candidate.scoreBefore < candidate.scoreAfter := by
