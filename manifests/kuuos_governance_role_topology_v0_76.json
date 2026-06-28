@@ -1,0 +1,25 @@
+{
+  "manifest_version": "kuuos_governance_role_topology_v0_76",
+  "predecessor": "kuuos_memory_commit_v0_75",
+  "architecture": "governance-mode-role-separation-orthogonality",
+  "runtime_module": "runtime/kuuos_governance_role_topology_v0_76.py",
+  "validator": "scripts/check_kuuos_governance_role_topology_v076.py",
+  "lean_surface": "KuuOSGovernanceRoleTopologyV0_76",
+  "strict_formal_root": "KuuOSGovernanceRoleTopologyV0_76",
+  "governance_modes": [
+    "SOLO_RESEARCH",
+    "TEAM_RESEARCH",
+    "PRODUCTION"
+  ],
+  "governance_mode_determines_independent_approval": false,
+  "production_independent_approval_mandatory": false,
+  "independent_approval_configurable_in_every_mode": true,
+  "default_independent_authority_approval_required": false,
+  "same_actor_allowed_when_independence_not_required": true,
+  "v0_74_review_receipt_binding_required": true,
+  "v0_75_application_semantics_unchanged": true,
+  "writes_enabled": false,
+  "live_application_enabled": false,
+  "permission_expansion_enabled": false,
+  "rollback_target_replacement_enabled": false
+}
