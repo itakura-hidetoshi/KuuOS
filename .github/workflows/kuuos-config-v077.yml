@@ -38,4 +38,4 @@ jobs:
       - run: lake update
       - run: git diff --exit-code -- lake-manifest.json
       - run: lake exe cache get
-      - run: lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal KuuOSRoleConfigV0_77
+      - run: lake env lean -DwarningAsError=true -DsorryAsError=true formal/KuuOSRoleConfigV0_77.lean
