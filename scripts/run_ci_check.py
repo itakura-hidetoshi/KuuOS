@@ -29,6 +29,15 @@ def file_digest(path: pathlib.Path) -> str | None:
         return None
 
 
+def load_selection(path: pathlib.Path | None) -> dict[str, Any] | None:
+    if path is None:
+        return None
+    try:
+        return json.loads(path.read_text(encoding="utf-8"))
+    except (OSError, json.JSONDecodeError):
+        return None
+
+
 def parse_args() -> argparse.Namespace:
     parser = argparse.ArgumentParser()
     parser.add_argument("--check-id", required=True)
@@ -59,6 +68,7 @@ def main() -> int:
     receipt_path = check_dir / "receipt.json"
 
     selection_digest = file_digest(args.selection) if args.selection else None
+    selection = load_selection(args.selection)
     input_material = json.dumps(
         {
             "check_id": args.check_id,
@@ -77,6 +87,12 @@ def main() -> int:
     env.setdefault("PYTHONUNBUFFERED", "1")
     if args.selection:
         env["KUUOS_CI_SELECTION"] = str(args.selection.resolve())
+    if (
+        args.check_id == "workflow-integrity"
+        and selection is not None
+        and bool(selection.get("full_audit_required", False))
+    ):
+        env["KUUOS_FULL_WORKFLOW_SCAN"] = "1"
 
     return_code = 1
     launch_error: str | None = None
@@ -121,6 +137,7 @@ def main() -> int:
         "input_digest": sha256_bytes(input_material),
         "selection_digest": selection_digest,
         "validator_digest": validator_digest(argv),
+        "full_workflow_scan": env.get("KUUOS_FULL_WORKFLOW_SCAN") == "1",
         "log": str(log_path.relative_to(ROOT)),
         "launch_error": launch_error,
         "authority_boundary": "validation != truth; CI pass != theorem authority",
