@@ -1,0 +1,17 @@
+{
+  "schema_version": "0.3",
+  "purpose": "Trigger and identify the first post-merge sharded full governance audit after v0.2 adoption.",
+  "expected_workflow": ".github/workflows/all_governance_sharded_v0_2.yml",
+  "expected_receipts": [
+    "workflow-integrity",
+    "full-governance-00",
+    "full-governance-01",
+    "full-governance-02",
+    "full-governance-03",
+    "full-governance-04",
+    "full-governance-05",
+    "full-governance-06",
+    "full-governance-07"
+  ],
+  "authority_boundary": "smoke evidence != truth or authority"
+}
