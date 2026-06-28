@@ -13,7 +13,7 @@
   ],
   "validator": "scripts/check_kuuos_memory_evaluation_v073.py",
   "lean_surface": "KuuOSFiniteMemoryEvaluationV0_73",
-  "strict_formal_root": "KuuOSFormalV0_73",
+  "strict_formal_root": "KuuOSMemoryEvaluationV0_73",
   "finite_family_required": true,
   "source_kernel_binding_required": true,
   "v0_72_validation_reused": true,
@@ -30,6 +30,5 @@
   "writes_enabled": false,
   "live_application_enabled": false,
   "permission_expansion_enabled": false,
-  "lower_score_implies_truth": false,
-  "approval_production_authority_inherited_from_v0_69": true
+  "lower_score_implies_truth": false
 }
