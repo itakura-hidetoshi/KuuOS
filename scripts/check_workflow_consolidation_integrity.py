@@ -16,6 +16,7 @@ CONSTRUCTED_WORKFLOW_PATTERN = re.compile(
 
 CANONICAL_FILES = [
     ".github/workflows/all_governance_validation.yml",
+    ".github/workflows/all_governance_sharded_v0_2.yml",
     ".github/workflows/pr-governance-gate.yml",
     ".github/workflows/core_governance_validation.yml",
     ".github/workflows/kuuos_runtime_full_check.yml",
@@ -23,12 +24,15 @@ CANONICAL_FILES = [
     ".github/workflows/decision-os-validation.yml",
     ".github/workflows/evidence-cycle-os-validation.yml",
     ".github/workflows/plan-os-validation.yml",
+    ".github/workflows/regge_zero_governance_validation.yml",
     ".github/workflows/world-four-great-phase-dynamics-v0-59.yml",
     "scripts/run_plan_os_full_checks.py",
     "scripts/run_decision_os_full_checks.py",
     "scripts/run_evidence_cycle_os_full_checks.py",
     "scripts/run_all_governance_full_checks_v0_1.py",
     "scripts/run_all_governance_shard_v0_2.py",
+    "scripts/run_full_governance_shard_ci_v0_2.py",
+    "scripts/build_full_audit_selection_v0_2.py",
     "scripts/select_impacted_checks.py",
     "scripts/run_ci_check.py",
     "scripts/build_audit_summary.py",
@@ -92,14 +96,21 @@ MIGRATED_PR_ENTRY_POINTS = [
     ".github/workflows/decision-os-validation.yml",
     ".github/workflows/evidence-cycle-os-validation.yml",
     ".github/workflows/plan-os-validation.yml",
+    ".github/workflows/regge_zero_governance_validation.yml",
     *MANUAL_VERSION_WORKFLOWS,
 ]
 
 REQUIRED_MARKERS = {
     ".github/workflows/all_governance_validation.yml": [
         "workflow_dispatch:",
+        "uses: ./.github/workflows/all_governance_sharded_v0_2.yml",
+    ],
+    ".github/workflows/all_governance_sharded_v0_2.yml": [
+        "workflow_call:",
         "max-parallel: 4",
-        "scripts/run_all_governance_shard_v0_2.py",
+        "index: [0, 1, 2, 3, 4, 5, 6, 7]",
+        "scripts/run_full_governance_shard_ci_v0_2.py",
+        "scripts/build_full_audit_selection_v0_2.py",
         "scripts/build_audit_summary.py",
     ],
     ".github/workflows/pr-governance-gate.yml": [
@@ -108,6 +119,12 @@ REQUIRED_MARKERS = {
         "max-parallel: 4",
         "scripts/run_ci_check.py",
         "scripts/build_audit_summary.py",
+    ],
+    ".github/workflows/regge_zero_governance_validation.yml": [
+        "workflow_dispatch:",
+        "branches: [main]",
+        "scripts/run_regge_zero_governance_checks_v0_1.py",
+        "cancel-in-progress: false",
     ],
     "scripts/run_all_governance_full_checks_v0_1.py": [
         "COMMANDS:",
@@ -128,6 +145,7 @@ REQUIRED_MARKERS = {
         "python-sharded",
         "shard_count",
         "sharding != authority expansion",
+        "regge-zero",
     ],
 }
 
@@ -190,6 +208,7 @@ def check_registry(errors: list[str]) -> None:
         "workflow-integrity",
         "ci-audit-tests",
         "governance-shard-tests",
+        "regge-zero",
         "full-governance",
     ):
         if required not in checks:
