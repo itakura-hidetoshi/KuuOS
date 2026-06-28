@@ -2,18 +2,26 @@ name: KuuOS Review Seal Validation
 
 on:
   workflow_dispatch:
-  pull_request:
-    paths:
-      - 'specs/kuuos_review_seal_os_bridge_v0_1.json'
-      - 'scripts/validate_kuuos_review_seal_os_bridge_v0_1_min.py'
-      - '.github/workflows/kuuos_review_seal_validation.yml'
+
+permissions:
+  contents: read
 
 jobs:
   validate:
     runs-on: ubuntu-latest
+    timeout-minutes: 10
     steps:
       - uses: actions/checkout@v4
       - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-      - run: python3 scripts/validate_kuuos_review_seal_os_bridge_v0_1_min.py
+      - name: Run focused review seal validation
+        run: python3 scripts/run_pr_entry_check_v0_7.py --check-id review-seal-v01 --output-root artifacts/checks
+      - name: Upload focused diagnostics
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: review-seal-v01-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/checks/review-seal-v01/
+          if-no-files-found: warn
+          retention-days: 30
