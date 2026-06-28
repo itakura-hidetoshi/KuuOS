@@ -4,8 +4,13 @@
   "architecture": "governance-mode-role-separation-orthogonality",
   "runtime_module": "runtime/kuuos_governance_role_topology_v0_76.py",
   "validator": "scripts/check_kuuos_governance_role_topology_v076.py",
-  "lean_surface": "KuuOSGovernanceRoleTopologyV0_76",
-  "strict_formal_root": "KuuOSGovernanceRoleTopologyV0_76",
+  "lean_surface": "KuuOSGovernanceRoleTopologyBundleV0_76",
+  "strict_formal_root": "KuuOSRolePolicyV0_76",
+  "formal_modules": [
+    "KuuOSGovernanceRolePolicyV0_76",
+    "KuuOSGovernanceRoleOrthogonalityV0_76",
+    "KuuOSGovernanceRoleDecisionV0_76"
+  ],
   "governance_modes": [
     "SOLO_RESEARCH",
     "TEAM_RESEARCH",
