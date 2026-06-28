@@ -1,0 +1,43 @@
+{
+  "schema_version": "0.2",
+  "full_audit_paths": [
+    "ci/check_registry.d/**",
+    "scripts/run_pr_entry_check_v0_5.py",
+    "tests/test_pr_entry_check_v0_5.py"
+  ],
+  "checks": {
+    "memoryos-world-observe-v039": {
+      "name": "MemoryOS WORLD Observe intake v0.39 focused validation",
+      "runner": "python",
+      "command": "python3 scripts/run_pr_entry_check_v0_5.py --check-id memoryos-world-observe-v039",
+      "group": "memory-subsystem",
+      "tier": "integration",
+      "paths": [
+        ".github/workflows/memoryos-world-observe-intake-v0-39.yml",
+        "runtime/kuuos_memoryos_world_observe_intake_v0_39.py",
+        "tests/test_memoryos_world_observe_intake_v0_39.py",
+        "scripts/check_memoryos_world_observe_intake_v0_39.py",
+        "docs/KUUOS_MEMORYOS_WORLD_OBSERVE_INTAKE_v0_39.md",
+        "manifests/kuuos_memoryos_world_observe_intake_v0_39.json",
+        "formal/KUOS/OpenHorizon/MemoryOSWorldObserveIntakeKernelV0_39.lean",
+        "runtime/kuuos_memoryos_analytic_hilbert_context_v0_38.py",
+        "tests/test_memoryos_analytic_hilbert_context_v0_38.py",
+        "scripts/check_memoryos_analytic_hilbert_context_v0_38.py",
+        "docs/KUUOS_MEMORYOS_ANALYTIC_HILBERT_CONTEXT_v0_38.md",
+        "manifests/kuuos_memoryos_analytic_hilbert_context_v0_38.json",
+        "formal/KUOS/OpenHorizon/MemoryOSAnalyticHilbertContextKernelV0_38.lean",
+        "scripts/check_world_vacuum_expectation_observation_candidate_v0_50.py",
+        "docs/KU_WORLD_VACUUM_EXPECTATION_OBSERVATION_CANDIDATE_v0_50.md",
+        "manifests/world_vacuum_expectation_observation_candidate_v0_50.json",
+        "formal/KUOS/WORLD/VacuumExpectationObservationCandidateBridgeV0_50.lean",
+        "formal/KUOS/ObserveOS/ReplanLineageObservationEnvelopeV0_2.lean",
+        "formal/KUOS.lean",
+        "scripts/run_pr_entry_check_v0_5.py"
+      ],
+      "depends_on": [],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
