@@ -1,0 +1,19 @@
+{
+  "manifest_version": "kuuos_repository_alignment_normal_form_v0_80",
+  "repository_autorepair_contract": true,
+  "runtime_modules": [
+    "runtime/kuuos_repository_alignment_normal_form_types_v0_80.py",
+    "runtime/kuuos_repository_alignment_normal_form_v0_80.py"
+  ],
+  "tests": "tests/test_kuuos_repository_alignment_normal_form_v0_80.py",
+  "validator": "scripts/check_kuuos_repository_normal_form_v080.py",
+  "documentation": "docs/KUUOS_REPOSITORY_ALIGNMENT_NORMAL_FORM_v0_80.md",
+  "strict_formal_root": "KuuOSRepositoryNormalFormV0_80",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryAlignmentNormalFormV0_80"
+  ],
+  "strict_score_descent": true,
+  "finite_state_bound": true,
+  "candidate_order_confluence_checked": true,
+  "external_approval_required": false
+}

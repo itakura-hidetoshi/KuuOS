@@ -1,0 +1,38 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "normal-form convergence != truth",
+      "candidate-order confluence != authority expansion"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/repository_alignment_normal_form_v0_80.json"
+  ],
+  "checks": {
+    "repository-normal-form-v080": {
+      "name": "KuuOS repository alignment normal form v0.80",
+      "runner": "python",
+      "command": "python3 scripts/check_kuuos_repository_normal_form_v080.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_repository_alignment_normal_form_*_v0_80.py",
+        "runtime/kuuos_repository_*_v0_79.py",
+        "tests/test_kuuos_repository_alignment_normal_form_v0_80.py",
+        "tests/test_kuuos_repository_repair_v0_79.py",
+        "tests/kuuos_repository_repair_fixture_v0_79.py",
+        "scripts/check_kuuos_repository_normal_form_v080.py",
+        "scripts/check_kuuos_repository_live_v079.py",
+        "scripts/check_kuuos_repository_alignment_v079.py",
+        "docs/KUUOS_REPOSITORY_ALIGNMENT_NORMAL_FORM_v0_80.md",
+        "manifests/kuuos_repository_alignment_normal_form_v0_80.json",
+        "manifests/kuuos_repository_structure_alignment_v0_79.json"
+      ],
+      "depends_on": [],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}

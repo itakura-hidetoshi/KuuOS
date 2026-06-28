@@ -5,7 +5,7 @@ from __future__ import annotations
 
 The filename is retained for compatibility with existing workflows and external
 callers.  The actual validation frontier follows the integrated `main` branch
-through KuuOS Repository Structure Alignment v0.79.
+through KuuOS Repository Alignment Normal Form v0.80.
 
 This runner executes validators in dependency order and stops at the first
 failure.  A successful run is an integrity receipt for the checked repository
@@ -32,7 +32,7 @@ from scripts.check_world_kuu_vacuum_information_geometry_v0_55 import (
 from scripts.run_kuuos_runtime_full_check_v0_54 import main as run_v054_full_check
 
 
-CURRENT_RUNTIME_FRONTIER = "v0.79"
+CURRENT_RUNTIME_FRONTIER = "v0.80"
 
 VALIDATORS_AFTER_V055: tuple[str, ...] = (
     # WORLD continuation with runtime-facing static validators.
@@ -60,6 +60,7 @@ VALIDATORS_AFTER_V055: tuple[str, ...] = (
     # Primary self-organization and repository alignment.
     "scripts/check_kuuos_self_organization_v078.py",
     "scripts/check_kuuos_repository_alignment_v079.py",
+    "scripts/check_kuuos_repository_normal_form_v080.py",
 )
 
 
