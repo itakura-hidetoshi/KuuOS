@@ -1,0 +1,62 @@
+name: KuuOS Authority Role Topology v0.76
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - 'docs/KUUOS_AUTHORITY_ROLE_TOPOLOGY_v0_76.md'
+      - 'runtime/kuuos_authority_role_policy_v0_76.py'
+      - 'scripts/check_kuuos_authority_role_policy_v076.py'
+      - 'manifests/kuuos_authority_role_topology_v0_76.json'
+      - 'formal/KUOS/WORLD/KuuOSAuthorityRoleTopologyV0_76.lean'
+      - 'formal/KuuOSAuthorityRoleTopologyV0_76.lean'
+      - 'formal/KuuOSFormal.lean'
+      - 'lakefile.toml'
+      - '.github/workflows/kuuos-authority-role-topology-v076.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-runtime:
+    runs-on: ubuntu-22.04
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Compile runtime
+        run: >-
+          python3 -m compileall -q
+          runtime/kuuos_authority_role_policy_v0_76.py
+          scripts/check_kuuos_authority_role_policy_v076.py
+      - name: Validate authority role topology
+        run: PYTHONPATH=. python3 scripts/check_kuuos_authority_role_policy_v076.py
+      - name: Validate manifest
+        run: python3 -m json.tool manifests/kuuos_authority_role_topology_v0_76.json >/dev/null
+
+  validate-formal:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - name: Set up Lean
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve dependencies
+        run: lake update
+      - name: Verify manifest stability
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib cache
+        run: lake exe cache get
+      - name: Build aggregate and v0.76 roots
+        run: >-
+          lake -KleanArgs=-DwarningAsError=true
+          -KleanArgs=-DsorryAsError=true
+          build KuuOSFormal KuuOSAuthorityRoleTopologyV0_76
