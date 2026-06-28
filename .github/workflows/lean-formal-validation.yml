@@ -1,32 +1,28 @@
 name: KuuOS Lean Formal Validation
 
 on:
-  push:
-    paths:
-      - "formal/**"
-      - "lean-toolchain"
-      - "lakefile.toml"
-      - "lake-manifest.json"
-      - ".github/workflows/lean-formal-validation.yml"
-  pull_request:
-    paths:
-      - "formal/**"
-      - "lean-toolchain"
-      - "lakefile.toml"
-      - "lake-manifest.json"
-      - ".github/workflows/lean-formal-validation.yml"
   workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - "formal/**"
+      - "lean-toolchain"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - ".github/workflows/lean-formal-validation.yml"
 
 permissions:
   contents: read
 
 concurrency:
   group: kuuos-lean-formal-${{ github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: false
 
 jobs:
   formal:
     runs-on: ubuntu-latest
+    timeout-minutes: 40
     steps:
       - uses: actions/checkout@v6
       - name: Set up pinned Lean and Lake
@@ -47,23 +43,25 @@ jobs:
             kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
       - name: Resolve pinned dependencies
         run: |
-          set -o pipefail
+          set -euo pipefail
           lake update 2>&1 | tee lean-formal-validation.log
       - name: Verify committed manifest is canonical
         run: |
-          set -o pipefail
+          set -euo pipefail
           git diff --exit-code -- lake-manifest.json 2>&1 | tee -a lean-formal-validation.log
       - name: Fetch Mathlib olean cache
         run: |
-          set -o pipefail
+          set -euo pipefail
           lake exe cache get 2>&1 | tee -a lean-formal-validation.log
       - name: Strictly compile all KuuOS formal surfaces
         run: |
-          set -o pipefail
+          set -euo pipefail
           lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal 2>&1 | tee -a lean-formal-validation.log
       - name: Upload formal validation log
         if: always()
         uses: actions/upload-artifact@v4
         with:
-          name: kuuos-lean-formal-validation-log
+          name: kuuos-lean-formal-validation-log-${{ github.run_id }}-${{ github.run_attempt }}
           path: lean-formal-validation.log
+          if-no-files-found: warn
+          retention-days: 14
