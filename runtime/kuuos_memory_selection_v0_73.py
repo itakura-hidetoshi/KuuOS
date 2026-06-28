@@ -23,6 +23,12 @@ class MemorySelectionRecord:
     selected_score: float
     evaluated_count: int
     accepted_count: int
+    source_history_unchanged: bool
+    source_kernel_unchanged: bool
+    candidate_only: bool
+    writes_enabled: bool
+    live_application_enabled: bool
+    permission_expansion_enabled: bool
     assessments: tuple[MemoryAssessment, ...]
     issues: tuple[str, ...]
     record_digest: str
