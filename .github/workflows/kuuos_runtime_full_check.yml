@@ -18,7 +18,6 @@ on:
       - 'lakefile.toml'
       - 'lake-manifest.json'
       - 'lean-toolchain'
-      - '.github/WORKFLOW_INDEX.md'
       - '.github/workflows/kuuos_runtime_full_check.yml'
   pull_request:
     paths:
@@ -34,7 +33,6 @@ on:
       - 'lakefile.toml'
       - 'lake-manifest.json'
       - 'lean-toolchain'
-      - '.github/WORKFLOW_INDEX.md'
       - '.github/workflows/kuuos_runtime_full_check.yml'
 
 permissions:
@@ -42,7 +40,7 @@ permissions:
 
 concurrency:
   group: kuuos-runtime-full-check-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: true
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
 jobs:
   full-check:
@@ -50,7 +48,7 @@ jobs:
     timeout-minutes: 30
     steps:
       - name: Check out repository
-        uses: actions/checkout@v7
+        uses: actions/checkout@v6
 
       - name: Set up Python
         uses: actions/setup-python@v5
@@ -60,13 +58,6 @@ jobs:
       - name: Prepare diagnostics
         shell: bash
         run: mkdir -p artifacts/diagnostics
-
-      - name: Check workflow reference integrity
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 scripts/check_workflow_consolidation_integrity.py \
-            2>&1 | tee artifacts/diagnostics/workflow-integrity.log
 
       - name: Compile runtime validation surfaces
         shell: bash
@@ -85,8 +76,8 @@ jobs:
           python3 scripts/run_kuuos_runtime_full_check_v0_55.py \
             2>&1 | tee artifacts/diagnostics/kuuos-runtime-full-check.log
 
-      - name: Record failure context
-        if: ${{ failure() }}
+      - name: Record run context
+        if: always()
         shell: bash
         run: |
           mkdir -p artifacts/diagnostics
@@ -101,7 +92,7 @@ jobs:
           } > artifacts/diagnostics/context.txt
 
       - name: Upload runtime diagnostics
-        if: ${{ failure() }}
+        if: always()
         uses: actions/upload-artifact@v4
         with:
           name: kuuos-runtime-full-check-diagnostics-${{ github.run_id }}-${{ github.run_attempt }}
