@@ -2,7 +2,7 @@
 # KuuOS aggregate formal root
 
 This is the strict aggregate build surface for the formal artifacts integrated on
-`main` through KuuOS Repository Alignment Normal Form v0.80.
+`main` through KuuOS Repository Incremental Preservation v0.81.
 
 The root preserves the distinction between a Lean-derived theorem, a structure
 supplied by hypotheses, an external analytic or institutional receipt, and an
@@ -65,3 +65,4 @@ import KUOS.WORLD.KuuOSSelfOrganizingImprovementLoopV0_78
 import KUOS.WORLD.KuuOSBoundedSelfOrganizationSupervisorV0_78
 import KUOS.WORLD.KuuOSRepositoryStructureAlignmentV0_79
 import KUOS.WORLD.KuuOSRepositoryAlignmentNormalFormV0_80
+import KUOS.WORLD.KuuOSRepositoryIncrementalPreservationV0_81
