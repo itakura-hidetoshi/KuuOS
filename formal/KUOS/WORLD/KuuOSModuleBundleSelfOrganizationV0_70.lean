@@ -28,13 +28,13 @@ def PreservesFiltration
 structure AdmissibleDeformation
     (semanticSource : ι → Module.End A M)
     (semanticTarget : ι → Module.End A N)
-    (protected : Submodule A M)
+    (protectedSubmodule : Submodule A M)
     (sourceFiltration : ℕ → Submodule A M)
     (targetFiltration : ℕ → Submodule A N)
     (α : Connection (A := A) (M := M) (N := N)) : Prop where
   commutesWithSemanticProjectors :
     ∀ i, α.comp (semanticSource i) = (semanticTarget i).comp α
-  vanishesOnProtected : ∀ x, x ∈ protected → α x = 0
+  vanishesOnProtected : ∀ x, x ∈ protectedSubmodule → α x = 0
   preservesAuthorityFiltration :
     PreservesFiltration α sourceFiltration targetFiltration
 
@@ -42,11 +42,11 @@ theorem admissible_deformation_commutes_with_semantic_projectors
     {ι : Type*}
     {semanticSource : ι → Module.End A M}
     {semanticTarget : ι → Module.End A N}
-    {protected : Submodule A M}
+    {protectedSubmodule : Submodule A M}
     {sourceFiltration : ℕ → Submodule A M}
     {targetFiltration : ℕ → Submodule A N}
     {α : Connection (A := A) (M := M) (N := N)}
-    (h : AdmissibleDeformation semanticSource semanticTarget protected
+    (h : AdmissibleDeformation semanticSource semanticTarget protectedSubmodule
       sourceFiltration targetFiltration α) :
     ∀ i, α.comp (semanticSource i) = (semanticTarget i).comp α := by
   exact h.commutesWithSemanticProjectors
@@ -55,13 +55,13 @@ theorem admissible_deformation_vanishes_on_protected_submodule
     {ι : Type*}
     {semanticSource : ι → Module.End A M}
     {semanticTarget : ι → Module.End A N}
-    {protected : Submodule A M}
+    {protectedSubmodule : Submodule A M}
     {sourceFiltration : ℕ → Submodule A M}
     {targetFiltration : ℕ → Submodule A N}
     {α : Connection (A := A) (M := M) (N := N)}
-    (h : AdmissibleDeformation semanticSource semanticTarget protected
+    (h : AdmissibleDeformation semanticSource semanticTarget protectedSubmodule
       sourceFiltration targetFiltration α) :
-    ∀ x, x ∈ protected → α x = 0 := by
+    ∀ x, x ∈ protectedSubmodule → α x = 0 := by
   exact h.vanishesOnProtected
 
 theorem admissible_connection_preserves_authority_filtration
