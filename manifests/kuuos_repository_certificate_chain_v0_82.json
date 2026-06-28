@@ -1,0 +1,22 @@
+{
+  "manifest_version": "kuuos_repository_certificate_chain_v0_82",
+  "repository_autorepair_contract": true,
+  "runtime_modules": [
+    "runtime/kuuos_repository_certificate_chain_types_v0_82.py",
+    "runtime/kuuos_repository_certificate_chain_v0_82.py"
+  ],
+  "tests": "tests/test_kuuos_repository_certificate_chain_v0_82.py",
+  "validator": "scripts/check_kuuos_repository_certificate_chain_v082.py",
+  "documentation": "docs/KUUOS_REPOSITORY_CERTIFICATE_SEQUENCE_v0_82.md",
+  "strict_formal_root": "KuuOSRepositoryCertificateChainV0_82",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryCertificateChainV0_82"
+  ],
+  "previous_record_digest_binding": true,
+  "sequence_identity_binding": true,
+  "parent_revision_binding": true,
+  "changed_paths_exact": true,
+  "revision_replay_rejected": true,
+  "bounded_sequence_length": true,
+  "external_approval_required": false
+}
