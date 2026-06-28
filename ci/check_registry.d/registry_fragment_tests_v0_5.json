@@ -1,0 +1,30 @@
+{
+  "schema_version": "0.2",
+  "full_audit_paths": [
+    "ci/check_registry.d/**",
+    "scripts/select_impacted_checks.py",
+    "scripts/run_pr_entry_check_v0_5.py",
+    "tests/test_pr_entry_check_v0_5.py"
+  ],
+  "checks": {
+    "registry-fragment-tests": {
+      "name": "Modular registry and migrated entry self-test",
+      "runner": "python",
+      "command": "python3 tests/test_pr_entry_check_v0_5.py",
+      "group": "static",
+      "tier": "critical",
+      "paths": [
+        "ci/check_registry.d/**",
+        "scripts/select_impacted_checks.py",
+        "scripts/run_pr_entry_check_v0_5.py",
+        "tests/test_pr_entry_check_v0_5.py",
+        ".github/workflows/world-v053-v059-main-validation.yml",
+        ".github/workflows/memoryos-world-observe-intake-v0-39.yml"
+      ],
+      "depends_on": [],
+      "timeout_minutes": 5,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}

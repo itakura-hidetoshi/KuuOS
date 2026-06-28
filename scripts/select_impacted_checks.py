@@ -14,17 +14,74 @@ from typing import Any
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY = ROOT / "ci" / "check_registry.yaml"
+REGISTRY_FRAGMENT_DIRNAME = "check_registry.d"
 
 
-def load_registry(path: pathlib.Path) -> dict[str, Any]:
+def _load_json(path: pathlib.Path) -> dict[str, Any]:
     try:
         data = json.loads(path.read_text(encoding="utf-8"))
     except (OSError, json.JSONDecodeError) as exc:
         raise ValueError(f"cannot load check registry {path}: {exc}") from exc
+    if not isinstance(data, dict):
+        raise ValueError(f"check registry {path} must contain an object")
+    return data
+
+
+def _extend_unique(target: list[Any], values: Any, field: str, path: pathlib.Path) -> None:
+    if values is None:
+        return
+    if not isinstance(values, list):
+        raise ValueError(f"{field} in {path} must be a list")
+    for value in values:
+        if value not in target:
+            target.append(value)
+
+
+def load_registry(path: pathlib.Path) -> dict[str, Any]:
+    data = _load_json(path)
     if data.get("schema_version") not in {"0.1", "0.2"}:
         raise ValueError("unsupported or missing registry schema_version")
     if not isinstance(data.get("checks"), dict) or not data["checks"]:
         raise ValueError("registry checks must be a non-empty object")
+
+    data.setdefault("known_paths", [])
+    data.setdefault("full_audit_paths", [])
+    data.setdefault("policy", {})
+    data["policy"].setdefault("boundaries", [])
+    fragments: list[str] = []
+    fragment_dir = path.parent / REGISTRY_FRAGMENT_DIRNAME
+    if fragment_dir.is_dir():
+        for fragment_path in sorted(fragment_dir.glob("*.json")):
+            fragment = _load_json(fragment_path)
+            if fragment.get("schema_version") not in {"0.2"}:
+                raise ValueError(f"unsupported fragment schema_version in {fragment_path}")
+            _extend_unique(data["known_paths"], fragment.get("known_paths"), "known_paths", fragment_path)
+            _extend_unique(
+                data["full_audit_paths"],
+                fragment.get("full_audit_paths"),
+                "full_audit_paths",
+                fragment_path,
+            )
+            fragment_policy = fragment.get("policy", {})
+            if fragment_policy and not isinstance(fragment_policy, dict):
+                raise ValueError(f"policy in {fragment_path} must be an object")
+            _extend_unique(
+                data["policy"]["boundaries"],
+                fragment_policy.get("boundaries") if fragment_policy else None,
+                "policy.boundaries",
+                fragment_path,
+            )
+            fragment_checks = fragment.get("checks", {})
+            if not isinstance(fragment_checks, dict) or not fragment_checks:
+                raise ValueError(f"checks in {fragment_path} must be a non-empty object")
+            duplicates = sorted(set(data["checks"]) & set(fragment_checks))
+            if duplicates:
+                raise ValueError(
+                    f"duplicate registry check {duplicates[0]!r} in {fragment_path}"
+                )
+            data["checks"].update(fragment_checks)
+            fragments.append(str(fragment_path.relative_to(ROOT)))
+    data["registry_fragments"] = fragments
     return data
 
 
@@ -189,6 +246,7 @@ def select(
         "unmapped_paths": unmapped_paths,
         "full_audit_trigger_paths": trigger_paths,
         "reasons": reasons,
+        "registry_fragments": registry.get("registry_fragments", []),
         "boundaries": registry.get("policy", {}).get("boundaries", []),
     }
 
