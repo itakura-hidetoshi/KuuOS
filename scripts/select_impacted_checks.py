@@ -75,16 +75,27 @@ def dependency_closure(selected: set[str], checks: Mapping[str, Mapping[str, Any
     return closure
 
 
-def apply_supersedence(selected: set[str], checks: Mapping[str, Mapping[str, Any]]) -> set[str]:
+def apply_supersedence(
+    selected: set[str],
+    checks: Mapping[str, Mapping[str, Any]],
+    *,
+    full_audit_required: bool,
+) -> set[str]:
     result = set(selected)
     for check_id in sorted(selected):
-        supersedes = checks[check_id].get("supersedes", [])
-        if not isinstance(supersedes, list):
-            raise ValueError(f"supersedes must be a list for {check_id}")
-        for superseded in supersedes:
-            if superseded not in checks:
-                raise ValueError(f"unknown superseded check {superseded!r} for {check_id}")
-            result.discard(superseded)
+        relations = ["supersedes"]
+        if not full_audit_required:
+            relations.append("pr_supersedes")
+        for relation in relations:
+            supersedes = checks[check_id].get(relation, [])
+            if not isinstance(supersedes, list):
+                raise ValueError(f"{relation} must be a list for {check_id}")
+            for superseded in supersedes:
+                if superseded not in checks:
+                    raise ValueError(
+                        f"unknown {relation} target {superseded!r} for {check_id}"
+                    )
+                result.discard(superseded)
     return result
 
 
@@ -139,7 +150,11 @@ def select(registry: Mapping[str, Any], changed_paths: list[str], diff_error: st
         selected = set(direct)
 
     selected = dependency_closure(selected, checks)
-    selected = apply_supersedence(selected, checks)
+    selected = apply_supersedence(
+        selected,
+        checks,
+        full_audit_required=full_audit_required,
+    )
 
     ordered_ids = sorted(selected, key=lambda item: (str(checks[item].get("group", "")), item))
     python_matrix: list[dict[str, Any]] = []
