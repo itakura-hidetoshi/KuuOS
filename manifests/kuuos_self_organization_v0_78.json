@@ -10,6 +10,7 @@
   "tests": "tests/test_kuuos_self_organization_v0_78.py",
   "validator": "scripts/check_kuuos_self_organization_v078.py",
   "lean_surface": "KuuOSSelfOrganizingImprovementLoopV0_78",
+  "bounded_supervisor_lean_surface": "KuuOSBoundedSelfOrganizationSupervisorV0_78",
   "strict_formal_root": "KuuOSSelfOrganizationV0_78",
   "finite_candidate_generation": true,
   "bounded_multi_cycle_supervisor": true,
