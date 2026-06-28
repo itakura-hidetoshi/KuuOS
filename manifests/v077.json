@@ -1,0 +1,18 @@
+{
+  "manifest_version": "kuuos_post_transition_verification_v0_77",
+  "predecessor": "kuuos_memory_rollback_v0_76",
+  "validator": "scripts/check_kuuos_v077.py",
+  "lean_surface": "KuuOSPostTransitionVerificationV0_77",
+  "strict_formal_root": "KuuOSPostTransitionV0_77",
+  "commit_state_binding_required": true,
+  "commit_payload_binding_required": true,
+  "rollback_state_binding_required": true,
+  "rollback_payload_binding_required": true,
+  "rollback_ledger_binding_required": true,
+  "state_chain_required": true,
+  "authority_consumption_required": true,
+  "record_only": true,
+  "writes_enabled": false,
+  "live_application_enabled": false,
+  "permission_expansion_enabled": false
+}
