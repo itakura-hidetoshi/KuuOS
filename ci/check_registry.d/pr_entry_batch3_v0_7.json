@@ -1,0 +1,99 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "central scheduling != validator weakening",
+      "branch trigger reduction != validation reduction"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/pr_entry_batch3_v0_7.json",
+    "scripts/run_pr_entry_check_v0_7.py",
+    "tests/test_pr_entry_check_v0_7.py"
+  ],
+  "checks": {
+    "core-autonomy-v01": {
+      "name": "KuuOS core autonomy v0.1 focused validation",
+      "runner": "python",
+      "command": "python3 scripts/run_pr_entry_check_v0_7.py --check-id core-autonomy-v01",
+      "group": "governance-subsystem",
+      "tier": "critical",
+      "paths": [
+        ".github/workflows/kuuos_core_autonomy_validation.yml",
+        "specs/kuuos_core_autonomy_contract_v0_1.json",
+        "scripts/run_kuuos_core_autonomy_v0_1.py",
+        "scripts/validate_kuuos_core_autonomy_contract_v0_1.py",
+        "docs/KUUOS_CORE_AUTONOMY_RUNBOOK_v0_1.md",
+        "scripts/run_pr_entry_check_v0_7.py",
+        "Makefile",
+        "README.md"
+      ],
+      "depends_on": [],
+      "timeout_minutes": 15,
+      "pr_required": true,
+      "full_audit_member": true
+    },
+    "belief-os-v01": {
+      "name": "BeliefOS v0.1 focused validation",
+      "runner": "python",
+      "command": "python3 scripts/run_pr_entry_check_v0_7.py --check-id belief-os-v01",
+      "group": "os-subsystem",
+      "tier": "integration",
+      "paths": [
+        ".github/workflows/belief-os-v0-1-validation.yml",
+        "docs/KUUOS_BELIEF_OS_RELATIONAL_CONDITIONAL_KERNEL_v0_1.md",
+        "manifests/kuuos_belief_os_relational_conditional_kernel_v0_1.json",
+        "runtime/kuuos_belief_os_types_v0_1.py",
+        "runtime/kuuos_belief_os_state_v0_1.py",
+        "runtime/kuuos_belief_os_phase_v0_1.py",
+        "runtime/kuuos_belief_os_kernel_v0_1.py",
+        "runtime/kuuos_belief_os_store_v0_1.py",
+        "runtime/v01_belief_os_relational_conditional_kernel.py",
+        "scripts/check_belief_os_relational_conditional_kernel_v0_1.py",
+        "formal/KUOS/BeliefOS/RelationalConditionalKernelV0_1.lean",
+        "formal/KUOS.lean",
+        "scripts/run_pr_entry_check_v0_7.py"
+      ],
+      "depends_on": [],
+      "timeout_minutes": 15,
+      "pr_required": true,
+      "full_audit_member": true
+    },
+    "review-seal-v01": {
+      "name": "KuuOS review seal v0.1 focused validation",
+      "runner": "python",
+      "command": "python3 scripts/run_pr_entry_check_v0_7.py --check-id review-seal-v01",
+      "group": "governance-subsystem",
+      "tier": "critical",
+      "paths": [
+        ".github/workflows/kuuos_review_seal_validation.yml",
+        "specs/kuuos_review_seal_os_bridge_v0_1.json",
+        "scripts/validate_kuuos_review_seal_os_bridge_v0_1_min.py",
+        "scripts/run_pr_entry_check_v0_7.py"
+      ],
+      "depends_on": [],
+      "timeout_minutes": 10,
+      "pr_required": true,
+      "full_audit_member": true
+    },
+    "pr-entry-batch3-tests": {
+      "name": "PR entry consolidation batch 3 self-test",
+      "runner": "python",
+      "command": "python3 tests/test_pr_entry_check_v0_7.py",
+      "group": "static",
+      "tier": "critical",
+      "paths": [
+        "ci/check_registry.d/pr_entry_batch3_v0_7.json",
+        "scripts/run_pr_entry_check_v0_7.py",
+        "tests/test_pr_entry_check_v0_7.py",
+        ".github/workflows/kuuos_core_autonomy_validation.yml",
+        ".github/workflows/belief-os-v0-1-validation.yml",
+        ".github/workflows/kuuos_review_seal_validation.yml"
+      ],
+      "depends_on": [],
+      "timeout_minutes": 5,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
