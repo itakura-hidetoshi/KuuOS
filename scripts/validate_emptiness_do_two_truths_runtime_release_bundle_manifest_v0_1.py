@@ -10,16 +10,20 @@ Boundary notes:
 - It does not scan validator source code for sentinel strings used by validators themselves.
 - CI ledger status wording is intentionally matched by stable semantic anchors, not one brittle heading string.
 - Green CI observations are accepted only when accompanied by explicit non-authority boundary tokens.
+- Generated audit artifacts are deterministically rebuilt before validation so that each governance shard is self-contained.
 """
 
 from __future__ import annotations
 
+import subprocess
+import sys
 from pathlib import Path
 
 ROOT = Path(__file__).resolve().parents[1]
 
 MANIFEST = "specs/kuos_core_release_bundle_manifest_v0_1_138_emptiness_dependent_origination_two_truths_runtime_audit_chain_v0_1.yaml"
 CI_LEDGER = "docs/CI_LEDGER_EMPTINESS_DO_TWO_TRUTHS_RUNTIME_AUDIT_CHAIN_v0_1.md"
+AUDIT_CHAIN_BUILDER = ROOT / "scripts" / "build_emptiness_do_two_truths_runtime_audit_chain_v0_1.py"
 
 REQUIRED_FILES = [
     MANIFEST,
@@ -149,7 +153,32 @@ def read(path: str) -> str:
     return target.read_text(encoding="utf-8")
 
 
+def rebuild_generated_audit_artifacts() -> int:
+    if not AUDIT_CHAIN_BUILDER.is_file():
+        print(
+            "FAIL: missing audit chain builder: "
+            f"{AUDIT_CHAIN_BUILDER.relative_to(ROOT)}"
+        )
+        return 1
+
+    completed = subprocess.run(
+        [sys.executable, str(AUDIT_CHAIN_BUILDER)],
+        cwd=ROOT,
+        check=False,
+    )
+    if completed.returncode != 0:
+        print(
+            "FAIL: deterministic audit artifact rebuild failed: "
+            f"{AUDIT_CHAIN_BUILDER.relative_to(ROOT)}"
+        )
+    return completed.returncode
+
+
 def main() -> int:
+    rebuild_code = rebuild_generated_audit_artifacts()
+    if rebuild_code != 0:
+        return rebuild_code
+
     errors: list[str] = []
 
     for file_path in REQUIRED_FILES:
