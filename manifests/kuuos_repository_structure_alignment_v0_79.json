@@ -11,7 +11,7 @@
   ],
   "fixture": "tests/kuuos_repository_repair_fixture_v0_79.py",
   "tests": "tests/test_kuuos_repository_repair_v0_79.py",
-  "validator": "scripts/check_kuuos_repository_repair_v079.py",
+  "validator": "scripts/check_kuuos_repository_alignment_v079.py",
   "documentation": "docs/KUUOS_REPOSITORY_STRUCTURE_ALIGNMENT_v0_79.md",
   "strict_formal_root": "KuuOSRepositoryAlignmentV0_79",
   "aggregate_lean_modules": [
