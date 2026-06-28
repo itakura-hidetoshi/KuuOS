@@ -121,6 +121,21 @@ class RepositorySelfEvolutionV087Tests(unittest.TestCase):
         self.assertEqual(tuple(item.candidate_id for item in selected), ("left-runtime",))
         self.assertEqual(certificate.aggregate_score_improvement, 10)
 
+    def test_internal_candidate_path_conflict_is_rejected(self) -> None:
+        broken = candidate(
+            "internal-conflict",
+            LEFT_SHA,
+            ("runtime", "runtime/core.py"),
+            5,
+        )
+        with self.assertRaisesRegex(ValueError, "candidate_internal_path_conflict"):
+            certify_repository_self_evolution_portfolio(
+                "portfolio-internal-conflict",
+                self.frontier,
+                (broken,),
+                self.policy,
+            )
+
     def test_at_most_one_candidate_is_selected_per_frontier_tip(self) -> None:
         weaker = candidate("left-weaker", LEFT_SHA, ("runtime/weak.py",), 5)
         stronger = candidate("left-stronger", LEFT_SHA, ("runtime/strong.py",), 7)
