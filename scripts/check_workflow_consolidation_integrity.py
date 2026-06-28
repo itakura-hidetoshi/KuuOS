@@ -7,6 +7,8 @@ import pathlib
 import re
 import shlex
 
+from select_impacted_checks import load_registry
+
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 SELF = pathlib.Path(__file__).resolve()
 DIRECT_WORKFLOW_PATTERN = re.compile(r"\.github/workflows/[A-Za-z0-9_./-]+\.ya?ml")
@@ -97,6 +99,9 @@ MIGRATED_PR_ENTRY_POINTS = [
     ".github/workflows/evidence-cycle-os-validation.yml",
     ".github/workflows/plan-os-validation.yml",
     ".github/workflows/regge_zero_governance_validation.yml",
+    ".github/workflows/kuuos_core_autonomy_validation.yml",
+    ".github/workflows/belief-os-v0-1-validation.yml",
+    ".github/workflows/kuuos_review_seal_validation.yml",
     *MANUAL_VERSION_WORKFLOWS,
 ]
 
@@ -194,12 +199,10 @@ def check_workflow_references(errors: list[str]) -> None:
 def check_registry(errors: list[str]) -> None:
     path = ROOT / "ci/check_registry.yaml"
     try:
-        registry = json.loads(path.read_text(encoding="utf-8"))
-    except (OSError, json.JSONDecodeError) as exc:
-        errors.append(f"invalid CI registry: {exc}")
+        registry = load_registry(path)
+    except ValueError as exc:
+        errors.append(f"invalid merged CI registry: {exc}")
         return
-    if registry.get("schema_version") not in {"0.1", "0.2"}:
-        errors.append("CI registry schema_version must be 0.1 or 0.2")
     checks = registry.get("checks")
     if not isinstance(checks, dict) or not checks:
         errors.append("CI registry checks must be a non-empty object")
@@ -210,6 +213,10 @@ def check_registry(errors: list[str]) -> None:
         "governance-shard-tests",
         "regge-zero",
         "full-governance",
+        "core-autonomy-v01",
+        "belief-os-v01",
+        "review-seal-v01",
+        "pr-entry-batch3-tests",
     ):
         if required not in checks:
             errors.append(f"CI registry missing required check: {required}")
