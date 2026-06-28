@@ -106,10 +106,7 @@ def git_changed_paths(
         for item in result.stdout.split(b"\x00")
         if item
     )
-    canonical = _canonical_inventory(paths)
-    if canonical != tuple(sorted(paths)):
-        raise ValueError("git_changed_paths_not_canonical")
-    return canonical
+    return _canonical_inventory(paths)
 
 
 def capture_git_object_snapshot(
