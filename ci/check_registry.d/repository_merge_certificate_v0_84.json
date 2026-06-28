@@ -1,0 +1,37 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "merge certificate != conflict resolution",
+      "two-parent validation != repository write authority"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/repository_merge_certificate_v0_84.json"
+  ],
+  "checks": {
+    "repository-merge-certificate-v084": {
+      "name": "KuuOS repository merge certificate v0.84",
+      "runner": "python",
+      "command": "python3 scripts/check_kuuos_repository_merge_certificate_v084.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_repository_merge_certificate*_v0_84.py",
+        "runtime/kuuos_repository_git_revision*_v0_83.py",
+        "runtime/kuuos_repository_certificate_chain*_v0_82.py",
+        "tests/test_kuuos_repository_merge_certificate_v0_84.py",
+        "scripts/check_kuuos_repository_merge_certificate_v084.py",
+        "scripts/check_kuuos_repository_live_v079.py",
+        "docs/KUUOS_REPOSITORY_MERGE_CERTIFICATE_v0_84.md",
+        "manifests/kuuos_repository_merge_certificate_v0_84.json"
+      ],
+      "depends_on": [
+        "repository-git-revision-v083"
+      ],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
