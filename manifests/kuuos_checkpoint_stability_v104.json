@@ -1,0 +1,30 @@
+{
+  "manifest_version": "kuuos_repository_checkpoint_stability_v1_04",
+  "runtime_modules": [
+    "runtime/kuuos_repository_checkpoint_stability_types_v1_04.py",
+    "runtime/v104_checkpoint_stability_policy.py",
+    "runtime/v104_checkpoint_stability_observations_a.py",
+    "runtime/v104_checkpoint_stability_observations_b.py",
+    "runtime/v104_checkpoint_stability_core.py",
+    "runtime/kuuos_repository_checkpoint_stability_v1_04.py",
+    "runtime/kuuos_repository_checkpoint_stability_strict_v1_04.py"
+  ],
+  "tests": "tests/test_kuuos_repository_checkpoint_stability_v1_04.py",
+  "validator": "tests/test_kuuos_repository_checkpoint_stability_v1_04.py",
+  "live_contract": "scripts/check_kuuos_live_v104.py",
+  "cumulative_runtime": "runtime/kuuos_v104_check.py",
+  "documentation": "KUUOS_REPOSITORY_CHECKPOINT_STABILITY_v1_04.md",
+  "strict_formal_root": "KuuOSRepositoryCheckpointStabilityV1_04",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryCheckpointStabilityV1_04"
+  ],
+  "delayed_direct_observation_required": true,
+  "object_reachability_required": true,
+  "checkpoint_name_uniqueness_required": true,
+  "immutable_by_default": true,
+  "checkpoint_delete_authorized": false,
+  "checkpoint_overwrite_authorized": false,
+  "restore_authorized": false,
+  "recovery_authorized": false,
+  "live_git_execution_performed": false
+}
