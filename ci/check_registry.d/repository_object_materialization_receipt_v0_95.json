@@ -1,0 +1,38 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "materialization report != verified materialization receipt",
+      "candidate commit present != branch reference updated",
+      "nonce consumption != valid unless atomic with materialization",
+      "partial object presence != committed materialization"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/repository_object_materialization_receipt_v0_95.json"
+  ],
+  "checks": {
+    "repository-object-materialization-receipt-v095": {
+      "name": "KuuOS repository object materialization receipt v0.95",
+      "runner": "python",
+      "command": "python3 scripts/check_kuuos_repository_object_materialization_receipt_v095.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_repository_object_materialization_receipt*_v0_95.py",
+        "runtime/kuuos_repository_object_materialization_authorization*_v0_94.py",
+        "tests/test_kuuos_repository_object_materialization_receipt_v0_95.py",
+        "scripts/check_kuuos_repository_object_materialization_receipt_v095.py",
+        "scripts/check_kuuos_repository_live_v079.py",
+        "docs/KUUOS_REPOSITORY_OBJECT_MATERIALIZATION_RECEIPT_v0_95.md",
+        "manifests/kuuos_repository_object_materialization_receipt_v0_95.json"
+      ],
+      "depends_on": [
+        "repository-object-materialization-authorization-v094"
+      ],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
