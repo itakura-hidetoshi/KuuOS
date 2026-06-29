@@ -55,8 +55,6 @@ VALIDATORS_AFTER_V055: tuple[str, ...] = (
     "scripts/check_kuuos_memory_review_v074.py",
     "scripts/check_kuuos_memory_application_v075.py",
     "scripts/check_kuuos_memory_rollback_v076.py",
-    "scripts/check_kuuos_authority_role_policy_v077.py",
-    "scripts/check_kuuos_v077.py",
     "scripts/check_kuuos_self_organization_v078.py",
     "scripts/check_kuuos_repository_alignment_v079.py",
     "scripts/check_kuuos_repository_normal_form_v080.py",
