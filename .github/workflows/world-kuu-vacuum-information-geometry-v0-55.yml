@@ -1,4 +1,4 @@
-name: WORLD Kū Vacuum Information Geometry v0.55
+name: WORLD Kū Vacuum Information Geometry v0.55 macOS
 
 on:
   workflow_dispatch:
@@ -23,7 +23,7 @@ concurrency:
 
 jobs:
   validate:
-    runs-on: ubuntu-latest
+    runs-on: macos-latest
     steps:
       - uses: actions/checkout@v6
       - uses: actions/setup-python@v5
