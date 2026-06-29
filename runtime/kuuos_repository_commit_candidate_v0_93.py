@@ -16,16 +16,21 @@ from runtime.kuuos_repository_atomic_application_types_v0_92 import (
 )
 from runtime.kuuos_repository_commit_candidate_types_v0_93 import (
     CANDIDATE_CERTIFIED,
+    GITLINK_MODE,
     GIT_OBJECT_FORMAT_SHA1,
+    LEAF_MODES,
     REGULAR_FILE_MODE,
     TREE_MODE,
     RepositoryBlobCandidate,
     RepositoryCommitCandidateCertificate,
     RepositoryCommitCandidatePolicy,
     RepositoryCommitIdentity,
+    RepositoryParentTreeEntry,
+    RepositoryParentTreeInventory,
     RepositoryTreeCandidate,
     repository_commit_candidate_certificate_digest,
     repository_commit_candidate_policy_digest,
+    repository_parent_tree_inventory_digest,
 )
 from runtime.kuuos_repository_structure_types_v0_79 import RepositorySnapshot
 
@@ -55,8 +60,8 @@ def build_repository_commit_candidate_policy(
         git_object_format=GIT_OBJECT_FORMAT_SHA1,
         max_file_count=max_file_count,
         max_total_utf8_bytes=max_total_utf8_bytes,
-        regular_file_mode=REGULAR_FILE_MODE,
-        require_complete_text_snapshot=True,
+        default_regular_file_mode=REGULAR_FILE_MODE,
+        require_parent_tree_inventory=True,
         require_single_parent=True,
         policy_digest="",
     )
@@ -80,10 +85,10 @@ def repository_commit_candidate_policy_issues(
         issues.append("commit_candidate_object_format_invalid")
     if policy.max_file_count <= 0 or policy.max_total_utf8_bytes <= 0:
         issues.append("commit_candidate_policy_bound_invalid")
-    if policy.regular_file_mode != REGULAR_FILE_MODE:
-        issues.append("commit_candidate_file_mode_invalid")
-    if not policy.require_complete_text_snapshot:
-        issues.append("commit_candidate_complete_snapshot_not_required")
+    if policy.default_regular_file_mode != REGULAR_FILE_MODE:
+        issues.append("commit_candidate_default_file_mode_invalid")
+    if not policy.require_parent_tree_inventory:
+        issues.append("commit_candidate_parent_inventory_not_required")
     if not policy.require_single_parent:
         issues.append("commit_candidate_single_parent_not_required")
     if policy.policy_digest != repository_commit_candidate_policy_digest(policy):
@@ -136,20 +141,11 @@ def repository_commit_message_issues(message: str) -> tuple[str, ...]:
     return tuple(issues)
 
 
-def repository_snapshot_commit_candidate_issues(
-    snapshot: RepositorySnapshot,
-) -> tuple[str, ...]:
+def _repository_path_issues(paths: tuple[str, ...]) -> tuple[str, ...]:
     issues: list[str] = []
-    paths = snapshot.all_paths
-    text_paths = tuple(path for path, _ in snapshot.text_files)
     if len(paths) != len(set(paths)):
-        issues.append("commit_snapshot_duplicate_path")
-    if len(text_paths) != len(set(text_paths)):
-        issues.append("commit_snapshot_duplicate_text_path")
-    if set(paths) != set(text_paths):
-        issues.append("commit_snapshot_not_complete_text_snapshot")
-
-    canonical_paths = tuple(sorted(set(paths) | set(text_paths)))
+        issues.append("repository_path_duplicate")
+    canonical_paths = tuple(sorted(set(paths)))
     for path in canonical_paths:
         segments = path.split("/")
         if (
@@ -161,16 +157,79 @@ def repository_snapshot_commit_candidate_issues(
             or any(segment in ("", ".", "..") for segment in segments)
             or any("\n" in segment or "\r" in segment for segment in segments)
         ):
-            issues.append("commit_snapshot_path_invalid")
+            issues.append("repository_path_invalid")
             break
-
     path_set = set(canonical_paths)
     for path in canonical_paths:
         parts = path.split("/")
         for index in range(1, len(parts)):
             if "/".join(parts[:index]) in path_set:
-                issues.append("commit_snapshot_path_topology_invalid")
+                issues.append("repository_path_topology_invalid")
                 return tuple(issues)
+    return tuple(issues)
+
+
+def repository_snapshot_commit_candidate_issues(
+    snapshot: RepositorySnapshot,
+) -> tuple[str, ...]:
+    issues: list[str] = []
+    issues.extend(_repository_path_issues(snapshot.all_paths))
+    text_paths = tuple(path for path, _ in snapshot.text_files)
+    if len(text_paths) != len(set(text_paths)):
+        issues.append("commit_snapshot_duplicate_text_path")
+    if not set(text_paths).issubset(set(snapshot.all_paths)):
+        issues.append("commit_snapshot_text_path_outside_inventory")
+    issues.extend(_repository_path_issues(text_paths))
+    return tuple(issues)
+
+
+def build_repository_parent_tree_inventory(
+    parent_commit_sha: str,
+    entries: tuple[RepositoryParentTreeEntry, ...],
+    *,
+    object_database_read: bool = True,
+    working_tree_read: bool = False,
+) -> RepositoryParentTreeInventory:
+    inventory = RepositoryParentTreeInventory(
+        parent_commit_sha=parent_commit_sha,
+        entries=tuple(sorted(entries, key=lambda entry: entry.path)),
+        object_database_read=object_database_read,
+        working_tree_read=working_tree_read,
+        inventory_digest="",
+    )
+    inventory = replace(
+        inventory,
+        inventory_digest=repository_parent_tree_inventory_digest(inventory),
+    )
+    issues = repository_parent_tree_inventory_issues(inventory)
+    if issues:
+        raise ValueError(f"parent_tree_inventory_invalid:{issues[0]}")
+    return inventory
+
+
+def repository_parent_tree_inventory_issues(
+    inventory: RepositoryParentTreeInventory,
+) -> tuple[str, ...]:
+    issues: list[str] = []
+    if not _HEX40.fullmatch(inventory.parent_commit_sha):
+        issues.append("parent_tree_inventory_commit_sha_invalid")
+    if not inventory.object_database_read:
+        issues.append("parent_tree_inventory_not_object_database_read")
+    if inventory.working_tree_read:
+        issues.append("parent_tree_inventory_working_tree_read")
+    paths = tuple(entry.path for entry in inventory.entries)
+    if paths != tuple(sorted(paths)):
+        issues.append("parent_tree_inventory_paths_not_canonical")
+    issues.extend(_repository_path_issues(paths))
+    for entry in inventory.entries:
+        if entry.mode not in LEAF_MODES:
+            issues.append("parent_tree_inventory_mode_invalid")
+            break
+        if not _HEX40.fullmatch(entry.git_object_oid):
+            issues.append("parent_tree_inventory_oid_invalid")
+            break
+    if inventory.inventory_digest != repository_parent_tree_inventory_digest(inventory):
+        issues.append("parent_tree_inventory_digest_mismatch")
     return tuple(issues)
 
 
@@ -199,29 +258,50 @@ def _commit_payload(
     return text.encode("utf-8")
 
 
-def _blob_candidates(
+def _overlay_entries(
     snapshot: RepositorySnapshot,
-    mode: str,
-) -> tuple[RepositoryBlobCandidate, ...]:
-    return tuple(
-        RepositoryBlobCandidate(
-            path=path,
-            mode=mode,
-            utf8_size=len(text.encode("utf-8")),
-            content_digest=canonical_digest(text),
-            git_blob_oid=git_object_oid("blob", text.encode("utf-8")),
-        )
-        for path, text in sorted(snapshot.text_files, key=lambda item: item[0])
-    )
+    inventory: RepositoryParentTreeInventory,
+) -> tuple[
+    tuple[RepositoryBlobCandidate, ...],
+    tuple[tuple[str, str, str], ...],
+    int,
+]:
+    parent_by_path = {entry.path: entry for entry in inventory.entries}
+    text_by_path = snapshot.texts
+    blobs: list[RepositoryBlobCandidate] = []
+    leaves: list[tuple[str, str, str]] = []
+    retained = 0
+    for path in sorted(snapshot.all_paths):
+        parent_entry = parent_by_path[path]
+        if path in text_by_path:
+            if parent_entry.mode == GITLINK_MODE:
+                raise ValueError("commit_candidate_text_overlay_on_gitlink")
+            text = text_by_path[path]
+            payload = text.encode("utf-8")
+            blob = RepositoryBlobCandidate(
+                path=path,
+                mode=parent_entry.mode,
+                utf8_size=len(payload),
+                content_digest=canonical_digest(text),
+                git_blob_oid=git_object_oid("blob", payload),
+            )
+            blobs.append(blob)
+            leaves.append((path, parent_entry.mode, blob.git_blob_oid))
+        else:
+            leaves.append(
+                (path, parent_entry.mode, parent_entry.git_object_oid)
+            )
+            retained += 1
+    return tuple(blobs), tuple(leaves), retained
 
 
 def _tree_candidates(
-    blobs: tuple[RepositoryBlobCandidate, ...],
+    leaves: tuple[tuple[str, str, str], ...],
 ) -> tuple[tuple[RepositoryTreeCandidate, ...], str]:
     root: dict[str, Any] = {}
-    for blob in blobs:
+    for path, mode, oid in leaves:
         node = root
-        parts = blob.path.split("/")
+        parts = path.split("/")
         for segment in parts[:-1]:
             child = node.setdefault(segment, {})
             if not isinstance(child, dict):
@@ -229,7 +309,7 @@ def _tree_candidates(
             node = child
         if parts[-1] in node:
             raise ValueError("commit_tree_duplicate_entry")
-        node[parts[-1]] = blob
+        node[parts[-1]] = (mode, oid)
 
     trees: list[RepositoryTreeCandidate] = []
 
@@ -241,7 +321,8 @@ def _tree_candidates(
                 oid = walk(value, child_directory)
                 resolved.append((name, TREE_MODE, oid, True))
             else:
-                resolved.append((name, value.mode, value.git_blob_oid, False))
+                mode, oid = value
+                resolved.append((name, mode, oid, False))
         resolved.sort(
             key=lambda item: item[0].encode("utf-8") + (b"/" if item[3] else b"")
         )
@@ -269,14 +350,18 @@ def _construct_certificate(
     candidate_id: str,
     application_receipt: RepositoryAtomicApplicationReceipt,
     snapshot: RepositorySnapshot,
+    parent_tree_inventory: RepositoryParentTreeInventory,
     policy: RepositoryCommitCandidatePolicy,
     author: RepositoryCommitIdentity,
     committer: RepositoryCommitIdentity,
     message: str,
 ) -> RepositoryCommitCandidateCertificate:
     normalized_message = normalize_commit_message(message)
-    blobs = _blob_candidates(snapshot, policy.regular_file_mode)
-    trees, root_oid = _tree_candidates(blobs)
+    blobs, leaves, retained_count = _overlay_entries(
+        snapshot,
+        parent_tree_inventory,
+    )
+    trees, root_oid = _tree_candidates(leaves)
     commit_payload = _commit_payload(
         root_oid,
         application_receipt.source_commit_sha,
@@ -291,6 +376,7 @@ def _construct_certificate(
         application_receipt_digest=application_receipt.receipt_digest,
         application_transaction_id=application_receipt.transaction_id,
         parent_commit_sha=application_receipt.source_commit_sha,
+        parent_tree_inventory_digest=parent_tree_inventory.inventory_digest,
         final_snapshot_digest=snapshot.digest,
         commit_policy_digest=policy.policy_digest,
         git_object_format=policy.git_object_format,
@@ -302,16 +388,21 @@ def _construct_certificate(
         message=normalized_message,
         commit_payload_digest=git_object_payload_digest(commit_payload),
         candidate_commit_oid=git_object_oid("commit", commit_payload),
-        file_count=len(blobs),
+        file_count=len(snapshot.all_paths),
+        text_blob_candidate_count=len(blobs),
+        retained_parent_entry_count=retained_count,
         total_utf8_bytes=total_bytes,
         application_receipt_valid=True,
         application_applied=True,
         application_snapshot_bound=True,
         parent_commit_bound=True,
-        snapshot_complete=True,
+        parent_tree_inventory_valid=True,
+        parent_inventory_commit_bound=True,
+        complete_parent_path_coverage=True,
+        parent_modes_preserved=True,
         paths_canonical=True,
         path_topology_valid=True,
-        file_count_within_policy=len(blobs) <= policy.max_file_count,
+        file_count_within_policy=len(snapshot.all_paths) <= policy.max_file_count,
         byte_count_within_policy=total_bytes <= policy.max_total_utf8_bytes,
         blob_candidates_exact=True,
         tree_candidates_exact=True,
@@ -339,6 +430,7 @@ def certify_repository_commit_candidate(
     candidate_id: str,
     application_receipt: RepositoryAtomicApplicationReceipt,
     snapshot: RepositorySnapshot,
+    parent_tree_inventory: RepositoryParentTreeInventory,
     policy: RepositoryCommitCandidatePolicy,
     *,
     author: RepositoryCommitIdentity,
@@ -365,7 +457,15 @@ def certify_repository_commit_candidate(
     snapshot_issues = repository_snapshot_commit_candidate_issues(snapshot)
     if snapshot_issues:
         raise ValueError(f"commit_candidate_snapshot_invalid:{snapshot_issues[0]}")
-    if len(snapshot.text_files) > policy.max_file_count:
+    inventory_issues = repository_parent_tree_inventory_issues(parent_tree_inventory)
+    if inventory_issues:
+        raise ValueError(f"parent_tree_inventory_invalid:{inventory_issues[0]}")
+    if parent_tree_inventory.parent_commit_sha != application_receipt.source_commit_sha:
+        raise ValueError("commit_candidate_parent_inventory_commit_mismatch")
+    inventory_paths = tuple(entry.path for entry in parent_tree_inventory.entries)
+    if set(inventory_paths) != set(snapshot.all_paths):
+        raise ValueError("commit_candidate_parent_path_coverage_mismatch")
+    if len(snapshot.all_paths) > policy.max_file_count:
         raise ValueError("commit_candidate_file_count_exceeds_policy")
     total_utf8_bytes = sum(
         len(text.encode("utf-8")) for _, text in snapshot.text_files
@@ -384,6 +484,7 @@ def certify_repository_commit_candidate(
         candidate_id,
         application_receipt,
         snapshot,
+        parent_tree_inventory,
         policy,
         author,
         committer,
@@ -393,6 +494,7 @@ def certify_repository_commit_candidate(
         certificate,
         application_receipt,
         snapshot,
+        parent_tree_inventory,
         policy,
     )
     if issues:
@@ -404,6 +506,7 @@ def repository_commit_candidate_certificate_issues(
     certificate: RepositoryCommitCandidateCertificate,
     application_receipt: RepositoryAtomicApplicationReceipt,
     snapshot: RepositorySnapshot,
+    parent_tree_inventory: RepositoryParentTreeInventory,
     policy: RepositoryCommitCandidatePolicy,
 ) -> tuple[str, ...]:
     issues: list[str] = []
@@ -416,14 +519,19 @@ def repository_commit_candidate_certificate_issues(
         issues.append("commit_candidate_application_effect_not_committed")
     if application_receipt.final_snapshot_digest != snapshot.digest:
         issues.append("commit_candidate_snapshot_binding_mismatch")
-    if not _HEX40.fullmatch(application_receipt.source_commit_sha):
-        issues.append("commit_candidate_parent_sha_invalid")
     if repository_commit_candidate_policy_issues(policy):
         issues.append("commit_candidate_policy_invalid")
         return tuple(issues)
     if repository_snapshot_commit_candidate_issues(snapshot):
         issues.append("commit_candidate_snapshot_invalid")
         return tuple(issues)
+    if repository_parent_tree_inventory_issues(parent_tree_inventory):
+        issues.append("commit_candidate_parent_tree_inventory_invalid")
+        return tuple(issues)
+    if parent_tree_inventory.parent_commit_sha != application_receipt.source_commit_sha:
+        issues.append("commit_candidate_parent_inventory_commit_mismatch")
+    if set(entry.path for entry in parent_tree_inventory.entries) != set(snapshot.all_paths):
+        issues.append("commit_candidate_parent_path_coverage_mismatch")
     if repository_commit_identity_issues(certificate.author):
         issues.append("commit_candidate_author_invalid")
     if repository_commit_identity_issues(certificate.committer):
@@ -436,12 +544,13 @@ def repository_commit_candidate_certificate_issues(
             certificate.candidate_id,
             application_receipt,
             snapshot,
+            parent_tree_inventory,
             policy,
             certificate.author,
             certificate.committer,
             certificate.message,
         )
-    except ValueError as error:
+    except (KeyError, ValueError) as error:
         issues.append(str(error))
         return tuple(issues)
 
@@ -455,7 +564,10 @@ def repository_commit_candidate_certificate_issues(
         certificate.application_applied,
         certificate.application_snapshot_bound,
         certificate.parent_commit_bound,
-        certificate.snapshot_complete,
+        certificate.parent_tree_inventory_valid,
+        certificate.parent_inventory_commit_bound,
+        certificate.complete_parent_path_coverage,
+        certificate.parent_modes_preserved,
         certificate.paths_canonical,
         certificate.path_topology_valid,
         certificate.file_count_within_policy,
