@@ -1,0 +1,38 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "authorization != execution",
+      "modeled transition != external execution report",
+      "execution report != post-operation observation",
+      "receipt verification != receipt-created mutation",
+      "branch update evidence != push authority"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/repository_reference_update_receipt_v0_98.json"
+  ],
+  "checks": {
+    "repository-reference-update-receipt-v098": {
+      "name": "KuuOS repository reference update receipt v0.98",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_reference_update_receipt_v0_98",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_repository_reference_update_receipt*_v0_98.py",
+        "runtime/kuuos_repository_atomic_reference_update*_v0_97.py",
+        "tests/test_kuuos_repository_reference_update_receipt_v0_98.py",
+        "scripts/check_kuuos_live_v098.py",
+        "KUUOS_REPOSITORY_REFERENCE_UPDATE_RECEIPT_v0_98.md",
+        "manifests/kuuos_repo_ref_receipt_v0_98.json"
+      ],
+      "depends_on": [
+        "repository-atomic-reference-update-v097"
+      ],
+      "timeout_minutes": 25,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
