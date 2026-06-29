@@ -92,6 +92,8 @@ def rollback_material_restores_source(
         return False
     if material.candidate_snapshot_digest != candidate_snapshot.digest:
         return False
+    if not material.inverse_patches:
+        return candidate_snapshot.digest == source_snapshot.digest
     bundle = build_repository_authorized_patch_bundle(
         "rollback-verification-v092",
         candidate_snapshot,
