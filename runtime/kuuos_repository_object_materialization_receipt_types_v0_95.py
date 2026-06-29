@@ -137,6 +137,7 @@ class RepositoryObjectMaterializationReceipt:
     authorization_valid: bool
     authorization_granted: bool
     authorization_binding_exact: bool
+    authorization_not_expired_at_completion: bool
     materialization_policy_bound: bool
     executor_authorized: bool
     transaction_time_order_valid: bool
