@@ -1,6 +1,11 @@
 {
   "manifest_version": "kuuos_repository_checkpoint_creation_receipt_v1_03",
   "runtime_modules": [
+    "runtime/v103_receipt_policy.py",
+    "runtime/v103_evidence_a.py",
+    "runtime/v103_result.py",
+    "runtime/v103_receipt_helpers.py",
+    "runtime/v103_receipt_core.py",
     "runtime/kuuos_repository_checkpoint_creation_receipt_types_v1_03.py",
     "runtime/kuuos_repository_checkpoint_creation_receipt_v1_03.py",
     "runtime/kuuos_repository_checkpoint_creation_receipt_strict_v1_03.py"
