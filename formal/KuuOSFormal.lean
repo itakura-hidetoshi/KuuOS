@@ -2,7 +2,7 @@
 # KuuOS aggregate formal root
 
 This is the strict aggregate build surface for the formal artifacts integrated on
-`main` through KuuOS Repository Self-Evolution Shadow v0.88.
+`main` through KuuOS Repository Evolution Admission v0.89.
 
 The root preserves the distinction between a Lean-derived theorem, a structure
 supplied by hypotheses, an external analytic or institutional receipt, and an
@@ -73,3 +73,4 @@ import KUOS.WORLD.KuuOSRepositoryRevisionDagV0_85
 import KUOS.WORLD.KuuOSRepositoryFrontierCertificateV0_86
 import KUOS.WORLD.KuuOSRepositorySelfEvolutionPortfolioV0_87
 import KUOS.WORLD.KuuOSRepositorySelfEvolutionShadowV0_88
+import KUOS.WORLD.KuuOSRepositoryEvolutionAdmissionV0_89
