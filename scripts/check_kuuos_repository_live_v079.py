@@ -26,6 +26,7 @@ MANIFESTS = (
     "manifests/kuuos_repository_atomic_application_v0_92.json",
     "manifests/kuuos_repository_commit_candidate_v0_93.json",
     "manifests/kuuos_repository_object_materialization_authorization_v0_94.json",
+    "manifests/kuuos_repository_object_materialization_receipt_v0_95.json",
 )
 BASE_PATHS = (
     "scripts/run_kuuos_runtime_full_check_v0_55.py",

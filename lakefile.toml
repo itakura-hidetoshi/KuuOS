@@ -62,5 +62,6 @@ roots = [
   "KuuOSRepositoryApplicationAuthorizationV0_91",
   "KuuOSRepositoryAtomicApplicationV0_92",
   "KuuOSRepositoryCommitCandidateV0_93",
-  "KuuOSRepositoryObjectMaterializationAuthorizationV0_94"
+  "KuuOSRepositoryObjectMaterializationAuthorizationV0_94",
+  "KuuOSRepositoryObjectMaterializationReceiptV0_95"
 ]
