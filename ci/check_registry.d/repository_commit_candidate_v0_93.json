@@ -1,0 +1,38 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "calculated Git object candidate != object database materialization",
+      "candidate commit OID != created commit",
+      "commit candidate certificate != reference mutation authority",
+      "unsigned candidate != signed object"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/repository_commit_candidate_v0_93.json"
+  ],
+  "checks": {
+    "repository-commit-candidate-v093": {
+      "name": "KuuOS repository commit candidate v0.93",
+      "runner": "python",
+      "command": "python3 scripts/check_kuuos_repository_commit_candidate_v093.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_repository_commit_candidate*_v0_93.py",
+        "runtime/kuuos_repository_atomic_application*_v0_92.py",
+        "tests/test_kuuos_repository_commit_candidate_v0_93.py",
+        "scripts/check_kuuos_repository_commit_candidate_v093.py",
+        "scripts/check_kuuos_repository_live_v079.py",
+        "docs/KUUOS_REPOSITORY_COMMIT_CANDIDATE_v0_93.md",
+        "manifests/kuuos_repository_commit_candidate_v0_93.json"
+      ],
+      "depends_on": [
+        "repository-atomic-application-v092"
+      ],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
