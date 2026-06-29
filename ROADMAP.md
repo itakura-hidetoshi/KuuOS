@@ -35,6 +35,7 @@ learning != present-cycle mutation
 memory != belief sovereignty
 selection != execution
 receipt != successor authority
+receipt composition != receipt construction
 
 finite local control != global constitutional closure
 local chart != global graph
@@ -95,8 +96,6 @@ local checkpoint != remote push authority
 
 ### 局所文脈、有限サイクル、Open Horizon
 
-次の局所文脈スパインは統合済みです。
-
 ```text
 multiple horizons
 → local sections
@@ -119,6 +118,19 @@ Qi-WORLD v2.3は、process supportとboundary occupationを陰陽相補系とし
 MemoryOSは、working、episodic、semantic、procedural memory、非マルコフ履歴、analytic capsule、contradiction residueを保持します。
 
 WORLD mathematical sidecarは、Hilbert空間、作用素環、modular theory、Araki entropy、Petz recovery、Jones theory、高次gauge情報幾何、真空候補、Tomita operator、四大相動力学までを型付きsurfaceとして接続します。
+
+```text
+vacuum-expectation observation candidate
+→ ObserveOS evidence intake
+→ host-effect atomic commit intake
+→ OS receipt composition
+→ independent verification
+→ future-only learning
+```
+
+OS receipt compositionは既存receiptの由来と所有権を合成します。
+
+receipt composition != receipt constructionです。
 
 外部解析receiptとLean-derived theoremを混同しません。
 
@@ -237,8 +249,6 @@ v1.02はmodeled transitionです。
 - command、exit status、stderr/stdout digest、observed final OIDをexecution reportへ束縛する。
 - execution reportだけで成功を確定しない。
 
-推奨する最小経路：
-
 ```text
 v1.02 committed modeled transition
 → exact execution request
@@ -323,24 +333,13 @@ recoveryはbranch force update、history rewrite、remote pushを自動許可し
 
 **状態：中期研究課題**
 
-single-host local Git contractを分散storeへ拡張する場合、次を保持します。
-
-- compare-and-swap。
-- fencing token。
-- idempotency key。
-- append-only receipt。
-- bounded lease。
-- independent observation。
-- authority and executor separation。
-- local checkpointとremote replicationの分離。
+single-host local Git contractを分散storeへ拡張する場合、compare-and-swap、fencing token、idempotency key、append-only receipt、bounded lease、independent observation、authority and executor separationを保持します。
 
 ### 優先7：一般OSの実行後検証閉路
 
 **状態：OS統合課題**
 
 MemoryOS v0.77とrepository receipt chainを、ActOS一般へ無条件に同一化しません。
-
-共通interfaceを追加する場合は次を分離します。
 
 ```text
 performed effect
@@ -385,8 +384,6 @@ future target
 PR #891とPR #835は、workflow統合またはPR gate整理に関する枝です。
 
 統合判断では、v0.77からv1.02のmanifest、dedicated checks、full-audit membership、aggregate rootsを欠落させないことを要求します。
-
-古いworkflow削除だけを先行させません。
 
 ### Lean repair branch
 
