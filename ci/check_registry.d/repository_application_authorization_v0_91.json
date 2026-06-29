@@ -1,0 +1,39 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "application authorization != patch execution",
+      "single-use eligibility != nonce consumption",
+      "patch scope authorization != commit or reference mutation authority"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/repository_application_authorization_v0_91.json"
+  ],
+  "checks": {
+    "repository-application-authorization-v091": {
+      "name": "KuuOS repository application authorization v0.91",
+      "runner": "python",
+      "command": "python3 scripts/check_kuuos_repository_application_authorization_v091.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_repository_application_authorization*_v0_91.py",
+        "runtime/kuuos_repository_external_approval*_v0_90.py",
+        "runtime/kuuos_repository_git_revision*_v0_83.py",
+        "tests/test_kuuos_repository_application_authorization_v0_91.py",
+        "scripts/check_kuuos_repository_application_authorization_v091.py",
+        "scripts/check_kuuos_repository_live_v079.py",
+        "docs/KUUOS_REPOSITORY_APPLICATION_AUTHORIZATION_v0_91.md",
+        "manifests/kuuos_repository_application_authorization_v0_91.json"
+      ],
+      "depends_on": [
+        "repository-external-approval-v090",
+        "repository-git-revision-v083"
+      ],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
