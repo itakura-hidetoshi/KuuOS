@@ -8,7 +8,7 @@
   "tests": "tests/test_kuuos_repository_atomic_reference_update_v0_97.py",
   "validator": "tests/test_kuuos_repository_atomic_reference_update_v0_97.py",
   "live_contract": "scripts/check_kuuos_live_v097.py",
-  "cumulative_runtime": "runtime/kuuos_v097_validation.py",
+  "cumulative_runtime": "runtime/kuuos_v097_check.py",
   "documentation": "KUUOS_REPOSITORY_ATOMIC_REFERENCE_UPDATE_v0_97.md",
   "strict_formal_root": "KuuOSRepositoryAtomicReferenceUpdateV0_97",
   "aggregate_lean_modules": [
