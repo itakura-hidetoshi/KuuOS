@@ -49,6 +49,7 @@ class RepositoryEvolutionAdmissionCertificate:
     selected_candidate_digests: tuple[str, ...]
     source_frontier_commit_shas: tuple[str, ...]
     source_snapshot_digests: tuple[str, ...]
+    source_revision_binding_digests: tuple[str, ...]
     shadow_snapshot_digests: tuple[str, ...]
     normal_form_certificate_digests: tuple[str, ...]
     current_revision_observation_digests: tuple[str, ...]
