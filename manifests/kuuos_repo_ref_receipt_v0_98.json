@@ -1,0 +1,37 @@
+{
+  "manifest_version": "kuuos_repository_reference_update_receipt_v0_98",
+  "runtime_modules": [
+    "runtime/kuuos_repository_reference_update_receipt_types_v0_98.py",
+    "runtime/kuuos_repository_reference_update_receipt_v0_98.py",
+    "runtime/kuuos_repository_reference_update_receipt_strict_v0_98.py"
+  ],
+  "tests": "tests/test_kuuos_repository_reference_update_receipt_v0_98.py",
+  "validator": "tests/test_kuuos_repository_reference_update_receipt_v0_98.py",
+  "live_contract": "scripts/check_kuuos_live_v098.py",
+  "cumulative_runtime": "runtime/kuuos_v098_check.py",
+  "documentation": "KUUOS_REPOSITORY_REFERENCE_UPDATE_RECEIPT_v0_98.md",
+  "strict_formal_root": "KuuOSRepositoryReferenceUpdateReceiptV0_98",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryReferenceUpdateReceiptV0_98"
+  ],
+  "atomic_update_result_revalidated": true,
+  "execution_report_required": true,
+  "post_reference_observation_required": true,
+  "nonce_consumption_receipt_required": true,
+  "transaction_binding_exact": true,
+  "reference_update_confirmed": true,
+  "nonce_consumption_confirmed": true,
+  "force_update_confirmed": false,
+  "reference_delete_confirmed": false,
+  "head_update_confirmed": false,
+  "tag_update_confirmed": false,
+  "remote_reference_update_confirmed": false,
+  "push_confirmed": false,
+  "index_write_confirmed": false,
+  "working_tree_write_confirmed": false,
+  "object_database_write_confirmed": false,
+  "signing_confirmed": false,
+  "receipt_performed_reference_mutation": false,
+  "receipt_performed_nonce_consumption": false,
+  "receipt_performed_push": false
+}
