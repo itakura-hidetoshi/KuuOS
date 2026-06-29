@@ -1,0 +1,39 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "local frontier finality != checkpoint creation",
+      "checkpoint authorization != checkpoint execution",
+      "checkpoint namespace != branch namespace",
+      "checkpoint namespace != tag namespace",
+      "local checkpoint authority != push authority"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/repository_checkpoint_authorization_v1_01.json"
+  ],
+  "checks": {
+    "repository-checkpoint-authorization-v101": {
+      "name": "KuuOS repository local frontier checkpoint authorization v1.01",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_local_frontier_checkpoint_authorization_v1_01",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_repository_local_frontier_checkpoint_authorization*_v1_01.py",
+        "runtime/kuuos_checkpoint_authorization_strict_v101.py",
+        "runtime/kuuos_repository_local_frontier_finality*_v1_00.py",
+        "tests/test_kuuos_repository_local_frontier_checkpoint_authorization_v1_01.py",
+        "scripts/check_kuuos_live_v101.py",
+        "KUUOS_REPOSITORY_LOCAL_FRONTIER_CHECKPOINT_AUTHORIZATION_v1_01.md",
+        "manifests/kuuos_checkpoint_authorization_v101.json"
+      ],
+      "depends_on": [
+        "repository-local-frontier-finality-v100"
+      ],
+      "timeout_minutes": 25,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
