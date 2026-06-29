@@ -1,0 +1,31 @@
+{
+  "manifest_version": "kuuos_repository_object_materialization_receipt_v0_95",
+  "runtime_modules": [
+    "runtime/kuuos_repository_object_materialization_receipt_types_v0_95.py",
+    "runtime/kuuos_repository_object_materialization_receipt_v0_95.py",
+    "runtime/kuuos_repository_object_materialization_receipt_strict_v0_95.py"
+  ],
+  "tests": "tests/test_kuuos_repository_object_materialization_receipt_v0_95.py",
+  "validator": "scripts/check_kuuos_repository_object_materialization_receipt_v095.py",
+  "documentation": "docs/KUUOS_REPOSITORY_OBJECT_MATERIALIZATION_RECEIPT_v0_95.md",
+  "strict_formal_root": "KuuOSRepositoryObjectMaterializationReceiptV0_95",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryObjectMaterializationReceiptV0_95"
+  ],
+  "authorization_revalidated": true,
+  "exact_plan_execution_required": true,
+  "write_and_reuse_sets_exact": true,
+  "post_object_database_observation_required": true,
+  "parent_commit_preserved": true,
+  "all_candidate_objects_present": true,
+  "all_candidate_payloads_exact": true,
+  "candidate_commit_present": true,
+  "nonce_consumed_atomically": true,
+  "authorization_valid_at_completion": true,
+  "partial_materialization_rejected": true,
+  "all_existing_objects_may_be_reused": true,
+  "index_write_performed": false,
+  "working_tree_write_performed": false,
+  "reference_mutated": false,
+  "signing_performed": false
+}
