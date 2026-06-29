@@ -21,6 +21,7 @@ MANIFESTS = (
     "manifests/kuuos_repository_self_evolution_portfolio_v0_87.json",
     "manifests/kuuos_repository_self_evolution_shadow_v0_88.json",
     "manifests/kuuos_repository_evolution_admission_v0_89.json",
+    "manifests/kuuos_repository_external_approval_v0_90.json",
 )
 BASE_PATHS = (
     "scripts/run_kuuos_runtime_full_check_v0_55.py",

@@ -1,0 +1,29 @@
+{
+  "manifest_version": "kuuos_repository_external_approval_v0_90",
+  "runtime_modules": [
+    "runtime/kuuos_repository_external_approval_types_v0_90.py",
+    "runtime/kuuos_repository_external_approval_v0_90.py"
+  ],
+  "tests": "tests/test_kuuos_repository_external_approval_v0_90.py",
+  "validator": "scripts/check_kuuos_repository_external_approval_v090.py",
+  "documentation": "docs/KUUOS_REPOSITORY_EXTERNAL_APPROVAL_v0_90.md",
+  "strict_formal_root": "KuuOSRepositoryExternalApprovalV0_90",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryExternalApprovalV0_90"
+  ],
+  "admission_certificate_binding": true,
+  "approval_policy_binding": true,
+  "authorized_approver_binding": true,
+  "authorized_signing_key_binding": true,
+  "external_signature_verification_receipt": true,
+  "authorized_verifier_binding": true,
+  "revocation_registry_receipt": true,
+  "authorized_revocation_authority_binding": true,
+  "approval_expiry_enforced": true,
+  "evidence_freshness_enforced": true,
+  "distinct_approval_roles_enforced": true,
+  "application_authorization_eligible_only": true,
+  "patch_application_authority_granted": false,
+  "commit_authority_granted": false,
+  "reference_mutation_authority_granted": false
+}

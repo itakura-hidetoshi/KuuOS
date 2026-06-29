@@ -1,0 +1,37 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "external signature verification receipt != in-process cryptographic proof",
+      "external approval accepted != patch application",
+      "application authorization eligibility != repository mutation authority"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/repository_external_approval_v0_90.json"
+  ],
+  "checks": {
+    "repository-external-approval-v090": {
+      "name": "KuuOS repository external approval v0.90",
+      "runner": "python",
+      "command": "python3 scripts/check_kuuos_repository_external_approval_v090.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_repository_external_approval*_v0_90.py",
+        "runtime/kuuos_repository_evolution_admission*_v0_89.py",
+        "tests/test_kuuos_repository_external_approval_v0_90.py",
+        "scripts/check_kuuos_repository_external_approval_v090.py",
+        "scripts/check_kuuos_repository_live_v079.py",
+        "docs/KUUOS_REPOSITORY_EXTERNAL_APPROVAL_v0_90.md",
+        "manifests/kuuos_repository_external_approval_v0_90.json"
+      ],
+      "depends_on": [
+        "repository-evolution-admission-v089"
+      ],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
