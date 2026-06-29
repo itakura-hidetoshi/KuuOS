@@ -162,6 +162,7 @@ class RepositoryLocalFrontierCheckpointAuthorizationCertificate:
     finality_certificate_binding_exact: bool
     finality_history_bound: bool
     policy_valid: bool
+    policy_binding_exact: bool
     repository_allowed: bool
     repository_identity_exact: bool
     checkpoint_name_valid: bool
