@@ -1,0 +1,37 @@
+{
+  "manifest_version": "kuuos_repository_reference_stability_reachability_v0_99",
+  "runtime_modules": [
+    "runtime/kuuos_repository_reference_stability_types_v0_99.py",
+    "runtime/kuuos_repository_reference_stability_v0_99.py",
+    "runtime/kuuos_reference_stability_strict_v099.py"
+  ],
+  "tests": "tests/test_kuuos_repository_reference_stability_v0_99.py",
+  "validator": "tests/test_kuuos_repository_reference_stability_v0_99.py",
+  "live_contract": "scripts/check_kuuos_live_v099.py",
+  "cumulative_runtime": "runtime/kuuos_v099_check.py",
+  "documentation": "KUUOS_REPOSITORY_REFERENCE_STABILITY_REACHABILITY_v0_99.md",
+  "strict_formal_root": "KuuOSRepositoryReferenceStabilityReachabilityV0_99",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryReferenceStabilityReachabilityV0_99"
+  ],
+  "reference_update_receipt_revalidated": true,
+  "delayed_reference_observation_required": true,
+  "object_database_reachability_required": true,
+  "bounded_tip_advance_allowed": true,
+  "candidate_commit_present": true,
+  "candidate_reachability_preserved": true,
+  "working_tree_evidence_used": false,
+  "reflog_evidence_used": false,
+  "remote_reference_evidence_used": false,
+  "force_update_authorized": false,
+  "reference_delete_authorized": false,
+  "push_authorized": false,
+  "reference_mutation_performed": false,
+  "object_database_write_performed": false,
+  "working_tree_write_performed": false,
+  "index_write_performed": false,
+  "reflog_write_performed": false,
+  "remote_reference_updated": false,
+  "push_performed": false,
+  "signing_performed": false
+}
