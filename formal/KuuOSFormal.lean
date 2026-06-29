@@ -60,6 +60,9 @@ import KUOS.WORLD.KuuOSMemorySelectionReviewV0_74
 import KUOS.WORLD.KuuOSAuthorizedMemoryApplicationV0_75
 import KUOS.WORLD.KuuOSMemoryRollbackV0_76
 
+-- v0.77 authority-topology and post-transition-verification proposals were not
+-- integrated on main.  The aggregate root therefore advances directly to v0.78.
+
 -- Primary self-organization and repository alignment.
 import KUOS.WORLD.KuuOSSelfOrganizingImprovementLoopV0_78
 import KUOS.WORLD.KuuOSBoundedSelfOrganizationSupervisorV0_78
