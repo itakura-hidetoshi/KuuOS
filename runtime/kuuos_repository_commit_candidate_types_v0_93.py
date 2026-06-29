@@ -10,7 +10,16 @@ VERSION = "kuuos_repository_commit_candidate_v0_93"
 CANDIDATE_CERTIFIED = "REPOSITORY_COMMIT_CANDIDATE_CERTIFIED"
 GIT_OBJECT_FORMAT_SHA1 = "sha1"
 REGULAR_FILE_MODE = "100644"
+EXECUTABLE_FILE_MODE = "100755"
+SYMLINK_MODE = "120000"
+GITLINK_MODE = "160000"
 TREE_MODE = "40000"
+LEAF_MODES = (
+    REGULAR_FILE_MODE,
+    EXECUTABLE_FILE_MODE,
+    SYMLINK_MODE,
+    GITLINK_MODE,
+)
 
 
 @dataclass(frozen=True)
@@ -30,8 +39,8 @@ class RepositoryCommitCandidatePolicy:
     git_object_format: str
     max_file_count: int
     max_total_utf8_bytes: int
-    regular_file_mode: str
-    require_complete_text_snapshot: bool
+    default_regular_file_mode: str
+    require_parent_tree_inventory: bool
     require_single_parent: bool
     policy_digest: str
     version: str = VERSION
@@ -45,6 +54,44 @@ def repository_commit_candidate_policy_digest(
 ) -> str:
     payload = policy.to_dict()
     payload.pop("policy_digest", None)
+    return canonical_digest(payload)
+
+
+@dataclass(frozen=True)
+class RepositoryParentTreeEntry:
+    path: str
+    mode: str
+    git_object_oid: str
+
+    def to_dict(self) -> dict[str, Any]:
+        return asdict(self)
+
+
+@dataclass(frozen=True)
+class RepositoryParentTreeInventory:
+    parent_commit_sha: str
+    entries: tuple[RepositoryParentTreeEntry, ...]
+    object_database_read: bool
+    working_tree_read: bool
+    inventory_digest: str
+    version: str = VERSION
+
+    def to_dict(self) -> dict[str, Any]:
+        return {
+            "parent_commit_sha": self.parent_commit_sha,
+            "entries": [entry.to_dict() for entry in self.entries],
+            "object_database_read": self.object_database_read,
+            "working_tree_read": self.working_tree_read,
+            "inventory_digest": self.inventory_digest,
+            "version": self.version,
+        }
+
+
+def repository_parent_tree_inventory_digest(
+    inventory: RepositoryParentTreeInventory,
+) -> str:
+    payload = inventory.to_dict()
+    payload.pop("inventory_digest", None)
     return canonical_digest(payload)
 
 
@@ -87,6 +134,7 @@ class RepositoryCommitCandidateCertificate:
     application_receipt_digest: str
     application_transaction_id: str
     parent_commit_sha: str
+    parent_tree_inventory_digest: str
     final_snapshot_digest: str
     commit_policy_digest: str
     git_object_format: str
@@ -99,12 +147,17 @@ class RepositoryCommitCandidateCertificate:
     commit_payload_digest: str
     candidate_commit_oid: str
     file_count: int
+    text_blob_candidate_count: int
+    retained_parent_entry_count: int
     total_utf8_bytes: int
     application_receipt_valid: bool
     application_applied: bool
     application_snapshot_bound: bool
     parent_commit_bound: bool
-    snapshot_complete: bool
+    parent_tree_inventory_valid: bool
+    parent_inventory_commit_bound: bool
+    complete_parent_path_coverage: bool
+    parent_modes_preserved: bool
     paths_canonical: bool
     path_topology_valid: bool
     file_count_within_policy: bool
