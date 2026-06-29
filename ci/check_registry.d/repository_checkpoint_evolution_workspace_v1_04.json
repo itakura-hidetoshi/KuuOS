@@ -26,7 +26,7 @@
         "runtime/v104_workspace_*.py",
         "tests/test_kuuos_repository_checkpoint_evolution_workspace_v1_04.py",
         "scripts/materialize_kuuos_checkpoint_workspace_v104.py",
-        "scripts/check_kuuos_live_v104.py",
+        "scripts/validate_kuuos_workspace_v104.py",
         "formal/KUOS/WORLD/KuuOSRepositoryCheckpointEvolutionWorkspaceV1_04.lean",
         "formal/KuuOSRepositoryCheckpointEvolutionWorkspaceV1_04.lean",
         "formal/KuuOSFormal.lean",
