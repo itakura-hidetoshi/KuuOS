@@ -1,0 +1,38 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "materialization authorization != object database write",
+      "commit object materialization != reference mutation",
+      "exact existing object reuse requires independent payload match",
+      "working tree observation != object database evidence"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/repository_object_materialization_authorization_v0_94.json"
+  ],
+  "checks": {
+    "repository-object-materialization-authorization-v094": {
+      "name": "KuuOS repository object materialization authorization v0.94",
+      "runner": "python",
+      "command": "python3 scripts/check_kuuos_repository_object_materialization_authorization_v094.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_repository_object_materialization_authorization*_v0_94.py",
+        "runtime/kuuos_repository_commit_candidate*_v0_93.py",
+        "tests/test_kuuos_repository_object_materialization_authorization_v0_94.py",
+        "scripts/check_kuuos_repository_object_materialization_authorization_v094.py",
+        "scripts/check_kuuos_repository_live_v079.py",
+        "docs/KUUOS_REPOSITORY_OBJECT_MATERIALIZATION_AUTHORIZATION_v0_94.md",
+        "manifests/kuuos_repository_object_materialization_authorization_v0_94.json"
+      ],
+      "depends_on": [
+        "repository-commit-candidate-v093"
+      ],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
