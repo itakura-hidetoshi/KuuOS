@@ -10,7 +10,7 @@ VERSION = "kuuos_repository_object_materialization_authorization_v0_94"
 AUTHORIZATION_GRANTED = "REPOSITORY_OBJECT_MATERIALIZATION_AUTHORIZATION_GRANTED"
 AUTHORIZATION_REJECTED = "REPOSITORY_OBJECT_MATERIALIZATION_AUTHORIZATION_REJECTED"
 GIT_OBJECT_FORMAT_SHA1 = "sha1"
-OBJECT_KINDS = ("blob", "tree", "commit")
+OBJECT_KINDS = ("blob", "commit", "tree")
 
 
 @dataclass(frozen=True)
