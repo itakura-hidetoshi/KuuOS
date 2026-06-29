@@ -5,7 +5,7 @@ from __future__ import annotations
 
 The filename is retained for compatibility with existing workflows and external
 callers.  The actual validation frontier follows the integrated `main` branch
-through KuuOS Repository External Approval v0.90.
+through KuuOS Repository Application Authorization v0.91.
 
 This runner executes validators in dependency order and stops at the first
 failure.  A successful run is an integrity receipt for the checked repository
@@ -32,13 +32,11 @@ from scripts.check_world_kuu_vacuum_information_geometry_v0_55 import (
 from scripts.run_kuuos_runtime_full_check_v0_54 import main as run_v054_full_check
 
 
-CURRENT_RUNTIME_FRONTIER = "v0.90"
+CURRENT_RUNTIME_FRONTIER = "v0.91"
 
 VALIDATORS_AFTER_V055: tuple[str, ...] = (
-    # WORLD continuation with runtime-facing static validators.
     "scripts/check_world_kuu_vacuum_araki_hessian_physical_realization_v0_56.py",
     "scripts/check_world_four_great_phase_dynamics_v0_59.py",
-    # Gauge-field self-organization and governed evidence review.
     "scripts/check_kuuos_gauge_field_self_organization_v0_60.py",
     "scripts/check_kuuos_os_associated_gauge_fields_v0_61.py",
     "scripts/check_kuuos_connection_improvement_candidate_v0_62.py",
@@ -49,7 +47,6 @@ VALIDATORS_AFTER_V055: tuple[str, ...] = (
     "scripts/check_kuuos_orbit_v067.py",
     "scripts/check_kuuos_evidence_v068.py",
     "scripts/check_kuuos_evidence_review_v069.py",
-    # Module-bundle and MemoryOS production chain.
     "scripts/check_kuuos_module_bundle_v070.py",
     "scripts/check_kuuos_noncommutative_leibniz_v071.py",
     "scripts/check_kuuos_nonmarkov_memory_v072.py",
@@ -57,7 +54,6 @@ VALIDATORS_AFTER_V055: tuple[str, ...] = (
     "scripts/check_kuuos_memory_review_v074.py",
     "scripts/check_kuuos_memory_application_v075.py",
     "scripts/check_kuuos_memory_rollback_v076.py",
-    # Primary self-organization and repository alignment.
     "scripts/check_kuuos_self_organization_v078.py",
     "scripts/check_kuuos_repository_alignment_v079.py",
     "scripts/check_kuuos_repository_normal_form_v080.py",
@@ -71,6 +67,7 @@ VALIDATORS_AFTER_V055: tuple[str, ...] = (
     "scripts/check_kuuos_repository_self_evolution_shadow_v088.py",
     "scripts/check_kuuos_repository_evolution_admission_v089.py",
     "scripts/check_kuuos_repository_external_approval_v090.py",
+    "scripts/check_kuuos_repository_application_authorization_v091.py",
 )
 
 
