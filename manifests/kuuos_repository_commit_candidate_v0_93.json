@@ -1,0 +1,29 @@
+{
+  "manifest_version": "kuuos_repository_commit_candidate_v0_93",
+  "runtime_modules": [
+    "runtime/kuuos_repository_commit_candidate_types_v0_93.py",
+    "runtime/kuuos_repository_commit_candidate_v0_93.py",
+    "runtime/kuuos_repository_commit_candidate_strict_v0_93.py"
+  ],
+  "tests": "tests/test_kuuos_repository_commit_candidate_v0_93.py",
+  "validator": "scripts/check_kuuos_repository_commit_candidate_v093.py",
+  "documentation": "docs/KUUOS_REPOSITORY_COMMIT_CANDIDATE_v0_93.md",
+  "strict_formal_root": "KuuOSRepositoryCommitCandidateV0_93",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryCommitCandidateV0_93"
+  ],
+  "atomic_application_receipt_required": true,
+  "final_snapshot_exactly_bound": true,
+  "single_parent_exactly_bound": true,
+  "git_blob_candidates_exact": true,
+  "git_tree_candidates_exact": true,
+  "commit_payload_exact": true,
+  "candidate_oid_deterministic": true,
+  "payload_sha256_retained": true,
+  "object_database_write_performed": false,
+  "index_write_performed": false,
+  "working_tree_write_performed": false,
+  "commit_created": false,
+  "reference_mutated": false,
+  "signing_performed": false
+}
