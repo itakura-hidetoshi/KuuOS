@@ -4,11 +4,11 @@
     "repository-runtime-v097": {
       "name": "KuuOS repository runtime frontier v0.97",
       "runner": "python",
-      "command": "python3 runtime/kuuos_v097_validation.py",
+      "command": "python3 runtime/kuuos_v097_check.py",
       "group": "self-organization",
       "tier": "integration",
       "paths": [
-        "runtime/kuuos_v097_validation.py",
+        "runtime/kuuos_v097_check.py",
         "scripts/check_kuuos_live_v097.py",
         "runtime/kuuos_v096_validation.py",
         "runtime/kuuos_repository_atomic_reference_update*_v0_97.py",
