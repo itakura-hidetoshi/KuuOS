@@ -25,7 +25,7 @@
         "runtime/kuuos_repository_object_materialization_receipt*_v0_95.py",
         "tests/test_kuuos_repository_reference_update_authorization_v0_96.py",
         "scripts/check_kuuos_repository_live_v079.py",
-        "docs/KUUOS_REPOSITORY_REFERENCE_UPDATE_AUTHORIZATION_v0_96.md",
+        "KUUOS_REPOSITORY_REFERENCE_UPDATE_AUTHORIZATION_v0_96.md",
         "manifests/kuuos_repository_reference_update_authorization_v0_96.json"
       ],
       "depends_on": [
