@@ -1,0 +1,34 @@
+{
+  "manifest_version": "kuuos_repository_atomic_reference_update_v0_97",
+  "runtime_modules": [
+    "runtime/kuuos_repository_atomic_reference_update_types_v0_97.py",
+    "runtime/kuuos_repository_atomic_reference_update_v0_97.py",
+    "runtime/kuuos_repository_atomic_reference_update_strict_v0_97.py"
+  ],
+  "tests": "tests/test_kuuos_repository_atomic_reference_update_v0_97.py",
+  "validator": "tests/test_kuuos_repository_atomic_reference_update_v0_97.py",
+  "live_contract": "scripts/check_kuuos_live_v097.py",
+  "cumulative_runtime": "runtime/kuuos_v097_validation.py",
+  "documentation": "KUUOS_REPOSITORY_ATOMIC_REFERENCE_UPDATE_v0_97.md",
+  "strict_formal_root": "KuuOSRepositoryAtomicReferenceUpdateV0_97",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryAtomicReferenceUpdateV0_97"
+  ],
+  "authorization_chain_revalidated": true,
+  "exact_compare_and_swap_required": true,
+  "atomic_nonce_consumption_required": true,
+  "failure_preserves_reference_state": true,
+  "failure_preserves_nonce_registry": true,
+  "force_update_performed": false,
+  "reference_delete_performed": false,
+  "head_updated": false,
+  "tag_updated": false,
+  "remote_reference_updated": false,
+  "push_performed": false,
+  "index_write_performed": false,
+  "working_tree_write_performed": false,
+  "object_database_write_performed": false,
+  "signing_performed": false,
+  "live_git_command_invoked": false,
+  "live_repository_mutated": false
+}
