@@ -1,7 +1,7 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-from runtime.kuuos_repository_reference_update_authorization_v0_96 import (
+from runtime.kuuos_repository_reference_update_v0_96 import (
     authorize_repository_reference_update as _authorize,
     repository_reference_update_authorization_certificate_issues as _issues,
 )
