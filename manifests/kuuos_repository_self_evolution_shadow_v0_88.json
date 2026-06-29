@@ -1,0 +1,27 @@
+{
+  "manifest_version": "kuuos_repository_self_evolution_shadow_v0_88",
+  "runtime_modules": [
+    "runtime/kuuos_repository_self_evolution_shadow_types_v0_88.py",
+    "runtime/kuuos_repository_self_evolution_shadow_v0_88.py"
+  ],
+  "tests": "tests/test_kuuos_repository_self_evolution_shadow_v0_88.py",
+  "validator": "scripts/check_kuuos_repository_self_evolution_shadow_v088.py",
+  "documentation": "docs/KUUOS_REPOSITORY_SELF_EVOLUTION_SHADOW_v0_88.md",
+  "strict_formal_root": "KuuOSRepositorySelfEvolutionShadowV0_88",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositorySelfEvolutionShadowV0_88"
+  ],
+  "portfolio_binding": true,
+  "git_object_database_source": true,
+  "working_tree_ignored": true,
+  "proposal_to_patch_binding": true,
+  "shadow_reobservation": true,
+  "strict_score_descent_observed": true,
+  "prediction_error_bounded": true,
+  "normal_form_recertified": true,
+  "exact_shadow_rollback": true,
+  "negative_shadow_receipt": true,
+  "patch_application_authority_granted": false,
+  "commit_authority_granted": false,
+  "reference_mutation_authority_granted": false
+}

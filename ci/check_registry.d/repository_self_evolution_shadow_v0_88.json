@@ -1,0 +1,42 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "shadow replay != patch application",
+      "shadow pass != commit authority",
+      "prediction agreement != reference mutation authority"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/repository_self_evolution_shadow_v0_88.json"
+  ],
+  "checks": {
+    "repository-self-evolution-shadow-v088": {
+      "name": "KuuOS repository self-evolution shadow v0.88",
+      "runner": "python",
+      "command": "python3 scripts/check_kuuos_repository_self_evolution_shadow_v088.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_repository_self_evolution_shadow*_v0_88.py",
+        "runtime/kuuos_repository_self_evolution*_v0_87.py",
+        "runtime/kuuos_repository_shadow_repair_v0_79.py",
+        "runtime/kuuos_repository_alignment_normal_form*_v0_80.py",
+        "runtime/kuuos_repository_git_revision*_v0_83.py",
+        "tests/test_kuuos_repository_self_evolution_shadow_v0_88.py",
+        "scripts/check_kuuos_repository_self_evolution_shadow_v088.py",
+        "scripts/check_kuuos_repository_live_v079.py",
+        "docs/KUUOS_REPOSITORY_SELF_EVOLUTION_SHADOW_v0_88.md",
+        "manifests/kuuos_repository_self_evolution_shadow_v0_88.json"
+      ],
+      "depends_on": [
+        "repository-self-evolution-portfolio-v087",
+        "repository-git-revision-v083",
+        "repository-normal-form-v080"
+      ],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
