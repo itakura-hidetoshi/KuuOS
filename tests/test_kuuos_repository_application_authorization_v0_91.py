@@ -16,9 +16,7 @@ from runtime.kuuos_repository_git_revision_types_v0_83 import (
 from runtime.kuuos_repository_application_authorization_types_v0_91 import (
     AUTHORIZATION_GRANTED,
     AUTHORIZATION_REJECTED,
-    repository_application_authorization_certificate_digest,
     repository_application_scope_digest,
-    repository_application_source_state_receipt_digest,
     repository_authorization_nonce_status_receipt_digest,
 )
 from runtime.kuuos_repository_application_authorization_v0_91 import (
@@ -52,15 +50,18 @@ class RepositoryApplicationAuthorizationV091Tests(unittest.TestCase):
         self.nonce_status = self._nonce_status()
 
     def _policy(self, **overrides):
-        values = dict(
-            authorized_nonce_authority_ids=("nonce-authority-1",),
-            protected_paths=(".github/workflows", "formal/KUOS/Constitution.lean"),
-            max_authorization_lifetime_seconds=300,
-            max_source_observation_age_seconds=60,
-            max_nonce_status_age_seconds=30,
-            max_allowed_path_count=8,
-            max_patch_count=4,
-        )
+        values = {
+            "authorized_nonce_authority_ids": ("nonce-authority-1",),
+            "protected_paths": (
+                ".github/workflows",
+                "formal/KUOS/Constitution.lean",
+            ),
+            "max_authorization_lifetime_seconds": 300,
+            "max_source_observation_age_seconds": 60,
+            "max_nonce_status_age_seconds": 30,
+            "max_allowed_path_count": 8,
+            "max_patch_count": 4,
+        }
         values.update(overrides)
         return build_repository_application_authorization_policy(
             "application-authorization-policy-v091",
@@ -68,21 +69,21 @@ class RepositoryApplicationAuthorizationV091Tests(unittest.TestCase):
         )
 
     def _scope(self, *, external_approval=None, policy=None, **overrides):
-        values = dict(
-            patch_bundle_digest=canonical_digest({"patches": ["repair-1"]}),
-            patch_count=1,
-            source_commit_sha=getattr(self, "source_commit_sha", "a" * 40),
-            source_snapshot_digest=getattr(
+        values = {
+            "patch_bundle_digest": canonical_digest({"patches": ["repair-1"]}),
+            "patch_count": 1,
+            "source_commit_sha": getattr(self, "source_commit_sha", "a" * 40),
+            "source_snapshot_digest": getattr(
                 self,
                 "source_snapshot_digest",
                 canonical_digest({"snapshot": "source-v091"}),
             ),
-            allowed_paths=("docs", "runtime"),
-            expected_changed_paths=("runtime/repair.py",),
-            authorization_nonce="nonce-v091-001",
-            issued_at_epoch_seconds=1260,
-            expires_at_epoch_seconds=1500,
-        )
+            "allowed_paths": ("docs", "runtime"),
+            "expected_changed_paths": ("runtime/repair.py",),
+            "authorization_nonce": "nonce-v091-001",
+            "issued_at_epoch_seconds": 1260,
+            "expires_at_epoch_seconds": 1500,
+        }
         values.update(overrides)
         return build_repository_application_scope(
             "application-scope-v091",
@@ -92,19 +93,19 @@ class RepositoryApplicationAuthorizationV091Tests(unittest.TestCase):
         )
 
     def _observation(self, **overrides):
-        values = dict(
-            repository_label="KuuOS",
-            parent_commit_sha="b" * 40,
-            current_commit_sha=self.scope.source_commit_sha,
-            current_parent_shas=("b" * 40,),
-            changed_paths=("README.md",),
-            inventory_paths=("README.md", "runtime/repair.py"),
-            parent_snapshot_digest=canonical_digest({"snapshot": "parent"}),
-            current_snapshot_digest=self.scope.source_snapshot_digest,
-            object_database_read=True,
-            working_tree_read=False,
-            observation_digest="",
-        )
+        values = {
+            "repository_label": "KuuOS",
+            "parent_commit_sha": "b" * 40,
+            "current_commit_sha": self.scope.source_commit_sha,
+            "current_parent_shas": ("b" * 40,),
+            "changed_paths": ("README.md",),
+            "inventory_paths": ("README.md", "runtime/repair.py"),
+            "parent_snapshot_digest": canonical_digest({"snapshot": "parent"}),
+            "current_snapshot_digest": self.scope.source_snapshot_digest,
+            "object_database_read": True,
+            "working_tree_read": False,
+            "observation_digest": "",
+        }
         values.update(overrides)
         observation = GitRevisionObservation(**values)
         return replace(
@@ -133,24 +134,26 @@ class RepositoryApplicationAuthorizationV091Tests(unittest.TestCase):
             self.scope if scope is None else scope,
             authority_id=authority_id,
             checked_at_epoch_seconds=checked_at_epoch_seconds,
-            registry_snapshot_digest=canonical_digest({
-                "nonce_registry": "snapshot-1280",
-                "consumed": consumed,
-                "revoked": revoked,
-            }),
+            registry_snapshot_digest=canonical_digest(
+                {
+                    "nonce_registry": "snapshot-1280",
+                    "consumed": consumed,
+                    "revoked": revoked,
+                }
+            ),
             consumed=consumed,
             revoked=revoked,
         )
 
     def _certify(self, **overrides):
-        values = dict(
-            external_approval=self.external_approval,
-            policy=self.policy,
-            scope=self.scope,
-            source_state=self.source_state,
-            nonce_status=self.nonce_status,
-            evaluated_at_epoch_seconds=1290,
-        )
+        values = {
+            "external_approval": self.external_approval,
+            "policy": self.policy,
+            "scope": self.scope,
+            "source_state": self.source_state,
+            "nonce_status": self.nonce_status,
+            "evaluated_at_epoch_seconds": 1290,
+        }
         values.update(overrides)
         return certify_repository_application_authorization(
             "application-authorization-v091",
@@ -214,15 +217,19 @@ class RepositoryApplicationAuthorizationV091Tests(unittest.TestCase):
 
     def test_expired_authorization_is_certified_reject(self) -> None:
         scope = self._scope(expires_at_epoch_seconds=1285)
-        nonce_status = self._nonce_status(scope=scope)
-        certificate = self._certify(scope=scope, nonce_status=nonce_status)
+        certificate = self._certify(
+            scope=scope,
+            nonce_status=self._nonce_status(scope=scope),
+        )
         self.assertEqual(certificate.status, AUTHORIZATION_REJECTED)
         self.assertFalse(certificate.authorization_not_expired)
 
     def test_authorization_lifetime_above_policy_is_certified_reject(self) -> None:
         scope = self._scope(expires_at_epoch_seconds=1600)
-        nonce_status = self._nonce_status(scope=scope)
-        certificate = self._certify(scope=scope, nonce_status=nonce_status)
+        certificate = self._certify(
+            scope=scope,
+            nonce_status=self._nonce_status(scope=scope),
+        )
         self.assertEqual(certificate.status, AUTHORIZATION_REJECTED)
         self.assertFalse(certificate.authorization_lifetime_within_policy)
 
@@ -262,36 +269,41 @@ class RepositoryApplicationAuthorizationV091Tests(unittest.TestCase):
 
     def test_path_outside_allowed_scope_is_certified_reject(self) -> None:
         scope = self._scope(expected_changed_paths=("tests/repair.py",))
-        nonce_status = self._nonce_status(scope=scope)
-        certificate = self._certify(scope=scope, nonce_status=nonce_status)
+        certificate = self._certify(
+            scope=scope,
+            nonce_status=self._nonce_status(scope=scope),
+        )
         self.assertEqual(certificate.status, AUTHORIZATION_REJECTED)
         self.assertFalse(certificate.expected_paths_within_allowed_scope)
 
     def test_protected_path_is_certified_reject(self) -> None:
         scope = self._scope(
-            allowed_paths=(".github", "runtime"),
-            expected_changed_paths=(".github/workflows/release.yml",),
+            allowed_paths=("formal", "runtime"),
+            expected_changed_paths=("formal/KUOS/Constitution.lean",),
         )
-        nonce_status = self._nonce_status(scope=scope)
-        certificate = self._certify(scope=scope, nonce_status=nonce_status)
+        certificate = self._certify(
+            scope=scope,
+            nonce_status=self._nonce_status(scope=scope),
+        )
         self.assertEqual(certificate.status, AUTHORIZATION_REJECTED)
         self.assertFalse(certificate.protected_paths_excluded)
 
     def test_patch_count_above_policy_is_certified_reject(self) -> None:
         scope = self._scope(patch_count=5)
-        nonce_status = self._nonce_status(scope=scope)
-        certificate = self._certify(scope=scope, nonce_status=nonce_status)
+        certificate = self._certify(
+            scope=scope,
+            nonce_status=self._nonce_status(scope=scope),
+        )
         self.assertEqual(certificate.status, AUTHORIZATION_REJECTED)
         self.assertFalse(certificate.patch_count_within_policy)
 
     def test_allowed_path_count_above_policy_is_certified_reject(self) -> None:
         policy = self._policy(max_allowed_path_count=1)
         scope = self._scope(policy=policy)
-        nonce_status = self._nonce_status(scope=scope)
         certificate = self._certify(
             policy=policy,
             scope=scope,
-            nonce_status=nonce_status,
+            nonce_status=self._nonce_status(scope=scope),
         )
         self.assertEqual(certificate.status, AUTHORIZATION_REJECTED)
         self.assertFalse(certificate.path_count_within_policy)
@@ -307,13 +319,14 @@ class RepositoryApplicationAuthorizationV091Tests(unittest.TestCase):
             issued_at_epoch_seconds=1400,
             expires_at_epoch_seconds=1490,
         )
-        source_state = self._source_state(observed_at_epoch_seconds=1410)
-        nonce_status = self._nonce_status(scope=scope, checked_at_epoch_seconds=1420)
         certificate = self._certify(
             policy=policy,
             scope=scope,
-            source_state=source_state,
-            nonce_status=nonce_status,
+            source_state=self._source_state(observed_at_epoch_seconds=1410),
+            nonce_status=self._nonce_status(
+                scope=scope,
+                checked_at_epoch_seconds=1420,
+            ),
             evaluated_at_epoch_seconds=1430,
         )
         self.assertEqual(certificate.status, AUTHORIZATION_REJECTED)
@@ -344,12 +357,11 @@ class RepositoryApplicationAuthorizationV091Tests(unittest.TestCase):
             revocation=revocation,
         )
         scope = self._scope(external_approval=rejected_approval)
-        nonce_status = self._nonce_status(scope=scope)
         with self.assertRaisesRegex(ValueError, "external_approval_not_accepted"):
             self._certify(
                 external_approval=rejected_approval,
                 scope=scope,
-                nonce_status=nonce_status,
+                nonce_status=self._nonce_status(scope=scope),
             )
 
     def test_scope_approval_binding_mismatch_fails_closed(self) -> None:
@@ -359,12 +371,14 @@ class RepositoryApplicationAuthorizationV091Tests(unittest.TestCase):
             scope_digest="",
         )
         scope = replace(scope, scope_digest=repository_application_scope_digest(scope))
-        nonce_status = self._nonce_status(scope=scope)
         with self.assertRaisesRegex(
             ValueError,
             "application_scope_external_approval_binding_mismatch",
         ):
-            self._certify(scope=scope, nonce_status=nonce_status)
+            self._certify(
+                scope=scope,
+                nonce_status=self._nonce_status(scope=scope),
+            )
 
     def test_nonce_scope_binding_mismatch_fails_closed(self) -> None:
         nonce_status = replace(
