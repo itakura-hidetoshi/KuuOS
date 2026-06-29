@@ -1,6 +1,7 @@
 from __future__ import annotations
 
 from dataclasses import replace
+import hashlib
 import unittest
 
 from runtime.kuuos_repository_atomic_application_types_v0_92 import (
@@ -12,11 +13,16 @@ from runtime.kuuos_repository_commit_candidate_strict_v0_93 import (
 )
 from runtime.kuuos_repository_commit_candidate_types_v0_93 import (
     CANDIDATE_CERTIFIED,
+    EXECUTABLE_FILE_MODE,
+    REGULAR_FILE_MODE,
     RepositoryCommitIdentity,
+    RepositoryParentTreeEntry,
     repository_commit_candidate_certificate_digest,
+    repository_parent_tree_inventory_digest,
 )
 from runtime.kuuos_repository_commit_candidate_v0_93 import (
     build_repository_commit_candidate_policy,
+    build_repository_parent_tree_inventory,
     git_object_oid,
     normalize_commit_message,
     repository_snapshot_commit_candidate_issues,
@@ -34,6 +40,7 @@ class RepositoryCommitCandidateV093Tests(unittest.TestCase):
         )
         fixture.setUp()
         self.snapshot, _, self.application_receipt, _, _ = fixture._apply()
+        self.parent_inventory = self._parent_inventory()
         self.policy = build_repository_commit_candidate_policy(
             "commit-candidate-policy-v093",
             max_file_count=64,
@@ -52,11 +59,37 @@ class RepositoryCommitCandidateV093Tests(unittest.TestCase):
             timezone="+0900",
         )
 
+    def _parent_inventory(self, *, entries=None, **overrides):
+        inventory_entries = entries or tuple(
+            RepositoryParentTreeEntry(
+                path=path,
+                mode=REGULAR_FILE_MODE,
+                git_object_oid=hashlib.sha1(
+                    f"parent-entry:{path}".encode("utf-8")
+                ).hexdigest(),
+            )
+            for path in self.snapshot.all_paths
+        )
+        values = {
+            "parent_commit_sha": self.application_receipt.source_commit_sha,
+            "entries": inventory_entries,
+            "object_database_read": True,
+            "working_tree_read": False,
+        }
+        values.update(overrides)
+        return build_repository_parent_tree_inventory(
+            values["parent_commit_sha"],
+            values["entries"],
+            object_database_read=values["object_database_read"],
+            working_tree_read=values["working_tree_read"],
+        )
+
     def _certify(self, **overrides):
         values = {
             "candidate_id": "commit-candidate-v093-001",
             "application_receipt": self.application_receipt,
             "snapshot": self.snapshot,
+            "parent_tree_inventory": self.parent_inventory,
             "policy": self.policy,
             "author": self.author,
             "committer": self.committer,
@@ -67,10 +100,27 @@ class RepositoryCommitCandidateV093Tests(unittest.TestCase):
             values["candidate_id"],
             values["application_receipt"],
             values["snapshot"],
+            values["parent_tree_inventory"],
             values["policy"],
             author=values["author"],
             committer=values["committer"],
             message=values["message"],
+        )
+
+    def _issues(self, certificate, **overrides):
+        values = {
+            "application_receipt": self.application_receipt,
+            "snapshot": self.snapshot,
+            "parent_tree_inventory": self.parent_inventory,
+            "policy": self.policy,
+        }
+        values.update(overrides)
+        return repository_commit_candidate_certificate_issues(
+            certificate,
+            values["application_receipt"],
+            values["snapshot"],
+            values["parent_tree_inventory"],
+            values["policy"],
         )
 
     def test_known_empty_git_object_ids(self) -> None:
@@ -92,19 +142,20 @@ class RepositoryCommitCandidateV093Tests(unittest.TestCase):
             first.application_receipt_digest,
             self.application_receipt.receipt_digest,
         )
+        self.assertEqual(
+            first.parent_tree_inventory_digest,
+            self.parent_inventory.inventory_digest,
+        )
         self.assertEqual(first.parent_commit_sha, self.application_receipt.source_commit_sha)
         self.assertEqual(first.final_snapshot_digest, self.snapshot.digest)
-        self.assertEqual(first.file_count, len(self.snapshot.text_files))
-        self.assertEqual(first.message, "Certify repository commit candidate v0.93\n")
+        self.assertEqual(first.file_count, len(self.snapshot.all_paths))
+        self.assertEqual(first.text_blob_candidate_count, len(self.snapshot.text_files))
         self.assertEqual(
-            repository_commit_candidate_certificate_issues(
-                first,
-                self.application_receipt,
-                self.snapshot,
-                self.policy,
-            ),
-            (),
+            first.retained_parent_entry_count,
+            len(self.snapshot.all_paths) - len(self.snapshot.text_files),
         )
+        self.assertEqual(first.message, "Certify repository commit candidate v0.93\n")
+        self.assertEqual(self._issues(first), ())
 
     def test_tree_contains_nested_directories_and_sorted_entries(self) -> None:
         certificate = self._certify()
@@ -116,6 +167,41 @@ class RepositoryCommitCandidateV093Tests(unittest.TestCase):
             combined = tuple(zip(tree.entry_names, tree.entry_modes, tree.entry_oids))
             self.assertEqual(len(combined), len(set(tree.entry_names)))
             self.assertTrue(all(len(oid) == 40 for _, _, oid in combined))
+
+    def test_text_paths_receive_new_blobs_and_non_text_paths_retain_parent_oids(self) -> None:
+        certificate = self._certify()
+        parent_by_path = {entry.path: entry for entry in self.parent_inventory.entries}
+        blobs_by_path = {blob.path: blob for blob in certificate.blob_candidates}
+        for path, text in self.snapshot.text_files:
+            self.assertEqual(
+                blobs_by_path[path].git_blob_oid,
+                git_object_oid("blob", text.encode("utf-8")),
+            )
+        non_text_paths = tuple(
+            path for path in self.snapshot.all_paths if path not in self.snapshot.texts
+        )
+        self.assertTrue(non_text_paths)
+        candidate_oids = {
+            oid
+            for tree in certificate.tree_candidates
+            for oid in tree.entry_oids
+        }
+        for path in non_text_paths:
+            self.assertIn(parent_by_path[path].git_object_oid, candidate_oids)
+
+    def test_parent_file_mode_is_preserved_for_text_overlay(self) -> None:
+        text_path = self.snapshot.text_files[0][0]
+        entries = tuple(
+            replace(entry, mode=EXECUTABLE_FILE_MODE)
+            if entry.path == text_path
+            else entry
+            for entry in self.parent_inventory.entries
+        )
+        inventory = self._parent_inventory(entries=entries)
+        certificate = self._certify(parent_tree_inventory=inventory)
+        blob = next(item for item in certificate.blob_candidates if item.path == text_path)
+        self.assertEqual(blob.mode, EXECUTABLE_FILE_MODE)
+        self.assertTrue(certificate.parent_modes_preserved)
 
     def test_candidate_grants_no_git_write_or_reference_authority(self) -> None:
         certificate = self._certify()
@@ -176,15 +262,15 @@ class RepositoryCommitCandidateV093Tests(unittest.TestCase):
         with self.assertRaisesRegex(ValueError, "commit_candidate_identity_invalid"):
             self._certify(committer=invalid_committer)
 
-    def test_incomplete_snapshot_fails_closed(self) -> None:
-        incomplete = RepositorySnapshot(
-            root_label="incomplete-v093",
-            all_paths=("a.txt", "b.bin"),
-            text_files=(("a.txt", "a"),),
+    def test_text_path_outside_snapshot_inventory_fails_closed(self) -> None:
+        invalid = RepositorySnapshot(
+            root_label="invalid-v093",
+            all_paths=("a.txt",),
+            text_files=(("a.txt", "a"), ("outside.txt", "outside")),
         )
         self.assertIn(
-            "commit_snapshot_not_complete_text_snapshot",
-            repository_snapshot_commit_candidate_issues(incomplete),
+            "commit_snapshot_text_path_outside_inventory",
+            repository_snapshot_commit_candidate_issues(invalid),
         )
 
     def test_path_topology_conflict_fails_closed(self) -> None:
@@ -194,8 +280,40 @@ class RepositoryCommitCandidateV093Tests(unittest.TestCase):
             text_files=(("a", "file"), ("a/b.txt", "nested")),
         )
         self.assertIn(
-            "commit_snapshot_path_topology_invalid",
+            "repository_path_topology_invalid",
             repository_snapshot_commit_candidate_issues(conflicted),
+        )
+
+    def test_parent_inventory_commit_mismatch_fails_closed(self) -> None:
+        inventory = self._parent_inventory(parent_commit_sha="e" * 40)
+        with self.assertRaisesRegex(
+            ValueError,
+            "commit_candidate_parent_inventory_commit_mismatch",
+        ):
+            self._certify(parent_tree_inventory=inventory)
+
+    def test_parent_inventory_missing_path_fails_closed(self) -> None:
+        inventory = self._parent_inventory(entries=self.parent_inventory.entries[:-1])
+        with self.assertRaisesRegex(
+            ValueError,
+            "commit_candidate_parent_path_coverage_mismatch",
+        ):
+            self._certify(parent_tree_inventory=inventory)
+
+    def test_parent_inventory_working_tree_source_fails_closed(self) -> None:
+        with self.assertRaisesRegex(
+            ValueError,
+            "parent_tree_inventory_working_tree_read",
+        ):
+            self._parent_inventory(working_tree_read=True)
+
+    def test_parent_inventory_digest_tamper_fails_closed(self) -> None:
+        tampered = replace(self.parent_inventory, inventory_digest="0" * 64)
+        with self.assertRaisesRegex(ValueError, "parent_tree_inventory_invalid"):
+            self._certify(parent_tree_inventory=tampered)
+        self.assertNotEqual(
+            tampered.inventory_digest,
+            repository_parent_tree_inventory_digest(tampered),
         )
 
     def test_file_count_policy_is_enforced_before_certification(self) -> None:
@@ -229,15 +347,7 @@ class RepositoryCommitCandidateV093Tests(unittest.TestCase):
             tampered,
             certificate_digest=repository_commit_candidate_certificate_digest(tampered),
         )
-        self.assertIn(
-            "commit_candidate_recomputation_mismatch",
-            repository_commit_candidate_certificate_issues(
-                tampered,
-                self.application_receipt,
-                self.snapshot,
-                self.policy,
-            ),
-        )
+        self.assertIn("commit_candidate_recomputation_mismatch", self._issues(tampered))
 
     def test_candidate_oid_tamper_is_detected_even_with_new_certificate_digest(self) -> None:
         certificate = self._certify()
@@ -250,15 +360,7 @@ class RepositoryCommitCandidateV093Tests(unittest.TestCase):
             tampered,
             certificate_digest=repository_commit_candidate_certificate_digest(tampered),
         )
-        self.assertIn(
-            "commit_candidate_recomputation_mismatch",
-            repository_commit_candidate_certificate_issues(
-                tampered,
-                self.application_receipt,
-                self.snapshot,
-                self.policy,
-            ),
-        )
+        self.assertIn("commit_candidate_recomputation_mismatch", self._issues(tampered))
 
     def test_write_authority_tamper_is_detected(self) -> None:
         certificate = self._certify()
@@ -272,12 +374,7 @@ class RepositoryCommitCandidateV093Tests(unittest.TestCase):
             tampered,
             certificate_digest=repository_commit_candidate_certificate_digest(tampered),
         )
-        issues = repository_commit_candidate_certificate_issues(
-            tampered,
-            self.application_receipt,
-            self.snapshot,
-            self.policy,
-        )
+        issues = self._issues(tampered)
         self.assertIn("commit_candidate_commit_created", issues)
         self.assertIn("commit_candidate_reference_mutated", issues)
 
