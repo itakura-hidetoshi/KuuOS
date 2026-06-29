@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-runtime-v101": {
+      "name": "KuuOS repository runtime frontier v1.01",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_v101_check.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_v101_check.py",
+        "scripts/check_kuuos_live_v101.py",
+        "runtime/kuuos_v100_check.py",
+        "runtime/kuuos_repository_local_frontier_checkpoint_authorization*_v1_01.py",
+        "tests/test_kuuos_repository_local_frontier_checkpoint_authorization_v1_01.py",
+        "manifests/kuuos_checkpoint_authorization_v101.json"
+      ],
+      "depends_on": [
+        "repository-runtime-v100",
+        "repository-checkpoint-authorization-v101"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
