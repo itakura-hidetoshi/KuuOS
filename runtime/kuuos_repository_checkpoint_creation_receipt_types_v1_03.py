@@ -1,9 +1,8 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-from runtime.kuuos_repository_checkpoint_creation_receipt_policy_types_v1_03 import *
-from runtime.kuuos_repository_checkpoint_creation_execution_report_types_v1_03 import *
-from runtime.kuuos_repository_checkpoint_reference_observation_types_v1_03 import *
-from runtime.kuuos_repository_checkpoint_nonce_observation_types_v1_03 import *
-from runtime.kuuos_repository_checkpoint_identity_observation_types_v1_03 import *
-from runtime.kuuos_repository_checkpoint_creation_receipt_record_types_v1_03 import *
+from runtime.v103_receipt_policy import *
+from runtime.v103_evidence_a import *
+from runtime.v103_evidence_b import *
+from runtime.v103_evidence_c import *
+from runtime.v103_receipt_record import *
