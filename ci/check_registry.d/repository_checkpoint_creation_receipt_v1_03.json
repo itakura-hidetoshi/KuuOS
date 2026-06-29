@@ -20,10 +20,14 @@
       "group": "self-organization",
       "tier": "integration",
       "paths": [
+        "runtime/v103_*.py",
         "runtime/kuuos_repository_checkpoint_creation_receipt*_v1_03.py",
         "runtime/kuuos_repository_atomic_checkpoint_creation*_v1_02.py",
         "tests/test_kuuos_repository_checkpoint_creation_receipt_v1_03.py",
         "scripts/check_kuuos_live_v103.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryCheckpointCreationReceiptV1_03.lean",
+        "formal/KuuOSRepositoryCheckpointCreationReceiptV1_03.lean",
+        "formal/KuuOSFormal.lean",
         "KUUOS_REPOSITORY_CHECKPOINT_CREATION_RECEIPT_v1_03.md",
         "manifests/kuuos_checkpoint_creation_receipt_v103.json"
       ],
