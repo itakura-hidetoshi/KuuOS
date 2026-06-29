@@ -1,0 +1,31 @@
+{
+  "manifest_version": "kuuos_repository_checkpoint_evolution_workspace_v1_04",
+  "runtime_modules": [
+    "runtime/kuuos_repository_checkpoint_evolution_workspace_types_v1_04.py",
+    "runtime/v104_workspace_helpers.py",
+    "runtime/v104_workspace_transition.py",
+    "runtime/v104_workspace_execution.py",
+    "runtime/v104_workspace_lifecycle.py",
+    "runtime/v104_workspace_serialization.py",
+    "runtime/v104_workspace_export.py",
+    "runtime/kuuos_repository_checkpoint_evolution_workspace_v1_04.py"
+  ],
+  "tests": "tests/test_kuuos_repository_checkpoint_evolution_workspace_v1_04.py",
+  "validator": "tests/test_kuuos_repository_checkpoint_evolution_workspace_v1_04.py",
+  "live_contract": "scripts/check_kuuos_live_v104.py",
+  "cumulative_runtime": "runtime/kuuos_v104_check.py",
+  "materialization_cli": "scripts/materialize_kuuos_checkpoint_workspace_v104.py",
+  "documentation": "docs/KUUOS_REPOSITORY_CHECKPOINT_EVOLUTION_WORKSPACE_v1_04.md",
+  "strict_formal_root": "KuuOSRepositoryCheckpointEvolutionWorkspaceV1_04",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryCheckpointEvolutionWorkspaceV1_04"
+  ],
+  "checkpoint_seed_materialized": true,
+  "atomic_candidate_plan": true,
+  "workspace_reset_supported": true,
+  "workspace_fork_supported": true,
+  "filesystem_export_supported": true,
+  "additional_observation_certificate": false,
+  "live_git_command_invoked": false,
+  "source_repository_mutated": false
+}
