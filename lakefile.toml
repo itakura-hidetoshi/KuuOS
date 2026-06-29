@@ -56,5 +56,6 @@ roots = [
   "KuuOSRepositoryRevisionDagV0_85",
   "KuuOSRepositoryFrontierCertificateV0_86",
   "KuuOSRepositorySelfEvolutionPortfolioV0_87",
-  "KuuOSRepositorySelfEvolutionShadowV0_88"
+  "KuuOSRepositorySelfEvolutionShadowV0_88",
+  "KuuOSRepositoryEvolutionAdmissionV0_89"
 ]
