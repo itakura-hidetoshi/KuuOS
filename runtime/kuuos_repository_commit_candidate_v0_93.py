@@ -142,13 +142,15 @@ def repository_snapshot_commit_candidate_issues(
     issues: list[str] = []
     paths = snapshot.all_paths
     text_paths = tuple(path for path, _ in snapshot.text_files)
-    if paths != tuple(sorted(set(paths))):
-        issues.append("commit_snapshot_paths_not_canonical")
-    if text_paths != tuple(sorted(set(text_paths))):
-        issues.append("commit_snapshot_text_paths_not_canonical")
-    if paths != text_paths:
+    if len(paths) != len(set(paths)):
+        issues.append("commit_snapshot_duplicate_path")
+    if len(text_paths) != len(set(text_paths)):
+        issues.append("commit_snapshot_duplicate_text_path")
+    if set(paths) != set(text_paths):
         issues.append("commit_snapshot_not_complete_text_snapshot")
-    for path in paths:
+
+    canonical_paths = tuple(sorted(set(paths) | set(text_paths)))
+    for path in canonical_paths:
         segments = path.split("/")
         if (
             not path
@@ -161,8 +163,9 @@ def repository_snapshot_commit_candidate_issues(
         ):
             issues.append("commit_snapshot_path_invalid")
             break
-    path_set = set(paths)
-    for path in paths:
+
+    path_set = set(canonical_paths)
+    for path in canonical_paths:
         parts = path.split("/")
         for index in range(1, len(parts)):
             if "/".join(parts[:index]) in path_set:
@@ -208,7 +211,7 @@ def _blob_candidates(
             content_digest=canonical_digest(text),
             git_blob_oid=git_object_oid("blob", text.encode("utf-8")),
         )
-        for path, text in snapshot.text_files
+        for path, text in sorted(snapshot.text_files, key=lambda item: item[0])
     )
 
 
@@ -355,18 +358,28 @@ def certify_repository_commit_candidate(
         raise ValueError("commit_candidate_snapshot_binding_mismatch")
     if not _HEX40.fullmatch(application_receipt.source_commit_sha):
         raise ValueError("commit_candidate_parent_sha_invalid")
+
     policy_issues = repository_commit_candidate_policy_issues(policy)
     if policy_issues:
         raise ValueError(f"commit_candidate_policy_invalid:{policy_issues[0]}")
     snapshot_issues = repository_snapshot_commit_candidate_issues(snapshot)
     if snapshot_issues:
         raise ValueError(f"commit_candidate_snapshot_invalid:{snapshot_issues[0]}")
+    if len(snapshot.text_files) > policy.max_file_count:
+        raise ValueError("commit_candidate_file_count_exceeds_policy")
+    total_utf8_bytes = sum(
+        len(text.encode("utf-8")) for _, text in snapshot.text_files
+    )
+    if total_utf8_bytes > policy.max_total_utf8_bytes:
+        raise ValueError("commit_candidate_byte_count_exceeds_policy")
+
     identity_issues = (
         repository_commit_identity_issues(author)
         + repository_commit_identity_issues(committer)
     )
     if identity_issues:
         raise ValueError(f"commit_candidate_identity_invalid:{identity_issues[0]}")
+
     certificate = _construct_certificate(
         candidate_id,
         application_receipt,
@@ -397,6 +410,14 @@ def repository_commit_candidate_certificate_issues(
     if repository_atomic_application_receipt_issues(application_receipt):
         issues.append("commit_candidate_application_receipt_invalid")
         return tuple(issues)
+    if application_receipt.status != APPLICATION_APPLIED:
+        issues.append("commit_candidate_application_not_applied")
+    if not application_receipt.application_effect_committed:
+        issues.append("commit_candidate_application_effect_not_committed")
+    if application_receipt.final_snapshot_digest != snapshot.digest:
+        issues.append("commit_candidate_snapshot_binding_mismatch")
+    if not _HEX40.fullmatch(application_receipt.source_commit_sha):
+        issues.append("commit_candidate_parent_sha_invalid")
     if repository_commit_candidate_policy_issues(policy):
         issues.append("commit_candidate_policy_invalid")
         return tuple(issues)
@@ -409,6 +430,7 @@ def repository_commit_candidate_certificate_issues(
         issues.append("commit_candidate_committer_invalid")
     if repository_commit_message_issues(certificate.message):
         issues.append("commit_candidate_message_invalid")
+
     try:
         expected = _construct_certificate(
             certificate.candidate_id,
@@ -422,10 +444,34 @@ def repository_commit_candidate_certificate_issues(
     except ValueError as error:
         issues.append(str(error))
         return tuple(issues)
+
     if certificate.to_dict() != expected.to_dict():
         issues.append("commit_candidate_recomputation_mismatch")
     if certificate.status != CANDIDATE_CERTIFIED:
         issues.append("commit_candidate_status_invalid")
+
+    required_true = (
+        certificate.application_receipt_valid,
+        certificate.application_applied,
+        certificate.application_snapshot_bound,
+        certificate.parent_commit_bound,
+        certificate.snapshot_complete,
+        certificate.paths_canonical,
+        certificate.path_topology_valid,
+        certificate.file_count_within_policy,
+        certificate.byte_count_within_policy,
+        certificate.blob_candidates_exact,
+        certificate.tree_candidates_exact,
+        certificate.root_tree_exact,
+        certificate.identities_valid,
+        certificate.message_valid,
+        certificate.commit_payload_exact,
+        certificate.candidate_oid_exact,
+        certificate.deterministic_candidate,
+    )
+    if not all(required_true):
+        issues.append("commit_candidate_required_invariant_false")
+
     if certificate.object_database_write_performed:
         issues.append("commit_candidate_object_database_write_performed")
     if certificate.index_write_performed:
