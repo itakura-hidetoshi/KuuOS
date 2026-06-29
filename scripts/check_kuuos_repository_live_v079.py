@@ -23,6 +23,7 @@ MANIFESTS = (
     "manifests/kuuos_repository_evolution_admission_v0_89.json",
     "manifests/kuuos_repository_external_approval_v0_90.json",
     "manifests/kuuos_repository_application_authorization_v0_91.json",
+    "manifests/kuuos_repository_atomic_application_v0_92.json",
 )
 BASE_PATHS = (
     "scripts/run_kuuos_runtime_full_check_v0_55.py",
