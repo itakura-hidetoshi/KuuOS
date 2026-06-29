@@ -323,7 +323,6 @@ def _construct_materialization_receipt(
 ) -> RepositoryObjectMaterializationReceipt:
     expected_items = _expected_execution_items(authorization)
     expected_by_oid = {item.oid: item for item in authorization.plan_items}
-    execution_by_oid = {item.oid: item for item in execution_report.items}
     pre_by_oid = _entry_map(pre_observation)
     post_by_oid = _entry_map(post_observation)
 
@@ -347,15 +346,15 @@ def _construct_materialization_receipt(
     }
     write_set_exact = expected_write_oids == actual_write_oids
     reuse_set_exact = expected_reuse_oids == actual_reuse_oids
-    execution_payloads_exact = all(
-        oid in expected_by_oid
-        and _execution_identity(item)
-        == _execution_identity(expected_items[index])
-        for index, (oid, item) in enumerate(
-            (item.oid, item) for item in execution_report.items
+    execution_payloads_exact = bool(
+        len(execution_report.items) == len(expected_items)
+        and all(
+            item.oid in expected_by_oid
+            and _execution_identity(item)
+            == _execution_identity(expected_items[index])
+            for index, item in enumerate(execution_report.items)
         )
-        if index < len(expected_items)
-    ) and len(execution_report.items) == len(expected_items)
+    )
 
     expected_queries = _canonical_strings(
         tuple(item.oid for item in authorization.plan_items)
@@ -408,6 +407,12 @@ def _construct_materialization_receipt(
         and authorization.materialization_scope_digest == scope.scope_digest
         and authorization.object_database_observation_digest
         == pre_observation.receipt_digest
+    )
+    authorization_not_expired_at_completion = bool(
+        scope.issued_at_epoch_seconds
+        <= execution_report.started_at_epoch_seconds
+        <= execution_report.completed_at_epoch_seconds
+        <= scope.expires_at_epoch_seconds
     )
     executor_authorized = execution_report.executor_id in policy.authorized_executor_ids
     transaction_time_order_valid = (
@@ -504,6 +509,7 @@ def _construct_materialization_receipt(
     success_inputs = (
         authorization_granted,
         authorization_binding_exact,
+        authorization_not_expired_at_completion,
         executor_authorized,
         transaction_time_order_valid,
         duration_within_policy,
@@ -571,6 +577,9 @@ def _construct_materialization_receipt(
         authorization_valid=True,
         authorization_granted=authorization_granted,
         authorization_binding_exact=authorization_binding_exact,
+        authorization_not_expired_at_completion=(
+            authorization_not_expired_at_completion
+        ),
         materialization_policy_bound=True,
         executor_authorized=executor_authorized,
         transaction_time_order_valid=transaction_time_order_valid,
@@ -781,6 +790,7 @@ def repository_object_materialization_receipt_issues(
             receipt.authorization_valid,
             receipt.authorization_granted,
             receipt.authorization_binding_exact,
+            receipt.authorization_not_expired_at_completion,
             receipt.materialization_policy_bound,
             receipt.executor_authorized,
             receipt.transaction_time_order_valid,
