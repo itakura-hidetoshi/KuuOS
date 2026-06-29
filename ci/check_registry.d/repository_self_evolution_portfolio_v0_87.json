@@ -1,0 +1,36 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "self-evolution portfolio != patch application",
+      "deterministic selection != repository write authority"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/repository_self_evolution_portfolio_v0_87.json"
+  ],
+  "checks": {
+    "repository-self-evolution-portfolio-v087": {
+      "name": "KuuOS repository self-evolution portfolio v0.87",
+      "runner": "python",
+      "command": "python3 scripts/check_kuuos_repository_self_evolution_v087.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_repository_self_evolution*_v0_87.py",
+        "runtime/kuuos_repository_frontier_certificate*_v0_86.py",
+        "tests/test_kuuos_repository_self_evolution_v0_87.py",
+        "scripts/check_kuuos_repository_self_evolution_v087.py",
+        "scripts/check_kuuos_repository_live_v079.py",
+        "docs/KUUOS_REPOSITORY_SELF_EVOLUTION_PORTFOLIO_v0_87.md",
+        "manifests/kuuos_repository_self_evolution_portfolio_v0_87.json"
+      ],
+      "depends_on": [
+        "repository-frontier-certificate-v086"
+      ],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}

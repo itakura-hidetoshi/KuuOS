@@ -1,0 +1,26 @@
+{
+  "manifest_version": "kuuos_repository_self_evolution_portfolio_v0_87",
+  "runtime_modules": [
+    "runtime/kuuos_repository_self_evolution_types_v0_87.py",
+    "runtime/kuuos_repository_self_evolution_v0_87.py"
+  ],
+  "tests": "tests/test_kuuos_repository_self_evolution_v0_87.py",
+  "validator": "scripts/check_kuuos_repository_self_evolution_v087.py",
+  "documentation": "docs/KUUOS_REPOSITORY_SELF_EVOLUTION_PORTFOLIO_v0_87.md",
+  "strict_formal_root": "KuuOSRepositorySelfEvolutionPortfolioV0_87",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositorySelfEvolutionPortfolioV0_87"
+  ],
+  "source_frontier_bound": true,
+  "finite_candidate_bound": true,
+  "finite_portfolio_enumeration": true,
+  "strict_score_descent": true,
+  "protected_paths_preserved": true,
+  "reversible_selection": true,
+  "normal_form_preserved": true,
+  "selected_paths_nonconflicting": true,
+  "one_candidate_per_frontier": true,
+  "deterministic_optimum": true,
+  "stable_no_change_fixed_point": true,
+  "execution_authority_granted": false
+}
