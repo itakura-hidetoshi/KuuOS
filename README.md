@@ -19,9 +19,13 @@ KuuOSはproduction AGI runtimeではありません。
 
 **frontier merge commit：`e109a8d4e6896abe5eda786885683fe3e3ef8d89`**
 
-現在の`main`系列は、MemoryOS production chainの後に、独立検証、自己改善、repository structure alignment、revision証明、bounded self-evolution、外部承認、原子的application、Git objectとreferenceの外部実行receipt、local frontier finality、checkpoint authorization、atomic checkpoint creation modelまで到達しています。
+現在の`main`は、MemoryOS applicationとrollbackのv0.76から、self-organizing improvement v0.78、repository self-evolution v0.79からv1.02へ進んでいます。
 
-| 系列 | 統合済み到達点 |
+v0.77のauthority-role topologyとpost-transition verificationは提案枝として作成されましたが、`main`へは統合されていません。
+
+したがって、正式なLean rootとruntime rootはv0.77を含めません。
+
+| 系列 | `main`の統合済み到達点 |
 |---|---|
 | Core governance | v0.1 |
 | Horizon Governance / Context Gauge Atlas | v0.12 / v0.13 |
@@ -35,7 +39,7 @@ KuuOSはproduction AGI runtimeではありません。
 | WORLD mathematical sidecar | v0.27からv0.59 |
 | Gauge-field self-organization | v0.60からv0.69 |
 | Module-Bundle and MemoryOS application | v0.70からv0.76 |
-| Authority topology / post-transition verification | v0.77 |
+| v0.77 proposals | 未統合 |
 | Self-organizing improvement loop | v0.78 |
 | Repository self-evolution chain | v0.79からv1.02 |
 | Lean aggregate root | `formal/KuuOSFormal.lean` / target `KuuOSFormal` |
@@ -169,17 +173,15 @@ Leanは、宣言された仮定の下で型付き帰結を検証します。
 
 CI成功だけでは、外部数学界での定理受理、物理実現、経験的妥当性は成立しません。
 
-### Gauge、Module-Bundle、MemoryOS production
+### Gauge、Module-Bundle、MemoryOS application
 
-v0.60からv0.69は、自己組織化を無制限な自己書換えではなく、有限候補、厳格な由来、rollback、外部reviewを持つ接続改善経路として構成します。
+v0.60からv0.69は、有限候補、由来、rollback、外部reviewを持つ接続改善経路を構成します。
 
-v0.70からv0.76は、文脈代数上の加群、意味部分加群、authority filtration、Leibniz接続、非マルコフ記憶核、外部review、単回commit、監査可能なrollbackを接続します。
+v0.70からv0.76は、文脈代数上の加群、意味部分加群、authority filtration、Leibniz接続、非マルコフ記憶核、有限評価、外部review、単回commit、monotonic rollbackを接続します。
 
-v0.77は、context-independent authority role topologyと、commitまたはrollback後の独立post-transition verificationを追加します。
+v0.76の後に統合された正式系列はv0.78です。
 
-verification failureは自動rollbackを発火しません。
-
-rollbackにはfresh request、独立した権限、snapshot binding、ledger CASが必要です。
+v0.77提案の内容を、統合済み機能として推論してはなりません。
 
 ## Repository self-evolution chain
 
@@ -265,9 +267,11 @@ v1.02単独では、live repository mutation、push、force update、delete、ta
 
 ## Lean root
 
-`formal/KuuOSFormal.lean`は、統合済み形式層のstrict aggregate rootです。
+`formal/KuuOSFormal.lean`は、`main`へ統合済みの形式層だけを参照するstrict aggregate rootです。
 
-v0.77のauthority topologyとpost-transition verification、およびv0.78からv1.02のrepository self-evolution系列を明示的にimportします。
+MemoryOS系列はv0.76までをimportし、その後はv0.78からv1.02のrepository self-evolution系列をimportします。
+
+未統合のv0.77 modulesはimportしません。
 
 ```bash
 lake -KleanArgs=-DwarningAsError=true \
@@ -277,13 +281,15 @@ lake -KleanArgs=-DwarningAsError=true \
 
 専用rootは各versionの局所surfaceを検証します。
 
-aggregate rootはimport欠落、依存順の破綻、境界退行を検出します。
+aggregate rootはimport欠落、未統合moduleの混入、依存順の破綻、境界退行を検出します。
 
 ## Runtime root
 
 `scripts/run_kuuos_runtime_full_check_v0_55.py`は、互換名を維持した累積runtime rootです。
 
-現在はlegacy chainに加え、v0.56、v0.59、v0.60からv0.77、v0.78からv0.95、v0.96からv1.02のlive-contract validatorとfocused unit testsを依存順に実行します。
+現在はlegacy chainに加え、v0.56、v0.59、v0.60からv0.76、v0.78からv0.95、v0.96からv1.02のlive-contract validatorとfocused unit testsを依存順に実行します。
+
+未統合のv0.77 validatorsは実行しません。
 
 ```bash
 PYTHONPATH=. python3 scripts/run_kuuos_runtime_full_check_v0_55.py
@@ -331,6 +337,7 @@ KuuOSは現時点で次を主張しません。
 - rollbackによる承認権限または過去状態の復活。
 - repository candidate、authorization、modeled transition、receiptの自動的なlive effect化。
 - checkpoint creation authorityからoverwrite、delete、push権限への昇格。
+- closed unmerged proposalを`main`の機能として扱うこと。
 
 ## 最初に読む文書
 
@@ -379,6 +386,7 @@ no silent promotion from candidate to authority
 rollback as monotonic compensation
 stable main != active research branch
 modeled transition != live mutation
+merged artifact != closed proposal
 ```
 
 新しい層は、入力、出力、所有者、必要権限、永続化、replay、stale-state処理、validatorの射程、外部仮定、非権限境界を明記します。
