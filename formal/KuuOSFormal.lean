@@ -60,10 +60,6 @@ import KUOS.WORLD.KuuOSMemorySelectionReviewV0_74
 import KUOS.WORLD.KuuOSAuthorizedMemoryApplicationV0_75
 import KUOS.WORLD.KuuOSMemoryRollbackV0_76
 
--- Independent post-transition verification and authority topology.
-import KUOS.WORLD.KuuOSAuthorityRoleTopologyV0_77
-import KUOS.WORLD.KuuOSPostTransitionVerificationV0_77
-
 -- Primary self-organization and repository alignment.
 import KUOS.WORLD.KuuOSSelfOrganizingImprovementLoopV0_78
 import KUOS.WORLD.KuuOSBoundedSelfOrganizationSupervisorV0_78
