@@ -1,0 +1,38 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "authorization != execution",
+      "modeled execution != live Git mutation",
+      "compare-and-swap failure != nonce consumption",
+      "local branch transition != push authority",
+      "abort != partial state transition"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/repository_atomic_reference_update_v0_97.json"
+  ],
+  "checks": {
+    "repository-atomic-reference-update-v097": {
+      "name": "KuuOS repository atomic reference update v0.97",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_atomic_reference_update_v0_97",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_repository_atomic_reference_update*_v0_97.py",
+        "runtime/kuuos_repository_reference_update*_v0_96.py",
+        "tests/test_kuuos_repository_atomic_reference_update_v0_97.py",
+        "scripts/check_kuuos_live_v097.py",
+        "KUUOS_REPOSITORY_ATOMIC_REFERENCE_UPDATE_v0_97.md",
+        "manifests/kuuos_repository_atomic_reference_update_v0_97.json"
+      ],
+      "depends_on": [
+        "repository-reference-update-authorization-v096"
+      ],
+      "timeout_minutes": 25,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
