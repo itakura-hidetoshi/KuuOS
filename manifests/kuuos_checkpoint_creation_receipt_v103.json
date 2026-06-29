@@ -1,0 +1,31 @@
+{
+  "manifest_version": "kuuos_repository_checkpoint_creation_receipt_v1_03",
+  "runtime_modules": [
+    "runtime/v103_receipt_policy.py",
+    "runtime/v103_evidence_a.py",
+    "runtime/v103_result.py",
+    "runtime/v103_receipt_helpers.py",
+    "runtime/v103_receipt_core.py",
+    "runtime/kuuos_repository_checkpoint_creation_receipt_types_v1_03.py",
+    "runtime/kuuos_repository_checkpoint_creation_receipt_v1_03.py",
+    "runtime/kuuos_repository_checkpoint_creation_receipt_strict_v1_03.py"
+  ],
+  "tests": "tests/test_kuuos_repository_checkpoint_creation_receipt_v1_03.py",
+  "validator": "tests/test_kuuos_repository_checkpoint_creation_receipt_v1_03.py",
+  "live_contract": "scripts/check_kuuos_live_v103.py",
+  "cumulative_runtime": "runtime/kuuos_v103_check.py",
+  "documentation": "KUUOS_REPOSITORY_CHECKPOINT_CREATION_RECEIPT_v1_03.md",
+  "strict_formal_root": "KuuOSRepositoryCheckpointCreationReceiptV1_03",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryCheckpointCreationReceiptV1_03"
+  ],
+  "v102_result_fully_revalidated": true,
+  "committed_observation_verified": true,
+  "aborted_observation_preservation_verified": true,
+  "external_report_independently_trusted": false,
+  "live_execution_proven": false,
+  "receipt_performed_checkpoint_mutation": false,
+  "receipt_performed_nonce_consumption": false,
+  "receipt_invoked_live_git_command": false,
+  "receipt_mutated_live_repository": false
+}

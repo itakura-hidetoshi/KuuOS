@@ -1,0 +1,42 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "external evidence remains observational",
+      "receipt verification is read-only",
+      "checkpoint creation is not checkpoint overwrite",
+      "a local checkpoint reference is not a branch or tag",
+      "the receipt grants no remote authority"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/repository_checkpoint_creation_receipt_v1_03.json"
+  ],
+  "checks": {
+    "repository-checkpoint-creation-receipt-v103": {
+      "name": "KuuOS repository checkpoint creation receipt v1.03",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_checkpoint_creation_receipt_v1_03",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/v103_*.py",
+        "runtime/kuuos_repository_checkpoint_creation_receipt*_v1_03.py",
+        "runtime/kuuos_repository_atomic_checkpoint_creation*_v1_02.py",
+        "tests/test_kuuos_repository_checkpoint_creation_receipt_v1_03.py",
+        "scripts/check_kuuos_live_v103.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryCheckpointCreationReceiptV1_03.lean",
+        "formal/KuuOSRepositoryCheckpointCreationReceiptV1_03.lean",
+        "formal/KuuOSFormal.lean",
+        "KUUOS_REPOSITORY_CHECKPOINT_CREATION_RECEIPT_v1_03.md",
+        "manifests/kuuos_checkpoint_creation_receipt_v103.json"
+      ],
+      "depends_on": [
+        "repository-atomic-checkpoint-creation-v102"
+      ],
+      "timeout_minutes": 30,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
