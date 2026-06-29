@@ -1,0 +1,37 @@
+{
+  "manifest_version": "kuuos_repository_atomic_checkpoint_creation_v1_02",
+  "runtime_modules": [
+    "runtime/kuuos_repository_atomic_checkpoint_creation_types_v1_02.py",
+    "runtime/kuuos_repository_atomic_checkpoint_creation_v1_02.py",
+    "runtime/kuuos_repository_atomic_checkpoint_creation_strict_v1_02.py"
+  ],
+  "tests": "tests/test_kuuos_repository_atomic_checkpoint_creation_v1_02.py",
+  "validator": "tests/test_kuuos_repository_atomic_checkpoint_creation_v1_02.py",
+  "live_contract": "scripts/check_kuuos_live_v102.py",
+  "cumulative_runtime": "runtime/kuuos_v102_check.py",
+  "documentation": "KUUOS_REPOSITORY_ATOMIC_CHECKPOINT_CREATION_v1_02.md",
+  "strict_formal_root": "KuuOSRepositoryAtomicCheckpointCreationV1_02",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryAtomicCheckpointCreationV1_02"
+  ],
+  "checkpoint_authorization_revalidated": true,
+  "pure_deterministic_transition": true,
+  "compare_and_swap_zero_oid_required": true,
+  "atomic_nonce_consumption_required": true,
+  "abort_preserves_checkpoint_state": true,
+  "abort_preserves_nonce_registry": true,
+  "checkpoint_overwrite_performed": false,
+  "force_update_performed": false,
+  "reference_delete_performed": false,
+  "branch_updated": false,
+  "tag_updated": false,
+  "remote_reference_updated": false,
+  "push_performed": false,
+  "index_write_performed": false,
+  "working_tree_write_performed": false,
+  "object_database_write_performed": false,
+  "reflog_write_performed": false,
+  "signing_performed": false,
+  "live_git_command_invoked": false,
+  "live_repository_mutated": false
+}
