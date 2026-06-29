@@ -1,0 +1,26 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-runtime-v096": {
+      "name": "KuuOS repository runtime frontier v0.96",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_v096_validation.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_v096_validation.py",
+        "scripts/check_kuuos_live_v096.py",
+        "scripts/run_kuuos_runtime_full_check_v0_55.py",
+        "runtime/kuuos_repository_reference_update*_v0_96.py",
+        "tests/test_kuuos_repository_reference_update_authorization_v0_96.py",
+        "manifests/kuuos_repository_reference_update_authorization_v0_96.json"
+      ],
+      "depends_on": [
+        "repository-reference-update-authorization-v096"
+      ],
+      "timeout_minutes": 35,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}

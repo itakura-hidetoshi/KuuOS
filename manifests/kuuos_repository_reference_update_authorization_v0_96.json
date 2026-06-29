@@ -7,6 +7,8 @@
   ],
   "tests": "tests/test_kuuos_repository_reference_update_authorization_v0_96.py",
   "validator": "tests/test_kuuos_repository_reference_update_authorization_v0_96.py",
+  "live_contract": "scripts/check_kuuos_live_v096.py",
+  "cumulative_runtime": "runtime/kuuos_v096_validation.py",
   "documentation": "KUUOS_REPOSITORY_REFERENCE_UPDATE_AUTHORIZATION_v0_96.md",
   "strict_formal_root": "KuuOSRepositoryReferenceUpdateAuthorizationV0_96",
   "aggregate_lean_modules": [
