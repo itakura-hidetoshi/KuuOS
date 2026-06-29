@@ -31,7 +31,7 @@
       ],
       "depends_on": [
         "repository-self-evolution-portfolio-v087",
-        "repository-git-revision-adapter-v083",
+        "repository-git-revision-v083",
         "repository-normal-form-v080"
       ],
       "timeout_minutes": 20,
