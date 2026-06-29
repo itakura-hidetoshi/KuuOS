@@ -1,0 +1,27 @@
+{
+  "manifest_version": "kuuos_repository_evolution_admission_v0_89",
+  "runtime_modules": [
+    "runtime/kuuos_repository_evolution_admission_types_v0_89.py",
+    "runtime/kuuos_repository_evolution_admission_v0_89.py"
+  ],
+  "tests": "tests/test_kuuos_repository_evolution_admission_v0_89.py",
+  "validator": "scripts/check_kuuos_repository_evolution_admission_v089.py",
+  "documentation": "docs/KUUOS_REPOSITORY_EVOLUTION_ADMISSION_v0_89.md",
+  "strict_formal_root": "KuuOSRepositoryEvolutionAdmissionV0_89",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryEvolutionAdmissionV0_89"
+  ],
+  "minimum_replay_count": 2,
+  "replay_result_identity": true,
+  "certificate_freshness": true,
+  "source_revision_unchanged": true,
+  "source_snapshot_unchanged": true,
+  "git_object_database_source": true,
+  "working_tree_ignored": true,
+  "external_approval_required": true,
+  "external_approval_granted": false,
+  "admission_is_proposal_only": true,
+  "patch_application_authority_granted": false,
+  "commit_authority_granted": false,
+  "reference_mutation_authority_granted": false
+}
