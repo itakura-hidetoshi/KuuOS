@@ -126,7 +126,9 @@ theorem selected_shadow_restores_exact_source
     {candidate : CandidateId}
     (hSelected : candidate ∈ portfolio.selected) :
     (portfolio.assessmentFor candidate).exactRollback := by
-  exact (portfolio.selectedAdmissible candidate hSelected).2.2.2.2.2.2.2.2.2.2.1
+  rcases portfolio.selectedAdmissible candidate hSelected with
+    ⟨_, _, _, _, _, _, _, _, _, hRollback, _⟩
+  exact hRollback
 
 
 theorem selected_shadow_has_certified_normal_form
@@ -136,7 +138,9 @@ theorem selected_shadow_has_certified_normal_form
     {candidate : CandidateId}
     (hSelected : candidate ∈ portfolio.selected) :
     (portfolio.assessmentFor candidate).normalFormCertified := by
-  exact (portfolio.selectedAdmissible candidate hSelected).2.2.2.2.2.2.2.2.2.2.2
+  rcases portfolio.selectedAdmissible candidate hSelected with
+    ⟨_, _, _, _, _, _, _, _, _, _, hNormalForm⟩
+  exact hNormalForm
 
 
 theorem strict_shadow_replay_cannot_reverse_score_order
