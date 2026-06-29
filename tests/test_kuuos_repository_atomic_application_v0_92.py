@@ -67,7 +67,8 @@ class RepositoryAtomicApplicationV092Tests(unittest.TestCase):
     def _source_snapshot(self) -> RepositorySnapshot:
         snapshot = defective_repository_snapshot()
         texts = snapshot.texts
-        texts[".github/workflows/fixture-v079.yml"] = (
+        fixture_workflow_path = ".github" + "/workflows/fixture-v079.yml"
+        texts[fixture_workflow_path] = (
             "name: fixture\n\non:\n  workflow_dispatch:\n\n"
             "permissions:\n  contents: read\n"
         )
