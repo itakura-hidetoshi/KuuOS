@@ -9,8 +9,6 @@ KuuOS is a public, governance-gated, proof-facing, non-Markovian, Qi-process-awa
 
 KuuOSは、候補、証拠、検証、承認、権限、実行効果、記憶、数学的表現、repository stateを同一視しません。
 
-縁起、二諦、中道、和、局所性、履歴依存性、反証可能性、修復可能性を保ったまま、各層を型、digest、nonce、snapshot、receiptへ分離します。
-
 KuuOSはproduction AGI runtimeではありません。
 
 ## 現在地
@@ -48,7 +46,7 @@ KuuOSはproduction AGI runtimeではありません。
 
 現在の実体はv0.55で停止せず、統合済みruntime surfaceをv1.02まで依存順に検証します。
 
-## 最重要境界
+## 固定境界
 
 ```text
 candidate != authority
@@ -61,6 +59,7 @@ learning != present-cycle mutation
 memory != belief sovereignty
 selection != execution
 receipt != successor authority
+receipt composition != receipt construction
 
 local control != global constitution
 local chart != global graph
@@ -70,6 +69,7 @@ holonomy != sovereign memory
 WORLD sidecar != exact WORLD
 WORLD candidate != empirical fact
 WORLD commit != truth
+WORLD intake != WORLD update
 analytic vacuum != exact WORLD
 Kū != zero vector
 modular time != physical time
@@ -124,7 +124,7 @@ KuuOSは文脈を普遍的な固定グラフへ縮約しません。
 
 ### Qi-WORLDとMemoryOS
 
-Qi Process Tensorは、複数時点のプロセス、複数仮説、反証、不確実性、回復可能性区間を候補として保持します。
+Qi Process Tensorは、複数時点のprocess、複数仮説、反証、不確実性、回復可能性区間を候補として保持します。
 
 Qi-WORLD v2.3は、process supportとboundary occupationを陰陽相補系として接続します。
 
@@ -150,13 +150,20 @@ real Hilbert ℓ²
 → log-Sobolev contraction certificates
 → OS reflection-positive completion interface
 → analytic vacuum sector
-→ vacuum-expectation receipt chain
+→ vacuum-expectation observation candidate
+→ ObserveOS evidence intake
+→ host-effect atomic commit intake
+→ OS receipt composition
 → Kū vacuum central reference state
 → Kū vacuum information geometry
 → closed Tomita operator bridge
 → conjugate-adjoint intermediate layer
 → four-great phase dynamics
 ```
+
+OS receipt compositionは既存receiptの由来と所有権境界を合成します。
+
+receipt composition != receipt constructionです。
 
 Leanは、宣言された仮定の下で型付き帰結を検証します。
 
@@ -243,8 +250,6 @@ bounded improvement proposal
 
 v1.02は、`refs/kuuos/checkpoints/`内の新規checkpoint referenceについて、zero-OID compare-and-swapとnonce consumptionを一つの純粋な状態遷移として構成します。
 
-commit時には次を同時に成立させます。
-
 ```text
 checkpoint reference: zero OID → authorized final-tip OID
 nonce registry: unused nonce → consumed nonce
@@ -323,7 +328,6 @@ KuuOSは現時点で次を主張しません。
 - 気が物理的粒子であることの証明。
 - LeanまたはCIの成功だけによる外部定理受理。
 - 完全な物理的量子Markov semigroup、正確な物理真空、正確なWORLD simulator。
-- 解析的真空と形而上学的な空の同一視。
 - rollbackによる承認権限または過去状態の復活。
 - repository candidate、authorization、modeled transition、receiptの自動的なlive effect化。
 - checkpoint creation authorityからoverwrite、delete、push権限への昇格。
