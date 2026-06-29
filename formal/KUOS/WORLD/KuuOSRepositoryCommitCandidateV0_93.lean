@@ -7,6 +7,11 @@ structure CommitCandidateWitness where
   applicationApplied : Prop
   finalSnapshotBound : Prop
   singleParentBound : Prop
+  parentTreeInventoryValid : Prop
+  parentInventoryCommitBound : Prop
+  completeParentPathCoverage : Prop
+  parentModesPreserved : Prop
+  nonTextParentOIDsRetained : Prop
   blobsExact : Prop
   treesExact : Prop
   rootTreeExact : Prop
@@ -28,6 +33,11 @@ structure CommitCandidateWitness.Valid
   applicationApplied : witness.applicationApplied
   finalSnapshotBound : witness.finalSnapshotBound
   singleParentBound : witness.singleParentBound
+  parentTreeInventoryValid : witness.parentTreeInventoryValid
+  parentInventoryCommitBound : witness.parentInventoryCommitBound
+  completeParentPathCoverage : witness.completeParentPathCoverage
+  parentModesPreserved : witness.parentModesPreserved
+  nonTextParentOIDsRetained : witness.nonTextParentOIDsRetained
   blobsExact : witness.blobsExact
   treesExact : witness.treesExact
   rootTreeExact : witness.rootTreeExact
@@ -52,6 +62,23 @@ theorem valid_candidate_binds_application_and_parent
       witness.finalSnapshotBound ∧ witness.singleParentBound := by
   exact ⟨h.applicationReceiptValid, h.applicationApplied,
     h.finalSnapshotBound, h.singleParentBound⟩
+
+
+theorem valid_candidate_binds_parent_tree_inventory
+    (witness : CommitCandidateWitness)
+    (h : witness.Valid) :
+    witness.parentTreeInventoryValid ∧
+      witness.parentInventoryCommitBound ∧
+      witness.completeParentPathCoverage := by
+  exact ⟨h.parentTreeInventoryValid, h.parentInventoryCommitBound,
+    h.completeParentPathCoverage⟩
+
+
+theorem valid_candidate_preserves_unknown_parent_entries
+    (witness : CommitCandidateWitness)
+    (h : witness.Valid) :
+    witness.parentModesPreserved ∧ witness.nonTextParentOIDsRetained := by
+  exact ⟨h.parentModesPreserved, h.nonTextParentOIDsRetained⟩
 
 
 theorem valid_candidate_has_exact_object_description
