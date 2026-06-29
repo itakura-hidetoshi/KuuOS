@@ -1,0 +1,39 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "materialized candidate commit != reference reachable commit",
+      "reference update authorization != reference update execution",
+      "fast-forward eligibility != completed branch mutation",
+      "compare-and-swap authority != force update authority",
+      "local branch authority != tag, remote reference, HEAD, or push authority"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/repository_reference_update_authorization_v0_96.json"
+  ],
+  "checks": {
+    "repository-reference-update-authorization-v096": {
+      "name": "KuuOS repository reference update authorization v0.96",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_reference_update_authorization_v0_96",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_repository_reference_update_authorization*_v0_96.py",
+        "runtime/kuuos_repository_reference_update_v0_96.py",
+        "runtime/kuuos_repository_object_materialization_receipt*_v0_95.py",
+        "tests/test_kuuos_repository_reference_update_authorization_v0_96.py",
+        "scripts/check_kuuos_repository_live_v079.py",
+        "docs/KUUOS_REPOSITORY_REFERENCE_UPDATE_AUTHORIZATION_v0_96.md",
+        "manifests/kuuos_repository_reference_update_authorization_v0_96.json"
+      ],
+      "depends_on": [
+        "repository-object-materialization-receipt-v095"
+      ],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}

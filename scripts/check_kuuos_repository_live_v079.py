@@ -33,6 +33,13 @@ BASE_PATHS = (
     "formal/KuuOSFormal.lean",
     "lakefile.toml",
     ".github/workflows/kuuos-self-organization-v078.yml",
+    "runtime/kuuos_repository_reference_update_authorization_types_v0_96.py",
+    "runtime/kuuos_repository_reference_update_v0_96.py",
+    "runtime/kuuos_repository_reference_update_authorization_strict_v0_96.py",
+    "tests/test_kuuos_repository_reference_update_authorization_v0_96.py",
+    "KUUOS_REPOSITORY_REFERENCE_UPDATE_AUTHORIZATION_v0_96.md",
+    "formal/KUOS/WORLD/KuuOSRepositoryReferenceUpdateV0_96.lean",
+    "formal/KuuOSRepositoryReferenceUpdateAuthorizationV0_96.lean",
 )
 
 

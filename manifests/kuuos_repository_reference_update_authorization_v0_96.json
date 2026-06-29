@@ -1,0 +1,33 @@
+{
+  "manifest_version": "kuuos_repository_reference_update_authorization_v0_96",
+  "runtime_modules": [
+    "runtime/kuuos_repository_reference_update_authorization_types_v0_96.py",
+    "runtime/kuuos_repository_reference_update_v0_96.py",
+    "runtime/kuuos_repository_reference_update_authorization_strict_v0_96.py"
+  ],
+  "tests": "tests/test_kuuos_repository_reference_update_authorization_v0_96.py",
+  "validator": "tests/test_kuuos_repository_reference_update_authorization_v0_96.py",
+  "documentation": "docs/KUUOS_REPOSITORY_REFERENCE_UPDATE_AUTHORIZATION_v0_96.md",
+  "strict_formal_root": "KuuOSRepositoryReferenceUpdateAuthorizationV0_96",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryReferenceUpdateAuthorizationV0_96"
+  ],
+  "materialization_receipt_revalidated": true,
+  "candidate_commit_present": true,
+  "direct_local_branch_only": true,
+  "reference_name_normalized": true,
+  "exact_old_and_new_oid_binding": true,
+  "compare_and_swap_required": true,
+  "reference_stability_rechecked": true,
+  "fast_forward_ancestry_required": true,
+  "single_use_nonce_required": true,
+  "force_update_authorized": false,
+  "reference_delete_authorized": false,
+  "reference_update_performed": false,
+  "reference_mutated": false,
+  "push_performed": false,
+  "index_write_performed": false,
+  "working_tree_write_performed": false,
+  "object_database_write_performed": false,
+  "signing_performed": false
+}
