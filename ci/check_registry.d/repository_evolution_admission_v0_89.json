@@ -1,0 +1,39 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "admission proposal != patch application",
+      "technical admission != external approval",
+      "replay reproducibility != commit authority"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/repository_evolution_admission_v0_89.json"
+  ],
+  "checks": {
+    "repository-evolution-admission-v089": {
+      "name": "KuuOS repository evolution admission v0.89",
+      "runner": "python",
+      "command": "python3 scripts/check_kuuos_repository_evolution_admission_v089.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_repository_evolution_admission*_v0_89.py",
+        "runtime/kuuos_repository_self_evolution_shadow*_v0_88.py",
+        "runtime/kuuos_repository_git_revision*_v0_83.py",
+        "tests/test_kuuos_repository_evolution_admission_v0_89.py",
+        "scripts/check_kuuos_repository_evolution_admission_v089.py",
+        "scripts/check_kuuos_repository_live_v079.py",
+        "docs/KUUOS_REPOSITORY_EVOLUTION_ADMISSION_v0_89.md",
+        "manifests/kuuos_repository_evolution_admission_v0_89.json"
+      ],
+      "depends_on": [
+        "repository-self-evolution-shadow-v088",
+        "repository-git-revision-v083"
+      ],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
