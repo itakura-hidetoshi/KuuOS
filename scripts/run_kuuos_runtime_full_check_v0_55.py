@@ -4,13 +4,14 @@ from __future__ import annotations
 """Cumulative KuuOS runtime validation root.
 
 The filename is retained for compatibility with existing workflows and external
-callers.  The actual validation frontier follows the integrated `main` branch
-through KuuOS Repository Object Materialization Receipt v0.95.
+callers. The actual validation frontier follows the integrated `main` branch
+through KuuOS Repository Atomic Checkpoint Creation v1.02.
 
-This runner executes validators in dependency order and stops at the first
-failure.  A successful run is an integrity receipt for the checked repository
-surfaces; it is not truth, external theorem acceptance, institutional approval,
-or unrestricted execution authority.
+The runner executes validators and focused unit-test modules in dependency order
+and stops at the first failure. A successful run is an integrity receipt for the
+checked repository surfaces. It is not truth, external theorem acceptance,
+institutional approval, evidence of a live Git mutation, or unrestricted
+execution authority.
 """
 
 import os
@@ -32,7 +33,7 @@ from scripts.check_world_kuu_vacuum_information_geometry_v0_55 import (
 from scripts.run_kuuos_runtime_full_check_v0_54 import main as run_v054_full_check
 
 
-CURRENT_RUNTIME_FRONTIER = "v0.95"
+CURRENT_RUNTIME_FRONTIER = "v1.02"
 
 VALIDATORS_AFTER_V055: tuple[str, ...] = (
     "scripts/check_world_kuu_vacuum_araki_hessian_physical_realization_v0_56.py",
@@ -74,6 +75,37 @@ VALIDATORS_AFTER_V055: tuple[str, ...] = (
     "scripts/check_kuuos_repository_object_materialization_receipt_v095.py",
 )
 
+FRONTIER_STEPS_AFTER_V095: tuple[tuple[str, str], ...] = (
+    (
+        "scripts/check_kuuos_live_v096.py",
+        "tests.test_kuuos_repository_reference_update_authorization_v0_96",
+    ),
+    (
+        "scripts/check_kuuos_live_v097.py",
+        "tests.test_kuuos_repository_atomic_reference_update_v0_97",
+    ),
+    (
+        "scripts/check_kuuos_live_v098.py",
+        "tests.test_kuuos_repository_reference_update_receipt_v0_98",
+    ),
+    (
+        "scripts/check_kuuos_live_v099.py",
+        "tests.test_kuuos_repository_reference_stability_v0_99",
+    ),
+    (
+        "scripts/check_kuuos_live_v100.py",
+        "tests.test_kuuos_repository_local_frontier_finality_v1_00",
+    ),
+    (
+        "scripts/check_kuuos_live_v101.py",
+        "tests.test_kuuos_repository_local_frontier_checkpoint_authorization_v1_01",
+    ),
+    (
+        "scripts/check_kuuos_live_v102.py",
+        "tests.test_kuuos_repository_atomic_checkpoint_creation_v1_02",
+    ),
+)
+
 
 def _runtime_environment() -> dict[str, str]:
     env = os.environ.copy()
@@ -88,6 +120,25 @@ def _runtime_environment() -> dict[str, str]:
     return env
 
 
+def _run_command(label: str, command: Sequence[str], env: dict[str, str]) -> int:
+    print(f"[KuuOS runtime root] running {label}", flush=True)
+    completed = subprocess.run(
+        list(command),
+        cwd=ROOT,
+        env=env,
+        check=False,
+    )
+    if completed.returncode != 0:
+        print(
+            "[KuuOS runtime root] failed "
+            f"{label} with exit code {completed.returncode}",
+            file=sys.stderr,
+            flush=True,
+        )
+        return completed.returncode or 1
+    return 0
+
+
 def _run_validator(relative_path: str, env: dict[str, str]) -> int:
     validator = ROOT / relative_path
     if not validator.is_file():
@@ -97,32 +148,27 @@ def _run_validator(relative_path: str, env: dict[str, str]) -> int:
             flush=True,
         )
         return 1
+    return _run_command(relative_path, (sys.executable, str(validator)), env)
 
-    print(
-        f"[KuuOS runtime root] running {relative_path}",
-        flush=True,
-    )
-    completed = subprocess.run(
-        [sys.executable, str(validator)],
-        cwd=ROOT,
-        env=env,
-        check=False,
-    )
-    if completed.returncode != 0:
-        print(
-            "[KuuOS runtime root] failed "
-            f"{relative_path} with exit code {completed.returncode}",
-            file=sys.stderr,
-            flush=True,
-        )
-        return completed.returncode or 1
+
+def _run_validators(paths: Sequence[str], env: dict[str, str]) -> int:
+    for relative_path in paths:
+        result = _run_validator(relative_path, env)
+        if result != 0:
+            return result
     return 0
 
 
-def _run_validators(paths: Sequence[str]) -> int:
-    env = _runtime_environment()
-    for relative_path in paths:
-        result = _run_validator(relative_path, env)
+def _run_frontier_steps(env: dict[str, str]) -> int:
+    for validator_path, test_module in FRONTIER_STEPS_AFTER_V095:
+        result = _run_validator(validator_path, env)
+        if result != 0:
+            return result
+        result = _run_command(
+            test_module,
+            (sys.executable, "-m", "unittest", "-v", test_module),
+            env,
+        )
         if result != 0:
             return result
     return 0
@@ -142,7 +188,10 @@ def main() -> int:
     if check_v055() != 0:
         return 1
 
-    return _run_validators(VALIDATORS_AFTER_V055)
+    env = _runtime_environment()
+    if _run_validators(VALIDATORS_AFTER_V055, env) != 0:
+        return 1
+    return _run_frontier_steps(env)
 
 
 if __name__ == "__main__":
