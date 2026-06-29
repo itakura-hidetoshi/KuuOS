@@ -259,7 +259,7 @@ class RepositoryObjectMaterializationAuthorizationV094Tests(unittest.TestCase):
         self.assertFalse(certificate.source_parent_present)
 
     def test_incomplete_query_set_is_rejected(self) -> None:
-        observation = self._observation(queried_oids=self._queries()[:-1])
+        observation = self._observation(queried_oids=self._queries()[1:])
         scope = self._scope(observation=observation)
         nonce = self._nonce(scope=scope)
         certificate = self._authorize(
