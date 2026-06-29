@@ -1,0 +1,41 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "atomic snapshot transition != live repository write",
+      "nonce use != commit or reference mutation authority",
+      "successful isolated application != Git commit creation"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/repository_atomic_application_v0_92.json"
+  ],
+  "checks": {
+    "repository-atomic-application-v092": {
+      "name": "KuuOS repository atomic application v0.92",
+      "runner": "python",
+      "command": "python3 scripts/check_kuuos_repository_atomic_application_v092.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_repository_atomic_application*_v0_92.py",
+        "runtime/kuuos_repository_application_authorization*_v0_91.py",
+        "runtime/kuuos_repository_alignment_normal_form*_v0_80.py",
+        "runtime/kuuos_repository_git_revision*_v0_83.py",
+        "tests/test_kuuos_repository_atomic_application_v0_92.py",
+        "scripts/check_kuuos_repository_atomic_application_v092.py",
+        "scripts/check_kuuos_repository_live_v079.py",
+        "docs/KUUOS_REPOSITORY_ATOMIC_APPLICATION_v0_92.md",
+        "manifests/kuuos_repository_atomic_application_v0_92.json"
+      ],
+      "depends_on": [
+        "repository-application-authorization-v091",
+        "repository-normal-form-v080",
+        "repository-git-revision-v083"
+      ],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
