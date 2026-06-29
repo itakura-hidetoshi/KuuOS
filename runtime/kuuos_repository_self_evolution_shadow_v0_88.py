@@ -36,29 +36,28 @@ def repository_evolution_shadow_assessment_issues(
     assessment: RepositoryEvolutionShadowAssessment,
 ) -> tuple[str, ...]:
     issues: list[str] = []
-    for field_name, value in (
-        ("evolution_candidate_digest", assessment.evolution_candidate_digest),
-        ("source_frontier_commit_sha", assessment.source_frontier_commit_sha),
-        ("git_revision_observation_digest", assessment.git_revision_observation_digest),
-        ("repair_candidate_digest", assessment.repair_candidate_digest),
-        ("source_snapshot_digest", assessment.source_snapshot_digest),
-        ("source_observation_digest", assessment.source_observation_digest),
-        ("shadow_snapshot_digest", assessment.shadow_snapshot_digest),
-        ("shadow_observation_digest", assessment.shadow_observation_digest),
-        ("normal_form_certificate_digest", assessment.normal_form_certificate_digest),
-    ):
-        if not value:
-            issues.append(f"{field_name}_missing")
+    required = (
+        assessment.evolution_candidate_digest,
+        assessment.source_frontier_commit_sha,
+        assessment.git_revision_observation_digest,
+        assessment.repair_candidate_digest,
+        assessment.source_snapshot_digest,
+        assessment.source_observation_digest,
+        assessment.shadow_snapshot_digest,
+        assessment.shadow_observation_digest,
+        assessment.normal_form_certificate_digest,
+    )
+    if any(not value for value in required):
+        issues.append("required_digest_missing")
     if tuple(sorted(set(assessment.changed_paths))) != assessment.changed_paths:
         issues.append("changed_paths_not_canonical")
-    if assessment.baseline_score < 0:
-        issues.append("baseline_score_negative")
-    if assessment.predicted_score < 0:
-        issues.append("predicted_score_negative")
-    if assessment.observed_score < 0:
-        issues.append("observed_score_negative")
-    if assessment.prediction_tolerance < 0:
-        issues.append("prediction_tolerance_negative")
+    if min(
+        assessment.baseline_score,
+        assessment.predicted_score,
+        assessment.observed_score,
+        assessment.prediction_tolerance,
+    ) < 0:
+        issues.append("negative_numeric_field")
     if assessment.prediction_error != abs(
         assessment.observed_score - assessment.predicted_score
     ):
@@ -114,32 +113,30 @@ def repository_self_evolution_shadow_certificate_issues(
         repository_self_evolution_shadow_certificate_digest(certificate)
     ):
         issues.append("certificate_digest_mismatch")
-    if certificate.selected_candidate_count != len(
-        certificate.selected_candidate_digests
+    count_pairs = (
+        (certificate.selected_candidate_count, certificate.selected_candidate_digests, "selected_candidate_count_mismatch"),
+        (certificate.assessment_count, certificate.assessment_digests, "assessment_count_mismatch"),
+        (certificate.assessment_count, certificate.source_frontier_commit_shas, "source_frontier_count_mismatch"),
+        (certificate.assessment_count, certificate.shadow_snapshot_digests, "shadow_snapshot_count_mismatch"),
+        (certificate.assessment_count, certificate.normal_form_certificate_digests, "normal_form_count_mismatch"),
+    )
+    for expected, values, issue in count_pairs:
+        if expected != len(values):
+            issues.append(issue)
+    unique_sequences = (
+        (certificate.selected_candidate_digests, "selected_candidate_digests_not_canonical"),
+        (certificate.assessment_digests, "assessment_digests_not_canonical"),
+        (certificate.source_frontier_commit_shas, "source_frontier_commit_shas_not_canonical"),
+    )
+    for values, issue in unique_sequences:
+        if values != tuple(sorted(set(values))):
+            issues.append(issue)
+    for values, issue in (
+        (certificate.shadow_snapshot_digests, "shadow_snapshot_digests_not_canonical"),
+        (certificate.normal_form_certificate_digests, "normal_form_certificate_digests_not_canonical"),
     ):
-        issues.append("selected_candidate_count_mismatch")
-    if certificate.assessment_count != len(certificate.assessment_digests):
-        issues.append("assessment_count_mismatch")
-    if certificate.assessment_count != len(
-        certificate.source_frontier_commit_shas
-    ):
-        issues.append("source_frontier_count_mismatch")
-    if certificate.assessment_count != len(certificate.shadow_snapshot_digests):
-        issues.append("shadow_snapshot_count_mismatch")
-    if certificate.assessment_count != len(
-        certificate.normal_form_certificate_digests
-    ):
-        issues.append("normal_form_count_mismatch")
-    for name, values, require_unique in (
-        ("selected_candidate_digests", certificate.selected_candidate_digests, True),
-        ("assessment_digests", certificate.assessment_digests, True),
-        ("source_frontier_commit_shas", certificate.source_frontier_commit_shas, True),
-        ("shadow_snapshot_digests", certificate.shadow_snapshot_digests, False),
-        ("normal_form_certificate_digests", certificate.normal_form_certificate_digests, False),
-    ):
-        expected = tuple(sorted(set(values))) if require_unique else tuple(sorted(values))
-        if values != expected:
-            issues.append(f"{name}_not_canonical")
+        if values != tuple(sorted(values)):
+            issues.append(issue)
     expected_admissible = all((
         certificate.exact_selected_coverage,
         certificate.unique_realization_per_candidate,
@@ -208,6 +205,21 @@ def _restore_shadow_to_source(
     return reconstructed.digest == source_snapshot.digest
 
 
+def _finalize_certificate(
+    certificate: RepositorySelfEvolutionShadowCertificate,
+) -> RepositorySelfEvolutionShadowCertificate:
+    certificate = replace(
+        certificate,
+        certificate_digest=(
+            repository_self_evolution_shadow_certificate_digest(certificate)
+        ),
+    )
+    issues = repository_self_evolution_shadow_certificate_issues(certificate)
+    if issues:
+        raise ValueError(f"shadow_certificate_invalid:{issues[0]}")
+    return certificate
+
+
 def certify_repository_self_evolution_shadow(
     shadow_id: str,
     portfolio_certificate: RepositorySelfEvolutionPortfolioCertificate,
@@ -237,52 +249,41 @@ def certify_repository_self_evolution_shadow(
         if inputs:
             raise ValueError("stable_portfolio_realization_forbidden")
         certificate = RepositorySelfEvolutionShadowCertificate(
-            shadow_id,
-            portfolio_certificate.certificate_digest,
-            SHADOW_STABLE_NO_CHANGE,
-            selected_digests,
-            (),
-            (),
-            (),
-            (),
-            0,
-            0,
-            prediction_tolerance,
-            True,
-            True,
-            True,
-            True,
-            True,
-            True,
-            True,
-            True,
-            True,
-            True,
-            True,
-            True,
-            True,
-            True,
-            False,
-            False,
-            False,
-            "",
+            shadow_id=shadow_id,
+            portfolio_certificate_digest=portfolio_certificate.certificate_digest,
+            status=SHADOW_STABLE_NO_CHANGE,
+            selected_candidate_digests=selected_digests,
+            assessment_digests=(),
+            source_frontier_commit_shas=(),
+            shadow_snapshot_digests=(),
+            normal_form_certificate_digests=(),
+            selected_candidate_count=0,
+            assessment_count=0,
+            prediction_tolerance=prediction_tolerance,
+            exact_selected_coverage=True,
+            unique_realization_per_candidate=True,
+            object_database_sources_only=True,
+            working_tree_ignored=True,
+            all_bindings_exact=True,
+            strict_score_descent_observed=True,
+            predictions_within_tolerance=True,
+            protected_paths_preserved=True,
+            reversible_realizations=True,
+            exact_shadow_rollback=True,
+            normal_form_certified=True,
+            portfolio_shadow_admissible=True,
+            stable_no_change=True,
+            patch_application_authority_granted=False,
+            commit_authority_granted=False,
+            reference_mutation_authority_granted=False,
+            certificate_digest="",
         )
-        certificate = replace(
-            certificate,
-            certificate_digest=(
-                repository_self_evolution_shadow_certificate_digest(certificate)
-            ),
-        )
-        issues = repository_self_evolution_shadow_certificate_issues(certificate)
-        if issues:
-            raise ValueError(f"shadow_certificate_invalid:{issues[0]}")
-        return (), certificate
+        return (), _finalize_certificate(certificate)
 
     if not selected_digests:
         raise ValueError("selected_portfolio_empty_without_stable_flag")
     if len(inputs) != len(selected_digests):
         raise ValueError("shadow_realization_count_mismatch")
-
     input_digests = tuple(item.evolution_candidate.digest for item in inputs)
     if len(set(input_digests)) != len(input_digests):
         raise ValueError("shadow_realization_candidate_replay")
@@ -290,9 +291,6 @@ def certify_repository_self_evolution_shadow(
         raise ValueError("shadow_selected_coverage_mismatch")
 
     assessments: list[RepositoryEvolutionShadowAssessment] = []
-    object_database_sources_only = True
-    working_tree_ignored = True
-
     for item in sorted(inputs, key=lambda value: value.evolution_candidate.digest):
         evolution = item.evolution_candidate
         revision = item.revision_observation
@@ -306,10 +304,6 @@ def certify_repository_self_evolution_shadow(
             raise ValueError("shadow_source_not_from_object_database")
         if revision.working_tree_read:
             raise ValueError("shadow_working_tree_source_forbidden")
-        object_database_sources_only = (
-            object_database_sources_only and revision.object_database_read
-        )
-        working_tree_ignored = working_tree_ignored and not revision.working_tree_read
 
         proposal_binding = evolution.proposal_digest == repair.digest
         source_commit_binding = (
@@ -330,7 +324,6 @@ def certify_repository_self_evolution_shadow(
         baseline_binding = (
             evolution.baseline_score == source_observation.weighted_defect_score
         )
-
         for name, valid in (
             ("proposal_binding_mismatch", proposal_binding),
             ("source_commit_binding_mismatch", source_commit_binding),
@@ -390,35 +383,35 @@ def certify_repository_self_evolution_shadow(
             normal_form_certified,
         ))
         assessment = RepositoryEvolutionShadowAssessment(
-            evolution.digest,
-            evolution.source_frontier_commit_sha,
-            revision.observation_digest,
-            repair.digest,
-            source_snapshot.digest,
-            source_observation.digest,
-            shadow_snapshot.digest,
-            shadow_observation.digest,
-            normal_form.certificate_digest,
-            evolution.changed_paths,
-            evolution.baseline_score,
-            evolution.predicted_score,
-            observed_score,
-            prediction_error,
-            prediction_tolerance,
-            proposal_binding,
-            source_commit_binding,
-            source_snapshot_binding,
-            source_observation_binding,
-            changed_path_binding,
-            baseline_binding,
-            strict_improvement,
-            prediction_within_tolerance,
-            protected_paths_preserved,
-            reversible,
-            exact_rollback,
-            normal_form_certified,
-            admissible,
-            "",
+            evolution_candidate_digest=evolution.digest,
+            source_frontier_commit_sha=evolution.source_frontier_commit_sha,
+            git_revision_observation_digest=revision.observation_digest,
+            repair_candidate_digest=repair.digest,
+            source_snapshot_digest=source_snapshot.digest,
+            source_observation_digest=source_observation.digest,
+            shadow_snapshot_digest=shadow_snapshot.digest,
+            shadow_observation_digest=shadow_observation.digest,
+            normal_form_certificate_digest=normal_form.certificate_digest,
+            changed_paths=evolution.changed_paths,
+            baseline_score=evolution.baseline_score,
+            predicted_score=evolution.predicted_score,
+            observed_score=observed_score,
+            prediction_error=prediction_error,
+            prediction_tolerance=prediction_tolerance,
+            proposal_binding_exact=proposal_binding,
+            source_commit_binding_exact=source_commit_binding,
+            source_snapshot_binding_exact=source_snapshot_binding,
+            source_observation_binding_exact=source_observation_binding,
+            changed_path_binding_exact=changed_path_binding,
+            baseline_score_binding_exact=baseline_binding,
+            strict_improvement_observed=strict_improvement,
+            prediction_within_tolerance=prediction_within_tolerance,
+            protected_paths_preserved=protected_paths_preserved,
+            reversible=reversible,
+            exact_shadow_rollback=exact_rollback,
+            normal_form_certified=normal_form_certified,
+            admissible=admissible,
+            assessment_digest="",
         )
         assessment = replace(
             assessment,
@@ -431,94 +424,58 @@ def certify_repository_self_evolution_shadow(
             raise ValueError(f"shadow_assessment_invalid:{issues[0]}")
         assessments.append(assessment)
 
-    canonical_assessments = tuple(
-        sorted(assessments, key=lambda assessment: assessment.evolution_candidate_digest)
-    )
+    canonical = tuple(sorted(
+        assessments,
+        key=lambda assessment: assessment.evolution_candidate_digest,
+    ))
     all_bindings_exact = all(
         all((
-            assessment.proposal_binding_exact,
-            assessment.source_commit_binding_exact,
-            assessment.source_snapshot_binding_exact,
-            assessment.source_observation_binding_exact,
-            assessment.changed_path_binding_exact,
-            assessment.baseline_score_binding_exact,
+            item.proposal_binding_exact,
+            item.source_commit_binding_exact,
+            item.source_snapshot_binding_exact,
+            item.source_observation_binding_exact,
+            item.changed_path_binding_exact,
+            item.baseline_score_binding_exact,
         ))
-        for assessment in canonical_assessments
+        for item in canonical
     )
-    strict_descent = all(
-        assessment.strict_improvement_observed
-        for assessment in canonical_assessments
-    )
-    predictions_within_tolerance = all(
-        assessment.prediction_within_tolerance
-        for assessment in canonical_assessments
-    )
-    protected_paths_preserved = all(
-        assessment.protected_paths_preserved
-        for assessment in canonical_assessments
-    )
-    reversible_realizations = all(
-        assessment.reversible for assessment in canonical_assessments
-    )
-    exact_rollback = all(
-        assessment.exact_shadow_rollback for assessment in canonical_assessments
-    )
-    normal_form_certified = all(
-        assessment.normal_form_certified for assessment in canonical_assessments
-    )
-    portfolio_admissible = all(
-        assessment.admissible for assessment in canonical_assessments
-    )
+    strict_descent = all(item.strict_improvement_observed for item in canonical)
+    predictions_bounded = all(item.prediction_within_tolerance for item in canonical)
+    protected = all(item.protected_paths_preserved for item in canonical)
+    reversible = all(item.reversible for item in canonical)
+    exact_rollback = all(item.exact_shadow_rollback for item in canonical)
+    normal_form = all(item.normal_form_certified for item in canonical)
+    portfolio_admissible = all(item.admissible for item in canonical)
     status = SHADOW_PASS if portfolio_admissible else SHADOW_REJECT
 
     certificate = RepositorySelfEvolutionShadowCertificate(
-        shadow_id,
-        portfolio_certificate.certificate_digest,
-        status,
-        selected_digests,
-        tuple(sorted(
-            assessment.assessment_digest for assessment in canonical_assessments
-        )),
-        tuple(sorted(
-            assessment.source_frontier_commit_sha
-            for assessment in canonical_assessments
-        )),
-        tuple(sorted(
-            assessment.shadow_snapshot_digest
-            for assessment in canonical_assessments
-        )),
-        tuple(sorted(
-            assessment.normal_form_certificate_digest
-            for assessment in canonical_assessments
-        )),
-        len(selected_digests),
-        len(canonical_assessments),
-        prediction_tolerance,
-        set(input_digests) == set(selected_digests),
-        len(set(input_digests)) == len(input_digests),
-        object_database_sources_only,
-        working_tree_ignored,
-        all_bindings_exact,
-        strict_descent,
-        predictions_within_tolerance,
-        protected_paths_preserved,
-        reversible_realizations,
-        exact_rollback,
-        normal_form_certified,
-        portfolio_admissible,
-        False,
-        False,
-        False,
-        False,
-        "",
+        shadow_id=shadow_id,
+        portfolio_certificate_digest=portfolio_certificate.certificate_digest,
+        status=status,
+        selected_candidate_digests=selected_digests,
+        assessment_digests=tuple(sorted(item.assessment_digest for item in canonical)),
+        source_frontier_commit_shas=tuple(sorted(item.source_frontier_commit_sha for item in canonical)),
+        shadow_snapshot_digests=tuple(sorted(item.shadow_snapshot_digest for item in canonical)),
+        normal_form_certificate_digests=tuple(sorted(item.normal_form_certificate_digest for item in canonical)),
+        selected_candidate_count=len(selected_digests),
+        assessment_count=len(canonical),
+        prediction_tolerance=prediction_tolerance,
+        exact_selected_coverage=set(input_digests) == set(selected_digests),
+        unique_realization_per_candidate=len(set(input_digests)) == len(input_digests),
+        object_database_sources_only=all(item.revision_observation.object_database_read for item in inputs),
+        working_tree_ignored=all(not item.revision_observation.working_tree_read for item in inputs),
+        all_bindings_exact=all_bindings_exact,
+        strict_score_descent_observed=strict_descent,
+        predictions_within_tolerance=predictions_bounded,
+        protected_paths_preserved=protected,
+        reversible_realizations=reversible,
+        exact_shadow_rollback=exact_rollback,
+        normal_form_certified=normal_form,
+        portfolio_shadow_admissible=portfolio_admissible,
+        stable_no_change=False,
+        patch_application_authority_granted=False,
+        commit_authority_granted=False,
+        reference_mutation_authority_granted=False,
+        certificate_digest="",
     )
-    certificate = replace(
-        certificate,
-        certificate_digest=(
-            repository_self_evolution_shadow_certificate_digest(certificate)
-        ),
-    )
-    issues = repository_self_evolution_shadow_certificate_issues(certificate)
-    if issues:
-        raise ValueError(f"shadow_certificate_invalid:{issues[0]}")
-    return canonical_assessments, certificate
+    return canonical, _finalize_certificate(certificate)
