@@ -1,0 +1,39 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "single stability certificate != multi-sample finality",
+      "bounded local finality != absolute immutability",
+      "local branch history != remote publication",
+      "object database reachability != garbage collection guarantee",
+      "finality verification != repository mutation"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/repository_local_frontier_finality_v1_00.json"
+  ],
+  "checks": {
+    "repository-local-frontier-finality-v100": {
+      "name": "KuuOS repository local frontier finality v1.00",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_local_frontier_finality_v1_00",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_repository_local_frontier_finality*_v1_00.py",
+        "runtime/kuuos_local_frontier_finality_strict_v100.py",
+        "runtime/kuuos_repository_reference_stability*_v0_99.py",
+        "tests/test_kuuos_repository_local_frontier_finality_v1_00.py",
+        "scripts/check_kuuos_live_v100.py",
+        "KUUOS_REPOSITORY_LOCAL_FRONTIER_FINALITY_v1_00.md",
+        "manifests/kuuos_local_frontier_finality_v100.json"
+      ],
+      "depends_on": [
+        "repository-reference-stability-v099"
+      ],
+      "timeout_minutes": 25,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
