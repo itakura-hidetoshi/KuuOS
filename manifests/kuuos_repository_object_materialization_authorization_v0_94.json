@@ -1,0 +1,37 @@
+{
+  "manifest_version": "kuuos_repository_object_materialization_authorization_v0_94",
+  "runtime_modules": [
+    "runtime/kuuos_repository_object_materialization_authorization_types_v0_94.py",
+    "runtime/kuuos_repository_object_materialization_authorization_v0_94.py",
+    "runtime/kuuos_repository_object_materialization_authorization_strict_v0_94.py"
+  ],
+  "tests": "tests/test_kuuos_repository_object_materialization_authorization_v0_94.py",
+  "validator": "scripts/check_kuuos_repository_object_materialization_authorization_v094.py",
+  "documentation": "docs/KUUOS_REPOSITORY_OBJECT_MATERIALIZATION_AUTHORIZATION_v0_94.md",
+  "strict_formal_root": "KuuOSRepositoryObjectMaterializationAuthorizationV0_94",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryObjectMaterializationAuthorizationV0_94"
+  ],
+  "commit_candidate_certificate_required": true,
+  "candidate_object_payloads_recomputed": true,
+  "candidate_objects_deduplicated": true,
+  "dependency_order_deterministic": true,
+  "target_repository_identity_bound": true,
+  "object_database_observation_required": true,
+  "working_tree_observation_allowed": false,
+  "source_parent_object_required": true,
+  "queried_object_set_exact": true,
+  "existing_exact_objects_reused": true,
+  "oid_payload_collisions_rejected": true,
+  "single_use_nonce_required": true,
+  "object_count_bounded": true,
+  "payload_bytes_bounded": true,
+  "object_database_write_authority_separate": true,
+  "object_database_write_performed": false,
+  "commit_object_written": false,
+  "index_write_performed": false,
+  "working_tree_write_performed": false,
+  "reference_mutation_authority_granted": false,
+  "reference_mutated": false,
+  "signing_performed": false
+}
