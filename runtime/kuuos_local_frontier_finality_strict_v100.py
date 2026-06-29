@@ -1,0 +1,4 @@
+#!/usr/bin/env python3
+from runtime.kuuos_repository_local_frontier_finality_v1_00 import certify_repository_local_frontier_finality, repository_local_frontier_finality_certificate_issues
+
+__all__ = ("certify_repository_local_frontier_finality", "repository_local_frontier_finality_certificate_issues")
