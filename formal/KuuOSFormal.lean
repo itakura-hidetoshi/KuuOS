@@ -2,7 +2,7 @@
 # KuuOS aggregate formal root
 
 This is the strict aggregate build surface for the formal artifacts integrated on
-`main` through KuuOS Repository Commit Candidate v0.93.
+`main` through KuuOS Repository Object Materialization Authorization v0.94.
 
 The root preserves the distinction between a Lean-derived theorem, a structure
 supplied by hypotheses, an external analytic or institutional receipt, and an
@@ -78,3 +78,4 @@ import KUOS.WORLD.KuuOSRepositoryExternalApprovalV0_90
 import KUOS.WORLD.KuuOSRepositoryApplicationAuthorizationV0_91
 import KUOS.WORLD.KuuOSRepositoryAtomicApplicationV0_92
 import KUOS.WORLD.KuuOSRepositoryCommitCandidateV0_93
+import KUOS.WORLD.KuuOSRepositoryObjectMaterializationAuthorizationV0_94
