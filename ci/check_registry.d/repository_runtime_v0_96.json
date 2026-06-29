@@ -4,10 +4,11 @@
     "repository-runtime-v096": {
       "name": "KuuOS repository runtime frontier v0.96",
       "runner": "python",
-      "command": "python3 scripts/run_kuuos_v096.py",
+      "command": "python3 scripts/check_kuuos_live_v096.py && python3 scripts/run_kuuos_v096.py",
       "group": "self-organization",
       "tier": "integration",
       "paths": [
+        "scripts/check_kuuos_live_v096.py",
         "scripts/run_kuuos_v096.py",
         "scripts/run_kuuos_runtime_full_check_v0_55.py",
         "runtime/kuuos_repository_reference_update*_v0_96.py",
