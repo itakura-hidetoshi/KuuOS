@@ -1,10 +1,12 @@
 # KuuOS / 空OS Roadmap
 
-**基準日：2026年6月28日**
+**基準日：2026年6月30日**
 
-**機能基準：`main`のPR #874統合後、merge commit `9a848e1344e399f762813e8b78409a4c11cd92ab`**
+**文書化対象の機能frontier：PR #914、KuuOS Repository Atomic Checkpoint Creation v1.02**
 
-この文書は、`main`へ統合された基盤、直近の研究前線、再基底が必要な独立枝、外部receipt、長期研究課題を分離します。
+**frontier merge commit：`e109a8d4e6896abe5eda786885683fe3e3ef8d89`**
+
+この文書は、`main`へ統合済みの基盤、現在のrepository self-evolution frontier、次期候補、外部receipt、再基底が必要な独立枝、長期研究課題を分離します。
 
 ## 状態分類
 
@@ -13,10 +15,11 @@
 | 統合済み | `main`に存在し、正式なruntimeまたはLean aggregate rootから参照される |
 | 継続検証 | 統合済みだが、依存更新時に専用rootとaggregate rootを再検証する |
 | 次期候補 | 直前versionのreceipt chainを継承する自然な次段階 |
-| Active PR | 現在の`main`を基準とする研究前線。merge前は統合済みと記載しない |
-| 再基底必要 | open branch上に実装があるが、現在の`main`との競合または責務重複を解消する必要がある |
-| 計画 | 受入条件は定義されているが、正式実装は未完了 |
-| 外部receipt | runtimeまたはLean内部だけでは構成しない解析的、経験的、制度的、権限的入力 |
+| 設計候補 | 境界と受入条件は定義するが、versionと実装は未確定 |
+| Active PR | 現在の`main`を基準とする研究枝。merge前は統合済みと記載しない |
+| 再基底必要 | 実装または提案があるが、現在の`main`との競合、重複、欠落を解消する必要がある |
+| CI-only | product mergeを目的としない独立検証枝 |
+| 外部receipt | runtimeまたはLean内部だけでは生成しない解析的、経験的、制度的、権限的入力 |
 | Frozen boundary | 破壊的変更を行わず、additiveまたはtighten-onlyで維持する境界 |
 
 ## 固定境界
@@ -31,7 +34,6 @@ verification != truth
 learning != present-cycle mutation
 memory != belief sovereignty
 selection != execution
-plan commit != activation
 receipt != successor authority
 
 finite local control != global constitutional closure
@@ -49,24 +51,23 @@ modular time != physical time
 
 connection candidate != production application
 application authority != performed effect
-curvature decrease != truth
-finite gauge equivalence != empirical equivalence
-memory score decrease != truth
 rollback != time reversal
 restored payload != restored authority
+
+repository proposal != accepted patch
+accepted patch != repository application authorization
+modeled application != live filesystem mutation
+commit candidate != Git object materialization
+object authorization != object write
+reference authorization != reference update
+reference receipt != finality
+checkpoint authorization != checkpoint creation
+modeled checkpoint creation != live Git mutation
+checkpoint creation != checkpoint overwrite
+local checkpoint != remote push authority
 ```
 
-v0.69とv0.74では、明示的approvalが限定されたproduction application authorityを与えます。
-
-ただし、review constructionはlive effectまたはstate writeを行いません。
-
-v0.75はapprovalを一度だけ消費し、MemoryOS production stateを原子的に更新します。
-
-v0.76はcommit receiptとpre-commit snapshotを照合し、新しいrevisionとしてpayloadを復元します。
-
-rollbackによってapprovalを再有効化しません。
-
-すべての段階は、source binding、append-only lineage、replay idempotence、stale-state rejection、rollback binding、権限所有者の分離、反証と不確実性の可視化を保ちます。
+すべての段階は、source binding、append-only lineage、replay idempotence、stale-state rejection、rollbackまたはabort preservation、権限所有者の分離、反証と不確実性の可視化を保ちます。
 
 ## 現在の統合済み基準
 
@@ -81,17 +82,18 @@ rollbackによってapprovalを再有効化しません。
 | Open Horizon | v0.30からv0.34 | 統合済み |
 | MemoryOS foundational line | v0.35、v0.37、v0.38、v0.39 | 統合済み |
 | Qi-WORLD | v2.3 | 統合済み |
-| Vacuum-expectation OS chain | ObserveOS、VerifyOS、LearnOS、PlanOS、DecisionOS、ActOS、WORLDのversioned bridge | 統合済み |
 | WORLD mathematical sidecar | v0.27からv0.59 | 統合済み、継続検証 |
 | Gauge-field self-organization | v0.60からv0.69 | 統合済み、継続検証 |
-| Module-Bundle foundation | v0.70からv0.72 | 統合済み、継続検証 |
-| MemoryOS evaluation and governed application | v0.73からv0.76 | 統合済み、継続検証 |
-| Lean aggregate root | `KuuOSFormal` | 厳格build surface |
-| Runtime aggregate entry | `scripts/run_kuuos_runtime_full_check_v0_55.py` | v0.76までの累積回帰入口 |
+| Module-Bundle / MemoryOS application | v0.70からv0.76 | 統合済み、継続検証 |
+| Authority topology / post-transition verification | v0.77 | 統合済み、継続検証 |
+| Self-organizing improvement | v0.78 | 統合済み、継続検証 |
+| Repository self-evolution | v0.79からv1.02 | 統合済み、継続検証 |
+| Lean aggregate root | `formal/KuuOSFormal.lean` | v1.02 strict build surface |
+| Runtime aggregate root | `scripts/run_kuuos_runtime_full_check_v0_55.py` | v1.02 cumulative runtime surface |
 
 ## 完了した基盤
 
-### ガバナンスと局所文脈
+### 局所文脈、有限サイクル、Open Horizon
 
 次の局所文脈スパインは統合済みです。
 
@@ -104,365 +106,263 @@ multiple horizons
 → path-dependent holonomy
 ```
 
-今後の課題はcompositionと運用成熟であり、普遍global graphへの変換ではありません。
+finite-cycle agentは、mission binding、観測、複数信念、semantic planning、独立検証、bounded memory、effect reconciliation、event wake-up、resource admission、governed change、checkpoint、restart recoveryを接続します。
 
-### Modular Evolution Mesh
+Open Horizonは、有限な局所制御を将来可能性全体の閉鎖へ昇格させません。
 
-型付きmodule contract、registry、能力依存解決、append-only hash-chain ledgerを統合しました。
+### Qi-WORLD、MemoryOS、WORLD数学層
 
-ObserveOS、VerifyOS、MemoryOSは初期module manifestとして登録されています。
+Qi Process Tensorは、複数時点のprocess、複数仮説、反証、不確実性、回復可能性区間を候補として保持します。
 
-```text
-module discovery != activation
-registration != execution license
-dependency resolution != effect execution
-ledger receipt != truth
-self-organization proposal != self-modification authorization
-```
+Qi-WORLD v2.3は、process supportとboundary occupationを陰陽相補系として接続します。
 
-### 有限サイクル継続
+MemoryOSは、working、episodic、semantic、procedural memory、非マルコフ履歴、analytic capsule、contradiction residueを保持します。
 
-v0.20からv0.27は、mission binding、観測、複数信念、semantic planning、独立検証、bounded memory、effect reconciliation、event wake-up、resource admission、governed change、checkpoint、restart recoveryを接続しました。
+WORLD mathematical sidecarは、Hilbert空間、作用素環、modular theory、Araki entropy、Petz recovery、Jones theory、高次gauge情報幾何、真空候補、Tomita operator、四大相動力学までを型付きsurfaceとして接続します。
 
-各サイクルは有限ですが、v0.30により有限局所制御が将来可能性全体を閉じないことを固定しました。
+外部解析receiptとLean-derived theoremを混同しません。
 
-### 気の診断候補とQi-WORLD
+### Gauge、Module-Bundle、MemoryOS production
 
-v0.28は、複数時点のQi Process Tensor、複数仮説、反証、不確実性、回復可能性区間、clinician-review handoffを実装しました。
+v0.60からv0.69は、有限な接続改善候補、review、evaluation、staging、shadow、gauge validation、evidence capsule、external approvalを構成します。
 
-v0.29は候補をsource、mission、lineage、historyへ束縛しました。
+v0.70からv0.72は、文脈代数上のstate module、意味部分加群、authority filtration、非可換Leibniz接続、read-only non-Markov memory kernelを構成します。
 
-Qi-WORLD v2.3は、Qi Process TensorとCross-Cycle Blocker Theoryを陰陽相補系として接続しました。
+v0.73からv0.76は、有限候補評価、決定的選択、外部review、single-use atomic commit、監査可能なmonotonic rollbackを構成します。
 
-この系列は診断確定、治療、トリアージ、ActOS権限を生成しません。
-
-### Open Horizon観測循環
-
-v0.30からv0.34は次を実装しました。
+v0.77は二つの境界を追加します。
 
 ```text
-open future horizon
-→ endogenous mission candidates
-→ plural observation candidates
-→ external single-use observation authorization
-→ provenance-complete ObserveOS evidence
-→ VerifyOS disposition candidate
-→ externally authorized atomic WORLD-fragment commit
+context-independent authority-role topology
++
+independent post-transition verification
 ```
 
-v0.34は単一ホストPOSIX reference adapterです。
+verification verdictはtruth authorityではありません。
 
-分散storeへの拡張は、同じcompare-and-swap、fencing、append-only receipt契約を保つ必要があります。
+`FAILED`または`INDETERMINATE`は自動rollbackを起動しません。
 
-### MemoryOS foundational line
+## Repository self-evolutionの統合済み連鎖
 
-v0.35はQi process history、blocker context、sourced WORLD generationをappend-only memoryへ統合しました。
+### v0.78からv0.82：自己改善と構造整合
 
-v0.37はworking、episodic、semantic、proceduralの四層記憶、observable predictive-state candidate、contradiction residue、WORLD imaginationを追加しました。
+| Version | 統合済み責務 |
+|---|---|
+| v0.78 | finite improvement proposal、bounded supervisor、停止条件、権限境界 |
+| v0.79 | repository structure alignment candidate |
+| v0.80 | alignment normal formとdeterministic normalization |
+| v0.81 | incremental preservationとprotected-surface preservation |
+| v0.82 | certificate chainとlineage verification |
 
-v0.38はWORLD v0.49のOS-Hilbert packetを読み取り専用解析文脈として接続しました。
+この段階はrepositoryを変更しません。
 
-v0.39はMemoryOS解析capsuleとWORLD v0.50候補をObserveOS owner reviewへ渡すintakeを追加しました。
+### v0.83からv0.86：revision、merge、frontier証明
 
-MemoryOSはtruth promotion、blocker discharge、PlanOS activation、ActOS invocation、WORLD updateを自動生成しません。
+| Version | 統合済み責務 |
+|---|---|
+| v0.83 | direct branch and revision observation |
+| v0.84 | merge certificate |
+| v0.85 | revision DAG certificate |
+| v0.86 | local repository frontier certificate |
 
-### 真空期待値OS連結
+working tree、reflog、remote observationを、object databaseとdirect reference evidenceの代替にしません。
 
-解析的経路は次のとおりです。
+### v0.87からv0.92：選択、shadow、admission、application
+
+| Version | 統合済み責務 |
+|---|---|
+| v0.87 | bounded self-evolution portfolioとdeterministic selection |
+| v0.88 | shadow realization、replay、normal-form preservation |
+| v0.89 | multi-replay agreementに基づくgoverned admission |
+| v0.90 | external approval、signature verification receipt、revocation status |
+| v0.91 | exact scope-bound single-use application authorization |
+| v0.92 | pure atomic repository application transition |
+
+v0.92はisolated modeled stateを更新します。
+
+live working tree、index、Git object database、referenceを暗黙に変更しません。
+
+### v0.93からv0.98：Git objectとreferenceの外部実行境界
+
+| Version | 統合済み責務 |
+|---|---|
+| v0.93 | deterministic blob、tree、commit candidate certificate |
+| v0.94 | bounded single-use object materialization authorization |
+| v0.95 | external executionとpost-object observationを束縛するreceipt |
+| v0.96 | direct local branch reference-update authorization |
+| v0.97 | exact reference CASとnonce consumptionのmodeled atomic transition |
+| v0.98 | external reference execution、observation、nonce receiptの統合receipt |
+
+candidate generation、authorization、modeled transition、external execution report、post-operation observationを別層に保ちます。
+
+### v0.99からv1.02：local finalityとcheckpoint
+
+| Version | 統合済み責務 |
+|---|---|
+| v0.99 | delayed direct-reference stability and candidate reachability |
+| v1.00 | bounded multi-sample local frontier finality |
+| v1.01 | `refs/kuuos/checkpoints/`内のsingle-use checkpoint authorization |
+| v1.02 | zero-OID CASとnonce consumptionのatomic modeled checkpoint creation |
+
+v1.02のcommitは次を一つの論理遷移として構成します。
 
 ```text
-WORLD v0.50 vacuum-expectation candidate
-→ WORLD v0.51 ObserveOS evidence intake
-→ supplied ObserveOS commit
-→ supplied VerifyOS verification
-→ LearnOS future-only delta
-→ WORLD v0.53 OS receipt composition
-→ PlanOS / DecisionOS handoff
-→ ActOS bounded host adapter
+checkpoint state: absent → authorized final-tip OID
+nonce state: unused → consumed
 ```
 
-実行後効果は別経路です。
+abortはsource checkpoint stateとsource nonce registryを完全に保存します。
 
-```text
-ActOS effectRecorded receipt
-→ WORLD v0.52 host-effect intake candidate
-→ ObserveOS effect-grounded observation receipt
-```
-
-WORLD v0.52は観測、検証、WORLD更新を行いません。
-
-WORLD v0.53は既存receiptを合成しますが、receipt構成またはtransition実行を行いません。
-
-### WORLD数学サイドカー
-
-`main`の統合済み数学系列はv0.27からv0.59です。
-
-```text
-real Hilbert ℓ²
-→ dense and self-adjoint operator bridge
-→ noncommutative operator algebra
-→ C*-local net
-→ von Neumann and modular theory
-→ Araki relative entropy
-→ Petz recovery and conditional expectation
-→ Jones theory and categorical bridges
-→ higher-gauge information geometry
-→ quantum Bregman and variational geometry
-→ log-Sobolev contraction certificates
-→ OS reflection-positive completion interface
-→ analytic vacuum sector
-→ vacuum-expectation candidates
-→ OS receipt composition
-→ Kū vacuum central reference state
-→ Kū vacuum information geometry
-→ verified Araki calculus and OS transport
-→ closed Tomita operator bridge
-→ conjugate-adjoint intermediate layer
-→ four-great phase dynamics
-```
-
-外部receiptとして残る解析的構造を、Lean直接定理と混同しません。
-
-### Gauge-Field Self-Organization v0.60からv0.69
-
-`main`へ次の依存順で統合されています。
-
-```text
-v0.60  gauge-field self-organization foundation
-→ v0.61  OS-associated gauge fields and memory holonomy
-→ v0.62  finite connection candidate search
-→ v0.63  governed review
-→ v0.64  finite snapshot evaluation
-→ v0.65  sealed staging package
-→ v0.66  shadow materialization
-→ v0.67  finite gauge validation
-→ v0.68  evidence capsule
-→ v0.69  approval-bound external evidence review
-```
-
-この系列は、保護座標を変更しない有限接続候補を構成し、source、candidate、rollback、review、有限有効期間をexact digestへ束縛します。
-
-finite validationは、連続ゲージ理論全体の証明またはtruth authorityではありません。
-
-approvalはapplication authorityを与え得ますが、review自体はlive effectを実行しません。
-
-### Module-Bundle foundation v0.70からv0.72
-
-v0.70は、空OS状態を文脈代数上の加群として再構成しました。
-
-ObserveOS、VerifyOS、MemoryOS、Ethicsは、同一fiber内の意味部分加群として扱います。
-
-```text
-(A, M, {P_i}, F^•M, ∇, G)
-```
-
-v0.71は、非可換文脈代数、内部微分、Leibniz接続、加群線形な接続差、曲率、gauge共変性を追加しました。
-
-```text
-∇_i(a m) = δ_i(a)m + a∇_i(m)
-```
-
-v0.72は、read-only MemoryOS historyと有限記憶kernelを接続へ追加しました。
-
-```text
-∇_i^K(m_t, h_t) = ∇_i^(0)(m_t) + K_i(h_t)
-```
-
-履歴は変更せず、memory部分加群だけへ作用し、pathwise Leibniz則、authority filtration、rollbackを保ちます。
-
-### MemoryOS evaluation and governed application v0.73からv0.76
-
-v0.73は、同一source kernelへ束縛された有限候補familyを完全検証し、gauge-invariant score、変更term数、canonical digestの順で決定的に一件を選択します。
-
-低いscoreをtruthと同一視しません。
-
-v0.74は、selection recordを外部reviewへ渡し、次のdecisionをimmutable receiptとして固定します。
-
-```text
-APPROVE_MEMORY_SELECTION
-REJECT_MEMORY_SELECTION
-REQUEST_REEVALUATION
-```
-
-approvalは束縛されたselected payloadだけにproduction application authorityを与えます。
-
-review関数は状態を書き換えません。
-
-v0.75は、approvalを一度だけ消費し、compare-and-swapの下でMemoryOS production stateを原子的に更新します。
-
-```text
-revision := revision + 1
-current kernel := selected kernel
-current connection := selected connection
-consumed approvals := consumed approvals + review receipt digest
-previous state digest := before state digest
-```
-
-v0.76は、commit receiptとpre-commit snapshotに基づく単回rollbackを実装します。
-
-```text
-production revision := current revision + 1
-current kernel := snapshot kernel
-current connection := snapshot connection
-previous state digest := rollback前state digest
-rollback ledger revision := ledger revision + 1
-ledger consumed commits := consumed commits + commit receipt digest
-```
-
-rollbackは過去状態への時間逆行ではありません。
-
-payloadを復元しながらstate chainとledgerを前進させる補償transactionです。
+v1.02はlive Git commandを呼ばず、live repository mutationを主張しません。
 
 ## Active research frontier
 
-### 優先1：Post-Application Verification v0.77
+### 優先1：Live checkpoint creation adapter
 
 **状態：次期候補**
 
-v0.75はproduction commitを実行します。
+v1.02はmodeled transitionです。
 
-v0.76は監査可能なrollbackを実行します。
+次段階では、v1.02 committed resultを再検証し、一つの限定されたlocal checkpoint creation requestだけを外部adapterへ渡します。
 
-次段階では、commitまたはrollbackのreceipt chainをVerifyOSへ渡し、実行後状態を独立に検証します。
+受入条件：
+
+- v1.02 certificate、source checkpoint state、nonce registry、repository identity、Git-directory fingerprintを完全再検証する。
+- direct reference `refs/kuuos/checkpoints/<name>`だけを許可する。
+- expected old OIDをzero OIDへ固定する。
+- authorized final-tip OID以外を拒否する。
+- overwrite、delete、force、branch、tag、remote reference、pushを拒否する。
+- single-use nonceとtransaction IDをexact bindingする。
+- external host licenseとauthorized executorを要求する。
+- command、exit status、stderr/stdout digest、observed final OIDをexecution reportへ束縛する。
+- execution reportだけで成功を確定しない。
+
+推奨する最小経路：
 
 ```text
-application receipt
-+ before / after state digests
-+ approval consumption evidence
-+ rollback ledger evidence when applicable
-+ independent observation evidence
-→ VerifyOS post-application intake
-→ VERIFIED / FAILED / INDETERMINATE
+v1.02 committed modeled transition
+→ exact execution request
+→ bounded local Git reference adapter
+→ external execution report
+```
+
+### 優先2：Checkpoint creation receiptと独立観測
+
+**状態：設計候補**
+
+adapter実行後に、direct reference storeを独立に再観測します。
+
+```text
+execution report
++ independent post-reference observation
++ nonce-consumption receipt
++ exact repository and transaction binding
+→ checkpoint creation receipt
 ```
 
 受入条件：
 
-- commit receiptまたはrollback receiptのself-digestを検証する。
-- source state、target state、revision chainをexact bindingする。
-- reviewerまたはcommitterと独立したverification ownerを要求する。
-- raw observation、causal attribution、verification verdictを分離する。
-- `FAILED`または`INDETERMINATE`から自動rollbackしない。
-- fresh rollback requestと権限を別に要求する。
-- VerifyOS verdictをtruth authorityへ昇格させない。
-- future-only LearnOS delta以外の現在周期変更を行わない。
+- command successとreference observationを分離する。
+- observed OIDがauthorized final-tip OIDと一致することを要求する。
+- symbolic reference、reflog-only evidence、working-tree evidence、remote evidenceを拒否する。
+- report substitution、observation substitution、nonce replayを拒否する。
+- receipt constructionは追加mutationを行わない。
+- failure時にoverwriteまたはautomatic retryを行わない。
 
-### 優先2：Aggregate rootの完全性固定
+### 優先3：Checkpoint stability、finality、immutability policy
+
+**状態：設計候補**
+
+checkpoint creation直後の存在確認と、時間を隔てた安定性確認を分離します。
+
+検討事項：
+
+- delayed direct-reference observation。
+- object-database reachabilityの再確認。
+- checkpoint name uniqueness。
+- immutable-by-default policy。
+- retention、revocation、delete authorityの別系列化。
+- checkpoint lossまたはsubstitutionのfailure receipt。
+
+checkpoint deleteはcheckpoint creationの逆操作として暗黙に許可しません。
+
+### 優先4：Aggregate root、manifest、registryの完全性固定
 
 **状態：継続検証**
 
-Lean aggregate rootとruntime aggregate rootを、`main`の統合済み到達点へ常時同期させます。
-
 必須検査：
 
-- `formal/KuuOSFormal.lean`がv0.69とv0.70からv0.76を直接または明示的umbrella経由で参照する。
-- `scripts/run_kuuos_runtime_full_check_v0_55.py`がv0.76までのvalidatorを依存順に実行する。
+- `formal/KuuOSFormal.lean`がv0.77からv1.02を明示的に参照する。
+- `scripts/run_kuuos_runtime_full_check_v0_55.py`がv0.77とv0.96からv1.02を含む。
 - 専用Lean rootとaggregate `KuuOSFormal`を`warningAsError`と`sorryAsError`でbuildする。
-- README、ROADMAP、`formal/KUOS.lean`、`formal/KuuOSFormal.lean`、`lakefile.toml`、manifest、workflow indexの同期を検査する。
-- stale digest、source substitution、rollback replacement、approval replay、decision-permission mismatchをfail closedで拒否する。
+- runtime rootがlive-contract checksとfocused unit testsを依存順に実行する。
+- README、ROADMAP、Lean root、runtime root、lake target、manifest、workflow indexを同期する。
+- aggregate root未登録のversionを統合済み完了と記載しない。
+- current frontierを機械可読manifestから検査できるようにする。
 
-### 優先3：Generic approvalとMemoryOS-specific approvalの関係固定
+### 優先5：Checkpointからのrecoveryとhandover
 
-**状態：設計課題**
+**状態：設計候補**
 
-v0.69はgeneric connection evidence reviewです。
-
-v0.74はMemoryOS selectionに特化したreviewです。
-
-両者を暗黙に同一receiptとして扱いません。
-
-次を明示します。
+checkpointは復元権限そのものではありません。
 
 ```text
-v0.69 generic application authority
-!= v0.74 memory-selection authority
+checkpoint receipt
+→ recovery proposal
+→ source and target comparison
+→ external review
+→ bounded recovery authorization
+→ modeled recovery transition
+→ external execution
+→ independent observation
 ```
 
-必要なbridgeを追加する場合は、issuer、scope、candidate digest、rollback target、validity window、consumption ledgerをexact bindingします。
+recoveryはbranch force update、history rewrite、remote pushを自動許可しません。
 
-authority unionまたは権限の自動継承は禁止します。
+### 優先6：分散repository adapter
 
-### 優先4：CapabilityOSの再基底と責務統合
+**状態：中期研究課題**
 
-**状態：PR #832、再基底必要**
+single-host local Git contractを分散storeへ拡張する場合、次を保持します。
 
-CapabilityOS v0.60は、Qi Process Tensor、陰陽blocker、複数WORLD、MemoryOS文脈、有限resource、tool、verifierをtyped capability candidateへ統合する独立枝です。
+- compare-and-swap。
+- fencing token。
+- idempotency key。
+- append-only receipt。
+- bounded lease。
+- independent observation。
+- authority and executor separation。
+- local checkpointとremote replicationの分離。
 
-現在の課題は、現行`main`のv0.76と責務を接続することです。
+### 優先7：一般OSの実行後検証閉路
+
+**状態：OS統合課題**
+
+MemoryOS v0.77とrepository receipt chainを、ActOS一般へ無条件に同一化しません。
+
+共通interfaceを追加する場合は次を分離します。
 
 ```text
-CapabilityCandidate
-!= module deformation candidate
-!= memory kernel candidate
-!= PlanOS activation
-!= DecisionOS selection
-!= ActOS license
+performed effect
+raw observation
+causal attribution
+verification disposition
+future-only learning delta
+governed WORLD reconciliation candidate
 ```
 
-統合判断では、capability discovery、module registry、MemoryOS retrieval、production application authorityを分離します。
+verification failureから自動rollbackしません。
 
-### 優先5：WORLD四大相転移宣言の再編
-
-**状態：PR #825、再基底必要**
-
-PR #825の`WORLD v0.60`は、四大相転移候補をfree-energy、spectral-gap closure、fixed-point subalgebra change、four-great coordinate changeの独立証人として構成します。
-
-現行`main`には別系列の`KuuOS Gauge v0.60`が統合されています。
-
-統合前にversion namespaceを分離します。
-
-```text
-WORLD Four-Great Phase Transition series
-!= KuuOS Gauge Self-Organization series
-```
-
-phase-transition declarationはread-onlyに保ち、PlanOS objectiveまたはActOS authorityを生成しません。
-
-### 優先6：Workflow consolidationの再基底
-
-**状態：PR #835、再基底必要**
-
-基礎OS bridge workflowを統合する方針は維持します。
-
-ただし、v0.60からv0.76のworkflow、manifest、integrity guard、dedicated rootを欠落させてはなりません。
-
-受入条件：
-
-```text
-no deleted-workflow reference
-+ dependency-ordered validator chain
-+ push / pull_request / workflow_dispatch coverage
-+ runtime full check success
-+ aggregate Lean root success
-+ all-governance validation success
-+ current gauge and memory application workflows preserved
-```
-
-### 優先7：MemoryOS v0.39とv0.72以降の関係整理
-
-**状態：MemoryOS統合課題**
-
-v0.39はanalytic capsuleをObserveOS owner workflowへ渡すread-only intakeです。
-
-v0.72は確定済みMemoryOS capsuleを非マルコフ接続のread-only history sourceとして扱います。
-
-両者を同一の書込み経路へ統合しません。
-
-- raw empirical evidenceを別入力として要求する。
-- analytic candidateをActOS effect lineageへ偽装しない。
-- active blocker、contradiction residue、source capsuleを保持する。
-- ObserveOS commit後もVerifyOS debtを開いたままにする。
-- history sourceとproduction kernel stateを別digestへ束縛する。
-- v0.75 commitがsource historyを書き換えないことを維持する。
-
-### 優先8：Tomitaから相対モジュラー解析への第一原理化
+### 優先8：数学形式化frontier
 
 **状態：数学研究課題**
 
 - closed Tomita operatorからpolar decompositionへ進む。
-- relative modular operatorとmodular conjugationの型付き基礎を構成する。
-- natural positive cone、standard form、unbounded logarithmの外部receiptを明示する。
-- 有界生成子のAraki calculusと非有界作用素基礎を分離する。
+- relative modular operator、modular conjugation、natural positive cone、standard formを分離して構成する。
+- unbounded logarithmと有界Araki calculusを分離する。
+- WORLD四大相転移系列をGauge v0.60系列と別namespaceへ置く。
 - OS reconstruction inputとoperator-algebraic modular inputを混同しない。
+- 4D Yang–Millsのcanonical proof repository境界を保持する。
 
 証明状態は次へ分類します。
 
@@ -470,52 +370,47 @@ v0.72は確定済みMemoryOS capsuleを非マルコフ接続のread-only history
 Lean-derived theorem
 hypothesis-supplied structure
 external analytic receipt
+empirical or institutional receipt
 future target
 ```
 
-### 優先9：実行後効果の一般OS閉路
+## Open branchとPRの扱い
 
-**状態：OS統合課題**
+現在の`main`はv1.02まで進んでいます。
 
-MemoryOS v0.77候補とは別に、ActOS一般のeffect receiptをObserveOS、VerifyOS、LearnOS、WORLD dispositionへ接続します。
+古いbase SHAを持つopen PRは、そのまま現在のfrontierとして扱いません。
 
-```text
-ActOS effect
-→ WORLD v0.52 intake
-→ ObserveOS observation receipt
-→ independent VerifyOS disposition
-→ future-only LearnOS delta
-→ governed WORLD reconciliation candidate
-```
+### Workflow consolidation
 
-raw evidence、observation、verification、causal attributionを分離します。
+PR #891とPR #835は、workflow統合またはPR gate整理に関する枝です。
 
-failedまたはindeterminate verificationから自動rollbackしません。
+統合判断では、v0.77からv1.02のmanifest、dedicated checks、full-audit membership、aggregate rootsを欠落させないことを要求します。
 
-### 優先10：4D Yang–Mills外部証明境界
+古いworkflow削除だけを先行させません。
 
-**状態：外部canonical repositoryを参照**
+### Lean repair branch
 
-canonical proof repositoryは[`itakura-hidetoshi/4d-mass-gap`](https://github.com/itakura-hidetoshi/4d-mass-gap)です。
+PR #826はdependent receipt typeの修復枝です。
 
-KuuOSはreference、governance、receipt、adapter surfaceを保持します。
+現在の`main`に同等修復が含まれるかを差分で確認し、未包含部分だけをcurrent-mainへ再基底します。
 
-KuuOS側で次を主張しません。
+### WORLD phase-transition branch
+
+PR #825はWORLD四大相転移宣言の独立系列です。
 
 ```text
-reference surface = final theorem authority
-formal bridge = completed proof
-CI pass = external mathematical acceptance
+WORLD Four-Great Phase Transition series
+!= KuuOS Gauge Self-Organization v0.60 series
+!= Repository Self-Evolution series
 ```
 
-外部proof frontierとして残る主要課題：
+version namespaceを分離し、read-only declarationがPlanOS objectiveまたはActOS authorityを生成しないことを維持します。
 
-- latticeからcontinuumへの厳格bridge。
-- nontrivial continuum Yang–Mills theory。
-- vacuum uniqueness。
-- positive physical spectral gap。
-- 33/20値の独立導出。
-- public theorem boundaryを越える最終release判断。
+### CI-only、validation-only、superseded branch
+
+product codeを変更しないCI-only枝、過去のmainを再検証するだけの枝、統合済みproduct headの子枝は、current frontierへ再昇格させません。
+
+必要なreceiptを保存した後、close、archive、または明示的なnon-merge statusへ移します。
 
 ## 外部receipt一覧
 
@@ -525,14 +420,17 @@ CI pass = external mathematical acceptance
 - institutional authorization。
 - production host license。
 - reviewer identityとreviewer classの正当性。
-- independent verification ownerの正当性。
+- external signature verification。
+- revocation registry authority。
+- authorized executor identity。
+- live Git command execution report。
+- independent post-operation repository observation。
 - analytic assumptions for unbounded operator theory。
-- OS reconstructionに必要な外部解析条件。
 - physical interpretationとexperimental confirmation。
 - 4D Yang–Millsのcanonical proof status。
 - clinical diagnosis、treatment、triage、medical authority。
 
-外部receiptは、由来、scope、有効期間、issuer、revocation条件を持つ必要があります。
+外部receiptは、由来、scope、有効期間、issuer、revocation条件、observation time、canonical digestを持つ必要があります。
 
 ## 共通release gate
 
@@ -545,10 +443,10 @@ current-main base
 + deterministic validator
 + positive fixtures
 + fail-closed negative fixtures
-+ dedicated strict Lean root
++ dedicated strict Lean root when formal surface exists
 + aggregate KuuOSFormal strict build
 + runtime full-check registration
-+ rollback or compensation contract
++ rollback, compensation, or abort-preservation contract
 + documentation synchronization
 + no authority-boundary regression
 ```
@@ -560,6 +458,8 @@ current-main base
 - competing version namespaceを統合前に解消する。
 - superseded branch、CI-only branch、product branchを明示する。
 - external receiptをLean theoremとして記載しない。
+- modeled transitionをlive mutationとして記載しない。
+- receiptからsuccessor authorityを自動生成しない。
 - aggregate rootへ未登録のversionを統合済み完了と記載しない。
 
 ## 中期研究方向
@@ -571,12 +471,11 @@ current-main base
 - predictive stateをlatent truthとして扱わない。
 - collective reconstructionでindividual lineageを失わない。
 - retrievalをbelief promotionまたはexecution authorityへ昇格させない。
-- process tensorとして、過去の観測、介入、検証、失敗、修正が将来の応答可能性へ与える影響を表す。
-- v0.72の有限履歴kernelを連続時間候補へ拡張し、離散runtimeと解析receiptを分離する。
+- finite history kernelを連続時間候補へ拡張し、離散runtimeと解析receiptを分離する。
 
 ### Module connectionと非可換微分計算
 
-- v0.71の有限行列代数模型を一般の非可換微分計算`(ΩA, d)`へ拡張する。
+- 有限行列代数模型を一般の非可換微分計算`(ΩA, d)`へ拡張する。
 - connection deformation catalogを有限探索する。
 - semantic projectors、protected submodule、authority filtrationの保存を維持する。
 - memory kernel deformationとbase connection deformationを別candidate classとして扱う。
@@ -590,32 +489,15 @@ current-main base
 - modular timeとphysical timeを分離する。
 - vacuum sectorの非一意性とmulti-WORLD noncollapseを保つ。
 
-### 四大相動力学
-
-- v0.59のread-only診断を、明示的な相転移候補条件へ拡張する。
-- Earth、Water、Fire、Airの各量の連続性、半連続性、閾値依存性を分離する。
-- coarse-grainingによるFireの増減とPetz recoverabilityの関係を定理化する。
-- Air transportと物理時間発展を同一視しない。
-- Gauge v0.60とWORLD phase-transition seriesのversion namespaceを分離する。
-
-### Open Horizonと分散運用
-
-- v0.34 single-host POSIX storeを分散transaction adapterへ一般化する。
-- fencing、optimistic concurrency、idempotencyを保持する。
-- authorization issuer、host license、institutional policyのadapter boundaryを明示する。
-- local holdとconstitutional amendmentを分離する。
-- multi-agent formationとresource acquisitionを候補、承認、実行に分離する。
-- v0.75とv0.76のstate CASとledger CASを分散storeへ拡張する。
-
 ### 公開再現性
 
 - Leanとmathlib toolchainを固定する。
 - deterministic fixtureを維持する。
 - canonical manifestをCIで確認する。
 - versioned evidence bundleを作る。
-- superseded branchとcurrent product branchを明示する。
 - component、version、source、manifest、validator、tests、Lean root、workflow、proof statusを機械可読に結ぶ。
-- READMEとROADMAPの機能基準commitを自動検査する。
+- READMEとROADMAPの機能frontierを自動検査する。
+- open PRをcurrent product、rebase candidate、CI-only、supersededへ分類する。
 
 ## 長期方向
 
@@ -637,25 +519,27 @@ closed operators know which modular structures remain open
 connections know their protected submodules
 approvals know their exact scope, expiry and consumption
 rollbacks know their source snapshot and monotonic ledger
+repository transitions know whether they are modeled or live
+checkpoints know their creator, frontier, nonce and observation history
 local controls know they are not global constitutions
 governance knows when to stop, hold, repair or hand over
 ```
 
 長期目標は、エージェントへ無制限の自由を与えることではありません。
 
-権限崩壊を起こさず、関係的連続性、観測可能性、形式的追跡可能性、修復可能性を高めることです。
+権限崩壊を起こさず、関係的連続性、観測可能性、形式的追跡可能性、再現可能性、修復可能性を高めることです。
 
-## 現在の優先順位一覧
+## 現在の優先順位
 
 ```text
-1. v0.75とv0.76のreceipt chainをVerifyOSへ渡すv0.77を設計する。
-2. Lean rootとruntime rootをv0.76の統合状態へ固定する。
-3. v0.69 generic approvalとv0.74 memory approvalの関係を明示する。
-4. CapabilityOS v0.60を現行mainへ再基底し、候補責務を分離する。
-5. WORLD四大相転移系列を再命名または再version化して再基底する。
-6. workflow consolidationをv0.76までのworkflow集合へ追従させる。
-7. MemoryOS v0.39とv0.72以降のread-only source関係を整理する。
-8. closed Tomita operatorから相対モジュラー解析へ進む。
-9. ActOS一般の実行後観測検証閉路を閉じる。
+1. v1.02 modeled checkpoint creationを限定live adapterへ接続する。
+2. external execution reportと独立観測からcheckpoint creation receiptを構成する。
+3. checkpoint stability、finality、immutability、delete authorityを分離する。
+4. Lean root、runtime root、manifest、workflow registryをv1.02へ固定する。
+5. checkpointからのrecovery proposalとbounded handoverを設計する。
+6. local Git contractを分散adapterへ一般化する。
+7. ActOS一般の実行後観測検証閉路を閉じる。
+8. relative modular theoryとWORLD数学frontierを進める。
+9. stale open PR、CI-only枝、superseded枝を整理する。
 10. 4D Yang–Millsのcanonical proof boundaryを保持する。
 ```
