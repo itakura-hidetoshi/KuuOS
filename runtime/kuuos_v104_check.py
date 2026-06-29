@@ -7,8 +7,10 @@ import unittest
 
 from runtime.kuuos_repository_snapshot_adapter_v0_79 import capture_explicit_repository_snapshot
 from runtime.kuuos_repository_structure_observer_v0_79 import observe_repository_structure
-from runtime.kuuos_v103_check import main as run_previous_frontier
-from scripts.check_kuuos_live_v103 import contract_paths as prior_contract_paths
+from runtime.kuuos_v103_check import (
+    contract_paths as prior_contract_paths,
+    main as run_previous_frontier,
+)
 from tests.test_kuuos_repository_checkpoint_stability_v1_04 import (
     RepositoryCheckpointStabilityV104Tests,
 )
