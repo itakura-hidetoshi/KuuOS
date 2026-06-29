@@ -7,10 +7,10 @@
   ],
   "tests": "tests/test_kuuos_repository_reference_update_authorization_v0_96.py",
   "validator": "tests/test_kuuos_repository_reference_update_authorization_v0_96.py",
-  "documentation": "docs/KUUOS_REPOSITORY_REFERENCE_UPDATE_AUTHORIZATION_v0_96.md",
+  "documentation": "KUUOS_REPOSITORY_REFERENCE_UPDATE_AUTHORIZATION_v0_96.md",
   "strict_formal_root": "KuuOSRepositoryReferenceUpdateAuthorizationV0_96",
   "aggregate_lean_modules": [
-    "KUOS.WORLD.KuuOSRepositoryReferenceUpdateAuthorizationV0_96"
+    "KUOS.WORLD.KuuOSRepositoryReferenceUpdateV0_96"
   ],
   "materialization_receipt_revalidated": true,
   "candidate_commit_present": true,
