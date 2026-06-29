@@ -12,6 +12,8 @@ The current Git object-database observations must cover the same source commits 
 
 If all technical conditions hold, v0.89 emits `REPOSITORY_EVOLUTION_ADMISSION_PROPOSED`.
 
+This status means that the evidence may be submitted to the external approval boundary. It does not authorize repository mutation.
+
 If a technical condition is not satisfied, v0.89 emits `REPOSITORY_EVOLUTION_ADMISSION_REJECTED` with the failed predicates recorded in the certificate.
 
 Repeated stable v0.88 receipts with no selected candidates emit `REPOSITORY_EVOLUTION_ADMISSION_STABLE_NO_CHANGE`.
