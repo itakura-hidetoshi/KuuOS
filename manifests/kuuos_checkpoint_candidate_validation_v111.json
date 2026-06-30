@@ -16,5 +16,6 @@
   "valid_status": "VALID",
   "rejected_status": "REJECTED",
   "complete_upstream_replay": true,
-  "operation_performed": false
+  "operation_performed": false,
+  "successor_frontier": "kuuos_checkpoint_evidence_envelope_v1_12"
 }
