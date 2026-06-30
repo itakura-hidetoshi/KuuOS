@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-checkpoint-cas-coherence-v113": {
+      "name": "KuuOS repository checkpoint CAS coherence v1.13",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_checkpoint_cas_coherence_v1_13",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*checkpoint_cas_coherence*v1_13.py",
+        "runtime/v113_checkpoint_cas_coherence_*.py",
+        "tests/test_kuuos_repository_checkpoint_cas_coherence_v1_13.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryCheckpointCasCoherenceV1_13.lean",
+        "formal/KuuOSRepositoryCheckpointCasCoherenceV1_13.lean",
+        "manifests/kuuos_checkpoint_cas_coherence_v113.json",
+        "docs/KUUOS_REPOSITORY_CHECKPOINT_CAS_COHERENCE_v1_13.md"
+      ],
+      "depends_on": [
+        "repository-checkpoint-validated-cas-intake-v112"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
