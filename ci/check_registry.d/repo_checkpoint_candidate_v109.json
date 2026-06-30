@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-checkpoint-candidate-v109": {
+      "name": "KuuOS repository checkpoint candidate v1.09",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_checkpoint_candidate_v1_09",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*checkpoint_candidate*v1_09.py",
+        "runtime/v109_checkpoint_candidate_*.py",
+        "tests/test_kuuos_repository_checkpoint_candidate_v1_09.py",
+        "tests/v109_checkpoint_candidate_fixture.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryCheckpointCandidateV1_09.lean",
+        "formal/KuuOSRepositoryCheckpointCandidateV1_09.lean",
+        "manifests/kuuos_checkpoint_candidate_v109.json",
+        "docs/KUUOS_REPOSITORY_CHECKPOINT_CANDIDATE_v1_09.md"
+      ],
+      "depends_on": [
+        "repository-checkpoint-namespace-gate-v108"
+      ],
+      "timeout_minutes": 35,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
