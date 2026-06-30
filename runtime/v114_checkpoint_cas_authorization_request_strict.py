@@ -2,6 +2,7 @@
 from __future__ import annotations
 
 from dataclasses import replace
+import re
 
 from runtime.kuuos_repository_checkpoint_cas_authorization_request_types_v1_14 import (
     REASON_INVALID_REQUEST,
@@ -23,23 +24,33 @@ from runtime.v114_checkpoint_cas_authorization_request_core import (
     repository_checkpoint_cas_coherence_receipt_valid_for_request as _base_receipt_valid,
 )
 
+_HEX40 = re.compile(r"^[0-9a-f]{40}$")
+_ZERO_OID = "0" * 40
+
 
 def repository_checkpoint_cas_coherence_receipt_valid_for_request(
     receipt: RepositoryCheckpointCasCoherenceReceipt,
 ) -> bool:
     if not _base_receipt_valid(receipt):
         return False
+    oids = (
+        receipt.expected_current_oid,
+        receipt.observed_current_oid,
+        receipt.proposed_checkpoint_oid,
+    )
+    if any(not _HEX40.fullmatch(oid) or oid == _ZERO_OID for oid in oids):
+        return False
+    if receipt.expected_current_oid == receipt.proposed_checkpoint_oid:
+        return False
     if receipt.status == COHERENCE_READY:
         return bool(
             receipt.compare_and_swap_required
             and receipt.observed_current_oid == receipt.expected_current_oid
-            and receipt.expected_current_oid != receipt.proposed_checkpoint_oid
         )
     if receipt.status == COHERENCE_CONFLICT:
         return bool(
             not receipt.compare_and_swap_required
             and receipt.observed_current_oid != receipt.expected_current_oid
-            and receipt.expected_current_oid != receipt.proposed_checkpoint_oid
         )
     return False
 
