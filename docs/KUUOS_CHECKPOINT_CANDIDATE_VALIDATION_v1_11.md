@@ -1,9 +1,11 @@
 # KuuOS Checkpoint Candidate Validation v1.11
 
-v1.11 inserts an explicit validation boundary between the v1.09 candidate and the v1.10 CAS contract.
+v1.11 inserts an explicit validation boundary between the v1.09 checkpoint candidate and the v1.10 CAS contract.
 
-The validator checks the immutable candidate digest, ready status, repository binding, checkpoint reference binding, and distinct nonzero OIDs.
+The validator does not rely on the candidate digest alone. It replays the complete v1.09 candidate validation against the original namespace-gate decision, repair route, discrepancy-review record, stability certificate, observation, policies, context, and evaluation times.
 
-A valid result does not update a reference and does not invoke Git. It only records that the candidate satisfies the local trust-boundary checks required before a later contract is consumed.
+It then checks the ready state, repository binding, checkpoint reference binding, and distinct nonzero expected and proposed OIDs.
 
-Rejected results identify a failed digest, readiness, repository, reference, or OID condition.
+A valid receipt performs no repository operation, invokes no Git command, and grants no update authority. It records only that the upstream derivation chain and local trust-boundary conditions were revalidated.
+
+A candidate whose own digest is internally consistent but whose content no longer matches the upstream derivation is rejected.
