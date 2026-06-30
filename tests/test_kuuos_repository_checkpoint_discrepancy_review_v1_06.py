@@ -8,6 +8,7 @@ from runtime.kuuos_repository_checkpoint_discrepancy_review_types_v1_06 import (
     DISCREPANCY_LOST,
     DISCREPANCY_NONE,
     DISCREPANCY_SUBSTITUTED,
+    REVIEW_AUTOMATIC_REPAIR_ELIGIBLE,
     REVIEW_CLEAN,
     REVIEW_REJECTED,
     REVIEW_REQUIRED,
@@ -30,18 +31,21 @@ class RepositoryCheckpointDiscrepancyReviewV106Tests(
         self.assertEqual(first, second)
         self.assertEqual(first.status, REVIEW_CLEAN)
         self.assertEqual(first.discrepancy_kind, DISCREPANCY_NONE)
+        self.assertFalse(first.automatic_repair_eligible)
         self.assertFalse(first.human_review_required)
 
-    def test_confirmed_loss_requires_human_review(self) -> None:
+    def test_confirmed_loss_is_automatic_repair_eligible(self) -> None:
         stability, context, observation = self.lost_case()
         record = self.review(
             stability=stability,
             context=context,
             observation=observation,
         )
-        self.assertEqual(record.status, REVIEW_REQUIRED)
+        self.assertEqual(record.status, REVIEW_AUTOMATIC_REPAIR_ELIGIBLE)
         self.assertEqual(record.discrepancy_kind, DISCREPANCY_LOST)
-        self.assertTrue(record.human_review_required)
+        self.assertTrue(record.automatic_repair_eligible)
+        self.assertTrue(record.checks["exact_zero_to_known_oid_repair"])
+        self.assertFalse(record.human_review_required)
 
     def test_confirmed_substitution_requires_human_review(self) -> None:
         stability, context, observation = self.substituted_case()
@@ -52,6 +56,7 @@ class RepositoryCheckpointDiscrepancyReviewV106Tests(
         )
         self.assertEqual(record.status, REVIEW_REQUIRED)
         self.assertEqual(record.discrepancy_kind, DISCREPANCY_SUBSTITUTED)
+        self.assertFalse(record.automatic_repair_eligible)
         self.assertTrue(record.human_review_required)
 
     def test_stale_disposition_is_rejected_without_human_review(self) -> None:
@@ -69,6 +74,7 @@ class RepositoryCheckpointDiscrepancyReviewV106Tests(
         )
         self.assertEqual(record.status, REVIEW_REJECTED)
         self.assertEqual(record.discrepancy_kind, DISCREPANCY_EVIDENCE_INVALID)
+        self.assertFalse(record.automatic_repair_eligible)
         self.assertFalse(record.human_review_required)
 
     def test_observer_and_binding_are_exact(self) -> None:
@@ -143,6 +149,7 @@ class RepositoryCheckpointDiscrepancyReviewV106Tests(
             record = self.review(observation=observation)
             self.assertEqual(record.status, REVIEW_REJECTED)
             self.assertFalse(record.checks["target_commit_present"])
+            self.assertFalse(record.automatic_repair_eligible)
 
     def test_review_has_no_repository_side_effect_claims(self) -> None:
         stability, context, observation = self.lost_case()
