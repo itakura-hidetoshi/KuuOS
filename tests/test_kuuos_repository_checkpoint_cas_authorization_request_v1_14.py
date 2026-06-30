@@ -16,15 +16,12 @@ from runtime.kuuos_repository_checkpoint_cas_coherence_types_v1_13 import (
 from runtime.v113_checkpoint_cas_coherence_core import (
     derive_repository_checkpoint_cas_coherence_receipt,
 )
-from tests.test_kuuos_repository_checkpoint_cas_coherence_v1_13 import (
-    OTHER_OID,
-    RepositoryCheckpointCasCoherenceV113Tests,
-)
+from tests import test_kuuos_repository_checkpoint_cas_coherence_v1_13 as v113_tests
 
 
 class RepositoryCheckpointCasAuthorizationRequestV114Tests(unittest.TestCase):
     def setUp(self) -> None:
-        self.helper = RepositoryCheckpointCasCoherenceV113Tests(
+        self.helper = v113_tests.RepositoryCheckpointCasCoherenceV113Tests(
             methodName="test_same_input_is_deterministic"
         )
         self.helper.setUp()
@@ -72,7 +69,7 @@ class RepositoryCheckpointCasAuthorizationRequestV114Tests(unittest.TestCase):
 
     def test_coherent_conflict_is_denied_without_authorization_candidate(self) -> None:
         request = self.request(
-            self.coherence_receipt(observed_current_oid=OTHER_OID)
+            self.coherence_receipt(observed_current_oid=v113_tests.OTHER_OID)
         )
         self.assertEqual(request.status, REQUEST_DENIED)
         self.assertTrue(request.coherence_receipt_valid)
@@ -121,7 +118,7 @@ class RepositoryCheckpointCasAuthorizationRequestV114Tests(unittest.TestCase):
     def test_self_consistent_ready_oid_tamper_is_rejected(self) -> None:
         receipt = self.coherence_receipt()
         tamper_cases = (
-            ("ready_relation", {"observed_current_oid": OTHER_OID}),
+            ("ready_relation", {"observed_current_oid": v113_tests.OTHER_OID}),
             ("zero_expected", {"expected_current_oid": "0" * 40}),
             ("malformed_proposed", {"proposed_checkpoint_oid": "not-an-oid"}),
         )
