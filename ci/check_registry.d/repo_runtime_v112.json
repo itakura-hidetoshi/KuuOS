@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-runtime-v112": {
+      "name": "KuuOS repository runtime v1.12",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_v112_check.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_v112_check.py",
+        "runtime/*checkpoint_evidence_envelope*v1_12.py",
+        "runtime/v112_checkpoint_evidence_envelope*.py",
+        "tests/test_kuuos_checkpoint_evidence_envelope_v1_12.py",
+        "formal/KUOS/WORLD/KuuOSCheckpointEvidenceEnvelopeV1_12.lean",
+        "formal/KuuOSCheckpointEvidenceEnvelopeV1_12.lean",
+        "manifests/kuuos_checkpoint_evidence_envelope_v112.json",
+        "docs/KUUOS_CHECKPOINT_BINDING_v1_12.md"
+      ],
+      "depends_on": [
+        "repository-runtime-v111"
+      ],
+      "timeout_minutes": 90,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
