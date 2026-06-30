@@ -1,0 +1,20 @@
+{
+  "manifest_version": "kuuos_checkpoint_candidate_validation_v1_11",
+  "runtime_modules": [
+    "runtime/kuuos_checkpoint_candidate_validation_v1_11.py",
+    "runtime/v111_checkpoint_candidate_validation_runtime.py"
+  ],
+  "tests": "tests/test_kuuos_checkpoint_candidate_validation_v1_11.py",
+  "validator": "tests/test_kuuos_checkpoint_candidate_validation_v1_11.py",
+  "cumulative_runtime": "runtime/kuuos_v111_check.py",
+  "documentation": "docs/KUUOS_CHECKPOINT_CANDIDATE_VALIDATION_v1_11.md",
+  "strict_formal_root": "KuuOSCheckpointCandidateValidationV1_11",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSCheckpointCandidateValidationV1_11"
+  ],
+  "prior_frontier": "kuuos_repository_checkpoint_cas_contract_v1_10",
+  "valid_status": "VALID",
+  "rejected_status": "REJECTED",
+  "complete_upstream_replay": true,
+  "operation_performed": false
+}
