@@ -6,7 +6,8 @@
     "runtime/v106_review_evidence.py",
     "runtime/v106_review_core.py",
     "runtime/kuuos_repository_checkpoint_discrepancy_review_v1_06.py",
-    "runtime/v106_review_strict.py"
+    "runtime/v106_review_strict.py",
+    "runtime/v106_review_runtime.py"
   ],
   "tests": "tests/test_kuuos_repository_checkpoint_discrepancy_review_v1_06.py",
   "test_fixture": "tests/v106_review_fixture.py",
@@ -14,7 +15,7 @@
   "live_contract": "scripts/check_kuuos_live_v106.py",
   "cumulative_runtime": "runtime/kuuos_v106_check.py",
   "documentation": "docs/KUUOS_REPOSITORY_CHECKPOINT_DISCREPANCY_REVIEW_v1_06.md",
-  "strict_formal_root": "KuuOSRepositoryCheckpointDiscrepancyReviewV1_06",
+  "strict_formal_root": "KuuOSRepositoryReviewV1_06",
   "aggregate_lean_modules": [
     "KUOS.WORLD.KuuOSRepositoryCheckpointDiscrepancyReviewV1_06"
   ],
