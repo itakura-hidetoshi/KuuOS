@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-runtime-v110": {
+      "name": "KuuOS repository runtime v1.10",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_v110_check.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_v110_check.py",
+        "runtime/*checkpoint_cas_contract*v1_10.py",
+        "runtime/v110_checkpoint_cas_contract_*.py",
+        "tests/test_kuuos_repository_checkpoint_cas_contract_v1_10.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryCheckpointCasContractV1_10.lean",
+        "formal/KuuOSRepositoryCheckpointCasContractV1_10.lean",
+        "manifests/kuuos_checkpoint_cas_contract_v110.json",
+        "docs/KUUOS_REPOSITORY_CHECKPOINT_CAS_CONTRACT_v1_10.md"
+      ],
+      "depends_on": [
+        "repository-runtime-v109"
+      ],
+      "timeout_minutes": 80,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
