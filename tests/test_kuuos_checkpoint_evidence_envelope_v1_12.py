@@ -10,6 +10,11 @@ from runtime.kuuos_checkpoint_evidence_envelope_types_v1_12 import (
     ENVELOPE_READY,
     ENVELOPE_REJECTED,
 )
+from runtime.kuuos_repository_checkpoint_cas_contract_types_v1_10 import (
+    CONTRACT_CONFLICT,
+    REASON_CURRENT_OID_CHANGED,
+    repository_checkpoint_cas_contract_digest,
+)
 from runtime.kuuos_repository_checkpoint_cas_contract_v1_10 import (
     build_repository_checkpoint_cas_policy,
     derive_repository_checkpoint_cas_contract,
@@ -92,23 +97,47 @@ class CheckpointEvidenceEnvelopeV112Tests(
         self.assertEqual(envelope.status, ENVELOPE_CONFLICT)
         self.assertFalse(envelope.eligible)
 
-    def test_invalid_input_digests_are_rejected(self) -> None:
+    def test_invalid_or_incoherent_inputs_are_rejected(self) -> None:
+        tampered_contract = self.contract()
+        tampered_checks = dict(tampered_contract.checks)
+        tampered_checks["compare_and_swap_required"] = False
+        tampered_checks["observed_oid_matches_expected"] = False
+        tampered_contract = replace(
+            tampered_contract,
+            status=CONTRACT_CONFLICT,
+            reason=REASON_CURRENT_OID_CHANGED,
+            compare_and_swap_required=False,
+            checks=tampered_checks,
+            contract_digest="",
+        )
+        tampered_contract = replace(
+            tampered_contract,
+            contract_digest=repository_checkpoint_cas_contract_digest(
+                tampered_contract
+            ),
+        )
         cases = (
             (
-                "contract",
+                "contract-digest",
                 replace(self.contract(), contract_digest="invalid-contract-digest"),
                 self.validation,
                 "contract_valid",
             ),
             (
-                "validation",
+                "validation-digest",
                 self.contract(),
                 replace(self.validation, validation_digest="invalid-validation-digest"),
                 "validation_valid",
             ),
+            (
+                "contract-status",
+                tampered_contract,
+                self.validation,
+                "contract_valid",
+            ),
         )
         for label, contract, validation, validity_field in cases:
-            with self.subTest(input_digest=label):
+            with self.subTest(input=label):
                 envelope = derive_checkpoint_evidence_envelope(
                     f"envelope-invalid-{label}", contract, validation
                 )
