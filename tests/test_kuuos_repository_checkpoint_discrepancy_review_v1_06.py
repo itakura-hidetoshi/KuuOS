@@ -11,7 +11,6 @@ from runtime.kuuos_repository_checkpoint_discrepancy_review_types_v1_06 import (
     REVIEW_AUTOMATIC_REPAIR_ELIGIBLE,
     REVIEW_CLEAN,
     REVIEW_REJECTED,
-    REVIEW_REQUIRED,
     repository_checkpoint_review_record_digest,
 )
 from runtime.v106_review_strict import repository_checkpoint_review_record_issues
@@ -47,17 +46,18 @@ class RepositoryCheckpointDiscrepancyReviewV106Tests(
         self.assertTrue(record.checks["exact_zero_to_known_oid_repair"])
         self.assertFalse(record.human_review_required)
 
-    def test_confirmed_substitution_requires_human_review(self) -> None:
+    def test_confirmed_substitution_is_automatic_repair_eligible(self) -> None:
         stability, context, observation = self.substituted_case()
         record = self.review(
             stability=stability,
             context=context,
             observation=observation,
         )
-        self.assertEqual(record.status, REVIEW_REQUIRED)
+        self.assertEqual(record.status, REVIEW_AUTOMATIC_REPAIR_ELIGIBLE)
         self.assertEqual(record.discrepancy_kind, DISCREPANCY_SUBSTITUTED)
-        self.assertFalse(record.automatic_repair_eligible)
-        self.assertTrue(record.human_review_required)
+        self.assertTrue(record.automatic_repair_eligible)
+        self.assertTrue(record.checks["exact_existing_to_known_oid_repair"])
+        self.assertFalse(record.human_review_required)
 
     def test_stale_disposition_is_rejected_without_human_review(self) -> None:
         stability, context, _ = self.lost_case()
@@ -151,22 +151,43 @@ class RepositoryCheckpointDiscrepancyReviewV106Tests(
             self.assertFalse(record.checks["target_commit_present"])
             self.assertFalse(record.automatic_repair_eligible)
 
-    def test_review_has_no_repository_side_effect_claims(self) -> None:
-        stability, context, observation = self.lost_case()
-        record = self.review(
-            stability=stability,
-            context=context,
-            observation=observation,
-        )
-        for key in (
-            "review_granted_repository_change_authority",
-            "review_performed_reference_mutation",
-            "review_performed_object_write",
-            "review_invoked_live_git_command",
-            "review_mutated_live_repository",
-            "review_consumed_nonce",
+    def test_no_case_requests_human_review(self) -> None:
+        records = [self.review()]
+        for stability, context, observation in (
+            self.lost_case(),
+            self.substituted_case(),
         ):
-            self.assertFalse(record.checks[key])
+            records.append(
+                self.review(
+                    stability=stability,
+                    context=context,
+                    observation=observation,
+                )
+            )
+        self.assertTrue(all(not record.human_review_required for record in records))
+        self.assertTrue(
+            all(not record.checks["human_review_required"] for record in records)
+        )
+
+    def test_review_has_no_repository_side_effect_claims(self) -> None:
+        for stability, context, observation in (
+            self.lost_case(),
+            self.substituted_case(),
+        ):
+            record = self.review(
+                stability=stability,
+                context=context,
+                observation=observation,
+            )
+            for key in (
+                "review_granted_repository_change_authority",
+                "review_performed_reference_mutation",
+                "review_performed_object_write",
+                "review_invoked_live_git_command",
+                "review_mutated_live_repository",
+                "review_consumed_nonce",
+            ):
+                self.assertFalse(record.checks[key])
 
     def test_record_tamper_is_detected(self) -> None:
         record = self.review()
