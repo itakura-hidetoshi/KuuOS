@@ -92,37 +92,57 @@ class CheckpointEvidenceEnvelopeV112Tests(
         self.assertEqual(envelope.status, ENVELOPE_CONFLICT)
         self.assertFalse(envelope.eligible)
 
-    def test_candidate_digest_mismatch_is_rejected(self) -> None:
-        changed = replace(
-            self.validation,
-            candidate_digest="different-candidate",
-            validation_digest="",
+    def test_invalid_input_digests_are_rejected(self) -> None:
+        cases = (
+            (
+                "contract",
+                replace(self.contract(), contract_digest="invalid-contract-digest"),
+                self.validation,
+                "contract_valid",
+            ),
+            (
+                "validation",
+                self.contract(),
+                replace(self.validation, validation_digest="invalid-validation-digest"),
+                "validation_valid",
+            ),
         )
-        changed = replace(
-            changed,
-            validation_digest=checkpoint_candidate_validation_digest(changed),
-        )
-        envelope = derive_checkpoint_evidence_envelope(
-            "envelope-candidate-mismatch", self.contract(), changed
-        )
-        self.assertEqual(envelope.status, ENVELOPE_REJECTED)
-        self.assertFalse(envelope.candidate_match)
+        for label, contract, validation, validity_field in cases:
+            with self.subTest(input_digest=label):
+                envelope = derive_checkpoint_evidence_envelope(
+                    f"envelope-invalid-{label}", contract, validation
+                )
+                self.assertEqual(envelope.status, ENVELOPE_REJECTED)
+                self.assertFalse(getattr(envelope, validity_field))
 
-    def test_checkpoint_mismatch_is_rejected(self) -> None:
-        changed = replace(
-            self.validation,
-            checkpoint_reference="refs/kuuos/checkpoints/other",
-            validation_digest="",
+    def test_self_consistent_binding_mismatches_are_rejected(self) -> None:
+        cases = (
+            ("candidate_digest", "different-candidate", "candidate_match"),
+            ("repository_id", "repository-other", "repository_match"),
+            (
+                "checkpoint_reference",
+                "refs/kuuos/checkpoints/other",
+                "checkpoint_match",
+            ),
+            ("expected_current_oid", "4" * 40, "expected_oid_match"),
+            ("proposed_checkpoint_oid", "5" * 40, "proposed_oid_match"),
         )
-        changed = replace(
-            changed,
-            validation_digest=checkpoint_candidate_validation_digest(changed),
-        )
-        envelope = derive_checkpoint_evidence_envelope(
-            "envelope-reference-mismatch", self.contract(), changed
-        )
-        self.assertEqual(envelope.status, ENVELOPE_REJECTED)
-        self.assertFalse(envelope.checkpoint_match)
+        for field, changed_value, match_field in cases:
+            with self.subTest(binding=field):
+                changed = replace(
+                    self.validation,
+                    **{field: changed_value},
+                    validation_digest="",
+                )
+                changed = replace(
+                    changed,
+                    validation_digest=checkpoint_candidate_validation_digest(changed),
+                )
+                envelope = derive_checkpoint_evidence_envelope(
+                    f"envelope-mismatch-{field}", self.contract(), changed
+                )
+                self.assertEqual(envelope.status, ENVELOPE_REJECTED)
+                self.assertFalse(getattr(envelope, match_field))
 
     def test_same_input_is_deterministic(self) -> None:
         first = derive_checkpoint_evidence_envelope(
