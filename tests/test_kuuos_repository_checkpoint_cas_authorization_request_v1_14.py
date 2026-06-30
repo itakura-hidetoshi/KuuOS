@@ -24,7 +24,9 @@ from tests.test_kuuos_repository_checkpoint_cas_coherence_v1_13 import (
 
 class RepositoryCheckpointCasAuthorizationRequestV114Tests(unittest.TestCase):
     def setUp(self) -> None:
-        self.helper = RepositoryCheckpointCasCoherenceV113Tests(methodName="runTest")
+        self.helper = RepositoryCheckpointCasCoherenceV113Tests(
+            methodName="test_same_input_is_deterministic"
+        )
         self.helper.setUp()
         self.policy = build_repository_checkpoint_cas_authorization_request_policy(
             "checkpoint-cas-authorization-request-policy-v114-tests",
