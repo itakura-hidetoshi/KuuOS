@@ -1,0 +1,28 @@
+{
+  "manifest_version": "kuuos_repository_checkpoint_candidate_v1_09",
+  "runtime_modules": [
+    "runtime/kuuos_repository_checkpoint_candidate_types_v1_09.py",
+    "runtime/v109_checkpoint_candidate_core.py",
+    "runtime/kuuos_repository_checkpoint_candidate_v1_09.py",
+    "runtime/v109_checkpoint_candidate_runtime.py"
+  ],
+  "tests": "tests/test_kuuos_repository_checkpoint_candidate_v1_09.py",
+  "test_fixture": "tests/v109_checkpoint_candidate_fixture.py",
+  "validator": "tests/test_kuuos_repository_checkpoint_candidate_v1_09.py",
+  "cumulative_runtime": "runtime/kuuos_v109_check.py",
+  "documentation": "docs/KUUOS_REPOSITORY_CHECKPOINT_CANDIDATE_v1_09.md",
+  "strict_formal_root": "KuuOSRepositoryCheckpointCandidateV1_09",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryCheckpointCandidateV1_09"
+  ],
+  "prior_frontier": "kuuos_repository_checkpoint_namespace_gate_v1_08",
+  "complete_v108_revalidation_required": true,
+  "clean_candidate_status": "NONE",
+  "missing_checkpoint_candidate_status": "NONE",
+  "substituted_checkpoint_candidate_status": "READY",
+  "invalid_evidence_status": "REJECTED",
+  "dedicated_checkpoint_interface_required_for_ready": true,
+  "human_review_required": false,
+  "repository_change_authority_granted": false,
+  "execution_performed": false
+}

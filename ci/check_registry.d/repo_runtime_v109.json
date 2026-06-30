@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-runtime-v109": {
+      "name": "KuuOS repository runtime v1.09",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_v109_check.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_v109_check.py",
+        "runtime/v109_checkpoint_candidate_*.py",
+        "manifests/kuuos_checkpoint_candidate_v109.json"
+      ],
+      "depends_on": [
+        "repository-runtime-v108",
+        "repository-checkpoint-candidate-v109"
+      ],
+      "timeout_minutes": 75,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
