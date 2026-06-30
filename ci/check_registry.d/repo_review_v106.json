@@ -1,0 +1,22 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-review-v106": {
+      "name": "KuuOS repository review v1.06",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_checkpoint_discrepancy_review_v1_06",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/v106_review_*.py",
+        "tests/test_kuuos_repository_checkpoint_discrepancy_review_v1_06.py"
+      ],
+      "depends_on": [
+        "repository-checkpoint-stability-v105"
+      ],
+      "timeout_minutes": 35,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
