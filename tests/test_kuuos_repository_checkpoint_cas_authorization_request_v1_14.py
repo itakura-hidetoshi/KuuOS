@@ -120,20 +120,25 @@ class RepositoryCheckpointCasAuthorizationRequestV114Tests(unittest.TestCase):
 
     def test_self_consistent_ready_oid_tamper_is_rejected(self) -> None:
         receipt = self.coherence_receipt()
-        changed = replace(
-            receipt,
-            observed_current_oid=OTHER_OID,
-            coherence_digest="",
+        tamper_cases = (
+            ("ready_relation", {"observed_current_oid": OTHER_OID}),
+            ("zero_expected", {"expected_current_oid": "0" * 40}),
+            ("malformed_proposed", {"proposed_checkpoint_oid": "not-an-oid"}),
         )
-        changed = replace(
-            changed,
-            coherence_digest=repository_checkpoint_cas_coherence_digest(changed),
-        )
-        request = self.request(changed)
-        self.assertEqual(request.status, REQUEST_REJECTED)
-        self.assertFalse(request.coherence_receipt_valid)
-        self.assertFalse(request.single_use_authorization_required)
-        self.assertFalse(request.authorization_granted)
+        for label, changes in tamper_cases:
+            with self.subTest(tamper=label):
+                changed = replace(receipt, **changes, coherence_digest="")
+                changed = replace(
+                    changed,
+                    coherence_digest=repository_checkpoint_cas_coherence_digest(
+                        changed
+                    ),
+                )
+                request = self.request(changed)
+                self.assertEqual(request.status, REQUEST_REJECTED)
+                self.assertFalse(request.coherence_receipt_valid)
+                self.assertFalse(request.single_use_authorization_required)
+                self.assertFalse(request.authorization_granted)
 
     def test_same_input_is_deterministic(self) -> None:
         receipt = self.coherence_receipt()
