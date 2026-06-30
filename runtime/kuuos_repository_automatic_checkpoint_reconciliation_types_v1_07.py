@@ -8,12 +8,11 @@ from runtime.kuuos_gauge_field_self_organization_types_v0_60 import canonical_di
 
 VERSION = "kuuos_repository_automatic_checkpoint_reconciliation_v1_07"
 RECONCILIATION_NOOP = "REPOSITORY_CHECKPOINT_RECONCILIATION_NOOP"
-RECONCILIATION_APPLY = "REPOSITORY_CHECKPOINT_RECONCILIATION_APPLY"
+RECONCILIATION_RECOVERY_RECOMMENDED = "REPOSITORY_CHECKPOINT_RECOVERY_RECOMMENDED"
 RECONCILIATION_REJECTED = "REPOSITORY_CHECKPOINT_RECONCILIATION_REJECTED"
 ACTION_NONE = "NONE"
-ACTION_CREATE_MISSING_REFERENCE = "CREATE_MISSING_CHECKPOINT_REFERENCE"
-ACTION_REPLACE_SUBSTITUTED_REFERENCE = "REPLACE_SUBSTITUTED_CHECKPOINT_REFERENCE"
-ZERO_OID = "0" * 40
+ACTION_RECOVER_LOST = "RECOVER_LOST_CHECKPOINT"
+ACTION_RECOVER_SUBSTITUTED = "RECOVER_SUBSTITUTED_CHECKPOINT"
 
 
 @dataclass(frozen=True)
@@ -55,12 +54,12 @@ class RepositoryCheckpointReconciliationDecision:
     repository_id: str
     git_dir_fingerprint: str
     checkpoint_reference: str
-    expected_old_oid: str
-    proposed_new_oid: str
+    current_oid: str
+    target_oid: str
     decided_at_epoch_seconds: int
     automatic_decision: bool
     human_review_required: bool
-    external_execution_required: bool
+    recovery_recommended: bool
     repository_change_authority_granted: bool
     checks: dict[str, bool]
     decision_digest: str
