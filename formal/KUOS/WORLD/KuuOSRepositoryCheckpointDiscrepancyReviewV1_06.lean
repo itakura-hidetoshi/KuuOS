@@ -5,7 +5,6 @@ namespace KUOS.WORLD.KuuOSRepositoryCheckpointDiscrepancyReviewV1_06
 inductive CheckpointReviewDisposition where
   | clean
   | automaticRepairEligible
-  | reviewRequired
   | rejected
   deriving DecidableEq, Repr
 
@@ -67,31 +66,11 @@ structure CheckpointReviewWitness.ValidAutomaticRepair
   dispositionMatchesCurrentState : w.dispositionMatchesCurrentState
   dispositionAutomatic :
     w.disposition = CheckpointReviewDisposition.automaticRepairEligible
-  discrepancyLost : w.discrepancy = CheckpointDiscrepancy.lost
+  discrepancyEligible :
+    w.discrepancy = CheckpointDiscrepancy.lost ∨
+      w.discrepancy = CheckpointDiscrepancy.substituted
   automaticRepairEligible : w.automaticRepairEligible = true
   humanReviewRequired : w.humanReviewRequired = false
-  repositoryChangeAuthorityGranted : w.repositoryChangeAuthorityGranted = false
-  referenceMutationPerformed : w.referenceMutationPerformed = false
-  objectWritePerformed : w.objectWritePerformed = false
-  liveGitCommandInvoked : w.liveGitCommandInvoked = false
-  liveRepositoryMutated : w.liveRepositoryMutated = false
-  nonceConsumed : w.nonceConsumed = false
-
-structure CheckpointReviewWitness.ValidReviewRequired
-    (w : CheckpointReviewWitness) : Prop where
-  stabilityCertificateValid : w.stabilityCertificateValid
-  evidenceBindingExact : w.evidenceBindingExact
-  directLocalEvidence : w.directLocalEvidence
-  observationFresh : w.observationFresh
-  currentStateRecheckStable : w.currentStateRecheckStable
-  targetCommitPresent : w.targetCommitPresent
-  dispositionMatchesCurrentState : w.dispositionMatchesCurrentState
-  dispositionReviewRequired :
-    w.disposition = CheckpointReviewDisposition.reviewRequired
-  discrepancySubstituted :
-    w.discrepancy = CheckpointDiscrepancy.substituted
-  automaticRepairEligible : w.automaticRepairEligible = false
-  humanReviewRequired : w.humanReviewRequired = true
   repositoryChangeAuthorityGranted : w.repositoryChangeAuthorityGranted = false
   referenceMutationPerformed : w.referenceMutationPerformed = false
   objectWritePerformed : w.objectWritePerformed = false
@@ -122,33 +101,14 @@ theorem clean_checkpoint_requires_no_human_review
     h.humanReviewRequired⟩
 
 
-theorem confirmed_missing_reference_uses_automatic_route
+theorem confirmed_discrepancy_uses_automatic_route
     (w : CheckpointReviewWitness)
     (h : w.ValidAutomaticRepair) :
-    w.discrepancy = CheckpointDiscrepancy.lost ∧
+    (w.discrepancy = CheckpointDiscrepancy.lost ∨
+      w.discrepancy = CheckpointDiscrepancy.substituted) ∧
       w.automaticRepairEligible = true ∧
       w.humanReviewRequired = false := by
-  exact ⟨h.discrepancyLost, h.automaticRepairEligible,
-    h.humanReviewRequired⟩
-
-
-theorem human_review_is_limited_to_confirmed_substitution
-    (w : CheckpointReviewWitness)
-    (h : w.ValidReviewRequired) :
-    w.discrepancy = CheckpointDiscrepancy.substituted ∧
-      w.automaticRepairEligible = false ∧
-      w.humanReviewRequired = true := by
-  exact ⟨h.discrepancySubstituted, h.automaticRepairEligible,
-    h.humanReviewRequired⟩
-
-
-theorem rejected_evidence_does_not_request_human_review
-    (w : CheckpointReviewWitness)
-    (h : w.ValidRejected) :
-    w.disposition = CheckpointReviewDisposition.rejected ∧
-      w.automaticRepairEligible = false ∧
-      w.humanReviewRequired = false := by
-  exact ⟨h.dispositionRejected, h.automaticRepairEligible,
+  exact ⟨h.discrepancyEligible, h.automaticRepairEligible,
     h.humanReviewRequired⟩
 
 
@@ -166,18 +126,24 @@ theorem automatic_route_grants_no_repository_change_authority
     h.liveRepositoryMutated, h.nonceConsumed⟩
 
 
-theorem human_review_record_grants_no_repository_change_authority
+theorem rejected_evidence_needs_no_human_review
     (w : CheckpointReviewWitness)
-    (h : w.ValidReviewRequired) :
-    w.repositoryChangeAuthorityGranted = false ∧
-      w.referenceMutationPerformed = false ∧
-      w.objectWritePerformed = false ∧
-      w.liveGitCommandInvoked = false ∧
-      w.liveRepositoryMutated = false ∧
-      w.nonceConsumed = false := by
-  exact ⟨h.repositoryChangeAuthorityGranted, h.referenceMutationPerformed,
-    h.objectWritePerformed, h.liveGitCommandInvoked,
-    h.liveRepositoryMutated, h.nonceConsumed⟩
+    (h : w.ValidRejected) :
+    w.disposition = CheckpointReviewDisposition.rejected ∧
+      w.automaticRepairEligible = false ∧
+      w.humanReviewRequired = false := by
+  exact ⟨h.dispositionRejected, h.automaticRepairEligible,
+    h.humanReviewRequired⟩
+
+
+theorem every_valid_route_avoids_human_review
+    (w : CheckpointReviewWitness)
+    (hValid : w.ValidClean ∨ w.ValidAutomaticRepair ∨ w.ValidRejected) :
+    w.humanReviewRequired = false := by
+  rcases hValid with h | h | h
+  · exact h.humanReviewRequired
+  · exact h.humanReviewRequired
+  · exact h.humanReviewRequired
 
 
 structure CheckpointReviewDerivation (Input Output : Type) where
