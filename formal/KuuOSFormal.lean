@@ -2,7 +2,7 @@
 # KuuOS aggregate formal root
 
 This is the strict aggregate build surface for the formal artifacts integrated on
-`main` through KuuOS Repository Checkpoint CAS Coherence Receipt v1.13.
+`main` through KuuOS Repository Checkpoint CAS Authorization Request v1.14.
 
 The root preserves the distinction between a Lean-derived theorem, a structure
 supplied by hypotheses, an external analytic or institutional receipt, and an
@@ -101,3 +101,4 @@ import KUOS.WORLD.KuuOSRepositoryCheckpointCasContractV1_10
 import KUOS.WORLD.KuuOSCheckpointCandidateValidationV1_11
 import KUOS.WORLD.KuuOSRepositoryCheckpointValidatedCasIntakeV1_12
 import KUOS.WORLD.KuuOSRepositoryCheckpointCasCoherenceV1_13
+import KUOS.WORLD.KuuOSRepositoryCheckpointCasAuthorizationRequestV1_14
