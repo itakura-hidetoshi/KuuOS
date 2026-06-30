@@ -1,0 +1,29 @@
+{
+  "manifest_version": "kuuos_repository_checkpoint_cas_authorization_request_v1_14",
+  "runtime_modules": [
+    "runtime/kuuos_repository_checkpoint_cas_authorization_request_types_v1_14.py",
+    "runtime/v114_checkpoint_cas_authorization_request_core.py",
+    "runtime/v114_checkpoint_cas_authorization_request_strict.py",
+    "runtime/kuuos_repository_checkpoint_cas_authorization_request_v1_14.py",
+    "runtime/v114_checkpoint_cas_authorization_request_runtime.py"
+  ],
+  "tests": "tests/test_kuuos_repository_checkpoint_cas_authorization_request_v1_14.py",
+  "validator": "tests/test_kuuos_repository_checkpoint_cas_authorization_request_v1_14.py",
+  "cumulative_runtime": "runtime/kuuos_v114_check.py",
+  "documentation": "docs/KUUOS_REPOSITORY_CHECKPOINT_CAS_AUTHORIZATION_REQUEST_v1_14.md",
+  "strict_formal_root": "KuuOSRepositoryCheckpointCasAuthorizationRequestV1_14",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryCheckpointCasAuthorizationRequestV1_14"
+  ],
+  "prior_frontier": "kuuos_repository_checkpoint_cas_coherence_v1_13",
+  "ready_status": "READY",
+  "denied_status": "DENIED",
+  "rejected_status": "REJECTED",
+  "well_formed_lowercase_hex_oids_required": true,
+  "nonzero_oids_required": true,
+  "expected_proposed_oid_distinct": true,
+  "single_use_authorization_required": true,
+  "authorization_granted": false,
+  "external_observation_repeated": false,
+  "operation_performed": false
+}
