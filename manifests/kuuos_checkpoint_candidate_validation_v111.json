@@ -1,0 +1,11 @@
+{
+  "schema_version": "0.2",
+  "version": "1.11",
+  "name": "KuuOS checkpoint candidate validation",
+  "runtime_modules": ["runtime/kuuos_checkpoint_candidate_validation_v1_11.py"],
+  "tests": "tests/test_kuuos_checkpoint_candidate_validation_v1_11.py",
+  "documentation": "docs/KUUOS_CHECKPOINT_CANDIDATE_VALIDATION_v1_11.md",
+  "strict_formal_root": "KuuOSCheckpointCandidateValidationV1_11",
+  "aggregate_lean_modules": ["KUOS.WORLD.KuuOSCheckpointCandidateValidationV1_11"],
+  "predecessor": "manifests/kuuos_checkpoint_cas_contract_v110.json"
+}
