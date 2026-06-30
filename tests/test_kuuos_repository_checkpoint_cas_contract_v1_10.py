@@ -1,4 +1,5 @@
 from dataclasses import replace
+import unittest
 
 from runtime.kuuos_repository_checkpoint_candidate_types_v1_09 import (
     CANDIDATE_NONE,
@@ -34,9 +35,7 @@ def candidate(*, ready: bool = True) -> RepositoryCheckpointCandidate:
     value = RepositoryCheckpointCandidate(
         candidate_id="candidate-v109",
         status=CANDIDATE_READY if ready else CANDIDATE_NONE,
-        reason=(
-            REASON_CHECKPOINT_INTERFACE_REQUIRED if ready else REASON_CLEAN_NOOP
-        ),
+        reason=(REASON_CHECKPOINT_INTERFACE_REQUIRED if ready else REASON_CLEAN_NOOP),
         namespace_gate_decision_digest="gate-digest",
         candidate_policy_digest="candidate-policy-digest",
         repository_id=REPOSITORY_ID,
@@ -64,48 +63,49 @@ def policy():
     )
 
 
-def test_matching_observation_produces_ready_specification() -> None:
-    contract = derive_repository_checkpoint_cas_contract(
-        "contract-ready", candidate(), policy(), observed_current_oid=CURRENT_OID
-    )
-    assert contract.status == CONTRACT_READY
-    assert contract.reason == REASON_EXPECTED_OID_CONFIRMED
-    assert contract.compare_and_swap_required
-    assert not contract.execution_performed
-    assert not contract.repository_change_authority_granted
+class RepositoryCheckpointCasContractV110Tests(unittest.TestCase):
+    def test_matching_observation_produces_ready_specification(self) -> None:
+        contract = derive_repository_checkpoint_cas_contract(
+            "contract-ready", candidate(), policy(), observed_current_oid=CURRENT_OID
+        )
+        self.assertEqual(contract.status, CONTRACT_READY)
+        self.assertEqual(contract.reason, REASON_EXPECTED_OID_CONFIRMED)
+        self.assertTrue(contract.compare_and_swap_required)
+        self.assertFalse(contract.execution_performed)
+        self.assertFalse(contract.repository_change_authority_granted)
+
+    def test_changed_observation_produces_conflict_without_execution(self) -> None:
+        contract = derive_repository_checkpoint_cas_contract(
+            "contract-conflict", candidate(), policy(), observed_current_oid=OTHER_OID
+        )
+        self.assertEqual(contract.status, CONTRACT_CONFLICT)
+        self.assertEqual(contract.reason, REASON_CURRENT_OID_CHANGED)
+        self.assertFalse(contract.compare_and_swap_required)
+        self.assertFalse(contract.live_git_command_invoked)
+
+    def test_nonready_candidate_produces_no_contract(self) -> None:
+        contract = derive_repository_checkpoint_cas_contract(
+            "contract-none", candidate(ready=False), policy(), observed_current_oid=CURRENT_OID
+        )
+        self.assertEqual(contract.status, CONTRACT_NONE)
+        self.assertEqual(contract.reason, REASON_NO_READY_CANDIDATE)
+
+    def test_zero_observation_is_rejected(self) -> None:
+        contract = derive_repository_checkpoint_cas_contract(
+            "contract-rejected", candidate(), policy(), observed_current_oid="0" * 40
+        )
+        self.assertEqual(contract.status, CONTRACT_REJECTED)
+        self.assertEqual(contract.reason, REASON_INVALID_EVIDENCE)
+
+    def test_same_input_is_deterministic(self) -> None:
+        first = derive_repository_checkpoint_cas_contract(
+            "contract-deterministic", candidate(), policy(), observed_current_oid=CURRENT_OID
+        )
+        second = derive_repository_checkpoint_cas_contract(
+            "contract-deterministic", candidate(), policy(), observed_current_oid=CURRENT_OID
+        )
+        self.assertEqual(first.to_dict(), second.to_dict())
 
 
-def test_changed_observation_produces_conflict_without_execution() -> None:
-    contract = derive_repository_checkpoint_cas_contract(
-        "contract-conflict", candidate(), policy(), observed_current_oid=OTHER_OID
-    )
-    assert contract.status == CONTRACT_CONFLICT
-    assert contract.reason == REASON_CURRENT_OID_CHANGED
-    assert not contract.compare_and_swap_required
-    assert not contract.live_git_command_invoked
-
-
-def test_nonready_candidate_produces_no_contract() -> None:
-    contract = derive_repository_checkpoint_cas_contract(
-        "contract-none", candidate(ready=False), policy(), observed_current_oid=CURRENT_OID
-    )
-    assert contract.status == CONTRACT_NONE
-    assert contract.reason == REASON_NO_READY_CANDIDATE
-
-
-def test_zero_observation_is_rejected() -> None:
-    contract = derive_repository_checkpoint_cas_contract(
-        "contract-rejected", candidate(), policy(), observed_current_oid="0" * 40
-    )
-    assert contract.status == CONTRACT_REJECTED
-    assert contract.reason == REASON_INVALID_EVIDENCE
-
-
-def test_same_input_is_deterministic() -> None:
-    first = derive_repository_checkpoint_cas_contract(
-        "contract-deterministic", candidate(), policy(), observed_current_oid=CURRENT_OID
-    )
-    second = derive_repository_checkpoint_cas_contract(
-        "contract-deterministic", candidate(), policy(), observed_current_oid=CURRENT_OID
-    )
-    assert first.to_dict() == second.to_dict()
+if __name__ == "__main__":
+    unittest.main()
