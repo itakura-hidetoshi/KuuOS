@@ -14,6 +14,9 @@ PRIMITIVE_NONE = "NONE"
 PRIMITIVE_ATOMIC_CHECKPOINT_CREATION_V1_02 = (
     "ATOMIC_CHECKPOINT_CREATION_V1_02"
 )
+PRIMITIVE_ATOMIC_CHECKPOINT_REPLACEMENT_V1_08 = (
+    "ATOMIC_CHECKPOINT_REPLACEMENT_V1_08"
+)
 PRIMITIVE_ATOMIC_REFERENCE_UPDATE_V0_97 = "ATOMIC_REFERENCE_UPDATE_V0_97"
 
 
@@ -25,6 +28,7 @@ class RepositoryCheckpointRepairRoutingPolicy:
     max_review_age_seconds: int
     allow_checkpoint_creation_route: bool
     allow_reference_update_route: bool
+    allow_checkpoint_replacement_route: bool
     require_complete_v106_revalidation: bool
     require_exact_repository_binding: bool
     require_read_only_routing: bool
