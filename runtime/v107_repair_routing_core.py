@@ -17,7 +17,6 @@ from runtime.kuuos_repository_checkpoint_discrepancy_review_types_v1_06 import (
 )
 from runtime.kuuos_repository_checkpoint_repair_routing_types_v1_07 import (
     PRIMITIVE_ATOMIC_CHECKPOINT_CREATION_V1_02,
-    PRIMITIVE_ATOMIC_REFERENCE_UPDATE_V0_97,
     PRIMITIVE_NONE,
     ROUTE_AUTOMATIC,
     ROUTE_NOOP,
@@ -47,7 +46,7 @@ def build_repository_checkpoint_repair_routing_policy(
         allowed_checkpoint_references=_canonical(allowed_checkpoint_references),
         max_review_age_seconds=max_review_age_seconds,
         allow_checkpoint_creation_route=True,
-        allow_reference_update_route=True,
+        allow_reference_update_route=False,
         require_complete_v106_revalidation=True,
         require_exact_repository_binding=True,
         require_read_only_routing=True,
@@ -85,13 +84,14 @@ def repository_checkpoint_repair_routing_policy_issues(
     if not all(
         (
             policy.allow_checkpoint_creation_route,
-            policy.allow_reference_update_route,
             policy.require_complete_v106_revalidation,
             policy.require_exact_repository_binding,
             policy.require_read_only_routing,
         )
     ):
         issues.append("routing_required_guard_disabled")
+    if policy.allow_reference_update_route:
+        issues.append("routing_incompatible_route_enabled")
     if policy.execute_live_git:
         issues.append("routing_not_read_only")
     if policy.policy_digest != repository_checkpoint_repair_routing_policy_digest(
@@ -192,10 +192,6 @@ def construct_repository_checkpoint_repair_route(
         status = ROUTE_AUTOMATIC
         primitive = PRIMITIVE_ATOMIC_CHECKPOINT_CREATION_V1_02
         eligible = True
-    elif substituted:
-        status = ROUTE_AUTOMATIC
-        primitive = PRIMITIVE_ATOMIC_REFERENCE_UPDATE_V0_97
-        eligible = True
     else:
         status, primitive = ROUTE_REJECTED, PRIMITIVE_NONE
 
@@ -207,6 +203,7 @@ def construct_repository_checkpoint_repair_route(
         "clean_shape": clean,
         "lost_shape": lost,
         "substituted_shape": substituted,
+        "compatible_substitution_primitive_available": False,
         "automatic_route_eligible": eligible,
         "human_review_required": False,
         "side_effect_performed": False,
@@ -309,7 +306,6 @@ def repository_checkpoint_repair_route_issues(
     if route.primitive not in (
         PRIMITIVE_NONE,
         PRIMITIVE_ATOMIC_CHECKPOINT_CREATION_V1_02,
-        PRIMITIVE_ATOMIC_REFERENCE_UPDATE_V0_97,
     ):
         issues.append("repair_route_primitive_invalid")
     if route.automatic_route_eligible != (route.status == ROUTE_AUTOMATIC):
