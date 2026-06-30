@@ -1,0 +1,23 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-runtime-v107": {
+      "name": "KuuOS repository runtime v1.07",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_v107_check.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_v107_check.py",
+        "runtime/v107_repair_routing_*.py"
+      ],
+      "depends_on": [
+        "repository-runtime-v106",
+        "repository-repair-routing-v107"
+      ],
+      "timeout_minutes": 65,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
