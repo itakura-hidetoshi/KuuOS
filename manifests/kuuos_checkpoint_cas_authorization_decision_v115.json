@@ -1,0 +1,29 @@
+{
+  "manifest_version": "kuuos_repository_checkpoint_cas_authorization_decision_v1_15",
+  "runtime_modules": [
+    "runtime/kuuos_repository_checkpoint_cas_authorization_decision_types_v1_15.py",
+    "runtime/v115_checkpoint_cas_authorization_decision_core.py",
+    "runtime/kuuos_repository_checkpoint_cas_authorization_decision_v1_15.py",
+    "runtime/v115_checkpoint_cas_authorization_decision_runtime.py"
+  ],
+  "tests": "tests/test_kuuos_repository_checkpoint_cas_authorization_decision_v1_15.py",
+  "validator": "tests/test_kuuos_repository_checkpoint_cas_authorization_decision_v1_15.py",
+  "cumulative_runtime": "runtime/kuuos_v115_check.py",
+  "documentation": "docs/KUUOS_REPOSITORY_CHECKPOINT_CAS_AUTHORIZATION_DECISION_v1_15.md",
+  "strict_formal_root": "KuuOSRepositoryCheckpointCasAuthorizationDecisionV1_15",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryCheckpointCasAuthorizationDecisionV1_15"
+  ],
+  "prior_frontier": "kuuos_repository_checkpoint_cas_authorization_request_v1_14",
+  "granted_status": "GRANTED",
+  "denied_status": "DENIED",
+  "rejected_status": "REJECTED",
+  "external_signature_verification_receipt_required": true,
+  "external_revocation_status_receipt_required": true,
+  "fresh_unused_nonce_required": true,
+  "single_use_cas_eligible_on_grant": true,
+  "nonce_consumed": false,
+  "external_cryptography_performed": false,
+  "operation_performed": false,
+  "reference_mutated": false
+}
