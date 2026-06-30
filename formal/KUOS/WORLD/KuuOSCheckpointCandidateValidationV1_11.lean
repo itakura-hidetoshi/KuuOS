@@ -8,7 +8,7 @@ inductive ValidationStatus where
   deriving DecidableEq, Repr
 
 structure ValidationWitness where
-  digestMatches : Prop
+  upstreamChainRevalidated : Prop
   readyCandidate : Prop
   repositoryMatches : Prop
   checkpointMatches : Prop
@@ -17,7 +17,7 @@ structure ValidationWitness where
   operationPerformed : Bool
 
 structure ValidationWitness.Valid (w : ValidationWitness) : Prop where
-  digestMatches : w.digestMatches
+  upstreamChainRevalidated : w.upstreamChainRevalidated
   readyCandidate : w.readyCandidate
   repositoryMatches : w.repositoryMatches
   checkpointMatches : w.checkpointMatches
@@ -33,12 +33,19 @@ theorem valid_validation_is_nonoperational
   exact h.noOperation
 
 
+theorem valid_validation_replays_upstream_chain
+    (w : ValidationWitness)
+    (h : w.Valid) :
+    w.upstreamChainRevalidated := by
+  exact h.upstreamChainRevalidated
+
+
 theorem valid_validation_has_all_bindings
     (w : ValidationWitness)
     (h : w.Valid) :
-    w.digestMatches ∧ w.readyCandidate ∧ w.repositoryMatches ∧
+    w.upstreamChainRevalidated ∧ w.readyCandidate ∧ w.repositoryMatches ∧
       w.checkpointMatches ∧ w.distinctNonzeroOids := by
-  exact ⟨h.digestMatches, h.readyCandidate, h.repositoryMatches,
+  exact ⟨h.upstreamChainRevalidated, h.readyCandidate, h.repositoryMatches,
     h.checkpointMatches, h.distinctNonzeroOids⟩
 
 structure ValidationDerivation (Input Output : Type) where
