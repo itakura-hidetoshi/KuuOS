@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-runtime-v105": {
+      "name": "KuuOS repository runtime frontier v1.05",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_v105_check.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_v105_check.py",
+        "scripts/check_kuuos_live_v105.py",
+        "runtime/v104_workspace_runtime.py",
+        "runtime/kuuos_repository_checkpoint_stability*_v1_05.py",
+        "runtime/v105_checkpoint_stability_*.py",
+        "tests/test_kuuos_repository_checkpoint_stability_v1_05.py",
+        "manifests/kuuos_checkpoint_stability_v105.json"
+      ],
+      "depends_on": [
+        "repository-runtime-v104",
+        "repository-checkpoint-stability-v105"
+      ],
+      "timeout_minutes": 60,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
