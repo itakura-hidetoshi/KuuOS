@@ -1,0 +1,30 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-checkpoint-namespace-gate-v108": {
+      "name": "KuuOS repository checkpoint namespace gate v1.08",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_checkpoint_namespace_gate_v1_08 tests.test_kuuos_repository_checkpoint_namespace_compatibility_v1_08 tests.test_kuuos_repository_checkpoint_namespace_validation_v1_08",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*checkpoint_namespace_gate*v1_08.py",
+        "runtime/v108_checkpoint_namespace_gate_*.py",
+        "tests/*namespace_gate*v1_08.py",
+        "tests/*namespace_compatibility*v1_08.py",
+        "tests/*namespace_validation*v1_08.py",
+        "tests/v108_namespace_gate_fixture.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryCheckpointNamespaceGateV1_08.lean",
+        "formal/KuuOSRepositoryCheckpointNamespaceGateV1_08.lean",
+        "manifests/kuuos_checkpoint_namespace_gate_v108.json",
+        "docs/CHECKPOINT_NAMESPACE_COMPATIBILITY_v1_08.md"
+      ],
+      "depends_on": [
+        "repository-repair-routing-v107"
+      ],
+      "timeout_minutes": 35,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
