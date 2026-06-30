@@ -1,6 +1,8 @@
 # KuuOS Checkpoint Candidate Validation v1.11
 
-v1.11 inserts an explicit validation boundary between the v1.09 checkpoint candidate and the v1.10 CAS contract.
+v1.11 follows the v1.10 CAS contract specification and adds a complete validation receipt for any future adapter or authorization layer that consumes a v1.09 checkpoint candidate.
+
+It does not modify the already-defined v1.10 contract. Instead, it closes the trust-boundary gap identified in v1.10 by independently replaying the candidate derivation before later operational layers are introduced.
 
 The validator does not rely on the candidate digest alone. It replays the complete v1.09 candidate validation against the original namespace-gate decision, repair route, discrepancy-review record, stability certificate, observation, policies, context, and evaluation times.
 
