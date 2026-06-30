@@ -1,18 +1,20 @@
 # KuuOS Repository Checkpoint Discrepancy Review v1.06
 
-v1.06 is a read-only review layer after Repository Checkpoint Stability and Immutability v1.05.
+v1.06 is a read-only review and routing layer after Repository Checkpoint Stability and Immutability v1.05.
 
 It revalidates the complete v1.05 certificate context and compares a fresh, direct, local checkpoint observation with the certified state.
 
-The layer classifies the result as clean, review required, or rejected.
+The layer classifies the result as clean, automatic repair eligible, human review required, or rejected.
 
-Human review is requested only when all evidence is valid and the current state confirms either checkpoint loss or checkpoint substitution.
+A clean checkpoint completes automatically.
 
-A clean checkpoint completes without human review.
+A confirmed missing checkpoint reference is marked automatic repair eligible only when the reference is absent in both observations, the expected target is a known nonzero commit OID, the target commit remains present, the repository identity is exact, and the repair shape is the bounded local compare-and-swap transition `ZERO_OID -> expected_oid`.
+
+Human review is reserved for confirmed checkpoint substitution because that case would replace an existing nonzero reference value.
 
 Invalid, stale, inconsistent, indirect, remote, or contaminated evidence is rejected automatically without requesting human review.
 
-The review record does not authorize or perform a repository change.
+The v1.06 record does not itself authorize or perform a repository change.
 
 It does not invoke Git, write an object, mutate a reference, consume a nonce, update a branch or tag, access a remote, or push.
 
