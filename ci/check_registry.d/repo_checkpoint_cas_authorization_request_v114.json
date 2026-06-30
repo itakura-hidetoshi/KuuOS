@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-checkpoint-cas-authorization-request-v114": {
+      "name": "KuuOS repository checkpoint CAS authorization request v1.14",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_checkpoint_cas_authorization_request_v1_14",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*checkpoint_cas_authorization_request*v1_14.py",
+        "runtime/v114_checkpoint_cas_authorization_request_*.py",
+        "tests/test_kuuos_repository_checkpoint_cas_authorization_request_v1_14.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryCheckpointCasAuthorizationRequestV1_14.lean",
+        "formal/KuuOSRepositoryCheckpointCasAuthorizationRequestV1_14.lean",
+        "manifests/kuuos_checkpoint_cas_authorization_request_v114.json",
+        "docs/KUUOS_REPOSITORY_CHECKPOINT_CAS_AUTHORIZATION_REQUEST_v1_14.md"
+      ],
+      "depends_on": [
+        "repository-checkpoint-cas-coherence-v113"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
