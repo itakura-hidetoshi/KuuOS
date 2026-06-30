@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-checkpoint-cas-authorization-decision-v115": {
+      "name": "KuuOS repository checkpoint CAS authorization decision v1.15",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_checkpoint_cas_authorization_decision_v1_15",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*checkpoint_cas_authorization_decision*v1_15.py",
+        "runtime/v115_checkpoint_cas_authorization_decision_*.py",
+        "tests/test_kuuos_repository_checkpoint_cas_authorization_decision_v1_15.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryCheckpointCasAuthorizationDecisionV1_15.lean",
+        "formal/KuuOSRepositoryCheckpointCasAuthorizationDecisionV1_15.lean",
+        "manifests/kuuos_checkpoint_cas_authorization_decision_v115.json",
+        "docs/KUUOS_REPOSITORY_CHECKPOINT_CAS_AUTHORIZATION_DECISION_v1_15.md"
+      ],
+      "depends_on": [
+        "repository-checkpoint-cas-authorization-request-v114"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
