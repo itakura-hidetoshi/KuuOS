@@ -1,0 +1,5 @@
+#!/usr/bin/env python3
+
+STATUS_CLEAN = "CLEAN"
+STATUS_REVIEW = "REVIEW"
+STATUS_REJECT = "REJECT"
