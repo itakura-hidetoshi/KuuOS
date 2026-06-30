@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-repair-routing-v107": {
+      "name": "KuuOS repository repair routing v1.07",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_checkpoint_repair_routing_v1_07",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*repair_routing*v1_07.py",
+        "runtime/v107_repair_routing_*.py",
+        "tests/test_kuuos_repository_checkpoint_repair_routing_v1_07.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryCheckpointRepairRoutingV1_07.lean",
+        "formal/KuuOSRepositoryCheckpointRoutingV1_07.lean",
+        "manifests/kuuos_checkpoint_repair_routing_v107.json",
+        "docs/KUUOS_REPOSITORY_CHECKPOINT_REPAIR_ROUTING_v1_07.md"
+      ],
+      "depends_on": [
+        "repository-review-v106"
+      ],
+      "timeout_minutes": 35,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}

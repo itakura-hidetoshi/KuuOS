@@ -1,0 +1,29 @@
+{
+  "manifest_version": "kuuos_repository_checkpoint_repair_routing_v1_07",
+  "runtime_modules": [
+    "runtime/kuuos_repository_checkpoint_repair_routing_types_v1_07.py",
+    "runtime/v107_repair_routing_core.py",
+    "runtime/kuuos_repository_checkpoint_repair_routing_v1_07.py",
+    "runtime/v107_repair_routing_runtime.py"
+  ],
+  "tests": "tests/test_kuuos_repository_checkpoint_repair_routing_v1_07.py",
+  "validator": "tests/test_kuuos_repository_checkpoint_repair_routing_v1_07.py",
+  "cumulative_runtime": "runtime/kuuos_v107_check.py",
+  "documentation": "docs/KUUOS_REPOSITORY_CHECKPOINT_REPAIR_ROUTING_v1_07.md",
+  "strict_formal_root": "KuuOSRepositoryCheckpointRoutingV1_07",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryCheckpointRepairRoutingV1_07"
+  ],
+  "prior_frontier": "kuuos_repository_checkpoint_discrepancy_review_v1_06",
+  "complete_v106_revalidation_required": true,
+  "clean_route": "NO_OP",
+  "confirmed_loss_route": "ATOMIC_CHECKPOINT_CREATION_V1_02",
+  "confirmed_substitution_route": "ATOMIC_REFERENCE_UPDATE_V0_97",
+  "invalid_evidence_route": "REJECTED",
+  "human_review_required": false,
+  "repository_change_authority_granted": false,
+  "live_git_execution_performed": false,
+  "reference_mutation_performed": false,
+  "nonce_consumed": false,
+  "remote_access_performed": false
+}
