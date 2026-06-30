@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from runtime.v114_checkpoint_cas_authorization_request_core import (
+from runtime.v114_checkpoint_cas_authorization_request_strict import (
     build_repository_checkpoint_cas_authorization_request_policy,
     construct_repository_checkpoint_cas_authorization_request,
     derive_repository_checkpoint_cas_authorization_request,
