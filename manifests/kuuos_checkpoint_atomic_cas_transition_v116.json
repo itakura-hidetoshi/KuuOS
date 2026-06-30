@@ -1,0 +1,27 @@
+{
+  "manifest_version": "kuuos_repository_checkpoint_atomic_cas_transition_v1_16",
+  "runtime_modules": [
+    "runtime/kuuos_repository_checkpoint_atomic_cas_transition_types_v1_16.py",
+    "runtime/v116_checkpoint_atomic_cas_transition_core.py",
+    "runtime/kuuos_repository_checkpoint_atomic_cas_transition_v1_16.py",
+    "runtime/v116_checkpoint_atomic_cas_transition_runtime.py"
+  ],
+  "tests": "tests/test_kuuos_repository_checkpoint_atomic_cas_transition_v1_16.py",
+  "validator": "tests/test_kuuos_repository_checkpoint_atomic_cas_transition_v1_16.py",
+  "cumulative_runtime": "runtime/kuuos_v116_check.py",
+  "documentation": "docs/KUUOS_REPOSITORY_CHECKPOINT_ATOMIC_CAS_TRANSITION_v1_16.md",
+  "strict_formal_root": "KuuOSRepositoryCheckpointAtomicCasTransitionV1_16",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryCheckpointAtomicCasTransitionV1_16"
+  ],
+  "prior_frontier": "kuuos_repository_checkpoint_cas_authorization_decision_v1_15",
+  "committed_status": "COMMITTED",
+  "aborted_status": "ABORTED",
+  "authorization_recomputed": true,
+  "atomic_compare_and_swap_required": true,
+  "atomic_nonce_consumption_required": true,
+  "abort_preserves_reference_state": true,
+  "abort_preserves_nonce_registry": true,
+  "live_git_command_invoked": false,
+  "live_repository_mutated": false
+}

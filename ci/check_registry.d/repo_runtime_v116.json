@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-runtime-v116": {
+      "name": "KuuOS repository runtime v1.16",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_v116_check.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_v116_check.py",
+        "runtime/*checkpoint_atomic_cas_transition*v1_16.py",
+        "runtime/v116_checkpoint_atomic_cas_transition_*.py",
+        "tests/test_kuuos_repository_checkpoint_atomic_cas_transition_v1_16.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryCheckpointAtomicCasTransitionV1_16.lean",
+        "formal/KuuOSRepositoryCheckpointAtomicCasTransitionV1_16.lean",
+        "manifests/kuuos_checkpoint_atomic_cas_transition_v116.json",
+        "docs/KUUOS_REPOSITORY_CHECKPOINT_ATOMIC_CAS_TRANSITION_v1_16.md"
+      ],
+      "depends_on": [
+        "repository-runtime-v115"
+      ],
+      "timeout_minutes": 120,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
