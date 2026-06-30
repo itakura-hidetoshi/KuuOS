@@ -1,0 +1,41 @@
+{
+  "manifest_version": "kuuos_repository_checkpoint_stability_v1_05",
+  "runtime_modules": [
+    "runtime/kuuos_repository_checkpoint_stability_types_v1_05.py",
+    "runtime/v105_checkpoint_stability_policy_types.py",
+    "runtime/v105_checkpoint_stability_policy.py",
+    "runtime/v105_checkpoint_stability_delayed_types.py",
+    "runtime/v105_checkpoint_stability_delayed.py",
+    "runtime/v105_checkpoint_stability_reachability_types.py",
+    "runtime/v105_checkpoint_stability_reachability_validation.py",
+    "runtime/v105_checkpoint_stability_reachability.py",
+    "runtime/v105_checkpoint_stability_namespace_types.py",
+    "runtime/v105_checkpoint_stability_namespace_validation.py",
+    "runtime/v105_checkpoint_stability_namespace.py",
+    "runtime/v105_checkpoint_stability_certificate_types.py",
+    "runtime/v105_checkpoint_stability_core.py",
+    "runtime/kuuos_repository_checkpoint_stability_v1_05.py",
+    "runtime/kuuos_repository_checkpoint_stability_strict_v1_05.py"
+  ],
+  "tests": "tests/test_kuuos_repository_checkpoint_stability_v1_05.py",
+  "validator": "tests/test_kuuos_repository_checkpoint_stability_v1_05.py",
+  "live_contract": "scripts/check_kuuos_live_v105.py",
+  "cumulative_runtime": "runtime/kuuos_v105_check.py",
+  "documentation": "docs/KUUOS_REPOSITORY_CHECKPOINT_STABILITY_v1_05.md",
+  "strict_formal_root": "KuuOSRepositoryCheckpointStabilityV1_05",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryCheckpointStabilityV1_05"
+  ],
+  "prior_functional_frontier": "kuuos_repository_checkpoint_evolution_workspace_v1_04",
+  "creation_receipt_semantic_input": "kuuos_repository_checkpoint_creation_receipt_v1_03",
+  "delayed_direct_observation_required": true,
+  "object_reachability_required": true,
+  "checkpoint_name_uniqueness_required": true,
+  "immutable_by_default": true,
+  "checkpoint_delete_authorized": false,
+  "checkpoint_overwrite_authorized": false,
+  "restore_authorized": false,
+  "recovery_authorized": false,
+  "live_git_execution_performed": false,
+  "source_repository_mutated": false
+}

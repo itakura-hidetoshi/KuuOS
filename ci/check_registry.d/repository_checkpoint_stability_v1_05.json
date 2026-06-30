@@ -1,0 +1,45 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "stability verification is read-only",
+      "checkpoint loss does not authorize restore",
+      "checkpoint substitution does not authorize force update",
+      "immutability is the default policy",
+      "local checkpoint stability grants no remote authority",
+      "the v1.04 workspace remains unchanged"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/repository_checkpoint_stability_v1_05.json"
+  ],
+  "checks": {
+    "repository-checkpoint-stability-v105": {
+      "name": "KuuOS repository checkpoint stability v1.05",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_checkpoint_stability_v1_05",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_repository_checkpoint_stability*_v1_05.py",
+        "runtime/v105_checkpoint_stability_*.py",
+        "runtime/kuuos_repository_checkpoint_creation_receipt*_v1_03.py",
+        "runtime/kuuos_repository_checkpoint_evolution_workspace*_v1_04.py",
+        "tests/test_kuuos_repository_checkpoint_stability_v1_05.py",
+        "scripts/check_kuuos_live_v105.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryCheckpointStabilityV1_05.lean",
+        "formal/KuuOSRepositoryCheckpointStabilityV1_05.lean",
+        "formal/KuuOSFormal.lean",
+        "docs/KUUOS_REPOSITORY_CHECKPOINT_STABILITY_v1_05.md",
+        "manifests/kuuos_checkpoint_stability_v105.json"
+      ],
+      "depends_on": [
+        "repository-checkpoint-evolution-workspace-v104",
+        "repository-checkpoint-creation-receipt-v103"
+      ],
+      "timeout_minutes": 30,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
