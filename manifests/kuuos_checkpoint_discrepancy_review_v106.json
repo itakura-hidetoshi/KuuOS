@@ -1,0 +1,33 @@
+{
+  "manifest_version": "kuuos_repository_checkpoint_discrepancy_review_v1_06",
+  "runtime_modules": [
+    "runtime/kuuos_repository_checkpoint_discrepancy_review_types_v1_06.py",
+    "runtime/v106_review_status.py",
+    "runtime/v106_review_evidence.py",
+    "runtime/v106_review_core.py",
+    "runtime/kuuos_repository_checkpoint_discrepancy_review_v1_06.py",
+    "runtime/v106_review_strict.py"
+  ],
+  "tests": "tests/test_kuuos_repository_checkpoint_discrepancy_review_v1_06.py",
+  "test_fixture": "tests/v106_review_fixture.py",
+  "validator": "tests/test_kuuos_repository_checkpoint_discrepancy_review_v1_06.py",
+  "live_contract": "scripts/check_kuuos_live_v106.py",
+  "cumulative_runtime": "runtime/kuuos_v106_check.py",
+  "documentation": "docs/KUUOS_REPOSITORY_CHECKPOINT_DISCREPANCY_REVIEW_v1_06.md",
+  "strict_formal_root": "KuuOSRepositoryCheckpointDiscrepancyReviewV1_06",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryCheckpointDiscrepancyReviewV1_06"
+  ],
+  "prior_frontier": "kuuos_repository_checkpoint_stability_v1_05",
+  "complete_v105_revalidation_required": true,
+  "human_review_for_clean_checkpoint": false,
+  "human_review_for_invalid_evidence": false,
+  "human_review_for_confirmed_loss": true,
+  "human_review_for_confirmed_substitution": true,
+  "repository_change_authority_granted": false,
+  "live_git_execution_performed": false,
+  "reference_mutation_performed": false,
+  "object_write_performed": false,
+  "nonce_consumed": false,
+  "source_repository_mutated": false
+}
