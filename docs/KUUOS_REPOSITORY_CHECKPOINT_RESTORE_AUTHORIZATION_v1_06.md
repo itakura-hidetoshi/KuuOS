@@ -2,8 +2,8 @@
 
 This layer separates automatic restore eligibility from final execution authorization.
 
-A missing local checkpoint reference may use an exact pre-authorized compare-and-swap path without new human review.
+Evidence collection, certificate recomputation, current-state comparison, exact compare-and-swap scope generation, rejection, and audit reporting are automatic.
 
-Replacing an existing substituted reference requires exact human approval.
+Any final authorization that permits a live checkpoint-reference change requires exact human approval, whether the reference is missing or substituted.
 
-Authorization remains distinct from execution and does not invoke Git or mutate the repository.
+Authorization remains distinct from execution and does not invoke Git, consume a nonce, or mutate the repository.
