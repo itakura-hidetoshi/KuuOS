@@ -1,0 +1,26 @@
+{
+  "manifest_version": "kuuos_repository_checkpoint_cas_coherence_v1_13",
+  "runtime_modules": [
+    "runtime/kuuos_repository_checkpoint_cas_coherence_types_v1_13.py",
+    "runtime/v113_checkpoint_cas_coherence_core.py",
+    "runtime/kuuos_repository_checkpoint_cas_coherence_v1_13.py",
+    "runtime/v113_checkpoint_cas_coherence_runtime.py"
+  ],
+  "tests": "tests/test_kuuos_repository_checkpoint_cas_coherence_v1_13.py",
+  "validator": "tests/test_kuuos_repository_checkpoint_cas_coherence_v1_13.py",
+  "cumulative_runtime": "runtime/kuuos_v113_check.py",
+  "documentation": "docs/KUUOS_REPOSITORY_CHECKPOINT_CAS_COHERENCE_v1_13.md",
+  "strict_formal_root": "KuuOSRepositoryCheckpointCasCoherenceV1_13",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryCheckpointCasCoherenceV1_13"
+  ],
+  "prior_frontier": "kuuos_repository_checkpoint_validated_cas_intake_v1_12",
+  "ready_status": "READY",
+  "conflict_status": "CONFLICT",
+  "rejected_status": "REJECTED",
+  "contract_local_coherence_required": true,
+  "intake_local_coherence_required": true,
+  "exact_contract_intake_binding": true,
+  "external_observation_repeated": false,
+  "operation_performed": false
+}
