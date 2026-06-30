@@ -1,0 +1,6 @@
+#!/usr/bin/env python3
+from runtime.kuuos_v105_check import check_contract
+
+
+if __name__ == "__main__":
+    raise SystemExit(check_contract())
