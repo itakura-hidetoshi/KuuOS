@@ -20,7 +20,7 @@ from tests.test_kuuos_repository_checkpoint_repair_routing_v1_07 import (
 ROOT = Path(__file__).resolve().parents[1]
 MANIFEST = "manifests/kuuos_checkpoint_repair_routing_v107.json"
 REGISTRY = "ci/check_registry.d/repo_repair_routing_v107.json"
-RUNTIME_REGISTRY = "ci/check_registry.d/repo_runtime_v107.json"
+RUNTIME_REGISTRY = "ci/check_registry.d/repository_runtime_v107.json"
 
 
 def contract_paths() -> tuple[str, ...]:
@@ -30,7 +30,6 @@ def contract_paths() -> tuple[str, ...]:
     for key in (
         "tests",
         "validator",
-        "live_contract",
         "cumulative_runtime",
         "documentation",
     ):
