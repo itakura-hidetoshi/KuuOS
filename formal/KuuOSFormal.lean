@@ -2,7 +2,7 @@
 # KuuOS aggregate formal root
 
 This is the strict aggregate build surface for the formal artifacts integrated on
-`main` through KuuOS Repository Checkpoint Stability and Immutability v1.05.
+`main` through KuuOS Repository Checkpoint Discrepancy Review v1.06.
 
 The root preserves the distinction between a Lean-derived theorem, a structure
 supplied by hypotheses, an external analytic or institutional receipt, and an
@@ -93,3 +93,4 @@ import KUOS.WORLD.KuuOSRepositoryAtomicCheckpointCreationV1_02
 import KUOS.WORLD.KuuOSRepositoryCheckpointCreationReceiptV1_03
 import KUOS.WORLD.KuuOSRepositoryCheckpointEvolutionWorkspaceV1_04
 import KUOS.WORLD.KuuOSRepositoryCheckpointStabilityV1_05
+import KUOS.WORLD.KuuOSRepositoryCheckpointDiscrepancyReviewV1_06
