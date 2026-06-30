@@ -1,0 +1,29 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-runtime-v111": {
+      "name": "KuuOS repository runtime v1.11",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_v111_check.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_v111_check.py",
+        "runtime/*candidate_revalidation*v1_11.py",
+        "runtime/v111_checkpoint_candidate_revalidation_*.py",
+        "tests/test_kuuos_repository_checkpoint_candidate_revalidation_v1_11.py",
+        "tests/v111_candidate_revalidation_fixture.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryCheckpointCandidateRevalidationV1_11.lean",
+        "formal/KuuOSRepositoryCheckpointCandidateRevalidationV1_11.lean",
+        "manifests/kuuos_checkpoint_candidate_revalidation_v111.json",
+        "docs/KUUOS_REPOSITORY_CHECKPOINT_CANDIDATE_REVALIDATION_v1_11.md"
+      ],
+      "depends_on": [
+        "repository-runtime-v110"
+      ],
+      "timeout_minutes": 90,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
