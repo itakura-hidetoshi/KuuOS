@@ -4,17 +4,15 @@ v1.06 is a read-only review and routing layer after Repository Checkpoint Stabil
 
 It revalidates the complete v1.05 certificate context and compares a fresh, direct, local checkpoint observation with the certified state.
 
-The layer classifies the result as clean, automatic repair eligible, or rejected.
+The layer classifies the result as clean, automatic repair eligible, human review required, or rejected.
 
 A clean checkpoint completes automatically.
 
-A confirmed missing checkpoint reference is marked automatic repair eligible only when the reference is absent in both observations, the expected target is a known nonzero commit OID, the target commit remains present, and the repository identity is exact.
+A confirmed missing checkpoint reference is marked automatic repair eligible only when the reference is absent in both observations, the expected target is a known nonzero commit OID, the target commit remains present, the repository identity is exact, and the repair shape is the bounded local compare-and-swap transition `ZERO_OID -> expected_oid`.
 
-A confirmed substituted checkpoint reference is also marked automatic repair eligible only when the same nonzero current OID is observed twice, the expected target is a distinct known nonzero commit OID, the target commit remains present, and the repository identity is exact.
+Human review is reserved for confirmed checkpoint substitution because that case would replace an existing nonzero reference value.
 
-Invalid, stale, inconsistent, indirect, remote, or contaminated evidence is rejected automatically.
-
-No runtime case requests human review.
+Invalid, stale, inconsistent, indirect, remote, or contaminated evidence is rejected automatically without requesting human review.
 
 The v1.06 record does not itself authorize or perform a repository change.
 
