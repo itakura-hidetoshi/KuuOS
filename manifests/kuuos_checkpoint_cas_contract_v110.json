@@ -1,0 +1,17 @@
+{
+  "schema_version": "0.2",
+  "version": "1.10",
+  "name": "KuuOS repository checkpoint CAS contract",
+  "runtime_modules": [
+    "runtime/kuuos_repository_checkpoint_cas_contract_types_v1_10.py",
+    "runtime/v110_checkpoint_cas_contract_core.py"
+  ],
+  "tests": "tests/test_kuuos_repository_checkpoint_cas_contract_v1_10.py",
+  "documentation": "docs/KUUOS_REPOSITORY_CHECKPOINT_CAS_CONTRACT_v1_10.md",
+  "strict_formal_root": "KuuOSRepositoryCheckpointCasContractV1_10",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryCheckpointCasContractV1_10"
+  ],
+  "predecessor": "manifests/kuuos_checkpoint_candidate_v109.json",
+  "mode": "specification-only"
+}
