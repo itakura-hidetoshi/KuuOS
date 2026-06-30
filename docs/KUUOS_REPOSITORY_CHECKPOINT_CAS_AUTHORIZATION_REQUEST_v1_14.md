@@ -10,6 +10,8 @@ The request policy binds the allowed repository and checkpoint reference, requir
 
 The v1.13 receipt is rechecked for digest validity, evidence bindings, local coherence claims, forbidden-operation flags, status and reason consistency, compare-and-swap meaning, and the direct observed-versus-expected OID relation.
 
+The expected, observed, and proposed OIDs must each be lowercase 40-character hexadecimal values and must be nonzero. The expected and proposed OIDs must be distinct.
+
 A READY request records the repository identity, Git-directory fingerprint, checkpoint reference, expected OID, observed OID, proposed OID, requester, nonce, issue time, and expiry time. These fields are descriptive inputs to a later authorization layer.
 
 This layer grants no authorization, performs no execution, invokes no live Git command, and does not mutate a reference.
