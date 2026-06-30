@@ -1,0 +1,28 @@
+{
+  "manifest_version": "kuuos_repository_checkpoint_namespace_gate_v1_08",
+  "runtime_modules": [
+    "runtime/kuuos_repository_checkpoint_namespace_gate_types_v1_08.py",
+    "runtime/v108_checkpoint_namespace_gate_core.py",
+    "runtime/kuuos_repository_checkpoint_namespace_gate_v1_08.py",
+    "runtime/v108_checkpoint_namespace_gate_runtime.py"
+  ],
+  "tests": [
+    "tests/test_kuuos_repository_checkpoint_namespace_gate_v1_08.py",
+    "tests/test_kuuos_repository_checkpoint_namespace_compatibility_v1_08.py",
+    "tests/test_kuuos_repository_checkpoint_namespace_validation_v1_08.py"
+  ],
+  "test_fixture": "tests/v108_namespace_gate_fixture.py",
+  "validator": "tests/test_kuuos_repository_checkpoint_namespace_compatibility_v1_08.py",
+  "cumulative_runtime": "runtime/kuuos_v108_check.py",
+  "documentation": "docs/CHECKPOINT_NAMESPACE_COMPATIBILITY_v1_08.md",
+  "strict_formal_root": "KuuOSRepositoryCheckpointNamespaceGateV1_08",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryCheckpointNamespaceGateV1_08"
+  ],
+  "prior_frontier": "kuuos_repository_checkpoint_repair_routing_v1_07",
+  "complete_v107_revalidation_required": true,
+  "clean_route_status": "NOOP",
+  "checkpoint_creation_route_status": "ACCEPTED",
+  "incompatible_route_status": "REJECTED",
+  "read_only": true
+}
