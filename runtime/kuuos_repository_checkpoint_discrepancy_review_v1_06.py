@@ -5,7 +5,7 @@ from runtime.v106_review_evidence import (
     repository_checkpoint_review_observation_issues,
     repository_checkpoint_review_policy_issues,
 )
-from runtime.v106_review_boundary import (
+from runtime.v106_review_core import (
     repository_checkpoint_review_record_issues,
     review_repository_checkpoint_discrepancy,
 )
