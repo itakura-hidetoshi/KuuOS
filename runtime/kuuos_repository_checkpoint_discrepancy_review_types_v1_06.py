@@ -8,6 +8,9 @@ from runtime.kuuos_gauge_field_self_organization_types_v0_60 import canonical_di
 
 VERSION = "kuuos_repository_checkpoint_discrepancy_review_v1_06"
 REVIEW_CLEAN = "REPOSITORY_CHECKPOINT_REVIEW_CLEAN"
+REVIEW_AUTOMATIC_REPAIR_ELIGIBLE = (
+    "REPOSITORY_CHECKPOINT_AUTOMATIC_REPAIR_ELIGIBLE"
+)
 REVIEW_REQUIRED = "REPOSITORY_CHECKPOINT_REVIEW_REQUIRED"
 REVIEW_REJECTED = "REPOSITORY_CHECKPOINT_REVIEW_REJECTED"
 DISCREPANCY_NONE = "NONE"
@@ -35,12 +38,16 @@ class RepositoryCheckpointReviewPolicy:
     def to_dict(self) -> dict[str, Any]:
         payload = asdict(self)
         payload["allowed_repository_ids"] = list(self.allowed_repository_ids)
-        payload["allowed_checkpoint_references"] = list(self.allowed_checkpoint_references)
+        payload["allowed_checkpoint_references"] = list(
+            self.allowed_checkpoint_references
+        )
         payload["authorized_observer_ids"] = list(self.authorized_observer_ids)
         return payload
 
 
-def repository_checkpoint_review_policy_digest(policy: RepositoryCheckpointReviewPolicy) -> str:
+def repository_checkpoint_review_policy_digest(
+    policy: RepositoryCheckpointReviewPolicy,
+) -> str:
     payload = policy.to_dict()
     payload.pop("policy_digest", None)
     return canonical_digest(payload)
@@ -76,7 +83,9 @@ class RepositoryCheckpointReviewObservation:
         return asdict(self)
 
 
-def repository_checkpoint_review_observation_digest(observation: RepositoryCheckpointReviewObservation) -> str:
+def repository_checkpoint_review_observation_digest(
+    observation: RepositoryCheckpointReviewObservation,
+) -> str:
     payload = observation.to_dict()
     payload.pop("observation_digest", None)
     return canonical_digest(payload)
@@ -95,6 +104,7 @@ class RepositoryCheckpointReviewRecord:
     checkpoint_reference: str
     expected_current_oid: str
     expected_target_oid: str
+    automatic_repair_eligible: bool
     human_review_required: bool
     evaluated_at_epoch_seconds: int
     checks: dict[str, bool]
@@ -106,7 +116,9 @@ class RepositoryCheckpointReviewRecord:
         return asdict(self)
 
 
-def repository_checkpoint_review_record_digest(record: RepositoryCheckpointReviewRecord) -> str:
+def repository_checkpoint_review_record_digest(
+    record: RepositoryCheckpointReviewRecord,
+) -> str:
     payload = record.to_dict()
     payload.pop("record_digest", None)
     return canonical_digest(payload)

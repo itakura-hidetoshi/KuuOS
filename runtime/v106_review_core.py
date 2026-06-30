@@ -10,6 +10,7 @@ from runtime.kuuos_repository_checkpoint_discrepancy_review_types_v1_06 import (
     DISCREPANCY_NONE,
     DISCREPANCY_OTHER,
     DISCREPANCY_SUBSTITUTED,
+    REVIEW_AUTOMATIC_REPAIR_ELIGIBLE,
     REVIEW_CLEAN,
     REVIEW_REJECTED,
     REVIEW_REQUIRED,
@@ -109,6 +110,7 @@ def construct_repository_checkpoint_review_record(
         not observation.reference_present
         and observation.observed_oid == ZERO_OID
         and observation.rechecked_oid == ZERO_OID
+        and observation.expected_oid != ZERO_OID
         and target_object_exact
     )
     current_substituted = bool(
@@ -144,18 +146,18 @@ def construct_repository_checkpoint_review_record(
         and disposition_matches
     )
 
+    automatic_repair_eligible = False
+    human_review_required = False
     if not evidence_valid:
         status = REVIEW_REJECTED
         discrepancy_kind = DISCREPANCY_EVIDENCE_INVALID
-        human_review_required = False
     elif stability_certificate.failure_kind == FAILURE_NONE:
         status = REVIEW_CLEAN
         discrepancy_kind = DISCREPANCY_NONE
-        human_review_required = False
     elif stability_certificate.failure_kind == FAILURE_CHECKPOINT_LOST:
-        status = REVIEW_REQUIRED
+        status = REVIEW_AUTOMATIC_REPAIR_ELIGIBLE
         discrepancy_kind = DISCREPANCY_LOST
-        human_review_required = True
+        automatic_repair_eligible = True
     elif stability_certificate.failure_kind == FAILURE_CHECKPOINT_SUBSTITUTED:
         status = REVIEW_REQUIRED
         discrepancy_kind = DISCREPANCY_SUBSTITUTED
@@ -163,7 +165,6 @@ def construct_repository_checkpoint_review_record(
     else:
         status = REVIEW_REJECTED
         discrepancy_kind = DISCREPANCY_OTHER
-        human_review_required = False
 
     checks = {
         "stability_certificate_valid": stability_valid,
@@ -180,6 +181,8 @@ def construct_repository_checkpoint_review_record(
         "checkpoint_clean": current_clean,
         "checkpoint_lost": current_lost,
         "checkpoint_substituted": current_substituted,
+        "exact_zero_to_known_oid_repair": current_lost,
+        "automatic_local_repair_eligible": automatic_repair_eligible,
         "human_review_required": human_review_required,
         "review_granted_repository_change_authority": False,
         "review_performed_reference_mutation": False,
@@ -205,6 +208,7 @@ def construct_repository_checkpoint_review_record(
         checkpoint_reference=stability_certificate.checkpoint_reference,
         expected_current_oid=observation.rechecked_oid,
         expected_target_oid=stability_certificate.expected_oid,
+        automatic_repair_eligible=automatic_repair_eligible,
         human_review_required=human_review_required,
         evaluated_at_epoch_seconds=evaluated_at_epoch_seconds,
         checks=checks,
@@ -271,7 +275,12 @@ def repository_checkpoint_review_record_issues(
     issues: list[str] = []
     if record.to_dict() != expected.to_dict():
         issues.append("checkpoint_review_recomputation_mismatch")
-    if record.status not in (REVIEW_CLEAN, REVIEW_REQUIRED, REVIEW_REJECTED):
+    if record.status not in (
+        REVIEW_CLEAN,
+        REVIEW_AUTOMATIC_REPAIR_ELIGIBLE,
+        REVIEW_REQUIRED,
+        REVIEW_REJECTED,
+    ):
         issues.append("checkpoint_review_status_invalid")
     if record.discrepancy_kind not in (
         DISCREPANCY_NONE,
@@ -281,8 +290,14 @@ def repository_checkpoint_review_record_issues(
         DISCREPANCY_EVIDENCE_INVALID,
     ):
         issues.append("checkpoint_review_discrepancy_invalid")
+    if record.automatic_repair_eligible != (
+        record.status == REVIEW_AUTOMATIC_REPAIR_ELIGIBLE
+    ):
+        issues.append("checkpoint_review_automatic_boundary_mismatch")
     if record.human_review_required != (record.status == REVIEW_REQUIRED):
         issues.append("checkpoint_review_human_boundary_mismatch")
+    if record.automatic_repair_eligible and record.human_review_required:
+        issues.append("checkpoint_review_boundary_overlap")
     forbidden_claims = (
         "review_granted_repository_change_authority",
         "review_performed_reference_mutation",
