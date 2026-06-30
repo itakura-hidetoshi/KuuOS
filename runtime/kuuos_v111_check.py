@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-from runtime.v111_checkpoint_candidate_validation_runtime import run_v111
+from runtime.v112_checkpoint_evidence_envelope_runtime import run_v112
 
 
 if __name__ == "__main__":
-    raise SystemExit(run_v111())
+    raise SystemExit(run_v112())
