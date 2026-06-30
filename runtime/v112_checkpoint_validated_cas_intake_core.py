@@ -99,6 +99,13 @@ def construct_repository_checkpoint_validated_cas_intake(
     policy: RepositoryCheckpointValidatedCasIntakePolicy,
 ) -> RepositoryCheckpointValidatedCasIntake:
     policy_valid = not repository_checkpoint_validated_cas_intake_policy_issues(policy)
+    validation_evidence_exact = (
+        validation.evidence_digests.get("candidate") == validation.candidate_digest
+    )
+    contract_evidence_exact = (
+        contract.evidence_digests.get("checkpoint_candidate")
+        == contract.candidate_digest
+    )
     validation_receipt_valid = bool(
         validation.validation_digest == checkpoint_candidate_validation_digest(validation)
         and validation.status == VALID
@@ -107,12 +114,14 @@ def construct_repository_checkpoint_validated_cas_intake(
         and validation.repository_matches
         and validation.checkpoint_matches
         and validation.distinct_nonzero_oids
+        and validation_evidence_exact
         and not validation.operation_performed
     )
     contract_valid = bool(
         contract.contract_digest == repository_checkpoint_cas_contract_digest(contract)
         and contract.status in (CONTRACT_READY, CONTRACT_CONFLICT)
         and contract.checkpoint_namespace_only
+        and contract_evidence_exact
         and not contract.repository_change_authority_granted
         and not contract.execution_performed
         and not contract.live_git_command_invoked
@@ -159,8 +168,10 @@ def construct_repository_checkpoint_validated_cas_intake(
     cas_required = status == INTAKE_READY
     checks = {
         "policy_valid": policy_valid,
+        "validation_evidence_exact": validation_evidence_exact,
         "validation_receipt_valid": validation_receipt_valid,
         "upstream_chain_revalidated": validation.upstream_chain_revalidated,
+        "contract_evidence_exact": contract_evidence_exact,
         "contract_valid": contract_valid,
         "candidate_binding_exact": candidate_binding_exact,
         "repository_binding_exact": repository_binding_exact,
