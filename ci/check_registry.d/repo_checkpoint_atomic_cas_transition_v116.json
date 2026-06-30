@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-checkpoint-atomic-cas-transition-v116": {
+      "name": "KuuOS repository checkpoint atomic CAS transition v1.16",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_checkpoint_atomic_cas_transition_v1_16",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*checkpoint_atomic_cas_transition*v1_16.py",
+        "runtime/v116_checkpoint_atomic_cas_transition_*.py",
+        "tests/test_kuuos_repository_checkpoint_atomic_cas_transition_v1_16.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryCheckpointAtomicCasTransitionV1_16.lean",
+        "formal/KuuOSRepositoryCheckpointAtomicCasTransitionV1_16.lean",
+        "manifests/kuuos_checkpoint_atomic_cas_transition_v116.json",
+        "docs/KUUOS_REPOSITORY_CHECKPOINT_ATOMIC_CAS_TRANSITION_v1_16.md"
+      ],
+      "depends_on": [
+        "repository-checkpoint-cas-authorization-decision-v115"
+      ],
+      "timeout_minutes": 50,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
