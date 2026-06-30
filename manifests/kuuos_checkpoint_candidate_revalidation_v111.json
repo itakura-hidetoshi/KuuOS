@@ -1,0 +1,25 @@
+{
+  "manifest_version": "kuuos_repository_checkpoint_candidate_revalidation_v1_11",
+  "runtime_modules": [
+    "runtime/kuuos_repository_checkpoint_candidate_revalidation_types_v1_11.py",
+    "runtime/v111_checkpoint_candidate_revalidation_policy.py",
+    "runtime/v111_checkpoint_candidate_revalidation_replay.py",
+    "runtime/v111_checkpoint_candidate_revalidation_build.py",
+    "runtime/v111_checkpoint_candidate_revalidation_core.py",
+    "runtime/kuuos_repository_checkpoint_candidate_revalidation_v1_11.py",
+    "runtime/v111_checkpoint_candidate_revalidation_runtime.py"
+  ],
+  "tests": "tests/test_kuuos_repository_checkpoint_candidate_revalidation_v1_11.py",
+  "test_fixture": "tests/v111_candidate_revalidation_fixture.py",
+  "validator": "tests/test_kuuos_repository_checkpoint_candidate_revalidation_v1_11.py",
+  "cumulative_runtime": "runtime/kuuos_v111_check.py",
+  "documentation": "docs/KUUOS_REPOSITORY_CHECKPOINT_CANDIDATE_REVALIDATION_v1_11.md",
+  "strict_formal_root": "KuuOSRepositoryCheckpointCandidateRevalidationV1_11",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryCheckpointCandidateRevalidationV1_11"
+  ],
+  "prior_frontier": "kuuos_repository_checkpoint_cas_contract_v1_10",
+  "valid_status": "CHECKPOINT_CANDIDATE_REVALIDATION_VALID",
+  "rejected_status": "CHECKPOINT_CANDIDATE_REVALIDATION_REJECTED",
+  "mode": "complete-v109-replay"
+}
