@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-runtime-v117": {
+      "name": "KuuOS repository runtime v1.17",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_v117_check.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_v117_check.py",
+        "runtime/*checkpoint_live_git_preflight*v1_17.py",
+        "runtime/v117_checkpoint_live_git_preflight_*.py",
+        "tests/test_kuuos_repository_checkpoint_live_git_preflight_v1_17.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryCheckpointLiveGitPreflightV1_17.lean",
+        "formal/KuuOSRepositoryCheckpointLiveGitPreflightV1_17.lean",
+        "manifests/kuuos_checkpoint_live_git_preflight_v117.json",
+        "docs/KUUOS_REPOSITORY_CHECKPOINT_LIVE_GIT_PREFLIGHT_v1_17.md"
+      ],
+      "depends_on": [
+        "repository-runtime-v116"
+      ],
+      "timeout_minutes": 125,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}

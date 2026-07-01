@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-checkpoint-live-git-preflight-v117": {
+      "name": "KuuOS repository checkpoint live Git preflight v1.17",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_checkpoint_live_git_preflight_v1_17",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*checkpoint_live_git_preflight*v1_17.py",
+        "runtime/v117_checkpoint_live_git_preflight_*.py",
+        "tests/test_kuuos_repository_checkpoint_live_git_preflight_v1_17.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryCheckpointLiveGitPreflightV1_17.lean",
+        "formal/KuuOSRepositoryCheckpointLiveGitPreflightV1_17.lean",
+        "manifests/kuuos_checkpoint_live_git_preflight_v117.json",
+        "docs/KUUOS_REPOSITORY_CHECKPOINT_LIVE_GIT_PREFLIGHT_v1_17.md"
+      ],
+      "depends_on": [
+        "repository-checkpoint-atomic-cas-transition-v116"
+      ],
+      "timeout_minutes": 50,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
