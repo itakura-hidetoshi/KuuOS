@@ -10,7 +10,11 @@
       "paths": [
         "runtime/*bounded_tree_commit*v1_20.py",
         "runtime/v120_*.py",
-        "tests/test_kuuos_repository_bounded_tree_commit_v1_20.py"
+        "tests/test_kuuos_repository_bounded_tree_commit_v1_20.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryBoundedTreeCommitV1_20.lean",
+        "formal/KuuOSBoundedTreeCommitV1_20.lean",
+        "manifests/kuuos_repository_bounded_tree_commit_v120.json",
+        "docs/KUUOS_REPOSITORY_BOUNDED_TREE_COMMIT_v1_20.md"
       ],
       "depends_on": [
         "repository-bounded-blob-v119"
