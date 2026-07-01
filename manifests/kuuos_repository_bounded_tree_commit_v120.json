@@ -1,0 +1,38 @@
+{
+  "manifest_version": "kuuos_repository_bounded_tree_commit_v1_20",
+  "runtime_modules": [
+    "runtime/kuuos_repository_bounded_tree_commit_types_v1_20.py",
+    "runtime/v120_bounded_tree_commit_policy.py",
+    "runtime/v120_bounded_tree_commit_git_adapter.py",
+    "runtime/v120_bounded_tree_commit_execution.py",
+    "runtime/v120_bounded_tree_commit_result.py",
+    "runtime/kuuos_repository_bounded_tree_commit_v1_20.py"
+  ],
+  "tests": "tests/test_kuuos_repository_bounded_tree_commit_v1_20.py",
+  "documentation": "docs/KUUOS_REPOSITORY_BOUNDED_TREE_COMMIT_v1_20.md",
+  "strict_formal_root": "KuuOSBoundedTreeCommitV1_20",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryBoundedTreeCommitV1_20"
+  ],
+  "prior_frontier": "kuuos_repository_bounded_blob_v1_19",
+  "certified_v093_candidate_required": true,
+  "exact_v119_blob_coverage_required": true,
+  "referenced_leaf_observation_required": true,
+  "parent_commit_observation_required": true,
+  "sandbox_marker_required": true,
+  "repository_path_allowlist_required": true,
+  "executor_allowlist_required": true,
+  "literal_git_executable_required": true,
+  "git_environment_overrides_removed": true,
+  "child_tree_before_parent_tree_required": true,
+  "exact_tree_payload_required": true,
+  "exact_commit_payload_required": true,
+  "live_tree_object_write_enabled": true,
+  "live_commit_object_write_enabled": true,
+  "reference_write_performed": false,
+  "index_write_performed": false,
+  "working_tree_write_performed": false,
+  "reflog_write_performed": false,
+  "push_performed": false,
+  "signing_performed": false
+}
