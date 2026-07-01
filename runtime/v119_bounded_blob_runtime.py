@@ -11,6 +11,7 @@ def run_v119() -> int:
         (
             "tests.test_kuuos_repository_bounded_blob_v1_19",
             "tests.test_kuuos_repository_bounded_blob_guards_v1_19",
+            "tests.test_kuuos_repository_bounded_blob_accounting_v1_19",
         )
     )
     result = unittest.TextTestRunner(verbosity=2).run(suite)
