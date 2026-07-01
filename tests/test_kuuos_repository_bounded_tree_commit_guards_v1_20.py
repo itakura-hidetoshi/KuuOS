@@ -31,13 +31,13 @@ class RepositoryBoundedTreeCommitGuardsV120Tests(unittest.TestCase):
         self.assertFalse(result.object_database_write_performed)
 
     def test_missing_retained_leaf_fails_before_tree_write(self) -> None:
-        candidate_blob_oids = {
-            blob.git_blob_oid for blob in self.fixture.candidate.blob_candidates
+        candidate_blob_paths = {
+            blob.path for blob in self.fixture.candidate.blob_candidates
         }
         retained = next(
             entry
             for entry in self.fixture.parent_inventory.entries
-            if entry.git_object_oid not in candidate_blob_oids
+            if entry.path not in candidate_blob_paths
         )
         object_path = (
             self.fixture.root
