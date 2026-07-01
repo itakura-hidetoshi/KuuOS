@@ -12,6 +12,7 @@
         "runtime/*bounded_tree_commit*v1_20.py",
         "runtime/v120_*.py",
         "tests/test_kuuos_repository_bounded_tree_commit_v1_20.py",
+        "tests/test_kuuos_repository_bounded_tree_commit_guards_v1_20.py",
         "formal/KUOS/WORLD/KuuOSRepositoryBoundedTreeCommitV1_20.lean",
         "formal/KuuOSBoundedTreeCommitV1_20.lean",
         "manifests/kuuos_repository_bounded_tree_commit_v120.json",
