@@ -1,6 +1,10 @@
+import os
+import tempfile
 import unittest
+from unittest.mock import patch
 
 from runtime.kuuos_repository_live_object_materialization_types_v1_19 import (
+    OBJECT_MATERIALIZED,
     OBJECT_REJECTED,
 )
 from runtime.kuuos_repository_live_object_materialization_v1_19 import (
@@ -58,6 +62,37 @@ class RepositoryBoundedBlobGuardsV119Tests(unittest.TestCase):
         self.assertFalse(result.executor_authorized)
         self.assertFalse(result.live_git_command_invoked)
         self.assertFalse(result.object_database_write_performed)
+
+    def test_nonliteral_git_is_rejected_before_process_launch(self) -> None:
+        with patch("runtime.v119_live_object_git_adapter.subprocess.run") as run:
+            with self.assertRaisesRegex(
+                ValueError,
+                "v119_git_executable_not_allowed",
+            ):
+                execute_repository_live_object_materialization(
+                    self.fixture.request,
+                    self.fixture.prior,
+                    self.fixture.payload,
+                    self.fixture.policy,
+                    git_executable="/bin/echo",
+                )
+            run.assert_not_called()
+
+    def test_object_directory_override_is_removed(self) -> None:
+        with tempfile.TemporaryDirectory() as directory:
+            with patch.dict(
+                os.environ,
+                {"GIT_OBJECT_DIRECTORY": directory},
+                clear=False,
+            ):
+                result = execute_repository_live_object_materialization(
+                    self.fixture.request,
+                    self.fixture.prior,
+                    self.fixture.payload,
+                    self.fixture.policy,
+                )
+            self.assertEqual(result.status, OBJECT_MATERIALIZED)
+            self.assertEqual(os.listdir(directory), [])
 
 
 if __name__ == "__main__":
