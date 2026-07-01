@@ -1,0 +1,26 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "checkpoint-recovery-proposal-v0-1": {
+      "name": "KuuOS checkpoint recovery proposal v0.1",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_checkpoint_recovery_proposal_check_v0_1.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*checkpoint_recovery_proposal*v0_1.py",
+        "tests/test_kuuos_checkpoint_recovery_proposal_v0_1.py",
+        "formal/KUOS/WORLD/KuuOSCheckpointRecoveryProposalV0_1.lean",
+        "formal/KuuOSCheckpointRecoveryProposalV0_1.lean",
+        "manifests/kuuos_checkpoint_recovery_proposal_v0_1.json",
+        "docs/KUUOS_CHECKPOINT_RECOVERY_PROPOSAL_v0_1.md"
+      ],
+      "depends_on": [
+        "repository-runtime-v124"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}

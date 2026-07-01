@@ -1,0 +1,37 @@
+{
+  "manifest_version": "kuuos_checkpoint_recovery_proposal_v0_1",
+  "series": "checkpoint_recovery_governance",
+  "series_independent_from_v124_mutation_roadmap": true,
+  "continues_v124_mutation_series": false,
+  "source_evidence": "kuuos_repository_checkpoint_reflog_v1_24",
+  "runtime_modules": [
+    "runtime/kuuos_checkpoint_recovery_proposal_types_v0_1.py",
+    "runtime/kuuos_checkpoint_recovery_proposal_v0_1.py"
+  ],
+  "tests": "tests/test_kuuos_checkpoint_recovery_proposal_v0_1.py",
+  "validator": "runtime/kuuos_checkpoint_recovery_proposal_check_v0_1.py",
+  "documentation": "docs/KUUOS_CHECKPOINT_RECOVERY_PROPOSAL_v0_1.md",
+  "strict_formal_root": "KuuOSCheckpointRecoveryProposalV0_1",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSCheckpointRecoveryProposalV0_1"
+  ],
+  "accepted_v124_result_required": true,
+  "exact_source_binding_required": true,
+  "target_allowlist_required": true,
+  "source_target_distinct_required": true,
+  "compare_only_objective_required": true,
+  "source_target_comparison_performed": false,
+  "source_target_comparison_required_next": true,
+  "external_review_required_next": true,
+  "explicit_authorization_decision_required_next": true,
+  "recovery_authority_granted": false,
+  "live_git_execution_performed": false,
+  "repository_mutation_performed": false,
+  "object_database_write_performed": false,
+  "reference_write_performed": false,
+  "index_write_performed": false,
+  "working_tree_write_performed": false,
+  "reflog_write_performed": false,
+  "push_performed": false,
+  "signing_performed": false
+}
