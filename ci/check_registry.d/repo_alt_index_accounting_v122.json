@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-dedicated-index-accounting-v122": {
+      "name": "KuuOS repository alternate index accounting v1.22",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_dedicated_index_accounting_v1_22",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*dedicated_index*v1_22.py",
+        "runtime/v122_dedicated_index_result.py",
+        "tests/test_kuuos_repository_dedicated_index_v1_22.py",
+        "tests/test_kuuos_repository_dedicated_index_accounting_v1_22.py"
+      ],
+      "depends_on": [
+        "repository-dedicated-index-v122"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}

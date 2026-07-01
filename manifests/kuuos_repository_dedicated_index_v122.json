@@ -1,0 +1,48 @@
+{
+  "manifest_version": "kuuos_repository_dedicated_index_v1_22",
+  "runtime_modules": [
+    "runtime/kuuos_repository_dedicated_index_types_v1_22.py",
+    "runtime/v122_dedicated_index_policy.py",
+    "runtime/v122_dedicated_index_git_adapter.py",
+    "runtime/v122_dedicated_index_validation.py",
+    "runtime/v122_dedicated_index_result.py",
+    "runtime/v122_dedicated_index_result_builder.py",
+    "runtime/v122_dedicated_index_execution.py",
+    "runtime/v122_strict_path.py",
+    "runtime/v122_dedicated_index_core.py",
+    "runtime/kuuos_repository_dedicated_index_v1_22.py",
+    "runtime/v122_dedicated_index_runtime.py"
+  ],
+  "tests": [
+    "tests/test_kuuos_repository_dedicated_index_v1_22.py",
+    "tests/test_kuuos_repository_dedicated_index_guards_v1_22.py",
+    "tests/test_kuuos_repository_dedicated_index_accounting_v1_22.py"
+  ],
+  "cumulative_runtime": "runtime/kuuos_v122_check.py",
+  "documentation": "docs/KUUOS_REPOSITORY_ALT_INDEX_v1_22.md",
+  "strict_formal_root": "KuuOSDedicatedIndexV1_22",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryDedicatedIndexV1_22"
+  ],
+  "prior_frontier": "kuuos_repository_constructed_commit_publication_v1_21",
+  "valid_v120_request_required": true,
+  "accepted_v120_result_required": true,
+  "accepted_v121_result_required": true,
+  "exact_tree_binding_required": true,
+  "dedicated_alternate_index_required": true,
+  "sandbox_marker_required": true,
+  "literal_git_executable_required": true,
+  "unsafe_git_environment_removed": true,
+  "exact_existing_index_reuse_enabled": true,
+  "mismatched_existing_index_overwrite_enabled": false,
+  "dedicated_index_write_enabled": true,
+  "standard_index_write_performed": false,
+  "current_object_database_write_performed": false,
+  "current_reference_write_performed": false,
+  "working_tree_write_performed": false,
+  "reflog_write_performed": false,
+  "push_performed": false,
+  "signing_performed": false,
+  "next_sandbox_working_tree_version": "v1.23",
+  "next_checkpoint_reflog_version": "v1.24"
+}
