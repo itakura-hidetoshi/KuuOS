@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-checkpoint-reflog-v124": {
+      "name": "KuuOS repository checkpoint reflog v1.24",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_checkpoint_reflog_v1_24",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*checkpoint_reflog*v1_24.py",
+        "runtime/v124_*.py",
+        "tests/test_kuuos_repository_checkpoint_reflog_v1_24.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryCheckpointReflogV1_24.lean",
+        "formal/KuuOSRepositoryV1_24.lean",
+        "manifests/kuuos_repository_checkpoint_reflog_v124.json",
+        "docs/KUUOS_REPOSITORY_CHECKPOINT_REFLOG_v1_24.md"
+      ],
+      "depends_on": [
+        "repository-sandbox-worktree-v123"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
