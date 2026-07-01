@@ -1,6 +1,6 @@
 #!/usr/bin/env python3
-from runtime.v121_constructed_commit_publication_runtime import run_v121
+from runtime.v122_dedicated_index_runtime import run_v122
 
 
-def run_v122() -> int:
-    return run_v121()
+if __name__ == "__main__":
+    assert run_v122() == 0
