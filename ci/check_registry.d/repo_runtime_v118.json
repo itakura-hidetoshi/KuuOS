@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-runtime-v118": {
+      "name": "KuuOS repository runtime v1.18",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_v118_check.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_v118_check.py",
+        "runtime/*checkpoint_live_ref_cas*v1_18.py",
+        "runtime/v118_checkpoint_live_ref_cas_*.py",
+        "tests/test_kuuos_repository_checkpoint_live_ref_cas_v1_18.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryCheckpointLiveRefCasV1_18.lean",
+        "formal/KuuOSRepositoryCheckpointLiveRefCasV1_18.lean",
+        "manifests/kuuos_checkpoint_live_ref_cas_v118.json",
+        "docs/KUUOS_REPOSITORY_CHECKPOINT_LIVE_REF_CAS_v1_18.md"
+      ],
+      "depends_on": [
+        "repository-runtime-v117"
+      ],
+      "timeout_minutes": 130,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
