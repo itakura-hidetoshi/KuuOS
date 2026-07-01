@@ -82,7 +82,7 @@ def repository_checkpoint_reflog_result_issues(
         REFLOG_ERROR,
     ):
         issues.append("checkpoint_reflog_write_status_invalid")
-    if any(
+    forbidden_effect = any(
         (
             result.other_reflog_write_performed,
             result.current_object_database_write_performed,
@@ -92,8 +92,9 @@ def repository_checkpoint_reflog_result_issues(
             result.push_performed,
             result.signing_performed,
         )
-    ):
-        issues.append("checkpoint_reflog_forbidden_effect")
+    )
+    if forbidden_effect and result.status != REFLOG_ERROR:
+        issues.append("checkpoint_reflog_forbidden_effect_not_error")
     write_receipts = 0
     for sequence, receipt in enumerate(result.command_receipts, start=1):
         if receipt.sequence_number != sequence:
