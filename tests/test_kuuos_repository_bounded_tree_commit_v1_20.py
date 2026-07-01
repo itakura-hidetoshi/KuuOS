@@ -12,7 +12,6 @@ from runtime.kuuos_repository_atomic_application_types_v0_92 import (
 )
 from runtime.kuuos_repository_bounded_tree_commit_types_v1_20 import (
     SANDBOX_MARKER_FILENAME,
-    TREE_COMMIT_ERROR,
     TREE_COMMIT_MATERIALIZED,
     TREE_COMMIT_REJECTED,
     TREE_COMMIT_REUSED,
@@ -266,10 +265,12 @@ class RepositoryBoundedTreeCommitV120Tests(unittest.TestCase):
 
     def test_nonliteral_git_never_launches_subprocess(self) -> None:
         with patch("runtime.v120_bounded_tree_commit_git_adapter.subprocess.run") as run:
-            result = self.execute(git_executable="/bin/echo")
+            with self.assertRaisesRegex(
+                ValueError,
+                "v120_git_executable_not_allowed",
+            ):
+                self.execute(git_executable="/bin/echo")
             run.assert_not_called()
-        self.assertEqual(result.status, TREE_COMMIT_ERROR)
-        self.assertFalse(result.object_database_write_performed)
 
     def test_git_object_directory_override_is_ignored(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
