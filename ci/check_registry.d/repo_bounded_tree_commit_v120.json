@@ -1,0 +1,23 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-bounded-tree-commit-v120": {
+      "name": "KuuOS repository bounded tree commit v1.20",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_bounded_tree_commit_v1_20",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*bounded_tree_commit*v1_20.py",
+        "runtime/v120_*.py",
+        "tests/test_kuuos_repository_bounded_tree_commit_v1_20.py"
+      ],
+      "depends_on": [
+        "repository-bounded-blob-v119"
+      ],
+      "timeout_minutes": 60,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
