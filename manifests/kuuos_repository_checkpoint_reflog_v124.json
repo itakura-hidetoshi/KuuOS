@@ -1,0 +1,48 @@
+{
+  "manifest_version": "kuuos_repository_checkpoint_reflog_v1_24",
+  "runtime_modules": [
+    "runtime/kuuos_repository_checkpoint_reflog_types_v1_24.py",
+    "runtime/v124_checkpoint_reflog_policy.py",
+    "runtime/v124_checkpoint_reflog_validation.py",
+    "runtime/v124_checkpoint_reflog_surfaces.py",
+    "runtime/v124_checkpoint_reflog_git_adapter.py",
+    "runtime/v124_checkpoint_reflog_result.py",
+    "runtime/v124_checkpoint_reflog_result_builder.py",
+    "runtime/v124_checkpoint_reflog_execution.py",
+    "runtime/v124_checkpoint_reflog_core.py",
+    "runtime/kuuos_repository_checkpoint_reflog_v1_24.py",
+    "runtime/v124_checkpoint_reflog_runtime.py"
+  ],
+  "tests": [
+    "tests/test_kuuos_repository_checkpoint_reflog_v1_24.py",
+    "tests/test_kuuos_repository_checkpoint_reflog_guards_v1_24.py",
+    "tests/test_kuuos_repository_checkpoint_reflog_accounting_v1_24.py"
+  ],
+  "cumulative_runtime": "runtime/kuuos_v124_check.py",
+  "documentation": "docs/KUUOS_REPOSITORY_CHECKPOINT_REFLOG_v1_24.md",
+  "strict_formal_root": "KuuOSRepositoryV1_24",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryCheckpointReflogV1_24"
+  ],
+  "prior_frontier": "kuuos_repository_sandbox_worktree_v1_23",
+  "accepted_v121_publication_required": true,
+  "accepted_v123_sandbox_required": true,
+  "exact_cross_stage_binding_required": true,
+  "checkpoint_namespace_required": true,
+  "authority_marker_required": true,
+  "literal_git_executable_required": true,
+  "unsafe_git_environment_removed": true,
+  "controlled_committer_identity_required": true,
+  "controlled_epoch_and_timezone_required": true,
+  "exact_existing_reflog_reuse_enabled": true,
+  "mismatched_existing_reflog_overwrite_enabled": false,
+  "checkpoint_reflog_write_enabled": true,
+  "other_reflog_write_enabled": false,
+  "current_reference_write_performed": false,
+  "current_object_database_write_performed": false,
+  "index_write_performed": false,
+  "working_tree_write_performed": false,
+  "push_performed": false,
+  "signing_performed": false,
+  "staged_repository_mutation_roadmap_closed": true
+}
