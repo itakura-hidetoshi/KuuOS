@@ -13,7 +13,10 @@ from runtime.v119_probe_status import normalize_probe_status
 def run_bounded_object_git_command(*args, **kwargs):
     receipt, stdout, stderr = run_original(*args, **kwargs)
     code = normalize_probe_status(
-        kwargs.get("operation", ""), receipt.return_code, receipt.timed_out
+        kwargs.get("operation", ""),
+        receipt.return_code,
+        receipt.timed_out,
+        stderr,
     )
     if code != receipt.return_code:
         receipt = replace(receipt, return_code=code, receipt_digest="")
