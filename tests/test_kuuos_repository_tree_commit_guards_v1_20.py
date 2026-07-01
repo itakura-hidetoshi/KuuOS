@@ -81,6 +81,21 @@ class RepositoryTreeCommitGuardsV120Tests(unittest.TestCase):
                 )
             process.assert_not_called()
 
+    def test_control_character_message_rejects_before_git(self) -> None:
+        message = "bad" + chr(13) + "message"
+        with patch("runtime.v120_tree_commit_git_adapter.subprocess.run") as process:
+            result = execute_repository_tree_commit_materialization(
+                self.fixture.request,
+                self.fixture.prior,
+                message,
+                self.fixture.policy,
+            )
+            self.assertEqual(result.status, TREE_COMMIT_REJECTED)
+            self.assertFalse(result.commit_binding_exact)
+            self.assertFalse(result.live_git_command_invoked)
+            self.assertFalse(result.object_database_write_performed)
+            process.assert_not_called()
+
     def test_git_environment_override_is_removed(self) -> None:
         with tempfile.TemporaryDirectory() as directory:
             with patch.dict(os.environ, {"GIT_OBJECT_DIRECTORY": directory}, clear=False):
