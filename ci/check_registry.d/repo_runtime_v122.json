@@ -1,0 +1,30 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-runtime-v122": {
+      "name": "KuuOS repository runtime v1.22",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_v122_check.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_v122_check.py",
+        "runtime/*dedicated_index*v1_22.py",
+        "runtime/v122_*.py",
+        "tests/test_kuuos_repository_dedicated_index_v1_22.py",
+        "tests/test_kuuos_repository_dedicated_index_guards_v1_22.py",
+        "tests/test_kuuos_repository_dedicated_index_accounting_v1_22.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryDedicatedIndexV1_22.lean",
+        "formal/KuuOSDedicatedIndexV1_22.lean",
+        "manifests/kuuos_repository_dedicated_index_v122.json",
+        "docs/KUUOS_REPOSITORY_ALT_INDEX_v1_22.md"
+      ],
+      "depends_on": [
+        "repository-runtime-v121"
+      ],
+      "timeout_minutes": 150,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
