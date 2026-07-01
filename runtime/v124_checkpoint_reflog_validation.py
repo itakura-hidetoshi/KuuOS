@@ -129,7 +129,7 @@ def target_reflog_path_is_exact(
     current = git_dir
     for component in ("logs", *checkpoint_reference.split("/")):
         current = current / component
-        if current.exists() and current.is_symlink():
+        if current.is_symlink():
             return False
     return True
 
