@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-from runtime.v119_live_object_materialization_execution import (
+from runtime.v119_strict_path import (
     execute_repository_live_object_materialization,
 )
 from runtime.v119_live_object_materialization_policy import (
