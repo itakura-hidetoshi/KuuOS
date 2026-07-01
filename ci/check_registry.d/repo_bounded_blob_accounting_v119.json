@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-bounded-blob-accounting-v119": {
+      "name": "KuuOS repository bounded blob accounting v1.19",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_bounded_blob_accounting_v1_19",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*v1_19.py",
+        "runtime/v119_*materialization_result.py",
+        "tests/test_kuuos_repository_bounded_blob_v1_19.py",
+        "tests/test_kuuos_repository_bounded_blob_accounting_v1_19.py"
+      ],
+      "depends_on": [
+        "repository-bounded-blob-v119"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
