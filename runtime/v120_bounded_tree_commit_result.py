@@ -52,7 +52,10 @@ def repository_bounded_tree_commit_result_issues(
         )
     ):
         issues.append("v120_result_forbidden_effect_performed")
-    for receipt in result.command_receipts:
+    for sequence, receipt in enumerate(result.command_receipts, start=1):
+        if receipt.sequence_number != sequence:
+            issues.append("v120_result_command_sequence_invalid")
+            break
         if receipt.receipt_digest != tree_commit_git_command_receipt_digest(receipt):
             issues.append("v120_result_command_receipt_digest_mismatch")
             break
@@ -73,6 +76,8 @@ def repository_bounded_tree_commit_result_issues(
         "object_format_sha1",
         "parent_commit_present",
         "parent_commit_type_exact",
+        "referenced_objects_present",
+        "referenced_object_types_exact",
         "tree_payloads_exact",
         "commit_payload_exact",
         "tree_objects_present_after",
