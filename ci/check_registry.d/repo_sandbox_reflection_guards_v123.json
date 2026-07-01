@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-sandbox-worktree-guards-v123": {
+      "name": "KuuOS repository sandbox reflection guards v1.23",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_sandbox_reflection_guards_v1_23",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*sandbox_worktree*v1_23.py",
+        "runtime/v123_*.py",
+        "tests/test_kuuos_repository_sandbox_worktree_v1_23.py",
+        "tests/test_kuuos_repository_sandbox_reflection_guards_v1_23.py"
+      ],
+      "depends_on": [
+        "repository-sandbox-worktree-v123"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}

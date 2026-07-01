@@ -1,0 +1,46 @@
+{
+  "manifest_version": "kuuos_repository_sandbox_worktree_v1_23",
+  "runtime_modules": [
+    "runtime/kuuos_repository_sandbox_worktree_types_v1_23.py",
+    "runtime/v123_sandbox_worktree_policy.py",
+    "runtime/v123_sandbox_worktree_validation.py",
+    "runtime/v123_protected_surface.py",
+    "runtime/v123_sandbox_worktree_git_adapter.py",
+    "runtime/v123_sandbox_worktree_result.py",
+    "runtime/v123_measured_result_builder.py",
+    "runtime/v123_sandbox_worktree_execution.py",
+    "runtime/v123_sandbox_worktree_core.py",
+    "runtime/kuuos_repository_sandbox_worktree_v1_23.py",
+    "runtime/v123_sandbox_worktree_runtime.py"
+  ],
+  "tests": [
+    "tests/test_kuuos_repository_sandbox_worktree_v1_23.py",
+    "tests/test_kuuos_repository_sandbox_reflection_guards_v1_23.py",
+    "tests/test_kuuos_repository_sandbox_worktree_accounting_v1_23.py"
+  ],
+  "cumulative_runtime": "runtime/kuuos_v123_check.py",
+  "documentation": "docs/KUUOS_REPOSITORY_SANDBOX_REFLECTION_v1_23.md",
+  "strict_formal_root": "KuuOSRepositoryV1_23",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositorySandboxReflectionV1_23"
+  ],
+  "prior_frontier": "kuuos_repository_dedicated_index_v1_22",
+  "accepted_v122_result_required": true,
+  "exact_alternate_index_binding_required": true,
+  "dedicated_sandbox_path_required": true,
+  "sandbox_marker_required": true,
+  "literal_git_executable_required": true,
+  "unsafe_git_environment_removed": true,
+  "exact_existing_sandbox_reuse_enabled": true,
+  "mismatched_existing_sandbox_overwrite_enabled": false,
+  "sandbox_working_tree_write_enabled": true,
+  "repository_root_working_tree_write_performed": false,
+  "dedicated_index_write_performed": false,
+  "standard_index_write_performed": false,
+  "current_object_database_write_performed": false,
+  "current_reference_write_performed": false,
+  "reflog_write_performed": false,
+  "push_performed": false,
+  "signing_performed": false,
+  "next_checkpoint_reflog_version": "v1.24"
+}

@@ -1,0 +1,30 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-runtime-v123": {
+      "name": "KuuOS repository runtime v1.23",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_v123_check.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_v123_check.py",
+        "runtime/*sandbox_worktree*v1_23.py",
+        "runtime/v123_*.py",
+        "tests/test_kuuos_repository_sandbox_worktree_v1_23.py",
+        "tests/test_kuuos_repository_sandbox_reflection_guards_v1_23.py",
+        "tests/test_kuuos_repository_sandbox_worktree_accounting_v1_23.py",
+        "formal/KUOS/WORLD/KuuOSRepositorySandboxReflectionV1_23.lean",
+        "formal/KuuOSRepositoryV1_23.lean",
+        "manifests/kuuos_repository_sandbox_reflection_v123.json",
+        "docs/KUUOS_REPOSITORY_SANDBOX_REFLECTION_v1_23.md"
+      ],
+      "depends_on": [
+        "repository-runtime-v122"
+      ],
+      "timeout_minutes": 150,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
