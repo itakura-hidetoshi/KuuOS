@@ -1,0 +1,48 @@
+{
+  "manifest_version": "kuuos_repository_bounded_blob_v1_19",
+  "runtime_modules": [
+    "runtime/kuuos_repository_live_object_materialization_types_v1_19.py",
+    "runtime/v119_live_object_materialization_policy.py",
+    "runtime/v119_live_object_git_adapter.py",
+    "runtime/v119_missing_object_diagnostic.py",
+    "runtime/v119_probe_status.py",
+    "runtime/v119_probe_adapter.py",
+    "runtime/v119_live_object_materialization_result.py",
+    "runtime/v119_live_object_materialization_execution.py",
+    "runtime/v119_strict_path.py",
+    "runtime/v119_live_object_materialization_core.py",
+    "runtime/kuuos_repository_live_object_materialization_v1_19.py",
+    "runtime/v119_bounded_blob_runtime.py"
+  ],
+  "tests": [
+    "tests/test_kuuos_repository_bounded_blob_v1_19.py",
+    "tests/test_kuuos_repository_bounded_blob_guards_v1_19.py"
+  ],
+  "cumulative_runtime": "runtime/kuuos_v119_check.py",
+  "documentation": "docs/KUUOS_REPOSITORY_BOUNDED_BLOB_v1_19.md",
+  "strict_formal_root": "KuuOSBoundedBlobV1_19",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryBoundedBlobV1_19"
+  ],
+  "prior_frontier": "kuuos_repository_checkpoint_live_ref_cas_v1_18",
+  "sandbox_marker_required": true,
+  "repository_path_allowlist_required": true,
+  "executor_allowlist_required": true,
+  "committed_v118_result_required": true,
+  "payload_sha256_binding_required": true,
+  "payload_size_binding_required": true,
+  "blob_oid_binding_required": true,
+  "literal_git_executable_required": true,
+  "unsafe_git_environment_removed": true,
+  "strict_probe_diagnostic_required": true,
+  "live_git_command_invoked": true,
+  "live_repository_mutation_enabled": true,
+  "single_bounded_blob_write_only": true,
+  "object_database_write_performed": true,
+  "reference_write_performed": false,
+  "index_write_performed": false,
+  "working_tree_write_performed": false,
+  "reflog_write_performed": false,
+  "push_performed": false,
+  "signing_performed": false
+}
