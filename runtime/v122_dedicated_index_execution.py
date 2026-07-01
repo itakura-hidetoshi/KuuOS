@@ -15,6 +15,7 @@ from runtime.v122_dedicated_index_git_adapter import (
 from runtime.v122_dedicated_index_policy import (
     repository_dedicated_index_policy_issues,
     repository_dedicated_index_request_issues,
+    repository_path_digest,
 )
 from runtime.v122_dedicated_index_result_builder import build_dedicated_index_result
 from runtime.v122_dedicated_index_validation import (
@@ -45,6 +46,7 @@ def execute_repository_dedicated_index(
     if git_executable != "git":
         raise ValueError("v122_git_executable_not_allowed")
     root = Path(request.repository_path).expanduser().resolve()
+    actual_repository_path_digest = repository_path_digest(root)
     git_dir = root / ".git"
     index_path = dedicated_index_path(root, request.dedicated_index_filename)
     canonical_index = git_dir / "index"
@@ -55,8 +57,9 @@ def execute_repository_dedicated_index(
     policy_valid = not repository_dedicated_index_policy_issues(policy)
     request_valid = not repository_dedicated_index_request_issues(request)
     executor_authorized = request.executor_id in policy.authorized_executor_ids
-    repository_path_allowed = (
-        request.repository_path_digest in policy.allowed_repository_path_digests
+    repository_path_allowed = bool(
+        actual_repository_path_digest == request.repository_path_digest
+        and actual_repository_path_digest in policy.allowed_repository_path_digests
     )
     marker_present = marker.is_file() and not marker.is_symlink()
     marker_exact = bool(
@@ -65,7 +68,8 @@ def execute_repository_dedicated_index(
         == (request.sandbox_marker_token + "\n").encode("ascii")
     )
     path_exact = bool(
-        git_dir.is_dir()
+        actual_repository_path_digest == request.repository_path_digest
+        and git_dir.is_dir()
         and not git_dir.is_symlink()
         and index_path.parent == git_dir
         and index_path.name == request.dedicated_index_filename
