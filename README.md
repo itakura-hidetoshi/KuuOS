@@ -13,13 +13,13 @@ KuuOSはproduction AGI runtimeではありません。
 
 ## 現在地
 
-**基準日：2026年6月30日**
+**基準日：2026年7月2日**
 
-**文書化対象の機能frontier：PR #914、KuuOS Repository Atomic Checkpoint Creation v1.02**
+**文書化対象の機能frontier：PR #948、KuuOS Repository Checkpoint Reflog v1.24**
 
-**frontier merge commit：`e109a8d4e6896abe5eda786885683fe3e3ef8d89`**
+**frontier merge commit：`1cb1b472527e70330f5387732d5d8f39fdbeffb5`**
 
-現在の`main`は、MemoryOS applicationとrollbackのv0.76から、self-organizing improvement v0.78、repository self-evolution v0.79からv1.02へ進んでいます。
+現在の`main`は、MemoryOS applicationとrollbackのv0.76から、self-organizing improvement v0.78、repository self-evolution v0.79からv1.24へ進んでいます。
 
 v0.77のauthority-role topologyとpost-transition verificationは提案枝として作成されましたが、`main`へは統合されていません。
 
@@ -41,14 +41,17 @@ v0.77のauthority-role topologyとpost-transition verificationは提案枝とし
 | Module-Bundle and MemoryOS application | v0.70からv0.76 |
 | v0.77 proposals | 未統合 |
 | Self-organizing improvement loop | v0.78 |
-| Repository self-evolution chain | v0.79からv1.02 |
+| Repository self-evolution chain | v0.79からv1.24 |
 | Lean aggregate root | `formal/KuuOSFormal.lean` / target `KuuOSFormal` |
-| Runtime aggregate root | `scripts/run_kuuos_runtime_full_check_v0_55.py` |
+| Current repository runtime root | `runtime/kuuos_v124_check.py` |
+| Legacy compatibility runtime root | `scripts/run_kuuos_runtime_full_check_v0_55.py` |
 | Lean / mathlib | Lean 4、mathlib `v4.30.0-rc2` |
 
-`run_kuuos_runtime_full_check_v0_55.py`という名称は外部workflowとの互換性のため保持しています。
+`run_kuuos_runtime_full_check_v0_55.py`という名称は既存workflowとの互換性のため保持しています。
 
-現在の実体はv0.55で停止せず、統合済みruntime surfaceをv1.02まで依存順に検証します。
+このlegacy compatibility rootはv1.02までの従来系列を検証します。
+
+v1.03からv1.24までを含む現在のrepository mutation累積検証入口は`runtime/kuuos_v124_check.py`です。
 
 ## 固定境界
 
@@ -88,7 +91,11 @@ object candidate != object materialization
 reference authorization != reference update
 checkpoint authorization != checkpoint creation
 checkpoint creation != checkpoint overwrite
+checkpoint reflog record != checkpoint reference update
+dedicated index != canonical index
+sandbox reflection != repository-root working-tree write
 local checkpoint != push authority
+roadmap completion != successor mutation authority
 ```
 
 ## OSの責務
@@ -165,10 +172,6 @@ real Hilbert ℓ²
 → four-great phase dynamics
 ```
 
-OS receipt compositionは既存receiptの由来と所有権境界を合成します。
-
-receipt composition != receipt constructionです。
-
 Leanは、宣言された仮定の下で型付き帰結を検証します。
 
 CI成功だけでは、外部数学界での定理受理、物理実現、経験的妥当性は成立しません。
@@ -189,87 +192,92 @@ v0.78以降は、KuuOS自身のrepositoryを研究対象として扱います。
 
 各段階は有限で、source-boundで、replay可能で、fail closedです。
 
-### 構造整合と証明連鎖
+### 構造整合からcheckpointモデルまで
 
 | Version | 責務 |
 |---|---|
 | v0.78 | bounded self-organizing improvement loopとsupervisor |
-| v0.79 | repository structure alignment candidate |
-| v0.80 | alignment normal form |
-| v0.81 | incremental preservation |
-| v0.82 | repository certificate chain |
-| v0.83 | direct repository revision observation |
-| v0.84 | merge certificate |
-| v0.85 | revision DAG certificate |
-| v0.86 | local repository frontier certificate |
+| v0.79からv0.86 | repository alignment、normal form、preservation、revision、merge、frontier certificate |
+| v0.87からv0.92 | portfolio、shadow、admission、external approval、application authorization、modeled application |
+| v0.93からv0.98 | Git object candidate、object authorizationとreceipt、reference authorization、modeled CAS、execution receipt |
+| v0.99からv1.02 | stability、local finality、checkpoint authorization、modeled checkpoint creation |
 
-### 候補選択、shadow、外部承認
+### Checkpoint receiptとCAS準備
 
 | Version | 責務 |
 |---|---|
-| v0.87 | bounded self-evolution portfolio |
-| v0.88 | shadow realization and replay |
-| v0.89 | governed evolution admission |
-| v0.90 | externally supplied approval receipt |
-| v0.91 | single-use repository application authorization |
-| v0.92 | pure atomic repository application transition |
+| v1.03 | checkpoint creation receipt |
+| v1.04 | checkpoint evolution workspace |
+| v1.05 | checkpoint stability |
+| v1.06 | checkpoint discrepancy review |
+| v1.07 | checkpoint repair routing |
+| v1.08 | checkpoint namespace gate |
+| v1.09 | checkpoint candidate |
+| v1.10 | checkpoint CAS contract |
+| v1.11 | checkpoint candidate validation |
+| v1.12 | validated CAS intake |
+| v1.13 | CAS coherence |
+| v1.14 | CAS authorization request |
+| v1.15 | CAS authorization decision |
+| v1.16 | atomic modeled CAS transition |
+| v1.17 | live Git preflight |
+| v1.18 | bounded live checkpoint ref CAS |
 
-### Git object、reference、finality、checkpoint
+### 段階的repository mutation roadmap
 
-| Version | 責務 |
+| Version | 許可された限定効果 |
 |---|---|
-| v0.93 | deterministic tree and commit candidate certificate |
-| v0.94 | object materialization authorization |
-| v0.95 | external object materialization receipt |
-| v0.96 | direct branch reference-update authorization |
-| v0.97 | atomic modeled reference and nonce transition |
-| v0.98 | external reference-update receipt |
-| v0.99 | delayed reference stability and reachability |
-| v1.00 | bounded multi-sample local frontier finality |
-| v1.01 | single-use local checkpoint authorization |
-| v1.02 | atomic modeled checkpoint-reference creation and nonce consumption |
+| v1.19 | 単一blobのobject database書込 |
+| v1.20 | 限定tree objectとcommit objectの構築 |
+| v1.21 | 構築済みcommitのcheckpoint refへのCAS公開 |
+| v1.22 | checkpoint専用indexへの限定書込 |
+| v1.23 | repository内sandbox working treeへの限定反映 |
+| v1.24 | checkpoint専用reflogへの正確な一件記録 |
 
 ```text
-bounded improvement proposal
-→ repository alignment and preservation certificates
-→ revision and frontier evidence
-→ finite portfolio selection
-→ shadow replay
-→ governed admission
-→ external approval
-→ single-use application authorization
-→ atomic modeled application
-→ commit candidate
-→ object materialization authorization and receipt
-→ reference update authorization, transition and receipt
-→ delayed stability
-→ local frontier finality
-→ checkpoint authorization
-→ atomic modeled checkpoint creation
+bounded blob write
+→ limited tree and commit construction
+→ checkpoint-reference CAS publication
+→ dedicated alternate index
+→ repository-local sandbox reflection
+→ exact checkpoint-dedicated reflog record
 ```
 
-## v1.02の正確な意味
+このroadmapはv1.24で完了し、閉じています。
 
-v1.02は、`refs/kuuos/checkpoints/`内の新規checkpoint referenceについて、zero-OID compare-and-swapとnonce consumptionを一つの純粋な状態遷移として構成します。
+v1.24の完了は、追加ref更新、追加reflog、push、signing、通常working treeへの無制限書込を許可しません。
+
+## v1.24の正確な意味
+
+v1.24は、v1.21で受理されたcheckpoint ref遷移を、v1.23 sandbox reflectionの完了後にcheckpoint専用reflogへ一件だけ記録します。
+
+対象namespaceは`refs/kuuos/checkpoints/`に限定されます。
+
+現在のcheckpoint refは変更しません。
+
+完全一致する既存一件はGit書込を行わず再利用します。
+
+一文字でも異なる既存reflogは拒否し、上書きも追記も行いません。
+
+成功時に変更を許す面は、対象checkpoint reflogの専用経路だけです。
 
 ```text
-checkpoint reference: zero OID → authorized final-tip OID
-nonce registry: unused nonce → consumed nonce
+checkpoint reflog write
+!= reference update
+!= object write
+!= index write
+!= working-tree write
+!= push
+!= signing
 ```
 
-abort時にはcheckpoint stateとnonce registryを完全に保存します。
-
-v1.02はlive Git commandを呼びません。
-
-v1.02単独では、live repository mutation、push、force update、delete、tag update、branch update、reflog write、object database writeを証明しません。
-
-外部実行adapter、実行報告、post-execution observation、最終receiptは後続層です。
+詳細は[`docs/KUUOS_REPOSITORY_CHECKPOINT_REFLOG_v1_24.md`](docs/KUUOS_REPOSITORY_CHECKPOINT_REFLOG_v1_24.md)を参照してください。
 
 ## Lean root
 
 `formal/KuuOSFormal.lean`は、`main`へ統合済みの形式層だけを参照するstrict aggregate rootです。
 
-MemoryOS系列はv0.76までをimportし、その後はv0.78からv1.02のrepository self-evolution系列をimportします。
+MemoryOS系列はv0.76までをimportし、その後はv0.78からv1.24のrepository self-evolution系列をimportします。
 
 未統合のv0.77 modulesはimportしません。
 
@@ -283,43 +291,55 @@ lake -KleanArgs=-DwarningAsError=true \
 
 aggregate rootはimport欠落、未統合moduleの混入、依存順の破綻、境界退行を検出します。
 
-## Runtime root
+## Runtime roots
 
-`scripts/run_kuuos_runtime_full_check_v0_55.py`は、互換名を維持した累積runtime rootです。
+現在のrepository mutation累積検証入口は次です。
 
-現在はlegacy chainに加え、v0.56、v0.59、v0.60からv0.76、v0.78からv0.95、v0.96からv1.02のlive-contract validatorとfocused unit testsを依存順に実行します。
+```bash
+PYTHONPATH=. python3 runtime/kuuos_v124_check.py
+```
 
-未統合のv0.77 validatorsは実行しません。
+この入口はv1.24から先行runtimeへ依存順に遡り、focused tests、guards、effect accountingを検証します。
+
+既存workflow互換入口は次です。
 
 ```bash
 PYTHONPATH=. python3 scripts/run_kuuos_runtime_full_check_v0_55.py
 ```
 
-v1.02 frontierだけを累積的に確認する入口も残します。
+この互換入口はlegacy cumulative surfaceをv1.02まで検証します。
 
-```bash
-PYTHONPATH=. python3 runtime/kuuos_v102_check.py
-```
+どちらの成功も、検査対象surfaceの再現可能な整合性receiptです。
 
-root成功は、検査対象surfaceの再現可能な整合性receiptです。
+真理、外部定理受理、臨床承認、組織承認、無制限実行許可ではありません。
 
-真理、外部定理受理、臨床承認、組織承認、live Git mutation、無制限実行許可ではありません。
+## v1.24受入記録
+
+PR #948の固定headは`f99a4abd259b3b310cb96c77dbfccb742657d2f1`です。
+
+KuuOS PR Governance Gate Run #370は成功しました。
+
+最終auditはexpected checks 108件、収集結果108件、failed checks 0件、missing receipts 0件でした。
+
+PR #948はmerge commit `1cb1b472527e70330f5387732d5d8f39fdbeffb5`として`main`へ統合されました。
 
 ## 次の研究前線
 
-直近の自然な次段階は、v1.02のmodeled checkpoint transitionをlive local Git executionへ直接同一視せず、限定adapterと独立receiptを追加することです。
+v1.24の次にv1.25 mutationを自動開始しません。
 
-```text
-v1.02 committed modeled transition
-→ exact single-use execution request
-→ bounded local reference adapter
-→ external execution report
-→ independent post-reference observation
-→ checkpoint creation receipt
-→ delayed stability / finality evidence
-```
+新しいmutation機能を提案する場合は、既存roadmapの継続ではなく、新しい独立系列として次を定義します。
 
-checkpoint overwrite、delete、remote push、branch mutation、tag mutationは別権限です。
+- authority owner。
+- policy。
+- request。
+- result。
+- effect accounting。
+- Lean boundary。
+- CI registry。
+- abort preservationまたはcompensation contract。
+- 既存権限から昇格しないことを示す非権限境界。
+
+非mutationの次期研究候補には、checkpoint recovery proposal、retentionとrevocation、delete authorityの分離、ActOS一般の実行後観測検証、MemoryOS、WORLD数学frontierがあります。
 
 詳細は[`ROADMAP.md`](ROADMAP.md)に記載します。
 
@@ -336,7 +356,8 @@ KuuOSは現時点で次を主張しません。
 - 完全な物理的量子Markov semigroup、正確な物理真空、正確なWORLD simulator。
 - rollbackによる承認権限または過去状態の復活。
 - repository candidate、authorization、modeled transition、receiptの自動的なlive effect化。
-- checkpoint creation authorityからoverwrite、delete、push権限への昇格。
+- checkpoint権限からoverwrite、delete、push、signing権限への昇格。
+- v1.24完了から後続mutation authorityへの自動昇格。
 - closed unmerged proposalを`main`の機能として扱うこと。
 
 ## 最初に読む文書
@@ -349,10 +370,12 @@ CONTRIBUTING.md
 
 formal/KUOS.lean
 formal/KuuOSFormal.lean
+runtime/kuuos_v124_check.py
 scripts/run_kuuos_runtime_full_check_v0_55.py
 
-KUUOS_REPOSITORY_ATOMIC_CHECKPOINT_CREATION_v1_02.md
-runtime/kuuos_v102_check.py
+docs/KUUOS_REPOSITORY_CHECKPOINT_REFLOG_v1_24.md
+formal/KuuOSRepositoryV1_24.lean
+manifests/kuuos_repository_checkpoint_reflog_v124.json
 ```
 
 ## ディレクトリ
@@ -387,6 +410,7 @@ rollback as monotonic compensation
 stable main != active research branch
 modeled transition != live mutation
 merged artifact != closed proposal
+completed roadmap != inherited future authority
 ```
 
 新しい層は、入力、出力、所有者、必要権限、永続化、replay、stale-state処理、validatorの射程、外部仮定、非権限境界を明記します。
