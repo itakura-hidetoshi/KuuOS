@@ -146,7 +146,6 @@ class RepositoryBoundedTreeCommitV120Tests(unittest.TestCase):
         self.request = self._request()
 
     def tearDown(self) -> None:
-        self.model.tearDown()
         self.live.tearDown()
 
     def _write_object(self, kind: str, payload: bytes) -> str:
