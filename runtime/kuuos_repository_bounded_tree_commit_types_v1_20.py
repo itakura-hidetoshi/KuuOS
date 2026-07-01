@@ -161,6 +161,8 @@ class RepositoryBoundedTreeCommitResult:
     object_format_sha1: bool
     parent_commit_present: bool
     parent_commit_type_exact: bool
+    referenced_objects_present: bool
+    referenced_object_types_exact: bool
     tree_payloads_exact: bool
     commit_payload_exact: bool
     tree_objects_present_after: bool
