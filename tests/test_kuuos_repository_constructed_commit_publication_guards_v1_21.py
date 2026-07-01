@@ -48,8 +48,8 @@ class RepositoryConstructedCommitPublicationGuardsV121Tests(unittest.TestCase):
         with tempfile.TemporaryDirectory() as directory:
             with patch.dict(os.environ, {"GIT_DIR": directory}, clear=False):
                 result = self.fixture.execute()
-        self.assertEqual(result.status, COMMIT_PUBLISHED)
-        self.assertEqual(os.listdir(directory), [])
+            self.assertEqual(result.status, COMMIT_PUBLISHED)
+            self.assertEqual(os.listdir(directory), [])
 
 
 if __name__ == "__main__":
