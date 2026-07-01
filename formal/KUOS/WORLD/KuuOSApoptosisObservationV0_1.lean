@@ -5,7 +5,7 @@ namespace KUOS.WORLD.KuuOSApoptosisObservationV0_1
 inductive ObservationStatus where
   | noAction
   | reviewRecommended
-  | protected
+  | protectedSubject
   | rejected
   deriving DecidableEq, Repr
 
@@ -79,7 +79,7 @@ structure ApoptosisObservationWitness.ValidProtected
   subjectKindAllowed : w.subjectKindAllowed
   protectedOrHeld :
     w.protectedSubject = true ∨ w.institutionalHoldPresent = true
-  statusProtected : w.status = ObservationStatus.protected
+  statusProtected : w.status = ObservationStatus.protectedSubject
   apoptosisCandidateNotIssued : w.apoptosisCandidateIssued = false
   authorityRevocationNotPerformed : w.authorityRevocationPerformed = false
   quiescenceTransitionNotPerformed : w.quiescenceTransitionPerformed = false
@@ -141,7 +141,7 @@ theorem review_recommendation_performs_no_lifecycle_effect
 theorem protected_subject_does_not_enter_apoptosis
     (w : ApoptosisObservationWitness)
     (h : w.ValidProtected) :
-    w.status = ObservationStatus.protected ∧
+    w.status = ObservationStatus.protectedSubject ∧
       w.apoptosisCandidateIssued = false ∧
       w.physicalDeletionPerformed = false := by
   exact ⟨h.statusProtected, h.apoptosisCandidateNotIssued,
