@@ -28,9 +28,25 @@ class RepositoryConstructedCommitPublicationV121Tests(unittest.TestCase):
     def tearDown(self) -> None:
         self.fixture.tearDown()
 
+    def execute(self, request=None, **kwargs):
+        return execute_repository_constructed_commit_publication(
+            self.request if request is None else request,
+            self.v120_result,
+            self.live_request,
+            self.transition,
+            self.preflight_policy,
+            self.preflight_request,
+            self.preflight_receipt,
+            self.live_policy,
+            self.policy,
+            execution_started_at_epoch_seconds=1_800_000_010,
+            execution_completed_at_epoch_seconds=1_800_000_012,
+            **kwargs,
+        )
+
     def test_constructed_commit_publication(self) -> None:
         before = self.v118._non_ref_snapshot()
-        result = execute_repository_constructed_commit_publication(self.request, self.v120_result, self.live_request, self.transition, self.preflight_policy, self.preflight_request, self.preflight_receipt, self.live_policy, self.policy, execution_started_at_epoch_seconds=1_800_000_010, execution_completed_at_epoch_seconds=1_800_000_012)
+        result = self.execute()
         after = self.v118._non_ref_snapshot()
         self.assertEqual(result.status, COMMIT_PUBLISHED)
         self.assertTrue(result.reference_cas_committed)
