@@ -1,0 +1,28 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-runtime-v120": {
+      "name": "KuuOS repository runtime v1.20",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_v120_check.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_v120_check.py",
+        "runtime/*bounded_tree_commit*v1_20.py",
+        "runtime/v120_*.py",
+        "tests/test_kuuos_repository_bounded_tree_commit_v1_20.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryBoundedTreeCommitV1_20.lean",
+        "formal/KuuOSBoundedTreeCommitV1_20.lean",
+        "manifests/kuuos_repository_bounded_tree_commit_v120.json",
+        "docs/KUUOS_REPOSITORY_BOUNDED_TREE_COMMIT_v1_20.md"
+      ],
+      "depends_on": [
+        "repository-runtime-v119"
+      ],
+      "timeout_minutes": 180,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
