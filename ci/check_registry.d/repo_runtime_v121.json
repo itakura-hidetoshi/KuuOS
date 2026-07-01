@@ -1,0 +1,30 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-runtime-v121": {
+      "name": "KuuOS repository runtime v1.21",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_v121_check.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_v121_check.py",
+        "runtime/*constructed_commit_publication*v1_21.py",
+        "runtime/v121_*.py",
+        "tests/test_kuuos_repository_constructed_commit_publication_v1_21.py",
+        "tests/test_kuuos_repository_constructed_commit_publication_guards_v1_21.py",
+        "tests/test_kuuos_repository_constructed_commit_publication_accounting_v1_21.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryConstructedCommitPublicationV1_21.lean",
+        "formal/KuuOSConstructedCommitPublicationV1_21.lean",
+        "manifests/kuuos_repository_constructed_commit_publication_v121.json",
+        "docs/KUUOS_REPOSITORY_CONSTRUCTED_COMMIT_PUBLICATION_v1_21.md"
+      ],
+      "depends_on": [
+        "repository-runtime-v120"
+      ],
+      "timeout_minutes": 150,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
