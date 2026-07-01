@@ -1,4 +1,27 @@
 {
   "schema_version": "0.2",
-  "checks": {}
+  "checks": {
+    "repository-runtime-v119": {
+      "name": "KuuOS repository runtime v1.19",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_v119_check.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_v119_check.py",
+        "runtime/*bounded_blob*v119*.py",
+        "runtime/*v1_19.py",
+        "runtime/v119_*.py",
+        "tests/test_kuuos_repository_bounded_blob_v1_19.py",
+        "formal/KUOS/WORLD/KuuOSRepositoryBoundedBlobV1_19.lean",
+        "formal/KuuOSBoundedBlobV1_19.lean"
+      ],
+      "depends_on": [
+        "repository-runtime-v118"
+      ],
+      "timeout_minutes": 150,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
 }
