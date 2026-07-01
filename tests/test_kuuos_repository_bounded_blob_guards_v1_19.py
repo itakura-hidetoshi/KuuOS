@@ -13,14 +13,12 @@ from runtime.kuuos_repository_live_object_materialization_v1_19 import (
 from runtime.v119_live_object_materialization_policy import (
     build_repository_live_object_materialization_request,
 )
-from tests.test_kuuos_repository_bounded_blob_v1_19 import (
-    RepositoryBoundedBlobV119Tests,
-)
+from tests import test_kuuos_repository_bounded_blob_v1_19 as v119_tests
 
 
 class RepositoryBoundedBlobGuardsV119Tests(unittest.TestCase):
     def setUp(self) -> None:
-        self.fixture = RepositoryBoundedBlobV119Tests(
+        self.fixture = v119_tests.RepositoryBoundedBlobV119Tests(
             methodName="test_probe_normalization_is_fail_closed"
         )
         self.fixture.setUp()
