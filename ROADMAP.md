@@ -1,20 +1,23 @@
 # KuuOS / 空OS Roadmap
 
-**基準日：2026年6月30日**
+**基準日：2026年7月2日**
 
-**文書化対象の機能frontier：PR #914、KuuOS Repository Atomic Checkpoint Creation v1.02**
+**文書化対象の機能frontier：PR #948、KuuOS Repository Checkpoint Reflog v1.24**
 
-**frontier merge commit：`e109a8d4e6896abe5eda786885683fe3e3ef8d89`**
+**frontier merge commit：`1cb1b472527e70330f5387732d5d8f39fdbeffb5`**
 
-この文書は、`main`へ統合済みの基盤、未統合提案、現在のrepository self-evolution frontier、次期候補、外部receipt、長期研究課題を分離します。
+この文書は、`main`へ統合済みの基盤、未統合提案、完了したrepository mutation roadmap、次期研究候補、外部receipt、長期研究課題を分離します。
+
+v1.24の完了後に、新しいmutation機能を自動的に継続しません。
 
 ## 状態分類
 
 | 表記 | 意味 |
 |---|---|
-| 統合済み | `main`に存在し、正式なruntimeまたはLean aggregate rootから参照される |
+| 統合済み | `main`に存在し、正式なruntimeまたはLean surfaceから参照される |
 | 継続検証 | 統合済みだが、依存更新時に専用rootとaggregate rootを再検証する |
-| 次期候補 | 直前versionのreceipt chainを継承する自然な次段階 |
+| 完了系列 | 定義済みの終端へ到達し、後続権限を自動生成しない |
+| 次期候補 | 非mutationまたは新しい独立系列として検討できる次段階 |
 | 設計候補 | 境界と受入条件は定義するが、versionと実装は未確定 |
 | Active PR | 現在の`main`を基準とする研究枝。merge前は統合済みと記載しない |
 | 未統合提案 | closedまたはopen branchに存在するが、`main`に存在しない |
@@ -66,7 +69,11 @@ reference receipt != finality
 checkpoint authorization != checkpoint creation
 modeled checkpoint creation != live Git mutation
 checkpoint creation != checkpoint overwrite
+checkpoint reflog record != checkpoint reference update
+dedicated index != canonical index
+sandbox reflection != repository-root working-tree write
 local checkpoint != remote push authority
+roadmap completion != successor mutation authority
 
 merged artifact != closed proposal
 ```
@@ -91,9 +98,11 @@ merged artifact != closed proposal
 | Module-Bundle / MemoryOS application | v0.70からv0.76 | 統合済み、継続検証 |
 | Authority topology / post-transition verification v0.77 | 未統合提案 |
 | Self-organizing improvement | v0.78 | 統合済み、継続検証 |
-| Repository self-evolution | v0.79からv1.02 | 統合済み、継続検証 |
-| Lean aggregate root | `formal/KuuOSFormal.lean` | v1.02 strict build surface |
-| Runtime aggregate root | `scripts/run_kuuos_runtime_full_check_v0_55.py` | v1.02 cumulative runtime surface |
+| Repository self-evolution | v0.79からv1.24 | 統合済み、継続検証 |
+| Staged repository mutation | v1.19からv1.24 | 完了系列 |
+| Lean aggregate root | `formal/KuuOSFormal.lean` | v1.24 strict build surface |
+| Current repository runtime root | `runtime/kuuos_v124_check.py` | v1.24 cumulative runtime surface |
+| Legacy compatibility runtime root | `scripts/run_kuuos_runtime_full_check_v0_55.py` | v1.02 compatibility surface |
 
 現在の正式系列にはversion gapがあります。
 
@@ -102,7 +111,7 @@ MemoryOS rollback v0.76
 → Self-organizing improvement v0.78
 → Repository structure alignment v0.79
 → ...
-→ Atomic checkpoint creation v1.02
+→ Checkpoint-dedicated reflog v1.24
 ```
 
 v0.77 proposal branchesの存在は、`main`への統合を意味しません。
@@ -216,7 +225,7 @@ live working tree、index、Git object database、referenceを暗黙に変更し
 
 candidate generation、authorization、modeled transition、external execution report、post-operation observationを別層に保ちます。
 
-### v0.99からv1.02：local finalityとcheckpoint
+### v0.99からv1.02：local finalityとcheckpointモデル
 
 | Version | 統合済み責務 |
 |---|---|
@@ -225,16 +234,106 @@ candidate generation、authorization、modeled transition、external execution r
 | v1.01 | `refs/kuuos/checkpoints/`内のsingle-use checkpoint authorization |
 | v1.02 | zero-OID CASとnonce consumptionのatomic modeled checkpoint creation |
 
-v1.02のcommitは次を一つの論理遷移として構成します。
+v1.02はlive Git commandを呼ばず、live repository mutationを主張しません。
+
+### v1.03からv1.08：receipt、workspace、stability、review、routing、namespace
+
+| Version | 統合済み責務 |
+|---|---|
+| v1.03 | checkpoint creation receipt |
+| v1.04 | checkpoint evolution workspace |
+| v1.05 | checkpoint stability |
+| v1.06 | checkpoint discrepancy review |
+| v1.07 | checkpoint repair routing |
+| v1.08 | checkpoint namespace gate |
+
+この系列は、作成結果、workspace、安定性、差異、修復候補、namespaceを分離します。
+
+repair routingは修復の実行権限ではありません。
+
+### v1.09からv1.16：candidate validationとCAS authorization
+
+| Version | 統合済み責務 |
+|---|---|
+| v1.09 | checkpoint candidate |
+| v1.10 | checkpoint CAS contract |
+| v1.11 | checkpoint candidate validation receipt |
+| v1.12 | validated CAS intake |
+| v1.13 | CAS coherence |
+| v1.14 | CAS authorization request |
+| v1.15 | CAS authorization decision |
+| v1.16 | atomic modeled CAS transition |
+
+candidate、validation、intake、coherence、request、decision、modeled transitionを一つの権限へ縮約しません。
+
+### v1.17からv1.18：live checkpoint reference CAS
+
+| Version | 統合済み責務 |
+|---|---|
+| v1.17 | live Git preflight |
+| v1.18 | bounded live checkpoint reference CAS |
+
+v1.18は限定されたcheckpoint referenceだけを対象にし、branch、tag、remote、push、force updateへ権限を拡張しません。
+
+## 完了した段階的repository mutation roadmap
+
+### v1.19からv1.24
+
+| Version | 許可された限定効果 | 禁止境界 |
+|---|---|---|
+| v1.19 | 単一blobのobject database書込 | tree、commit、ref、index、working tree、push、signing |
+| v1.20 | 限定tree objectとcommit objectの構築 | ref、index、working tree、push、signing |
+| v1.21 | 構築済みcommitのcheckpoint refへのCAS公開 | branch、tag、remote、push、signing |
+| v1.22 | checkpoint専用indexへの限定書込 | 標準index、working tree、ref、push、signing |
+| v1.23 | repository内sandbox working treeへの限定反映 | 通常working tree、index、object、ref、reflog、push、signing |
+| v1.24 | checkpoint専用reflogへの正確な一件記録 | 現在ref、object、index、working tree、other reflog、push、signing |
 
 ```text
-checkpoint state: absent → authorized final-tip OID
-nonce state: unused → consumed
+v1.19 bounded blob write
+→ v1.20 limited tree and commit construction
+→ v1.21 checkpoint-reference CAS publication
+→ v1.22 dedicated alternate index
+→ v1.23 repository-local sandbox reflection
+→ v1.24 exact checkpoint-dedicated reflog record
 ```
 
-abortはsource checkpoint stateとsource nonce registryを完全に保存します。
+このroadmapはv1.24で完了し、閉じています。
 
-v1.02はlive Git commandを呼ばず、live repository mutationを主張しません。
+終端は、新しいmutation authorityを生成しません。
+
+### v1.24の終端条件
+
+v1.24は、v1.21で実行済みのcheckpoint ref遷移を、v1.23 sandbox reflectionの完了後にcheckpoint専用reflogへ一件だけ記録します。
+
+対象は`refs/kuuos/checkpoints/`に限定されます。
+
+現在のcheckpoint refを変更しません。
+
+完全一致する既存一件は再利用します。
+
+不一致既存reflogは上書きも追記もせず拒否します。
+
+成功時に変更を許可するsurfaceは、対象checkpoint reflogの専用経路だけです。
+
+```text
+checkpoint-dedicated reflog record
+!= reference update
+!= object write
+!= index write
+!= working-tree write
+!= push
+!= signing
+```
+
+### v1.24受入記録
+
+PR #948の固定headは`f99a4abd259b3b310cb96c77dbfccb742657d2f1`です。
+
+KuuOS PR Governance Gate Run #370は成功しました。
+
+最終auditはexpected checks 108件、収集結果108件、failed checks 0件、missing receipts 0件でした。
+
+PR #948はmerge commit `1cb1b472527e70330f5387732d5d8f39fdbeffb5`として`main`へ統合されました。
 
 ## Aggregate rootsの現在形
 
@@ -247,7 +346,7 @@ WORLD v0.27-v0.59
 → Gauge v0.60-v0.69
 → Module-Bundle / MemoryOS v0.70-v0.76
 → Self-organizing improvement v0.78
-→ Repository self-evolution v0.79-v1.02
+→ Repository self-evolution v0.79-v1.24
 ```
 
 v0.77 proposal modulesはimportしません。
@@ -259,124 +358,46 @@ v0.77 proposal modulesはimportしません。
 - dedicated rootとaggregate rootの境界が一致する。
 - Lean-derived theoremとexternal receiptを分離する。
 
-### Runtime root
+### Current repository runtime root
 
-`scripts/run_kuuos_runtime_full_check_v0_55.py`は互換名を保ち、統合済みruntime surfaceをv1.02まで実行します。
+`runtime/kuuos_v124_check.py`は、v1.24から先行repository runtimeへ依存順に接続します。
 
-```text
-legacy cumulative chain through v0.54
-→ modular mesh and WORLD v0.55
-→ WORLD v0.56 and v0.59
-→ Gauge v0.60-v0.69
-→ Module-Bundle / MemoryOS v0.70-v0.76
-→ Self-organization v0.78
-→ Repository chain v0.79-v0.95
-→ live-contract validators and focused tests v0.96-v1.02
+```bash
+PYTHONPATH=. python3 runtime/kuuos_v124_check.py
 ```
 
-v0.77 proposal validatorsは実行しません。
+この入口はfocused tests、guards、effect accountingを含む現在のrepository mutation累積検証面です。
 
-## Active research frontier
+### Legacy compatibility runtime root
 
-### 優先1：Live checkpoint creation adapter
+`scripts/run_kuuos_runtime_full_check_v0_55.py`は互換名を保ち、legacy cumulative surfaceをv1.02まで実行します。
 
-**状態：次期候補**
-
-v1.02はmodeled transitionです。
-
-次段階では、v1.02 committed resultを再検証し、一つの限定されたlocal checkpoint creation requestだけを外部adapterへ渡します。
-
-受入条件：
-
-- v1.02 certificate、source checkpoint state、nonce registry、repository identity、Git-directory fingerprintを完全再検証する。
-- direct reference `refs/kuuos/checkpoints/<name>`だけを許可する。
-- expected old OIDをzero OIDへ固定する。
-- authorized final-tip OID以外を拒否する。
-- overwrite、delete、force、branch、tag、remote reference、pushを拒否する。
-- single-use nonceとtransaction IDをexact bindingする。
-- external host licenseとauthorized executorを要求する。
-- command、exit status、stderr/stdout digest、observed final OIDをexecution reportへ束縛する。
-- execution reportだけで成功を確定しない。
-
-```text
-v1.02 committed modeled transition
-→ exact execution request
-→ bounded local Git reference adapter
-→ external execution report
+```bash
+PYTHONPATH=. python3 scripts/run_kuuos_runtime_full_check_v0_55.py
 ```
 
-### 優先2：Checkpoint creation receiptと独立観測
+legacy rootとcurrent repository rootを同一視しません。
 
-**状態：設計候補**
+両者は役割を分離したまま維持します。
 
-adapter実行後に、direct reference storeを独立に再観測します。
+## v1.24後の研究前線
 
-```text
-execution report
-+ independent post-reference observation
-+ nonce-consumption receipt
-+ exact repository and transaction binding
-→ checkpoint creation receipt
-```
-
-受入条件：
-
-- command successとreference observationを分離する。
-- observed OIDがauthorized final-tip OIDと一致することを要求する。
-- symbolic reference、reflog-only evidence、working-tree evidence、remote evidenceを拒否する。
-- report substitution、observation substitution、nonce replayを拒否する。
-- receipt constructionは追加mutationを行わない。
-- failure時にoverwriteまたはautomatic retryを行わない。
-
-### 優先3：Checkpoint stability、finality、immutability policy
-
-**状態：設計候補**
-
-checkpoint creation直後の存在確認と、時間を隔てた安定性確認を分離します。
-
-検討事項：
-
-- delayed direct-reference observation。
-- object-database reachabilityの再確認。
-- checkpoint name uniqueness。
-- immutable-by-default policy。
-- retention、revocation、delete authorityの別系列化。
-- checkpoint lossまたはsubstitutionのfailure receipt。
-
-checkpoint deleteはcheckpoint creationの逆操作として暗黙に許可しません。
-
-### 優先4：Aggregate root、manifest、registryの完全性固定
+### 優先1：閉鎖状態の同期と回帰防止
 
 **状態：継続検証**
 
 必須検査：
 
-- `formal/KuuOSFormal.lean`がv0.76の後にv0.78からv1.02を参照する。
-- 未統合v0.77 moduleを参照しない。
-- `scripts/run_kuuos_runtime_full_check_v0_55.py`がv0.78からv1.02を含む。
-- runtime rootがlive-contract checksとfocused unit testsを依存順に実行する。
-- README、ROADMAP、Lean root、runtime root、lake target、manifest、workflow indexを同期する。
-- aggregate root未登録のversionを統合済み完了と記載しない。
-- current frontierを機械可読manifestから検査できるようにする。
+- README、ROADMAP、Lean aggregate root、v1.24 dedicated rootを同期する。
+- `runtime/kuuos_v124_check.py`をcurrent repository runtime rootとして明記する。
+- legacy compatibility runtime rootをv1.02 surfaceとして誤表示しない。
+- v1.24完了からv1.25 authorityを推論しない。
+- v1.19からv1.24のeffect boundaryを文書とmanifestで一致させる。
+- current frontierを機械可読manifestとCI registryから検査できるようにする。
 
-### 優先5：v0.77 proposalsの処理
+### 優先2：Checkpoint recovery proposalとhandover
 
-**状態：再評価候補**
-
-v0.77提案を再利用する場合、現在のv1.02 frontierへ直接mergeしません。
-
-必要な処理：
-
-- current `main`へ再基底する。
-- v0.78以降とauthority namespaceが衝突しないか確認する。
-- version番号を保持するか、新しいversionへ移すか決定する。
-- current aggregate roots、manifests、workflow registryへ追加する。
-- post-transition verificationをrepository self-evolution receipt chainと無条件に同一化しない。
-- dedicated runtime testsとstrict Lean rootを再実行する。
-
-### 優先6：Checkpointからのrecoveryとhandover
-
-**状態：設計候補**
+**状態：設計候補、非mutation**
 
 checkpointは復元権限そのものではありません。
 
@@ -385,21 +406,79 @@ checkpoint receipt
 → recovery proposal
 → source and target comparison
 → external review
-→ bounded recovery authorization
-→ modeled recovery transition
-→ external execution
-→ independent observation
+→ bounded recovery authorization request
+→ explicit authorization decision
 ```
 
-recoveryはbranch force update、history rewrite、remote pushを自動許可しません。
+この段階ではlive repository mutationを行いません。
 
-### 優先7：分散repository adapter
+recovery proposalはbranch force update、history rewrite、remote pushを自動許可しません。
+
+### 優先3：Retention、revocation、delete authorityの分離
+
+**状態：設計候補**
+
+checkpoint retention、revocation、deleteは別の権限系列として扱います。
+
+検討事項：
+
+- retention policy owner。
+- revocation issuerとrevocation observation。
+- delete authorityの独立requestとdecision。
+- legal holdまたはinstitutional hold。
+- deletion failure receipt。
+- reflog、reference、object retentionの区別。
+
+checkpoint deleteをcheckpoint creationの逆操作として暗黙に許可しません。
+
+### 優先4：新しいmutation系列の憲法
+
+**状態：新規系列を開始する場合の必須条件**
+
+新しいmutation機能はv1.24の続番だけで開始しません。
+
+開始前に、少なくとも次を新規定義します。
+
+- 独立したauthority owner。
+- policyとpolicy digest。
+- requestとrequest digest。
+- resultとresult digest。
+- executor identityとallowlist。
+- effect accounting。
+- preconditionとpostcondition。
+- abort preservationまたはcompensation contract。
+- Lean boundary。
+- dedicated tests。
+- CI registry。
+- manifestとpublic documentation。
+- 既存権限から昇格しないことを示す非権限定理または境界記述。
+
+新しい系列は、object、reference、index、working tree、reflog、network、push、signingを別surfaceとして扱います。
+
+### 優先5：v0.77 proposalsの処理
+
+**状態：再評価候補**
+
+v0.77提案を再利用する場合、現在のv1.24 frontierへ直接mergeしません。
+
+必要な処理：
+
+- current `main`へ再基底する。
+- v0.78以降とauthority namespaceが衝突しないか確認する。
+- version番号を保持するか、新しいversionへ移すか決定する。
+- current aggregate roots、manifests、workflow registryへ追加する。
+- post-transition verificationをrepository mutation receipt chainと無条件に同一化しない。
+- dedicated runtime testsとstrict Lean rootを再実行する。
+
+### 優先6：分散repository adapter
 
 **状態：中期研究課題**
 
 single-host local Git contractを分散storeへ拡張する場合、compare-and-swap、fencing token、idempotency key、append-only receipt、bounded lease、independent observation、authority and executor separationを保持します。
 
-### 優先8：一般OSの実行後検証閉路
+分散化はlocal authorityをglobal authorityへ昇格させません。
+
+### 優先7：一般OSの実行後検証閉路
 
 **状態：OS統合課題**
 
@@ -416,7 +495,7 @@ governed WORLD reconciliation candidate
 
 verification failureから自動rollbackしません。
 
-### 優先9：数学形式化frontier
+### 優先8：数学形式化frontier
 
 **状態：数学研究課題**
 
@@ -439,7 +518,7 @@ future target
 
 ## Open branchとPRの扱い
 
-現在の`main`はv1.02まで進んでいます。
+現在の`main`はv1.24まで進んでいます。
 
 古いbase SHAを持つopenまたはclosed-unmerged PRは、そのまま現在のfrontierとして扱いません。
 
@@ -453,7 +532,7 @@ Authority-role topologyとpost-transition verificationのv0.77枝は、`main`へ
 
 ### Workflow consolidation
 
-workflow統合またはPR gate整理の枝では、v0.78からv1.02のmanifest、dedicated checks、full-audit membership、aggregate rootsを欠落させないことを要求します。
+workflow統合またはPR gate整理の枝では、v0.78からv1.24のmanifest、dedicated checks、full-audit membership、aggregate rootsを欠落させないことを要求します。
 
 古いworkflow削除だけを先行させません。
 
@@ -506,7 +585,7 @@ current-main base
 + fail-closed negative fixtures
 + dedicated strict Lean root when formal surface exists
 + aggregate KuuOSFormal strict build
-+ runtime full-check registration
++ appropriate runtime-root registration
 + rollback, compensation, or abort-preservation contract
 + documentation synchronization
 + no authority-boundary regression
@@ -523,6 +602,7 @@ current-main base
 - receiptからsuccessor authorityを自動生成しない。
 - aggregate rootへ未登録のversionを統合済み完了と記載しない。
 - closed unmerged PRを統合済みartifactとして記載しない。
+- 完了roadmapから新しいmutation authorityを推論しない。
 
 ## 中期研究方向
 
@@ -558,8 +638,7 @@ current-main base
 - canonical manifestをCIで確認する。
 - versioned evidence bundleを作る。
 - component、version、source、manifest、validator、tests、Lean root、workflow、proof statusを機械可読に結ぶ。
-- READMEとROADMAPの機能frontierを自動検査する。
-- open PRをcurrent product、rebase candidate、CI-only、supersededへ分類する。
+- READMEとROADMAPの機能frontierを自動比較する。
 - unmerged proposalの誤昇格を機械検査する。
 
 ## 長期方向
@@ -584,6 +663,7 @@ approvals know their exact scope, expiry and consumption
 rollbacks know their source snapshot and monotonic ledger
 repository transitions know whether they are modeled or live
 checkpoints know their creator, frontier, nonce and observation history
+completed roadmaps know they grant no successor authority
 local controls know they are not global constitutions
 governance knows when to stop, hold, repair or hand over
 ```
@@ -595,14 +675,14 @@ governance knows when to stop, hold, repair or hand over
 ## 現在の優先順位
 
 ```text
-1. v1.02 modeled checkpoint creationを限定live adapterへ接続する。
-2. external execution reportと独立観測からcheckpoint creation receiptを構成する。
-3. checkpoint stability、finality、immutability、delete authorityを分離する。
-4. Lean root、runtime root、manifest、workflow registryをv1.02へ固定する。
+1. v1.24閉鎖状態をREADME、ROADMAP、Lean root、runtime root表示へ同期する。
+2. checkpoint recovery proposalとhandoverを非mutation系列として設計する。
+3. retention、revocation、delete authorityをcheckpoint creationから分離する。
+4. 新しいmutation系列を開始する場合の独立authority憲法を定義する。
 5. v0.77 proposalsを未統合のまま明示し、再利用時のrebase条件を定める。
-6. checkpointからのrecovery proposalとbounded handoverを設計する。
-7. local Git contractを分散adapterへ一般化する。
-8. ActOS一般の実行後観測検証閉路を閉じる。
-9. relative modular theoryとWORLD数学frontierを進める。
-10. stale open PR、closed-unmerged proposal、CI-only枝、superseded枝を整理する。
+6. local Git contractを分散adapterへ一般化する際の境界を研究する。
+7. ActOS一般の実行後観測検証閉路を構成する。
+8. relative modular theoryとWORLD数学frontierを進める。
+9. stale open PR、closed-unmerged proposal、CI-only枝、superseded枝を整理する。
+10. v1.24完了を後続mutation authorityへ変換しない。
 ```
