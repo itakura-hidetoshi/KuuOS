@@ -24,12 +24,16 @@ def _controlled_environment(
         for name, value in os.environ.items()
         if not name.startswith("GIT_")
     }
-    env["GIT_OPTIONAL_LOCKS"] = "0"
-    env["GIT_COMMITTER_NAME"] = request.committer_name
-    env["GIT_COMMITTER_EMAIL"] = request.committer_email
-    env["GIT_COMMITTER_DATE"] = (
+    identity_date = (
         f"{request.recorded_at_epoch_seconds} {request.timezone_offset}"
     )
+    env["GIT_OPTIONAL_LOCKS"] = "0"
+    env["GIT_AUTHOR_NAME"] = request.committer_name
+    env["GIT_AUTHOR_EMAIL"] = request.committer_email
+    env["GIT_AUTHOR_DATE"] = identity_date
+    env["GIT_COMMITTER_NAME"] = request.committer_name
+    env["GIT_COMMITTER_EMAIL"] = request.committer_email
+    env["GIT_COMMITTER_DATE"] = identity_date
     env["LC_ALL"] = "C"
     env["LANG"] = "C"
     return env
@@ -127,6 +131,9 @@ def run_checkpoint_reflog_git_command(
         environment_digest=canonical_digest(
             {
                 "GIT_OPTIONAL_LOCKS": env["GIT_OPTIONAL_LOCKS"],
+                "GIT_AUTHOR_NAME": env["GIT_AUTHOR_NAME"],
+                "GIT_AUTHOR_EMAIL": env["GIT_AUTHOR_EMAIL"],
+                "GIT_AUTHOR_DATE": env["GIT_AUTHOR_DATE"],
                 "GIT_COMMITTER_NAME": env["GIT_COMMITTER_NAME"],
                 "GIT_COMMITTER_EMAIL": env["GIT_COMMITTER_EMAIL"],
                 "GIT_COMMITTER_DATE": env["GIT_COMMITTER_DATE"],
