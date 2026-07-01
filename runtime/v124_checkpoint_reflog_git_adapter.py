@@ -28,7 +28,7 @@ def _controlled_environment(
     env["GIT_COMMITTER_NAME"] = request.committer_name
     env["GIT_COMMITTER_EMAIL"] = request.committer_email
     env["GIT_COMMITTER_DATE"] = (
-        f"@{request.recorded_at_epoch_seconds} {request.timezone_offset}"
+        f"{request.recorded_at_epoch_seconds} {request.timezone_offset}"
     )
     env["LC_ALL"] = "C"
     env["LANG"] = "C"
