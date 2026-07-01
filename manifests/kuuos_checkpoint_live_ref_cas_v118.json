@@ -1,0 +1,31 @@
+{
+  "manifest_version": "kuuos_repository_checkpoint_live_ref_cas_v1_18",
+  "runtime_modules": [
+    "runtime/kuuos_repository_checkpoint_live_ref_cas_types_v1_18.py",
+    "runtime/v118_checkpoint_live_ref_cas_core.py",
+    "runtime/kuuos_repository_checkpoint_live_ref_cas_v1_18.py",
+    "runtime/v118_checkpoint_live_ref_cas_runtime.py"
+  ],
+  "tests": "tests/test_kuuos_repository_checkpoint_live_ref_cas_v1_18.py",
+  "validator": "tests/test_kuuos_repository_checkpoint_live_ref_cas_v1_18.py",
+  "cumulative_runtime": "runtime/kuuos_v118_check.py",
+  "documentation": "docs/KUUOS_REPOSITORY_CHECKPOINT_LIVE_REF_CAS_v1_18.md",
+  "strict_formal_root": "KuuOSRepositoryCheckpointLiveRefCasV1_18",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryCheckpointLiveRefCasV1_18"
+  ],
+  "prior_frontier": "kuuos_repository_checkpoint_live_git_preflight_v1_17",
+  "sandbox_marker_required": true,
+  "repository_path_allowlist_required": true,
+  "executor_allowlist_required": true,
+  "preflight_recomputation_required": true,
+  "exact_preflight_receipt_match_required": true,
+  "live_git_command_invoked": true,
+  "live_repository_mutation_enabled": true,
+  "atomic_checkpoint_reference_update_only": true,
+  "object_database_write_performed": false,
+  "index_write_performed": false,
+  "working_tree_write_performed": false,
+  "reflog_write_performed": false,
+  "push_performed": false
+}
