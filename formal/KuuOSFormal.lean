@@ -3,7 +3,8 @@
 
 This is the strict aggregate build surface for the formal artifacts integrated on
 `main` through KuuOS Repository Checkpoint Reflog v1.24, together with the
-independent read-only KuuOS Checkpoint Recovery Proposal v0.1 line.
+independent read-only KuuOS Checkpoint Recovery Proposal v0.1 and lifecycle
+observation lines.
 
 The root preserves the distinction between a Lean-derived theorem, a structure
 supplied by hypotheses, an external analytic or institutional receipt, and an
@@ -116,3 +117,6 @@ import KUOS.WORLD.KuuOSRepositoryCheckpointReflogV1_24
 
 -- Independent non-mutation recovery-governance line.
 import KUOS.WORLD.KuuOSCheckpointRecoveryProposalV0_1
+
+-- Independent read-only lifecycle-governance line.
+import KUOS.WORLD.KuuOSApoptosisObservationV0_1
