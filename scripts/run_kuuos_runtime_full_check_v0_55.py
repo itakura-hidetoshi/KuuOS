@@ -4,13 +4,15 @@ from __future__ import annotations
 """Cumulative KuuOS runtime validation root.
 
 The filename is retained for compatibility with existing workflows and external
-callers. The actual validation frontier follows the integrated `main` branch
+callers. The actual validation frontier follows the integrated ``main`` branch
 through KuuOS Repository Bounded Blob v1.19.
 
-The runner executes validators and focused unit-test modules in dependency order
-and stops at the first failure. A successful run is an integrity receipt for the
-checked repository surfaces. It is not truth, external theorem acceptance,
-institutional approval, or unrestricted execution authority.
+The runner executes the legacy validators through v0.95 and then delegates to
+the cumulative v1.19 runtime entrypoint. It stops at the first failure.
+
+A successful run is an integrity receipt for the checked repository surfaces.
+It is not truth, external theorem acceptance, institutional approval, or
+unrestricted execution authority.
 """
 
 import os
@@ -33,7 +35,7 @@ from scripts.run_kuuos_runtime_full_check_v0_54 import main as run_v054_full_che
 
 
 CURRENT_RUNTIME_FRONTIER = "v1.19"
-CUMULATIVE_RUNTIME_AFTER_V102 = "runtime/kuuos_v119_check.py"
+CUMULATIVE_FRONTIER_ENTRYPOINT = "runtime/kuuos_v119_check.py"
 
 VALIDATORS_AFTER_V055: tuple[str, ...] = (
     "scripts/check_world_kuu_vacuum_araki_hessian_physical_realization_v0_56.py",
@@ -73,37 +75,6 @@ VALIDATORS_AFTER_V055: tuple[str, ...] = (
     "scripts/check_kuuos_repository_commit_candidate_v093.py",
     "scripts/check_kuuos_repository_object_materialization_authorization_v094.py",
     "scripts/check_kuuos_repository_object_materialization_receipt_v095.py",
-)
-
-FRONTIER_STEPS_AFTER_V095: tuple[tuple[str, str], ...] = (
-    (
-        "scripts/check_kuuos_live_v096.py",
-        "tests.test_kuuos_repository_reference_update_authorization_v0_96",
-    ),
-    (
-        "scripts/check_kuuos_live_v097.py",
-        "tests.test_kuuos_repository_atomic_reference_update_v0_97",
-    ),
-    (
-        "scripts/check_kuuos_live_v098.py",
-        "tests.test_kuuos_repository_reference_update_receipt_v0_98",
-    ),
-    (
-        "scripts/check_kuuos_live_v099.py",
-        "tests.test_kuuos_repository_reference_stability_v0_99",
-    ),
-    (
-        "scripts/check_kuuos_live_v100.py",
-        "tests.test_kuuos_repository_local_frontier_finality_v1_00",
-    ),
-    (
-        "scripts/check_kuuos_live_v101.py",
-        "tests.test_kuuos_repository_local_frontier_checkpoint_authorization_v1_01",
-    ),
-    (
-        "scripts/check_kuuos_live_v102.py",
-        "tests.test_kuuos_repository_atomic_checkpoint_creation_v1_02",
-    ),
 )
 
 
@@ -159,21 +130,6 @@ def _run_validators(paths: Sequence[str], env: dict[str, str]) -> int:
     return 0
 
 
-def _run_frontier_steps(env: dict[str, str]) -> int:
-    for validator_path, test_module in FRONTIER_STEPS_AFTER_V095:
-        result = _run_validator(validator_path, env)
-        if result != 0:
-            return result
-        result = _run_command(
-            test_module,
-            (sys.executable, "-m", "unittest", "-v", test_module),
-            env,
-        )
-        if result != 0:
-            return result
-    return 0
-
-
 def main() -> int:
     print(
         "[KuuOS runtime root] cumulative validation through "
@@ -191,9 +147,7 @@ def main() -> int:
     env = _runtime_environment()
     if _run_validators(VALIDATORS_AFTER_V055, env) != 0:
         return 1
-    if _run_frontier_steps(env) != 0:
-        return 1
-    return _run_validator(CUMULATIVE_RUNTIME_AFTER_V102, env)
+    return _run_validator(CUMULATIVE_FRONTIER_ENTRYPOINT, env)
 
 
 if __name__ == "__main__":
