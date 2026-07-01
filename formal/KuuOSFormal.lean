@@ -2,7 +2,7 @@
 # KuuOS aggregate formal root
 
 This is the strict aggregate build surface for the formal artifacts integrated on
-`main` through KuuOS Repository Dedicated Temporary Index v1.22.
+`main` through KuuOS Repository Checkpoint Reflog v1.24.
 
 The root preserves the distinction between a Lean-derived theorem, a structure
 supplied by hypotheses, an external analytic or institutional receipt, and an
@@ -110,3 +110,5 @@ import KUOS.WORLD.KuuOSRepositoryBoundedBlobV1_19
 import KUOS.WORLD.KuuOSRepositoryTreeCommitV1_20
 import KUOS.WORLD.KuuOSRepositoryConstructedCommitPublicationV1_21
 import KUOS.WORLD.KuuOSRepositoryDedicatedIndexV1_22
+import KUOS.WORLD.KuuOSRepositorySandboxReflectionV1_23
+import KUOS.WORLD.KuuOSRepositoryCheckpointReflogV1_24
