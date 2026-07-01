@@ -23,9 +23,15 @@ def repository_live_object_materialization_result_issues(
         issues.append("live_object_materialization_status_invalid")
     materialized = result.status == OBJECT_MATERIALIZED
     reused = result.status == OBJECT_REUSED
-    if result.object_database_write_performed != materialized:
+    error_write = bool(
+        result.status == OBJECT_ERROR
+        and result.write_command_succeeded
+        and not result.object_existed_before
+    )
+    expected_write = materialized or error_write
+    if result.object_database_write_performed != expected_write:
         issues.append("live_object_materialization_write_flag_mismatch")
-    if result.live_repository_mutated != materialized:
+    if result.live_repository_mutated != expected_write:
         issues.append("live_object_materialization_mutation_flag_mismatch")
     if materialized and not all(
         (
@@ -56,9 +62,6 @@ def repository_live_object_materialization_result_issues(
         )
     ):
         issues.append("live_object_materialization_nonwrite_status_mutated")
-    if result.status == OBJECT_ERROR and result.write_command_succeeded:
-        if not result.object_database_write_performed:
-            issues.append("live_object_materialization_error_write_not_recorded")
     if any(
         (
             result.reference_write_performed,
