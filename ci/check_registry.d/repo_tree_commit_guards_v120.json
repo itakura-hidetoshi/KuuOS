@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-tree-commit-guards-v120": {
+      "name": "KuuOS repository tree and commit guards v1.20",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_tree_commit_guards_v1_20",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*tree_commit*v1_20.py",
+        "runtime/v120_*.py",
+        "tests/test_kuuos_repository_tree_commit_v1_20.py",
+        "tests/test_kuuos_repository_tree_commit_guards_v1_20.py"
+      ],
+      "depends_on": [
+        "repository-tree-commit-v120"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
