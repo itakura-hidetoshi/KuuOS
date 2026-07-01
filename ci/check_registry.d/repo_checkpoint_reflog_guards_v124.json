@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-checkpoint-reflog-guards-v124": {
+      "name": "KuuOS repository checkpoint reflog guards v1.24",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_checkpoint_reflog_guards_v1_24",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*checkpoint_reflog*v1_24.py",
+        "runtime/v124_*.py",
+        "tests/test_kuuos_repository_checkpoint_reflog_v1_24.py",
+        "tests/test_kuuos_repository_checkpoint_reflog_guards_v1_24.py"
+      ],
+      "depends_on": [
+        "repository-checkpoint-reflog-v124"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
