@@ -9,13 +9,13 @@ from runtime.kuuos_repository_sandbox_worktree_types_v1_23 import (
     WORKTREE_REUSED,
 )
 from runtime.v120_tree_commit_materialization_policy import repository_path_digest
+from runtime.v123_measured_result_builder import build_sandbox_worktree_result
 from runtime.v123_protected_surface import protected_git_snapshot
 from runtime.v123_sandbox_worktree_git_adapter import run_sandbox_checkout
 from runtime.v123_sandbox_worktree_policy import (
     repository_sandbox_worktree_policy_issues,
     repository_sandbox_worktree_request_issues,
 )
-from runtime.v123_sandbox_worktree_result_builder import build_sandbox_worktree_result
 from runtime.v123_sandbox_worktree_validation import (
     file_sha256,
     inspect_sandbox,
@@ -83,12 +83,11 @@ def execute_repository_sandbox_worktree(
         and not sandbox_path.is_symlink()
     )
     existed_before = sandbox_path.exists()
-    before_git = protected_git_snapshot(git_dir)
     before = {
         "dedicated_index": file_sha256(index_path),
         "canonical_index": file_sha256(canonical_index),
         "repository_root": repository_root_snapshot(root, request.sandbox_directory_name),
-        **before_git,
+        **protected_git_snapshot(git_dir),
     }
     state = {
         "status": WORKTREE_REJECTED,
@@ -183,21 +182,23 @@ def execute_repository_sandbox_worktree(
                 else "SANDBOX_WORKTREE_COMMAND_ERROR"
             )
     state["present_after"] = sandbox_path.is_dir() and not sandbox_path.is_symlink()
-    after_git = protected_git_snapshot(git_dir)
     after = {
         "dedicated_index": file_sha256(index_path),
         "canonical_index": file_sha256(canonical_index),
         "repository_root": repository_root_snapshot(root, request.sandbox_directory_name),
-        **after_git,
+        **protected_git_snapshot(git_dir),
     }
-    protected_unchanged = all(before[name] == after[name] for name in (
-        "dedicated_index",
-        "canonical_index",
-        "repository_root",
-        "objects",
-        "references",
-        "reflogs",
-    ))
+    protected_unchanged = all(
+        before[name] == after[name]
+        for name in (
+            "dedicated_index",
+            "canonical_index",
+            "repository_root",
+            "objects",
+            "references",
+            "reflogs",
+        )
+    )
     if state["status"] in (WORKTREE_MATERIALIZED, WORKTREE_REUSED) and not protected_unchanged:
         state["status"] = WORKTREE_ERROR
         state["reason"] = "SANDBOX_WORKTREE_PROTECTED_SURFACE_CHANGED"
