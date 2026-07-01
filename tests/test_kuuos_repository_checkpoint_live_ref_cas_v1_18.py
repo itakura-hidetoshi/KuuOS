@@ -1,3 +1,4 @@
+from dataclasses import replace
 import hashlib
 from pathlib import Path
 import unittest
@@ -6,7 +7,9 @@ from runtime.kuuos_repository_checkpoint_live_git_preflight_v1_17 import (
     execute_repository_checkpoint_live_git_preflight,
 )
 from runtime.kuuos_repository_checkpoint_live_ref_cas_types_v1_18 import (
+    LIVE_REF_CAS_ABORTED,
     LIVE_REF_CAS_COMMITTED,
+    LIVE_REF_CAS_ERROR,
     LIVE_REF_CAS_REJECTED,
     SANDBOX_MARKER_FILENAME,
 )
@@ -14,6 +17,8 @@ from runtime.kuuos_repository_checkpoint_live_ref_cas_v1_18 import (
     build_repository_checkpoint_live_ref_cas_policy,
     build_repository_checkpoint_live_ref_cas_request,
     execute_repository_checkpoint_live_ref_cas,
+    normalize_repository_checkpoint_live_ref_cas_result,
+    repository_checkpoint_live_ref_cas_result_issues,
 )
 from tests import test_kuuos_repository_checkpoint_live_git_preflight_v1_17 as v117_tests
 
@@ -203,6 +208,29 @@ class RepositoryCheckpointLiveRefCasV118Tests(unittest.TestCase):
         self.assertFalse(second.update_ref_attempted)
         self.assertFalse(second.checkpoint_reference_write_performed)
         self.assertEqual(observed, self.helper.second_oid)
+
+    def test_postcondition_error_preserves_actual_write_accounting(self) -> None:
+        committed = self.execute()
+        simulated = replace(
+            committed,
+            status=LIVE_REF_CAS_ABORTED,
+            reason="SIMULATED_POSTCONDITION_FAILURE",
+            post_update_verified=False,
+            reference_cas_committed=False,
+            live_repository_mutated=False,
+            checkpoint_reference_write_performed=False,
+            result_digest="",
+        )
+        normalized = normalize_repository_checkpoint_live_ref_cas_result(simulated)
+        self.assertEqual(normalized.status, LIVE_REF_CAS_ERROR)
+        self.assertTrue(normalized.update_ref_succeeded)
+        self.assertTrue(normalized.live_repository_mutated)
+        self.assertTrue(normalized.checkpoint_reference_write_performed)
+        self.assertFalse(normalized.reference_cas_committed)
+        self.assertEqual(
+            repository_checkpoint_live_ref_cas_result_issues(normalized),
+            (),
+        )
 
 
 if __name__ == "__main__":
