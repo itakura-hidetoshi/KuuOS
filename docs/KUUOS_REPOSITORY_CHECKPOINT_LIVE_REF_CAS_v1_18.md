@@ -16,6 +16,8 @@ The target reference must be direct, the observed OID must equal the authorized 
 
 A successful update is followed by a fixed read-only `show-ref --verify --hash` command. COMMITTED requires the observed final OID to equal the proposed OID and the target reflog to remain absent.
 
+If the update command succeeds but a postcondition fails, strict effect accounting returns ERROR while preserving that the live reference write occurred. It never rewrites an observed mutation into a no-write result.
+
 This stage does not permit force update, deletion, HEAD update, branch update, tag update, remote-reference update, push, signing, object-database write, index write, working-tree write, or reflog write.
 
-Focused tests use disposable Git repositories. They verify a successful single-reference CAS, sandbox-marker rejection, executor rejection, TOCTOU rejection after a supplied preflight, and replay rejection. The successful test confirms that objects, index, working tree, and logs remain byte-identical.
+Six focused tests use disposable Git repositories. They verify a successful single-reference CAS, sandbox-marker rejection, executor rejection, TOCTOU rejection after a supplied preflight, replay rejection, and strict postcondition-effect accounting. The successful test confirms that objects, index, working tree, and logs remain byte-identical.
