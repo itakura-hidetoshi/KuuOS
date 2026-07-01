@@ -128,5 +128,5 @@ PYTHONPATH=. python3 \
 
 lake -KleanArgs=-DwarningAsError=true \
   -KleanArgs=-DsorryAsError=true \
-  build KuuOSCheckpointRecoveryProposalV0_1
+  env lean formal/KuuOSCheckpointRecoveryProposalV0_1.lean
 ```
