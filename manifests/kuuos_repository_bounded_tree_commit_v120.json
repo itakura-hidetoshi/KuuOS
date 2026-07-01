@@ -10,7 +10,10 @@
     "runtime/kuuos_repository_bounded_tree_commit_v1_20.py",
     "runtime/v120_bounded_tree_commit_runtime.py"
   ],
-  "tests": "tests/test_kuuos_repository_bounded_tree_commit_v1_20.py",
+  "tests": [
+    "tests/test_kuuos_repository_bounded_tree_commit_v1_20.py",
+    "tests/test_kuuos_repository_bounded_tree_commit_guards_v1_20.py"
+  ],
   "cumulative_runtime": "runtime/kuuos_v120_check.py",
   "documentation": "docs/KUUOS_REPOSITORY_BOUNDED_TREE_COMMIT_v1_20.md",
   "strict_formal_root": "KuuOSBoundedTreeCommitV1_20",
