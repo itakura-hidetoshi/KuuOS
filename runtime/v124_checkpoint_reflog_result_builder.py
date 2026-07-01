@@ -120,9 +120,6 @@ def build_checkpoint_reflog_result(
         ),
         prior_sandbox_working_tree_write_performed=(
             v123_result.sandbox_working_tree_write_performed
-            or v123_result.prior_sandbox_working_tree_write_performed
-            if hasattr(v123_result, "prior_sandbox_working_tree_write_performed")
-            else v123_result.sandbox_working_tree_write_performed
         ),
         command_receipts=tuple(state["receipts"]),
         checks=dict(
