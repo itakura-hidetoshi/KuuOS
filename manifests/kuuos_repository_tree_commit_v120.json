@@ -1,0 +1,48 @@
+{
+  "manifest_version": "kuuos_repository_tree_commit_v1_20",
+  "runtime_modules": [
+    "runtime/kuuos_repository_tree_commit_materialization_types_v1_20.py",
+    "runtime/v120_tree_commit_materialization_policy.py",
+    "runtime/v120_tree_commit_git_adapter.py",
+    "runtime/v120_tree_commit_materialization_result.py",
+    "runtime/v120_tree_commit_materialization_execution.py",
+    "runtime/v120_strict_path.py",
+    "runtime/v120_tree_commit_materialization_core.py",
+    "runtime/kuuos_repository_tree_commit_materialization_v1_20.py",
+    "runtime/v120_tree_commit_runtime.py"
+  ],
+  "tests": [
+    "tests/test_kuuos_repository_tree_commit_v1_20.py",
+    "tests/test_kuuos_repository_tree_commit_guards_v1_20.py",
+    "tests/test_kuuos_repository_tree_commit_accounting_v1_20.py"
+  ],
+  "cumulative_runtime": "runtime/kuuos_v120_check.py",
+  "documentation": "docs/KUUOS_REPOSITORY_TREE_COMMIT_v1_20.md",
+  "strict_formal_root": "KuuOSTreeCommitV1_20",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryTreeCommitV1_20"
+  ],
+  "prior_frontier": "kuuos_repository_bounded_blob_v1_19",
+  "accepted_v119_result_required": true,
+  "sandbox_marker_required": true,
+  "repository_path_allowlist_required": true,
+  "executor_allowlist_required": true,
+  "canonical_flat_tree_required": true,
+  "existing_blob_objects_required": true,
+  "single_parent_commit_required": true,
+  "tree_oid_binding_required": true,
+  "commit_oid_binding_required": true,
+  "literal_git_executable_required": true,
+  "unsafe_git_environment_removed": true,
+  "postcondition_effect_accounting_required": true,
+  "live_git_command_invoked": true,
+  "live_repository_mutation_enabled": true,
+  "tree_object_write_enabled": true,
+  "commit_object_write_enabled": true,
+  "reference_write_performed": false,
+  "index_write_performed": false,
+  "working_tree_write_performed": false,
+  "reflog_write_performed": false,
+  "push_performed": false,
+  "signing_performed": false
+}
