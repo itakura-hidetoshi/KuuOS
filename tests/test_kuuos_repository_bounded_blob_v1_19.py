@@ -1,6 +1,7 @@
 import unittest
 
 from runtime.kuuos_repository_live_object_materialization_types_v1_19 import (
+    OBJECT_MATERIALIZED,
     SANDBOX_MARKER_FILENAME,
 )
 from runtime.kuuos_repository_live_object_materialization_v1_19 import (
@@ -45,8 +46,14 @@ class RepositoryBoundedBlobV119Tests(unittest.TestCase):
     def tearDown(self) -> None:
         self.helper.tearDown()
 
-    def test_entrypoint_returns_a_result(self) -> None:
+    def test_new_blob_is_materialized(self) -> None:
         result = execute_repository_live_object_materialization(
             self.request, self.prior, self.payload, self.policy
         )
+        self.assertEqual(result.status, OBJECT_MATERIALIZED)
+        self.assertTrue(result.object_database_write_performed)
+        self.assertTrue(result.object_present_after)
+        self.assertTrue(result.object_type_blob)
+        self.assertTrue(result.object_size_exact)
+        self.assertTrue(result.object_content_exact)
         self.assertTrue(result.result_digest)
