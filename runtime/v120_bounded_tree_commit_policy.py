@@ -6,6 +6,7 @@ import hashlib
 from pathlib import Path
 import re
 
+from runtime.kuuos_gauge_field_self_organization_types_v0_60 import canonical_digest
 from runtime.kuuos_repository_bounded_tree_commit_types_v1_20 import (
     RepositoryBoundedTreeCommitPolicy,
     RepositoryBoundedTreeCommitRequest,
@@ -26,7 +27,7 @@ _HEX64 = re.compile(r"^[0-9a-f]{64}$")
 
 
 def repository_path_digest(path: Path) -> str:
-    return hashlib.sha256(str(path).encode("utf-8")).hexdigest()
+    return canonical_digest({"path": str(path.expanduser().resolve())})
 
 
 def git_object_oid(kind: str, payload: bytes) -> str:
