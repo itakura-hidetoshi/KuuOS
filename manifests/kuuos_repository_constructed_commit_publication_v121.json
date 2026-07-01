@@ -1,0 +1,47 @@
+{
+  "manifest_version": "kuuos_repository_constructed_commit_publication_v1_21",
+  "runtime_modules": [
+    "runtime/kuuos_repository_constructed_commit_publication_types_v1_21.py",
+    "runtime/v121_constructed_commit_publication_policy.py",
+    "runtime/v121_constructed_commit_publication_result.py",
+    "runtime/v121_constructed_commit_publication_execution.py",
+    "runtime/v121_strict_path.py",
+    "runtime/v121_constructed_commit_publication_core.py",
+    "runtime/kuuos_repository_constructed_commit_publication_v1_21.py",
+    "runtime/v121_constructed_commit_publication_runtime.py"
+  ],
+  "tests": [
+    "tests/test_kuuos_repository_constructed_commit_publication_v1_21.py",
+    "tests/test_kuuos_repository_constructed_commit_publication_guards_v1_21.py",
+    "tests/test_kuuos_repository_constructed_commit_publication_accounting_v1_21.py"
+  ],
+  "cumulative_runtime": "runtime/kuuos_v121_check.py",
+  "documentation": "docs/KUUOS_REPOSITORY_CONSTRUCTED_COMMIT_PUBLICATION_v1_21.md",
+  "strict_formal_root": "KuuOSConstructedCommitPublicationV1_21",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSRepositoryConstructedCommitPublicationV1_21"
+  ],
+  "prior_frontier": "kuuos_repository_tree_commit_v1_20",
+  "valid_v120_result_required": true,
+  "exact_constructed_commit_binding_required": true,
+  "valid_v118_request_required": true,
+  "exact_v118_request_binding_required": true,
+  "v117_preflight_recomputation_delegated": true,
+  "v118_atomic_reference_cas_delegated": true,
+  "literal_git_executable_required": true,
+  "unsafe_git_environment_removed": true,
+  "prior_object_database_write_accounted_separately": true,
+  "current_object_database_write_performed": false,
+  "checkpoint_reference_write_enabled": true,
+  "index_write_performed": false,
+  "working_tree_write_performed": false,
+  "reflog_write_performed": false,
+  "force_update_performed": false,
+  "reference_delete_performed": false,
+  "head_updated": false,
+  "branch_updated": false,
+  "tag_updated": false,
+  "remote_reference_updated": false,
+  "push_performed": false,
+  "signing_performed": false
+}
