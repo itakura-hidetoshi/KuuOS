@@ -16,7 +16,8 @@
   ],
   "tests": [
     "tests/test_kuuos_repository_bounded_blob_v1_19.py",
-    "tests/test_kuuos_repository_bounded_blob_guards_v1_19.py"
+    "tests/test_kuuos_repository_bounded_blob_guards_v1_19.py",
+    "tests/test_kuuos_repository_bounded_blob_accounting_v1_19.py"
   ],
   "cumulative_runtime": "runtime/kuuos_v119_check.py",
   "documentation": "docs/KUUOS_REPOSITORY_BOUNDED_BLOB_v1_19.md",
@@ -35,6 +36,7 @@
   "literal_git_executable_required": true,
   "unsafe_git_environment_removed": true,
   "strict_probe_diagnostic_required": true,
+  "postcondition_effect_accounting_required": true,
   "live_git_command_invoked": true,
   "live_repository_mutation_enabled": true,
   "single_bounded_blob_write_only": true,
