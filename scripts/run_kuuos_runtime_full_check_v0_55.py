@@ -5,13 +5,12 @@ from __future__ import annotations
 
 The filename is retained for compatibility with existing workflows and external
 callers. The actual validation frontier follows the integrated `main` branch
-through KuuOS Repository Atomic Checkpoint Creation v1.02.
+through KuuOS Repository Bounded Blob v1.19.
 
 The runner executes validators and focused unit-test modules in dependency order
 and stops at the first failure. A successful run is an integrity receipt for the
 checked repository surfaces. It is not truth, external theorem acceptance,
-institutional approval, evidence of a live Git mutation, or unrestricted
-execution authority.
+institutional approval, or unrestricted execution authority.
 """
 
 import os
@@ -33,7 +32,8 @@ from scripts.check_world_kuu_vacuum_information_geometry_v0_55 import (
 from scripts.run_kuuos_runtime_full_check_v0_54 import main as run_v054_full_check
 
 
-CURRENT_RUNTIME_FRONTIER = "v1.02"
+CURRENT_RUNTIME_FRONTIER = "v1.19"
+CUMULATIVE_RUNTIME_AFTER_V102 = "runtime/kuuos_v119_check.py"
 
 VALIDATORS_AFTER_V055: tuple[str, ...] = (
     "scripts/check_world_kuu_vacuum_araki_hessian_physical_realization_v0_56.py",
@@ -191,7 +191,9 @@ def main() -> int:
     env = _runtime_environment()
     if _run_validators(VALIDATORS_AFTER_V055, env) != 0:
         return 1
-    return _run_frontier_steps(env)
+    if _run_frontier_steps(env) != 0:
+        return 1
+    return _run_validator(CUMULATIVE_RUNTIME_AFTER_V102, env)
 
 
 if __name__ == "__main__":
