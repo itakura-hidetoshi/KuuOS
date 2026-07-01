@@ -13,6 +13,9 @@ from runtime.kuuos_repository_bounded_tree_commit_types_v1_20 import (
     repository_bounded_tree_commit_policy_digest,
     repository_bounded_tree_commit_request_digest,
 )
+from runtime.kuuos_repository_checkpoint_live_ref_cas_types_v1_18 import (
+    RepositoryCheckpointLiveRefCasResult,
+)
 from runtime.kuuos_repository_commit_candidate_types_v0_93 import (
     RepositoryCommitCandidateCertificate,
     RepositoryCommitIdentity,
@@ -120,6 +123,7 @@ def build_repository_bounded_tree_commit_policy(
         max_command_timeout_seconds=max_command_timeout_seconds,
         max_output_bytes=max_output_bytes,
         require_certified_v093_candidate=True,
+        require_committed_v118_frontier=True,
         require_exact_v119_blob_results=True,
         require_sandbox_marker=True,
         require_sha1_object_format=True,
@@ -162,6 +166,7 @@ def repository_bounded_tree_commit_policy_issues(
         issues.append("v120_policy_command_bound_invalid")
     required = (
         policy.require_certified_v093_candidate,
+        policy.require_committed_v118_frontier,
         policy.require_exact_v119_blob_results,
         policy.require_sandbox_marker,
         policy.require_sha1_object_format,
@@ -190,6 +195,7 @@ def build_repository_bounded_tree_commit_request(
     operation_id: str,
     repository_path: str,
     candidate: RepositoryCommitCandidateCertificate,
+    v118_result: RepositoryCheckpointLiveRefCasResult,
     v119_results: tuple[RepositoryLiveObjectMaterializationResult, ...],
     *,
     executor_id: str,
@@ -199,18 +205,21 @@ def build_repository_bounded_tree_commit_request(
     if not v119_results:
         raise ValueError("v120_v119_results_empty")
     root = Path(repository_path).expanduser().resolve()
-    first = v119_results[0]
     trees = unique_tree_candidates_in_write_order(candidate)
     request = RepositoryBoundedTreeCommitRequest(
         operation_id=operation_id,
         repository_path=str(root),
         repository_path_digest=repository_path_digest(root),
-        repository_id=first.repository_id,
-        git_dir_fingerprint=first.git_dir_fingerprint,
+        repository_id=v118_result.repository_id,
+        git_dir_fingerprint=v118_result.git_dir_fingerprint,
         candidate_certificate_digest=candidate.certificate_digest,
-        v119_result_digests=tuple(sorted(result.result_digest for result in v119_results)),
+        v118_result_digest=v118_result.result_digest,
+        v119_result_digests=tuple(
+            sorted(set(result.result_digest for result in v119_results))
+        ),
         executor_id=executor_id,
         sandbox_marker_token=sandbox_marker_token,
+        expected_parent_commit_oid=candidate.parent_commit_sha,
         expected_tree_oids=tuple(sorted(tree.git_tree_oid for tree in trees)),
         expected_root_tree_oid=candidate.root_tree_oid,
         expected_commit_oid=candidate.candidate_commit_oid,
@@ -239,12 +248,17 @@ def repository_bounded_tree_commit_request_issues(
         issues.append("v120_request_repository_binding_missing")
     if not _HEX64.fullmatch(request.candidate_certificate_digest):
         issues.append("v120_request_candidate_digest_invalid")
-    if not request.v119_result_digests or tuple(sorted(request.v119_result_digests)) != request.v119_result_digests:
+    if not _HEX64.fullmatch(request.v118_result_digest):
+        issues.append("v120_request_v118_digest_invalid")
+    canonical_v119 = tuple(sorted(set(request.v119_result_digests)))
+    if not request.v119_result_digests or canonical_v119 != request.v119_result_digests:
         issues.append("v120_request_v119_digests_invalid")
     if any(not _HEX64.fullmatch(item) for item in request.v119_result_digests):
         issues.append("v120_request_v119_digest_invalid")
     if not request.executor_id or not _HEX64.fullmatch(request.sandbox_marker_token):
         issues.append("v120_request_executor_or_marker_invalid")
+    if not _HEX40.fullmatch(request.expected_parent_commit_oid):
+        issues.append("v120_request_parent_oid_invalid")
     if not request.expected_tree_oids or tuple(sorted(request.expected_tree_oids)) != request.expected_tree_oids:
         issues.append("v120_request_tree_oids_invalid")
     if any(not _HEX40.fullmatch(item) for item in request.expected_tree_oids):
