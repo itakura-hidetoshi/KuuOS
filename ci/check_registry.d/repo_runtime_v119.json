@@ -14,6 +14,7 @@
         "runtime/v119_*.py",
         "tests/test_kuuos_repository_bounded_blob_v1_19.py",
         "tests/test_kuuos_repository_bounded_blob_guards_v1_19.py",
+        "tests/test_kuuos_repository_bounded_blob_accounting_v1_19.py",
         "formal/KUOS/WORLD/KuuOSRepositoryBoundedBlobV1_19.lean",
         "formal/KuuOSBoundedBlobV1_19.lean",
         "manifests/kuuos_repository_bounded_blob_v119.json",
