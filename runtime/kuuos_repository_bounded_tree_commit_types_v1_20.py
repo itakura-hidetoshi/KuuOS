@@ -140,13 +140,11 @@ class RepositoryBoundedTreeCommitResult:
     policy_digest: str
     request_digest: str
     candidate_certificate_digest: str
-    v118_result_digest: str
     v119_result_digests: tuple[str, ...]
     repository_path_digest: str
     repository_id: str
     git_dir_fingerprint: str
     executor_id: str
-    expected_parent_commit_oid: str
     expected_tree_oids: tuple[str, ...]
     observed_tree_oids: tuple[str, ...]
     expected_root_tree_oid: str
@@ -156,9 +154,6 @@ class RepositoryBoundedTreeCommitResult:
     policy_valid: bool
     request_valid: bool
     candidate_valid: bool
-    v118_result_valid: bool
-    v118_result_committed: bool
-    frontier_binding_exact: bool
     request_binding_exact: bool
     v119_results_valid: bool
     blob_result_coverage_exact: bool
