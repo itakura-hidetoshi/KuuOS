@@ -1,0 +1,44 @@
+{
+  "manifest_version": "kuuos_apoptosis_observation_v0_1",
+  "series": "lifecycle_governance",
+  "series_independent_from_repository_mutation_roadmap": true,
+  "observation_only": true,
+  "runtime_modules": [
+    "runtime/kuuos_apoptosis_observation_types_v0_1.py",
+    "runtime/kuuos_apoptosis_observation_v0_1.py"
+  ],
+  "tests": "tests/test_kuuos_apoptosis_observation_v0_1.py",
+  "validator": "runtime/kuuos_apoptosis_observation_check_v0_1.py",
+  "documentation": "docs/KUUOS_APOPTOSIS_OBSERVATION_v0_1.md",
+  "strict_formal_root": "KuuOSApoptosisObservationV0_1",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSApoptosisObservationV0_1"
+  ],
+  "allowed_subject_kinds": [
+    "AGENT",
+    "AUTHORITY_LINEAGE",
+    "CHECKPOINT",
+    "MEMORY_LINEAGE",
+    "MODULE"
+  ],
+  "complete_evidence_required": true,
+  "provenance_required": true,
+  "dependency_snapshot_required": true,
+  "authority_snapshot_required": true,
+  "protected_subject_fail_closed": true,
+  "institutional_hold_fail_closed": true,
+  "independent_candidate_stage_required_next": true,
+  "dependency_review_required_next": true,
+  "authority_review_required_next": true,
+  "quiescence_review_required_next": true,
+  "external_review_required_next": true,
+  "independent_authorization_required_next": true,
+  "apoptosis_candidate_issued": false,
+  "authority_revocation_performed": false,
+  "quiescence_transition_performed": false,
+  "terminal_transition_performed": false,
+  "tombstone_write_performed": false,
+  "physical_deletion_performed": false,
+  "live_git_execution_performed": false,
+  "repository_mutation_performed": false
+}
