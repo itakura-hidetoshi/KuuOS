@@ -1,7 +1,4 @@
 #!/usr/bin/env python3
-from runtime.v120_bounded_tree_commit_execution import (
-    execute_repository_bounded_tree_commit,
-)
 from runtime.v120_bounded_tree_commit_policy import (
     build_repository_bounded_tree_commit_policy,
     build_repository_bounded_tree_commit_request,
@@ -14,6 +11,9 @@ from runtime.v120_bounded_tree_commit_policy import (
 )
 from runtime.v120_bounded_tree_commit_result import (
     repository_bounded_tree_commit_result_issues,
+)
+from runtime.v120_bounded_tree_commit_strict import (
+    execute_repository_bounded_tree_commit,
 )
 
 __all__ = [
