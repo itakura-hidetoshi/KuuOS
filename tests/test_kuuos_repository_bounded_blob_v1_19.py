@@ -11,6 +11,10 @@ from runtime.v119_live_object_materialization_policy import (
     build_repository_live_object_materialization_policy,
     build_repository_live_object_materialization_request,
 )
+from runtime.v119_probe_status import (
+    TARGET_PROBE_OPERATION,
+    normalize_probe_status,
+)
 from tests import test_kuuos_repository_checkpoint_live_ref_cas_v1_18 as v118
 
 
@@ -57,3 +61,15 @@ class RepositoryBoundedBlobV119Tests(unittest.TestCase):
         self.assertTrue(result.object_size_exact)
         self.assertTrue(result.object_content_exact)
         self.assertTrue(result.result_digest)
+
+    def test_probe_normalization_is_fail_closed(self) -> None:
+        missing = b"fatal: Not a valid object name 0000000000000000000000000000000000000000"
+        denied = b"fatal: cannot access object database"
+        self.assertEqual(
+            normalize_probe_status(TARGET_PROBE_OPERATION, 128, False, missing),
+            1,
+        )
+        self.assertEqual(
+            normalize_probe_status(TARGET_PROBE_OPERATION, 128, False, denied),
+            128,
+        )
