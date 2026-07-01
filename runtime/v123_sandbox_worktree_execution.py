@@ -14,9 +14,7 @@ from runtime.v123_sandbox_worktree_policy import (
     repository_sandbox_worktree_policy_issues,
     repository_sandbox_worktree_request_issues,
 )
-from runtime.v123_sandbox_worktree_result_builder import (
-    build_sandbox_worktree_result,
-)
+from runtime.v123_sandbox_worktree_result_builder import build_sandbox_worktree_result
 from runtime.v123_sandbox_worktree_validation import (
     file_sha256,
     inspect_sandbox,
@@ -54,6 +52,11 @@ def execute_repository_sandbox_worktree(
     upstream = validate_upstream_binding(request, v122_request, v122_result)
     policy_valid = not repository_sandbox_worktree_policy_issues(policy)
     request_valid = not repository_sandbox_worktree_request_issues(request)
+    entry_count_within_policy = len(request.tree_entries) <= policy.max_worktree_entries
+    paths_within_policy = all(
+        len(entry.path.encode("utf-8")) <= policy.max_worktree_path_bytes
+        for entry in request.tree_entries
+    )
     executor_authorized = request.executor_id in policy.authorized_executor_ids
     repository_path_allowed = bool(
         actual_repository_path_digest == request.repository_path_digest
@@ -113,6 +116,8 @@ def execute_repository_sandbox_worktree(
         (
             policy_valid,
             request_valid,
+            entry_count_within_policy,
+            paths_within_policy,
             upstream[0],
             upstream[2],
             upstream[3],
@@ -193,6 +198,8 @@ def execute_repository_sandbox_worktree(
     state["checks"] = {
         "policy_valid": policy_valid,
         "request_valid": request_valid,
+        "entry_count_within_policy": entry_count_within_policy,
+        "paths_within_policy": paths_within_policy,
         "v122_result_accepted": upstream[2],
         "request_binding_exact": upstream[3],
         "executor_authorized": executor_authorized,
