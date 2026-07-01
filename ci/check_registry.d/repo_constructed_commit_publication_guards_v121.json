@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "repository-constructed-commit-publication-guards-v121": {
+      "name": "KuuOS repository constructed commit publication guards v1.21",
+      "runner": "python",
+      "command": "python3 -m unittest -v tests.test_kuuos_repository_constructed_commit_publication_guards_v1_21",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*constructed_commit_publication*v1_21.py",
+        "runtime/v121_*.py",
+        "tests/test_kuuos_repository_constructed_commit_publication_v1_21.py",
+        "tests/test_kuuos_repository_constructed_commit_publication_guards_v1_21.py"
+      ],
+      "depends_on": [
+        "repository-constructed-commit-publication-v121"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
