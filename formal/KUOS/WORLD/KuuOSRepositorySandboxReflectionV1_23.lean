@@ -1,4 +1,5 @@
 import KUOS.WORLD.KuuOSRepositoryConstructedCommitPublicationV1_21
+import KUOS.WORLD.KuuOSRepositoryCheckpointReflogV1_24
 
 namespace KUOS.WORLD.KuuOSRepositorySandboxReflectionV1_23
 
