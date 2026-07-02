@@ -1,0 +1,47 @@
+{
+  "manifest_version": "kuuos_apoptosis_authority_review_v0_4",
+  "series": "lifecycle_governance",
+  "series_independent_from_repository_mutation_roadmap": true,
+  "depends_on": "kuuos_apoptosis_dependency_review_v0_3",
+  "read_only_review_only": true,
+  "runtime_modules": [
+    "runtime/kuuos_apoptosis_authority_review_types_v0_4.py",
+    "runtime/kuuos_apoptosis_authority_review_v0_4.py"
+  ],
+  "tests": "tests/test_kuuos_apoptosis_authority_review_v0_4.py",
+  "validator": "runtime/kuuos_apoptosis_authority_review_check_v0_4.py",
+  "documentation": "docs/KUUOS_APOPTOSIS_AUTHORITY_REVIEW_v0_4.md",
+  "strict_formal_root": "KuuOSApoptosisAuthorityReviewV0_4",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSApoptosisAuthorityReviewV0_4"
+  ],
+  "allowed_objectives": [
+    "ASSESS_AUTHORITY_SAFETY_ONLY"
+  ],
+  "source_dependency_review_recomputation_required": true,
+  "source_dependency_review_clear_required": true,
+  "authority_snapshot_binding_required": true,
+  "authority_closure_complete_required": true,
+  "responsible_authority_required": true,
+  "responsibility_acknowledgement_required": true,
+  "independent_reviewer_required": true,
+  "subject_control_of_responsible_authority_forbidden": true,
+  "institutional_hold_absent_required": true,
+  "constitutional_protection_absent_required": true,
+  "protected_authority_absent_required": true,
+  "delegation_chain_complete_required": true,
+  "unresolved_authority_absent_required": true,
+  "authority_cycle_absent_required": true,
+  "emergency_override_absent_required": true,
+  "quiescence_review_required_next_after_clear": true,
+  "external_review_required_next_after_clear": true,
+  "independent_authorization_required_next_after_clear": true,
+  "blocked_review_advances": false,
+  "authority_revocation_performed": false,
+  "quiescence_transition_performed": false,
+  "terminal_transition_performed": false,
+  "tombstone_write_performed": false,
+  "physical_deletion_performed": false,
+  "live_git_execution_performed": false,
+  "repository_mutation_performed": false
+}
