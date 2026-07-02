@@ -20,7 +20,7 @@ class LifecycleReviewFixtureV09(unittest.TestCase):
             methodName="runTest"
         )
         self.upstream.setUp()
-        self.reviewer_id = "lifecycle-reviewer"
+        self.reviewer_id = "execution-package-reviewer-v0-9"
         self.operator_id = "lifecycle-operator"
         self.requested_at = self.upstream.preparation_completed_at + 20
         self.captured_at = self.requested_at + 20
