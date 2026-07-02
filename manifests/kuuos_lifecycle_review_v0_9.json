@@ -1,0 +1,10 @@
+{
+  "manifest_version": "lifecycle_execution_review_v0_9",
+  "series": "lifecycle_governance",
+  "depends_on": "lifecycle_bounded_execution_preparation_v0_8",
+  "source_recomputation_required": true,
+  "separate_request_layer_required": true,
+  "review_is_read_only": true,
+  "effect_performed": false,
+  "repository_mutation_performed": false
+}
