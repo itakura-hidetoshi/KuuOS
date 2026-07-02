@@ -157,7 +157,12 @@ def build_apoptosis_external_review_evidence(**values) -> ApoptosisExternalRevie
 
 def apoptosis_external_review_evidence_issues(evidence: ApoptosisExternalReviewEvidence) -> tuple[str, ...]:
     issues: list[str] = []
-    optional = {"evidence_digest", "version"}
+    optional = {
+        "evidence_digest",
+        "version",
+        "conflict_of_interest_disclosure_digest",
+        "review_methodology_digest",
+    }
     for item in fields(evidence):
         value = getattr(evidence, item.name)
         if item.name.endswith("_epoch_seconds") and value < 0:
