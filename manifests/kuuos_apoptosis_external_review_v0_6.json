@@ -1,0 +1,50 @@
+{
+  "manifest_version": "kuuos_apoptosis_external_review_v0_6",
+  "series": "lifecycle_governance",
+  "series_independent_from_repository_mutation_roadmap": true,
+  "depends_on": "kuuos_apoptosis_quiescence_review_v0_5",
+  "read_only_review_only": true,
+  "runtime_modules": [
+    "runtime/kuuos_apoptosis_external_review_types_v0_6.py",
+    "runtime/kuuos_apoptosis_external_review_v0_6.py"
+  ],
+  "tests": "tests/test_kuuos_apoptosis_external_review_v0_6.py",
+  "validator": "runtime/kuuos_apoptosis_external_review_check_v0_6.py",
+  "documentation": "docs/KUUOS_APOPTOSIS_EXTERNAL_REVIEW_v0_6.md",
+  "strict_formal_root": "KuuOSApoptosisExternalReviewV0_6",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSApoptosisExternalReviewV0_6"
+  ],
+  "allowed_objectives": [
+    "ASSESS_EXTERNAL_REVIEW_ONLY"
+  ],
+  "source_quiescence_review_recomputation_required": true,
+  "source_quiescence_review_clear_required": true,
+  "source_artifact_binding_required": true,
+  "qualified_external_reviewer_required": true,
+  "independent_external_reviewer_required": true,
+  "reviewer_organization_allowlist_required": true,
+  "conflict_disclosure_required": true,
+  "material_conflict_absent_required": true,
+  "review_scope_complete_required": true,
+  "review_methodology_required": true,
+  "review_evidence_receipt_required": true,
+  "appeal_route_required": true,
+  "dissent_route_required": true,
+  "protected_core_exclusion_required": true,
+  "institutional_hold_absent_required": true,
+  "emergency_state_absent_required": true,
+  "future_authorization_authority_separation_required": true,
+  "future_execution_authority_separation_required": true,
+  "independent_authorization_required_next_after_clear": true,
+  "blocked_review_advances": false,
+  "authorization_request_issued": false,
+  "authorization_decision_made": false,
+  "authority_revocation_performed": false,
+  "quiescence_transition_performed": false,
+  "terminal_transition_performed": false,
+  "tombstone_write_performed": false,
+  "physical_deletion_performed": false,
+  "live_git_execution_performed": false,
+  "repository_mutation_performed": false
+}
