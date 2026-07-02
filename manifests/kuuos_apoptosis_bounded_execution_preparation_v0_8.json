@@ -1,0 +1,10 @@
+{
+  "manifest_version": "lifecycle_bounded_execution_preparation_v0_8",
+  "series": "lifecycle_governance",
+  "depends_on": "lifecycle_independent_authorization_v0_7",
+  "source_recomputation_required": true,
+  "separate_execution_review_required": true,
+  "execution_request_issued": false,
+  "execution_decision_made": false,
+  "repository_mutation_performed": false
+}
