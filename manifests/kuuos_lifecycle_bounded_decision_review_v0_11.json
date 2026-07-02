@@ -1,0 +1,17 @@
+{
+  "manifest_version": "lifecycle_bounded_decision_review_v0_11",
+  "series": "apoptosis_lifecycle_governance",
+  "depends_on": "lifecycle_bounded_request_v0_10",
+  "source_recomputation_required": true,
+  "issued_source_required": true,
+  "decision_review_artifact_only": true,
+  "separate_authorization_decision_required": true,
+  "decision_reviewer_independence_required": true,
+  "authorization_decision_maker_operator_separation_required": true,
+  "lifecycle_read_only": true,
+  "authorization_decision_performed": false,
+  "operation_approved": false,
+  "operation_started": false,
+  "lifecycle_effect_performed": false,
+  "repository_change_performed": false
+}
