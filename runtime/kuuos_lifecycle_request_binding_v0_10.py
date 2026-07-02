@@ -228,15 +228,27 @@ def submission_issues(
     return tuple(issues)
 
 
+def _source_scope_value(
+    review_evidence: LifecycleReviewEvidenceV09,
+    target: str,
+    source: str,
+) -> Any:
+    value = (
+        source_scope(review_evidence, source)
+        if source in {"scope_digest", "scope_items", "window_seconds"}
+        else getattr(review_evidence, source)
+    )
+    if target in _SEQUENCE_FIELDS:
+        return canon(tuple(value))
+    return value
+
+
 def scope_matches(
     evidence: LifecycleBoundedRequestEvidenceV010,
     review_evidence: LifecycleReviewEvidenceV09,
 ) -> bool:
     return all(
-        getattr(evidence, target) == (
-            source_scope(review_evidence, source)
-            if source in {"scope_digest", "scope_items", "window_seconds"}
-            else getattr(review_evidence, source)
-        )
+        getattr(evidence, target)
+        == _source_scope_value(review_evidence, target, source)
         for target, source in _SCOPE_PAIRS
     )
