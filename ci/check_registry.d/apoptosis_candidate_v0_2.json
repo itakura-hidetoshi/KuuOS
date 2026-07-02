@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "apoptosis-candidate-v0-2": {
+      "name": "KuuOS apoptosis candidate v0.2",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_apoptosis_candidate_check_v0_2.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*apoptosis_candidate*v0_2.py",
+        "tests/test_kuuos_apoptosis_candidate_v0_2.py",
+        "formal/KUOS/WORLD/KuuOSApoptosisCandidateV0_2.lean",
+        "formal/KuuOSApoptosisCandidateV0_2.lean",
+        "manifests/kuuos_apoptosis_candidate_v0_2.json",
+        "docs/KUUOS_APOPTOSIS_CANDIDATE_v0_2.md"
+      ],
+      "depends_on": [
+        "apoptosis-observation-v0-1",
+        "repository-runtime-v124"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
