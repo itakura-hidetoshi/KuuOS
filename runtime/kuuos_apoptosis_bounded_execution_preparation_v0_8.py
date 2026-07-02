@@ -103,20 +103,20 @@ def build_apoptosis_bounded_execution_preparation_policy(
     max_execution_window_seconds: int = 900,
     max_scope_items: int = 32,
 ) -> ApoptosisBoundedExecutionPreparationPolicy:
-    values: dict[str, Any] = dict(
-        policy_id=policy_id,
-        allowed_preparer_ids=_canon(allowed_preparer_ids),
-        allowed_preparer_organization_ids=_canon(
+    values: dict[str, Any] = {
+        "policy_id": policy_id,
+        "allowed_preparer_ids": _canon(allowed_preparer_ids),
+        "allowed_preparer_organization_ids": _canon(
             allowed_preparer_organization_ids
         ),
-        allowed_objectives=_canon(allowed_objectives),
-        allowed_target_resource_ids=_canon(allowed_target_resource_ids),
-        max_preparation_delay_seconds=max_preparation_delay_seconds,
-        max_evidence_age_seconds=max_evidence_age_seconds,
-        max_execution_window_seconds=max_execution_window_seconds,
-        max_scope_items=max_scope_items,
-        policy_digest="",
-    )
+        "allowed_objectives": _canon(allowed_objectives),
+        "allowed_target_resource_ids": _canon(allowed_target_resource_ids),
+        "max_preparation_delay_seconds": max_preparation_delay_seconds,
+        "max_evidence_age_seconds": max_evidence_age_seconds,
+        "max_execution_window_seconds": max_execution_window_seconds,
+        "max_scope_items": max_scope_items,
+        "policy_digest": "",
+    }
     values.update({name: True for name in _REQUIRED_POLICY})
     values.update({name: False for name in _EFFECT_POLICY})
     policy = ApoptosisBoundedExecutionPreparationPolicy(**values)
@@ -152,12 +152,12 @@ def apoptosis_bounded_execution_preparation_policy_issues(
         OBJECTIVE_PREPARE_BOUNDED_EXECUTION_PACKAGE_ONLY,
     ):
         issues.append("bounded_execution_preparation_objective_scope_invalid")
-    if (
-        policy.max_preparation_delay_seconds <= 0
-        or policy.max_evidence_age_seconds <= 0
-        or policy.max_execution_window_seconds <= 0
-        or policy.max_scope_items <= 0
-    ):
+    if min(
+        policy.max_preparation_delay_seconds,
+        policy.max_evidence_age_seconds,
+        policy.max_execution_window_seconds,
+        policy.max_scope_items,
+    ) <= 0:
         issues.append("bounded_execution_preparation_policy_bound_invalid")
     if not all(getattr(policy, name) for name in _REQUIRED_POLICY):
         issues.append("bounded_execution_preparation_required_guard_disabled")
@@ -174,14 +174,13 @@ def apoptosis_bounded_execution_preparation_policy_issues(
 def build_apoptosis_bounded_execution_preparation_evidence(
     **values: Any,
 ) -> ApoptosisBoundedExecutionPreparationEvidence:
-    tuple_fields = (
+    for name in (
         "execution_scope_items",
         "target_resource_ids",
         "protected_resource_ids",
         "reversible_step_ids",
         "irreversible_step_ids",
-    )
-    for name in tuple_fields:
+    ):
         if name in values:
             values[name] = _canon(tuple(values[name]))
 
@@ -252,6 +251,7 @@ def build_apoptosis_bounded_execution_preparation_evidence(
             source_independent_authorization_policy_digest=auth_policy.policy_digest,
             source_independent_authorization_record_digest=auth_record.record_digest,
         )
+
     evidence = ApoptosisBoundedExecutionPreparationEvidence(
         evidence_digest="",
         **values,
@@ -302,8 +302,7 @@ def apoptosis_bounded_execution_preparation_evidence_issues(
         "reversible_step_ids",
         "irreversible_step_ids",
     ):
-        values = getattr(evidence, name)
-        if values != _canon(values):
+        if getattr(evidence, name) != _canon(getattr(evidence, name)):
             issues.append(f"bounded_execution_preparation_{name}_not_canonical")
     if evidence.execution_window_seconds < 0:
         issues.append("bounded_execution_preparation_execution_window_invalid")
@@ -435,10 +434,7 @@ def _source_artifact_binding(
         (evidence.source_candidate_policy_digest, candidate_policy.policy_digest),
         (evidence.source_candidate_record_digest, candidate_record.candidate_digest),
         (evidence.source_dependency_evidence_digest, dependency_evidence.evidence_digest),
-        (
-            evidence.source_dependency_review_request_digest,
-            dependency_request.request_digest,
-        ),
+        (evidence.source_dependency_review_request_digest, dependency_request.request_digest),
         (evidence.source_dependency_review_policy_digest, dependency_policy.policy_digest),
         (evidence.source_dependency_review_record_digest, dependency_record.record_digest),
         (evidence.source_authority_evidence_digest, authority_evidence.evidence_digest),
@@ -446,32 +442,17 @@ def _source_artifact_binding(
         (evidence.source_authority_review_policy_digest, authority_policy.policy_digest),
         (evidence.source_authority_review_record_digest, authority_record.record_digest),
         (evidence.source_quiescence_evidence_digest, quiescence_evidence.evidence_digest),
-        (
-            evidence.source_quiescence_review_request_digest,
-            quiescence_request.request_digest,
-        ),
+        (evidence.source_quiescence_review_request_digest, quiescence_request.request_digest),
         (evidence.source_quiescence_review_policy_digest, quiescence_policy.policy_digest),
         (evidence.source_quiescence_review_record_digest, quiescence_record.record_digest),
         (evidence.source_external_review_evidence_digest, external_evidence.evidence_digest),
         (evidence.source_external_review_request_digest, external_request.request_digest),
         (evidence.source_external_review_policy_digest, external_policy.policy_digest),
         (evidence.source_external_review_record_digest, external_record.record_digest),
-        (
-            evidence.source_independent_authorization_evidence_digest,
-            auth_evidence.evidence_digest,
-        ),
-        (
-            evidence.source_independent_authorization_request_digest,
-            auth_request.request_digest,
-        ),
-        (
-            evidence.source_independent_authorization_policy_digest,
-            auth_policy.policy_digest,
-        ),
-        (
-            evidence.source_independent_authorization_record_digest,
-            auth_record.record_digest,
-        ),
+        (evidence.source_independent_authorization_evidence_digest, auth_evidence.evidence_digest),
+        (evidence.source_independent_authorization_request_digest, auth_request.request_digest),
+        (evidence.source_independent_authorization_policy_digest, auth_policy.policy_digest),
+        (evidence.source_independent_authorization_record_digest, auth_record.record_digest),
     )
     return all(left == right for left, right in pairs)
 
@@ -486,13 +467,13 @@ def construct_apoptosis_bounded_execution_preparation(
     auth_record: ApoptosisIndependentAuthorizationRecord,
     *source_args: Any,
 ) -> ApoptosisBoundedExecutionPreparationRecord:
-    source_args_tuple = tuple(source_args)
+    source = tuple(source_args)
     source_valid = _source_recomputed_valid(
         auth_record,
         auth_request,
         auth_evidence,
         auth_policy,
-        source_args_tuple,
+        source,
     )
     source_approved = (
         auth_record.status == INDEPENDENT_AUTHORIZATION_APPROVED
@@ -521,7 +502,7 @@ def construct_apoptosis_bounded_execution_preparation(
         auth_evidence,
         auth_policy,
         auth_record,
-        source_args_tuple,
+        source,
     )
     designation_binding = (
         request.future_execution_authority_id
@@ -533,6 +514,16 @@ def construct_apoptosis_bounded_execution_preparation(
         and request.preparer_id == evidence.preparer_id
         and request.preparer_organization_id == evidence.preparer_organization_id
         and evidence.authorization_authority_id == auth_record.authority_id
+        and request.source_authorization_id == evidence.source_authorization_id
+        == auth_record.authorization_id
+        and request.source_authorization_record_digest
+        == evidence.source_independent_authorization_record_digest
+        == auth_record.record_digest
+        and request.preparation_evidence_digest == evidence.evidence_digest
+        and request.requested_at_epoch_seconds
+        == evidence.requested_at_epoch_seconds
+        and request.completed_at_epoch_seconds
+        == evidence.completed_at_epoch_seconds
     )
     (
         external_request,
@@ -557,7 +548,7 @@ def construct_apoptosis_bounded_execution_preparation(
         candidate_request,
         candidate_policy,
         candidate_record,
-    ) = source_args_tuple
+    ) = source
     prior_ids = {
         request.subject_id,
         candidate_record.issuer_id,
@@ -570,9 +561,7 @@ def construct_apoptosis_bounded_execution_preparation(
     }
     prior_independent = request.preparer_id not in prior_ids
     authorization_independent = request.preparer_id != auth_record.authority_id
-    execution_independent = (
-        request.preparer_id != request.future_execution_authority_id
-    )
+    execution_independent = request.preparer_id != request.future_execution_authority_id
     time_order = (
         evidence.requested_at_epoch_seconds
         <= evidence.captured_at_epoch_seconds
@@ -584,15 +573,10 @@ def construct_apoptosis_bounded_execution_preparation(
     delay_valid = 0 <= delay <= policy.max_preparation_delay_seconds
     evidence_fresh = 0 <= age <= policy.max_evidence_age_seconds
     not_expired = request.completed_at_epoch_seconds <= evidence.package_expiry_at_epoch_seconds
-    scope_bounded = (
-        0 < len(evidence.execution_scope_items) <= policy.max_scope_items
-    )
-    target_resources_allowed = (
-        bool(evidence.target_resource_ids)
-        and set(evidence.target_resource_ids).issubset(
-            set(policy.allowed_target_resource_ids)
-        )
-    )
+    scope_bounded = 0 < len(evidence.execution_scope_items) <= policy.max_scope_items
+    target_resources_allowed = bool(evidence.target_resource_ids) and set(
+        evidence.target_resource_ids
+    ).issubset(set(policy.allowed_target_resource_ids))
     protected_resources_excluded = not (
         set(evidence.target_resource_ids) & set(evidence.protected_resource_ids)
     )
@@ -601,61 +585,53 @@ def construct_apoptosis_bounded_execution_preparation(
         0 < evidence.execution_window_seconds
         <= policy.max_execution_window_seconds
     )
-    checks = dict(
-        policy_valid=not apoptosis_bounded_execution_preparation_policy_issues(
-            policy
-        ),
-        request_valid=not apoptosis_bounded_execution_preparation_request_issues(
-            request
-        ),
-        evidence_valid=not apoptosis_bounded_execution_preparation_evidence_issues(
-            evidence
-        ),
-        source_recomputed_valid=source_valid,
-        source_authorization_approved=source_approved,
-        source_subject_binding_valid=subject_binding,
-        source_artifact_binding_valid=artifact_binding,
-        execution_authority_designation_binding_valid=designation_binding,
-        preparer_allowed=request.preparer_id in policy.allowed_preparer_ids,
-        preparer_organization_allowed=(
-            request.preparer_organization_id
-            in policy.allowed_preparer_organization_ids
-        ),
-        preparer_identity_binding_valid=identity_binding,
-        preparer_qualification_verified=evidence.preparer_qualification_verified,
-        preparer_independence_declared=evidence.preparer_independence_declared,
-        preparer_independent=(
-            prior_independent
-            and authorization_independent
-            and execution_independent
-        ),
-        independent_from_prior_chain=prior_independent,
-        independent_from_authorization_authority=authorization_independent,
-        independent_from_execution_authority=execution_independent,
-        objective_allowed=request.objective in policy.allowed_objectives,
-        preparation_delay_valid=delay_valid,
-        evidence_fresh=evidence_fresh,
-        preparation_time_order_valid=time_order,
-        package_not_expired=not_expired,
-        conflict_disclosure_complete=evidence.conflict_disclosure_complete,
-        material_conflict_present=evidence.material_conflict_present,
-        scope_bounded=scope_bounded,
-        target_resources_allowed=target_resources_allowed,
-        protected_resources_excluded=protected_resources_excluded,
-        no_irreversible_steps=no_irreversible_steps,
-        rollback_plan_verified=evidence.rollback_plan_verified,
-        recovery_route_verified=evidence.recovery_route_verified,
-        stop_conditions_complete=evidence.stop_conditions_complete,
-        abort_channel_available=evidence.abort_channel_available,
-        human_oversight_available=evidence.human_oversight_available,
-        monitoring_plan_complete=evidence.monitoring_plan_complete,
-        evidence_capture_plan_complete=evidence.evidence_capture_plan_complete,
-        simulation_verified=evidence.simulation_verified,
-        execution_window_valid=execution_window_valid,
-        protected_core_excluded=evidence.protected_core_excluded,
-        institutional_hold_active=evidence.institutional_hold_active,
-        emergency_state_active=evidence.emergency_state_active,
-    )
+
+    checks = {
+        "policy_valid": not apoptosis_bounded_execution_preparation_policy_issues(policy),
+        "request_valid": not apoptosis_bounded_execution_preparation_request_issues(request),
+        "evidence_valid": not apoptosis_bounded_execution_preparation_evidence_issues(evidence),
+        "source_recomputed_valid": source_valid,
+        "source_authorization_approved": source_approved,
+        "source_subject_binding_valid": subject_binding,
+        "source_artifact_binding_valid": artifact_binding,
+        "execution_authority_designation_binding_valid": designation_binding,
+        "preparer_allowed": request.preparer_id in policy.allowed_preparer_ids,
+        "preparer_organization_allowed": request.preparer_organization_id
+        in policy.allowed_preparer_organization_ids,
+        "preparer_identity_binding_valid": identity_binding,
+        "preparer_qualification_verified": evidence.preparer_qualification_verified,
+        "preparer_independence_declared": evidence.preparer_independence_declared,
+        "preparer_independent": prior_independent
+        and authorization_independent
+        and execution_independent,
+        "independent_from_prior_chain": prior_independent,
+        "independent_from_authorization_authority": authorization_independent,
+        "independent_from_execution_authority": execution_independent,
+        "objective_allowed": request.objective in policy.allowed_objectives,
+        "preparation_delay_valid": delay_valid,
+        "evidence_fresh": evidence_fresh,
+        "preparation_time_order_valid": time_order,
+        "package_not_expired": not_expired,
+        "conflict_disclosure_complete": evidence.conflict_disclosure_complete,
+        "material_conflict_present": evidence.material_conflict_present,
+        "scope_bounded": scope_bounded,
+        "target_resources_allowed": target_resources_allowed,
+        "protected_resources_excluded": protected_resources_excluded,
+        "no_irreversible_steps": no_irreversible_steps,
+        "rollback_plan_verified": evidence.rollback_plan_verified,
+        "recovery_route_verified": evidence.recovery_route_verified,
+        "stop_conditions_complete": evidence.stop_conditions_complete,
+        "abort_channel_available": evidence.abort_channel_available,
+        "human_oversight_available": evidence.human_oversight_available,
+        "monitoring_plan_complete": evidence.monitoring_plan_complete,
+        "evidence_capture_plan_complete": evidence.evidence_capture_plan_complete,
+        "simulation_verified": evidence.simulation_verified,
+        "execution_window_valid": execution_window_valid,
+        "protected_core_excluded": evidence.protected_core_excluded,
+        "institutional_hold_active": evidence.institutional_hold_active,
+        "emergency_state_active": evidence.emergency_state_active,
+    }
+
     structural = (
         "policy_valid",
         "request_valid",
@@ -686,25 +662,13 @@ def construct_apoptosis_bounded_execution_preparation(
             (evidence.emergency_state_active, "emergency_state_active"),
             (evidence.institutional_hold_active, "institutional_hold_active"),
             (not evidence.protected_core_excluded, "protected_core_not_excluded"),
-            (
-                not evidence.preparer_qualification_verified,
-                "preparer_qualification_not_verified",
-            ),
-            (
-                not evidence.preparer_independence_declared,
-                "preparer_independence_not_declared",
-            ),
-            (
-                not evidence.conflict_disclosure_complete,
-                "conflict_disclosure_incomplete",
-            ),
+            (not evidence.preparer_qualification_verified, "preparer_qualification_not_verified"),
+            (not evidence.preparer_independence_declared, "preparer_independence_not_declared"),
+            (not evidence.conflict_disclosure_complete, "conflict_disclosure_incomplete"),
             (evidence.material_conflict_present, "material_conflict_present"),
             (not scope_bounded, "execution_scope_not_bounded"),
             (not target_resources_allowed, "target_resource_not_allowed"),
-            (
-                not protected_resources_excluded,
-                "protected_resource_in_execution_scope",
-            ),
+            (not protected_resources_excluded, "protected_resource_in_execution_scope"),
             (not no_irreversible_steps, "irreversible_step_present"),
             (not evidence.rollback_plan_verified, "rollback_plan_not_verified"),
             (not evidence.recovery_route_verified, "recovery_route_not_verified"),
@@ -712,10 +676,7 @@ def construct_apoptosis_bounded_execution_preparation(
             (not evidence.abort_channel_available, "abort_channel_unavailable"),
             (not evidence.human_oversight_available, "human_oversight_unavailable"),
             (not evidence.monitoring_plan_complete, "monitoring_plan_incomplete"),
-            (
-                not evidence.evidence_capture_plan_complete,
-                "evidence_capture_plan_incomplete",
-            ),
+            (not evidence.evidence_capture_plan_complete, "evidence_capture_plan_incomplete"),
             (not evidence.simulation_verified, "simulation_not_verified"),
             (not execution_window_valid, "execution_window_invalid"),
         )
@@ -726,6 +687,7 @@ def construct_apoptosis_bounded_execution_preparation(
         else:
             status = BOUNDED_EXECUTION_PREPARATION_BLOCKED
             reason = hit
+
     issued = status != BOUNDED_EXECUTION_PREPARATION_REJECTED
     ready = status == BOUNDED_EXECUTION_PREPARATION_READY
     checks.update(
@@ -735,28 +697,26 @@ def construct_apoptosis_bounded_execution_preparation(
         execution_review_required_next=ready,
         **{name: False for name in _EFFECT_RECORD},
     )
-    values: dict[str, Any] = dict(
-        preparation_id=request.preparation_id,
-        status=status,
-        reason=reason,
-        policy_digest=policy.policy_digest,
-        request_digest=request.request_digest,
-        preparation_evidence_digest=evidence.evidence_digest,
-        source_authorization_id=request.source_authorization_id,
-        source_authorization_record_digest=(
-            request.source_authorization_record_digest
-        ),
-        subject_id=request.subject_id,
-        subject_kind=request.subject_kind,
-        subject_version=request.subject_version,
-        preparer_id=request.preparer_id,
-        preparer_organization_id=request.preparer_organization_id,
-        objective=request.objective,
-        requested_at_epoch_seconds=request.requested_at_epoch_seconds,
-        completed_at_epoch_seconds=request.completed_at_epoch_seconds,
-        future_execution_authority_id=request.future_execution_authority_id,
-        checks=checks,
-        evidence_digests={
+    values: dict[str, Any] = {
+        "preparation_id": request.preparation_id,
+        "status": status,
+        "reason": reason,
+        "policy_digest": policy.policy_digest,
+        "request_digest": request.request_digest,
+        "preparation_evidence_digest": evidence.evidence_digest,
+        "source_authorization_id": request.source_authorization_id,
+        "source_authorization_record_digest": request.source_authorization_record_digest,
+        "subject_id": request.subject_id,
+        "subject_kind": request.subject_kind,
+        "subject_version": request.subject_version,
+        "preparer_id": request.preparer_id,
+        "preparer_organization_id": request.preparer_organization_id,
+        "objective": request.objective,
+        "requested_at_epoch_seconds": request.requested_at_epoch_seconds,
+        "completed_at_epoch_seconds": request.completed_at_epoch_seconds,
+        "future_execution_authority_id": request.future_execution_authority_id,
+        "checks": checks,
+        "evidence_digests": {
             "bounded_execution_preparation_policy": policy.policy_digest,
             "bounded_execution_preparation_request": request.request_digest,
             "bounded_execution_preparation_evidence": evidence.evidence_digest,
@@ -770,17 +730,15 @@ def construct_apoptosis_bounded_execution_preparation(
             "source_candidate_record": candidate_record.candidate_digest,
             "source_observation_record": observation_record.record_digest,
         },
-        record_digest="",
-    )
+        "record_digest": "",
+    }
     for item in fields(ApoptosisBoundedExecutionPreparationRecord):
         if item.name not in values and item.name not in {"version", "record_digest"}:
             values[item.name] = checks[item.name]
     record = ApoptosisBoundedExecutionPreparationRecord(**values)
     return replace(
         record,
-        record_digest=apoptosis_bounded_execution_preparation_record_digest(
-            record
-        ),
+        record_digest=apoptosis_bounded_execution_preparation_record_digest(record),
     )
 
 
@@ -816,30 +774,27 @@ def apoptosis_bounded_execution_preparation_record_issues(
         BOUNDED_EXECUTION_PREPARATION_REJECTED,
     ):
         issues.append("bounded_execution_preparation_status_invalid")
-    if record.status == BOUNDED_EXECUTION_PREPARATION_READY:
-        if not (
-            record.preparation_record_issued
-            and record.bounded_execution_package_prepared
-            and record.ready_for_execution_review
-            and record.execution_review_required_next
-        ):
-            issues.append("bounded_execution_preparation_ready_gate_invalid")
-    if record.status == BOUNDED_EXECUTION_PREPARATION_BLOCKED:
-        if not (
-            record.preparation_record_issued
-            and not record.bounded_execution_package_prepared
-            and not record.ready_for_execution_review
-            and not record.execution_review_required_next
-        ):
-            issues.append("bounded_execution_preparation_blocked_advanced")
-    if record.status == BOUNDED_EXECUTION_PREPARATION_REJECTED:
-        if (
-            record.preparation_record_issued
-            or record.bounded_execution_package_prepared
-            or record.ready_for_execution_review
-            or record.execution_review_required_next
-        ):
-            issues.append("bounded_execution_preparation_rejected_record_issued")
+    if record.status == BOUNDED_EXECUTION_PREPARATION_READY and not (
+        record.preparation_record_issued
+        and record.bounded_execution_package_prepared
+        and record.ready_for_execution_review
+        and record.execution_review_required_next
+    ):
+        issues.append("bounded_execution_preparation_ready_gate_invalid")
+    if record.status == BOUNDED_EXECUTION_PREPARATION_BLOCKED and not (
+        record.preparation_record_issued
+        and not record.bounded_execution_package_prepared
+        and not record.ready_for_execution_review
+        and not record.execution_review_required_next
+    ):
+        issues.append("bounded_execution_preparation_blocked_advanced")
+    if record.status == BOUNDED_EXECUTION_PREPARATION_REJECTED and (
+        record.preparation_record_issued
+        or record.bounded_execution_package_prepared
+        or record.ready_for_execution_review
+        or record.execution_review_required_next
+    ):
+        issues.append("bounded_execution_preparation_rejected_record_issued")
     if any(getattr(record, name) for name in _EFFECT_RECORD):
         issues.append("bounded_execution_preparation_execution_effect_performed")
     if (
