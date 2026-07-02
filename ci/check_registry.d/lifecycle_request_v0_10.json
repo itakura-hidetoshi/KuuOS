@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "lifecycle-request-v0-10": {
+      "name": "KuuOS lifecycle bounded request v0.10",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_lifecycle_bounded_request_check_v0_10.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*lifecycle*request*v0_10.py",
+        "tests/*lifecycle*request*v0_10.py",
+        "formal/KUOS/WORLD/KuuOSLifecycleBoundedRequestV0_10.lean",
+        "formal/KuuOSLifecycleBoundedRequestV0_10.lean",
+        "manifests/kuuos_lifecycle_request_v0_10.json",
+        "docs/lifecycle_request_v0_10.md"
+      ],
+      "depends_on": [
+        "lifecycle-review-v0-9",
+        "repository-runtime-v124"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
