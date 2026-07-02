@@ -1,0 +1,44 @@
+{
+  "manifest_version": "kuuos_apoptosis_dependency_review_v0_3",
+  "series": "lifecycle_governance",
+  "series_independent_from_repository_mutation_roadmap": true,
+  "depends_on": "kuuos_apoptosis_candidate_v0_2",
+  "read_only_review_only": true,
+  "runtime_modules": [
+    "runtime/kuuos_apoptosis_dependency_review_types_v0_3.py",
+    "runtime/kuuos_apoptosis_dependency_review_v0_3.py"
+  ],
+  "tests": "tests/test_kuuos_apoptosis_dependency_review_v0_3.py",
+  "validator": "runtime/kuuos_apoptosis_dependency_review_check_v0_3.py",
+  "documentation": "docs/KUUOS_APOPTOSIS_DEPENDENCY_REVIEW_v0_3.md",
+  "strict_formal_root": "KuuOSApoptosisDependencyReviewV0_3",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSApoptosisDependencyReviewV0_3"
+  ],
+  "allowed_objectives": [
+    "ASSESS_DEPENDENCY_SAFETY_ONLY"
+  ],
+  "source_candidate_recomputation_required": true,
+  "source_candidate_proposed_required": true,
+  "candidate_subject_binding_required": true,
+  "dependency_snapshot_binding_required": true,
+  "dependency_closure_complete_required": true,
+  "cycle_through_subject_absent_required": true,
+  "unresolved_dependencies_absent_required": true,
+  "orphaned_dependents_absent_required": true,
+  "critical_dependents_replacement_covered_required": true,
+  "active_execution_dependence_absent_required": true,
+  "replacement_coverage_complete_required": true,
+  "authority_review_required_next_after_clear": true,
+  "quiescence_review_required_next_after_clear": true,
+  "external_review_required_next_after_clear": true,
+  "independent_authorization_required_next_after_clear": true,
+  "blocked_review_advances": false,
+  "authority_revocation_performed": false,
+  "quiescence_transition_performed": false,
+  "terminal_transition_performed": false,
+  "tombstone_write_performed": false,
+  "physical_deletion_performed": false,
+  "live_git_execution_performed": false,
+  "repository_mutation_performed": false
+}
