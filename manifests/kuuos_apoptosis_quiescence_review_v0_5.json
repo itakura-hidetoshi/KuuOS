@@ -1,0 +1,49 @@
+{
+  "manifest_version": "kuuos_apoptosis_quiescence_review_v0_5",
+  "series": "lifecycle_governance",
+  "series_independent_from_repository_mutation_roadmap": true,
+  "depends_on": "kuuos_apoptosis_authority_review_v0_4",
+  "read_only_review_only": true,
+  "runtime_modules": [
+    "runtime/kuuos_apoptosis_quiescence_review_types_v0_5.py",
+    "runtime/kuuos_apoptosis_quiescence_review_v0_5.py"
+  ],
+  "tests": "tests/test_kuuos_apoptosis_quiescence_review_v0_5.py",
+  "validator": "runtime/kuuos_apoptosis_quiescence_review_check_v0_5.py",
+  "documentation": "docs/KUUOS_APOPTOSIS_QUIESCENCE_REVIEW_v0_5.md",
+  "strict_formal_root": "KuuOSApoptosisQuiescenceReviewV0_5",
+  "aggregate_lean_modules": [
+    "KUOS.WORLD.KuuOSApoptosisQuiescenceReviewV0_5"
+  ],
+  "allowed_objectives": [
+    "ASSESS_QUIESCENCE_SAFETY_ONLY"
+  ],
+  "source_authority_review_recomputation_required": true,
+  "source_authority_review_clear_required": true,
+  "execution_snapshot_binding_required": true,
+  "independent_reviewer_required": true,
+  "quiescence_closure_complete_required": true,
+  "active_execution_absent_required": true,
+  "pending_work_absent_required": true,
+  "active_lease_absent_required": true,
+  "new_intake_stopped_required": true,
+  "open_intake_channel_absent_required": true,
+  "blocking_external_dependency_absent_required": true,
+  "drain_verified_required": true,
+  "checkpoint_verified_required": true,
+  "recovery_route_verified_required": true,
+  "reentry_possible_required": true,
+  "valid_quiescence_time_order_required": true,
+  "minimum_grace_period_required": true,
+  "emergency_operation_absent_required": true,
+  "external_review_required_next_after_clear": true,
+  "independent_authorization_required_next_after_clear": true,
+  "blocked_review_advances": false,
+  "authority_revocation_performed": false,
+  "quiescence_transition_performed": false,
+  "terminal_transition_performed": false,
+  "tombstone_write_performed": false,
+  "physical_deletion_performed": false,
+  "live_git_execution_performed": false,
+  "repository_mutation_performed": false
+}
