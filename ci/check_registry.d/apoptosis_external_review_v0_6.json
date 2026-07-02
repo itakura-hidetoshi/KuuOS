@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "apoptosis-external-review-v0-6": {
+      "name": "KuuOS apoptosis external review v0.6",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_apoptosis_external_review_check_v0_6.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*apoptosis_external_review*v0_6.py",
+        "tests/test_kuuos_apoptosis_external_review_v0_6.py",
+        "formal/KUOS/WORLD/KuuOSApoptosisExternalReviewV0_6.lean",
+        "formal/KuuOSApoptosisExternalReviewV0_6.lean",
+        "manifests/kuuos_apoptosis_external_review_v0_6.json",
+        "docs/KUUOS_APOPTOSIS_EXTERNAL_REVIEW_v0_6.md"
+      ],
+      "depends_on": [
+        "apoptosis-quiescence-review-v0-5",
+        "repository-runtime-v124"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
