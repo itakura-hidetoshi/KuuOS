@@ -123,3 +123,4 @@ import KUOS.WORLD.KuuOSApoptosisObservationV0_1
 import KUOS.WORLD.KuuOSApoptosisCandidateV0_2
 import KUOS.WORLD.KuuOSApoptosisDependencyReviewV0_3
 import KUOS.WORLD.KuuOSApoptosisAuthorityReviewV0_4
+import KUOS.WORLD.KuuOSApoptosisQuiescenceReviewV0_5
