@@ -1,0 +1,29 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "lifecycle-review-v0-9": {
+      "name": "KuuOS lifecycle review v0.9",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_apoptosis_execution_review_check_v0_9.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*lifecycle_review*v0_9.py",
+        "runtime/kuuos_apoptosis_execution_review_check_v0_9.py",
+        "tests/kuuos_lifecycle_review_fixture_v0_9.py",
+        "tests/test_kuuos_apoptosis_execution_review_v0_9.py",
+        "formal/KUOS/WORLD/KuuOSLifecycleReviewV0_9.lean",
+        "formal/KuuOSLifecycleReviewV0_9.lean",
+        "manifests/kuuos_lifecycle_review_v0_9.json",
+        "docs/lifecycle_review_v0_9.md"
+      ],
+      "depends_on": [
+        "apoptosis-bounded-execution-preparation-v0-8",
+        "repository-runtime-v124"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
