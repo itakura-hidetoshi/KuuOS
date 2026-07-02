@@ -1,0 +1,3 @@
+from runtime.kuuos_lifecycle_review_check_v0_9 import LifecycleReviewV09Checks
+
+ApoptosisExecutionReviewV09Tests = LifecycleReviewV09Checks
