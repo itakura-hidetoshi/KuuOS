@@ -3,15 +3,27 @@ from __future__ import annotations
 
 import unittest
 
-from tests.kuuos_lifecycle_review_fixture_v0_9 import LifecycleReviewFixtureV09
+from runtime.kuuos_lifecycle_review_audit_independence_v0_9 import (
+    independence_audit_matrix,
+)
+from runtime.kuuos_lifecycle_review_audit_safety_v0_9 import (
+    safety_audit_matrix,
+)
+from runtime.kuuos_lifecycle_review_audit_source_v0_9 import (
+    source_audit_matrix,
+)
 
 
-class LifecycleReviewV09Checks(LifecycleReviewFixtureV09):
-    def test_valid_case_is_read_only(self) -> None:
-        record = self.review()
-        self.assertTrue(record.review_record_issued)
-        self.assertTrue(record.effect_free)
-        self.assertTrue(record.read_only)
+class LifecycleReviewV09Checks(unittest.TestCase):
+    def test_complete_audit_matrix(self) -> None:
+        checks = {
+            **source_audit_matrix(),
+            **independence_audit_matrix(),
+            **safety_audit_matrix(),
+        }
+        failures = sorted(name for name, passed in checks.items() if not passed)
+        self.assertFalse(failures, f"failed lifecycle review checks: {failures}")
+        self.assertEqual(len(checks), 19)
 
 
 if __name__ == "__main__":
