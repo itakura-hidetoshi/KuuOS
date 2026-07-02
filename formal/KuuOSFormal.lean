@@ -121,3 +121,4 @@ import KUOS.WORLD.KuuOSCheckpointRecoveryProposalV0_1
 -- Independent read-only lifecycle-governance line.
 import KUOS.WORLD.KuuOSApoptosisObservationV0_1
 import KUOS.WORLD.KuuOSApoptosisCandidateV0_2
+import KUOS.WORLD.KuuOSApoptosisDependencyReviewV0_3
