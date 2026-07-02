@@ -1,0 +1,12 @@
+{
+  "manifest_version": "lifecycle_bounded_request_v0_10",
+  "series": "apoptosis_lifecycle_governance",
+  "depends_on": "lifecycle_execution_review_v0_9",
+  "source_recomputation_required": true,
+  "clear_source_required": true,
+  "request_artifact_only": true,
+  "separate_decision_review_required": true,
+  "lifecycle_read_only": true,
+  "later_stage_output_performed": false,
+  "repository_change_performed": false
+}
