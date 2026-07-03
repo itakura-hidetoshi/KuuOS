@@ -25,6 +25,8 @@ from runtime.kuuos_lifecycle_authorization_decision_types_v0_12 import (
     record_digest,
 )
 
+SOURCE_ORDER_CHECK = "source_review_completed_before_decision_request"
+
 
 def compute_artifact(
     decision: LifecycleAuthorizationDecisionSubmissionV012,
@@ -46,7 +48,13 @@ def compute_artifact(
         source_record,
         tuple(source_args),
     )
-    if not all(checks[name] for name in STRUCTURAL_CHECKS):
+    checks[SOURCE_ORDER_CHECK] = (
+        source_review.completed_at_epoch_seconds
+        <= decision.decision_requested_at_epoch_seconds
+    )
+    if not checks[SOURCE_ORDER_CHECK] or not all(
+        checks[name] for name in STRUCTURAL_CHECKS
+    ):
         status = REJECTED
         reason = "source_decision_policy_or_binding_invalid"
     else:
