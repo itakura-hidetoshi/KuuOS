@@ -1,3 +1,5 @@
+import unittest
+
 from runtime.kuuos_lifecycle_governance_transition_start_authorization_v0_21 import (
     AUTHORIZED,
     DENIED,
@@ -133,48 +135,59 @@ def _refresh_authorization(authorization, **changes):
     return value
 
 
-def test_authorized_routes_to_start_without_starting_transition():
-    _, source = _source()
-    policy = _policy(source)
-    evidence = _evidence(source)
-    authorization = _authorization(source, evidence)
-    artifact = verify_artifact(*_args(source, evidence, authorization, policy))
-    assert artifact.status == AUTHORIZED
-    assert artifact.lifecycle_transition_start_authorized
-    assert artifact.ready_for_separate_transition_start
-    assert artifact.transition_start_required_next
-    assert not artifact.lifecycle_transition_started
-    assert not artifact.lifecycle_transition_performed
-    assert not artifact.repository_changed
+class LifecycleTransitionStartAuthorizationV021Test(unittest.TestCase):
+    def test_authorized_routes_to_start_without_starting_transition(self):
+        _, source = _source()
+        policy = _policy(source)
+        evidence = _evidence(source)
+        authorization = _authorization(source, evidence)
+        artifact = verify_artifact(*_args(source, evidence, authorization, policy))
+        self.assertEqual(AUTHORIZED, artifact.status)
+        self.assertTrue(artifact.lifecycle_transition_start_authorized)
+        self.assertTrue(artifact.ready_for_separate_transition_start)
+        self.assertTrue(artifact.transition_start_required_next)
+        self.assertFalse(artifact.lifecycle_transition_started)
+        self.assertFalse(artifact.lifecycle_transition_performed)
+        self.assertFalse(artifact.repository_changed)
+
+    def test_authority_failure_denies_without_start_route(self):
+        _, source = _source()
+        policy = _policy(source)
+        evidence = _evidence(source, authorizer_authority_verified=False)
+        authorization = _authorization(source, evidence)
+        artifact = verify_artifact(*_args(source, evidence, authorization, policy))
+        self.assertEqual(DENIED, artifact.status)
+        self.assertTrue(artifact.transition_start_authorization_denied)
+        self.assertFalse(artifact.lifecycle_transition_start_authorized)
+        self.assertTrue(artifact.transition_reauthorization_or_reapproval_required_next)
+
+    def test_non_approved_source_is_rejected(self):
+        _, source = _source()
+        policy = _policy(source)
+        evidence = _evidence(source)
+        authorization = _authorization(source, evidence)
+        bad_source = (
+            source[0],
+            source[1],
+            source[2],
+            _refresh_record(source[3], status="not-approved"),
+            source[4],
+        )
+        artifact = verify_artifact(*_args(bad_source, evidence, authorization, policy))
+        self.assertEqual(REJECTED, artifact.status)
+        self.assertFalse(artifact.transition_start_authorization_record_issued)
+
+    def test_route_swap_is_rejected(self):
+        _, source = _source()
+        policy = _policy(source)
+        evidence = _evidence(source)
+        authorization = _refresh_authorization(
+            _authorization(source, evidence),
+            transition_start_route_digest="bad-route",
+        )
+        artifact = verify_artifact(*_args(source, evidence, authorization, policy))
+        self.assertEqual(REJECTED, artifact.status)
 
 
-def test_authority_failure_denies_without_start_route():
-    _, source = _source()
-    policy = _policy(source)
-    evidence = _evidence(source, authorizer_authority_verified=False)
-    authorization = _authorization(source, evidence)
-    artifact = verify_artifact(*_args(source, evidence, authorization, policy))
-    assert artifact.status == DENIED
-    assert artifact.transition_start_authorization_denied
-    assert not artifact.lifecycle_transition_start_authorized
-    assert artifact.transition_reauthorization_or_reapproval_required_next
-
-
-def test_non_approved_source_is_rejected():
-    _, source = _source()
-    policy = _policy(source)
-    evidence = _evidence(source)
-    authorization = _authorization(source, evidence)
-    bad_source = (source[0], source[1], source[2], _refresh_record(source[3], status="not-approved"), source[4])
-    artifact = verify_artifact(*_args(bad_source, evidence, authorization, policy))
-    assert artifact.status == REJECTED
-    assert not artifact.transition_start_authorization_record_issued
-
-
-def test_route_swap_is_rejected():
-    _, source = _source()
-    policy = _policy(source)
-    evidence = _evidence(source)
-    authorization = _refresh_authorization(_authorization(source, evidence), transition_start_route_digest="bad-route")
-    artifact = verify_artifact(*_args(source, evidence, authorization, policy))
-    assert artifact.status == REJECTED
+if __name__ == "__main__":
+    unittest.main()
