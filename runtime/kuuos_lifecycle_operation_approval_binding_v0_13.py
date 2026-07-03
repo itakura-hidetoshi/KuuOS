@@ -104,26 +104,46 @@ def make_evidence(
 
 def evidence_issues(value: LifecycleOperationApprovalEvidenceV013) -> tuple[str, ...]:
     issues: list[str] = []
-    exempt = {
-        "evidence_digest", "version",
-        "approval_requested_at_epoch_seconds", "captured_at_epoch_seconds",
-        "completed_at_epoch_seconds", "operation_approval_expiry_at_epoch_seconds",
-        "operation_start_window_open_at_epoch_seconds",
-        "operation_start_deadline_at_epoch_seconds", "operation_window_seconds",
-        "approver_mandate_verified", "approver_qualification_verified",
-        "approver_independence_declared", "conflict_disclosure_complete",
-        "material_conflict_present", "jurisdiction_verified", "quorum_satisfied",
-        "reasoned_approval_complete", "proportionality_satisfied",
-        "execution_package_integrity_verified", "operator_acknowledged",
-        "resources_reserved", "rollback_plan_verified", "recovery_route_verified",
-        "stop_conditions_complete", "abort_channel_available",
-        "human_oversight_available", "monitoring_plan_complete",
-        "evidence_capture_plan_complete", "simulation_verified",
-        "protected_core_excluded", "institutional_hold_active",
-        "emergency_state_active", "appeal_route_available",
-        "dissent_route_available", "minority_opinion_recorded",
-    }
-    if not all(getattr(value, item.name) for item in fields(value) if item.name not in exempt):
+    required = (
+        value.evidence_id,
+        value.operation_approval_id,
+        value.operation_approver_id,
+        value.operation_approver_organization_id,
+        value.approver_mandate_receipt_digest,
+        value.approver_qualification_receipt_digest,
+        value.approver_independence_declaration_digest,
+        value.conflict_disclosure_digest,
+        value.jurisdiction_receipt_digest,
+        value.quorum_receipt_digest,
+        value.approval_rationale_digest,
+        value.proportionality_review_digest,
+        value.source_authorization_decision_id,
+        value.source_authorization_record_digest,
+        value.source_authorization_decision_maker_id,
+        value.source_decision_reviewer_id,
+        value.subject_id,
+        value.subject_kind,
+        value.subject_version,
+        value.requester_id,
+        value.future_operator_id,
+        value.operation_approval_route_digest,
+        value.approved_scope_digest,
+        value.execution_package_digest,
+        value.operator_acknowledgement_digest,
+        value.resource_reservation_digest,
+        value.rollback_plan_digest,
+        value.recovery_route_digest,
+        value.stop_condition_digest,
+        value.abort_channel_digest,
+        value.human_oversight_digest,
+        value.monitoring_plan_digest,
+        value.evidence_capture_plan_digest,
+        value.simulation_receipt_digest,
+        value.appeal_route_digest,
+        value.dissent_route_digest,
+        value.minority_opinion_digest,
+    )
+    if not all(required):
         issues.append("required_identity_receipt_or_binding_missing")
     if not value.source_artifact_digests:
         issues.append("source_digests_missing")
