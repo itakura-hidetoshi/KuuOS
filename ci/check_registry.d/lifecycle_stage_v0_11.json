@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "lifecycle-bounded-decision-review-v0-11": {
+      "name": "KuuOS lifecycle bounded decision review v0.11",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_lifecycle_decision_review_check_v0_11.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*lifecycle*decision*review*v0_11.py",
+        "tests/*lifecycle*decision*review*v0_11.py",
+        "formal/KUOS/WORLD/KuuOSLifecycleStageV0_11.lean",
+        "formal/KuuOSLifecycleStageV0_11.lean",
+        "manifests/kuuos_lifecycle_bounded_decision_review_v0_11.json",
+        "docs/lifecycle_bounded_decision_review_v0_11.md"
+      ],
+      "depends_on": [
+        "lifecycle-request-v0-10",
+        "repository-runtime-v124"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
