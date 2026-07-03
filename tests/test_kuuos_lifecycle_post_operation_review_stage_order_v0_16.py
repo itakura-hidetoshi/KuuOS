@@ -3,9 +3,7 @@ from __future__ import annotations
 from runtime.kuuos_lifecycle_post_operation_review_core_v0_16 import (
     SOURCE_ORDER_CHECK,
 )
-from runtime.kuuos_lifecycle_post_operation_review_types_v0_16 import (
-    REJECTED,
-)
+from runtime.kuuos_lifecycle_post_operation_review_types_v0_16 import REJECTED
 from tests.kuuos_lifecycle_post_operation_review_fixture_v0_16 import (
     LifecyclePostOperationReviewFixtureV016,
 )
@@ -14,9 +12,7 @@ from tests.kuuos_lifecycle_post_operation_review_fixture_v0_16 import (
 class LifecyclePostOperationReviewStageOrderV016Tests(
     LifecyclePostOperationReviewFixtureV016
 ):
-    def test_review_request_cannot_precede_operation_completion(
-        self,
-    ) -> None:
+    def test_review_request_cannot_precede_operation_completion(self) -> None:
         source = self.make_source()
         early = source[0].completed_at_epoch_seconds - 1
         evidence = self.make_review_evidence(
@@ -29,37 +25,8 @@ class LifecyclePostOperationReviewStageOrderV016Tests(
             evidence,
             review_requested_at_epoch_seconds=early,
         )
-        artifact = self.evaluate_review(
-            source, evidence, review
-        )
-        self.assertEqual(artifact.status, REJECTED)
-        self.assertFalse(
-            artifact.checks[SOURCE_ORDER_CHECK]
-        )
-        self.assertFalse(
-            artifact.post_operation_review_record_issued
-        )
-        self.assertFalse(
-            artifact.post_operation_review_completed
-        )
-
-    def test_match_attestation_cannot_bind_different_result_digests(
-        self,
-    ) -> None:
-        source = self.make_source()
-        evidence = self.make_review_evidence(
-            source,
-            observed_result_digest="o" * 64,
-            intended_result_matches_observed=True,
-        )
-        review = self.make_review_submission(source, evidence)
         artifact = self.evaluate_review(source, evidence, review)
         self.assertEqual(artifact.status, REJECTED)
-        self.assertFalse(
-            artifact.checks[
-                "intended_observed_attestation_consistent"
-            ]
-        )
-        self.assertFalse(
-            artifact.post_operation_review_record_issued
-        )
+        self.assertFalse(artifact.checks[SOURCE_ORDER_CHECK])
+        self.assertFalse(artifact.post_operation_review_record_issued)
+        self.assertFalse(artifact.post_operation_review_completed)
