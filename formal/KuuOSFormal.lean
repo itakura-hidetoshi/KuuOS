@@ -118,7 +118,7 @@ import KUOS.WORLD.KuuOSRepositoryCheckpointReflogV1_24
 -- Independent non-mutation recovery-governance line.
 import KUOS.WORLD.KuuOSCheckpointRecoveryProposalV0_1
 
--- Independent read-only lifecycle-governance line.
+-- Independent lifecycle-governance line.
 import KUOS.WORLD.KuuOSApoptosisObservationV0_1
 import KUOS.WORLD.KuuOSApoptosisCandidateV0_2
 import KUOS.WORLD.KuuOSApoptosisDependencyReviewV0_3
@@ -130,3 +130,4 @@ import KUOS.WORLD.KuuOSApoptosisBoundedExecutionPreparationV0_8
 import KUOS.WORLD.KuuOSLifecycleReviewV0_9
 import KUOS.WORLD.KuuOSLifecycleBoundedRequestV0_10
 import KUOS.WORLD.KuuOSLifecycleStageV0_11
+import KUOS.WORLD.KuuOSLifecycleStageV0_12
