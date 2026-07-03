@@ -42,3 +42,24 @@ class LifecyclePostOperationReviewStageOrderV016Tests(
         self.assertFalse(
             artifact.post_operation_review_completed
         )
+
+    def test_match_attestation_cannot_bind_different_result_digests(
+        self,
+    ) -> None:
+        source = self.make_source()
+        evidence = self.make_review_evidence(
+            source,
+            observed_result_digest="o" * 64,
+            intended_result_matches_observed=True,
+        )
+        review = self.make_review_submission(source, evidence)
+        artifact = self.evaluate_review(source, evidence, review)
+        self.assertEqual(artifact.status, REJECTED)
+        self.assertFalse(
+            artifact.checks[
+                "intended_observed_attestation_consistent"
+            ]
+        )
+        self.assertFalse(
+            artifact.post_operation_review_record_issued
+        )
