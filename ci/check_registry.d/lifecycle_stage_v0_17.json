@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "lifecycle-bounded-transition-review-v0-17": {
+      "name": "KuuOS lifecycle bounded transition review v0.17",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_lifecycle_transition_review_check_v0_17.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*lifecycle*transition*review*v0_17.py",
+        "tests/*lifecycle*transition*review*v0_17.py",
+        "formal/KUOS/WORLD/KuuOSLifecycleStageV0_17.lean",
+        "formal/KuuOSLifecycleStageV0_17.lean",
+        "manifests/kuuos_lifecycle_bounded_transition_review_v0_17.json",
+        "docs/lifecycle_bounded_transition_review_v0_17.md"
+      ],
+      "depends_on": [
+        "lifecycle-bounded-post-operation-review-v0-16",
+        "repository-runtime-v124"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
