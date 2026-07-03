@@ -1,0 +1,15 @@
+{
+  "manifest_version": "lifecycle_bounded_transition_approval_v0_20",
+  "series": "independent_lifecycle_governance",
+  "depends_on": "lifecycle_bounded_transition_preparation_v0_19",
+  "source_recomputation_required": true,
+  "prepared_source_required": true,
+  "approval_route_recomputation_required": true,
+  "package_route_binding_required": true,
+  "approver_authority_required": true,
+  "approver_separation_required": true,
+  "package_freshness_required": true,
+  "state_staleness_check_required": true,
+  "separate_start_authorization_required_next": true,
+  "read_only": true
+}
