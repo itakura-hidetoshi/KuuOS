@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "lifecycle-bounded-authorization-decision-v0-12": {
+      "name": "KuuOS lifecycle bounded authorization decision v0.12",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_lifecycle_authorization_decision_check_v0_12.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*lifecycle*authorization*decision*v0_12.py",
+        "tests/*lifecycle*authorization*decision*v0_12.py",
+        "formal/KUOS/WORLD/KuuOSLifecycle*V0_12.lean",
+        "formal/KuuOSLifecycleStageV0_12.lean",
+        "manifests/kuuos_lifecycle_bounded_authorization_decision_v0_12.json",
+        "docs/lifecycle_bounded_authorization_decision_v0_12.md"
+      ],
+      "depends_on": [
+        "lifecycle-bounded-decision-review-v0-11",
+        "repository-runtime-v124"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
