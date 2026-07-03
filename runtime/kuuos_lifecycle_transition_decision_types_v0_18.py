@@ -135,6 +135,7 @@ class LifecycleTransitionDecisionEvidenceV018:
     current_state: LifecycleStateV018
     target_state: LifecycleStateV018
     transition_rule: LifecycleTransitionRuleV018
+    transition_preparation_route_digest: str
     decision_rationale_digest: str
     decision_approved: bool
     denial_route_digest: str
@@ -184,6 +185,7 @@ class LifecycleTransitionDecisionSubmissionV018:
     proposed_transition_kind: str
     expected_current_lifecycle_state_digest: str
     proposed_target_lifecycle_state_digest: str
+    transition_preparation_route_digest: str
     transition_preparation_deadline_at_epoch_seconds: int
     decision_digest: str
     version: str = VERSION
@@ -208,6 +210,7 @@ class LifecycleTransitionDecisionArtifactV018:
     expected_current_lifecycle_state_digest: str
     proposed_target_lifecycle_state_digest: str
     transition_rule_digest: str
+    transition_preparation_route_digest: str
     policy_digest: str
     decision_digest: str
     evidence_digest: str
