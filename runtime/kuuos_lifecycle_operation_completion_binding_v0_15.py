@@ -129,6 +129,7 @@ def evidence_issues(
         "_intact",
         "_released",
         "_ready",
+        "_finished",
     )
     for item in fields(value):
         if item.name in exempt or item.name.endswith(boolean_suffixes):
