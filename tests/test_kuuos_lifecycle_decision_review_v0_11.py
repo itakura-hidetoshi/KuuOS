@@ -33,7 +33,7 @@ class LifecycleDecisionReviewV011Tests(LifecycleDecisionReviewFixtureV011):
         blocked_source = (*source[:3], blocked_source_record, source[4])
         blocked_evidence = self.make_review_evidence(blocked_source)
         blocked_review = self.make_review_submission(blocked_source, blocked_evidence)
-        checks["blocked_source_rejected"] = (
+        blocked_source_rejected = (
             self.evaluate_review(blocked_source, blocked_evidence, blocked_review).status
             == REJECTED
         )
@@ -49,9 +49,12 @@ class LifecycleDecisionReviewV011Tests(LifecycleDecisionReviewFixtureV011):
         rejected_source = (*source[:3], rejected_source_record, source[4])
         rejected_evidence = self.make_review_evidence(rejected_source)
         rejected_review = self.make_review_submission(rejected_source, rejected_evidence)
-        checks["rejected_source_rejected"] = (
+        rejected_source_rejected = (
             self.evaluate_review(rejected_source, rejected_evidence, rejected_review).status
             == REJECTED
+        )
+        checks["non_issued_source_rejected"] = (
+            blocked_source_rejected and rejected_source_rejected
         )
 
         tampered_record = self.refresh_source_record(source[3], reason="fresh-digest-tamper")
