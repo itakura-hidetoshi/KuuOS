@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "lifecycle-bounded-transition-approval-v0-20": {
+      "name": "KuuOS lifecycle bounded transition approval v0.20",
+      "runner": "python",
+      "command": "python3 -m unittest tests.test_kuuos_lifecycle_transition_approval_v0_20 tests.test_kuuos_lifecycle_transition_approval_stage_order_v0_20",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*lifecycle*transition*approval*v0_20.py",
+        "tests/*lifecycle*transition*approval*v0_20.py",
+        "formal/KUOS/WORLD/KuuOSLifecycleStageV0_20.lean",
+        "formal/KuuOSLifecycleStageV0_20.lean",
+        "manifests/kuuos_lifecycle_bounded_transition_approval_v0_20.json",
+        "docs/lifecycle_bounded_transition_approval_v0_20.md"
+      ],
+      "depends_on": [
+        "lifecycle-bounded-transition-preparation-v0-19",
+        "repository-runtime-v124"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
