@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "lifecycle-bounded-operation-completion-v0-15": {
+      "name": "KuuOS lifecycle bounded operation completion v0.15",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_lifecycle_operation_completion_check_v0_15.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*lifecycle*operation*completion*v0_15.py",
+        "tests/*lifecycle*operation*completion*v0_15.py",
+        "formal/KUOS/WORLD/KuuOSLifecycleStageV0_15.lean",
+        "formal/KuuOSLifecycleStageV0_15.lean",
+        "manifests/kuuos_lifecycle_bounded_operation_completion_v0_15.json",
+        "docs/lifecycle_bounded_operation_completion_v0_15.md"
+      ],
+      "depends_on": [
+        "lifecycle-bounded-operation-start-v0-14",
+        "repository-runtime-v124"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
