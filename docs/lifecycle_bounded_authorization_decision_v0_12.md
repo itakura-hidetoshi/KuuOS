@@ -158,11 +158,15 @@ source、policy、submission、evidence、identity、role separation、時間境
 
 rejected入力では有効なauthorization decision recordを発行しません。
 
-## 非実行境界
+## 段階限定の非実行境界
 
-v0.12ではauthorization decisionだけが許可されます。
+v0.12ではauthorization decisionを実際に行います。
 
-次はすべて常にfalseです。
+ただし、operation approvalとoperation executionは後続の責務として分離します。
+
+この分離はv0.12の段階境界であり、将来段階におけるoperation approval、operation execution、lifecycle effect、repository mutationの能力を禁止する恒久的な規範ではありません。
+
+v0.12 artifactでは次をすべてfalseに固定します。
 
 - operation approved。
 - operation started。
@@ -187,8 +191,8 @@ authorization decision approved
 
 focused auditは20項目で構成します。
 
-監査対象はvalid approval、non-clear source rejection、完全再計算、fresh-digest tamper、immutable binding、identity policy、designated decision maker binding、role separation、mandate、qualification、conflict、jurisdiction、quorum、reasoned decision、proportionality、alternatives、irreversibility、human impact、route、package safety、時間境界、非実行境界、決定性、record integrityです。
+監査対象はvalid approval、non-clear source rejection、完全再計算、fresh-digest tamper、immutable binding、identity policy、designated decision maker binding、role separation、mandate、qualification、conflict、jurisdiction、quorum、reasoned decision、proportionality、alternatives、irreversibility、human impact、route、package safety、時間境界、段階限定の非実行境界、決定性、record integrityです。
 
-Lean境界はapprovedがauthorization decisionであること、approvedが別のoperation-approval層だけへroutingすること、deniedが後続へ進まないこと、rejectedが有効なdecision recordを発行しないこと、全状態がoperation effectとlifecycle effectを行わないこと、同一入力に対する決定性を固定します。
+Lean境界はapprovedがauthorization decisionであること、approvedが別のoperation-approval層だけへroutingすること、deniedが後続へ進まないこと、rejectedが有効なdecision recordを発行しないこと、v0.12の全状態がoperation effectとlifecycle effectを行わないこと、同一入力に対する決定性を固定します。
 
 Lean成功は、現実のmandate、qualification、independence、jurisdiction、quorum、比例原則、倫理的妥当性、resource safety、rollback effectiveness、法的適合性、または将来のoperationの妥当性を証明しません。
