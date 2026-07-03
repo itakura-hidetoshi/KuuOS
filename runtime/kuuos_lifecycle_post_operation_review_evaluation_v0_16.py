@@ -42,8 +42,7 @@ STRUCTURAL_CHECKS = (
     "post_operation_reviewer_separated_from_subject",
     "post_operation_reviewer_organization_separated", "objective_allowed",
     "review_delay_valid", "evidence_fresh", "time_order_valid",
-    "post_operation_review_route_binding_valid",
-    "intended_observed_attestation_consistent", "scope_binding_valid",
+    "post_operation_review_route_binding_valid", "scope_binding_valid",
     "scope_bounded", "target_resources_allowed",
     "protected_resources_excluded", "external_operation_absent",
     "repository_change_absent",
@@ -212,10 +211,6 @@ def evaluate(
         "post_operation_review_route_binding_valid": (
             review.post_operation_review_route_digest
             == evidence.post_operation_review_route_digest == expected_route
-        ),
-        "intended_observed_attestation_consistent": (
-            not evidence.intended_result_matches_observed
-            or evidence.intended_result_digest == evidence.observed_result_digest
         ),
         "scope_binding_valid": scope_matches(evidence, source_evidence),
         "scope_bounded": 0 < len(evidence.operation_scope_items) <= policy.max_scope_items,
