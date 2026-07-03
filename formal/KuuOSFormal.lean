@@ -133,3 +133,4 @@ import KUOS.WORLD.KuuOSLifecycleStageV0_11
 import KUOS.WORLD.KuuOSLifecycleStageV0_12
 import KUOS.WORLD.KuuOSLifecycleStageV0_13
 import KUOS.WORLD.KuuOSLifecycleStageV0_14
+import KUOS.WORLD.KuuOSLifecycleStageV0_15
