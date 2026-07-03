@@ -24,9 +24,9 @@ class LifecycleAuthorizationDecisionV012Tests(
         decision = self.make_authorization_submission(source, evidence)
         approved = self.evaluate_decision(source, evidence, decision)
 
-        checks["valid_input_produces_approval"] = approved.status == APPROVED
-        checks["approval_is_real_decision"] = (
-            approved.decision_record_issued
+        checks["valid_input_produces_real_approval"] = (
+            approved.status == APPROVED
+            and approved.decision_record_issued
             and approved.authorization_decision_made
             and approved.operation_approved
             and approved.operation_start_required_next
