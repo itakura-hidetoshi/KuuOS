@@ -1,0 +1,13 @@
+{
+  "manifest_version": "lifecycle_bounded_transition_preparation_v0_19",
+  "series": "independent_lifecycle_governance",
+  "depends_on": "lifecycle_bounded_transition_decision_v0_18",
+  "source_recomputation_required": true,
+  "approved_source_required": true,
+  "state_rule_binding_required": true,
+  "ordered_package_required": true,
+  "recovery_controls_required": true,
+  "role_separation_required": true,
+  "separate_approval_required_next": true,
+  "read_only": true
+}
