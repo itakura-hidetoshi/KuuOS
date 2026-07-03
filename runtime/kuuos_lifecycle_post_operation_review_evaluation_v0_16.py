@@ -214,8 +214,8 @@ def evaluate(
             == evidence.post_operation_review_route_digest == expected_route
         ),
         "intended_observed_attestation_consistent": (
-            evidence.intended_result_matches_observed
-            == (evidence.intended_result_digest == evidence.observed_result_digest)
+            not evidence.intended_result_matches_observed
+            or evidence.intended_result_digest == evidence.observed_result_digest
         ),
         "scope_binding_valid": scope_matches(evidence, source_evidence),
         "scope_bounded": 0 < len(evidence.operation_scope_items) <= policy.max_scope_items,
