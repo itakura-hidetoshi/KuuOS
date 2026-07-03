@@ -25,7 +25,7 @@ from runtime.kuuos_lifecycle_transition_review_types_v0_17 import (
     LifecycleTransitionReviewSubmissionV017,
 )
 
-SOURCE_ORDER_CHECK = "source_transition_review_precedes_transition_decision_request"
+SOURCE_ORDER_CHECK = "source_transition_review_and_decision_deadline_valid"
 
 
 def compute_artifact(
@@ -51,6 +51,8 @@ def compute_artifact(
     checks[SOURCE_ORDER_CHECK] = (
         source_review.reviewed_at_epoch_seconds
         <= decision.decision_requested_at_epoch_seconds
+        <= decision.decided_at_epoch_seconds
+        <= source_review.transition_decision_deadline_at_epoch_seconds
     )
     if not checks[SOURCE_ORDER_CHECK] or not all(
         checks[name] for name in STRUCTURAL_CHECKS
