@@ -1,0 +1,21 @@
+{
+  "manifest_version": "lifecycle_bounded_operation_completion_v0_15",
+  "series": "apoptosis_lifecycle_governance",
+  "depends_on": "lifecycle_bounded_operation_start_v0_14",
+  "source_recomputation_required": true,
+  "started_source_operation_required": true,
+  "source_start_artifact_immutable_binding_required": true,
+  "completion_reviewer_operator_separation_required": true,
+  "completion_evidence_integrity_required": true,
+  "operation_completion_performed": true,
+  "operation_completion_artifact_only": true,
+  "separate_post_operation_review_required_after_completion": true,
+  "separate_recovery_required_after_denial": true,
+  "lifecycle_state_read_only": true,
+  "repository_read_only": true,
+  "operation_started": true,
+  "operation_completed": true,
+  "external_operation_performed": false,
+  "lifecycle_effect_performed": false,
+  "repository_change_performed": false
+}
