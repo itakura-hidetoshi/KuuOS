@@ -23,17 +23,13 @@ from tests.kuuos_lifecycle_authorization_decision_fixture_v0_12 import (
 
 class LifecycleOperationApprovalFixtureV013(unittest.TestCase):
     def setUp(self) -> None:
-        self.upstream = LifecycleAuthorizationDecisionFixtureV012(
-            methodName="runTest"
-        )
+        self.upstream = LifecycleAuthorizationDecisionFixtureV012(methodName="runTest")
         self.upstream.setUp()
         source = self.make_source()
         source_decision = source[0]
         self.operation_approver_id = "lifecycle-operation-approver-001"
-        self.operation_approver_organization_id = (
-            "lifecycle-operation-approval-organization"
-        )
-        self.approval_requested_at = self.upstream.completed_at + 20
+        self.operation_approver_organization_id = "lifecycle-operation-approval-organization"
+        self.approval_requested_at = source_decision.completed_at_epoch_seconds + 20
         self.captured_at = self.approval_requested_at + 10
         self.completed_at = self.approval_requested_at + 20
         self.approval_expiry_at = self.completed_at + 40
@@ -46,10 +42,7 @@ class LifecycleOperationApprovalFixtureV013(unittest.TestCase):
                 self.operation_approver_organization_id,
             ),
             allowed_future_operator_ids=(source_decision.future_operator_id,),
-            allowed_target_resource_ids=(
-                "subject-runtime-state",
-                "subject-intake-gate",
-            ),
+            allowed_target_resource_ids=("subject-runtime-state", "subject-intake-gate"),
             max_approval_delay_seconds=120,
             max_evidence_age_seconds=120,
             max_approval_expiry_seconds=90,
@@ -59,33 +52,12 @@ class LifecycleOperationApprovalFixtureV013(unittest.TestCase):
         )
 
     def make_source(self):
-        authorization_source = self.upstream.make_source()
-        authorization_evidence = self.upstream.make_decision_evidence(
-            authorization_source
-        )
-        authorization_decision = self.upstream.make_decision_submission(
-            authorization_source,
-            authorization_evidence,
-        )
-        record = self.upstream.evaluate_decision(
-            authorization_source,
-            authorization_evidence,
-            authorization_decision,
-        )
-        source_args = (
-            authorization_source[0],
-            authorization_source[1],
-            authorization_source[2],
-            authorization_source[3],
-            *authorization_source[4],
-        )
-        return (
-            authorization_decision,
-            authorization_evidence,
-            self.upstream.policy,
-            record,
-            source_args,
-        )
+        source = self.upstream.make_source()
+        evidence = self.upstream.make_decision_evidence(source)
+        decision = self.upstream.make_decision_submission(source, evidence)
+        record = self.upstream.evaluate_decision(source, evidence, decision)
+        source_args = (source[0], source[1], source[2], source[3], *source[4])
+        return decision, evidence, self.upstream.policy, record, source_args
 
     @staticmethod
     def refresh_source_record(record, **changes):
@@ -107,9 +79,7 @@ class LifecycleOperationApprovalFixtureV013(unittest.TestCase):
             "evidence_id": "lifecycle-operation-approval-evidence-001",
             "operation_approval_id": "lifecycle-operation-approval-001",
             "operation_approver_id": self.operation_approver_id,
-            "operation_approver_organization_id": (
-                self.operation_approver_organization_id
-            ),
+            "operation_approver_organization_id": self.operation_approver_organization_id,
             "approver_mandate_receipt_digest": "m" * 64,
             "approver_mandate_verified": True,
             "approver_qualification_receipt_digest": "q" * 64,
@@ -136,44 +106,25 @@ class LifecycleOperationApprovalFixtureV013(unittest.TestCase):
             "approval_requested_at_epoch_seconds": self.approval_requested_at,
             "captured_at_epoch_seconds": self.captured_at,
             "completed_at_epoch_seconds": self.completed_at,
-            "operation_approval_expiry_at_epoch_seconds": (
-                self.approval_expiry_at
-            ),
-            "operation_start_window_open_at_epoch_seconds": (
-                self.start_window_open_at
-            ),
-            "operation_start_deadline_at_epoch_seconds": (
-                self.operation_start_deadline_at
-            ),
+            "operation_approval_expiry_at_epoch_seconds": self.approval_expiry_at,
+            "operation_start_window_open_at_epoch_seconds": self.start_window_open_at,
+            "operation_start_deadline_at_epoch_seconds": self.operation_start_deadline_at,
         }
         values.update(overrides)
-        return make_evidence(
-            source[0],
-            source[1],
-            source[2],
-            source[3],
-            source[4],
-            **values,
-        )
+        return make_evidence(source[0], source[1], source[2], source[3], source[4], **values)
 
     def make_approval_submission(self, source, evidence, **overrides):
         values = {
             "operation_approval_id": "lifecycle-operation-approval-001",
             "operation_approver_id": self.operation_approver_id,
-            "operation_approver_organization_id": (
-                self.operation_approver_organization_id
-            ),
+            "operation_approver_organization_id": self.operation_approver_organization_id,
             "approval_requested_at_epoch_seconds": self.approval_requested_at,
             "completed_at_epoch_seconds": self.completed_at,
             "source_decision": source[0],
             "source_record": source[3],
             "approval_evidence": evidence,
-            "operation_approval_route_digest": (
-                evidence.operation_approval_route_digest
-            ),
-            "operation_start_deadline_at_epoch_seconds": (
-                evidence.operation_start_deadline_at_epoch_seconds
-            ),
+            "operation_approval_route_digest": evidence.operation_approval_route_digest,
+            "operation_start_deadline_at_epoch_seconds": evidence.operation_start_deadline_at_epoch_seconds,
         }
         values.update(overrides)
         return make_submission(**values)
@@ -183,31 +134,11 @@ class LifecycleOperationApprovalFixtureV013(unittest.TestCase):
             approval,
             evidence,
             self.policy if policy is None else policy,
-            source[0],
-            source[1],
-            source[2],
-            source[3],
-            *source[4],
+            source[0], source[1], source[2], source[3], *source[4],
         )
 
-    def evaluate_approval(
-        self,
-        source=None,
-        evidence=None,
-        approval=None,
-        policy=None,
-    ):
+    def evaluate_approval(self, source=None, evidence=None, approval=None, policy=None):
         source = self.make_source() if source is None else source
-        evidence = (
-            self.make_approval_evidence(source)
-            if evidence is None
-            else evidence
-        )
-        approval = (
-            self.make_approval_submission(source, evidence)
-            if approval is None
-            else approval
-        )
-        return verify_artifact(
-            *self.artifact_args(source, evidence, approval, policy)
-        )
+        evidence = self.make_approval_evidence(source) if evidence is None else evidence
+        approval = self.make_approval_submission(source, evidence) if approval is None else approval
+        return verify_artifact(*self.artifact_args(source, evidence, approval, policy))
