@@ -133,6 +133,8 @@ structure TransitionDecisionWitness.ValidApproved
     w.transitionPreparationRouteRequiredNext = true
   appealOrReconsiderationNotRequired :
     w.appealOrReconsiderationAvailable = false
+  transitionNotPerformed :
+    w.decisionEffects.lifecycleTransitionPerformed = false
 
 structure TransitionDecisionWitness.ValidDenied
     (w : TransitionDecisionWitness) : Prop where
@@ -197,7 +199,7 @@ theorem approved_routes_only_to_separate_transition_preparation
   exact ⟨h.transitionDecisionMade,
     h.transitionPreparationRequiredNext,
     h.transitionPreparationRouteRequiredNext,
-    rfl⟩
+    h.transitionNotPerformed⟩
 
 theorem denied_issues_record_without_preparation
     (w : TransitionDecisionWitness)
