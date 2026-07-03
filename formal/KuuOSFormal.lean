@@ -129,3 +129,4 @@ import KUOS.WORLD.KuuOSApoptosisIndependentAuthorizationV0_7
 import KUOS.WORLD.KuuOSApoptosisBoundedExecutionPreparationV0_8
 import KUOS.WORLD.KuuOSLifecycleReviewV0_9
 import KUOS.WORLD.KuuOSLifecycleBoundedRequestV0_10
+import KuuOSLifecycleStageV0_11
