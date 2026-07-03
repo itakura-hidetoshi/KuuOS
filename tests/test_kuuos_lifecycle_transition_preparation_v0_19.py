@@ -133,6 +133,7 @@ class LifecycleTransitionPreparationV019Tests(
     def test_discontinuous_or_unordered_step_chain_is_rejected(self) -> None:
         source = self.make_source()
         package = self.make_transition_package(source)
+        valid_evidence = self.make_preparation_evidence(source, package)
         second = replace(
             package.steps[1],
             expected_pre_state_digest="w" * 64,
@@ -140,25 +141,21 @@ class LifecycleTransitionPreparationV019Tests(
         )
         second = replace(second, step_digest=step_digest(second))
         broken = self.refresh_package(package, steps=(package.steps[0], second))
-        evidence = self.make_preparation_evidence(source, broken)
-        preparation = self.make_preparation(source, evidence)
-        self.assertEqual(
-            self.evaluate_preparation(
-                source, broken, evidence, preparation
-            ).status,
-            REJECTED,
-        )
         reordered = self.refresh_package(
             package, steps=(package.steps[1], package.steps[0])
         )
-        evidence = self.make_preparation_evidence(source, reordered)
-        preparation = self.make_preparation(source, evidence)
-        self.assertEqual(
-            self.evaluate_preparation(
-                source, reordered, evidence, preparation
-            ).status,
-            REJECTED,
-        )
+        for changed_package in (broken, reordered):
+            evidence = self.refresh_evidence(
+                valid_evidence,
+                transition_package=changed_package,
+            )
+            preparation = self.make_preparation(source, evidence)
+            self.assertEqual(
+                self.evaluate_preparation(
+                    source, changed_package, evidence, preparation
+                ).status,
+                REJECTED,
+            )
 
     def test_action_resource_and_step_bounds_are_enforced(self) -> None:
         source = self.make_source()
