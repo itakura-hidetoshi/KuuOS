@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "lifecycle-bounded-operation-approval-v0-13": {
+      "name": "KuuOS lifecycle bounded operation approval v0.13",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_lifecycle_operation_approval_check_v0_13.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*lifecycle*operation*approval*v0_13.py",
+        "tests/*lifecycle*operation*approval*v0_13.py",
+        "formal/KUOS/WORLD/KuuOSLifecycleStageV0_13.lean",
+        "formal/KuuOSLifecycleStageV0_13.lean",
+        "manifests/kuuos_lifecycle_bounded_operation_approval_v0_13.json",
+        "docs/lifecycle_bounded_operation_approval_v0_13.md"
+      ],
+      "depends_on": [
+        "lifecycle-bounded-authorization-decision-v0-12",
+        "repository-runtime-v124"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
