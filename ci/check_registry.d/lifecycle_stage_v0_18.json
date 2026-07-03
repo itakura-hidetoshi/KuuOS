@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "lifecycle-bounded-transition-decision-v0-18": {
+      "name": "KuuOS lifecycle bounded transition decision v0.18",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_lifecycle_transition_decision_check_v0_18.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*lifecycle*transition*decision*v0_18.py",
+        "tests/*lifecycle*transition*decision*v0_18.py",
+        "formal/KUOS/WORLD/KuuOSLifecycleStageV0_18.lean",
+        "formal/KuuOSLifecycleStageV0_18.lean",
+        "manifests/kuuos_lifecycle_bounded_transition_decision_v0_18.json",
+        "docs/lifecycle_bounded_transition_decision_v0_18.md"
+      ],
+      "depends_on": [
+        "lifecycle-bounded-transition-review-v0-17",
+        "repository-runtime-v124"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}

@@ -136,3 +136,4 @@ import KUOS.WORLD.KuuOSLifecycleStageV0_14
 import KUOS.WORLD.KuuOSLifecycleStageV0_15
 import KUOS.WORLD.KuuOSLifecycleStageV0_16
 import KUOS.WORLD.KuuOSLifecycleStageV0_17
+import KUOS.WORLD.KuuOSLifecycleStageV0_18
