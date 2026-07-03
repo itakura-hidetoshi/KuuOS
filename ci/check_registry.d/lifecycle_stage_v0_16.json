@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "lifecycle-bounded-post-operation-review-v0-16": {
+      "name": "KuuOS lifecycle bounded post-operation review v0.16",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_lifecycle_post_operation_review_check_v0_16.py",
+      "group": "self-organization",
+      "tier": "integration",
+      "paths": [
+        "runtime/*lifecycle*post*operation*review*v0_16.py",
+        "tests/*lifecycle*post*operation*review*v0_16.py",
+        "formal/KUOS/WORLD/KuuOSLifecycleStageV0_16.lean",
+        "formal/KuuOSLifecycleStageV0_16.lean",
+        "manifests/kuuos_lifecycle_bounded_post_operation_review_v0_16.json",
+        "docs/lifecycle_bounded_post_operation_review_v0_16.md"
+      ],
+      "depends_on": [
+        "lifecycle-bounded-operation-completion-v0-15",
+        "repository-runtime-v124"
+      ],
+      "timeout_minutes": 45,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
