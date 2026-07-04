@@ -10,6 +10,8 @@ CURRENT_RUNTIME_ROOT = "runtime/kuuos_current_check.py"
 CURRENT_LEAN_ROOT = "formal/KuuOSFormal.lean"
 CLOSED_MUTATION_ROOT = "runtime/kuuos_v124_check.py"
 LEGACY_RUNTIME_ROOT = "scripts/run_kuuos_runtime_full_check_v0_55.py"
+SELF_ORGANIZATION_TEST = "tests.test_kuuos_repo_index_v0_37"
+LIFECYCLE_COMPLETION_TEST = "tests.test_kuuos_lifecycle_completion_v0_36"
 
 
 @dataclass(frozen=True)
@@ -81,7 +83,7 @@ INTEGRATED_LINES: tuple[KuuOSLine, ...] = (
         "apoptosis-lifecycle-governance",
         "v0.1-v0.36",
         "terminal-completion-integrated",
-        "tests.test_kuuos_lifecycle_completion_v0_36",
+        LIFECYCLE_COMPLETION_TEST,
         "no-following-lifecycle-route",
         "Independent lifecycle line; not repository mutation roadmap v1.25.",
     ),
@@ -89,7 +91,7 @@ INTEGRATED_LINES: tuple[KuuOSLine, ...] = (
         "repository-self-organization",
         "v0.37",
         "organization-index-frontier",
-        "tests.test_kuuos_repository_self_organization_v0_37",
+        SELF_ORGANIZATION_TEST,
         "index-only-unless-explicitly-extended",
         "Machine-readable repository map and current-root organization check.",
     ),
@@ -99,7 +101,7 @@ RUNTIME_ROOTS: tuple[KuuOSRoot, ...] = (
     KuuOSRoot(
         CURRENT_RUNTIME_ROOT,
         "current-root",
-        (CLOSED_MUTATION_ROOT, "tests.test_kuuos_lifecycle_completion_v0_36", "tests.test_kuuos_repository_self_organization_v0_37"),
+        (CLOSED_MUTATION_ROOT, LIFECYCLE_COMPLETION_TEST, SELF_ORGANIZATION_TEST),
         ("unmerged proposals", "closed branches", "v0.77 proposal material"),
     ),
     KuuOSRoot(
@@ -178,9 +180,9 @@ def organization_issues() -> tuple[str, ...]:
     root = current_root()
     if CLOSED_MUTATION_ROOT not in root.includes:
         issues.append("current_root_missing_closed_mutation_root")
-    if "tests.test_kuuos_lifecycle_completion_v0_36" not in root.includes:
+    if LIFECYCLE_COMPLETION_TEST not in root.includes:
         issues.append("current_root_missing_lifecycle_completion")
-    if "tests.test_kuuos_repository_self_organization_v0_37" not in root.includes:
+    if SELF_ORGANIZATION_TEST not in root.includes:
         issues.append("current_root_missing_self_organization")
     lifecycle = [line for line in INTEGRATED_LINES if line.name == "apoptosis-lifecycle-governance"]
     if len(lifecycle) != 1 or lifecycle[0].successor_policy != "no-following-lifecycle-route":
