@@ -136,7 +136,7 @@ def _source_ready(record) -> bool:
     return all((record.status == SOURCE_APPROVED, record.completion_review_record_issued, record.completion_review_completed, record.completion_review_approved, record.ready_for_separate_transition_completion, record.transition_completion_required_next, record.transition_completion_route_required_next, not record.lifecycle_transition_completed, not record.lifecycle_transition_performed, not record.external_operation_performed, not record.repository_changed, record.lifecycle_state_read_only, record.repository_read_only))
 
 def _prior_actor_ids(source_review, source_evidence) -> set[str]:
-    return {source_review.subject_id, source_review.requester_id, source_review.source_transition_operator_id, source_review.completion_reviewer_id, source_evidence.source_transition_start_id}
+    return {source_review.subject_id, source_review.requester_id, source_review.completion_reviewer_id, source_evidence.source_transition_start_id}
 
 def evaluate(completion: Rec, evidence: Rec, policy: Rec, source_review, source_evidence, source_policy, source_record, source_args: tuple[Any, ...]) -> tuple[dict[str, bool], dict[str, str]]:
     expected_digests = all_source_digests(source_review, source_evidence, source_policy, source_record, source_args)
