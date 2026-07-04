@@ -1,0 +1,1 @@
+{"manifest_version":"lifecycle_bounded_repository_mutation_execution_v0_29","depends_on":"lifecycle_bounded_repository_mutation_execution_preparation_v0_28","repository_read_only":true,"target_repository_changes_applied":false,"uncontrolled_effects_absent":true}
