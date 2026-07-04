@@ -1,0 +1,5 @@
+repo-index-v0-37
+python3 -m unittest tests.test_kuuos_repo_index_v0_37
+runtime/kuuos_repository_self_organization_v0_37.py
+tests/test_kuuos_repo_index_v0_37.py
+runtime/kuuos_current_check.py
