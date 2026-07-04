@@ -1,0 +1,1 @@
+{"manifest_version":"lifecycle_post_apoptosis_quarantine_v0_32","depends_on":"lifecycle_apoptosis_closure_review_v0_31","repository_read_only":true,"repository_changed":false,"post_apoptosis_quarantine_required":true,"post_apoptosis_observation_required_next":true}
