@@ -10,9 +10,11 @@ REPOSITORY_MUTATION_ROOT = "runtime/kuuos_v124_check.py"
 LIFECYCLE_COMPLETION_TEST = "tests.test_kuuos_lifecycle_completion_v0_36"
 REPOSITORY_INDEX_TEST = "tests.test_kuuos_repo_index_v0_37"
 REPOSITORY_STRUCTURE_MAP_TEST = "tests.test_kuuos_repository_structure_map_v0_38"
+REPOSITORY_CLEANUP_PROPOSALS_TEST = "tests.test_kuuos_repository_cleanup_proposals_v0_39"
 LIFECYCLE_FRONTIER = "kuuos_lifecycle_completion_v0_36"
 REPOSITORY_INDEX_FRONTIER = "kuuos_repository_self_organization_v0_37"
 REPOSITORY_STRUCTURE_FRONTIER = "kuuos_repository_structure_map_v0_38"
+REPOSITORY_CLEANUP_FRONTIER = "kuuos_repository_cleanup_proposals_v0_39"
 
 
 def _run_unittest_module(module_name: str) -> int:
@@ -31,7 +33,10 @@ def run_current() -> int:
     index_status = _run_unittest_module(REPOSITORY_INDEX_TEST)
     if index_status != 0:
         return index_status
-    return _run_unittest_module(REPOSITORY_STRUCTURE_MAP_TEST)
+    structure_status = _run_unittest_module(REPOSITORY_STRUCTURE_MAP_TEST)
+    if structure_status != 0:
+        return structure_status
+    return _run_unittest_module(REPOSITORY_CLEANUP_PROPOSALS_TEST)
 
 
 if __name__ == "__main__":
