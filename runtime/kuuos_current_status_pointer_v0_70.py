@@ -5,7 +5,7 @@ import json
 from pathlib import Path
 from typing import Any
 
-from runtime import kuuos_current_root_sequence_v0_69 as current_root
+from runtime import kuuos_current_root_sequence_v0_70 as current_root
 from runtime import kuuos_status_index_v0_69 as status_index
 
 VERSION = "kuuos_current_status_pointer_v0_70"
