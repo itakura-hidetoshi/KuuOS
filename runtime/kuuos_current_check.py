@@ -4,10 +4,10 @@ from __future__ import annotations
 import importlib
 import unittest
 
-from runtime.kuuos_current_root_sequence_v0_76 import CURRENT_ROOT_STEPS
+from runtime.kuuos_current_root_sequence_v0_77 import CURRENT_ROOT_STEPS
 
 CURRENT_RUNTIME_ROOT = "runtime/kuuos_current_check.py"
-CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_76"
+CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_77"
 
 
 def _run_unittest_module(module_name: str) -> int:
