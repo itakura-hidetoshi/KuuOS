@@ -1,0 +1,1 @@
+{"version":"root_map_adoption_readiness_v0_50","depends_on":"root_map_adoption_proposal_v0_49","read_only":true,"metadata_only":true,"adoption_performed":false,"checks":["proposal_verifies","proposal_only_boundary_present","automatic_adoption_blocked","future_stage_required","mutation_authority_absent"]}
