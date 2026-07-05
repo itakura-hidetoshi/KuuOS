@@ -1,0 +1,10 @@
+{
+  "active_self_organization": true,
+  "authority_boundary": "status_index_not_authority_grant",
+  "current_root_check": "runtime/kuuos_current_check.py",
+  "current_root_sequence": "kuuos_current_root_sequence_v0_68",
+  "index_schema_version": "v0.69",
+  "latest_self_organization_snapshot": "status/kuuos_self_organization_status_v0_68.json",
+  "latest_self_organization_snapshot_runtime": "runtime/kuuos_self_organization_status_snapshot_v0_68.py",
+  "status_index_frontier": "kuuos_status_index_v0_69"
+}
