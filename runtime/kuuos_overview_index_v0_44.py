@@ -17,11 +17,12 @@ class OverviewEntry:
 
 
 OVERVIEW_ENTRIES: tuple[OverviewEntry, ...] = (
-    OverviewEntry("current-check", "runtime/kuuos_current_check.py", "entry point", "runtime.v124_checkpoint_reflog_runtime:run_v124"),
+    OverviewEntry("current-check", "runtime/kuuos_current_check.py", "entry point", "runtime.kuuos_ci_continuation_v0_45:run_current_continuation"),
     OverviewEntry("sequence", "runtime/kuuos_current_root_sequence_v0_41.py", "ordered checks", "tests.test_kuuos_current_root_sequence_v0_41"),
     OverviewEntry("manifest-index", "runtime/kuuos_manifest_index_v0_42.py", "metadata list", "tests.test_kuuos_manifest_index_v0_42"),
     OverviewEntry("docs-index", "runtime/kuuos_docs_index_v0_43.py", "docs list", "tests.test_kuuos_docs_index_v0_43"),
     OverviewEntry("overview-index", "runtime/kuuos_overview_index_v0_44.py", "overview list", "tests.test_kuuos_overview_index_v0_44"),
+    OverviewEntry("ci-continuation", "runtime/kuuos_ci_continuation_v0_45.py", "run-all-then-decide CI layer", "tests.test_kuuos_ci_continuation_v0_45"),
 )
 
 
@@ -46,7 +47,7 @@ def overview_issues() -> tuple[str, ...]:
             issues.append("missing_role:" + entry.entry_id)
         if not entry.check:
             issues.append("missing_check:" + entry.entry_id)
-    required = {"current-check", "sequence", "manifest-index", "docs-index", "overview-index"}
+    required = {"current-check", "sequence", "manifest-index", "docs-index", "overview-index", "ci-continuation"}
     missing = required.difference(entry_ids())
     if missing:
         issues.append("missing_overview_entry:" + ",".join(sorted(missing)))

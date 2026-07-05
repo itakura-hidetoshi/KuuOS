@@ -60,6 +60,27 @@ MANIFEST_ENTRIES: tuple[ManifestEntry, ...] = (
         "manifest index metadata",
         1,
     ),
+    ManifestEntry(
+        "docs-index-v0-43",
+        "manifests/kuuos_docs_index_v0_43.json",
+        "manifest_index_v0_42",
+        "documentation index metadata",
+        1,
+    ),
+    ManifestEntry(
+        "overview-index-v0-44",
+        "manifests/kuuos_overview_index_v0_44.json",
+        "docs_index_v0_43",
+        "overview index metadata",
+        1,
+    ),
+    ManifestEntry(
+        "ci-continuation-v0-45",
+        "manifests/kuuos_ci_continuation_v0_45.json",
+        "overview_index_v0_44",
+        "run-all-then-decide CI continuation metadata",
+        1,
+    ),
 )
 
 
@@ -95,6 +116,9 @@ def manifest_index_issues() -> tuple[str, ...]:
         "repository-frontier-summary-v0-40",
         "current-root-sequence-v0-41",
         "manifest-index-v0-42",
+        "docs-index-v0-43",
+        "overview-index-v0-44",
+        "ci-continuation-v0-45",
     }
     missing = required.difference(manifest_stages())
     if missing:
