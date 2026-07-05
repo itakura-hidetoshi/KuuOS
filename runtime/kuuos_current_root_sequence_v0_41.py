@@ -74,6 +74,13 @@ CURRENT_ROOT_STEPS: tuple[CurrentRootStep, ...] = (
         True,
         "Manifest metadata index remains checked from the current root.",
     ),
+    CurrentRootStep(
+        "docs-index-v0-43",
+        "unittest",
+        "tests.test_kuuos_docs_index_v0_43",
+        True,
+        "Documentation index remains checked from the current root.",
+    ),
 )
 
 
@@ -116,6 +123,7 @@ def sequence_issues() -> tuple[str, ...]:
         "tests.test_kuuos_repository_frontier_summary_v0_40",
         "tests.test_kuuos_current_root_sequence_v0_41",
         "tests.test_kuuos_manifest_index_v0_42",
+        "tests.test_kuuos_docs_index_v0_43",
     }
     missing = required_targets.difference(unittest_targets())
     if missing:
