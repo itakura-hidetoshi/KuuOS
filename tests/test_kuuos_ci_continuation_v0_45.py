@@ -72,7 +72,12 @@ class CIContinuationV045Test(unittest.TestCase):
             current_check.CURRENT_ROOT_SEQUENCE_FRONTIER,
             "kuuos_ci_continuation_v0_45",
         )
-        self.assertEqual(current_check.run_current(), continuation.run_current_continuation())
+        original = current_check.kuuos_ci_continuation_v0_45.run_current_continuation
+        try:
+            current_check.kuuos_ci_continuation_v0_45.run_current_continuation = lambda: 0
+            self.assertEqual(current_check.run_current(), 0)
+        finally:
+            current_check.kuuos_ci_continuation_v0_45.run_current_continuation = original
 
 
 if __name__ == "__main__":
