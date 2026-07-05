@@ -1,0 +1,1 @@
+{"version":"root_map_adoption_readiness_boundary_v0_50","depends_on":"root_map_adoption_readiness_v0_50","constraints":["read_only","metadata_only","readiness_only","no_adoption_performed","no_mutation_authority","no_file_movement","no_deletion","no_execution_authority","no_lifecycle_authorization_change"],"future_adoption_requires_new_governance_layer":true}
