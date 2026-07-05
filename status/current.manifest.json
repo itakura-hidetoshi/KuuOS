@@ -1,0 +1,13 @@
+{
+  "authority_boundary": "manifest_not_authority_grant",
+  "current_pointer": "status/current.json",
+  "current_resolved_status": "status/current.resolved.json",
+  "current_resolved_status_runtime": "runtime/kuuos_current_resolved_status_artifact_v0_72.py",
+  "current_root_check": "runtime/kuuos_current_check.py",
+  "current_root_sequence": "kuuos_current_root_sequence_v0_72",
+  "current_status_cli": "runtime/kuuos_current_status.py",
+  "current_status_index": "status/kuuos_status_index_v0_69.json",
+  "current_status_snapshot": "status/kuuos_self_organization_status_v0_68.json",
+  "manifest_frontier": "kuuos_current_status_manifest_v0_73",
+  "manifest_schema_version": "v0.73"
+}
