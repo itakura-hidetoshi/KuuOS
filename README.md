@@ -153,6 +153,14 @@ selection != execution
 receipt != successor authority
 receipt composition != receipt construction
 
+WORLD sidecar != exact WORLD
+WORLD candidate != empirical fact
+WORLD commit != truth
+WORLD intake != WORLD update
+analytic vacuum != exact WORLD
+Kū != zero vector
+modular time != physical time
+
 modeled repository transition != live Git mutation
 object candidate != object materialization
 reference authorization != reference update
@@ -205,6 +213,49 @@ MemoryOS retrieval != PlanOS activation
 WORLD intake != WORLD update
 ```
 
+## 統合済みアーキテクチャ
+
+KuuOSは文脈を普遍的な固定グラフへ縮約しません。
+
+文脈は、局所チャート、局所切断、遷移、曲率、cocycle residue、holonomyとして扱います。
+
+有限サイクルは、mission binding、観測、複数信念、semantic planning、独立検証、bounded memory、effect reconciliation、checkpoint、restart recoveryを接続します。
+
+Qi Process Tensorは、複数時点のprocess、複数仮説、反証、不確実性、回復可能性区間を候補として保持します。
+
+Qi-WORLD v2.3は、process supportとboundary occupationを陰陽相補系として接続します。
+
+この構造は、気を物理的ボース粒子へ、blockerを物理的フェルミ粒子へ同一視しません。
+
+MemoryOSは、履歴をtruth、belief sovereignty、PlanOS activation、ActOS authorityへ自動昇格させません。
+
+統合済み数学系列はv0.27からv0.59です。
+
+```text
+real Hilbert ℓ²
+→ dense and self-adjoint operator bridge
+→ noncommutative operator algebra
+→ C*-local net
+→ von Neumann and modular theory
+→ Araki relative entropy
+→ Petz recovery and conditional expectation
+→ Jones theory and categorical bridges
+→ higher-gauge information geometry
+→ quantum Bregman and variational geometry
+→ log-Sobolev contraction certificates
+→ OS reflection-positive completion interface
+→ analytic vacuum sector
+→ vacuum-expectation observation candidate
+→ ObserveOS evidence intake
+→ host-effect atomic commit intake
+→ OS receipt composition
+→ Kū vacuum central reference state
+→ Kū vacuum information geometry
+→ closed Tomita operator bridge
+→ conjugate-adjoint intermediate layer
+→ four-great phase dynamics
+```
+
 ## Lean root
 
 `formal/KuuOSFormal.lean`は、統合済みまたはこのPR枝で明示追加された形式層だけを参照するstrict aggregate rootです。
@@ -235,6 +286,15 @@ v0.78以降は、KuuOS自身のrepositoryを研究対象として扱います。
 | v1.22 | checkpoint専用indexへの限定書込 |
 | v1.23 | repository内sandbox working treeへの限定反映 |
 | v1.24 | checkpoint専用reflogへの正確な一件記録 |
+
+```text
+bounded blob write
+→ limited tree and commit construction
+→ checkpoint-reference CAS publication
+→ dedicated alternate index
+→ repository-local sandbox reflection
+→ exact checkpoint-dedicated reflog record
+```
 
 このroadmapはv1.24で完了し、閉じています。
 
