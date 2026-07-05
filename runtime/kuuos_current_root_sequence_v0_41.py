@@ -95,6 +95,13 @@ CURRENT_ROOT_STEPS: tuple[CurrentRootStep, ...] = (
         True,
         "Root map remains checked from the current root.",
     ),
+    CurrentRootStep(
+        "root-map-ledger-v0-46",
+        "unittest",
+        "tests.test_kuuos_root_map_ledger_v0_46",
+        True,
+        "Root map ledger remains checked from the current root.",
+    ),
 )
 
 
@@ -140,6 +147,7 @@ def sequence_issues() -> tuple[str, ...]:
         "tests.test_kuuos_docs_index_v0_43",
         "tests.test_kuuos_overview_index_v0_44",
         "tests.test_kuuos_root_map_v0_45",
+        "tests.test_kuuos_root_map_ledger_v0_46",
     }
     missing = required_targets.difference(unittest_targets())
     if missing:
