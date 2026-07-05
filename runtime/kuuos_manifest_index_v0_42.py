@@ -55,7 +55,7 @@ MANIFEST_ENTRIES: tuple[ManifestEntry, ...] = (
     ),
     ManifestEntry(
         "manifest-index-v0-42",
-        "manifests/kuuos_manifest_index_v0_42.json",
+        "manifests/kuuos_mindex_v0_42.json",
         "current_root_sequence_v0_41",
         "manifest index metadata",
         1,
