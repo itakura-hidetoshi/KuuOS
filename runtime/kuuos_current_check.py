@@ -1,22 +1,13 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
+import importlib
 import unittest
 
-from runtime.v124_checkpoint_reflog_runtime import run_v124
+from runtime.kuuos_current_root_sequence_v0_41 import CURRENT_ROOT_STEPS
 
 CURRENT_RUNTIME_ROOT = "runtime/kuuos_current_check.py"
-REPOSITORY_MUTATION_ROOT = "runtime/kuuos_v124_check.py"
-LIFECYCLE_COMPLETION_TEST = "tests.test_kuuos_lifecycle_completion_v0_36"
-REPOSITORY_INDEX_TEST = "tests.test_kuuos_repo_index_v0_37"
-REPOSITORY_STRUCTURE_MAP_TEST = "tests.test_kuuos_repository_structure_map_v0_38"
-REPOSITORY_CLEANUP_PROPOSALS_TEST = "tests.test_kuuos_repository_cleanup_proposals_v0_39"
-REPOSITORY_FRONTIER_SUMMARY_TEST = "tests.test_kuuos_repository_frontier_summary_v0_40"
-LIFECYCLE_FRONTIER = "kuuos_lifecycle_completion_v0_36"
-REPOSITORY_INDEX_FRONTIER = "kuuos_repository_self_organization_v0_37"
-REPOSITORY_STRUCTURE_FRONTIER = "kuuos_repository_structure_map_v0_38"
-REPOSITORY_CLEANUP_FRONTIER = "kuuos_repository_cleanup_proposals_v0_39"
-REPOSITORY_SUMMARY_FRONTIER = "kuuos_repository_frontier_summary_v0_40"
+CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_41"
 
 
 def _run_unittest_module(module_name: str) -> int:
@@ -25,23 +16,27 @@ def _run_unittest_module(module_name: str) -> int:
     return 0 if result.wasSuccessful() else 1
 
 
+def _run_callable(target: str) -> int:
+    module_name, function_name = target.split(":", 1)
+    module = importlib.import_module(module_name)
+    outcome = getattr(module, function_name)()
+    return int(outcome)
+
+
+def _run_step(runner: str, target: str) -> int:
+    if runner == "unittest":
+        return _run_unittest_module(target)
+    if runner == "callable":
+        return _run_callable(target)
+    raise ValueError("unknown_current_root_runner:" + runner)
+
+
 def run_current() -> int:
-    repository_status = run_v124()
-    if repository_status != 0:
-        return repository_status
-    lifecycle_status = _run_unittest_module(LIFECYCLE_COMPLETION_TEST)
-    if lifecycle_status != 0:
-        return lifecycle_status
-    index_status = _run_unittest_module(REPOSITORY_INDEX_TEST)
-    if index_status != 0:
-        return index_status
-    structure_status = _run_unittest_module(REPOSITORY_STRUCTURE_MAP_TEST)
-    if structure_status != 0:
-        return structure_status
-    cleanup_status = _run_unittest_module(REPOSITORY_CLEANUP_PROPOSALS_TEST)
-    if cleanup_status != 0:
-        return cleanup_status
-    return _run_unittest_module(REPOSITORY_FRONTIER_SUMMARY_TEST)
+    for step in CURRENT_ROOT_STEPS:
+        status = _run_step(step.runner, step.target)
+        if status != 0:
+            return status
+    return 0
 
 
 if __name__ == "__main__":
