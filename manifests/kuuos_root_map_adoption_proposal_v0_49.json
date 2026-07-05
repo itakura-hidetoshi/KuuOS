@@ -1,0 +1,1 @@
+{"version":"root_map_adoption_proposal_v0_49","depends_on":"root_map_next_review_v0_48","selected_review_id":"status-to-next-review","selected_next_step":"derive_next_read_only_metadata_candidate","proposal_only":true,"read_only":true,"metadata_only":true,"no_mutation_authority":true,"no_automatic_adoption":true,"new_stage_required_for_adoption":true}
