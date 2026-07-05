@@ -1,0 +1,41 @@
+{
+  "authority_boundary": "resolver_not_authority_grant",
+  "current_pointer": {
+    "authority_boundary": "current_pointer_not_authority_grant",
+    "current_pointer_frontier": "kuuos_current_status_pointer_v0_70",
+    "current_root_check": "runtime/kuuos_current_check.py",
+    "current_root_sequence": "kuuos_current_root_sequence_v0_70",
+    "current_status_index": "status/kuuos_status_index_v0_69.json",
+    "current_status_index_runtime": "runtime/kuuos_status_index_v0_69.py",
+    "pointer_schema_version": "v0.70"
+  },
+  "current_status_index": {
+    "active_self_organization": true,
+    "authority_boundary": "status_index_not_authority_grant",
+    "current_root_check": "runtime/kuuos_current_check.py",
+    "current_root_sequence": "kuuos_current_root_sequence_v0_68",
+    "index_schema_version": "v0.69",
+    "latest_self_organization_snapshot": "status/kuuos_self_organization_status_v0_68.json",
+    "latest_self_organization_snapshot_runtime": "runtime/kuuos_self_organization_status_snapshot_v0_68.py",
+    "status_index_frontier": "kuuos_status_index_v0_69"
+  },
+  "current_status_snapshot": {
+    "active": true,
+    "active_state_frontier": "kuuos_self_organization_bounded_execution_v0_64",
+    "active_state_path": "docs/kuuos_self_organization_active_state.md",
+    "authority_boundary": "active_state_not_unbounded_authority",
+    "bounded_execution_verified": true,
+    "current_root_sequence": "kuuos_current_root_sequence_v0_67",
+    "current_root_sequence_verified": true,
+    "public_status_checked": true,
+    "snapshot_schema_version": "v0.68",
+    "status_command": "kuuos_self_organization_status",
+    "status_schema_version": "v0.67"
+  },
+  "pointer_verified": true,
+  "resolver_frontier": "kuuos_current_status_resolver_v0_71",
+  "resolver_schema_version": "v0.71",
+  "snapshot_verified": true,
+  "stable_entrypoint": "runtime/kuuos_current_status.py",
+  "status_index_verified": true
+}
