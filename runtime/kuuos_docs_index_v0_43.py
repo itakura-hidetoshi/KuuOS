@@ -41,6 +41,12 @@ DOCS_ENTRIES: tuple[DocsEntry, ...] = (
         "documentation index summary",
         "repository-self-organization",
     ),
+    DocsEntry(
+        "overview-index-v0-44",
+        "docs/overview_index_v0_44.md",
+        "current organization overview summary",
+        "repository-self-organization",
+    ),
 )
 
 
@@ -72,6 +78,7 @@ def docs_index_issues() -> tuple[str, ...]:
         "current-root-sequence-v0-41",
         "manifest-index-v0-42",
         "docs-index-v0-43",
+        "overview-index-v0-44",
     }
     missing = required.difference(doc_ids())
     if missing:

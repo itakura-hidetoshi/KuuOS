@@ -81,6 +81,13 @@ CURRENT_ROOT_STEPS: tuple[CurrentRootStep, ...] = (
         True,
         "Documentation index remains checked from the current root.",
     ),
+    CurrentRootStep(
+        "overview-index-v0-44",
+        "unittest",
+        "tests.test_kuuos_overview_index_v0_44",
+        True,
+        "Overview index remains checked from the current root.",
+    ),
 )
 
 
@@ -124,6 +131,7 @@ def sequence_issues() -> tuple[str, ...]:
         "tests.test_kuuos_current_root_sequence_v0_41",
         "tests.test_kuuos_manifest_index_v0_42",
         "tests.test_kuuos_docs_index_v0_43",
+        "tests.test_kuuos_overview_index_v0_44",
     }
     missing = required_targets.difference(unittest_targets())
     if missing:
