@@ -1,0 +1,1 @@
+{"version":"root_map_next_review_boundary_v0_48","depends_on":"root_map_next_review_v0_48","constraints":["read_only","metadata_only","no_mutation_authority","no_file_movement","no_deletion","no_execution_authority","no_lifecycle_authorization_change"],"future_use_requires_new_governance_layer":true}
