@@ -13,42 +13,71 @@ KuuOSはproduction AGI runtimeではありません。
 
 ## 現在地
 
-**基準日：2026年7月5日 JST**
+**基準日：2026年7月6日 JST**
 
-**`main`の同期対象到達点：KuuOS README Public Status v0.66**
+**`main`の同期対象到達点：KuuOS README Surface Exposure v0.78**
 
 **現在の標準runtime root：`runtime/kuuos_current_check.py`**
 
-**現在のruntime sequence frontier：`kuuos_current_root_sequence_v0_66`**
+**現在のruntime sequence frontier：`kuuos_current_root_sequence_v0_78`**
+
+**現在のstable current surface CLI：`runtime/kuuos_current_surface.py`**
+
+**現在のsurface index：`status/current.surface.index.json`**
+
+**現在のsurface artifact：`status/current.surface.json`**
 
 **active self-organization state：`docs/kuuos_self_organization_active_state.md`**
 
 現在の`main`では、KuuOS self-organization系列は、観察とreceiptだけではなく、bounded executionとしてactive stateをrepositoryへ公開し、その検査を標準runtime rootへ接続しています。
 
+さらに、current surface は stable CLI、surface index、surface artifact として公開されています。
+
+```bash
+PYTHONPATH=. python3 runtime/kuuos_current_surface.py
+```
+
+この stable CLI は、`status/current.surface.index.json` を入口として `status/current.surface.json` を返します。
+
+```text
+status/current.json
+→ status/kuuos_status_index_v0_69.json
+→ status/kuuos_self_organization_status_v0_68.json
+→ status/current.resolved.json
+→ status/current.manifest.json
+→ status/current.surface.json
+→ status/current.surface.index.json
+→ runtime/kuuos_current_surface.py
+```
+
+## Current surface
+
+| Surface | Path |
+|---|---|
+| Stable current surface CLI | `runtime/kuuos_current_surface.py` |
+| Versioned current surface entrypoint | `runtime/kuuos_current_surface_entrypoint_v0_77.py` |
+| Current surface index | `status/current.surface.index.json` |
+| Current surface artifact | `status/current.surface.json` |
+| Current resolved status artifact | `status/current.resolved.json` |
+| Current manifest | `status/current.manifest.json` |
+| Current pointer | `status/current.json` |
+| Current root check | `runtime/kuuos_current_check.py` |
+
+この surface は repository status を報告します。
+
+これは、無制限のrepository mutation権限、production deployment、外部組織承認、数学的受理、臨床承認を意味しません。
+
+## Self-organization status lineage
+
 v0.64では、`docs/kuuos_self_organization_active_state.md`を公開し、`self_organization_active: true`、`execution_scope: publish_active_self_organization_state`、`state_publication_applied: true`を記録しました。
 
-v0.65では、`runtime/kuuos_current_check.py`を`runtime.kuuos_current_root_sequence_v0_65`へ接続し、v0.64 bounded execution testを標準検査経路へ追加しました。
+v0.65では、KuuOS Current Root Execution Connection v0.65 として、`runtime/kuuos_current_check.py`を`runtime.kuuos_current_root_sequence_v0_65`へ接続しました。
 
-v0.66では、READMEの公開状態をv0.65 active stateに同期し、そのREADME public status checkを`runtime.kuuos_current_root_sequence_v0_66`へ接続します。
+v0.66では、KuuOS README Public Status v0.66 として、README public status checkを`runtime.kuuos_current_root_sequence_v0_66`へ接続しました。
 
-| 系列 | 到達点 | 状態 |
-|---|---|---|
-| Core governance | v0.1 | Frozen boundary |
-| WORLD mathematical sidecar | v0.27からv0.59 | 統合済み、継続検証 |
-| KuuOS self-organization | v0.64 | active state published |
-| Current root execution connection | v0.65 | active state checked from standard runtime root |
-| README public status | v0.66 | public frontier checked from standard runtime root |
-| Repository self-evolution chain | v0.79からv1.24 | 統合済み、closed mutation roadmap含む |
-| Staged repository mutation roadmap | v1.19からv1.24 | 完了系列 |
-| Apoptosis Lifecycle Governance | 独立系列 | repository mutation roadmap v1.25以降ではない |
-| Lean aggregate root | `formal/KuuOSFormal.lean` / target `KuuOSFormal` | strict build surface |
-| Runtime root | `runtime/kuuos_current_check.py` | current root sequence v0.66を実行 |
-| Legacy compatibility runtime root | `scripts/run_kuuos_runtime_full_check_v0_55.py` | v1.02 compatibility surface |
-| Lean / mathlib | Lean 4、mathlib `v4.30.0-rc2` | fixed toolchain |
+v0.77では、`runtime/kuuos_current_surface.py` を stable current surface CLI として追加しました。
 
-## Active self-organization state
-
-KuuOS self-organizationは、単なる候補や観測ではなく、現在はbounded executionとしてrepository内の公開状態に反映されています。
+v0.78では、README が stable current surface CLI、surface index、surface artifact を明示する human entrypoint になりました。
 
 ```text
 self_organization_active: true
@@ -57,15 +86,57 @@ execution_frontier: kuuos_self_organization_bounded_execution_v0_64
 state_publication_applied: true
 ```
 
-このactive stateとREADME public statusは、標準runtime rootから検査されます。
+| 系列 | 到達点 | 状態 |
+|---|---|---|
+| KuuOS self-organization | v0.64 | active state published |
+| Current root execution connection | v0.65 | active state checked from standard runtime root |
+| README public status | v0.66 | public frontier checked from standard runtime root |
+| Current status pointer | v0.70 | stable current pointer published |
+| Current status resolver | v0.71 | stable resolver CLI added |
+| Current resolved status artifact | v0.72 | resolved current status committed |
+| Current status manifest | v0.73 | status surface discovery manifest added |
+| Current status surface | v0.74 | manifest and resolved status returned as one surface |
+| Current status surface artifact | v0.75 | surface output committed |
+| Current status surface index | v0.76 | surface runtime and artifact discoverable |
+| Current surface stable CLI | v0.77 | stable current surface CLI added |
+| README surface exposure | v0.78 | human entrypoint exposes current surface |
+| Repository self-evolution chain | v0.79からv1.24 | 統合済み、closed mutation roadmap含む |
+| Staged repository mutation roadmap | v1.19からv1.24 | 完了系列 |
+| Apoptosis Lifecycle Governance | 独立系列 | repository mutation roadmap v1.25以降ではない |
+| Lean aggregate root | `formal/KuuOSFormal.lean` / target `KuuOSFormal` | strict build surface |
+| Runtime root | `runtime/kuuos_current_check.py` | current root sequence v0.78を実行 |
+
+## Runtime roots
+
+現在のruntime rootは次です。
 
 ```bash
 PYTHONPATH=. python3 runtime/kuuos_current_check.py
 ```
 
-この成功は、現在のrepository内のbounded state publication、current root connection、README public statusが再現可能に整合していることを示します。
+この入口は、closed repository mutation root、current root sequence、active self-organization state publication、README public status v0.66、current surface stable CLI v0.77、README surface exposure v0.78を検査対象に含めます。
 
-それは、無制限のrepository mutation権限、production deployment、外部組織承認、数学的受理、臨床承認を意味しません。
+現在のsurface CLIは次です。
+
+```bash
+PYTHONPATH=. python3 runtime/kuuos_current_surface.py
+```
+
+closed repository mutation累積検証入口は次です。
+
+```bash
+PYTHONPATH=. python3 runtime/kuuos_v124_check.py
+```
+
+既存workflow互換入口は次です。
+
+```bash
+PYTHONPATH=. python3 scripts/run_kuuos_runtime_full_check_v0_55.py
+```
+
+どの成功も、検査対象surfaceの再現可能な整合性receiptです。
+
+真理、外部定理受理、臨床承認、組織承認、無制限実行許可ではありません。
 
 ## 固定境界
 
@@ -82,14 +153,6 @@ selection != execution
 receipt != successor authority
 receipt composition != receipt construction
 
-WORLD sidecar != exact WORLD
-WORLD candidate != empirical fact
-WORLD commit != truth
-WORLD intake != WORLD update
-analytic vacuum != exact WORLD
-Kū != zero vector
-modular time != physical time
-
 modeled repository transition != live Git mutation
 object candidate != object materialization
 reference authorization != reference update
@@ -105,6 +168,10 @@ active self-organization state != unbounded mutation authority
 current root execution != production deployment
 runtime success != external truth
 README public status != authority grant
+current surface CLI != authority grant
+current surface index != authority grant
+current surface artifact != authority grant
+README surface exposure != authority grant
 
 Apoptosis Lifecycle Governance != repository mutation roadmap v1.25
 lifecycle observation != lifecycle authorization
@@ -138,47 +205,14 @@ MemoryOS retrieval != PlanOS activation
 WORLD intake != WORLD update
 ```
 
-## 統合済みアーキテクチャ
+## Lean root
 
-KuuOSは文脈を普遍的な固定グラフへ縮約しません。
+`formal/KuuOSFormal.lean`は、統合済みまたはこのPR枝で明示追加された形式層だけを参照するstrict aggregate rootです。
 
-文脈は、局所チャート、局所切断、遷移、曲率、cocycle residue、holonomyとして扱います。
-
-有限サイクルは、mission binding、観測、複数信念、semantic planning、独立検証、bounded memory、effect reconciliation、checkpoint、restart recoveryを接続します。
-
-Qi Process Tensorは、複数時点のprocess、複数仮説、反証、不確実性、回復可能性区間を候補として保持します。
-
-Qi-WORLD v2.3は、process supportとboundary occupationを陰陽相補系として接続します。
-
-この構造は、気を物理的ボース粒子へ、blockerを物理的フェルミ粒子へ同一視しません。
-
-MemoryOSは、履歴をtruth、belief sovereignty、PlanOS activation、ActOS authorityへ自動昇格させません。
-
-統合済み数学系列はv0.27からv0.59です。
-
-```text
-real Hilbert ℓ²
-→ dense and self-adjoint operator bridge
-→ noncommutative operator algebra
-→ C*-local net
-→ von Neumann and modular theory
-→ Araki relative entropy
-→ Petz recovery and conditional expectation
-→ Jones theory and categorical bridges
-→ higher-gauge information geometry
-→ quantum Bregman and variational geometry
-→ log-Sobolev contraction certificates
-→ OS reflection-positive completion interface
-→ analytic vacuum sector
-→ vacuum-expectation observation candidate
-→ ObserveOS evidence intake
-→ host-effect atomic commit intake
-→ OS receipt composition
-→ Kū vacuum central reference state
-→ Kū vacuum information geometry
-→ closed Tomita operator bridge
-→ conjugate-adjoint intermediate layer
-→ four-great phase dynamics
+```bash
+lake -KleanArgs=-DwarningAsError=true \
+  -KleanArgs=-DsorryAsError=true \
+  build KuuOSFormal
 ```
 
 Leanは、宣言された仮定の下で型付き帰結を検証します。
@@ -202,68 +236,15 @@ v0.78以降は、KuuOS自身のrepositoryを研究対象として扱います。
 | v1.23 | repository内sandbox working treeへの限定反映 |
 | v1.24 | checkpoint専用reflogへの正確な一件記録 |
 
-```text
-bounded blob write
-→ limited tree and commit construction
-→ checkpoint-reference CAS publication
-→ dedicated alternate index
-→ repository-local sandbox reflection
-→ exact checkpoint-dedicated reflog record
-```
-
 このroadmapはv1.24で完了し、閉じています。
 
 v1.24の完了は、追加ref更新、追加reflog、push、signing、通常working treeへの無制限書込を許可しません。
 
 Apoptosis Lifecycle Governanceは、このroadmapのv1.25以降ではありません。
 
-## Lean root
-
-`formal/KuuOSFormal.lean`は、統合済みまたはこのPR枝で明示追加された形式層だけを参照するstrict aggregate rootです。
-
-```bash
-lake -KleanArgs=-DwarningAsError=true \
-  -KleanArgs=-DsorryAsError=true \
-  build KuuOSFormal
-```
-
-専用rootは各versionの局所surfaceを検証します。
-
-aggregate rootはimport欠落、未統合moduleの混入、依存順の破綻、境界退行を検出します。
-
-## Runtime roots
-
-現在のruntime rootは次です。
-
-```bash
-PYTHONPATH=. python3 runtime/kuuos_current_check.py
-```
-
-この入口は、closed repository mutation root、current root sequence、active self-organization state publication、README public status v0.66を検査対象に含めます。
-
-closed repository mutation累積検証入口は次です。
-
-```bash
-PYTHONPATH=. python3 runtime/kuuos_v124_check.py
-```
-
-この入口はv1.24から先行runtimeへ依存順に遡り、focused tests、guards、effect accountingを検証します。
-
-既存workflow互換入口は次です。
-
-```bash
-PYTHONPATH=. python3 scripts/run_kuuos_runtime_full_check_v0_55.py
-```
-
-この互換入口はlegacy cumulative surfaceをv1.02まで検証します。
-
-どの成功も、検査対象surfaceの再現可能な整合性receiptです。
-
-真理、外部定理受理、臨床承認、組織承認、無制限実行許可ではありません。
-
 ## 次の研究前線
 
-active self-organization stateをさらに進める場合は、次を自動昇格ではなく明示的な新段階として定義します。
+自己組織化と自己進化をさらに進める場合は、次を自動昇格ではなく明示的な新段階として定義します。
 
 - どのstateを変えるのか。
 - どのbounded effectを実行するのか。
@@ -290,6 +271,7 @@ KuuOSは現時点で次を主張しません。
 - active self-organization stateから無制限mutation authorityを推論すること。
 - current root successからproduction deploymentを推論すること。
 - README public statusからauthority grantを推論すること。
+- README surface exposureからauthority grantを推論すること。
 - Apoptosis Lifecycle Governanceをrepository mutation roadmap v1.25以降として扱うこと。
 - terminal lifecycle completionからsuccessor lifecycle routeを推論すること。
 - closed unmerged proposalを`main`の機能として扱うこと。
@@ -305,7 +287,10 @@ CONTRIBUTING.md
 formal/KUOS.lean
 formal/KuuOSFormal.lean
 runtime/kuuos_current_check.py
-runtime/kuuos_current_root_sequence_v0_66.py
+runtime/kuuos_current_surface.py
+runtime/kuuos_current_root_sequence_v0_78.py
+runtime/kuuos_current_surface_entrypoint_v0_77.py
+runtime/kuuos_current_status_surface_index_v0_76.py
 runtime/kuuos_self_organization_bounded_execution_v0_64.py
 runtime/kuuos_v124_check.py
 scripts/run_kuuos_runtime_full_check_v0_55.py
@@ -314,6 +299,8 @@ docs/kuuos_self_organization_active_state.md
 docs/kuuos_self_organization_bounded_execution_v0_64.md
 docs/kuuos_current_root_execution_connection_v0_65.md
 docs/kuuos_readme_public_status_v0_66.md
+docs/kuuos_current_surface_entrypoint_v0_77.md
+docs/kuuos_readme_surface_exposure_v0_78.md
 ```
 
 ## ディレクトリ
@@ -352,6 +339,7 @@ completed roadmap != inherited future authority
 terminal lifecycle completion != successor route
 active state != unbounded effect
 public status != authority grant
+current surface != authority grant
 ```
 
 新しい層は、入力、出力、所有者、必要権限、永続化、replay、stale-state処理、validatorの射程、外部仮定、非権限境界を明記します。
