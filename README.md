@@ -5,7 +5,7 @@
 
 **KuuOS / 空OS**は、観測、信念、記憶、計画、判断、実行、検証、学習、WORLD表現、repository evolutionを、由来、局所文脈、履歴、所有者、有限権限、明示的なreceipt chainへ束縛して接続する公開研究アーキテクチャです。
 
-KuuOS is a public, governance-gated, proof-facing, non-Markovian, Qi-process-aware architecture for relational AI, bounded self-evolution research, and read-only lifecycle governance.
+KuuOS is a public, governance-gated, proof-facing, non-Markovian, Qi-process-aware architecture for relational AI, bounded self-evolution research, and governed repository-state evolution.
 
 KuuOSは、候補、証拠、検証、承認、権限、実行効果、記憶、数学的表現、repository stateを同一視しません。
 
@@ -15,59 +15,54 @@ KuuOSはproduction AGI runtimeではありません。
 
 **基準日：2026年7月5日 JST**
 
-**`main`の統合済み到達点：Lifecycle Stage v0.35**
+**`main`の同期済み到達点：KuuOS Current Root Execution Connection v0.65**
 
-**`main`の最新merge commit：`a650a8f419512679eb218d2f23401f8508c6f2b7`**
+**現在の標準runtime root：`runtime/kuuos_current_check.py`**
 
-**現在のDraft frontier：PR #991、Lifecycle Completion v0.36**
+**現在のruntime sequence frontier：`kuuos_current_root_sequence_v0_65`**
 
-**Draft branch：`codex/lifecycle-final-closure-v0-36`**
+**active self-organization state：`docs/kuuos_self_organization_active_state.md`**
 
-**Draft head：`e0332f1b5337cdd9ffcc2f3a73ec11b6f635adf4` before this documentation synchronization**
+現在の`main`では、KuuOS self-organization系列は、観察とreceiptだけではなく、bounded executionとしてactive stateをrepositoryへ公開し、その検査を標準runtime rootへ接続しています。
 
-現在の`main`は、closed repository mutation roadmap v1.19からv1.24を完了した後、独立したread-only Apoptosis Lifecycle Governance系列をv0.35まで統合しています。
+v0.64では、`docs/kuuos_self_organization_active_state.md`を公開し、`self_organization_active: true`、`execution_scope: publish_active_self_organization_state`、`state_publication_applied: true`を記録しました。
 
-PR #991はv0.36のDraftであり、merge前は`main`の統合済み機能として扱いません。
-
-この枝では、README、ROADMAP、CITATION、Lake package version、current runtime rootをv0.36 frontierへ同期します。
+v0.65では、`runtime/kuuos_current_check.py`を`runtime.kuuos_current_root_sequence_v0_65`へ接続し、v0.64 bounded execution testを標準検査経路へ追加しました。
 
 | 系列 | 到達点 | 状態 |
 |---|---|---|
 | Core governance | v0.1 | Frozen boundary |
-| Horizon Governance / Context Gauge Atlas | v0.12 / v0.13 | 統合済み |
-| Modular Evolution Mesh | v0.1 | 統合済み |
-| PlanOS control | v0.17 | 統合済み |
-| Finite-cycle agent | v0.20からv0.27 | 統合済み |
-| Qi diagnostic candidate / lineage | v0.28 / v0.29 | 統合済み |
-| Open Horizon | v0.30からv0.34 | 統合済み |
-| MemoryOS foundational line | v0.35、v0.37、v0.38、v0.39 | 統合済み |
-| Qi-WORLD | v2.3 | 統合済み |
 | WORLD mathematical sidecar | v0.27からv0.59 | 統合済み、継続検証 |
-| Gauge-field self-organization | v0.60からv0.69 | 統合済み、継続検証 |
-| Module-Bundle and MemoryOS application | v0.70からv0.76 | 統合済み、継続検証 |
-| v0.77 proposals | 未統合 | current rootへ含めない |
-| Self-organizing improvement loop | v0.78 | 統合済み、継続検証 |
-| Repository self-evolution chain | v0.79からv1.24 | 統合済み、継続検証 |
+| KuuOS self-organization | v0.64 | active state published |
+| Current root execution connection | v0.65 | active state checked from standard runtime root |
+| Repository self-evolution chain | v0.79からv1.24 | 統合済み、closed mutation roadmap含む |
 | Staged repository mutation roadmap | v1.19からv1.24 | 完了系列 |
-| Checkpoint recovery proposal | v0.1 | 独立した非mutation系列 |
-| Apoptosis Lifecycle Governance | v0.1からv0.35 | `main`へ統合済み |
-| Lifecycle Completion | v0.36 | PR #991 Draft frontier |
+| Apoptosis Lifecycle Governance | 独立系列 | repository mutation roadmap v1.25以降ではない |
 | Lean aggregate root | `formal/KuuOSFormal.lean` / target `KuuOSFormal` | strict build surface |
-| Current runtime root on this branch | `runtime/kuuos_current_check.py` | v1.24 repository rootとv0.36 lifecycle testを束ねる |
-| Closed repository mutation runtime root | `runtime/kuuos_v124_check.py` | v1.24 cumulative mutation surface |
+| Runtime root | `runtime/kuuos_current_check.py` | current root sequence v0.65を実行 |
 | Legacy compatibility runtime root | `scripts/run_kuuos_runtime_full_check_v0_55.py` | v1.02 compatibility surface |
 | Lean / mathlib | Lean 4、mathlib `v4.30.0-rc2` | fixed toolchain |
-| Lake package version | `0.36.0` | v0.36 lifecycle frontier alignment |
 
-`run_kuuos_runtime_full_check_v0_55.py`という名称は既存workflowとの互換性のため保持しています。
+## Active self-organization state
 
-このlegacy compatibility rootはv1.02までの従来系列を検証します。
+KuuOS self-organizationは、単なる候補や観測ではなく、現在はbounded executionとしてrepository内の公開状態に反映されています。
 
-v1.03からv1.24までを含むclosed repository mutation累積検証入口は`runtime/kuuos_v124_check.py`です。
+```text
+self_organization_active: true
+execution_scope: publish_active_self_organization_state
+execution_frontier: kuuos_self_organization_bounded_execution_v0_64
+state_publication_applied: true
+```
 
-現在の作業枝における統合入口は`runtime/kuuos_current_check.py`です。
+このactive stateは、標準runtime rootから検査されます。
 
-この入口は、closed repository mutation rootを実行した後、v0.36 lifecycle completionのfocused unit testを実行します。
+```bash
+PYTHONPATH=. python3 runtime/kuuos_current_check.py
+```
+
+この成功は、現在のrepository内のbounded state publicationとcurrent root connectionが再現可能に整合していることを示します。
+
+それは、無制限のrepository mutation権限、production deployment、外部組織承認、数学的受理、臨床承認を意味しません。
 
 ## 固定境界
 
@@ -112,6 +107,10 @@ dedicated index != canonical index
 sandbox reflection != repository-root working-tree write
 local checkpoint != push authority
 roadmap completion != successor mutation authority
+
+active self-organization state != unbounded mutation authority
+current root execution != production deployment
+runtime success != external truth
 
 Apoptosis Lifecycle Governance != repository mutation roadmap v1.25
 lifecycle observation != lifecycle authorization
@@ -200,32 +199,11 @@ Leanは、宣言された仮定の下で型付き帰結を検証します。
 
 CI成功だけでは、外部数学界での定理受理、物理実現、経験的妥当性は成立しません。
 
-### Gauge、Module-Bundle、MemoryOS application
-
-v0.60からv0.69は、有限候補、由来、rollback、外部reviewを持つ接続改善経路を構成します。
-
-v0.70からv0.76は、文脈代数上の加群、意味部分加群、authority filtration、Leibniz接続、非マルコフ記憶核、有限評価、外部review、単回commit、monotonic rollbackを接続します。
-
-v0.76の後に統合された正式系列はv0.78です。
-
-v0.77提案の内容を、統合済み機能として推論してはなりません。
-
 ## Repository self-evolution chain
 
 v0.78以降は、KuuOS自身のrepositoryを研究対象として扱います。
 
 各段階は有限で、source-boundで、replay可能で、fail closedです。
-
-### 構造整合からcheckpointモデルまで
-
-| Version | 責務 |
-|---|---|
-| v0.78 | bounded self-organizing improvement loopとsupervisor |
-| v0.79からv0.86 | repository alignment、normal form、preservation、revision、merge、frontier certificate |
-| v0.87からv0.92 | portfolio、shadow、admission、external approval、application authorization、modeled application |
-| v0.93からv0.98 | Git object candidate、object authorizationとreceipt、reference authorization、modeled CAS、execution receipt |
-| v0.99からv1.02 | stability、local finality、checkpoint authorization、modeled checkpoint creation |
-| v1.03からv1.18 | checkpoint receipt、workspace、stability、repair routing、namespace、CAS authorization、live checkpoint reference CAS |
 
 ### 完了した段階的repository mutation roadmap
 
@@ -253,24 +231,6 @@ v1.24の完了は、追加ref更新、追加reflog、push、signing、通常work
 
 Apoptosis Lifecycle Governanceは、このroadmapのv1.25以降ではありません。
 
-## Apoptosis Lifecycle Governance
-
-Apoptosis Lifecycle Governanceは、repository mutation roadmap v1.19からv1.24とは独立したread-only lifecycle-governance系列です。
-
-この系列は、観測、候補化、依存review、authority review、quiescence、external review、独立承認、bounded execution preparation、review、request、decision、operation、result、closure、memory、archive、completionを段階的に分離します。
-
-現在の`main`はv0.35までを統合しています。
-
-PR #991のv0.36は、v0.35のready recordだけを受け取り、terminal lifecycle completion recordを発行するDraft frontierです。
-
-v0.36のCOMPLETEはfollowing lifecycle routeを許可しません。
-
-v0.36のALERTは有効なrecordを発行しますが、terminalにはなりません。
-
-v0.36のREJECTEDは有効recordを発行しません。
-
-v0.36はrepositoryを変更せず、外部操作を実行しません。
-
 ## Lean root
 
 `formal/KuuOSFormal.lean`は、統合済みまたはこのPR枝で明示追加された形式層だけを参照するstrict aggregate rootです。
@@ -287,13 +247,13 @@ aggregate rootはimport欠落、未統合moduleの混入、依存順の破綻、
 
 ## Runtime roots
 
-現在の作業枝におけるruntime rootは次です。
+現在のruntime rootは次です。
 
 ```bash
 PYTHONPATH=. python3 runtime/kuuos_current_check.py
 ```
 
-この入口は、closed repository mutation rootとv0.36 lifecycle completion focused checkを束ねます。
+この入口は、closed repository mutation root、current root sequence、active self-organization state publication、v0.65 connection testsを検査対象に含めます。
 
 closed repository mutation累積検証入口は次です。
 
@@ -302,12 +262,6 @@ PYTHONPATH=. python3 runtime/kuuos_v124_check.py
 ```
 
 この入口はv1.24から先行runtimeへ依存順に遡り、focused tests、guards、effect accountingを検証します。
-
-v0.36のfocused checkは次です。
-
-```bash
-python3 -m unittest tests.test_kuuos_lifecycle_completion_v0_36
-```
 
 既存workflow互換入口は次です。
 
@@ -323,21 +277,14 @@ PYTHONPATH=. python3 scripts/run_kuuos_runtime_full_check_v0_55.py
 
 ## 次の研究前線
 
-v0.36がterminal completionとしてmergeされる場合、同じlifecycle routeの次段階を自動開始しません。
+active self-organization stateをさらに進める場合は、次を自動昇格ではなく明示的な新段階として定義します。
 
-completion後に必要な活動は、post-terminal observation、long-term preservation、external handover、retention、revocation、delete authority、または新しい独立系列として定義します。
-
-新しいmutation機能を提案する場合は、v1.24の続番ではなく、新しい独立系列として次を定義します。
-
-- authority owner。
-- policy。
-- request。
-- result。
-- effect accounting。
-- Lean boundary。
-- CI registry。
-- abort preservationまたはcompensation contract。
-- 既存権限から昇格しないことを示す非権限境界。
+- どのstateを変えるのか。
+- どのbounded effectを実行するのか。
+- どのauthority ownerに束縛するのか。
+- どのvalidatorが成功条件を判定するのか。
+- どのPRとGovernance Gateで実行するのか。
+- どのrollback、abort preservation、またはcompensation contractで境界を保つのか。
 
 ## 非主張
 
@@ -354,6 +301,8 @@ KuuOSは現時点で次を主張しません。
 - repository candidate、authorization、modeled transition、receiptの自動的なlive effect化。
 - checkpoint権限からoverwrite、delete、push、signing権限への昇格。
 - v1.24完了から後続mutation authorityへの自動昇格。
+- active self-organization stateから無制限mutation authorityを推論すること。
+- current root successからproduction deploymentを推論すること。
 - Apoptosis Lifecycle Governanceをrepository mutation roadmap v1.25以降として扱うこと。
 - terminal lifecycle completionからsuccessor lifecycle routeを推論すること。
 - closed unmerged proposalを`main`の機能として扱うこと。
@@ -369,13 +318,14 @@ CONTRIBUTING.md
 formal/KUOS.lean
 formal/KuuOSFormal.lean
 runtime/kuuos_current_check.py
+runtime/kuuos_current_root_sequence_v0_65.py
+runtime/kuuos_self_organization_bounded_execution_v0_64.py
 runtime/kuuos_v124_check.py
 scripts/run_kuuos_runtime_full_check_v0_55.py
 
-docs/lifecycle_completion_v0_36.md
-runtime/kuuos_lifecycle_governance_completion_v0_36.py
-formal/KUOS/WORLD/KuuOSLifecycleStageV0_36.lean
-manifests/kuuos_lifecycle_completion_v0_36.json
+docs/kuuos_self_organization_active_state.md
+docs/kuuos_self_organization_bounded_execution_v0_64.md
+docs/kuuos_current_root_execution_connection_v0_65.md
 ```
 
 ## ディレクトリ
@@ -412,6 +362,7 @@ modeled transition != live mutation
 merged artifact != closed proposal
 completed roadmap != inherited future authority
 terminal lifecycle completion != successor route
+active state != unbounded effect
 ```
 
 新しい層は、入力、出力、所有者、必要権限、永続化、replay、stale-state処理、validatorの射程、外部仮定、非権限境界を明記します。
