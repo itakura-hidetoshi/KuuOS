@@ -1,27 +1,15 @@
-# KuuOS Bounded Steering v0.55
+# KuuOS Compatibility Path v0.55
 
-This stage follows Root Map Deferral Closeout v0.54.
+This note keeps the former bounded steering path as a compatibility label only.
 
-It records a bounded KuuOS steering layer for repository self-organization.
+The effective v0.55 path is now the direct actor path recorded in `runtime/kuuos_direct_execution_actor_v0_55.py`.
 
-The layer observes the current frontier, preserves boundaries, and chooses one bounded successor layer at a time.
+The former extra checks are not used as a separate decision layer.
 
 ## Focused check
 
 ```bash
+python3 runtime/kuuos_direct_execution_actor_v0_55.py
+python3 -m unittest tests.test_kuuos_direct_actor_path_v0_55
 python3 -m unittest tests.test_kuuos_bounded_steering_v0_55
 ```
-
-## Steps
-
-- observe the verified frontier
-- preserve read-only and metadata-only boundaries
-- choose one bounded next layer
-- require a Draft PR
-- require governance gate success before merge
-
-## Boundary
-
-This layer is read-only and metadata-only.
-
-It records steering status only.
