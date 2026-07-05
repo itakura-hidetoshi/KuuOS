@@ -1,0 +1,13 @@
+{
+  "active": true,
+  "active_state_frontier": "kuuos_self_organization_bounded_execution_v0_64",
+  "active_state_path": "docs/kuuos_self_organization_active_state.md",
+  "authority_boundary": "active_state_not_unbounded_authority",
+  "bounded_execution_verified": true,
+  "current_root_sequence": "kuuos_current_root_sequence_v0_67",
+  "current_root_sequence_verified": true,
+  "public_status_checked": true,
+  "snapshot_schema_version": "v0.68",
+  "status_command": "kuuos_self_organization_status",
+  "status_schema_version": "v0.67"
+}
