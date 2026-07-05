@@ -1,0 +1,12 @@
+{
+  "authority_boundary": "surface_index_not_authority_grant",
+  "current_root_check": "runtime/kuuos_current_check.py",
+  "current_root_sequence": "kuuos_current_root_sequence_v0_75",
+  "stable_manifest": "status/current.manifest.json",
+  "stable_resolved_status": "status/current.resolved.json",
+  "surface_artifact": "status/current.surface.json",
+  "surface_artifact_runtime": "runtime/kuuos_current_status_surface_artifact_v0_75.py",
+  "surface_index_frontier": "kuuos_current_status_surface_index_v0_76",
+  "surface_index_schema_version": "v0.76",
+  "surface_runtime": "runtime/kuuos_current_status_surface_v0_74.py"
+}
