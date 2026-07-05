@@ -1,0 +1,9 @@
+{
+  "authority_boundary": "current_pointer_not_authority_grant",
+  "current_pointer_frontier": "kuuos_current_status_pointer_v0_70",
+  "current_root_check": "runtime/kuuos_current_check.py",
+  "current_root_sequence": "kuuos_current_root_sequence_v0_69",
+  "current_status_index": "status/kuuos_status_index_v0_69.json",
+  "current_status_index_runtime": "runtime/kuuos_status_index_v0_69.py",
+  "pointer_schema_version": "v0.70"
+}
