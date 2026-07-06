@@ -1,0 +1,21 @@
+{
+  "authority_boundary": "execution_plan_not_grant",
+  "current_root_check": "runtime/kuuos_current_check.py",
+  "current_root_sequence": "kuuos_current_root_sequence_v0_82",
+  "execution_plan_frontier": "kuuos_self_organization_execution_plan_v0_83",
+  "execution_plan_schema_version": "v0.83",
+  "plan_enabled": false,
+  "plan_mode": "plan_only",
+  "planned_artifact": "status/self_organization_next_request_v0_84.json",
+  "planned_next_stage": "v0.84",
+  "planned_runtime": "runtime/kuuos_self_organization_next_request_v0_84.py",
+  "preconditions": [
+    "selected_candidate_id_is_execution_plan_v0_83",
+    "selected_candidate_scope_is_plan_only",
+    "selected_next_action_verifies",
+    "governance_gate_required_for_next_stage"
+  ],
+  "selected_next_action": "status/self_organization_selected_next_action_v0_82.json",
+  "selected_next_action_frontier": "kuuos_self_organization_selected_next_action_v0_82",
+  "selected_next_action_runtime": "runtime/kuuos_self_organization_selected_next_action_v0_82.py"
+}
