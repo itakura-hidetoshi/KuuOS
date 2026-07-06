@@ -7,20 +7,32 @@
   "script_files": [
     "scripts/run_kuuos_causal_world_model_os_v14_0.py",
     "scripts/check_kuuos_causal_world_model_os_v14_0.py",
-    "scripts/check_kuuos_world_real_hilbert_handoff_v14_0.py"
+    "scripts/check_kuuos_world_real_hilbert_handoff_v14_0.py",
+    "scripts/check_kuuos_world_hamiltonian_handoff_v14_0.py"
   ],
   "docs": [
     "docs/KUUOS_CAUSAL_WORLD_MODEL_OS_v14_0.md",
-    "docs/KUUOS_WORLD_REAL_HILBERT_HANDOFF_BRIDGE_v14_0.md"
+    "docs/KUUOS_WORLD_REAL_HILBERT_HANDOFF_BRIDGE_v14_0.md",
+    "docs/KUUOS_WORLD_HAMILTONIAN_HANDOFF_BRIDGE_v14_0.md"
   ],
   "example_files": [
-    "examples/kuuos_world_real_hilbert_handoff_v14_0.json"
+    "examples/kuuos_world_real_hilbert_handoff_v14_0.json",
+    "examples/kuuos_world_hamiltonian_handoff_v14_0.json"
   ],
   "integration_targets": [
     "itakura-hidetoshi/4d-mass-gap:formal/real-hilbert-uniform-coercive-strong-limit",
     "r4HilbertCompletedHilbertSpace",
     "R4CompletedHilbertSpaceAPI",
-    "R4HilbertHandoffAPI"
+    "R4HilbertHandoffAPI",
+    "MGAP4D.Hamiltonian.Basic.Hphys",
+    "MGAP4D.Hamiltonian.Physical.physicalGap3320Record",
+    "MGAP4D.MathlibAnalytic.PhysicalYangMillsGaugeInvariantOSVacuumOrthogonalHamiltonian",
+    "HamiltonianLabelAPI",
+    "HPhysLabel",
+    "HamiltonianSpectralWitnessLink",
+    "HamiltonianOperatorNormalizationAPI",
+    "VacuumOrthogonalClosedHamiltonianAPI",
+    "HamiltonianRayleighLowerBoundAPI"
   ],
   "status": "READY"
 }
