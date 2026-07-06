@@ -1,0 +1,22 @@
+{
+  "completed_cycle_receipt": "status/self_organization_completion_receipt_v0_88.json",
+  "completed_cycle_receipt_frontier": "kuuos_self_organization_completion_receipt_v0_88",
+  "completed_cycle_receipt_runtime": "runtime/kuuos_self_organization_completion_receipt_v0_88.py",
+  "current_root_check": "runtime/kuuos_current_check.py",
+  "current_root_sequence": "kuuos_current_root_sequence_v0_88",
+  "next_artifact": "status/self_organization_candidate_queue_v0_90.json",
+  "next_cycle_seed_frontier": "kuuos_self_organization_next_cycle_seed_v0_89",
+  "next_cycle_seed_schema_version": "v0.89",
+  "next_stage": "v0.90",
+  "seed_items": [
+    "completion_receipt_verified",
+    "prior_cycle_closed",
+    "next_candidate_queue_named",
+    "current_root_sequence_connected"
+  ],
+  "seed_mode": "next_cycle_seed_only",
+  "seed_scope": "self_organization_candidate_queue_seed",
+  "source_receipt": "status/self_organization_completion_receipt_v0_88.json",
+  "source_receipt_frontier": "kuuos_self_organization_completion_receipt_v0_88",
+  "source_receipt_runtime": "runtime/kuuos_self_organization_completion_receipt_v0_88.py"
+}
