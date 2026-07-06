@@ -1,0 +1,20 @@
+{
+  "authority_boundary": "review_decision_not_grant",
+  "current_root_check": "runtime/kuuos_current_check.py",
+  "current_root_sequence": "kuuos_current_root_sequence_v0_85",
+  "decision_frontier": "kuuos_self_organization_review_decision_v0_86",
+  "decision_mode": "decision_record_only",
+  "decision_schema_version": "v0.86",
+  "decision_status": "review_packet_accepted_for_next_request",
+  "next_request_artifact": "status/self_organization_bounded_request_v0_87.json",
+  "next_request_stage": "v0.87",
+  "packet_checks": [
+    "packet_is_review_only",
+    "packet_sources_are_recorded",
+    "packet_requested_v0_86",
+    "no_grant_boundary_is_preserved"
+  ],
+  "source_packet": "status/self_organization_review_packet_v0_85.json",
+  "source_packet_frontier": "kuuos_self_organization_review_packet_v0_85",
+  "source_packet_runtime": "runtime/kuuos_self_organization_review_packet_v0_85.py"
+}
