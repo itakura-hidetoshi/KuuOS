@@ -22,9 +22,12 @@ REQUIRED_DECISION_KEYS: tuple[str, ...] = (
     "decision_mode",
     "decision_schema_version",
     "decision_status",
-    "next_request_artifact",
-    "next_request_stage",
+    "liveness_invariant",
+    "next_artifact",
+    "next_stage",
+    "next_stage_kind",
     "packet_checks",
+    "review_loop_closed",
     "source_packet",
     "source_packet_frontier",
     "source_packet_runtime",
@@ -41,21 +44,25 @@ def load_review_decision() -> dict[str, Any]:
 
 def expected_review_decision() -> dict[str, Any]:
     return {
-        "authority_boundary": "review_decision_not_grant",
+        "authority_boundary": "bounded_action_transition_not_blanket_grant",
         "current_root_check": "runtime/kuuos_current_check.py",
         "current_root_sequence": CURRENT_ROOT_SEQUENCE,
         "decision_frontier": VERSION,
-        "decision_mode": "decision_record_only",
+        "decision_mode": "bounded_action_transition",
         "decision_schema_version": DECISION_SCHEMA_VERSION,
-        "decision_status": "review_packet_accepted_for_next_request",
-        "next_request_artifact": "status/self_organization_bounded_request_v0_87.json",
-        "next_request_stage": "v0.87",
+        "decision_status": "review_closed_next_stage_must_prepare_bounded_change",
+        "liveness_invariant": "review_must_end_in_bounded_change_or_explicit_rejection",
+        "next_artifact": "status/self_organization_bounded_change_v0_87.json",
+        "next_stage": "v0.87",
+        "next_stage_kind": "bounded_repository_change",
         "packet_checks": [
             "packet_is_review_only",
             "packet_sources_are_recorded",
             "packet_requested_v0_86",
             "no_grant_boundary_is_preserved",
+            "review_loop_is_closed",
         ],
+        "review_loop_closed": True,
         "source_packet": packet.REVIEW_PACKET_PATH,
         "source_packet_frontier": packet.VERSION,
         "source_packet_runtime": "runtime/kuuos_self_organization_review_packet_v0_85.py",
@@ -78,12 +85,20 @@ def review_decision_issues() -> tuple[str, ...]:
         issues.append("extra_review_decision_keys:" + ",".join(sorted(extra)))
     if decision != expected_review_decision():
         issues.append("review_decision_mismatch")
-    if decision.get("authority_boundary") != "review_decision_not_grant":
+    if decision.get("authority_boundary") != "bounded_action_transition_not_blanket_grant":
         issues.append("authority_boundary")
-    if decision.get("decision_mode") != "decision_record_only":
+    if decision.get("decision_mode") != "bounded_action_transition":
         issues.append("decision_mode")
-    if decision.get("decision_status") != "review_packet_accepted_for_next_request":
+    if decision.get("decision_status") != "review_closed_next_stage_must_prepare_bounded_change":
         issues.append("decision_status")
+    if decision.get("review_loop_closed") is not True:
+        issues.append("review_loop_closed")
+    if decision.get("next_stage_kind") != "bounded_repository_change":
+        issues.append("next_stage_kind")
+    if "review" in str(decision.get("next_stage_kind")):
+        issues.append("next_stage_kind_must_not_be_review")
+    if decision.get("liveness_invariant") != "review_must_end_in_bounded_change_or_explicit_rejection":
+        issues.append("liveness_invariant")
     source = packet.load_review_packet()
     if source.get("requested_next_stage") != "v0.86":
         issues.append("source_packet_requested_stage")
