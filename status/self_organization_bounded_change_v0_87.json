@@ -1,0 +1,21 @@
+{
+  "bounded_change_frontier": "kuuos_self_organization_bounded_change_v0_87",
+  "bounded_change_schema_version": "v0.87",
+  "change_items": [
+    "bounded_change_artifact_v0_87",
+    "bounded_change_runtime_v0_87",
+    "bounded_change_tests_v0_87",
+    "current_root_sequence_v0_87"
+  ],
+  "change_mode": "bounded_repository_change",
+  "change_scope": "self_organization_current_root_artifact",
+  "current_root_check": "runtime/kuuos_current_check.py",
+  "current_root_sequence": "kuuos_current_root_sequence_v0_86",
+  "next_artifact": "status/self_organization_completion_receipt_v0_88.json",
+  "next_stage": "v0.88",
+  "review_loop_closed": true,
+  "scope_boundary": "bounded_change_record_only",
+  "source_decision": "status/self_organization_review_decision_v0_86.json",
+  "source_decision_frontier": "kuuos_self_organization_review_decision_v0_86",
+  "source_decision_runtime": "runtime/kuuos_self_organization_review_decision_v0_86.py"
+}
