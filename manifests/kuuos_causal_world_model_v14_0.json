@@ -13,6 +13,7 @@
   "docs": [
     "docs/KUUOS_CAUSAL_WORLD_MODEL_OS_v14_0.md",
     "docs/KUUOS_WORLD_REAL_HILBERT_HANDOFF_BRIDGE_v14_0.md",
+    "docs/KUUOS_WORLD_HAMILTONIAN_OPERATOR_BRIDGE_v14_0.md",
     "docs/KUUOS_WORLD_HAMILTONIAN_HANDOFF_BRIDGE_v14_0.md"
   ],
   "example_files": [
@@ -27,6 +28,8 @@
     "MGAP4D.Hamiltonian.Basic.Hphys",
     "MGAP4D.Hamiltonian.Physical.physicalGap3320Record",
     "MGAP4D.MathlibAnalytic.PhysicalYangMillsGaugeInvariantOSVacuumOrthogonalHamiltonian",
+    "HamiltonianOperatorCandidateLayer",
+    "HamiltonianOperatorHandoffAPI",
     "HamiltonianLabelAPI",
     "HPhysLabel",
     "HamiltonianSpectralWitnessLink",
