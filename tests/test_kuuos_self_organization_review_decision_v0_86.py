@@ -25,12 +25,16 @@ class KuuOSReviewDecisionV086Test(unittest.TestCase):
     def test_review_decision_json_round_trips(self):
         self.assertEqual(load_review_decision(), json.loads(review_decision_json()))
 
-    def test_review_decision_is_record_only(self):
+    def test_review_decision_moves_to_bounded_change(self):
         decision = load_review_decision()
-        self.assertEqual("review_decision_not_grant", decision["authority_boundary"])
-        self.assertEqual("decision_record_only", decision["decision_mode"])
-        self.assertEqual("v0.87", decision["next_request_stage"])
-        self.assertEqual("status/self_organization_review_packet_v0_85.json", decision["source_packet"])
+        expected = expected_review_decision()
+        self.assertEqual(expected["decision_mode"], decision["decision_mode"])
+        self.assertEqual(expected["decision_status"], decision["decision_status"])
+        self.assertEqual(expected["liveness_invariant"], decision["liveness_invariant"])
+        self.assertTrue(decision["review_loop_closed"])
+        self.assertEqual("bounded_repository_change", decision["next_stage_kind"])
+        self.assertEqual("v0.87", decision["next_stage"])
+        self.assertEqual("status/self_organization_bounded_change_v0_87.json", decision["next_artifact"])
 
 
 if __name__ == "__main__":
