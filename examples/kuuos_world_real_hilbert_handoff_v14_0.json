@@ -1,0 +1,65 @@
+{
+  "example_version": "kuuos_world_real_hilbert_handoff_v14_0",
+  "world_id": "FormalResearchWorld",
+  "source": {
+    "repository": "itakura-hidetoshi/4d-mass-gap",
+    "carrier_branch": "formal/real-hilbert-uniform-coercive-strong-limit",
+    "completed_object": "r4HilbertCompletedHilbertSpace",
+    "latest_integrated_carrier_pr": "PR #600",
+    "latest_integrated_carrier_merge_commit": "4d08c0d0f5be958c223c48c23942f588e4fba8c3",
+    "validation": "PR Lean Fast Check run 5626 success"
+  },
+  "world_variables": {
+    "R4CompletedHilbertSpaceAPI": {
+      "value": "completed",
+      "uncertainty": 0.0,
+      "unit": "formal-api-object",
+      "provenance": [
+        "4d-mass-gap:formal/real-hilbert-uniform-coercive-strong-limit",
+        "r4HilbertCompletedHilbertSpace"
+      ]
+    },
+    "R4HilbertHandoffAPI": {
+      "value": "completed",
+      "uncertainty": 0.0,
+      "unit": "formal-handoff-api",
+      "provenance": [
+        "4d-mass-gap:PR-600"
+      ]
+    },
+    "DownstreamOSOperatorLayerHandoff": {
+      "value": "ready-for-internal-modeling",
+      "uncertainty": 0.0,
+      "unit": "kuuos-world-bridge",
+      "provenance": [
+        "KUUOS_WORLD_REAL_HILBERT_HANDOFF_BRIDGE_v14_0"
+      ]
+    },
+    "SelfAdjointHamiltonianBoundary": {
+      "value": "not-established",
+      "uncertainty": 0.0,
+      "unit": "non-claim-boundary",
+      "provenance": [
+        "4d-mass-gap:README-current-status"
+      ]
+    },
+    "PhysicalMassGapClaimBoundary": {
+      "value": "not-established",
+      "uncertainty": 0.0,
+      "unit": "non-claim-boundary",
+      "provenance": [
+        "4d-mass-gap:README-non-claims"
+      ]
+    }
+  },
+  "protected_variables": [
+    "SelfAdjointHamiltonianBoundary",
+    "PhysicalMassGapClaimBoundary"
+  ],
+  "boundary": {
+    "completed_hilbert_api_is_not_self_adjoint_physical_hamiltonian": true,
+    "handoff_api_is_not_hamiltonian_spectral_gap_theorem": true,
+    "world_model_state_is_not_external_truth_authority": true,
+    "lean_replay_remains_in_source_repository": true
+  }
+}
