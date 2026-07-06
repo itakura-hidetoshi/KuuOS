@@ -1,0 +1,12 @@
+{
+  "authority_boundary": "next_request_not_grant",
+  "current_root_check": "runtime/kuuos_current_check.py",
+  "current_root_sequence": "kuuos_current_root_sequence_v0_83",
+  "next_request_frontier": "kuuos_self_organization_next_request_v0_84",
+  "next_request_schema_version": "v0.84",
+  "plan": "status/self_organization_execution_plan_v0_83.json",
+  "plan_frontier": "kuuos_self_organization_execution_plan_v0_83",
+  "request_mode": "request_only",
+  "requested_artifact": "status/self_organization_review_packet_v0_85.json",
+  "requested_next_stage": "v0.85"
+}
