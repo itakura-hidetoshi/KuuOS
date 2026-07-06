@@ -1,19 +1,23 @@
 {
-  "authority_boundary": "review_decision_not_grant",
+  "authority_boundary": "bounded_action_transition_not_blanket_grant",
   "current_root_check": "runtime/kuuos_current_check.py",
   "current_root_sequence": "kuuos_current_root_sequence_v0_85",
   "decision_frontier": "kuuos_self_organization_review_decision_v0_86",
-  "decision_mode": "decision_record_only",
+  "decision_mode": "bounded_action_transition",
   "decision_schema_version": "v0.86",
-  "decision_status": "review_packet_accepted_for_next_request",
-  "next_request_artifact": "status/self_organization_bounded_request_v0_87.json",
-  "next_request_stage": "v0.87",
+  "decision_status": "review_closed_next_stage_must_prepare_bounded_change",
+  "liveness_invariant": "review_must_end_in_bounded_change_or_explicit_rejection",
+  "next_artifact": "status/self_organization_bounded_change_v0_87.json",
+  "next_stage": "v0.87",
+  "next_stage_kind": "bounded_repository_change",
   "packet_checks": [
     "packet_is_review_only",
     "packet_sources_are_recorded",
     "packet_requested_v0_86",
-    "no_grant_boundary_is_preserved"
+    "no_grant_boundary_is_preserved",
+    "review_loop_is_closed"
   ],
+  "review_loop_closed": true,
   "source_packet": "status/self_organization_review_packet_v0_85.json",
   "source_packet_frontier": "kuuos_self_organization_review_packet_v0_85",
   "source_packet_runtime": "runtime/kuuos_self_organization_review_packet_v0_85.py"
