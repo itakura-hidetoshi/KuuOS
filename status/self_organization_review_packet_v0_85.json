@@ -1,0 +1,29 @@
+{
+  "authority_boundary": "review_packet_not_grant",
+  "current_root_check": "runtime/kuuos_current_check.py",
+  "current_root_sequence": "kuuos_current_root_sequence_v0_84",
+  "packet_frontier": "kuuos_self_organization_review_packet_v0_85",
+  "packet_mode": "review_only",
+  "packet_schema_version": "v0.85",
+  "packet_sources": [
+    "status/self_organization_candidate_queue_v0_79.json",
+    "status/self_organization_candidate_receipt_v0_80.json",
+    "status/self_organization_selection_policy_v0_81.json",
+    "status/self_organization_selected_next_action_v0_82.json",
+    "status/self_organization_execution_plan_v0_83.json",
+    "status/self_organization_next_request_v0_84.json"
+  ],
+  "requested_next_stage": "v0.86",
+  "requested_next_stage_artifact": "status/self_organization_review_decision_v0_86.json",
+  "review_focus": [
+    "queue_was_recorded",
+    "policy_was_recorded",
+    "selected_action_was_recorded",
+    "plan_was_recorded",
+    "next_request_was_recorded",
+    "no_grant_boundary_is_preserved"
+  ],
+  "source_request": "status/self_organization_next_request_v0_84.json",
+  "source_request_frontier": "kuuos_self_organization_next_request_v0_84",
+  "source_request_runtime": "runtime/kuuos_self_organization_next_request_v0_84.py"
+}
