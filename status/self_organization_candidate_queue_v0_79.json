@@ -1,0 +1,44 @@
+{
+  "authority_boundary": "candidate_queue_not_authority_grant",
+  "candidate_queue_frontier": "kuuos_self_organization_candidate_queue_v0_79",
+  "candidate_queue_schema_version": "v0.79",
+  "candidates": [
+    {
+      "candidate_id": "selection-policy-v0-81",
+      "description": "Define a policy for selecting among generated self-organization candidates.",
+      "expected_next_stage": "v0.81",
+      "required_gate": "KuuOS PR Governance Gate",
+      "risk": "policy_mismatch",
+      "scope": "proposal_only"
+    },
+    {
+      "candidate_id": "candidate-receipt-v0-80",
+      "description": "Commit a receipt for this generated candidate queue before choosing a next action.",
+      "expected_next_stage": "v0.80",
+      "required_gate": "KuuOS PR Governance Gate",
+      "risk": "stale_candidate_receipt",
+      "scope": "proposal_receipt"
+    },
+    {
+      "candidate_id": "selected-next-action-v0-82",
+      "description": "Select one candidate under the selection policy without executing repository mutation.",
+      "expected_next_stage": "v0.82",
+      "required_gate": "KuuOS PR Governance Gate",
+      "risk": "selection_without_policy",
+      "scope": "selection_only"
+    },
+    {
+      "candidate_id": "execution-plan-v0-83",
+      "description": "Create a bounded execution plan for a selected action.",
+      "expected_next_stage": "v0.83",
+      "required_gate": "KuuOS PR Governance Gate",
+      "risk": "plan_scope_expansion",
+      "scope": "plan_only"
+    }
+  ],
+  "current_root_check": "runtime/kuuos_current_check.py",
+  "current_root_sequence": "kuuos_current_root_sequence_v0_78",
+  "derived_from": "status/current.surface.index.json",
+  "generation_mode": "proposal_only",
+  "stable_current_surface_cli": "runtime/kuuos_current_surface.py"
+}
