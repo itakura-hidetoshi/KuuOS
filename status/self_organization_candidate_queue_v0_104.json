@@ -1,0 +1,20 @@
+{
+  "candidate_count": 4,
+  "candidate_ids": [
+    "candidate-receipt-v0-105",
+    "selection-policy-v0-106",
+    "selected-next-action-v0-107",
+    "bounded-change-plan-v0-108"
+  ],
+  "candidate_queue_frontier": "kuuos_self_organization_candidate_queue_v0_104",
+  "candidate_queue_schema_version": "v0.104",
+  "current_root_check": "runtime/kuuos_current_check.py",
+  "current_root_sequence": "kuuos_current_root_sequence_v0_103",
+  "next_artifact": "status/self_organization_candidate_receipt_v0_105.json",
+  "next_stage": "v0.105",
+  "queue_mode": "candidate_queue_only",
+  "queue_scope": "self_organization_next_cycle",
+  "seed": "status/self_organization_next_cycle_seed_v0_103.json",
+  "seed_frontier": "kuuos_self_organization_next_cycle_seed_v0_103",
+  "seed_runtime": "runtime/kuuos_self_organization_next_cycle_seed_v0_103.py"
+}
