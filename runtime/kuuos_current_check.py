@@ -4,17 +4,17 @@ from __future__ import annotations
 import importlib
 import unittest
 
-from runtime.kuuos_current_root_sequence_v0_96 import CURRENT_ROOT_STEPS
+from runtime.kuuos_current_root_sequence_v0_97 import CURRENT_ROOT_STEPS
 
 CURRENT_RUNTIME_ROOT = "runtime/kuuos_current_check.py"
-CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_96"
-CURRENT_MAIN_FRONTIER = "self-organization completion receipt v0.95"
-CURRENT_DRAFT_FRONTIER = "self-organization next cycle seed v0.96"
+CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_97"
+CURRENT_MAIN_FRONTIER = "self-organization next cycle seed v0.96"
+CURRENT_DRAFT_FRONTIER = "self-organization candidate queue v0.97"
 CURRENT_DRAFT_PR = "pending"
-CURRENT_DRAFT_BRANCH = "feature-next-cycle-seed-v0-96"
-CURRENT_FRONTIER_ARTIFACT = "status/self_organization_next_cycle_seed_v0_96.json"
-CURRENT_FRONTIER_MODE = "next_cycle_seed_only"
-CURRENT_FRONTIER_BOUNDARY = "seed_record_only"
+CURRENT_DRAFT_BRANCH = "feature-candidate-queue-v0-97"
+CURRENT_FRONTIER_ARTIFACT = "status/self_organization_candidate_queue_v0_97.json"
+CURRENT_FRONTIER_MODE = "candidate_queue_only"
+CURRENT_FRONTIER_BOUNDARY = "queue_record_only"
 
 
 def current_runtime_root_summary() -> dict[str, str]:
