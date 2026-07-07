@@ -4,17 +4,17 @@ from __future__ import annotations
 import importlib
 import unittest
 
-from runtime.kuuos_current_root_sequence_v0_99 import CURRENT_ROOT_STEPS
+from runtime.kuuos_current_root_sequence_v0_100 import CURRENT_ROOT_STEPS
 
 CURRENT_RUNTIME_ROOT = "runtime/kuuos_current_check.py"
-CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_99"
-CURRENT_MAIN_FRONTIER = "self-organization candidate receipt v0.98"
-CURRENT_DRAFT_FRONTIER = "self-organization selection policy v0.99"
-CURRENT_DRAFT_PR = "PR #1059"
-CURRENT_DRAFT_BRANCH = "feature-selection-policy-v0-99"
-CURRENT_FRONTIER_ARTIFACT = "status/self_organization_selection_policy_v0_99.json"
-CURRENT_FRONTIER_MODE = "policy_only"
-CURRENT_FRONTIER_BOUNDARY = "policy_record_only"
+CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_100"
+CURRENT_MAIN_FRONTIER = "self-organization selection policy v0.99"
+CURRENT_DRAFT_FRONTIER = "self-organization selected next action v0.100"
+CURRENT_DRAFT_PR = "PR #1060"
+CURRENT_DRAFT_BRANCH = "feature-selected-next-action-v0-100"
+CURRENT_FRONTIER_ARTIFACT = "status/self_organization_selected_next_action_v0_100.json"
+CURRENT_FRONTIER_MODE = "selection_only"
+CURRENT_FRONTIER_BOUNDARY = "selection_record_only"
 
 
 def current_runtime_root_summary() -> dict[str, str]:
