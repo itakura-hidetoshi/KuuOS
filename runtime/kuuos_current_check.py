@@ -4,17 +4,17 @@ from __future__ import annotations
 import importlib
 import unittest
 
-from runtime.kuuos_current_root_sequence_v0_93 import CURRENT_ROOT_STEPS
+from runtime.kuuos_current_root_sequence_v0_94 import CURRENT_ROOT_STEPS
 
 CURRENT_RUNTIME_ROOT = "runtime/kuuos_current_check.py"
-CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_93"
-CURRENT_MAIN_FRONTIER = "self-organization selection policy v0.92"
-CURRENT_DRAFT_FRONTIER = "self-organization selected next action v0.93"
-CURRENT_DRAFT_PR = "PR #1053"
-CURRENT_DRAFT_BRANCH = "feature-selected-next-action-v0-93"
-CURRENT_FRONTIER_ARTIFACT = "status/self_organization_selected_next_action_v0_93.json"
-CURRENT_FRONTIER_MODE = "selection_only"
-CURRENT_FRONTIER_BOUNDARY = "selected_next_action_not_grant"
+CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_94"
+CURRENT_MAIN_FRONTIER = "self-organization selected next action v0.93"
+CURRENT_DRAFT_FRONTIER = "self-organization bounded change plan v0.94"
+CURRENT_DRAFT_PR = "pending"
+CURRENT_DRAFT_BRANCH = "feature-bounded-change-plan-v0-94"
+CURRENT_FRONTIER_ARTIFACT = "status/self_organization_bounded_change_plan_v0_94.json"
+CURRENT_FRONTIER_MODE = "bounded_change_plan_only"
+CURRENT_FRONTIER_BOUNDARY = "bounded_change_plan_not_grant"
 
 
 def current_runtime_root_summary() -> dict[str, str]:
