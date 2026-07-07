@@ -8,6 +8,7 @@ VERSION = "kuuos_current_root_sequence_v0_95"
 DEPENDS_ON = previous.VERSION
 CURRENT_ROOT = "runtime/kuuos_current_check.py"
 COMPLETION_RECEIPT_FRONTIER = "kuuos_self_organization_completion_receipt_v0_95"
+SELF_CHECK_TARGET = "runtime.kuuos_current_root_sequence_v0_95:run_self_check"
 
 CURRENT_ROOT_STEPS: tuple[CurrentRootStep, ...] = previous.CURRENT_ROOT_STEPS + (
     CurrentRootStep(
@@ -19,10 +20,10 @@ CURRENT_ROOT_STEPS: tuple[CurrentRootStep, ...] = previous.CURRENT_ROOT_STEPS + 
     ),
     CurrentRootStep(
         "current-root-sequence-v0-95",
-        "unittest",
-        "tests.test_kuuos_current_root_sequence_v0_95",
+        "callable",
+        SELF_CHECK_TARGET,
         True,
-        "Current root sequence v0.95 is verified.",
+        "Current root sequence v0.95 self-check is verified.",
     ),
 )
 
@@ -39,6 +40,10 @@ def unittest_targets() -> tuple[str, ...]:
     return tuple(step.target for step in CURRENT_ROOT_STEPS if step.runner == "unittest")
 
 
+def callable_targets() -> tuple[str, ...]:
+    return tuple(step.target for step in CURRENT_ROOT_STEPS if step.runner == "callable")
+
+
 def sequence_issues() -> tuple[str, ...]:
     issues: list[str] = []
     if not previous.verify_current_root_sequence():
@@ -47,15 +52,14 @@ def sequence_issues() -> tuple[str, ...]:
         issues.append("duplicate_step_id")
     if len(step_targets()) != len(set(step_targets())):
         issues.append("duplicate_step_target")
-    required = set(previous.unittest_targets()).union(
-        {
-            "tests.test_kuuos_self_organization_completion_receipt_v0_95",
-            "tests.test_kuuos_current_root_sequence_v0_95",
-        }
+    required_unittests = set(previous.unittest_targets()).union(
+        {"tests.test_kuuos_self_organization_completion_receipt_v0_95"}
     )
-    missing = required.difference(unittest_targets())
-    if missing:
-        issues.append("missing_unittest_target:" + ",".join(sorted(missing)))
+    missing_unittests = required_unittests.difference(unittest_targets())
+    if missing_unittests:
+        issues.append("missing_unittest_target:" + ",".join(sorted(missing_unittests)))
+    if SELF_CHECK_TARGET not in callable_targets():
+        issues.append("missing_self_check_target")
     if COMPLETION_RECEIPT_FRONTIER != "kuuos_self_organization_completion_receipt_v0_95":
         issues.append("completion_receipt_frontier")
     return tuple(issues)
@@ -63,6 +67,10 @@ def sequence_issues() -> tuple[str, ...]:
 
 def verify_current_root_sequence() -> bool:
     return not sequence_issues()
+
+
+def run_self_check() -> int:
+    return 0 if verify_current_root_sequence() else 1
 
 
 def as_markdown() -> str:
