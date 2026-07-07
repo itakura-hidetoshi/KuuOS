@@ -1,0 +1,19 @@
+{
+  "authority_boundary": "selected_next_action_not_grant",
+  "candidate_receipt": "status/self_organization_candidate_receipt_v0_91.json",
+  "candidate_receipt_frontier": "kuuos_self_organization_candidate_receipt_v0_91",
+  "current_root_check": "runtime/kuuos_current_check.py",
+  "current_root_sequence": "kuuos_current_root_sequence_v0_92",
+  "effect_enabled": false,
+  "next_artifact": "status/self_organization_bounded_change_plan_v0_94.json",
+  "next_stage": "v0.94",
+  "selected_candidate_id": "bounded-change-plan-v0-94",
+  "selected_candidate_scope": "bounded_change_plan_only",
+  "selected_next_stage": "v0.94",
+  "selection_frontier": "kuuos_self_organization_selected_next_action_v0_93",
+  "selection_mode": "selection_only",
+  "selection_policy": "status/self_organization_selection_policy_v0_92.json",
+  "selection_policy_frontier": "kuuos_self_organization_selection_policy_v0_92",
+  "selection_rule_applied": "lowest_expected_next_stage_after_completed_policy_and_selection_layers",
+  "selection_schema_version": "v0.93"
+}
