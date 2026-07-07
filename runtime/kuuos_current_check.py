@@ -4,17 +4,17 @@ from __future__ import annotations
 import importlib
 import unittest
 
-from runtime.kuuos_current_root_sequence_v0_101 import CURRENT_ROOT_STEPS
+from runtime.kuuos_current_root_sequence_v0_104 import CURRENT_ROOT_STEPS
 
 CURRENT_RUNTIME_ROOT = "runtime/kuuos_current_check.py"
-CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_101"
-CURRENT_MAIN_FRONTIER = "self-organization selected next action v0.100"
-CURRENT_DRAFT_FRONTIER = "self-organization bounded change plan v0.101"
-CURRENT_DRAFT_PR = "PR #1061"
-CURRENT_DRAFT_BRANCH = "feature-bounded-change-plan-v0-101"
-CURRENT_FRONTIER_ARTIFACT = "status/self_organization_bounded_change_plan_v0_101.json"
-CURRENT_FRONTIER_MODE = "bounded_change_plan_only"
-CURRENT_FRONTIER_BOUNDARY = "bounded_plan_record_only"
+CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_104"
+CURRENT_MAIN_FRONTIER = "self-organization next cycle seed v0.103"
+CURRENT_DRAFT_FRONTIER = "self-organization candidate queue v0.104"
+CURRENT_DRAFT_PR = "pending"
+CURRENT_DRAFT_BRANCH = "feature-candidate-queue-v0-104"
+CURRENT_FRONTIER_ARTIFACT = "status/self_organization_candidate_queue_v0_104.json"
+CURRENT_FRONTIER_MODE = "candidate_queue_only"
+CURRENT_FRONTIER_BOUNDARY = "queue_record_only"
 
 
 def current_runtime_root_summary() -> dict[str, str]:
