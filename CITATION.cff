@@ -8,11 +8,12 @@ authors:
     name-particle: "板倉英俊"
 abstract: >-
   KuuOS / 空OS is a public, governance-gated, proof-facing, non-Markovian,
-  Qi-process-aware architecture for relational AI, bounded repository
-  self-evolution research, and read-only lifecycle governance. The current
-  metadata frontier separates the completed repository mutation roadmap
-  v1.19-v1.24 from an independent lifecycle-governance line and documents
-  Lifecycle Completion v0.36 as a terminal, non-successor-route candidate.
+  Qi-process-aware architecture for relational AI, bounded self-evolution
+  research, and governed repository-state evolution. The current repository
+  state separates the merged v0.91 self-organization candidate receipt on main
+  from the v0.92 Draft frontier, which records a policy-only selection policy
+  without authorizing selection execution, runtime effects, or repository
+  mutation.
 keywords:
   - KuuOS
   - 空OS
@@ -30,9 +31,10 @@ keywords:
   - LearnOS
   - ActOS
   - repository self-evolution
-  - lifecycle governance
-  - terminal completion
+  - self-organization
+  - selection policy
+  - runtime root
 license: "All-Rights-Reserved"
 repository-code: "https://github.com/itakura-hidetoshi/KuuOS"
-date-released: "2026-07-05"
-version: "0.36.0-lifecycle-completion"
+date-released: "2026-07-07"
+version: "0.92.0-self-organization-selection-policy"
