@@ -1,0 +1,28 @@
+{
+  "authority_boundary": "bounded_change_plan_not_grant",
+  "bounded_change_plan_frontier": "kuuos_self_organization_bounded_change_plan_v0_94",
+  "bounded_change_plan_schema_version": "v0.94",
+  "current_root_check": "runtime/kuuos_current_check.py",
+  "current_root_sequence": "kuuos_current_root_sequence_v0_93",
+  "plan_enabled": false,
+  "plan_mode": "bounded_change_plan_only",
+  "planned_artifact": "status/self_organization_completion_receipt_v0_95.json",
+  "planned_change_items": [
+    "bounded_change_plan_artifact_v0_94",
+    "bounded_change_plan_runtime_v0_94",
+    "bounded_change_plan_tests_v0_94",
+    "current_root_sequence_v0_94"
+  ],
+  "planned_next_stage": "v0.95",
+  "planned_runtime": "runtime/kuuos_self_organization_completion_receipt_v0_95.py",
+  "preconditions": [
+    "selected_candidate_id_is_bounded_change_plan_v0_94",
+    "selected_candidate_scope_is_bounded_change_plan_only",
+    "selected_next_action_verifies",
+    "governance_gate_required_for_next_stage"
+  ],
+  "scope_boundary": "bounded_change_plan_record_only",
+  "selected_next_action": "status/self_organization_selected_next_action_v0_93.json",
+  "selected_next_action_frontier": "kuuos_self_organization_selected_next_action_v0_93",
+  "selected_next_action_runtime": "runtime/kuuos_self_organization_selected_next_action_v0_93.py"
+}
