@@ -1,0 +1,23 @@
+{
+  "completion_receipt_frontier": "kuuos_self_organization_completion_receipt_v0_102",
+  "completion_receipt_schema_version": "v0.102",
+  "completed_stage": "v0.101",
+  "completed_stage_artifact": "status/self_organization_bounded_change_plan_v0_101.json",
+  "completed_stage_frontier": "kuuos_self_organization_bounded_change_plan_v0_101",
+  "completed_stage_runtime": "runtime/kuuos_self_organization_bounded_change_plan_v0_101.py",
+  "current_root_check": "runtime/kuuos_current_check.py",
+  "current_root_sequence": "kuuos_current_root_sequence_v0_101",
+  "next_artifact": "status/self_organization_next_cycle_seed_v0_103.json",
+  "next_stage": "v0.103",
+  "receipt_items": [
+    "bounded_change_plan_artifact_verified",
+    "bounded_change_plan_runtime_verified",
+    "bounded_change_plan_tests_connected",
+    "current_root_sequence_connected",
+    "plan_enabled_false"
+  ],
+  "receipt_mode": "completion_receipt_only",
+  "source_bounded_change_plan": "status/self_organization_bounded_change_plan_v0_101.json",
+  "source_bounded_change_plan_frontier": "kuuos_self_organization_bounded_change_plan_v0_101",
+  "source_bounded_change_plan_runtime": "runtime/kuuos_self_organization_bounded_change_plan_v0_101.py"
+}
