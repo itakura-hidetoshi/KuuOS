@@ -8,6 +8,27 @@ from runtime.kuuos_current_root_sequence_v0_92 import CURRENT_ROOT_STEPS
 
 CURRENT_RUNTIME_ROOT = "runtime/kuuos_current_check.py"
 CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_92"
+CURRENT_MAIN_FRONTIER = "self-organization candidate receipt v0.91"
+CURRENT_DRAFT_FRONTIER = "self-organization selection policy v0.92"
+CURRENT_DRAFT_PR = "PR #1052"
+CURRENT_DRAFT_BRANCH = "feature-selection-policy-v0-92"
+CURRENT_FRONTIER_ARTIFACT = "status/self_organization_selection_policy_v0_92.json"
+CURRENT_FRONTIER_MODE = "policy_only"
+CURRENT_FRONTIER_BOUNDARY = "selection_policy_not_authority_grant"
+
+
+def current_runtime_root_summary() -> dict[str, str]:
+    return {
+        "runtime_root": CURRENT_RUNTIME_ROOT,
+        "current_root_sequence_frontier": CURRENT_ROOT_SEQUENCE_FRONTIER,
+        "main_frontier": CURRENT_MAIN_FRONTIER,
+        "draft_frontier": CURRENT_DRAFT_FRONTIER,
+        "draft_pr": CURRENT_DRAFT_PR,
+        "draft_branch": CURRENT_DRAFT_BRANCH,
+        "frontier_artifact": CURRENT_FRONTIER_ARTIFACT,
+        "frontier_mode": CURRENT_FRONTIER_MODE,
+        "frontier_boundary": CURRENT_FRONTIER_BOUNDARY,
+    }
 
 
 def _run_unittest_module(module_name: str) -> int:
