@@ -47,6 +47,7 @@ selection != execution
 selection policy != selection execution
 receipt != successor authority
 receipt composition != receipt construction
+OS receipt composition != host-effect atomic-commit intake
 
 WORLD sidecar != exact WORLD
 WORLD candidate != empirical fact
