@@ -5,6 +5,8 @@
   "workflow": ".github/workflows/plan-os-validation.yml",
   "source_version": "kuuos_planos_activation_admission_actos_handoff_v0_23",
   "upstream_runtime": "runtime/qi_process_tensor_v0_1.py",
+  "upstream_path_integral_doc": "docs/PHYSICAL_QUANTUM_QI_PATH_INTEGRAL_v0_1.md",
+  "upstream_path_integral_router": "runtime/kuuos_runtime_daemon_physical_quantum_qi_path_integral_reentry_router_v10_5.py",
   "literature_mapping": {
     "self_evolving_world_models": true,
     "agent_process_reward_models": true,
@@ -13,10 +15,26 @@
     "agent_memory_governance": true,
     "graph_agent_memory": true,
     "causal_world_models": true,
-    "lifelong_learning_agents": true
+    "lifelong_learning_agents": true,
+    "era_of_experience": true
+  },
+  "path_integral_reroute": {
+    "path_integral_considered": true,
+    "weighted_histories_visible": true,
+    "dominant_path_visible": true,
+    "stationary_path_preserved": true,
+    "path_amplitude_weights_visible": true,
+    "path_action_scores_visible": true,
+    "reinforce_path_weight_allowed": true,
+    "open_probe_potential_allowed": true,
+    "add_barrier_potential_allowed": true,
+    "path_integral_candidate_weighting_only": true,
+    "path_integral_truth_authority": false,
+    "path_integral_execution_authority": false
   },
   "required": {
     "source_handoff_bound": true,
+    "physical_quantum_qi_path_integral_rerouted": true,
     "process_tensor_visible": true,
     "transition_continuity_visible": true,
     "memory_continuity_visible": true,
@@ -54,9 +72,10 @@
     "missing_evidence_silently_repaired": false,
     "external_commit": false
   },
-  "history_delta": 3,
+  "history_delta": 4,
   "event_lineage": [
     "v0_23_actos_handoff_index",
+    "v0_24_physical_quantum_qi_path_integral_reroute_index",
     "v0_24_foresight_index",
     "v0_24_blocker_index",
     "v0_24_replan_intake_index"
