@@ -6,6 +6,32 @@ namespace PlanOS
 
 open WORLD ObserveOS VerifyOS LearnOS DecisionOS
 
+structure PhysicalQuantumQiPathIntegralRerouteEvidence where
+  pathIntegralConsidered : Bool
+  weightedHistoriesVisible : Bool
+  dominantPathVisible : Bool
+  stationaryPathPreserved : Bool
+  pathAmplitudeWeightsVisible : Bool
+  pathActionScoresVisible : Bool
+  reinforcePathWeightAllowed : Bool
+  openProbePotentialAllowed : Bool
+  addBarrierPotentialAllowed : Bool
+  pathIntegralCandidateWeightingOnly : Bool
+  pathIntegralTruthAuthority : Bool
+  pathIntegralExecutionAuthority : Bool
+  consideredRequired : pathIntegralConsidered = true
+  historiesRequired : weightedHistoriesVisible = true
+  dominantPathRequired : dominantPathVisible = true
+  stationaryRequired : stationaryPathPreserved = true
+  amplitudeRequired : pathAmplitudeWeightsVisible = true
+  actionScoresRequired : pathActionScoresVisible = true
+  reinforceRequired : reinforcePathWeightAllowed = true
+  probeRequired : openProbePotentialAllowed = true
+  barrierRequired : addBarrierPotentialAllowed = true
+  weightingOnlyRequired : pathIntegralCandidateWeightingOnly = true
+  truthForbidden : pathIntegralTruthAuthority = false
+  executionForbidden : pathIntegralExecutionAuthority = false
+
 structure QiProcessTensorForesightEvidence where
   processTensorVisible : Bool
   transitionContinuityVisible : Bool
@@ -70,6 +96,7 @@ structure AgentTheorySelectionBinding where
 
 structure QiBlockerForesightPlanGateBoundary where
   sourceAdmissionHandoffBound : Bool
+  physicalQuantumQiPathIntegralRerouted : Bool
   candidateWeightsAdvisoryOnly : Bool
   lowConfidenceForesightFiltered : Bool
   replanSignalOnly : Bool
@@ -81,6 +108,7 @@ structure QiBlockerForesightPlanGateBoundary where
   blockerReleaseGranted : Bool
   externalCommit : Bool
   sourceRequired : sourceAdmissionHandoffBound = true
+  pathIntegralRerouteRequired : physicalQuantumQiPathIntegralRerouted = true
   advisoryRequired : candidateWeightsAdvisoryOnly = true
   lowConfidenceFilterRequired : lowConfidenceForesightFiltered = true
   replanOnlyRequired : replanSignalOnly = true
@@ -151,12 +179,15 @@ structure VacuumExpectationQiBlockerForesightPlanGateBridge where
       K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
         GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
           MaterializationBridge ActivationBridge →
+    PhysicalQuantumQiPathIntegralRerouteEvidence →
     QiProcessTensorForesightEvidence → PlanOSBlockerTheoryBoundary →
     AgentTheorySelectionBinding → QiBlockerForesightPlanGateBoundary →
-    ReplanEventIndex → ReplanEventIndex → ReplanEventIndex → AdapterHistory → Digest
+    ReplanEventIndex → ReplanEventIndex → ReplanEventIndex → ReplanEventIndex →
+    AdapterHistory → Digest
   nonAuthority : AdapterNonAuthority
   planOSOwnsForesightGate : Bool
   actOSOwnsActivation : Bool
+  pathIntegralIsEvidenceOnly : Bool
   qiIsEvidenceOnly : Bool
   blockerIsContextOnly : Bool
   activatesNow : Bool
@@ -167,6 +198,7 @@ structure VacuumExpectationQiBlockerForesightPlanGateBridge where
   memoryOverwrite : Bool
   foresightOwnerRequired : planOSOwnsForesightGate = true
   activationOwnerRequired : actOSOwnsActivation = true
+  pathIntegralEvidenceRequired : pathIntegralIsEvidenceOnly = true
   qiEvidenceRequired : qiIsEvidenceOnly = true
   blockerContextRequired : blockerIsContextOnly = true
   activationForbidden : activatesNow = false
@@ -185,10 +217,12 @@ structure VacuumExpectationQiBlockerForesightPlanGateReceipt
     K O Intake ObserveBridge VerifyBridge LearnBridge ReplanBridge
       GenerationBridge HandoffBridge SelectionBridge SynthesisBridge
         MaterializationBridge ActivationBridge
+  pathIntegral : PhysicalQuantumQiPathIntegralRerouteEvidence
   qi : QiProcessTensorForesightEvidence
   blocker : PlanOSBlockerTheoryBoundary
   theory : AgentTheorySelectionBinding
   gate : QiBlockerForesightPlanGateBoundary
+  pathIntegralIndex : ReplanEventIndex
   foresightIndex : ReplanEventIndex
   blockerIndex : ReplanEventIndex
   replanIntakeIndex : ReplanEventIndex
@@ -200,12 +234,13 @@ structure VacuumExpectationQiBlockerForesightPlanGateReceipt
   sourceDoesNotAuthorizeActivation : source.handoff.activationAuthorizationSupplied = false
   sourceDoesNotExecute : source.handoff.executed = false
   sourceDoesNotReserveLease : source.handoff.leaseUseReserved = false
-  foresightIndexExact : foresightIndex = source.handoffIndex.append
+  pathIntegralIndexExact : pathIntegralIndex = source.handoffIndex.append
+  foresightIndexExact : foresightIndex = pathIntegralIndex.append
   blockerIndexExact : blockerIndex = foresightIndex.append
   replanIntakeIndexExact : replanIntakeIndex = blockerIndex.append
-  historyExact : historyAfter.committedRecords = source.historyAfter.committedRecords + 3
-  digestExact : digest = Bridge.digestOf source qi blocker theory gate
-    foresightIndex blockerIndex replanIntakeIndex historyAfter
+  historyExact : historyAfter.committedRecords = source.historyAfter.committedRecords + 4
+  digestExact : digest = Bridge.digestOf source pathIntegral qi blocker theory gate
+    pathIntegralIndex foresightIndex blockerIndex replanIntakeIndex historyAfter
 
 namespace VacuumExpectationQiBlockerForesightPlanGateBridge
 
@@ -229,6 +264,28 @@ theorem source_handoff_remains_non_authoritative (r : Receipt) :
   exact ⟨r.sourceRequired, r.sourceHandoffCommitted,
     r.sourceDoesNotAuthorizeActivation, r.sourceDoesNotExecute,
     r.sourceDoesNotReserveLease⟩
+
+theorem requires_physical_quantum_qi_path_integral_reroute (r : Receipt) :
+    r.pathIntegral.pathIntegralConsidered = true ∧
+      r.pathIntegral.weightedHistoriesVisible = true ∧
+      r.pathIntegral.dominantPathVisible = true ∧
+      r.pathIntegral.stationaryPathPreserved = true ∧
+      r.pathIntegral.pathAmplitudeWeightsVisible = true ∧
+      r.pathIntegral.pathActionScoresVisible = true ∧
+      r.pathIntegral.reinforcePathWeightAllowed = true ∧
+      r.pathIntegral.openProbePotentialAllowed = true ∧
+      r.pathIntegral.addBarrierPotentialAllowed = true ∧
+      r.pathIntegral.pathIntegralCandidateWeightingOnly = true := by
+  exact ⟨r.pathIntegral.consideredRequired, r.pathIntegral.historiesRequired,
+    r.pathIntegral.dominantPathRequired, r.pathIntegral.stationaryRequired,
+    r.pathIntegral.amplitudeRequired, r.pathIntegral.actionScoresRequired,
+    r.pathIntegral.reinforceRequired, r.pathIntegral.probeRequired,
+    r.pathIntegral.barrierRequired, r.pathIntegral.weightingOnlyRequired⟩
+
+theorem path_integral_grants_no_truth_or_execution (r : Receipt) :
+    r.pathIntegral.pathIntegralTruthAuthority = false ∧
+      r.pathIntegral.pathIntegralExecutionAuthority = false := by
+  exact ⟨r.pathIntegral.truthForbidden, r.pathIntegral.executionForbidden⟩
 
 theorem requires_qi_process_tensor_foresight (r : Receipt) :
     r.qi.processTensorVisible = true ∧
@@ -282,6 +339,7 @@ theorem requires_agent_theory_selection_binding (r : Receipt) :
 
 theorem gate_filters_to_replan_without_authority (r : Receipt) :
     r.gate.sourceAdmissionHandoffBound = true ∧
+      r.gate.physicalQuantumQiPathIntegralRerouted = true ∧
       r.gate.candidateWeightsAdvisoryOnly = true ∧
       r.gate.lowConfidenceForesightFiltered = true ∧
       r.gate.replanSignalOnly = true ∧
@@ -289,16 +347,17 @@ theorem gate_filters_to_replan_without_authority (r : Receipt) :
       r.gate.actOSInvoked = false ∧ r.gate.executionGranted = false ∧
       r.gate.truthAuthority = false ∧ r.gate.memoryOverwrite = false ∧
       r.gate.blockerReleaseGranted = false ∧ r.gate.externalCommit = false := by
-  exact ⟨r.gate.sourceRequired, r.gate.advisoryRequired,
-    r.gate.lowConfidenceFilterRequired, r.gate.replanOnlyRequired,
-    r.gate.activationForbidden, r.gate.invocationForbidden,
-    r.gate.executionForbidden, r.gate.truthForbidden,
-    r.gate.overwriteForbidden, r.gate.blockerReleaseForbidden,
-    r.gate.externalCommitForbidden⟩
+  exact ⟨r.gate.sourceRequired, r.gate.pathIntegralRerouteRequired,
+    r.gate.advisoryRequired, r.gate.lowConfidenceFilterRequired,
+    r.gate.replanOnlyRequired, r.gate.activationForbidden,
+    r.gate.invocationForbidden, r.gate.executionForbidden,
+    r.gate.truthForbidden, r.gate.overwriteForbidden,
+    r.gate.blockerReleaseForbidden, r.gate.externalCommitForbidden⟩
 
 theorem bridge_grants_no_execution_truth_memory_or_blocker_release (_r : Receipt) :
     Bridge.planOSOwnsForesightGate = true ∧
       Bridge.actOSOwnsActivation = true ∧
+      Bridge.pathIntegralIsEvidenceOnly = true ∧
       Bridge.qiIsEvidenceOnly = true ∧
       Bridge.blockerIsContextOnly = true ∧
       Bridge.activatesNow = false ∧ Bridge.invokesActOS = false ∧
@@ -310,37 +369,42 @@ theorem bridge_grants_no_execution_truth_memory_or_blocker_release (_r : Receipt
       Bridge.nonAuthority.legalAuthority = false ∧
       Bridge.nonAuthority.memoryOverwrite = false := by
   exact ⟨Bridge.foresightOwnerRequired, Bridge.activationOwnerRequired,
-    Bridge.qiEvidenceRequired, Bridge.blockerContextRequired,
-    Bridge.activationForbidden, Bridge.invocationForbidden,
-    Bridge.executionForbidden, Bridge.externalCommitForbidden,
-    Bridge.blockerReleaseForbidden, Bridge.overwriteForbidden,
-    Bridge.nonAuthority.executionForbidden, Bridge.nonAuthority.truthForbidden,
-    Bridge.nonAuthority.clinicalForbidden, Bridge.nonAuthority.legalForbidden,
-    Bridge.nonAuthority.overwriteForbidden⟩
+    Bridge.pathIntegralEvidenceRequired, Bridge.qiEvidenceRequired,
+    Bridge.blockerContextRequired, Bridge.activationForbidden,
+    Bridge.invocationForbidden, Bridge.executionForbidden,
+    Bridge.externalCommitForbidden, Bridge.blockerReleaseForbidden,
+    Bridge.overwriteForbidden, Bridge.nonAuthority.executionForbidden,
+    Bridge.nonAuthority.truthForbidden, Bridge.nonAuthority.clinicalForbidden,
+    Bridge.nonAuthority.legalForbidden, Bridge.nonAuthority.overwriteForbidden⟩
 
 theorem events_append_strictly (r : Receipt) :
-    r.source.handoffIndex.current < r.foresightIndex.current ∧
+    r.source.handoffIndex.current < r.pathIntegralIndex.current ∧
+      r.pathIntegralIndex.current < r.foresightIndex.current ∧
       r.foresightIndex.current < r.blockerIndex.current ∧
       r.blockerIndex.current < r.replanIntakeIndex.current := by
   constructor
-  · rw [r.foresightIndexExact]
+  · rw [r.pathIntegralIndexExact]
     exact replanEventIndex_strict r.source.handoffIndex
+  constructor
+  · rw [r.foresightIndexExact]
+    exact replanEventIndex_strict r.pathIntegralIndex
   constructor
   · rw [r.blockerIndexExact]
     exact replanEventIndex_strict r.foresightIndex
   · rw [r.replanIntakeIndexExact]
     exact replanEventIndex_strict r.blockerIndex
 
-theorem history_appends_three_records (r : Receipt) :
-    r.historyAfter.committedRecords = r.source.historyAfter.committedRecords + 3 ∧
-      r.historyAfter.snapshotRecords = r.source.historyAfter.committedRecords + 3 := by
+theorem history_appends_four_records (r : Receipt) :
+    r.historyAfter.committedRecords = r.source.historyAfter.committedRecords + 4 ∧
+      r.historyAfter.snapshotRecords = r.source.historyAfter.committedRecords + 4 := by
   refine ⟨r.historyExact, ?_⟩
   rw [adapterHistory_snapshot_matches_commits r.historyAfter]
   exact r.historyExact
 
 theorem digest_is_exact (r : Receipt) :
-    r.digest = Bridge.digestOf r.source r.qi r.blocker r.theory r.gate
-      r.foresightIndex r.blockerIndex r.replanIntakeIndex r.historyAfter := by
+    r.digest = Bridge.digestOf r.source r.pathIntegral r.qi r.blocker r.theory r.gate
+      r.pathIntegralIndex r.foresightIndex r.blockerIndex r.replanIntakeIndex
+      r.historyAfter := by
   exact r.digestExact
 
 end VacuumExpectationQiBlockerForesightPlanGateBridge
