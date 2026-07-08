@@ -1,0 +1,24 @@
+{
+  "authority_boundary": "selection_policy_not_authority_grant",
+  "candidate_receipt": "status/self_organization_candidate_receipt_v0_105.json",
+  "candidate_receipt_frontier": "kuuos_self_organization_candidate_receipt_v0_105",
+  "candidate_receipt_runtime": "runtime/kuuos_self_organization_candidate_receipt_v0_105.py",
+  "current_root_check": "runtime/kuuos_current_check.py",
+  "current_root_sequence": "kuuos_current_root_sequence_v0_105",
+  "effect_authorized": false,
+  "next_artifact": "status/self_organization_selected_next_action_v0_107.json",
+  "next_stage": "v0.107",
+  "policy_frontier": "kuuos_self_organization_selection_policy_v0_106",
+  "policy_mode": "policy_only",
+  "policy_schema_version": "v0.106",
+  "ranking_rules": [
+    "candidate_must_exist_in_v0_105_receipt",
+    "candidate_must_preserve_pr_path",
+    "candidate_must_require_governance_gate",
+    "candidate_must_have_single_next_stage_scope",
+    "candidate_must_preserve_phase_checkpoint"
+  ],
+  "selection_authorized": false,
+  "selection_output": null,
+  "tie_breaker": "lowest_expected_next_stage"
+}
