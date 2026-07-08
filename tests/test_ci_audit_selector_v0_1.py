@@ -31,6 +31,23 @@ class CiAuditSelectorV01Tests(unittest.TestCase):
         self.assertFalse(result["full_audit_required"])
         self.assertEqual(selected_ids(result), {"runtime-full", "workflow-integrity"})
 
+    def test_self_organization_change_uses_focused_cycle_check(self) -> None:
+        result = select(
+            REGISTRY,
+            [
+                "status/self_organization_selection_policy_v0_106.json",
+                "runtime/kuuos_self_organization_selection_policy_v0_106.py",
+                "runtime/kuuos_current_root_sequence_v0_106.py",
+                "runtime/kuuos_current_check.py",
+                "tests/test_kuuos_self_organization_selection_policy_v0_106.py",
+            ],
+            None,
+        )
+        self.assertFalse(result["full_audit_required"])
+        self.assertEqual(selected_ids(result), {"self-organization-cycle", "workflow-integrity"})
+        self.assertEqual(result["unknown_paths"], [])
+        self.assertEqual(result["unmapped_paths"], [])
+
     def test_core_spec_change_selects_core_and_structural_gate(self) -> None:
         result = select(REGISTRY, ["specs/example.yaml"], None)
         self.assertFalse(result["full_audit_required"])
