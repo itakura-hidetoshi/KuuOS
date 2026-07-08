@@ -2,7 +2,7 @@
 
 ## 位置づけ
 
-PlanOS v0.24は、PlanOS v0.23のactivation admission ActOS handoff receiptを入力として、気のプロセステンソル、ブロッカー理論、近年のAI agent理論を候補選別の前処理へ接続する。
+PlanOS v0.24は、PlanOS v0.23のactivation admission ActOS handoff receiptを入力として、Physical Quantum Qi Path Integral、気のプロセステンソル、ブロッカー理論、近年のAI agent理論を候補選別の前処理へ接続する。
 
 この層はPlanOSによるforesight gateだけを所有する。
 
@@ -58,10 +58,49 @@ causal world model
 → replan signal
 ```
 
+## Physical Quantum Qi Path Integral reroute
+
+PlanOS v0.24では、気のプロセステンソルへ入る前にPhysical Quantum Qi Path Integralをreroute層として置く。
+
+```text
+candidate surface
+→ weighted relational flow histories
+→ dominant path hint
+→ stationary path preservation
+→ path amplitude weights
+→ path action scores
+→ reinforce path weight / open probe potential / add barrier potential
+→ Qi process tensor foresight
+```
+
+このrerouteは、候補の重み付けと遮断理由の変換だけを行う。
+
+```text
+path integral considered = true
+weighted histories visible = true
+dominant path visible = true
+stationary path preserved = true
+path amplitude weights visible = true
+path action scores visible = true
+reinforce path weight allowed = true
+open probe potential allowed = true
+add barrier potential allowed = true
+path integral candidate weighting only = true
+path integral truth authority = false
+path integral execution authority = false
+```
+
+`final_ready` に対応する経路は `reinforce_path_weight` へ写像する。
+
+`final_needs_evidence` に対応する経路は `open_probe_potential` へ写像する。
+
+`final_repair_required` に対応する経路は `add_barrier_potential` へ写像する。
+
 ## 接続経路
 
 ```text
 PlanOS v0.23 ActOS handoff receipt
+→ Physical Quantum Qi Path Integral reroute evidence
 → Qi process tensor foresight evidence
 → blocker classification and reroute boundary
 → AI-theory selection binding
@@ -137,6 +176,7 @@ selection bindingはactivation authorizationではない。
 
 ```text
 source admission handoff bound = true
+physical quantum qi path integral rerouted = true
 candidate weights advisory only = true
 low confidence foresight filtered = true
 replan signal only = true
@@ -157,18 +197,20 @@ external commit = false
 
 ```text
 v0.23 ActOS handoff index
+< v0.24 physical quantum qi path integral reroute index
 < v0.24 foresight index
 < v0.24 blocker index
 < v0.24 replan intake index
 ```
 
-adapter historyにはforesight、blocker、replan intakeの3 recordを追加する。
+adapter historyにはpath integral reroute、foresight、blocker、replan intakeの4 recordを追加する。
 
 ## 所有権
 
 ```text
 foresight gate owner = PlanOS
 activation owner = ActOS
+Physical Quantum Qi Path Integral owner = evidence reroute surface
 Qi process tensor owner = evidence surface
 blocker owner = boundary context
 execution owner = ActOS
@@ -178,6 +220,8 @@ execution owner = ActOS
 
 ```text
 foresight gate != activation authorization
+path integral reroute != truth authority
+path integral weighting != execution permission
 candidate weighting != execution permission
 process reward != truth authority
 verifier trace != external commit
@@ -191,6 +235,8 @@ memory provenance != memory overwrite
 
 ```text
 source_handoff_remains_non_authoritative
+requires_physical_quantum_qi_path_integral_reroute
+path_integral_grants_no_truth_or_execution
 requires_qi_process_tensor_foresight
 requires_causal_reward_and_verifier_trace
 requires_blocker_classification_without_release
@@ -198,7 +244,7 @@ requires_agent_theory_selection_binding
 gate_filters_to_replan_without_authority
 bridge_grants_no_execution_truth_memory_or_blocker_release
 events_append_strictly
-history_appends_three_records
+history_appends_four_records
 digest_is_exact
 ```
 
@@ -206,9 +252,10 @@ digest_is_exact
 
 ```text
 an additive PlanOS-owned foresight gate over the v0.23 ActOS handoff receipt,
-using Qi process tensor continuity, blocker classification, process reward,
-agent memory, causal world-model and verifier traces to produce advisory
-candidate weighting and replan-intake-only evidence, while granting no
-activation, execution, external commit, memory overwrite, truth authority or
-blocker-release authority
+routed first through Physical Quantum Qi Path Integral evidence and then through
+Qi process tensor continuity, blocker classification, process reward, agent
+memory, causal world-model and verifier traces to produce advisory candidate
+weighting and replan-intake-only evidence, while granting no activation,
+execution, external commit, memory overwrite, truth authority or blocker-release
+authority
 ```
