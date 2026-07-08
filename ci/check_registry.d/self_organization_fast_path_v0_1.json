@@ -1,0 +1,38 @@
+{
+  "schema_version": "0.2",
+  "known_paths": [
+    "status/**"
+  ],
+  "full_audit_paths": [
+    "ci/check_registry.d/self_organization_fast_path_v0_1.json"
+  ],
+  "policy": {
+    "boundaries": [
+      "self_organization_phase_checkpoint != global_reaudit",
+      "focused_self_organization_ci != validator_weakening"
+    ]
+  },
+  "checks": {
+    "self-organization-cycle": {
+      "name": "Self-organization cycle checkpoint validation",
+      "runner": "python",
+      "command": "python3 -m unittest discover -s tests -p 'test_kuuos_self_organization_*.py'",
+      "group": "runtime",
+      "tier": "integration",
+      "paths": [
+        "status/self_organization_*.json",
+        "runtime/kuuos_self_organization_*.py",
+        "runtime/kuuos_current_root_sequence_v0_*.py",
+        "runtime/kuuos_current_check.py",
+        "tests/test_kuuos_self_organization_*.py"
+      ],
+      "depends_on": [],
+      "pr_supersedes": [
+        "runtime-full"
+      ],
+      "timeout_minutes": 10,
+      "pr_required": true,
+      "full_audit_member": false
+    }
+  }
+}
