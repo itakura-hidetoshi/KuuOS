@@ -1,0 +1,20 @@
+{
+  "candidate_receipt_frontier": "kuuos_self_organization_candidate_receipt_v0_112",
+  "candidate_receipt_schema_version": "v0.112",
+  "current_root_check": "runtime/kuuos_current_check.py",
+  "current_root_sequence": "kuuos_current_root_sequence_v0_111",
+  "next_artifact": "status/self_organization_selection_policy_v0_113.json",
+  "next_stage": "v0.113",
+  "queue": "status/self_organization_candidate_queue_v0_111.json",
+  "queue_frontier": "kuuos_self_organization_candidate_queue_v0_111",
+  "receipt_mode": "candidate_receipt_only",
+  "receipt_scope": "self_organization_next_cycle",
+  "received_candidate_count": 4,
+  "received_candidate_ids": [
+    "candidate-receipt-v0-112",
+    "selection-policy-v0-113",
+    "selected-next-action-v0-114",
+    "bounded-change-plan-v0-115"
+  ],
+  "source_runtime": "runtime/kuuos_self_organization_candidate_queue_v0_111.py"
+}
