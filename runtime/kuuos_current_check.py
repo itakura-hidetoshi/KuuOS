@@ -4,16 +4,16 @@ from __future__ import annotations
 import importlib
 import unittest
 
-from runtime.kuuos_current_root_sequence_v0_109 import CURRENT_ROOT_STEPS
+from runtime.kuuos_current_root_sequence_v0_110 import CURRENT_ROOT_STEPS
 
 CURRENT_RUNTIME_ROOT = "runtime/kuuos_current_check.py"
-CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_109"
-CURRENT_MAIN_FRONTIER = "self-organization v0.108"
-CURRENT_DRAFT_FRONTIER = "self-organization v0.109"
+CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_110"
+CURRENT_MAIN_FRONTIER = "self-organization v0.109"
+CURRENT_DRAFT_FRONTIER = "self-organization v0.110"
 CURRENT_DRAFT_PR = "pending"
-CURRENT_DRAFT_BRANCH = "feature-self-org-v0-109"
-CURRENT_FRONTIER_ARTIFACT = "status/self_organization_completion_receipt_v0_109.json"
-CURRENT_FRONTIER_MODE = "completion_receipt_only"
+CURRENT_DRAFT_BRANCH = "self-org-v0-110"
+CURRENT_FRONTIER_ARTIFACT = "status/self_organization_next_cycle_seed_v0_110.json"
+CURRENT_FRONTIER_MODE = "next_cycle_seed_only"
 CURRENT_FRONTIER_BOUNDARY = "phase_checkpoint_only"
 
 
