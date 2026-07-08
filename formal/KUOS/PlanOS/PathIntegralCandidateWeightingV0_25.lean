@@ -4,6 +4,8 @@ import KUOS.PlanOS.VacuumExpectationQiBlockerForesightPlanGateV0_24
 namespace KUOS
 namespace PlanOS
 
+open WORLD ObserveOS VerifyOS LearnOS DecisionOS
+
 structure PathIntegralCandidateWeightSurface where
   pathIntegral : PhysicalQuantumQiPathIntegralRerouteEvidence
   sourceV024Bound : Bool
