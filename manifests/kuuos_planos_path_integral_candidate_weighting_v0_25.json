@@ -1,0 +1,44 @@
+{
+  "version": "kuuos_planos_path_integral_candidate_weighting_v0_25",
+  "runtime": "runtime/kuuos_planos_path_integral_candidate_weighting_v0_25.py",
+  "formal_module": "formal/KUOS/PlanOS/PathIntegralCandidateWeightingV0_25.lean",
+  "documentation": "docs/KUUOS_PLANOS_PATH_INTEGRAL_CANDIDATE_WEIGHTING_v0_25.md",
+  "source_version": "kuuos_planos_qi_blocker_foresight_plan_gate_v0_24",
+  "inputs": {
+    "source_gate": true,
+    "path_integral": true,
+    "qi_process_tensor": true,
+    "blocker": true,
+    "candidates": true
+  },
+  "outputs": {
+    "candidate_weight_receipts": true,
+    "retained_candidate_ids": true,
+    "probe_candidate_ids": true,
+    "barrier_candidate_ids": true,
+    "receipt_digest": true
+  },
+  "reentry_modes": {
+    "reinforce_path_weight": true,
+    "open_probe_potential": true,
+    "add_barrier_potential": true
+  },
+  "required": {
+    "candidate_weighting_advisory_only": true,
+    "replan_recommendation_only": true,
+    "path_integral_candidate_weighting_only": true,
+    "qi_process_tensor_evidence_bound": true,
+    "blocker_penalty_bound": true
+  },
+  "closed": {
+    "selection_authority_granted": false,
+    "activation_authorization_granted": false,
+    "actos_invoked": false,
+    "execution_granted": false,
+    "truth_authority_granted": false,
+    "memory_overwrite_granted": false,
+    "blocker_release_granted": false,
+    "external_commit_granted": false
+  },
+  "history_delta": 1
+}
