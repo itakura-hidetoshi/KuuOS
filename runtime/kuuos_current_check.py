@@ -4,16 +4,16 @@ from __future__ import annotations
 import importlib
 import unittest
 
-from runtime.kuuos_current_root_sequence_v0_106 import CURRENT_ROOT_STEPS
+from runtime.kuuos_current_root_sequence_v0_107 import CURRENT_ROOT_STEPS
 
 CURRENT_RUNTIME_ROOT = "runtime/kuuos_current_check.py"
-CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_106"
-CURRENT_MAIN_FRONTIER = "self-organization v0.105"
-CURRENT_DRAFT_FRONTIER = "self-organization v0.106"
+CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_107"
+CURRENT_MAIN_FRONTIER = "self-organization v0.106"
+CURRENT_DRAFT_FRONTIER = "self-organization v0.107"
 CURRENT_DRAFT_PR = "pending"
-CURRENT_DRAFT_BRANCH = "feature-self-org-v0-106"
-CURRENT_FRONTIER_ARTIFACT = "status/self_organization_selection_policy_v0_106.json"
-CURRENT_FRONTIER_MODE = "policy_only"
+CURRENT_DRAFT_BRANCH = "feature-self-org-v0-107"
+CURRENT_FRONTIER_ARTIFACT = "status/self_organization_selected_next_action_v0_107.json"
+CURRENT_FRONTIER_MODE = "selection_only"
 CURRENT_FRONTIER_BOUNDARY = "phase_checkpoint_only"
 
 
