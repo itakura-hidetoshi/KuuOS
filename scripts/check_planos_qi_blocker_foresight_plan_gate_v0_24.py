@@ -135,7 +135,7 @@ def main() -> int:
     )
     require_tokens(
         ROOT / "scripts/run_plan_os_full_checks.py",
-        ("check_planos_qi_blocker_foresight_plan_gate_v0_24.py", "v0.1-v0.24"),
+        ("check_planos_qi_blocker_foresight_plan_gate_v0_24.py", "PASS: PlanOS v0.1-v0."),
     )
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
