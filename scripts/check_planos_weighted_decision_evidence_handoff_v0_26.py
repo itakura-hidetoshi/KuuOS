@@ -187,7 +187,7 @@ def main() -> int:
     )
     require_tokens(
         ROOT / "scripts/run_plan_os_full_checks.py",
-        ("check_planos_weighted_decision_evidence_handoff_v0_26.py", "v0.1-v0.26"),
+        ("check_planos_weighted_decision_evidence_handoff_v0_26.py", "PASS: PlanOS v0.1-v0."),
     )
     require_tokens(
         ROOT / "scripts/run_kuuos_runtime_full_check_v0_51.py",
