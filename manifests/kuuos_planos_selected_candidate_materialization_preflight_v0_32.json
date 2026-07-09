@@ -8,7 +8,7 @@
     "source_synthesis_receipt": true,
     "selected_candidate_id": true,
     "selected_candidate_digest": true,
-    "synthesis_receipt": true
+    "synthesis_receipt_record": true
   },
   "outputs": {
     "materialization_preflight": true,
