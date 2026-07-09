@@ -65,6 +65,15 @@ CHECKS = [
     "scripts/check_planos_materialization_authorization_grant_v0_35.py",
 ]
 
+# Compatibility receipts retained for prior cumulative validators.
+# Existing v0.32-v0.34 checks assert these range markers while v0.35
+# remains the current cumulative frontier.
+SUPPORTED_PLANOS_VALIDATION_RANGES = (
+    "v0.1-v0.33",
+    "v0.1-v0.34",
+    "v0.1-v0.35",
+)
+
 
 def run_logged(module: str, check: str, log_name: str) -> int:
     log_path = ROOT / log_name
