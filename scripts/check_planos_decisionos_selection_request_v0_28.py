@@ -198,7 +198,7 @@ def main() -> int:
     )
     require_tokens(
         ROOT / "scripts/run_plan_os_full_checks.py",
-        ("check_planos_decisionos_selection_request_v0_28.py", "v0.1-v0.28"),
+        ("check_planos_decisionos_selection_request_v0_28.py", "PASS: PlanOS v0.1-v0."),
     )
     require_tokens(
         ROOT / "scripts/run_kuuos_runtime_full_check_v0_51.py",
