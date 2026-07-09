@@ -63,9 +63,10 @@ def _ready_synthesis_receipt() -> dict:
 def _exercise_runtime() -> None:
     source = _ready_synthesis_receipt()
     require(source["version"] == SOURCE_VERSION, "source synthesis receipt version mismatch")
+    require("synthesis_receipt_record" in source, "source synthesis receipt record missing")
     receipt = build_selected_candidate_materialization_preflight_receipt(synthesis_receipt=source).to_dict()
     require(receipt["version"] == VERSION, "runtime version mismatch")
-    require(receipt["status"] == "PLANOS_SELECTED_CANDIDATE_MATERIALIZATION_PREFLIGHT_READY", "preflight status mismatch")
+    require(receipt["status"] == "PLANOS_SELECTED_CANDIDATE_MATERIALIZATION_PREFLIGHT_READY", f"preflight status mismatch: {receipt.get('blockers')}")
     require(receipt["selected_candidate_id"] == "repair-route", "selected id mismatch")
     require(receipt["boundary"]["materialization_preflight_only"] is True, "preflight-only boundary missing")
     require(receipt["boundary"]["materialization_authorization_granted"] is False, "materialization authorization promoted")
@@ -83,9 +84,9 @@ def _exercise_runtime() -> None:
     require("source_boundary_materialization_granted_promoted" in blocked["blockers"], "materialization promotion blocker missing")
 
     mismatch = dict(source)
-    record = dict(mismatch["synthesis_receipt"])
+    record = dict(mismatch["synthesis_receipt_record"])
     record["selected_candidate_digest"] = "wrong-digest"
-    mismatch["synthesis_receipt"] = record
+    mismatch["synthesis_receipt_record"] = record
     blocked_record = build_selected_candidate_materialization_preflight_receipt(synthesis_receipt=mismatch).to_dict()
     require(blocked_record["status"] == "PLANOS_SELECTED_CANDIDATE_MATERIALIZATION_PREFLIGHT_BLOCKED", "record mismatch not blocked")
     require("selected_candidate_digest_synthesis_receipt_mismatch" in blocked_record["blockers"], "record mismatch blocker missing")
@@ -104,7 +105,7 @@ def main() -> int:
     for path in (runtime, source_runtime, formal, source_formal, formal_root, aggregate_root, docs, manifest_path):
         require(path.is_file(), f"missing file: {path}")
 
-    require_tokens(runtime, ("build_selected_candidate_materialization_preflight_receipt", "PLANOS_SELECTED_CANDIDATE_MATERIALIZATION_PREFLIGHT_READY", "PLANOS_SELECTED_CANDIDATE_MATERIALIZATION_PREFLIGHT_BLOCKED", "materialization_preflight_only", "materialization_authorization_granted", "materialization_executed", "execution_granted"))
+    require_tokens(runtime, ("build_selected_candidate_materialization_preflight_receipt", "PLANOS_SELECTED_CANDIDATE_MATERIALIZATION_PREFLIGHT_READY", "PLANOS_SELECTED_CANDIDATE_MATERIALIZATION_PREFLIGHT_BLOCKED", "synthesis_receipt_record", "materialization_preflight_only", "materialization_authorization_granted", "materialization_executed", "execution_granted"))
     require_tokens(formal, ("SelectedCandidateMaterializationPreflightSurface", "SelectedCandidateMaterializationPreflightBoundary", "PlanOSSelectedCandidateMaterializationPreflightBridge", "source_receipt_remains_synthesis_receipt_only", "preflight_binds_selected_candidate_to_synthesis_receipt", "preflight_grants_no_materialization_activation_execution_or_truth", "boundary_blocks_materialization_execution_commit_memory_and_blocker_release", "history_appends_one_materialization_preflight_record", "digest_is_exact"))
     require_tokens(source_formal, ("PlanOSSelectedCandidateSynthesisReceiptBridge", "receipt_binds_selected_candidate_to_request"))
     require_tokens(formal_root, ("KUOS.PlanOS.SelectedCandidateMaterializationPreflightV0_32",))
