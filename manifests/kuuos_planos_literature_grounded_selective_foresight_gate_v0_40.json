@@ -1,0 +1,55 @@
+{
+  "version": "kuuos_planos_literature_grounded_selective_foresight_gate_v0_40",
+  "runtime": "runtime/kuuos_planos_literature_grounded_selective_foresight_gate_v0_40.py",
+  "formal_module": "formal/KUOS/PlanOS/LiteratureGroundedSelectiveForesightGateV0_40.lean",
+  "documentation": "docs/KUUOS_PLANOS_LITERATURE_GROUNDED_SELECTIVE_FORESIGHT_GATE_v0_40.md",
+  "source_version": "kuuos_planos_actos_invocation_receipt_v0_39",
+  "literature_sources": [
+    "arXiv:2606.30639",
+    "arXiv:2606.27483",
+    "arXiv:2509.03581",
+    "arXiv:2507.02076",
+    "arXiv:2511.08798",
+    "arXiv:2603.07670",
+    "arXiv:2503.16416",
+    "arXiv:2606.16576"
+  ],
+  "inputs": {
+    "source_actos_invocation_receipt": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "actos_invocation_receipt": true,
+    "literature_evidence": true
+  },
+  "outputs": {
+    "selective_foresight_gate": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "literature_basis_digest": true,
+    "receipt_digest": true
+  },
+  "required": {
+    "gate_owned_by_plan_os": true,
+    "source_actos_invocation_receipt_preserved": true,
+    "selected_candidate_bound_to_invocation_receipt": true,
+    "materialization_execution_preserved": true,
+    "activation_authorization_preserved": true,
+    "actos_invocation_preserved": true,
+    "literature_grounding_preserved": true,
+    "selective_foresight_gate_only": true,
+    "dynamic_planning_compute_accounted": true,
+    "selective_foresight_required": true,
+    "uncertainty_calibration_required": true,
+    "memory_mismatch_review_required": true,
+    "counterfactual_coverage_required": true,
+    "cost_safety_robustness_evaluation_required": true
+  },
+  "closed": {
+    "execution_granted": false,
+    "truth_authority_granted": false,
+    "memory_overwrite_granted": false,
+    "blocker_release_granted": false,
+    "external_commit_granted": false
+  },
+  "history_delta": 1
+}
