@@ -1,0 +1,43 @@
+{
+  "version": "kuuos_planos_decisionos_selection_request_v0_28",
+  "runtime": "runtime/kuuos_planos_decisionos_selection_request_v0_28.py",
+  "formal_module": "formal/KUOS/PlanOS/DecisionOSSelectionRequestV0_28.lean",
+  "documentation": "docs/KUUOS_PLANOS_DECISIONOS_SELECTION_REQUEST_v0_28.md",
+  "source_version": "kuuos_planos_decision_review_intake_v0_27",
+  "inputs": {
+    "source_review_intake_receipt": true,
+    "decision_review_items": true,
+    "review_candidate_ids": true,
+    "probe_candidate_ids": true,
+    "excluded_barrier_candidate_ids": true
+  },
+  "outputs": {
+    "selection_request_items": true,
+    "requested_candidate_ids": true,
+    "probe_candidate_ids": true,
+    "excluded_barrier_candidate_ids": true,
+    "receipt_digest": true
+  },
+  "required": {
+    "request_owned_by_plan_os": true,
+    "selection_owned_by_decision_os": true,
+    "selection_request_only": true,
+    "review_intake_preserved": true,
+    "probe_candidates_marked_not_selected": true,
+    "barrier_candidates_excluded": true
+  },
+  "closed": {
+    "candidate_selection_authority_granted": false,
+    "selected_candidate_committed": false,
+    "decision_made": false,
+    "decision_receipt_issued": false,
+    "activation_authorization_granted": false,
+    "actos_invoked": false,
+    "execution_granted": false,
+    "truth_authority_granted": false,
+    "memory_overwrite_granted": false,
+    "blocker_release_granted": false,
+    "external_commit_granted": false
+  },
+  "history_delta": 1
+}
