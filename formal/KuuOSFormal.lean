@@ -29,6 +29,7 @@ import KUOS.PlanOS.«VacuumExpectationActivationAdmissionActOSHandoffV0_23»
 import KUOS.PlanOS.VacuumExpectationQiBlockerForesightPlanGateV0_24
 import KUOS.PlanOS.PathIntegralCandidateWeightingV0_25
 import KUOS.PlanOS.WeightedDecisionEvidenceHandoffV0_26
+import KUOS.PlanOS.DecisionIntakeCandidateEnvelopeV0_27
 import KUOS.ActOS.«VacuumExpectationActivationAuthorizationIntakeV0_3»
 import KUOS.ActOS.VacuumExpectationBoundedAdapterInvocationV0_4
 import KUOS.WORLD.VacuumExpectationHostEffectAtomicCommitIntakeV0_52
