@@ -35,6 +35,7 @@ import KUOS.PlanOS.DecisionOSSelectionReceiptIntakeV0_29
 import KUOS.PlanOS.SelectedCandidateSynthesisRequestV0_30
 import KUOS.PlanOS.SelectedCandidateSynthesisReceiptV0_31
 import KUOS.PlanOS.SelectedCandidateMaterializationPreflightV0_32
+import KUOS.PlanOS.MaterializationAuthorizationRequestV0_33
 import KUOS.ActOS.«VacuumExpectationActivationAuthorizationIntakeV0_3»
 import KUOS.ActOS.VacuumExpectationBoundedAdapterInvocationV0_4
 import KUOS.WORLD.VacuumExpectationHostEffectAtomicCommitIntakeV0_52
@@ -118,32 +119,3 @@ import KUOS.WORLD.KuuOSRepositoryCheckpointAtomicCasTransitionV1_16
 import KUOS.WORLD.KuuOSRepositoryCheckpointLiveGitPreflightV1_17
 import KUOS.WORLD.KuuOSRepositoryCheckpointLiveRefCasV1_18
 import KUOS.WORLD.KuuOSRepositoryBoundedBlobV1_19
-import KUOS.WORLD.KuuOSRepositoryTreeCommitV1_20
-import KUOS.WORLD.KuuOSRepositoryConstructedCommitPublicationV1_21
-import KUOS.WORLD.KuuOSRepositoryDedicatedIndexV1_22
-import KUOS.WORLD.KuuOSRepositorySandboxReflectionV1_23
-import KUOS.WORLD.KuuOSRepositoryCheckpointReflogV1_24
-
--- Independent non-mutation recovery-governance line.
-import KUOS.WORLD.KuuOSCheckpointRecoveryProposalV0_1
-
--- Independent read-only lifecycle-governance line.
-import KUOS.WORLD.KuuOSApoptosisObservationV0_1
-import KUOS.WORLD.KuuOSApoptosisCandidateV0_2
-import KUOS.WORLD.KuuOSApoptosisDependencyReviewV0_3
-import KUOS.WORLD.KuuOSApoptosisAuthorityReviewV0_4
-import KUOS.WORLD.KuuOSApoptosisQuiescenceReviewV0_5
-import KUOS.WORLD.KuuOSApoptosisExternalReviewV0_6
-import KUOS.WORLD.KuuOSApoptosisIndependentAuthorizationV0_7
-import KUOS.WORLD.KuuOSApoptosisBoundedExecutionPreparationV0_8
-import KUOS.WORLD.KuuOSLifecycleReviewV0_9
-import KUOS.WORLD.KuuOSLifecycleBoundedRequestV0_10
-import KUOS.WORLD.KuuOSLifecycleStageV0_11
-import KUOS.WORLD.KuuOSLifecycleStageV0_12
-import KUOS.WORLD.KuuOSLifecycleStageV0_13
-import KUOS.WORLD.KuuOSLifecycleStageV0_14
-import KUOS.WORLD.KuuOSLifecycleStageV0_15
-import KUOS.WORLD.KuuOSLifecycleStageV0_16
-import KUOS.WORLD.KuuOSLifecycleStageV0_17
-import KUOS.WORLD.KuuOSLifecycleStageV0_18
-import KUOS.WORLD.KuuOSLifecycleStageV0_19
