@@ -1,0 +1,41 @@
+{
+  "version": "kuuos_planos_decision_intake_candidate_envelope_v0_27",
+  "source_version": "kuuos_planos_weighted_decision_evidence_handoff_v0_26",
+  "runtime": "runtime/kuuos_planos_decision_intake_candidate_envelope_v0_27.py",
+  "formal_module": "formal/KUOS/PlanOS/DecisionIntakeCandidateEnvelopeV0_27.lean",
+  "documentation": "docs/KUUOS_PLANOS_DECISION_INTAKE_CANDIDATE_ENVELOPE_v0_27.md",
+  "history_delta": 1,
+  "inputs": {
+    "weighted_decision_evidence_handoff_ready": true,
+    "source_receipt_digest": true,
+    "decision_evidence_items": true,
+    "review_candidate_ids": true,
+    "probe_candidate_ids": true,
+    "barrier_candidate_ids": true
+  },
+  "outputs": {
+    "decision_intake_candidate_envelope": true,
+    "decisionos_review_candidate_ids": true,
+    "probe_candidate_ids": true,
+    "barrier_candidate_ids": true,
+    "blocked_candidate_ids": true,
+    "receipt_digest": true
+  },
+  "required": {
+    "decisionos_intake_candidate_only": true,
+    "review_candidates_only": true,
+    "source_evidence_preserved": true,
+    "source_digest_bound": true
+  },
+  "closed": {
+    "decision_made": false,
+    "selected_candidate_committed": false,
+    "activation_authorization_granted": false,
+    "actos_invoked": false,
+    "execution_granted": false,
+    "truth_authority_granted": false,
+    "memory_overwrite_granted": false,
+    "blocker_release_granted": false,
+    "external_commit_granted": false
+  }
+}
