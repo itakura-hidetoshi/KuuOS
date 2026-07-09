@@ -9,10 +9,11 @@ from runtime.kuuos_planos_weighted_decision_evidence_handoff_v0_26 import build_
 from runtime.kuuos_planos_decision_review_intake_v0_27 import build_decision_review_intake_receipt
 from runtime.kuuos_planos_decisionos_selection_request_v0_28 import build_decisionos_selection_request_receipt
 from runtime.kuuos_planos_decisionos_selection_receipt_intake_v0_29 import DECISIONOS_SELECTION_VERSION, build_decisionos_selection_receipt_intake
-from runtime.kuuos_planos_selected_candidate_synthesis_request_v0_30 import SOURCE_VERSION, VERSION, build_selected_candidate_synthesis_request_receipt
+from runtime.kuuos_planos_selected_candidate_synthesis_request_v0_30 import build_selected_candidate_synthesis_request_receipt
+from runtime.kuuos_planos_selected_candidate_synthesis_receipt_v0_31 import SOURCE_VERSION, VERSION, build_selected_candidate_synthesis_receipt
 
 ROOT = Path(__file__).resolve().parents[1]
-MANIFEST_VERSION = "kuuos_planos_selected_candidate_synthesis_request_v0_30"
+MANIFEST_VERSION = "kuuos_planos_selected_candidate_synthesis_receipt_v0_31"
 
 
 def require(condition: bool, message: str) -> None:
@@ -26,7 +27,7 @@ def require_tokens(path: Path, tokens: tuple[str, ...]) -> None:
         require(token in text, f"{path}: missing {token}")
 
 
-def _ready_intake() -> dict:
+def _ready_request() -> dict:
     source_gate = {"source_admission_handoff_bound": True, "physical_quantum_qi_path_integral_rerouted": True, "activation_authorization_granted": False, "execution_granted": False}
     path = {"physical_quantum_qi_path_integral_reentry_considered": True, "dominant_reentry_mode": "reinforce_path_weight", "path_integral_candidate_weighting_only": True, "path_integral_truth_authority": False, "path_integral_execution_authority": False, "boundary": {"candidate_weighting_not_truth": True, "does_not_authorize_execution": True}}
     qi = {"process_tensor_visible": True, "transition_continuity_visible": True, "memory_continuity_visible": True, "nonmarkov_memory_visible": True, "grants_execution_authority": False}
@@ -53,59 +54,60 @@ def _ready_intake() -> dict:
         "blocker_release_granted": False,
         "external_commit_granted": False,
     }
-    return build_decisionos_selection_receipt_intake(selection_request_receipt=request, decisionos_selection_receipt=decision).to_dict()
+    intake = build_decisionos_selection_receipt_intake(selection_request_receipt=request, decisionos_selection_receipt=decision).to_dict()
+    return build_selected_candidate_synthesis_request_receipt(selection_receipt_intake=intake).to_dict()
 
 
 def _exercise_runtime() -> None:
-    intake = _ready_intake()
-    require(intake["version"] == SOURCE_VERSION, "source intake version mismatch")
-    receipt = build_selected_candidate_synthesis_request_receipt(selection_receipt_intake=intake).to_dict()
+    request = _ready_request()
+    require(request["version"] == SOURCE_VERSION, "source request version mismatch")
+    receipt = build_selected_candidate_synthesis_receipt(synthesis_request_receipt=request).to_dict()
     require(receipt["version"] == VERSION, "runtime version mismatch")
-    require(receipt["status"] == "PLANOS_SELECTED_CANDIDATE_SYNTHESIS_REQUEST_READY", "synthesis request status mismatch")
+    require(receipt["status"] == "PLANOS_SELECTED_CANDIDATE_SYNTHESIS_RECEIPT_READY", "synthesis receipt status mismatch")
     require(receipt["selected_candidate_id"] == "repair-route", "selected id mismatch")
-    require(receipt["boundary"]["synthesis_request_only"] is True, "request-only boundary missing")
+    require(receipt["boundary"]["synthesis_receipt_only"] is True, "receipt-only boundary missing")
     require(receipt["boundary"]["materialization_granted"] is False, "materialization promoted")
     require(receipt["boundary"]["execution_granted"] is False, "execution promoted")
-    require(receipt["synthesis_request"]["materialization_granted"] is False, "request materialization leaked")
-    require(receipt["synthesis_request"]["execution_ready"] is False, "request execution leaked")
+    require(receipt["synthesis_receipt_record"]["materialization_granted"] is False, "receipt materialization leaked")
+    require(receipt["synthesis_receipt_record"]["execution_ready"] is False, "receipt execution leaked")
 
-    promoted = dict(intake)
+    promoted = dict(request)
     boundary = dict(promoted["boundary"])
-    boundary["plan_synthesis_granted"] = True
+    boundary["materialization_granted"] = True
     promoted["boundary"] = boundary
-    blocked = build_selected_candidate_synthesis_request_receipt(selection_receipt_intake=promoted).to_dict()
-    require(blocked["status"] == "PLANOS_SELECTED_CANDIDATE_SYNTHESIS_REQUEST_BLOCKED", "promoted source not blocked")
-    require("source_boundary_plan_synthesis_granted_promoted" in blocked["blockers"], "synthesis promotion blocker missing")
+    blocked = build_selected_candidate_synthesis_receipt(synthesis_request_receipt=promoted).to_dict()
+    require(blocked["status"] == "PLANOS_SELECTED_CANDIDATE_SYNTHESIS_RECEIPT_BLOCKED", "promoted source not blocked")
+    require("source_boundary_materialization_granted_promoted" in blocked["blockers"], "materialization promotion blocker missing")
 
-    mismatch = dict(intake)
-    record = dict(mismatch["intake_record"])
-    record["selected_candidate_digest"] = "wrong-digest"
-    mismatch["intake_record"] = record
-    blocked_record = build_selected_candidate_synthesis_request_receipt(selection_receipt_intake=mismatch).to_dict()
-    require(blocked_record["status"] == "PLANOS_SELECTED_CANDIDATE_SYNTHESIS_REQUEST_BLOCKED", "record mismatch not blocked")
-    require("selected_candidate_digest_record_mismatch" in blocked_record["blockers"], "record mismatch blocker missing")
+    mismatch = dict(request)
+    source_request = dict(mismatch["synthesis_request"])
+    source_request["selected_candidate_digest"] = "wrong-digest"
+    mismatch["synthesis_request"] = source_request
+    blocked_request = build_selected_candidate_synthesis_receipt(synthesis_request_receipt=mismatch).to_dict()
+    require(blocked_request["status"] == "PLANOS_SELECTED_CANDIDATE_SYNTHESIS_RECEIPT_BLOCKED", "request mismatch not blocked")
+    require("selected_candidate_digest_request_mismatch" in blocked_request["blockers"], "request mismatch blocker missing")
 
 
 def main() -> int:
-    runtime = ROOT / "runtime/kuuos_planos_selected_candidate_synthesis_request_v0_30.py"
-    source_runtime = ROOT / "runtime/kuuos_planos_decisionos_selection_receipt_intake_v0_29.py"
-    formal = ROOT / "formal/KUOS/PlanOS/SelectedCandidateSynthesisRequestV0_30.lean"
-    source_formal = ROOT / "formal/KUOS/PlanOS/DecisionOSSelectionReceiptIntakeV0_29.lean"
-    formal_root = ROOT / "formal/KuuOSPlanOSV0_30.lean"
+    runtime = ROOT / "runtime/kuuos_planos_selected_candidate_synthesis_receipt_v0_31.py"
+    source_runtime = ROOT / "runtime/kuuos_planos_selected_candidate_synthesis_request_v0_30.py"
+    formal = ROOT / "formal/KUOS/PlanOS/SelectedCandidateSynthesisReceiptV0_31.lean"
+    source_formal = ROOT / "formal/KUOS/PlanOS/SelectedCandidateSynthesisRequestV0_30.lean"
+    formal_root = ROOT / "formal/KuuOSPlanOSV0_31.lean"
     aggregate_root = ROOT / "formal/KuuOSFormal.lean"
-    docs = ROOT / "docs/KUUOS_PLANOS_SELECTED_CANDIDATE_SYNTHESIS_REQUEST_v0_30.md"
-    manifest_path = ROOT / "manifests/kuuos_planos_selected_candidate_synthesis_request_v0_30.json"
+    docs = ROOT / "docs/KUUOS_PLANOS_SELECTED_CANDIDATE_SYNTHESIS_RECEIPT_v0_31.md"
+    manifest_path = ROOT / "manifests/kuuos_planos_selected_candidate_synthesis_receipt_v0_31.json"
 
     for path in (runtime, source_runtime, formal, source_formal, formal_root, aggregate_root, docs, manifest_path):
         require(path.is_file(), f"missing file: {path}")
 
-    require_tokens(runtime, ("build_selected_candidate_synthesis_request_receipt", "PLANOS_SELECTED_CANDIDATE_SYNTHESIS_REQUEST_READY", "PLANOS_SELECTED_CANDIDATE_SYNTHESIS_REQUEST_BLOCKED", "synthesis_request_only", "materialization_granted", "execution_granted"))
-    require_tokens(formal, ("SelectedCandidateSynthesisRequestSurface", "SelectedCandidateSynthesisRequestBoundary", "PlanOSSelectedCandidateSynthesisRequestBridge", "source_intake_remains_receipt_intake_only", "request_binds_selected_candidate_to_intake", "request_grants_no_materialization_activation_execution_or_truth", "boundary_blocks_materialization_commit_memory_and_blocker_release", "history_appends_one_synthesis_request_record", "digest_is_exact"))
-    require_tokens(source_formal, ("PlanOSDecisionOSSelectionReceiptIntakeBridge", "intake_binds_decisionos_selection_to_request"))
-    require_tokens(formal_root, ("KUOS.PlanOS.SelectedCandidateSynthesisRequestV0_30",))
-    require_tokens(aggregate_root, ("KUOS.PlanOS.SelectedCandidateSynthesisRequestV0_30",))
-    require_tokens(docs, ("PlanOS Selected Candidate Synthesis Request v0.30", "selected candidate bound to intake = true", "synthesis request only = true", "materialization granted = false", "execution granted = false"))
-    require_tokens(ROOT / "scripts/run_plan_os_full_checks.py", ("check_planos_selected_candidate_synthesis_request_v0_30.py", "v0.1-v0.31"))
+    require_tokens(runtime, ("build_selected_candidate_synthesis_receipt", "PLANOS_SELECTED_CANDIDATE_SYNTHESIS_RECEIPT_READY", "PLANOS_SELECTED_CANDIDATE_SYNTHESIS_RECEIPT_BLOCKED", "synthesis_receipt_only", "materialization_granted", "execution_granted"))
+    require_tokens(formal, ("SelectedCandidateSynthesisReceiptSurface", "SelectedCandidateSynthesisReceiptBoundary", "PlanOSSelectedCandidateSynthesisReceiptBridge", "source_request_remains_synthesis_request_only", "receipt_binds_selected_candidate_to_request", "receipt_grants_no_materialization_activation_execution_or_truth", "boundary_blocks_materialization_commit_memory_and_blocker_release", "history_appends_one_synthesis_receipt_record", "digest_is_exact"))
+    require_tokens(source_formal, ("PlanOSSelectedCandidateSynthesisRequestBridge", "request_binds_selected_candidate_to_intake"))
+    require_tokens(formal_root, ("KUOS.PlanOS.SelectedCandidateSynthesisReceiptV0_31",))
+    require_tokens(aggregate_root, ("KUOS.PlanOS.SelectedCandidateSynthesisReceiptV0_31",))
+    require_tokens(docs, ("PlanOS Selected Candidate Synthesis Receipt v0.31", "selected candidate bound to request = true", "synthesis receipt only = true", "materialization granted = false", "execution granted = false"))
+    require_tokens(ROOT / "scripts/run_plan_os_full_checks.py", ("check_planos_selected_candidate_synthesis_receipt_v0_31.py", "v0.1-v0.31"))
     require_tokens(ROOT / "scripts/run_kuuos_runtime_full_check_v0_51.py", ("check_planos_v031",))
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
@@ -125,7 +127,7 @@ def main() -> int:
         require(value is False, f"closed boundary promoted: {field}")
 
     _exercise_runtime()
-    print("PlanOS selected candidate synthesis request v0.30 checks passed")
+    print("PlanOS selected candidate synthesis receipt v0.31 checks passed")
     return 0
 
 
