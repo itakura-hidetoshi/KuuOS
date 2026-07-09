@@ -111,7 +111,7 @@ def main() -> int:
     require_tokens(formal_root, ("KUOS.PlanOS.SelectedCandidateMaterializationPreflightV0_32",))
     require_tokens(aggregate_root, ("KUOS.PlanOS.SelectedCandidateMaterializationPreflightV0_32",))
     require_tokens(docs, ("PlanOS Selected Candidate Materialization Preflight v0.32", "selected candidate bound to synthesis receipt = true", "materialization preflight only = true", "materialization authorization granted = false", "materialization executed = false", "execution granted = false"))
-    require_tokens(ROOT / "scripts/run_plan_os_full_checks.py", ("check_planos_selected_candidate_materialization_preflight_v0_32.py", "v0.1-v0.32"))
+    require_tokens(ROOT / "scripts/run_plan_os_full_checks.py", ("check_planos_selected_candidate_materialization_preflight_v0_32.py", "v0.1-v0.33"))
     require_tokens(ROOT / "scripts/run_kuuos_runtime_full_check_v0_51.py", ("check_planos_v032",))
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
