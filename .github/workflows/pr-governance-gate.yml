@@ -73,7 +73,7 @@ jobs:
     timeout-minutes: 65
     strategy:
       fail-fast: false
-      max-parallel: 4
+      max-parallel: 16
       matrix:
         check: ${{ fromJSON(needs.select.outputs.python_matrix) }}
     steps:
