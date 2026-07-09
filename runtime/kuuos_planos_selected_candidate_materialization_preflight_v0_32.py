@@ -74,6 +74,10 @@ def _digest(value: Any) -> str:
     return sha(value)
 
 
+def _source_synthesis_receipt_record(receipt: Mapping[str, Any]) -> Mapping[str, Any]:
+    return _m(receipt.get("synthesis_receipt_record"))
+
+
 def _source_blockers(receipt: Mapping[str, Any]) -> list[str]:
     blockers: list[str] = []
     if receipt.get("version") != SOURCE_VERSION:
@@ -103,7 +107,7 @@ def _source_blockers(receipt: Mapping[str, Any]) -> list[str]:
             blockers.append(f"source_boundary_{closed}_promoted")
     if not receipt.get("receipt_digest"):
         blockers.append("source_synthesis_receipt_digest_missing")
-    record = _m(receipt.get("synthesis_receipt"))
+    record = _source_synthesis_receipt_record(receipt)
     if not record:
         blockers.append("source_synthesis_receipt_record_missing")
     for closed in (
@@ -124,7 +128,7 @@ def build_selected_candidate_materialization_preflight_receipt(
     blockers = _source_blockers(source)
     selected_id = str(source.get("selected_candidate_id", ""))
     selected_digest = str(source.get("selected_candidate_digest", ""))
-    record = _m(source.get("synthesis_receipt"))
+    record = _source_synthesis_receipt_record(source)
     if not selected_id:
         blockers.append("selected_candidate_id_missing")
     if not selected_digest:
