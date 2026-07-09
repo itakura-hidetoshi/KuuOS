@@ -1,0 +1,44 @@
+{
+  "version": "kuuos_planos_weighted_decision_evidence_handoff_v0_26",
+  "runtime": "runtime/kuuos_planos_weighted_decision_evidence_handoff_v0_26.py",
+  "formal_module": "formal/KUOS/PlanOS/WeightedDecisionEvidenceHandoffV0_26.lean",
+  "documentation": "docs/KUUOS_PLANOS_WEIGHTED_DECISION_EVIDENCE_HANDOFF_v0_26.md",
+  "source_version": "kuuos_planos_path_integral_candidate_weighting_v0_25",
+  "inputs": {
+    "source_weighting_receipt": true,
+    "candidate_weight_receipts": true,
+    "retained_candidate_ids": true,
+    "probe_candidate_ids": true,
+    "barrier_candidate_ids": true
+  },
+  "outputs": {
+    "decision_evidence_items": true,
+    "review_candidate_ids": true,
+    "probe_candidate_ids": true,
+    "barrier_candidate_ids": true,
+    "blocked_candidate_ids": true,
+    "receipt_digest": true
+  },
+  "required": {
+    "handoff_owned_by_plan_os": true,
+    "selection_owned_by_decision_os": true,
+    "candidate_weights_advisory_only": true,
+    "decision_evidence_only": true,
+    "no_silent_candidate_substitution": true,
+    "barrier_candidates_not_selectable_here": true,
+    "probe_candidates_require_review": true
+  },
+  "closed": {
+    "selected_candidate_committed": false,
+    "decision_made": false,
+    "decision_receipt_issued": false,
+    "activation_authorization_granted": false,
+    "actos_invoked": false,
+    "execution_granted": false,
+    "truth_authority_granted": false,
+    "memory_overwrite_granted": false,
+    "blocker_release_granted": false,
+    "external_commit_granted": false
+  },
+  "history_delta": 1
+}

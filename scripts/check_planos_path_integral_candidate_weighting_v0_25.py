@@ -187,7 +187,7 @@ def main() -> int:
     )
     require_tokens(
         ROOT / "scripts/run_plan_os_full_checks.py",
-        ("check_planos_path_integral_candidate_weighting_v0_25.py", "v0.1-v0.25"),
+        ("check_planos_path_integral_candidate_weighting_v0_25.py", "PASS: PlanOS v0.1-v0."),
     )
     require_tokens(
         ROOT / "scripts/run_kuuos_runtime_full_check_v0_51.py",
