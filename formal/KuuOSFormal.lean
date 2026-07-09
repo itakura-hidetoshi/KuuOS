@@ -39,6 +39,7 @@ import KUOS.PlanOS.MaterializationAuthorizationRequestV0_33
 import KUOS.PlanOS.MaterializationAuthorizationRequestReceiptV0_34
 import KUOS.PlanOS.MaterializationAuthorizationGrantV0_35
 import KUOS.PlanOS.MaterializationExecutionReceiptV0_36
+import KUOS.PlanOS.ActivationAuthorizationRequestV0_37
 import KUOS.ActOS.«VacuumExpectationActivationAuthorizationIntakeV0_3»
 import KUOS.ActOS.VacuumExpectationBoundedAdapterInvocationV0_4
 import KUOS.WORLD.VacuumExpectationHostEffectAtomicCommitIntakeV0_52
