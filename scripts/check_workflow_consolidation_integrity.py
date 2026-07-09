@@ -16,7 +16,7 @@ CONSTRUCTED_WORKFLOW_PATTERN = re.compile(
 
 # These paths exist only inside RepositorySnapshot test fixtures.  The source
 # files may mention them as virtual repository members, but they are not
-dependencies on workflows in the checked-out repository.  Keep the exception
+# dependencies on workflows in the checked-out repository.  Keep the exception
 # source-scoped so every other reference remains fail-closed.
 VIRTUAL_FIXTURE_WORKFLOW_REFERENCES: dict[str, frozenset[str]] = {
     "tests/kuuos_repository_incremental_fixture_v0_81.py": frozenset(
