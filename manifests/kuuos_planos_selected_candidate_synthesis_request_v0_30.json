@@ -1,0 +1,36 @@
+{
+  "version": "kuuos_planos_selected_candidate_synthesis_request_v0_30",
+  "runtime": "runtime/kuuos_planos_selected_candidate_synthesis_request_v0_30.py",
+  "formal_module": "formal/KUOS/PlanOS/SelectedCandidateSynthesisRequestV0_30.lean",
+  "documentation": "docs/KUUOS_PLANOS_SELECTED_CANDIDATE_SYNTHESIS_REQUEST_v0_30.md",
+  "source_version": "kuuos_planos_decisionos_selection_receipt_intake_v0_29",
+  "inputs": {
+    "source_selection_receipt_intake": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "intake_record": true
+  },
+  "outputs": {
+    "synthesis_request": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "receipt_digest": true
+  },
+  "required": {
+    "request_owned_by_plan_os": true,
+    "source_selection_receipt_intake_preserved": true,
+    "selected_candidate_bound_to_intake": true,
+    "synthesis_request_only": true
+  },
+  "closed": {
+    "materialization_granted": false,
+    "activation_authorization_granted": false,
+    "actos_invoked": false,
+    "execution_granted": false,
+    "truth_authority_granted": false,
+    "memory_overwrite_granted": false,
+    "blocker_release_granted": false,
+    "external_commit_granted": false
+  },
+  "history_delta": 1
+}
