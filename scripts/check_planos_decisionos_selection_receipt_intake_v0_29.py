@@ -143,7 +143,7 @@ def main() -> int:
     require_tokens(formal_root, ("KUOS.PlanOS.DecisionOSSelectionReceiptIntakeV0_29",))
     require_tokens(aggregate_root, ("KUOS.PlanOS.DecisionOSSelectionReceiptIntakeV0_29",))
     require_tokens(docs, ("PlanOS DecisionOS Selection Receipt Intake v0.29", "selected candidate bound to request = true", "selected candidate committed here = false", "plan synthesis granted = false", "execution granted = false"))
-    require_tokens(ROOT / "scripts/run_plan_os_full_checks.py", ("check_planos_decisionos_selection_receipt_intake_v0_29.py", "v0.1-v0.29"))
+    require_tokens(ROOT / "scripts/run_plan_os_full_checks.py", ("check_planos_decisionos_selection_receipt_intake_v0_29.py", "PASS: PlanOS v0.1-v0."))
     require_tokens(ROOT / "scripts/run_kuuos_runtime_full_check_v0_51.py", ("check_planos_v029",))
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
