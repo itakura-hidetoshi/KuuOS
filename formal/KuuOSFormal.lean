@@ -34,6 +34,7 @@ import KUOS.PlanOS.DecisionOSSelectionRequestV0_28
 import KUOS.PlanOS.DecisionOSSelectionReceiptIntakeV0_29
 import KUOS.PlanOS.SelectedCandidateSynthesisRequestV0_30
 import KUOS.PlanOS.SelectedCandidateSynthesisReceiptV0_31
+import KUOS.PlanOS.SelectedCandidateMaterializationPreflightV0_32
 import KUOS.ActOS.«VacuumExpectationActivationAuthorizationIntakeV0_3»
 import KUOS.ActOS.VacuumExpectationBoundedAdapterInvocationV0_4
 import KUOS.WORLD.VacuumExpectationHostEffectAtomicCommitIntakeV0_52

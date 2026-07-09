@@ -135,7 +135,7 @@ REQUIRED_MARKERS = {
     ".github/workflows/pr-governance-gate.yml": [
         "pull_request:",
         "scripts/select_impacted_checks.py",
-        "max-parallel: 4",
+        "max-parallel: 16",
         "scripts/run_ci_check.py",
         "scripts/build_audit_summary.py",
     ],
@@ -292,7 +292,7 @@ def main() -> int:
     for relative in MANUAL_VERSION_WORKFLOWS:
         path = ROOT / relative
         if path.is_file() and "workflow_dispatch:" not in path.read_text(encoding="utf-8"):
-            errors.append(f"manual workflow lost workflow_dispatch trigger: {relative}")
+            errors.append(f"manual workflow missing workflow_dispatch: {relative}")
     for relative, markers in REQUIRED_MARKERS.items():
         path = ROOT / relative
         if not path.is_file():
@@ -301,14 +301,13 @@ def main() -> int:
         for marker in markers:
             if marker not in text:
                 errors.append(f"missing marker in {relative}: {marker}")
-    check_registry(errors)
     check_workflow_references(errors)
+    check_registry(errors)
     if errors:
         for error in errors:
             print(f"ERROR: {error}")
         return 1
-    scope = "full" if os.environ.get("KUUOS_FULL_WORKFLOW_SCAN") == "1" else "selected"
-    print(f"PASS: workflow consolidation integrity ({scope} reference scan)")
+    print("Workflow consolidation integrity checks passed")
     return 0
 
 

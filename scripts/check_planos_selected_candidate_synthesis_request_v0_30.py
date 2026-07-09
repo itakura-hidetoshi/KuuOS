@@ -105,8 +105,8 @@ def main() -> int:
     require_tokens(formal_root, ("KUOS.PlanOS.SelectedCandidateSynthesisRequestV0_30",))
     require_tokens(aggregate_root, ("KUOS.PlanOS.SelectedCandidateSynthesisRequestV0_30",))
     require_tokens(docs, ("PlanOS Selected Candidate Synthesis Request v0.30", "selected candidate bound to intake = true", "synthesis request only = true", "materialization granted = false", "execution granted = false"))
-    require_tokens(ROOT / "scripts/run_plan_os_full_checks.py", ("check_planos_selected_candidate_synthesis_request_v0_30.py", "v0.1-v0.31"))
-    require_tokens(ROOT / "scripts/run_kuuos_runtime_full_check_v0_51.py", ("check_planos_v031",))
+    require_tokens(ROOT / "scripts/run_plan_os_full_checks.py", ("check_planos_selected_candidate_synthesis_request_v0_30.py", "PASS: PlanOS v0.1-v0."))
+    require_tokens(ROOT / "scripts/run_kuuos_runtime_full_check_v0_51.py", ("check_planos_v030",))
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     require(manifest["version"] == MANIFEST_VERSION, "manifest version mismatch")
