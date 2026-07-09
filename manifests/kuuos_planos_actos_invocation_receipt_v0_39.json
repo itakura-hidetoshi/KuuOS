@@ -1,0 +1,39 @@
+{
+  "version": "kuuos_planos_actos_invocation_receipt_v0_39",
+  "runtime": "runtime/kuuos_planos_actos_invocation_receipt_v0_39.py",
+  "formal_module": "formal/KUOS/PlanOS/ActOSInvocationReceiptV0_39.lean",
+  "documentation": "docs/KUUOS_PLANOS_ACTOS_INVOCATION_RECEIPT_v0_39.md",
+  "source_version": "kuuos_planos_activation_authorization_grant_v0_38",
+  "inputs": {
+    "source_activation_authorization_grant": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "activation_authorization_grant": true
+  },
+  "outputs": {
+    "actos_invocation_receipt": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "receipt_digest": true
+  },
+  "required": {
+    "receipt_owned_by_plan_os": true,
+    "source_activation_authorization_grant_preserved": true,
+    "selected_candidate_bound_to_activation_grant": true,
+    "materialization_execution_preserved": true,
+    "activation_authorization_preserved": true,
+    "actos_invocation_receipt_only": true,
+    "materialization_authorization_granted": true,
+    "materialization_executed": true,
+    "activation_authorization_granted": true,
+    "actos_invoked": true
+  },
+  "closed": {
+    "execution_granted": false,
+    "truth_authority_granted": false,
+    "memory_overwrite_granted": false,
+    "blocker_release_granted": false,
+    "external_commit_granted": false
+  },
+  "history_delta": 1
+}
