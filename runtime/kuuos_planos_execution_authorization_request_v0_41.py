@@ -34,8 +34,17 @@ EXECUTION_AUTHORIZATION_REQUEST_BOUNDARY = {
     "external_commit_granted": False,
 }
 
-REQUIRED_GATE_SIGNALS = (
+REQUIRED_GATE_BOUNDARY_SIGNALS = (
     "literature_grounding_preserved",
+    "dynamic_planning_compute_accounted",
+    "selective_foresight_required",
+    "uncertainty_calibration_required",
+    "memory_mismatch_review_required",
+    "counterfactual_coverage_required",
+    "cost_safety_robustness_evaluation_required",
+)
+
+REQUIRED_GATE_RECORD_SIGNALS = (
     "dynamic_planning_compute_accounted",
     "selective_foresight_required",
     "uncertainty_calibration_required",
@@ -116,7 +125,7 @@ def _source_blockers(receipt: Mapping[str, Any]) -> list[str]:
         "activation_authorization_preserved",
         "actos_invocation_preserved",
         "selective_foresight_gate_only",
-    ) + REQUIRED_GATE_SIGNALS:
+    ) + REQUIRED_GATE_BOUNDARY_SIGNALS:
         if boundary.get(required) is not True:
             blockers.append(f"source_boundary_{required}_missing")
     for closed in (
@@ -135,7 +144,7 @@ def _source_blockers(receipt: Mapping[str, Any]) -> list[str]:
     record = _source_gate_record(receipt)
     if not record:
         blockers.append("source_selective_foresight_gate_record_missing")
-    for required in REQUIRED_GATE_SIGNALS:
+    for required in REQUIRED_GATE_RECORD_SIGNALS:
         if record and _truthy(record.get(required)) is not True:
             blockers.append(f"source_record_{required}_missing")
     if record and _truthy(record.get("execution_ready")):
