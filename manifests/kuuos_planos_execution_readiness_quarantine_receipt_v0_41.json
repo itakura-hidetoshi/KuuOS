@@ -1,0 +1,33 @@
+{
+  "closed": {
+    "blocker_release_granted": false,
+    "execution_granted": false,
+    "execution_ready": false,
+    "external_commit_granted": false,
+    "memory_overwrite_granted": false,
+    "truth_authority_granted": false
+  },
+  "documentation": "docs/KUUOS_PLANOS_EXECUTION_READINESS_QUARANTINE_RECEIPT_v0_41.md",
+  "formal_module": "formal/KUOS/PlanOS/ExecutionReadinessQuarantineReceiptV0_41.lean",
+  "history_delta": 1,
+  "inputs": {
+    "literature_basis_digest_present": true,
+    "selected_candidate_bound_to_selective_foresight_gate": true,
+    "selective_foresight_gate_ready": true
+  },
+  "outputs": {
+    "execution_readiness_quarantine_receipt": true,
+    "receipt_digest": true
+  },
+  "required": {
+    "counterfactual_coverage_required": true,
+    "cost_safety_robustness_evaluation_required": true,
+    "dynamic_planning_compute_accounted": true,
+    "memory_mismatch_review_required": true,
+    "source_selective_foresight_gate_preserved": true,
+    "uncertainty_calibration_required": true
+  },
+  "runtime": "runtime/kuuos_planos_execution_readiness_quarantine_receipt_v0_41.py",
+  "source_version": "kuuos_planos_literature_grounded_selective_foresight_gate_v0_40",
+  "version": "kuuos_planos_execution_readiness_quarantine_receipt_v0_41"
+}
