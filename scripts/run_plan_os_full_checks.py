@@ -58,6 +58,7 @@ CHECKS = [
     "scripts/check_planos_decisionos_selection_request_v0_28.py",
     "scripts/check_planos_decisionos_selection_receipt_intake_v0_29.py",
     "scripts/check_planos_selected_candidate_synthesis_request_v0_30.py",
+    "scripts/check_planos_selected_candidate_synthesis_receipt_v0_31.py",
 ]
 
 
@@ -100,7 +101,7 @@ def main() -> int:
             print(f"FAIL: {failure}")
         return 1
 
-    print("PASS: PlanOS v0.1-v0.30 validation completed")
+    print("PASS: PlanOS v0.1-v0.31 validation completed")
     return 0
 
 
