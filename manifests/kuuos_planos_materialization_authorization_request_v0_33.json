@@ -1,0 +1,37 @@
+{
+  "version": "kuuos_planos_materialization_authorization_request_v0_33",
+  "source_version": "kuuos_planos_selected_candidate_materialization_preflight_v0_32",
+  "runtime": "runtime/kuuos_planos_materialization_authorization_request_v0_33.py",
+  "formal_module": "formal/KUOS/PlanOS/MaterializationAuthorizationRequestV0_33.lean",
+  "documentation": "docs/KUUOS_PLANOS_MATERIALIZATION_AUTHORIZATION_REQUEST_v0_33.md",
+  "history_delta": 1,
+  "inputs": {
+    "source_materialization_preflight_ready": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "source_preflight_digest": true
+  },
+  "outputs": {
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "materialization_authorization_request": true,
+    "receipt_digest": true
+  },
+  "required": {
+    "request_owned_by_plan_os": true,
+    "source_materialization_preflight_preserved": true,
+    "selected_candidate_bound_to_preflight": true,
+    "materialization_authorization_request_only": true
+  },
+  "closed": {
+    "materialization_authorization_granted": false,
+    "materialization_executed": false,
+    "activation_authorization_granted": false,
+    "actos_invoked": false,
+    "execution_granted": false,
+    "truth_authority_granted": false,
+    "memory_overwrite_granted": false,
+    "blocker_release_granted": false,
+    "external_commit_granted": false
+  }
+}

@@ -11,10 +11,11 @@ from runtime.kuuos_planos_decisionos_selection_request_v0_28 import build_decisi
 from runtime.kuuos_planos_decisionos_selection_receipt_intake_v0_29 import DECISIONOS_SELECTION_VERSION, build_decisionos_selection_receipt_intake
 from runtime.kuuos_planos_selected_candidate_synthesis_request_v0_30 import build_selected_candidate_synthesis_request_receipt
 from runtime.kuuos_planos_selected_candidate_synthesis_receipt_v0_31 import build_selected_candidate_synthesis_receipt
-from runtime.kuuos_planos_selected_candidate_materialization_preflight_v0_32 import SOURCE_VERSION, VERSION, build_selected_candidate_materialization_preflight_receipt
+from runtime.kuuos_planos_selected_candidate_materialization_preflight_v0_32 import build_selected_candidate_materialization_preflight_receipt
+from runtime.kuuos_planos_materialization_authorization_request_v0_33 import SOURCE_VERSION, VERSION, build_materialization_authorization_request_receipt
 
 ROOT = Path(__file__).resolve().parents[1]
-MANIFEST_VERSION = "kuuos_planos_selected_candidate_materialization_preflight_v0_32"
+MANIFEST_VERSION = "kuuos_planos_materialization_authorization_request_v0_33"
 
 
 def require(condition: bool, message: str) -> None:
@@ -28,7 +29,7 @@ def require_tokens(path: Path, tokens: tuple[str, ...]) -> None:
         require(token in text, f"{path}: missing {token}")
 
 
-def _ready_synthesis_receipt() -> dict:
+def _ready_materialization_preflight() -> dict:
     source_gate = {"source_admission_handoff_bound": True, "physical_quantum_qi_path_integral_rerouted": True, "activation_authorization_granted": False, "execution_granted": False}
     path = {"physical_quantum_qi_path_integral_reentry_considered": True, "dominant_reentry_mode": "reinforce_path_weight", "path_integral_candidate_weighting_only": True, "path_integral_truth_authority": False, "path_integral_execution_authority": False, "boundary": {"candidate_weighting_not_truth": True, "does_not_authorize_execution": True}}
     qi = {"process_tensor_visible": True, "transition_continuity_visible": True, "memory_continuity_visible": True, "nonmarkov_memory_visible": True, "grants_execution_authority": False}
@@ -57,62 +58,63 @@ def _ready_synthesis_receipt() -> dict:
     }
     intake = build_decisionos_selection_receipt_intake(selection_request_receipt=request, decisionos_selection_receipt=decision).to_dict()
     synth_request = build_selected_candidate_synthesis_request_receipt(selection_receipt_intake=intake).to_dict()
-    return build_selected_candidate_synthesis_receipt(synthesis_request_receipt=synth_request).to_dict()
+    synth_receipt = build_selected_candidate_synthesis_receipt(synthesis_request_receipt=synth_request).to_dict()
+    return build_selected_candidate_materialization_preflight_receipt(synthesis_receipt=synth_receipt).to_dict()
 
 
 def _exercise_runtime() -> None:
-    source = _ready_synthesis_receipt()
-    require(source["version"] == SOURCE_VERSION, "source synthesis receipt version mismatch")
-    require("synthesis_receipt_record" in source, "source synthesis receipt record missing")
-    receipt = build_selected_candidate_materialization_preflight_receipt(synthesis_receipt=source).to_dict()
+    source = _ready_materialization_preflight()
+    require(source["version"] == SOURCE_VERSION, "source preflight version mismatch")
+    require("materialization_preflight" in source, "source preflight record missing")
+    receipt = build_materialization_authorization_request_receipt(materialization_preflight_receipt=source).to_dict()
     require(receipt["version"] == VERSION, "runtime version mismatch")
-    require(receipt["status"] == "PLANOS_SELECTED_CANDIDATE_MATERIALIZATION_PREFLIGHT_READY", f"preflight status mismatch: {receipt.get('blockers')}")
+    require(receipt["status"] == "PLANOS_MATERIALIZATION_AUTHORIZATION_REQUEST_READY", f"request status mismatch: {receipt.get('blockers')}")
     require(receipt["selected_candidate_id"] == "repair-route", "selected id mismatch")
-    require(receipt["boundary"]["materialization_preflight_only"] is True, "preflight-only boundary missing")
+    require(receipt["boundary"]["materialization_authorization_request_only"] is True, "request-only boundary missing")
     require(receipt["boundary"]["materialization_authorization_granted"] is False, "materialization authorization promoted")
     require(receipt["boundary"]["materialization_executed"] is False, "materialization executed")
     require(receipt["boundary"]["execution_granted"] is False, "execution promoted")
-    require(receipt["materialization_preflight"]["materialization_authorization_granted"] is False, "preflight authorization leaked")
-    require(receipt["materialization_preflight"]["materialization_executed"] is False, "preflight execution leaked")
+    require(receipt["materialization_authorization_request"]["materialization_authorization_granted"] is False, "request authorization leaked")
+    require(receipt["materialization_authorization_request"]["materialization_executed"] is False, "request execution leaked")
 
     promoted = dict(source)
     boundary = dict(promoted["boundary"])
-    boundary["materialization_granted"] = True
+    boundary["materialization_authorization_granted"] = True
     promoted["boundary"] = boundary
-    blocked = build_selected_candidate_materialization_preflight_receipt(synthesis_receipt=promoted).to_dict()
-    require(blocked["status"] == "PLANOS_SELECTED_CANDIDATE_MATERIALIZATION_PREFLIGHT_BLOCKED", "promoted source not blocked")
-    require("source_boundary_materialization_granted_promoted" in blocked["blockers"], "materialization promotion blocker missing")
+    blocked = build_materialization_authorization_request_receipt(materialization_preflight_receipt=promoted).to_dict()
+    require(blocked["status"] == "PLANOS_MATERIALIZATION_AUTHORIZATION_REQUEST_BLOCKED", "promoted source not blocked")
+    require("source_boundary_materialization_authorization_granted_promoted" in blocked["blockers"], "authorization promotion blocker missing")
 
     mismatch = dict(source)
-    record = dict(mismatch["synthesis_receipt_record"])
+    record = dict(mismatch["materialization_preflight"])
     record["selected_candidate_digest"] = "wrong-digest"
-    mismatch["synthesis_receipt_record"] = record
-    blocked_record = build_selected_candidate_materialization_preflight_receipt(synthesis_receipt=mismatch).to_dict()
-    require(blocked_record["status"] == "PLANOS_SELECTED_CANDIDATE_MATERIALIZATION_PREFLIGHT_BLOCKED", "record mismatch not blocked")
-    require("selected_candidate_digest_synthesis_receipt_mismatch" in blocked_record["blockers"], "record mismatch blocker missing")
+    mismatch["materialization_preflight"] = record
+    blocked_record = build_materialization_authorization_request_receipt(materialization_preflight_receipt=mismatch).to_dict()
+    require(blocked_record["status"] == "PLANOS_MATERIALIZATION_AUTHORIZATION_REQUEST_BLOCKED", "record mismatch not blocked")
+    require("selected_candidate_digest_preflight_mismatch" in blocked_record["blockers"], "record mismatch blocker missing")
 
 
 def main() -> int:
-    runtime = ROOT / "runtime/kuuos_planos_selected_candidate_materialization_preflight_v0_32.py"
-    source_runtime = ROOT / "runtime/kuuos_planos_selected_candidate_synthesis_receipt_v0_31.py"
-    formal = ROOT / "formal/KUOS/PlanOS/SelectedCandidateMaterializationPreflightV0_32.lean"
-    source_formal = ROOT / "formal/KUOS/PlanOS/SelectedCandidateSynthesisReceiptV0_31.lean"
-    formal_root = ROOT / "formal/KuuOSPlanOSV0_32.lean"
+    runtime = ROOT / "runtime/kuuos_planos_materialization_authorization_request_v0_33.py"
+    source_runtime = ROOT / "runtime/kuuos_planos_selected_candidate_materialization_preflight_v0_32.py"
+    formal = ROOT / "formal/KUOS/PlanOS/MaterializationAuthorizationRequestV0_33.lean"
+    source_formal = ROOT / "formal/KUOS/PlanOS/SelectedCandidateMaterializationPreflightV0_32.lean"
+    formal_root = ROOT / "formal/KuuOSPlanOSV0_33.lean"
     aggregate_root = ROOT / "formal/KuuOSFormal.lean"
-    docs = ROOT / "docs/KUUOS_PLANOS_SELECTED_CANDIDATE_MATERIALIZATION_PREFLIGHT_v0_32.md"
-    manifest_path = ROOT / "manifests/kuuos_planos_selected_candidate_materialization_preflight_v0_32.json"
+    docs = ROOT / "docs/KUUOS_PLANOS_MATERIALIZATION_AUTHORIZATION_REQUEST_v0_33.md"
+    manifest_path = ROOT / "manifests/kuuos_planos_materialization_authorization_request_v0_33.json"
 
     for path in (runtime, source_runtime, formal, source_formal, formal_root, aggregate_root, docs, manifest_path):
         require(path.is_file(), f"missing file: {path}")
 
-    require_tokens(runtime, ("build_selected_candidate_materialization_preflight_receipt", "PLANOS_SELECTED_CANDIDATE_MATERIALIZATION_PREFLIGHT_READY", "PLANOS_SELECTED_CANDIDATE_MATERIALIZATION_PREFLIGHT_BLOCKED", "synthesis_receipt_record", "materialization_preflight_only", "materialization_authorization_granted", "materialization_executed", "execution_granted"))
-    require_tokens(formal, ("SelectedCandidateMaterializationPreflightSurface", "SelectedCandidateMaterializationPreflightBoundary", "PlanOSSelectedCandidateMaterializationPreflightBridge", "source_receipt_remains_synthesis_receipt_only", "preflight_binds_selected_candidate_to_synthesis_receipt", "preflight_grants_no_materialization_activation_execution_or_truth", "boundary_blocks_materialization_execution_commit_memory_and_blocker_release", "history_appends_one_materialization_preflight_record", "digest_is_exact"))
-    require_tokens(source_formal, ("PlanOSSelectedCandidateSynthesisReceiptBridge", "receipt_binds_selected_candidate_to_request"))
-    require_tokens(formal_root, ("KUOS.PlanOS.SelectedCandidateMaterializationPreflightV0_32",))
-    require_tokens(aggregate_root, ("KUOS.PlanOS.SelectedCandidateMaterializationPreflightV0_32",))
-    require_tokens(docs, ("PlanOS Selected Candidate Materialization Preflight v0.32", "selected candidate bound to synthesis receipt = true", "materialization preflight only = true", "materialization authorization granted = false", "materialization executed = false", "execution granted = false"))
-    require_tokens(ROOT / "scripts/run_plan_os_full_checks.py", ("check_planos_selected_candidate_materialization_preflight_v0_32.py", "v0.1-v0.33"))
-    require_tokens(ROOT / "scripts/run_kuuos_runtime_full_check_v0_51.py", ("check_planos_v032",))
+    require_tokens(runtime, ("build_materialization_authorization_request_receipt", "PLANOS_MATERIALIZATION_AUTHORIZATION_REQUEST_READY", "PLANOS_MATERIALIZATION_AUTHORIZATION_REQUEST_BLOCKED", "materialization_preflight", "materialization_authorization_request_only", "materialization_authorization_granted", "materialization_executed", "execution_granted"))
+    require_tokens(formal, ("MaterializationAuthorizationRequestSurface", "MaterializationAuthorizationRequestBoundary", "PlanOSMaterializationAuthorizationRequestBridge", "source_preflight_remains_preflight_only", "request_binds_selected_candidate_to_preflight", "request_grants_no_authorization_execution_activation_or_truth", "boundary_blocks_materialization_execution_commit_memory_and_blocker_release", "history_appends_one_authorization_request_record", "digest_is_exact"))
+    require_tokens(source_formal, ("PlanOSSelectedCandidateMaterializationPreflightBridge", "preflight_binds_selected_candidate_to_synthesis_receipt"))
+    require_tokens(formal_root, ("KUOS.PlanOS.MaterializationAuthorizationRequestV0_33",))
+    require_tokens(aggregate_root, ("KUOS.PlanOS.MaterializationAuthorizationRequestV0_33",))
+    require_tokens(docs, ("PlanOS Materialization Authorization Request v0.33", "selected candidate bound to preflight = true", "materialization authorization request only = true", "materialization authorization granted = false", "materialization executed = false", "execution granted = false"))
+    require_tokens(ROOT / "scripts/run_plan_os_full_checks.py", ("check_planos_materialization_authorization_request_v0_33.py", "v0.1-v0.33"))
+    require_tokens(ROOT / "scripts/run_kuuos_runtime_full_check_v0_51.py", ("check_planos_v033",))
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     require(manifest["version"] == MANIFEST_VERSION, "manifest version mismatch")
@@ -131,7 +133,7 @@ def main() -> int:
         require(value is False, f"closed boundary promoted: {field}")
 
     _exercise_runtime()
-    print("PlanOS selected candidate materialization preflight v0.32 checks passed")
+    print("PlanOS materialization authorization request v0.33 checks passed")
     return 0
 
 
