@@ -4,12 +4,8 @@ from __future__ import annotations
 import json
 from pathlib import Path
 
-from runtime.kuuos_planos_path_integral_candidate_weighting_v0_25 import (
-    build_path_integral_candidate_weighting_receipt,
-)
-from runtime.kuuos_planos_weighted_decision_evidence_handoff_v0_26 import (
-    build_weighted_decision_evidence_handoff_receipt,
-)
+from runtime.kuuos_planos_path_integral_candidate_weighting_v0_25 import build_path_integral_candidate_weighting_receipt
+from runtime.kuuos_planos_weighted_decision_evidence_handoff_v0_26 import build_weighted_decision_evidence_handoff_receipt
 from runtime.kuuos_planos_decision_review_intake_v0_27 import (
     SOURCE_VERSION,
     VERSION,
@@ -32,12 +28,7 @@ def require_tokens(path: Path, tokens: tuple[str, ...]) -> None:
 
 
 def _source_gate() -> dict:
-    return {
-        "source_admission_handoff_bound": True,
-        "physical_quantum_qi_path_integral_rerouted": True,
-        "activation_authorization_granted": False,
-        "execution_granted": False,
-    }
+    return {"source_admission_handoff_bound": True, "physical_quantum_qi_path_integral_rerouted": True, "activation_authorization_granted": False, "execution_granted": False}
 
 
 def _path(mode: str = "reinforce_path_weight") -> dict:
@@ -47,48 +38,22 @@ def _path(mode: str = "reinforce_path_weight") -> dict:
         "path_integral_candidate_weighting_only": True,
         "path_integral_truth_authority": False,
         "path_integral_execution_authority": False,
-        "boundary": {
-            "candidate_weighting_not_truth": True,
-            "does_not_authorize_execution": True,
-        },
+        "boundary": {"candidate_weighting_not_truth": True, "does_not_authorize_execution": True},
     }
 
 
 def _qi() -> dict:
-    return {
-        "process_tensor_visible": True,
-        "transition_continuity_visible": True,
-        "memory_continuity_visible": True,
-        "nonmarkov_memory_visible": True,
-        "grants_execution_authority": False,
-    }
+    return {"process_tensor_visible": True, "transition_continuity_visible": True, "memory_continuity_visible": True, "nonmarkov_memory_visible": True, "grants_execution_authority": False}
 
 
 def _blocker() -> dict:
-    return {
-        "blocker_classified": True,
-        "protective_blocker_preserved": True,
-        "situational_blocker_rerouted": True,
-        "missing_evidence_held": False,
-        "blocker_release_granted": False,
-        "blocker_bypass_granted": False,
-    }
+    return {"blocker_classified": True, "protective_blocker_preserved": True, "situational_blocker_rerouted": True, "missing_evidence_held": False, "blocker_release_granted": False, "blocker_bypass_granted": False}
 
 
 def _candidates() -> list[dict]:
     return [
-        {
-            "candidate_id": "repair-route",
-            "candidate_type": "repair",
-            "estimated_risk": 0.2,
-            "candidate_digest": "candidate-digest-repair-route",
-        },
-        {
-            "candidate_id": "reroute-path",
-            "candidate_type": "reroute",
-            "estimated_risk": 0.3,
-            "candidate_digest": "candidate-digest-reroute-path",
-        },
+        {"candidate_id": "repair-route", "candidate_type": "repair", "estimated_risk": 0.2, "candidate_digest": "candidate-digest-repair-route"},
+        {"candidate_id": "reroute-path", "candidate_type": "reroute", "estimated_risk": 0.3, "candidate_digest": "candidate-digest-reroute-path"},
     ]
 
 
@@ -100,9 +65,7 @@ def _ready_handoff() -> dict:
         blocker=_blocker(),
         candidates=_candidates(),
     ).to_dict()
-    return build_weighted_decision_evidence_handoff_receipt(
-        weighting_receipt=weighting,
-    ).to_dict()
+    return build_weighted_decision_evidence_handoff_receipt(weighting_receipt=weighting).to_dict()
 
 
 def _exercise_runtime() -> None:
@@ -150,54 +113,14 @@ def main() -> int:
     for path in (runtime, source_runtime, formal, source_formal, formal_root, aggregate_root, docs, manifest_path):
         require(path.is_file(), f"missing file: {path}")
 
-    require_tokens(
-        runtime,
-        (
-            "build_decision_review_intake_receipt",
-            "PLANOS_DECISION_REVIEW_INTAKE_READY",
-            "PLANOS_DECISION_REVIEW_INTAKE_BLOCKED",
-            "silent_substitution_forbidden",
-            "barrier_candidate_review_blocked_here",
-            "candidate_selection_authority_granted",
-            "decision_receipt_issued",
-            "execution_granted",
-        ),
-    )
-    require_tokens(
-        formal,
-        (
-            "DecisionReviewIntakeSurface",
-            "DecisionReviewIntakeBoundary",
-            "PlanOSDecisionReviewIntakeBridge",
-            "source_handoff_remains_evidence_only",
-            "intake_is_review_input_only",
-            "intake_grants_no_selection_decision_activation_execution_or_truth",
-            "boundary_blocks_execution_commit_memory_and_blocker_release",
-            "history_appends_one_review_intake_record",
-            "digest_is_exact",
-        ),
-    )
+    require_tokens(runtime, ("build_decision_review_intake_receipt", "PLANOS_DECISION_REVIEW_INTAKE_READY", "PLANOS_DECISION_REVIEW_INTAKE_BLOCKED", "silent_substitution_forbidden", "barrier_candidate_review_blocked_here", "candidate_selection_authority_granted", "decision_receipt_issued", "execution_granted"))
+    require_tokens(formal, ("DecisionReviewIntakeSurface", "DecisionReviewIntakeBoundary", "PlanOSDecisionReviewIntakeBridge", "source_handoff_remains_evidence_only", "intake_is_review_input_only", "intake_grants_no_selection_decision_activation_execution_or_truth", "boundary_blocks_execution_commit_memory_and_blocker_release", "history_appends_one_review_intake_record", "digest_is_exact"))
     require_tokens(source_formal, ("PlanOSWeightedDecisionEvidenceHandoffBridge", "handoff_is_decision_evidence_only"))
     require_tokens(formal_root, ("KUOS.PlanOS.DecisionReviewIntakeV0_27",))
     require_tokens(aggregate_root, ("KUOS.PlanOS.DecisionReviewIntakeV0_27",))
-    require_tokens(
-        docs,
-        (
-            "PlanOS DecisionOS Review Intake v0.27",
-            "silent substitution forbidden = true",
-            "candidate selection authority granted = false",
-            "decision receipt issued = false",
-            "execution granted = false",
-        ),
-    )
-    require_tokens(
-        ROOT / "scripts/run_plan_os_full_checks.py",
-        ("check_planos_decision_review_intake_v0_27.py", "v0.1-v0.27"),
-    )
-    require_tokens(
-        ROOT / "scripts/run_kuuos_runtime_full_check_v0_51.py",
-        ("check_planos_v027",),
-    )
+    require_tokens(docs, ("PlanOS DecisionOS Review Intake v0.27", "silent substitution forbidden = true", "candidate selection authority granted = false", "decision receipt issued = false", "execution granted = false"))
+    require_tokens(ROOT / "scripts/run_plan_os_full_checks.py", ("check_planos_decision_review_intake_v0_27.py", "PASS: PlanOS v0.1-v0."))
+    require_tokens(ROOT / "scripts/run_kuuos_runtime_full_check_v0_51.py", ("check_planos_v027",))
 
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
     require(manifest["version"] == MANIFEST_VERSION, "manifest version mismatch")
