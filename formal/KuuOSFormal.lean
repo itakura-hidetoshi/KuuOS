@@ -31,6 +31,7 @@ import KUOS.PlanOS.PathIntegralCandidateWeightingV0_25
 import KUOS.PlanOS.WeightedDecisionEvidenceHandoffV0_26
 import KUOS.PlanOS.DecisionReviewIntakeV0_27
 import KUOS.PlanOS.DecisionOSSelectionRequestV0_28
+import KUOS.PlanOS.DecisionOSSelectionReceiptIntakeV0_29
 import KUOS.ActOS.«VacuumExpectationActivationAuthorizationIntakeV0_3»
 import KUOS.ActOS.VacuumExpectationBoundedAdapterInvocationV0_4
 import KUOS.WORLD.VacuumExpectationHostEffectAtomicCommitIntakeV0_52
