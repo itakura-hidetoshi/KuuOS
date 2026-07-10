@@ -1,0 +1,15 @@
+{
+  "version": "kuuos_planos_subsequent_cycle_execution_request_v0_78",
+  "source_version": "kuuos_planos_subsequent_cycle_start_receipt_v0_77",
+  "status": "PLANOS_SUBSEQUENT_CYCLE_EXECUTION_REQUEST_READY",
+  "runtime": "runtime/kuuos_planos_subsequent_cycle_execution_request_v0_78.py",
+  "checker": "scripts/check_planos_subsequent_cycle_execution_request_v0_78.py",
+  "formal": "formal/KuuOS/PlanOSSubsequentCycleExecutionRequestV078.lean",
+  "aggregate": "formal/KuuOS/PlanOSV078.lean",
+  "boundary": {
+    "subsequent_cycle_started": true,
+    "subsequent_cycle_execution_requested": true,
+    "subsequent_cycle_execution_authority_granted": false,
+    "subsequent_cycle_execution_started": false
+  }
+}
