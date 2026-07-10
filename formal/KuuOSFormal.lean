@@ -46,6 +46,7 @@ import KUOS.PlanOS.BlockerReleaseReceiptV0_58
 import KUOS.PlanOS.BlockerReleaseCloseoutReceiptV0_59
 import KUOS.PlanOS.NextCycleAdmissionRequestV0_60
 import KUOS.PlanOS.NextCycleAdmissionGrantV0_61
+import KUOS.PlanOS.NextCycleStartReceiptV0_62
 import KUOS.ActOS.«VacuumExpectationActivationAuthorizationIntakeV0_3»
 import KUOS.ActOS.VacuumExpectationBoundedAdapterInvocationV0_4
 import KUOS.WORLD.VacuumExpectationHostEffectAtomicCommitIntakeV0_52
