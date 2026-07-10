@@ -1,0 +1,49 @@
+{
+  "version": "kuuos_planos_subsequent_cycle_replan_request_v0_64",
+  "runtime": "runtime/kuuos_planos_subsequent_cycle_replan_request_v0_64.py",
+  "formal_module": "formal/KUOS/PlanOS/SubsequentCycleReplanRequestV0_64.lean",
+  "documentation": "docs/KUUOS_PLANOS_SUBSEQUENT_CYCLE_REPLAN_REQUEST_v0_64.md",
+  "source_version": "kuuos_planos_next_cycle_closeout_receipt_v0_63",
+  "inputs": {
+    "source_next_cycle_closeout_receipt": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "next_cycle_closeout_receipt": true
+  },
+  "outputs": {
+    "subsequent_cycle_replan_request": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "receipt_digest": true
+  },
+  "required": {
+    "request_owned_by_plan_os": true,
+    "source_next_cycle_closeout_receipt_preserved": true,
+    "selected_candidate_bound_to_next_cycle_closeout": true,
+    "memory_overwrite_preserved": true,
+    "memory_overwrite_closeout_preserved": true,
+    "cycle_closed_preserved": true,
+    "truth_authority_authorization_grant_preserved": true,
+    "truth_authority_preserved": true,
+    "truth_authority_cycle_closed_preserved": true,
+    "blocker_release_authorization_request_preserved": true,
+    "blocker_release_authorization_grant_preserved": true,
+    "blocker_release_preserved": true,
+    "blocker_release_cycle_closed_preserved": true,
+    "next_cycle_admission_request_preserved": true,
+    "next_cycle_admission_grant_preserved": true,
+    "next_cycle_start_receipt_preserved": true,
+    "next_cycle_closeout_receipt_preserved": true,
+    "next_cycle_admission_requested": true,
+    "next_cycle_admission_granted": true,
+    "next_cycle_started": true,
+    "next_cycle_cycle_closed": true,
+    "subsequent_cycle_replan_request_only": true,
+    "subsequent_cycle_replan_requested": true
+  },
+  "closed": {
+    "subsequent_cycle_candidate_generation_started": false,
+    "subsequent_cycle_admission_requested": false
+  },
+  "history_delta": 1
+}
