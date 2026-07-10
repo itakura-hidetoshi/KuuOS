@@ -1,0 +1,16 @@
+{
+  "version": "kuuos_planos_subsequent_cycle_candidate_selection_request_v0_72",
+  "source_version": "kuuos_planos_subsequent_cycle_candidate_selection_authorization_grant_v0_71",
+  "status_ready": "PLANOS_SUBSEQUENT_CYCLE_CANDIDATE_SELECTION_REQUEST_READY",
+  "runtime": "runtime/kuuos_planos_subsequent_cycle_candidate_selection_request_v0_72.py",
+  "checker": "scripts/check_planos_subsequent_cycle_candidate_selection_request_v0_72.py",
+  "formal": "formal/KUOS/PlanOS/SubsequentCycleCandidateSelectionRequestV0_72.lean",
+  "aggregate": "formal/KuuOSPlanOSV0_72.lean",
+  "boundary": {
+    "subsequent_cycle_candidate_selection_authorization_requested": true,
+    "subsequent_cycle_selection_authority_granted": true,
+    "subsequent_cycle_candidate_selection_requested": true,
+    "subsequent_cycle_candidate_selected": false,
+    "subsequent_cycle_admission_requested": false
+  }
+}
