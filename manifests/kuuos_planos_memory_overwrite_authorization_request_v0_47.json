@@ -1,0 +1,54 @@
+{
+  "version": "kuuos_planos_memory_overwrite_authorization_request_v0_47",
+  "runtime": "runtime/kuuos_planos_memory_overwrite_authorization_request_v0_47.py",
+  "formal_module": "formal/KUOS/PlanOS/MemoryOverwriteAuthorizationRequestV0_47.lean",
+  "documentation": "docs/KUUOS_PLANOS_MEMORY_OVERWRITE_AUTHORIZATION_REQUEST_v0_47.md",
+  "source_version": "kuuos_planos_external_commit_receipt_v0_46",
+  "inputs": {
+    "source_external_commit_receipt": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "external_commit_receipt": true
+  },
+  "outputs": {
+    "memory_overwrite_authorization_request": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "receipt_digest": true
+  },
+  "required": {
+    "request_owned_by_plan_os": true,
+    "source_external_commit_receipt_preserved": true,
+    "selected_candidate_bound_to_external_commit_receipt": true,
+    "materialization_execution_preserved": true,
+    "activation_authorization_preserved": true,
+    "actos_invocation_preserved": true,
+    "literature_grounding_preserved": true,
+    "dynamic_planning_compute_accounted": true,
+    "selective_foresight_preserved": true,
+    "uncertainty_calibration_preserved": true,
+    "memory_mismatch_review_preserved": true,
+    "counterfactual_coverage_preserved": true,
+    "cost_safety_robustness_evaluation_preserved": true,
+    "execution_authorization_grant_preserved": true,
+    "execution_receipt_preserved": true,
+    "execution_authorization_requested": true,
+    "execution_authorization_granted": true,
+    "execution_granted": true,
+    "external_commit_authorization_request_preserved": true,
+    "external_commit_authorization_grant_preserved": true,
+    "external_commit_receipt_preserved": true,
+    "external_commit_authorization_requested": true,
+    "external_commit_authorization_granted": true,
+    "external_commit_granted": true,
+    "memory_overwrite_authorization_request_only": true,
+    "memory_overwrite_authorization_requested": true
+  },
+  "closed": {
+    "memory_overwrite_authorization_granted": false,
+    "memory_overwrite_granted": false,
+    "truth_authority_granted": false,
+    "blocker_release_granted": false
+  },
+  "history_delta": 1
+}
