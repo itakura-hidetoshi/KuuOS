@@ -1,0 +1,14 @@
+{
+  "version": "kuuos_planos_subsequent_cycle_execution_authorization_grant_v0_79",
+  "source_version": "kuuos_planos_subsequent_cycle_execution_request_v0_78",
+  "status": "PLANOS_SUBSEQUENT_CYCLE_EXECUTION_AUTHORIZATION_GRANT_READY",
+  "runtime": "runtime/kuuos_planos_subsequent_cycle_execution_authorization_grant_v0_79.py",
+  "checker": "scripts/check_planos_subsequent_cycle_execution_authorization_grant_v0_79.py",
+  "formal": "formal/KuuOS/PlanOSSubsequentCycleExecutionAuthorizationGrantV079.lean",
+  "aggregate": "formal/KuuOS/PlanOSV079.lean",
+  "boundary": {
+    "subsequent_cycle_execution_requested": true,
+    "subsequent_cycle_execution_authority_granted": true,
+    "subsequent_cycle_execution_started": false
+  }
+}
