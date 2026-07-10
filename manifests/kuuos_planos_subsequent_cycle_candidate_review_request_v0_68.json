@@ -1,0 +1,50 @@
+{
+  "version": "kuuos_planos_subsequent_cycle_candidate_review_request_v0_68",
+  "runtime": "runtime/kuuos_planos_subsequent_cycle_candidate_review_request_v0_68.py",
+  "formal_module": "formal/KUOS/PlanOS/SubsequentCycleCandidateReviewRequestV0_68.lean",
+  "documentation": "docs/KUUOS_PLANOS_SUBSEQUENT_CYCLE_CANDIDATE_REVIEW_REQUEST_v0_68.md",
+  "source_version": "kuuos_planos_subsequent_cycle_candidate_evaluation_receipt_v0_67",
+  "inputs": {
+    "source_candidate_evaluation_receipt": true,
+    "review_scope": true,
+    "review_criteria_digest": true,
+    "evaluation_set_digest": true
+  },
+  "outputs": {
+    "subsequent_cycle_candidate_review_request": true,
+    "review_scope": true,
+    "review_criteria_digest": true,
+    "receipt_digest": true
+  },
+  "required": {
+    "request_owned_by_plan_os": true,
+    "source_candidate_evaluation_receipt_preserved": true,
+    "selected_candidate_provenance_preserved": true,
+    "candidate_set_digest_preserved": true,
+    "evaluation_set_digest_preserved": true,
+    "evaluation_count_exact_preserved": true,
+    "all_materialized_candidates_evaluated_preserved": true,
+    "evaluation_score_bounds_valid_preserved": true,
+    "evaluation_order_nonselection_preserved": true,
+    "memory_overwrite_preserved": true,
+    "truth_authority_preserved": true,
+    "blocker_release_preserved": true,
+    "next_cycle_cycle_closed": true,
+    "subsequent_cycle_replan_requested": true,
+    "subsequent_cycle_candidate_generation_started": true,
+    "subsequent_cycle_candidate_set_materialized": true,
+    "subsequent_cycle_candidate_evaluations_recorded": true,
+    "subsequent_cycle_candidate_review_request_only": true,
+    "subsequent_cycle_candidate_review_requested": true,
+    "subsequent_cycle_review_scope_bound": true,
+    "subsequent_cycle_review_criteria_digest_bound": true
+  },
+  "closed": {
+    "subsequent_cycle_selection_authority_granted": false,
+    "subsequent_cycle_candidate_review_completed": false,
+    "subsequent_cycle_candidate_selected": false,
+    "subsequent_cycle_admission_requested": false
+  },
+  "required_review_scope": "subsequent_cycle_candidate_evaluation_set",
+  "history_delta": 1
+}
