@@ -1,0 +1,54 @@
+{
+  "version": "kuuos_planos_subsequent_cycle_candidate_set_materialization_receipt_v0_66",
+  "runtime": "runtime/kuuos_planos_subsequent_cycle_candidate_set_materialization_receipt_v0_66.py",
+  "formal_module": "formal/KUOS/PlanOS/SubsequentCycleCandidateSetMaterializationReceiptV0_66.lean",
+  "documentation": "docs/KUUOS_PLANOS_SUBSEQUENT_CYCLE_CANDIDATE_SET_MATERIALIZATION_RECEIPT_v0_66.md",
+  "source_version": "kuuos_planos_subsequent_cycle_candidate_generation_start_receipt_v0_65",
+  "inputs": {
+    "source_candidate_generation_start_receipt": true,
+    "candidate_specs": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true
+  },
+  "outputs": {
+    "candidate_set": true,
+    "candidate_set_digest": true,
+    "candidate_count": true,
+    "subsequent_cycle_candidate_set_materialization_receipt": true,
+    "receipt_digest": true
+  },
+  "required": {
+    "receipt_owned_by_plan_os": true,
+    "source_candidate_generation_start_receipt_preserved": true,
+    "selected_candidate_provenance_bound_to_generation_start": true,
+    "memory_overwrite_preserved": true,
+    "memory_overwrite_closeout_preserved": true,
+    "cycle_closed_preserved": true,
+    "truth_authority_authorization_grant_preserved": true,
+    "truth_authority_preserved": true,
+    "truth_authority_cycle_closed_preserved": true,
+    "blocker_release_authorization_request_preserved": true,
+    "blocker_release_authorization_grant_preserved": true,
+    "blocker_release_preserved": true,
+    "blocker_release_cycle_closed_preserved": true,
+    "next_cycle_admission_request_preserved": true,
+    "next_cycle_admission_grant_preserved": true,
+    "next_cycle_start_receipt_preserved": true,
+    "next_cycle_closeout_receipt_preserved": true,
+    "subsequent_cycle_replan_request_preserved": true,
+    "candidate_generation_start_receipt_preserved": true,
+    "next_cycle_cycle_closed": true,
+    "subsequent_cycle_replan_requested": true,
+    "subsequent_cycle_candidate_generation_started": true,
+    "subsequent_cycle_candidate_set_materialization_receipt_only": true,
+    "subsequent_cycle_candidate_set_materialized": true,
+    "subsequent_cycle_candidate_set_nonempty": true,
+    "subsequent_cycle_candidate_ids_unique": true
+  },
+  "closed": {
+    "subsequent_cycle_candidate_selected": false,
+    "subsequent_cycle_admission_requested": false
+  },
+  "bounded_candidate_limit": 16,
+  "history_delta": 1
+}
