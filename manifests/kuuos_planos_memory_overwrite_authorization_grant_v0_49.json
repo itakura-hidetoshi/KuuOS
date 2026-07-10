@@ -1,0 +1,35 @@
+{
+  "version": "kuuos_planos_memory_overwrite_authorization_grant_v0_49",
+  "runtime": "runtime/kuuos_planos_memory_overwrite_authorization_grant_v0_49.py",
+  "formal_module": "formal/KUOS/PlanOS/MemoryOverwriteAuthorizationGrantV0_49.lean",
+  "documentation": "docs/KUUOS_PLANOS_MEMORY_OVERWRITE_AUTHORIZATION_GRANT_v0_49.md",
+  "source_version": "kuuos_planos_memory_overwrite_authorization_request_v0_48",
+  "inputs": {
+    "source_memory_overwrite_authorization_request": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "memory_overwrite_authorization_request": true
+  },
+  "outputs": {
+    "memory_overwrite_authorization_grant": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "receipt_digest": true
+  },
+  "required": {
+    "grant_owned_by_plan_os": true,
+    "source_memory_overwrite_authorization_request_preserved": true,
+    "selected_candidate_bound_to_memory_overwrite_request": true,
+    "external_commit_preserved": true,
+    "external_commit_closeout_preserved": true,
+    "memory_overwrite_authorization_grant_only": true,
+    "memory_overwrite_authorization_requested": true,
+    "memory_overwrite_authorization_granted": true
+  },
+  "closed": {
+    "memory_overwrite_granted": false,
+    "truth_authority_granted": false,
+    "blocker_release_granted": false
+  },
+  "history_delta": 1
+}
