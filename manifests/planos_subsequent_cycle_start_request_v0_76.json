@@ -1,0 +1,16 @@
+{
+  "version": "v0.76",
+  "component": "PlanOS",
+  "artifact": "subsequent-cycle start request",
+  "source": "kuuos_planos_subsequent_cycle_admission_grant_v0_75",
+  "runtime": "runtime/kuuos_planos_subsequent_cycle_start_request_v0_76.py",
+  "checker": "scripts/check_planos_subsequent_cycle_start_request_v0_76.py",
+  "formal": "formal/lean/KuuOS/PlanOSSubsequentCycleStartRequestV0_76.lean",
+  "aggregate": "formal/lean/KuuOS/PlanOSV0_76.lean",
+  "boundary": {
+    "subsequent_cycle_admission_requested": true,
+    "subsequent_cycle_admission_granted": true,
+    "subsequent_cycle_start_requested": true,
+    "subsequent_cycle_started": false
+  }
+}
