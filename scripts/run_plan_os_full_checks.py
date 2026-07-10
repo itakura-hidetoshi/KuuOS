@@ -89,6 +89,7 @@ CHECKS = [
     "scripts/check_planos_blocker_release_closeout_receipt_v0_59.py",
     "scripts/check_planos_next_cycle_admission_request_v0_60.py",
     "scripts/check_planos_next_cycle_admission_grant_v0_61.py",
+    "scripts/check_planos_next_cycle_start_receipt_v0_62.py",
 ]
 
 SUPPORTED_PLANOS_VALIDATION_RANGES = (
@@ -121,6 +122,7 @@ SUPPORTED_PLANOS_VALIDATION_RANGES = (
     "v0.1-v0.59",
     "v0.1-v0.60",
     "v0.1-v0.61",
+    "v0.1-v0.62",
 )
 
 
@@ -163,7 +165,7 @@ def main() -> int:
             print(f"FAIL: {failure}")
         return 1
 
-    print("PASS: PlanOS v0.1-v0.61 validation completed")
+    print("PASS: PlanOS v0.1-v0.62 validation completed")
     return 0
 
 
