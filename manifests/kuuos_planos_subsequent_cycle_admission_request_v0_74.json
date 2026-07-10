@@ -1,0 +1,13 @@
+{
+  "version": "kuuos_planos_subsequent_cycle_admission_request_v0_74",
+  "source_version": "kuuos_planos_subsequent_cycle_candidate_selection_receipt_v0_73",
+  "runtime": "runtime/kuuos_planos_subsequent_cycle_admission_request_v0_74.py",
+  "checker": "scripts/check_planos_subsequent_cycle_admission_request_v0_74.py",
+  "formal": "formal/KUOS/PlanOS/SubsequentCycleAdmissionRequestV0_74.lean",
+  "status_ready": "PLANOS_SUBSEQUENT_CYCLE_ADMISSION_REQUEST_READY",
+  "boundary": {
+    "subsequent_cycle_admission_requested": true,
+    "subsequent_cycle_admission_granted": false,
+    "subsequent_cycle_started": false
+  }
+}
