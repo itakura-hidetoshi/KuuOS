@@ -82,6 +82,7 @@ CHECKS = [
     "scripts/check_planos_truth_authority_authorization_request_v0_52.py",
     "scripts/check_planos_truth_authority_authorization_grant_v0_53.py",
     "scripts/check_planos_truth_authority_receipt_v0_54.py",
+    "scripts/check_planos_truth_authority_closeout_receipt_v0_55.py",
 ]
 
 SUPPORTED_PLANOS_VALIDATION_RANGES = (
@@ -107,6 +108,7 @@ SUPPORTED_PLANOS_VALIDATION_RANGES = (
     "v0.1-v0.52",
     "v0.1-v0.53",
     "v0.1-v0.54",
+    "v0.1-v0.55",
 )
 
 
@@ -149,7 +151,7 @@ def main() -> int:
             print(f"FAIL: {failure}")
         return 1
 
-    print("PASS: PlanOS v0.1-v0.54 validation completed")
+    print("PASS: PlanOS v0.1-v0.55 validation completed")
     return 0
 
 
