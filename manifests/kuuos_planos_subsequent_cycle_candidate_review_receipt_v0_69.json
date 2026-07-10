@@ -1,0 +1,69 @@
+{
+  "version": "kuuos_planos_subsequent_cycle_candidate_review_receipt_v0_69",
+  "runtime": "runtime/kuuos_planos_subsequent_cycle_candidate_review_receipt_v0_69.py",
+  "formal_module": "formal/KUOS/PlanOS/SubsequentCycleCandidateReviewReceiptV0_69.lean",
+  "documentation": "docs/KUUOS_PLANOS_SUBSEQUENT_CYCLE_CANDIDATE_REVIEW_RECEIPT_v0_69.md",
+  "source_version": "kuuos_planos_subsequent_cycle_candidate_review_request_v0_68",
+  "evaluation_source_version": "kuuos_planos_subsequent_cycle_candidate_evaluation_receipt_v0_67",
+  "inputs": {
+    "source_candidate_review_request": true,
+    "source_candidate_evaluation_receipt": true,
+    "review_specs": true,
+    "review_criteria_digest": true
+  },
+  "outputs": {
+    "review_outcomes": true,
+    "review_set_digest": true,
+    "review_count": true,
+    "selection_eligible_count": true,
+    "subsequent_cycle_candidate_review_receipt": true,
+    "receipt_digest": true
+  },
+  "required": {
+    "receipt_owned_by_plan_os": true,
+    "source_candidate_review_request_preserved": true,
+    "source_candidate_evaluation_receipt_preserved": true,
+    "selected_candidate_provenance_preserved": true,
+    "candidate_set_digest_preserved": true,
+    "evaluation_set_digest_preserved": true,
+    "evaluation_count_exact_preserved": true,
+    "review_scope_preserved": true,
+    "review_criteria_digest_preserved": true,
+    "all_materialized_candidates_evaluated_preserved": true,
+    "evaluation_score_bounds_valid_preserved": true,
+    "evaluation_order_nonselection_preserved": true,
+    "memory_overwrite_preserved": true,
+    "truth_authority_preserved": true,
+    "blocker_release_preserved": true,
+    "next_cycle_cycle_closed": true,
+    "subsequent_cycle_replan_requested": true,
+    "subsequent_cycle_candidate_generation_started": true,
+    "subsequent_cycle_candidate_set_materialized": true,
+    "subsequent_cycle_candidate_evaluations_recorded": true,
+    "subsequent_cycle_candidate_review_requested": true,
+    "subsequent_cycle_candidate_review_receipt_only": true,
+    "subsequent_cycle_all_evaluated_candidates_reviewed": true,
+    "subsequent_cycle_candidate_review_count_exact": true,
+    "subsequent_cycle_candidate_review_outcomes_recorded": true,
+    "subsequent_cycle_candidate_review_completed": true,
+    "subsequent_cycle_review_order_is_not_selection": true,
+    "subsequent_cycle_selection_eligibility_recorded": true
+  },
+  "closed": {
+    "subsequent_cycle_selection_authority_granted": false,
+    "subsequent_cycle_candidate_selection_requested": false,
+    "subsequent_cycle_candidate_selected": false,
+    "subsequent_cycle_admission_requested": false
+  },
+  "allowed_review_dispositions": [
+    "eligible",
+    "eligible_with_conditions",
+    "deferred",
+    "rejected"
+  ],
+  "selection_eligible_dispositions": [
+    "eligible",
+    "eligible_with_conditions"
+  ],
+  "history_delta": 1
+}
