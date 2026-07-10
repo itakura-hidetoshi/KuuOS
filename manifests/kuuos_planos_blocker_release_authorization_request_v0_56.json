@@ -1,0 +1,37 @@
+{
+  "version": "kuuos_planos_blocker_release_authorization_request_v0_56",
+  "runtime": "runtime/kuuos_planos_blocker_release_authorization_request_v0_56.py",
+  "formal_module": "formal/KUOS/PlanOS/BlockerReleaseAuthorizationRequestV0_56.lean",
+  "documentation": "docs/KUUOS_PLANOS_BLOCKER_RELEASE_AUTHORIZATION_REQUEST_v0_56.md",
+  "source_version": "kuuos_planos_truth_authority_closeout_receipt_v0_55",
+  "inputs": {
+    "source_truth_authority_closeout_receipt": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "truth_authority_closeout_receipt": true
+  },
+  "outputs": {
+    "blocker_release_authorization_request": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "receipt_digest": true
+  },
+  "required": {
+    "request_owned_by_plan_os": true,
+    "source_truth_authority_closeout_preserved": true,
+    "selected_candidate_bound_to_truth_authority_closeout": true,
+    "memory_overwrite_preserved": true,
+    "memory_overwrite_closeout_preserved": true,
+    "cycle_closed_preserved": true,
+    "truth_authority_authorization_grant_preserved": true,
+    "truth_authority_preserved": true,
+    "truth_authority_cycle_closed_preserved": true,
+    "blocker_release_authorization_request_only": true,
+    "blocker_release_authorization_requested": true
+  },
+  "closed": {
+    "blocker_release_authorization_granted": false,
+    "blocker_release_granted": false
+  },
+  "history_delta": 1
+}
