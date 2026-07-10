@@ -1,0 +1,13 @@
+{
+  "version": "kuuos_planos_subsequent_cycle_candidate_selection_receipt_v0_73",
+  "source_version": "kuuos_planos_subsequent_cycle_candidate_selection_request_v0_72",
+  "status": "candidate_selection_receipt_only",
+  "selected_candidate_must_be_review_eligible": true,
+  "selection_authority_granted": true,
+  "candidate_selection_requested": true,
+  "candidate_selected": true,
+  "admission_requested": false,
+  "runtime": "runtime/kuuos_planos_subsequent_cycle_candidate_selection_receipt_v0_73.py",
+  "checker": "scripts/check_planos_subsequent_cycle_candidate_selection_receipt_v0_73.py",
+  "formal": "formal/KUOS/PlanOS/SubsequentCycleCandidateSelectionReceiptV0_73.lean"
+}
