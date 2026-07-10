@@ -1,0 +1,35 @@
+{
+  "version": "kuuos_planos_truth_authority_authorization_grant_v0_53",
+  "runtime": "runtime/kuuos_planos_truth_authority_authorization_grant_v0_53.py",
+  "formal_module": "formal/KUOS/PlanOS/TruthAuthorityAuthorizationGrantV0_53.lean",
+  "documentation": "docs/KUUOS_PLANOS_TRUTH_AUTHORITY_AUTHORIZATION_GRANT_v0_53.md",
+  "source_version": "kuuos_planos_truth_authority_authorization_request_v0_52",
+  "inputs": {
+    "source_truth_authority_authorization_request": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "truth_authority_authorization_request": true
+  },
+  "outputs": {
+    "truth_authority_authorization_grant": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "receipt_digest": true
+  },
+  "required": {
+    "grant_owned_by_plan_os": true,
+    "source_truth_authority_authorization_request_preserved": true,
+    "selected_candidate_bound_to_truth_authority_request": true,
+    "memory_overwrite_preserved": true,
+    "memory_overwrite_closeout_preserved": true,
+    "cycle_closed_preserved": true,
+    "truth_authority_authorization_grant_only": true,
+    "truth_authority_authorization_requested": true,
+    "truth_authority_authorization_granted": true
+  },
+  "closed": {
+    "truth_authority_granted": false,
+    "blocker_release_granted": false
+  },
+  "history_delta": 1
+}
