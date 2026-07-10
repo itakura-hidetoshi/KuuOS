@@ -49,6 +49,7 @@ import KUOS.PlanOS.ExecutionReceiptV0_43
 import KUOS.PlanOS.ExternalCommitAuthorizationRequestV0_44
 import KUOS.PlanOS.ExternalCommitAuthorizationGrantV0_45
 import KUOS.PlanOS.ExternalCommitReceiptV0_46
+import KUOS.PlanOS.ExternalCommitCloseoutReceiptV0_47
 import KUOS.ActOS.«VacuumExpectationActivationAuthorizationIntakeV0_3»
 import KUOS.ActOS.VacuumExpectationBoundedAdapterInvocationV0_4
 import KUOS.WORLD.VacuumExpectationHostEffectAtomicCommitIntakeV0_52
