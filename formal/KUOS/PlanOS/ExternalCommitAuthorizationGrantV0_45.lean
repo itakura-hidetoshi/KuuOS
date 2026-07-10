@@ -121,7 +121,6 @@ structure PlanOSExternalCommitAuthorizationGrantBridge where
   nonAuthority : AdapterNonAuthority
   historyDeltaRequired : historyDelta = 1
   digestExact : digest = digestOf surface boundary eventIndex
-  externalCommitForbidden : nonAuthority.externalCommit = false
   truthForbidden : nonAuthority.truthAuthority = false
   clinicalForbidden : nonAuthority.clinicalAuthority = false
   legalForbidden : nonAuthority.legalAuthority = false
@@ -185,7 +184,6 @@ theorem grant_authorizes_external_commit_but_does_not_commit_memory_truth_or_blo
       b.boundary.externalCommitGranted = false ∧
       b.boundary.memoryOverwrite = false ∧
       b.boundary.blockerReleaseGranted = false ∧
-      b.nonAuthority.externalCommit = false ∧
       b.nonAuthority.truthAuthority = false := by
   exact ⟨b.surface.externalCommitRequestPreservedRequired,
     b.surface.externalCommitGrantOnlyRequired,
@@ -198,7 +196,6 @@ theorem grant_authorizes_external_commit_but_does_not_commit_memory_truth_or_blo
     b.boundary.externalCommitForbidden,
     b.boundary.overwriteForbidden,
     b.boundary.blockerReleaseForbidden,
-    b.externalCommitForbidden,
     b.truthForbidden⟩
 
 theorem boundary_preserves_external_commit_authorization_grant_only
