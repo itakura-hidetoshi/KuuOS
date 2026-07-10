@@ -1,0 +1,33 @@
+{
+  "version": "kuuos_planos_external_commit_closeout_receipt_v0_47",
+  "runtime": "runtime/kuuos_planos_external_commit_closeout_receipt_v0_47.py",
+  "formal_module": "formal/KUOS/PlanOS/ExternalCommitCloseoutReceiptV0_47.lean",
+  "documentation": "docs/KUUOS_PLANOS_EXTERNAL_COMMIT_CLOSEOUT_RECEIPT_v0_47.md",
+  "source_version": "kuuos_planos_external_commit_receipt_v0_46",
+  "inputs": {
+    "source_external_commit_receipt": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "external_commit_receipt": true
+  },
+  "outputs": {
+    "external_commit_closeout_receipt": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "receipt_digest": true
+  },
+  "required": {
+    "closeout_owned_by_plan_os": true,
+    "source_external_commit_receipt_preserved": true,
+    "selected_candidate_bound_to_external_commit_receipt": true,
+    "external_commit_preserved": true,
+    "external_commit_closeout_receipt_only": true,
+    "cycle_closed": true
+  },
+  "closed": {
+    "truth_authority_granted": false,
+    "memory_overwrite_granted": false,
+    "blocker_release_granted": false
+  },
+  "history_delta": 1
+}
