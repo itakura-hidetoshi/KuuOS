@@ -73,10 +73,11 @@ CHECKS = [
     "scripts/check_planos_execution_receipt_v0_43.py",
     "scripts/check_planos_external_commit_authorization_request_v0_44.py",
     "scripts/check_planos_external_commit_authorization_grant_v0_45.py",
+    "scripts/check_planos_external_commit_receipt_v0_46.py",
 ]
 
 # Compatibility receipts retained for prior cumulative validators.
-# Existing v0.32-v0.44 checks assert these range markers while v0.45
+# Existing v0.32-v0.45 checks assert these range markers while v0.46
 # remains the current cumulative frontier.
 SUPPORTED_PLANOS_VALIDATION_RANGES = (
     "v0.1-v0.33",
@@ -92,6 +93,7 @@ SUPPORTED_PLANOS_VALIDATION_RANGES = (
     "v0.1-v0.43",
     "v0.1-v0.44",
     "v0.1-v0.45",
+    "v0.1-v0.46",
 )
 
 
@@ -134,7 +136,7 @@ def main() -> int:
             print(f"FAIL: {failure}")
         return 1
 
-    print("PASS: PlanOS v0.1-v0.45 validation completed")
+    print("PASS: PlanOS v0.1-v0.46 validation completed")
     return 0
 
 
