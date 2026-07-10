@@ -1,0 +1,14 @@
+{
+  "version": "kuuos_planos_subsequent_cycle_start_receipt_v0_77",
+  "source_version": "kuuos_planos_subsequent_cycle_start_request_v0_76",
+  "runtime": "runtime/kuuos_planos_subsequent_cycle_start_receipt_v0_77.py",
+  "checker": "scripts/check_planos_subsequent_cycle_start_receipt_v0_77.py",
+  "formal": "formal/KuuOS/PlanOSSubsequentCycleStartReceiptV077.lean",
+  "formal_aggregate": "formal/KuuOS/PlanOSV077.lean",
+  "status_ready": "PLANOS_SUBSEQUENT_CYCLE_START_RECEIPT_READY",
+  "boundary": {
+    "subsequent_cycle_start_requested": true,
+    "subsequent_cycle_started": true,
+    "subsequent_cycle_execution_requested": false
+  }
+}
