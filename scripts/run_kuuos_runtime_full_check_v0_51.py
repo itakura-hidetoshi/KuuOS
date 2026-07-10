@@ -10,6 +10,7 @@ if str(ROOT) not in sys.path:
 
 from scripts.check_actos_bounded_adapter_invocation_v0_4 import main as check_actos_v04
 from scripts.check_actos_activation_authorization_intake_v0_3 import main as check_actos_v03
+from scripts.check_planos_subsequent_cycle_candidate_review_request_v0_68 import main as check_planos_v068
 from scripts.check_planos_subsequent_cycle_candidate_evaluation_receipt_v0_67 import main as check_planos_v067
 from scripts.check_planos_subsequent_cycle_candidate_set_materialization_receipt_v0_66 import main as check_planos_v066
 from scripts.check_planos_subsequent_cycle_candidate_generation_start_receipt_v0_65 import main as check_planos_v065
@@ -72,6 +73,7 @@ def main() -> int:
     checks = (
         check_actos_v04,
         check_actos_v03,
+        check_planos_v068,
         check_planos_v067,
         check_planos_v066,
         check_planos_v065,
