@@ -1,0 +1,12 @@
+{
+  "version": "kuuos_planos_subsequent_cycle_admission_grant_v0_75",
+  "source_version": "kuuos_planos_subsequent_cycle_admission_request_v0_74",
+  "runtime": "runtime/kuuos_planos_subsequent_cycle_admission_grant_v0_75.py",
+  "checker": "scripts/check_planos_subsequent_cycle_admission_grant_v0_75.py",
+  "lean": "formal/lean/KUOS/PlanOS/SubsequentCycleAdmissionGrantV0_75.lean",
+  "boundary": {
+    "subsequent_cycle_admission_requested": true,
+    "subsequent_cycle_admission_granted": true,
+    "subsequent_cycle_started": false
+  }
+}
