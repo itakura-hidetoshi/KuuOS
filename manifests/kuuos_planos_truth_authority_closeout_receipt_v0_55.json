@@ -1,0 +1,35 @@
+{
+  "version": "kuuos_planos_truth_authority_closeout_receipt_v0_55",
+  "runtime": "runtime/kuuos_planos_truth_authority_closeout_receipt_v0_55.py",
+  "formal_module": "formal/KUOS/PlanOS/TruthAuthorityCloseoutReceiptV0_55.lean",
+  "documentation": "docs/KUUOS_PLANOS_TRUTH_AUTHORITY_CLOSEOUT_RECEIPT_v0_55.md",
+  "source_version": "kuuos_planos_truth_authority_receipt_v0_54",
+  "inputs": {
+    "source_truth_authority_receipt": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "truth_authority_receipt": true
+  },
+  "outputs": {
+    "truth_authority_closeout_receipt": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "receipt_digest": true
+  },
+  "required": {
+    "closeout_owned_by_plan_os": true,
+    "source_truth_authority_receipt_preserved": true,
+    "selected_candidate_bound_to_truth_authority_receipt": true,
+    "memory_overwrite_preserved": true,
+    "memory_overwrite_closeout_preserved": true,
+    "cycle_closed_preserved": true,
+    "truth_authority_authorization_grant_preserved": true,
+    "truth_authority_preserved": true,
+    "truth_authority_closeout_receipt_only": true,
+    "truth_authority_cycle_closed": true
+  },
+  "closed": {
+    "blocker_release_granted": false
+  },
+  "history_delta": 1
+}
