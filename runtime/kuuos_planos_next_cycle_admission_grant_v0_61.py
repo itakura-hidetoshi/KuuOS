@@ -63,6 +63,7 @@ class NextCycleAdmissionGrantRecord:
     source_blocker_release_closeout_receipt_digest: str
     source_blocker_release_receipt_digest: str
     source_blocker_release_authorization_grant_digest: str
+    source_blocker_release_authorization_request_digest: str
     source_truth_authority_closeout_receipt_digest: str
     source_memory_overwrite_closeout_receipt_digest: str
     next_cycle_admission_grant_digest: str
@@ -183,6 +184,9 @@ def build_next_cycle_admission_grant(
             source_blocker_release_authorization_grant_digest=str(
                 record.get("source_blocker_release_authorization_grant_digest", "")
             ),
+            source_blocker_release_authorization_request_digest=str(
+                record.get("source_blocker_release_authorization_request_digest", "")
+            ),
             source_truth_authority_closeout_receipt_digest=str(
                 record.get("source_truth_authority_closeout_receipt_digest", "")
             ),
@@ -197,6 +201,9 @@ def build_next_cycle_admission_grant(
                 "source_blocker_release_receipt_digest": record.get("source_blocker_release_receipt_digest"),
                 "source_blocker_release_authorization_grant_digest": record.get(
                     "source_blocker_release_authorization_grant_digest"
+                ),
+                "source_blocker_release_authorization_request_digest": record.get(
+                    "source_blocker_release_authorization_request_digest"
                 ),
                 "source_truth_authority_closeout_receipt_digest": record.get(
                     "source_truth_authority_closeout_receipt_digest"
