@@ -70,10 +70,11 @@ CHECKS = [
     "scripts/check_planos_literature_grounded_selective_foresight_gate_v0_40.py",
     "scripts/check_planos_execution_authorization_request_v0_41.py",
     "scripts/check_planos_execution_authorization_grant_v0_42.py",
+    "scripts/check_planos_execution_receipt_v0_43.py",
 ]
 
 # Compatibility receipts retained for prior cumulative validators.
-# Existing v0.32-v0.41 checks assert these range markers while v0.42
+# Existing v0.32-v0.42 checks assert these range markers while v0.43
 # remains the current cumulative frontier.
 SUPPORTED_PLANOS_VALIDATION_RANGES = (
     "v0.1-v0.33",
@@ -86,6 +87,7 @@ SUPPORTED_PLANOS_VALIDATION_RANGES = (
     "v0.1-v0.40",
     "v0.1-v0.41",
     "v0.1-v0.42",
+    "v0.1-v0.43",
 )
 
 
@@ -128,7 +130,7 @@ def main() -> int:
             print(f"FAIL: {failure}")
         return 1
 
-    print("PASS: PlanOS v0.1-v0.42 validation completed")
+    print("PASS: PlanOS v0.1-v0.43 validation completed")
     return 0
 
 
