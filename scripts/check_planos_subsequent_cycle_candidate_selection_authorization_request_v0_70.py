@@ -3,58 +3,25 @@ from __future__ import annotations
 
 from copy import deepcopy
 
-from runtime.kuuos_planos_subsequent_cycle_candidate_review_receipt_v0_69 import (
-    build_subsequent_cycle_candidate_review_receipt,
+from scripts.check_planos_subsequent_cycle_candidate_review_receipt_v0_69 import (
+    _build,
+    _ready_candidate_review_sources,
 )
 from runtime.kuuos_planos_subsequent_cycle_candidate_selection_authorization_request_v0_70 import (
     STATUS_READY,
     build_subsequent_cycle_candidate_selection_authorization_request,
 )
-from runtime.kuuos_planos_subsequent_cycle_candidate_evaluation_receipt_v0_67 import (
-    build_subsequent_cycle_candidate_evaluation_receipt,
-)
-from runtime.kuuos_planos_subsequent_cycle_candidate_review_request_v0_68 import (
-    build_subsequent_cycle_candidate_review_request,
-)
-from runtime.kuuos_planos_subsequent_cycle_candidate_set_materialization_receipt_v0_66 import (
-    build_subsequent_cycle_candidate_set_materialization_receipt,
-)
-from runtime.kuuos_planos_subsequent_cycle_candidate_generation_start_receipt_v0_65 import (
-    build_subsequent_cycle_candidate_generation_start_receipt,
-)
-from runtime.kuuos_planos_subsequent_cycle_replan_request_v0_64 import (
-    build_subsequent_cycle_replan_request,
-)
-from runtime.kuuos_planos_next_cycle_closeout_receipt_v0_63 import build_next_cycle_closeout_receipt
 
 
-def _source_review_receipt():
-    closeout = build_next_cycle_closeout_receipt().to_dict()
-    replan = build_subsequent_cycle_replan_request(closeout).to_dict()
-    generation = build_subsequent_cycle_candidate_generation_start_receipt(replan).to_dict()
-    materialized = build_subsequent_cycle_candidate_set_materialization_receipt(generation).to_dict()
-    evaluated = build_subsequent_cycle_candidate_evaluation_receipt(materialized).to_dict()
-    requested = build_subsequent_cycle_candidate_review_request(evaluated).to_dict()
-    specs = [
-        {
-            "candidate_id": evaluation["candidate_id"],
-            "review_disposition": disposition,
-            "review_rationale_digest": f"rationale::{evaluation['candidate_id']}",
-            "review_constraints_digest": f"constraints::{evaluation['candidate_id']}",
-        }
-        for evaluation, disposition in zip(
-            evaluated["evaluations"],
-            ("eligible", "eligible_with_conditions", "deferred"),
-            strict=True,
-        )
-    ]
-    return build_subsequent_cycle_candidate_review_receipt(requested, evaluated, specs).to_dict()
+def _source_review_receipt() -> dict:
+    request, evaluation = _ready_candidate_review_sources()
+    return _build(request, evaluation)
 
 
 def main() -> int:
     source = _source_review_receipt()
     result = build_subsequent_cycle_candidate_selection_authorization_request(source)
-    assert result.status == STATUS_READY
+    assert result.status == STATUS_READY, result.blockers
     assert result.blockers == []
     assert result.selection_eligible_count == 2
     assert len(result.eligible_candidate_ids) == 2
