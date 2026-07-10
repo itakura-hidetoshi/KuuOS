@@ -97,46 +97,11 @@ CHECKS = [
     "scripts/check_planos_subsequent_cycle_candidate_evaluation_receipt_v0_67.py",
     "scripts/check_planos_subsequent_cycle_candidate_review_request_v0_68.py",
     "scripts/check_planos_subsequent_cycle_candidate_review_receipt_v0_69.py",
+    "scripts/check_planos_subsequent_cycle_candidate_selection_authorization_request_v0_70.py",
 ]
 
-SUPPORTED_PLANOS_VALIDATION_RANGES = (
-    "v0.1-v0.33",
-    "v0.1-v0.34",
-    "v0.1-v0.35",
-    "v0.1-v0.36",
-    "v0.1-v0.37",
-    "v0.1-v0.38",
-    "v0.1-v0.39",
-    "v0.1-v0.40",
-    "v0.1-v0.41",
-    "v0.1-v0.42",
-    "v0.1-v0.43",
-    "v0.1-v0.44",
-    "v0.1-v0.45",
-    "v0.1-v0.46",
-    "v0.1-v0.47",
-    "v0.1-v0.48",
-    "v0.1-v0.49",
-    "v0.1-v0.50",
-    "v0.1-v0.51",
-    "v0.1-v0.52",
-    "v0.1-v0.53",
-    "v0.1-v0.54",
-    "v0.1-v0.55",
-    "v0.1-v0.56",
-    "v0.1-v0.57",
-    "v0.1-v0.58",
-    "v0.1-v0.59",
-    "v0.1-v0.60",
-    "v0.1-v0.61",
-    "v0.1-v0.62",
-    "v0.1-v0.63",
-    "v0.1-v0.64",
-    "v0.1-v0.65",
-    "v0.1-v0.66",
-    "v0.1-v0.67",
-    "v0.1-v0.68",
-    "v0.1-v0.69",
+SUPPORTED_PLANOS_VALIDATION_RANGES = tuple(
+    f"v0.1-v0.{minor}" for minor in range(33, 71)
 )
 
 
@@ -144,42 +109,30 @@ def run_logged(module: str, check: str, log_name: str) -> int:
     log_path = ROOT / log_name
     with log_path.open("w", encoding="utf-8") as log:
         runtime_result = subprocess.run(
-            [sys.executable, "-m", module],
-            cwd=ROOT,
-            env=PYTHON_ENV,
-            stdout=log,
-            stderr=subprocess.STDOUT,
+            [sys.executable, "-m", module], cwd=ROOT, env=PYTHON_ENV,
+            stdout=log, stderr=subprocess.STDOUT,
         )
         if runtime_result.returncode != 0:
             return runtime_result.returncode
-        check_result = subprocess.run(
-            [sys.executable, check],
-            cwd=ROOT,
-            env=PYTHON_ENV,
-            stdout=log,
-            stderr=subprocess.STDOUT,
-        )
-        return check_result.returncode
+        return subprocess.run(
+            [sys.executable, check], cwd=ROOT, env=PYTHON_ENV,
+            stdout=log, stderr=subprocess.STDOUT,
+        ).returncode
 
 
 def main() -> int:
     failures: list[str] = []
-
     for module, check, log_name in EARLY:
         if run_logged(module, check, log_name) != 0:
             failures.append(check)
-
     for check in CHECKS:
-        result = subprocess.run([sys.executable, check], cwd=ROOT, env=PYTHON_ENV)
-        if result.returncode != 0:
+        if subprocess.run([sys.executable, check], cwd=ROOT, env=PYTHON_ENV).returncode != 0:
             failures.append(check)
-
     if failures:
         for failure in failures:
             print(f"FAIL: {failure}")
         return 1
-
-    print("PASS: PlanOS v0.1-v0.69 validation completed")
+    print("PASS: PlanOS v0.1-v0.70 validation completed")
     return 0
 
 
