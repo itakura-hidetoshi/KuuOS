@@ -1,0 +1,51 @@
+{
+  "version": "kuuos_planos_subsequent_cycle_candidate_evaluation_receipt_v0_67",
+  "runtime": "runtime/kuuos_planos_subsequent_cycle_candidate_evaluation_receipt_v0_67.py",
+  "formal_module": "formal/KUOS/PlanOS/SubsequentCycleCandidateEvaluationReceiptV0_67.lean",
+  "documentation": "docs/KUUOS_PLANOS_SUBSEQUENT_CYCLE_CANDIDATE_EVALUATION_RECEIPT_v0_67.md",
+  "source_version": "kuuos_planos_subsequent_cycle_candidate_set_materialization_receipt_v0_66",
+  "inputs": {
+    "source_candidate_set_materialization_receipt": true,
+    "evaluation_specs": true,
+    "candidate_set": true,
+    "candidate_set_digest": true
+  },
+  "outputs": {
+    "evaluations": true,
+    "evaluation_set_digest": true,
+    "evaluation_count": true,
+    "subsequent_cycle_candidate_evaluation_receipt": true,
+    "receipt_digest": true
+  },
+  "required": {
+    "receipt_owned_by_plan_os": true,
+    "source_candidate_set_materialization_receipt_preserved": true,
+    "selected_candidate_provenance_preserved": true,
+    "candidate_set_digest_preserved": true,
+    "candidate_set_nonempty_preserved": true,
+    "candidate_ids_unique_preserved": true,
+    "memory_overwrite_preserved": true,
+    "truth_authority_preserved": true,
+    "blocker_release_preserved": true,
+    "next_cycle_cycle_closed": true,
+    "subsequent_cycle_replan_requested": true,
+    "subsequent_cycle_candidate_generation_started": true,
+    "subsequent_cycle_candidate_set_materialized": true,
+    "subsequent_cycle_candidate_evaluation_receipt_only": true,
+    "subsequent_cycle_all_materialized_candidates_evaluated": true,
+    "subsequent_cycle_candidate_evaluation_count_exact": true,
+    "subsequent_cycle_candidate_evaluation_score_bounds_valid": true,
+    "subsequent_cycle_candidate_evaluations_recorded": true,
+    "subsequent_cycle_evaluation_order_is_not_selection": true
+  },
+  "closed": {
+    "subsequent_cycle_candidate_review_requested": false,
+    "subsequent_cycle_candidate_selected": false,
+    "subsequent_cycle_admission_requested": false
+  },
+  "score_bounds": {
+    "minimum": 0,
+    "maximum": 100
+  },
+  "history_delta": 1
+}
