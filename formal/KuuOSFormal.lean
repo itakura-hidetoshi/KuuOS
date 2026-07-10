@@ -43,6 +43,7 @@ import KUOS.PlanOS.TruthAuthorityCloseoutReceiptV0_55
 import KUOS.PlanOS.BlockerReleaseAuthorizationRequestV0_56
 import KUOS.PlanOS.BlockerReleaseAuthorizationGrantV0_57
 import KUOS.PlanOS.BlockerReleaseReceiptV0_58
+import KUOS.PlanOS.BlockerReleaseCloseoutReceiptV0_59
 import KUOS.ActOS.«VacuumExpectationActivationAuthorizationIntakeV0_3»
 import KUOS.ActOS.VacuumExpectationBoundedAdapterInvocationV0_4
 import KUOS.WORLD.VacuumExpectationHostEffectAtomicCommitIntakeV0_52
