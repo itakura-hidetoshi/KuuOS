@@ -36,6 +36,7 @@ import KUOS.PlanOS.MemoryOverwriteAuthorizationRequestV0_48
 import KUOS.PlanOS.MemoryOverwriteAuthorizationGrantV0_49
 import KUOS.PlanOS.MemoryOverwriteReceiptV0_50
 import KUOS.PlanOS.MemoryOverwriteCloseoutReceiptV0_51
+import KUOS.PlanOS.TruthAuthorityAuthorizationRequestV0_52
 import KUOS.ActOS.«VacuumExpectationActivationAuthorizationIntakeV0_3»
 import KUOS.ActOS.VacuumExpectationBoundedAdapterInvocationV0_4
 import KUOS.WORLD.VacuumExpectationHostEffectAtomicCommitIntakeV0_52
