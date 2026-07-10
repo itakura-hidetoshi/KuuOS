@@ -1,0 +1,45 @@
+{
+  "version": "kuuos_planos_execution_authorization_request_v0_41",
+  "runtime": "runtime/kuuos_planos_execution_authorization_request_v0_41.py",
+  "formal_module": "formal/KUOS/PlanOS/ExecutionAuthorizationRequestV0_41.lean",
+  "documentation": "docs/KUUOS_PLANOS_EXECUTION_AUTHORIZATION_REQUEST_v0_41.md",
+  "source_version": "kuuos_planos_literature_grounded_selective_foresight_gate_v0_40",
+  "inputs": {
+    "source_selective_foresight_gate": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "literature_basis_digest": true
+  },
+  "outputs": {
+    "execution_authorization_request": true,
+    "selected_candidate_id": true,
+    "selected_candidate_digest": true,
+    "receipt_digest": true
+  },
+  "required": {
+    "request_owned_by_plan_os": true,
+    "source_selective_foresight_gate_preserved": true,
+    "selected_candidate_bound_to_foresight_gate": true,
+    "materialization_execution_preserved": true,
+    "activation_authorization_preserved": true,
+    "actos_invocation_preserved": true,
+    "literature_grounding_preserved": true,
+    "dynamic_planning_compute_accounted": true,
+    "selective_foresight_preserved": true,
+    "uncertainty_calibration_preserved": true,
+    "memory_mismatch_review_preserved": true,
+    "counterfactual_coverage_preserved": true,
+    "cost_safety_robustness_evaluation_preserved": true,
+    "execution_authorization_request_only": true,
+    "execution_authorization_requested": true
+  },
+  "closed": {
+    "execution_authorization_granted": false,
+    "execution_granted": false,
+    "truth_authority_granted": false,
+    "memory_overwrite_granted": false,
+    "blocker_release_granted": false,
+    "external_commit_granted": false
+  },
+  "history_delta": 1
+}

@@ -43,6 +43,7 @@ import KUOS.PlanOS.ActivationAuthorizationRequestV0_37
 import KUOS.PlanOS.ActivationAuthorizationGrantV0_38
 import KUOS.PlanOS.ActOSInvocationReceiptV0_39
 import KUOS.PlanOS.LiteratureGroundedSelectiveForesightGateV0_40
+import KUOS.PlanOS.ExecutionAuthorizationRequestV0_41
 import KUOS.ActOS.«VacuumExpectationActivationAuthorizationIntakeV0_3»
 import KUOS.ActOS.VacuumExpectationBoundedAdapterInvocationV0_4
 import KUOS.WORLD.VacuumExpectationHostEffectAtomicCommitIntakeV0_52
