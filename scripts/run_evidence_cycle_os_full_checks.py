@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run cumulative ActOS, ObserveOS, VerifyOS, and LearnOS checks."""
+"""Run cumulative evidence-cycle checks through PlanOS middle-way intake."""
 
 from __future__ import annotations
 
@@ -37,6 +37,10 @@ COMMANDS: tuple[tuple[str, ...], ...] = (
         sys.executable,
         "scripts/check_verifyos_middle_way_conditional_continuity_verification_v0_4.py",
     ),
+    (
+        sys.executable,
+        "scripts/check_planos_middle_way_bounded_synthesis_intake_kernel_v0_1.py",
+    ),
     (sys.executable, "scripts/check_learnos_vacuum_expectation_verification_future_only_delta_v0_3.py"),
 )
 
@@ -64,7 +68,10 @@ def main() -> int:
             print(f"FAIL: {' '.join(command)} exited with {code}")
         return 1
 
-    print("\nPASS: Evidence Cycle OS validation completed through VerifyOS v0.4")
+    print(
+        "\nPASS: Evidence Cycle OS validation completed through "
+        "VerifyOS v0.4 and PlanOS v1.03 intake"
+    )
     return 0
 
 
