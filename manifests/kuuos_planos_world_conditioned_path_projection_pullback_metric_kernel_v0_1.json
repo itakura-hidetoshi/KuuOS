@@ -1,0 +1,36 @@
+{
+  "kernel": "PlanOS WORLD-Conditioned Path Projection Pullback Metric Kernel",
+  "version": "v0.1",
+  "planos_version": "v1.00",
+  "source": "PlanOS v0.99 Qi-conditioned information metric certificate plus Indra-Qi Mandala WORLD and KuuOS v14.0 Causal WorldModel projection boundaries",
+  "artifacts": [
+    "runtime/kuuos_planos_world_conditioned_path_projection_pullback_metric_kernel_v0_1.py",
+    "scripts/check_planos_world_conditioned_path_projection_pullback_metric_kernel_v0_1.py",
+    "formal/KuuOS/PlanOSWorldConditionedPathProjectionPullbackMetricKernelV01.lean",
+    "formal/KuuOS/PlanOSV100.lean",
+    "docs/planos_world_conditioned_path_projection_pullback_metric_kernel_v0_1.md"
+  ],
+  "world_model_kind": "indra_qi_mandala_causal_projection",
+  "mathematical_map": "(Q,H,W) -> G_QH + lambda * J^T G_W J -> transition action",
+  "projection_mode": "counterfactual_read_only",
+  "boundaries": {
+    "persistent_world_state_unchanged": true,
+    "counterfactual_projection_not_fact": true,
+    "world_model_prediction_not_truth": true,
+    "world_mutation_not_granted": true,
+    "holonomy_context_preserved": true,
+    "transport_residue_visible": true,
+    "candidate_field_retained": true,
+    "decision_selection_performed": false,
+    "history_read_only": true,
+    "qi_grants_no_authority": true,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  },
+  "validation": {
+    "runtime_checker": "scripts/check_planos_world_conditioned_path_projection_pullback_metric_kernel_v0_1.py",
+    "formal_aggregate": "formal/KuuOS/PlanOSV100.lean",
+    "fail_closed": true
+  }
+}
