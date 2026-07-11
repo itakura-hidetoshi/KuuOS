@@ -1,0 +1,69 @@
+{
+  "kernel": "PlanOS Bounded Synthesis Receipt Kernel",
+  "version": "v0.1",
+  "planos_version": "v1.04",
+  "source": "PlanOS v1.03 middle-way bounded synthesis intake certificate",
+  "artifacts": [
+    "runtime/kuuos_planos_bounded_synthesis_receipt_kernel_v0_1.py",
+    "scripts/check_planos_bounded_synthesis_receipt_kernel_v0_1.py",
+    "formal/KUOS/PlanOS/BoundedSynthesisReceiptV1_04.lean",
+    "docs/planos_bounded_synthesis_receipt_kernel_v0_1.md"
+  ],
+  "admission": {
+    "required_intake_disposition": "bounded_synthesis_intake_ready",
+    "required_conditional_validity_status": "valid",
+    "selected_candidate_substitution_forbidden": true
+  },
+  "plan_bounds": {
+    "planning_horizon": "1..64",
+    "maximum_plan_steps": "1..32 and not above planning horizon",
+    "maximum_branching_factor": "1..8",
+    "maximum_revision_cycles": "0..8",
+    "irreversible_step_requires_prior_checkpoint": true,
+    "stop_conditions_required": true
+  },
+  "forbidden_effects": [
+    "active_now",
+    "candidate_substitution",
+    "execution_permission",
+    "external_side_effect",
+    "persistent_world_mutation",
+    "selection_authority_transfer",
+    "tool_invocation",
+    "unreviewed_scope_expansion"
+  ],
+  "preservation": {
+    "alternative_candidates": true,
+    "nonselection_reasons": true,
+    "dissent_evidence": true,
+    "minority_evidence": true,
+    "source_lineage": true,
+    "source_responsibility": true,
+    "world_state_dependency": true
+  },
+  "boundaries": {
+    "plan_synthesis_performed": true,
+    "concrete_plan_issued": true,
+    "plan_receipt_issued": true,
+    "selection_remains_decisionos_owned": true,
+    "selection_authority_granted_to_planos": false,
+    "plan_activated": false,
+    "materialization_performed": false,
+    "execution_authority_granted": false,
+    "execution_permission": false,
+    "persistent_world_state_unchanged": true,
+    "world_model_prediction_not_truth": true,
+    "world_mutation_not_granted": true,
+    "history_read_only": true,
+    "qi_grants_no_authority": true,
+    "future_only": true,
+    "active_now": false
+  },
+  "validation": {
+    "runtime_checker": "scripts/check_planos_bounded_synthesis_receipt_kernel_v0_1.py",
+    "formal_module": "formal/KUOS/PlanOS/BoundedSynthesisReceiptV1_04.lean",
+    "evidence_cycle_runner": "scripts/run_evidence_cycle_os_full_checks.py",
+    "formal_build_root": "formal/KuuOSFormalV0_69.lean",
+    "fail_closed": true
+  }
+}
