@@ -1,0 +1,37 @@
+{
+  "kernel": "PlanOS Temperature Trajectory Stability Certificate Kernel",
+  "version": "v0.1",
+  "planos_version": "v0.98",
+  "source": "PlanOS v0.97 temperature trajectory receipt window",
+  "artifacts": [
+    "runtime/kuuos_planos_temperature_trajectory_stability_certificate_kernel_v0_1.py",
+    "scripts/check_planos_temperature_trajectory_stability_certificate_kernel_v0_1.py",
+    "formal/KuuOS/PlanOSTemperatureTrajectoryStabilityCertificateKernelV01.lean",
+    "formal/KuuOS/PlanOSV098.lean",
+    "docs/planos_temperature_trajectory_stability_certificate_kernel_v0_1.md"
+  ],
+  "dispositions": [
+    "stable",
+    "damped",
+    "drifting",
+    "oscillatory",
+    "insufficient_evidence"
+  ],
+  "invariants": {
+    "source_receipt_bound": true,
+    "trajectory_window_digest_bound": true,
+    "record_digest_verified": true,
+    "ordinal_continuity_preserved": true,
+    "digest_chain_preserved": true,
+    "temperature_delta_identity_preserved": true,
+    "direction_disposition_consistency_preserved": true,
+    "rate_limit_preserved": true,
+    "temperature_bounds_preserved": true,
+    "concentration_ceiling_preserved": true,
+    "history_read_only": true,
+    "qi_grants_no_authority": true,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  }
+}
