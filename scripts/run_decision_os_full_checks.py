@@ -5,7 +5,6 @@ All independent version checks are attempted so one audit run can report every
 visible failure. Validation remains structural evidence and does not create
 truth, theorem, release, or execution authority.
 """
-
 from __future__ import annotations
 
 import os
@@ -27,6 +26,10 @@ COMMANDS: tuple[tuple[str, ...], ...] = (
     (
         sys.executable,
         "scripts/check_decisionos_world_conditioned_distribution_handoff_intake_validation_v0_5.py",
+    ),
+    (
+        sys.executable,
+        "scripts/check_decisionos_world_conditioned_relational_deliberation_v0_6.py",
     ),
 )
 
@@ -54,7 +57,7 @@ def main() -> int:
             print(f"FAIL: {' '.join(command)} exited with {code}")
         return 1
 
-    print("\nPASS: DecisionOS v0.1-v0.5 validation completed")
+    print("\nPASS: DecisionOS v0.1-v0.6 validation completed")
     return 0
 
 
