@@ -1,3 +1,4 @@
 import KuuOSFormal
 import KUOS.WORLD.KuuOSConnectionEvidenceReviewV0_69
 import KUOS.VerifyOS.MiddleWayConditionalContinuityVerificationV0_4
+import KUOS.PlanOS.MiddleWayBoundedSynthesisIntakeV1_03
