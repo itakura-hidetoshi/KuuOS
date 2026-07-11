@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run cumulative evidence-cycle checks through VerifyOS dukkha-claim verification."""
+"""Run cumulative evidence-cycle checks through ActOS materialization intake."""
 
 from __future__ import annotations
 
@@ -53,6 +53,10 @@ COMMANDS: tuple[tuple[str, ...], ...] = (
         sys.executable,
         "scripts/check_verifyos_dukkha_reduction_claim_verification_kernel_v0_1.py",
     ),
+    (
+        sys.executable,
+        "scripts/check_actos_dukkha_supported_bounded_plan_materialization_intake_v0_1.py",
+    ),
     (sys.executable, "scripts/check_learnos_vacuum_expectation_verification_future_only_delta_v0_3.py"),
 )
 
@@ -82,7 +86,7 @@ def main() -> int:
 
     print(
         "\nPASS: Evidence Cycle OS validation completed through "
-        "VerifyOS v0.6 dukkha-reduction claim verification"
+        "ActOS v0.5 dukkha-supported bounded-plan materialization intake"
     )
     return 0
 
