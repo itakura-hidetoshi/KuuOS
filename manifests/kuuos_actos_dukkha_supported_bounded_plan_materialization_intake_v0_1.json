@@ -1,0 +1,57 @@
+{
+  "artifact": "ActOS Dukkha-Supported Bounded Plan Materialization Intake Kernel",
+  "kernel_version": "v0.1",
+  "actos_version": "v0.5",
+  "status": "ACTOS_DUKKHA_SUPPORTED_BOUNDED_PLAN_MATERIALIZATION_INTAKE_READY",
+  "source": {
+    "verifyos_kernel": "VerifyOS Dukkha Reduction Claim Verification Kernel",
+    "verifyos_version": "v0.6",
+    "required_claim_status": "supported",
+    "required_disposition": "dukkha_reduction_supported_for_materialization_intake",
+    "planos_kernel": "PlanOS Bounded Synthesis Receipt Kernel",
+    "planos_version": "v1.04"
+  },
+  "materialization_candidate_invariants": [
+    "one_candidate_per_plan_step",
+    "step_sequence_preserved",
+    "source_action_digest_preserved",
+    "preconditions_preserved",
+    "expected_effects_preserved",
+    "checkpoint_reference_preserved",
+    "stop_conditions_preserved",
+    "evidence_lineage_preserved",
+    "candidate_state_prepared_not_activated",
+    "adapter_binding_empty",
+    "tool_invocation_not_requested",
+    "external_side_effect_not_requested",
+    "execution_permission_not_requested",
+    "active_now_not_requested"
+  ],
+  "dukkha_invariants": [
+    "dukkha_reduction_support_preserved",
+    "protected_group_nonexternalization_preserved",
+    "future_nonexternalization_preserved",
+    "revision_capacity_preserved",
+    "persistent_loop_reduction_preserved",
+    "single_scalar_utility_not_introduced"
+  ],
+  "authority_boundary": {
+    "selection_remains_decisionos_owned": true,
+    "selection_authority_granted_to_actos": false,
+    "plan_revision_authority_granted_to_actos": false,
+    "dukkha_minimization_authority_granted_to_actos": false,
+    "plan_activated": false,
+    "adapter_binding_performed": false,
+    "adapter_invocation_performed": false,
+    "tool_invocation_performed": false,
+    "external_side_effect_performed": false,
+    "execution_authority_granted": false,
+    "execution_permission": false,
+    "persistent_world_state_unchanged": true,
+    "active_now": false
+  },
+  "runtime": "runtime/kuuos_actos_dukkha_supported_bounded_plan_materialization_intake_v0_1.py",
+  "checker": "scripts/check_actos_dukkha_supported_bounded_plan_materialization_intake_v0_1.py",
+  "formal": "formal/KUOS/ActOS/DukkhaSupportedBoundedPlanMaterializationIntakeV0_5.lean",
+  "documentation": "docs/ACTOS_DUKKHA_SUPPORTED_BOUNDED_PLAN_MATERIALIZATION_INTAKE_v0_1.md"
+}
