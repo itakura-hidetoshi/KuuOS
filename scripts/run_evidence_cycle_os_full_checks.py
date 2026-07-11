@@ -33,6 +33,10 @@ COMMANDS: tuple[tuple[str, ...], ...] = (
     (sys.executable, "scripts/check_observeos_vacuum_expectation_intake_commit_receipt_v0_3.py"),
     (sys.executable, "scripts/check_observeos_world_host_effect_observation_v0_4.py"),
     (sys.executable, "scripts/check_verifyos_vacuum_expectation_commit_verification_receipt_v0_3.py"),
+    (
+        sys.executable,
+        "scripts/check_verifyos_middle_way_conditional_continuity_verification_v0_4.py",
+    ),
     (sys.executable, "scripts/check_learnos_vacuum_expectation_verification_future_only_delta_v0_3.py"),
 )
 
@@ -60,7 +64,7 @@ def main() -> int:
             print(f"FAIL: {' '.join(command)} exited with {code}")
         return 1
 
-    print("\nPASS: Evidence Cycle OS validation completed")
+    print("\nPASS: Evidence Cycle OS validation completed through VerifyOS v0.4")
     return 0
 
 

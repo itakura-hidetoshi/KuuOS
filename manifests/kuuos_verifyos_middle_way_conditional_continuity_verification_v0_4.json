@@ -1,0 +1,60 @@
+{
+  "kernel": "VerifyOS Middle-Way Conditional Continuity Verification Kernel",
+  "version": "v0.1",
+  "verifyos_version": "v0.4",
+  "source": "DecisionOS v0.8 bounded plan synthesis request handoff",
+  "artifacts": [
+    "runtime/kuuos_verifyos_middle_way_conditional_continuity_verification_v0_4.py",
+    "scripts/check_verifyos_middle_way_conditional_continuity_verification_v0_4.py",
+    "formal/KUOS/VerifyOS/MiddleWayConditionalContinuityVerificationV0_4.lean",
+    "formal/KuuOSFormalV0_69.lean",
+    "scripts/run_evidence_cycle_os_full_checks.py",
+    "docs/KUUOS_VERIFYOS_MIDDLE_WAY_CONDITIONAL_CONTINUITY_VERIFICATION_v0_4.md"
+  ],
+  "transition_kinds": [
+    "retain",
+    "suspend",
+    "request_revision",
+    "supersede_with_lineage",
+    "complete",
+    "terminate"
+  ],
+  "conditional_validity_statuses": [
+    "valid",
+    "suspended",
+    "revision_required",
+    "superseded",
+    "completed",
+    "terminated"
+  ],
+  "middle_way_invariants": {
+    "preserve_without_reifying": true,
+    "revise_without_erasing": true,
+    "commit_without_absolutizing": true,
+    "terminate_without_denying_lineage": true,
+    "lineage_monotone": true,
+    "responsibility_preserved": true,
+    "dissent_preserved": true,
+    "minority_evidence_preserved": true
+  },
+  "boundaries": {
+    "selection_remains_decisionos_owned": true,
+    "planos_receives_verified_request_not_selection_authority": true,
+    "authority_unchanged": true,
+    "execution_permission_not_granted": true,
+    "persistent_world_state_unchanged": true,
+    "world_model_prediction_not_truth": true,
+    "world_mutation_not_granted": true,
+    "plan_synthesis_performed": false,
+    "concrete_plan_issued": false,
+    "active_now": false,
+    "execution_permission": false
+  },
+  "validation": {
+    "runtime_checker": "scripts/check_verifyos_middle_way_conditional_continuity_verification_v0_4.py",
+    "cumulative_runner": "scripts/run_evidence_cycle_os_full_checks.py",
+    "formal_module": "formal/KUOS/VerifyOS/MiddleWayConditionalContinuityVerificationV0_4.lean",
+    "formal_build_root": "formal/KuuOSFormalV0_69.lean",
+    "fail_closed": true
+  }
+}
