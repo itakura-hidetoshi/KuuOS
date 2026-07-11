@@ -185,9 +185,60 @@ modular time != physical time
 modeled repository transition != live Git mutation
 local checkpoint != remote push authority
 roadmap completion != successor mutation authority
+active self-organization state != unbounded mutation authority
 current root execution != production deployment
 runtime success != external truth
+README public status != authority grant
+current surface CLI != authority grant
+current surface index != authority grant
+current surface artifact != authority grant
+README surface exposure != authority grant
 ```
+
+## Compatibility surface
+
+現在の統合rootは過去の公開surfaceを置換しません。
+
+既存のmachine-readable status lineageが参照する固定点を、互換性markerとして保持します。
+
+| 固定点 | Versioned surface |
+|---|---|
+| KuuOS Current Root Execution Connection v0.65 | `kuuos_current_root_sequence_v0_65` |
+| KuuOS README Public Status v0.66 | `kuuos_current_root_sequence_v0_66` |
+| KuuOS README Surface Exposure v0.78 | `kuuos_current_root_sequence_v0_78` |
+
+関連文書は次です。
+
+```text
+docs/kuuos_self_organization_active_state.md
+docs/kuuos_readme_public_status_v0_66.md
+docs/kuuos_readme_surface_exposure_v0_78.md
+```
+
+active-state compatibility receiptは次の境界を保持します。
+
+```text
+self_organization_active: true
+execution_scope: publish_active_self_organization_state
+state_publication_applied: true
+```
+
+既存のcurrent status surfaceは次です。
+
+| Surface | Path |
+|---|---|
+| Stable current surface CLI | `runtime/kuuos_current_surface.py` |
+| Versioned current surface entrypoint | `runtime/kuuos_current_surface_entrypoint_v0_77.py` |
+| Current surface index | `status/current.surface.index.json` |
+| Current surface artifact | `status/current.surface.json` |
+| Current resolved status artifact | `status/current.resolved.json` |
+| Current manifest | `status/current.manifest.json` |
+
+```bash
+PYTHONPATH=. python3 runtime/kuuos_current_surface.py
+```
+
+この互換surfaceはstatus reportであり、現在の研究前線を検査するcanonical rootは`runtime/kuuos_current_check.py`です。
 
 ## Repository map
 
