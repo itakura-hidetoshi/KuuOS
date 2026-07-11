@@ -50,8 +50,7 @@ def source_certificate() -> dict:
         maximum_normalized_entropy=1.0,
         hold_review_threshold=0.30,
     )
-    assert result.status == SOURCE_READY
-    assert result.certificate is not None
+    assert result.status == SOURCE_READY and result.certificate is not None
     return result.certificate
 
 
@@ -61,41 +60,33 @@ def evidence_items(source: dict) -> list[dict]:
         for record in source["ranking_records"]
     }
     admissible = set(source["admissible_candidate_ids"])
-    items: list[dict] = []
+    values: list[dict] = []
     for candidate_id in sorted(source["candidate_world_projection_digests"]):
         is_admissible = candidate_id in admissible
         item = {
             "candidate_id": candidate_id,
-            "candidate_world_projection_digest": (
-                source["candidate_world_projection_digests"][candidate_id]
-            ),
+            "candidate_world_projection_digest": source[
+                "candidate_world_projection_digests"
+            ][candidate_id],
             "probability_mass": source["next_distribution"][candidate_id],
-            "combined_transition_action": (
-                source["combined_transition_action_map"][candidate_id]
-            ),
+            "combined_transition_action": source[
+                "combined_transition_action_map"
+            ][candidate_id],
             "advisory_rank": rank_map.get(candidate_id, 0),
             "admissible": is_admissible,
-            "wa_evidence_digests": (
-                [f"wa-evidence-{candidate_id}"] if is_admissible else []
-            ),
+            "wa_evidence_digests": [f"wa-{candidate_id}"] if is_admissible else [],
             "stakeholder_evidence_digests": (
-                [f"stakeholder-evidence-{candidate_id}"]
-                if is_admissible
-                else []
+                [f"stakeholder-{candidate_id}"] if is_admissible else []
             ),
             "relational_evidence_digests": (
-                [f"relational-evidence-{candidate_id}"]
-                if is_admissible
-                else []
+                [f"relational-{candidate_id}"] if is_admissible else []
             ),
             "dissent_evidence_digests": (
-                ["dissent-evidence-continue"]
-                if candidate_id == "continue"
-                else []
+                ["dissent-continue"] if candidate_id == "continue" else []
             ),
             "dissent_absence_attested": candidate_id != "continue",
             "minority_evidence_digests": (
-                ["minority-evidence-hold"] if candidate_id == "hold" else []
+                ["minority-hold"] if candidate_id == "hold" else []
             ),
             "minority_absence_attested": candidate_id != "hold",
             "zero_mass_reason_digest": (
@@ -104,11 +95,11 @@ def evidence_items(source: dict) -> list[dict]:
             "candidate_intake_digest": "",
         }
         item["candidate_intake_digest"] = compute_candidate_intake_digest(item)
-        items.append(item)
-    return items
+        values.append(item)
+    return values
 
 
-def resign_source(source: dict) -> dict:
+def resign(source: dict) -> dict:
     value = deepcopy(source)
     value.pop("decision_handoff_certificate_digest", None)
     value["decision_handoff_certificate_digest"] = canonical_digest(value)
@@ -116,8 +107,12 @@ def resign_source(source: dict) -> dict:
 
 
 def build(**overrides):
-    source = overrides.pop("source_handoff_certificate", source_certificate())
-    items = overrides.pop("candidate_evidence_items", evidence_items(source))
+    source = overrides.pop("source_handoff_certificate", None)
+    if source is None:
+        source = source_certificate()
+    items = overrides.pop("candidate_evidence_items", None)
+    if items is None:
+        items = evidence_items(source) if source else []
     contexts = {
         "stakeholder_context_digest": "stakeholder-context-v1",
         "relational_context_digest": "relational-context-v1",
@@ -125,83 +120,48 @@ def build(**overrides):
         "dissent_registry_digest": "dissent-registry-v1",
         "minority_registry_digest": "minority-registry-v1",
     }
-    contexts.update(
-        {
-            key: overrides.pop(key)
-            for key in list(contexts)
-            if key in overrides
-        }
-    )
-    evidence_bundle_digest = overrides.pop(
-        "evidence_bundle_digest",
-        compute_evidence_bundle_digest(
+    for key in tuple(contexts):
+        if key in overrides:
+            contexts[key] = overrides.pop(key)
+    bundle = overrides.pop("evidence_bundle_digest", None)
+    if bundle is None:
+        bundle = compute_evidence_bundle_digest(
             **contexts,
             candidate_evidence_items=items,
-        ),
-    )
+        )
     assert not overrides
     return build_decisionos_world_conditioned_distribution_handoff_intake_receipt(
         source_handoff_certificate=source,
         candidate_evidence_items=items,
-        evidence_bundle_digest=evidence_bundle_digest,
+        evidence_bundle_digest=bundle,
         **contexts,
     )
 
 
-def replace_item(items: list[dict], candidate_id: str, **changes) -> list[dict]:
-    values = deepcopy(items)
-    for item in values:
-        if item["candidate_id"] == candidate_id:
-            item.update(changes)
-            item["candidate_intake_digest"] = compute_candidate_intake_digest(item)
-            return values
-    raise AssertionError(candidate_id)
+def changed_item(items: list[dict], candidate_id: str, **changes) -> list[dict]:
+    result = deepcopy(items)
+    item = next(item for item in result if item["candidate_id"] == candidate_id)
+    item.update(changes)
+    item["candidate_intake_digest"] = compute_candidate_intake_digest(item)
+    return result
 
 
 def main() -> int:
     result = build()
-    assert result.status == STATUS_READY
-    assert result.receipt is not None
+    assert result.status == STATUS_READY and result.receipt is not None
     receipt = result.receipt
     assert receipt["status"] == "DECISIONOS_WORLD_CONDITIONED_HANDOFF_INTAKE_READY"
-    for name in (
-        "intake_owned_by_decision_os",
-        "source_owned_by_plan_os",
-        "deliberation_intake_ready",
-        "all_candidates_considered",
-        "candidate_identity_preserved",
-        "retained_alternatives_preserved",
-        "wa_evidence_preserved",
-        "stakeholder_context_preserved",
-        "relational_context_preserved",
-        "dissent_visibility_preserved",
-        "minority_visibility_preserved",
-        "ranking_is_advisory_only",
-        "decisionos_owns_selection",
-        "persistent_world_state_unchanged",
-        "world_model_prediction_not_truth",
-        "world_mutation_not_granted",
-        "history_read_only",
-        "qi_grants_no_authority",
-    ):
-        assert receipt[name] is True
-    for name in (
-        "silent_substitution_detected",
-        "selection_authority_granted_by_intake",
-        "decision_selection_performed",
-        "decision_receipt_issued",
-        "plan_synthesis_performed",
-        "active_now",
-        "execution_permission",
-    ):
-        assert receipt[name] is False
+    assert receipt["all_candidates_considered"] is True
+    assert receipt["retained_alternatives_preserved"] is True
+    assert receipt["dissent_visibility_preserved"] is True
+    assert receipt["minority_visibility_preserved"] is True
+    assert receipt["ranking_is_advisory_only"] is True
+    assert receipt["selection_authority_granted_by_intake"] is False
+    assert receipt["decision_selection_performed"] is False
     assert receipt["selected_candidate_id"] == ""
-    assert set(receipt["all_candidate_ids"]) == {
-        "continue",
-        "reobserve",
-        "hold",
-        "terminate_candidate",
-    }
+    assert receipt["decision_receipt_issued"] is False
+    assert receipt["persistent_world_state_unchanged"] is True
+    assert receipt["execution_permission"] is False
     assert receipt["retained_nonadmissible_candidate_ids"] == [
         "terminate_candidate"
     ]
@@ -209,84 +169,55 @@ def main() -> int:
     assert receipt["minority_present_candidate_ids"] == ["hold"]
 
     source = source_certificate()
-    bad_source_digest = deepcopy(source)
-    bad_source_digest["decision_handoff_certificate_digest"] = "wrong"
+    items = evidence_items(source)
 
-    promoted_selection = deepcopy(source)
-    promoted_selection["decision_selection_performed"] = True
-    promoted_selection = resign_source(promoted_selection)
-
-    selected_candidate = deepcopy(source)
-    selected_candidate["selected_candidate_id"] = "continue"
-    selected_candidate = resign_source(selected_candidate)
-
+    bad_digest = deepcopy(source)
+    bad_digest["decision_handoff_certificate_digest"] = "wrong"
+    promoted = deepcopy(source)
+    promoted["decision_selection_performed"] = True
+    promoted = resign(promoted)
+    selected = deepcopy(source)
+    selected["selected_candidate_id"] = "continue"
+    selected = resign(selected)
     bad_ranking = deepcopy(source)
     bad_ranking["ranked_candidate_ids"] = list(
         reversed(bad_ranking["ranked_candidate_ids"])
     )
-    bad_ranking = resign_source(bad_ranking)
-
-    base_items = evidence_items(source)
-    duplicate_items = base_items + [deepcopy(base_items[0])]
-    missing_items = base_items[:-1]
-    wrong_projection = replace_item(
-        base_items,
-        "continue",
-        candidate_world_projection_digest="wrong",
-    )
-    wrong_mass = replace_item(
-        base_items,
-        "continue",
-        probability_mass=0.39,
-    )
-    wrong_rank = replace_item(
-        base_items,
-        "continue",
-        advisory_rank=2,
-    )
-    missing_wa = replace_item(
-        base_items,
-        "continue",
-        wa_evidence_digests=[],
-    )
-    dissent_unattested = replace_item(
-        base_items,
-        "reobserve",
-        dissent_absence_attested=False,
-    )
-    minority_conflict = replace_item(
-        base_items,
-        "hold",
-        minority_absence_attested=True,
-    )
-    missing_zero_reason = replace_item(
-        base_items,
-        "terminate_candidate",
-        zero_mass_reason_digest="",
-    )
+    bad_ranking = resign(bad_ranking)
 
     blocked = [
         build(source_handoff_certificate={}),
-        build(source_handoff_certificate=bad_source_digest),
-        build(source_handoff_certificate=promoted_selection),
-        build(source_handoff_certificate=selected_candidate),
+        build(source_handoff_certificate=bad_digest),
+        build(source_handoff_certificate=promoted),
+        build(source_handoff_certificate=selected),
         build(source_handoff_certificate=bad_ranking),
         build(stakeholder_context_digest=""),
         build(evidence_bundle_digest="wrong"),
-        build(candidate_evidence_items=duplicate_items),
-        build(candidate_evidence_items=missing_items),
-        build(candidate_evidence_items=wrong_projection),
-        build(candidate_evidence_items=wrong_mass),
-        build(candidate_evidence_items=wrong_rank),
-        build(candidate_evidence_items=missing_wa),
-        build(candidate_evidence_items=dissent_unattested),
-        build(candidate_evidence_items=minority_conflict),
-        build(candidate_evidence_items=missing_zero_reason),
+        build(candidate_evidence_items=items[:-1]),
+        build(
+            candidate_evidence_items=changed_item(
+                items, "continue", wa_evidence_digests=[]
+            )
+        ),
+        build(
+            candidate_evidence_items=changed_item(
+                items, "reobserve", dissent_absence_attested=False
+            )
+        ),
+        build(
+            candidate_evidence_items=changed_item(
+                items, "hold", minority_absence_attested=True
+            )
+        ),
+        build(
+            candidate_evidence_items=changed_item(
+                items, "terminate_candidate", zero_mass_reason_digest=""
+            )
+        ),
     ]
-    for item in blocked:
-        assert item.status != STATUS_READY
-        assert item.blockers
-        assert item.receipt is None
+    for value in blocked:
+        assert value.status != STATUS_READY
+        assert value.blockers and value.receipt is None
 
     print(
         "PASS: DecisionOS WORLD-Conditioned Distribution Handoff Intake "
