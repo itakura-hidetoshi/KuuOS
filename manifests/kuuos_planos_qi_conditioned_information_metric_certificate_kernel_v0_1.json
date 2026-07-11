@@ -1,0 +1,43 @@
+{
+  "kernel": "PlanOS Qi-Conditioned Information Metric Certificate Kernel",
+  "version": "v0.1",
+  "planos_version": "v0.99",
+  "source": "PlanOS v0.91 Information-Geometric Qi Objective Kernel and PlanOS v0.98 temperature trajectory stability certificate",
+  "artifacts": [
+    "runtime/kuuos_planos_qi_conditioned_information_metric_certificate_kernel_v0_1.py",
+    "scripts/check_planos_qi_conditioned_information_metric_certificate_kernel_v0_1.py",
+    "formal/KuuOS/PlanOSQiConditionedInformationMetricCertificateKernelV01.lean",
+    "formal/KuuOS/PlanOSV099.lean",
+    "docs/planos_qi_conditioned_information_metric_certificate_kernel_v0_1.md"
+  ],
+  "metric_directions": [
+    "neutral",
+    "switch",
+    "reroute"
+  ],
+  "qi_components": [
+    "activation",
+    "stagnation",
+    "tension",
+    "recovery",
+    "coherence",
+    "coupling",
+    "transition_readiness",
+    "hysteresis"
+  ],
+  "invariants": {
+    "base_metric_positive": true,
+    "conditioned_metric_nonnegative": true,
+    "metric_floor_preserved": true,
+    "metric_ceiling_preserved": true,
+    "reroute_discount_requires_evidence": true,
+    "recovery_never_reduces_switch_metric": true,
+    "hysteresis_never_reduces_switch_metric": true,
+    "oscillation_never_reduces_switch_metric": true,
+    "history_read_only": true,
+    "qi_grants_no_authority": true,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  }
+}
