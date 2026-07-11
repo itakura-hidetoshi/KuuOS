@@ -1,0 +1,20 @@
+{
+  "artifact_id": "kuuos-planos-finite-temperature-concentration-certificate-kernel-v0.1",
+  "planos_version": "0.94",
+  "source_version": "0.93",
+  "runtime": "runtime/kuuos_planos_finite_temperature_concentration_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_finite_temperature_concentration_certificate_kernel_v0_1.py",
+  "formalization": "formal/KuuOS/PlanOSFiniteTemperatureConcentrationCertificateKernelV01.lean",
+  "aggregate": "formal/KuuOS/PlanOSV094.lean",
+  "invariants": [
+    "normalized_candidate_mass",
+    "minimal_support_identified",
+    "nonminimal_mass_exponential_bound",
+    "epsilon_concentration_certificate",
+    "authority_invariance",
+    "history_read_only",
+    "future_only",
+    "active_now_false",
+    "execution_permission_false"
+  ]
+}
