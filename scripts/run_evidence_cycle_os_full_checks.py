@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run cumulative evidence-cycle checks through PlanOS middle-way intake."""
+"""Run cumulative evidence-cycle checks through PlanOS bounded synthesis receipt."""
 
 from __future__ import annotations
 
@@ -41,6 +41,10 @@ COMMANDS: tuple[tuple[str, ...], ...] = (
         sys.executable,
         "scripts/check_planos_middle_way_bounded_synthesis_intake_kernel_v0_1.py",
     ),
+    (
+        sys.executable,
+        "scripts/check_planos_bounded_synthesis_receipt_kernel_v0_1.py",
+    ),
     (sys.executable, "scripts/check_learnos_vacuum_expectation_verification_future_only_delta_v0_3.py"),
 )
 
@@ -70,7 +74,8 @@ def main() -> int:
 
     print(
         "\nPASS: Evidence Cycle OS validation completed through "
-        "VerifyOS v0.4 and PlanOS v1.03 intake"
+        "VerifyOS v0.4 and PlanOS v1.03 intake; "
+        "PlanOS v1.04 bounded synthesis receipt verified"
     )
     return 0
 
