@@ -1,0 +1,18 @@
+{
+  "id": "kuuos-planos-adaptive-qi-temperature-calibration-kernel-v0.1",
+  "version": "0.95",
+  "source": "PlanOS v0.94 finite-temperature concentration certificate",
+  "runtime": "runtime/kuuos_planos_adaptive_qi_temperature_calibration_kernel_v0_1.py",
+  "checker": "scripts/check_planos_adaptive_qi_temperature_calibration_kernel_v0_1.py",
+  "formal": "formal/KuuOS/PlanOSAdaptiveQiTemperatureCalibrationKernelV01.lean",
+  "aggregate": "formal/KuuOS/PlanOSV095.lean",
+  "invariants": [
+    "temperature bounds remain valid",
+    "requested concentration bound is preserved when required",
+    "Qi conditioning grants no authority",
+    "history remains read-only",
+    "update is future-only",
+    "active_now is false",
+    "execution permission is false"
+  ]
+}
