@@ -1,0 +1,39 @@
+{
+  "kernel": "PlanOS WORLD-Conditioned Objective Distribution Update Kernel",
+  "version": "v0.1",
+  "planos_version": "v1.01",
+  "source": "PlanOS v1.00 WORLD-conditioned path projection pullback metric certificate and PlanOS v0.92 KL-regularized update law",
+  "artifacts": [
+    "runtime/kuuos_planos_world_conditioned_objective_distribution_update_kernel_v0_1.py",
+    "scripts/check_planos_world_conditioned_objective_distribution_update_kernel_v0_1.py",
+    "formal/KuuOS/PlanOSWorldConditionedObjectiveDistributionUpdateKernelV01.lean",
+    "formal/KuuOS/PlanOSV101.lean",
+    "docs/planos_world_conditioned_objective_distribution_update_kernel_v0_1.md"
+  ],
+  "objective": "KL(p||prior) + beta E_p[A_QHW] - eta H(p)",
+  "update": "p_next(c) proportional to prior(c)^(1/(1+eta)) exp(-beta A_QHW(c)/(1+eta))",
+  "boundaries": {
+    "source_world_action_bundle_preserved": true,
+    "normalized_next_distribution": true,
+    "candidate_mass_nonnegative": true,
+    "admissible_support_preserved": true,
+    "positive_prior_support_preserved": true,
+    "hold_mass_preserved_when_admissible": true,
+    "candidate_field_retained": true,
+    "nonadmissible_candidates_zero_mass": true,
+    "persistent_world_state_unchanged": true,
+    "world_model_prediction_not_truth": true,
+    "world_mutation_not_granted": true,
+    "history_read_only": true,
+    "qi_grants_no_authority": true,
+    "decision_selection_performed": false,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  },
+  "validation": {
+    "runtime_checker": "scripts/check_planos_world_conditioned_objective_distribution_update_kernel_v0_1.py",
+    "formal_aggregate": "formal/KuuOS/PlanOSV101.lean",
+    "fail_closed": true
+  }
+}
