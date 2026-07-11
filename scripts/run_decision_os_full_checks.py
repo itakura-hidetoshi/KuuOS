@@ -24,6 +24,10 @@ COMMANDS: tuple[tuple[str, ...], ...] = (
     (sys.executable, "-m", "runtime.v03_decision_os_wa_relational_harmony"),
     (sys.executable, "scripts/check_decision_os_wa_relational_harmony_v0_3.py"),
     (sys.executable, "scripts/check_decisionos_admissible_candidate_selection_v0_4.py"),
+    (
+        sys.executable,
+        "scripts/check_decisionos_world_conditioned_distribution_handoff_intake_validation_v0_5.py",
+    ),
 )
 
 
@@ -50,7 +54,7 @@ def main() -> int:
             print(f"FAIL: {' '.join(command)} exited with {code}")
         return 1
 
-    print("\nPASS: DecisionOS v0.1-v0.4 validation completed")
+    print("\nPASS: DecisionOS v0.1-v0.5 validation completed")
     return 0
 
 
