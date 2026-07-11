@@ -1,5 +1,4 @@
 import Mathlib
-import KUOS.VerifyOS.VacuumExpectationCommitVerificationReceiptV0_3
 
 namespace KUOS.VerifyOS.MiddleWayConditionalContinuityVerificationV0_4
 
