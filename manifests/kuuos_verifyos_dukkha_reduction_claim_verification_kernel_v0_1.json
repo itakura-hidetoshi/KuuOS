@@ -1,0 +1,66 @@
+{
+  "artifact": "VerifyOS Dukkha Reduction Claim Verification Kernel",
+  "kernel_version": "v0.1",
+  "verifyos_version": "v0.6",
+  "status": "VERIFYOS_DUKKHA_REDUCTION_CLAIM_VERIFIED",
+  "source": {
+    "kernel": "VerifyOS Bounded Plan Middle-Way Verification Kernel",
+    "kernel_version": "v0.1",
+    "verifyos_version": "v0.5",
+    "required_conditional_validity_status": "valid",
+    "required_disposition": "bounded_plan_verified_for_materialization_intake"
+  },
+  "dukkha_dimensions": [
+    "misfit",
+    "update_lag",
+    "attachment_rigidity",
+    "relational_curvature",
+    "structural_constraint",
+    "uncertainty_burden"
+  ],
+  "claim_statuses": [
+    "supported",
+    "indeterminate",
+    "contradicted"
+  ],
+  "routing": {
+    "supported": "dukkha_reduction_supported_for_materialization_intake",
+    "indeterminate": "additional_evidence_required",
+    "contradicted": "return_to_planos_revision"
+  },
+  "verification_invariants": [
+    "dukkha_vector_preserved",
+    "single_scalar_utility_forbidden",
+    "observation_integrity_preserved",
+    "adverse_evidence_retained",
+    "precision_collapse_not_used",
+    "model_family_narrowing_not_used",
+    "uncertainty_disclosed",
+    "structural_suffering_acknowledged",
+    "agency_preserved",
+    "dissent_preserved",
+    "minority_preserved",
+    "future_burden_assessed",
+    "causal_model_not_truth",
+    "persistent_loop_gain_checked",
+    "model_revision_capacity_checked",
+    "protected_group_suffering_not_externalized",
+    "future_suffering_not_externalized"
+  ],
+  "authority_boundary": {
+    "selection_remains_decisionos_owned": true,
+    "selection_authority_granted_to_verifyos": false,
+    "plan_revision_authority_granted_to_verifyos": false,
+    "dukkha_minimization_authority_granted_to_verifyos": false,
+    "plan_activated": false,
+    "materialization_performed": false,
+    "execution_authority_granted": false,
+    "execution_permission": false,
+    "persistent_world_state_unchanged": true,
+    "active_now": false
+  },
+  "runtime": "runtime/kuuos_verifyos_dukkha_reduction_claim_verification_kernel_v0_1.py",
+  "checker": "scripts/check_verifyos_dukkha_reduction_claim_verification_kernel_v0_1.py",
+  "formal": "formal/KUOS/VerifyOS/DukkhaReductionClaimVerificationV0_6.lean",
+  "documentation": "docs/VERIFYOS_DUKKHA_REDUCTION_CLAIM_VERIFICATION_KERNEL_v0_1.md"
+}
