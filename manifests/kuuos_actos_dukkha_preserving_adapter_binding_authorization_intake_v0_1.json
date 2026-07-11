@@ -1,0 +1,52 @@
+{
+  "artifact": "ActOS Dukkha-Preserving Adapter Binding and Activation Authorization Intake Kernel",
+  "kernel_version": "v0.1",
+  "actos_version": "v0.6",
+  "status": "ACTOS_DUKKHA_PRESERVING_ADAPTER_BINDING_AUTHORIZATION_ROUTED",
+  "source": {
+    "kernel": "ActOS Dukkha-Supported Bounded Plan Materialization Intake Kernel",
+    "actos_version": "v0.5",
+    "required_status": "ACTOS_DUKKHA_SUPPORTED_BOUNDED_PLAN_MATERIALIZATION_INTAKE_READY"
+  },
+  "authorization_dispositions": [
+    "activation_authorization_ready",
+    "world_refresh_required",
+    "freshness_refresh_required",
+    "adapter_registry_repair_required",
+    "lease_refresh_required",
+    "replay_conflict_rejected",
+    "verifyos_step_reverification_required"
+  ],
+  "required_invariants": [
+    "one_adapter_binding_per_materialization_candidate",
+    "activation_frontier_is_first_uncompleted_candidate",
+    "exact_scope_and_effect_ceiling",
+    "world_and_freshness_revalidated",
+    "registry_entry_active_and_unrevoked",
+    "single_use_lease_reservation",
+    "session_intent_nonce_replay_exclusion",
+    "irreversible_step_requires_verifyos_reverification",
+    "dukkha_support_preserved",
+    "protected_group_nonexternalization_preserved",
+    "future_nonexternalization_preserved"
+  ],
+  "authority_boundary": {
+    "selection_remains_decisionos_owned": true,
+    "selection_authority_granted_to_actos": false,
+    "plan_revision_authority_granted_to_actos": false,
+    "dukkha_minimization_authority_granted_to_actos": false,
+    "adapter_binding_performed": true,
+    "plan_activated": false,
+    "adapter_invocation_performed": false,
+    "tool_invocation_performed": false,
+    "external_side_effect_performed": false,
+    "execution_authority_granted": false,
+    "execution_permission": false,
+    "persistent_world_state_unchanged": true,
+    "active_now": false
+  },
+  "runtime": "runtime/kuuos_actos_dukkha_preserving_adapter_binding_authorization_intake_v0_1.py",
+  "checker": "scripts/check_actos_dukkha_preserving_adapter_binding_authorization_intake_v0_1.py",
+  "formal": "formal/KUOS/ActOS/DukkhaPreservingAdapterBindingAuthorizationIntakeV0_6.lean",
+  "documentation": "docs/ACTOS_DUKKHA_PRESERVING_ADAPTER_BINDING_AUTHORIZATION_INTAKE_v0_1.md"
+}
