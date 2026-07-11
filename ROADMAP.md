@@ -1,36 +1,228 @@
 # KuuOS / 空OS Roadmap
 
-**基準日：2026年7月7日 JST**
+**基準日：2026年7月11日 JST**
 
-**`main`の統合済み到達点：self-organization candidate receipt v0.91**
+このRoadmapは、`main`へ統合済みの状態、継続検証面、現在の整備項目、条件付き次段階を分離します。
 
-**`main`の最新基準commit：`1b5b008cd2c54e784cf6d28266a132f632eededa`**
+subsystem versionは独立しています。
 
-**現在のDraft frontier：PR #1052、self-organization selection policy v0.92**
-
-**Draft branch：`feature-selection-policy-v0-92`**
-
-この文書は、統合済み基盤、完了系列、現在のDraft frontier、次期候補を分離します。
-
-v1.24で閉じたrepository mutation roadmapは、後続権限を自動生成しません。
-
-Apoptosis Lifecycle Governanceは、repository mutation roadmap v1.25以降ではありません。
-
-v0.92はpolicy-only artifactです。
-
-selection execution、runtime effect、repository state changeを許可しません。
+PlanOS v1.02、DecisionOS v0.6、self-organization v0.113を、一つの直線的version番号として扱いません。
 
 ## 状態分類
 
 | 表記 | 意味 |
 |---|---|
-| 統合済み | `main`に存在し、正式なruntimeまたはLean surfaceから参照される |
-| Draft frontier | 現在の`main`を基準とする未mergeの研究枝 |
-| 継続検証 | 統合済みだが、依存更新時に専用rootとaggregate rootを再検証する |
-| 完了系列 | 定義済みの終端へ到達し、後続権限を自動生成しない |
-| 次期候補 | 独立した次段階として検討できる候補 |
-| 外部receipt | runtimeまたはLean内部だけでは生成しない入力 |
-| Frozen boundary | 破壊的変更を行わず、additiveまたはtighten-onlyで維持する境界 |
+| 統合済み | `main`に存在し、対応するruntimeまたはformal surfaceを持つ |
+| Current root | `runtime/kuuos_current_check.py`から実行される現在の検査面 |
+| 継続検証 | 統合済みだが、依存更新時に再検証する面 |
+| 完了系列 | 定義した終端へ到達し、後続権限を自動生成しない系列 |
+| 整備中 | 既存機能の公開面、aggregate、root接続を同期する作業 |
+| 次期候補 | 独立したPRとして設計できるが、未承認の候補 |
+| Frozen boundary | additiveまたはtighten-onlyで維持する境界 |
+
+## 現在の統合済み基準
+
+| 系列 | 到達点 | 状態 |
+|---|---|---|
+| Core governance | v0.1 | Frozen boundary |
+| Horizon / Context Gauge | v0.12 / v0.13 | 統合済み、継続検証 |
+| Finite-cycle agent | v0.20-v0.27 | 統合済み |
+| Qi diagnostic lineage | v0.28 / v0.29 | 統合済み |
+| MemoryOS foundational line | v0.35、v0.37-v0.39 | 統合済み |
+| Qi-WORLD | v2.3 | 統合済み |
+| Causal WORLD model | v14.0 | PlanOS v1.00-v1.02のread-only source |
+| Repository mutation | v1.24 | 完了系列 |
+| Apoptosis Lifecycle Governance | v0.1-v0.36 | 独立完了系列 |
+| Repository self-organization root lineage | v0.113 | 統合済み、Current root |
+| PlanOS bounded cycle line | v0.1-v0.90 | 統合済み、継続検証 |
+| PlanOS information-geometric line | v0.91-v1.02 | 統合済み、Current root |
+| DecisionOS | v0.1-v0.6 | 統合済み、Current root |
+| Repository strict Lean baseline | `formal/KuuOSFormal.lean` | 継続検証 |
+| PlanOS v1.02 aggregate | `formal/KuuOS/PlanOSV102.lean` | 統合済み |
+| DecisionOS v0.6 aggregate | `formal/KuuOSDecisionOSV0_6.lean` | 統合済み |
+
+直近の機能統合はPR #1160です。
+
+PR #1160により、DecisionOSはWORLD-conditioned evidence intakeから関係的部分順序によるdeliberationへ進みました。
+
+## Current root
+
+標準入口は次です。
+
+```bash
+PYTHONPATH=. python3 runtime/kuuos_current_check.py
+```
+
+現在のroot profileは次の三面を束ねます。
+
+```text
+repository lineage through self-organization v0.113
+→ PlanOS information-geometric and WORLD-conditioned line v0.91-v1.02
+→ DecisionOS cumulative line v0.1-v0.6
+```
+
+個別面は次のように実行します。
+
+```bash
+PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile repository
+PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile planos
+PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile decisionos
+```
+
+現在のrootはrun-all-then-decideです。
+
+一つのstepが失敗しても残りを実行し、必要stepの失敗を最後に集約します。
+
+## PlanOS v0.91-v1.02
+
+### 完了した数理系列
+
+```text
+v0.91 information-geometric Qi objective
+→ v0.92 KL-regularized distribution update
+→ v0.93 zero-temperature minimal-action limit
+→ v0.94 finite-temperature concentration certificate
+→ v0.95 adaptive Qi temperature calibration
+→ v0.96 hysteresis and rate limit
+→ v0.97 temperature trajectory receipt
+→ v0.98 trajectory stability certificate
+→ v0.99 Qi- and history-conditioned information metric
+→ v1.00 WORLD-conditioned pullback metric
+→ v1.01 WORLD-conditioned distribution update
+→ v1.02 DecisionOS handoff certificate
+```
+
+この系列は、有限候補上の分布、作用、温度、情報計量、WORLD pullback、decision evidenceを接続しました。
+
+候補分布はfuture-onlyです。
+
+PlanOSは候補を選択せず、ActOS execution permissionを生成しません。
+
+### 継続検証条件
+
+次の変更時にはv0.91-v1.02を再検証します。
+
+- candidate fieldまたはadmissibility schemaの変更
+- Qi process tensor schemaの変更
+- WORLD state revisionまたはlineage bindingの変更
+- information metricまたはaction formulaの変更
+- entropy、lead margin、hold guardの意味変更
+
+## DecisionOS v0.1-v0.6
+
+現在の到達点はWORLD-conditioned relational deliberationです。
+
+```text
+admissible candidate selection surface
+→ PlanOS v1.02 handoff intake validation
+→ candidate evidence bundle
+→ six-dimensional relational profile
+→ non-dominated relational frontier
+```
+
+関係的profileは次を分離して保持します。
+
+- Wa support
+- stakeholder support
+- relational support
+- dissent pressure
+- minority-impact risk
+- uncertainty burden
+
+確率順位と作用順位はadvisoryです。
+
+Pareto型frontierはselection resultではありません。
+
+## 現在の整備項目
+
+### Public surface synchronization
+
+README、ROADMAP、runtime rootを同じ統合済み状態へ揃えます。
+
+旧self-organization Draftの番号をpublic current statusとして固定しません。
+
+status compatibility surfaceとcanonical execution surfaceを区別します。
+
+### Formal aggregate convergence
+
+`formal/KuuOSFormal.lean`はrepository strict baselineとして維持します。
+
+最新のPlanOS v1.02とDecisionOS v0.6はversioned aggregateに存在します。
+
+repository-wide aggregateへ接続する場合は、既存targetのbuild時間、import cycle、warning-as-error、sorry-as-errorを独立に確認します。
+
+versioned aggregateの存在をrepository-wide aggregate統合と誤記しません。
+
+### Current status surface refresh
+
+`runtime/kuuos_current_surface.py`と`status/current.*`は互換surfaceとして残っています。
+
+これらを更新する場合は、runtime root summaryから導出し、手書きの単一Draft frontierへ戻しません。
+
+### Legacy PR disposition
+
+古いopen PRは、作成時点のbaseを現在のfrontierとみなしません。
+
+再利用する場合は、現在の`main`へrebaseし、scopeを再評価し、current rootを再実行します。
+
+不要なCI-only branchや置換済みDraftは、履歴保存の要否を確認してclose候補とします。
+
+## 条件付き次段階
+
+### DecisionOS bounded selection layer
+
+次の実装候補は、v0.6 relational frontierを入力とするbounded selection requestまたはselection receiptです。
+
+実装条件は次です。
+
+- selected candidateはrelational frontierに含まれる
+- dissent review対象を消去しない
+- minority-impact riskをscalar utilityへ吸収しない
+- uncertainty blockerを明示する
+- PlanOS probability rankingだけで選択しない
+- selection authorityの由来を独立artifactへ束縛する
+- selectionとexecutionを分離する
+
+この候補は未承認です。
+
+### PlanOS feedback and replan
+
+DecisionOS receiptが成立した後にだけ、selected candidateをPlanOSへ返すbounded feedback intakeを設計できます。
+
+feedback intakeは、過去分布を書き換えず、新しいfuture-only replan stateを生成します。
+
+### WORLD update separation
+
+PlanOS v1.00-v1.02のWORLD projectionはread-only counterfactualです。
+
+persistent WORLD mutationを実装する場合は、別のauthorization、application、verification、rollback系列を必要とします。
+
+PlanOS handoffやDecisionOS deliberationからWORLD write authorityを継承しません。
+
+### ActOS handoff separation
+
+DecisionOS selectionが成立しても、ActOS invocationとは同一ではありません。
+
+execution scope、constraints、owner、expiry、verification routeを持つ独立handoffを必要とします。
+
+## Governance Gate
+
+文書とruntime rootの同期では、少なくとも次を確認します。
+
+```bash
+python3 -m py_compile runtime/kuuos_current_check.py
+PYTHONPATH=. python3 runtime/kuuos_current_check.py --summary
+PYTHONPATH=. python3 runtime/kuuos_current_check.py --list
+PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile planos
+PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile decisionos
+PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile repository
+```
+
+Lean surfaceを変更した場合は、対象versioned aggregateとrepository strict baselineを別々にbuildします。
+
+Gate成功は、登録surfaceの整合性receiptです。
+
+外部定理受理、経験的真理、臨床承認、組織承認、無制限repository mutation権限ではありません。
 
 ## 固定境界
 
@@ -44,132 +236,17 @@ verification != truth
 learning != present-cycle mutation
 memory != belief sovereignty
 selection != execution
-selection policy != selection execution
+relational deliberation != selected candidate
+relational frontier != execution permission
 receipt != successor authority
-receipt composition != receipt construction
-OS receipt composition != host-effect atomic-commit intake
 
-WORLD sidecar != exact WORLD
+WORLD projection != WORLD mutation
 WORLD candidate != empirical fact
-WORLD commit != truth
-WORLD intake != WORLD update
-analytic vacuum != exact WORLD
-Kū != zero vector
-modular time != physical time
+Qi conditioning != authority grant
+history conditioning != history sovereignty
 
 modeled repository transition != live Git mutation
-object candidate != object materialization
-reference authorization != reference update
-checkpoint creation != checkpoint overwrite
-checkpoint reflog record != checkpoint reference update
-dedicated index != canonical index
-sandbox reflection != repository-root working-tree write
 local checkpoint != remote push authority
 roadmap completion != successor mutation authority
-
-active self-organization state != unbounded mutation authority
-current root execution != production deployment
-runtime success != external truth
-README public status != authority grant
-current surface CLI != authority grant
-current surface index != authority grant
-current surface artifact != authority grant
-README surface exposure != authority grant
-selection policy artifact != authority grant
-
-Apoptosis Lifecycle Governance != repository mutation roadmap v1.25
-lifecycle completion != successor route
-terminal completion != future authority inheritance
+runtime success != production deployment
 ```
-
-## 現在の統合済み基準
-
-| 系列 | 到達点 | 状態 |
-|---|---|---|
-| Core governance | v0.1 | Frozen boundary |
-| Horizon / Context Gauge | v0.12 / v0.13 | 統合済み |
-| Finite-cycle agent | v0.20からv0.27 | 統合済み |
-| Qi diagnostic lineage | v0.28 / v0.29 | 統合済み |
-| MemoryOS foundational line | v0.35、v0.37、v0.38、v0.39 | 統合済み |
-| Qi-WORLD | v2.3 | 統合済み |
-| WORLD mathematical sidecar | v0.27からv0.59、v14.0 bridge | 統合済み、継続検証 |
-| Current status surface | v0.70からv0.78 | 統合済み、継続検証 |
-| Repository self-evolution | v0.79からv1.24 | 統合済み、継続検証 |
-| Staged repository mutation | v1.19からv1.24 | 完了系列 |
-| Apoptosis Lifecycle Governance | v0.1からv0.36 | 独立完了系列 |
-| Self-organization cycle | v0.79からv0.91 | `main`へ統合済み |
-| Self-organization selection policy | v0.92 | PR #1052 Draft frontier |
-| Lean aggregate root | `formal/KuuOSFormal.lean` / target `KuuOSFormal` | strict build surface |
-| Current runtime root | `runtime/kuuos_current_check.py` | この枝では`kuuos_current_root_sequence_v0_92`を実行 |
-| Closed repository mutation runtime root | `runtime/kuuos_v124_check.py` | v1.24 cumulative surface |
-| Legacy compatibility runtime root | `scripts/run_kuuos_runtime_full_check_v0_55.py` | compatibility surface |
-
-## Current self-organization line
-
-```text
-README Surface Exposure v0.78
-→ candidate queue v0.79
-→ candidate receipt v0.80
-→ selection policy v0.81
-→ selected next action v0.82
-→ execution plan v0.83
-→ next request v0.84
-→ review packet v0.85
-→ bounded-action transition v0.86
-→ bounded repository change v0.87
-→ completion receipt v0.88
-→ next cycle seed v0.89
-→ candidate queue v0.90
-→ candidate receipt v0.91 on main
-→ selection policy v0.92 Draft frontier
-```
-
-v0.92のpolicy artifactは、v0.91 receiptに存在する候補、PR path preservation、Governance Gate requirement、single next-stage scopeをranking ruleとして保持します。
-
-v0.92の`effect_authorized`と`selection_authorized`はfalseです。
-
-## Current runtime root
-
-標準runtime rootは次です。
-
-```bash
-PYTHONPATH=. python3 runtime/kuuos_current_check.py
-```
-
-v0.92 Draft branchでは、このrootは次のsequenceへ接続されます。
-
-```text
-runtime/kuuos_current_check.py
-→ runtime.kuuos_current_root_sequence_v0_92
-→ tests.test_kuuos_self_organization_selection_policy_v0_92
-→ tests.test_kuuos_current_root_sequence_v0_92
-```
-
-current surfaceは次の入口から読めます。
-
-```bash
-PYTHONPATH=. python3 runtime/kuuos_current_surface.py
-```
-
-## 次期候補
-
-| 候補 | 条件 | 境界 |
-|---|---|---|
-| v0.93 selected next action artifact | v0.92 policy-only artifactがcurrent rootで検証される | selection record only |
-| current surface refresh | v0.92をsurfaceへ露出する必要がある場合 | surface != authority |
-| ROADMAP/CITATION sync receipt | 文書同期をreceipt化する場合 | document sync != successor authority |
-
-## Governance Gate
-
-PR merge前に少なくとも次を確認します。
-
-```bash
-PYTHONPATH=. python3 runtime/kuuos_current_check.py
-PYTHONPATH=. python3 runtime/kuuos_self_organization_selection_policy_v0_92.py
-PYTHONPATH=. python3 -m unittest tests.test_kuuos_self_organization_selection_policy_v0_92
-PYTHONPATH=. python3 -m unittest tests.test_kuuos_current_root_sequence_v0_92
-```
-
-Gateの成功は、対象surfaceの整合性receiptです。
-
-外部定理受理、臨床承認、組織承認、無制限repository mutation権限ではありません。
