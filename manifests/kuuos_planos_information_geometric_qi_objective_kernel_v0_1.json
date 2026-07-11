@@ -1,0 +1,31 @@
+{
+  "version": "kuuos_planos_information_geometric_qi_objective_kernel_v0_1",
+  "planos_version": "v0.91",
+  "status": "PLANOS_INFORMATION_GEOMETRIC_QI_OBJECTIVE_KERNEL_READY",
+  "runtime": "runtime/kuuos_planos_information_geometric_qi_objective_kernel_v0_1.py",
+  "checker": "scripts/check_planos_information_geometric_qi_objective_kernel_v0_1.py",
+  "formal": "formal/KuuOS/PlanOSInformationGeometricQiObjectiveKernelV01.lean",
+  "aggregate": "formal/KuuOS/PlanOSV091.lean",
+  "documentation": "docs/planos_information_geometric_qi_objective_kernel_v0_1.md",
+  "candidate_field": [
+    "continue",
+    "strengthen",
+    "repair",
+    "slow_down",
+    "reobserve",
+    "reroute",
+    "hold",
+    "terminate_candidate"
+  ],
+  "boundary": {
+    "future_is_path_distribution_not_fixed_point": true,
+    "history_is_read_only": true,
+    "qi_conditions_geometry_not_authority": true,
+    "authority_forbidden_paths_have_zero_mass": true,
+    "hold_mass_preserved_when_admissible": true,
+    "candidate_field_retained_after_selection": true,
+    "future_only_synthesis": true,
+    "active_now": false,
+    "plan_commit_is_not_execution": true
+  }
+}
