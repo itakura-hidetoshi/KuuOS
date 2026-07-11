@@ -1,0 +1,43 @@
+{
+  "kernel": "PlanOS WORLD-Conditioned Distribution Decision Handoff Certificate Kernel",
+  "version": "v0.1",
+  "planos_version": "v1.02",
+  "source": "PlanOS v1.01 WORLD-conditioned objective distribution update",
+  "artifacts": [
+    "runtime/kuuos_planos_world_conditioned_distribution_decision_handoff_certificate_kernel_v0_1.py",
+    "scripts/check_planos_world_conditioned_distribution_decision_handoff_certificate_kernel_v0_1.py",
+    "formal/KuuOS/PlanOSWorldConditionedDistributionDecisionHandoffCertificateKernelV01.lean",
+    "formal/KuuOS/PlanOSV102.lean",
+    "docs/planos_world_conditioned_distribution_decision_handoff_certificate_kernel_v0_1.md"
+  ],
+  "evidence": [
+    "probability ranking",
+    "top-mass tie set",
+    "lead margin",
+    "Shannon entropy",
+    "normalized entropy",
+    "concentration",
+    "effective support",
+    "hold review guard"
+  ],
+  "boundaries": {
+    "source_distribution_preserved": true,
+    "ranking_is_advisory_only": true,
+    "candidate_field_retained": true,
+    "persistent_world_state_unchanged": true,
+    "world_model_prediction_not_truth": true,
+    "world_mutation_not_granted": true,
+    "history_read_only": true,
+    "qi_grants_no_authority": true,
+    "decision_selection_performed": false,
+    "decision_authority_granted": false,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  },
+  "validation": {
+    "runtime_checker": "scripts/check_planos_world_conditioned_distribution_decision_handoff_certificate_kernel_v0_1.py",
+    "formal_aggregate": "formal/KuuOS/PlanOSV102.lean",
+    "fail_closed": true
+  }
+}
