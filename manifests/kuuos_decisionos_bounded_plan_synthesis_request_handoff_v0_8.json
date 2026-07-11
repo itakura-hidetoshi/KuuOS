@@ -1,0 +1,55 @@
+{
+  "kernel": "DecisionOS Bounded Plan Synthesis Request Handoff Kernel",
+  "version": "v0.1",
+  "decisionos_version": "v0.8",
+  "source": "DecisionOS v0.7 WORLD-conditioned selection justification receipt",
+  "artifacts": [
+    "runtime/kuuos_decisionos_bounded_plan_synthesis_request_handoff_v0_8.py",
+    "scripts/check_decisionos_bounded_plan_synthesis_request_handoff_v0_8.py",
+    "formal/KUOS/DecisionOS/BoundedPlanSynthesisRequestHandoffV0_8.lean",
+    "formal/KuuOSDecisionOSV0_8.lean",
+    "docs/KUUOS_DECISIONOS_BOUNDED_PLAN_SYNTHESIS_REQUEST_HANDOFF_v0_8.md"
+  ],
+  "handoff_basis": "DecisionOS-selected relational-frontier candidate with preserved justification lineage",
+  "bounded_fields": [
+    "planning horizon steps",
+    "maximum plan steps",
+    "maximum branching factor",
+    "maximum revision cycles",
+    "reversible action requirement",
+    "checkpoint requirement",
+    "stop conditions",
+    "preserved evidence",
+    "forbidden effects"
+  ],
+  "forbidden_effects": [
+    "active_now",
+    "candidate_substitution",
+    "execution_permission",
+    "external_side_effect",
+    "persistent_world_mutation",
+    "selection_authority_transfer",
+    "tool_invocation",
+    "unreviewed_scope_expansion"
+  ],
+  "boundaries": {
+    "plan_synthesis_request_issued": true,
+    "planos_synthesis_scope_bounded": true,
+    "selection_remains_decisionos_owned": true,
+    "selection_authority_transferred_to_planos": false,
+    "execution_authority_granted_to_planos": false,
+    "plan_synthesis_performed": false,
+    "concrete_plan_issued": false,
+    "plan_receipt_issued": false,
+    "persistent_world_state_unchanged": true,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  },
+  "validation": {
+    "runtime_checker": "scripts/check_decisionos_bounded_plan_synthesis_request_handoff_v0_8.py",
+    "formal_aggregate": "formal/KuuOSDecisionOSV0_8.lean",
+    "cumulative_runner": "scripts/run_decision_os_full_checks.py",
+    "fail_closed": true
+  }
+}
