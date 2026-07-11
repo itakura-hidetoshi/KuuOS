@@ -1,0 +1,21 @@
+{
+  "kernel": "PlanOS Temperature Trajectory Receipt Kernel",
+  "version": "v0.1",
+  "planos_version": "v0.97",
+  "source": "PlanOS v0.96 temperature hysteresis and rate-limit receipt",
+  "artifacts": [
+    "runtime/kuuos_planos_temperature_trajectory_receipt_kernel_v0_1.py",
+    "scripts/check_planos_temperature_trajectory_receipt_kernel_v0_1.py",
+    "formal/KuuOS/PlanOSTemperatureTrajectoryReceiptKernelV01.lean",
+    "formal/KuuOS/PlanOSV097.lean",
+    "docs/planos_temperature_trajectory_receipt_kernel_v0_1.md"
+  ],
+  "invariants": {
+    "trajectory_append_count_exact": true,
+    "history_read_only": true,
+    "qi_grants_no_authority": true,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  }
+}
