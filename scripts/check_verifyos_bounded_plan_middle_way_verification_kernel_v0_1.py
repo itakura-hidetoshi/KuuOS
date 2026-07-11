@@ -133,7 +133,7 @@ def _build(**overrides):
 
 def main() -> int:
     valid = _build()
-    assert valid.status == STATUS_READY
+    assert valid.status == STATUS_READY, valid.blockers
     assert valid.certificate is not None
     certificate = valid.certificate
     assert certificate["verifyos_version"] == "v0.5"
@@ -160,7 +160,7 @@ def main() -> int:
     assert certificate["active_now"] is False
 
     changed_world = _build(current_world_model_revision=9)
-    assert changed_world.status == STATUS_READY
+    assert changed_world.status == STATUS_READY, changed_world.blockers
     assert changed_world.certificate is not None
     assert changed_world.certificate["conditional_validity_status"] == (
         "revision_required"
