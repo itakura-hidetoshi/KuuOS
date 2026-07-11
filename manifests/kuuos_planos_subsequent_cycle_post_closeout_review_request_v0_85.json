@@ -1,0 +1,14 @@
+{
+  "version": "kuuos_planos_subsequent_cycle_post_closeout_review_request_v0_85",
+  "source_version": "kuuos_planos_subsequent_cycle_closeout_receipt_v0_84",
+  "status": "PLANOS_SUBSEQUENT_CYCLE_POST_CLOSEOUT_REVIEW_REQUEST_READY",
+  "runtime": "runtime/kuuos_planos_subsequent_cycle_post_closeout_review_request_v0_85.py",
+  "checker": "scripts/check_planos_subsequent_cycle_post_closeout_review_request_v0_85.py",
+  "formal": "formal/KuuOS/PlanOSSubsequentCyclePostCloseoutReviewRequestV085.lean",
+  "aggregate": "formal/KuuOS/PlanOSV085.lean",
+  "boundary": {
+    "subsequent_cycle_closed": true,
+    "subsequent_cycle_post_closeout_review_requested": true,
+    "subsequent_cycle_post_closeout_review_completed": false
+  }
+}
