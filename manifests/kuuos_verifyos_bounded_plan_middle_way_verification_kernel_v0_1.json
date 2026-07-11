@@ -1,0 +1,58 @@
+{
+  "kernel": "VerifyOS Bounded Plan Middle-Way Verification Kernel",
+  "version": "v0.1",
+  "verifyos_version": "v0.5",
+  "source": "PlanOS v1.04 bounded synthesis receipt",
+  "artifacts": [
+    "runtime/kuuos_verifyos_bounded_plan_middle_way_verification_kernel_v0_1.py",
+    "scripts/check_verifyos_bounded_plan_middle_way_verification_kernel_v0_1.py",
+    "formal/KUOS/VerifyOS/BoundedPlanMiddleWayVerificationV0_5.lean",
+    "docs/verifyos_bounded_plan_middle_way_verification_kernel_v0_1.md"
+  ],
+  "verification": {
+    "source_receipt_digest": true,
+    "finite_plan_structure": true,
+    "step_sequence": true,
+    "step_bound": true,
+    "branch_bound": true,
+    "revision_bound": true,
+    "checkpoint_order": true,
+    "stop_conditions": true,
+    "forbidden_effect_absence": true,
+    "selected_candidate_and_intent": true,
+    "world_dependency": true,
+    "alternative_candidates": true,
+    "dissent_and_minority_evidence": true,
+    "lineage_and_responsibility": true
+  },
+  "middle_way_routing": {
+    "world_conditions_current": "valid and admitted to materialization intake",
+    "world_conditions_changed": "revision_required and returned to PlanOS",
+    "condition_change_is_not_receipt_erasure": true,
+    "plan_not_reified": true,
+    "plan_not_erased": true
+  },
+  "boundaries": {
+    "selection_remains_decisionos_owned": true,
+    "selection_authority_granted_to_verifyos": false,
+    "plan_revision_authority_granted_to_verifyos": false,
+    "plan_activated": false,
+    "materialization_performed": false,
+    "execution_authority_granted": false,
+    "execution_permission": false,
+    "persistent_world_state_unchanged": true,
+    "world_model_prediction_not_truth": true,
+    "world_mutation_not_granted": true,
+    "history_read_only": true,
+    "qi_grants_no_authority": true,
+    "future_only": true,
+    "active_now": false
+  },
+  "validation": {
+    "runtime_checker": "scripts/check_verifyos_bounded_plan_middle_way_verification_kernel_v0_1.py",
+    "formal_module": "formal/KUOS/VerifyOS/BoundedPlanMiddleWayVerificationV0_5.lean",
+    "evidence_cycle_runner": "scripts/run_evidence_cycle_os_full_checks.py",
+    "formal_build_root": "formal/KuuOSFormalV0_69.lean",
+    "fail_closed": true
+  }
+}
