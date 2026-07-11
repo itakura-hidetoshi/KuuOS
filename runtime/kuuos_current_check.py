@@ -22,8 +22,7 @@ CURRENT_ROOT_PROFILE = "integrated-current-root-v1"
 CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
 CURRENT_PLANOS_FRONTIER = "PlanOS v1.02"
-CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.8"
-CURRENT_VERIFYOS_FRONTIER = "VerifyOS v0.4 middle-way conditional continuity"
+CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
 CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 CURRENT_BASELINE_DATE = "2026-07-11 JST"
 
@@ -33,8 +32,8 @@ CURRENT_DRAFT_FRONTIER = "none"
 CURRENT_DRAFT_PR = "none"
 CURRENT_DRAFT_BRANCH = "none"
 CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_verifyos_middle_way_conditional_"
-    "continuity_verification_v0_4.py"
+    "runtime/kuuos_planos_world_conditioned_distribution_"
+    "decision_handoff_certificate_kernel_v0_1.py"
 )
 CURRENT_FRONTIER_MODE = "integrated_active_frontiers"
 CURRENT_FRONTIER_BOUNDARY = "validation_only"
@@ -128,21 +127,11 @@ PLANOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
 
 DECISIONOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
     CurrentRootStep(
-        "decisionos-v0-1-v0-8-cumulative",
+        "decisionos-v0-1-v0-6-cumulative",
         "script",
         "scripts/run_decision_os_full_checks.py",
         True,
-        "Validate DecisionOS through bounded PlanOS synthesis handoff v0.8.",
-    ),
-)
-
-VERIFYOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
-    CurrentRootStep(
-        "verifyos-v0-4-middle-way-conditional-continuity",
-        "script",
-        "scripts/check_verifyos_middle_way_conditional_continuity_verification_v0_4.py",
-        True,
-        "Validate conditional validity without reification or lineage erasure.",
+        "Validate DecisionOS through WORLD-conditioned relational deliberation v0.6.",
     ),
 )
 
@@ -150,7 +139,6 @@ CURRENT_ROOT_STEPS: tuple[CurrentRootStep, ...] = (
     REPOSITORY_LINEAGE_STEPS
     + PLANOS_ACTIVE_FRONTIER_STEPS
     + DECISIONOS_ACTIVE_FRONTIER_STEPS
-    + VERIFYOS_ACTIVE_FRONTIER_STEPS
 )
 
 
@@ -163,12 +151,10 @@ def current_runtime_root_summary() -> dict[str, object]:
         "repository_frontier": CURRENT_REPOSITORY_FRONTIER,
         "planos_frontier": CURRENT_PLANOS_FRONTIER,
         "decisionos_frontier": CURRENT_DECISIONOS_FRONTIER,
-        "verifyos_frontier": CURRENT_VERIFYOS_FRONTIER,
         "world_dependency": CURRENT_WORLD_DEPENDENCY,
         "repository_step_count": len(REPOSITORY_LINEAGE_STEPS),
         "planos_step_count": len(PLANOS_ACTIVE_FRONTIER_STEPS),
         "decisionos_step_count": len(DECISIONOS_ACTIVE_FRONTIER_STEPS),
-        "verifyos_step_count": len(VERIFYOS_ACTIVE_FRONTIER_STEPS),
         "total_step_count": len(CURRENT_ROOT_STEPS),
         "frontier_mode": CURRENT_FRONTIER_MODE,
         "frontier_boundary": CURRENT_FRONTIER_BOUNDARY,
@@ -222,8 +208,6 @@ def _steps_for_profile(profile: str) -> tuple[CurrentRootStep, ...]:
         return PLANOS_ACTIVE_FRONTIER_STEPS
     if profile == "decisionos":
         return DECISIONOS_ACTIVE_FRONTIER_STEPS
-    if profile == "verifyos":
-        return VERIFYOS_ACTIVE_FRONTIER_STEPS
     if profile == "all":
         return CURRENT_ROOT_STEPS
     raise ValueError("unknown_current_root_profile:" + profile)
@@ -265,7 +249,7 @@ def run_current(profile: str = "all") -> int:
     print(
         "\nPASS: KuuOS integrated current root "
         f"({CURRENT_REPOSITORY_FRONTIER}; {CURRENT_PLANOS_FRONTIER}; "
-        f"{CURRENT_DECISIONOS_FRONTIER}; {CURRENT_VERIFYOS_FRONTIER})"
+        f"{CURRENT_DECISIONOS_FRONTIER})"
     )
     return 0
 
@@ -274,7 +258,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Run the KuuOS integrated current root.")
     parser.add_argument(
         "--profile",
-        choices=("all", "repository", "planos", "decisionos", "verifyos"),
+        choices=("all", "repository", "planos", "decisionos"),
         default="all",
         help="Select one bounded validation surface. The default is all.",
     )
