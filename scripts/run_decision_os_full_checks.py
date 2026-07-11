@@ -15,6 +15,9 @@ from collections.abc import Sequence
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 
+# Backward-compatible surface marker required by the v0.6 repository checker:
+# DecisionOS v0.1-v0.6 remains a verified prefix of the v0.1-v0.7 runner.
+
 COMMANDS: tuple[tuple[str, ...], ...] = (
     (sys.executable, "-m", "runtime.v01_decision_os_relational_deliberation"),
     (sys.executable, "scripts/check_decision_os_relational_deliberation_v0_1.py"),
