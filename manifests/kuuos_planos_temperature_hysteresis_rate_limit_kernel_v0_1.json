@@ -1,0 +1,18 @@
+{
+  "kernel": "PlanOS Temperature Hysteresis and Rate-Limit Kernel",
+  "version": "0.1",
+  "planos_version": "0.96",
+  "source": "PlanOS v0.95 adaptive Qi temperature calibration",
+  "invariants": [
+    "deadband holds small changes",
+    "upward and downward steps are bounded",
+    "oscillation increases hysteresis",
+    "concentration ceiling is preserved",
+    "Qi grants no authority",
+    "history is read-only",
+    "future-only and not execution"
+  ],
+  "runtime": "runtime/kuuos_planos_temperature_hysteresis_rate_limit_kernel_v0_1.py",
+  "checker": "scripts/check_planos_temperature_hysteresis_rate_limit_kernel_v0_1.py",
+  "formal": "formal/KuuOS/PlanOSTemperatureHysteresisRateLimitKernelV01.lean"
+}
