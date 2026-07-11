@@ -1,0 +1,17 @@
+{
+  "version": "kuuos_planos_zero_temperature_minimal_action_limit_kernel_v0_1",
+  "source": "kuuos_planos_kl_regularized_objective_update_kernel_v0_1",
+  "runtime": "runtime/kuuos_planos_zero_temperature_minimal_action_limit_kernel_v0_1.py",
+  "checker": "scripts/check_planos_zero_temperature_minimal_action_limit_kernel_v0_1.py",
+  "formal": "formal/KuuOS/PlanOSZeroTemperatureMinimalActionLimitKernelV01.lean",
+  "aggregate": "formal/KuuOS/PlanOSV093.lean",
+  "boundary": {
+    "admissible_support_preserved": true,
+    "minimal_action_support_identified": true,
+    "authority_invariance_preserved": true,
+    "history_read_only": true,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  }
+}
