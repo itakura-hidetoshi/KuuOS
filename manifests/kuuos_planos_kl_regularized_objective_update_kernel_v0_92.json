@@ -1,0 +1,19 @@
+{
+  "version": "kuuos_planos_kl_regularized_objective_update_kernel_v0_92",
+  "source_version": "kuuos_planos_information_geometric_qi_objective_kernel_v0_91",
+  "status": "PLANOS_KL_REGULARIZED_OBJECTIVE_UPDATE_KERNEL_READY",
+  "runtime": "runtime/kuuos_planos_kl_regularized_objective_update_kernel_v0_92.py",
+  "checker": "scripts/check_planos_kl_regularized_objective_update_kernel_v0_92.py",
+  "formal": "formal/KuuOS/PlanOSKLRegularizedObjectiveUpdateKernelV092.lean",
+  "aggregate": "formal/KuuOS/PlanOSV092.lean",
+  "objective": "KL(p||prior) + beta E_p[action] - eta H(p)",
+  "boundary": {
+    "positive_prior_support_preserved": true,
+    "hold_mass_preserved": true,
+    "authority_invariance_preserved": true,
+    "history_read_only": true,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  }
+}
