@@ -1,0 +1,37 @@
+{
+  "version": "kuuos_decisionos_world_conditioned_distribution_handoff_intake_validation_v0_5",
+  "kernel_version": "v0.1",
+  "decisionos_version": "v0.5",
+  "source": "PlanOS v1.02 WORLD-conditioned distribution decision handoff certificate",
+  "runtime": "runtime/kuuos_decisionos_world_conditioned_distribution_handoff_intake_validation_v0_5.py",
+  "validator": "scripts/check_decisionos_world_conditioned_distribution_handoff_intake_validation_v0_5.py",
+  "formal_module": "formal/KUOS/DecisionOS/WorldConditionedDistributionHandoffIntakeValidationV0_5.lean",
+  "formal_aggregate": "formal/KuuOSDecisionOSV0_5.lean",
+  "documentation": "docs/KUUOS_DECISIONOS_WORLD_CONDITIONED_DISTRIBUTION_HANDOFF_INTAKE_VALIDATION_v0_5.md",
+  "cumulative_runner": "scripts/run_decision_os_full_checks.py",
+  "required": {
+    "source_distribution_preserved": true,
+    "source_ranking_preserved": true,
+    "all_candidates_considered": true,
+    "candidate_identity_preserved": true,
+    "retained_alternatives_preserved": true,
+    "wa_evidence_preserved": true,
+    "stakeholder_context_preserved": true,
+    "relational_context_preserved": true,
+    "dissent_visibility_preserved": true,
+    "minority_visibility_preserved": true,
+    "explicit_absence_attestation_preserved": true,
+    "persistent_world_state_unchanged": true,
+    "history_read_only": true
+  },
+  "forbidden": {
+    "silent_substitution": false,
+    "selection_authority_granted_by_intake": false,
+    "decision_selection_performed": false,
+    "decision_receipt_issued": false,
+    "plan_synthesis_performed": false,
+    "world_mutation": false,
+    "truth_promotion": false,
+    "execution_permission": false
+  }
+}
