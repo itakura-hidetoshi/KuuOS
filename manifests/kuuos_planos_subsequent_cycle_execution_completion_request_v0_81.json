@@ -1,0 +1,14 @@
+{
+  "version": "kuuos_planos_subsequent_cycle_execution_completion_request_v0_81",
+  "source_version": "kuuos_planos_subsequent_cycle_execution_start_receipt_v0_80",
+  "status": "PLANOS_SUBSEQUENT_CYCLE_EXECUTION_COMPLETION_REQUEST_READY",
+  "runtime": "runtime/kuuos_planos_subsequent_cycle_execution_completion_request_v0_81.py",
+  "checker": "scripts/check_planos_subsequent_cycle_execution_completion_request_v0_81.py",
+  "formal": "formal/KuuOS/PlanOSSubsequentCycleExecutionCompletionRequestV081.lean",
+  "aggregate": "formal/KuuOS/PlanOSV081.lean",
+  "boundary": {
+    "subsequent_cycle_execution_started": true,
+    "subsequent_cycle_execution_completion_requested": true,
+    "subsequent_cycle_execution_completed": false
+  }
+}
