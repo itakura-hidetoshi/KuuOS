@@ -70,16 +70,16 @@ def _review(source: dict) -> dict:
         "uncertainty_digest": handoff["uncertainty_digest"],
         "calibration_digest": handoff["calibration_digest"],
         "provenance_chain_digests": list(handoff["provenance_chain_digests"]),
-        "world_candidate_fact_digest": "world-candidate-fact-v054-001",
-        "world_candidate_relation_digest": "world-candidate-relation-v054-001",
-        "world_update_patch_digest": "world-update-patch-v054-001",
-        "world_update_precondition_digest": "world-update-precondition-v054-001",
-        "world_update_postcondition_digest": "world-update-postcondition-v054-001",
-        "causal_model_claim_digest": "world-causal-model-claim-v054-001",
-        "realized_dukkha_assessment_digest": "world-realized-dukkha-assessment-v054-001",
-        "protected_group_realized_impact_digest": "world-protected-group-impact-v054-001",
-        "future_subject_realized_impact_digest": "world-future-subject-impact-v054-001",
-        "world_disposition_reviewer_id": "world-independent-disposition-reviewer-v054",
+        "world_candidate_fact_digest": "world-candidate-fact-v060-001",
+        "world_candidate_relation_digest": "world-candidate-relation-v060-001",
+        "world_update_patch_digest": "world-update-patch-v060-001",
+        "world_update_precondition_digest": "world-update-precondition-v060-001",
+        "world_update_postcondition_digest": "world-update-postcondition-v060-001",
+        "causal_model_claim_digest": "world-causal-model-claim-v060-001",
+        "realized_dukkha_assessment_digest": "world-realized-dukkha-assessment-v060-001",
+        "protected_group_realized_impact_digest": "world-protected-group-impact-v060-001",
+        "future_subject_realized_impact_digest": "world-future-subject-impact-v060-001",
+        "world_disposition_reviewer_id": "world-independent-disposition-reviewer-v060",
         "world_disposition_review_started_epoch": 119,
         "world_disposition_review_completed_epoch": 120,
         "maximum_world_disposition_review_duration": 4,
@@ -140,8 +140,8 @@ def _context(source: dict, review: dict) -> dict:
         "source_verification_receipt_verified_epoch": 120,
         "world_disposition_intake_epoch": 121,
         "maximum_world_disposition_intake_delay": 4,
-        "world_disposition_intake_session_id": "world-disposition-intake-v054-001",
-        "world_disposition_intake_nonce_digest": "world-disposition-nonce-v054-001",
+        "world_disposition_intake_session_id": "world-disposition-intake-v060-001",
+        "world_disposition_intake_nonce_digest": "world-disposition-nonce-v060-001",
         "prior_world_disposition_intake_session_ids": [],
         "prior_world_disposition_review_certificate_digests": [],
         "prior_world_disposition_intake_nonce_digests": [],
@@ -185,8 +185,8 @@ def _build(**overrides):
     context = deepcopy(_context(source, review) if context_override is None and source and review else (context_override or {}))
 
     source_digest = source.get(SOURCE_DIGEST_FIELD, "source-v007-missing")
-    review_digest = review.get(REVIEW_DIGEST_FIELD, "review-v054-missing")
-    context_digest = context.get("world_disposition_intake_context_digest", "context-v054-missing")
+    review_digest = review.get(REVIEW_DIGEST_FIELD, "review-v060-missing")
+    context_digest = context.get("world_disposition_intake_context_digest", "context-v060-missing")
     expected_source = overrides.pop("expected_source_verification_receipt_digest", source_digest)
     expected_review = overrides.pop(
         "expected_world_disposition_review_certificate_digest", review_digest
@@ -196,15 +196,15 @@ def _build(**overrides):
     )
     policy = overrides.pop(
         "world_disposition_intake_policy_digest",
-        "world-dukkha-preserving-verified-effect-disposition-policy-v054",
+        "world-dukkha-preserving-verified-effect-disposition-policy-v060",
     )
     owner = overrides.pop(
         "world_disposition_responsibility_digest",
-        "world-verified-effect-disposition-owner-v054",
+        "world-verified-effect-disposition-owner-v060",
     )
     request_id = overrides.pop(
         "world_disposition_request_id",
-        "world-verified-host-effect-disposition-v054-001",
+        "world-verified-host-effect-disposition-v060-001",
     )
     bundle = overrides.pop(
         "verified_host_effect_world_disposition_bundle_digest",
@@ -260,6 +260,7 @@ def _assert_disposition(result, disposition: str) -> dict:
 
 
 def _assert_nonready(receipt: dict) -> None:
+    assert receipt["world_version"] == "v0.60"
     assert receipt["world_disposition_state_before"] == STATE_BEFORE
     assert receipt["world_disposition_state_after"] == STATE_BEFORE
     assert receipt["world_candidate_prepared"] is False
@@ -278,6 +279,7 @@ def _assert_nonready(receipt: dict) -> None:
 
 def main() -> int:
     ready = _assert_disposition(_build(), DISPOSITION_READY)
+    assert ready["world_version"] == "v0.60"
     assert ready["world_disposition_state_before"] == STATE_BEFORE
     assert ready["world_disposition_state_after"] == STATE_AFTER_READY
     assert ready["world_candidate_prepared"] is True
@@ -424,7 +426,7 @@ def main() -> int:
     )
 
     print(
-        "PASS: WORLD v0.54 dukkha-preserving verified host-effect disposition "
+        "PASS: WORLD v0.60 dukkha-preserving verified host-effect disposition "
         "intake validates ready, refresh, repair, review, truth-rejection, replay, "
         "and fail-closed paths"
     )
