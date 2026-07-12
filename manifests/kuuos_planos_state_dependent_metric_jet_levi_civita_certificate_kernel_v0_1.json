@@ -1,0 +1,52 @@
+{
+  "kernel": "PlanOS State-Dependent Metric Jet and Levi-Civita Certificate Kernel",
+  "kernel_version": "v0.1",
+  "planos_version": "v1.06",
+  "source": "PlanOS v1.05 native coupled information metric certificate",
+  "geometry": {
+    "metric": "G(theta,Q,H,W)",
+    "jet": ["g_ij", "inverse_g_ij", "partial_k_g_ij"],
+    "lower_christoffel": "Gamma_ijk = 1/2(partial_j g_ik + partial_k g_ij - partial_i g_jk)",
+    "christoffel": "Gamma^i_jk = inverse_g^il Gamma_ljk",
+    "parallel_transport": "v'^i = v^i - Gamma^i_jk dtheta^j v^k",
+    "geodesic_acceleration": "a^i = -Gamma^i_jk v^j v^k"
+  },
+  "artifacts": [
+    "runtime/kuuos_planos_state_dependent_metric_jet_levi_civita_certificate_kernel_v0_1.py",
+    "scripts/check_planos_state_dependent_metric_jet_levi_civita_certificate_kernel_v0_1.py",
+    "formal/KUOS/PlanOS/StateDependentMetricJetLeviCivitaV1_06.lean",
+    "formal/KuuOSPlanOSV1_06.lean",
+    "docs/planos_state_dependent_metric_jet_levi_civita_certificate_kernel_v0_1.md",
+    "runtime/kuuos_current_check.py"
+  ],
+  "verified_properties": [
+    "metric symmetry",
+    "metric positive definiteness",
+    "two-sided inverse metric identity",
+    "metric derivative symmetry",
+    "torsion-freeness",
+    "metric compatibility",
+    "bounded Christoffel symbols",
+    "bounded first-order parallel transport",
+    "first-order metric norm preservation"
+  ],
+  "boundaries": {
+    "source_metric_not_mutated": true,
+    "persistent_world_state_unchanged": true,
+    "candidate_tangent_field_retained": true,
+    "decision_selection_performed": false,
+    "history_read_only": true,
+    "qi_grants_no_authority": true,
+    "world_projection_grants_no_authority": true,
+    "connection_grants_no_authority": true,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  },
+  "validation": {
+    "runtime_checker": "scripts/check_planos_state_dependent_metric_jet_levi_civita_certificate_kernel_v0_1.py",
+    "formal_aggregate": "formal/KuuOSPlanOSV1_06.lean",
+    "integrated_root": "runtime/kuuos_current_check.py --profile planos",
+    "fail_closed": true
+  }
+}

@@ -21,7 +21,7 @@ CURRENT_RUNTIME_ROOT = "runtime/kuuos_current_check.py"
 CURRENT_ROOT_PROFILE = "integrated-current-root-v1"
 CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
-CURRENT_PLANOS_FRONTIER = "PlanOS v1.05"
+CURRENT_PLANOS_FRONTIER = "PlanOS v1.06"
 CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
 CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 CURRENT_BASELINE_DATE = "2026-07-13 JST"
@@ -32,8 +32,8 @@ CURRENT_DRAFT_FRONTIER = "none"
 CURRENT_DRAFT_PR = "none"
 CURRENT_DRAFT_BRANCH = "none"
 CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_planos_native_coupled_information_"
-    "metric_certificate_kernel_v0_1.py"
+    "runtime/kuuos_planos_state_dependent_metric_jet_"
+    "levi_civita_certificate_kernel_v0_1.py"
 )
 CURRENT_FRONTIER_MODE = "integrated_active_frontiers"
 CURRENT_FRONTIER_BOUNDARY = "validation_only"
@@ -129,6 +129,13 @@ PLANOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
         "scripts/check_planos_native_coupled_information_metric_certificate_kernel_v0_1.py",
         True,
         "Validate the bounded non-diagonal Gram-coupled PlanOS metric.",
+    ),
+    CurrentRootStep(
+        "planos-v1-06-state-dependent-metric-jet-levi-civita",
+        "script",
+        "scripts/check_planos_state_dependent_metric_jet_levi_civita_certificate_kernel_v0_1.py",
+        True,
+        "Validate the bounded state-dependent metric jet and Levi-Civita connection.",
     ),
 )
 
