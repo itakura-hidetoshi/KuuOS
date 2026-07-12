@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run cumulative evidence-cycle checks through ActOS single-use effect commit."""
+"""Run cumulative evidence-cycle checks through ActOS atomic external host effect."""
 
 from __future__ import annotations
 
@@ -77,6 +77,10 @@ COMMANDS: tuple[tuple[str, ...], ...] = (
         sys.executable,
         "scripts/check_actos_dukkha_preserving_single_use_effect_commit_intake_v0_1.py",
     ),
+    (
+        sys.executable,
+        "scripts/check_actos_dukkha_preserving_atomic_external_host_effect_intake_v0_1.py",
+    ),
     (sys.executable, "scripts/check_learnos_vacuum_expectation_verification_future_only_delta_v0_3.py"),
 )
 
@@ -106,7 +110,7 @@ def main() -> int:
 
     print(
         "\nPASS: Evidence Cycle OS validation completed through "
-        "ActOS v0.10 dukkha-preserving single-use effect commit"
+        "ActOS v0.11 dukkha-preserving atomic external host effect"
     )
     return 0
 
