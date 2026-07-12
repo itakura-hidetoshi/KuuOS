@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run cumulative evidence-cycle checks through WORLD verified-effect disposition."""
+"""Run cumulative evidence-cycle checks through WORLD v0.60 verified-effect disposition."""
 
 from __future__ import annotations
 
@@ -122,7 +122,7 @@ def main() -> int:
 
     print(
         "\nPASS: Evidence Cycle OS validation completed through "
-        "WORLD v0.54 dukkha-preserving verified host-effect disposition"
+        "WORLD v0.60 dukkha-preserving verified host-effect disposition"
     )
     return 0
 
