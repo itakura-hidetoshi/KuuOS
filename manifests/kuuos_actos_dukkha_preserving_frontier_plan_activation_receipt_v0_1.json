@@ -1,0 +1,52 @@
+{
+  "artifact": "ActOS Dukkha-Preserving Frontier Plan Activation Receipt Kernel",
+  "kernel_version": "v0.1",
+  "actos_version": "v0.7",
+  "status": "ACTOS_DUKKHA_PRESERVING_FRONTIER_PLAN_ACTIVATION_READY",
+  "source": {
+    "kernel": "ActOS Dukkha-Preserving Adapter Binding and Activation Authorization Intake Kernel",
+    "actos_version": "v0.6",
+    "required_disposition": "activation_authorization_ready",
+    "single_use_authorization_reserved": true
+  },
+  "activation_transition": {
+    "state_before": "bound_not_invoked",
+    "state_after": "activated_not_invoked",
+    "exactly_one_frontier_activated": true,
+    "later_candidates_remain_inactive": true,
+    "completed_prefix_preserved": true
+  },
+  "single_use_authorization": {
+    "activation_authorization_consumed": true,
+    "activation_authorization_token_marked_consumed": true,
+    "single_use_authorization_replay_closed": true,
+    "adapter_lease_use_consumed": false
+  },
+  "dukkha_invariants": [
+    "dukkha_reduction_support_preserved",
+    "protected_group_nonexternalization_preserved",
+    "future_nonexternalization_preserved",
+    "revision_capacity_preserved",
+    "persistent_loop_reduction_preserved",
+    "single_scalar_utility_not_introduced",
+    "alternatives_dissent_and_minority_preserved"
+  ],
+  "authority_boundary": {
+    "selection_remains_decisionos_owned": true,
+    "selection_authority_granted_to_actos": false,
+    "plan_revision_authority_granted_to_actos": false,
+    "dukkha_minimization_authority_granted_to_actos": false,
+    "adapter_invocation_intake_admitted": true,
+    "adapter_invocation_performed": false,
+    "tool_invocation_performed": false,
+    "external_side_effect_performed": false,
+    "execution_authority_granted": false,
+    "execution_permission": false,
+    "persistent_world_state_unchanged": true,
+    "active_now": false
+  },
+  "runtime": "runtime/kuuos_actos_dukkha_preserving_frontier_plan_activation_receipt_v0_1.py",
+  "checker": "scripts/check_actos_dukkha_preserving_frontier_plan_activation_receipt_v0_1.py",
+  "formal": "formal/KUOS/ActOS/DukkhaPreservingFrontierPlanActivationReceiptV0_7.lean",
+  "documentation": "docs/ACTOS_DUKKHA_PRESERVING_FRONTIER_PLAN_ACTIVATION_RECEIPT_v0_1.md"
+}
