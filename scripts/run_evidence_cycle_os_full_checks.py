@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run cumulative evidence-cycle checks through LearnOS v0.4 future-only learning."""
+"""Run cumulative evidence-cycle checks through ObserveOS v0.6 maintenance observation."""
 
 from __future__ import annotations
 
@@ -122,6 +122,10 @@ COMMANDS: tuple[tuple[str, ...], ...] = (
         sys.executable,
         "scripts/check_learnos_dukkha_preserving_future_only_learning_maintenance_disposition_intake_v0_1.py",
     ),
+    (
+        sys.executable,
+        "scripts/check_observeos_dukkha_preserving_future_only_maintenance_monitoring_observation_intake_v0_1.py",
+    ),
 )
 
 
@@ -150,7 +154,7 @@ def main() -> int:
 
     print(
         "\nPASS: Evidence Cycle OS validation completed through "
-        "LearnOS v0.4 future-only learning maintenance disposition"
+        "ObserveOS v0.6 future-only maintenance-monitoring observation"
     )
     return 0
 
