@@ -1,0 +1,73 @@
+{
+  "schema_version": "v0.1",
+  "os": "ObserveOS",
+  "os_version": "v0.6",
+  "kernel": "dukkha-preserving future-only maintenance-monitoring observation intake",
+  "kernel_version": "v0.1",
+  "source": {
+    "os": "LearnOS",
+    "version": "v0.4",
+    "required_disposition": "future_only_learning_maintenance_supported",
+    "required_state": "world_candidate_bounded_fact_causal_attribution_confirmed_dukkha_reduction_realized_confirmed_future_only_learning_delta_recorded"
+  },
+  "supported_state": "world_candidate_bounded_fact_causal_attribution_confirmed_dukkha_reduction_realized_confirmed_future_only_learning_delta_recorded_maintenance_monitoring_observation_recorded",
+  "supported_claims": {
+    "world_fact_confirmed": true,
+    "causal_attribution_confirmed": true,
+    "dukkha_reduction_realized_confirmed": true,
+    "future_only_learning_delta_recorded": true,
+    "future_only_learning_delta_activated": false,
+    "maintenance_monitoring_handoff_prepared": true,
+    "maintenance_monitoring_observation_recorded": true,
+    "maintenance_monitoring_observation_scope_exactly_bounded": true,
+    "maintenance_monitoring_activated": false,
+    "verification_completed": false,
+    "verification_debt_open": true
+  },
+  "forbidden_effects": [
+    "maintenance action",
+    "current WORLD mutation",
+    "WORLD revision increment",
+    "current plan revision",
+    "current policy activation",
+    "future-only learning delta activation",
+    "tool invocation",
+    "external side effect",
+    "automatic verification",
+    "automatic learning update",
+    "automatic maintenance action",
+    "generalized benefit claim",
+    "authority escalation"
+  ],
+  "dispositions": [
+    "maintenance_monitoring_observation_supported",
+    "world_refresh_required",
+    "monitoring_context_refresh_required",
+    "monitoring_review_refresh_required",
+    "additional_maintenance_monitoring_evidence_required",
+    "source_receipt_correspondence_repair_required",
+    "future_only_learning_delta_correspondence_repair_required",
+    "maintenance_handoff_correspondence_repair_required",
+    "maintenance_window_repair_required",
+    "durability_observation_repair_required",
+    "adverse_effect_observation_repair_required",
+    "distributional_observation_repair_required",
+    "reobservation_trigger_repair_required",
+    "uncertainty_repair_required",
+    "calibration_repair_required",
+    "provenance_repair_required",
+    "nonexternalization_review_required",
+    "current_state_mutation_rejected",
+    "authority_escalation_rejected",
+    "replay_conflict_rejected"
+  ],
+  "implementation": {
+    "runtime": "runtime/kuuos_observeos_dukkha_preserving_future_only_maintenance_monitoring_observation_intake_v0_1.py",
+    "fixture": "scripts/check_observeos_dukkha_preserving_future_only_maintenance_monitoring_observation_fixture_v0_1.py",
+    "checker": "scripts/check_observeos_dukkha_preserving_future_only_maintenance_monitoring_observation_intake_v0_1.py",
+    "formal_package": "formal/KUOS/ObserveOS/DukkhaPreservingFutureOnlyMaintenanceMonitoringObservationIntakeV0_6.lean",
+    "formal_root": "formal/KuuOSObserveOSV0_6.lean",
+    "documentation": "docs/OBSERVEOS_DUKKHA_PRESERVING_FUTURE_ONLY_MAINTENANCE_MONITORING_OBSERVATION_INTAKE_v0_1.md",
+    "cumulative_validation": "scripts/run_evidence_cycle_os_full_checks.py"
+  }
+}
