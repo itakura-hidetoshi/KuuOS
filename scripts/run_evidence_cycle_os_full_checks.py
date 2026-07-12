@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run cumulative evidence-cycle checks through LearnOS v0.4 future-only learning."""
+"""Run cumulative evidence-cycle checks through ObserveOS v0.6 maintenance observation."""
 
 from __future__ import annotations
 
@@ -33,101 +33,38 @@ COMMANDS: tuple[tuple[str, ...], ...] = (
     (sys.executable, "scripts/check_observeos_vacuum_expectation_intake_commit_receipt_v0_3.py"),
     (sys.executable, "scripts/check_observeos_world_host_effect_observation_v0_4.py"),
     (sys.executable, "scripts/check_verifyos_vacuum_expectation_commit_verification_receipt_v0_3.py"),
-    (
-        sys.executable,
-        "scripts/check_verifyos_middle_way_conditional_continuity_verification_v0_4.py",
-    ),
-    (
-        sys.executable,
-        "scripts/check_planos_middle_way_bounded_synthesis_intake_kernel_v0_1.py",
-    ),
-    (
-        sys.executable,
-        "scripts/check_planos_bounded_synthesis_receipt_kernel_v0_1.py",
-    ),
-    (
-        sys.executable,
-        "scripts/check_verifyos_bounded_plan_middle_way_verification_kernel_v0_1.py",
-    ),
-    (
-        sys.executable,
-        "scripts/check_verifyos_dukkha_reduction_claim_verification_kernel_v0_1.py",
-    ),
-    (
-        sys.executable,
-        "scripts/check_actos_dukkha_supported_bounded_plan_materialization_intake_v0_1.py",
-    ),
-    (
-        sys.executable,
-        "scripts/check_actos_dukkha_preserving_adapter_binding_authorization_intake_v0_1.py",
-    ),
-    (
-        sys.executable,
-        "scripts/check_actos_dukkha_preserving_frontier_plan_activation_receipt_v0_1.py",
-    ),
-    (
-        sys.executable,
-        "scripts/check_actos_dukkha_preserving_bounded_adapter_invocation_v0_1.py",
-    ),
-    (
-        sys.executable,
-        "scripts/check_actos_dukkha_preserving_effect_commit_authorization_intake_v0_1.py",
-    ),
-    (
-        sys.executable,
-        "scripts/check_actos_dukkha_preserving_single_use_effect_commit_intake_v0_1.py",
-    ),
-    (
-        sys.executable,
-        "scripts/check_actos_dukkha_preserving_atomic_external_host_effect_intake_v0_1.py",
-    ),
-    (
-        sys.executable,
-        "scripts/check_observeos_dukkha_preserving_external_host_effect_observation_intake_v0_1.py",
-    ),
-    (
-        sys.executable,
-        "scripts/check_verifyos_dukkha_preserving_observed_host_effect_verification_intake_v0_1.py",
-    ),
-    (
-        sys.executable,
-        "scripts/check_world_dukkha_preserving_verified_host_effect_disposition_intake_v0_1.py",
-    ),
-    (
-        sys.executable,
-        "scripts/check_world_dukkha_preserving_single_use_world_candidate_commit_authorization_intake_v0_1.py",
-    ),
-    (
-        sys.executable,
-        "scripts/check_world_dukkha_preserving_single_use_world_mutation_application_intake_v0_1.py",
-    ),
-    (
-        sys.executable,
-        "scripts/check_verifyos_dukkha_preserving_world_postcondition_verification_intake_v0_1.py",
-    ),
-    (
-        sys.executable,
-        "scripts/check_world_dukkha_preserving_world_fact_confirmation_disposition_intake_v0_1.py",
-    ),
-    (
-        sys.executable,
-        "scripts/check_verifyos_dukkha_preserving_world_causal_attribution_verification_intake_v0_1.py",
-    ),
-    (
-        sys.executable,
-        "scripts/check_verifyos_dukkha_preserving_realized_dukkha_verification_disposition_intake_v0_1.py",
-    ),
+    (sys.executable, "scripts/check_verifyos_middle_way_conditional_continuity_verification_v0_4.py"),
+    (sys.executable, "scripts/check_planos_middle_way_bounded_synthesis_intake_kernel_v0_1.py"),
+    (sys.executable, "scripts/check_planos_bounded_synthesis_receipt_kernel_v0_1.py"),
+    (sys.executable, "scripts/check_verifyos_bounded_plan_middle_way_verification_kernel_v0_1.py"),
+    (sys.executable, "scripts/check_verifyos_dukkha_reduction_claim_verification_kernel_v0_1.py"),
+    (sys.executable, "scripts/check_actos_dukkha_supported_bounded_plan_materialization_intake_v0_1.py"),
+    (sys.executable, "scripts/check_actos_dukkha_preserving_adapter_binding_authorization_intake_v0_1.py"),
+    (sys.executable, "scripts/check_actos_dukkha_preserving_frontier_plan_activation_receipt_v0_1.py"),
+    (sys.executable, "scripts/check_actos_dukkha_preserving_bounded_adapter_invocation_v0_1.py"),
+    (sys.executable, "scripts/check_actos_dukkha_preserving_effect_commit_authorization_intake_v0_1.py"),
+    (sys.executable, "scripts/check_actos_dukkha_preserving_single_use_effect_commit_intake_v0_1.py"),
+    (sys.executable, "scripts/check_actos_dukkha_preserving_atomic_external_host_effect_intake_v0_1.py"),
+    (sys.executable, "scripts/check_observeos_dukkha_preserving_external_host_effect_observation_intake_v0_1.py"),
+    (sys.executable, "scripts/check_verifyos_dukkha_preserving_observed_host_effect_verification_intake_v0_1.py"),
+    (sys.executable, "scripts/check_world_dukkha_preserving_verified_host_effect_disposition_intake_v0_1.py"),
+    (sys.executable, "scripts/check_world_dukkha_preserving_single_use_world_candidate_commit_authorization_intake_v0_1.py"),
+    (sys.executable, "scripts/check_world_dukkha_preserving_single_use_world_mutation_application_intake_v0_1.py"),
+    (sys.executable, "scripts/check_verifyos_dukkha_preserving_world_postcondition_verification_intake_v0_1.py"),
+    (sys.executable, "scripts/check_world_dukkha_preserving_world_fact_confirmation_disposition_intake_v0_1.py"),
+    (sys.executable, "scripts/check_verifyos_dukkha_preserving_world_causal_attribution_verification_intake_v0_1.py"),
+    (sys.executable, "scripts/check_verifyos_dukkha_preserving_realized_dukkha_verification_disposition_intake_v0_1.py"),
     (sys.executable, "scripts/check_learnos_vacuum_expectation_verification_future_only_delta_v0_3.py"),
-    (
-        sys.executable,
-        "scripts/check_learnos_dukkha_preserving_future_only_learning_maintenance_disposition_intake_v0_1.py",
-    ),
+    (sys.executable, "scripts/check_learnos_dukkha_preserving_future_only_learning_maintenance_disposition_intake_v0_1.py"),
+    (sys.executable, "scripts/check_observeos_dukkha_preserving_future_only_maintenance_monitoring_observation_intake_v0_1.py"),
 )
 
 
 def run_command(command: Sequence[str], env: dict[str, str]) -> int:
     print("\n>>> " + " ".join(command), flush=True)
-    return subprocess.run(list(command), cwd=ROOT, env=env, check=False).returncode
+    return subprocess.run(
+        list(command), cwd=ROOT, env=env, check=False
+    ).returncode
 
 
 def main() -> int:
@@ -150,7 +87,7 @@ def main() -> int:
 
     print(
         "\nPASS: Evidence Cycle OS validation completed through "
-        "LearnOS v0.4 future-only learning maintenance disposition"
+        "ObserveOS v0.6 future-only maintenance-monitoring observation"
     )
     return 0
 
