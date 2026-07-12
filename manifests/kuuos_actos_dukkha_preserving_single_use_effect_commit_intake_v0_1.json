@@ -1,0 +1,59 @@
+{
+  "artifact": "ActOS Dukkha-Preserving Single-Use Effect Commit Intake Kernel",
+  "kernel_version": "v0.1",
+  "actos_version": "v0.10",
+  "status": "ACTOS_DUKKHA_PRESERVING_SINGLE_USE_EFFECT_COMMIT_RECORDED",
+  "source": {
+    "kernel": "ActOS Dukkha-Preserving Effect Commit Authorization Intake Kernel",
+    "version": "v0.9",
+    "required_disposition": "effect_commit_authorization_ready",
+    "required_state": "authorized_not_committed",
+    "required_authorization_admission": true,
+    "required_single_use_authorization_reservation": true,
+    "required_effect_commit_intake_admission": true
+  },
+  "commit_invariants": [
+    "single_use_authorization_consumed_once",
+    "authorization_token_marked_consumed",
+    "authorization_double_consumption_forbidden",
+    "commit_nonce_replay_closed",
+    "source_authorization_replay_closed",
+    "state_authorized_not_committed_to_effect_committed_host_not_applied",
+    "exactly_one_effect_proposal_committed",
+    "committed_effect_envelope_issued",
+    "external_host_effect_intake_admitted",
+    "external_host_effect_receipt_required",
+    "external_host_effect_not_performed",
+    "observation_required_but_not_performed",
+    "verification_required_but_not_completed",
+    "verification_debt_open"
+  ],
+  "dukkha_invariants": [
+    "dukkha_reduction_support_preserved",
+    "protected_group_nonexternalization_preserved",
+    "future_nonexternalization_preserved",
+    "revision_capacity_preserved",
+    "persistent_loop_reduction_preserved",
+    "single_scalar_utility_not_introduced"
+  ],
+  "authority_boundary": {
+    "selection_remains_decisionos_owned": true,
+    "selection_authority_granted_to_actos": false,
+    "plan_revision_authority_granted_to_actos": false,
+    "dukkha_minimization_authority_granted_to_actos": false,
+    "effect_commit_performed": true,
+    "external_host_effect_performed": false,
+    "tool_invocation_performed": false,
+    "external_side_effect_performed": false,
+    "persistent_world_state_unchanged": true,
+    "observation_performed": false,
+    "verification_completed": false,
+    "execution_authority_granted": false,
+    "execution_permission": false,
+    "active_now": false
+  },
+  "runtime": "runtime/kuuos_actos_dukkha_preserving_single_use_effect_commit_intake_v0_1.py",
+  "checker": "scripts/check_actos_dukkha_preserving_single_use_effect_commit_intake_v0_1.py",
+  "formal": "formal/KUOS/ActOS/DukkhaPreservingSingleUseEffectCommitIntakeV0_10.lean",
+  "documentation": "docs/ACTOS_DUKKHA_PRESERVING_SINGLE_USE_EFFECT_COMMIT_INTAKE_v0_1.md"
+}
