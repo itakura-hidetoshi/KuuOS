@@ -1,0 +1,93 @@
+{
+  "schema": "kuuos.verifyos.dukkha_preserving_realized_dukkha_verification_disposition_intake.v0_1",
+  "kernel_version": "v0.1",
+  "verifyos_version": "v0.10",
+  "title": "Dukkha-Preserving Realized-Dukkha Verification Disposition Intake",
+  "source_state": "world_candidate_bounded_fact_causal_attribution_confirmed_dukkha_realization_pending",
+  "supported_state": "world_candidate_bounded_fact_causal_attribution_confirmed_dukkha_reduction_realized_confirmed",
+  "source_receipt": "VerifyOS v0.9 supported WORLD causal-attribution verification receipt",
+  "supported_claim": {
+    "world_fact_confirmed": true,
+    "causal_attribution_confirmed": true,
+    "dukkha_reduction_realized_confirmed": true,
+    "scope": "exact bounded realized reduction only"
+  },
+  "non_supported_claim": {
+    "world_fact_confirmed": true,
+    "causal_attribution_confirmed": true,
+    "dukkha_reduction_realized_confirmed": false,
+    "verification_debt_open": true
+  },
+  "dispositions": [
+    "realized_dukkha_verification_supported",
+    "world_refresh_required",
+    "dukkha_realization_context_refresh_required",
+    "dukkha_realization_review_refresh_required",
+    "additional_realized_dukkha_evidence_required",
+    "baseline_dukkha_correspondence_repair_required",
+    "post_intervention_dukkha_correspondence_repair_required",
+    "dukkha_measurement_validity_repair_required",
+    "dukkha_assessment_window_repair_required",
+    "causal_binding_correspondence_repair_required",
+    "dukkha_effect_estimate_repair_required",
+    "dukkha_reduction_durability_review_required",
+    "adverse_effect_offset_review_required",
+    "distributional_impact_review_required",
+    "uncertainty_repair_required",
+    "calibration_repair_required",
+    "provenance_repair_required",
+    "nonexternalization_review_required",
+    "dukkha_realization_overclaim_rejected",
+    "replay_conflict_rejected"
+  ],
+  "required_source_bindings": [
+    "source WORLD causal-attribution verification receipt",
+    "source WORLD fact-confirmation receipt digest",
+    "source causal evidence packet digest",
+    "source causal verification review digest",
+    "source causal verification record digest",
+    "source causal verification debt-consumption digest",
+    "bounded WORLD causal-attribution binding digest",
+    "dukkha-realization verification handoff digest",
+    "candidate fact and relation digests",
+    "WORLD state, revision, and storage target",
+    "causal model, causal query, intervention, and counterfactual estimand"
+  ],
+  "required_realized_dukkha_evidence": [
+    "baseline and post-intervention dukkha assessments",
+    "outcome measure specification and assessment window",
+    "minimum clinically meaningful reduction threshold",
+    "effect estimate, direction, magnitude, and confidence interval",
+    "durability evidence",
+    "adverse-effect offset assessment",
+    "distributional impact assessment",
+    "protected-group and future-subject impacts",
+    "uncertainty, calibration, provenance, and tamper evidence"
+  ],
+  "forbidden_effects": [
+    "WORLD patch reapplication",
+    "WORLD revision increment",
+    "tool invocation",
+    "external side effect",
+    "compensation",
+    "automatic plan completion",
+    "automatic rollback",
+    "automatic compensation",
+    "generalized benefit promotion",
+    "selection authority",
+    "plan-revision authority",
+    "dukkha-minimization authority",
+    "general execution authority",
+    "general WORLD mutation authority"
+  ],
+  "implementation": {
+    "runtime": "runtime/kuuos_verifyos_dukkha_preserving_realized_dukkha_verification_disposition_intake_v0_1.py",
+    "checker": "scripts/check_verifyos_dukkha_preserving_realized_dukkha_verification_disposition_intake_v0_1.py",
+    "lean": "formal/KUOS/VerifyOS/DukkhaPreservingRealizedDukkhaVerificationDispositionIntakeV0_10.lean",
+    "formal_root": "formal/KuuOSVerifyOSV0_10.lean",
+    "documentation": "docs/VERIFYOS_DUKKHA_PRESERVING_REALIZED_DUKKHA_VERIFICATION_DISPOSITION_INTAKE_v0_1.md",
+    "cumulative_validation": "scripts/run_evidence_cycle_os_full_checks.py"
+  },
+  "future_only": true,
+  "active_now": false
+}
