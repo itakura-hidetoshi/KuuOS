@@ -1,0 +1,28 @@
+{
+  "manifest_version": "kuuos_observeos_future_only_maintenance_monitoring_observation_intake_v0_1",
+  "observeos_version": "v0.4",
+  "status": "future_only_maintenance_monitoring_observation_intake",
+  "runtime": "runtime/kuuos_observeos_future_only_maintenance_monitoring_observation_intake_v0_1.py",
+  "checker": "scripts/check_observeos_future_only_maintenance_monitoring_observation_intake_v0_1.py",
+  "fixture": "scripts/check_observeos_future_only_maintenance_monitoring_observation_fixture_v0_1.py",
+  "formal_module": "formal/KUOS/ObserveOS/FutureOnlyMaintenanceMonitoringObservationIntakeV0_4.lean",
+  "formal_root": "formal/KuuOSObserveOSMaintenanceV0_4.lean",
+  "source_state": "world_candidate_bounded_fact_causal_attribution_confirmed_dukkha_reduction_realized_confirmed_future_only_learning_delta_recorded",
+  "supported_state": "world_candidate_bounded_fact_causal_attribution_confirmed_dukkha_reduction_realized_confirmed_future_only_learning_delta_recorded_maintenance_monitoring_observation_recorded",
+  "disposition_count": 20,
+  "boundaries": [
+    "observation_not_monitoring_activation",
+    "observation_not_learning_delta_activation",
+    "observation_not_world_mutation",
+    "observation_not_plan_revision",
+    "observation_not_policy_activation",
+    "observation_not_tool_invocation",
+    "observation_not_external_side_effect",
+    "observation_not_authority_escalation"
+  ],
+  "preserved_confirmations": [
+    "bounded_world_fact",
+    "bounded_causal_attribution",
+    "bounded_realized_dukkha_reduction"
+  ]
+}
