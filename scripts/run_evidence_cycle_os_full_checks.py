@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run cumulative evidence-cycle checks through ActOS activation authorization."""
+"""Run cumulative evidence-cycle checks through ActOS frontier activation."""
 
 from __future__ import annotations
 
@@ -61,6 +61,10 @@ COMMANDS: tuple[tuple[str, ...], ...] = (
         sys.executable,
         "scripts/check_actos_dukkha_preserving_adapter_binding_authorization_intake_v0_1.py",
     ),
+    (
+        sys.executable,
+        "scripts/check_actos_dukkha_preserving_frontier_plan_activation_receipt_v0_1.py",
+    ),
     (sys.executable, "scripts/check_learnos_vacuum_expectation_verification_future_only_delta_v0_3.py"),
 )
 
@@ -90,7 +94,7 @@ def main() -> int:
 
     print(
         "\nPASS: Evidence Cycle OS validation completed through "
-        "ActOS v0.6 dukkha-preserving adapter binding and activation authorization"
+        "ActOS v0.7 dukkha-preserving frontier plan activation"
     )
     return 0
 
