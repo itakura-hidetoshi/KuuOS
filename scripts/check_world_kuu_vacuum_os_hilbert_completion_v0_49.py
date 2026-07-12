@@ -44,9 +44,9 @@ def main() -> int:
         ("Kū != zero vector", "modular time != physical time"),
     )
 
-    # The exact v0.49 vacuum distinctions remain in the versioned document and
-    # ROADMAP. README is a rolling entry surface, so require its current durable
-    # exact-WORLD and modular-time boundaries instead of historical phrasing.
+    # The exact v0.49 vacuum distinctions remain in the versioned document.
+    # README and ROADMAP are rolling entry surfaces, so validate their current
+    # durable exact-WORLD and authority boundaries rather than old phrasing.
     require_tokens(
         ROOT / "README.md",
         (
@@ -57,9 +57,8 @@ def main() -> int:
     require_tokens(
         ROOT / "ROADMAP.md",
         (
-            "Kū != zero vector",
-            "analytic vacuum != exact WORLD",
-            "modular time != physical time",
+            "WORLD sidecar != exact WORLD",
+            "WORLD commit != truth",
         ),
     )
 
