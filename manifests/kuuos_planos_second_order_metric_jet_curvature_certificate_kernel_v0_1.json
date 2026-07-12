@@ -1,0 +1,70 @@
+{
+  "artifact": "PlanOS Second-Order Metric Jet Curvature Certificate Kernel",
+  "artifact_version": "v0.1",
+  "planos_version": "v1.07",
+  "status": "prepared_not_activated",
+  "source": {
+    "planos_v1_06": "state-dependent metric jet and Levi-Civita certificate",
+    "planos_v1_05": "native coupled information metric",
+    "world_dependency": "read-only WORLD-conditioned state context"
+  },
+  "inputs": [
+    "source_levi_civita_certificate_digest",
+    "plan_coordinate_schema_digest",
+    "state_context_digest",
+    "source_metric_jet_digest",
+    "metric_matrix",
+    "inverse_metric_matrix",
+    "metric_first_derivatives",
+    "second_order_metric_jet_digest",
+    "metric_second_derivatives",
+    "candidate_plane_bundle_digest",
+    "candidate_planes",
+    "curvature_and_holonomy_bounds"
+  ],
+  "recomputed_objects": [
+    "inverse_metric_derivatives",
+    "lower_christoffel_symbols",
+    "christoffel_symbols",
+    "lower_christoffel_derivatives",
+    "christoffel_derivatives",
+    "riemann_curvature",
+    "lower_riemann_curvature",
+    "ricci_curvature",
+    "scalar_curvature",
+    "sectional_curvature",
+    "infinitesimal_holonomy"
+  ],
+  "verified_invariants": [
+    "metric symmetry and positive definiteness",
+    "inverse metric left and right identities",
+    "first derivative metric-index symmetry",
+    "second derivative metric-index symmetry",
+    "mixed partial symmetry",
+    "differentiated inverse identities",
+    "Riemann last-pair antisymmetry",
+    "first Bianchi identity",
+    "lower Riemann pair symmetries",
+    "Ricci symmetry",
+    "bounded curvature",
+    "nondegenerate candidate planes",
+    "bounded infinitesimal holonomy"
+  ],
+  "boundaries": {
+    "candidate_plane_field_retained": true,
+    "decision_selection_performed": false,
+    "source_levi_civita_not_mutated": true,
+    "persistent_world_state_unchanged": true,
+    "history_read_only": true,
+    "curvature_grants_no_authority": true,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  },
+  "fail_closed": true,
+  "runtime": "runtime/kuuos_planos_second_order_metric_jet_curvature_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_second_order_metric_jet_curvature_certificate_kernel_v0_1.py",
+  "formal": "formal/KUOS/PlanOS/SecondOrderMetricJetCurvatureV1_07.lean",
+  "formal_aggregate": "formal/KuuOSPlanOSV1_07.lean",
+  "specification": "docs/planos_second_order_metric_jet_curvature_certificate_kernel_v0_1.md"
+}
