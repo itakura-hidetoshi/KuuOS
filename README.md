@@ -175,6 +175,7 @@ memory != belief sovereignty
 selection != execution
 relational frontier != selected candidate
 receipt != successor authority
+receipt composition != receipt construction
 
 WORLD candidate != empirical fact
 WORLD projection != persistent WORLD update
