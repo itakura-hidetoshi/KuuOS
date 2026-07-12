@@ -792,7 +792,7 @@ def build_world_dukkha_preserving_verified_host_effect_disposition_intake(
     receipt = {
         "kernel": "WORLD Dukkha-Preserving Verified Host-Effect Disposition Intake Kernel",
         "kernel_version": "v0.1",
-        "world_version": "v0.54",
+        "world_version": "v0.60",
         "status": "WORLD_DUKKHA_PRESERVING_VERIFIED_HOST_EFFECT_DISPOSITION_ROUTED",
         "source_verification_receipt_digest": source_digest,
         "source_observation_receipt_digest": source["source_observation_receipt_digest"],
