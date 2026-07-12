@@ -1,0 +1,47 @@
+{
+  "kernel": "PlanOS Native Coupled Information Metric Certificate Kernel",
+  "version": "v0.1",
+  "planos_version": "v1.05",
+  "source": "PlanOS v0.99 Qi-conditioned diagonal metric and PlanOS v1.00 WORLD-conditioned pullback metric lineage",
+  "artifacts": [
+    "runtime/kuuos_planos_native_coupled_information_metric_certificate_kernel_v0_1.py",
+    "scripts/check_planos_native_coupled_information_metric_certificate_kernel_v0_1.py",
+    "formal/KUOS/PlanOS/NativeCoupledInformationMetricV1_05.lean",
+    "formal/KuuOSPlanOSV1_05.lean",
+    "docs/planos_native_coupled_information_metric_certificate_kernel_v0_1.md",
+    "runtime/kuuos_current_check.py"
+  ],
+  "metric": "G_QHC = D_QH + B^T B",
+  "world_composition": "G_QHCW = D_QH + B^T B + lambda_W J^T G_W J",
+  "action": "A(delta) = 1/2 delta^T G_QHC delta",
+  "bounds": {
+    "lower": "lambda_min(G_QHC) >= min_i D_ii",
+    "upper": "lambda_max(G_QHC) <= max_i D_ii + ||B||_F^2"
+  },
+  "boundaries": {
+    "metric_symmetric": true,
+    "metric_positive_definite": true,
+    "metric_floor_preserved": true,
+    "metric_ceiling_preserved": true,
+    "non_diagonal_coupling_present": true,
+    "diagonal_metric_recoverable_as_zero_coupling": true,
+    "pairwise_interactions_retained": true,
+    "interaction_sign_direction_aware": true,
+    "world_pullback_composition_preserves_positive_definiteness": true,
+    "source_metric_not_mutated": true,
+    "candidate_field_retained": true,
+    "decision_selection_performed": false,
+    "history_read_only": true,
+    "qi_grants_no_authority": true,
+    "world_projection_grants_no_authority": true,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  },
+  "validation": {
+    "runtime_checker": "scripts/check_planos_native_coupled_information_metric_certificate_kernel_v0_1.py",
+    "formal_aggregate": "formal/KuuOSPlanOSV1_05.lean",
+    "integrated_root": "runtime/kuuos_current_check.py --profile planos",
+    "fail_closed": true
+  }
+}
