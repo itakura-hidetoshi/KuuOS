@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run cumulative evidence-cycle checks through WORLD v0.61 commit authorization."""
+"""Run cumulative evidence-cycle checks through WORLD v0.62 mutation application."""
 
 from __future__ import annotations
 
@@ -97,6 +97,10 @@ COMMANDS: tuple[tuple[str, ...], ...] = (
         sys.executable,
         "scripts/check_world_dukkha_preserving_single_use_world_candidate_commit_authorization_intake_v0_1.py",
     ),
+    (
+        sys.executable,
+        "scripts/check_world_dukkha_preserving_single_use_world_mutation_application_intake_v0_1.py",
+    ),
     (sys.executable, "scripts/check_learnos_vacuum_expectation_verification_future_only_delta_v0_3.py"),
 )
 
@@ -126,7 +130,7 @@ def main() -> int:
 
     print(
         "\nPASS: Evidence Cycle OS validation completed through "
-        "WORLD v0.61 dukkha-preserving single-use commit authorization"
+        "WORLD v0.62 dukkha-preserving single-use mutation application"
     )
     return 0
 
