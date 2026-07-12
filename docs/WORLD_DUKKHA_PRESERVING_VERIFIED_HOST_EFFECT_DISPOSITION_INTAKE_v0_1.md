@@ -1,5 +1,11 @@
 # WORLD Dukkha-Preserving Verified Host-Effect Disposition Intake v0.1
 
+## 位置
+
+このkernelはWORLD v0.60に属する。
+
+既存WORLD v0.53からv0.59までのvacuum expectation系列を変更せず、その後続番号として配置する。
+
 ## 目的
 
 この層は、VerifyOS v0.7が支持した外部host effectを、WORLDへ直接書き込まず、単一のWORLD candidateへ変換する。
@@ -243,11 +249,11 @@ actual-chain checker：
 
 Lean theorem package：
 
-`formal/KUOS/WORLD/DukkhaPreservingVerifiedHostEffectDispositionIntakeV0_54.lean`
+`formal/KUOS/WORLD/DukkhaPreservingVerifiedHostEffectDispositionIntakeV0_60.lean`
 
 formal root：
 
-`formal/KuuOSWORLDV0_54.lean`
+`formal/KuuOSWORLDV0_60.lean`
 
 manifest：
 
