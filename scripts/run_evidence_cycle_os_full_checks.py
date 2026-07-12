@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run cumulative evidence-cycle checks through VerifyOS v0.8 WORLD postcondition verification."""
+"""Run cumulative evidence-cycle checks through WORLD v0.63 bounded fact confirmation."""
 
 from __future__ import annotations
 
@@ -105,6 +105,10 @@ COMMANDS: tuple[tuple[str, ...], ...] = (
         sys.executable,
         "scripts/check_verifyos_dukkha_preserving_world_postcondition_verification_intake_v0_1.py",
     ),
+    (
+        sys.executable,
+        "scripts/check_world_dukkha_preserving_world_fact_confirmation_disposition_intake_v0_1.py",
+    ),
     (sys.executable, "scripts/check_learnos_vacuum_expectation_verification_future_only_delta_v0_3.py"),
 )
 
@@ -134,7 +138,7 @@ def main() -> int:
 
     print(
         "\nPASS: Evidence Cycle OS validation completed through "
-        "VerifyOS v0.8 dukkha-preserving WORLD postcondition verification"
+        "WORLD v0.63 dukkha-preserving bounded WORLD fact confirmation"
     )
     return 0
 
