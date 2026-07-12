@@ -2,7 +2,7 @@
 from __future__ import annotations
 from copy import deepcopy
 from runtime.kuuos_learnos_dukkha_preserving_future_only_learning_maintenance_disposition_intake_v0_1 import *
-from scripts.learnos_future_only_learning_fixture_v0_4 import build, source, evidence, review, context, redigest_evidence, redigest_review, redigest_context
+from scripts.check_learnos_dukkha_preserving_future_only_learning_maintenance_fixture_v0_1 import build, source, evidence, review, context, redigest_evidence, redigest_review, redigest_context
 
 def assert_disposition(result, disposition):
     assert result.status==STATUS_READY,result.blockers; assert result.receipt is not None; assert result.receipt["future_only_learning_disposition"]==disposition; assert result.receipt["learnos_version"]=="v0.4"; return result.receipt
