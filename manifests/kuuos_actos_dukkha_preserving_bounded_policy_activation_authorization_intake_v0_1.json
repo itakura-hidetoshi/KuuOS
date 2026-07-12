@@ -1,0 +1,44 @@
+{
+  "artifact": "ActOS Dukkha-Preserving Bounded Policy Activation Authorization Intake Kernel",
+  "kernel_version": "v0.1",
+  "actos_version": "v0.12",
+  "status": "ACTOS_DUKKHA_PRESERVING_BOUNDED_POLICY_ACTIVATION_AUTHORIZATION_ROUTED",
+  "source": {
+    "kernel": "VerifyOS Dukkha-Preserving Future-Only Policy Activation Review Intake Kernel",
+    "version": "v0.12",
+    "required_disposition": "future_only_policy_activation_review_supported",
+    "required_state": "world_candidate_bounded_fact_causal_attribution_confirmed_dukkha_reduction_realized_confirmed_future_only_learning_delta_recorded_maintenance_monitoring_observation_recorded_maintenance_monitoring_observation_verified_maintenance_disposition_pending_future_only_maintenance_disposition_recorded_policy_activation_review_pending_policy_activation_reviewed_activation_authorization_pending",
+    "required_review_completed": true,
+    "required_activation_authorization_debt_open": true,
+    "required_activation_authorization_granted": false
+  },
+  "supported_transition": {
+    "state_before": "world_candidate_bounded_fact_causal_attribution_confirmed_dukkha_reduction_realized_confirmed_future_only_learning_delta_recorded_maintenance_monitoring_observation_recorded_maintenance_monitoring_observation_verified_maintenance_disposition_pending_future_only_maintenance_disposition_recorded_policy_activation_review_pending_policy_activation_reviewed_activation_authorization_pending",
+    "state_after": "world_candidate_bounded_fact_causal_attribution_confirmed_dukkha_reduction_realized_confirmed_future_only_learning_delta_recorded_maintenance_monitoring_observation_recorded_maintenance_monitoring_observation_verified_maintenance_disposition_pending_future_only_maintenance_disposition_recorded_policy_activation_review_pending_policy_activation_reviewed_activation_authorization_pending_bounded_policy_activation_authorization_granted_policy_activation_pending"
+  },
+  "authorization_result": {
+    "bounded_policy_activation_authorization_granted": true,
+    "single_use_policy_activation_authorization_reserved": true,
+    "policy_activation_authorization_token_issued": true,
+    "policy_activation_authorization_token_consumed": false,
+    "policy_activation_handoff_prepared": true,
+    "policy_activation_completed": false,
+    "policy_activation_debt_open": true
+  },
+  "authority_boundary": {
+    "authorization_granted_is_not_policy_activation": true,
+    "maintenance_policy_candidate_activated": false,
+    "current_policy_activated": false,
+    "policy_activation_performed": false,
+    "maintenance_action_performed": false,
+    "execution_permission": false,
+    "world_mutation_authority_granted": false,
+    "current_policy_activation_authority_granted": false,
+    "policy_activation_execution_permission": false
+  },
+  "validation": {
+    "actual_chain_dispositions": 20,
+    "formal_root": "formal/KuuOSActOSV0_12.lean",
+    "cumulative_runner": "scripts/run_evidence_cycle_os_full_checks.py"
+  }
+}
