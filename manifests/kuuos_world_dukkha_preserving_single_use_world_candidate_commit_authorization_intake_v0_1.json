@@ -1,0 +1,86 @@
+{
+  "artifact": "WORLD Dukkha-Preserving Single-Use World-Candidate Commit Authorization Intake Kernel",
+  "kernel_version": "v0.1",
+  "world_version": "v0.61",
+  "status": "WORLD_DUKKHA_PRESERVING_SINGLE_USE_WORLD_CANDIDATE_COMMIT_AUTHORIZATION_ROUTED",
+  "source": {
+    "kernel": "WORLD Dukkha-Preserving Verified Host-Effect Disposition Intake Kernel",
+    "version": "v0.60",
+    "required_disposition": "world_candidate_admission_ready",
+    "required_state": "verified_host_effect_world_candidate_prepared_not_committed",
+    "required_receipt": "world_dukkha_preserving_verified_host_effect_disposition_intake_receipt_digest",
+    "required_artifacts": [
+      "world_disposition_record_digest",
+      "world_disposition_debt_consumption_record_digest",
+      "world_candidate_envelope_digest",
+      "world_disposition_review_certificate_digest"
+    ]
+  },
+  "authorization_review": {
+    "required": true,
+    "binds": [
+      "source_world_disposition_receipt_digest",
+      "world_candidate_envelope_digest",
+      "world_candidate_fact_digest",
+      "world_candidate_relation_digest",
+      "world_update_patch_digest",
+      "world_update_precondition_digest",
+      "world_update_postcondition_digest",
+      "authorization_scope_digest",
+      "authorization_constraints_digest",
+      "authorization_owner_id",
+      "authorization_expiry_epoch",
+      "rollback_route_digest",
+      "compensation_route_digest"
+    ]
+  },
+  "states": {
+    "before": "verified_host_effect_world_candidate_prepared_not_committed",
+    "ready_after": "world_candidate_commit_authorized_not_applied",
+    "routed_after": "verified_host_effect_world_candidate_prepared_not_committed"
+  },
+  "dispositions": [
+    "world_candidate_commit_authorization_ready",
+    "world_refresh_required",
+    "world_commit_authorization_context_refresh_required",
+    "world_commit_authorization_review_refresh_required",
+    "world_commit_authorization_expired",
+    "world_candidate_revalidation_required",
+    "world_patch_repair_required",
+    "world_precondition_repair_required",
+    "world_postcondition_verification_repair_required",
+    "provenance_repair_required",
+    "authorization_owner_rejected",
+    "nonexternalization_review_required",
+    "dukkha_preservation_review_required",
+    "compensation_route_repair_required",
+    "truth_promotion_rejected",
+    "replay_conflict_rejected"
+  ],
+  "ready_route": {
+    "authorization": "bounded_single_use",
+    "authorization_state": "authorized_single_use_not_applied",
+    "candidate_commit_state": "authorized_not_applied",
+    "world_mutation_application_intake_admitted": true,
+    "world_mutation_application_completed": false,
+    "world_candidate_commit_completed": false
+  },
+  "boundaries": [
+    "world_candidate_commit_authorization_not_world_mutation",
+    "world_candidate_commit_authorization_not_world_fact",
+    "world_candidate_commit_authorization_not_causal_truth",
+    "world_candidate_commit_authorization_not_realized_dukkha_confirmation",
+    "bounded_authorization_not_general_world_mutation_authority",
+    "authorization_receipt_not_mutation_application_receipt",
+    "single_use_authorization_not_replayable",
+    "persistent_world_state_unchanged",
+    "no_tool_invocation",
+    "no_external_side_effect"
+  ],
+  "runtime": "runtime/kuuos_world_dukkha_preserving_single_use_world_candidate_commit_authorization_intake_v0_1.py",
+  "checker": "scripts/check_world_dukkha_preserving_single_use_world_candidate_commit_authorization_intake_v0_1.py",
+  "formal_root": "formal/KuuOSWORLDV0_61.lean",
+  "formal_module": "formal/KUOS/WORLD/DukkhaPreservingSingleUseWorldCandidateCommitAuthorizationIntakeV0_61.lean",
+  "documentation": "docs/WORLD_DUKKHA_PRESERVING_SINGLE_USE_WORLD_CANDIDATE_COMMIT_AUTHORIZATION_INTAKE_v0_1.md",
+  "cumulative_validation": "scripts/run_evidence_cycle_os_full_checks.py"
+}
