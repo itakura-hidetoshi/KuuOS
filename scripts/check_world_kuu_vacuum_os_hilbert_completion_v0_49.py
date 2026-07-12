@@ -44,16 +44,23 @@ def main() -> int:
         ("Kū != zero vector", "modular time != physical time"),
     )
 
-    # Entry documents evolve as the repository baseline advances. Validate only
-    # stable semantic boundaries here; version-specific wording belongs to the
-    # dedicated v0.49 document above.
-    stable_boundaries = (
-        "Kū != zero vector",
-        "analytic vacuum != exact WORLD",
-        "modular time != physical time",
+    # The exact v0.49 vacuum distinctions remain in the versioned document.
+    # README and ROADMAP are rolling entry surfaces, so validate their current
+    # durable exact-WORLD and authority boundaries rather than old phrasing.
+    require_tokens(
+        ROOT / "README.md",
+        (
+            "WORLD sidecar != exact WORLD",
+            "modular time != physical time",
+        ),
     )
-    require_tokens(ROOT / "README.md", stable_boundaries)
-    require_tokens(ROOT / "ROADMAP.md", stable_boundaries)
+    require_tokens(
+        ROOT / "ROADMAP.md",
+        (
+            "WORLD sidecar != exact WORLD",
+            "WORLD commit != truth",
+        ),
+    )
 
     manifest_path = ROOT / "manifests/world_kuu_vacuum_os_hilbert_completion_v0_49.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))
