@@ -1,0 +1,66 @@
+{
+  "artifact": "ActOS Dukkha-Preserving Effect Commit Authorization Intake Kernel",
+  "kernel_version": "v0.1",
+  "actos_version": "v0.9",
+  "status": "ACTOS_DUKKHA_PRESERVING_EFFECT_COMMIT_AUTHORIZATION_ROUTED",
+  "source": {
+    "kernel": "ActOS Dukkha-Preserving Bounded Adapter Invocation Kernel",
+    "version": "v0.8",
+    "required_invocation_state": "invoked_effect_not_committed",
+    "required_effect_proposal_recorded": true,
+    "required_effect_commit_not_performed": true,
+    "required_adapter_lease_consumed": true
+  },
+  "authorization_dispositions": [
+    "effect_commit_authorization_ready",
+    "world_refresh_required",
+    "effect_reverification_required",
+    "checkpoint_review_required",
+    "observation_route_repair_required",
+    "verification_route_repair_required",
+    "compensation_route_repair_required",
+    "effect_scope_repair_required",
+    "replay_conflict_rejected"
+  ],
+  "authorization_invariants": [
+    "source_invocation_receipt_digest_revalidated",
+    "adapter_result_envelope_digest_revalidated",
+    "effect_commit_review_certificate_digest_bound",
+    "current_world_binding_rechecked",
+    "bounded_authorization_delay",
+    "session_nonce_and_source_replay_excluded",
+    "effect_scope_and_ceiling_exact",
+    "checkpoint_and_stop_conditions_current",
+    "compensation_observation_and_verification_routes_ready",
+    "single_use_effect_commit_authorization_reserved_only_when_ready",
+    "state_invoked_effect_not_committed_to_authorized_not_committed_only_when_ready"
+  ],
+  "dukkha_invariants": [
+    "dukkha_reduction_support_preserved",
+    "protected_group_nonexternalization_preserved",
+    "future_nonexternalization_preserved",
+    "revision_capacity_preserved",
+    "persistent_loop_reduction_preserved",
+    "single_scalar_utility_not_introduced",
+    "alternatives_dissent_and_minority_preserved"
+  ],
+  "authority_boundary": {
+    "selection_remains_decisionos_owned": true,
+    "selection_authority_granted_to_actos": false,
+    "plan_revision_authority_granted_to_actos": false,
+    "dukkha_minimization_authority_granted_to_actos": false,
+    "adapter_invocation_performed": true,
+    "effect_commit_authorization_may_be_issued": true,
+    "effect_commit_performed": false,
+    "tool_invocation_performed": false,
+    "external_side_effect_performed": false,
+    "execution_authority_granted": false,
+    "execution_permission": false,
+    "persistent_world_state_unchanged": true,
+    "active_now": false
+  },
+  "runtime": "runtime/kuuos_actos_dukkha_preserving_effect_commit_authorization_intake_v0_1.py",
+  "checker": "scripts/check_actos_dukkha_preserving_effect_commit_authorization_intake_v0_1.py",
+  "formal": "formal/KUOS/ActOS/DukkhaPreservingEffectCommitAuthorizationIntakeV0_9.lean",
+  "documentation": "docs/ACTOS_DUKKHA_PRESERVING_EFFECT_COMMIT_AUTHORIZATION_INTAKE_v0_1.md"
+}
