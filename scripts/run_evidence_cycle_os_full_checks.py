@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run cumulative evidence-cycle checks through VerifyOS host-effect verification."""
+"""Run cumulative evidence-cycle checks through WORLD v0.60 verified-effect disposition."""
 
 from __future__ import annotations
 
@@ -89,6 +89,10 @@ COMMANDS: tuple[tuple[str, ...], ...] = (
         sys.executable,
         "scripts/check_verifyos_dukkha_preserving_observed_host_effect_verification_intake_v0_1.py",
     ),
+    (
+        sys.executable,
+        "scripts/check_world_dukkha_preserving_verified_host_effect_disposition_intake_v0_1.py",
+    ),
     (sys.executable, "scripts/check_learnos_vacuum_expectation_verification_future_only_delta_v0_3.py"),
 )
 
@@ -118,7 +122,7 @@ def main() -> int:
 
     print(
         "\nPASS: Evidence Cycle OS validation completed through "
-        "VerifyOS v0.7 dukkha-preserving observed host-effect verification"
+        "WORLD v0.60 dukkha-preserving verified host-effect disposition"
     )
     return 0
 

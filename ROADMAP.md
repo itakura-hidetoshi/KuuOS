@@ -239,9 +239,12 @@ selection != execution
 relational deliberation != selected candidate
 relational frontier != execution permission
 receipt != successor authority
+OS receipt composition
 
+WORLD sidecar != exact WORLD
 WORLD projection != WORLD mutation
 WORLD candidate != empirical fact
+WORLD commit != truth
 Qi conditioning != authority grant
 history conditioning != history sovereignty
 
