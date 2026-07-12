@@ -1,0 +1,58 @@
+{
+  "artifact": "kuuos_world_dukkha_preserving_world_fact_confirmation_disposition_intake",
+  "artifact_version": "v0.1",
+  "world_version": "v0.63",
+  "source_verifyos_version": "v0.8",
+  "source_world_version": "v0.62",
+  "source_state": "world_candidate_commit_postcondition_verified_world_fact_confirmation_pending",
+  "supported_state": "world_candidate_bounded_fact_confirmed_causal_attribution_pending",
+  "runtime": "runtime/kuuos_world_dukkha_preserving_world_fact_confirmation_disposition_intake_v0_1.py",
+  "checker": "scripts/check_world_dukkha_preserving_world_fact_confirmation_disposition_intake_v0_1.py",
+  "formal": "formal/KUOS/WORLD/DukkhaPreservingWorldFactConfirmationDispositionIntakeV0_63.lean",
+  "formal_root": "formal/KuuOSWORLDV0_63.lean",
+  "documentation": "docs/WORLD_DUKKHA_PRESERVING_WORLD_FACT_CONFIRMATION_DISPOSITION_INTAKE_v0_1.md",
+  "supported_disposition": "world_fact_confirmation_supported",
+  "dispositions": [
+    "world_fact_confirmation_supported",
+    "world_refresh_required",
+    "fact_confirmation_context_refresh_required",
+    "fact_confirmation_review_refresh_required",
+    "additional_postcondition_evidence_required",
+    "candidate_fact_correspondence_repair_required",
+    "candidate_relation_correspondence_repair_required",
+    "world_state_correspondence_repair_required",
+    "world_revision_correspondence_repair_required",
+    "storage_persistence_repair_required",
+    "calibration_repair_required",
+    "provenance_repair_required",
+    "nonexternalization_review_required",
+    "causal_attribution_overclaim_rejected",
+    "dukkha_realization_overclaim_rejected",
+    "truth_promotion_rejected",
+    "replay_conflict_rejected"
+  ],
+  "supported_effects": {
+    "bounded_world_fact_confirmed": true,
+    "fact_confirmation_debt_consumed_once": true,
+    "causal_attribution_verification_intake_admitted": true,
+    "persistent_world_mutation_reperformed": false,
+    "world_revision_incremented": false,
+    "causal_attribution_confirmed": false,
+    "dukkha_reduction_realized_confirmed": false
+  },
+  "boundaries": [
+    "mutation_receipt != evidence_packet",
+    "evidence_packet != postcondition_verification_receipt",
+    "postcondition_verification_receipt != fact_confirmation_disposition_receipt",
+    "fact_confirmation_disposition_receipt != confirmed_bounded_world_fact",
+    "confirmed_bounded_world_fact != causal_attribution",
+    "causal_attribution != realized_dukkha_confirmation"
+  ],
+  "authority": {
+    "selection": false,
+    "plan_revision": false,
+    "dukkha_minimization": false,
+    "general_execution": false,
+    "general_world_mutation": false
+  }
+}
