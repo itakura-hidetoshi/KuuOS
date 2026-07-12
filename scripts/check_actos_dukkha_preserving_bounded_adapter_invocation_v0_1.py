@@ -169,12 +169,18 @@ def _build(**overrides):
         else:
             authorization = deepcopy(authorization_override)
         if activation_override is None:
-            activation_result = build_actos_v07_activation(
-                source_authorization_receipt=authorization
-            )
-            assert activation_result.status == STATUS_READY, activation_result.blockers
-            assert activation_result.receipt is not None
-            activation = deepcopy(activation_result.receipt)
+            if authorization:
+                activation_result = build_actos_v07_activation(
+                    source_authorization_receipt=authorization
+                )
+                activation = (
+                    deepcopy(activation_result.receipt)
+                    if activation_result.status == STATUS_READY
+                    and activation_result.receipt is not None
+                    else {}
+                )
+            else:
+                activation = {}
         else:
             activation = deepcopy(activation_override)
 
