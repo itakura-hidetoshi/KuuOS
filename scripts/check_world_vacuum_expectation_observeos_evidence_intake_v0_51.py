@@ -13,6 +13,11 @@ def require_tokens(path: pathlib.Path, tokens: tuple[str, ...]) -> None:
         assert token in text, f"{path}: {token}"
 
 
+def require_any_token(path: pathlib.Path, tokens: tuple[str, ...]) -> None:
+    text = path.read_text(encoding="utf-8")
+    assert any(token in text for token in tokens), f"{path}: one of {tokens}"
+
+
 def main() -> int:
     formal = (
         ROOT
@@ -62,12 +67,19 @@ def main() -> int:
     # The entry documents are intentionally rolling summaries. Their required
     # contract is the stable ownership and authority boundary, not an exact
     # historical heading or version-status sentence.
+    readme = ROOT / "README.md"
     require_tokens(
-        ROOT / "README.md",
+        readme,
         (
             "observation != verification",
-            "WORLD intake != WORLD update",
             "WORLD sidecar != exact WORLD",
+        ),
+    )
+    require_any_token(
+        readme,
+        (
+            "WORLD intake != WORLD update",
+            "WORLD projection != persistent WORLD update",
         ),
     )
     require_tokens(
