@@ -179,6 +179,7 @@ receipt composition != receipt construction
 
 WORLD sidecar != exact WORLD
 WORLD candidate != empirical fact
+WORLD intake != WORLD update
 WORLD projection != persistent WORLD update
 WORLD commit != truth
 Qi conditioning != authority grant
