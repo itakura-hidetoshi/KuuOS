@@ -1,0 +1,121 @@
+{
+  "artifact": "WORLD Dukkha-Preserving Verified Host-Effect Disposition Intake Kernel",
+  "kernel_version": "v0.1",
+  "world_version": "v0.54",
+  "status": "WORLD_DUKKHA_PRESERVING_VERIFIED_HOST_EFFECT_DISPOSITION_ROUTED",
+  "source": {
+    "kernel": "VerifyOS Dukkha-Preserving Observed Host-Effect Verification Intake Kernel",
+    "version": "v0.7",
+    "required_disposition": "effect_verification_supported",
+    "required_state": "host_effect_verified_world_not_updated",
+    "required_receipt": "verifyos_dukkha_preserving_observed_host_effect_verification_intake_receipt_digest",
+    "required_artifacts": [
+      "verification_record_digest",
+      "verification_debt_consumption_record_digest",
+      "world_disposition_handoff_envelope_digest",
+      "effect_verification_review_certificate_digest"
+    ]
+  },
+  "world_disposition_review": {
+    "required": true,
+    "canonical_digest_required": true,
+    "binds": [
+      "source_verification_receipt_digest",
+      "verification_record_digest",
+      "world_disposition_handoff_envelope_digest",
+      "frontier_materialization_candidate_id",
+      "frontier_adapter_id",
+      "frontier_binding_digest",
+      "requested_effect_tags",
+      "observed_value_digest",
+      "uncertainty_digest",
+      "calibration_digest",
+      "provenance_chain_digests",
+      "world_candidate_fact_digest",
+      "world_candidate_relation_digest",
+      "world_update_patch_digest",
+      "world_update_precondition_digest",
+      "world_update_postcondition_digest",
+      "causal_model_claim_digest",
+      "realized_dukkha_assessment_digest",
+      "protected_group_realized_impact_digest",
+      "future_subject_realized_impact_digest",
+      "world_disposition_reviewer_id"
+    ]
+  },
+  "dispositions": [
+    "world_candidate_admission_ready",
+    "world_refresh_required",
+    "world_disposition_context_refresh_required",
+    "world_disposition_review_refresh_required",
+    "additional_observation_required",
+    "verification_repair_required",
+    "calibration_repair_required",
+    "provenance_repair_required",
+    "world_patch_repair_required",
+    "nonexternalization_review_required",
+    "dukkha_realization_review_required",
+    "truth_promotion_rejected",
+    "replay_conflict_rejected"
+  ],
+  "ready_transition": {
+    "from": "host_effect_verified_world_not_updated",
+    "to": "verified_host_effect_world_candidate_prepared_not_committed",
+    "world_candidate_state": "prepared_not_committed",
+    "world_fact_state": "candidate_only_not_fact",
+    "world_commit_authorization_intake_admitted": true,
+    "persistent_world_model_state_unchanged": true
+  },
+  "non_ready_transition": {
+    "from": "host_effect_verified_world_not_updated",
+    "to": "host_effect_verified_world_not_updated",
+    "world_candidate_prepared": false,
+    "world_disposition_debt_open": true,
+    "world_commit_authorization_intake_admitted": false
+  },
+  "single_use": {
+    "world_disposition_debt_consumed_only_on_ready": true,
+    "source_verification_receipt_replay_closed_only_on_ready": true,
+    "review_certificate_replay_closed": true,
+    "intake_nonce_consumed": true,
+    "double_world_disposition_performed": false
+  },
+  "boundaries": {
+    "persistent_world_model_state_unchanged": true,
+    "world_fact_confirmed": false,
+    "causal_attribution_confirmed": false,
+    "dukkha_reduction_realized_confirmed": false,
+    "world_commit_authorization_completed": false,
+    "tool_invocation_performed": false,
+    "external_side_effect_performed": false,
+    "world_mutation_authority_granted": false,
+    "automatic_truth_promotion": false,
+    "automatic_plan_completion": false,
+    "automatic_rollback": false,
+    "automatic_compensation": false
+  },
+  "governance": {
+    "selection_remains_decisionos_owned": true,
+    "dukkha_reduction_support_preserved": true,
+    "protected_group_nonexternalization_preserved": true,
+    "future_nonexternalization_preserved": true,
+    "revision_capacity_preserved": true,
+    "persistent_loop_reduction_preserved": true,
+    "alternative_candidates_preserved": true,
+    "dissent_preserved": true,
+    "minority_preserved": true,
+    "single_scalar_utility_not_introduced": true,
+    "history_read_only": true,
+    "future_only": true,
+    "qi_grants_no_authority": true
+  },
+  "integration": {
+    "runtime": "runtime/kuuos_world_dukkha_preserving_verified_host_effect_disposition_intake_v0_1.py",
+    "checker": "scripts/check_world_dukkha_preserving_verified_host_effect_disposition_intake_v0_1.py",
+    "formal": "formal/KUOS/WORLD/DukkhaPreservingVerifiedHostEffectDispositionIntakeV0_54.lean",
+    "formal_root": "formal/KuuOSWORLDV0_54.lean",
+    "documentation": "docs/WORLD_DUKKHA_PRESERVING_VERIFIED_HOST_EFFECT_DISPOSITION_INTAKE_v0_1.md",
+    "cumulative_runner": "scripts/run_evidence_cycle_os_full_checks.py"
+  },
+  "next_layer": "WORLD dukkha-preserving single-use world-candidate commit authorization intake"
+}
