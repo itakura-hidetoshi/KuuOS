@@ -1,0 +1,36 @@
+{
+  "schema_version": "v0.1",
+  "kernel": "VerifyOS Dukkha-Preserving Future-Only Policy Activation Review Intake Kernel",
+  "kernel_version": "v0.1",
+  "verifyos_version": "v0.12",
+  "runtime": "runtime/kuuos_verifyos_dukkha_preserving_future_only_policy_activation_review_intake_v0_1.py",
+  "checker": "scripts/check_verifyos_dukkha_preserving_future_only_policy_activation_review_intake_v0_1.py",
+  "fixture": "scripts/check_verifyos_dukkha_preserving_future_only_policy_activation_review_fixture_v0_1.py",
+  "formal_package": "formal/KUOS/VerifyOS/DukkhaPreservingFutureOnlyPolicyActivationReviewIntakeV0_12.lean",
+  "formal_root": "formal/KuuOSVerifyOSV0_12.lean",
+  "source_kernel": "LearnOS v0.5 future-only maintenance disposition intake",
+  "source_state": "world_candidate_bounded_fact_causal_attribution_confirmed_dukkha_reduction_realized_confirmed_future_only_learning_delta_recorded_maintenance_monitoring_observation_recorded_maintenance_monitoring_observation_verified_maintenance_disposition_pending_future_only_maintenance_disposition_recorded_policy_activation_review_pending",
+  "supported_state": "world_candidate_bounded_fact_causal_attribution_confirmed_dukkha_reduction_realized_confirmed_future_only_learning_delta_recorded_maintenance_monitoring_observation_recorded_maintenance_monitoring_observation_verified_maintenance_disposition_pending_future_only_maintenance_disposition_recorded_policy_activation_review_pending_policy_activation_reviewed_activation_authorization_pending",
+  "supported_disposition": "future_only_policy_activation_review_supported",
+  "disposition_count": 20,
+  "boundaries": [
+    "maintenance monitoring observation != maintenance monitoring verification",
+    "maintenance monitoring verification != future-only maintenance disposition",
+    "future-only maintenance disposition != policy activation review",
+    "policy activation review != activation authorization",
+    "activation authorization != current policy activation",
+    "current policy activation != maintenance action"
+  ],
+  "non_authorities": [
+    "no current WORLD mutation",
+    "no WORLD revision increment",
+    "no current plan revision",
+    "no learning-delta activation",
+    "no maintenance-policy activation",
+    "no monitoring activation",
+    "no activation authorization",
+    "no maintenance action",
+    "no tool invocation",
+    "no external side effect"
+  ]
+}

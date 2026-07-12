@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run cumulative evidence-cycle checks through LearnOS v0.5 maintenance disposition."""
+"""Run cumulative evidence-cycle checks through VerifyOS v0.12 policy activation review."""
 
 from __future__ import annotations
 
@@ -134,6 +134,10 @@ COMMANDS: tuple[tuple[str, ...], ...] = (
         sys.executable,
         "scripts/check_learnos_dukkha_preserving_future_only_maintenance_disposition_intake_v0_1.py",
     ),
+    (
+        sys.executable,
+        "scripts/check_verifyos_dukkha_preserving_future_only_policy_activation_review_intake_v0_1.py",
+    ),
 )
 
 
@@ -162,7 +166,7 @@ def main() -> int:
 
     print(
         "\nPASS: Evidence Cycle OS validation completed through "
-        "LearnOS v0.5 future-only maintenance disposition"
+        "VerifyOS v0.12 future-only policy activation review"
     )
     return 0
 
