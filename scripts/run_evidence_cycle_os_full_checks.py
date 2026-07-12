@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run cumulative evidence-cycle checks through ObserveOS host-effect observation."""
+"""Run cumulative evidence-cycle checks through VerifyOS host-effect verification."""
 
 from __future__ import annotations
 
@@ -85,6 +85,10 @@ COMMANDS: tuple[tuple[str, ...], ...] = (
         sys.executable,
         "scripts/check_observeos_dukkha_preserving_external_host_effect_observation_intake_v0_1.py",
     ),
+    (
+        sys.executable,
+        "scripts/check_verifyos_dukkha_preserving_observed_host_effect_verification_intake_v0_1.py",
+    ),
     (sys.executable, "scripts/check_learnos_vacuum_expectation_verification_future_only_delta_v0_3.py"),
 )
 
@@ -114,7 +118,7 @@ def main() -> int:
 
     print(
         "\nPASS: Evidence Cycle OS validation completed through "
-        "ObserveOS v0.5 dukkha-preserving external host-effect observation"
+        "VerifyOS v0.7 dukkha-preserving observed host-effect verification"
     )
     return 0
 
