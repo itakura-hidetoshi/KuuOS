@@ -1,0 +1,51 @@
+{
+  "manifest_version": "kuuos_verifyos_dukkha_preserving_future_only_maintenance_monitoring_observation_verification_intake_v0_1",
+  "status": "actual_future_only_maintenance_monitoring_observation_verification_intake",
+  "verifyos_version": "v0.11",
+  "source_layer": "ObserveOS v0.6 dukkha-preserving future-only maintenance-monitoring observation intake",
+  "source_state": "world_candidate_bounded_fact_causal_attribution_confirmed_dukkha_reduction_realized_confirmed_future_only_learning_delta_recorded_maintenance_monitoring_observation_recorded",
+  "supported_state": "world_candidate_bounded_fact_causal_attribution_confirmed_dukkha_reduction_realized_confirmed_future_only_learning_delta_recorded_maintenance_monitoring_observation_recorded_maintenance_monitoring_observation_verified_maintenance_disposition_pending",
+  "runtime": "runtime/kuuos_verifyos_dukkha_preserving_future_only_maintenance_monitoring_observation_verification_intake_v0_1.py",
+  "fixture": "scripts/check_verifyos_dukkha_preserving_future_only_maintenance_monitoring_observation_verification_fixture_v0_1.py",
+  "checker": "scripts/check_verifyos_dukkha_preserving_future_only_maintenance_monitoring_observation_verification_intake_v0_1.py",
+  "formal_module": "formal/KUOS/VerifyOS/DukkhaPreservingFutureOnlyMaintenanceMonitoringObservationVerificationIntakeV0_11.lean",
+  "formal_root": "formal/KuuOSVerifyOSV0_11.lean",
+  "documentation": "docs/VERIFYOS_DUKKHA_PRESERVING_FUTURE_ONLY_MAINTENANCE_MONITORING_OBSERVATION_VERIFICATION_INTAKE_v0_1.md",
+  "cumulative_check": "scripts/run_evidence_cycle_os_full_checks.py",
+  "disposition_count": 20,
+  "supported_outputs": {
+    "maintenance_monitoring_observation_verified": true,
+    "maintenance_monitoring_verification_completed": true,
+    "maintenance_monitoring_verification_debt_consumed": true,
+    "maintenance_disposition_handoff_prepared": true,
+    "maintenance_disposition_completed": false,
+    "maintenance_disposition_debt_open": true
+  },
+  "preserved_invariants": {
+    "world_fact_confirmed": true,
+    "causal_attribution_confirmed": true,
+    "dukkha_reduction_realized_confirmed": true,
+    "future_only_learning_delta_recorded": true,
+    "future_only_learning_delta_activated": false,
+    "maintenance_monitoring_activated": false,
+    "maintenance_action_performed": false,
+    "world_state_unchanged": true,
+    "world_revision_unchanged": true,
+    "current_plan_unchanged": true,
+    "current_policy_inactive": true
+  },
+  "boundaries": [
+    "observation_receipt_not_verification_receipt",
+    "verification_not_maintenance_disposition",
+    "verification_not_policy_activation",
+    "verification_not_maintenance_action",
+    "verification_evidence_collection_external_to_kernel",
+    "observation_not_recollected",
+    "no_tool_invocation",
+    "no_external_side_effect",
+    "no_execution_authority",
+    "no_world_mutation_authority",
+    "no_policy_activation_authority",
+    "no_maintenance_action_authority"
+  ]
+}
