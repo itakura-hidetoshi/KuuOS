@@ -1,0 +1,65 @@
+{
+  "schema_version": "v0.1",
+  "os": "LearnOS",
+  "os_version": "v0.4",
+  "kernel": "dukkha-preserving future-only learning maintenance disposition intake",
+  "kernel_version": "v0.1",
+  "source": {
+    "os": "VerifyOS",
+    "version": "v0.10",
+    "required_disposition": "realized_dukkha_verification_supported",
+    "required_state": "world_candidate_bounded_fact_causal_attribution_confirmed_dukkha_reduction_realized_confirmed"
+  },
+  "supported_state": "world_candidate_bounded_fact_causal_attribution_confirmed_dukkha_reduction_realized_confirmed_future_only_learning_delta_recorded",
+  "supported_claims": {
+    "world_fact_confirmed": true,
+    "causal_attribution_confirmed": true,
+    "dukkha_reduction_realized_confirmed": true,
+    "future_only_learning_delta_recorded": true,
+    "future_only_learning_delta_activated": false,
+    "maintenance_monitoring_handoff_prepared": true,
+    "maintenance_monitoring_activated": false
+  },
+  "forbidden_effects": [
+    "current WORLD mutation",
+    "WORLD revision increment",
+    "current plan revision",
+    "current policy activation",
+    "tool invocation",
+    "external side effect",
+    "automatic plan completion",
+    "automatic maintenance action",
+    "generalized benefit claim",
+    "authority escalation"
+  ],
+  "dispositions": [
+    "future_only_learning_maintenance_supported",
+    "world_refresh_required",
+    "learning_context_refresh_required",
+    "learning_review_refresh_required",
+    "additional_future_only_learning_evidence_required",
+    "source_receipt_correspondence_repair_required",
+    "bounded_fact_correspondence_repair_required",
+    "causal_attribution_correspondence_repair_required",
+    "realized_dukkha_correspondence_repair_required",
+    "maintenance_window_repair_required",
+    "durability_monitoring_review_required",
+    "adverse_effect_monitoring_review_required",
+    "distributional_monitoring_review_required",
+    "uncertainty_repair_required",
+    "calibration_repair_required",
+    "provenance_repair_required",
+    "nonexternalization_review_required",
+    "current_state_mutation_rejected",
+    "authority_escalation_rejected",
+    "replay_conflict_rejected"
+  ],
+  "implementation": {
+    "runtime": "runtime/kuuos_learnos_dukkha_preserving_future_only_learning_maintenance_disposition_intake_v0_1.py",
+    "checker": "scripts/check_learnos_dukkha_preserving_future_only_learning_maintenance_disposition_intake_v0_1.py",
+    "formal_package": "formal/KUOS/LearnOS/DukkhaPreservingFutureOnlyLearningMaintenanceDispositionIntakeV0_4.lean",
+    "formal_root": "formal/KuuOSLearnOSV0_4.lean",
+    "documentation": "docs/LEARNOS_DUKKHA_PRESERVING_FUTURE_ONLY_LEARNING_MAINTENANCE_DISPOSITION_INTAKE_v0_1.md",
+    "cumulative_validation": "scripts/run_evidence_cycle_os_full_checks.py"
+  }
+}
