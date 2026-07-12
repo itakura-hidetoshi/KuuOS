@@ -1,0 +1,87 @@
+{
+  "artifact": "ObserveOS Dukkha-Preserving External Host-Effect Observation Intake Kernel",
+  "kernel_version": "v0.1",
+  "observeos_version": "v0.5",
+  "status": "OBSERVEOS_DUKKHA_PRESERVING_EXTERNAL_HOST_EFFECT_OBSERVED",
+  "source": {
+    "kernel": "ActOS Dukkha-Preserving Atomic External Host-Effect Intake Kernel",
+    "version": "v0.11",
+    "required_state": "host_effect_recorded_unobserved",
+    "required_receipt": "actos_dukkha_preserving_atomic_external_host_effect_intake_receipt_digest",
+    "required_artifacts": [
+      "external_host_effect_application_receipt_digest",
+      "external_host_effect_record_digest",
+      "committed_effect_consumption_record_digest",
+      "observation_handoff_envelope_digest"
+    ]
+  },
+  "independent_observation_evidence": {
+    "required": true,
+    "canonical_digest_required": true,
+    "collector_identity_bound": true,
+    "evidence_source_identity_bound": true,
+    "collector_independent_from_host_driver": true,
+    "host_receipt_substitution_forbidden": true,
+    "collection_duration_bounded": true,
+    "raw_artifact_bound": true,
+    "observed_value_bound": true,
+    "uncertainty_bound": true,
+    "calibration_bound": true,
+    "context_bound": true,
+    "tamper_evidence_bound": true,
+    "provenance_chain_preserved": true
+  },
+  "state_transition": {
+    "before": "host_effect_recorded_unobserved",
+    "after": "host_effect_observed_unverified",
+    "exact": true
+  },
+  "single_use": {
+    "observation_debt_consumed": true,
+    "observation_debt_replay_closed": true,
+    "observation_evidence_packet_replay_closed": true,
+    "observation_intake_nonce_replay_closed": true,
+    "source_host_effect_receipt_replay_closed": true,
+    "double_observation_forbidden": true
+  },
+  "boundaries": {
+    "host_operation_reexecuted": false,
+    "tool_invocation_performed": false,
+    "external_side_effect_performed": false,
+    "persistent_world_model_state_unchanged": true,
+    "world_fact_confirmed": false,
+    "causal_attribution_confirmed": false,
+    "verification_intake_admitted": true,
+    "verification_completed": false,
+    "verification_debt_open": true,
+    "automatic_truth_promotion": false,
+    "automatic_plan_completion": false,
+    "automatic_rollback": false,
+    "automatic_compensation": false
+  },
+  "dukkha_preservation": {
+    "dukkha_reduction_support_preserved": true,
+    "protected_group_nonexternalization_preserved": true,
+    "future_nonexternalization_preserved": true,
+    "revision_capacity_preserved": true,
+    "persistent_loop_reduction_preserved": true,
+    "single_scalar_utility_not_introduced": true,
+    "alternatives_dissent_minority_preserved": true,
+    "evidence_and_responsibility_lineage_preserved": true
+  },
+  "authority": {
+    "selection_remains_decisionos_owned": true,
+    "selection_authority_granted_to_observeos": false,
+    "plan_revision_authority_granted_to_observeos": false,
+    "dukkha_minimization_authority_granted_to_observeos": false,
+    "general_execution_authority_granted": false,
+    "world_mutation_authority_granted": false,
+    "active_now": false
+  },
+  "runtime": "runtime/kuuos_observeos_dukkha_preserving_external_host_effect_observation_intake_v0_1.py",
+  "validator": "scripts/check_observeos_dukkha_preserving_external_host_effect_observation_intake_v0_1.py",
+  "formal_module": "formal/KUOS/ObserveOS/DukkhaPreservingExternalHostEffectObservationIntakeV0_5.lean",
+  "formal_root": "formal/KuuOSObserveOSV0_5.lean",
+  "documentation": "docs/OBSERVEOS_DUKKHA_PRESERVING_EXTERNAL_HOST_EFFECT_OBSERVATION_INTAKE_v0_1.md",
+  "next_layer": "VerifyOS dukkha-preserving observed host-effect verification intake"
+}
