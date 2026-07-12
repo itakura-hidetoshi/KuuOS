@@ -1,7 +1,7 @@
 {
   "artifact": "WORLD Dukkha-Preserving Verified Host-Effect Disposition Intake Kernel",
   "kernel_version": "v0.1",
-  "world_version": "v0.54",
+  "world_version": "v0.60",
   "status": "WORLD_DUKKHA_PRESERVING_VERIFIED_HOST_EFFECT_DISPOSITION_ROUTED",
   "source": {
     "kernel": "VerifyOS Dukkha-Preserving Observed Host-Effect Verification Intake Kernel",
@@ -112,8 +112,8 @@
   "integration": {
     "runtime": "runtime/kuuos_world_dukkha_preserving_verified_host_effect_disposition_intake_v0_1.py",
     "checker": "scripts/check_world_dukkha_preserving_verified_host_effect_disposition_intake_v0_1.py",
-    "formal": "formal/KUOS/WORLD/DukkhaPreservingVerifiedHostEffectDispositionIntakeV0_54.lean",
-    "formal_root": "formal/KuuOSWORLDV0_54.lean",
+    "formal": "formal/KUOS/WORLD/DukkhaPreservingVerifiedHostEffectDispositionIntakeV0_60.lean",
+    "formal_root": "formal/KuuOSWORLDV0_60.lean",
     "documentation": "docs/WORLD_DUKKHA_PRESERVING_VERIFIED_HOST_EFFECT_DISPOSITION_INTAKE_v0_1.md",
     "cumulative_runner": "scripts/run_evidence_cycle_os_full_checks.py"
   },
