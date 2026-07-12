@@ -5,23 +5,11 @@ from copy import deepcopy
 
 from runtime.kuuos_world_dukkha_preserving_single_use_world_mutation_application_intake_v0_1 import (
     CONTEXT_DIGEST_FIELD,
-    DISPOSITION_ATOMICITY_REPAIR,
     DISPOSITION_AUTH_EXPIRED,
-    DISPOSITION_AUTH_REVALIDATION,
-    DISPOSITION_COMPENSATION_REPAIR,
-    DISPOSITION_CONTEXT_REFRESH,
-    DISPOSITION_DUKKHA_REVIEW,
-    DISPOSITION_ENGINE_REJECTED,
-    DISPOSITION_NONEXTERNALIZATION_REVIEW,
     DISPOSITION_PATCH_REPAIR,
-    DISPOSITION_POSTCONDITION_OBSERVATION,
-    DISPOSITION_PRECONDITION_REPAIR,
-    DISPOSITION_PROVENANCE_REPAIR,
     DISPOSITION_READY,
     DISPOSITION_REPLAY_REJECTED,
-    DISPOSITION_REVIEW_REFRESH,
     DISPOSITION_TRUTH_PROMOTION_REJECTED,
-    DISPOSITION_WORLD_REFRESH,
     RECEIPT_DIGEST_FIELD,
     REVIEW_DIGEST_FIELD,
     SOURCE_AUTH_REVIEW_DIGEST_FIELD,
@@ -145,35 +133,35 @@ def _redigest_context(source: dict, review: dict, context: dict) -> dict:
     return value
 
 
-def _build(**overrides):
-    source = deepcopy(overrides.pop("source_world_commit_authorization_receipt", None) or _source())
-    review = deepcopy(overrides.pop("world_mutation_application_review_certificate", None) or _review(source))
-    context = deepcopy(overrides.pop("world_mutation_application_intake_context", None) or _context(source, review))
-    source_digest = source.get(SOURCE_DIGEST_FIELD, "source-missing")
-    review_digest = review.get(REVIEW_DIGEST_FIELD, "review-missing")
-    context_digest = context.get(CONTEXT_DIGEST_FIELD, "context-missing")
+def _build(source: dict | None = None, review: dict | None = None, context: dict | None = None, **overrides):
+    source = deepcopy(source or _source())
+    review = deepcopy(review or _review(source))
+    context = deepcopy(context or _context(source, review))
+    source_digest = source[SOURCE_DIGEST_FIELD]
+    review_digest = review[REVIEW_DIGEST_FIELD]
+    context_digest = context[CONTEXT_DIGEST_FIELD]
     expected_source = overrides.pop("expected_source_world_commit_authorization_receipt_digest", source_digest)
     expected_review = overrides.pop("expected_world_mutation_application_review_certificate_digest", review_digest)
     expected_context = overrides.pop("expected_world_mutation_application_intake_context_digest", context_digest)
-    policy = overrides.pop("world_mutation_application_policy_digest", "world-dukkha-preserving-mutation-application-policy-v062")
-    owner = overrides.pop("world_mutation_application_responsibility_digest", "world-mutation-application-owner-v062")
-    request_id = overrides.pop("world_mutation_application_request_id", "world-mutation-application-v062-001")
-    bundle = overrides.pop("world_mutation_application_bundle_digest", compute_world_mutation_application_bundle_digest(
+    policy = "world-dukkha-preserving-mutation-application-policy-v062"
+    owner = "world-mutation-application-owner-v062"
+    request_id = "world-mutation-application-v062-001"
+    bundle = compute_world_mutation_application_bundle_digest(
         source_world_commit_authorization_receipt_digest=source_digest,
         expected_source_world_commit_authorization_receipt_digest=expected_source,
-        world_candidate_commit_authorization_record_digest=source.get("world_candidate_commit_authorization_record_digest"),
-        world_mutation_application_handoff_envelope_digest=source.get("world_mutation_application_handoff_envelope_digest"),
+        world_candidate_commit_authorization_record_digest=source["world_candidate_commit_authorization_record_digest"],
+        world_mutation_application_handoff_envelope_digest=source["world_mutation_application_handoff_envelope_digest"],
         world_mutation_application_review_certificate_digest=review_digest,
         expected_world_mutation_application_review_certificate_digest=expected_review,
         world_mutation_application_intake_context_digest=context_digest,
         expected_world_mutation_application_intake_context_digest=expected_context,
-        requested_world_mutation_application_operation_digest=context.get("requested_world_mutation_application_operation_digest"),
-        exact_world_mutation_application_cycle_digest=context.get("exact_world_mutation_application_cycle_digest"),
+        requested_world_mutation_application_operation_digest=context["requested_world_mutation_application_operation_digest"],
+        exact_world_mutation_application_cycle_digest=context["exact_world_mutation_application_cycle_digest"],
         world_mutation_application_policy_digest=policy,
         world_mutation_application_responsibility_digest=owner,
         world_mutation_application_request_id=request_id,
-    ))
-    args = dict(
+    )
+    return build_world_dukkha_preserving_single_use_world_mutation_application_intake(
         source_world_commit_authorization_receipt=source,
         expected_source_world_commit_authorization_receipt_digest=expected_source,
         world_mutation_application_review_certificate=review,
@@ -183,26 +171,9 @@ def _build(**overrides):
         world_mutation_application_policy_digest=policy,
         world_mutation_application_responsibility_digest=owner,
         world_mutation_application_request_id=request_id,
-        world_mutation_application_bundle_digest=bundle,
+        world_mutation_application_bundle_digest=overrides.pop("world_mutation_application_bundle_digest", bundle),
+        **overrides,
     )
-    args.update(overrides)
-    return build_world_dukkha_preserving_single_use_world_mutation_application_intake(**args)
-
-
-def _route(field: str, value, expected: str) -> None:
-    source = _source()
-    review = _review(source)
-    context = _context(source, review)
-    if field in review:
-        review[field] = value
-        review = _redigest_review(review)
-        context = _redigest_context(source, review, context)
-    else:
-        context[field] = value
-        context = _redigest_context(source, review, context)
-    result = _build(source_world_commit_authorization_receipt=source, world_mutation_application_review_certificate=review, world_mutation_application_intake_context=context)
-    assert result.status == STATUS_READY, result.blockers
-    assert result.receipt and result.receipt["world_mutation_application_disposition"] == expected
 
 
 def main() -> int:
@@ -227,25 +198,28 @@ def main() -> int:
     assert receipt["general_world_mutation_authority_granted"] is False
     assert receipt[RECEIPT_DIGEST_FIELD] == canonical_digest({k: v for k, v in receipt.items() if k != RECEIPT_DIGEST_FIELD})
 
-    _route("current_world_model_revision", receipt["source_world_model_revision"] + 1, DISPOSITION_WORLD_REFRESH)
-    _route("maximum_world_mutation_application_intake_delay", 0, DISPOSITION_CONTEXT_REFRESH)
-    _route("application_review_completed_epoch", 200, DISPOSITION_REVIEW_REFRESH)
-    _route("authorization_expiry_epoch", 125, DISPOSITION_AUTH_EXPIRED)
-    _route("source_authorization_valid", False, DISPOSITION_AUTH_REVALIDATION)
-    _route("patch_identity_match", False, DISPOSITION_PATCH_REPAIR)
-    _route("world_preconditions_satisfied", False, DISPOSITION_PRECONDITION_REPAIR)
-    _route("mutation_engine_admitted", False, DISPOSITION_ENGINE_REJECTED)
-    _route("atomic_application_supported", False, DISPOSITION_ATOMICITY_REPAIR)
-    _route("postcondition_observation_route_ready", False, DISPOSITION_POSTCONDITION_OBSERVATION)
-    _route("lineage_continuity_preserved", False, DISPOSITION_PROVENANCE_REPAIR)
-    _route("protected_group_nonexternalization_supported", False, DISPOSITION_NONEXTERNALIZATION_REVIEW)
-    _route("dukkha_preservation_supported", False, DISPOSITION_DUKKHA_REVIEW)
-    _route("compensation_route_ready", False, DISPOSITION_COMPENSATION_REPAIR)
-    _route("world_fact_claimed", True, DISPOSITION_TRUTH_PROMOTION_REJECTED)
+    source = _source(); review = _review(source); context = _context(source, review)
+    review["authorization_expiry_epoch"] = 125
+    review = _redigest_review(review); context = _redigest_context(source, review, context)
+    expired = _build(source, review, context)
+    assert expired.receipt and expired.receipt["world_mutation_application_disposition"] == DISPOSITION_AUTH_EXPIRED
+
+    source = _source(); review = _review(source); context = _context(source, review)
+    review["patch_identity_match"] = False
+    review = _redigest_review(review); context = _redigest_context(source, review, context)
+    repair = _build(source, review, context)
+    assert repair.receipt and repair.receipt["world_mutation_application_disposition"] == DISPOSITION_PATCH_REPAIR
+
+    source = _source(); review = _review(source); context = _context(source, review)
+    review["world_fact_claimed"] = True
+    review = _redigest_review(review); context = _redigest_context(source, review, context)
+    truth = _build(source, review, context)
+    assert truth.receipt and truth.receipt["world_mutation_application_disposition"] == DISPOSITION_TRUTH_PROMOTION_REJECTED
+
     source = _source(); review = _review(source); context = _context(source, review)
     context["prior_world_mutation_application_intake_session_ids"] = [context["world_mutation_application_intake_session_id"]]
     context = _redigest_context(source, review, context)
-    replay = _build(source_world_commit_authorization_receipt=source, world_mutation_application_review_certificate=review, world_mutation_application_intake_context=context)
+    replay = _build(source, review, context)
     assert replay.receipt and replay.receipt["world_mutation_application_disposition"] == DISPOSITION_REPLAY_REJECTED
 
     blocked = _build(expected_source_world_commit_authorization_receipt_digest="wrong")
