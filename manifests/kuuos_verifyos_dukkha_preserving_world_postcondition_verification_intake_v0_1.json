@@ -1,0 +1,55 @@
+{
+  "artifact": "kuuos_verifyos_dukkha_preserving_world_postcondition_verification_intake",
+  "artifact_version": "v0.1",
+  "verifyos_version": "v0.8",
+  "source_world_version": "v0.62",
+  "source_state": "world_candidate_commit_applied_world_fact_unconfirmed",
+  "supported_state": "world_candidate_commit_postcondition_verified_world_fact_confirmation_pending",
+  "runtime": "runtime/kuuos_verifyos_dukkha_preserving_world_postcondition_verification_intake_v0_1.py",
+  "checker": "scripts/check_verifyos_dukkha_preserving_world_postcondition_verification_intake_v0_1.py",
+  "formal": "formal/KUOS/VerifyOS/DukkhaPreservingWorldPostconditionVerificationIntakeV0_8.lean",
+  "formal_root": "formal/KuuOSVerifyOSV0_8.lean",
+  "documentation": "docs/VERIFYOS_DUKKHA_PRESERVING_WORLD_POSTCONDITION_VERIFICATION_INTAKE_v0_1.md",
+  "supported_disposition": "world_postcondition_verification_supported",
+  "dispositions": [
+    "world_postcondition_verification_supported",
+    "world_refresh_required",
+    "world_postcondition_verification_context_refresh_required",
+    "world_postcondition_verification_review_refresh_required",
+    "additional_post_application_evidence_required",
+    "world_mutation_correspondence_repair_required",
+    "world_state_mismatch_detected",
+    "world_revision_mismatch_detected",
+    "world_storage_persistence_repair_required",
+    "world_postcondition_repair_required",
+    "calibration_repair_required",
+    "provenance_repair_required",
+    "nonexternalization_review_required",
+    "dukkha_realization_review_required",
+    "truth_promotion_rejected",
+    "replay_conflict_rejected"
+  ],
+  "supported_effects": {
+    "postcondition_verification_completed": true,
+    "verification_debt_consumed_once": true,
+    "world_fact_confirmation_intake_admitted": true,
+    "persistent_world_mutation_reperformed": false,
+    "world_fact_confirmed": false,
+    "causal_attribution_confirmed": false,
+    "dukkha_reduction_realized_confirmed": false
+  },
+  "boundaries": [
+    "world_mutation_application != post_application_evidence",
+    "post_application_evidence != postcondition_verification",
+    "postcondition_verification != world_fact_confirmation",
+    "world_fact_confirmation != causal_attribution",
+    "causal_attribution != realized_dukkha_confirmation"
+  ],
+  "authority": {
+    "selection": false,
+    "plan_revision": false,
+    "dukkha_minimization": false,
+    "general_execution": false,
+    "world_mutation": false
+  }
+}
