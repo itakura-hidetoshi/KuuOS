@@ -1,0 +1,56 @@
+{
+  "artifact": "ActOS Dukkha-Preserving Bounded Adapter Invocation Kernel",
+  "kernel_version": "v0.1",
+  "actos_version": "v0.8",
+  "status": "ACTOS_DUKKHA_PRESERVING_BOUNDED_ADAPTER_INVOCATION_RECORDED",
+  "source": {
+    "activation_kernel": "ActOS Dukkha-Preserving Frontier Plan Activation Receipt Kernel",
+    "activation_version": "v0.7",
+    "authorization_kernel": "ActOS Dukkha-Preserving Adapter Binding and Activation Authorization Intake Kernel",
+    "authorization_version": "v0.6",
+    "required_activation_state": "activated_not_invoked",
+    "required_invocation_intake_admission": true,
+    "required_adapter_lease_unconsumed": true
+  },
+  "invocation_invariants": [
+    "exactly_one_frontier_adapter_invoked",
+    "activated_frontier_sequence_preserved",
+    "bounded_scope_preserved",
+    "effect_ceiling_preserved",
+    "lease_reservation_consumed_once",
+    "adapter_lease_not_double_decremented",
+    "invocation_nonce_replay_closed",
+    "frontier_invocation_replay_closed",
+    "state_activated_not_invoked_to_invoked_effect_not_committed",
+    "effect_proposal_recorded",
+    "effect_commit_required_but_not_performed",
+    "observation_intake_required",
+    "verification_debt_open"
+  ],
+  "dukkha_invariants": [
+    "dukkha_reduction_support_preserved",
+    "protected_group_nonexternalization_preserved",
+    "future_nonexternalization_preserved",
+    "revision_capacity_preserved",
+    "persistent_loop_reduction_preserved",
+    "single_scalar_utility_not_introduced"
+  ],
+  "authority_boundary": {
+    "selection_remains_decisionos_owned": true,
+    "selection_authority_granted_to_actos": false,
+    "plan_revision_authority_granted_to_actos": false,
+    "dukkha_minimization_authority_granted_to_actos": false,
+    "adapter_invocation_performed": true,
+    "tool_invocation_performed": false,
+    "external_side_effect_performed": false,
+    "effect_commit_performed": false,
+    "execution_authority_granted": false,
+    "execution_permission": false,
+    "persistent_world_state_unchanged": true,
+    "active_now": false
+  },
+  "runtime": "runtime/kuuos_actos_dukkha_preserving_bounded_adapter_invocation_v0_1.py",
+  "checker": "scripts/check_actos_dukkha_preserving_bounded_adapter_invocation_v0_1.py",
+  "formal": "formal/KUOS/ActOS/DukkhaPreservingBoundedAdapterInvocationV0_8.lean",
+  "documentation": "docs/ACTOS_DUKKHA_PRESERVING_BOUNDED_ADAPTER_INVOCATION_v0_1.md"
+}

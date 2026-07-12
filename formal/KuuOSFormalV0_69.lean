@@ -8,3 +8,4 @@ import KUOS.VerifyOS.DukkhaReductionClaimVerificationV0_6
 import KUOS.ActOS.DukkhaSupportedBoundedPlanMaterializationIntakeV0_5
 import KUOS.ActOS.DukkhaPreservingAdapterBindingAuthorizationIntakeV0_6
 import KUOS.ActOS.DukkhaPreservingFrontierPlanActivationReceiptV0_7
+import KUOS.ActOS.DukkhaPreservingBoundedAdapterInvocationV0_8
