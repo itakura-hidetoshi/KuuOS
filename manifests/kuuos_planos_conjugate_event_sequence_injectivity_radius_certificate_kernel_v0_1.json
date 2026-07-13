@@ -1,0 +1,57 @@
+{
+  "kernel": "PlanOS Conjugate Event Sequence and Injectivity Radius Certificate Kernel",
+  "version": "v0.1",
+  "planos_version": "v1.11",
+  "source": "PlanOS v1.10 finite second variation and Morse index certificate lineage",
+  "artifacts": [
+    "runtime/kuuos_planos_conjugate_event_sequence_injectivity_radius_certificate_kernel_v0_1.py",
+    "scripts/check_planos_conjugate_event_sequence_injectivity_radius_certificate_kernel_v0_1.py",
+    "formal/KUOS/PlanOS/ConjugateEventSequenceInjectivityRadiusV1_11.lean",
+    "formal/KuuOSPlanOSV1_11.lean",
+    "docs/planos_conjugate_event_sequence_injectivity_radius_certificate_kernel_v0_1.md",
+    "runtime/kuuos_current_check.py"
+  ],
+  "geometry": {
+    "piecewise_geodesic_segments": true,
+    "conjugate_event_sequence": true,
+    "morse_index_jump": "index_after = index_before + multiplicity",
+    "event_nullity": "nullity_at_event = multiplicity",
+    "cut_locus_causes": [
+      "conjugate",
+      "multiple_geodesic"
+    ],
+    "injectivity_radius_lower_bound": "positive radius with no retained conjugate or cut obstruction before the bound"
+  },
+  "boundaries": {
+    "piecewise_geodesic_segments_contiguous": true,
+    "junction_position_compatible": true,
+    "junction_tangent_jump_bounded": true,
+    "conjugate_event_sequence_strictly_ordered": true,
+    "morse_index_jump_matches_multiplicity": true,
+    "event_nullity_matches_multiplicity": true,
+    "finite_window_morse_index_consistent": true,
+    "cut_locus_candidates_retained": true,
+    "injectivity_radius_lower_bound_certified": true,
+    "conjugate_events_local_only": true,
+    "cut_locus_candidates_local_only": true,
+    "injectivity_radius_bound_local_only": true,
+    "candidate_identity_retained": true,
+    "source_morse_index_certificate_not_mutated": true,
+    "persistent_world_state_unchanged": true,
+    "decision_selection_performed": false,
+    "history_read_only": true,
+    "morse_index_grants_no_authority": true,
+    "conjugate_event_grants_no_authority": true,
+    "cut_locus_grants_no_authority": true,
+    "injectivity_radius_grants_no_authority": true,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  },
+  "validation": {
+    "runtime_checker": "scripts/check_planos_conjugate_event_sequence_injectivity_radius_certificate_kernel_v0_1.py",
+    "formal_aggregate": "formal/KuuOSPlanOSV1_11.lean",
+    "integrated_root": "runtime/kuuos_current_check.py --profile planos",
+    "fail_closed": true
+  }
+}
