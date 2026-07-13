@@ -1,0 +1,58 @@
+{
+  "kernel": "PlanOS Smith Normal Form and Integer Homology Certificate Kernel",
+  "version": "v0.1",
+  "planos_version": "v1.16",
+  "source": "PlanOS v1.15 finite simplicial chain and rational homology certificate lineage",
+  "artifacts": [
+    "runtime/kuuos_planos_smith_normal_form_integer_homology_certificate_support_v0_1.py",
+    "runtime/kuuos_planos_smith_normal_form_integer_homology_certificate_kernel_v0_1.py",
+    "scripts/check_planos_smith_normal_form_integer_homology_certificate_kernel_v0_1.py",
+    "formal/KUOS/PlanOS/SmithNormalFormIntegerHomologyV1_16.lean",
+    "formal/KuuOSPlanOSV1_16.lean",
+    "docs/planos_smith_normal_form_integer_homology_certificate_kernel_v0_1.md",
+    "runtime/kuuos_current_check.py"
+  ],
+  "algebra": {
+    "coefficient_ring": "Z",
+    "boundary_squared_zero": true,
+    "fundamental_cycle_lattice": true,
+    "integer_h1_presentation": true,
+    "smith_normal_form": true,
+    "divisibility_chain": true,
+    "free_rank": true,
+    "torsion_invariant_factors": true,
+    "reference_smith_diagonal": [1, 1, 1, 1, 1, 1, 1, 1, 1, 2],
+    "reference_integer_h1": {
+      "free_rank": 0,
+      "torsion_invariant_factors": [2]
+    }
+  },
+  "boundaries": {
+    "finite_integral_chain_complex_only": true,
+    "unimodular_transform_matrices_not_retained": true,
+    "higher_dimensional_homology_not_computed": true,
+    "persistent_homology_not_computed": true,
+    "global_integer_homology_not_claimed": true,
+    "classical_cech_homology_equivalence_not_claimed": true,
+    "global_topological_invariant_not_claimed": true,
+    "candidate_identity_retained": true,
+    "source_chain_homology_certificate_not_mutated": true,
+    "source_nerve_certificate_not_mutated": true,
+    "persistent_world_state_unchanged": true,
+    "decision_selection_performed": false,
+    "history_read_only": true,
+    "smith_normal_form_grants_no_authority": true,
+    "integer_homology_grants_no_authority": true,
+    "torsion_invariant_grants_no_authority": true,
+    "topological_obstruction_grants_no_authority": true,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  },
+  "validation": {
+    "runtime_checker": "scripts/check_planos_smith_normal_form_integer_homology_certificate_kernel_v0_1.py",
+    "formal_aggregate": "formal/KuuOSPlanOSV1_16.lean",
+    "integrated_root": "runtime/kuuos_current_check.py --profile planos",
+    "fail_closed": true
+  }
+}
