@@ -23,18 +23,17 @@ CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
 CURRENT_PLANOS_FRONTIER = "PlanOS v1.23"
 CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
-CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.44"
+CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.45"
 CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 CURRENT_BASELINE_DATE = "2026-07-13 JST"
 
-# Compatibility aliases retained for callers that read the former summary fields.
 CURRENT_MAIN_FRONTIER = CURRENT_REPOSITORY_FRONTIER
 CURRENT_DRAFT_FRONTIER = "none"
 CURRENT_DRAFT_PR = "none"
 CURRENT_DRAFT_BRANCH = "none"
 CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_observer_relative_coherence_quadratic_evidence_"
-    "decisionos_handoff_certificate_kernel_v0_1.py"
+    "runtime/kuuos_memoryos_candidate_gram_lift_decisionos_relational_"
+    "coherence_kernel_certificate_kernel_v0_1.py"
 )
 CURRENT_FRONTIER_MODE = "integrated_active_frontiers"
 CURRENT_FRONTIER_BOUNDARY = "validation_only"
@@ -44,162 +43,166 @@ def _script_step(step_id: str, target: str, description: str) -> CurrentRootStep
     return CurrentRootStep(step_id, "script", target, True, description)
 
 
-PLANOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
-    _script_step(
+PLANOS_ACTIVE_FRONTIER_SPECS: tuple[tuple[str, str, str], ...] = (
+    (
         "planos-v0-91-information-geometric-qi-objective",
         "scripts/check_planos_information_geometric_qi_objective_kernel_v0_1.py",
         "Validate the executable information-geometric Qi objective kernel.",
     ),
-    _script_step(
+    (
         "planos-v0-92-kl-regularized-objective-update",
         "scripts/check_planos_kl_regularized_objective_update_kernel_v0_92.py",
         "Validate support-preserving KL-regularized objective updating.",
     ),
-    _script_step(
+    (
         "planos-v0-93-zero-temperature-limit",
         "scripts/check_planos_zero_temperature_minimal_action_limit_kernel_v0_1.py",
         "Validate complete minimal-action support in the zero-temperature limit.",
     ),
-    _script_step(
+    (
         "planos-v0-94-finite-temperature-concentration",
         "scripts/check_planos_finite_temperature_concentration_certificate_kernel_v0_1.py",
         "Validate finite-temperature concentration evidence.",
     ),
-    _script_step(
+    (
         "planos-v0-95-adaptive-qi-temperature",
         "scripts/check_planos_adaptive_qi_temperature_calibration_kernel_v0_1.py",
         "Validate bounded Qi-conditioned temperature calibration.",
     ),
-    _script_step(
+    (
         "planos-v0-96-temperature-hysteresis-rate-limit",
         "scripts/check_planos_temperature_hysteresis_rate_limit_kernel_v0_1.py",
         "Validate hysteresis, rate limits, and oscillation protection.",
     ),
-    _script_step(
+    (
         "planos-v0-97-temperature-trajectory-receipt",
         "scripts/check_planos_temperature_trajectory_receipt_kernel_v0_1.py",
         "Validate the future-only temperature trajectory receipt.",
     ),
-    _script_step(
+    (
         "planos-v0-98-temperature-trajectory-stability",
         "scripts/check_planos_temperature_trajectory_stability_certificate_kernel_v0_1.py",
         "Validate finite-window non-Markov temperature stability.",
     ),
-    _script_step(
+    (
         "planos-v0-99-qi-conditioned-information-metric",
         "scripts/check_planos_qi_conditioned_information_metric_certificate_kernel_v0_1.py",
         "Validate the Qi- and history-conditioned information metric.",
     ),
-    _script_step(
+    (
         "planos-v1-00-world-conditioned-pullback-metric",
         "scripts/check_planos_world_conditioned_path_projection_pullback_metric_kernel_v0_1.py",
         "Validate read-only WORLD projection and pullback geometry.",
     ),
-    _script_step(
+    (
         "planos-v1-01-world-conditioned-distribution-update",
         "scripts/check_planos_world_conditioned_objective_distribution_update_kernel_v0_1.py",
         "Validate the WORLD-conditioned future candidate distribution.",
     ),
-    _script_step(
+    (
         "planos-v1-02-decision-handoff-certificate",
         "scripts/check_planos_world_conditioned_distribution_decision_handoff_certificate_kernel_v0_1.py",
         "Validate the advisory distribution handoff to DecisionOS.",
     ),
-    _script_step(
+    (
         "planos-v1-05-native-coupled-information-metric",
         "scripts/check_planos_native_coupled_information_metric_certificate_kernel_v0_1.py",
         "Validate the bounded non-diagonal Gram-coupled PlanOS metric.",
     ),
-    _script_step(
+    (
         "planos-v1-06-state-dependent-metric-jet-levi-civita",
         "scripts/check_planos_state_dependent_metric_jet_levi_civita_certificate_kernel_v0_1.py",
         "Validate the bounded state-dependent metric jet and Levi-Civita connection.",
     ),
-    _script_step(
+    (
         "planos-v1-07-second-order-metric-jet-curvature",
         "scripts/check_planos_second_order_metric_jet_curvature_certificate_kernel_v0_1.py",
         "Validate the bounded second-order metric jet, curvature, and holonomy.",
     ),
-    _script_step(
+    (
         "planos-v1-08-multi-chart-atlas-curvature",
         "scripts/check_planos_multi_chart_atlas_curvature_certificate_kernel_v0_1.py",
         "Validate multi-chart atlas compatibility, cocycles, boundaries, and curvature invariance.",
     ),
-    _script_step(
+    (
         "planos-v1-09-jacobi-geodesic-deviation",
         "scripts/check_planos_jacobi_geodesic_deviation_certificate_kernel_v0_1.py",
         "Validate bounded geodesic deviation, Jacobi fields, tidal acceleration, and local conjugate-point candidates.",
     ),
-    _script_step(
+    (
         "planos-v1-10-second-variation-morse-index",
         "scripts/check_planos_second_variation_morse_index_certificate_kernel_v0_1.py",
         "Validate endpoint-fixed second variation, the index form, finite-basis Morse index, and nullity.",
     ),
-    _script_step(
+    (
         "planos-v1-11-conjugate-events-injectivity-radius",
         "scripts/check_planos_conjugate_event_sequence_injectivity_radius_certificate_kernel_v0_1.py",
         "Validate piecewise geodesic continuity, conjugate-event index jumps, cut candidates, and a local injectivity-radius lower bound.",
     ),
-    _script_step(
+    (
         "planos-v1-12-exponential-normal-coordinate-ball",
         "scripts/check_planos_exponential_map_normal_coordinate_ball_certificate_kernel_v0_1.py",
         "Validate the bounded second-order exponential model, normal-coordinate ball, finite-sample injectivity, and chart-safe radial covering.",
     ),
-    _script_step(
+    (
         "planos-v1-13-finite-normal-ball-cover-hopf-rinow-witness",
         "scripts/check_planos_finite_normal_ball_cover_hopf_rinow_witness_certificate_kernel_v0_1.py",
         "Validate finite normal-ball coverage, overlap-connected local geodesic extension, and the bounded finite-window Hopf-Rinow witness.",
     ),
-    _script_step(
+    (
         "planos-v1-14-finite-cover-nerve-cech-path-homotopy",
         "scripts/check_planos_finite_cover_nerve_cech_path_homotopy_certificate_kernel_v0_1.py",
         "Validate finite nerve edges, Cech two-simplices, connectedness, and elementary endpoint-preserving path homotopy.",
     ),
-    _script_step(
+    (
         "planos-v1-15-finite-simplicial-chain-homology",
         "scripts/check_planos_finite_simplicial_chain_homology_certificate_kernel_v0_1.py",
         "Validate finite simplicial boundary maps, cycle and filling witnesses, rational Betti numbers, and a bounded first-homology obstruction.",
     ),
-    _script_step(
+    (
         "planos-v1-16-smith-normal-form-integer-homology",
         "scripts/check_planos_smith_normal_form_integer_homology_certificate_kernel_v0_1.py",
         "Validate the finite integer H1 presentation, Smith invariant factors, free rank, and torsion decomposition.",
     ),
-    _script_step(
+    (
         "planos-v1-17-finite-filtration-persistent-homology",
         "scripts/check_planos_finite_filtration_persistent_homology_certificate_kernel_v0_1.py",
         "Validate finite filtration closure, stagewise Smith data, F2 barcode intervals, and persistent Betti numbers.",
     ),
-    _script_step(
+    (
         "planos-v1-18-finite-bottleneck-persistence-stability",
         "scripts/check_planos_finite_bottleneck_persistence_stability_certificate_kernel_v0_1.py",
         "Validate finite diagram matching, exact bottleneck distance, diagonal costs, and the bounded perturbation stability witness.",
     ),
-    _script_step(
+    (
         "planos-v1-19-finite-p-wasserstein-persistence-transport",
         "scripts/check_planos_finite_p_wasserstein_persistence_transport_certificate_kernel_v0_1.py",
         "Validate finite p-Wasserstein transport, exact power sums, integer root brackets, moment profiles, and tail bounds.",
     ),
-    _script_step(
+    (
         "planos-v1-20-finite-wasserstein-frechet-barycenter-dispersion",
         "scripts/check_planos_finite_wasserstein_frechet_barycenter_dispersion_certificate_kernel_v0_1.py",
         "Validate finite weighted Wasserstein Frechet functionals, barycenter tie sets, consensus transports, and dispersion bounds.",
     ),
-    _script_step(
+    (
         "planos-v1-21-finite-physical-quantum-qi-path-history-noncollapse",
         "scripts/check_planos_finite_physical_quantum_qi_path_history_noncollapse_certificate_kernel_v0_1.py",
         "Validate finite Physical Quantum Qi path histories, exact phase interference, reconvergence, marginals, loops, and non-collapse.",
     ),
-    _script_step(
+    (
         "planos-v1-22-finite-gaussian-physical-quantum-qi-homotopy-decoherence",
         "scripts/check_planos_finite_gaussian_physical_quantum_qi_homotopy_decoherence_certificate_kernel_v0_1.py",
         "Validate exact Z4 Gaussian path amplitudes, homotopy-class blocks, decoherence decomposition, and history non-collapse.",
     ),
-    _script_step(
+    (
         "planos-v1-23-finite-physical-quantum-qi-coherence-kernel-partial-dephasing",
         "scripts/check_planos_finite_physical_quantum_qi_coherence_kernel_partial_dephasing_certificate_kernel_v0_1.py",
         "Validate the exact finite Gaussian coherence kernel, rational partial dephasing, purity, mixedness, and history non-collapse.",
     ),
+)
+
+PLANOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = tuple(
+    _script_step(*spec) for spec in PLANOS_ACTIVE_FRONTIER_SPECS
 )
 
 DECISIONOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
@@ -235,6 +238,11 @@ MEMORYOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
         "memoryos-v0-44-observer-relative-coherence-quadratic-evidence-decisionos-handoff",
         "scripts/check_planos_memoryos_observer_relative_coherence_quadratic_evidence_decisionos_handoff_certificate_kernel_v0_1.py",
         "Validate exact PSD quadratic coherence evidence for every retained DecisionOS candidate while preserving relational frontier, required review, dissent, minority protection, and non-selection boundaries.",
+    ),
+    _script_step(
+        "memoryos-v0-45-candidate-gram-lift-decisionos-relational-coherence-kernel",
+        "scripts/check_planos_memoryos_candidate_gram_lift_decisionos_relational_coherence_kernel_certificate_kernel_v0_1.py",
+        "Validate the complete candidate Gram lift, exact v0.44 diagonal recovery, PSD and Hermitian preservation, full candidate-pair support, and DecisionOS relational review boundaries.",
     ),
 )
 
