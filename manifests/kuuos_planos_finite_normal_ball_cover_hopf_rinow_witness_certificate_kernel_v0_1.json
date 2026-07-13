@@ -1,0 +1,49 @@
+{
+  "kernel": "PlanOS Finite Normal-Ball Cover and Bounded Hopf-Rinow Witness Certificate Kernel",
+  "version": "v0.1",
+  "planos_version": "v1.13",
+  "source": "PlanOS v1.12 local exponential-map and normal-coordinate-ball lineage",
+  "artifacts": [
+    "runtime/kuuos_planos_finite_normal_ball_cover_hopf_rinow_witness_certificate_kernel_v0_1.py",
+    "scripts/check_planos_finite_normal_ball_cover_hopf_rinow_witness_certificate_kernel_v0_1.py",
+    "formal/KUOS/PlanOS/FiniteNormalBallCoverHopfRinowWitnessV1_13.lean",
+    "formal/KuuOSPlanOSV1_13.lean",
+    "docs/planos_finite_normal_ball_cover_hopf_rinow_witness_certificate_kernel_v0_1.md",
+    "runtime/kuuos_current_check.py"
+  ],
+  "geometry": {
+    "finite_normal_ball_cover": true,
+    "retained_sample_assignment": true,
+    "normal_ball_overlap_witnesses": true,
+    "local_geodesic_extension_chain": true,
+    "finite_window_extension": true,
+    "finite_coordinate_envelope": true,
+    "bounded_hopf_rinow_finite_window_witness": true
+  },
+  "boundaries": {
+    "classical_hopf_rinow_equivalence_not_claimed": true,
+    "global_geodesic_completeness_not_claimed": true,
+    "global_metric_completeness_not_claimed": true,
+    "global_compactness_not_claimed": true,
+    "global_minimizing_geodesic_not_claimed": true,
+    "local_finite_witness_only": true,
+    "source_exponential_map_certificate_not_mutated": true,
+    "source_atlas_certificate_not_mutated": true,
+    "persistent_world_state_unchanged": true,
+    "candidate_identity_retained": true,
+    "decision_selection_performed": false,
+    "history_read_only": true,
+    "finite_cover_grants_no_authority": true,
+    "geodesic_extension_grants_no_authority": true,
+    "hopf_rinow_witness_grants_no_authority": true,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  },
+  "validation": {
+    "runtime_checker": "scripts/check_planos_finite_normal_ball_cover_hopf_rinow_witness_certificate_kernel_v0_1.py",
+    "formal_aggregate": "formal/KuuOSPlanOSV1_13.lean",
+    "integrated_root": "runtime/kuuos_current_check.py --profile planos",
+    "fail_closed": true
+  }
+}
