@@ -1,0 +1,61 @@
+{
+  "kernel": "PlanOS Finite Simplicial Chain Complex and Homology Certificate Kernel",
+  "version": "v0.1",
+  "planos_version": "v1.15",
+  "source": "PlanOS v1.14 finite cover nerve, Cech overlap, and path homotopy lineage",
+  "artifacts": [
+    "runtime/kuuos_planos_finite_simplicial_chain_homology_certificate_support_v0_1.py",
+    "runtime/kuuos_planos_finite_simplicial_chain_homology_certificate_kernel_v0_1.py",
+    "scripts/check_planos_finite_simplicial_chain_homology_certificate_kernel_v0_1.py",
+    "formal/KUOS/PlanOS/FiniteSimplicialChainHomologyV1_15.lean",
+    "formal/KuuOSPlanOSV1_15.lean",
+    "docs/planos_finite_simplicial_chain_homology_certificate_kernel_v0_1.md",
+    "runtime/kuuos_current_check.py"
+  ],
+  "algebra": {
+    "coefficient_ring": "Z for retained chains",
+    "rank_field": "Q",
+    "boundary_one": "oriented edge to endpoint difference",
+    "boundary_two": "oriented triangle to alternating edge boundary",
+    "chain_complex_identity": "boundary_one * boundary_two = 0",
+    "betti_numbers": "finite rational ranks in dimensions 0, 1, and 2",
+    "nontriviality_witness": "rank([boundary_two | cycle]) > rank(boundary_two) over Q"
+  },
+  "reference_fixture": {
+    "vertices": 4,
+    "edges": 5,
+    "triangles": 1,
+    "rank_boundary_one": 3,
+    "rank_boundary_two": 1,
+    "betti_numbers": [1, 1, 0],
+    "euler_characteristic": 0,
+    "exact_cycle": "AB - AC + BC = boundary(ABC)",
+    "nontrivial_cycle": "AC - AD + CD"
+  },
+  "boundaries": {
+    "finite_chain_complex_only": true,
+    "rational_homology_only": true,
+    "integral_torsion_not_computed": true,
+    "persistent_homology_not_computed": true,
+    "global_homology_not_claimed": true,
+    "classical_cech_homology_equivalence_not_claimed": true,
+    "global_topological_invariant_not_claimed": true,
+    "source_nerve_certificate_not_mutated": true,
+    "source_finite_cover_certificate_not_mutated": true,
+    "persistent_world_state_unchanged": true,
+    "decision_selection_performed": false,
+    "history_read_only": true,
+    "chain_complex_grants_no_authority": true,
+    "homology_witness_grants_no_authority": true,
+    "topological_obstruction_grants_no_authority": true,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  },
+  "validation": {
+    "runtime_checker": "scripts/check_planos_finite_simplicial_chain_homology_certificate_kernel_v0_1.py",
+    "formal_aggregate": "formal/KuuOSPlanOSV1_15.lean",
+    "integrated_root": "runtime/kuuos_current_check.py --profile planos",
+    "fail_closed": true
+  }
+}
