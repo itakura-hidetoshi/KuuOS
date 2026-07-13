@@ -1,0 +1,97 @@
+{
+  "version": "kuuos_memoryos_candidate_nullspace_dephasing_rank_stratification_v0_49",
+  "schema_version": "kuuos.memoryos.candidate-nullspace-dephasing-rank-stratification-certificate.v0.1",
+  "runtime": "runtime/kuuos_memoryos_candidate_nullspace_dephasing_rank_stratification_certificate_kernel_v0_1.py",
+  "validator": "scripts/check_planos_memoryos_candidate_nullspace_dephasing_rank_stratification_certificate_kernel_v0_1.py",
+  "formal_module": "formal/KUOS/OpenHorizon/MemoryOSCandidateNullspaceDephasingRankStratificationV0_49.lean",
+  "formal_aggregate": "formal/KuuOSMemoryOSV0_49.lean",
+  "documentation": "docs/memoryos_candidate_nullspace_dephasing_rank_stratification_certificate_kernel_v0_1.md",
+  "source_frontiers": {
+    "memoryos": "v0.48",
+    "candidate_gram": "v0.45",
+    "decisionos": "v0.6",
+    "planos": "v1.23",
+    "world": "KuuOS v14.0 causal WORLD state"
+  },
+  "exact_reference": {
+    "candidate_ids": [
+      "continue",
+      "hold",
+      "reobserve",
+      "terminate_candidate"
+    ],
+    "structural_null_basis": [
+      {
+        "relation_id": "continue_minus_reobserve_minus_terminate",
+        "candidate_coefficients": [1, 0, -1, -1],
+        "lifted_history_coordinates": [0, 0]
+      },
+      {
+        "relation_id": "hold_minus_reobserve_plus_terminate",
+        "candidate_coefficients": [0, 1, -1, 1],
+        "lifted_history_coordinates": [0, 0]
+      }
+    ],
+    "antisymmetric_history_probe": {
+      "candidate_coefficients": [0, 0, 1, -1],
+      "lifted_history_coordinates": [1, -1],
+      "energy_real_numerators": [0, 2, 4],
+      "kernel_null_trajectory": [true, false, false]
+    },
+    "symmetric_history_probe": {
+      "candidate_coefficients": [0, 0, 1, 1],
+      "lifted_history_coordinates": [1, 1],
+      "energy_real_numerators": [8, 6, 4]
+    },
+    "dephasing_numerators": [2, 1, 0],
+    "history_metric_determinant_numerators": [0, 3, 4],
+    "history_metric_rank_trajectory": [1, 2, 2],
+    "candidate_gram_rank_trajectory": [1, 2, 2],
+    "candidate_gram_nullity_trajectory": [3, 2, 2],
+    "structural_plus_coherence_null_independence_minor": 1
+  },
+  "required": {
+    "source_memoryos_v048_bound": true,
+    "source_memoryos_v045_bound": true,
+    "structural_null_basis_exact": true,
+    "all_structural_null_directions_kernel_annihilated": true,
+    "all_structural_null_quadratic_evidence_zero": true,
+    "candidate_quadratic_evidence_invariant_under_structural_null_translation": true,
+    "history_rank_trajectory_exact": true,
+    "candidate_rank_trajectory_exact": true,
+    "candidate_nullity_trajectory_exact": true,
+    "antisymmetric_probe_energy_trajectory_exact": true,
+    "symmetric_probe_energy_trajectory_exact": true,
+    "structural_nullspace_persists_across_dephasing": true,
+    "full_coherence_extra_null_direction_independent": true,
+    "dephasing_releases_extra_coherence_null_direction": true,
+    "dephasing_recovers_candidate_rank_from_one_to_two": true,
+    "all_decision_candidates_retained": true,
+    "all_planos_histories_retained": true,
+    "relational_frontier_preserved": true,
+    "required_review_set_preserved": true,
+    "dissent_visibility_preserved": true,
+    "minority_visibility_preserved": true,
+    "nullspace_witness_advisory_only": true,
+    "null_direction_not_candidate_dispensability": true,
+    "rank_recovery_not_candidate_preference": true,
+    "future_only": true,
+    "read_only": true
+  },
+  "forbidden": {
+    "candidate_ranking_performed": false,
+    "candidate_pruning_performed": false,
+    "candidate_selection_performed": false,
+    "decision_commit_performed": false,
+    "decision_receipt_issued": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "source_memoryos_v048_mutated": false,
+    "source_memoryos_v045_mutated": false,
+    "source_decisionos_v06_mutated": false,
+    "persistent_world_state_mutated": false,
+    "verification_result_claimed": false,
+    "truth_authority_granted": false
+  }
+}
