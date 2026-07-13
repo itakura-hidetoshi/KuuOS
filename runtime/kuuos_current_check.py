@@ -23,7 +23,7 @@ CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
 CURRENT_PLANOS_FRONTIER = "PlanOS v1.23"
 CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
-CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.40"
+CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.41"
 CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 CURRENT_BASELINE_DATE = "2026-07-13 JST"
 
@@ -33,12 +33,11 @@ CURRENT_DRAFT_FRONTIER = "none"
 CURRENT_DRAFT_PR = "none"
 CURRENT_DRAFT_BRANCH = "none"
 CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_observer_relative_non_markov_temporal_record_"
-    "certificate_kernel_v0_1.py"
+    "runtime/kuuos_memoryos_observer_relative_finite_window_qi_influence_"
+    "planos_handoff_certificate_kernel_v0_1.py"
 )
 CURRENT_FRONTIER_MODE = "integrated_active_frontiers"
 CURRENT_FRONTIER_BOUNDARY = "validation_only"
-
 
 PLANOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
     CurrentRootStep(
@@ -260,7 +259,6 @@ PLANOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
     ),
 )
 
-
 DECISIONOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
     CurrentRootStep(
         "decisionos-v0-1-v0-6-cumulative",
@@ -271,7 +269,6 @@ DECISIONOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
     ),
 )
 
-
 MEMORYOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
     CurrentRootStep(
         "memoryos-v0-40-observer-relative-non-markov-temporal-record",
@@ -280,8 +277,14 @@ MEMORYOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
         True,
         "Validate observer-relative append-only records, visible translation residue, and finite non-Markov history dependence across PlanOS, DecisionOS, ObserveOS, and MemoryOS.",
     ),
+    CurrentRootStep(
+        "memoryos-v0-41-observer-relative-finite-window-qi-influence-planos-handoff",
+        "script",
+        "scripts/check_memoryos_observer_relative_finite_window_qi_influence_planos_handoff_certificate_kernel_v0_1.py",
+        True,
+        "Validate source-bound finite-window Qi influence, exact visible tail residue, and complete PlanOS v1.23 history-support preservation.",
+    ),
 )
-
 
 CURRENT_ROOT_STEPS: tuple[CurrentRootStep, ...] = (
     REPOSITORY_LINEAGE_STEPS
@@ -430,6 +433,7 @@ def main(argv: list[str] | None = None) -> int:
         list_current_root_steps(args.profile)
         return 0
     return run_current(args.profile)
+
 
 if __name__ == "__main__":
     raise SystemExit(main())

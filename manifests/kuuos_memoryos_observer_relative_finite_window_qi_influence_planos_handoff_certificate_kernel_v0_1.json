@@ -1,0 +1,51 @@
+{
+  "schema_version": "kuuos.memoryos.observer-relative-finite-window-qi-influence-planos-handoff-manifest.v0.1",
+  "memoryos_version": "0.41",
+  "artifact": "observer-relative finite-window Qi influence PlanOS handoff certificate",
+  "source_frontiers": {
+    "memoryos": "MemoryOS v0.40",
+    "planos": "PlanOS v1.23"
+  },
+  "formula": "I_p = sum_l k_l <g_p,h_l> + <g_p,rho_tail>",
+  "components": [
+    "body",
+    "boundary",
+    "leak",
+    "observation",
+    "holonomy",
+    "recovery",
+    "rollback",
+    "lockin",
+    "residue"
+  ],
+  "reference_witness": {
+    "window_influence_numerator": 34,
+    "tail_influence_numerator": 9,
+    "total_history_influence_numerator": 43,
+    "base_action_numerator": 11,
+    "window_only_action_numerator": 45,
+    "conditioned_action_numerator": 54,
+    "action_denominator": 4
+  },
+  "files": [
+    "runtime/kuuos_memoryos_observer_relative_finite_window_qi_influence_planos_handoff_schema_support_v0_1.py",
+    "runtime/kuuos_memoryos_observer_relative_finite_window_qi_influence_planos_handoff_algebra_support_v0_1.py",
+    "runtime/kuuos_memoryos_observer_relative_finite_window_qi_influence_planos_handoff_certificate_support_v0_1.py",
+    "runtime/kuuos_memoryos_observer_relative_finite_window_qi_influence_planos_handoff_certificate_kernel_v0_1.py",
+    "scripts/check_memoryos_observer_relative_finite_window_qi_influence_planos_handoff_certificate_kernel_v0_1.py",
+    "formal/KUOS/OpenHorizon/MemoryOSObserverRelativeFiniteWindowQiInfluencePlanOSHandoffV0_41.lean",
+    "formal/KuuOSMemoryOSV0_41.lean",
+    "docs/memoryos_observer_relative_finite_window_qi_influence_planos_handoff_certificate_kernel_v0_1.md",
+    "manifests/kuuos_memoryos_observer_relative_finite_window_qi_influence_planos_handoff_certificate_kernel_v0_1.json",
+    "runtime/kuuos_current_check.py"
+  ],
+  "preserved_invariants": [
+    "observer-relative record identity is retained",
+    "complete v0.40 record ledger remains source-bound",
+    "discarded prefix survives as exact visible tail residue",
+    "finite-window projection is not Markov replacement",
+    "all PlanOS v1.23 histories remain in source order",
+    "no ranking, pruning, representative selection, plan selection, activation, execution or mutation"
+  ],
+  "classification": "finite exact read-only influence handoff; not prediction fact, decision, activation, execution, verification or truth authority"
+}
