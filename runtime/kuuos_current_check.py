@@ -23,6 +23,7 @@ CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
 CURRENT_PLANOS_FRONTIER = "PlanOS v1.23"
 CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
+CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.40"
 CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 CURRENT_BASELINE_DATE = "2026-07-13 JST"
 
@@ -32,11 +33,12 @@ CURRENT_DRAFT_FRONTIER = "none"
 CURRENT_DRAFT_PR = "none"
 CURRENT_DRAFT_BRANCH = "none"
 CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_planos_finite_physical_quantum_qi_coherence_kernel_"
-    "partial_dephasing_certificate_kernel_v0_1.py"
+    "runtime/kuuos_memoryos_observer_relative_non_markov_temporal_record_"
+    "certificate_kernel_v0_1.py"
 )
 CURRENT_FRONTIER_MODE = "integrated_active_frontiers"
 CURRENT_FRONTIER_BOUNDARY = "validation_only"
+
 
 PLANOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
     CurrentRootStep(
@@ -258,6 +260,7 @@ PLANOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
     ),
 )
 
+
 DECISIONOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
     CurrentRootStep(
         "decisionos-v0-1-v0-6-cumulative",
@@ -268,10 +271,23 @@ DECISIONOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
     ),
 )
 
+
+MEMORYOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
+    CurrentRootStep(
+        "memoryos-v0-40-observer-relative-non-markov-temporal-record",
+        "script",
+        "scripts/check_memoryos_observer_relative_non_markov_temporal_record_certificate_kernel_v0_1.py",
+        True,
+        "Validate observer-relative append-only records, visible translation residue, and finite non-Markov history dependence across PlanOS, DecisionOS, ObserveOS, and MemoryOS.",
+    ),
+)
+
+
 CURRENT_ROOT_STEPS: tuple[CurrentRootStep, ...] = (
     REPOSITORY_LINEAGE_STEPS
     + PLANOS_ACTIVE_FRONTIER_STEPS
     + DECISIONOS_ACTIVE_FRONTIER_STEPS
+    + MEMORYOS_ACTIVE_FRONTIER_STEPS
 )
 
 
@@ -284,10 +300,12 @@ def current_runtime_root_summary() -> dict[str, object]:
         "repository_frontier": CURRENT_REPOSITORY_FRONTIER,
         "planos_frontier": CURRENT_PLANOS_FRONTIER,
         "decisionos_frontier": CURRENT_DECISIONOS_FRONTIER,
+        "memoryos_frontier": CURRENT_MEMORYOS_FRONTIER,
         "world_dependency": CURRENT_WORLD_DEPENDENCY,
         "repository_step_count": len(REPOSITORY_LINEAGE_STEPS),
         "planos_step_count": len(PLANOS_ACTIVE_FRONTIER_STEPS),
         "decisionos_step_count": len(DECISIONOS_ACTIVE_FRONTIER_STEPS),
+        "memoryos_step_count": len(MEMORYOS_ACTIVE_FRONTIER_STEPS),
         "total_step_count": len(CURRENT_ROOT_STEPS),
         "frontier_mode": CURRENT_FRONTIER_MODE,
         "frontier_boundary": CURRENT_FRONTIER_BOUNDARY,
@@ -341,6 +359,8 @@ def _steps_for_profile(profile: str) -> tuple[CurrentRootStep, ...]:
         return PLANOS_ACTIVE_FRONTIER_STEPS
     if profile == "decisionos":
         return DECISIONOS_ACTIVE_FRONTIER_STEPS
+    if profile == "memoryos":
+        return MEMORYOS_ACTIVE_FRONTIER_STEPS
     if profile == "all":
         return CURRENT_ROOT_STEPS
     raise ValueError("unknown_current_root_profile:" + profile)
@@ -355,7 +375,6 @@ def run_current(profile: str = "all") -> int:
     steps = _steps_for_profile(profile)
     failures: list[str] = []
     total = len(steps)
-
     for ordinal, step in enumerate(steps, start=1):
         print(f"\n[{ordinal}/{total}] {step.step_id}", flush=True)
         try:
@@ -372,17 +391,15 @@ def run_current(profile: str = "all") -> int:
             print(f"FAIL: {step.step_id} exited with {status}", flush=True)
             if step.required:
                 failures.append(step.step_id)
-
     if failures:
         print("\nCURRENT ROOT FAILED", file=sys.stderr)
         for step_id in failures:
             print(f"- {step_id}", file=sys.stderr)
         return 1
-
     print(
         "\nPASS: KuuOS integrated current root "
         f"({CURRENT_REPOSITORY_FRONTIER}; {CURRENT_PLANOS_FRONTIER}; "
-        f"{CURRENT_DECISIONOS_FRONTIER})"
+        f"{CURRENT_DECISIONOS_FRONTIER}; {CURRENT_MEMORYOS_FRONTIER})"
     )
     return 0
 
@@ -391,7 +408,7 @@ def main(argv: list[str] | None = None) -> int:
     parser = argparse.ArgumentParser(description="Run the KuuOS integrated current root.")
     parser.add_argument(
         "--profile",
-        choices=("all", "repository", "planos", "decisionos"),
+        choices=("all", "repository", "planos", "decisionos", "memoryos"),
         default="all",
         help="Select one bounded validation surface. The default is all.",
     )
@@ -406,7 +423,6 @@ def main(argv: list[str] | None = None) -> int:
         help="List the selected root steps and exit.",
     )
     args = parser.parse_args(argv)
-
     if args.summary:
         print(json.dumps(current_runtime_root_summary(), ensure_ascii=False, indent=2))
         return 0
@@ -414,7 +430,6 @@ def main(argv: list[str] | None = None) -> int:
         list_current_root_steps(args.profile)
         return 0
     return run_current(args.profile)
-
 
 if __name__ == "__main__":
     raise SystemExit(main())

@@ -1,0 +1,63 @@
+{
+  "schema_version": "kuuos.memoryos.observer-relative-non-markov-temporal-record-certificate.v0.1",
+  "memoryos_version": "v0.40",
+  "status": "finite_bounded_append_only_read_only_inactive",
+  "source_bindings": [
+    "PlanOS v1.23 finite PQQPI coherence kernel and partial dephasing certificate",
+    "DecisionOS v0.6 WORLD-conditioned relational deliberation",
+    "MemoryOS v0.39 WORLD ObserveOS intake",
+    "KuuOS v14.0 causal WORLD model"
+  ],
+  "temporal_roles": {
+    "PlanOS": "future possibility ensemble",
+    "DecisionOS": "present relational cut",
+    "ObserveOS": "event-to-record channel",
+    "MemoryOS": "observer-relative append-only past"
+  },
+  "runtime_artifacts": [
+    "runtime/kuuos_memoryos_observer_relative_non_markov_temporal_record_schema_support_v0_1.py",
+    "runtime/kuuos_memoryos_observer_relative_non_markov_temporal_record_algebra_support_v0_1.py",
+    "runtime/kuuos_memoryos_observer_relative_non_markov_temporal_record_certificate_support_v0_1.py",
+    "runtime/kuuos_memoryos_observer_relative_non_markov_temporal_record_certificate_kernel_v0_1.py"
+  ],
+  "checker": "scripts/check_memoryos_observer_relative_non_markov_temporal_record_certificate_kernel_v0_1.py",
+  "formal_artifacts": [
+    "formal/KUOS/OpenHorizon/MemoryOSObserverRelativeNonMarkovTemporalRecordV0_40.lean",
+    "formal/KuuOSMemoryOSV0_40.lean"
+  ],
+  "reference_fixture": {
+    "observer_count": 2,
+    "record_count": 3,
+    "present_signal": 5,
+    "memory_kernel_weights": [3, 2, 1],
+    "retained_history_effects": [2, -1, 3],
+    "counterfactual_history_effects": [2, -1, 0],
+    "retained_memory_contribution": 7,
+    "counterfactual_memory_contribution": 4,
+    "next_context_retained": 12,
+    "next_context_counterfactual": 9,
+    "translation_residue": 1
+  },
+  "boundaries": [
+    "MemoryOS record != event itself",
+    "observer-relative record != arbitrary subjectivism",
+    "translation residue != erasable error",
+    "finite non-Markov witness != arbitrary process-tensor theorem",
+    "memory kernel != causal truth",
+    "past record != final ontology",
+    "record append != verification",
+    "record append != activation",
+    "record append != execution"
+  ],
+  "authority": {
+    "absolute_observer": false,
+    "history_erasure": false,
+    "memory_overwrite": false,
+    "plan_selection": false,
+    "decision_replay": false,
+    "activation": false,
+    "world_mutation": false,
+    "verification_result": false,
+    "execution_permission": false
+  }
+}
