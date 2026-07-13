@@ -1,0 +1,76 @@
+{
+  "version": "kuuos_memoryos_candidate_gram_lift_decisionos_relational_coherence_kernel_v0_45",
+  "schema_version": "kuuos.memoryos.candidate-gram-lift-decisionos-relational-coherence-kernel-certificate.v0.1",
+  "runtime": "runtime/kuuos_memoryos_candidate_gram_lift_decisionos_relational_coherence_kernel_certificate_kernel_v0_1.py",
+  "validator": "scripts/check_planos_memoryos_candidate_gram_lift_decisionos_relational_coherence_kernel_certificate_kernel_v0_1.py",
+  "formal_module": "formal/KUOS/OpenHorizon/MemoryOSCandidateGramLiftDecisionOSRelationalCoherenceKernelV0_45.lean",
+  "formal_aggregate": "formal/KuuOSMemoryOSV0_45.lean",
+  "documentation": "docs/memoryos_candidate_gram_lift_decisionos_relational_coherence_kernel_certificate_kernel_v0_1.md",
+  "source_frontiers": {
+    "memoryos": ["v0.43", "v0.44"],
+    "decisionos": "v0.6",
+    "planos": "v1.23",
+    "world": "KuuOS v14.0 causal WORLD state"
+  },
+  "exact_reference": {
+    "history_ids": [
+      "plan-history-a",
+      "plan-history-b"
+    ],
+    "candidate_ids": [
+      "continue",
+      "hold",
+      "reobserve",
+      "terminate_candidate"
+    ],
+    "dephasing_numerators": [2, 1, 0],
+    "candidate_pair_count": 16,
+    "candidate_kernel_diagonals": {
+      "continue": [8, 6, 4],
+      "hold": [0, 2, 4],
+      "reobserve": [2, 2, 2],
+      "terminate_candidate": [2, 2, 2]
+    },
+    "pair_trajectories": {
+      "continue|hold": [0, 0, 0],
+      "continue|reobserve": [4, 3, 2],
+      "hold|reobserve": [0, 1, 2],
+      "hold|terminate_candidate": [0, -1, -2],
+      "reobserve|terminate_candidate": [2, 1, 0]
+    }
+  },
+  "required": {
+    "source_memoryos_v043_bound": true,
+    "source_memoryos_v044_bound": true,
+    "all_planos_histories_retained": true,
+    "all_decision_candidates_retained": true,
+    "all_candidate_pair_support_retained": true,
+    "candidate_kernel_hermitian": true,
+    "candidate_kernel_positive_semidefinite_by_gram_lift": true,
+    "candidate_diagonals_match_v044_evidence": true,
+    "relational_frontier_preserved": true,
+    "required_review_set_preserved": true,
+    "dissent_visibility_preserved": true,
+    "minority_visibility_preserved": true,
+    "candidate_pair_coherence_advisory_only": true,
+    "candidate_gram_kernel_not_relational_order": true,
+    "future_only": true,
+    "read_only": true
+  },
+  "forbidden": {
+    "candidate_ranking_performed": false,
+    "candidate_pruning_performed": false,
+    "candidate_selection_performed": false,
+    "decision_commit_performed": false,
+    "decision_receipt_issued": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "source_memoryos_v043_mutated": false,
+    "source_memoryos_v044_mutated": false,
+    "source_decisionos_v06_mutated": false,
+    "persistent_world_state_mutated": false,
+    "verification_result_claimed": false,
+    "truth_authority_granted": false
+  }
+}
