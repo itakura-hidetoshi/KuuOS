@@ -1,0 +1,78 @@
+{
+  "version": "kuuos_memoryos_candidate_triple_gram_determinant_joint_coherence_compatibility_v0_47",
+  "schema_version": "kuuos.memoryos.candidate-triple-gram-determinant-joint-coherence-compatibility-certificate.v0.1",
+  "runtime": "runtime/kuuos_memoryos_candidate_triple_gram_determinant_joint_coherence_compatibility_certificate_kernel_v0_1.py",
+  "validator": "scripts/check_planos_memoryos_candidate_triple_gram_determinant_joint_coherence_compatibility_certificate_kernel_v0_1.py",
+  "formal_module": "formal/KUOS/OpenHorizon/MemoryOSCandidateTripleGramDeterminantJointCoherenceCompatibilityV0_47.lean",
+  "formal_aggregate": "formal/KuuOSMemoryOSV0_47.lean",
+  "documentation": "docs/memoryos_candidate_triple_gram_determinant_joint_coherence_compatibility_certificate_kernel_v0_1.md",
+  "source_frontiers": {
+    "memoryos": "v0.46",
+    "decisionos": "v0.6",
+    "planos": "v1.23",
+    "world": "KuuOS v14.0 causal WORLD state"
+  },
+  "exact_reference": {
+    "candidate_ids": [
+      "continue",
+      "hold",
+      "reobserve",
+      "terminate_candidate"
+    ],
+    "dephasing_numerators": [2, 1, 0],
+    "ordered_candidate_triple_count_per_step": 64,
+    "distinct_ordered_candidate_triple_count_per_step": 24,
+    "continue_reobserve_terminate": {
+      "cyclic_product_real_numerators": [32, 9, 0],
+      "twice_cyclic_product_real_numerators": [64, 18, 0],
+      "diagonal_cubic_numerators": [32, 24, 16],
+      "determinant_numerators": [0, 0, 0]
+    },
+    "hold_reobserve_terminate": {
+      "cyclic_product_real_numerators": [0, -1, 0],
+      "twice_cyclic_product_real_numerators": [0, -2, 0],
+      "determinant_numerators": [0, 0, 0]
+    },
+    "pairwise_only_incompatibility_witness": {
+      "diagonals": [1, 1, 1],
+      "cyclic_off_diagonals": [1, 1, -1],
+      "pairwise_bounds_hold": true,
+      "triple_determinant": -4
+    }
+  },
+  "required": {
+    "source_memoryos_v046_bound": true,
+    "source_candidate_pair_envelope_exact": true,
+    "all_ordered_candidate_triples_retained": true,
+    "all_candidate_triple_principal_minors_nonnegative": true,
+    "all_candidate_triple_determinants_zero": true,
+    "all_pairwise_envelopes_jointly_compatible": true,
+    "candidate_gram_rank_at_most_two_witness": true,
+    "all_repeated_candidate_triples_degenerate": true,
+    "all_distinct_candidate_triples_rank_two_saturated": true,
+    "relational_frontier_preserved": true,
+    "required_review_set_preserved": true,
+    "dissent_visibility_preserved": true,
+    "minority_visibility_preserved": true,
+    "joint_coherence_compatibility_advisory_only": true,
+    "triple_cyclic_product_not_group_preference": true,
+    "rank_two_saturation_not_candidate_consensus": true,
+    "future_only": true,
+    "read_only": true
+  },
+  "forbidden": {
+    "candidate_ranking_performed": false,
+    "candidate_pruning_performed": false,
+    "candidate_selection_performed": false,
+    "decision_commit_performed": false,
+    "decision_receipt_issued": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "source_memoryos_v046_mutated": false,
+    "source_decisionos_v06_mutated": false,
+    "persistent_world_state_mutated": false,
+    "verification_result_claimed": false,
+    "truth_authority_granted": false
+  }
+}
