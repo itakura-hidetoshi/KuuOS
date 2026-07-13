@@ -21,7 +21,7 @@ CURRENT_RUNTIME_ROOT = "runtime/kuuos_current_check.py"
 CURRENT_ROOT_PROFILE = "integrated-current-root-v1"
 CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
-CURRENT_PLANOS_FRONTIER = "PlanOS v1.10"
+CURRENT_PLANOS_FRONTIER = "PlanOS v1.11"
 CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
 CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 CURRENT_BASELINE_DATE = "2026-07-13 JST"
@@ -32,7 +32,7 @@ CURRENT_DRAFT_FRONTIER = "none"
 CURRENT_DRAFT_PR = "none"
 CURRENT_DRAFT_BRANCH = "none"
 CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_planos_second_variation_morse_index_"
+    "runtime/kuuos_planos_conjugate_event_sequence_injectivity_radius_"
     "certificate_kernel_v0_1.py"
 )
 CURRENT_FRONTIER_MODE = "integrated_active_frontiers"
@@ -164,6 +164,13 @@ PLANOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
         "scripts/check_planos_second_variation_morse_index_certificate_kernel_v0_1.py",
         True,
         "Validate endpoint-fixed second variation, the index form, finite-basis Morse index, and nullity.",
+    ),
+    CurrentRootStep(
+        "planos-v1-11-conjugate-events-injectivity-radius",
+        "script",
+        "scripts/check_planos_conjugate_event_sequence_injectivity_radius_certificate_kernel_v0_1.py",
+        True,
+        "Validate piecewise geodesic continuity, conjugate-event index jumps, cut candidates, and a local injectivity-radius lower bound.",
     ),
 )
 
