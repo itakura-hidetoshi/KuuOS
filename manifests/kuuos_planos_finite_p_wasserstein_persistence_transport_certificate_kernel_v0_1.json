@@ -1,0 +1,74 @@
+{
+  "kernel": "PlanOS Finite p-Wasserstein Persistence Transport Certificate Kernel",
+  "version": "v0.1",
+  "planos_version": "v1.19",
+  "source": "PlanOS v1.18 finite bottleneck persistence stability and v1.17 finite persistent homology lineage",
+  "artifacts": [
+    "runtime/kuuos_planos_finite_p_wasserstein_persistence_transport_schema_support_v0_1.py",
+    "runtime/kuuos_planos_finite_p_wasserstein_persistence_transport_algebra_support_v0_1.py",
+    "runtime/kuuos_planos_finite_p_wasserstein_persistence_transport_certificate_support_v0_1.py",
+    "runtime/kuuos_planos_finite_p_wasserstein_persistence_transport_certificate_kernel_v0_1.py",
+    "scripts/check_planos_finite_p_wasserstein_persistence_transport_certificate_kernel_v0_1.py",
+    "formal/KUOS/PlanOS/FinitePWassersteinPersistenceTransportV1_19.lean",
+    "formal/KuuOSPlanOSV1_19.lean",
+    "docs/planos_finite_p_wasserstein_persistence_transport_certificate_kernel_v0_1.md",
+    "runtime/kuuos_current_check.py"
+  ],
+  "metric": {
+    "name": "p_Wasserstein_L_infinity_with_diagonal",
+    "cost_encoding": "twice_exact_integer",
+    "objective": "sum(cost_twice^p)",
+    "maximum_dimension": 2,
+    "bounded_positive_integer_p": true,
+    "infinite_intervals_may_match_diagonal": false
+  },
+  "reference": {
+    "p": 2,
+    "matching_costs_twice": [2, 2, 2, 2],
+    "transport_power_sum_twice_units": 16,
+    "wasserstein_distance_twice": 4,
+    "wasserstein_distance": 2,
+    "bottleneck_distance_twice": 2,
+    "filtration_sup_norm": 1,
+    "moment_profile": [[1, 8], [2, 16]],
+    "tail_profile": [[1, 4, 4], [2, 4, 16], [3, 0, 0]]
+  },
+  "bounds": {
+    "bottleneck_lower": "bottleneck_twice^p <= transport_power_sum",
+    "bottleneck_cardinality_upper": "transport_power_sum <= N * bottleneck_twice^p",
+    "filtration_cardinality_upper": "transport_power_sum <= N * (2 * filtration_sup_norm)^p",
+    "tail_power": "tail_count(T) * T^p <= transport_power_sum",
+    "integer_root_bracket": "floor^p <= transport_power_sum <= ceil^p"
+  },
+  "boundaries": {
+    "finite_diagram_pair_only": true,
+    "bounded_p_exponent_only": true,
+    "dimensions_above_two_not_compared": true,
+    "irrational_wasserstein_roots_not_decimal_approximated": true,
+    "source_filtration_to_barcode_relation_not_recomputed": true,
+    "full_p_wasserstein_stability_theorem_not_claimed": true,
+    "unbounded_diagram_transport_not_computed": true,
+    "wasserstein_transport_does_not_rank_candidates": true,
+    "tail_profile_does_not_rank_candidates": true,
+    "moment_profile_does_not_rank_candidates": true,
+    "candidate_identity_retained": true,
+    "source_persistent_homology_certificate_a_not_mutated": true,
+    "source_persistent_homology_certificate_b_not_mutated": true,
+    "source_bottleneck_stability_certificate_not_mutated": true,
+    "persistent_world_state_unchanged": true,
+    "decision_selection_performed": false,
+    "history_read_only": true,
+    "p_wasserstein_distance_grants_no_authority": true,
+    "transport_matching_grants_no_authority": true,
+    "tail_moment_evidence_grants_no_authority": true,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  },
+  "validation": {
+    "runtime_checker": "scripts/check_planos_finite_p_wasserstein_persistence_transport_certificate_kernel_v0_1.py",
+    "formal_aggregate": "formal/KuuOSPlanOSV1_19.lean",
+    "integrated_root": "runtime/kuuos_current_check.py --profile planos",
+    "fail_closed": true
+  }
+}
