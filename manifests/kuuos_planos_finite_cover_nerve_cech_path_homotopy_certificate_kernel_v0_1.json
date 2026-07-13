@@ -1,0 +1,44 @@
+{
+  "kernel": "PlanOS Finite Cover Nerve, Cech Overlap, and Path Homotopy Certificate Kernel",
+  "version": "v0.1",
+  "planos_version": "v1.14",
+  "source": "PlanOS v1.13 finite normal-ball cover and bounded Hopf-Rinow witness lineage",
+  "artifacts": [
+    "runtime/kuuos_planos_finite_cover_nerve_cech_path_homotopy_certificate_kernel_v0_1.py",
+    "scripts/check_planos_finite_cover_nerve_cech_path_homotopy_certificate_kernel_v0_1.py",
+    "formal/KUOS/PlanOS/FiniteCoverNerveCechPathHomotopyV1_14.lean",
+    "formal/KuuOSPlanOSV1_14.lean",
+    "docs/planos_finite_cover_nerve_cech_path_homotopy_certificate_kernel_v0_1.md",
+    "runtime/kuuos_current_check.py"
+  ],
+  "topology": {
+    "vertices": "retained normal balls",
+    "edges": "explicit pairwise overlap witnesses",
+    "two_simplices": "explicit triple-overlap witnesses with all boundary edges present",
+    "path_homotopy": "finite sequence of elementary triangle contraction or expansion moves",
+    "coherence": "connected finite nerve with covered retained samples and endpoint-preserving valid moves"
+  },
+  "boundaries": {
+    "finite_complex_only": true,
+    "classical_nerve_theorem_not_claimed": true,
+    "cover_homotopy_equivalence_not_claimed": true,
+    "fundamental_group_not_computed": true,
+    "global_path_homotopy_classification_not_claimed": true,
+    "global_topological_invariant_not_claimed": true,
+    "candidate_identity_retained": true,
+    "source_finite_cover_certificate_not_mutated": true,
+    "source_atlas_certificate_not_mutated": true,
+    "persistent_world_state_unchanged": true,
+    "decision_selection_performed": false,
+    "history_read_only": true,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  },
+  "validation": {
+    "runtime_checker": "scripts/check_planos_finite_cover_nerve_cech_path_homotopy_certificate_kernel_v0_1.py",
+    "formal_aggregate": "formal/KuuOSPlanOSV1_14.lean",
+    "integrated_root": "runtime/kuuos_current_check.py --profile planos",
+    "fail_closed": true
+  }
+}
