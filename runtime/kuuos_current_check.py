@@ -21,7 +21,7 @@ CURRENT_RUNTIME_ROOT = "runtime/kuuos_current_check.py"
 CURRENT_ROOT_PROFILE = "integrated-current-root-v1"
 CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
-CURRENT_PLANOS_FRONTIER = "PlanOS v1.18"
+CURRENT_PLANOS_FRONTIER = "PlanOS v1.19"
 CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
 CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 CURRENT_BASELINE_DATE = "2026-07-13 JST"
@@ -32,7 +32,7 @@ CURRENT_DRAFT_FRONTIER = "none"
 CURRENT_DRAFT_PR = "none"
 CURRENT_DRAFT_BRANCH = "none"
 CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_planos_finite_bottleneck_persistence_stability_"
+    "runtime/kuuos_planos_finite_p_wasserstein_persistence_transport_"
     "certificate_kernel_v0_1.py"
 )
 CURRENT_FRONTIER_MODE = "integrated_active_frontiers"
@@ -220,6 +220,13 @@ PLANOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
         "scripts/check_planos_finite_bottleneck_persistence_stability_certificate_kernel_v0_1.py",
         True,
         "Validate finite diagram matching, exact bottleneck distance, diagonal costs, and the bounded perturbation stability witness.",
+    ),
+    CurrentRootStep(
+        "planos-v1-19-finite-p-wasserstein-persistence-transport",
+        "script",
+        "scripts/check_planos_finite_p_wasserstein_persistence_transport_certificate_kernel_v0_1.py",
+        True,
+        "Validate finite p-Wasserstein transport, exact power sums, integer root brackets, moment profiles, and tail bounds.",
     ),
 )
 
