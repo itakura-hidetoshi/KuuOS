@@ -21,7 +21,7 @@ CURRENT_RUNTIME_ROOT = "runtime/kuuos_current_check.py"
 CURRENT_ROOT_PROFILE = "integrated-current-root-v1"
 CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
-CURRENT_PLANOS_FRONTIER = "PlanOS v1.07"
+CURRENT_PLANOS_FRONTIER = "PlanOS v1.08"
 CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
 CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 CURRENT_BASELINE_DATE = "2026-07-13 JST"
@@ -32,7 +32,7 @@ CURRENT_DRAFT_FRONTIER = "none"
 CURRENT_DRAFT_PR = "none"
 CURRENT_DRAFT_BRANCH = "none"
 CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_planos_second_order_metric_jet_"
+    "runtime/kuuos_planos_multi_chart_atlas_"
     "curvature_certificate_kernel_v0_1.py"
 )
 CURRENT_FRONTIER_MODE = "integrated_active_frontiers"
@@ -143,6 +143,13 @@ PLANOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
         "scripts/check_planos_second_order_metric_jet_curvature_certificate_kernel_v0_1.py",
         True,
         "Validate the bounded second-order metric jet, curvature, and holonomy.",
+    ),
+    CurrentRootStep(
+        "planos-v1-08-multi-chart-atlas-curvature",
+        "script",
+        "scripts/check_planos_multi_chart_atlas_curvature_certificate_kernel_v0_1.py",
+        True,
+        "Validate multi-chart atlas compatibility, cocycles, boundaries, and curvature invariance.",
     ),
 )
 
