@@ -25,8 +25,7 @@ theorem candidateGramDeterminantIdentity
         candidateEnergy2Real cross rightA rightB -
       candidateGramEntry2Real cross leftA leftB rightA rightB ^ 2 =
       (4 - cross ^ 2) * (leftA * rightB - leftB * rightA) ^ 2 := by
-  ring_nf
-  rfl
+  ring
 
 /-- For every positive-semidefinite reference kernel (`-2 ≤ cross ≤ 2`), the
     candidate-pair Gram entry obeys the Cauchy-Schwarz bound. -/
