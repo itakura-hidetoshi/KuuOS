@@ -23,7 +23,7 @@ CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
 CURRENT_PLANOS_FRONTIER = "PlanOS v1.23"
 CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
-CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.46"
+CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.47"
 CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 CURRENT_BASELINE_DATE = "2026-07-14 JST"
 
@@ -32,8 +32,8 @@ CURRENT_DRAFT_FRONTIER = "none"
 CURRENT_DRAFT_PR = "none"
 CURRENT_DRAFT_BRANCH = "none"
 CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_candidate_pair_cauchy_schwarz_relational_"
-    "coherence_envelope_certificate_kernel_v0_1.py"
+    "runtime/kuuos_memoryos_candidate_triple_gram_determinant_joint_"
+    "coherence_compatibility_certificate_kernel_v0_1.py"
 )
 CURRENT_FRONTIER_MODE = "integrated_active_frontiers"
 CURRENT_FRONTIER_BOUNDARY = "validation_only"
@@ -248,6 +248,11 @@ MEMORYOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
         "memoryos-v0-46-candidate-pair-cauchy-schwarz-relational-coherence-envelope",
         "scripts/check_planos_memoryos_candidate_pair_cauchy_schwarz_relational_coherence_envelope_certificate_kernel_v0_1.py",
         "Validate exact candidate-pair Cauchy-Schwarz margins, normalized coherence-square bounds, zero-diagonal coherence extinction, complete ordered-pair support, and DecisionOS relational review boundaries.",
+    ),
+    _script_step(
+        "memoryos-v0-47-candidate-triple-gram-determinant-joint-coherence-compatibility",
+        "scripts/check_planos_memoryos_candidate_triple_gram_determinant_joint_coherence_compatibility_certificate_kernel_v0_1.py",
+        "Validate complete ordered candidate-triple support, exact 3x3 Gram principal minors, rank-two determinant saturation, cyclic-coherence signs, joint pair-envelope compatibility, and DecisionOS relational review boundaries.",
     ),
 )
 
