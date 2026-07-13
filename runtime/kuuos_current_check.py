@@ -287,7 +287,7 @@ MEMORYOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
     CurrentRootStep(
         "memoryos-v0-42-observer-relative-non-markov-influence-conditioned-planos-coherence-kernel",
         "script",
-        "scripts/check_memoryos_observer_relative_non_markov_influence_conditioned_planos_coherence_kernel_certificate_kernel_v0_1.py",
+        "scripts/check_planos_memoryos_observer_relative_non_markov_influence_conditioned_coherence_kernel_certificate_kernel_v0_1.py",
         True,
         "Validate exact memory-conditioned diagonal phase congruence, visible tail-sensitive coherence, Hermitian symmetry, diagonal normalization, PSD witness preservation, and full PlanOS support.",
     ),
