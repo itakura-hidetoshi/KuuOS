@@ -21,7 +21,7 @@ CURRENT_RUNTIME_ROOT = "runtime/kuuos_current_check.py"
 CURRENT_ROOT_PROFILE = "integrated-current-root-v1"
 CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
-CURRENT_PLANOS_FRONTIER = "PlanOS v1.08"
+CURRENT_PLANOS_FRONTIER = "PlanOS v1.09"
 CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
 CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 CURRENT_BASELINE_DATE = "2026-07-13 JST"
@@ -32,8 +32,8 @@ CURRENT_DRAFT_FRONTIER = "none"
 CURRENT_DRAFT_PR = "none"
 CURRENT_DRAFT_BRANCH = "none"
 CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_planos_multi_chart_atlas_"
-    "curvature_certificate_kernel_v0_1.py"
+    "runtime/kuuos_planos_jacobi_geodesic_deviation_"
+    "certificate_kernel_v0_1.py"
 )
 CURRENT_FRONTIER_MODE = "integrated_active_frontiers"
 CURRENT_FRONTIER_BOUNDARY = "validation_only"
@@ -151,6 +151,13 @@ PLANOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
         True,
         "Validate multi-chart atlas compatibility, cocycles, boundaries, and curvature invariance.",
     ),
+    CurrentRootStep(
+        "planos-v1-09-jacobi-geodesic-deviation",
+        "script",
+        "scripts/check_planos_jacobi_geodesic_deviation_certificate_kernel_v0_1.py",
+        True,
+        "Validate bounded geodesic deviation, Jacobi fields, tidal acceleration, and local conjugate-point candidates.",
+    ),
 )
 
 DECISIONOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
@@ -255,7 +262,7 @@ def run_current(profile: str = "all") -> int:
         print(f"\n[{ordinal}/{total}] {step.step_id}", flush=True)
         try:
             status = _run_step(step.runner, step.target)
-        except Exception as exc:  # fail closed while retaining the remaining report
+        except Exception as exc:
             status = 1
             print(
                 f"current_root_exception:{step.step_id}:{type(exc).__name__}:{exc}",

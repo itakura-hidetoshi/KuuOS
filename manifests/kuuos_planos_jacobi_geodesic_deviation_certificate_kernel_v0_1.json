@@ -1,0 +1,26 @@
+{
+  "kernel": "PlanOS Jacobi Field and Geodesic Deviation Certificate Kernel",
+  "kernel_version": "v0.1",
+  "planos_version": "v1.09",
+  "source_planos_version": "v1.08",
+  "runtime": "runtime/kuuos_planos_jacobi_geodesic_deviation_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_jacobi_geodesic_deviation_certificate_kernel_v0_1.py",
+  "formal": "formal/KUOS/PlanOS/JacobiGeodesicDeviationV1_09.lean",
+  "aggregate": "formal/KuuOSPlanOSV1_09.lean",
+  "specification": "docs/planos_jacobi_geodesic_deviation_certificate_kernel_v0_1.md",
+  "boundary": "validation_only",
+  "required_properties": [
+    "geodesic_covariant_acceleration_bounded",
+    "jacobi_equation_satisfied",
+    "tidal_acceleration_retained",
+    "conjugate_point_candidates_local_only",
+    "candidate_identity_retained",
+    "source_atlas_not_mutated",
+    "persistent_world_state_unchanged",
+    "decision_selection_performed_false",
+    "history_read_only",
+    "future_only",
+    "active_now_false",
+    "execution_permission_false"
+  ]
+}
