@@ -1,0 +1,67 @@
+{
+  "kernel": "PlanOS Finite Filtration Persistent Homology Certificate Kernel",
+  "version": "v0.1",
+  "planos_version": "v1.17",
+  "source": "PlanOS v1.16 finite integer homology and v1.14 finite nerve lineage",
+  "artifacts": [
+    "runtime/kuuos_planos_finite_filtration_persistent_homology_schema_support_v0_1.py",
+    "runtime/kuuos_planos_finite_filtration_persistent_homology_algebra_support_v0_1.py",
+    "runtime/kuuos_planos_finite_filtration_persistent_homology_certificate_support_v0_1.py",
+    "runtime/kuuos_planos_finite_filtration_persistent_homology_certificate_kernel_v0_1.py",
+    "scripts/check_planos_finite_filtration_persistent_homology_certificate_kernel_v0_1.py",
+    "formal/KUOS/PlanOS/FiniteFiltrationPersistentHomologyV1_17.lean",
+    "formal/KuuOSPlanOSV1_17.lean",
+    "docs/planos_finite_filtration_persistent_homology_certificate_kernel_v0_1.md",
+    "runtime/kuuos_current_check.py"
+  ],
+  "coefficients": {
+    "stagewise_integer_homology": "Z",
+    "barcode_reduction": "F2"
+  },
+  "filtration": {
+    "finite": true,
+    "maximum_dimension": 2,
+    "simplex_order": [
+      "filtration",
+      "dimension",
+      "simplex_id"
+    ],
+    "face_closure_required": true,
+    "filtration_monotonicity_required": true
+  },
+  "reference": {
+    "stages": [0, 1, 2],
+    "stage_betti": [[3, 0, 0], [1, 1, 0], [1, 0, 0]],
+    "finite_h1_interval": [1, 2],
+    "infinite_h0_interval_count": 1
+  },
+  "boundaries": {
+    "finite_filtration_only": true,
+    "dimensions_above_two_not_computed": true,
+    "integer_persistence_module_not_computed": true,
+    "zigzag_persistence_not_computed": true,
+    "stability_theorem_not_claimed": true,
+    "planning_space_persistent_homology_not_claimed": true,
+    "global_topological_invariant_not_claimed": true,
+    "barcode_does_not_rank_candidates": true,
+    "candidate_identity_retained": true,
+    "source_integer_homology_certificate_not_mutated": true,
+    "source_nerve_certificate_not_mutated": true,
+    "persistent_world_state_unchanged": true,
+    "decision_selection_performed": false,
+    "history_read_only": true,
+    "persistent_homology_grants_no_authority": true,
+    "barcode_interval_grants_no_authority": true,
+    "persistent_betti_grants_no_authority": true,
+    "topological_obstruction_grants_no_authority": true,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  },
+  "validation": {
+    "runtime_checker": "scripts/check_planos_finite_filtration_persistent_homology_certificate_kernel_v0_1.py",
+    "formal_aggregate": "formal/KuuOSPlanOSV1_17.lean",
+    "integrated_root": "runtime/kuuos_current_check.py --profile planos",
+    "fail_closed": true
+  }
+}
