@@ -1,0 +1,63 @@
+{
+  "schema_version": "kuuos.memoryos.observer-relative-non-markov-influence-conditioned-planos-coherence-kernel-certificate.v0.1",
+  "memoryos_version": "v0.42",
+  "status": "finite_bounded_read_only_future_only_inactive",
+  "source_bindings": [
+    "MemoryOS v0.41 observer-relative finite-window Qi influence PlanOS handoff",
+    "PlanOS v1.23 finite Physical Quantum Qi coherence kernel and partial dephasing certificate",
+    "KuuOS v14.0 causal WORLD model"
+  ],
+  "deformation": {
+    "phase_encoding": "conditioned action numerator modulo four",
+    "phase_units": ["1", "i", "-1", "-i"],
+    "kernel_law": "K_memory = D_memory K D_memory*",
+    "window_counterfactual": "K_window = D_window K D_window*",
+    "amplitude_reweighting": false,
+    "entry_deletion": false
+  },
+  "reference_witness": {
+    "history_ids": ["plan-history-a", "plan-history-b"],
+    "full_memory_phase_mod4": [2, 1],
+    "window_only_phase_mod4": [1, 3],
+    "source_offdiagonal_at_n2": [0, -2],
+    "full_memory_offdiagonal_at_n2": [2, 0],
+    "window_only_offdiagonal_at_n2": [0, 2],
+    "tail_sensitive_kernel_entry_count": 4,
+    "tail_sensitive_dephasing_numerators": [2, 1]
+  },
+  "preserved_invariants": [
+    "Hermitian symmetry",
+    "diagonal normalization",
+    "positive-semidefinite witness by diagonal phase congruence",
+    "complete retained history support",
+    "complete ordered history-pair support",
+    "partial-dephasing denominator and trajectory support"
+  ],
+  "forbidden_claims": [
+    "causal truth",
+    "physical-time phase",
+    "history pruning",
+    "history ranking",
+    "representative selection",
+    "plan selection",
+    "decision commit",
+    "activation",
+    "execution permission",
+    "source mutation",
+    "persistent WORLD mutation",
+    "verification result",
+    "truth authority"
+  ],
+  "runtime_artifacts": [
+    "runtime/kuuos_memoryos_observer_relative_non_markov_influence_conditioned_planos_coherence_kernel_schema_support_v0_1.py",
+    "runtime/kuuos_memoryos_observer_relative_non_markov_influence_conditioned_planos_coherence_kernel_algebra_support_v0_1.py",
+    "runtime/kuuos_memoryos_observer_relative_non_markov_influence_conditioned_planos_coherence_kernel_certificate_support_v0_1.py",
+    "runtime/kuuos_memoryos_observer_relative_non_markov_influence_conditioned_planos_coherence_kernel_certificate_kernel_v0_1.py",
+    "scripts/check_memoryos_observer_relative_non_markov_influence_conditioned_planos_coherence_kernel_certificate_kernel_v0_1.py"
+  ],
+  "formal_artifacts": [
+    "formal/KUOS/OpenHorizon/MemoryOSObserverRelativeNonMarkovInfluenceConditionedPlanOSCoherenceKernelV0_42.lean",
+    "formal/KuuOSMemoryOSV0_42.lean"
+  ],
+  "current_root": "runtime/kuuos_current_check.py"
+}
