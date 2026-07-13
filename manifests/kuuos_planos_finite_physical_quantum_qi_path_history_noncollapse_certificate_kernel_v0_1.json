@@ -1,0 +1,74 @@
+{
+  "schema_version": "kuuos.manifest.planos-finite-physical-quantum-qi-path-history-noncollapse.v0.1",
+  "planos_version": "v1.21",
+  "title": "Finite Physical Quantum Qi path-history noncollapse certificate",
+  "status": "future_only_inactive",
+  "source_bindings": [
+    "PlanOS v1.14 finite path homotopy certificate digest",
+    "PlanOS v1.20 finite Wasserstein Frechet barycenter dispersion certificate digest",
+    "Physical Quantum Qi Path Integral v0.1 definition digest"
+  ],
+  "runtime": {
+    "schema_support": "runtime/kuuos_planos_finite_physical_quantum_qi_path_history_noncollapse_schema_support_v0_1.py",
+    "algebra_support": "runtime/kuuos_planos_finite_physical_quantum_qi_path_history_noncollapse_algebra_support_v0_1.py",
+    "certificate_support": "runtime/kuuos_planos_finite_physical_quantum_qi_path_history_noncollapse_certificate_support_v0_1.py",
+    "kernel": "runtime/kuuos_planos_finite_physical_quantum_qi_path_history_noncollapse_certificate_kernel_v0_1.py",
+    "checker": "scripts/check_planos_finite_physical_quantum_qi_path_history_noncollapse_certificate_kernel_v0_1.py"
+  },
+  "formal": {
+    "theorem_package": "formal/KUOS/PlanOS/FinitePhysicalQuantumQiPathHistoryNoncollapseV1_21.lean",
+    "aggregate": "formal/KuuOSPlanOSV1_21.lean"
+  },
+  "specification": "docs/planos_finite_physical_quantum_qi_path_history_noncollapse_certificate_kernel_v0_1.md",
+  "exact_surfaces": [
+    "formal Euclidean generating polynomial coefficients",
+    "finite Z2 signed phase amplitude",
+    "endpoint cancellation and intensity profile",
+    "depth state marginals",
+    "scenario marginals",
+    "shared-prefix profile",
+    "branch and reconvergence points",
+    "loop history retention",
+    "exact retained history set"
+  ],
+  "reference": {
+    "history_count": 4,
+    "weight_denominator": 6,
+    "partition_function_polynomial": [
+      {
+        "action_level": 2,
+        "weight_coefficient_numerator": 4
+      },
+      {
+        "action_level": 3,
+        "weight_coefficient_numerator": 2
+      }
+    ],
+    "signed_terminal_amplitude_numerator": 2,
+    "phase_cancellation_numerator": 4,
+    "coherent_intensity_numerator_squared": 4,
+    "incoherent_intensity_numerator_squared": 10,
+    "interference_delta_numerator_squared": -6,
+    "branch_point_count": 3,
+    "reconvergence_point_count": 2
+  },
+  "boundaries": [
+    "finite path-history family != all possible plans",
+    "formal generating polynomial != evaluated physical partition function",
+    "Z2 phase != arbitrary complex quantum phase",
+    "signed amplitude != empirical probability",
+    "branch point != forced decision point",
+    "barycenter observable != collapse of path ensemble",
+    "all histories retained != all histories activated",
+    "path integral representation != execution authority",
+    "WORLD-conditioned history != WORLD mutation"
+  ],
+  "authority": {
+    "argmin_performed": false,
+    "representative_history_selected": false,
+    "history_ranking_performed": false,
+    "history_pruning_performed": false,
+    "activation_performed": false,
+    "execution_permission": false
+  }
+}
