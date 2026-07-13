@@ -1,0 +1,64 @@
+{
+  "kernel": "PlanOS Finite Bottleneck Persistence Stability Certificate Kernel",
+  "version": "v0.1",
+  "planos_version": "v1.18",
+  "source": "Two PlanOS v1.17 finite persistent-homology barcode certificates",
+  "artifacts": [
+    "runtime/kuuos_planos_finite_bottleneck_persistence_stability_schema_support_v0_1.py",
+    "runtime/kuuos_planos_finite_bottleneck_persistence_stability_algebra_support_v0_1.py",
+    "runtime/kuuos_planos_finite_bottleneck_persistence_stability_certificate_support_v0_1.py",
+    "runtime/kuuos_planos_finite_bottleneck_persistence_stability_certificate_kernel_v0_1.py",
+    "scripts/check_planos_finite_bottleneck_persistence_stability_certificate_kernel_v0_1.py",
+    "formal/KUOS/PlanOS/FiniteBottleneckPersistenceStabilityV1_18.lean",
+    "formal/KuuOSPlanOSV1_18.lean",
+    "docs/planos_finite_bottleneck_persistence_stability_certificate_kernel_v0_1.md",
+    "runtime/kuuos_current_check.py"
+  ],
+  "metric": {
+    "name": "L_infinity_with_diagonal",
+    "distance_encoding": "twice_exact_integer",
+    "maximum_dimension": 2,
+    "finite_diagonal_cost_twice": "death_minus_birth",
+    "infinite_interval_diagonal_match_allowed": false,
+    "matching_algorithm": "bounded_dimensionwise_dynamic_programming"
+  },
+  "reference": {
+    "diagram_a_interval_count": 3,
+    "diagram_b_interval_count": 4,
+    "point_to_point_match_count": 3,
+    "diagonal_match_count": 1,
+    "bottleneck_distance_twice": 2,
+    "bottleneck_distance": 1,
+    "filtration_sup_norm": 1,
+    "stability_budget_twice": 2,
+    "stability_slack_twice": 0
+  },
+  "boundaries": {
+    "finite_diagram_pair_only": true,
+    "dimensions_above_two_not_compared": true,
+    "source_filtration_to_barcode_relation_not_recomputed": true,
+    "full_persistence_stability_theorem_not_claimed": true,
+    "wasserstein_distance_not_computed": true,
+    "interleaving_distance_not_computed": true,
+    "zigzag_distance_not_computed": true,
+    "persistence_distance_does_not_rank_candidates": true,
+    "candidate_identity_retained": true,
+    "source_persistent_homology_certificate_a_not_mutated": true,
+    "source_persistent_homology_certificate_b_not_mutated": true,
+    "persistent_world_state_unchanged": true,
+    "decision_selection_performed": false,
+    "history_read_only": true,
+    "bottleneck_distance_grants_no_authority": true,
+    "stability_witness_grants_no_authority": true,
+    "diagonal_matching_grants_no_authority": true,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  },
+  "validation": {
+    "runtime_checker": "scripts/check_planos_finite_bottleneck_persistence_stability_certificate_kernel_v0_1.py",
+    "formal_aggregate": "formal/KuuOSPlanOSV1_18.lean",
+    "integrated_root": "runtime/kuuos_current_check.py --profile planos",
+    "fail_closed": true
+  }
+}
