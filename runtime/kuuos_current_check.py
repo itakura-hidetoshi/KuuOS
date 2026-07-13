@@ -21,7 +21,7 @@ CURRENT_RUNTIME_ROOT = "runtime/kuuos_current_check.py"
 CURRENT_ROOT_PROFILE = "integrated-current-root-v1"
 CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
-CURRENT_PLANOS_FRONTIER = "PlanOS v1.14"
+CURRENT_PLANOS_FRONTIER = "PlanOS v1.15"
 CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
 CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 CURRENT_BASELINE_DATE = "2026-07-13 JST"
@@ -32,7 +32,7 @@ CURRENT_DRAFT_FRONTIER = "none"
 CURRENT_DRAFT_PR = "none"
 CURRENT_DRAFT_BRANCH = "none"
 CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_planos_finite_cover_nerve_cech_path_homotopy_"
+    "runtime/kuuos_planos_finite_simplicial_chain_homology_"
     "certificate_kernel_v0_1.py"
 )
 CURRENT_FRONTIER_MODE = "integrated_active_frontiers"
@@ -192,6 +192,13 @@ PLANOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
         "scripts/check_planos_finite_cover_nerve_cech_path_homotopy_certificate_kernel_v0_1.py",
         True,
         "Validate finite nerve edges, Cech two-simplices, connectedness, and elementary endpoint-preserving path homotopy.",
+    ),
+    CurrentRootStep(
+        "planos-v1-15-finite-simplicial-chain-homology",
+        "script",
+        "scripts/check_planos_finite_simplicial_chain_homology_certificate_kernel_v0_1.py",
+        True,
+        "Validate finite simplicial boundary maps, cycle and filling witnesses, rational Betti numbers, and a bounded first-homology obstruction.",
     ),
 )
 
