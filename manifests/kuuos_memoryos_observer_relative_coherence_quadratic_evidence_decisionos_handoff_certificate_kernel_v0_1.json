@@ -1,0 +1,70 @@
+{
+  "version": "kuuos_memoryos_observer_relative_coherence_quadratic_evidence_decisionos_handoff_v0_44",
+  "schema_version": "kuuos.memoryos.observer-relative-coherence-quadratic-evidence-decisionos-handoff-certificate.v0.1",
+  "runtime": "runtime/kuuos_memoryos_observer_relative_coherence_quadratic_evidence_decisionos_handoff_certificate_kernel_v0_1.py",
+  "validator": "scripts/check_planos_memoryos_observer_relative_coherence_quadratic_evidence_decisionos_handoff_certificate_kernel_v0_1.py",
+  "formal_module": "formal/KUOS/OpenHorizon/MemoryOSObserverRelativeCoherenceQuadraticEvidenceDecisionOSHandoffV0_44.lean",
+  "formal_aggregate": "formal/KuuOSMemoryOSV0_44.lean",
+  "documentation": "docs/memoryos_observer_relative_coherence_quadratic_evidence_decisionos_handoff_certificate_kernel_v0_1.md",
+  "source_frontiers": {
+    "memoryos": "v0.43",
+    "decisionos": "v0.6",
+    "planos": "v1.23",
+    "world": "KuuOS v14.0 causal WORLD state"
+  },
+  "exact_reference": {
+    "history_ids": [
+      "plan-history-a",
+      "plan-history-b"
+    ],
+    "candidate_ids": [
+      "continue",
+      "hold",
+      "reobserve",
+      "terminate_candidate"
+    ],
+    "evidence_trajectories": {
+      "continue": [8, 6, 4],
+      "hold": [0, 2, 4],
+      "reobserve": [2, 2, 2],
+      "terminate_candidate": [2, 2, 2]
+    },
+    "coherence_contrasts": {
+      "continue": 4,
+      "hold": -4,
+      "reobserve": 0,
+      "terminate_candidate": 0
+    }
+  },
+  "required": {
+    "source_memoryos_v043_bound": true,
+    "source_decisionos_v06_bound": true,
+    "all_planos_histories_retained": true,
+    "all_decision_candidates_retained": true,
+    "quadratic_evidence_nonnegative_by_psd": true,
+    "quadratic_evidence_real_by_hermitian_symmetry": true,
+    "relational_frontier_preserved": true,
+    "required_review_set_preserved": true,
+    "dissent_visibility_preserved": true,
+    "minority_visibility_preserved": true,
+    "coherence_evidence_advisory_only": true,
+    "coherence_contrast_not_scalar_utility": true,
+    "future_only": true,
+    "read_only": true
+  },
+  "forbidden": {
+    "candidate_ranking_performed": false,
+    "candidate_pruning_performed": false,
+    "candidate_selection_performed": false,
+    "decision_commit_performed": false,
+    "decision_receipt_issued": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "source_memoryos_v043_mutated": false,
+    "source_decisionos_v06_mutated": false,
+    "persistent_world_state_mutated": false,
+    "verification_result_claimed": false,
+    "truth_authority_granted": false
+  }
+}
