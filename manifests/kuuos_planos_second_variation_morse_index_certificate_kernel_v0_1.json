@@ -1,0 +1,48 @@
+{
+  "kernel": "PlanOS Second Variation and Morse Index Certificate Kernel",
+  "version": "v0.1",
+  "planos_version": "v1.10",
+  "source": "PlanOS v1.09 Jacobi field and geodesic deviation certificate",
+  "artifacts": [
+    "runtime/kuuos_planos_second_variation_morse_index_certificate_kernel_v0_1.py",
+    "scripts/check_planos_second_variation_morse_index_certificate_kernel_v0_1.py",
+    "formal/KUOS/PlanOS/SecondVariationMorseIndexV1_10.lean",
+    "formal/KuuOSPlanOSV1_10.lean",
+    "docs/planos_second_variation_morse_index_certificate_kernel_v0_1.md",
+    "runtime/kuuos_current_check.py"
+  ],
+  "index_form": "I(X,Y)=sum_s w_s(<D_T X,D_T Y>-<R(T,X)T,Y>)",
+  "spectral_outputs": [
+    "finite_basis_morse_index",
+    "finite_basis_nullity",
+    "finite_basis_positive_dimension",
+    "negative_direction_witnesses",
+    "null_direction_witnesses"
+  ],
+  "boundaries": {
+    "endpoint_fixed_variations_verified": true,
+    "index_form_symmetric": true,
+    "second_variation_retained": true,
+    "finite_basis_morse_index_computed": true,
+    "conjugate_multiplicity_candidate_local_only": true,
+    "morse_index_finite_window_only": true,
+    "candidate_identity_retained": true,
+    "source_jacobi_certificate_not_mutated": true,
+    "persistent_world_state_unchanged": true,
+    "decision_selection_performed": false,
+    "history_read_only": true,
+    "curvature_grants_no_authority": true,
+    "second_variation_grants_no_authority": true,
+    "morse_index_grants_no_authority": true,
+    "conjugate_multiplicity_grants_no_authority": true,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  },
+  "validation": {
+    "runtime_checker": "scripts/check_planos_second_variation_morse_index_certificate_kernel_v0_1.py",
+    "formal_aggregate": "formal/KuuOSPlanOSV1_10.lean",
+    "integrated_root": "runtime/kuuos_current_check.py --profile planos",
+    "fail_closed": true
+  }
+}
