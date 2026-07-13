@@ -4,6 +4,7 @@
   "planos_version": "v1.14",
   "source": "PlanOS v1.13 finite normal-ball cover and bounded Hopf-Rinow witness lineage",
   "artifacts": [
+    "runtime/kuuos_planos_finite_cover_nerve_cech_path_homotopy_support_v0_1.py",
     "runtime/kuuos_planos_finite_cover_nerve_cech_path_homotopy_certificate_kernel_v0_1.py",
     "scripts/check_planos_finite_cover_nerve_cech_path_homotopy_certificate_kernel_v0_1.py",
     "formal/KUOS/PlanOS/FiniteCoverNerveCechPathHomotopyV1_14.lean",
