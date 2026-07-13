@@ -1,0 +1,54 @@
+{
+  "kernel": "PlanOS Exponential Map and Normal Coordinate Ball Certificate Kernel",
+  "version": "v0.1",
+  "planos_version": "v1.12",
+  "source": "PlanOS v1.11 conjugate-event and local injectivity-radius certificate lineage with the v1.08 atlas certificate",
+  "artifacts": [
+    "runtime/kuuos_planos_exponential_map_normal_coordinate_ball_certificate_kernel_v0_1.py",
+    "scripts/check_planos_exponential_map_normal_coordinate_ball_certificate_kernel_v0_1.py",
+    "formal/KUOS/PlanOS/ExponentialMapNormalCoordinateBallV1_12.lean",
+    "formal/KuuOSPlanOSV1_12.lean",
+    "docs/planos_exponential_map_normal_coordinate_ball_certificate_kernel_v0_1.md",
+    "runtime/kuuos_current_check.py"
+  ],
+  "geometry": {
+    "local_exponential_model": "exp_p(v)^i = p^i + v^i - 1/2 Gamma^i_jk v^j v^k",
+    "radial_model": "gamma_v(t)^i = p^i + t v^i - 1/2 t^2 Gamma^i_jk v^j v^k",
+    "normal_ball_condition": "0 < r_normal < r_injectivity_lower_bound",
+    "finite_sample_injectivity": true,
+    "radial_geodesic_uniqueness_from_basepoint": true,
+    "chart_safe_cover": true
+  },
+  "boundaries": {
+    "finite_second_order_exponential_model_recomputed": true,
+    "normal_ball_strictly_inside_injectivity_bound": true,
+    "radial_geodesic_unique_from_basepoint": true,
+    "finite_sample_exponential_map_injective": true,
+    "normal_coordinate_candidates_retained": true,
+    "chart_safe_geodesic_ball_covering": true,
+    "chart_boundaries_respected": true,
+    "atlas_transition_authority_not_extended": true,
+    "local_model_only": true,
+    "global_exponential_map_not_claimed": true,
+    "strong_convexity_not_claimed": true,
+    "pairwise_endpoint_geodesic_uniqueness_not_claimed": true,
+    "candidate_identity_retained": true,
+    "source_injectivity_certificate_not_mutated": true,
+    "source_atlas_certificate_not_mutated": true,
+    "persistent_world_state_unchanged": true,
+    "decision_selection_performed": false,
+    "history_read_only": true,
+    "exponential_map_grants_no_authority": true,
+    "normal_ball_grants_no_authority": true,
+    "chart_cover_grants_no_authority": true,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  },
+  "validation": {
+    "runtime_checker": "scripts/check_planos_exponential_map_normal_coordinate_ball_certificate_kernel_v0_1.py",
+    "formal_aggregate": "formal/KuuOSPlanOSV1_12.lean",
+    "integrated_root": "runtime/kuuos_current_check.py --profile planos",
+    "fail_closed": true
+  }
+}
