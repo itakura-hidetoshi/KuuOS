@@ -1,0 +1,77 @@
+{
+  "version": "kuuos_memoryos_candidate_pair_cauchy_schwarz_relational_coherence_envelope_v0_46",
+  "schema_version": "kuuos.memoryos.candidate-pair-cauchy-schwarz-relational-coherence-envelope-certificate.v0.1",
+  "runtime": "runtime/kuuos_memoryos_candidate_pair_cauchy_schwarz_relational_coherence_envelope_certificate_kernel_v0_1.py",
+  "validator": "scripts/check_planos_memoryos_candidate_pair_cauchy_schwarz_relational_coherence_envelope_certificate_kernel_v0_1.py",
+  "formal_module": "formal/KUOS/OpenHorizon/MemoryOSCandidatePairCauchySchwarzRelationalCoherenceEnvelopeV0_46.lean",
+  "formal_aggregate": "formal/KuuOSMemoryOSV0_46.lean",
+  "documentation": "docs/memoryos_candidate_pair_cauchy_schwarz_relational_coherence_envelope_certificate_kernel_v0_1.md",
+  "source_frontiers": {
+    "memoryos": "v0.45",
+    "decisionos": "v0.6",
+    "planos": "v1.23",
+    "world": "KuuOS v14.0 causal WORLD state"
+  },
+  "exact_reference": {
+    "candidate_ids": [
+      "continue",
+      "hold",
+      "reobserve",
+      "terminate_candidate"
+    ],
+    "dephasing_numerators": [2, 1, 0],
+    "ordered_candidate_pair_count_per_step": 16,
+    "normalized_coherence_square_trajectories": {
+      "continue|hold": [[0, 1], [0, 1], [0, 1]],
+      "continue|reobserve": [[1, 1], [3, 4], [1, 2]],
+      "continue|terminate_candidate": [[1, 1], [3, 4], [1, 2]],
+      "hold|reobserve": [[0, 1], [1, 4], [1, 2]],
+      "hold|terminate_candidate": [[0, 1], [1, 4], [1, 2]],
+      "reobserve|terminate_candidate": [[1, 1], [1, 4], [0, 1]]
+    },
+    "determinant_margin_trajectories": {
+      "continue|hold": [0, 12, 16],
+      "continue|reobserve": [0, 3, 4],
+      "continue|terminate_candidate": [0, 3, 4],
+      "hold|reobserve": [0, 3, 4],
+      "hold|terminate_candidate": [0, 3, 4],
+      "reobserve|terminate_candidate": [0, 3, 4]
+    },
+    "negative_raw_coherence_retained": {
+      "hold|terminate_candidate": [0, -1, -2]
+    }
+  },
+  "required": {
+    "source_memoryos_v045_bound": true,
+    "source_candidate_gram_kernel_exact": true,
+    "all_ordered_candidate_pairs_retained": true,
+    "all_cauchy_schwarz_bounds_hold": true,
+    "all_normalized_coherence_squares_bounded_by_one": true,
+    "all_zero_diagonal_pairs_have_zero_coherence": true,
+    "all_candidate_diagonals_nonnegative": true,
+    "relational_frontier_preserved": true,
+    "required_review_set_preserved": true,
+    "dissent_visibility_preserved": true,
+    "minority_visibility_preserved": true,
+    "normalized_coherence_advisory_only": true,
+    "normalized_coherence_not_scalar_utility": true,
+    "off_diagonal_sign_not_preference": true,
+    "future_only": true,
+    "read_only": true
+  },
+  "forbidden": {
+    "candidate_ranking_performed": false,
+    "candidate_pruning_performed": false,
+    "candidate_selection_performed": false,
+    "decision_commit_performed": false,
+    "decision_receipt_issued": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "source_memoryos_v045_mutated": false,
+    "source_decisionos_v06_mutated": false,
+    "persistent_world_state_mutated": false,
+    "verification_result_claimed": false,
+    "truth_authority_granted": false
+  }
+}
