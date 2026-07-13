@@ -1,5 +1,105 @@
 {
   "schema_version": "kuuos.memoryos.observer-relative-temporal-window-coherence-cocycle-composition-certificate.v0.1",
   "memoryos_version": "v0.43",
-  "status": "draft"
+  "status": "finite_bounded_read_only_future_only_inactive",
+  "source_bindings": [
+    "MemoryOS v0.41 observer-relative finite-window Qi influence PlanOS handoff",
+    "MemoryOS v0.42 influence-conditioned PlanOS coherence kernel",
+    "PlanOS v1.23 finite Physical Quantum Qi coherence kernel and partial dephasing certificate",
+    "KuuOS v14.0 causal WORLD model"
+  ],
+  "temporal_segments": [
+    {
+      "segment_id": "tail-segment",
+      "record_id": "record-tail",
+      "segment_kind": "discarded-tail",
+      "observer_id": "observer-alpha",
+      "lag_weight": 1
+    },
+    {
+      "segment_id": "window-segment-a",
+      "record_id": "record-window-a",
+      "segment_kind": "retained-window",
+      "observer_id": "observer-alpha",
+      "lag_weight": 3
+    },
+    {
+      "segment_id": "window-segment-b",
+      "record_id": "record-window-b",
+      "segment_kind": "retained-window",
+      "observer_id": "observer-beta",
+      "lag_weight": 2,
+      "translation_from_previous_id": "translation-alpha-beta",
+      "translation_residue_visible": true
+    }
+  ],
+  "composition_law": {
+    "phase_action": "Phi_u(K) = D_u K D_u*",
+    "two_stage": "Phi_v(Phi_u(K)) = Phi_(v*u)(K)",
+    "associativity": "w*(v*u) = (w*v)*u",
+    "required_equality": "refined = coarse = direct = source MemoryOS v0.42"
+  },
+  "reference_witness": {
+    "history_ids": [
+      "plan-history-a",
+      "plan-history-b"
+    ],
+    "segment_influence_numerators": {
+      "plan-history-a": [9, 18, 16],
+      "plan-history-b": [2, 3, 4]
+    },
+    "segment_phases_mod4": {
+      "plan-history-a": [1, 2, 0],
+      "plan-history-b": [2, 3, 0]
+    },
+    "conditioned_action_numerators": [54, 29],
+    "conditioned_phases_mod4": [2, 1],
+    "source_offdiagonal_at_n2": [0, -2],
+    "refined_offdiagonal_sequence_at_n2": [
+      [-2, 0],
+      [0, 2],
+      [2, 0],
+      [2, 0]
+    ],
+    "phase_neutral_nonzero_segment": "window-segment-b"
+  },
+  "preserved_invariants": [
+    "complete source record order",
+    "observer-relative segment identity",
+    "visible observer translation residue",
+    "MemoryOS v0.41 candidate influence profile",
+    "Hermitian symmetry",
+    "diagonal normalization",
+    "positive-semidefinite witness through repeated diagonal phase congruence",
+    "complete PlanOS history support",
+    "complete ordered history-pair support",
+    "partial-dephasing denominator and trajectory order"
+  ],
+  "forbidden_claims": [
+    "history pruning",
+    "history ranking",
+    "representative history selection",
+    "plan selection",
+    "decision commit",
+    "activation",
+    "execution permission",
+    "MemoryOS source mutation",
+    "PlanOS source mutation",
+    "persistent WORLD mutation",
+    "verification result",
+    "truth authority"
+  ],
+  "runtime_artifacts": [
+    "runtime/kuuos_memoryos_observer_relative_temporal_window_coherence_cocycle_composition_schema_support_v0_1.py",
+    "runtime/kuuos_memoryos_observer_relative_temporal_window_coherence_cocycle_composition_algebra_support_v0_1.py",
+    "runtime/kuuos_memoryos_observer_relative_temporal_window_coherence_cocycle_composition_certificate_support_v0_1.py",
+    "runtime/kuuos_memoryos_observer_relative_temporal_window_coherence_cocycle_composition_certificate_kernel_v0_1.py",
+    "scripts/check_planos_memoryos_observer_relative_temporal_window_coherence_cocycle_composition_certificate_kernel_v0_1.py"
+  ],
+  "formal_artifacts": [
+    "formal/KUOS/OpenHorizon/MemoryOSObserverRelativeTemporalWindowCoherenceCocycleCompositionV0_43.lean",
+    "formal/KuuOSMemoryOSV0_43.lean"
+  ],
+  "specification": "docs/memoryos_observer_relative_temporal_window_coherence_cocycle_composition_certificate_kernel_v0_1.md",
+  "current_root": "runtime/kuuos_current_check.py"
 }
