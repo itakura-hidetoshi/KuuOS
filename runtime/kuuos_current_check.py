@@ -23,7 +23,7 @@ CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
 CURRENT_PLANOS_FRONTIER = "PlanOS v1.23"
 CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
-CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.42"
+CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.43"
 CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 CURRENT_BASELINE_DATE = "2026-07-13 JST"
 
@@ -33,8 +33,8 @@ CURRENT_DRAFT_FRONTIER = "none"
 CURRENT_DRAFT_PR = "none"
 CURRENT_DRAFT_BRANCH = "none"
 CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_observer_relative_non_markov_influence_conditioned_"
-    "planos_coherence_kernel_certificate_kernel_v0_1.py"
+    "runtime/kuuos_memoryos_observer_relative_temporal_window_coherence_"
+    "cocycle_composition_certificate_kernel_v0_1.py"
 )
 CURRENT_FRONTIER_MODE = "integrated_active_frontiers"
 CURRENT_FRONTIER_BOUNDARY = "validation_only"
@@ -290,6 +290,13 @@ MEMORYOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
         "scripts/check_planos_memoryos_observer_relative_non_markov_influence_conditioned_coherence_kernel_certificate_kernel_v0_1.py",
         True,
         "Validate exact memory-conditioned diagonal phase congruence, visible tail-sensitive coherence, Hermitian symmetry, diagonal normalization, PSD witness preservation, and full PlanOS support.",
+    ),
+    CurrentRootStep(
+        "memoryos-v0-43-observer-relative-temporal-window-coherence-cocycle-composition",
+        "script",
+        "scripts/check_planos_memoryos_observer_relative_temporal_window_coherence_cocycle_composition_certificate_kernel_v0_1.py",
+        True,
+        "Validate source-bound temporal segment composition, observer translation compatibility, window refinement/coarsening consistency, and exact equality with the MemoryOS v0.42 conditioned PlanOS coherence kernel.",
     ),
 )
 
