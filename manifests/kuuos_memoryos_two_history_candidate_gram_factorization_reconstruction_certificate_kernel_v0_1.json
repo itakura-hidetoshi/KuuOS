@@ -1,0 +1,82 @@
+{
+  "version": "kuuos_memoryos_two_history_candidate_gram_factorization_reconstruction_v0_48",
+  "schema_version": "kuuos.memoryos.two-history-candidate-gram-factorization-reconstruction-certificate.v0.1",
+  "runtime": "runtime/kuuos_memoryos_two_history_candidate_gram_factorization_reconstruction_certificate_kernel_v0_1.py",
+  "validator": "scripts/check_planos_memoryos_two_history_candidate_gram_factorization_reconstruction_certificate_kernel_v0_1.py",
+  "formal_module": "formal/KUOS/OpenHorizon/MemoryOSTwoHistoryCandidateGramFactorizationReconstructionV0_48.lean",
+  "formal_aggregate": "formal/KuuOSMemoryOSV0_48.lean",
+  "documentation": "docs/memoryos_two_history_candidate_gram_factorization_reconstruction_certificate_kernel_v0_1.md",
+  "source_frontiers": {
+    "memoryos": ["v0.47", "v0.45"],
+    "decisionos": "v0.6",
+    "planos": "v1.23",
+    "world": "KuuOS v14.0 causal WORLD state"
+  },
+  "exact_reference": {
+    "candidate_ids": [
+      "continue",
+      "hold",
+      "reobserve",
+      "terminate_candidate"
+    ],
+    "history_factor_dimension": 2,
+    "candidate_factor_matrix": [
+      [1, 1],
+      [1, -1],
+      [1, 0],
+      [0, 1]
+    ],
+    "history_anchor_candidate_ids": [
+      "reobserve",
+      "terminate_candidate"
+    ],
+    "dephasing_numerators": [2, 1, 0],
+    "history_metric_numerator_trajectory": [
+      [[2, 2], [2, 2]],
+      [[2, 1], [1, 2]],
+      [[2, 0], [0, 2]]
+    ],
+    "candidate_kernel_entry_count_per_step": 16,
+    "ordered_candidate_triple_count_per_step": 64,
+    "four_by_four_determinant_real_numerators": [0, 0, 0],
+    "four_by_four_determinant_imag_numerators": [0, 0, 0]
+  },
+  "required": {
+    "source_memoryos_v047_exact": true,
+    "source_memoryos_v045_exact": true,
+    "fixed_candidate_history_factor_rows_exact": true,
+    "all_candidate_kernel_entries_reconstructed": true,
+    "all_candidate_row_relations_exact": true,
+    "all_candidate_column_relations_exact": true,
+    "all_candidate_four_by_four_determinants_zero": true,
+    "all_v047_triple_records_bound_to_factorization": true,
+    "candidate_gram_rank_at_most_two_by_explicit_factorization": true,
+    "all_decision_candidates_retained": true,
+    "all_planos_histories_retained": true,
+    "relational_frontier_preserved": true,
+    "required_review_set_preserved": true,
+    "dissent_visibility_preserved": true,
+    "minority_visibility_preserved": true,
+    "factorization_witness_advisory_only": true,
+    "history_coordinate_anchors_not_candidate_priority": true,
+    "rank_factorization_not_candidate_consensus": true,
+    "future_only": true,
+    "read_only": true
+  },
+  "forbidden": {
+    "candidate_ranking_performed": false,
+    "candidate_pruning_performed": false,
+    "candidate_selection_performed": false,
+    "decision_commit_performed": false,
+    "decision_receipt_issued": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "source_memoryos_v047_mutated": false,
+    "source_memoryos_v045_mutated": false,
+    "source_decisionos_v06_mutated": false,
+    "persistent_world_state_mutated": false,
+    "verification_result_claimed": false,
+    "truth_authority_granted": false
+  }
+}
