@@ -1,0 +1,29 @@
+{
+  "kernel": "PlanOS Multi-Chart Atlas Curvature Certificate Kernel",
+  "kernel_version": "v0.1",
+  "planos_version": "v1.08",
+  "source_planos_version": "v1.07",
+  "runtime": "runtime/kuuos_planos_multi_chart_atlas_curvature_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_multi_chart_atlas_curvature_certificate_kernel_v0_1.py",
+  "formal": "formal/KUOS/PlanOS/MultiChartAtlasCurvatureV1_08.lean",
+  "formal_aggregate": "formal/KuuOSPlanOSV1_08.lean",
+  "claims": [
+    "transition Jacobian invertibility",
+    "inverse Jacobian identity",
+    "atlas cocycle consistency",
+    "metric pullback consistency",
+    "inverse metric pushforward consistency",
+    "Riemann tensor coordinate consistency",
+    "Ricci tensor coordinate consistency",
+    "scalar curvature coordinate invariance",
+    "singular chart fail-closed boundary"
+  ],
+  "boundaries": {
+    "atlas_selects_candidate": false,
+    "curvature_ranks_plan": false,
+    "chart_transition_mutates_world": false,
+    "execution_permission": false,
+    "active_now": false,
+    "future_only": true
+  }
+}
