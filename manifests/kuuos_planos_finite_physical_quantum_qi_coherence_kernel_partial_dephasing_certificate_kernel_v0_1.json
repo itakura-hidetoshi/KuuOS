@@ -1,0 +1,88 @@
+{
+  "schema_version": "kuuos.planos.finite-physical-quantum-qi-coherence-kernel-partial-dephasing-certificate.v0.1",
+  "planos_version": "v1.23",
+  "status": "finite_bounded_read_only_future_only_inactive",
+  "source_bindings": [
+    "PlanOS v1.22 finite Gaussian PQQPI homotopy decoherence certificate",
+    "Physical Quantum Qi Path Integral v0.1 definition"
+  ],
+  "runtime_artifacts": [
+    "runtime/kuuos_planos_finite_physical_quantum_qi_coherence_kernel_partial_dephasing_schema_support_v0_1.py",
+    "runtime/kuuos_planos_finite_physical_quantum_qi_coherence_kernel_partial_dephasing_algebra_support_v0_1.py",
+    "runtime/kuuos_planos_finite_physical_quantum_qi_coherence_kernel_partial_dephasing_certificate_support_v0_1.py",
+    "runtime/kuuos_planos_finite_physical_quantum_qi_coherence_kernel_partial_dephasing_certificate_kernel_v0_1.py"
+  ],
+  "checker": "scripts/check_planos_finite_physical_quantum_qi_coherence_kernel_partial_dephasing_certificate_kernel_v0_1.py",
+  "formal_artifacts": [
+    "formal/KUOS/PlanOS/FinitePhysicalQuantumQiCoherenceKernelPartialDephasingV1_23.lean",
+    "formal/KuuOSPlanOSV1_23.lean"
+  ],
+  "exact_surfaces": {
+    "phase_group": "Z4",
+    "amplitude_ring": "Gaussian integers Z[i]",
+    "coherence_kernel": "finite endpoint-blocked Hermitian Gaussian Gram kernel",
+    "partial_dephasing": "exact rational convex combination of endpoint Gram and homotopy-block Gram kernels",
+    "mixedness": "exact quadratic mixedness only; no logarithmic entropy",
+    "floating_point": false
+  },
+  "reference_fixture": {
+    "weight_denominator": 6,
+    "history_count": 4,
+    "dephasing_denominator": 2,
+    "dephasing_numerators": [
+      2,
+      1,
+      0
+    ],
+    "incoherent_mass": 10,
+    "endpoint_gram_hilbert_schmidt": 100,
+    "block_gram_hilbert_schmidt": 50,
+    "cross_block_hilbert_schmidt": 50,
+    "trace_numerator": 20,
+    "purity_numerators": [
+      400,
+      250,
+      200
+    ],
+    "purity_denominator_squared": 400,
+    "quadratic_mixedness_numerators": [
+      0,
+      150,
+      200
+    ],
+    "cross_block_coherence_numerators": [
+      200,
+      50,
+      0
+    ],
+    "readout_intensity_numerators": [
+      0,
+      10,
+      20
+    ],
+    "histories_retained": true
+  },
+  "boundaries": [
+    "finite coherence kernel != complete physical density operator",
+    "exact rational dephasing parameter != physical time",
+    "quadratic mixedness != von Neumann entropy",
+    "kernel diagonal != empirical probability",
+    "purity != plan quality",
+    "mixedness != indecision defect",
+    "coherence loss != plan deletion",
+    "homotopy block != semantic equivalence class",
+    "readout intensity != candidate ranking",
+    "partial dephasing trajectory != activation trajectory",
+    "all histories retained != all histories activated",
+    "PQQPI evidence != execution authority",
+    "WORLD-conditioned history != WORLD mutation"
+  ],
+  "authority": {
+    "argmin": false,
+    "representative_selection": false,
+    "ranking": false,
+    "pruning": false,
+    "activation": false,
+    "execution_permission": false
+  }
+}
