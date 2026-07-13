@@ -1,0 +1,88 @@
+{
+  "kernel": "PlanOS Finite Wasserstein Frechet Barycenter and Dispersion Certificate Kernel",
+  "version": "v0.1",
+  "planos_version": "v1.20",
+  "source": "PlanOS v1.19 finite p-Wasserstein transport with v1.17 persistent-homology and v1.18 bottleneck-stability lineage",
+  "artifacts": [
+    "runtime/kuuos_planos_finite_wasserstein_frechet_barycenter_dispersion_schema_support_v0_1.py",
+    "runtime/kuuos_planos_finite_wasserstein_frechet_barycenter_dispersion_algebra_support_v0_1.py",
+    "runtime/kuuos_planos_finite_wasserstein_frechet_barycenter_dispersion_certificate_support_v0_1.py",
+    "runtime/kuuos_planos_finite_wasserstein_frechet_barycenter_dispersion_certificate_kernel_v0_1.py",
+    "scripts/check_planos_finite_wasserstein_frechet_barycenter_dispersion_certificate_kernel_v0_1.py",
+    "formal/KUOS/PlanOS/FiniteWassersteinFrechetBarycenterDispersionV1_20.lean",
+    "formal/KuuOSPlanOSV1_20.lean",
+    "docs/planos_finite_wasserstein_frechet_barycenter_dispersion_certificate_kernel_v0_1.md",
+    "runtime/kuuos_current_check.py"
+  ],
+  "functional": {
+    "name": "finite_weighted_p_wasserstein_frechet",
+    "distance_encoding": "twice_exact_integer_power_sum",
+    "weight_encoding": "positive_integer_numerators_with_common_denominator",
+    "weight_numerators_sum_to_denominator": true,
+    "maximum_dimension": 2,
+    "bounded_positive_integer_p": true,
+    "candidate_space": "finite_enumerated_diagram_set"
+  },
+  "reference": {
+    "p": 2,
+    "weight_numerators": [1, 2, 1],
+    "functional_denominator": 4,
+    "candidate_center_source_powers": [12, 4, 12],
+    "candidate_left_source_powers": [0, 16, 40],
+    "candidate_right_source_powers": [40, 16, 0],
+    "candidate_functional_numerators": {
+      "candidate-center": 32,
+      "candidate-left": 72,
+      "candidate-right": 72
+    },
+    "representative_candidate_id": "candidate-center",
+    "minimizer_count": 1,
+    "dispersion_numerator": 32,
+    "dispersion_denominator": 4,
+    "dispersion_reduced": [8, 1],
+    "source_contribution_numerators": [12, 8, 12],
+    "maximum_source_transport_power": 12,
+    "maximum_source_ids": ["source-A", "source-C"],
+    "weighted_moment_profile": [[1, 16], [2, 32]],
+    "consensus_tail_profile": [[1, 8, 7, 8], [2, 8, 7, 32], [3, 0, 0, 0]]
+  },
+  "bounds": {
+    "source_contribution_sum": "sum_a weight_numerator_a * transport_power_a = dispersion_numerator",
+    "zero_dispersion": "dispersion_numerator = 0 implies every weighted source contribution = 0",
+    "weighted_tail_power": "weighted_tail_count_numerator(T) * T^p <= dispersion_numerator",
+    "source_root_bracket": "floor_a^p <= source_transport_power_a <= ceil_a^p"
+  },
+  "boundaries": {
+    "finite_diagram_family_only": true,
+    "finite_candidate_barycenter_set_only": true,
+    "bounded_positive_integer_p_only": true,
+    "exact_rational_weights_only": true,
+    "global_wasserstein_barycenter_not_claimed": true,
+    "global_barycenter_existence_not_claimed": true,
+    "global_barycenter_uniqueness_not_claimed": true,
+    "finite_candidate_uniqueness_only_when_tie_set_singleton": true,
+    "frechet_minimizer_does_not_rank_plans": true,
+    "consensus_diagram_is_not_selected_plan": true,
+    "low_dispersion_grants_no_activation_authorization": true,
+    "high_dispersion_does_not_automatically_reject": true,
+    "diagonal_consensus_grants_no_deletion_authority": true,
+    "finite_diagram_family_is_not_planning_population": true,
+    "source_v1_17_certificates_not_mutated": true,
+    "source_v1_18_certificates_not_mutated": true,
+    "source_v1_19_certificates_not_mutated": true,
+    "persistent_world_state_unchanged": true,
+    "candidate_selection_performed": false,
+    "candidate_ranking_performed": false,
+    "activation_performed": false,
+    "history_read_only": true,
+    "future_only": true,
+    "active_now": false,
+    "execution_permission": false
+  },
+  "validation": {
+    "runtime_checker": "scripts/check_planos_finite_wasserstein_frechet_barycenter_dispersion_certificate_kernel_v0_1.py",
+    "formal_aggregate": "formal/KuuOSPlanOSV1_20.lean",
+    "integrated_root": "runtime/kuuos_current_check.py --profile planos",
+    "fail_closed": true
+  }
+}
