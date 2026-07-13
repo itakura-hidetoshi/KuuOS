@@ -21,7 +21,7 @@ CURRENT_RUNTIME_ROOT = "runtime/kuuos_current_check.py"
 CURRENT_ROOT_PROFILE = "integrated-current-root-v1"
 CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
-CURRENT_PLANOS_FRONTIER = "PlanOS v1.12"
+CURRENT_PLANOS_FRONTIER = "PlanOS v1.13"
 CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
 CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 CURRENT_BASELINE_DATE = "2026-07-13 JST"
@@ -32,7 +32,7 @@ CURRENT_DRAFT_FRONTIER = "none"
 CURRENT_DRAFT_PR = "none"
 CURRENT_DRAFT_BRANCH = "none"
 CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_planos_exponential_map_normal_coordinate_ball_"
+    "runtime/kuuos_planos_finite_normal_ball_cover_hopf_rinow_witness_"
     "certificate_kernel_v0_1.py"
 )
 CURRENT_FRONTIER_MODE = "integrated_active_frontiers"
@@ -178,6 +178,13 @@ PLANOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
         "scripts/check_planos_exponential_map_normal_coordinate_ball_certificate_kernel_v0_1.py",
         True,
         "Validate the bounded second-order exponential model, normal-coordinate ball, finite-sample injectivity, and chart-safe radial covering.",
+    ),
+    CurrentRootStep(
+        "planos-v1-13-finite-normal-ball-cover-hopf-rinow-witness",
+        "script",
+        "scripts/check_planos_finite_normal_ball_cover_hopf_rinow_witness_certificate_kernel_v0_1.py",
+        True,
+        "Validate finite normal-ball coverage, overlap-connected local geodesic extension, and the bounded finite-window Hopf-Rinow witness.",
     ),
 )
 
