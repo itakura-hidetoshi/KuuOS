@@ -1,0 +1,43 @@
+{
+  "authority_boundary": {
+    "activation": false,
+    "candidate_ranking": false,
+    "candidate_selection": false,
+    "decision_commit": false,
+    "execution_permission": false,
+    "future_only": true,
+    "persistent_world_state_mutation": false,
+    "plan_synthesis": false,
+    "read_only": true,
+    "truth_authority": false
+  },
+  "checker": "scripts/check_planos_memoryos_lineage_quotient_revocation_cut_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_lineage_quotient_revocation_cut_certificate_kernel_v0_1.md",
+  "expected_counts": {
+    "dependency_adjusted_confidence_record_count": 5,
+    "duplicate_lineage_pair_record_count": 4,
+    "full_rank_transport_lineage_quotient_record_count": 8,
+    "lineage_evidence_record_count": 12,
+    "lineage_quotient_record_count": 5,
+    "literature_lineage_governance_record_count": 5,
+    "load_bearing_memory_record_count": 5,
+    "minimal_revocation_cut_record_count": 1,
+    "rank_one_source_boundary_count": 3,
+    "revocation_cut_candidate_record_count": 4,
+    "revocation_path_record_count": 2,
+    "singular_atomic_lineage_quotient_record_count": 4
+  },
+  "formal_module": "formal/KUOS/OpenHorizon/MemoryOSLineageQuotientRevocationCutV0_69.lean",
+  "formal_root": "formal/KuuOSMemoryOSV0_69.lean",
+  "frontier": "MemoryOS v0.69",
+  "literature_ids": [
+    "arxiv:2602.17913",
+    "arxiv:2605.25869",
+    "arxiv:2606.24535",
+    "arxiv:2606.29279",
+    "arxiv:2607.01988"
+  ],
+  "runtime": "runtime/kuuos_memoryos_lineage_quotient_revocation_cut_certificate_kernel_v0_1.py",
+  "schema_version": "kuuos.memoryos.lineage-quotient-dependency-adjusted-confidence-minimal-revocation-cut-manifest.v0.1",
+  "source_frontier": "MemoryOS v0.68"
+}
