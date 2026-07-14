@@ -1,0 +1,43 @@
+{
+  "schema_version": "kuuos.memoryos.integrated-bakry-emery-functional-hierarchy-concentration-manifest.v0.1",
+  "memoryos_frontier": "MemoryOS v0.61",
+  "source_frontier": "MemoryOS v0.60",
+  "formal_module": "KUOS.OpenHorizon.MemoryOSBakryEmeryConcentrationV0_61",
+  "formal_root": "formal/KuuOSMemoryOSV0_61.lean",
+  "runtime": "runtime/kuuos_memoryos_bakry_emery_concentration_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_bakry_emery_concentration_certificate_kernel_v0_1.py",
+  "current_root": "runtime/kuuos_current_check.py",
+  "mathematical_claims": [
+    "integrated_gamma_two_curvature_lower_bound_one_quarter",
+    "curvature_lower_bound_sharp_on_slow_mode",
+    "poincare_constant_four_sharp_on_slow_mode",
+    "kl_chi_square_dirichlet_gamma_two_hierarchy",
+    "finite_three_state_tail_indicator_concentration",
+    "exact_reference_quarter_and_eighth_tail_thresholds"
+  ],
+  "runtime_counts": {
+    "integrated_curvature_mode_records": 2,
+    "functional_inequality_hierarchy_records": 1,
+    "reference_hierarchy_profile_records": 22,
+    "concentration_profile_records": 36,
+    "concentration_threshold_records": 4,
+    "full_rank_transport_curvature_concentration_records": 8,
+    "singular_atomic_curvature_concentration_records": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "boundary": {
+    "future_only": true,
+    "read_only": true,
+    "candidate_ranking": false,
+    "candidate_pruning": false,
+    "candidate_selection": false,
+    "decision_commit": false,
+    "plan_synthesis": false,
+    "activation": false,
+    "execution_permission": false,
+    "source_mutation": false,
+    "world_mutation": false,
+    "verification_claim": false,
+    "truth_authority": false
+  }
+}
