@@ -1,0 +1,72 @@
+{
+  "schema_version": "kuuos.memoryos.tetrahedral-nonabelian-plaquette-bianchi-curvature-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.73",
+  "step_id": "memoryos-v0-73-tetrahedral-plaquette-bianchi-curvature",
+  "source_frontier": "MemoryOS v0.72",
+  "source_artifact": "runtime/kuuos_memoryos_nonabelian_wilson_loop_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_73.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_tetrahedral_bianchi_curvature_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_tetrahedral_bianchi_curvature_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_tetrahedral_bianchi_curvature_certificate_kernel_v0_1.md",
+  "lattice_model": {
+    "cell": "oriented tetrahedron",
+    "group": "S3",
+    "vertices": ["0", "1", "2", "3"],
+    "independent_oriented_edges": ["u01", "u12", "u23", "u30", "u02", "u13"],
+    "plaquettes": ["012", "023", "031", "123"],
+    "edge_transformation": "U_ij -> g_i^-1 U_ij g_j",
+    "common_basepoint": "0",
+    "discrete_bianchi": "H_012 H_023 H_031 = U_01 H_123 U_01^-1"
+  },
+  "canonical_curved_profile": {
+    "edges": {
+      "u01": [1, 0, 2],
+      "u12": [0, 2, 1],
+      "u23": [1, 0, 2],
+      "u30": [0, 1, 2],
+      "u02": [0, 1, 2],
+      "u13": [0, 1, 2]
+    },
+    "plaquette_holonomies": {
+      "012": [1, 2, 0],
+      "023": [1, 0, 2],
+      "031": [1, 0, 2],
+      "123": [2, 0, 1]
+    },
+    "plaquette_permutation_traces": [0, 1, 1, 0],
+    "ordered_face_product": [1, 2, 0],
+    "transported_face_123": [1, 2, 0],
+    "bianchi_defect": [0, 1, 2],
+    "curvature_action": {"numerator": 1, "denominator": 6},
+    "source_confidence": {"numerator": 1, "denominator": 2},
+    "adjusted_confidence": {"numerator": 1, "denominator": 3}
+  },
+  "expected_record_counts": {
+    "literature_lattice_bianchi_records": 5,
+    "tetrahedron_vertex_frame_records": 4,
+    "oriented_edge_transport_records": 12,
+    "gauge_transformed_edge_records": 12,
+    "plaquette_holonomy_records": 8,
+    "tetrahedral_bianchi_records": 2,
+    "wilson_composition_records": 2,
+    "curvature_action_records": 2,
+    "tetrahedral_memory_fusion_records": 2,
+    "full_rank_transport_bianchi_records": 8,
+    "singular_atomic_bianchi_records": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "scope_boundary": {
+    "continuum_lattice_gauge_field_claimed": false,
+    "physical_yang_mills_action_claimed": false,
+    "universal_nonabelian_bianchi_theorem_claimed": false,
+    "candidate_ranking_performed": false,
+    "candidate_selection_performed": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "persistent_world_state_mutated": false,
+    "truth_authority_granted": false,
+    "future_only": true,
+    "read_only": true
+  }
+}
