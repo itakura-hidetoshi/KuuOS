@@ -1,0 +1,85 @@
+{
+  "schema_version": "kuuos.memoryos.reversible-markov-semigroup-entropy-production-manifest.v0.1",
+  "memoryos_version": "v0.58",
+  "title": "MemoryOS v0.58: reversible Markov semigroup, entropy production, and sharp strong data processing",
+  "source_bindings": [
+    "accepted MemoryOS v0.57 certificate",
+    "MemoryOS v0.57 stochastic-kernel digest",
+    "MemoryOS v0.57 stochastic data-processing digest",
+    "MemoryOS v0.57 tagged-split digest",
+    "MemoryOS v0.57 recovery-kernel digest",
+    "independent accepted MemoryOS v0.56 certificate",
+    "MemoryOS v0.56 f-divergence transport digest",
+    "MemoryOS v0.56 data-processing digest",
+    "MemoryOS v0.56 f-divergence cocycle digest"
+  ],
+  "markov_kernel": {
+    "state_ids": ["early", "middle", "late"],
+    "matrix": [
+      ["3/4", "1/4", "0"],
+      ["1/4", "1/2", "1/4"],
+      ["0", "1/4", "3/4"]
+    ],
+    "stationary_distribution": ["1/3", "1/3", "1/3"],
+    "row_stochastic": true,
+    "column_stochastic": true,
+    "symmetric": true,
+    "detailed_balance": true
+  },
+  "spectral_data": {
+    "stationary_eigenvalue": "1",
+    "antisymmetric_slow_eigenvalue": "3/4",
+    "curvature_fast_eigenvalue": "1/4",
+    "spectral_gap": "1/4",
+    "sharp_chi_square_sdpi_coefficient": "9/16"
+  },
+  "reference_entropy_trajectory": [
+    "27/200",
+    "243/3200",
+    "2187/51200",
+    "19683/819200",
+    "177147/13107200"
+  ],
+  "reference_entropy_production": [
+    "189/3200",
+    "1701/51200",
+    "15309/819200",
+    "137781/13107200"
+  ],
+  "runtime_counts": {
+    "markov_states": 3,
+    "kernel_entries": 9,
+    "kernel_power_records": 5,
+    "semigroup_composition_records": 9,
+    "detailed_balance_records": 9,
+    "eigenmode_records": 3,
+    "entropy_trajectories": 2,
+    "entropy_timepoints": 10,
+    "entropy_production_records": 8,
+    "full_rank_transport_semigroup_records": 8,
+    "singular_atomic_entropy_records": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "forbidden_authority": [
+    "candidate ranking",
+    "candidate pruning",
+    "candidate selection",
+    "decision commit",
+    "decision receipt",
+    "plan synthesis",
+    "activation",
+    "execution",
+    "source mutation",
+    "WORLD mutation",
+    "verification claim",
+    "truth authority"
+  ],
+  "files": {
+    "formal": "formal/KUOS/OpenHorizon/MemoryOSReversibleMarkovSemigroupEntropyProductionV0_58.lean",
+    "formal_root": "formal/KuuOSMemoryOSV0_58.lean",
+    "runtime": "runtime/kuuos_memoryos_reversible_markov_semigroup_entropy_production_certificate_kernel_v0_1.py",
+    "checker": "scripts/check_planos_memoryos_reversible_markov_semigroup_entropy_production_certificate_kernel_v0_1.py",
+    "documentation": "docs/memoryos_reversible_markov_semigroup_entropy_production_certificate_kernel_v0_1.md",
+    "current_root": "runtime/kuuos_current_check.py"
+  }
+}
