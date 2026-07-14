@@ -1,0 +1,87 @@
+{
+  "artifact_id": "kuuos-memoryos-quotient-metric-density-transport-radon-nikodym-cocycle-certificate-kernel-v0.1",
+  "memoryos_version": "v0.54",
+  "schema_version": "kuuos.memoryos.quotient-metric-density-transport-radon-nikodym-cocycle-certificate.v0.1",
+  "status": "integrated_candidate",
+  "source_frontiers": {
+    "memoryos": [
+      "v0.53 quotient-transport Jacobian and volume stratification",
+      "v0.52 quotient-metric covector transport"
+    ],
+    "planos": "v1.23 finite Physical Quantum Qi coherence kernel partial dephasing",
+    "decisionos": "v0.6 WORLD-conditioned relational deliberation"
+  },
+  "retained_cross_numerators": [2, 1, 0],
+  "exact_theorems": [
+    "Radon-Nikodym density multiplier is the reciprocal Jacobian",
+    "symmetric and antisymmetric density factors multiply to the total density multiplier",
+    "finite-support pushforward mass preservation and pullback recovery",
+    "full-rank Radon-Nikodym cocycle composition",
+    "full-rank round-trip density preservation",
+    "full-rank to rank-one singular measure boundary",
+    "rank-one source has no recoverable two-dimensional density"
+  ],
+  "reference_full_rank_density_transport": {
+    "one_to_zero": {
+      "symmetric_density_multiplier": [3, 2],
+      "antisymmetric_density_multiplier": [1, 2],
+      "radon_nikodym_multiplier": [3, 4]
+    },
+    "zero_to_one": {
+      "symmetric_density_multiplier": [2, 3],
+      "antisymmetric_density_multiplier": [2, 1],
+      "radon_nikodym_multiplier": [4, 3]
+    },
+    "round_trip_density_multiplier": [1, 1]
+  },
+  "runtime_counts": {
+    "directed_transitions": 9,
+    "density_active_full_rank_transitions": 4,
+    "probe_density_transport_records": 36,
+    "full_rank_to_rank_one_singular_measure_transitions": 2,
+    "singular_probe_pushforward_records": 18,
+    "rank_one_source_boundaries": 3,
+    "cocycle_records": 27,
+    "active_full_rank_cocycles": 8,
+    "nontrivial_round_trip_density_paths": 2
+  },
+  "source_bindings": [
+    "MemoryOS v0.53 certificate digest",
+    "MemoryOS v0.53 Jacobian digest",
+    "MemoryOS v0.53 mode-composition digest",
+    "MemoryOS v0.52 certificate digest",
+    "MemoryOS v0.52 transport digest"
+  ],
+  "files": {
+    "runtime": "runtime/kuuos_memoryos_quotient_metric_density_transport_radon_nikodym_cocycle_certificate_kernel_v0_1.py",
+    "checker": "scripts/check_planos_memoryos_quotient_metric_density_transport_radon_nikodym_cocycle_certificate_kernel_v0_1.py",
+    "formal": "formal/KUOS/OpenHorizon/MemoryOSQuotientMetricDensityTransportRadonNikodymCocycleV0_54.lean",
+    "formal_root": "formal/KuuOSMemoryOSV0_54.lean",
+    "documentation": "docs/memoryos_quotient_metric_density_transport_radon_nikodym_cocycle_certificate_kernel_v0_1.md",
+    "current_root": "runtime/kuuos_current_check.py"
+  },
+  "preserved_support": {
+    "decision_candidates": 4,
+    "planos_histories": 2,
+    "quotient_coordinate_probes": 9,
+    "relational_frontier": true,
+    "required_review": true,
+    "dissent_visibility": true,
+    "minority_visibility": true
+  },
+  "forbidden_promotions": [
+    "candidate ranking",
+    "candidate pruning",
+    "candidate selection",
+    "decision commit",
+    "decision receipt",
+    "plan synthesis",
+    "activation",
+    "execution",
+    "source mutation",
+    "persistent WORLD mutation",
+    "verification result",
+    "truth authority"
+  ],
+  "boundary": "future-only read-only advisory density and singular-measure witness"
+}
