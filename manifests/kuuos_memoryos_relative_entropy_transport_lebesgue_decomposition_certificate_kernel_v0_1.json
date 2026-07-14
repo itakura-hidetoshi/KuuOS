@@ -1,0 +1,76 @@
+{
+  "artifact_id": "kuuos-memoryos-relative-entropy-transport-lebesgue-decomposition-certificate-kernel-v0.1",
+  "memoryos_version": "v0.55",
+  "schema_version": "kuuos.memoryos.relative-entropy-transport-lebesgue-decomposition-certificate.v0.1",
+  "status": "integrated_candidate",
+  "source_frontiers": {
+    "memoryos": [
+      "v0.54 quotient metric density transport and Radon-Nikodym cocycle",
+      "v0.53 quotient transport Jacobian and volume stratification"
+    ],
+    "planos": "v1.23 finite Physical Quantum Qi coherence kernel partial dephasing",
+    "decisionos": "v0.6 WORLD-conditioned relational deliberation"
+  },
+  "reference_probability_pair": {
+    "probe_count": 9,
+    "p_weights": [[1, 45], [2, 45], [3, 45], [4, 45], [5, 45], [6, 45], [7, 45], [8, 45], [9, 45]],
+    "q_weights": [[9, 45], [8, 45], [7, 45], [6, 45], [5, 45], [4, 45], [3, 45], [2, 45], [1, 45]],
+    "p_total": [1, 1],
+    "q_total": [1, 1],
+    "likelihood_ratio_range": [[1, 9], [9, 1]]
+  },
+  "exact_theorems": [
+    "common density scaling preserves likelihood ratios",
+    "density and Jacobian scaling preserve each Real.log relative-entropy contribution",
+    "finite-support relative entropy is invariant under full-rank transport",
+    "reverse relative entropy is invariant under full-rank transport",
+    "relative-entropy transport composes exactly",
+    "reference probability masses and likelihood ratios are exact",
+    "full-rank-to-rank-one mass has zero absolutely continuous part and exact singular part",
+    "rank-one source does not recover two-dimensional relative-entropy density"
+  ],
+  "runtime_counts": {
+    "directed_transitions": 9,
+    "full_rank_relative_entropy_transitions": 4,
+    "full_rank_probe_relative_entropy_records": 36,
+    "singular_lebesgue_decomposition_transitions": 2,
+    "singular_probe_decomposition_records": 18,
+    "singular_atomic_relative_entropy_records": 18,
+    "rank_one_source_boundaries": 3,
+    "relative_entropy_cocycle_records": 27,
+    "active_relative_entropy_cocycles": 8,
+    "nontrivial_entropy_preserving_round_trips": 2
+  },
+  "files": {
+    "runtime": "runtime/kuuos_memoryos_relative_entropy_transport_lebesgue_decomposition_certificate_kernel_v0_1.py",
+    "checker": "scripts/check_planos_memoryos_relative_entropy_transport_lebesgue_decomposition_certificate_kernel_v0_1.py",
+    "formal": "formal/KUOS/OpenHorizon/MemoryOSRelativeEntropyTransportLebesgueDecompositionV0_55.lean",
+    "formal_root": "formal/KuuOSMemoryOSV0_55.lean",
+    "documentation": "docs/memoryos_relative_entropy_transport_lebesgue_decomposition_certificate_kernel_v0_1.md",
+    "current_root": "runtime/kuuos_current_check.py"
+  },
+  "preserved_support": {
+    "decision_candidates": 4,
+    "planos_histories": 2,
+    "quotient_coordinate_probes": 9,
+    "relational_frontier": true,
+    "required_review": true,
+    "dissent_visibility": true,
+    "minority_visibility": true
+  },
+  "forbidden_promotions": [
+    "candidate ranking",
+    "candidate pruning",
+    "candidate selection",
+    "decision commit",
+    "decision receipt",
+    "plan synthesis",
+    "activation",
+    "execution",
+    "source mutation",
+    "persistent WORLD mutation",
+    "verification result",
+    "truth authority"
+  ],
+  "boundary": "future-only read-only advisory exact symbolic relative-entropy and singular-measure witness"
+}
