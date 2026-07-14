@@ -1,0 +1,62 @@
+{
+  "schema_version": "kuuos.memoryos.nonabelian-path-ordered-wilson-loop-conjugacy-fusion-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.72",
+  "step_id": "memoryos-v0-72-nonabelian-path-ordered-wilson-loop-conjugacy-fusion",
+  "source_frontier": "MemoryOS v0.71",
+  "source_artifact": "runtime/kuuos_memoryos_gauge_connection_holonomy_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_72.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_nonabelian_wilson_loop_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_nonabelian_wilson_loop_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_nonabelian_wilson_loop_certificate_kernel_v0_1.md",
+  "gauge_model": {
+    "group": "S3",
+    "representation": "exact permutation triples and 3x3 permutation matrices",
+    "charts": ["a", "b", "c"],
+    "link_transformation": "U_ij -> g_i^-1 U_ij g_j",
+    "holonomy": "U_ab U_bc U_ca",
+    "path_ordered": true,
+    "noncommutative": true
+  },
+  "canonical_profile": {
+    "flat_holonomy": [0, 1, 2],
+    "nonabelian_holonomy": [1, 2, 0],
+    "transformed_nonabelian_holonomy": [2, 0, 1],
+    "holonomy_order": 3,
+    "wilson_permutation_trace": 0,
+    "source_confidence": {"numerator": 2, "denominator": 3},
+    "wilson_deficit_penalty": {"numerator": 1, "denominator": 6},
+    "adjusted_confidence": {"numerator": 1, "denominator": 2}
+  },
+  "expected_record_counts": {
+    "literature_nonabelian_gauge_records": 5,
+    "local_memory_chart_records": 3,
+    "nonabelian_gauge_frame_records": 3,
+    "nonabelian_link_records": 6,
+    "gauge_transformed_nonabelian_link_records": 6,
+    "path_ordered_transport_records": 4,
+    "nonabelian_commutator_records": 2,
+    "nonabelian_holonomy_records": 2,
+    "holonomy_conjugacy_class_records": 2,
+    "wilson_character_records": 2,
+    "nonabelian_tree_gauge_records": 6,
+    "multi_chart_fusion_records": 2,
+    "nonabelian_gauge_adjusted_confidence_records": 2,
+    "full_rank_transport_nonabelian_records": 8,
+    "singular_atomic_nonabelian_records": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "scope_boundary": {
+    "continuum_principal_bundle_claimed": false,
+    "physical_su3_gauge_field_claimed": false,
+    "universal_statistical_optimum_claimed": false,
+    "candidate_ranking_performed": false,
+    "candidate_selection_performed": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "persistent_world_state_mutated": false,
+    "truth_authority_granted": false,
+    "future_only": true,
+    "read_only": true
+  }
+}
