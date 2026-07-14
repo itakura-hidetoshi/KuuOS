@@ -1,0 +1,78 @@
+{
+  "schema_version": "kuuos.memoryos.log-sobolev-hypercontractive-mixing-manifest.v0.1",
+  "memoryos_version": "v0.59",
+  "title": "MemoryOS v0.59: logarithmic Sobolev bridge, hypercontractivity, and exact mixing time",
+  "source_bindings": [
+    "accepted MemoryOS v0.58 certificate",
+    "MemoryOS v0.58 kernel-power digest",
+    "MemoryOS v0.58 semigroup-composition digest",
+    "MemoryOS v0.58 detailed-balance digest",
+    "MemoryOS v0.58 eigenmode digest",
+    "MemoryOS v0.58 entropy-trajectory digest",
+    "MemoryOS v0.58 entropy-production digest",
+    "independent accepted MemoryOS v0.57 certificate",
+    "MemoryOS v0.57 stochastic-kernel digest",
+    "MemoryOS v0.57 data-processing digest"
+  ],
+  "log_sobolev": {
+    "elementary_log_bound": "x log x <= x(x-1)",
+    "finite_uniform_bridge": "D_KL <= chi-square",
+    "dirichlet_bound": "chi-square <= 4 E",
+    "certified_constant": "4",
+    "slow_mode_dirichlet_coefficient": "3/2",
+    "fast_mode_dirichlet_coefficient": "27/2"
+  },
+  "hypercontractivity": {
+    "one_step": "centered L2 to L4",
+    "one_step_fourth_power_envelope": "243/256",
+    "two_step": "centered L2 to Linfinity",
+    "two_step_squared_envelope": "243/256"
+  },
+  "mixing_time": {
+    "worst_case_chi_square_cap": "2",
+    "tv_squared_envelope": "(1/2)(9/16)^n",
+    "worst_case_tv_one_quarter_time": 4,
+    "worst_case_tv_one_eighth_time": 7,
+    "reference_tv_one_twentieth_time": 4,
+    "reference_tv_trajectory": [
+      "3/20",
+      "9/80",
+      "27/320",
+      "81/1280",
+      "243/5120"
+    ]
+  },
+  "runtime_counts": {
+    "log_sobolev_records": 1,
+    "reference_kl_envelope_records": 10,
+    "hypercontractive_schedule_records": 2,
+    "reference_total_variation_records": 10,
+    "worst_case_mixing_records": 9,
+    "mixing_threshold_records": 3,
+    "full_rank_transport_log_sobolev_mixing_records": 8,
+    "singular_atomic_log_sobolev_mixing_records": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "forbidden_authority": [
+    "candidate ranking",
+    "candidate pruning",
+    "candidate selection",
+    "decision commit",
+    "decision receipt",
+    "plan synthesis",
+    "activation",
+    "execution",
+    "source mutation",
+    "WORLD mutation",
+    "verification claim",
+    "truth authority"
+  ],
+  "files": {
+    "formal": "formal/KUOS/OpenHorizon/MemoryOSLogSobolevHypercontractiveMixingV0_59.lean",
+    "formal_root": "formal/KuuOSMemoryOSV0_59.lean",
+    "runtime": "runtime/kuuos_memoryos_log_sobolev_hypercontractive_mixing_certificate_kernel_v0_1.py",
+    "checker": "scripts/check_planos_memoryos_log_sobolev_hypercontractive_mixing_certificate_kernel_v0_1.py",
+    "documentation": "docs/memoryos_log_sobolev_hypercontractive_mixing_certificate_kernel_v0_1.md",
+    "current_root": "runtime/kuuos_current_check.py"
+  }
+}

@@ -23,7 +23,7 @@ CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
 CURRENT_PLANOS_FRONTIER = "PlanOS v1.23"
 CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
-CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.58"
+CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.59"
 CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 CURRENT_BASELINE_DATE = "2026-07-14 JST"
 
@@ -32,8 +32,8 @@ CURRENT_DRAFT_FRONTIER = "none"
 CURRENT_DRAFT_PR = "none"
 CURRENT_DRAFT_BRANCH = "none"
 CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_reversible_markov_semigroup_entropy_"
-    "production_certificate_kernel_v0_1.py"
+    "runtime/kuuos_memoryos_log_sobolev_hypercontractive_"
+    "mixing_certificate_kernel_v0_1.py"
 )
 CURRENT_FRONTIER_MODE = "integrated_active_frontiers"
 CURRENT_FRONTIER_BOUNDARY = "validation_only"
@@ -109,6 +109,7 @@ MEMORYOS_ACTIVE_FRONTIER_SPECS: tuple[tuple[str, str, str], ...] = (
     ("memoryos-v0-56-f-divergence-transport-data-processing-contraction", "scripts/check_planos_memoryos_f_divergence_transport_data_processing_contraction_certificate_kernel_v0_1.py", "Validate exact f-divergence transport, deterministic data-processing contraction, Pearson merge gaps, and singular boundaries."),
     ("memoryos-v0-57-stochastic-markov-kernel-f-divergence-sufficiency", "scripts/check_planos_memoryos_stochastic_markov_kernel_f_divergence_sufficiency_certificate_kernel_v0_1.py", "Validate rational stochastic Markov data processing, strict contraction, explicit recovery, sufficiency equality, transport commutation, and singular boundaries."),
     ("memoryos-v0-58-reversible-markov-semigroup-entropy-production", "scripts/check_planos_memoryos_reversible_markov_semigroup_entropy_production_certificate_kernel_v0_1.py", "Validate reversible Markov semigroup composition, detailed balance, spectral modes, exact entropy production, sharp strong data processing, transport commutation, and singular boundaries."),
+    ("memoryos-v0-59-log-sobolev-hypercontractive-mixing", "scripts/check_planos_memoryos_log_sobolev_hypercontractive_mixing_certificate_kernel_v0_1.py", "Validate the finite logarithmic Sobolev bridge, exact hypercontractive schedules, total-variation mixing bounds, transport commutation, and singular boundaries."),
 )
 
 MEMORYOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = tuple(
