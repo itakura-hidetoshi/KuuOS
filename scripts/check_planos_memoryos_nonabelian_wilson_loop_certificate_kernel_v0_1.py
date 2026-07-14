@@ -84,7 +84,7 @@ def main() -> int:
         },
         {
             "profile_id": "nonabelian",
-            "commutator": [1, 2, 0],
+            "commutator": [2, 0, 1],
             "commutator_identity": False,
             "path_order_noncommutative": True,
         },
