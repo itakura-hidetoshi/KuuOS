@@ -23,7 +23,7 @@ CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
 CURRENT_PLANOS_FRONTIER = "PlanOS v1.23"
 CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
-CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.54"
+CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.55"
 CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 CURRENT_BASELINE_DATE = "2026-07-14 JST"
 
@@ -32,8 +32,8 @@ CURRENT_DRAFT_FRONTIER = "none"
 CURRENT_DRAFT_PR = "none"
 CURRENT_DRAFT_BRANCH = "none"
 CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_quotient_metric_density_transport_radon_nikodym_"
-    "cocycle_certificate_kernel_v0_1.py"
+    "runtime/kuuos_memoryos_relative_entropy_transport_lebesgue_"
+    "decomposition_certificate_kernel_v0_1.py"
 )
 CURRENT_FRONTIER_MODE = "integrated_active_frontiers"
 CURRENT_FRONTIER_BOUNDARY = "validation_only"
@@ -105,6 +105,7 @@ MEMORYOS_ACTIVE_FRONTIER_SPECS: tuple[tuple[str, str, str], ...] = (
     ("memoryos-v0-52-quotient-metric-covector-transport", "scripts/check_planos_memoryos_quotient_metric_covector_transport_certificate_kernel_v0_1.py", "Validate exact quotient-metric covector transport, composition, and rank-one partial boundary witnesses."),
     ("memoryos-v0-53-quotient-transport-jacobian-volume-stratification", "scripts/check_planos_memoryos_quotient_transport_jacobian_volume_stratification_certificate_kernel_v0_1.py", "Validate exact mode multipliers, Jacobians, volume collapse, and rank-one boundary stratification."),
     ("memoryos-v0-54-quotient-metric-density-transport-radon-nikodym-cocycle", "scripts/check_planos_memoryos_quotient_metric_density_transport_radon_nikodym_cocycle_certificate_kernel_v0_1.py", "Validate exact density multipliers, finite-support pushforward and pullback witnesses, Radon-Nikodym cocycles, and singular measure boundaries."),
+    ("memoryos-v0-55-relative-entropy-transport-lebesgue-decomposition", "scripts/check_planos_memoryos_relative_entropy_transport_lebesgue_decomposition_certificate_kernel_v0_1.py", "Validate exact full-rank relative-entropy transport, entropy cocycles, and singular Lebesgue decomposition."),
 )
 
 MEMORYOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = tuple(
