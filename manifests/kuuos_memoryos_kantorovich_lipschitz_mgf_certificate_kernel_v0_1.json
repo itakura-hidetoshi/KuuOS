@@ -1,0 +1,50 @@
+{
+  "schema_version": "kuuos.memoryos.kantorovich-duality-lipschitz-semigroup-finite-mgf-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.63",
+  "source_frontier": "MemoryOS v0.62",
+  "source_runtime": "runtime/kuuos_memoryos_wasserstein_marton_transport_certificate_kernel_v0_1.py",
+  "runtime": "runtime/kuuos_memoryos_kantorovich_lipschitz_mgf_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_kantorovich_lipschitz_mgf_certificate_kernel_v0_1.py",
+  "formal_module": "KUOS.OpenHorizon.MemoryOSKantorovichLipschitzMGFV0_63",
+  "formal_root": "formal/KuuOSMemoryOSV0_63.lean",
+  "current_root": "runtime/kuuos_current_check.py",
+  "mathematical_scope": {
+    "state_space": ["early", "middle", "late"],
+    "path_metric": {
+      "early_middle": "1",
+      "middle_late": "1",
+      "early_late": "2"
+    },
+    "kantorovich_duality": "explicit optimizer on the three-point path",
+    "observable_lipschitz_contraction": "3/4",
+    "slow_observable_eigenvalue": "3/4",
+    "fast_observable_eigenvalue": "1/4",
+    "finite_symbolic_mgf_horizon": 10,
+    "general_path_space_gaussian_theorem_claimed": false
+  },
+  "expected_counts": {
+    "kantorovich_dual_witness_record_count": 5,
+    "lipschitz_semigroup_profile_record_count": 33,
+    "reference_observable_gap_record_count": 22,
+    "reference_pair_observable_gap_record_count": 11,
+    "finite_symbolic_mgf_record_count": 22,
+    "marton_mgf_input_record_count": 22,
+    "full_rank_transport_kantorovich_lipschitz_mgf_record_count": 8,
+    "singular_atomic_kantorovich_lipschitz_mgf_record_count": 4,
+    "rank_one_source_boundary_count": 3
+  },
+  "authority_boundary": {
+    "future_only": true,
+    "read_only": true,
+    "candidate_ranking": false,
+    "candidate_pruning": false,
+    "candidate_selection": false,
+    "decision_commit": false,
+    "plan_synthesis": false,
+    "activation": false,
+    "execution_permission": false,
+    "persistent_world_state_mutation": false,
+    "verification_result": false,
+    "truth_authority": false
+  }
+}
