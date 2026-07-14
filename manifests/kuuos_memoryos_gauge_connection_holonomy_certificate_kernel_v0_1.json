@@ -1,0 +1,58 @@
+{
+  "schema_version": "kuuos.memoryos.gauge-connection-holonomy-covariant-consistency-certificate.v0.1",
+  "frontier": "MemoryOS v0.71",
+  "source_frontier": "MemoryOS v0.70",
+  "source_artifact": "runtime/kuuos_memoryos_collusion_correlation_weighted_cut_certificate_kernel_v0_1.py",
+  "runtime_artifact": "runtime/kuuos_memoryos_gauge_connection_holonomy_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_gauge_connection_holonomy_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_71.lean",
+  "formal_module": "formal/KUOS/OpenHorizon/MemoryOSGaugeConnectionHolonomyV0_71.lean",
+  "documentation": "docs/memoryos_gauge_connection_holonomy_certificate_kernel_v0_1.md",
+  "mathematical_scope": {
+    "gauge_group_model": "exact-rational additive Abelian",
+    "local_chart_count": 3,
+    "connection_overlap_count": 3,
+    "closed_loop_count": 1,
+    "holonomy": "A_ab + A_bc + A_ca",
+    "curvature_energy": "holonomy^2",
+    "gauge_transform": "A_ij + g_j - g_i",
+    "section_transform": "s_i + g_i"
+  },
+  "canonical_profile": {
+    "flat_holonomy": "0",
+    "curved_holonomy": "7/12",
+    "curved_curvature_energy": "49/144",
+    "source_base_confidence": "3/4",
+    "curvature_penalty": "1/12",
+    "gauge_adjusted_confidence": "2/3"
+  },
+  "literature_ids": [
+    "arxiv:2603.00824",
+    "arxiv:2604.20797",
+    "arxiv:2605.26697",
+    "arxiv:2502.15376",
+    "arxiv:1710.11080"
+  ],
+  "claims_not_made": [
+    "non-Abelian holonomy",
+    "continuum principal bundle",
+    "physical gauge field",
+    "universal statistical optimality",
+    "candidate ranking",
+    "truth authority",
+    "execution permission",
+    "persistent WORLD mutation"
+  ],
+  "authority_boundary": {
+    "future_only": true,
+    "read_only": true,
+    "advisory": true,
+    "candidate_selection": false,
+    "decision_commit": false,
+    "plan_synthesis": false,
+    "activation": false,
+    "execution": false,
+    "persistent_world_mutation": false,
+    "truth_authority": false
+  }
+}
