@@ -1,0 +1,68 @@
+{
+  "schema_version": "kuuos.memoryos.modified-log-sobolev-hellinger-separation-manifest.v0.1",
+  "memoryos_version": "v0.60",
+  "title": "MemoryOS v0.60: modified log-Sobolev entropy decay, symbolic Hellinger, and exact separation",
+  "source_bindings": [
+    "accepted MemoryOS v0.59 certificate",
+    "MemoryOS v0.59 logarithmic Sobolev bridge",
+    "MemoryOS v0.59 hypercontractive schedules",
+    "MemoryOS v0.59 total-variation mixing profiles",
+    "retained candidates, histories, probes, review, dissent, and minority sets"
+  ],
+  "entropy_decay": {
+    "coefficient": "9/16",
+    "statement": "D_KL(p K^n || pi) <= (9/16)^n chi-square(p || pi)",
+    "globally_optimal_modified_log_sobolev_constant_claimed": false
+  },
+  "hellinger": {
+    "definition": "(1/6) sum_i (sqrt(r_i)-1)^2",
+    "bound": "H^2 <= chi-square/2",
+    "square_roots_kept_symbolic": true,
+    "floating_point_approximation": false
+  },
+  "reference_separation_profile": [
+    "9/20",
+    "27/80",
+    "81/320",
+    "243/1280",
+    "729/5120",
+    "2187/20480",
+    "6561/81920",
+    "19683/327680"
+  ],
+  "separation_thresholds": [
+    {"threshold": "3/20", "first_certified_time": 4, "previous_time_insufficient": true},
+    {"threshold": "1/16", "first_certified_time": 7, "previous_time_insufficient": true}
+  ],
+  "runtime_counts": {
+    "modified_log_sobolev_entropy_decay_records": 16,
+    "symbolic_hellinger_profile_records": 16,
+    "exact_separation_profile_records": 16,
+    "separation_threshold_records": 2,
+    "full_rank_transport_entropy_metric_records": 8,
+    "singular_atomic_entropy_metric_records": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "forbidden_authority": [
+    "candidate ranking",
+    "candidate pruning",
+    "candidate selection",
+    "decision commit",
+    "decision receipt",
+    "plan synthesis",
+    "activation",
+    "execution",
+    "source mutation",
+    "WORLD mutation",
+    "verification claim",
+    "truth authority"
+  ],
+  "files": {
+    "formal": "formal/KUOS/OpenHorizon/MemoryOSModifiedLogSobolevHellingerSeparationV0_60.lean",
+    "formal_root": "formal/KuuOSMemoryOSV0_60.lean",
+    "runtime": "runtime/kuuos_memoryos_modified_log_sobolev_hellinger_separation_certificate_kernel_v0_1.py",
+    "checker": "scripts/check_planos_memoryos_modified_log_sobolev_hellinger_separation_certificate_kernel_v0_1.py",
+    "documentation": "docs/memoryos_modified_log_sobolev_hellinger_separation_certificate_kernel_v0_1.md",
+    "current_root": "runtime/kuuos_current_check.py"
+  }
+}
