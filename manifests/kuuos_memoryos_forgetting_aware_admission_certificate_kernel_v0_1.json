@@ -1,0 +1,65 @@
+{
+  "schema_version": "kuuos.memoryos.forgetting-aware-contradiction-safe-memory-admission-manifest.v0.1",
+  "memoryos_version": "v0.67",
+  "title": "Forgetting-aware contradiction-safe memory admission",
+  "source_memoryos_version": "v0.66",
+  "source_schema_version": "kuuos.memoryos.continuous-log-mgf-convexity-stationary-optimizer-certificate.v0.1",
+  "literature_provenance_ids": [
+    "arxiv:2506.06326",
+    "arxiv:2505.00675",
+    "arxiv:2502.12110",
+    "arxiv:2504.19413",
+    "arxiv:2601.03543",
+    "arxiv:2602.16313",
+    "arxiv:2604.20006",
+    "arxiv:2606.06054"
+  ],
+  "record_counts": {
+    "literature_provenance": 8,
+    "append_only_memory_archive": 10,
+    "supersession_edges": 3,
+    "effective_memory": 6,
+    "query_conditioned_admission": 6,
+    "freshest_admissible": 6,
+    "forgetting_aware_loss": 4,
+    "full_rank_transport": 8,
+    "singular_atomic_transport": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "formal": {
+    "theorem_file": "formal/KUOS/OpenHorizon/MemoryOSForgettingAwareAdmissionV0_67.lean",
+    "root_file": "formal/KuuOSMemoryOSV0_67.lean",
+    "claims": [
+      "superseded records are not effective and cannot be admitted",
+      "append-only insertion retains all prior records",
+      "non-superseding append preserves effectiveness",
+      "superseding append invalidates the older effective surface without deleting history",
+      "freshest admissible witness exists on every nonempty finite admission surface",
+      "forgetting-aware loss exactly adds obsolete-reuse penalty"
+    ]
+  },
+  "runtime": {
+    "certificate": "runtime/kuuos_memoryos_forgetting_aware_admission_certificate_kernel_v0_1.py",
+    "checker": "scripts/check_planos_memoryos_forgetting_aware_admission_certificate_kernel_v0_1.py",
+    "current_root": "runtime/kuuos_current_check.py",
+    "current_root_step": "memoryos-v0-67-forgetting-aware-contradiction-safe-admission"
+  },
+  "boundaries": {
+    "similarity_alone_grants_admission": false,
+    "obsolete_memory_admitted": false,
+    "cross_scope_leakage_allowed": false,
+    "automatic_forgetting_deletes_source_record": false,
+    "memory_admission_triggers_action": false,
+    "candidate_ranking_performed": false,
+    "candidate_pruning_performed": false,
+    "candidate_selection_performed": false,
+    "decision_commit_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "persistent_world_state_mutated": false,
+    "verification_result_claimed": false,
+    "truth_authority_granted": false,
+    "future_only": true,
+    "read_only": true
+  }
+}
