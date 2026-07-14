@@ -1,0 +1,80 @@
+{
+  "artifact_id": "kuuos-memoryos-quotient-transport-jacobian-volume-stratification-certificate-kernel-v0.1",
+  "memoryos_version": "v0.53",
+  "schema_version": "kuuos.memoryos.quotient-transport-jacobian-volume-stratification-certificate.v0.1",
+  "status": "integrated_candidate",
+  "source_frontiers": {
+    "memoryos": [
+      "v0.52 quotient-metric covector transport",
+      "v0.51 quotient-mode diagonalization and inverse witnesses"
+    ],
+    "planos": "v1.23 finite Physical Quantum Qi coherence kernel partial dephasing",
+    "decisionos": "v0.6 WORLD-conditioned relational deliberation"
+  },
+  "retained_cross_numerators": [2, 1, 0],
+  "exact_theorems": [
+    "symmetric and antisymmetric transport numerator eigenvalues",
+    "transport determinant factorization",
+    "determinant-scaled mode composition",
+    "full-rank normalized mode multipliers",
+    "normalized Jacobian equals target determinant divided by source determinant",
+    "full-rank round-trip unit Jacobian",
+    "rank-one source has no two-dimensional normalized Jacobian",
+    "rank-one antisymmetric information is not recoverable"
+  ],
+  "reference_full_rank_transport": {
+    "one_to_zero": {
+      "symmetric_multiplier": [2, 3],
+      "antisymmetric_multiplier": [2, 1],
+      "jacobian": [4, 3]
+    },
+    "zero_to_one": {
+      "symmetric_multiplier": [3, 2],
+      "antisymmetric_multiplier": [1, 2],
+      "jacobian": [3, 4]
+    },
+    "round_trip_jacobian": [1, 1]
+  },
+  "runtime_counts": {
+    "directed_transitions": 9,
+    "probe_mode_transport_records": 81,
+    "composition_records": 27,
+    "normalized_source_active_transitions": 6,
+    "invertible_full_rank_transitions": 4,
+    "full_rank_to_rank_one_volume_collapses": 2,
+    "rank_one_source_boundaries": 3,
+    "normalized_composition_records": 12,
+    "invertible_full_rank_paths": 8
+  },
+  "files": {
+    "runtime": "runtime/kuuos_memoryos_quotient_transport_jacobian_volume_stratification_certificate_kernel_v0_1.py",
+    "checker": "scripts/check_planos_memoryos_quotient_transport_jacobian_volume_stratification_certificate_kernel_v0_1.py",
+    "formal": "formal/KUOS/OpenHorizon/MemoryOSQuotientTransportJacobianVolumeStratificationV0_53.lean",
+    "formal_root": "formal/KuuOSMemoryOSV0_53.lean",
+    "documentation": "docs/memoryos_quotient_transport_jacobian_volume_stratification_certificate_kernel_v0_1.md",
+    "current_root": "runtime/kuuos_current_check.py"
+  },
+  "preserved_support": {
+    "decision_candidates": 4,
+    "planos_histories": 2,
+    "relational_frontier": true,
+    "required_review": true,
+    "dissent_visibility": true,
+    "minority_visibility": true
+  },
+  "forbidden_promotions": [
+    "candidate ranking",
+    "candidate pruning",
+    "candidate selection",
+    "decision commit",
+    "decision receipt",
+    "plan synthesis",
+    "activation",
+    "execution",
+    "source mutation",
+    "persistent WORLD mutation",
+    "verification result",
+    "truth authority"
+  ],
+  "boundary": "future-only read-only advisory algebraic comparison witness"
+}
