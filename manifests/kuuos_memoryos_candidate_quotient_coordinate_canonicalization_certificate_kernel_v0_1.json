@@ -1,0 +1,46 @@
+{
+  "schema_version": "kuuos.manifest.v0.1",
+  "artifact_id": "memoryos-v0-50-candidate-quotient-coordinate-canonicalization",
+  "subsystem": "MemoryOS",
+  "version": "0.50",
+  "status": "active_frontier_candidate",
+  "purpose": "Descend the complete candidate Gram geometry through the exact structural nullspace to unique two-history canonical quotient coordinates.",
+  "runtime": "runtime/kuuos_memoryos_candidate_quotient_coordinate_canonicalization_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_candidate_quotient_coordinate_canonicalization_certificate_kernel_v0_1.py",
+  "formal": [
+    "formal/KUOS/OpenHorizon/MemoryOSCandidateQuotientCoordinateCanonicalizationV0_50.lean",
+    "formal/KuuOSMemoryOSV0_50.lean"
+  ],
+  "documentation": "docs/memoryos_candidate_quotient_coordinate_canonicalization_certificate_kernel_v0_1.md",
+  "sources": [
+    "MemoryOS v0.49 candidate nullspace and dephasing rank stratification",
+    "MemoryOS v0.48 two-history candidate Gram factorization reconstruction"
+  ],
+  "claims": {
+    "canonical_quotient_coordinates": [
+      "c+h+r",
+      "c-h+t"
+    ],
+    "canonical_chart": [
+      0,
+      0,
+      "first_history_coordinate",
+      "second_history_coordinate"
+    ],
+    "structural_null_dimension_quotiented": 2,
+    "quotient_coordinate_dimension": 2,
+    "quadratic_evidence_descends": true,
+    "bilinear_pairings_descend": true,
+    "candidate_support_retained": true,
+    "history_support_retained": true,
+    "candidate_ranking": false,
+    "candidate_pruning": false,
+    "candidate_selection": false,
+    "decision_commit": false,
+    "activation": false,
+    "execution": false,
+    "mutation": false,
+    "verification_authority": false,
+    "truth_authority": false
+  }
+}
