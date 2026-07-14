@@ -71,10 +71,10 @@ PLANOS_ACTIVE_FRONTIER_TARGETS: tuple[tuple[str, str], ...] = (
     ("planos-v1-17-finite-filtration-persistent-homology", "scripts/check_planos_finite_filtration_persistent_homology_certificate_kernel_v0_1.py"),
     ("planos-v1-18-finite-bottleneck-persistence-stability", "scripts/check_planos_finite_bottleneck_persistence_stability_certificate_kernel_v0_1.py"),
     ("planos-v1-19-finite-p-wasserstein-persistence-transport", "scripts/check_planos_finite_p_wasserstein_persistence_transport_certificate_kernel_v0_1.py"),
-    ("planos-v1-20-finite-wasserstein-frechet-barycenter-dispersion", "scripts/check_planos_memoryos_finite_wasserstein_frechet_barycenter_dispersion_certificate_kernel_v0_1.py"),
-    ("planos-v1-21-finite-physical-quantum-qi-path-history-noncollapse", "scripts/check_planos_memoryos_finite_physical_quantum_qi_path_history_noncollapse_certificate_kernel_v0_1.py"),
-    ("planos-v1-22-finite-gaussian-physical-quantum-qi-homotopy-decoherence", "scripts/check_planos_memoryos_finite_gaussian_physical_quantum_qi_homotopy_decoherence_certificate_kernel_v0_1.py"),
-    ("planos-v1-23-finite-physical-quantum-qi-coherence-kernel-partial-dephasing", "scripts/check_planos_memoryos_finite_physical_quantum_qi_coherence_kernel_partial_dephasing_certificate_kernel_v0_1.py"),
+    ("planos-v1-20-finite-wasserstein-frechet-barycenter-dispersion", "scripts/check_planos_finite_wasserstein_frechet_barycenter_dispersion_certificate_kernel_v0_1.py"),
+    ("planos-v1-21-finite-physical-quantum-qi-path-history-noncollapse", "scripts/check_planos_finite_physical_quantum_qi_path_history_noncollapse_certificate_kernel_v0_1.py"),
+    ("planos-v1-22-finite-gaussian-physical-quantum-qi-homotopy-decoherence", "scripts/check_planos_finite_gaussian_physical_quantum_qi_homotopy_decoherence_certificate_kernel_v0_1.py"),
+    ("planos-v1-23-finite-physical-quantum-qi-coherence-kernel-partial-dephasing", "scripts/check_planos_finite_physical_quantum_qi_coherence_kernel_partial_dephasing_certificate_kernel_v0_1.py"),
 )
 PLANOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = tuple(
     _script_step(step_id, target, f"Validate {step_id}.")
