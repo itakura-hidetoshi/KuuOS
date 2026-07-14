@@ -1,0 +1,87 @@
+{
+  "schema_version": "kuuos.memoryos.f-divergence-transport-data-processing-contraction-manifest.v0.1",
+  "memoryos_version": "v0.56",
+  "title": "MemoryOS v0.56: exact f-divergence transport and data-processing contraction",
+  "source_bindings": [
+    "accepted MemoryOS v0.55 certificate",
+    "MemoryOS v0.55 relative-entropy transport digest",
+    "MemoryOS v0.55 relative-entropy cocycle digest",
+    "independent accepted MemoryOS v0.54 certificate",
+    "MemoryOS v0.54 density-transport digest"
+  ],
+  "generator_catalog": [
+    "pearson_chi_square",
+    "neyman_chi_square",
+    "triangular_discrimination"
+  ],
+  "coarse_graining": {
+    "type": "deterministic finite-support channel",
+    "source_probe_count": 9,
+    "target_bin_count": 3,
+    "bins": [
+      {
+        "bin_id": "early",
+        "source_ordinals": [1, 2, 3]
+      },
+      {
+        "bin_id": "middle",
+        "source_ordinals": [4, 5, 6]
+      },
+      {
+        "bin_id": "late",
+        "source_ordinals": [7, 8, 9]
+      }
+    ]
+  },
+  "reference_values": {
+    "pearson": {
+      "fine": "2593/1134",
+      "coarse": "3/2",
+      "gap": "446/567"
+    },
+    "neyman": {
+      "fine": "2593/1134",
+      "coarse": "3/2",
+      "gap": "446/567"
+    },
+    "triangular": {
+      "fine": "8/15",
+      "coarse": "12/25",
+      "gap": "4/75"
+    }
+  },
+  "runtime_counts": {
+    "directed_transitions": 9,
+    "full_rank_f_divergence_transitions": 4,
+    "full_rank_probe_f_divergence_records": 108,
+    "singular_f_divergence_transitions": 2,
+    "singular_atomic_f_divergence_records": 54,
+    "rank_one_source_boundaries": 3,
+    "data_processing_records": 12,
+    "pearson_pairwise_merge_witnesses": 6,
+    "f_divergence_cocycle_records": 27,
+    "active_f_divergence_cocycles": 8,
+    "nontrivial_round_trips": 2
+  },
+  "forbidden_authority": [
+    "candidate ranking",
+    "candidate pruning",
+    "candidate selection",
+    "decision commit",
+    "plan synthesis",
+    "activation",
+    "execution",
+    "source mutation",
+    "WORLD mutation",
+    "verification claim",
+    "truth authority"
+  ],
+  "files": {
+    "formal": "formal/KUOS/OpenHorizon/MemoryOSFDivergenceTransportDataProcessingV0_56.lean",
+    "formal_root": "formal/KuuOSMemoryOSV0_56.lean",
+    "runtime": "runtime/kuuos_memoryos_f_divergence_transport_data_processing_contraction_certificate_kernel_v0_1.py",
+    "checker": "scripts/check_planos_memoryos_f_divergence_transport_data_processing_contraction_certificate_kernel_v0_1.py",
+    "documentation": "docs/memoryos_f_divergence_transport_data_processing_contraction_certificate_kernel_v0_1.md",
+    "current_root": "runtime/kuuos_current_check.py"
+  }
+}
