@@ -23,7 +23,7 @@ CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
 CURRENT_PLANOS_FRONTIER = "PlanOS v1.23"
 CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
-CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.69"
+CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.70"
 CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 CURRENT_BASELINE_DATE = "2026-07-15 JST"
 
@@ -32,7 +32,7 @@ CURRENT_DRAFT_FRONTIER = "none"
 CURRENT_DRAFT_PR = "none"
 CURRENT_DRAFT_BRANCH = "none"
 CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_lineage_quotient_revocation_cut_"
+    "runtime/kuuos_memoryos_collusion_correlation_weighted_cut_"
     "certificate_kernel_v0_1.py"
 )
 CURRENT_FRONTIER_MODE = "integrated_active_frontiers"
@@ -71,10 +71,10 @@ PLANOS_ACTIVE_FRONTIER_TARGETS: tuple[tuple[str, str], ...] = (
     ("planos-v1-17-finite-filtration-persistent-homology", "scripts/check_planos_finite_filtration_persistent_homology_certificate_kernel_v0_1.py"),
     ("planos-v1-18-finite-bottleneck-persistence-stability", "scripts/check_planos_finite_bottleneck_persistence_stability_certificate_kernel_v0_1.py"),
     ("planos-v1-19-finite-p-wasserstein-persistence-transport", "scripts/check_planos_finite_p_wasserstein_persistence_transport_certificate_kernel_v0_1.py"),
-    ("planos-v1-20-finite-wasserstein-frechet-barycenter-dispersion", "scripts/check_planos_finite_wasserstein_frechet_barycenter_dispersion_certificate_kernel_v0_1.py"),
-    ("planos-v1-21-finite-physical-quantum-qi-path-history-noncollapse", "scripts/check_planos_finite_physical_quantum_qi_path_history_noncollapse_certificate_kernel_v0_1.py"),
-    ("planos-v1-22-finite-gaussian-physical-quantum-qi-homotopy-decoherence", "scripts/check_planos_finite_gaussian_physical_quantum_qi_homotopy_decoherence_certificate_kernel_v0_1.py"),
-    ("planos-v1-23-finite-physical-quantum-qi-coherence-kernel-partial-dephasing", "scripts/check_planos_finite_physical_quantum_qi_coherence_kernel_partial_dephasing_certificate_kernel_v0_1.py"),
+    ("planos-v1-20-finite-wasserstein-frechet-barycenter-dispersion", "scripts/check_planos_memoryos_finite_wasserstein_frechet_barycenter_dispersion_certificate_kernel_v0_1.py"),
+    ("planos-v1-21-finite-physical-quantum-qi-path-history-noncollapse", "scripts/check_planos_memoryos_finite_physical_quantum_qi_path_history_noncollapse_certificate_kernel_v0_1.py"),
+    ("planos-v1-22-finite-gaussian-physical-quantum-qi-homotopy-decoherence", "scripts/check_planos_memoryos_finite_gaussian_physical_quantum_qi_homotopy_decoherence_certificate_kernel_v0_1.py"),
+    ("planos-v1-23-finite-physical-quantum-qi-coherence-kernel-partial-dephasing", "scripts/check_planos_memoryos_finite_physical_quantum_qi_coherence_kernel_partial_dephasing_certificate_kernel_v0_1.py"),
 )
 PLANOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = tuple(
     _script_step(step_id, target, f"Validate {step_id}.")
@@ -120,6 +120,7 @@ MEMORYOS_ACTIVE_FRONTIER_TARGETS: tuple[tuple[str, str], ...] = (
     ("memoryos-v0-67-forgetting-aware-contradiction-safe-admission", "scripts/check_planos_memoryos_forgetting_aware_admission_certificate_kernel_v0_1.py"),
     ("memoryos-v0-68-provenance-dag-confidence-revocation", "scripts/check_planos_memoryos_provenance_dag_revocation_certificate_kernel_v0_1.py"),
     ("memoryos-v0-69-lineage-quotient-dependency-adjusted-confidence-minimal-revocation-cut", "scripts/check_planos_memoryos_lineage_quotient_revocation_cut_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-70-collusion-correlation-effective-lineage-robust-confidence-weighted-revocation-cut", "scripts/check_planos_memoryos_collusion_correlation_weighted_cut_certificate_kernel_v0_1.py"),
 )
 MEMORYOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = tuple(
     _script_step(step_id, target, f"Validate {step_id}.")
