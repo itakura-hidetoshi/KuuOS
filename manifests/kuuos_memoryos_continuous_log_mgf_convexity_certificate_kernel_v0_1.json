@@ -1,0 +1,60 @@
+{
+  "schema_version": "kuuos.memoryos.continuous-log-mgf-convexity-stationary-optimizer-manifest.v0.1",
+  "memoryos_version": "v0.66",
+  "title": "Continuous log-MGF convexity and stationary optimizer equation",
+  "source_memoryos_version": "v0.65",
+  "source_schema_version": "kuuos.memoryos.finite-legendre-fenchel-optimized-envelope-certificate.v0.1",
+  "record_counts": {
+    "derivative_curvature_profiles": 22,
+    "continuous_stationarity_inputs": 44,
+    "continuous_finite_grid_comparisons": 44,
+    "bounded_interval_boundary_optimizers": 4,
+    "marton_continuous_optimizer_inputs": 22,
+    "full_rank_transport": 8,
+    "singular_atomic_transport": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "formal": {
+    "theorem_file": "formal/KUOS/OpenHorizon/MemoryOSContinuousLogMGFConvexityV0_66.lean",
+    "root_file": "formal/KuuOSMemoryOSV0_66.lean",
+    "mathlib_theorem": "convexOn_of_hasDerivWithinAt2_nonneg",
+    "claims": [
+      "partition sum and first moment have explicit HasDerivAt proofs",
+      "stationary log-MGF derivative equals the tilted mean",
+      "tilted mean derivative equals the tilted curvature",
+      "curvature numerator equals a sum of three exponential weighted squares",
+      "stationary log-MGF is convex on the real line",
+      "any supplied global continuous optimizer satisfies the tilted-mean stationary equation",
+      "a supplied global continuous optimizer dominates the finite-grid rate",
+      "tilt four optimizes the bounded interval zero-to-four for the four extinct profiles"
+    ]
+  },
+  "runtime": {
+    "certificate": "runtime/kuuos_memoryos_continuous_log_mgf_convexity_certificate_kernel_v0_1.py",
+    "checker": "scripts/check_planos_memoryos_continuous_log_mgf_convexity_certificate_kernel_v0_1.py",
+    "current_root": "runtime/kuuos_current_check.py",
+    "current_root_step": "memoryos-v0-66-continuous-log-mgf-convexity-stationary-optimizer"
+  },
+  "boundaries": {
+    "unbounded_continuous_optimizer_existence_claimed": false,
+    "closed_form_transcendental_optimizer_claimed": false,
+    "general_cramer_theorem_claimed": false,
+    "general_gartner_ellis_theorem_claimed": false,
+    "general_large_deviation_principle_claimed": false,
+    "general_path_space_gaussian_theorem_claimed": false,
+    "rank_one_source_two_dimensional_recovery_claimed": false,
+    "candidate_ranking_performed": false,
+    "candidate_pruning_performed": false,
+    "candidate_selection_performed": false,
+    "decision_commit_performed": false,
+    "decision_receipt_issued": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "persistent_world_state_mutated": false,
+    "verification_result_claimed": false,
+    "truth_authority_granted": false,
+    "future_only": true,
+    "read_only": true
+  }
+}
