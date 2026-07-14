@@ -1,0 +1,96 @@
+{
+  "schema_version": "kuuos.memoryos.stochastic-markov-kernel-f-divergence-sufficiency-manifest.v0.1",
+  "memoryos_version": "v0.57",
+  "title": "MemoryOS v0.57: stochastic Markov-kernel f-divergence data processing and sufficiency",
+  "source_bindings": [
+    "accepted MemoryOS v0.56 certificate",
+    "MemoryOS v0.56 f-divergence transport digest",
+    "MemoryOS v0.56 data-processing digest",
+    "MemoryOS v0.56 f-divergence cocycle digest",
+    "independent accepted MemoryOS v0.55 certificate",
+    "MemoryOS v0.55 relative-entropy transport digest",
+    "MemoryOS v0.55 relative-entropy cocycle digest"
+  ],
+  "generator_catalog": [
+    "pearson_chi_square",
+    "neyman_chi_square",
+    "triangular_discrimination"
+  ],
+  "stochastic_markov_kernel": {
+    "source_probe_count": 9,
+    "target_output_count": 3,
+    "output_ids": ["early", "middle", "late"],
+    "deterministic_bin_transition_matrix": [
+      ["3/4", "1/4", "0"],
+      ["1/4", "1/2", "1/4"],
+      ["0", "1/4", "3/4"]
+    ],
+    "pushed_forward_p": ["11/60", "1/3", "29/60"],
+    "pushed_forward_q": ["29/60", "1/3", "11/60"]
+  },
+  "sufficient_tagged_split": {
+    "source_probe_count": 9,
+    "tagged_output_count": 18,
+    "left_weight": "1/3",
+    "right_weight": "2/3",
+    "recovery": "both tags deterministically recover their source probe"
+  },
+  "reference_values": {
+    "pearson": {
+      "fine": "2593/1134",
+      "deterministic_coarse": "3/2",
+      "stochastic": "216/319",
+      "fine_to_stochastic_gap": "582223/361746",
+      "coarse_to_stochastic_gap": "525/638"
+    },
+    "neyman": {
+      "fine": "2593/1134",
+      "deterministic_coarse": "3/2",
+      "stochastic": "216/319",
+      "fine_to_stochastic_gap": "582223/361746",
+      "coarse_to_stochastic_gap": "525/638"
+    },
+    "triangular": {
+      "fine": "8/15",
+      "deterministic_coarse": "12/25",
+      "stochastic": "27/100",
+      "fine_to_stochastic_gap": "79/300",
+      "coarse_to_stochastic_gap": "21/100"
+    }
+  },
+  "runtime_counts": {
+    "stochastic_markov_rows": 9,
+    "stochastic_kernel_entries": 27,
+    "stochastic_outputs": 3,
+    "stochastic_data_processing_records": 3,
+    "tagged_split_entries": 18,
+    "tagged_split_outputs": 18,
+    "recovery_entries": 18,
+    "sufficient_probe_generator_records": 27,
+    "sufficient_generator_equality_records": 3,
+    "full_rank_transport_markov_sufficiency_records": 12,
+    "singular_stochastic_f_divergence_records": 6,
+    "rank_one_source_boundaries": 3
+  },
+  "forbidden_authority": [
+    "candidate ranking",
+    "candidate pruning",
+    "candidate selection",
+    "decision commit",
+    "plan synthesis",
+    "activation",
+    "execution",
+    "source mutation",
+    "WORLD mutation",
+    "verification claim",
+    "truth authority"
+  ],
+  "files": {
+    "formal": "formal/KUOS/OpenHorizon/MemoryOSStochasticMarkovKernelFDivergenceSufficiencyV0_57.lean",
+    "formal_root": "formal/KuuOSMemoryOSV0_57.lean",
+    "runtime": "runtime/kuuos_memoryos_stochastic_markov_kernel_f_divergence_sufficiency_certificate_kernel_v0_1.py",
+    "checker": "scripts/check_planos_memoryos_stochastic_markov_kernel_f_divergence_sufficiency_certificate_kernel_v0_1.py",
+    "documentation": "docs/memoryos_stochastic_markov_kernel_f_divergence_sufficiency_certificate_kernel_v0_1.md",
+    "current_root": "runtime/kuuos_current_check.py"
+  }
+}
