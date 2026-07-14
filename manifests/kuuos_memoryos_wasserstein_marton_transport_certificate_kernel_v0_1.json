@@ -1,0 +1,53 @@
+{
+  "schema_version": "kuuos.memoryos.wasserstein-pearson-transport-dobrushin-marton-coupling-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.62",
+  "source_frontier": "MemoryOS v0.61",
+  "source_runtime": "runtime/kuuos_memoryos_bakry_emery_concentration_certificate_kernel_v0_1.py",
+  "runtime": "runtime/kuuos_memoryos_wasserstein_marton_transport_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_wasserstein_marton_transport_certificate_kernel_v0_1.py",
+  "formal_module": "KUOS.OpenHorizon.MemoryOSWassersteinMartonTransportV0_62",
+  "formal_root": "formal/KuuOSMemoryOSV0_62.lean",
+  "current_root": "runtime/kuuos_current_check.py",
+  "mathematical_scope": {
+    "state_space": [
+      "early",
+      "middle",
+      "late"
+    ],
+    "path_metric": {
+      "early_middle": "1",
+      "middle_late": "1",
+      "early_late": "2"
+    },
+    "wasserstein_contraction": "3/4",
+    "coarse_ricci_curvature": "1/4",
+    "pearson_transport_information_constant": "2/3",
+    "marton_profile_horizon": 10
+  },
+  "expected_counts": {
+    "kernel_row_optimal_coupling_record_count": 3,
+    "pearson_transport_information_mode_record_count": 2,
+    "reference_wasserstein_profile_record_count": 22,
+    "reference_pair_wasserstein_profile_record_count": 11,
+    "marton_state_pair_profile_record_count": 33,
+    "marton_influence_profile_record_count": 11,
+    "wasserstein_threshold_record_count": 6,
+    "full_rank_transport_wasserstein_marton_record_count": 8,
+    "singular_atomic_wasserstein_marton_record_count": 4,
+    "rank_one_source_boundary_count": 3
+  },
+  "authority_boundary": {
+    "future_only": true,
+    "read_only": true,
+    "candidate_ranking": false,
+    "candidate_pruning": false,
+    "candidate_selection": false,
+    "decision_commit": false,
+    "plan_synthesis": false,
+    "activation": false,
+    "execution_permission": false,
+    "persistent_world_state_mutation": false,
+    "verification_result": false,
+    "truth_authority": false
+  }
+}
