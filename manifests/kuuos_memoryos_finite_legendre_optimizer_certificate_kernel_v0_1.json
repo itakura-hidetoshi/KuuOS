@@ -1,0 +1,72 @@
+{
+  "schema_version": "kuuos.memoryos.finite-legendre-fenchel-optimized-envelope-manifest.v0.1",
+  "memoryos_version": "v0.65",
+  "title": "Finite Legendre-Fenchel optimizer and optimized envelope",
+  "source_memoryos_version": "v0.64",
+  "source_schema_version": "kuuos.memoryos.finite-log-mgf-chernoff-transform-exact-tail-threshold-certificate.v0.1",
+  "tilt_grid": [
+    {
+      "numerator": 0,
+      "denominator": 1
+    },
+    {
+      "numerator": 1,
+      "denominator": 1
+    },
+    {
+      "numerator": 2,
+      "denominator": 1
+    },
+    {
+      "numerator": 3,
+      "denominator": 1
+    },
+    {
+      "numerator": 4,
+      "denominator": 1
+    }
+  ],
+  "record_counts": {
+    "finite_tilt_grid": 5,
+    "finite_legendre_rate_profiles": 44,
+    "explicit_extinct_profile_optimizers": 4,
+    "marton_legendre_optimizer_inputs": 22,
+    "full_rank_transport": 8,
+    "singular_atomic_transport": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "formal": {
+    "theorem_file": "formal/KUOS/OpenHorizon/MemoryOSFiniteLegendreOptimizerV0_65.lean",
+    "root_file": "formal/KuuOSMemoryOSV0_65.lean",
+    "claims": [
+      "finite tilt grid is nonempty and bounded by four",
+      "finite Legendre optimizer exists by Finset.max'",
+      "finite Legendre rate dominates every grid objective",
+      "finite Legendre rate is nonnegative",
+      "optimized envelope bounds slow and fast upper tails",
+      "tilt four optimizes all four extinct support profiles"
+    ]
+  },
+  "runtime": {
+    "certificate": "runtime/kuuos_memoryos_finite_legendre_optimizer_certificate_kernel_v0_1.py",
+    "checker": "scripts/check_planos_memoryos_finite_legendre_optimizer_certificate_kernel_v0_1.py",
+    "current_root": "runtime/kuuos_current_check.py",
+    "current_root_step": "memoryos-v0-65-finite-legendre-fenchel-optimized-envelope"
+  },
+  "boundaries": {
+    "continuous_tilt_optimizer_claimed": false,
+    "general_large_deviation_principle_claimed": false,
+    "general_path_space_gaussian_theorem_claimed": false,
+    "candidate_ranking_performed": false,
+    "candidate_pruning_performed": false,
+    "candidate_selection_performed": false,
+    "decision_commit_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "persistent_world_state_mutated": false,
+    "verification_result_claimed": false,
+    "truth_authority_granted": false,
+    "future_only": true,
+    "read_only": true
+  }
+}
