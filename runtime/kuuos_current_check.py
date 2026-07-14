@@ -23,7 +23,7 @@ CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
 CURRENT_PLANOS_FRONTIER = "PlanOS v1.23"
 CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
-CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.65"
+CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.66"
 CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 CURRENT_BASELINE_DATE = "2026-07-14 JST"
 
@@ -32,7 +32,7 @@ CURRENT_DRAFT_FRONTIER = "none"
 CURRENT_DRAFT_PR = "none"
 CURRENT_DRAFT_BRANCH = "none"
 CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_finite_legendre_optimizer_"
+    "runtime/kuuos_memoryos_continuous_log_mgf_convexity_"
     "certificate_kernel_v0_1.py"
 )
 CURRENT_FRONTIER_MODE = "integrated_active_frontiers"
@@ -116,6 +116,7 @@ MEMORYOS_ACTIVE_FRONTIER_TARGETS: tuple[tuple[str, str], ...] = (
     ("memoryos-v0-63-kantorovich-lipschitz-semigroup-finite-mgf", "scripts/check_planos_memoryos_kantorovich_lipschitz_mgf_certificate_kernel_v0_1.py"),
     ("memoryos-v0-64-finite-log-mgf-chernoff-exact-tail-threshold", "scripts/check_planos_memoryos_finite_log_mgf_chernoff_tail_certificate_kernel_v0_1.py"),
     ("memoryos-v0-65-finite-legendre-fenchel-optimized-envelope", "scripts/check_planos_memoryos_finite_legendre_optimizer_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-66-continuous-log-mgf-convexity-stationary-optimizer", "scripts/check_planos_memoryos_continuous_log_mgf_convexity_certificate_kernel_v0_1.py"),
 )
 MEMORYOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = tuple(
     _script_step(step_id, target, f"Validate {step_id}.")
