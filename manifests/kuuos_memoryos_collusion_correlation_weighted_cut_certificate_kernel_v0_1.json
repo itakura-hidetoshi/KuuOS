@@ -1,0 +1,52 @@
+{
+  "schema_version": "kuuos.memoryos.collusion-correlation-effective-lineage-robust-confidence-weighted-revocation-cut-certificate.v0.1",
+  "frontier": "MemoryOS v0.70",
+  "source_frontier": "MemoryOS v0.69",
+  "source_runtime": "runtime/kuuos_memoryos_lineage_quotient_revocation_cut_certificate_kernel_v0_1.py",
+  "runtime": "runtime/kuuos_memoryos_collusion_correlation_weighted_cut_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_collusion_correlation_weighted_cut_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_70.lean",
+  "formal_module": "formal/KUOS/OpenHorizon/MemoryOSCollusionCorrelationWeightedCutV0_70.lean",
+  "documentation": "docs/memoryos_collusion_correlation_weighted_cut_certificate_kernel_v0_1.md",
+  "exact_profile": {
+    "literature_record_count": 5,
+    "source_agent_record_count": 4,
+    "pair_signal_record_count": 6,
+    "suspected_collusion_pair_count": 1,
+    "collusion_component_count": 3,
+    "correlation_matrix_entry_count": 10,
+    "effective_independent_source_count_record_count": 2,
+    "robust_confidence_record_count": 1,
+    "weighted_revocation_node_count": 6,
+    "weighted_revocation_edge_count": 5,
+    "weighted_revocation_path_count": 2,
+    "weighted_revocation_cut_candidate_count": 32,
+    "minimum_weighted_revocation_cut_count": 1,
+    "full_rank_transport_record_count": 8,
+    "singular_atomic_record_count": 4,
+    "rank_one_source_boundary_count": 3
+  },
+  "canonical_values": {
+    "raw_source_count": 4,
+    "effective_independent_source_count": "32/11",
+    "naive_confidence": "4/5",
+    "component_capped_confidence": "3/4",
+    "confidence_inflation_removed": "1/20",
+    "minimum_cardinality_cut": ["legacy-hub"],
+    "minimum_cardinality_cut_weight": "3",
+    "minimum_weighted_cut": ["legacy-branch-a", "legacy-branch-b"],
+    "minimum_weighted_cut_weight": "2"
+  },
+  "authority": {
+    "future_only": true,
+    "read_only": true,
+    "candidate_ranking": false,
+    "candidate_selection": false,
+    "decision_commit": false,
+    "plan_synthesis": false,
+    "activation": false,
+    "execution_permission": false,
+    "persistent_world_state_mutation": false,
+    "truth_authority": false
+  }
+}
