@@ -23,7 +23,7 @@ CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
 CURRENT_PLANOS_FRONTIER = "PlanOS v1.23"
 CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
-CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.49"
+CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.50"
 CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 CURRENT_BASELINE_DATE = "2026-07-14 JST"
 
@@ -32,8 +32,8 @@ CURRENT_DRAFT_FRONTIER = "none"
 CURRENT_DRAFT_PR = "none"
 CURRENT_DRAFT_BRANCH = "none"
 CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_candidate_nullspace_dephasing_rank_"
-    "stratification_certificate_kernel_v0_1.py"
+    "runtime/kuuos_memoryos_candidate_quotient_coordinate_"
+    "canonicalization_certificate_kernel_v0_1.py"
 )
 CURRENT_FRONTIER_MODE = "integrated_active_frontiers"
 CURRENT_FRONTIER_BOUNDARY = "validation_only"
@@ -213,57 +213,66 @@ DECISIONOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
     ),
 )
 
-MEMORYOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
-    _script_step(
+MEMORYOS_ACTIVE_FRONTIER_SPECS: tuple[tuple[str, str, str], ...] = (
+    (
         "memoryos-v0-40-observer-relative-non-markov-temporal-record",
         "scripts/check_memoryos_observer_relative_non_markov_temporal_record_certificate_kernel_v0_1.py",
-        "Validate observer-relative append-only records, visible translation residue, and finite non-Markov history dependence across PlanOS, DecisionOS, ObserveOS, and MemoryOS.",
+        "Validate observer-relative append-only records and finite non-Markov dependence.",
     ),
-    _script_step(
+    (
         "memoryos-v0-41-observer-relative-finite-window-qi-influence-planos-handoff",
         "scripts/check_memoryos_observer_relative_finite_window_qi_influence_planos_handoff_certificate_kernel_v0_1.py",
-        "Validate source-bound finite-window Qi influence, exact visible tail residue, and complete PlanOS v1.23 history-support preservation.",
+        "Validate finite-window Qi influence and complete PlanOS history support.",
     ),
-    _script_step(
+    (
         "memoryos-v0-42-observer-relative-non-markov-influence-conditioned-planos-coherence-kernel",
         "scripts/check_planos_memoryos_observer_relative_non_markov_influence_conditioned_coherence_kernel_certificate_kernel_v0_1.py",
-        "Validate exact memory-conditioned diagonal phase congruence, visible tail-sensitive coherence, Hermitian symmetry, diagonal normalization, PSD witness preservation, and full PlanOS support.",
+        "Validate memory-conditioned phase congruence and PlanOS kernel preservation.",
     ),
-    _script_step(
+    (
         "memoryos-v0-43-observer-relative-temporal-window-coherence-cocycle-composition",
         "scripts/check_planos_memoryos_observer_relative_temporal_window_coherence_cocycle_composition_certificate_kernel_v0_1.py",
-        "Validate source-bound temporal segment composition, observer translation compatibility, window refinement/coarsening consistency, and exact equality with the MemoryOS v0.42 conditioned PlanOS coherence kernel.",
+        "Validate temporal segment composition and window consistency.",
     ),
-    _script_step(
+    (
         "memoryos-v0-44-observer-relative-coherence-quadratic-evidence-decisionos-handoff",
         "scripts/check_planos_memoryos_observer_relative_coherence_quadratic_evidence_decisionos_handoff_certificate_kernel_v0_1.py",
-        "Validate exact PSD quadratic coherence evidence for every retained DecisionOS candidate while preserving relational frontier, required review, dissent, minority protection, and non-selection boundaries.",
+        "Validate exact quadratic coherence evidence and DecisionOS review boundaries.",
     ),
-    _script_step(
+    (
         "memoryos-v0-45-candidate-gram-lift-decisionos-relational-coherence-kernel",
         "scripts/check_planos_memoryos_candidate_gram_lift_decisionos_relational_coherence_kernel_certificate_kernel_v0_1.py",
-        "Validate the complete candidate Gram lift, exact v0.44 diagonal recovery, PSD and Hermitian preservation, full candidate-pair support, and DecisionOS relational review boundaries.",
+        "Validate the complete candidate Gram lift and DecisionOS review boundaries.",
     ),
-    _script_step(
+    (
         "memoryos-v0-46-candidate-pair-cauchy-schwarz-relational-coherence-envelope",
         "scripts/check_planos_memoryos_candidate_pair_cauchy_schwarz_relational_coherence_envelope_certificate_kernel_v0_1.py",
-        "Validate exact candidate-pair Cauchy-Schwarz margins, normalized coherence-square bounds, zero-diagonal coherence extinction, complete ordered-pair support, and DecisionOS relational review boundaries.",
+        "Validate candidate-pair Cauchy-Schwarz envelopes.",
     ),
-    _script_step(
+    (
         "memoryos-v0-47-candidate-triple-gram-determinant-joint-coherence-compatibility",
         "scripts/check_planos_memoryos_candidate_triple_gram_determinant_joint_coherence_compatibility_certificate_kernel_v0_1.py",
-        "Validate complete ordered candidate-triple support, exact 3x3 Gram principal minors, rank-two determinant saturation, cyclic-coherence signs, joint pair-envelope compatibility, and DecisionOS relational review boundaries.",
+        "Validate candidate-triple Gram compatibility.",
     ),
-    _script_step(
+    (
         "memoryos-v0-48-two-history-candidate-gram-factorization-reconstruction",
         "scripts/check_planos_memoryos_two_history_candidate_gram_factorization_reconstruction_certificate_kernel_v0_1.py",
-        "Validate exact two-history factor rows, complete 4x4 candidate-kernel reconstruction, row and column relations, full determinant zero, v0.47 triple binding, and DecisionOS relational review boundaries.",
+        "Validate exact two-history factorization of the complete candidate kernel.",
     ),
-    _script_step(
+    (
         "memoryos-v0-49-candidate-nullspace-dephasing-rank-stratification",
         "scripts/check_planos_memoryos_candidate_nullspace_dephasing_rank_stratification_certificate_kernel_v0_1.py",
-        "Validate exact structural null relations, null-translation invariance, coherence-dependent null release, rank and nullity trajectories, and DecisionOS relational review boundaries.",
+        "Validate structural nullspace and dephasing rank stratification.",
     ),
+    (
+        "memoryos-v0-50-candidate-quotient-coordinate-canonicalization",
+        "scripts/check_planos_memoryos_candidate_quotient_coordinate_canonicalization_certificate_kernel_v0_1.py",
+        "Validate exact quotient coordinates, canonical representatives, and metric descent.",
+    ),
+)
+
+MEMORYOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = tuple(
+    _script_step(*spec) for spec in MEMORYOS_ACTIVE_FRONTIER_SPECS
 )
 
 CURRENT_ROOT_STEPS: tuple[CurrentRootStep, ...] = (
