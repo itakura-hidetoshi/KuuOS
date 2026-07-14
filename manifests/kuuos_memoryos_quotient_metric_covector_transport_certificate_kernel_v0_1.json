@@ -1,0 +1,72 @@
+{
+  "checker": "scripts/check_planos_memoryos_quotient_metric_covector_transport_certificate_kernel_v0_1.py",
+  "composition_record_count": 27,
+  "cross_numerator_trajectory": [
+    2,
+    1,
+    0
+  ],
+  "documentation": "docs/memoryos_quotient_metric_covector_transport_certificate_kernel_v0_1.md",
+  "forbids": [
+    "candidate_ranking",
+    "candidate_pruning",
+    "candidate_selection",
+    "decision_commit",
+    "plan_synthesis",
+    "activation",
+    "execution",
+    "source_mutation",
+    "world_mutation",
+    "verification_authority",
+    "truth_authority"
+  ],
+  "formal": "formal/KUOS/OpenHorizon/MemoryOSQuotientMetricCovectorTransportV0_52.lean",
+  "formal_root": "formal/KuuOSMemoryOSV0_52.lean",
+  "full_rank_transition_count": 6,
+  "memoryos_frontier": "MemoryOS v0.52",
+  "preserves": [
+    "all_decision_candidates",
+    "all_planos_histories",
+    "relational_frontier",
+    "required_review_set",
+    "dissent_visibility",
+    "minority_visibility"
+  ],
+  "probe_transport_record_count": 81,
+  "rank_one_boundary_partial_transition_count": 3,
+  "reference_transports": {
+    "one_to_zero": {
+      "denominator": 3,
+      "numerator_matrix": [
+        [
+          4,
+          -2
+        ],
+        [
+          -2,
+          4
+        ]
+      ]
+    },
+    "zero_to_one": {
+      "denominator": 4,
+      "numerator_matrix": [
+        [
+          4,
+          2
+        ],
+        [
+          2,
+          4
+        ]
+      ]
+    }
+  },
+  "runtime": "runtime/kuuos_memoryos_quotient_metric_covector_transport_certificate_kernel_v0_1.py",
+  "schema_version": "kuuos.memoryos.quotient-metric-covector-transport-manifest.v0.1",
+  "source_frontiers": [
+    "MemoryOS v0.51",
+    "MemoryOS v0.50"
+  ],
+  "transition_count": 9
+}
