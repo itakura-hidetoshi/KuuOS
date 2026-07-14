@@ -23,7 +23,7 @@ CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
 CURRENT_PLANOS_FRONTIER = "PlanOS v1.23"
 CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
-CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.70"
+CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.71"
 CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 CURRENT_BASELINE_DATE = "2026-07-15 JST"
 
@@ -32,7 +32,7 @@ CURRENT_DRAFT_FRONTIER = "none"
 CURRENT_DRAFT_PR = "none"
 CURRENT_DRAFT_BRANCH = "none"
 CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_collusion_correlation_weighted_cut_"
+    "runtime/kuuos_memoryos_gauge_connection_holonomy_"
     "certificate_kernel_v0_1.py"
 )
 CURRENT_FRONTIER_MODE = "integrated_active_frontiers"
@@ -121,6 +121,7 @@ MEMORYOS_ACTIVE_FRONTIER_TARGETS: tuple[tuple[str, str], ...] = (
     ("memoryos-v0-68-provenance-dag-confidence-revocation", "scripts/check_planos_memoryos_provenance_dag_revocation_certificate_kernel_v0_1.py"),
     ("memoryos-v0-69-lineage-quotient-dependency-adjusted-confidence-minimal-revocation-cut", "scripts/check_planos_memoryos_lineage_quotient_revocation_cut_certificate_kernel_v0_1.py"),
     ("memoryos-v0-70-collusion-correlation-effective-lineage-robust-confidence-weighted-revocation-cut", "scripts/check_planos_memoryos_collusion_correlation_weighted_cut_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-71-gauge-connection-holonomy-covariant-consistency", "scripts/check_planos_memoryos_gauge_connection_holonomy_certificate_kernel_v0_1.py"),
 )
 MEMORYOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = tuple(
     _script_step(step_id, target, f"Validate {step_id}.")
