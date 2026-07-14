@@ -23,7 +23,7 @@ CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
 CURRENT_PLANOS_FRONTIER = "PlanOS v1.23"
 CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
-CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.62"
+CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.63"
 CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 CURRENT_BASELINE_DATE = "2026-07-14 JST"
 
@@ -32,7 +32,7 @@ CURRENT_DRAFT_FRONTIER = "none"
 CURRENT_DRAFT_PR = "none"
 CURRENT_DRAFT_BRANCH = "none"
 CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_wasserstein_marton_transport_"
+    "runtime/kuuos_memoryos_kantorovich_lipschitz_mgf_"
     "certificate_kernel_v0_1.py"
 )
 CURRENT_FRONTIER_MODE = "integrated_active_frontiers"
@@ -44,44 +44,41 @@ def _script_step(step_id: str, target: str, description: str) -> CurrentRootStep
 
 
 PLANOS_ACTIVE_FRONTIER_TARGETS: tuple[tuple[str, str], ...] = (
-    ('planos-v0-91-information-geometric-qi-objective', 'scripts/check_planos_information_geometric_qi_objective_kernel_v0_1.py'),
-    ('planos-v0-92-kl-regularized-objective-update', 'scripts/check_planos_kl_regularized_objective_update_kernel_v0_92.py'),
-    ('planos-v0-93-zero-temperature-limit', 'scripts/check_planos_zero_temperature_minimal_action_limit_kernel_v0_1.py'),
-    ('planos-v0-94-finite-temperature-concentration', 'scripts/check_planos_finite_temperature_concentration_certificate_kernel_v0_1.py'),
-    ('planos-v0-95-adaptive-qi-temperature', 'scripts/check_planos_adaptive_qi_temperature_calibration_kernel_v0_1.py'),
-    ('planos-v0-96-temperature-hysteresis-rate-limit', 'scripts/check_planos_temperature_hysteresis_rate_limit_kernel_v0_1.py'),
-    ('planos-v0-97-temperature-trajectory-receipt', 'scripts/check_planos_temperature_trajectory_receipt_kernel_v0_1.py'),
-    ('planos-v0-98-temperature-trajectory-stability', 'scripts/check_planos_temperature_trajectory_stability_certificate_kernel_v0_1.py'),
-    ('planos-v0-99-qi-conditioned-information-metric', 'scripts/check_planos_qi_conditioned_information_metric_certificate_kernel_v0_1.py'),
-    ('planos-v1-00-world-conditioned-pullback-metric', 'scripts/check_planos_world_conditioned_path_projection_pullback_metric_kernel_v0_1.py'),
-    ('planos-v1-01-world-conditioned-distribution-update', 'scripts/check_planos_world_conditioned_objective_distribution_update_kernel_v0_1.py'),
-    ('planos-v1-02-decision-handoff-certificate', 'scripts/check_planos_world_conditioned_distribution_decision_handoff_certificate_kernel_v0_1.py'),
-    ('planos-v1-05-native-coupled-information-metric', 'scripts/check_planos_native_coupled_information_metric_certificate_kernel_v0_1.py'),
-    ('planos-v1-06-state-dependent-metric-jet-levi-civita', 'scripts/check_planos_state_dependent_metric_jet_levi_civita_certificate_kernel_v0_1.py'),
-    ('planos-v1-07-second-order-metric-jet-curvature', 'scripts/check_planos_second_order_metric_jet_curvature_certificate_kernel_v0_1.py'),
-    ('planos-v1-08-multi-chart-atlas-curvature', 'scripts/check_planos_multi_chart_atlas_curvature_certificate_kernel_v0_1.py'),
-    ('planos-v1-09-jacobi-geodesic-deviation', 'scripts/check_planos_jacobi_geodesic_deviation_certificate_kernel_v0_1.py'),
-    ('planos-v1-10-second-variation-morse-index', 'scripts/check_planos_second_variation_morse_index_certificate_kernel_v0_1.py'),
-    ('planos-v1-11-conjugate-events-injectivity-radius', 'scripts/check_planos_conjugate_event_sequence_injectivity_radius_certificate_kernel_v0_1.py'),
-    ('planos-v1-12-exponential-normal-coordinate-ball', 'scripts/check_planos_exponential_map_normal_coordinate_ball_certificate_kernel_v0_1.py'),
-    ('planos-v1-13-finite-normal-ball-cover-hopf-rinow-witness', 'scripts/check_planos_finite_normal_ball_cover_hopf_rinow_witness_certificate_kernel_v0_1.py'),
-    ('planos-v1-14-finite-cover-nerve-cech-path-homotopy', 'scripts/check_planos_finite_cover_nerve_cech_path_homotopy_certificate_kernel_v0_1.py'),
-    ('planos-v1-15-finite-simplicial-chain-homology', 'scripts/check_planos_finite_simplicial_chain_homology_certificate_kernel_v0_1.py'),
-    ('planos-v1-16-smith-normal-form-integer-homology', 'scripts/check_planos_smith_normal_form_integer_homology_certificate_kernel_v0_1.py'),
-    ('planos-v1-17-finite-filtration-persistent-homology', 'scripts/check_planos_finite_filtration_persistent_homology_certificate_kernel_v0_1.py'),
-    ('planos-v1-18-finite-bottleneck-persistence-stability', 'scripts/check_planos_finite_bottleneck_persistence_stability_certificate_kernel_v0_1.py'),
-    ('planos-v1-19-finite-p-wasserstein-persistence-transport', 'scripts/check_planos_finite_p_wasserstein_persistence_transport_certificate_kernel_v0_1.py'),
-    ('planos-v1-20-finite-wasserstein-frechet-barycenter-dispersion', 'scripts/check_planos_finite_wasserstein_frechet_barycenter_dispersion_certificate_kernel_v0_1.py'),
-    ('planos-v1-21-finite-physical-quantum-qi-path-history-noncollapse', 'scripts/check_planos_finite_physical_quantum_qi_path_history_noncollapse_certificate_kernel_v0_1.py'),
-    ('planos-v1-22-finite-gaussian-physical-quantum-qi-homotopy-decoherence', 'scripts/check_planos_finite_gaussian_physical_quantum_qi_homotopy_decoherence_certificate_kernel_v0_1.py'),
-    ('planos-v1-23-finite-physical-quantum-qi-coherence-kernel-partial-dephasing', 'scripts/check_planos_finite_physical_quantum_qi_coherence_kernel_partial_dephasing_certificate_kernel_v0_1.py'),
-)
-PLANOS_ACTIVE_FRONTIER_SPECS: tuple[tuple[str, str, str], ...] = tuple(
-    (step_id, target, f"Validate {step_id}.")
-    for step_id, target in PLANOS_ACTIVE_FRONTIER_TARGETS
+    ("planos-v0-91-information-geometric-qi-objective", "scripts/check_planos_information_geometric_qi_objective_kernel_v0_1.py"),
+    ("planos-v0-92-kl-regularized-objective-update", "scripts/check_planos_kl_regularized_objective_update_kernel_v0_92.py"),
+    ("planos-v0-93-zero-temperature-limit", "scripts/check_planos_zero_temperature_minimal_action_limit_kernel_v0_1.py"),
+    ("planos-v0-94-finite-temperature-concentration", "scripts/check_planos_finite_temperature_concentration_certificate_kernel_v0_1.py"),
+    ("planos-v0-95-adaptive-qi-temperature", "scripts/check_planos_adaptive_qi_temperature_calibration_kernel_v0_1.py"),
+    ("planos-v0-96-temperature-hysteresis-rate-limit", "scripts/check_planos_temperature_hysteresis_rate_limit_kernel_v0_1.py"),
+    ("planos-v0-97-temperature-trajectory-receipt", "scripts/check_planos_temperature_trajectory_receipt_kernel_v0_1.py"),
+    ("planos-v0-98-temperature-trajectory-stability", "scripts/check_planos_temperature_trajectory_stability_certificate_kernel_v0_1.py"),
+    ("planos-v0-99-qi-conditioned-information-metric", "scripts/check_planos_qi_conditioned_information_metric_certificate_kernel_v0_1.py"),
+    ("planos-v1-00-world-conditioned-pullback-metric", "scripts/check_planos_world_conditioned_path_projection_pullback_metric_kernel_v0_1.py"),
+    ("planos-v1-01-world-conditioned-distribution-update", "scripts/check_planos_world_conditioned_objective_distribution_update_kernel_v0_1.py"),
+    ("planos-v1-02-decision-handoff-certificate", "scripts/check_planos_world_conditioned_distribution_decision_handoff_certificate_kernel_v0_1.py"),
+    ("planos-v1-05-native-coupled-information-metric", "scripts/check_planos_native_coupled_information_metric_certificate_kernel_v0_1.py"),
+    ("planos-v1-06-state-dependent-metric-jet-levi-civita", "scripts/check_planos_state_dependent_metric_jet_levi_civita_certificate_kernel_v0_1.py"),
+    ("planos-v1-07-second-order-metric-jet-curvature", "scripts/check_planos_second_order_metric_jet_curvature_certificate_kernel_v0_1.py"),
+    ("planos-v1-08-multi-chart-atlas-curvature", "scripts/check_planos_multi_chart_atlas_curvature_certificate_kernel_v0_1.py"),
+    ("planos-v1-09-jacobi-geodesic-deviation", "scripts/check_planos_jacobi_geodesic_deviation_certificate_kernel_v0_1.py"),
+    ("planos-v1-10-second-variation-morse-index", "scripts/check_planos_second_variation_morse_index_certificate_kernel_v0_1.py"),
+    ("planos-v1-11-conjugate-events-injectivity-radius", "scripts/check_planos_conjugate_event_sequence_injectivity_radius_certificate_kernel_v0_1.py"),
+    ("planos-v1-12-exponential-normal-coordinate-ball", "scripts/check_planos_exponential_map_normal_coordinate_ball_certificate_kernel_v0_1.py"),
+    ("planos-v1-13-finite-normal-ball-cover-hopf-rinow-witness", "scripts/check_planos_finite_normal_ball_cover_hopf_rinow_witness_certificate_kernel_v0_1.py"),
+    ("planos-v1-14-finite-cover-nerve-cech-path-homotopy", "scripts/check_planos_finite_cover_nerve_cech_path_homotopy_certificate_kernel_v0_1.py"),
+    ("planos-v1-15-finite-simplicial-chain-homology", "scripts/check_planos_finite_simplicial_chain_homology_certificate_kernel_v0_1.py"),
+    ("planos-v1-16-smith-normal-form-integer-homology", "scripts/check_planos_smith_normal_form_integer_homology_certificate_kernel_v0_1.py"),
+    ("planos-v1-17-finite-filtration-persistent-homology", "scripts/check_planos_finite_filtration_persistent_homology_certificate_kernel_v0_1.py"),
+    ("planos-v1-18-finite-bottleneck-persistence-stability", "scripts/check_planos_finite_bottleneck_persistence_stability_certificate_kernel_v0_1.py"),
+    ("planos-v1-19-finite-p-wasserstein-persistence-transport", "scripts/check_planos_finite_p_wasserstein_persistence_transport_certificate_kernel_v0_1.py"),
+    ("planos-v1-20-finite-wasserstein-frechet-barycenter-dispersion", "scripts/check_planos_finite_wasserstein_frechet_barycenter_dispersion_certificate_kernel_v0_1.py"),
+    ("planos-v1-21-finite-physical-quantum-qi-path-history-noncollapse", "scripts/check_planos_finite_physical_quantum_qi_path_history_noncollapse_certificate_kernel_v0_1.py"),
+    ("planos-v1-22-finite-gaussian-physical-quantum-qi-homotopy-decoherence", "scripts/check_planos_finite_gaussian_physical_quantum_qi_homotopy_decoherence_certificate_kernel_v0_1.py"),
+    ("planos-v1-23-finite-physical-quantum-qi-coherence-kernel-partial-dephasing", "scripts/check_planos_finite_physical_quantum_qi_coherence_kernel_partial_dephasing_certificate_kernel_v0_1.py"),
 )
 PLANOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = tuple(
-    _script_step(*spec) for spec in PLANOS_ACTIVE_FRONTIER_SPECS
+    _script_step(step_id, target, f"Validate {step_id}.")
+    for step_id, target in PLANOS_ACTIVE_FRONTIER_TARGETS
 )
 
 DECISIONOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
@@ -93,36 +90,34 @@ DECISIONOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = (
 )
 
 MEMORYOS_ACTIVE_FRONTIER_TARGETS: tuple[tuple[str, str], ...] = (
-    ('memoryos-v0-40-observer-relative-non-markov-temporal-record', 'scripts/check_memoryos_observer_relative_non_markov_temporal_record_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-41-observer-relative-finite-window-qi-influence-planos-handoff', 'scripts/check_memoryos_observer_relative_finite_window_qi_influence_planos_handoff_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-42-observer-relative-non-markov-influence-conditioned-planos-coherence-kernel', 'scripts/check_planos_memoryos_observer_relative_non_markov_influence_conditioned_coherence_kernel_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-43-observer-relative-temporal-window-coherence-cocycle-composition', 'scripts/check_planos_memoryos_observer_relative_temporal_window_coherence_cocycle_composition_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-44-observer-relative-coherence-quadratic-evidence-decisionos-handoff', 'scripts/check_planos_memoryos_observer_relative_coherence_quadratic_evidence_decisionos_handoff_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-45-candidate-gram-lift-decisionos-relational-coherence-kernel', 'scripts/check_planos_memoryos_candidate_gram_lift_decisionos_relational_coherence_kernel_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-46-candidate-pair-cauchy-schwarz-relational-coherence-envelope', 'scripts/check_planos_memoryos_candidate_pair_cauchy_schwarz_relational_coherence_envelope_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-47-candidate-triple-gram-determinant-joint-coherence-compatibility', 'scripts/check_planos_memoryos_candidate_triple_gram_determinant_joint_coherence_compatibility_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-48-two-history-candidate-gram-factorization-reconstruction', 'scripts/check_planos_memoryos_two_history_candidate_gram_factorization_reconstruction_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-49-candidate-nullspace-dephasing-rank-stratification', 'scripts/check_planos_memoryos_candidate_nullspace_dephasing_rank_stratification_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-50-candidate-quotient-coordinate-canonicalization', 'scripts/check_planos_memoryos_candidate_quotient_coordinate_canonicalization_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-51-candidate-quotient-mode-diagonalization-inverse', 'scripts/check_planos_memoryos_candidate_quotient_mode_diagonalization_inverse_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-52-quotient-metric-covector-transport', 'scripts/check_planos_memoryos_quotient_metric_covector_transport_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-53-quotient-transport-jacobian-volume-stratification', 'scripts/check_planos_memoryos_quotient_transport_jacobian_volume_stratification_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-54-quotient-metric-density-transport-radon-nikodym-cocycle', 'scripts/check_planos_memoryos_quotient_metric_density_transport_radon_nikodym_cocycle_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-55-relative-entropy-transport-lebesgue-decomposition', 'scripts/check_planos_memoryos_relative_entropy_transport_lebesgue_decomposition_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-56-f-divergence-transport-data-processing-contraction', 'scripts/check_planos_memoryos_f_divergence_transport_data_processing_contraction_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-57-stochastic-markov-kernel-f-divergence-sufficiency', 'scripts/check_planos_memoryos_stochastic_markov_kernel_f_divergence_sufficiency_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-58-reversible-markov-semigroup-entropy-production', 'scripts/check_planos_memoryos_reversible_markov_semigroup_entropy_production_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-59-log-sobolev-hypercontractive-mixing', 'scripts/check_planos_memoryos_log_sobolev_hypercontractive_mixing_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-60-modified-log-sobolev-hellinger-separation-cutoff', 'scripts/check_planos_memoryos_modified_log_sobolev_hellinger_separation_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-61-bakry-emery-functional-hierarchy-concentration', 'scripts/check_planos_memoryos_bakry_emery_concentration_certificate_kernel_v0_1.py'),
-    ('memoryos-v0-62-wasserstein-pearson-transport-marton-coupling', 'scripts/check_planos_memoryos_wasserstein_marton_transport_certificate_kernel_v0_1.py'),
-)
-MEMORYOS_ACTIVE_FRONTIER_SPECS: tuple[tuple[str, str, str], ...] = tuple(
-    (step_id, target, f"Validate {step_id}.")
-    for step_id, target in MEMORYOS_ACTIVE_FRONTIER_TARGETS
+    ("memoryos-v0-40-observer-relative-non-markov-temporal-record", "scripts/check_memoryos_observer_relative_non_markov_temporal_record_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-41-observer-relative-finite-window-qi-influence-planos-handoff", "scripts/check_memoryos_observer_relative_finite_window_qi_influence_planos_handoff_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-42-observer-relative-non-markov-influence-conditioned-planos-coherence-kernel", "scripts/check_planos_memoryos_observer_relative_non_markov_influence_conditioned_coherence_kernel_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-43-observer-relative-temporal-window-coherence-cocycle-composition", "scripts/check_planos_memoryos_observer_relative_temporal_window_coherence_cocycle_composition_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-44-observer-relative-coherence-quadratic-evidence-decisionos-handoff", "scripts/check_planos_memoryos_observer_relative_coherence_quadratic_evidence_decisionos_handoff_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-45-candidate-gram-lift-decisionos-relational-coherence-kernel", "scripts/check_planos_memoryos_candidate_gram_lift_decisionos_relational_coherence_kernel_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-46-candidate-pair-cauchy-schwarz-relational-coherence-envelope", "scripts/check_planos_memoryos_candidate_pair_cauchy_schwarz_relational_coherence_envelope_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-47-candidate-triple-gram-determinant-joint-coherence-compatibility", "scripts/check_planos_memoryos_candidate_triple_gram_determinant_joint_coherence_compatibility_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-48-two-history-candidate-gram-factorization-reconstruction", "scripts/check_planos_memoryos_two_history_candidate_gram_factorization_reconstruction_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-49-candidate-nullspace-dephasing-rank-stratification", "scripts/check_planos_memoryos_candidate_nullspace_dephasing_rank_stratification_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-50-candidate-quotient-coordinate-canonicalization", "scripts/check_planos_memoryos_candidate_quotient_coordinate_canonicalization_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-51-candidate-quotient-mode-diagonalization-inverse", "scripts/check_planos_memoryos_candidate_quotient_mode_diagonalization_inverse_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-52-quotient-metric-covector-transport", "scripts/check_planos_memoryos_quotient_metric_covector_transport_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-53-quotient-transport-jacobian-volume-stratification", "scripts/check_planos_memoryos_quotient_transport_jacobian_volume_stratification_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-54-quotient-metric-density-transport-radon-nikodym-cocycle", "scripts/check_planos_memoryos_quotient_metric_density_transport_radon_nikodym_cocycle_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-55-relative-entropy-transport-lebesgue-decomposition", "scripts/check_planos_memoryos_relative_entropy_transport_lebesgue_decomposition_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-56-f-divergence-transport-data-processing-contraction", "scripts/check_planos_memoryos_f_divergence_transport_data_processing_contraction_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-57-stochastic-markov-kernel-f-divergence-sufficiency", "scripts/check_planos_memoryos_stochastic_markov_kernel_f_divergence_sufficiency_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-58-reversible-markov-semigroup-entropy-production", "scripts/check_planos_memoryos_reversible_markov_semigroup_entropy_production_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-59-log-sobolev-hypercontractive-mixing", "scripts/check_planos_memoryos_log_sobolev_hypercontractive_mixing_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-60-modified-log-sobolev-hellinger-separation-cutoff", "scripts/check_planos_memoryos_modified_log_sobolev_hellinger_separation_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-61-bakry-emery-functional-hierarchy-concentration", "scripts/check_planos_memoryos_bakry_emery_concentration_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-62-wasserstein-pearson-transport-marton-coupling", "scripts/check_planos_memoryos_wasserstein_marton_transport_certificate_kernel_v0_1.py"),
+    ("memoryos-v0-63-kantorovich-lipschitz-semigroup-finite-mgf", "scripts/check_planos_memoryos_kantorovich_lipschitz_mgf_certificate_kernel_v0_1.py"),
 )
 MEMORYOS_ACTIVE_FRONTIER_STEPS: tuple[CurrentRootStep, ...] = tuple(
-    _script_step(*spec) for spec in MEMORYOS_ACTIVE_FRONTIER_SPECS
+    _script_step(step_id, target, f"Validate {step_id}.")
+    for step_id, target in MEMORYOS_ACTIVE_FRONTIER_TARGETS
 )
 
 CURRENT_ROOT_STEPS: tuple[CurrentRootStep, ...] = (
@@ -163,8 +158,7 @@ def _run_unittest_module(module_name: str) -> int:
 def _run_callable(target: str) -> int:
     module_name, function_name = target.split(":", 1)
     module = importlib.import_module(module_name)
-    outcome = getattr(module, function_name)()
-    return int(outcome)
+    return int(getattr(module, function_name)())
 
 
 def _run_script(target: str) -> int:
@@ -177,10 +171,7 @@ def _run_script(target: str) -> int:
         part for part in (str(ROOT), env.get("PYTHONPATH", "")) if part
     )
     return subprocess.run(
-        [sys.executable, str(script)],
-        cwd=ROOT,
-        env=env,
-        check=False,
+        [sys.executable, str(script)], cwd=ROOT, env=env, check=False
     ).returncode
 
 
@@ -224,8 +215,7 @@ def run_current(profile: str = "all") -> int:
         except Exception as exc:
             status = 1
             print(
-                f"current_root_exception:{step.step_id}:"
-                f"{type(exc).__name__}:{exc}",
+                f"current_root_exception:{step.step_id}:{type(exc).__name__}:{exc}",
                 file=sys.stderr,
             )
         if status == 0:
@@ -255,16 +245,8 @@ def main(argv: list[str] | None = None) -> int:
         default="all",
         help="Select one bounded validation surface. The default is all.",
     )
-    parser.add_argument(
-        "--summary",
-        action="store_true",
-        help="Print the machine-readable current root summary and exit.",
-    )
-    parser.add_argument(
-        "--list",
-        action="store_true",
-        help="List the selected root steps and exit.",
-    )
+    parser.add_argument("--summary", action="store_true")
+    parser.add_argument("--list", action="store_true")
     args = parser.parse_args(argv)
     if args.summary:
         print(json.dumps(current_runtime_root_summary(), ensure_ascii=False, indent=2))
