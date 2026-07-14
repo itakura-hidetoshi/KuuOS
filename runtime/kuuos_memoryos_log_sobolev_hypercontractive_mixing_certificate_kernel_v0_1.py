@@ -659,10 +659,10 @@ def _derive_observables(
             "source_cross_numerator": item["source_cross_numerator"],
             "target_cross_numerator": item["target_cross_numerator"],
             "distribution_id": item["distribution_id"],
-            "source_entropy_trajectory":
-                item["source_entropy_trajectory"],
-            "target_entropy_trajectory":
-                item["target_entropy_trajectory"],
+            "source_entropy_semigroup_ledger":
+                item["source_entropy_semigroup_ledger"],
+            "target_entropy_semigroup_ledger":
+                item["target_entropy_semigroup_ledger"],
             "log_sobolev_transport_commutes": (
                 item["transport_semigroup_commutes"]
                 and item["transport_entropy_production_commutes"]
