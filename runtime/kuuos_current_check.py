@@ -23,7 +23,7 @@ CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
 CURRENT_PLANOS_FRONTIER = "PlanOS v1.23"
 CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
-CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.50"
+CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.51"
 CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 CURRENT_BASELINE_DATE = "2026-07-14 JST"
 
@@ -32,8 +32,8 @@ CURRENT_DRAFT_FRONTIER = "none"
 CURRENT_DRAFT_PR = "none"
 CURRENT_DRAFT_BRANCH = "none"
 CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_candidate_quotient_coordinate_"
-    "canonicalization_certificate_kernel_v0_1.py"
+    "runtime/kuuos_memoryos_candidate_quotient_mode_diagonalization_"
+    "inverse_certificate_kernel_v0_1.py"
 )
 CURRENT_FRONTIER_MODE = "integrated_active_frontiers"
 CURRENT_FRONTIER_BOUNDARY = "validation_only"
@@ -268,6 +268,11 @@ MEMORYOS_ACTIVE_FRONTIER_SPECS: tuple[tuple[str, str, str], ...] = (
         "memoryos-v0-50-candidate-quotient-coordinate-canonicalization",
         "scripts/check_planos_memoryos_candidate_quotient_coordinate_canonicalization_certificate_kernel_v0_1.py",
         "Validate exact quotient coordinates, canonical representatives, and metric descent.",
+    ),
+    (
+        "memoryos-v0-51-candidate-quotient-mode-diagonalization-inverse",
+        "scripts/check_planos_memoryos_candidate_quotient_mode_diagonalization_inverse_certificate_kernel_v0_1.py",
+        "Validate exact symmetric/antisymmetric mode diagonalization, rank-one coherence boundary, and post-dephasing inverse witnesses.",
     ),
 )
 

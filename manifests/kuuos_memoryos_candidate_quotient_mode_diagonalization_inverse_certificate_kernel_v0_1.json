@@ -1,0 +1,56 @@
+{
+  "schema_version": "kuuos.memoryos.candidate-quotient-mode-diagonalization-inverse-manifest.v0.1",
+  "frontier": "MemoryOS v0.51",
+  "status": "validation_only",
+  "source_frontiers": [
+    "MemoryOS v0.50",
+    "MemoryOS v0.48",
+    "DecisionOS v0.6",
+    "PlanOS v1.23"
+  ],
+  "runtime": "runtime/kuuos_memoryos_candidate_quotient_mode_diagonalization_inverse_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_candidate_quotient_mode_diagonalization_inverse_certificate_kernel_v0_1.py",
+  "formal": [
+    "formal/KUOS/OpenHorizon/MemoryOSCandidateQuotientModeDiagonalizationInverseV0_51.lean",
+    "formal/KuuOSMemoryOSV0_51.lean"
+  ],
+  "documentation": "docs/memoryos_candidate_quotient_mode_diagonalization_inverse_certificate_kernel_v0_1.md",
+  "quotient_coordinates": [
+    "first_history_coordinate",
+    "second_history_coordinate"
+  ],
+  "mode_basis": {
+    "symmetric_history_mode": [1, 1],
+    "antisymmetric_history_mode": [1, -1]
+  },
+  "reference_trajectories": {
+    "dephasing_cross_numerators": [2, 1, 0],
+    "symmetric_mode_weights": [4, 3, 2],
+    "antisymmetric_mode_weights": [0, 1, 2],
+    "quotient_metric_determinants": [0, 3, 4],
+    "quotient_metric_ranks": [1, 2, 2],
+    "inverse_witness_active": [false, true, true]
+  },
+  "theorem_surface": [
+    "quotient_metric_quadratic_mode_diagonalization",
+    "quotient_metric_bilinear_mode_diagonalization",
+    "symmetric_mode_eigenvector",
+    "antisymmetric_mode_eigenvector",
+    "quotient_metric_determinant_factorization",
+    "quotient_metric_adjugate_inverse_witness",
+    "quotient_adjugate_metric_inverse_witness",
+    "full_coherence_pairing_rank_one",
+    "full_coherence_antisymmetric_mode_null",
+    "partial_dephasing_one_inverse_witness",
+    "full_dephasing_zero_inverse_witness"
+  ],
+  "preservation": {
+    "all_decision_candidates_retained": true,
+    "all_planos_histories_retained": true,
+    "candidate_selection_performed": false,
+    "execution_permission": false,
+    "persistent_world_state_mutated": false,
+    "verification_result_claimed": false,
+    "truth_authority_granted": false
+  }
+}
