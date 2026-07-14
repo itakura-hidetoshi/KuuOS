@@ -1,0 +1,86 @@
+{
+  "schema_version": "kuuos.memoryos.modified-log-sobolev-hellinger-separation-cutoff-manifest.v0.1",
+  "memoryos_version": "v0.60",
+  "title": "MemoryOS v0.60: modified log-Sobolev entropy decay, Hellinger and separation profiles, and finite cutoff thresholds",
+  "source_bindings": [
+    "accepted MemoryOS v0.59 certificate",
+    "MemoryOS v0.59 log-Sobolev mode digest",
+    "MemoryOS v0.59 KL-envelope digest",
+    "MemoryOS v0.59 hypercontractive schedule digest",
+    "MemoryOS v0.59 total-variation and mixing-threshold digests",
+    "independent accepted MemoryOS v0.58 certificate",
+    "MemoryOS v0.58 entropy-trajectory and entropy-production digests"
+  ],
+  "two_step_doeblin_decomposition": {
+    "stationary_weight": "3/16",
+    "residual_weight": "13/16",
+    "residual_kernel": [
+      ["9/13", "4/13", "0"],
+      ["4/13", "5/13", "4/13"],
+      ["0", "4/13", "9/13"]
+    ],
+    "residual_row_stochastic": true,
+    "residual_column_stochastic": true,
+    "residual_symmetric": true
+  },
+  "modified_entropy_decay": {
+    "physical_steps_per_block": 2,
+    "block_contraction_coefficient": "13/16",
+    "theorem": "D(p K^2 || pi) <= (13/16) D(p || pi)",
+    "iterated_block_horizon": 11
+  },
+  "profiles": {
+    "reference_separation": "(9/20)(3/4)^n",
+    "worst_case_separation": "(3/2)(3/4)^n - (1/2)(1/4)^n",
+    "reference_hellinger_squared_envelope": "reference_separation(n)^2 / 3"
+  },
+  "finite_thresholds": [
+    "worst-case separation <= 1/4 at n=7; n=6 insufficient",
+    "worst-case separation <= 1/8 at n=9; n=8 insufficient",
+    "reference separation <= 1/20 at n=8; n=7 insufficient",
+    "reference Hellinger <= 1/20 by squared envelope at n=6; n=5 insufficient",
+    "worst-case KL envelope <= 1/4 at block 11 / physical time 22; block 10 insufficient"
+  ],
+  "runtime_counts": {
+    "two_step_doeblin_records": 1,
+    "two_step_decomposition_records": 9,
+    "modified_entropy_block_records": 12,
+    "reference_symbolic_kl_block_records": 24,
+    "reference_hellinger_profile_records": 22,
+    "reference_separation_profile_records": 22,
+    "worst_case_separation_profile_records": 11,
+    "cutoff_threshold_records": 5,
+    "full_rank_transport_profile_records": 8,
+    "singular_atomic_profile_records": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "claims_not_made": [
+    "globally optimal modified log-Sobolev constant",
+    "asymptotic cutoff phenomenon",
+    "candidate preference or pruning",
+    "activation schedule",
+    "recovery of lost rank-one information"
+  ],
+  "forbidden_authority": [
+    "candidate ranking",
+    "candidate pruning",
+    "candidate selection",
+    "decision commit",
+    "decision receipt",
+    "plan synthesis",
+    "activation",
+    "execution",
+    "source mutation",
+    "WORLD mutation",
+    "verification claim",
+    "truth authority"
+  ],
+  "files": {
+    "formal": "formal/KUOS/OpenHorizon/MemoryOSModifiedLogSobolevHellingerSeparationV0_60.lean",
+    "formal_root": "formal/KuuOSMemoryOSV0_60.lean",
+    "runtime": "runtime/kuuos_memoryos_modified_log_sobolev_hellinger_separation_certificate_kernel_v0_1.py",
+    "checker": "scripts/check_planos_memoryos_modified_log_sobolev_hellinger_separation_certificate_kernel_v0_1.py",
+    "documentation": "docs/memoryos_modified_log_sobolev_hellinger_separation_certificate_kernel_v0_1.md",
+    "current_root": "runtime/kuuos_current_check.py"
+  }
+}
