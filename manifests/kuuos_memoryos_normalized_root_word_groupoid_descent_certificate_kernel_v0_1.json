@@ -1,0 +1,79 @@
+{
+  "schema_version": "kuuos.memoryos.normalized-root-word-pair-groupoid-descent-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.81",
+  "step_id": "memoryos-v0-81-normalized-root-word-pair-groupoid-descent",
+  "source_frontier": "MemoryOS v0.80",
+  "source_artifact": "runtime/kuuos_memoryos_all_root_chart_defect_aware_word_transport_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_81.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_normalized_root_word_groupoid_descent_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_normalized_root_word_groupoid_descent_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_normalized_root_word_groupoid_descent_certificate_kernel_v0_1.md",
+  "normalized_root_model": {
+    "route_object_count": 4,
+    "route_slot_count_per_root": 3,
+    "generator_count_per_root": 4,
+    "self_coordinate_eliminated": true,
+    "generators": ["slot-1", "slot-2", "slot-3", "defect"]
+  },
+  "pair_groupoid_transport": {
+    "route_generator_rule": "Y_s^(j) -> W_i(j)^-1 W_i(r_j^(s))",
+    "defect_generator_rule": "D_j -> W_i(j)^-1 D_i W_i(j)",
+    "identity": "T_i<-i = id",
+    "composition": "T_i<-j o T_j<-k = T_i<-k",
+    "inverse": "T_i<-j o T_j<-i = id",
+    "evaluation_descent": "ev_i(T_i<-j(w)) = ev_j(w)",
+    "wilson_descent": "W_i(T_i<-j(w)) = W_j(w)"
+  },
+  "canonical_separator": {
+    "target_root": "route-0",
+    "word": "slot-3 defect",
+    "ordered_ab_value": [0, 1, 2],
+    "ordered_ba_value": [2, 0, 1],
+    "ordered_ab_trace": 3,
+    "ordered_ba_trace": 0,
+    "exact_from_all_source_roots": true
+  },
+  "confidence_policy": {
+    "source_confidence_preserved": true,
+    "new_groupoid_penalty": {"numerator": 0, "denominator": 1},
+    "groupoid_signature_is_diagnostic_only": true
+  },
+  "expected_record_counts": {
+    "literature_normalized_groupoid_records": 6,
+    "normalized_route_slot_records": 12,
+    "normalized_root_chart_records": 16,
+    "normalized_root_coordinate_records": 48,
+    "normalized_root_defect_records": 16,
+    "normalized_transition_substitution_records": 64,
+    "normalized_transition_identity_records": 16,
+    "normalized_transition_composition_records": 256,
+    "normalized_transition_inverse_records": 64,
+    "normalized_transition_evaluation_compatibility_records": 640,
+    "normalized_transport_path_independence_records": 256,
+    "normalized_word_gauge_covariance_records": 160,
+    "normalized_mixed_separator_records": 4,
+    "source_confidence_preservation_records": 4,
+    "normalized_groupoid_memory_fusion_records": 4,
+    "full_rank_transport_normalized_groupoid_records": 8,
+    "singular_atomic_normalized_groupoid_records": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "scope_boundary": {
+    "universal_free_groupoid_presentation_claimed": false,
+    "universal_character_variety_classification_claimed": false,
+    "continuum_gauge_groupoid_claimed": false,
+    "physical_gauge_field_inference_claimed": false,
+    "normalized_word_used_as_truth": false,
+    "groupoid_signature_used_as_candidate_ranking": false,
+    "source_confidence_mutated": false,
+    "candidate_ranking_performed": false,
+    "candidate_selection_performed": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "persistent_world_state_mutated": false,
+    "truth_authority_granted": false,
+    "future_only": true,
+    "read_only": true
+  }
+}
