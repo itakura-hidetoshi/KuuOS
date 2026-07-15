@@ -1,0 +1,83 @@
+{
+  "schema_version": "kuuos.memoryos.exact-sensor-core-redundancy-minimal-support-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.88",
+  "step_id": "memoryos-v0-88-exact-sensor-core-redundancy-minimal-support",
+  "source_frontier": "MemoryOS v0.87",
+  "source_artifact": "runtime/kuuos_memoryos_finite_sensor_family_refinement_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_88.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_exact_sensor_core_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_exact_sensor_core_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_exact_sensor_core_certificate_kernel_v0_1.md",
+  "finite_support_kernel": {
+    "definition": "K_r^S = iInf_(i in S) K_r^(sigma_i)",
+    "empty_support": "top",
+    "antitone": "S subset T implies K_r^T <= K_r^S"
+  },
+  "redundancy": {
+    "one_step": "i redundant iff K_r^S = K_r^(S erase i)",
+    "dominated_sensor_erasure": true,
+    "duplicate_sensor_erasure": true
+  },
+  "exact_core": {
+    "definition": "core subset support, equal kernel, and one-step irredundant",
+    "kernel_equality_transitive": true,
+    "equal_kernel_quotient_equivalence": true,
+    "general_minimum_core_uniqueness_claimed": false
+  },
+  "canonical_profiles": {
+    "empty": {"core": [], "core_size": 0, "kernel_order": 6},
+    "identity": {"core": ["identity-s3"], "core_size": 1, "kernel_order": 1},
+    "parity": {"core": ["parity-c2"], "core_size": 1, "kernel_order": 3},
+    "terminal": {"core": [], "core_size": 0, "kernel_order": 6},
+    "identity_parity": {"core": ["identity-s3"], "core_size": 1, "kernel_order": 1},
+    "parity_terminal": {"core": ["parity-c2"], "core_size": 1, "kernel_order": 3},
+    "identity_parity_terminal": {"core": ["identity-s3"], "core_size": 1, "kernel_order": 1},
+    "parity_duplicate": {"core": ["parity-c2"], "core_size": 1, "minimum_core_count": 2, "kernel_order": 3}
+  },
+  "expected_record_counts": {
+    "literature_records": 6,
+    "exact_core_profiles": 8,
+    "exact_core_root_records": 32,
+    "one_step_redundancy_records": 48,
+    "canonical_removal_records": 24,
+    "irredundancy_witness_records": 24,
+    "quotient_equivalence_records": 32,
+    "minimality_records": 8,
+    "confidence_preservation_records": 4,
+    "memory_fusion_records": 4,
+    "full_rank_transport_records": 8,
+    "singular_atomic_records": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "confidence_policy": {
+    "source_confidence_preserved": true,
+    "new_exact_sensor_core_penalty": {"numerator": 0, "denominator": 1},
+    "core_size_is_diagnostic_only": true
+  },
+  "scope_boundary": {
+    "universal_minimum_sensor_core_uniqueness_claimed": false,
+    "universal_sensor_family_classification_claimed": false,
+    "universal_information_lattice_claimed": false,
+    "infinite_sensor_limit_claimed": false,
+    "continuum_multi_sensor_stack_claimed": false,
+    "physical_measurement_fusion_inference_claimed": false,
+    "exact_core_used_as_truth": false,
+    "core_reduction_used_as_candidate_pruning": false,
+    "core_size_used_as_candidate_ranking": false,
+    "source_confidence_mutated": false,
+    "candidate_ranking_performed": false,
+    "candidate_pruning_performed": false,
+    "candidate_selection_performed": false,
+    "decision_commit_performed": false,
+    "decision_receipt_issued": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "source_memoryos_v087_mutated": false,
+    "persistent_world_state_mutated": false,
+    "verification_result_claimed": false,
+    "truth_authority_granted": false,
+    "future_only": true,
+    "read_only": true
+  }
+}
