@@ -1,0 +1,94 @@
+{
+  "schema_version": "kuuos.memoryos.observable-sensor-coarsening-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.85",
+  "step_id": "memoryos-v0-85-observable-sensor-coarsening-quotient-functoriality",
+  "source_frontier": "MemoryOS v0.84",
+  "source_artifact": "runtime/kuuos_memoryos_global_observable_kernel_quotient_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_85.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_observable_sensor_coarsening_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_observable_sensor_coarsening_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_observable_sensor_coarsening_certificate_kernel_v0_1.md",
+  "sensor_evaluation": {
+    "definition": "E_i^sigma = sigma o E_i",
+    "root_independence": "E_i^sigma = E_j^sigma",
+    "kernel": "K_i^sigma = ker(E_i^sigma)",
+    "range": "R_i^sigma = range(E_i^sigma)"
+  },
+  "kernel_monotonicity": {
+    "exact_to_sensor": "K_i <= K_i^sigma",
+    "postcomposition": "K_i^sigma <= K_i^(tau o sigma)",
+    "injective_sensor": "injective sigma implies K_i^sigma = K_i"
+  },
+  "quotient_functoriality": {
+    "source_quotient": "Gamma(F)^x / K_i",
+    "sensor_quotient": "Gamma(F)^x / K_i^sigma",
+    "canonical_map": "[s]_K -> [s]_(K^sigma)",
+    "sensor_first_isomorphism": "Gamma(F)^x / K_i^sigma ~= range(E_i^sigma)",
+    "injective_equivalence": "injective sigma implies source quotient ~= sensor quotient"
+  },
+  "wilson_pullback": {
+    "class_function": "sigma^*chi(g) = chi(sigma(g))",
+    "exact_identity": "W_chi^sigma(s) = W_(sigma^*chi)(s)",
+    "root_independent": true
+  },
+  "canonical_sensor_profiles": {
+    "identity_s3": {
+      "injective": true,
+      "ordered_ab_visible_class": "identity",
+      "ordered_ba_visible_class": "(021)",
+      "separator_preserved": true
+    },
+    "parity_c2": {
+      "injective": false,
+      "ordered_ab_value": 0,
+      "ordered_ba_value": 0,
+      "separator_preserved": false
+    },
+    "terminal_group": {
+      "injective": false,
+      "ordered_ab_value": 0,
+      "ordered_ba_value": 0,
+      "separator_preserved": false
+    }
+  },
+  "expected_record_counts": {
+    "literature_records": 6,
+    "sensor_profiles": 3,
+    "sensor_kernel_inclusions": 12,
+    "sensor_root_independence": 48,
+    "sensor_compositions": 16,
+    "sensor_quotient_functoriality": 12,
+    "injective_sensor_equivalences": 4,
+    "sensor_wilson_pullbacks": 12,
+    "canonical_sensor_visibility": 12,
+    "confidence_preservation": 4,
+    "memory_fusion": 4,
+    "full_rank_transport": 8,
+    "singular_atomic": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "confidence_policy": {
+    "source_confidence_preserved": true,
+    "new_sensor_coarsening_penalty": {"numerator": 0, "denominator": 1},
+    "sensor_resolution_is_diagnostic_only": true
+  },
+  "scope_boundary": {
+    "universal_sensor_classification_claimed": false,
+    "universal_information_order_claimed": false,
+    "continuum_observation_stack_claimed": false,
+    "physical_measurement_inference_claimed": false,
+    "sensor_kernel_used_as_truth": false,
+    "sensor_kernel_used_as_candidate_pruning": false,
+    "sensor_resolution_used_as_candidate_ranking": false,
+    "source_confidence_mutated": false,
+    "candidate_ranking_performed": false,
+    "candidate_selection_performed": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "persistent_world_state_mutated": false,
+    "truth_authority_granted": false,
+    "future_only": true,
+    "read_only": true
+  }
+}
