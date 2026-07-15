@@ -1,16 +1,15 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import runtime.kuuos_current_check_v0_86 as _base
+import runtime.kuuos_current_check_v0_87 as _base
 
-_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.87"
+_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.88"
 _base.CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_finite_sensor_family_refinement_"
-    "certificate_kernel_v0_1.py"
+    "runtime/kuuos_memoryos_exact_sensor_core_certificate_kernel_v0_1.py"
 )
 _NEW_STEP = (
-    "memoryos-v0-87-finite-sensor-family-kernel-infimum-subfamily-refinement",
-    "scripts/check_planos_memoryos_finite_sensor_family_refinement_certificate_kernel_v0_1.py",
+    "memoryos-v0-88-exact-sensor-core-redundancy-minimal-support",
+    "scripts/check_planos_memoryos_exact_sensor_core_certificate_kernel_v0_1.py",
 )
 if _NEW_STEP not in _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS:
     _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS = (
