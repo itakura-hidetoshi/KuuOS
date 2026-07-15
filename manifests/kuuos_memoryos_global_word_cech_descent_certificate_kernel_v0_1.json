@@ -1,0 +1,90 @@
+{
+  "schema_version": "kuuos.memoryos.global-word-nonabelian-cech-descent-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.82",
+  "step_id": "memoryos-v0-82-global-word-nonabelian-cech-descent",
+  "source_frontier": "MemoryOS v0.81",
+  "source_artifact": "runtime/kuuos_memoryos_normalized_root_word_groupoid_descent_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_82.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_global_word_cech_descent_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_global_word_cech_descent_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_global_word_cech_descent_certificate_kernel_v0_1.md",
+  "local_family_model": {
+    "route_object_count": 4,
+    "normalized_generator_count_per_root": 4,
+    "local_component_count": 4,
+    "compatibility_rule": "T_i<-j(w_j) = w_i",
+    "mismatch": "M_ij = w_i^-1 T_i<-j(w_j)",
+    "compatibility_criterion": "M_ij = 1 for all ordered pairs"
+  },
+  "nonabelian_cech_laws": {
+    "self": "M_ii = 1",
+    "cocycle": "M_ij T_i<-j(M_jk) = M_ik",
+    "inverse": "M_ij T_i<-j(M_ji) = 1",
+    "reconstruction": "Rec_a(u)_i = T_i<-a(u)",
+    "compatible_family_reconstruction": "Rec_a(w_a) = w"
+  },
+  "global_descent": {
+    "evaluation": "ev_i(w_i) = ev_j(w_j)",
+    "wilson": "W_i(w_i) = W_j(w_j)",
+    "anchor_independent": true
+  },
+  "single_chart_tamper": {
+    "tampered_root": "route-2",
+    "perturbation": "right multiply by defect generator",
+    "nontrivial_directed_overlap_count": 6,
+    "support": "exactly off-diagonal overlaps incident to route-2",
+    "cocycle_preserved": true
+  },
+  "canonical_separator": {
+    "anchor_root": "route-0",
+    "anchor_word": "slot-3 defect",
+    "ordered_ab_value": [0, 1, 2],
+    "ordered_ba_value": [2, 0, 1],
+    "ordered_ab_trace": 3,
+    "ordered_ba_trace": 0,
+    "exact_from_all_roots": true
+  },
+  "confidence_policy": {
+    "source_confidence_preserved": true,
+    "new_global_descent_penalty": {"numerator": 0, "denominator": 1},
+    "mismatch_support_is_diagnostic_only": true
+  },
+  "expected_record_counts": {
+    "literature_global_word_descent_records": 6,
+    "route_object_records": 4,
+    "global_section_component_records": 4,
+    "global_section_compatibility_records": 16,
+    "descent_mismatch_records": 16,
+    "descent_mismatch_cocycle_records": 64,
+    "descent_mismatch_inverse_records": 16,
+    "global_section_reconstruction_records": 16,
+    "tampered_local_family_component_records": 4,
+    "tampered_descent_mismatch_records": 16,
+    "tampered_mismatch_cocycle_records": 64,
+    "global_section_evaluation_records": 8,
+    "global_wilson_descent_records": 2,
+    "source_confidence_preservation_records": 4,
+    "global_word_descent_memory_fusion_records": 4,
+    "full_rank_transport_global_word_descent_records": 8,
+    "singular_atomic_global_word_descent_records": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "scope_boundary": {
+    "universal_sheaf_descent_claimed": false,
+    "continuum_stack_claimed": false,
+    "universal_nonabelian_cohomology_classification_claimed": false,
+    "physical_gauge_field_inference_claimed": false,
+    "global_section_used_as_truth": false,
+    "mismatch_support_used_as_candidate_ranking": false,
+    "source_confidence_mutated": false,
+    "candidate_ranking_performed": false,
+    "candidate_selection_performed": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "persistent_world_state_mutated": false,
+    "truth_authority_granted": false,
+    "future_only": true,
+    "read_only": true
+  }
+}
