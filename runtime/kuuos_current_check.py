@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import runtime.kuuos_current_check_v0_77 as _base
+import runtime.kuuos_current_check_v0_78 as _base
 
-_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.78"
+_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.79"
 _base.CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_rooted_route_atlas_nielsen_change_"
+    "runtime/kuuos_memoryos_free_group_mixed_wilson_word_"
     "certificate_kernel_v0_1.py"
 )
 _NEW_STEP = (
-    "memoryos-v0-78-rooted-route-atlas-nielsen-change-covariance",
-    "scripts/check_planos_memoryos_rooted_route_atlas_nielsen_change_certificate_kernel_v0_1.py",
+    "memoryos-v0-79-free-group-nielsen-mixed-wilson-word-covariance",
+    "scripts/check_planos_memoryos_free_group_mixed_wilson_word_certificate_kernel_v0_1.py",
 )
 if _NEW_STEP not in _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS:
     _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS = (
