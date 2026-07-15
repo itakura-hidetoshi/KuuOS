@@ -1,0 +1,71 @@
+{
+  "schema_version": "kuuos.memoryos.global-word-section-anchor-equivalence-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.82",
+  "step_id": "memoryos-v0-82-global-word-section-anchor-fiber-equivalence",
+  "source_frontier": "MemoryOS v0.81",
+  "source_artifact": "runtime/kuuos_memoryos_normalized_root_word_groupoid_descent_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_82.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_global_word_section_anchor_equivalence_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_global_word_section_anchor_equivalence_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_global_word_section_anchor_equivalence_certificate_kernel_v0_1.md",
+  "global_section_model": {
+    "root_object_count": 4,
+    "fiber_generator_count": 4,
+    "compatibility": "T_i<-j(s_j) = s_i",
+    "anchor_extension": "Ext_a(w)_i = T_i<-a(w)",
+    "anchor_reconstruction": "s = Ext_a(s_a)",
+    "anchor_fiber_equivalence": "Gamma(F) ~= F_a"
+  },
+  "descent_laws": {
+    "section_evaluation": "ev_i(s_i) = ev_j(s_j)",
+    "section_wilson": "W_i(s_i) = W_j(s_j)",
+    "transport_path_independent": true
+  },
+  "canonical_separator": {
+    "anchor_root": "route-0",
+    "word": "slot-3 defect",
+    "ordered_ab_value": [0, 1, 2],
+    "ordered_ba_value": [2, 0, 1],
+    "ordered_ab_trace": 3,
+    "ordered_ba_trace": 0,
+    "exact_at_all_roots": true
+  },
+  "confidence_policy": {
+    "source_confidence_preserved": true,
+    "new_global_section_penalty": {"numerator": 0, "denominator": 1},
+    "global_section_signature_is_diagnostic_only": true
+  },
+  "expected_record_counts": {
+    "literature_global_section_records": 6,
+    "global_word_section_component_records": 160,
+    "global_word_section_compatibility_records": 640,
+    "anchor_reconstruction_records": 40,
+    "anchor_fiber_equivalence_records": 4,
+    "section_evaluation_descent_records": 640,
+    "section_root_pair_wilson_records": 640,
+    "canonical_global_section_separator_records": 4,
+    "source_confidence_preservation_records": 4,
+    "global_section_memory_fusion_records": 4,
+    "full_rank_transport_global_section_records": 8,
+    "singular_atomic_global_section_records": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "scope_boundary": {
+    "universal_sheaf_classification_claimed": false,
+    "universal_free_groupoid_presentation_claimed": false,
+    "continuum_gauge_groupoid_claimed": false,
+    "physical_gauge_field_inference_claimed": false,
+    "global_section_used_as_truth": false,
+    "global_section_used_as_candidate_ranking": false,
+    "source_confidence_mutated": false,
+    "candidate_ranking_performed": false,
+    "candidate_selection_performed": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "persistent_world_state_mutated": false,
+    "truth_authority_granted": false,
+    "future_only": true,
+    "read_only": true
+  }
+}
