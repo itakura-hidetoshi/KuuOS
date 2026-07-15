@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import runtime.kuuos_current_check_v0_83 as _base
+import runtime.kuuos_current_check_v0_82 as _base
 
-_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.84"
+_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.83"
 _base.CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_global_observable_kernel_quotient_"
+    "runtime/kuuos_memoryos_global_section_group_anchor_coherence_"
     "certificate_kernel_v0_1.py"
 )
 _NEW_STEP = (
-    "memoryos-v0-84-global-observable-kernel-quotient",
-    "scripts/check_planos_memoryos_global_observable_kernel_quotient_certificate_kernel_v0_1.py",
+    "memoryos-v0-83-global-section-group-anchor-coherence",
+    "scripts/check_planos_memoryos_global_section_group_anchor_coherence_certificate_kernel_v0_1.py",
 )
 if _NEW_STEP not in _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS:
     _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS = (
