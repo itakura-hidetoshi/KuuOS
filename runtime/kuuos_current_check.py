@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import runtime.kuuos_current_check_v0_84 as _base
+import runtime.kuuos_current_check_v0_85 as _base
 
-_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.85"
+_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.86"
 _base.CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_observable_sensor_coarsening_"
+    "runtime/kuuos_memoryos_joint_sensor_product_refinement_"
     "certificate_kernel_v0_1.py"
 )
 _NEW_STEP = (
-    "memoryos-v0-85-observable-sensor-coarsening-quotient-functoriality",
-    "scripts/check_planos_memoryos_observable_sensor_coarsening_certificate_kernel_v0_1.py",
+    "memoryos-v0-86-joint-sensor-product-kernel-intersection-refinement",
+    "scripts/check_planos_memoryos_joint_sensor_product_refinement_certificate_kernel_v0_1.py",
 )
 if _NEW_STEP not in _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS:
     _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS = (
