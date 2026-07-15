@@ -1,0 +1,110 @@
+{
+  "schema_version": "kuuos.memoryos.free-group-nielsen-mixed-wilson-word-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.79",
+  "step_id": "memoryos-v0-79-free-group-nielsen-mixed-wilson-word-covariance",
+  "source_frontier": "MemoryOS v0.78",
+  "source_artifact": "runtime/kuuos_memoryos_rooted_route_atlas_nielsen_change_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_79.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_free_group_mixed_wilson_word_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_free_group_mixed_wilson_word_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_free_group_mixed_wilson_word_certificate_kernel_v0_1.md",
+  "free_group_model": {
+    "generator_count": 4,
+    "generators": [
+      "cycle-01",
+      "cycle-02",
+      "cycle-03",
+      "defect-0"
+    ],
+    "nielsen_rebase": {
+      "cycle-01": "cycle-01^-1",
+      "cycle-02": "cycle-01^-1 cycle-02",
+      "cycle-03": "cycle-01^-1 cycle-03",
+      "defect-0": "defect-0"
+    },
+    "involutive": true,
+    "universal_evaluation": "FreeGroup.lift",
+    "gauge_action": "simultaneous root conjugation"
+  },
+  "resolution_hierarchy": {
+    "cycle_only_class_signature": {
+      "ordered_ab": [1, 1, 0, 0, 1, 1],
+      "ordered_ba": [1, 1, 0, 0, 1, 1],
+      "separates": false
+    },
+    "commutator_exact_representative": {
+      "ordered_ab": [2, 0, 1],
+      "ordered_ba": [1, 2, 0],
+      "exact_representatives_differ": true,
+      "class_traces": [0, 0],
+      "class_trace_separates": false
+    },
+    "mixed_cycle03_defect_word": {
+      "word": "cycle-03 defect-0",
+      "ordered_ab_value": [0, 1, 2],
+      "ordered_ba_value": [2, 0, 1],
+      "ordered_ab_trace": 3,
+      "ordered_ba_trace": 0,
+      "gauge_invariant_class_trace_separates": true
+    }
+  },
+  "canonical_profiles": {
+    "flat_four_route_atlas": {
+      "mixed_word_traces": [0, 0, 0, 3],
+      "confidence": {"numerator": 1, "denominator": 3}
+    },
+    "single_support_atlas": {
+      "mixed_word_traces": [1, 0, 0, 3],
+      "confidence": {"numerator": 5, "denominator": 18}
+    },
+    "ordered_ab_atlas": {
+      "mixed_word_traces": [1, 1, 3, 0],
+      "confidence": {"numerator": 11, "denominator": 54}
+    },
+    "ordered_ba_atlas": {
+      "mixed_word_traces": [1, 1, 0, 0],
+      "confidence": {"numerator": 11, "denominator": 54}
+    }
+  },
+  "confidence_policy": {
+    "source_confidence_preserved": true,
+    "new_word_penalty": {"numerator": 0, "denominator": 1},
+    "mixed_word_signature_is_diagnostic_only": true
+  },
+  "expected_record_counts": {
+    "literature_free_group_word_records": 6,
+    "free_word_generator_records": 4,
+    "canonical_free_word_records": 10,
+    "nielsen_elementary_move_records": 3,
+    "nielsen_generator_substitution_records": 4,
+    "nielsen_word_involution_records": 10,
+    "free_word_evaluation_records": 40,
+    "nielsen_evaluation_compatibility_records": 40,
+    "free_word_gauge_covariance_records": 40,
+    "mixed_wilson_signature_records": 4,
+    "order_separation_records": 2,
+    "source_confidence_preservation_records": 4,
+    "free_group_word_memory_fusion_records": 4,
+    "full_rank_transport_free_group_word_records": 8,
+    "singular_atomic_free_group_word_records": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "scope_boundary": {
+    "universal_free_group_classification_claimed": false,
+    "universal_word_separator_claimed": false,
+    "continuum_gauge_field_claimed": false,
+    "physical_gauge_field_inference_claimed": false,
+    "mixed_word_used_as_truth": false,
+    "mixed_word_used_as_candidate_ranking": false,
+    "source_confidence_mutated": false,
+    "candidate_ranking_performed": false,
+    "candidate_selection_performed": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "persistent_world_state_mutated": false,
+    "truth_authority_granted": false,
+    "future_only": true,
+    "read_only": true
+  }
+}
