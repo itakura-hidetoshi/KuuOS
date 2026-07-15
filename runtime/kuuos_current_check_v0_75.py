@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import runtime.kuuos_current_check_v0_75 as _base
+import runtime.kuuos_current_check_v0_74 as _base
 
-_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.76"
+_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.75"
 _base.CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_branched_dual_graph_cycle_obstruction_"
+    "runtime/kuuos_memoryos_dual_cell_chain_defect_localization_"
     "certificate_kernel_v0_1.py"
 )
 _NEW_STEP = (
-    "memoryos-v0-76-branched-dual-graph-spanning-tree-cycle-obstruction",
-    "scripts/check_planos_memoryos_branched_dual_graph_cycle_obstruction_certificate_kernel_v0_1.py",
+    "memoryos-v0-75-dual-cell-chain-path-ordered-defect-localization",
+    "scripts/check_planos_memoryos_dual_cell_chain_defect_localization_certificate_kernel_v0_1.py",
 )
 if _NEW_STEP not in _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS:
     _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS = (
