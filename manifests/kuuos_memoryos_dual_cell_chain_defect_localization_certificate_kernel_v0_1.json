@@ -1,0 +1,82 @@
+{
+  "schema_version": "kuuos.memoryos.dual-cell-chain-path-ordered-defect-localization-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.75",
+  "step_id": "memoryos-v0-75-dual-cell-chain-path-ordered-defect-localization",
+  "source_frontier": "MemoryOS v0.74",
+  "source_artifact": "runtime/kuuos_memoryos_dual_two_complex_stokes_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_75.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_dual_cell_chain_defect_localization_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_dual_cell_chain_defect_localization_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_dual_cell_chain_defect_localization_certificate_kernel_v0_1.md",
+  "dual_cell_chain_model": {
+    "primal_cell_count": 4,
+    "dual_vertex_count": 4,
+    "dual_edge_count": 3,
+    "group": "S3",
+    "prefix_transport": "P_0 = 1; P_(i+1) = P_i J_i",
+    "localized_defect": "D_i^root = P_i D_i P_i^-1",
+    "global_boundary": "H_boundary = ordered_product_i D_i^root",
+    "all_compatible_closure": "all D_i = 1 implies H_boundary = 1",
+    "single_mismatch_localization": "one nonidentity D_k implies H_boundary is its prefix conjugate",
+    "multiple_mismatch_ordering": "ordered products need not commute",
+    "dual_cycle_holonomy": "H_cycle = J_01 J_12 J_20"
+  },
+  "canonical_profiles": {
+    "all_compatible_curved": {
+      "mismatch_indices": [],
+      "global_boundary": [0, 1, 2],
+      "boundary_trace": 3,
+      "chain_penalty": {"numerator": 0, "denominator": 1},
+      "adjusted_confidence": {"numerator": 1, "denominator": 3}
+    },
+    "single_middle_mismatch_curved": {
+      "mismatch_indices": [1],
+      "preceding_transport": [1, 0, 2],
+      "local_defect": [2, 0, 1],
+      "localized_global_boundary": [1, 2, 0],
+      "boundary_trace": 0,
+      "chain_penalty": {"numerator": 1, "denominator": 6},
+      "adjusted_confidence": {"numerator": 1, "denominator": 6}
+    },
+    "ordered_double_mismatch_ab": {
+      "ordered_local_defects": [[1, 0, 2], [0, 2, 1]],
+      "global_boundary": [1, 2, 0],
+      "boundary_trace": 0
+    },
+    "ordered_double_mismatch_ba": {
+      "ordered_local_defects": [[0, 2, 1], [1, 0, 2]],
+      "global_boundary": [2, 0, 1],
+      "boundary_trace": 0
+    }
+  },
+  "expected_record_counts": {
+    "literature_dual_cell_chain_records": 5,
+    "dual_cell_chain_incidence_records": 7,
+    "dual_cell_chain_profile_records": 4,
+    "chain_seam_transport_records": 12,
+    "localized_seam_defect_records": 12,
+    "path_ordered_chain_composition_records": 4,
+    "single_defect_localization_records": 1,
+    "dual_cycle_holonomy_records": 2,
+    "chain_boundary_wilson_records": 4,
+    "chain_confidence_records": 4,
+    "dual_cell_chain_memory_fusion_records": 4,
+    "full_rank_transport_dual_cell_chain_records": 8,
+    "singular_atomic_dual_cell_chain_records": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "scope_boundary": {
+    "continuum_manifold_theorem_claimed": false,
+    "universal_nonabelian_stokes_theorem_claimed": false,
+    "physical_gauge_field_inference_claimed": false,
+    "candidate_ranking_performed": false,
+    "candidate_selection_performed": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "persistent_world_state_mutated": false,
+    "truth_authority_granted": false,
+    "future_only": true,
+    "read_only": true
+  }
+}
