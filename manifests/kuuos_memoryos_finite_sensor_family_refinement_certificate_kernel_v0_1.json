@@ -1,0 +1,97 @@
+{
+  "schema_version": "kuuos.memoryos.finite-sensor-family-kernel-infimum-subfamily-refinement-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.87",
+  "step_id": "memoryos-v0-87-finite-sensor-family-kernel-infimum-subfamily-refinement",
+  "source_frontier": "MemoryOS v0.86",
+  "source_artifact": "runtime/kuuos_memoryos_joint_sensor_product_refinement_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_87.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_finite_sensor_family_refinement_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_finite_sensor_family_refinement_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_finite_sensor_family_refinement_certificate_kernel_v0_1.md",
+  "finite_family": {
+    "definition": "Sigma_I(g) = (sigma_i(g))_(i in I)",
+    "evaluation": "E_r^I = Sigma_I o E_r",
+    "root_independent": true
+  },
+  "kernel_infimum": {
+    "exact_identity": "K_r^I = iInf_i K_r^(sigma_i)",
+    "component_refinement": "K_r^I <= K_r^(sigma_i)",
+    "empty_family_kernel": "top"
+  },
+  "subfamily_refinement": {
+    "restriction_monotone": "K_r^I <= K_r^(f*I)",
+    "surjective_reindex_preserves_kernel": true,
+    "duplicate_coordinates_preserve_kernel": true
+  },
+  "quotient_refinement": {
+    "family_to_component": "Gamma(F)^x/K_r^I ->* Gamma(F)^x/K_r^(sigma_i)",
+    "representative_class_preserved": true,
+    "family_first_isomorphism": "Gamma(F)^x/K_r^I ~= range(E_r^I)"
+  },
+  "separating_family": {
+    "criterion": "all component values equal implies source values equal",
+    "injective_component_suffices": true,
+    "kernel_preservation": "separating implies K_r^I = K_r",
+    "quotient_equivalence": true
+  },
+  "wilson_projection": {
+    "identity": "W_(chi_i o pi_i)^I = W_(chi_i)^(sigma_i)",
+    "root_independent": true
+  },
+  "canonical_profiles": {
+    "empty": {"kernel_order": 6, "separating": false, "separator_preserved": false},
+    "identity": {"kernel_order": 1, "separating": true, "separator_preserved": true},
+    "parity": {"kernel_order": 3, "separating": false, "separator_preserved": false},
+    "terminal": {"kernel_order": 6, "separating": false, "separator_preserved": false},
+    "identity_parity": {"kernel_order": 1, "separating": true, "separator_preserved": true},
+    "parity_terminal": {"kernel_order": 3, "separating": false, "separator_preserved": false},
+    "identity_parity_terminal": {"kernel_order": 1, "separating": true, "separator_preserved": true},
+    "parity_duplicate": {"kernel_order": 3, "separating": false, "separator_preserved": false}
+  },
+  "expected_record_counts": {
+    "literature_records": 6,
+    "finite_family_profiles": 8,
+    "family_kernel_records": 32,
+    "root_independence_records": 128,
+    "component_projection_records": 48,
+    "injective_equivalence_records": 12,
+    "wilson_projection_records": 48,
+    "canonical_visibility_records": 32,
+    "subfamily_refinement_records": 32,
+    "confidence_preservation_records": 4,
+    "memory_fusion_records": 4,
+    "full_rank_transport_records": 8,
+    "singular_atomic_records": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "confidence_policy": {
+    "source_confidence_preserved": true,
+    "new_finite_sensor_family_penalty": {"numerator": 0, "denominator": 1},
+    "family_resolution_is_diagnostic_only": true
+  },
+  "scope_boundary": {
+    "universal_sensor_family_classification_claimed": false,
+    "universal_information_lattice_claimed": false,
+    "infinite_sensor_limit_claimed": false,
+    "continuum_multi_sensor_stack_claimed": false,
+    "physical_measurement_fusion_inference_claimed": false,
+    "family_kernel_used_as_truth": false,
+    "family_kernel_used_as_candidate_pruning": false,
+    "family_refinement_used_as_candidate_ranking": false,
+    "source_confidence_mutated": false,
+    "candidate_ranking_performed": false,
+    "candidate_pruning_performed": false,
+    "candidate_selection_performed": false,
+    "decision_commit_performed": false,
+    "decision_receipt_issued": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "source_memoryos_v086_mutated": false,
+    "persistent_world_state_mutated": false,
+    "verification_result_claimed": false,
+    "truth_authority_granted": false,
+    "future_only": true,
+    "read_only": true
+  }
+}
