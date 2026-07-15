@@ -1,0 +1,135 @@
+{
+  "schema_version": "kuuos.memoryos.branched-dual-graph-spanning-tree-cycle-obstruction-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.76",
+  "step_id": "memoryos-v0-76-branched-dual-graph-spanning-tree-cycle-obstruction",
+  "source_frontier": "MemoryOS v0.75",
+  "source_artifact": "runtime/kuuos_memoryos_dual_cell_chain_defect_localization_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_76.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_branched_dual_graph_cycle_obstruction_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_branched_dual_graph_cycle_obstruction_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_branched_dual_graph_cycle_obstruction_certificate_kernel_v0_1.md",
+  "dual_graph_model": {
+    "vertices": [
+      "cell-0",
+      "cell-1",
+      "cell-2",
+      "cell-3"
+    ],
+    "edges": [
+      "edge-01",
+      "edge-13",
+      "edge-02",
+      "edge-23"
+    ],
+    "root": "cell-0",
+    "target": "cell-3",
+    "spanning_tree_route": [
+      "edge-01",
+      "edge-13"
+    ],
+    "alternative_route": [
+      "edge-02",
+      "edge-23"
+    ],
+    "group": "S3",
+    "cycle_obstruction": "C = P_upper P_lower^-1",
+    "path_agreement": "P_upper = P_lower iff C = identity",
+    "route_relation": "D_upper = C D_lower C^-1"
+  },
+  "canonical_profiles": {
+    "flat_diamond": {
+      "upper_path": [
+        1,
+        2,
+        0
+      ],
+      "lower_path": [
+        1,
+        2,
+        0
+      ],
+      "cycle_obstruction": [
+        0,
+        1,
+        2
+      ],
+      "cycle_trace": 3,
+      "route_obstruction_penalty": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "adjusted_confidence": {
+        "numerator": 1,
+        "denominator": 3
+      }
+    },
+    "cycle_obstructed_diamond": {
+      "upper_path": [
+        0,
+        1,
+        2
+      ],
+      "lower_path": [
+        1,
+        0,
+        2
+      ],
+      "cycle_obstruction": [
+        1,
+        0,
+        2
+      ],
+      "upper_localized_defect": [
+        2,
+        0,
+        1
+      ],
+      "lower_localized_defect": [
+        1,
+        2,
+        0
+      ],
+      "cycle_trace": 1,
+      "route_obstruction_penalty": {
+        "numerator": 1,
+        "denominator": 9
+      },
+      "adjusted_confidence": {
+        "numerator": 2,
+        "denominator": 9
+      }
+    }
+  },
+  "expected_record_counts": {
+    "literature_branched_dual_graph_records": 5,
+    "branched_dual_graph_incidence_records": 8,
+    "branched_dual_graph_profile_records": 2,
+    "branched_edge_transport_records": 8,
+    "spanning_tree_route_records": 2,
+    "alternative_path_comparison_records": 2,
+    "cycle_obstruction_records": 2,
+    "target_defect_routing_records": 4,
+    "route_conjugacy_relation_records": 2,
+    "route_wilson_signature_records": 4,
+    "cycle_wilson_signature_records": 2,
+    "branched_graph_confidence_records": 2,
+    "branched_graph_memory_fusion_records": 2,
+    "full_rank_transport_branched_graph_records": 8,
+    "singular_atomic_branched_graph_records": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "scope_boundary": {
+    "continuum_dual_graph_claimed": false,
+    "universal_route_independence_claimed": false,
+    "physical_gauge_field_inference_claimed": false,
+    "candidate_ranking_performed": false,
+    "candidate_selection_performed": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "persistent_world_state_mutated": false,
+    "truth_authority_granted": false,
+    "future_only": true,
+    "read_only": true
+  }
+}
