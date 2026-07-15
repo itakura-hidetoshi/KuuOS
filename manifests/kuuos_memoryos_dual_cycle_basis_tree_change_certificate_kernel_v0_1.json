@@ -1,0 +1,271 @@
+{
+  "schema_version": "kuuos.memoryos.dual-cycle-basis-spanning-tree-change-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.77",
+  "step_id": "memoryos-v0-77-dual-cycle-basis-spanning-tree-change-covariance",
+  "source_frontier": "MemoryOS v0.76",
+  "source_artifact": "runtime/kuuos_memoryos_branched_dual_graph_cycle_obstruction_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_77.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_dual_cycle_basis_tree_change_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_dual_cycle_basis_tree_change_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_dual_cycle_basis_tree_change_certificate_kernel_v0_1.md",
+  "dual_graph_model": {
+    "graph": "theta",
+    "vertices": [
+      "cell-0",
+      "cell-1",
+      "cell-2",
+      "cell-3",
+      "cell-4"
+    ],
+    "edges": [
+      "edge-01",
+      "edge-14",
+      "edge-02",
+      "edge-24",
+      "edge-03",
+      "edge-34"
+    ],
+    "root": "cell-0",
+    "target": "cell-4",
+    "routes": {
+      "route-0": [
+        "edge-01",
+        "edge-14"
+      ],
+      "route-1": [
+        "edge-02",
+        "edge-24"
+      ],
+      "route-2": [
+        "edge-03",
+        "edge-34"
+      ]
+    },
+    "cycle_rank": 2,
+    "group": "S3",
+    "pairwise_cycles": {
+      "cycle-01": "C01 = P0 P1^-1",
+      "cycle-02": "C02 = P0 P2^-1",
+      "cycle-12": "C12 = P1 P2^-1"
+    },
+    "basis_relation": "C12 = C01^-1 C02",
+    "tree_change": "B0=(a,b) -> B1=(a^-1,a^-1*b)"
+  },
+  "canonical_profiles": {
+    "flat_theta": {
+      "paths": [
+        [
+          1,
+          2,
+          0
+        ],
+        [
+          1,
+          2,
+          0
+        ],
+        [
+          1,
+          2,
+          0
+        ]
+      ],
+      "pairwise_cycles": [
+        [
+          0,
+          1,
+          2
+        ],
+        [
+          0,
+          1,
+          2
+        ],
+        [
+          0,
+          1,
+          2
+        ]
+      ],
+      "pairwise_traces": [
+        3,
+        3,
+        3
+      ],
+      "penalty": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "adjusted_confidence": {
+        "numerator": 1,
+        "denominator": 3
+      }
+    },
+    "rank_one_cycle_theta": {
+      "paths": [
+        [
+          0,
+          1,
+          2
+        ],
+        [
+          1,
+          0,
+          2
+        ],
+        [
+          0,
+          1,
+          2
+        ]
+      ],
+      "pairwise_cycles": [
+        [
+          1,
+          0,
+          2
+        ],
+        [
+          0,
+          1,
+          2
+        ],
+        [
+          1,
+          0,
+          2
+        ]
+      ],
+      "pairwise_traces": [
+        1,
+        3,
+        1
+      ],
+      "penalty": {
+        "numerator": 2,
+        "denominator": 27
+      },
+      "adjusted_confidence": {
+        "numerator": 7,
+        "denominator": 27
+      }
+    },
+    "rank_two_noncommuting_theta": {
+      "paths": [
+        [
+          0,
+          1,
+          2
+        ],
+        [
+          1,
+          0,
+          2
+        ],
+        [
+          0,
+          2,
+          1
+        ]
+      ],
+      "tree0_basis": [
+        [
+          1,
+          0,
+          2
+        ],
+        [
+          0,
+          2,
+          1
+        ]
+      ],
+      "tree1_basis": [
+        [
+          1,
+          0,
+          2
+        ],
+        [
+          1,
+          2,
+          0
+        ]
+      ],
+      "pairwise_cycles": [
+        [
+          1,
+          0,
+          2
+        ],
+        [
+          0,
+          2,
+          1
+        ],
+        [
+          1,
+          2,
+          0
+        ]
+      ],
+      "basis_product_ab": [
+        1,
+        2,
+        0
+      ],
+      "basis_product_ba": [
+        2,
+        0,
+        1
+      ],
+      "pairwise_traces": [
+        1,
+        1,
+        0
+      ],
+      "penalty": {
+        "numerator": 7,
+        "denominator": 54
+      },
+      "adjusted_confidence": {
+        "numerator": 11,
+        "denominator": 54
+      }
+    }
+  },
+  "expected_record_counts": {
+    "literature_theta_cycle_basis_records": 5,
+    "theta_dual_graph_incidence_records": 11,
+    "theta_dual_graph_profile_records": 3,
+    "theta_edge_transport_records": 18,
+    "theta_path_transport_records": 9,
+    "fundamental_cycle_basis_records": 6,
+    "pairwise_cycle_holonomy_records": 9,
+    "spanning_tree_basis_change_records": 3,
+    "cycle_basis_relation_records": 3,
+    "theta_target_defect_routing_records": 9,
+    "theta_route_conjugacy_relation_records": 9,
+    "theta_route_wilson_signature_records": 9,
+    "complete_pairwise_cycle_signature_records": 3,
+    "theta_cycle_basis_confidence_records": 3,
+    "theta_cycle_basis_memory_fusion_records": 3,
+    "full_rank_transport_theta_cycle_basis_records": 8,
+    "singular_atomic_theta_cycle_basis_records": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "scope_boundary": {
+    "continuum_theta_graph_claimed": false,
+    "universal_cycle_basis_theorem_claimed": false,
+    "physical_gauge_field_inference_claimed": false,
+    "candidate_ranking_performed": false,
+    "candidate_selection_performed": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "persistent_world_state_mutated": false,
+    "truth_authority_granted": false,
+    "future_only": true,
+    "read_only": true
+  }
+}
