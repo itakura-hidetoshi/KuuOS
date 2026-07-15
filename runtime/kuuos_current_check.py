@@ -1,16 +1,16 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import runtime.kuuos_current_check_v0_79 as _base
+import runtime.kuuos_current_check_v0_80 as _base
 
-_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.80"
+_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.81"
 _base.CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_all_root_chart_defect_aware_word_transport_"
+    "runtime/kuuos_memoryos_normalized_root_word_groupoid_descent_"
     "certificate_kernel_v0_1.py"
 )
 _NEW_STEP = (
-    "memoryos-v0-80-all-root-chart-defect-aware-word-transport",
-    "scripts/check_planos_memoryos_all_root_chart_defect_aware_word_transport_certificate_kernel_v0_1.py",
+    "memoryos-v0-81-normalized-root-word-pair-groupoid-descent",
+    "scripts/check_planos_memoryos_normalized_root_word_groupoid_descent_certificate_kernel_v0_1.py",
 )
 if _NEW_STEP not in _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS:
     _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS = (
