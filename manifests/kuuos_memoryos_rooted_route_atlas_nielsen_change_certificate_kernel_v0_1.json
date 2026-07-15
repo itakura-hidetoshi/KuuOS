@@ -1,0 +1,305 @@
+{
+  "schema_version": "kuuos.memoryos.rooted-route-atlas-nielsen-change-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.78",
+  "step_id": "memoryos-v0-78-rooted-route-atlas-nielsen-change-covariance",
+  "source_frontier": "MemoryOS v0.77",
+  "source_artifact": "runtime/kuuos_memoryos_dual_cycle_basis_tree_change_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_78.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_rooted_route_atlas_nielsen_change_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_rooted_route_atlas_nielsen_change_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_rooted_route_atlas_nielsen_change_certificate_kernel_v0_1.md",
+  "dual_graph_model": {
+    "vertices": [
+      "cell-0",
+      "cell-1",
+      "cell-2",
+      "cell-3",
+      "cell-4",
+      "cell-5"
+    ],
+    "edges": [
+      "edge-01",
+      "edge-15",
+      "edge-02",
+      "edge-25",
+      "edge-03",
+      "edge-35",
+      "edge-04",
+      "edge-45"
+    ],
+    "root": "cell-0",
+    "target": "cell-5",
+    "route_count": 4,
+    "cycle_rank": 3,
+    "group": "S3",
+    "route_cycles": "C_ij = P_i P_j^-1",
+    "root0_coordinates": "(C_01,C_02,C_03)",
+    "root1_coordinates": "(C_10,C_12,C_13)",
+    "nielsen_change": "(a,b,c) -> (a^-1,a^-1*b,a^-1*c)",
+    "rebase_involutive": true
+  },
+  "canonical_profiles": {
+    "flat_four_route_atlas": {
+      "paths": [
+        [
+          1,
+          2,
+          0
+        ],
+        [
+          1,
+          2,
+          0
+        ],
+        [
+          1,
+          2,
+          0
+        ],
+        [
+          1,
+          2,
+          0
+        ]
+      ],
+      "root0_coordinates": [
+        [
+          0,
+          1,
+          2
+        ],
+        [
+          0,
+          1,
+          2
+        ],
+        [
+          0,
+          1,
+          2
+        ]
+      ],
+      "complete_pairwise_cycle_traces": [
+        3,
+        3,
+        3,
+        3,
+        3,
+        3
+      ],
+      "penalty": {
+        "numerator": 0,
+        "denominator": 1
+      },
+      "adjusted_confidence": {
+        "numerator": 1,
+        "denominator": 3
+      }
+    },
+    "single_support_atlas": {
+      "paths": [
+        [
+          0,
+          1,
+          2
+        ],
+        [
+          1,
+          0,
+          2
+        ],
+        [
+          0,
+          1,
+          2
+        ],
+        [
+          0,
+          1,
+          2
+        ]
+      ],
+      "root0_coordinates": [
+        [
+          1,
+          0,
+          2
+        ],
+        [
+          0,
+          1,
+          2
+        ],
+        [
+          0,
+          1,
+          2
+        ]
+      ],
+      "complete_pairwise_cycle_traces": [
+        1,
+        3,
+        3,
+        1,
+        1,
+        3
+      ],
+      "penalty": {
+        "numerator": 1,
+        "denominator": 18
+      },
+      "adjusted_confidence": {
+        "numerator": 5,
+        "denominator": 18
+      }
+    },
+    "ordered_ab_atlas": {
+      "paths": [
+        [
+          0,
+          1,
+          2
+        ],
+        [
+          1,
+          0,
+          2
+        ],
+        [
+          0,
+          2,
+          1
+        ],
+        [
+          1,
+          2,
+          0
+        ]
+      ],
+      "root0_coordinates": [
+        [
+          1,
+          0,
+          2
+        ],
+        [
+          0,
+          2,
+          1
+        ],
+        [
+          2,
+          0,
+          1
+        ]
+      ],
+      "complete_pairwise_cycle_traces": [
+        1,
+        1,
+        0,
+        0,
+        1,
+        1
+      ],
+      "penalty": {
+        "numerator": 7,
+        "denominator": 54
+      },
+      "adjusted_confidence": {
+        "numerator": 11,
+        "denominator": 54
+      }
+    },
+    "ordered_ba_atlas": {
+      "paths": [
+        [
+          0,
+          1,
+          2
+        ],
+        [
+          0,
+          2,
+          1
+        ],
+        [
+          1,
+          0,
+          2
+        ],
+        [
+          2,
+          0,
+          1
+        ]
+      ],
+      "root0_coordinates": [
+        [
+          0,
+          2,
+          1
+        ],
+        [
+          1,
+          0,
+          2
+        ],
+        [
+          1,
+          2,
+          0
+        ]
+      ],
+      "complete_pairwise_cycle_traces": [
+        1,
+        1,
+        0,
+        0,
+        1,
+        1
+      ],
+      "penalty": {
+        "numerator": 7,
+        "denominator": 54
+      },
+      "adjusted_confidence": {
+        "numerator": 11,
+        "denominator": 54
+      }
+    }
+  },
+  "expected_record_counts": {
+    "literature_rooted_route_atlas_records": 5,
+    "rooted_route_atlas_incidence_records": 14,
+    "rooted_route_atlas_profile_records": 4,
+    "rooted_route_edge_transport_records": 32,
+    "rooted_route_path_transport_records": 16,
+    "rooted_coordinate_atlas_records": 8,
+    "rooted_route_pairwise_cycle_records": 24,
+    "rooted_nielsen_rebase_records": 4,
+    "rooted_route_cocycle_relation_records": 4,
+    "four_route_target_defect_routing_records": 16,
+    "four_route_defect_relation_records": 12,
+    "four_route_wilson_signature_records": 16,
+    "complete_six_cycle_signature_records": 4,
+    "rooted_route_atlas_confidence_records": 4,
+    "rooted_route_atlas_memory_fusion_records": 4,
+    "full_rank_transport_rooted_route_atlas_records": 8,
+    "singular_atomic_rooted_route_atlas_records": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "scope_boundary": {
+    "continuum_route_atlas_claimed": false,
+    "universal_fundamental_group_theorem_claimed": false,
+    "physical_gauge_field_inference_claimed": false,
+    "candidate_ranking_performed": false,
+    "candidate_selection_performed": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "persistent_world_state_mutated": false,
+    "truth_authority_granted": false,
+    "future_only": true,
+    "read_only": true
+  }
+}
