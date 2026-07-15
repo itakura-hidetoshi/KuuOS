@@ -1,0 +1,85 @@
+{
+  "schema_version": "kuuos.memoryos.joint-sensor-product-kernel-intersection-refinement-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.86",
+  "step_id": "memoryos-v0-86-joint-sensor-product-kernel-intersection-refinement",
+  "source_frontier": "MemoryOS v0.85",
+  "source_artifact": "runtime/kuuos_memoryos_observable_sensor_coarsening_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_86.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_joint_sensor_product_refinement_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_joint_sensor_product_refinement_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_joint_sensor_product_refinement_certificate_kernel_v0_1.md",
+  "joint_sensor": {
+    "definition": "<sigma,tau>(g) = (sigma(g),tau(g))",
+    "evaluation": "E_i^(sigma,tau) = <sigma,tau> o E_i",
+    "root_independent": true
+  },
+  "kernel_intersection": {
+    "definition": "K_i^(sigma,tau) = ker(E_i^(sigma,tau))",
+    "exact_identity": "K_i^(sigma,tau) = K_i^sigma intersect K_i^tau",
+    "refines_left": "K_i^(sigma,tau) <= K_i^sigma",
+    "refines_right": "K_i^(sigma,tau) <= K_i^tau"
+  },
+  "quotient_refinement": {
+    "joint_to_left": "Gamma(F)^x/K_i^(sigma,tau) ->* Gamma(F)^x/K_i^sigma",
+    "joint_to_right": "Gamma(F)^x/K_i^(sigma,tau) ->* Gamma(F)^x/K_i^tau",
+    "representative_class_preserved": true,
+    "joint_first_isomorphism": "Gamma(F)^x/K_i^(sigma,tau) ~= range(E_i^(sigma,tau))"
+  },
+  "joint_faithfulness": {
+    "criterion": "sigma(x)=sigma(y) and tau(x)=tau(y) implies x=y",
+    "injective_component_suffices": true,
+    "kernel_preservation": "jointly injective implies K_i^(sigma,tau)=K_i",
+    "quotient_equivalence": true
+  },
+  "wilson_projection": {
+    "left": "W_(chi o fst)^(sigma,tau) = W_chi^sigma",
+    "right": "W_(psi o snd)^(sigma,tau) = W_psi^tau",
+    "root_independent": true
+  },
+  "canonical_joint_profiles": {
+    "identity_parity": {"jointly_injective": true, "separator_preserved": true},
+    "identity_terminal": {"jointly_injective": true, "separator_preserved": true},
+    "parity_terminal": {"jointly_injective": false, "separator_preserved": false},
+    "parity_parity": {"jointly_injective": false, "separator_preserved": false},
+    "terminal_terminal": {"jointly_injective": false, "separator_preserved": false}
+  },
+  "expected_record_counts": {
+    "literature_records": 6,
+    "joint_sensor_profiles": 5,
+    "joint_kernel_intersections": 20,
+    "joint_root_independence": 80,
+    "joint_quotient_projections": 40,
+    "joint_injective_equivalences": 8,
+    "joint_wilson_projections": 40,
+    "canonical_joint_visibility": 20,
+    "confidence_preservation": 4,
+    "memory_fusion": 4,
+    "full_rank_transport": 8,
+    "singular_atomic": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "confidence_policy": {
+    "source_confidence_preserved": true,
+    "new_joint_sensor_product_penalty": {"numerator": 0, "denominator": 1},
+    "joint_resolution_is_diagnostic_only": true
+  },
+  "scope_boundary": {
+    "universal_sensor_family_classification_claimed": false,
+    "universal_information_lattice_claimed": false,
+    "continuum_multi_sensor_stack_claimed": false,
+    "physical_measurement_fusion_inference_claimed": false,
+    "joint_kernel_used_as_truth": false,
+    "joint_kernel_used_as_candidate_pruning": false,
+    "joint_refinement_used_as_candidate_ranking": false,
+    "source_confidence_mutated": false,
+    "candidate_ranking_performed": false,
+    "candidate_selection_performed": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "persistent_world_state_mutated": false,
+    "truth_authority_granted": false,
+    "future_only": true,
+    "read_only": true
+  }
+}
