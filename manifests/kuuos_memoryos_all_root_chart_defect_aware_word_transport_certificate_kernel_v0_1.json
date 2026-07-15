@@ -1,0 +1,156 @@
+{
+  "schema_version": "kuuos.memoryos.all-root-chart-defect-aware-word-transport-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.80",
+  "step_id": "memoryos-v0-80-all-root-chart-defect-aware-word-transport",
+  "source_frontier": "MemoryOS v0.79",
+  "source_artifact": "runtime/kuuos_memoryos_free_group_mixed_wilson_word_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_80.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_all_root_chart_defect_aware_word_transport_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_all_root_chart_defect_aware_word_transport_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_all_root_chart_defect_aware_word_transport_certificate_kernel_v0_1.md",
+  "root_chart_model": {
+    "route_labels": [
+      "route-0",
+      "route-1",
+      "route-2",
+      "route-3"
+    ],
+    "coordinate_rule": "C_ij = P_i P_j^-1",
+    "localized_defect_rule": "D_i = P_i D_target P_i^-1",
+    "rebase_coordinate_rule": "C'_jk = C_ij^-1 C_ik",
+    "rebase_defect_rule": "D_j = C_ij^-1 D_i C_ij",
+    "composition_rule": "T_k(T_j(chart)) = T_k(chart)",
+    "normalized_at_root": true
+  },
+  "free_group_model": {
+    "generator_count": 5,
+    "generators": [
+      "route-0",
+      "route-1",
+      "route-2",
+      "route-3",
+      "defect"
+    ],
+    "target_root_substitution": {
+      "route-k": "route-j^-1 route-k",
+      "defect": "route-j^-1 defect route-j"
+    },
+    "absorption": "N_i o N_j = N_j",
+    "universal_evaluation": "FreeGroup.lift",
+    "gauge_action": "simultaneous root conjugation"
+  },
+  "canonical_profiles": {
+    "flat_four_route_atlas": {
+      "all_root_mixed_trace_rows": [
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0],
+        [0, 0, 0, 0]
+      ],
+      "confidence": {
+        "numerator": 1,
+        "denominator": 3
+      }
+    },
+    "single_support_atlas": {
+      "all_root_mixed_trace_rows": [
+        [0, 1, 0, 0],
+        [1, 0, 1, 1],
+        [0, 1, 0, 0],
+        [0, 1, 0, 0]
+      ],
+      "confidence": {
+        "numerator": 5,
+        "denominator": 18
+      }
+    },
+    "ordered_ab_atlas": {
+      "all_root_mixed_trace_rows": [
+        [0, 1, 1, 3],
+        [1, 0, 3, 1],
+        [1, 0, 0, 1],
+        [0, 1, 1, 0]
+      ],
+      "transported_reference_separator_trace": 3,
+      "confidence": {
+        "numerator": 11,
+        "denominator": 54
+      }
+    },
+    "ordered_ba_atlas": {
+      "all_root_mixed_trace_rows": [
+        [0, 1, 1, 0],
+        [1, 0, 0, 1],
+        [1, 3, 0, 1],
+        [3, 1, 1, 0]
+      ],
+      "transported_reference_separator_trace": 0,
+      "confidence": {
+        "numerator": 11,
+        "denominator": 54
+      }
+    }
+  },
+  "transported_separator": {
+    "reference_root": "route-0",
+    "word": "route-3 defect",
+    "source_roots": [
+      "route-0",
+      "route-1",
+      "route-2",
+      "route-3"
+    ],
+    "ordered_ab_value": [0, 1, 2],
+    "ordered_ba_value": [2, 0, 1],
+    "ordered_ab_trace": 3,
+    "ordered_ba_trace": 0,
+    "root_independent_exact": true
+  },
+  "confidence_policy": {
+    "source_confidence_preserved": true,
+    "new_chart_penalty": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "transported_signature_is_diagnostic_only": true
+  },
+  "expected_record_counts": {
+    "literature_all_root_chart_records": 6,
+    "route_label_records": 4,
+    "all_root_chart_records": 16,
+    "root_chart_coordinate_records": 64,
+    "root_chart_defect_records": 16,
+    "root_chart_transition_records": 64,
+    "root_chart_composition_records": 256,
+    "root_chart_word_generator_records": 5,
+    "canonical_root_chart_word_records": 10,
+    "root_transition_substitution_records": 20,
+    "root_transition_absorption_records": 16,
+    "root_transition_evaluation_compatibility_records": 640,
+    "root_chart_word_gauge_covariance_records": 160,
+    "transported_mixed_separator_records": 4,
+    "source_confidence_preservation_records": 4,
+    "all_root_chart_memory_fusion_records": 4,
+    "full_rank_transport_all_root_chart_records": 8,
+    "singular_atomic_all_root_chart_records": 4,
+    "rank_one_source_boundaries": 3
+  },
+  "scope_boundary": {
+    "universal_character_variety_classification_claimed": false,
+    "universal_root_word_separator_claimed": false,
+    "continuum_gauge_groupoid_claimed": false,
+    "physical_gauge_field_inference_claimed": false,
+    "transported_separator_used_as_truth": false,
+    "transported_separator_used_as_candidate_ranking": false,
+    "source_confidence_mutated": false,
+    "candidate_ranking_performed": false,
+    "candidate_selection_performed": false,
+    "plan_synthesis_performed": false,
+    "activation_performed": false,
+    "execution_permission": false,
+    "persistent_world_state_mutated": false,
+    "truth_authority_granted": false,
+    "future_only": true,
+    "read_only": true
+  }
+}
