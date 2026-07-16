@@ -202,6 +202,22 @@ versioned aggregateが存在することと、repository-wide aggregateへ統合
 
 現在の研究前線を検査するcanonical execution surfaceは`runtime/kuuos_current_check.py`です。
 
+### Preserved self-organization lineage
+
+現在のpublic surfaceを更新しても、既存のmachine-readable self-organization lineageは破壊しません。次の固定点は互換性証人として保持されます。
+
+| Compatibility fixed point | Versioned surface |
+|---|---|
+| KuuOS README Public Status v0.66 | `kuuos_current_root_sequence_v0_66` |
+| KuuOS Current Root Execution Connection v0.65 | `kuuos_current_root_sequence_v0_65` |
+| KuuOS README Surface Exposure v0.78 | `kuuos_current_root_sequence_v0_78` |
+
+active-state specificationは`docs/kuuos_self_organization_active_state.md`です。
+
+```text
+README public status != authority grant
+```
+
 次のsurfaceは、既存status lineageとの互換性のため保持されています。
 
 | Surface | Path |
@@ -249,7 +265,7 @@ modular time != physical time
 
 modeled repository transition != live Git mutation
 current root success != production deployment
-README status != authority grant
+README public status != authority grant
 ```
 
 ## 開発原則
