@@ -1,0 +1,70 @@
+{
+  "schema_version": "kuuos.memoryos.finite-family-pointed-signature-lattice-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.97",
+  "step_id": "memoryos-v0-97-finite-family-signature-lattice",
+  "source_frontier": "MemoryOS v0.96",
+  "source_artifact": "runtime/kuuos_memoryos_pointed_choice_free_signature_lattice_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_97.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_finite_family_signature_lattice_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_finite_family_signature_lattice_certificate_kernel_v0_1.py",
+  "documentation": "docs/v097.md",
+  "laws": {
+    "finite_meet_is_context_intersection": true,
+    "finite_join_is_closure_of_context_union": true,
+    "empty_family_meet_is_top": true,
+    "empty_family_join_is_bottom": true,
+    "finite_meet_and_join_have_universal_properties": true,
+    "singleton_and_binary_compatibility": true,
+    "enumeration_order_independence": true,
+    "duplicate_invariance": true,
+    "pointed_signature_finite_operations_decode_exactly": true,
+    "root_independence": true
+  },
+  "literature_alignment": [
+    "arXiv:2607.01773",
+    "arXiv:2509.05299",
+    "arXiv:2603.14615",
+    "arXiv:2507.22682",
+    "arXiv:2509.04417",
+    "arXiv:2506.24052",
+    "arXiv:2407.00694",
+    "arXiv:2404.07037",
+    "arXiv:2404.12229",
+    "arXiv:1503.09025",
+    "Guigues-Duquenne-1986"
+  ],
+  "expected_record_counts": {
+    "literature_records": 11,
+    "profile_records": 8,
+    "finite_family_operation_records": 36,
+    "finite_family_universal_property_records": 84,
+    "permutation_fold_records": 56,
+    "duplicate_invariance_records": 36,
+    "finite_family_root_independence_records": 576,
+    "confidence_preservation_records": 4
+  },
+  "confidence_policy": {
+    "source_confidence_preserved": true,
+    "new_penalty": {"numerator": 0, "denominator": 1},
+    "family_cardinality_diagnostic_only": true,
+    "fold_permutation_counts_diagnostic_only": true,
+    "lattice_height_diagnostic_only": true
+  },
+  "source_binding": {
+    "runtime_git_blob_sha1": "9e44272a6f4b8ef459dcdca4b1293637b366d36e",
+    "manifest_git_blob_sha1": "17f9db762f53e43b5f1dacdf47e9a45d0e206257"
+  },
+  "scope_boundary": {
+    "representative_choice_performed": false,
+    "unique_minimal_generator_claimed": false,
+    "complete_lattice_typeclass_claimed": false,
+    "arbitrary_set_indexed_sup_inf_claimed": false,
+    "infinite_family_sup_inf_claimed": false,
+    "distributivity_claimed": false,
+    "modularity_claimed": false,
+    "external_oracle_authority": false,
+    "execution": false,
+    "persistent_state_mutation": false,
+    "truth_authority": false
+  }
+}

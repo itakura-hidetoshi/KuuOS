@@ -3,18 +3,25 @@ from __future__ import annotations
 
 import runtime.kuuos_current_check_v0_95 as _base
 
-_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.96"
+_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.97"
 _base.CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_pointed_choice_free_signature_lattice_certificate_kernel_v0_1.py"
+    "runtime/kuuos_memoryos_finite_family_signature_lattice_certificate_kernel_v0_1.py"
 )
-_NEW_STEP = (
-    "memoryos-v0-96-pointed-choice-free-signature-lattice",
-    "scripts/check_planos_memoryos_pointed_choice_free_signature_lattice_certificate_kernel_v0_1.py",
+_NEW_STEPS = (
+    (
+        "memoryos-v0-96-pointed-choice-free-signature-lattice",
+        "scripts/check_planos_memoryos_pointed_choice_free_signature_lattice_certificate_kernel_v0_1.py",
+    ),
+    (
+        "memoryos-v0-97-finite-family-signature-lattice",
+        "scripts/check_planos_memoryos_finite_family_signature_lattice_certificate_kernel_v0_1.py",
+    ),
 )
-if _NEW_STEP not in _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS:
-    _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS = (
-        _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS + (_NEW_STEP,)
-    )
+for _step in _NEW_STEPS:
+    if _step not in _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS:
+        _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS = (
+            _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS + (_step,)
+        )
 _base.MEMORYOS_ACTIVE_FRONTIER_STEPS = tuple(
     _base._script_step(step_id, target, f"Validate {step_id}.")
     for step_id, target in _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS
