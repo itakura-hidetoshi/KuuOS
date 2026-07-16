@@ -7,7 +7,7 @@
   "formal_root": "formal/KuuOSMemoryOSV0_97.lean",
   "runtime_artifact": "runtime/kuuos_memoryos_finite_family_signature_lattice_certificate_kernel_v0_1.py",
   "checker": "scripts/check_planos_memoryos_finite_family_signature_lattice_certificate_kernel_v0_1.py",
-  "documentation": "docs/memoryos_finite_family_pointed_signature_lattice_certificate_kernel_v0_1.md",
+  "documentation": "docs/v097.md",
   "laws": {
     "finite_meet_is_context_intersection": true,
     "finite_join_is_closure_of_context_union": true,
@@ -53,10 +53,6 @@
   "source_binding": {
     "runtime_git_blob_sha1": "9e44272a6f4b8ef459dcdca4b1293637b366d36e",
     "manifest_git_blob_sha1": "17f9db762f53e43b5f1dacdf47e9a45d0e206257"
-  },
-  "generated_source_sha256": {
-    "runtime": "b28953dd2a59353effdd589de504991c70b17e9d7ad14e63ea23361d0ed47674",
-    "checker": "bbaae2e629cc25e2b948b6c63d0019455650daeb54e0579087f102400599c6fa"
   },
   "scope_boundary": {
     "representative_choice_performed": false,
