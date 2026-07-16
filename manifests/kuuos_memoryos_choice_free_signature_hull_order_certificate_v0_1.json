@@ -1,1 +1,57 @@
-{}
+{
+  "schema_version": "kuuos.memoryos.choice-free-signature-hull-order-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.95",
+  "step_id": "memoryos-v0-95-choice-free-signature-hull-kernel-order-duality",
+  "source_frontier": "MemoryOS v0.94",
+  "source_artifact": "runtime/kuuos_memoryos_choice_free_generator_antichain_signature_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_95.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_choice_free_signature_hull_kernel_order_duality_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_choice_free_signature_hull_kernel_order_duality_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_choice_free_signature_hull_kernel_order_duality_certificate_kernel_v0_1.md",
+  "laws": {
+    "context_hull_reconstruction": true,
+    "support_hull_reconstruction": true,
+    "envelope_kernel_preservation": true,
+    "context_order_reconstruction": true,
+    "kernel_order_duality": true,
+    "signature_order_antisymmetry": true,
+    "root_independence": true
+  },
+  "literature_alignment": [
+    "arXiv:2607.01773",
+    "arXiv:2509.05299",
+    "arXiv:2506.24052",
+    "arXiv:2407.00694",
+    "arXiv:2404.12229",
+    "arXiv:1503.09025",
+    "arXiv:1411.6432",
+    "Guigues-Duquenne-1986"
+  ],
+  "expected_record_counts": {
+    "literature_records": 8,
+    "profile_records": 8,
+    "proper_context_hull_records": 8,
+    "signature_member_envelope_records": 8,
+    "proper_support_hull_records": 11,
+    "context_hull_order_records": 12,
+    "support_hull_order_records": 27,
+    "context_antisymmetry_records": 12,
+    "context_hull_root_independence_records": 128,
+    "support_hull_root_independence_records": 176,
+    "confidence_preservation_records": 4
+  },
+  "confidence_policy": {
+    "source_confidence_preserved": true,
+    "new_penalty": {"numerator": 0, "denominator": 1},
+    "envelope_size_diagnostic_only": true,
+    "hull_order_counts_diagnostic_only": true
+  },
+  "source_binding": {
+    "runtime_git_blob_sha1": "25749ae9f575156ae403e0b64f398a7e2b464ede",
+    "manifest_git_blob_sha1": "42759d82aa5c644a7daa46ca9bd85e9d4a224cfb"
+  },
+  "generated_source_sha256": {
+    "runtime": "9126a3868ff5f54c6e12e87c47272c88833810a6e568e002956698d60c55fa75",
+    "checker": "3c2d99ba81f6fcec85f561d180a8149898b3ebac24b1df83d3a5c7919097136b"
+  }
+}
