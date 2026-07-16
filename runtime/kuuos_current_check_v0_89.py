@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import runtime.kuuos_current_check_v0_89 as _base
+import runtime.kuuos_current_check_v0_88 as _base
 
-_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.90"
+_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.89"
 _base.CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_full_closed_support_representation_certificate_kernel_v0_1.py"
+    "runtime/kuuos_memoryos_sensor_support_closure_certificate_kernel_v0_1.py"
 )
 _NEW_STEP = (
-    "memoryos-v0-90-full-closed-support-truth-region-representation",
-    "scripts/check_planos_memoryos_full_closed_support_representation_certificate_kernel_v0_1.py",
+    "memoryos-v0-89-sensor-support-closure-operator",
+    "scripts/check_planos_memoryos_sensor_support_closure_certificate_kernel_v0_1.py",
 )
 if _NEW_STEP not in _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS:
     _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS = (

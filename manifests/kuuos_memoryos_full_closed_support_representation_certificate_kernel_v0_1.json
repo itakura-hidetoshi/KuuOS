@@ -1,0 +1,54 @@
+{
+  "schema_version": "kuuos.memoryos.full-closed-support-representation-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.90",
+  "step_id": "memoryos-v0-90-full-closed-support-truth-region-representation",
+  "source_frontier": "MemoryOS v0.89",
+  "source_artifact": "runtime/kuuos_memoryos_sensor_support_closure_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_90.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_full_closed_support_representation_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_full_closed_support_representation_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_full_closed_support_representation_certificate_kernel_v0_1.md",
+  "representation_laws": {
+    "selected_closed_context_soundness": true,
+    "full_closed_context_single_sensor_completeness": true,
+    "full_closed_context_finite_support_completeness": true,
+    "closure_truth_region_invariance": true,
+    "truth_region_equality_iff_closure_equality": true,
+    "truth_region_equality_iff_kernel_equality": true,
+    "canonical_closure_separator": true,
+    "root_independent": true
+  },
+  "expected_record_counts": {
+    "literature_records": 6,
+    "full_context_profile_records": 8,
+    "sensor_truth_region_records": 48,
+    "support_truth_region_records": 108,
+    "consequence_representation_records": 216,
+    "canonical_separator_records": 60,
+    "support_region_equivalence_records": 500,
+    "kernel_region_equivalence_records": 500,
+    "truth_region_root_independence_records": 432,
+    "confidence_preservation_records": 4
+  },
+  "confidence_policy": {
+    "source_confidence_preserved": true,
+    "new_penalty": {"numerator": 0, "denominator": 1},
+    "truth_region_sizes_diagnostic_only": true
+  },
+  "scope_boundary": {
+    "reduced_context_completeness": false,
+    "universal_concept_lattice": false,
+    "universal_sensor_classification": false,
+    "physical_measurement_sufficiency": false,
+    "candidate_ranking": false,
+    "candidate_pruning": false,
+    "candidate_selection": false,
+    "plan_activation": false,
+    "execution": false,
+    "source_mutation": false,
+    "persistent_state_mutation": false,
+    "truth_authority": false,
+    "future_only": true,
+    "read_only": true
+  }
+}
