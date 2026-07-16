@@ -1,0 +1,77 @@
+{
+  "schema_version": "kuuos.memoryos.closed-support-representable-kernel-order-iso-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.99",
+  "step_id": "memoryos-v0-99-closed-support-representable-kernel-order-iso",
+  "source_frontier": "MemoryOS v0.98",
+  "source_artifact": "runtime/kuuos_memoryos_sensor_kernel_polarity_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_99.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_closed_support_representable_kernel_order_iso_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_closed_support_representable_kernel_order_iso_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_closed_support_representable_kernel_order_iso_certificate_kernel_v0_1.md",
+  "laws": {
+    "closed_support_and_representable_kernel_maps_are_mutual_inverses": true,
+    "closed_support_order_is_isomorphic_to_dual_representable_kernel_order": true,
+    "binary_join_maps_to_kernel_infimum": true,
+    "binary_meet_maps_to_enveloped_kernel_supremum": true,
+    "finite_family_operation_compatibility_is_preserved": true,
+    "typed_maps_are_root_independent_at_underlying_values": true,
+    "typed_fixed_point_cardinalities_match": true
+  },
+  "literature_alignment": [
+    "arXiv:2607.01773",
+    "arXiv:2606.30782",
+    "arXiv:2509.05299",
+    "arXiv:2408.09080",
+    "arXiv:2507.14068",
+    "arXiv:2506.24052",
+    "arXiv:2404.12229",
+    "arXiv:1503.09025",
+    "arXiv:1407.0512",
+    "arXiv:1309.5134",
+    "arXiv:2603.14615",
+    "arXiv:2507.22682",
+    "arXiv:2509.04417",
+    "Guigues-Duquenne-1986"
+  ],
+  "expected_record_counts": {
+    "literature_records": 14,
+    "profile_records": 8,
+    "closed_support_typed_map_records": 16,
+    "representable_kernel_typed_map_records": 16,
+    "order_iso_records": 36,
+    "binary_operation_transport_records": 36,
+    "finite_family_transport_records": 36,
+    "support_map_root_independence_records": 256,
+    "kernel_map_root_independence_records": 256,
+    "confidence_preservation_records": 4
+  },
+  "confidence_policy": {
+    "source_confidence_preserved": true,
+    "new_penalty": {"numerator": 0, "denominator": 1},
+    "kernel_level_diagnostic_only": true,
+    "fixed_point_cardinality_diagnostic_only": true
+  },
+  "source_binding": {
+    "runtime_git_blob_sha1": "74a3ed60af4f01f3a2f21f47a338ffcde3e414fe",
+    "manifest_git_blob_sha1": "d64d5e1e06110d1490c0888d184403014a9579db"
+  },
+  "generated_source_sha256": {
+    "runtime": "6a3ca7fadb385620c74bf5b3678f3d6b81bfa8bf534b01697eb6b808fb5023a4",
+    "checker": "6444510d8b1d71fc7af7b6e6daaf4eebcda08d628c298ee28d6a9a7f1d710a91"
+  },
+  "scope_boundary": {
+    "complete_lattice_typeclass_claimed": false,
+    "arbitrary_set_indexed_sup_inf_claimed": false,
+    "infinite_family_theorem_claimed": false,
+    "distributivity_claimed": false,
+    "modularity_claimed": false,
+    "ambient_subgroup_order_iso_claimed": false,
+    "all_subgroups_sensor_representable_claimed": false,
+    "unique_sensor_support_representation_claimed": false,
+    "canonical_minimum_support_claimed": false,
+    "external_oracle_authority": false,
+    "execution": false,
+    "persistent_state_mutation": false,
+    "truth_authority": false
+  }
+}
