@@ -3,9 +3,9 @@ from __future__ import annotations
 
 import runtime.kuuos_current_check_v0_95 as _base
 
-_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.97"
+_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.98"
 _base.CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_finite_family_signature_lattice_certificate_kernel_v0_1.py"
+    "runtime/kuuos_memoryos_sensor_kernel_polarity_certificate_kernel_v0_1.py"
 )
 _NEW_STEPS = (
     (
@@ -15,6 +15,10 @@ _NEW_STEPS = (
     (
         "memoryos-v0-97-finite-family-signature-lattice",
         "scripts/check_planos_memoryos_finite_family_signature_lattice_certificate_kernel_v0_1.py",
+    ),
+    (
+        "memoryos-v0-98-sensor-kernel-polarity",
+        "scripts/check_planos_memoryos_sensor_kernel_polarity_certificate_kernel_v0_1.py",
     ),
 )
 for _step in _NEW_STEPS:
