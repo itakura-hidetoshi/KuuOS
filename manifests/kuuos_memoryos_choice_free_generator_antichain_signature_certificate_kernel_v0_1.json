@@ -1,0 +1,80 @@
+{
+  "schema_version": "kuuos.memoryos.choice-free-generator-antichain-signature-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.94",
+  "step_id": "memoryos-v0-94-choice-free-minimal-generator-antichain-signatures",
+  "source_frontier": "MemoryOS v0.93",
+  "source_artifact": "runtime/kuuos_memoryos_minimal_generator_closure_quotient_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_94.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_choice_free_generator_antichain_signature_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_choice_free_generator_antichain_signature_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_choice_free_generator_antichain_signature_certificate_kernel_v0_1.md",
+  "signature_laws": {
+    "complete_minimal_generator_fiber": true,
+    "proper_closed_context_signature_nonempty": true,
+    "signature_is_inclusion_antichain": true,
+    "signature_members_generate_exact_context": true,
+    "signature_equality_is_context_equality": true,
+    "signature_equality_is_kernel_equality": true,
+    "distinct_context_signatures_have_no_shared_member": true,
+    "closure_class_signature_root_independent": true,
+    "representative_choice_required": false
+  },
+  "literature_alignment": [
+    "arXiv:2607.01773",
+    "arXiv:2506.24052",
+    "arXiv:2407.00694",
+    "arXiv:2404.12229",
+    "arXiv:1503.09025",
+    "arXiv:1411.6432",
+    "Guigues-Duquenne-1986"
+  ],
+  "expected_record_counts": {
+    "literature_records": 7,
+    "profile_records": 8,
+    "proper_context_signature_records": 8,
+    "signature_member_records": 8,
+    "signature_nonempty_records": 8,
+    "signature_antichain_pair_records": 8,
+    "proper_support_signature_records": 11,
+    "signature_closure_kernel_equivalence_records": 27,
+    "context_signature_kernel_classification_records": 12,
+    "distinct_context_signature_separation_records": 4,
+    "generator_own_signature_records": 8,
+    "root_independence_records": 176,
+    "confidence_preservation_records": 4
+  },
+  "confidence_policy": {
+    "source_confidence_preserved": true,
+    "new_penalty": {"numerator": 0, "denominator": 1},
+    "signature_cardinality_diagnostic_only": true,
+    "antichain_width_diagnostic_only": true
+  },
+  "scope_boundary": {
+    "representative_choice_performed": false,
+    "unique_minimal_generator": false,
+    "global_minimum_implication_basis": false,
+    "canonical_implication_basis": false,
+    "hypergraph_dualization_complexity_claim": false,
+    "optimal_query_order": false,
+    "external_oracle_authority": false,
+    "retrieval_result_authority": false,
+    "candidate_ranking": false,
+    "candidate_pruning": false,
+    "candidate_selection": false,
+    "plan_activation": false,
+    "execution": false,
+    "source_mutation": false,
+    "persistent_state_mutation": false,
+    "truth_authority": false,
+    "future_only": true,
+    "read_only": true
+  },
+  "source_binding": {
+    "runtime_git_blob_sha1": "776b96891ae3d36797d6e56089751377840a8eab",
+    "manifest_git_blob_sha1": "8ee23c1790e571fcaab14682e51d0d877f159155"
+  },
+  "generated_source_sha256": {
+    "runtime": "67cd7890603f5b8d18cae90ef681a40a8b4be2f8bfd7f1803c3d230c98b6384f",
+    "checker": "00050845c5b6d2a17049ab30ef1ca3f6ed80ad9ebcf98d38559551d7a8f5fbe9"
+  }
+}
