@@ -1,0 +1,71 @@
+{
+  "schema_version": "kuuos.memoryos.pointed-choice-free-signature-lattice-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.96",
+  "step_id": "memoryos-v0-96-pointed-choice-free-signature-lattice",
+  "source_frontier": "MemoryOS v0.95",
+  "source_artifact": "runtime/kuuos_memoryos_choice_free_signature_hull_kernel_order_duality_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_96.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_pointed_choice_free_signature_lattice_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_pointed_choice_free_signature_lattice_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_pointed_choice_free_signature_lattice_certificate_kernel_v0_1.md",
+  "laws": {
+    "empty_signature_is_universal_context_sentinel": true,
+    "all_closed_contexts_encode_decode_exactly": true,
+    "pointed_hull_order_is_closed_context_inclusion": true,
+    "binary_meet_is_closed_context_intersection": true,
+    "binary_join_is_closure_of_union": true,
+    "meet_and_join_have_universal_properties": true,
+    "top_and_bottom_are_exact": true,
+    "root_independence": true
+  },
+  "literature_alignment": [
+    "arXiv:2607.01773",
+    "arXiv:2509.05299",
+    "arXiv:2603.14615",
+    "arXiv:2502.04146",
+    "arXiv:2506.24052",
+    "arXiv:2407.00694",
+    "arXiv:2404.07037",
+    "arXiv:2404.12229",
+    "arXiv:1503.09025",
+    "Guigues-Duquenne-1986"
+  ],
+  "expected_record_counts": {
+    "literature_records": 10,
+    "profile_records": 8,
+    "completed_context_records": 16,
+    "top_bottom_records": 8,
+    "pair_operation_records": 36,
+    "universal_property_records": 88,
+    "context_root_independence_records": 256,
+    "operation_root_independence_records": 576,
+    "confidence_preservation_records": 4
+  },
+  "confidence_policy": {
+    "source_confidence_preserved": true,
+    "new_penalty": {"numerator": 0, "denominator": 1},
+    "signature_cardinality_diagnostic_only": true,
+    "lattice_height_diagnostic_only": true,
+    "comparable_pair_counts_diagnostic_only": true
+  },
+  "source_binding": {
+    "runtime_git_blob_sha1": "1e78f37fbe0329f0ba13ea191c29d8037903a0eb",
+    "manifest_git_blob_sha1": "22e1b146330f19b06344c2c8adf9a22052275daa"
+  },
+  "generated_source_sha256": {
+    "runtime": "5738c38aa9a8664cc5b42e6f9926300377b279477e2980fee11d67882e6724f5",
+    "checker": "ac5ba9a806699d27220fc4690b8ac8ef3a8910cfa9082654da778feba0bc3bc5"
+  },
+  "scope_boundary": {
+    "representative_choice_performed": false,
+    "unique_minimal_generator_claimed": false,
+    "complete_lattice_typeclass_claimed": false,
+    "arbitrary_family_sup_inf_claimed": false,
+    "distributivity_claimed": false,
+    "modularity_claimed": false,
+    "external_oracle_authority": false,
+    "execution": false,
+    "persistent_state_mutation": false,
+    "truth_authority": false
+  }
+}
