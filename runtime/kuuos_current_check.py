@@ -3,9 +3,9 @@ from __future__ import annotations
 
 import runtime.kuuos_current_check_v0_95 as _base
 
-_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.99"
+_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v1.00"
 _base.CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_closed_support_representable_kernel_order_iso_certificate_kernel_v0_1.py"
+    "runtime/kuuos_memoryos_finite_bounded_closed_support_lattice_certificate_kernel_v0_1.py"
 )
 _NEW_STEPS = (
     (
@@ -23,6 +23,10 @@ _NEW_STEPS = (
     (
         "memoryos-v0-99-closed-support-representable-kernel-order-iso",
         "scripts/check_planos_memoryos_closed_support_representable_kernel_order_iso_certificate_kernel_v0_1.py",
+    ),
+    (
+        "memoryos-v1-00-finite-bounded-closed-support-lattice",
+        "scripts/check_planos_memoryos_finite_bounded_closed_support_lattice_certificate_kernel_v0_1.py",
     ),
 )
 for _step in _NEW_STEPS:

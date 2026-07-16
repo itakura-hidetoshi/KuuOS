@@ -1,0 +1,83 @@
+{
+  "schema_version": "kuuos.memoryos.finite-bounded-closed-support-lattice-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v1.00",
+  "step_id": "memoryos-v1-00-finite-bounded-closed-support-lattice",
+  "source_frontier": "MemoryOS v0.99",
+  "source_artifact": "runtime/kuuos_memoryos_closed_support_representable_kernel_order_iso_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV1_00.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_finite_bounded_closed_support_lattice_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_finite_bounded_closed_support_lattice_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_finite_bounded_closed_support_lattice_certificate_kernel_v0_1.md",
+  "laws": {
+    "closed_support_binary_operations_form_a_lattice": true,
+    "closed_support_bottom_and_top_are_exact_bounds": true,
+    "typed_finite_meet_and_join_satisfy_universal_properties": true,
+    "empty_and_singleton_finite_operation_laws_hold": true,
+    "typed_finite_operations_transport_to_kernel_operations": true,
+    "closed_support_and_representable_kernel_cardinalities_match": true,
+    "bounded_endpoints_are_root_independent_at_underlying_values": true
+  },
+  "literature_alignment": [
+    "arXiv:2607.01773",
+    "arXiv:2606.30782",
+    "arXiv:2509.05299",
+    "arXiv:2408.09080",
+    "arXiv:2507.14068",
+    "arXiv:2506.24052",
+    "arXiv:2404.12229",
+    "arXiv:1503.09025",
+    "arXiv:1407.0512",
+    "arXiv:1309.5134",
+    "arXiv:2603.14615",
+    "arXiv:2507.22682",
+    "arXiv:2509.04417",
+    "Guigues-Duquenne-1986"
+  ],
+  "implementation_alignment": [
+    "mathlib4:Mathlib/Order/Lattice.lean",
+    "mathlib4:Mathlib/Order/Hom/Basic.lean"
+  ],
+  "expected_record_counts": {
+    "literature_records": 14,
+    "profile_records": 8,
+    "binary_lattice_records": 36,
+    "endpoint_bound_records": 16,
+    "finite_family_lattice_records": 36,
+    "empty_singleton_records": 16,
+    "finite_kernel_transport_records": 36,
+    "endpoint_root_independence_records": 256,
+    "confidence_preservation_records": 4
+  },
+  "confidence_policy": {
+    "source_confidence_preserved": true,
+    "new_penalty": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "kernel_level_diagnostic_only": true,
+    "fixed_point_cardinality_diagnostic_only": true
+  },
+  "source_binding": {
+    "runtime_git_blob_sha1": "39de55cf0c90de51e2579fa8bcdb3e08420ad0d5",
+    "manifest_git_blob_sha1": "4174c106b3631e89c5277000d3c2a56d4859ba16"
+  },
+  "generated_source_sha256": {
+    "runtime": "2c256cef597c9a7964abfd8f7aa4ea2131d6a69871003dd076d24b0777c2b3cb",
+    "checker": "c784fb0a57ebc8486cd3a1bfdf53851d25dcb4454f98027b29de2673d34aa0fd"
+  },
+  "scope_boundary": {
+    "complete_lattice_typeclass_claimed": false,
+    "arbitrary_set_indexed_sup_inf_claimed": false,
+    "infinite_family_theorem_claimed": false,
+    "distributivity_claimed": false,
+    "modularity_claimed": false,
+    "ambient_subgroup_lattice_equivalence_claimed": false,
+    "all_subgroups_sensor_representable_claimed": false,
+    "unique_sensor_support_representation_claimed": false,
+    "canonical_minimum_support_claimed": false,
+    "external_oracle_authority": false,
+    "execution": false,
+    "persistent_state_mutation": false,
+    "truth_authority": false
+  }
+}
