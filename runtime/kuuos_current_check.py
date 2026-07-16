@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import runtime.kuuos_current_check_v0_93 as _base
+import runtime.kuuos_current_check_v0_94 as _base
 
-_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.94"
+_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.95"
 _base.CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_choice_free_generator_antichain_signature_certificate_kernel_v0_1.py"
+    "runtime/kuuos_memoryos_choice_free_signature_hull_kernel_order_duality_certificate_kernel_v0_1.py"
 )
 _NEW_STEP = (
-    "memoryos-v0-94-choice-free-minimal-generator-antichain-signatures",
-    "scripts/check_planos_memoryos_choice_free_generator_antichain_signature_certificate_kernel_v0_1.py",
+    "memoryos-v0-95-choice-free-signature-hull-kernel-order-duality",
+    "scripts/check_planos_memoryos_choice_free_signature_hull_kernel_order_duality_certificate_kernel_v0_1.py",
 )
 if _NEW_STEP not in _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS:
     _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS = (
