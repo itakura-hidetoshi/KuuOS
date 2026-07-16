@@ -1,1 +1,6 @@
 import Mathlib
+import KUOS.OpenHorizon.MemoryOSChoiceFreeSignatureHullKernelOrderDualityV0_95
+
+namespace KUOS.OpenHorizon.MemoryOSPointedSignatureLatticeV0_96
+
+end KUOS.OpenHorizon.MemoryOSPointedSignatureLatticeV0_96
