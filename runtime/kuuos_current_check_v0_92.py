@@ -1,15 +1,15 @@
 #!/usr/bin/env python3
 from __future__ import annotations
 
-import runtime.kuuos_current_check_v0_92 as _base
+import runtime.kuuos_current_check_v0_91 as _base
 
-_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.93"
+_base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v0.92"
 _base.CURRENT_FRONTIER_ARTIFACT = (
-    "runtime/kuuos_memoryos_minimal_generator_closure_quotient_certificate_kernel_v0_1.py"
+    "runtime/kuuos_memoryos_finite_batch_context_saturation_certificate_kernel_v0_1.py"
 )
 _NEW_STEP = (
-    "memoryos-v0-93-minimal-generator-closure-quotient",
-    "scripts/check_planos_memoryos_minimal_generator_closure_quotient_certificate_kernel_v0_1.py",
+    "memoryos-v0-92-finite-batch-counterexample-context-saturation",
+    "scripts/check_planos_memoryos_finite_batch_context_saturation_certificate_kernel_v0_1.py",
 )
 if _NEW_STEP not in _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS:
     _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS = (
