@@ -1,0 +1,83 @@
+{
+  "schema_version": "kuuos.memoryos.finite-batch-context-saturation-certificate.v0.1",
+  "memoryos_frontier": "MemoryOS v0.92",
+  "step_id": "memoryos-v0-92-finite-batch-counterexample-context-saturation",
+  "source_frontier": "MemoryOS v0.91",
+  "source_artifact": "runtime/kuuos_memoryos_counterexample_guided_context_refinement_certificate_kernel_v0_1.py",
+  "formal_root": "formal/KuuOSMemoryOSV0_92.lean",
+  "runtime_artifact": "runtime/kuuos_memoryos_finite_batch_context_saturation_certificate_kernel_v0_1.py",
+  "checker": "scripts/check_planos_memoryos_finite_batch_context_saturation_certificate_kernel_v0_1.py",
+  "documentation": "docs/memoryos_finite_batch_context_saturation_certificate_kernel_v0_1.md",
+  "batch_laws": {
+    "canonical_proper_closure_image_exact": true,
+    "batch_refinement_preserves_closed_proper_contexts": true,
+    "batch_exact_for_every_included_premise": true,
+    "batch_union_composition_exact": true,
+    "batch_order_independent": true,
+    "batch_duplicate_invariant": true,
+    "batch_refinement_idempotent": true,
+    "batch_monotone_in_premise_family": true,
+    "all_support_batch_saturates_to_all_proper_closed_contexts": true,
+    "saturated_context_family_complete_for_all_queries": true,
+    "root_independent": true
+  },
+  "literature_alignment": [
+    "arXiv:2607.01773",
+    "arXiv:2205.15714",
+    "arXiv:1202.4824",
+    "arXiv:1503.09025",
+    "arXiv:1810.08684",
+    "arXiv:2404.12229",
+    "arXiv:1110.5805"
+  ],
+  "expected_record_counts": {
+    "literature_records": 7,
+    "profile_records": 8,
+    "premise_batch_records": 318,
+    "canonical_batch_context_records": 318,
+    "batch_membership_records": 902,
+    "batch_exact_query_records": 12820,
+    "batch_union_composition_records": 66356,
+    "batch_idempotence_records": 1174,
+    "batch_monotonicity_records": 6834,
+    "closure_image_invariance_records": 25988,
+    "saturation_equality_records": 8,
+    "saturated_query_records": 54,
+    "batch_root_independence_records": 1272,
+    "confidence_preservation_records": 4
+  },
+  "confidence_policy": {
+    "source_confidence_preserved": true,
+    "new_penalty": {
+      "numerator": 0,
+      "denominator": 1
+    },
+    "batch_sizes_diagnostic_only": true,
+    "saturation_depth_diagnostic_only": true
+  },
+  "scope_boundary": {
+    "global_minimum_context_basis": false,
+    "canonical_implication_basis_claimed": false,
+    "optimal_query_order_claimed": false,
+    "external_oracle_authority": false,
+    "retrieval_result_authority": false,
+    "candidate_ranking": false,
+    "candidate_pruning": false,
+    "candidate_selection": false,
+    "plan_activation": false,
+    "execution": false,
+    "source_mutation": false,
+    "persistent_state_mutation": false,
+    "truth_authority": false,
+    "future_only": true,
+    "read_only": true
+  },
+  "source_binding": {
+    "runtime_git_blob_sha1": "ae6a4a318431908fe2f90a1305d8cdecb403df69",
+    "manifest_git_blob_sha1": "082c806aff82ffd6dc73c5b6cc0827930583029c"
+  },
+  "generated_source_sha256": {
+    "runtime": "ca56cbf55c8d0345856079121e172cd9b272ae5ddec1db58aa614a6404c8c9f9",
+    "checker": "cd8d96e7400a2882d8417e88163e6bf8af22cebc6b353013e2ba151f2bf846ff"
+  }
+}
