@@ -13,16 +13,30 @@ def require_tokens(path: pathlib.Path, tokens: tuple[str, ...]) -> None:
         assert token in text, f"{path}: {token}"
 
 
-def require_readme_composition_boundary(path: pathlib.Path) -> None:
-    text = path.read_text(encoding="utf-8")
+def require_tokens_across(
+    paths: tuple[pathlib.Path, ...], tokens: tuple[str, ...]
+) -> None:
+    texts = {
+        path: path.read_text(encoding="utf-8")
+        for path in paths
+    }
+    for token in tokens:
+        assert any(token in text for text in texts.values()), (
+            f"{', '.join(str(path) for path in paths)}: {token}"
+        )
+
+
+def require_composition_boundary(paths: tuple[pathlib.Path, ...]) -> None:
+    text = "\n".join(path.read_text(encoding="utf-8") for path in paths)
     exact_boundary = "receipt composition != receipt construction"
     rolling_summary_boundary = (
         "OS receipt composition" in text
         and "receipt != successor authority" in text
     )
     assert exact_boundary in text or rolling_summary_boundary, (
-        f"{path}: missing exact receipt-composition boundary or "
-        "rolling README composition/non-authority coverage"
+        f"{', '.join(str(path) for path in paths)}: missing exact "
+        "receipt-composition boundary or rolling entry-document "
+        "composition/non-authority coverage"
     )
 
 
@@ -63,14 +77,17 @@ def main() -> int:
         ),
     )
 
-    # README and ROADMAP are rolling entry documents. The versioned v0.53
-    # document above retains the exact construction boundary. README may carry
-    # either that exact sentence or the integrated composition spine together
-    # with its durable receipt non-authority boundary.
-    readme = ROOT / "README.md"
-    require_readme_composition_boundary(readme)
-    require_tokens(
-        readme,
+    # Repository entry documents are intentionally layered. The root README
+    # carries repository-wide fixed points, while docs/ObserveOS/README.md is
+    # the structured subsystem index. Durable ObserveOS composition boundaries
+    # may live in either document without duplicating all historical detail.
+    entry_docs = (
+        ROOT / "README.md",
+        ROOT / "docs/ObserveOS/README.md",
+    )
+    require_composition_boundary(entry_docs)
+    require_tokens_across(
+        entry_docs,
         (
             "WORLD sidecar != exact WORLD",
             "observation != verification",
