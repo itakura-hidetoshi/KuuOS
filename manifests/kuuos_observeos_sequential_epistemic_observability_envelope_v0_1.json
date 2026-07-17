@@ -67,6 +67,14 @@
     "checker": "scripts/check_observeos_sequential_epistemic_observability_envelope_v0_1.py",
     "formal_package": "formal/KUOS/ObserveOS/SequentialEpistemicObservabilityEnvelopeV0_7.lean",
     "formal_root": "formal/KuuOSObserveOSV0_7.lean",
-    "documentation": "docs/OBSERVEOS_SEQUENTIAL_EPISTEMIC_OBSERVABILITY_ENVELOPE_v0_1.md"
+    "documentation": "docs/OBSERVEOS_SEQUENTIAL_EPISTEMIC_OBSERVABILITY_ENVELOPE_v0_1.md",
+    "runtime_helpers": [
+      "runtime/kuuos_observeos_sequential_epistemic_observability_common_v0_1.py",
+      "runtime/kuuos_observeos_sequential_epistemic_observability_validators_v0_1.py",
+      "runtime/kuuos_observeos_sequential_epistemic_observability_preflight_v0_1.py",
+      "runtime/kuuos_observeos_sequential_epistemic_observability_sampling_v0_1.py",
+      "runtime/kuuos_observeos_sequential_epistemic_observability_evaluation_v0_1.py",
+      "runtime/kuuos_observeos_sequential_epistemic_observability_receipt_v0_1.py"
+    ]
   }
 }
