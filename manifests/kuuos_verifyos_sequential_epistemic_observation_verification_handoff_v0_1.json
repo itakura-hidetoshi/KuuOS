@@ -1,0 +1,57 @@
+{
+  "manifest_version": "kuuos_verifyos_sequential_epistemic_observation_verification_handoff_v0_1",
+  "status": "independent_verification_handoff_only",
+  "verifyos_version": "v0.13",
+  "source_layer": "ObserveOS v0.7 sequential epistemic observability envelope",
+  "source_state": "bounded_maintenance_monitoring_observation_recorded_sequential_epistemic_observability_envelope_recorded",
+  "supported_state": "bounded_maintenance_monitoring_observation_recorded_sequential_epistemic_observability_envelope_recorded_independent_verification_handoff_prepared",
+  "runtime": "runtime/kuuos_verifyos_sequential_epistemic_observation_verification_handoff_v0_1.py",
+  "checker": "scripts/check_verifyos_sequential_epistemic_observation_verification_handoff_v0_1.py",
+  "formal_module": "formal/KUOS/VerifyOS/SequentialEpistemicObservationVerificationHandoffV0_13.lean",
+  "formal_root": "formal/KuuOSVerifyOSV0_13.lean",
+  "documentation": "docs/KUUOS_VERIFYOS_SEQUENTIAL_EPISTEMIC_OBSERVATION_VERIFICATION_HANDOFF_v0_1.md",
+  "structured_index": "docs/VerifyOS/README.md",
+  "workflow": ".github/workflows/verifyos-sequential-epistemic-observation-verification-handoff-v0-1.yml",
+  "cumulative_check": "scripts/run_evidence_cycle_os_full_checks.py",
+  "disposition_count": 15,
+  "supported_outputs": {
+    "verification_request_recorded": true,
+    "independent_verification_handoff_prepared": true,
+    "verification_completed": false,
+    "verification_debt_open": true
+  },
+  "preserved_invariants": {
+    "source_observability_envelope_recorded": true,
+    "observation_recollected_by_handoff": false,
+    "world_state_unchanged": true,
+    "world_revision_unchanged": true,
+    "current_plan_unchanged": true,
+    "current_policy_inactive": true,
+    "learning_delta_inactive": true,
+    "tool_invocation_performed": false,
+    "external_side_effect_performed": false,
+    "history_read_only": true,
+    "future_only": true,
+    "active_now": false
+  },
+  "boundaries": [
+    "observability_not_verification",
+    "handoff_not_verification_completion",
+    "verification_request_not_truth",
+    "verification_request_not_causal_confirmation",
+    "verification_request_not_world_mutation",
+    "verification_request_not_policy_activation",
+    "verification_request_not_execution",
+    "evidence_collection_external_to_kernel",
+    "observation_not_recollected",
+    "no_tool_invocation",
+    "no_external_side_effect",
+    "no_authority_escalation"
+  ],
+  "literature_and_standards": [
+    "W3C Trace Context",
+    "W3C PROV-O",
+    "NIST AI RMF 1.0 TEVV",
+    "National Academies Reproducibility and Replicability in Science (2019)"
+  ]
+}
