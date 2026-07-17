@@ -66,6 +66,7 @@ import KUOS.ObserveOS.EffectGroundedObservationV0_1
 import KUOS.ObserveOS.ReplanLineageObservationEnvelopeV0_2
 import KUOS.ObserveOS.VacuumExpectationIntakeCommitReceiptV0_3
 import KUOS.ObserveOS.WorldHostEffectObservationReceiptV0_4
+import KUOS.ObserveOS.SequentialEpistemicObservabilityEnvelopeV0_7
 import KUOS.VerifyOS.EvidenceBoundVerificationV0_1
 import KUOS.VerifyOS.ReplanLineageVerificationEnvelopeV0_2
 import KUOS.LearnOS.FutureOnlyEvidenceLearningV0_1
