@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run cumulative evidence-cycle checks through ActOS v0.12 policy activation authorization."""
+"""Run cumulative evidence-cycle checks through VerifyOS v0.13 verification handoff."""
 
 from __future__ import annotations
 
@@ -142,6 +142,10 @@ COMMANDS: tuple[tuple[str, ...], ...] = (
         sys.executable,
         "scripts/check_actos_dukkha_preserving_bounded_policy_activation_authorization_intake_v0_1.py",
     ),
+    (
+        sys.executable,
+        "scripts/check_verifyos_sequential_epistemic_observation_verification_handoff_v0_1.py",
+    ),
 )
 
 
@@ -170,7 +174,7 @@ def main() -> int:
 
     print(
         "\nPASS: Evidence Cycle OS validation completed through "
-        "ActOS v0.12 bounded policy activation authorization"
+        "VerifyOS v0.13 independent verification handoff"
     )
     return 0
 
