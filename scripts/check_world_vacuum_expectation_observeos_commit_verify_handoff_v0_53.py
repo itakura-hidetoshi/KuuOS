@@ -77,29 +77,23 @@ def main() -> int:
         ),
     )
 
-    # Repository entry documents are intentionally layered. The root README
-    # carries repository-wide fixed points, while docs/ObserveOS/README.md is
-    # the structured subsystem index. Durable ObserveOS composition boundaries
-    # may live in either document without duplicating all historical detail.
+    # Rolling repository documents are layered. Durable ObserveOS composition,
+    # WORLD, and learning boundaries may live in the overview, roadmap, or the
+    # structured ObserveOS subsystem index without duplicating historical prose.
     entry_docs = (
         ROOT / "README.md",
+        ROOT / "ROADMAP.md",
         ROOT / "docs/ObserveOS/README.md",
     )
     require_composition_boundary(entry_docs)
     require_tokens_across(
         entry_docs,
         (
-            "WORLD sidecar != exact WORLD",
-            "observation != verification",
-            "learning != present-cycle mutation",
-        ),
-    )
-    require_tokens(
-        ROOT / "ROADMAP.md",
-        (
             "OS receipt composition",
             "WORLD sidecar != exact WORLD",
             "WORLD commit != truth",
+            "observation != verification",
+            "learning != present-cycle mutation",
         ),
     )
 
