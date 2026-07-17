@@ -1,0 +1,108 @@
+name: ObserveOS Sequential Epistemic Observability v0.1
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "runtime/kuuos_observeos_sequential_epistemic_observability_envelope_v0_1.py"
+      - "runtime/kuuos_observeos_sequential_epistemic_observability_common_v0_1.py"
+      - "runtime/kuuos_observeos_sequential_epistemic_observability_validators_v0_1.py"
+      - "runtime/kuuos_observeos_sequential_epistemic_observability_preflight_v0_1.py"
+      - "runtime/kuuos_observeos_sequential_epistemic_observability_sampling_v0_1.py"
+      - "runtime/kuuos_observeos_sequential_epistemic_observability_evaluation_v0_1.py"
+      - "runtime/kuuos_observeos_sequential_epistemic_observability_receipt_v0_1.py"
+      - "scripts/check_observeos_sequential_epistemic_observability_envelope_v0_1.py"
+      - "manifests/kuuos_observeos_sequential_epistemic_observability_envelope_v0_1.json"
+      - "docs/OBSERVEOS_SEQUENTIAL_EPISTEMIC_OBSERVABILITY_ENVELOPE_v0_1.md"
+      - "formal/KUOS/ObserveOS/SequentialEpistemicObservabilityEnvelopeV0_7.lean"
+      - "formal/KuuOSObserveOSV0_7.lean"
+      - "formal/KUOS.lean"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
+      - ".github/workflows/observeos-sequential-epistemic-observability-v0-1.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python3 -m compileall -q
+          runtime/kuuos_observeos_sequential_epistemic_observability_envelope_v0_1.py
+          runtime/kuuos_observeos_sequential_epistemic_observability_common_v0_1.py
+          runtime/kuuos_observeos_sequential_epistemic_observability_validators_v0_1.py
+          runtime/kuuos_observeos_sequential_epistemic_observability_preflight_v0_1.py
+          runtime/kuuos_observeos_sequential_epistemic_observability_sampling_v0_1.py
+          runtime/kuuos_observeos_sequential_epistemic_observability_evaluation_v0_1.py
+          runtime/kuuos_observeos_sequential_epistemic_observability_receipt_v0_1.py
+          scripts/check_observeos_sequential_epistemic_observability_envelope_v0_1.py
+      - name: Validate manifest
+        run: >-
+          python3 -m json.tool
+          manifests/kuuos_observeos_sequential_epistemic_observability_envelope_v0_1.json
+          > /dev/null
+      - name: Check supported and repair routes
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 \
+            scripts/check_observeos_sequential_epistemic_observability_envelope_v0_1.py \
+            2>&1 | tee observeos-sequential-epistemic-observability-v0-1.log
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Verify committed manifest is canonical
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile ObserveOS v0.7 formal root
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSObserveOSV0_7 \
+            2>&1 | tee observeos-sequential-epistemic-observability-v0-1-lean.log
+      - name: Strictly compile aggregate formal root
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSFormal \
+            2>&1 | tee observeos-sequential-epistemic-observability-v0-1-lean-root.log
+      - name: Upload diagnostics
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: observeos-sequential-epistemic-observability-v0-1-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            observeos-sequential-epistemic-observability-v0-1.log
+            observeos-sequential-epistemic-observability-v0-1-lean.log
+            observeos-sequential-epistemic-observability-v0-1-lean-root.log
+          if-no-files-found: warn
+          retention-days: 14
