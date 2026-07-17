@@ -1,0 +1,64 @@
+{
+  "manifest_version": "kuuos_verifyos_independent_evidence_verification_v0_1",
+  "status": "independent_evidence_verification_receipt_only",
+  "verifyos_version": "v0.14",
+  "source_layer": "VerifyOS v0.13 sequential epistemic independent verification handoff",
+  "source_state": "bounded_maintenance_monitoring_observation_recorded_sequential_epistemic_observability_envelope_recorded_independent_verification_handoff_prepared",
+  "outcome_state": "bounded_maintenance_monitoring_observation_recorded_sequential_epistemic_observability_envelope_recorded_independent_verification_handoff_prepared_independent_evidence_verification_recorded",
+  "runtime": "runtime/kuuos_verifyos_independent_evidence_verification_v0_1.py",
+  "checker": "scripts/check_verifyos_independent_evidence_verification_v0_1.py",
+  "formal_module": "formal/KUOS/VerifyOS/IndependentEvidenceVerificationV0_14.lean",
+  "formal_root": "formal/KuuOSVerifyOSV0_14.lean",
+  "documentation": "docs/KUUOS_VERIFYOS_INDEPENDENT_EVIDENCE_VERIFICATION_v0_1.md",
+  "structured_index": "docs/VerifyOS/README.md",
+  "workflow": ".github/workflows/verifyos-independent-evidence-verification-v0-1.yml",
+  "cumulative_check": "scripts/run_evidence_cycle_os_full_checks.py",
+  "disposition_count": 14,
+  "outcomes": {
+    "passed": {
+      "verification_completed": true,
+      "verification_debt_open": false,
+      "reobservation_required": false
+    },
+    "failed": {
+      "verification_completed": true,
+      "verification_debt_open": false,
+      "reobservation_required": false
+    },
+    "indeterminate": {
+      "verification_completed": true,
+      "verification_debt_open": true,
+      "reobservation_required": true
+    }
+  },
+  "preserved_invariants": {
+    "world_disposition_candidate_generated": false,
+    "world_state_unchanged": true,
+    "world_revision_unchanged": true,
+    "current_plan_unchanged": true,
+    "current_policy_inactive": true,
+    "learning_delta_inactive": true,
+    "tool_invocation_performed_by_kernel": false,
+    "external_side_effect_performed_by_kernel": false,
+    "history_read_only": true,
+    "future_only": true,
+    "active_now": false
+  },
+  "boundaries": [
+    "verification_not_truth",
+    "verification_outcome_not_causal_attribution",
+    "passed_not_world_adoption",
+    "failed_not_world_rejection",
+    "indeterminate_not_evidence_deletion",
+    "verification_receipt_not_world_mutation",
+    "verification_receipt_not_policy_activation",
+    "verification_receipt_not_execution_authority",
+    "no_authority_escalation"
+  ],
+  "literature_and_standards": [
+    "W3C Trace Context",
+    "W3C PROV-O",
+    "NIST AI RMF 1.0 TEVV",
+    "National Academies Reproducibility and Replicability in Science (2019)"
+  ]
+}
