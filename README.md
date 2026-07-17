@@ -11,20 +11,21 @@ KuuOSは、候補と権限、予測と事実、検証と真理、選択と実行
 
 ## 現在地
 
-**基準日：2026年7月16日 JST**
+**基準日：2026年7月17日 JST**
 
-公開状態のauthoritative branchは`main`です。最新の機能統合はPR #1277、MemoryOS v1.00です。この公開面は、その統合commit `7a5c9308cd7089e4ce96d3cbbd8b88f8f6ae26a4`を基準に同期しています。
+公開状態のauthoritative branchは`main`です。最新の機能統合はPR #1279、ObserveOS v0.7 Sequential Epistemic Observability Envelopeです。この公開面は、そのsquash merge commit `b68f6ee5c16b3670806613226034bc4b899abac5`を基準に同期しています。
 
 | 面 | 統合済み到達点 | 主な入口 |
 |---|---|---|
 | Repository lineage | self-organization v0.113 | `runtime/kuuos_current_root_sequence_v0_113.py` |
+| ObserveOS | v0.7 sequential epistemic observability envelope | `docs/ObserveOS/README.md` |
 | PlanOS | v1.23 finite Physical Quantum Qi coherence kernel and partial dephasing | `formal/KuuOSPlanOSV1_23.lean` |
 | DecisionOS | v0.6 WORLD-conditioned relational deliberation | `formal/KuuOSDecisionOSV0_6.lean` |
 | MemoryOS | v1.00 finite bounded closed-support lattice | `formal/KuuOSMemoryOSV1_00.lean` |
 | WORLD dependency | KuuOS v14.0 causal WORLD state | read-only source for the integrated PlanOS line |
 | Canonical runtime root | repository、PlanOS、DecisionOS、MemoryOS | `runtime/kuuos_current_check.py` |
 
-subsystem versionは独立しています。PlanOS v1.23、DecisionOS v0.6、MemoryOS v1.00、self-organization v0.113を、一つの直線的version番号として扱いません。
+subsystem versionは独立しています。ObserveOS v0.7、PlanOS v1.23、DecisionOS v0.6、MemoryOS v1.00、self-organization v0.113を、一つの直線的version番号として扱いません。
 
 未mergeの旧Draftや分岐は、現在の`main`へrebaseし、scopeと検証を更新しない限りcurrent frontierとはみなしません。
 
@@ -74,6 +75,51 @@ PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile memoryos --list
 ```
 
 root成功は、登録されたrepository内surfaceが、そのrevisionで再現可能に整合したことを示します。外部定理受理、経験的真理、臨床承認、組織承認、production deployment、無制限実行権限を意味しません。
+
+## ObserveOS v0.7
+
+ObserveOS v0.7は、観測対象の真偽判定ではなく、**観測過程そのものの可観測性、由来、欠測、逐次不確実性、校正、分布変化**をsource-bound envelopeとして記録します。
+
+```text
+ObserveOS v0.6 bounded maintenance-monitoring observation receipt
+→ ObserveOS v0.7 sequential epistemic observability envelope
+→ VerifyOS independent observation verification
+```
+
+統合された検査面は次です。
+
+- W3C Trace Contextによるtrace/span相関
+- OpenTelemetry traces、metrics、logs、baggageのsignal coverage
+- W3C PROV-OのEntity、Activity、Agent、relation provenance
+- observed / missing / total sampleのexact accountingとmissingness budget
+- ADWIN distribution-shift evidence
+- confidence sequence / e-processの逐次不確実性evidence
+- split / online conformal calibration evidence
+- observation window、replay closure、current-effect negative、authority negative
+
+14のdispositionを、supported、repair、review、replay rejection、current-state mutation rejection、authority escalation rejectionへ分離します。
+
+```text
+observation != verification
+WORLD intake != WORLD update
+WORLD sidecar != exact WORLD
+receipt composition != receipt construction
+learning != present-cycle mutation
+```
+
+主な入口は次です。
+
+| Surface | Path |
+|---|---|
+| Structured subsystem index | `docs/ObserveOS/README.md` |
+| Versioned specification | `docs/OBSERVEOS_SEQUENTIAL_EPISTEMIC_OBSERVABILITY_ENVELOPE_v0_1.md` |
+| Runtime envelope | `runtime/kuuos_observeos_sequential_epistemic_observability_envelope_v0_1.py` |
+| Route checker | `scripts/check_observeos_sequential_epistemic_observability_envelope_v0_1.py` |
+| Formal kernel | `formal/KUOS/ObserveOS/SequentialEpistemicObservabilityEnvelopeV0_7.lean` |
+| Formal aggregate | `formal/KuuOSObserveOSV0_7.lean` |
+| Dedicated workflow | `.github/workflows/observeos-sequential-epistemic-observability-v0-1.yml` |
+
+専用CIはPython surfaces、manifest、全14 routing cases、pinned dependency manifest、ObserveOS v0.7 formal root、repository formal aggregateをstrict modeで検証します。
 
 ## PlanOS v1.23
 
@@ -163,7 +209,7 @@ v1.00は`CompleteLattice`、任意・無限supremum/infimum、distributivity、m
 
 | OS | 主な責務 |
 |---|---|
-| ObserveOS | source-bound observation ownership |
+| ObserveOS | source-bound observation ownership and sequential observability envelope |
 | BeliefOS | local and plural belief-state ownership |
 | MemoryOS | lineage、reconstruction、conditioned retrieval、read-only history source |
 | WORLD | sourced representation、causal state、governed fragment storage |
@@ -192,6 +238,7 @@ Repository-wide strict baselineと、最新subsystemのversioned aggregateを区
 | Surface | Path |
 |---|---|
 | Repository strict baseline | `formal/KuuOSFormal.lean` |
+| ObserveOS v0.7 aggregate | `formal/KuuOSObserveOSV0_7.lean` |
 | PlanOS v1.23 aggregate | `formal/KuuOSPlanOSV1_23.lean` |
 | DecisionOS v0.6 aggregate | `formal/KuuOSDecisionOSV0_6.lean` |
 | MemoryOS v1.00 aggregate | `formal/KuuOSMemoryOSV1_00.lean` |
