@@ -19,9 +19,11 @@ Observation remains distinct from verification, learning activation, policy acti
 observation != verification
 WORLD intake != WORLD update
 WORLD sidecar != exact WORLD
+receipt composition != receipt construction
+learning != present-cycle mutation
 ```
 
-ObserveOS may accept a source-bound WORLD evidence envelope, but intake does not mutate WORLD and a sidecar representation is not the exact WORLD state. These boundaries are compatibility contracts shared with the cumulative runtime checker.
+ObserveOS may accept a source-bound WORLD evidence envelope, but intake does not mutate WORLD and a sidecar representation is not the exact WORLD state. Receipt composition preserves existing receipts rather than constructing or promoting them, and learning remains future-only. These boundaries are compatibility contracts shared with the cumulative runtime checker.
 
 ## v0.7 implementation map
 
