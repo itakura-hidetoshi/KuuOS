@@ -13,6 +13,19 @@ def require_tokens(path: pathlib.Path, tokens: tuple[str, ...]) -> None:
         assert token in text, f"{path}: {token}"
 
 
+def require_tokens_across(
+    paths: tuple[pathlib.Path, ...], tokens: tuple[str, ...]
+) -> None:
+    texts = {
+        path: path.read_text(encoding="utf-8")
+        for path in paths
+    }
+    for token in tokens:
+        assert any(token in text for text in texts.values()), (
+            f"{', '.join(str(path) for path in paths)}: {token}"
+        )
+
+
 def main() -> int:
     formal = (
         ROOT
@@ -59,11 +72,15 @@ def main() -> int:
         ),
     )
 
-    # The entry documents are intentionally rolling summaries. Their required
-    # contract is the stable ownership and authority boundary, not an exact
-    # historical heading or version-status sentence.
-    require_tokens(
-        ROOT / "README.md",
+    # Entry documents are intentionally rolling summaries. The stable ownership
+    # and authority boundary may live in either the repository overview or the
+    # structured ObserveOS subsystem index, without requiring historical detail
+    # to remain duplicated at the repository root.
+    require_tokens_across(
+        (
+            ROOT / "README.md",
+            ROOT / "docs/ObserveOS/README.md",
+        ),
         (
             "observation != verification",
             "WORLD intake != WORLD update",
