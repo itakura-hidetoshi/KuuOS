@@ -14,6 +14,7 @@ roots = [
   "KuuOSFormal",
   "KUOS",
   "KuuOSModularEvolutionMeshV0_1",
+  "KuuOSObserveOSV0_7",
   "KuuOSFormalV0_41",
   "KuuOSFormalV0_42",
   "KuuOSFormalV0_43",

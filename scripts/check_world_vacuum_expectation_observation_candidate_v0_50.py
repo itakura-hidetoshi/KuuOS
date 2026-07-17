@@ -13,6 +13,19 @@ def require_tokens(path: pathlib.Path, tokens: tuple[str, ...]) -> None:
         assert token in text, f"{path}: {token}"
 
 
+def require_tokens_across(
+    paths: tuple[pathlib.Path, ...], tokens: tuple[str, ...]
+) -> None:
+    texts = {
+        path: path.read_text(encoding="utf-8")
+        for path in paths
+    }
+    for token in tokens:
+        assert any(token in text for text in texts.values()), (
+            f"{', '.join(str(path) for path in paths)}: {token}"
+        )
+
+
 def main() -> int:
     formal = ROOT / "formal/KUOS/WORLD/VacuumExpectationObservationCandidateBridgeV0_50.lean"
     require_tokens(
@@ -47,15 +60,20 @@ def main() -> int:
         ),
     )
 
-    # README and ROADMAP are rolling entry documents. Check durable semantic
-    # boundaries rather than version-specific prose or headings.
-    stable_boundaries = (
-        "WORLD candidate != empirical fact",
-        "WORLD sidecar != exact WORLD",
-        "observation != verification",
+    # Rolling repository documents are layered. Durable observation boundaries
+    # may live in the root overview, roadmap, or ObserveOS subsystem index.
+    require_tokens_across(
+        (
+            ROOT / "README.md",
+            ROOT / "ROADMAP.md",
+            ROOT / "docs/ObserveOS/README.md",
+        ),
+        (
+            "WORLD candidate != empirical fact",
+            "WORLD sidecar != exact WORLD",
+            "observation != verification",
+        ),
     )
-    require_tokens(ROOT / "README.md", stable_boundaries)
-    require_tokens(ROOT / "ROADMAP.md", stable_boundaries)
 
     manifest_path = ROOT / "manifests/world_vacuum_expectation_observation_candidate_v0_50.json"
     manifest = json.loads(manifest_path.read_text(encoding="utf-8"))

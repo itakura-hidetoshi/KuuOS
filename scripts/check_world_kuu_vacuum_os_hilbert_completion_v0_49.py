@@ -13,6 +13,19 @@ def require_tokens(path: pathlib.Path, tokens: tuple[str, ...]) -> None:
         assert token in text, f"{path}: {token}"
 
 
+def require_tokens_across(
+    paths: tuple[pathlib.Path, ...], tokens: tuple[str, ...]
+) -> None:
+    texts = {
+        path: path.read_text(encoding="utf-8")
+        for path in paths
+    }
+    for token in tokens:
+        assert any(token in text for text in texts.values()), (
+            f"{', '.join(str(path) for path in paths)}: {token}"
+        )
+
+
 def main() -> int:
     formal = ROOT / "formal/KUOS/WORLD/KuuVacuumOSHilbertCompletionBridgeV0_49.lean"
     require_tokens(
@@ -44,21 +57,18 @@ def main() -> int:
         ("Kū != zero vector", "modular time != physical time"),
     )
 
-    # The exact v0.49 vacuum distinctions remain in the versioned document.
-    # README and ROADMAP are rolling entry surfaces, so validate their current
-    # durable exact-WORLD and authority boundaries rather than old phrasing.
-    require_tokens(
-        ROOT / "README.md",
+    # Rolling repository documents are layered. Durable WORLD and authority
+    # boundaries may live in the root overview, roadmap, or ObserveOS index.
+    require_tokens_across(
         (
-            "WORLD sidecar != exact WORLD",
-            "modular time != physical time",
+            ROOT / "README.md",
+            ROOT / "ROADMAP.md",
+            ROOT / "docs/ObserveOS/README.md",
         ),
-    )
-    require_tokens(
-        ROOT / "ROADMAP.md",
         (
             "WORLD sidecar != exact WORLD",
             "WORLD commit != truth",
+            "modular time != physical time",
         ),
     )
 
