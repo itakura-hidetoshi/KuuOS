@@ -72,25 +72,17 @@ def main() -> int:
         ),
     )
 
-    # Entry documents are intentionally rolling summaries. The stable ownership
-    # and authority boundary may live in either the repository overview or the
-    # structured ObserveOS subsystem index, without requiring historical detail
-    # to remain duplicated at the repository root.
+    # Rolling repository documents are layered. Stable ownership and authority
+    # boundaries may live in the overview, roadmap, or ObserveOS subsystem index.
     require_tokens_across(
         (
             ROOT / "README.md",
+            ROOT / "ROADMAP.md",
             ROOT / "docs/ObserveOS/README.md",
         ),
         (
             "observation != verification",
             "WORLD intake != WORLD update",
-            "WORLD sidecar != exact WORLD",
-        ),
-    )
-    require_tokens(
-        ROOT / "ROADMAP.md",
-        (
-            "observation != verification",
             "WORLD sidecar != exact WORLD",
             "WORLD commit != truth",
         ),
