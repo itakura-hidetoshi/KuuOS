@@ -259,6 +259,8 @@ selection != execution
 receipt != successor authority
 
 WORLD candidate != empirical fact
+WORLD intake != WORLD update
+WORLD sidecar != exact WORLD
 WORLD projection != persistent WORLD update
 Qi conditioning != authority grant
 modular time != physical time
