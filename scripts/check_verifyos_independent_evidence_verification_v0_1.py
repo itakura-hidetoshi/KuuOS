@@ -70,10 +70,11 @@ def evidence(source: dict) -> dict:
         ],
         "source_evidence_snapshot_digests": source["evidence_snapshot_digests"],
         "independent_evidence_source_ids": ["independent-source-v0-14-a"],
+        # Canonical string collections are sorted and duplicate-free.
         "independent_evidence_artifact_digests": [
-            "recomputed-uncertainty-artifact",
             "recomputed-calibration-artifact",
             "recomputed-shift-artifact",
+            "recomputed-uncertainty-artifact",
         ],
         "recomputed_sequential_uncertainty_digest": "recomputed-cs-a",
         "recomputed_conformal_calibration_digest": "recomputed-conformal-a",
@@ -211,9 +212,7 @@ def rebind(value: dict) -> None:
             "source_observability_receipt_digest": source[
                 "source_observability_receipt_digest"
             ],
-            "source_evidence_snapshot_digests": source[
-                "evidence_snapshot_digests"
-            ],
+            "source_evidence_snapshot_digests": source["evidence_snapshot_digests"],
         }
     )
     evidence_value.pop(EVIDENCE_DIGEST_FIELD, None)
@@ -258,11 +257,7 @@ def rebind(value: dict) -> None:
         source, evidence_value, execution_value, review_value
     )
     context_value["exact_verification_cycle_digest"] = cycle_digest(
-        source,
-        evidence_value,
-        execution_value,
-        review_value,
-        context_value,
+        source, evidence_value, execution_value, review_value, context_value
     )
     context_value.pop(CONTEXT_DIGEST_FIELD, None)
     context_value[CONTEXT_DIGEST_FIELD] = context_digest(context_value)
@@ -287,9 +282,7 @@ def build_current(value: dict):
         independent_verification_result_review_digest=review_value[
             REVIEW_DIGEST_FIELD
         ],
-        independent_verification_context_digest=context_value[
-            CONTEXT_DIGEST_FIELD
-        ],
+        independent_verification_context_digest=context_value[CONTEXT_DIGEST_FIELD],
         requested_verification_operation_digest=context_value[
             "requested_verification_operation_digest"
         ],
@@ -341,6 +334,7 @@ def assert_route(name: str, mutate, expected: str) -> None:
     receipt = result.receipt
     assert receipt is not None
     assert receipt["verification_disposition"] == expected
+
     outcome_route = expected in {
         DISPOSITION_PASSED,
         DISPOSITION_FAILED,
@@ -357,6 +351,7 @@ def assert_route(name: str, mutate, expected: str) -> None:
     else:
         assert receipt["verification_debt_open"] is True
         assert receipt["reobservation_required"] is False
+
     assert receipt["persistent_world_state_changed_by_verification"] is False
     assert receipt["world_disposition_candidate_generated"] is False
     assert receipt["tool_invocation_performed_by_kernel"] is False
@@ -430,9 +425,7 @@ def main() -> int:
         ),
         (
             "reproduction",
-            lambda value: value["review"].__setitem__(
-                "reproduction_adequate", False
-            ),
+            lambda value: value["review"].__setitem__("reproduction_adequate", False),
             DISPOSITION_REPRODUCTION_REPAIR,
         ),
         (
