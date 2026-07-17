@@ -69,6 +69,7 @@ import KUOS.ObserveOS.WorldHostEffectObservationReceiptV0_4
 import KUOS.ObserveOS.SequentialEpistemicObservabilityEnvelopeV0_7
 import KUOS.VerifyOS.EvidenceBoundVerificationV0_1
 import KUOS.VerifyOS.ReplanLineageVerificationEnvelopeV0_2
+import KUOS.VerifyOS.SequentialEpistemicObservationVerificationHandoffV0_13
 import KUOS.LearnOS.FutureOnlyEvidenceLearningV0_1
 import KUOS.LearnOS.ReplanLineageFutureOnlyLearningEnvelopeV0_2
 import KUOS.GraphRAG.GaugeQiProcessGraphRAGV0_1
