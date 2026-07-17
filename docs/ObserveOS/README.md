@@ -13,6 +13,16 @@ LearnOS future-only maintenance disposition
 
 Observation remains distinct from verification, learning activation, policy activation, WORLD mutation, tool invocation, and external side effects.
 
+## Stable ownership boundaries
+
+```text
+observation != verification
+WORLD intake != WORLD update
+WORLD sidecar != exact WORLD
+```
+
+ObserveOS may accept a source-bound WORLD evidence envelope, but intake does not mutate WORLD and a sidecar representation is not the exact WORLD state. These boundaries are compatibility contracts shared with the cumulative runtime checker.
+
 ## v0.7 implementation map
 
 ### Specification
