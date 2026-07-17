@@ -8,7 +8,8 @@ ObserveOS is maintained as a first-class subsystem of KuuOS. This index connects
 LearnOS future-only maintenance disposition
   -> ObserveOS v0.6 bounded maintenance-monitoring observation
   -> ObserveOS v0.7 sequential epistemic observability envelope
-  -> VerifyOS independent verification
+  -> VerifyOS v0.13 independent verification handoff
+  -> VerifyOS independent evidence collection and verification
 ```
 
 Observation remains distinct from verification, learning activation, policy activation, WORLD mutation, tool invocation, and external side effects.
@@ -17,6 +18,8 @@ Observation remains distinct from verification, learning activation, policy acti
 
 ```text
 observation != verification
+handoff != verification completion
+verification request != truth
 WORLD candidate != empirical fact
 WORLD intake != WORLD update
 WORLD sidecar != exact WORLD
@@ -64,6 +67,11 @@ ObserveOS may accept a source-bound WORLD evidence envelope, but intake does not
 - Route checker: [`../../scripts/check_observeos_sequential_epistemic_observability_envelope_v0_1.py`](../../scripts/check_observeos_sequential_epistemic_observability_envelope_v0_1.py)
 - GitHub Actions: [`../../.github/workflows/observeos-sequential-epistemic-observability-v0-1.yml`](../../.github/workflows/observeos-sequential-epistemic-observability-v0-1.yml)
 
+### Downstream independent verification
+
+- VerifyOS subsystem index: [`../VerifyOS/README.md`](../VerifyOS/README.md)
+- VerifyOS v0.13 handoff specification: [`../KUUOS_VERIFYOS_SEQUENTIAL_EPISTEMIC_OBSERVATION_VERIFICATION_HANDOFF_v0_1.md`](../KUUOS_VERIFYOS_SEQUENTIAL_EPISTEMIC_OBSERVATION_VERIFICATION_HANDOFF_v0_1.md)
+
 ## v0.7 disposition tree
 
 ```text
@@ -92,4 +100,4 @@ all predicates satisfied      -> supported envelope
 - conformal prediction calibration evidence
 - ADWIN distribution-shift evidence
 
-ObserveOS validates structure, lineage, declared budgets, and routing invariants. Independent statistical reproduction and truth verification remain VerifyOS responsibilities.
+ObserveOS validates structure, lineage, declared budgets, and routing invariants. VerifyOS v0.13 preserves these artifacts in an independent verification request; independent statistical reproduction and truth verification remain downstream VerifyOS responsibilities.
