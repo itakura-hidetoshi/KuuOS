@@ -31,6 +31,12 @@ supported passed trajectory receipt
   + sealed Git lifecycle request and observed state
   + bounded autonomous Git lifecycle policy
   -> one-effect commit / push / PR / readiness / merge lease
+
+completed autonomous Git lifecycle receipt
+  + sealed external-dependency request and observed state
+  + bounded minimal external-authority policy
+  -> internal substitute / unaffected work / preauthorized one-effect lease /
+     minimal request packet / non-blocking hold
 ```
 
 The observation frontier is read-only. The candidate frontier records a
@@ -74,6 +80,12 @@ pull-request creation != merge authority
 required checks success != correctness proof
 merge != truth
 remote Git effect != human handover
+source Git receipt != external authority
+internal substitute != deploy authority
+minimal request packet != external effect authority
+secret mutation authority != secret access authority
+opaque capability handle digest != secret material
+external decision receipt != truth
 validation != correctness proof
 route receipt != successor authority
 ```
@@ -138,6 +150,18 @@ route receipt != successor authority
 - [Formal root](../../formal/KuuOSCodeAIAutonomousGitLifecycleV0_1.lean)
 - [Dedicated workflow](../../.github/workflows/codeai-autonomous-git-lifecycle-envelope-v0-1.yml)
 
+## Minimal External Authority Dependency v0.1 implementation map
+
+- [Specification](../KUUOS_CODEAI_MINIMAL_EXTERNAL_AUTHORITY_DEPENDENCY_ENVELOPE_v0_1.md)
+- [Runtime](../../runtime/kuuos_codeai_minimal_external_authority_dependency_envelope_v0_1.py)
+- [Route checker](../../scripts/check_codeai_minimal_external_authority_dependency_envelope_v0_1.py)
+- [Unit test](../../tests/test_kuuos_codeai_minimal_external_authority_dependency_envelope_v0_1.py)
+- [Example](../../examples/codeai_minimal_external_authority_dependency_envelope_v0_1.json)
+- [Manifest](../../manifests/kuuos_codeai_minimal_external_authority_dependency_envelope_v0_1.json)
+- [Formal kernel](../../formal/KUOS/CodeAI/MinimalExternalAuthorityDependencyEnvelopeV0_1.lean)
+- [Formal root](../../formal/KuuOSCodeAIMinimalExternalAuthorityDependencyV0_1.lean)
+- [Dedicated workflow](../../.github/workflows/codeai-minimal-external-authority-dependency-envelope-v0-1.yml)
+
 ## Disposition surface
 
 The profile preserves read-only/proposal-only, pass/fail, autonomous read-only,
@@ -148,14 +172,20 @@ human or external-authority handover; it records such a request as deferred
 hold. Autonomous Git Lifecycle v0.1 may grant local commit, push, pull request,
 readiness, or merge authority as separate one-effect leases. Force push, remote
 branch deletion, admin bypass, deployment, secret access, and human handover
-remain unavailable.
+remain unavailable in that lineage. Minimal External Authority Dependency v0.1
+adds a sibling minimization ladder: internal substitution and unaffected work
+come first; deploy and secret mutation require an exact short-lived one-shot
+capability; human handover remains a last-resort request packet rather than an
+authority grant.
 
 ## Conditional next stages
 
 Possible later siblings include richer trajectory continuation, patch
-generation, application receipts, rollback, and deployment. Patch generation
-remains external to Candidate Patch v0.1, test execution remains external to the
-verification kernel, and human or external-authority handover remains deferred.
-The Git lifecycle composes with, rather than replaces, the existing repository
-live-mutation lineage and Qi PR Merge Gate. Later authority sources, revocation
-rules, and deployment integration points remain unowned.
+generation, application receipts, rollback, and provider-specific capability
+adapters. Patch generation remains external to Candidate Patch v0.1 and test
+execution remains external to the verification kernel. Human handover remains
+deferred unless one minimal nondelegable-decision packet is explicitly routed.
+The Git lifecycle and minimal-dependency sibling compose with, rather than
+replace, the existing repository live-mutation lineage, Qi PR Merge Gate,
+deployment systems, secret brokers, and human decision owners. Capability
+issuance, revocation, and provider-specific effect execution remain unowned.

@@ -1,0 +1,121 @@
+{
+  "schema_version": "v0.1",
+  "profile": "CodeAI",
+  "profile_surface": "minimal external authority dependency envelope",
+  "profile_surface_version": "v0.1",
+  "predecessor": {
+    "surface": "autonomous git lifecycle envelope",
+    "version": "v0.1",
+    "required_disposition": "autonomous_git_lifecycle_completed",
+    "binding": "exact completed lifecycle receipt"
+  },
+  "dependency_minimization_order": [
+    "internal substitute",
+    "unaffected internal continuation",
+    "matching short-lived preauthorized capability",
+    "one minimal external request packet",
+    "non-blocking hold or degraded autonomy"
+  ],
+  "owned_effects": [
+    "one internal substitute lease",
+    "one unaffected internal continuation lease",
+    "one bounded deploy lease from an existing capability",
+    "one bounded opaque secret mutation lease from an existing broker capability",
+    "one minimal external request packet preparation lease"
+  ],
+  "not_owned": [
+    "human handover authority",
+    "external authority creation or privilege escalation",
+    "plaintext secret access or disclosure",
+    "persistent or multi-use capabilities",
+    "scope, target, or action widening",
+    "external effect execution by the kernel",
+    "external result truth or correctness authority"
+  ],
+  "preserved_invariants": [
+    "source receipt is not external authority",
+    "one dependency receipt grants at most one next effect",
+    "internal substitute authority is not deploy authority",
+    "request packet authority is not external effect authority",
+    "deploy authority is not secret mutation authority",
+    "secret mutation authority is not secret read authority",
+    "opaque handle digest is not secret material",
+    "human request packet is not human handover performed",
+    "external result is not truth",
+    "missing authority is not authority self-escalation"
+  ],
+  "effect_kinds": [
+    "none",
+    "human_handover",
+    "deploy",
+    "secret_mutation"
+  ],
+  "phases": [
+    "execute_internal_substitute",
+    "continue_unaffected_internal_work",
+    "execute_bounded_deploy",
+    "execute_bounded_secret_mutation",
+    "prepare_minimal_external_request_packet",
+    "await_external_authority",
+    "complete",
+    "none"
+  ],
+  "dispositions": [
+    "source_git_lifecycle_receipt_repair_required",
+    "external_dependency_provenance_repair_required",
+    "external_dependency_state_evidence_repair_required",
+    "external_dependency_correspondence_repair_required",
+    "external_dependency_window_repair_required",
+    "external_dependency_replay_conflict_rejected",
+    "unsupported_external_dependency_scope_abstained",
+    "plaintext_secret_path_rejected",
+    "unowned_external_effect_observed_rejected",
+    "external_dependency_state_repair_required",
+    "external_effect_failed_degraded",
+    "minimal_external_dependency_completed",
+    "autonomous_internal_substitute_authorized",
+    "unaffected_internal_work_continues",
+    "preauthorized_bounded_deploy_authorized",
+    "preauthorized_bounded_secret_mutation_authorized",
+    "minimal_external_request_packet_authorized",
+    "external_authority_pending_nonblocking_hold"
+  ],
+  "capability_contract": {
+    "exact_kind_required": true,
+    "exact_scope_digest_required": true,
+    "short_lived_required": true,
+    "one_shot_required": true,
+    "unconsumed_required": true,
+    "opaque_handle_digest_only": true,
+    "kernel_may_create_or_widen_capability": false
+  },
+  "effect_semantics": {
+    "one_effect_lease_per_receipt": true,
+    "fresh_state_required_after_effect": true,
+    "effect_execution_performed_by_kernel": false,
+    "human_handover_authority_granted": false,
+    "secret_access_authority_granted": false,
+    "blocking_handover_allowed": false,
+    "external_result_treated_as_truth": false
+  },
+  "semantic_separation": {
+    "autonomous_git_lifecycle_reowned": false,
+    "deployment_system_reowned": false,
+    "secret_store_reowned": false,
+    "human_authority_reowned": false,
+    "canonical_current_root_changed": false
+  },
+  "implementation": {
+    "runtime": "runtime/kuuos_codeai_minimal_external_authority_dependency_envelope_v0_1.py",
+    "checker": "scripts/check_codeai_minimal_external_authority_dependency_envelope_v0_1.py",
+    "test": "tests/test_kuuos_codeai_minimal_external_authority_dependency_envelope_v0_1.py",
+    "example": "examples/codeai_minimal_external_authority_dependency_envelope_v0_1.json",
+    "formal_package": "formal/KUOS/CodeAI/MinimalExternalAuthorityDependencyEnvelopeV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAIMinimalExternalAuthorityDependencyV0_1.lean",
+    "documentation": "docs/KUUOS_CODEAI_MINIMAL_EXTERNAL_AUTHORITY_DEPENDENCY_ENVELOPE_v0_1.md",
+    "subsystem_index": "docs/CodeAI/README.md",
+    "workflow": ".github/workflows/codeai-minimal-external-authority-dependency-envelope-v0-1.yml",
+    "repository_aggregate_imported": false,
+    "canonical_current_root_registered": false
+  }
+}
