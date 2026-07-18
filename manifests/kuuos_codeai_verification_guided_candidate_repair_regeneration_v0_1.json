@@ -1,0 +1,50 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Verification-Guided Candidate Repair and Regeneration v0.1",
+  "runtime": "runtime/kuuos_codeai_verification_guided_candidate_repair_regeneration_v0_1.py",
+  "checker": "scripts/check_codeai_verification_guided_candidate_repair_regeneration_v0_1.py",
+  "tests": "tests/test_kuuos_codeai_verification_guided_candidate_repair_regeneration_v0_1.py",
+  "example": "examples/codeai_verification_guided_candidate_repair_regeneration_v0_1.json",
+  "specification": "docs/KUUOS_CODEAI_VERIFICATION_GUIDED_CANDIDATE_REPAIR_REGENERATION_v0_1.md",
+  "formal_kernel": "formal/KUOS/CodeAI/VerificationGuidedCandidateRepairRegenerationV0_1.lean",
+  "formal_root": "formal/KuuOSCodeAIVerificationGuidedCandidateRepairRegenerationV0_1.lean",
+  "workflow": ".github/workflows/codeai-verification-guided-candidate-repair-regeneration-v0-1.yml",
+  "inputs": [
+    "failed_or_aborted_autonomous_verification_execution_receipt",
+    "sealed_execution_evidence_bundle",
+    "independent_verification_evidence_projection",
+    "source_generation_and_observation_receipts",
+    "selected_candidate_and_isolated_application_receipts",
+    "read_only_source_repository_snapshot",
+    "fresh_sealed_repair_request",
+    "bounded_repair_feedback_policy",
+    "provider_neutral_generation_adapters"
+  ],
+  "outputs": [
+    "sealed_bounded_normalized_feedback",
+    "autonomous_candidate_regeneration_result",
+    "sealed_verification_guided_repair_regeneration_receipt"
+  ],
+  "fail_closed_on": [
+    "digest_or_lineage_mismatch",
+    "passed_or_nonrepairable_verification_disposition",
+    "unadmitted_check_status_finding_or_reason",
+    "feedback_record_excerpt_or_total_byte_budget_excess",
+    "stale_request_or_response",
+    "provider_round_call_or_candidate_budget_excess",
+    "repository_scope_or_snapshot_budget_excess",
+    "network_secret_live_repository_or_git_capability"
+  ],
+  "fixed_boundaries": [
+    "verification_failure_is_not_repair_truth",
+    "failed_check_is_not_required_edit",
+    "repair_feedback_is_not_authority",
+    "repair_regeneration_is_not_correction",
+    "new_candidate_is_not_verified_patch",
+    "tests_passing_after_repair_is_not_proof",
+    "repair_ranking_is_not_selection",
+    "evidence_guided_novelty_is_not_requirement_satisfaction",
+    "repair_loop_is_not_live_repository_mutation",
+    "repair_receipt_is_not_successor_authority"
+  ]
+}

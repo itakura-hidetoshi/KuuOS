@@ -1,0 +1,115 @@
+{
+  "source": {
+    "structured_synthesis_example": "examples/codeai_autonomous_structured_edit_synthesis_v0_1.json",
+    "candidate_policy_example": "examples/codeai_candidate_patch_envelope_v0_1.json",
+    "portfolio_selection_example": "examples/codeai_autonomous_candidate_portfolio_selection_v0_1.json",
+    "isolated_application_example": "examples/codeai_autonomous_isolated_candidate_application_v0_1.json",
+    "verification_execution_example": "examples/codeai_autonomous_verification_execution_v0_1.json"
+  },
+  "repair_request": {
+    "request_id": "codeai-verification-guided-repair-v0-1-001",
+    "request_revision": "r1",
+    "source_verification_execution_receipt_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "source_evidence_bundle_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "source_independent_verification_evidence_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "source_candidate_receipt_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "source_application_receipt_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "source_generation_receipt_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "source_observation_receipt_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "candidate_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "patch_artifact_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "repository_full_name": "itakura-hidetoshi/KuuOS",
+    "source_commit_sha": "2cfb04b737379d5605f57e97e67da1a005ccdae5",
+    "repair_intent_text": "Generate one minimal candidate that responds to bounded failed verification evidence without treating the evidence as truth or a required edit.",
+    "target_unique_candidate_count": 2,
+    "maximum_repair_rounds_requested": 1,
+    "diversity_axes": ["repair_minimal"],
+    "requirement_trace_ids": ["intent:codeai-v0-1:verification-guided-repair"],
+    "test_plan_ids": ["test:verification-failure-to-bounded-regeneration"],
+    "risk_labels": ["documentation"],
+    "unresolved_candidate_questions": [],
+    "request_created_epoch": 1784318995,
+    "codeai_verification_guided_candidate_repair_regeneration_request_digest": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "repair_policy": {
+    "expected_source_verification_execution_receipt_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_source_evidence_bundle_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_source_independent_verification_evidence_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_source_candidate_receipt_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_source_application_receipt_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_source_generation_receipt_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_source_observation_receipt_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_candidate_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_patch_artifact_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_repository_full_name": "itakura-hidetoshi/KuuOS",
+    "expected_source_commit_sha": "2cfb04b737379d5605f57e97e67da1a005ccdae5",
+    "allowed_verification_dispositions": [
+      "verification_execution_completed_with_failures",
+      "verification_execution_aborted_by_runtime_budget"
+    ],
+    "allowed_execution_statuses": [
+      "failed",
+      "timed_out",
+      "runner_exception",
+      "runner_result_rejected",
+      "runner_effect_rejected",
+      "per_check_output_budget_exceeded",
+      "total_output_budget_exceeded"
+    ],
+    "allowed_check_ids": ["python-syntax", "unit-tests"],
+    "allowed_finding_labels": ["verification_execution_failure"],
+    "allowed_failure_reason_prefixes": [
+      "execution_status:",
+      "exit_code:",
+      "timed_out",
+      "exception_type:",
+      "runner_result:",
+      "forbidden_effect:"
+    ],
+    "allowed_diversity_axes": ["repair_minimal", "testability"],
+    "allowed_provider_ids": ["gpt", "local_model"],
+    "maximum_repair_rounds": 1,
+    "maximum_provider_calls_per_round": 1,
+    "maximum_total_provider_calls": 2,
+    "maximum_added_candidates": 1,
+    "maximum_total_candidates": 2,
+    "maximum_feedback_records": 2,
+    "maximum_failure_reasons_per_record": 5,
+    "maximum_excerpt_bytes_per_stream": 512,
+    "maximum_total_feedback_bytes": 8192,
+    "maximum_raw_output_bytes": 20000,
+    "maximum_intent_bytes": 20000,
+    "maximum_repository_snapshot_bytes": 200000,
+    "maximum_existing_candidates": 8,
+    "maximum_unique_candidates": 8,
+    "evaluation_epoch": 1784319000,
+    "maximum_response_age": 3600,
+    "maximum_request_age": 3600,
+    "allowed_repository_path_prefixes": ["docs/CodeAI"],
+    "forbidden_repository_path_prefixes": ["docs/CodeAI/private"],
+    "network_access_allowed": false,
+    "secrets_allowed": false,
+    "live_repository_access_allowed": false,
+    "git_operations_allowed": false,
+    "codeai_verification_guided_candidate_repair_regeneration_policy_digest": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "provider_adapters": [
+    {
+      "adapter_id": "repair-gpt-001",
+      "provider_id": "gpt",
+      "model_id": "gpt-repair-sample",
+      "responses": [
+        {
+          "provider_response_id": "repair-gpt-response-001",
+          "producer_session_id": "repair-gpt-session-001",
+          "response_created_epoch": 1784318995,
+          "raw_output": "{\"proposal_id\":\"codeai-verification-guided-repair-001\",\"candidate_revision\":\"r1\",\"edits\":[{\"path\":\"docs/CodeAI/VERIFICATION_GUIDED_REPAIR_EXAMPLE.md\",\"operation\":\"add\",\"new_content\":\"# Verification-guided repair example\\n\\nThis proposal is generated from bounded failure evidence and remains unselected and unverified.\\n\"}],\"risk_labels\":[\"documentation\"],\"unresolved_candidate_questions\":[]}",
+          "claims_authority": false,
+          "hides_uncertainty": false,
+          "bypasses_governance": false,
+          "evidence_missing": false
+        }
+      ]
+    }
+  ]
+}
