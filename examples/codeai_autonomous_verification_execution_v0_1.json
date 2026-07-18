@@ -1,0 +1,140 @@
+{
+  "source": {
+    "candidate_patch_example": "examples/codeai_candidate_patch_envelope_v0_1.json",
+    "portfolio_selection_example": "examples/codeai_autonomous_candidate_portfolio_selection_v0_1.json",
+    "isolated_application_example": "examples/codeai_autonomous_isolated_candidate_application_v0_1.json"
+  },
+  "verification_plan": {
+    "plan_id": "codeai-autonomous-verification-execution-v0-1-plan-001",
+    "plan_revision": "r1",
+    "checks": [
+      {
+        "check_id": "python-syntax",
+        "executable": "python3",
+        "arguments": [
+          "-m",
+          "compileall",
+          "-q",
+          "runtime"
+        ],
+        "workdir": ".",
+        "timeout_seconds": 30,
+        "expected_exit_codes": [
+          0
+        ],
+        "environment": {
+          "PYTHONPATH": "."
+        }
+      },
+      {
+        "check_id": "unit-tests",
+        "executable": "python3",
+        "arguments": [
+          "-m",
+          "unittest",
+          "tests.test_kuuos_codeai_autonomous_verification_execution_v0_1"
+        ],
+        "workdir": ".",
+        "timeout_seconds": 60,
+        "expected_exit_codes": [
+          0
+        ],
+        "environment": {
+          "PYTHONPATH": "."
+        }
+      }
+    ],
+    "plan_created_epoch": 1784429980,
+    "codeai_autonomous_verification_execution_plan_digest": "edaa54e56eb03ce046e17b0cc0e04b4b5abd4e7d63f168664401e475c7058a7a"
+  },
+  "execution_request": {
+    "execution_request_id": "codeai-autonomous-verification-execution-v0-1-001",
+    "execution_request_revision": "r1",
+    "source_candidate_receipt_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "source_application_receipt_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "candidate_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "patch_artifact_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "source_repository_snapshot_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "resulting_repository_snapshot_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "repository_full_name": "itakura-hidetoshi/KuuOS",
+    "source_commit_sha": "2cfb04b737379d5605f57e97e67da1a005ccdae5",
+    "verification_plan_digest": "edaa54e56eb03ce046e17b0cc0e04b4b5abd4e7d63f168664401e475c7058a7a",
+    "verification_id": "codeai-independent-verification-v0-1-execution-001",
+    "verifier_id": "runner-neutral-verifier-v0-1",
+    "reviewer_id": "independent-reviewer-v0-1",
+    "verification_session_id": "codeai-verification-session-v0-1-001",
+    "verification_nonce_digest": "4444444444444444444444444444444444444444444444444444444444444444",
+    "evidence_format": "codeai_execution_evidence_v0_1",
+    "toolchain_digest": "5555555555555555555555555555555555555555555555555555555555555555",
+    "environment_digest": "6666666666666666666666666666666666666666666666666666666666666666",
+    "verification_protocol_digest": "7777777777777777777777777777777777777777777777777777777777777777",
+    "requested_by_actor_id": "codeai-autonomous-orchestrator-v0-1",
+    "request_created_epoch": 1784429990,
+    "codeai_autonomous_verification_execution_request_digest": "c3853d3a41324ceaad54bf579d62a475ae8aae6d3dcb23ea619a81ad73f34ce2"
+  },
+  "execution_policy": {
+    "expected_source_candidate_receipt_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_source_application_receipt_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_candidate_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_patch_artifact_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_source_repository_snapshot_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_resulting_repository_snapshot_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_repository_full_name": "itakura-hidetoshi/KuuOS",
+    "expected_source_commit_sha": "2cfb04b737379d5605f57e97e67da1a005ccdae5",
+    "expected_verification_plan_digest": "edaa54e56eb03ce046e17b0cc0e04b4b5abd4e7d63f168664401e475c7058a7a",
+    "allowed_check_ids": [
+      "python-syntax",
+      "unit-tests"
+    ],
+    "allowed_executable_prefixes": [
+      "python3"
+    ],
+    "allowed_workdir_prefixes": [
+      "."
+    ],
+    "environment_allowlist": [
+      "PYTHONPATH"
+    ],
+    "maximum_command_count": 4,
+    "maximum_timeout_seconds_per_check": 90,
+    "maximum_total_timeout_seconds": 180,
+    "maximum_stdout_bytes_per_check": 16384,
+    "maximum_stderr_bytes_per_check": 16384,
+    "maximum_total_output_bytes": 65536,
+    "maximum_repository_path_count": 256,
+    "maximum_repository_snapshot_bytes": 1048576,
+    "network_access_allowed": false,
+    "secrets_allowed": false,
+    "live_repository_access_allowed": false,
+    "git_operations_allowed": false,
+    "evaluation_epoch": 1784430000,
+    "maximum_request_age": 300,
+    "codeai_autonomous_verification_execution_policy_digest": "111b4c92e4556d7757dd1526d38e0bc2d6020ca1a4504427a845fc5f307d41e8"
+  },
+  "runner_adapter_contract": {
+    "input": "VerificationExecutionInvocation",
+    "output_fields": [
+      "runner_id",
+      "runner_session_id",
+      "check_id",
+      "exit_code",
+      "stdout",
+      "stderr",
+      "duration_ms",
+      "timed_out",
+      "exception_type",
+      "started_epoch",
+      "completed_epoch",
+      "network_used",
+      "secret_accessed",
+      "live_repository_accessed",
+      "git_effect_performed"
+    ],
+    "default_capabilities": {
+      "network": false,
+      "secrets": false,
+      "live_repository": false,
+      "git": false
+    }
+  }
+}
