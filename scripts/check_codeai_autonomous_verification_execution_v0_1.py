@@ -5,7 +5,11 @@ from copy import deepcopy
 import json
 from pathlib import Path
 
-from runtime.kuuos_codeai_candidate_patch_envelope_v0_1 import canonical_digest, seal
+from runtime.kuuos_codeai_candidate_patch_envelope_v0_1 import (
+    CANDIDATE_DIGEST_FIELD as PATCH_CANDIDATE_DIGEST_FIELD,
+    canonical_digest,
+    seal,
+)
 from runtime.kuuos_codeai_autonomous_unified_diff_candidates_v0_1 import (
     RECEIPT_DIGEST_FIELD as UNIFIED_DIFF_RECEIPT_DIGEST_FIELD,
     STATUS_READY as UNIFIED_DIFF_STATUS_READY,
@@ -108,14 +112,14 @@ def main() -> int:
     application_request["source_selection_receipt_digest"] = selection.receipt[
         SELECTION_RECEIPT_DIGEST_FIELD
     ]
-    application_request["selected_candidate_digest"] = candidate[CANDIDATE_DIGEST_FIELD]
+    application_request["selected_candidate_digest"] = candidate[PATCH_CANDIDATE_DIGEST_FIELD]
     application_request["source_repository_snapshot_digest"] = source_snapshot_digest
     application_request = seal(application_request, APPLICATION_REQUEST_DIGEST_FIELD)
     application_policy = dict(application_data["application_policy"])
     application_policy["expected_source_selection_receipt_digest"] = selection.receipt[
         SELECTION_RECEIPT_DIGEST_FIELD
     ]
-    application_policy["expected_selected_candidate_digest"] = candidate[CANDIDATE_DIGEST_FIELD]
+    application_policy["expected_selected_candidate_digest"] = candidate[PATCH_CANDIDATE_DIGEST_FIELD]
     application_policy["expected_patch_artifact_digest"] = candidate["patch_artifact_digest"]
     application_policy["expected_repository_full_name"] = candidate["repository_full_name"]
     application_policy["expected_source_commit_sha"] = candidate["source_commit_sha"]
