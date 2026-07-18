@@ -1,0 +1,129 @@
+{
+  "source": {
+    "verification_guided_repair_example": "examples/codeai_verification_guided_candidate_repair_regeneration_v0_1.json",
+    "verification_execution_example": "examples/codeai_autonomous_verification_execution_v0_1.json"
+  },
+  "verification_plan": {
+    "plan_id": "codeai-bounded-repair-cycle-v0-1-plan-001",
+    "plan_revision": "r1",
+    "checks": [
+      {
+        "check_id": "python-syntax",
+        "executable": "python3",
+        "arguments": [
+          "-m",
+          "compileall",
+          "-q",
+          "runtime"
+        ],
+        "workdir": ".",
+        "timeout_seconds": 30,
+        "expected_exit_codes": [
+          0
+        ],
+        "environment": {
+          "PYTHONPATH": "."
+        }
+      },
+      {
+        "check_id": "unit-tests",
+        "executable": "python3",
+        "arguments": [
+          "-m",
+          "unittest",
+          "tests.test_kuuos_codeai_bounded_repair_cycle_orchestration_v0_1"
+        ],
+        "workdir": ".",
+        "timeout_seconds": 60,
+        "expected_exit_codes": [
+          0
+        ],
+        "environment": {
+          "PYTHONPATH": "."
+        }
+      }
+    ],
+    "plan_created_epoch": 1784318980,
+    "codeai_autonomous_verification_execution_plan_digest": "8517fc08d43bf40822d1d13180fdc9d343de7b60ea597af90fe387211db32d43"
+  },
+  "cycle_request": {
+    "cycle_request_id": "codeai-bounded-repair-cycle-v0-1-001",
+    "cycle_request_revision": "r1",
+    "cycle_index": 1,
+    "source_repair_receipt_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "source_regeneration_receipt_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "repair_candidate_set_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "verification_plan_digest": "8517fc08d43bf40822d1d13180fdc9d343de7b60ea597af90fe387211db32d43",
+    "verification_id": "codeai-bounded-repair-cycle-verification-v0-1-001",
+    "verifier_id": "bounded-repair-cycle-verifier-v0-1",
+    "reviewer_id": "bounded-repair-cycle-reviewer-v0-1",
+    "verification_session_id": "bounded-repair-cycle-session-v0-1-001",
+    "verification_nonce_digest": "4444444444444444444444444444444444444444444444444444444444444444",
+    "evidence_format": "codeai_bounded_repair_cycle_evidence_v0_1",
+    "toolchain_digest": "5555555555555555555555555555555555555555555555555555555555555555",
+    "environment_digest": "6666666666666666666666666666666666666666666666666666666666666666",
+    "verification_protocol_digest": "7777777777777777777777777777777777777777777777777777777777777777",
+    "requested_by_actor_id": "codeai-bounded-repair-cycle-orchestrator-v0-1",
+    "request_created_epoch": 1784318995,
+    "codeai_bounded_repair_cycle_orchestration_request_digest": "7a044f455fa7e542c02cd9f66c191fd219b4e2a7d2e9a9cfc601fea90a779b3e"
+  },
+  "cycle_policy": {
+    "expected_source_repair_receipt_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_source_regeneration_receipt_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_repair_candidate_set_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_repository_full_name": "itakura-hidetoshi/KuuOS",
+    "expected_source_commit_sha": "2cfb04b737379d5605f57e97e67da1a005ccdae5",
+    "expected_verification_plan_digest": "8517fc08d43bf40822d1d13180fdc9d343de7b60ea597af90fe387211db32d43",
+    "maximum_cycle_count": 2,
+    "maximum_candidate_count": 8,
+    "maximum_patch_bytes": 20000,
+    "maximum_changed_paths": 8,
+    "allowed_risk_labels": [
+      "documentation"
+    ],
+    "forbidden_risk_labels": [],
+    "require_no_unresolved_questions": true,
+    "allowed_path_prefixes": [
+      "docs/CodeAI"
+    ],
+    "forbidden_path_prefixes": [
+      "docs/CodeAI/private"
+    ],
+    "maximum_source_path_count": 256,
+    "maximum_source_snapshot_bytes": 1048576,
+    "maximum_result_path_count": 256,
+    "maximum_result_snapshot_bytes": 1048576,
+    "allow_additions": true,
+    "allow_modifications": true,
+    "allow_deletions": false,
+    "require_exact_changed_path_accounting": true,
+    "allowed_check_ids": [
+      "python-syntax",
+      "unit-tests"
+    ],
+    "allowed_executable_prefixes": [
+      "python3"
+    ],
+    "allowed_workdir_prefixes": [
+      "."
+    ],
+    "environment_allowlist": [
+      "PYTHONPATH"
+    ],
+    "maximum_command_count": 4,
+    "maximum_timeout_seconds_per_check": 90,
+    "maximum_total_timeout_seconds": 180,
+    "maximum_stdout_bytes_per_check": 16384,
+    "maximum_stderr_bytes_per_check": 16384,
+    "maximum_total_output_bytes": 65536,
+    "maximum_verification_repository_path_count": 256,
+    "maximum_verification_repository_snapshot_bytes": 1048576,
+    "network_access_allowed": false,
+    "secrets_allowed": false,
+    "live_repository_access_allowed": false,
+    "git_operations_allowed": false,
+    "evaluation_epoch": 1784319000,
+    "maximum_request_age": 3600,
+    "codeai_bounded_repair_cycle_orchestration_policy_digest": "a210834fed1b08927ae1d6a832263e30ab56da517845b5ffafa784b269782c82"
+  }
+}
