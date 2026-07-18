@@ -1,0 +1,127 @@
+{
+  "schema_version": "v0.1",
+  "profile": "CodeAI",
+  "profile_surface": "autonomous git lifecycle envelope",
+  "profile_surface_version": "v0.1",
+  "predecessor": {
+    "surface": "autonomous trajectory synthesis envelope",
+    "version": "v0.1",
+    "required_disposition": "autonomous_deliberation_candidate_synthesized",
+    "required_outcome": "passed",
+    "binding": "exact source trajectory receipt"
+  },
+  "owned_effects": [
+    "one local commit",
+    "one non-force branch push",
+    "one pull request creation",
+    "one pull request readiness transition",
+    "one gated pull request merge"
+  ],
+  "not_owned": [
+    "force push",
+    "remote branch deletion",
+    "admin merge or branch protection bypass",
+    "arbitrary repository, branch, remote, or merge method",
+    "deployment or release",
+    "secret access",
+    "human notification or external-authority handover"
+  ],
+  "preserved_invariants": [
+    "trajectory receipt is not Git authority",
+    "one lifecycle receipt grants at most one next effect",
+    "commit authority is not push authority",
+    "push authority is not pull request authority",
+    "pull request creation is not merge authority",
+    "checks pending is not checks passed",
+    "checks passed is not correctness proof",
+    "mergeable is not merged",
+    "merged is not truth",
+    "remote Git effect is not human handover",
+    "force push, admin bypass, and branch deletion are not autonomous recovery"
+  ],
+  "phases": [
+    "local_commit",
+    "push_branch",
+    "create_pull_request",
+    "mark_pull_request_ready",
+    "await_required_checks",
+    "merge_pull_request",
+    "complete",
+    "none"
+  ],
+  "operating_modes": [
+    "local_git_effect_authorized",
+    "remote_git_effect_authorized",
+    "pull_request_effect_authorized",
+    "merge_effect_authorized",
+    "awaiting_required_checks",
+    "degraded_autonomy",
+    "completed",
+    "hold",
+    "abstain",
+    "rejected"
+  ],
+  "dispositions": [
+    "autonomous_local_commit_authorized",
+    "autonomous_branch_push_authorized",
+    "autonomous_pull_request_creation_authorized",
+    "autonomous_pull_request_readiness_authorized",
+    "required_checks_pending_hold",
+    "required_checks_failed_degraded",
+    "pull_request_merge_gate_hold",
+    "autonomous_pull_request_merge_authorized",
+    "autonomous_git_lifecycle_completed",
+    "source_trajectory_receipt_repair_required",
+    "git_lifecycle_provenance_repair_required",
+    "git_lifecycle_state_evidence_repair_required",
+    "git_lifecycle_correspondence_repair_required",
+    "git_lifecycle_window_repair_required",
+    "git_lifecycle_replay_conflict_rejected",
+    "unsupported_git_lifecycle_scope_abstained",
+    "destructive_git_effect_rejected",
+    "human_handover_deferred",
+    "git_lifecycle_state_repair_required"
+  ],
+  "merge_gate": {
+    "explicit_automerge_license_required": true,
+    "head_sha_pin_required": true,
+    "all_required_checks_successful": true,
+    "non_draft_required": true,
+    "mergeable_required": true,
+    "no_unresolved_blockers_required": true,
+    "force_push_allowed": false,
+    "admin_bypass_allowed": false,
+    "remote_branch_deletion_allowed": false
+  },
+  "effect_semantics": {
+    "effect_execution_performed_by_kernel": false,
+    "one_effect_lease_per_receipt": true,
+    "fresh_state_required_after_effect": true,
+    "observed_prior_effects_preserved": true,
+    "human_handover_performed": false,
+    "external_authority_handover_performed": false,
+    "deployment_authority_granted": false,
+    "secret_access_authority_granted": false
+  },
+  "semantic_separation": {
+    "repository_v0_90_v1_24_reowned": false,
+    "qi_pr_merge_gate_v2_1_reowned": false,
+    "source_trajectory_treated_as_authority": false,
+    "checks_treated_as_correctness_proof": false,
+    "merge_treated_as_truth": false,
+    "canonical_current_root_changed": false
+  },
+  "implementation": {
+    "runtime": "runtime/kuuos_codeai_autonomous_git_lifecycle_envelope_v0_1.py",
+    "checker": "scripts/check_codeai_autonomous_git_lifecycle_envelope_v0_1.py",
+    "test": "tests/test_kuuos_codeai_autonomous_git_lifecycle_envelope_v0_1.py",
+    "example": "examples/codeai_autonomous_git_lifecycle_envelope_v0_1.json",
+    "formal_package": "formal/KUOS/CodeAI/AutonomousGitLifecycleEnvelopeV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAIAutonomousGitLifecycleV0_1.lean",
+    "documentation": "docs/KUUOS_CODEAI_AUTONOMOUS_GIT_LIFECYCLE_ENVELOPE_v0_1.md",
+    "subsystem_index": "docs/CodeAI/README.md",
+    "workflow": ".github/workflows/codeai-autonomous-git-lifecycle-envelope-v0-1.yml",
+    "repository_aggregate_imported": false,
+    "canonical_current_root_registered": false
+  }
+}
