@@ -1,0 +1,4 @@
+from tests.codeai_candidate_regeneration_tests_part1_v0_1 import CandidateRegenerationTestsPart1
+from tests.codeai_candidate_regeneration_tests_part2_v0_1 import CandidateRegenerationTestsPart2
+
+__all__ = ["CandidateRegenerationTestsPart1", "CandidateRegenerationTestsPart2"]
