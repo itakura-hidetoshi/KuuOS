@@ -1,0 +1,59 @@
+{
+  "repository_files": {
+    "docs/CodeAI/EXISTING.md": "# Existing\n\nOriginal text.\n"
+  },
+  "proposals": [
+    {
+      "proposal_id": "codeai-autonomous-diff-small-v0-1-001",
+      "candidate_revision": "r1",
+      "producer_id": "kuuos-codeai",
+      "producer_session_id": "autonomous-diff-session-small-001",
+      "candidate_created_epoch": 1784318700,
+      "edits": [
+        {
+          "path": "docs/CodeAI/AUTONOMOUS_DIFF_SMALL.md",
+          "operation": "add",
+          "new_content": "# Autonomous diff candidate\n\nSmall proposal.\n"
+        }
+      ],
+      "requirement_trace_ids": [
+        "intent:codeai-v0-1-intent-001:autonomous-unified-diff"
+      ],
+      "test_plan_ids": [
+        "test:autonomous-unified-diff-render"
+      ],
+      "risk_labels": [
+        "documentation"
+      ],
+      "unresolved_candidate_questions": [],
+      "prior_candidate_digests": [],
+      "prior_producer_session_ids": []
+    },
+    {
+      "proposal_id": "codeai-autonomous-diff-large-v0-1-002",
+      "candidate_revision": "r1",
+      "producer_id": "kuuos-codeai",
+      "producer_session_id": "autonomous-diff-session-large-002",
+      "candidate_created_epoch": 1784318700,
+      "edits": [
+        {
+          "path": "docs/CodeAI/AUTONOMOUS_DIFF_LARGE.md",
+          "operation": "add",
+          "new_content": "# Autonomous diff candidate\n\nLarger proposal with an additional explanation line.\n"
+        }
+      ],
+      "requirement_trace_ids": [
+        "intent:codeai-v0-1-intent-001:autonomous-unified-diff"
+      ],
+      "test_plan_ids": [
+        "test:autonomous-unified-diff-render"
+      ],
+      "risk_labels": [
+        "documentation"
+      ],
+      "unresolved_candidate_questions": [],
+      "prior_candidate_digests": [],
+      "prior_producer_session_ids": []
+    }
+  ]
+}

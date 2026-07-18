@@ -13,7 +13,13 @@ supplied user intent
   -> CodeAI v0.1 intent/repository observation route receipt
 
 supported CodeAI v0.1 observation receipt
-  + externally supplied unified diff candidate
+  + read-only repository text snapshot
+  + one or more structured add / modify / delete proposals
+  + bounded Candidate Patch policy
+  -> CodeAI Autonomous Unified Diff Candidates v0.1 ranked proposal portfolio
+
+supported CodeAI v0.1 observation receipt
+  + externally supplied or synthesis-produced unified diff candidate
   + bounded candidate policy
   -> CodeAI Candidate Patch v0.1 proposal-only route receipt
 
@@ -39,14 +45,17 @@ completed autonomous Git lifecycle receipt
      minimal request packet / non-blocking hold
 ```
 
-The observation frontier is read-only. The candidate frontier records a
+The observation frontier is read-only. The autonomous unified-diff frontier
+turns structured semantic edits into deterministic Git-style proposal artifacts
+and routes each artifact through Candidate Patch v0.1. Its ranking is advisory
+and never selects or applies a candidate. The candidate frontier records a
 proposal only. The verification frontier records supplied independent evidence.
 The trajectory frontier synthesizes a read-only representation and an internal
-deliberation, repair, or reverification candidate. No frontier selects, applies,
-commits, or deploys code. Trajectory synthesis does not generate a patch or
-execute verification. Autonomous Git Lifecycle is the first CodeAI frontier
-that may issue active effect authority. It grants at most one exact next effect
-per receipt and requires fresh observed state before advancing.
+deliberation, repair, or reverification candidate. No frontier except Autonomous
+Git Lifecycle selects, applies, commits, or deploys code. Autonomous Git
+Lifecycle is the first CodeAI frontier that may issue active effect authority. It
+grants at most one exact next effect per receipt and requires fresh observed
+state before advancing.
 
 ## Stable boundaries
 
@@ -59,6 +68,10 @@ observation != patch candidate
 observation != selection
 observation != execution lease
 observation != repository mutation
+structured edit proposal != unified diff candidate
+unified diff generation != patch application
+candidate ranking != candidate selection
+rank 1 != selected patch
 candidate != selected patch
 candidate != verified patch
 candidate != applied patch
@@ -101,6 +114,18 @@ route receipt != successor authority
 - [Formal kernel](../../formal/KUOS/CodeAI/IntentRepositoryObservationEnvelopeV0_1.lean)
 - [Formal root](../../formal/KuuOSCodeAIV0_1.lean)
 - [Dedicated workflow](../../.github/workflows/codeai-intent-repository-observation-envelope-v0-1.yml)
+
+## Autonomous Unified Diff Candidates v0.1 implementation map
+
+- [Specification](../KUUOS_CODEAI_AUTONOMOUS_UNIFIED_DIFF_CANDIDATES_v0_1.md)
+- [Runtime](../../runtime/kuuos_codeai_autonomous_unified_diff_candidates_v0_1.py)
+- [Route checker](../../scripts/check_codeai_autonomous_unified_diff_candidates_v0_1.py)
+- [Unit test](../../tests/test_kuuos_codeai_autonomous_unified_diff_candidates_v0_1.py)
+- [Example](../../examples/codeai_autonomous_unified_diff_candidates_v0_1.json)
+- [Manifest](../../manifests/kuuos_codeai_autonomous_unified_diff_candidates_v0_1.json)
+- [Formal kernel](../../formal/KUOS/CodeAI/AutonomousUnifiedDiffCandidatesV0_1.lean)
+- [Formal root](../../formal/KuuOSCodeAIAutonomousUnifiedDiffCandidatesV0_1.lean)
+- [Dedicated workflow](../../.github/workflows/codeai-autonomous-unified-diff-candidates-v0-1.yml)
 
 ## Candidate Patch v0.1 implementation map
 
@@ -166,10 +191,12 @@ route receipt != successor authority
 
 The profile preserves read-only/proposal-only, pass/fail, autonomous read-only,
 autonomous repair, hold, degradation, abstention, handover, and rejection as
-distinct modes. Exact readiness or a completed verification outcome does not
-create next-stage authority. Autonomous Trajectory Synthesis v0.1 never performs
-human or external-authority handover; it records such a request as deferred
-hold. Autonomous Git Lifecycle v0.1 may grant local commit, push, pull request,
+distinct modes. Autonomous Unified Diff Candidates v0.1 adds deterministic
+proposal generation and ranking without adding selection or mutation authority.
+Exact readiness or a completed verification outcome does not create next-stage
+authority. Autonomous Trajectory Synthesis v0.1 never performs human or
+external-authority handover; it records such a request as deferred hold.
+Autonomous Git Lifecycle v0.1 may grant local commit, push, pull request,
 readiness, or merge authority as separate one-effect leases. Force push, remote
 branch deletion, admin bypass, deployment, secret access, and human handover
 remain unavailable in that lineage. Minimal External Authority Dependency v0.1
@@ -180,9 +207,11 @@ authority grant.
 
 ## Conditional next stages
 
-Possible later siblings include richer trajectory continuation, patch
-generation, application receipts, rollback, and provider-specific capability
-adapters. Patch generation remains external to Candidate Patch v0.1 and test
+Possible later siblings include model-provider adapters that turn repository
+intent into structured edits, richer portfolio selection, application receipts,
+rollback, and provider-specific capability adapters. Candidate Patch v0.1
+remains non-generative; Autonomous Unified Diff Candidates v0.1 owns only the
+deterministic transformation from structured edits to proposal artifacts. Test
 execution remains external to the verification kernel. Human handover remains
 deferred unless one minimal nondelegable-decision packet is explicitly routed.
 The Git lifecycle and minimal-dependency sibling compose with, rather than
