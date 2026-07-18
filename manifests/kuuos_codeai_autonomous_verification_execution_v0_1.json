@@ -1,0 +1,85 @@
+{
+  "schema_version": "v0.1",
+  "profile": "CodeAI",
+  "profile_surface": "autonomous verification execution",
+  "profile_surface_version": "v0.1",
+  "predecessor": {
+    "surface": "Autonomous Isolated Candidate Application",
+    "version": "v0.1",
+    "binding": "one selected candidate materialized as an isolated verification snapshot"
+  },
+  "successor_evidence_surface": {
+    "surface": "Independent Verification",
+    "version": "v0.1",
+    "binding": "compatible sealed evidence projection without successor authority"
+  },
+  "operating_mode": "bounded_isolated_verification_execution",
+  "admission": [
+    "supported Candidate Patch receipt with exact digest",
+    "supported isolated application receipt with exact digest",
+    "exact candidate artifact repository commit and snapshot correspondence",
+    "sealed verification plan with allowed check identifiers and executable prefixes",
+    "fresh sealed execution request",
+    "bounded command timeout output and repository snapshot policy",
+    "environment allowlist",
+    "network secrets live repository and Git denied by policy"
+  ],
+  "owned": [
+    "deterministic verification-plan admission",
+    "runner-neutral bounded invocation orchestration",
+    "per-check exit stdout stderr timeout exception and duration evidence",
+    "bounded output excerpts and exact output digests",
+    "sealed evidence bundle",
+    "Independent Verification v0.1 compatible evidence projection",
+    "sealed verification execution receipt"
+  ],
+  "not_owned": [
+    "correctness judgement or proof",
+    "candidate selection",
+    "live patch application or live filesystem mutation",
+    "Git index tree ref branch commit push pull request or merge",
+    "network or secret access",
+    "deployment",
+    "merge authority",
+    "successor-stage automatic execution"
+  ],
+  "supported_claims": {
+    "source_correspondence_verified": true,
+    "application_correspondence_verified": true,
+    "resulting_snapshot_verified": true,
+    "verification_plan_verified": true,
+    "bounded_runner_invocation_performed": true,
+    "independent_verification_evidence_projected": true,
+    "input_repository_snapshot_mutated": false,
+    "live_repository_access_performed": false,
+    "repository_mutation_performed": false,
+    "git_ref_changed": false,
+    "network_access_performed": false,
+    "secret_access_performed": false,
+    "successor_stage_authority_granted": false
+  },
+  "preserved_invariants": [
+    "execution is not correctness",
+    "tests passing is not proof",
+    "verification evidence is not merge authority",
+    "runner exception is not success",
+    "verification execution does not apply a live patch",
+    "verification execution has no Git effect",
+    "verification execution has no deployment authority",
+    "verification execution has no secret authority",
+    "verification execution grants no successor authority"
+  ],
+  "implementation": {
+    "runtime": "runtime/kuuos_codeai_autonomous_verification_execution_v0_1.py",
+    "checker": "scripts/check_codeai_autonomous_verification_execution_v0_1.py",
+    "test": "tests/test_kuuos_codeai_autonomous_verification_execution_v0_1.py",
+    "example": "examples/codeai_autonomous_verification_execution_v0_1.json",
+    "formal_package": "formal/KUOS/CodeAI/AutonomousVerificationExecutionV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAIAutonomousVerificationExecutionV0_1.lean",
+    "documentation": "docs/KUUOS_CODEAI_AUTONOMOUS_VERIFICATION_EXECUTION_v0_1.md",
+    "subsystem_index": "docs/CodeAI/README.md",
+    "workflow": ".github/workflows/codeai-autonomous-verification-execution-v0-1.yml",
+    "repository_aggregate_imported": false,
+    "canonical_current_root_registered": false
+  }
+}
