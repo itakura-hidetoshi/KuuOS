@@ -1,0 +1,12 @@
+import KUOS.CodeAI.AutonomousStructuredEditSynthesisV0_1
+
+namespace KuuOSCodeAIAutonomousStructuredEditSynthesisV0_1
+
+open KUOS.CodeAI.AutonomousStructuredEditSynthesisV0_1
+
+abbrev Receipt := AutonomousStructuredEditSynthesisReceipt
+abbrev ReceiptValid := AutonomousStructuredEditSynthesisReceiptValid
+abbrev Portfolio := AutonomousStructuredEditSynthesisPortfolio
+abbrev Attempt := ProviderAttemptReceipt
+
+end KuuOSCodeAIAutonomousStructuredEditSynthesisV0_1
