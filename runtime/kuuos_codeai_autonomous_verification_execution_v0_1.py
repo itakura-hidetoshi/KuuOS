@@ -19,7 +19,7 @@ DISPOSITION_COMPLETED_WITH_FAILURES = "verification_execution_completed_with_fai
 DISPOSITION_ABORTED_BY_BUDGET = "verification_execution_aborted_by_runtime_budget"
 
 CANDIDATE_RECEIPT_DIGEST_FIELD = "codeai_candidate_patch_receipt_digest"
-CANDIDATE_DIGEST_FIELD = "codeai_candidate_patch_digest"
+CANDIDATE_DIGEST_FIELD = "candidate_patch_digest"
 APPLICATION_RECEIPT_DIGEST_FIELD = (
     "codeai_autonomous_isolated_candidate_application_receipt_digest"
 )
@@ -1056,7 +1056,7 @@ def build_codeai_autonomous_verification_execution(
         invocation_digest = canonical_digest(invocation.digest_payload())
         try:
             raw_result = runner_adapter(invocation)
-        except Exception as exception:
+        except Exception as exception:  # adapter exceptions are evidence, not success
             records.append(
                 _record_from_exception(
                     check,
