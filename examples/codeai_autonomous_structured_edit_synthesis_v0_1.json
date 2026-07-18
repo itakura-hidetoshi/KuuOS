@@ -1,0 +1,94 @@
+{
+  "repository_files": {
+    "docs/CodeAI/EXISTING.md": "# Existing\n\nOriginal text.\n"
+  },
+  "synthesis_request": {
+    "request_id": "codeai-structured-edit-synthesis-v0-1-001",
+    "request_revision": "r1",
+    "intent_text": "Create a small CodeAI documentation candidate describing governed provider-generated structured edits.",
+    "candidate_count": 3,
+    "request_created_epoch": 1784318700,
+    "requirement_trace_ids": [
+      "intent:codeai-v0-1-intent-001:provider-structured-edit-synthesis"
+    ],
+    "test_plan_ids": [
+      "test:provider-boundary-to-unified-diff"
+    ],
+    "risk_labels": [
+      "documentation"
+    ],
+    "unresolved_candidate_questions": [],
+    "prior_candidate_digests": [],
+    "prior_producer_session_ids": [],
+    "codeai_autonomous_structured_edit_synthesis_request_digest": "f5e229d15bfb2194d7a3ddd56218a0a073ad233629504aa05e7415cb2b9ebda1"
+  },
+  "synthesis_policy": {
+    "allowed_provider_ids": [
+      "gpt",
+      "gemini",
+      "local_model"
+    ],
+    "maximum_provider_calls": 3,
+    "maximum_raw_output_bytes": 20000,
+    "maximum_intent_bytes": 20000,
+    "maximum_repository_snapshot_bytes": 200000,
+    "maximum_proposals": 3,
+    "evaluation_epoch": 1784319000,
+    "maximum_response_age": 3600,
+    "maximum_request_age": 3600,
+    "allowed_repository_path_prefixes": [
+      "docs/CodeAI"
+    ],
+    "forbidden_repository_path_prefixes": [
+      "docs/CodeAI/private"
+    ],
+    "codeai_autonomous_structured_edit_synthesis_policy_digest": "b35b7befb4d667986afbf0b02e14834e67a7ed3aa9db84757bd290c4b460a934"
+  },
+  "provider_adapters": [
+    {
+      "adapter_id": "sample-gpt-001",
+      "provider_id": "gpt",
+      "model_id": "gpt-sample",
+      "response": {
+        "provider_response_id": "provider-response-gpt-001",
+        "producer_session_id": "provider-session-gpt-001",
+        "response_created_epoch": 1784318700,
+        "raw_output": "{\"proposal_id\":\"codeai-provider-structured-edit-v0-1-001\",\"candidate_revision\":\"r1\",\"edits\":[{\"path\":\"docs/CodeAI/PROVIDER_STRUCTURED_EDIT_EXAMPLE.md\",\"operation\":\"add\",\"new_content\":\"# Provider structured edit example\\n\\nThis file is proposed as candidate material and is not applied by synthesis.\\n\"}],\"risk_labels\":[\"documentation\"],\"unresolved_candidate_questions\":[]}",
+        "claims_authority": false,
+        "hides_uncertainty": false,
+        "bypasses_governance": false,
+        "evidence_missing": false
+      }
+    },
+    {
+      "adapter_id": "sample-gemini-002",
+      "provider_id": "gemini",
+      "model_id": "gemini-sample",
+      "response": {
+        "provider_response_id": "provider-response-gemini-002",
+        "producer_session_id": "provider-session-gemini-002",
+        "response_created_epoch": 1784318700,
+        "raw_output": "{\"proposal_id\":\"rejected-authority-claim\",\"candidate_revision\":\"r1\",\"edits\":[],\"risk_labels\":[],\"unresolved_candidate_questions\":[]}",
+        "claims_authority": true,
+        "hides_uncertainty": false,
+        "bypasses_governance": false,
+        "evidence_missing": false
+      }
+    },
+    {
+      "adapter_id": "sample-local-003",
+      "provider_id": "local_model",
+      "model_id": "local-sample",
+      "response": {
+        "provider_response_id": "provider-response-local-003",
+        "producer_session_id": "provider-session-local-003",
+        "response_created_epoch": 1784318700,
+        "raw_output": "{\"proposal_id\":\"repair-hidden-uncertainty\",\"candidate_revision\":\"r1\",\"edits\":[],\"risk_labels\":[],\"unresolved_candidate_questions\":[]}",
+        "claims_authority": false,
+        "hides_uncertainty": true,
+        "bypasses_governance": false,
+        "evidence_missing": false
+      }
+    }
+  ]
+}

@@ -21,6 +21,7 @@ roots = [
   "KuuOSCodeAIV0_1",
   "KuuOSCodeAICandidatePatchV0_1",
   "KuuOSCodeAIAutonomousUnifiedDiffCandidatesV0_1",
+  "KuuOSCodeAIAutonomousStructuredEditSynthesisV0_1",
   "KuuOSCodeAIIndependentVerificationV0_1",
   "KuuOSCodeAIAutonomousTrajectorySynthesisV0_1",
   "KuuOSCodeAIAutonomousGitLifecycleV0_1",

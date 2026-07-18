@@ -1,0 +1,96 @@
+{
+  "schema_version": "v0.1",
+  "profile": "CodeAI",
+  "profile_surface": "autonomous structured edit synthesis",
+  "profile_surface_version": "v0.1",
+  "predecessors": [
+    {
+      "surface": "AI Provider Boundary Runtime",
+      "version": "v0.1",
+      "binding": "raw provider output remains candidate material"
+    },
+    {
+      "surface": "Autonomous Unified Diff Candidates",
+      "version": "v0.1",
+      "binding": "governed structured proposals become deterministic diff candidates"
+    }
+  ],
+  "ownership": {
+    "owned": [
+      "provider-neutral callable adapter orchestration",
+      "deterministic adapter ordering and provider-call bounds",
+      "read-only prompt packet construction",
+      "provider-visible repository path and byte budgets",
+      "CANDIDATE HOLD REPAIR REJECT QUARANTINE routing",
+      "raw JSON structured-edit parsing",
+      "provider response and producer-session replay rejection",
+      "structured proposal provenance completion",
+      "Autonomous Unified Diff Candidates v0.1 invocation",
+      "proposal-only synthesis receipt construction"
+    ],
+    "not_owned": [
+      "provider credentials or SDK setup",
+      "provider transport security and rate limiting",
+      "live repository collection",
+      "candidate selection",
+      "test execution or correctness adjudication",
+      "patch application or repository mutation",
+      "branch commit push pull request merge release or deployment",
+      "secret access or mutation",
+      "persistent memory truth"
+    ]
+  },
+  "provider_boundary_statuses": [
+    "CANDIDATE",
+    "HOLD",
+    "REPAIR",
+    "REJECT",
+    "QUARANTINE"
+  ],
+  "supported_claims": {
+    "provider_calls_bounded": true,
+    "provider_output_boundary_evaluated": true,
+    "only_candidate_material_parsed": true,
+    "repository_snapshot_read_only": true,
+    "provider_visible_paths_policy_bounded": true,
+    "provider_response_replay_checked": true,
+    "structured_proposal_provenance_completed": true,
+    "downstream_unified_diff_generation_connected": true,
+    "candidate_selected": false,
+    "repository_mutation_performed": false,
+    "successor_authority_granted": false
+  },
+  "preserved_invariants": [
+    "provider identity is not authority",
+    "raw provider output is not truth or correctness",
+    "non-candidate boundary status produces no structured proposal",
+    "structured proposal is not unified diff candidate",
+    "unified diff generation is not patch application",
+    "candidate ranking is not candidate selection",
+    "provider call is not repository mutation",
+    "provider exception does not erase supported sibling output",
+    "validation is not correctness proof"
+  ],
+  "semantic_separation": {
+    "ai_provider_boundary_reowned": false,
+    "candidate_patch_reowned": false,
+    "autonomous_unified_diff_reowned": false,
+    "autonomous_git_lifecycle_reowned": false,
+    "difference": "this surface invokes bounded provider-neutral generators and converts only governed CANDIDATE JSON into structured proposals; downstream surfaces retain diff rendering, validation, ranking, verification, and Git effects"
+  },
+  "implementation": {
+    "runtime": "runtime/kuuos_codeai_autonomous_structured_edit_synthesis_v0_1.py",
+    "checker": "scripts/check_codeai_autonomous_structured_edit_synthesis_v0_1.py",
+    "test": "tests/test_kuuos_codeai_autonomous_structured_edit_synthesis_v0_1.py",
+    "example": "examples/codeai_autonomous_structured_edit_synthesis_v0_1.json",
+    "formal_package": "formal/KUOS/CodeAI/AutonomousStructuredEditSynthesisV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAIAutonomousStructuredEditSynthesisV0_1.lean",
+    "documentation": "docs/KUUOS_CODEAI_AUTONOMOUS_STRUCTURED_EDIT_SYNTHESIS_v0_1.md",
+    "subsystem_index": "docs/CodeAI/README.md",
+    "workflow": ".github/workflows/codeai-autonomous-structured-edit-synthesis-v0-1.yml",
+    "repository_aggregate_imported": false,
+    "canonical_current_root_registered": false,
+    "runtime_types": "runtime/kuuos_codeai_autonomous_structured_edit_types_v0_1.py",
+    "runtime_provider_boundary": "runtime/kuuos_codeai_autonomous_structured_edit_provider_v0_1.py"
+  }
+}
