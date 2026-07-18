@@ -1,0 +1,120 @@
+name: CodeAI Verification-Guided Candidate Repair and Regeneration v0.1
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "runtime/kuuos_codeai_verification_guided_candidate_repair_regeneration_v0_1.py"
+      - "runtime/kuuos_codeai_autonomous_candidate_regeneration_*.py"
+      - "runtime/kuuos_codeai_autonomous_verification_execution_v0_1.py"
+      - "runtime/kuuos_codeai_autonomous_isolated_candidate_application_v0_1.py"
+      - "runtime/kuuos_codeai_autonomous_candidate_portfolio_selection_v0_1.py"
+      - "runtime/kuuos_codeai_autonomous_structured_edit_*.py"
+      - "runtime/kuuos_codeai_candidate_patch_envelope_v0_1.py"
+      - "scripts/check_codeai_verification_guided_candidate_repair_regeneration_v0_1.py"
+      - "tests/test_kuuos_codeai_verification_guided_candidate_repair_regeneration_v0_1.py"
+      - "examples/codeai_verification_guided_candidate_repair_regeneration_v0_1.json"
+      - "examples/codeai_autonomous_structured_edit_synthesis_v0_1.json"
+      - "examples/codeai_autonomous_verification_execution_v0_1.json"
+      - "examples/codeai_candidate_patch_envelope_v0_1.json"
+      - "manifests/kuuos_codeai_verification_guided_candidate_repair_regeneration_v0_1.json"
+      - "docs/KUUOS_CODEAI_VERIFICATION_GUIDED_CANDIDATE_REPAIR_REGENERATION_v0_1.md"
+      - "formal/KUOS/CodeAI/VerificationGuidedCandidateRepairRegenerationV0_1.lean"
+      - "formal/KuuOSCodeAIVerificationGuidedCandidateRepairRegenerationV0_1.lean"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
+      - ".github/workflows/codeai-verification-guided-candidate-repair-regeneration-v0-1.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python3 -m compileall -q
+          runtime/kuuos_codeai_verification_guided_candidate_repair_regeneration_v0_1.py
+          scripts/check_codeai_verification_guided_candidate_repair_regeneration_v0_1.py
+          tests/test_kuuos_codeai_verification_guided_candidate_repair_regeneration_v0_1.py
+      - name: Validate machine-readable artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m json.tool \
+            examples/codeai_verification_guided_candidate_repair_regeneration_v0_1.json \
+            > /dev/null
+          python3 -m json.tool \
+            manifests/kuuos_codeai_verification_guided_candidate_repair_regeneration_v0_1.json \
+            > /dev/null
+      - name: Check verification-guided repair regeneration
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 \
+            scripts/check_codeai_verification_guided_candidate_repair_regeneration_v0_1.py \
+            2>&1 | tee codeai-verification-guided-repair-regeneration-v0-1.log
+      - name: Run verification-guided repair regeneration unit tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 -m unittest \
+            tests.test_kuuos_codeai_verification_guided_candidate_repair_regeneration_v0_1 \
+            2>&1 | tee codeai-verification-guided-repair-regeneration-v0-1-tests.log
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Verify committed dependency manifest is canonical
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile verification-guided repair formal root
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSCodeAIVerificationGuidedCandidateRepairRegenerationV0_1 \
+            2>&1 | tee codeai-verification-guided-repair-regeneration-v0-1-lean.log
+      - name: Strictly compile repository formal baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSFormal \
+            2>&1 | tee codeai-verification-guided-repair-regeneration-v0-1-lean-root.log
+      - name: Upload diagnostics
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-verification-guided-repair-regeneration-v0-1-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            codeai-verification-guided-repair-regeneration-v0-1.log
+            codeai-verification-guided-repair-regeneration-v0-1-tests.log
+            codeai-verification-guided-repair-regeneration-v0-1-lean.log
+            codeai-verification-guided-repair-regeneration-v0-1-lean-root.log
+          if-no-files-found: warn
+          retention-days: 14
