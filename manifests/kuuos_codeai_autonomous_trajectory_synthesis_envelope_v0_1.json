@@ -1,0 +1,158 @@
+{
+  "schema_version": "v0.1",
+  "profile": "CodeAI",
+  "profile_surface": "autonomous trajectory synthesis envelope",
+  "profile_surface_version": "v0.1",
+  "predecessor": {
+    "surface": "independent verification envelope",
+    "version": "v0.1",
+    "required_outcomes": [
+      "passed",
+      "failed",
+      "inconclusive"
+    ],
+    "binding": "exact source verification receipt"
+  },
+  "ownership": {
+    "owned": [
+      "supported completed verification receipt intake",
+      "trajectory request and policy provenance intake",
+      "receipt, candidate, patch, repository, and commit correspondence",
+      "request window and replay routing",
+      "two-node available-receipt trajectory synthesis",
+      "passed, failed, and inconclusive next-step candidate mapping",
+      "human and external-authority handover deferral"
+    ],
+    "not_owned": [
+      "full intent or observation lineage reconstruction",
+      "generalized truth or correctness proof",
+      "candidate ranking or selection",
+      "patch generation, editing, application, or rollback",
+      "tool or test execution",
+      "execution lease issuance",
+      "working-tree, index, object-database, or Git-ref mutation",
+      "branch, commit, push, pull request, merge, release, or deployment",
+      "human notification or external-authority handover",
+      "secret access"
+    ]
+  },
+  "preserved_invariants": [
+    "verification receipt is not successor authority",
+    "trajectory is not truth",
+    "available-receipt completeness is not full lineage reconstruction",
+    "internal deliberation candidate is not candidate selection",
+    "internal repair candidate is not patch generation or application",
+    "internal reverification candidate is not test execution",
+    "handover request is not handover permission",
+    "handover deferred is not handover performed",
+    "autonomous synthesis is not repository mutation"
+  ],
+  "outcome_mapping": {
+    "passed": "internal_deliberation_candidate",
+    "failed": "internal_repair_candidate",
+    "inconclusive": "internal_reverification_candidate"
+  },
+  "operating_modes": [
+    "autonomous_read_only",
+    "autonomous_repair",
+    "degraded_autonomy",
+    "hold",
+    "abstain",
+    "rejected"
+  ],
+  "dispositions": [
+    "autonomous_deliberation_candidate_synthesized",
+    "autonomous_repair_candidate_synthesized",
+    "autonomous_reverification_candidate_synthesized",
+    "source_verification_receipt_repair_required",
+    "trajectory_provenance_repair_required",
+    "trajectory_correspondence_repair_required",
+    "trajectory_window_repair_required",
+    "trajectory_replay_conflict_rejected",
+    "repository_or_git_effect_request_rejected",
+    "authority_escalation_rejected",
+    "external_handover_deferred",
+    "unsupported_trajectory_format_abstained",
+    "trajectory_budget_rejected",
+    "verification_outcome_policy_repair_required"
+  ],
+  "supported_claims": {
+    "source_verification_receipt_bound": true,
+    "candidate_and_patch_artifact_bound": true,
+    "repository_and_source_commit_bound": true,
+    "trajectory_complete_for_available_receipts": true,
+    "full_intent_lineage_reconstructed": false,
+    "trajectory_read_only": true,
+    "human_handover_performed": false,
+    "external_authority_handover_performed": false,
+    "candidate_selected": false,
+    "patch_generated": false,
+    "patch_applied": false,
+    "execution_lease_issued": false,
+    "repository_mutation_performed": false,
+    "successor_authority_granted": false
+  },
+  "forbidden_inferences": [
+    "verification receipt equals successor authority",
+    "trajectory equals repository truth",
+    "available-receipt completeness equals full intent lineage",
+    "internal deliberation candidate equals candidate selection",
+    "internal repair candidate equals generated or applied patch",
+    "internal reverification candidate equals executed verification",
+    "handover request equals permission",
+    "deferred handover equals performed handover",
+    "trajectory synthesis equals repository or Git mutation"
+  ],
+  "semantic_separation": {
+    "existing_codeai_surfaces_reopened": false,
+    "verifyos_reowned": false,
+    "repository_authority_lineage_reowned": false,
+    "handover_authority_owned": false,
+    "canonical_current_root_changed": false
+  },
+  "research_basis": [
+    {
+      "id": "arXiv:2606.30573",
+      "title": "SWE-INTERACT",
+      "binding": "evolving requirements and over-agentic effects remain explicit"
+    },
+    {
+      "id": "arXiv:2605.15846",
+      "title": "RoadmapBench",
+      "binding": "long-horizon work retains explicit trajectory structure"
+    },
+    {
+      "id": "arXiv:2602.14337",
+      "title": "LongCLI-Bench",
+      "binding": "step-level trajectory evidence remains inspectable"
+    },
+    {
+      "id": "arXiv:2606.26300",
+      "title": "The Verification Horizon",
+      "binding": "passed evidence remains distinct from correctness proof"
+    },
+    {
+      "id": "arXiv:2604.16529",
+      "title": "Scaling Test-Time Compute for Software Engineering",
+      "binding": "additional internal deliberation remains bounded and attributable"
+    },
+    {
+      "id": "W3C-PROV-O",
+      "title": "PROV-O",
+      "binding": "source, session, artifact, and successor lineage remain attributable"
+    }
+  ],
+  "implementation": {
+    "runtime": "runtime/kuuos_codeai_autonomous_trajectory_synthesis_envelope_v0_1.py",
+    "checker": "scripts/check_codeai_autonomous_trajectory_synthesis_envelope_v0_1.py",
+    "test": "tests/test_kuuos_codeai_autonomous_trajectory_synthesis_envelope_v0_1.py",
+    "example": "examples/codeai_autonomous_trajectory_synthesis_envelope_v0_1.json",
+    "formal_package": "formal/KUOS/CodeAI/AutonomousTrajectorySynthesisEnvelopeV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAIAutonomousTrajectorySynthesisV0_1.lean",
+    "documentation": "docs/KUUOS_CODEAI_AUTONOMOUS_TRAJECTORY_SYNTHESIS_ENVELOPE_v0_1.md",
+    "subsystem_index": "docs/CodeAI/README.md",
+    "workflow": ".github/workflows/codeai-autonomous-trajectory-synthesis-envelope-v0-1.yml",
+    "repository_aggregate_imported": false,
+    "canonical_current_root_registered": false
+  }
+}
