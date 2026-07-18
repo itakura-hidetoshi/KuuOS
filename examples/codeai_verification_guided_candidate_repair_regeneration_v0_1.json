@@ -28,7 +28,7 @@
     "test_plan_ids": ["test:verification-failure-to-bounded-regeneration"],
     "risk_labels": ["documentation"],
     "unresolved_candidate_questions": [],
-    "request_created_epoch": 1784429995,
+    "request_created_epoch": 1784318995,
     "codeai_verification_guided_candidate_repair_regeneration_request_digest": "0000000000000000000000000000000000000000000000000000000000000000"
   },
   "repair_policy": {
@@ -82,7 +82,7 @@
     "maximum_repository_snapshot_bytes": 200000,
     "maximum_existing_candidates": 8,
     "maximum_unique_candidates": 8,
-    "evaluation_epoch": 1784430000,
+    "evaluation_epoch": 1784319000,
     "maximum_response_age": 3600,
     "maximum_request_age": 3600,
     "allowed_repository_path_prefixes": ["docs/CodeAI"],
@@ -102,7 +102,7 @@
         {
           "provider_response_id": "repair-gpt-response-001",
           "producer_session_id": "repair-gpt-session-001",
-          "response_created_epoch": 1784429995,
+          "response_created_epoch": 1784318995,
           "raw_output": "{\"proposal_id\":\"codeai-verification-guided-repair-001\",\"candidate_revision\":\"r1\",\"edits\":[{\"path\":\"docs/CodeAI/VERIFICATION_GUIDED_REPAIR_EXAMPLE.md\",\"operation\":\"add\",\"new_content\":\"# Verification-guided repair example\\n\\nThis proposal is generated from bounded failure evidence and remains unselected and unverified.\\n\"}],\"risk_labels\":[\"documentation\"],\"unresolved_candidate_questions\":[]}",
           "claims_authority": false,
           "hides_uncertainty": false,
