@@ -1,0 +1,124 @@
+{
+  "seed_source": {
+    "structured_synthesis_example": "examples/codeai_autonomous_structured_edit_synthesis_v0_1.json",
+    "candidate_policy_example": "examples/codeai_candidate_patch_envelope_v0_1.json"
+  },
+  "repository_files": {
+    "docs/CodeAI/EXISTING.md": "# Existing\n\nOriginal text.\n"
+  },
+  "regeneration_request": {
+    "request_id": "codeai-candidate-regeneration-v0-1-001",
+    "request_revision": "r1",
+    "intent_text": "Regenerate a broader but still minimal set of governed CodeAI documentation change candidates.",
+    "target_unique_candidate_count": 3,
+    "maximum_rounds_requested": 2,
+    "request_created_epoch": 1784318700,
+    "feedback_reasons": [
+      "initial_portfolio_too_narrow",
+      "require_semantically_distinct_alternative"
+    ],
+    "diversity_axes": [
+      "minimal_change",
+      "testability"
+    ],
+    "requirement_trace_ids": [
+      "intent:codeai-v0-1-intent-001:candidate-regeneration"
+    ],
+    "test_plan_ids": [
+      "test:candidate-regeneration-novelty-and-lineage"
+    ],
+    "risk_labels": [
+      "documentation"
+    ],
+    "unresolved_candidate_questions": [],
+    "prior_candidate_digests": [],
+    "prior_producer_session_ids": [],
+    "codeai_autonomous_candidate_regeneration_request_digest": "ac41b3fb4e6e0b3e488f6785a69f78597806d5b864d60cf88cbaea49e91bc420"
+  },
+  "regeneration_policy": {
+    "allowed_provider_ids": [
+      "gpt",
+      "local_model"
+    ],
+    "allowed_diversity_axes": [
+      "minimal_change",
+      "testability",
+      "alternative_structure"
+    ],
+    "maximum_rounds": 2,
+    "maximum_provider_calls_per_round": 2,
+    "maximum_total_provider_calls": 4,
+    "maximum_raw_output_bytes": 20000,
+    "maximum_intent_bytes": 20000,
+    "maximum_repository_snapshot_bytes": 200000,
+    "maximum_feedback_items": 16,
+    "maximum_existing_candidates": 8,
+    "maximum_unique_candidates": 8,
+    "evaluation_epoch": 1784319000,
+    "maximum_response_age": 3600,
+    "maximum_request_age": 3600,
+    "allowed_repository_path_prefixes": [
+      "docs/CodeAI"
+    ],
+    "forbidden_repository_path_prefixes": [
+      "docs/CodeAI/private"
+    ],
+    "codeai_autonomous_candidate_regeneration_policy_digest": "f1ee2801bf2b9c60269b7f0b6342145da80ecc6211165adcbaeab8535e93d099"
+  },
+  "provider_adapters": [
+    {
+      "adapter_id": "regen-gpt-001",
+      "provider_id": "gpt",
+      "model_id": "gpt-regeneration-sample",
+      "responses": [
+        {
+          "provider_response_id": "regen-gpt-response-001",
+          "producer_session_id": "regen-gpt-session-001",
+          "response_created_epoch": 1784318700,
+          "raw_output": "{\"proposal_id\":\"codeai-regenerated-alternative-001\",\"candidate_revision\":\"r1\",\"edits\":[{\"path\":\"docs/CodeAI/REGENERATED_ALTERNATIVE.md\",\"operation\":\"add\",\"new_content\":\"# Regenerated alternative\\n\\nA semantically distinct proposal for independent comparison.\\n\"}],\"risk_labels\":[\"documentation\"],\"unresolved_candidate_questions\":[]}",
+          "claims_authority": false,
+          "hides_uncertainty": false,
+          "bypasses_governance": false,
+          "evidence_missing": false
+        },
+        {
+          "provider_response_id": "regen-gpt-response-002",
+          "producer_session_id": "regen-gpt-session-002",
+          "response_created_epoch": 1784318700,
+          "raw_output": "{\"proposal_id\":\"codeai-regenerated-testability-002\",\"candidate_revision\":\"r1\",\"edits\":[{\"path\":\"docs/CodeAI/REGENERATED_TESTABILITY.md\",\"operation\":\"add\",\"new_content\":\"# Regenerated testability candidate\\n\\nThis alternative emphasizes explicit verification planning.\\n\"}],\"risk_labels\":[\"documentation\"],\"unresolved_candidate_questions\":[]}",
+          "claims_authority": false,
+          "hides_uncertainty": false,
+          "bypasses_governance": false,
+          "evidence_missing": false
+        }
+      ]
+    },
+    {
+      "adapter_id": "regen-local-002",
+      "provider_id": "local_model",
+      "model_id": "local-regeneration-sample",
+      "responses": [
+        {
+          "provider_response_id": "regen-local-response-001",
+          "producer_session_id": "regen-local-session-001",
+          "response_created_epoch": 1784318700,
+          "raw_output": "{\"proposal_id\":\"codeai-regenerated-minimal-003\",\"candidate_revision\":\"r1\",\"edits\":[{\"path\":\"docs/CodeAI/REGENERATED_MINIMAL.md\",\"operation\":\"add\",\"new_content\":\"# Regenerated minimal candidate\\n\\nThis alternative minimizes changed scope.\\n\"}],\"risk_labels\":[\"documentation\"],\"unresolved_candidate_questions\":[]}",
+          "claims_authority": false,
+          "hides_uncertainty": false,
+          "bypasses_governance": false,
+          "evidence_missing": false
+        },
+        {
+          "provider_response_id": "regen-local-response-002",
+          "producer_session_id": "regen-local-session-002",
+          "response_created_epoch": 1784318700,
+          "raw_output": "{\"proposal_id\":\"codeai-regenerated-structure-004\",\"candidate_revision\":\"r1\",\"edits\":[{\"path\":\"docs/CodeAI/REGENERATED_STRUCTURE.md\",\"operation\":\"add\",\"new_content\":\"# Regenerated structural candidate\\n\\nThis alternative explores a different documentation structure.\\n\"}],\"risk_labels\":[\"documentation\"],\"unresolved_candidate_questions\":[]}",
+          "claims_authority": false,
+          "hides_uncertainty": false,
+          "bypasses_governance": false,
+          "evidence_missing": false
+        }
+      ]
+    }
+  ]
+}

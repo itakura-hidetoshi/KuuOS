@@ -22,6 +22,7 @@ roots = [
   "KuuOSCodeAICandidatePatchV0_1",
   "KuuOSCodeAIAutonomousUnifiedDiffCandidatesV0_1",
   "KuuOSCodeAIAutonomousStructuredEditSynthesisV0_1",
+  "KuuOSCodeAIAutonomousCandidateRegenerationV0_1",
   "KuuOSCodeAIAutonomousCandidatePortfolioSelectionV0_1",
   "KuuOSCodeAIAutonomousIsolatedCandidateApplicationV0_1",
   "KuuOSCodeAIIndependentVerificationV0_1",

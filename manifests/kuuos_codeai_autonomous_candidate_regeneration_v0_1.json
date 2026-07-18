@@ -1,0 +1,81 @@
+{
+  "schema_version": "v0.1",
+  "profile": "CodeAI",
+  "profile_surface": "autonomous candidate regeneration",
+  "profile_surface_version": "v0.1",
+  "predecessors": [
+    {
+      "surface": "Autonomous Structured Edit Synthesis",
+      "version": "v0.1",
+      "binding": "initial governed provider-generated candidate portfolio"
+    },
+    {
+      "surface": "Autonomous Unified Diff Candidates",
+      "version": "v0.1",
+      "binding": "deterministic proposal rendering and Candidate Patch validation"
+    }
+  ],
+  "ownership": {
+    "owned": [
+      "exact source-generation and seed-portfolio correspondence",
+      "bounded multi-round provider-neutral regeneration orchestration",
+      "explicit feedback and diversity-axis prompt construction",
+      "provider exception isolation and boundary-status preservation",
+      "candidate identity and patch-artifact novelty checks",
+      "prior candidate and producer-session lineage accumulation",
+      "deterministic combined portfolio reranking",
+      "proposal-only regeneration receipt construction"
+    ],
+    "not_owned": [
+      "provider credentials or SDK transport",
+      "candidate selection",
+      "verification command execution or correctness adjudication",
+      "patch application or live repository mutation",
+      "Git branch commit push pull request merge effects",
+      "deployment or secret access",
+      "persistent memory truth"
+    ]
+  },
+  "supported_claims": {
+    "source_portfolio_correspondence_exact": true,
+    "rounds_and_provider_calls_bounded": true,
+    "feedback_carried_forward": true,
+    "semantic_patch_deduplication_performed": true,
+    "candidate_lineage_extended": true,
+    "combined_portfolio_deterministically_ranked": true,
+    "candidate_selected": false,
+    "repository_mutation_performed": false,
+    "successor_authority_granted": false
+  },
+  "preserved_invariants": [
+    "feedback is not truth or authority",
+    "regeneration is not correction",
+    "novelty is not correctness",
+    "more candidates is not selection",
+    "candidate ranking is not candidate selection",
+    "regenerated candidate is not verified or applied patch",
+    "provider exception does not erase a supported sibling candidate",
+    "validation is not correctness proof"
+  ],
+  "semantic_separation": {
+    "structured_synthesis_reowned": false,
+    "unified_diff_rendering_reowned": false,
+    "candidate_patch_reowned": false,
+    "candidate_selection_reowned": false,
+    "git_lifecycle_reowned": false,
+    "difference": "this surface adds bounded feedback-driven regeneration, semantic patch novelty, and lineage-preserving portfolio growth while predecessor and successor surfaces retain initial synthesis, rendering, validation, selection, verification, and Git effects"
+  },
+  "implementation": {
+    "runtime": "runtime/kuuos_codeai_autonomous_candidate_regeneration_v0_1.py",
+    "checker": "scripts/check_codeai_autonomous_candidate_regeneration_v0_1.py",
+    "test": "tests/test_kuuos_codeai_autonomous_candidate_regeneration_v0_1.py",
+    "example": "examples/codeai_autonomous_candidate_regeneration_v0_1.json",
+    "formal_package": "formal/KUOS/CodeAI/AutonomousCandidateRegenerationV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAIAutonomousCandidateRegenerationV0_1.lean",
+    "documentation": "docs/KUUOS_CODEAI_AUTONOMOUS_CANDIDATE_REGENERATION_v0_1.md",
+    "subsystem_index": "docs/CodeAI/README.md",
+    "workflow": ".github/workflows/codeai-autonomous-candidate-regeneration-v0-1.yml",
+    "repository_aggregate_imported": false,
+    "canonical_current_root_registered": false
+  }
+}
