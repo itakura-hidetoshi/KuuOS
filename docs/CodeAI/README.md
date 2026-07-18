@@ -32,12 +32,19 @@ ranked Candidate Patch-supported portfolio
   -> CodeAI Autonomous Candidate Portfolio Selection v0.1
   -> one selected independent-verification target or explicit no-selection receipt
 
+selected independent-verification target
+  + sealed selection receipt
+  + canonical read-only source repository text snapshot
+  + sealed isolated-application request and policy
+  -> CodeAI Autonomous Isolated Candidate Application v0.1
+  -> isolated verification snapshot and application receipt
+
 supported CodeAI v0.1 observation receipt
   + externally supplied or synthesis-produced unified diff candidate
   + bounded candidate policy
   -> CodeAI Candidate Patch v0.1 proposal-only route receipt
 
-selected verification target
+isolated verification target/workspace
   + supported Candidate Patch v0.1 receipt
   + externally executed independent verification evidence
   + bounded verification policy
@@ -60,20 +67,18 @@ completed autonomous Git lifecycle receipt
      minimal request packet / non-blocking hold
 ```
 
-The observation frontier is read-only. The autonomous structured-edit frontier
-invokes bounded provider-neutral adapters, evaluates every raw response through
-the AI Provider Boundary, and lets only `CANDIDATE` JSON become a structured
-proposal. The autonomous unified-diff frontier turns structured semantic edits
-into deterministic Git-style proposal artifacts and routes each artifact through
-Candidate Patch v0.1. Its ranking is advisory. The candidate portfolio-selection
-frontier consumes a sealed, bounded selection request to choose at most one
-independent-verification target. Selection is not verification and grants no
-verification or execution lease. The candidate frontier records a proposal only.
-The verification frontier records supplied independent evidence. The trajectory
-frontier synthesizes a read-only representation and an internal deliberation,
-repair, or reverification candidate. Autonomous Git Lifecycle remains the first
-CodeAI frontier that may issue active Git effect authority. It grants at most one
-exact next effect per receipt and requires fresh observed state before advancing.
+The observation frontier is read-only. Autonomous Structured Edit Synthesis
+invokes bounded provider-neutral adapters and lets only governed `CANDIDATE`
+output become semantic proposals. Autonomous Unified Diff Candidates renders
+those proposals deterministically and produces an advisory ranking. Autonomous
+Candidate Portfolio Selection consumes bounded selection authority to designate
+at most one independent-verification target. Autonomous Isolated Candidate
+Application checks exact selection/candidate/snapshot correspondence and applies
+the selected canonical diff only to an in-memory copy, producing a verification
+snapshot without touching a live repository or Git. Independent Verification
+records supplied external evidence. Autonomous Git Lifecycle remains the first
+CodeAI frontier that may issue active Git effect authority, one exact effect per
+fresh receipt.
 
 ## Stable boundaries
 
@@ -103,7 +108,13 @@ selection authority != verification authority
 selection authority != execution authority
 selection receipt != verification lease
 no admissible candidate != evidence deletion
-candidate != applied patch
+selected candidate != applied live patch
+isolated patch application != repository mutation
+isolated snapshot != Git tree object
+verification workspace ready != verification executed
+materialization != verification
+materialization != correctness proof
+application receipt != Git or execution authority
 candidate support != verification or execution lease
 verification evidence != truth
 passed != correctness proof
@@ -180,6 +191,18 @@ route receipt != successor authority
 - [Formal root](../../formal/KuuOSCodeAIAutonomousCandidatePortfolioSelectionV0_1.lean)
 - [Dedicated workflow](../../.github/workflows/codeai-autonomous-candidate-portfolio-selection-v0-1.yml)
 
+## Autonomous Isolated Candidate Application v0.1 implementation map
+
+- [Specification](../KUUOS_CODEAI_AUTONOMOUS_ISOLATED_CANDIDATE_APPLICATION_v0_1.md)
+- [Runtime](../../runtime/kuuos_codeai_autonomous_isolated_candidate_application_v0_1.py)
+- [Route checker](../../scripts/check_codeai_autonomous_isolated_candidate_application_v0_1.py)
+- [Unit test](../../tests/test_kuuos_codeai_autonomous_isolated_candidate_application_v0_1.py)
+- [Example](../../examples/codeai_autonomous_isolated_candidate_application_v0_1.json)
+- [Manifest](../../manifests/kuuos_codeai_autonomous_isolated_candidate_application_v0_1.json)
+- [Formal kernel](../../formal/KUOS/CodeAI/AutonomousIsolatedCandidateApplicationV0_1.lean)
+- [Formal root](../../formal/KuuOSCodeAIAutonomousIsolatedCandidateApplicationV0_1.lean)
+- [Dedicated workflow](../../.github/workflows/codeai-autonomous-isolated-candidate-application-v0-1.yml)
+
 ## Candidate Patch v0.1 implementation map
 
 - [Specification](../KUUOS_CODEAI_CANDIDATE_PATCH_ENVELOPE_v0_1.md)
@@ -243,36 +266,23 @@ route receipt != successor authority
 ## Disposition surface
 
 The profile preserves read-only/proposal-only, provider-boundary candidate/hold/
-repair/reject/quarantine, bounded selection/no-selection, pass/fail, autonomous
-repair, degradation, abstention, handover, and rejection as distinct modes.
-Autonomous Structured Edit Synthesis v0.1 adds bounded provider invocation and
-governed semantic proposal generation. Autonomous Unified Diff Candidates v0.1
-adds deterministic proposal rendering and advisory ranking. Autonomous Candidate
-Portfolio Selection v0.1 consumes bounded selection authority only to designate
-one independent-verification target; it does not verify or apply the patch. Exact
-readiness or a completed verification outcome does not create next-stage
-authority. Autonomous Trajectory Synthesis v0.1 never performs human or
-external-authority handover; it records such a request as deferred hold.
-Autonomous Git Lifecycle v0.1 may grant local commit, push, pull request,
-readiness, or merge authority as separate one-effect leases. Force push, remote
-branch deletion, admin bypass, deployment, secret access, and human handover
-remain unavailable in that lineage. Minimal External Authority Dependency v0.1
-adds a sibling minimization ladder: internal substitution and unaffected work
-come first; deploy and secret mutation require an exact short-lived one-shot
-capability; human handover remains a last-resort request packet rather than an
-authority grant.
+repair/reject/quarantine, bounded selection/no-selection, isolated
+materialization, pass/fail, autonomous repair, degradation, abstention, handover,
+and rejection as distinct modes. Isolated Candidate Application applies only to a
+value-level copy, records exact source/result digests, and does not verify or
+mutate the live repository. Exact readiness or a completed verification outcome
+does not create next-stage authority. Autonomous Git Lifecycle may grant local
+commit, push, pull request, readiness, or merge authority as separate one-effect
+leases. Force push, remote branch deletion, admin bypass, deployment, secret
+access, and human handover remain unavailable in that lineage.
 
 ## Conditional next stages
 
 Possible later siblings include concrete provider SDK adapters, autonomous
-verification-command execution, candidate repair/regeneration loops, application
-receipts, rollback, and provider-specific capability adapters. Autonomous
-Structured Edit Synthesis v0.1 owns provider-neutral callable orchestration but
-not credential handling. Candidate Portfolio Selection v0.1 owns only selection
-for independent verification; test execution remains external to the verification
-kernel. Human handover remains deferred unless one minimal
-nondelegable-decision packet is explicitly routed. The Git lifecycle and
-minimal-dependency sibling compose with, rather than replace, the existing
-repository live-mutation lineage, Qi PR Merge Gate, deployment systems, secret
-brokers, and human decision owners. Capability issuance, revocation, and
-provider-specific effect execution remain unowned.
+verification-command execution against the isolated snapshot, evidence binding
+to the application receipt, candidate repair/regeneration loops, live application
+receipts, rollback, and provider-specific capability adapters. The current
+application sibling owns no live mutation or verification execution. Human
+handover remains deferred unless one minimal nondelegable-decision packet is
+explicitly routed. Existing repository mutation, merge-gate, deployment, secret,
+and capability systems remain authoritative for their own effects.

@@ -1,0 +1,76 @@
+{
+  "schema_version": "v0.1",
+  "profile": "CodeAI",
+  "profile_surface": "autonomous isolated candidate application",
+  "profile_surface_version": "v0.1",
+  "predecessor": {
+    "surface": "Autonomous Candidate Portfolio Selection",
+    "version": "v0.1",
+    "binding": "one selected independent-verification target"
+  },
+  "application_purpose": "independent_verification_workspace",
+  "operating_mode": "isolated_materialization_only",
+  "admission": [
+    "sealed selected-candidate receipt with exact digest",
+    "exact selected candidate id digest artifact and upstream rank correspondence",
+    "Candidate Patch supported receipt",
+    "canonical source repository text snapshot with exact digest",
+    "fresh sealed application request",
+    "bounded source and result path and byte budgets",
+    "bounded patch bytes and changed paths",
+    "allowed and forbidden path prefixes",
+    "explicit add modify delete permissions",
+    "exact changed path accounting"
+  ],
+  "owned": [
+    "canonical unified diff parsing",
+    "deterministic in-memory hunk application",
+    "isolated resulting repository snapshot",
+    "source and resulting snapshot digests",
+    "isolated application provenance receipt"
+  ],
+  "not_owned": [
+    "live filesystem mutation",
+    "Git index tree object ref branch commit push pull request or merge",
+    "verification command execution",
+    "verification truth or correctness",
+    "deployment or secret access",
+    "successor authority grant"
+  ],
+  "supported_claims": {
+    "selection_correspondence_verified": true,
+    "candidate_correspondence_verified": true,
+    "source_snapshot_verified": true,
+    "isolated_patch_applied": true,
+    "isolated_snapshot_materialized": true,
+    "verification_workspace_ready": true,
+    "input_repository_snapshot_mutated": false,
+    "live_repository_patch_applied": false,
+    "repository_mutation_performed": false,
+    "git_ref_changed": false,
+    "verification_executed": false,
+    "successor_authority_granted": false
+  },
+  "preserved_invariants": [
+    "selected candidate is not an applied live patch",
+    "isolated snapshot application is not repository mutation",
+    "materialization is not verification",
+    "verification workspace readiness is not verification success",
+    "application receipt is not Git authority",
+    "selected candidate is not treated as correct",
+    "validation is not correctness proof"
+  ],
+  "implementation": {
+    "runtime": "runtime/kuuos_codeai_autonomous_isolated_candidate_application_v0_1.py",
+    "checker": "scripts/check_codeai_autonomous_isolated_candidate_application_v0_1.py",
+    "test": "tests/test_kuuos_codeai_autonomous_isolated_candidate_application_v0_1.py",
+    "example": "examples/codeai_autonomous_isolated_candidate_application_v0_1.json",
+    "formal_package": "formal/KUOS/CodeAI/AutonomousIsolatedCandidateApplicationV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAIAutonomousIsolatedCandidateApplicationV0_1.lean",
+    "documentation": "docs/KUUOS_CODEAI_AUTONOMOUS_ISOLATED_CANDIDATE_APPLICATION_v0_1.md",
+    "subsystem_index": "docs/CodeAI/README.md",
+    "workflow": ".github/workflows/codeai-autonomous-isolated-candidate-application-v0-1.yml",
+    "repository_aggregate_imported": false,
+    "canonical_current_root_registered": false
+  }
+}

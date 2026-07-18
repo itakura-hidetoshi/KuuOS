@@ -1,0 +1,36 @@
+{
+  "application_request": {
+    "application_request_id": "application-request-example",
+    "application_request_revision": "r1",
+    "source_selection_receipt_digest": "replace-with-selection-receipt-digest",
+    "selected_candidate_digest": "replace-with-candidate-digest",
+    "source_repository_snapshot_digest": "replace-with-source-snapshot-digest",
+    "application_purpose": "independent_verification_workspace",
+    "requested_by_actor_id": "codeai-example-actor",
+    "request_created_epoch": 100,
+    "codeai_autonomous_isolated_candidate_application_request_digest": "replace-after-sealing"
+  },
+  "application_policy": {
+    "expected_source_selection_receipt_digest": "replace-with-selection-receipt-digest",
+    "expected_selected_candidate_digest": "replace-with-candidate-digest",
+    "expected_patch_artifact_digest": "replace-with-patch-artifact-digest",
+    "expected_repository_full_name": "example/repository",
+    "expected_source_commit_sha": "0000000000000000000000000000000000000000",
+    "expected_source_repository_snapshot_digest": "replace-with-source-snapshot-digest",
+    "maximum_source_path_count": 1000,
+    "maximum_source_snapshot_bytes": 10000000,
+    "maximum_result_path_count": 1000,
+    "maximum_result_snapshot_bytes": 10000000,
+    "maximum_patch_bytes": 1000000,
+    "maximum_changed_paths": 100,
+    "allowed_path_prefixes": ["docs", "formal", "runtime", "scripts", "tests", "examples", "manifests"],
+    "forbidden_path_prefixes": [".git", ".github/secrets"],
+    "allow_additions": true,
+    "allow_modifications": true,
+    "allow_deletions": true,
+    "require_exact_changed_path_accounting": true,
+    "evaluation_epoch": 100,
+    "maximum_request_age": 10,
+    "codeai_autonomous_isolated_candidate_application_policy_digest": "replace-after-sealing"
+  }
+}
