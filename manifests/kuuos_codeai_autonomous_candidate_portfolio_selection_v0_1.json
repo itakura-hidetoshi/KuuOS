@@ -1,0 +1,90 @@
+{
+  "schema_version": "v0.1",
+  "profile": "CodeAI",
+  "profile_surface": "autonomous candidate portfolio selection",
+  "profile_surface_version": "v0.1",
+  "predecessors": [
+    {
+      "surface": "Autonomous Unified Diff Candidates",
+      "version": "v0.1",
+      "binding": "ranked Candidate Patch-supported portfolio"
+    },
+    {
+      "surface": "Autonomous Structured Edit Synthesis",
+      "version": "v0.1",
+      "binding": "provider-originated ranked portfolio"
+    }
+  ],
+  "selection_purpose": "independent_verification",
+  "selection_strategy": "least_change_admissible",
+  "admissibility": [
+    "exact source portfolio receipt digest",
+    "exact candidate count id digest and rank correspondence",
+    "canonical candidate and patch artifact digests",
+    "Candidate Patch supported receipt",
+    "candidate count patch byte and changed path budgets",
+    "allowed and forbidden risk labels",
+    "resolved candidate questions when required",
+    "allowed and forbidden changed path prefixes",
+    "fresh sealed selection request"
+  ],
+  "selection_key": [
+    "declared changed path count",
+    "patch size bytes",
+    "risk label count",
+    "upstream rank",
+    "candidate id"
+  ],
+  "ownership": {
+    "owned": [
+      "verification-target admissibility evaluation",
+      "deterministic one-candidate selection",
+      "selection provenance receipt",
+      "no-admissible-candidate receipt"
+    ],
+    "not_owned": [
+      "candidate generation or ranking",
+      "verification execution",
+      "verification truth or correctness",
+      "patch application",
+      "repository mutation",
+      "branch commit push pull request readiness or merge",
+      "deployment or secret access",
+      "successor authority grant"
+    ]
+  },
+  "supported_claims": {
+    "source_portfolio_correspondence_exact": true,
+    "selection_policy_evaluated": true,
+    "at_most_one_candidate_selected": true,
+    "selected_for_independent_verification": true,
+    "verification_lease_issued": false,
+    "execution_lease_issued": false,
+    "repository_mutation_performed": false,
+    "selected_candidate_treated_as_correct": false,
+    "successor_authority_granted": false
+  },
+  "preserved_invariants": [
+    "ranking is not selection",
+    "selection is not verification",
+    "selected candidate is not a correct patch",
+    "selection authority is not verification authority",
+    "selection authority is not execution authority",
+    "verification target selection is not patch application",
+    "no admissible candidate means no selection",
+    "validation is not correctness proof"
+  ],
+  "implementation": {
+    "runtime": "runtime/kuuos_codeai_autonomous_candidate_portfolio_selection_v0_1.py",
+    "checker": "scripts/check_codeai_autonomous_candidate_portfolio_selection_v0_1.py",
+    "test": "tests/test_kuuos_codeai_autonomous_candidate_portfolio_selection_v0_1.py",
+    "example": "examples/codeai_autonomous_candidate_portfolio_selection_v0_1.json",
+    "formal_package": "formal/KUOS/CodeAI/AutonomousCandidatePortfolioSelectionV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAIAutonomousCandidatePortfolioSelectionV0_1.lean",
+    "documentation": "docs/KUUOS_CODEAI_AUTONOMOUS_CANDIDATE_PORTFOLIO_SELECTION_v0_1.md",
+    "subsystem_index": "docs/CodeAI/README.md",
+    "workflow": ".github/workflows/codeai-autonomous-candidate-portfolio-selection-v0-1.yml",
+    "repository_aggregate_imported": false,
+    "canonical_current_root_registered": false
+  }
+}

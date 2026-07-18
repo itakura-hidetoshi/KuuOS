@@ -1,0 +1,11 @@
+import KUOS.CodeAI.AutonomousCandidatePortfolioSelectionV0_1
+
+namespace KuuOSCodeAIAutonomousCandidatePortfolioSelectionV0_1
+
+open KUOS.CodeAI.AutonomousCandidatePortfolioSelectionV0_1
+
+abbrev Receipt := AutonomousCandidatePortfolioSelectionReceipt
+abbrev ReceiptValid := AutonomousCandidatePortfolioSelectionReceiptValid
+abbrev Selection := AutonomousCandidatePortfolioSelection
+
+end KuuOSCodeAIAutonomousCandidatePortfolioSelectionV0_1

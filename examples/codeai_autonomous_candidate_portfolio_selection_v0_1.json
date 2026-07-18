@@ -1,0 +1,35 @@
+{
+  "selection_request": {
+    "selection_request_id": "codeai-candidate-selection-v0-1-001",
+    "selection_request_revision": "r1",
+    "source_portfolio_receipt_digest": "$UPSTREAM_PORTFOLIO_RECEIPT_DIGEST",
+    "selection_purpose": "independent_verification",
+    "requested_by_actor_id": "repository-owner",
+    "request_created_epoch": 1784318700
+  },
+  "selection_policy": {
+    "expected_source_portfolio_receipt_digest": "$UPSTREAM_PORTFOLIO_RECEIPT_DIGEST",
+    "maximum_candidate_count": 16,
+    "maximum_patch_bytes": 1000000,
+    "maximum_changed_paths": 64,
+    "allowed_risk_labels": [
+      "documentation",
+      "release",
+      "security"
+    ],
+    "forbidden_risk_labels": [
+      "release",
+      "security"
+    ],
+    "require_no_unresolved_questions": true,
+    "allowed_path_prefixes": [
+      "docs/CodeAI"
+    ],
+    "forbidden_path_prefixes": [
+      "docs/CodeAI/private"
+    ],
+    "selection_strategy": "least_change_admissible",
+    "evaluation_epoch": 1784319000,
+    "maximum_request_age": 3600
+  }
+}
