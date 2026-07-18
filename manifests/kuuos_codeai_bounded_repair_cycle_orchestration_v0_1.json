@@ -1,0 +1,59 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Bounded Repair Cycle Orchestration v0.1",
+  "status": "additive bounded orchestration sibling",
+  "predecessor": "CodeAI Verification-Guided Candidate Repair and Regeneration v0.1",
+  "downstream_profiles": [
+    "CodeAI Autonomous Candidate Portfolio Selection v0.1",
+    "CodeAI Autonomous Isolated Candidate Application v0.1",
+    "CodeAI Autonomous Verification Execution v0.1"
+  ],
+  "artifacts": {
+    "runtime": "runtime/kuuos_codeai_bounded_repair_cycle_orchestration_v0_1.py",
+    "checker": "scripts/check_codeai_bounded_repair_cycle_orchestration_v0_1.py",
+    "tests": "tests/test_kuuos_codeai_bounded_repair_cycle_orchestration_v0_1.py",
+    "example": "examples/codeai_bounded_repair_cycle_orchestration_v0_1.json",
+    "specification": "docs/KUUOS_CODEAI_BOUNDED_REPAIR_CYCLE_ORCHESTRATION_v0_1.md",
+    "formal_kernel": "formal/KUOS/CodeAI/BoundedRepairCycleOrchestrationV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAIBoundedRepairCycleOrchestrationV0_1.lean",
+    "workflow": ".github/workflows/codeai-bounded-repair-cycle-orchestration-v0-1.yml"
+  },
+  "route": [
+    "verification-guided repair receipt",
+    "downstream regeneration receipt",
+    "failed-candidate exclusion",
+    "least-change bounded reselection",
+    "isolated candidate application",
+    "bounded verification execution",
+    "sealed cycle receipt"
+  ],
+  "bounds": [
+    "cycle index and maximum cycle count",
+    "candidate count, patch bytes, and changed paths",
+    "risk labels, unresolved questions, and path prefixes",
+    "source and resulting isolated snapshot size",
+    "verification command, timeout, output, and environment budgets",
+    "network, secret, live repository, and Git capabilities disabled"
+  ],
+  "fixed_semantics": [
+    "cycle orchestration != correctness",
+    "cycle pass != proof",
+    "cycle failure != required repair",
+    "failed-candidate exclusion != correctness judgement",
+    "reselection != verification",
+    "isolated application != live repository mutation",
+    "verification evidence != merge authority",
+    "next-cycle eligibility != execution authority",
+    "cycle receipt != successor-stage authority"
+  ],
+  "authority": {
+    "live_repository_mutation": false,
+    "git": false,
+    "network": false,
+    "secrets": false,
+    "deployment": false,
+    "merge": false,
+    "automatic_next_cycle": false,
+    "correctness_proof": false
+  }
+}
