@@ -39,6 +39,14 @@ selected independent-verification target
   -> CodeAI Autonomous Isolated Candidate Application v0.1
   -> isolated verification snapshot and application receipt
 
+isolated verification snapshot and application receipt
+  + supported Candidate Patch v0.1 receipt
+  + sealed verification plan and fresh execution request
+  + bounded verification execution policy
+  + runner-neutral execution adapter
+  -> CodeAI Autonomous Verification Execution v0.1
+  -> sealed execution evidence bundle and Independent Verification projection
+
 supported CodeAI v0.1 observation receipt
   + externally supplied or synthesis-produced unified diff candidate
   + bounded candidate policy
@@ -46,7 +54,7 @@ supported CodeAI v0.1 observation receipt
 
 isolated verification target/workspace
   + supported Candidate Patch v0.1 receipt
-  + externally executed independent verification evidence
+  + externally executed or execution-projected independent verification evidence
   + bounded verification policy
   -> CodeAI Independent Verification v0.1 passed / failed / inconclusive receipt
 
@@ -75,10 +83,13 @@ Candidate Portfolio Selection consumes bounded selection authority to designate
 at most one independent-verification target. Autonomous Isolated Candidate
 Application checks exact selection/candidate/snapshot correspondence and applies
 the selected canonical diff only to an in-memory copy, producing a verification
-snapshot without touching a live repository or Git. Independent Verification
-records supplied external evidence. Autonomous Git Lifecycle remains the first
-CodeAI frontier that may issue active Git effect authority, one exact effect per
-fresh receipt.
+snapshot without touching a live repository or Git. Autonomous Verification
+Execution checks exact candidate/application/snapshot/plan correspondence and
+collects bounded runner-neutral evidence without live repository, Git, network,
+or secret capabilities. Independent Verification separately records and governs
+the resulting evidence. Autonomous Git Lifecycle remains the first CodeAI
+frontier that may issue active Git effect authority, one exact effect per fresh
+receipt.
 
 ## Stable boundaries
 
@@ -115,6 +126,12 @@ verification workspace ready != verification executed
 materialization != verification
 materialization != correctness proof
 application receipt != Git or execution authority
+execution != correctness
+tests passing != proof
+runner exception != success
+verification execution != live patch application
+execution evidence != merge authority
+execution receipt != successor authority
 candidate support != verification or execution lease
 verification evidence != truth
 passed != correctness proof
@@ -203,6 +220,18 @@ route receipt != successor authority
 - [Formal root](../../formal/KuuOSCodeAIAutonomousIsolatedCandidateApplicationV0_1.lean)
 - [Dedicated workflow](../../.github/workflows/codeai-autonomous-isolated-candidate-application-v0-1.yml)
 
+## Autonomous Verification Execution v0.1 implementation map
+
+- [Specification](../KUUOS_CODEAI_AUTONOMOUS_VERIFICATION_EXECUTION_v0_1.md)
+- [Runtime](../../runtime/kuuos_codeai_autonomous_verification_execution_v0_1.py)
+- [Route checker](../../scripts/check_codeai_autonomous_verification_execution_v0_1.py)
+- [Unit test](../../tests/test_kuuos_codeai_autonomous_verification_execution_v0_1.py)
+- [Example](../../examples/codeai_autonomous_verification_execution_v0_1.json)
+- [Manifest](../../manifests/kuuos_codeai_autonomous_verification_execution_v0_1.json)
+- [Formal kernel](../../formal/KUOS/CodeAI/AutonomousVerificationExecutionV0_1.lean)
+- [Formal root](../../formal/KuuOSCodeAIAutonomousVerificationExecutionV0_1.lean)
+- [Dedicated workflow](../../.github/workflows/codeai-autonomous-verification-execution-v0-1.yml)
+
 ## Candidate Patch v0.1 implementation map
 
 - [Specification](../KUUOS_CODEAI_CANDIDATE_PATCH_ENVELOPE_v0_1.md)
@@ -267,22 +296,26 @@ route receipt != successor authority
 
 The profile preserves read-only/proposal-only, provider-boundary candidate/hold/
 repair/reject/quarantine, bounded selection/no-selection, isolated
-materialization, pass/fail, autonomous repair, degradation, abstention, handover,
-and rejection as distinct modes. Isolated Candidate Application applies only to a
-value-level copy, records exact source/result digests, and does not verify or
-mutate the live repository. Exact readiness or a completed verification outcome
-does not create next-stage authority. Autonomous Git Lifecycle may grant local
-commit, push, pull request, readiness, or merge authority as separate one-effect
-leases. Force push, remote branch deletion, admin bypass, deployment, secret
-access, and human handover remain unavailable in that lineage.
+materialization, bounded verification execution, pass/fail, autonomous repair,
+degradation, abstention, handover, and rejection as distinct modes. Isolated
+Candidate Application applies only to a value-level copy, records exact
+source/result digests, and does not verify or mutate the live repository.
+Autonomous Verification Execution invokes only admitted checks through a
+runner-neutral boundary, preserves bounded failure evidence, and does not acquire
+live repository, Git, network, secret, deployment, or successor authority. Exact
+readiness, executed checks, or a completed verification outcome do not create
+next-stage authority. Autonomous Git Lifecycle may grant local commit, push, pull
+request, readiness, or merge authority as separate one-effect leases. Force push,
+remote branch deletion, admin bypass, deployment, secret access, and human
+handover remain unavailable in that lineage.
 
 ## Conditional next stages
 
-Possible later siblings include concrete provider SDK adapters, autonomous
-verification-command execution against the isolated snapshot, evidence binding
-to the application receipt, candidate repair/regeneration loops, live application
-receipts, rollback, and provider-specific capability adapters. The current
-application sibling owns no live mutation or verification execution. Human
-handover remains deferred unless one minimal nondelegable-decision packet is
-explicitly routed. Existing repository mutation, merge-gate, deployment, secret,
-and capability systems remain authoritative for their own effects.
+Possible later siblings include concrete provider SDK adapters,
+verification-guided candidate repair/regeneration loops, richer runner adapters,
+live application receipts, rollback, and provider-specific capability adapters.
+The current verification-execution sibling owns no live mutation, Git effect,
+correctness judgement, merge authority, or successor-stage automatic execution.
+Human handover remains deferred unless one minimal nondelegable-decision packet
+is explicitly routed. Existing repository mutation, merge-gate, deployment,
+secret, and capability systems remain authoritative for their own effects.
