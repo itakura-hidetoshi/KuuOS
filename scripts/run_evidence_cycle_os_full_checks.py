@@ -1,5 +1,5 @@
 #!/usr/bin/env python3
-"""Run cumulative evidence-cycle checks through VerifyOS v0.14 evidence verification."""
+"""Run cumulative evidence-cycle checks through VerifyOS v0.15 outcome disposition handoff."""
 
 from __future__ import annotations
 
@@ -150,6 +150,10 @@ COMMANDS: tuple[tuple[str, ...], ...] = (
         sys.executable,
         "scripts/check_verifyos_independent_evidence_verification_v0_1.py",
     ),
+    (
+        sys.executable,
+        "scripts/check_verifyos_outcome_disposition_handoff_v0_1.py",
+    ),
 )
 
 
@@ -178,7 +182,7 @@ def main() -> int:
 
     print(
         "\nPASS: Evidence Cycle OS validation completed through "
-        "VerifyOS v0.14 independent evidence verification"
+        "VerifyOS v0.15 outcome disposition handoff"
     )
     return 0
 

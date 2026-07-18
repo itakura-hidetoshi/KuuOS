@@ -17,6 +17,7 @@ roots = [
   "KuuOSObserveOSV0_7",
   "KuuOSVerifyOSV0_13",
   "KuuOSVerifyOSV0_14",
+  "KuuOSVerifyOSV0_15",
   "KuuOSCodeAIV0_1",
   "KuuOSCodeAICandidatePatchV0_1",
   "KuuOSCodeAIIndependentVerificationV0_1",
