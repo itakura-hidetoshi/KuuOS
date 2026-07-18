@@ -1,0 +1,96 @@
+{
+  "schema_version": "v0.1",
+  "profile": "CodeAI",
+  "profile_surface": "autonomous unified diff candidates",
+  "profile_surface_version": "v0.1",
+  "predecessors": [
+    {
+      "surface": "intent and repository observation envelope",
+      "version": "v0.1",
+      "binding": "exact supported source observation receipt"
+    },
+    {
+      "surface": "candidate patch envelope",
+      "version": "v0.1",
+      "binding": "every generated artifact is independently parsed and policy-routed"
+    }
+  ],
+  "ownership": {
+    "owned": [
+      "structured add, modify, and delete proposal intake",
+      "deterministic Git-style unified diff rendering",
+      "candidate metadata and artifact digest construction",
+      "downstream Candidate Patch v0.1 invocation",
+      "supported candidate portfolio construction",
+      "deterministic advisory least-change ranking",
+      "proposal-generation receipt construction"
+    ],
+    "not_owned": [
+      "live repository collection",
+      "semantic edit planning by a provider-specific model",
+      "candidate selection",
+      "test generation or execution",
+      "correctness adjudication",
+      "patch application",
+      "working-tree, index, object-database, or Git-ref mutation",
+      "branch, commit, push, pull request, readiness, merge, release, or deployment",
+      "secret access"
+    ]
+  },
+  "edit_operations": [
+    "add",
+    "modify",
+    "delete"
+  ],
+  "generated_patch_format": "unified_diff",
+  "ranking_key": [
+    "changed_path_count",
+    "patch_size_bytes",
+    "risk_label_count",
+    "candidate_id"
+  ],
+  "preserved_invariants": [
+    "structured edit proposal is not unified diff candidate",
+    "generated candidate is not selected patch",
+    "rank one is not selected patch",
+    "candidate support is not verification or correctness proof",
+    "generation is not patch application",
+    "repository snapshot remains read only",
+    "proposal-generation receipt grants no successor authority"
+  ],
+  "supported_claims": {
+    "unified_diff_generated_by_kernel": true,
+    "candidate_patch_envelope_reused": true,
+    "candidate_ranking_deterministic": true,
+    "candidate_selected": false,
+    "patch_applied": false,
+    "repository_mutation_performed": false,
+    "git_ref_changed": false,
+    "successor_authority_granted": false
+  },
+  "dispositions": [
+    "autonomous_unified_diff_candidates_synthesized",
+    "no_supported_unified_diff_candidate"
+  ],
+  "forbidden_inferences": [
+    "ranked candidate equals selected candidate",
+    "generated unified diff applies to an unobserved live tree",
+    "candidate patch support equals verification",
+    "candidate patch support equals correctness",
+    "candidate generation equals execution lease",
+    "candidate generation equals repository or Git mutation"
+  ],
+  "implementation": {
+    "runtime": "runtime/kuuos_codeai_autonomous_unified_diff_candidates_v0_1.py",
+    "checker": "scripts/check_codeai_autonomous_unified_diff_candidates_v0_1.py",
+    "test": "tests/test_kuuos_codeai_autonomous_unified_diff_candidates_v0_1.py",
+    "example": "examples/codeai_autonomous_unified_diff_candidates_v0_1.json",
+    "formal_package": "formal/KUOS/CodeAI/AutonomousUnifiedDiffCandidatesV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAIAutonomousUnifiedDiffCandidatesV0_1.lean",
+    "documentation": "docs/KUUOS_CODEAI_AUTONOMOUS_UNIFIED_DIFF_CANDIDATES_v0_1.md",
+    "subsystem_index": "docs/CodeAI/README.md",
+    "workflow": ".github/workflows/codeai-autonomous-unified-diff-candidates-v0-1.yml",
+    "repository_aggregate_imported": false,
+    "canonical_current_root_registered": false
+  }
+}
