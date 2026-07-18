@@ -1,0 +1,151 @@
+{
+  "schema_version": "v0.1",
+  "profile": "CodeAI",
+  "profile_surface": "candidate patch envelope",
+  "profile_surface_version": "v0.1",
+  "predecessor": {
+    "surface": "intent and repository observation envelope",
+    "version": "v0.1",
+    "required_disposition": "intent_repository_observation_supported",
+    "required_operating_mode": "read_only",
+    "binding": "exact source observation receipt"
+  },
+  "ownership": {
+    "owned": [
+      "source observation receipt intake",
+      "externally supplied unified diff representation intake",
+      "candidate provenance and replay checks",
+      "patch artifact digest and byte-count correspondence",
+      "unified diff path-shape accounting",
+      "candidate path, feature, budget, risk, and evidence routing",
+      "proposal-only route receipt construction"
+    ],
+    "not_owned": [
+      "live repository observation",
+      "patch generation",
+      "candidate selection",
+      "test generation or execution",
+      "correctness adjudication",
+      "verification lease issuance",
+      "execution lease issuance",
+      "patch application",
+      "working-tree, index, object-database, or Git-ref mutation",
+      "branch, commit, push, pull request, merge, release, or deployment",
+      "secret access",
+      "repository commit candidate v0.93 construction"
+    ]
+  },
+  "preserved_invariants": [
+    "source observation receipt is not successor authority",
+    "candidate patch is not selected patch",
+    "candidate patch is not verified patch",
+    "candidate patch is not applied patch",
+    "patch parsing is not repository truth",
+    "policy support is not correctness proof",
+    "proposal receipt is not verification or execution lease"
+  ],
+  "supported_claims": {
+    "supported_source_receipt_bound": true,
+    "repository_and_source_commit_bound": true,
+    "patch_artifact_digest_bound": true,
+    "declared_and_parsed_paths_exact": true,
+    "candidate_window_and_replay_checked": true,
+    "operating_mode_explicit": true,
+    "candidate_recorded_as_proposal_only": true,
+    "candidate_generated_by_kernel": false,
+    "candidate_selected": false,
+    "verification_lease_issued": false,
+    "execution_lease_issued": false,
+    "repository_mutation_performed": false,
+    "successor_authority_granted": false
+  },
+  "operating_modes": [
+    "proposal_only",
+    "hold",
+    "degraded_proposal",
+    "abstain",
+    "handover",
+    "rejected"
+  ],
+  "dispositions": [
+    "candidate_patch_supported",
+    "source_observation_receipt_repair_required",
+    "candidate_provenance_repair_required",
+    "repository_correspondence_repair_required",
+    "patch_artifact_repair_required",
+    "candidate_window_repair_required",
+    "candidate_replay_conflict_rejected",
+    "repository_mutation_rejected",
+    "authority_escalation_rejected",
+    "unsupported_patch_format_abstained",
+    "patch_syntax_repair_required",
+    "path_accounting_repair_required",
+    "candidate_scope_violation_rejected",
+    "candidate_budget_exceeded_rejected",
+    "candidate_clarification_hold",
+    "risk_ownership_handover_required",
+    "candidate_evidence_repair_required",
+    "candidate_evidence_degraded"
+  ],
+  "forbidden_inferences": [
+    "supported observation receipt grants patch authority",
+    "parsed unified diff matches the live repository",
+    "candidate patch support equals candidate selection",
+    "candidate patch support equals verification",
+    "candidate patch support equals correctness",
+    "candidate patch support equals execution lease",
+    "candidate patch support equals repository mutation",
+    "candidate patch support equals commit, merge, or deployment authority"
+  ],
+  "semantic_separation": {
+    "observeos_reowned": false,
+    "verifyos_reowned": false,
+    "repository_commit_candidate_v0_93_reowned": false,
+    "repository_commit_candidate_v0_93_difference": "v0.93 deterministically computes Git object candidates after an atomic application receipt; CodeAI Candidate Patch v0.1 only validates an externally supplied pre-application unified diff proposal"
+  },
+  "research_basis": [
+    {
+      "id": "arXiv:2606.30573",
+      "title": "SWE-INTERACT",
+      "binding": "candidate clarification and user handover remain explicit trajectory outcomes"
+    },
+    {
+      "id": "arXiv:2607.07946",
+      "title": "DeepSWE",
+      "binding": "candidate producer provenance remains separate from verifier provenance"
+    },
+    {
+      "id": "arXiv:2606.26300",
+      "title": "The Verification Horizon",
+      "binding": "patch and policy validation remain distinct from correctness proof"
+    },
+    {
+      "id": "arXiv:2606.07682",
+      "title": "SWE-Marathon",
+      "binding": "mutation and authority shortcuts are rejected before convenience routing"
+    },
+    {
+      "id": "arXiv:2603.24755",
+      "title": "SlopCodeBench",
+      "binding": "requirement trace and test plan are evidence obligations, not correctness claims"
+    },
+    {
+      "id": "arXiv:2604.16529",
+      "title": "Scaling Test-Time Compute for Agentic Coding",
+      "binding": "candidate representation remains separate from selection, verification, and execution"
+    }
+  ],
+  "implementation": {
+    "runtime": "runtime/kuuos_codeai_candidate_patch_envelope_v0_1.py",
+    "checker": "scripts/check_codeai_candidate_patch_envelope_v0_1.py",
+    "test": "tests/test_kuuos_codeai_candidate_patch_envelope_v0_1.py",
+    "example": "examples/codeai_candidate_patch_envelope_v0_1.json",
+    "formal_package": "formal/KUOS/CodeAI/CandidatePatchEnvelopeV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAICandidatePatchV0_1.lean",
+    "documentation": "docs/KUUOS_CODEAI_CANDIDATE_PATCH_ENVELOPE_v0_1.md",
+    "subsystem_index": "docs/CodeAI/README.md",
+    "workflow": ".github/workflows/codeai-candidate-patch-envelope-v0-1.yml",
+    "repository_aggregate_imported": false,
+    "canonical_current_root_registered": false
+  }
+}

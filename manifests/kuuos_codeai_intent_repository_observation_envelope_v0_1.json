@@ -1,0 +1,122 @@
+{
+  "schema_version": "v0.1",
+  "profile": "CodeAI",
+  "profile_version": "v0.1",
+  "kernel": "intent and repository observation envelope",
+  "kernel_version": "v0.1",
+  "ownership": {
+    "owned": [
+      "intent provenance intake",
+      "repository snapshot correspondence",
+      "path observation accounting",
+      "read-only disposition routing",
+      "route receipt construction"
+    ],
+    "not_owned": [
+      "intent truth",
+      "repository truth",
+      "repository observation collection",
+      "code change candidate generation",
+      "candidate selection",
+      "repository mutation",
+      "execution lease issuance",
+      "branch or commit creation",
+      "push or pull request creation",
+      "merge or deployment",
+      "secret access"
+    ]
+  },
+  "supported_claims": {
+    "intent_provenance_bound": true,
+    "repository_identity_bound": true,
+    "source_commit_bound": true,
+    "path_accounting_exact": true,
+    "baseline_evidence_bound": true,
+    "operating_mode_explicit": true,
+    "repository_observation_read_only": true,
+    "code_change_candidate_created": false,
+    "execution_lease_issued": false,
+    "repository_mutation_performed": false,
+    "successor_authority_granted": false
+  },
+  "operating_modes": [
+    "read_only",
+    "hold",
+    "degraded_read_only",
+    "abstain",
+    "handover",
+    "rejected"
+  ],
+  "dispositions": [
+    "intent_repository_observation_supported",
+    "intent_provenance_repair_required",
+    "repository_identity_repair_required",
+    "repository_snapshot_repair_required",
+    "path_accounting_repair_required",
+    "baseline_evidence_repair_required",
+    "observation_window_repair_required",
+    "observation_replay_conflict_rejected",
+    "repository_mutation_rejected",
+    "authority_escalation_rejected",
+    "intent_clarification_hold",
+    "unsupported_toolchain_abstained",
+    "ownership_handover_required",
+    "partial_observation_degraded"
+  ],
+  "forbidden_inferences": [
+    "intent equals authority",
+    "intent equals truth",
+    "repository observation equals repository truth",
+    "validation equals correctness proof",
+    "supported observation equals code change candidate",
+    "supported observation equals selection",
+    "supported observation equals execution lease",
+    "supported observation equals repository mutation",
+    "supported observation equals merge or deployment authority"
+  ],
+  "research_basis": [
+    {
+      "id": "arXiv:2606.30573",
+      "title": "SWE-INTERACT",
+      "binding": "versioned intent, unresolved-question hold, and user handover"
+    },
+    {
+      "id": "arXiv:2607.07946",
+      "title": "DeepSWE",
+      "binding": "task and verifier provenance separation"
+    },
+    {
+      "id": "arXiv:2606.26300",
+      "title": "The Verification Horizon",
+      "binding": "validation remains a proxy and not truth authority"
+    },
+    {
+      "id": "arXiv:2606.07682",
+      "title": "SWE-Marathon",
+      "binding": "anti-shortcut authority and mutation rejection"
+    },
+    {
+      "id": "arXiv:2603.24755",
+      "title": "SlopCodeBench",
+      "binding": "future evolution quality remains downstream and unclaimed"
+    },
+    {
+      "id": "arXiv:2604.16529",
+      "title": "Scaling Test-Time Compute for Agentic Coding",
+      "binding": "trajectory representation, selection, and reuse remain separate stages"
+    }
+  ],
+  "implementation": {
+    "runtime": "runtime/kuuos_codeai_intent_repository_observation_envelope_v0_1.py",
+    "checker": "scripts/check_codeai_intent_repository_observation_envelope_v0_1.py",
+    "test": "tests/test_kuuos_codeai_intent_repository_observation_envelope_v0_1.py",
+    "example": "examples/codeai_intent_repository_observation_envelope_v0_1.json",
+    "formal_package": "formal/KUOS/CodeAI/IntentRepositoryObservationEnvelopeV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAIV0_1.lean",
+    "documentation": "docs/KUUOS_CODEAI_INTENT_REPOSITORY_OBSERVATION_ENVELOPE_v0_1.md",
+    "subsystem_index": "docs/CodeAI/README.md",
+    "workflow": ".github/workflows/codeai-intent-repository-observation-envelope-v0-1.yml",
+    "repository_aggregate_imported": false,
+    "canonical_current_root_registered": false
+  }
+}

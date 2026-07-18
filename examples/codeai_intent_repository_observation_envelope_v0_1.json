@@ -1,0 +1,100 @@
+{
+  "intent_packet": {
+    "intent_id": "codeai-v0-1-intent-001",
+    "source_actor_id": "repository-owner",
+    "source_channel": "governed-development-request",
+    "intent_revision": "r1",
+    "requirements": [
+      "add a read-only CodeAI intent and repository observation adapter"
+    ],
+    "assumptions": [
+      "the supplied repository snapshot was collected outside the kernel"
+    ],
+    "unresolved_questions": [],
+    "preserved_invariants": [
+      "intent is not authority",
+      "repository observation is not repository truth",
+      "observation is not mutation"
+    ],
+    "forbidden_changes": [
+      "no current-root registration",
+      "no repository mutation",
+      "no branch push",
+      "no merge or deployment authority"
+    ],
+    "success_criteria": [
+      "bind intent provenance to an exact repository snapshot",
+      "return a deterministic read-only disposition"
+    ],
+    "authority_owner_id": "repository-owner",
+    "intent_created_epoch": 1784318400,
+    "prior_intent_digests": [],
+    "intent_provenance_confirmed": true,
+    "codeai_intent_packet_digest": "5b7912a169ce1e1cee1175e0a5a474029914910589b705c5eb9a805c43c8bb31"
+  },
+  "repository_observation": {
+    "repository_full_name": "itakura-hidetoshi/KuuOS",
+    "source_commit_sha": "9956181589fe575277697f7c3538785de6962c1a",
+    "source_branch": "main",
+    "tree_digest": "ef56742f3735c7cb3d1fc892193645f17541d13f",
+    "dependency_lock_digest": "c9b03df11cd9d0d648518e4b921ceec3f6385c644649d2fc4b04aaeb4d12486f",
+    "toolchain_digest": "lean-4.30.0-rc2-python-3.12",
+    "toolchain_supported": true,
+    "observed_paths": [
+      "README.md",
+      "ROADMAP.md",
+      "lakefile.toml",
+      "lake-manifest.json",
+      "lean-toolchain",
+      "runtime/kuuos_current_check.py",
+      "runtime/kuuos_current_root_sequence_v0_113.py",
+      "runtime/kuuos_self_organization_selection_policy_v0_113.py"
+    ],
+    "unavailable_paths": [],
+    "declared_path_count": 8,
+    "baseline_check_digests": [
+      "current-root-summary:9956181589fe575277697f7c3538785de6962c1a",
+      "public-frontier:verifyos-v0.14"
+    ],
+    "baseline_checks_complete": true,
+    "code_owner_scope_digest": "repository-owner:itakura-hidetoshi",
+    "crosses_unowned_boundary": false,
+    "observation_started_epoch": 1784318400,
+    "observation_completed_epoch": 1784318460,
+    "session_id": "codeai-v0-1-session-001",
+    "nonce_digest": "codeai-v0-1-nonce-001",
+    "prior_session_ids": [],
+    "prior_nonce_digests": [],
+    "prior_observation_digests": [],
+    "observation_collected_by_kernel": false,
+    "repository_files_changed_by_kernel": false,
+    "git_ref_changed_by_kernel": false,
+    "branch_created_by_kernel": false,
+    "commit_created_by_kernel": false,
+    "push_performed_by_kernel": false,
+    "pull_request_created_by_kernel": false,
+    "external_side_effect_performed_by_kernel": false,
+    "selection_authority_claimed": false,
+    "execution_authority_claimed": false,
+    "merge_authority_claimed": false,
+    "deployment_authority_claimed": false,
+    "secret_access_authority_claimed": false,
+    "codeai_repository_observation_digest": "282c091ea8514483496b83def77ed7dd0386cd7bf6e67d0877e7eb2d388c22a6"
+  },
+  "observation_policy": {
+    "expected_repository_full_name": "itakura-hidetoshi/KuuOS",
+    "expected_source_commit_sha": "9956181589fe575277697f7c3538785de6962c1a",
+    "allowed_source_branches": [
+      "main"
+    ],
+    "supported_toolchain_digests": [
+      "lean-4.30.0-rc2-python-3.12"
+    ],
+    "maximum_observed_paths": 10000,
+    "maximum_observation_duration": 3600,
+    "require_complete_baseline": true,
+    "require_code_owner_scope": true,
+    "allow_partial_observation": true,
+    "codeai_observation_policy_digest": "32469c188a154f177665847f5c7c042a29320d9b90137df98092a1745832ab4a"
+  }
+}

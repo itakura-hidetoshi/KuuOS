@@ -1,0 +1,147 @@
+{
+  "source_observation_receipt": {
+    "schema_version": "v0.1",
+    "profile_version": "CodeAI v0.1",
+    "intent_packet_digest": "5b7912a169ce1e1cee1175e0a5a474029914910589b705c5eb9a805c43c8bb31",
+    "repository_observation_digest": "282c091ea8514483496b83def77ed7dd0386cd7bf6e67d0877e7eb2d388c22a6",
+    "observation_policy_digest": "32469c188a154f177665847f5c7c042a29320d9b90137df98092a1745832ab4a",
+    "intent_id": "codeai-v0-1-intent-001",
+    "intent_revision": "r1",
+    "source_actor_id": "repository-owner",
+    "authority_owner_id": "repository-owner",
+    "repository_full_name": "itakura-hidetoshi/KuuOS",
+    "source_commit_sha": "9956181589fe575277697f7c3538785de6962c1a",
+    "resulting_commit_sha": "9956181589fe575277697f7c3538785de6962c1a",
+    "source_branch": "main",
+    "tree_digest": "ef56742f3735c7cb3d1fc892193645f17541d13f",
+    "observed_path_count": 8,
+    "unavailable_path_count": 0,
+    "declared_path_count": 8,
+    "baseline_checks_complete": true,
+    "codeai_disposition": "intent_repository_observation_supported",
+    "operating_mode": "read_only",
+    "route_receipt_recorded": true,
+    "codeai_profile_ready": true,
+    "clarification_required": false,
+    "reobservation_required": false,
+    "abstained": false,
+    "handover_required": false,
+    "repository_observation_read_only": true,
+    "code_change_candidate_created": false,
+    "execution_lease_issued": false,
+    "repository_mutation_performed": false,
+    "git_ref_changed": false,
+    "branch_created": false,
+    "commit_created": false,
+    "push_performed": false,
+    "pull_request_created": false,
+    "merge_performed": false,
+    "deployment_performed": false,
+    "secret_access_performed": false,
+    "selection_authority_granted": false,
+    "execution_authority_granted": false,
+    "merge_authority_granted": false,
+    "deployment_authority_granted": false,
+    "secret_access_authority_granted": false,
+    "intent_treated_as_truth": false,
+    "repository_observation_treated_as_repository_truth": false,
+    "validation_treated_as_correctness_proof": false,
+    "history_read_only": true,
+    "future_only": true,
+    "active_now": false,
+    "codeai_intent_repository_observation_receipt_digest": "ccb93e5f8a4d44d0c8e1ce695567c05bde16ae6bcd58ffcc4c3c83188ec651bf"
+  },
+  "patch_candidate": {
+    "candidate_id": "codeai-candidate-patch-v0-1-001",
+    "candidate_revision": "r1",
+    "producer_id": "external-code-agent",
+    "producer_session_id": "codeai-candidate-session-001",
+    "source_observation_receipt_digest": "ccb93e5f8a4d44d0c8e1ce695567c05bde16ae6bcd58ffcc4c3c83188ec651bf",
+    "intent_packet_digest": "5b7912a169ce1e1cee1175e0a5a474029914910589b705c5eb9a805c43c8bb31",
+    "repository_full_name": "itakura-hidetoshi/KuuOS",
+    "source_commit_sha": "9956181589fe575277697f7c3538785de6962c1a",
+    "patch_format": "unified_diff",
+    "patch_artifact_digest": "b04309f4004c7fcf9a4cfdadefc5be01e647d1a6e57acb27f08d8a0385f9a429",
+    "patch_size_bytes": 271,
+    "changed_paths": [
+      "docs/CodeAI/CANDIDATE_EXAMPLE.md"
+    ],
+    "added_paths": [
+      "docs/CodeAI/CANDIDATE_EXAMPLE.md"
+    ],
+    "modified_paths": [],
+    "deleted_paths": [],
+    "renamed_from_paths": [],
+    "renamed_to_paths": [],
+    "declared_change_count": 1,
+    "requirement_trace_ids": [
+      "intent:codeai-v0-1-intent-001:requirement-1"
+    ],
+    "test_plan_ids": [
+      "test:documentation-content-review"
+    ],
+    "risk_labels": [
+      "documentation"
+    ],
+    "unresolved_candidate_questions": [],
+    "candidate_created_epoch": 1784318700,
+    "prior_candidate_digests": [],
+    "prior_producer_session_ids": [],
+    "candidate_provenance_confirmed": true,
+    "binary_patch_present": false,
+    "submodule_patch_present": false,
+    "mode_change_present": false,
+    "candidate_generated_by_kernel": false,
+    "patch_applied_by_kernel": false,
+    "repository_files_changed_by_kernel": false,
+    "git_ref_changed_by_kernel": false,
+    "branch_created_by_kernel": false,
+    "commit_created_by_kernel": false,
+    "push_performed_by_kernel": false,
+    "pull_request_created_by_kernel": false,
+    "external_side_effect_performed_by_kernel": false,
+    "selection_authority_claimed": false,
+    "execution_authority_claimed": false,
+    "merge_authority_claimed": false,
+    "deployment_authority_claimed": false,
+    "secret_access_authority_claimed": false,
+    "codeai_candidate_patch_digest": "c5445d940ea69283be93af06a34714e9f0f3c358ed108916e31df635e0465cc6"
+  },
+  "patch_artifact": "diff --git a/docs/CodeAI/CANDIDATE_EXAMPLE.md b/docs/CodeAI/CANDIDATE_EXAMPLE.md\nnew file mode 100644\nindex 0000000..1111111\n--- /dev/null\n+++ b/docs/CodeAI/CANDIDATE_EXAMPLE.md\n@@ -0,0 +1,3 @@\n+# Candidate example\n+\n+This artifact remains a proposal and is not applied.\n",
+  "candidate_policy": {
+    "expected_source_observation_receipt_digest": "ccb93e5f8a4d44d0c8e1ce695567c05bde16ae6bcd58ffcc4c3c83188ec651bf",
+    "expected_repository_full_name": "itakura-hidetoshi/KuuOS",
+    "expected_source_commit_sha": "9956181589fe575277697f7c3538785de6962c1a",
+    "allowed_patch_formats": [
+      "unified_diff"
+    ],
+    "maximum_patch_bytes": 1000000,
+    "maximum_changed_paths": 64,
+    "allowed_path_prefixes": [
+      "docs/CodeAI"
+    ],
+    "forbidden_path_prefixes": [
+      "docs/CodeAI/private"
+    ],
+    "allow_deletions": false,
+    "allow_renames": false,
+    "allow_binary_patches": false,
+    "allow_submodule_patches": false,
+    "allow_mode_changes": false,
+    "require_requirement_trace": true,
+    "require_test_plan": true,
+    "allow_evidence_degradation": true,
+    "known_risk_labels": [
+      "documentation",
+      "release",
+      "security"
+    ],
+    "handover_risk_labels": [
+      "release",
+      "security"
+    ],
+    "evaluation_epoch": 1784319000,
+    "maximum_candidate_age": 3600,
+    "codeai_candidate_patch_policy_digest": "c73c75c24b077311bd5c12fa270c2e898e6a159af15ef207954e6d2267ec7600"
+  }
+}

@@ -1,0 +1,171 @@
+{
+  "schema_version": "v0.1",
+  "profile": "CodeAI",
+  "profile_surface": "independent verification envelope",
+  "profile_surface_version": "v0.1",
+  "predecessor": {
+    "surface": "candidate patch envelope",
+    "version": "v0.1",
+    "required_disposition": "candidate_patch_supported",
+    "required_operating_mode": "proposal_only",
+    "binding": "exact source candidate receipt"
+  },
+  "ownership": {
+    "owned": [
+      "supported candidate receipt intake",
+      "independent verifier and reviewer provenance intake",
+      "candidate, patch artifact, repository, and commit correspondence",
+      "external verification check accounting",
+      "evidence integrity, bounded window, and replay routing",
+      "passed, failed, and inconclusive result recording",
+      "verification debt and reverification routing"
+    ],
+    "not_owned": [
+      "general VerifyOS replacement",
+      "test generation or execution by the kernel",
+      "live repository observation",
+      "candidate generation, ranking, or selection",
+      "correctness proof or generalized truth",
+      "candidate acceptance or rejection authority",
+      "execution lease issuance",
+      "patch application or rollback",
+      "working-tree, index, object-database, or Git-ref mutation",
+      "branch, commit, push, pull request, merge, release, or deployment",
+      "secret access"
+    ]
+  },
+  "preserved_invariants": [
+    "candidate support is not verification",
+    "verification evidence is not truth",
+    "passed is not correctness proof",
+    "failed is not rejection or rollback authority",
+    "inconclusive does not delete evidence",
+    "verification receipt is not candidate selection",
+    "verification receipt is not execution lease",
+    "verification receipt is not repository mutation"
+  ],
+  "outcomes": {
+    "passed": {
+      "verification_completed": true,
+      "verification_debt_open": false,
+      "reverification_required": false
+    },
+    "failed": {
+      "verification_completed": true,
+      "verification_debt_open": false,
+      "reverification_required": false
+    },
+    "inconclusive": {
+      "verification_completed": true,
+      "verification_debt_open": true,
+      "reverification_required": true
+    }
+  },
+  "operating_modes": [
+    "verified_pass",
+    "verified_fail",
+    "hold",
+    "degraded_verification",
+    "abstain",
+    "handover",
+    "rejected"
+  ],
+  "dispositions": [
+    "independent_verification_passed",
+    "independent_verification_failed",
+    "source_candidate_receipt_repair_required",
+    "verification_provenance_repair_required",
+    "verifier_independence_repair_required",
+    "verification_correspondence_repair_required",
+    "evidence_integrity_repair_required",
+    "check_accounting_repair_required",
+    "verification_window_repair_required",
+    "verification_replay_conflict_rejected",
+    "repository_mutation_rejected",
+    "authority_escalation_rejected",
+    "unsupported_verification_profile_abstained",
+    "mandatory_evidence_hold",
+    "verification_protocol_repair_required",
+    "verification_outcome_repair_required",
+    "verification_finding_handover_required",
+    "verification_inconclusive_hold",
+    "verification_inconclusive_degraded"
+  ],
+  "supported_claims": {
+    "supported_candidate_receipt_bound": true,
+    "candidate_and_patch_artifact_bound": true,
+    "repository_and_source_commit_bound": true,
+    "verifier_and_reviewer_independence_checked": true,
+    "check_partition_exact": true,
+    "verification_window_and_replay_checked": true,
+    "verification_outcome_explicit": true,
+    "verification_execution_performed_by_kernel": false,
+    "candidate_selected": false,
+    "candidate_applied": false,
+    "execution_lease_issued": false,
+    "repository_mutation_performed": false,
+    "successor_authority_granted": false
+  },
+  "forbidden_inferences": [
+    "candidate support equals verification",
+    "verification evidence equals repository truth",
+    "passed equals correctness proof",
+    "failed equals candidate rejection or rollback authority",
+    "inconclusive equals evidence deletion",
+    "verification receipt equals candidate selection",
+    "verification receipt equals execution lease",
+    "verification receipt equals repository mutation",
+    "verification receipt equals commit, merge, or deployment authority"
+  ],
+  "semantic_separation": {
+    "verifyos_reowned": false,
+    "verifyos_v0_14_relationship": "CodeAI uses the same independent-evidence outcome discipline for a coding-profile receipt without replacing VerifyOS v0.14 or its WORLD lineage",
+    "candidate_patch_reopened": false,
+    "repository_commit_candidate_v0_93_reowned": false
+  },
+  "research_basis": [
+    {
+      "id": "arXiv:2607.07946",
+      "title": "DeepSWE",
+      "binding": "candidate producer, verifier, and reviewer provenance remain distinct"
+    },
+    {
+      "id": "arXiv:2606.26300",
+      "title": "The Verification Horizon",
+      "binding": "passed verification remains a bounded proxy and not correctness proof"
+    },
+    {
+      "id": "arXiv:2606.07682",
+      "title": "SWE-Marathon",
+      "binding": "reproduction, falsification, mutation, and authority shortcuts remain explicit"
+    },
+    {
+      "id": "arXiv:2603.24755",
+      "title": "SlopCodeBench",
+      "binding": "check coverage and evidence integrity remain explicit structural-quality obligations"
+    },
+    {
+      "id": "NIST-AI-100-1",
+      "title": "NIST AI Risk Management Framework 1.0",
+      "binding": "testing, evaluation, verification, and validation remain governed evidence activities"
+    },
+    {
+      "id": "W3C-PROV-O",
+      "title": "PROV-O",
+      "binding": "source, verifier, artifact, session, and review provenance remain attributable"
+    }
+  ],
+  "implementation": {
+    "runtime": "runtime/kuuos_codeai_independent_verification_envelope_v0_1.py",
+    "checker": "scripts/check_codeai_independent_verification_envelope_v0_1.py",
+    "test": "tests/test_kuuos_codeai_independent_verification_envelope_v0_1.py",
+    "example": "examples/codeai_independent_verification_envelope_v0_1.json",
+    "formal_package": "formal/KUOS/CodeAI/IndependentVerificationEnvelopeV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAIIndependentVerificationV0_1.lean",
+    "documentation": "docs/KUUOS_CODEAI_INDEPENDENT_VERIFICATION_ENVELOPE_v0_1.md",
+    "subsystem_index": "docs/CodeAI/README.md",
+    "workflow": ".github/workflows/codeai-independent-verification-envelope-v0-1.yml",
+    "repository_aggregate_imported": false,
+    "canonical_current_root_registered": false
+  }
+}
