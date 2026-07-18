@@ -16,6 +16,7 @@ from runtime.kuuos_codeai_autonomous_isolated_candidate_application_v0_1 import 
     RECEIPT_DIGEST_FIELD as APPLICATION_RECEIPT_DIGEST_FIELD,
 )
 from runtime.kuuos_codeai_autonomous_verification_execution_v0_1 import (
+    CANDIDATE_DIGEST_FIELD as RECEIPT_CANDIDATE_DIGEST_FIELD,
     EVIDENCE_BUNDLE_DIGEST_FIELD,
     INDEPENDENT_EVIDENCE_DIGEST_FIELD,
     RECEIPT_DIGEST_FIELD as VERIFICATION_RECEIPT_DIGEST_FIELD,
@@ -332,7 +333,7 @@ def _correspondence(*, verification, evidence, independent, generation,
     ob = observation[SOURCE_RECEIPT_DIGEST_FIELD]
     cr = candidate[CANDIDATE_RECEIPT_DIGEST_FIELD]
     ar = application[APPLICATION_RECEIPT_DIGEST_FIELD]
-    cd = candidate[PATCH_CANDIDATE_DIGEST_FIELD]
+    cd = candidate[RECEIPT_CANDIDATE_DIGEST_FIELD]
     pa = candidate["patch_artifact_digest"]
     rs = canonical_digest(repository)
     pairs = (
@@ -484,7 +485,7 @@ def _receipt(*, verification, evidence, independent, generation, observation,
         "source_observation_receipt_digest": observation[SOURCE_RECEIPT_DIGEST_FIELD],
         "source_candidate_receipt_digest": candidate[CANDIDATE_RECEIPT_DIGEST_FIELD],
         "source_application_receipt_digest": application[APPLICATION_RECEIPT_DIGEST_FIELD],
-        "candidate_digest": candidate[PATCH_CANDIDATE_DIGEST_FIELD],
+        "candidate_digest": candidate[RECEIPT_CANDIDATE_DIGEST_FIELD],
         "patch_artifact_digest": candidate["patch_artifact_digest"],
         "repository_full_name": candidate["repository_full_name"],
         "source_commit_sha": candidate["source_commit_sha"],
