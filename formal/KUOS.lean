@@ -71,6 +71,7 @@ import KUOS.VerifyOS.EvidenceBoundVerificationV0_1
 import KUOS.VerifyOS.ReplanLineageVerificationEnvelopeV0_2
 import KUOS.VerifyOS.SequentialEpistemicObservationVerificationHandoffV0_13
 import KUOS.VerifyOS.IndependentEvidenceVerificationV0_14
+import KUOS.VerifyOS.OutcomeDispositionHandoffV0_15
 import KUOS.LearnOS.FutureOnlyEvidenceLearningV0_1
 import KUOS.LearnOS.ReplanLineageFutureOnlyLearningEnvelopeV0_2
 import KUOS.GraphRAG.GaugeQiProcessGraphRAGV0_1

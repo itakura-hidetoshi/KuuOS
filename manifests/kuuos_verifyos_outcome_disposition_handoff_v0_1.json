@@ -1,0 +1,61 @@
+{
+  "manifest_version": "kuuos_verifyos_outcome_disposition_handoff_v0_1",
+  "status": "read_only_outcome_disposition_handoff_only",
+  "verifyos_version": "v0.15",
+  "source_layer": "VerifyOS v0.14 independent evidence verification receipt",
+  "source_state": "bounded_maintenance_monitoring_observation_recorded_sequential_epistemic_observability_envelope_recorded_independent_verification_handoff_prepared_independent_evidence_verification_recorded",
+  "outcome_state": "bounded_maintenance_monitoring_observation_recorded_sequential_epistemic_observability_envelope_recorded_independent_verification_handoff_prepared_independent_evidence_verification_recorded_outcome_disposition_handoff_prepared",
+  "runtime": "runtime/kuuos_verifyos_outcome_disposition_handoff_v0_1.py",
+  "checker": "scripts/check_verifyos_outcome_disposition_handoff_v0_1.py",
+  "formal_module": "formal/KUOS/VerifyOS/OutcomeDispositionHandoffV0_15.lean",
+  "formal_root": "formal/KuuOSVerifyOSV0_15.lean",
+  "documentation": "docs/KUUOS_VERIFYOS_OUTCOME_DISPOSITION_HANDOFF_v0_1.md",
+  "structured_index": "docs/VerifyOS/README.md",
+  "workflow": ".github/workflows/verifyos-outcome-disposition-handoff-v0-1.yml",
+  "cumulative_check": "scripts/run_evidence_cycle_os_full_checks.py",
+  "disposition_count": 14,
+  "candidate_mapping": {
+    "passed": "adopt_candidate",
+    "failed": "reject_candidate",
+    "indeterminate": [
+      "defer_candidate",
+      "reobservation_candidate"
+    ]
+  },
+  "preserved_invariants": {
+    "verification_debt_preserved": true,
+    "reobservation_requirement_preserved": true,
+    "world_disposition_completed": false,
+    "world_commit_ready": false,
+    "world_state_unchanged": true,
+    "world_revision_unchanged": true,
+    "current_plan_unchanged": true,
+    "current_policy_inactive": true,
+    "learning_delta_inactive": true,
+    "observation_recollection_performed_by_kernel": false,
+    "tool_invocation_performed_by_kernel": false,
+    "external_side_effect_performed_by_kernel": false,
+    "history_read_only": true,
+    "future_only": true,
+    "active_now": false
+  },
+  "boundaries": [
+    "verification_outcome_not_truth",
+    "verification_outcome_not_causal_attribution",
+    "passed_not_world_adoption",
+    "failed_not_world_rejection",
+    "indeterminate_not_evidence_deletion",
+    "verification_outcome_not_disposition_authority",
+    "disposition_candidate_not_world_mutation",
+    "disposition_candidate_not_policy_activation",
+    "disposition_candidate_not_execution_authority",
+    "reobservation_candidate_not_observation_execution_authority",
+    "no_authority_escalation"
+  ],
+  "literature_and_standards": [
+    "W3C PROV-O",
+    "NIST AI RMF 1.0 Govern and Measure",
+    "NIST AI RMF Playbook documented go/no-go decisions",
+    "NIST RMF authorization accountability"
+  ]
+}
