@@ -36,6 +36,7 @@ roots = [
   "KuuOSCodeAIAutonomousGitLifecycleV0_1",
   "KuuOSCodeAIAutonomousGitEffectExecutionV0_1",
   "KuuOSCodeAIAutonomousGitEffectReobservationV0_1",
+  "KuuOSCodeAIReobservationGatedGitLifecycleContinuationV0_1",
   "KuuOSCodeAIMinimalExternalAuthorityDependencyV0_1",
   "KuuOSFormalV0_41",
   "KuuOSFormalV0_42",
