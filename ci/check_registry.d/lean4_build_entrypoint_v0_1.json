@@ -23,7 +23,7 @@
       ],
       "timeout_minutes": 5,
       "pr_required": true,
-      "full_audit_member": false
+      "full_audit_member": true
     }
   }
 }
