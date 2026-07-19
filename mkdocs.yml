@@ -62,3 +62,8 @@ markdown_extensions:
 
 plugins:
   - search
+
+validation:
+  links:
+    # README surfaces intentionally reference repository-root artifacts outside docs_dir.
+    not_found: ignore
