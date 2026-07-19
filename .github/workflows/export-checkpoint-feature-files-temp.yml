@@ -1,0 +1,33 @@
+name: Export checkpoint feature files temporary
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/export-checkpoint-feature-files-temp.yml'
+permissions:
+  contents: read
+jobs:
+  export:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - name: Collect checkpoint feature files
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p /tmp/checkpoint-feature/runtime /tmp/checkpoint-feature/formal
+          cp runtime/kuuos_codeai_durable_git_lifecycle_loop_checkpoint_persistence_v0_1.py /tmp/checkpoint-feature/runtime/
+          cp runtime/kuuos_codeai_durable_git_lifecycle_loop_checkpoint_persistence_types_v0_1.py /tmp/checkpoint-feature/runtime/
+          cp runtime/kuuos_codeai_durable_git_lifecycle_loop_checkpoint_persistence_validation_v0_1.py /tmp/checkpoint-feature/runtime/
+          cp runtime/kuuos_codeai_durable_git_lifecycle_loop_checkpoint_persistence_adapter_v0_1.py /tmp/checkpoint-feature/runtime/
+          cp runtime/kuuos_codeai_durable_git_lifecycle_loop_checkpoint_persistence_core_v0_1.py /tmp/checkpoint-feature/runtime/
+          cp formal/KuuOSCodeAIDurableGitLifecycleLoopCheckpointPersistenceV0_1.lean /tmp/checkpoint-feature/formal/
+          (cd /tmp/checkpoint-feature && sha256sum runtime/* formal/* > SHA256SUMS)
+      - name: Upload checkpoint feature files
+        uses: actions/upload-artifact@v4
+        with:
+          name: checkpoint-feature-files-${{ github.run_id }}-${{ github.run_attempt }}
+          path: /tmp/checkpoint-feature/
+          if-no-files-found: error
+          retention-days: 1
