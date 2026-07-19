@@ -1,0 +1,43 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Autonomous Git Effect Re-observation v0.1",
+  "status": "additive read-only observation adapter",
+  "predecessor": "CodeAI Autonomous Git Effect Execution v0.1",
+  "purpose": "Consume one exact Git effect execution receipt and one fresh re-observation nonce, perform one bounded read-only repository and pull-request state observation, and issue one fresh lifecycle-state evidence object without granting a successor effect.",
+  "supported_effect_phases": [
+    "local_commit",
+    "push_branch",
+    "create_pull_request",
+    "mark_pull_request_ready",
+    "merge_pull_request"
+  ],
+  "outputs": [
+    "sealed re-observation evidence",
+    "existing Autonomous Git Lifecycle v0.1-compatible sealed lifecycle state",
+    "sealed monotone replay registry",
+    "sealed re-observation receipt"
+  ],
+  "runtime": "runtime/kuuos_codeai_autonomous_git_effect_reobservation_v0_1.py",
+  "checker": "scripts/check_codeai_autonomous_git_effect_reobservation_v0_1.py",
+  "tests": "tests/test_kuuos_codeai_autonomous_git_effect_reobservation_v0_1.py",
+  "example": "examples/codeai_autonomous_git_effect_reobservation_v0_1.json",
+  "documentation": "docs/KUUOS_CODEAI_AUTONOMOUS_GIT_EFFECT_REOBSERVATION_v0_1.md",
+  "formal_kernel": "formal/KUOS/CodeAI/AutonomousGitEffectReobservationV0_1.lean",
+  "formal_root": "formal/KuuOSCodeAIAutonomousGitEffectReobservationV0_1.lean",
+  "workflow": ".github/workflows/codeai-autonomous-git-effect-reobservation-v0-1.yml",
+  "fixed_boundaries": {
+    "source_execution_receipt_consumed_at_most_once_for_reobservation": true,
+    "reobservation_nonce_consumed_at_most_once": true,
+    "exactly_one_read_only_adapter_invocation_per_admitted_request": true,
+    "fresh_lifecycle_state_requires_valid_correspondence": true,
+    "failed_or_quarantined_source_outcome_does_not_grant_retry_authority": true,
+    "automatic_successor_effect_authority": false,
+    "general_git_authority": false,
+    "network_access": false,
+    "secret_access": false,
+    "git_write": false,
+    "deployment": false,
+    "observation_is_not_correctness": true,
+    "merge_is_not_truth": true
+  }
+}
