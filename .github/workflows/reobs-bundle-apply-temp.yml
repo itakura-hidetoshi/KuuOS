@@ -6,7 +6,7 @@ on:
       - codeai/autonomous-git-effect-reobservation-v0-1
     paths:
       - ".github/workflows/reobs-bundle-apply-temp.yml"
-      - ".tmp/reobs-bundle.b64"
+      - ".tmp/reobs-bundle.ready"
 
 permissions:
   contents: write
@@ -27,14 +27,17 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          if [[ ! -f .tmp/reobs-bundle.b64 ]]; then
-            echo "bundle not present; bootstrap workflow commit only"
+          if [[ ! -f .tmp/reobs-bundle.ready ]]; then
+            echo "ready marker not present; bootstrap workflow commit only"
             exit 0
           fi
-          base64 -d .tmp/reobs-bundle.b64 > /tmp/reobs-bundle.tar.gz
+          mapfile -t parts < <(find .tmp -maxdepth 1 -type f -name 'reobs-bundle.b64.part*' | sort)
+          [[ ${#parts[@]} -eq 7 ]] || { echo "expected 7 bundle parts, found ${#parts[@]}" >&2; exit 1; }
+          cat "${parts[@]}" > /tmp/reobs-bundle.b64
+          base64 -d /tmp/reobs-bundle.b64 > /tmp/reobs-bundle.tar.gz
           echo "9833d45b62a305ad1b60d689ea164c14c3f3c547272879ff0f8c59a0b8a82a2f  /tmp/reobs-bundle.tar.gz" | sha256sum -c -
           tar -xzf /tmp/reobs-bundle.tar.gz
-          rm -f .tmp/reobs-bundle.b64 .github/workflows/reobs-bundle-apply-temp.yml
+          rm -f .tmp/reobs-bundle.ready .tmp/reobs-bundle.b64.part* .github/workflows/reobs-bundle-apply-temp.yml
           PYTHONDONTWRITEBYTECODE=1 python3 -B -m compileall -q \
             runtime/kuuos_codeai_autonomous_git_effect_reobservation_v0_1.py \
             scripts/check_codeai_autonomous_git_effect_reobservation_v0_1.py \
