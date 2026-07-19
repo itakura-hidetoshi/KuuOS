@@ -1,0 +1,64 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Repair Cycle Admission Consumption v0.1",
+  "status": "additive fail-closed one-shot admission-consumption sibling",
+  "predecessor": "CodeAI Repair Cycle Continuation Admission v0.1",
+  "artifacts": {
+    "runtime": "runtime/kuuos_codeai_repair_cycle_admission_consumption_v0_1.py",
+    "checker": "scripts/check_codeai_repair_cycle_admission_consumption_v0_1.py",
+    "tests": "tests/test_kuuos_codeai_repair_cycle_admission_consumption_v0_1.py",
+    "example": "examples/codeai_repair_cycle_admission_consumption_v0_1.json",
+    "specification": "docs/KUUOS_CODEAI_REPAIR_CYCLE_ADMISSION_CONSUMPTION_v0_1.md",
+    "formal_kernel": "formal/KUOS/CodeAI/RepairCycleAdmissionConsumptionV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAIRepairCycleAdmissionConsumptionV0_1.lean",
+    "workflow": ".github/workflows/codeai-repair-cycle-admission-consumption-v0-1.yml"
+  },
+  "route": [
+    "sealed non-reusable continuation-admission receipt",
+    "fresh admission-consumption request",
+    "deny-by-default admission-consumption policy",
+    "sealed replay and consumption registry",
+    "exact admission and downstream lineage correspondence",
+    "admission and nonce replay exclusion",
+    "monotone one-entry registry transition",
+    "exact five-dimensional reserved-budget mapping",
+    "one active non-reusable bounded execution input",
+    "sealed admission-consumption receipt and next registry"
+  ],
+  "mapped_resources": [
+    "candidate count",
+    "provider-call count",
+    "verification command count",
+    "timeout seconds",
+    "output bytes"
+  ],
+  "fixed_semantics": [
+    "admission consumption != cycle execution",
+    "admission consumption != correctness",
+    "reservation != resource consumption",
+    "execution input issuance != provider or runner invocation",
+    "execution input issuance != candidate generation, selection, patch application, or verification",
+    "one-shot execution input != reusable capability",
+    "registry transition receipt != external atomic persistence",
+    "bounded cycle authority != automatic execution authority",
+    "bounded cycle authority != live repository or Git authority",
+    "consumption receipt != merge, deployment, or general successor authority"
+  ],
+  "authority": {
+    "consume_exactly_one_admission": true,
+    "issue_exactly_one_bounded_execution_input": true,
+    "candidate_generation_within_input_budget": true,
+    "candidate_selection_within_input_budget": true,
+    "isolated_patch_application_within_input_budget": true,
+    "verification_execution_within_input_budget": true,
+    "automatic_execution": false,
+    "live_repository_mutation": false,
+    "git": false,
+    "network": false,
+    "secrets": false,
+    "deployment": false,
+    "merge": false,
+    "general_successor": false,
+    "correctness_proof": false
+  }
+}
