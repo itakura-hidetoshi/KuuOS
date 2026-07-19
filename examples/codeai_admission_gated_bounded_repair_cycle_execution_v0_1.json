@@ -1,0 +1,89 @@
+{
+  "source": {
+    "admission_consumption_example": "examples/codeai_repair_cycle_admission_consumption_v0_1.json",
+    "bounded_cycle_example": "examples/codeai_bounded_repair_cycle_orchestration_v0_1.json"
+  },
+  "admission_budget": {
+    "candidate": 8,
+    "provider_call": 1,
+    "command": 4,
+    "timeout_seconds": 180,
+    "output_bytes": 65536
+  },
+  "execution_request": {
+    "execution_request_id": "codeai-admission-gated-bounded-cycle-execution-v0-1-001",
+    "execution_request_revision": "r1",
+    "execution_input_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "admission_consumption_receipt_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "consumption_registry_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "cycle_index": 2,
+    "execution_session_id": "repair-cycle-execution-session-002",
+    "cycle_execution_nonce_digest": "2222222222222222222222222222222222222222222222222222222222222222",
+    "executor_actor_id": "codeai-repair-cycle-executor",
+    "verification_id": "codeai-admission-gated-cycle-verification-v0-1-001",
+    "verifier_id": "admission-gated-cycle-verifier-v0-1",
+    "reviewer_id": "admission-gated-cycle-reviewer-v0-1",
+    "evidence_format": "codeai_admission_gated_bounded_cycle_evidence_v0_1",
+    "toolchain_digest": "5555555555555555555555555555555555555555555555555555555555555555",
+    "environment_digest": "6666666666666666666666666666666666666666666666666666666666666666",
+    "verification_protocol_digest": "7777777777777777777777777777777777777777777777777777777777777777",
+    "request_created_epoch": 1784318995,
+    "codeai_admission_gated_bounded_repair_cycle_execution_request_digest": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "execution_policy": {
+    "expected_execution_input_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_admission_consumption_receipt_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_consumption_registry_digest": "0000000000000000000000000000000000000000000000000000000000000000",
+    "expected_cycle_index": 2,
+    "expected_repository_full_name": "itakura-hidetoshi/KuuOS",
+    "expected_source_commit_sha": "34608c212dee012c016414161cd4df68dcb88efa",
+    "expected_executor_actor_id": "codeai-repair-cycle-executor",
+    "allowed_stage_ids": [
+      "candidate_regeneration_adapter",
+      "candidate_portfolio_selection",
+      "isolated_candidate_application",
+      "autonomous_verification_execution"
+    ],
+    "maximum_executed_input_count": 8,
+    "maximum_candidate_count": 8,
+    "maximum_provider_call_count": 1,
+    "maximum_command_count": 4,
+    "maximum_total_timeout_seconds": 180,
+    "maximum_total_output_bytes": 65536,
+    "network_access_allowed": false,
+    "secrets_allowed": false,
+    "live_repository_access_allowed": false,
+    "git_operations_allowed": false,
+    "merge_allowed": false,
+    "deployment_allowed": false,
+    "evaluation_epoch": 1784319000,
+    "maximum_request_age": 3600,
+    "codeai_admission_gated_bounded_repair_cycle_execution_policy_digest": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "execution_registry": {
+    "registry_id": "codeai-admission-gated-bounded-cycle-execution-registry",
+    "registry_revision": 1,
+    "consumed_execution_input_digests": [],
+    "consumed_cycle_execution_nonce_digests": [],
+    "last_executed_cycle_index": 1,
+    "registry_created_epoch": 1784318990,
+    "codeai_admission_gated_bounded_repair_cycle_execution_registry_digest": "0000000000000000000000000000000000000000000000000000000000000000"
+  },
+  "provider_result": {
+    "provider_id": "codeai-bounded-regeneration-adapter-v0-1",
+    "provider_session_id": "codeai-bounded-regeneration-session-v0-1-001",
+    "provider_output_bytes": 512,
+    "generated_candidate_count": 0,
+    "network_used": false,
+    "secret_accessed": false,
+    "live_repository_accessed": false,
+    "git_effect_performed": false
+  },
+  "bounded_cycle_policy_overrides": {
+    "maximum_cycle_count": 3,
+    "maximum_candidate_count": 8,
+    "maximum_command_count": 4,
+    "maximum_total_timeout_seconds": 180,
+    "maximum_total_output_bytes": 32768
+  }
+}
