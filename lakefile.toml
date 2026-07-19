@@ -29,6 +29,7 @@ roots = [
   "KuuOSCodeAIVerificationGuidedCandidateRepairRegenerationV0_1",
   "KuuOSCodeAIBoundedRepairCycleOrchestrationV0_1",
   "KuuOSCodeAIRepairCycleContinuationAdmissionV0_1",
+  "KuuOSCodeAIRepairCycleAdmissionConsumptionV0_1",
   "KuuOSCodeAIIndependentVerificationV0_1",
   "KuuOSCodeAIAutonomousTrajectorySynthesisV0_1",
   "KuuOSCodeAIAutonomousGitLifecycleV0_1",
