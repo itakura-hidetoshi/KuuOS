@@ -1,0 +1,37 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Re-observation-Gated Git Lifecycle Continuation v0.1",
+  "status": "additive continuation admission bridge",
+  "predecessor": "CodeAI Autonomous Git Effect Re-observation v0.1",
+  "purpose": "Consume one exact completed re-observation receipt and one fresh continuation nonce, project only the non-factual unobserved-check name surface when required, and invoke the existing Autonomous Git Lifecycle v0.1 evaluator exactly once to issue at most one next-effect lease.",
+  "outputs": [
+    "sealed continuation evaluation evidence",
+    "sealed monotone continuation registry",
+    "existing Autonomous Git Lifecycle v0.1 delegated receipt",
+    "sealed continuation receipt"
+  ],
+  "runtime": "runtime/kuuos_codeai_reobservation_gated_git_lifecycle_continuation_v0_1.py",
+  "checker": "scripts/check_codeai_reobservation_gated_git_lifecycle_continuation_v0_1.py",
+  "tests": "tests/test_kuuos_codeai_reobservation_gated_git_lifecycle_continuation_v0_1.py",
+  "example": "examples/codeai_reobservation_gated_git_lifecycle_continuation_v0_1.json",
+  "documentation": "docs/KUUOS_CODEAI_REOBSERVATION_GATED_GIT_LIFECYCLE_CONTINUATION_v0_1.md",
+  "formal_kernel": "formal/KUOS/CodeAI/ReobservationGatedGitLifecycleContinuationV0_1.lean",
+  "formal_root": "formal/KuuOSCodeAIReobservationGatedGitLifecycleContinuationV0_1.lean",
+  "workflow": ".github/workflows/codeai-reobservation-gated-git-lifecycle-continuation-v0-1.yml",
+  "fixed_boundaries": {
+    "completed_reobservation_required": true,
+    "source_reobservation_receipt_consumed_at_most_once": true,
+    "continuation_nonce_consumed_at_most_once": true,
+    "exactly_one_lifecycle_evaluation": true,
+    "at_most_one_next_effect_lease": true,
+    "state_projection_changes_no_factual_field": true,
+    "reobservation_state_is_not_authority": true,
+    "automatic_effect_execution": false,
+    "general_git_authority": false,
+    "general_successor_stage_authority": false,
+    "deployment_authority": false,
+    "secret_access_authority": false,
+    "checks_are_not_correctness_proof": true,
+    "merge_is_not_truth": true
+  }
+}
