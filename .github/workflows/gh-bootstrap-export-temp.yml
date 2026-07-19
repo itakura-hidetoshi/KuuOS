@@ -1,0 +1,37 @@
+name: Temporary gh bootstrap export
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/gh-bootstrap-export-temp.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  export-gh:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    steps:
+      - name: Inspect installed GitHub CLI
+        shell: bash
+        run: |
+          set -euo pipefail
+          command -v gh
+          gh --version
+      - name: Package GitHub CLI
+        shell: bash
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/gh-bootstrap
+          cp "$(command -v gh)" artifacts/gh-bootstrap/gh
+          chmod 0755 artifacts/gh-bootstrap/gh
+          sha256sum artifacts/gh-bootstrap/gh > artifacts/gh-bootstrap/gh.sha256
+          gh --version > artifacts/gh-bootstrap/gh.version.txt
+      - name: Upload GitHub CLI binary
+        uses: actions/upload-artifact@v4
+        with:
+          name: gh-bootstrap-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/gh-bootstrap/
+          if-no-files-found: error
+          retention-days: 1
