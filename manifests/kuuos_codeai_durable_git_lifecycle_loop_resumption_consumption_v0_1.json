@@ -1,0 +1,44 @@
+{
+  "artifact_id": "kuuos-codeai-durable-git-lifecycle-loop-resumption-consumption-v0-1",
+  "artifact_type": "codeai-durable-loop-resumption-input-consumption-contract",
+  "checker": "scripts/check_codeai_durable_git_lifecycle_loop_resumption_consumption_v0_1.py",
+  "documentation": "docs/KUUOS_CODEAI_DURABLE_GIT_LIFECYCLE_LOOP_RESUMPTION_CONSUMPTION_v0_1.md",
+  "example": "examples/codeai_durable_git_lifecycle_loop_resumption_consumption_v0_1.json",
+  "fixed_boundaries": {
+    "automatic_execution_allowed": false,
+    "direct_git_effect_allowed": false,
+    "exact_source_resumption_bundle_required": true,
+    "execution_input_active": true,
+    "execution_input_one_shot": true,
+    "fresh_consumption_nonce_required": true,
+    "general_successor_authority_allowed": false,
+    "git_effect_during_consumption_allowed": false,
+    "loop_execution_during_consumption_allowed": false,
+    "network_access_during_consumption_allowed": false,
+    "resume_input_consumed_once": true,
+    "resume_input_future_only_required": true,
+    "resume_input_inactive_required": true,
+    "secret_material_read_during_consumption_allowed": false
+  },
+  "formal_kernel": "formal/KUOS/CodeAI/DurableGitLifecycleLoopResumptionConsumptionV0_1.lean",
+  "formal_root": "formal/KuuOSCodeAIDurableGitLifecycleLoopResumptionConsumptionV0_1.lean",
+  "predecessor": "CodeAI Durable Git Lifecycle Loop Resumption Admission v0.1",
+  "profile_version": "CodeAI Durable Git Lifecycle Loop Resumption Consumption v0.1",
+  "purpose": "Consume one exact inactive future-only durable loop resume input and issue one active one-shot bounded loop execution input without executing the loop or performing a Git effect.",
+  "runtime_surfaces": [
+    "runtime/kuuos_codeai_durable_git_lifecycle_loop_resumption_consumption_v0_1.py"
+  ],
+  "schema_version": "v0.1",
+  "status": "implemented",
+  "tests": "tests/test_kuuos_codeai_durable_git_lifecycle_loop_resumption_consumption_v0_1.py",
+  "validation": {
+    "bounded_loop_regression_tests": 21,
+    "checkpoint_persistence_regression_tests": 26,
+    "combined_tests": 101,
+    "resumption_admission_regression_tests": 23,
+    "resumption_consumption_tests": 31,
+    "strict_lean_root": "KuuOSCodeAIDurableGitLifecycleLoopResumptionConsumptionV0_1",
+    "strict_repository_root": "KuuOSFormal"
+  },
+  "workflow": ".github/workflows/codeai-durable-git-lifecycle-loop-resumption-consumption-v0-1.yml"
+}
