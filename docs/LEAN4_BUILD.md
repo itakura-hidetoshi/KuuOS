@@ -94,11 +94,14 @@ lake -KleanArgs=-DwarningAsError=true \
 
 ## GitHub Actions
 
-`.github/workflows/lean-formal-validation.yml` runs on:
+Pull-request compilation is centralized in `.github/workflows/pr-governance-gate.yml`.
+Its `lean-formal` check performs the complete strict `KuuOSFormal` build and
+prevents duplicate pull-request entry points.
 
-- relevant pull requests;
+`.github/workflows/lean-formal-validation.yml` remains available for:
+
 - relevant pushes to `main`;
 - manual `workflow_dispatch` runs.
 
-A manual run can select a registered Lake target. Pull requests and pushes
-compile the complete `KuuOSFormal` target.
+A manual run can select any registered Lake target. Relevant pushes compile the
+complete `KuuOSFormal` target.
