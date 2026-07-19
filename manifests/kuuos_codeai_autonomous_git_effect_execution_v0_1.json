@@ -1,0 +1,50 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Autonomous Git Effect Execution v0.1",
+  "status": "additive bounded operational adapter",
+  "predecessor": "CodeAI Autonomous Git Lifecycle v0.1",
+  "purpose": "Consume one exact active Git lifecycle effect lease, execute one structured Git or GitHub effect through a bounded adapter, record evidence, and advance a replay registry exactly once.",
+  "supported_effect_phases": [
+    "local_commit",
+    "push_branch",
+    "create_pull_request",
+    "mark_pull_request_ready",
+    "merge_pull_request"
+  ],
+  "outputs": [
+    "sealed execution evidence",
+    "sealed monotone replay registry",
+    "sealed execution receipt"
+  ],
+  "runtime": [
+    "runtime/kuuos_codeai_autonomous_git_effect_execution_v0_1.py",
+    "runtime/kuuos_codeai_autonomous_git_effect_execution_types_v0_1.py",
+    "runtime/kuuos_codeai_autonomous_git_effect_execution_validation_v0_1.py",
+    "runtime/kuuos_codeai_git_subprocess_effect_adapter_v0_1.py"
+  ],
+  "checker": "scripts/check_codeai_autonomous_git_effect_execution_v0_1.py",
+  "tests": [
+    "tests/test_kuuos_codeai_autonomous_git_effect_execution_v0_1.py",
+    "tests/test_kuuos_codeai_git_subprocess_effect_adapter_v0_1.py"
+  ],
+  "example": "examples/codeai_autonomous_git_effect_execution_v0_1.json",
+  "documentation": "docs/KUUOS_CODEAI_AUTONOMOUS_GIT_EFFECT_EXECUTION_v0_1.md",
+  "formal_kernel": "formal/KUOS/CodeAI/AutonomousGitEffectExecutionV0_1.lean",
+  "formal_root": "formal/KuuOSCodeAIAutonomousGitEffectExecutionV0_1.lean",
+  "workflow": ".github/workflows/codeai-autonomous-git-effect-execution-v0-1.yml",
+  "fixed_boundaries": {
+    "one_lifecycle_receipt_consumed_at_most_once": true,
+    "one_execution_nonce_consumed_at_most_once": true,
+    "exactly_one_adapter_invocation_per_admitted_request": true,
+    "automatic_successor_effect_authority": false,
+    "general_git_authority": false,
+    "force_push": false,
+    "remote_branch_deletion": false,
+    "admin_merge_bypass": false,
+    "deployment": false,
+    "secret_material_read": false,
+    "token_material_emission": false,
+    "merge_requires_pinned_head": true,
+    "failed_or_quarantined_attempt_consumes_lease": true
+  }
+}
