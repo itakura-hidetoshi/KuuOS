@@ -18,7 +18,8 @@ jobs:
         shell: bash
         run: |
           set -euo pipefail
-          tar --exclude=.git --exclude=.lake -czf kuuos-main-snapshot.tar.gz .
+          tar --exclude=.git --exclude=.lake -czf /tmp/kuuos-main-snapshot.tar.gz .
+          cp /tmp/kuuos-main-snapshot.tar.gz ./kuuos-main-snapshot.tar.gz
           sha256sum kuuos-main-snapshot.tar.gz > kuuos-main-snapshot.tar.gz.sha256
       - name: Upload repository snapshot
         uses: actions/upload-artifact@v4
