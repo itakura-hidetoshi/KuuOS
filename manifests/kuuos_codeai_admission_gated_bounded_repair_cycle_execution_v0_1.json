@@ -1,0 +1,73 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Admission-Gated Bounded Repair Cycle Execution v0.1",
+  "status": "additive fail-closed one-shot admitted-cycle execution sibling",
+  "predecessor": "CodeAI Repair Cycle Admission Consumption v0.1",
+  "artifacts": {
+    "runtime": "runtime/kuuos_codeai_admission_gated_bounded_repair_cycle_execution_v0_1.py",
+    "checker": "scripts/check_codeai_admission_gated_bounded_repair_cycle_execution_v0_1.py",
+    "tests": "tests/test_kuuos_codeai_admission_gated_bounded_repair_cycle_execution_v0_1.py",
+    "example": "examples/codeai_admission_gated_bounded_repair_cycle_execution_v0_1.json",
+    "specification": "docs/KUUOS_CODEAI_ADMISSION_GATED_BOUNDED_REPAIR_CYCLE_EXECUTION_v0_1.md",
+    "formal_kernel": "formal/KUOS/CodeAI/AdmissionGatedBoundedRepairCycleExecutionV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAIAdmissionGatedBoundedRepairCycleExecutionV0_1.lean",
+    "workflow": ".github/workflows/codeai-admission-gated-bounded-repair-cycle-execution-v0-1.yml"
+  },
+  "route": [
+    "exact sealed admission-consumption receipt",
+    "exact active one-shot non-reusable execution input",
+    "exact updated admission-consumption registry receipt",
+    "fresh cycle-execution request",
+    "deny-by-default execution policy",
+    "sealed execution replay registry",
+    "provider-neutral candidate regeneration adapter",
+    "existing bounded candidate portfolio selection",
+    "existing isolated candidate application",
+    "existing autonomous verification execution",
+    "one-entry execution registry transition",
+    "sealed admitted-cycle execution receipt"
+  ],
+  "bounded_resources": [
+    "candidate count",
+    "provider-call count",
+    "verification command count",
+    "timeout seconds",
+    "combined provider and runner output bytes"
+  ],
+  "outcomes": [
+    "passed",
+    "failed",
+    "budget-aborted"
+  ],
+  "fixed_semantics": [
+    "execution input consumption != correctness",
+    "admitted execution != successful repair",
+    "cycle pass != proof",
+    "cycle failure != required repair",
+    "provider output != trusted patch",
+    "candidate selection != correctness",
+    "isolated application != live repository mutation",
+    "verification evidence != merge authority",
+    "unused budget != reusable authority",
+    "one completed cycle != unrestricted continuation",
+    "execution receipt != Git, deployment, or general successor authority"
+  ],
+  "authority": {
+    "consume_exactly_one_execution_input": true,
+    "invoke_provider_adapter_within_budget": true,
+    "select_candidate_within_budget": true,
+    "apply_patch_to_isolated_snapshot": true,
+    "execute_runner_neutral_verification_within_budget": true,
+    "record_pass_failure_or_budget_abort": true,
+    "advance_execution_registry_once": true,
+    "automatic_continuation": false,
+    "live_repository_mutation": false,
+    "git": false,
+    "network": false,
+    "secrets": false,
+    "deployment": false,
+    "merge": false,
+    "general_successor": false,
+    "correctness_proof": false
+  }
+}
