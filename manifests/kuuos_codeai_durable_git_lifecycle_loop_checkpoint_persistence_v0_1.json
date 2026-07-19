@@ -1,0 +1,43 @@
+{
+  "artifact_id": "kuuos-codeai-durable-git-lifecycle-loop-checkpoint-persistence-v0-1",
+  "artifact_type": "codeai-durable-checkpoint-persistence-contract",
+  "profile_version": "CodeAI Durable Git Lifecycle Loop Checkpoint Persistence v0.1",
+  "schema_version": "v0.1",
+  "status": "implemented",
+  "predecessor": "CodeAI Bounded Autonomous Git Lifecycle Loop Orchestration v0.1",
+  "purpose": "Persist one completed bounded Git lifecycle loop bundle through an atomic compare-and-swap checkpoint adapter without granting resumption authority.",
+  "runtime_surfaces": [
+    "runtime/kuuos_codeai_durable_git_lifecycle_loop_checkpoint_persistence_v0_1.py",
+    "runtime/kuuos_codeai_durable_git_lifecycle_loop_checkpoint_persistence_types_v0_1.py",
+    "runtime/kuuos_codeai_durable_git_lifecycle_loop_checkpoint_persistence_validation_v0_1.py",
+    "runtime/kuuos_codeai_durable_git_lifecycle_loop_checkpoint_persistence_adapter_v0_1.py",
+    "runtime/kuuos_codeai_durable_git_lifecycle_loop_checkpoint_persistence_core_v0_1.py"
+  ],
+  "checker": "scripts/check_codeai_durable_git_lifecycle_loop_checkpoint_persistence_v0_1.py",
+  "tests": "tests/test_kuuos_codeai_durable_git_lifecycle_loop_checkpoint_persistence_v0_1.py",
+  "example": "examples/codeai_durable_git_lifecycle_loop_checkpoint_persistence_v0_1.json",
+  "documentation": "docs/KUUOS_CODEAI_DURABLE_GIT_LIFECYCLE_LOOP_CHECKPOINT_PERSISTENCE_v0_1.md",
+  "formal_kernel": "formal/KUOS/CodeAI/DurableGitLifecycleLoopCheckpointPersistenceV0_1.lean",
+  "formal_root": "formal/KuuOSCodeAIDurableGitLifecycleLoopCheckpointPersistenceV0_1.lean",
+  "workflow": ".github/workflows/codeai-durable-git-lifecycle-loop-checkpoint-persistence-v0-1.yml",
+  "validation": {
+    "checkpoint_tests": 26,
+    "bounded_loop_regression_tests": 21,
+    "combined_tests": 47,
+    "strict_lean_root": "KuuOSCodeAIDurableGitLifecycleLoopCheckpointPersistenceV0_1",
+    "strict_repository_root": "KuuOSFormal"
+  },
+  "fixed_boundaries": {
+    "atomic_compare_and_swap_required": true,
+    "checkpoint_absence_required": true,
+    "checkpoint_overwrite_allowed": false,
+    "checkpoint_delete_allowed": false,
+    "network_access_allowed": false,
+    "secret_material_read_allowed": false,
+    "git_effect_allowed": false,
+    "loop_execution_allowed": false,
+    "resume_input_issuance_allowed": false,
+    "automatic_resumption_allowed": false,
+    "general_successor_authority_allowed": false
+  }
+}

@@ -1,0 +1,101 @@
+{
+  "initial_registry": {
+    "codeai_durable_git_lifecycle_loop_checkpoint_persistence_registry_digest": "56659c9ae81a37c22d207162e8957d7e5c2477413460525c30822b11c4e4824e",
+    "consumed_persistence_nonce_digests": [],
+    "last_persistence_epoch": 0,
+    "persisted_checkpoint_ids": [],
+    "persisted_loop_receipt_digests": [],
+    "persistence_attempt_count": 0,
+    "registry_id": "checkpoint-persistence-registry-001",
+    "registry_revision": 0,
+    "successful_persistence_count": 0
+  },
+  "initial_store_state": {
+    "checkpoint_envelope_digests": [],
+    "checkpoint_ids": [],
+    "codeai_durable_git_lifecycle_loop_checkpoint_store_state_digest": "429fa926f242475e59bfa3091dc782be6f5ac44976968d119fffaab257f29a71",
+    "last_committed_epoch": 0,
+    "profile_version": "CodeAI Durable Git Lifecycle Loop Checkpoint Persistence v0.1",
+    "schema_version": "v0.1",
+    "store_id": "codeai-git-loop-checkpoint-store",
+    "store_revision": 0
+  },
+  "persistence_policy": {
+    "allow_automatic_resumption": false,
+    "allow_checkpoint_delete": false,
+    "allow_checkpoint_overwrite": false,
+    "allow_checkpoint_persistence": true,
+    "allow_general_successor_authority": false,
+    "allow_git_effect": false,
+    "allow_loop_execution": false,
+    "allow_network_access": false,
+    "allow_resume_input_issuance": false,
+    "allow_secret_material_read": false,
+    "allowed_adapter_ids": [
+      "durable-checkpoint-store-adapter"
+    ],
+    "allowed_store_ids": [
+      "codeai-git-loop-checkpoint-store"
+    ],
+    "authorized_persister_ids": [
+      "codeai-checkpoint-persister"
+    ],
+    "codeai_durable_git_lifecycle_loop_checkpoint_persistence_policy_digest": "5e78113d0bfa5085323c172dce035cf1bafeb771ae4d98a10697f644c45a069e",
+    "evaluation_epoch": 400,
+    "expected_repository_full_name": "itakura-hidetoshi/KuuOS",
+    "expected_source_loop_evidence_digest": "557646330a81d2029d05bbde18430c076df49ef0203965eeea82ee8b20870d31",
+    "expected_source_loop_receipt_digest": "ed96ecf85c85b5eb959018ee8d87d4ad59f1b775ab661c8cc5329d988e1c9bcc",
+    "maximum_adapter_command_count": 1,
+    "maximum_adapter_output_bytes": 4096,
+    "maximum_registry_entries": 16,
+    "maximum_request_age": 100,
+    "maximum_store_entries": 16,
+    "require_atomic_compare_and_swap": true,
+    "require_checkpoint_absence": true,
+    "require_nonce_consumption": true
+  },
+  "persistence_request": {
+    "adapter_id": "durable-checkpoint-store-adapter",
+    "checkpoint_id": "git-loop-checkpoint-001",
+    "checkpoint_revision": 1,
+    "codeai_durable_git_lifecycle_loop_checkpoint_persistence_request_digest": "181aaf1e926f2fd830ce121e9e2ac0a38e8911019619bef65501a3897977e2fc",
+    "expected_store_revision": 0,
+    "final_lifecycle_receipt_digest": "4b9abb779564e509592ec0d724b9423b6e1dbc3d495056fa43c49478adfafd32",
+    "final_lifecycle_state_digest": "0cc0861afe5f1ef8702cad56d87aa14f6d02d78fa68b84c70e823740fd05ecd9",
+    "lifecycle_id": "codeai-autonomous-git-lifecycle-v0-1-001",
+    "loop_id": "git-loop-001",
+    "persistence_nonce_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "persistence_requested": true,
+    "persistence_session_id": "git-loop-checkpoint-session-001",
+    "persister_id": "codeai-checkpoint-persister",
+    "provenance_integrity_confirmed": true,
+    "repository_full_name": "itakura-hidetoshi/KuuOS",
+    "request_created_epoch": 400,
+    "source_continuation_registry_digest": "bdf2f2fe08d5c11d001d88ccf76da9f7b5a275b4a22848716d2d20734614a442",
+    "source_correspondence_confirmed": true,
+    "source_execution_registry_digest": "83d0ec76eeffbb7d2655b073dc5fe44fdcdb4f72e289484f9179748af224e141",
+    "source_loop_evidence_digest": "557646330a81d2029d05bbde18430c076df49ef0203965eeea82ee8b20870d31",
+    "source_loop_receipt_digest": "ed96ecf85c85b5eb959018ee8d87d4ad59f1b775ab661c8cc5329d988e1c9bcc",
+    "source_loop_registry_digest": "59feae9a4586fb6b0945fe63b71981f13453aff53bb603cf7b02196cbcd6c843",
+    "source_reobservation_registry_digest": "53736f9c348d5258e6ebf1215f7badb91349ce6538b2d77aba1167293cfad0ea",
+    "store_id": "codeai-git-loop-checkpoint-store"
+  },
+  "profile_version": "CodeAI Durable Git Lifecycle Loop Checkpoint Persistence v0.1",
+  "result_summary": {
+    "automatic_resumption_performed": false,
+    "checkpoint_envelope_digest": "fad52097c58ad21cfc9c5c9bc78e234510912e33c60ebd0e2b8029e3163cacb2",
+    "checkpoint_persisted": true,
+    "codeai_disposition": "durable_git_lifecycle_loop_checkpoint_persisted",
+    "general_git_authority_granted": false,
+    "general_successor_stage_authority_granted": false,
+    "next_registry_digest": "23da2c6c97a44f7439151753a4752d0ff5d32ed81f1dbd899935b18ec4639c0d",
+    "next_registry_revision": 1,
+    "next_store_revision": 1,
+    "next_store_state_digest": "c2275672521242dd3c4ad05648da787aae8dd3793f67aaa495bf5cb9d624a049",
+    "persistence_evidence_digest": "8eb9b6baa187d9278e026e7d6582902d8aa565425861e5c5fc3b87dea0d00237",
+    "persistence_receipt_digest": "aa93344c9ed0b286ff13fddd3e19053193ec75b6407b5b8a8e0c14caf4d46db6",
+    "resume_input_issued": false,
+    "status": "ready"
+  },
+  "schema_version": "v0.1"
+}
