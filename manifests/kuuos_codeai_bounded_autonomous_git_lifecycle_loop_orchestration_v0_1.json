@@ -1,0 +1,68 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Bounded Autonomous Git Lifecycle Loop Orchestration v0.1",
+  "status": "additive_synchronous_bounded_loop_orchestrator",
+  "predecessors": [
+    "CodeAI Autonomous Git Lifecycle v0.1",
+    "CodeAI Autonomous Git Effect Execution v0.1",
+    "CodeAI Autonomous Git Effect Re-observation v0.1",
+    "CodeAI Re-observation-Gated Git Lifecycle Continuation v0.1"
+  ],
+  "owned_transition": "repeat exact one-effect execution, fresh re-observation, and lifecycle continuation within one explicit bounded loop",
+  "dispositions": [
+    "bounded_autonomous_git_lifecycle_loop_completed",
+    "bounded_autonomous_git_lifecycle_loop_terminal_hold",
+    "bounded_autonomous_git_lifecycle_effect_budget_exhausted",
+    "bounded_autonomous_git_lifecycle_execution_failed",
+    "bounded_autonomous_git_lifecycle_execution_evidence_quarantined",
+    "bounded_autonomous_git_lifecycle_reobservation_failed",
+    "bounded_autonomous_git_lifecycle_reobservation_evidence_quarantined",
+    "bounded_autonomous_git_lifecycle_stage_blocked"
+  ],
+  "bounded_dimensions": [
+    "effect_count",
+    "execution_command_count",
+    "execution_output_bytes",
+    "execution_timeout_seconds_per_effect",
+    "reobservation_command_count",
+    "reobservation_output_bytes",
+    "request_age",
+    "observation_age",
+    "state_age",
+    "registry_entries"
+  ],
+  "invariants": [
+    "one active lifecycle lease is consumed at a time",
+    "every admitted execution attempt is followed by fresh re-observation",
+    "a failed execution is not automatically retried",
+    "continuation invokes the existing lifecycle evaluator exactly once",
+    "each delegated lifecycle receipt contains at most one effect lease",
+    "loop and predecessor replay registries advance monotonically",
+    "unused budget grants no reusable authority",
+    "checks passing is not treated as correctness",
+    "merge observation is not treated as truth"
+  ],
+  "forbidden_authority": [
+    "unbounded continuation",
+    "concurrent effect leases",
+    "force push",
+    "remote branch deletion",
+    "admin merge bypass",
+    "deployment",
+    "secret material read",
+    "networked re-observation",
+    "human or external handover",
+    "general Git authority",
+    "general successor-stage authority"
+  ],
+  "artifacts": {
+    "runtime": "runtime/kuuos_codeai_bounded_autonomous_git_lifecycle_loop_orchestration_v0_1.py",
+    "checker": "scripts/check_codeai_bounded_autonomous_git_lifecycle_loop_orchestration_v0_1.py",
+    "tests": "tests/test_kuuos_codeai_bounded_autonomous_git_lifecycle_loop_orchestration_v0_1.py",
+    "example": "examples/codeai_bounded_autonomous_git_lifecycle_loop_orchestration_v0_1.json",
+    "specification": "docs/KUUOS_CODEAI_BOUNDED_AUTONOMOUS_GIT_LIFECYCLE_LOOP_ORCHESTRATION_v0_1.md",
+    "formal_kernel": "formal/KUOS/CodeAI/BoundedAutonomousGitLifecycleLoopOrchestrationV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAIBoundedAutonomousGitLifecycleLoopOrchestrationV0_1.lean",
+    "workflow": ".github/workflows/codeai-bounded-autonomous-git-lifecycle-loop-orchestration-v0-1.yml"
+  }
+}
