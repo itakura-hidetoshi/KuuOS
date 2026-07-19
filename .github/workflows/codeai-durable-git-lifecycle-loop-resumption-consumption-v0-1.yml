@@ -1,0 +1,115 @@
+name: CodeAI Durable Git Lifecycle Loop Resumption Consumption v0.1
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "runtime/kuuos_codeai_durable_git_lifecycle_loop_resumption_consumption_v0_1.py"
+      - "runtime/kuuos_codeai_durable_git_lifecycle_loop_resumption_admission_*.py"
+      - "runtime/kuuos_codeai_durable_git_lifecycle_loop_checkpoint_persistence_*.py"
+      - "runtime/kuuos_codeai_bounded_autonomous_git_lifecycle_loop_orchestration_v0_1.py"
+      - "scripts/check_codeai_durable_git_lifecycle_loop_resumption_consumption_v0_1.py"
+      - "tests/test_kuuos_codeai_durable_git_lifecycle_loop_resumption_consumption_v0_1.py"
+      - "tests/test_kuuos_codeai_durable_git_lifecycle_loop_resumption_admission_v0_1.py"
+      - "tests/test_kuuos_codeai_durable_git_lifecycle_loop_checkpoint_persistence_v0_1.py"
+      - "tests/test_kuuos_codeai_bounded_autonomous_git_lifecycle_loop_orchestration_v0_1.py"
+      - "examples/codeai_durable_git_lifecycle_loop_resumption_consumption_v0_1.json"
+      - "manifests/kuuos_codeai_durable_git_lifecycle_loop_resumption_consumption_v0_1.json"
+      - "docs/KUUOS_CODEAI_DURABLE_GIT_LIFECYCLE_LOOP_RESUMPTION_CONSUMPTION_v0_1.md"
+      - "formal/KUOS/CodeAI/DurableGitLifecycleLoopResumptionConsumptionV0_1.lean"
+      - "formal/KuuOSCodeAIDurableGitLifecycleLoopResumptionConsumptionV0_1.lean"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
+      - ".github/workflows/codeai-durable-git-lifecycle-loop-resumption-consumption-v0-1.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python3 -m compileall -q
+          runtime/kuuos_codeai_durable_git_lifecycle_loop_resumption_consumption_v0_1.py
+          scripts/check_codeai_durable_git_lifecycle_loop_resumption_consumption_v0_1.py
+          tests/test_kuuos_codeai_durable_git_lifecycle_loop_resumption_consumption_v0_1.py
+      - name: Validate machine-readable artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m json.tool examples/codeai_durable_git_lifecycle_loop_resumption_consumption_v0_1.json > /dev/null
+          python3 -m json.tool manifests/kuuos_codeai_durable_git_lifecycle_loop_resumption_consumption_v0_1.json > /dev/null
+      - name: Check durable Git lifecycle loop resumption consumption
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/check_codeai_durable_git_lifecycle_loop_resumption_consumption_v0_1.py \
+            2>&1 | tee codeai-durable-git-lifecycle-loop-resumption-consumption-v0-1.log
+      - name: Run bounded-loop, checkpoint, resumption, and consumption regression tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 -m unittest \
+            tests.test_kuuos_codeai_bounded_autonomous_git_lifecycle_loop_orchestration_v0_1 \
+            tests.test_kuuos_codeai_durable_git_lifecycle_loop_checkpoint_persistence_v0_1 \
+            tests.test_kuuos_codeai_durable_git_lifecycle_loop_resumption_admission_v0_1 \
+            tests.test_kuuos_codeai_durable_git_lifecycle_loop_resumption_consumption_v0_1 \
+            2>&1 | tee codeai-durable-git-lifecycle-loop-resumption-consumption-v0-1-tests.log
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Verify committed dependency manifest is canonical
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile durable resumption consumption formal root
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSCodeAIDurableGitLifecycleLoopResumptionConsumptionV0_1 \
+            2>&1 | tee codeai-durable-git-lifecycle-loop-resumption-consumption-v0-1-lean.log
+      - name: Strictly compile repository formal baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSFormal \
+            2>&1 | tee codeai-durable-git-lifecycle-loop-resumption-consumption-v0-1-lean-root.log
+      - name: Upload diagnostics
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-durable-git-lifecycle-loop-resumption-consumption-v0-1-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            codeai-durable-git-lifecycle-loop-resumption-consumption-v0-1.log
+            codeai-durable-git-lifecycle-loop-resumption-consumption-v0-1-tests.log
+            codeai-durable-git-lifecycle-loop-resumption-consumption-v0-1-lean.log
+            codeai-durable-git-lifecycle-loop-resumption-consumption-v0-1-lean-root.log
+          if-no-files-found: warn
+          retention-days: 14
