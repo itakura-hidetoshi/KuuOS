@@ -1,0 +1,31 @@
+name: Temporary repository snapshot export
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/repository-snapshot-export-temp.yml"
+
+permissions:
+  contents: read
+
+jobs:
+  export-snapshot:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+      - name: Package repository snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar --exclude=.git --exclude=.lake -czf kuuos-main-snapshot.tar.gz .
+          sha256sum kuuos-main-snapshot.tar.gz > kuuos-main-snapshot.tar.gz.sha256
+      - name: Upload repository snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-main-snapshot-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            kuuos-main-snapshot.tar.gz
+            kuuos-main-snapshot.tar.gz.sha256
+          if-no-files-found: error
+          retention-days: 1
