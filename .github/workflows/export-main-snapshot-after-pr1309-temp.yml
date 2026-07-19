@@ -1,0 +1,38 @@
+name: Export main snapshot after PR 1309 temporary
+
+on:
+  pull_request:
+    branches: [main]
+    paths:
+      - '.github/workflows/export-main-snapshot-after-pr1309-temp.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  export:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 15
+    steps:
+      - uses: actions/checkout@v6
+        with:
+          ref: main
+          fetch-depth: 1
+      - name: Create authoritative repository snapshot
+        shell: bash
+        run: |
+          set -euo pipefail
+          tar --exclude=.git --exclude=.lake --exclude='**/__pycache__' --exclude='*.pyc' \
+            -czf /tmp/kuuos-main-after-pr1309.tar.gz .
+          sha256sum /tmp/kuuos-main-after-pr1309.tar.gz > /tmp/kuuos-main-after-pr1309.tar.gz.sha256
+          git rev-parse HEAD > /tmp/kuuos-main-after-pr1309.commit.txt
+      - name: Upload authoritative snapshot
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-main-after-pr1309-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            /tmp/kuuos-main-after-pr1309.tar.gz
+            /tmp/kuuos-main-after-pr1309.tar.gz.sha256
+            /tmp/kuuos-main-after-pr1309.commit.txt
+          if-no-files-found: error
+          retention-days: 1
