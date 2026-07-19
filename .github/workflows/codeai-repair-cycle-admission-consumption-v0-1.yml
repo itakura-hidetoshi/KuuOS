@@ -1,0 +1,112 @@
+name: CodeAI Repair Cycle Admission Consumption v0.1
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "runtime/kuuos_codeai_repair_cycle_admission_consumption_v0_1.py"
+      - "runtime/kuuos_codeai_repair_cycle_continuation_admission_v0_1.py"
+      - "scripts/check_codeai_repair_cycle_admission_consumption_v0_1.py"
+      - "tests/test_kuuos_codeai_repair_cycle_admission_consumption_v0_1.py"
+      - "examples/codeai_repair_cycle_admission_consumption_v0_1.json"
+      - "manifests/kuuos_codeai_repair_cycle_admission_consumption_v0_1.json"
+      - "docs/KUUOS_CODEAI_REPAIR_CYCLE_ADMISSION_CONSUMPTION_v0_1.md"
+      - "formal/KUOS/CodeAI/RepairCycleAdmissionConsumptionV0_1.lean"
+      - "formal/KuuOSCodeAIRepairCycleAdmissionConsumptionV0_1.lean"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
+      - ".github/workflows/codeai-repair-cycle-admission-consumption-v0-1.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python3 -m compileall -q
+          runtime/kuuos_codeai_repair_cycle_admission_consumption_v0_1.py
+          scripts/check_codeai_repair_cycle_admission_consumption_v0_1.py
+          tests/test_kuuos_codeai_repair_cycle_admission_consumption_v0_1.py
+      - name: Validate machine-readable artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m json.tool \
+            examples/codeai_repair_cycle_admission_consumption_v0_1.json \
+            > /dev/null
+          python3 -m json.tool \
+            manifests/kuuos_codeai_repair_cycle_admission_consumption_v0_1.json \
+            > /dev/null
+      - name: Check repair cycle admission consumption
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 \
+            scripts/check_codeai_repair_cycle_admission_consumption_v0_1.py \
+            2>&1 | tee codeai-repair-cycle-admission-consumption-v0-1.log
+      - name: Run admission consumption unit tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 -m unittest \
+            tests.test_kuuos_codeai_repair_cycle_admission_consumption_v0_1 \
+            2>&1 | tee codeai-repair-cycle-admission-consumption-v0-1-tests.log
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Verify committed dependency manifest is canonical
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile admission consumption formal root
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSCodeAIRepairCycleAdmissionConsumptionV0_1 \
+            2>&1 | tee codeai-repair-cycle-admission-consumption-v0-1-lean.log
+      - name: Strictly compile repository formal baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSFormal \
+            2>&1 | tee codeai-repair-cycle-admission-consumption-v0-1-lean-root.log
+      - name: Upload diagnostics
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-repair-cycle-admission-consumption-v0-1-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            codeai-repair-cycle-admission-consumption-v0-1.log
+            codeai-repair-cycle-admission-consumption-v0-1-tests.log
+            codeai-repair-cycle-admission-consumption-v0-1-lean.log
+            codeai-repair-cycle-admission-consumption-v0-1-lean-root.log
+          if-no-files-found: warn
+          retention-days: 14
