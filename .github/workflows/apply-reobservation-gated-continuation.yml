@@ -41,8 +41,8 @@ jobs:
             tests/test_kuuos_codeai_reobservation_gated_git_lifecycle_continuation_v0_1.py
           python -m json.tool examples/codeai_reobservation_gated_git_lifecycle_continuation_v0_1.json >/dev/null
           python -m json.tool manifests/kuuos_codeai_reobservation_gated_git_lifecycle_continuation_v0_1.json >/dev/null
-          python scripts/check_codeai_reobservation_gated_git_lifecycle_continuation_v0_1.py
-          python -m unittest \
+          PYTHONPATH=. python scripts/check_codeai_reobservation_gated_git_lifecycle_continuation_v0_1.py
+          PYTHONPATH=. python -m unittest \
             tests.test_kuuos_codeai_autonomous_git_lifecycle_envelope_v0_1 \
             tests.test_kuuos_codeai_autonomous_git_effect_execution_v0_1 \
             tests.test_kuuos_codeai_autonomous_git_effect_reobservation_v0_1 \
