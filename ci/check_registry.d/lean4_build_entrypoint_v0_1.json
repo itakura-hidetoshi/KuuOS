@@ -1,0 +1,29 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "reproducible Lean entrypoint != duplicate pull-request workflow",
+      "local build convenience != validator weakening"
+    ]
+  },
+  "checks": {
+    "lean4-build-entrypoint": {
+      "name": "Lean 4 reproducible build entrypoint",
+      "runner": "python",
+      "command": "bash -n scripts/build_lean4.sh",
+      "group": "static",
+      "tier": "critical",
+      "paths": [
+        "scripts/build_lean4.sh",
+        "docs/LEAN4_BUILD.md",
+        ".github/workflows/lean-formal-validation.yml"
+      ],
+      "depends_on": [
+        "lean-formal"
+      ],
+      "timeout_minutes": 5,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
