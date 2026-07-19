@@ -63,8 +63,19 @@ jobs:
           git config user.email "actions@users.noreply.github.com"
           git add -A
           git commit -m "add autonomous Git effect re-observation"
-          git rev-parse HEAD
+          mkdir -p /tmp/reobs-final
+          git rev-parse HEAD | tee /tmp/reobs-final/final-commit-sha.txt
+          git bundle create /tmp/reobs-final/reobs-final.bundle HEAD
+          sha256sum /tmp/reobs-final/reobs-final.bundle > /tmp/reobs-final/reobs-final.bundle.sha256
+      - name: Upload final feature commit
+        uses: actions/upload-artifact@v4
+        with:
+          name: reobs-final-commit-${{ github.run_id }}-${{ github.run_attempt }}
+          path: /tmp/reobs-final/
+          if-no-files-found: error
+          retention-days: 1
       - name: Push final feature head
+        continue-on-error: true
         shell: bash
         run: |
           set -euo pipefail
