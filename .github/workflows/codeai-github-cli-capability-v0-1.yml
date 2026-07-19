@@ -1,0 +1,81 @@
+name: CodeAI GitHub CLI Capability v0.1
+
+on:
+  workflow_dispatch:
+    inputs:
+      operation:
+        description: Read-only gh operation
+        required: true
+        default: probe
+        type: choice
+        options:
+          - probe
+          - repo-view
+          - pr-list
+          - pr-view
+          - pr-checks
+          - run-view
+      target:
+        description: Positive PR number or workflow run id when required
+        required: false
+        default: ""
+        type: string
+  pull_request:
+    paths:
+      - "scripts/kuuos_codeai_gh_v0_1.sh"
+      - "tests/test_kuuos_codeai_gh_v0_1.py"
+      - "docs/KUUOS_CODEAI_GITHUB_CLI_CAPABILITY_v0_1.md"
+      - ".github/workflows/codeai-github-cli-capability-v0-1.yml"
+
+permissions:
+  contents: read
+  pull-requests: read
+  actions: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    env:
+      GH_TOKEN: ${{ github.token }}
+      GH_REPO: ${{ github.repository }}
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Check wrapper syntax
+        run: bash -n scripts/kuuos_codeai_gh_v0_1.sh
+      - name: Run wrapper unit tests
+        run: >-
+          PYTHONPATH=. python3 -m unittest
+          tests.test_kuuos_codeai_gh_v0_1
+      - name: Probe installed GitHub CLI and authentication
+        run: |
+          set -euo pipefail
+          bash scripts/kuuos_codeai_gh_v0_1.sh probe \
+            | tee codeai-github-cli-probe-v0-1.json
+          python3 -m json.tool codeai-github-cli-probe-v0-1.json > /dev/null
+      - name: Exercise read-only GitHub CLI operation
+        env:
+          OPERATION: ${{ github.event_name == 'workflow_dispatch' && inputs.operation || 'pr-list' }}
+          TARGET: ${{ github.event_name == 'workflow_dispatch' && inputs.target || '' }}
+        run: |
+          set -euo pipefail
+          bash scripts/kuuos_codeai_gh_v0_1.sh "${OPERATION}" "${TARGET}" \
+            | tee codeai-github-cli-operation-v0-1.json
+          python3 -m json.tool codeai-github-cli-operation-v0-1.json > /dev/null
+      - name: Upload diagnostics
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-github-cli-capability-v0-1-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            codeai-github-cli-probe-v0-1.json
+            codeai-github-cli-operation-v0-1.json
+          if-no-files-found: warn
+          retention-days: 14
