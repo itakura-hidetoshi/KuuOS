@@ -2,11 +2,28 @@ name: KuuOS Lean Formal Validation
 
 on:
   workflow_dispatch:
+    inputs:
+      target:
+        description: Registered Lake target to compile
+        required: true
+        default: KuuOSFormal
+        type: string
+  pull_request:
+    paths:
+      - "formal/**"
+      - "scripts/build_lean4.sh"
+      - "docs/LEAN4_BUILD.md"
+      - "lean-toolchain"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - ".github/workflows/lean-formal-validation.yml"
   push:
     branches:
       - main
     paths:
       - "formal/**"
+      - "scripts/build_lean4.sh"
+      - "docs/LEAN4_BUILD.md"
       - "lean-toolchain"
       - "lakefile.toml"
       - "lake-manifest.json"
@@ -16,15 +33,22 @@ permissions:
   contents: read
 
 concurrency:
-  group: kuuos-lean-formal-${{ github.ref }}
-  cancel-in-progress: false
+  group: kuuos-lean-formal-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
 
 jobs:
   formal:
-    runs-on: ubuntu-latest
-    timeout-minutes: 40
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    env:
+      KUUOS_LEAN_TARGET: ${{ github.event_name == 'workflow_dispatch' && inputs.target || 'KuuOSFormal' }}
     steps:
       - uses: actions/checkout@v6
+      - name: Check build entrypoint syntax
+        run: bash -n scripts/build_lean4.sh
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
@@ -41,22 +65,12 @@ jobs:
           key: kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}
           restore-keys: |
             kuuos-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
-      - name: Resolve pinned dependencies
+      - name: Compile pinned Lean 4 target
+        shell: bash
         run: |
           set -euo pipefail
-          lake update 2>&1 | tee lean-formal-validation.log
-      - name: Verify committed manifest is canonical
-        run: |
-          set -euo pipefail
-          git diff --exit-code -- lake-manifest.json 2>&1 | tee -a lean-formal-validation.log
-      - name: Fetch Mathlib olean cache
-        run: |
-          set -euo pipefail
-          lake exe cache get 2>&1 | tee -a lean-formal-validation.log
-      - name: Strictly compile all KuuOS formal surfaces
-        run: |
-          set -euo pipefail
-          lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal 2>&1 | tee -a lean-formal-validation.log
+          bash scripts/build_lean4.sh --target "$KUUOS_LEAN_TARGET" \
+            2>&1 | tee lean-formal-validation.log
       - name: Upload formal validation log
         if: always()
         uses: actions/upload-artifact@v4
