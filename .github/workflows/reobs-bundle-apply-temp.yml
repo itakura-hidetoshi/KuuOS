@@ -7,12 +7,16 @@ on:
     paths:
       - ".github/workflows/reobs-bundle-apply-temp.yml"
       - ".tmp/reobs-bundle.ready"
+  pull_request:
+    paths:
+      - ".github/workflows/reobs-bundle-apply-temp.yml"
+      - ".tmp/reobs-bundle.ready"
 
 permissions:
   contents: write
 
 concurrency:
-  group: reobs-bundle-apply-${{ github.ref }}
+  group: reobs-bundle-apply-${{ github.event_name }}-${{ github.ref }}
   cancel-in-progress: false
 
 jobs:
@@ -22,6 +26,7 @@ jobs:
     steps:
       - uses: actions/checkout@v6
         with:
+          ref: codeai/autonomous-git-effect-reobservation-v0-1
           fetch-depth: 0
       - name: Apply sealed bundle
         shell: bash
