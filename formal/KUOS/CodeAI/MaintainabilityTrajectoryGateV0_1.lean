@@ -34,7 +34,7 @@ instance instDecidableWithinAxisLimit (observation : AxisObservation) :
 
 /--
 A computable decision procedure for the finite bounded universal used by the
-trajectory gate.  This preserves the proposition as stated while avoiding a
+trajectory gate. This preserves the proposition as stated while avoiding a
 noncomputable decision procedure for an unrestricted universal quantifier.
 -/
 private def decideAllWithinAxisLimits :
