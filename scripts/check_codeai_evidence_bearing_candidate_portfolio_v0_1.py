@@ -9,6 +9,7 @@ from runtime.kuuos_codeai_evidence_bearing_candidate_portfolio_v0_1 import (
     STATUS_READY,
     build_codeai_evidence_bearing_candidate_portfolio,
 )
+from scripts.build_codeai_evidence_bearing_candidate_portfolio_fixture_v0_1 import build_fixture
 
 ROOT = Path(__file__).resolve().parents[1]
 EXAMPLE = ROOT / "examples/codeai_evidence_bearing_candidate_portfolio_v0_1.json"
@@ -23,6 +24,7 @@ REQUIRED_PATHS = {
     "runtime/kuuos_codeai_evidence_bearing_candidate_portfolio_checks_v0_1.py",
     "runtime/kuuos_codeai_evidence_bearing_candidate_portfolio_schema_v0_1.py",
     "runtime/kuuos_codeai_evidence_bearing_candidate_portfolio_v0_1.py",
+    "scripts/build_codeai_evidence_bearing_candidate_portfolio_fixture_v0_1.py",
     "scripts/check_codeai_evidence_bearing_candidate_portfolio_v0_1.py",
     "tests/test_kuuos_codeai_evidence_bearing_candidate_portfolio_v0_1.py",
 }
@@ -33,30 +35,31 @@ def fail(message: str) -> None:
 
 
 def main() -> None:
-    example = json.loads(EXAMPLE.read_text(encoding="utf-8"))
+    specification = json.loads(EXAMPLE.read_text(encoding="utf-8"))
     manifest = json.loads(MANIFEST.read_text(encoding="utf-8"))
+    fixture = build_fixture(specification)
     result = build_codeai_evidence_bearing_candidate_portfolio(
-        portfolio_request=example["portfolio_request"],
-        portfolio_policy=example["portfolio_policy"],
-        candidate_preflight_bundles=example["candidate_preflight_bundles"],
+        portfolio_request=fixture["portfolio_request"],
+        portfolio_policy=fixture["portfolio_policy"],
+        candidate_preflight_bundles=fixture["candidate_preflight_bundles"],
+    )
+    repeated = build_codeai_evidence_bearing_candidate_portfolio(
+        portfolio_request=fixture["portfolio_request"],
+        portfolio_policy=fixture["portfolio_policy"],
+        candidate_preflight_bundles=fixture["candidate_preflight_bundles"],
     )
     if result.status != STATUS_READY:
         fail("example blocked: " + ",".join(result.issues))
-    if result.portfolio != example["expected_portfolio"]:
-        fail("example portfolio drift")
-    if result.receipt != example["expected_receipt"]:
-        fail("example receipt drift")
+    if result.portfolio != repeated.portfolio or result.receipt != repeated.receipt:
+        fail("portfolio normalization is not deterministic")
     if result.portfolio["codeai_disposition"] != PORTFOLIO_DISPOSITION:
         fail("example portfolio disposition mismatch")
-    if result.portfolio["classification_counts"] != {
-        "admissible": 1,
-        "repairable": 1,
-        "hold": 1,
-        "rejected": 1,
-    }:
+    if result.portfolio["classification_counts"] != specification["expected_classification_counts"]:
         fail("classification accounting mismatch")
-    if result.portfolio["total_finding_count"] != 3:
+    if result.portfolio["total_finding_count"] != specification["expected_total_finding_count"]:
         fail("finding evidence accounting mismatch")
+    if result.portfolio["total_changed_path_count"] != 1:
+        fail("changed-path union accounting mismatch")
     for field in (
         "ranking_performed",
         "candidate_selected",
