@@ -1,0 +1,362 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Selective Repository Semantic Context Pack v0.1",
+  "source_observation_receipt": {
+    "schema_version": "v0.1",
+    "profile_version": "CodeAI v0.1",
+    "intent_packet_digest": "1111111111111111111111111111111111111111111111111111111111111111",
+    "repository_observation_digest": "2222222222222222222222222222222222222222222222222222222222222222",
+    "observation_policy_digest": "3333333333333333333333333333333333333333333333333333333333333333",
+    "intent_id": "intent-context-pack",
+    "intent_revision": "r1",
+    "source_actor_id": "operator",
+    "authority_owner_id": "owner",
+    "repository_full_name": "itakura-hidetoshi/KuuOS",
+    "source_commit_sha": "7777777777777777777777777777777777777777",
+    "resulting_commit_sha": "7777777777777777777777777777777777777777",
+    "source_branch": "main",
+    "tree_digest": "tree-context-pack",
+    "observed_path_count": 4,
+    "unavailable_path_count": 0,
+    "declared_path_count": 4,
+    "baseline_checks_complete": true,
+    "codeai_disposition": "intent_repository_observation_supported",
+    "operating_mode": "read_only",
+    "route_receipt_recorded": true,
+    "codeai_profile_ready": true,
+    "clarification_required": false,
+    "reobservation_required": false,
+    "abstained": false,
+    "handover_required": false,
+    "repository_observation_read_only": true,
+    "code_change_candidate_created": false,
+    "execution_lease_issued": false,
+    "repository_mutation_performed": false,
+    "git_ref_changed": false,
+    "branch_created": false,
+    "commit_created": false,
+    "push_performed": false,
+    "pull_request_created": false,
+    "merge_performed": false,
+    "deployment_performed": false,
+    "secret_access_performed": false,
+    "selection_authority_granted": false,
+    "execution_authority_granted": false,
+    "merge_authority_granted": false,
+    "deployment_authority_granted": false,
+    "secret_access_authority_granted": false,
+    "intent_treated_as_truth": false,
+    "repository_observation_treated_as_repository_truth": false,
+    "validation_treated_as_correctness_proof": false,
+    "history_read_only": true,
+    "future_only": true,
+    "active_now": false,
+    "codeai_intent_repository_observation_receipt_digest": "430b557342916463e68cb4d575299f1e0a42058534be1467beede4f4bced1f3a"
+  },
+  "repository_files": {
+    "runtime/context_builder.py": "from dataclasses import dataclass\nimport json\n\n@dataclass\nclass SemanticContext:\n    name: str\n\ndef build_context_pack(query: str) -> SemanticContext:\n    return SemanticContext(query)\n",
+    "runtime/unrelated.py": "def unrelated_feature() -> int:\n    return 1\n",
+    "tests/test_context_builder.py": "from runtime.context_builder import build_context_pack\n\ndef test_build_context_pack() -> None:\n    assert build_context_pack('x').name == 'x'\n",
+    "docs/CONTEXT.md": "# Semantic context pack\n\nSelective repository context.\n"
+  },
+  "context_request": {
+    "request_id": "context-pack-example",
+    "request_revision": "r1",
+    "intent_text": "Build selective semantic context for the context pack implementation.",
+    "query_terms": [
+      "context",
+      "semantic"
+    ],
+    "target_path_prefixes": [
+      "runtime"
+    ],
+    "target_symbols": [
+      "build_context_pack"
+    ],
+    "test_plan_ids": [
+      "test:context-pack"
+    ],
+    "required_roles": [
+      "source",
+      "test"
+    ],
+    "request_created_epoch": 1784324990,
+    "repository_snapshot_digest": "a844e2b3bef64be94cbb5b7c2cf71476104f8688ce86fa1bc89a5d1752f36372",
+    "expected_source_observation_receipt_digest": "430b557342916463e68cb4d575299f1e0a42058534be1467beede4f4bced1f3a",
+    "prior_pack_digests": [],
+    "unresolved_context_questions": [],
+    "codeai_selective_repository_semantic_context_request_digest": "04fb52bc74f62987ff545efb124bb403c7a7afe10a45ba71781f4a73be3c8899"
+  },
+  "context_policy": {
+    "expected_repository_full_name": "itakura-hidetoshi/KuuOS",
+    "expected_source_commit_sha": "7777777777777777777777777777777777777777",
+    "allowed_repository_path_prefixes": [
+      "runtime",
+      "tests",
+      "docs"
+    ],
+    "forbidden_repository_path_prefixes": [
+      "runtime/private"
+    ],
+    "supported_file_suffixes": [
+      ".py",
+      ".lean",
+      ".md",
+      ".json",
+      ".toml",
+      ".yml",
+      ".yaml"
+    ],
+    "maximum_repository_snapshot_bytes": 200000,
+    "maximum_candidate_files": 20,
+    "maximum_selected_files": 3,
+    "maximum_file_bytes": 50000,
+    "maximum_excerpt_bytes": 4000,
+    "maximum_total_context_bytes": 30000,
+    "maximum_symbols_per_file": 32,
+    "maximum_imports_per_file": 32,
+    "maximum_query_terms": 12,
+    "maximum_request_age": 3600,
+    "evaluation_epoch": 1784325000,
+    "allow_text_fallback": true,
+    "require_relevant_context": true,
+    "allow_empty_context_abstention": true,
+    "allow_repository_mutation": false,
+    "allow_network_access": false,
+    "allow_secret_access": false,
+    "allow_candidate_selection_authority": false,
+    "allow_execution_authority": false,
+    "codeai_selective_repository_semantic_context_policy_digest": "e229cddb792be27b66581fddaae98eb50e6d0704da392413b7cbde94bb59e70c"
+  },
+  "expected_context_pack": {
+    "schema_version": "v0.1",
+    "profile_version": "CodeAI Selective Repository Semantic Context Pack v0.1",
+    "source_observation_receipt_digest": "430b557342916463e68cb4d575299f1e0a42058534be1467beede4f4bced1f3a",
+    "repository_full_name": "itakura-hidetoshi/KuuOS",
+    "source_commit_sha": "7777777777777777777777777777777777777777",
+    "source_tree_digest": "tree-context-pack",
+    "repository_snapshot_digest": "a844e2b3bef64be94cbb5b7c2cf71476104f8688ce86fa1bc89a5d1752f36372",
+    "context_request_digest": "04fb52bc74f62987ff545efb124bb403c7a7afe10a45ba71781f4a73be3c8899",
+    "context_policy_digest": "e229cddb792be27b66581fddaae98eb50e6d0704da392413b7cbde94bb59e70c",
+    "query_terms": [
+      "context",
+      "semantic"
+    ],
+    "target_path_prefixes": [
+      "runtime"
+    ],
+    "target_symbols": [
+      "build_context_pack"
+    ],
+    "test_plan_ids": [
+      "test:context-pack"
+    ],
+    "required_roles": [
+      "source",
+      "test"
+    ],
+    "selected_file_count": 3,
+    "selected_total_context_bytes": 2108,
+    "relevant_candidate_count": 3,
+    "omitted_relevant_file_count": 0,
+    "oversized_eligible_paths": [],
+    "selected_entries": [
+      {
+        "path": "runtime/context_builder.py",
+        "content_digest": "9faabdbcd2a21378867824e3e2c5149310a10dbaadb05ce8be36c8d6c50fb5e6",
+        "language": "python",
+        "role": "source",
+        "score": 180,
+        "selection_reasons": [
+          "query_content:context",
+          "query_content:semantic",
+          "query_path:context",
+          "query_symbol:context",
+          "query_symbol:semantic",
+          "required_role:source",
+          "target_path_scope:runtime",
+          "target_symbol:build_context_pack"
+        ],
+        "parse_status": "parsed",
+        "parse_error_type": "",
+        "imports": [
+          "dataclasses",
+          "json"
+        ],
+        "declared_symbols": [
+          "SemanticContext",
+          "build_context_pack"
+        ],
+        "excerpt_lines": [
+          {
+            "line": 4,
+            "text": "@dataclass"
+          },
+          {
+            "line": 5,
+            "text": "class SemanticContext:"
+          },
+          {
+            "line": 6,
+            "text": "    name: str"
+          },
+          {
+            "line": 7,
+            "text": ""
+          },
+          {
+            "line": 8,
+            "text": "def build_context_pack(query: str) -> SemanticContext:"
+          },
+          {
+            "line": 9,
+            "text": "    return SemanticContext(query)"
+          }
+        ],
+        "excerpt_bytes": 252
+      },
+      {
+        "path": "tests/test_context_builder.py",
+        "content_digest": "19c3d67e86163c51430b6f2989cf571da87b99c064f84a3d9ea6e55b34c8faae",
+        "language": "python",
+        "role": "test",
+        "score": 100,
+        "selection_reasons": [
+          "query_content:context",
+          "query_import:context",
+          "query_path:context",
+          "query_symbol:context",
+          "required_role:test",
+          "test_plan_support"
+        ],
+        "parse_status": "parsed",
+        "parse_error_type": "",
+        "imports": [
+          "runtime.context_builder"
+        ],
+        "declared_symbols": [
+          "test_build_context_pack"
+        ],
+        "excerpt_lines": [
+          {
+            "line": 1,
+            "text": "from runtime.context_builder import build_context_pack"
+          },
+          {
+            "line": 2,
+            "text": ""
+          },
+          {
+            "line": 3,
+            "text": "def test_build_context_pack() -> None:"
+          },
+          {
+            "line": 4,
+            "text": "    assert build_context_pack('x').name == 'x'"
+          }
+        ],
+        "excerpt_bytes": 218
+      },
+      {
+        "path": "docs/CONTEXT.md",
+        "content_digest": "25155c37ff9572a18878c733b889153efb7c1559e0d9b0227f05eada58a53048",
+        "language": "markdown",
+        "role": "documentation",
+        "score": 80,
+        "selection_reasons": [
+          "query_content:context",
+          "query_content:semantic",
+          "query_path:context",
+          "query_symbol:context",
+          "query_symbol:semantic"
+        ],
+        "parse_status": "fallback",
+        "parse_error_type": "",
+        "imports": [],
+        "declared_symbols": [
+          "Semantic context pack"
+        ],
+        "excerpt_lines": [
+          {
+            "line": 1,
+            "text": "# Semantic context pack"
+          },
+          {
+            "line": 2,
+            "text": ""
+          },
+          {
+            "line": 3,
+            "text": "Selective repository context."
+          }
+        ],
+        "excerpt_bytes": 112
+      }
+    ],
+    "unresolved_context_questions": [],
+    "codeai_disposition": "selective_repository_semantic_context_pack_built",
+    "operating_mode": "context_only",
+    "selective_retrieval_performed": true,
+    "full_repository_forwarded": false,
+    "repository_snapshot_read_only": true,
+    "provider_invoked": false,
+    "verification_runner_invoked": false,
+    "repository_mutation_performed": false,
+    "git_effect_performed": false,
+    "network_access_performed": false,
+    "secret_access_performed": false,
+    "context_selection_authority_only": true,
+    "candidate_selection_authority_granted": false,
+    "execution_authority_granted": false,
+    "merge_authority_granted": false,
+    "deployment_authority_granted": false,
+    "repository_content_treated_as_truth": false,
+    "semantic_match_treated_as_correctness_proof": false,
+    "history_read_only": true,
+    "future_only": true,
+    "active_now": false,
+    "codeai_selective_repository_semantic_context_pack_digest": "6a597a82c5760f54c0c24dc3a1067bfdf4615656a4b0717fdf3dd2d23d52c316"
+  },
+  "expected_receipt": {
+    "schema_version": "v0.1",
+    "profile_version": "CodeAI Selective Repository Semantic Context Pack v0.1",
+    "source_observation_receipt_digest": "430b557342916463e68cb4d575299f1e0a42058534be1467beede4f4bced1f3a",
+    "context_request_digest": "04fb52bc74f62987ff545efb124bb403c7a7afe10a45ba71781f4a73be3c8899",
+    "context_policy_digest": "e229cddb792be27b66581fddaae98eb50e6d0704da392413b7cbde94bb59e70c",
+    "context_pack_digest": "6a597a82c5760f54c0c24dc3a1067bfdf4615656a4b0717fdf3dd2d23d52c316",
+    "repository_full_name": "itakura-hidetoshi/KuuOS",
+    "source_commit_sha": "7777777777777777777777777777777777777777",
+    "repository_snapshot_digest": "a844e2b3bef64be94cbb5b7c2cf71476104f8688ce86fa1bc89a5d1752f36372",
+    "selected_file_count": 3,
+    "selected_paths": [
+      "runtime/context_builder.py",
+      "tests/test_context_builder.py",
+      "docs/CONTEXT.md"
+    ],
+    "selected_total_context_bytes": 2108,
+    "codeai_disposition": "selective_repository_semantic_context_pack_built",
+    "operating_mode": "context_only",
+    "route_receipt_recorded": true,
+    "semantic_context_pack_emitted": true,
+    "selective_retrieval_performed": true,
+    "full_repository_forwarded": false,
+    "repository_snapshot_read_only": true,
+    "provider_invoked": false,
+    "verification_runner_invoked": false,
+    "repository_mutation_performed": false,
+    "git_effect_performed": false,
+    "network_access_performed": false,
+    "secret_access_performed": false,
+    "candidate_selected": false,
+    "candidate_selection_authority_granted": false,
+    "execution_authority_granted": false,
+    "merge_authority_granted": false,
+    "deployment_authority_granted": false,
+    "repository_content_treated_as_truth": false,
+    "semantic_match_treated_as_correctness_proof": false,
+    "history_read_only": true,
+    "future_only": true,
+    "active_now": false,
+    "codeai_selective_repository_semantic_context_receipt_digest": "daf1edd71fd1cc8df0a5e07352904a1883a803a0b6127c87c2308d0132c24018"
+  }
+}
