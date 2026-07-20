@@ -1,0 +1,53 @@
+{
+  "checks": [
+    "exact preflight report and route receipt digests",
+    "typed IR and source snapshot lineage correspondence",
+    "four-way classification preservation",
+    "finding evidence preservation",
+    "deterministic request-sequence normalization",
+    "classification and finding accounting",
+    "candidate and evidence budgets",
+    "deny-by-default authority boundary"
+  ],
+  "classifications": [
+    "candidate_static_admissibility_confirmed",
+    "candidate_static_preflight_repair_required",
+    "candidate_static_preflight_held",
+    "candidate_static_preflight_rejected"
+  ],
+  "fixed_boundaries": [
+    "provider output != preflight evidence",
+    "preflight classification != ranking",
+    "admissible != selected",
+    "repairable != automatically repaired",
+    "hold != rejection",
+    "rejected != repository deletion",
+    "portfolio normalization != correctness proof",
+    "portfolio receipt != provider authority",
+    "portfolio receipt != ranking authority",
+    "portfolio receipt != selection authority",
+    "portfolio receipt != verification authority",
+    "portfolio receipt != repair authority",
+    "portfolio receipt != execution authority",
+    "portfolio receipt != Git authority"
+  ],
+  "paths": [
+    ".github/workflows/codeai-evidence-bearing-candidate-portfolio-v0-1.yml",
+    "docs/KUUOS_CODEAI_EVIDENCE_BEARING_CANDIDATE_PORTFOLIO_v0_1.md",
+    "examples/codeai_evidence_bearing_candidate_portfolio_v0_1.json",
+    "formal/KUOS/CodeAI/EvidenceBearingCandidatePortfolioV0_1.lean",
+    "formal/KuuOSCodeAIEvidenceBearingCandidatePortfolioV0_1.lean",
+    "manifests/kuuos_codeai_evidence_bearing_candidate_portfolio_v0_1.json",
+    "runtime/kuuos_codeai_evidence_bearing_candidate_portfolio_checks_v0_1.py",
+    "runtime/kuuos_codeai_evidence_bearing_candidate_portfolio_schema_v0_1.py",
+    "runtime/kuuos_codeai_evidence_bearing_candidate_portfolio_v0_1.py",
+    "scripts/check_codeai_evidence_bearing_candidate_portfolio_v0_1.py",
+    "tests/test_kuuos_codeai_evidence_bearing_candidate_portfolio_v0_1.py"
+  ],
+  "position": "after_candidate_static_admissibility_preflight_before_ranking_selection_and_verification",
+  "predecessor": "CodeAI Candidate Static Admissibility Preflight v0.1",
+  "profile_version": "CodeAI Evidence-Bearing Candidate Portfolio v0.1",
+  "schema_version": "v0.1",
+  "status": "additive_read_only_evidence_normalization",
+  "successor": "CodeAI Candidate Portfolio Ranking and Selection boundary"
+}
