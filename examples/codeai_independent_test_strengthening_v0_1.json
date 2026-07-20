@@ -1,0 +1,177 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Independent Test Strengthening v0.1",
+  "strengthening_id": "independent-test-strengthening-typed-errors-001",
+  "strengthening_revision": "r1",
+  "catalog_id": "codeai-independent-test-capabilities-001",
+  "catalog_revision": "r1",
+  "request_created_epoch": 1784542910,
+  "evaluation_epoch": 1784542915,
+  "maximum_request_age": 3600,
+  "maximum_candidates": 8,
+  "maximum_obligations": 128,
+  "check_capabilities": [
+    {
+      "check_kind": "source_lineage_replay",
+      "runner_profile": "independent-isolated-codeai-v0.1",
+      "evidence_format": "sealed-json-evidence-v0.1",
+      "independent_runner": true,
+      "isolated_execution": true,
+      "mutation_capable": false,
+      "falsification_capable": false
+    },
+    {
+      "check_kind": "deterministic_reconstruction",
+      "runner_profile": "independent-isolated-codeai-v0.1",
+      "evidence_format": "sealed-json-evidence-v0.1",
+      "independent_runner": true,
+      "isolated_execution": true,
+      "mutation_capable": false,
+      "falsification_capable": false
+    },
+    {
+      "check_kind": "changed_path_coverage",
+      "runner_profile": "independent-isolated-codeai-v0.1",
+      "evidence_format": "sealed-json-evidence-v0.1",
+      "independent_runner": true,
+      "isolated_execution": true,
+      "mutation_capable": false,
+      "falsification_capable": false
+    },
+    {
+      "check_kind": "operation_collision_replay",
+      "runner_profile": "independent-isolated-codeai-v0.1",
+      "evidence_format": "sealed-json-evidence-v0.1",
+      "independent_runner": true,
+      "isolated_execution": true,
+      "mutation_capable": false,
+      "falsification_capable": false
+    },
+    {
+      "check_kind": "materialization_replay",
+      "runner_profile": "independent-isolated-codeai-v0.1",
+      "evidence_format": "sealed-json-evidence-v0.1",
+      "independent_runner": true,
+      "isolated_execution": true,
+      "mutation_capable": false,
+      "falsification_capable": false
+    },
+    {
+      "check_kind": "parse_negative_control",
+      "runner_profile": "independent-isolated-codeai-v0.1",
+      "evidence_format": "sealed-json-evidence-v0.1",
+      "independent_runner": true,
+      "isolated_execution": true,
+      "mutation_capable": false,
+      "falsification_capable": false
+    },
+    {
+      "check_kind": "dependency_closure",
+      "runner_profile": "independent-isolated-codeai-v0.1",
+      "evidence_format": "sealed-json-evidence-v0.1",
+      "independent_runner": true,
+      "isolated_execution": true,
+      "mutation_capable": false,
+      "falsification_capable": false
+    },
+    {
+      "check_kind": "test_plan_completeness",
+      "runner_profile": "independent-isolated-codeai-v0.1",
+      "evidence_format": "sealed-json-evidence-v0.1",
+      "independent_runner": true,
+      "isolated_execution": true,
+      "mutation_capable": false,
+      "falsification_capable": false
+    },
+    {
+      "check_kind": "policy_marker_scan",
+      "runner_profile": "independent-isolated-codeai-v0.1",
+      "evidence_format": "sealed-json-evidence-v0.1",
+      "independent_runner": true,
+      "isolated_execution": true,
+      "mutation_capable": false,
+      "falsification_capable": false
+    },
+    {
+      "check_kind": "material_effect_assertion",
+      "runner_profile": "independent-isolated-codeai-v0.1",
+      "evidence_format": "sealed-json-evidence-v0.1",
+      "independent_runner": true,
+      "isolated_execution": true,
+      "mutation_capable": false,
+      "falsification_capable": false
+    },
+    {
+      "check_kind": "novelty_falsification",
+      "runner_profile": "independent-isolated-codeai-v0.1",
+      "evidence_format": "sealed-json-evidence-v0.1",
+      "independent_runner": true,
+      "isolated_execution": true,
+      "mutation_capable": false,
+      "falsification_capable": true
+    },
+    {
+      "check_kind": "error_free_mutation_probe",
+      "runner_profile": "independent-isolated-codeai-v0.1",
+      "evidence_format": "sealed-json-evidence-v0.1",
+      "independent_runner": true,
+      "isolated_execution": true,
+      "mutation_capable": true,
+      "falsification_capable": false
+    },
+    {
+      "check_kind": "local_repair_regression",
+      "runner_profile": "independent-isolated-codeai-v0.1",
+      "evidence_format": "sealed-json-evidence-v0.1",
+      "independent_runner": true,
+      "isolated_execution": true,
+      "mutation_capable": false,
+      "falsification_capable": false
+    },
+    {
+      "check_kind": "external_evidence_binding",
+      "runner_profile": "independent-isolated-codeai-v0.1",
+      "evidence_format": "sealed-json-evidence-v0.1",
+      "independent_runner": true,
+      "isolated_execution": true,
+      "mutation_capable": false,
+      "falsification_capable": false
+    },
+    {
+      "check_kind": "unmaterializability_reproduction",
+      "runner_profile": "independent-isolated-codeai-v0.1",
+      "evidence_format": "sealed-json-evidence-v0.1",
+      "independent_runner": true,
+      "isolated_execution": true,
+      "mutation_capable": false,
+      "falsification_capable": false
+    }
+  ],
+  "expected_candidate_count": 4,
+  "expected_typed_error_count": 3,
+  "expected_obligation_count": 22,
+  "expected_check_kind_counts": {
+    "source_lineage_replay": 4,
+    "deterministic_reconstruction": 4,
+    "changed_path_coverage": 4,
+    "operation_collision_replay": 1,
+    "materialization_replay": 0,
+    "parse_negative_control": 1,
+    "dependency_closure": 1,
+    "test_plan_completeness": 0,
+    "policy_marker_scan": 0,
+    "material_effect_assertion": 0,
+    "novelty_falsification": 3,
+    "error_free_mutation_probe": 1,
+    "local_repair_regression": 1,
+    "external_evidence_binding": 1,
+    "unmaterializability_reproduction": 1
+  },
+  "expected_category_counts": {
+    "baseline": 12,
+    "error_specific": 3,
+    "novelty": 3,
+    "route": 3,
+    "error_free": 1
+  }
+}
