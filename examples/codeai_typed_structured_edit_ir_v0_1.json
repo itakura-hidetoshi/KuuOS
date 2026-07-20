@@ -1,0 +1,341 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Typed Structured Edit IR v0.1",
+  "context_pack": {
+    "schema_version": "v0.1",
+    "profile_version": "CodeAI Selective Repository Semantic Context Pack v0.1",
+    "repository_full_name": "itakura-hidetoshi/KuuOS",
+    "source_commit_sha": "7777777777777777777777777777777777777777",
+    "repository_snapshot_digest": "e047995661e0eb1b50578794cedb2a8eb02be14d15722b8b6ce0300abf307bef",
+    "selected_entries": [
+      {
+        "path": "runtime/context_builder.py",
+        "content_digest": "9faabdbcd2a21378867824e3e2c5149310a10dbaadb05ce8be36c8d6c50fb5e6",
+        "language": "python",
+        "declared_symbols": [
+          "SemanticContext",
+          "build_context_pack"
+        ]
+      },
+      {
+        "path": "tests/test_context_builder.py",
+        "content_digest": "19c3d67e86163c51430b6f2989cf571da87b99c064f84a3d9ea6e55b34c8faae",
+        "language": "python",
+        "declared_symbols": [
+          "test_build_context_pack"
+        ]
+      }
+    ],
+    "selected_file_count": 2,
+    "codeai_disposition": "selective_repository_semantic_context_pack_built",
+    "operating_mode": "context_only",
+    "repository_snapshot_read_only": true,
+    "provider_invoked": false,
+    "repository_mutation_performed": false,
+    "git_effect_performed": false,
+    "candidate_selection_authority_granted": false,
+    "execution_authority_granted": false,
+    "codeai_selective_repository_semantic_context_pack_digest": "076163f15cc177be6885f242eb280e01ee839cd8e51ca0500ab03f2d637484fa"
+  },
+  "context_receipt": {
+    "schema_version": "v0.1",
+    "profile_version": "CodeAI Selective Repository Semantic Context Pack v0.1",
+    "context_pack_digest": "076163f15cc177be6885f242eb280e01ee839cd8e51ca0500ab03f2d637484fa",
+    "repository_full_name": "itakura-hidetoshi/KuuOS",
+    "source_commit_sha": "7777777777777777777777777777777777777777",
+    "repository_snapshot_digest": "e047995661e0eb1b50578794cedb2a8eb02be14d15722b8b6ce0300abf307bef",
+    "selected_paths": [
+      "runtime/context_builder.py",
+      "tests/test_context_builder.py"
+    ],
+    "codeai_disposition": "selective_repository_semantic_context_pack_built",
+    "operating_mode": "context_only",
+    "repository_snapshot_read_only": true,
+    "provider_invoked": false,
+    "repository_mutation_performed": false,
+    "git_effect_performed": false,
+    "candidate_selection_authority_granted": false,
+    "execution_authority_granted": false,
+    "codeai_selective_repository_semantic_context_receipt_digest": "b7dd0836d8636c61ca913b26be0e70085206811bd99ce82bf844f5990fa91e91"
+  },
+  "repository_files": {
+    "runtime/context_builder.py": "from dataclasses import dataclass\nimport json\n\n@dataclass\nclass SemanticContext:\n    name: str\n\ndef build_context_pack(query: str) -> SemanticContext:\n    return SemanticContext(query)\n",
+    "tests/test_context_builder.py": "from runtime.context_builder import build_context_pack\n\ndef test_build_context_pack() -> None:\n    assert build_context_pack('x').name == 'x'\n"
+  },
+  "typed_edit_proposal": {
+    "proposal_id": "typed-ir-example",
+    "proposal_revision": "r1",
+    "expected_context_pack_digest": "076163f15cc177be6885f242eb280e01ee839cd8e51ca0500ab03f2d637484fa",
+    "expected_context_receipt_digest": "b7dd0836d8636c61ca913b26be0e70085206811bd99ce82bf844f5990fa91e91",
+    "repository_snapshot_digest": "e047995661e0eb1b50578794cedb2a8eb02be14d15722b8b6ce0300abf307bef",
+    "source_commit_sha": "7777777777777777777777777777777777777777",
+    "supporting_context_paths": [
+      "runtime/context_builder.py",
+      "tests/test_context_builder.py"
+    ],
+    "operations": [
+      {
+        "operation_id": "replace-build-context-pack",
+        "operation": "replace_symbol",
+        "path": "runtime/context_builder.py",
+        "language": "python",
+        "precondition_kind": "symbol_exact",
+        "anchor_kind": "function",
+        "anchor_symbol": "build_context_pack",
+        "expected_file_digest": "9faabdbcd2a21378867824e3e2c5149310a10dbaadb05ce8be36c8d6c50fb5e6",
+        "expected_anchor_digest": "d32ccddac898dbde753497d83a16c49be368eeb15173321a4532c8c34ecff760",
+        "expected_start_line": 8,
+        "expected_end_line": 9,
+        "new_text": "def build_context_pack(query: str) -> SemanticContext:\n    return SemanticContext(query.strip())\n",
+        "requirement_trace_ids": [
+          "intent:typed-ir"
+        ],
+        "test_plan_ids": [
+          "test:context-pack"
+        ],
+        "risk_labels": [
+          "source-change"
+        ]
+      },
+      {
+        "operation_id": "create-context-types",
+        "operation": "create_file",
+        "path": "runtime/context_types.py",
+        "language": "python",
+        "precondition_kind": "path_absent",
+        "anchor_kind": "",
+        "anchor_symbol": "",
+        "expected_file_digest": "",
+        "expected_anchor_digest": "",
+        "expected_start_line": 0,
+        "expected_end_line": 0,
+        "new_text": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass ContextRequest:\n    query: str\n",
+        "requirement_trace_ids": [
+          "intent:typed-ir"
+        ],
+        "test_plan_ids": [
+          "test:context-pack"
+        ],
+        "risk_labels": [
+          "new-file"
+        ]
+      }
+    ],
+    "requirement_trace_ids": [
+      "intent:typed-ir"
+    ],
+    "test_plan_ids": [
+      "test:context-pack"
+    ],
+    "risk_labels": [
+      "typed-edit"
+    ],
+    "unresolved_edit_questions": [],
+    "prior_ir_digests": [],
+    "proposal_created_epoch": 1784329990,
+    "claims_authority": false,
+    "codeai_typed_structured_edit_proposal_digest": "6d4b1d0593a17a64c9e0622384f2dcb7b75a31cd70cc6f0f3997da51b9ce041f"
+  },
+  "typed_edit_policy": {
+    "expected_repository_full_name": "itakura-hidetoshi/KuuOS",
+    "expected_source_commit_sha": "7777777777777777777777777777777777777777",
+    "allowed_repository_path_prefixes": [
+      "runtime",
+      "tests"
+    ],
+    "forbidden_repository_path_prefixes": [
+      "runtime/private"
+    ],
+    "allowed_operations": [
+      "create_file",
+      "replace_symbol",
+      "insert_before_symbol",
+      "insert_after_symbol",
+      "delete_symbol"
+    ],
+    "allowed_languages": [
+      "python",
+      "lean"
+    ],
+    "maximum_operations": 8,
+    "maximum_new_text_bytes_per_operation": 10000,
+    "maximum_total_new_text_bytes": 30000,
+    "maximum_supporting_context_paths": 8,
+    "maximum_anchor_span_lines": 200,
+    "maximum_requirement_trace_ids_per_operation": 8,
+    "maximum_test_plan_ids_per_operation": 8,
+    "maximum_risk_labels_per_operation": 8,
+    "maximum_request_age": 3600,
+    "evaluation_epoch": 1784330000,
+    "require_context_path_for_existing_edit": true,
+    "allow_create_file": true,
+    "allow_delete_symbol": true,
+    "allow_repository_mutation": false,
+    "allow_provider_invocation": false,
+    "allow_verification_runner_invocation": false,
+    "allow_candidate_selection_authority": false,
+    "allow_execution_authority": false,
+    "codeai_typed_structured_edit_policy_digest": "1dec41472bb928b7e29d4568c420cdf7bdbbfd81cef296a8461844729c0389cc"
+  },
+  "expected_typed_edit_ir": {
+    "schema_version": "v0.1",
+    "profile_version": "CodeAI Typed Structured Edit IR v0.1",
+    "context_pack_digest": "076163f15cc177be6885f242eb280e01ee839cd8e51ca0500ab03f2d637484fa",
+    "context_receipt_digest": "b7dd0836d8636c61ca913b26be0e70085206811bd99ce82bf844f5990fa91e91",
+    "repository_full_name": "itakura-hidetoshi/KuuOS",
+    "source_commit_sha": "7777777777777777777777777777777777777777",
+    "repository_snapshot_digest": "e047995661e0eb1b50578794cedb2a8eb02be14d15722b8b6ce0300abf307bef",
+    "typed_edit_proposal_digest": "6d4b1d0593a17a64c9e0622384f2dcb7b75a31cd70cc6f0f3997da51b9ce041f",
+    "typed_edit_policy_digest": "1dec41472bb928b7e29d4568c420cdf7bdbbfd81cef296a8461844729c0389cc",
+    "proposal_id": "typed-ir-example",
+    "proposal_revision": "r1",
+    "supporting_context_paths": [
+      "runtime/context_builder.py",
+      "tests/test_context_builder.py"
+    ],
+    "operation_count": 2,
+    "total_new_text_bytes": 193,
+    "operations": [
+      {
+        "operation_id": "replace-build-context-pack",
+        "operation": "replace_symbol",
+        "path": "runtime/context_builder.py",
+        "language": "python",
+        "precondition_kind": "symbol_exact",
+        "anchor_kind": "function",
+        "anchor_symbol": "build_context_pack",
+        "resolved_start_line": 8,
+        "resolved_end_line": 9,
+        "application_start_line": 8,
+        "application_end_line": 9,
+        "file_digest": "9faabdbcd2a21378867824e3e2c5149310a10dbaadb05ce8be36c8d6c50fb5e6",
+        "anchor_digest": "d32ccddac898dbde753497d83a16c49be368eeb15173321a4532c8c34ecff760",
+        "context_entry_content_digest": "9faabdbcd2a21378867824e3e2c5149310a10dbaadb05ce8be36c8d6c50fb5e6",
+        "new_text": "def build_context_pack(query: str) -> SemanticContext:\n    return SemanticContext(query.strip())\n",
+        "new_text_digest": "c4130b6dddb5518444dd69d11c7c9de313ccd40820495b49d61b2817fcaa318b",
+        "new_text_bytes": 97,
+        "requirement_trace_ids": [
+          "intent:typed-ir"
+        ],
+        "test_plan_ids": [
+          "test:context-pack"
+        ],
+        "risk_labels": [
+          "source-change"
+        ],
+        "application_sequence": 1
+      },
+      {
+        "operation_id": "create-context-types",
+        "operation": "create_file",
+        "path": "runtime/context_types.py",
+        "language": "python",
+        "precondition_kind": "path_absent",
+        "anchor_kind": "",
+        "anchor_symbol": "",
+        "resolved_start_line": 0,
+        "resolved_end_line": 0,
+        "application_start_line": 0,
+        "application_end_line": 0,
+        "file_digest": "",
+        "anchor_digest": "",
+        "context_entry_content_digest": "",
+        "new_text": "from dataclasses import dataclass\n\n@dataclass(frozen=True)\nclass ContextRequest:\n    query: str\n",
+        "new_text_digest": "3e51b8a5a6f27ef7535c38f9f07169a354d61dd19e8350defe334b05ccf6c682",
+        "new_text_bytes": 96,
+        "requirement_trace_ids": [
+          "intent:typed-ir"
+        ],
+        "test_plan_ids": [
+          "test:context-pack"
+        ],
+        "risk_labels": [
+          "new-file"
+        ],
+        "application_sequence": 2
+      }
+    ],
+    "requirement_trace_ids": [
+      "intent:typed-ir"
+    ],
+    "test_plan_ids": [
+      "test:context-pack"
+    ],
+    "risk_labels": [
+      "typed-edit"
+    ],
+    "unresolved_edit_questions": [],
+    "codeai_disposition": "typed_structured_edit_ir_normalized",
+    "operating_mode": "typed_ir_only",
+    "typed_operations_only": true,
+    "whole_file_modify_allowed": false,
+    "symbol_preconditions_verified": true,
+    "context_lineage_verified": true,
+    "repository_snapshot_read_only": true,
+    "provider_invoked": false,
+    "verification_runner_invoked": false,
+    "repository_mutation_performed": false,
+    "git_effect_performed": false,
+    "network_access_performed": false,
+    "secret_access_performed": false,
+    "candidate_selected": false,
+    "candidate_selection_authority_granted": false,
+    "execution_authority_granted": false,
+    "merge_authority_granted": false,
+    "deployment_authority_granted": false,
+    "typed_ir_treated_as_correctness_proof": false,
+    "precondition_match_treated_as_semantic_correctness": false,
+    "history_read_only": true,
+    "future_only": true,
+    "active_now": false,
+    "codeai_typed_structured_edit_ir_digest": "244616cc6c1c21820d9e2c59598c0bbe9ae83c826143f2af3d759bf2a29bbd60"
+  },
+  "expected_receipt": {
+    "schema_version": "v0.1",
+    "profile_version": "CodeAI Typed Structured Edit IR v0.1",
+    "context_pack_digest": "076163f15cc177be6885f242eb280e01ee839cd8e51ca0500ab03f2d637484fa",
+    "context_receipt_digest": "b7dd0836d8636c61ca913b26be0e70085206811bd99ce82bf844f5990fa91e91",
+    "typed_edit_proposal_digest": "6d4b1d0593a17a64c9e0622384f2dcb7b75a31cd70cc6f0f3997da51b9ce041f",
+    "typed_edit_policy_digest": "1dec41472bb928b7e29d4568c420cdf7bdbbfd81cef296a8461844729c0389cc",
+    "typed_edit_ir_digest": "244616cc6c1c21820d9e2c59598c0bbe9ae83c826143f2af3d759bf2a29bbd60",
+    "repository_full_name": "itakura-hidetoshi/KuuOS",
+    "source_commit_sha": "7777777777777777777777777777777777777777",
+    "repository_snapshot_digest": "e047995661e0eb1b50578794cedb2a8eb02be14d15722b8b6ce0300abf307bef",
+    "operation_count": 2,
+    "operation_ids": [
+      "replace-build-context-pack",
+      "create-context-types"
+    ],
+    "target_paths": [
+      "runtime/context_builder.py",
+      "runtime/context_types.py"
+    ],
+    "total_new_text_bytes": 193,
+    "codeai_disposition": "typed_structured_edit_ir_normalized",
+    "operating_mode": "typed_ir_only",
+    "route_receipt_recorded": true,
+    "typed_structured_edit_ir_emitted": true,
+    "typed_operations_only": true,
+    "whole_file_modify_allowed": false,
+    "symbol_preconditions_verified": true,
+    "context_lineage_verified": true,
+    "repository_snapshot_read_only": true,
+    "provider_invoked": false,
+    "verification_runner_invoked": false,
+    "repository_mutation_performed": false,
+    "git_effect_performed": false,
+    "network_access_performed": false,
+    "secret_access_performed": false,
+    "candidate_selected": false,
+    "candidate_selection_authority_granted": false,
+    "execution_authority_granted": false,
+    "merge_authority_granted": false,
+    "deployment_authority_granted": false,
+    "typed_ir_treated_as_correctness_proof": false,
+    "precondition_match_treated_as_semantic_correctness": false,
+    "history_read_only": true,
+    "future_only": true,
+    "active_now": false,
+    "codeai_typed_structured_edit_ir_receipt_digest": "000d6dad4a56b83d446533c5995a421902dd067898d379708011319ae6cfd1a7"
+  }
+}
