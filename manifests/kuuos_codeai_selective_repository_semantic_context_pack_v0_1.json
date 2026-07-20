@@ -1,0 +1,58 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Selective Repository Semantic Context Pack v0.1",
+  "status": "additive_read_only_context_selection",
+  "source_stage": "CodeAI Intent Repository Observation Envelope v0.1",
+  "successor_consumers": [
+    "CodeAI Autonomous Structured Edit Synthesis v0.1",
+    "future typed edit and admissibility stages"
+  ],
+  "runtime": "runtime/kuuos_codeai_selective_repository_semantic_context_pack_v0_1.py",
+  "checker": "scripts/check_codeai_selective_repository_semantic_context_pack_v0_1.py",
+  "tests": "tests/test_kuuos_codeai_selective_repository_semantic_context_pack_v0_1.py",
+  "example": "examples/codeai_selective_repository_semantic_context_pack_v0_1.json",
+  "documentation": "docs/KUUOS_CODEAI_SELECTIVE_REPOSITORY_SEMANTIC_CONTEXT_PACK_v0_1.md",
+  "formal_kernel": "formal/KUOS/CodeAI/SelectiveRepositorySemanticContextPackV0_1.lean",
+  "formal_root": "formal/KuuOSCodeAISelectiveRepositorySemanticContextPackV0_1.lean",
+  "workflow": ".github/workflows/codeai-selective-repository-semantic-context-pack-v0-1.yml",
+  "semantic_profiles": [
+    "python_ast",
+    "lean_declaration_and_import",
+    "json_top_level_keys",
+    "toml_top_level_keys",
+    "bounded_text_fallback"
+  ],
+  "selection_inputs": [
+    "query_terms",
+    "target_path_prefixes",
+    "target_symbols",
+    "test_plan_ids",
+    "required_roles"
+  ],
+  "selection_outputs": [
+    "ranked selected paths",
+    "selection reasons",
+    "content digests",
+    "language and role",
+    "bounded imports and declarations",
+    "bounded line-numbered excerpts"
+  ],
+  "fixed_boundaries": [
+    "context pack is not repository truth",
+    "semantic match is not correctness proof",
+    "context selection is not candidate selection",
+    "context pack emission is not provider invocation",
+    "context pack emission is not repository mutation",
+    "context pack receipt is not execution or Git authority"
+  ],
+  "effect_policy": {
+    "repository_mutation": false,
+    "git_effect": false,
+    "network_access": false,
+    "secret_access": false,
+    "provider_invocation": false,
+    "verification_runner_invocation": false,
+    "candidate_selection_authority": false,
+    "execution_authority": false
+  }
+}
