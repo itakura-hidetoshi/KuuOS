@@ -1,25 +1,4 @@
 {
-  "schema_version": "v0.1",
-  "profile_version": "CodeAI Candidate Static Admissibility Preflight v0.1",
-  "status": "additive_read_only_effect_free",
-  "position": "after_typed_structured_edit_ir_before_candidate_selection_and_verification",
-  "paths": [
-    ".github/workflows/codeai-candidate-static-admissibility-preflight-v0-1.yml",
-    "docs/KUUOS_CODEAI_CANDIDATE_STATIC_ADMISSIBILITY_PREFLIGHT_v0_1.md",
-    "examples/codeai_candidate_static_admissibility_preflight_v0_1.json",
-    "formal/KUOS/CodeAI/CandidateStaticAdmissibilityPreflightV0_1.lean",
-    "formal/KuuOSCodeAICandidateStaticAdmissibilityPreflightV0_1.lean",
-    "manifests/kuuos_codeai_candidate_static_admissibility_preflight_v0_1.json",
-    "runtime/kuuos_codeai_candidate_static_admissibility_preflight_v0_1.py",
-    "scripts/check_codeai_candidate_static_admissibility_preflight_v0_1.py",
-    "tests/test_kuuos_codeai_candidate_static_admissibility_preflight_v0_1.py"
-  ],
-  "classifications": [
-    "candidate_static_admissibility_confirmed",
-    "candidate_static_preflight_repair_required",
-    "candidate_static_preflight_held",
-    "candidate_static_preflight_rejected"
-  ],
   "checks": [
     "exact typed IR and receipt lineage",
     "operation range collision",
@@ -29,6 +8,12 @@
     "internal and external dependency correspondence",
     "test-plan catalog correspondence",
     "changed-path and snapshot budgets"
+  ],
+  "classifications": [
+    "candidate_static_admissibility_confirmed",
+    "candidate_static_preflight_repair_required",
+    "candidate_static_preflight_held",
+    "candidate_static_preflight_rejected"
   ],
   "fixed_boundaries": [
     "typed IR != materialized repository",
@@ -46,5 +31,22 @@
     "preflight receipt != execution authority",
     "preflight receipt != Git authority"
   ],
+  "paths": [
+    ".github/workflows/codeai-candidate-static-admissibility-preflight-v0-1.yml",
+    "docs/KUUOS_CODEAI_CANDIDATE_STATIC_ADMISSIBILITY_PREFLIGHT_v0_1.md",
+    "examples/codeai_candidate_static_admissibility_preflight_v0_1.json",
+    "formal/KUOS/CodeAI/CandidateStaticAdmissibilityPreflightV0_1.lean",
+    "formal/KuuOSCodeAICandidateStaticAdmissibilityPreflightV0_1.lean",
+    "manifests/kuuos_codeai_candidate_static_admissibility_preflight_v0_1.json",
+    "runtime/kuuos_codeai_candidate_static_admissibility_preflight_checks_v0_1.py",
+    "runtime/kuuos_codeai_candidate_static_admissibility_preflight_schema_v0_1.py",
+    "runtime/kuuos_codeai_candidate_static_admissibility_preflight_v0_1.py",
+    "scripts/check_codeai_candidate_static_admissibility_preflight_v0_1.py",
+    "tests/test_kuuos_codeai_candidate_static_admissibility_preflight_v0_1.py"
+  ],
+  "position": "after_typed_structured_edit_ir_before_candidate_selection_and_verification",
+  "profile_version": "CodeAI Candidate Static Admissibility Preflight v0.1",
+  "schema_version": "v0.1",
+  "status": "additive_read_only_effect_free",
   "successor": "CodeAI Evidence-Bearing Candidate Portfolio v0.1"
 }
