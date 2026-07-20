@@ -4,6 +4,9 @@ import json
 from pathlib import Path
 import unittest
 
+from runtime.kuuos_codeai_candidate_static_admissibility_preflight_schema_v0_1 import (
+    DISPOSITION_ADMISSIBLE,
+)
 from runtime.kuuos_codeai_independent_test_strengthening_schema_v0_1 import (
     PLAN_DIGEST_FIELD as STRENGTHENING_PLAN_DIGEST_FIELD,
     RECEIPT_DIGEST_FIELD as STRENGTHENING_RECEIPT_DIGEST_FIELD,
@@ -201,7 +204,7 @@ class EvidenceWeightedSelectionAbstentionTests(unittest.TestCase):
         data = fixture()
         data["strengthening_plan"]["candidate_plans"][1][
             "source_classification"
-        ] = "admissible"
+        ] = DISPOSITION_ADMISSIBLE
         reseal_source_lineage(data)
         data["selection_policy"]["category_weights"] = {
             "baseline": 10,
@@ -219,7 +222,7 @@ class EvidenceWeightedSelectionAbstentionTests(unittest.TestCase):
         data = fixture()
         data["strengthening_plan"]["candidate_plans"][1][
             "source_classification"
-        ] = "admissible"
+        ] = DISPOSITION_ADMISSIBLE
         reseal_source_lineage(data)
         data["selection_policy"]["category_weights"] = {
             "baseline": 1,
