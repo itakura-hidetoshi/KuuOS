@@ -1,0 +1,47 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Durable Git Lifecycle Loop Resumption Execution v0.1",
+  "status": "additive",
+  "predecessor": "CodeAI Durable Git Lifecycle Loop Resumption Consumption v0.1",
+  "delegated_executor": "CodeAI Bounded Autonomous Git Lifecycle Loop Orchestration v0.1",
+  "files": {
+    "runtime": "runtime/kuuos_codeai_durable_git_lifecycle_loop_resumption_execution_v0_1.py",
+    "checker": "scripts/check_codeai_durable_git_lifecycle_loop_resumption_execution_v0_1.py",
+    "tests": "tests/test_kuuos_codeai_durable_git_lifecycle_loop_resumption_execution_v0_1.py",
+    "example": "examples/codeai_durable_git_lifecycle_loop_resumption_execution_v0_1.json",
+    "documentation": "docs/KUUOS_CODEAI_DURABLE_GIT_LIFECYCLE_LOOP_RESUMPTION_EXECUTION_v0_1.md",
+    "formal_kernel": "formal/KUOS/CodeAI/DurableGitLifecycleLoopResumptionExecutionV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAIDurableGitLifecycleLoopResumptionExecutionV0_1.lean",
+    "workflow": ".github/workflows/codeai-durable-git-lifecycle-loop-resumption-execution-v0-1.yml"
+  },
+  "required_inputs": [
+    "successful resumption-consumption receipt and evidence",
+    "matching successful consumption registry",
+    "exact original inactive resume input",
+    "exact active one-shot execution input",
+    "fresh invocation request and nonce",
+    "deny-by-default execution policy",
+    "monotone execution registry",
+    "exact initial lifecycle receipt and bounded loop invocation bundle"
+  ],
+  "guarantees": [
+    "exact consumption and resume lineage correspondence",
+    "exact checkpointed final-lifecycle receipt binding",
+    "one-shot execution-input consumption",
+    "fresh invocation-nonce consumption",
+    "bounded effect, command, and output budgets",
+    "single invocation of the existing bounded lifecycle loop orchestrator",
+    "exactly-once execution-registry transition on success",
+    "no partial outer receipt or registry transition on failure"
+  ],
+  "forbidden": [
+    "direct Git effect outside the existing lifecycle evaluator",
+    "automatic execution",
+    "unbounded execution",
+    "network access outside the delegated orchestrator",
+    "secret material read",
+    "general Git authority",
+    "general successor-stage authority",
+    "execution-input replay"
+  ]
+}
