@@ -34,8 +34,10 @@ theorem classification_partition (candidates : List CandidateEvidence) :
   | nil =>
       simp [classificationCount]
   | cons candidate candidates ih =>
-      cases candidate.classification <;>
-        simp [classificationCount, ih, Nat.add_assoc, Nat.add_left_comm, Nat.add_comm]
+      rcases candidate with ⟨candidateId, classification, findingCount⟩
+      cases classification <;>
+        simp [classificationCount] at ih ⊢ <;>
+        omega
 
 /-- Generic classification summary for an evidence-bearing portfolio. -/
 structure ClassificationSummary where
