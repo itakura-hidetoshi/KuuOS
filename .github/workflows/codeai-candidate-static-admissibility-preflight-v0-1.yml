@@ -5,6 +5,8 @@ on:
   pull_request:
     paths:
       - "runtime/kuuos_codeai_candidate_static_admissibility_preflight_v0_1.py"
+      - "runtime/kuuos_codeai_candidate_static_admissibility_preflight_checks_v0_1.py"
+      - "runtime/kuuos_codeai_candidate_static_admissibility_preflight_schema_v0_1.py"
       - "scripts/check_codeai_candidate_static_admissibility_preflight_v0_1.py"
       - "tests/test_kuuos_codeai_candidate_static_admissibility_preflight_v0_1.py"
       - "examples/codeai_candidate_static_admissibility_preflight_v0_1.json"
@@ -44,6 +46,8 @@ jobs:
         run: >-
           python3 -m compileall -q
           runtime/kuuos_codeai_candidate_static_admissibility_preflight_v0_1.py
+          runtime/kuuos_codeai_candidate_static_admissibility_preflight_checks_v0_1.py
+          runtime/kuuos_codeai_candidate_static_admissibility_preflight_schema_v0_1.py
           scripts/check_codeai_candidate_static_admissibility_preflight_v0_1.py
           tests/test_kuuos_codeai_candidate_static_admissibility_preflight_v0_1.py
       - name: Validate machine-readable artifacts
