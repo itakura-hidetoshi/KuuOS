@@ -41,6 +41,7 @@
     "runtime/kuuos_codeai_evidence_bearing_candidate_portfolio_checks_v0_1.py",
     "runtime/kuuos_codeai_evidence_bearing_candidate_portfolio_schema_v0_1.py",
     "runtime/kuuos_codeai_evidence_bearing_candidate_portfolio_v0_1.py",
+    "scripts/build_codeai_evidence_bearing_candidate_portfolio_fixture_v0_1.py",
     "scripts/check_codeai_evidence_bearing_candidate_portfolio_v0_1.py",
     "tests/test_kuuos_codeai_evidence_bearing_candidate_portfolio_v0_1.py"
   ],
