@@ -3,7 +3,15 @@ from __future__ import annotations
 from collections import Counter
 from typing import Any, Mapping
 
+from runtime.kuuos_codeai_candidate_static_admissibility_preflight_schema_v0_1 import (
+    DISPOSITION_ADMISSIBLE,
+)
 from runtime.kuuos_codeai_independent_test_strengthening_schema_v0_1 import (
+    CATEGORY_BASELINE,
+    CATEGORY_ERROR_FREE,
+    CATEGORY_ERROR_SPECIFIC,
+    CATEGORY_NOVELTY,
+    CATEGORY_ROUTE,
     DISPOSITION_COMPLETED as STRENGTHENING_DISPOSITION_COMPLETED,
     MODE_PLAN_ONLY,
     OBLIGATION_CATEGORIES,
@@ -27,11 +35,31 @@ def validate_source_pair(plan: Mapping[str, Any], receipt: Mapping[str, Any]) ->
     if plan.get("operating_mode") != MODE_PLAN_ONLY:
         issues.append("source_strengthening_mode_invalid")
     pairs = (
-        (receipt.get("independent_test_strengthening_plan_digest"), plan.get(STRENGTHENING_PLAN_DIGEST_FIELD), "source_strengthening_receipt_plan_digest_mismatch"),
-        (receipt.get("repository_full_name"), plan.get("repository_full_name"), "source_strengthening_receipt_repository_mismatch"),
-        (receipt.get("source_commit_sha"), plan.get("source_commit_sha"), "source_strengthening_receipt_commit_mismatch"),
-        (receipt.get("candidate_count"), plan.get("candidate_count"), "source_strengthening_receipt_candidate_count_mismatch"),
-        (receipt.get("obligation_count"), plan.get("obligation_count"), "source_strengthening_receipt_obligation_count_mismatch"),
+        (
+            receipt.get("independent_test_strengthening_plan_digest"),
+            plan.get(STRENGTHENING_PLAN_DIGEST_FIELD),
+            "source_strengthening_receipt_plan_digest_mismatch",
+        ),
+        (
+            receipt.get("repository_full_name"),
+            plan.get("repository_full_name"),
+            "source_strengthening_receipt_repository_mismatch",
+        ),
+        (
+            receipt.get("source_commit_sha"),
+            plan.get("source_commit_sha"),
+            "source_strengthening_receipt_commit_mismatch",
+        ),
+        (
+            receipt.get("candidate_count"),
+            plan.get("candidate_count"),
+            "source_strengthening_receipt_candidate_count_mismatch",
+        ),
+        (
+            receipt.get("obligation_count"),
+            plan.get("obligation_count"),
+            "source_strengthening_receipt_obligation_count_mismatch",
+        ),
     )
     issues.extend(code for left, right, code in pairs if left != right)
     for field in (
@@ -65,6 +93,7 @@ def validate_source_pair(plan: Mapping[str, Any], receipt: Mapping[str, Any]) ->
     ):
         if plan.get(field) is not False or receipt.get(field) is not False:
             issues.append("source_strengthening_forbidden_true:" + field)
+
     candidates = plan.get("candidate_plans")
     if not isinstance(candidates, list) or not candidates:
         issues.append("source_strengthening_candidates_invalid")
@@ -88,17 +117,27 @@ def validate_source_pair(plan: Mapping[str, Any], receipt: Mapping[str, Any]) ->
         total += len(obligations)
         for obligation_index, obligation in enumerate(obligations):
             if not isinstance(obligation, Mapping):
-                issues.append(f"source_strengthening_obligation_not_mapping:{candidate_index}:{obligation_index}")
+                issues.append(
+                    f"source_strengthening_obligation_not_mapping:{candidate_index}:{obligation_index}"
+                )
                 continue
             if not digest_ok(obligation, OBLIGATION_DIGEST_FIELD):
-                issues.append(f"source_strengthening_obligation_digest_mismatch:{candidate_index}:{obligation_index}")
+                issues.append(
+                    f"source_strengthening_obligation_digest_mismatch:{candidate_index}:{obligation_index}"
+                )
             if obligation.get("candidate_id") != candidate.get("candidate_id"):
-                issues.append(f"source_strengthening_obligation_candidate_mismatch:{candidate_index}:{obligation_index}")
+                issues.append(
+                    f"source_strengthening_obligation_candidate_mismatch:{candidate_index}:{obligation_index}"
+                )
             if obligation.get("category") not in OBLIGATION_CATEGORIES:
-                issues.append(f"source_strengthening_obligation_category_invalid:{candidate_index}:{obligation_index}")
+                issues.append(
+                    f"source_strengthening_obligation_category_invalid:{candidate_index}:{obligation_index}"
+                )
             for field in ("test_generated", "test_executed", "pass_claimed"):
                 if obligation.get(field) is not False:
-                    issues.append(f"source_strengthening_obligation_forbidden_true:{candidate_index}:{obligation_index}:{field}")
+                    issues.append(
+                        f"source_strengthening_obligation_forbidden_true:{candidate_index}:{obligation_index}:{field}"
+                    )
     if plan.get("obligation_count") != total:
         issues.append("source_strengthening_obligation_accounting_invalid")
     return sorted(set(issues))
@@ -106,14 +145,30 @@ def validate_source_pair(plan: Mapping[str, Any], receipt: Mapping[str, Any]) ->
 
 def validate_evidence_packet(packet: Mapping[str, Any]) -> list[str]:
     required = {
-        "schema_version", "profile_version", "evidence_packet_id", "evidence_packet_revision",
-        "repository_full_name", "source_commit_sha", "strengthening_plan_digest",
-        "strengthening_receipt_digest", "evidence_created_epoch", "candidate_producer_id",
-        "independent_runner_id", "independent_reviewer_id", "candidate_results",
-        "candidate_count", "evidence_record_count", "external_test_execution_reported",
-        "independent_runner_verified", "independent_reviewer_verified", "isolated_execution_verified",
-        "source_correspondence_verified", "candidate_producer_involved_in_evidence",
-        "repository_mutation_performed", "git_effect_performed", EVIDENCE_PACKET_DIGEST_FIELD,
+        "schema_version",
+        "profile_version",
+        "evidence_packet_id",
+        "evidence_packet_revision",
+        "repository_full_name",
+        "source_commit_sha",
+        "strengthening_plan_digest",
+        "strengthening_receipt_digest",
+        "evidence_created_epoch",
+        "candidate_producer_id",
+        "independent_runner_id",
+        "independent_reviewer_id",
+        "candidate_results",
+        "candidate_count",
+        "evidence_record_count",
+        "external_test_execution_reported",
+        "independent_runner_verified",
+        "independent_reviewer_verified",
+        "isolated_execution_verified",
+        "source_correspondence_verified",
+        "candidate_producer_involved_in_evidence",
+        "repository_mutation_performed",
+        "git_effect_performed",
+        EVIDENCE_PACKET_DIGEST_FIELD,
     }
     issues: list[str] = []
     missing = required.difference(packet)
@@ -126,7 +181,14 @@ def validate_evidence_packet(packet: Mapping[str, Any]) -> list[str]:
         return issues
     if packet["schema_version"] != SCHEMA_VERSION or packet["profile_version"] != PROFILE_VERSION:
         issues.append("evidence_packet_profile_invalid")
-    for field in ("evidence_packet_id", "evidence_packet_revision", "repository_full_name", "candidate_producer_id", "independent_runner_id", "independent_reviewer_id"):
+    for field in (
+        "evidence_packet_id",
+        "evidence_packet_revision",
+        "repository_full_name",
+        "candidate_producer_id",
+        "independent_runner_id",
+        "independent_reviewer_id",
+    ):
         if not isinstance(packet[field], str) or not packet[field]:
             issues.append("evidence_packet_string_invalid:" + field)
     if not isinstance(packet["source_commit_sha"], str) or SHA40.fullmatch(packet["source_commit_sha"]) is None:
@@ -138,9 +200,14 @@ def validate_evidence_packet(packet: Mapping[str, Any]) -> list[str]:
         if not nonnegative_int(packet[field]):
             issues.append("evidence_packet_integer_invalid:" + field)
     for field in (
-        "external_test_execution_reported", "independent_runner_verified", "independent_reviewer_verified",
-        "isolated_execution_verified", "source_correspondence_verified", "candidate_producer_involved_in_evidence",
-        "repository_mutation_performed", "git_effect_performed",
+        "external_test_execution_reported",
+        "independent_runner_verified",
+        "independent_reviewer_verified",
+        "isolated_execution_verified",
+        "source_correspondence_verified",
+        "candidate_producer_involved_in_evidence",
+        "repository_mutation_performed",
+        "git_effect_performed",
     ):
         if not isinstance(packet[field], bool):
             issues.append("evidence_packet_boolean_invalid:" + field)
@@ -158,7 +225,13 @@ def validate_evidence_packet(packet: Mapping[str, Any]) -> list[str]:
         if not isinstance(candidate, Mapping):
             issues.append(f"evidence_candidate_not_mapping:{candidate_index}")
             continue
-        if set(candidate) != {"candidate_id", "candidate_sequence", "obligation_results", "obligation_result_count"}:
+        required_candidate = {
+            "candidate_id",
+            "candidate_sequence",
+            "obligation_results",
+            "obligation_result_count",
+        }
+        if set(candidate) != required_candidate:
             issues.append(f"evidence_candidate_fields_invalid:{candidate_index}")
             continue
         ids.append(str(candidate["candidate_id"]))
@@ -178,11 +251,26 @@ def validate_evidence_packet(packet: Mapping[str, Any]) -> list[str]:
                 issues.append(f"evidence_record_not_mapping:{candidate_index}:{record_index}")
                 continue
             required_record = {
-                "candidate_id", "candidate_sequence", "obligation_id", "obligation_digest", "category",
-                "check_kind", "outcome", "evidence_artifact_digest", "runner_id", "reviewer_id",
-                "completed", "external_execution", "independent_runner", "independent_reviewer",
-                "isolated_execution", "source_correspondence", "candidate_producer_involved",
-                "repository_mutation_performed", "git_effect_performed", EVIDENCE_RECORD_DIGEST_FIELD,
+                "candidate_id",
+                "candidate_sequence",
+                "obligation_id",
+                "obligation_digest",
+                "category",
+                "check_kind",
+                "outcome",
+                "evidence_artifact_digest",
+                "runner_id",
+                "reviewer_id",
+                "completed",
+                "external_execution",
+                "independent_runner",
+                "independent_reviewer",
+                "isolated_execution",
+                "source_correspondence",
+                "candidate_producer_involved",
+                "repository_mutation_performed",
+                "git_effect_performed",
+                EVIDENCE_RECORD_DIGEST_FIELD,
             }
             if set(record) != required_record:
                 issues.append(f"evidence_record_fields_invalid:{candidate_index}:{record_index}")
@@ -205,9 +293,15 @@ def validate_evidence_packet(packet: Mapping[str, Any]) -> list[str]:
                 if not isinstance(record[field], str) or not record[field]:
                     issues.append(f"evidence_record_string_invalid:{candidate_index}:{record_index}:{field}")
             for field in (
-                "completed", "external_execution", "independent_runner", "independent_reviewer",
-                "isolated_execution", "source_correspondence", "candidate_producer_involved",
-                "repository_mutation_performed", "git_effect_performed",
+                "completed",
+                "external_execution",
+                "independent_runner",
+                "independent_reviewer",
+                "isolated_execution",
+                "source_correspondence",
+                "candidate_producer_involved",
+                "repository_mutation_performed",
+                "git_effect_performed",
             ):
                 if not isinstance(record[field], bool):
                     issues.append(f"evidence_record_boolean_invalid:{candidate_index}:{record_index}:{field}")
@@ -218,7 +312,13 @@ def validate_evidence_packet(packet: Mapping[str, Any]) -> list[str]:
     return sorted(set(issues))
 
 
-def score_candidate(candidate_plan: Mapping[str, Any], candidate_evidence: Mapping[str, Any], category_weights: Mapping[str, Any], require_admissible: bool, require_all_passed: bool) -> dict[str, Any]:
+def score_candidate(
+    candidate_plan: Mapping[str, Any],
+    candidate_evidence: Mapping[str, Any],
+    category_weights: Mapping[str, Any],
+    require_admissible: bool,
+    require_all_passed: bool,
+) -> dict[str, Any]:
     obligations = candidate_plan["obligations"]
     records = candidate_evidence["obligation_results"]
     by_id = {record["obligation_id"]: record for record in records}
@@ -230,10 +330,11 @@ def score_candidate(candidate_plan: Mapping[str, Any], candidate_evidence: Mappi
     )
     maximum_score = sum(int(category_weights[obligation["category"]]) for obligation in obligations)
     reasons: list[str] = []
-    if require_admissible and candidate_plan["source_classification"] != "admissible":
+    if require_admissible and candidate_plan["source_classification"] != DISPOSITION_ADMISSIBLE:
         reasons.append("source_classification_not_admissible")
     if require_all_passed and outcomes[OUTCOME_PASSED] != len(obligations):
         reasons.append("not_all_obligations_passed")
+    eligible = not reasons
     return {
         "candidate_id": candidate_plan["candidate_id"],
         "candidate_sequence": candidate_plan["candidate_sequence"],
@@ -246,7 +347,7 @@ def score_candidate(candidate_plan: Mapping[str, Any], candidate_evidence: Mappi
         "skipped_count": outcomes[OUTCOME_SKIPPED],
         "evidence_score": passed_score,
         "maximum_evidence_score": maximum_score,
-        "eligible": not reasons,
+        "eligible": eligible,
         "ineligibility_reasons": reasons,
         "score_treated_as_probability": False,
         "score_treated_as_correctness_proof": False,
@@ -254,4 +355,8 @@ def score_candidate(candidate_plan: Mapping[str, Any], candidate_evidence: Mappi
     }
 
 
-__all__ = ["score_candidate", "validate_evidence_packet", "validate_source_pair"]
+__all__ = [
+    "score_candidate",
+    "validate_evidence_packet",
+    "validate_source_pair",
+]
