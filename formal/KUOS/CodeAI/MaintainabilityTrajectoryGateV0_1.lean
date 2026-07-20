@@ -18,6 +18,11 @@ def regressionAmount (observation : AxisObservation) : Nat :=
 def improved (observation : AxisObservation) : Prop :=
   observation.candidateValue < observation.baselineValue
 
+instance instDecidableImproved (observation : AxisObservation) :
+    Decidable (improved observation) := by
+  unfold improved
+  infer_instance
+
 /-- A single axis remains inside its explicit regression allowance. -/
 def withinAxisLimit (observation : AxisObservation) : Prop :=
   regressionAmount observation ≤ observation.maximumAllowedIncrease
@@ -52,6 +57,11 @@ def GateAdmissible (input : GateInput) (policy : TrajectoryPolicy) : Prop :=
   (∀ observation ∈ input.observations, withinAxisLimit observation) ∧
   totalRegression input ≤ policy.maximumTotalRegression ∧
   policy.minimumImprovedAxes ≤ improvedAxisCount input.observations
+
+instance instDecidableGateAdmissible (input : GateInput) (policy : TrajectoryPolicy) :
+    Decidable (GateAdmissible input policy) := by
+  unfold GateAdmissible
+  infer_instance
 
 theorem admitted_axis_bound
     {input : GateInput}
@@ -142,6 +152,11 @@ def boundaryPreserved (boundary : AuthorityBoundary) : Prop :=
   boundary.futureMaintainabilityProven = false ∧
   boundary.correctnessProven = false ∧
   boundary.probabilityClaimed = false
+
+instance instDecidableBoundaryPreserved (boundary : AuthorityBoundary) :
+    Decidable (boundaryPreserved boundary) := by
+  unfold boundaryPreserved
+  infer_instance
 
 theorem boundary_preserved_of_all_false
     (boundary : AuthorityBoundary)
