@@ -27,6 +27,41 @@ instance instDecidableImproved (observation : AxisObservation) :
 def withinAxisLimit (observation : AxisObservation) : Prop :=
   regressionAmount observation ≤ observation.maximumAllowedIncrease
 
+instance instDecidableWithinAxisLimit (observation : AxisObservation) :
+    Decidable (withinAxisLimit observation) := by
+  unfold withinAxisLimit regressionAmount
+  infer_instance
+
+/--
+A computable decision procedure for the finite bounded universal used by the
+trajectory gate.  This preserves the proposition as stated while avoiding a
+noncomputable decision procedure for an unrestricted universal quantifier.
+-/
+private def decideAllWithinAxisLimits :
+    (observations : List AxisObservation) →
+      Decidable (∀ observation ∈ observations, withinAxisLimit observation)
+  | [] =>
+      isTrue (by simp)
+  | head :: tail =>
+      match instDecidableWithinAxisLimit head, decideAllWithinAxisLimits tail with
+      | isTrue hHead, isTrue hTail =>
+          isTrue (by
+            intro observation hMember
+            rcases List.mem_cons.mp hMember with hEq | hMember
+            · subst observation
+              exact hHead
+            · exact hTail observation hMember)
+      | isFalse hHead, _ =>
+          isFalse (by
+            intro hAll
+            exact hHead (hAll head (by simp)))
+      | _, isFalse hTail =>
+          isFalse (by
+            intro hAll
+            apply hTail
+            intro observation hMember
+            exact hAll observation (by simp [hMember]))
+
 /-- The bounded aggregate policy for the maintainability gate. -/
 structure TrajectoryPolicy where
   maximumTotalRegression : Nat
@@ -61,6 +96,9 @@ def GateAdmissible (input : GateInput) (policy : TrajectoryPolicy) : Prop :=
 instance instDecidableGateAdmissible (input : GateInput) (policy : TrajectoryPolicy) :
     Decidable (GateAdmissible input policy) := by
   unfold GateAdmissible
+  letI : Decidable
+      (∀ observation ∈ input.observations, withinAxisLimit observation) :=
+    decideAllWithinAxisLimits input.observations
   infer_instance
 
 theorem admitted_axis_bound
