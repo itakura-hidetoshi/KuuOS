@@ -52,22 +52,35 @@ def _rebind_memory_to_selected_candidate(
         ),
         None,
     )
-    if candidate is None or not candidate["typed_errors"]:
-        raise ValueError(
-            "selected candidate has no typed error available for memory binding"
+    if candidate is None:
+        raise ValueError("selected candidate is absent from memory classification")
+
+    if candidate["typed_errors"]:
+        error = candidate["typed_errors"][0]
+        record = next(
+            (
+                item
+                for item in packet["records"]
+                if item["source_candidate_digest"] == selected_candidate_digest
+                and item["typed_error_digest"] == error["typed_error_digest"]
+            ),
+            None,
         )
-    error = candidate["typed_errors"][0]
-    record = next(
-        (
-            item
-            for item in packet["records"]
-            if item["source_candidate_digest"] == selected_candidate_digest
-            and item["typed_error_digest"] == error["typed_error_digest"]
-        ),
-        None,
-    )
-    if record is None:
-        raise ValueError("selected candidate has no repair-memory record")
+        if record is None:
+            raise ValueError("selected candidate has no repair-memory record")
+        typed_error_digest = error["typed_error_digest"]
+        error_fingerprint = error["error_fingerprint"]
+    else:
+        if not packet["records"]:
+            raise ValueError("repair-memory packet has no environment binding record")
+        record = packet["records"][0]
+        typed_error_digest = canonical_digest(
+            {
+                "source_candidate_digest": selected_candidate_digest,
+                "typed_error_state": "no_typed_error",
+            }
+        )
+        error_fingerprint = "no_typed_error"
 
     binding = {
         "repository_full_name": classification["repository_full_name"],
@@ -76,8 +89,8 @@ def _rebind_memory_to_selected_candidate(
             "source_repository_snapshot_digest"
         ],
         "source_candidate_digest": selected_candidate_digest,
-        "typed_error_digest": error["typed_error_digest"],
-        "error_fingerprint": error["error_fingerprint"],
+        "typed_error_digest": typed_error_digest,
+        "error_fingerprint": error_fingerprint,
         "classification_schema_version": classification["schema_version"],
         "toolchain_digest": record["toolchain_digest"],
         "dependency_manifest_digest": record["dependency_manifest_digest"],
