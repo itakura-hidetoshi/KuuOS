@@ -50,6 +50,7 @@ roots = [
   "KuuOSCodeAITypedErrorClassificationV0_1",
   "KuuOSCodeAIIndependentTestStrengtheningV0_1",
   "KuuOSCodeAIEvidenceWeightedSelectionAbstentionV0_1",
+  "KuuOSCodeAIVersionBoundRepairMemoryV0_1",
   "KuuOSCodeAIMinimalExternalAuthorityDependencyV0_1",
   "KuuOSFormalV0_41",
   "KuuOSFormalV0_42",
