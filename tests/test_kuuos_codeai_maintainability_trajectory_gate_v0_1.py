@@ -32,13 +32,13 @@ def abstain(d):
 
 class Tests(unittest.TestCase):
     def test_reference(self):
-        r=run(fixture()); self.assertEqual((r.status,r.decision['gate_decision'],r.decision['axis_count'],r.decision['improved_axis_count'],r.decision['total_regression'],r.decision['exceeded_axis_count']),(STATUS_READY,GATE_ADMITTED,6,3,3,0))
+        r=run(fixture()); self.assertEqual((r.status,r.decision['gate_decision'],r.decision['axis_count'],r.decision['improved_axis_count'],r.decision['total_regression'],r.decision['exceeded_axis_count'],r.decision['memory_hint_available']),(STATUS_READY,GATE_ADMITTED,6,3,3,0,False))
     def test_deterministic(self):
         d=fixture(); a,b=run(d),run(copy.deepcopy(d)); self.assertEqual((a.decision,a.receipt),(b.decision,b.receipt)); self.assertEqual(a.decision[DECISION_DIGEST_FIELD],seal(a.decision,DECISION_DIGEST_FIELD)[DECISION_DIGEST_FIELD]); self.assertEqual(a.receipt[RECEIPT_DIGEST_FIELD],seal(a.receipt,RECEIPT_DIGEST_FIELD)[RECEIPT_DIGEST_FIELD])
     def test_axes(self):
         a={x['axis']:x for x in run(fixture()).decision['axis_assessments']}; self.assertEqual((a['dependency_surface']['regression_amount'],a['test_burden']['regression_amount']),(1,2)); self.assertTrue(all(a[x]['improved'] for x in ('structural_complexity','duplication','repair_recurrence')))
     def test_memory_no_waiver(self):
-        d=fixture(); x=d['trajectory_evidence_packet']['records'][0]; x['candidate_value']=x['baseline_value']+1; x['observed_delta']=1; rr(d); r=run(d); self.assertEqual(r.decision['gate_decision'],GATE_HELD); self.assertIn(REASON_AXIS_LIMIT,r.decision['decision_reasons']); self.assertTrue(r.decision['memory_hint_available']); self.assertFalse(r.decision['memory_hint_used_as_threshold_waiver'])
+        d=fixture(); x=d['trajectory_evidence_packet']['records'][0]; x['candidate_value']=x['baseline_value']+1; x['observed_delta']=1; rr(d); r=run(d); self.assertEqual(r.decision['gate_decision'],GATE_HELD); self.assertIn(REASON_AXIS_LIMIT,r.decision['decision_reasons']); self.assertFalse(r.decision['memory_hint_available']); self.assertFalse(r.decision['memory_hint_used_as_threshold_waiver'])
     def test_axis_hold(self):
         d=fixture(); x=d['trajectory_evidence_packet']['records'][2]; x['candidate_value']=x['baseline_value']+1; x['observed_delta']=1; rr(d,2); r=run(d); self.assertEqual(r.decision['gate_decision'],GATE_HELD); self.assertIn('duplication',r.decision['exceeded_axes'])
     def test_total_hold(self):
