@@ -1,0 +1,33 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Evidence-Weighted Selection and Abstention v0.1",
+  "selection_id": "evidence-weighted-selection-strengthened-tests-001",
+  "selection_revision": "r1",
+  "evidence_packet_id": "independent-test-evidence-strengthened-tests-001",
+  "evidence_packet_revision": "r1",
+  "candidate_producer_id": "codeai-candidate-producer-001",
+  "independent_runner_id": "codeai-independent-runner-001",
+  "independent_reviewer_id": "codeai-independent-reviewer-001",
+  "evidence_created_epoch": 1784544010,
+  "request_created_epoch": 1784544012,
+  "evaluation_epoch": 1784544015,
+  "maximum_request_age": 3600,
+  "maximum_evidence_age": 3600,
+  "maximum_candidates": 8,
+  "maximum_evidence_records": 128,
+  "minimum_evidence_score": 50,
+  "minimum_score_margin": 10,
+  "category_weights": {
+    "baseline": 10,
+    "error_specific": 20,
+    "novelty": 25,
+    "route": 15,
+    "error_free": 30
+  },
+  "expected_candidate_count": 4,
+  "expected_evidence_record_count": 22,
+  "expected_eligible_candidate_count": 1,
+  "expected_decision": "selected",
+  "expected_selected_candidate_id": "candidate-admissible",
+  "expected_selected_evidence_score": 60
+}
