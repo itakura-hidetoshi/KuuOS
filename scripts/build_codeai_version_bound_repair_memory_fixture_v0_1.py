@@ -195,7 +195,7 @@ def build_fixture(
         "source_candidate_digest": first_candidate["source_candidate_digest"],
         "typed_error_digest": first_error["typed_error_digest"],
         "error_fingerprint": first_error["error_fingerprint"],
-        "classification_schema_version": classification["profile_version"],
+        "classification_schema_version": classification["schema_version"],
         "toolchain_digest": current_toolchain,
         "dependency_manifest_digest": dependency_manifest,
         "repair_policy_digest": repair_policy,
