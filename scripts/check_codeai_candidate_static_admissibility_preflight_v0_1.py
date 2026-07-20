@@ -21,6 +21,8 @@ REQUIRED_PATHS = {
     "formal/KuuOSCodeAICandidateStaticAdmissibilityPreflightV0_1.lean",
     "manifests/kuuos_codeai_candidate_static_admissibility_preflight_v0_1.json",
     "runtime/kuuos_codeai_candidate_static_admissibility_preflight_v0_1.py",
+    "runtime/kuuos_codeai_candidate_static_admissibility_preflight_checks_v0_1.py",
+    "runtime/kuuos_codeai_candidate_static_admissibility_preflight_schema_v0_1.py",
     "scripts/check_codeai_candidate_static_admissibility_preflight_v0_1.py",
     "tests/test_kuuos_codeai_candidate_static_admissibility_preflight_v0_1.py",
 }
