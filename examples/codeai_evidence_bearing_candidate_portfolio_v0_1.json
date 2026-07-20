@@ -1,0 +1,41 @@
+{
+  "candidates": [
+    {
+      "candidate_id": "candidate-admissible",
+      "candidate_sequence": 1,
+      "mode": "admissible"
+    },
+    {
+      "candidate_id": "candidate-repairable",
+      "candidate_sequence": 2,
+      "mode": "repairable"
+    },
+    {
+      "candidate_id": "candidate-hold",
+      "candidate_sequence": 3,
+      "mode": "hold"
+    },
+    {
+      "candidate_id": "candidate-rejected",
+      "candidate_sequence": 4,
+      "mode": "rejected"
+    }
+  ],
+  "evaluation_epoch": 1784538005,
+  "expected_classification_counts": {
+    "admissible": 1,
+    "hold": 1,
+    "rejected": 1,
+    "repairable": 1
+  },
+  "expected_total_finding_count": 3,
+  "maximum_candidates": 8,
+  "maximum_request_age": 3600,
+  "maximum_total_changed_paths": 32,
+  "maximum_total_findings": 64,
+  "portfolio_id": "portfolio-static-preflight-evidence",
+  "portfolio_revision": "r1",
+  "profile_version": "CodeAI Evidence-Bearing Candidate Portfolio v0.1",
+  "request_created_epoch": 1784538000,
+  "schema_version": "v0.1"
+}
