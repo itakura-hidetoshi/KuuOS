@@ -1,0 +1,55 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Typed Error Classification v0.1",
+  "purpose": "Normalize static-preflight finding evidence into a deterministic typed error taxonomy while preserving exact portfolio and historical replay lineage.",
+  "paths": [
+    ".github/workflows/codeai-typed-error-classification-v0-1.yml",
+    "docs/KUUOS_CODEAI_TYPED_ERROR_CLASSIFICATION_v0_1.md",
+    "examples/codeai_typed_error_classification_v0_1.json",
+    "formal/KUOS/CodeAI/TypedErrorClassificationV0_1.lean",
+    "formal/KuuOSCodeAITypedErrorClassificationV0_1.lean",
+    "manifests/kuuos_codeai_typed_error_classification_v0_1.json",
+    "runtime/kuuos_codeai_typed_error_classification_checks_v0_1.py",
+    "runtime/kuuos_codeai_typed_error_classification_schema_v0_1.py",
+    "runtime/kuuos_codeai_typed_error_classification_v0_1.py",
+    "scripts/build_codeai_typed_error_classification_fixture_v0_1.py",
+    "scripts/check_codeai_typed_error_classification_v0_1.py",
+    "tests/test_kuuos_codeai_typed_error_classification_v0_1.py"
+  ],
+  "error_families": [
+    "operation_conflict",
+    "materialization",
+    "syntax",
+    "dependency",
+    "testing",
+    "policy_marker",
+    "semantic_noop"
+  ],
+  "repair_routes": [
+    "local_candidate_repair",
+    "external_evidence_required",
+    "current_ir_unmaterializable"
+  ],
+  "fixed_boundaries": [
+    "preflight finding != proven root cause",
+    "typed error class != correctness proof",
+    "historical frequency != probability",
+    "repair route != repair authority",
+    "typed error classification != ranking",
+    "typed error classification != candidate selection",
+    "zero static error != correctness proof",
+    "classification receipt != verification authority",
+    "classification receipt != execution authority",
+    "classification receipt != Git authority"
+  ],
+  "authority": {
+    "provider": false,
+    "ranking": false,
+    "selection": false,
+    "verification": false,
+    "repair_execution": false,
+    "repository_mutation": false,
+    "execution": false,
+    "git": false
+  }
+}

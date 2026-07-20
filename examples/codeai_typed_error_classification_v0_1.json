@@ -1,0 +1,29 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Typed Error Classification v0.1",
+  "classification_id": "typed-error-classification-static-preflight-001",
+  "classification_revision": "r1",
+  "request_created_epoch": 1784538010,
+  "evaluation_epoch": 1784538015,
+  "maximum_request_age": 3600,
+  "maximum_candidates": 8,
+  "maximum_typed_errors": 64,
+  "expected_candidate_count": 4,
+  "expected_typed_error_count": 3,
+  "expected_family_counts": {
+    "operation_conflict": 1,
+    "materialization": 0,
+    "syntax": 1,
+    "dependency": 1,
+    "testing": 0,
+    "policy_marker": 0,
+    "semantic_noop": 0
+  },
+  "expected_repair_route_counts": {
+    "local_candidate_repair": 1,
+    "external_evidence_required": 1,
+    "current_ir_unmaterializable": 1
+  },
+  "expected_baseline_known_error_count": 0,
+  "expected_baseline_novel_error_count": 3
+}
