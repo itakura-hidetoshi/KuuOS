@@ -1,0 +1,39 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Typed Structured Edit IR v0.1",
+  "runtime": "runtime/kuuos_codeai_typed_structured_edit_ir_v0_1.py",
+  "checker": "scripts/check_codeai_typed_structured_edit_ir_v0_1.py",
+  "tests": "tests/test_kuuos_codeai_typed_structured_edit_ir_v0_1.py",
+  "example": "examples/codeai_typed_structured_edit_ir_v0_1.json",
+  "documentation": "docs/KUUOS_CODEAI_TYPED_STRUCTURED_EDIT_IR_v0_1.md",
+  "formal_kernel": "formal/KUOS/CodeAI/TypedStructuredEditIRV0_1.lean",
+  "formal_root": "formal/KuuOSCodeAITypedStructuredEditIRV0_1.lean",
+  "workflow": ".github/workflows/codeai-typed-structured-edit-ir-v0-1.yml",
+  "source_context_profile": "CodeAI Selective Repository Semantic Context Pack v0.1",
+  "supported_operations": [
+    "create_file",
+    "replace_symbol",
+    "insert_before_symbol",
+    "insert_after_symbol",
+    "delete_symbol"
+  ],
+  "supported_languages": [
+    "python",
+    "lean"
+  ],
+  "existing_file_edits_require": [
+    "selected context path",
+    "exact file digest",
+    "exact symbol kind and name",
+    "exact anchor digest",
+    "exact start and end lines"
+  ],
+  "whole_file_modify_allowed": false,
+  "provider_invocation_allowed": false,
+  "repository_mutation_allowed": false,
+  "verification_runner_invocation_allowed": false,
+  "candidate_selection_authority_allowed": false,
+  "execution_authority_allowed": false,
+  "example_ir_digest": "244616cc6c1c21820d9e2c59598c0bbe9ae83c826143f2af3d759bf2a29bbd60",
+  "example_receipt_digest": "000d6dad4a56b83d446533c5995a421902dd067898d379708011319ae6cfd1a7"
+}
