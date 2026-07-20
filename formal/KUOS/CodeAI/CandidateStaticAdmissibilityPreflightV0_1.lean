@@ -32,13 +32,13 @@ def NoFindings (counts : FindingCounts) : Prop :=
 theorem classify_eq_admissible_iff (counts : FindingCounts) :
     classify counts = .admissible ↔ NoFindings counts := by
   unfold classify NoFindings
-  by_cases hrejected : counts.rejected ≠ 0
-  · simp [hrejected]
-  · by_cases hhold : counts.hold ≠ 0
+  by_cases hrejected : counts.rejected = 0
+  · by_cases hhold : counts.hold = 0
+    · by_cases hrepairable : counts.repairable = 0
+      · simp [hrejected, hhold, hrepairable]
+      · simp [hrejected, hhold, hrepairable]
     · simp [hrejected, hhold]
-    · by_cases hrepairable : counts.repairable ≠ 0
-      · simp [hrejected, hhold, hrepairable]
-      · simp [hrejected, hhold, hrepairable]
+  · simp [hrejected]
 
 /-- Any repair finding prevents generic admissibility. -/
 theorem classify_ne_admissible_of_repairable_ne_zero
