@@ -1,0 +1,54 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Version-Bound Repair Memory v0.1",
+  "roadmap_step": 8,
+  "predecessor": "CodeAI Evidence-Weighted Selection and Abstention v0.1",
+  "successor": "CodeAI Maintainability Trajectory Gate v0.1",
+  "operating_mode": "version_bound_repair_memory_only",
+  "memory_hint_owned": true,
+  "repair_execution_owned": false,
+  "version_binding_fields": [
+    "repository_full_name",
+    "source_commit_sha",
+    "source_repository_snapshot_digest",
+    "source_candidate_digest",
+    "typed_error_digest",
+    "error_fingerprint",
+    "classification_schema_version",
+    "toolchain_digest",
+    "dependency_manifest_digest",
+    "repair_policy_digest"
+  ],
+  "repair_outcomes": [
+    "verified_effective",
+    "verified_ineffective",
+    "inconclusive"
+  ],
+  "surfaces": {
+    "runtime": "runtime/kuuos_codeai_version_bound_repair_memory_v0_1.py",
+    "checks": "runtime/kuuos_codeai_version_bound_repair_memory_checks_v0_1.py",
+    "schema": "runtime/kuuos_codeai_version_bound_repair_memory_schema_v0_1.py",
+    "fixture_builder": "scripts/build_codeai_version_bound_repair_memory_fixture_v0_1.py",
+    "checker": "scripts/check_codeai_version_bound_repair_memory_v0_1.py",
+    "tests": "tests/test_kuuos_codeai_version_bound_repair_memory_v0_1.py",
+    "example": "examples/codeai_version_bound_repair_memory_v0_1.json",
+    "documentation": "docs/KUUOS_CODEAI_VERSION_BOUND_REPAIR_MEMORY_v0_1.md",
+    "formal_kernel": "formal/KUOS/CodeAI/VersionBoundRepairMemoryV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAIVersionBoundRepairMemoryV0_1.lean",
+    "workflow": ".github/workflows/codeai-version-bound-repair-memory-v0-1.yml"
+  },
+  "fixed_boundaries": {
+    "history_read_only": true,
+    "repair_executed_by_memory": false,
+    "repository_mutation_performed_by_memory": false,
+    "git_effect_performed_by_memory": false,
+    "repair_authority_granted": false,
+    "verification_authority_granted": false,
+    "execution_authority_granted": false,
+    "git_authority_granted": false,
+    "historical_outcome_treated_as_probability": false,
+    "historical_success_treated_as_future_success_proof": false,
+    "memory_hint_treated_as_correctness_proof": false,
+    "version_mismatch_treated_as_transferable": false
+  }
+}
