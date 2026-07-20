@@ -97,7 +97,7 @@ def binding_for_record(data: dict, index: int) -> dict:
         "source_candidate_digest": record["source_candidate_digest"],
         "typed_error_digest": record["typed_error_digest"],
         "error_fingerprint": record["error_fingerprint"],
-        "classification_schema_version": classification["profile_version"],
+        "classification_schema_version": classification["schema_version"],
         "toolchain_digest": record["toolchain_digest"],
         "dependency_manifest_digest": record["dependency_manifest_digest"],
         "repair_policy_digest": record["repair_policy_digest"],
