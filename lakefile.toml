@@ -45,6 +45,7 @@ roots = [
   "KuuOSCodeAIGeneratedPatchErrorBaselineReplayEvaluationV0_1",
   "KuuOSCodeAISelectiveRepositorySemanticContextPackV0_1",
   "KuuOSCodeAITypedStructuredEditIRV0_1",
+  "KuuOSCodeAICandidateStaticAdmissibilityPreflightV0_1",
   "KuuOSCodeAIMinimalExternalAuthorityDependencyV0_1",
   "KuuOSFormalV0_41",
   "KuuOSFormalV0_42",
