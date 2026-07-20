@@ -1,0 +1,55 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Evidence-Weighted Selection and Abstention v0.1",
+  "roadmap_step": 7,
+  "predecessor": "CodeAI Independent Test Strengthening v0.1",
+  "successor": "CodeAI Version-Bound Repair Memory v0.1",
+  "operating_mode": "evidence_weighted_selection_and_abstention_only",
+  "selection_decision_owned": true,
+  "downstream_execution_owned": false,
+  "decisions": [
+    "selected",
+    "abstained"
+  ],
+  "abstention_reasons": [
+    "no_eligible_candidate",
+    "top_score_below_threshold",
+    "insufficient_score_margin",
+    "tied_top_score"
+  ],
+  "eligibility_requirements": [
+    "source classification is admissible",
+    "complete exact obligation evidence",
+    "all obligation outcomes passed",
+    "independent runner and reviewer",
+    "isolated execution",
+    "exact source correspondence"
+  ],
+  "surfaces": {
+    "runtime": "runtime/kuuos_codeai_evidence_weighted_selection_abstention_v0_1.py",
+    "checks": "runtime/kuuos_codeai_evidence_weighted_selection_abstention_checks_v0_1.py",
+    "schema": "runtime/kuuos_codeai_evidence_weighted_selection_abstention_schema_v0_1.py",
+    "fixture_builder": "scripts/build_codeai_evidence_weighted_selection_abstention_fixture_v0_1.py",
+    "checker": "scripts/check_codeai_evidence_weighted_selection_abstention_v0_1.py",
+    "tests": "tests/test_kuuos_codeai_evidence_weighted_selection_abstention_v0_1.py",
+    "example": "examples/codeai_evidence_weighted_selection_abstention_v0_1.json",
+    "documentation": "docs/KUUOS_CODEAI_EVIDENCE_WEIGHTED_SELECTION_ABSTENTION_v0_1.md",
+    "formal_kernel": "formal/KUOS/CodeAI/EvidenceWeightedSelectionAbstentionV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAIEvidenceWeightedSelectionAbstentionV0_1.lean",
+    "workflow": ".github/workflows/codeai-evidence-weighted-selection-abstention-v0-1.yml"
+  },
+  "fixed_boundaries": {
+    "test_execution_performed_by_kernel": false,
+    "repair_executed": false,
+    "repository_mutation_performed": false,
+    "git_effect_performed": false,
+    "verification_authority_granted": false,
+    "repair_authority_granted": false,
+    "execution_authority_granted": false,
+    "git_authority_granted": false,
+    "score_treated_as_probability": false,
+    "score_treated_as_correctness_proof": false,
+    "selection_treated_as_correctness_proof": false,
+    "abstention_treated_as_rejection": false
+  }
+}
