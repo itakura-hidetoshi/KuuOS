@@ -1,0 +1,56 @@
+{
+  "candidates": [
+    {
+      "candidate_id": "candidate-admissible",
+      "candidate_sequence": 1,
+      "mode": "admissible"
+    },
+    {
+      "candidate_id": "candidate-repairable",
+      "candidate_sequence": 2,
+      "mode": "repairable"
+    },
+    {
+      "candidate_id": "candidate-hold",
+      "candidate_sequence": 3,
+      "mode": "hold"
+    },
+    {
+      "candidate_id": "candidate-rejected",
+      "candidate_sequence": 4,
+      "mode": "rejected"
+    }
+  ],
+  "classification_priority": [
+    "candidate_static_admissibility_confirmed",
+    "candidate_static_preflight_repair_required",
+    "candidate_static_preflight_held",
+    "candidate_static_preflight_rejected"
+  ],
+  "evaluation_epoch": 1784539005,
+  "expected_classification_counts": {
+    "admissible": 1,
+    "hold": 1,
+    "rejected": 1,
+    "repairable": 1
+  },
+  "expected_ordered_candidate_ids": [
+    "candidate-admissible",
+    "candidate-repairable",
+    "candidate-hold",
+    "candidate-rejected"
+  ],
+  "expected_total_changed_path_count": 1,
+  "expected_total_finding_count": 3,
+  "maximum_candidates": 8,
+  "maximum_request_age": 3600,
+  "maximum_total_changed_paths": 32,
+  "maximum_total_findings": 64,
+  "portfolio_id": "portfolio-static-preflight-evidence",
+  "portfolio_revision": "r1",
+  "profile_version": "CodeAI Evidence-Grounded Candidate Ranking v0.1",
+  "ranking_request_id": "ranking-static-preflight-evidence",
+  "ranking_request_revision": "r1",
+  "request_created_epoch": 1784539000,
+  "schema_version": "v0.1"
+}
