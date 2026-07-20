@@ -1,0 +1,48 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Independent Test Strengthening v0.1",
+  "roadmap_step": 6,
+  "purpose": "Derive deterministic independent test obligations from the exact typed error classification before evidence-weighted selection.",
+  "inputs": [
+    "sealed typed error classification",
+    "sealed typed error classification receipt",
+    "sealed independent test capability catalog",
+    "sealed strengthening request",
+    "deny-by-default strengthening policy"
+  ],
+  "outputs": [
+    "sealed candidate-preserving strengthened test plan",
+    "sealed strengthening route receipt"
+  ],
+  "obligation_classes": [
+    "three baseline obligations per candidate",
+    "one typed-family obligation per observed family",
+    "one novelty falsification obligation for novel fingerprints",
+    "one route-specific obligation per observed repair route",
+    "one mutation probe for candidates with no static error"
+  ],
+  "fixed_boundaries": [
+    "strengthened test plan != generated test code",
+    "test obligation != test execution",
+    "test execution != test success",
+    "test success != correctness proof",
+    "obligation count != candidate quality",
+    "strengthening != ranking",
+    "strengthening != selection",
+    "strengthening receipt != verification authority",
+    "strengthening receipt != repair authority",
+    "strengthening receipt != execution or Git authority"
+  ],
+  "surfaces": {
+    "runtime": "runtime/kuuos_codeai_independent_test_strengthening_v0_1.py",
+    "checks": "runtime/kuuos_codeai_independent_test_strengthening_checks_v0_1.py",
+    "schema": "runtime/kuuos_codeai_independent_test_strengthening_schema_v0_1.py",
+    "fixture": "scripts/build_codeai_independent_test_strengthening_fixture_v0_1.py",
+    "checker": "scripts/check_codeai_independent_test_strengthening_v0_1.py",
+    "tests": "tests/test_kuuos_codeai_independent_test_strengthening_v0_1.py",
+    "example": "examples/codeai_independent_test_strengthening_v0_1.json",
+    "formal_kernel": "formal/KUOS/CodeAI/IndependentTestStrengtheningV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAIIndependentTestStrengtheningV0_1.lean",
+    "workflow": ".github/workflows/codeai-independent-test-strengthening-v0-1.yml"
+  }
+}
