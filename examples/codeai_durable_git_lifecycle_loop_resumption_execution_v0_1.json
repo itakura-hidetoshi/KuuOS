@@ -1,0 +1,63 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Durable Git Lifecycle Loop Resumption Execution v0.1",
+  "execution_request": {
+    "execution_session_id": "git-loop-resumption-execution-001",
+    "invocation_nonce_digest": "dddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddddd",
+    "loop_id": "git-loop-001",
+    "lifecycle_id": "git-loop-lifecycle-001",
+    "repository_full_name": "itakura-hidetoshi/KuuOS",
+    "executor_id": "codeai-loop-resumption-executor",
+    "request_created_epoch": 520,
+    "consume_execution_input": true,
+    "invoke_bounded_loop": true,
+    "source_correspondence_confirmed": true
+  },
+  "execution_policy": {
+    "authorized_executor_ids": [
+      "codeai-loop-resumption-executor"
+    ],
+    "maximum_request_age": 100,
+    "maximum_registry_entries": 16,
+    "maximum_effect_count": 2,
+    "maximum_total_command_count": 8,
+    "maximum_total_output_bytes": 8000,
+    "evaluation_epoch": 520,
+    "allow_execution_input_consumption": true,
+    "allow_bounded_loop_invocation": true,
+    "require_one_shot": true,
+    "require_active_input": true,
+    "require_existing_lifecycle_effect_chain": true,
+    "allow_direct_git_effect": false,
+    "allow_automatic_execution": false,
+    "allow_unbounded_execution": false,
+    "allow_network_access_outside_orchestrator": false,
+    "allow_secret_material_read": false,
+    "allow_general_successor_authority": false
+  },
+  "execution_registry": {
+    "registry_id": "git-loop-resumption-execution-registry",
+    "registry_revision": 0,
+    "consumed_invocation_nonce_digests": [],
+    "consumed_execution_input_digests": [],
+    "emitted_loop_receipt_digests": [],
+    "successful_execution_count": 0,
+    "last_execution_epoch": 0
+  },
+  "expected_success": {
+    "execution_input_consumed": true,
+    "bounded_loop_invoked_once": true,
+    "existing_lifecycle_effect_chain_enforced": true,
+    "direct_git_effect_performed": false,
+    "automatic_execution_performed": false,
+    "registry_revision_delta": 1
+  },
+  "boundaries": [
+    "execution input consumption is one-shot",
+    "the original inactive resume input is required as a lineage witness",
+    "the resumed initial lifecycle receipt must equal the checkpointed final lifecycle receipt",
+    "Git effects remain inside the existing lifecycle evaluator and one-effect lease chain",
+    "no direct Git authority is created by this stage",
+    "no automatic or unbounded execution authority is created"
+  ]
+}

@@ -41,6 +41,7 @@ roots = [
   "KuuOSCodeAIDurableGitLifecycleLoopCheckpointPersistenceV0_1",
   "KuuOSCodeAIDurableGitLifecycleLoopResumptionAdmissionV0_1",
   "KuuOSCodeAIDurableGitLifecycleLoopResumptionConsumptionV0_1",
+  "KuuOSCodeAIDurableGitLifecycleLoopResumptionExecutionV0_1",
   "KuuOSCodeAIMinimalExternalAuthorityDependencyV0_1",
   "KuuOSFormalV0_41",
   "KuuOSFormalV0_42",
