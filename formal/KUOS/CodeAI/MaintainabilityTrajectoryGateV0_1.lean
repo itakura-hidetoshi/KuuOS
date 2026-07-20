@@ -221,7 +221,7 @@ def actualObservations : List AxisObservation :=
 def actualGateInput : GateInput :=
   {
     observations := actualObservations
-    memoryHintAvailable := true
+    memoryHintAvailable := false
   }
 
 def actualTrajectoryPolicy : TrajectoryPolicy :=
