@@ -1,0 +1,55 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Generated Patch Error Baseline Replay Evaluation v0.1",
+  "status": "additive_read_only_replay_evaluation",
+  "purpose": "Deterministically aggregate normalized historical CodeAI patch evidence into stage, failure, repair, and cost baselines without re-executing code or invoking a provider.",
+  "predecessor_surfaces": [
+    "CodeAI Autonomous Structured Edit Synthesis v0.1",
+    "CodeAI Autonomous Isolated Candidate Application v0.1",
+    "CodeAI Autonomous Verification Execution v0.1",
+    "CodeAI Independent Verification v0.1",
+    "CodeAI Verification-Guided Candidate Repair and Regeneration v0.1"
+  ],
+  "artifacts": [
+    "runtime/kuuos_codeai_generated_patch_error_baseline_replay_evaluation_v0_1.py",
+    "scripts/check_codeai_generated_patch_error_baseline_replay_evaluation_v0_1.py",
+    "tests/test_kuuos_codeai_generated_patch_error_baseline_replay_evaluation_v0_1.py",
+    "examples/codeai_generated_patch_error_baseline_replay_evaluation_v0_1.json",
+    "manifests/kuuos_codeai_generated_patch_error_baseline_replay_evaluation_v0_1.json",
+    "docs/KUUOS_CODEAI_GENERATED_PATCH_ERROR_BASELINE_REPLAY_EVALUATION_v0_1.md",
+    "formal/KUOS/CodeAI/GeneratedPatchErrorBaselineReplayEvaluationV0_1.lean",
+    "formal/KuuOSCodeAIGeneratedPatchErrorBaselineReplayEvaluationV0_1.lean",
+    ".github/workflows/codeai-generated-patch-error-baseline-replay-evaluation-v0-1.yml",
+    "lakefile.toml"
+  ],
+  "reported_metrics": [
+    "conditional stage pass rates",
+    "first-failure counts",
+    "incomplete evidence count",
+    "independent verification pass rate",
+    "repair-green rate",
+    "repair cycles per verified patch",
+    "provider calls per verified patch",
+    "generated output bytes per verified patch",
+    "distinct and repeated error fingerprints"
+  ],
+  "fixed_boundaries": {
+    "historical_code_reexecuted": false,
+    "provider_invoked": false,
+    "verification_runner_invoked": false,
+    "repository_mutation_performed": false,
+    "git_effect_performed": false,
+    "network_accessed": false,
+    "secret_material_read": false,
+    "selection_authority_granted": false,
+    "successor_stage_authority_granted": false,
+    "correctness_proof_claimed": false
+  },
+  "validation": [
+    "python3 -m compileall -q runtime/kuuos_codeai_generated_patch_error_baseline_replay_evaluation_v0_1.py scripts/check_codeai_generated_patch_error_baseline_replay_evaluation_v0_1.py tests/test_kuuos_codeai_generated_patch_error_baseline_replay_evaluation_v0_1.py",
+    "PYTHONPATH=. python3 scripts/check_codeai_generated_patch_error_baseline_replay_evaluation_v0_1.py",
+    "PYTHONPATH=. python3 -m unittest tests.test_kuuos_codeai_generated_patch_error_baseline_replay_evaluation_v0_1",
+    "lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSCodeAIGeneratedPatchErrorBaselineReplayEvaluationV0_1",
+    "lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal"
+  ]
+}
