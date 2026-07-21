@@ -238,13 +238,14 @@ theorem referenceEvidence_has_four_passes : passCount referenceEvidence = 4 := b
 
 
 theorem referenceEvidence_accepted : Accepted referenceEvidence 3 := by
+  have hPass : passCount referenceEvidence = 4 := referenceEvidence_has_four_passes
   have hFail : failCount referenceEvidence = 0 := by
     native_decide
   have hInconclusive : inconclusiveCount referenceEvidence = 0 := by
     native_decide
   unfold Accepted
   constructor
-  · rw [referenceEvidence_has_four_passes]
+  · omega
   constructor
   · exact hFail
   constructor
