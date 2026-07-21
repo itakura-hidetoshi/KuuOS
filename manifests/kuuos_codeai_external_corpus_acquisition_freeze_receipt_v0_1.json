@@ -1,0 +1,40 @@
+{
+  "artifact_copy_committed_to_repository": false,
+  "artifact_path": "data/test-00000-of-00001.parquet",
+  "artifact_sha256": "a45b1fe4e2f0c8390b2b2938ac83e92ed5979000856808f3679c07812e9e6dcd",
+  "artifact_size_bytes": 2096679,
+  "benchmark_id": "swe-bench-verified",
+  "corpus_frozen": true,
+  "correctness_claimed": false,
+  "dataset_name": "princeton-nlp/SWE-bench_Verified",
+  "dataset_revision": "c104f840cc67f8b6eec6f759ebc8b2693d585d4a",
+  "dataset_split": "test",
+  "fetch_performed_by_kernel": false,
+  "freeze_decision": "external_corpus_freeze_admitted",
+  "freeze_pack_digest": "f0de4f9fc1e5c7348ced5a6272d37d7b289d3dbbf2df086496f358a601351a6f",
+  "git_authority_granted": false,
+  "gold_patch_access_granted": false,
+  "harness_execution_authority_granted": false,
+  "predecessor_manifest_digest": "a5310fcfdb5d6c8ee99d66eb56d4d0f3cdd76152582c620f3b8dd6aa597b688d",
+  "profile_version": "CodeAI External Corpus Acquisition and Freeze Receipt v0.1",
+  "receipt_digest": "31575449c7bbe77179e744563e7054eeeae5f037dd5673d5e1220901eeefe16b",
+  "repository_mutation_performed": false,
+  "restricted_evaluator_fields": [
+    "patch",
+    "test_patch",
+    "hints_text",
+    "FAIL_TO_PASS",
+    "PASS_TO_PASS"
+  ],
+  "row_count": 500,
+  "solver_label_access_granted": false,
+  "solver_visible_fields": [
+    "repo",
+    "instance_id",
+    "base_commit",
+    "problem_statement",
+    "version",
+    "environment_setup_commit",
+    "difficulty"
+  ]
+}
