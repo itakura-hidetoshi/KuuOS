@@ -9,7 +9,7 @@
     "verified_patch_count": 2
   },
   "codeai_disposition": "generated_patch_error_reduction_confirmed",
-  "comparison_evidence_digest": "6c9deb41d107e226457a1c707c91ce4c6a2e45f359d6aaad01d53c3c2fb56ce7",
+  "comparison_evidence_digest": "060904cfdebf100253bc8b823a7e8f1df4ff54a5758402e4f08c90dc6068a399",
   "comparison_metrics": {
     "all_targets_met": true,
     "baseline_case_count": 3,
@@ -58,18 +58,18 @@
     "targets_met_count": 8,
     "verified_patch_count_delta": 1
   },
-  "comparison_policy_digest": "5ad036f24d87c87c214f7120480770d20a1994f55f209aeb7145e81a78d2f8a7",
-  "comparison_receipt_digest": "9db69d01ea225d9157e6013f0b8abde072320a211dc26e4e639a54b48fd7adfd",
-  "comparison_request_digest": "25c935823ea01269b73f40aa374d682f4f1b5d2a8cc595af1515b0b5baff6a31",
+  "comparison_policy_digest": "3d33817d0e3eea6ec4812e5646fcb04a5c0f49d9a1f7d1aad3c15252adb3c6ae",
+  "comparison_receipt_digest": "2e0ce29877c18a1935d64e6f53d691c7dc93700112fc782e48b164873b9be49f",
+  "comparison_request_digest": "53b40f77b0421f9ce9248ef28ba1da8a254dd1b6ff1eccd1574ba1d848f7b41e",
   "error_reduction_confirmed": true,
   "profile_version": "CodeAI Generated Patch Error Reduction Comparative Replay Evaluation v0.1",
   "schema_version": "v0.1",
   "successor": {
-    "dataset_digest": "992bc3aa87f6f43ef8df46422e6d1f00365e51ff623d6ffefd1bc6c68506f255",
+    "dataset_digest": "d774e98cb49ebab21d0ac6931edb070d139274ef84d9083cd1d2063d3cee2fbe",
     "dataset_id": "successor-dataset-001",
-    "evidence_digest": "fd8cbac272eedc5806b6056fc535423447ffa80b9c911300bc6d16c3715878d2",
+    "evidence_digest": "426390177b83323db533df37b3b37e223b32daaddc766e30aef36dd4a6c0f192",
     "metrics_digest": "48c7417cf9645c5d2ebc7ae4a75ce18b4e43de0f10fbfebcc0a45b67f201d71a",
-    "receipt_digest": "56d18988e5b54e03e5108c96c5f218442ac0134e900424d4b337580e5bea4308",
+    "receipt_digest": "4b885432309a0f92503888a2e2dc92c20d709352740602661ad1dc5b41ed2be2",
     "total_case_count": 3,
     "verified_patch_count": 3
   }
