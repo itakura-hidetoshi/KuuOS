@@ -1,0 +1,66 @@
+{
+  "schema_version": "v0.2",
+  "profile_version": "CodeAI Intent-Aligned Dataflow Context Pack v0.2",
+  "status": "active",
+  "purpose": "Build a content-addressed repository context pack through intent, hypothesis, symbol, dependency, and dataflow query lineage.",
+  "exact_base": "1d953b9d8383b5fc1ab42431c6fa9bec39a83b61",
+  "predecessor": "CodeAI Selective Repository Semantic Context Pack v0.1",
+  "surfaces": {
+    "runtime_schema": "runtime/kuuos_codeai_intent_aligned_dataflow_context_pack_schema_v0_2.py",
+    "runtime_checks": "runtime/kuuos_codeai_intent_aligned_dataflow_context_pack_checks_v0_2.py",
+    "runtime_kernel": "runtime/kuuos_codeai_intent_aligned_dataflow_context_pack_v0_2.py",
+    "fixture_builder": "scripts/build_codeai_intent_aligned_dataflow_context_pack_fixture_v0_2.py",
+    "fixture_projection": "scripts/project_codeai_intent_aligned_dataflow_context_pack_fixture_v0_2.py",
+    "checker": "scripts/check_codeai_intent_aligned_dataflow_context_pack_v0_2.py",
+    "tests": "tests/test_kuuos_codeai_intent_aligned_dataflow_context_pack_v0_2.py",
+    "example": "examples/codeai_intent_aligned_dataflow_context_pack_v0_2.json",
+    "documentation": "docs/KUUOS_CODEAI_INTENT_ALIGNED_DATAFLOW_CONTEXT_PACK_v0_2.md",
+    "formal_kernel": "formal/KUOS/CodeAI/IntentAlignedDataflowContextPackV0_2.lean",
+    "formal_root": "formal/KuuOSCodeAIIntentAlignedDataflowContextPackV0_2.lean",
+    "workflow": ".github/workflows/codeai-intent-aligned-dataflow-context-pack-v0-2.yml"
+  },
+  "reference": {
+    "query_lineage_node_count": 6,
+    "selected_file_count": 6,
+    "symbol_digest_count": 6,
+    "resolved_dependency_path_count": 7,
+    "dataflow_edge_count": 26,
+    "repository_snapshot_bytes": 1578,
+    "total_context_bytes": 1539
+  },
+  "query_stages": [
+    "intent",
+    "hypothesis",
+    "hypothesis",
+    "symbol",
+    "dependency",
+    "dataflow"
+  ],
+  "guarantees": [
+    "content_addressed_request_policy_hypotheses_query_nodes_selected_evidence_pack_and_receipt",
+    "intent_seeded_query_lineage",
+    "candidate_hypothesis_expansion",
+    "symbol_import_call_type_and_dataflow_evidence",
+    "resolved_dependency_paths",
+    "per_file_symbol_digest",
+    "bounded_snapshot_candidate_file_excerpt_selection_dependency_depth_and_total_context",
+    "deterministic_selection",
+    "repository_observation_read_only",
+    "fail_closed"
+  ],
+  "forbidden_authority": [
+    "repository_mutation",
+    "network_access",
+    "secret_read",
+    "candidate_selection_authority",
+    "execution_authority",
+    "git_effect",
+    "successor_stage_authority"
+  ],
+  "forbidden_overclaims": [
+    "correctness",
+    "completeness",
+    "representativeness"
+  ],
+  "dedicated_test_count": 26
+}
