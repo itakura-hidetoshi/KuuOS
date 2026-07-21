@@ -195,19 +195,22 @@ def referenceHoldout : MemoryEntry where
 
 theorem referenceCurrent_eligible :
     Eligible referenceQuery referenceCurrent := by
-  native_decide
+  simp [Eligible, BoundaryPreserved, referenceCurrent]
 
 theorem referenceStale_not_eligible :
     ¬ Eligible referenceQuery referenceStale := by
-  native_decide
+  apply repository_version_mismatch_forbids_transfer
+  simp [referenceStale, referenceQuery]
 
 theorem referenceWrongSubtask_not_eligible :
     ¬ Eligible referenceQuery referenceWrongSubtask := by
-  native_decide
+  apply subtask_mismatch_forbids_transfer
+  simp [referenceWrongSubtask, referenceQuery]
 
 theorem referenceHoldout_not_eligible :
     ¬ Eligible referenceQuery referenceHoldout := by
-  native_decide
+  apply holdout_derived_forbids_transfer
+  simp [referenceHoldout]
 
 theorem referenceCurrent_preserves_boundary :
     BoundaryPreserved referenceCurrent := by
