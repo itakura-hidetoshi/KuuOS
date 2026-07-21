@@ -1,0 +1,29 @@
+{
+  "candidate_selection_authority": false,
+  "codeai_disposition": "independent_verifier_ensemble_consensus_passed",
+  "conflict_detected": false,
+  "consensus_outcome": "passed",
+  "correctness_proof": false,
+  "covered_check_families": [
+    "adversarial_and_falsification",
+    "behavioral_and_regression",
+    "maintainability_and_static",
+    "type_and_formal"
+  ],
+  "critical_failure_count": 0,
+  "ensemble_digest": "6faaa86813a1d72f9f12301024999b7c254a723135e6eb0e70e60da4a45cb218",
+  "execution_authority": false,
+  "fail_count": 0,
+  "git_authority": false,
+  "inconclusive_count": 0,
+  "method_count": 4,
+  "operating_mode": "consensus_pass",
+  "organization_count": 4,
+  "pass_count": 4,
+  "policy_digest": "9f3fcb0ed284976eee8130b716bb897fae2249a5e1f218677c91c87c2a2d284d",
+  "receipt_digest": "44e8047d20981d68f0b9061c557771f22cfbe6002979266338941e8b551598b4",
+  "request_digest": "5ec2ca073dc153ca96d84d214bb5fad21b0977069a085a07976f2f0f8d679281",
+  "source_commit_sha": "7566e188174d8e36880b6cfbc77fe164d0637f9c",
+  "verification_debt_open": false,
+  "verifier_count": 4
+}
