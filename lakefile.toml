@@ -35,6 +35,7 @@ roots = [
   "KuuOSCodeAIIndependentVerifierEnsembleV0_2",
   "KuuOSCodeAISubtaskLevelVersionBoundMemoryV0_1",
   "KuuOSCodeAITrajectoryGroundedSpecialistRouterAdmissionV0_1",
+  "KuuOSCodeAIEnvironmentCapsuleLivelockEfficiencyGateV0_1",
   "KuuOSCodeAIAutonomousTrajectorySynthesisV0_1",
   "KuuOSCodeAIAutonomousGitLifecycleV0_1",
   "KuuOSCodeAIAutonomousGitEffectExecutionV0_1",
