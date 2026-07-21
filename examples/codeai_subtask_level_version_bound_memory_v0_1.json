@@ -1,0 +1,38 @@
+{
+  "candidate_selected": false,
+  "corpus_digest": "9cd79d1f59368285d9bb732a945d9e5eff4feeb3b295e6396d2ffe8d36219b8b",
+  "corpus_entry_count": 9,
+  "correctness_claimed": false,
+  "dependency_alignment_verified": true,
+  "exact_version_binding_verified": true,
+  "excluded_entry_count": 8,
+  "execution_authority_granted": false,
+  "future_success_claimed": false,
+  "git_authority_granted": false,
+  "holdout_protection_verified": true,
+  "matched_entry_count": 1,
+  "matched_entry_ids": [
+    "memory-verify-current-001"
+  ],
+  "memory_pack_digest": "9826f4a6024cdad797c1acff2ead6156c93393f61f20a6f1bb7455f1c265c097",
+  "memory_read_only": true,
+  "policy_digest": "083882121e6aba8e0bb6ed318d1a66c96841220cb29b19bab814c827d6ddc857",
+  "profile_version": "CodeAI Subtask-Level Version-Bound Memory v0.1",
+  "queried_subtask_kind": "verify",
+  "receipt_digest": "8c566cfb36967262d50b0879b01df042e371e2196a5e0f34cc50a3c6e775b969",
+  "recommendation": "exact_subtask_version_bound_memory_available",
+  "repair_executed": false,
+  "repository_full_name": "itakura-hidetoshi/KuuOS",
+  "repository_mutation_performed": false,
+  "request_digest": "e6dfce60ae6f177241cca13bd86cb2974bc35dbc743aa5128cc7d1903cf0ccd0",
+  "schema_version": "v0.1",
+  "source_commit_sha": "2e3801430959946c1d2ecc784cf9e37dab139632",
+  "subtask_alignment_verified": true,
+  "subtask_coverage": [
+    "localize",
+    "diagnose",
+    "edit",
+    "verify"
+  ],
+  "verifier_grounding_verified": true
+}
