@@ -123,7 +123,7 @@ structure SplitIdentity where
   holdoutIssueIds : Finset Nat
   developmentReplayIds : Finset Nat
   holdoutReplayIds : Finset Nat
-  deriving DecidableEq, Repr
+  deriving DecidableEq
 
 /-- No case, issue, or replay identity crosses the temporal split. -/
 def SplitDisjoint (identity : SplitIdentity) : Prop :=
