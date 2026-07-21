@@ -1,0 +1,65 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Temporal Holdout Replay Corpus v0.1",
+  "status": "active",
+  "purpose": "Seal a content-addressed temporal development/holdout replay corpus before later CodeAI adaptation and admission evaluation.",
+  "exact_base": "9df229a76ac2cd6ef2a33b503ee88008c3f8a864",
+  "surfaces": {
+    "runtime_schema": "runtime/kuuos_codeai_temporal_holdout_replay_corpus_schema_v0_1.py",
+    "runtime_checks": "runtime/kuuos_codeai_temporal_holdout_replay_corpus_checks_v0_1.py",
+    "runtime_kernel": "runtime/kuuos_codeai_temporal_holdout_replay_corpus_v0_1.py",
+    "fixture_builder": "scripts/build_codeai_temporal_holdout_replay_corpus_fixture_v0_1.py",
+    "fixture_projection": "scripts/project_codeai_temporal_holdout_replay_corpus_fixture_v0_1.py",
+    "checker": "scripts/check_codeai_temporal_holdout_replay_corpus_v0_1.py",
+    "tests": "tests/test_kuuos_codeai_temporal_holdout_replay_corpus_v0_1.py",
+    "example": "examples/codeai_temporal_holdout_replay_corpus_v0_1.json",
+    "documentation": "docs/KUUOS_CODEAI_TEMPORAL_HOLDOUT_REPLAY_CORPUS_v0_1.md",
+    "formal_kernel": "formal/KUOS/CodeAI/TemporalHoldoutReplayCorpusV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAITemporalHoldoutReplayCorpusV0_1.lean",
+    "workflow": ".github/workflows/codeai-temporal-holdout-replay-corpus-v0-1.yml"
+  },
+  "reference": {
+    "development_case_count": 3,
+    "holdout_case_count": 3,
+    "scenario_class_count": 6,
+    "cross_split_case_id_overlap_count": 0,
+    "cross_split_issue_digest_overlap_count": 0,
+    "cross_split_replay_case_digest_overlap_count": 0,
+    "cutoff_commit_sha": "9df229a76ac2cd6ef2a33b503ee88008c3f8a864",
+    "cutoff_epoch": 100
+  },
+  "guarantees": [
+    "content_addressed",
+    "temporal_split_frozen",
+    "development_not_after_cutoff",
+    "holdout_strictly_after_cutoff",
+    "cross_split_case_issue_and_replay_identity_disjoint",
+    "uniform_environment_binding",
+    "uniform_provider_configuration_binding",
+    "uniform_evaluation_protocol_binding",
+    "holdout_hidden_from_candidate_generation",
+    "holdout_excluded_from_threshold_tuning",
+    "holdout_excluded_from_memory_training",
+    "holdout_excluded_from_prompt_selection",
+    "holdout_excluded_from_model_selection",
+    "fail_closed"
+  ],
+  "forbidden_authority": [
+    "historical_code_reexecution",
+    "provider_invocation",
+    "verification_runner_invocation",
+    "repository_mutation",
+    "git_effect",
+    "network_access",
+    "secret_read",
+    "selection_authority",
+    "successor_stage_authority"
+  ],
+  "forbidden_overclaims": [
+    "representativeness",
+    "randomness",
+    "unbiasedness",
+    "correctness_proof"
+  ],
+  "dedicated_test_count": 26
+}
