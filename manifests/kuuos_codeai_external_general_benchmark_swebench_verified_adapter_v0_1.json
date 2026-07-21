@@ -1,0 +1,31 @@
+{
+  "adapter_decision": "external_benchmark_protocol_admitted",
+  "adapter_pack_digest": "134475fc54fc23d0bcb48973b9fcfd158da51fa6a95ea4eff083a500f7936107",
+  "benchmark_id": "swe-bench-verified",
+  "benchmark_result_ingested": false,
+  "controller_source_commit_sha": "f5bf17314041e0cdfefb5862990e6c1abea320d6",
+  "correctness_claimed": false,
+  "dataset_name": "princeton-nlp/SWE-bench_Verified",
+  "evaluation_mode": "smoke",
+  "expected_instance_count": 500,
+  "git_authority_granted": false,
+  "harness_commit_sha": "f7bbbb2ccdf479001d6467c9e34af59e44a840f9",
+  "harness_execution_performed": false,
+  "harness_repository": "swe-bench/SWE-bench",
+  "hold_reasons": [],
+  "network_access_performed": false,
+  "official_prediction_fields": [
+    "instance_id",
+    "model_name_or_path",
+    "model_patch"
+  ],
+  "official_predictions_digest": "6c120860918f9ff0cd8bf0bbf2f22210fbe66a6426551514be024a4159e2485e",
+  "prediction_count": 3,
+  "profile_version": "CodeAI External General Benchmark Protocol and SWE-bench Verified Adapter v0.1",
+  "protocol_projection_only": true,
+  "receipt_digest": "55233619cdc23640818f305564ee08652e5f9817cb0260128256c4d3ddfd7b73",
+  "repository_mutation_performed": false,
+  "sample_count": 3,
+  "secret_access_performed": false,
+  "split": "test"
+}
