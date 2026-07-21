@@ -1,0 +1,79 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Generated Patch Error Reduction Comparative Replay Evaluation v0.1",
+  "stage": "post_roadmap_measurement_closure",
+  "predecessor": "CodeAI Generated Patch Error Baseline Replay Evaluation v0.1",
+  "completed_roadmap_steps": [
+    "baseline_and_replay_evaluation",
+    "selective_repository_semantic_context_pack",
+    "typed_structured_edit_ir",
+    "candidate_static_admissibility_preflight",
+    "typed_error_classification",
+    "independent_test_strengthening",
+    "evidence_weighted_selection_and_abstention",
+    "version_bound_repair_memory",
+    "maintainability_trajectory_gate"
+  ],
+  "source_inputs": [
+    "baseline_replay_evidence",
+    "baseline_replay_receipt",
+    "successor_replay_evidence",
+    "successor_replay_receipt",
+    "comparison_request",
+    "comparison_policy"
+  ],
+  "dispositions": [
+    "generated_patch_error_reduction_confirmed",
+    "generated_patch_error_reduction_not_confirmed"
+  ],
+  "reference": {
+    "baseline_case_count": 3,
+    "successor_case_count": 3,
+    "verified_patch_count_delta": 1,
+    "typecheck_first_failure_count_delta": -1,
+    "repeated_error_fingerprint_count_delta": -1,
+    "cases_with_repeated_error_fingerprint_delta": -2,
+    "repair_cycles_per_verified_patch_delta_basis_points": -1667,
+    "provider_calls_per_verified_patch_delta_basis_points": -13334,
+    "generated_output_bytes_per_verified_patch_delta_basis_points": -6166667,
+    "target_count": 8,
+    "targets_met_count": 8,
+    "error_reduction_confirmed": true
+  },
+  "requirements": {
+    "exact_source_digests": true,
+    "same_repository": true,
+    "distinct_dataset_digests": true,
+    "equal_case_count": true,
+    "defined_ratio_deltas": true,
+    "fresh_request": true,
+    "authorized_evaluator": true,
+    "read_only_comparison": true
+  },
+  "forbidden": {
+    "historical_code_reexecution": true,
+    "provider_invocation": true,
+    "verification_runner_invocation": true,
+    "repository_mutation": true,
+    "git_effect": true,
+    "network_access": true,
+    "secret_read": true,
+    "selection_authority_grant": true,
+    "successor_authority_grant": true,
+    "correctness_proof_claim": true,
+    "probability_claim": true,
+    "dataset_unbiasedness_claim": true,
+    "not_confirmed_as_rejection": true
+  },
+  "surfaces": {
+    "runtime": "runtime/kuuos_codeai_generated_patch_error_reduction_comparative_replay_evaluation_v0_1.py",
+    "fixture": "scripts/build_codeai_generated_patch_error_reduction_comparative_replay_fixture_v0_1.py",
+    "fixture_projection": "scripts/project_codeai_generated_patch_error_reduction_comparative_replay_fixture_v0_1.py",
+    "checker": "scripts/check_codeai_generated_patch_error_reduction_comparative_replay_evaluation_v0_1.py",
+    "tests": "tests/test_kuuos_codeai_generated_patch_error_reduction_comparative_replay_evaluation_v0_1.py",
+    "example": "examples/codeai_generated_patch_error_reduction_comparative_replay_evaluation_v0_1.json",
+    "formal_kernel": "formal/KUOS/CodeAI/GeneratedPatchErrorReductionComparativeReplayEvaluationV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAIGeneratedPatchErrorReductionComparativeReplayEvaluationV0_1.lean",
+    "workflow": ".github/workflows/codeai-generated-patch-error-reduction-comparative-replay-evaluation-v0-1.yml"
+  }
+}
