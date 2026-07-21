@@ -44,6 +44,7 @@ roots = [
   "KuuOSCodeAIDurableGitLifecycleLoopResumptionExecutionV0_1",
   "KuuOSCodeAIGeneratedPatchErrorBaselineReplayEvaluationV0_1",
   "KuuOSCodeAISelectiveRepositorySemanticContextPackV0_1",
+  "KuuOSCodeAIIntentAlignedDataflowContextPackV0_2",
   "KuuOSCodeAITypedStructuredEditIRV0_1",
   "KuuOSCodeAICandidateStaticAdmissibilityPreflightV0_1",
   "KuuOSCodeAIEvidenceBearingCandidatePortfolioV0_1",
