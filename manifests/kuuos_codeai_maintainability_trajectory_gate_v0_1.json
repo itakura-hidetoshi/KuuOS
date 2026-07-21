@@ -1,0 +1,71 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Maintainability Trajectory Gate v0.1",
+  "roadmap_step": 9,
+  "roadmap_complete": true,
+  "exact_inputs": [
+    "evidence_weighted_selection_decision",
+    "evidence_weighted_selection_receipt",
+    "version_bound_repair_memory_snapshot",
+    "version_bound_repair_memory_receipt",
+    "maintainability_trajectory_evidence_packet",
+    "gate_request",
+    "gate_policy"
+  ],
+  "maintainability_axes": [
+    "structural_complexity",
+    "dependency_surface",
+    "duplication",
+    "test_burden",
+    "proof_burden",
+    "repair_recurrence"
+  ],
+  "gate_decisions": [
+    "admitted",
+    "held"
+  ],
+  "reference": {
+    "axis_count": 6,
+    "improved_axis_count": 3,
+    "total_regression": 3,
+    "maximum_total_regression": 4,
+    "decision": "admitted"
+  },
+  "requirements": {
+    "exact_lineage": true,
+    "complete_axis_coverage": true,
+    "independent_assessor": true,
+    "independent_reviewer": true,
+    "isolated_candidate_evaluation": true,
+    "source_correspondence": true,
+    "exact_memory_binding": true,
+    "live_repository_unchanged": true
+  },
+  "forbidden": {
+    "memory_threshold_waiver": true,
+    "test_execution_by_gate": true,
+    "repair_execution_by_gate": true,
+    "repository_mutation_by_gate": true,
+    "selection_authority_grant": true,
+    "verification_authority_grant": true,
+    "repair_authority_grant": true,
+    "execution_authority_grant": true,
+    "git_authority_grant": true,
+    "future_maintainability_proof_claim": true,
+    "correctness_proof_claim": true,
+    "probability_claim": true,
+    "hold_as_rejection": true
+  },
+  "surfaces": {
+    "runtime": "runtime/kuuos_codeai_maintainability_trajectory_gate_v0_1.py",
+    "checks": "runtime/kuuos_codeai_maintainability_trajectory_gate_checks_v0_1.py",
+    "schema": "runtime/kuuos_codeai_maintainability_trajectory_gate_schema_v0_1.py",
+    "fixture": "scripts/build_codeai_maintainability_trajectory_gate_fixture_v0_1.py",
+    "checker": "scripts/check_codeai_maintainability_trajectory_gate_v0_1.py",
+    "tests": "tests/test_kuuos_codeai_maintainability_trajectory_gate_v0_1.py",
+    "example": "examples/codeai_maintainability_trajectory_gate_v0_1.json",
+    "formal_kernel": "formal/KUOS/CodeAI/MaintainabilityTrajectoryGateV0_1.lean",
+    "formal_root": "formal/KuuOSCodeAIMaintainabilityTrajectoryGateV0_1.lean",
+    "workflow": ".github/workflows/codeai-maintainability-trajectory-gate-v0-1.yml"
+  }
+}

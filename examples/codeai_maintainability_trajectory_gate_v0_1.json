@@ -1,0 +1,63 @@
+{
+  "schema_version": "v0.1",
+  "profile_version": "CodeAI Maintainability Trajectory Gate v0.1",
+  "gate_request_id": "maintainability-trajectory-gate-001",
+  "gate_request_revision": "r1",
+  "evidence_packet_id": "maintainability-trajectory-evidence-001",
+  "evidence_packet_revision": "r1",
+  "candidate_producer_id": "codeai-candidate-producer-001",
+  "independent_assessor_id": "codeai-maintainability-assessor-001",
+  "independent_reviewer_id": "codeai-maintainability-reviewer-001",
+  "evidence_created_epoch": 1784586000,
+  "request_created_epoch": 1784586002,
+  "evaluation_epoch": 1784586005,
+  "maximum_request_age": 3600,
+  "maximum_evidence_age": 3600,
+  "maximum_trajectory_records": 8,
+  "maximum_allowed_increase": {
+    "structural_complexity": 0,
+    "dependency_surface": 1,
+    "duplication": 0,
+    "test_burden": 3,
+    "proof_burden": 0,
+    "repair_recurrence": 0
+  },
+  "maximum_total_regression": 4,
+  "minimum_improved_axes": 3,
+  "axis_values": {
+    "structural_complexity": {
+      "baseline_value": 120,
+      "candidate_value": 118,
+      "measurement_label": "isolated-structural-complexity-v0.1"
+    },
+    "dependency_surface": {
+      "baseline_value": 40,
+      "candidate_value": 41,
+      "measurement_label": "isolated-dependency-surface-v0.1"
+    },
+    "duplication": {
+      "baseline_value": 15,
+      "candidate_value": 12,
+      "measurement_label": "isolated-duplication-v0.1"
+    },
+    "test_burden": {
+      "baseline_value": 80,
+      "candidate_value": 82,
+      "measurement_label": "isolated-test-burden-v0.1"
+    },
+    "proof_burden": {
+      "baseline_value": 12,
+      "candidate_value": 12,
+      "measurement_label": "isolated-proof-burden-v0.1"
+    },
+    "repair_recurrence": {
+      "baseline_value": 9,
+      "candidate_value": 7,
+      "measurement_label": "isolated-repair-recurrence-v0.1"
+    }
+  },
+  "expected_axis_count": 6,
+  "expected_improved_axis_count": 3,
+  "expected_total_regression": 3,
+  "expected_gate_decision": "admitted"
+}

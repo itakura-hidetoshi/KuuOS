@@ -1,0 +1,125 @@
+name: CodeAI Maintainability Trajectory Gate v0.1
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "runtime/kuuos_codeai_maintainability_trajectory_gate_v0_1.py"
+      - "runtime/kuuos_codeai_maintainability_trajectory_gate_checks_v0_1.py"
+      - "runtime/kuuos_codeai_maintainability_trajectory_gate_schema_v0_1.py"
+      - "scripts/build_codeai_maintainability_trajectory_gate_fixture_v0_1.py"
+      - "scripts/check_codeai_maintainability_trajectory_gate_v0_1.py"
+      - "tests/test_kuuos_codeai_maintainability_trajectory_gate_v0_1.py"
+      - "examples/codeai_maintainability_trajectory_gate_v0_1.json"
+      - "manifests/kuuos_codeai_maintainability_trajectory_gate_v0_1.json"
+      - "docs/KUUOS_CODEAI_MAINTAINABILITY_TRAJECTORY_GATE_v0_1.md"
+      - "formal/KUOS/CodeAI/MaintainabilityTrajectoryGateV0_1.lean"
+      - "formal/KuuOSCodeAIMaintainabilityTrajectoryGateV0_1.lean"
+      - "runtime/kuuos_codeai_version_bound_repair_memory_v0_1.py"
+      - "runtime/kuuos_codeai_version_bound_repair_memory_checks_v0_1.py"
+      - "runtime/kuuos_codeai_version_bound_repair_memory_schema_v0_1.py"
+      - "runtime/kuuos_codeai_evidence_weighted_selection_abstention_v0_1.py"
+      - "runtime/kuuos_codeai_evidence_weighted_selection_abstention_checks_v0_1.py"
+      - "runtime/kuuos_codeai_evidence_weighted_selection_abstention_schema_v0_1.py"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
+      - ".github/workflows/codeai-maintainability-trajectory-gate-v0-1.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python3 -m compileall -q
+          runtime/kuuos_codeai_maintainability_trajectory_gate_v0_1.py
+          runtime/kuuos_codeai_maintainability_trajectory_gate_checks_v0_1.py
+          runtime/kuuos_codeai_maintainability_trajectory_gate_schema_v0_1.py
+          scripts/build_codeai_maintainability_trajectory_gate_fixture_v0_1.py
+          scripts/check_codeai_maintainability_trajectory_gate_v0_1.py
+          tests/test_kuuos_codeai_maintainability_trajectory_gate_v0_1.py
+      - name: Validate machine-readable artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m json.tool examples/codeai_maintainability_trajectory_gate_v0_1.json > /dev/null
+          python3 -m json.tool manifests/kuuos_codeai_maintainability_trajectory_gate_v0_1.json > /dev/null
+      - name: Check maintainability trajectory gate
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/check_codeai_maintainability_trajectory_gate_v0_1.py \
+            2>&1 | tee codeai-maintainability-trajectory-gate-v0-1.log
+      - name: Run trajectory-gate and predecessor regression tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 -m unittest \
+            tests.test_kuuos_codeai_maintainability_trajectory_gate_v0_1 \
+            tests.test_kuuos_codeai_version_bound_repair_memory_v0_1 \
+            tests.test_kuuos_codeai_evidence_weighted_selection_abstention_v0_1 \
+            tests.test_kuuos_codeai_independent_test_strengthening_v0_1 \
+            tests.test_kuuos_codeai_typed_error_classification_v0_1 \
+            tests.test_kuuos_codeai_evidence_bearing_candidate_portfolio_v0_1 \
+            tests.test_kuuos_codeai_candidate_static_admissibility_preflight_v0_1 \
+            tests.test_kuuos_codeai_generated_patch_error_baseline_replay_evaluation_v0_1 \
+            2>&1 | tee codeai-maintainability-trajectory-gate-v0-1-tests.log
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Verify committed dependency manifest is canonical
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile maintainability trajectory gate formal root
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSCodeAIMaintainabilityTrajectoryGateV0_1 \
+            2>&1 | tee codeai-maintainability-trajectory-gate-v0-1-lean.log
+      - name: Strictly compile repository formal baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSFormal \
+            2>&1 | tee codeai-maintainability-trajectory-gate-v0-1-lean-root.log
+      - name: Upload diagnostics
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-maintainability-trajectory-gate-v0-1-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            codeai-maintainability-trajectory-gate-v0-1.log
+            codeai-maintainability-trajectory-gate-v0-1-tests.log
+            codeai-maintainability-trajectory-gate-v0-1-lean.log
+            codeai-maintainability-trajectory-gate-v0-1-lean-root.log
+          if-no-files-found: warn
+          retention-days: 14
