@@ -53,6 +53,7 @@ roots = [
   "KuuOSCodeAIVersionBoundRepairMemoryV0_1",
   "KuuOSCodeAIMaintainabilityTrajectoryGateV0_1",
   "KuuOSCodeAIGeneratedPatchErrorReductionComparativeReplayEvaluationV0_1",
+  "KuuOSCodeAITemporalHoldoutReplayCorpusV0_1",
   "KuuOSCodeAIMinimalExternalAuthorityDependencyV0_1",
   "KuuOSFormalV0_41",
   "KuuOSFormalV0_42",
