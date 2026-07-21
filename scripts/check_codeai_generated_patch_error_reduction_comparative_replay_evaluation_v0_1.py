@@ -11,6 +11,8 @@ from runtime.kuuos_codeai_generated_patch_error_reduction_comparative_replay_eva
 )
 from scripts.build_codeai_generated_patch_error_reduction_comparative_replay_fixture_v0_1 import (
     build_fixture,
+)
+from scripts.project_codeai_generated_patch_error_reduction_comparative_replay_fixture_v0_1 import (
     project_fixture,
 )
 
