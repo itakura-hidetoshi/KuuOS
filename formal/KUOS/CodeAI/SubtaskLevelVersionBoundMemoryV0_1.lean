@@ -70,13 +70,13 @@ theorem eligible_subtask_aligned
     {query : Binding} {entry : MemoryEntry}
     (h : Eligible query entry) :
     entry.binding.subtaskKind = query.subtaskKind := by
-  simpa [eligible_exact_binding h]
+  exact congrArg Binding.subtaskKind (eligible_exact_binding h)
 
 theorem eligible_dependency_aligned
     {query : Binding} {entry : MemoryEntry}
     (h : Eligible query entry) :
     entry.binding.dependencySlice = query.dependencySlice := by
-  simpa [eligible_exact_binding h]
+  exact congrArg Binding.dependencySlice (eligible_exact_binding h)
 
 theorem eligible_not_holdout_derived
     {query : Binding} {entry : MemoryEntry}
@@ -122,8 +122,10 @@ theorem holdout_derived_forbids_transfer
     (hHoldout : entry.derivedFromHoldout = true) :
     ¬ Eligible query entry := by
   intro h
-  have hFalse := eligible_not_holdout_derived h
-  simp [hHoldout] at hFalse
+  have hNoHoldout : entry.derivedFromHoldout = false :=
+    eligible_not_holdout_derived h
+  rw [hHoldout] at hNoHoldout
+  contradiction
 
 def referenceQuery : Binding where
   repositoryVersion := 1330
