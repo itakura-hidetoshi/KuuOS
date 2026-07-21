@@ -77,7 +77,9 @@ Reference result:
 - inconclusive count: 0;
 - critical failure count: 0;
 - consensus: passed;
-- open verification debt: false.
+- open verification debt: false;
+- reference ensemble digest: `6faaa86813a1d72f9f12301024999b7c254a723135e6eb0e70e60da4a45cb218`;
+- reference receipt digest: `44e8047d20981d68f0b9061c557771f22cfbe6002979266338941e8b551598b4`.
 
 ## Fail-closed boundaries
 
