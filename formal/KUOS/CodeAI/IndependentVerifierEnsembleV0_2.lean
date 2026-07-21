@@ -233,26 +233,24 @@ def referenceEvidence : List VerifierEvidence :=
   ]
 
 
+theorem referenceEvidence_has_four_passes : passCount referenceEvidence = 4 := by
+  native_decide
+
+
 theorem referenceEvidence_accepted : Accepted referenceEvidence 3 := by
-  have hPass : passCount referenceEvidence = 4 := by
-    native_decide
   have hFail : failCount referenceEvidence = 0 := by
     native_decide
   have hInconclusive : inconclusiveCount referenceEvidence = 0 := by
     native_decide
   unfold Accepted
   constructor
-  · omega
+  · rw [referenceEvidence_has_four_passes]
   constructor
   · exact hFail
   constructor
   · exact hInconclusive
   simp [referenceEvidence, AllFamiliesCovered, HasFamily, UniqueProvenance,
     Independent, BoundaryPreserved, CriticalFailure]
-
-
-theorem referenceEvidence_has_four_passes : passCount referenceEvidence = 4 := by
-  native_decide
 
 
 theorem referenceEvidence_boundary_preserved :
