@@ -11,6 +11,7 @@ from runtime.kuuos_codeai_generated_patch_error_reduction_comparative_replay_eva
 )
 from scripts.build_codeai_generated_patch_error_reduction_comparative_replay_fixture_v0_1 import (
     build_fixture,
+    project_fixture,
 )
 
 EXAMPLE = Path(
@@ -21,16 +22,16 @@ EXAMPLE = Path(
 def main() -> int:
     committed = json.loads(EXAMPLE.read_text(encoding="utf-8"))
     rebuilt = build_fixture()
-    if committed != rebuilt:
+    if committed != project_fixture(rebuilt):
         raise SystemExit("comparative replay fixture is not deterministic")
 
     result = build_codeai_generated_patch_error_reduction_comparative_replay_evaluation(
-        baseline_evidence=committed["baseline"]["evidence"],
-        baseline_receipt=committed["baseline"]["receipt"],
-        successor_evidence=committed["successor"]["evidence"],
-        successor_receipt=committed["successor"]["receipt"],
-        request=committed["comparison_request"],
-        policy=committed["comparison_policy"],
+        baseline_evidence=rebuilt["baseline"]["evidence"],
+        baseline_receipt=rebuilt["baseline"]["receipt"],
+        successor_evidence=rebuilt["successor"]["evidence"],
+        successor_receipt=rebuilt["successor"]["receipt"],
+        request=rebuilt["comparison_request"],
+        policy=rebuilt["comparison_policy"],
     )
     if result.status != STATUS_READY:
         raise SystemExit("comparative replay evaluation did not become ready")
