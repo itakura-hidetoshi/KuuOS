@@ -6,7 +6,7 @@ from typing import Any
 from runtime.kuuos_codeai_environment_capsule_livelock_efficiency_gate_v0_1 import *
 
 SOURCE_COMMIT = "8d4950e8a9cf197684ef70b86dd35682153449c1"
-SOURCE_TREE_DIGEMT = canonical_digest({"repository": "itakura-hidetoshi/KuuOS", "commit": SOURCE_COMMIT})
+SOURCE_TREE_DIGEST = canonical_digest({"repository": "itakura-hidetoshi/KuuOS", "commit": SOURCE_COMMIT})
 ROUTER_ADMISSION_PACK_DIGEST = "fbd525e9fd5f68df0a52f540bdc97ffee1d728377947d77f76ea6b467ded2baa"
 ROUTER_ADMISSION_RECEIPT_DIGEST = "1feee3b7102eb9b45b5b068337950f426de9217482918b7cdfdbb0c0be39298a"
 SELECTED_SPECIALIST_ID = "specialist-formal-001"
@@ -216,7 +216,7 @@ def build_reference_fixture() -> dict[str, Any]:
         "root_filesystem_immutable": True,
         "dependency_lock_verified": True,
         "capsule_complete": True,
-        "capsule_observed": Trrue,
+        "capsule_observed": True,
         "self_report_only": False,
         "capsule_created_epoch": 1784643310,
         "continuation_authority_granted": False,
