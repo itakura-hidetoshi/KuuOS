@@ -1,0 +1,76 @@
+{
+  "baseline": {
+    "dataset_digest": "d56b0a3a2fb781b29c62395e0acc98c7236019cf9d61f65b2a26d29aae83d4cc",
+    "dataset_id": "baseline-dataset-001",
+    "evidence_digest": "dff927ad17b8231b66c9e9666d14e835634afcfb1ab79b2174fb0400277c5c83",
+    "metrics_digest": "bd0e0f6060758e4597b74614be274ec4b25bb3c2238adbabf836691df55970de",
+    "receipt_digest": "05163b3796532a4a8f0d04800e456d0ac2db2e1c0fe08aa35c4b6c500853809d",
+    "total_case_count": 3,
+    "verified_patch_count": 2
+  },
+  "codeai_disposition": "generated_patch_error_reduction_confirmed",
+  "comparison_evidence_digest": "6c9deb41d107e226457a1c707c91ce4c6a2e45f359d6aaad01d53c3c2fb56ce7",
+  "comparison_metrics": {
+    "all_targets_met": true,
+    "baseline_case_count": 3,
+    "baseline_metrics_digest": "bd0e0f6060758e4597b74614be274ec4b25bb3c2238adbabf836691df55970de",
+    "case_count_delta": 0,
+    "cases_with_repeated_error_fingerprint_delta": -2,
+    "codeai_generated_patch_error_reduction_comparison_metrics_digest": "eb1e1d2c485382b3de9d13142eda630c0dcc4f0445269b1cf52c016aba92216c",
+    "distinct_error_fingerprint_count_delta": -1,
+    "first_failure_count_deltas": {
+      "full_regression": 0,
+      "independent_verification": 0,
+      "parse": 0,
+      "patch_application": 0,
+      "structured_output": 0,
+      "targeted_test": 0,
+      "typecheck": -1
+    },
+    "generated_output_bytes_per_verified_patch_delta_basis_points": -6166667,
+    "incomplete_case_count_delta": 0,
+    "independent_verification_pass_rate_delta_basis_points": 0,
+    "provider_calls_per_verified_patch_delta_basis_points": -13334,
+    "repair_cycles_per_verified_patch_delta_basis_points": -1667,
+    "repair_green_rate_delta_basis_points": 0,
+    "repeated_error_fingerprint_count_delta": -1,
+    "stage_conditional_pass_rate_deltas_basis_points": {
+      "full_regression": 0,
+      "parse": 0,
+      "patch_application": 0,
+      "structured_output": 0,
+      "targeted_test": 0,
+      "typecheck": 3334
+    },
+    "successor_case_count": 3,
+    "successor_metrics_digest": "48c7417cf9645c5d2ebc7ae4a75ce18b4e43de0f10fbfebcc0a45b67f201d71a",
+    "target_count": 8,
+    "target_results": {
+      "generated_output_efficiency_target_met": true,
+      "independent_verification_pass_rate_target_met": true,
+      "provider_call_efficiency_target_met": true,
+      "repair_cycle_efficiency_target_met": true,
+      "repeated_error_case_target_met": true,
+      "repeated_error_fingerprint_target_met": true,
+      "typecheck_first_failure_target_met": true,
+      "verified_patch_count_target_met": true
+    },
+    "targets_met_count": 8,
+    "verified_patch_count_delta": 1
+  },
+  "comparison_policy_digest": "5ad036f24d87c87c214f7120480770d20a1994f55f209aeb7145e81a78d2f8a7",
+  "comparison_receipt_digest": "9db69d01ea225d9157e6013f0b8abde072320a211dc26e4e639a54b48fd7adfd",
+  "comparison_request_digest": "25c935823ea01269b73f40aa374d682f4f1b5d2a8cc595af1515b0b5baff6a31",
+  "error_reduction_confirmed": true,
+  "profile_version": "CodeAI Generated Patch Error Reduction Comparative Replay Evaluation v0.1",
+  "schema_version": "v0.1",
+  "successor": {
+    "dataset_digest": "992bc3aa87f6f43ef8df46422e6d1f00365e51ff623d6ffefd1bc6c68506f255",
+    "dataset_id": "successor-dataset-001",
+    "evidence_digest": "fd8cbac272eedc5806b6056fc535423447ffa80b9c911300bc6d16c3715878d2",
+    "metrics_digest": "48c7417cf9645c5d2ebc7ae4a75ce18b4e43de0f10fbfebcc0a45b67f201d71a",
+    "receipt_digest": "56d18988e5b54e03e5108c96c5f218442ac0134e900424d4b337580e5bea4308",
+    "total_case_count": 3,
+    "verified_patch_count": 3
+  }
+}
