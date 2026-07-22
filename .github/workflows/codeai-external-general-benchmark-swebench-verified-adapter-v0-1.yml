@@ -1,0 +1,121 @@
+name: CodeAI External General Benchmark SWE-bench Verified Adapter v0.1
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "runtime/kuuos_codeai_external_general_benchmark_swebench_verified_adapter_schema_v0_1.py"
+      - "runtime/kuuos_codeai_external_general_benchmark_swebench_verified_adapter_checks_v0_1.py"
+      - "runtime/kuuos_codeai_external_general_benchmark_swebench_verified_adapter_v0_1.py"
+      - "scripts/build_codeai_external_general_benchmark_swebench_verified_adapter_fixture_v0_1.py"
+      - "scripts/project_codeai_external_general_benchmark_swebench_verified_adapter_fixture_v0_1.py"
+      - "scripts/check_codeai_external_general_benchmark_swebench_verified_adapter_v0_1.py"
+      - "tests/test_kuuos_codeai_external_general_benchmark_swebench_verified_adapter_v0_1.py"
+      - "examples/codeai_external_general_benchmark_swebench_verified_adapter_v0_1.json"
+      - "manifests/kuuos_codeai_external_general_benchmark_swebench_verified_adapter_v0_1.json"
+      - "docs/KUUOS_CODEAI_EXTERNAL_GENERAL_BENCHMARK_SWEBENCH_VERIFIED_ADAPTER_v0_1.md"
+      - "formal/KUOS/CodeAI/ExternalGeneralBenchmarkSWEBenchVerifiedAdapterV0_1.lean"
+      - "formal/KuuOSCodeAIExternalGeneralBenchmarkSWEBenchVerifiedAdapterV0_1.lean"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
+      - ".github/workflows/codeai-external-general-benchmark-swebench-verified-adapter-v0-1.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python3 -m compileall -q
+          runtime/kuuos_codeai_external_general_benchmark_swebench_verified_adapter_schema_v0_1.py
+          runtime/kuuos_codeai_external_general_benchmark_swebench_verified_adapter_checks_v0_1.py
+          runtime/kuuos_codeai_external_general_benchmark_swebench_verified_adapter_v0_1.py
+          scripts/build_codeai_external_general_benchmark_swebench_verified_adapter_fixture_v0_1.py
+          scripts/project_codeai_external_general_benchmark_swebench_verified_adapter_fixture_v0_1.py
+          scripts/check_codeai_external_general_benchmark_swebench_verified_adapter_v0_1.py
+          tests/test_kuuos_codeai_external_general_benchmark_swebench_verified_adapter_v0_1.py
+      - name: Validate machine-readable artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m json.tool examples/codeai_external_general_benchmark_swebench_verified_adapter_v0_1.json > /dev/null
+          python3 -m json.tool manifests/kuuos_codeai_external_general_benchmark_swebench_verified_adapter_v0_1.json > /dev/null
+      - name: Check external benchmark protocol adapter
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/check_codeai_external_general_benchmark_swebench_verified_adapter_v0_1.py \
+            2>&1 | tee codeai-external-general-benchmark-swebench-verified-adapter-v0-1.log
+      - name: Run adapter and predecessor regression tests
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 -m unittest \
+            tests.test_kuuos_codeai_external_general_benchmark_swebench_verified_adapter_v0_1 \
+            tests.test_kuuos_codeai_reobservation_bounded_continuation_proposal_gate_v0_1 \
+            tests.test_kuuos_codeai_environment_capsule_livelock_efficiency_gate_v0_1 \
+            tests.test_kuuos_codeai_trajectory_grounded_specialist_router_admission_v0_1 \
+            tests.test_kuuos_codeai_subtask_level_version_bound_memory_v0_1 \
+            tests.test_kuuos_codeai_independent_verifier_ensemble_v0_2 \
+            tests.test_kuuos_codeai_intent_aligned_dataflow_context_pack_v0_2 \
+            tests.test_kuuos_codeai_temporal_holdout_replay_corpus_v0_1 \
+            2>&1 | tee codeai-external-general-benchmark-swebench-verified-adapter-v0-1-tests.log
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Verify committed dependency manifest is canonical
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile external benchmark formal root
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSCodeAIExternalGeneralBenchmarkSWEBenchVerifiedAdapterV0_1 \
+            2>&1 | tee codeai-external-general-benchmark-swebench-verified-adapter-v0-1-lean.log
+      - name: Strictly compile repository formal baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSFormal \
+            2>&1 | tee codeai-external-general-benchmark-swebench-verified-adapter-v0-1-lean-root.log
+      - name: Upload diagnostics
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-external-general-benchmark-swebench-verified-adapter-v0-1-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            codeai-external-general-benchmark-swebench-verified-adapter-v0-1.log
+            codeai-external-general-benchmark-swebench-verified-adapter-v0-1-tests.log
+            codeai-external-general-benchmark-swebench-verified-adapter-v0-1-lean.log
+            codeai-external-general-benchmark-swebench-verified-adapter-v0-1-lean-root.log
+          if-no-files-found: warn
+          retention-days: 14

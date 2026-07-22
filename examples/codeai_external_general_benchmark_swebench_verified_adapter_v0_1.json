@@ -1,0 +1,297 @@
+{
+  "adapter_pack": {
+    "adapter_decision": "external_benchmark_protocol_admitted",
+    "benchmark_contract_digest": "afb9a0948fb66ea3b78c390ae7dd7b267909318cef503a5cdd13baf13ad0e0f2",
+    "benchmark_id": "swe-bench-verified",
+    "benchmark_result_ingested": false,
+    "codeai_disposition": "external_general_benchmark_protocol_completed",
+    "codeai_external_benchmark_adapter_pack_digest": "134475fc54fc23d0bcb48973b9fcfd158da51fa6a95ea4eff083a500f7936107",
+    "controller_repository_full_name": "itakura-hidetoshi/KuuOS",
+    "controller_source_commit_sha": "f5bf17314041e0cdfefb5862990e6c1abea320d6",
+    "correctness_claimed": false,
+    "dataset_name": "princeton-nlp/SWE-bench_Verified",
+    "evaluation_mode": "smoke",
+    "expected_instance_count": 500,
+    "git_authority_granted": false,
+    "harness_commit_sha": "f7bbbb2ccdf479001d6467c9e34af59e44a840f9",
+    "harness_entrypoint": "python -m swebench.harness.run_evaluation",
+    "harness_execution_performed": false,
+    "harness_repository": "swe-bench/SWE-bench",
+    "hold_reasons": [],
+    "network_access_performed": false,
+    "official_prediction_fields": [
+      "instance_id",
+      "model_name_or_path",
+      "model_patch"
+    ],
+    "official_predictions": [
+      {
+        "instance_id": "sympy__sympy-20590",
+        "model_name_or_path": "kuuos-codeai/reference-provider-v0.1",
+        "model_patch": "diff --git a/sympy/core/basic.py b/sympy/core/basic.py\n--- a/sympy/core/basic.py\n+++ b/sympy/core/basic.py\n@@ -1,1 +1,2 @@\n # reference protocol-only prediction\n+# no benchmark result is claimed\n"
+      },
+      {
+        "instance_id": "django__django-16877",
+        "model_name_or_path": "kuuos-codeai/reference-provider-v0.1",
+        "model_patch": "diff --git a/django/template/defaultfilters.py b/django/template/defaultfilters.py\n--- a/django/template/defaultfilters.py\n+++ b/django/template/defaultfilters.py\n@@ -1,1 +1,2 @@\n # reference protocol-only prediction\n+# protected test paths are excluded\n"
+      },
+      {
+        "instance_id": "astropy__astropy-12907",
+        "model_name_or_path": "kuuos-codeai/reference-provider-v0.1",
+        "model_patch": "diff --git a/astropy/modeling/core.py b/astropy/modeling/core.py\n--- a/astropy/modeling/core.py\n+++ b/astropy/modeling/core.py\n@@ -1,1 +1,2 @@\n # reference protocol-only prediction\n+# external harness execution remains separate\n"
+      }
+    ],
+    "official_predictions_digest": "6c120860918f9ff0cd8bf0bbf2f22210fbe66a6426551514be024a4159e2485e",
+    "operating_mode": "external_general_benchmark_protocol_only",
+    "policy_digest": "8f0dcb7a0ca5efb3c768d43f119dc7e02824f8c874c5ddbd0fd2dfc6eb0853ec",
+    "prediction_count": 3,
+    "profile_version": "CodeAI External General Benchmark Protocol and SWE-bench Verified Adapter v0.1",
+    "protocol_projection_only": true,
+    "repository_mutation_performed": false,
+    "request_digest": "f816915ebc8d08732af1068a21d8105de041de10771c9d718120efb8ad617e75",
+    "run_plan_digest": "ec5c17500cf087dc82ee605ccd9c567f8be996e987704505b2190c7fdb193842",
+    "sample_count": 3,
+    "schema_version": "v0.1",
+    "secret_access_performed": false,
+    "selected_instance_ids_digest": "fe9b988e51698c2edff8d0ee12014276e8a6b6d66a4392a04ac95b9a5244f01a",
+    "split": "test",
+    "total_patch_bytes": 677
+  },
+  "benchmark_contract": {
+    "benchmark_id": "swe-bench-verified",
+    "codeai_swebench_verified_contract_digest": "afb9a0948fb66ea3b78c390ae7dd7b267909318cef503a5cdd13baf13ad0e0f2",
+    "containerized_harness": true,
+    "contract_created_epoch": 1784677800,
+    "corpus_digest": "d9b8f5ad1bb51705c80b05da5d4f2bccb5af5bcfe629c75152a5ad75a878cbed",
+    "corpus_frozen": true,
+    "correctness_claimed": false,
+    "dataset_name": "princeton-nlp/SWE-bench_Verified",
+    "expected_instance_count": 500,
+    "git_authority_granted": false,
+    "harness_commit_sha": "f7bbbb2ccdf479001d6467c9e34af59e44a840f9",
+    "harness_entrypoint": "python -m swebench.harness.run_evaluation",
+    "harness_execution_performed": false,
+    "harness_repository": "swe-bench/SWE-bench",
+    "instance_ids_digest": "5474a6071ae39d0a7c06d7834c225e95fdfe20f3a08da0d642d5f84ae5c8a71f",
+    "network_access_performed": false,
+    "official_harness": true,
+    "prediction_fields": [
+      "instance_id",
+      "model_name_or_path",
+      "model_patch"
+    ],
+    "profile_version": "CodeAI External General Benchmark Protocol and SWE-bench Verified Adapter v0.1",
+    "repository_mutation_performed": false,
+    "schema_version": "v0.1",
+    "secret_access_performed": false,
+    "split": "test",
+    "test_patch_paths_sealed": true
+  },
+  "policy": {
+    "allow_correctness_claim": false,
+    "allow_git_authority": false,
+    "allow_harness_execution": false,
+    "allow_network_access": false,
+    "allow_protocol_projection": true,
+    "allow_repository_mutation": false,
+    "allow_secret_access": false,
+    "allowed_cache_levels": [
+      "none",
+      "base",
+      "env",
+      "instance"
+    ],
+    "allowed_evaluation_modes": [
+      "smoke",
+      "pilot",
+      "full"
+    ],
+    "codeai_external_benchmark_policy_digest": "8f0dcb7a0ca5efb3c768d43f119dc7e02824f8c874c5ddbd0fd2dfc6eb0853ec",
+    "evaluation_epoch": 1784678400,
+    "expected_benchmark_contract_digest": "afb9a0948fb66ea3b78c390ae7dd7b267909318cef503a5cdd13baf13ad0e0f2",
+    "expected_codeai_pipeline_digest": "bbd1942c8dc6618943dc13dc942aeb7a4f34d0a6c8f084ed3c613d51f6dfbbfe",
+    "expected_controller_repository_full_name": "itakura-hidetoshi/KuuOS",
+    "expected_controller_source_commit_sha": "f5bf17314041e0cdfefb5862990e6c1abea320d6",
+    "expected_controller_source_tree_digest": "61110a82989745b4d3140d6b6bd8422b018770c600432cfcb88e2a2f92543b7b",
+    "expected_evaluation_protocol_digest": "a6c060fc85459df202f4e759d27c2463bc2d24393f3e2ac2fdbdffd9fb458bf0",
+    "expected_harness_contract_digest": "60cdbe6188e3e3cdac16e2b54d8f367f6cf6b4064fc4d0cea41f0e56f213a6e4",
+    "expected_model_configuration_digest": "b13f6ebe75dc925d65ee17ac90a713c0b005645cfd09562a7bfd00e2dffd6851",
+    "expected_run_plan_digest": "ec5c17500cf087dc82ee605ccd9c567f8be996e987704505b2190c7fdb193842",
+    "maximum_changed_paths_per_prediction": 32,
+    "maximum_patch_bytes": 100000,
+    "maximum_request_age": 3600,
+    "maximum_sample_count": 500,
+    "maximum_total_patch_bytes": 20000000,
+    "minimum_sample_count": 1,
+    "profile_version": "CodeAI External General Benchmark Protocol and SWE-bench Verified Adapter v0.1",
+    "require_containerized_harness": true,
+    "require_derived_changed_paths": true,
+    "require_exact_binding": true,
+    "require_expected_instance_count": true,
+    "require_frozen_sample": true,
+    "require_gold_patch_hidden": true,
+    "require_holdout_labels_hidden": true,
+    "require_official_prediction_shape": true,
+    "require_official_verified_dataset": true,
+    "require_patch_digest": true,
+    "require_pinned_harness": true,
+    "require_protected_test_path_nonoverlap": true,
+    "require_unique_instances": true,
+    "schema_version": "v0.1"
+  },
+  "predictions": [
+    {
+      "changed_paths": [
+        "sympy/core/basic.py"
+      ],
+      "claims_correctness": false,
+      "claims_harness_result": false,
+      "codeai_candidate_receipt_digest": "03e2d67f73ced1ee1822a48a2c60e3495d5237b7645337cbf64919a28d863739",
+      "codeai_swebench_verified_prediction_digest": "43939a84f90088034c52dbf7792768363bcd76a001189f3f3361dc762ce5eddf",
+      "instance_contract_digest": "acf5641da0d021e266efc98f5ee9f06bf0cefa0849e0064f5538e5d64699cbb0",
+      "instance_id": "sympy__sympy-20590",
+      "model_name_or_path": "kuuos-codeai/reference-provider-v0.1",
+      "model_patch": "diff --git a/sympy/core/basic.py b/sympy/core/basic.py\n--- a/sympy/core/basic.py\n+++ b/sympy/core/basic.py\n@@ -1,1 +1,2 @@\n # reference protocol-only prediction\n+# no benchmark result is claimed\n",
+      "prediction_created_epoch": 1784678340,
+      "provider_session_digest": "7717a625a7e347f5cb14ac712aac5ec43469a26e65c41a07ed6fde225fa37c8b"
+    },
+    {
+      "changed_paths": [
+        "django/template/defaultfilters.py"
+      ],
+      "claims_correctness": false,
+      "claims_harness_result": false,
+      "codeai_candidate_receipt_digest": "8e208abed94d36ffef86d95b8e29cace79137d41bf26d8578d505afa6ee75a61",
+      "codeai_swebench_verified_prediction_digest": "fe2ef511cf886093eeca7d7deeac95b65ba9a63da3eecadebffa4857920f2233",
+      "instance_contract_digest": "fc631be21f408a627a97b1294da4ff86b45e8e46838eab30466cc19a8e3f39aa",
+      "instance_id": "django__django-16877",
+      "model_name_or_path": "kuuos-codeai/reference-provider-v0.1",
+      "model_patch": "diff --git a/django/template/defaultfilters.py b/django/template/defaultfilters.py\n--- a/django/template/defaultfilters.py\n+++ b/django/template/defaultfilters.py\n@@ -1,1 +1,2 @@\n # reference protocol-only prediction\n+# protected test paths are excluded\n",
+      "prediction_created_epoch": 1784678340,
+      "provider_session_digest": "48411f4b7322bed0a8fbc704d62eee62b17e1ca715c8bccd406cb78d6e6621b9"
+    },
+    {
+      "changed_paths": [
+        "astropy/modeling/core.py"
+      ],
+      "claims_correctness": false,
+      "claims_harness_result": false,
+      "codeai_candidate_receipt_digest": "2e1c28631bf0f183ba68cd78d092f45fb273c84fda3dd3da09539df54b5cffb4",
+      "codeai_swebench_verified_prediction_digest": "a7bc5134d9d247596cf058d5909b1d3153d97965b198ac1187ff14a3861088d0",
+      "instance_contract_digest": "43bc794f521363d9c4a117a1942a11c62f26846dedf946c768f1a34b422f5484",
+      "instance_id": "astropy__astropy-12907",
+      "model_name_or_path": "kuuos-codeai/reference-provider-v0.1",
+      "model_patch": "diff --git a/astropy/modeling/core.py b/astropy/modeling/core.py\n--- a/astropy/modeling/core.py\n+++ b/astropy/modeling/core.py\n@@ -1,1 +1,2 @@\n # reference protocol-only prediction\n+# external harness execution remains separate\n",
+      "prediction_created_epoch": 1784678340,
+      "provider_session_digest": "25954d9702990ebe36385d6523f0bd31d713e3b90f023e96254bf360102901cc"
+    }
+  ],
+  "receipt": {
+    "adapter_decision": "external_benchmark_protocol_admitted",
+    "adapter_pack_digest": "134475fc54fc23d0bcb48973b9fcfd158da51fa6a95ea4eff083a500f7936107",
+    "benchmark_contract_digest": "afb9a0948fb66ea3b78c390ae7dd7b267909318cef503a5cdd13baf13ad0e0f2",
+    "benchmark_id": "swe-bench-verified",
+    "benchmark_result_ingested": false,
+    "codeai_disposition": "external_general_benchmark_protocol_completed",
+    "codeai_external_benchmark_adapter_receipt_digest": "55233619cdc23640818f305564ee08652e5f9817cb0260128256c4d3ddfd7b73",
+    "correctness_claimed": false,
+    "dataset_name": "princeton-nlp/SWE-bench_Verified",
+    "git_authority_granted": false,
+    "harness_execution_performed": false,
+    "hold_reasons": [],
+    "network_access_performed": false,
+    "official_predictions_digest": "6c120860918f9ff0cd8bf0bbf2f22210fbe66a6426551514be024a4159e2485e",
+    "policy_digest": "8f0dcb7a0ca5efb3c768d43f119dc7e02824f8c874c5ddbd0fd2dfc6eb0853ec",
+    "profile_version": "CodeAI External General Benchmark Protocol and SWE-bench Verified Adapter v0.1",
+    "protocol_projection_only": true,
+    "repository_mutation_performed": false,
+    "request_digest": "f816915ebc8d08732af1068a21d8105de041de10771c9d718120efb8ad617e75",
+    "run_plan_digest": "ec5c17500cf087dc82ee605ccd9c567f8be996e987704505b2190c7fdb193842",
+    "sample_count": 3,
+    "schema_version": "v0.1",
+    "secret_access_performed": false,
+    "split": "test"
+  },
+  "request": {
+    "benchmark_contract_digest": "afb9a0948fb66ea3b78c390ae7dd7b267909318cef503a5cdd13baf13ad0e0f2",
+    "claims_correctness": false,
+    "claims_git_authority": false,
+    "claims_harness_execution_authority": false,
+    "claims_network_authority": false,
+    "claims_repository_mutation_authority": false,
+    "claims_secret_authority": false,
+    "codeai_external_benchmark_request_digest": "f816915ebc8d08732af1068a21d8105de041de10771c9d718120efb8ad617e75",
+    "codeai_pipeline_digest": "bbd1942c8dc6618943dc13dc942aeb7a4f34d0a6c8f084ed3c613d51f6dfbbfe",
+    "controller_repository_full_name": "itakura-hidetoshi/KuuOS",
+    "controller_source_commit_sha": "f5bf17314041e0cdfefb5862990e6c1abea320d6",
+    "controller_source_tree_digest": "61110a82989745b4d3140d6b6bd8422b018770c600432cfcb88e2a2f92543b7b",
+    "evaluation_protocol_digest": "a6c060fc85459df202f4e759d27c2463bc2d24393f3e2ac2fdbdffd9fb458bf0",
+    "harness_contract_digest": "60cdbe6188e3e3cdac16e2b54d8f367f6cf6b4064fc4d0cea41f0e56f213a6e4",
+    "model_configuration_digest": "b13f6ebe75dc925d65ee17ac90a713c0b005645cfd09562a7bfd00e2dffd6851",
+    "profile_version": "CodeAI External General Benchmark Protocol and SWE-bench Verified Adapter v0.1",
+    "request_created_epoch": 1784678370,
+    "request_id": "external-benchmark-request-v0-1",
+    "request_revision": "reference-1",
+    "run_plan_digest": "ec5c17500cf087dc82ee605ccd9c567f8be996e987704505b2190c7fdb193842",
+    "schema_version": "v0.1",
+    "unresolved_questions": []
+  },
+  "run_plan": {
+    "cache_level": "env",
+    "codeai_swebench_verified_run_plan_digest": "ec5c17500cf087dc82ee605ccd9c567f8be996e987704505b2190c7fdb193842",
+    "correctness_claimed": false,
+    "evaluation_mode": "smoke",
+    "git_authority_requested": false,
+    "gold_patches_exposed": false,
+    "harness_execution_requested": false,
+    "holdout_labels_exposed": false,
+    "instances": [
+      {
+        "base_commit_sha": "1111111111111111111111111111111111111111",
+        "codeai_swebench_verified_instance_contract_digest": "acf5641da0d021e266efc98f5ee9f06bf0cefa0849e0064f5538e5d64699cbb0",
+        "instance_contract_created_epoch": 1784678100,
+        "instance_id": "sympy__sympy-20590",
+        "problem_statement_digest": "b6f7ac62e1f14688c02215e2e3a26941dfbad5832b46528a5d53f52dac2e4809",
+        "protected_test_paths": [
+          "sympy/core/tests/test_basic.py"
+        ],
+        "test_patch_digest": "3d577054eb9d9e3292c2edc4ea7c693dc6b281b974236bdeb003d87f133001f4"
+      },
+      {
+        "base_commit_sha": "2222222222222222222222222222222222222222",
+        "codeai_swebench_verified_instance_contract_digest": "fc631be21f408a627a97b1294da4ff86b45e8e46838eab30466cc19a8e3f39aa",
+        "instance_contract_created_epoch": 1784678100,
+        "instance_id": "django__django-16877",
+        "problem_statement_digest": "8fd12e9ce6d7dee6fb9a67a047255c0d076535e1a4d282d24cdbb9613111c2e7",
+        "protected_test_paths": [
+          "tests/template_tests/filter_tests/test_escapeseq.py"
+        ],
+        "test_patch_digest": "1b060d2a5e6685d9b9fed56995afcc93ee9fb12c29223d1274b0d6941b913dae"
+      },
+      {
+        "base_commit_sha": "3333333333333333333333333333333333333333",
+        "codeai_swebench_verified_instance_contract_digest": "43bc794f521363d9c4a117a1942a11c62f26846dedf946c768f1a34b422f5484",
+        "instance_contract_created_epoch": 1784678100,
+        "instance_id": "astropy__astropy-12907",
+        "problem_statement_digest": "ba14eef28823d0d3290612a5a8344e38163ce4fcf57cf834dd883db1a473f298",
+        "protected_test_paths": [
+          "astropy/modeling/tests/test_core.py"
+        ],
+        "test_patch_digest": "964fc1d784c0ce5411e0c24e9a6798549b5fb7ccd82ae45c367eab838dacedd6"
+      }
+    ],
+    "max_workers": 1,
+    "network_access_requested": false,
+    "profile_version": "CodeAI External General Benchmark Protocol and SWE-bench Verified Adapter v0.1",
+    "repository_mutation_requested": false,
+    "run_id": "kuuos-swebench-verified-smoke-v0-1",
+    "run_plan_created_epoch": 1784678160,
+    "sample_count": 3,
+    "schema_version": "v0.1",
+    "secret_access_requested": false,
+    "selected_instance_ids_digest": "fe9b988e51698c2edff8d0ee12014276e8a6b6d66a4392a04ac95b9a5244f01a",
+    "selection_frozen_before_execution": true,
+    "selection_method": "precommitted-lexicographic-three-instance-smoke",
+    "timeout_seconds": 1800
+  }
+}
