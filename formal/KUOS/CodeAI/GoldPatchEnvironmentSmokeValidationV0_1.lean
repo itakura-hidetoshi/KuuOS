@@ -10,7 +10,7 @@ structure Binding where
   datasetRevision : Nat
   datasetArtifact : Nat
   harnessVersion : Nat
-  instance : Nat
+  instanceId : Nat
   smokeContract : Nat
   environmentContract : Nat
   deriving DecidableEq
@@ -193,7 +193,7 @@ def referenceBinding : Binding where
   datasetRevision := 4
   datasetArtifact := 5
   harnessVersion := 6
-  instance := 20590
+  instanceId := 20590
   smokeContract := 7
   environmentContract := 8
 
