@@ -113,6 +113,27 @@ lake -KleanArgs=-DwarningAsError=true \
 
 formal compilationはrepository内の定義と定理が固定toolchainで検査されたことを示します。外部査読、経験的妥当性、運用承認を代替しません。
 
+## Legacy compatibility status surface
+
+現行のsource of truthは`runtime/kuuos_current_check.py`です。次のlegacy identifiersとstable entrypointは、self-organization lineageおよび既存status consumerとの後方互換性のため保持します。
+
+```text
+KuuOS README Public Status v0.66
+kuuos_current_root_sequence_v0_66
+docs/kuuos_self_organization_active_state.md
+```
+
+| Surface | Path |
+|---|---|
+| Stable current surface CLI | `runtime/kuuos_current_surface.py` |
+| Versioned current surface entrypoint | `runtime/kuuos_current_surface_entrypoint_v0_77.py` |
+| Current surface index | `status/current.surface.index.json` |
+| Current surface artifact | `status/current.surface.json` |
+| Current resolved status artifact | `status/current.resolved.json` |
+| Current manifest | `status/current.manifest.json` |
+
+これらは互換・履歴surfaceであり、CodeAIを含むcanonical runtime rootの代替ではありません。
+
 ## Repository map
 
 | Path | 役割 |
