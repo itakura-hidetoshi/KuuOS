@@ -39,6 +39,7 @@ roots = [
   "KuuOSCodeAIReobservationBoundedContinuationProposalGateV0_1",
   "KuuOSCodeAIExternalGeneralBenchmarkSWEBenchVerifiedAdapterV0_1",
   "KuuOSCodeAIExternalCorpusAcquisitionFreezeReceiptV0_1",
+  "KuuOSCodeAIGoldPatchEnvironmentSmokeValidationV0_1",
   "KuuOSCodeAIAutonomousTrajectorySynthesisV0_1",
   "KuuOSCodeAIAutonomousGitLifecycleV0_1",
   "KuuOSCodeAIAutonomousGitEffectExecutionV0_1",
