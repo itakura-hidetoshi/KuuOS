@@ -1,0 +1,22 @@
+{
+  "correctness_claimed": false,
+  "dataset_artifact_sha256": "a45b1fe4e2f0c8390b2b2938ac83e92ed5979000856808f3679c07812e9e6dcd",
+  "dataset_name": "princeton-nlp/SWE-bench_Verified",
+  "dataset_revision": "c104f840cc67f8b6eec6f759ebc8b2693d585d4a",
+  "decision": "gold_patch_environment_smoke_admitted",
+  "future_harness_execution_authority_granted": false,
+  "git_authority_granted": false,
+  "gold_patch_available_to_solver": false,
+  "harness_commit_sha": "f7bbbb2ccdf479001d6467c9e34af59e44a840f9",
+  "harness_repository": "swe-bench/SWE-bench",
+  "instance_id": "sympy__sympy-20590",
+  "maximum_workers": 1,
+  "predecessor_manifest_digest": "561be27194532088736124afa7c11542bc72dd00f724f3a422be429892c08f2a",
+  "predictions_path": "gold",
+  "profile_version": "CodeAI Gold-Patch Environment Smoke Validation v0.1",
+  "receipt_digest": "f9e1756bbd2e05a494088ff68732764647099d901e28da14553d0e13edec0223",
+  "repository_mutation_authority_granted": false,
+  "resolved": true,
+  "smoke_pack_digest": "ebe734d57d827eb1602d1b5d489c650d2dc355d617ff5cac9c0f08363509c0b1",
+  "timeout_seconds": 1800
+}
