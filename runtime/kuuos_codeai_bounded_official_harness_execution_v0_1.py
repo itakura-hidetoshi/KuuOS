@@ -66,6 +66,10 @@ def _validate_inputs(
         official_prediction(prediction)
     ):
         raise BlockedInput("prediction file digest mismatch")
+    if observation["run_id"] != execution_plan["run_id"]:
+        raise BlockedInput("observation/plan run_id mismatch")
+    if prediction["source_digest"] != canonical_digest({"model_patch": prediction["model_patch"]}):
+        raise BlockedInput("prediction source digest mismatch")
 
     derived = derive_changed_paths(prediction["model_patch"])
     if prediction["changed_paths"] != derived:
