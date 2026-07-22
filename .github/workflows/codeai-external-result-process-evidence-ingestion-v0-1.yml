@@ -1,0 +1,170 @@
+name: CodeAI External Result and Process-Evidence Ingestion v0.1
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "runtime/kuuos_codeai_external_result_process_evidence_ingestion_schema_v0_1.py"
+      - "runtime/kuuos_codeai_external_result_process_evidence_ingestion_checks_v0_1.py"
+      - "runtime/kuuos_codeai_external_result_process_evidence_ingestion_v0_1.py"
+      - "scripts/build_codeai_external_result_process_evidence_ingestion_fixture_v0_1.py"
+      - "scripts/project_codeai_external_result_process_evidence_ingestion_fixture_v0_1.py"
+      - "scripts/check_codeai_external_result_process_evidence_ingestion_v0_1.py"
+      - "tests/test_kuuos_codeai_external_result_process_evidence_ingestion_v0_1.py"
+      - "examples/codeai_external_result_process_evidence_ingestion_v0_1.json"
+      - "manifests/kuuos_codeai_external_result_process_evidence_ingestion_v0_1.json"
+      - "docs/KUUOS_CODEAI_EXTERNAL_RESULT_PROCESS_EVIDENCE_INGESTION_v0_1.md"
+      - "formal/KUOS/CodeAI/ExternalResultProcessEvidenceIngestionV0_1.lean"
+      - "formal/KuuOSCodeAIExternalResultProcessEvidenceIngestionV0_1.lean"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
+      - ".github/workflows/codeai-external-result-process-evidence-ingestion-v0-1.yml"
+
+permissions:
+  contents: read
+  actions: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  PREDECESSOR_RUN_ID: '29894633457'
+  PREDECESSOR_ARTIFACT_ID: '8520539325'
+  PREDECESSOR_ARTIFACT_NAME: codeai-bounded-official-external-v0-1-29894633457-1
+  PREDECESSOR_ARTIFACT_ROOT: /tmp/codeai-bounded-predecessor
+
+jobs:
+  validate-contract:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python3 -m compileall -q
+          runtime/kuuos_codeai_external_result_process_evidence_ingestion_schema_v0_1.py
+          runtime/kuuos_codeai_external_result_process_evidence_ingestion_checks_v0_1.py
+          runtime/kuuos_codeai_external_result_process_evidence_ingestion_v0_1.py
+          scripts/build_codeai_external_result_process_evidence_ingestion_fixture_v0_1.py
+          scripts/project_codeai_external_result_process_evidence_ingestion_fixture_v0_1.py
+          scripts/check_codeai_external_result_process_evidence_ingestion_v0_1.py
+          tests/test_kuuos_codeai_external_result_process_evidence_ingestion_v0_1.py
+      - name: Validate machine-readable artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m json.tool examples/codeai_external_result_process_evidence_ingestion_v0_1.json > /dev/null
+          python3 -m json.tool manifests/kuuos_codeai_external_result_process_evidence_ingestion_v0_1.json > /dev/null
+      - name: Check deterministic ingestion projection
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/check_codeai_external_result_process_evidence_ingestion_v0_1.py \
+            2>&1 | tee codeai-external-result-process-ingestion-v0-1.log
+      - name: Run ingestion and predecessor regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 -m unittest \
+            tests.test_kuuos_codeai_external_result_process_evidence_ingestion_v0_1 \
+            tests.test_kuuos_codeai_bounded_official_harness_execution_v0_1 \
+            tests.test_kuuos_codeai_gold_patch_environment_smoke_validation_v0_1 \
+            tests.test_kuuos_codeai_external_corpus_acquisition_freeze_receipt_v0_1 \
+            2>&1 | tee codeai-external-result-process-ingestion-v0-1-tests.log
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Verify committed dependency manifest is canonical
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile ingestion formal root
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSCodeAIExternalResultProcessEvidenceIngestionV0_1 \
+            2>&1 | tee codeai-external-result-process-ingestion-v0-1-lean.log
+      - name: Strictly compile repository formal baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSFormal \
+            2>&1 | tee codeai-external-result-process-ingestion-v0-1-lean-root.log
+      - name: Upload contract diagnostics
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-external-result-process-ingestion-contract-v0-1-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            codeai-external-result-process-ingestion-v0-1.log
+            codeai-external-result-process-ingestion-v0-1-tests.log
+            codeai-external-result-process-ingestion-v0-1-lean.log
+            codeai-external-result-process-ingestion-v0-1-lean-root.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  ingest-completed-evidence:
+    needs: validate-contract
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Download exact completed predecessor artifact
+        uses: actions/download-artifact@v4
+        with:
+          github-token: ${{ github.token }}
+          repository: ${{ github.repository }}
+          run-id: ${{ env.PREDECESSOR_RUN_ID }}
+          name: ${{ env.PREDECESSOR_ARTIFACT_NAME }}
+          path: ${{ env.PREDECESSOR_ARTIFACT_ROOT }}
+      - name: Fetch exact predecessor artifact metadata
+        shell: bash
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: |
+          set -euo pipefail
+          curl --fail --silent --show-error --location \
+            --header "Authorization: Bearer ${GH_TOKEN}" \
+            --header "Accept: application/vnd.github+json" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            "https://api.github.com/repos/${GITHUB_REPOSITORY}/actions/artifacts/${PREDECESSOR_ARTIFACT_ID}" \
+            --output "${PREDECESSOR_ARTIFACT_ROOT}/artifact-metadata.json"
+      - name: Verify and ingest aggregate result and process evidence
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/check_codeai_external_result_process_evidence_ingestion_v0_1.py \
+            --artifact-root "${PREDECESSOR_ARTIFACT_ROOT}" \
+            --artifact-metadata "${PREDECESSOR_ARTIFACT_ROOT}/artifact-metadata.json" \
+            2>&1 | tee codeai-external-result-process-ingestion-external-v0-1.log
+      - name: Upload aggregate ingestion receipt
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-external-result-process-ingestion-v0-1-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            codeai-external-result-process-ingestion-external-v0-1.log
+            manifests/kuuos_codeai_external_result_process_evidence_ingestion_v0_1.json
+            ${{ env.PREDECESSOR_ARTIFACT_ROOT }}/artifact-metadata.json
+          if-no-files-found: error
+          retention-days: 14
