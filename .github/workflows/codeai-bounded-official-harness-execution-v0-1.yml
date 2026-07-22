@@ -1,0 +1,229 @@
+name: CodeAI Bounded Official Harness Execution v0.1
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "runtime/kuuos_codeai_bounded_official_harness_execution_schema_v0_1.py"
+      - "runtime/kuuos_codeai_bounded_official_harness_execution_checks_v0_1.py"
+      - "runtime/kuuos_codeai_bounded_official_harness_execution_v0_1.py"
+      - "scripts/build_codeai_bounded_official_harness_execution_fixture_v0_1.py"
+      - "scripts/project_codeai_bounded_official_harness_execution_fixture_v0_1.py"
+      - "scripts/check_codeai_bounded_official_harness_execution_v0_1.py"
+      - "tests/test_kuuos_codeai_bounded_official_harness_execution_v0_1.py"
+      - "examples/codeai_bounded_official_harness_execution_v0_1.json"
+      - "manifests/kuuos_codeai_bounded_official_harness_execution_v0_1.json"
+      - "docs/KUUOS_CODEAI_BOUNDED_OFFICIAL_HARNESS_EXECUTION_v0_1.md"
+      - "formal/KUOS/CodeAI/BoundedOfficialHarnessExecutionV0_1.lean"
+      - "formal/KuuOSCodeAIBoundedOfficialHarnessExecutionV0_1.lean"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
+      - ".github/workflows/codeai-bounded-official-harness-execution-v0-1.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+  DATASET_URL: https://huggingface.co/datasets/princeton-nlp/SWE-bench_Verified/resolve/c104f840cc67f8b6eec6f759ebc8b2693d585d4a/data/test-00000-of-00001.parquet
+  DATASET_PATH: /tmp/swe-bench-verified-c104f840.parquet
+  DATASET_SHA256: a45b1fe4e2f0c8390b2b2938ac83e92ed5979000856808f3679c07812e9e6dcd
+  HARNESS_COMMIT: f7bbbb2ccdf479001d6467c9e34af59e44a840f9
+  INSTANCE_ID: sympy__sympy-20590
+  PREDICTIONS_PATH: codeai-bounded-official-predictions-v0-1.jsonl
+
+jobs:
+  validate-contract:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python3 -m compileall -q
+          runtime/kuuos_codeai_bounded_official_harness_execution_schema_v0_1.py
+          runtime/kuuos_codeai_bounded_official_harness_execution_checks_v0_1.py
+          runtime/kuuos_codeai_bounded_official_harness_execution_v0_1.py
+          scripts/build_codeai_bounded_official_harness_execution_fixture_v0_1.py
+          scripts/project_codeai_bounded_official_harness_execution_fixture_v0_1.py
+          scripts/check_codeai_bounded_official_harness_execution_v0_1.py
+          tests/test_kuuos_codeai_bounded_official_harness_execution_v0_1.py
+      - name: Validate machine-readable artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m json.tool examples/codeai_bounded_official_harness_execution_v0_1.json >/dev/null
+          python3 -m json.tool manifests/kuuos_codeai_bounded_official_harness_execution_v0_1.json >/dev/null
+      - name: Check deterministic execution projection
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/check_codeai_bounded_official_harness_execution_v0_1.py \
+            2>&1 | tee codeai-bounded-official-harness-v0-1.log
+      - name: Run bounded execution and predecessor regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 -m unittest \
+            tests.test_kuuos_codeai_bounded_official_harness_execution_v0_1 \
+            tests.test_kuuos_codeai_gold_patch_environment_smoke_validation_v0_1 \
+            tests.test_kuuos_codeai_external_corpus_acquisition_freeze_receipt_v0_1 \
+            2>&1 | tee codeai-bounded-official-harness-v0-1-tests.log
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Verify committed dependency manifest is canonical
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile bounded execution formal root
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSCodeAIBoundedOfficialHarnessExecutionV0_1 \
+            2>&1 | tee codeai-bounded-official-harness-v0-1-lean.log
+      - name: Strictly compile repository formal baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSFormal \
+            2>&1 | tee codeai-bounded-official-harness-v0-1-lean-root.log
+      - name: Upload contract diagnostics
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-bounded-official-harness-contract-v0-1-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            codeai-bounded-official-harness-v0-1.log
+            codeai-bounded-official-harness-v0-1-tests.log
+            codeai-bounded-official-harness-v0-1-lean.log
+            codeai-bounded-official-harness-v0-1-lean-root.log
+          if-no-files-found: warn
+          retention-days: 14
+
+  bounded-harness:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 180
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.11"
+      - name: Free runner disk for one pinned Docker instance
+        shell: bash
+        run: |
+          set -euo pipefail
+          sudo rm -rf /usr/local/lib/android /opt/ghc /usr/share/dotnet /usr/local/share/boost || true
+          docker system df
+          df -h
+      - name: Acquire and verify pinned Verified corpus
+        shell: bash
+        run: |
+          set -euo pipefail
+          curl --fail --location --retry 5 --retry-all-errors \
+            --output "$DATASET_PATH" "$DATASET_URL"
+          printf '%s  %s\n' "$DATASET_SHA256" "$DATASET_PATH" | sha256sum --check --strict
+          test "$(stat -c %s "$DATASET_PATH")" -eq 2096679
+      - name: Checkout pinned official SWE-bench harness
+        shell: bash
+        run: |
+          set -euo pipefail
+          git clone --filter=blob:none https://github.com/SWE-bench/SWE-bench.git /tmp/SWE-bench
+          git -C /tmp/SWE-bench checkout --detach "$HARNESS_COMMIT"
+          test "$(git -C /tmp/SWE-bench rev-parse HEAD)" = "$HARNESS_COMMIT"
+      - name: Install pinned harness
+        run: python3 -m pip install --disable-pip-version-check --no-input -e /tmp/SWE-bench
+      - name: Materialize and verify frozen prediction JSONL
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/project_codeai_bounded_official_harness_execution_fixture_v0_1.py \
+            --predictions-output "$PREDICTIONS_PATH"
+          PYTHONPATH=. python3 scripts/check_codeai_bounded_official_harness_execution_v0_1.py \
+            --predictions "$PREDICTIONS_PATH"
+      - name: Confirm Docker availability
+        shell: bash
+        run: |
+          set -euo pipefail
+          docker version
+          docker info
+      - name: Execute preregistered bounded non-gold prediction
+        working-directory: /tmp/SWE-bench
+        shell: bash
+        run: |
+          set -euo pipefail
+          RUN_ID="kuuos-bounded-official-${GITHUB_RUN_ID}-${GITHUB_RUN_ATTEMPT}"
+          echo "RUN_ID=$RUN_ID" >> "$GITHUB_ENV"
+          python3 -m swebench.harness.run_evaluation \
+            --dataset_name "$DATASET_PATH" \
+            --split test \
+            --predictions_path "$GITHUB_WORKSPACE/$PREDICTIONS_PATH" \
+            --max_workers 1 \
+            --instance_ids "$INSTANCE_ID" \
+            --run_id "$RUN_ID" \
+            --cache_level none \
+            --clean true \
+            --timeout 1800 \
+            2>&1 | tee "$GITHUB_WORKSPACE/codeai-bounded-official-external-harness-v0-1.log"
+      - name: Verify completed bounded report and observable logs
+        working-directory: /tmp/SWE-bench
+        shell: bash
+        run: |
+          set -euo pipefail
+          REPORT="$(find "logs/run_evaluation/$RUN_ID" -path "*/$INSTANCE_ID/report.json" -print -quit)"
+          test -n "$REPORT"
+          INSTANCE_DIR="$(dirname "$REPORT")"
+          TEST_OUTPUT="$INSTANCE_DIR/test_output.txt"
+          INSTANCE_LOG="$INSTANCE_DIR/run_instance.log"
+          PYTHONPATH="$GITHUB_WORKSPACE" python3 \
+            "$GITHUB_WORKSPACE/scripts/check_codeai_bounded_official_harness_execution_v0_1.py" \
+            --example "$GITHUB_WORKSPACE/examples/codeai_bounded_official_harness_execution_v0_1.json" \
+            --manifest "$GITHUB_WORKSPACE/manifests/kuuos_codeai_bounded_official_harness_execution_v0_1.json" \
+            --predictions "$GITHUB_WORKSPACE/$PREDICTIONS_PATH" \
+            --report "$REPORT" \
+            --test-output "$TEST_OUTPUT" \
+            --instance-log "$INSTANCE_LOG" \
+            --instance-id "$INSTANCE_ID" \
+            --write-observation "$GITHUB_WORKSPACE/codeai-bounded-official-external-observation-v0-1.json" \
+            2>&1 | tee "$GITHUB_WORKSPACE/codeai-bounded-official-external-observation-v0-1.log"
+          mkdir -p "$GITHUB_WORKSPACE/codeai-bounded-official-external-artifacts"
+          cp "$REPORT" "$GITHUB_WORKSPACE/codeai-bounded-official-external-artifacts/report.json"
+          cp "$TEST_OUTPUT" "$GITHUB_WORKSPACE/codeai-bounded-official-external-artifacts/test_output.txt"
+          cp "$INSTANCE_LOG" "$GITHUB_WORKSPACE/codeai-bounded-official-external-artifacts/run_instance.log"
+          cp "$GITHUB_WORKSPACE/$PREDICTIONS_PATH" \
+            "$GITHUB_WORKSPACE/codeai-bounded-official-external-artifacts/predictions.jsonl"
+      - name: Upload completed bounded execution evidence
+        if: ${{ always() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-bounded-official-external-v0-1-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            codeai-bounded-official-external-harness-v0-1.log
+            codeai-bounded-official-external-observation-v0-1.json
+            codeai-bounded-official-external-observation-v0-1.log
+            codeai-bounded-official-external-artifacts/report.json
+            codeai-bounded-official-external-artifacts/test_output.txt
+            codeai-bounded-official-external-artifacts/run_instance.log
+            codeai-bounded-official-external-artifacts/predictions.jsonl
+          if-no-files-found: warn
+          retention-days: 14
