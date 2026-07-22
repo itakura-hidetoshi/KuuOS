@@ -3,7 +3,6 @@ from __future__ import annotations
 import argparse
 import json
 from pathlib import Path
-import tempfile
 
 from scripts.build_codeai_bounded_official_harness_execution_fixture_v0_1 import build_fixture
 from runtime.kuuos_codeai_bounded_official_harness_execution_checks_v0_1 import (
@@ -15,7 +14,10 @@ from runtime.kuuos_codeai_bounded_official_harness_execution_checks_v0_1 import 
 from runtime.kuuos_codeai_bounded_official_harness_execution_schema_v0_1 import (
     PACK_DIGEST_FIELD,
     RECEIPT_DIGEST_FIELD,
-    official_prediction,
+    STATUS_ADMITTED,
+)
+from runtime.kuuos_codeai_bounded_official_harness_execution_v0_1 import (
+    build_codeai_bounded_official_harness_execution,
 )
 
 def main() -> None:
@@ -56,6 +58,16 @@ def main() -> None:
             raise SystemExit("external prediction patch was not applied")
         if not observation["evaluation_completed"]:
             raise SystemExit("external evaluation did not complete")
+        external_result = build_codeai_bounded_official_harness_execution(
+            request=fixture["request"],
+            policy=fixture["policy"],
+            predecessor_manifest=fixture["predecessor_manifest"],
+            execution_plan=fixture["execution_plan"],
+            prediction=fixture["prediction"],
+            observation=observation,
+        )
+        if external_result.status != STATUS_ADMITTED:
+            raise SystemExit(f"external observation was not admitted: {external_result.reasons}")
         if args.write_observation:
             Path(args.write_observation).write_text(
                 json.dumps(observation, indent=2, sort_keys=True) + "\n"
