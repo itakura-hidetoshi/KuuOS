@@ -1,0 +1,19 @@
+{
+  "correctness_claimed": false,
+  "decision": "bounded_official_harness_execution_admitted",
+  "evaluation_completed": true,
+  "future_harness_execution_authority_granted": false,
+  "git_authority_granted": false,
+  "gold_access_granted": false,
+  "instance_id": "sympy__sympy-20590",
+  "instance_log_digest": "39f4b4cdd8c9f79aa6f0c17f41e2f65107886ed3beb442cd2f8606694c00e792",
+  "model_name_or_path": "kuuos-codeai/bounded-smoke-v0.1",
+  "patch_applied": true,
+  "prediction_digest": "9a2aeff25ca565214ecbae781f20df4c23eea20db72b135702aa56d5de238050",
+  "profile_version": "CodeAI Bounded Official Harness Execution v0.1",
+  "receipt_digest": "774e1a3835020c4d25b7f6eec9834958746ed4270a0b62b7d57654f9e7d86cff",
+  "report_digest": "a381ff62e0cfd8af10dadf924e6abf75a2a2e55f2ce2b4662c237134e65c9bb3",
+  "repository_mutation_authority_granted": false,
+  "resolved": false,
+  "test_output_digest": "2ae368f648890d932c7c5a567a6ddda259e3e83d14e83ab8eb99f2efc8aaff93"
+}

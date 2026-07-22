@@ -40,6 +40,7 @@ roots = [
   "KuuOSCodeAIExternalGeneralBenchmarkSWEBenchVerifiedAdapterV0_1",
   "KuuOSCodeAIExternalCorpusAcquisitionFreezeReceiptV0_1",
   "KuuOSCodeAIGoldPatchEnvironmentSmokeValidationV0_1",
+  "KuuOSCodeAIBoundedOfficialHarnessExecutionV0_1",
   "KuuOSCodeAIAutonomousTrajectorySynthesisV0_1",
   "KuuOSCodeAIAutonomousGitLifecycleV0_1",
   "KuuOSCodeAIAutonomousGitEffectExecutionV0_1",
