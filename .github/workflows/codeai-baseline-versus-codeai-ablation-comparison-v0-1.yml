@@ -1,0 +1,118 @@
+name: Baseline-versus-CodeAI and Ablation Comparison v0.1
+
+on:
+  workflow_dispatch:
+  pull_request:
+    paths:
+      - "runtime/kuuos_codeai_baseline_versus_codeai_ablation_comparison_schema_v0_1.py"
+      - "runtime/kuuos_codeai_baseline_versus_codeai_ablation_comparison_checks_v0_1.py"
+      - "runtime/kuuos_codeai_baseline_versus_codeai_ablation_comparison_v0_1.py"
+      - "scripts/build_codeai_baseline_versus_codeai_ablation_comparison_fixture_v0_1.py"
+      - "scripts/project_codeai_baseline_versus_codeai_ablation_comparison_fixture_v0_1.py"
+      - "scripts/check_codeai_baseline_versus_codeai_ablation_comparison_v0_1.py"
+      - "tests/test_kuuos_codeai_baseline_versus_codeai_ablation_comparison_v0_1.py"
+      - "examples/codeai_baseline_versus_codeai_ablation_comparison_v0_1.json"
+      - "manifests/kuuos_codeai_baseline_versus_codeai_ablation_comparison_v0_1.json"
+      - "docs/KUUOS_CODEAI_BASELINE_VERSUS_CODEAI_ABLATION_COMPARISON_v0_1.md"
+      - "formal/KUOS/CodeAI/BaselineVersusCodeAIAblationComparisonV0_1.lean"
+      - "formal/KuuOSCodeAIBaselineVersusCodeAIAblationComparisonV0_1.lean"
+      - "lakefile.toml"
+      - "lake-manifest.json"
+      - "lean-toolchain"
+      - ".github/workflows/codeai-baseline-versus-codeai-ablation-comparison-v0-1.yml"
+
+permissions:
+  contents: read
+
+concurrency:
+  group: ${{ github.workflow }}-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  validate-comparison-contract:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 120
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Compile Python surfaces
+        run: >-
+          python3 -m compileall -q
+          runtime/kuuos_codeai_baseline_versus_codeai_ablation_comparison_schema_v0_1.py
+          runtime/kuuos_codeai_baseline_versus_codeai_ablation_comparison_checks_v0_1.py
+          runtime/kuuos_codeai_baseline_versus_codeai_ablation_comparison_v0_1.py
+          scripts/build_codeai_baseline_versus_codeai_ablation_comparison_fixture_v0_1.py
+          scripts/project_codeai_baseline_versus_codeai_ablation_comparison_fixture_v0_1.py
+          scripts/check_codeai_baseline_versus_codeai_ablation_comparison_v0_1.py
+          tests/test_kuuos_codeai_baseline_versus_codeai_ablation_comparison_v0_1.py
+      - name: Validate machine-readable artifacts
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 -m json.tool examples/codeai_baseline_versus_codeai_ablation_comparison_v0_1.json > /dev/null
+          python3 -m json.tool manifests/kuuos_codeai_baseline_versus_codeai_ablation_comparison_v0_1.json > /dev/null
+      - name: Check deterministic comparison projection
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 scripts/check_codeai_baseline_versus_codeai_ablation_comparison_v0_1.py \
+            2>&1 | tee codeai-baseline-ablation-comparison-v0-1.log
+      - name: Run comparison and predecessor regressions
+        shell: bash
+        run: |
+          set -euo pipefail
+          PYTHONPATH=. python3 -m unittest \
+            tests.test_kuuos_codeai_baseline_versus_codeai_ablation_comparison_v0_1 \
+            tests.test_kuuos_codeai_external_result_process_evidence_ingestion_v0_1 \
+            tests.test_kuuos_codeai_bounded_official_harness_execution_v0_1 \
+            tests.test_kuuos_codeai_gold_patch_environment_smoke_validation_v0_1 \
+            tests.test_kuuos_codeai_external_corpus_acquisition_freeze_receipt_v0_1 \
+            2>&1 | tee codeai-baseline-ablation-comparison-v0-1-tests.log
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Resolve pinned dependencies
+        run: lake update
+      - name: Verify committed dependency manifest is canonical
+        run: git diff --exit-code -- lake-manifest.json
+      - name: Fetch Mathlib olean cache
+        run: lake exe cache get
+      - name: Strictly compile comparison formal root
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSCodeAIBaselineVersusCodeAIAblationComparisonV0_1 \
+            2>&1 | tee codeai-baseline-ablation-comparison-v0-1-lean.log
+      - name: Strictly compile repository formal baseline
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSFormal \
+            2>&1 | tee codeai-baseline-ablation-comparison-v0-1-lean-root.log
+      - name: Upload contract diagnostics
+        if: ${{ failure() }}
+        uses: actions/upload-artifact@v4
+        with:
+          name: codeai-baseline-ablation-comparison-contract-v0-1-${{ github.run_id }}-${{ github.run_attempt }}
+          path: |
+            codeai-baseline-ablation-comparison-v0-1.log
+            codeai-baseline-ablation-comparison-v0-1-tests.log
+            codeai-baseline-ablation-comparison-v0-1-lean.log
+            codeai-baseline-ablation-comparison-v0-1-lean-root.log
+          if-no-files-found: warn
+          retention-days: 14
