@@ -11,9 +11,9 @@ KuuOS is a public, governance-gated, proof-facing, non-Markovian and relational 
 
 **基準日：2026年7月23日 JST**
 
-authoritative branchは`main`です。現在の統合済みHEADは`083ee7ef65d53bd1a8e231c73b82e4946dd1eaf7`、最新の機能統合はPR #1341 **Baseline-versus-CodeAI and Ablation Comparison v0.1**です。
+authoritative branchは`main`です。現在の機能frontierの基準commitは`083ee7ef65d53bd1a8e231c73b82e4946dd1eaf7`、最新の機能統合はPR #1341 **Baseline-versus-CodeAI and Ablation Comparison v0.1**です。文書・governanceだけの同期mergeで`main` HEADが進んでも、この機能milestoneは自動では変わりません。
 
-PR #1342 **CodeAI Frozen Cohort Prediction-Pack and Execution-Shard Contract v0.1**はDraftです。`main`へ未統合であり、current rootの統合済みfrontierとは区別します。
+PR #1342 **CodeAI Frozen Cohort Prediction-Pack and Execution-Shard Contract v0.1**はDraftです。作成時のexact baseは上記機能milestoneであり、`main`へ未統合です。ready化にはcurrent `main`への再整合と、新しいexact headに対するcompleted CIが必要です。
 
 | 面 | 統合済み到達点 | 主な入口 |
 |---|---|---|
