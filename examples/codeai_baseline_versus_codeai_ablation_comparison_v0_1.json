@@ -1,0 +1,100 @@
+{
+  "cohort_registry_digest": "527ff02e523e1d7b9a9f15280ba82032df94a04e08675bc4096a2c63cd42882f",
+  "cohorts": [
+    {
+      "cohort_id": "baseline-deterministic-patch",
+      "role": "baseline",
+      "target_sample_count": 100
+    },
+    {
+      "cohort_id": "codeai-full",
+      "role": "codeai",
+      "target_sample_count": 100
+    },
+    {
+      "cohort_id": "ablation-no-repair-memory",
+      "role": "ablation",
+      "target_sample_count": 100
+    },
+    {
+      "cohort_id": "ablation-no-specialist-routing",
+      "role": "ablation",
+      "target_sample_count": 100
+    },
+    {
+      "cohort_id": "ablation-no-evidence-weighted-selection",
+      "role": "ablation",
+      "target_sample_count": 100
+    }
+  ],
+  "comparison_pack_digest": "aee1ad7919af50124c79cb27b86fc8c6d9a54192237e963b62e1869d986fdf23",
+  "comparison_phase": "preregistration",
+  "metric_registry_digest": "462627a160ec8bf265b25cb2853421746b0bdfa84dc6e27d61710b5226bdb97c",
+  "metrics": [
+    {
+      "direction": "higher-is-better",
+      "metric_id": "resolved-rate",
+      "primary": true
+    },
+    {
+      "direction": "higher-is-better",
+      "metric_id": "fail-to-pass-success-rate",
+      "primary": false
+    },
+    {
+      "direction": "higher-is-better",
+      "metric_id": "pass-to-pass-preservation-rate",
+      "primary": false
+    },
+    {
+      "direction": "higher-is-better",
+      "metric_id": "execution-valid-rate",
+      "primary": false
+    },
+    {
+      "direction": "lower-is-better",
+      "metric_id": "error-rate",
+      "primary": false
+    }
+  ],
+  "observation_registry_digest": "c0e63a57a297319d421031a7379c277802c7218fa05529a1976d3383291c3d6a",
+  "observations": [
+    {
+      "cohort_id": "baseline-deterministic-patch",
+      "evidence_state": "pending",
+      "resolved_count": 0,
+      "sample_count": 0
+    },
+    {
+      "cohort_id": "codeai-full",
+      "evidence_state": "measured",
+      "resolved_count": 0,
+      "sample_count": 1
+    },
+    {
+      "cohort_id": "ablation-no-repair-memory",
+      "evidence_state": "pending",
+      "resolved_count": 0,
+      "sample_count": 0
+    },
+    {
+      "cohort_id": "ablation-no-specialist-routing",
+      "evidence_state": "pending",
+      "resolved_count": 0,
+      "sample_count": 0
+    },
+    {
+      "cohort_id": "ablation-no-evidence-weighted-selection",
+      "evidence_state": "pending",
+      "resolved_count": 0,
+      "sample_count": 0
+    }
+  ],
+  "performance_comparison_completed": false,
+  "plan_digest": "ca3a2de88d51a7efa772ac0555e60c3fcec357d45ffe0addbfdc6beb00601961",
+  "policy_digest": "8ae53ad7ea38ee632b37ba4540b2668f26a11f558d7d7519644199cf0088c150",
+  "profile_version": "Baseline-versus-CodeAI and Ablation Comparison v0.1",
+  "receipt_digest": "1629e68f87175bf0ce7393e652d58df6bd3611832db84995feb1566644fd2ce4",
+  "request_digest": "959cf463daece8e24baf2dd54b4052916acc8a2e445959e23d7ded2a46760250",
+  "schema_version": "v0.1"
+}
