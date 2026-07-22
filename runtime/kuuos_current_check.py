@@ -152,7 +152,6 @@ _base.CURRENT_ROOT_STEPS = (
 )
 
 _original_current_runtime_root_summary = _base.current_runtime_root_summary
-_original_steps_for_profile = _base._steps_for_profile
 
 
 def current_runtime_root_summary() -> dict[str, object]:
@@ -194,11 +193,18 @@ def current_runtime_root_summary() -> dict[str, object]:
 
 
 def _steps_for_profile(profile: str) -> tuple[_base.CurrentRootStep, ...]:
-    if profile == "codeai":
-        return _base.CODEAI_CURRENT_FRONTIER_STEPS
-    if profile == "all":
-        return _base.CURRENT_ROOT_STEPS
-    return _original_steps_for_profile(profile)
+    profiles = {
+        "repository": _base.REPOSITORY_LINEAGE_STEPS,
+        "planos": _base.PLANOS_ACTIVE_FRONTIER_STEPS,
+        "decisionos": _base.DECISIONOS_ACTIVE_FRONTIER_STEPS,
+        "memoryos": _base.MEMORYOS_ACTIVE_FRONTIER_STEPS,
+        "codeai": _base.CODEAI_CURRENT_FRONTIER_STEPS,
+        "all": _base.CURRENT_ROOT_STEPS,
+    }
+    try:
+        return profiles[profile]
+    except KeyError as exc:
+        raise ValueError("unknown_current_root_profile:" + profile) from exc
 
 
 def run_current(profile: str = "all") -> int:
