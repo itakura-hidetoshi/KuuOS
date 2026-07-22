@@ -16,14 +16,16 @@
 | 条件付き候補 | exact base、scope、authority、evidence contractが未確定 |
 | Frozen boundary | additiveまたはtighten-onlyで維持する責任境界 |
 
-## 現在のauthoritative baseline
+## 現在のauthoritative functional baseline
 
 ```text
 branch: main
-HEAD: 083ee7ef65d53bd1a8e231c73b82e4946dd1eaf7
+functional milestone commit: 083ee7ef65d53bd1a8e231c73b82e4946dd1eaf7
 latest integrated functional PR: #1341
 frontier: Baseline-versus-CodeAI and Ablation Comparison v0.1
 ```
+
+`main` HEADは文書、governance、互換surfaceの同期mergeでも進みます。したがって、moving branch HEADと、subsystemの機能frontierを定めるmilestone commitを同一視しません。
 
 | 系列 | 到達点 | 状態 |
 |---|---|---|
@@ -112,12 +114,13 @@ performance claimed: false
 PR #1342 **CodeAI Frozen Cohort Prediction-Pack and Execution-Shard Contract v0.1**
 
 ```text
-base: 083ee7ef65d53bd1a8e231c73b82e4946dd1eaf7
+creation base: 083ee7ef65d53bd1a8e231c73b82e4946dd1eaf7
 head: daa88b75be2cdb66ce706fcf08be8723a34594e7
 state: open Draft
+integration readiness: current-main rebase and fresh completed CI required
 ```
 
-このDraftは、100-slot shared holdout、baseline / CodeAI / 3 ablationのauthentic prediction pack、各cohort 10 shard、合計50 external-only shardを固定する契約です。
+このDraftは、100-slot shared holdout、baseline / CodeAI / 3 ablationのauthentic prediction pack、各cohort 10 shard、合計50 external-only shardを固定する契約です。作成時の機能predecessor bindingは維持しつつ、ready化前にはmoving `main`との差分を再評価します。
 
 Draft時点では次を完了事実として扱いません。
 
@@ -134,12 +137,13 @@ performance claimed
 
 ### 1. #1342のcontractを完成させる
 
-- exact baseとpredecessor digest bindingを維持する
+- current `main`へ再整合し、機能predecessor digest bindingを維持する
+- rebase後のexact headでCIを新規に完了させる
 - smoke predictionをperformance evidenceへ昇格させない
 - cohort、sample、holdout、metricのcross-bindingを防ぐ
 - raw gold、raw test names、raw logsをsolver側へ渡さない
 - CI、strict Lean、base整合、mergeability、review、unresolved threadをcompleted evidenceで確認する
-- merge前後にauthoritative `main`とのidentical relationを確認する
+- merge前後にauthoritative `main`とのtree relationを確認する
 
 ### 2. Frozen cohortを実体化する
 
@@ -252,6 +256,8 @@ README、ROADMAP、runtime rootは次のいずれかで同期更新します。
 - benchmark observationまたはcomparison dispositionが変わる
 - subsystem responsibilityまたはauthority boundaryが変わる
 - Lean aggregate、toolchain、canonical checkerが変わる
+
+文書・governanceだけのmergeでmoving `main` HEADが進んだ場合、機能milestone SHAを書き換えません。機能frontierの基準commitとbranch HEADを明確に区別します。
 
 古いopen PRを再利用する場合は、現在の`main`へrebaseし、scope、evidence contract、formal target、governance gateを再評価します。
 
