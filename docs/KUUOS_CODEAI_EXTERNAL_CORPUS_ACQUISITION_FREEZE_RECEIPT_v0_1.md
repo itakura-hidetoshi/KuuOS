@@ -13,18 +13,19 @@ Admission means that one exact external corpus artifact has been content-address
 
 Malformed, tampered, stale, version-mismatched, or lineage-mismatched inputs are structurally blocked before a disposition is emitted. Structurally valid evidence that lacks acquisition or isolation predicates produces a hold.
 
-## Stacked lineage
+## Main normalization lineage
 
-This stage is developed on the fixed head of Draft PR #1335 because that predecessor's CI is not yet completed.
+This stage was developed as stacked PR #1336 on the fixed predecessor head, then merged into that stacked base branch. PR #1337 is the explicit normalization path that lands the same stage on `main` and revalidates its fixed content against the authoritative frontier.
 
 - controller repository: `itakura-hidetoshi/KuuOS`;
-- controller source commit: `e07e32b76bebd3e260dbe1847080e29b3ffe6346`;
 - predecessor profile: `CodeAI External General Benchmark Protocol and SWE-bench Verified Adapter v0.1`;
+- predecessor head: `e07e32b76bebd3e260dbe1847080e29b3ffe6346`;
+- stacked merge commit: `c16c2e33aba95e93d352d6b790491f3b57300c92`;
 - predecessor manifest digest: `a5310fcfdb5d6c8ee99d66eb56d4d0f3cdd76152582c620f3b8dd6aa597b688d`;
 - predecessor adapter pack: `134475fc54fc23d0bcb48973b9fcfd158da51fa6a95ea4eff083a500f7936107`;
 - predecessor receipt: `55233619cdc23640818f305564ee08652e5f9817cb0260128256c4d3ddfd7b73`.
 
-The stacked PR does not treat queued or in-progress predecessor CI as success evidence. The predecessor must later be merged or the stack must be rebased and revalidated before this stage can become a current `main` frontier.
+Queued or in-progress runs are not success evidence. The normalization PR remains governed by completed CI evidence for its exact head before it can become the current `main` frontier.
 
 ## Exact external artifact
 
@@ -206,4 +207,4 @@ The dedicated workflow performs:
 
 ## Next stage
 
-The next separately governed stage is **Gold-Patch Environment Smoke Validation v0.1**. It will use evaluator-only access to a small preregistered sample to verify that the pinned harness and Docker environments can reproduce gold outcomes. Gold material remains unavailable to candidate generation and repair memory.
+The next separately governed stage is **Gold-Patch Environment Smoke Validation v0.1**. It uses evaluator-only access to a preregistered smoke instance to verify that the pinned harness and Docker environment reproduce a gold outcome. Gold material remains unavailable to candidate generation and repair memory.
