@@ -44,38 +44,32 @@ def ContractAdmitted (c : Contract) : Prop :=
 theorem label_only_relabeling_forbids_admission
     {c : Contract} (h : c.labelOnlyRelabeling = true) : ¬ ContractAdmitted c := by
   intro ha
-  rw [h] at ha
-  simp [ContractAdmitted] at ha
+  simpa [ContractAdmitted, h] using ha
 
 theorem smoke_as_performance_forbids_admission
     {c : Contract} (h : c.smokeCountsAsPerformance = true) : ¬ ContractAdmitted c := by
   intro ha
-  rw [h] at ha
-  simp [ContractAdmitted] at ha
+  simpa [ContractAdmitted, h] using ha
 
 theorem raw_gold_forbids_admission
     {c : Contract} (h : c.rawGoldVisible = true) : ¬ ContractAdmitted c := by
   intro ha
-  rw [h] at ha
-  simp [ContractAdmitted] at ha
+  simpa [ContractAdmitted, h] using ha
 
 theorem kernel_execution_forbids_admission
     {c : Contract} (h : c.kernelExecutionAuthority = true) : ¬ ContractAdmitted c := by
   intro ha
-  rw [h] at ha
-  simp [ContractAdmitted] at ha
+  simpa [ContractAdmitted, h] using ha
 
 theorem repository_mutation_forbids_admission
     {c : Contract} (h : c.repositoryMutationAuthority = true) : ¬ ContractAdmitted c := by
   intro ha
-  rw [h] at ha
-  simp [ContractAdmitted] at ha
+  simpa [ContractAdmitted, h] using ha
 
 theorem performance_claim_forbids_admission
     {c : Contract} (h : c.performanceClaimed = true) : ¬ ContractAdmitted c := by
   intro ha
-  rw [h] at ha
-  simp [ContractAdmitted] at ha
+  simpa [ContractAdmitted, h] using ha
 
 def referenceContract : Contract where
   cohortCount := 5
@@ -98,7 +92,7 @@ def referenceContract : Contract where
   externalExecutionReady := false
 
 theorem reference_contract_admitted : ContractAdmitted referenceContract := by
-  native_decide
+  simp [ContractAdmitted, referenceContract]
 
 theorem reference_not_execution_ready : referenceContract.externalExecutionReady = false := rfl
 
