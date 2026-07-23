@@ -55,5 +55,5 @@ jobs:
         run: >-
           lake env lean
           -DwarningAsError=true
-          -DsorryAsError=true
+          -Dweak.sorryAsError=true
           formal/KUOS/CodeAI/FrozenCohortPredictionPackExecutionShardContractV0_1.lean
