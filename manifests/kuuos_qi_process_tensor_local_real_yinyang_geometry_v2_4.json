@@ -1,0 +1,98 @@
+{
+  "schema_version": "kuuos_manifest_v1",
+  "component": "kuuos_qi_process_tensor_local_real_yinyang_geometry_v2_4",
+  "version": "2.4",
+  "status": "additive_candidate_architecture",
+  "canonical_base": {
+    "repository": "itakura-hidetoshi/KuuOS",
+    "branch": "main",
+    "base_sha": "031983f5c14831ca19e84359d90914b95b11002a"
+  },
+  "purpose": "Bridge Qi Process Tensor history, local real Yin-Yang frames, gauge transport, non-Markov memory, held residue, modular/KMS analytic receipts, and recoverability-gap candidates without reification or authority widening.",
+  "extends": [
+    "kuuos_qi_world_yinyang_process_blocker_complementarity_v2_3",
+    "qi_process_tensor_v0_1",
+    "ku_indra_qi_process_tensor_activation_v0_4",
+    "ku_indra_qi_noncommutative_mandala_world_model_v0_1",
+    "ku_indra_qi_world_real_hilbert_l2_analytic_spine_v0_26"
+  ],
+  "surfaces": {
+    "documentation": "docs/KUUOS_QI_PROCESS_TENSOR_LOCAL_REAL_YINYANG_GEOMETRY_v2_4.md",
+    "runtime": "runtime/kuuos_qi_process_tensor_local_real_yinyang_geometry_v2_4.py",
+    "checker": "scripts/check_qi_process_tensor_local_real_yinyang_geometry_v2_4.py",
+    "tests": "tests/test_qi_process_tensor_local_real_yinyang_geometry_v2_4.py",
+    "formal": "formal/KUOS/Architecture/QiProcessTensorLocalRealYinYangGeometryV2_4.lean",
+    "formal_root": "formal/KUOS.lean",
+    "workflow": ".github/workflows/qi-process-tensor-local-real-yinyang-v2-4-validation.yml"
+  },
+  "formal_dependencies": [
+    "KUOS.Architecture.QiWorldYinYangProcessBlockerComplementarityV2_3",
+    "KUOS.WORLD.StandardFormModularFlowBridgeV0_32",
+    "KUOS.WORLD.ModularStateKMSRelativeFlowBridgeV0_33",
+    "KUOS.WORLD.KuuOSNonMarkovMemoryConnectionV0_72"
+  ],
+  "core_invariants": [
+    "yin_yang_is_local_relational_real_structure_not_fixed_essence",
+    "process_tensor_is_history_law_not_qi_substance",
+    "local_real_transport_preservation_is_explicit",
+    "conversion_parity_uses_z2_composition",
+    "double_conversion_may_restore_readout_polarity_without_erasing_history",
+    "observation_holding_split_is_distinct_from_yinyang_frame",
+    "admitted_qi_plus_held_qi_equals_total_qi",
+    "held_qi_residue_is_preserved_without_erasure",
+    "nonmarkov_memory_links_separated_times",
+    "holonomy_residue_remains_visible",
+    "protected_history_not_targeted_for_decay",
+    "recoverability_gap_is_candidate_analytic_indicator_not_physical_mass_theorem",
+    "global_absolute_polarity_claim_fails_closed",
+    "two_truths_gap_preserved",
+    "all_authority_grants_false"
+  ],
+  "runtime_receipt_fields": [
+    "process_tensor_surface",
+    "local_real_structure_surface",
+    "history_transport_surface",
+    "qi_split_surface",
+    "recoverability_surface",
+    "coupling",
+    "disposition",
+    "candidate_flow_admissible",
+    "admitted_qi_intensity",
+    "held_qi_residue",
+    "non_authority",
+    "local_real_yinyang_receipt_digest"
+  ],
+  "fail_closed_conditions": [
+    "process_tensor_missing",
+    "transition_continuity_missing",
+    "memory_continuity_missing",
+    "local_real_frame_missing",
+    "local_real_frame_not_involutive",
+    "local_real_frame_not_gauge_local",
+    "protected_history_missing",
+    "two_truths_gap_missing",
+    "global_absolute_polarity_claim_detected"
+  ],
+  "non_authority": {
+    "grants_execution_authority": false,
+    "grants_truth_authority": false,
+    "grants_final_commitment_authority": false,
+    "grants_memory_overwrite_authority": false,
+    "grants_clinical_authority": false,
+    "grants_theorem_authority": false,
+    "updates_exact_world": false,
+    "constructs_tomita_operator": false,
+    "executes_modular_operator": false
+  },
+  "prohibited_identifications": [
+    "qi_equals_process_tensor",
+    "yin_equals_hidden_state",
+    "yang_equals_visible_state",
+    "yin_equals_imaginary_part",
+    "yang_equals_real_part",
+    "qi_equals_physical_particle",
+    "modular_conjugation_equals_fixed_yin",
+    "modular_flow_equals_qi_substance",
+    "recoverability_gap_equals_physical_mass_theorem"
+  ]
+}
