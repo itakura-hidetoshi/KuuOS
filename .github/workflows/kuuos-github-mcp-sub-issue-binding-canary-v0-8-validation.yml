@@ -1,0 +1,83 @@
+name: KuuOS GitHub MCP Sub-Issue Binding Canary v0.8 Validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'runtime/kuuos_github_mcp_sub_issue_binding_canary_v0_8.py'
+      - 'scripts/run_kuuos_github_mcp_sub_issue_binding_canary_v0_8.py'
+      - 'scripts/check_kuuos_github_mcp_sub_issue_binding_canary_v0_8.py'
+      - 'tests/test_kuuos_github_mcp_sub_issue_binding_canary_v0_8.py'
+      - 'examples/kuuos_github_mcp_sub_issue_binding_canary_v0_8.json'
+      - 'manifests/kuuos_github_mcp_sub_issue_binding_canary_v0_8.json'
+      - 'docs/KUUOS_GITHUB_MCP_SUB_ISSUE_BINDING_CANARY_v0_8.md'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V0_8.lean'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1.lean'
+      - '.github/workflows/kuuos-github-mcp-sub-issue-binding-canary-v0-8-validation.yml'
+      - '.github/workflows/kuuos-github-mcp-sub-issue-binding-canary-v0-8.yml'
+  pull_request:
+    paths:
+      - 'runtime/kuuos_github_mcp_sub_issue_binding_canary_v0_8.py'
+      - 'scripts/run_kuuos_github_mcp_sub_issue_binding_canary_v0_8.py'
+      - 'scripts/check_kuuos_github_mcp_sub_issue_binding_canary_v0_8.py'
+      - 'tests/test_kuuos_github_mcp_sub_issue_binding_canary_v0_8.py'
+      - 'examples/kuuos_github_mcp_sub_issue_binding_canary_v0_8.json'
+      - 'manifests/kuuos_github_mcp_sub_issue_binding_canary_v0_8.json'
+      - 'docs/KUUOS_GITHUB_MCP_SUB_ISSUE_BINDING_CANARY_v0_8.md'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V0_8.lean'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1.lean'
+      - '.github/workflows/kuuos-github-mcp-sub-issue-binding-canary-v0-8-validation.yml'
+      - '.github/workflows/kuuos-github-mcp-sub-issue-binding-canary-v0-8.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-github-mcp-sub-issue-binding-v08-validation-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  validate-runtime:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate sub-issue binding canary without external writes
+        shell: bash
+        env:
+          PYTHONPATH: .
+          PYTHONUNBUFFERED: '1'
+          PYTHONWARNINGS: error::ResourceWarning
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/diagnostics
+          python3 -m compileall -q \
+            runtime/kuuos_github_mcp_sub_issue_binding_canary_v0_8.py \
+            scripts/run_kuuos_github_mcp_sub_issue_binding_canary_v0_8.py \
+            scripts/check_kuuos_github_mcp_sub_issue_binding_canary_v0_8.py \
+            tests/test_kuuos_github_mcp_sub_issue_binding_canary_v0_8.py \
+            2>&1 | tee artifacts/diagnostics/python-compile.log
+          python3 -m json.tool examples/kuuos_github_mcp_sub_issue_binding_canary_v0_8.json > /dev/null
+          python3 -m json.tool manifests/kuuos_github_mcp_sub_issue_binding_canary_v0_8.json > /dev/null
+          python3 scripts/check_kuuos_github_mcp_sub_issue_binding_canary_v0_8.py \
+            2>&1 | tee artifacts/diagnostics/runtime-check.log
+          python3 -m unittest -v \
+            tests.test_kuuos_github_mcp_sub_issue_binding_canary_v0_8 \
+            2>&1 | tee -a artifacts/diagnostics/runtime-check.log
+
+      - name: Upload failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-github-mcp-sub-issue-binding-v0-8-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/diagnostics/
+          if-no-files-found: error

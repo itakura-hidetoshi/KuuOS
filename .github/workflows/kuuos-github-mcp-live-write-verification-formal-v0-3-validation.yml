@@ -11,6 +11,7 @@ on:
       - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V0_5.lean'
       - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V0_6.lean'
       - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V0_7.lean'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V0_8.lean'
       - 'formal/KuuOSGitHubMCPServerBridgeV0_1.lean'
       - '.github/workflows/kuuos-github-mcp-live-write-verification-formal-v0-3-validation.yml'
   pull_request:
@@ -20,6 +21,7 @@ on:
       - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V0_5.lean'
       - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V0_6.lean'
       - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V0_7.lean'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V0_8.lean'
       - 'formal/KuuOSGitHubMCPServerBridgeV0_1.lean'
       - '.github/workflows/kuuos-github-mcp-live-write-verification-formal-v0-3-validation.yml'
 
@@ -52,7 +54,7 @@ jobs:
           use-mathlib-cache: true
           use-github-cache: true
 
-      - name: Strictly compile live write, Issue canary, workflow dispatch, label canary, and Issue-Label binding authority
+      - name: Strictly compile live write, Issue canary, workflow dispatch, label, Issue-Label, and sub-issue authority
         shell: bash
         run: |
           set -euo pipefail
