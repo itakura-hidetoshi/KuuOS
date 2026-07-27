@@ -1,11 +1,15 @@
 from __future__ import annotations
 
+import json
+import pathlib
+import tempfile
 import unittest
 
 from runtime import kuuos_github_mcp_issue_label_binding_canary_v0_7 as base
 from runtime.kuuos_github_mcp_issue_label_binding_canary_v0_7_2 import (
     GITHUB_LABEL_NAME_MAX_LENGTH,
     LABEL_PREFIX,
+    _normalize_plan_label_prefix,
     _validate_plan,
 )
 
@@ -63,6 +67,27 @@ class LabelNameBoundTests(unittest.TestCase):
             blockers,
         )
         self.assertIn("label_prefix_not_v0_7_2_bounded", blockers)
+
+    def test_merged_workflow_plan_is_normalized_before_execution(self) -> None:
+        with tempfile.TemporaryDirectory() as tmp:
+            root = pathlib.Path(tmp)
+            path = root / "github_mcp_issue_label_binding_canary_plan_v0_7.json"
+            path.write_text(
+                json.dumps(
+                    _plan(
+                        nonce="binding-v07-test-003",
+                        prefix="kuuos-mcp-binding-canary-",
+                    )
+                ),
+                encoding="utf-8",
+            )
+            self.assertTrue(_normalize_plan_label_prefix({"runtime_root": str(root)}))
+            normalized = json.loads(path.read_text(encoding="utf-8"))
+            self.assertEqual(normalized["label_prefix"], LABEL_PREFIX)
+            self.assertEqual(
+                normalized["label_name_max_length"],
+                GITHUB_LABEL_NAME_MAX_LENGTH,
+            )
 
     def test_base_runtime_uses_bounded_validator(self) -> None:
         self.assertIs(base._validate_plan, _validate_plan)
