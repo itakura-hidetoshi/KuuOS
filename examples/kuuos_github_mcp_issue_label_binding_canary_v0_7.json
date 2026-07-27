@@ -1,0 +1,35 @@
+{
+  "version": "kuuos_github_mcp_issue_label_binding_canary_plan_v0_7",
+  "mode": "stdio",
+  "repository_full_name": "itakura-hidetoshi/KuuOS",
+  "base_branch": "main",
+  "base_sha": "0000000000000000000000000000000000000000",
+  "write_capable": true,
+  "read_only": false,
+  "lockdown_mode": true,
+  "execute_external_actions": true,
+  "confirmation": "RUN_KUUOS_GITHUB_MCP_ISSUE_LABEL_BINDING_CANARY",
+  "transaction_nonce": "binding-v07-example-001",
+  "request_issue_number": 1,
+  "request_issue_title": "[KuuOS MCP Issue Label Binding Canary v0.7]",
+  "request_version_marker": "kuuos_github_mcp_issue_label_binding_canary_request_v0_7",
+  "label_prefix": "kuuos-mcp-binding-canary-",
+  "label_color": "0e8a16",
+  "label_description_marker": "KUUOS_GITHUB_MCP_ISSUE_LABEL_BINDING_CANARY v0.7",
+  "server": {
+    "kind": "official_github_mcp_server",
+    "launcher": "docker",
+    "image": "ghcr.io/github/github-mcp-server@sha256:2b0c48b070f61e9d3969269ead600f62d00fb237b60ac849ef3d166ee7de9ad3",
+    "token_env": "GITHUB_PERSONAL_ACCESS_TOKEN",
+    "toolsets": [
+      "issues",
+      "labels"
+    ],
+    "tools": [
+      "issue_write",
+      "issue_read",
+      "label_write",
+      "get_label"
+    ]
+  }
+}
