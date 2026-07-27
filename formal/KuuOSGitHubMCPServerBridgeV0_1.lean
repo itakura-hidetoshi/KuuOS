@@ -1,6 +1,7 @@
 import Mathlib
 import KuuOSGitHubMCPServerBridgeV0_1.V0_2
 import KuuOSGitHubMCPServerBridgeV0_1.V0_3
+import KuuOSGitHubMCPServerBridgeV0_1.V0_4
 
 namespace KuuOS.GitHubMCPServerBridgeV0_1
 
