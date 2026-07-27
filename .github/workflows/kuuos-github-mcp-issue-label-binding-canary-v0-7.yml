@@ -1,0 +1,288 @@
+name: KuuOS GitHub MCP Issue-Label Binding Canary v0.7
+run-name: GitHub MCP Issue-Label binding canary v0.7 · issue-${{ github.event.issue.number }}
+
+on:
+  issues:
+    types:
+      - opened
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: kuuos-github-mcp-issue-label-binding-canary-v0-7-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  binding-canary:
+    if: >-
+      github.event.issue.title == '[KuuOS MCP Issue Label Binding Canary v0.7]' &&
+      github.event.issue.user.login == github.repository_owner &&
+      github.event.issue.author_association == 'OWNER'
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out exact default-branch revision bound to the request event
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate owner request and materialize exact binding authority
+        id: request
+        shell: bash
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          EVENT_MAIN_SHA: ${{ github.sha }}
+          REPOSITORY: ${{ github.repository }}
+          REPOSITORY_OWNER: ${{ github.repository_owner }}
+          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+          AUTHOR_ASSOCIATION: ${{ github.event.issue.author_association }}
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/github-mcp-issue-label-binding-canary-v0-7
+          python3 - <<'PY'
+          import json
+          import os
+          import re
+          from pathlib import Path
+
+          expected_version = "kuuos_github_mcp_issue_label_binding_canary_request_v0_7"
+          expected_confirmation = "RUN_KUUOS_GITHUB_MCP_ISSUE_LABEL_BINDING_CANARY"
+          expected_image = "ghcr.io/github/github-mcp-server@sha256:2b0c48b070f61e9d3969269ead600f62d00fb237b60ac849ef3d166ee7de9ad3"
+          expected_title = "[KuuOS MCP Issue Label Binding Canary v0.7]"
+
+          if os.environ["ISSUE_AUTHOR"] != os.environ["REPOSITORY_OWNER"]:
+              raise SystemExit("request_author_not_repository_owner")
+          if os.environ["AUTHOR_ASSOCIATION"] != "OWNER":
+              raise SystemExit("request_author_association_not_owner")
+
+          try:
+              request = json.loads(os.environ.get("ISSUE_BODY", ""))
+          except json.JSONDecodeError as exc:
+              raise SystemExit(f"request_body_not_strict_json:{exc}") from exc
+          if not isinstance(request, dict):
+              raise SystemExit("request_body_not_object")
+          if set(request) != {
+              "version",
+              "confirmation",
+              "expected_main_sha",
+              "transaction_nonce",
+              "server_image",
+          }:
+              raise SystemExit("request_top_level_fields_invalid")
+          if request.get("version") != expected_version:
+              raise SystemExit("request_version_invalid")
+          if request.get("confirmation") != expected_confirmation:
+              raise SystemExit("request_confirmation_invalid")
+          if request.get("expected_main_sha") != os.environ["EVENT_MAIN_SHA"]:
+              raise SystemExit("request_expected_main_sha_mismatch")
+          nonce = str(request.get("transaction_nonce", ""))
+          if re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9-]{7,31}", nonce) is None:
+              raise SystemExit("request_transaction_nonce_invalid")
+          if request.get("server_image") != expected_image:
+              raise SystemExit("request_server_image_not_immutable_digest_pin")
+          issue_number = int(os.environ["ISSUE_NUMBER"])
+          if issue_number <= 0:
+              raise SystemExit("request_issue_number_invalid")
+
+          root = Path("artifacts/github-mcp-issue-label-binding-canary-v0-7")
+          plan = {
+              "version": "kuuos_github_mcp_issue_label_binding_canary_plan_v0_7",
+              "mode": "stdio",
+              "repository_full_name": os.environ["REPOSITORY"],
+              "base_branch": "main",
+              "base_sha": os.environ["EVENT_MAIN_SHA"],
+              "write_capable": True,
+              "read_only": False,
+              "lockdown_mode": True,
+              "execute_external_actions": True,
+              "confirmation": expected_confirmation,
+              "transaction_nonce": nonce,
+              "request_issue_number": issue_number,
+              "request_issue_title": expected_title,
+              "request_version_marker": expected_version,
+              "label_prefix": "kuuos-mcp-binding-canary-",
+              "label_color": "0e8a16",
+              "label_description_marker": "KUUOS_GITHUB_MCP_ISSUE_LABEL_BINDING_CANARY v0.7",
+              "server": {
+                  "kind": "official_github_mcp_server",
+                  "launcher": "docker",
+                  "image": expected_image,
+                  "token_env": "GITHUB_PERSONAL_ACCESS_TOKEN",
+                  "toolsets": ["issues", "labels"],
+                  "tools": ["issue_write", "issue_read", "label_write", "get_label"],
+              },
+          }
+          authority = {
+              "authority_status": "KUUOS_GITHUB_MCP_ISSUE_LABEL_BINDING_CANARY_AUTHORITY_READY",
+              "plan_read_allowed": True,
+              "tool_discovery_allowed": True,
+              "external_action_allowed": True,
+              "mcp_write_tool_call_allowed": True,
+              "post_write_reobservation_allowed": True,
+              "compensating_issue_detach_allowed": True,
+              "compensating_label_delete_allowed": True,
+              "receipt_write_allowed": True,
+              "audit_append_allowed": True,
+          }
+          (root / "issue_label_binding_request_v0_7.json").write_text(
+              json.dumps(request, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+          )
+          (root / "github_mcp_issue_label_binding_canary_plan_v0_7.json").write_text(
+              json.dumps(plan, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+          )
+          (root / "github_mcp_issue_label_binding_canary_authority_v0_7.json").write_text(
+              json.dumps(authority, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+          )
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"transaction_nonce={nonce}\n")
+              output.write(f"request_issue_number={issue_number}\n")
+          PY
+
+      - name: Pull immutable official GitHub MCP Server and record digest
+        id: image
+        shell: bash
+        env:
+          SERVER_IMAGE: ghcr.io/github/github-mcp-server@sha256:2b0c48b070f61e9d3969269ead600f62d00fb237b60ac849ef3d166ee7de9ad3
+        run: |
+          set -euo pipefail
+          docker pull "${SERVER_IMAGE}"
+          RESOLVED_REF="$(docker image inspect "${SERVER_IMAGE}" --format '{{index .RepoDigests 0}}')"
+          RESOLVED_DIGEST="${RESOLVED_REF##*@}"
+          case "${RESOLVED_DIGEST}" in
+            sha256:*) ;;
+            *) echo "resolved_image_digest_missing" >&2; exit 1 ;;
+          esac
+          echo "resolved_digest=${RESOLVED_DIGEST}" >> "${GITHUB_OUTPUT}"
+
+      - name: Execute reversible Issue-Label binding canary through official GitHub MCP Server
+        shell: bash
+        env:
+          PYTHONPATH: .
+          PYTHONUNBUFFERED: '1'
+          GITHUB_PERSONAL_ACCESS_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          BASE_SHA: ${{ github.sha }}
+          TRANSACTION_NONCE: ${{ steps.request.outputs.transaction_nonce }}
+          REQUEST_ISSUE_NUMBER: ${{ steps.request.outputs.request_issue_number }}
+          RESOLVED_DIGEST: ${{ steps.image.outputs.resolved_digest }}
+        run: |
+          set -euo pipefail
+          python3 scripts/run_kuuos_github_mcp_issue_label_binding_canary_v0_7.py \
+            artifacts/github-mcp-issue-label-binding-canary-v0-7 \
+            --confirmation RUN_KUUOS_GITHUB_MCP_ISSUE_LABEL_BINDING_CANARY \
+            --repository "${REPOSITORY}" \
+            --base-sha "${BASE_SHA}" \
+            --transaction-nonce "${TRANSACTION_NONCE}" \
+            --request-issue-number "${REQUEST_ISSUE_NUMBER}" \
+            --resolved-image-digest "${RESOLVED_DIGEST}" \
+            --execute-external-actions \
+            2>&1 | tee artifacts/github-mcp-issue-label-binding-canary-v0-7/run-output.json
+
+      - name: Write binding-canary evidence summary
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "${GITHUB_STEP_SUMMARY}"
+          import json
+          from pathlib import Path
+          path = Path("artifacts/github-mcp-issue-label-binding-canary-v0-7/github_mcp_issue_label_binding_canary_receipt_v0_7.json")
+          print("## KuuOS GitHub MCP Issue-Label Binding Canary v0.7")
+          if not path.is_file():
+              print("Receipt was not produced.")
+              raise SystemExit(0)
+          receipt = json.loads(path.read_text(encoding="utf-8"))
+          for label, key in [
+              ("status", "status"),
+              ("base SHA", "base_sha"),
+              ("request Issue", "request_issue_number"),
+              ("label", "label_name"),
+              ("resolved digest", "resolved_image_digest"),
+              ("Issue identity verified", "issue_identity_verified"),
+              ("initial Issue labels empty", "issue_labels_preflight_empty"),
+              ("repository label absent", "label_preflight_absent"),
+              ("label created verified", "label_created_verified"),
+              ("label attached verified", "label_attached_verified"),
+              ("label detached verified", "label_detached_verified"),
+              ("label deleted verified", "label_deleted_verified"),
+              ("compensation attempted", "compensation_attempted"),
+          ]:
+              print(f"- {label}: `{receipt.get(key, '')}`")
+          PY
+
+      - name: Upload Issue-Label binding canary evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-github-mcp-issue-label-binding-canary-v0-7-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/github-mcp-issue-label-binding-canary-v0-7/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Comment request result and close verified request
+        if: always()
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          from urllib import request
+
+          receipt_path = Path("artifacts/github-mcp-issue-label-binding-canary-v0-7/github_mcp_issue_label_binding_canary_receipt_v0_7.json")
+          if receipt_path.is_file():
+              receipt = json.loads(receipt_path.read_text(encoding="utf-8"))
+          else:
+              receipt = {"status": "RECEIPT_NOT_PRODUCED"}
+          status = str(receipt.get("status", ""))
+          lines = [
+              "## KuuOS GitHub MCP Issue-Label Binding Canary v0.7",
+              "",
+              f"- status: `{status}`",
+              f"- workflow run: {os.environ['RUN_URL']}",
+              f"- exact base SHA: `{receipt.get('base_sha', '')}`",
+              f"- request Issue: `#{receipt.get('request_issue_number', '')}`",
+              f"- label: `{receipt.get('label_name', '')}`",
+              f"- resolved digest: `{receipt.get('resolved_image_digest', '')}`",
+              f"- Issue identity verified: `{receipt.get('issue_identity_verified', False)}`",
+              f"- initial Issue labels empty: `{receipt.get('issue_labels_preflight_empty', False)}`",
+              f"- repository label absent: `{receipt.get('label_preflight_absent', False)}`",
+              f"- label created verified: `{receipt.get('label_created_verified', False)}`",
+              f"- label attached verified: `{receipt.get('label_attached_verified', False)}`",
+              f"- label detached verified: `{receipt.get('label_detached_verified', False)}`",
+              f"- label deleted verified: `{receipt.get('label_deleted_verified', False)}`",
+              f"- compensation attempted: `{receipt.get('compensation_attempted', False)}`",
+              f"- compensation Issue detached: `{receipt.get('compensation_issue_detached', False)}`",
+              f"- compensation label deleted: `{receipt.get('compensation_label_deleted', False)}`",
+          ]
+          body = json.dumps({"body": "\n".join(lines)}).encode()
+          base = f"https://api.github.com/repos/{os.environ['REPOSITORY']}/issues/{os.environ['ISSUE_NUMBER']}"
+          headers = {
+              "Accept": "application/vnd.github+json",
+              "Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}",
+              "X-GitHub-Api-Version": "2022-11-28",
+              "Content-Type": "application/json",
+          }
+          req = request.Request(base + "/comments", data=body, headers=headers, method="POST")
+          with request.urlopen(req, timeout=30) as response:
+              if response.status != 201:
+                  raise SystemExit(f"request_comment_failed:{response.status}")
+          if status == "KUUOS_GITHUB_MCP_ISSUE_LABEL_BINDING_CANARY_VERIFIED":
+              close_body = json.dumps({"state": "closed", "state_reason": "completed"}).encode()
+              req = request.Request(base, data=close_body, headers=headers, method="PATCH")
+              with request.urlopen(req, timeout=30) as response:
+                  if response.status != 200:
+                      raise SystemExit(f"request_close_failed:{response.status}")
+          PY
