@@ -7,7 +7,7 @@ import os
 import pathlib
 import sys
 
-from runtime.kuuos_github_mcp_issue_label_binding_canary_v0_7_1 import (
+from runtime.kuuos_github_mcp_issue_label_binding_canary_v0_7_2 import (
     CONFIRMATION,
     VERIFIED,
     build_github_mcp_issue_label_binding_canary,
@@ -16,7 +16,7 @@ from runtime.kuuos_github_mcp_issue_label_binding_canary_v0_7_1 import (
 
 def main() -> int:
     parser = argparse.ArgumentParser(
-        description="Run the reversible KuuOS GitHub MCP Issue-Label binding canary v0.7.1."
+        description="Run the reversible KuuOS GitHub MCP Issue-Label binding canary v0.7.2."
     )
     parser.add_argument("runtime_root", type=pathlib.Path)
     parser.add_argument("--confirmation", required=True)
