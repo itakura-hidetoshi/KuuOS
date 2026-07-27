@@ -11,6 +11,7 @@ on:
       - 'scripts/check_kuuos_github_mcp_server_bridge_v0_2.py'
       - 'tests/test_kuuos_github_mcp_server_bridge_v0_2.py'
       - 'examples/kuuos_github_mcp_server_bridge_v0_2.json'
+      - 'examples/kuuos_github_mcp_server_bridge_write_operation_v0_2.json'
       - 'manifests/kuuos_github_mcp_server_bridge_v0_2.json'
       - 'docs/KUUOS_GITHUB_MCP_SERVER_BRIDGE_v0_2.md'
       - '.github/workflows/kuuos-github-mcp-server-bridge-v0-2-validation.yml'
@@ -21,6 +22,7 @@ on:
       - 'scripts/check_kuuos_github_mcp_server_bridge_v0_2.py'
       - 'tests/test_kuuos_github_mcp_server_bridge_v0_2.py'
       - 'examples/kuuos_github_mcp_server_bridge_v0_2.json'
+      - 'examples/kuuos_github_mcp_server_bridge_write_operation_v0_2.json'
       - 'manifests/kuuos_github_mcp_server_bridge_v0_2.json'
       - 'docs/KUUOS_GITHUB_MCP_SERVER_BRIDGE_v0_2.md'
       - '.github/workflows/kuuos-github-mcp-server-bridge-v0-2-validation.yml'
@@ -62,6 +64,8 @@ jobs:
             2>&1 | tee artifacts/diagnostics/python-compile.log
           python3 -m json.tool \
             examples/kuuos_github_mcp_server_bridge_v0_2.json > /dev/null
+          python3 -m json.tool \
+            examples/kuuos_github_mcp_server_bridge_write_operation_v0_2.json > /dev/null
           python3 -m json.tool \
             manifests/kuuos_github_mcp_server_bridge_v0_2.json > /dev/null
           python3 scripts/check_kuuos_github_mcp_server_bridge_v0_2.py \
