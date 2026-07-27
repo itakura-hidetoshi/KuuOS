@@ -1,0 +1,79 @@
+{
+  "authority_boundary": "verified status requires the v0.8 parent-to-child transaction plus child-to-parent absence before add, exact parent observation while attached, and parent absence after remove, all without compensation",
+  "compensation": {
+    "binding": "attempt remove and reobserve the parent child set empty",
+    "child": "close not_planned and reobserve closed",
+    "child_parent": "issue_read(method=get_parent) must reobserve parent null",
+    "success_is_not_verified": true
+  },
+  "exact_base": {
+    "branch": "main",
+    "sha": "fb25c64fef34b6eeb38c97398c67465640b72261"
+  },
+  "invariants": [
+    "owner_request_issue_only",
+    "strict_json_request_after_single_html_entity_decode",
+    "exact_main_sha_bound_to_issue_event",
+    "parent_sub_issue_set_must_start_empty",
+    "child_identity_nonce_bound",
+    "child_parent_must_start_null",
+    "parent_to_child_add_must_be_independently_reobserved",
+    "child_to_parent_add_must_be_independently_reobserved_exact",
+    "parent_to_child_remove_must_be_independently_reobserved_empty",
+    "child_to_parent_remove_must_be_independently_reobserved_null",
+    "child_must_be_closed_and_reobserved",
+    "compensation_never_counts_as_verified",
+    "token_never_serialized",
+    "pull_request_ci_uses_mock_only"
+  ],
+  "official_server": {
+    "commit_observed": "eb088dfe9d854dab6453a8d4ae5871a5ced20974",
+    "get_parent_response": {
+      "attached": "{\"parent\":{\"number\", \"title\", \"state\", \"url\", \"repository\"}}",
+      "detached": "{\"parent\":null}"
+    },
+    "image": "ghcr.io/github/github-mcp-server@sha256:2b0c48b070f61e9d3969269ead600f62d00fb237b60ac849ef3d166ee7de9ad3",
+    "repository": "github/github-mcp-server",
+    "tools": [
+      "issue_write",
+      "issue_read",
+      "sub_issue_write"
+    ],
+    "toolsets": [
+      "issues"
+    ]
+  },
+  "repository_full_name": "itakura-hidetoshi/KuuOS",
+  "schema": "kuuos.github_mcp_sub_issue_bidirectional_canary.manifest.v0.9",
+  "status": "integration_candidate",
+  "surfaces": {
+    "checker": "scripts/check_kuuos_github_mcp_sub_issue_bidirectional_canary_v0_9.py",
+    "contract": "runtime/kuuos_github_mcp_sub_issue_bidirectional_contract_v0_9.py",
+    "documentation": "docs/KUUOS_GITHUB_MCP_SUB_ISSUE_BIDIRECTIONAL_CANARY_v0_9.md",
+    "example": "examples/kuuos_github_mcp_sub_issue_bidirectional_canary_v0_9.json",
+    "formal": "formal/KuuOSGitHubMCPServerBridgeV0_1/V0_9.lean",
+    "live_workflow": ".github/workflows/kuuos-github-mcp-sub-issue-bidirectional-canary-v0-9.yml",
+    "runner": "scripts/run_kuuos_github_mcp_sub_issue_bidirectional_canary_v0_9.py",
+    "runtime": "runtime/kuuos_github_mcp_sub_issue_bidirectional_canary_v0_9.py",
+    "tests": "tests/test_kuuos_github_mcp_sub_issue_bidirectional_canary_v0_9.py",
+    "transport_adapter": "runtime/kuuos_github_mcp_sub_issue_bidirectional_transport_v0_9.py",
+    "validation_workflow": ".github/workflows/kuuos-github-mcp-sub-issue-bidirectional-canary-v0-9-validation.yml"
+  },
+  "transaction": {
+    "add_binding": "sub_issue_write(method=add)",
+    "child_parent_preflight": "issue_read(method=get_parent) returns {\"parent\":null}",
+    "close_child": "issue_write(method=update,state=closed,state_reason=completed)",
+    "confirmation": "RUN_KUUOS_GITHUB_MCP_SUB_ISSUE_BIDIRECTIONAL_CANARY",
+    "create_child": "issue_write(method=create)",
+    "parent": "owner-created strict-JSON request Issue",
+    "parent_children_preflight": "issue_read(method=get_sub_issues) returns an empty list",
+    "remove_binding": "sub_issue_write(method=remove)",
+    "verify_added_downward": "issue_read(method=get_sub_issues) returns exactly the nonce child",
+    "verify_added_upward": "issue_read(method=get_parent) returns the exact owner request parent",
+    "verify_child": "issue_read(method=get)",
+    "verify_child_closed": "issue_read(method=get)",
+    "verify_removed_downward": "issue_read(method=get_sub_issues) returns an empty list",
+    "verify_removed_upward": "issue_read(method=get_parent) returns {\"parent\":null}"
+  },
+  "version": "0.9.0"
+}
