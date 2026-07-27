@@ -1,0 +1,52 @@
+{
+  "authority_packet": {
+    "authority_status": "KUUOS_GITHUB_MCP_AUTHORITY_READY",
+    "plan_read_allowed": true,
+    "tool_discovery_allowed": true,
+    "receipt_write_allowed": true,
+    "audit_append_allowed": true,
+    "external_action_allowed": false,
+    "write_tool_call_allowed": false
+  },
+  "plan": {
+    "version": "kuuos_github_mcp_server_bridge_plan_v0_1",
+    "mode": "stdio",
+    "repository_full_name": "itakura-hidetoshi/KuuOS",
+    "base_branch": "main",
+    "base_sha": "ecb891a8dc2dc700ed0d888a889a308a4aef6900",
+    "read_only": true,
+    "lockdown_mode": true,
+    "execute_external_actions": false,
+    "server": {
+      "kind": "official_github_mcp_server",
+      "launcher": "docker",
+      "image": "ghcr.io/github/github-mcp-server",
+      "token_env": "GITHUB_PERSONAL_ACCESS_TOKEN",
+      "toolsets": [
+        "context",
+        "repos",
+        "pull_requests"
+      ],
+      "tools": [
+        "get_file_contents",
+        "list_pull_requests",
+        "pull_request_read"
+      ]
+    },
+    "operations": [
+      {
+        "kind": "list_tools"
+      },
+      {
+        "kind": "call_tool",
+        "tool": "get_file_contents",
+        "arguments": {
+          "owner": "itakura-hidetoshi",
+          "repo": "KuuOS",
+          "path": "README.md",
+          "ref": "main"
+        }
+      }
+    ]
+  }
+}

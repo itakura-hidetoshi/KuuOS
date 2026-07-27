@@ -1,0 +1,40 @@
+{
+  "schema": "kuuos.github_mcp_server_bridge.manifest.v0.1",
+  "version": "0.1.0",
+  "status": "integration_candidate",
+  "repository_full_name": "itakura-hidetoshi/KuuOS",
+  "exact_base": {
+    "branch": "main",
+    "sha": "ecb891a8dc2dc700ed0d888a889a308a4aef6900"
+  },
+  "official_server": {
+    "repository": "github/github-mcp-server",
+    "local_image_prefix": "ghcr.io/github/github-mcp-server",
+    "transport": "stdio",
+    "protocol_version": "2025-11-25"
+  },
+  "surfaces": {
+    "runtime": "runtime/kuuos_github_mcp_server_bridge_v0_1.py",
+    "runner": "scripts/run_kuuos_github_mcp_server_bridge_v0_1.py",
+    "checker": "scripts/check_kuuos_github_mcp_server_bridge_v0_1.py",
+    "tests": "tests/test_kuuos_github_mcp_server_bridge_v0_1.py",
+    "example": "examples/kuuos_github_mcp_server_bridge_v0_1.json",
+    "documentation": "docs/KUUOS_GITHUB_MCP_SERVER_BRIDGE_v0_1.md",
+    "formal": "formal/KuuOSGitHubMCPServerBridgeV0_1.lean",
+    "workflow": ".github/workflows/kuuos-github-mcp-server-bridge-v0-1-validation.yml"
+  },
+  "invariants": [
+    "official_server_only",
+    "explicit_toolset_allowlist",
+    "explicit_tool_allowlist",
+    "lockdown_mode_required",
+    "read_only_default",
+    "repository_scope_exact",
+    "base_branch_exact",
+    "base_sha_exact_for_write",
+    "runtime_plan_authority_operation_write_gates",
+    "exact_sha_git_mutation_held_in_v0_1",
+    "token_never_serialized_to_receipt"
+  ],
+  "authority_boundary": "mcp_tool_availability_is_not_git_authority"
+}
