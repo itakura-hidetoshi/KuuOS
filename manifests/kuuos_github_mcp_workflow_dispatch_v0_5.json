@@ -1,0 +1,69 @@
+{
+  "schema": "kuuos.github_mcp_workflow_dispatch.manifest.v0.5",
+  "version": "0.5.0",
+  "status": "integration_candidate",
+  "repository_full_name": "itakura-hidetoshi/KuuOS",
+  "exact_base": {
+    "branch": "main",
+    "sha": "f3eccd858acfda130554d552e4dd049a8fa34cd0"
+  },
+  "official_server": {
+    "repository": "github/github-mcp-server",
+    "compatibility_image": "ghcr.io/github/github-mcp-server:v1.0.5",
+    "toolset": "actions",
+    "write_tool": "actions_run_trigger",
+    "readback_tool": "actions_list",
+    "write_method": "run_workflow",
+    "mismatch_compensation_method": "cancel_workflow_run",
+    "read_only": false
+  },
+  "dispatch_contract": {
+    "confirmation": "RUN_KUUOS_GITHUB_MCP_WORKFLOW_DISPATCH",
+    "target_workflow": "kuuos-github-mcp-live-canary-v0-4.yml",
+    "target_ref": "main",
+    "target_expected_head_sha": "exact plan base SHA",
+    "correlation": "unique dispatch_nonce copied into target inputs and target run-name",
+    "accepted_status_code": 204,
+    "verified_status": "KUUOS_GITHUB_MCP_WORKFLOW_DISPATCH_VERIFIED",
+    "mismatch_cancelled_status": "KUUOS_GITHUB_MCP_WORKFLOW_DISPATCH_MISMATCH_CANCELLED",
+    "blocked_status": "KUUOS_GITHUB_MCP_WORKFLOW_DISPATCH_BLOCKED"
+  },
+  "connector_bootstrap": {
+    "trigger": "issues.opened",
+    "request_title": "[KuuOS MCP Workflow Dispatch v0.5]",
+    "request_author": "repository owner only",
+    "request_expected_sha": "must equal issue-event default-branch SHA",
+    "target_allowlist": [
+      "kuuos-github-mcp-live-canary-v0-4.yml"
+    ],
+    "success_action": "comment receipt summary and close request issue"
+  },
+  "surfaces": {
+    "runtime": "runtime/kuuos_github_mcp_workflow_dispatch_v0_5.py",
+    "runner": "scripts/run_kuuos_github_mcp_workflow_dispatch_v0_5.py",
+    "checker": "scripts/check_kuuos_github_mcp_workflow_dispatch_v0_5.py",
+    "tests": "tests/test_kuuos_github_mcp_workflow_dispatch_v0_5.py",
+    "example": "examples/kuuos_github_mcp_workflow_dispatch_v0_5.json",
+    "documentation": "docs/KUUOS_GITHUB_MCP_WORKFLOW_DISPATCH_v0_5.md",
+    "formal": "formal/KuuOSGitHubMCPServerBridgeV0_1/V0_5.lean",
+    "validation_workflow": ".github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5-validation.yml",
+    "connector_action_workflow": ".github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5.yml"
+  },
+  "invariants": [
+    "actions_run_trigger_is_write_capable",
+    "actions_list_is_read_only",
+    "workflow_and_ref_are_explicit",
+    "expected_head_sha_equals_exact_plan_base_sha",
+    "dispatch_nonce_is_unique_and_input_bound",
+    "dispatch_response_204_is_not_closeout",
+    "new_run_must_not_be_in_baseline",
+    "new_run_event_is_workflow_dispatch",
+    "new_run_ref_matches",
+    "new_run_nonce_matches",
+    "new_run_head_sha_matches_exact_expected_sha",
+    "mismatched_head_run_is_cancelled_and_never_admitted",
+    "token_never_serialized",
+    "request_issue_does_not_grant_authority_without_owner_and_exact_sha_gates"
+  ],
+  "authority_boundary": "workflow dispatch is admitted only after a new nonce-bound workflow_dispatch run is independently observed on the exact expected head SHA"
+}
