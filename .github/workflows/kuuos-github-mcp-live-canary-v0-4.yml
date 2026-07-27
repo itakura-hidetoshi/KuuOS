@@ -1,0 +1,192 @@
+name: KuuOS GitHub MCP Reversible Live Canary v0.4
+run-name: GitHub MCP live canary v0.4 · ${{ github.run_id }}-${{ github.run_attempt }}
+
+on:
+  workflow_dispatch:
+    inputs:
+      confirmation:
+        description: Type RUN_KUUOS_GITHUB_MCP_LIVE_CANARY to authorize one reversible Issue transaction.
+        required: true
+        type: string
+      server_image:
+        description: Pinned official GitHub MCP Server image tag or digest.
+        required: true
+        default: ghcr.io/github/github-mcp-server:v1.0.5
+        type: string
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: kuuos-github-mcp-live-canary-v0-4
+  cancel-in-progress: false
+
+jobs:
+  live-canary:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out exact dispatched revision
+        uses: actions/checkout@v6
+
+      - name: Enforce manual authority, main ref, and pinned official image
+        shell: bash
+        env:
+          CONFIRMATION: ${{ inputs.confirmation }}
+          SERVER_IMAGE: ${{ inputs.server_image }}
+        run: |
+          set -euo pipefail
+          test "${GITHUB_REF_NAME}" = "main"
+          test "${CONFIRMATION}" = "RUN_KUUOS_GITHUB_MCP_LIVE_CANARY"
+          python3 - <<'PY'
+          import os
+          import re
+          image = os.environ["SERVER_IMAGE"]
+          prefix = "ghcr.io/github/github-mcp-server"
+          allowed = False
+          if image.startswith(prefix + "@sha256:"):
+              digest = image.split("@sha256:", 1)[1]
+              allowed = len(digest) == 64 and all(ch in "0123456789abcdef" for ch in digest.lower())
+          elif image.startswith(prefix + ":"):
+              tag = image.rsplit(":", 1)[1]
+              allowed = re.fullmatch(r"(?:v\d+\.\d+\.\d+|sha-[0-9a-f]{7,40})", tag) is not None
+          if not allowed:
+              raise SystemExit("official_server_image_not_pinned")
+          PY
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Pull official server and record resolved digest
+        id: image
+        shell: bash
+        env:
+          SERVER_IMAGE: ${{ inputs.server_image }}
+        run: |
+          set -euo pipefail
+          docker pull "${SERVER_IMAGE}"
+          RESOLVED_REF="$(docker image inspect "${SERVER_IMAGE}" --format '{{index .RepoDigests 0}}')"
+          RESOLVED_DIGEST="${RESOLVED_REF##*@}"
+          case "${RESOLVED_DIGEST}" in
+            sha256:*) ;;
+            *) echo "resolved_image_digest_missing" >&2; exit 1 ;;
+          esac
+          echo "resolved_digest=${RESOLVED_DIGEST}" >> "${GITHUB_OUTPUT}"
+          echo "resolved_ref=${RESOLVED_REF}" >> "${GITHUB_OUTPUT}"
+
+      - name: Materialize exact live canary plan and authority
+        shell: bash
+        env:
+          SERVER_IMAGE: ${{ inputs.server_image }}
+          CONFIRMATION: ${{ inputs.confirmation }}
+          REPOSITORY: ${{ github.repository }}
+          BASE_SHA: ${{ github.sha }}
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/github-mcp-live-canary-v0-4
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+
+          root = Path("artifacts/github-mcp-live-canary-v0-4")
+          plan = {
+              "version": "kuuos_github_mcp_live_canary_plan_v0_4",
+              "mode": "stdio",
+              "repository_full_name": os.environ["REPOSITORY"],
+              "base_branch": "main",
+              "base_sha": os.environ["BASE_SHA"],
+              "write_capable": True,
+              "read_only": False,
+              "lockdown_mode": True,
+              "execute_external_actions": True,
+              "confirmation": os.environ["CONFIRMATION"],
+              "title_prefix": "[KuuOS MCP Canary] reversible",
+              "body_marker": "KUUOS_GITHUB_MCP_LIVE_CANARY v0.4",
+              "server": {
+                  "kind": "official_github_mcp_server",
+                  "launcher": "docker",
+                  "image": os.environ["SERVER_IMAGE"],
+                  "token_env": "GITHUB_PERSONAL_ACCESS_TOKEN",
+                  "toolsets": ["issues"],
+                  "tools": ["issue_write", "issue_read"],
+              },
+          }
+          authority = {
+              "authority_status": "KUUOS_GITHUB_MCP_LIVE_CANARY_AUTHORITY_READY",
+              "plan_read_allowed": True,
+              "tool_discovery_allowed": True,
+              "external_action_allowed": True,
+              "mcp_write_tool_call_allowed": True,
+              "post_write_reobservation_allowed": True,
+              "compensating_close_allowed": True,
+              "receipt_write_allowed": True,
+              "audit_append_allowed": True,
+          }
+          (root / "github_mcp_live_canary_plan_v0_4.json").write_text(
+              json.dumps(plan, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+          )
+          (root / "github_mcp_live_canary_authority_v0_4.json").write_text(
+              json.dumps(authority, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+          )
+          PY
+
+      - name: Execute reversible live canary through official GitHub MCP Server
+        id: canary
+        shell: bash
+        env:
+          PYTHONPATH: .
+          PYTHONUNBUFFERED: '1'
+          GITHUB_PERSONAL_ACCESS_TOKEN: ${{ github.token }}
+          CONFIRMATION: ${{ inputs.confirmation }}
+          REPOSITORY: ${{ github.repository }}
+          BASE_SHA: ${{ github.sha }}
+          RESOLVED_DIGEST: ${{ steps.image.outputs.resolved_digest }}
+          RUN_IDENTITY: ${{ github.run_id }}-${{ github.run_attempt }}
+        run: |
+          set -euo pipefail
+          python3 scripts/run_kuuos_github_mcp_live_canary_v0_4.py \
+            artifacts/github-mcp-live-canary-v0-4 \
+            --confirmation "${CONFIRMATION}" \
+            --repository "${REPOSITORY}" \
+            --base-sha "${BASE_SHA}" \
+            --run-identity "${RUN_IDENTITY}" \
+            --resolved-image-digest "${RESOLVED_DIGEST}" \
+            --execute-external-actions \
+            2>&1 | tee artifacts/github-mcp-live-canary-v0-4/run-output.json
+
+      - name: Write canary evidence summary
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "${GITHUB_STEP_SUMMARY}"
+          import json
+          from pathlib import Path
+          path = Path("artifacts/github-mcp-live-canary-v0-4/github_mcp_live_canary_receipt_v0_4.json")
+          print("## KuuOS GitHub MCP Live Canary v0.4")
+          if not path.is_file():
+              print("Receipt was not produced.")
+              raise SystemExit(0)
+          receipt = json.loads(path.read_text(encoding="utf-8"))
+          print(f"- status: `{receipt.get('status', '')}`")
+          print(f"- base SHA: `{receipt.get('base_sha', '')}`")
+          print(f"- configured image: `{receipt.get('server_image', '')}`")
+          print(f"- resolved digest: `{receipt.get('resolved_image_digest', '')}`")
+          print(f"- issue: {receipt.get('issue_url', '') or '(not created)' }")
+          print(f"- created/open verified: `{receipt.get('created_verified', False)}`")
+          print(f"- closed verified: `{receipt.get('closed_verified', False)}`")
+          print(f"- compensation attempted: `{receipt.get('compensation_attempted', False)}`")
+          print(f"- compensation closed: `{receipt.get('compensation_closed', False)}`")
+          PY
+
+      - name: Upload live canary evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-github-mcp-live-canary-v0-4-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/github-mcp-live-canary-v0-4/
+          if-no-files-found: error
+          retention-days: 30
