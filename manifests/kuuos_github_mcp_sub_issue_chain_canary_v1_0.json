@@ -37,6 +37,8 @@
     "example": "examples/kuuos_github_mcp_sub_issue_chain_canary_v1_0.json",
     "formal": "formal/KuuOSGitHubMCPServerBridgeV0_1/V1_0.lean",
     "documentation": "docs/KUUOS_GITHUB_MCP_SUB_ISSUE_CHAIN_CANARY_v1_0.md",
-    "validation_workflow": ".github/workflows/kuuos-github-mcp-sub-issue-chain-canary-v1-0-validation.yml"
+    "live_workflow": ".github/workflows/kuuos-github-mcp-sub-issue-chain-canary-v1-0.yml",
+    "validation_workflow": ".github/workflows/kuuos-github-mcp-sub-issue-chain-canary-v1-0-validation.yml",
+    "aggregate_formal_workflow": ".github/workflows/kuuos-github-mcp-live-write-verification-formal-v0-3-validation.yml"
   }
 }
