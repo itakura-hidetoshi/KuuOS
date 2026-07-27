@@ -79,8 +79,10 @@ jobs:
             runtime/kuuos_github_mcp_server_bridge_v0_2.py
           grep -Fq 'write_capable_plan_requires_read_only_false' \
             runtime/kuuos_github_mcp_server_bridge_v0_2.py
-          grep -Fq 'ghcr.io/github/github-mcp-server' \
+          grep -Fq 'OFFICIAL_IMAGE_PREFIX' \
             runtime/kuuos_github_mcp_server_bridge_v0_2.py
+          grep -Fq 'ghcr.io/github/github-mcp-server' \
+            examples/kuuos_github_mcp_server_bridge_v0_2.json
 
       - name: Upload failure diagnostics
         if: failure()
