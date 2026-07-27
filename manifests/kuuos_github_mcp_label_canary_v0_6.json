@@ -1,0 +1,74 @@
+{
+  "schema": "kuuos.github_mcp_label_canary.manifest.v0.6",
+  "version": "0.6.0",
+  "status": "integration_candidate",
+  "repository_full_name": "itakura-hidetoshi/KuuOS",
+  "exact_base": {
+    "branch": "main",
+    "sha": "45ace8b96a3e57a5f01910837ee14083fb784170"
+  },
+  "official_server": {
+    "repository": "github/github-mcp-server",
+    "transport": "stdio",
+    "immutable_image": "ghcr.io/github/github-mcp-server@sha256:2b0c48b070f61e9d3969269ead600f62d00fb237b60ac849ef3d166ee7de9ad3",
+    "resolved_digest_recorded_at_runtime": true,
+    "write_capable": true,
+    "read_only": false,
+    "toolsets": [
+      "labels"
+    ],
+    "tools": [
+      "label_write",
+      "get_label"
+    ]
+  },
+  "transaction": {
+    "confirmation": "RUN_KUUOS_GITHUB_MCP_LABEL_CANARY",
+    "preflight": "get_label proves nonce-bound label absent",
+    "create": "label_write(method=create)",
+    "verify_created": "get_label verifies exact name, color, and description",
+    "delete": "label_write(method=delete)",
+    "verify_deleted": "get_label returns a bounded not-found result",
+    "compensation": "retry delete and verify absence only when preflight proved the label was absent and create was attempted",
+    "verified_status": "KUUOS_GITHUB_MCP_LABEL_CANARY_VERIFIED",
+    "compensated_status": "KUUOS_GITHUB_MCP_LABEL_CANARY_COMPENSATED",
+    "blocked_status": "KUUOS_GITHUB_MCP_LABEL_CANARY_BLOCKED"
+  },
+  "repository_request": {
+    "issue_title": "[KuuOS MCP Label Canary v0.6]",
+    "strict_json_only": true,
+    "owner_only": true,
+    "author_association": "OWNER",
+    "exact_main_sha_required": true,
+    "nonce_pattern": "[A-Za-z0-9][A-Za-z0-9-]{7,31}"
+  },
+  "surfaces": {
+    "runtime": "runtime/kuuos_github_mcp_label_canary_v0_6.py",
+    "runner": "scripts/run_kuuos_github_mcp_label_canary_v0_6.py",
+    "checker": "scripts/check_kuuos_github_mcp_label_canary_v0_6.py",
+    "tests": "tests/test_kuuos_github_mcp_label_canary_v0_6.py",
+    "example": "examples/kuuos_github_mcp_label_canary_v0_6.json",
+    "documentation": "docs/KUUOS_GITHUB_MCP_LABEL_CANARY_v0_6.md",
+    "formal": "formal/KuuOSGitHubMCPServerBridgeV0_1/V0_6.lean",
+    "validation_workflow": ".github/workflows/kuuos-github-mcp-label-canary-v0-6-validation.yml",
+    "live_workflow": ".github/workflows/kuuos-github-mcp-label-canary-v0-6.yml"
+  },
+  "invariants": [
+    "request_issue_is_owner_authored_with_owner_association",
+    "exact_main_sha_is_bound_to_the_issue_event",
+    "explicit_confirmation_is_required",
+    "official_image_is_immutable_digest_pinned",
+    "resolved_container_digest_is_recorded",
+    "repository_scope_is_exact",
+    "label_nonce_is_bounded_and_unique",
+    "label_write_is_write_capable",
+    "get_label_is_read_only",
+    "preexisting_label_is_never_deleted",
+    "created_label_is_reobserved_with_exact_metadata",
+    "deleted_label_is_reobserved_absent",
+    "compensation_is_not_success",
+    "token_is_never_serialized",
+    "pull_request_ci_is_mock_only"
+  ],
+  "authority_boundary": "a repository-label canary is successful only after preflight absence, exact creation reobservation, deletion, and bounded absence reobservation; compensation never becomes verified success"
+}
