@@ -6,12 +6,12 @@ on:
     branches:
       - main
     paths:
-      - 'formal/KuuOSGitHubMCPServerBridgeV0_2.lean'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V0_2.lean'
       - 'formal/KuuOSGitHubMCPServerBridgeV0_1.lean'
       - '.github/workflows/kuuos-github-mcp-server-bridge-formal-v0-2-validation.yml'
   pull_request:
     paths:
-      - 'formal/KuuOSGitHubMCPServerBridgeV0_2.lean'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V0_2.lean'
       - 'formal/KuuOSGitHubMCPServerBridgeV0_1.lean'
       - '.github/workflows/kuuos-github-mcp-server-bridge-formal-v0-2-validation.yml'
 
