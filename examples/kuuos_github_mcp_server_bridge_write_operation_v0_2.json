@@ -1,0 +1,12 @@
+{
+  "kind": "call_tool",
+  "tool": "create_issue",
+  "arguments": {
+    "owner": "itakura-hidetoshi",
+    "repo": "KuuOS",
+    "title": "空OS GitHub MCP write operation",
+    "body": "Approved write-capable operation example for KuuOS GitHub MCP Server Bridge v0.2"
+  },
+  "approved": true,
+  "expected_base_sha": "4a49adf52a3918ce580ed670e0ff022f2b542a54"
+}

@@ -1,0 +1,53 @@
+{
+  "schema": "kuuos.github_mcp_server_bridge.manifest.v0.2",
+  "version": "0.2.0",
+  "status": "integration_candidate",
+  "repository_full_name": "itakura-hidetoshi/KuuOS",
+  "exact_base": {
+    "branch": "main",
+    "sha": "4a49adf52a3918ce580ed670e0ff022f2b542a54"
+  },
+  "official_server": {
+    "repository": "github/github-mcp-server",
+    "local_image_prefix": "ghcr.io/github/github-mcp-server",
+    "transport": "stdio",
+    "protocol_version": "2025-11-25",
+    "write_tools_enabled": true,
+    "read_only": false
+  },
+  "execution_paths": {
+    "direct_mcp_write": "issue, pull-request, comment, review, label, action and other non-Git-object write tools",
+    "exact_sha_delegate": "branch creation, content-SHA file update, and expected-head merge routed to Qi GitHub Tool Bridge v2.3"
+  },
+  "surfaces": {
+    "runtime": "runtime/kuuos_github_mcp_server_bridge_v0_2.py",
+    "runner": "scripts/run_kuuos_github_mcp_server_bridge_v0_2.py",
+    "checker": "scripts/check_kuuos_github_mcp_server_bridge_v0_2.py",
+    "tests": "tests/test_kuuos_github_mcp_server_bridge_v0_2.py",
+    "example": "examples/kuuos_github_mcp_server_bridge_v0_2.json",
+    "write_operation_example": "examples/kuuos_github_mcp_server_bridge_write_operation_v0_2.json",
+    "documentation": "docs/KUUOS_GITHUB_MCP_SERVER_BRIDGE_v0_2.md",
+    "formal": "formal/KuuOSGitHubMCPServerBridgeV0_1/V0_2.lean",
+    "formal_registered_root": "formal/KuuOSGitHubMCPServerBridgeV0_1.lean",
+    "runtime_workflow": ".github/workflows/kuuos-github-mcp-server-bridge-v0-2-validation.yml",
+    "formal_workflow": ".github/workflows/kuuos-github-mcp-server-bridge-formal-v0-2-validation.yml"
+  },
+  "invariants": [
+    "official_server_only",
+    "write_capable_standard_profile",
+    "read_only_false_for_v0_2",
+    "explicit_toolset_allowlist",
+    "explicit_tool_allowlist",
+    "lockdown_mode_required",
+    "repository_scope_exact",
+    "base_branch_exact",
+    "base_sha_exact_for_every_write_operation",
+    "runtime_plan_authority_operation_write_gates",
+    "direct_mcp_git_object_mutation_not_admitted",
+    "bounded_git_mutation_delegated_to_existing_rest_bridge",
+    "new_file_creation_requires_future_atomic_materializer",
+    "expected_head_sha_required_for_merge",
+    "token_never_serialized_to_receipt"
+  ],
+  "authority_boundary": "mcp_write_capability_requires_kuuos_authority_and_exact_git_preconditions"
+}
