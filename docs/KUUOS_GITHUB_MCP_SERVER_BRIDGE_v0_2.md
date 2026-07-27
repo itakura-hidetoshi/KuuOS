@@ -131,6 +131,16 @@ merge_pull_request
 
 この経路は`runtime/kuuos_runtime_daemon_qi_github_tool_bridge_v2_3.py`へplanを生成する。branch作成はexact commit SHA、既存file更新はcurrent content SHA、mergeはexpected head SHAをGitHub REST endpointへ渡す。新規file作成はatomic ref CAS materializerが追加されるまでv0.2では受理しない。
 
+## Formal authority
+
+v0.2定理は登録済みrootのsubmoduleとして配置する。
+
+```text
+formal/KuuOSGitHubMCPServerBridgeV0_1/V0_2.lean
+```
+
+`formal/KuuOSGitHubMCPServerBridgeV0_1.lean`がこのsubmoduleをimportする。`lakefile.toml`のrootsは変更せず、登録済みrootのstrict buildでv0.1とv0.2を同時に検証する。
+
 ## 導入
 
 Dockerを起動し、tokenを環境変数へ置く。
@@ -206,10 +216,6 @@ v0.2はread-only adapterではない。書込みを実行するためのauthorit
 PYTHONPATH=. python3 scripts/check_kuuos_github_mcp_server_bridge_v0_2.py
 PYTHONPATH=. python3 -m unittest -v \
   tests.test_kuuos_github_mcp_server_bridge_v0_2
-lake env lean \
-  -DwarningAsError=true \
-  -DsorryAsError=true \
-  formal/KuuOSGitHubMCPServerBridgeV0_2.lean
 lake -KleanArgs=-DwarningAsError=true \
   -KleanArgs=-DsorryAsError=true \
   build KuuOSGitHubMCPServerBridgeV0_1
