@@ -1,0 +1,77 @@
+{
+  "schema": "kuuos.github_mcp_issue_label_binding_canary.manifest.v0.7",
+  "version": "0.7.0",
+  "status": "integration_candidate",
+  "repository_full_name": "itakura-hidetoshi/KuuOS",
+  "exact_base": {
+    "branch": "main",
+    "sha": "1cb3c4cceba77588403de9b8c1374bb93f1c9a0e"
+  },
+  "official_server": {
+    "repository": "github/github-mcp-server",
+    "transport": "stdio",
+    "immutable_image": "ghcr.io/github/github-mcp-server@sha256:2b0c48b070f61e9d3969269ead600f62d00fb237b60ac849ef3d166ee7de9ad3",
+    "resolved_digest_recorded_at_runtime": true,
+    "write_capable": true,
+    "read_only": false,
+    "toolsets": [
+      "issues",
+      "labels"
+    ],
+    "tools": [
+      "issue_write",
+      "issue_read",
+      "label_write",
+      "get_label"
+    ]
+  },
+  "transaction": {
+    "confirmation": "RUN_KUUOS_GITHUB_MCP_ISSUE_LABEL_BINDING_CANARY",
+    "target": "the owner-created strict-JSON request Issue that triggered the workflow",
+    "verify_request": "issue_read(method=get)",
+    "verify_initial_issue_labels": "issue_read(method=get_labels) returns an empty set",
+    "verify_label_absent": "get_label returns bounded not-found",
+    "create_label": "label_write(method=create)",
+    "verify_created_label": "get_label returns exact name, color, and description",
+    "attach_label": "issue_write(method=update,labels=[nonce label])",
+    "verify_attached": "issue_read(method=get_labels) returns exactly the nonce label",
+    "detach_label": "issue_write(method=update,labels=[])",
+    "verify_detached": "issue_read(method=get_labels) returns an empty set",
+    "delete_label": "label_write(method=delete)",
+    "verify_deleted": "get_label returns bounded not-found",
+    "compensation": "restore an empty Issue label set before deleting the nonce label; compensation never upgrades to verified success",
+    "verified_status": "KUUOS_GITHUB_MCP_ISSUE_LABEL_BINDING_CANARY_VERIFIED",
+    "compensated_status": "KUUOS_GITHUB_MCP_ISSUE_LABEL_BINDING_CANARY_COMPENSATED",
+    "blocked_status": "KUUOS_GITHUB_MCP_ISSUE_LABEL_BINDING_CANARY_BLOCKED"
+  },
+  "surfaces": {
+    "runtime": "runtime/kuuos_github_mcp_issue_label_binding_canary_v0_7.py",
+    "runner": "scripts/run_kuuos_github_mcp_issue_label_binding_canary_v0_7.py",
+    "checker": "scripts/check_kuuos_github_mcp_issue_label_binding_canary_v0_7.py",
+    "tests": "tests/test_kuuos_github_mcp_issue_label_binding_canary_v0_7.py",
+    "example": "examples/kuuos_github_mcp_issue_label_binding_canary_v0_7.json",
+    "documentation": "docs/KUUOS_GITHUB_MCP_ISSUE_LABEL_BINDING_CANARY_v0_7.md",
+    "formal": "formal/KuuOSGitHubMCPServerBridgeV0_1/V0_7.lean",
+    "validation_workflow": ".github/workflows/kuuos-github-mcp-issue-label-binding-canary-v0-7-validation.yml",
+    "live_workflow": ".github/workflows/kuuos-github-mcp-issue-label-binding-canary-v0-7.yml"
+  },
+  "invariants": [
+    "owner_request_issue_only",
+    "strict_json_request_body",
+    "exact_main_sha_bound_to_issue_event",
+    "request_issue_identity_reobserved_before_write",
+    "request_issue_must_start_with_no_labels",
+    "nonce_repository_label_must_be_absent_before_create",
+    "issue_write_and_label_write_are_write_capable",
+    "issue_read_and_get_label_are_read_only",
+    "attached_label_set_observed_exact",
+    "detached_label_set_observed_empty",
+    "deleted_repository_label_observed_absent",
+    "preexisting_issue_labels_are_never_replaced",
+    "preexisting_repository_labels_are_never_deleted",
+    "compensation_is_not_success",
+    "token_never_serialized",
+    "mock_only_pull_request_ci"
+  ],
+  "authority_boundary": "verified status requires an exact owner request Issue with an initially empty label set, a nonce label proven absent before creation, exact attachment and detachment observations, and final repository-label absence without compensation"
+}

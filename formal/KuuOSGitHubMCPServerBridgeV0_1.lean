@@ -4,6 +4,7 @@ import KuuOSGitHubMCPServerBridgeV0_1.V0_3
 import KuuOSGitHubMCPServerBridgeV0_1.V0_4
 import KuuOSGitHubMCPServerBridgeV0_1.V0_5
 import KuuOSGitHubMCPServerBridgeV0_1.V0_6
+import KuuOSGitHubMCPServerBridgeV0_1.V0_7
 
 namespace KuuOS.GitHubMCPServerBridgeV0_1
 
