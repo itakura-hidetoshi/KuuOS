@@ -1,0 +1,79 @@
+name: KuuOS GitHub MCP Server Write Bridge Formal v0.2
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_2.lean'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1.lean'
+      - '.github/workflows/kuuos-github-mcp-server-bridge-formal-v0-2-validation.yml'
+  pull_request:
+    paths:
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_2.lean'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1.lean'
+      - '.github/workflows/kuuos-github-mcp-server-bridge-formal-v0-2-validation.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-github-mcp-write-v02-formal-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  validate-formal:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Prepare diagnostics
+        shell: bash
+        run: mkdir -p artifacts/diagnostics
+
+      - name: Set up pinned Lean, Mathlib, and caches
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: true
+          use-github-cache: true
+
+      - name: Strictly compile write authority theorem
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake env lean \
+            -DwarningAsError=true \
+            -DsorryAsError=true \
+            formal/KuuOSGitHubMCPServerBridgeV0_2.lean \
+            2>&1 | tee artifacts/diagnostics/lean-build.log
+
+      - name: Strictly compile registered bridge root
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSGitHubMCPServerBridgeV0_1 \
+            2>&1 | tee artifacts/diagnostics/lean-root-build.log
+
+      - name: Verify committed dependency manifest remains canonical
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code -- lake-manifest.json \
+            2>&1 | tee artifacts/diagnostics/lake-manifest-diff.log
+
+      - name: Upload failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-github-mcp-write-formal-v0-2-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/diagnostics/
+          if-no-files-found: error
