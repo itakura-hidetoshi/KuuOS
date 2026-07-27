@@ -9,6 +9,7 @@ from runtime import kuuos_github_mcp_issue_label_binding_canary_v0_7 as base
 from runtime.kuuos_github_mcp_issue_label_binding_canary_v0_7_2 import (
     GITHUB_LABEL_NAME_MAX_LENGTH,
     LABEL_PREFIX,
+    LEGACY_LABEL_PREFIX,
     _normalize_plan_label_prefix,
     _validate_plan,
 )
@@ -60,13 +61,21 @@ class LabelNameBoundTests(unittest.TestCase):
         nonce = "binding-v07-887dc1eaafb2ec40"
         self.assertLessEqual(len(LABEL_PREFIX + nonce), GITHUB_LABEL_NAME_MAX_LENGTH)
 
-    def test_legacy_unbounded_prefix_is_rejected(self) -> None:
+    def test_legacy_prefix_remains_compatible_when_name_is_bounded(self) -> None:
         blockers: list[str] = []
         _validate_plan(
-            _plan(nonce="binding-v07-test-002", prefix="kuuos-mcp-binding-canary-"),
+            _plan(nonce="binding-v07-test-002", prefix=LEGACY_LABEL_PREFIX),
             blockers,
         )
-        self.assertIn("label_prefix_not_v0_7_2_bounded", blockers)
+        self.assertEqual(blockers, [])
+
+    def test_legacy_prefix_is_blocked_when_generated_name_exceeds_limit(self) -> None:
+        blockers: list[str] = []
+        _validate_plan(
+            _plan(nonce="binding-v07-887dc1eaafb2ec40", prefix=LEGACY_LABEL_PREFIX),
+            blockers,
+        )
+        self.assertIn("label_name_exceeds_github_limit", blockers)
 
     def test_merged_workflow_plan_is_normalized_before_execution(self) -> None:
         with tempfile.TemporaryDirectory() as tmp:
@@ -76,7 +85,7 @@ class LabelNameBoundTests(unittest.TestCase):
                 json.dumps(
                     _plan(
                         nonce="binding-v07-test-003",
-                        prefix="kuuos-mcp-binding-canary-",
+                        prefix=LEGACY_LABEL_PREFIX,
                     )
                 ),
                 encoding="utf-8",
