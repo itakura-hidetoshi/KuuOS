@@ -75,6 +75,10 @@ jobs:
             runtime/kuuos_github_mcp_live_write_verification_v0_3.py
           grep -Fq '$issue_number_from_write_url' \
             examples/kuuos_github_mcp_live_write_verification_v0_3.json
+          grep -Fq '"tool": "issue_write"' \
+            examples/kuuos_github_mcp_live_write_verification_v0_3.json
+          grep -Fq '"method": "create"' \
+            examples/kuuos_github_mcp_live_write_verification_v0_3.json
           grep -Fq 'read_only": false' \
             examples/kuuos_github_mcp_live_write_verification_v0_3.json
 
