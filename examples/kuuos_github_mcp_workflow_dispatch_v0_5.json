@@ -1,0 +1,49 @@
+{
+  "plan": {
+    "version": "kuuos_github_mcp_workflow_dispatch_plan_v0_5",
+    "mode": "stdio",
+    "repository_full_name": "itakura-hidetoshi/KuuOS",
+    "base_branch": "main",
+    "base_sha": "f3eccd858acfda130554d552e4dd049a8fa34cd0",
+    "write_capable": true,
+    "read_only": false,
+    "lockdown_mode": true,
+    "execute_external_actions": true,
+    "confirmation": "RUN_KUUOS_GITHUB_MCP_WORKFLOW_DISPATCH",
+    "server": {
+      "kind": "official_github_mcp_server",
+      "launcher": "docker",
+      "image": "ghcr.io/github/github-mcp-server:v1.0.5",
+      "token_env": "GITHUB_PERSONAL_ACCESS_TOKEN",
+      "toolsets": [
+        "actions"
+      ],
+      "tools": [
+        "actions_run_trigger",
+        "actions_list"
+      ]
+    },
+    "target": {
+      "workflow_id": "kuuos-github-mcp-live-canary-v0-4.yml",
+      "ref": "main",
+      "expected_head_sha": "f3eccd858acfda130554d552e4dd049a8fa34cd0",
+      "dispatch_nonce": "dispatch-v05-example-001",
+      "inputs": {
+        "confirmation": "RUN_KUUOS_GITHUB_MCP_LIVE_CANARY",
+        "server_image": "ghcr.io/github/github-mcp-server:v1.0.5",
+        "dispatch_nonce": "dispatch-v05-example-001"
+      }
+    }
+  },
+  "authority_packet": {
+    "authority_status": "KUUOS_GITHUB_MCP_WORKFLOW_DISPATCH_AUTHORITY_READY",
+    "plan_read_allowed": true,
+    "tool_discovery_allowed": true,
+    "external_action_allowed": true,
+    "workflow_dispatch_allowed": true,
+    "run_reobservation_allowed": true,
+    "mismatched_run_cancel_allowed": true,
+    "receipt_write_allowed": true,
+    "audit_append_allowed": true
+  }
+}
