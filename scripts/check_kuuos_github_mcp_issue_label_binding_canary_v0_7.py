@@ -6,9 +6,10 @@ import pathlib
 import tempfile
 from typing import Any, Mapping
 
-from runtime.kuuos_github_mcp_issue_label_binding_canary_v0_7 import (
+from runtime.kuuos_github_mcp_issue_label_binding_canary_v0_7_2 import (
     AUTHORITY_READY,
     CONFIRMATION,
+    LABEL_PREFIX,
     VERIFIED,
     build_github_mcp_issue_label_binding_canary,
 )
@@ -112,7 +113,7 @@ def main() -> int:
             "request_issue_number": ISSUE_NUMBER,
             "request_issue_title": TITLE,
             "request_version_marker": VERSION,
-            "label_prefix": "kuuos-mcp-binding-canary-",
+            "label_prefix": LABEL_PREFIX,
             "label_color": "0e8a16",
             "label_description_marker": "KUUOS_GITHUB_MCP_ISSUE_LABEL_BINDING_CANARY v0.7",
             "server": {
@@ -156,6 +157,8 @@ def main() -> int:
             transport=transport,
         )
         assert result.status == VERIFIED, result.to_dict()
+        assert result.label_name == f"{LABEL_PREFIX}{NONCE}"
+        assert len(result.label_name) <= 50
         assert result.issue_identity_verified is True
         assert result.issue_labels_preflight_empty is True
         assert result.label_preflight_absent is True
