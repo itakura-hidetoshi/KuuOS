@@ -1,0 +1,40 @@
+{
+  "plan": {
+    "version": "kuuos_github_mcp_live_canary_plan_v0_4",
+    "mode": "stdio",
+    "repository_full_name": "itakura-hidetoshi/KuuOS",
+    "base_branch": "main",
+    "base_sha": "938081d3bc8b54b1e06d59474d8ada39b60dafd9",
+    "write_capable": true,
+    "read_only": false,
+    "lockdown_mode": true,
+    "execute_external_actions": true,
+    "confirmation": "RUN_KUUOS_GITHUB_MCP_LIVE_CANARY",
+    "title_prefix": "[KuuOS MCP Canary] reversible",
+    "body_marker": "KUUOS_GITHUB_MCP_LIVE_CANARY v0.4",
+    "server": {
+      "kind": "official_github_mcp_server",
+      "launcher": "docker",
+      "image": "ghcr.io/github/github-mcp-server:v1.0.5",
+      "token_env": "GITHUB_PERSONAL_ACCESS_TOKEN",
+      "toolsets": [
+        "issues"
+      ],
+      "tools": [
+        "issue_write",
+        "issue_read"
+      ]
+    }
+  },
+  "authority_packet": {
+    "authority_status": "KUUOS_GITHUB_MCP_LIVE_CANARY_AUTHORITY_READY",
+    "plan_read_allowed": true,
+    "tool_discovery_allowed": true,
+    "external_action_allowed": true,
+    "mcp_write_tool_call_allowed": true,
+    "post_write_reobservation_allowed": true,
+    "compensating_close_allowed": true,
+    "receipt_write_allowed": true,
+    "audit_append_allowed": true
+  }
+}

@@ -1,0 +1,97 @@
+name: KuuOS GitHub MCP Live Canary v0.4 Validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'runtime/kuuos_github_mcp_live_canary_v0_4.py'
+      - 'scripts/run_kuuos_github_mcp_live_canary_v0_4.py'
+      - 'scripts/check_kuuos_github_mcp_live_canary_v0_4.py'
+      - 'tests/test_kuuos_github_mcp_live_canary_v0_4.py'
+      - 'examples/kuuos_github_mcp_live_canary_v0_4.json'
+      - 'manifests/kuuos_github_mcp_live_canary_v0_4.json'
+      - 'docs/KUUOS_GITHUB_MCP_LIVE_CANARY_v0_4.md'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V0_4.lean'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1.lean'
+      - '.github/workflows/kuuos-github-mcp-live-canary-v0-4-validation.yml'
+      - '.github/workflows/kuuos-github-mcp-live-canary-v0-4.yml'
+  pull_request:
+    paths:
+      - 'runtime/kuuos_github_mcp_live_canary_v0_4.py'
+      - 'scripts/run_kuuos_github_mcp_live_canary_v0_4.py'
+      - 'scripts/check_kuuos_github_mcp_live_canary_v0_4.py'
+      - 'tests/test_kuuos_github_mcp_live_canary_v0_4.py'
+      - 'examples/kuuos_github_mcp_live_canary_v0_4.json'
+      - 'manifests/kuuos_github_mcp_live_canary_v0_4.json'
+      - 'docs/KUUOS_GITHUB_MCP_LIVE_CANARY_v0_4.md'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V0_4.lean'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1.lean'
+      - '.github/workflows/kuuos-github-mcp-live-canary-v0-4-validation.yml'
+      - '.github/workflows/kuuos-github-mcp-live-canary-v0-4.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-github-mcp-live-canary-v04-validation-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  validate-runtime:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate reversible live canary surfaces without external writes
+        shell: bash
+        env:
+          PYTHONPATH: .
+          PYTHONUNBUFFERED: '1'
+          PYTHONWARNINGS: error::ResourceWarning
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/diagnostics
+          python3 -m compileall -q \
+            runtime/kuuos_github_mcp_live_canary_v0_4.py \
+            scripts/run_kuuos_github_mcp_live_canary_v0_4.py \
+            scripts/check_kuuos_github_mcp_live_canary_v0_4.py \
+            tests/test_kuuos_github_mcp_live_canary_v0_4.py \
+            2>&1 | tee artifacts/diagnostics/python-compile.log
+          python3 -m json.tool \
+            examples/kuuos_github_mcp_live_canary_v0_4.json > /dev/null
+          python3 -m json.tool \
+            manifests/kuuos_github_mcp_live_canary_v0_4.json > /dev/null
+          python3 scripts/check_kuuos_github_mcp_live_canary_v0_4.py \
+            2>&1 | tee artifacts/diagnostics/runtime-check.log
+          python3 -m unittest -v \
+            tests.test_kuuos_github_mcp_live_canary_v0_4 \
+            2>&1 | tee -a artifacts/diagnostics/runtime-check.log
+          grep -Fq 'KUUOS_GITHUB_MCP_LIVE_CANARY_VERIFIED' \
+            runtime/kuuos_github_mcp_live_canary_v0_4.py
+          grep -Fq 'KUUOS_GITHUB_MCP_LIVE_CANARY_COMPENSATED' \
+            runtime/kuuos_github_mcp_live_canary_v0_4.py
+          grep -Fq 'official_server_image_not_pinned' \
+            runtime/kuuos_github_mcp_live_canary_v0_4.py
+          grep -Fq 'RUN_KUUOS_GITHUB_MCP_LIVE_CANARY' \
+            examples/kuuos_github_mcp_live_canary_v0_4.json
+          grep -Fq 'ghcr.io/github/github-mcp-server:v1.0.5' \
+            examples/kuuos_github_mcp_live_canary_v0_4.json
+          grep -Fq 'workflow_dispatch' \
+            .github/workflows/kuuos-github-mcp-live-canary-v0-4.yml
+
+      - name: Upload failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-github-mcp-live-canary-v0-4-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/diagnostics/
+          if-no-files-found: error
