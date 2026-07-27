@@ -1,0 +1,81 @@
+{
+  "plan": {
+    "version": "kuuos_github_mcp_live_write_verification_plan_v0_3",
+    "mode": "stdio",
+    "repository_full_name": "itakura-hidetoshi/KuuOS",
+    "base_branch": "main",
+    "base_sha": "927680b2422cb523c8244b7fa527aea8126e08b4",
+    "write_capable": true,
+    "read_only": false,
+    "lockdown_mode": true,
+    "execute_external_actions": true,
+    "server": {
+      "kind": "official_github_mcp_server",
+      "launcher": "docker",
+      "image": "ghcr.io/github/github-mcp-server",
+      "token_env": "GITHUB_PERSONAL_ACCESS_TOKEN",
+      "toolsets": [
+        "context",
+        "repos",
+        "issues"
+      ],
+      "tools": [
+        "create_issue",
+        "issue_read"
+      ]
+    },
+    "transactions": [
+      {
+        "write": {
+          "kind": "call_tool",
+          "tool": "create_issue",
+          "arguments": {
+            "owner": "itakura-hidetoshi",
+            "repo": "KuuOS",
+            "title": "KuuOS GitHub MCP live write verification v0.3",
+            "body": "Created by the authority-gated KuuOS GitHub MCP live verification transaction."
+          },
+          "approved": true,
+          "expected_base_sha": "927680b2422cb523c8244b7fa527aea8126e08b4"
+        },
+        "verify": {
+          "tool": "issue_read",
+          "arguments": {
+            "method": "get",
+            "owner": "itakura-hidetoshi",
+            "repo": "KuuOS",
+            "issue_number": {
+              "$issue_number_from_write_url": "url"
+            }
+          },
+          "assertions": [
+            {
+              "path": "number",
+              "equals_write_url_issue_number": "url"
+            },
+            {
+              "path": "title",
+              "equals": "KuuOS GitHub MCP live write verification v0.3"
+            },
+            {
+              "path": "body",
+              "contains": "authority-gated KuuOS"
+            }
+          ]
+        }
+      }
+    ]
+  },
+  "authority_packet": {
+    "authority_status": "KUUOS_GITHUB_MCP_LIVE_WRITE_VERIFICATION_AUTHORITY_READY",
+    "plan_read_allowed": true,
+    "tool_discovery_allowed": true,
+    "external_action_allowed": true,
+    "mcp_write_tool_call_allowed": true,
+    "exact_git_delegation_allowed": true,
+    "post_write_reobservation_allowed": true,
+    "verification_tool_call_allowed": true,
+    "receipt_write_allowed": true,
+    "audit_append_allowed": true
+  }
+}
