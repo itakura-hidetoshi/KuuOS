@@ -86,8 +86,15 @@ class CiAuditSelectorV01Tests(unittest.TestCase):
         self.assertNotIn("full-governance", ids)
         return ids
 
-    def test_any_workflow_change_requires_full_audit(self) -> None:
-        path = ".github/workflows/kuuos-v076.yml"
+    def test_registered_feature_workflow_change_uses_focused_audit(self) -> None:
+        path = ".github/workflows/kuuos-github-mcp-server-bridge-v0-1-validation.yml"
+        result = select(REGISTRY, [path], None)
+        self.assertFalse(result["full_audit_required"])
+        self.assertEqual(result["full_audit_trigger_paths"], [])
+        self.assertEqual(selected_ids(result), {"workflow-integrity"})
+
+    def test_governance_workflow_change_requires_full_audit(self) -> None:
+        path = ".github/workflows/pr-governance-gate.yml"
         result = select(REGISTRY, [path], None)
         self.assertTrue(result["full_audit_required"])
         self.assertIn(path, result["full_audit_trigger_paths"])

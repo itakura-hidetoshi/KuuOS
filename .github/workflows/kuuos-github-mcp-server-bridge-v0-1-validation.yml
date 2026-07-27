@@ -13,10 +13,6 @@ on:
       - 'examples/kuuos_github_mcp_server_bridge_v0_1.json'
       - 'manifests/kuuos_github_mcp_server_bridge_v0_1.json'
       - 'docs/KUUOS_GITHUB_MCP_SERVER_BRIDGE_v0_1.md'
-      - 'formal/KuuOSGitHubMCPServerBridgeV0_1.lean'
-      - 'lakefile.toml'
-      - 'lake-manifest.json'
-      - 'lean-toolchain'
       - '.github/workflows/kuuos-github-mcp-server-bridge-v0-1-validation.yml'
   pull_request:
     paths:
@@ -27,26 +23,19 @@ on:
       - 'examples/kuuos_github_mcp_server_bridge_v0_1.json'
       - 'manifests/kuuos_github_mcp_server_bridge_v0_1.json'
       - 'docs/KUUOS_GITHUB_MCP_SERVER_BRIDGE_v0_1.md'
-      - 'formal/KuuOSGitHubMCPServerBridgeV0_1.lean'
-      - 'lakefile.toml'
-      - 'lake-manifest.json'
-      - 'lean-toolchain'
       - '.github/workflows/kuuos-github-mcp-server-bridge-v0-1-validation.yml'
 
 permissions:
   contents: read
 
 concurrency:
-  group: kuuos-github-mcp-v01-${{ github.event.pull_request.number || github.ref }}
+  group: kuuos-github-mcp-v01-runtime-${{ github.event.pull_request.number || github.ref }}
   cancel-in-progress: ${{ github.event_name == 'pull_request' }}
 
-env:
-  MATHLIB_NO_CACHE_ON_UPDATE: '1'
-
 jobs:
-  validate:
+  validate-runtime:
     runs-on: ubuntu-22.04
-    timeout-minutes: 60
+    timeout-minutes: 10
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
@@ -56,30 +45,7 @@ jobs:
         with:
           python-version: '3.12'
 
-      - name: Prepare diagnostics
-        shell: bash
-        run: mkdir -p artifacts/diagnostics
-
-      - name: Compile Python surfaces
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 -m compileall -q \
-            runtime/kuuos_github_mcp_server_bridge_v0_1.py \
-            scripts/run_kuuos_github_mcp_server_bridge_v0_1.py \
-            scripts/check_kuuos_github_mcp_server_bridge_v0_1.py \
-            tests/test_kuuos_github_mcp_server_bridge_v0_1.py \
-            2>&1 | tee artifacts/diagnostics/python-compile.log
-
-      - name: Validate JSON surfaces
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 -m json.tool examples/kuuos_github_mcp_server_bridge_v0_1.json > /dev/null
-          python3 -m json.tool manifests/kuuos_github_mcp_server_bridge_v0_1.json > /dev/null
-          echo 'PASS: GitHub MCP bridge JSON surfaces' | tee artifacts/diagnostics/json-validation.log
-
-      - name: Run deterministic checker and unit tests
+      - name: Validate runtime surfaces
         shell: bash
         env:
           PYTHONPATH: .
@@ -87,16 +53,37 @@ jobs:
           PYTHONWARNINGS: error::ResourceWarning
         run: |
           set -euo pipefail
+          mkdir -p artifacts/diagnostics
+          {
+            echo "workflow=${GITHUB_WORKFLOW}"
+            echo "run_id=${GITHUB_RUN_ID}"
+            echo "run_attempt=${GITHUB_RUN_ATTEMPT}"
+            echo "event=${GITHUB_EVENT_NAME}"
+            echo "ref=${GITHUB_REF}"
+            echo "sha=${GITHUB_SHA}"
+            python3 --version
+          } > artifacts/diagnostics/context.log
+
+          python3 -m compileall -q \
+            runtime/kuuos_github_mcp_server_bridge_v0_1.py \
+            scripts/run_kuuos_github_mcp_server_bridge_v0_1.py \
+            scripts/check_kuuos_github_mcp_server_bridge_v0_1.py \
+            tests/test_kuuos_github_mcp_server_bridge_v0_1.py \
+            2>&1 | tee artifacts/diagnostics/python-compile.log
+
+          python3 -m json.tool \
+            examples/kuuos_github_mcp_server_bridge_v0_1.json > /dev/null
+          python3 -m json.tool \
+            manifests/kuuos_github_mcp_server_bridge_v0_1.json > /dev/null
+          echo 'PASS: GitHub MCP bridge JSON surfaces' \
+            | tee artifacts/diagnostics/json-validation.log
+
           python3 scripts/check_kuuos_github_mcp_server_bridge_v0_1.py \
             2>&1 | tee artifacts/diagnostics/runtime-check.log
           python3 -m unittest -v \
             tests.test_kuuos_github_mcp_server_bridge_v0_1 \
             2>&1 | tee -a artifacts/diagnostics/runtime-check.log
 
-      - name: Verify official-server and authority bindings
-        shell: bash
-        run: |
-          set -euo pipefail
           {
             grep -Fq 'ghcr.io/github/github-mcp-server' \
               runtime/kuuos_github_mcp_server_bridge_v0_1.py
@@ -109,65 +96,10 @@ jobs:
             echo 'PASS: official server and authority boundaries'
           } 2>&1 | tee artifacts/diagnostics/binding-validation.log
 
-      - name: Set up pinned Lean and Lake
-        uses: leanprover/lean-action@v1
-        with:
-          auto-config: false
-          build: false
-          test: false
-          lint: false
-          use-mathlib-cache: false
-          use-github-cache: false
-
-      - name: Resolve pinned dependencies
-        shell: bash
-        run: |
-          set -euo pipefail
-          lake update 2>&1 | tee artifacts/diagnostics/lake-update.log
-
-      - name: Verify committed manifest is canonical
-        shell: bash
-        run: |
-          set -euo pipefail
-          git diff --exit-code -- lake-manifest.json \
-            2>&1 | tee artifacts/diagnostics/lake-manifest-diff.log
-
-      - name: Fetch Mathlib olean cache
-        shell: bash
-        run: |
-          set -euo pipefail
-          lake exe cache get 2>&1 | tee artifacts/diagnostics/mathlib-cache.log
-
-      - name: Strictly compile formal authority theorem
-        shell: bash
-        run: |
-          set -euo pipefail
-          lake -KleanArgs=-DwarningAsError=true \
-            -KleanArgs=-DsorryAsError=true \
-            build KuuOSGitHubMCPServerBridgeV0_1 \
-            2>&1 | tee artifacts/diagnostics/lean-build.log
-
-      - name: Record run context
-        if: always()
-        shell: bash
-        run: |
-          set -euo pipefail
-          {
-            echo "workflow=${GITHUB_WORKFLOW}"
-            echo "run_id=${GITHUB_RUN_ID}"
-            echo "run_attempt=${GITHUB_RUN_ATTEMPT}"
-            echo "event=${GITHUB_EVENT_NAME}"
-            echo "ref=${GITHUB_REF}"
-            echo "sha=${GITHUB_SHA}"
-            python3 --version
-            lake --version || true
-            lean --version || true
-          } > artifacts/diagnostics/context.log
-
-      - name: Upload diagnostics
-        if: always()
+      - name: Upload failure diagnostics
+        if: failure()
         uses: actions/upload-artifact@v4
         with:
-          name: kuuos-github-mcp-server-bridge-v0-1-${{ github.run_id }}-${{ github.run_attempt }}
+          name: kuuos-github-mcp-server-bridge-runtime-v0-1-${{ github.run_id }}-${{ github.run_attempt }}
           path: artifacts/diagnostics/
           if-no-files-found: error

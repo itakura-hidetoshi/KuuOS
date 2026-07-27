@@ -117,7 +117,7 @@ jobs:
     needs: select
     if: needs.select.outputs.lean_required == 'true'
     runs-on: ubuntu-24.04
-    timeout-minutes: 40
+    timeout-minutes: 30
     steps:
       - name: Check out repository
         uses: actions/checkout@v6
@@ -128,31 +128,15 @@ jobs:
           name: audit-selection-${{ github.run_id }}-${{ github.run_attempt }}
           path: artifacts/selection
 
-      - name: Set up pinned Lean and Lake
+      - name: Set up pinned Lean, Mathlib, and caches
         uses: leanprover/lean-action@v1
         with:
           auto-config: false
           build: false
           test: false
           lint: false
-          use-mathlib-cache: false
-          use-github-cache: false
-
-      - name: Restore Lake workspace cache
-        uses: actions/cache@v5
-        with:
-          path: .lake
-          key: kuuos-pr-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-${{ github.sha }}
-          restore-keys: |
-            kuuos-pr-lake-${{ runner.os }}-${{ runner.arch }}-${{ hashFiles('lean-toolchain') }}-${{ hashFiles('lake-manifest.json') }}-
-
-      - name: Resolve pinned dependencies
-        shell: bash
-        run: |
-          set -euo pipefail
-          lake update
-          git diff --exit-code -- lake-manifest.json
-          lake exe cache get
+          use-mathlib-cache: true
+          use-github-cache: true
 
       - name: Run selected Lean check
         shell: bash
@@ -162,6 +146,10 @@ jobs:
             --check-id lean-formal \
             --command 'lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal' \
             --selection artifacts/selection/selection.json
+
+      - name: Verify committed dependency manifest remains canonical
+        shell: bash
+        run: git diff --exit-code -- lake-manifest.json
 
       - name: Upload Lean receipt and log
         if: always()
