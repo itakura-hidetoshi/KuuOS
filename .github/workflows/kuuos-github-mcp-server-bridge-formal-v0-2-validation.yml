@@ -44,24 +44,14 @@ jobs:
           use-mathlib-cache: true
           use-github-cache: true
 
-      - name: Strictly compile write authority theorem
-        shell: bash
-        run: |
-          set -euo pipefail
-          lake env lean \
-            -DwarningAsError=true \
-            -DsorryAsError=true \
-            formal/KuuOSGitHubMCPServerBridgeV0_2.lean \
-            2>&1 | tee artifacts/diagnostics/lean-build.log
-
-      - name: Strictly compile registered bridge root
+      - name: Strictly compile write authority through registered root
         shell: bash
         run: |
           set -euo pipefail
           lake -KleanArgs=-DwarningAsError=true \
             -KleanArgs=-DsorryAsError=true \
             build KuuOSGitHubMCPServerBridgeV0_1 \
-            2>&1 | tee artifacts/diagnostics/lean-root-build.log
+            2>&1 | tee artifacts/diagnostics/lean-build.log
 
       - name: Verify committed dependency manifest remains canonical
         shell: bash
