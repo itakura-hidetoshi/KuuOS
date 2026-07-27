@@ -20,7 +20,7 @@
         "issues"
       ],
       "tools": [
-        "create_issue",
+        "issue_write",
         "issue_read"
       ]
     },
@@ -28,8 +28,9 @@
       {
         "write": {
           "kind": "call_tool",
-          "tool": "create_issue",
+          "tool": "issue_write",
           "arguments": {
+            "method": "create",
             "owner": "itakura-hidetoshi",
             "repo": "KuuOS",
             "title": "KuuOS GitHub MCP live write verification v0.3",
