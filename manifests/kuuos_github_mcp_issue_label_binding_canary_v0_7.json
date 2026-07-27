@@ -1,11 +1,11 @@
 {
-  "schema": "kuuos.github_mcp_issue_label_binding_canary.manifest.v0.7",
-  "version": "0.7.0",
+  "schema": "kuuos.github_mcp_issue_label_binding_canary.manifest.v0.7.2",
+  "version": "0.7.2",
   "status": "integration_candidate",
   "repository_full_name": "itakura-hidetoshi/KuuOS",
   "exact_base": {
     "branch": "main",
-    "sha": "1cb3c4cceba77588403de9b8c1374bb93f1c9a0e"
+    "sha": "0c4c93dd96b310b7f16f95a16eb5ab1c36609263"
   },
   "official_server": {
     "repository": "github/github-mcp-server",
@@ -25,10 +25,17 @@
       "get_label"
     ]
   },
+  "label_name_contract": {
+    "prefix": "kuuos-mcp-bind-",
+    "nonce_max_length": 32,
+    "github_max_length": 50,
+    "maximum_generated_length": 47,
+    "legacy_prefix_normalized_before_validation": true
+  },
   "transaction": {
     "confirmation": "RUN_KUUOS_GITHUB_MCP_ISSUE_LABEL_BINDING_CANARY",
     "target": "the owner-created strict-JSON request Issue that triggered the workflow",
-    "verify_request": "issue_read(method=get)",
+    "verify_request": "issue_read(method=get) after one HTML-entity decode layer",
     "verify_initial_issue_labels": "issue_read(method=get_labels) returns an empty set",
     "verify_label_absent": "get_label returns bounded not-found",
     "create_label": "label_write(method=create)",
@@ -46,22 +53,29 @@
   },
   "surfaces": {
     "runtime": "runtime/kuuos_github_mcp_issue_label_binding_canary_v0_7.py",
+    "issue_body_compatibility": "runtime/kuuos_github_mcp_issue_label_binding_canary_v0_7_1.py",
+    "label_name_bound": "runtime/kuuos_github_mcp_issue_label_binding_canary_v0_7_2.py",
     "runner": "scripts/run_kuuos_github_mcp_issue_label_binding_canary_v0_7.py",
     "checker": "scripts/check_kuuos_github_mcp_issue_label_binding_canary_v0_7.py",
-    "tests": "tests/test_kuuos_github_mcp_issue_label_binding_canary_v0_7.py",
+    "tests": [
+      "tests/test_kuuos_github_mcp_issue_label_binding_canary_v0_7.py",
+      "tests/test_kuuos_github_mcp_issue_label_binding_canary_v0_7_1.py",
+      "tests/test_kuuos_github_mcp_issue_label_binding_canary_v0_7_2.py"
+    ],
     "example": "examples/kuuos_github_mcp_issue_label_binding_canary_v0_7.json",
-    "documentation": "docs/KUUOS_GITHUB_MCP_ISSUE_LABEL_BINDING_CANARY_v0_7.md",
+    "documentation": "docs/KUUOS_GITHUB_MCP_ISSUE_LABEL_BINDING_CANARY_v0_7_2.md",
     "formal": "formal/KuuOSGitHubMCPServerBridgeV0_1/V0_7.lean",
     "validation_workflow": ".github/workflows/kuuos-github-mcp-issue-label-binding-canary-v0-7-validation.yml",
     "live_workflow": ".github/workflows/kuuos-github-mcp-issue-label-binding-canary-v0-7.yml"
   },
   "invariants": [
     "owner_request_issue_only",
-    "strict_json_request_body",
+    "strict_json_request_body_after_single_html_entity_decode",
     "exact_main_sha_bound_to_issue_event",
     "request_issue_identity_reobserved_before_write",
     "request_issue_must_start_with_no_labels",
     "nonce_repository_label_must_be_absent_before_create",
+    "generated_label_name_never_exceeds_fifty_characters",
     "issue_write_and_label_write_are_write_capable",
     "issue_read_and_get_label_are_read_only",
     "attached_label_set_observed_exact",
@@ -73,5 +87,5 @@
     "token_never_serialized",
     "mock_only_pull_request_ci"
   ],
-  "authority_boundary": "verified status requires an exact owner request Issue with an initially empty label set, a nonce label proven absent before creation, exact attachment and detachment observations, and final repository-label absence without compensation"
+  "authority_boundary": "verified status requires an exact owner request Issue with an initially empty label set, a bounded nonce label proven absent before creation, exact attachment and detachment observations, and final repository-label absence without compensation"
 }
