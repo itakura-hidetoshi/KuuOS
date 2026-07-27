@@ -21,7 +21,7 @@ KuuOS authority packet
 → exact repository / base branch / base SHA
 → official GitHub MCP Server stdio session
 → v0.2 write gate
-→ create_issue
+→ issue_write(method=create)
 → write response URL
 → issue number binding
 → issue_read(method=get)
@@ -37,13 +37,14 @@ KUUOS_GITHUB_MCP_LIVE_WRITE_VERIFIED
 
 ## 公式tool契約
 
-標準transactionは次を使う。
+標準transactionは、公式serverの通常tool surfaceにある次の組合せを使う。
 
-- write: `create_issue`
+- write: `issue_write`
+- `issue_write.method`: `create`
 - verification: `issue_read`
 - `issue_read.method`: `get`
 
-`create_issue`の返却値はissue URLを含む。v0.3はURL末尾からissue番号を導出し、`issue_read.issue_number`へ束縛する。
+`create_issue`は`issues_granular` feature flag側のtoolであるため、標準exampleでは要求しない。`issue_write(method=create)`はissue URLを含む最小応答を返す。v0.3はURL末尾からissue番号を導出し、`issue_read.issue_number`へ束縛する。
 
 ```json
 {
