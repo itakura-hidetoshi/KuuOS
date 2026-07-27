@@ -26,8 +26,8 @@ def WriteGate.Admitted (gate : WriteGate) : Prop :=
 @[simp] theorem readOnly_never_admits (gate : WriteGate)
     (hReadOnly : gate.readOnly = true) : ¬ gate.Admitted := by
   intro h
-  rw [hReadOnly] at h
-  simp [WriteGate.Admitted] at h
+  have hFalse : gate.readOnly = false := h.1
+  simp [hReadOnly] at hFalse
 
 theorem admitted_implies_runtime_gate (gate : WriteGate)
     (h : gate.Admitted) : gate.runtimeExecuteExternalActions = true :=
