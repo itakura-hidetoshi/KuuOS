@@ -1,0 +1,67 @@
+name: KuuOS GitHub MCP Workflow Dispatch v0.5.1 Validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - '.github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5-1.yml'
+      - '.github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5-1-validation.yml'
+      - 'docs/KUUOS_GITHUB_MCP_WORKFLOW_DISPATCH_v0_5_1.md'
+      - 'runtime/kuuos_github_mcp_workflow_dispatch_v0_5.py'
+      - 'scripts/run_kuuos_github_mcp_workflow_dispatch_v0_5.py'
+      - 'tests/test_kuuos_github_mcp_workflow_dispatch_v0_5.py'
+  pull_request:
+    paths:
+      - '.github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5-1.yml'
+      - '.github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5-1-validation.yml'
+      - 'docs/KUUOS_GITHUB_MCP_WORKFLOW_DISPATCH_v0_5_1.md'
+      - 'runtime/kuuos_github_mcp_workflow_dispatch_v0_5.py'
+      - 'scripts/run_kuuos_github_mcp_workflow_dispatch_v0_5.py'
+      - 'tests/test_kuuos_github_mcp_workflow_dispatch_v0_5.py'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-github-mcp-workflow-dispatch-v0-5-1-validation-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  validate:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate immutable-digest dispatch surface
+        shell: bash
+        env:
+          PYTHONPATH: .
+          PYTHONUNBUFFERED: '1'
+        run: |
+          set -euo pipefail
+          python3 -m compileall -q \
+            runtime/kuuos_github_mcp_workflow_dispatch_v0_5.py \
+            scripts/run_kuuos_github_mcp_workflow_dispatch_v0_5.py \
+            tests/test_kuuos_github_mcp_workflow_dispatch_v0_5.py
+          python3 -m unittest -v tests.test_kuuos_github_mcp_workflow_dispatch_v0_5
+          grep -Fq '[KuuOS MCP Workflow Dispatch v0.5.1]' \
+            .github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5-1.yml
+          grep -Fq 'kuuos_github_mcp_workflow_dispatch_request_v0_5_1' \
+            .github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5-1.yml
+          grep -Fq 'ghcr.io/github/github-mcp-server@sha256:2b0c48b070f61e9d3969269ead600f62d00fb237b60ac849ef3d166ee7de9ad3' \
+            .github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5-1.yml
+          grep -Fq "github.event.issue.author_association == 'OWNER'" \
+            .github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5-1.yml
+          grep -Fq 'kuuos-github-mcp-live-canary-v0-4.yml' \
+            .github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5-1.yml
+          grep -Fq 'KUUOS_GITHUB_MCP_WORKFLOW_DISPATCH_VERIFIED' \
+            .github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5-1.yml
