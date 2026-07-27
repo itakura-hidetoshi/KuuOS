@@ -1,0 +1,66 @@
+{
+  "authority_boundary": "verified status requires an exact owner request, initially empty parent relationship set, exact nonce child creation, observed add/remove closeout, final empty relationship set, and closed child without compensation",
+  "compensation": {
+    "binding": "attempt remove and reobserve empty",
+    "child": "close not_planned and reobserve closed",
+    "success_is_not_verified": true
+  },
+  "exact_base": {
+    "branch": "main",
+    "sha": "6067a37352daae5428ee15931ea0512209403b83"
+  },
+  "invariants": [
+    "owner_request_issue_only",
+    "strict_json_request_after_single_html_entity_decode",
+    "exact_main_sha_bound_to_issue_event",
+    "parent_sub_issue_set_must_start_empty",
+    "child_identity_nonce_bound",
+    "sub_issue_add_must_be_independently_reobserved",
+    "sub_issue_remove_must_be_independently_reobserved_empty",
+    "child_must_be_closed_and_reobserved",
+    "compensation_never_counts_as_verified",
+    "token_never_serialized",
+    "pull_request_ci_uses_mock_only"
+  ],
+  "official_server": {
+    "commit_observed": "eb088dfe9d854dab6453a8d4ae5871a5ced20974",
+    "image": "ghcr.io/github/github-mcp-server@sha256:2b0c48b070f61e9d3969269ead600f62d00fb237b60ac849ef3d166ee7de9ad3",
+    "repository": "github/github-mcp-server",
+    "tools": [
+      "issue_write",
+      "issue_read",
+      "sub_issue_write"
+    ],
+    "toolsets": [
+      "issues"
+    ]
+  },
+  "repository_full_name": "itakura-hidetoshi/KuuOS",
+  "schema": "kuuos.github_mcp_sub_issue_binding_canary.manifest.v0.8",
+  "status": "integration_candidate",
+  "surfaces": {
+    "checker": "scripts/check_kuuos_github_mcp_sub_issue_binding_canary_v0_8.py",
+    "documentation": "docs/KUUOS_GITHUB_MCP_SUB_ISSUE_BINDING_CANARY_v0_8.md",
+    "example": "examples/kuuos_github_mcp_sub_issue_binding_canary_v0_8.json",
+    "formal": "formal/KuuOSGitHubMCPServerBridgeV0_1/V0_8.lean",
+    "live_workflow": ".github/workflows/kuuos-github-mcp-sub-issue-binding-canary-v0-8.yml",
+    "runner": "scripts/run_kuuos_github_mcp_sub_issue_binding_canary_v0_8.py",
+    "runtime": "runtime/kuuos_github_mcp_sub_issue_binding_canary_v0_8.py",
+    "tests": "tests/test_kuuos_github_mcp_sub_issue_binding_canary_v0_8.py",
+    "validation_workflow": ".github/workflows/kuuos-github-mcp-sub-issue-binding-canary-v0-8-validation.yml"
+  },
+  "transaction": {
+    "add_binding": "sub_issue_write(method=add)",
+    "close_child": "issue_write(method=update,state=closed,state_reason=completed)",
+    "confirmation": "RUN_KUUOS_GITHUB_MCP_SUB_ISSUE_BINDING_CANARY",
+    "create_child": "issue_write(method=create)",
+    "parent": "owner-created strict-JSON request Issue",
+    "preflight": "issue_read(method=get_sub_issues) must return an empty list",
+    "remove_binding": "sub_issue_write(method=remove)",
+    "verify_added": "issue_read(method=get_sub_issues) returns exactly the nonce child",
+    "verify_child": "issue_read(method=get)",
+    "verify_child_closed": "issue_read(method=get)",
+    "verify_removed": "issue_read(method=get_sub_issues) returns an empty list"
+  },
+  "version": "0.8.0"
+}
