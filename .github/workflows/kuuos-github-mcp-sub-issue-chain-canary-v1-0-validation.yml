@@ -1,0 +1,51 @@
+name: KuuOS GitHub MCP Sub-Issue Chain Canary v1.0 Validation
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'runtime/kuuos_github_mcp_sub_issue_chain_canary_v1_0.py'
+      - 'scripts/run_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py'
+      - 'scripts/check_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py'
+      - 'tests/test_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py'
+      - 'examples/kuuos_github_mcp_sub_issue_chain_canary_v1_0.json'
+      - 'manifests/kuuos_github_mcp_sub_issue_chain_canary_v1_0.json'
+      - 'docs/KUUOS_GITHUB_MCP_SUB_ISSUE_CHAIN_CANARY_v1_0.md'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V1_0.lean'
+      - '.github/workflows/kuuos-github-mcp-sub-issue-chain-canary-v1-0-validation.yml'
+  pull_request:
+    paths:
+      - 'runtime/kuuos_github_mcp_sub_issue_chain_canary_v1_0.py'
+      - 'scripts/run_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py'
+      - 'scripts/check_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py'
+      - 'tests/test_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py'
+      - 'examples/kuuos_github_mcp_sub_issue_chain_canary_v1_0.json'
+      - 'manifests/kuuos_github_mcp_sub_issue_chain_canary_v1_0.json'
+      - 'docs/KUUOS_GITHUB_MCP_SUB_ISSUE_CHAIN_CANARY_v1_0.md'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V1_0.lean'
+      - '.github/workflows/kuuos-github-mcp-sub-issue-chain-canary-v1-0-validation.yml'
+
+permissions:
+  contents: read
+
+jobs:
+  validate-runtime:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate chain canary without external writes
+        env:
+          PYTHONPATH: .
+          PYTHONWARNINGS: error::ResourceWarning
+        run: |
+          set -euo pipefail
+          python3 -m compileall -q runtime/kuuos_github_mcp_sub_issue_chain_canary_v1_0.py scripts/run_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py scripts/check_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py tests/test_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py
+          python3 -m json.tool examples/kuuos_github_mcp_sub_issue_chain_canary_v1_0.json >/dev/null
+          python3 -m json.tool manifests/kuuos_github_mcp_sub_issue_chain_canary_v1_0.json >/dev/null
+          python3 scripts/check_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py
+          python3 -m unittest -v tests.test_kuuos_github_mcp_sub_issue_chain_canary_v1_0
