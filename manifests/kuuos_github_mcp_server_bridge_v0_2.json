@@ -27,7 +27,8 @@
     "example": "examples/kuuos_github_mcp_server_bridge_v0_2.json",
     "write_operation_example": "examples/kuuos_github_mcp_server_bridge_write_operation_v0_2.json",
     "documentation": "docs/KUUOS_GITHUB_MCP_SERVER_BRIDGE_v0_2.md",
-    "formal": "formal/KuuOSGitHubMCPServerBridgeV0_2.lean",
+    "formal": "formal/KuuOSGitHubMCPServerBridgeV0_1/V0_2.lean",
+    "formal_registered_root": "formal/KuuOSGitHubMCPServerBridgeV0_1.lean",
     "runtime_workflow": ".github/workflows/kuuos-github-mcp-server-bridge-v0-2-validation.yml",
     "formal_workflow": ".github/workflows/kuuos-github-mcp-server-bridge-formal-v0-2-validation.yml"
   },
