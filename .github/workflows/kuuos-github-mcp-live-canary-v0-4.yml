@@ -1,5 +1,5 @@
 name: KuuOS GitHub MCP Reversible Live Canary v0.4
-run-name: GitHub MCP live canary v0.4 · ${{ github.run_id }}-${{ github.run_attempt }}
+run-name: GitHub MCP live canary v0.4 · ${{ inputs.dispatch_nonce }} · ${{ github.run_id }}-${{ github.run_attempt }}
 
 on:
   workflow_dispatch:
@@ -12,6 +12,11 @@ on:
         description: Pinned official GitHub MCP Server image tag or digest.
         required: true
         default: ghcr.io/github/github-mcp-server:v1.0.5
+        type: string
+      dispatch_nonce:
+        description: Optional KuuOS MCP workflow-dispatch correlation nonce.
+        required: false
+        default: manual
         type: string
 
 permissions:
@@ -30,11 +35,12 @@ jobs:
       - name: Check out exact dispatched revision
         uses: actions/checkout@v6
 
-      - name: Enforce manual authority, main ref, and pinned official image
+      - name: Enforce manual authority, main ref, pinned image, and bounded nonce
         shell: bash
         env:
           CONFIRMATION: ${{ inputs.confirmation }}
           SERVER_IMAGE: ${{ inputs.server_image }}
+          DISPATCH_NONCE: ${{ inputs.dispatch_nonce }}
         run: |
           set -euo pipefail
           test "${GITHUB_REF_NAME}" = "main"
@@ -42,6 +48,7 @@ jobs:
           python3 - <<'PY'
           import os
           import re
+
           image = os.environ["SERVER_IMAGE"]
           prefix = "ghcr.io/github/github-mcp-server"
           allowed = False
@@ -53,6 +60,10 @@ jobs:
               allowed = re.fullmatch(r"(?:v\d+\.\d+\.\d+|sha-[0-9a-f]{7,40})", tag) is not None
           if not allowed:
               raise SystemExit("official_server_image_not_pinned")
+
+          nonce = os.environ["DISPATCH_NONCE"]
+          if nonce != "manual" and re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9._-]{7,63}", nonce) is None:
+              raise SystemExit("dispatch_nonce_invalid")
           PY
 
       - name: Set up Python
@@ -82,6 +93,7 @@ jobs:
         env:
           SERVER_IMAGE: ${{ inputs.server_image }}
           CONFIRMATION: ${{ inputs.confirmation }}
+          DISPATCH_NONCE: ${{ inputs.dispatch_nonce }}
           REPOSITORY: ${{ github.repository }}
           BASE_SHA: ${{ github.sha }}
         run: |
@@ -104,6 +116,7 @@ jobs:
               "lockdown_mode": True,
               "execute_external_actions": True,
               "confirmation": os.environ["CONFIRMATION"],
+              "dispatch_nonce": os.environ["DISPATCH_NONCE"],
               "title_prefix": "[KuuOS MCP Canary] reversible",
               "body_marker": "KUUOS_GITHUB_MCP_LIVE_CANARY v0.4",
               "server": {
@@ -145,7 +158,7 @@ jobs:
           REPOSITORY: ${{ github.repository }}
           BASE_SHA: ${{ github.sha }}
           RESOLVED_DIGEST: ${{ steps.image.outputs.resolved_digest }}
-          RUN_IDENTITY: ${{ github.run_id }}-${{ github.run_attempt }}
+          RUN_IDENTITY: ${{ inputs.dispatch_nonce }}-${{ github.run_id }}-${{ github.run_attempt }}
         run: |
           set -euo pipefail
           python3 scripts/run_kuuos_github_mcp_live_canary_v0_4.py \
