@@ -7,9 +7,11 @@ on:
       - main
     paths:
       - 'runtime/kuuos_github_mcp_issue_label_binding_canary_v0_7.py'
+      - 'runtime/kuuos_github_mcp_issue_label_binding_canary_v0_7_1.py'
       - 'scripts/run_kuuos_github_mcp_issue_label_binding_canary_v0_7.py'
       - 'scripts/check_kuuos_github_mcp_issue_label_binding_canary_v0_7.py'
       - 'tests/test_kuuos_github_mcp_issue_label_binding_canary_v0_7.py'
+      - 'tests/test_kuuos_github_mcp_issue_label_binding_canary_v0_7_1.py'
       - 'examples/kuuos_github_mcp_issue_label_binding_canary_v0_7.json'
       - 'manifests/kuuos_github_mcp_issue_label_binding_canary_v0_7.json'
       - 'docs/KUUOS_GITHUB_MCP_ISSUE_LABEL_BINDING_CANARY_v0_7.md'
@@ -20,9 +22,11 @@ on:
   pull_request:
     paths:
       - 'runtime/kuuos_github_mcp_issue_label_binding_canary_v0_7.py'
+      - 'runtime/kuuos_github_mcp_issue_label_binding_canary_v0_7_1.py'
       - 'scripts/run_kuuos_github_mcp_issue_label_binding_canary_v0_7.py'
       - 'scripts/check_kuuos_github_mcp_issue_label_binding_canary_v0_7.py'
       - 'tests/test_kuuos_github_mcp_issue_label_binding_canary_v0_7.py'
+      - 'tests/test_kuuos_github_mcp_issue_label_binding_canary_v0_7_1.py'
       - 'examples/kuuos_github_mcp_issue_label_binding_canary_v0_7.json'
       - 'manifests/kuuos_github_mcp_issue_label_binding_canary_v0_7.json'
       - 'docs/KUUOS_GITHUB_MCP_ISSUE_LABEL_BINDING_CANARY_v0_7.md'
@@ -62,15 +66,19 @@ jobs:
           mkdir -p artifacts/diagnostics
           python3 -m compileall -q \
             runtime/kuuos_github_mcp_issue_label_binding_canary_v0_7.py \
+            runtime/kuuos_github_mcp_issue_label_binding_canary_v0_7_1.py \
             scripts/run_kuuos_github_mcp_issue_label_binding_canary_v0_7.py \
             scripts/check_kuuos_github_mcp_issue_label_binding_canary_v0_7.py \
             tests/test_kuuos_github_mcp_issue_label_binding_canary_v0_7.py \
+            tests/test_kuuos_github_mcp_issue_label_binding_canary_v0_7_1.py \
             2>&1 | tee artifacts/diagnostics/python-compile.log
           python3 -m json.tool examples/kuuos_github_mcp_issue_label_binding_canary_v0_7.json > /dev/null
           python3 -m json.tool manifests/kuuos_github_mcp_issue_label_binding_canary_v0_7.json > /dev/null
           python3 scripts/check_kuuos_github_mcp_issue_label_binding_canary_v0_7.py \
             2>&1 | tee artifacts/diagnostics/runtime-check.log
-          python3 -m unittest -v tests.test_kuuos_github_mcp_issue_label_binding_canary_v0_7 \
+          python3 -m unittest -v \
+            tests.test_kuuos_github_mcp_issue_label_binding_canary_v0_7 \
+            tests.test_kuuos_github_mcp_issue_label_binding_canary_v0_7_1 \
             2>&1 | tee -a artifacts/diagnostics/runtime-check.log
 
       - name: Upload failure diagnostics
