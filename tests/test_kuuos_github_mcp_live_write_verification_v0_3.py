@@ -44,7 +44,7 @@ class TransactionTransport:
             "id": 1,
             "result": {
                 "tools": [
-                    _tool("create_issue", False),
+                    _tool("issue_write", False),
                     _tool("issue_read", self.verification_read_only),
                 ]
             },
@@ -52,7 +52,9 @@ class TransactionTransport:
 
     def call_tool(self, name: str, arguments: Mapping[str, Any]) -> dict[str, Any]:
         self.calls.append({"name": name, "arguments": dict(arguments)})
-        if name == "create_issue":
+        if name == "issue_write":
+            if arguments.get("method") != "create":
+                return {"jsonrpc": "2.0", "id": 2, "error": {"message": "wrong method"}}
             payload = {"id": "1001", "url": self.write_url}
         elif name == "issue_read":
             payload = {
@@ -116,14 +118,15 @@ class GitHubMCPLiveWriteVerificationV03Tests(unittest.TestCase):
                 "image": "ghcr.io/github/github-mcp-server",
                 "token_env": "GITHUB_PERSONAL_ACCESS_TOKEN",
                 "toolsets": ["context", "repos", "issues"],
-                "tools": ["create_issue", "issue_read"],
+                "tools": ["issue_write", "issue_read"],
             },
             "transactions": [
                 {
                     "write": {
                         "kind": "call_tool",
-                        "tool": "create_issue",
+                        "tool": "issue_write",
                         "arguments": {
+                            "method": "create",
                             "owner": "itakura-hidetoshi",
                             "repo": "KuuOS",
                             "title": TITLE,
@@ -168,7 +171,8 @@ class GitHubMCPLiveWriteVerificationV03Tests(unittest.TestCase):
         result = self._run(transport)
         self.assertEqual(result.status, "KUUOS_GITHUB_MCP_LIVE_WRITE_VERIFIED")
         self.assertEqual(result.verified_count, 1)
-        self.assertEqual([call["name"] for call in transport.calls], ["create_issue", "issue_read"])
+        self.assertEqual([call["name"] for call in transport.calls], ["issue_write", "issue_read"])
+        self.assertEqual(transport.calls[0]["arguments"]["method"], "create")
         self.assertEqual(transport.calls[1]["arguments"]["issue_number"], 77)
         self.assertEqual(result.records[0]["observed"]["title"], TITLE)
 
@@ -183,7 +187,7 @@ class GitHubMCPLiveWriteVerificationV03Tests(unittest.TestCase):
         transport = TransactionTransport(verification_read_only=False)
         result = self._run(transport)
         self.assertIn("verification_tool_must_be_read_only", result.records[0]["blockers"])
-        self.assertEqual([call["name"] for call in transport.calls], ["create_issue"])
+        self.assertEqual([call["name"] for call in transport.calls], ["issue_write"])
 
     def test_verification_repository_scope_is_exact(self) -> None:
         plan = self._plan()
