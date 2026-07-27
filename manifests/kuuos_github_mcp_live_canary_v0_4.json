@@ -1,0 +1,75 @@
+{
+  "schema": "kuuos.github_mcp_live_canary.manifest.v0.4",
+  "version": "0.4.0",
+  "status": "integration_candidate",
+  "repository_full_name": "itakura-hidetoshi/KuuOS",
+  "exact_base": {
+    "branch": "main",
+    "sha": "938081d3bc8b54b1e06d59474d8ada39b60dafd9"
+  },
+  "official_server": {
+    "repository": "github/github-mcp-server",
+    "transport": "stdio",
+    "compatibility_image": "ghcr.io/github/github-mcp-server:v1.0.5",
+    "resolved_digest_recorded_at_runtime": true,
+    "write_capable": true,
+    "read_only": false,
+    "toolsets": [
+      "issues"
+    ],
+    "tools": [
+      "issue_write",
+      "issue_read"
+    ]
+  },
+  "transaction": {
+    "confirmation": "RUN_KUUOS_GITHUB_MCP_LIVE_CANARY",
+    "create": "issue_write(method=create)",
+    "verify_open": "issue_read(method=get)",
+    "close": "issue_write(method=update,state=closed,state_reason=completed)",
+    "verify_closed": "issue_read(method=get)",
+    "compensation": "retry close and verify closed when an issue number was bound",
+    "verified_status": "KUUOS_GITHUB_MCP_LIVE_CANARY_VERIFIED",
+    "compensated_status": "KUUOS_GITHUB_MCP_LIVE_CANARY_COMPENSATED",
+    "blocked_status": "KUUOS_GITHUB_MCP_LIVE_CANARY_BLOCKED"
+  },
+  "github_actions": {
+    "trigger": "workflow_dispatch_only",
+    "required_ref": "main",
+    "token": "repository-scoped GITHUB_TOKEN",
+    "permissions": {
+      "contents": "read",
+      "issues": "write"
+    },
+    "live_issue_created_by_pr_ci": false
+  },
+  "surfaces": {
+    "runtime": "runtime/kuuos_github_mcp_live_canary_v0_4.py",
+    "runner": "scripts/run_kuuos_github_mcp_live_canary_v0_4.py",
+    "checker": "scripts/check_kuuos_github_mcp_live_canary_v0_4.py",
+    "tests": "tests/test_kuuos_github_mcp_live_canary_v0_4.py",
+    "example": "examples/kuuos_github_mcp_live_canary_v0_4.json",
+    "documentation": "docs/KUUOS_GITHUB_MCP_LIVE_CANARY_v0_4.md",
+    "formal": "formal/KuuOSGitHubMCPServerBridgeV0_1/V0_4.lean",
+    "validation_workflow": ".github/workflows/kuuos-github-mcp-live-canary-v0-4-validation.yml",
+    "live_workflow": ".github/workflows/kuuos-github-mcp-live-canary-v0-4.yml"
+  },
+  "invariants": [
+    "manual_dispatch_only_for_live_write",
+    "exact_main_ref_required",
+    "explicit_confirmation_required_in_workflow_plan_and_runtime",
+    "official_image_version_or_digest_pin_required",
+    "resolved_container_digest_recorded",
+    "repository_scope_exact",
+    "base_sha_exact",
+    "issue_write_is_write_capable",
+    "issue_read_is_read_only",
+    "created_issue_observed_open",
+    "canary_issue_closed_before_verified_status",
+    "closed_issue_reobserved",
+    "compensation_is_not_success",
+    "token_never_serialized",
+    "mock_only_pull_request_ci"
+  ],
+  "authority_boundary": "a live write canary is successful only after the created issue is independently observed open, closed through the official MCP server, and independently observed closed"
+}
