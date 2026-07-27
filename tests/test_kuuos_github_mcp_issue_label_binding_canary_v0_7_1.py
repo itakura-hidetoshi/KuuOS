@@ -66,7 +66,7 @@ class IssueBodyCompatibilityTests(unittest.TestCase):
         self.assertEqual(_decode_observed_issue_body_once(encoded_by_server), original)
 
     def test_malformed_body_remains_fail_closed(self) -> None:
-        blockers = _blockers("&#34;not-json&#34;")
+        blockers = _blockers("{not-json")
         self.assertIn("observed_issue_body_not_strict_json", blockers)
 
     def test_base_runtime_uses_compatibility_validator(self) -> None:
