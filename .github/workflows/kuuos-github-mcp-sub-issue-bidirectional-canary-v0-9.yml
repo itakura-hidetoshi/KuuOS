@@ -1,0 +1,296 @@
+name: KuuOS GitHub MCP Sub-Issue Bidirectional Canary v0.9
+run-name: GitHub MCP bidirectional sub-issue canary v0.9 · issue-${{ github.event.issue.number }}
+
+on:
+  issues:
+    types:
+      - opened
+
+permissions:
+  contents: read
+  issues: write
+
+concurrency:
+  group: kuuos-github-mcp-sub-issue-bidirectional-canary-v0-9-${{ github.event.issue.number }}
+  cancel-in-progress: false
+
+jobs:
+  sub-issue-bidirectional-canary:
+    if: >-
+      github.event.issue.title == '[KuuOS MCP Sub-Issue Bidirectional Canary v0.9]' &&
+      github.event.issue.user.login == github.repository_owner &&
+      github.event.issue.author_association == 'OWNER'
+    runs-on: ubuntu-22.04
+    timeout-minutes: 15
+    steps:
+      - name: Check out exact default-branch revision bound to the request event
+        uses: actions/checkout@v6
+        with:
+          ref: ${{ github.sha }}
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate owner request and materialize exact bidirectional authority
+        id: request
+        shell: bash
+        env:
+          ISSUE_BODY: ${{ github.event.issue.body }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          EVENT_MAIN_SHA: ${{ github.sha }}
+          REPOSITORY: ${{ github.repository }}
+          REPOSITORY_OWNER: ${{ github.repository_owner }}
+          ISSUE_AUTHOR: ${{ github.event.issue.user.login }}
+          AUTHOR_ASSOCIATION: ${{ github.event.issue.author_association }}
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/github-mcp-sub-issue-bidirectional-canary-v0-9
+          python3 - <<'PY'
+          import json
+          import os
+          import re
+          from pathlib import Path
+
+          expected_version = "kuuos_github_mcp_sub_issue_bidirectional_canary_request_v0_9"
+          expected_confirmation = "RUN_KUUOS_GITHUB_MCP_SUB_ISSUE_BIDIRECTIONAL_CANARY"
+          expected_image = "ghcr.io/github/github-mcp-server@sha256:2b0c48b070f61e9d3969269ead600f62d00fb237b60ac849ef3d166ee7de9ad3"
+          expected_title = "[KuuOS MCP Sub-Issue Bidirectional Canary v0.9]"
+
+          if os.environ["ISSUE_AUTHOR"] != os.environ["REPOSITORY_OWNER"]:
+              raise SystemExit("request_author_not_repository_owner")
+          if os.environ["AUTHOR_ASSOCIATION"] != "OWNER":
+              raise SystemExit("request_author_association_not_owner")
+          try:
+              request = json.loads(os.environ.get("ISSUE_BODY", ""))
+          except json.JSONDecodeError as exc:
+              raise SystemExit(f"request_body_not_strict_json:{exc}") from exc
+          if not isinstance(request, dict):
+              raise SystemExit("request_body_not_object")
+          if set(request) != {
+              "version", "confirmation", "expected_main_sha",
+              "transaction_nonce", "server_image",
+          }:
+              raise SystemExit("request_top_level_fields_invalid")
+          if request.get("version") != expected_version:
+              raise SystemExit("request_version_invalid")
+          if request.get("confirmation") != expected_confirmation:
+              raise SystemExit("request_confirmation_invalid")
+          if request.get("expected_main_sha") != os.environ["EVENT_MAIN_SHA"]:
+              raise SystemExit("request_expected_main_sha_mismatch")
+          nonce = str(request.get("transaction_nonce", ""))
+          if re.fullmatch(r"[A-Za-z0-9][A-Za-z0-9-]{7,31}", nonce) is None:
+              raise SystemExit("request_transaction_nonce_invalid")
+          if request.get("server_image") != expected_image:
+              raise SystemExit("request_server_image_not_immutable_digest_pin")
+          parent = int(os.environ["ISSUE_NUMBER"])
+          if parent <= 0:
+              raise SystemExit("request_issue_number_invalid")
+
+          root = Path("artifacts/github-mcp-sub-issue-bidirectional-canary-v0-9")
+          plan = {
+              "version": "kuuos_github_mcp_sub_issue_bidirectional_canary_plan_v0_9",
+              "mode": "stdio",
+              "repository_full_name": os.environ["REPOSITORY"],
+              "base_branch": "main",
+              "base_sha": os.environ["EVENT_MAIN_SHA"],
+              "write_capable": True,
+              "read_only": False,
+              "lockdown_mode": True,
+              "execute_external_actions": True,
+              "confirmation": expected_confirmation,
+              "transaction_nonce": nonce,
+              "parent_issue_number": parent,
+              "request_issue_title": expected_title,
+              "request_version_marker": expected_version,
+              "child_title_prefix": "[KuuOS MCP Sub-Issue Child v0.9] ",
+              "child_version_marker": "kuuos_github_mcp_sub_issue_bidirectional_canary_child_v0_9",
+              "upward_read_method": "get_parent",
+              "require_child_parent_preflight_absent": True,
+              "require_child_parent_exact_when_attached": True,
+              "require_child_parent_absent_after_remove": True,
+              "server": {
+                  "kind": "official_github_mcp_server",
+                  "launcher": "docker",
+                  "image": expected_image,
+                  "token_env": "GITHUB_PERSONAL_ACCESS_TOKEN",
+                  "toolsets": ["issues"],
+                  "tools": ["issue_write", "issue_read", "sub_issue_write"],
+              },
+          }
+          authority = {
+              "authority_status": "KUUOS_GITHUB_MCP_SUB_ISSUE_BIDIRECTIONAL_CANARY_AUTHORITY_READY",
+              "plan_read_allowed": True,
+              "tool_discovery_allowed": True,
+              "external_action_allowed": True,
+              "mcp_write_tool_call_allowed": True,
+              "post_write_reobservation_allowed": True,
+              "upward_parent_reobservation_allowed": True,
+              "compensating_sub_issue_remove_allowed": True,
+              "compensating_parent_reobservation_allowed": True,
+              "compensating_child_close_allowed": True,
+              "receipt_write_allowed": True,
+              "audit_append_allowed": True,
+          }
+          (root / "sub_issue_bidirectional_request_v0_9.json").write_text(
+              json.dumps(request, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+          )
+          (root / "github_mcp_sub_issue_bidirectional_canary_plan_v0_9.json").write_text(
+              json.dumps(plan, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+          )
+          (root / "github_mcp_sub_issue_bidirectional_canary_authority_v0_9.json").write_text(
+              json.dumps(authority, indent=2, sort_keys=True) + "\n", encoding="utf-8"
+          )
+          with open(os.environ["GITHUB_OUTPUT"], "a", encoding="utf-8") as output:
+              output.write(f"transaction_nonce={nonce}\n")
+              output.write(f"parent_issue_number={parent}\n")
+          PY
+
+      - name: Pull immutable official GitHub MCP Server and record digest
+        id: image
+        shell: bash
+        env:
+          SERVER_IMAGE: ghcr.io/github/github-mcp-server@sha256:2b0c48b070f61e9d3969269ead600f62d00fb237b60ac849ef3d166ee7de9ad3
+        run: |
+          set -euo pipefail
+          docker pull "${SERVER_IMAGE}"
+          RESOLVED_REF="$(docker image inspect "${SERVER_IMAGE}" --format '{{index .RepoDigests 0}}')"
+          RESOLVED_DIGEST="${RESOLVED_REF##*@}"
+          case "${RESOLVED_DIGEST}" in
+            sha256:*) ;;
+            *) echo "resolved_image_digest_missing" >&2; exit 1 ;;
+          esac
+          echo "resolved_digest=${RESOLVED_DIGEST}" >> "${GITHUB_OUTPUT}"
+
+      - name: Execute reversible bidirectional hierarchy canary through official GitHub MCP Server
+        shell: bash
+        env:
+          PYTHONPATH: .
+          PYTHONUNBUFFERED: '1'
+          GITHUB_PERSONAL_ACCESS_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          BASE_SHA: ${{ github.sha }}
+          TRANSACTION_NONCE: ${{ steps.request.outputs.transaction_nonce }}
+          PARENT_ISSUE_NUMBER: ${{ steps.request.outputs.parent_issue_number }}
+          RESOLVED_DIGEST: ${{ steps.image.outputs.resolved_digest }}
+        run: |
+          set -euo pipefail
+          python3 scripts/run_kuuos_github_mcp_sub_issue_bidirectional_canary_v0_9.py \
+            artifacts/github-mcp-sub-issue-bidirectional-canary-v0-9 \
+            --confirmation RUN_KUUOS_GITHUB_MCP_SUB_ISSUE_BIDIRECTIONAL_CANARY \
+            --repository "${REPOSITORY}" \
+            --base-sha "${BASE_SHA}" \
+            --transaction-nonce "${TRANSACTION_NONCE}" \
+            --parent-issue-number "${PARENT_ISSUE_NUMBER}" \
+            --resolved-image-digest "${RESOLVED_DIGEST}" \
+            --execute-external-actions \
+            2>&1 | tee artifacts/github-mcp-sub-issue-bidirectional-canary-v0-9/run-output.json
+
+      - name: Write bidirectional hierarchy evidence summary
+        if: always()
+        shell: bash
+        run: |
+          python3 - <<'PY' >> "${GITHUB_STEP_SUMMARY}"
+          import json
+          from pathlib import Path
+          path = Path("artifacts/github-mcp-sub-issue-bidirectional-canary-v0-9/github_mcp_sub_issue_bidirectional_canary_receipt_v0_9.json")
+          print("## KuuOS GitHub MCP Sub-Issue Bidirectional Canary v0.9")
+          if not path.is_file():
+              print("Receipt was not produced.")
+              raise SystemExit(0)
+          receipt = json.loads(path.read_text(encoding="utf-8"))
+          for label, key in [
+              ("status", "status"),
+              ("base SHA", "base_sha"),
+              ("parent Issue", "parent_issue_number"),
+              ("child Issue", "child_issue_number"),
+              ("child database ID", "child_issue_id"),
+              ("parent identity verified", "parent_identity_verified"),
+              ("parent sub-issues initially empty", "parent_subissues_preflight_empty"),
+              ("child created verified", "child_created_verified"),
+              ("child parent initially absent", "child_parent_preflight_absent"),
+              ("downward binding added", "binding_added_verified"),
+              ("upward parent exact while attached", "child_parent_added_verified"),
+              ("downward binding removed", "binding_removed_verified"),
+              ("upward parent absent after remove", "child_parent_removed_verified"),
+              ("child closed verified", "child_closed_verified"),
+              ("compensation attempted", "compensation_attempted"),
+              ("compensation upward parent absent", "compensation_child_parent_removed"),
+          ]:
+              print(f"- {label}: `{receipt.get(key, '')}`")
+          PY
+
+      - name: Upload bidirectional hierarchy evidence
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-github-mcp-sub-issue-bidirectional-canary-v0-9-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/github-mcp-sub-issue-bidirectional-canary-v0-9/
+          if-no-files-found: error
+          retention-days: 30
+
+      - name: Comment result and close completed request
+        if: always()
+        shell: bash
+        env:
+          GITHUB_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          ISSUE_NUMBER: ${{ github.event.issue.number }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        run: |
+          python3 - <<'PY'
+          import json
+          import os
+          from pathlib import Path
+          from urllib import request
+
+          path = Path("artifacts/github-mcp-sub-issue-bidirectional-canary-v0-9/github_mcp_sub_issue_bidirectional_canary_receipt_v0_9.json")
+          receipt = json.loads(path.read_text(encoding="utf-8")) if path.is_file() else {"status": "RECEIPT_NOT_PRODUCED"}
+          status = str(receipt.get("status", ""))
+          lines = [
+              "## KuuOS GitHub MCP Sub-Issue Bidirectional Canary v0.9",
+              "",
+              f"- status: `{status}`",
+              f"- workflow run: {os.environ['RUN_URL']}",
+              f"- exact base SHA: `{receipt.get('base_sha', '')}`",
+              f"- parent Issue: `#{receipt.get('parent_issue_number', '')}`",
+              f"- child Issue: `#{receipt.get('child_issue_number', '')}`",
+              f"- child database ID: `{receipt.get('child_issue_id', '')}`",
+              f"- parent identity verified: `{receipt.get('parent_identity_verified', False)}`",
+              f"- parent sub-issues initially empty: `{receipt.get('parent_subissues_preflight_empty', False)}`",
+              f"- child created verified: `{receipt.get('child_created_verified', False)}`",
+              f"- child parent initially absent: `{receipt.get('child_parent_preflight_absent', False)}`",
+              f"- downward binding added: `{receipt.get('binding_added_verified', False)}`",
+              f"- upward parent exact while attached: `{receipt.get('child_parent_added_verified', False)}`",
+              f"- downward binding removed: `{receipt.get('binding_removed_verified', False)}`",
+              f"- upward parent absent after remove: `{receipt.get('child_parent_removed_verified', False)}`",
+              f"- child closed verified: `{receipt.get('child_closed_verified', False)}`",
+              f"- compensation attempted: `{receipt.get('compensation_attempted', False)}`",
+              f"- compensation binding removed: `{receipt.get('compensation_binding_removed', False)}`",
+              f"- compensation upward parent absent: `{receipt.get('compensation_child_parent_removed', False)}`",
+              f"- compensation child closed: `{receipt.get('compensation_child_closed', False)}`",
+          ]
+          base = f"https://api.github.com/repos/{os.environ['REPOSITORY']}/issues/{os.environ['ISSUE_NUMBER']}"
+          headers = {
+              "Accept": "application/vnd.github+json",
+              "Authorization": f"Bearer {os.environ['GITHUB_TOKEN']}",
+              "X-GitHub-Api-Version": "2022-11-28",
+              "Content-Type": "application/json",
+          }
+          body = json.dumps({"body": "\n".join(lines)}).encode()
+          req = request.Request(base + "/comments", data=body, headers=headers, method="POST")
+          with request.urlopen(req, timeout=30) as response:
+              if response.status != 201:
+                  raise SystemExit(f"request_comment_failed:{response.status}")
+          if status in {
+              "KUUOS_GITHUB_MCP_SUB_ISSUE_BIDIRECTIONAL_CANARY_VERIFIED",
+              "KUUOS_GITHUB_MCP_SUB_ISSUE_BIDIRECTIONAL_CANARY_COMPENSATED",
+          }:
+              reason = "completed" if status.endswith("_VERIFIED") else "not_planned"
+              close_body = json.dumps({"state": "closed", "state_reason": reason}).encode()
+              req = request.Request(base, data=close_body, headers=headers, method="PATCH")
+              with request.urlopen(req, timeout=30) as response:
+                  if response.status != 200:
+                      raise SystemExit(f"request_close_failed:{response.status}")
+          PY
