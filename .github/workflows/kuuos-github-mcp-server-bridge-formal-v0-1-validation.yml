@@ -1,0 +1,89 @@
+name: KuuOS GitHub MCP Server Bridge Formal v0.1
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1.lean'
+      - 'lakefile.toml'
+      - 'lake-manifest.json'
+      - 'lean-toolchain'
+      - '.github/workflows/kuuos-github-mcp-server-bridge-formal-v0-1-validation.yml'
+  pull_request:
+    paths:
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1.lean'
+      - 'lakefile.toml'
+      - 'lake-manifest.json'
+      - 'lean-toolchain'
+      - '.github/workflows/kuuos-github-mcp-server-bridge-formal-v0-1-validation.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-github-mcp-v01-formal-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  validate-formal:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Prepare diagnostics
+        shell: bash
+        run: mkdir -p artifacts/diagnostics
+
+      - name: Set up pinned Lean, Mathlib, and caches
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: true
+          use-github-cache: true
+
+      - name: Strictly compile formal authority theorem
+        shell: bash
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KuuOSGitHubMCPServerBridgeV0_1 \
+            2>&1 | tee artifacts/diagnostics/lean-build.log
+
+      - name: Verify committed dependency manifest remains canonical
+        shell: bash
+        run: |
+          set -euo pipefail
+          git diff --exit-code -- lake-manifest.json \
+            2>&1 | tee artifacts/diagnostics/lake-manifest-diff.log
+
+      - name: Record run context
+        if: always()
+        shell: bash
+        run: |
+          set -euo pipefail
+          {
+            echo "workflow=${GITHUB_WORKFLOW}"
+            echo "run_id=${GITHUB_RUN_ID}"
+            echo "run_attempt=${GITHUB_RUN_ATTEMPT}"
+            echo "event=${GITHUB_EVENT_NAME}"
+            echo "ref=${GITHUB_REF}"
+            echo "sha=${GITHUB_SHA}"
+            lake --version || true
+            lean --version || true
+          } > artifacts/diagnostics/context.log
+
+      - name: Upload failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-github-mcp-server-bridge-formal-v0-1-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/diagnostics/
+          if-no-files-found: error
