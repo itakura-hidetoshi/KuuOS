@@ -8,12 +8,14 @@ on:
     paths:
       - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V0_3.lean'
       - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V0_4.lean'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V0_5.lean'
       - 'formal/KuuOSGitHubMCPServerBridgeV0_1.lean'
       - '.github/workflows/kuuos-github-mcp-live-write-verification-formal-v0-3-validation.yml'
   pull_request:
     paths:
       - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V0_3.lean'
       - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V0_4.lean'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V0_5.lean'
       - 'formal/KuuOSGitHubMCPServerBridgeV0_1.lean'
       - '.github/workflows/kuuos-github-mcp-live-write-verification-formal-v0-3-validation.yml'
 
@@ -46,7 +48,7 @@ jobs:
           use-mathlib-cache: true
           use-github-cache: true
 
-      - name: Strictly compile live write verification and canary authority
+      - name: Strictly compile live write, canary, and workflow dispatch authority
         shell: bash
         run: |
           set -euo pipefail
