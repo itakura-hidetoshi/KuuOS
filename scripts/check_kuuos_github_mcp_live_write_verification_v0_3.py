@@ -34,12 +34,14 @@ class DeterministicLiveTransport:
         return {
             "jsonrpc": "2.0",
             "id": 1,
-            "result": {"tools": [_tool("create_issue", False), _tool("issue_read", True)]},
+            "result": {"tools": [_tool("issue_write", False), _tool("issue_read", True)]},
         }
 
     def call_tool(self, name: str, arguments: Mapping[str, Any]) -> dict[str, Any]:
         self.calls.append({"name": name, "arguments": dict(arguments)})
-        if name == "create_issue":
+        if name == "issue_write":
+            if arguments.get("method") != "create":
+                return {"jsonrpc": "2.0", "id": 2, "error": {"message": "wrong method"}}
             payload = {
                 "id": "1001",
                 "url": "https://github.com/itakura-hidetoshi/KuuOS/issues/77",
@@ -82,14 +84,15 @@ def _plan() -> dict[str, object]:
             "image": "ghcr.io/github/github-mcp-server",
             "token_env": "GITHUB_PERSONAL_ACCESS_TOKEN",
             "toolsets": ["context", "repos", "issues"],
-            "tools": ["create_issue", "issue_read"],
+            "tools": ["issue_write", "issue_read"],
         },
         "transactions": [
             {
                 "write": {
                     "kind": "call_tool",
-                    "tool": "create_issue",
+                    "tool": "issue_write",
                     "arguments": {
+                        "method": "create",
                         "owner": "itakura-hidetoshi",
                         "repo": "KuuOS",
                         "title": TITLE,
@@ -149,7 +152,8 @@ def main() -> int:
         assert result.status == "KUUOS_GITHUB_MCP_LIVE_WRITE_VERIFIED", result.to_dict()
         assert result.verified_count == 1
         assert result.blocked_count == 0
-        assert [call["name"] for call in transport.calls] == ["create_issue", "issue_read"]
+        assert [call["name"] for call in transport.calls] == ["issue_write", "issue_read"]
+        assert transport.calls[0]["arguments"]["method"] == "create"
         assert transport.calls[1]["arguments"]["issue_number"] == 77
         receipt = json.loads(
             (root / "github_mcp_live_write_verification_receipt_v0_3.json").read_text()
