@@ -13,7 +13,8 @@
   "request_issue_number": 1,
   "request_issue_title": "[KuuOS MCP Issue Label Binding Canary v0.7]",
   "request_version_marker": "kuuos_github_mcp_issue_label_binding_canary_request_v0_7",
-  "label_prefix": "kuuos-mcp-binding-canary-",
+  "label_prefix": "kuuos-mcp-bind-",
+  "label_name_max_length": 50,
   "label_color": "0e8a16",
   "label_description_marker": "KUUOS_GITHUB_MCP_ISSUE_LABEL_BINDING_CANARY v0.7",
   "server": {
