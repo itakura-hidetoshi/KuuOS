@@ -18,8 +18,8 @@
   "transaction": {
     "write_path": "KuuOS GitHub MCP Server Bridge v0.2",
     "reobservation_path": "official MCP read-only verification tool in the same session",
-    "default_write_tool": "create_issue",
-    "default_verification_tool": "issue_read",
+    "default_write_tool": "issue_write(method=create)",
+    "default_verification_tool": "issue_read(method=get)",
     "closeout_status": "KUUOS_GITHUB_MCP_LIVE_WRITE_VERIFIED"
   },
   "surfaces": {
@@ -37,6 +37,7 @@
     "write_capable_standard_profile",
     "read_only_false_for_transaction_session",
     "official_server_only",
+    "stable_default_issue_write_tool",
     "explicit_write_and_verification_tool_allowlist",
     "write_authority_required",
     "post_write_reobservation_authority_required",
