@@ -36,9 +36,36 @@ def _validate_plan(plan: Mapping[str, Any], blockers: list[str]) -> None:
         blockers.append("label_name_exceeds_github_limit")
 
 
+def _normalize_plan_label_prefix(runtime_context: Mapping[str, Any]) -> bool:
+    """Upgrade the merged v0.7 workflow plan to the bounded v0.7.2 prefix."""
+    blockers: list[str] = []
+    root = _base._safe_root(runtime_context.get("runtime_root"), blockers)
+    if blockers:
+        return False
+    path = root / "github_mcp_issue_label_binding_canary_plan_v0_7.json"
+    plan = _base._read_json(path)
+    if plan.get("label_prefix") != LEGACY_LABEL_PREFIX:
+        return False
+    plan["label_prefix"] = LABEL_PREFIX
+    plan["label_name_max_length"] = GITHUB_LABEL_NAME_MAX_LENGTH
+    _base._write_json(path, plan)
+    return True
+
+
 # The base transaction resolves this helper through module globals at call time.
 # Installing the bounded validator preserves the transaction and compensation logic.
 _base._validate_plan = _validate_plan
-build_github_mcp_issue_label_binding_canary = (
-    _base.build_github_mcp_issue_label_binding_canary
-)
+
+
+def build_github_mcp_issue_label_binding_canary(
+    *,
+    runtime_context: Mapping[str, Any],
+    authority_packet: Mapping[str, Any],
+    transport: _base.MCPTransport | None = None,
+) -> GitHubMCPIssueLabelBindingCanaryResult:
+    _normalize_plan_label_prefix(runtime_context)
+    return _base.build_github_mcp_issue_label_binding_canary(
+        runtime_context=runtime_context,
+        authority_packet=authority_packet,
+        transport=transport,
+    )
