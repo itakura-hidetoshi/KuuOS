@@ -1,0 +1,36 @@
+{
+  "base_branch": "main",
+  "base_sha": "fb25c64fef34b6eeb38c97398c67465640b72261",
+  "child_title_prefix": "[KuuOS MCP Sub-Issue Child v0.9] ",
+  "child_version_marker": "kuuos_github_mcp_sub_issue_bidirectional_canary_child_v0_9",
+  "confirmation": "RUN_KUUOS_GITHUB_MCP_SUB_ISSUE_BIDIRECTIONAL_CANARY",
+  "execute_external_actions": true,
+  "lockdown_mode": true,
+  "mode": "mock",
+  "parent_issue_number": 1,
+  "read_only": false,
+  "repository_full_name": "itakura-hidetoshi/KuuOS",
+  "request_issue_title": "[KuuOS MCP Sub-Issue Bidirectional Canary v0.9]",
+  "request_version_marker": "kuuos_github_mcp_sub_issue_bidirectional_canary_request_v0_9",
+  "require_child_parent_absent_after_remove": true,
+  "require_child_parent_exact_when_attached": true,
+  "require_child_parent_preflight_absent": true,
+  "server": {
+    "image": "ghcr.io/github/github-mcp-server@sha256:2b0c48b070f61e9d3969269ead600f62d00fb237b60ac849ef3d166ee7de9ad3",
+    "kind": "official_github_mcp_server",
+    "launcher": "docker",
+    "token_env": "GITHUB_PERSONAL_ACCESS_TOKEN",
+    "tools": [
+      "issue_write",
+      "issue_read",
+      "sub_issue_write"
+    ],
+    "toolsets": [
+      "issues"
+    ]
+  },
+  "transaction_nonce": "subissue-v09-example-001",
+  "upward_read_method": "get_parent",
+  "version": "kuuos_github_mcp_sub_issue_bidirectional_canary_plan_v0_9",
+  "write_capable": true
+}
