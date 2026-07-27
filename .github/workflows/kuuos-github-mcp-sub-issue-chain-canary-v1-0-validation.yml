@@ -14,6 +14,7 @@ on:
       - 'docs/KUUOS_GITHUB_MCP_SUB_ISSUE_CHAIN_CANARY_v1_0.md'
       - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V1_0.lean'
       - '.github/workflows/kuuos-github-mcp-sub-issue-chain-canary-v1-0-validation.yml'
+      - '.github/workflows/kuuos-github-mcp-sub-issue-chain-canary-v1-0.yml'
   pull_request:
     paths:
       - 'runtime/kuuos_github_mcp_sub_issue_chain_canary_v1_0.py'
@@ -25,6 +26,7 @@ on:
       - 'docs/KUUOS_GITHUB_MCP_SUB_ISSUE_CHAIN_CANARY_v1_0.md'
       - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V1_0.lean'
       - '.github/workflows/kuuos-github-mcp-sub-issue-chain-canary-v1-0-validation.yml'
+      - '.github/workflows/kuuos-github-mcp-sub-issue-chain-canary-v1-0.yml'
 
 permissions:
   contents: read
