@@ -190,10 +190,7 @@ def select(
     known = registry.get("known_paths", [])
     control = registry.get("full_audit_paths", [])
     unknown_paths = [path for path in changed_paths if not matches(path, known)]
-    trigger_paths = [
-        path for path in changed_paths
-        if path.startswith(".github/workflows/") or matches(path, control)
-    ]
+    trigger_paths = [path for path in changed_paths if matches(path, control)]
     unmapped_paths = [
         path for path in changed_paths
         if not any(matches(path, values) for values in patterns.values())
