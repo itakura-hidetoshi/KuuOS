@@ -22,15 +22,15 @@ _base_validate_plan = _base._validate_plan
 
 
 def _validate_plan(plan: Mapping[str, Any], blockers: list[str]) -> None:
-    """Retain the v0.7 contract while enforcing GitHub's label-name bound."""
+    """Retain v0.7 compatibility while enforcing GitHub's label-name bound."""
     normalized = dict(plan)
     prefix = str(plan.get("label_prefix", ""))
     if prefix == LABEL_PREFIX:
         normalized["label_prefix"] = LEGACY_LABEL_PREFIX
     _base_validate_plan(normalized, blockers)
 
-    if prefix != LABEL_PREFIX:
-        blockers.append("label_prefix_not_v0_7_2_bounded")
+    if prefix not in {LABEL_PREFIX, LEGACY_LABEL_PREFIX}:
+        blockers.append("label_prefix_not_allowlisted")
     nonce = str(plan.get("transaction_nonce", ""))
     if len(prefix + nonce) > GITHUB_LABEL_NAME_MAX_LENGTH:
         blockers.append("label_name_exceeds_github_limit")
