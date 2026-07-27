@@ -2,10 +2,10 @@
 from __future__ import annotations
 import argparse,json,os,sys
 from pathlib import Path
-from runtime.kuuos_github_mcp_sub_issue_chain_reobservation_v1_0_1 import CONFIRMATION,VERIFIED,build_github_mcp_sub_issue_chain_canary
+from runtime.kuuos_github_mcp_sub_issue_chain_reobservation_v1_0_2 import CONFIRMATION,VERIFIED,build_github_mcp_sub_issue_chain_canary
 
 def main():
- p=argparse.ArgumentParser(description="Run the reversible KuuOS GitHub MCP three-level sub-issue chain canary v1.0 with bounded parent reobservation v1.0.1.")
+ p=argparse.ArgumentParser(description="Run the reversible KuuOS GitHub MCP three-level sub-issue chain canary v1.0 with bounded parent reobservation v1.0.2.")
  p.add_argument("runtime_root",type=Path);p.add_argument("--confirmation",required=True);p.add_argument("--repository",required=True);p.add_argument("--base-sha",required=True);p.add_argument("--transaction-nonce",required=True);p.add_argument("--root-issue-number",type=int,required=True);p.add_argument("--resolved-image-digest",default="");p.add_argument("--execute-external-actions",action="store_true")
  a=p.parse_args();root=a.runtime_root.expanduser().resolve();ap=root/"github_mcp_sub_issue_chain_canary_authority_v1_0.json"
  if not ap.is_file():print(json.dumps({"status":"authority_packet_missing"},sort_keys=True));return 2
