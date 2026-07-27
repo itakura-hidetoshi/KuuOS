@@ -1,0 +1,42 @@
+{
+  "plan": {
+    "version": "kuuos_github_mcp_label_canary_plan_v0_6",
+    "mode": "mock",
+    "repository_full_name": "itakura-hidetoshi/KuuOS",
+    "base_branch": "main",
+    "base_sha": "45ace8b96a3e57a5f01910837ee14083fb784170",
+    "write_capable": true,
+    "read_only": false,
+    "lockdown_mode": true,
+    "execute_external_actions": true,
+    "confirmation": "RUN_KUUOS_GITHUB_MCP_LABEL_CANARY",
+    "label_nonce": "label-v06-example-001",
+    "label_prefix": "kuuos-mcp-canary-",
+    "label_color": "5319e7",
+    "description_marker": "KUUOS_GITHUB_MCP_LABEL_CANARY v0.6",
+    "server": {
+      "kind": "official_github_mcp_server",
+      "launcher": "docker",
+      "image": "ghcr.io/github/github-mcp-server@sha256:2b0c48b070f61e9d3969269ead600f62d00fb237b60ac849ef3d166ee7de9ad3",
+      "token_env": "GITHUB_PERSONAL_ACCESS_TOKEN",
+      "toolsets": [
+        "labels"
+      ],
+      "tools": [
+        "label_write",
+        "get_label"
+      ]
+    }
+  },
+  "authority_packet": {
+    "authority_status": "KUUOS_GITHUB_MCP_LABEL_CANARY_AUTHORITY_READY",
+    "plan_read_allowed": true,
+    "tool_discovery_allowed": true,
+    "external_action_allowed": true,
+    "mcp_write_tool_call_allowed": true,
+    "post_write_reobservation_allowed": true,
+    "compensating_delete_allowed": true,
+    "receipt_write_allowed": true,
+    "audit_append_allowed": true
+  }
+}
