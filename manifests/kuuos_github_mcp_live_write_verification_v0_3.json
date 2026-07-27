@@ -1,0 +1,53 @@
+{
+  "schema": "kuuos.github_mcp_live_write_verification.manifest.v0.3",
+  "version": "0.3.0",
+  "status": "integration_candidate",
+  "repository_full_name": "itakura-hidetoshi/KuuOS",
+  "exact_base": {
+    "branch": "main",
+    "sha": "927680b2422cb523c8244b7fa527aea8126e08b4"
+  },
+  "official_server": {
+    "repository": "github/github-mcp-server",
+    "local_image_prefix": "ghcr.io/github/github-mcp-server",
+    "transport": "stdio",
+    "protocol_version": "2025-11-25",
+    "write_tools_enabled": true,
+    "read_only": false
+  },
+  "transaction": {
+    "write_path": "KuuOS GitHub MCP Server Bridge v0.2",
+    "reobservation_path": "official MCP read-only verification tool in the same session",
+    "default_write_tool": "issue_write(method=create)",
+    "default_verification_tool": "issue_read(method=get)",
+    "closeout_status": "KUUOS_GITHUB_MCP_LIVE_WRITE_VERIFIED"
+  },
+  "surfaces": {
+    "runtime": "runtime/kuuos_github_mcp_live_write_verification_v0_3.py",
+    "runner": "scripts/run_kuuos_github_mcp_live_write_verification_v0_3.py",
+    "checker": "scripts/check_kuuos_github_mcp_live_write_verification_v0_3.py",
+    "tests": "tests/test_kuuos_github_mcp_live_write_verification_v0_3.py",
+    "example": "examples/kuuos_github_mcp_live_write_verification_v0_3.json",
+    "documentation": "docs/KUUOS_GITHUB_MCP_LIVE_WRITE_VERIFICATION_v0_3.md",
+    "formal": "formal/KuuOSGitHubMCPServerBridgeV0_1/V0_3.lean",
+    "runtime_workflow": ".github/workflows/kuuos-github-mcp-live-write-verification-v0-3-validation.yml",
+    "formal_workflow": ".github/workflows/kuuos-github-mcp-live-write-verification-formal-v0-3-validation.yml"
+  },
+  "invariants": [
+    "write_capable_standard_profile",
+    "read_only_false_for_transaction_session",
+    "official_server_only",
+    "stable_default_issue_write_tool",
+    "explicit_write_and_verification_tool_allowlist",
+    "write_authority_required",
+    "post_write_reobservation_authority_required",
+    "verification_tool_must_be_read_only",
+    "write_and_verification_repository_scope_exact",
+    "base_sha_exact_for_write",
+    "write_result_url_to_issue_number_binding",
+    "observed_effect_assertions_required",
+    "write_response_alone_never_closes_transaction",
+    "token_never_serialized_to_receipt"
+  ],
+  "authority_boundary": "write applied is not live closeout until independent MCP reobservation matches the declared effect"
+}

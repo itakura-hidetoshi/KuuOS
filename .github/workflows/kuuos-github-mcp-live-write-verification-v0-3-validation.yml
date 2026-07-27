@@ -1,0 +1,91 @@
+name: KuuOS GitHub MCP Live Write Verification v0.3
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+    paths:
+      - 'runtime/kuuos_github_mcp_live_write_verification_v0_3.py'
+      - 'scripts/run_kuuos_github_mcp_live_write_verification_v0_3.py'
+      - 'scripts/check_kuuos_github_mcp_live_write_verification_v0_3.py'
+      - 'tests/test_kuuos_github_mcp_live_write_verification_v0_3.py'
+      - 'examples/kuuos_github_mcp_live_write_verification_v0_3.json'
+      - 'manifests/kuuos_github_mcp_live_write_verification_v0_3.json'
+      - 'docs/KUUOS_GITHUB_MCP_LIVE_WRITE_VERIFICATION_v0_3.md'
+      - '.github/workflows/kuuos-github-mcp-live-write-verification-v0-3-validation.yml'
+  pull_request:
+    paths:
+      - 'runtime/kuuos_github_mcp_live_write_verification_v0_3.py'
+      - 'scripts/run_kuuos_github_mcp_live_write_verification_v0_3.py'
+      - 'scripts/check_kuuos_github_mcp_live_write_verification_v0_3.py'
+      - 'tests/test_kuuos_github_mcp_live_write_verification_v0_3.py'
+      - 'examples/kuuos_github_mcp_live_write_verification_v0_3.json'
+      - 'manifests/kuuos_github_mcp_live_write_verification_v0_3.json'
+      - 'docs/KUUOS_GITHUB_MCP_LIVE_WRITE_VERIFICATION_v0_3.md'
+      - '.github/workflows/kuuos-github-mcp-live-write-verification-v0-3-validation.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-github-mcp-live-v03-runtime-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+
+jobs:
+  validate-runtime:
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Validate live write verification surfaces
+        shell: bash
+        env:
+          PYTHONPATH: .
+          PYTHONUNBUFFERED: '1'
+          PYTHONWARNINGS: error::ResourceWarning
+        run: |
+          set -euo pipefail
+          mkdir -p artifacts/diagnostics
+          python3 -m compileall -q \
+            runtime/kuuos_github_mcp_live_write_verification_v0_3.py \
+            scripts/run_kuuos_github_mcp_live_write_verification_v0_3.py \
+            scripts/check_kuuos_github_mcp_live_write_verification_v0_3.py \
+            tests/test_kuuos_github_mcp_live_write_verification_v0_3.py \
+            2>&1 | tee artifacts/diagnostics/python-compile.log
+          python3 -m json.tool \
+            examples/kuuos_github_mcp_live_write_verification_v0_3.json > /dev/null
+          python3 -m json.tool \
+            manifests/kuuos_github_mcp_live_write_verification_v0_3.json > /dev/null
+          python3 scripts/check_kuuos_github_mcp_live_write_verification_v0_3.py \
+            2>&1 | tee artifacts/diagnostics/runtime-check.log
+          python3 -m unittest -v \
+            tests.test_kuuos_github_mcp_live_write_verification_v0_3 \
+            2>&1 | tee -a artifacts/diagnostics/runtime-check.log
+          grep -Fq 'KUUOS_GITHUB_MCP_LIVE_WRITE_VERIFIED' \
+            runtime/kuuos_github_mcp_live_write_verification_v0_3.py
+          grep -Fq 'verification_tool_must_be_read_only' \
+            runtime/kuuos_github_mcp_live_write_verification_v0_3.py
+          grep -Fq '$issue_number_from_write_url' \
+            examples/kuuos_github_mcp_live_write_verification_v0_3.json
+          grep -Fq '"tool": "issue_write"' \
+            examples/kuuos_github_mcp_live_write_verification_v0_3.json
+          grep -Fq '"method": "create"' \
+            examples/kuuos_github_mcp_live_write_verification_v0_3.json
+          grep -Fq 'read_only": false' \
+            examples/kuuos_github_mcp_live_write_verification_v0_3.json
+
+      - name: Upload failure diagnostics
+        if: failure()
+        uses: actions/upload-artifact@v4
+        with:
+          name: kuuos-github-mcp-live-v0-3-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/diagnostics/
+          if-no-files-found: error
