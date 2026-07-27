@@ -6,9 +6,11 @@ on:
     branches: [main]
     paths:
       - 'runtime/kuuos_github_mcp_sub_issue_chain_canary_v1_0.py'
+      - 'runtime/kuuos_github_mcp_sub_issue_chain_reobservation_v1_0_1.py'
       - 'scripts/run_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py'
       - 'scripts/check_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py'
       - 'tests/test_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py'
+      - 'tests/test_kuuos_github_mcp_sub_issue_chain_reobservation_v1_0_1.py'
       - 'examples/kuuos_github_mcp_sub_issue_chain_canary_v1_0.json'
       - 'manifests/kuuos_github_mcp_sub_issue_chain_canary_v1_0.json'
       - 'docs/KUUOS_GITHUB_MCP_SUB_ISSUE_CHAIN_CANARY_v1_0.md'
@@ -18,9 +20,11 @@ on:
   pull_request:
     paths:
       - 'runtime/kuuos_github_mcp_sub_issue_chain_canary_v1_0.py'
+      - 'runtime/kuuos_github_mcp_sub_issue_chain_reobservation_v1_0_1.py'
       - 'scripts/run_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py'
       - 'scripts/check_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py'
       - 'tests/test_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py'
+      - 'tests/test_kuuos_github_mcp_sub_issue_chain_reobservation_v1_0_1.py'
       - 'examples/kuuos_github_mcp_sub_issue_chain_canary_v1_0.json'
       - 'manifests/kuuos_github_mcp_sub_issue_chain_canary_v1_0.json'
       - 'docs/KUUOS_GITHUB_MCP_SUB_ISSUE_CHAIN_CANARY_v1_0.md'
@@ -46,8 +50,8 @@ jobs:
           PYTHONWARNINGS: error::ResourceWarning
         run: |
           set -euo pipefail
-          python3 -m compileall -q runtime/kuuos_github_mcp_sub_issue_chain_canary_v1_0.py scripts/run_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py scripts/check_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py tests/test_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py
+          python3 -m compileall -q runtime/kuuos_github_mcp_sub_issue_chain_canary_v1_0.py runtime/kuuos_github_mcp_sub_issue_chain_reobservation_v1_0_1.py scripts/run_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py scripts/check_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py tests/test_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py tests/test_kuuos_github_mcp_sub_issue_chain_reobservation_v1_0_1.py
           python3 -m json.tool examples/kuuos_github_mcp_sub_issue_chain_canary_v1_0.json >/dev/null
           python3 -m json.tool manifests/kuuos_github_mcp_sub_issue_chain_canary_v1_0.json >/dev/null
           python3 scripts/check_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py
-          python3 -m unittest -v tests.test_kuuos_github_mcp_sub_issue_chain_canary_v1_0
+          python3 -m unittest -v tests.test_kuuos_github_mcp_sub_issue_chain_canary_v1_0 tests.test_kuuos_github_mcp_sub_issue_chain_reobservation_v1_0_1
