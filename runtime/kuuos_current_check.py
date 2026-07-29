@@ -9,41 +9,48 @@ import runtime.kuuos_current_check_v0_95 as _base
 
 # Canonical public-surface metadata.
 #
-# The repository/PlanOS/DecisionOS/MemoryOS frontiers remain independently
-# versioned.  CodeAI is an additive application profile.  The current main
-# frontier records the latest integrated functional PR, while the draft fields
-# report the active, non-authoritative successor separately.
-_base.CURRENT_BASELINE_DATE = "2026-07-23 JST"
+# Subsystem versions remain independent. The moving main branch may advance
+# after documentation or governance synchronization; the functional milestone
+# below remains bound to the latest integrated functional PR represented here.
+_base.CURRENT_BASELINE_DATE = "2026-07-29 JST"
 _base.CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 _base.CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
 _base.CURRENT_PLANOS_FRONTIER = "PlanOS v1.23"
 _base.CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
 _base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v1.00"
-_base.CURRENT_CODEAI_FRONTIER = (
-    "CodeAI Baseline-versus-CodeAI and Ablation Comparison v0.1"
+_base.CURRENT_QI_ARCHITECTURE_FRONTIER = (
+    "Qi Process Tensor Local-Real Yin-Yang Geometry v2.4"
 )
-_base.CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
-_base.CURRENT_MAIN_FRONTIER = _base.CURRENT_CODEAI_FRONTIER
-_base.CURRENT_DRAFT_FRONTIER = (
+_base.CURRENT_CODEAI_FRONTIER = (
     "CodeAI Frozen Cohort Prediction-Pack and Execution-Shard Contract v0.1"
 )
-_base.CURRENT_DRAFT_PR = 1342
-_base.CURRENT_DRAFT_BRANCH = (
-    "codeai/frozen-cohort-prediction-pack-execution-shard-contract-v0-1"
+_base.CURRENT_GITHUB_MCP_FRONTIER = (
+    "KuuOS GitHub MCP Sub-Issue Chain Parent Cross-Observation v1.1"
 )
-_base.CURRENT_DRAFT_BASE_SHA = "083ee7ef65d53bd1a8e231c73b82e4946dd1eaf7"
-_base.CURRENT_DRAFT_HEAD_SHA = "daa88b75be2cdb66ce706fcf08be8723a34594e7"
+_base.CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
+_base.CURRENT_MAIN_FRONTIER = _base.CURRENT_GITHUB_MCP_FRONTIER
+
+# No current-frontier successor Draft is designated at this baseline.
+# Historical open PRs are not promoted into the current frontier implicitly.
+_base.CURRENT_DRAFT_FRONTIER = None
+_base.CURRENT_DRAFT_PR = None
+_base.CURRENT_DRAFT_BRANCH = None
+_base.CURRENT_DRAFT_BASE_SHA = None
+_base.CURRENT_DRAFT_HEAD_SHA = None
+
 _base.CURRENT_FUNCTIONAL_MILESTONE_COMMIT = (
-    "083ee7ef65d53bd1a8e231c73b82e4946dd1eaf7"
+    "892621fc91e3ea5f41e5da7a683682063b862aaf"
 )
-_base.CURRENT_LATEST_FUNCTIONAL_PR = 1341
+_base.CURRENT_LATEST_FUNCTIONAL_PR = 1382
 _base.CURRENT_SUPPORTED_PROFILES = (
     "all",
     "repository",
+    "architecture",
     "planos",
     "decisionos",
     "memoryos",
     "codeai",
+    "github_mcp",
 )
 _base.CURRENT_PUBLIC_SURFACES = (
     "README.md",
@@ -51,11 +58,16 @@ _base.CURRENT_PUBLIC_SURFACES = (
     "runtime/kuuos_current_check.py",
 )
 _base.CURRENT_FRONTIER_ARTIFACT = (
-    "manifests/kuuos_codeai_baseline_versus_codeai_"
-    "ablation_comparison_v0_1.json"
+    "manifests/kuuos_github_mcp_sub_issue_chain_canary_v1_0.json"
 )
-_base.CURRENT_FRONTIER_MODE = "integrated_active_frontiers_with_codeai"
-_base.CURRENT_FRONTIER_BOUNDARY = "validation_only"
+_base.CURRENT_FRONTIER_ADAPTER = (
+    "runtime/kuuos_github_mcp_sub_issue_chain_"
+    "parent_cross_observation_v1_1.py"
+)
+_base.CURRENT_FRONTIER_MODE = (
+    "integrated_repository_qi_plan_decision_memory_codeai_github_mcp"
+)
+_base.CURRENT_FRONTIER_BOUNDARY = "current_root_validation_only"
 
 _NEW_MEMORYOS_STEPS = (
     (
@@ -96,12 +108,35 @@ _base.MEMORYOS_ACTIVE_FRONTIER_STEPS = tuple(
     for step_id, target in _base.MEMORYOS_ACTIVE_FRONTIER_TARGETS
 )
 
+_base.QI_ARCHITECTURE_CURRENT_FRONTIER_STEPS = (
+    _base._script_step(
+        "architecture-v2-4-qi-process-tensor-local-real-yinyang-projection",
+        "scripts/check_qi_process_tensor_local_real_yinyang_geometry_v2_4.py",
+        "Validate the deterministic Qi/Yin-Yang v2.4 architecture projection.",
+    ),
+    _base.CurrentRootStep(
+        "architecture-v2-4-qi-process-tensor-local-real-yinyang-tests",
+        "unittest",
+        "tests.test_qi_process_tensor_local_real_yinyang_geometry_v2_4",
+        True,
+        "Validate local-real transport, conversion, holding, and boundaries.",
+    ),
+)
+
 _base.CODEAI_CURRENT_FRONTIER_STEPS = (
+    _base.CurrentRootStep(
+        "codeai-v0-1-frozen-cohort-prediction-shard-contract-tests",
+        "unittest",
+        "tests.test_kuuos_codeai_frozen_cohort_prediction_pack_"
+        "execution_shard_contract_v0_1",
+        True,
+        "Validate the integrated PR #1342 contract and authority boundaries.",
+    ),
     _base._script_step(
         "codeai-v0-1-baseline-ablation-comparison-projection",
         "scripts/check_codeai_baseline_versus_codeai_"
         "ablation_comparison_v0_1.py",
-        "Validate the deterministic PR #1341 comparison projection.",
+        "Revalidate the deterministic PR #1341 comparison projection.",
     ),
     _base.CurrentRootStep(
         "codeai-v0-1-baseline-ablation-comparison-tests",
@@ -109,7 +144,7 @@ _base.CODEAI_CURRENT_FRONTIER_STEPS = (
         "tests.test_kuuos_codeai_baseline_versus_codeai_"
         "ablation_comparison_v0_1",
         True,
-        "Validate the current comparison contract and boundary routes.",
+        "Revalidate comparison metrics, missingness, and boundary routes.",
     ),
     _base.CurrentRootStep(
         "codeai-v0-1-external-result-ingestion-regression",
@@ -143,12 +178,37 @@ _base.CODEAI_CURRENT_FRONTIER_STEPS = (
     ),
 )
 
+_base.GITHUB_MCP_CURRENT_FRONTIER_STEPS = (
+    _base._script_step(
+        "github-mcp-v1-0-sub-issue-chain-projection",
+        "scripts/check_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py",
+        "Validate the deterministic three-level reversible chain projection.",
+    ),
+    _base.CurrentRootStep(
+        "github-mcp-v1-1-parent-cross-observation-tests",
+        "unittest",
+        "tests.test_kuuos_github_mcp_sub_issue_chain_"
+        "parent_cross_observation_v1_1",
+        True,
+        "Validate bounded direct reads and exact official-MCP cross-observation.",
+    ),
+    _base.CurrentRootStep(
+        "github-mcp-v1-0-sub-issue-chain-regression",
+        "unittest",
+        "tests.test_kuuos_github_mcp_sub_issue_chain_canary_v1_0",
+        True,
+        "Revalidate the complete chain transaction and compensation boundary.",
+    ),
+)
+
 _base.CURRENT_ROOT_STEPS = (
     _base.REPOSITORY_LINEAGE_STEPS
+    + _base.QI_ARCHITECTURE_CURRENT_FRONTIER_STEPS
     + _base.PLANOS_ACTIVE_FRONTIER_STEPS
     + _base.DECISIONOS_ACTIVE_FRONTIER_STEPS
     + _base.MEMORYOS_ACTIVE_FRONTIER_STEPS
     + _base.CODEAI_CURRENT_FRONTIER_STEPS
+    + _base.GITHUB_MCP_CURRENT_FRONTIER_STEPS
 )
 
 _original_current_runtime_root_summary = _base.current_runtime_root_summary
@@ -161,10 +221,12 @@ def current_runtime_root_summary() -> dict[str, object]:
             "baseline_date": _base.CURRENT_BASELINE_DATE,
             "repository_root_sequence": _base.CURRENT_ROOT_SEQUENCE_FRONTIER,
             "repository_frontier": _base.CURRENT_REPOSITORY_FRONTIER,
+            "qi_architecture_frontier": _base.CURRENT_QI_ARCHITECTURE_FRONTIER,
             "planos_frontier": _base.CURRENT_PLANOS_FRONTIER,
             "decisionos_frontier": _base.CURRENT_DECISIONOS_FRONTIER,
             "memoryos_frontier": _base.CURRENT_MEMORYOS_FRONTIER,
             "codeai_frontier": _base.CURRENT_CODEAI_FRONTIER,
+            "github_mcp_frontier": _base.CURRENT_GITHUB_MCP_FRONTIER,
             "world_dependency": _base.CURRENT_WORLD_DEPENDENCY,
             "main_frontier": _base.CURRENT_MAIN_FRONTIER,
             "draft_frontier": _base.CURRENT_DRAFT_FRONTIER,
@@ -179,11 +241,20 @@ def current_runtime_root_summary() -> dict[str, object]:
             "supported_profiles": list(_base.CURRENT_SUPPORTED_PROFILES),
             "public_surfaces": list(_base.CURRENT_PUBLIC_SURFACES),
             "current_frontier_artifact": _base.CURRENT_FRONTIER_ARTIFACT,
+            "current_frontier_adapter": _base.CURRENT_FRONTIER_ADAPTER,
             "repository_step_count": len(_base.REPOSITORY_LINEAGE_STEPS),
+            "architecture_step_count": len(
+                _base.QI_ARCHITECTURE_CURRENT_FRONTIER_STEPS
+            ),
             "planos_step_count": len(_base.PLANOS_ACTIVE_FRONTIER_STEPS),
-            "decisionos_step_count": len(_base.DECISIONOS_ACTIVE_FRONTIER_STEPS),
+            "decisionos_step_count": len(
+                _base.DECISIONOS_ACTIVE_FRONTIER_STEPS
+            ),
             "memoryos_step_count": len(_base.MEMORYOS_ACTIVE_FRONTIER_STEPS),
             "codeai_step_count": len(_base.CODEAI_CURRENT_FRONTIER_STEPS),
+            "github_mcp_step_count": len(
+                _base.GITHUB_MCP_CURRENT_FRONTIER_STEPS
+            ),
             "total_step_count": len(_base.CURRENT_ROOT_STEPS),
             "frontier_mode": _base.CURRENT_FRONTIER_MODE,
             "frontier_boundary": _base.CURRENT_FRONTIER_BOUNDARY,
@@ -195,10 +266,12 @@ def current_runtime_root_summary() -> dict[str, object]:
 def _steps_for_profile(profile: str) -> tuple[_base.CurrentRootStep, ...]:
     profiles = {
         "repository": _base.REPOSITORY_LINEAGE_STEPS,
+        "architecture": _base.QI_ARCHITECTURE_CURRENT_FRONTIER_STEPS,
         "planos": _base.PLANOS_ACTIVE_FRONTIER_STEPS,
         "decisionos": _base.DECISIONOS_ACTIVE_FRONTIER_STEPS,
         "memoryos": _base.MEMORYOS_ACTIVE_FRONTIER_STEPS,
         "codeai": _base.CODEAI_CURRENT_FRONTIER_STEPS,
+        "github_mcp": _base.GITHUB_MCP_CURRENT_FRONTIER_STEPS,
         "all": _base.CURRENT_ROOT_STEPS,
     }
     try:
@@ -238,10 +311,12 @@ def run_current(profile: str = "all") -> int:
     print(
         "\nPASS: KuuOS integrated current root "
         f"({_base.CURRENT_REPOSITORY_FRONTIER}; "
+        f"{_base.CURRENT_QI_ARCHITECTURE_FRONTIER}; "
         f"{_base.CURRENT_PLANOS_FRONTIER}; "
         f"{_base.CURRENT_DECISIONOS_FRONTIER}; "
         f"{_base.CURRENT_MEMORYOS_FRONTIER}; "
-        f"{_base.CURRENT_CODEAI_FRONTIER})"
+        f"{_base.CURRENT_CODEAI_FRONTIER}; "
+        f"{_base.CURRENT_GITHUB_MCP_FRONTIER})"
     )
     return 0
 
