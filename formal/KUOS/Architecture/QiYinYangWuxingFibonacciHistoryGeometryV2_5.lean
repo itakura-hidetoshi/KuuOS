@@ -65,7 +65,7 @@ def advanceStateN : Nat → WuxingFibonacciState → WuxingFibonacciState
 
 @[simp] theorem phase_returns_after_five (state : WuxingFibonacciState) :
     (advanceStateN 5 state).phase = state.phase := by
-  change state.phase + (5 : ZMod 5) = state.phase
+  change state.phase + 1 + 1 + 1 + 1 + 1 = state.phase
   norm_num
 
 /-- The phase returns after five steps while the unit history becomes `3 + 5 τ`. -/
@@ -74,7 +74,8 @@ theorem five_phase_base_returns_history_advances (phase : FivePhase) :
       ⟨phase, ⟨3, 5⟩⟩ := by
   apply WuxingFibonacciState.ext
   · exact phase_returns_after_five ⟨phase, unitHistory⟩
-  · exact unit_history_after_five
+  · change advanceHistoryN 5 unitHistory = ⟨3, 5⟩
+    exact unit_history_after_five
 
 /-- Evaluate a formal Fibonacci history at a real number `x`. -/
 def historyWeight (x : ℝ) (history : FibonacciHistory) : ℝ :=
