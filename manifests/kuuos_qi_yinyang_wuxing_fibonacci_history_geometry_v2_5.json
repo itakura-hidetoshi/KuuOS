@@ -1,0 +1,46 @@
+{
+  "schema_version": "kuuos.package_manifest.v1",
+  "package_id": "kuuos_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5",
+  "title": "KuuOS Qi Yin-Yang Wuxing Fibonacci History Geometry v2.5",
+  "version": "2.5",
+  "status": "DRAFT_INTEGRATION_CANDIDATE",
+  "predecessor": "kuuos_qi_process_tensor_local_real_yinyang_geometry_v2_4",
+  "surfaces": {
+    "documentation": "docs/KUUOS_QI_YINYANG_WUXING_FIBONACCI_HISTORY_GEOMETRY_v2_5.md",
+    "runtime": "runtime/kuuos_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5.py",
+    "checker": "scripts/check_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5.py",
+    "tests": "tests/test_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5.py",
+    "formal_module": "formal/KUOS/Architecture/QiYinYangWuxingFibonacciHistoryGeometryV2_5.lean",
+    "formal_root": "formal/KuuOSQiYinYangWuxingFibonacciHistoryGeometryV2_5.lean",
+    "workflow": ".github/workflows/qi-yinyang-wuxing-fibonacci-history-v2-5-validation.yml"
+  },
+  "mathematical_core": {
+    "five_phase_base": "s^5 = 1",
+    "fibonacci_fusion": "tau^2 = 1 + tau",
+    "combined_generator": "X = s tensor tau",
+    "five_step_closure": "X^5 = 1 tensor (3 + 5 tau)",
+    "golden_relation": "phi^2 = phi + 1",
+    "fifth_power": "phi^5 = 3 + 5 phi",
+    "history_entropy_rate": "log(phi)"
+  },
+  "required_boundaries": [
+    "five phases are relational coordinates, not five substances",
+    "phase return is not state return",
+    "Fibonacci history multiplicity is not Qi quantity",
+    "classical Wuxing is not historically identified with SU(2)_3",
+    "no physical Fibonacci anyon realization is claimed",
+    "golden ratio is not a clinical threshold",
+    "pentagon coherence is not identified with the five-phase cycle",
+    "runtime receipt is not WORLD adoption",
+    "validation is not truth",
+    "selection is not execution"
+  ],
+  "authority": {
+    "execution": false,
+    "truth": false,
+    "clinical": false,
+    "theorem_acceptance": false,
+    "memory_overwrite": false,
+    "exact_world_update": false
+  }
+}
