@@ -17,6 +17,10 @@ namespace KUOS.Architecture
 
 abbrev FivePhase := ZMod 5
 
+/-- The modulus itself vanishes in the five-phase coordinate ring. -/
+@[simp] theorem fivePhase_natCast_five : (5 : FivePhase) = 0 := by
+  native_decide
+
 structure FibonacciHistory where
   resolved : Nat
   active : Nat
@@ -69,23 +73,25 @@ def advanceStateN : Nat → WuxingFibonacciState → WuxingFibonacciState
   calc
     state.phase + 1 + 1 + 1 + 1 + 1 =
         state.phase + (5 : FivePhase) := by ring
-    _ = state.phase + 0 := by norm_num
+    _ = state.phase + 0 := by rw [fivePhase_natCast_five]
     _ = state.phase := by simp
 
 /-- The phase returns after five steps while the unit history becomes `3 + 5 τ`. -/
 theorem five_phase_base_returns_history_advances (phase : FivePhase) :
     advanceStateN 5 ⟨phase, unitHistory⟩ =
       ⟨phase, ⟨3, 5⟩⟩ := by
-  have hphase : phase + 1 + 1 + 1 + 1 + 1 = phase := by
-    calc
-      phase + 1 + 1 + 1 + 1 + 1 = phase + (5 : FivePhase) := by ring
-      _ = phase + 0 := by norm_num
-      _ = phase := by simp
   change
     WuxingFibonacciState.mk
         (phase + 1 + 1 + 1 + 1 + 1)
         (advanceHistoryN 5 unitHistory) =
       WuxingFibonacciState.mk phase ⟨3, 5⟩
+  have hphase :
+      phase + 1 + 1 + 1 + 1 + 1 = phase := by
+    calc
+      phase + 1 + 1 + 1 + 1 + 1 =
+          phase + (5 : FivePhase) := by ring
+      _ = phase + 0 := by rw [fivePhase_natCast_five]
+      _ = phase := by simp
   rw [hphase, unit_history_after_five]
 
 /-- Evaluate a formal Fibonacci history at a real number `x`. -/
