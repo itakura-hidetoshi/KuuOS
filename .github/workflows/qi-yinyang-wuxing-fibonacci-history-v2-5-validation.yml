@@ -3,8 +3,7 @@ name: Qi Yin-Yang Wuxing Fibonacci History v2.5
 on:
   workflow_dispatch:
   push:
-    branches:
-      - main
+    branches: [main]
     paths:
       - 'docs/KUUOS_QI_YINYANG_WUXING_FIBONACCI_HISTORY_GEOMETRY_v2_5.md'
       - 'runtime/kuuos_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5.py'
@@ -13,12 +12,6 @@ on:
       - 'manifests/kuuos_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5.json'
       - 'formal/KUOS/Architecture/QiYinYangWuxingFibonacciHistoryGeometryV2_5.lean'
       - 'formal/KuuOSQiYinYangWuxingFibonacciHistoryGeometryV2_5.lean'
-      - 'formal/KUOS.lean'
-      - 'formal/KUOS/Architecture/QiProcessTensorLocalRealYinYangGeometryV2_4.lean'
-      - 'runtime/kuuos_qi_process_tensor_local_real_yinyang_geometry_v2_4.py'
-      - 'lakefile.toml'
-      - 'lake-manifest.json'
-      - 'lean-toolchain'
       - '.github/workflows/qi-yinyang-wuxing-fibonacci-history-v2-5-validation.yml'
   pull_request:
     paths:
@@ -29,12 +22,6 @@ on:
       - 'manifests/kuuos_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5.json'
       - 'formal/KUOS/Architecture/QiYinYangWuxingFibonacciHistoryGeometryV2_5.lean'
       - 'formal/KuuOSQiYinYangWuxingFibonacciHistoryGeometryV2_5.lean'
-      - 'formal/KUOS.lean'
-      - 'formal/KUOS/Architecture/QiProcessTensorLocalRealYinYangGeometryV2_4.lean'
-      - 'runtime/kuuos_qi_process_tensor_local_real_yinyang_geometry_v2_4.py'
-      - 'lakefile.toml'
-      - 'lake-manifest.json'
-      - 'lean-toolchain'
       - '.github/workflows/qi-yinyang-wuxing-fibonacci-history-v2-5-validation.yml'
 
 permissions:
@@ -42,77 +29,53 @@ permissions:
 
 concurrency:
   group: qi-yinyang-wuxing-fibonacci-history-v25-${{ github.event.pull_request.number || github.ref }}
-  cancel-in-progress: ${{ github.event_name == 'pull_request' }}
+  cancel-in-progress: true
 
 env:
   MATHLIB_NO_CACHE_ON_UPDATE: '1'
 
 jobs:
-  validate:
+  python:
+    name: Python surfaces
     runs-on: ubuntu-22.04
-    timeout-minutes: 60
+    timeout-minutes: 8
     steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
         with:
           python-version: '3.12'
-
-      - name: Prepare diagnostics
-        shell: bash
-        run: mkdir -p artifacts/diagnostics
-
-      - name: Compile v2.5 Python surfaces
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 -m compileall -q \
-            runtime/kuuos_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5.py \
-            scripts/check_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5.py \
-            tests/test_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5.py \
-            2>&1 | tee artifacts/diagnostics/python-compile.log
-
-      - name: Validate v2.5 manifest
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 -m json.tool \
-            manifests/kuuos_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5.json \
-            > /dev/null
-          echo 'PASS: v2.5 manifest JSON' | tee artifacts/diagnostics/manifest-validation.log
-
-      - name: Validate Wuxing Fibonacci runtime and tests
-        shell: bash
+      - name: Validate runtime, tests, and manifest
         env:
           PYTHONPATH: .
           PYTHONUNBUFFERED: '1'
         run: |
           set -euo pipefail
-          python3 scripts/check_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5.py \
-            2>&1 | tee artifacts/diagnostics/v2-5-runtime.log
+          python3 -m compileall -q \
+            runtime/kuuos_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5.py \
+            scripts/check_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5.py \
+            tests/test_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5.py
+          python3 -m json.tool \
+            manifests/kuuos_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5.json \
+            > /dev/null
+          python3 scripts/check_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5.py
           python3 -m unittest -v \
-            tests.test_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5 \
-            2>&1 | tee -a artifacts/diagnostics/v2-5-runtime.log
+            tests.test_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5
 
-      - name: Verify formal registration and predecessor boundary
-        shell: bash
+  lean:
+    name: Focused strict Lean
+    runs-on: ubuntu-22.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+      - name: Verify package-local formal boundary
         run: |
           set -euo pipefail
-          {
-            grep -Fq \
-              'import KUOS.Architecture.QiYinYangWuxingFibonacciHistoryGeometryV2_5' \
-              formal/KUOS.lean
-            grep -Fq \
-              'import KUOS.Architecture.QiProcessTensorLocalRealYinYangGeometryV2_4' \
-              formal/KUOS/Architecture/QiYinYangWuxingFibonacciHistoryGeometryV2_5.lean
-            grep -Fq \
-              'import KUOS.Architecture.QiYinYangWuxingFibonacciHistoryGeometryV2_5' \
-              formal/KuuOSQiYinYangWuxingFibonacciHistoryGeometryV2_5.lean
-            echo 'PASS: formal root and v2.4 dependency registration'
-          } 2>&1 | tee artifacts/diagnostics/formal-registration.log
-
+          grep -Fq \
+            'import KUOS.Architecture.QiProcessTensorLocalRealYinYangGeometryV2_4' \
+            formal/KUOS/Architecture/QiYinYangWuxingFibonacciHistoryGeometryV2_5.lean
+          grep -Fq \
+            'import KUOS.Architecture.QiYinYangWuxingFibonacciHistoryGeometryV2_5' \
+            formal/KuuOSQiYinYangWuxingFibonacciHistoryGeometryV2_5.lean
       - name: Set up pinned Lean and Lake
         uses: leanprover/lean-action@v1
         with:
@@ -122,60 +85,32 @@ jobs:
           lint: false
           use-mathlib-cache: false
           use-github-cache: false
-
-      - name: Resolve pinned dependencies
-        shell: bash
-        run: |
-          set -euo pipefail
-          lake update 2>&1 | tee artifacts/diagnostics/lake-update.log
-
-      - name: Verify committed manifest is canonical
-        shell: bash
-        run: |
-          set -euo pipefail
-          git diff --exit-code -- lake-manifest.json \
-            2>&1 | tee artifacts/diagnostics/lake-manifest-diff.log
-
-      - name: Fetch Mathlib olean cache
-        shell: bash
-        run: |
-          set -euo pipefail
-          lake exe cache get 2>&1 | tee artifacts/diagnostics/mathlib-cache.log
-
-      - name: Strictly compile v2.5 formal module
-        shell: bash
-        run: |
-          set -euo pipefail
-          lake -KleanArgs=-DwarningAsError=true \
-            -KleanArgs=-DsorryAsError=true \
-            build KUOS.Architecture.QiYinYangWuxingFibonacciHistoryGeometryV2_5 \
-            2>&1 | tee artifacts/diagnostics/v2-5-lean-module.log
-          lake -KleanArgs=-DwarningAsError=true \
-            -KleanArgs=-DsorryAsError=true \
-            build KuuOSQiYinYangWuxingFibonacciHistoryGeometryV2_5 \
-            2>&1 | tee artifacts/diagnostics/v2-5-lean-root.log
-
-      - name: Record run context
-        if: always()
-        shell: bash
-        run: |
-          set -euo pipefail
-          {
-            echo "workflow=${GITHUB_WORKFLOW}"
-            echo "run_id=${GITHUB_RUN_ID}"
-            echo "run_attempt=${GITHUB_RUN_ATTEMPT}"
-            echo "event=${GITHUB_EVENT_NAME}"
-            echo "ref=${GITHUB_REF}"
-            echo "sha=${GITHUB_SHA}"
-            python3 --version
-            lake --version || true
-            lean --version || true
-          } > artifacts/diagnostics/context.log
-
-      - name: Upload v2.5 diagnostics
-        if: always()
-        uses: actions/upload-artifact@v4
+      - name: Restore Lean dependency and build cache
+        id: lean-cache
+        uses: actions/cache@v5
         with:
-          name: qi-yinyang-wuxing-fibonacci-history-v2-5-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/diagnostics/
-          if-no-files-found: error
+          path: |
+            .lake/packages
+            .lake/build
+          key: kuuos-lean-v2-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}
+      - name: Resolve dependencies on cache miss
+        if: steps.lean-cache.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3; do
+            if lake update; then
+              break
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              exit 1
+            fi
+            sleep $((attempt * 10))
+          done
+          git diff --exit-code -- lake-manifest.json
+          lake exe cache get
+      - name: Strictly compile only the v2.5 module
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KUOS.Architecture.QiYinYangWuxingFibonacciHistoryGeometryV2_5

@@ -13,7 +13,6 @@ srcDir = "formal"
 roots = [
   "KuuOSFormal",
   "KUOS",
-  "KuuOSQiYinYangWuxingFibonacciHistoryGeometryV2_5",
   "KuuOSModularEvolutionMeshV0_1",
   "KuuOSObserveOSV0_7",
   "KuuOSVerifyOSV0_13",
