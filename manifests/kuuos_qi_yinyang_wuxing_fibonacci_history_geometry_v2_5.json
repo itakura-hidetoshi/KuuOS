@@ -5,7 +5,11 @@
   "version": "2.5",
   "status": "DRAFT_INTEGRATION_CANDIDATE",
   "predecessor": "kuuos_qi_process_tensor_local_real_yinyang_geometry_v2_4",
-  "integration_mode": "package_local_focused_validation",
+  "integration_scope": {
+    "mode": "focused_package_local",
+    "global_aggregate_registration": "deferred_to_batched_integration",
+    "shared_lake_root_registration": "not_required_for_focused_module_build"
+  },
   "surfaces": {
     "documentation": "docs/KUUOS_QI_YINYANG_WUXING_FIBONACCI_HISTORY_GEOMETRY_v2_5.md",
     "runtime": "runtime/kuuos_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5.py",
@@ -14,11 +18,6 @@
     "formal_module": "formal/KUOS/Architecture/QiYinYangWuxingFibonacciHistoryGeometryV2_5.lean",
     "formal_root": "formal/KuuOSQiYinYangWuxingFibonacciHistoryGeometryV2_5.lean",
     "workflow": ".github/workflows/qi-yinyang-wuxing-fibonacci-history-v2-5-validation.yml"
-  },
-  "formal_registration": {
-    "package_local_root_present": true,
-    "global_aggregate_registration_deferred": true,
-    "reason": "avoid unrelated repository-wide CI fanout; batch aggregate registration separately"
   },
   "mathematical_core": {
     "five_phase_base": "s^5 = 1",
