@@ -1,0 +1,82 @@
+name: Qi Wuxing Phase-Projection Quotient Kernel v2.8
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/KUUOS_QI_WUXING_PHASE_PROJECTION_QUOTIENT_KERNEL_v2_8.md'
+      - 'formal/KUOS/Architecture/QiWuxingPhaseProjectionQuotientKernelV2_8.lean'
+      - 'formal/KuuOSQiWuxingPhaseProjectionQuotientKernelV2_8.lean'
+      - '.github/workflows/qi-wuxing-phase-projection-quotient-kernel-v2-8-validation.yml'
+  pull_request:
+    paths:
+      - 'docs/KUUOS_QI_WUXING_PHASE_PROJECTION_QUOTIENT_KERNEL_v2_8.md'
+      - 'formal/KUOS/Architecture/QiWuxingPhaseProjectionQuotientKernelV2_8.lean'
+      - 'formal/KuuOSQiWuxingPhaseProjectionQuotientKernelV2_8.lean'
+      - '.github/workflows/qi-wuxing-phase-projection-quotient-kernel-v2-8-validation.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qi-wuxing-phase-projection-quotient-kernel-v28-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  lean:
+    name: Focused strict Lean
+    runs-on: ubuntu-22.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+      - name: Verify package-local formal boundary
+        run: |
+          set -euo pipefail
+          grep -Fq \
+            'import KUOS.Architecture.QiWuxingRelationWordProtectedHistoryV2_7' \
+            formal/KUOS/Architecture/QiWuxingPhaseProjectionQuotientKernelV2_8.lean
+          grep -Fq \
+            'import KUOS.Architecture.QiWuxingPhaseProjectionQuotientKernelV2_8' \
+            formal/KuuOSQiWuxingPhaseProjectionQuotientKernelV2_8.lean
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore Lean dependency and build cache
+        id: lean-cache
+        uses: actions/cache@v5
+        with:
+          path: |
+            .lake/packages
+            .lake/build
+          key: kuuos-lean-v2-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}
+      - name: Resolve dependencies on cache miss
+        if: steps.lean-cache.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3; do
+            if lake update; then
+              break
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              exit 1
+            fi
+            sleep $((attempt * 10))
+          done
+          git diff --exit-code -- lake-manifest.json
+          lake exe cache get
+      - name: Strictly compile only the v2.8 module
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KUOS.Architecture.QiWuxingPhaseProjectionQuotientKernelV2_8
