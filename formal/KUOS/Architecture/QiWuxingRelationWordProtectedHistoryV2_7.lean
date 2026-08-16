@@ -129,11 +129,15 @@ theorem phaseClosedWord_phase_returns
 theorem relationWordShift_ne_zero_of_nonempty
     (word : WuxingRelationWord) (hword : word ≠ []) :
     relationWordShift word ≠ 0 := by
-  intro hzero
-  have hcount : (relationWordShift word).2 = 0 := by
-    exact congrArg Prod.snd hzero
-  rw [relationWordShift_history_count] at hcount
-  exact hword (List.length_eq_zero.mp hcount)
+  cases word with
+  | nil =>
+      exact (hword rfl).elim
+  | cons relation rest =>
+      intro hzero
+      have hcount :
+          (relationWordShift (relation :: rest)).2 = 0 := by
+        exact congrArg Prod.snd hzero
+      simp at hcount
 
 /-- A nonempty phase-closed word has zero phase displacement but positive
 protected-history event count, hence is not the zero protected shift. -/
@@ -149,7 +153,11 @@ theorem phaseClosedWord_has_protected_residue
   · exact hclosed
   constructor
   · rw [relationWordShift_history_count]
-    exact List.length_pos.mpr hword
+    cases word with
+    | nil =>
+        exact (hword rfl).elim
+    | cons relation rest =>
+        simp
   · exact relationWordShift_ne_zero_of_nonempty word hword
 
 /-- Different word lengths force distinct protected shifts. -/
