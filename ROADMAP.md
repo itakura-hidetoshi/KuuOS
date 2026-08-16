@@ -1,33 +1,38 @@
 # KuuOS / 空OS Roadmap
 
-**基準日：2026年7月29日 JST**
+**基準日：2026年8月16日 JST**
 
-このRoadmapは、`main`へ統合済みの事実、canonical runtime root、live再検証待ち、条件付き次段階を分離します。未merge branch、queuedまたはin-progress CI、将来構想をcurrent frontierへ混ぜません。
+この Roadmap は、`main` に統合済みの事実、canonical runtime root、専用 formal/CI authority、未統合 Draft、条件付き次段階を分離します。queued / in-progress CI、未merge branch、将来構想を current baseline へ混ぜません。
 
 ## 状態分類
 
 | 表記 | 意味 |
 |---|---|
-| 統合済み | authoritative `main`に存在する |
-| Current root | `runtime/kuuos_current_check.py`のprofileからdeterministicに検証される |
-| 専用CI | subsystem固有workflowでruntime、manifest、tests、formal rootを検証する |
-| Live verified | separately authorized live transactionがcompleted evidenceで閉じた |
-| Live再検証待ち | 実装は統合済みだが、そのmerge後のfresh live transactionが未完了 |
-| 継続検証 | 依存、aggregate、toolchain、authority boundary変更時に再検証する |
-| 条件付き候補 | exact base、scope、authority、evidence contractが未確定 |
-| Frozen boundary | additiveまたはtighten-onlyで維持する責任境界 |
+| 統合済み | authoritative `main` に存在する |
+| Current root | `runtime/kuuos_current_check.py` から deterministic / effect-free に検証される |
+| Formal integrated | strict Lean theorem surface が `main` に統合済み |
+| 専用CI | subsystem 固有 workflow で runtime / tests / formal package を検証する |
+| Live verified | separately authorized live transaction が completed evidence で閉じた |
+| Live再検証待ち | 実装は統合済みだが、その revision に対する fresh live transaction が未完了 |
+| Draft frontier | exact-base branch 上にあり、未統合 |
+| 条件付き候補 | authority / topology / evidence / scope の追加定義が必要 |
+| Frozen boundary | append-only / tighten-only / overwrite-forbidden / same-root を維持する責任境界 |
 
-## 現在のauthoritative functional baseline
+## Authoritative baseline
 
 ```text
 branch: main
-functional milestone commit: 892621fc91e3ea5f41e5da7a683682063b862aaf
-latest integrated functional PR: #1382
-frontier: KuuOS GitHub MCP Sub-Issue Chain Parent Cross-Observation v1.1
-current-frontier successor Draft: none designated
+baseline commit: 9ba2e3aa9ca22b5349a72b0864ad3157ea45a455
+latest integrated functional PR: #1389
+integrated frontier: dependent-origination action groupoid / isotropy v0.1
+current successor Draft: #1390
+Draft base: main@9ba2e3aa9ca22b5349a72b0864ad3157ea45a455
+Draft head at baseline inspection: 39a39ea5a4c0c8dbd865c7d18bcc8b6f440cc2e8
 ```
 
-moving `main` HEADは、文書、governance、互換surfaceの同期mergeでも進みます。したがって、branch HEADと、subsystemの機能frontierを定めるmilestone commitを同一視しません。
+The moving `main` HEAD and a subsystem milestone are not interchangeable. A later documentation/governance merge may advance `main` without changing mathematical authority; conversely a new formal merge must not be represented as integrated before it actually lands.
+
+## Integrated subsystem map
 
 | 系列 | 到達点 | 状態 |
 |---|---|---|
@@ -37,6 +42,7 @@ moving `main` HEADは、文書、governance、互換surfaceの同期mergeでも�
 | Qi diagnostic lineage | v0.28 / v0.29 | 統合済み |
 | Qi-WORLD | v2.3 | 統合済み |
 | Qi local-real Yin-Yang geometry | v2.4 | 統合済み、Current root |
+| Qi Wuxing/Fibonacci history geometry | v2.5 | 統合済み、Current root + 専用CI |
 | Causal WORLD model | v14.0 | read-only dependency |
 | Repository mutation | v1.24 | 完了系列 |
 | Apoptosis Lifecycle Governance | v0.1-v0.36 | 独立完了系列 |
@@ -46,63 +52,172 @@ moving `main` HEADは、文書、governance、互換surfaceの同期mergeでも�
 | PlanOS | v0.91-v1.23 | 統合済み、Current root |
 | DecisionOS | v0.1-v0.6 | 統合済み、Current root |
 | MemoryOS | v0.40-v1.00 | 統合済み、Current root |
-| CodeAI governed repository-evolution line | observationからbounded Git lifecycle、external dependency boundaryまで | 統合済み、専用CI |
-| CodeAI external benchmark line | protocolからfrozen cohort / shard contractまで | 統合済み、Current root |
+| CodeAI external benchmark | frozen cohort / prediction-pack / execution-shard contract | 統合済み、Current root |
 | GitHub MCP official-server bridge | v0.1-v1.1 | 統合済み、Current root |
+| Gauge-invariant dependent origination runtime | local-to-global descent v0.1 | 統合済み、Current root |
+| Gauge-invariant dependent origination formal | dense descent → orbit quotient → action groupoid/isotropy | Formal integrated through #1389 |
+| Groupoid Cech semantic descent | complete-overlap v0.1 | Draft #1390 |
 | Repository strict Lean baseline | `formal/KuuOSFormal.lean` | 継続検証 |
 
-subsystem versionは独立しています。異なる系列のversion番号を一つの成熟度尺度へ変換しません。
+Subsystem versions remain independent; they are not one maturity scale.
 
 ## Canonical runtime root
 
-標準入口:
+Standard entrypoint:
 
 ```bash
 PYTHONPATH=. python3 runtime/kuuos_current_check.py
 ```
 
-現在のprofile:
+Profiles:
 
 ```text
 repository
-→ architecture
-→ PlanOS
-→ DecisionOS
-→ MemoryOS
-→ CodeAI
-→ GitHub MCP
+architecture
+planos
+decisionos
+memoryos
+codeai
+github_mcp
+dependent_origination
+all
 ```
 
-個別実行:
+The `architecture` profile now covers the integrated v2.4 local-real Yin-Yang package and the focused v2.5 Wuxing/Fibonacci-history package.
 
-```bash
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --summary
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --list
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile repository
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile architecture
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile planos
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile decisionos
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile memoryos
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile codeai
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile github_mcp
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile all
+The `dependent_origination` profile covers the executable/spec local-to-global descent contract introduced in #1386. The theorem-only stages #1387-#1389 remain under strict Lean / dedicated CI authority; the runtime root records their metadata but does not replace Lean compilation with Python tests.
+
+The root remains effect-free. It must not perform live GitHub writes, workflow dispatch, benchmark execution, Docker evaluation, external artifact acquisition, or gold-material access.
+
+## Qi architecture frontier
+
+PR #1385 integrated Qi Yin-Yang Wuxing Fibonacci History Geometry v2.5 from the clean CI reset branch.
+
+Core algebraic model:
+
+```text
+s^5 = 1
+tau^2 = 1 + tau
+X = s tensor tau
+X^5 = 1 tensor (3 + 5 tau)
 ```
 
-`architecture` profileはQi Process Tensor Local-Real Yin-Yang Geometry v2.4のdeterministic projectionとfocused testsを実行します。
+Interpretation:
 
-`codeai` profileは、PR #1342のfrozen cohort / prediction-pack / execution-shard contract、PR #1341のcomparison projection、外部評価系列のdirect predecessor regressionsを検査します。外部Docker harnessを再実行せず、外部artifactを再取得せず、gold materialをcurrent rootへ持ち込みません。
+```text
+Wuxing phase = Z5 current-phase coordinate
+Yin-Yang = local orientation / real-structure reversal
+Fibonacci sector = history fiber not reducible to current phase
+golden ratio = positive history-growth eigenvalue
+```
 
-`github_mcp` profileは、v1.0 three-level chain contract、v1.1 bounded direct read / cross-observation adapter、compensation boundaryをdeterministic transportで検査します。live GitHub writeを実行しません。
+Frozen non-overclaims:
 
-ObserveOSとVerifyOSはprofile rootへ暗黙追加せず、専用workflow、Evidence Cycle累積runner、versioned formal aggregateで検証します。
+```text
+classical Wuxing != historically identical to SU(2)_3
+Qi != anyon / particle
+phase return != history erasure
+log(phi) != clinical severity or thermodynamic entropy claim
+```
 
-## 前回の公開面同期後に統合された主要stage
+## Dependent-origination theorem spine
 
-### CodeAI
+### Stage A — runtime/spec descent contract (#1386)
 
-PR #1342 **CodeAI Frozen Cohort Prediction-Pack and Execution-Shard Contract v0.1**は`main`へ統合済みです。
+Integrated obligations:
 
-統合済みの契約:
+```text
+no privileged gauge representative
+semantic invariance distinct from presentation equivariance
+exact same-root local/global readout
+equivariant realization/interpolation
+local gauge invariance
+dense local-to-global coverage when density route is used
+continuous global extension witness remains explicit
+cross-scale compatibility is generated only after exact global readout exists
+append-only / tighten-only / overwrite-forbidden
+```
+
+This stage imports a structural lesson from the current `4d-mass-gap` gauge-invariance route but does not inherit physical Yang-Mills theorem authority.
+
+### Stage B — formal dense descent (#1387)
+
+With an explicit continuous global semantic extension and dense union of local realization images, Mathlib's continuous identity principle is used to prove global gauge invariance.
+
+Integrated results include:
+
+```text
+crossScaleCompatible_of_globalReadout
+semantic_invariant_of_dense_local_realization
+continuous_globalReadout_unique_of_dense
+semantic_eq_of_gauge_related
+dense_descent_invariance_and_compatibility
+```
+
+Critical boundary:
+
+```text
+density + cross-scale compatibility
+!=
+existence of a continuous global extension
+```
+
+### Stage C — coarse orbit quotient (#1388)
+
+Global semantic invariance is converted to its universal-property form:
+
+```text
+X -> X/G -> Semantic
+```
+
+The descended orbit-level semantic map is unique. This proves representative-independence at the coarse quotient level.
+
+Critical boundary: the coarse quotient forgets stabilizers, isotropy, holonomy, curvature, and higher descent data.
+
+### Stage D — action groupoid and isotropy (#1389)
+
+The action groupoid retains actual transformation arrows:
+
+```text
+ActionArrow x y := { g : Gauge // g • x = y }
+```
+
+Integrated formal content includes identity, composition, inverses, arrow constancy of invariant semantics, isotropy/stabilizer equivalence, and conjugation transport of isotropy along arrows.
+
+Conceptual refinement:
+
+```text
+G ⋉ X --0-truncation--> X/G
+```
+
+The quotient carries invariant semantic value; the action groupoid retains relational presentation structure.
+
+### Stage E — complete-overlap groupoid Cech descent (#1390, Draft)
+
+Draft #1390 adds local presentations, exact transition arrows, identity transitions, exact cocycle composition, and unique chart-independent semantic gluing over a complete-overlap abstraction.
+
+It must remain explicitly weaker than:
+
+```text
+arbitrary open-cover descent
+arbitrary site/sheaf descent
+existence of a global X-valued section
+quotient-stack authority
+higher descent
+holonomy or curvature reconstruction
+```
+
+Do not promote #1390 into the integrated baseline until its fixed final head has completed required validation and is merged.
+
+## GitHub MCP live state
+
+The v0.4-v0.9 reversible live stages have completed evidence in their respective scopes. v1.0-v1.0.2 exposed a stable service-surface asymmetry: downward nested hierarchy could be observed exactly while direct nested `get_parent` remained null throughout the bounded window. Each failed transaction was compensated from the leaf edge and residual hierarchy was not accepted as success.
+
+v1.1 keeps a short direct read, then cross-observes exact parent metadata through official MCP reads when needed. Removal requires direct null observation. The implementation is integrated; a fresh live verification is operationally separate from deterministic current-root validation.
+
+## CodeAI evaluation state
+
+Integrated contract:
 
 ```text
 shared holdout slots: 100
@@ -112,268 +227,124 @@ samples per shard: 10
 total external-only shards: 50
 ```
 
-未完了:
+Still incomplete:
 
 ```text
 external shared-holdout materialization
 authentic prediction packs complete
 execution shards ready
 external comparison execution
-performance comparison completed
-performance claimed
+balanced comparison completed
+performance claim approved
 ```
 
-### Qi architecture
+A single observed non-gold sample remains only sample-level evidence.
 
-PR #1345 **Qi Process Tensor Local-Real Yin-Yang Geometry v2.4**は`main`へ統合済みです。
+## Priority order
 
-このstageは、local-real frame、Z2 conversion parity、non-Markov process memory、holonomy residue、admitted / held Qi、Two Truths preservationを一つのbounded architecture receiptへ接続します。
+### 1. Close Draft #1390 without weakening the boundary
 
-```text
-Qi != substance
-Yin-Yang != fixed global essence
-double conversion != history erasure
-recoverability gap candidate != physical 4D mass gap
-```
+Required before integration:
 
-### GitHub MCP official-server bridge
+- fixed final head;
+- exact base relationship understood;
+- completed/success required CI only;
+- strict Lean validation on the actual final head;
+- mergeability;
+- review and unresolved-thread audit;
+- no duplicate same-series active PR;
+- no theorem-statement weakening to accommodate CI or infrastructure behavior.
 
-統合系列:
+If #1390 integrates, the next public-surface synchronization should advance the baseline only after the merge commit is authoritative.
 
-| PR | Stage | 到達点 |
-|---|---|---|
-| #1346 | GitHub MCP Server Bridge v0.1 | official stdio JSON-RPC、tool discovery、bounded admission |
-| #1347 | Bridge CI Fast Path v0.1 | runtime / formal CI分離、focused governance selection |
-| #1348 | Write-Capable Bridge v0.2 | direct MCP writesとexact Git delegation |
-| #1349 | Live Write Verification v0.3 | write後の独立reobservation |
-| #1350 | Reversible Live Canary v0.4 | Issue create / reobserve / close / reobserve |
-| #1351 | Workflow Dispatch v0.5 | official MCPによるnonce / exact-head dispatch |
-| #1353 | Immutable Image Dispatch v0.5.1 | official server imageをimmutable digestへ固定 |
-| #1356 | Repository Label Canary v0.6 | create / exact read / delete / absence |
-| #1358-#1362 | Issue–Label v0.7-v0.7.2 | reversible binding、body compatibility、50文字上限 |
-| #1364 | Sub-Issue Binding v0.8 | reversible parent-child binding |
-| #1367 | Bidirectional Canary v0.9 | downward child setとupward parentの独立確認 |
-| #1370 | Three-Level Chain v1.0 | root → child → grandchild |
-| #1374 / #1378 | Reobservation v1.0.1 / v1.0.2 | bounded direct `get_parent` retries |
-| #1382 | Parent Cross-Observation v1.1 | nested-parent official-MCP cross-observation |
+### 2. Strengthen Cech descent additively
 
-## GitHub MCP live integration state
+Safe next stages after #1390 are conditional, not implied:
 
-### Live verified
+- introduce an actual cover/index structure rather than complete-overlap shorthand;
+- distinguish overlap existence from global section existence;
+- state refinement compatibility explicitly;
+- retain arrows/cocycle under refinement;
+- formulate sheaf/stack-like semantics only after the required categorical/topological structure exists;
+- keep semantic gluing distinct from reconstruction of a global `X`-valued representative.
 
-v0.4-v0.9の段階的live transactionは、各stageのscope内でcompleted evidenceにより閉じています。特にv0.8とv0.9は、relation追加、downward / upward reobservation、relation除去、final absence、child close、artifact digest、append-only audit、token非直列化を確認済みです。
+No jump directly from complete-overlap semantic gluing to quotient-stack or higher-stack claims.
 
-### 観測済みfailureとcompensation
+### 3. Keep README / ROADMAP / runtime root synchronized
 
-v1.0-v1.0.2のlive requestでは、root → childとchild → grandchildのdownward relationが観測された一方、grandchildの直接`issue_read(get_parent)`は最大30回・60秒のbounded windowでもnullでした。
+Treat these three files as one public/current responsibility boundary:
 
-```text
-direct nested parent observation: null
-downward child → grandchild relation: exact
-compensation attempted: true
-cleanup verified: true
-residual hierarchy accepted: false
-```
+- baseline date and exact integrated milestone;
+- current Draft metadata;
+- Qi v2.5 architecture status;
+- dependent-origination runtime/formal split;
+- profile list and deterministic step membership;
+- frozen non-overclaims.
 
-このfailureはコード成功へ読み替えません。compensationはbounded recovery evidenceであり、VERIFIEDではありません。
+### 4. Perform fresh GitHub MCP v1.1 live verification when explicitly authorized
 
-### v1.1 Live再検証待ち
+Use then-current exact `main` SHA and a fresh nonce. Inspect only completed run/job/step/artifact/log evidence. Preserve compensation as failed closeout, not success.
 
-v1.1は、direct nested parentがnullのときに次を要求します。
+### 5. Materialize the CodeAI frozen cohort
 
-1. child Issueのexact number
-2. `has_parent = true`
-3. exact `parent_issue_url`
-4. expected parent Issueのexact number
-5. parentがopen
-6. non-empty parent title
+From the integrated #1342 contract:
 
-すべて一致した場合だけ、既存v1.0 exact-parent shapeを合成します。不一致は元のnull observationを返してfail closedします。remove後はdirect nullだけをabsence evidenceとして使います。
+- materialize the pinned shared holdout;
+- generate authentic prediction packs for all cohorts;
+- bind prediction source, model/configuration, pipeline variant, and candidate digest;
+- HOLD/BLOCK missingness, duplicate reuse, leakage, or cross-cohort contamination;
+- separate generation authority from evaluation authority;
+- establish shard readiness by independent receipt.
 
-#1382 merge後のfresh owner requestはまだありません。したがって現在の表記は次です。
+### 6. External-only shard execution and balanced comparison
 
-```text
-v1.1 implementation: integrated
-v1.1 deterministic validation: integrated
-v1.1 post-merge live transaction: pending
-v1.1 live VERIFIED claim: false
-```
-
-## 優先順位
-
-### 1. v1.1 fresh live integrationを閉じる
-
-then-current exact `main` SHAと新しいnonceへbindingしたowner requestを1件だけ作成し、completed run / job / step / artifact / logで次を確認します。
-
-- root、child、grandchildのexact identity
-- initial parent / child sets
-- root → childのdownward / upward relation
-- child → grandchildのdownward relation
-- v1.1 child-side parent linkとexpected parentのcross-observation
-- leaf edgeからのremove
-- remove後のdirect parent null
-- root edge remove後のfinal absence
-- child / grandchild close
-- compensation未使用
-- append-only audit correspondence
-- token / Authorization valueの非直列化
-
-外部service挙動が再び異なる場合は、そのcompleted evidenceを保存し、authority条件やtheorem statementを弱めずに別stageで扱います。
-
-### 2. Public surfaceとcurrent rootを継続同期する
-
-README、ROADMAP、`runtime/kuuos_current_check.py`を一つの責任境界として維持します。
-
-- functional milestone commitとmoving `main` HEADを分離
-- current-frontier successor Draftがないときは`null`で表現
-- profile追加はdeterministic / effect-free validationに限定
-- live operationをcurrent rootへ混ぜない
-- legacy status tokensを保持
-- completed CIだけで公開面を確定
-
-### 3. CodeAI frozen cohortを実体化する
-
-PR #1342の契約をpredecessorとして、別stageで次を行います。
-
-- pinned external corpusからshared holdoutをmaterializeする
-- baseline / CodeAI full / 3 ablationのauthentic prediction packを生成する
-- prediction source、model / configuration、pipeline variant、candidate digestをexact bindingする
-- prediction欠測、重複、cross-cohort reuse、gold leakageをHOLDまたはBLOCKする
-- generation authorityとevaluation authorityを分離する
-- external-only shard readinessを独立receiptで確定する
-
-### 4. External-only shard execution
-
-- official pinned harnessとDocker imageを使う
-- shard単位のtimeout、worker、retry、artifact retentionを固定する
-- kernelはharnessを実行せず、外部実行evidenceだけを受理する
-- execution failureをsilent exclusionしない
-- raw resultは短期検証に限定し、repositoryへはaggregate receiptだけを残す
-
-### 5. Balanced comparison
-
-- 全cohortのsample countとholdout bindingを一致させる
-- resolved-rateをprimary metricとして計算する
-- FAIL_TO_PASS、PASS_TO_PASS、execution-valid-rate、error-rateをguardrailとして保持する
-- 欠測、leakage、cohort imbalance、metric欠落では比較をHOLDする
-- uncertaintyとfailure distributionを報告する
-- performance claimをcomparison completionと独立に承認する
-
-### 6. Qi v2.4の解析的次段階
-
-- local-real transportのcomposition lawを追加検証する
-- conversion parityとholonomy residueの関係を分離する
-- admitted / held Qi conservationを一般化する
-- recoverability-gap candidateの仮定と反例境界を明示する
-- modular / KMS / non-Markov依存をreceiptとして維持する
-- physical mass gap、fixed Yin substance、global polarityへ同一化しない
-
-## 他系列の条件付き次段階
-
-### ObserveOS / VerifyOS / WORLD
-
-VerifyOS v0.15はread-only disposition candidateまでです。adopt、reject、defer、reobservationを正式なWORLD dispositionへ進める場合は、VerifyOSから独立したWORLD-owned review、authorization、application、verification、rollback artifactを必要とします。
-
-```text
-disposition candidate != WORLD disposition
-authorization != WORLD mutation
-reobservation candidate != observation execution
-```
-
-### MemoryOS
-
-v1.00 finite bounded closed-support latticeについて、distributivity、modularity、semidistributivity、homomorphism lawを個別に調べます。有限`Fintype`から`CompleteLattice`を推論せず、一般lawが不成立なら最小反例をartifactとして保持します。
-
-### DecisionOS / PlanOS
-
-DecisionOS v0.6からbounded selectionへ進む場合は、relational frontier membership、dissent preservation、minority-impact risk、uncertainty blocker、独立selection authorityを必要とします。selection成立後に限り、PlanOSへfuture-only replan intakeを設計します。
-
-```text
-relational frontier != selected candidate
-selection != execution
-feedback != past-state rewrite
-```
-
-### Persistent WORLD update / ActOS
-
-persistent WORLD mutationとActOS invocationは、既存receiptから権限継承せず、独立authorization、scope、owner、expiry、verification、rollbackを必要とします。
-
-## Governance Gate
-
-公開面とruntime rootの同期では、少なくとも次を確認します。
-
-```bash
-python3 -m py_compile runtime/kuuos_current_check.py
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --summary
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --list
-
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile architecture
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile codeai
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile github_mcp
-
-PYTHONPATH=. python3 scripts/check_qi_process_tensor_local_real_yinyang_geometry_v2_4.py
-PYTHONPATH=. python3 scripts/check_kuuos_github_mcp_sub_issue_chain_canary_v1_0.py
-
-PYTHONPATH=. python3 -m unittest \
-  tests.test_qi_process_tensor_local_real_yinyang_geometry_v2_4 \
-  tests.test_kuuos_codeai_frozen_cohort_prediction_pack_execution_shard_contract_v0_1 \
-  tests.test_kuuos_github_mcp_sub_issue_chain_parent_cross_observation_v1_1 \
-  tests.test_kuuos_github_mcp_sub_issue_chain_canary_v1_0
-```
-
-repository-wide検証:
-
-```bash
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile all
-
-lake -KleanArgs=-DwarningAsError=true \
-  -KleanArgs=-DsorryAsError=true \
-  build KUOS.Architecture.QiProcessTensorLocalRealYinYangGeometryV2_4
-
-lake -KleanArgs=-DwarningAsError=true \
-  -KleanArgs=-DsorryAsError=true \
-  build KuuOSGitHubMCPServerBridgeV0_1
-
-lake -KleanArgs=-DwarningAsError=true \
-  -KleanArgs=-DsorryAsError=true \
-  build KuuOSFormal
-```
-
-PRをReadyへ進める前に、fixed final head、completed CI success、base SHA不変、mergeable、reviews 0、unresolved inline review threads 0、同系列duplicate PRなしを確認します。Ready後にも同じ条件を再監査します。
-
-通常mergeはmerge commit方式です。自動mergeを使わず、merge時は`expected_head_sha`を固定します。
+- use the pinned official harness/environment;
+- preserve shard-level failures instead of silently excluding them;
+- keep raw gold/evaluation material outside ordinary current-root surfaces;
+- use resolved rate as the preregistered primary metric only after cohort completeness;
+- retain FAIL_TO_PASS, PASS_TO_PASS, execution-valid-rate, error-rate, uncertainty, and failure distribution;
+- keep comparison completion separate from performance-claim approval.
 
 ## Frozen boundaries
 
+The following remain tighten-only unless a new versioned authority root explicitly supersedes them:
+
 ```text
 candidate != authority
+observation != verification
 validation != truth
 formal compilation != external theorem acceptance
-CI success != correctness or performance
-
-tool availability != authority
-MCP write capability != Git authority
-write acceptance != verified closeout
-reobservation != universal service guarantee
-compensation != success
-cleanup verified != primary transaction verified
-direct nested-parent null != no hierarchy
-cross-observation != direct get_parent response
-
-contract admitted != materialization complete
-prediction pack contract != authentic predictions
-shard contract != execution readiness
-one smoke sample != population performance
-comparison completion != performance claim
-
-Qi != fixed substance
-Yin-Yang != global immutable essence
-local real structure != universal frame
-recoverability gap candidate != physical 4D mass gap
-
-selection != execution
 receipt != successor authority
-WORLD candidate != empirical fact
-modeled repository transition != live Git mutation
-current root success != production deployment
+selection != execution
+
+semantic invariance != presentation immobility
+density + compatibility != global-extension existence
+coarse quotient != retained isotropy
+action groupoid != quotient stack
+Cech semantic gluing != global X-valued section
+complete overlap != arbitrary cover
+KuuOS gauge descent != physical Yang-Mills theorem authority
+
+write accepted != effect verified
+compensation != success
+MCP write capability != Git authority
+
+one benchmark sample != population performance
+contract admitted != execution ready
+comparison complete != performance claim approved
 ```
+
+## Governance rule
+
+Repository evolution at the current frontier remains:
+
+```text
+append-only
+tighten-only
+overwrite-forbidden
+same-root where the theorem/receipt requires it
+exact-base Draft-first
+completed-CI evidence only
+```
+
+These are status criteria, not decorative documentation conventions.
