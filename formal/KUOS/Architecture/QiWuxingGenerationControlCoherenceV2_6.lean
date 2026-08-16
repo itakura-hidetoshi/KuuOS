@@ -103,7 +103,6 @@ strength alone supplies a validated physical or clinical dynamics. -/
 structure WuxingInteraction where
   relation : WuxingRelation
   strength : InteractionStrength
-  deriving Repr
 
 /-- Apply a phase/history shift to the v2.5 state. -/
 def applyShift (shift : WuxingShift)
@@ -232,7 +231,7 @@ supplied nominal value. -/
 @[simp] theorem controlInteraction_overacting_iff
     (nominal actual : InteractionStrength) :
     IsOveractingControl nominal (controlInteraction actual) ↔ nominal < actual := by
-  rfl
+  simp [IsOveractingControl, IsOverStrength, controlInteraction]
 
 /-- `相侮` is a distinct inverse phase direction and is not encoded as negative
 or excessive control strength. -/
