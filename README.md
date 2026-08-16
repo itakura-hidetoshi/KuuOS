@@ -216,6 +216,19 @@ lake -KleanArgs=-DwarningAsError=true \
 
 Formal compilation proves only the repository theorem surface under the pinned toolchain. It does not substitute for external theorem acceptance, empirical validity, clinical approval, organizational approval, production deployment, or live-service behavior.
 
+## Legacy compatibility status surface
+
+The current source of truth is `runtime/kuuos_current_check.py`, but the following historical identifiers remain present because the self-organization status lineage validates them as backward-compatible public-status markers:
+
+```text
+KuuOS README Public Status v0.66
+kuuos_current_root_sequence_v0_66
+docs/kuuos_self_organization_active_state.md
+README public status != authority grant
+```
+
+These identifiers are compatibility markers only. They do not replace the canonical runtime root and do not grant execution or mutation authority.
+
 ## Repository map
 
 | Path | Role |
