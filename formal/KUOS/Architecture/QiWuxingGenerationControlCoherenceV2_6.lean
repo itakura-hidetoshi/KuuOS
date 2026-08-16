@@ -32,7 +32,7 @@ namespace KUOS.Architecture
 
 /-- Nonnegative interaction strength.  It classifies a relation but does not
 supply an unvalidated physical or clinical dynamical law. -/
-abbrev InteractionStrength := ℝ≥0
+abbrev InteractionStrength := NNReal
 
 /-- A history-aware shift consists of a `Z5` phase displacement and a number of
 protected Fibonacci-history interaction events. -/
@@ -139,9 +139,8 @@ theorem applyShift_add
       applyShift second (applyShift first state) := by
   rcases first with ⟨firstPhase, firstHistory⟩
   rcases second with ⟨secondPhase, secondHistory⟩
-  ext
-  · simp [applyShift, add_assoc]
-  · simp [applyShift, advanceHistoryN_add_v2_6]
+  rcases state with ⟨phase, history⟩
+  simp [applyShift, advanceHistoryN_add_v2_6, add_assoc]
 
 /-- Coherence is a property of the relational action, not a sixth phase. -/
 def WuxingCoherent (state : WuxingFibonacciState) : Prop :=
