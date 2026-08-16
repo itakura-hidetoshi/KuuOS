@@ -7,19 +7,19 @@ import sys
 
 import runtime.kuuos_current_check_v0_95 as _base
 
-# Canonical public-surface metadata.
+# Canonical public/current-surface metadata.
 #
 # Subsystem versions remain independent. The moving main branch may advance
 # after documentation or governance synchronization; the functional milestone
 # below remains bound to the latest integrated functional PR represented here.
-_base.CURRENT_BASELINE_DATE = "2026-07-29 JST"
+_base.CURRENT_BASELINE_DATE = "2026-08-16 JST"
 _base.CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 _base.CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
 _base.CURRENT_PLANOS_FRONTIER = "PlanOS v1.23"
 _base.CURRENT_DECISIONOS_FRONTIER = "DecisionOS v0.6"
 _base.CURRENT_MEMORYOS_FRONTIER = "MemoryOS v1.00"
 _base.CURRENT_QI_ARCHITECTURE_FRONTIER = (
-    "Qi Process Tensor Local-Real Yin-Yang Geometry v2.4"
+    "Qi Yin-Yang Wuxing Fibonacci History Geometry v2.5"
 )
 _base.CURRENT_CODEAI_FRONTIER = (
     "CodeAI Frozen Cohort Prediction-Pack and Execution-Shard Contract v0.1"
@@ -27,8 +27,11 @@ _base.CURRENT_CODEAI_FRONTIER = (
 _base.CURRENT_GITHUB_MCP_FRONTIER = (
     "KuuOS GitHub MCP Sub-Issue Chain Parent Cross-Observation v1.1"
 )
+_base.CURRENT_DEPENDENT_ORIGINATION_FRONTIER = (
+    "Gauge-Invariant Dependent Origination Groupoid Cech Descent v0.1"
+)
 _base.CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
-_base.CURRENT_MAIN_FRONTIER = _base.CURRENT_GITHUB_MCP_FRONTIER
+_base.CURRENT_MAIN_FRONTIER = _base.CURRENT_DEPENDENT_ORIGINATION_FRONTIER
 
 # No current-frontier successor Draft is designated at this baseline.
 # Historical open PRs are not promoted into the current frontier implicitly.
@@ -39,9 +42,9 @@ _base.CURRENT_DRAFT_BASE_SHA = None
 _base.CURRENT_DRAFT_HEAD_SHA = None
 
 _base.CURRENT_FUNCTIONAL_MILESTONE_COMMIT = (
-    "892621fc91e3ea5f41e5da7a683682063b862aaf"
+    "382c82dfb347bd323f3406e6893ca30c0b58be4f"
 )
-_base.CURRENT_LATEST_FUNCTIONAL_PR = 1382
+_base.CURRENT_LATEST_FUNCTIONAL_PR = 1390
 _base.CURRENT_SUPPORTED_PROFILES = (
     "all",
     "repository",
@@ -51,6 +54,7 @@ _base.CURRENT_SUPPORTED_PROFILES = (
     "memoryos",
     "codeai",
     "github_mcp",
+    "dependent_origination",
 )
 _base.CURRENT_PUBLIC_SURFACES = (
     "README.md",
@@ -58,14 +62,20 @@ _base.CURRENT_PUBLIC_SURFACES = (
     "runtime/kuuos_current_check.py",
 )
 _base.CURRENT_FRONTIER_ARTIFACT = (
-    "manifests/kuuos_github_mcp_sub_issue_chain_canary_v1_0.json"
+    "formal/KUOS/GaugeInvariantDependentOriginationGroupoidCechDescentV0_1.lean"
 )
 _base.CURRENT_FRONTIER_ADAPTER = (
-    "runtime/kuuos_github_mcp_sub_issue_chain_"
-    "parent_cross_observation_v1_1.py"
+    "runtime/kuuos_gauge_invariant_dependent_origination_descent_v0_1.py"
+)
+_base.CURRENT_DEPENDENT_ORIGINATION_FORMAL_ARTIFACTS = (
+    "formal/KUOS/GaugeInvariantDependentOriginationDenseDescentV0_1.lean",
+    "formal/KUOS/GaugeInvariantDependentOriginationOrbitQuotientV0_1.lean",
+    "formal/KUOS/GaugeInvariantDependentOriginationActionGroupoidV0_1.lean",
+    "formal/KUOS/GaugeInvariantDependentOriginationGroupoidCechDescentV0_1.lean",
 )
 _base.CURRENT_FRONTIER_MODE = (
-    "integrated_repository_qi_plan_decision_memory_codeai_github_mcp"
+    "integrated_repository_qi_plan_decision_memory_codeai_github_mcp_"
+    "dependent_origination"
 )
 _base.CURRENT_FRONTIER_BOUNDARY = "current_root_validation_only"
 
@@ -120,6 +130,18 @@ _base.QI_ARCHITECTURE_CURRENT_FRONTIER_STEPS = (
         "tests.test_qi_process_tensor_local_real_yinyang_geometry_v2_4",
         True,
         "Validate local-real transport, conversion, holding, and boundaries.",
+    ),
+    _base._script_step(
+        "architecture-v2-5-wuxing-fibonacci-history-projection",
+        "scripts/check_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5.py",
+        "Validate the deterministic Qi v2.5 Wuxing/Fibonacci history package.",
+    ),
+    _base.CurrentRootStep(
+        "architecture-v2-5-wuxing-fibonacci-history-tests",
+        "unittest",
+        "tests.test_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5",
+        True,
+        "Validate phase return, history nonreturn, and non-overclaim boundaries.",
     ),
 )
 
@@ -201,6 +223,24 @@ _base.GITHUB_MCP_CURRENT_FRONTIER_STEPS = (
     ),
 )
 
+# The executable current root validates the integrated runtime/spec boundary from
+# PR #1386. The theorem-only #1387-#1390 layers remain strict Lean authority and
+# are represented in metadata rather than being silently replaced by Python.
+_base.DEPENDENT_ORIGINATION_CURRENT_FRONTIER_STEPS = (
+    _base._script_step(
+        "dependent-origination-v0-1-gauge-invariant-descent-projection",
+        "scripts/check_gauge_invariant_dependent_origination_descent_v0_1.py",
+        "Validate same-root gauge-invariant local-to-global descent contracts.",
+    ),
+    _base.CurrentRootStep(
+        "dependent-origination-v0-1-gauge-invariant-descent-tests",
+        "unittest",
+        "tests.test_gauge_invariant_dependent_origination_descent_v0_1",
+        True,
+        "Validate invariance/equivariance separation and extension boundaries.",
+    ),
+)
+
 _base.CURRENT_ROOT_STEPS = (
     _base.REPOSITORY_LINEAGE_STEPS
     + _base.QI_ARCHITECTURE_CURRENT_FRONTIER_STEPS
@@ -209,6 +249,7 @@ _base.CURRENT_ROOT_STEPS = (
     + _base.MEMORYOS_ACTIVE_FRONTIER_STEPS
     + _base.CODEAI_CURRENT_FRONTIER_STEPS
     + _base.GITHUB_MCP_CURRENT_FRONTIER_STEPS
+    + _base.DEPENDENT_ORIGINATION_CURRENT_FRONTIER_STEPS
 )
 
 _original_current_runtime_root_summary = _base.current_runtime_root_summary
@@ -227,6 +268,12 @@ def current_runtime_root_summary() -> dict[str, object]:
             "memoryos_frontier": _base.CURRENT_MEMORYOS_FRONTIER,
             "codeai_frontier": _base.CURRENT_CODEAI_FRONTIER,
             "github_mcp_frontier": _base.CURRENT_GITHUB_MCP_FRONTIER,
+            "dependent_origination_frontier": (
+                _base.CURRENT_DEPENDENT_ORIGINATION_FRONTIER
+            ),
+            "dependent_origination_formal_artifacts": list(
+                _base.CURRENT_DEPENDENT_ORIGINATION_FORMAL_ARTIFACTS
+            ),
             "world_dependency": _base.CURRENT_WORLD_DEPENDENCY,
             "main_frontier": _base.CURRENT_MAIN_FRONTIER,
             "draft_frontier": _base.CURRENT_DRAFT_FRONTIER,
@@ -255,6 +302,9 @@ def current_runtime_root_summary() -> dict[str, object]:
             "github_mcp_step_count": len(
                 _base.GITHUB_MCP_CURRENT_FRONTIER_STEPS
             ),
+            "dependent_origination_step_count": len(
+                _base.DEPENDENT_ORIGINATION_CURRENT_FRONTIER_STEPS
+            ),
             "total_step_count": len(_base.CURRENT_ROOT_STEPS),
             "frontier_mode": _base.CURRENT_FRONTIER_MODE,
             "frontier_boundary": _base.CURRENT_FRONTIER_BOUNDARY,
@@ -272,6 +322,9 @@ def _steps_for_profile(profile: str) -> tuple[_base.CurrentRootStep, ...]:
         "memoryos": _base.MEMORYOS_ACTIVE_FRONTIER_STEPS,
         "codeai": _base.CODEAI_CURRENT_FRONTIER_STEPS,
         "github_mcp": _base.GITHUB_MCP_CURRENT_FRONTIER_STEPS,
+        "dependent_origination": (
+            _base.DEPENDENT_ORIGINATION_CURRENT_FRONTIER_STEPS
+        ),
         "all": _base.CURRENT_ROOT_STEPS,
     }
     try:
@@ -316,7 +369,8 @@ def run_current(profile: str = "all") -> int:
         f"{_base.CURRENT_DECISIONOS_FRONTIER}; "
         f"{_base.CURRENT_MEMORYOS_FRONTIER}; "
         f"{_base.CURRENT_CODEAI_FRONTIER}; "
-        f"{_base.CURRENT_GITHUB_MCP_FRONTIER})"
+        f"{_base.CURRENT_GITHUB_MCP_FRONTIER}; "
+        f"{_base.CURRENT_DEPENDENT_ORIGINATION_FRONTIER})"
     )
     return 0
 
