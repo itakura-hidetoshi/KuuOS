@@ -1,0 +1,61 @@
+{
+  "schema_version": "kuuos.package_manifest.v1",
+  "package_id": "kuuos_qi_wuxing_generation_control_coherence_v2_6",
+  "title": "KuuOS Qi Wuxing Generation-Control Coherence v2.6",
+  "version": "2.6",
+  "status": "DRAFT_INTEGRATION_CANDIDATE",
+  "predecessor": "kuuos_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5",
+  "integration_scope": {
+    "mode": "focused_package_local",
+    "global_aggregate_registration": "deferred_to_batched_integration",
+    "shared_lake_root_registration": "not_required_for_focused_module_build"
+  },
+  "surfaces": {
+    "documentation": "docs/KUUOS_QI_WUXING_GENERATION_CONTROL_COHERENCE_v2_6.md",
+    "runtime": "runtime/kuuos_qi_wuxing_generation_control_coherence_v2_6.py",
+    "checker": "scripts/check_qi_wuxing_generation_control_coherence_v2_6.py",
+    "tests": "tests/test_qi_wuxing_generation_control_coherence_v2_6.py",
+    "formal_module": "formal/KUOS/Architecture/QiWuxingGenerationControlCoherenceV2_6.lean",
+    "formal_root": "formal/KuuOSQiWuxingGenerationControlCoherenceV2_6.lean",
+    "workflow": ".github/workflows/qi-wuxing-generation-control-coherence-v2-6-validation.yml"
+  },
+  "mathematical_core": {
+    "five_phase_carrier": "Z5",
+    "generation": "p -> p + 1 mod 5",
+    "control": "p -> p + 2 mod 5",
+    "insult": "p -> p - 2 mod 5",
+    "mother": "p -> p - 1 mod 5",
+    "child": "p -> p + 1 mod 5",
+    "strength_carrier": "R_{>=0}",
+    "strength_trichotomy": "actual < nominal | actual = nominal | nominal < actual",
+    "overacting": "control direction and nominal < actual",
+    "history_rule": "tau^2 = 1 + tau",
+    "coherence": "A_(sigma+tau)(x) = A_tau(A_sigma(x))",
+    "phase_history_separation": "control and two generations share phase endpoint but not history event count"
+  },
+  "required_boundaries": [
+    "five phases are relational coordinates, not five substances",
+    "control +2 is not the same history-bearing process as two generation events",
+    "inverse phase direction does not erase protected history",
+    "interaction strength is classification metadata, not validated dynamics",
+    "strength is not Qi quantity",
+    "nominal strength is not a clinical threshold",
+    "overacting classification is not a clinical diagnosis",
+    "insult is an inverse relation, not negative or excessive strength",
+    "center is composition coherence, not an Earth substance",
+    "classical Wuxing is not identified with SU(2)_3 or physical gauge theory",
+    "no physical Fibonacci anyon realization is claimed",
+    "runtime receipt is not WORLD adoption",
+    "formal compilation is not external theorem acceptance",
+    "validation is not truth",
+    "selection is not execution"
+  ],
+  "authority": {
+    "execution": false,
+    "truth": false,
+    "clinical": false,
+    "theorem_acceptance": false,
+    "memory_overwrite": false,
+    "exact_world_update": false
+  }
+}
