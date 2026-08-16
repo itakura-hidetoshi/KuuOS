@@ -1,0 +1,116 @@
+id: gauge_invariant_dependent_origination_descent_contract_v0_1
+name: Gauge-Invariant Dependent Origination Descent Contract
+version: 0.1
+date: 2026-08-16
+author: Hidetoshi Itakura / 板倉英俊
+
+lineage:
+  update_mode: append-only
+  tighten_only: true
+  overwrite: forbidden
+  same_root_required: true
+  extends:
+    - docs/EMPTINESS_DEPENDENT_ORIGINATION_KERNEL_v0_1.md
+    - examples/dependent_origination_sheaf_gauge_runtime_v0_2.py
+    - docs/DO_SHEAF_GAUGE_RUNTIME_CLOSURE_PACKET_v0_2.md
+
+formal_bridge:
+  repository: itakura-hidetoshi/4d-mass-gap
+  branch: formal/real-hilbert-uniform-coercive-strong-limit
+  commit: 52e45c33b56a34c905c94b63d4ced7cbbb5a29d2
+  theorem_sources:
+    - MGAP4D/MathlibAnalytic/PhysicalYangMillsDenseInterpolationGaugeInvariantObservable.lean
+    - MGAP4D/MathlibAnalytic/PhysicalYangMillsDenseInterpolationCrossScaleReadout.lean
+  theorem_names:
+    - boundedContinuous_gaugeInvariant_of_dense_interpolation
+    - boundedContinuous_gaugeInvariant_of_dense_interpolation_readout
+    - interpolationReadoutCompatible_of_boundedContinuous_readout
+    - observable_unique_of_dense_interpolation
+  bridge_does_not_grant_kuos_theorem_authority: true
+
+principle:
+  name: gauge_invariant_dependent_origination_descent
+  emptiness_rule: no_privileged_gauge_representative
+  dependent_origination_rule: local_relational_data_descend_only_under_explicit_gauge_and_extension_conditions
+  two_truths_rule: gauge_invariant_samvrti_structure_is_not_paramartha_substance
+  middle_way_rule: reject_both_representation_absolutism_and_relational_nihilism
+
+semantic_split:
+  gauge_independent_meaning:
+    law: R(g_dot_x) == R(x)
+    required_property: invariant
+  representation_bearing_surface:
+    law: P(g_dot_x) == rho(g)_dot_P(x)
+    required_property: equivariant
+  conflation_forbidden: true
+
+local_to_global_descent:
+  carrier:
+    global_surface: X
+    gauge_group: G
+    local_surfaces: X_n
+    interpolation: iota_n
+    local_readout: r_n
+    global_readout: R
+  required_conditions:
+    non_reification: true
+    exact_same_root_readout: true
+    interpolation_equivariance: true
+    local_gauge_invariance: true
+    dense_union_of_interpolation_images: true
+    continuous_global_extension_witness: true
+    invariance_equivariance_separation: true
+    two_truths_noncollapse: true
+  derived_when_global_extension_exists:
+    cross_scale_compatibility: true
+  derived_under_dense_continuous_extension:
+    global_gauge_invariance: true
+    uniqueness_of_global_readout: true
+  explicitly_not_derived:
+    continuous_global_extension_existence_from_compatibility_and_density_alone: true
+
+runtime_statuses:
+  - CANDIDATE
+  - HOLD
+  - REPAIR
+  - REJECT
+
+runtime_rules:
+  reject:
+    - claims_self_origin
+    - claims_independent_essence
+    - privileges_local_representative_as_real
+    - reifies_gauge_orbit_as_ultimate_substance
+  repair:
+    - conflates_invariance_and_equivariance
+    - claims_cross_scale_compatibility_without_same_root_identity
+  hold:
+    - missing_exact_same_root_readout
+    - missing_interpolation_equivariance
+    - missing_local_gauge_invariance
+    - missing_dense_union_witness
+    - missing_continuous_global_extension_witness
+    - missing_two_truths_noncollapse
+    - missing_lineage_or_scope
+
+fixed_points:
+  - no_privileged_gauge_representative
+  - gauge_connection_alone_is_not_global_relational_meaning
+  - semantic_invariance_and_presentation_equivariance_are_distinct
+  - exact_same_root_readout_required
+  - single_scale_density_is_not_assumed
+  - dense_union_may_generate_global_equality_via_continuity
+  - global_extension_existence_is_separate_from_compatibility
+  - exact_global_readout_generates_cross_scale_compatibility
+  - dense_exact_readout_makes_continuous_extension_unique
+  - gauge_invariant_conventional_structure_is_not_ultimate_substance
+  - no_authority_expansion
+
+authority_boundary:
+  proof_authority_granted: false
+  theorem_authority_granted: false
+  truth_authority_granted: false
+  essence_authority_granted: false
+  clinical_authority_granted: false
+  institutional_authority_granted: false
+  execution_authority_granted: false
