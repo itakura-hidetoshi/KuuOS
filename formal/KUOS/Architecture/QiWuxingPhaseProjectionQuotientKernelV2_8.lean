@@ -9,10 +9,15 @@ v2.7.  The protected shift space is
 
 `WuxingShift = FivePhase × Nat`.
 
-Projection to the phase coordinate is an additive homomorphism.  Its kernel
+Projection to the phase coordinate is an additive homomorphism.  Its zero fibre
 contains nonzero protected-history shifts, so the phase projection is not
 injective.  Equality after phase projection therefore defines a genuine
 observational quotient of the richer protected shift space.
+
+Because the protected-history coordinate is `Nat`, `WuxingShift` is an additive
+monoid rather than an additive group.  Accordingly, the kernel notion used here
+is the mathematically exact zero fibre `phaseProjection shift = 0`, avoiding any
+artificial negative history counts.
 
 The quotient is equivalent, as a type, to `FivePhase`: it remembers exactly the
 phase coordinate and forgets the protected-history coordinate.  This is a
@@ -38,16 +43,39 @@ theorem phaseProjection_surjective : Function.Surjective phaseProjection := by
   intro phase
   exact ⟨(phase, 0), rfl⟩
 
+/-- Zero fibre of phase projection.  This is the additive-monoid kernel notion
+appropriate to `WuxingShift = FivePhase × Nat`. -/
+def PhaseProjectionKernel (shift : WuxingShift) : Prop :=
+  phaseProjection shift = 0
+
 /-- Kernel membership is exactly vanishing phase displacement. -/
 @[simp] theorem mem_phaseProjection_ker_iff (shift : WuxingShift) :
-    shift ∈ phaseProjection.ker ↔ shift.1 = 0 := by
+    PhaseProjectionKernel shift ↔ shift.1 = 0 := by
   rfl
 
-/-- Every phase-closed relation word lands in the kernel of phase projection. -/
+/-- The zero protected shift lies in the phase-projection zero fibre. -/
+@[simp] theorem phaseProjectionKernel_zero :
+    PhaseProjectionKernel (0 : WuxingShift) := by
+  rfl
+
+/-- The phase-projection zero fibre is closed under addition. -/
+theorem phaseProjectionKernel_add
+    {first second : WuxingShift}
+    (hfirst : PhaseProjectionKernel first)
+    (hsecond : PhaseProjectionKernel second) :
+    PhaseProjectionKernel (first + second) := by
+  change phaseProjection first = 0 at hfirst
+  change phaseProjection second = 0 at hsecond
+  change phaseProjection (first + second) = 0
+  rw [map_add, hfirst, hsecond]
+  simp
+
+/-- Every phase-closed relation word lands in the zero fibre of phase
+projection. -/
 theorem phaseClosedWord_shift_mem_kernel
     (word : WuxingRelationWord) (hclosed : PhaseClosedWord word) :
-    relationWordShift word ∈ phaseProjection.ker := by
-  simpa [PhaseClosedWord] using hclosed
+    PhaseProjectionKernel (relationWordShift word) := by
+  simpa [PhaseProjectionKernel, PhaseClosedWord] using hclosed
 
 /-- A nonempty phase-closed word gives a nonzero kernel element: phase closure
 is not protected-history erasure. -/
@@ -55,14 +83,14 @@ theorem nonempty_phaseClosedWord_nonzero_kernel
     (word : WuxingRelationWord)
     (hclosed : PhaseClosedWord word)
     (hword : word ≠ []) :
-    relationWordShift word ∈ phaseProjection.ker ∧
+    PhaseProjectionKernel (relationWordShift word) ∧
       relationWordShift word ≠ 0 := by
   exact ⟨phaseClosedWord_shift_mem_kernel word hclosed,
     relationWordShift_ne_zero_of_nonempty word hword⟩
 
 /-- The canonical control-insult loop is a concrete nonzero kernel element. -/
 theorem control_insult_nonzero_kernel :
-    relationWordShift [.control, .insult] ∈ phaseProjection.ker ∧
+    PhaseProjectionKernel (relationWordShift [.control, .insult]) ∧
       relationWordShift [.control, .insult] ≠ 0 := by
   exact nonempty_phaseClosedWord_nonzero_kernel
     [.control, .insult] control_insult_word_phase_closed (by simp)
@@ -158,9 +186,9 @@ def phaseQuotientEquiv : PhaseShiftQuotient ≃ FivePhase where
 /-- Kernel membership is exactly equality with the zero class in the phase
 quotient. -/
 theorem phaseClass_eq_zero_iff_mem_kernel (shift : WuxingShift) :
-    phaseClass shift = phaseClass 0 ↔ shift ∈ phaseProjection.ker := by
+    phaseClass shift = phaseClass 0 ↔ PhaseProjectionKernel shift := by
   rw [phaseClass_eq_iff]
-  rfl
+  simp [PhaseProjectionKernel]
 
 /-- Equal phase endpoints of relation words are precisely equality of their
 protected shifts after quotienting by phase observation. -/
