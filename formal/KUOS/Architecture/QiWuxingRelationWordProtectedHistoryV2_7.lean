@@ -61,7 +61,8 @@ def relationWordShift : WuxingRelationWord → WuxingShift
   | nil =>
       simp [relationWordShift]
   | cons relation rest ih =>
-      cases relation <;> simp [relationWordShift, relationShift, ih]
+      cases relation <;>
+        simp [relationWordShift, relationShift, ih, Nat.add_comm]
 
 /-- Execute a finite relation word in temporal order. -/
 def applyRelationWord :
@@ -89,11 +90,11 @@ theorem applyRelationWord_append
     (first second : WuxingRelationWord) (state : WuxingFibonacciState) :
     applyRelationWord (first ++ second) state =
       applyRelationWord second (applyRelationWord first state) := by
-  rw [applyRelationWord_eq_applyShift]
-  rw [relationWordShift_append]
-  rw [applyRelationWord_eq_applyShift]
-  rw [applyRelationWord_eq_applyShift]
-  exact applyShift_add (relationWordShift first) (relationWordShift second) state
+  induction first generalizing state with
+  | nil =>
+      simp [applyRelationWord]
+  | cons relation rest ih =>
+      simp [applyRelationWord, ih]
 
 /-- A finite word advances protected history by exactly its number of events. -/
 theorem applyRelationWord_history
@@ -101,7 +102,7 @@ theorem applyRelationWord_history
     (applyRelationWord word state).history =
       advanceHistoryN word.length state.history := by
   rw [applyRelationWord_eq_applyShift]
-  simp [applyShift, relationWordShift_history_count]
+  simp [applyShift]
 
 /-- The phase endpoint is the initial phase plus the projected word shift. -/
 theorem applyRelationWord_phase
@@ -129,10 +130,10 @@ theorem relationWordShift_ne_zero_of_nonempty
     (word : WuxingRelationWord) (hword : word ≠ []) :
     relationWordShift word ≠ 0 := by
   intro hzero
-  have hsnd := congrArg Prod.snd hzero
-  have hlength : word.length = 0 := by
-    simpa using hsnd.symm
-  exact hword (List.length_eq_zero.mp hlength)
+  have hcount : (relationWordShift word).2 = 0 := by
+    exact congrArg Prod.snd hzero
+  rw [relationWordShift_history_count] at hcount
+  exact hword (List.length_eq_zero.mp hcount)
 
 /-- A nonempty phase-closed word has zero phase displacement but positive
 protected-history event count, hence is not the zero protected shift. -/
@@ -143,6 +144,7 @@ theorem phaseClosedWord_has_protected_residue
     (relationWordShift word).1 = 0 ∧
       0 < (relationWordShift word).2 ∧
       relationWordShift word ≠ 0 := by
+  change (relationWordShift word).1 = 0 at hclosed
   constructor
   · exact hclosed
   constructor
@@ -156,9 +158,11 @@ theorem relationWordShift_ne_of_length_ne
     (hlength : first.length ≠ second.length) :
     relationWordShift first ≠ relationWordShift second := by
   intro hshift
-  apply hlength
-  have hsnd := congrArg Prod.snd hshift
-  simpa using hsnd
+  have hcount :
+      (relationWordShift first).2 = (relationWordShift second).2 := by
+    exact congrArg Prod.snd hshift
+  rw [relationWordShift_history_count, relationWordShift_history_count] at hcount
+  exact hlength hcount
 
 /-- If two words share a phase endpoint but have different lengths, phase
 projection has forgotten protected-history information. -/
@@ -205,7 +209,7 @@ theorem control_word_two_generations_same_phase_distinct_shift :
       relationWordShift [.control] ≠
         relationWordShift [.generation, .generation] := by
   apply same_phase_distinct_protected_shift_of_length_ne
-  · simp [relationWordShift, relationShift]
+  · native_decide
   · decide
 
 end KUOS.Architecture
