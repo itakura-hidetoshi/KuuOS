@@ -1,0 +1,116 @@
+name: Qi Wuxing Generation-Control Coherence v2.6
+
+on:
+  workflow_dispatch:
+  push:
+    branches: [main]
+    paths:
+      - 'docs/KUUOS_QI_WUXING_GENERATION_CONTROL_COHERENCE_v2_6.md'
+      - 'runtime/kuuos_qi_wuxing_generation_control_coherence_v2_6.py'
+      - 'scripts/check_qi_wuxing_generation_control_coherence_v2_6.py'
+      - 'tests/test_qi_wuxing_generation_control_coherence_v2_6.py'
+      - 'manifests/kuuos_qi_wuxing_generation_control_coherence_v2_6.json'
+      - 'formal/KUOS/Architecture/QiWuxingGenerationControlCoherenceV2_6.lean'
+      - 'formal/KuuOSQiWuxingGenerationControlCoherenceV2_6.lean'
+      - '.github/workflows/qi-wuxing-generation-control-coherence-v2-6-validation.yml'
+  pull_request:
+    paths:
+      - 'docs/KUUOS_QI_WUXING_GENERATION_CONTROL_COHERENCE_v2_6.md'
+      - 'runtime/kuuos_qi_wuxing_generation_control_coherence_v2_6.py'
+      - 'scripts/check_qi_wuxing_generation_control_coherence_v2_6.py'
+      - 'tests/test_qi_wuxing_generation_control_coherence_v2_6.py'
+      - 'manifests/kuuos_qi_wuxing_generation_control_coherence_v2_6.json'
+      - 'formal/KUOS/Architecture/QiWuxingGenerationControlCoherenceV2_6.lean'
+      - 'formal/KuuOSQiWuxingGenerationControlCoherenceV2_6.lean'
+      - '.github/workflows/qi-wuxing-generation-control-coherence-v2-6-validation.yml'
+
+permissions:
+  contents: read
+
+concurrency:
+  group: qi-wuxing-generation-control-coherence-v26-${{ github.event.pull_request.number || github.ref }}
+  cancel-in-progress: true
+
+env:
+  MATHLIB_NO_CACHE_ON_UPDATE: '1'
+
+jobs:
+  python:
+    name: Python surfaces
+    runs-on: ubuntu-22.04
+    timeout-minutes: 8
+    steps:
+      - uses: actions/checkout@v6
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+      - name: Validate runtime, tests, and manifest
+        env:
+          PYTHONPATH: .
+          PYTHONUNBUFFERED: '1'
+        run: |
+          set -euo pipefail
+          python3 -m compileall -q \
+            runtime/kuuos_qi_wuxing_generation_control_coherence_v2_6.py \
+            scripts/check_qi_wuxing_generation_control_coherence_v2_6.py \
+            tests/test_qi_wuxing_generation_control_coherence_v2_6.py
+          python3 -m json.tool \
+            manifests/kuuos_qi_wuxing_generation_control_coherence_v2_6.json \
+            > /dev/null
+          python3 scripts/check_qi_wuxing_generation_control_coherence_v2_6.py
+          python3 -m unittest -v \
+            tests.test_qi_wuxing_generation_control_coherence_v2_6
+
+  lean:
+    name: Focused strict Lean
+    runs-on: ubuntu-22.04
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v6
+      - name: Verify package-local formal boundary
+        run: |
+          set -euo pipefail
+          grep -Fq \
+            'import KUOS.Architecture.QiYinYangWuxingFibonacciHistoryGeometryV2_5' \
+            formal/KUOS/Architecture/QiWuxingGenerationControlCoherenceV2_6.lean
+          grep -Fq \
+            'import KUOS.Architecture.QiWuxingGenerationControlCoherenceV2_6' \
+            formal/KuuOSQiWuxingGenerationControlCoherenceV2_6.lean
+      - name: Set up pinned Lean and Lake
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: false
+          use-github-cache: false
+      - name: Restore Lean dependency and build cache
+        id: lean-cache
+        uses: actions/cache@v5
+        with:
+          path: |
+            .lake/packages
+            .lake/build
+          key: kuuos-lean-v2-${{ runner.os }}-${{ hashFiles('lean-toolchain', 'lake-manifest.json') }}
+      - name: Resolve dependencies on cache miss
+        if: steps.lean-cache.outputs.cache-hit != 'true'
+        run: |
+          set -euo pipefail
+          for attempt in 1 2 3; do
+            if lake update; then
+              break
+            fi
+            if [ "$attempt" -eq 3 ]; then
+              exit 1
+            fi
+            sleep $((attempt * 10))
+          done
+          git diff --exit-code -- lake-manifest.json
+          lake exe cache get
+      - name: Strictly compile only the v2.6 module
+        run: |
+          set -euo pipefail
+          lake -KleanArgs=-DwarningAsError=true \
+            -KleanArgs=-DsorryAsError=true \
+            build KUOS.Architecture.QiWuxingGenerationControlCoherenceV2_6
