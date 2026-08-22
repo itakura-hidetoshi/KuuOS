@@ -1,0 +1,67 @@
+name: KuuOS GitHub CI Completion Reentry v1.1
+
+on:
+  workflow_run:
+    workflows:
+      - KuuOS Runtime Full Check
+      - Lean Formal Validation
+      - All Governance Validation
+      - Core Governance Validation
+    types: [completed]
+  repository_dispatch:
+    types: [kuuos_ci_completion_v1_1]
+
+permissions:
+  contents: read
+
+concurrency:
+  group: kuuos-github-ci-completion-reentry-v11-${{ github.event.workflow_run.id || github.run_id }}
+  cancel-in-progress: false
+
+jobs:
+  intake:
+    name: Compile bounded CI completion reentry
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - name: Self-check event compiler and verification boundary
+        run: |
+          set -euo pipefail
+          python3 runtime/kuuos_github_ci_completion_reentry_v1_1.py --self-check
+      - name: Compile workflow-run completion signal
+        if: github.event_name == 'workflow_run'
+        run: |
+          set -euo pipefail
+          python3 runtime/kuuos_github_ci_completion_reentry_v1_1.py \
+            --event "$GITHUB_EVENT_PATH" \
+            --event-name workflow_run \
+            --output-dir .kuuos/github-ci-completion-reentry-v1-1 \
+            --repository "${{ github.repository }}" \
+            --workflow "${{ github.event.workflow_run.name }}"
+      - name: Compile cross-repository completion signal
+        if: github.event_name == 'repository_dispatch'
+        run: |
+          set -euo pipefail
+          python3 runtime/kuuos_github_ci_completion_reentry_v1_1.py \
+            --event "$GITHUB_EVENT_PATH" \
+            --event-name repository_dispatch \
+            --output-dir .kuuos/github-ci-completion-reentry-v1-1
+      - name: Publish bounded handoff artifact
+        uses: actions/upload-artifact@v6
+        with:
+          name: kuuos-github-ci-completion-reentry-${{ github.run_id }}
+          path: .kuuos/github-ci-completion-reentry-v1-1/
+          if-no-files-found: error
+          retention-days: 7
+      - name: Publish non-authority summary
+        run: |
+          set -euo pipefail
+          {
+            echo '## KuuOS GitHub CI Completion Reentry v1.1'
+            echo
+            echo '- GitHub completion event compiled as a wake-up signal.'
+            echo '- Event success is not success evidence.'
+            echo '- Fresh GitHub MCP re-observation is required before verified re-entry.'
+            echo '- This workflow grants neither merge nor write authority.'
+          } >> "$GITHUB_STEP_SUMMARY"
