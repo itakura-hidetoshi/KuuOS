@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "github-ci-completion-reentry-v1-1": {
+      "name": "KuuOS GitHub CI Completion Reentry v1.1",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_github_ci_completion_reentry_v1_1.py --self-check",
+      "group": "github-mcp",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_github_ci_completion_reentry_v1_1.py",
+        "formal/KuuOSGitHubMCPServerBridgeV0_1/V1_1.lean",
+        "formal/KuuOSGitHubMCPServerBridgeV0_1.lean",
+        "docs/KUUOS_GITHUB_CI_COMPLETION_REENTRY_v1_1.md",
+        ".github/workflows/kuuos-github-ci-completion-reentry-v1-1.yml",
+        "ci/check_registry.d/github_ci_completion_reentry_v1_1.json"
+      ],
+      "depends_on": ["repository-runtime-v124"],
+      "timeout_minutes": 10,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
