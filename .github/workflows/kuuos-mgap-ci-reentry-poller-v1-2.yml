@@ -1,0 +1,83 @@
+name: KuuOS MGAP CI Reentry Poller v1.2
+
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: '*/5 * * * *'
+  pull_request:
+    paths:
+      - 'runtime/kuuos_github_public_ci_completion_poller_v1_2.py'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V1_2.lean'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1.lean'
+      - 'docs/KUUOS_GITHUB_PUBLIC_CI_COMPLETION_POLLER_v1_2.md'
+      - 'ci/check_registry.d/github_ci_public_poll_reentry_v1_2.json'
+      - '.github/workflows/kuuos-mgap-ci-reentry-poller-v1-2.yml'
+  push:
+    branches: [main]
+    paths:
+      - 'runtime/kuuos_github_public_ci_completion_poller_v1_2.py'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1/V1_2.lean'
+      - 'formal/KuuOSGitHubMCPServerBridgeV0_1.lean'
+      - 'docs/KUUOS_GITHUB_PUBLIC_CI_COMPLETION_POLLER_v1_2.md'
+      - 'ci/check_registry.d/github_ci_public_poll_reentry_v1_2.json'
+      - '.github/workflows/kuuos-mgap-ci-reentry-poller-v1-2.yml'
+
+permissions:
+  contents: write
+
+concurrency:
+  group: kuuos-mgap-ci-reentry-poller-v12
+  cancel-in-progress: false
+
+jobs:
+  validate:
+    name: Validate public-poll wakeup boundary
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - uses: actions/checkout@v6
+      - name: Run deterministic poller self-check
+        run: |
+          set -euo pipefail
+          python3 runtime/kuuos_github_public_ci_completion_poller_v1_2.py --self-check
+
+  poll:
+    name: Poll public MGAP CI and self-dispatch
+    needs: validate
+    if: github.event_name == 'schedule' || github.event_name == 'workflow_dispatch' || (github.event_name == 'push' && github.ref == 'refs/heads/main')
+    runs-on: ubuntu-22.04
+    timeout-minutes: 10
+    steps:
+      - name: Check out trusted default branch
+        uses: actions/checkout@v6
+        with:
+          ref: main
+      - name: Restore monotone poll state
+        id: state-cache
+        uses: actions/cache/restore@v5
+        with:
+          path: .kuuos/state/kuuos_mgap_ci_completion_poller_v1_2.json
+          key: kuuos-mgap-ci-poller-v12-${{ github.run_id }}
+          restore-keys: |
+            kuuos-mgap-ci-poller-v12-
+      - name: Poll source and emit bounded self-dispatches
+        env:
+          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+        run: |
+          set -euo pipefail
+          python3 runtime/kuuos_github_public_ci_completion_poller_v1_2.py \
+            --state-file .kuuos/state/kuuos_mgap_ci_completion_poller_v1_2.json \
+            --target-repo "${GITHUB_REPOSITORY}" \
+            --summary-file "${RUNNER_TEMP}/mgap-ci-poller-summary.json"
+          {
+            echo '## KuuOS MGAP CI Reentry Poller v1.2'
+            echo
+            echo '```json'
+            cat "${RUNNER_TEMP}/mgap-ci-poller-summary.json"
+            echo '```'
+          } >> "${GITHUB_STEP_SUMMARY}"
+      - name: Save monotone poll state
+        uses: actions/cache/save@v5
+        with:
+          path: .kuuos/state/kuuos_mgap_ci_completion_poller_v1_2.json
+          key: kuuos-mgap-ci-poller-v12-${{ github.run_id }}
