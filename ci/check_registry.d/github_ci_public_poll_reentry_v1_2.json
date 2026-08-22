@@ -1,0 +1,24 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "github-ci-public-poll-reentry-v1-2": {
+      "name": "KuuOS GitHub Public CI Poll Reentry v1.2",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_github_public_ci_completion_poller_v1_2.py --self-check",
+      "group": "github-mcp",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_github_public_ci_completion_poller_v1_2.py",
+        "formal/KuuOSGitHubMCPServerBridgeV0_1/V1_2.lean",
+        "formal/KuuOSGitHubMCPServerBridgeV0_1.lean",
+        "docs/KUUOS_GITHUB_PUBLIC_CI_COMPLETION_POLLER_v1_2.md",
+        ".github/workflows/kuuos-mgap-ci-reentry-poller-v1-2.yml",
+        "ci/check_registry.d/github_ci_public_poll_reentry_v1_2.json"
+      ],
+      "depends_on": ["github-ci-completion-reentry-v1-1"],
+      "timeout_minutes": 10,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
