@@ -246,6 +246,47 @@ lake -KleanArgs=-DwarningAsError=true \
 
 Formal compilation establishes only the repository theorem surface under the pinned toolchain. It does not substitute for external theorem acceptance, empirical validity, clinical approval, organizational approval, production deployment, or live-service behavior.
 
+## Legacy compatibility status surface
+
+The current source of truth is `runtime/kuuos_current_check.py`, but historical current-root/readme identifiers remain compatibility markers because repository self-organization tests still validate them.
+
+```text
+KuuOS README Public Status v0.66
+kuuos_current_root_sequence_v0_66
+docs/kuuos_readme_public_status_v0_66.md
+
+KuuOS Current Root Execution Connection v0.65
+kuuos_current_root_sequence_v0_65
+docs/kuuos_self_organization_active_state.md
+self_organization_active: true
+execution_scope: publish_active_self_organization_state
+state_publication_applied: true
+
+KuuOS README Surface Exposure v0.78
+kuuos_current_root_sequence_v0_78
+docs/kuuos_readme_surface_exposure_v0_78.md
+runtime/kuuos_current_surface.py
+runtime/kuuos_current_surface_entrypoint_v0_77.py
+status/current.surface.index.json
+status/current.surface.json
+status/current.resolved.json
+status/current.manifest.json
+PYTHONPATH=. python3 runtime/kuuos_current_surface.py
+```
+
+These compatibility tokens do not create new authority:
+
+```text
+active self-organization state != unbounded mutation authority
+current root execution != production deployment
+runtime success != external truth
+README public status != authority grant
+current surface CLI != authority grant
+current surface index != authority grant
+current surface artifact != authority grant
+README surface exposure != authority grant
+```
+
 ## Repository map
 
 | Path | Role |
