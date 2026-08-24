@@ -75,14 +75,16 @@ def memoryEval
     (S : MemoryLiftedStep Event Visible Memory)
     (initialMemory : Memory) (x : Visible) :
     S.visibleEval initialMemory [] x = x := by
-  simp [visibleEval, S.toHistoryTransport.eval_nil_apply]
+  change (S.toHistoryTransport.eval [] (x, initialMemory)).1 = x
+  rw [S.toHistoryTransport.eval_nil_apply]
 
 /-- Empty history leaves memory unchanged. -/
 @[simp] theorem memoryEval_nil
     (S : MemoryLiftedStep Event Visible Memory)
     (initialMemory : Memory) (x : Visible) :
     S.memoryEval initialMemory [] x = initialMemory := by
-  simp [memoryEval, S.toHistoryTransport.eval_nil_apply]
+  change (S.toHistoryTransport.eval [] (x, initialMemory)).2 = initialMemory
+  rw [S.toHistoryTransport.eval_nil_apply]
 
 /-- A singleton history is exactly the supplied one-event enlarged-state update. -/
 @[simp] theorem toHistoryTransport_eval_singleton
@@ -141,11 +143,15 @@ def VisibleDistinguishes
     S.visibleEval initialMemory left x ≠
       S.visibleEval initialMemory right x
 
-/-- Arbitrary visible readout after a finite history. -/
-def visibleReadout
+/-- Arbitrary semantic/readout observation of the visible projection. -/
+def projectedReadout
     (S : MemoryLiftedStep Event Visible Memory)
-    (readout : Visible → Type y) :=
-  readout
+    {Output : Type y}
+    (readout : Visible → Output)
+    (initialMemory : Memory)
+    (word : List Event)
+    (x : Visible) : Output :=
+  readout (S.visibleEval initialMemory word x)
 
 end MemoryLiftedStep
 
@@ -196,6 +202,23 @@ theorem visibleEval_eq_of_sum_eq_of_factorization
       S.visibleEval initialMemory right x := by
   have h := F.eval_eq_of_sum_eq left right (x, initialMemory) hSum
   simpa [visibleEval] using congrArg Prod.fst h
+
+/-- Equal-total-time histories therefore also have equal arbitrary visible readouts. -/
+theorem projectedReadout_eq_of_sum_eq_of_factorization
+    (S : MemoryLiftedStep Time Visible Memory)
+    (F : TotalTimeFactorization S.toHistoryTransport)
+    {Output : Type y}
+    (readout : Visible → Output)
+    (initialMemory : Memory)
+    (left right : List Time)
+    (x : Visible)
+    (hSum : left.sum = right.sum) :
+    S.projectedReadout readout initialMemory left x =
+      S.projectedReadout readout initialMemory right x := by
+  unfold projectedReadout
+  exact congrArg readout
+    (S.visibleEval_eq_of_sum_eq_of_factorization
+      F initialMemory left right x hSum)
 
 /--
 A genuine visible history-sensitivity witness obstructs every total-time
