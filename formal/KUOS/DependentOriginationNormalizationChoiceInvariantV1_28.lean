@@ -22,12 +22,12 @@ universe u₁ u₂ v₁ v₂ w₁ w₂ z
 # Normalization-choice invariant kernel v1.28
 
 Version 1.27 proved direct global Duskin transport once a model equivalence has
-already been presented by a strictly-unitary pseudofunctor.  The remaining
+already been presented by a strictly-unitary pseudofunctor. The remaining
 presentation issue is the choice of such a normal representative.
 
 The pinned Mathlib revision has native strong transformations between oplax
 functors, but its `StrictlyUnitary.lean` file still lists identity-component
-icons and automatic normalization as future work.  Therefore this layer keeps
+icons and automatic normalization as future work. Therefore this layer keeps
 both missing constructions explicit instead of postulating them.
 
 There are two levels of certificate.
@@ -52,7 +52,7 @@ choice-independence statements:
   therefore reflects isomorphisms.
 
 Thus literal equality of two normal presentations is neither required nor
-claimed.  The invariant lives modulo coherent bicategorical equivalence.
+claimed. The invariant lives modulo coherent bicategorical equivalence.
 -/
 
 /-! ## Explicit normalization existence interface -/
@@ -62,7 +62,7 @@ A chosen strictly-unitary normalization of a general bicategorical model
 equivalence.
 
 The strong transformation points from the normalized representative to the
-original pseudofunctor.  Requiring every object component to be an intrinsic
+original pseudofunctor. Requiring every object component to be an intrinsic
 adjoint equivalence makes this a genuine model comparison rather than an
 arbitrary transformation.
 -/
@@ -99,21 +99,6 @@ structure NormalizationChoiceComparison
       E₂.forward.toPseudofunctor.toOplax
   object_component_equivalence :
     ∀ X : B, IntrinsicEquivalenceOneCell (strong.app X)
-
-namespace NormalizationChoiceComparison
-
-variable
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
-    {E₁ E₂ : StrictlyUnitaryBicategoricalModelEquivalence B C]
-
-end NormalizationChoiceComparison
-
-/-!
-The namespace declaration above cannot bind structure-valued variables with a
-closing square bracket.  The actual API follows at top level, where Lean can
-infer the two model-equivalence certificates directly.
--/
 
 /-- The canonical strong-naturality isomorphism relating the two transported 1-cells. -/
 def normalizationOneCellIso
@@ -317,7 +302,7 @@ theorem transportedIntrinsicComparisonInvertibility_normalizationIndependent
 
 /--
 Every coherent observable of the intrinsic transported comparison 2-cell is
-normalization-independent.  The actual target global comparison then differs
+normalization-independent. The actual target global comparison then differs
 from this intrinsic cell only by the canonical `mapComp` coherence already
 isolated in v1.27.
 -/
@@ -330,13 +315,13 @@ theorem transportedIntrinsicComparisonObservable_normalizationIndependent
     (Φ : ∀ (A B : C) (f g : A ⟶ B), (f ⟶ g) → Z)
     (hΦ : CoherentTwoCellObservable Φ)
     (σ : DuskinSimplex B 2) :
-    Φ (E₁.forward.obj (σ.obj (LocallyDiscrete.mk (0 : Fin 3))))
-        (E₁.forward.obj (σ.obj (LocallyDiscrete.mk (2 : Fin 3))))
+    Φ (E₁.forward.obj (duskinTriangleSource σ))
+        (E₁.forward.obj (duskinTriangleTarget σ))
         (E₁.forward.map (duskinTriangleCompositeArrow σ))
         (E₁.forward.map (duskinTriangleLongArrow σ))
         (E₁.forward.map₂ (duskinComparison σ)) =
-      Φ (E₂.forward.obj (σ.obj (LocallyDiscrete.mk (0 : Fin 3))))
-        (E₂.forward.obj (σ.obj (LocallyDiscrete.mk (2 : Fin 3))))
+      Φ (E₂.forward.obj (duskinTriangleSource σ))
+        (E₂.forward.obj (duskinTriangleTarget σ))
         (E₂.forward.map (duskinTriangleCompositeArrow σ))
         (E₂.forward.map (duskinTriangleLongArrow σ))
         (E₂.forward.map₂ (duskinComparison σ)) := by
