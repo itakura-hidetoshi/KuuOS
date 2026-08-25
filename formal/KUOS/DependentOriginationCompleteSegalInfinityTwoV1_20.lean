@@ -5,6 +5,7 @@ namespace KUOS.DependentOriginationCompleteSegalInfinityTwoV1_20
 
 open CategoryTheory
 open Simplicial
+open scoped Bicategory
 open KUOS.DependentOriginationInfinityTwoYonedaV1_18
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 
