@@ -48,7 +48,7 @@ base with the corresponding category of descent data up to equivalence.
 -/
 theorem descentData_isEquivalence
     {Context : Type u} [Category.{v} Context]
-    (S : StackDependentOriginationLayer.{u, v, u', v'} Context)
+    (S : StackDependentOriginationLayer Context)
     {ι : Type t} {T : Context} {X : ι -> Context}
     (f : forall i, X i ⟶ T)
     (hf : Sieve.ofArrows X f ∈ S.topology T) :
@@ -59,7 +59,7 @@ theorem descentData_isEquivalence
 /-- The supplied stack certificate is retained as an explicit stronger layer. -/
 theorem has_effective_descent
     {Context : Type u} [Category.{v} Context]
-    (S : StackDependentOriginationLayer.{u, v, u', v'} Context) :
+    (S : StackDependentOriginationLayer Context) :
     Pseudofunctor.IsStack S.fiber S.topology :=
   S.isStack
 
