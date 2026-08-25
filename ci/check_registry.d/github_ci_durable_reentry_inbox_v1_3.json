@@ -1,0 +1,27 @@
+{
+  "schema_version": "0.2",
+  "checks": {
+    "github-ci-durable-reentry-inbox-v1-3": {
+      "name": "KuuOS GitHub CI Durable Reentry Inbox v1.3",
+      "runner": "python",
+      "command": "python3 runtime/kuuos_github_ci_durable_reentry_inbox_v1_3.py --self-check",
+      "group": "github-mcp",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_github_ci_durable_reentry_inbox_v1_3.py",
+        "formal/KuuOSGitHubMCPServerBridgeV0_1/V1_3.lean",
+        "formal/KuuOSGitHubMCPServerBridgeV0_1.lean",
+        "docs/KUUOS_GITHUB_CI_DURABLE_REENTRY_INBOX_v1_3.md",
+        ".github/workflows/kuuos-github-ci-durable-reentry-inbox-v1-3.yml",
+        "ci/check_registry.d/github_ci_durable_reentry_inbox_v1_3.json"
+      ],
+      "depends_on": [
+        "github-ci-completion-reentry-v1-1",
+        "repository-runtime-v124"
+      ],
+      "timeout_minutes": 10,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
