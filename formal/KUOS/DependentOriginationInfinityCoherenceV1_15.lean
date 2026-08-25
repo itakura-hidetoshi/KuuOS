@@ -57,18 +57,18 @@ namespace ReflexiveGlobularCoherenceTower
 
 /-- Every cell has a degenerate coherence cell one dimension higher. -/
 def raise
-    (T : ReflexiveGlobularCoherenceTower.{x})
+    (T : ReflexiveGlobularCoherenceTower)
     {n : Nat} (c : T.Cell n) : T.Cell (Nat.succ n) :=
   T.identity n c
 
 @[simp] theorem source_raise
-    (T : ReflexiveGlobularCoherenceTower.{x})
+    (T : ReflexiveGlobularCoherenceTower)
     {n : Nat} (c : T.Cell n) :
     T.source n (T.raise c) = c :=
   T.source_identity n c
 
 @[simp] theorem target_raise
-    (T : ReflexiveGlobularCoherenceTower.{x})
+    (T : ReflexiveGlobularCoherenceTower)
     {n : Nat} (c : T.Cell n) :
     T.target n (T.raise c) = c :=
   T.target_identity n c
@@ -86,7 +86,7 @@ quasicategory horn fillers.
 structure InfinityCoherenceInterface
     (B : Type u) [Bicategory.{w, v} B] where
   base : BicategoricalTransportSystem B
-  tower : ReflexiveGlobularCoherenceTower.{x}
+  tower : ReflexiveGlobularCoherenceTower
   objectCell : B -> tower.Cell 0
   oneCell : forall {X Y : B}, (X ⟶ Y) -> tower.Cell 1
   one_source : forall {X Y : B} (f : X ⟶ Y),
@@ -105,7 +105,7 @@ namespace InfinityCoherenceInterface
 /-- The 1-cell boundary recovers the source object. -/
 theorem oneCell_source
     {B : Type u} [Bicategory.{w, v} B]
-    (I : InfinityCoherenceInterface.{u, v, w, x} B)
+    (I : InfinityCoherenceInterface B)
     {X Y : B} (f : X ⟶ Y) :
     I.tower.source 0 (I.oneCell f) = I.objectCell X :=
   I.one_source f
@@ -113,7 +113,7 @@ theorem oneCell_source
 /-- The 1-cell boundary recovers the target object. -/
 theorem oneCell_target
     {B : Type u} [Bicategory.{w, v} B]
-    (I : InfinityCoherenceInterface.{u, v, w, x} B)
+    (I : InfinityCoherenceInterface B)
     {X Y : B} (f : X ⟶ Y) :
     I.tower.target 0 (I.oneCell f) = I.objectCell Y :=
   I.one_target f
@@ -121,7 +121,7 @@ theorem oneCell_target
 /-- The 2-cell boundary recovers its source 1-morphism. -/
 theorem twoCell_source
     {B : Type u} [Bicategory.{w, v} B]
-    (I : InfinityCoherenceInterface.{u, v, w, x} B)
+    (I : InfinityCoherenceInterface B)
     {X Y : B} {f g : X ⟶ Y} (η : f ⟶ g) :
     I.tower.source 1 (I.twoCell η) = I.oneCell f :=
   I.two_source η
@@ -129,7 +129,7 @@ theorem twoCell_source
 /-- The 2-cell boundary recovers its target 1-morphism. -/
 theorem twoCell_target
     {B : Type u} [Bicategory.{w, v} B]
-    (I : InfinityCoherenceInterface.{u, v, w, x} B)
+    (I : InfinityCoherenceInterface B)
     {X Y : B} {f g : X ⟶ Y} (η : f ⟶ g) :
     I.tower.target 1 (I.twoCell η) = I.oneCell g :=
   I.two_target η
@@ -140,7 +140,7 @@ by a bicategorical 2-cell.
 -/
 theorem transport_eq_of_embedded_twoCell
     {B : Type u} [Bicategory.{w, v} B]
-    (I : InfinityCoherenceInterface.{u, v, w, x} B)
+    (I : InfinityCoherenceInterface B)
     {X Y : B} {f g : X ⟶ Y}
     (η : f ⟶ g) (s : I.base.state X) :
     I.base.transport f s = I.base.transport g s :=
@@ -149,7 +149,7 @@ theorem transport_eq_of_embedded_twoCell
 /-- Every embedded cell generates an infinite chain of degenerate higher coherences. -/
 def raiseCell
     {B : Type u} [Bicategory.{w, v} B]
-    (I : InfinityCoherenceInterface.{u, v, w, x} B)
+    (I : InfinityCoherenceInterface B)
     {n : Nat} (c : I.tower.Cell n) : I.tower.Cell (Nat.succ n) :=
   I.tower.raise c
 
