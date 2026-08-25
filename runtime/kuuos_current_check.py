@@ -12,7 +12,7 @@ import runtime.kuuos_current_check_v0_95 as _base
 # Subsystem versions remain independent. The moving main branch may advance
 # after documentation or governance synchronization; the functional milestone
 # below remains bound to the latest integrated functional PR represented here.
-_base.CURRENT_BASELINE_DATE = "2026-08-16 JST"
+_base.CURRENT_BASELINE_DATE = "2026-08-25 JST"
 _base.CURRENT_ROOT_SEQUENCE_FRONTIER = "kuuos_current_root_sequence_v0_113"
 _base.CURRENT_REPOSITORY_FRONTIER = "self-organization v0.113"
 _base.CURRENT_PLANOS_FRONTIER = "PlanOS v1.23"
@@ -27,14 +27,25 @@ _base.CURRENT_CODEAI_FRONTIER = (
 _base.CURRENT_GITHUB_MCP_FRONTIER = (
     "KuuOS GitHub MCP Sub-Issue Chain Parent Cross-Observation v1.1"
 )
+_base.CURRENT_DEPENDENT_ORIGINATION_PARENT_FRONTIER = (
+    "Filtered Categorical Cofinal Dependent Origination Semantics v1.4"
+)
 _base.CURRENT_DEPENDENT_ORIGINATION_FRONTIER = (
-    "Gauge-Invariant Dependent Origination Groupoid Cech Descent v0.1"
+    _base.CURRENT_DEPENDENT_ORIGINATION_PARENT_FRONTIER
+)
+_base.CURRENT_DEPENDENT_ORIGINATION_DOWNSTREAM_FRONTIER = (
+    "Quantum/Choi specialization integrated through causal tester "
+    "dual-recursion closure (#1415)"
+)
+_base.CURRENT_DEPENDENT_ORIGINATION_RUNTIME_AUTHORITY = (
+    "Gauge-Invariant Dependent Origination runtime/spec adapter v0.1 (#1386)"
 )
 _base.CURRENT_WORLD_DEPENDENCY = "KuuOS v14.0 causal WORLD state"
 _base.CURRENT_MAIN_FRONTIER = _base.CURRENT_DEPENDENT_ORIGINATION_FRONTIER
 
-# No current-frontier successor Draft is designated at this baseline.
-# Historical open PRs are not promoted into the current frontier implicitly.
+# No mathematical current-frontier successor Draft is designated at this
+# baseline. Documentation synchronization PRs are not promoted as theorem
+# successors. Historical open PRs are not promoted implicitly either.
 _base.CURRENT_DRAFT_FRONTIER = None
 _base.CURRENT_DRAFT_PR = None
 _base.CURRENT_DRAFT_BRANCH = None
@@ -42,9 +53,9 @@ _base.CURRENT_DRAFT_BASE_SHA = None
 _base.CURRENT_DRAFT_HEAD_SHA = None
 
 _base.CURRENT_FUNCTIONAL_MILESTONE_COMMIT = (
-    "382c82dfb347bd323f3406e6893ca30c0b58be4f"
+    "79e6d48029700fc3c998d28c87db069b3120bdab"
 )
-_base.CURRENT_LATEST_FUNCTIONAL_PR = 1390
+_base.CURRENT_LATEST_FUNCTIONAL_PR = 1420
 _base.CURRENT_SUPPORTED_PROFILES = (
     "all",
     "repository",
@@ -62,22 +73,38 @@ _base.CURRENT_PUBLIC_SURFACES = (
     "runtime/kuuos_current_check.py",
 )
 _base.CURRENT_FRONTIER_ARTIFACT = (
-    "formal/KUOS/GaugeInvariantDependentOriginationGroupoidCechDescentV0_1.lean"
+    "formal/KUOS/DependentOriginationFilteredCofinalCategoryV1_4.lean"
+)
+_base.CURRENT_FRONTIER_AGGREGATE = (
+    "formal/KUOS/DependentOriginationCoreSpineV1_4.lean"
 )
 _base.CURRENT_FRONTIER_ADAPTER = (
     "runtime/kuuos_gauge_invariant_dependent_origination_descent_v0_1.py"
 )
 _base.CURRENT_DEPENDENT_ORIGINATION_FORMAL_ARTIFACTS = (
+    "formal/KUOS/DependentOriginationFunctorialTransportV0_1.lean",
+    "formal/KUOS/DependentOriginationContextualCoreV1_0.lean",
+    "formal/KUOS/DependentOriginationContextualDescentV1_1.lean",
+    "formal/KUOS/DependentOriginationRefinementTransitivityV1_2.lean",
+    "formal/KUOS/DependentOriginationDirectedCofinalSemanticsV1_3.lean",
+    "formal/KUOS/DependentOriginationFilteredCofinalCategoryV1_4.lean",
+    "formal/KUOS/DependentOriginationCoreSpineV1_4.lean",
+)
+_base.CURRENT_DEPENDENT_ORIGINATION_REVERSIBLE_SPECIALIZATION_ARTIFACTS = (
     "formal/KUOS/GaugeInvariantDependentOriginationDenseDescentV0_1.lean",
     "formal/KUOS/GaugeInvariantDependentOriginationOrbitQuotientV0_1.lean",
     "formal/KUOS/GaugeInvariantDependentOriginationActionGroupoidV0_1.lean",
     "formal/KUOS/GaugeInvariantDependentOriginationGroupoidCechDescentV0_1.lean",
 )
+_base.CURRENT_DEPENDENT_ORIGINATION_FORMAL_PR_RANGE = (1400, 1420)
+_base.CURRENT_DEPENDENT_ORIGINATION_QUANTUM_PR_RANGE = (1408, 1415)
 _base.CURRENT_FRONTIER_MODE = (
     "integrated_repository_qi_plan_decision_memory_codeai_github_mcp_"
     "dependent_origination"
 )
-_base.CURRENT_FRONTIER_BOUNDARY = "current_root_validation_only"
+_base.CURRENT_FRONTIER_BOUNDARY = (
+    "runtime_adapter_checks_plus_strict_lean_frontier_metadata"
+)
 
 _NEW_MEMORYOS_STEPS = (
     (
@@ -224,8 +251,9 @@ _base.GITHUB_MCP_CURRENT_FRONTIER_STEPS = (
 )
 
 # The executable current root validates the integrated runtime/spec boundary from
-# PR #1386. The theorem-only #1387-#1390 layers remain strict Lean authority and
-# are represented in metadata rather than being silently replaced by Python.
+# PR #1386. The later dependent-origination theorem line through PR #1420 remains
+# strict Lean authority. This root records that integrated theorem frontier as
+# metadata and never substitutes Python checks for Lean elaboration/compilation.
 _base.DEPENDENT_ORIGINATION_CURRENT_FRONTIER_STEPS = (
     _base._script_step(
         "dependent-origination-v0-1-gauge-invariant-descent-projection",
@@ -271,8 +299,26 @@ def current_runtime_root_summary() -> dict[str, object]:
             "dependent_origination_frontier": (
                 _base.CURRENT_DEPENDENT_ORIGINATION_FRONTIER
             ),
+            "dependent_origination_parent_frontier": (
+                _base.CURRENT_DEPENDENT_ORIGINATION_PARENT_FRONTIER
+            ),
+            "dependent_origination_downstream_frontier": (
+                _base.CURRENT_DEPENDENT_ORIGINATION_DOWNSTREAM_FRONTIER
+            ),
+            "dependent_origination_runtime_authority": (
+                _base.CURRENT_DEPENDENT_ORIGINATION_RUNTIME_AUTHORITY
+            ),
             "dependent_origination_formal_artifacts": list(
                 _base.CURRENT_DEPENDENT_ORIGINATION_FORMAL_ARTIFACTS
+            ),
+            "dependent_origination_reversible_specialization_artifacts": list(
+                _base.CURRENT_DEPENDENT_ORIGINATION_REVERSIBLE_SPECIALIZATION_ARTIFACTS
+            ),
+            "dependent_origination_formal_pr_range": list(
+                _base.CURRENT_DEPENDENT_ORIGINATION_FORMAL_PR_RANGE
+            ),
+            "dependent_origination_quantum_pr_range": list(
+                _base.CURRENT_DEPENDENT_ORIGINATION_QUANTUM_PR_RANGE
             ),
             "world_dependency": _base.CURRENT_WORLD_DEPENDENCY,
             "main_frontier": _base.CURRENT_MAIN_FRONTIER,
@@ -288,6 +334,7 @@ def current_runtime_root_summary() -> dict[str, object]:
             "supported_profiles": list(_base.CURRENT_SUPPORTED_PROFILES),
             "public_surfaces": list(_base.CURRENT_PUBLIC_SURFACES),
             "current_frontier_artifact": _base.CURRENT_FRONTIER_ARTIFACT,
+            "current_frontier_aggregate": _base.CURRENT_FRONTIER_AGGREGATE,
             "current_frontier_adapter": _base.CURRENT_FRONTIER_ADAPTER,
             "repository_step_count": len(_base.REPOSITORY_LINEAGE_STEPS),
             "architecture_step_count": len(

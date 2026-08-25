@@ -3,162 +3,205 @@
 ![Core Governance](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/core_governance_validation.yml/badge.svg)
 ![KuuOS Runtime Full Check](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/kuuos_runtime_full_check.yml/badge.svg)
 
-**KuuOS / 空OS** は、観測・文脈・信念・記憶・WORLD表現・計画・判断・実行・再観測・検証・学習を、provenance、履歴、責任主体、有限権限、content address、検証可能な receipt に結び付ける公開研究アーキテクチャです。
+**KuuOS / 空OS** は、観測・文脈・記憶・WORLD 表現・計画・判断・実行・再観測・検証を、provenance、履歴、責任主体、有限権限、content address、検証可能な receipt に結び付ける公開研究アーキテクチャです。
 
-KuuOS is a public, governance-gated, proof-facing, non-Markovian and relational AI research architecture. It keeps candidates separate from authority, evidence separate from truth, validation separate from acceptance, and selection separate from execution.
+現在の理論的中心は、仏教語を AI に貼り付けることではなく、**縁起を「対象を実体化する前の composable contextual transport」として構造化すること**です。量子・Choi・process tensor・gauge/groupoid はこの親構造の specialization であり、親定義そのものではありません。
 
 ## 現在地
 
-**基準日：2026年8月16日 JST**
+**基準日：2026年8月25日 JST**
 
-Authoritative branch は `main` です。この公開面が表す統合済み functional baseline は:
+Authoritative branch は `main` です。現在の integrated functional baseline は:
 
 ```text
-main: 382c82dfb347bd323f3406e6893ca30c0b58be4f
-latest integrated functional PR: #1390
-frontier: complete-overlap action-groupoid Cech semantic descent v0.1
+main functional milestone: 79e6d48029700fc3c998d28c87db069b3120bdab
+latest integrated functional PR: #1420
+parent formal frontier: filtered categorical cofinal dependent-origination semantics v1.4
+downstream quantum specialization: integrated through causal tester / dual-recursion closure (#1415)
+runtime dependent-origination executable surface: gauge-invariant local-to-global descent v0.1 (#1386)
 current-frontier successor Draft: none designated
 ```
 
-PR #1390 **Glue dependent-origination semantics over groupoid Cech data** は、fixed head `39a39ea5a4c0c8dbd865c7d18bcc8b6f440cc2e8` で Governance Gate と strict Lean validation が completed / success となった後、`main` に統合済みです。
+PR #1420 **Formalize filtered categorical cofinal dependent-origination semantics** は exact head `dc72e4dc022688002f8b99ab00acedef27b65211` で Governance Gate、Strict Lean formal validation、exact `Run selected Lean check` がすべて completed / success となった後、normal merge されました。authoritative merge SHA は `79e6d48029700fc3c998d28c87db069b3120bdab` です。
 
-| 面 | 統合済み到達点 | 主な入口 |
+## 縁起の親構造
+
+KuuOS の現在の parent definition は、一般の context category `Context` 上の state-valued functor です。
+
+```text
+Context  --D-->  Type
+
+X --f--> Y
+|        |
+D(X) --> D(Y)
+        D(f)
+```
+
+中心法則は:
+
+```text
+D(id) = id
+D(g ∘ f) = D(g) ∘ D(f)
+```
+
+すなわち、
+
+```text
+縁起 = context に依存して成立する state
+     + admissible relation に沿う transport
+     + transport の compositional coherence
+```
+
+です。
+
+この親構造では、最初から「同一の実体が各状況で姿を変える」とは仮定しません。context ごとに state carrier 自体が変わり得ます。可逆性も親には要求しません。
+
+- context が groupoid なら transport は可逆になる。
+- 一般 category では不可逆 transport を許す。
+- finite history は free one-object category / free-monoid specialization として入る。
+- memory-lifted history は enlarged state 上の specialization として入る。
+- quantum/process-tensor/Choi は明示的 realization を追加した downstream specialization です。
+
+## 現在の dependent-origination formal spine
+
+現在の大きな流れは次です。
+
+```text
+#1400  functorial contextual transport parent
+#1401-#1403
+       contractive / gapped transfer specialization
+       finite transfer-word specialization
+#1404-#1407
+       history-sensitive transport
+       free-history category
+       explicit memory-lifted state
+       operational non-Markov process-tensor realization
+#1408-#1415
+       finite-dimensional Choi / comb specialization
+       Choi PSD <-> Mathlib complete positivity
+       native CPTP finite words
+       quantum instruments and Born law
+       arbitrary multi-slot Choi contraction
+       open-comb history sensitivity
+       tester probability law
+       causal tester normalization <-> dual recursive normalization
+#1416  restore the general contextual parent as the main spine
+#1417  contextual refinement / overlap / semantic descent
+#1418  refinement-of-refinement and exact descent transitivity
+#1419  directed refinement nets and order-cofinal semantic invariance
+#1420  arbitrary filtered indexing categories and categorical cofinal semantics
+```
+
+The parent non-quantum aggregate is:
+
+```text
+formal/KUOS/DependentOriginationCoreSpineV1_4.lean
+```
+
+Current parent frontier:
+
+```text
+formal/KUOS/DependentOriginationFilteredCofinalCategoryV1_4.lean
+```
+
+### 現在の主要定理的境界
+
+Filtered indexing category `J` は、少なくとも以下を明示します。
+
+```text
+J is nonempty
+any two objects admit a common future object
+parallel arrows can be coequalized after further refinement
+```
+
+coherent state family `s_j` と transport-invariant readout `Q` に対しては、filteredness により任意の二 context の semantic value を共通 future で比較できるため、diagram 全体に一意の semantic value が存在します。
+
+さらに objectwise cofinal indexing functor `F : K -> J` に対して、
+
+```text
+full filtered-diagram semantic descent
+<->
+semantic descent on the cofinal subsystem
+```
+
+を exact `ExistsUnique` equivalence として formalize しています。
+
+一方で、
+
+```text
+cofinal semantic invariance
+!= automatic recovery of one root state
+```
+
+です。root-state recovery には explicit local-state separation が追加で必要です。
+
+この非対称性は意図的です。
+
+```text
+一意な意味が成立すること
+!=
+一個の大域的 substance carrier が存在すること
+```
+
+## 空OSとしての読み
+
+現在の formal spine に対応する読みは:
+
+```text
+空   = どの一つの representation / chart / state carrier にも独立した絶対 authority を置かない
+縁起 = 条件・文脈・関係に沿う composable transport によって成立を記述する
+二諦 = invariant conventional meaning を formalize しても、それを ultimate substance に昇格しない
+中道 = representation の実体化も、関係構造の消去も行わない
+```
+
+したがって KuuOS の縁起は「仏教哲学を AI に貼り付けた label system」ではなく、contextual/functorial/coherent transport を親にした形式構造です。
+
+## Reversible / history / quantum specializations
+
+親構造からの主要な枝は次の位置づけです。
+
+| 枝 | 位置づけ |
+|---|---|
+| gauge / action groupoid / Čech | reversible presentation-change specialization |
+| finite history | free-category specialization |
+| memory-lifted non-Markov history | enlarged-state specialization |
+| transfer semigroup | one-object additive irreversible specialization |
+| process tensor | operational history-response realization |
+| Choi / CP / CPTP / comb | finite-dimensional quantum realization |
+| instruments / Born law | normalized quantum measurement specialization |
+
+重要なのは、これら downstream specialization の成立から親の縁起を quantum や groupoid に同一視しないことです。
+
+### Physical authority boundary
+
+`itakura-hidetoshi/4d-mass-gap` の transfer/Hamiltonian/mass-gap proof pattern は KuuOS 側の structural motivation になっていますが、KuuOS はそのことによって physical Yang-Mills theorem authority を取得しません。
+
+```text
+KuuOS structural transport theorem
+!=
+4d-mass-gap physical theorem authority
+```
+
+## Integrated subsystem map
+
+Subsystem versions are independent; one linear maturity scaleではありません。
+
+| 系列 | 統合済み到達点 | 主な入口 |
 |---|---|---|
 | Repository lineage | self-organization v0.113 | `runtime/kuuos_current_root_sequence_v0_113.py` |
-| ObserveOS | v0.7 sequential epistemic observability envelope | `docs/ObserveOS/README.md` |
-| VerifyOS | v0.15 read-only outcome disposition handoff | `docs/VerifyOS/README.md` |
-| Qi architecture | Qi Yin–Yang Wuxing Fibonacci History Geometry v2.5 | `docs/KUUOS_QI_YINYANG_WUXING_FIBONACCI_HISTORY_GEOMETRY_v2_5.md` |
-| PlanOS | v1.23 finite Physical Quantum Qi coherence kernel and partial dephasing | `formal/KuuOSPlanOSV1_23.lean` |
-| DecisionOS | v0.6 WORLD-conditioned relational deliberation | `formal/KuuOSDecisionOSV0_6.lean` |
-| MemoryOS | v1.00 finite bounded closed-support lattice | `formal/KuuOSMemoryOSV1_00.lean` |
-| CodeAI | frozen cohort / prediction-pack / execution-shard contract v0.1 | `docs/KUUOS_CODEAI_FROZEN_COHORT_PREDICTION_PACK_EXECUTION_SHARD_CONTRACT_v0_1.md` |
-| GitHub MCP | sub-issue chain parent cross-observation v1.1 | `runtime/kuuos_github_mcp_sub_issue_chain_parent_cross_observation_v1_1.py` |
-| Dependent origination runtime | gauge-invariant local-to-global descent v0.1 | `runtime/kuuos_gauge_invariant_dependent_origination_descent_v0_1.py` |
-| Dependent origination formal | complete-overlap groupoid Cech descent v0.1 | `formal/KUOS/GaugeInvariantDependentOriginationGroupoidCechDescentV0_1.lean` |
+| ObserveOS | v0.7 | `docs/ObserveOS/README.md` |
+| VerifyOS | v0.15 | `docs/VerifyOS/README.md` |
+| Qi architecture | Yin-Yang Wuxing Fibonacci History Geometry v2.5 | `docs/KUUOS_QI_YINYANG_WUXING_FIBONACCI_HISTORY_GEOMETRY_v2_5.md` |
+| PlanOS | v1.23 | `formal/KuuOSPlanOSV1_23.lean` |
+| DecisionOS | v0.6 | `formal/KuuOSDecisionOSV0_6.lean` |
+| MemoryOS | v1.00 | `formal/KuuOSMemoryOSV1_00.lean` |
+| CodeAI | frozen cohort / prediction-pack / execution-shard contract v0.1 | `docs/CodeAI/README.md` |
+| GitHub MCP | parent cross-observation v1.1 | `runtime/kuuos_github_mcp_sub_issue_chain_parent_cross_observation_v1_1.py` |
+| Dependent origination runtime | executable gauge-invariant descent adapter v0.1 | `runtime/kuuos_gauge_invariant_dependent_origination_descent_v0_1.py` |
+| Dependent origination parent formal | filtered categorical cofinal semantics v1.4 | `formal/KUOS/DependentOriginationFilteredCofinalCategoryV1_4.lean` |
+| Dependent origination parent aggregate | non-quantum core spine v1.4 | `formal/KUOS/DependentOriginationCoreSpineV1_4.lean` |
 | Repository formal baseline | strict aggregate import | `formal/KuuOSFormal.lean` |
-| Canonical runtime root | integrated deterministic current surface | `runtime/kuuos_current_check.py` |
-
-Subsystem versions are independent. ObserveOS v0.7, VerifyOS v0.15, Qi v2.5, PlanOS v1.23, DecisionOS v0.6, MemoryOS v1.00, repository self-organization v0.113, CodeAI v0.1 stages, GitHub MCP v0.1-v1.1, and dependent-origination v0.1 are not one linear maturity scale.
-
-## Dependent origination / gauge descent frontier
-
-The current mathematical spine is additive and tighten-only:
-
-```text
-PR #1386
-runtime/spec doctrine for gauge-invariant local-to-global dependent origination
-
-PR #1387
-dense local realization
-+ equivariance
-+ local gauge invariance
-+ explicit continuous global semantic extension
-=> global semantic gauge invariance
-=> cross-scale compatibility
-=> uniqueness on a dense carrier
-
-PR #1388
-global gauge invariance
-<=> factorization through the coarse gauge-orbit quotient
-=> unique orbit-level semantics
-
-PR #1389
-action groupoid G ⋉ X
-=> actual transformation arrows are retained
-=> isotropy is identified with stabilizer data
-=> isotropy transports along arrows by conjugation
-=> coarse orbit projection is a 0-truncation that forgets isotropy
-
-PR #1390
-complete-overlap action-groupoid Cech data
-=> exact transition arrows and identity transitions
-=> exact cocycle composition g_jk * g_ij = g_ik
-=> chart-independent semantic compatibility
-=> unique glued semantic value
-=> integration with orbit semantics and cross-scale compatibility
-```
-
-KuuOS reading:
-
-```text
-空   = no representative or chart has independent semantic authority
-縁起 = local conditioned appearances are related by explicit transport, arrows, and cocycle
-二諦 = invariant conventional structure is not promoted to ultimate substance
-中道 = neither coordinate reification nor erasure of relational structure
-```
-
-The distinction is deliberate:
-
-```text
-semantic meaning        -> gauge invariant
-presentation / carrier  -> may transform equivariantly
-```
-
-The formal chain does **not** infer existence of a continuous global semantic extension from density plus compatibility. That extension remains an explicit obligation.
-
-The coarse orbit quotient does not retain isotropy. The action-groupoid layer restores arrows and isotropy, but does not by itself establish quotient-stack, higher-descent, holonomy, or curvature authority. PR #1390 proves semantic-value gluing for a **complete-overlap** Cech abstraction; it does not prove arbitrary-open-cover or arbitrary-site descent, and it does not construct a global `X`-valued section.
-
-`formal/KUOS/OpenHorizon/MemoryOSGlobalWordCechDescentV0_82.lean` remains the concrete four-root normalized-word Cech theorem. PR #1390 is the generic action-groupoid semantic descent layer; neither replaces the other.
-
-The motivating physical proof pattern is imported structurally from `itakura-hidetoshi/4d-mass-gap`, but KuuOS does not thereby acquire physical Yang–Mills theorem authority.
-
-## Qi architecture v2.5
-
-Qi Yin–Yang Wuxing Fibonacci History Geometry v2.5 is an additive layer over v2.4.
-
-```text
-s^5 = 1
-tau^2 = 1 + tau
-X = s tensor tau
-X^5 = 1 tensor (3 + 5 tau)
-```
-
-The core statement is:
-
-```text
-phase can return while history does not return.
-```
-
-`Z5` is used as a cyclic phase coordinate for Wuxing; Fibonacci fusion is a history fiber; the golden ratio is the positive growth eigenvalue of that history recursion. The layer does not identify classical Wuxing historically or physically with `SU(2)_3`, does not claim biological Fibonacci anyons, and does not identify Qi with a particle or anyon.
-
-## GitHub MCP frontier
-
-The official `github/github-mcp-server` is treated as a bounded adapter under KuuOS authority rather than an unrestricted source of authority.
-
-```text
-v0.1 transport / discovery / bounded admission
-→ v0.2 write-capable authority adapter
-→ v0.3 independent post-write reobservation
-→ v0.4 reversible live Issue canary
-→ v0.5 / v0.5.1 workflow dispatch and immutable image digest
-→ v0.6 reversible repository-label transaction
-→ v0.7-v0.7.2 reversible Issue–Label binding
-→ v0.8 reversible sub-issue binding
-→ v0.9 bidirectional hierarchy verification
-→ v1.0 three-level root → child → grandchild chain
-→ v1.0.1 / v1.0.2 bounded parent reobservation
-→ v1.1 nested-parent cross-observation
-```
-
-The v1.0-v1.0.2 live runs established an important service-surface boundary: the downward child→grandchild relation could be exact while the grandchild direct `issue_read(get_parent)` remained null across the bounded window. v1.1 therefore cross-observes the child-side `has_parent` / `parent_issue_url` and independently reads the expected parent before synthesizing the existing exact-parent shape. Removal still requires direct null observation. Compensation is recovery evidence, never VERIFIED success.
-
-## CodeAI evaluation frontier
-
-The external benchmark line has reached the frozen cohort / prediction-pack / execution-shard contract:
-
-```text
-SWE-bench Verified protocol
-→ pinned corpus freeze
-→ evaluator-only gold environment smoke
-→ bounded non-gold official harness execution
-→ aggregate result/process-evidence ingestion
-→ baseline vs CodeAI + ablation preregistration
-→ frozen cohort / prediction-pack / execution-shard contract
-```
-
-PR #1342 fixes a shared 100-slot holdout ledger, baseline / CodeAI full / three ablations, ten shards per cohort, and fifty external-only shards in total. Authentic prediction packs, shard readiness, full external comparison, and any performance claim remain incomplete.
-
-One fixed non-gold engineering smoke sample has been observed; it is evidence for that sample only and is not a population-level performance claim.
+| Canonical runtime root | deterministic current surface | `runtime/kuuos_current_check.py` |
 
 ## Canonical runtime root
 
@@ -168,7 +211,7 @@ Standard entrypoint:
 PYTHONPATH=. python3 runtime/kuuos_current_check.py
 ```
 
-The root is run-all-then-decide: one failed required step does not prevent the remaining bounded checks from running, and required failures are aggregated at the end.
+Useful views:
 
 ```bash
 PYTHONPATH=. python3 runtime/kuuos_current_check.py --summary
@@ -185,19 +228,9 @@ PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile dependent_originat
 PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile all
 ```
 
-| Profile | Bounded validation surface |
-|---|---|
-| `repository` | repository mutation and self-organization lineage |
-| `architecture` | Qi v2.4 plus integrated v2.5 deterministic package checks |
-| `planos` | PlanOS v0.91-v1.23 |
-| `decisionos` | DecisionOS v0.1-v0.6 |
-| `memoryos` | MemoryOS v0.40-v1.00 |
-| `codeai` | #1342 contract, #1341 comparison projection, direct regressions |
-| `github_mcp` | v1.0 chain contract and v1.1 cross-observation |
-| `dependent_origination` | integrated runtime/spec local-to-global descent contract |
-| `all` | all profiles above |
+The runtime root remains deterministic and effect-free. It does not perform live GitHub writes, workflow dispatch, external benchmark execution, external artifact acquisition, or gold-material access.
 
-The canonical root is deterministic and effect-free. It does not perform live GitHub writes, workflow dispatch, external benchmark execution, external artifact acquisition, or gold-material access. The theorem-only dependent-origination stages #1387-#1390 remain strict Lean / dedicated-CI authority; the runtime root records their integrated frontier but does not pretend that Python checks substitute for Lean compilation.
+The `dependent_origination` runtime profile still validates the executable/spec contract introduced in #1386. The newer formal chain through #1420 is strict Lean authority and is represented in current-root metadata; Python runtime checks do **not** substitute for Lean compilation.
 
 ## Formal validation
 
@@ -211,30 +244,48 @@ lake -KleanArgs=-DwarningAsError=true \
   build KuuOSFormal
 ```
 
-Focused Qi v2.5 validation:
-
-```bash
-PYTHONPATH=. python3 scripts/check_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5.py
-PYTHONPATH=. python3 -m unittest -v tests.test_qi_yinyang_wuxing_fibonacci_history_geometry_v2_5
-lake -KleanArgs=-DwarningAsError=true \
-  -KleanArgs=-DsorryAsError=true \
-  build KUOS.Architecture.QiYinYangWuxingFibonacciHistoryGeometryV2_5
-```
-
-Formal compilation proves only the repository theorem surface under the pinned toolchain. It does not substitute for external theorem acceptance, empirical validity, clinical approval, organizational approval, production deployment, or live-service behavior.
+Formal compilation establishes only the repository theorem surface under the pinned toolchain. It does not substitute for external theorem acceptance, empirical validity, clinical approval, organizational approval, production deployment, or live-service behavior.
 
 ## Legacy compatibility status surface
 
-The current source of truth is `runtime/kuuos_current_check.py`, but the following historical identifiers remain present because the self-organization status lineage validates them as backward-compatible public-status markers:
+The current source of truth is `runtime/kuuos_current_check.py`, but historical current-root/readme identifiers remain compatibility markers because repository self-organization tests still validate them.
 
 ```text
 KuuOS README Public Status v0.66
 kuuos_current_root_sequence_v0_66
+docs/kuuos_readme_public_status_v0_66.md
+
+KuuOS Current Root Execution Connection v0.65
+kuuos_current_root_sequence_v0_65
 docs/kuuos_self_organization_active_state.md
-README public status != authority grant
+self_organization_active: true
+execution_scope: publish_active_self_organization_state
+state_publication_applied: true
+
+KuuOS README Surface Exposure v0.78
+kuuos_current_root_sequence_v0_78
+docs/kuuos_readme_surface_exposure_v0_78.md
+runtime/kuuos_current_surface.py
+runtime/kuuos_current_surface_entrypoint_v0_77.py
+status/current.surface.index.json
+status/current.surface.json
+status/current.resolved.json
+status/current.manifest.json
+PYTHONPATH=. python3 runtime/kuuos_current_surface.py
 ```
 
-These identifiers are compatibility markers only. They do not replace the canonical runtime root and do not grant execution or mutation authority.
+These compatibility tokens do not create new authority:
+
+```text
+active self-organization state != unbounded mutation authority
+current root execution != production deployment
+runtime success != external truth
+README public status != authority grant
+current surface CLI != authority grant
+current surface index != authority grant
+current surface artifact != authority grant
+README surface exposure != authority grant
+```
 
 ## Repository map
 
@@ -251,18 +302,11 @@ These identifiers are compatibility markers only. They do not replace the canoni
 | `tests/` | runtime, tamper, boundary, and regression tests |
 | `.github/workflows/` | governance, focused validation, separately authorized live gates |
 
-Major subsystem indexes:
-
-- `docs/ObserveOS/README.md`
-- `docs/VerifyOS/README.md`
-- `docs/CodeAI/README.md`
-- `ROADMAP.md`
-
 ## Development invariants
 
-Normal changes begin from an exact `main` SHA on a dedicated branch and usually enter as Draft PRs. Only completed runs/jobs/steps/artifacts/logs are final CI evidence; queued or in-progress state is not success or failure evidence. Do not weaken theorem statements or authority contracts to conceal infrastructure or service-surface behavior.
+Normal changes begin from an exact `main` SHA on a dedicated branch and normally enter as Draft PRs. CI status is final only after workflow, job, and exact selected Lean step are completed. queued / in-progress state is not success or failure evidence.
 
-Repository evolution remains append-only or tighten-only at frozen boundaries. Overwrite of accepted roots is forbidden unless a versioned migration explicitly creates a new authority root. Same-root readout requirements remain explicit wherever a theorem or receipt depends on them.
+Repository evolution remains append-only or tighten-only at frozen boundaries. Same-root requirements remain explicit wherever a theorem or receipt depends on them.
 
 ## Fixed boundaries
 
@@ -270,32 +314,28 @@ Repository evolution remains append-only or tighten-only at frozen boundaries. O
 candidate != authority
 validation != truth
 formal compilation != external theorem acceptance
-CI success != correctness or performance
+CI success != theorem meaning beyond the compiled statement
 
 observation != verification
-verification outcome != truth
 selection != execution
 receipt != successor authority
 
-semantic invariance != presentation immobility
-density + compatibility != existence of a global continuous extension
-coarse orbit quotient != retained isotropy
-action groupoid != quotient stack
-Cech semantic gluing != global X-valued section
-complete overlap != arbitrary cover
-KuuOS gauge descent != physical Yang-Mills theorem authority
+contextual transport != substance ontology
+semantic descent != state descent
+cofinal semantic invariance != root-state existence
+filtered indexing != categorical colimit
+objectwise cofinality != Mathlib final-functor theorem
+reversible groupoid specialization != parent dependent origination
+quantum realization != parent dependent origination
+KuuOS structural theorem != physical Yang-Mills theorem authority
 
-MCP configured != tool discovered
-tool discovered != operation admitted
-operation admitted != effect verified
-write accepted != verified closeout
-compensation != success
 MCP write capability != Git authority
+write accepted != effect verified
+compensation != success
 
 one benchmark sample != population performance
-preregistration != completed comparison
-contract admitted != prediction packs complete
-contract admitted != execution shards ready
+contract admitted != execution ready
+comparison complete != performance claim approved
 ```
 
 ## Safety / research status
