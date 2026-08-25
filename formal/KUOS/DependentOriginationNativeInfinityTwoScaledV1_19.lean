@@ -66,9 +66,9 @@ theorem mapping_innerHornFilling
     (X Y : B)
     {n : Nat} {i : Fin (n + 1)}
     (h0 : 0 < i) (hn : i < Fin.last n)
-    (sigma0 : (Lambda[n, i] : SSet) ⟶ mappingNerve X Y) :
-    exists sigma : Delta[n] ⟶ mappingNerve X Y,
-      sigma0 = Lambda[n, i].ι ≫ sigma := by
+    (sigma0 : (Λ[n, i] : SSet) ⟶ mappingNerve X Y) :
+    exists sigma : Δ[n] ⟶ mappingNerve X Y,
+      sigma0 = Λ[n, i].ι ≫ sigma := by
   letI : SSet.Quasicategory (mappingNerve X Y) :=
     InfinityTwoCategory.mapping_quasicategory X Y
   exact SSet.Quasicategory.hornFilling h0 hn sigma0
