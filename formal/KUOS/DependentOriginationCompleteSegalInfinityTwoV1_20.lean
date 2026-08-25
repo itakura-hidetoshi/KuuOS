@@ -4,6 +4,7 @@ import KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 namespace KUOS.DependentOriginationCompleteSegalInfinityTwoV1_20
 
 open CategoryTheory
+open Simplicial
 open KUOS.DependentOriginationInfinityTwoYonedaV1_18
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 
@@ -90,8 +91,8 @@ def pathOfEquivalence
     {B : Type u} [Bicategory.{w, v} B]
     [CompleteSegalInfinityTwoCategory B]
     {X Y : B} (e : X ≌ Y) : X = Y :=
-  (CompleteSegalInfinityTwoCategory.object_univalence
-    (B := B)).pathEquiv X Y |>.symm e
+  ((CompleteSegalInfinityTwoCategory.object_univalence
+    (B := B)).pathEquiv X Y).symm e
 
 /-- The recovered path and the supplied equivalence are inverse under univalence. -/
 theorem pathEquiv_apply_symm_apply
@@ -108,8 +109,8 @@ theorem pathEquiv_symm_apply_apply
     {B : Type u} [Bicategory.{w, v} B]
     [CompleteSegalInfinityTwoCategory B]
     {X Y : B} (h : X = Y) :
-    (CompleteSegalInfinityTwoCategory.object_univalence
-      (B := B)).pathEquiv X Y |>.symm
+    ((CompleteSegalInfinityTwoCategory.object_univalence
+      (B := B)).pathEquiv X Y).symm
         ((CompleteSegalInfinityTwoCategory.object_univalence
           (B := B)).pathEquiv X Y h) = h := by
   exact Equiv.symm_apply_apply _ h
@@ -121,9 +122,9 @@ theorem completeSegal_mapping_innerHornFilling
     (X Y : B)
     {n : Nat} {i : Fin (n + 1)}
     (h0 : 0 < i) (hn : i < Fin.last n)
-    (sigma0 : (Lambda[n, i] : SSet) ⟶ mappingNerve X Y) :
-    exists sigma : Delta[n] ⟶ mappingNerve X Y,
-      sigma0 = Lambda[n, i].ι ≫ sigma := by
+    (sigma0 : (Λ[n, i] : SSet) ⟶ mappingNerve X Y) :
+    exists sigma : Δ[n] ⟶ mappingNerve X Y,
+      sigma0 = Λ[n, i].ι ≫ sigma := by
   exact mapping_innerHornFilling X Y h0 hn sigma0
 
 /-- Completeness is genuinely extra: expose the exact additional witness required. -/
