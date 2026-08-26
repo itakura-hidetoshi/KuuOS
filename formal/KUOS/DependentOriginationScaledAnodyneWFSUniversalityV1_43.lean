@@ -148,8 +148,10 @@ canonical generated left class. -/
 theorem canonicalGeneratedScaledAnodyne_rlp_eq_fibration :
     (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u})).rlp =
       canonicalGeneratedScaledFibration := by
-  simpa [canonicalGeneratedScaledFibration] using
-    (canonicalGeneratedScaledAnodyne_rlp (u := u))
+  change
+    ((scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})).rlp.llp).rlp =
+      (scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})).rlp
+  exact MorphismProperty.rlp_llp_rlp _
 
 /-- Every left-class morphism lifts against every right-class morphism. -/
 theorem canonicalGenerated_hasLiftingProperty
