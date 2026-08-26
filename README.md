@@ -14,13 +14,13 @@
 Authoritative branch は `main` です。
 
 ```text
-canonical main SHA: 4e273f0d958b5ac4c27bb4f2b430a29ea6760968
+latest integrated formal milestone SHA: 4e273f0d958b5ac4c27bb4f2b430a29ea6760968
 latest integrated formal PR: #1483
 latest integrated local scaled frontier: v1.69
 runtime dependent-origination executable scope: #1386 adapter v0.1
 ```
 
-PR #1483 **Classify the complete three-simplex A/B residual table** は Governance Gate、Strict Lean formal validation、exact `Run selected Lean check` が completed / success となった後、normal merge されました。authoritative merge SHA は上記 `4e273f0d958b5ac4c27bb4f2b430a29ea6760968` です。
+PR #1483 **Classify the complete three-simplex A/B residual table** は Governance Gate、Strict Lean formal validation、exact `Run selected Lean check` が completed / success となった後、normal merge されました。authoritative formal milestone SHA は `4e273f0d958b5ac4c27bb4f2b430a29ea6760968` です。`main` HEAD は documentation / governance-only synchronizationでこの milestone より先へ進み得ますが、それだけで formal theorem frontier が進んだとは扱いません。
 
 現在の重要な frontier は、`v1.69` で固定 `Δ[3]` 上の type-(A)/(B) residual table が exact に閉じたところです。まだ **全 boundary-prism rank cell が literal に pure A または A followed by one B completion であること**、および **scaled rank filtration から v1.59 cellular certificate を構成すること**は未完了です。
 
