@@ -49,13 +49,13 @@ calculation sitting underneath the categorical pushout theorem of v1.57.
 
 /-- The face `012` of `Delta[3]`. -/
 def standardTypeBThreeTriangle012 :
-    (Delta[3] : SSet.{u}).obj (op ⦋2⦌) :=
+    (Δ[3] : SSet.{u}).obj (op ⦋2⦌) :=
   SSet.stdSimplex.triangle
     (0 : Fin 4) 1 2 (by decide) (by decide)
 
 /-- The face `123` of `Delta[3]`. -/
 def standardTypeBThreeTriangle123 :
-    (Delta[3] : SSet.{u}).obj (op ⦋2⦌) :=
+    (Δ[3] : SSet.{u}).obj (op ⦋2⦌) :=
   SSet.stdSimplex.triangle
     (1 : Fin 4) 2 3 (by decide) (by decide)
 
@@ -63,13 +63,13 @@ def standardTypeBThreeTriangle123 :
 
 /-- The type-(B) source triangle `013` in `Delta[4]`. -/
 def standardTypeBSourceTriangle013 :
-    (Delta[4] : SSet.{u}).obj (op ⦋2⦌) :=
+    (Δ[4] : SSet.{u}).obj (op ⦋2⦌) :=
   SSet.stdSimplex.triangle
     (0 : Fin 5) 1 3 (by decide) (by decide)
 
 /-- The type-(B) source triangle `134` in `Delta[4]`. -/
 def standardTypeBSourceTriangle134 :
-    (Delta[4] : SSet.{u}).obj (op ⦋2⦌) :=
+    (Δ[4] : SSet.{u}).obj (op ⦋2⦌) :=
   SSet.stdSimplex.triangle
     (1 : Fin 5) 3 4 (by decide) (by decide)
 
@@ -129,15 +129,15 @@ theorem standardTypeBCollapse23_triangle_source134 :
 
 /-- Every minimally thin triangle is already in the q12 base scaling. -/
 theorem standardTypeBCollapse12Base_minimal_thin
-    (t : (Delta[3] : SSet.{u}).obj (op ⦋2⦌))
-    (ht : (minimalScaling (Delta[3] : SSet.{u})).thin t) :
+    (t : (Δ[3] : SSet.{u}).obj (op ⦋2⦌))
+    (ht : (minimalScaling (Δ[3] : SSet.{u})).thin t) :
     standardTypeBCollapse12BaseScaling.thin t := by
   exact Or.inl ht
 
 /-- Every minimally thin triangle is already in the q23 base scaling. -/
 theorem standardTypeBCollapse23Base_minimal_thin
-    (t : (Delta[3] : SSet.{u}).obj (op ⦋2⦌))
-    (ht : (minimalScaling (Delta[3] : SSet.{u})).thin t) :
+    (t : (Δ[3] : SSet.{u}).obj (op ⦋2⦌))
+    (ht : (minimalScaling (Δ[3] : SSet.{u})).thin t) :
     standardTypeBCollapse23BaseScaling.thin t := by
   exact Or.inl ht
 
@@ -178,8 +178,8 @@ theorem standardTypeBCollapse23Base_triangle_123_thin :
 /-- Finite classification of 2-simplices of `Delta[3]` in the exact form
 needed by the two completion scalings. -/
 theorem standardTypeBThree_triangle_minimal_or_four_faces
-    (t : (Delta[3] : SSet.{u}).obj (op ⦋2⦌)) :
-    (minimalScaling (Delta[3] : SSet.{u})).thin t ∨
+    (t : (Δ[3] : SSet.{u}).obj (op ⦋2⦌)) :
+    (minimalScaling (Δ[3] : SSet.{u})).thin t ∨
       t = standardTypeBThreeTriangle012 ∨
       t = standardTypeBThreeTriangle013 ∨
       t = standardTypeBThreeTriangle023 ∨
@@ -272,21 +272,21 @@ theorem standardTypeBThree_triangle_minimal_or_four_faces
 
 /-- Any q12-base-thin triangle remains thin after the type-(B) completion. -/
 theorem standardTypeBCollapse12Completed_of_base
-    {t : (Delta[3] : SSet.{u}).obj (op ⦋2⦌)}
+    {t : (Δ[3] : SSet.{u}).obj (op ⦋2⦌)}
     (ht : standardTypeBCollapse12BaseScaling.thin t) :
     standardTypeBCollapse12CompletedScaling.thin t := by
   exact Or.inl ht
 
 /-- Any q23-base-thin triangle remains thin after the type-(B) completion. -/
 theorem standardTypeBCollapse23Completed_of_base
-    {t : (Delta[3] : SSet.{u}).obj (op ⦋2⦌)}
+    {t : (Δ[3] : SSet.{u}).obj (op ⦋2⦌)}
     (ht : standardTypeBCollapse23BaseScaling.thin t) :
     standardTypeBCollapse23CompletedScaling.thin t := by
   exact Or.inl ht
 
 /-- Every 2-simplex of `Delta[3]` is thin after the q12 completion. -/
 theorem standardTypeBCollapse12Completed_thin_all
-    (t : (Delta[3] : SSet.{u}).obj (op ⦋2⦌)) :
+    (t : (Δ[3] : SSet.{u}).obj (op ⦋2⦌)) :
     standardTypeBCollapse12CompletedScaling.thin t := by
   rcases standardTypeBThree_triangle_minimal_or_four_faces t with
       hmin | h012 | h013 | h023 | h123
@@ -306,7 +306,7 @@ theorem standardTypeBCollapse12Completed_thin_all
 
 /-- Every 2-simplex of `Delta[3]` is thin after the q23 completion. -/
 theorem standardTypeBCollapse23Completed_thin_all
-    (t : (Delta[3] : SSet.{u}).obj (op ⦋2⦌)) :
+    (t : (Δ[3] : SSet.{u}).obj (op ⦋2⦌)) :
     standardTypeBCollapse23CompletedScaling.thin t := by
   rcases standardTypeBThree_triangle_minimal_or_four_faces t with
       hmin | h012 | h013 | h023 | h123
@@ -329,7 +329,7 @@ theorem standardTypeBCollapse23Completed_thin_all
 /-- The q12 completion is literally the maximal scaling on `Delta[3]`. -/
 theorem standardTypeBCollapse12CompletedScaling_eq_maximal :
     standardTypeBCollapse12CompletedScaling =
-      ScaledSimplicialSet.maximal (Delta[3] : SSet.{u}) := by
+      ScaledSimplicialSet.maximal (Δ[3] : SSet.{u}) := by
   apply scaling_eq_of_le_antisymm
   · intro t _
     exact ScaledSimplicialSet.maximal_thin _ t
@@ -339,7 +339,7 @@ theorem standardTypeBCollapse12CompletedScaling_eq_maximal :
 /-- The q23 completion is literally the maximal scaling on `Delta[3]`. -/
 theorem standardTypeBCollapse23CompletedScaling_eq_maximal :
     standardTypeBCollapse23CompletedScaling =
-      ScaledSimplicialSet.maximal (Delta[3] : SSet.{u}) := by
+      ScaledSimplicialSet.maximal (Δ[3] : SSet.{u}) := by
   apply scaling_eq_of_le_antisymm
   · intro t _
     exact ScaledSimplicialSet.maximal_thin _ t
