@@ -8,13 +8,13 @@
 
 ```text
 branch: main
-canonical exact SHA: 4e273f0d958b5ac4c27bb4f2b430a29ea6760968
+latest integrated formal milestone SHA: 4e273f0d958b5ac4c27bb4f2b430a29ea6760968
 latest integrated formal PR: #1483
 latest integrated local scaled frontier: v1.69
 runtime dependent-origination executable surface: #1386 adapter v0.1
 ```
 
-PR #1483 は fixed `Δ[3]` 上の complete A/B residual table を統合しました。現在の mathematical frontier は、その fixed table を actual dependent boundary-prism cells に categorical transport し、その後 scaled rank filtration と v1.59 cellular certificate を構成することです。
+PR #1483 は fixed `Δ[3]` 上の complete A/B residual table を統合しました。`main` HEAD は documentation / governance-only synchronizationでこの formal milestone より先へ進み得ますが、それだけで theorem frontier が進んだとは扱いません。現在の mathematical frontier は、その fixed table を actual dependent boundary-prism cells に categorical transport し、その後 scaled rank filtration と v1.59 cellular certificate を構成することです。
 
 ## State labels
 
