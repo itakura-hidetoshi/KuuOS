@@ -8,7 +8,7 @@ open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationScaledAnodyneWFSUniversalityV1_43
 open KUOS.DependentOriginationScaledColimitsPresentabilityV1_45
 
-universe u u₁ u₂ v₁ v₂ w₁ w₂
+universe u
 
 /-!
 # External scaled-anodyne generator comparison v1.46
@@ -17,8 +17,6 @@ Version 1.45 closes the internal KuuOS small-object argument for the canonical
 horn-cylinder generator family `T`.  The remaining comparison problem is now
 external: how can another proposed standard generator family `E` be shown to
 present the same scaled-anodyne/fibration theory?
-
-This layer isolates the exact generator-level criterion.
 
 For any morphism property `E` in `ScaledSSet`, write
 
@@ -108,8 +106,7 @@ variable
     (K : ScaledAnodyneGeneratorComparison E)
 
 /-- The canonical generated class is contained in the external generated
-class.  This is the least-saturated-class universal property of the canonical
-closure. -/
+class. -/
 theorem canonicalGenerated_le_externalGenerated :
     (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u})) ≤
       externalGeneratedScaledAnodyne E :=
@@ -213,68 +210,6 @@ noncomputable def familyTerminalRLPOfExternalFibrant
   familyTerminalRLPOfAttachmentFibrant
     ((isFibrantForExternalGenerators_iff_attachmentFibrant K _).mp hX) F
 
-/-! ## External presentation and global Duskin strict fibrancy -/
-
-open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
-open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
-
-/-- A coherent normalized model equivalence whose source and target global
-Duskin nerves are fibrant for an external generator family known to generate
-the same orthogonal closure as the canonical horn-cylinder family. -/
-structure CoherentNormalizedScaledExternalFibrantModelEquivalence
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
-    (Egen : MorphismProperty (ScaledSSet.{max u₁ u₂}))
-    (Kgen : ScaledAnodyneGeneratorComparison Egen)
-    (E : BicategoricalModelEquivalence B C)
-    (G : BicategoricalModelEquivalence C B)
-    (HB : GlobalDuskinScaledHornFamily B)
-    (HC : GlobalDuskinScaledHornFamily C) where
-  homotopyClassModel :
-    CoherentNormalizedScaledHomotopyClassModelEquivalence E G HB HC
-  sourceExternalFibrant :
-    IsFibrantForExternalGenerators Egen
-      (ScaledSSet.of (duskinNerve B) (duskinScaling B))
-  targetExternalFibrant :
-    IsFibrantForExternalGenerators Egen
-      (ScaledSSet.of (duskinNerve C) (duskinScaling C))
-
-namespace CoherentNormalizedScaledExternalFibrantModelEquivalence
-
-variable
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
-    {Egen : MorphismProperty (ScaledSSet.{max u₁ u₂})}
-    {Kgen : ScaledAnodyneGeneratorComparison Egen}
-    {E : BicategoricalModelEquivalence B C}
-    {G : BicategoricalModelEquivalence C B}
-    {HB : GlobalDuskinScaledHornFamily B}
-    {HC : GlobalDuskinScaledHornFamily C}
-    (M : CoherentNormalizedScaledExternalFibrantModelEquivalence
-      Egen Kgen E G HB HC)
-
-/-- External fibrancy converts canonically to the attachment-fibrant package
-used by v1.42. -/
-noncomputable def toAttachmentFibrantModelEquivalence :
-    CoherentNormalizedScaledAttachmentFibrantModelEquivalence E G HB HC where
-  homotopyClassModel := M.homotopyClassModel
-  sourceAttachmentFibrant :=
-    (isFibrantForExternalGenerators_iff_attachmentFibrant Kgen _).mp
-      M.sourceExternalFibrant
-  targetAttachmentFibrant :=
-    (isFibrantForExternalGenerators_iff_attachmentFibrant Kgen _).mp
-      M.targetExternalFibrant
-
-/-- Therefore strict global scaled-Duskin fibrancy is invariant when stated
-using any external generator presentation satisfying mutual closure-generation
-with the canonical KuuOS attachments. -/
-theorem globalDuskinStrictFibrancy_iff :
-    HasScaledHornFillers (duskinNerve B) (duskinScaling B) HB ↔
-      HasScaledHornFillers (duskinNerve C) (duskinScaling C) HC :=
-  M.toAttachmentFibrantModelEquivalence.globalDuskinStrictFibrancy_iff
-
-end CoherentNormalizedScaledExternalFibrantModelEquivalence
-
 /-!
 The comparison spine is now:
 
@@ -286,9 +221,12 @@ external generator family E
   -> E.rlp = T.rlp
   -> external WFS = canonical WFS
   -> external fibrancy = attachment fibrancy
-  -> terminal RLP for every horn family
-  -> presentation-independent strict global Duskin fibrancy.
+  -> terminal RLP for every horn family.
 ```
+
+The existing v1.42 model-equivalence carrier accepts attachment fibrancy, so
+external fibrancy can be converted through the proved equivalence above before
+applying the established presentation-independent strict global Duskin theorem.
 
 Thus an eventual standard/Lurie scaled-anodyne implementation does not need a
 second KuuOS strictification or small-object proof.  Its only comparison burden
