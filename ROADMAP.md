@@ -371,7 +371,7 @@ The frozen cohort / prediction-pack / execution-shard contract remains separate 
 | CodeAI external benchmark | frozen cohort / prediction-pack / execution-shard contract v0.1 | Integrated / Current root |
 | GitHub MCP | durable reentry v1.3 / parent cross-observation v1.1 | Integrated |
 | Dependent origination runtime | #1386 adapter v0.1 | Integrated / Current root |
-| Contextual parent formal | v1.0-v1.16+ connected layers | Formal integrated |
+| Contextual parent formal | contextual semantics + bicategorical/enriched/quasicategorical extensions | Formal integrated |
 | Presentation-independent higher realization | global scaled Duskin / horn invariants / model transport | Formal integrated |
 | Canonical scaled WFS | explicit small-object WFS | Formal integrated |
 | Standard A/B/C comparison | explicit generators + cellular interface | Formal integrated |
