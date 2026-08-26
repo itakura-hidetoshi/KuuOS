@@ -37,9 +37,9 @@ and identifies the left class with retracts of transfinite compositions of
 pushouts of coproducts of generators.
 
 This layer connects that theorem directly to the KuuOS canonical scaled
-attachment generators and, crucially, expands the remaining hypothesis into
-its exact geometric ingredients.  The generator class itself is small by
-construction (`MorphismProperty.ofHoms`), so the remaining work is reduced to:
+attachment generators and expands the remaining hypothesis into its exact
+geometric ingredients.  The generator class itself is small by construction
+(`MorphismProperty.ofHoms`), so the remaining work is reduced to:
 
 * local smallness of `ScaledSSet`;
 * pushouts;
@@ -48,8 +48,8 @@ construction (`MorphismProperty.ofHoms`), so the remaining work is reduced to:
 * preservation of the relative-cell-complex colimits by the source-Hom
   functors.
 
-No cocompleteness, presentability, or smallness statement for `ScaledSSet` is
-assumed here beyond the explicitly packaged data below.
+No cocompleteness or presentability theorem for `ScaledSSet` is silently
+assumed here.
 -/
 
 /-! ## The canonical generator class is already small -/
@@ -91,7 +91,7 @@ structure CanonicalScaledSmallObjectCardinalData
 
 namespace CanonicalScaledSmallObjectCardinalData
 
-/-- The explicit KuuOS cardinal data is exactly enough to construct Mathlib's
+/-- The explicit cardinal data is exactly enough to construct Mathlib's
 `IsCardinalForSmallObjectArgument` certificate for the canonical generator
 class. -/
 def toIsCardinalForSmallObjectArgument
@@ -164,9 +164,8 @@ noncomputable def canonicalGeneratedScaledWFSCertificate_of_cardinalData
 /-! ## Cellular description of the canonical generated left class -/
 
 /-- Under the small-object hypothesis, the canonical scaled-anodyne class is
-not merely an abstract orthogonal closure: it is exactly the retract closure
-of transfinite compositions of pushouts of coproducts of canonical attachment
-generators. -/
+exactly the retract closure of transfinite compositions of pushouts of
+coproducts of canonical attachment generators. -/
 theorem canonicalGeneratedScaledAnodyne_eq_cellularClosure
     (h : HasCanonicalScaledSmallObjectArgument.{u}) :
     (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u})) =
@@ -187,48 +186,6 @@ theorem canonicalGeneratedScaledFibration_eq_generatorRLP :
     (canonicalGeneratedScaledFibration : MorphismProperty (ScaledSSet.{u})) =
       (scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})).rlp :=
   rfl
-
-/-! ## End-to-end consequence for the existing strict-fibrancy spine -/
-
-/-- Small-object data plus the already established attachment-fibrancy inputs
-therefore yields the native WFS without changing any of the v1.42 strict
-scaled-Duskin fibrancy consequences. -/
-structure CoherentNormalizedScaledSmallObjectModelEquivalence
-    {B : Type u} [Bicategory.{u, u} B]
-    {C : Type u} [Bicategory.{u, u} C]
-    (E : BicategoricalModelEquivalence B C)
-    (G : BicategoricalModelEquivalence C B)
-    (HB : GlobalDuskinScaledHornFamily B)
-    (HC : GlobalDuskinScaledHornFamily C) where
-  attachmentModel :
-    CoherentNormalizedScaledAttachmentFibrantModelEquivalence E G HB HC
-  smallObject : HasCanonicalScaledSmallObjectArgument.{u}
-
-namespace CoherentNormalizedScaledSmallObjectModelEquivalence
-
-variable
-    {B : Type u} [Bicategory.{u, u} B]
-    {C : Type u} [Bicategory.{u, u} C]
-    {E : BicategoricalModelEquivalence B C}
-    {G : BicategoricalModelEquivalence C B]
-    {HB : GlobalDuskinScaledHornFamily B}
-    {HC : GlobalDuskinScaledHornFamily C}
-    (K : CoherentNormalizedScaledSmallObjectModelEquivalence E G HB HC)
-
-/-- The canonical scaled attachment classes form a native WFS. -/
-noncomputable def weakFactorizationSystem :
-    MorphismProperty.IsWeakFactorizationSystem
-      (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
-      (canonicalGeneratedScaledFibration : MorphismProperty (ScaledSSet.{u})) :=
-  canonicalGeneratedScaledWeakFactorizationSystem_of_smallObject K.smallObject
-
-/-- Strict global scaled-Duskin fibrancy remains presentation-independent. -/
-theorem globalDuskinStrictFibrancy_iff :
-    HasScaledHornFillers (duskinNerve B) (duskinScaling B) HB ↔
-      HasScaledHornFillers (duskinNerve C) (duskinScaling C) HC :=
-  K.attachmentModel.globalDuskinStrictFibrancy_iff
-
-end CoherentNormalizedScaledSmallObjectModelEquivalence
 
 /-!
 The v1.44 spine is now:
@@ -257,7 +214,7 @@ and
 ```
 
 Thus the factorization theorem itself is no longer an independent KuuOS
-axiom/certificate.  The remaining constructive frontier is exactly the
+certificate.  The remaining constructive frontier is exactly the
 category-theoretic/presentability data needed to instantiate
 `CanonicalScaledSmallObjectCardinalData` for `ScaledSSet`.
 -/
