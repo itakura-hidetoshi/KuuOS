@@ -301,21 +301,23 @@ noncomputable instance canonicalScaled_hasSmallObjectArgument :
 
 /-- The v1.43 generated pair is therefore an unconditional native weak
 factorization system. -/
-noncomputable def canonicalGeneratedScaledWeakFactorizationSystem :
+noncomputable def canonicalGeneratedScaledWeakFactorizationSystem_unconditional :
     MorphismProperty.IsWeakFactorizationSystem
       (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
       (canonicalGeneratedScaledFibration : MorphismProperty (ScaledSSet.{u})) :=
-  canonicalGeneratedScaledWeakFactorizationSystem_of_smallObject inferInstance
+  KUOS.DependentOriginationScaledSmallObjectArgumentV1_44.
+    canonicalGeneratedScaledWeakFactorizationSystem_of_smallObject inferInstance
 
 /-- The canonical generated left class has the expected cellular description
 without any extra hypothesis. -/
-theorem canonicalGeneratedScaledAnodyne_eq_cellularClosure :
+theorem canonicalGeneratedScaledAnodyne_eq_cellularClosure_unconditional :
     (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u})) =
       (MorphismProperty.transfiniteCompositions.{u}
         (MorphismProperty.coproducts.{u}
           (scaledHornAttachmentGenerators : MorphismProperty
             (ScaledSSet.{u}))).pushouts).retracts :=
-  canonicalGeneratedScaledAnodyne_eq_cellularClosure inferInstance
+  KUOS.DependentOriginationScaledSmallObjectArgumentV1_44.
+    canonicalGeneratedScaledAnodyne_eq_cellularClosure inferInstance
 
 /-!
 The complete lifting-theoretic spine is now theorem-level:
