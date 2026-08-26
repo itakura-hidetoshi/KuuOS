@@ -23,7 +23,7 @@ scaling on every simplex.  This file does not weaken that carrier.  Instead it
 cuts out the standard type-(A) inner-horn specialization as a theorem-level
 subfamily.
 
-For an inner index `0 < i < n`, the type-(A) scaling on `Delta[n]` consists of
+For an inner index `0 < i < n`, the type-(A) scaling on `Δ[n]` consists of
 all degenerate 2-simplices together with the distinguished consecutive
 triangle
 
@@ -43,12 +43,12 @@ standard scaled-anodyne family is made here.
 
 /-! ## The distinguished consecutive triangle -/
 
-/-- A 2-simplex of `Delta[n]` is the distinguished type-(A) triangle at `i`
+/-- A 2-simplex of `Δ[n]` is the distinguished type-(A) triangle at `i`
 when its three ordered vertices are exactly consecutive around `i`. -/
 def IsStandardTypeADistinguishedTriangle
     {n : Nat}
     (i : Fin (n + 1))
-    (t : (Delta[n] : SSet.{u}).obj (op ⦋2⦌)) : Prop :=
+    (t : (Δ[n] : SSet.{u}).obj (op ⦋2⦌)) : Prop :=
   t 1 = i ∧
     (t 0).val + 1 = i.val ∧
     i.val + 1 = (t 2).val
@@ -58,23 +58,23 @@ consecutive triangle centered at `i`. -/
 def standardTypeASimplexScaling
     {n : Nat}
     (i : Fin (n + 1)) :
-    ScaledSimplicialSet (Delta[n] : SSet.{u}) where
+    ScaledSimplicialSet (Δ[n] : SSet.{u}) where
   thin := fun t =>
-    (minimalScaling (Delta[n] : SSet.{u})).thin t ∨
+    (minimalScaling (Δ[n] : SSet.{u})).thin t ∨
       IsStandardTypeADistinguishedTriangle i t
   thin_sigma_zero := by
     intro x
-    exact Or.inl ((minimalScaling (Delta[n] : SSet.{u})).thin_sigma_zero x)
+    exact Or.inl ((minimalScaling (Δ[n] : SSet.{u})).thin_sigma_zero x)
   thin_sigma_one := by
     intro x
-    exact Or.inl ((minimalScaling (Delta[n] : SSet.{u})).thin_sigma_one x)
+    exact Or.inl ((minimalScaling (Δ[n] : SSet.{u})).thin_sigma_one x)
 
 /-- Every minimally thin 2-simplex is thin for the type-(A) scaling. -/
 theorem minimalScaling_le_standardTypeASimplexScaling
     {n : Nat}
     (i : Fin (n + 1))
-    (t : (Delta[n] : SSet.{u}).obj (op ⦋2⦌))
-    (ht : (minimalScaling (Delta[n] : SSet.{u})).thin t) :
+    (t : (Δ[n] : SSet.{u}).obj (op ⦋2⦌))
+    (ht : (minimalScaling (Δ[n] : SSet.{u})).thin t) :
     (standardTypeASimplexScaling i).thin t := by
   exact Or.inl ht
 
@@ -82,7 +82,7 @@ theorem minimalScaling_le_standardTypeASimplexScaling
 theorem standardTypeADistinguishedTriangle_thin
     {n : Nat}
     (i : Fin (n + 1))
-    (t : (Delta[n] : SSet.{u}).obj (op ⦋2⦌))
+    (t : (Δ[n] : SSet.{u}).obj (op ⦋2⦌))
     (ht : IsStandardTypeADistinguishedTriangle i t) :
     (standardTypeASimplexScaling i).thin t := by
   exact Or.inr ht
@@ -94,8 +94,8 @@ scaling along the ordinary horn inclusion. -/
 def standardTypeAHornScaling
     {n : Nat}
     (i : Fin (n + 1)) :
-    ScaledSimplicialSet (Lambda[n, i] : SSet.{u}) :=
-  pullbackScaling (standardTypeASimplexScaling i) Lambda[n, i].ι
+    ScaledSimplicialSet (Λ[n, i] : SSet.{u}) :=
+  pullbackScaling (standardTypeASimplexScaling i) Λ[n, i].ι
 
 /-- The horn inclusion preserves the type-(A) scalings by construction. -/
 theorem standardTypeAHornInclusion_scaled
@@ -104,7 +104,7 @@ theorem standardTypeAHornInclusion_scaled
     IsScaledMap
       (standardTypeAHornScaling i)
       (standardTypeASimplexScaling i)
-      (Lambda[n, i].ι : (Lambda[n, i] : SSet.{u}) ⟶ Delta[n]) := by
+      (Λ[n, i].ι : (Λ[n, i] : SSet.{u}) ⟶ (Δ[n] : SSet.{u})) := by
   exact pullbackScaling_map _ _
 
 /-! ## Type-(A) problems as an admissible specialization -/
@@ -116,7 +116,7 @@ def standardTypeAScaledHornProblem
     {sX : ScaledSimplicialSet X}
     {n : Nat}
     (i : Fin (n + 1))
-    (hornMap : (Lambda[n, i] : SSet.{u}) ⟶ X)
+    (hornMap : (Λ[n, i] : SSet.{u}) ⟶ X)
     (hornMap_scaled :
       IsScaledMap (standardTypeAHornScaling i) sX hornMap) :
     ScaledHornExtensionProblem X sX n i where
@@ -148,7 +148,7 @@ theorem standardTypeAScaledHornProblem_admissible
     (i : Fin (n + 1))
     (h0 : 0 < i)
     (hn : i < Fin.last n)
-    (hornMap : (Lambda[n, i] : SSet.{u}) ⟶ X)
+    (hornMap : (Λ[n, i] : SSet.{u}) ⟶ X)
     (hornMap_scaled :
       IsScaledMap (standardTypeAHornScaling i) sX hornMap) :
     (standardTypeAScaledHornFamily X sX).admissible
@@ -164,7 +164,7 @@ theorem standardTypeAHornFiller_of_family
     (i : Fin (n + 1))
     (h0 : 0 < i)
     (hn : i < Fin.last n)
-    (hornMap : (Lambda[n, i] : SSet.{u}) ⟶ X)
+    (hornMap : (Λ[n, i] : SSet.{u}) ⟶ X)
     (hornMap_scaled :
       IsScaledMap (standardTypeAHornScaling i) sX hornMap)
     [H : HasScaledHornFillers X sX (standardTypeAScaledHornFamily X sX)] :
