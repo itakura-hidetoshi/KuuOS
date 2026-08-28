@@ -1,6 +1,6 @@
 # KuuOS / 空OS Roadmap
 
-**基準日：2026年8月27日 JST**
+**基準日：2026年8月28日 JST**
 
 この Roadmap は、authoritative `main` に統合済みの formal theorem surface と、現在の未完 frontier を分離します。queued / in-progress CI、未merge branch、将来構想を integrated baseline として扱いません。
 
@@ -8,13 +8,45 @@
 
 ```text
 branch: main
-latest integrated formal milestone SHA: 4e273f0d958b5ac4c27bb4f2b430a29ea6760968
-latest integrated formal PR: #1483
-latest integrated local scaled frontier: v1.69
+latest integrated formal milestone SHA: 9d8d9be1c001f0a6f7dbd0b30922c42066c9b21d
+latest integrated formal PR: #1535
+latest integrated local scaled frontier: v1.120
 runtime dependent-origination executable surface: #1386 adapter v0.1
 ```
 
-PR #1483 は fixed `Δ[3]` 上の complete A/B residual table を統合しました。`main` HEAD は documentation / governance-only synchronizationでこの formal milestone より先へ進み得ますが、それだけで theorem frontier が進んだとは扱いません。現在の mathematical frontier は、その fixed table を actual dependent boundary-prism cells に categorical transport し、その後 scaled rank filtration と v1.59 cellular certificate を構成することです。
+PR #1534 / v1.119 **Formalize the standard/canonical orthogonality diamond** により、standard A/B/C presentation `S` と canonical KuuOS presentation `C` の full generated left/right theories は incomparable であることが確定しました。
+
+PR #1535 / v1.120 **Prove terminal fibrancy does not faithfully reflect presentation order** は、その strict presentation distinction が terminal-map semantics では collapse し得ることを証明しました。
+
+現在の mathematical baseline は
+
+```text
+L_standard || L_canonical
+R_standard || R_canonical
+S || C
+
+        S ⊔ C
+        /   \
+       S     C
+        \   /
+        S ⊓ C
+
+all four edges strict
+```
+
+であり、一方 terminal objects では
+
+```text
+Fib_C ⊊ Fib_S
+
+U := S ⊔ C
+C < U
+Fib_U = Fib_C
+```
+
+です。
+
+したがって現在の frontier は standard/canonical equality を再び目指すことではなく、**full orthogonality semantics から terminal/fibrant-object semantics への restriction が何を保持し、何を忘却するかを構造化すること**です。
 
 ## State labels
 
@@ -26,6 +58,7 @@ PR #1483 は fixed `Δ[3]` 上の complete A/B residual table を統合しまし
 | Dedicated CI | subsystem 固有 workflow で検証される |
 | Live verified | separately authorized live transaction が completed evidence で閉じた |
 | Open theorem frontier | theorem-level に未完で、current baseline へ昇格していない |
+| Retired theorem frontier | 後続 theorem により最終目標として不可能または不要と確定した旧 frontier |
 | Frozen boundary | append-only / tighten-only / overwrite-forbidden / same-root を維持する責任境界 |
 
 ## Formal architecture map
@@ -103,193 +136,279 @@ canonicalGeneratedScaledFibration = T.rlp
 (T.rlp.llp, T.rlp) is a native weak factorization system
 ```
 
-### D. Standard A/B/C scaled-anodyne presentation — integrated infrastructure
+### D. Generated-presentation invariant and complete lattice — integrated
+
+The literal generator family is not the invariant carrier. Presentations are quotiented by mutual orthogonal generation and then identified with orthogonally saturated fixed points.
 
 ```text
-#1462  factor canonical attachments through induced scaling
-#1463  standard type-(A) scaled inner horns
-#1464-#1469
-       endpoint pushout-product / Leibniz mate /
-       interval cylinder / source enrichment /
-       categorical scaled Leibniz pushout
-#1470  standard type-(B) scaling pushouts
-#1471  q12/q23 B three-simplex completions
-#1472  standard type-(C) collapsed-edge generators
-#1473  standard A/B/C cellular closure and certificate interface
+v1.81  GeneratedScaledAnodynePresentation quotient
+v1.83  posetal reflection
+v1.84  order reflection
+v1.85  saturated left/right fixed-point order isomorphisms
+v1.86  complete lattice
+v1.87  standard/canonical lower and upper envelopes
 ```
 
-Integrated target objects include:
+For every presentation `P`:
 
 ```text
-standardScaledAnodyneGeneratorsABC
-standardGeneratedScaledAnodyneABC = ABC.rlp.llp
-standardABCCellularClosure
-StandardABCTypeAEndpointLeibnizCellularCertificate
+L_P := generatedAnodyneClass P
+R_P := generatedFibrationClass P
+
+L_P.rlp = R_P
+R_P.llp = L_P
+
+P ≤ Q
+↔ L_P ≤ L_Q
+↔ R_Q ≤ R_P
 ```
 
-The certificate structure exists; the theorem constructing the required certificate is still open.
+The right coordinate is therefore a faithful full-theory invariant. Equality of full generated right classes implies equality of quotient presentations.
 
-Frozen distinction:
+For arbitrary joins:
 
 ```text
-canonical KuuOS arbitrary-scaling family
-!= standard A/B/C generator family
+R_(⨆ i, P_i) = ⨅ i, R_(P_i)
 ```
 
-### E. Endpoint boundary-prism geometry — integrated through v1.69
+This formula is the order-theoretic input used by v1.120.
+
+### E. Standard/canonical comparison — resolved, not open
+
+The old comparison program asked whether one generated theory contains the other. It is now theorem-level closed in the negative.
+
+Two independent separators are integrated:
 
 ```text
-#1474  endpoint -> full interval-boundary prism factorization
-#1475  ordinary inner relative cell complex
-#1476  exact scaled cells; outside-horn residual only in N=2/3
-#1477  attached dimension N = n or n+1
-#1478  top cells have canonical staircase normal form
-#1479  exact pure-A cobase-change criterion
-#1480  A-compatibility for every cell
-#1481  n=2 actual target is maximal; N=2 pure A
-#1482  q12/q23 B-completed Δ[3] scalings are maximal
-#1483  complete fixed Δ[3] A/B residual table
+canonical not ≤ standard:
+  atomic scaling enrichment
+  + concrete B^2 N standard-right terminal witness
+  -> v1.107 separation
+
+standard not ≤ canonical:
+  degree-three Type-A horn Λ[3,1] -> Δ[3]
+  + canonical-right relative rigidity
+  + failure of self-lifting
+  -> v1.118 separation
 ```
 
-Current fixed three-simplex table:
+v1.119 packages the consequence:
 
 ```text
-index 1:
-  missing face 023
-  horn-saturated A = q12 base
-  q12 completion = maximal Δ[3]
+L_standard || L_canonical
+R_standard || R_canonical
+S || C
 
-index 2:
-  missing face 013
-  horn-saturated A = q23 base
-  q23 completion = maximal Δ[3]
+S ⊓ C < S
+S ⊓ C < C
+S < S ⊔ C
+C < S ⊔ C
 ```
 
-For `g.n = 2, N = 3`, the actual cell target scaling is already proved maximal.
+The old positive/reverse comparison structures are provably uninhabited.
+
+Frozen conclusion:
+
+```text
+remaining Type-A or Type-C geometry
+cannot restore
+a globally refuted standard/canonical inclusion or equality
+```
+
+### F. Terminal/fibrant-object semantics — integrated through v1.120
+
+v1.115 proves the terminal slice is strictly one-sided:
+
+```text
+Fib_C ⊊ Fib_S
+```
+
+This does not contradict full right-class incomparability because terminal maps are only a special slice of all morphisms.
+
+For `U := S ⊔ C`, v1.120 proves
+
+```text
+R_U = R_S ∩ R_C
+
+Fib_U(X)
+↔ Fib_S(X) ∧ Fib_C(X)
+↔ Fib_C(X)
+```
+
+while v1.119 gives `C < U`.
+
+Hence
+
+```text
+C < U
+but
+fibrantObjectSemantics C = fibrantObjectSemantics U
+```
+
+and the formal surface includes
+
+```text
+fibrantObjectSemantics_not_injective
+fibrantObjectSemantics_not_orderReflecting
+```
+
+This is the new starting point.
 
 ## Immediate mathematical program
 
 The next work should be treated as coherent mathematical units, not as isolated micro-lemmas.
 
-### Milestone 1 — close the actual cellwise A/B classification
+### Milestone 1 — separate faithful full-right semantics from terminal restriction
 
-Goal:
-
-```text
-every boundary-prism rank cell
-=
-pure standard A
-or
-standard A followed by exactly one q12/q23 B completion
-```
-
-Required chain:
-
-1. Construct the canonical reindexing/transport from an actual `N=3` dependent cell carrier to fixed `Δ[3]`.
-2. Prove transported actual A-pushout scaling equals the intrinsic fixed horn-saturated A scaling at `CellIndex3`.
-3. In the equal branch `g.n = N = 3`, use first-coordinate surjectivity to obtain an epi finite-ordinal endomorphism, hence identity; deduce the cell index is the original `g.i` and the cell is pure A.
-4. In the top branch `g.n = 2, N = 3`, combine actual maximality with the fixed residual table to obtain literal A -> q12 or A -> q23 factorization.
-5. Recover the staircase display theorem
+The full generated right class already separates presentations:
 
 ```text
-r = 0 -> q23
-r = 1 -> q23
-r = 2 -> q12
+P = Q
+↔ R_P = R_Q.
 ```
 
-6. Package an exhaustive cellwise theorem usable directly by rank successor pushouts.
+Terminal restriction does not.
 
-Exit criterion: no unresolved local scaling geometry remains in the boundary prism.
-
-### Milestone 2 — construct the scaled rank filtration
-
-The ordinary Mathlib `RelativeCellComplex` from #1475 lives in bare `SSet`; it cannot directly prove membership in the `ScaledSSet` cellular closure.
-
-Construct a genuine scaled filtration:
+Define and package the restriction explicitly:
 
 ```text
-stage j carrier  = ordinary rank filtration stage
-stage j scaling  = pullback of ambient cylinder scaling
+terminalRestriction(R)
+  := { X | R (toPoint X) }
+
+fullRightSemantics(P) := R_P
+fibrantObjectSemantics(P)
+  = terminalRestriction(fullRightSemantics(P))
 ```
 
-For each rank successor, factor the scaled attachment into two phases:
+Target theorem package:
 
 ```text
-A phase:
-  coproduct of standard type-(A) cell pushouts
-
-B phase:
-  only exceptional n=2,N=3 cells,
-  using q12/q23 identity-underlying completion pushouts
+fullRightSemantics is faithful / order-reflecting
+terminalRestriction ∘ fullRightSemantics is not injective
+terminalRestriction ∘ fullRightSemantics is not order-reflecting
 ```
 
-High-dimensional and equal-dimensional cells stop after the A phase.
+Use the existing `C < U` and `Fib_C = Fib_U` as the concrete witness, rather than constructing a new separator.
 
-The preferred indexing may interleave the two phases over `Nat`, for example:
+Exit criterion: the precise locus of information loss is a named map from full morphism semantics to terminal-object semantics.
+
+### Milestone 2 — generalize terminal join absorption
+
+v1.120 is not specific to standard/canonical geometry at the order-theoretic level.
+
+For arbitrary generated presentations `P,Q`, prove first
 
 ```text
-stage 0
-A(rank 0)
-B(rank 0)
-A(rank 1)
-B(rank 1)
-...
+Fib_(P ⊔ Q)(X)
+↔ Fib_P(X) ∧ Fib_Q(X).
 ```
 
-Exit criterion: each successor morphism belongs to pushouts of coproducts of standard A/B generators in `ScaledSSet`.
-
-### Milestone 3 — pass to the transfinite/cellular closure
-
-Use the scaled filtration to prove:
-
-1. the colimit/union of stages is the full scaled boundary prism;
-2. successor maps lie in the standard A/B cellular closure;
-3. the boundary-prism-to-cylinder map lies in `standardABCCellularClosure`;
-4. the endpoint-to-boundary first factor is the opposite-endpoint copy of a standard type-(A) attachment and also lies in the closure;
-5. composition gives every standard type-(A) endpoint Leibniz generator in the cellular closure.
-
-Construct the target theorem:
+Then derive the absorption theorem
 
 ```text
-standardABCTypeAEndpointLeibnizCellularCertificate :
-  StandardABCTypeAEndpointLeibnizCellularCertificate
+(∀ X, Fib_Q(X) -> Fib_P(X))
+->
+∀ X, Fib_(P ⊔ Q)(X) ↔ Fib_Q(X).
 ```
 
-Exit criterion: v1.59 certificate is theorem-level, not merely an interface.
-
-### Milestone 4 — consume the certificate
-
-Once the certificate exists:
+The standard/canonical theorem becomes the specialization
 
 ```text
-certificate
--> standardABCTypeAEndpointLeibnizCellularCertificate.toLeibnizStability
--> standard type-(A) endpoint Leibniz stability
--> lifting against standardGeneratedScaledFibrationABC
--> standard type-(A) induced attachments lie in standardGeneratedScaledAnodyneABC
+P = S
+Q = C
 ```
 
-This closes the standard endpoint-prism theorem.
+using v1.115.
 
-### Milestone 5 — return to the full canonical/external comparison
+Exit criterion: terminal semantic collapse is an intrinsic lattice theorem, not only a binary standard/canonical fact.
 
-Do not conflate this with Milestone 4.
+### Milestone 3 — fibrant-object semantic equivalence and quotient
 
-After standard A/B/C endpoint stability, the remaining full comparison obligations must still be discharged explicitly, including the arbitrary-scaling canonical family components isolated by the v1.46-v1.48 interfaces.
-
-Target shape:
+Define
 
 ```text
-canonical attachment family T
-<-> generated closure comparison <->
-standard/external A/B/C presentation
+P ≈_Fib Q
+:
+↔ ∀ X, Fib_P(X) ↔ Fib_Q(X).
 ```
 
-only after both required closure inclusions are theorem-level.
+Formalize:
+
+1. `≈_Fib` is an equivalence relation;
+2. `C ≈_Fib U` but `C ≠ U`;
+3. the quotient forgets strictly more than generated-presentation equivalence;
+4. presentation order descends only through the contravariant semantic order actually justified by inclusion of fibrant-object sets.
+
+Do not call this quotient a localization or homotopy theory until an appropriate universal property is proved.
+
+Exit criterion: the non-faithfulness theorem is promoted from one witness to an explicit semantic quotient structure.
+
+### Milestone 4 — determine which lattice operations survive terminal semantics
+
+Join behavior is exact because full right classes turn joins into intersections:
+
+```text
+Fib_(P ⊔ Q) = Fib_P ∩ Fib_Q.
+```
+
+Meet behavior is subtler because
+
+```text
+R_(P ⊓ Q)
+```
+
+is obtained by right orthogonal closure of an ambient join and need not reduce to a simple union of terminal object sets.
+
+Study, without assuming an answer:
+
+```text
+which joins/meets descend to the Fib quotient?
+which inequalities become equalities after terminal restriction?
+which additional hypotheses make meet semantics computable?
+```
+
+Exit criterion: a theorem-level description of the algebraic structure retained by terminal semantics.
+
+### Milestone 5 — optional geometry after comparison closure
+
+Type-A and Type-C geometry may continue when it yields intrinsic structure, explicit fillers, minimal generators, or reusable lifting theorems.
+
+It must no longer be framed as a route to
+
+```text
+S ≤ C
+C ≤ S
+S = C
+```
+
+because all three possibilities requiring comparability/equality are already ruled out by v1.119.
+
+## Retired theorem program
+
+The long endpoint boundary-prism / A-B residual program was a genuine historical prerequisite for the later comparison spine, but it is no longer the current roadmap frontier.
+
+Historical stages included:
+
+```text
+v1.59  standard A/B/C cellular certificate interface
+v1.69  fixed Δ[3] A/B residual table
+subsequent dependent-cell / filtration / endpoint lifting progression
+```
+
+Likewise the old global target
+
+```text
+canonical attachment family
+<-> standard A/B/C presentation
+```
+
+is retired as an equality/inclusion frontier. v1.119 proves the full generated theories are incomparable.
+
+These results remain useful internal geometry; they are not deleted or downgraded as theorems. Only their status as the active final objective is retired.
 
 ## Secondary formal directions
 
-These remain valid but are lower priority than closing the current endpoint-prism certificate.
+These remain valid but are lower priority than structuralizing the terminal semantic restriction.
 
 ### Standard categorical finality bridge
 
@@ -336,7 +455,7 @@ Canonical effect-free entrypoint remains:
 PYTHONPATH=. python3 runtime/kuuos_current_check.py
 ```
 
-The runtime dependent-origination profile still validates the #1386 executable/spec adapter. Formal theorem authority through #1483 is supplied by Lean, not by Python runtime checks.
+The runtime dependent-origination profile still validates the #1386 executable/spec adapter. Formal theorem authority through #1535 is supplied by Lean, not by Python runtime checks.
 
 ### GitHub MCP CI re-entry
 
@@ -374,9 +493,10 @@ The frozen cohort / prediction-pack / execution-shard contract remains separate 
 | Contextual parent formal | contextual semantics + bicategorical/enriched/quasicategorical extensions | Formal integrated |
 | Presentation-independent higher realization | global scaled Duskin / horn invariants / model transport | Formal integrated |
 | Canonical scaled WFS | explicit small-object WFS | Formal integrated |
-| Standard A/B/C comparison | explicit generators + cellular interface | Formal integrated |
-| Endpoint-prism local frontier | fixed Δ[3] A/B residual table v1.69 | Formal integrated |
-| Endpoint-prism scaled cellular certificate | not yet constructed | Open theorem frontier |
+| Generated-presentation lattice | quotient / posetal reflection / complete lattice v1.86 | Formal integrated |
+| Standard/canonical full orthogonality | strict diamond / left-right incomparability v1.119 | Formal integrated |
+| Terminal fibrant-object semantics | strict `Fib_C ⊊ Fib_S`, non-faithful order v1.120 | Formal integrated |
+| Semantic restriction / Fib quotient | not yet packaged generically | Open theorem frontier |
 
 Subsystem versions remain independent; they are not one linear maturity scale.
 
@@ -406,17 +526,20 @@ presentation-independent invariant != preferred presentation
 canonical arbitrary-scaling KuuOS family
 != standard A/B/C generator family
 
-fixed Δ[3] residual table
-!= actual dependent cellwise factorization
+full right-class semantics
+!= terminal-map restriction
 
-actual cellwise factorization
-!= scaled rank filtration
+same fibrant-object semantics
+!= equal generated presentation
 
-scaled rank filtration
-!= cellular certificate until transfinite closure is proved
+presentation inequality
+!= terminal-semantic inequality
 
-standard endpoint cellular certificate
-!= full canonical/external comparison
+Type-C geometric refinement
+!= restoration of a globally refuted presentation inclusion
+
+Fib semantic quotient
+!= localization until a universal property is proved
 
 KuuOS structural theorem != physical Yang-Mills theorem authority
 
@@ -441,7 +564,7 @@ same-root where theorem/receipt requires it
 exact-base branch / Draft-first
 no sorry / admit / axiom / placeholder constants in formal proof work
 no writes to queued/in-progress exact PR heads
-completed workflow + job + exact Lean-step evidence before merge
+completed workflow + all jobs + exact Lean-step + manifest + governance evidence before merge
 ```
 
 These are status criteria, not decorative documentation conventions.
