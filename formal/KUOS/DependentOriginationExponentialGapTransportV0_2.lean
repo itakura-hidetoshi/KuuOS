@@ -34,7 +34,7 @@ namespace ExponentiallyGappedVacuumTransport
 variable {State : Type u} [SeminormedAddCommGroup State]
 
 /-- The exponential factor attached to elapsed positive time. -/
-def decayFactor (D : ExponentiallyGappedVacuumTransport State)
+noncomputable def decayFactor (D : ExponentiallyGappedVacuumTransport State)
     (t : NNReal) : ℝ :=
   Real.exp (-(D.mass * (t : ℝ)))
 
@@ -66,7 +66,7 @@ theorem decayFactor_add
   ring
 
 /-- The inherited distinguished vacuum is fixed by every positive-time transport. -/
-theorem vacuum_fixed
+theorem vacuum_fixed_transport
     (D : ExponentiallyGappedVacuumTransport State) (t : NNReal) :
     D.transport t D.vacuum = D.vacuum :=
   D.vacuum_fixed t
