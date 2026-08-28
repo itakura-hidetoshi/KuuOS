@@ -7,6 +7,7 @@ open KUOS.DependentOriginationFunctorialTransportV0_1
 open KUOS.DependentOriginationExponentialGapTransportV0_2
 open KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3
 open KUOS.DependentOriginationFiniteTransferWordV0_4
+open KUOS.DependentOriginationFiniteTransferWordV0_4.ExponentiallyGappedVacuumTransport.LinearTransferRealization
 
 universe u v w
 
