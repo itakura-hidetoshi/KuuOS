@@ -160,8 +160,9 @@ theorem connectedWordReadout_eq_totalTime
     (word : TransferWord) (x : State) :
     connectedWordReadout L R word x =
       L.connectedReadout R (wordTotalTime word) x := by
-  unfold connectedWordReadout connectedReadout
+  unfold connectedWordReadout
   rw [wordOperatorApply_eq_totalTime L word x]
+  rfl
 
 /--
 A centered excitation has exponentially decaying connected readout along every

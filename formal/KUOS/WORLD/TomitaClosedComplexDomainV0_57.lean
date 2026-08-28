@@ -58,7 +58,13 @@ def closedDomainStarLinearMap :
       R.pmap.closure (R.closedComplexToReal (x + y)) =
         R.pmap.closure (R.closedComplexToReal x) +
           R.pmap.closure (R.closedComplexToReal y)
-    simpa only [closedComplexToReal] using
+    have hxy :
+        R.closedComplexToReal (x + y) =
+          R.closedComplexToReal x + R.closedComplexToReal y := by
+      apply Subtype.ext
+      rfl
+    rw [hxy]
+    exact
       R.pmap.closure.map_add (R.closedComplexToReal x)
         (R.closedComplexToReal y)
   map_smul' c x := by
@@ -67,7 +73,14 @@ def closedDomainStarLinearMap :
       R.pmap.closure (R.closedComplexToReal (c • x)) =
         starRingEnd Complex c •
           R.pmap.closure (R.closedComplexToReal x)
-    simpa only [closedComplexToReal, starRingEnd_apply] using
+    have hcx :
+        R.closedComplexToReal (c • x) =
+          ⟨c • (R.closedComplexToReal x : H),
+            R.closure_complex_smul_mem c (R.closedComplexToReal x)⟩ := by
+      apply Subtype.ext
+      rfl
+    rw [hcx]
+    simpa only [starRingEnd_apply] using
       R.mathlib_closure_map_complex_smul c (R.closedComplexToReal x)
 
 @[simp]
