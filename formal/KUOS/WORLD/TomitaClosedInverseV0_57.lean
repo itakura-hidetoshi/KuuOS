@@ -49,10 +49,12 @@ theorem mathlib_closure_graph_prodComm :
   rw [Submodule.mem_map]
   constructor
   · rintro ⟨q, hq, hqp⟩
-    have hflip : (q.2, q.1) ∈ R.pmap.closure.graph :=
+    rcases q with ⟨q₁, q₂⟩
+    have hflip : (q₂, q₁) ∈ R.pmap.closure.graph :=
       R.mathlib_closure_graph_flip hq
-    have hp : (q.2, q.1) = p := by
-      simpa only [LinearEquiv.coe_coe, LinearEquiv.prodComm_apply] using hqp
+    have hp : (q₂, q₁) = p := by
+      change (q₂, q₁) = p at hqp
+      exact hqp
     rwa [hp] at hflip
   · intro hp
     refine ⟨(p.2, p.1), R.mathlib_closure_graph_flip hp, ?_⟩
