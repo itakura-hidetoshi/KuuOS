@@ -43,14 +43,14 @@ def toFreeHistoryFunctor
     intro X
     ext x
     change H.eval (FreeMonoid.toList (1 : FreeMonoid Event)) x = x
-    simpa using H.eval_nil x
+    simp [H.eval_nil]
   map_comp := by
     intro X Y Z f g
     ext x
     change
-      H.eval (FreeMonoid.toList (g * f)) x =
+      H.eval (FreeMonoid.toList (f ≫ g)) x =
         H.eval (FreeMonoid.toList g) (H.eval (FreeMonoid.toList f) x)
-    rw [FreeMonoid.toList_mul]
+    rw [CategoryTheory.SingleObj.comp_as_mul, FreeMonoid.toList_mul]
     exact H.eval_append (FreeMonoid.toList g) (FreeMonoid.toList f) x
 
 /--
