@@ -5,6 +5,7 @@ namespace KUOS.DependentOriginationFiniteTransferWordV0_4
 
 open KUOS.DependentOriginationFunctorialTransportV0_1
 open KUOS.DependentOriginationExponentialGapTransportV0_2
+open KUOS.DependentOriginationExponentialGapTransportV0_2.ExponentiallyGappedVacuumTransport
 open KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3
 
 universe u
@@ -33,19 +34,21 @@ The head transfer acts after the recursively evaluated tail, matching the
 semigroup convention `T_(s+t) = T_s ∘ T_t` used by the transport spine.
 -/
 def wordOperatorApply
-    (L : D.LinearTransferRealization) : TransferWord → State → State
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D) :
+    TransferWord → State → State
   | [], x => x
   | t :: tail, x => L.operator t (L.wordOperatorApply tail x)
 
 /-- The empty transfer word is the identity history. -/
 @[simp] theorem wordOperatorApply_nil
-    (L : D.LinearTransferRealization) (x : State) :
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
+    (x : State) :
     L.wordOperatorApply [] x = x :=
   rfl
 
 /-- A nonempty word evaluates by applying its head transfer to its tail history. -/
 @[simp] theorem wordOperatorApply_cons
-    (L : D.LinearTransferRealization)
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (t : NNReal) (tail : TransferWord) (x : State) :
     L.wordOperatorApply (t :: tail) x =
       L.operator t (L.wordOperatorApply tail x) :=
@@ -53,7 +56,7 @@ def wordOperatorApply
 
 /-- Concatenation of transfer words is composition of their transfer histories. -/
 theorem wordOperatorApply_append
-    (L : D.LinearTransferRealization)
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (left right : TransferWord) (x : State) :
     L.wordOperatorApply (left ++ right) x =
       L.wordOperatorApply left (L.wordOperatorApply right x) := by
@@ -81,7 +84,7 @@ semantics: the word remembers the ordered finite history, while the present
 Markov/semigroup realization factors its denotation through total time.
 -/
 theorem wordOperatorApply_eq_totalTime
-    (L : D.LinearTransferRealization)
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (word : TransferWord) (x : State) :
     L.wordOperatorApply word x =
       D.transport (wordTotalTime word) x := by
@@ -107,7 +110,7 @@ theorem wordOperatorApply_eq_totalTime
 
 /-- Two words with the same total time have the same denotation in this semigroup realization. -/
 theorem wordOperatorApply_eq_of_totalTime_eq
-    (L : D.LinearTransferRealization)
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (left right : TransferWord) (x : State)
     (h : wordTotalTime left = wordTotalTime right) :
     L.wordOperatorApply left x = L.wordOperatorApply right x := by
@@ -145,14 +148,14 @@ theorem wordDecayProduct_eq_totalTime
 
 /-- Connected/vacuum-subtracted readout after a finite transfer word. -/
 def connectedWordReadout
-    (L : D.LinearTransferRealization)
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (R : BoundedReadout State)
     (word : TransferWord) (x : State) : ℝ :=
   R.readout (L.wordOperatorApply word x - D.vacuum)
 
 /-- Finite-word connected readout factors through the total elapsed time. -/
 theorem connectedWordReadout_eq_totalTime
-    (L : D.LinearTransferRealization)
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (R : BoundedReadout State)
     (word : TransferWord) (x : State) :
     L.connectedWordReadout R word x =
@@ -165,7 +168,7 @@ A centered excitation has exponentially decaying connected readout along every
 finite transfer word, with the rate controlled only by total elapsed time.
 -/
 theorem connected_word_readout_decay
-    (L : D.LinearTransferRealization)
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (R : BoundedReadout State)
     (word : TransferWord) (x : State)
     (hx : L.CenteredExcitation x) :
@@ -177,7 +180,7 @@ theorem connected_word_readout_decay
 
 /-- The same finite-word decay bound written as the product of per-letter gap factors. -/
 theorem connected_word_readout_decay_product
-    (L : D.LinearTransferRealization)
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (R : BoundedReadout State)
     (word : TransferWord) (x : State)
     (hx : L.CenteredExcitation x) :
@@ -188,7 +191,7 @@ theorem connected_word_readout_decay_product
 
 /-- Connected readout is invariant under replacing a word by any word of equal total time. -/
 theorem connectedWordReadout_eq_of_totalTime_eq
-    (L : D.LinearTransferRealization)
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (R : BoundedReadout State)
     (left right : TransferWord) (x : State)
     (h : wordTotalTime left = wordTotalTime right) :

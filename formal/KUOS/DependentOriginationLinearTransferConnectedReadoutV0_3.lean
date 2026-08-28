@@ -5,6 +5,7 @@ namespace KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3
 
 open KUOS.DependentOriginationFunctorialTransportV0_1
 open KUOS.DependentOriginationExponentialGapTransportV0_2
+open KUOS.DependentOriginationExponentialGapTransportV0_2.ExponentiallyGappedVacuumTransport
 
 universe u
 
@@ -34,13 +35,15 @@ variable {D : ExponentiallyGappedVacuumTransport State}
 
 /-- The linear operator realizes exactly the underlying dependent-origination transport. -/
 @[simp] theorem operator_apply
-    (L : D.LinearTransferRealization) (t : NNReal) (x : State) :
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
+    (t : NNReal) (x : State) :
     L.operator t x = D.transport t x :=
   L.operator_eq_transport t x
 
 /-- Time zero acts identically in the linear transfer realization. -/
 @[simp] theorem operator_zero_apply
-    (L : D.LinearTransferRealization) (x : State) :
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
+    (x : State) :
     L.operator 0 x = x := by
   calc
     L.operator 0 x = D.transport 0 x := L.operator_eq_transport 0 x
@@ -48,7 +51,7 @@ variable {D : ExponentiallyGappedVacuumTransport State}
 
 /-- The linear transfer realization inherits the additive semigroup law pointwise. -/
 theorem operator_add_apply
-    (L : D.LinearTransferRealization)
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (s t : NNReal) (x : State) :
     L.operator (s + t) x = L.operator s (L.operator t x) := by
   calc
@@ -61,7 +64,8 @@ theorem operator_add_apply
 
 /-- The distinguished vacuum is a fixed vector of every linear transfer operator. -/
 @[simp] theorem operator_vacuum_fixed
-    (L : D.LinearTransferRealization) (t : NNReal) :
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
+    (t : NNReal) :
     L.operator t D.vacuum = D.vacuum := by
   calc
     L.operator t D.vacuum = D.transport t D.vacuum :=
@@ -73,7 +77,7 @@ Linearity and vacuum fixation imply exact transport of vacuum-subtracted states:
 `T_t (x - Ω) = T_t x - Ω`.
 -/
 theorem transport_sub_vacuum
-    (L : D.LinearTransferRealization)
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (t : NNReal) (x : State) :
     D.transport t (x - D.vacuum) = D.transport t x - D.vacuum := by
   calc
@@ -86,12 +90,14 @@ theorem transport_sub_vacuum
 
 /-- Vacuum-centered initial state associated with a supplied presentation. -/
 def centeredState
-    (L : D.LinearTransferRealization) (x : State) : State :=
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
+    (x : State) : State :=
   x - D.vacuum
 
 /-- A presentation is centered-excitatory when its vacuum-subtracted state lies in the gap sector. -/
 def CenteredExcitation
-    (L : D.LinearTransferRealization) (x : State) : Prop :=
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
+    (x : State) : Prop :=
   D.Excitation (L.centeredState x)
 
 /--
@@ -100,14 +106,14 @@ The subtraction is performed at the transported state; linearity will identify
 this with transporting the centered initial state.
 -/
 def connectedReadout
-    (L : D.LinearTransferRealization)
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (R : BoundedReadout State)
     (t : NNReal) (x : State) : ℝ :=
   R.readout (D.transport t x - D.vacuum)
 
 /-- Connected readout is exactly readout of the transported centered state. -/
 theorem connectedReadout_eq_centered_transport
-    (L : D.LinearTransferRealization)
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (R : BoundedReadout State)
     (t : NNReal) (x : State) :
     L.connectedReadout R t x =
@@ -120,7 +126,7 @@ The exponential excitation gap therefore gives exponential decay of every
 bounded connected readout.
 -/
 theorem connected_readout_decay
-    (L : D.LinearTransferRealization)
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (R : BoundedReadout State)
     (t : NNReal) (x : State)
     (hx : L.CenteredExcitation x) :
@@ -131,14 +137,14 @@ theorem connected_readout_decay
 
 /-- Connected readout along two successive transfers. -/
 def connectedReadoutTwoStep
-    (L : D.LinearTransferRealization)
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (R : BoundedReadout State)
     (s t : NNReal) (x : State) : ℝ :=
   R.readout (D.transport s (D.transport t x) - D.vacuum)
 
 /-- Two successive connected transports are exactly connected transport at summed time. -/
 theorem connectedReadoutTwoStep_eq_sum
-    (L : D.LinearTransferRealization)
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (R : BoundedReadout State)
     (s t : NNReal) (x : State) :
     L.connectedReadoutTwoStep R s t x =
@@ -148,7 +154,7 @@ theorem connectedReadoutTwoStep_eq_sum
 
 /-- Two-step connected readout obeys the same summed-time exponential gap bound. -/
 theorem connected_readout_two_step_decay
-    (L : D.LinearTransferRealization)
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (R : BoundedReadout State)
     (s t : NNReal) (x : State)
     (hx : L.CenteredExcitation x) :
@@ -159,7 +165,7 @@ theorem connected_readout_two_step_decay
 
 /-- The two-step connected bound factors into the product of the two gap factors. -/
 theorem connected_readout_two_step_decay_product
-    (L : D.LinearTransferRealization)
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (R : BoundedReadout State)
     (s t : NNReal) (x : State)
     (hx : L.CenteredExcitation x) :

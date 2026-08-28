@@ -151,7 +151,7 @@ variable {D : ExponentiallyGappedVacuumTransport State}
 
 /-- The v0.4 finite transfer-word evaluator is a compositional history transport. -/
 def toHistoryTransport
-    (L : D.LinearTransferRealization) :
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D) :
     HistoryTransport NNReal State where
   eval := L.wordOperatorApply
   eval_nil := fun x => L.wordOperatorApply_nil x
@@ -162,7 +162,7 @@ The current positive-time semigroup supplies an explicit total-time
 factorization of the finite history semantics.
 -/
 def toTotalTimeFactorization
-    (L : D.LinearTransferRealization) :
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D) :
     TotalTimeFactorization L.toHistoryTransport where
   semigroup := {
     transport := D.transport
@@ -176,14 +176,14 @@ def toTotalTimeFactorization
 
 /-- Consequently, the current semigroup specialization is not genuinely history-sensitive. -/
 theorem semigroup_not_genuinely_history_sensitive
-    (L : D.LinearTransferRealization) :
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D) :
     ¬ L.toHistoryTransport.GenuinelyHistorySensitive := by
   exact L.toHistoryTransport.not_genuinelyHistorySensitive_of_factorization
     L.toTotalTimeFactorization
 
 /-- Equal-total-time finite words also have equal arbitrary readouts in the semigroup specialization. -/
 theorem semigroup_readout_eq_of_totalTime_eq
-    (L : D.LinearTransferRealization)
+    (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     {Output : Type w}
     (readout : State → Output)
     (left right : List NNReal) (x : State)

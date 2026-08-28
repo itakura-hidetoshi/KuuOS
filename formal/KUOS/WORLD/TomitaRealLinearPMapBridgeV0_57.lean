@@ -66,8 +66,10 @@ theorem pmap_isClosable : R.pmap.IsClosable := by
     rintro ⟨x1, x2⟩ hx hx0
     simp only at hx0
     subst x1
+    change (0, x2) ∈ R.pmap.graph.topologicalClosure at hx
     have hxSet : (0, x2) ∈ closure (R.pmap.graph : Set (H × H)) := by
-      simpa only [Submodule.topologicalClosure_coe] using hx
+      rw [← Submodule.topologicalClosure_coe]
+      exact hx
     have hVertical : (closure T.graph) (0, x2) := by
       rwa [← TomitaRealLinearPMapRealization.graph_eq R]
     exact T.graph_closable x2 hVertical
@@ -107,7 +109,8 @@ theorem mathlib_closure_graph_mem_set_closure
   have hxSet :
       ((x : H), R.pmap.closure x) ∈
         closure (R.pmap.graph : Set (H × H)) := by
-    simpa only [Submodule.topologicalClosure_coe] using hxTopological
+    rw [← Submodule.topologicalClosure_coe]
+    exact hxTopological
   rwa [TomitaRealLinearPMapRealization.graph_eq R] at hxSet
 
 /-- Every point in the Mathlib closure domain belongs to the graph-level closed domain. -/

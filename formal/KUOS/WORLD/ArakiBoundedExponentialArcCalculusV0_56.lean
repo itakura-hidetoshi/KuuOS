@@ -36,7 +36,7 @@ def mixedHessian (k h : A.Generator) : ℝ :=
 
 theorem firstVariation_hasDerivAt (k h : A.Generator) :
     HasDerivAt (A.firstVariation k h) (-A.bkmPairing k h) 0 := by
-  simpa [firstVariation] using
+  simpa [firstVariation] using!
     (A.expectationDerivativeAtReference k h).const_sub
       (A.referenceExpectation h)
 
