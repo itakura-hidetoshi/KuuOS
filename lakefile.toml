@@ -13,6 +13,7 @@ srcDir = "formal"
 roots = [
   "KuuOSFormal",
   "KUOS",
+  "KUOS.DependentOriginationTerminalRestrictionJoinSemanticsV1_121",
   "KuuOSModularEvolutionMeshV0_1",
   "KuuOSObserveOSV0_7",
   "KuuOSVerifyOSV0_13",
