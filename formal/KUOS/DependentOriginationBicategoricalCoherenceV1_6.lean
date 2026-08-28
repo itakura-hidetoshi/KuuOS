@@ -203,7 +203,7 @@ def FunctorialTransportSystem.toLocallyDiscreteBicategorical
     {C : Type u} [Category.{v} C]
     (D : FunctorialTransportSystem C)
     {X Y : C} (f : X ⟶ Y) (s : D.state.obj X) :
-    (D.toLocallyDiscreteBicategorical).transport f.toLoc s =
+    (FunctorialTransportSystem.toLocallyDiscreteBicategorical D).transport f.toLoc s =
       D.transport f s := by
   rfl
 
@@ -223,3 +223,9 @@ actually be supplied before the stronger word is used.
 -/
 
 end KUOS.DependentOriginationBicategoricalCoherenceV1_6
+
+/-! Preserve receiver notation for the v1.6 bridge added to the v0.1 parent type. -/
+namespace KUOS.DependentOriginationFunctorialTransportV0_1.FunctorialTransportSystem
+export KUOS.DependentOriginationBicategoricalCoherenceV1_6.FunctorialTransportSystem
+  (toLocallyDiscreteBicategorical)
+end KUOS.DependentOriginationFunctorialTransportV0_1.FunctorialTransportSystem
