@@ -273,9 +273,9 @@ def transportEquiv
 theorem not_irreversibleAt
     (D : FunctorialTransportSystem Context)
     {X Y : Context} (f : X ⟶ Y) :
-    ¬ D.IsIrreversibleAt f := by
+    ¬ IsIrreversibleAt D f := by
   intro h
-  exact h (D.transportEquiv f).bijective
+  exact h (transportEquiv D f).bijective
 
 end FunctorialTransportSystem
 
@@ -296,15 +296,26 @@ free-category specialization of the contextual parent.
 def asContextualSystem
     (H : HistoryTransport Event State) :
     FunctorialTransportSystem (FreeHistoryCategory Event) :=
-  H.toFunctorialTransportSystem
+  KUOS.DependentOriginationFreeHistoryFunctorV0_6.HistoryTransport.toFunctorialTransportSystem H
 
 /-- Its contextual transport is exactly evaluation of the finite event word. -/
 theorem asContextualSystem_transport
     (H : HistoryTransport Event State)
     (word : List Event) (x : State) :
-    H.asContextualSystem.transport word x = H.eval word x := by
+    (asContextualSystem H).transport word x = H.eval word x := by
   rfl
 
 end HistoryTransport
 
 end KUOS.DependentOriginationContextualCoreV1_0
+
+/-! Preserve receiver notation for contextual APIs added to earlier parent types. -/
+namespace KUOS.DependentOriginationFunctorialTransportV0_1.FunctorialTransportSystem
+export KUOS.DependentOriginationContextualCoreV1_0.FunctorialTransportSystem
+  (IsIrreversibleAt transportEquiv not_irreversibleAt)
+end KUOS.DependentOriginationFunctorialTransportV0_1.FunctorialTransportSystem
+
+namespace KUOS.DependentOriginationHistorySensitiveTransportV0_5.HistoryTransport
+export KUOS.DependentOriginationContextualCoreV1_0.HistoryTransport
+  (asContextualSystem asContextualSystem_transport)
+end KUOS.DependentOriginationHistorySensitiveTransportV0_5.HistoryTransport

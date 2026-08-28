@@ -57,7 +57,7 @@ The same free-history functor packaged in the generic v0.1
 def toFunctorialTransportSystem
     (H : HistoryTransport Event State) :
     FunctorialTransportSystem (FreeHistoryCategory Event) where
-  state := H.toFreeHistoryFunctor
+  state := toFreeHistoryFunctor H
 
 /-- The transport associated with one generating event. -/
 def singleEventTransport
@@ -70,7 +70,7 @@ theorem eval_cons
     (H : HistoryTransport Event State)
     (event : Event) (tail : List Event) (x : State) :
     H.eval (event :: tail) x =
-      H.singleEventTransport event (H.eval tail x) := by
+      singleEventTransport H event (H.eval tail x) := by
   simpa [singleEventTransport] using H.eval_append [event] tail x
 
 /--
@@ -82,16 +82,16 @@ theorem eval_eq_foldr_singleEvent
     (H : HistoryTransport Event State)
     (word : List Event) (x : State) :
     H.eval word x =
-      word.foldr (fun event acc => H.singleEventTransport event acc) x := by
+      word.foldr (fun event acc => singleEventTransport H event acc) x := by
   induction word with
   | nil =>
       change H.eval [] x = x
       exact H.eval_nil x
   | cons event tail ih =>
       change H.eval (event :: tail) x =
-        H.singleEventTransport event
-          (tail.foldr (fun e acc => H.singleEventTransport e acc) x)
-      rw [H.eval_cons event tail x, ih]
+        singleEventTransport H event
+          (tail.foldr (fun e acc => singleEventTransport H e acc) x)
+      rw [eval_cons H event tail x, ih]
 
 /--
 Construct a compositional history transport from arbitrary single-event state
@@ -125,12 +125,12 @@ denotation pointwise on every finite word.
 theorem ofSingleEventTransport_eval_eq
     (H : HistoryTransport Event State)
     (word : List Event) (x : State) :
-    (ofSingleEventTransport H.singleEventTransport).eval word x =
+    (ofSingleEventTransport (singleEventTransport H)).eval word x =
       H.eval word x := by
   change
-    word.foldr (fun event acc => H.singleEventTransport event acc) x =
+    word.foldr (fun event acc => singleEventTransport H event acc) x =
       H.eval word x
-  exact (H.eval_eq_foldr_singleEvent word x).symm
+  exact (eval_eq_foldr_singleEvent H word x).symm
 
 /--
 Consequently, two history transports with identical one-event action have
@@ -139,22 +139,28 @@ identical denotation on every finite word.
 theorem eval_eq_of_singleEventTransport_eq
     (H₁ H₂ : HistoryTransport Event State)
     (hStep : ∀ event x,
-      H₁.singleEventTransport event x = H₂.singleEventTransport event x)
+      singleEventTransport H₁ event x = singleEventTransport H₂ event x)
     (word : List Event) (x : State) :
     H₁.eval word x = H₂.eval word x := by
-  rw [H₁.eval_eq_foldr_singleEvent word x,
-    H₂.eval_eq_foldr_singleEvent word x]
+  rw [eval_eq_foldr_singleEvent H₁ word x,
+    eval_eq_foldr_singleEvent H₂ word x]
   induction word with
   | nil =>
       rfl
   | cons event tail ih =>
-      change H₁.singleEventTransport event
-          (tail.foldr (fun e acc => H₁.singleEventTransport e acc) x) =
-        H₂.singleEventTransport event
-          (tail.foldr (fun e acc => H₂.singleEventTransport e acc) x)
-      rw [hStep event,
-        ih]
+      change singleEventTransport H₁ event
+          (tail.foldr (fun e acc => singleEventTransport H₁ e acc) x) =
+        singleEventTransport H₂ event
+          (tail.foldr (fun e acc => singleEventTransport H₂ e acc) x)
+      rw [hStep event, ih]
 
 end HistoryTransport
-
 end KUOS.DependentOriginationFreeHistoryFunctorV0_6
+
+/-! Preserve receiver notation for finite-history APIs added in v0.6. -/
+namespace KUOS.DependentOriginationHistorySensitiveTransportV0_5.HistoryTransport
+export KUOS.DependentOriginationFreeHistoryFunctorV0_6.HistoryTransport
+  (toFreeHistoryFunctor toFunctorialTransportSystem singleEventTransport
+    eval_cons eval_eq_foldr_singleEvent ofSingleEventTransport_eval_eq
+    eval_eq_of_singleEventTransport_eq)
+end KUOS.DependentOriginationHistorySensitiveTransportV0_5.HistoryTransport

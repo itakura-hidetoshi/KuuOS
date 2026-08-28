@@ -195,7 +195,12 @@ theorem semigroup_readout_eq_of_totalTime_eq
     readout left right x hSum
 
 end LinearTransferRealization
-
 end ExponentiallyGappedVacuumTransport
-
 end KUOS.DependentOriginationHistorySensitiveTransportV0_5
+
+/-! Preserve receiver notation for the v0.5 API added to the v0.3 realization type. -/
+namespace KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization
+export KUOS.DependentOriginationHistorySensitiveTransportV0_5.ExponentiallyGappedVacuumTransport.LinearTransferRealization
+  (toHistoryTransport toTotalTimeFactorization
+    semigroup_not_genuinely_history_sensitive semigroup_readout_eq_of_totalTime_eq)
+end KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization

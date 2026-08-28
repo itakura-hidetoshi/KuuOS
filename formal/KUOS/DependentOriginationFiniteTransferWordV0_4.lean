@@ -206,7 +206,20 @@ theorem connectedWordReadout_eq_of_totalTime_eq
       (connectedWordReadout_eq_totalTime L R right x).symm
 
 end LinearTransferRealization
-
 end ExponentiallyGappedVacuumTransport
-
 end KUOS.DependentOriginationFiniteTransferWordV0_4
+
+/-! Lean 4.31 field-notation compatibility for APIs added by this module. -/
+namespace KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization
+export KUOS.DependentOriginationFiniteTransferWordV0_4.ExponentiallyGappedVacuumTransport.LinearTransferRealization
+  (wordOperatorApply wordOperatorApply_nil wordOperatorApply_cons
+    wordOperatorApply_append wordOperatorApply_eq_totalTime
+    wordOperatorApply_eq_of_totalTime_eq connectedWordReadout
+    connectedWordReadout_eq_totalTime connected_word_readout_decay
+    connected_word_readout_decay_product connectedWordReadout_eq_of_totalTime_eq)
+end KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization
+
+namespace KUOS.DependentOriginationExponentialGapTransportV0_2.ExponentiallyGappedVacuumTransport
+export KUOS.DependentOriginationFiniteTransferWordV0_4.ExponentiallyGappedVacuumTransport.LinearTransferRealization
+  (wordDecayProduct wordDecayProduct_eq_totalTime)
+end KUOS.DependentOriginationExponentialGapTransportV0_2.ExponentiallyGappedVacuumTransport
