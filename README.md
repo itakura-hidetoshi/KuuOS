@@ -9,20 +9,69 @@
 
 ## 現在地
 
-**基準日：2026年8月27日 JST**
+**基準日：2026年8月28日 JST**
 
 Authoritative branch は `main` です。
 
 ```text
-latest integrated formal milestone SHA: 4e273f0d958b5ac4c27bb4f2b430a29ea6760968
-latest integrated formal PR: #1483
-latest integrated local scaled frontier: v1.69
+latest integrated formal milestone SHA: 9d8d9be1c001f0a6f7dbd0b30922c42066c9b21d
+latest integrated formal PR: #1535
+latest integrated local scaled frontier: v1.120
 runtime dependent-origination executable scope: #1386 adapter v0.1
 ```
 
-PR #1483 **Classify the complete three-simplex A/B residual table** は Governance Gate、Strict Lean formal validation、exact `Run selected Lean check` が completed / success となった後、normal merge されました。authoritative formal milestone SHA は `4e273f0d958b5ac4c27bb4f2b430a29ea6760968` です。`main` HEAD は documentation / governance-only synchronizationでこの milestone より先へ進み得ますが、それだけで formal theorem frontier が進んだとは扱いません。
+PR #1535 **Prove terminal fibrancy does not faithfully reflect presentation order** は、PR #1534 / v1.119 で確定した standard/canonical orthogonality diamond を terminal-map slice に制限し、presentation の strict inequality が fibrant-object semantics では collapse し得ることを theorem-level に閉じました。
 
-現在の重要な frontier は、`v1.69` で固定 `Δ[3]` 上の type-(A)/(B) residual table が exact に閉じたところです。まだ **全 boundary-prism rank cell が literal に pure A または A followed by one B completion であること**、および **scaled rank filtration から v1.59 cellular certificate を構成すること**は未完了です。
+現在の authoritative mathematical picture は次です。`S` を standard A/B/C generated presentation、`C` を canonical KuuOS generated presentation とします。
+
+```text
+full generated left classes:
+  L_standard || L_canonical
+
+full generated right classes:
+  R_standard || R_canonical
+
+presentation lattice:
+
+        S ⊔ C
+        /   \
+       S     C
+        \   /
+        S ⊓ C
+
+all four displayed edges are strict.
+
+terminal/fibrant-object semantics:
+  Fib_C ⊊ Fib_S
+```
+
+さらに `U := S ⊔ C` とすると、v1.86 の complete-lattice right-class formula と v1.115 の terminal implication により
+
+```text
+R_U = R_S ∩ R_C
+
+Fib_U(X)
+↔ Fib_S(X) ∧ Fib_C(X)
+↔ Fib_C(X)
+```
+
+が成り立つ一方、v1.119 により
+
+```text
+C < U
+```
+
+です。したがって
+
+```text
+C < S ⊔ C
+but
+∀ X, Fib_C(X) ↔ Fib_(S ⊔ C)(X)
+```
+
+であり、presentation から fibrant objects への意味写像は injective でも order-reflecting でもありません。
+
+これは矛盾ではありません。terminal maps は generated right class 全体の special slice であり、full orthogonal theory の違いを忠実に保持する必要はありません。
 
 ## 縁起の親構造
 
@@ -144,84 +193,121 @@ canonicalGeneratedScaledFibration = T.rlp
 #1461         external presentation -> global Duskin fibrancy
 ```
 
-#1459 で canonical KuuOS family 自身について small-object/WFS route は内部的に閉じています。
-
-ただし次の区別は厳守します。
+canonical KuuOS family 自身について small-object/WFS route は内部的に閉じています。
 
 ```text
-canonical KuuOS arbitrary-scaling attachment family
-!= automatically
-standard/Lurie A/B/C scaled-anodyne presentation
+(canonicalGeneratedScaledAnodyne,
+ canonicalGeneratedScaledFibration)
+is a native weak factorization system.
 ```
 
-### 4. Standard scaled-anodyne A/B/C comparison
+### 4. Generated-presentation quotient and complete lattice
 
-標準 generator 側は現在かなり具体化されています。
+literal generator list 自体を invariant とせず、mutual orthogonal generation で quotient した generated-presentation carrier を使います。
 
 ```text
-#1462  canonical attachmentsを induced-scaling factorへ分解
-#1463  standard type-(A) scaled inner horns
-#1464-#1469
-       endpoint pushout product / native Leibniz mate /
-       interval cylinder / source enrichment /
-       categorical scaled Leibniz pushout
-#1470  standard type-(B) scaling-enrichment pushouts
-#1471  q12/q23 three-simplex B completions
-#1472  standard type-(C) collapsed-edge generators
-#1473  standard A/B/C cellular closure and exact certificate target
+v1.81  quotient by mutual generation
+v1.83  posetal reflection
+v1.84  order reflection
+v1.85  fixed-point order isomorphism
+v1.86  complete lattice
+v1.87  standard/canonical lower and upper envelopes
 ```
 
-標準 A/B/C generator familyとその generated classes は formalized 済みです。一方、canonical KuuOS family は arbitrary scaling を許すため、**canonical family = standard A/B/C family** とは主張していません。
-
-### 5. Current frontier: type-(A) endpoint boundary prism
-
-#1474 以降は、v1.59 の endpoint Leibniz cellular certificate を実際に構成するための prism geometry を進めています。
+presentation `P` には generated orthogonal pair
 
 ```text
-#1474  endpoint prism factorization through full interval-boundary prism
-#1475  ordinary boundary prism = inner relative cell complex
-#1476  exact pullback-scaled cells; residual only in dimensions 2/3
-#1477  attached dimension = n or n+1
-#1478  top cells = canonical staircase σ_r
-#1479  exact criterion for pure type-(A) cobase change
-#1480  every cell is type-(A)-compatible
-#1481  n=2 cells have maximal actual target; N=2 is pure A
-#1482  q12/q23 completed scaling = maximal scaling on Δ[3]
-#1483  complete fixed Δ[3] A/B residual table
+L_P := generatedAnodyneClass P
+R_P := generatedFibrationClass P
+
+L_P.rlp = R_P
+R_P.llp = L_P
 ```
 
-現在 exact に統合済みの three-simplex table は
+が付随し、presentation order は
 
 ```text
-cell index 1:
-  missing face = 023
-  horn-saturated A base = q12 base
-  q12 B completion -> maximal Δ[3]
-
-cell index 2:
-  missing face = 013
-  horn-saturated A base = q23 base
-  q23 B completion -> maximal Δ[3]
+P ≤ Q  ↔  L_P ≤ L_Q
+       ↔  R_Q ≤ R_P
 ```
 
-また `g.n = 2, N = 3` の actual target scaling は maximal です。
+です。
 
-### まだ未証明の直近境界
-
-次は local geometry を増やす段階ではなく、fixed `Δ[3]` table を actual dependent cell に categorical に戻す段階です。
+arbitrary joins については
 
 ```text
-1. N=3 actual A-pushout を fixed Δ[3] table へ canonical transport
-2. equal branch g.n = N = 3 の first-coordinate endomorphismを identity と証明
-3. equal branchを pure A に閉じる
-4. n=2 top branchを literal A -> q12/q23 B completion と同定
-5. staircase r=0,1,2 を q23,q23,q12 に exact 分類
-6. 全 rank cell = pure A または A followed by one B completion
-7. scaled rank filtrationを構成
-8. StandardABCTypeAEndpointLeibnizCellularCertificate を構成
+R_(⨆ i, P_i) = ⨅ i, R_(P_i)
 ```
 
-この certificate が得られて初めて、standard A/B/C cellular closure を用いた endpoint Leibniz stability を theorem-level に閉じられます。
+が Mathlib complete-lattice structure から exact に得られます。
+
+### 5. Standard/canonical comparison — resolved as incomparability
+
+standard A/B/C family と canonical KuuOS arbitrary-scaling attachment family は、generator list が違うだけでなく、generated full orthogonal theories も一致しません。
+
+v1.107 と v1.118 の二方向の separator により、v1.119 で
+
+```text
+L_standard || L_canonical
+R_standard || R_canonical
+S || C
+```
+
+が確定しました。
+
+具体的には、canonical-not-standard 側には atomic scaling / `B^2 N` terminal witness があり、standard-not-canonical 側には degree-three Type-A horn `Λ[3,1] -> Δ[3]` の relative rigidity separator があります。
+
+したがって旧 comparison frontier
+
+```text
+standard ≤ canonical
+or
+canonical ≤ standard
+```
+
+を「残りの Type-A / Type-C geometry を埋めれば達成される目標」として扱うことは終了しました。Type-C geometry 自体の研究は可能ですが、それによって global inclusion や equality を復活させることはできません。
+
+### 6. Terminal semantics — strict order and non-faithfulness
+
+v1.115 では object-level terminal maps に限って
+
+```text
+Fib_canonical ⊊ Fib_standardABC
+```
+
+が確定しました。これは full right classes の incomparability と両立します。
+
+v1.120 ではさらに upper envelope `U = S ⊔ C` に対して
+
+```text
+R_U = R_S ∩ R_C
+Fib_U = Fib_C
+C < U
+```
+
+を証明しました。
+
+主要 theorem surface:
+
+```text
+generatedFibrationClass_upperEnvelope
+upperEnvelope_isFibrant_iff_standard_and_canonical
+upperEnvelope_isFibrant_iff_canonical
+canonical_lt_upperEnvelope_but_same_fibrant_objects
+fibrantObjectSemantics_canonical_eq_upperEnvelope
+fibrantObjectSemantics_not_injective
+fibrantObjectSemantics_not_orderReflecting
+```
+
+したがって terminal/fibrant-object semantics は presentation distinction の一部を忘却します。
+
+## Retired formal frontiers
+
+v1.69 時点の fixed `Δ[3]` A/B residual table や boundary-prism cellular classification は、その後の theorem progression のための中間 frontier でした。README / ROADMAP が長くそれを current frontier と表示していましたが、現在は historical milestone です。
+
+同様に、standard/canonical equality または一方向 inclusion を最終目標とする comparison program は v1.119 により theorem-level に退役しています。
+
+現在の presentation-independent 問題は「二つの presentations が同じか」ではなく、**どの semantic projection が full orthogonality information のどの部分を保持し、どの部分を忘れるか**です。
 
 ## 空OSとしての読み
 
@@ -233,6 +319,8 @@ cell index 2:
 二諦 = presentation-independent meaning を証明しても、それを ultimate substance に昇格しない
 中道 = representation の実体化も、relation/coherence の消去も行わない
 ```
+
+v1.119-v1.120 はこの原則を order-theoretic に sharpen します。同じ terminal semantics を持つことは full presentation の同一性を意味しません。observable / semantic slice が一致しても、その背後の orthogonality structure を一つの実体として同一視しない、という区別が formal theorem になっています。
 
 sheaf / stack、operad / multicategory、process theory、enriched category、higher category、causal structure は現在、親の contextual transport を置き換えるものではなく、それぞれ追加構造を持つ specialization / realization として formalize されています。
 
@@ -267,7 +355,9 @@ Subsystem versions are independent; one linear maturity scaleではありませ�
 | Contextual parent formal | contextual transport / filtered semantic descent / higher coherence | `formal/KUOS/` |
 | Global higher realization | scaled Duskin / presentation-independent invariant / scaled horn fibrancy | `formal/KUOS/` |
 | Canonical scaled WFS | `T.rlp.llp / T.rlp`, explicit small-object construction | `formal/KUOS/` |
-| Standard A/B/C comparison | explicit A/B/C generators and endpoint-prism cellular frontier v1.69 | `formal/KUOS/DependentOriginationStandardTypeABoundaryPrismThreeResidualClassificationV1_69.lean` |
+| Generated-presentation lattice | quotient / posetal reflection / complete lattice | `formal/KUOS/DependentOriginationGeneratedPresentationCompleteLatticeV1_86.lean` |
+| Standard/canonical orthogonality | strict diamond and full left/right incomparability v1.119 | `formal/KUOS/DependentOriginationStandardCanonicalOrthogonalityDiamondV1_119.lean` |
+| Terminal fibrancy semantics | non-faithful presentation order v1.120 | `formal/KUOS/DependentOriginationTerminalFibrancyNonfaithfulPresentationOrderV1_120.lean` |
 | Repository strict Lean baseline | aggregate import | `formal/KuuOSFormal.lean` |
 
 ## Canonical runtime root
@@ -297,7 +387,7 @@ PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile all
 
 The runtime root remains deterministic and effect-free. It does not perform live GitHub writes, workflow dispatch, external benchmark execution, external artifact acquisition, or gold-material access.
 
-The `dependent_origination` runtime profile still validates the executable/spec contract introduced in #1386. The much newer formal theorem line through #1483 is strict Lean authority; Python runtime checks do **not** substitute for Lean compilation.
+The `dependent_origination` runtime profile still validates the executable/spec contract introduced in #1386. The formal theorem line through #1535 is strict Lean authority; Python runtime checks do **not** substitute for Lean compilation.
 
 ## Formal validation
 
@@ -315,7 +405,7 @@ Formal compilation establishes only the repository theorem surface under the pin
 
 ## Repository development invariants
 
-Normal changes begin from an exact `main` SHA on a dedicated branch and normally enter as Draft PRs. CI status is final only after workflow, job, and exact selected Lean step are completed. queued / in-progress state is not success or failure evidence.
+Normal changes begin from an exact `main` SHA on a dedicated branch and normally enter as Draft PRs. CI status is final only after workflow, all jobs, exact selected Lean step, committed dependency manifest check, and governance/audit summary are completed / success. queued / in-progress state is not success or failure evidence.
 
 Repository evolution remains append-only or tighten-only at frozen boundaries. Same-root requirements remain explicit wherever a theorem or receipt depends on them.
 
@@ -367,11 +457,17 @@ presentation-independent invariant != one privileged presentation
 canonical arbitrary-scaling KuuOS generator family
 != standard A/B/C generator-level family
 
-local three-simplex A/B table
-!= completed scaled rank filtration
+full standard/canonical presentation incomparability
+!= terminal/fibrant-object incomparability
 
-standard A/B/C cellular certificate
-!= full canonical/external comparison until remaining inclusions are proved
+same fibrant-object semantics
+!= equal generated presentation
+
+presentation inequality
+!= terminal-semantic inequality
+
+Type-C geometric refinement
+!= restoration of a globally refuted presentation inclusion
 
 KuuOS structural theorem != physical Yang-Mills theorem authority
 
