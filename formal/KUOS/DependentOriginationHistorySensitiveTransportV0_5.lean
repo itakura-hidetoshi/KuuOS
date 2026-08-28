@@ -153,9 +153,9 @@ variable {D : ExponentiallyGappedVacuumTransport State}
 def toHistoryTransport
     (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D) :
     HistoryTransport NNReal State where
-  eval := L.wordOperatorApply
-  eval_nil := fun x => L.wordOperatorApply_nil x
-  eval_append := fun left right x => L.wordOperatorApply_append left right x
+  eval := wordOperatorApply L
+  eval_nil := fun x => wordOperatorApply_nil L x
+  eval_append := fun left right x => wordOperatorApply_append L left right x
 
 /--
 The current positive-time semigroup supplies an explicit total-time
@@ -163,7 +163,7 @@ factorization of the finite history semantics.
 -/
 def toTotalTimeFactorization
     (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D) :
-    TotalTimeFactorization L.toHistoryTransport where
+    TotalTimeFactorization (toHistoryTransport L) where
   semigroup := {
     transport := D.transport
     transport_zero := D.transport_zero
@@ -172,14 +172,14 @@ def toTotalTimeFactorization
   eval_eq_totalTime := by
     intro word x
     simpa [toHistoryTransport, wordTotalTime] using
-      L.wordOperatorApply_eq_totalTime word x
+      wordOperatorApply_eq_totalTime L word x
 
 /-- Consequently, the current semigroup specialization is not genuinely history-sensitive. -/
 theorem semigroup_not_genuinely_history_sensitive
     (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D) :
-    ¬ L.toHistoryTransport.GenuinelyHistorySensitive := by
-  exact L.toHistoryTransport.not_genuinelyHistorySensitive_of_factorization
-    L.toTotalTimeFactorization
+    ¬ (toHistoryTransport L).GenuinelyHistorySensitive := by
+  exact (toHistoryTransport L).not_genuinelyHistorySensitive_of_factorization
+    (toTotalTimeFactorization L)
 
 /-- Equal-total-time finite words also have equal arbitrary readouts in the semigroup specialization. -/
 theorem semigroup_readout_eq_of_totalTime_eq
@@ -188,9 +188,9 @@ theorem semigroup_readout_eq_of_totalTime_eq
     (readout : State → Output)
     (left right : List NNReal) (x : State)
     (hSum : left.sum = right.sum) :
-    readout (L.toHistoryTransport.eval left x) =
-      readout (L.toHistoryTransport.eval right x) := by
-  exact L.toTotalTimeFactorization.readout_eq_of_sum_eq
+    readout ((toHistoryTransport L).eval left x) =
+      readout ((toHistoryTransport L).eval right x) := by
+  exact (toTotalTimeFactorization L).readout_eq_of_sum_eq
     readout left right x hSum
 
 end LinearTransferRealization

@@ -35,9 +35,17 @@ theorem algebraic_graph_complex_smul
   · change c • (u : H) = c • x
     rw [hux]
   · change Realization.pmap v = star c • y
-    dsimp [v]
-    rw [Realization.map_complex_smul c (u : H) u.property]
-    simpa only using congrArg (fun z : H => star c • z) huy
+    calc
+      Realization.pmap v =
+          star c • Realization.pmap
+            (⟨(u : H), u.property⟩ : Realization.pmap.domain) := by
+        dsimp [v]
+        exact Realization.map_complex_smul c (u : H) u.property
+      _ = star c • Realization.pmap u := by
+        rw [show
+          (⟨(u : H), u.property⟩ : Realization.pmap.domain) = u from
+            Subtype.ext (by rfl)]
+      _ = star c • y := by rw [huy]
 
 /-- The closed Tomita graph is stable under conjugate scalar multiplication. -/
 theorem closure_graph_complex_smul

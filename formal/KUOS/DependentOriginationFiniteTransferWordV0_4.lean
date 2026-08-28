@@ -37,35 +37,35 @@ def wordOperatorApply
     (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D) :
     TransferWord → State → State
   | [], x => x
-  | t :: tail, x => L.operator t (L.wordOperatorApply tail x)
+  | t :: tail, x => L.operator t (wordOperatorApply L tail x)
 
 /-- The empty transfer word is the identity history. -/
 @[simp] theorem wordOperatorApply_nil
     (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (x : State) :
-    L.wordOperatorApply [] x = x :=
+    wordOperatorApply L [] x = x :=
   rfl
 
 /-- A nonempty word evaluates by applying its head transfer to its tail history. -/
 @[simp] theorem wordOperatorApply_cons
     (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (t : NNReal) (tail : TransferWord) (x : State) :
-    L.wordOperatorApply (t :: tail) x =
-      L.operator t (L.wordOperatorApply tail x) :=
+    wordOperatorApply L (t :: tail) x =
+      L.operator t (wordOperatorApply L tail x) :=
   rfl
 
 /-- Concatenation of transfer words is composition of their transfer histories. -/
 theorem wordOperatorApply_append
     (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (left right : TransferWord) (x : State) :
-    L.wordOperatorApply (left ++ right) x =
-      L.wordOperatorApply left (L.wordOperatorApply right x) := by
+    wordOperatorApply L (left ++ right) x =
+      wordOperatorApply L left (wordOperatorApply L right x) := by
   induction left with
   | nil => rfl
   | cons t tail ih =>
       change
-        L.operator t (L.wordOperatorApply (tail ++ right) x) =
-          L.operator t (L.wordOperatorApply tail (L.wordOperatorApply right x))
+        L.operator t (wordOperatorApply L (tail ++ right) x) =
+          L.operator t (wordOperatorApply L tail (wordOperatorApply L right x))
       rw [ih]
 
 /-- Total time is additive under word concatenation. -/
@@ -86,19 +86,19 @@ Markov/semigroup realization factors its denotation through total time.
 theorem wordOperatorApply_eq_totalTime
     (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (word : TransferWord) (x : State) :
-    L.wordOperatorApply word x =
+    wordOperatorApply L word x =
       D.transport (wordTotalTime word) x := by
   induction word with
   | nil =>
       calc
-        L.wordOperatorApply [] x = x := rfl
+        wordOperatorApply L [] x = x := rfl
         _ = D.transport 0 x := (D.transport_zero x).symm
         _ = D.transport (wordTotalTime []) x := by
           simp [wordTotalTime]
   | cons t tail ih =>
       calc
-        L.wordOperatorApply (t :: tail) x =
-            L.operator t (L.wordOperatorApply tail x) := rfl
+        wordOperatorApply L (t :: tail) x =
+            L.operator t (wordOperatorApply L tail x) := rfl
         _ = L.operator t (D.transport (wordTotalTime tail) x) := by
           rw [ih]
         _ = D.transport t (D.transport (wordTotalTime tail) x) := by
@@ -113,32 +113,32 @@ theorem wordOperatorApply_eq_of_totalTime_eq
     (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (left right : TransferWord) (x : State)
     (h : wordTotalTime left = wordTotalTime right) :
-    L.wordOperatorApply left x = L.wordOperatorApply right x := by
+    wordOperatorApply L left x = wordOperatorApply L right x := by
   calc
-    L.wordOperatorApply left x = D.transport (wordTotalTime left) x :=
-      L.wordOperatorApply_eq_totalTime left x
+    wordOperatorApply L left x = D.transport (wordTotalTime left) x :=
+      wordOperatorApply_eq_totalTime L left x
     _ = D.transport (wordTotalTime right) x := by rw [h]
-    _ = L.wordOperatorApply right x :=
-      (L.wordOperatorApply_eq_totalTime right x).symm
+    _ = wordOperatorApply L right x :=
+      (wordOperatorApply_eq_totalTime L right x).symm
 
 /-- Product of the exponential decay factors associated with all letters of a word. -/
-def wordDecayProduct
+noncomputable def wordDecayProduct
     (D : ExponentiallyGappedVacuumTransport State) : TransferWord → ℝ
   | [] => 1
-  | t :: tail => D.decayFactor t * D.wordDecayProduct tail
+  | t :: tail => D.decayFactor t * wordDecayProduct D tail
 
 /-- The decay product of a finite word is exactly the decay factor at total time. -/
 theorem wordDecayProduct_eq_totalTime
     (D : ExponentiallyGappedVacuumTransport State)
     (word : TransferWord) :
-    D.wordDecayProduct word = D.decayFactor (wordTotalTime word) := by
+    wordDecayProduct D word = D.decayFactor (wordTotalTime word) := by
   induction word with
   | nil =>
       simp [wordDecayProduct, wordTotalTime]
   | cons t tail ih =>
       calc
-        D.wordDecayProduct (t :: tail) =
-            D.decayFactor t * D.wordDecayProduct tail := rfl
+        wordDecayProduct D (t :: tail) =
+            D.decayFactor t * wordDecayProduct D tail := rfl
         _ = D.decayFactor t * D.decayFactor (wordTotalTime tail) := by
           rw [ih]
         _ = D.decayFactor (t + wordTotalTime tail) :=
@@ -151,17 +151,17 @@ def connectedWordReadout
     (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (R : BoundedReadout State)
     (word : TransferWord) (x : State) : ℝ :=
-  R.readout (L.wordOperatorApply word x - D.vacuum)
+  R.readout (wordOperatorApply L word x - D.vacuum)
 
 /-- Finite-word connected readout factors through the total elapsed time. -/
 theorem connectedWordReadout_eq_totalTime
     (L : KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3.ExponentiallyGappedVacuumTransport.LinearTransferRealization D)
     (R : BoundedReadout State)
     (word : TransferWord) (x : State) :
-    L.connectedWordReadout R word x =
+    connectedWordReadout L R word x =
       L.connectedReadout R (wordTotalTime word) x := by
   unfold connectedWordReadout connectedReadout
-  rw [L.wordOperatorApply_eq_totalTime]
+  rw [wordOperatorApply_eq_totalTime L word x]
 
 /--
 A centered excitation has exponentially decaying connected readout along every
@@ -172,10 +172,10 @@ theorem connected_word_readout_decay
     (R : BoundedReadout State)
     (word : TransferWord) (x : State)
     (hx : L.CenteredExcitation x) :
-    |L.connectedWordReadout R word x| ≤
+    |connectedWordReadout L R word x| ≤
       R.amplitude * D.decayFactor (wordTotalTime word) *
         ‖L.centeredState x‖ := by
-  rw [L.connectedWordReadout_eq_totalTime R word x]
+  rw [connectedWordReadout_eq_totalTime L R word x]
   exact L.connected_readout_decay R (wordTotalTime word) x hx
 
 /-- The same finite-word decay bound written as the product of per-letter gap factors. -/
@@ -184,10 +184,10 @@ theorem connected_word_readout_decay_product
     (R : BoundedReadout State)
     (word : TransferWord) (x : State)
     (hx : L.CenteredExcitation x) :
-    |L.connectedWordReadout R word x| ≤
-      R.amplitude * D.wordDecayProduct word * ‖L.centeredState x‖ := by
-  rw [D.wordDecayProduct_eq_totalTime word]
-  exact L.connected_word_readout_decay R word x hx
+    |connectedWordReadout L R word x| ≤
+      R.amplitude * wordDecayProduct D word * ‖L.centeredState x‖ := by
+  rw [wordDecayProduct_eq_totalTime D word]
+  exact connected_word_readout_decay L R word x hx
 
 /-- Connected readout is invariant under replacing a word by any word of equal total time. -/
 theorem connectedWordReadout_eq_of_totalTime_eq
@@ -195,15 +195,15 @@ theorem connectedWordReadout_eq_of_totalTime_eq
     (R : BoundedReadout State)
     (left right : TransferWord) (x : State)
     (h : wordTotalTime left = wordTotalTime right) :
-    L.connectedWordReadout R left x =
-      L.connectedWordReadout R right x := by
+    connectedWordReadout L R left x =
+      connectedWordReadout L R right x := by
   calc
-    L.connectedWordReadout R left x =
+    connectedWordReadout L R left x =
         L.connectedReadout R (wordTotalTime left) x :=
-      L.connectedWordReadout_eq_totalTime R left x
+      connectedWordReadout_eq_totalTime L R left x
     _ = L.connectedReadout R (wordTotalTime right) x := by rw [h]
-    _ = L.connectedWordReadout R right x :=
-      (L.connectedWordReadout_eq_totalTime R right x).symm
+    _ = connectedWordReadout L R right x :=
+      (connectedWordReadout_eq_totalTime L R right x).symm
 
 end LinearTransferRealization
 
