@@ -161,6 +161,6 @@ end KUOS.DependentOriginationFreeHistoryFunctorV0_6
 namespace KUOS.DependentOriginationHistorySensitiveTransportV0_5.HistoryTransport
 export KUOS.DependentOriginationFreeHistoryFunctorV0_6.HistoryTransport
   (toFreeHistoryFunctor toFunctorialTransportSystem singleEventTransport
-    eval_cons eval_eq_foldr_singleEvent ofSingleEventTransport_eval_eq
-    eval_eq_of_singleEventTransport_eq)
+    eval_cons eval_eq_foldr_singleEvent ofSingleEventTransport
+    ofSingleEventTransport_eval_eq eval_eq_of_singleEventTransport_eq)
 end KUOS.DependentOriginationHistorySensitiveTransportV0_5.HistoryTransport
