@@ -133,11 +133,15 @@ set_option backward.isDefEq.respectTransparency false in
     duskinReindex (𝟙 J) =
       StrictlyUnitaryLaxFunctor.id (DuskinOrdinal J.unop.len) := by
   unfold duskinReindex
+  have hCat :
+      SimplexCategory.toCat.map (𝟙 J).unop =
+        𝟙 (SimplexCategory.toCat.obj J.unop) := by
+    simpa using SimplexCategory.toCat.map_id J.unop
   have h :
       (SimplexCategory.toCat.map (𝟙 J).unop).toFunctor =
         Functor.id (Fin (J.unop.len + 1)) := by
-    simpa using congrArg Cat.Hom.toFunctor
-      (SimplexCategory.toCat.map_id J.unop)
+    rw [hCat]
+    exact Cat.Hom.id_toFunctor
   rw [h]
   exact locallyDiscreteNormalLax_id _
 
