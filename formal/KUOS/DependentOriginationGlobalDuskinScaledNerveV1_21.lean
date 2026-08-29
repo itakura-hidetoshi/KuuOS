@@ -66,6 +66,7 @@ def locallyDiscreteNormalLax
 
 attribute [local ext] StrictlyUnitaryLaxFunctor
 
+set_option backward.defeqAttrib.useBackward true in
 set_option backward.isDefEq.respectTransparency false in
 @[simp] theorem locallyDiscreteNormalLax_id
     (C : Type*) [Category C] :
@@ -78,6 +79,7 @@ set_option backward.isDefEq.respectTransparency false in
       ext
       simp [locallyDiscreteNormalLax]
 
+set_option backward.defeqAttrib.useBackward true in
 set_option backward.isDefEq.respectTransparency false in
 @[simp] theorem locallyDiscreteNormalLax_comp
     {C : Type*} {D : Type*} {E : Type*}
@@ -94,22 +96,22 @@ set_option backward.isDefEq.respectTransparency false in
 
 /-- The normal-lax reindexing functor associated to a simplicial operator. -/
 def duskinReindex
-    {Δ Δ' : SimplexCategoryᵒᵖ} (f : Δ ⟶ Δ') :
+    {J J' : SimplexCategoryᵒᵖ} (f : J ⟶ J') :
     StrictlyUnitaryLaxFunctor
-      (DuskinOrdinal Δ'.unop.len)
-      (DuskinOrdinal Δ.unop.len) :=
+      (DuskinOrdinal J'.unop.len)
+      (DuskinOrdinal J.unop.len) :=
   locallyDiscreteNormalLax (SimplexCategory.toCat.map f.unop).toFunctor
 
 set_option backward.isDefEq.respectTransparency false in
-@[simp] theorem duskinReindex_id (Δ : SimplexCategoryᵒᵖ) :
-    duskinReindex (𝟙 Δ) =
-      StrictlyUnitaryLaxFunctor.id (DuskinOrdinal Δ.unop.len) := by
+@[simp] theorem duskinReindex_id (J : SimplexCategoryᵒᵖ) :
+    duskinReindex (𝟙 J) =
+      StrictlyUnitaryLaxFunctor.id (DuskinOrdinal J.unop.len) := by
   simp [duskinReindex]
 
 set_option backward.isDefEq.respectTransparency false in
 @[simp] theorem duskinReindex_comp
-    {Δ₀ Δ₁ Δ₂ : SimplexCategoryᵒᵖ}
-    (f : Δ₀ ⟶ Δ₁) (g : Δ₁ ⟶ Δ₂) :
+    {J₀ J₁ J₂ : SimplexCategoryᵒᵖ}
+    (f : J₀ ⟶ J₁) (g : J₁ ⟶ J₂) :
     duskinReindex (f ≫ g) =
       (duskinReindex g).comp (duskinReindex f) := by
   simp [duskinReindex, Functor.comp_def]
@@ -121,11 +123,11 @@ Its simplices are normal lax functors out of finite ordinals, not merely
 collections of local mapping nerves.
 -/
 def duskinNerve (B : Type u) [Bicategory.{w, v} B] : SSet where
-  obj Δ := DuskinSimplex B Δ.unop.len
+  obj J := DuskinSimplex B J.unop.len
   map f := TypeCat.ofHom fun σ => (duskinReindex f).comp σ
-  map_id Δ := by
+  map_id J := by
     ext σ
-    change (duskinReindex (𝟙 Δ)).comp σ = σ
+    change (duskinReindex (𝟙 J)).comp σ = σ
     rw [duskinReindex_id]
     exact StrictlyUnitaryLaxFunctor.id_comp σ
   map_comp f g := by
@@ -138,8 +140,8 @@ def duskinNerve (B : Type u) [Bicategory.{w, v} B] : SSet where
 /-- Every face/degeneracy action is literally normal-lax precomposition. -/
 @[simp] theorem duskinNerve_map
     {B : Type u} [Bicategory.{w, v} B]
-    {Δ Δ' : SimplexCategoryᵒᵖ} (f : Δ ⟶ Δ')
-    (σ : (duskinNerve B).obj Δ) :
+    {J J' : SimplexCategoryᵒᵖ} (f : J ⟶ J')
+    (σ : (duskinNerve B).obj J) :
     (duskinNerve B).map f σ = (duskinReindex f).comp σ :=
   rfl
 
