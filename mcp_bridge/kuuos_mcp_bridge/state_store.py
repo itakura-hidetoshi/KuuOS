@@ -8,7 +8,7 @@ from contextlib import contextmanager
 from copy import deepcopy
 from datetime import datetime, timezone
 from pathlib import Path
-from typing import Any, Iterator, Mapping
+from typing import Any, Iterator, Mapping, Protocol
 
 try:
     import fcntl
@@ -17,6 +17,7 @@ except ImportError:  # pragma: no cover - non-POSIX local development
 
 
 SCHEMA_VERSION = 1
+PROTECTED_FIELDS = frozenset({"schema_version", "version", "updated_at", "updated_by"})
 
 
 class StateConflictError(RuntimeError):
@@ -25,6 +26,28 @@ class StateConflictError(RuntimeError):
 
 class InvalidStatePatch(ValueError):
     """Raised when a patch attempts to mutate protected state fields."""
+
+
+class StateStore(Protocol):
+    """Storage contract used by the MCP surface."""
+
+    def read(self) -> dict[str, Any]: ...
+
+    def update(
+        self,
+        patch: Mapping[str, Any],
+        *,
+        expected_version: int,
+        actor: str,
+    ) -> dict[str, Any]: ...
+
+    def replace(
+        self,
+        state: Mapping[str, Any],
+        *,
+        expected_version: int,
+        actor: str,
+    ) -> dict[str, Any]: ...
 
 
 def utc_now_iso() -> str:
@@ -49,15 +72,50 @@ def default_state() -> dict[str, Any]:
     }
 
 
+def validate_loaded_state(state: Any) -> None:
+    if not isinstance(state, dict):
+        raise ValueError("state store must contain a JSON object")
+    if state.get("schema_version") != SCHEMA_VERSION:
+        raise ValueError(f"unsupported schema_version: {state.get('schema_version')!r}")
+    version = state.get("version")
+    if not isinstance(version, int) or version < 0:
+        raise ValueError("state version must be a non-negative integer")
+
+
+def apply_patch(
+    current: Mapping[str, Any],
+    patch: Mapping[str, Any],
+    *,
+    expected_version: int,
+    actor: str,
+) -> dict[str, Any]:
+    """Apply one validated CAS transition independently of the storage backend."""
+    current_dict = dict(current)
+    validate_loaded_state(current_dict)
+    if current_dict["version"] != expected_version:
+        raise StateConflictError(
+            f"stale state version: expected {expected_version}, "
+            f"current {current_dict['version']}"
+        )
+
+    protected = PROTECTED_FIELDS.intersection(patch)
+    if protected:
+        names = ", ".join(sorted(protected))
+        raise InvalidStatePatch(f"protected fields cannot be patched: {names}")
+
+    updated = deepcopy(current_dict)
+    for key, value in patch.items():
+        updated[key] = deepcopy(value)
+
+    updated["schema_version"] = SCHEMA_VERSION
+    updated["version"] = current_dict["version"] + 1
+    updated["updated_at"] = utc_now_iso()
+    updated["updated_by"] = actor
+    return updated
+
+
 class JsonStateStore:
-    """Atomic JSON store with optimistic compare-and-swap updates.
-
-    The file is the shared canonical state for all MCP clients. Writers must
-    supply the version they read. A stale writer gets StateConflictError
-    rather than silently overwriting a newer Chat/Work update.
-    """
-
-    _PROTECTED = frozenset({"schema_version", "version", "updated_at", "updated_by"})
+    """Atomic JSON store for one host or a shared POSIX filesystem."""
 
     def __init__(self, path: str | os.PathLike[str]):
         self.path = Path(path)
@@ -70,7 +128,7 @@ class JsonStateStore:
                 return default_state()
             with self.path.open("r", encoding="utf-8") as handle:
                 state = json.load(handle)
-            self._validate_loaded(state)
+            validate_loaded_state(state)
             return deepcopy(state)
 
     def update(
@@ -82,25 +140,12 @@ class JsonStateStore:
     ) -> dict[str, Any]:
         with self._lock, self._exclusive_file_lock():
             current = self.read()
-            if current["version"] != expected_version:
-                raise StateConflictError(
-                    f"stale state version: expected {expected_version}, "
-                    f"current {current['version']}"
-                )
-
-            protected = self._PROTECTED.intersection(patch)
-            if protected:
-                names = ", ".join(sorted(protected))
-                raise InvalidStatePatch(f"protected fields cannot be patched: {names}")
-
-            updated = deepcopy(current)
-            for key, value in patch.items():
-                updated[key] = deepcopy(value)
-
-            updated["schema_version"] = SCHEMA_VERSION
-            updated["version"] = current["version"] + 1
-            updated["updated_at"] = utc_now_iso()
-            updated["updated_by"] = actor
+            updated = apply_patch(
+                current,
+                patch,
+                expected_version=expected_version,
+                actor=actor,
+            )
             self._atomic_write(updated)
             return deepcopy(updated)
 
@@ -112,7 +157,7 @@ class JsonStateStore:
         actor: str,
     ) -> dict[str, Any]:
         replacement = dict(state)
-        for field in self._PROTECTED:
+        for field in PROTECTED_FIELDS:
             replacement.pop(field, None)
         return self.update(replacement, expected_version=expected_version, actor=actor)
 
@@ -147,14 +192,131 @@ class JsonStateStore:
             if os.path.exists(tmp_name):
                 os.unlink(tmp_name)
 
+
+class PostgresStateStore:
+    """PostgreSQL-backed CAS store for replicated or serverless MCP deployments."""
+
+    _TABLE = "kuuos_mcp_state"
+
+    def __init__(self, database_url: str, *, state_key: str = "project"):
+        if not database_url:
+            raise ValueError("database_url must be non-empty")
+        self.database_url = database_url
+        self.state_key = state_key
+        self._ensure_schema()
+
+    def _connect(self):
+        try:
+            import psycopg
+        except ImportError as exc:  # pragma: no cover - depends on deploy extra
+            raise RuntimeError(
+                "PostgreSQL backend requires `pip install 'kuuos-mcp-bridge[postgres]'`"
+            ) from exc
+        return psycopg.connect(self.database_url)
+
     @staticmethod
-    def _validate_loaded(state: Any) -> None:
-        if not isinstance(state, dict):
-            raise ValueError("state file must contain a JSON object")
-        if state.get("schema_version") != SCHEMA_VERSION:
-            raise ValueError(
-                f"unsupported schema_version: {state.get('schema_version')!r}"
+    def _jsonb(value: Mapping[str, Any]):
+        try:
+            from psycopg.types.json import Jsonb
+        except ImportError as exc:  # pragma: no cover - depends on deploy extra
+            raise RuntimeError(
+                "PostgreSQL backend requires `pip install 'kuuos-mcp-bridge[postgres]'`"
+            ) from exc
+        return Jsonb(dict(value))
+
+    def _ensure_schema(self) -> None:
+        with self._connect() as conn:
+            conn.execute(
+                f"""
+                CREATE TABLE IF NOT EXISTS {self._TABLE} (
+                    state_key TEXT PRIMARY KEY,
+                    version BIGINT NOT NULL,
+                    payload JSONB NOT NULL
+                )
+                """
             )
-        version = state.get("version")
-        if not isinstance(version, int) or version < 0:
-            raise ValueError("state version must be a non-negative integer")
+
+    def read(self) -> dict[str, Any]:
+        with self._connect() as conn:
+            row = conn.execute(
+                f"SELECT version, payload FROM {self._TABLE} WHERE state_key = %s",
+                (self.state_key,),
+            ).fetchone()
+        if row is None:
+            return default_state()
+        version, payload = row
+        state = dict(payload)
+        validate_loaded_state(state)
+        if state["version"] != version:
+            raise ValueError("PostgreSQL state version column and payload disagree")
+        return deepcopy(state)
+
+    def update(
+        self,
+        patch: Mapping[str, Any],
+        *,
+        expected_version: int,
+        actor: str,
+    ) -> dict[str, Any]:
+        with self._connect() as conn:
+            initial = default_state()
+            conn.execute(
+                f"""
+                INSERT INTO {self._TABLE} (state_key, version, payload)
+                VALUES (%s, %s, %s)
+                ON CONFLICT (state_key) DO NOTHING
+                """,
+                (self.state_key, initial["version"], self._jsonb(initial)),
+            )
+            row = conn.execute(
+                f"""
+                SELECT version, payload
+                FROM {self._TABLE}
+                WHERE state_key = %s
+                FOR UPDATE
+                """,
+                (self.state_key,),
+            ).fetchone()
+            if row is None:  # pragma: no cover - invariant after INSERT
+                raise RuntimeError("failed to initialize PostgreSQL state row")
+
+            version, payload = row
+            current = dict(payload)
+            validate_loaded_state(current)
+            if current["version"] != version:
+                raise ValueError("PostgreSQL state version column and payload disagree")
+
+            updated = apply_patch(
+                current,
+                patch,
+                expected_version=expected_version,
+                actor=actor,
+            )
+            cursor = conn.execute(
+                f"""
+                UPDATE {self._TABLE}
+                SET version = %s, payload = %s
+                WHERE state_key = %s AND version = %s
+                """,
+                (
+                    updated["version"],
+                    self._jsonb(updated),
+                    self.state_key,
+                    version,
+                ),
+            )
+            if cursor.rowcount != 1:
+                raise StateConflictError("state changed during PostgreSQL CAS update")
+            return deepcopy(updated)
+
+    def replace(
+        self,
+        state: Mapping[str, Any],
+        *,
+        expected_version: int,
+        actor: str,
+    ) -> dict[str, Any]:
+        replacement = dict(state)
+        for field in PROTECTED_FIELDS:
+            replacement.pop(field, None)
+        return self.update(replacement, expected_version=expected_version, actor=actor)
