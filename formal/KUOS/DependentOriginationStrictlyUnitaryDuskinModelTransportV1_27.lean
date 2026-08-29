@@ -265,16 +265,17 @@ theorem transportDuskinComparison_isIso
     (hiso : IsIso (duskinComparison σ)) :
     IsIso (duskinComparison (transportDuskinSimplex E σ)) := by
   letI : IsIso (duskinComparison σ) := hiso
-  haveI : IsIso (E.forward.map₂ (duskinComparison σ)) := by
+  have hMap₂ : IsIso (E.forward.map₂ (duskinComparison σ)) := by
     change IsIso
       (E.forward.toPseudofunctor.toPrelaxFunctor.map₂
         (duskinComparison σ))
     exact PrelaxFunctor.map₂_isIso
       E.forward.toPseudofunctor.toPrelaxFunctor (duskinComparison σ)
-  haveI : IsIso (E.forward.mapComp (σ.map edge01) (σ.map edge12)).inv :=
+  have hMapComp :
+      IsIso (E.forward.mapComp (σ.map edge01) (σ.map edge12)).inv :=
     Iso.isIso_inv _
   rw [transportDuskinComparison]
-  infer_instance
+  exact IsIso.comp_isIso' hMapComp hMap₂
 
 /-- Every nondegenerate source-thin triangle transports to a target-thin triangle. -/
 theorem nondegenerateThin_transport_isThin
@@ -289,17 +290,20 @@ theorem nondegenerateThin_transport_isThin
     (nondegenerate_globalThin_iff_intrinsicInvertible σ hnd).mp hthin
   change IsIso (duskinComparison σ) at hiso
   letI : IsIso (duskinComparison σ) := hiso
-  haveI : IsIso (E.forward.map₂ (duskinComparison σ)) := by
+  have hMap₂ : IsIso (E.forward.map₂ (duskinComparison σ)) := by
     change IsIso
       (E.forward.toPseudofunctor.toPrelaxFunctor.map₂
         (duskinComparison σ))
     exact PrelaxFunctor.map₂_isIso
       E.forward.toPseudofunctor.toPrelaxFunctor (duskinComparison σ)
-  haveI : IsIso (E.forward.mapComp (σ.map edge01) (σ.map edge12)).inv :=
+  have hMapComp :
+      IsIso (E.forward.mapComp (σ.map edge01) (σ.map edge12)).inv :=
     Iso.isIso_inv _
-  haveI : IsIso (duskinComparison (transportDuskinSimplex E σ)) := by
+  have hTransport :
+      IsIso (duskinComparison (transportDuskinSimplex E σ)) := by
     rw [transportDuskinComparison]
-    infer_instance
+    exact IsIso.comp_isIso' hMapComp hMap₂
+  letI : IsIso (duskinComparison (transportDuskinSimplex E σ)) := hTransport
   exact invertibleComparison_isThin (transportDuskinSimplex E σ)
 
 /-! ## Bundled theorem-level certificate -/
