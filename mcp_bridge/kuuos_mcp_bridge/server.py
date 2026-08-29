@@ -10,6 +10,7 @@ from mcp.server.transport_security import TransportSecuritySettings
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
+from .github_issue_store import DEFAULT_GITHUB_ISSUE_API_URL, GitHubIssueStateStore
 from .state_store import JsonStateStore, PostgresStateStore, StateConflictError, StateStore
 
 
@@ -36,6 +37,11 @@ def build_store() -> StateStore:
             database_url,
             state_key=os.environ.get("KUUOS_MCP_STATE_KEY", "project"),
         )
+
+    issue_api_url = os.environ.get("KUUOS_MCP_GITHUB_ISSUE_API_URL")
+    if issue_api_url or os.environ.get("VERCEL"):
+        return GitHubIssueStateStore(issue_api_url or DEFAULT_GITHUB_ISSUE_API_URL)
+
     state_path = Path(os.environ.get("KUUOS_MCP_STATE_PATH", "./var/kuuos-mcp-state.json"))
     return JsonStateStore(state_path)
 
@@ -65,6 +71,11 @@ def build_transport_security() -> TransportSecuritySettings:
 
 WRITE_ENABLED = _env_bool("KUUOS_MCP_WRITE_ENABLED", default=False)
 store = build_store()
+if WRITE_ENABLED and isinstance(store, GitHubIssueStateStore):
+    raise RuntimeError(
+        "KUUOS_MCP_WRITE_ENABLED=true requires a writable JSON or PostgreSQL backend"
+    )
+
 mcp = MCPServer(
     "KuuOS Chat-Work State Bridge",
     instructions=(
