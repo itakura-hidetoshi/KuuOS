@@ -43,8 +43,9 @@ global transport is completely automatic:
 ```
 
 is again a normal lax `[n] -> C` simplex.  Postcomposition commutes with every
-simplicial reindexing operator, hence gives a genuine simplicial map between the
-two global Duskin nerves in every degree.
+simplicial reindexing operator.  When source and target models lie in the same
+universe triple, this degreewise transport bundles to a genuine simplicial map
+between the two global Duskin nerves.
 
 The transported comparison 2-cell is not merely `F.map₂` of the old comparison:
 pseudofunctorial composition contributes its canonical composition constraint.
@@ -179,21 +180,25 @@ theorem transportDuskinSimplex_reindex
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (E : StrictlyUnitaryBicategoricalModelEquivalence B C)
-    {Δ Δ' : SimplexCategoryᵒᵖ}
-    (f : Δ ⟶ Δ')
-    (σ : (duskinNerve B).obj Δ) :
+    {J J' : SimplexCategoryᵒᵖ}
+    (f : J ⟶ J')
+    (σ : (duskinNerve B).obj J) :
     transportDuskinSimplex E ((duskinReindex f).comp σ) =
       (duskinReindex f).comp (transportDuskinSimplex E σ) := by
   exact StrictlyUnitaryLaxFunctor.comp_assoc
     (duskinReindex f) σ E.forward.toStrictlyUnitaryLaxFunctor
 
-/-- A normalized model equivalence induces a genuine simplicial map of global Duskin nerves. -/
+/--
+A normalized model equivalence between models in one universe triple induces a
+genuine simplicial map of global Duskin nerves.  The degreewise simplex
+transport above remains valid without this same-universe restriction.
+-/
 def normalizedDuskinNerveMap
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u₁}
+    [Bicategory.{w₁, v₁} B] [Bicategory.{w₁, v₁} C]
     (E : StrictlyUnitaryBicategoricalModelEquivalence B C) :
     duskinNerve B ⟶ duskinNerve C where
-  app Δ := TypeCat.ofHom fun σ => transportDuskinSimplex E σ
+  app J := TypeCat.ofHom fun σ => transportDuskinSimplex E σ
   naturality f := by
     ext σ
     change
@@ -202,12 +207,12 @@ def normalizedDuskinNerveMap
     exact transportDuskinSimplex_reindex E f σ
 
 @[simp] theorem normalizedDuskinNerveMap_app
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u₁}
+    [Bicategory.{w₁, v₁} B] [Bicategory.{w₁, v₁} C]
     (E : StrictlyUnitaryBicategoricalModelEquivalence B C)
-    (Δ : SimplexCategoryᵒᵖ)
-    (σ : (duskinNerve B).obj Δ) :
-    (normalizedDuskinNerveMap E).app Δ σ = transportDuskinSimplex E σ :=
+    (J : SimplexCategoryᵒᵖ)
+    (σ : (duskinNerve B).obj J) :
+    (normalizedDuskinNerveMap E).app J σ = transportDuskinSimplex E σ :=
   rfl
 
 /-! ## Compatibility with the presentation-independent invariant -/
@@ -259,6 +264,11 @@ theorem transportDuskinComparison_isIso
     (hiso : IsIso (duskinComparison σ)) :
     IsIso (duskinComparison (transportDuskinSimplex E σ)) := by
   letI : IsIso (duskinComparison σ) := hiso
+  haveI : IsIso
+      (E.forward.toPseudofunctor.toPrelaxFunctor.map₂
+        (duskinComparison σ)) :=
+    PrelaxFunctor.map₂_isIso
+      E.forward.toPseudofunctor.toPrelaxFunctor (duskinComparison σ)
   rw [transportDuskinComparison]
   infer_instance
 
@@ -275,6 +285,11 @@ theorem nondegenerateThin_transport_isThin
     (nondegenerate_globalThin_iff_intrinsicInvertible σ hnd).mp hthin
   change IsIso (duskinComparison σ) at hiso
   letI : IsIso (duskinComparison σ) := hiso
+  haveI : IsIso
+      (E.forward.toPseudofunctor.toPrelaxFunctor.map₂
+        (duskinComparison σ)) :=
+    PrelaxFunctor.map₂_isIso
+      E.forward.toPseudofunctor.toPrelaxFunctor (duskinComparison σ)
   haveI : IsIso (duskinComparison (transportDuskinSimplex E σ)) := by
     rw [transportDuskinComparison]
     infer_instance
@@ -291,8 +306,8 @@ structure StrictlyUnitaryGlobalDuskinTransportCertificate
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (E : StrictlyUnitaryBicategoricalModelEquivalence B C) : Prop where
   reindex_commutes :
-    ∀ {Δ Δ' : SimplexCategoryᵒᵖ}
-      (f : Δ ⟶ Δ') (σ : (duskinNerve B).obj Δ),
+    ∀ {J J' : SimplexCategoryᵒᵖ}
+      (f : J ⟶ J') (σ : (duskinNerve B).obj J),
       transportDuskinSimplex E ((duskinReindex f).comp σ) =
         (duskinReindex f).comp (transportDuskinSimplex E σ)
   edge_intrinsic_exact :
@@ -330,7 +345,7 @@ The v1.27 boundary is therefore:
 StrictlyUnitaryBicategoricalModelEquivalence B C
   -> v1.26 BicategoricalModelEquivalence B C
   -> direct global Duskin simplex transport in every degree
-  -> simplicial map N_Duskin(B) -> N_Duskin(C)
+  -> simplicial map N_Duskin(B) -> N_Duskin(C) for same-universe models
   -> exact intrinsic 1-cell transport on global edges
   -> comparison = composition coherence ; transported intrinsic 2-cell
   -> nondegenerate thin triangles remain thin
