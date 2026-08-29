@@ -6,11 +6,13 @@ from kuuos_mcp_bridge.server import application as _application
 
 
 async def app(scope: dict[str, Any], receive: Any, send: Any) -> None:
-    """Expose the canonical `/mcp` ASGI app through Vercel's `/api/mcp` route."""
+    """Expose MCP on `/api/mcp` while preserving auxiliary ASGI routes."""
     if scope.get("type") == "http":
-        scope = dict(scope)
-        scope["path"] = "/mcp"
-        scope["raw_path"] = b"/mcp"
+        path = scope.get("path")
+        if path in {"/api/mcp", "/api/mcp/", "/mcp/"}:
+            scope = dict(scope)
+            scope["path"] = "/mcp"
+            scope["raw_path"] = b"/mcp"
     await _application(scope, receive, send)
 
 

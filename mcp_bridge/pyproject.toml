@@ -24,3 +24,6 @@ packages = ["kuuos_mcp_bridge"]
 [tool.pytest.ini_options]
 addopts = "-q"
 testpaths = ["tests"]
+
+[tool.vercel]
+entrypoint = "api.mcp:app"
