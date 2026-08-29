@@ -1,0 +1,15 @@
+{
+  "active_pr": null,
+  "canonical_branch": "main",
+  "canonical_sha": null,
+  "ci": null,
+  "continuation": {},
+  "mathematical_frontier": null,
+  "next_actions": [],
+  "project": "KuuOS",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "schema_version": 1,
+  "updated_at": null,
+  "updated_by": null,
+  "version": 0
+}
