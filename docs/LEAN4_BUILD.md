@@ -58,7 +58,33 @@ Equivalent explicit form:
 bash scripts/build_lean4.sh --target KuuOSFormal
 ```
 
-## Faster rebuild after dependencies are present
+## Fast changed-target validation
+
+After the first setup, validate only changed Lean modules and the immediate
+non-aggregate modules that import them:
+
+```bash
+bash scripts/check_changed_lean.sh --base origin/main --head HEAD
+```
+
+The changed-target path uses the repository's pinned Lean 4.31.0 and Mathlib
+4.31.0, and always passes both `warningAsError=true` and `sorryAsError=true` to
+Lake. It records direct targets, dependent targets, and skipped broad aggregate
+roots in its receipt. A changed `lean-toolchain`, `lakefile.toml`,
+`lake-manifest.json`, `KuuOSFormal`, or `KUOS` root degrades to the full
+`KuuOSFormal` target because cache and aggregate compatibility are then in
+scope.
+
+To inspect the selected targets without compiling:
+
+```bash
+bash scripts/check_changed_lean.sh --base origin/main --head HEAD --plan-only
+```
+
+Changed-target success is local evidence, not a replacement for the full merge
+boundary.
+
+## Faster full rebuild after dependencies are present
 
 ```bash
 bash scripts/build_lean4.sh --no-update --no-cache KuuOSFormal
@@ -95,8 +121,11 @@ lake -KleanArgs=-DwarningAsError=true \
 ## GitHub Actions
 
 Pull-request compilation is centralized in `.github/workflows/pr-governance-gate.yml`.
-Its `lean-formal` check performs the complete strict `KuuOSFormal` build and
-prevents duplicate pull-request entry points.
+Its existing `lean-formal` surface first performs the strict changed-target and
+dependent-frontier build. Draft pull requests stop there. Marking a pull request
+ready for review runs the full strict `KuuOSFormal` job after the fast job, so
+the full build remains a merge boundary. A manual governance run can request the
+same full job with `full_lean=true` when broad validation is needed earlier.
 
 `.github/workflows/lean-formal-validation.yml` remains available for:
 

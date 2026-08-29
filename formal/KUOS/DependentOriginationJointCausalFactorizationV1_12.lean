@@ -194,25 +194,23 @@ theorem leftToRight_noSignalling
     JointNoSignallingLeftToRight P C J := by
   intro x₁ x₂ y
   rw [F.factorizes x₁.1 y, F.factorizes x₂.1 y]
-  have hx₁ : NormalizedState P C X' := F.left.mapNormalized P x₁
-  have hx₂ : NormalizedState P C X' := F.left.mapNormalized P x₂
   calc
     rightMarginal D C
         (P.tensorState
           (D.transport F.left.process x₁.1)
           (D.transport F.right.process y)) =
       D.transport F.right.process y := by
-        simpa [CausalIntervention.mapNormalized] using
-          (rightMarginal_tensorState P C hx₁
-            (D.transport F.right.process y))
+        exact rightMarginal_tensorState P C
+          (F.left.mapNormalized P x₁)
+          (D.transport F.right.process y)
     _ = rightMarginal D C
         (P.tensorState
           (D.transport F.left.process x₂.1)
           (D.transport F.right.process y)) := by
         symm
-        simpa [CausalIntervention.mapNormalized] using
-          (rightMarginal_tensorState P C hx₂
-            (D.transport F.right.process y))
+        exact rightMarginal_tensorState P C
+          (F.left.mapNormalized P x₂)
+          (D.transport F.right.process y)
 
 /-- Causal tensor factorization implies right-to-left no-signalling. -/
 theorem rightToLeft_noSignalling
@@ -227,25 +225,21 @@ theorem rightToLeft_noSignalling
     JointNoSignallingRightToLeft P C J := by
   intro x y₁ y₂
   rw [F.factorizes x y₁.1, F.factorizes x y₂.1]
-  have hy₁ : NormalizedState P C Y' := F.right.mapNormalized P y₁
-  have hy₂ : NormalizedState P C Y' := F.right.mapNormalized P y₂
   calc
     leftMarginal D C
         (P.tensorState
           (D.transport F.left.process x)
           (D.transport F.right.process y₁.1)) =
       D.transport F.left.process x := by
-        simpa [CausalIntervention.mapNormalized] using
-          (leftMarginal_tensorState P C
-            (D.transport F.left.process x) hy₁)
+        exact leftMarginal_tensorState P C
+          (D.transport F.left.process x) (F.right.mapNormalized P y₁)
     _ = leftMarginal D C
         (P.tensorState
           (D.transport F.left.process x)
           (D.transport F.right.process y₂.1)) := by
         symm
-        simpa [CausalIntervention.mapNormalized] using
-          (leftMarginal_tensorState P C
-            (D.transport F.left.process x) hy₂)
+        exact leftMarginal_tensorState P C
+          (D.transport F.left.process x) (F.right.mapNormalized P y₂)
 
 /-- Explicit causal tensor factorization implies two-way joint no-signalling. -/
 theorem jointNoSignalling

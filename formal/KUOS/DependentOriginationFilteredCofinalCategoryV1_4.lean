@@ -88,7 +88,10 @@ def reindex
   toChart := fun k => R.toChart (F.obj k)
   root_naturality := by
     intro i j f
-    simpa using R.root_naturality (F.map f)
+    change
+      R.toChart (F.obj i) ≫ R.chart.map (F.map f) =
+        R.toChart (F.obj j)
+    exact R.root_naturality (F.map f)
 
 end FilteredRefinementDiagram
 
@@ -143,7 +146,10 @@ def reindex
   state := fun k => s.state (F.obj k)
   coherent := by
     intro i j f
-    simpa [FilteredRefinementDiagram.reindex] using s.coherent (F.map f)
+    change
+      D.transport (R.chart.map (F.map f)) (s.state (F.obj i)) =
+        s.state (F.obj j)
+    exact s.coherent (F.map f)
 
 end FilteredStateFamily
 
@@ -190,7 +196,7 @@ def FilteredSemanticDescends
     (Q : FunctorialTransportSystem.InvariantReadout D Semantic)
     (R : FilteredRefinementDiagram Context J)
     (s : FilteredStateFamily D R) : Prop :=
-  exists! value : Semantic, FilteredSemanticStabilizesAt Q R s value
+  ∃! value : Semantic, FilteredSemanticStabilizesAt Q R s value
 
 /-- Invariant semantics agree along every indexing morphism. -/
 theorem semantic_eq_of_hom
@@ -295,7 +301,7 @@ def CofinalSemanticDescends
     (R : FilteredRefinementDiagram Context J)
     (s : FilteredStateFamily D R)
     (F : CofinalIndexingFunctor J K) : Prop :=
-  exists! value : Semantic,
+  ∃! value : Semantic,
     CofinalSemanticStabilizesAt Q R s F value
 
 /-- Stabilization on the full diagram is equivalent to stabilization on a cofinal index change. -/

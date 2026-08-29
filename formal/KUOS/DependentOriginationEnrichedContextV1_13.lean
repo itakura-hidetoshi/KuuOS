@@ -7,7 +7,7 @@ open CategoryTheory
 open MonoidalCategory
 open KUOS.DependentOriginationFunctorialTransportV0_1
 
-universe u v w x
+universe u v w x y
 
 /-!
 # Enriched contextual dependent origination v1.13
@@ -42,7 +42,7 @@ An ordinary dependent-origination transport system together with a native
 structure EnrichedDependentOriginationSystem
     (V : Type v) [Category.{w} V] [MonoidalCategory V]
     (Context : Type u) [Category.{x} Context] [EnrichedCategory V Context] where
-  base : FunctorialTransportSystem Context
+  base : FunctorialTransportSystem.{u, x, y} Context
   liftHom : forall {X Y : Context},
     (X ⟶ Y) -> (𝟙_ V ⟶ X ⟶[V] Y)
   lift_id : forall X : Context,
@@ -99,7 +99,7 @@ theorem state_transport_composition
 end EnrichedDependentOriginationSystem
 
 /-- Every ordinary category has the canonical `Type`-enrichment from Mathlib. -/
-def ordinaryTypeEnrichment
+@[reducible] def ordinaryTypeEnrichment
     (Context : Type u) [Category.{x} Context] :
     EnrichedCategory (Type x) Context :=
   enrichedCategoryTypeOfCategory Context

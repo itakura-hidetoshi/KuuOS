@@ -26,17 +26,17 @@ colored profile.
 -/
 structure HigherMultiConditionStructure
     {Color : Type u}
-    (Σ : MultiConditionSignature.{u, v} Color) where
+    (signature : MultiConditionSignature.{u, v} Color) where
   opCell : forall {n : Nat}
     {inputs : Fin (Nat.succ n) -> Color} {out : Color},
-    Σ.operation n inputs out -> Σ.operation n inputs out -> Type z
+    signature.operation n inputs out -> signature.operation n inputs out -> Type z
   idCell : forall {n : Nat}
     {inputs : Fin (Nat.succ n) -> Color} {out : Color}
-    (op : Σ.operation n inputs out),
+    (op : signature.operation n inputs out),
     opCell op op
   vcomp : forall {n : Nat}
     {inputs : Fin (Nat.succ n) -> Color} {out : Color}
-    {op₁ op₂ op₃ : Σ.operation n inputs out},
+    {op₁ op₂ op₃ : signature.operation n inputs out},
     opCell op₁ op₂ -> opCell op₂ op₃ -> opCell op₁ op₃
 
 /--
@@ -47,13 +47,13 @@ sends related primitive operations to equal action maps.
 -/
 structure HigherMultiConditionAlgebra
     {Color : Type u}
-    {Σ : MultiConditionSignature.{u, v} Color}
+    {signature : MultiConditionSignature.{u, v} Color}
     {Carrier : Color -> Type w}
-    (A : MultiConditionAlgebra Σ Carrier)
-    (H : HigherMultiConditionStructure.{u, v, z} Σ) where
+    (A : MultiConditionAlgebra signature Carrier)
+    (H : HigherMultiConditionStructure.{u, v, z} signature) where
   respectsOpCell : forall {n : Nat}
     {inputs : Fin (Nat.succ n) -> Color} {out : Color}
-    {op₁ op₂ : Σ.operation n inputs out},
+    {op₁ op₂ : signature.operation n inputs out},
     H.opCell op₁ op₂ -> A.act op₁ = A.act op₂
 
 /--
@@ -65,25 +65,25 @@ between the grafted trees.  `vcomp` composes expression two-cells vertically.
 -/
 inductive Expr2Cell
     {Color : Type u}
-    {Σ : MultiConditionSignature.{u, v} Color}
-    (H : HigherMultiConditionStructure.{u, v, z} Σ)
+    {signature : MultiConditionSignature.{u, v} Color}
+    (H : HigherMultiConditionStructure.{u, v, z} signature)
     (Carrier : Color -> Type w) :
     {out : Color} ->
-      MultiConditionExpr Σ Carrier out ->
-      MultiConditionExpr Σ Carrier out ->
-      Type (max z (max v w)) where
-  | refl {out : Color} (e : MultiConditionExpr Σ Carrier out) :
+      MultiConditionExpr signature Carrier out ->
+      MultiConditionExpr signature Carrier out ->
+      Type (max u (max z (max v w))) where
+  | refl {out : Color} (e : MultiConditionExpr signature Carrier out) :
       Expr2Cell H Carrier e e
   | compose {n : Nat}
       {inputs : Fin (Nat.succ n) -> Color} {out : Color}
-      {op₁ op₂ : Σ.operation n inputs out}
+      {op₁ op₂ : signature.operation n inputs out}
       {args₁ args₂ : (i : Fin (Nat.succ n)) ->
-        MultiConditionExpr Σ Carrier (inputs i)}
+        MultiConditionExpr signature Carrier (inputs i)}
       (opCell : H.opCell op₁ op₂)
       (argCell : forall i, Expr2Cell H Carrier (args₁ i) (args₂ i)) :
       Expr2Cell H Carrier (.compose op₁ args₁) (.compose op₂ args₂)
   | vcomp {out : Color}
-      {e₁ e₂ e₃ : MultiConditionExpr Σ Carrier out}
+      {e₁ e₂ e₃ : MultiConditionExpr signature Carrier out}
       (alpha : Expr2Cell H Carrier e₁ e₂)
       (beta : Expr2Cell H Carrier e₂ e₃) :
       Expr2Cell H Carrier e₁ e₃
@@ -91,14 +91,14 @@ inductive Expr2Cell
 /-- Grafting is compatible with primitive and subtree two-cells. -/
 def graftCell
     {Color : Type u}
-    {Σ : MultiConditionSignature.{u, v} Color}
+    {signature : MultiConditionSignature.{u, v} Color}
     {Carrier : Color -> Type w}
-    (H : HigherMultiConditionStructure.{u, v, z} Σ)
+    (H : HigherMultiConditionStructure.{u, v, z} signature)
     {n : Nat}
     {inputs : Fin (Nat.succ n) -> Color} {out : Color}
-    {op₁ op₂ : Σ.operation n inputs out}
+    {op₁ op₂ : signature.operation n inputs out}
     {args₁ args₂ : (i : Fin (Nat.succ n)) ->
-      MultiConditionExpr Σ Carrier (inputs i)}
+      MultiConditionExpr signature Carrier (inputs i)}
     (alpha : H.opCell op₁ op₂)
     (beta : forall i, Expr2Cell H Carrier (args₁ i) (args₂ i)) :
     Expr2Cell H Carrier (.compose op₁ args₁) (.compose op₂ args₂) :=
@@ -110,13 +110,13 @@ realization.
 -/
 theorem eval_eq_of_expr2Cell
     {Color : Type u}
-    {Σ : MultiConditionSignature.{u, v} Color}
+    {signature : MultiConditionSignature.{u, v} Color}
     {Carrier : Color -> Type w}
-    {A : MultiConditionAlgebra Σ Carrier}
-    {H : HigherMultiConditionStructure.{u, v, z} Σ}
+    {A : MultiConditionAlgebra signature Carrier}
+    {H : HigherMultiConditionStructure.{u, v, z} signature}
     (HA : HigherMultiConditionAlgebra A H)
     {out : Color}
-    {e₁ e₂ : MultiConditionExpr Σ Carrier out}
+    {e₁ e₂ : MultiConditionExpr signature Carrier out}
     (alpha : Expr2Cell H Carrier e₁ e₂) :
     MultiConditionExpr.eval A e₁ = MultiConditionExpr.eval A e₂ := by
   induction alpha with
@@ -138,15 +138,15 @@ theorem eval_eq_of_expr2Cell
 /-- Higher multicategorical coherence is invisible to a set-valued readout. -/
 theorem readout_eq_of_expr2Cell
     {Color : Type u}
-    {Σ : MultiConditionSignature.{u, v} Color}
+    {signature : MultiConditionSignature.{u, v} Color}
     {Carrier : Color -> Type w}
-    {A : MultiConditionAlgebra Σ Carrier}
-    {H : HigherMultiConditionStructure.{u, v, z} Σ}
+    {A : MultiConditionAlgebra signature Carrier}
+    {H : HigherMultiConditionStructure.{u, v, z} signature}
     (HA : HigherMultiConditionAlgebra A H)
     {Semantic : Type y}
     (Q : SharedSemanticReadout A Semantic)
     {out : Color}
-    {e₁ e₂ : MultiConditionExpr Σ Carrier out}
+    {e₁ e₂ : MultiConditionExpr signature Carrier out}
     (alpha : Expr2Cell H Carrier e₁ e₂) :
     Q.readout out (MultiConditionExpr.eval A e₁) =
       Q.readout out (MultiConditionExpr.eval A e₂) := by
@@ -160,7 +160,7 @@ structure HigherOperadicDependentOriginationExtension
     {Context : Type u} [CategoryTheory.Category.{v} Context]
     (D : KUOS.DependentOriginationFunctorialTransportV0_1.FunctorialTransportSystem Context) where
   base : OperadicDependentOriginationExtension D
-  higher : HigherMultiConditionStructure base.signature
+  higher : HigherMultiConditionStructure.{u, v, z} base.signature
   algebraHigher : HigherMultiConditionAlgebra base.algebra higher
 
 namespace HigherOperadicDependentOriginationExtension

@@ -17,6 +17,7 @@ def parse_args() -> argparse.Namespace:
     parser.add_argument("--output-dir", type=pathlib.Path, required=True)
     parser.add_argument("--python-result", default="unknown")
     parser.add_argument("--lean-result", default="unknown")
+    parser.add_argument("--lean-full-result", default="skipped")
     return parser.parse_args()
 
 
@@ -103,6 +104,8 @@ def main() -> int:
 
     receipts = collect_receipts(args.receipts_root)
     expected_checks = [item["id"] for item in selection.get("selected_checks", [])]
+    if args.lean_full_result not in {"skipped", "unknown"}:
+        expected_checks.append("lean-formal-full")
     missing = sorted(set(expected_checks) - set(receipts))
     failed = sorted(
         check_id for check_id, receipt in receipts.items() if receipt.get("status") != "passed"
@@ -137,6 +140,7 @@ def main() -> int:
         for name, result in (
             ("python-checks", args.python_result),
             ("lean-formal", args.lean_result),
+            ("lean-formal-full", args.lean_full_result),
         )
         if result in {"failure", "cancelled", "timed_out", "action_required"}
     ]
@@ -146,6 +150,7 @@ def main() -> int:
         "schema_version": "0.1",
         "status": status,
         "full_audit_required": bool(selection.get("full_audit_required", False)),
+        "lean_full_result": args.lean_full_result,
         "changed_paths": selection.get("changed_paths", []),
         "direct_checks": selection.get("direct_checks", []),
         "expected_checks": expected_checks,

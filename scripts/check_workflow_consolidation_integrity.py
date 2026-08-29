@@ -9,6 +9,7 @@ import shlex
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 SELF = pathlib.Path(__file__).resolve()
+GENERATED_SCAN_DIRECTORIES = frozenset({".git", ".lake", "artifacts", "__pycache__"})
 DIRECT_WORKFLOW_PATTERN = re.compile(r"\.github/workflows/[A-Za-z0-9_./-]+\.ya?ml")
 CONSTRUCTED_WORKFLOW_PATTERN = re.compile(
     r"ROOT\s*/\s*[\"']\.github[\"']\s*/\s*[\"']workflows[\"']\s*/\s*[\"']([^\"']+\.ya?ml)[\"']"
@@ -54,6 +55,8 @@ CANONICAL_FILES = [
     "scripts/build_full_audit_selection_v0_2.py",
     "scripts/select_impacted_checks.py",
     "scripts/run_ci_check.py",
+    "scripts/check_changed_lean.py",
+    "scripts/check_changed_lean.sh",
     "scripts/build_audit_summary.py",
     "tests/test_ci_audit_selector_v0_1.py",
     "tests/test_governance_sharding_v0_2.py",
@@ -137,6 +140,7 @@ REQUIRED_MARKERS = {
         "scripts/select_impacted_checks.py",
         "max-parallel: 16",
         "scripts/run_ci_check.py",
+        "scripts/check_changed_lean.py",
         "scripts/build_audit_summary.py",
     ],
     ".github/workflows/regge_zero_governance_validation.yml": [
@@ -178,10 +182,18 @@ def workflow_references(text: str) -> set[str]:
 
 
 def all_repository_files() -> list[pathlib.Path]:
-    return [
-        path for path in sorted(ROOT.rglob("*"))
-        if path.is_file() and path.resolve() != SELF and ".git" not in path.parts
-    ]
+    files: list[pathlib.Path] = []
+    for directory, directories, names in os.walk(ROOT):
+        directories[:] = sorted(
+            name for name in directories if name not in GENERATED_SCAN_DIRECTORIES
+        )
+        parent = pathlib.Path(directory)
+        files.extend(
+            path
+            for name in sorted(names)
+            if (path := parent / name).resolve() != SELF
+        )
+    return sorted(files)
 
 
 def selected_reference_files() -> list[pathlib.Path]:

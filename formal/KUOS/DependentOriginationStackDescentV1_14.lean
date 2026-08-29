@@ -4,10 +4,11 @@ import KUOS.DependentOriginationCoreSpineV1_13
 namespace KUOS.DependentOriginationStackDescentV1_14
 
 open CategoryTheory
+open CategoryTheory.Bicategory
 open Opposite
 open KUOS.DependentOriginationFunctorialTransportV0_1
 
-universe t u v u' v'
+universe t u v w u' v'
 
 /-!
 # Stack descent dependent origination v1.14
@@ -33,7 +34,7 @@ the native pseudofunctor and stack certificate carry the actual descent data.
 -/
 structure StackDependentOriginationLayer
     (Context : Type u) [Category.{v} Context] where
-  base : FunctorialTransportSystem Context
+  base : FunctorialTransportSystem.{u, v, w} Context
   fiber : LocallyDiscrete Contextᵒᵖ ⥤ᵖ Cat.{v', u'}
   topology : GrothendieckTopology Context
   interpretState : forall X : Context,

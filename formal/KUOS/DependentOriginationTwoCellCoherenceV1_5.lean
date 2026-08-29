@@ -210,7 +210,7 @@ def ofGlobal
     (T : SetTruncatedTwoRealization D HC)
     (R : TwoDimensionalRefinementDiagram Context J HC HJ)
     (a : D.state.obj R.rootContext) :
-    TwoFilteredStateFamily R where
+    TwoFilteredStateFamily (D := D) R where
   state := fun j => D.transport (R.toChart j) a
   coherent := by
     intro i j f
@@ -227,7 +227,7 @@ theorem transport_eq_of_indexCell
     {HJ : Refinement2CellStructure J}
     (T : SetTruncatedTwoRealization D HC)
     (R : TwoDimensionalRefinementDiagram Context J HC HJ)
-    (s : TwoFilteredStateFamily R)
+    (s : TwoFilteredStateFamily (D := D) R)
     {i j : J} {f g : i ⟶ j}
     (alpha : HJ.cell f g) :
     D.transport (R.chart.map f) (s.state i) =
@@ -248,7 +248,7 @@ theorem eventual_parallel_transport_agreement
     (T : SetTruncatedTwoRealization D HC)
     (H : TwoFilteredIndexing J HJ)
     (R : TwoDimensionalRefinementDiagram Context J HC HJ)
-    (s : TwoFilteredStateFamily R)
+    (s : TwoFilteredStateFamily (D := D) R)
     {i j : J} (f g : i ⟶ j) :
     exists k : J, exists h : j ⟶ k,
       D.transport (R.chart.map (f ≫ h)) (s.state i) =
@@ -267,7 +267,7 @@ def TwoFilteredSemanticStabilizesAt
     {Semantic : Type r}
     (Q : FunctorialTransportSystem.InvariantReadout D Semantic)
     (R : TwoDimensionalRefinementDiagram Context J HC HJ)
-    (s : TwoFilteredStateFamily R)
+    (s : TwoFilteredStateFamily (D := D) R)
     (value : Semantic) : Prop :=
   forall j, Q.readout (R.chart.obj j) (s.state j) = value
 
@@ -281,8 +281,8 @@ def TwoFilteredSemanticDescends
     {Semantic : Type r}
     (Q : FunctorialTransportSystem.InvariantReadout D Semantic)
     (R : TwoDimensionalRefinementDiagram Context J HC HJ)
-    (s : TwoFilteredStateFamily R) : Prop :=
-  exists! value : Semantic, TwoFilteredSemanticStabilizesAt Q R s value
+    (s : TwoFilteredStateFamily (D := D) R) : Prop :=
+  ∃! value : Semantic, TwoFilteredSemanticStabilizesAt Q R s value
 
 /-- Invariant semantics agree along every ordinary indexing arrow. -/
 theorem semantic_eq_of_hom
@@ -294,7 +294,7 @@ theorem semantic_eq_of_hom
     {Semantic : Type r}
     (Q : FunctorialTransportSystem.InvariantReadout D Semantic)
     (R : TwoDimensionalRefinementDiagram Context J HC HJ)
-    (s : TwoFilteredStateFamily R)
+    (s : TwoFilteredStateFamily (D := D) R)
     {i j : J} (f : i ⟶ j) :
     Q.readout (R.chart.obj i) (s.state i) =
       Q.readout (R.chart.obj j) (s.state j) := by
@@ -313,7 +313,7 @@ theorem semantic_eq
     (Q : FunctorialTransportSystem.InvariantReadout D Semantic)
     (H : TwoFilteredIndexing J HJ)
     (R : TwoDimensionalRefinementDiagram Context J HC HJ)
-    (s : TwoFilteredStateFamily R)
+    (s : TwoFilteredStateFamily (D := D) R)
     (i j : J) :
     Q.readout (R.chart.obj i) (s.state i) =
       Q.readout (R.chart.obj j) (s.state j) := by
@@ -342,7 +342,7 @@ theorem twoFilteredSemanticDescends_of_coherent
     (Q : FunctorialTransportSystem.InvariantReadout D Semantic)
     (H : TwoFilteredIndexing J HJ)
     (R : TwoDimensionalRefinementDiagram Context J HC HJ)
-    (s : TwoFilteredStateFamily R) :
+    (s : TwoFilteredStateFamily (D := D) R) :
     TwoFilteredSemanticDescends Q R s := by
   classical
   let anchor : J := Classical.choice H.nonempty

@@ -5,6 +5,7 @@ namespace KUOS.DependentOriginationGlobularNerveComparisonV1_17
 
 open CategoryTheory
 open Opposite
+open Simplicial
 open SimplexCategory
 open KUOS.DependentOriginationFunctorialTransportV0_1
 open KUOS.DependentOriginationInfinityCoherenceV1_15
@@ -44,7 +45,7 @@ structure LevelwiseNerveCompatible
 namespace LevelwiseNerveCompatible
 
 /-- Extract the dimension-`n` carrier equivalence supplied by the certificate. -/
-def at
+def «at»
     {T : ReflexiveGlobularCoherenceTower.{x}}
     {Context : Type u} [Category.{v} Context]
     {D : FunctorialTransportSystem Context}
@@ -56,7 +57,7 @@ def at
 end LevelwiseNerveCompatible
 
 /-- A reflexive globular tower with exactly one cell in every dimension. -/
-def unitTower : ReflexiveGlobularCoherenceTower where
+def unitTower : ReflexiveGlobularCoherenceTower.{0} where
   Cell := fun _ => PUnit
   source := fun _ _ => PUnit.unit
   target := fun _ _ => PUnit.unit
@@ -80,19 +81,19 @@ def unitTower : ReflexiveGlobularCoherenceTower where
 
 /-- One discrete context carrying two distinct states. -/
 def twoStateSystem :
-    FunctorialTransportSystem (Discrete PUnit) where
+    FunctorialTransportSystem.{0, 0, 0} (Discrete PUnit.{1}) where
   state :=
     { obj := fun _ => Fin 2
-      map := fun _ x => x
+      map := fun _ => 𝟙 (Fin 2)
       map_id := by
         intro X
-        rfl
+        simp
       map_comp := by
         intro X Y Z f g
-        rfl }
+        simp }
 
 /-- The unique context in `Discrete PUnit`. -/
-def twoStateContext : Discrete PUnit :=
+def twoStateContext : Discrete PUnit.{1} :=
   ⟨PUnit.unit⟩
 
 /-- The two distinguished zero-simplices of the dependent nerve. -/
@@ -123,26 +124,31 @@ The one-cell-per-dimension globular tower cannot even be levelwise equivalent
 at dimension zero to the nerve of the two-state dependent-origination system.
 -/
 theorem unitTower_not_levelwise_compatible :
-    ¬ LevelwiseNerveCompatible unitTower twoStateSystem := by
-  intro C
-  let e := C.cellEquiv 0
-  obtain ⟨u0, hu0⟩ := e.surjective (twoStateZeroSimplex 0)
-  obtain ⟨u1, hu1⟩ := e.surjective (twoStateZeroSimplex 1)
-  have hu : u0 = u1 := Subsingleton.elim _ _
-  apply twoStateZeroSimplex_ne
-  calc
-    twoStateZeroSimplex 0 = e u0 := hu0.symm
-    _ = e u1 := congrArg e hu
-    _ = twoStateZeroSimplex 1 := hu1
+    IsEmpty (LevelwiseNerveCompatible unitTower twoStateSystem) :=
+  ⟨by
+    intro C
+    let e := C.cellEquiv 0
+    obtain ⟨u0, hu0⟩ := e.surjective (twoStateZeroSimplex 0)
+    obtain ⟨u1, hu1⟩ := e.surjective (twoStateZeroSimplex 1)
+    have hu : u0 = u1 := by
+      change PUnit at u0 u1
+      cases u0
+      cases u1
+      rfl
+    apply twoStateZeroSimplex_ne
+    calc
+      twoStateZeroSimplex 0 = e u0 := hu0.symm
+      _ = e u1 := congrArg e hu
+      _ = twoStateZeroSimplex 1 := hu1⟩
 
 /--
 Consequently an arbitrary v1.15 globular tower is not forced by the parent
 axioms to have the same levelwise carriers as `N(∫ D)`.
 -/
 theorem no_universal_globular_nerve_comparison :
-    ∃ (T : ReflexiveGlobularCoherenceTower)
-      (D : FunctorialTransportSystem (Discrete PUnit)),
-      ¬ LevelwiseNerveCompatible T D :=
+    ∃ (T : ReflexiveGlobularCoherenceTower.{0})
+      (D : FunctorialTransportSystem.{0, 0, 0} (Discrete PUnit.{1})),
+      IsEmpty (LevelwiseNerveCompatible T D) :=
   ⟨unitTower, twoStateSystem, unitTower_not_levelwise_compatible⟩
 
 /-!

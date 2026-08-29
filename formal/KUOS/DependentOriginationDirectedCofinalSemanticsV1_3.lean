@@ -51,14 +51,14 @@ structure DirectedRefinementSystem
   rootContext : Context
   chart : Index -> Context
   toChart : (i : Index) -> rootContext ⟶ chart i
-  refine : {i j : Index} -> i <= j -> chart i ⟶ chart j
+  refine : {i j : Index} -> (i <= j) -> (chart i ⟶ chart j)
   refine_refl : forall i,
     refine (le_refl i) = 𝟙 (chart i)
   refine_trans : forall {i j k} (hij : i <= j) (hjk : j <= k),
     refine (le_trans hij hjk) = refine hij ≫ refine hjk
   root_refine : forall {i j} (hij : i <= j),
     toChart i ≫ refine hij = toChart j
-  directed : forall i j, exists k, i <= k ∧ j <= k
+  directed : forall i j : Index, exists k : Index, i <= k ∧ j <= k
 
 /--
 Transporting a root state first to `i` and then along a refinement `i <= j` is
@@ -137,7 +137,7 @@ def NetSemanticDescends
     (Q : FunctorialTransportSystem.InvariantReadout D Semantic)
     (R : DirectedRefinementSystem Context Index)
     (s : DirectedStateFamily D R) : Prop :=
-  exists! value : Semantic,
+  ∃! value : Semantic,
     forall i, Q.readout (R.chart i) (s.state i) = value
 
 /-- Invariant semantics agree along every directed refinement arrow. -/
@@ -284,7 +284,7 @@ def CofinalSemanticDescends
     (R : DirectedRefinementSystem Context Index)
     (s : DirectedStateFamily D R)
     (F : CofinalRefinementLens R SubIndex) : Prop :=
-  exists! value : Semantic,
+  ∃! value : Semantic,
     CofinalSemanticStabilizesAt Q R s F value
 
 /--

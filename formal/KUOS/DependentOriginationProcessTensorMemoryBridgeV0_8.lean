@@ -185,7 +185,7 @@ def memoryProjection : (Visible × Memory) →ₗ[ℝ] Memory where
 
 /-- Process tensor with visible readout at a fixed initial visible/memory state. -/
 def toVisibleProcessTensor
-    (L : S.LinearRealization)
+    (L : MemoryLiftedStep.LinearRealization S)
     (initialMemory : Memory) (x : Visible) :
     OperationalLinearProcessTensor (Visible × Memory) Visible where
   initial := (x, initialMemory)
@@ -193,7 +193,7 @@ def toVisibleProcessTensor
 
 /-- Process tensor with memory readout at the same initial enlarged state. -/
 def toMemoryProcessTensor
-    (L : S.LinearRealization)
+    (L : MemoryLiftedStep.LinearRealization S)
     (initialMemory : Memory) (x : Visible) :
     OperationalLinearProcessTensor (Visible × Memory) Memory where
   initial := (x, initialMemory)
@@ -201,7 +201,7 @@ def toMemoryProcessTensor
 
 /-- Convert an event word into the corresponding linear intervention word. -/
 def eventInterventionWord
-    (L : S.LinearRealization)
+    (L : MemoryLiftedStep.LinearRealization S)
     (word : List Event) :
     List ((Visible × Memory) →ₗ[ℝ] (Visible × Memory)) :=
   word.map L.eventOperator
@@ -211,7 +211,7 @@ The linear intervention word evaluates exactly to the original v0.7 enlarged
 history transport.  This is the core realization theorem.
 -/
 theorem interventionWordOperator_eventInterventionWord
-    (L : S.LinearRealization)
+    (L : MemoryLiftedStep.LinearRealization S)
     (word : List Event)
     (state : Visible × Memory) :
     interventionWordOperator (L.eventInterventionWord word) state =
@@ -228,7 +228,7 @@ theorem interventionWordOperator_eventInterventionWord
 
 /-- Visible process-tensor response to an event word. -/
 def eventVisibleResponse
-    (L : S.LinearRealization)
+    (L : MemoryLiftedStep.LinearRealization S)
     (initialMemory : Memory)
     (word : List Event)
     (x : Visible) : Visible :=
@@ -237,7 +237,7 @@ def eventVisibleResponse
 
 /-- Memory process-tensor response to the same event word. -/
 def eventMemoryResponse
-    (L : S.LinearRealization)
+    (L : MemoryLiftedStep.LinearRealization S)
     (initialMemory : Memory)
     (word : List Event)
     (x : Visible) : Memory :=
@@ -249,29 +249,37 @@ Exact bridge: visible process-tensor response is the v0.7 visible non-Markov
 evaluation, not merely an approximation or analogy.
 -/
 theorem eventVisibleResponse_eq_visibleEval
-    (L : S.LinearRealization)
+    (L : MemoryLiftedStep.LinearRealization S)
     (initialMemory : Memory)
     (word : List Event)
     (x : Visible) :
     L.eventVisibleResponse initialMemory word x =
       S.visibleEval initialMemory word x := by
   unfold eventVisibleResponse OperationalLinearProcessTensor.response
-    toVisibleProcessTensor eventInterventionWord visibleEval
-  rw [L.interventionWordOperator_eventInterventionWord word (x, initialMemory)]
-  rfl
+    toVisibleProcessTensor eventInterventionWord
+    KUOS.DependentOriginationMemoryLiftedHistoryTransportV0_7.MemoryLiftedStep.visibleEval
+  change
+    (interventionWordOperator (L.eventInterventionWord word) (x, initialMemory)).1 =
+      (S.toHistoryTransport.eval word (x, initialMemory)).1
+  exact congrArg Prod.fst
+    (L.interventionWordOperator_eventInterventionWord word (x, initialMemory))
 
 /-- Exact bridge for the hidden memory output. -/
 theorem eventMemoryResponse_eq_memoryEval
-    (L : S.LinearRealization)
+    (L : MemoryLiftedStep.LinearRealization S)
     (initialMemory : Memory)
     (word : List Event)
     (x : Visible) :
     L.eventMemoryResponse initialMemory word x =
       S.memoryEval initialMemory word x := by
   unfold eventMemoryResponse OperationalLinearProcessTensor.response
-    toMemoryProcessTensor eventInterventionWord memoryEval
-  rw [L.interventionWordOperator_eventInterventionWord word (x, initialMemory)]
-  rfl
+    toMemoryProcessTensor eventInterventionWord
+    KUOS.DependentOriginationMemoryLiftedHistoryTransportV0_7.MemoryLiftedStep.memoryEval
+  change
+    (interventionWordOperator (L.eventInterventionWord word) (x, initialMemory)).2 =
+      (S.toHistoryTransport.eval word (x, initialMemory)).2
+  exact congrArg Prod.snd
+    (L.interventionWordOperator_eventInterventionWord word (x, initialMemory))
 
 /--
 Process-tensor causal composition reproduces the exact v0.7 non-Markov visible
@@ -279,7 +287,7 @@ composition law: the earlier/right history passes both visible state and memory
 to the later/left history.
 -/
 theorem eventVisibleResponse_append
-    (L : S.LinearRealization)
+    (L : MemoryLiftedStep.LinearRealization S)
     (initialMemory : Memory)
     (left right : List Event)
     (x : Visible) :
@@ -296,7 +304,7 @@ theorem eventVisibleResponse_append
 
 /-- The hidden-memory causal composition law in process-tensor language. -/
 theorem eventMemoryResponse_append
-    (L : S.LinearRealization)
+    (L : MemoryLiftedStep.LinearRealization S)
     (initialMemory : Memory)
     (left right : List Event)
     (x : Visible) :
@@ -338,7 +346,7 @@ produce different visible process-tensor responses for some initial visible stat
 at the same initial memory.
 -/
 def GenuinelyProcessTensorHistorySensitive
-    (L : S.LinearRealization)
+    (L : MemoryLiftedStep.LinearRealization S)
     (initialMemory : Memory) : Prop :=
   ∃ left right : List Time,
     left.sum = right.sum ∧
@@ -352,7 +360,7 @@ process-tensor history-sensitivity witness are the same mathematical statement
 under a linear realization.
 -/
 theorem genuinelyProcessTensorHistorySensitive_iff_visible
-    (L : S.LinearRealization)
+    (L : MemoryLiftedStep.LinearRealization S)
     (initialMemory : Memory) :
     L.GenuinelyProcessTensorHistorySensitive initialMemory ↔
       S.GenuinelyVisibleHistorySensitive initialMemory := by
@@ -371,7 +379,7 @@ Therefore a genuine non-Markov process-tensor witness rules out every additive
 one-parameter total-time factorization of the enlarged history transport.
 -/
 theorem no_totalTimeFactorization_of_processTensor_history_sensitive
-    (L : S.LinearRealization)
+    (L : MemoryLiftedStep.LinearRealization S)
     (initialMemory : Memory)
     (h : L.GenuinelyProcessTensorHistorySensitive initialMemory) :
     ¬ Nonempty (TotalTimeFactorization S.toHistoryTransport) := by
@@ -384,7 +392,7 @@ Conversely, any total-time factorization forces equal-summary event words to
 have the same visible process-tensor response.
 -/
 theorem eventVisibleResponse_eq_of_sum_eq_of_factorization
-    (L : S.LinearRealization)
+    (L : MemoryLiftedStep.LinearRealization S)
     (F : TotalTimeFactorization S.toHistoryTransport)
     (initialMemory : Memory)
     (left right : List Time)

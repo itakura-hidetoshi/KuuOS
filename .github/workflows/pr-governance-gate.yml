@@ -2,7 +2,14 @@ name: KuuOS PR Governance Gate
 
 on:
   pull_request:
+    types: [opened, synchronize, reopened, ready_for_review]
   workflow_dispatch:
+    inputs:
+      full_lean:
+        description: Run full KuuOSFormal after the fast changed-target check
+        required: false
+        default: false
+        type: boolean
 
 permissions:
   contents: read
@@ -115,7 +122,9 @@ jobs:
   lean-formal:
     name: Strict Lean formal validation
     needs: select
-    if: needs.select.outputs.lean_required == 'true'
+    if: >-
+      needs.select.outputs.lean_required == 'true' ||
+      (github.event_name == 'workflow_dispatch' && inputs.full_lean == true)
     runs-on: ubuntu-24.04
     timeout-minutes: 30
     steps:
@@ -138,13 +147,13 @@ jobs:
           use-mathlib-cache: true
           use-github-cache: true
 
-      - name: Run selected Lean check
+      - name: Run fast changed-target Lean check
         shell: bash
         run: |
           set -euo pipefail
           python3 scripts/run_ci_check.py \
             --check-id lean-formal \
-            --command 'lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal' \
+            --command 'python3 scripts/check_changed_lean.py --selection artifacts/selection/selection.json --output artifacts/checks/lean-formal/changed-targets.json' \
             --selection artifacts/selection/selection.json
 
       - name: Verify committed dependency manifest remains canonical
@@ -160,12 +169,67 @@ jobs:
           if-no-files-found: warn
           retention-days: 14
 
+  lean-formal-full:
+    name: Full Lean merge validation
+    needs:
+      - select
+      - lean-formal
+    if: >-
+      (needs.select.outputs.lean_required == 'true' &&
+       github.event_name == 'pull_request' &&
+       github.event.pull_request.draft == false) ||
+      (github.event_name == 'workflow_dispatch' && inputs.full_lean == true)
+    runs-on: ubuntu-24.04
+    timeout-minutes: 30
+    steps:
+      - name: Check out repository
+        uses: actions/checkout@v6
+
+      - name: Download selection receipt
+        uses: actions/download-artifact@v5
+        with:
+          name: audit-selection-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/selection
+
+      - name: Set up pinned Lean, Mathlib, and caches
+        uses: leanprover/lean-action@v1
+        with:
+          auto-config: false
+          build: false
+          test: false
+          lint: false
+          use-mathlib-cache: true
+          use-github-cache: true
+
+      - name: Run full strict KuuOSFormal merge check
+        shell: bash
+        run: |
+          set -euo pipefail
+          python3 scripts/run_ci_check.py \
+            --check-id lean-formal-full \
+            --command 'lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal' \
+            --selection artifacts/selection/selection.json
+
+      - name: Verify committed dependency manifest remains canonical
+        shell: bash
+        run: git diff --exit-code -- lake-manifest.json
+
+      - name: Upload full Lean receipt and log
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: audit-check-lean-formal-full-${{ github.run_id }}-${{ github.run_attempt }}
+          path: artifacts/checks/
+          if-no-files-found: warn
+          retention-days: 14
+
   governance-gate:
     name: Governance gate and audit summary
     needs:
       - select
       - python-checks
       - lean-formal
+      - lean-formal-full
     if: always()
     runs-on: ubuntu-24.04
     steps:
@@ -196,7 +260,8 @@ jobs:
             --receipts-root artifacts/receipts \
             --output-dir artifacts/summary \
             --python-result '${{ needs.python-checks.result }}' \
-            --lean-result '${{ needs.lean-formal.result }}'
+            --lean-result '${{ needs.lean-formal.result }}' \
+            --lean-full-result '${{ needs.lean-formal-full.result }}'
 
       - name: Publish report in job summary
         if: always()
