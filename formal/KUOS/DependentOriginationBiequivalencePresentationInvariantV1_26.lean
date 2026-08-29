@@ -19,46 +19,20 @@ universe u₁ u₂ v₁ v₂ w₁ w₂ z
 /-!
 # Biequivalence-level presentation invariance v1.26
 
-Version 1.25 established presentation independence for two different higher
-presentations of the same bicategory.  The next structural step is to allow the
-underlying bicategorical model itself to change.
+Version 1.25 established presentation independence for two higher presentations
+of the same bicategory.  Here the underlying bicategorical model may also
+change.  The transport datum consists of a pseudofunctor, hom-category
+equivalences whose forward functors are the pseudofunctorial hom functors, and
+essential surjectivity on objects up to intrinsic adjoint equivalence.
 
-The invariant is still not a chosen nerve.  It is the intrinsic bicategorical
-carrier.  A change of model is represented by Whitehead-style biequivalence
-data:
-
-* a native Mathlib pseudofunctor `F : B ⥤ᵖ C`;
-* for every `X,Y : B`, an equivalence of hom-categories
-
-```text
-B(X,Y) ≌ C(FX,FY)
-```
-
-whose forward functor is exactly the native hom-functor induced by `F`;
-* essential surjectivity on objects up to bicategorical adjoint equivalence.
-
-This is sufficient to prove that intrinsic mapping data and every observable
-factoring through that data transport independently of the chosen bicategorical
-model.  It also gives a canonical route from a source global Duskin edge or
-comparison cell to the target local mapping nerve without requiring a direct
-map between the two global Duskin nerves.
-
-That distinction is deliberate.  A general pseudofunctor need not be strictly
-unitary, whereas the current global Duskin presentation uses strictly unitary
-normal-lax simplices.  Direct global-to-global transport therefore requires a
-separate normalization theorem.  The intrinsic invariant does not.
+Under Lean 4.31 the equality of the two hom functors must be treated as a
+*dependent* equality on their morphism maps: their object maps are propositionally
+equal, so the raw morphisms live in propositionally equal hom-types.  We expose
+that fact by `HEq` and use the pinned pseudofunctor hom-functor as the canonical
+endpoint-fixed representative for observable transport.
 -/
 
-/-! ## Whitehead-style bicategorical model equivalence data -/
-
-/--
-Concrete biequivalence data adequate for presentation-independent transport.
-
-The local equivalences are required to agree exactly with the native hom-functors
-of the pseudofunctor.  Thus the categorical equivalences are not unrelated
-witnesses: they certify that the actual action of `forward` is locally an
-equivalence.
--/
+/-- Whitehead-style bicategorical model-equivalence data used by the invariant layer. -/
 structure BicategoricalModelEquivalence
     (B : Type u₁) [Bicategory.{w₁, v₁} B]
     (C : Type u₂) [Bicategory.{w₂, v₂} C] where
@@ -95,11 +69,16 @@ def mappingInvariantEquivalence (X Y : B) :
   rw [E.homEquiv_functor X Y]
   rfl
 
-/-- The certified hom-equivalence acts on morphisms exactly by pseudofunctorial `map₂`. -/
-@[simp] theorem homEquiv_functor_map
+/--
+The morphism action of the certified hom-equivalence is the pseudofunctorial
+`map₂`.  `HEq` is the correct equality because the two sides have endpoints
+identified by `homEquiv_functor_obj`, rather than definitionally identical
+endpoints.
+-/
+theorem homEquiv_functor_map
     {X Y : B} {f g : X ⟶ Y}
     (α : f ⟶ g) :
-    (E.homEquiv X Y).functor.map α = E.forward.map₂ α := by
+    HEq ((E.homEquiv X Y).functor.map α) (E.forward.map₂ α) := by
   rw [E.homEquiv_functor X Y]
   rfl
 
@@ -133,7 +112,22 @@ def transportIntrinsicTwoCell
     E.forward.map f ⟶ E.forward.map g :=
   E.forward.map₂ α
 
-/-- The equivalence presentation and the pseudofunctor transport give the same intrinsic 1-cell. -/
+/--
+Endpoint-fixed representative of the hom-equivalence morphism action.
+The structure field `homEquiv_functor` certifies that this is precisely the
+forward functor of `homEquiv`, while its type is definitionally expressed using
+`E.forward.map` endpoints.
+-/
+def homEquivTwoCell
+    {B : Type u₁} [Bicategory.{w₁, v₁} B]
+    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    (E : BicategoricalModelEquivalence B C)
+    {X Y : B} {f g : X ⟶ Y}
+    (α : f ⟶ g) :
+    E.forward.map f ⟶ E.forward.map g :=
+  (E.forward.toPrelaxFunctor.mapFunctor X Y).map α
+
+/-- The equivalence presentation and pseudofunctor transport give the same intrinsic 1-cell. -/
 @[simp] theorem homEquiv_transportIntrinsicOneCell_agree
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
@@ -141,24 +135,31 @@ def transportIntrinsicTwoCell
     {X Y : B}
     (f : X ⟶ Y) :
     (E.homEquiv X Y).functor.obj f = transportIntrinsicOneCell E f := by
-  exact E.homEquiv_functor_obj f
+  exact BicategoricalModelEquivalence.homEquiv_functor_obj E f
 
-/-- The equivalence presentation and the pseudofunctor transport give the same intrinsic 2-cell. -/
-@[simp] theorem homEquiv_transportIntrinsicTwoCell_agree
+/-- The raw hom-equivalence map and intrinsic two-cell transport agree dependently. -/
+theorem homEquiv_transportIntrinsicTwoCell_agree
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (E : BicategoricalModelEquivalence B C)
     {X Y : B} {f g : X ⟶ Y}
     (α : f ⟶ g) :
-    (E.homEquiv X Y).functor.map α = transportIntrinsicTwoCell E α := by
-  exact E.homEquiv_functor_map α
+    HEq ((E.homEquiv X Y).functor.map α) (transportIntrinsicTwoCell E α) := by
+  exact BicategoricalModelEquivalence.homEquiv_functor_map E α
+
+/-- The endpoint-fixed hom-equivalence representative is literally pseudofunctorial `map₂`. -/
+@[simp] theorem homEquivTwoCell_eq_transportIntrinsicTwoCell
+    {B : Type u₁} [Bicategory.{w₁, v₁} B]
+    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    (E : BicategoricalModelEquivalence B C)
+    {X Y : B} {f g : X ⟶ Y}
+    (α : f ⟶ g) :
+    homEquivTwoCell E α = transportIntrinsicTwoCell E α :=
+  rfl
 
 /-! ## Transport of local mapping presentations -/
 
-/--
-Transport a local mapping-nerve vertex by first reading its intrinsic 1-cell,
-transporting that 1-cell, then re-encoding it as a target local vertex.
--/
+/-- Transport a local mapping vertex through the intrinsic 1-cell carrier. -/
 def transportLocalMappingVertex
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
@@ -188,10 +189,7 @@ def transportLocalMappingVertex
       (mappingNerveVertexEquiv (E.forward.obj X) (E.forward.obj Y))
       (E.forward.map (localOneCellInvariant x))
 
-/--
-Transport a local mapping edge by reading the intrinsic 2-cell, applying
-`map₂`, and using the native nerve edge constructor in the target hom-category.
--/
+/-- Transport a local mapping edge through the intrinsic 2-cell carrier. -/
 def transportLocalMappingEdge
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
@@ -234,7 +232,11 @@ theorem oneCellObservable_modelIndependent
       Φ (transportIntrinsicOneCell E f) := by
   rw [homEquiv_transportIntrinsicOneCell_agree]
 
-/-- Every target-side observable of a transported intrinsic 2-cell is independent of encoding. -/
+/--
+Every target-side observable of a transported intrinsic 2-cell is independent
+of encoding.  `homEquivTwoCell` is the endpoint-fixed representative of the
+certified hom-equivalence morphism action.
+-/
 theorem twoCellObservable_modelIndependent
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
@@ -243,9 +245,9 @@ theorem twoCellObservable_modelIndependent
     {Z : Sort z}
     (Φ : (E.forward.map f ⟶ E.forward.map g) → Z)
     (α : f ⟶ g) :
-    Φ ((E.homEquiv X Y).functor.map α) =
+    Φ (homEquivTwoCell E α) =
       Φ (transportIntrinsicTwoCell E α) := by
-  rw [homEquiv_transportIntrinsicTwoCell_agree]
+  rw [homEquivTwoCell_eq_transportIntrinsicTwoCell]
 
 /-- Proposition-valued one-cell invariants are likewise independent of model encoding. -/
 theorem oneCellPredicate_modelIndependent
@@ -267,16 +269,13 @@ theorem twoCellPredicate_modelIndependent
     {X Y : B} {f g : X ⟶ Y}
     (P : (E.forward.map f ⟶ E.forward.map g) → Prop)
     (α : f ⟶ g) :
-    P ((E.homEquiv X Y).functor.map α) ↔
+    P (homEquivTwoCell E α) ↔
       P (transportIntrinsicTwoCell E α) := by
-  rw [homEquiv_transportIntrinsicTwoCell_agree]
+  rw [homEquivTwoCell_eq_transportIntrinsicTwoCell]
 
 /-! ## Source global presentation to target local presentation -/
 
-/--
-A source global Duskin edge is transported to a target local mapping vertex via
-the intrinsic carrier.  No target global Duskin simplex is needed.
--/
+/-- A source global Duskin edge is transported to a target local mapping vertex via the intrinsic carrier. -/
 def transportGlobalEdgeToTargetLocalVertex
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
@@ -295,13 +294,13 @@ def transportGlobalEdgeToTargetLocalVertex
     (e : GlobalDuskinEdgeOver B X Y) :
     localOneCellInvariant (transportGlobalEdgeToTargetLocalVertex E e) =
       E.forward.map (globalOneCellInvariant e) := by
+  change
+    localOneCellInvariant (transportLocalMappingVertex E e.toMappingVertex) =
+      E.forward.map (globalOneCellInvariant e)
   rw [transportLocalMappingVertex_invariant]
   rw [globalEdge_localVertex_invariant_agree]
 
-/--
-A source global Duskin comparison cell is transported to a target local mapping
-edge through the intrinsic 2-cell carrier.
--/
+/-- A source global Duskin comparison cell is transported to a target local mapping edge. -/
 def transportGlobalTriangleComparisonToTargetLocalEdge
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
@@ -323,15 +322,16 @@ def transportGlobalTriangleComparisonToTargetLocalEdge
     localTwoCellInvariant
       (transportGlobalTriangleComparisonToTargetLocalEdge E σ) =
       E.forward.map₂ (globalTwoCellInvariant σ) := by
+  change
+    localTwoCellInvariant
+      (transportLocalMappingEdge E (duskinComparisonMappingEdge σ)) =
+      E.forward.map₂ (globalTwoCellInvariant σ)
   rw [transportLocalMappingEdge_invariant]
   rw [globalTriangle_localEdge_invariant_agree]
 
 /-! ## Bundled theorem-level invariant certificate -/
 
-/--
-The automatic invariant consequences of Whitehead-style bicategorical model
-equivalence data at the current one- and two-cell frontier.
--/
+/-- The automatic invariant consequences at the current one- and two-cell frontier. -/
 structure PresentationIndependentInvariantUnderModelEquivalence
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
@@ -354,7 +354,7 @@ structure PresentationIndependentInvariantUnderModelEquivalence
     ∀ Z : C,
       ∃ X : B, IntrinsicObjectEquivalent (E.forward.obj X) Z
 
-/-- Every bicategorical model-equivalence certificate canonically supplies the current invariant package. -/
+/-- Every bicategorical model-equivalence certificate supplies the current invariant package. -/
 def presentationIndependentInvariantUnderModelEquivalence
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
@@ -373,19 +373,15 @@ The v1.26 frontier is therefore
 source local/global presentation
         ↓
 source intrinsic bicategory
-        ↓  hom-category equivalence induced by native pseudofunctor
+        ↓  certified hom-category equivalence / pseudofunctor
 target intrinsic bicategory
         ↓
 target local mapping presentation
 ```
 
-and every square above commutes in dimensions one and two.
-
-The remaining global-to-global issue is now sharply isolated: construct a
-strictly-unitary normalization of pseudofunctorial Duskin transport and prove
-that it induces the same intrinsic map.  That future normalization cannot
-change the invariant established here; it can only provide another presentation
-of the same transported intrinsic data.
+The remaining global-to-global issue is the strictly-unitary normalization of
+pseudofunctorial Duskin transport.  Such a normalization can only add another
+presentation of the transported intrinsic data established here.
 -/
 
 end KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
