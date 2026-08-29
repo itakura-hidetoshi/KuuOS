@@ -184,8 +184,7 @@ def SatisfiesDuskinLeftUnit
     (σ : DuskinSimplex B 1) : Prop :=
   σ.map₂ (λ_ edge01One).inv =
     (λ_ (σ.map edge01One)).inv ≫
-      eqToHom (by
-        rw [σ.map_id (LocallyDiscrete.mk (0 : Fin 2))]) ≫
+      σ.mapId (LocallyDiscrete.mk (0 : Fin 2)) ▷ σ.map edge01One ≫
       σ.mapComp (𝟙 (LocallyDiscrete.mk (0 : Fin 2))) edge01One
 
 /-- Every global Duskin edge satisfies the normal-lax left-unit equation. -/
@@ -201,8 +200,7 @@ def SatisfiesDuskinRightUnit
     (σ : DuskinSimplex B 1) : Prop :=
   σ.map₂ (ρ_ edge01One).inv =
     (ρ_ (σ.map edge01One)).inv ≫
-      eqToHom (by
-        rw [σ.map_id (LocallyDiscrete.mk (1 : Fin 2))]) ≫
+      σ.map edge01One ◁ σ.mapId (LocallyDiscrete.mk (1 : Fin 2)) ≫
       σ.mapComp edge01One (𝟙 (LocallyDiscrete.mk (1 : Fin 2)))
 
 /-- Every global Duskin edge satisfies the normal-lax right-unit equation. -/
