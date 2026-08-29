@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import pytest
 
+import kuuos_mcp_bridge.oauth as oauth_module
 from kuuos_mcp_bridge.oauth import (
     JWKSTokenVerifier,
     audience_allows,
@@ -79,8 +80,77 @@ def test_build_oauth_config_supports_explicit_jwks_mode(monkeypatch) -> None:
 
     assert config is not None
     assert isinstance(config.token_verifier, JWKSTokenVerifier)
+    assert config.embedded_provider is None
+    assert config.token_mode == "jwks"
     assert config.read_scope == "kuuos:read"
     assert config.write_scope == "kuuos:write"
+
+
+def test_build_oauth_config_embedded_requires_postgres(monkeypatch) -> None:
+    monkeypatch.setenv("KUUOS_MCP_OAUTH_ENABLED", "true")
+    monkeypatch.setenv("KUUOS_MCP_OAUTH_ISSUER", "https://issuer.example")
+    monkeypatch.setenv(
+        "KUUOS_MCP_OAUTH_RESOURCE_URL", "https://resource.example/mcp"
+    )
+    monkeypatch.setenv("KUUOS_MCP_OAUTH_TOKEN_MODE", "embedded")
+    monkeypatch.setenv("KUUOS_MCP_EMBEDDED_AUTH_SECRET", "x" * 32)
+    monkeypatch.delenv("KUUOS_MCP_DATABASE_URL", raising=False)
+    monkeypatch.delenv("DATABASE_URL", raising=False)
+
+    with pytest.raises(RuntimeError, match="requires KUUOS_MCP_DATABASE_URL or DATABASE_URL"):
+        build_oauth_config()
+
+
+def test_build_oauth_config_embedded_requires_strong_secret(monkeypatch) -> None:
+    monkeypatch.setenv("KUUOS_MCP_OAUTH_ENABLED", "true")
+    monkeypatch.setenv("KUUOS_MCP_OAUTH_ISSUER", "https://issuer.example")
+    monkeypatch.setenv(
+        "KUUOS_MCP_OAUTH_RESOURCE_URL", "https://resource.example/mcp"
+    )
+    monkeypatch.setenv("KUUOS_MCP_OAUTH_TOKEN_MODE", "embedded")
+    monkeypatch.setenv("DATABASE_URL", "postgresql://example.invalid/db")
+    monkeypatch.setenv("KUUOS_MCP_EMBEDDED_AUTH_SECRET", "too-short")
+
+    with pytest.raises(RuntimeError, match="at least 24 characters"):
+        build_oauth_config()
+
+
+def test_build_oauth_config_embedded_wires_provider_without_external_verifier(
+    monkeypatch,
+) -> None:
+    captured: dict[str, object] = {}
+
+    class FakeEmbeddedProvider:
+        def __init__(self, database_url: str, **kwargs) -> None:
+            captured["database_url"] = database_url
+            captured.update(kwargs)
+
+    monkeypatch.setattr(oauth_module, "EmbeddedPostgresOAuthProvider", FakeEmbeddedProvider)
+    monkeypatch.setenv("KUUOS_MCP_OAUTH_ENABLED", "true")
+    monkeypatch.setenv("KUUOS_MCP_OAUTH_ISSUER", "https://issuer.example")
+    monkeypatch.setenv(
+        "KUUOS_MCP_OAUTH_RESOURCE_URL", "https://resource.example/mcp"
+    )
+    monkeypatch.setenv("KUUOS_MCP_OAUTH_TOKEN_MODE", "embedded")
+    monkeypatch.setenv("DATABASE_URL", "postgresql://db.example/kuuos")
+    monkeypatch.setenv("KUUOS_MCP_EMBEDDED_AUTH_SECRET", "s" * 32)
+    monkeypatch.setenv("KUUOS_MCP_WRITE_ENABLED", "true")
+
+    config = build_oauth_config()
+
+    assert config is not None
+    assert config.token_verifier is None
+    assert config.embedded_provider is not None
+    assert config.token_mode == "embedded"
+    assert captured["database_url"] == "postgresql://db.example/kuuos"
+    assert captured["issuer"] == "https://issuer.example"
+    assert captured["resource_url"] == "https://resource.example/mcp"
+    assert config.auth_settings.client_registration_options is not None
+    assert config.auth_settings.client_registration_options.enabled
+    assert config.auth_settings.client_registration_options.default_scopes == [
+        "kuuos:read",
+        "kuuos:write",
+    ]
 
 
 def test_build_oauth_config_rejects_unknown_token_mode(monkeypatch) -> None:

@@ -10,8 +10,10 @@ from dataclasses import dataclass
 from typing import Any
 
 from mcp.server.auth.provider import AccessToken, TokenVerifier
-from mcp.server.auth.settings import AuthSettings
+from mcp.server.auth.settings import AuthSettings, ClientRegistrationOptions, RevocationOptions
 from pydantic import AnyHttpUrl
+
+from .embedded_oauth import EmbeddedPostgresOAuthProvider
 
 
 def normalize_scopes(value: Any) -> list[str]:
@@ -118,7 +120,7 @@ class IntrospectionTokenVerifier(TokenVerifier):
                 "Accept": "application/json",
                 "Authorization": f"Basic {credentials}",
                 "Content-Type": "application/x-www-form-urlencoded",
-                "User-Agent": "KuuOS-MCP-State-Bridge/0.4",
+                "User-Agent": "KuuOS-MCP-State-Bridge/0.5",
             },
             method="POST",
         )
@@ -201,10 +203,12 @@ class JWKSTokenVerifier(TokenVerifier):
 
 @dataclass(frozen=True)
 class OAuthConfig:
-    token_verifier: TokenVerifier
+    token_verifier: TokenVerifier | None
+    embedded_provider: EmbeddedPostgresOAuthProvider | None
     auth_settings: AuthSettings
     read_scope: str
     write_scope: str
+    token_mode: str
 
 
 def _required_env(name: str) -> str:
@@ -235,8 +239,13 @@ def build_oauth_config() -> OAuthConfig | None:
     if not read_scope or not write_scope:
         raise RuntimeError("OAuth read/write scopes must be non-empty")
 
+    verifier: TokenVerifier | None = None
+    embedded_provider: EmbeddedPostgresOAuthProvider | None = None
+    client_registration_options: ClientRegistrationOptions | None = None
+    revocation_options: RevocationOptions | None = None
+
     if token_mode == "introspection":
-        verifier: TokenVerifier = IntrospectionTokenVerifier(
+        verifier = IntrospectionTokenVerifier(
             _required_env("KUUOS_MCP_OAUTH_INTROSPECTION_URL"),
             client_id=_required_env("KUUOS_MCP_OAUTH_INTROSPECTION_CLIENT_ID"),
             client_secret=_required_env(
@@ -250,18 +259,57 @@ def build_oauth_config() -> OAuthConfig | None:
             issuer=issuer,
             expected_audience=audience or None,
         )
+    elif token_mode == "embedded":
+        database_url = (
+            os.environ.get("KUUOS_MCP_DATABASE_URL")
+            or os.environ.get("DATABASE_URL")
+            or ""
+        ).strip()
+        if not database_url:
+            raise RuntimeError("embedded OAuth mode requires KUUOS_MCP_DATABASE_URL or DATABASE_URL")
+        owner_secret = _required_env("KUUOS_MCP_EMBEDDED_AUTH_SECRET")
+        if len(owner_secret) < 24:
+            raise RuntimeError("KUUOS_MCP_EMBEDDED_AUTH_SECRET must be at least 24 characters")
+        embedded_provider = EmbeddedPostgresOAuthProvider(
+            database_url,
+            issuer=issuer,
+            resource_url=resource_url,
+            owner_secret=owner_secret,
+            owner_subject=os.environ.get(
+                "KUUOS_MCP_EMBEDDED_AUTH_SUBJECT", "kuuos-owner"
+            ).strip()
+            or "kuuos-owner",
+        )
+        default_scopes = [read_scope]
+        if os.environ.get("KUUOS_MCP_WRITE_ENABLED", "").strip().lower() in {
+            "1",
+            "true",
+            "yes",
+            "on",
+        }:
+            default_scopes.append(write_scope)
+        client_registration_options = ClientRegistrationOptions(
+            enabled=True,
+            valid_scopes=[read_scope, write_scope],
+            default_scopes=default_scopes,
+        )
+        revocation_options = RevocationOptions(enabled=True)
     else:
         raise RuntimeError(
-            "KUUOS_MCP_OAUTH_TOKEN_MODE must be 'introspection' or 'jwks'"
+            "KUUOS_MCP_OAUTH_TOKEN_MODE must be 'introspection', 'jwks', or 'embedded'"
         )
 
     return OAuthConfig(
         token_verifier=verifier,
+        embedded_provider=embedded_provider,
         auth_settings=AuthSettings(
             issuer_url=AnyHttpUrl(issuer),
             resource_server_url=AnyHttpUrl(resource_url),
             required_scopes=[read_scope],
+            client_registration_options=client_registration_options,
+            revocation_options=revocation_options,
         ),
         read_scope=read_scope,
         write_scope=write_scope,
+        token_mode=token_mode,
     )
