@@ -83,7 +83,9 @@ theorem localMappingEdgeOfTwoMorphism_surjective
   obtain ⟨α, hα⟩ :=
     (CategoryTheory.nerve.edgeMk_surjective
       (C := (X ⟶ Y)) (x := f) (y := g)) e
-  exact ⟨α, by simpa [localMappingEdgeOfTwoMorphism, MappingNerveEdge] using hα⟩
+  refine ⟨α, ?_⟩
+  change CategoryTheory.nerve.edgeMk α = e
+  exact hα
 
 /-! ## The comparison edge of a global Duskin 2-simplex -/
 
@@ -146,6 +148,7 @@ theorem duskinComparison_isIso_iff_localMappingEdge_isIso
     IsIso (duskinComparison σ) ↔
       IsIso (CategoryTheory.nerve.homEquiv (duskinComparisonMappingEdge σ)) := by
   rw [duskinComparisonMappingEdge_hom]
+  exact Iff.rfl
 
 /-- If the local mapping 2-morphism is invertible, the global Duskin triangle is thin. -/
 theorem localMappingComparisonIso_isThin
