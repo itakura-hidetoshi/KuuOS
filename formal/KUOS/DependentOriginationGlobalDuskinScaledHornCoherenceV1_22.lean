@@ -193,7 +193,8 @@ theorem duskinLeftUnitCoherence
     {B : Type u} [Bicategory.{w, v} B]
     (σ : DuskinSimplex B 1) :
     SatisfiesDuskinLeftUnit σ := by
-  exact σ.map₂_leftUnitor edge01One
+  unfold SatisfiesDuskinLeftUnit
+  simpa [σ.mapId_eq_eqToHom] using σ.map₂_leftUnitor edge01One
 
 /-- The right-unit coherence equation carried by a Duskin 1-simplex. -/
 def SatisfiesDuskinRightUnit
@@ -210,7 +211,8 @@ theorem duskinRightUnitCoherence
     {B : Type u} [Bicategory.{w, v} B]
     (σ : DuskinSimplex B 1) :
     SatisfiesDuskinRightUnit σ := by
-  exact σ.map₂_rightUnitor edge01One
+  unfold SatisfiesDuskinRightUnit
+  simpa [σ.mapId_eq_eqToHom] using σ.map₂_rightUnitor edge01One
 
 /-! ## Canonical low-dimensional coherence certificate -/
 
