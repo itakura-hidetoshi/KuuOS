@@ -214,8 +214,8 @@ theorem nondegenerate_globalThin_iff_localInvariantInvertible
     (duskinScaling B).thin σ ↔
       IntrinsicInvertibleTwoCell
         (localTwoCellInvariant (duskinComparisonMappingEdge σ)) := by
-  simpa [IntrinsicInvertibleTwoCell, localTwoCellInvariant] using
-    (nondegenerate_duskinThin_iff_localMappingComparisonIso σ hnd)
+  rw [globalTriangle_localEdge_invariant_agree]
+  exact nondegenerate_globalThin_iff_intrinsicInvertible σ hnd
 
 /-! ## Local presentation recovers intrinsic 1-cell isomorphism exactly -/
 
@@ -236,15 +236,16 @@ theorem hasLocalInvertibleMappingEdge_iff_intrinsicOneCellsEquivalent
       IntrinsicOneCellsEquivalent f g := by
   constructor
   · rintro ⟨e, he⟩
-    change IsIso (CategoryTheory.nerve.homEquiv e) at he
-    letI : IsIso (CategoryTheory.nerve.homEquiv e) := he
-    exact ⟨asIso (CategoryTheory.nerve.homEquiv e)⟩
+    change IsIso (localTwoCellInvariant e) at he
+    letI : IsIso (localTwoCellInvariant e) := he
+    exact ⟨asIso (localTwoCellInvariant e)⟩
   · rintro ⟨i⟩
     refine ⟨localMappingEdgeOfTwoMorphism i.hom, ?_⟩
-    change IsIso
-      (CategoryTheory.nerve.homEquiv
-        (localMappingEdgeOfTwoMorphism i.hom))
-    simpa using (inferInstance : IsIso i.hom)
+    have hEq :
+        localTwoCellInvariant (localMappingEdgeOfTwoMorphism i.hom) = i.hom := by
+      exact localMappingEdgeOfTwoMorphism_hom i.hom
+    rw [hEq]
+    exact (inferInstance : IsIso i.hom)
 
 /-- Every nondegenerate globally thin triangle therefore witnesses intrinsic 1-cell equivalence. -/
 theorem nondegenerate_globalThin_implies_intrinsicOneCellsEquivalent
@@ -255,10 +256,11 @@ theorem nondegenerate_globalThin_implies_intrinsicOneCellsEquivalent
     IntrinsicOneCellsEquivalent
       (duskinTriangleCompositeArrow σ)
       (duskinTriangleLongArrow σ) := by
-  have hi : IsIso (duskinComparison σ) := by
-    exact (nondegenerate_globalThin_iff_intrinsicInvertible σ hnd).mp hthin
-  letI : IsIso (duskinComparison σ) := hi
-  exact ⟨asIso (duskinComparison σ)⟩
+  have hi : IntrinsicInvertibleTwoCell (globalTwoCellInvariant σ) :=
+    (nondegenerate_globalThin_iff_intrinsicInvertible σ hnd).mp hthin
+  change IsIso (globalTwoCellInvariant σ) at hi
+  letI : IsIso (globalTwoCellInvariant σ) := hi
+  exact ⟨asIso (globalTwoCellInvariant σ)⟩
 
 /-- Hence every nondegenerate globally thin triangle produces an invertible local mapping edge. -/
 theorem nondegenerate_globalThin_implies_localInvertibleMappingEdge
