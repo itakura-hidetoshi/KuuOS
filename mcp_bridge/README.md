@@ -11,7 +11,7 @@ Every write is optimistic compare-and-swap (CAS):
 3. call `record_continuation` or `update_project_state` with that value as `expected_version`;
 4. if the server reports a conflict, re-read and reconcile.
 
-A stale Chat or Work session therefore cannot silently overwrite a newer continuation point. The JSON backend writes atomically with `fsync` + `os.replace`; the PostgreSQL backend serializes each transition with a row lock and keeps the payload version synchronized with the indexed version column.
+A stale Chat or Work session therefore cannot silently overwrite a newer continuation point. The local JSON backend writes atomically with `fsync` + `os.replace`; the PostgreSQL backend serializes each transition with a row lock and keeps the payload version synchronized with the indexed version column.
 
 ## MCP surface
 
@@ -32,11 +32,15 @@ Read-only is the default deployment mode. Do not enable write tools on a public 
 
 The server selects storage in this order:
 
-1. `KUUOS_MCP_DATABASE_URL`
-2. `DATABASE_URL`
-3. local JSON at `KUUOS_MCP_STATE_PATH` (default `./var/kuuos-mcp-state.json`)
+1. `KUUOS_MCP_DATABASE_URL` or `DATABASE_URL` → PostgreSQL CAS backend.
+2. `KUUOS_MCP_GITHUB_ISSUE_API_URL`, or the default public KuuOS continuation issue when running on Vercel → durable read-only GitHub Issue backend.
+3. local JSON at `KUUOS_MCP_STATE_PATH` (default `./var/kuuos-mcp-state.json`) → local/single-host backend.
 
-When a database URL is present the server uses PostgreSQL and creates its single CAS state table idempotently. This is the production path for replicated/serverless deployments. The JSON backend remains useful for local development and single-host recovery.
+When a database URL is present the server uses PostgreSQL and creates its single CAS state table idempotently. This remains the intended writable production backend for replicated/serverless deployments.
+
+When no database URL is available on Vercel, the bridge reads the canonical fenced JSON state from public Issue #1548 through `GitHubIssueStateStore`. This provides a durable, auditable read path shared by Chat and Work immediately, while keeping writes fail-closed. Setting `KUUOS_MCP_WRITE_ENABLED=true` with the GitHub Issue backend aborts startup rather than exposing write tools against a read-only store.
+
+The local JSON backend remains useful for local development and single-host recovery.
 
 ## HTTP security
 
@@ -68,11 +72,18 @@ export KUUOS_MCP_DATABASE_URL='postgresql://...'
 kuuos-mcp-bridge
 ```
 
+To test the durable GitHub Issue backend locally without Vercel, set:
+
+```bash
+export KUUOS_MCP_GITHUB_ISSUE_API_URL='https://api.github.com/repos/itakura-hidetoshi/KuuOS/issues/1548'
+kuuos-mcp-bridge
+```
+
 The local MCP endpoint is `/mcp`.
 
 ## Vercel deployment
 
-Use `mcp_bridge/` as the Vercel project root. `requirements.txt` installs the MCP SDK and PostgreSQL driver. `api/mcp.py` exports an ASGI function and normalizes the Vercel function route to the server's canonical `/mcp` transport path.
+Use `mcp_bridge/` as the Vercel project root. `requirements.txt` installs the MCP SDK and PostgreSQL driver. `api/mcp.py` exports an ASGI function and normalizes the Vercel function route to the server's canonical `/mcp` transport path. `pyproject.toml` declares Vercel's explicit Python entrypoint.
 
 The remote endpoint is therefore:
 
@@ -80,30 +91,13 @@ The remote endpoint is therefore:
 https://<deployment-host>/api/mcp
 ```
 
-Recommended initial deployment:
+Safe deployment sequence:
 
-- attach durable PostgreSQL as `DATABASE_URL` or `KUUOS_MCP_DATABASE_URL`;
-- leave `KUUOS_MCP_WRITE_ENABLED` unset, so the endpoint is read-only;
-- verify tool discovery and CAS state reads;
-- add authenticated MCP OAuth/gateway protection;
-- only then set `KUUOS_MCP_WRITE_ENABLED=true` and verify stale-writer rejection remotely.
+1. deploy with `KUUOS_MCP_WRITE_ENABLED` unset;
+2. verify `/healthz` reports `read-only` and the intended backend;
+3. verify MCP initialize, tool discovery, `get_project_state`, and `list_next_actions`;
+4. add authenticated MCP OAuth or a compatible authenticated gateway;
+5. attach PostgreSQL as `DATABASE_URL` or `KUUOS_MCP_DATABASE_URL` for writable canonical state;
+6. only then set `KUUOS_MCP_WRITE_ENABLED=true` and verify stale-writer rejection remotely.
 
-## Chat / Work hand-off
-
-Once authenticated write access is enabled, register the same remote MCP endpoint in every supported surface:
-
-```text
-Chat ─┐
-      ├── remote MCP ── PostgreSQL canonical CAS state
-Work ─┘
-```
-
-At each hand-off, persist exact repository branch/SHA, active PR snapshot, exact-head CI snapshot, mathematical frontier, and ordered next actions. GitHub Issue #1548 is the audit/recovery control plane while remote deployment is being completed.
-
-## Test
-
-```bash
-pytest
-```
-
-State-store tests cover version-zero initialization, persistence and version increments, stale-writer rejection, protected metadata, and backend-independent CAS transitions.
+Until PostgreSQL and authenticated writes are verified, public Issue #1548 is the durable read/audit control plane and the remote MCP must remain read-only.
