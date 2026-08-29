@@ -6,12 +6,65 @@ from pathlib import Path
 from typing import Any
 
 from mcp.server import MCPServer
+from mcp.server.transport_security import TransportSecuritySettings
+from starlette.requests import Request
+from starlette.responses import JSONResponse
 
-from .state_store import JsonStateStore, StateConflictError
+from .state_store import JsonStateStore, PostgresStateStore, StateConflictError, StateStore
 
 
-STATE_PATH = Path(os.environ.get("KUUOS_MCP_STATE_PATH", "./var/kuuos-mcp-state.json"))
-store = JsonStateStore(STATE_PATH)
+def _env_bool(name: str, *, default: bool = False) -> bool:
+    raw = os.environ.get(name)
+    if raw is None:
+        return default
+    return raw.strip().lower() in {"1", "true", "yes", "on"}
+
+
+def _env_csv(name: str) -> list[str]:
+    raw = os.environ.get(name, "")
+    return [item.strip() for item in raw.split(",") if item.strip()]
+
+
+def _dedupe(values: list[str]) -> list[str]:
+    return list(dict.fromkeys(values))
+
+
+def build_store() -> StateStore:
+    database_url = os.environ.get("KUUOS_MCP_DATABASE_URL") or os.environ.get("DATABASE_URL")
+    if database_url:
+        return PostgresStateStore(
+            database_url,
+            state_key=os.environ.get("KUUOS_MCP_STATE_KEY", "project"),
+        )
+    state_path = Path(os.environ.get("KUUOS_MCP_STATE_PATH", "./var/kuuos-mcp-state.json"))
+    return JsonStateStore(state_path)
+
+
+def build_transport_security() -> TransportSecuritySettings:
+    allowed_hosts = _env_csv("KUUOS_MCP_ALLOWED_HOSTS")
+    allowed_origins = _env_csv("KUUOS_MCP_ALLOWED_ORIGINS")
+
+    for variable in ("VERCEL_URL", "VERCEL_BRANCH_URL", "VERCEL_PROJECT_PRODUCTION_URL"):
+        hostname = os.environ.get(variable)
+        if hostname:
+            allowed_hosts.append(hostname)
+            allowed_origins.append(f"https://{hostname}")
+
+    if not allowed_hosts:
+        allowed_hosts.extend(["127.0.0.1:*", "localhost:*", "[::1]:*"])
+        allowed_origins.extend(
+            ["http://127.0.0.1:*", "http://localhost:*", "http://[::1]:*"]
+        )
+
+    return TransportSecuritySettings(
+        enable_dns_rebinding_protection=True,
+        allowed_hosts=_dedupe(allowed_hosts),
+        allowed_origins=_dedupe(allowed_origins),
+    )
+
+
+WRITE_ENABLED = _env_bool("KUUOS_MCP_WRITE_ENABLED", default=False)
+store = build_store()
 mcp = MCPServer(
     "KuuOS Chat-Work State Bridge",
     instructions=(
@@ -29,17 +82,12 @@ def get_project_state() -> dict[str, Any]:
     return store.read()
 
 
-@mcp.tool()
 def update_project_state(
     expected_version: int,
     actor: str,
     patch_json: str,
 ) -> dict[str, Any]:
-    """CAS-update canonical state from a JSON object patch.
-
-    Read get_project_state first and pass its version as expected_version.
-    actor should identify the writing surface, for example `chat` or `work`.
-    """
+    """CAS-update canonical state from a JSON object patch."""
     patch = json.loads(patch_json)
     if not isinstance(patch, dict):
         raise ValueError("patch_json must decode to a JSON object")
@@ -54,7 +102,6 @@ def update_project_state(
         }
 
 
-@mcp.tool()
 def record_continuation(
     expected_version: int,
     actor: str,
@@ -64,7 +111,7 @@ def record_continuation(
     active_pr_json: str | None = None,
     ci_json: str | None = None,
 ) -> dict[str, Any]:
-    """Write the common continuation fields used to hand work across surfaces."""
+    """Write common repository/PR/CI/frontier hand-off fields with CAS."""
     patch: dict[str, Any] = {}
     if canonical_sha is not None:
         patch["canonical_sha"] = canonical_sha
@@ -92,6 +139,11 @@ def record_continuation(
         }
 
 
+if WRITE_ENABLED:
+    mcp.tool()(update_project_state)
+    mcp.tool()(record_continuation)
+
+
 @mcp.tool()
 def list_next_actions() -> dict[str, Any]:
     """Return the current state version and ordered next actions."""
@@ -105,8 +157,37 @@ def canonical_project_state() -> str:
     return json.dumps(store.read(), ensure_ascii=False, indent=2, sort_keys=True)
 
 
+@mcp.custom_route("/healthz", methods=["GET"], include_in_schema=False)
+async def healthz(_: Request) -> JSONResponse:
+    state = store.read()
+    return JSONResponse(
+        {
+            "ok": True,
+            "mode": "read-write" if WRITE_ENABLED else "read-only",
+            "backend": type(store).__name__,
+            "version": state["version"],
+        }
+    )
+
+
+application = mcp.streamable_http_app(
+    streamable_http_path="/mcp",
+    json_response=True,
+    stateless_http=True,
+    transport_security=build_transport_security(),
+)
+
+
 def main() -> None:
-    mcp.run(transport="streamable-http")
+    mcp.run(
+        transport="streamable-http",
+        host=os.environ.get("KUUOS_MCP_HOST", "127.0.0.1"),
+        port=int(os.environ.get("PORT", "8000")),
+        streamable_http_path="/mcp",
+        json_response=True,
+        stateless_http=True,
+        transport_security=build_transport_security(),
+    )
 
 
 if __name__ == "__main__":

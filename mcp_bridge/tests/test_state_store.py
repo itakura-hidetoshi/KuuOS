@@ -9,6 +9,8 @@ from kuuos_mcp_bridge.state_store import (
     InvalidStatePatch,
     JsonStateStore,
     StateConflictError,
+    apply_patch,
+    default_state,
 )
 
 
@@ -46,3 +48,18 @@ def test_protected_fields_cannot_be_patched(tmp_path: Path) -> None:
     store = JsonStateStore(tmp_path / "state.json")
     with pytest.raises(InvalidStatePatch):
         store.update({"version": 99}, expected_version=0, actor="chat")
+
+
+def test_apply_patch_is_backend_independent() -> None:
+    original = default_state()
+    updated = apply_patch(
+        original,
+        {"next_actions": ["deploy"]},
+        expected_version=0,
+        actor="work",
+    )
+    assert original["version"] == 0
+    assert original["next_actions"] == []
+    assert updated["version"] == 1
+    assert updated["next_actions"] == ["deploy"]
+    assert updated["updated_by"] == "work"
