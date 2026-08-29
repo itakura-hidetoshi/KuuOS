@@ -4,7 +4,7 @@ build-backend = "hatchling.build"
 
 [project]
 name = "kuuos-mcp-bridge"
-version = "0.5.0"
+version = "0.6.0"
 description = "Canonical continuation-state bridge shared by Chat and Work over MCP"
 requires-python = ">=3.10"
 dependencies = [
@@ -18,6 +18,7 @@ test = ["pytest>=8,<9"]
 
 [project.scripts]
 kuuos-mcp-bridge = "kuuos_mcp_bridge.server:main"
+kuuos-mcp-attest = "kuuos_mcp_bridge.attestation:main"
 
 [tool.hatch.build.targets.wheel]
 packages = ["kuuos_mcp_bridge"]
