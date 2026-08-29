@@ -8,11 +8,12 @@ open CategoryTheory.Bicategory
 open Simplicial
 open Opposite
 open scoped Bicategory
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
 
-universe u₁ u₂ v₁ v₂ w₁ w₂
+universe u v w
 
 /-!
 # Scaled Duskin horn transport v1.29
@@ -22,11 +23,17 @@ This layer separates three claims that should not be conflated.
 1. A scaled simplicial map sends any scaled horn-extension problem forward.
 2. A scaled filler for the source problem sends forward to a scaled filler of
    the transported target problem.
-3. A strictly-unitary model equivalence already supplies the underlying
-   simplicial map of global Duskin nerves and preserves nondegenerate thin
-   triangles.  Full thinness preservation, including degenerate triangles, is
-   therefore isolated as an explicit certificate until the corresponding
-   simplicial degeneracy calculation is promoted to a theorem.
+3. A strictly-unitary model equivalence between models in the same universe
+   triple already supplies the underlying simplicial map of global Duskin nerves
+   and preserves nondegenerate thin triangles. Full thinness preservation,
+   including degenerate triangles, is therefore isolated as an explicit
+   certificate until the corresponding simplicial degeneracy calculation is
+   promoted to a theorem.
+
+The same-universe condition in the global Duskin specialization is exactly the
+boundary of `normalizedDuskinNerveMap` from v1.27. Degreewise Duskin simplex
+transport remains universe-polymorphic there, but a single bundled simplicial
+map is only constructed for one universe triple.
 
 No target-side fibrancy theorem is claimed from a one-way map alone: a filler
 for every source admissible horn yields fillers only for the transported image
@@ -118,11 +125,12 @@ theorem admissibleFiller_forward
 
 /--
 The remaining datum needed to regard the normalized global Duskin map as a
-full scaled map.  Version 1.27 already proves the nondegenerate part.
+full scaled map. Version 1.27 constructs this simplicial map for source and
+target models in one universe triple, and v1.29 keeps exactly that boundary.
 -/
 structure FullScaledDuskinMapCertificate
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     (E : StrictlyUnitaryBicategoricalModelEquivalence B C) : Prop where
   map_scaled :
     IsScaledMap (duskinScaling B) (duskinScaling C)
@@ -130,8 +138,8 @@ structure FullScaledDuskinMapCertificate
 
 /-- Re-export the scaled map from the full certificate. -/
 def normalizedDuskinScaledMap
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {E : StrictlyUnitaryBicategoricalModelEquivalence B C}
     (H : FullScaledDuskinMapCertificate E) :
     IsScaledMap (duskinScaling B) (duskinScaling C)
@@ -140,8 +148,8 @@ def normalizedDuskinScaledMap
 
 /-- The nondegenerate portion of full scaling preservation is already theorem-level. -/
 theorem normalizedDuskin_nonDegenerateThin_preserved
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     (E : StrictlyUnitaryBicategoricalModelEquivalence B C)
     (σ : DuskinSimplex B 2)
     (hnd : ¬ IsDegenerateDuskinTwoSimplex σ)
@@ -152,8 +160,8 @@ theorem normalizedDuskin_nonDegenerateThin_preserved
 
 /-- A full scaled Duskin map transports every scaled horn problem forward. -/
 def transportGlobalDuskinHornProblem
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {E : StrictlyUnitaryBicategoricalModelEquivalence B C}
     (H : FullScaledDuskinMapCertificate E)
     {n : Nat} {i : Fin (n + 1)}
@@ -165,8 +173,8 @@ def transportGlobalDuskinHornProblem
 
 /-- Every scaled filler of a source global Duskin horn transports to the target image horn. -/
 def transportGlobalDuskinHornFiller
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {E : StrictlyUnitaryBicategoricalModelEquivalence B C}
     (H : FullScaledDuskinMapCertificate E)
     {n : Nat} {i : Fin (n + 1)}
@@ -184,7 +192,7 @@ scaled simplicial map
   -> scaled horn problem forward transport
   -> scaled filler forward transport
 
-strictly-unitary model equivalence
+same-universe strictly-unitary model equivalence
   -> normalized Duskin simplicial map                 -- v1.27
   -> nondegenerate thin preservation                  -- v1.27/v1.29
   + FullScaledDuskinMapCertificate                    -- explicit remaining boundary
