@@ -3,10 +3,9 @@ import KUOS.DependentOriginationScaledDuskinHornTransportV1_29
 namespace KUOS.DependentOriginationScaledHornPresentationInvariantV1_30
 
 open CategoryTheory
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledDuskinHornTransportV1_29
-
-universe u
 
 /-!
 # Scaled horn-presentation invariance v1.30
@@ -16,92 +15,127 @@ presentation-independent statement. The key extra datum is not merely a
 scaled map, but a bidirectional correspondence between admissible horn
 problems together with filler transport in both directions.
 
+The correspondence preserves the horn dimension and distinguished vertex.
+That is the exact typing needed to compare inner-horn filler conditions: the
+same inequalities `0 < i` and `i < Fin.last n` can then be used on both sides.
+
 No target fibrancy is inferred from a one-way map alone. Fibrancy becomes
 presentation-independent only after the reverse horn presentation is supplied.
 -/
 
-/-- A bidirectional equivalence between two presentations of the same scaled horn family. -/
+/-- A bidirectional equivalence between two presentations of scaled horn families. -/
 structure ScaledHornPresentationEquivalence
-    {X Y : Type u}
-    (HX : ScaledHornFamily X)
-    (HY : ScaledHornFamily Y) where
-  forward : ∀ P : ScaledHornExtensionProblem X, ScaledHornExtensionProblem Y
-  backward : ∀ Q : ScaledHornExtensionProblem Y, ScaledHornExtensionProblem X
-  forward_admissible : ∀ P, HX.admissible P → HY.admissible (forward P)
-  backward_admissible : ∀ Q, HY.admissible Q → HX.admissible (backward Q)
+    {X Y : SSet}
+    {sX : ScaledSimplicialSet X}
+    {sY : ScaledSimplicialSet Y}
+    (HX : ScaledHornFamily X sX)
+    (HY : ScaledHornFamily Y sY) where
+  forward :
+    ∀ {n : Nat} {i : Fin (n + 1)},
+      ScaledHornExtensionProblem X sX n i →
+        ScaledHornExtensionProblem Y sY n i
+  backward :
+    ∀ {n : Nat} {i : Fin (n + 1)},
+      ScaledHornExtensionProblem Y sY n i →
+        ScaledHornExtensionProblem X sX n i
+  forward_admissible :
+    ∀ {n : Nat} {i : Fin (n + 1)}
+      (P : ScaledHornExtensionProblem X sX n i),
+      HX.admissible P → HY.admissible (forward P)
+  backward_admissible :
+    ∀ {n : Nat} {i : Fin (n + 1)}
+      (Q : ScaledHornExtensionProblem Y sY n i),
+      HY.admissible Q → HX.admissible (backward Q)
   forward_filler :
-    ∀ P,
+    ∀ {n : Nat} {i : Fin (n + 1)}
+      (P : ScaledHornExtensionProblem X sX n i),
       Nonempty (ScaledHornFiller P) →
       Nonempty (ScaledHornFiller (forward P))
   backward_filler :
-    ∀ Q,
+    ∀ {n : Nat} {i : Fin (n + 1)}
+      (Q : ScaledHornExtensionProblem Y sY n i),
       Nonempty (ScaledHornFiller Q) →
       Nonempty (ScaledHornFiller (backward Q))
   forward_backward_filler_equiv :
-    ∀ Q,
+    ∀ {n : Nat} {i : Fin (n + 1)}
+      (Q : ScaledHornExtensionProblem Y sY n i),
       Nonempty (ScaledHornFiller (forward (backward Q))) ↔
         Nonempty (ScaledHornFiller Q)
   backward_forward_filler_equiv :
-    ∀ P,
+    ∀ {n : Nat} {i : Fin (n + 1)}
+      (P : ScaledHornExtensionProblem X sX n i),
       Nonempty (ScaledHornFiller (backward (forward P))) ↔
         Nonempty (ScaledHornFiller P)
 
-/-- A presentation equivalence transports admissible horn fillers forward. -/
+/-- A presentation equivalence transports admissible inner-horn fillers forward. -/
 theorem hasScaledHornFillers_forward
-    {X Y : Type u}
-    {HX : ScaledHornFamily X}
-    {HY : ScaledHornFamily Y}
+    {X Y : SSet}
+    {sX : ScaledSimplicialSet X}
+    {sY : ScaledSimplicialSet Y}
+    {HX : ScaledHornFamily X sX}
+    {HY : ScaledHornFamily Y sY}
     (E : ScaledHornPresentationEquivalence HX HY)
-    (hX : HasScaledHornFillers HX) :
-    HasScaledHornFillers HY := by
-  intro Q hQ
+    (hX : HasScaledHornFillers X sX HX) :
+    HasScaledHornFillers Y sY HY := by
+  refine ⟨?_⟩
+  intro n i Q hQ h0 hn
   have hback : HX.admissible (E.backward Q) :=
     E.backward_admissible Q hQ
   have hfill : Nonempty (ScaledHornFiller (E.backward Q)) :=
-    hX (E.backward Q) hback
+    hX.fill (E.backward Q) hback h0 hn
   have hff : Nonempty (ScaledHornFiller (E.forward (E.backward Q))) :=
     E.forward_filler (E.backward Q) hfill
   exact (E.forward_backward_filler_equiv Q).mp hff
 
-/-- Reverse transport of admissible horn fillers. -/
+/-- Reverse transport of admissible inner-horn fillers. -/
 theorem hasScaledHornFillers_backward
-    {X Y : Type u}
-    {HX : ScaledHornFamily X}
-    {HY : ScaledHornFamily Y}
+    {X Y : SSet}
+    {sX : ScaledSimplicialSet X}
+    {sY : ScaledSimplicialSet Y}
+    {HX : ScaledHornFamily X sX}
+    {HY : ScaledHornFamily Y sY}
     (E : ScaledHornPresentationEquivalence HX HY)
-    (hY : HasScaledHornFillers HY) :
-    HasScaledHornFillers HX := by
-  intro P hP
+    (hY : HasScaledHornFillers Y sY HY) :
+    HasScaledHornFillers X sX HX := by
+  refine ⟨?_⟩
+  intro n i P hP h0 hn
   have hfwd : HY.admissible (E.forward P) :=
     E.forward_admissible P hP
   have hfill : Nonempty (ScaledHornFiller (E.forward P)) :=
-    hY (E.forward P) hfwd
+    hY.fill (E.forward P) hfwd h0 hn
   have hbb : Nonempty (ScaledHornFiller (E.backward (E.forward P))) :=
     E.backward_filler (E.forward P) hfill
   exact (E.backward_forward_filler_equiv P).mp hbb
 
 /-- Scaled horn fibrancy is invariant under horn-presentation equivalence. -/
 theorem hasScaledHornFillers_iff
-    {X Y : Type u}
-    {HX : ScaledHornFamily X}
-    {HY : ScaledHornFamily Y}
+    {X Y : SSet}
+    {sX : ScaledSimplicialSet X}
+    {sY : ScaledSimplicialSet Y}
+    {HX : ScaledHornFamily X sX}
+    {HY : ScaledHornFamily Y sY}
     (E : ScaledHornPresentationEquivalence HX HY) :
-    HasScaledHornFillers HX ↔ HasScaledHornFillers HY :=
+    HasScaledHornFillers X sX HX ↔ HasScaledHornFillers Y sY HY :=
   ⟨hasScaledHornFillers_forward E, hasScaledHornFillers_backward E⟩
 
 /-- Bundled presentation-independent scaled fibrancy certificate. -/
 structure PresentationIndependentScaledFibrancy
-    {X Y : Type u}
-    (HX : ScaledHornFamily X)
-    (HY : ScaledHornFamily Y) : Prop where
+    {X Y : SSet}
+    {sX : ScaledSimplicialSet X}
+    {sY : ScaledSimplicialSet Y}
+    (HX : ScaledHornFamily X sX)
+    (HY : ScaledHornFamily Y sY) : Prop where
   presentationEquiv : ScaledHornPresentationEquivalence HX HY
-  fibrancyInvariant : HasScaledHornFillers HX ↔ HasScaledHornFillers HY
+  fibrancyInvariant :
+    HasScaledHornFillers X sX HX ↔ HasScaledHornFillers Y sY HY
 
 /-- Any horn-presentation equivalence yields the bundled invariant. -/
 theorem presentationIndependentScaledFibrancy
-    {X Y : Type u}
-    {HX : ScaledHornFamily X}
-    {HY : ScaledHornFamily Y}
+    {X Y : SSet}
+    {sX : ScaledSimplicialSet X}
+    {sY : ScaledSimplicialSet Y}
+    {HX : ScaledHornFamily X sX}
+    {HY : ScaledHornFamily Y sY}
     (E : ScaledHornPresentationEquivalence HX HY) :
     PresentationIndependentScaledFibrancy HX HY where
   presentationEquiv := E
