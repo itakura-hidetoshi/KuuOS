@@ -12,6 +12,7 @@ from mcp.server.auth.provider import (
     AccessToken,
     AuthorizationCode,
     AuthorizationParams,
+    AuthorizeError,
     OAuthAuthorizationServerProvider,
     RefreshToken,
     TokenError,
@@ -30,9 +31,10 @@ class EmbeddedPostgresOAuthProvider(
 
     This provider is deliberately opt-in. It is intended for deployments where an
     external authorization server is unavailable but PostgreSQL and encrypted
-    deployment secrets are available. OAuth clients, pending authorization state,
-    codes, access tokens, and rotating refresh tokens are all shared through
-    PostgreSQL so replicated HTTP workers do not rely on process-local memory.
+    deployment secrets are available. OAuth clients and pending authorization state
+    are shared through PostgreSQL so replicated HTTP workers do not rely on
+    process-local memory. Authorization codes, access tokens, and refresh tokens are
+    indexed only by SHA-256 credential digests; raw credentials are never persisted.
     """
 
     _TABLE = "kuuos_mcp_oauth"
@@ -105,6 +107,36 @@ class EmbeddedPostgresOAuthProvider(
     @staticmethod
     def _token_key(token: str) -> str:
         return hashlib.sha256(token.encode("utf-8")).hexdigest()
+
+    @staticmethod
+    def _dump_without_secret(model: Any, field: str) -> dict[str, Any]:
+        payload = dict(model.model_dump(mode="json"))
+        payload.pop(field, None)
+        return payload
+
+    @staticmethod
+    def _restore_secret(
+        payload: dict[str, Any], field: str, value: str
+    ) -> dict[str, Any]:
+        restored = dict(payload)
+        restored[field] = value
+        return restored
+
+    def _require_authorization_resource(self, resource: str | None) -> str:
+        if resource != self.resource_url:
+            raise AuthorizeError(
+                error="invalid_target",
+                error_description="OAuth resource must exactly match the configured MCP resource",
+            )
+        return self.resource_url
+
+    def _require_token_resource(self, resource: str | None) -> str:
+        if resource != self.resource_url:
+            raise TokenError(
+                error="invalid_target",
+                error_description="OAuth resource must exactly match the configured MCP resource",
+            )
+        return self.resource_url
 
     def _put(
         self,
@@ -190,6 +222,7 @@ class EmbeddedPostgresOAuthProvider(
     ) -> str:
         if not client.client_id:
             raise ValueError("OAuth client_id is required")
+        resource = self._require_authorization_resource(params.resource)
         login_state = secrets.token_urlsafe(32)
         expires_at = time.time() + 300
         requested_scopes = list(params.scopes or [])
@@ -199,7 +232,7 @@ class EmbeddedPostgresOAuthProvider(
             "redirect_uri_provided_explicitly": params.redirect_uri_provided_explicitly,
             "code_challenge": params.code_challenge,
             "client_id": client.client_id,
-            "resource": params.resource,
+            "resource": resource,
             "scopes": requested_scopes,
         }
         await asyncio.to_thread(
@@ -227,6 +260,15 @@ class EmbeddedPostgresOAuthProvider(
             "<button type='submit'>Authorize</button></form></body></html>"
         )
 
+    async def _store_authorization_code(self, auth_code: AuthorizationCode) -> None:
+        await asyncio.to_thread(
+            self._put,
+            "code",
+            self._token_key(auth_code.code),
+            self._dump_without_secret(auth_code, "code"),
+            expires_at=auth_code.expires_at,
+        )
+
     async def login_callback(self, request: Request) -> Response:
         raw = (await request.body()).decode("utf-8")
         fields = urllib.parse.parse_qs(raw, keep_blank_values=True)
@@ -241,6 +283,14 @@ class EmbeddedPostgresOAuthProvider(
         if not secrets.compare_digest(submitted, self.owner_secret):
             raise HTTPException(401, "Invalid authorization credentials")
 
+        resource = pending.get("resource")
+        if not isinstance(resource, str):
+            raise HTTPException(400, "Invalid authorization resource")
+        try:
+            resource = self._require_token_resource(resource)
+        except TokenError as exc:
+            raise HTTPException(400, "Invalid authorization resource") from exc
+
         code = f"kuuos_code_{secrets.token_urlsafe(32)}"
         scopes = [scope for scope in pending.get("scopes", []) if isinstance(scope, str)]
         auth_code = AuthorizationCode(
@@ -253,16 +303,10 @@ class EmbeddedPostgresOAuthProvider(
             redirect_uri_provided_explicitly=bool(
                 pending["redirect_uri_provided_explicitly"]
             ),
-            resource=pending.get("resource"),
+            resource=resource,
             subject=self.owner_subject,
         )
-        await asyncio.to_thread(
-            self._put,
-            "code",
-            code,
-            auth_code.model_dump(mode="json"),
-            expires_at=auth_code.expires_at,
-        )
+        await self._store_authorization_code(auth_code)
         return RedirectResponse(
             construct_redirect_uri(
                 str(auth_code.redirect_uri),
@@ -277,11 +321,15 @@ class EmbeddedPostgresOAuthProvider(
         client: OAuthClientInformationFull,
         authorization_code: str,
     ) -> AuthorizationCode | None:
-        payload = await asyncio.to_thread(self._get, "code", authorization_code)
+        payload = await asyncio.to_thread(
+            self._get, "code", self._token_key(authorization_code)
+        )
         if payload is None:
             return None
-        code = AuthorizationCode.model_validate(payload)
-        if code.client_id != client.client_id:
+        code = AuthorizationCode.model_validate(
+            self._restore_secret(payload, "code", authorization_code)
+        )
+        if code.client_id != client.client_id or code.resource != self.resource_url:
             return None
         return code
 
@@ -290,16 +338,27 @@ class EmbeddedPostgresOAuthProvider(
         client: OAuthClientInformationFull,
         authorization_code: AuthorizationCode,
     ) -> OAuthToken:
-        payload = await asyncio.to_thread(self._pop, "code", authorization_code.code)
+        payload = await asyncio.to_thread(
+            self._pop, "code", self._token_key(authorization_code.code)
+        )
         if payload is None:
-            raise TokenError(error="invalid_grant", error_description="authorization code is invalid or expired")
-        stored = AuthorizationCode.model_validate(payload)
+            raise TokenError(
+                error="invalid_grant",
+                error_description="authorization code is invalid or expired",
+            )
+        stored = AuthorizationCode.model_validate(
+            self._restore_secret(payload, "code", authorization_code.code)
+        )
         if stored.client_id != client.client_id:
-            raise TokenError(error="invalid_grant", error_description="authorization code client mismatch")
+            raise TokenError(
+                error="invalid_grant",
+                error_description="authorization code client mismatch",
+            )
+        resource = self._require_token_resource(stored.resource)
         return await self._issue_pair(
             client_id=stored.client_id,
             scopes=stored.scopes,
-            resource=stored.resource,
+            resource=resource,
             subject=stored.subject,
         )
 
@@ -311,6 +370,7 @@ class EmbeddedPostgresOAuthProvider(
         resource: str | None,
         subject: str | None,
     ) -> OAuthToken:
+        resource = self._require_token_resource(resource)
         now = int(time.time())
         pair_id = secrets.token_urlsafe(24)
         access_value = f"kuuos_at_{secrets.token_urlsafe(32)}"
@@ -320,7 +380,7 @@ class EmbeddedPostgresOAuthProvider(
             client_id=client_id,
             scopes=scopes,
             expires_at=now + self.access_ttl_seconds,
-            resource=resource or self.resource_url,
+            resource=resource,
             subject=subject,
             claims={"iss": self.issuer},
         )
@@ -335,7 +395,10 @@ class EmbeddedPostgresOAuthProvider(
             self._put,
             "access",
             self._token_key(access_value),
-            {"pair_id": pair_id, "token": access.model_dump(mode="json")},
+            {
+                "pair_id": pair_id,
+                "token": self._dump_without_secret(access, "token"),
+            },
             expires_at=access.expires_at,
         )
         await asyncio.to_thread(
@@ -344,8 +407,8 @@ class EmbeddedPostgresOAuthProvider(
             self._token_key(refresh_value),
             {
                 "pair_id": pair_id,
-                "resource": access.resource,
-                "token": refresh.model_dump(mode="json"),
+                "resource": resource,
+                "token": self._dump_without_secret(refresh, "token"),
             },
             expires_at=refresh.expires_at,
         )
@@ -361,7 +424,14 @@ class EmbeddedPostgresOAuthProvider(
         wrapper = await asyncio.to_thread(self._get, "access", self._token_key(token))
         if wrapper is None:
             return None
-        access = AccessToken.model_validate(wrapper.get("token"))
+        payload = wrapper.get("token")
+        if not isinstance(payload, dict):
+            return None
+        access = AccessToken.model_validate(
+            self._restore_secret(payload, "token", token)
+        )
+        if access.resource != self.resource_url:
+            return None
         if access.expires_at is not None and access.expires_at <= time.time():
             return None
         return access
@@ -374,9 +444,14 @@ class EmbeddedPostgresOAuthProvider(
         wrapper = await asyncio.to_thread(
             self._get, "refresh", self._token_key(refresh_token)
         )
-        if wrapper is None:
+        if wrapper is None or wrapper.get("resource") != self.resource_url:
             return None
-        refresh = RefreshToken.model_validate(wrapper.get("token"))
+        payload = wrapper.get("token")
+        if not isinstance(payload, dict):
+            return None
+        refresh = RefreshToken.model_validate(
+            self._restore_secret(payload, "token", refresh_token)
+        )
         if refresh.client_id != client.client_id:
             return None
         return refresh
@@ -391,21 +466,44 @@ class EmbeddedPostgresOAuthProvider(
             self._pop, "refresh", self._token_key(refresh_token.token)
         )
         if wrapper is None:
-            raise TokenError(error="invalid_grant", error_description="refresh token is invalid or expired")
-        stored = RefreshToken.model_validate(wrapper.get("token"))
+            raise TokenError(
+                error="invalid_grant",
+                error_description="refresh token is invalid or expired",
+            )
+        resource = wrapper.get("resource")
+        if not isinstance(resource, str):
+            raise TokenError(
+                error="invalid_target",
+                error_description="refresh token resource is missing",
+            )
+        resource = self._require_token_resource(resource)
+        payload = wrapper.get("token")
+        if not isinstance(payload, dict):
+            raise TokenError(
+                error="invalid_grant",
+                error_description="refresh token metadata is invalid",
+            )
+        stored = RefreshToken.model_validate(
+            self._restore_secret(payload, "token", refresh_token.token)
+        )
         if stored.client_id != client.client_id:
-            raise TokenError(error="invalid_grant", error_description="refresh token client mismatch")
+            raise TokenError(
+                error="invalid_grant",
+                error_description="refresh token client mismatch",
+            )
         requested = scopes or stored.scopes
         if not set(requested).issubset(stored.scopes):
-            raise TokenError(error="invalid_scope", error_description="refresh requested an ungranted scope")
+            raise TokenError(
+                error="invalid_scope",
+                error_description="refresh requested an ungranted scope",
+            )
         pair_id = wrapper.get("pair_id")
         if isinstance(pair_id, str):
             await asyncio.to_thread(self._delete_pair, pair_id)
-        resource = wrapper.get("resource")
         return await self._issue_pair(
             client_id=stored.client_id,
             scopes=requested,
-            resource=resource if isinstance(resource, str) else self.resource_url,
+            resource=resource,
             subject=stored.subject,
         )
 

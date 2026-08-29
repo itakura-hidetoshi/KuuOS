@@ -1,0 +1,31 @@
+name: KuuOS MCP Bridge Python Validation
+
+on:
+  push:
+    paths:
+      - "mcp_bridge/**"
+      - ".github/workflows/mcp-bridge-python-validation.yml"
+  pull_request:
+    paths:
+      - "mcp_bridge/**"
+      - ".github/workflows/mcp-bridge-python-validation.yml"
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install MCP bridge with test and PostgreSQL extras
+        run: python -m pip install -e "./mcp_bridge[test,postgres]"
+      - name: Compile MCP bridge package and tests
+        run: python -m compileall -q mcp_bridge/kuuos_mcp_bridge mcp_bridge/tests
+      - name: Run focused MCP bridge tests
+        working-directory: mcp_bridge
+        run: python -m pytest
