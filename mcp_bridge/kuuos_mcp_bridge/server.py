@@ -83,14 +83,19 @@ if WRITE_ENABLED:
     if oauth is None:
         raise RuntimeError(
             "KUUOS_MCP_WRITE_ENABLED=true requires KUUOS_MCP_OAUTH_ENABLED=true "
-            "with a configured OAuth token verifier"
+            "with a configured OAuth token verifier or embedded provider"
         )
 
 
 mcp_kwargs: dict[str, Any] = {}
 if oauth is not None:
-    mcp_kwargs["token_verifier"] = oauth.token_verifier
     mcp_kwargs["auth"] = oauth.auth_settings
+    if oauth.embedded_provider is not None:
+        mcp_kwargs["auth_server_provider"] = oauth.embedded_provider
+    elif oauth.token_verifier is not None:
+        mcp_kwargs["token_verifier"] = oauth.token_verifier
+    else:  # pragma: no cover - OAuthConfig invariant
+        raise RuntimeError("OAuth configuration has no verifier or provider")
 
 mcp = MCPServer(
     "KuuOS Chat-Work State Bridge",
@@ -102,6 +107,18 @@ mcp = MCPServer(
     ),
     **mcp_kwargs,
 )
+
+
+if oauth is not None and oauth.embedded_provider is not None:
+    _embedded_provider = oauth.embedded_provider
+
+    @mcp.custom_route("/login", methods=["GET"], include_in_schema=False)
+    async def embedded_login(request: Request):
+        return await _embedded_provider.login_page(request)
+
+    @mcp.custom_route("/login/callback", methods=["POST"], include_in_schema=False)
+    async def embedded_login_callback(request: Request):
+        return await _embedded_provider.login_callback(request)
 
 
 def _require_write_scope() -> None:
@@ -204,10 +221,13 @@ async def healthz(_: Request) -> JSONResponse:
             "mode": "read-write" if WRITE_ENABLED else "read-only",
             "backend": type(store).__name__,
             "version": state["version"],
-            "oauth": oauth is not None,
+            "oauth_enabled": oauth is not None,
+            "oauth_mode": oauth.token_mode if oauth is not None else None,
             "write_ready": WRITE_ENABLED
             and isinstance(store, PostgresStateStore)
             and oauth is not None,
+            "canonical_sha": os.environ.get("KUUOS_MCP_CANONICAL_SHA")
+            or state.get("canonical_sha"),
         }
     )
 
