@@ -56,13 +56,11 @@ def locallyDiscreteNormalLax
     StrictlyUnitaryLaxFunctor (LocallyDiscrete C) (LocallyDiscrete D) where
   __ := F.toPseudofunctor.toLax
   map_id := by
-    intro X
-    rcases X with ⟨X⟩
-    simp
+    rintro ⟨X⟩
+    rfl
   mapId_eq_eqToHom := by
     intro X
-    rcases X with ⟨X⟩
-    simp
+    apply Subsingleton.elim
 
 attribute [local ext] StrictlyUnitaryLaxFunctor
 
@@ -73,11 +71,13 @@ set_option backward.isDefEq.respectTransparency false in
     locallyDiscreteNormalLax (Functor.id C) =
       StrictlyUnitaryLaxFunctor.id (LocallyDiscrete C) := by
   ext
-  · simp [locallyDiscreteNormalLax]
+  · rfl
+  · rw [heq_iff_eq]
+    apply Discrete.ext
+    rfl
   all_goals
     · rw [heq_iff_eq]
-      ext
-      simp [locallyDiscreteNormalLax]
+      apply Subsingleton.elim
 
 set_option backward.defeqAttrib.useBackward true in
 set_option backward.isDefEq.respectTransparency false in
@@ -88,11 +88,13 @@ set_option backward.isDefEq.respectTransparency false in
     locallyDiscreteNormalLax (F ⋙ G) =
       (locallyDiscreteNormalLax F).comp (locallyDiscreteNormalLax G) := by
   ext
-  · simp [locallyDiscreteNormalLax]
+  · rfl
+  · rw [heq_iff_eq]
+    apply Discrete.ext
+    rfl
   all_goals
     · rw [heq_iff_eq]
-      ext
-      simp [locallyDiscreteNormalLax]
+      apply Subsingleton.elim
 
 /-- The normal-lax reindexing functor associated to a simplicial operator. -/
 def duskinReindex
@@ -102,19 +104,37 @@ def duskinReindex
       (DuskinOrdinal J.unop.len) :=
   locallyDiscreteNormalLax (SimplexCategory.toCat.map f.unop).toFunctor
 
+set_option backward.defeqAttrib.useBackward true in
 set_option backward.isDefEq.respectTransparency false in
 @[simp] theorem duskinReindex_id (J : SimplexCategoryᵒᵖ) :
     duskinReindex (𝟙 J) =
       StrictlyUnitaryLaxFunctor.id (DuskinOrdinal J.unop.len) := by
-  simp [duskinReindex]
+  unfold duskinReindex
+  ext
+  · simp
+  · rw [heq_iff_eq]
+    apply Discrete.ext
+    simp
+  all_goals
+    · rw [heq_iff_eq]
+      apply Subsingleton.elim
 
+set_option backward.defeqAttrib.useBackward true in
 set_option backward.isDefEq.respectTransparency false in
 @[simp] theorem duskinReindex_comp
     {J₀ J₁ J₂ : SimplexCategoryᵒᵖ}
     (f : J₀ ⟶ J₁) (g : J₁ ⟶ J₂) :
     duskinReindex (f ≫ g) =
       (duskinReindex g).comp (duskinReindex f) := by
-  simp [duskinReindex, Functor.comp_def]
+  unfold duskinReindex
+  ext
+  · simp
+  · rw [heq_iff_eq]
+    apply Discrete.ext
+    simp
+  all_goals
+    · rw [heq_iff_eq]
+      apply Subsingleton.elim
 
 /--
 The global Duskin nerve of a bicategory.
@@ -126,12 +146,16 @@ def duskinNerve (B : Type u) [Bicategory.{w, v} B] : SSet where
   obj J := DuskinSimplex B J.unop.len
   map f := TypeCat.ofHom fun σ => (duskinReindex f).comp σ
   map_id J := by
-    ext σ
+    apply TypeCat.Hom.ext
+    apply TypeCat.Fun.ext
+    funext σ
     change (duskinReindex (𝟙 J)).comp σ = σ
     rw [duskinReindex_id]
     exact StrictlyUnitaryLaxFunctor.id_comp σ
   map_comp f g := by
-    ext σ
+    apply TypeCat.Hom.ext
+    apply TypeCat.Fun.ext
+    funext σ
     change (duskinReindex (f ≫ g)).comp σ =
       (duskinReindex g).comp ((duskinReindex f).comp σ)
     rw [duskinReindex_comp]
