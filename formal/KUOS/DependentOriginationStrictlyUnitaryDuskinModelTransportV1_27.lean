@@ -201,7 +201,8 @@ def normalizedDuskinNerveMap
   app J := TypeCat.ofHom fun σ => transportDuskinSimplex E σ
   naturality := by
     intro J J' f
-    ext σ : 1
+    apply TypeCat.homEquiv.injective
+    funext σ
     change
       transportDuskinSimplex E ((duskinReindex f).comp σ) =
         (duskinReindex f).comp (transportDuskinSimplex E σ)
@@ -270,6 +271,9 @@ theorem transportDuskinComparison_isIso
       (E.forward.toPseudofunctor.toPrelaxFunctor.map₂
         (duskinComparison σ))
     infer_instance
+  haveI : IsIso
+      (E.forward.mapComp (σ.map edge01) (σ.map edge12)).inv := by
+    infer_instance
   rw [transportDuskinComparison]
   infer_instance
 
@@ -290,6 +294,9 @@ theorem nondegenerateThin_transport_isThin
     change IsIso
       (E.forward.toPseudofunctor.toPrelaxFunctor.map₂
         (duskinComparison σ))
+    infer_instance
+  haveI : IsIso
+      (E.forward.mapComp (σ.map edge01) (σ.map edge12)).inv := by
     infer_instance
   haveI : IsIso (duskinComparison (transportDuskinSimplex E σ)) := by
     rw [transportDuskinComparison]
