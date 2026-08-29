@@ -57,7 +57,8 @@ def locallyDiscreteNormalLax
   __ := F.toPseudofunctor.toLax
   map_id := by
     rintro ⟨X⟩
-    rfl
+    apply Discrete.ext
+    exact F.map_id X
   mapId_eq_eqToHom := by
     intro X
     apply Subsingleton.elim
@@ -72,12 +73,23 @@ set_option backward.isDefEq.respectTransparency false in
       StrictlyUnitaryLaxFunctor.id (LocallyDiscrete C) := by
   ext
   · rfl
-  · rw [heq_iff_eq]
-    apply Discrete.ext
+  case map =>
+    rw [heq_iff_eq]
+    funext X Y f
+    rcases f with ⟨f⟩
     rfl
-  all_goals
-    · rw [heq_iff_eq]
-      apply Subsingleton.elim
+  case map₂ =>
+    rw [heq_iff_eq]
+    funext a b f g η
+    apply Subsingleton.elim
+  case mapId =>
+    rw [heq_iff_eq]
+    funext X
+    apply Subsingleton.elim
+  case mapComp =>
+    rw [heq_iff_eq]
+    funext a b c f g
+    apply Subsingleton.elim
 
 set_option backward.defeqAttrib.useBackward true in
 set_option backward.isDefEq.respectTransparency false in
@@ -89,12 +101,23 @@ set_option backward.isDefEq.respectTransparency false in
       (locallyDiscreteNormalLax F).comp (locallyDiscreteNormalLax G) := by
   ext
   · rfl
-  · rw [heq_iff_eq]
-    apply Discrete.ext
+  case map =>
+    rw [heq_iff_eq]
+    funext X Y f
+    rcases f with ⟨f⟩
     rfl
-  all_goals
-    · rw [heq_iff_eq]
-      apply Subsingleton.elim
+  case map₂ =>
+    rw [heq_iff_eq]
+    funext a b f g η
+    apply Subsingleton.elim
+  case mapId =>
+    rw [heq_iff_eq]
+    funext X
+    apply Subsingleton.elim
+  case mapComp =>
+    rw [heq_iff_eq]
+    funext a b c f g
+    apply Subsingleton.elim
 
 /-- The normal-lax reindexing functor associated to a simplicial operator. -/
 def duskinReindex
@@ -110,14 +133,13 @@ set_option backward.isDefEq.respectTransparency false in
     duskinReindex (𝟙 J) =
       StrictlyUnitaryLaxFunctor.id (DuskinOrdinal J.unop.len) := by
   unfold duskinReindex
-  ext
-  · simp
-  · rw [heq_iff_eq]
-    apply Discrete.ext
-    simp
-  all_goals
-    · rw [heq_iff_eq]
-      apply Subsingleton.elim
+  have h :
+      (SimplexCategory.toCat.map (𝟙 J).unop).toFunctor =
+        Functor.id (Fin (J.unop.len + 1)) := by
+    simpa using congrArg Cat.Hom.toFunctor
+      (SimplexCategory.toCat.map_id J.unop)
+  rw [h]
+  exact locallyDiscreteNormalLax_id _
 
 set_option backward.defeqAttrib.useBackward true in
 set_option backward.isDefEq.respectTransparency false in
@@ -127,14 +149,14 @@ set_option backward.isDefEq.respectTransparency false in
     duskinReindex (f ≫ g) =
       (duskinReindex g).comp (duskinReindex f) := by
   unfold duskinReindex
-  ext
-  · simp
-  · rw [heq_iff_eq]
-    apply Discrete.ext
-    simp
-  all_goals
-    · rw [heq_iff_eq]
-      apply Subsingleton.elim
+  have h :
+      (SimplexCategory.toCat.map (f ≫ g).unop).toFunctor =
+        (SimplexCategory.toCat.map g.unop).toFunctor ⋙
+          (SimplexCategory.toCat.map f.unop).toFunctor := by
+    simpa using congrArg Cat.Hom.toFunctor
+      (SimplexCategory.toCat.map_comp g.unop f.unop)
+  rw [h]
+  exact locallyDiscreteNormalLax_comp _ _
 
 /--
 The global Duskin nerve of a bicategory.
