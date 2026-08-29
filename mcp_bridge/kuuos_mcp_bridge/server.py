@@ -6,11 +6,13 @@ from pathlib import Path
 from typing import Any
 
 from mcp.server import MCPServer
+from mcp.server.auth.middleware.auth_context import get_access_token
 from mcp.server.transport_security import TransportSecuritySettings
 from starlette.requests import Request
 from starlette.responses import JSONResponse
 
 from .github_issue_store import DEFAULT_GITHUB_ISSUE_API_URL, GitHubIssueStateStore
+from .oauth import OAuthConfig, build_oauth_config
 from .state_store import JsonStateStore, PostgresStateStore, StateConflictError, StateStore
 
 
@@ -71,10 +73,24 @@ def build_transport_security() -> TransportSecuritySettings:
 
 WRITE_ENABLED = _env_bool("KUUOS_MCP_WRITE_ENABLED", default=False)
 store = build_store()
-if WRITE_ENABLED and isinstance(store, GitHubIssueStateStore):
-    raise RuntimeError(
-        "KUUOS_MCP_WRITE_ENABLED=true requires a writable JSON or PostgreSQL backend"
-    )
+oauth: OAuthConfig | None = build_oauth_config()
+
+if WRITE_ENABLED:
+    if not isinstance(store, PostgresStateStore):
+        raise RuntimeError(
+            "KUUOS_MCP_WRITE_ENABLED=true requires the PostgreSQL backend"
+        )
+    if oauth is None:
+        raise RuntimeError(
+            "KUUOS_MCP_WRITE_ENABLED=true requires KUUOS_MCP_OAUTH_ENABLED=true "
+            "with a configured OAuth token verifier"
+        )
+
+
+mcp_kwargs: dict[str, Any] = {}
+if oauth is not None:
+    mcp_kwargs["token_verifier"] = oauth.token_verifier
+    mcp_kwargs["auth"] = oauth.auth_settings
 
 mcp = MCPServer(
     "KuuOS Chat-Work State Bridge",
@@ -84,7 +100,16 @@ mcp = MCPServer(
         "returned by the preceding read as expected_version. On conflict, read "
         "again and reconcile rather than overwriting blindly."
     ),
+    **mcp_kwargs,
 )
+
+
+def _require_write_scope() -> None:
+    if oauth is None:
+        raise PermissionError("OAuth is required for writes")
+    token = get_access_token()
+    if token is None or oauth.write_scope not in token.scopes:
+        raise PermissionError(f"OAuth scope {oauth.write_scope!r} is required for writes")
 
 
 @mcp.tool()
@@ -99,6 +124,7 @@ def update_project_state(
     patch_json: str,
 ) -> dict[str, Any]:
     """CAS-update canonical state from a JSON object patch."""
+    _require_write_scope()
     patch = json.loads(patch_json)
     if not isinstance(patch, dict):
         raise ValueError("patch_json must decode to a JSON object")
@@ -123,6 +149,7 @@ def record_continuation(
     ci_json: str | None = None,
 ) -> dict[str, Any]:
     """Write common repository/PR/CI/frontier hand-off fields with CAS."""
+    _require_write_scope()
     patch: dict[str, Any] = {}
     if canonical_sha is not None:
         patch["canonical_sha"] = canonical_sha
@@ -177,6 +204,10 @@ async def healthz(_: Request) -> JSONResponse:
             "mode": "read-write" if WRITE_ENABLED else "read-only",
             "backend": type(store).__name__,
             "version": state["version"],
+            "oauth": oauth is not None,
+            "write_ready": WRITE_ENABLED
+            and isinstance(store, PostgresStateStore)
+            and oauth is not None,
         }
     )
 
