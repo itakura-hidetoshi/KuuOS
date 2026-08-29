@@ -199,7 +199,8 @@ def normalizedDuskinNerveMap
     (E : StrictlyUnitaryBicategoricalModelEquivalence B C) :
     duskinNerve B ⟶ duskinNerve C where
   app J := TypeCat.ofHom fun σ => transportDuskinSimplex E σ
-  naturality f := by
+  naturality := by
+    intro J J' f
     ext σ
     change
       transportDuskinSimplex E ((duskinReindex f).comp σ) =
@@ -264,10 +265,11 @@ theorem transportDuskinComparison_isIso
     (hiso : IsIso (duskinComparison σ)) :
     IsIso (duskinComparison (transportDuskinSimplex E σ)) := by
   letI : IsIso (duskinComparison σ) := hiso
-  haveI : IsIso
+  haveI : IsIso (E.forward.map₂ (duskinComparison σ)) := by
+    change IsIso
       (E.forward.toPseudofunctor.toPrelaxFunctor.map₂
-        (duskinComparison σ)) :=
-    PrelaxFunctor.map₂_isIso
+        (duskinComparison σ))
+    exact PrelaxFunctor.map₂_isIso
       E.forward.toPseudofunctor.toPrelaxFunctor (duskinComparison σ)
   rw [transportDuskinComparison]
   infer_instance
@@ -285,10 +287,11 @@ theorem nondegenerateThin_transport_isThin
     (nondegenerate_globalThin_iff_intrinsicInvertible σ hnd).mp hthin
   change IsIso (duskinComparison σ) at hiso
   letI : IsIso (duskinComparison σ) := hiso
-  haveI : IsIso
+  haveI : IsIso (E.forward.map₂ (duskinComparison σ)) := by
+    change IsIso
       (E.forward.toPseudofunctor.toPrelaxFunctor.map₂
-        (duskinComparison σ)) :=
-    PrelaxFunctor.map₂_isIso
+        (duskinComparison σ))
+    exact PrelaxFunctor.map₂_isIso
       E.forward.toPseudofunctor.toPrelaxFunctor (duskinComparison σ)
   haveI : IsIso (duskinComparison (transportDuskinSimplex E σ)) := by
     rw [transportDuskinComparison]
