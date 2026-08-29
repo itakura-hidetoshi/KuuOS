@@ -271,6 +271,8 @@ theorem transportDuskinComparison_isIso
         (duskinComparison σ))
     exact PrelaxFunctor.map₂_isIso
       E.forward.toPseudofunctor.toPrelaxFunctor (duskinComparison σ)
+  haveI : IsIso (E.forward.mapComp (σ.map edge01) (σ.map edge12)).inv :=
+    Iso.isIso_inv _
   rw [transportDuskinComparison]
   infer_instance
 
@@ -293,6 +295,8 @@ theorem nondegenerateThin_transport_isThin
         (duskinComparison σ))
     exact PrelaxFunctor.map₂_isIso
       E.forward.toPseudofunctor.toPrelaxFunctor (duskinComparison σ)
+  haveI : IsIso (E.forward.mapComp (σ.map edge01) (σ.map edge12)).inv :=
+    Iso.isIso_inv _
   haveI : IsIso (duskinComparison (transportDuskinSimplex E σ)) := by
     rw [transportDuskinComparison]
     infer_instance
