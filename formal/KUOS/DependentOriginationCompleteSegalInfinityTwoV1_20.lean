@@ -114,7 +114,11 @@ theorem pathEquiv_symm_apply_apply
       (B := B)).pathEquiv X Y).symm
         ((CompleteSegalInfinityTwoCategory.object_univalence
           (B := B)).pathEquiv X Y h) = h := by
-  exact Equiv.symm_apply_apply _ h
+  let e : (X = Y) ≃ (X ≌ Y) :=
+    (CompleteSegalInfinityTwoCategory.object_univalence
+      (B := B)).pathEquiv X Y
+  change e.symm (e h) = h
+  exact e.symm_apply_apply h
 
 /-- The complete-Segal class still provides all mapping inner-horn fillers. -/
 theorem completeSegal_mapping_innerHornFilling
