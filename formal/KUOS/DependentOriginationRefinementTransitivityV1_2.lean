@@ -258,13 +258,10 @@ theorem nestedStateDescends_iff_flattenStateDescends
     intro i j
     change D.transport (R.chartToSubchart i j)
       (D.transport (C.toChart i) x) = u.state i j
-    calc
-      D.transport (R.chartToSubchart i j)
-          (D.transport (C.toChart i) x) =
-        D.transport (R.flatten.toChart ⟨i, j⟩) x :=
-          twoStep_transport_eq_flatten_transport D C R x i j
-      _ = u.state i j := by
-        simpa [NestedLocalStateFamily.flatten] using hx ⟨i, j⟩
+    have hFlat :
+        D.transport (R.flatten.toChart ⟨i, j⟩) x = u.state i j := by
+      simpa [NestedLocalStateFamily.flatten] using hx ⟨i, j⟩
+    rw [twoStep_transport_eq_flatten_transport D C R x i j, hFlat]
 
 /--
 Every inner refinement cover separates states of its parent chart.  This is the
@@ -297,9 +294,9 @@ theorem no_flattenStateDescent_of_no_topStateDescent
     (hSeparate : SubcoversSeparateChartStates D R)
     (hLocal : LocallyDescendsTo D R u s) :
     ¬ StateDescends D R.flatten u.flatten := by
-  intro hFlat
+  intro hFlatDescends
   apply hNoTop
-  rcases hFlat with ⟨x, hx⟩
+  rcases hFlatDescends with ⟨x, hx⟩
   refine ⟨x, ?_⟩
   intro i
   apply hSeparate i
@@ -307,15 +304,11 @@ theorem no_flattenStateDescent_of_no_topStateDescent
   change D.transport (R.chartToSubchart i j)
       (D.transport (C.toChart i) x) =
     D.transport (R.chartToSubchart i j) (s.state i)
-  calc
-    D.transport (R.chartToSubchart i j)
-        (D.transport (C.toChart i) x) =
-      D.transport (R.flatten.toChart ⟨i, j⟩) x :=
-        twoStep_transport_eq_flatten_transport D C R x i j
-    _ = u.state i j := by
-      simpa [NestedLocalStateFamily.flatten] using hx ⟨i, j⟩
-    _ = D.transport (R.chartToSubchart i j) (s.state i) :=
-      (hLocal i j).symm
+  have hFlat :
+      D.transport (R.flatten.toChart ⟨i, j⟩) x = u.state i j := by
+    simpa [NestedLocalStateFamily.flatten] using hx ⟨i, j⟩
+  rw [twoStep_transport_eq_flatten_transport D C R x i j, hFlat]
+  exact (hLocal i j).symm
 
 /--
 The invariant semantic value of every subchart agrees with the invariant
