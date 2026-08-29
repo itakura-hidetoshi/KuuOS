@@ -104,8 +104,8 @@ def toArrow
     {B : Type u} [Bicategory.{w, v} B]
     {X Y : B}
     (e : GlobalDuskinEdgeOver B X Y) : X ⟶ Y := by
-  rw [← e.source_eq, ← e.target_eq]
-  exact duskinEdgeArrow e.simplex
+  rcases e with ⟨σ, rfl, rfl⟩
+  exact duskinEdgeArrow σ
 
 /-- Send a fixed-endpoint global Duskin edge to the corresponding local mapping vertex. -/
 def toMappingVertex
@@ -200,9 +200,23 @@ theorem globalEdgeOfEquivalence_toArrow
     (R : GlobalDuskinEdgeRepresentability B X Y)
     (q : X ≌ Y) :
     (globalEdgeOfEquivalence R q).toArrow = q.hom := by
-  apply (mappingNerveVertexEquiv X Y).symm.injective
-  simpa [globalEdgeOfEquivalence] using
-    R.right_inv ((mappingNerveVertexEquiv X Y).symm q.hom)
+  calc
+    (globalEdgeOfEquivalence R q).toArrow =
+        mappingNerveVertexEquiv X Y
+          (globalEdgeOfEquivalence R q).toMappingVertex := by
+      symm
+      exact GlobalDuskinEdgeOver.mappingNerveVertexEquiv_toMappingVertex _
+    _ = mappingNerveVertexEquiv X Y
+          ((mappingNerveVertexEquiv X Y).symm q.hom) := by
+      change
+        mappingNerveVertexEquiv X Y
+            ((R.inverse ((mappingNerveVertexEquiv X Y).symm q.hom)).toMappingVertex) =
+          mappingNerveVertexEquiv X Y
+            ((mappingNerveVertexEquiv X Y).symm q.hom)
+      exact congrArg (mappingNerveVertexEquiv X Y)
+        (R.right_inv ((mappingNerveVertexEquiv X Y).symm q.hom))
+    _ = q.hom := by
+      exact Equiv.apply_symm_apply _ _
 
 /-- Hence every represented adjoint equivalence is a global Duskin equivalence edge. -/
 theorem globalEdgeOfEquivalence_isEquivalenceEdge
