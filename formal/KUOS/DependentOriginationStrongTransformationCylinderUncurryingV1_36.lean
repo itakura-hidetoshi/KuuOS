@@ -23,13 +23,16 @@ universe u u₁ u₂ v v₁ v₂ w w₁ w₂
 
 A native strong transformation between strictly-unitary pseudofunctors gives a
 normal cylinder over the walking interval. Endpoint classification is stored
-in `Sum` of `PLift`ed equalities, hence in `Type`, so it may be eliminated
-while constructing morphisms and isomorphisms; the equality payload then
-substitutes the index without dependent casts.
+in an ordinary `Type` whose constructors expose the endpoint equality directly.
+This permits Type-valued elimination while leaving `subst` an actual equality.
 -/
 
-private def finTwoCases (i : Fin 2) : Sum (PLift (i = 0)) (PLift (i = 1)) :=
-  if h : i = 0 then Sum.inl ⟨h⟩ else Sum.inr ⟨by omega⟩
+private inductive FinTwoCases (i : Fin 2) : Type where
+  | zero (h : i = 0)
+  | one (h : i = 1)
+
+private def finTwoCases (i : Fin 2) : FinTwoCases i :=
+  if h : i = 0 then .zero h else .one (by omega)
 
 private def cylinderObj
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
