@@ -237,7 +237,7 @@ private def strongCylinderCore
         P.map₂_left_unitor, P.mapId_eq_eqToIso] <;> bicategory
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
         P.map₂_left_unitor, P.mapId_eq_eqToIso]
-      rw [P.map_id X]
+      simp only [P.map_id X]
       bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
@@ -254,7 +254,7 @@ private def strongCylinderCore
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
         P.map₂_right_unitor, P.mapId_eq_eqToIso, Q.mapId_eq_eqToIso,
         Pseudofunctor.StrongTrans.naturality_id_hom]
-      rw [P.map_id Y, Q.map_id Y]
+      simp only [P.map_id Y, Q.map_id Y]
       bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
