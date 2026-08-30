@@ -273,12 +273,14 @@ theorem forwardAttachmentMap_on_endpoint
     (H : f.Homotopy g)
     (Q : ScaledHornBoundaryRealization sX sΔ f) :
     endpointIntoAttachment n i 0 ≫ forwardAttachmentMap H Q = Q.simplexMap := by
-  unfold endpointIntoAttachment
-  rw [Category.assoc]
-  rw [forwardAttachmentMap_on_endpointPiece]
-  unfold endpointTensorMap
-  rw [← Category.assoc]
-  simp [endpointSection]
+  calc
+    endpointIntoAttachment n i 0 ≫ forwardAttachmentMap H Q =
+        endpointSection n 0 ≫ endpointTensorMap 0 Q := by
+      simpa only [endpointIntoAttachment, Category.assoc] using
+        congrArg (fun k => endpointSection n 0 ≫ k)
+          (forwardAttachmentMap_on_endpointPiece H Q)
+    _ = Q.simplexMap := by
+      simp [endpointTensorMap, endpointSection]
 
 @[simp, reassoc]
 theorem backwardAttachmentMap_on_endpoint
@@ -290,12 +292,14 @@ theorem backwardAttachmentMap_on_endpoint
     (H : f.Homotopy g)
     (Q : ScaledHornBoundaryRealization sX sΔ g) :
     endpointIntoAttachment n i 1 ≫ backwardAttachmentMap H Q = Q.simplexMap := by
-  unfold endpointIntoAttachment
-  rw [Category.assoc]
-  rw [backwardAttachmentMap_on_endpointPiece]
-  unfold endpointTensorMap
-  rw [← Category.assoc]
-  simp [endpointSection]
+  calc
+    endpointIntoAttachment n i 1 ≫ backwardAttachmentMap H Q =
+        endpointSection n 1 ≫ endpointTensorMap 1 Q := by
+      simpa only [endpointIntoAttachment, Category.assoc] using
+        congrArg (fun k => endpointSection n 1 ≫ k)
+          (backwardAttachmentMap_on_endpointPiece H Q)
+    _ = Q.simplexMap := by
+      simp [endpointTensorMap, endpointSection]
 
 @[simp, reassoc]
 theorem forwardAttachmentMap_on_horn
