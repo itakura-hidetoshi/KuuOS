@@ -47,14 +47,6 @@ scaled-anodyne statement.
 def intervalEndpoint (ε : Fin 2) : (Δ[1] : SSet.{u}).Subcomplex :=
   SSet.Subcomplex.ofSimplex (SSet.stdSimplex.obj₀Equiv.symm ε)
 
-/-- The inclusion of an endpoint subcomplex is the corresponding constant map. -/
-@[simp]
-theorem intervalEndpoint_ι (ε : Fin 2) :
-    (intervalEndpoint ε).ι =
-      SSet.const (SSet.stdSimplex.obj₀Equiv.symm ε) := by
-  simpa [intervalEndpoint] using
-    (SSet.Subcomplex.ofSimplex_ι (SSet.stdSimplex.obj₀Equiv.symm ε))
-
 /-- The horn-cylinder attachment at endpoint `ε`. -/
 def hornCylinderAttachment
     (n : Nat) (i : Fin (n + 1)) (ε : Fin 2) :
@@ -74,50 +66,6 @@ noncomputable def endpointSection (n : Nat) (ε : Fin 2) :
   CartesianMonoidalCategory.lift (𝟙 _)
     (SSet.const (intervalEndpointVertex ε))
 
-/-- The endpoint-zero section followed by the endpoint-subcomplex inclusion is
-Mathlib's simplicial endpoint inclusion. -/
-@[simp, reassoc]
-theorem endpointSection_ι_zero (n : Nat) :
-    endpointSection n 0 ≫
-        ((Δ[n] : SSet.{u}) ◁ (intervalEndpoint 0).ι) =
-      (SSet.ι₀ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
-  apply CartesianMonoidalCategory.hom_ext
-  · simp [endpointSection, Category.assoc]
-  · simp [endpointSection, intervalEndpoint_ι, Category.assoc]
-
-/-- The endpoint-one section followed by the endpoint-subcomplex inclusion is
-Mathlib's simplicial endpoint inclusion. -/
-@[simp, reassoc]
-theorem endpointSection_ι_one (n : Nat) :
-    endpointSection n 1 ≫
-        ((Δ[n] : SSet.{u}) ◁ (intervalEndpoint 1).ι) =
-      (SSet.ι₁ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
-  apply CartesianMonoidalCategory.hom_ext
-  · simp [endpointSection, Category.assoc]
-  · simp [endpointSection, intervalEndpoint_ι, Category.assoc]
-
-/-- On a product with the endpoint-zero subcomplex, including the second factor
-is the same as projecting to the first factor and then taking endpoint zero. -/
-@[simp, reassoc]
-theorem whiskerLeft_intervalEndpoint_zero (X : SSet.{u}) :
-    X ◁ (intervalEndpoint 0).ι =
-      CartesianMonoidalCategory.fst X (intervalEndpoint 0 : SSet.{u}) ≫
-        (SSet.ι₀ : X ⟶ X ⊗ Δ[1]) := by
-  apply CartesianMonoidalCategory.hom_ext
-  · simp [Category.assoc]
-  · simp [intervalEndpoint_ι, Category.assoc]
-
-/-- On a product with the endpoint-one subcomplex, including the second factor
-is the same as projecting to the first factor and then taking endpoint one. -/
-@[simp, reassoc]
-theorem whiskerLeft_intervalEndpoint_one (X : SSet.{u}) :
-    X ◁ (intervalEndpoint 1).ι =
-      CartesianMonoidalCategory.fst X (intervalEndpoint 1 : SSet.{u}) ≫
-        (SSet.ι₁ : X ⟶ X ⊗ Δ[1]) := by
-  apply CartesianMonoidalCategory.hom_ext
-  · simp [Category.assoc]
-  · simp [intervalEndpoint_ι, Category.assoc]
-
 /-- The endpoint face factors through the horn-cylinder attachment. -/
 noncomputable def endpointIntoAttachment
     (n : Nat) (i : Fin (n + 1)) (ε : Fin 2) :
@@ -129,17 +77,17 @@ noncomputable def endpointIntoAttachment
 theorem endpointIntoAttachment_ι_zero
     (n : Nat) (i : Fin (n + 1)) :
     endpointIntoAttachment n i 0 ≫ (hornCylinderAttachment n i 0).ι =
-      (SSet.ι₀ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
-  simp only [endpointIntoAttachment, hornCylinderAttachment, Category.assoc,
-    SSet.Subcomplex.unionProd.ι₁_ι, endpointSection_ι_zero]
+      (ι₀ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
+  ext m x
+  rfl
 
 @[simp, reassoc]
 theorem endpointIntoAttachment_ι_one
     (n : Nat) (i : Fin (n + 1)) :
     endpointIntoAttachment n i 1 ≫ (hornCylinderAttachment n i 1).ι =
-      (SSet.ι₁ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
-  simp only [endpointIntoAttachment, hornCylinderAttachment, Category.assoc,
-    SSet.Subcomplex.unionProd.ι₁_ι, endpointSection_ι_one]
+      (ι₁ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
+  ext m x
+  rfl
 
 /-! ## Canonical pushout gluing of endpoint simplex and horn homotopy -/
 
@@ -169,12 +117,11 @@ theorem forwardAttachment_compatibility
     (SSet.horn n i).ι ▷ (intervalEndpoint 0 : SSet.{u}) ≫
         endpointTensorMap 0 Q =
       (SSet.horn n i : SSet.{u}) ◁ (intervalEndpoint 0).ι ≫ H.h := by
-  dsimp [endpointTensorMap]
-  rw [← Category.assoc]
-  rw [CartesianMonoidalCategory.whiskerRight_fst
-    (SSet.horn n i).ι (intervalEndpoint 0 : SSet.{u})]
-  rw [whiskerLeft_intervalEndpoint_zero (SSet.horn n i : SSet.{u})]
-  simp only [Category.assoc, Q.boundary_eq, H.h₀]
+  ext m z
+  rcases z with ⟨x, t⟩
+  have hH := ConcreteCategory.congr_hom (congr_app H.h₀ m) x
+  have hQ := ConcreteCategory.congr_hom (congr_app Q.boundary_eq m) x
+  simpa [endpointTensorMap, intervalEndpoint] using hQ.symm.trans hH.symm
 
 /-- Compatibility on `Λ[n,i] × {1}` for the backward attachment. -/
 theorem backwardAttachment_compatibility
@@ -188,12 +135,11 @@ theorem backwardAttachment_compatibility
     (SSet.horn n i).ι ▷ (intervalEndpoint 1 : SSet.{u}) ≫
         endpointTensorMap 1 Q =
       (SSet.horn n i : SSet.{u}) ◁ (intervalEndpoint 1).ι ≫ H.h := by
-  dsimp [endpointTensorMap]
-  rw [← Category.assoc]
-  rw [CartesianMonoidalCategory.whiskerRight_fst
-    (SSet.horn n i).ι (intervalEndpoint 1 : SSet.{u})]
-  rw [whiskerLeft_intervalEndpoint_one (SSet.horn n i : SSet.{u})]
-  simp only [Category.assoc, Q.boundary_eq, H.h₁]
+  ext m z
+  rcases z with ⟨x, t⟩
+  have hH := ConcreteCategory.congr_hom (congr_app H.h₁ m) x
+  have hQ := ConcreteCategory.congr_hom (congr_app Q.boundary_eq m) x
+  simpa [endpointTensorMap, intervalEndpoint] using hQ.symm.trans hH.symm
 
 /-- The canonical forward attachment map obtained from the pushout. -/
 noncomputable def forwardAttachmentMap
@@ -224,44 +170,6 @@ noncomputable def backwardAttachmentMap
     (SSet.horn n i) (intervalEndpoint 1)).desc
       (endpointTensorMap 1 Q) H.h
       (backwardAttachment_compatibility H Q)
-
-/-- The pushout desc restricts to the prescribed endpoint-zero simplex map on
-the endpoint product piece. -/
-@[simp, reassoc]
-theorem forwardAttachmentMap_on_endpointPiece
-    {X : SSet.{u}}
-    {sX : ScaledSimplicialSet X}
-    {n : Nat} {i : Fin (n + 1)}
-    {sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})}
-    {f g : HornRelativeMap X n i}
-    (H : f.Homotopy g)
-    (Q : ScaledHornBoundaryRealization sX sΔ f) :
-    SSet.Subcomplex.unionProd.ι₁ (SSet.horn n i) (intervalEndpoint 0) ≫
-      forwardAttachmentMap H Q = endpointTensorMap 0 Q := by
-  simpa only [forwardAttachmentMap] using
-    (SSet.Subcomplex.unionProd.isPushout
-      (SSet.horn n i) (intervalEndpoint 0)).inl_desc
-        (endpointTensorMap 0 Q) H.h
-        (forwardAttachment_compatibility H Q)
-
-/-- The pushout desc restricts to the prescribed endpoint-one simplex map on
-the endpoint product piece. -/
-@[simp, reassoc]
-theorem backwardAttachmentMap_on_endpointPiece
-    {X : SSet.{u}}
-    {sX : ScaledSimplicialSet X}
-    {n : Nat} {i : Fin (n + 1)}
-    {sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})}
-    {f g : HornRelativeMap X n i}
-    (H : f.Homotopy g)
-    (Q : ScaledHornBoundaryRealization sX sΔ g) :
-    SSet.Subcomplex.unionProd.ι₁ (SSet.horn n i) (intervalEndpoint 1) ≫
-      backwardAttachmentMap H Q = endpointTensorMap 1 Q := by
-  simpa only [backwardAttachmentMap] using
-    (SSet.Subcomplex.unionProd.isPushout
-      (SSet.horn n i) (intervalEndpoint 1)).inl_desc
-        (endpointTensorMap 1 Q) H.h
-        (backwardAttachment_compatibility H Q)
 
 @[simp, reassoc]
 theorem forwardAttachmentMap_on_endpoint
@@ -300,11 +208,7 @@ theorem forwardAttachmentMap_on_horn
     (Q : ScaledHornBoundaryRealization sX sΔ f) :
     SSet.Subcomplex.unionProd.ι₂ (SSet.horn n i) (intervalEndpoint 0) ≫
       forwardAttachmentMap H Q = H.h := by
-  simpa only [forwardAttachmentMap] using
-    (SSet.Subcomplex.unionProd.isPushout
-      (SSet.horn n i) (intervalEndpoint 0)).inr_desc
-        (endpointTensorMap 0 Q) H.h
-        (forwardAttachment_compatibility H Q)
+  simp [forwardAttachmentMap]
 
 @[simp, reassoc]
 theorem backwardAttachmentMap_on_horn
@@ -317,11 +221,7 @@ theorem backwardAttachmentMap_on_horn
     (Q : ScaledHornBoundaryRealization sX sΔ g) :
     SSet.Subcomplex.unionProd.ι₂ (SSet.horn n i) (intervalEndpoint 1) ≫
       backwardAttachmentMap H Q = H.h := by
-  simpa only [backwardAttachmentMap] using
-    (SSet.Subcomplex.unionProd.isPushout
-      (SSet.horn n i) (intervalEndpoint 1)).inr_desc
-        (endpointTensorMap 1 Q) H.h
-        (backwardAttachment_compatibility H Q)
+  simp [backwardAttachmentMap]
 
 /-! ## Attachment lifting and derivation of v1.39 cylinder extension -/
 
@@ -374,16 +274,12 @@ noncomputable def toCylinderExtension
   exact ⟨{
     extension := E
     endpoint_zero := by
-      have h := congrArg (fun k => endpointIntoAttachment n i 0 ≫ k) hE
-      simpa only [← Category.assoc, endpointIntoAttachment_ι_zero,
-        forwardAttachmentMap_on_endpoint] using h
+      rw [← endpointIntoAttachment_ι_zero n i, Category.assoc, hE,
+        forwardAttachmentMap_on_endpoint]
     on_horn := by
-      have h := congrArg
-        (fun k => SSet.Subcomplex.unionProd.ι₂
-          (SSet.horn n i) (intervalEndpoint 0) ≫ k) hE
-      simpa only [hornCylinderAttachment, ← Category.assoc,
-        SSet.Subcomplex.unionProd.ι₂_ι,
-        forwardAttachmentMap_on_horn] using h
+      rw [← SSet.Subcomplex.unionProd.ι₂_ι
+        (SSet.horn n i) (intervalEndpoint 0), Category.assoc, hE,
+        forwardAttachmentMap_on_horn]
     endpoint_one_scaled := hScaled
   }⟩
 
@@ -407,16 +303,12 @@ noncomputable def toCylinderExtension
   exact ⟨{
     extension := E
     endpoint_one := by
-      have h := congrArg (fun k => endpointIntoAttachment n i 1 ≫ k) hE
-      simpa only [← Category.assoc, endpointIntoAttachment_ι_one,
-        backwardAttachmentMap_on_endpoint] using h
+      rw [← endpointIntoAttachment_ι_one n i, Category.assoc, hE,
+        backwardAttachmentMap_on_endpoint]
     on_horn := by
-      have h := congrArg
-        (fun k => SSet.Subcomplex.unionProd.ι₂
-          (SSet.horn n i) (intervalEndpoint 1) ≫ k) hE
-      simpa only [hornCylinderAttachment, ← Category.assoc,
-        SSet.Subcomplex.unionProd.ι₂_ι,
-        backwardAttachmentMap_on_horn] using h
+      rw [← SSet.Subcomplex.unionProd.ι₂_ι
+        (SSet.horn n i) (intervalEndpoint 1), Category.assoc, hE,
+        backwardAttachmentMap_on_horn]
     endpoint_zero_scaled := hScaled
   }⟩
 
