@@ -8,9 +8,12 @@ open CategoryTheory.Category
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
+open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
+open KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37
+open KUOS.DependentOriginationHomotopyClassStrictificationV1_38
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 
-universe u u₁ u₂ v₁ v₂ w₁ w₂
+universe u v w
 
 /-!
 # Scaled-anodyne generator closure v1.42
@@ -251,8 +254,8 @@ nerves are fibrant for the canonical attachment-generated right class.
 Unlike v1.41, the lifting input is now target-level and independent of the
 chosen horn families `HB` and `HC`. -/
 structure CoherentNormalizedScaledAttachmentFibrantModelEquivalence
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     (E : BicategoricalModelEquivalence B C)
     (G : BicategoricalModelEquivalence C B)
     (HB : GlobalDuskinScaledHornFamily B)
@@ -269,8 +272,8 @@ structure CoherentNormalizedScaledAttachmentFibrantModelEquivalence
 namespace CoherentNormalizedScaledAttachmentFibrantModelEquivalence
 
 variable
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {E : BicategoricalModelEquivalence B C}
     {G : BicategoricalModelEquivalence C B}
     {HB : GlobalDuskinScaledHornFamily B}
@@ -287,6 +290,7 @@ noncomputable def toTerminalRLPModelEquivalence :
   targetTerminalRLP :=
     familyTerminalRLPOfAttachmentFibrant K.targetAttachmentFibrant HC
 
+include K in
 /-- Strict global scaled-Duskin fibrancy is presentation-independent once both
 global nerves are fibrant for the canonical attachment-generated right class. -/
 theorem globalDuskinStrictFibrancy_iff :
