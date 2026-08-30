@@ -12,7 +12,7 @@ open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
 open KUOS.DependentOriginationScaledDuskinHornTransportV1_29
 open KUOS.DependentOriginationScaledHornPresentationInvariantV1_30
 
-universe u₁ u₂ v₁ v₂ w₁ w₂
+universe u v w
 
 /-!
 # Model-equivalence lift to scaled horn presentations v1.31
@@ -34,6 +34,10 @@ From these ingredients the horn-presentation equivalence is constructed, rather
 than assumed as a separate primitive.  Consequently global scaled fibrancy is
 an invariant of any bicategorical model replacement carrying this explicit
 scaled-Duskin equivalence structure.
+
+As in v1.27-v1.29, the bundled global Duskin maps live in one universe triple.
+Degreewise simplex transport is more general, but the simplicial/scaled map
+certificate used here deliberately retains that established boundary.
 -/
 
 /--
@@ -41,8 +45,8 @@ Bidirectional bicategorical model-equivalence data sufficient to induce an
 actual equivalence of chosen global Duskin scaled-horn presentations.
 -/
 structure BidirectionalScaledDuskinModelEquivalence
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     (HB : GlobalDuskinScaledHornFamily B)
     (HC : GlobalDuskinScaledHornFamily C) where
   forwardModel : StrictlyUnitaryBicategoricalModelEquivalence B C
@@ -75,8 +79,8 @@ structure BidirectionalScaledDuskinModelEquivalence
 namespace BidirectionalScaledDuskinModelEquivalence
 
 variable
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {HB : GlobalDuskinScaledHornFamily B}
     {HC : GlobalDuskinScaledHornFamily C}
     (E : BidirectionalScaledDuskinModelEquivalence HB HC)
