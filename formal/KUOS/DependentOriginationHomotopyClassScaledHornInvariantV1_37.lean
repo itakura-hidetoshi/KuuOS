@@ -83,7 +83,6 @@ noncomputable def postcompSSetHomotopyClass
       (SSet.RelativeMorphism.botEquiv.symm k) (by cat_disch)).homotopyClass =
       (SSet.RelativeMorphism.botEquiv.symm (f ≫ k)).homotopyClass
   congr 1
-  ext
 
 /-! ## Scaled horn fillers modulo boundary homotopy class -/
 
@@ -180,8 +179,7 @@ noncomputable def canonicalGlobalDuskinRoundTripPrism
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     (K : NormalizedCoherentQuasiInverse F G) :
     GlobalDuskinRoundTripPrismRealization K :=
-  KUOS.DependentOriginationStrongTransformationCylinderUncurryingV1_36.
-    globalDuskinRoundTripPrismRealization K
+  globalDuskinRoundTripPrismRealization K
 
 /-- A source round-trip homotopy-class filler descends to the original source
 horn by transitivity of homotopy-class equality. -/
@@ -291,7 +289,7 @@ noncomputable def forwardHasHomotopyClassScaledHornFillers
     let R' := mapHomotopyClassScaledHornFiller
       K.forwardScaled.map_scaled R
     exact ⟨targetHomotopyClassFillerOfRoundTrip
-      K.forwardScaled K.backwardScaled R'⟩
+      (K := K.quasiInverse) K.forwardScaled K.backwardScaled R'⟩
 
 /-- Symmetric transport from the target model back to the source model. -/
 noncomputable def backwardHasHomotopyClassScaledHornFillers
@@ -311,7 +309,7 @@ noncomputable def backwardHasHomotopyClassScaledHornFillers
     let Q' := mapHomotopyClassScaledHornFiller
       K.backwardScaled.map_scaled Q
     exact ⟨sourceHomotopyClassFillerOfRoundTrip
-      K.forwardScaled K.backwardScaled Q'⟩
+      (K := K.quasiInverse) K.forwardScaled K.backwardScaled Q'⟩
 
 /--
 Global scaled Duskin inner-horn filling modulo boundary homotopy class is a
@@ -324,8 +322,8 @@ theorem globalDuskinHomotopyClassFibrancy_iff :
       HasHomotopyClassScaledHornFillers
         (duskinNerve C) (duskinScaling C) HC := by
   constructor
-  · exact K.forwardHasHomotopyClassScaledHornFillers
-  · exact K.backwardHasHomotopyClassScaledHornFillers
+  · exact forwardHasHomotopyClassScaledHornFillers K
+  · exact backwardHasHomotopyClassScaledHornFillers K
 
 end CoherentNormalizedScaledHomotopyClassModelEquivalence
 
