@@ -111,6 +111,22 @@ private def cylinderMapComp
     omega
   · exact Q.mapComp f.1 g.1
 
+/-- Exchange of two 2-cells, written in the fully associated form used by the cylinder core. -/
+private theorem whiskerExchangeConjugation
+    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {A B C₀ C₁ D : C}
+    {f g : A ⟶ B} (μ : f ⟶ g)
+    (h : B ⟶ C₀) (k : C₀ ⟶ D)
+    (i : B ⟶ C₁) (j : C₁ ⟶ D)
+    (θ : h ≫ k ≅ i ≫ j) :
+    μ ▷ h ▷ k =
+      (α_ f h k).hom ≫ f ◁ θ.hom ≫ (α_ f i j).inv ≫
+        μ ▷ i ▷ j ≫ (α_ g i j).hom ≫ g ◁ θ.inv ≫ (α_ g h k).inv := by
+  rw [← cancel_epi (α_ f h k).inv,
+    ← cancel_mono (α_ g h k).hom,
+    ← cancel_mono (g ◁ θ.hom)]
+  simpa [Category.assoc] using (Bicategory.whisker_exchange μ θ.hom).symm
+
 set_option backward.defeqAttrib.useBackward true in
 set_option backward.isDefEq.respectTransparency false in
 set_option maxHeartbeats 1000000 in
@@ -198,10 +214,12 @@ private def strongCylinderCore
         P.map₂_whisker_right] <;> bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using h.2.as.le
       omega
-    · have hexchange :=
-        Bicategory.whisker_exchange (P.map₂ α.1) (η.naturality h.1).hom
+    · have hconj := whiskerExchangeConjugation (μ := P.map₂ α.1)
+        (P.map h.1) (η.app Z) (η.app Y) (Q.map h.1) (η.naturality h.1)
       simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        P.map₂_whisker_right, hexchange] <;> bicategory
+        P.map₂_whisker_right]
+      rw [hconj]
+      bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
@@ -218,7 +236,8 @@ private def strongCylinderCore
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
         P.map₂_left_unitor, P.mapId_eq_eqToIso] <;> bicategory
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        P.map_id, P.map₂_left_unitor, P.mapId_eq_eqToIso] <;> bicategory
+        P.map₂_left_unitor, P.mapId_eq_eqToIso,
+        Bicategory.associator_naturality_left_assoc] <;> bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
@@ -232,8 +251,10 @@ private def strongCylinderCore
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
         P.map₂_right_unitor, P.mapId_eq_eqToIso] <;> bicategory
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        P.map_id, Q.map_id, P.map₂_right_unitor, P.mapId_eq_eqToIso,
-        Pseudofunctor.StrongTrans.naturality_id_hom] <;> bicategory
+        P.map₂_right_unitor, P.mapId_eq_eqToIso, Q.mapId_eq_eqToIso,
+        Pseudofunctor.StrongTrans.naturality_id_hom,
+        Bicategory.associator_naturality_middle_assoc,
+        Bicategory.associator_naturality_right_assoc] <;> bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
@@ -254,19 +275,24 @@ private def strongCylinderCore
         P.map₂_associator] <;> bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using h.2.as.le
       omega
-    · have hexchange :=
-        Bicategory.whisker_exchange (P.mapComp f.1 g.1).hom (η.naturality h.1).hom
+    · have hconj := whiskerExchangeConjugation (μ := (P.mapComp f.1 g.1).hom)
+        (P.map h.1) (η.app D) (η.app C) (Q.map h.1) (η.naturality h.1)
       simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        P.map₂_associator, hexchange] <;> bicategory
+        P.map₂_associator]
+      rw [hconj]
+      bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using g.2.as.le
       omega
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using g.2.as.le
       omega
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using h.2.as.le
       omega
-    · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        P.map₂_associator, Pseudofunctor.StrongTrans.naturality_comp_inv] <;>
-        bicategory
+    · have hconj := whiskerExchangeConjugation (μ := (P.mapComp f.1 g.1).hom)
+        (P.map h.1) (η.app D) (η.app C) (Q.map h.1) (η.naturality h.1)
+      simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
+        P.map₂_associator, Pseudofunctor.StrongTrans.naturality_comp_inv]
+      rw [hconj]
+      bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
