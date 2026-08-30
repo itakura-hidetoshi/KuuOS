@@ -225,6 +225,44 @@ noncomputable def backwardAttachmentMap
       (endpointTensorMap 1 Q) H.h
       (backwardAttachment_compatibility H Q)
 
+/-- The pushout desc restricts to the prescribed endpoint-zero simplex map on
+the endpoint product piece. -/
+@[simp, reassoc]
+theorem forwardAttachmentMap_on_endpointPiece
+    {X : SSet.{u}}
+    {sX : ScaledSimplicialSet X}
+    {n : Nat} {i : Fin (n + 1)}
+    {sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})}
+    {f g : HornRelativeMap X n i}
+    (H : f.Homotopy g)
+    (Q : ScaledHornBoundaryRealization sX sΔ f) :
+    SSet.Subcomplex.unionProd.ι₁ (SSet.horn n i) (intervalEndpoint 0) ≫
+      forwardAttachmentMap H Q = endpointTensorMap 0 Q := by
+  simpa only [forwardAttachmentMap] using
+    (SSet.Subcomplex.unionProd.isPushout
+      (SSet.horn n i) (intervalEndpoint 0)).inl_desc
+        (endpointTensorMap 0 Q) H.h
+        (forwardAttachment_compatibility H Q)
+
+/-- The pushout desc restricts to the prescribed endpoint-one simplex map on
+the endpoint product piece. -/
+@[simp, reassoc]
+theorem backwardAttachmentMap_on_endpointPiece
+    {X : SSet.{u}}
+    {sX : ScaledSimplicialSet X}
+    {n : Nat} {i : Fin (n + 1)}
+    {sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})}
+    {f g : HornRelativeMap X n i}
+    (H : f.Homotopy g)
+    (Q : ScaledHornBoundaryRealization sX sΔ g) :
+    SSet.Subcomplex.unionProd.ι₁ (SSet.horn n i) (intervalEndpoint 1) ≫
+      backwardAttachmentMap H Q = endpointTensorMap 1 Q := by
+  simpa only [backwardAttachmentMap] using
+    (SSet.Subcomplex.unionProd.isPushout
+      (SSet.horn n i) (intervalEndpoint 1)).inl_desc
+        (endpointTensorMap 1 Q) H.h
+        (backwardAttachment_compatibility H Q)
+
 @[simp, reassoc]
 theorem forwardAttachmentMap_on_endpoint
     {X : SSet.{u}}
@@ -235,12 +273,9 @@ theorem forwardAttachmentMap_on_endpoint
     (H : f.Homotopy g)
     (Q : ScaledHornBoundaryRealization sX sΔ f) :
     endpointIntoAttachment n i 0 ≫ forwardAttachmentMap H Q = Q.simplexMap := by
-  rw [endpointIntoAttachment, Category.assoc]
-  rw [(SSet.Subcomplex.unionProd.isPushout
-    (SSet.horn n i) (intervalEndpoint 0)).inl_desc
-      (endpointTensorMap 0 Q) H.h
-      (forwardAttachment_compatibility H Q)]
-  simp [endpointSection, endpointTensorMap, Category.assoc]
+  simp only [endpointIntoAttachment, Category.assoc,
+    forwardAttachmentMap_on_endpointPiece]
+  simp [endpointSection, endpointTensorMap]
 
 @[simp, reassoc]
 theorem backwardAttachmentMap_on_endpoint
@@ -252,12 +287,9 @@ theorem backwardAttachmentMap_on_endpoint
     (H : f.Homotopy g)
     (Q : ScaledHornBoundaryRealization sX sΔ g) :
     endpointIntoAttachment n i 1 ≫ backwardAttachmentMap H Q = Q.simplexMap := by
-  rw [endpointIntoAttachment, Category.assoc]
-  rw [(SSet.Subcomplex.unionProd.isPushout
-    (SSet.horn n i) (intervalEndpoint 1)).inl_desc
-      (endpointTensorMap 1 Q) H.h
-      (backwardAttachment_compatibility H Q)]
-  simp [endpointSection, endpointTensorMap, Category.assoc]
+  simp only [endpointIntoAttachment, Category.assoc,
+    backwardAttachmentMap_on_endpointPiece]
+  simp [endpointSection, endpointTensorMap]
 
 @[simp, reassoc]
 theorem forwardAttachmentMap_on_horn
