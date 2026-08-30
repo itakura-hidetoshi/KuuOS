@@ -173,7 +173,7 @@ noncomputable def colimitCoconeIsColimit
     [HasColimit (D ⋙ forget)] : IsColimit (colimitCocone D) where
   desc s := by
     let d : colimit (D ⋙ forget) ⟶ s.pt.carrier :=
-      colimit.desc (forget.mapCocone s)
+      colimit.desc (D ⋙ forget) (forget.mapCocone s)
     exact
       { map := d
         scaled := by
@@ -188,12 +188,13 @@ noncomputable def colimitCoconeIsColimit
             simpa [d, forget] using h }
   fac s j := by
     apply ScaledMap.ext
-    change colimit.ι (D ⋙ forget) j ≫ colimit.desc (forget.mapCocone s) =
+    change colimit.ι (D ⋙ forget) j ≫
+        colimit.desc (D ⋙ forget) (forget.mapCocone s) =
       (s.ι.app j).map
     simp [forget]
   uniq s m hm := by
     apply ScaledMap.ext
-    change m.map = colimit.desc (forget.mapCocone s)
+    change m.map = colimit.desc (D ⋙ forget) (forget.mapCocone s)
     apply colimit.hom_ext
     intro j
     have h := congrArg ScaledMap.map (hm j)
@@ -208,12 +209,12 @@ noncomputable def forgetColimitCoconeIsColimit
     IsColimit (forget.mapCocone (colimitCocone D)) where
   desc s := by
     change colimit (D ⋙ forget) ⟶ s.pt
-    exact colimit.desc s
+    exact colimit.desc (D ⋙ forget) s
   fac s j := by
-    change colimit.ι (D ⋙ forget) j ≫ colimit.desc s = s.ι.app j
+    change colimit.ι (D ⋙ forget) j ≫ colimit.desc (D ⋙ forget) s = s.ι.app j
     simp
   uniq s m hm := by
-    change m = colimit.desc s
+    change m = colimit.desc (D ⋙ forget) s
     apply colimit.hom_ext
     intro j
     simpa using hm j
