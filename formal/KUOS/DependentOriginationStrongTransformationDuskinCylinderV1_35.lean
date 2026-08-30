@@ -17,40 +17,27 @@ open KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32
 open KUOS.DependentOriginationScaledHornHomotopyDescentV1_33
 open KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34
 
-universe u₀ u₁ u₂ v₀ v₁ v₂ w₀ w₁ w₂
+universe u u₀ u₁ u₂ v v₀ v₁ v₂ w w₀ w₁ w₂
 
 /-!
 # Strong-transformation Duskin cylinder v1.35
 
-The previous layer reduced all hornwise homotopies to one global prism.  This
-layer moves one categorical level lower: a global prism is obtained from a
-single normal-lax cylinder before any horn is mentioned.
-
-The construction has three reusable pieces.
-
-1. Two normal lax functors with the same source can be paired into the product
-   bicategory.
-2. Every simplex of `Δ[1]` is a monotone map `[n] -> [1]`, hence a normal lax
-   functor between the corresponding locally discrete bicategories.
-3. A normal-lax cylinder `B × [1] -> C` can therefore be evaluated on a pair
-   `(σ,t)` with `σ : [n] -> B` and `t : [n] -> [1]`.  The result is a Duskin
-   `n`-simplex in `C`.  Reindexing is automatic from associativity of normal-lax
-   composition.
-
-Thus one cylinder gives one simplicial map
-
-`N_Duskin(B) × Δ[1] -> N_Duskin(C)`
-
-and endpoint equations turn it into a native `SSet.Homotopy`.
-
-The final subsection specializes the interface to the native strong
-quasi-inverse of v1.32.  The only still-unconstructed bicategorical operation
-is the standard uncurrying of a native strong transformation into its
-normal-lax cylinder.  Importantly, this is now entirely below the simplicial
-and horn layers.
+A normal-lax cylinder gives a single global Duskin prism.  Bundled simplicial
+maps are kept on the same-universe boundary already used by v1.27--v1.34;
+degreewise normal-lax constructions remain universe-polymorphic.
 -/
 
 /-! ## Pairing normal lax functors -/
+
+/-- Extensionality for 2-cells in Mathlib's product bicategory. -/
+private theorem prodTwoCell_ext
+    {B : Type u₁} [Bicategory.{w₁, v₁} B]
+    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {X Y : B × C} {f g : X ⟶ Y} {η θ : f ⟶ g}
+    (h₁ : η.1 = θ.1) (h₂ : η.2 = θ.2) : η = θ :=
+  Prod.ext h₁ h₂
+
+attribute [local ext] prodTwoCell_ext
 
 /-- Pair normal lax functors with a common source into the product bicategory. -/
 def normalLaxPair
@@ -113,18 +100,18 @@ theorem normalLaxPair_precomp
 
 /-- A simplex of `Δ[1]` is exactly a normal lax functor `[n] -> [1]`. -/
 def intervalNormalLax
-    {Δ : SimplexCategoryᵒᵖ}
-    (t : Δ[1].obj Δ) :
+    {J : SimplexCategoryᵒᵖ}
+    (t : Δ[1].obj J) :
     StrictlyUnitaryLaxFunctor
-      (DuskinOrdinal Δ.unop.len) (DuskinOrdinal 1) :=
+      (DuskinOrdinal J.unop.len) (DuskinOrdinal 1) :=
   locallyDiscreteNormalLax
     (SimplexCategory.toCat.map (SSet.stdSimplex.objEquiv t)).toFunctor
 
 /-- Interval simplices reindex by precomposition, exactly as Duskin simplices do. -/
 theorem intervalNormalLax_reindex
-    {Δ Δ' : SimplexCategoryᵒᵖ}
-    (f : Δ ⟶ Δ')
-    (t : Δ[1].obj Δ) :
+    {J J' : SimplexCategoryᵒᵖ}
+    (f : J ⟶ J')
+    (t : Δ[1].obj J) :
     intervalNormalLax (Δ[1].map f t) =
       (duskinReindex f).comp (intervalNormalLax t) := by
   have ht :
@@ -139,96 +126,87 @@ theorem intervalNormalLax_reindex
 
 /-! ## Duskin maps induced by arbitrary normal lax functors -/
 
-/-- Any normal lax functor induces a simplicial map of global Duskin nerves. -/
+/-- Any same-universe normal lax functor induces a simplicial map of global Duskin nerves. -/
 def normalLaxDuskinNerveMap
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u} [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     (P : StrictlyUnitaryLaxFunctor B C) :
     duskinNerve B ⟶ duskinNerve C where
-  app Δ := TypeCat.ofHom fun σ => σ.comp P
-  naturality f := by
+  app J := TypeCat.ofHom fun σ => σ.comp P
+  naturality := by
+    intro J J' f
     ext σ
     exact StrictlyUnitaryLaxFunctor.comp_assoc (duskinReindex f) σ P
 
 @[simp] theorem normalLaxDuskinNerveMap_app
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u} [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     (P : StrictlyUnitaryLaxFunctor B C)
-    (Δ : SimplexCategoryᵒᵖ)
-    (σ : (duskinNerve B).obj Δ) :
-    (normalLaxDuskinNerveMap P).app Δ σ = σ.comp P := rfl
+    (J : SimplexCategoryᵒᵖ)
+    (σ : (duskinNerve B).obj J) :
+    (normalLaxDuskinNerveMap P).app J σ = σ.comp P := rfl
 
 @[simp] theorem normalLaxDuskinNerveMap_id
-    (B : Type u₁) [Bicategory.{w₁, v₁} B] :
+    (B : Type u) [Bicategory.{w, v} B] :
     normalLaxDuskinNerveMap (StrictlyUnitaryLaxFunctor.id B) =
       𝟙 (duskinNerve B) := by
-  ext Δ σ
+  ext J σ
   exact StrictlyUnitaryLaxFunctor.comp_id σ
 
 /-- Duskin nerve transport converts normal-lax composition into simplicial composition. -/
 theorem normalLaxDuskinNerveMap_comp
-    {B : Type u₀} [Bicategory.{w₀, v₀} B]
-    {C : Type u₁} [Bicategory.{w₁, v₁} C]
-    {D : Type u₂} [Bicategory.{w₂, v₂} D]
+    {B C D : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C] [Bicategory.{w, v} D]
     (P : StrictlyUnitaryLaxFunctor B C)
     (Q : StrictlyUnitaryLaxFunctor C D) :
     normalLaxDuskinNerveMap (P.comp Q) =
       normalLaxDuskinNerveMap P ≫ normalLaxDuskinNerveMap Q := by
-  ext Δ σ
+  ext J σ
   exact StrictlyUnitaryLaxFunctor.comp_assoc σ P Q
 
 /-! ## Degreewise prism data -/
 
-/--
-Degreewise mixed Duskin simplices with reindexing and endpoint laws.
-
-This is equivalent to the data needed for a simplicial homotopy, but is phrased
-in the language in which the bicategorical cylinder is naturally evaluated.
--/
+/-- Degreewise mixed Duskin simplices with reindexing and endpoint laws. -/
 structure DuskinPrismFamily
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u} [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     (P Q : StrictlyUnitaryLaxFunctor B C) where
   mixed :
-    ∀ {Δ : SimplexCategoryᵒᵖ},
-      (duskinNerve B).obj Δ → Δ[1].obj Δ → (duskinNerve C).obj Δ
+    ∀ {J : SimplexCategoryᵒᵖ},
+      (duskinNerve B).obj J → Δ[1].obj J → (duskinNerve C).obj J
   reindex :
-    ∀ {Δ Δ' : SimplexCategoryᵒᵖ}
-      (f : Δ ⟶ Δ') (σ : (duskinNerve B).obj Δ) (t : Δ[1].obj Δ),
+    ∀ {J J' : SimplexCategoryᵒᵖ}
+      (f : J ⟶ J') (σ : (duskinNerve B).obj J) (t : Δ[1].obj J),
       mixed ((duskinNerve B).map f σ) (Δ[1].map f t) =
         (duskinNerve C).map f (mixed σ t)
   endpoint_zero :
-    ∀ (Δ : SimplexCategoryᵒᵖ) (σ : (duskinNerve B).obj Δ),
-      mixed σ ((SSet.ι₀.app Δ σ).2) =
-        (normalLaxDuskinNerveMap P).app Δ σ
+    ∀ (J : SimplexCategoryᵒᵖ) (σ : (duskinNerve B).obj J),
+      mixed σ ((SSet.ι₀.app J σ).2) =
+        (normalLaxDuskinNerveMap P).app J σ
   endpoint_one :
-    ∀ (Δ : SimplexCategoryᵒᵖ) (σ : (duskinNerve B).obj Δ),
-      mixed σ ((SSet.ι₁.app Δ σ).2) =
-        (normalLaxDuskinNerveMap Q).app Δ σ
+    ∀ (J : SimplexCategoryᵒᵖ) (σ : (duskinNerve B).obj J),
+      mixed σ ((SSet.ι₁.app J σ).2) =
+        (normalLaxDuskinNerveMap Q).app J σ
 
 namespace DuskinPrismFamily
 
 /-- Degreewise prism data assemble to one native simplicial homotopy. -/
 noncomputable def toHomotopy
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u} [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {P Q : StrictlyUnitaryLaxFunctor B C}
     (H : DuskinPrismFamily P Q) :
     SSet.Homotopy
       (normalLaxDuskinNerveMap P)
       (normalLaxDuskinNerveMap Q) where
   h :=
-    { app := fun Δ => TypeCat.ofHom fun x => H.mixed x.1 x.2
+    { app := fun J => TypeCat.ofHom fun x => H.mixed x.1 x.2
       naturality := by
-        intro Δ Δ' f
+        intro J J' f
         ext x
         exact H.reindex f x.1 x.2 }
   h₀ := by
-    ext Δ σ
-    exact H.endpoint_zero Δ σ
+    ext J σ
+    exact H.endpoint_zero J σ
   h₁ := by
-    ext Δ σ
-    exact H.endpoint_one Δ σ
+    ext J σ
+    exact H.endpoint_one J σ
   rel := by
     cat_disch
 
@@ -236,51 +214,42 @@ end DuskinPrismFamily
 
 /-! ## Evaluation of one normal-lax cylinder -/
 
-/--
-A certified normal-lax cylinder from `P` to `Q`.
-
-The endpoint equations are stated after evaluation on arbitrary Duskin
-simplices.  This avoids any dependence on a particular presentation of the two
-section functors `B -> B × [1]`, while retaining the exact endpoint content.
--/
+/-- A certified normal-lax cylinder from `P` to `Q`. -/
 structure NormalLaxDuskinCylinder
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u} [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     (P Q : StrictlyUnitaryLaxFunctor B C) where
   cylinder : StrictlyUnitaryLaxFunctor (B × DuskinOrdinal 1) C
   endpoint_zero :
-    ∀ {Δ : SimplexCategoryᵒᵖ} (σ : (duskinNerve B).obj Δ),
-      (normalLaxPair σ (intervalNormalLax ((SSet.ι₀.app Δ σ).2))).comp cylinder =
+    ∀ {J : SimplexCategoryᵒᵖ} (σ : (duskinNerve B).obj J),
+      (normalLaxPair σ (intervalNormalLax ((SSet.ι₀.app J σ).2))).comp cylinder =
         σ.comp P
   endpoint_one :
-    ∀ {Δ : SimplexCategoryᵒᵖ} (σ : (duskinNerve B).obj Δ),
-      (normalLaxPair σ (intervalNormalLax ((SSet.ι₁.app Δ σ).2))).comp cylinder =
+    ∀ {J : SimplexCategoryᵒᵖ} (σ : (duskinNerve B).obj J),
+      (normalLaxPair σ (intervalNormalLax ((SSet.ι₁.app J σ).2))).comp cylinder =
         σ.comp Q
 
 namespace NormalLaxDuskinCylinder
 
 /-- Evaluate the cylinder on a Duskin simplex and an interval simplex. -/
 def mixed
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u} [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {P Q : StrictlyUnitaryLaxFunctor B C}
     (H : NormalLaxDuskinCylinder P Q)
-    {Δ : SimplexCategoryᵒᵖ}
-    (σ : (duskinNerve B).obj Δ)
-    (t : Δ[1].obj Δ) :
-    (duskinNerve C).obj Δ :=
+    {J : SimplexCategoryᵒᵖ}
+    (σ : (duskinNerve B).obj J)
+    (t : Δ[1].obj J) :
+    (duskinNerve C).obj J :=
   (normalLaxPair σ (intervalNormalLax t)).comp H.cylinder
 
 /-- A normal-lax cylinder supplies all prism reindexing laws automatically. -/
 def toPrismFamily
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u} [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {P Q : StrictlyUnitaryLaxFunctor B C}
     (H : NormalLaxDuskinCylinder P Q) :
     DuskinPrismFamily P Q where
   mixed := H.mixed
   reindex := by
-    intro Δ Δ' f σ t
+    intro J J' f σ t
     change
       (normalLaxPair ((duskinReindex f).comp σ)
           (intervalNormalLax (Δ[1].map f t))).comp H.cylinder =
@@ -291,16 +260,15 @@ def toPrismFamily
     exact StrictlyUnitaryLaxFunctor.comp_assoc
       (duskinReindex f) (normalLaxPair σ (intervalNormalLax t)) H.cylinder
   endpoint_zero := by
-    intro Δ σ
+    intro J σ
     exact H.endpoint_zero σ
   endpoint_one := by
-    intro Δ σ
+    intro J σ
     exact H.endpoint_one σ
 
 /-- Hence every certified normal-lax cylinder induces a native `SSet.Homotopy`. -/
 noncomputable def toHomotopy
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u} [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {P Q : StrictlyUnitaryLaxFunctor B C}
     (H : NormalLaxDuskinCylinder P Q) :
     SSet.Homotopy
@@ -314,8 +282,7 @@ end NormalLaxDuskinCylinder
 
 /-- Promote the source native oplax-strong counit of v1.32 to Mathlib's pseudofunctor strong form. -/
 def sourcePseudoStrong
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u} [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     (K : NormalizedCoherentQuasiInverse F G) :
@@ -326,8 +293,7 @@ def sourcePseudoStrong
 
 /-- Target-side native pseudofunctor strong transformation. -/
 def targetPseudoStrong
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u} [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     (K : NormalizedCoherentQuasiInverse F G) :
@@ -338,8 +304,7 @@ def targetPseudoStrong
 
 /-- The normalized source round-trip as an actual normal lax functor. -/
 def sourceRoundTripNormalLax
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u} [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     (F : StrictlyUnitaryBicategoricalModelEquivalence B C)
     (G : StrictlyUnitaryBicategoricalModelEquivalence C B) :
     StrictlyUnitaryLaxFunctor B B :=
@@ -348,8 +313,7 @@ def sourceRoundTripNormalLax
 
 /-- The normalized target round-trip as an actual normal lax functor. -/
 def targetRoundTripNormalLax
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u} [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     (F : StrictlyUnitaryBicategoricalModelEquivalence B C)
     (G : StrictlyUnitaryBicategoricalModelEquivalence C B) :
     StrictlyUnitaryLaxFunctor C C :=
@@ -362,8 +326,7 @@ transformations into normal-lax cylinders.  No simplicial or horn data occur in
 this interface.
 -/
 structure StrongQuasiInverseNormalLaxCylinder
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u} [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     (K : NormalizedCoherentQuasiInverse F G) : Prop where
@@ -386,8 +349,7 @@ namespace StrongQuasiInverseNormalLaxCylinder
 
 /-- The source cylinder produces the global source Duskin prism. -/
 noncomputable def sourcePrism
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u} [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     {K : NormalizedCoherentQuasiInverse F G}
@@ -399,8 +361,7 @@ noncomputable def sourcePrism
 
 /-- The target cylinder produces the global target Duskin prism. -/
 noncomputable def targetPrism
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u} [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     {K : NormalizedCoherentQuasiInverse F G}
@@ -413,20 +374,19 @@ noncomputable def targetPrism
 end StrongQuasiInverseNormalLaxCylinder
 
 /-!
-The v1.35 boundary is therefore lower and cleaner than v1.34:
+The v1.35 boundary is therefore:
 
 ```text
 native Oplax.StrongTrans GF ==> id_B, FG ==> id_C
-  -> native Pseudofunctor.StrongTrans                     -- proved here
-  -> normal-lax cylinder B × [1] -> B, C × [1] -> C      -- exact remaining uncurrying
-  -> one Duskin prism in each direction                   -- proved here
-  -> all hornwise homotopies                              -- v1.34
+  -> native Pseudofunctor.StrongTrans
+  -> normal-lax cylinder B × [1] -> B, C × [1] -> C
+  -> one Duskin prism in each direction
+  -> all hornwise homotopies
 ```
 
-The separate `ScaledHornHomotopyRectification` field from v1.33 remains an
-extra lifting property.  It is not inferred from simplicial homotopy alone, so
-there is no circular promotion of an arbitrary bicategory to a fibrant scaled
-simplicial set.
+The standard uncurrying of a native strong transformation into its normal-lax
+cylinder remains the exact lower bicategorical frontier; no arbitrary
+bicategory is promoted to a fibrant scaled simplicial set here.
 -/
 
 end KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35
