@@ -14,6 +14,7 @@ open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
+open KUOS.DependentOriginationScaledTerminalRLPV1_41.ScaledSSet
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationScaledAnodyneWFSUniversalityV1_43
 open KUOS.DependentOriginationScaledSmallObjectArgumentV1_44
@@ -115,6 +116,7 @@ variable {J : Type u} [Category.{u} J]
 
 /-- The least scaling on the underlying colimit containing every thin
 2-simplex coming from every object of the diagram. -/
+@[reducible]
 noncomputable def colimitScaling
     (D : J ⥤ ScaledSSet.{u})
     [HasColimit (D ⋙ forget)] :
