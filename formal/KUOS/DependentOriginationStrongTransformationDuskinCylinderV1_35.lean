@@ -82,8 +82,10 @@ def normalLaxPair
 
 attribute [local ext] StrictlyUnitaryLaxFunctor
 
+set_option backward.defeqAttrib.useBackward true in
+set_option backward.isDefEq.respectTransparency false in
 /-- Pairing commutes with precomposition by another normal lax functor. -/
-theorem normalLaxPair_precomp
+lemma normalLaxPair_precomp
     {A₀ : Type u₀} [Bicategory.{w₀, v₀} A₀]
     {A : Type u₁} [Bicategory.{w₁, v₁} A]
     {B : Type u₂} [Bicategory.{w₂, v₂} B]
@@ -93,12 +95,13 @@ theorem normalLaxPair_precomp
     (G : StrictlyUnitaryLaxFunctor A C) :
     H.comp (normalLaxPair F G) =
       normalLaxPair (H.comp F) (H.comp G) := by
-  apply StrictlyUnitaryLaxFunctor.ext
+  ext
   · rfl
   all_goals
-    · rw [heq_iff_eq]
-      ext <;> simp [normalLaxPair, H.mapId_eq_eqToHom,
-        F.mapId_eq_eqToHom, G.mapId_eq_eqToHom, PrelaxFunctor.map₂_eqToHom]
+  · rw [heq_iff_eq]
+    ext
+    simp [normalLaxPair, H.mapId_eq_eqToHom,
+      F.mapId_eq_eqToHom, G.mapId_eq_eqToHom, PrelaxFunctor.map₂_eqToHom]
 
 /-! ## The interval as a normal lax functor -/
 
@@ -295,8 +298,8 @@ end NormalLaxDuskinCylinder
 def sourcePseudoStrong
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
-    {F : StrictlyUnitaryBicategoricalModelEquivalence B C]
-    {G : StrictlyUnitaryBicategoricalModelEquivalence C B]
+    {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
+    {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     (K : NormalizedCoherentQuasiInverse F G) :
     Pseudofunctor.StrongTrans
       (F.forward.toPseudofunctor.comp G.forward.toPseudofunctor)
@@ -307,8 +310,8 @@ def sourcePseudoStrong
 def targetPseudoStrong
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
-    {F : StrictlyUnitaryBicategoricalModelEquivalence B C]
-    {G : StrictlyUnitaryBicategoricalModelEquivalence C B]
+    {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
+    {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     (K : NormalizedCoherentQuasiInverse F G) :
     Pseudofunctor.StrongTrans
       (G.forward.toPseudofunctor.comp F.forward.toPseudofunctor)
@@ -343,8 +346,8 @@ this interface.
 structure StrongQuasiInverseNormalLaxCylinder
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
-    {F : StrictlyUnitaryBicategoricalModelEquivalence B C]
-    {G : StrictlyUnitaryBicategoricalModelEquivalence C B]
+    {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
+    {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     (K : NormalizedCoherentQuasiInverse F G) where
   sourceCylinder :
     NormalLaxDuskinCylinder
@@ -367,8 +370,8 @@ namespace StrongQuasiInverseNormalLaxCylinder
 noncomputable def sourcePrism
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
-    {F : StrictlyUnitaryBicategoricalModelEquivalence B C]
-    {G : StrictlyUnitaryBicategoricalModelEquivalence C B]
+    {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
+    {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     {K : NormalizedCoherentQuasiInverse F G}
     (H : StrongQuasiInverseNormalLaxCylinder K) :
     SSet.Homotopy
@@ -380,8 +383,8 @@ noncomputable def sourcePrism
 noncomputable def targetPrism
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
-    {F : StrictlyUnitaryBicategoricalModelEquivalence B C]
-    {G : StrictlyUnitaryBicategoricalModelEquivalence C B]
+    {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
+    {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     {K : NormalizedCoherentQuasiInverse F G}
     (H : StrongQuasiInverseNormalLaxCylinder K) :
     SSet.Homotopy
