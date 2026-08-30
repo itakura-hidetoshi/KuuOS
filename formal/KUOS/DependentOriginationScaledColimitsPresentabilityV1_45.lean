@@ -171,35 +171,52 @@ noncomputable def colimitCocone
 noncomputable def colimitCoconeIsColimit
     (D : J ⥤ ScaledSSet.{u})
     [HasColimit (D ⋙ forget)] : IsColimit (colimitCocone D) where
-  desc s :=
-    { map := colimit.desc (forget.mapCocone s)
-      scaled := by
-        intro t ht
-        rcases ht with ⟨x, rfl⟩ | ⟨x, rfl⟩ | ⟨j, x, hx, rfl⟩
-        · rw [SSet.σ_naturality_apply _ 0 x]
-          exact s.pt.scaling.thin_sigma_zero _
-        · rw [SSet.σ_naturality_apply _ 1 x]
-          exact s.pt.scaling.thin_sigma_one _
-        · have h := (s.ι.app j).scaled x hx
-          simpa [forget, colimitCocone, colimitLeg, colimitObj] using h }
+  desc s := by
+    let d : colimit (D ⋙ forget) ⟶ s.pt.carrier :=
+      colimit.desc (forget.mapCocone s)
+    exact
+      { map := d
+        scaled := by
+          intro t ht
+          change s.pt.scaling.thin (d.app _ t)
+          rcases ht with ⟨x, rfl⟩ | ⟨x, rfl⟩ | ⟨j, x, hx, rfl⟩
+          · rw [SSet.σ_naturality_apply d 0 x]
+            exact s.pt.scaling.thin_sigma_zero _
+          · rw [SSet.σ_naturality_apply d 1 x]
+            exact s.pt.scaling.thin_sigma_one _
+          · have h := (s.ι.app j).scaled x hx
+            simpa [d, forget] using h }
   fac s j := by
     apply ScaledMap.ext
-    simp [colimitCocone, colimitLeg, colimitObj, forget]
+    change colimit.ι (D ⋙ forget) j ≫ colimit.desc (forget.mapCocone s) =
+      (s.ι.app j).map
+    simp [forget]
   uniq s m hm := by
     apply ScaledMap.ext
+    change m.map = colimit.desc (forget.mapCocone s)
     apply colimit.hom_ext
     intro j
     have h := congrArg ScaledMap.map (hm j)
-    simpa [colimitCocone, colimitLeg, colimitObj, forget] using h
+    change colimit.ι (D ⋙ forget) j ≫ m.map = (s.ι.app j).map at h
+    simpa [forget] using h
 
 /-- The underlying cocone of the explicit scaled colimit is the ordinary
 simplicial-set colimit cocone. -/
 noncomputable def forgetColimitCoconeIsColimit
     (D : J ⥤ ScaledSSet.{u})
     [HasColimit (D ⋙ forget)] :
-    IsColimit (forget.mapCocone (colimitCocone D)) := by
-  simpa [forget, colimitCocone, colimitLeg, colimitObj] using
-    (colimit.isColimit (D ⋙ forget))
+    IsColimit (forget.mapCocone (colimitCocone D)) where
+  desc s := by
+    change colimit (D ⋙ forget) ⟶ s.pt
+    exact colimit.desc s
+  fac s j := by
+    change colimit.ι (D ⋙ forget) j ≫ colimit.desc s = s.ι.app j
+    simp
+  uniq s m hm := by
+    change m = colimit.desc s
+    apply colimit.hom_ext
+    intro j
+    simpa using hm j
 
 /-- Every colimit shape available in simplicial sets is available in scaled
 simplicial sets. -/
