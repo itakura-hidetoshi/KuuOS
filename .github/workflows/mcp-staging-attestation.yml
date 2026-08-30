@@ -1,0 +1,46 @@
+name: KuuOS MCP Staging Attestation
+
+on:
+  pull_request:
+    paths:
+      - "mcp_bridge/**"
+      - ".github/workflows/mcp-staging-attestation.yml"
+  workflow_dispatch:
+    inputs:
+      base_url:
+        description: "Deployment base URL"
+        required: true
+        default: "https://zesty-smoggy-mice--hidetoshiitakur.replit.app"
+        type: string
+      expected_sha:
+        description: "Expected canonical repository SHA"
+        required: true
+        type: string
+
+permissions:
+  contents: read
+
+jobs:
+  observe:
+    runs-on: ubuntu-latest
+    env:
+      BASE_URL: ${{ github.event_name == 'workflow_dispatch' && inputs.base_url || 'https://zesty-smoggy-mice--hidetoshiitakur.replit.app' }}
+      EXPECTED_SHA: ${{ github.event_name == 'workflow_dispatch' && inputs.expected_sha || github.event.pull_request.base.sha }}
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-python@v5
+        with:
+          python-version: "3.12"
+      - name: Install MCP bridge attestation CLI
+        run: python -m pip install -e "./mcp_bridge"
+      - name: Observe staging health contract
+        id: attest
+        continue-on-error: true
+        run: |
+          kuuos-mcp-attest "$BASE_URL" \
+            --expected-canonical-sha "$EXPECTED_SHA" \
+            --expected-mode read-only \
+            --expected-write-ready false
+      - name: Record non-gating staging observation
+        if: always()
+        run: echo "staging_attestation_outcome=${{ steps.attest.outcome }}"
