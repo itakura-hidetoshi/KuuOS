@@ -92,9 +92,10 @@ theorem endpointZero_scaled
     {n : Nat}
     (sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     IsScaledMap sΔ (simplexCylinderScaling sΔ)
-      (ι₀ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
+      (SSet.ι₀ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
   intro t ht
-  change sΔ.thin ((ι₀.app _ t).1)
+  change sΔ.thin ((((SSet.ι₀ : (Δ[n] : SSet.{u}) ⟶
+    (Δ[n] : SSet.{u}) ⊗ Δ[1])).app _ t).1)
   simpa using ht
 
 /-- Endpoint one preserves the cylinder scaling. -/
@@ -102,9 +103,10 @@ theorem endpointOne_scaled
     {n : Nat}
     (sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     IsScaledMap sΔ (simplexCylinderScaling sΔ)
-      (ι₁ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
+      (SSet.ι₁ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
   intro t ht
-  change sΔ.thin ((ι₁.app _ t).1)
+  change sΔ.thin ((((SSet.ι₁ : (Δ[n] : SSet.{u}) ⟶
+    (Δ[n] : SSet.{u}) ⊗ Δ[1])).app _ t).1)
   simpa using ht
 
 /-! ## The category of explicitly scaled simplicial sets -/
@@ -258,7 +260,7 @@ def scaledEndpointZero
     {n : Nat}
     (sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     scaledSimplex sΔ ⟶ scaledSimplexCylinder sΔ where
-  map := ι₀
+  map := (SSet.ι₀ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1])
   scaled := endpointZero_scaled sΔ
 
 /-- Endpoint one as a morphism of scaled simplicial sets. -/
@@ -266,7 +268,7 @@ def scaledEndpointOne
     {n : Nat}
     (sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     scaledSimplex sΔ ⟶ scaledSimplexCylinder sΔ where
-  map := ι₁
+  map := (SSet.ι₁ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1])
   scaled := endpointOne_scaled sΔ
 
 /-- The canonical forward attachment map is automatically a scaled morphism
