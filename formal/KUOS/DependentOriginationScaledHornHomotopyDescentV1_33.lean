@@ -98,7 +98,7 @@ structure ScaledHornRoundTripBoundaryHomotopy
     (F : StrictlyUnitaryBicategoricalModelEquivalence B C)
     (G : StrictlyUnitaryBicategoricalModelEquivalence C B)
     (HF : FullScaledDuskinMapCertificate F)
-    (HG : FullScaledDuskinMapCertificate G) : Prop where
+    (HG : FullScaledDuskinMapCertificate G) where
   source :
     ∀ {n : Nat} {i : Fin (n + 1)}
       (P : ScaledHornExtensionProblem
@@ -130,7 +130,7 @@ structure NormalizedQuasiInverseDuskinHomotopyRealization
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     (K : NormalizedCoherentQuasiInverse F G)
     (HF : FullScaledDuskinMapCertificate F)
-    (HG : FullScaledDuskinMapCertificate G) : Prop where
+    (HG : FullScaledDuskinMapCertificate G) where
   hornwise : ScaledHornRoundTripBoundaryHomotopy F G HF HG
 
 /--
@@ -316,7 +316,8 @@ def toCoherentNormalizedScaledModelEquivalence :
       K.sourceRectification K.targetRectification
 
 /-- Hence global scaled-Duskin fibrancy is invariant. -/
-theorem globalDuskinScaledFibrancy_iff :
+theorem globalDuskinScaledFibrancy_iff
+    (K : CoherentNormalizedScaledHomotopyModelEquivalence E G HB HC) :
     HasScaledHornFillers (duskinNerve B) (duskinScaling B) HB ↔
       HasScaledHornFillers (duskinNerve C) (duskinScaling C) HC :=
   KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32.CoherentNormalizedScaledModelEquivalence.globalDuskinScaledFibrancy_iff
