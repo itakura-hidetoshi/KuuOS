@@ -202,13 +202,20 @@ noncomputable def colimitCoconeIsColimit
     exact colimit.ι_desc (forget.mapCocone s) j
   uniq s m hm := by
     apply ScaledMap.ext
-    change m.map = colimit.desc (D ⋙ forget) (forget.mapCocone s)
+    let m' : colimit (D ⋙ forget) ⟶ s.pt.carrier := by
+      change (colimitCocone D).pt.carrier ⟶ s.pt.carrier
+      exact m.map
+    change m' = colimit.desc (D ⋙ forget) (forget.mapCocone s)
     apply colimit.hom_ext
     intro j
-    have h := congrArg ScaledMap.map (hm j)
-    change colimit.ι (D ⋙ forget) j ≫ m.map = (s.ι.app j).map at h
-    rw [colimit.ι_desc (forget.mapCocone s) j]
-    exact h
+    have hleft := congrArg ScaledMap.map (hm j)
+    change colimit.ι (D ⋙ forget) j ≫ m' = (s.ι.app j).map at hleft
+    have hright :
+        colimit.ι (D ⋙ forget) j ≫
+            colimit.desc (D ⋙ forget) (forget.mapCocone s) =
+          (s.ι.app j).map :=
+      colimit.ι_desc (forget.mapCocone s) j
+    exact hleft.trans hright.symm
 
 /-- The underlying cocone of the explicit scaled colimit is the ordinary
 simplicial-set colimit cocone. -/
