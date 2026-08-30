@@ -16,32 +16,16 @@ open KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32
 open KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34
 open KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35
 
-universe u₁ u₂ v₁ v₂ w₁ w₂
+universe u u₁ u₂ v v₁ v₂ w w₁ w₂
 
 /-!
 # Strong-transformation cylinder uncurrying v1.36
 
-This layer closes the bicategorical construction isolated in v1.35.
-
 For strictly-unitary pseudofunctors `P Q : B -> C` and a native strong
-transformation `η : P ==> Q`, we construct the normal pseudofunctorial
-cylinder
-
-`B × [1] -> C`.
-
-On a horizontal arrow `f : X -> Y` the cylinder uses
-
-* `P(f)` on the `0` end,
-* `Q(f)` on the `1` end,
-* `P(f) ; η_Y` across `0 -> 1`.
-
-The two mixed composition laws are exactly the pseudofunctor composition
-constraint of `P` and the strong naturality isomorphism of `η`.  The strong
-transformation identity, composition, and 2-cell naturality laws close the
-unit, associativity, and map₂ coherence equations.  Converting the resulting
-strictly-unitary pseudofunctor to a strictly-unitary lax functor gives the
-cylinder required by v1.35, hence one global Duskin prism and all hornwise
-homotopies.
+transformation `η : P ==> Q`, this layer constructs the normal cylinder
+`B × [1] -> C`.  The interval is normalized by cases on its actual `Fin 2`
+object data.  This avoids proof-equality transports at the 0/1 boundary and
+leaves the mixed composition laws exactly to the strong naturality of `η`.
 -/
 
 private def cylinderObj
@@ -51,16 +35,6 @@ private def cylinderObj
     (X : B × DuskinOrdinal 1) : C :=
   if X.2.as = (0 : Fin 2) then P.obj X.1 else Q.obj X.1
 
-private theorem noIntervalHomOneZero
-    {X Y : DuskinOrdinal 1}
-    (f : X ⟶ Y)
-    (hX : X.as ≠ (0 : Fin 2))
-    (hY : Y.as = (0 : Fin 2)) : False := by
-  have hle := f.as.le
-  have hx1 : X.as = (1 : Fin 2) := by omega
-  rw [hx1, hY] at hle
-  omega
-
 private def cylinderMap
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
@@ -68,13 +42,14 @@ private def cylinderMap
     (η : Pseudofunctor.StrongTrans P.toPseudofunctor Q.toPseudofunctor)
     {X Y : B × DuskinOrdinal 1}
     (f : X ⟶ Y) : cylinderObj P Q X ⟶ cylinderObj P Q Y := by
-  by_cases hX : X.2.as = (0 : Fin 2)
-  · by_cases hY : Y.2.as = (0 : Fin 2)
-    · simpa [cylinderObj, hX, hY] using P.map f.1
-    · simpa [cylinderObj, hX, hY] using (P.map f.1 ≫ η.app Y.1)
-  · by_cases hY : Y.2.as = (0 : Fin 2)
-    · exact False.elim (noIntervalHomOneZero f.2 hX hY)
-    · simpa [cylinderObj, hX, hY] using Q.map f.1
+  rcases X with ⟨X, ⟨i⟩⟩
+  rcases Y with ⟨Y, ⟨j⟩⟩
+  fin_cases i <;> fin_cases j
+  · exact P.map f.1
+  · exact P.map f.1 ≫ η.app Y
+  · have hle := f.2.as.le
+    omega
+  · exact Q.map f.1
 
 private def cylinderMap₂
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
@@ -85,14 +60,14 @@ private def cylinderMap₂
     {f g : X ⟶ Y}
     (α : f ⟶ g) :
     cylinderMap P Q η f ⟶ cylinderMap P Q η g := by
-  by_cases hX : X.2.as = (0 : Fin 2)
-  · by_cases hY : Y.2.as = (0 : Fin 2)
-    · simpa [cylinderMap, cylinderObj, hX, hY] using P.map₂ α.1
-    · simpa [cylinderMap, cylinderObj, hX, hY] using
-        (P.map₂ α.1 ▷ η.app Y.1)
-  · by_cases hY : Y.2.as = (0 : Fin 2)
-    · exact False.elim (noIntervalHomOneZero f.2 hX hY)
-    · simpa [cylinderMap, cylinderObj, hX, hY] using Q.map₂ α.1
+  rcases X with ⟨X, ⟨i⟩⟩
+  rcases Y with ⟨Y, ⟨j⟩⟩
+  fin_cases i <;> fin_cases j
+  · exact P.map₂ α.1
+  · exact P.map₂ α.1 ▷ η.app Y
+  · have hle := f.2.as.le
+    omega
+  · exact Q.map₂ α.1
 
 private def cylinderMapComp
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
@@ -103,25 +78,28 @@ private def cylinderMapComp
     (f : X ⟶ Y) (g : Y ⟶ Z) :
     cylinderMap P Q η (f ≫ g) ≅
       cylinderMap P Q η f ≫ cylinderMap P Q η g := by
-  by_cases hX : X.2.as = (0 : Fin 2)
-  · by_cases hY : Y.2.as = (0 : Fin 2)
-    · by_cases hZ : Z.2.as = (0 : Fin 2)
-      · simpa [cylinderMap, cylinderObj, hX, hY, hZ] using P.mapComp f.1 g.1
-      · simpa [cylinderMap, cylinderObj, hX, hY, hZ] using
-          (whiskerRightIso (P.mapComp f.1 g.1) (η.app Z.1) ≪≫
-            α_ (P.map f.1) (P.map g.1) (η.app Z.1))
-    · by_cases hZ : Z.2.as = (0 : Fin 2)
-      · exact False.elim (noIntervalHomOneZero g.2 hY hZ)
-      · simpa [cylinderMap, cylinderObj, hX, hY, hZ] using
-          (whiskerRightIso (P.mapComp f.1 g.1) (η.app Z.1) ≪≫
-            α_ (P.map f.1) (P.map g.1) (η.app Z.1) ≪≫
-            whiskerLeftIso (P.map f.1) (η.naturality g.1) ≪≫
-            (α_ (P.map f.1) (η.app Y.1) (Q.map g.1)).symm)
-  · by_cases hY : Y.2.as = (0 : Fin 2)
-    · exact False.elim (noIntervalHomOneZero f.2 hX hY)
-    · by_cases hZ : Z.2.as = (0 : Fin 2)
-      · exact False.elim (noIntervalHomOneZero g.2 hY hZ)
-      · simpa [cylinderMap, cylinderObj, hX, hY, hZ] using Q.mapComp f.1 g.1
+  rcases X with ⟨X, ⟨i⟩⟩
+  rcases Y with ⟨Y, ⟨j⟩⟩
+  rcases Z with ⟨Z, ⟨k⟩⟩
+  fin_cases i <;> fin_cases j <;> fin_cases k
+  · exact P.mapComp f.1 g.1
+  · exact
+      whiskerRightIso (P.mapComp f.1 g.1) (η.app Z) ≪≫
+        α_ (P.map f.1) (P.map g.1) (η.app Z)
+  · have hle := g.2.as.le
+    omega
+  · exact
+      whiskerRightIso (P.mapComp f.1 g.1) (η.app Z) ≪≫
+        α_ (P.map f.1) (P.map g.1) (η.app Z) ≪≫
+        whiskerLeftIso (P.map f.1) (η.naturality g.1) ≪≫
+        (α_ (P.map f.1) (η.app Y) (Q.map g.1)).symm
+  · have hle := f.2.as.le
+    omega
+  · have hle := f.2.as.le
+    omega
+  · have hle := g.2.as.le
+    omega
+  · exact Q.mapComp f.1 g.1
 
 private def strongCylinderCore
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
@@ -133,135 +111,132 @@ private def strongCylinderCore
   map := cylinderMap P Q η
   map_id := by
     intro X
-    by_cases hX : X.2.as = (0 : Fin 2)
-    · simpa [cylinderMap, cylinderObj, hX, P.map_id]
-    · simpa [cylinderMap, cylinderObj, hX, Q.map_id]
+    rcases X with ⟨X, ⟨i⟩⟩
+    fin_cases i
+    · simpa [cylinderMap, cylinderObj] using P.map_id X
+    · simpa [cylinderMap, cylinderObj] using Q.map_id X
   map₂ := cylinderMap₂ P Q η
   map₂_id := by
     intro X Y f
-    by_cases hX : X.2.as = (0 : Fin 2)
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · simp [cylinderMap₂, cylinderMap, cylinderObj, hX, hY]
-      · simp [cylinderMap₂, cylinderMap, cylinderObj, hX, hY]
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · exact False.elim (noIntervalHomOneZero f.2 hX hY)
-      · simp [cylinderMap₂, cylinderMap, cylinderObj, hX, hY]
+    rcases X with ⟨X, ⟨i⟩⟩
+    rcases Y with ⟨Y, ⟨j⟩⟩
+    fin_cases i <;> fin_cases j
+    · simp [cylinderMap₂, cylinderMap, cylinderObj]
+    · simp [cylinderMap₂, cylinderMap, cylinderObj]
+    · have hle := f.2.as.le
+      omega
+    · simp [cylinderMap₂, cylinderMap, cylinderObj]
   map₂_comp := by
     intro X Y f g h α β
-    by_cases hX : X.2.as = (0 : Fin 2)
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · simp [cylinderMap₂, cylinderMap, cylinderObj, hX, hY]
-      · simp [cylinderMap₂, cylinderMap, cylinderObj, hX, hY,
-          comp_whiskerRight]
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · exact False.elim (noIntervalHomOneZero f.2 hX hY)
-      · simp [cylinderMap₂, cylinderMap, cylinderObj, hX, hY]
+    rcases X with ⟨X, ⟨i⟩⟩
+    rcases Y with ⟨Y, ⟨j⟩⟩
+    fin_cases i <;> fin_cases j
+    · simp [cylinderMap₂, cylinderMap, cylinderObj]
+    · simp [cylinderMap₂, cylinderMap, cylinderObj, comp_whiskerRight]
+    · have hle := f.2.as.le
+      omega
+    · simp [cylinderMap₂, cylinderMap, cylinderObj]
   mapComp := cylinderMapComp P Q η
   map₂_whisker_left := by
     intro X Y Z f g h β
-    by_cases hX : X.2.as = (0 : Fin 2)
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · by_cases hZ : Z.2.as = (0 : Fin 2)
-        · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-            hX, hY, hZ] using P.map₂_whisker_left f.1 β.1
-        · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-            hX, hY, hZ, P.map₂_whisker_left]
-          bicategory
-      · by_cases hZ : Z.2.as = (0 : Fin 2)
-        · exact False.elim (noIntervalHomOneZero g.2 hY hZ)
-        · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-            hX, hY, hZ, P.map₂_whisker_left]
-          bicategory
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · exact False.elim (noIntervalHomOneZero f.2 hX hY)
-      · by_cases hZ : Z.2.as = (0 : Fin 2)
-        · exact False.elim (noIntervalHomOneZero g.2 hY hZ)
-        · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-            hX, hY, hZ] using Q.map₂_whisker_left f.1 β.1
+    rcases X with ⟨X, ⟨i⟩⟩
+    rcases Y with ⟨Y, ⟨j⟩⟩
+    rcases Z with ⟨Z, ⟨k⟩⟩
+    fin_cases i <;> fin_cases j <;> fin_cases k
+    all_goals
+      try
+        have hf := f.2.as.le
+        have hg := g.2.as.le
+        omega
+    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj] using
+        P.map₂_whisker_left f.1 β.1
+    · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
+        P.map₂_whisker_left]
+      bicategory
+    · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
+        P.map₂_whisker_left]
+      bicategory
+    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj] using
+        Q.map₂_whisker_left f.1 β.1
   map₂_whisker_right := by
     intro X Y Z f g α h
-    by_cases hX : X.2.as = (0 : Fin 2)
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · by_cases hZ : Z.2.as = (0 : Fin 2)
-        · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-            hX, hY, hZ] using P.map₂_whisker_right α.1 h.1
-        · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-            hX, hY, hZ, P.map₂_whisker_right]
-          bicategory
-      · by_cases hZ : Z.2.as = (0 : Fin 2)
-        · exact False.elim (noIntervalHomOneZero h.2 hY hZ)
-        · have hnat := η.naturality_naturality α.1
-          simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-            hX, hY, hZ, P.map₂_whisker_right, hnat]
-          bicategory
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · exact False.elim (noIntervalHomOneZero f.2 hX hY)
-      · by_cases hZ : Z.2.as = (0 : Fin 2)
-        · exact False.elim (noIntervalHomOneZero h.2 hY hZ)
-        · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-            hX, hY, hZ] using Q.map₂_whisker_right α.1 h.1
+    rcases X with ⟨X, ⟨i⟩⟩
+    rcases Y with ⟨Y, ⟨j⟩⟩
+    rcases Z with ⟨Z, ⟨k⟩⟩
+    fin_cases i <;> fin_cases j <;> fin_cases k
+    all_goals
+      try
+        have hf := f.2.as.le
+        have hh := h.2.as.le
+        omega
+    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj] using
+        P.map₂_whisker_right α.1 h.1
+    · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
+        P.map₂_whisker_right]
+      bicategory
+    · have hnat := η.naturality_naturality α.1
+      simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
+        P.map₂_whisker_right, hnat]
+      bicategory
+    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj] using
+        Q.map₂_whisker_right α.1 h.1
   map₂_left_unitor := by
     intro X Y f
-    by_cases hX : X.2.as = (0 : Fin 2)
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-          hX, hY, P.map_id] using P.map₂_left_unitor f.1
-      · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-          hX, hY, P.map_id, P.map₂_left_unitor]
-        bicategory
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · exact False.elim (noIntervalHomOneZero f.2 hX hY)
-      · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-          hX, hY, Q.map_id] using Q.map₂_left_unitor f.1
+    rcases X with ⟨X, ⟨i⟩⟩
+    rcases Y with ⟨Y, ⟨j⟩⟩
+    fin_cases i <;> fin_cases j
+    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
+        P.map_id] using P.map₂_left_unitor f.1
+    · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
+        P.map_id, P.map₂_left_unitor]
+      bicategory
+    · have hle := f.2.as.le
+      omega
+    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
+        Q.map_id] using Q.map₂_left_unitor f.1
   map₂_right_unitor := by
     intro X Y f
-    by_cases hX : X.2.as = (0 : Fin 2)
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-          hX, hY, P.map_id] using P.map₂_right_unitor f.1
-      · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-          hX, hY, P.map_id, Q.map_id,
-          P.map₂_right_unitor, Pseudofunctor.StrongTrans.naturality_id_hom]
-        bicategory
-    · by_cases hY : Y.2.as = (0 : Fin 2)
-      · exact False.elim (noIntervalHomOneZero f.2 hX hY)
-      · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-          hX, hY, Q.map_id] using Q.map₂_right_unitor f.1
+    rcases X with ⟨X, ⟨i⟩⟩
+    rcases Y with ⟨Y, ⟨j⟩⟩
+    fin_cases i <;> fin_cases j
+    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
+        P.map_id] using P.map₂_right_unitor f.1
+    · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
+        P.map_id, Q.map_id,
+        P.map₂_right_unitor, Pseudofunctor.StrongTrans.naturality_id_hom]
+      bicategory
+    · have hle := f.2.as.le
+      omega
+    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
+        Q.map_id] using Q.map₂_right_unitor f.1
   map₂_associator := by
     intro A B C D f g h
-    by_cases hA : A.2.as = (0 : Fin 2)
-    · by_cases hB : B.2.as = (0 : Fin 2)
-      · by_cases hC : C.2.as = (0 : Fin 2)
-        · by_cases hD : D.2.as = (0 : Fin 2)
-          · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-              hA, hB, hC, hD] using P.map₂_associator f.1 g.1 h.1
-          · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-              hA, hB, hC, hD, P.map₂_associator]
-            bicategory
-        · by_cases hD : D.2.as = (0 : Fin 2)
-          · exact False.elim (noIntervalHomOneZero h.2 hC hD)
-          · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-              hA, hB, hC, hD,
-              P.map₂_associator,
-              Pseudofunctor.StrongTrans.naturality_comp_hom]
-            bicategory
-      · by_cases hC : C.2.as = (0 : Fin 2)
-        · exact False.elim (noIntervalHomOneZero g.2 hB hC)
-        · by_cases hD : D.2.as = (0 : Fin 2)
-          · exact False.elim (noIntervalHomOneZero h.2 hC hD)
-          · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-              hA, hB, hC, hD,
-              P.map₂_associator,
-              Pseudofunctor.StrongTrans.naturality_comp_hom]
-            bicategory
-    · by_cases hB : B.2.as = (0 : Fin 2)
-      · exact False.elim (noIntervalHomOneZero f.2 hA hB)
-      · by_cases hC : C.2.as = (0 : Fin 2)
-        · exact False.elim (noIntervalHomOneZero g.2 hB hC)
-        · by_cases hD : D.2.as = (0 : Fin 2)
-          · exact False.elim (noIntervalHomOneZero h.2 hC hD)
-          · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
-              hA, hB, hC, hD] using Q.map₂_associator f.1 g.1 h.1
+    rcases A with ⟨A, ⟨i⟩⟩
+    rcases B with ⟨B, ⟨j⟩⟩
+    rcases C with ⟨C, ⟨k⟩⟩
+    rcases D with ⟨D, ⟨l⟩⟩
+    fin_cases i <;> fin_cases j <;> fin_cases k <;> fin_cases l
+    all_goals
+      try
+        have hf := f.2.as.le
+        have hg := g.2.as.le
+        have hh := h.2.as.le
+        omega
+    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj] using
+        P.map₂_associator f.1 g.1 h.1
+    · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
+        P.map₂_associator]
+      bicategory
+    · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
+        P.map₂_associator,
+        Pseudofunctor.StrongTrans.naturality_comp_hom]
+      bicategory
+    · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj,
+        P.map₂_associator,
+        Pseudofunctor.StrongTrans.naturality_comp_hom]
+      bicategory
+    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj] using
+        Q.map₂_associator f.1 g.1 h.1
 
 /-- Uncurrying a native strong transformation into a strictly-unitary pseudofunctor cylinder. -/
 def strongTransformationCylinder
@@ -311,7 +286,7 @@ noncomputable def strongTransformationDuskinCylinder
       P.toStrictlyUnitaryLaxFunctor Q.toStrictlyUnitaryLaxFunctor where
   cylinder := strongTransformationNormalLaxCylinder P Q η
   endpoint_zero := by
-    intro Δ σ
+    intro J σ
     apply StrictlyUnitaryLaxFunctor.ext
     · rfl
     all_goals
@@ -322,7 +297,7 @@ noncomputable def strongTransformationDuskinCylinder
           strongTransformationCylinder, strongCylinderCore,
           cylinderObj, cylinderMap, cylinderMap₂, cylinderMapComp]
   endpoint_one := by
-    intro Δ σ
+    intro J σ
     apply StrictlyUnitaryLaxFunctor.ext
     · rfl
     all_goals
@@ -384,8 +359,8 @@ noncomputable def strongQuasiInverseNormalLaxCylinder
 
 /-- Native coherent quasi-inverses therefore automatically produce the global Duskin prisms. -/
 noncomputable def globalDuskinRoundTripPrismRealization
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     (K : NormalizedCoherentQuasiInverse F G) :
@@ -406,10 +381,6 @@ The prism side is now closed without hornwise choices:
   -> canonical native `SSet.Homotopy`
   -> global Duskin round-trip prism
   -> every hornwise round-trip homotopy.
-
-The only independent extra ingredient still retained from v1.33 is the
-homotopy-to-strict horn rectification property.  It is deliberately not
-manufactured from the prism, so no fibrancy assumption is used circularly.
 -/
 
 end KUOS.DependentOriginationStrongTransformationCylinderUncurryingV1_36
