@@ -111,12 +111,12 @@ def toScaledHornPresentationEquivalence :
 theorem globalDuskinScaledFibrancy_iff :
     HasScaledHornFillers (duskinNerve B) (duskinScaling B) HB ↔
       HasScaledHornFillers (duskinNerve C) (duskinScaling C) HC :=
-  hasScaledHornFillers_iff E.toScaledHornPresentationEquivalence
+  hasScaledHornFillers_iff (toScaledHornPresentationEquivalence E)
 
 /-- Bundled presentation-independent fibrancy follows from the model-equivalence package. -/
 def presentationIndependentScaledFibrancyOfModelEquivalence :
     PresentationIndependentScaledFibrancy HB HC :=
-  presentationIndependentScaledFibrancy E.toScaledHornPresentationEquivalence
+  presentationIndependentScaledFibrancy (toScaledHornPresentationEquivalence E)
 
 end BidirectionalScaledDuskinModelEquivalence
 
