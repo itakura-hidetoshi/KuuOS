@@ -316,6 +316,7 @@ Global scaled Duskin inner-horn filling modulo boundary homotopy class is a
 presentation-independent invariant of the coherent normalized scaled
 bicategorical model.
 -/
+include K in
 theorem globalDuskinHomotopyClassFibrancy_iff :
     HasHomotopyClassScaledHornFillers
         (duskinNerve B) (duskinScaling B) HB ↔
