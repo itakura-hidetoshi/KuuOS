@@ -184,14 +184,18 @@ noncomputable def colimitCoconeIsColimit
             exact s.pt.scaling.thin_sigma_zero _
           · rw [SSet.σ_naturality_apply d 1 x]
             exact s.pt.scaling.thin_sigma_one _
-          · have h := (s.ι.app j).scaled x hx
-            simpa [d, forget] using h }
+          · have h :
+                s.pt.scaling.thin
+                  (((forget.mapCocone s).ι.app j).app (op ⦋2⦌) x) :=
+              (s.ι.app j).scaled x hx
+            rw [← colimit.ι_desc (forget.mapCocone s) j] at h
+            simpa [d] using h }
   fac s j := by
     apply ScaledMap.ext
     change colimit.ι (D ⋙ forget) j ≫
         colimit.desc (D ⋙ forget) (forget.mapCocone s) =
       (s.ι.app j).map
-    simp [forget]
+    exact colimit.ι_desc (forget.mapCocone s) j
   uniq s m hm := by
     apply ScaledMap.ext
     change m.map = colimit.desc (D ⋙ forget) (forget.mapCocone s)
@@ -199,7 +203,8 @@ noncomputable def colimitCoconeIsColimit
     intro j
     have h := congrArg ScaledMap.map (hm j)
     change colimit.ι (D ⋙ forget) j ≫ m.map = (s.ι.app j).map at h
-    simpa [forget] using h
+    rw [colimit.ι_desc (forget.mapCocone s) j]
+    exact h
 
 /-- The underlying cocone of the explicit scaled colimit is the ordinary
 simplicial-set colimit cocone. -/
@@ -212,12 +217,15 @@ noncomputable def forgetColimitCoconeIsColimit
     exact colimit.desc (D ⋙ forget) s
   fac s j := by
     change colimit.ι (D ⋙ forget) j ≫ colimit.desc (D ⋙ forget) s = s.ι.app j
-    simp
+    exact colimit.ι_desc s j
   uniq s m hm := by
     change m = colimit.desc (D ⋙ forget) s
     apply colimit.hom_ext
     intro j
-    simpa using hm j
+    have h := hm j
+    change colimit.ι (D ⋙ forget) j ≫ m = s.ι.app j at h
+    rw [colimit.ι_desc s j]
+    exact h
 
 /-- Every colimit shape available in simplicial sets is available in scaled
 simplicial sets. -/
