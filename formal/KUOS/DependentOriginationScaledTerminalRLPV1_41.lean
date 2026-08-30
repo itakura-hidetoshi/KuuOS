@@ -11,6 +11,9 @@ open Simplicial
 open Opposite
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
+open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
+open KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37
+open KUOS.DependentOriginationHomotopyClassStrictificationV1_38
 open KUOS.DependentOriginationScaledHornCylinderExtensionV1_39
 open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
 
@@ -129,7 +132,7 @@ instance : Quiver (ScaledSSet.{u}) where
 @[ext]
 theorem ScaledMap.ext
     {X Y : ScaledSSet.{u}}
-    {f g : X ⟶ Y}
+    {f g : ScaledMap X Y}
     (h : f.map = g.map) : f = g := by
   cases f with
   | mk f hf =>
@@ -256,7 +259,7 @@ def scaledHornCylinderAttachmentInclusion
   scaled := minimalScaling_map _ _
 
 /-- Endpoint zero as a morphism of scaled simplicial sets. -/
-def scaledEndpointZero
+noncomputable def scaledEndpointZero
     {n : Nat}
     (sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     scaledSimplex sΔ ⟶ scaledSimplexCylinder sΔ where
@@ -264,7 +267,7 @@ def scaledEndpointZero
   scaled := endpointZero_scaled sΔ
 
 /-- Endpoint one as a morphism of scaled simplicial sets. -/
-def scaledEndpointOne
+noncomputable def scaledEndpointOne
     {n : Nat}
     (sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     scaledSimplex sΔ ⟶ scaledSimplexCylinder sΔ where
@@ -302,6 +305,7 @@ noncomputable def scaledBackwardAttachmentMap
 /-! ## Native terminal RLP implies v1.40 attachment lifting -/
 
 /-- Forward v1.40 attachment lifting follows from the native scaled RLP. -/
+set_option backward.isDefEq.respectTransparency false in
 noncomputable def forwardAttachmentLiftingOfTerminalRLP
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
@@ -310,7 +314,7 @@ noncomputable def forwardAttachmentLiftingOfTerminalRLP
     (R : HasLiftingProperty
       (scaledHornCylinderAttachmentInclusion i 0 sΔ)
       (ScaledSSet.toPoint (ScaledSSet.of X sX))) :
-    ForwardScaledHornAttachmentLifting sX sΔ where
+    ForwardScaledHornAttachmentLifting (i := i) sX sΔ where
   lift := by
     intro f g H Q
     let a := scaledForwardAttachmentMap H Q
@@ -324,6 +328,7 @@ noncomputable def forwardAttachmentLiftingOfTerminalRLP
     · exact (endpointOne_scaled sΔ).comp L.l.scaled
 
 /-- Backward v1.40 attachment lifting follows from the native scaled RLP. -/
+set_option backward.isDefEq.respectTransparency false in
 noncomputable def backwardAttachmentLiftingOfTerminalRLP
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
@@ -332,7 +337,7 @@ noncomputable def backwardAttachmentLiftingOfTerminalRLP
     (R : HasLiftingProperty
       (scaledHornCylinderAttachmentInclusion i 1 sΔ)
       (ScaledSSet.toPoint (ScaledSSet.of X sX))) :
-    BackwardScaledHornAttachmentLifting sX sΔ where
+    BackwardScaledHornAttachmentLifting (i := i) sX sΔ where
   lift := by
     intro f g H Q
     let a := scaledBackwardAttachmentMap H Q
