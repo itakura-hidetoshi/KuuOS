@@ -170,8 +170,10 @@ theorem forwardAttachment_compatibility
         endpointTensorMap 0 Q =
       (SSet.horn n i : SSet.{u}) ◁ (intervalEndpoint 0).ι ≫ H.h := by
   dsimp [endpointTensorMap]
-  rw [CartesianMonoidalCategory.whiskerRight_fst]
-  rw [whiskerLeft_intervalEndpoint_zero]
+  rw [← Category.assoc]
+  rw [CartesianMonoidalCategory.whiskerRight_fst
+    (SSet.horn n i).ι (intervalEndpoint 0 : SSet.{u})]
+  rw [whiskerLeft_intervalEndpoint_zero (SSet.horn n i : SSet.{u})]
   simp only [Category.assoc, Q.boundary_eq, H.h₀]
 
 /-- Compatibility on `Λ[n,i] × {1}` for the backward attachment. -/
@@ -187,8 +189,10 @@ theorem backwardAttachment_compatibility
         endpointTensorMap 1 Q =
       (SSet.horn n i : SSet.{u}) ◁ (intervalEndpoint 1).ι ≫ H.h := by
   dsimp [endpointTensorMap]
-  rw [CartesianMonoidalCategory.whiskerRight_fst]
-  rw [whiskerLeft_intervalEndpoint_one]
+  rw [← Category.assoc]
+  rw [CartesianMonoidalCategory.whiskerRight_fst
+    (SSet.horn n i).ι (intervalEndpoint 1 : SSet.{u})]
+  rw [whiskerLeft_intervalEndpoint_one (SSet.horn n i : SSet.{u})]
   simp only [Category.assoc, Q.boundary_eq, H.h₁]
 
 /-- The canonical forward attachment map obtained from the pushout. -/
