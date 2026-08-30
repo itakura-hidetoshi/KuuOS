@@ -222,17 +222,15 @@ def toBidirectionalScaledDuskinModelEquivalence :
 def toScaledHornPresentationEquivalence :
     KUOS.DependentOriginationScaledHornPresentationInvariantV1_30.ScaledHornPresentationEquivalence
       HB HC :=
-  KUOS.DependentOriginationModelEquivalenceScaledHornPresentationV1_31.
-    BidirectionalScaledDuskinModelEquivalence.toScaledHornPresentationEquivalence
-      (toBidirectionalScaledDuskinModelEquivalence K)
+  KUOS.DependentOriginationModelEquivalenceScaledHornPresentationV1_31.BidirectionalScaledDuskinModelEquivalence.toScaledHornPresentationEquivalence
+    (toBidirectionalScaledDuskinModelEquivalence K)
 
 /-- Global scaled-Duskin fibrancy is invariant under the coherent normalized model equivalence. -/
 theorem globalDuskinScaledFibrancy_iff :
     HasScaledHornFillers (duskinNerve B) (duskinScaling B) HB ↔
       HasScaledHornFillers (duskinNerve C) (duskinScaling C) HC :=
-  KUOS.DependentOriginationModelEquivalenceScaledHornPresentationV1_31.
-    BidirectionalScaledDuskinModelEquivalence.globalDuskinScaledFibrancy_iff
-      (toBidirectionalScaledDuskinModelEquivalence K)
+  KUOS.DependentOriginationModelEquivalenceScaledHornPresentationV1_31.BidirectionalScaledDuskinModelEquivalence.globalDuskinScaledFibrancy_iff
+    (toBidirectionalScaledDuskinModelEquivalence K)
 
 end CoherentNormalizedScaledModelEquivalence
 
