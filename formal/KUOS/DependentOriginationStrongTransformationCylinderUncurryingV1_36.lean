@@ -170,10 +170,14 @@ private def strongCylinderCore
         P.map₂_whisker_left] <;> bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using g.2.as.le
       omega
-    · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        P.map₂_whisker_left,
-        Pseudofunctor.StrongTrans.whiskerLeft_naturality_naturality_assoc] <;>
-        bicategory <;> cat_disch
+    · have hnat :
+          P.map₂ β.1 ▷ η.app Z =
+            (η.naturality g.1).hom ≫ η.app Y ◁ Q.map₂ β.1 ≫
+              (η.naturality h.1).inv := by
+        rw [← cancel_mono (η.naturality h.1).hom]
+        simpa [Category.assoc] using η.naturality_naturality β.1
+      simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
+        P.map₂_whisker_left, hnat] <;> bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
@@ -194,10 +198,10 @@ private def strongCylinderCore
         P.map₂_whisker_right] <;> bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using h.2.as.le
       omega
-    · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        P.map₂_whisker_right,
-        Pseudofunctor.StrongTrans.whiskerRight_naturality_naturality_assoc] <;>
-        bicategory <;> cat_disch
+    · have hexchange :=
+        Bicategory.whisker_exchange (P.map₂ α.1) (η.naturality h.1).hom
+      simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
+        P.map₂_whisker_right, hexchange] <;> bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
@@ -212,13 +216,13 @@ private def strongCylinderCore
     rcases finTwoCases i with ⟨hi⟩ | ⟨hi⟩ <;> subst i <;>
       rcases finTwoCases j with ⟨hj⟩ | ⟨hj⟩ <;> subst j
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        P.map₂_left_unitor, P.mapId_eq_eqToIso] <;> bicategory <;> cat_disch
+        P.map₂_left_unitor, P.mapId_eq_eqToIso] <;> bicategory
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        P.map₂_left_unitor, P.mapId_eq_eqToIso] <;> bicategory <;> cat_disch
+        P.map_id, P.map₂_left_unitor, P.mapId_eq_eqToIso] <;> bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        Q.map₂_left_unitor, Q.mapId_eq_eqToIso] <;> bicategory <;> cat_disch
+        Q.map₂_left_unitor, Q.mapId_eq_eqToIso] <;> bicategory
   map₂_right_unitor := by
     intro X Y f
     rcases X with ⟨X, ⟨i⟩⟩
@@ -226,15 +230,14 @@ private def strongCylinderCore
     rcases finTwoCases i with ⟨hi⟩ | ⟨hi⟩ <;> subst i <;>
       rcases finTwoCases j with ⟨hj⟩ | ⟨hj⟩ <;> subst j
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        P.map₂_right_unitor, P.mapId_eq_eqToIso] <;> bicategory <;> cat_disch
+        P.map₂_right_unitor, P.mapId_eq_eqToIso] <;> bicategory
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        P.map₂_right_unitor, P.mapId_eq_eqToIso, Q.mapId_eq_eqToIso,
-        Pseudofunctor.StrongTrans.whiskerLeft_naturality_id_assoc] <;>
-        bicategory <;> cat_disch
+        P.map_id, Q.map_id, P.map₂_right_unitor, P.mapId_eq_eqToIso,
+        Pseudofunctor.StrongTrans.naturality_id_hom] <;> bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        Q.map₂_right_unitor, Q.mapId_eq_eqToIso] <;> bicategory <;> cat_disch
+        Q.map₂_right_unitor, Q.mapId_eq_eqToIso] <;> bicategory
   map₂_associator := by
     intro A B C D f g h
     rcases A with ⟨A, ⟨i⟩⟩
@@ -248,11 +251,13 @@ private def strongCylinderCore
     · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using
         P.map₂_associator f.1 g.1 h.1
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        P.map₂_associator] <;> bicategory <;> cat_disch
+        P.map₂_associator] <;> bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using h.2.as.le
       omega
-    · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        P.map₂_associator] <;> bicategory <;> cat_disch
+    · have hexchange :=
+        Bicategory.whisker_exchange (P.mapComp f.1 g.1).hom (η.naturality h.1).hom
+      simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
+        P.map₂_associator, hexchange] <;> bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using g.2.as.le
       omega
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using g.2.as.le
@@ -260,9 +265,8 @@ private def strongCylinderCore
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using h.2.as.le
       omega
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        P.map₂_associator,
-        Pseudofunctor.StrongTrans.whiskerLeft_naturality_comp_assoc] <;>
-        bicategory <;> cat_disch
+        P.map₂_associator, Pseudofunctor.StrongTrans.naturality_comp_inv] <;>
+        bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
