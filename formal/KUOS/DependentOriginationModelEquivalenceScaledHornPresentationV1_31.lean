@@ -83,10 +83,10 @@ variable
     [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {HB : GlobalDuskinScaledHornFamily B}
     {HC : GlobalDuskinScaledHornFamily C}
-    (E : BidirectionalScaledDuskinModelEquivalence HB HC)
 
 /-- The model-equivalence package canonically produces a horn-presentation equivalence. -/
-def toScaledHornPresentationEquivalence :
+def toScaledHornPresentationEquivalence
+    (E : BidirectionalScaledDuskinModelEquivalence HB HC) :
     ScaledHornPresentationEquivalence HB HC where
   forward := fun P =>
     transportGlobalDuskinHornProblem E.forwardScaled P
@@ -108,13 +108,15 @@ def toScaledHornPresentationEquivalence :
   backward_forward_filler_equiv := E.backward_forward_filler_equiv
 
 /-- Global scaled-Duskin fibrancy is invariant under the bidirectional model equivalence. -/
-theorem globalDuskinScaledFibrancy_iff :
+theorem globalDuskinScaledFibrancy_iff
+    (E : BidirectionalScaledDuskinModelEquivalence HB HC) :
     HasScaledHornFillers (duskinNerve B) (duskinScaling B) HB ↔
       HasScaledHornFillers (duskinNerve C) (duskinScaling C) HC :=
   hasScaledHornFillers_iff (toScaledHornPresentationEquivalence E)
 
 /-- Bundled presentation-independent fibrancy follows from the model-equivalence package. -/
-def presentationIndependentScaledFibrancyOfModelEquivalence :
+def presentationIndependentScaledFibrancyOfModelEquivalence
+    (E : BidirectionalScaledDuskinModelEquivalence HB HC) :
     PresentationIndependentScaledFibrancy HB HC :=
   presentationIndependentScaledFibrancy (toScaledHornPresentationEquivalence E)
 
