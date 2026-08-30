@@ -118,19 +118,24 @@ theorem hasScaledHornFillers_iff
     HasScaledHornFillers X sX HX ↔ HasScaledHornFillers Y sY HY :=
   ⟨hasScaledHornFillers_forward E, hasScaledHornFillers_backward E⟩
 
-/-- Bundled presentation-independent scaled fibrancy certificate. -/
+/--
+Bundled presentation-independent scaled fibrancy certificate.
+
+This is data rather than a proposition: the certificate retains the actual
+horn-presentation equivalence that witnesses the invariance theorem.
+-/
 structure PresentationIndependentScaledFibrancy
     {X Y : SSet}
     {sX : ScaledSimplicialSet X}
     {sY : ScaledSimplicialSet Y}
     (HX : ScaledHornFamily X sX)
-    (HY : ScaledHornFamily Y sY) : Prop where
+    (HY : ScaledHornFamily Y sY) where
   presentationEquiv : ScaledHornPresentationEquivalence HX HY
   fibrancyInvariant :
     HasScaledHornFillers X sX HX ↔ HasScaledHornFillers Y sY HY
 
-/-- Any horn-presentation equivalence yields the bundled invariant. -/
-theorem presentationIndependentScaledFibrancy
+/-- Any horn-presentation equivalence yields the bundled invariant certificate. -/
+def presentationIndependentScaledFibrancy
     {X Y : SSet}
     {sX : ScaledSimplicialSet X}
     {sY : ScaledSimplicialSet Y}
