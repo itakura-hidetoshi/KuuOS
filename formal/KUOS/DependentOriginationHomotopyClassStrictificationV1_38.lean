@@ -175,6 +175,7 @@ variable
     {HC : GlobalDuskinScaledHornFamily C}
     (K : CoherentNormalizedScaledStrictifiableModelEquivalence E G HB HC)
 
+include K in
 /--
 Strict global scaled-Duskin fibrancy is presentation-independent once each
 presentation admits family-local homotopy-class strictification.
