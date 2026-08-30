@@ -257,7 +257,6 @@ private def strongCylinderCore
       rw [Bicategory.associator_hom_congr rfl (P.map_id Y) rfl,
         Bicategory.associator_inv_congr rfl rfl (Q.map_id Y)]
       simp
-      bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
