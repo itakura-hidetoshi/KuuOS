@@ -33,7 +33,7 @@ private def cylinderObj
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (P Q : StrictlyUnitaryPseudofunctor B C)
     (X : B × DuskinOrdinal 1) : C :=
-  if X.2.as = (0 : Fin 2) then P.obj X.1 else Q.obj X.1
+  Fin.cases (P.obj X.1) (fun _ => Q.obj X.1) X.2.as
 
 private def cylinderMap
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
@@ -44,12 +44,14 @@ private def cylinderMap
     (f : X ⟶ Y) : cylinderObj P Q X ⟶ cylinderObj P Q Y := by
   rcases X with ⟨X, ⟨i⟩⟩
   rcases Y with ⟨Y, ⟨j⟩⟩
-  fin_cases i <;> fin_cases j
-  · exact P.map f.1
-  · exact P.map f.1 ≫ η.app Y
-  · have hle := f.2.as.le
-    omega
-  · exact Q.map f.1
+  cases i using Fin.cases
+  · cases j using Fin.cases
+    · exact P.map f.1
+    · exact P.map f.1 ≫ η.app Y
+  · cases j using Fin.cases
+    · have hle := f.2.as.le
+      simp at hle
+    · exact Q.map f.1
 
 private def cylinderMap₂
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
@@ -62,12 +64,14 @@ private def cylinderMap₂
     cylinderMap P Q η f ⟶ cylinderMap P Q η g := by
   rcases X with ⟨X, ⟨i⟩⟩
   rcases Y with ⟨Y, ⟨j⟩⟩
-  fin_cases i <;> fin_cases j
-  · exact P.map₂ α.1
-  · exact P.map₂ α.1 ▷ η.app Y
-  · have hle := f.2.as.le
-    omega
-  · exact Q.map₂ α.1
+  cases i using Fin.cases
+  · cases j using Fin.cases
+    · exact P.map₂ α.1
+    · exact P.map₂ α.1 ▷ η.app Y
+  · cases j using Fin.cases
+    · have hle := f.2.as.le
+      simp at hle
+    · exact Q.map₂ α.1
 
 private def cylinderMapComp
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
@@ -81,25 +85,28 @@ private def cylinderMapComp
   rcases X with ⟨X, ⟨i⟩⟩
   rcases Y with ⟨Y, ⟨j⟩⟩
   rcases Z with ⟨Z, ⟨k⟩⟩
-  fin_cases i <;> fin_cases j <;> fin_cases k
-  · exact P.mapComp f.1 g.1
-  · exact
-      whiskerRightIso (P.mapComp f.1 g.1) (η.app Z) ≪≫
-        α_ (P.map f.1) (P.map g.1) (η.app Z)
-  · have hle := g.2.as.le
-    omega
-  · exact
-      whiskerRightIso (P.mapComp f.1 g.1) (η.app Z) ≪≫
-        α_ (P.map f.1) (P.map g.1) (η.app Z) ≪≫
-        whiskerLeftIso (P.map f.1) (η.naturality g.1) ≪≫
-        (α_ (P.map f.1) (η.app Y) (Q.map g.1)).symm
-  · have hle := f.2.as.le
-    omega
-  · have hle := f.2.as.le
-    omega
-  · have hle := g.2.as.le
-    omega
-  · exact Q.mapComp f.1 g.1
+  cases i using Fin.cases
+  · cases j using Fin.cases
+    · cases k using Fin.cases
+      · exact P.mapComp f.1 g.1
+      · exact
+          whiskerRightIso (P.mapComp f.1 g.1) (η.app Z) ≪≫
+            α_ (P.map f.1) (P.map g.1) (η.app Z)
+    · cases k using Fin.cases
+      · have hle := g.2.as.le
+        simp at hle
+      · exact
+          whiskerRightIso (P.mapComp f.1 g.1) (η.app Z) ≪≫
+            α_ (P.map f.1) (P.map g.1) (η.app Z) ≪≫
+            whiskerLeftIso (P.map f.1) (η.naturality g.1) ≪≫
+            (α_ (P.map f.1) (η.app Y) (Q.map g.1)).symm
+  · cases j using Fin.cases
+    · have hle := f.2.as.le
+      simp at hle
+    · cases k using Fin.cases
+      · have hle := g.2.as.le
+        simp at hle
+      · exact Q.mapComp f.1 g.1
 
 private def strongCylinderCore
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
