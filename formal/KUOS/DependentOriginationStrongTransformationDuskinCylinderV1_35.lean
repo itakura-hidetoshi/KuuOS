@@ -96,11 +96,21 @@ lemma normalLaxPair_precomp
     H.comp (normalLaxPair F G) =
       normalLaxPair (H.comp F) (H.comp G) := by
   apply StrictlyUnitaryLaxFunctor.ext
-  · rfl
-  all_goals
-  · rw [heq_iff_eq]
-    ext
-    simp [normalLaxPair, H.mapId_eq_eqToHom, PrelaxFunctor.map₂_eqToHom]
+  case obj => rfl
+  case map =>
+    rw [heq_iff_eq]
+    rfl
+  case map₂ =>
+    rw [heq_iff_eq]
+    rfl
+  case mapId =>
+    rw [heq_iff_eq]
+    funext X
+    rw [(H.comp (normalLaxPair F G)).mapId_eq_eqToHom,
+      (normalLaxPair (H.comp F) (H.comp G)).mapId_eq_eqToHom]
+  case mapComp =>
+    rw [heq_iff_eq]
+    rfl
 
 /-! ## The interval as a normal lax functor -/
 
@@ -345,8 +355,8 @@ this interface.
 structure StrongQuasiInverseNormalLaxCylinder
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
-    {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
-    {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
+    {F : StrictlyUnitaryBicategoricalModelEquivalence B C]
+    {G : StrictlyUnitaryBicategoricalModelEquivalence C B]
     (K : NormalizedCoherentQuasiInverse F G) where
   sourceCylinder :
     NormalLaxDuskinCylinder
@@ -369,8 +379,8 @@ namespace StrongQuasiInverseNormalLaxCylinder
 noncomputable def sourcePrism
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
-    {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
-    {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
+    {F : StrictlyUnitaryBicategoricalModelEquivalence B C]
+    {G : StrictlyUnitaryBicategoricalModelEquivalence C B]
     {K : NormalizedCoherentQuasiInverse F G}
     (H : StrongQuasiInverseNormalLaxCylinder K) :
     SSet.Homotopy
@@ -382,8 +392,8 @@ noncomputable def sourcePrism
 noncomputable def targetPrism
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
-    {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
-    {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
+    {F : StrictlyUnitaryBicategoricalModelEquivalence B C]
+    {G : StrictlyUnitaryBicategoricalModelEquivalence C B]
     {K : NormalizedCoherentQuasiInverse F G}
     (H : StrongQuasiInverseNormalLaxCylinder K) :
     SSet.Homotopy
