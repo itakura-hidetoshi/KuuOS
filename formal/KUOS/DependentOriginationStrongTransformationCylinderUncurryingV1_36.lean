@@ -16,7 +16,7 @@ open KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32
 open KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34
 open KUOS.DependentOriginationStrongTransformationDuskinCylinderV1_35
 
-universe u u₁ u₂ v v₁ v₂ w w₁ w₂
+universe u u₁ u₂ u₃ v v₁ v₂ v₃ w w₁ w₂ w₃
 
 /-!
 # Strong-transformation cylinder uncurrying v1.36
@@ -111,6 +111,8 @@ private def cylinderMapComp
     omega
   · exact Q.mapComp f.1 g.1
 
+set_option backward.defeqAttrib.useBackward true in
+set_option backward.isDefEq.respectTransparency false in
 set_option maxHeartbeats 1000000 in
 private def strongCylinderCore
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
@@ -170,7 +172,8 @@ private def strongCylinderCore
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using g.2.as.le
       omega
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        P.map₂_whisker_left, η.naturality_naturality]
+        P.map₂_whisker_left]
+      simp only [Pseudofunctor.StrongTrans.whiskerLeft_naturality_naturality_assoc]
       bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
@@ -195,6 +198,7 @@ private def strongCylinderCore
       omega
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
         P.map₂_whisker_right]
+      simp only [Pseudofunctor.StrongTrans.whiskerRight_naturality_naturality_assoc]
       bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
@@ -209,14 +213,14 @@ private def strongCylinderCore
     rcases Y with ⟨Y, ⟨j⟩⟩
     rcases finTwoCases i with ⟨hi⟩ | ⟨hi⟩ <;> subst i <;>
       rcases finTwoCases j with ⟨hj⟩ | ⟨hj⟩ <;> subst j
-    · simpa only [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using
+    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using
         P.map₂_left_unitor f.1
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
         P.map₂_left_unitor]
       bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
-    · simpa only [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using
+    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using
         Q.map₂_left_unitor f.1
   map₂_right_unitor := by
     intro X Y f
@@ -224,14 +228,15 @@ private def strongCylinderCore
     rcases Y with ⟨Y, ⟨j⟩⟩
     rcases finTwoCases i with ⟨hi⟩ | ⟨hi⟩ <;> subst i <;>
       rcases finTwoCases j with ⟨hj⟩ | ⟨hj⟩ <;> subst j
-    · simpa only [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using
+    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using
         P.map₂_right_unitor f.1
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        P.map₂_right_unitor, Pseudofunctor.StrongTrans.naturality_id_hom]
+        P.map₂_right_unitor]
+      simp only [Pseudofunctor.StrongTrans.whiskerLeft_naturality_id_assoc]
       bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
-    · simpa only [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using
+    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using
         Q.map₂_right_unitor f.1
   map₂_associator := by
     intro A B C D f g h
@@ -243,7 +248,7 @@ private def strongCylinderCore
       rcases finTwoCases j with ⟨hj⟩ | ⟨hj⟩ <;> subst j <;>
         rcases finTwoCases k with ⟨hk⟩ | ⟨hk⟩ <;> subst k <;>
           rcases finTwoCases l with ⟨hl⟩ | ⟨hl⟩ <;> subst l
-    · simpa only [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using
+    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using
         P.map₂_associator f.1 g.1 h.1
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
         P.map₂_associator]
@@ -260,7 +265,8 @@ private def strongCylinderCore
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using h.2.as.le
       omega
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        P.map₂_associator, Pseudofunctor.StrongTrans.naturality_comp_hom]
+        P.map₂_associator]
+      simp only [Pseudofunctor.StrongTrans.whiskerLeft_naturality_comp_assoc]
       bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
@@ -276,7 +282,7 @@ private def strongCylinderCore
       omega
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using h.2.as.le
       omega
-    · simpa only [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using
+    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using
         Q.map₂_associator f.1 g.1 h.1
 
 /-- Uncurrying a native strong transformation into a strictly-unitary pseudofunctor cylinder. -/
@@ -367,6 +373,44 @@ noncomputable def strongTransformationDuskinCylinder
       rw [heq_iff_eq]
       rfl
 
+set_option backward.defeqAttrib.useBackward true in
+set_option backward.isDefEq.respectTransparency false in
+private theorem pseudofunctor_comp_to_lax
+    {B : Type u₁} [Bicategory.{w₁, v₁} B]
+    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {D : Type u₃} [Bicategory.{w₃, v₃} D]
+    (P : StrictlyUnitaryPseudofunctor B C)
+    (Q : StrictlyUnitaryPseudofunctor C D) :
+    (P.comp Q).toStrictlyUnitaryLaxFunctor =
+      P.toStrictlyUnitaryLaxFunctor.comp Q.toStrictlyUnitaryLaxFunctor := by
+  apply StrictlyUnitaryLaxFunctor.ext
+  case obj => rfl
+  case map => rw [heq_iff_eq]; rfl
+  case map₂ => rw [heq_iff_eq]; rfl
+  case mapId =>
+    rw [heq_iff_eq]
+    funext X
+    rw [((P.comp Q).toStrictlyUnitaryLaxFunctor).mapId_eq_eqToHom,
+      (P.toStrictlyUnitaryLaxFunctor.comp Q.toStrictlyUnitaryLaxFunctor).mapId_eq_eqToHom]
+  case mapComp => rw [heq_iff_eq]; rfl
+
+set_option backward.defeqAttrib.useBackward true in
+set_option backward.isDefEq.respectTransparency false in
+private theorem pseudofunctor_id_to_lax
+    (B : Type u₁) [Bicategory.{w₁, v₁} B] :
+    (StrictlyUnitaryPseudofunctor.id B).toStrictlyUnitaryLaxFunctor =
+      StrictlyUnitaryLaxFunctor.id B := by
+  apply StrictlyUnitaryLaxFunctor.ext
+  case obj => rfl
+  case map => rw [heq_iff_eq]; rfl
+  case map₂ => rw [heq_iff_eq]; rfl
+  case mapId =>
+    rw [heq_iff_eq]
+    funext X
+    rw [((StrictlyUnitaryPseudofunctor.id B).toStrictlyUnitaryLaxFunctor).mapId_eq_eqToHom,
+      (StrictlyUnitaryLaxFunctor.id B).mapId_eq_eqToHom]
+  case mapComp => rw [heq_iff_eq]; rfl
+
 noncomputable def sourceStrongCylinder
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
@@ -378,7 +422,8 @@ noncomputable def sourceStrongCylinder
       (StrictlyUnitaryLaxFunctor.id B) := by
   let P := F.forward.comp G.forward
   let Q := StrictlyUnitaryPseudofunctor.id B
-  simpa [P, Q, sourceRoundTripNormalLax] using
+  simpa [P, Q, sourceRoundTripNormalLax, pseudofunctor_comp_to_lax,
+    pseudofunctor_id_to_lax] using
     strongTransformationDuskinCylinder P Q (sourcePseudoStrong K)
 
 noncomputable def targetStrongCylinder
@@ -392,7 +437,8 @@ noncomputable def targetStrongCylinder
       (StrictlyUnitaryLaxFunctor.id C) := by
   let P := G.forward.comp F.forward
   let Q := StrictlyUnitaryPseudofunctor.id C
-  simpa [P, Q, targetRoundTripNormalLax] using
+  simpa [P, Q, targetRoundTripNormalLax, pseudofunctor_comp_to_lax,
+    pseudofunctor_id_to_lax] using
     strongTransformationDuskinCylinder P Q (targetPseudoStrong K)
 
 noncomputable def strongQuasiInverseNormalLaxCylinder
@@ -407,6 +453,15 @@ noncomputable def strongQuasiInverseNormalLaxCylinder
   source_realizes_component := by intro X; rfl
   target_realizes_component := by intro X; rfl
 
+private theorem normalLaxDuskinNerveMap_forward_eq_normalized
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
+    (E : StrictlyUnitaryBicategoricalModelEquivalence B C) :
+    normalLaxDuskinNerveMap E.forward.toStrictlyUnitaryLaxFunctor =
+      normalizedDuskinNerveMap E := by
+  ext J σ
+  rfl
+
 noncomputable def globalDuskinRoundTripPrismRealization
     {B C : Type u}
     [Bicategory.{w, v} B] [Bicategory.{w, v} C]
@@ -415,10 +470,14 @@ noncomputable def globalDuskinRoundTripPrismRealization
     (K : NormalizedCoherentQuasiInverse F G) :
     GlobalDuskinRoundTripPrismRealization K where
   sourcePrism := by
-    rw [← normalLaxDuskinNerveMap_comp]
+    rw [← normalLaxDuskinNerveMap_forward_eq_normalized F,
+      ← normalLaxDuskinNerveMap_forward_eq_normalized G,
+      ← normalLaxDuskinNerveMap_comp]
     exact (strongQuasiInverseNormalLaxCylinder K).sourcePrism
   targetPrism := by
-    rw [← normalLaxDuskinNerveMap_comp]
+    rw [← normalLaxDuskinNerveMap_forward_eq_normalized G,
+      ← normalLaxDuskinNerveMap_forward_eq_normalized F,
+      ← normalLaxDuskinNerveMap_comp]
     exact (strongQuasiInverseNormalLaxCylinder K).targetPrism
 
 end KUOS.DependentOriginationStrongTransformationCylinderUncurryingV1_36
