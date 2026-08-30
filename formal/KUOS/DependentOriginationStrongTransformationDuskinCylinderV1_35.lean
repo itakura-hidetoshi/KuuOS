@@ -83,6 +83,8 @@ def normalLaxPair
 attribute [local ext] StrictlyUnitaryLaxFunctor
 
 /-- Pairing commutes with precomposition by another normal lax functor. -/
+set_option backward.defeqAttrib.useBackward true in
+set_option backward.isDefEq.respectTransparency false in
 theorem normalLaxPair_precomp
     {A₀ : Type u₀} [Bicategory.{w₀, v₀} A₀]
     {A : Type u₁} [Bicategory.{w₁, v₁} A]
