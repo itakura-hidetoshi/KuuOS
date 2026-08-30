@@ -273,11 +273,9 @@ theorem forwardAttachmentMap_on_endpoint
     (H : f.Homotopy g)
     (Q : ScaledHornBoundaryRealization sX sΔ f) :
     endpointIntoAttachment n i 0 ≫ forwardAttachmentMap H Q = Q.simplexMap := by
-  ext m x
-  have h := ConcreteCategory.congr_hom
-    (congr_app (forwardAttachmentMap_on_endpointPiece H Q) m)
-    ((ConcreteCategory.hom ((endpointSection n 0).app m)) x)
-  simpa [endpointIntoAttachment, endpointTensorMap, endpointSection] using h
+  simp only [endpointIntoAttachment, Category.assoc,
+    forwardAttachmentMap_on_endpointPiece, endpointTensorMap]
+  simp [endpointSection]
 
 @[simp, reassoc]
 theorem backwardAttachmentMap_on_endpoint
@@ -289,11 +287,9 @@ theorem backwardAttachmentMap_on_endpoint
     (H : f.Homotopy g)
     (Q : ScaledHornBoundaryRealization sX sΔ g) :
     endpointIntoAttachment n i 1 ≫ backwardAttachmentMap H Q = Q.simplexMap := by
-  ext m x
-  have h := ConcreteCategory.congr_hom
-    (congr_app (backwardAttachmentMap_on_endpointPiece H Q) m)
-    ((ConcreteCategory.hom ((endpointSection n 1).app m)) x)
-  simpa [endpointIntoAttachment, endpointTensorMap, endpointSection] using h
+  simp only [endpointIntoAttachment, Category.assoc,
+    backwardAttachmentMap_on_endpointPiece, endpointTensorMap]
+  simp [endpointSection]
 
 @[simp, reassoc]
 theorem forwardAttachmentMap_on_horn
