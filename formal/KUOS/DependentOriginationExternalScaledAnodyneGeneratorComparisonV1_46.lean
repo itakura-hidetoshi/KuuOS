@@ -3,6 +3,8 @@ import KUOS.DependentOriginationScaledColimitsPresentabilityV1_45
 namespace KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
 
 open CategoryTheory
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationScaledAnodyneWFSUniversalityV1_43
@@ -139,7 +141,12 @@ theorem externalGeneratedScaledFibration_eq_canonical
       (canonicalGeneratedScaledFibration : MorphismProperty (ScaledSSet.{u})) := by
   unfold externalGeneratedScaledFibration
   rw [← MorphismProperty.rlp_llp_rlp E]
-  rw [externalGeneratedScaledAnodyne_eq_canonical K]
+  have hleft :
+      E.rlp.llp =
+        (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u})) := by
+    simpa [externalGeneratedScaledAnodyne] using
+      (externalGeneratedScaledAnodyne_eq_canonical K)
+  rw [hleft]
   exact canonicalGeneratedScaledAnodyne_rlp_eq_fibration
 
 /-- In particular the external family has exactly the same RLP as the original
@@ -148,8 +155,8 @@ theorem external_rlp_eq_canonical_generators_rlp
     (K : ScaledAnodyneGeneratorComparison E) :
     E.rlp =
       (scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})).rlp := by
-  rw [← externalGeneratedScaledFibration_eq_canonical K]
-  rfl
+  simpa only [externalGeneratedScaledFibration, canonicalGeneratedScaledFibration] using
+    (externalGeneratedScaledFibration_eq_canonical K)
 
 /-- The external generated closure is itself a compatible v1.42 presentation. -/
 def toScaledAnodynePresentation
