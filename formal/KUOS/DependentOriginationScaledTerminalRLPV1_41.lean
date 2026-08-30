@@ -434,12 +434,14 @@ end ScaledHornFamilyTerminalRLP
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
 
+universe v w
+
 /-- A coherent normalized scaled model equivalence whose global Duskin
 presentations satisfy the native scaled-terminal RLP for their selected horn
 families. -/
 structure CoherentNormalizedScaledTerminalRLPModelEquivalence
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     (E : BicategoricalModelEquivalence B C)
     (G : BicategoricalModelEquivalence C B)
     (HB : GlobalDuskinScaledHornFamily B)
@@ -454,8 +456,8 @@ structure CoherentNormalizedScaledTerminalRLPModelEquivalence
 namespace CoherentNormalizedScaledTerminalRLPModelEquivalence
 
 variable
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {E : BicategoricalModelEquivalence B C}
     {G : BicategoricalModelEquivalence C B}
     {HB : GlobalDuskinScaledHornFamily B}
@@ -470,6 +472,7 @@ noncomputable def toAttachmentLiftableModelEquivalence :
   sourceAttachmentLifting := K.sourceTerminalRLP.toAttachmentLifting
   targetAttachmentLifting := K.targetTerminalRLP.toAttachmentLifting
 
+include K in
 /-- Strict global scaled-Duskin fibrancy is presentation-independent under the
 native scaled-terminal RLP on both presentations. -/
 theorem globalDuskinStrictFibrancy_iff :
