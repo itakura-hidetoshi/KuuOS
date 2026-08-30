@@ -355,8 +355,8 @@ this interface.
 structure StrongQuasiInverseNormalLaxCylinder
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
-    {F : StrictlyUnitaryBicategoricalModelEquivalence B C]
-    {G : StrictlyUnitaryBicategoricalModelEquivalence C B]
+    {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
+    {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     (K : NormalizedCoherentQuasiInverse F G) where
   sourceCylinder :
     NormalLaxDuskinCylinder
@@ -379,8 +379,8 @@ namespace StrongQuasiInverseNormalLaxCylinder
 noncomputable def sourcePrism
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
-    {F : StrictlyUnitaryBicategoricalModelEquivalence B C]
-    {G : StrictlyUnitaryBicategoricalModelEquivalence C B]
+    {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
+    {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     {K : NormalizedCoherentQuasiInverse F G}
     (H : StrongQuasiInverseNormalLaxCylinder K) :
     SSet.Homotopy
@@ -392,8 +392,8 @@ noncomputable def sourcePrism
 noncomputable def targetPrism
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
-    {F : StrictlyUnitaryBicategoricalModelEquivalence B C]
-    {G : StrictlyUnitaryBicategoricalModelEquivalence C B]
+    {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
+    {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     {K : NormalizedCoherentQuasiInverse F G}
     (H : StrongQuasiInverseNormalLaxCylinder K) :
     SSet.Homotopy
