@@ -123,8 +123,8 @@ private def strongCylinderCore
     intro X
     rcases X with ⟨X, ⟨i⟩⟩
     rcases finTwoCases i with ⟨hi⟩ | ⟨hi⟩ <;> subst i
-    · simpa [cylinderMap, cylinderObj, finTwoCases] using P.map_id X
-    · simpa [cylinderMap, cylinderObj, finTwoCases] using Q.map_id X
+    · exact P.map_id X
+    · exact Q.map_id X
   map₂ := cylinderMap₂ P Q η
   map₂_id := by
     intro X Y f
@@ -132,22 +132,22 @@ private def strongCylinderCore
     rcases Y with ⟨Y, ⟨j⟩⟩
     rcases finTwoCases i with ⟨hi⟩ | ⟨hi⟩ <;> subst i <;>
       rcases finTwoCases j with ⟨hj⟩ | ⟨hj⟩ <;> subst j
-    · simpa [cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using P.map₂_id f.1
-    · simp [cylinderMap₂, cylinderMap, cylinderObj, finTwoCases]
+    · exact P.map₂_id f.1
+    · rfl
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
-    · simpa [cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using Q.map₂_id f.1
+    · exact Q.map₂_id f.1
   map₂_comp := by
     intro X Y f g h α β
     rcases X with ⟨X, ⟨i⟩⟩
     rcases Y with ⟨Y, ⟨j⟩⟩
     rcases finTwoCases i with ⟨hi⟩ | ⟨hi⟩ <;> subst i <;>
       rcases finTwoCases j with ⟨hj⟩ | ⟨hj⟩ <;> subst j
-    · simpa [cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using P.map₂_comp α.1 β.1
-    · simp [cylinderMap₂, cylinderMap, cylinderObj, finTwoCases]
+    · exact P.map₂_comp α.1 β.1
+    · rfl
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
-    · simpa [cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using Q.map₂_comp α.1 β.1
+    · exact Q.map₂_comp α.1 β.1
   mapComp := cylinderMapComp P Q η
   map₂_whisker_left := by
     intro X Y Z f g h β
@@ -157,8 +157,7 @@ private def strongCylinderCore
     rcases finTwoCases i with ⟨hi⟩ | ⟨hi⟩ <;> subst i <;>
       rcases finTwoCases j with ⟨hj⟩ | ⟨hj⟩ <;> subst j <;>
         rcases finTwoCases k with ⟨hk⟩ | ⟨hk⟩ <;> subst k
-    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using
-        P.map₂_whisker_left f.1 β.1
+    · exact P.map₂_whisker_left f.1 β.1
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases]
       bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using g.2.as.le
@@ -171,8 +170,7 @@ private def strongCylinderCore
       omega
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using g.2.as.le
       omega
-    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using
-        Q.map₂_whisker_left f.1 β.1
+    · exact Q.map₂_whisker_left f.1 β.1
   map₂_whisker_right := by
     intro X Y Z f g α h
     rcases X with ⟨X, ⟨i⟩⟩
@@ -181,14 +179,12 @@ private def strongCylinderCore
     rcases finTwoCases i with ⟨hi⟩ | ⟨hi⟩ <;> subst i <;>
       rcases finTwoCases j with ⟨hj⟩ | ⟨hj⟩ <;> subst j <;>
         rcases finTwoCases k with ⟨hk⟩ | ⟨hk⟩ <;> subst k
-    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using
-        P.map₂_whisker_right α.1 h.1
+    · exact P.map₂_whisker_right α.1 h.1
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases]
       bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using h.2.as.le
       omega
-    · have hnat := η.naturality_naturality α.1
-      simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases, hnat]
+    · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases]
       bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
@@ -196,36 +192,31 @@ private def strongCylinderCore
       omega
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using h.2.as.le
       omega
-    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using
-        Q.map₂_whisker_right α.1 h.1
+    · exact Q.map₂_whisker_right α.1 h.1
   map₂_left_unitor := by
     intro X Y f
     rcases X with ⟨X, ⟨i⟩⟩
     rcases Y with ⟨Y, ⟨j⟩⟩
     rcases finTwoCases i with ⟨hi⟩ | ⟨hi⟩ <;> subst i <;>
       rcases finTwoCases j with ⟨hj⟩ | ⟨hj⟩ <;> subst j
-    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        P.map_id] using P.map₂_left_unitor f.1
+    · exact P.map₂_left_unitor f.1
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases]
       bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
-    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        Q.map_id] using Q.map₂_left_unitor f.1
+    · exact Q.map₂_left_unitor f.1
   map₂_right_unitor := by
     intro X Y f
     rcases X with ⟨X, ⟨i⟩⟩
     rcases Y with ⟨Y, ⟨j⟩⟩
     rcases finTwoCases i with ⟨hi⟩ | ⟨hi⟩ <;> subst i <;>
       rcases finTwoCases j with ⟨hj⟩ | ⟨hj⟩ <;> subst j
-    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        P.map_id] using P.map₂_right_unitor f.1
+    · exact P.map₂_right_unitor f.1
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases]
       bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
-    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        Q.map_id] using Q.map₂_right_unitor f.1
+    · exact Q.map₂_right_unitor f.1
   map₂_associator := by
     intro A B C D f g h
     rcases A with ⟨A, ⟨i⟩⟩
@@ -236,8 +227,7 @@ private def strongCylinderCore
       rcases finTwoCases j with ⟨hj⟩ | ⟨hj⟩ <;> subst j <;>
         rcases finTwoCases k with ⟨hk⟩ | ⟨hk⟩ <;> subst k <;>
           rcases finTwoCases l with ⟨hl⟩ | ⟨hl⟩ <;> subst l
-    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using
-        P.map₂_associator f.1 g.1 h.1
+    · exact P.map₂_associator f.1 g.1 h.1
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases]
       bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using h.2.as.le
@@ -266,8 +256,7 @@ private def strongCylinderCore
       omega
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using h.2.as.le
       omega
-    · simpa [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases] using
-        Q.map₂_associator f.1 g.1 h.1
+    · exact Q.map₂_associator f.1 g.1 h.1
 
 /-- Uncurrying a native strong transformation into a strictly-unitary pseudofunctor cylinder. -/
 def strongTransformationCylinder
