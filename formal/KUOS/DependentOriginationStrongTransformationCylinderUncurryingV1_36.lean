@@ -34,7 +34,7 @@ private inductive FinTwoCases (i : Fin 2) : Type where
 private def finTwoCases (i : Fin 2) : FinTwoCases i :=
   if h : i = 0 then .zero h else .one (by omega)
 
-private def cylinderObj
+private abbrev cylinderObj
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
     {C : Type u₂} [Bicategory.{w₂, v₂} C]
     (P Q : StrictlyUnitaryPseudofunctor B C)
@@ -52,11 +52,11 @@ private def cylinderMap
   rcases Y with ⟨Y, ⟨j⟩⟩
   rcases finTwoCases i with ⟨hi⟩ | ⟨hi⟩ <;> subst i <;>
     rcases finTwoCases j with ⟨hj⟩ | ⟨hj⟩ <;> subst j
-  · simpa [cylinderObj] using P.map f.1
-  · simpa [cylinderObj] using (P.map f.1 ≫ η.app Y)
+  · exact P.map f.1
+  · exact P.map f.1 ≫ η.app Y
   · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
     omega
-  · simpa [cylinderObj] using Q.map f.1
+  · exact Q.map f.1
 
 private def cylinderMap₂
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
@@ -71,11 +71,11 @@ private def cylinderMap₂
   rcases Y with ⟨Y, ⟨j⟩⟩
   rcases finTwoCases i with ⟨hi⟩ | ⟨hi⟩ <;> subst i <;>
     rcases finTwoCases j with ⟨hj⟩ | ⟨hj⟩ <;> subst j
-  · simpa [cylinderMap, cylinderObj, finTwoCases] using P.map₂ α.1
-  · simpa [cylinderMap, cylinderObj, finTwoCases] using (P.map₂ α.1 ▷ η.app Y)
+  · exact P.map₂ α.1
+  · exact P.map₂ α.1 ▷ η.app Y
   · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
     omega
-  · simpa [cylinderMap, cylinderObj, finTwoCases] using Q.map₂ α.1
+  · exact Q.map₂ α.1
 
 private def cylinderMapComp
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
@@ -92,24 +92,24 @@ private def cylinderMapComp
   rcases finTwoCases i with ⟨hi⟩ | ⟨hi⟩ <;> subst i <;>
     rcases finTwoCases j with ⟨hj⟩ | ⟨hj⟩ <;> subst j <;>
       rcases finTwoCases k with ⟨hk⟩ | ⟨hk⟩ <;> subst k
-  · simpa [cylinderMap, cylinderObj, finTwoCases] using P.mapComp f.1 g.1
-  · simpa [cylinderMap, cylinderObj, finTwoCases] using
-      (whiskerRightIso (P.mapComp f.1 g.1) (η.app Z) ≪≫
-        α_ (P.map f.1) (P.map g.1) (η.app Z))
+  · exact P.mapComp f.1 g.1
+  · exact
+      whiskerRightIso (P.mapComp f.1 g.1) (η.app Z) ≪≫
+        α_ (P.map f.1) (P.map g.1) (η.app Z)
   · have hle : (1 : Fin 2) ≤ 0 := by simpa using g.2.as.le
     omega
-  · simpa [cylinderMap, cylinderObj, finTwoCases] using
-      (whiskerRightIso (P.mapComp f.1 g.1) (η.app Z) ≪≫
+  · exact
+      whiskerRightIso (P.mapComp f.1 g.1) (η.app Z) ≪≫
         α_ (P.map f.1) (P.map g.1) (η.app Z) ≪≫
         whiskerLeftIso (P.map f.1) (η.naturality g.1) ≪≫
-        (α_ (P.map f.1) (η.app Y) (Q.map g.1)).symm)
+        (α_ (P.map f.1) (η.app Y) (Q.map g.1)).symm
   · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
     omega
   · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
     omega
   · have hle : (1 : Fin 2) ≤ 0 := by simpa using g.2.as.le
     omega
-  · simpa [cylinderMap, cylinderObj, finTwoCases] using Q.mapComp f.1 g.1
+  · exact Q.mapComp f.1 g.1
 
 private def strongCylinderCore
     {B : Type u₁} [Bicategory.{w₁, v₁} B]
