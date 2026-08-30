@@ -304,8 +304,11 @@ noncomputable def scaledBackwardAttachmentMap
 
 /-! ## Native terminal RLP implies v1.40 attachment lifting -/
 
+section
+
+set_option backward.isDefEq.respectTransparency false
+
 /-- Forward v1.40 attachment lifting follows from the native scaled RLP. -/
-set_option backward.isDefEq.respectTransparency false in
 noncomputable def forwardAttachmentLiftingOfTerminalRLP
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
@@ -328,7 +331,6 @@ noncomputable def forwardAttachmentLiftingOfTerminalRLP
     · exact (endpointOne_scaled sΔ).comp L.l.scaled
 
 /-- Backward v1.40 attachment lifting follows from the native scaled RLP. -/
-set_option backward.isDefEq.respectTransparency false in
 noncomputable def backwardAttachmentLiftingOfTerminalRLP
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
@@ -349,6 +351,8 @@ noncomputable def backwardAttachmentLiftingOfTerminalRLP
       simpa [a, sq, scaledBackwardAttachmentMap,
         scaledHornCylinderAttachmentInclusion] using h
     · exact (endpointZero_scaled sΔ).comp L.l.scaled
+
+end
 
 /-- Two-sided terminal RLP for one scaled horn problem. -/
 structure ScaledHornProblemTerminalRLP
