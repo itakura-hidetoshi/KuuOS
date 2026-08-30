@@ -276,7 +276,7 @@ theorem forwardAttachmentMap_on_endpoint
   ext m x
   have h := ConcreteCategory.congr_hom
     (congr_app (forwardAttachmentMap_on_endpointPiece H Q) m)
-    ((ConcreteCategory.hom (endpointSection n 0).app m) x)
+    ((ConcreteCategory.hom ((endpointSection n 0).app m)) x)
   simpa [endpointIntoAttachment, endpointTensorMap, endpointSection] using h
 
 @[simp, reassoc]
@@ -292,7 +292,7 @@ theorem backwardAttachmentMap_on_endpoint
   ext m x
   have h := ConcreteCategory.congr_hom
     (congr_app (backwardAttachmentMap_on_endpointPiece H Q) m)
-    ((ConcreteCategory.hom (endpointSection n 1).app m) x)
+    ((ConcreteCategory.hom ((endpointSection n 1).app m)) x)
   simpa [endpointIntoAttachment, endpointTensorMap, endpointSection] using h
 
 @[simp, reassoc]
@@ -572,8 +572,7 @@ coherent normalized scaled model equivalence
 
 The remaining independent theorem is no longer an opaque strictification or
 cylinder principle.  It is the concrete extension/lifting theorem for these
-canonical union-product horn-cylinder attachments in the chosen global scaled
-Duskin presentation.
+canonical union-product horn-cylinder attachments in the chosen global scaled Duskin presentation.
 -/
 
 end KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
