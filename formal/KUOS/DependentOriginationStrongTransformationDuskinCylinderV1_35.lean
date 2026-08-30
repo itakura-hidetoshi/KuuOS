@@ -95,13 +95,12 @@ lemma normalLaxPair_precomp
     (G : StrictlyUnitaryLaxFunctor A C) :
     H.comp (normalLaxPair F G) =
       normalLaxPair (H.comp F) (H.comp G) := by
-  ext
+  apply StrictlyUnitaryLaxFunctor.ext
   · rfl
   all_goals
   · rw [heq_iff_eq]
     ext
-    simp [normalLaxPair, H.mapId_eq_eqToHom,
-      F.mapId_eq_eqToHom, G.mapId_eq_eqToHom, PrelaxFunctor.map₂_eqToHom]
+    simp [normalLaxPair, H.mapId_eq_eqToHom, PrelaxFunctor.map₂_eqToHom]
 
 /-! ## The interval as a normal lax functor -/
 
