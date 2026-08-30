@@ -235,10 +235,10 @@ private def strongCylinderCore
       rcases finTwoCases j with ⟨hj⟩ | ⟨hj⟩ <;> subst j
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
         P.map₂_left_unitor, P.mapId_eq_eqToIso] <;> bicategory
-    · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
-        P.map₂_left_unitor, P.mapId_eq_eqToIso]
-      simp only [P.map_id X]
-      bicategory
+    · have hP := P.map_id X
+      cases hP
+      simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
+        P.map₂_left_unitor, P.mapId_eq_eqToIso] <;> bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
@@ -251,11 +251,13 @@ private def strongCylinderCore
       rcases finTwoCases j with ⟨hj⟩ | ⟨hj⟩ <;> subst j
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
         P.map₂_right_unitor, P.mapId_eq_eqToIso] <;> bicategory
-    · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
+    · have hP := P.map_id Y
+      have hQ := Q.map_id Y
+      cases hP
+      cases hQ
+      simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
         P.map₂_right_unitor, P.mapId_eq_eqToIso, Q.mapId_eq_eqToIso,
-        Pseudofunctor.StrongTrans.naturality_id_hom]
-      simp only [P.map_id Y, Q.map_id Y]
-      bicategory
+        Pseudofunctor.StrongTrans.naturality_id_hom] <;> bicategory
     · have hle : (1 : Fin 2) ≤ 0 := by simpa using f.2.as.le
       omega
     · simp [cylinderMapComp, cylinderMap₂, cylinderMap, cylinderObj, finTwoCases,
