@@ -188,15 +188,11 @@ noncomputable def colimitCoconeIsColimit
                 s.pt.scaling.thin
                   (((forget.mapCocone s).ι.app j).app (op ⦋2⦌) x) :=
               (s.ι.app j).scaled x hx
-            have hdesc :
-                d.app (op ⦋2⦌)
-                    ((colimit.ι (D ⋙ forget) j).app (op ⦋2⦌) x) =
-                  ((forget.mapCocone s).ι.app j).app (op ⦋2⦌) x := by
-              have e := congrArg
-                (fun q => q.app (op ⦋2⦌) x)
-                (colimit.ι_desc (forget.mapCocone s) j)
-              simpa [d] using e
-            rw [hdesc]
+            change s.pt.scaling.thin
+              (((colimit.ι (D ⋙ forget) j ≫
+                  colimit.desc (D ⋙ forget) (forget.mapCocone s)).app
+                    (op ⦋2⦌)) x)
+            rw [colimit.ι_desc (forget.mapCocone s) j]
             exact h }
   fac s j := by
     apply ScaledMap.ext
