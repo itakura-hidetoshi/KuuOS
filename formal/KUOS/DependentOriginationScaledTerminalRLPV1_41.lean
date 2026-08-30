@@ -136,7 +136,7 @@ theorem ScaledMap.ext
       cases g with
       | mk g hg =>
           dsimp at h
-          subst g
+          cases h
           rfl
 
 instance : Category (ScaledSSet.{u}) where
