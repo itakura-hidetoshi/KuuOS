@@ -101,13 +101,12 @@ structure ScaledAnodyneGeneratorComparison
 
 namespace ScaledAnodyneGeneratorComparison
 
-variable
-    {E : MorphismProperty (ScaledSSet.{u})}
-    (K : ScaledAnodyneGeneratorComparison E)
+variable {E : MorphismProperty (ScaledSSet.{u})}
 
 /-- The canonical generated class is contained in the external generated
 class. -/
-theorem canonicalGenerated_le_externalGenerated :
+theorem canonicalGenerated_le_externalGenerated
+    (K : ScaledAnodyneGeneratorComparison E) :
     (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u})) ≤
       externalGeneratedScaledAnodyne E :=
   canonicalGeneratedScaledAnodyne_le_of_saturated
@@ -116,7 +115,8 @@ theorem canonicalGenerated_le_externalGenerated :
 
 /-- Conversely the external generated closure is contained in the canonical
 closure because every external generator is canonical generated-anodyne. -/
-theorem externalGenerated_le_canonicalGenerated :
+theorem externalGenerated_le_canonicalGenerated
+    (K : ScaledAnodyneGeneratorComparison E) :
     externalGeneratedScaledAnodyne E ≤
       (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u})) :=
   externalGeneratedScaledAnodyne_le_of_le_saturated
@@ -124,7 +124,8 @@ theorem externalGenerated_le_canonicalGenerated :
     canonicalGeneratedScaledAnodyne_isOrthogonallySaturated
 
 /-- Mutual closure-generation identifies the generated left classes literally. -/
-theorem externalGeneratedScaledAnodyne_eq_canonical :
+theorem externalGeneratedScaledAnodyne_eq_canonical
+    (K : ScaledAnodyneGeneratorComparison E) :
     externalGeneratedScaledAnodyne E =
       (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u})) := by
   apply le_antisymm
@@ -132,7 +133,8 @@ theorem externalGeneratedScaledAnodyne_eq_canonical :
   · exact canonicalGenerated_le_externalGenerated K
 
 /-- The external and canonical right lifting classes are also literally equal. -/
-theorem externalGeneratedScaledFibration_eq_canonical :
+theorem externalGeneratedScaledFibration_eq_canonical
+    (K : ScaledAnodyneGeneratorComparison E) :
     externalGeneratedScaledFibration E =
       (canonicalGeneratedScaledFibration : MorphismProperty (ScaledSSet.{u})) := by
   unfold externalGeneratedScaledFibration
@@ -142,14 +144,16 @@ theorem externalGeneratedScaledFibration_eq_canonical :
 
 /-- In particular the external family has exactly the same RLP as the original
 canonical generator family. -/
-theorem external_rlp_eq_canonical_generators_rlp :
+theorem external_rlp_eq_canonical_generators_rlp
+    (K : ScaledAnodyneGeneratorComparison E) :
     E.rlp =
       (scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})).rlp := by
   rw [← externalGeneratedScaledFibration_eq_canonical K]
   rfl
 
 /-- The external generated closure is itself a compatible v1.42 presentation. -/
-def toScaledAnodynePresentation : ScaledAnodynePresentation.{u} where
+def toScaledAnodynePresentation
+    (K : ScaledAnodyneGeneratorComparison E) : ScaledAnodynePresentation.{u} where
   anodyne := externalGeneratedScaledAnodyne E
   generators_le :=
     ScaledAnodyneGeneratorComparison.canonicalGenerators_le_externalGenerated K
@@ -159,7 +163,8 @@ def toScaledAnodynePresentation : ScaledAnodynePresentation.{u} where
 external generated pair inherits a native Mathlib weak factorization system
 without requiring any smallness or presentability theorem for the external
 generator list. -/
-noncomputable def externalGeneratedScaledWeakFactorizationSystem :
+noncomputable def externalGeneratedScaledWeakFactorizationSystem
+    (K : ScaledAnodyneGeneratorComparison E) :
     MorphismProperty.IsWeakFactorizationSystem
       (externalGeneratedScaledAnodyne E)
       (externalGeneratedScaledFibration E) := by
@@ -169,7 +174,8 @@ noncomputable def externalGeneratedScaledWeakFactorizationSystem :
 
 /-- The external generated left class therefore has the same canonical
 cellular description as the KuuOS closure. -/
-theorem externalGeneratedScaledAnodyne_eq_canonicalCellularClosure :
+theorem externalGeneratedScaledAnodyne_eq_canonicalCellularClosure
+    (K : ScaledAnodyneGeneratorComparison E) :
     externalGeneratedScaledAnodyne E =
       (MorphismProperty.transfiniteCompositions.{u}
         (MorphismProperty.coproducts.{u}
