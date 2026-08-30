@@ -11,6 +11,7 @@ open KUOS.DependentOriginationPresentationIndependentInvariantV1_25
 open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
 open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
 open KUOS.DependentOriginationNormalizationChoiceInvariantV1_28
+open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledDuskinHornTransportV1_29
 open KUOS.DependentOriginationModelEquivalenceScaledHornPresentationV1_31
@@ -77,36 +78,46 @@ variable
 /-- The `G ∘ F` round trip is coherently the identity on every source 1-cell. -/
 def sourceRoundTripOneCellIso
     {X Y : B} (f : X ⟶ Y) :
-    G.forward.map (F.forward.map f) ≫ K.sourceCounit.app Y ≅
-      K.sourceCounit.app X ≫ f := by
-  simpa using K.sourceCounit.naturality f
+    (F.forward.toPseudofunctor.comp
+        G.forward.toPseudofunctor).toOplax.map f ≫
+        K.sourceCounit.app Y ≅
+      K.sourceCounit.app X ≫
+        (Pseudofunctor.id B).toOplax.map f :=
+  K.sourceCounit.naturality f
 
 /-- The `F ∘ G` round trip is coherently the identity on every target 1-cell. -/
 def targetRoundTripOneCellIso
     {X Y : C} (f : X ⟶ Y) :
-    F.forward.map (G.forward.map f) ≫ K.targetCounit.app Y ≅
-      K.targetCounit.app X ≫ f := by
-  simpa using K.targetCounit.naturality f
+    (G.forward.toPseudofunctor.comp
+        F.forward.toPseudofunctor).toOplax.map f ≫
+        K.targetCounit.app Y ≅
+      K.targetCounit.app X ≫
+        (Pseudofunctor.id C).toOplax.map f :=
+  K.targetCounit.naturality f
 
 /-- The source round-trip comparison satisfies the native 2-cell naturality square. -/
 theorem sourceRoundTripTwoCellNaturality
     {X Y : B} {f g : X ⟶ Y} (α : f ⟶ g) :
-    G.forward.map₂ (F.forward.map₂ α) ▷ K.sourceCounit.app Y ≫
+    (F.forward.toPseudofunctor.comp
+        G.forward.toPseudofunctor).toOplax.map₂ α ▷
+        K.sourceCounit.app Y ≫
         (K.sourceRoundTripOneCellIso g).hom =
       (K.sourceRoundTripOneCellIso f).hom ≫
-        K.sourceCounit.app X ◁ α := by
-  simpa [sourceRoundTripOneCellIso] using
-    K.sourceCounit.naturality_naturality α
+        K.sourceCounit.app X ◁
+          (Pseudofunctor.id B).toOplax.map₂ α := by
+  exact K.sourceCounit.naturality_naturality α
 
 /-- The target round-trip comparison satisfies the native 2-cell naturality square. -/
 theorem targetRoundTripTwoCellNaturality
     {X Y : C} {f g : X ⟶ Y} (α : f ⟶ g) :
-    F.forward.map₂ (G.forward.map₂ α) ▷ K.targetCounit.app Y ≫
+    (G.forward.toPseudofunctor.comp
+        F.forward.toPseudofunctor).toOplax.map₂ α ▷
+        K.targetCounit.app Y ≫
         (K.targetRoundTripOneCellIso g).hom =
       (K.targetRoundTripOneCellIso f).hom ≫
-        K.targetCounit.app X ◁ α := by
-  simpa [targetRoundTripOneCellIso] using
-    K.targetCounit.naturality_naturality α
+        K.targetCounit.app X ◁
+          (Pseudofunctor.id C).toOplax.map₂ α := by
+  exact K.targetCounit.naturality_naturality α
 
 end NormalizedCoherentQuasiInverse
 
@@ -117,10 +128,13 @@ current strict horn/filler presentation.
 This certificate does not duplicate the bicategorical quasi-inverse: it records
 only the additional fact that filler existence descends through the two
 round-trip global Duskin transports.
+
+The bundled global Duskin maps of v1.27-v1.29 are deliberately constructed
+inside one universe triple, so this descent layer keeps exactly that boundary.
 -/
 structure ScaledHornRoundTripDescent
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u₁}
+    [Bicategory.{w₁, v₁} B] [Bicategory.{w₁, v₁} C]
     (HB : GlobalDuskinScaledHornFamily B)
     (HC : GlobalDuskinScaledHornFamily C)
     (F : StrictlyUnitaryBicategoricalModelEquivalence B C)
@@ -150,10 +164,13 @@ structure ScaledHornRoundTripDescent
 General model-equivalence data together with chosen normalizations, a coherent
 quasi-inverse between the normal representatives, full scaling, admissible
 family preservation, and the final horn-descent bridge.
+
+As soon as full scaled Duskin maps are bundled, source and target stay in the
+same universe triple, exactly as in v1.29.
 -/
 structure CoherentNormalizedScaledModelEquivalence
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u₁}
+    [Bicategory.{w₁, v₁} B] [Bicategory.{w₁, v₁} C]
     (E : BicategoricalModelEquivalence B C)
     (G : BicategoricalModelEquivalence C B)
     (HB : GlobalDuskinScaledHornFamily B)
@@ -179,8 +196,8 @@ structure CoherentNormalizedScaledModelEquivalence
 namespace CoherentNormalizedScaledModelEquivalence
 
 variable
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u₁}
+    [Bicategory.{w₁, v₁} B] [Bicategory.{w₁, v₁} C]
     {E : BicategoricalModelEquivalence B C}
     {G : BicategoricalModelEquivalence C B}
     {HB : GlobalDuskinScaledHornFamily B}
@@ -205,13 +222,17 @@ def toBidirectionalScaledDuskinModelEquivalence :
 def toScaledHornPresentationEquivalence :
     KUOS.DependentOriginationScaledHornPresentationInvariantV1_30.ScaledHornPresentationEquivalence
       HB HC :=
-  K.toBidirectionalScaledDuskinModelEquivalence.toScaledHornPresentationEquivalence
+  KUOS.DependentOriginationModelEquivalenceScaledHornPresentationV1_31.
+    BidirectionalScaledDuskinModelEquivalence.toScaledHornPresentationEquivalence
+      (toBidirectionalScaledDuskinModelEquivalence K)
 
 /-- Global scaled-Duskin fibrancy is invariant under the coherent normalized model equivalence. -/
 theorem globalDuskinScaledFibrancy_iff :
     HasScaledHornFillers (duskinNerve B) (duskinScaling B) HB ↔
       HasScaledHornFillers (duskinNerve C) (duskinScaling C) HC :=
-  K.toBidirectionalScaledDuskinModelEquivalence.globalDuskinScaledFibrancy_iff
+  KUOS.DependentOriginationModelEquivalenceScaledHornPresentationV1_31.
+    BidirectionalScaledDuskinModelEquivalence.globalDuskinScaledFibrancy_iff
+      (toBidirectionalScaledDuskinModelEquivalence K)
 
 end CoherentNormalizedScaledModelEquivalence
 
