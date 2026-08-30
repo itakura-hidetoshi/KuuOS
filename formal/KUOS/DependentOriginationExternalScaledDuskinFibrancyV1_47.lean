@@ -46,19 +46,22 @@ coherent normalized scaled model equivalence B <-> C
 No equality between the source and target external generator lists is needed.
 -/
 
-/-- The global Duskin scaled object attached to a bicategory. -/
+/-- The global Duskin scaled object attached to a bicategory.  Although the
+bicategory itself is parameterized by `u`, `v`, and `w`, its Duskin nerve lives
+in the natural combined universe `max (max w v) u`. -/
 abbrev globalDuskinScaledObject
-    (B : Type u) [Bicategory.{w, v} B] : ScaledSSet.{u} :=
+    (B : Type u) [Bicategory.{w, v} B] :
+    ScaledSSet.{max (max w v) u} :=
   ScaledSSet.of (duskinNerve B) (duskinScaling B)
 
 /-- An external scaled-anodyne presentation for one global Duskin object.
 
 The generator family is arbitrary; the only mathematical input is the v1.46
 mutual closure-generation comparison with the canonical KuuOS attachment
-family. -/
+family.  Its carrier universe is exactly the universe of the Duskin nerve. -/
 structure GlobalDuskinExternalPresentation
     (B : Type u) [Bicategory.{w, v} B] where
-  generators : MorphismProperty (ScaledSSet.{u})
+  generators : MorphismProperty (ScaledSSet.{max (max w v) u})
   comparison : ScaledAnodyneGeneratorComparison generators
 
 namespace GlobalDuskinExternalPresentation
@@ -97,7 +100,7 @@ theorem generatedAnodyne_eq_canonical :
 scaled-fibration class. -/
 theorem generatedFibration_eq_canonical :
     externalGeneratedScaledFibration P.generators =
-      canonicalGeneratedScaledFibration :=
+      KUOS.DependentOriginationScaledAnodyneWFSUniversalityV1_43.canonicalGeneratedScaledFibration :=
   ScaledAnodyneGeneratorComparison.externalGeneratedScaledFibration_eq_canonical
     P.comparison
 
@@ -138,12 +141,12 @@ variable
     {G : BicategoricalModelEquivalence C B}
     {HB : GlobalDuskinScaledHornFamily B}
     {HC : GlobalDuskinScaledHornFamily C}
-    (K : CoherentNormalizedScaledExternalDuskinModelEquivalence
-      PB PC E G HB HC)
 
 /-- Convert the two independent external fibrancy hypotheses to the canonical
 attachment-fibrant model-equivalence carrier of v1.42. -/
-noncomputable def toAttachmentFibrantModelEquivalence :
+noncomputable def toAttachmentFibrantModelEquivalence
+    (K : CoherentNormalizedScaledExternalDuskinModelEquivalence
+      PB PC E G HB HC) :
     CoherentNormalizedScaledAttachmentFibrantModelEquivalence E G HB HC where
   homotopyClassModel := K.homotopyClassModel
   sourceAttachmentFibrant :=
@@ -155,7 +158,9 @@ noncomputable def toAttachmentFibrantModelEquivalence :
 
 /-- External presentations therefore recover the exact family-specific
 terminal-RLP model carrier only when needed. -/
-noncomputable def toTerminalRLPModelEquivalence :
+noncomputable def toTerminalRLPModelEquivalence
+    (K : CoherentNormalizedScaledExternalDuskinModelEquivalence
+      PB PC E G HB HC) :
     CoherentNormalizedScaledTerminalRLPModelEquivalence E G HB HC :=
   CoherentNormalizedScaledAttachmentFibrantModelEquivalence.toTerminalRLPModelEquivalence
     (toAttachmentFibrantModelEquivalence K)
@@ -163,7 +168,9 @@ noncomputable def toTerminalRLPModelEquivalence :
 /-- Strict global scaled-Duskin fibrancy is invariant across the bicategorical
 model equivalence when source and target are certified using independent
 external scaled-anodyne generator presentations. -/
-theorem globalDuskinStrictFibrancy_iff :
+theorem globalDuskinStrictFibrancy_iff
+    (K : CoherentNormalizedScaledExternalDuskinModelEquivalence
+      PB PC E G HB HC) :
     HasScaledHornFillers (duskinNerve B) (duskinScaling B) HB ↔
       HasScaledHornFillers (duskinNerve C) (duskinScaling C) HC :=
   CoherentNormalizedScaledAttachmentFibrantModelEquivalence.globalDuskinStrictFibrancy_iff
