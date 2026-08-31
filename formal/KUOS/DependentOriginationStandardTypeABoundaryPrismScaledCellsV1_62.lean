@@ -23,7 +23,7 @@ universe u
 Version v1.61 solved the ordinary combinatorics of
 
 ```text
-A_boundary = (Lambda_i^n x Delta[1]) union (Delta[n] x boundary Delta[1])
+A_boundary = (Lambda_i^n x Delta[1]) union (Delta[n] x boundary Delta[1]).
 ```
 
 by a regular inner pairing and its natural-number relative-cell filtration.
@@ -66,7 +66,7 @@ rank with these A/B generators and packages the transfinite composite as
 
 /-- The exact scaling on the simplex attached by a boundary-prism rank cell:
 pull back the ambient type-(A) cylinder scaling along the Mathlib cell map. -/
-def standardTypeABoundaryPrismCellScaling
+noncomputable def standardTypeABoundaryPrismCellScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
@@ -76,7 +76,7 @@ def standardTypeABoundaryPrismCellScaling
     c.map
 
 /-- The corresponding horn scaling is the pullback of the exact cell scaling. -/
-def standardTypeABoundaryPrismCellHornScaling
+noncomputable def standardTypeABoundaryPrismCellHornScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
