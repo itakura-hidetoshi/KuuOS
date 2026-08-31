@@ -197,10 +197,8 @@ noncomputable def scalingEnrichmentPushoutDesc
     · exact b.scaled t ht
     · have hmap := scalingEnrichmentPushout_compatibility_map
         hXX' sY f hf b a w
-      have hpoint := ConcreteCategory.congr_hom
-        (congr_app hmap (op ⦋2⦌)) x
-      change W.scaling.thin (b.map.app (op ⦋2⦌) (f.app (op ⦋2⦌) x))
-      rw [← hpoint]
+      change W.scaling.thin (((f ≫ b.map).app (op ⦋2⦌)) x)
+      rw [hmap]
       exact a.scaled x hx
 
 @[simp, reassoc]
@@ -257,8 +255,9 @@ theorem scalingEnrichmentPushout_hom_ext
     k = l := by
   apply ScaledSSet.ScaledMap.ext
   have hm := congrArg ScaledSSet.ScaledMap.map h
-  change (𝟙 Y) ≫ k.map = (𝟙 Y) ≫ l.map at hm
-  simpa using hm
+  simpa only [ScaledSSet.comp_map,
+    scalingEnrichmentPushoutTargetEnrichment, ScaledSSet.of,
+    Category.id_comp] using hm
 
 /-- Pushout theorem for an arbitrary identity-underlying scaling enrichment. -/
 noncomputable def scalingEnrichmentPushout_isPushout
