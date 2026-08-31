@@ -73,6 +73,22 @@ opposite vertex `2`, which is one of the faces present in that outer horn. -/
 theorem standardTypeCEdgeFace_le_horn (m : Nat) :
     standardTypeCEdgeFace m ≤
       SSet.horn (m + 3) (0 : Fin (m + 4)) := by
+  have h2lt : 2 < m + 4 := by omega
+  have h02 : (0 : Fin (m + 4)) ≠ (2 : Fin (m + 4)) := by
+    intro h
+    have hv : (0 : Nat) = 2 % (m + 4) := congrArg Fin.val h
+    rw [Nat.mod_eq_of_lt h2lt] at hv
+    omega
+  have h12 : (1 : Fin (m + 4)) ≠ (2 : Fin (m + 4)) := by
+    intro h
+    have hv : (1 : Nat) = 2 % (m + 4) := congrArg Fin.val h
+    rw [Nat.mod_eq_of_lt h2lt] at hv
+    omega
+  have h20 : (2 : Fin (m + 4)) ≠ (0 : Fin (m + 4)) := by
+    intro h
+    have hv : 2 % (m + 4) = (0 : Nat) := congrArg Fin.val h
+    rw [Nat.mod_eq_of_lt h2lt] at hv
+    omega
   have hface :
       standardTypeCEdgeFace m ≤
         SSet.stdSimplex.face ({(2 : Fin (m + 4))}ᶜ) := by
@@ -83,11 +99,11 @@ theorem standardTypeCEdgeFace_le_horn (m : Nat) :
     intro j hj
     simp only [Finset.mem_insert, Finset.mem_singleton] at hj
     rcases hj with rfl | rfl
-    · simp [Fin.ext_iff]
-    · simp [Fin.ext_iff]
+    · simpa only [Finset.mem_compl, Finset.mem_singleton] using h02
+    · simpa only [Finset.mem_compl, Finset.mem_singleton] using h12
   exact hface.trans
     (SSet.face_le_horn
-      (2 : Fin (m + 4)) (0 : Fin (m + 4)) (by simp [Fin.ext_iff]))
+      (2 : Fin (m + 4)) (0 : Fin (m + 4)) h20)
 
 /-- Inclusion of the collapsed edge into the outer horn. -/
 def standardTypeCEdgeToHorn (m : Nat) :
@@ -120,98 +136,98 @@ theorem standardTypeCEdgeToHorn_comp_hornInclusion (m : Nat) :
 /-- Source carrier `Lambda_0^n ⨿_{Delta^{0,1}} Delta^0`. -/
 def standardTypeCSourceCarrier (m : Nat) : SSet.{u} :=
   pushout
-    (standardTypeCEdgeToHorn m)
-    (standardTypeCEdgeCollapseToPoint m)
+    (standardTypeCEdgeToHorn.{u} m)
+    (standardTypeCEdgeCollapseToPoint.{u} m)
 
 /-- Target carrier `Delta^n ⨿_{Delta^{0,1}} Delta^0`. -/
 def standardTypeCTargetCarrier (m : Nat) : SSet.{u} :=
   pushout
-    (standardTypeCEdgeToSimplex m)
-    (standardTypeCEdgeCollapseToPoint m)
+    (standardTypeCEdgeToSimplex.{u} m)
+    (standardTypeCEdgeCollapseToPoint.{u} m)
 
 /-- Canonical horn leg into the source quotient, with the ambient `SSet`
 universe fixed explicitly for Lean 4.31. -/
 def standardTypeCSourceInl (m : Nat) :
     (SSet.horn (m + 3) (0 : Fin (m + 4)) : SSet.{u}) ⟶
-      standardTypeCSourceCarrier m :=
+      standardTypeCSourceCarrier.{u} m :=
   pushout.inl
-    (standardTypeCEdgeToHorn m)
-    (standardTypeCEdgeCollapseToPoint m)
+    (standardTypeCEdgeToHorn.{u} m)
+    (standardTypeCEdgeCollapseToPoint.{u} m)
 
 /-- Canonical point leg into the source quotient. -/
 def standardTypeCSourceInr (m : Nat) :
-    (Δ[0] : SSet.{u}) ⟶ standardTypeCSourceCarrier m :=
+    (Δ[0] : SSet.{u}) ⟶ standardTypeCSourceCarrier.{u} m :=
   pushout.inr
-    (standardTypeCEdgeToHorn m)
-    (standardTypeCEdgeCollapseToPoint m)
+    (standardTypeCEdgeToHorn.{u} m)
+    (standardTypeCEdgeCollapseToPoint.{u} m)
 
 /-- Canonical simplex leg into the target quotient. -/
 def standardTypeCTargetInl (m : Nat) :
-    (Δ[m + 3] : SSet.{u}) ⟶ standardTypeCTargetCarrier m :=
+    (Δ[m + 3] : SSet.{u}) ⟶ standardTypeCTargetCarrier.{u} m :=
   pushout.inl
-    (standardTypeCEdgeToSimplex m)
-    (standardTypeCEdgeCollapseToPoint m)
+    (standardTypeCEdgeToSimplex.{u} m)
+    (standardTypeCEdgeCollapseToPoint.{u} m)
 
 /-- Canonical point leg into the target quotient. -/
 def standardTypeCTargetInr (m : Nat) :
-    (Δ[0] : SSet.{u}) ⟶ standardTypeCTargetCarrier m :=
+    (Δ[0] : SSet.{u}) ⟶ standardTypeCTargetCarrier.{u} m :=
   pushout.inr
-    (standardTypeCEdgeToSimplex m)
-    (standardTypeCEdgeCollapseToPoint m)
+    (standardTypeCEdgeToSimplex.{u} m)
+    (standardTypeCEdgeCollapseToPoint.{u} m)
 
 /-- The source quotient is represented by the native `SSet` pushout. -/
 def standardTypeCSourceCarrier_isPushout (m : Nat) :
     IsPushout
-      (standardTypeCEdgeToHorn m)
-      (standardTypeCEdgeCollapseToPoint m)
-      (standardTypeCSourceInl m)
-      (standardTypeCSourceInr m) := by
+      (standardTypeCEdgeToHorn.{u} m)
+      (standardTypeCEdgeCollapseToPoint.{u} m)
+      (standardTypeCSourceInl.{u} m)
+      (standardTypeCSourceInr.{u} m) := by
   simpa [standardTypeCSourceInl, standardTypeCSourceInr] using
     (pushoutIsPushout
-      (standardTypeCEdgeToHorn m)
-      (standardTypeCEdgeCollapseToPoint m))
+      (standardTypeCEdgeToHorn.{u} m)
+      (standardTypeCEdgeCollapseToPoint.{u} m))
 
 /-- The target quotient is represented by the native `SSet` pushout. -/
 def standardTypeCTargetCarrier_isPushout (m : Nat) :
     IsPushout
-      (standardTypeCEdgeToSimplex m)
-      (standardTypeCEdgeCollapseToPoint m)
-      (standardTypeCTargetInl m)
-      (standardTypeCTargetInr m) := by
+      (standardTypeCEdgeToSimplex.{u} m)
+      (standardTypeCEdgeCollapseToPoint.{u} m)
+      (standardTypeCTargetInl.{u} m)
+      (standardTypeCTargetInr.{u} m) := by
   simpa [standardTypeCTargetInl, standardTypeCTargetInr] using
     (pushoutIsPushout
-      (standardTypeCEdgeToSimplex m)
-      (standardTypeCEdgeCollapseToPoint m))
+      (standardTypeCEdgeToSimplex.{u} m)
+      (standardTypeCEdgeCollapseToPoint.{u} m))
 
 /-- On the source quotient the edge inclusion agrees with the point collapse. -/
 theorem standardTypeCSource_edge_collapsed (m : Nat) :
-    standardTypeCEdgeToHorn m ≫ standardTypeCSourceInl m =
-      standardTypeCEdgeCollapseToPoint m ≫ standardTypeCSourceInr m := by
+    standardTypeCEdgeToHorn.{u} m ≫ standardTypeCSourceInl.{u} m =
+      standardTypeCEdgeCollapseToPoint.{u} m ≫ standardTypeCSourceInr.{u} m := by
   simpa [standardTypeCSourceInl, standardTypeCSourceInr] using
     (pushout.condition :
-      standardTypeCEdgeToHorn m ≫
+      standardTypeCEdgeToHorn.{u} m ≫
           pushout.inl
-            (standardTypeCEdgeToHorn m)
-            (standardTypeCEdgeCollapseToPoint m) =
-        standardTypeCEdgeCollapseToPoint m ≫
+            (standardTypeCEdgeToHorn.{u} m)
+            (standardTypeCEdgeCollapseToPoint.{u} m) =
+        standardTypeCEdgeCollapseToPoint.{u} m ≫
           pushout.inr
-            (standardTypeCEdgeToHorn m)
-            (standardTypeCEdgeCollapseToPoint m))
+            (standardTypeCEdgeToHorn.{u} m)
+            (standardTypeCEdgeCollapseToPoint.{u} m))
 
 /-- On the target quotient the edge inclusion agrees with the point collapse. -/
 theorem standardTypeCTarget_edge_collapsed (m : Nat) :
-    standardTypeCEdgeToSimplex m ≫ standardTypeCTargetInl m =
-      standardTypeCEdgeCollapseToPoint m ≫ standardTypeCTargetInr m := by
+    standardTypeCEdgeToSimplex.{u} m ≫ standardTypeCTargetInl.{u} m =
+      standardTypeCEdgeCollapseToPoint.{u} m ≫ standardTypeCTargetInr.{u} m := by
   simpa [standardTypeCTargetInl, standardTypeCTargetInr] using
     (pushout.condition :
-      standardTypeCEdgeToSimplex m ≫
+      standardTypeCEdgeToSimplex.{u} m ≫
           pushout.inl
-            (standardTypeCEdgeToSimplex m)
-            (standardTypeCEdgeCollapseToPoint m) =
-        standardTypeCEdgeCollapseToPoint m ≫
+            (standardTypeCEdgeToSimplex.{u} m)
+            (standardTypeCEdgeCollapseToPoint.{u} m) =
+        standardTypeCEdgeCollapseToPoint.{u} m ≫
           pushout.inr
-            (standardTypeCEdgeToSimplex m)
-            (standardTypeCEdgeCollapseToPoint m))
+            (standardTypeCEdgeToSimplex.{u} m)
+            (standardTypeCEdgeCollapseToPoint.{u} m))
 
 /-- The induced map from the collapsed outer horn to the collapsed simplex. -/
 def standardTypeCCarrierMap (m : Nat) :
@@ -271,7 +287,12 @@ def standardTypeCTriangle01nInHorn (m : Nat) :
     exact
       (SSet.face_le_horn
         (2 : Fin (m + 4)) (0 : Fin (m + 4))
-        (by simp [Fin.ext_iff])) _ ht⟩
+        (by
+          have h2lt : 2 < m + 4 := by omega
+          intro h
+          have hv : 2 % (m + 4) = (0 : Nat) := congrArg Fin.val h
+          rw [Nat.mod_eq_of_lt h2lt] at hv
+          omega)) _ ht⟩
 
 /-- Distinguished source triangle: the image of `01n` in the collapsed horn. -/
 def standardTypeCSourceDistinguishedTriangle (m : Nat) :
