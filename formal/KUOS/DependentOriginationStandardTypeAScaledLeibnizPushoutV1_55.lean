@@ -252,14 +252,23 @@ theorem standardTypeAEndpointGeneratedPushoutDescMap_scaled
             (SSet.horn g.n g.i) (intervalEndpoint g.endpoint)).app
               (op ⦋2⦌) x) =
         f.map.app (op ⦋2⦌) x := by
-      simpa [standardTypeAEndpointGeneratedPushoutDescMap] using
-        ConcreteCategory.congr_hom
-          (congr_app
-            ((standardTypeAEndpointPushoutSquare g).inl_desc
-              f.map h.map
-              (standardTypeAEndpointGeneratedPushout_compatibility_map
-                g f h w))
-            (op ⦋2⦌)) x
+      change
+        ((standardTypeAEndpointPushoutSquare g).desc
+            f.map h.map
+            (standardTypeAEndpointGeneratedPushout_compatibility_map
+              g f h w)).app
+            (op ⦋2⦌)
+            ((SSet.Subcomplex.unionProd.ι₁
+              (SSet.horn g.n g.i) (intervalEndpoint g.endpoint)).app
+                (op ⦋2⦌) x) =
+          f.map.app (op ⦋2⦌) x
+      exact ConcreteCategory.congr_hom
+        (congr_app
+          ((standardTypeAEndpointPushoutSquare g).inl_desc
+            f.map h.map
+            (standardTypeAEndpointGeneratedPushout_compatibility_map
+              g f h w))
+          (op ⦋2⦌)) x
     rw [hfac]
     exact f.scaled x hx
   · have hfac :
@@ -269,14 +278,23 @@ theorem standardTypeAEndpointGeneratedPushoutDescMap_scaled
             (SSet.horn g.n g.i) (intervalEndpoint g.endpoint)).app
               (op ⦋2⦌) x) =
         h.map.app (op ⦋2⦌) x := by
-      simpa [standardTypeAEndpointGeneratedPushoutDescMap] using
-        ConcreteCategory.congr_hom
-          (congr_app
-            ((standardTypeAEndpointPushoutSquare g).inr_desc
-              f.map h.map
-              (standardTypeAEndpointGeneratedPushout_compatibility_map
-                g f h w))
-            (op ⦋2⦌)) x
+      change
+        ((standardTypeAEndpointPushoutSquare g).desc
+            f.map h.map
+            (standardTypeAEndpointGeneratedPushout_compatibility_map
+              g f h w)).app
+            (op ⦋2⦌)
+            ((SSet.Subcomplex.unionProd.ι₂
+              (SSet.horn g.n g.i) (intervalEndpoint g.endpoint)).app
+                (op ⦋2⦌) x) =
+          h.map.app (op ⦋2⦌) x
+      exact ConcreteCategory.congr_hom
+        (congr_app
+          ((standardTypeAEndpointPushoutSquare g).inr_desc
+            f.map h.map
+            (standardTypeAEndpointGeneratedPushout_compatibility_map
+              g f h w))
+          (op ⦋2⦌)) x
     rw [hfac]
     exact h.scaled x hx
 
@@ -640,13 +658,12 @@ structure StandardTypeAExternalScaledLeibnizComparison
 
 namespace StandardTypeAExternalScaledLeibnizComparison
 
-variable
-    {E : MorphismProperty (ScaledSSet.{u})}
-    (K : StandardTypeAExternalScaledLeibnizComparison E)
+variable {E : MorphismProperty (ScaledSSet.{u})}
 
 /-- The categorical comparison data supplies the exact v1.54 comparison
 interface. -/
-def toGeneratedPushoutComparison :
+def toGeneratedPushoutComparison
+    (K : StandardTypeAExternalScaledLeibnizComparison E) :
     StandardTypeAExternalGeneratedPushoutComparison E where
   typeAHorns_le_externalGenerated :=
     StandardTypeAExternalScaledLeibnizComparison.typeAHorns_le_externalGenerated K
@@ -656,7 +673,8 @@ def toGeneratedPushoutComparison :
 
 /-- Consequently the type-(A) induced attachments lie in the external
 orthogonally generated left class. -/
-theorem inducedTypeAAttachments_le_externalGenerated :
+theorem inducedTypeAAttachments_le_externalGenerated
+    (K : StandardTypeAExternalScaledLeibnizComparison E) :
     (standardTypeAInducedScaledHornAttachmentGenerators :
       MorphismProperty (ScaledSSet.{u})) ≤
       externalGeneratedScaledAnodyne E :=
@@ -665,7 +683,8 @@ theorem inducedTypeAAttachments_le_externalGenerated :
 
 /-- The v1.50 induced endpoint-pushout-product presentation is externally
 generated as well. -/
-theorem endpointPushoutProducts_le_externalGenerated :
+theorem endpointPushoutProducts_le_externalGenerated
+    (K : StandardTypeAExternalScaledLeibnizComparison E) :
     (standardTypeAEndpointPushoutProductGenerators :
       MorphismProperty (ScaledSSet.{u})) ≤
       externalGeneratedScaledAnodyne E :=
@@ -689,5 +708,7 @@ ordinary Mathlib unionProd pushout
   -> T_induced^(A) <= E.rlp.llp.
 ```
 -/
+
+end
 
 end KUOS.DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55
