@@ -85,9 +85,9 @@ instance standardTypeAEndpointGeneratedToInduced_epi
     have hw := congrArg ScaledSSet.ScaledMap.map w
     change
       (𝟙 ((SSet.horn g.n g.i).unionProd
-          (intervalEndpoint g.endpoint) : SSet.{u}) ≫ f.map) =
+          (KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40.intervalEndpoint g.endpoint) : SSet.{u}) ≫ f.map) =
         (𝟙 ((SSet.horn g.n g.i).unionProd
-          (intervalEndpoint g.endpoint) : SSet.{u}) ≫ h.map) at hw
+          (KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40.intervalEndpoint g.endpoint) : SSet.{u}) ≫ h.map) at hw
     simpa only [Category.id_comp] using hw
 
 /-- Lifting against the least-generated endpoint map descends to lifting
