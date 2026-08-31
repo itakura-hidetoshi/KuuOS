@@ -4,6 +4,7 @@ import Mathlib.AlgebraicTopology.SimplicialSet.AnodyneExtensions.PairingCore
 namespace KUOS.DependentOriginationStandardTypeABoundaryPrismDimensionDichotomyV1_63
 
 open CategoryTheory
+open MonoidalCategory
 open Opposite
 open Simplicial
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
@@ -89,8 +90,10 @@ theorem unionProdPairingCore_typeTwo_target_dim_ge_left
   obtain ⟨s, rfl⟩ :=
     (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
   change m + 1 ≤ s.d + 1
-  have hcard := Fintype.card_le_of_surjective _
-    (unionProdPairingCore_typeOne_fst_surjective k s)
+  have hcard :
+      Fintype.card (Fin (m + 2)) ≤ Fintype.card (Fin (s.d + 2)) :=
+    Fintype.card_le_of_surjective _
+      (unionProdPairingCore_typeOne_fst_surjective k s)
   simp only [Fintype.card_fin] at hcard
   omega
 
@@ -101,11 +104,8 @@ theorem unionProdPairing_typeTwo_target_dim_ge_left
     (k : Fin (m + 1))
     (z : (SSet.prodStdSimplex.pairing.{u} k.castSucc 1).II) :
     m + 1 ≤ z.val.dim + 1 := by
-  have z' :
-      (SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.II := by
-    simpa only [SSet.prodStdSimplex.pairing_castSucc] using z
-  have h := unionProdPairingCore_typeTwo_target_dim_ge_left k z'
-  simpa only [SSet.prodStdSimplex.pairing_castSucc] using h
+  rw [SSet.prodStdSimplex.pairing_castSucc] at z
+  exact unionProdPairingCore_typeTwo_target_dim_ge_left k z
 
 /-! ## Lower and upper dimension bounds for every KuuOS boundary-prism cell -/
 
@@ -130,7 +130,9 @@ theorem standardTypeABoundaryPrism_cell_target_dim_ge_generator_dim
   rcases g with ⟨n, i, h0, hn, endpoint⟩
   cases n with
   | zero =>
-      have hi : i = 0 := Subsingleton.elim _ _
+      have hi : i = 0 := by
+        apply Fin.ext
+        omega
       subst i
       simp at h0
   | succ m =>
