@@ -229,9 +229,7 @@ theorem standardTypeABoundaryPrism_cell_dim_three_generator_two_coordinate_norma
               (SimplexCategory.σ r) ∧
           (standardTypeABoundaryPrismCellPairedTop g j c htop).1.2 =
             SSet.stdSimplex.objMk₁ r.succ.castSucc := by
-  have htop : c.dim + 1 = g.n + 1 := by
-    rw [hn2]
-    omega
+  have htop : c.dim + 1 = g.n + 1 := by omega
   exact ⟨htop,
     standardTypeABoundaryPrism_cell_top_coordinate_normalForm g j c htop⟩
 
