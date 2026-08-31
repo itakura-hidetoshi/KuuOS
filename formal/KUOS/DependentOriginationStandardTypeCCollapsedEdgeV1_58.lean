@@ -182,10 +182,19 @@ def standardTypeCSourceCarrier_isPushout (m : Nat) :
       (standardTypeCEdgeCollapseToPoint.{u} m)
       (standardTypeCSourceInl.{u} m)
       (standardTypeCSourceInr.{u} m) := by
-  simpa [standardTypeCSourceInl, standardTypeCSourceInr] using
-    (pushoutIsPushout
+  change
+    IsPushout
       (standardTypeCEdgeToHorn.{u} m)
-      (standardTypeCEdgeCollapseToPoint.{u} m))
+      (standardTypeCEdgeCollapseToPoint.{u} m)
+      (pushout.inl
+        (standardTypeCEdgeToHorn.{u} m)
+        (standardTypeCEdgeCollapseToPoint.{u} m))
+      (pushout.inr
+        (standardTypeCEdgeToHorn.{u} m)
+        (standardTypeCEdgeCollapseToPoint.{u} m))
+  exact IsPushout.of_hasPushout
+    (standardTypeCEdgeToHorn.{u} m)
+    (standardTypeCEdgeCollapseToPoint.{u} m)
 
 /-- The target quotient is represented by the native `SSet` pushout. -/
 def standardTypeCTargetCarrier_isPushout (m : Nat) :
@@ -194,71 +203,76 @@ def standardTypeCTargetCarrier_isPushout (m : Nat) :
       (standardTypeCEdgeCollapseToPoint.{u} m)
       (standardTypeCTargetInl.{u} m)
       (standardTypeCTargetInr.{u} m) := by
-  simpa [standardTypeCTargetInl, standardTypeCTargetInr] using
-    (pushoutIsPushout
+  change
+    IsPushout
       (standardTypeCEdgeToSimplex.{u} m)
-      (standardTypeCEdgeCollapseToPoint.{u} m))
+      (standardTypeCEdgeCollapseToPoint.{u} m)
+      (pushout.inl
+        (standardTypeCEdgeToSimplex.{u} m)
+        (standardTypeCEdgeCollapseToPoint.{u} m))
+      (pushout.inr
+        (standardTypeCEdgeToSimplex.{u} m)
+        (standardTypeCEdgeCollapseToPoint.{u} m))
+  exact IsPushout.of_hasPushout
+    (standardTypeCEdgeToSimplex.{u} m)
+    (standardTypeCEdgeCollapseToPoint.{u} m)
 
 /-- On the source quotient the edge inclusion agrees with the point collapse. -/
 theorem standardTypeCSource_edge_collapsed (m : Nat) :
     standardTypeCEdgeToHorn.{u} m ≫ standardTypeCSourceInl.{u} m =
-      standardTypeCEdgeCollapseToPoint.{u} m ≫ standardTypeCSourceInr.{u} m := by
-  simpa [standardTypeCSourceInl, standardTypeCSourceInr] using
-    (pushout.condition :
-      standardTypeCEdgeToHorn.{u} m ≫
-          pushout.inl
-            (standardTypeCEdgeToHorn.{u} m)
-            (standardTypeCEdgeCollapseToPoint.{u} m) =
-        standardTypeCEdgeCollapseToPoint.{u} m ≫
-          pushout.inr
-            (standardTypeCEdgeToHorn.{u} m)
-            (standardTypeCEdgeCollapseToPoint.{u} m))
+      standardTypeCEdgeCollapseToPoint.{u} m ≫ standardTypeCSourceInr.{u} m :=
+  (standardTypeCSourceCarrier_isPushout.{u} m).w
 
 /-- On the target quotient the edge inclusion agrees with the point collapse. -/
 theorem standardTypeCTarget_edge_collapsed (m : Nat) :
     standardTypeCEdgeToSimplex.{u} m ≫ standardTypeCTargetInl.{u} m =
-      standardTypeCEdgeCollapseToPoint.{u} m ≫ standardTypeCTargetInr.{u} m := by
-  simpa [standardTypeCTargetInl, standardTypeCTargetInr] using
-    (pushout.condition :
-      standardTypeCEdgeToSimplex.{u} m ≫
-          pushout.inl
-            (standardTypeCEdgeToSimplex.{u} m)
-            (standardTypeCEdgeCollapseToPoint.{u} m) =
-        standardTypeCEdgeCollapseToPoint.{u} m ≫
-          pushout.inr
-            (standardTypeCEdgeToSimplex.{u} m)
-            (standardTypeCEdgeCollapseToPoint.{u} m))
+      standardTypeCEdgeCollapseToPoint.{u} m ≫ standardTypeCTargetInr.{u} m :=
+  (standardTypeCTargetCarrier_isPushout.{u} m).w
+
+/-- Compatibility needed to descend the horn inclusion through the collapsed
+source quotient. -/
+theorem standardTypeCCarrierMap_compatibility (m : Nat) :
+    standardTypeCEdgeToHorn.{u} m ≫
+        ((SSet.horn (m + 3) (0 : Fin (m + 4)) : SSet.{u}).ι ≫
+          standardTypeCTargetInl.{u} m) =
+      standardTypeCEdgeCollapseToPoint.{u} m ≫
+        standardTypeCTargetInr.{u} m := by
+  rw [Category.assoc, standardTypeCEdgeToHorn_comp_hornInclusion]
+  exact standardTypeCTarget_edge_collapsed.{u} m
 
 /-- The induced map from the collapsed outer horn to the collapsed simplex. -/
 def standardTypeCCarrierMap (m : Nat) :
-    standardTypeCSourceCarrier m ⟶ standardTypeCTargetCarrier m :=
-  pushout.map
-    (standardTypeCEdgeToHorn m)
-    (standardTypeCEdgeCollapseToPoint m)
-    (standardTypeCEdgeToSimplex m)
-    (standardTypeCEdgeCollapseToPoint m)
-    (SSet.horn (m + 3) (0 : Fin (m + 4))).ι
-    (𝟙 (Δ[0] : SSet.{u}))
-    (𝟙 (standardTypeCEdgeFace m : SSet.{u}))
-    (by simp [standardTypeCEdgeToHorn_comp_hornInclusion])
-    (by simp)
+    standardTypeCSourceCarrier.{u} m ⟶ standardTypeCTargetCarrier.{u} m :=
+  (standardTypeCSourceCarrier_isPushout.{u} m).desc
+    ((SSet.horn (m + 3) (0 : Fin (m + 4)) : SSet.{u}).ι ≫
+      standardTypeCTargetInl.{u} m)
+    (standardTypeCTargetInr.{u} m)
+    (standardTypeCCarrierMap_compatibility.{u} m)
 
 /-- The induced carrier map is the horn inclusion on the horn leg. -/
 @[reassoc]
 theorem standardTypeCCarrierMap_inl_horn (m : Nat) :
-    standardTypeCSourceInl m ≫ standardTypeCCarrierMap m =
-      (SSet.horn (m + 3) (0 : Fin (m + 4))).ι ≫
-        standardTypeCTargetInl m := by
-  simp [standardTypeCSourceInl, standardTypeCTargetInl,
-    standardTypeCCarrierMap]
+    standardTypeCSourceInl.{u} m ≫ standardTypeCCarrierMap.{u} m =
+      (SSet.horn (m + 3) (0 : Fin (m + 4)) : SSet.{u}).ι ≫
+        standardTypeCTargetInl.{u} m := by
+  simpa [standardTypeCCarrierMap] using
+    (standardTypeCSourceCarrier_isPushout.{u} m).inl_desc
+      ((SSet.horn (m + 3) (0 : Fin (m + 4)) : SSet.{u}).ι ≫
+        standardTypeCTargetInl.{u} m)
+      (standardTypeCTargetInr.{u} m)
+      (standardTypeCCarrierMap_compatibility.{u} m)
 
 /-- The induced carrier map is the identity on the collapsed point leg. -/
 @[reassoc]
 theorem standardTypeCCarrierMap_inr_point (m : Nat) :
-    standardTypeCSourceInr m ≫ standardTypeCCarrierMap m =
-      standardTypeCTargetInr m := by
-  simp [standardTypeCSourceInr, standardTypeCTargetInr,
-    standardTypeCCarrierMap]
+    standardTypeCSourceInr.{u} m ≫ standardTypeCCarrierMap.{u} m =
+      standardTypeCTargetInr.{u} m := by
+  simpa [standardTypeCCarrierMap] using
+    (standardTypeCSourceCarrier_isPushout.{u} m).inr_desc
+      ((SSet.horn (m + 3) (0 : Fin (m + 4)) : SSet.{u}).ι ≫
+        standardTypeCTargetInl.{u} m)
+      (standardTypeCTargetInr.{u} m)
+      (standardTypeCCarrierMap_compatibility.{u} m)
 
 /-! ## The distinguished `01n` triangle -/
 
@@ -269,56 +283,77 @@ def standardTypeCTriangle01n (m : Nat) :
     (0 : Fin (m + 4))
     (1 : Fin (m + 4))
     (Fin.last (m + 3))
-    (by omega)
-    (by omega)
+    (by
+      change 0 % (m + 4) ≤ 1 % (m + 4)
+      rw [Nat.mod_eq_of_lt (by omega : 0 < m + 4),
+        Nat.mod_eq_of_lt (by omega : 1 < m + 4)]
+      omega)
+    (by
+      change 1 % (m + 4) ≤ m + 3
+      rw [Nat.mod_eq_of_lt (by omega : 1 < m + 4)]
+      omega)
 
 /-- The triangle `01n` belongs to the outer horn `Lambda_0^n`: it lies in the
 face opposite vertex `2`. -/
 def standardTypeCTriangle01nInHorn (m : Nat) :
     (SSet.horn (m + 3) (0 : Fin (m + 4)) : SSet.{u}).obj (op ⦋2⦌) :=
-  ⟨standardTypeCTriangle01n m, by
+  ⟨standardTypeCTriangle01n.{u} m, by
+    have h2lt : 2 < m + 4 := by omega
+    have h02 : (0 : Fin (m + 4)) ≠ (2 : Fin (m + 4)) := by
+      intro h
+      have hv : (0 : Nat) = 2 % (m + 4) := congrArg Fin.val h
+      rw [Nat.mod_eq_of_lt h2lt] at hv
+      omega
+    have h12 : (1 : Fin (m + 4)) ≠ (2 : Fin (m + 4)) := by
+      intro h
+      have hv : (1 : Nat) = 2 % (m + 4) := congrArg Fin.val h
+      rw [Nat.mod_eq_of_lt h2lt] at hv
+      omega
+    have hlast2 : Fin.last (m + 3) ≠ (2 : Fin (m + 4)) := by
+      intro h
+      have hv : m + 3 = 2 % (m + 4) := congrArg Fin.val h
+      rw [Nat.mod_eq_of_lt h2lt] at hv
+      omega
+    have h20 : (2 : Fin (m + 4)) ≠ (0 : Fin (m + 4)) := by
+      exact Ne.symm h02
     have ht :
-        standardTypeCTriangle01n m ∈
+        standardTypeCTriangle01n.{u} m ∈
           (SSet.stdSimplex.face ({(2 : Fin (m + 4))}ᶜ)).obj (op ⦋2⦌) := by
       rw [SSet.stdSimplex.mem_face_iff]
       intro j
-      fin_cases j <;>
-        simp [standardTypeCTriangle01n, Fin.ext_iff] <;> omega
+      fin_cases j
+      · simpa [standardTypeCTriangle01n] using h02
+      · simpa [standardTypeCTriangle01n] using h12
+      · simpa [standardTypeCTriangle01n] using hlast2
     exact
       (SSet.face_le_horn
-        (2 : Fin (m + 4)) (0 : Fin (m + 4))
-        (by
-          have h2lt : 2 < m + 4 := by omega
-          intro h
-          have hv : 2 % (m + 4) = (0 : Nat) := congrArg Fin.val h
-          rw [Nat.mod_eq_of_lt h2lt] at hv
-          omega)) _ ht⟩
+        (2 : Fin (m + 4)) (0 : Fin (m + 4)) h20) _ ht⟩
 
 /-- Distinguished source triangle: the image of `01n` in the collapsed horn. -/
 def standardTypeCSourceDistinguishedTriangle (m : Nat) :
-    (standardTypeCSourceCarrier m).obj (op ⦋2⦌) :=
-  (standardTypeCSourceInl m).app (op ⦋2⦌)
-    (standardTypeCTriangle01nInHorn m)
+    (standardTypeCSourceCarrier.{u} m).obj (op ⦋2⦌) :=
+  (standardTypeCSourceInl.{u} m).app (op ⦋2⦌)
+    (standardTypeCTriangle01nInHorn.{u} m)
 
 /-- Distinguished target triangle: the image of `01n` in the collapsed full
 simplex. -/
 def standardTypeCTargetDistinguishedTriangle (m : Nat) :
-    (standardTypeCTargetCarrier m).obj (op ⦋2⦌) :=
-  (standardTypeCTargetInl m).app (op ⦋2⦌)
-    (standardTypeCTriangle01n m)
+    (standardTypeCTargetCarrier.{u} m).obj (op ⦋2⦌) :=
+  (standardTypeCTargetInl.{u} m).app (op ⦋2⦌)
+    (standardTypeCTriangle01n.{u} m)
 
 /-- The quotient carrier map sends the distinguished source triangle exactly
 to the distinguished target triangle. -/
 theorem standardTypeCCarrierMap_distinguishedTriangle (m : Nat) :
-    (standardTypeCCarrierMap m).app (op ⦋2⦌)
-        (standardTypeCSourceDistinguishedTriangle m) =
-      standardTypeCTargetDistinguishedTriangle m := by
+    (standardTypeCCarrierMap.{u} m).app (op ⦋2⦌)
+        (standardTypeCSourceDistinguishedTriangle.{u} m) =
+      standardTypeCTargetDistinguishedTriangle.{u} m := by
   have h := congrArg
     (fun k :
         (SSet.horn (m + 3) (0 : Fin (m + 4)) : SSet.{u}) ⟶
-          standardTypeCTargetCarrier m =>
-      k.app (op ⦋2⦌) (standardTypeCTriangle01nInHorn m))
-    (standardTypeCCarrierMap_inl_horn m)
+          standardTypeCTargetCarrier.{u} m =>
+      k.app (op ⦋2⦌) (standardTypeCTriangle01nInHorn.{u} m))
+    (standardTypeCCarrierMap_inl_horn.{u} m)
   simpa [standardTypeCSourceDistinguishedTriangle,
     standardTypeCTargetDistinguishedTriangle,
     standardTypeCTriangle01nInHorn] using h
@@ -339,46 +374,52 @@ def minimalPlusTriangleScaling
 
 /-- Source scaling of the standard type-(C) generator. -/
 def standardTypeCSourceScaling (m : Nat) :
-    ScaledSimplicialSet (standardTypeCSourceCarrier m) :=
-  minimalPlusTriangleScaling (standardTypeCSourceDistinguishedTriangle m)
+    ScaledSimplicialSet (standardTypeCSourceCarrier.{u} m) :=
+  minimalPlusTriangleScaling
+    (standardTypeCSourceDistinguishedTriangle.{u} m)
 
 /-- Target scaling of the standard type-(C) generator. -/
 def standardTypeCTargetScaling (m : Nat) :
-    ScaledSimplicialSet (standardTypeCTargetCarrier m) :=
-  minimalPlusTriangleScaling (standardTypeCTargetDistinguishedTriangle m)
+    ScaledSimplicialSet (standardTypeCTargetCarrier.{u} m) :=
+  minimalPlusTriangleScaling
+    (standardTypeCTargetDistinguishedTriangle.{u} m)
 
 /-- The standard type-(C) source object. -/
 def standardTypeCSource (m : Nat) : ScaledSSet.{u} :=
-  ScaledSSet.of (standardTypeCSourceCarrier m) (standardTypeCSourceScaling m)
+  ScaledSSet.of
+    (standardTypeCSourceCarrier.{u} m)
+    (standardTypeCSourceScaling.{u} m)
 
 /-- The standard type-(C) target object. -/
 def standardTypeCTarget (m : Nat) : ScaledSSet.{u} :=
-  ScaledSSet.of (standardTypeCTargetCarrier m) (standardTypeCTargetScaling m)
+  ScaledSSet.of
+    (standardTypeCTargetCarrier.{u} m)
+    (standardTypeCTargetScaling.{u} m)
 
 /-- The standard type-(C) collapsed-edge generator. -/
 def standardTypeCGeneratorHom (m : Nat) :
-    standardTypeCSource m ⟶ standardTypeCTarget m where
-  map := standardTypeCCarrierMap m
+    standardTypeCSource.{u} m ⟶ standardTypeCTarget.{u} m where
+  map := standardTypeCCarrierMap.{u} m
   scaled := by
     intro t ht
     rcases ht with ht | ht
-    · exact Or.inl
-        ((minimalScaling_map
-          (standardTypeCTargetScaling m)
-          (standardTypeCCarrierMap m)) t ht)
+    · exact
+        (minimalScaling_map
+          (standardTypeCTargetScaling.{u} m)
+          (standardTypeCCarrierMap.{u} m)) t ht
     · subst t
-      exact Or.inr (standardTypeCCarrierMap_distinguishedTriangle m)
+      exact Or.inr (standardTypeCCarrierMap_distinguishedTriangle.{u} m)
 
 /-- The distinguished target triangle is thin by construction. -/
 theorem standardTypeCTarget_distinguished_thin (m : Nat) :
-    (standardTypeCTargetScaling m).thin
-      (standardTypeCTargetDistinguishedTriangle m) := by
+    (standardTypeCTargetScaling.{u} m).thin
+      (standardTypeCTargetDistinguishedTriangle.{u} m) := by
   exact Or.inr rfl
 
 /-- The distinguished source triangle is thin by construction. -/
 theorem standardTypeCSource_distinguished_thin (m : Nat) :
-    (standardTypeCSourceScaling m).thin
-      (standardTypeCSourceDistinguishedTriangle m) := by
+    (standardTypeCSourceScaling.{u} m).thin
+      (standardTypeCSourceDistinguishedTriangle.{u} m) := by
   exact Or.inr rfl
 
 /-! ## The complete type-(C) generator family -/
@@ -386,13 +427,14 @@ theorem standardTypeCSource_distinguished_thin (m : Nat) :
 /-- Standard type-(C) generators in every allowed dimension `n > 2`. -/
 def standardTypeCScaledAnodyneGenerators :
     MorphismProperty (ScaledSSet.{u}) :=
-  MorphismProperty.ofHoms (fun m : Nat => standardTypeCGeneratorHom m)
+  MorphismProperty.ofHoms
+    (fun m : Nat => standardTypeCGeneratorHom.{u} m)
 
 /-- Every type-(C) collapsed-edge map belongs to the type-(C) generator family. -/
 theorem standardTypeCGenerator_mem (m : Nat) :
     (standardTypeCScaledAnodyneGenerators :
       MorphismProperty (ScaledSSet.{u}))
-      (standardTypeCGeneratorHom m) :=
+      (standardTypeCGeneratorHom.{u} m) :=
   MorphismProperty.ofHoms.mk m
 
 /-- The dimension of the `m`-th type-(C) generator is strictly greater than
@@ -463,8 +505,9 @@ theorem standardTypeBGenerator_mem_ABC :
 
 /-- Every concrete type-(C) map is a member of the A/B/C presentation. -/
 theorem standardTypeCGenerator_mem_ABC (m : Nat) :
-    standardScaledAnodyneGeneratorsABC (standardTypeCGeneratorHom m) :=
-  standardTypeCGenerators_le_ABC _ (standardTypeCGenerator_mem m)
+    standardScaledAnodyneGeneratorsABC
+      (standardTypeCGeneratorHom.{u} m) :=
+  standardTypeCGenerators_le_ABC _ (standardTypeCGenerator_mem.{u} m)
 
 /-- Left orthogonal closure generated by the explicit standard A/B/C family. -/
 def standardGeneratedScaledAnodyneABC :
@@ -501,19 +544,16 @@ theorem standardTypeBGenerator_mem_standardGenerated :
 
 /-- Every type-(C) generator belongs to the standard generated left class. -/
 theorem standardTypeCGenerator_mem_standardGenerated (m : Nat) :
-    standardGeneratedScaledAnodyneABC (standardTypeCGeneratorHom m) :=
+    standardGeneratedScaledAnodyneABC (standardTypeCGeneratorHom.{u} m) :=
   standardScaledAnodyneGeneratorsABC_le_generated _
-    (standardTypeCGenerator_mem_ABC m)
+    (standardTypeCGenerator_mem_ABC.{u} m)
 
 /-- The v1.57 `q12` three-simplex completion belongs automatically to the
 standard generated left class because it is a pushout of type-(B). -/
 theorem standardTypeBCollapse12Completion_mem_standardGenerated :
     standardGeneratedScaledAnodyneABC
       standardTypeBCollapse12CompletionHom := by
-  change
-    (standardScaledAnodyneGeneratorsABC :
-      MorphismProperty (ScaledSSet.{u})).rlp.llp
-      standardTypeBCollapse12CompletionHom
+  dsimp only [standardGeneratedScaledAnodyneABC]
   exact standardTypeBCollapse12Completion_mem_llp
     (standardScaledAnodyneGeneratorsABC :
       MorphismProperty (ScaledSSet.{u})).rlp
@@ -524,10 +564,7 @@ standard generated left class because it is a pushout of type-(B). -/
 theorem standardTypeBCollapse23Completion_mem_standardGenerated :
     standardGeneratedScaledAnodyneABC
       standardTypeBCollapse23CompletionHom := by
-  change
-    (standardScaledAnodyneGeneratorsABC :
-      MorphismProperty (ScaledSSet.{u})).rlp.llp
-      standardTypeBCollapse23CompletionHom
+  dsimp only [standardGeneratedScaledAnodyneABC]
   exact standardTypeBCollapse23Completion_mem_llp
     (standardScaledAnodyneGeneratorsABC :
       MorphismProperty (ScaledSSet.{u})).rlp
