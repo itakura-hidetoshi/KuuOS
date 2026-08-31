@@ -250,13 +250,12 @@ structure FactorizedScaledAnodyneGeneratorComparison
 
 namespace FactorizedScaledAnodyneGeneratorComparison
 
-variable
-    {E : MorphismProperty (ScaledSSet.{u})}
-    (K : FactorizedScaledAnodyneGeneratorComparison E)
+variable {E : MorphismProperty (ScaledSSet.{u})}
 
 /-- Factor-level comparison data canonically produces the exact v1.46
 mutual-closure comparison certificate. -/
-def toScaledAnodyneGeneratorComparison :
+def toScaledAnodyneGeneratorComparison
+    (K : FactorizedScaledAnodyneGeneratorComparison E) :
     ScaledAnodyneGeneratorComparison E where
   canonicalGenerators_le_externalGenerated :=
     K.factors.canonicalGenerators_le_externalGenerated
@@ -264,14 +263,16 @@ def toScaledAnodyneGeneratorComparison :
     K.externalGenerators_le_canonicalGenerated
 
 /-- Hence the external and canonical generated left classes agree. -/
-theorem externalGeneratedScaledAnodyne_eq_canonical :
+theorem externalGeneratedScaledAnodyne_eq_canonical
+    (K : FactorizedScaledAnodyneGeneratorComparison E) :
     externalGeneratedScaledAnodyne E =
       (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u})) :=
   ScaledAnodyneGeneratorComparison.externalGeneratedScaledAnodyne_eq_canonical
     (toScaledAnodyneGeneratorComparison K)
 
 /-- And their right lifting classes agree. -/
-theorem externalGeneratedScaledFibration_eq_canonical :
+theorem externalGeneratedScaledFibration_eq_canonical
+    (K : FactorizedScaledAnodyneGeneratorComparison E) :
     externalGeneratedScaledFibration E =
       (canonicalGeneratedScaledFibration : MorphismProperty (ScaledSSet.{u})) :=
   ScaledAnodyneGeneratorComparison.externalGeneratedScaledFibration_eq_canonical
