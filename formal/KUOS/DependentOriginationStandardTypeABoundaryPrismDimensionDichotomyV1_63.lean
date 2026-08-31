@@ -104,8 +104,11 @@ theorem unionProdPairing_typeTwo_target_dim_ge_left
     (k : Fin (m + 1))
     (z : (SSet.prodStdSimplex.pairing.{u} k.castSucc 1).II) :
     m + 1 ≤ z.val.dim + 1 := by
-  rw [SSet.prodStdSimplex.pairing_castSucc] at z ⊢
-  exact unionProdPairingCore_typeTwo_target_dim_ge_left k z
+  let z' :
+      (SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.II :=
+    ⟨z.val, by
+      simpa only [← SSet.prodStdSimplex.pairing_castSucc] using z.property⟩
+  exact unionProdPairingCore_typeTwo_target_dim_ge_left k z'
 
 /-! ## Lower and upper dimension bounds for every KuuOS boundary-prism cell -/
 
