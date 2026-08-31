@@ -148,7 +148,8 @@ theorem scaledSimplex_product_interval_eq_cylinder
     (sI : ScaledSimplicialSet (Δ[1] : SSet.{u})) :
     scaledCartesianProduct (scaledSimplex sΔ) (scaledInterval sI) =
       scaledSimplexCylinder sΔ := by
-  unfold scaledCartesianProduct scaledInterval scaledSimplex scaledSimplexCylinder
+  dsimp only [scaledCartesianProduct, scaledInterval, scaledSimplex,
+    scaledSimplexCylinder, ScaledSSet.of]
   rw [cartesianProductScaling_interval_eq_simplexCylinderScaling sΔ sI]
 
 /-- Specialization to the standard type-(A) simplex scaling. -/
@@ -172,7 +173,7 @@ theorem standardTypeAEndpointPushoutProductSource_scaling_eq_pullback_product
         (cartesianProductScaling (standardTypeASimplexScaling g.i) sI)
         ((SSet.horn g.n g.i).unionProd
           (intervalEndpoint g.endpoint)).ι := by
-  unfold standardTypeAEndpointPushoutProductSource
+  dsimp only [standardTypeAEndpointPushoutProductSource, ScaledSSet.of]
   rw [cartesianProductScaling_interval_eq_simplexCylinderScaling
     (standardTypeASimplexScaling g.i) sI]
 
