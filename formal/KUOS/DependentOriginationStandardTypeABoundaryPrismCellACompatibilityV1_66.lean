@@ -5,6 +5,7 @@ namespace KUOS.DependentOriginationStandardTypeABoundaryPrismCellACompatibilityV
 open CategoryTheory
 open Opposite
 open Simplicial
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
@@ -138,6 +139,9 @@ theorem unionProdPairingCore_typeOne_distinguished_firstCoordinate_thin
     have hpq : s.index.castSucc ≤ q := le_of_not_gt hnot
     have hmono :=
       SSet.stdSimplex.monotone_apply (s.x.cast s.hd).simplex.1 hpq
+    change
+      (s.x.cast s.hd).simplex.1 s.index.castSucc ≤
+        (s.x.cast s.hd).simplex.1 q at hmono
     rw [s.isIndex.simplex_fst_castSucc, hq] at hmono
     change k.val ≤ km1.val at hmono
     dsimp [km1] at hmono
@@ -145,7 +149,8 @@ theorem unionProdPairingCore_typeOne_distinguished_firstCoordinate_thin
   have ht0val : (t 0).val + 1 = s.index.val := by
     simpa using ht.2.1
   have hqval : q.val < s.index.val := by
-    simpa using hq_lt
+    change q.val < s.index.val at hq_lt
+    exact hq_lt
   have hq_le_t0 : q ≤ t 0 := by
     change q.val ≤ (t 0).val
     omega
@@ -154,9 +159,15 @@ theorem unionProdPairingCore_typeOne_distinguished_firstCoordinate_thin
     omega
   have hlower :=
     SSet.stdSimplex.monotone_apply (s.x.cast s.hd).simplex.1 hq_le_t0
+  change
+    (s.x.cast s.hd).simplex.1 q ≤
+      (s.x.cast s.hd).simplex.1 (t 0) at hlower
   rw [hq] at hlower
   have hupper :=
     SSet.stdSimplex.monotone_apply (s.x.cast s.hd).simplex.1 ht0_le_index
+  change
+    (s.x.cast s.hd).simplex.1 (t 0) ≤
+      (s.x.cast s.hd).simplex.1 s.index.castSucc at hupper
   rw [s.isIndex.simplex_fst_castSucc] at hupper
   have hpred_or_eq :
       (s.x.cast s.hd).simplex.1 (t 0) = km1 ∨
@@ -280,7 +291,9 @@ theorem standardTypeABoundaryPrismCellFirstCoordinate_scaled
   rcases g with ⟨n, i, h0, hn, endpoint⟩
   cases n with
   | zero =>
-      have hi : i = 0 := Subsingleton.elim _ _
+      have hi : i = 0 := by
+        apply Fin.ext
+        omega
       subst i
       simp at h0
   | succ m =>
@@ -301,8 +314,8 @@ theorem standardTypeABoundaryPrismCellACompatible_all
   intro t ht
   change
     (standardTypeASimplexScaling g.i).thin
-      ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c)
-        .app (op ⦋2⦌) t)
+      ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app
+        (op ⦋2⦌) t)
   exact standardTypeABoundaryPrismCellFirstCoordinate_scaled g j c t ht
 
 /-! ## High-dimensional cells are now unconditionally pure type-(A) -/
