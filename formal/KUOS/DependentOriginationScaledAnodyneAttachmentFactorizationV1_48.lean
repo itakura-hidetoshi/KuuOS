@@ -267,13 +267,15 @@ def toScaledAnodyneGeneratorComparison :
 theorem externalGeneratedScaledAnodyne_eq_canonical :
     externalGeneratedScaledAnodyne E =
       (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u})) :=
-  K.toScaledAnodyneGeneratorComparison.externalGeneratedScaledAnodyne_eq_canonical
+  ScaledAnodyneGeneratorComparison.externalGeneratedScaledAnodyne_eq_canonical
+    (toScaledAnodyneGeneratorComparison K)
 
 /-- And their right lifting classes agree. -/
 theorem externalGeneratedScaledFibration_eq_canonical :
     externalGeneratedScaledFibration E =
       (canonicalGeneratedScaledFibration : MorphismProperty (ScaledSSet.{u})) :=
-  K.toScaledAnodyneGeneratorComparison.externalGeneratedScaledFibration_eq_canonical
+  ScaledAnodyneGeneratorComparison.externalGeneratedScaledFibration_eq_canonical
+    (toScaledAnodyneGeneratorComparison K)
 
 end FactorizedScaledAnodyneGeneratorComparison
 
