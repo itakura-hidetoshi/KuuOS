@@ -226,8 +226,11 @@ theorem canonicalGenerators_le_externalGenerated
   cases hf with
   | mk g =>
       rw [← scaledHornAttachmentGeneratorHom_factorization g]
+      change E.rlp.llp
+        (scaledHornAttachmentScalingEnrichment g ≫
+          inducedScaledHornAttachmentGeneratorHom g)
       exact MorphismProperty.comp_mem
-        (externalGeneratedScaledAnodyne E)
+        (E.rlp.llp)
         (scaledHornAttachmentScalingEnrichment g)
         (inducedScaledHornAttachmentGeneratorHom g)
         (CanonicalAttachmentFactorComparison.scalingEnrichments_le_externalGenerated K _
