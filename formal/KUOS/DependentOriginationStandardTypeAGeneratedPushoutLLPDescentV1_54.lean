@@ -83,9 +83,12 @@ instance standardTypeAEndpointGeneratedToInduced_epi
     intro Z f h w
     apply ScaledSSet.ScaledMap.ext
     have hw := congrArg ScaledSSet.ScaledMap.map w
-    simpa [standardTypeAEndpointGeneratedToInduced,
-      standardTypeAEndpointGeneratedPushoutSource,
-      standardTypeAEndpointPushoutProductSource] using hw
+    change
+      (𝟙 ((SSet.horn g.n g.i).unionProd
+          (intervalEndpoint g.endpoint) : SSet.{u}) ≫ f.map) =
+        (𝟙 ((SSet.horn g.n g.i).unionProd
+          (intervalEndpoint g.endpoint) : SSet.{u}) ≫ h.map) at hw
+    simpa only [Category.id_comp] using hw
 
 /-- Lifting against the least-generated endpoint map descends to lifting
 against the v1.50 induced endpoint map. -/
