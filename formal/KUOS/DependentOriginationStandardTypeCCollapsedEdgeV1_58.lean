@@ -233,7 +233,7 @@ theorem standardTypeCTarget_edge_collapsed (m : Nat) :
 source quotient. -/
 theorem standardTypeCCarrierMap_compatibility (m : Nat) :
     standardTypeCEdgeToHorn.{u} m ≫
-        ((SSet.horn (m + 3) (0 : Fin (m + 4)) : SSet.{u}).ι ≫
+        ((SSet.horn.{u} (m + 3) (0 : Fin (m + 4))).ι ≫
           standardTypeCTargetInl.{u} m) =
       standardTypeCEdgeCollapseToPoint.{u} m ≫
         standardTypeCTargetInr.{u} m := by
@@ -244,7 +244,7 @@ theorem standardTypeCCarrierMap_compatibility (m : Nat) :
 def standardTypeCCarrierMap (m : Nat) :
     standardTypeCSourceCarrier.{u} m ⟶ standardTypeCTargetCarrier.{u} m :=
   (standardTypeCSourceCarrier_isPushout.{u} m).desc
-    ((SSet.horn (m + 3) (0 : Fin (m + 4)) : SSet.{u}).ι ≫
+    ((SSet.horn.{u} (m + 3) (0 : Fin (m + 4))).ι ≫
       standardTypeCTargetInl.{u} m)
     (standardTypeCTargetInr.{u} m)
     (standardTypeCCarrierMap_compatibility.{u} m)
@@ -253,11 +253,11 @@ def standardTypeCCarrierMap (m : Nat) :
 @[reassoc]
 theorem standardTypeCCarrierMap_inl_horn (m : Nat) :
     standardTypeCSourceInl.{u} m ≫ standardTypeCCarrierMap.{u} m =
-      (SSet.horn (m + 3) (0 : Fin (m + 4)) : SSet.{u}).ι ≫
+      (SSet.horn.{u} (m + 3) (0 : Fin (m + 4))).ι ≫
         standardTypeCTargetInl.{u} m := by
   simpa [standardTypeCCarrierMap] using
     (standardTypeCSourceCarrier_isPushout.{u} m).inl_desc
-      ((SSet.horn (m + 3) (0 : Fin (m + 4)) : SSet.{u}).ι ≫
+      ((SSet.horn.{u} (m + 3) (0 : Fin (m + 4))).ι ≫
         standardTypeCTargetInl.{u} m)
       (standardTypeCTargetInr.{u} m)
       (standardTypeCCarrierMap_compatibility.{u} m)
@@ -269,7 +269,7 @@ theorem standardTypeCCarrierMap_inr_point (m : Nat) :
       standardTypeCTargetInr.{u} m := by
   simpa [standardTypeCCarrierMap] using
     (standardTypeCSourceCarrier_isPushout.{u} m).inr_desc
-      ((SSet.horn (m + 3) (0 : Fin (m + 4)) : SSet.{u}).ι ≫
+      ((SSet.horn.{u} (m + 3) (0 : Fin (m + 4))).ι ≫
         standardTypeCTargetInl.{u} m)
       (standardTypeCTargetInr.{u} m)
       (standardTypeCCarrierMap_compatibility.{u} m)
@@ -322,9 +322,12 @@ def standardTypeCTriangle01nInHorn (m : Nat) :
       rw [SSet.stdSimplex.mem_face_iff]
       intro j
       fin_cases j
-      · simpa [standardTypeCTriangle01n] using h02
-      · simpa [standardTypeCTriangle01n] using h12
-      · simpa [standardTypeCTriangle01n] using hlast2
+      · change (0 : Fin (m + 4)) ≠ (2 : Fin (m + 4))
+        exact h02
+      · change (1 : Fin (m + 4)) ≠ (2 : Fin (m + 4))
+        exact h12
+      · change Fin.last (m + 3) ≠ (2 : Fin (m + 4))
+        exact hlast2
     exact
       (SSet.face_le_horn
         (2 : Fin (m + 4)) (0 : Fin (m + 4)) h20) _ ht⟩
@@ -500,8 +503,8 @@ theorem standardTypeAGenerator_mem_ABC
 
 /-- The concrete type-(B) generator is a member of the A/B/C presentation. -/
 theorem standardTypeBGenerator_mem_ABC :
-    standardScaledAnodyneGeneratorsABC standardTypeBGeneratorHom :=
-  standardTypeBGenerators_le_ABC _ standardTypeBGenerator_mem
+    standardScaledAnodyneGeneratorsABC standardTypeBGeneratorHom.{u} :=
+  standardTypeBGenerators_le_ABC _ standardTypeBGenerator_mem.{u}
 
 /-- Every concrete type-(C) map is a member of the A/B/C presentation. -/
 theorem standardTypeCGenerator_mem_ABC (m : Nat) :
@@ -538,9 +541,9 @@ theorem standardTypeAGenerator_mem_standardGenerated
 
 /-- Type-(B) belongs to the standard generated left class. -/
 theorem standardTypeBGenerator_mem_standardGenerated :
-    standardGeneratedScaledAnodyneABC standardTypeBGeneratorHom :=
+    standardGeneratedScaledAnodyneABC standardTypeBGeneratorHom.{u} :=
   standardScaledAnodyneGeneratorsABC_le_generated _
-    standardTypeBGenerator_mem_ABC
+    standardTypeBGenerator_mem_ABC.{u}
 
 /-- Every type-(C) generator belongs to the standard generated left class. -/
 theorem standardTypeCGenerator_mem_standardGenerated (m : Nat) :
@@ -552,31 +555,31 @@ theorem standardTypeCGenerator_mem_standardGenerated (m : Nat) :
 standard generated left class because it is a pushout of type-(B). -/
 theorem standardTypeBCollapse12Completion_mem_standardGenerated :
     standardGeneratedScaledAnodyneABC
-      standardTypeBCollapse12CompletionHom := by
+      standardTypeBCollapse12CompletionHom.{u} := by
   dsimp only [standardGeneratedScaledAnodyneABC]
-  exact standardTypeBCollapse12Completion_mem_llp
+  exact standardTypeBCollapse12Completion_mem_llp.{u}
     (standardScaledAnodyneGeneratorsABC :
       MorphismProperty (ScaledSSet.{u})).rlp
-    standardTypeBGenerator_mem_standardGenerated
+    standardTypeBGenerator_mem_standardGenerated.{u}
 
 /-- The v1.57 `q23` three-simplex completion belongs automatically to the
 standard generated left class because it is a pushout of type-(B). -/
 theorem standardTypeBCollapse23Completion_mem_standardGenerated :
     standardGeneratedScaledAnodyneABC
-      standardTypeBCollapse23CompletionHom := by
+      standardTypeBCollapse23CompletionHom.{u} := by
   dsimp only [standardGeneratedScaledAnodyneABC]
-  exact standardTypeBCollapse23Completion_mem_llp
+  exact standardTypeBCollapse23Completion_mem_llp.{u}
     (standardScaledAnodyneGeneratorsABC :
       MorphismProperty (ScaledSSet.{u})).rlp
-    standardTypeBGenerator_mem_standardGenerated
+    standardTypeBGenerator_mem_standardGenerated.{u}
 
 /-- Both low-dimensional completion cells are simultaneously available in the
 standard generated left class. -/
 def standardTypeBThreeSimplexCompletionStable_standardGenerated :
-    StandardTypeBThreeSimplexCompletionStable
+    StandardTypeBThreeSimplexCompletionStable.{u}
       standardGeneratedScaledAnodyneABC where
-  collapse12_mem := standardTypeBCollapse12Completion_mem_standardGenerated
-  collapse23_mem := standardTypeBCollapse23Completion_mem_standardGenerated
+  collapse12_mem := standardTypeBCollapse12Completion_mem_standardGenerated.{u}
+  collapse23_mem := standardTypeBCollapse23Completion_mem_standardGenerated.{u}
 
 /-- The generic external-generation notation of v1.46 specializes literally
 to the standard A/B/C left class. -/
