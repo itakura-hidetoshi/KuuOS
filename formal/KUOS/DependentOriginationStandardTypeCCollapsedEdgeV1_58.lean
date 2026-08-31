@@ -237,7 +237,8 @@ theorem standardTypeCCarrierMap_compatibility (m : Nat) :
           standardTypeCTargetInl.{u} m) =
       standardTypeCEdgeCollapseToPoint.{u} m ≫
         standardTypeCTargetInr.{u} m := by
-  rw [Category.assoc, standardTypeCEdgeToHorn_comp_hornInclusion]
+  rw [← Category.assoc,
+    standardTypeCEdgeToHorn_comp_hornInclusion.{u}]
   exact standardTypeCTarget_edge_collapsed.{u} m
 
 /-- The induced map from the collapsed outer horn to the collapsed simplex. -/
@@ -322,11 +323,14 @@ def standardTypeCTriangle01nInHorn (m : Nat) :
       rw [SSet.stdSimplex.mem_face_iff]
       intro j
       fin_cases j
-      · change (0 : Fin (m + 4)) ≠ (2 : Fin (m + 4))
+      · simp only [Finset.mem_compl, Finset.mem_singleton]
+        change (0 : Fin (m + 4)) ≠ (2 : Fin (m + 4))
         exact h02
-      · change (1 : Fin (m + 4)) ≠ (2 : Fin (m + 4))
+      · simp only [Finset.mem_compl, Finset.mem_singleton]
+        change (1 : Fin (m + 4)) ≠ (2 : Fin (m + 4))
         exact h12
-      · change Fin.last (m + 3) ≠ (2 : Fin (m + 4))
+      · simp only [Finset.mem_compl, Finset.mem_singleton]
+        change Fin.last (m + 3) ≠ (2 : Fin (m + 4))
         exact hlast2
     exact
       (SSet.face_le_horn
