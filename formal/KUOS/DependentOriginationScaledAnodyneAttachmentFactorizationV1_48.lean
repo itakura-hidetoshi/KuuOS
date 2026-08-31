@@ -136,9 +136,11 @@ theorem scaledHornCylinderAttachmentInclusion_factorization
         inducedScaledHornCylinderAttachmentInclusion i ε sΔ =
       scaledHornCylinderAttachmentInclusion i ε sΔ := by
   apply ScaledSSet.ScaledMap.ext
-  simp [minimalToInducedHornCylinderAttachment,
-    inducedScaledHornCylinderAttachmentInclusion,
-    scaledHornCylinderAttachmentInclusion]
+  change
+    𝟙 (hornCylinderAttachment n i ε : SSet.{u}) ≫
+        (hornCylinderAttachment n i ε).ι =
+      (hornCylinderAttachment n i ε).ι
+  exact Category.id_comp _
 
 /-! ## Factor the canonical generator family -/
 
