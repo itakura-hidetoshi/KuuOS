@@ -213,13 +213,12 @@ structure CanonicalAttachmentFactorComparison
 
 namespace CanonicalAttachmentFactorComparison
 
-variable
-    {E : MorphismProperty (ScaledSSet.{u})}
-    (K : CanonicalAttachmentFactorComparison E)
+variable {E : MorphismProperty (ScaledSSet.{u})}
 
 /-- If both factors are externally generated-anodyne, then every original
 canonical attachment generator is externally generated-anodyne. -/
-theorem canonicalGenerators_le_externalGenerated :
+theorem canonicalGenerators_le_externalGenerated
+    (K : CanonicalAttachmentFactorComparison E) :
     (scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})) ≤
       externalGeneratedScaledAnodyne E := by
   intro A B f hf
