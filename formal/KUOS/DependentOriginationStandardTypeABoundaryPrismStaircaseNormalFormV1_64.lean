@@ -78,7 +78,8 @@ def standardTypeABoundaryPrismCellPairedTop
     ((Δ[g.n] : SSet.{u}) ⊗ Δ[1]).nonDegenerate (g.n + 1) :=
   Eq.mp
     (congrArg
-      (fun d : ℕ => ((Δ[g.n] : SSet.{u}) ⊗ Δ[1]).nonDegenerate d)
+      (fun d : ℕ =>
+        (((Δ[g.n] : SSet.{u}) ⊗ Δ[1]).nonDegenerate d : Type u))
       htop)
     (standardTypeABoundaryPrismCellPairedNondegenerate g j c)
 
@@ -228,7 +229,9 @@ theorem standardTypeABoundaryPrism_cell_dim_three_generator_two_coordinate_norma
               (SimplexCategory.σ r) ∧
           (standardTypeABoundaryPrismCellPairedTop g j c htop).1.2 =
             SSet.stdSimplex.objMk₁ r.succ.castSucc := by
-  have htop : c.dim + 1 = g.n + 1 := by omega
+  have htop : c.dim + 1 = g.n + 1 := by
+    rw [hn2]
+    omega
   exact ⟨htop,
     standardTypeABoundaryPrism_cell_top_coordinate_normalForm g j c htop⟩
 
