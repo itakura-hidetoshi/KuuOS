@@ -311,7 +311,10 @@ def standardTypeAEndpointGeneratedPushoutProductHom
 /-- Its underlying map is still exactly the ordinary union-product inclusion. -/
 theorem standardTypeAEndpointGeneratedPushoutProductHom_map
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    (standardTypeAEndpointGeneratedPushoutProductHom g).map =
+    ((standardTypeAEndpointGeneratedPushoutProductHom g :
+      (standardTypeAEndpointGeneratedPushoutSource g : ScaledSSet.{u}) ⟶
+        (scaledSimplexCylinder (standardTypeASimplexScaling g.i) :
+          ScaledSSet.{u}))).map =
       ((SSet.horn g.n g.i).unionProd
         (intervalEndpoint g.endpoint)).ι := by
   change
