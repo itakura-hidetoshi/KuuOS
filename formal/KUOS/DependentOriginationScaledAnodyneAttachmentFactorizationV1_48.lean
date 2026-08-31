@@ -231,9 +231,9 @@ theorem canonicalGenerators_le_externalGenerated :
         (externalGeneratedScaledAnodyne E)
         (scaledHornAttachmentScalingEnrichment g)
         (inducedScaledHornAttachmentGeneratorHom g)
-        (K.scalingEnrichments_le_externalGenerated _
+        (CanonicalAttachmentFactorComparison.scalingEnrichments_le_externalGenerated K _
           (scaledHornAttachmentScalingEnrichment_mem g))
-        (K.inducedAttachments_le_externalGenerated _
+        (CanonicalAttachmentFactorComparison.inducedAttachments_le_externalGenerated K _
           (inducedScaledHornAttachmentGenerator_mem g))
 
 end CanonicalAttachmentFactorComparison
