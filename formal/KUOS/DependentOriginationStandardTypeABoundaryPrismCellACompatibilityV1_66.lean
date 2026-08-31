@@ -176,7 +176,7 @@ theorem unionProdPairingCore_typeOne_distinguished_firstCoordinate_thin
     · exact Or.inr heq
     · left
       apply Fin.ext
-      change km1.val = ((s.x.cast s.hd).simplex.1 (t 0)).val
+      change ((s.x.cast s.hd).simplex.1 (t 0)).val = km1.val
       change km1.val ≤ ((s.x.cast s.hd).simplex.1 (t 0)).val at hlower
       change ((s.x.cast s.hd).simplex.1 (t 0)).val ≤ k.val at hupper
       have hne : ((s.x.cast s.hd).simplex.1 (t 0)).val ≠ k.val := by
@@ -252,13 +252,11 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
     (z : (SSet.prodStdSimplex.pairing.{u} k.castSucc 1).II) :
     IsScaledMap
       (standardTypeASimplexScaling
-        ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
-          .isUniquelyCodimOneFace z).index rfl)
+        ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace z).index rfl)
       (standardTypeASimplexScaling k.castSucc)
       (SSet.yonedaEquiv.symm
         (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast
-          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
-            .isUniquelyCodimOneFace z).dim_eq).simplex.1) := by
+          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace z).dim_eq).simplex.1) := by
   rw [SSet.prodStdSimplex.pairing_castSucc] at z ⊢
   obtain ⟨s, rfl⟩ :=
     (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
