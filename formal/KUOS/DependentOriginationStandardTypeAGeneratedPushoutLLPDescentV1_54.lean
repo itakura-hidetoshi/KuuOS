@@ -82,6 +82,12 @@ instance standardTypeAEndpointGeneratedToInduced_epi
   left_cancellation := by
     intro Z f h w
     apply ScaledSSet.ScaledMap.ext
+    change
+      @Eq
+        (((SSet.horn g.n g.i).unionProd
+          (KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40.intervalEndpoint g.endpoint) : SSet.{u}) ⟶
+            Z.carrier)
+        f.map h.map
     have hw := congrArg ScaledSSet.ScaledMap.map w
     change
       (𝟙 ((SSet.horn g.n g.i).unionProd
