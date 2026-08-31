@@ -104,7 +104,7 @@ theorem unionProdPairing_typeTwo_target_dim_ge_left
     (k : Fin (m + 1))
     (z : (SSet.prodStdSimplex.pairing.{u} k.castSucc 1).II) :
     m + 1 ≤ z.val.dim + 1 := by
-  rw [SSet.prodStdSimplex.pairing_castSucc] at z
+  rw [SSet.prodStdSimplex.pairing_castSucc] at z ⊢
   exact unionProdPairingCore_typeTwo_target_dim_ge_left k z
 
 /-! ## Lower and upper dimension bounds for every KuuOS boundary-prism cell -/
@@ -152,11 +152,11 @@ theorem standardTypeABoundaryPrism_cell_target_dim_le_generator_succ
   let P := standardTypeABoundaryPrismPairing g
   let x :=
     (P.p c.s).val.cast (P.isUniquelyCodimOneFace c.s).dim_eq
-  let z :
-      ((Δ[g.n] : SSet.{u}) ⊗ Δ[1]).nonDegenerate (c.dim + 1) :=
-    ⟨x.simplex, x.nonDegenerate⟩
-  simpa [z] using
-    (SSet.dim_le_of_nonDegenerate z (g.n + 1))
+  have hx :=
+    (Δ[g.n] ⊗ Δ[1]).dim_le_of_nonDegenerate
+      ⟨x.simplex, x.nonDegenerate⟩ (g.n + 1)
+  change c.dim + 1 ≤ g.n + 1 at hx
+  exact hx
 
 /-- Exact dimension dichotomy: every attached simplex is either of the same
 dimension as the original type-(A) simplex, or one dimension higher. -/
