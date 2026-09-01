@@ -36,8 +36,9 @@ the q12/q23 type-(B) completions.
 
 Lean 4.31 is sensitive both to dependent equality transport through the actual
 rank-cell dimension and to reducibility of named morphism properties during
-instance synthesis.  We therefore transport through an independent dimension
-parameter and expose the relevant Mathlib closure instances explicitly.
+instance synthesis. We therefore transport through an independent dimension
+parameter and use Mathlib's explicit finite transfinite-composition witnesses
+for the one-step and two-step cellular factorizations.
 -/
 
 /-- One raw standard cellular step: a pushout of a coproduct of standard
@@ -57,18 +58,6 @@ local instance standardABCRawCellularStep_respectsIso :
     (standardABCRawCellularStep :
       MorphismProperty (ScaledSSet.{u})).RespectsIso := by
   unfold standardABCRawCellularStep
-  infer_instance
-
-local instance standardABCStrongCellularClosure_respectsIso :
-    (standardABCStrongCellularClosure :
-      MorphismProperty (ScaledSSet.{u})).RespectsIso := by
-  unfold standardABCStrongCellularClosure
-  infer_instance
-
-local instance standardABCStrongCellularClosure_isStableUnderComposition :
-    (standardABCStrongCellularClosure :
-      MorphismProperty (ScaledSSet.{u})).IsStableUnderComposition := by
-  unfold standardABCStrongCellularClosure
   infer_instance
 
 /-- The strong cellular closure is contained in the v1.59 cellular closure by
@@ -145,6 +134,18 @@ theorem standardTypeBCollapse23CompletionHom_mem_rawCellular :
       standardTypeBGenerator_mem_ABC
   change P.pushouts standardTypeBCollapse23CompletionHom.{u}
   exact P.pushouts_mk standardTypeBCollapse23Completion_isPushout hB
+
+@[simp]
+private theorem standardTypeBCollapse12CompletionHom_map :
+    standardTypeBCollapse12CompletionHom.{u}.map =
+      𝟙 (Δ[3] : SSet.{u}) := by
+  rfl
+
+@[simp]
+private theorem standardTypeBCollapse23CompletionHom_map :
+    standardTypeBCollapse23CompletionHom.{u}.map =
+      𝟙 (Δ[3] : SSet.{u}) := by
+  rfl
 
 /-! ## Equality and three-simplex transport -/
 
@@ -324,7 +325,8 @@ private noncomputable def standardTypeABoundaryPrismCellQ12TransportArrowIso
         (scalingEqualityIso _ _ h.completed_target).hom.map
   rw [standardTypeABoundaryPrismCellCompletionTransportToThree_map]
   rw [scalingEqualityIso_hom_map, scalingEqualityIso_hom_map]
-  simp
+  rw [standardTypeBCollapse12CompletionHom_map]
+  simp only [Category.id_comp]
 
 noncomputable def standardTypeABoundaryPrismCellQ12CompletionArrowIso
     (g : StandardTypeAHornAttachmentGeneratorIndex)
@@ -380,7 +382,8 @@ private noncomputable def standardTypeABoundaryPrismCellQ23TransportArrowIso
         (scalingEqualityIso _ _ h.completed_target).hom.map
   rw [standardTypeABoundaryPrismCellCompletionTransportToThree_map]
   rw [scalingEqualityIso_hom_map, scalingEqualityIso_hom_map]
-  simp
+  rw [standardTypeBCollapse23CompletionHom_map]
+  simp only [Category.id_comp]
 
 noncomputable def standardTypeABoundaryPrismCellQ23CompletionArrowIso
     (g : StandardTypeAHornAttachmentGeneratorIndex)
@@ -429,9 +432,12 @@ noncomputable def standardTypeABoundaryPrismCellPureAArrowIso
       standardTypeABoundaryPrismCellScaling g j c) :
     Arrow.mk (standardTypeABoundaryPrismCellAPushoutHom g j c) ≅
       Arrow.mk (standardTypeABoundaryPrismScaledCellHom g j c) := by
-  refine Arrow.isoMk (Iso.refl _) (scalingEqualityIso _ _ h) ?_
+  cases h
+  refine Arrow.isoMk (Iso.refl _) (Iso.refl _) ?_
   apply ScaledSSet.ScaledMap.ext
-  simp [scalingEqualityIso]
+  change
+    (𝟙 _) ≫ c.horn.ι = c.horn.ι ≫ (𝟙 _)
+  simp
 
 /-- Every exact boundary-prism rank cell lies in the strong unretracted
 standard A/B cellular closure. -/
@@ -442,43 +448,42 @@ theorem standardTypeABoundaryPrismScaledCellHom_mem_strongCellular
     (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u}))
       (standardTypeABoundaryPrismScaledCellHom g j c) := by
   have hAraw := standardTypeABoundaryPrismCellAPushoutHom_mem_rawCellular g j c
-  have hA :
-      (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u}))
-        (standardTypeABoundaryPrismCellAPushoutHom g j c) :=
-    MorphismProperty.le_transfiniteCompositions.{u}
-      (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ hAraw
   rcases standardTypeABoundaryPrismCellCompletion_complete_classification
       g j c with hpure | h12 | h23
-  · exact
-      ((standardABCStrongCellularClosure :
+  · have hpureRaw :
+        (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
+          (standardTypeABoundaryPrismScaledCellHom g j c) :=
+      ((standardABCRawCellularStep :
         MorphismProperty (ScaledSSet.{u})).arrow_mk_iso_iff
-        (standardTypeABoundaryPrismCellPureAArrowIso g j c hpure)).1 hA
+        (standardTypeABoundaryPrismCellPureAArrowIso g j c hpure)).1 hAraw
+    exact MorphismProperty.le_transfiniteCompositions.{u}
+      (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ hpureRaw
   · have hBraw :=
       standardTypeABoundaryPrismCellCompletionHom_mem_rawCellular_of_q12
         g j c h12
-    have hB :
+    have hcomp :
         (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u}))
-          (standardTypeABoundaryPrismCellCompletionHom g j c) :=
-      MorphismProperty.le_transfiniteCompositions.{u}
-        (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ hBraw
-    have hcomp :=
-      (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).comp_mem
-        (standardTypeABoundaryPrismCellAPushoutHom g j c)
-        (standardTypeABoundaryPrismCellCompletionHom g j c) hA hB
+          (standardTypeABoundaryPrismCellAPushoutHom g j c ≫
+            standardTypeABoundaryPrismCellCompletionHom g j c) := by
+      exact
+        (MorphismProperty.TransfiniteCompositionOfShape.ofComp
+          (standardTypeABoundaryPrismCellAPushoutHom g j c)
+          (standardTypeABoundaryPrismCellCompletionHom g j c)
+          hAraw hBraw).mem
     simpa only [standardTypeABoundaryPrismScaledCellHom_factor_A_completion]
       using hcomp
   · have hBraw :=
       standardTypeABoundaryPrismCellCompletionHom_mem_rawCellular_of_q23
         g j c h23
-    have hB :
+    have hcomp :
         (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u}))
-          (standardTypeABoundaryPrismCellCompletionHom g j c) :=
-      MorphismProperty.le_transfiniteCompositions.{u}
-        (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ hBraw
-    have hcomp :=
-      (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).comp_mem
-        (standardTypeABoundaryPrismCellAPushoutHom g j c)
-        (standardTypeABoundaryPrismCellCompletionHom g j c) hA hB
+          (standardTypeABoundaryPrismCellAPushoutHom g j c ≫
+            standardTypeABoundaryPrismCellCompletionHom g j c) := by
+      exact
+        (MorphismProperty.TransfiniteCompositionOfShape.ofComp
+          (standardTypeABoundaryPrismCellAPushoutHom g j c)
+          (standardTypeABoundaryPrismCellCompletionHom g j c)
+          hAraw hBraw).mem
     simpa only [standardTypeABoundaryPrismScaledCellHom_factor_A_completion]
       using hcomp
 
