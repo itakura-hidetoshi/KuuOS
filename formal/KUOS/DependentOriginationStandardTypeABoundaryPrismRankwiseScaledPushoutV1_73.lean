@@ -527,15 +527,8 @@ noncomputable def standardTypeABoundaryPrism_rankStep_scaled_isPushout
   simp only [
     generatedPushoutTarget,
     generatedPushoutInl,
-    generatedPushoutInr,
-    standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j,
-    standardTypeABoundaryPrismRankSigmaHorn,
-    standardTypeABoundaryPrismRankSigmaStdSimplex,
-    standardTypeABoundaryPrismRankStage,
-    standardTypeABoundaryPrismRankStageHom,
-    standardTypeABoundaryPrismRankSigmaHornToStage,
-    standardTypeABoundaryPrismRankSigmaCellHom,
-    standardTypeABoundaryPrismRankSigmaStdSimplexToSucc] at h
+    generatedPushoutInr] at h
+  rw [standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j] at h
   apply h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) (Iso.refl _)
   all_goals
     simp only [Category.comp_id, Category.id_comp]
