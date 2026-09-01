@@ -1,0 +1,46 @@
+{
+  "version": "kuuos_openclaw_audit_cross_process_serialization_v0_6",
+  "status": "cross_process_audit_state_single_writer",
+  "public_runtime": "runtime/kuuos_openclaw_audit_observation_ingest_v0_3.py",
+  "retained_implementation": "runtime/kuuos_openclaw_audit_observation_ingest_v0_3_impl.py",
+  "test": "tests/test_openclaw_audit_cross_process_serialization_v0_6.py",
+  "validator": "scripts/check_openclaw_audit_cross_process_serialization_v0_6.py",
+  "documentation": "docs/KUUOS_OPENCLAW_AUDIT_CROSS_PROCESS_SERIALIZATION_v0_6.md",
+  "formal_boundary": "formal/KUOS/ObserveOS/OpenClawAuditCrossProcessSerializationV0_6.lean",
+  "ci_registry": "ci/check_registry.d/openclaw_audit_cross_process_serialization_v0_6.json",
+  "lock": {
+    "scope": "data_dir",
+    "file": "audit-ingest-state.lock",
+    "exclusive": true,
+    "posix_backend": "fcntl.flock",
+    "windows_backend": "msvcrt.locking",
+    "default_timeout_ms": 30000,
+    "max_timeout_ms": 600000,
+    "timeout_fail_closed": true,
+    "kernel_owned": true,
+    "persistent_file_is_not_lock_ownership": true,
+    "process_exit_releases_ownership": true
+  },
+  "compatibility": {
+    "stable_v03_cli_path": true,
+    "stable_v03_library_projection_api": true,
+    "supervisor_v05_inherits_lock": true
+  },
+  "scope_boundary": {
+    "cooperating_processes_only": true,
+    "filesystem_mandatory_locking_claimed": false,
+    "windows_runtime_exercised_by_ubuntu_ci": false
+  },
+  "authority": {
+    "observe_commit": false,
+    "verification_result": false,
+    "effect_permission": false,
+    "world_commit": false,
+    "truth_promotion": false,
+    "plan_completion": false,
+    "automatic_plan_completion": false,
+    "rollback_proof": false,
+    "automatic_rollback": false,
+    "memory_overwrite": false
+  }
+}

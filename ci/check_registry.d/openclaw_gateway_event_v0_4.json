@@ -1,0 +1,41 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "OpenClaw live event != durable history",
+      "OpenClaw live event != ObserveOS commit",
+      "WebSocket silence != non-occurrence proof",
+      "sequence gap -> audit reconciliation debt"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/openclaw_gateway_event_v0_4.json"
+  ],
+  "checks": {
+    "openclaw-gateway-event-v04": {
+      "name": "OpenClaw Gateway event subscriber v0.4",
+      "runner": "python",
+      "command": "python3 scripts/check_openclaw_gateway_event_subscriber_v0_4.py",
+      "group": "memory-subsystem",
+      "tier": "integration",
+      "paths": [
+        "integrations/openclaw/event-stream/package.json",
+        "integrations/openclaw/event-stream/projection.mjs",
+        "integrations/openclaw/event-stream/subscriber.mjs",
+        "integrations/openclaw/event-stream/test_projection.mjs",
+        "scripts/check_openclaw_gateway_event_subscriber_v0_4.py",
+        "docs/KUUOS_OPENCLAW_GATEWAY_EVENT_SUBSCRIBER_v0_4.md",
+        "manifests/kuuos_openclaw_gateway_event_subscriber_v0_4.json",
+        "formal/KUOS/ObserveOS/OpenClawGatewayEventHintV0_4.lean",
+        "runtime/kuuos_openclaw_audit_observation_ingest_v0_3.py",
+        "formal/KUOS/ObserveOS/OpenClawAuditObservationIntakeV0_3.lean"
+      ],
+      "depends_on": [
+        "openclaw-audit-observation-v03"
+      ],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}

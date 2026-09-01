@@ -1,0 +1,63 @@
+{
+  "version": "kuuos_openclaw_gateway_event_subscriber_v0_4",
+  "status": "low_latency_non_authoritative_event_hints",
+  "runtime": "integrations/openclaw/event-stream/subscriber.mjs",
+  "projection": "integrations/openclaw/event-stream/projection.mjs",
+  "tests": "integrations/openclaw/event-stream/test_projection.mjs",
+  "package": "integrations/openclaw/event-stream/package.json",
+  "validator": "scripts/check_openclaw_gateway_event_subscriber_v0_4.py",
+  "documentation": "docs/KUUOS_OPENCLAW_GATEWAY_EVENT_SUBSCRIBER_v0_4.md",
+  "formal_boundary": "formal/KUOS/ObserveOS/OpenClawGatewayEventHintV0_4.lean",
+  "ci_registry": "ci/check_registry.d/openclaw_gateway_event_v0_4.json",
+  "depends_on": [
+    "runtime/kuuos_openclaw_audit_observation_ingest_v0_3.py",
+    "formal/KUOS/ObserveOS/OpenClawAuditObservationIntakeV0_3.lean"
+  ],
+  "openclaw_packages": {
+    "@openclaw/gateway-client": "2026.8.1",
+    "@openclaw/gateway-protocol": "2026.8.1",
+    "wire_protocol": 4,
+    "node_minimum": "22.19.0"
+  },
+  "gateway_scopes": [
+    "operator.read"
+  ],
+  "gateway_capabilities": [
+    "session-scoped-events",
+    "tool-events"
+  ],
+  "live_events": [
+    "sessions.changed",
+    "session.message",
+    "session.operation",
+    "session.tool",
+    "agent",
+    "shutdown"
+  ],
+  "privacy": {
+    "raw_event_payload_persisted": false,
+    "raw_session_key_persisted": false,
+    "raw_session_id_persisted": false,
+    "raw_hello_snapshot_persisted": false,
+    "credentials_persisted_in_hint_ledger": false
+  },
+  "authority": {
+    "durable_history": false,
+    "observe_commit": false,
+    "verification_result": false,
+    "world_commit": false,
+    "truth_promotion": false,
+    "plan_completion": false,
+    "automatic_plan_completion": false,
+    "rollback_proof": false,
+    "automatic_rollback": false,
+    "memory_overwrite": false,
+    "silence_proves_non_occurrence": false
+  },
+  "reconciliation": {
+    "audit_v0_3_required": true,
+    "outer_sequence_gap_requires_audit": true,
+    "run_sequence_gap_requires_audit": true,
+    "reconnect_requires_resubscribe": true
+  }
+}

@@ -1,0 +1,40 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "audit state mutation is single-writer across cooperating processes sharing one data-dir",
+      "persistent lock file != lock ownership",
+      "exclusive lock != WORLD authority",
+      "lock timeout fails closed"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/openclaw_audit_cross_process_serialization_v0_6.json"
+  ],
+  "checks": {
+    "openclaw-audit-cross-process-lock-v06": {
+      "name": "OpenClaw audit cross-process serialization v0.6",
+      "runner": "python",
+      "command": "python3 scripts/check_openclaw_audit_cross_process_serialization_v0_6.py",
+      "group": "memory-subsystem",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_openclaw_audit_observation_ingest_v0_3.py",
+        "runtime/kuuos_openclaw_audit_observation_ingest_v0_3_impl.py",
+        "tests/test_openclaw_audit_cross_process_serialization_v0_6.py",
+        "scripts/check_openclaw_audit_cross_process_serialization_v0_6.py",
+        "docs/KUUOS_OPENCLAW_AUDIT_CROSS_PROCESS_SERIALIZATION_v0_6.md",
+        "manifests/kuuos_openclaw_audit_cross_process_serialization_v0_6.json",
+        "formal/KUOS/ObserveOS/OpenClawAuditCrossProcessSerializationV0_6.lean",
+        "runtime/kuuos_openclaw_supervisor_v0_5_impl.py"
+      ],
+      "depends_on": [
+        "openclaw-audit-observation-v03",
+        "openclaw-supervisor-v05"
+      ],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}
