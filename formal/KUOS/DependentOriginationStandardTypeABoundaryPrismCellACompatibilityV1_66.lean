@@ -328,8 +328,21 @@ private lemma unionProdPairing_eq_core_firstCoordinate_scaled
         unionProdPairingCoreTypeOneFirstCoordinateMap k s := by
     rw [hfirst]
     rfl
-  simpa only [hidx, hmap] using
-    unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
+  change
+    IsScaledMap
+      (standardTypeASimplexScaling
+        ((C.pairing.isUniquelyCodimOneFace (C.equivII s)).index rfl))
+      (standardTypeASimplexScaling k.castSucc)
+      (SSet.yonedaEquiv.symm
+        ((C.pairing.p (C.equivII s)).val.cast
+          (C.pairing.isUniquelyCodimOneFace (C.equivII s)).dim_eq).simplex.1)
+  rw [hidx, hmap]
+  change
+    IsScaledMap
+      (standardTypeASimplexScaling s.index.castSucc)
+      (standardTypeASimplexScaling k.castSucc)
+      (unionProdPairingCoreTypeOneFirstCoordinateMap k s)
+  exact unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
 
 /-- Public `pairing k.castSucc 1` form of the preceding theorem.  Its source
 index is exactly the unique codimension-one face index of the paired type-(I)
