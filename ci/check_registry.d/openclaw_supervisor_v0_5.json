@@ -1,0 +1,43 @@
+{
+  "schema_version": "0.2",
+  "policy": {
+    "boundaries": [
+      "supervisor ready != WORLD truth",
+      "required component failure -> policy service stop",
+      "plugin installation requires explicit approval",
+      "v0.5 closed loop is local-Gateway only"
+    ]
+  },
+  "full_audit_paths": [
+    "ci/check_registry.d/openclaw_supervisor_v0_5.json"
+  ],
+  "checks": {
+    "openclaw-supervisor-v05": {
+      "name": "OpenClaw closed-loop supervisor v0.5",
+      "runner": "python",
+      "command": "python3 scripts/check_openclaw_supervisor_v0_5.py",
+      "group": "memory-subsystem",
+      "tier": "integration",
+      "paths": [
+        "runtime/kuuos_openclaw_supervisor_v0_5.py",
+        "tests/test_openclaw_supervisor_v0_5.py",
+        "scripts/check_openclaw_supervisor_v0_5.py",
+        "docs/KUUOS_OPENCLAW_SUPERVISOR_v0_5.md",
+        "manifests/kuuos_openclaw_supervisor_v0_5.json",
+        "formal/KUOS/ObserveOS/OpenClawSupervisorV0_5.lean",
+        "integrations/openclaw/openclaw.plugin.json",
+        "runtime/kuuos_openclaw_control_server_v0_1.py",
+        "runtime/kuuos_openclaw_audit_observation_ingest_v0_3.py",
+        "integrations/openclaw/event-stream/subscriber.mjs",
+        "formal/KUOS/ObserveOS/OpenClawGatewayEventHintV0_4.lean"
+      ],
+      "depends_on": [
+        "openclaw-audit-observation-v03",
+        "openclaw-gateway-event-v04"
+      ],
+      "timeout_minutes": 20,
+      "pr_required": true,
+      "full_audit_member": true
+    }
+  }
+}

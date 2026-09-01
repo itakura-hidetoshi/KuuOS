@@ -3,7 +3,10 @@
   "name": "KuuOS Control Plane",
   "description": "Fail-closed KuuOS policy gate and post-effect receipt bridge for OpenClaw tools.",
   "activation": {
-    "onStartup": true
+    "onStartup": true,
+    "onCapabilities": [
+      "hook"
+    ]
   },
   "skills": [
     "./skills"

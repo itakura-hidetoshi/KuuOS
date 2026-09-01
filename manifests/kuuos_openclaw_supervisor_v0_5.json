@@ -1,0 +1,46 @@
+{
+  "version": "kuuos_openclaw_supervisor_v0_5",
+  "status": "fail_closed_operational_closed_loop_supervisor",
+  "runtime": "runtime/kuuos_openclaw_supervisor_v0_5.py",
+  "tests": "tests/test_openclaw_supervisor_v0_5.py",
+  "validator": "scripts/check_openclaw_supervisor_v0_5.py",
+  "documentation": "docs/KUUOS_OPENCLAW_SUPERVISOR_v0_5.md",
+  "formal_boundary": "formal/KUOS/ObserveOS/OpenClawSupervisorV0_5.lean",
+  "ci_registry": "ci/check_registry.d/openclaw_supervisor_v0_5.json",
+  "required_layers": [
+    "v0.1-control",
+    "v0.4-live-events",
+    "v0.3-audit-reconciliation"
+  ],
+  "supervisor_scope": "local_gateway_only",
+  "readiness": {
+    "plugin_runtime_hooks_inspected": true,
+    "control_health_required": true,
+    "fresh_gateway_hello_required": true,
+    "initial_audit_reconciliation_required": true,
+    "partial_audit_window_is_ready": false
+  },
+  "failure_policy": {
+    "required_component_failure_stops_policy_service": true,
+    "failure_is_rollback_proof": false,
+    "future_tool_fail_closed_depends_on_plugin_default_being_preserved": true
+  },
+  "installation": {
+    "plugin_id": "kuuos-control",
+    "linked_local_install_only": true,
+    "explicit_install_approval_required": true,
+    "explicit_gateway_restart_approval_required": true,
+    "hook_startup_intent_required": true
+  },
+  "authority": {
+    "world_commit": false,
+    "truth_promotion": false,
+    "observe_commit": false,
+    "verification_result": false,
+    "plan_completion": false,
+    "automatic_plan_completion": false,
+    "rollback_proof": false,
+    "automatic_rollback": false,
+    "memory_overwrite": false
+  }
+}
