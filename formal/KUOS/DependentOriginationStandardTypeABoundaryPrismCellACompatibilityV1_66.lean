@@ -273,7 +273,8 @@ private lemma unionProdPairing_eq_core_firstCoordinate_scaled
   subst P
   obtain ⟨s, rfl⟩ :=
     (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
-  simpa [SSet.prodStdSimplex.pairingCore,
+  simpa [SSet.Subcomplex.PairingCore.type₁_pairing,
+    SSet.prodStdSimplex.pairingCore,
     unionProdPairingCoreTypeOneFirstCoordinateMap] using
     unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
 
