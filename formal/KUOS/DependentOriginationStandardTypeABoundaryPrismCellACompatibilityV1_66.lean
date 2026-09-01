@@ -264,7 +264,7 @@ theorem unionProdPairing_typeTwo_firstCoordinate_scaled
       (SSet.yonedaEquiv.symm
         (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast
           ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace z).dim_eq).simplex.1) := by
-  rw [SSet.prodStdSimplex.pairing_castSucc] at z ⊢
+  simp only [SSet.prodStdSimplex.pairing_castSucc] at z ⊢
   obtain ⟨s, rfl⟩ :=
     (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
   simpa [SSet.prodStdSimplex.pairingCore,
@@ -304,10 +304,15 @@ theorem standardTypeABoundaryPrismCellFirstCoordinate_scaled
   | succ m =>
       have hilast : i ≠ Fin.last (m + 1) := ne_of_lt hn
       obtain ⟨k, rfl⟩ := Fin.eq_castSucc_of_ne_last hilast
-      simpa [standardTypeABoundaryPrismCellFirstCoordinateMap,
-        standardTypeABoundaryPrismCellPairedNondegenerate,
-        standardTypeABoundaryPrismPairing] using
-        unionProdPairing_typeTwo_firstCoordinate_scaled k h0 c.s
+      change
+        IsScaledMap
+          (standardTypeASimplexScaling
+            (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace c.s).index rfl))
+          (standardTypeASimplexScaling k.castSucc)
+          (SSet.yonedaEquiv.symm
+            (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p c.s).val.cast
+              ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace c.s).dim_eq).simplex.1)
+      exact unionProdPairing_typeTwo_firstCoordinate_scaled k h0 c.s
 
 /-- The v1.65 target type-(A) compatibility condition is therefore automatic
 for every rank cell. -/
