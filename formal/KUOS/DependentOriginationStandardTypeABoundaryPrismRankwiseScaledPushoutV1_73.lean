@@ -524,16 +524,34 @@ noncomputable def standardTypeABoundaryPrism_rankStep_scaled_isPushout
       (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
       ((standardTypeABoundaryPrismRankFunction g).b j)
       (standardTypeABoundaryPrism_rankStep_isPushout g j)
-  simp only [
-    generatedPushoutTarget,
-    generatedPushoutInl,
-    generatedPushoutInr,
-    standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j] at h
-  apply h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) (Iso.refl _)
+  let eSucc :
+      generatedPushoutTarget
+          (standardTypeABoundaryPrismRankStageScaling g j)
+          (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j)
+          (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
+          ((standardTypeABoundaryPrismRankFunction g).b j) ≅
+        standardTypeABoundaryPrismRankStage g (j + 1) :=
+    scalingEqualityIso
+      (generatedPushoutScaling
+        (standardTypeABoundaryPrismRankStageScaling g j)
+        (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j)
+        (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
+        ((standardTypeABoundaryPrismRankFunction g).b j))
+      (standardTypeABoundaryPrismRankStageScaling g (j + 1))
+      (standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j)
+  apply h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eSucc
   all_goals
     simp only [Category.comp_id, Category.id_comp]
     apply ScaledSSet.ScaledMap.ext
-    rfl
+    simp only [
+      generatedPushoutInl,
+      generatedPushoutInr,
+      standardTypeABoundaryPrismRankStageHom,
+      standardTypeABoundaryPrismRankSigmaStdSimplexToSucc,
+      eSucc,
+      scalingEqualityIso_hom_map,
+      Category.comp_id,
+      Category.id_comp]
 
 /-!
 The global rank filtration is now genuinely scaled:
