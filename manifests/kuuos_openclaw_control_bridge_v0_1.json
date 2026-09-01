@@ -1,0 +1,31 @@
+{
+  "version": "kuuos_openclaw_control_bridge_v0_1",
+  "status": "bounded_openclaw_host_control",
+  "openclaw_plugin": "integrations/openclaw",
+  "runtime": "runtime/kuuos_openclaw_control_server_v0_1.py",
+  "documentation": "docs/KUUOS_OPENCLAW_CONTROL_BRIDGE_v0_1.md",
+  "validator": "scripts/check_openclaw_control_bridge_v0_1.py",
+  "authority": {
+    "decision_owner": "DecisionOS",
+    "planning_owner": "PlanOS",
+    "adapter_invocation_owner": "ActOS",
+    "host": "OpenClaw",
+    "world_commit_owner": "WORLD"
+  },
+  "enforcement": {
+    "preflight_hook": "before_tool_call",
+    "post_effect_hook": "after_tool_call",
+    "fail_closed_default": true,
+    "remote_policy_url_default": false,
+    "nested_effect_complete": false
+  },
+  "invariants": {
+    "adapter_invocation_is_world_commit": false,
+    "host_receipt_is_world_truth": false,
+    "automatic_truth_promotion": false,
+    "automatic_plan_completion": false,
+    "automatic_rollback": false,
+    "effect_recorded_requires_observation": true,
+    "effect_recorded_requires_verification": true
+  }
+}

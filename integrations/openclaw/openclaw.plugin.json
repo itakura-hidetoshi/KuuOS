@@ -1,0 +1,53 @@
+{
+  "id": "kuuos-control",
+  "name": "KuuOS Control Plane",
+  "description": "Fail-closed KuuOS policy gate and post-effect receipt bridge for OpenClaw tools.",
+  "activation": {
+    "onStartup": true
+  },
+  "skills": [
+    "./skills"
+  ],
+  "configSchema": {
+    "type": "object",
+    "additionalProperties": false,
+    "properties": {
+      "policyUrl": {
+        "type": "string",
+        "description": "KuuOS control service base URL. Loopback is required unless allowRemotePolicyUrl is true."
+      },
+      "policyToken": {
+        "type": "string",
+        "description": "Optional bearer token for the KuuOS policy service."
+      },
+      "allowRemotePolicyUrl": {
+        "type": "boolean",
+        "description": "Permit non-loopback KuuOS policy service URLs. Off by default."
+      },
+      "failClosed": {
+        "type": "boolean",
+        "description": "Block tool calls when KuuOS preflight cannot be reached or returns an invalid decision."
+      },
+      "policyTimeoutMs": {
+        "type": "integer",
+        "minimum": 100,
+        "maximum": 15000
+      },
+      "approvalTimeoutMs": {
+        "type": "integer",
+        "minimum": 1000,
+        "maximum": 600000
+      },
+      "maxPayloadChars": {
+        "type": "integer",
+        "minimum": 512,
+        "maximum": 32768
+      }
+    }
+  },
+  "uiHints": {
+    "policyToken": {
+      "sensitive": true
+    }
+  }
+}
