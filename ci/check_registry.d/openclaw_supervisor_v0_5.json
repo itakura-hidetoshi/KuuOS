@@ -5,7 +5,9 @@
       "supervisor ready != WORLD truth",
       "required component failure -> policy service stop",
       "plugin installation requires explicit approval",
-      "v0.5 closed loop is local-Gateway only"
+      "v0.5 closed loop is local-Gateway only",
+      "supervisor-internal audit reconciliation is single-writer",
+      "unterminated live JSONL tail is deferred, not parsed"
     ]
   },
   "full_audit_paths": [
@@ -20,11 +22,15 @@
       "tier": "integration",
       "paths": [
         "runtime/kuuos_openclaw_supervisor_v0_5.py",
+        "runtime/kuuos_openclaw_supervisor_v0_5_impl.py",
         "tests/test_openclaw_supervisor_v0_5.py",
+        "tests/test_openclaw_supervisor_serialization_v0_5.py",
         "scripts/check_openclaw_supervisor_v0_5.py",
         "docs/KUUOS_OPENCLAW_SUPERVISOR_v0_5.md",
+        "docs/KUUOS_OPENCLAW_SUPERVISOR_CONCURRENCY_v0_5.md",
         "manifests/kuuos_openclaw_supervisor_v0_5.json",
         "formal/KUOS/ObserveOS/OpenClawSupervisorV0_5.lean",
+        "formal/KUOS/ObserveOS/OpenClawSupervisorSerializationV0_5.lean",
         "integrations/openclaw/openclaw.plugin.json",
         "runtime/kuuos_openclaw_control_server_v0_1.py",
         "runtime/kuuos_openclaw_audit_observation_ingest_v0_3.py",

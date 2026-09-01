@@ -2,10 +2,16 @@
   "version": "kuuos_openclaw_supervisor_v0_5",
   "status": "fail_closed_operational_closed_loop_supervisor",
   "runtime": "runtime/kuuos_openclaw_supervisor_v0_5.py",
-  "tests": "tests/test_openclaw_supervisor_v0_5.py",
+  "implementation": "runtime/kuuos_openclaw_supervisor_v0_5_impl.py",
+  "tests": [
+    "tests/test_openclaw_supervisor_v0_5.py",
+    "tests/test_openclaw_supervisor_serialization_v0_5.py"
+  ],
   "validator": "scripts/check_openclaw_supervisor_v0_5.py",
   "documentation": "docs/KUUOS_OPENCLAW_SUPERVISOR_v0_5.md",
+  "concurrency_documentation": "docs/KUUOS_OPENCLAW_SUPERVISOR_CONCURRENCY_v0_5.md",
   "formal_boundary": "formal/KUOS/ObserveOS/OpenClawSupervisorV0_5.lean",
+  "formal_serialization_boundary": "formal/KUOS/ObserveOS/OpenClawSupervisorSerializationV0_5.lean",
   "ci_registry": "ci/check_registry.d/openclaw_supervisor_v0_5.json",
   "required_layers": [
     "v0.1-control",
@@ -19,6 +25,12 @@
     "fresh_gateway_hello_required": true,
     "initial_audit_reconciliation_required": true,
     "partial_audit_window_is_ready": false
+  },
+  "concurrency": {
+    "supervisor_internal_audit_single_writer": true,
+    "cross_process_global_lock": false,
+    "partial_jsonl_tail_deferred": true,
+    "complete_invalid_jsonl_fails_closed": true
   },
   "failure_policy": {
     "required_component_failure_stops_policy_service": true,
