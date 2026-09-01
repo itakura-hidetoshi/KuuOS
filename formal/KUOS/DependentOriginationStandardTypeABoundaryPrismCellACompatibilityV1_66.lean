@@ -299,7 +299,7 @@ private lemma unionProdPairing_eq_core_firstCoordinate_scaled
     apply
       ((C.pairing.isUniquelyCodimOneFace (C.equivII s)).δ_eq_iff
         hdim (C.index s)).mp
-    rw [htop, hbottom]
+    simp only [htop, hbottom]
     simpa [C, SSet.prodStdSimplex.pairingCore] using
       (C.isUniquelyCodimOneFace s).δ_index rfl
   have hmap :
@@ -307,9 +307,9 @@ private lemma unionProdPairing_eq_core_firstCoordinate_scaled
           ((C.pairing.p (C.equivII s)).val.cast
             (C.pairing.isUniquelyCodimOneFace (C.equivII s)).dim_eq).simplex.1 =
         unionProdPairingCoreTypeOneFirstCoordinateMap k s := by
-    rw [htop]
+    simp only [htop]
     rfl
-  rw [hidx, hmap]
+  simp only [hidx, hmap]
   simpa [C, SSet.prodStdSimplex.pairingCore] using
     unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
 
