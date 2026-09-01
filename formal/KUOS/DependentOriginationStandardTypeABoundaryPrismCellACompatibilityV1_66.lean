@@ -252,6 +252,31 @@ theorem unionProdPairingCore_typeOne_firstCoordinate_scaled
 set_option backward.defeqAttrib.useBackward true
 set_option backward.isDefEq.respectTransparency false
 
+/-- Transport a pairing and all of its dependent regularity data to the core
+pairing before identifying its type-(II) cell.  Abstracting the pairing itself
+keeps the `IsRegular -> IsProper` instance in the motive, so `subst` moves the
+cell and the instance together under Lean 4.31. -/
+private lemma unionProdPairing_eq_core_firstCoordinate_scaled
+    {m : ℕ}
+    (k : Fin (m + 1))
+    (hk0 : 0 < k.castSucc)
+    {P : (SSet.Subcomplex.unionProd.{u} Λ[m + 1, k.castSucc] ∂Δ[1]).Pairing}
+    [P.IsRegular]
+    (hP : P = (SSet.prodStdSimplex.pairingCore.{u} k 1).pairing)
+    (z : P.II) :
+    IsScaledMap
+      (standardTypeASimplexScaling
+        ((P.isUniquelyCodimOneFace z).index rfl))
+      (standardTypeASimplexScaling k.castSucc)
+      (SSet.yonedaEquiv.symm
+        ((P.p z).val.cast (P.isUniquelyCodimOneFace z).dim_eq).simplex.1) := by
+  subst P
+  obtain ⟨s, rfl⟩ :=
+    (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
+  simpa [SSet.prodStdSimplex.pairingCore,
+    unionProdPairingCoreTypeOneFirstCoordinateMap] using
+    unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
+
 /-- Public `pairing k.castSucc 1` form of the preceding theorem.  Its source
 index is exactly the unique codimension-one face index of the paired type-(I)
 simplex, so this is the form consumed by rank cells. -/
@@ -267,13 +292,9 @@ lemma unionProdPairing_typeTwo_firstCoordinate_scaled
       (SSet.yonedaEquiv.symm
         (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast
           ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace z).dim_eq).simplex.1) := by
-  simp only [SSet.prodStdSimplex.pairing,
-    dif_neg (Fin.castSucc_ne_last k)] at z ⊢
-  obtain ⟨s, rfl⟩ :=
-    (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
-  simpa [SSet.prodStdSimplex.pairingCore,
-    unionProdPairingCoreTypeOneFirstCoordinateMap] using
-    unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
+  exact unionProdPairing_eq_core_firstCoordinate_scaled
+    k hk0 (P := SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
+      (SSet.prodStdSimplex.pairing_castSucc k 1) z
 
 /-! ## Every KuuOS boundary-prism cell is A-compatible -/
 
