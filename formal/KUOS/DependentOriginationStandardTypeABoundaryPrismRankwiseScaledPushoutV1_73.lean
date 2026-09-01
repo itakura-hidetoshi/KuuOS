@@ -539,19 +539,40 @@ noncomputable def standardTypeABoundaryPrism_rankStep_scaled_isPushout
         ((standardTypeABoundaryPrismRankFunction g).b j))
       (standardTypeABoundaryPrismRankStageScaling g (j + 1))
       (standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j)
-  apply h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eSucc
-  all_goals
-    simp only [Category.comp_id, Category.id_comp]
+  have heSuccMap : eSucc.hom.map = 𝟙 _ := by
+    simp only [eSucc, scalingEqualityIso_hom_map]
+  have hInl :
+      generatedPushoutInl
+          (standardTypeABoundaryPrismRankStageScaling g j)
+          (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j)
+          (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
+          ((standardTypeABoundaryPrismRankFunction g).b j) ≫ eSucc.hom =
+        standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j) := by
     apply ScaledSSet.ScaledMap.ext
-    simp only [
-      generatedPushoutInl,
-      generatedPushoutInr,
-      standardTypeABoundaryPrismRankStageHom,
-      standardTypeABoundaryPrismRankSigmaStdSimplexToSucc,
-      eSucc,
-      scalingEqualityIso_hom_map,
-      Category.comp_id,
-      Category.id_comp]
+    change
+      (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map ≫
+          eSucc.hom.map =
+        (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
+    rw [heSuccMap]
+    simp only [Category.comp_id]
+  have hInr :
+      generatedPushoutInr
+          (standardTypeABoundaryPrismRankStageScaling g j)
+          (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j)
+          (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
+          ((standardTypeABoundaryPrismRankFunction g).b j) ≫ eSucc.hom =
+        standardTypeABoundaryPrismRankSigmaStdSimplexToSucc g j := by
+    apply ScaledSSet.ScaledMap.ext
+    change
+      ((standardTypeABoundaryPrismRankFunction g).b j) ≫ eSucc.hom.map =
+        ((standardTypeABoundaryPrismRankFunction g).b j)
+    rw [heSuccMap]
+    simp only [Category.comp_id]
+  refine h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eSucc ?_ ?_ ?_ ?_
+  · simp only [Category.comp_id, Category.id_comp]
+  · simp only [Category.comp_id, Category.id_comp]
+  · simpa only [Category.id_comp] using hInl
+  · simpa only [Category.id_comp] using hInr
 
 /-!
 The global rank filtration is now genuinely scaled:
