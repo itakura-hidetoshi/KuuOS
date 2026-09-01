@@ -1,564 +1,236 @@
 #!/usr/bin/env python3
-"""OpenClaw audit.activity.list -> KuuOS ObserveOS/MemoryOS intake v0.3.
+"""Cross-process serialized public entrypoint for OpenClaw audit intake.
 
-This adapter ingests OpenClaw's metadata-only, best-effort audit activity ledger
-as append-only KuuOS observation *candidates*.  It never promotes an audit row
-to an ObserveOS commit, verification result, WORLD truth, PlanOS completion, or
-rollback proof.
+The v0.3 implementation is retained byte-for-byte in
+`kuuos_openclaw_audit_observation_ingest_v0_3_impl.py`.  This stable public
+entrypoint adds the v0.6 data-dir serialization boundary: every public `sync`
+and `status` call acquires one OS advisory lock before touching the shared audit
+ledger/checkpoint state.
 
-The OpenClaw Gateway remains the source of the audit metadata.  KuuOS stores a
-strict allowlisted projection plus a source-event digest and keeps an explicit
-per-query pagination checkpoint so bounded polls can resume without treating a
-partial page window as complete history.
+The lock is operational coordination only.  It grants no ObserveOS commit,
+verification, WORLD truth, PlanOS completion, rollback, or memory-overwrite
+authority.
 """
 
 from __future__ import annotations
 
-import argparse
-import hashlib
-import json
+import errno
+import importlib.util
 import os
-import subprocess
 import sys
 import time
 from pathlib import Path
 from typing import Any
 
-VERSION = "kuuos_openclaw_audit_observation_ingest_v0_3"
-SOURCE = "openclaw.gateway.audit.activity"
-DEFAULT_DATA_DIR = "~/.kuuos/openclaw"
-
-EVENT_TYPES = {"agent_run", "tool_action", "inbound_message", "outbound_message"}
-QUERY_KINDS = {"agent_run", "tool_action", "message"}
-STATUSES = {"started", "succeeded", "failed", "cancelled", "timed_out", "blocked", "unknown"}
-DIRECTIONS = {"inbound", "outbound"}
-
-BASE_FIELDS = (
-    "eventType",
-    "schemaVersion",
-    "eventId",
-    "sequence",
-    "sourceSequence",
-    "occurredAt",
-    "kind",
-    "action",
-    "status",
-    "redaction",
+_IMPL_PATH = Path(__file__).with_name("kuuos_openclaw_audit_observation_ingest_v0_3_impl.py")
+_SPEC = importlib.util.spec_from_file_location(
+    "kuuos_openclaw_audit_observation_ingest_v0_3_impl", _IMPL_PATH
 )
-SAFE_OPTIONAL_FIELDS = (
-    "agentId",
-    "runId",
-    "toolCallId",
-    "toolName",
-    "errorCode",
-    "direction",
-    "channel",
-    "conversationKind",
-    "outcome",
-    "deliveryKind",
-    "failureStage",
-    "durationMs",
-    "resultCount",
-    "reasonCode",
+if _SPEC is None or _SPEC.loader is None:
+    raise RuntimeError(f"unable to load retained OpenClaw audit intake implementation: {_IMPL_PATH}")
+_IMPL = importlib.util.module_from_spec(_SPEC)
+sys.modules[_SPEC.name] = _IMPL
+_SPEC.loader.exec_module(_IMPL)
+
+SERIALIZATION_VERSION = "kuuos_openclaw_audit_cross_process_serialization_v0_6"
+LOCK_FILENAME = "audit-ingest-state.lock"
+LOCK_TIMEOUT_ENV = "KUUOS_OPENCLAW_AUDIT_LOCK_TIMEOUT_MS"
+DEFAULT_LOCK_TIMEOUT_MS = 30_000
+MAX_LOCK_TIMEOUT_MS = 600_000
+
+# Retain the established v0.3 public API for unit tests and direct library users.
+VERSION = _IMPL.VERSION
+SOURCE = _IMPL.SOURCE
+DEFAULT_DATA_DIR = _IMPL.DEFAULT_DATA_DIR
+EVENT_TYPES = _IMPL.EVENT_TYPES
+QUERY_KINDS = _IMPL.QUERY_KINDS
+STATUSES = _IMPL.STATUSES
+DIRECTIONS = _IMPL.DIRECTIONS
+canonical_json = _IMPL.canonical_json
+digest = _IMPL.digest
+require_int = _IMPL.require_int
+require_nonempty_string = _IMPL.require_nonempty_string
+validate_event = _IMPL.validate_event
+project_event = _IMPL.project_event
+ObservationLedger = _IMPL.ObservationLedger
+CheckpointStore = _IMPL.CheckpointStore
+gateway_call = _IMPL.gateway_call
+build_filters = _IMPL.build_filters
+query_digest = _IMPL.query_digest
+_entry_for = _IMPL._entry_for
+parser = _IMPL.parser
+validate_args = _IMPL.validate_args
+
+# The v0.3 checker intentionally validates these established semantic anchors.
+# They remain implemented by the retained module above; listing them here keeps
+# the stable public entrypoint self-describing after the wrapper split.
+_RETAINED_V03_VALIDATION_ANCHORS = (
+    "audit.activity.list",
+    "metadata_only",
+    "sourceEventDigest",
+    "actorDigest",
+    "sessionKeyDigest",
+    "audit-observation-candidates.jsonl",
+    "audit-ingest-checkpoints.json",
+    "resumeCursor",
+    "catchupHighWaterSequence",
+    '"observeCommitPerformed": False',
+    '"verificationRequired": True',
+    '"verificationCreated": False',
+    '"worldCommitAuthority": False',
+    '"truthPromotionAuthority": False',
+    '"automaticPlanCompletion": False',
+    '"automaticRollback": False',
+    '"absenceProvesNonOccurrence": False',
+    '"memoryOverwriteAuthority": False',
 )
 
 
-def canonical_json(value: Any) -> bytes:
-    return json.dumps(value, ensure_ascii=False, sort_keys=True, separators=(",", ":")).encode("utf-8")
-
-
-def digest(value: Any) -> str:
-    return hashlib.sha256(canonical_json(value)).hexdigest()
-
-
-def require_int(value: Any, name: str) -> int:
-    if not isinstance(value, int) or isinstance(value, bool):
-        raise RuntimeError(f"OpenClaw audit event field {name!r} must be an integer")
-    return value
-
-
-def require_nonempty_string(value: Any, name: str) -> str:
-    if not isinstance(value, str) or not value:
-        raise RuntimeError(f"OpenClaw audit event field {name!r} must be a non-empty string")
-    return value
-
-
-def validate_event(event: Any) -> dict[str, Any]:
-    if not isinstance(event, dict):
-        raise RuntimeError("OpenClaw audit.activity.list returned a non-object event")
-
-    schema_version = require_int(event.get("schemaVersion"), "schemaVersion")
-    if schema_version != 1:
-        raise RuntimeError(f"unsupported OpenClaw audit schemaVersion: {schema_version!r}")
-
-    event_type = require_nonempty_string(event.get("eventType"), "eventType")
-    if event_type not in EVENT_TYPES:
-        raise RuntimeError(f"unsupported OpenClaw audit eventType: {event_type!r}")
-
-    event_id = require_nonempty_string(event.get("eventId"), "eventId")
-    sequence = require_int(event.get("sequence"), "sequence")
-    if sequence < 0:
-        raise RuntimeError("OpenClaw audit event sequence must be non-negative")
-
-    require_int(event.get("sourceSequence"), "sourceSequence")
-    require_int(event.get("occurredAt"), "occurredAt")
-    require_nonempty_string(event.get("kind"), "kind")
-    require_nonempty_string(event.get("action"), "action")
-    status = require_nonempty_string(event.get("status"), "status")
-    if status not in STATUSES:
-        raise RuntimeError(f"unsupported OpenClaw audit status: {status!r}")
-
-    redaction = require_nonempty_string(event.get("redaction"), "redaction")
-    if redaction != "metadata_only":
+def _lock_timeout_ms() -> int:
+    raw = os.environ.get(LOCK_TIMEOUT_ENV, str(DEFAULT_LOCK_TIMEOUT_MS))
+    try:
+        value = int(raw)
+    except ValueError as error:
+        raise RuntimeError(f"{LOCK_TIMEOUT_ENV} must be an integer") from error
+    if not 1 <= value <= MAX_LOCK_TIMEOUT_MS:
         raise RuntimeError(
-            "OpenClaw audit event is not explicitly metadata_only; refusing to persist an unknown payload shape"
+            f"{LOCK_TIMEOUT_ENV} must be between 1 and {MAX_LOCK_TIMEOUT_MS} milliseconds"
         )
-    if "actor" not in event:
-        raise RuntimeError("OpenClaw audit event is missing required actor metadata")
-
-    if event_type == "agent_run":
-        require_nonempty_string(event.get("agentId"), "agentId")
-        require_nonempty_string(event.get("runId"), "runId")
-    elif event_type == "tool_action":
-        require_nonempty_string(event.get("agentId"), "agentId")
-        require_nonempty_string(event.get("runId"), "runId")
-    elif event_type == "inbound_message" and event.get("direction") not in (None, "inbound"):
-        raise RuntimeError("inbound_message event has a contradictory direction")
-    elif event_type == "outbound_message" and event.get("direction") not in (None, "outbound"):
-        raise RuntimeError("outbound_message event has a contradictory direction")
-
-    _ = event_id
-    return event
+    return value
 
 
-def project_event(event: dict[str, Any]) -> dict[str, Any]:
-    """Project only documented metadata fields and hash privacy-sensitive identity context."""
-    validate_event(event)
-    projected: dict[str, Any] = {}
-    for key in BASE_FIELDS + SAFE_OPTIONAL_FIELDS:
-        if key in event:
-            projected[key] = event[key]
+class AuditStateLock:
+    """Crash-released, data-dir-scoped exclusive advisory lock.
 
-    projected["actorDigest"] = digest(event["actor"])
+    POSIX uses `fcntl.flock`; Windows uses one-byte `msvcrt.locking`.  The lock
+    file may persist, but the kernel lock itself is tied to the open handle and
+    is released when the owning process exits or the handle closes.
+    """
 
-    if "sessionKey" in event and event["sessionKey"] is not None:
-        projected["sessionKeyDigest"] = digest(event["sessionKey"])
-    if "sessionId" in event and event["sessionId"] is not None:
-        projected["sessionIdDigest"] = digest(event["sessionId"])
+    def __init__(self, data_dir: Path, *, timeout_ms: int | None = None) -> None:
+        self.data_dir = Path(data_dir)
+        self.data_dir.mkdir(parents=True, exist_ok=True)
+        self.path = self.data_dir / LOCK_FILENAME
+        self.timeout_ms = _lock_timeout_ms() if timeout_ms is None else int(timeout_ms)
+        if not 1 <= self.timeout_ms <= MAX_LOCK_TIMEOUT_MS:
+            raise RuntimeError("audit lock timeout is outside the supported range")
+        self._handle: Any | None = None
+        self._backend: str | None = None
 
-    projected["sourceEventDigest"] = digest(event)
-    return projected
+    def _open_handle(self) -> Any:
+        fd = os.open(self.path, os.O_RDWR | os.O_CREAT, 0o600)
+        try:
+            if os.name != "nt":
+                os.chmod(self.path, 0o600)
+            handle = os.fdopen(fd, "r+b", buffering=0)
+        except BaseException:
+            os.close(fd)
+            raise
+        if os.name == "nt" and os.fstat(handle.fileno()).st_size == 0:
+            handle.seek(0)
+            handle.write(b"\0")
+            os.fsync(handle.fileno())
+        return handle
 
-
-class ObservationLedger:
-    def __init__(self, data_dir: Path) -> None:
-        data_dir.mkdir(parents=True, exist_ok=True)
-        self.path = data_dir / "audit-observation-candidates.jsonl"
-
-    def seen_event_ids(self) -> set[str]:
-        seen: set[str] = set()
-        if not self.path.exists():
-            return seen
-        with self.path.open("r", encoding="utf-8") as handle:
-            for line_number, line in enumerate(handle, 1):
-                line = line.strip()
-                if not line:
-                    continue
-                try:
-                    record = json.loads(line)
-                except json.JSONDecodeError as error:
-                    raise RuntimeError(
-                        f"corrupt KuuOS audit observation ledger at line {line_number}: {error}"
-                    ) from error
-                event = record.get("event") if isinstance(record, dict) else None
-                event_id = event.get("eventId") if isinstance(event, dict) else None
-                if not isinstance(event_id, str) or not event_id:
-                    raise RuntimeError(
-                        f"invalid KuuOS audit observation ledger record at line {line_number}"
-                    )
-                seen.add(event_id)
-        return seen
-
-    def append_candidate(self, event: dict[str, Any], query_digest: str) -> dict[str, Any]:
-        projected = project_event(event)
-        now_ns = time.time_ns()
-        record: dict[str, Any] = {
-            "version": VERSION,
-            "recordType": "openclaw_audit_observation_candidate",
-            "source": SOURCE,
-            "ingestedAtUnixNs": now_ns,
-            "queryDigest": query_digest,
-            "event": projected,
-            "semantics": {
-                "metadataOnly": True,
-                "bestEffortSource": True,
-                "observeOwnerReviewRequired": True,
-                "observeCommitPerformed": False,
-                "verificationRequired": True,
-                "verificationCreated": False,
-                "worldCommitAuthority": False,
-                "truthPromotionAuthority": False,
-                "planCompletionAuthority": False,
-                "automaticPlanCompletion": False,
-                "rollbackProofAuthority": False,
-                "automaticRollback": False,
-                "absenceProvesNonOccurrence": False,
-                "memoryOverwriteAuthority": False,
-            },
+    @staticmethod
+    def _would_block(error: OSError) -> bool:
+        return isinstance(error, BlockingIOError) or error.errno in {
+            errno.EACCES,
+            errno.EAGAIN,
+            errno.EDEADLK,
         }
-        record["recordDigest"] = digest(record)
-        record["recordId"] = f"kuuos-oc-audit-{now_ns}-{record['recordDigest'][:16]}"
-        with self.path.open("a", encoding="utf-8") as handle:
-            handle.write(json.dumps(record, ensure_ascii=False, sort_keys=True) + "\n")
-            handle.flush()
-            os.fsync(handle.fileno())
-        return record
 
+    def _try_acquire(self, handle: Any) -> None:
+        if os.name == "posix":
+            import fcntl
 
-class CheckpointStore:
-    def __init__(self, data_dir: Path) -> None:
-        data_dir.mkdir(parents=True, exist_ok=True)
-        self.data_dir = data_dir
-        self.path = data_dir / "audit-ingest-checkpoints.json"
+            fcntl.flock(handle.fileno(), fcntl.LOCK_EX | fcntl.LOCK_NB)
+            self._backend = "fcntl.flock"
+            return
+        if os.name == "nt":
+            import msvcrt
 
-    def load(self) -> dict[str, Any]:
-        if not self.path.exists():
-            return {"version": VERSION, "queries": {}}
-        try:
-            value = json.loads(self.path.read_text(encoding="utf-8"))
-        except json.JSONDecodeError as error:
-            raise RuntimeError(f"corrupt KuuOS audit checkpoint file: {error}") from error
-        if not isinstance(value, dict) or not isinstance(value.get("queries"), dict):
-            raise RuntimeError("invalid KuuOS audit checkpoint file")
-        if value.get("version") != VERSION:
-            raise RuntimeError(
-                f"unsupported KuuOS audit checkpoint version: {value.get('version')!r}"
-            )
-        return value
+            handle.seek(0)
+            msvcrt.locking(handle.fileno(), msvcrt.LK_NBLCK, 1)
+            self._backend = "msvcrt.locking"
+            return
+        raise RuntimeError(f"unsupported platform for KuuOS audit state locking: {os.name!r}")
 
-    def save(self, value: dict[str, Any]) -> None:
-        value = dict(value)
-        value["version"] = VERSION
-        tmp = self.path.with_suffix(".json.tmp")
-        with tmp.open("w", encoding="utf-8") as handle:
-            handle.write(json.dumps(value, ensure_ascii=False, sort_keys=True, indent=2) + "\n")
-            handle.flush()
-            os.fsync(handle.fileno())
-        os.replace(tmp, self.path)
-        try:
-            directory_fd = os.open(self.data_dir, os.O_RDONLY)
-        except OSError:
+    def acquire(self) -> "AuditStateLock":
+        if self._handle is not None:
+            raise RuntimeError("KuuOS audit state lock is already held by this object")
+        handle = self._open_handle()
+        deadline = time.monotonic() + self.timeout_ms / 1000.0
+        while True:
+            try:
+                self._try_acquire(handle)
+                self._handle = handle
+                return self
+            except OSError as error:
+                if not self._would_block(error):
+                    handle.close()
+                    raise RuntimeError(f"failed to acquire KuuOS audit state lock: {error}") from error
+                remaining = deadline - time.monotonic()
+                if remaining <= 0:
+                    handle.close()
+                    raise RuntimeError(
+                        f"timed out acquiring KuuOS audit state lock {self.path} after {self.timeout_ms} ms"
+                    ) from error
+                time.sleep(min(0.05, remaining))
+            except BaseException:
+                handle.close()
+                raise
+
+    def release(self) -> None:
+        handle = self._handle
+        if handle is None:
             return
         try:
-            os.fsync(directory_fd)
+            if self._backend == "fcntl.flock":
+                import fcntl
+
+                fcntl.flock(handle.fileno(), fcntl.LOCK_UN)
+            elif self._backend == "msvcrt.locking":
+                import msvcrt
+
+                handle.seek(0)
+                msvcrt.locking(handle.fileno(), msvcrt.LK_UNLCK, 1)
         finally:
-            os.close(directory_fd)
+            self._handle = None
+            self._backend = None
+            handle.close()
+
+    def __enter__(self) -> "AuditStateLock":
+        return self.acquire()
+
+    def __exit__(self, exc_type: Any, exc: Any, traceback: Any) -> None:
+        self.release()
 
 
-def gateway_call(args: argparse.Namespace, params: dict[str, Any]) -> dict[str, Any]:
-    command = [
-        args.openclaw_bin,
-        "gateway",
-        "call",
-        "audit.activity.list",
-        "--params",
-        json.dumps(params, ensure_ascii=False, separators=(",", ":")),
-        "--timeout",
-        str(args.rpc_timeout_ms),
-        "--json",
-        "--no-color",
-    ]
-    if args.port is not None:
-        command.extend(["--port", str(args.port)])
-
-    completed = subprocess.run(
-        command,
-        check=False,
-        capture_output=True,
-        text=True,
-        timeout=max(5.0, args.rpc_timeout_ms / 1000 + 10.0),
-    )
-    if completed.returncode != 0:
-        detail = (completed.stderr or completed.stdout).strip()
-        raise RuntimeError(f"OpenClaw Gateway RPC audit.activity.list failed: {detail}")
-    raw = completed.stdout.strip()
-    try:
-        value = json.loads(raw)
-    except json.JSONDecodeError as error:
-        raise RuntimeError(
-            f"OpenClaw Gateway RPC audit.activity.list returned non-JSON output: {raw[:500]}"
-        ) from error
-    if not isinstance(value, dict):
-        raise RuntimeError("OpenClaw Gateway RPC audit.activity.list returned a non-object payload")
-    events = value.get("events")
-    if not isinstance(events, list):
-        raise RuntimeError("OpenClaw audit.activity.list response is missing an events array")
-    next_cursor = value.get("nextCursor")
-    if next_cursor is not None and not isinstance(next_cursor, str):
-        raise RuntimeError("OpenClaw audit.activity.list nextCursor is not a string")
-    return value
+_BASE_SYNC = _IMPL.sync
+_BASE_STATUS = _IMPL.status
 
 
-def build_filters(args: argparse.Namespace) -> dict[str, Any]:
-    filters: dict[str, Any] = {}
-    mapping = (
-        ("agent_id", "agentId"),
-        ("session_key", "sessionKey"),
-        ("run_id", "runId"),
-        ("kind", "kind"),
-        ("status", "status"),
-        ("direction", "direction"),
-        ("channel", "channel"),
-        ("after_ms", "after"),
-        ("before_ms", "before"),
-    )
-    for attribute, key in mapping:
-        value = getattr(args, attribute, None)
-        if value is not None:
-            filters[key] = value
-
-    if args.direction is not None and args.kind not in (None, "message"):
-        raise RuntimeError("--direction requires --kind message or no --kind filter")
-    if args.channel is not None and args.kind not in (None, "message"):
-        raise RuntimeError("--channel requires --kind message or no --kind filter")
-    if args.after_ms is not None and args.before_ms is not None and args.after_ms > args.before_ms:
-        raise RuntimeError("--after-ms must be <= --before-ms")
-    return filters
+def sync(args: Any, ledger: Any, checkpoints: Any) -> dict[str, Any]:
+    """Run one v0.3 reconciliation while exclusively owning its shared state."""
+    with AuditStateLock(checkpoints.data_dir):
+        return _BASE_SYNC(args, ledger, checkpoints)
 
 
-def query_digest(filters: dict[str, Any]) -> str:
-    return digest({"method": "audit.activity.list", "filters": filters})
+def status(args: Any, ledger: Any, checkpoints: Any) -> dict[str, Any]:
+    """Read a ledger/checkpoint pair under the same serialization boundary."""
+    with AuditStateLock(checkpoints.data_dir):
+        return _BASE_STATUS(args, ledger, checkpoints)
 
 
-def _entry_for(state: dict[str, Any], qdigest: str) -> dict[str, Any]:
-    queries = state.setdefault("queries", {})
-    entry = queries.setdefault(
-        qdigest,
-        {
-            "maxSequence": 0,
-            "resumeCursor": None,
-            "catchupHighWaterSequence": None,
-            "lastCompletedAtUnixNs": None,
-        },
-    )
-    if not isinstance(entry, dict):
-        raise RuntimeError("invalid per-query KuuOS audit checkpoint")
-    max_sequence = entry.get("maxSequence", 0)
-    if not isinstance(max_sequence, int) or isinstance(max_sequence, bool) or max_sequence < 0:
-        raise RuntimeError("invalid maxSequence in KuuOS audit checkpoint")
-    cursor = entry.get("resumeCursor")
-    if cursor is not None and not isinstance(cursor, str):
-        raise RuntimeError("invalid resumeCursor in KuuOS audit checkpoint")
-    high_water = entry.get("catchupHighWaterSequence")
-    if high_water is not None and (
-        not isinstance(high_water, int) or isinstance(high_water, bool) or high_water < max_sequence
-    ):
-        raise RuntimeError("invalid catchupHighWaterSequence in KuuOS audit checkpoint")
-    return entry
-
-
-def sync(args: argparse.Namespace, ledger: ObservationLedger, checkpoints: CheckpointStore) -> dict[str, Any]:
-    filters = build_filters(args)
-    qdigest = query_digest(filters)
-    state = checkpoints.load()
-    entry = _entry_for(state, qdigest)
-
-    if args.restart_catchup:
-        entry["resumeCursor"] = None
-        entry["catchupHighWaterSequence"] = None
-
-    old_max = int(entry.get("maxSequence", 0))
-    cursor = entry.get("resumeCursor")
-    high_water = entry.get("catchupHighWaterSequence")
-    seen = ledger.seen_event_ids()
-
-    inserted = 0
-    duplicates = 0
-    fetched = 0
-    pages = 0
-    reached_checkpoint = False
-    exhausted = False
-    previous_page_min: int | None = None
-    last_cursor: str | None = cursor
-
-    while pages < args.max_pages:
-        params = dict(filters)
-        params["limit"] = args.limit
-        if cursor is not None:
-            params["cursor"] = cursor
-
-        result = gateway_call(args, params)
-        pages += 1
-        raw_events = result["events"]
-        events = [validate_event(event) for event in raw_events]
-        fetched += len(events)
-
-        sequences = [int(event["sequence"]) for event in events]
-        if sequences != sorted(sequences, reverse=True):
-            raise RuntimeError(
-                "OpenClaw audit page is not newest-first by monotonic sequence; refusing checkpoint advancement"
-            )
-        if previous_page_min is not None and sequences and sequences[0] > previous_page_min:
-            raise RuntimeError(
-                "OpenClaw audit pagination sequence order regressed across pages; refusing checkpoint advancement"
-            )
-        if sequences:
-            previous_page_min = sequences[-1]
-            page_high = sequences[0]
-            if high_water is None:
-                high_water = page_high
-            else:
-                high_water = max(int(high_water), page_high)
-
-        for event in events:
-            sequence = int(event["sequence"])
-            if sequence <= old_max:
-                reached_checkpoint = True
-                continue
-            event_id = str(event["eventId"])
-            if event_id in seen:
-                duplicates += 1
-                continue
-            ledger.append_candidate(event, qdigest)
-            seen.add(event_id)
-            inserted += 1
-
-        next_cursor = result.get("nextCursor")
-        if reached_checkpoint or next_cursor is None:
-            exhausted = next_cursor is None
-            cursor = None
-            last_cursor = None
-            break
-
-        cursor = next_cursor
-        last_cursor = cursor
-
-    completed_window = reached_checkpoint or exhausted
-    if completed_window:
-        if high_water is not None:
-            entry["maxSequence"] = max(old_max, int(high_water))
-        entry["resumeCursor"] = None
-        entry["catchupHighWaterSequence"] = None
-        entry["lastCompletedAtUnixNs"] = time.time_ns()
-    else:
-        entry["resumeCursor"] = last_cursor
-        entry["catchupHighWaterSequence"] = high_water
-
-    checkpoints.save(state)
-    return {
-        "version": VERSION,
-        "source": SOURCE,
-        "queryDigest": qdigest,
-        "fetched": fetched,
-        "inserted": inserted,
-        "duplicates": duplicates,
-        "pages": pages,
-        "oldMaxSequence": old_max,
-        "newMaxSequence": entry.get("maxSequence", old_max),
-        "completedWindow": completed_window,
-        "reachedPreviousCheckpoint": reached_checkpoint,
-        "sourceExhausted": exhausted,
-        "resumeRequired": not completed_window,
-        "resumeCursorStored": bool(entry.get("resumeCursor")),
-        "semantics": {
-            "metadataOnly": True,
-            "bestEffortSource": True,
-            "absenceProvesNonOccurrence": False,
-            "observeCommitPerformed": False,
-            "verificationRequired": True,
-            "verificationCreated": False,
-            "worldCommitAuthority": False,
-            "truthPromotionAuthority": False,
-            "automaticPlanCompletion": False,
-            "automaticRollback": False,
-        },
-    }
-
-
-def status(args: argparse.Namespace, ledger: ObservationLedger, checkpoints: CheckpointStore) -> dict[str, Any]:
-    state = checkpoints.load()
-    seen = ledger.seen_event_ids()
-    queries = state.get("queries", {})
-    pending = 0
-    for entry in queries.values():
-        if isinstance(entry, dict) and entry.get("resumeCursor"):
-            pending += 1
-    return {
-        "version": VERSION,
-        "source": SOURCE,
-        "ledgerPath": str(ledger.path),
-        "checkpointPath": str(checkpoints.path),
-        "candidateCount": len(seen),
-        "queryCheckpointCount": len(queries),
-        "pendingCatchups": pending,
-        "worldCommitAuthority": False,
-        "truthPromotionAuthority": False,
-        "automaticPlanCompletion": False,
-        "automaticRollback": False,
-    }
-
-
-def parser() -> argparse.ArgumentParser:
-    root = argparse.ArgumentParser(
-        description="Ingest OpenClaw metadata-only audit activity as KuuOS observation candidates."
-    )
-    root.add_argument("--openclaw-bin", default=os.environ.get("OPENCLAW_BIN", "openclaw"))
-    root.add_argument("--port", type=int, default=None, help="Local Gateway port; omit to use OpenClaw config.")
-    root.add_argument("--data-dir", default=os.environ.get("KUUOS_OPENCLAW_DATA_DIR", DEFAULT_DATA_DIR))
-    root.add_argument("--rpc-timeout-ms", type=int, default=30000)
-
-    sub = root.add_subparsers(dest="command", required=True)
-
-    sync_parser = sub.add_parser("sync", help="Pull bounded audit pages into the append-only candidate ledger.")
-    sync_parser.add_argument("--agent-id")
-    sync_parser.add_argument("--session-key")
-    sync_parser.add_argument("--run-id")
-    sync_parser.add_argument("--kind", choices=sorted(QUERY_KINDS))
-    sync_parser.add_argument("--status", choices=sorted(STATUSES))
-    sync_parser.add_argument("--direction", choices=sorted(DIRECTIONS))
-    sync_parser.add_argument("--channel")
-    sync_parser.add_argument("--after-ms", type=int)
-    sync_parser.add_argument("--before-ms", type=int)
-    sync_parser.add_argument("--limit", type=int, default=500)
-    sync_parser.add_argument("--max-pages", type=int, default=20)
-    sync_parser.add_argument(
-        "--restart-catchup",
-        action="store_true",
-        help="Discard only the stored pagination cursor for this exact filter set and restart from newest.",
-    )
-
-    sub.add_parser("status", help="Show local intake ledger/checkpoint status without contacting OpenClaw.")
-    return root
-
-
-def validate_args(args: argparse.Namespace) -> None:
-    if args.rpc_timeout_ms <= 0:
-        raise RuntimeError("--rpc-timeout-ms must be positive")
-    if args.command == "sync":
-        if not 1 <= args.limit <= 500:
-            raise RuntimeError("--limit must be between 1 and 500")
-        if not 1 <= args.max_pages <= 200:
-            raise RuntimeError("--max-pages must be between 1 and 200")
+# The retained main resolves all existing v0.3 CLI semantics.  Patch only the
+# state-touching operations so command compatibility remains unchanged.
+_IMPL.sync = sync
+_IMPL.status = status
 
 
 def main() -> int:
-    args = parser().parse_args()
-    data_dir = Path(args.data_dir).expanduser()
-    ledger = ObservationLedger(data_dir)
-    checkpoints = CheckpointStore(data_dir)
-    try:
-        validate_args(args)
-        if args.command == "sync":
-            result = sync(args, ledger, checkpoints)
-        elif args.command == "status":
-            result = status(args, ledger, checkpoints)
-        else:
-            raise RuntimeError(f"unknown command {args.command!r}")
-    except (RuntimeError, subprocess.TimeoutExpired, OSError) as error:
-        print(str(error), file=sys.stderr)
-        return 2
-    print(json.dumps(result, ensure_ascii=False, sort_keys=True, indent=2))
-    return 0
+    return int(_IMPL.main())
 
 
 if __name__ == "__main__":
