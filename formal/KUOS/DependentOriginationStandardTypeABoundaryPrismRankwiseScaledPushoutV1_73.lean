@@ -8,8 +8,11 @@ open CategoryTheory.Limits
 open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
+open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
+open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
 open KUOS.DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61
 open KUOS.DependentOriginationStandardTypeABoundaryPrismScaledRankFiltrationV1_71
 open KUOS.DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_72
@@ -132,7 +135,7 @@ def generatedPushoutInr
 /-- A compatible square of scaled maps gives the underlying ordinary
 compatibility equation. -/
 theorem generatedPushout_compatibility_map
-    {Z X Y P : SSet.{u}}
+    {Z X Y : SSet.{u}}
     {sZ : ScaledSimplicialSet Z}
     {sX : ScaledSimplicialSet X}
     {sY : ScaledSimplicialSet Y}
