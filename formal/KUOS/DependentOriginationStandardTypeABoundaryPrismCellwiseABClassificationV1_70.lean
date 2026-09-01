@@ -40,7 +40,7 @@ A followed by the q23 type-(B) completion.
 ```
 
 The equal-dimensional branch is rigid by surjectivity of the paired first
-coordinate.  The only post-A residual occurs for `g.n = 2` in target dimension
+coordinate. The only post-A residual occurs for `g.n = 2` in target dimension
 three and is the finite q12/q23 table of v1.69.
 -/
 
@@ -50,9 +50,8 @@ set_option backward.defeqAttrib.useBackward true
 set_option backward.isDefEq.respectTransparency false
 
 /-- Transport the public pairing together with its dependent type-(II) simplex
-to the implementation-level pairing core.  Keeping the pairing abstract in the
-motive is essential under Lean 4.31: the cell and the regularity instance move
-together when `P` is substituted. -/
+to the implementation-level pairing core. Keeping the pairing abstract in the
+motive lets Lean transport the cell and regularity data together. -/
 private lemma unionProdPairing_eq_core_firstCoordinate_data
     {m : ℕ}
     (k : Fin (m + 1))
@@ -64,10 +63,10 @@ private lemma unionProdPairing_eq_core_firstCoordinate_data
         (((P.p z).val.cast (P.isUniquelyCodimOneFace z).dim_eq).simplex.1) ∧
       ∃ l : Fin (z.val.dim + 1),
         l.castSucc = (P.isUniquelyCodimOneFace z).index rfl ∧
-          (((P.p z).val.cast
+          ((P.p z).val.cast
             (P.isUniquelyCodimOneFace z).dim_eq).simplex.1 l.castSucc =
               k.castSucc ∧
-          (((P.p z).val.cast
+          ((P.p z).val.cast
             (P.isUniquelyCodimOneFace z).dim_eq).simplex.1 l.succ =
               k.succ := by
   subst P
@@ -132,15 +131,14 @@ private lemma unionProdPairing_eq_core_firstCoordinate_data
     · rw [hfirst]
       exact s.isIndex.simplex_fst_succ
 
-/-- Public-pairing form of the v1.63 first-coordinate surjectivity theorem. -/
+/-- Public-pairing form of the first-coordinate surjectivity theorem. -/
 theorem unionProdPairing_typeTwo_fst_surjective
     {m : ℕ}
     (k : Fin (m + 1))
     (z : (SSet.prodStdSimplex.pairing.{u} k.castSucc 1).II) :
     Function.Surjective
       (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast
-        ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
-          .isUniquelyCodimOneFace z).dim_eq).simplex.1 := by
+        ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace z).dim_eq).simplex.1 := by
   exact
     (unionProdPairing_eq_core_firstCoordinate_data
       k (P := SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
@@ -154,31 +152,25 @@ theorem unionProdPairing_typeTwo_index_transition
     (z : (SSet.prodStdSimplex.pairing.{u} k.castSucc 1).II) :
     ∃ l : Fin (z.val.dim + 1),
       l.castSucc =
-          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
-            .isUniquelyCodimOneFace z).index rfl ∧
+          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace z).index rfl ∧
         (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast
-          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
-            .isUniquelyCodimOneFace z).dim_eq).simplex.1 l.castSucc =
+          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace z).dim_eq).simplex.1 l.castSucc =
             k.castSucc ∧
         (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast
-          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
-            .isUniquelyCodimOneFace z).dim_eq).simplex.1 l.succ =
+          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace z).dim_eq).simplex.1 l.succ =
             k.succ := by
   exact
     (unionProdPairing_eq_core_firstCoordinate_data
       k (P := SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
       (SSet.prodStdSimplex.pairing_castSucc k 1) z).2
 
-/-- The same surjectivity statement before a rank cell is introduced.  This
-isolates all dependent elimination on the generator from the much more
-structured `RankFunction.Cell` type. -/
+/-- The same surjectivity statement before a rank cell is introduced. -/
 private theorem standardTypeABoundaryPrismPairing_fst_surjective
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (z : (standardTypeABoundaryPrismPairing.{u} g).II) :
     Function.Surjective
       (((standardTypeABoundaryPrismPairing g).p z).val.cast
-        ((standardTypeABoundaryPrismPairing g)
-          .isUniquelyCodimOneFace z).dim_eq).simplex.1 := by
+        ((standardTypeABoundaryPrismPairing g).isUniquelyCodimOneFace z).dim_eq).simplex.1 := by
   rcases g with ⟨n, i, h0, hn, endpoint⟩
   cases n with
   | zero =>
@@ -192,8 +184,7 @@ private theorem standardTypeABoundaryPrismPairing_fst_surjective
       obtain ⟨k, rfl⟩ := Fin.eq_castSucc_of_ne_last hilast
       change Function.Surjective
         (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast
-          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
-            .isUniquelyCodimOneFace z).dim_eq).simplex.1
+          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace z).dim_eq).simplex.1
       exact unionProdPairing_typeTwo_fst_surjective k z
 
 /-- The corresponding adjacent-index transition before introducing a rank
@@ -203,15 +194,12 @@ private theorem standardTypeABoundaryPrismPairing_index_transition
     (z : (standardTypeABoundaryPrismPairing.{u} g).II) :
     ∃ l : Fin (z.val.dim + 1),
       l.castSucc =
-          ((standardTypeABoundaryPrismPairing g)
-            .isUniquelyCodimOneFace z).index rfl ∧
+          ((standardTypeABoundaryPrismPairing g).isUniquelyCodimOneFace z).index rfl ∧
         (((standardTypeABoundaryPrismPairing g).p z).val.cast
-          ((standardTypeABoundaryPrismPairing g)
-            .isUniquelyCodimOneFace z).dim_eq).simplex.1 l.castSucc =
+          ((standardTypeABoundaryPrismPairing g).isUniquelyCodimOneFace z).dim_eq).simplex.1 l.castSucc =
             g.i ∧
         (((standardTypeABoundaryPrismPairing g).p z).val.cast
-          ((standardTypeABoundaryPrismPairing g)
-            .isUniquelyCodimOneFace z).dim_eq).simplex.1 l.succ =
+          ((standardTypeABoundaryPrismPairing g).isUniquelyCodimOneFace z).dim_eq).simplex.1 l.succ =
           ⟨g.i.val + 1, by
             have h := g.inner_right
             change g.i.val < g.n at h
@@ -229,15 +217,12 @@ private theorem standardTypeABoundaryPrismPairing_index_transition
       obtain ⟨k, rfl⟩ := Fin.eq_castSucc_of_ne_last hilast
       change ∃ l : Fin (z.val.dim + 1),
         l.castSucc =
-            ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
-              .isUniquelyCodimOneFace z).index rfl ∧
+            ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace z).index rfl ∧
           (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast
-            ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
-              .isUniquelyCodimOneFace z).dim_eq).simplex.1 l.castSucc =
+            ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace z).dim_eq).simplex.1 l.castSucc =
               k.castSucc ∧
           (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast
-            ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
-              .isUniquelyCodimOneFace z).dim_eq).simplex.1 l.succ =
+            ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace z).dim_eq).simplex.1 l.succ =
               k.succ
       exact unionProdPairing_typeTwo_index_transition k z
 
@@ -251,8 +236,7 @@ theorem standardTypeABoundaryPrismCellPaired_fst_surjective
       (standardTypeABoundaryPrismCellPairedNondegenerate g j c).1.1 := by
   change Function.Surjective
     (((standardTypeABoundaryPrismPairing g).p c.s).val.cast
-      ((standardTypeABoundaryPrismPairing g)
-        .isUniquelyCodimOneFace c.s).dim_eq).simplex.1
+      ((standardTypeABoundaryPrismPairing g).isUniquelyCodimOneFace c.s).dim_eq).simplex.1
   exact standardTypeABoundaryPrismPairing_fst_surjective g c.s
 
 /-- Exact adjacent transition data for an actual KuuOS rank cell. -/
@@ -272,15 +256,12 @@ theorem standardTypeABoundaryPrismCellPaired_index_transition
             omega⟩ := by
   change ∃ l : Fin (c.s.val.dim + 1),
     l.castSucc =
-        ((standardTypeABoundaryPrismPairing g)
-          .isUniquelyCodimOneFace c.s).index rfl ∧
+        ((standardTypeABoundaryPrismPairing g).isUniquelyCodimOneFace c.s).index rfl ∧
       (((standardTypeABoundaryPrismPairing g).p c.s).val.cast
-        ((standardTypeABoundaryPrismPairing g)
-          .isUniquelyCodimOneFace c.s).dim_eq).simplex.1 l.castSucc =
+        ((standardTypeABoundaryPrismPairing g).isUniquelyCodimOneFace c.s).dim_eq).simplex.1 l.castSucc =
           g.i ∧
       (((standardTypeABoundaryPrismPairing g).p c.s).val.cast
-        ((standardTypeABoundaryPrismPairing g)
-          .isUniquelyCodimOneFace c.s).dim_eq).simplex.1 l.succ =
+        ((standardTypeABoundaryPrismPairing g).isUniquelyCodimOneFace c.s).dim_eq).simplex.1 l.succ =
         ⟨g.i.val + 1, by
           have h := g.inner_right
           change g.i.val < g.n at h
@@ -391,7 +372,6 @@ theorem standardTypeABoundaryPrismCellFirstCoordinateMap_apply
     ((SSet.yonedaEquiv.symm
       (standardTypeABoundaryPrismCellPairedNondegenerate g j c).1.1).app
       (op ⦋d⦌) t) a = _
-  rw [SSet.yonedaEquiv_symm_app]
   rfl
 
 /-- On every triangle, the equal-dimensional first-coordinate map is canonical
@@ -516,16 +496,14 @@ theorem standardTypeABoundaryPrismCellAPushoutScaling_eq_cellScaling_of_equal
 
 /-! ## Actual `n = 2`, `N = 3` A-pushouts and canonical transport -/
 
-/-- Dimension-parametric A-plus-horn saturation.  Keeping the carrier dimension
-as a direct parameter lets equality elimination happen without eliminating a
-dependent rank cell. -/
+/-- Dimension-parametric A-plus-horn saturation. -/
 private def standardTypeAHornSaturatedScaling
     {d : ℕ}
     (i : Fin (d + 1)) :
     ScaledSimplicialSet (Δ[d] : SSet.{u}) where
   thin := fun t =>
     (standardTypeASimplexScaling i).thin t ∨
-      t ∈ (Λ[d, i] : SSet.{u}).obj (op ⦋2⦌)
+      t ∈ (SSet.horn.{u} d i).obj (op ⦋2⦌)
   thin_sigma_zero := by
     intro x
     exact Or.inl ((standardTypeASimplexScaling i).thin_sigma_zero x)
@@ -605,7 +583,13 @@ private theorem transportScalingToThree_hornSaturated_aux
         (standardTypeAHornSaturatedScaling i) =
       standardTypeAThreeHornSaturatedScaling (Fin.cast (by omega) i) := by
   subst d
-  rfl
+  apply scaling_eq_of_le_antisymm
+  · intro t ht
+    simpa [standardTypeAHornSaturatedScaling,
+      standardTypeAThreeHornSaturatedScaling] using ht
+  · intro t ht
+    simpa [standardTypeAHornSaturatedScaling,
+      standardTypeAThreeHornSaturatedScaling] using ht
 
 /-- Transport commutes with maximal scaling. -/
 theorem standardTypeABoundaryPrismTransportScalingToThree_maximal
