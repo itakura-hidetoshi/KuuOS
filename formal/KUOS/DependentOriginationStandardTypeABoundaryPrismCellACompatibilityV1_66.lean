@@ -271,9 +271,20 @@ private lemma unionProdPairing_eq_core_firstCoordinate_scaled
       (SSet.yonedaEquiv.symm
         ((P.p z).val.cast (P.isUniquelyCodimOneFace z).dim_eq).simplex.1) := by
   subst P
-  obtain ⟨s, rfl⟩ :=
-    (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
-  simpa [SSet.Subcomplex.PairingCore.type₁_pairing,
+  let C := SSet.prodStdSimplex.pairingCore.{u} k 1
+  obtain ⟨s, rfl⟩ := C.equivII.surjective z
+  have hidx :
+      (C.pairing.isUniquelyCodimOneFace (C.equivII s)).index rfl =
+        C.index s := by
+    symm
+    apply
+      ((C.pairing.isUniquelyCodimOneFace (C.equivII s)).δ_eq_iff
+        (C.index s)).mp
+    rw [← C.type₁_pairing s]
+    simpa [C, SSet.prodStdSimplex.pairingCore] using
+      (C.isUniquelyCodimOneFace s).δ_index rfl
+  rw [hidx, ← C.type₁_pairing s]
+  simpa [C, SSet.Subcomplex.PairingCore.type₁,
     SSet.prodStdSimplex.pairingCore,
     unionProdPairingCoreTypeOneFirstCoordinateMap] using
     unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
