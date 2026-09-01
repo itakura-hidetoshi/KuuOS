@@ -237,7 +237,10 @@ def standardTypeABoundaryPrismScaledCellTargetToRankSucc
         ((c.mapToSucc ≫
           ((standardTypeABoundaryPrismRankFunction g).filtration (Nat.succ j)).ι).app
             (op ⦋2⦌) t)
-    rw [c.mapToSucc_ι]
+    have hcomp :=
+      ConcreteCategory.congr_hom
+        (congr_app c.mapToSucc_ι (op ⦋2⦌)) t
+    rw [hcomp]
     exact ht
 
 /-- Pulling the next-stage scaling back along the cell target map recovers
@@ -258,7 +261,10 @@ theorem standardTypeABoundaryPrismRankSuccScaling_pullback_cell
         ((c.mapToSucc ≫
           ((standardTypeABoundaryPrismRankFunction g).filtration (Nat.succ j)).ι).app
             (op ⦋2⦌) t) at ht
-    rw [c.mapToSucc_ι] at ht
+    have hcomp :=
+      ConcreteCategory.congr_hom
+        (congr_app c.mapToSucc_ι (op ⦋2⦌)) t
+    rw [hcomp] at ht
     exact ht
   · intro t ht
     change
@@ -266,7 +272,10 @@ theorem standardTypeABoundaryPrismRankSuccScaling_pullback_cell
         ((c.mapToSucc ≫
           ((standardTypeABoundaryPrismRankFunction g).filtration (Nat.succ j)).ι).app
             (op ⦋2⦌) t)
-    rw [c.mapToSucc_ι]
+    have hcomp :=
+      ConcreteCategory.congr_hom
+        (congr_app c.mapToSucc_ι (op ⦋2⦌)) t
+    rw [hcomp]
     exact ht
 
 /-!
