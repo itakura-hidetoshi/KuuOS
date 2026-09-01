@@ -299,17 +299,18 @@ private lemma unionProdPairing_eq_core_firstCoordinate_scaled
     apply
       ((C.pairing.isUniquelyCodimOneFace (C.equivII s)).δ_eq_iff
         hdim (C.index s)).mp
-    simp only [htop, hbottom]
-    simpa [C, SSet.prodStdSimplex.pairingCore] using
-      (C.isUniquelyCodimOneFace s).δ_index rfl
+    cases htop
+    cases hbottom
+    rfl
   have hmap :
       SSet.yonedaEquiv.symm
           ((C.pairing.p (C.equivII s)).val.cast
             (C.pairing.isUniquelyCodimOneFace (C.equivII s)).dim_eq).simplex.1 =
         unionProdPairingCoreTypeOneFirstCoordinateMap k s := by
-    simp only [htop]
+    cases htop
     rfl
-  simp only [hidx, hmap]
+  cases hidx
+  cases hmap
   simpa [C, SSet.prodStdSimplex.pairingCore] using
     unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
 
