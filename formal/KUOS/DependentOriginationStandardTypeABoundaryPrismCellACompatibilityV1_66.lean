@@ -292,6 +292,20 @@ private lemma unionProdPairing_eq_core_firstCoordinate_scaled
     calc
       _ = (C.equivII s).val := (C.equivII s).val.cast_eq_self hdim
       _ = C.type₂ s := by rfl
+  have htopSimplex :
+      ((C.pairing.p (C.equivII s)).val.cast
+          (C.pairing.isUniquelyCodimOneFace (C.equivII s)).dim_eq).simplex =
+        (s.x.cast s.hd).simplex := by
+    have hs := congrArg (fun q => q.toS) htop
+    rw [SSet.S.ext_iff'] at hs
+    rcases hs with ⟨hd, hs⟩
+    simpa using hs
+  have hbottomSimplex :
+      ((C.equivII s).val.cast hdim).simplex = (C.type₂ s).simplex := by
+    have hs := congrArg (fun q => q.toS) hbottom
+    rw [SSet.S.ext_iff'] at hs
+    rcases hs with ⟨hd, hs⟩
+    simpa using hs
   have hidx :
       (C.pairing.isUniquelyCodimOneFace (C.equivII s)).index rfl =
         C.index s := by
@@ -299,19 +313,22 @@ private lemma unionProdPairing_eq_core_firstCoordinate_scaled
     apply
       ((C.pairing.isUniquelyCodimOneFace (C.equivII s)).δ_eq_iff
         hdim (C.index s)).mp
-    cases htop
-    cases hbottom
-    rfl
+    rw [htopSimplex, hbottomSimplex]
+    simpa [C, SSet.prodStdSimplex.pairingCore] using
+      (C.isUniquelyCodimOneFace s).δ_index rfl
+  have hfirst :
+      ((C.pairing.p (C.equivII s)).val.cast
+          (C.pairing.isUniquelyCodimOneFace (C.equivII s)).dim_eq).simplex.1 =
+        (s.x.cast s.hd).simplex.1 :=
+    congrArg Prod.fst htopSimplex
   have hmap :
       SSet.yonedaEquiv.symm
           ((C.pairing.p (C.equivII s)).val.cast
             (C.pairing.isUniquelyCodimOneFace (C.equivII s)).dim_eq).simplex.1 =
         unionProdPairingCoreTypeOneFirstCoordinateMap k s := by
-    cases htop
+    rw [hfirst]
     rfl
-  cases hidx
-  cases hmap
-  simpa [C, SSet.prodStdSimplex.pairingCore] using
+  simpa only [hidx, hmap] using
     unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
 
 /-- Public `pairing k.castSucc 1` form of the preceding theorem.  Its source
