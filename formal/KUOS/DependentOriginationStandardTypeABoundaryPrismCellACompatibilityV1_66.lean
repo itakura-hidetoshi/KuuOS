@@ -273,19 +273,30 @@ private lemma unionProdPairing_eq_core_firstCoordinate_scaled
   subst P
   let C := SSet.prodStdSimplex.pairingCore.{u} k 1
   obtain ⟨s, rfl⟩ := C.equivII.surjective z
+  have hdim : (C.equivII s).val.dim = C.dim s := by
+    rfl
+  have htop :
+      (C.pairing.p (C.equivII s)).val.cast
+          (C.pairing.isUniquelyCodimOneFace (C.equivII s)).dim_eq =
+        s.x.cast s.hd := by
+    calc
+      _ = (C.pairing.p (C.equivII s)).val :=
+        (C.pairing.p (C.equivII s)).val.cast_eq_self
+          (C.pairing.isUniquelyCodimOneFace (C.equivII s)).dim_eq
+      _ = C.type₁ s := (C.type₁_pairing s).symm
+      _ = s.x := by
+        simpa [C] using SSet.prodStdSimplex.type₁_pairingCore k s
+      _ = s.x.cast s.hd := (s.x.cast_eq_self s.hd).symm
   have hidx :
       (C.pairing.isUniquelyCodimOneFace (C.equivII s)).index rfl =
         C.index s := by
     symm
     apply
       ((C.pairing.isUniquelyCodimOneFace (C.equivII s)).δ_eq_iff
-        (C.index s)).mp
-    rw [← C.type₁_pairing s]
-    simpa [C, SSet.prodStdSimplex.pairingCore] using
+        hdim (C.index s)).mp
+    simpa [htop, C, SSet.prodStdSimplex.pairingCore] using
       (C.isUniquelyCodimOneFace s).δ_index rfl
-  rw [hidx, ← C.type₁_pairing s]
-  simpa [C, SSet.Subcomplex.PairingCore.type₁,
-    SSet.prodStdSimplex.pairingCore,
+  simpa [hidx, htop, C, SSet.prodStdSimplex.pairingCore,
     unionProdPairingCoreTypeOneFirstCoordinateMap] using
     unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
 
