@@ -267,9 +267,8 @@ lemma unionProdPairing_typeTwo_firstCoordinate_scaled
       (SSet.yonedaEquiv.symm
         (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast
           ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace z).dim_eq).simplex.1) := by
-  revert z
-  rw [SSet.prodStdSimplex.pairing_castSucc]
-  intro z
+  simp only [SSet.prodStdSimplex.pairing,
+    dif_neg (Fin.castSucc_ne_last k)] at z ⊢
   obtain ⟨s, rfl⟩ :=
     (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
   simpa [SSet.prodStdSimplex.pairingCore,
