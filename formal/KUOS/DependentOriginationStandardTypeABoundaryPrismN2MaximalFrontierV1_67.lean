@@ -68,12 +68,14 @@ theorem minimalScaling_stdSimplex_thin_of_one_eq_two
   fin_cases a
   · rfl
   ·
+    simp only [SSet.stdSimplex.σ_apply, SSet.stdSimplex.δ_apply]
     have hfin :
         Fin.succAbove (2 : Fin 3) (Fin.predAbove (1 : Fin 2) (1 : Fin 3)) =
           (1 : Fin 3) := by decide
     rw [hfin]
     exact h12
   ·
+    simp only [SSet.stdSimplex.σ_apply, SSet.stdSimplex.δ_apply]
     have hfin :
         Fin.succAbove (2 : Fin 3) (Fin.predAbove (1 : Fin 2) (2 : Fin 3)) =
           (1 : Fin 3) := by decide
@@ -192,9 +194,10 @@ theorem standardTypeABoundaryPrismCellOutsideACompatible_of_target_dim_two
         ScaledSimplicialSet.maximal (Δ[c.dim + 1] : SSet.{u}) :=
     standardTypeASimplexScaling_eq_maximal_of_dim_two c.index h2 hidx
   intro t _ _
-  change (standardTypeASimplexScaling c.index).thin t
-  rw [hmax]
-  exact ScaledSimplicialSet.maximal_thin _ t
+  have ht :
+      (ScaledSimplicialSet.maximal (Δ[c.dim + 1] : SSet.{u})).thin t :=
+    ScaledSimplicialSet.maximal_thin _ t
+  exact hmax.symm ▸ ht
 
 /-- Hence every attached 2-cell is exactly the pure type-(A) cobase change,
 with no type-(B) scaling completion. -/
