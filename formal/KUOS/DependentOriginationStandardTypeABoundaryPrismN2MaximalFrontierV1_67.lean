@@ -69,10 +69,10 @@ theorem minimalScaling_stdSimplex_thin_of_one_eq_two
   · rfl
   ·
     simp only [SSet.stdSimplex.σ_apply, SSet.stdSimplex.δ_apply]
-    convert h12 using 1 <;> decide
+    simpa [Fin.succAbove, Fin.predAbove] using h12
   ·
     simp only [SSet.stdSimplex.σ_apply, SSet.stdSimplex.δ_apply]
-    convert h12 using 1 <;> decide
+    simpa [Fin.succAbove, Fin.predAbove] using h12
 
 /-! ## The unique inner type-(A) scaling on `Delta[2]` is maximal -/
 
