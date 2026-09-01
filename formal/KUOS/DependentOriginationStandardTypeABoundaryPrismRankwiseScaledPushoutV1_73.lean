@@ -541,13 +541,30 @@ noncomputable def standardTypeABoundaryPrism_rankStep_scaled_isPushout
       (standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j)
   refine h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eSucc ?_ ?_ ?_ ?_
   · apply ScaledSSet.ScaledMap.ext
+    change
+      (standardTypeABoundaryPrismRankFunction g).t j ≫ 𝟙 _ =
+        𝟙 _ ≫ (standardTypeABoundaryPrismRankFunction g).t j
     simp
   · apply ScaledSSet.ScaledMap.ext
+    change
+      (standardTypeABoundaryPrismRankFunction g).m j ≫ 𝟙 _ =
+        𝟙 _ ≫ (standardTypeABoundaryPrismRankFunction g).m j
     simp
   · apply ScaledSSet.ScaledMap.ext
-    simp [eSucc, generatedPushoutInl]
+    change
+      (SSet.Subcomplex.homOfLE
+        ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
+          (Order.le_succ j))) ≫ 𝟙 _ =
+        𝟙 _ ≫
+          (SSet.Subcomplex.homOfLE
+            ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
+              (Order.le_succ j)))
+    simp
   · apply ScaledSSet.ScaledMap.ext
-    simp [eSucc, generatedPushoutInr]
+    change
+      (standardTypeABoundaryPrismRankFunction g).b j ≫ 𝟙 _ =
+        𝟙 _ ≫ (standardTypeABoundaryPrismRankFunction g).b j
+    simp
 
 /-!
 The global rank filtration is now genuinely scaled:
