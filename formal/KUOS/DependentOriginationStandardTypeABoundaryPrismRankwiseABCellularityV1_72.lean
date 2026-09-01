@@ -10,6 +10,7 @@ open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
+open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
 open KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56
 open KUOS.DependentOriginationStandardTypeBThreeSimplexCompletionV1_57
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
@@ -28,49 +29,12 @@ noncomputable section
 /-!
 # Rankwise A/B cellularity of the standard type-(A) boundary prism v1.72
 
-Version v1.71 lifted the ordinary Mathlib rank filtration to genuine
-ambient-pullback-scaled stages and factored every exact rank cell as
-
-```text
-exact horn -- A cobase change --> A-target -- completion --> exact cell.
-```
-
-Version v1.70 had already proved that the completion is exhaustively one of
-
-```text
-identity, q12, q23.
-```
-
-This file converts that geometric classification into the *same cellular
-language* used by the v1.59 endpoint certificate.  The important point is that
-we do not replace the Mathlib rank filtration and we do not identify the
-canonical KuuOS arbitrary-scaling generator family with the standard A/B/C
-family.
-
-We isolate the unretracted cellular core
-
-```text
-transfiniteCompositions (pushouts (coproducts E_std))
-```
-
-and prove:
-
-* every cellwise A phase is one raw standard cellular step;
-* q12 and q23 are one raw standard cellular step because they are literal
-  pushouts of the standard type-(B) generator;
-* transport from a dependent three-cell carrier to the fixed `Delta[3]`
-  preserves the completion arrow up to an explicit arrow isomorphism;
-* therefore every exact rank cell is a finite transfinite composite of raw
-  standard A/B steps;
-* consequently the entire rank-indexed exact cell family lands in the v1.59
-  `standardABCCellularClosure`.
-
-After this theorem no local q12/q23 calculation is allowed to reappear in the
-global rank assembly: the remaining frontier is purely the simultaneous
-rank-successor pushout and its natural-number transfinite composition.
+The local geometry established in v1.65--v1.71 is consumed here in the
+morphism-property calculus.  Every exact rank cell is a standard type-(A)
+cobase change followed either by no scaling completion, or by exactly one of
+the q12/q23 type-(B) completions.  The two phases are placed in the raw
+standard A/B/C cellular class and hence in its transfinite closure.
 -/
-
-/-! ## The raw and strong standard cellular classes -/
 
 /-- One raw standard cellular step: a pushout of a coproduct of standard
 A/B/C generators. -/
@@ -94,92 +58,84 @@ theorem standardABCStrongCellularClosure_le_standardABCCellularClosure :
     (MorphismProperty.transfiniteCompositions.{u}
       (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))) f hf
 
-/-! ## Every cellwise A phase is one raw standard cellular step -/
+/-! ## Cellwise A phase -/
 
 /-- The A phase of every exact boundary-prism cell is a pushout of one standard
-type-(A) generator, hence already belongs to the raw standard cellular class. -/
+type-(A) generator. -/
 theorem standardTypeABoundaryPrismCellAPushoutHom_mem_rawCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
     standardABCRawCellularStep
       (standardTypeABoundaryPrismCellAPushoutHom g j c) := by
+  let P : MorphismProperty (ScaledSSet.{u}) :=
+    MorphismProperty.coproducts.{u}
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u}))
   have hgen :
-      (MorphismProperty.coproducts.{u}
-        (standardScaledAnodyneGeneratorsABC :
-          MorphismProperty (ScaledSSet.{u})))
-        (standardTypeAScaledHornGeneratorHom
-          (standardTypeABoundaryPrismCellHornIndex g j c)) :=
+      P (standardTypeAScaledHornGeneratorHom
+        (standardTypeABoundaryPrismCellHornIndex g j c)) :=
     MorphismProperty.le_coproducts
       (standardScaledAnodyneGeneratorsABC :
         MorphismProperty (ScaledSSet.{u})) _
       (standardTypeAGenerator_mem_ABC
         (standardTypeABoundaryPrismCellHornIndex g j c))
   rw [← standardTypeABoundaryPrismCellA_lowerMap_eq_generator g j c] at hgen
-  exact MorphismProperty.pushouts_mk
+  change P.pushouts (standardTypeABoundaryPrismCellAPushoutHom g j c)
+  exact P.pushouts_mk
     (standardTypeABoundaryPrismCellA_genericPushout g j c
       (standardTypeABoundaryPrismCellACompatible_all g j c)).flip
     hgen
 
-/-! ## The two fixed B completions are also raw standard cellular steps -/
+/-! ## Fixed B completions -/
 
-/-- The fixed q12 completion is literally a pushout of the standard type-(B)
-generator. -/
+/-- The fixed q12 completion is a raw standard cellular step. -/
 theorem standardTypeBCollapse12CompletionHom_mem_rawCellular :
-    standardABCRawCellularStep standardTypeBCollapse12CompletionHom := by
-  have hB :
-      (MorphismProperty.coproducts.{u}
-        (standardScaledAnodyneGeneratorsABC :
-          MorphismProperty (ScaledSSet.{u}))) standardTypeBGeneratorHom :=
+    standardABCRawCellularStep
+      (standardTypeBCollapse12CompletionHom :
+        ScaledSSet.{u} ⟶ ScaledSSet.{u}) := by
+  let P : MorphismProperty (ScaledSSet.{u}) :=
+    MorphismProperty.coproducts.{u}
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u}))
+  have hB : P (standardTypeBGeneratorHom : ScaledSSet.{u} ⟶ ScaledSSet.{u}) :=
     MorphismProperty.le_coproducts
       (standardScaledAnodyneGeneratorsABC :
         MorphismProperty (ScaledSSet.{u})) _
       standardTypeBGenerator_mem_ABC
-  exact MorphismProperty.pushouts_mk
-    standardTypeBCollapse12Completion_isPushout hB
+  change P.pushouts
+    (standardTypeBCollapse12CompletionHom : ScaledSSet.{u} ⟶ ScaledSSet.{u})
+  exact P.pushouts_mk standardTypeBCollapse12Completion_isPushout hB
 
-/-- The fixed q23 completion is literally a pushout of the standard type-(B)
-generator. -/
+/-- The fixed q23 completion is a raw standard cellular step. -/
 theorem standardTypeBCollapse23CompletionHom_mem_rawCellular :
-    standardABCRawCellularStep standardTypeBCollapse23CompletionHom := by
-  have hB :
-      (MorphismProperty.coproducts.{u}
-        (standardScaledAnodyneGeneratorsABC :
-          MorphismProperty (ScaledSSet.{u}))) standardTypeBGeneratorHom :=
+    standardABCRawCellularStep
+      (standardTypeBCollapse23CompletionHom :
+        ScaledSSet.{u} ⟶ ScaledSSet.{u}) := by
+  let P : MorphismProperty (ScaledSSet.{u}) :=
+    MorphismProperty.coproducts.{u}
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u}))
+  have hB : P (standardTypeBGeneratorHom : ScaledSSet.{u} ⟶ ScaledSSet.{u}) :=
     MorphismProperty.le_coproducts
       (standardScaledAnodyneGeneratorsABC :
         MorphismProperty (ScaledSSet.{u})) _
       standardTypeBGenerator_mem_ABC
-  exact MorphismProperty.pushouts_mk
-    standardTypeBCollapse23Completion_isPushout hB
+  change P.pushouts
+    (standardTypeBCollapse23CompletionHom : ScaledSSet.{u} ⟶ ScaledSSet.{u})
+  exact P.pushouts_mk standardTypeBCollapse23Completion_isPushout hB
 
-/-! ## Explicit carrier/scaling isomorphisms for the exceptional three-cells -/
+/-! ## Equality and three-simplex transport -/
 
-/-- Equality of two scalings on a fixed carrier gives an isomorphism whose
-underlying simplicial maps are literally identities.  Keeping this constructor
-explicit avoids allowing equality transports to pollute the later arrow
-comparison. -/
+/-- Equality of scalings on a fixed carrier gives the canonical identity
+isomorphism after equality elimination. -/
 def scalingEqualityIso
     {X : SSet.{u}}
     (s t : ScaledSimplicialSet X)
     (h : s = t) :
-    ScaledSSet.of X s ≅ ScaledSSet.of X t where
-  hom :=
-    { map := 𝟙 X
-      scaled := by
-        intro z hz
-        simpa only [h] using hz }
-  inv :=
-    { map := 𝟙 X
-      scaled := by
-        intro z hz
-        simpa only [h] using hz }
-  hom_inv_id := by
-    apply ScaledSSet.ScaledMap.ext
-    simp
-  inv_hom_id := by
-    apply ScaledSSet.ScaledMap.ext
-    simp
+    ScaledSSet.of X s ≅ ScaledSSet.of X t := by
+  cases h
+  exact Iso.refl _
 
 @[simp]
 theorem scalingEqualityIso_hom_map
@@ -187,6 +143,7 @@ theorem scalingEqualityIso_hom_map
     (s t : ScaledSimplicialSet X)
     (h : s = t) :
     (scalingEqualityIso s t h).hom.map = 𝟙 X := by
+  cases h
   rfl
 
 @[simp]
@@ -195,10 +152,11 @@ theorem scalingEqualityIso_inv_map
     (s t : ScaledSimplicialSet X)
     (h : s = t) :
     (scalingEqualityIso s t h).inv.map = 𝟙 X := by
+  cases h
   rfl
 
-/-- One-shot isomorphism from a dependent actual three-cell carrier to the
-fixed `Delta[3]` carrier carrying the v1.70 transported scaling. -/
+/-- Canonical carrier/scaling isomorphism from an actual three-cell to the
+fixed three-simplex used by the q12/q23 tables. -/
 noncomputable def standardTypeABoundaryPrismCellScalingIsoToThree
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
@@ -208,7 +166,7 @@ noncomputable def standardTypeABoundaryPrismCellScalingIsoToThree
     ScaledSSet.of (Δ[c.dim + 1] : SSet.{u}) s ≅
       ScaledSSet.of (Δ[3] : SSet.{u})
         (standardTypeABoundaryPrismTransportScalingToThree g j c h3 s) := by
-  subst_vars
+  cases h3
   exact Iso.refl _
 
 /-- Transport the identity-underlying completion arrow itself to the fixed
@@ -224,11 +182,11 @@ noncomputable def standardTypeABoundaryPrismCellCompletionTransportToThree
       ScaledSSet.of (Δ[3] : SSet.{u})
         (standardTypeABoundaryPrismTransportScalingToThree g j c h3
           (standardTypeABoundaryPrismCellScaling g j c)) := by
-  subst_vars
+  cases h3
   exact standardTypeABoundaryPrismCellCompletionHom g j c
 
-/-- The actual dependent completion arrow and its fixed-three-simplex transport
-are isomorphic as arrows. -/
+/-- The dependent completion arrow and its fixed-three-simplex transport are
+isomorphic as arrows. -/
 noncomputable def standardTypeABoundaryPrismCellCompletionArrowIsoToThree
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
@@ -237,18 +195,11 @@ noncomputable def standardTypeABoundaryPrismCellCompletionArrowIsoToThree
     Arrow.mk (standardTypeABoundaryPrismCellCompletionHom g j c) ≅
       Arrow.mk
         (standardTypeABoundaryPrismCellCompletionTransportToThree g j c h3) := by
-  refine Arrow.isoMk
-    (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3
-      (standardTypeABoundaryPrismCellAPushoutScaling g j c))
-    (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3
-      (standardTypeABoundaryPrismCellScaling g j c)) ?_
-  subst_vars
-  apply ScaledSSet.ScaledMap.ext
-  rfl
+  cases h3
+  exact Iso.refl _
 
-/-! ## Exceptional completion arrows are fixed q12/q23 up to arrow isomorphism -/
+/-! ## Exceptional q12/q23 cells -/
 
-/-- Source-object identification for a q12 exceptional cell. -/
 noncomputable def standardTypeABoundaryPrismCellQ12SourceIso
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
@@ -260,7 +211,6 @@ noncomputable def standardTypeABoundaryPrismCellQ12SourceIso
       (standardTypeABoundaryPrismCellAPushoutScaling g j c) ≪≫
     scalingEqualityIso _ _ h.A_base
 
-/-- Target-object identification for a q12 exceptional cell. -/
 noncomputable def standardTypeABoundaryPrismCellQ12TargetIso
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
@@ -272,8 +222,6 @@ noncomputable def standardTypeABoundaryPrismCellQ12TargetIso
       (standardTypeABoundaryPrismCellScaling g j c) ≪≫
     scalingEqualityIso _ _ h.completed_target
 
-/-- The actual q12 exceptional completion is arrow-isomorphic to the fixed
-v1.57 q12 completion pushout. -/
 noncomputable def standardTypeABoundaryPrismCellQ12CompletionArrowIso
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
@@ -284,8 +232,8 @@ noncomputable def standardTypeABoundaryPrismCellQ12CompletionArrowIso
   refine Arrow.isoMk
     (standardTypeABoundaryPrismCellQ12SourceIso g j c h)
     (standardTypeABoundaryPrismCellQ12TargetIso g j c h) ?_
-  subst_vars
   apply ScaledSSet.ScaledMap.ext
+  cases h.target_three
   simp [standardTypeABoundaryPrismCellQ12SourceIso,
     standardTypeABoundaryPrismCellQ12TargetIso,
     standardTypeABoundaryPrismCellScalingIsoToThree,
@@ -295,7 +243,6 @@ noncomputable def standardTypeABoundaryPrismCellQ12CompletionArrowIso
     scalingEnrichmentPushoutTargetEnrichment,
     scalingEqualityIso]
 
-/-- Source-object identification for a q23 exceptional cell. -/
 noncomputable def standardTypeABoundaryPrismCellQ23SourceIso
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
@@ -307,7 +254,6 @@ noncomputable def standardTypeABoundaryPrismCellQ23SourceIso
       (standardTypeABoundaryPrismCellAPushoutScaling g j c) ≪≫
     scalingEqualityIso _ _ h.A_base
 
-/-- Target-object identification for a q23 exceptional cell. -/
 noncomputable def standardTypeABoundaryPrismCellQ23TargetIso
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
@@ -319,8 +265,6 @@ noncomputable def standardTypeABoundaryPrismCellQ23TargetIso
       (standardTypeABoundaryPrismCellScaling g j c) ≪≫
     scalingEqualityIso _ _ h.completed_target
 
-/-- The actual q23 exceptional completion is arrow-isomorphic to the fixed
-v1.57 q23 completion pushout. -/
 noncomputable def standardTypeABoundaryPrismCellQ23CompletionArrowIso
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
@@ -331,8 +275,8 @@ noncomputable def standardTypeABoundaryPrismCellQ23CompletionArrowIso
   refine Arrow.isoMk
     (standardTypeABoundaryPrismCellQ23SourceIso g j c h)
     (standardTypeABoundaryPrismCellQ23TargetIso g j c h) ?_
-  subst_vars
   apply ScaledSSet.ScaledMap.ext
+  cases h.target_three
   simp [standardTypeABoundaryPrismCellQ23SourceIso,
     standardTypeABoundaryPrismCellQ23TargetIso,
     standardTypeABoundaryPrismCellScalingIsoToThree,
@@ -342,7 +286,7 @@ noncomputable def standardTypeABoundaryPrismCellQ23CompletionArrowIso
     scalingEnrichmentPushoutTargetEnrichment,
     scalingEqualityIso]
 
-/-- Every q12 exceptional completion is itself one raw standard cellular step. -/
+/-- Every q12 exceptional completion is a raw standard cellular step. -/
 theorem standardTypeABoundaryPrismCellCompletionHom_mem_rawCellular_of_q12
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
@@ -350,12 +294,19 @@ theorem standardTypeABoundaryPrismCellCompletionHom_mem_rawCellular_of_q12
     (h : StandardTypeABoundaryPrismCellQ12Factorization g j c) :
     standardABCRawCellularStep
       (standardTypeABoundaryPrismCellCompletionHom g j c) := by
+  change
+    (MorphismProperty.coproducts.{u}
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u}))).pushouts
+      (standardTypeABoundaryPrismCellCompletionHom g j c)
   exact
-    ((standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})).arrow_mk_iso_iff
+    (((MorphismProperty.coproducts.{u}
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u}))).pushouts).arrow_mk_iso_iff
       (standardTypeABoundaryPrismCellQ12CompletionArrowIso g j c h)).2
       standardTypeBCollapse12CompletionHom_mem_rawCellular
 
-/-- Every q23 exceptional completion is itself one raw standard cellular step. -/
+/-- Every q23 exceptional completion is a raw standard cellular step. -/
 theorem standardTypeABoundaryPrismCellCompletionHom_mem_rawCellular_of_q23
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
@@ -363,16 +314,20 @@ theorem standardTypeABoundaryPrismCellCompletionHom_mem_rawCellular_of_q23
     (h : StandardTypeABoundaryPrismCellQ23Factorization g j c) :
     standardABCRawCellularStep
       (standardTypeABoundaryPrismCellCompletionHom g j c) := by
+  change
+    (MorphismProperty.coproducts.{u}
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u}))).pushouts
+      (standardTypeABoundaryPrismCellCompletionHom g j c)
   exact
-    ((standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})).arrow_mk_iso_iff
+    (((MorphismProperty.coproducts.{u}
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u}))).pushouts).arrow_mk_iso_iff
       (standardTypeABoundaryPrismCellQ23CompletionArrowIso g j c h)).2
       standardTypeBCollapse23CompletionHom_mem_rawCellular
 
-/-! ## Pure A cells and complete exact-cell cellularity -/
+/-! ## Exact-cell cellularity -/
 
-/-- If no B completion is needed, the A-pushout arrow and the exact cell arrow
-are isomorphic by the identity on the source and the scaling-equality
-isomorphism on the target. -/
 noncomputable def standardTypeABoundaryPrismCellPureAArrowIso
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
@@ -381,16 +336,14 @@ noncomputable def standardTypeABoundaryPrismCellPureAArrowIso
       standardTypeABoundaryPrismCellScaling g j c) :
     Arrow.mk (standardTypeABoundaryPrismCellAPushoutHom g j c) ≅
       Arrow.mk (standardTypeABoundaryPrismScaledCellHom g j c) := by
-  refine Arrow.isoMk (Iso.refl _)
-    (scalingEqualityIso _ _ h) ?_
+  refine Arrow.isoMk (Iso.refl _) (scalingEqualityIso _ _ h) ?_
   apply ScaledSSet.ScaledMap.ext
   simp [standardTypeABoundaryPrismCellAPushoutHom_map,
     standardTypeABoundaryPrismScaledCellHom_map,
     scalingEqualityIso]
 
 /-- Every exact boundary-prism rank cell lies in the strong unretracted
-standard A/B cellular closure.  The proof uses exactly the exhaustive local
-trichotomy and no additional geometric case. -/
+standard A/B cellular closure. -/
 theorem standardTypeABoundaryPrismScaledCellHom_mem_strongCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
@@ -401,12 +354,13 @@ theorem standardTypeABoundaryPrismScaledCellHom_mem_strongCellular
   have hA :
       standardABCStrongCellularClosure
         (standardTypeABoundaryPrismCellAPushoutHom g j c) :=
-    MorphismProperty.le_transfiniteCompositions
+    MorphismProperty.le_transfiniteCompositions.{u}
       (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ hAraw
   rcases standardTypeABoundaryPrismCellCompletion_complete_classification
       g j c with hpure | h12 | h23
   · exact
-      ((standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).arrow_mk_iso_iff
+      ((standardABCStrongCellularClosure :
+        MorphismProperty (ScaledSSet.{u})).arrow_mk_iso_iff
         (standardTypeABoundaryPrismCellPureAArrowIso g j c hpure)).1 hA
   · have hBraw :=
       standardTypeABoundaryPrismCellCompletionHom_mem_rawCellular_of_q12
@@ -414,7 +368,7 @@ theorem standardTypeABoundaryPrismScaledCellHom_mem_strongCellular
     have hB :
         standardABCStrongCellularClosure
           (standardTypeABoundaryPrismCellCompletionHom g j c) :=
-      MorphismProperty.le_transfiniteCompositions
+      MorphismProperty.le_transfiniteCompositions.{u}
         (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ hBraw
     have hcomp :=
       (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).comp_mem
@@ -428,7 +382,7 @@ theorem standardTypeABoundaryPrismScaledCellHom_mem_strongCellular
     have hB :
         standardABCStrongCellularClosure
           (standardTypeABoundaryPrismCellCompletionHom g j c) :=
-      MorphismProperty.le_transfiniteCompositions
+      MorphismProperty.le_transfiniteCompositions.{u}
         (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _ hBraw
     have hcomp :=
       (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).comp_mem
@@ -448,8 +402,6 @@ theorem standardTypeABoundaryPrismScaledCellHom_mem_cellular
   standardABCStrongCellularClosure_le_standardABCCellularClosure _
     (standardTypeABoundaryPrismScaledCellHom_mem_strongCellular g j c)
 
-/-! ## Package every rank cell as one global indexed family -/
-
 /-- Global index of all exact cells of the natural-number rank filtration. -/
 def StandardTypeABoundaryPrismRankCellIndex
     (g : StandardTypeAHornAttachmentGeneratorIndex) : Type u :=
@@ -465,9 +417,7 @@ def standardTypeABoundaryPrismExactScaledCellGenerators
       standardTypeABoundaryPrismScaledCellHom g γ.1 γ.2)
 
 /-- Every exact cell in the entire Mathlib rank filtration is standard
-A/B/C-cellular.  This is the global local-to-cellular exit theorem: subsequent
-rank assembly can consume one uniform theorem and never reopen the q12/q23
-classification. -/
+A/B/C-cellular. -/
 theorem standardTypeABoundaryPrismExactScaledCellGenerators_le_cellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     (standardTypeABoundaryPrismExactScaledCellGenerators g :
@@ -477,26 +427,6 @@ theorem standardTypeABoundaryPrismExactScaledCellGenerators_le_cellular
   | mk γ =>
       exact standardTypeABoundaryPrismScaledCellHom_mem_cellular
         g γ.1 γ.2
-
-/-!
-The local scaled geometry is now fully consumed by the cellular calculus:
-
-```text
-all rank cells
-  = pure A  or  A;q12  or  A;q23
-  -> each A phase is pushout(coproduct(E_std))
-  -> each q12/q23 phase is pushout(coproduct(E_std))
-  -> each exact cell is a finite transfinite composite of raw A/B steps
-  -> every exact cell belongs to standardABCCellularClosure.
-```
-
-The next and only remaining endpoint-prism task is genuinely rankwise:
-construct the simultaneous scaled successor square at every natural-number
-rank, using the already fixed ordinary Mathlib rank pushout and the exact
-ambient pullback scalings of v1.71, then take the natural-number transfinite
-composition and feed it into
-`StandardABCTypeAEndpointLeibnizCellularCertificate`.
--/
 
 end
 
