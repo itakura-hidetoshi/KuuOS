@@ -1,0 +1,26 @@
+{
+  "version": "kuuos_openclaw_gateway_controller_v0_2",
+  "status": "bounded_bidirectional_gateway_control",
+  "runtime": "runtime/kuuos_openclaw_gateway_controller_v0_2.py",
+  "documentation": "docs/KUUOS_OPENCLAW_GATEWAY_CONTROLLER_v0_2.md",
+  "validator": "scripts/check_openclaw_gateway_controller_v0_2.py",
+  "depends_on": [
+    "runtime/kuuos_openclaw_control_server_v0_1.py",
+    "integrations/openclaw/index.mjs"
+  ],
+  "gateway_rpc": [
+    "agent",
+    "agent.wait",
+    "sessions.abort",
+    "sessions.list"
+  ],
+  "authority": {
+    "world_commit": false,
+    "truth_promotion": false,
+    "automatic_plan_completion": false,
+    "automatic_rollback": false
+  },
+  "effectful_control_requires_kuuos_preflight": true,
+  "explicit_one_shot_approval_flag": "--approve",
+  "remote_gateway_credentials_owned_by_openclaw_config": true
+}
