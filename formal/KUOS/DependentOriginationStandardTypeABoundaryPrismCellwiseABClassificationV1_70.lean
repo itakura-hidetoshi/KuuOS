@@ -10,6 +10,7 @@ open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
+open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
 open KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56
 open KUOS.DependentOriginationStandardTypeBThreeSimplexCompletionV1_57
 open KUOS.DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61
@@ -64,8 +65,7 @@ theorem unionProdPairing_typeTwo_fst_surjective
     (z : (SSet.prodStdSimplex.pairing.{u} k.castSucc 1).II) :
     Function.Surjective
       (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast
-        ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
-          .isUniquelyCodimOneFace z).dim_eq).simplex.1 := by
+        ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace z).dim_eq).simplex.1 := by
   rw [SSet.prodStdSimplex.pairing_castSucc] at z ⊢
   obtain ⟨s, rfl⟩ :=
     (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
@@ -81,15 +81,12 @@ theorem unionProdPairing_typeTwo_index_transition
     (z : (SSet.prodStdSimplex.pairing.{u} k.castSucc 1).II) :
     ∃ l : Fin (z.val.dim + 1),
       l.castSucc =
-          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
-            .isUniquelyCodimOneFace z).index rfl ∧
+          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace z).index rfl ∧
         (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast
-          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
-            .isUniquelyCodimOneFace z).dim_eq).simplex.1 l.castSucc =
+          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace z).dim_eq).simplex.1 l.castSucc =
             k.castSucc ∧
         (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast
-          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
-            .isUniquelyCodimOneFace z).dim_eq).simplex.1 l.succ =
+          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace z).dim_eq).simplex.1 l.succ =
             k.succ := by
   rw [SSet.prodStdSimplex.pairing_castSucc] at z ⊢
   obtain ⟨s, rfl⟩ :=
@@ -106,13 +103,15 @@ is surjective. -/
 theorem standardTypeABoundaryPrismCellPaired_fst_surjective
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :
     Function.Surjective
       (standardTypeABoundaryPrismCellPairedNondegenerate g j c).1.1 := by
   rcases g with ⟨n, i, h0, hn, endpoint⟩
   cases n with
   | zero =>
-      have hi : i = 0 := Subsingleton.elim _ _
+      have hi : i = 0 := by
+        apply Fin.ext
+        omega
       subst i
       simp at h0
   | succ m =>
@@ -126,7 +125,7 @@ theorem standardTypeABoundaryPrismCellPaired_fst_surjective
 theorem standardTypeABoundaryPrismCellPaired_index_transition
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :
     ∃ l : Fin (c.dim + 1),
       l.castSucc = c.index ∧
         (standardTypeABoundaryPrismCellPairedNondegenerate g j c).1.1
@@ -140,7 +139,9 @@ theorem standardTypeABoundaryPrismCellPaired_index_transition
   rcases g with ⟨n, i, h0, hn, endpoint⟩
   cases n with
   | zero =>
-      have hi : i = 0 := Subsingleton.elim _ _
+      have hi : i = 0 := by
+        apply Fin.ext
+        omega
       subst i
       simp at h0
   | succ m =>
@@ -156,7 +157,7 @@ theorem standardTypeABoundaryPrismCellPaired_index_transition
 noncomputable def standardTypeABoundaryPrismCellFirstCoordinateOrdinal
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :
     ⦋c.dim + 1⦌ ⟶ ⦋g.n⦌ :=
   SSet.stdSimplex.objEquiv
     (standardTypeABoundaryPrismCellPairedNondegenerate g j c).1.1
@@ -165,18 +166,21 @@ noncomputable def standardTypeABoundaryPrismCellFirstCoordinateOrdinal
 theorem standardTypeABoundaryPrismCellFirstCoordinateOrdinal_epi
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :
     Epi (standardTypeABoundaryPrismCellFirstCoordinateOrdinal g j c) := by
   rw [SimplexCategory.epi_iff_surjective]
-  simpa [standardTypeABoundaryPrismCellFirstCoordinateOrdinal] using
-    standardTypeABoundaryPrismCellPaired_fst_surjective g j c
+  intro y
+  obtain ⟨x, hx⟩ :=
+    standardTypeABoundaryPrismCellPaired_fst_surjective g j c y
+  exact ⟨x, by
+    simpa [standardTypeABoundaryPrismCellFirstCoordinateOrdinal] using hx⟩
 
 /-- In the equal-dimensional branch, transport the first-coordinate ordinal
 back to the source ordinal. -/
 noncomputable def standardTypeABoundaryPrismCellEqualFirstCoordinateEndomorphism
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (heq : c.dim + 1 = g.n) :
     ⦋c.dim + 1⦌ ⟶ ⦋c.dim + 1⦌ :=
   standardTypeABoundaryPrismCellFirstCoordinateOrdinal g j c ≫
@@ -188,7 +192,7 @@ rigidity step. -/
 theorem standardTypeABoundaryPrismCellEqualFirstCoordinateEndomorphism_eq_id
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (heq : c.dim + 1 = g.n) :
     standardTypeABoundaryPrismCellEqualFirstCoordinateEndomorphism g j c heq =
       𝟙 _ := by
@@ -207,7 +211,7 @@ cell's vertex ordinal. -/
 noncomputable def standardTypeABoundaryPrismEqualGeneratorIndex
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (heq : c.dim + 1 = g.n) : Fin (c.dim + 2) :=
   Fin.cast (by omega) g.i
 
@@ -216,7 +220,7 @@ transported original type-(A) index. -/
 theorem standardTypeABoundaryPrism_cell_index_eq_generatorIndex_of_equal
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (heq : c.dim + 1 = g.n) :
     c.index = standardTypeABoundaryPrismEqualGeneratorIndex g j c heq := by
   rcases standardTypeABoundaryPrismCellPaired_index_transition g j c with
@@ -225,24 +229,29 @@ theorem standardTypeABoundaryPrism_cell_index_eq_generatorIndex_of_equal
     standardTypeABoundaryPrismCellEqualFirstCoordinateEndomorphism_eq_id
       g j c heq
   have happ := SimplexCategory.congr_toOrderHom_apply hid l.castSucc
+  have happ' :
+      Fin.cast (by omega)
+          ((standardTypeABoundaryPrismCellPairedNondegenerate g j c).1.1
+            l.castSucc) =
+        l.castSucc := by
+    simpa [standardTypeABoundaryPrismCellEqualFirstCoordinateEndomorphism,
+      standardTypeABoundaryPrismCellFirstCoordinateOrdinal] using happ
   rw [hl] at hfst
-  rw [hfst] at happ
+  rw [hl, hfst] at happ'
   apply Fin.ext
-  simpa [standardTypeABoundaryPrismCellEqualFirstCoordinateEndomorphism,
-    standardTypeABoundaryPrismCellFirstCoordinateOrdinal,
-    standardTypeABoundaryPrismEqualGeneratorIndex] using happ.symm
+  simpa [standardTypeABoundaryPrismEqualGeneratorIndex] using happ'.symm
 
 /-- On every triangle, the equal-dimensional first-coordinate map is exactly
 canonical finite-ordinal transport. -/
 theorem standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (heq : c.dim + 1 = g.n)
     (t : (Δ[c.dim + 1] : SSet.{u}).obj (op ⦋2⦌))
     (a : Fin 3) :
-    ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c)
-      .app (op ⦋2⦌) t) a =
+    ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app
+      (op ⦋2⦌) t) a =
       Fin.cast (by omega) (t a) := by
   have hid :=
     standardTypeABoundaryPrismCellEqualFirstCoordinateEndomorphism_eq_id
@@ -254,15 +263,17 @@ theorem standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal
     simpa [standardTypeABoundaryPrismCellEqualFirstCoordinateEndomorphism]
       using hid
   have hpoint := SimplexCategory.congr_toOrderHom_apply hθ (t a)
+  apply Fin.ext
   simpa [standardTypeABoundaryPrismCellFirstCoordinateOrdinal,
-    standardTypeABoundaryPrismCellFirstCoordinateMap] using hpoint
+    standardTypeABoundaryPrismCellFirstCoordinateMap] using
+      congrArg Fin.val hpoint
 
 /-- Equal-dimensional cells have exact target scaling equal to their own
 standard type-(A) scaling. -/
 theorem standardTypeABoundaryPrismCellScaling_eq_standardTypeA_of_equal
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (heq : c.dim + 1 = g.n) :
     standardTypeABoundaryPrismCellScaling g j c =
       standardTypeASimplexScaling c.index := by
@@ -270,25 +281,41 @@ theorem standardTypeABoundaryPrismCellScaling_eq_standardTypeA_of_equal
   · intro t ht
     change
       (standardTypeASimplexScaling g.i).thin
-        ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c)
-          .app (op ⦋2⦌) t) at ht
+        ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app
+          (op ⦋2⦌) t) at ht
     rw [standardTypeABoundaryPrism_cell_index_eq_generatorIndex_of_equal
       g j c heq]
     rcases ht with hmin | hdist
     · left
       rcases hmin with ⟨x, hx⟩ | ⟨x, hx⟩
-      · left
-        refine ⟨(Δ[c.dim + 1] : SSet.{u}).δ (0 : Fin 3) t, ?_⟩
-        apply SSet.stdSimplex.ext
-        intro a
-        fin_cases a <;>
-          simp [SSet.stdSimplex.σ_apply, SSet.stdSimplex.δ_apply]
-      · right
-        refine ⟨(Δ[c.dim + 1] : SSet.{u}).δ (2 : Fin 3) t, ?_⟩
-        apply SSet.stdSimplex.ext
-        intro a
-        fin_cases a <;>
-          simp [SSet.stdSimplex.σ_apply, SSet.stdSimplex.δ_apply]
+      · have himg :
+            ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app
+              (op ⦋2⦌) t) 0 =
+            ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app
+              (op ⦋2⦌) t) 1 := by
+          rw [← hx]
+          simp [SSet.stdSimplex.σ_apply]
+        rw [standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal
+          g j c heq t 0,
+          standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal
+            g j c heq t 1] at himg
+        apply minimalScaling_stdSimplex_thin_of_zero_eq_one t
+        apply Fin.ext
+        simpa using congrArg Fin.val himg
+      · have himg :
+            ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app
+              (op ⦋2⦌) t) 1 =
+            ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app
+              (op ⦋2⦌) t) 2 := by
+          rw [← hx]
+          simp [SSet.stdSimplex.σ_apply]
+        rw [standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal
+          g j c heq t 1,
+          standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal
+            g j c heq t 2] at himg
+        apply minimalScaling_stdSimplex_thin_of_one_eq_two t
+        apply Fin.ext
+        simpa using congrArg Fin.val himg
     · right
       refine ⟨?_, ?_, ?_⟩
       · apply Fin.ext
@@ -296,16 +323,16 @@ theorem standardTypeABoundaryPrismCellScaling_eq_standardTypeA_of_equal
         simpa [standardTypeABoundaryPrismEqualGeneratorIndex] using h
       · have h := hdist.2.1
         change
-          (((standardTypeABoundaryPrismCellFirstCoordinateMap g j c)
-            .app (op ⦋2⦌) t) 0).val + 1 = g.i.val at h
+          (((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app
+            (op ⦋2⦌) t) 0).val + 1 = g.i.val at h
         rw [standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal
           g j c heq t 0] at h
         simpa [standardTypeABoundaryPrismEqualGeneratorIndex] using h
       · have h := hdist.2.2
         change
           g.i.val + 1 =
-            (((standardTypeABoundaryPrismCellFirstCoordinateMap g j c)
-              .app (op ⦋2⦌) t) 2).val at h
+            (((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app
+              (op ⦋2⦌) t) 2).val at h
         rw [standardTypeABoundaryPrismCellFirstCoordinateMap_apply_of_equal
           g j c heq t 2] at h
         simpa [standardTypeABoundaryPrismEqualGeneratorIndex] using h
@@ -315,7 +342,7 @@ theorem standardTypeABoundaryPrismCellScaling_eq_standardTypeA_of_equal
 theorem standardTypeABoundaryPrismCellAPushoutScaling_eq_cellScaling_of_equal
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (heq : c.dim + 1 = g.n) :
     standardTypeABoundaryPrismCellAPushoutScaling g j c =
       standardTypeABoundaryPrismCellScaling g j c := by
@@ -332,7 +359,7 @@ theorem standardTypeABoundaryPrismCellAPushoutScaling_eq_cellScaling_of_equal
 def standardTypeABoundaryPrismCellHornSaturatedAScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :
     ScaledSimplicialSet (Δ[c.dim + 1] : SSet.{u}) where
   thin := fun t =>
     (standardTypeASimplexScaling c.index).thin t ∨
@@ -349,7 +376,7 @@ scaling is exactly A plus all triangles already in the horn. -/
 theorem standardTypeABoundaryPrismCellAPushoutScaling_eq_hornSaturated_of_cell_maximal
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (hmax : standardTypeABoundaryPrismCellScaling g j c =
       ScaledSimplicialSet.maximal (Δ[c.dim + 1] : SSet.{u})) :
     standardTypeABoundaryPrismCellAPushoutScaling g j c =
@@ -381,7 +408,7 @@ theorem standardTypeABoundaryPrismCellAPushoutScaling_eq_hornSaturated_of_cell_m
 noncomputable def standardTypeABoundaryPrismTransportScalingToThree
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h3 : c.dim + 1 = 3)
     (s : ScaledSimplicialSet (Δ[c.dim + 1] : SSet.{u})) :
     ScaledSimplicialSet (Δ[3] : SSet.{u}) :=
@@ -393,12 +420,12 @@ noncomputable def standardTypeABoundaryPrismTransportScalingToThree
 theorem standardTypeABoundaryPrismTransportScalingToThree_maximal
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h3 : c.dim + 1 = 3) :
     standardTypeABoundaryPrismTransportScalingToThree g j c h3
         (ScaledSimplicialSet.maximal (Δ[c.dim + 1] : SSet.{u})) =
       ScaledSimplicialSet.maximal (Δ[3] : SSet.{u}) := by
-  subst_vars
+  cases h3
   rfl
 
 /-- The transported actual horn-saturated scaling is literally the fixed v1.69
@@ -406,13 +433,13 @@ horn-saturated scaling at the transported cell index. -/
 theorem standardTypeABoundaryPrismTransportScalingToThree_hornSaturated
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h3 : c.dim + 1 = 3) :
     standardTypeABoundaryPrismTransportScalingToThree g j c h3
         (standardTypeABoundaryPrismCellHornSaturatedAScaling g j c) =
       standardTypeAThreeHornSaturatedScaling
         (standardTypeABoundaryPrismCellIndex3 g j c h3) := by
-  subst_vars
+  cases h3
   simp [standardTypeABoundaryPrismTransportScalingToThree,
     standardTypeABoundaryPrismCellHornSaturatedAScaling,
     standardTypeAThreeHornSaturatedScaling,
@@ -423,7 +450,7 @@ exactly the fixed horn-saturated A scaling. -/
 theorem standardTypeABoundaryPrism_generator_two_target_three_APushout_transport
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (hn2 : g.n = 2)
     (h3 : c.dim + 1 = 3) :
     standardTypeABoundaryPrismTransportScalingToThree g j c h3
@@ -441,7 +468,7 @@ theorem standardTypeABoundaryPrism_generator_two_target_three_APushout_transport
 structure StandardTypeABoundaryPrismCellQ12Factorization
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) : Prop where
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) : Prop where
   generator_two : g.n = 2
   target_three : c.dim + 1 = 3
   index_one :
@@ -459,7 +486,7 @@ structure StandardTypeABoundaryPrismCellQ12Factorization
 structure StandardTypeABoundaryPrismCellQ23Factorization
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) : Prop where
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) : Prop where
   generator_two : g.n = 2
   target_three : c.dim + 1 = 3
   index_two :
@@ -477,7 +504,7 @@ structure StandardTypeABoundaryPrismCellQ23Factorization
 theorem standardTypeABoundaryPrismCellQ12Factorization_of_index_one
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (hn2 : g.n = 2)
     (h3 : c.dim + 1 = 3)
     (hidx : standardTypeABoundaryPrismCellIndex3 g j c h3 = (1 : Fin 4)) :
@@ -503,7 +530,7 @@ theorem standardTypeABoundaryPrismCellQ12Factorization_of_index_one
 theorem standardTypeABoundaryPrismCellQ23Factorization_of_index_two
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (hn2 : g.n = 2)
     (h3 : c.dim + 1 = 3)
     (hidx : standardTypeABoundaryPrismCellIndex3 g j c h3 = (2 : Fin 4)) :
@@ -532,7 +559,7 @@ There is no unclassified local scaling geometry. -/
 theorem standardTypeABoundaryPrism_cell_complete_AB_classification
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :
     standardTypeABoundaryPrismCellAPushoutScaling g j c =
         standardTypeABoundaryPrismCellScaling g j c ∨
       StandardTypeABoundaryPrismCellQ12Factorization g j c ∨
