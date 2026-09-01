@@ -1,0 +1,47 @@
+{
+  "version": "kuuos_openclaw_audit_observation_ingest_v0_3",
+  "status": "bounded_metadata_only_observation_candidate_ingest",
+  "runtime": "runtime/kuuos_openclaw_audit_observation_ingest_v0_3.py",
+  "tests": "tests/test_openclaw_audit_observation_ingest_v0_3.py",
+  "validator": "scripts/check_openclaw_audit_observation_ingest_v0_3.py",
+  "documentation": "docs/KUUOS_OPENCLAW_AUDIT_OBSERVATION_INGEST_v0_3.md",
+  "formal_boundary": "formal/KUOS/ObserveOS/OpenClawAuditObservationIntakeV0_3.lean",
+  "ci_registry": "ci/check_registry.d/openclaw_audit_observation_v0_3.json",
+  "depends_on": [
+    "runtime/kuuos_openclaw_gateway_controller_v0_2.py",
+    "runtime/kuuos_openclaw_control_server_v0_1.py",
+    "formal/KUOS/ObserveOS/ReplanLineageObservationEnvelopeV0_2.lean"
+  ],
+  "openclaw_rpc": [
+    "audit.activity.list"
+  ],
+  "source_semantics": {
+    "metadata_only_required": true,
+    "best_effort": true,
+    "absence_proves_non_occurrence": false,
+    "max_rpc_page_size": 500
+  },
+  "privacy": {
+    "allowlisted_projection_only": true,
+    "actor_stored_raw": false,
+    "session_key_stored_raw": false,
+    "session_id_stored_raw": false
+  },
+  "authority": {
+    "observe_commit": false,
+    "verification_result": false,
+    "world_commit": false,
+    "truth_promotion": false,
+    "plan_completion": false,
+    "automatic_plan_completion": false,
+    "rollback_proof": false,
+    "automatic_rollback": false,
+    "memory_overwrite": false
+  },
+  "persistence": {
+    "candidate_ledger": "~/.kuuos/openclaw/audit-observation-candidates.jsonl",
+    "checkpoint": "~/.kuuos/openclaw/audit-ingest-checkpoints.json",
+    "append_only_candidates": true,
+    "per_query_resumable_checkpoint": true
+  }
+}
