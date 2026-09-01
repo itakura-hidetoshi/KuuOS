@@ -438,7 +438,8 @@ noncomputable def standardTypeABoundaryPrismCellPureAArrowIso
     (𝟙 _) ≫ c.horn.ι =
       c.horn.ι ≫ (scalingEqualityIso _ _ h).hom.map
   rw [scalingEqualityIso_hom_map]
-  simp only [Category.id_comp, Category.comp_id]
+  rw [Category.id_comp]
+  exact (Category.comp_id c.horn.ι).symm
 
 /-- Every exact boundary-prism rank cell lies in the strong unretracted
 standard A/B cellular closure. -/
@@ -463,34 +464,38 @@ theorem standardTypeABoundaryPrismScaledCellHom_mem_strongCellular
       standardTypeABoundaryPrismCellCompletionHom_mem_rawCellular_of_q12
         g j c h12
     have hshape :=
-      (MorphismProperty.TransfiniteCompositionOfShape.ofComp
-        (standardTypeABoundaryPrismCellAPushoutHom g j c)
-        (standardTypeABoundaryPrismCellCompletionHom g j c)
-        hAraw hBraw).mem
+      (MorphismProperty.TransfiniteCompositionOfShape.ofOrderIso
+        (MorphismProperty.TransfiniteCompositionOfShape.ofComp
+          (standardTypeABoundaryPrismCellAPushoutHom g j c)
+          (standardTypeABoundaryPrismCellCompletionHom g j c)
+          hAraw hBraw)
+        (orderIsoShrink.{u} (Fin 3)).symm).mem
     have hcomp :
         (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u}))
           (standardTypeABoundaryPrismCellAPushoutHom g j c ≫
             standardTypeABoundaryPrismCellCompletionHom g j c) :=
       (MorphismProperty.transfiniteCompositionsOfShape_le_transfiniteCompositions
         (W := (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})))
-        (Fin 3)) _ hshape
+        (Shrink.{u} (Fin 3))) _ hshape
     simpa only [standardTypeABoundaryPrismScaledCellHom_factor_A_completion]
       using hcomp
   · have hBraw :=
       standardTypeABoundaryPrismCellCompletionHom_mem_rawCellular_of_q23
         g j c h23
     have hshape :=
-      (MorphismProperty.TransfiniteCompositionOfShape.ofComp
-        (standardTypeABoundaryPrismCellAPushoutHom g j c)
-        (standardTypeABoundaryPrismCellCompletionHom g j c)
-        hAraw hBraw).mem
+      (MorphismProperty.TransfiniteCompositionOfShape.ofOrderIso
+        (MorphismProperty.TransfiniteCompositionOfShape.ofComp
+          (standardTypeABoundaryPrismCellAPushoutHom g j c)
+          (standardTypeABoundaryPrismCellCompletionHom g j c)
+          hAraw hBraw)
+        (orderIsoShrink.{u} (Fin 3)).symm).mem
     have hcomp :
         (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u}))
           (standardTypeABoundaryPrismCellAPushoutHom g j c ≫
             standardTypeABoundaryPrismCellCompletionHom g j c) :=
       (MorphismProperty.transfiniteCompositionsOfShape_le_transfiniteCompositions
         (W := (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})))
-        (Fin 3)) _ hshape
+        (Shrink.{u} (Fin 3))) _ hshape
     simpa only [standardTypeABoundaryPrismScaledCellHom_factor_A_completion]
       using hcomp
 
