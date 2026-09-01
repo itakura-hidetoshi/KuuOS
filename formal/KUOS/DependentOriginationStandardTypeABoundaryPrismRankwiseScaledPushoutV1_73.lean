@@ -199,7 +199,8 @@ theorem generatedPushoutDescMap_scaled
         (op ⦋2⦌)) x
     change W.scaling.thin
       ((ConcreteCategory.hom
-        ((inl ≫ generatedPushoutDescMap f g inl inr h a b w).app
+        ((inl ≫ h.desc a.map b.map
+          (generatedPushout_compatibility_map f g a b w)).app
           (op ⦋2⦌))) x)
     rw [hfac]
     exact a.scaled x hx
@@ -210,7 +211,8 @@ theorem generatedPushoutDescMap_scaled
         (op ⦋2⦌)) y
     change W.scaling.thin
       ((ConcreteCategory.hom
-        ((inr ≫ generatedPushoutDescMap f g inl inr h a b w).app
+        ((inr ≫ h.desc a.map b.map
+          (generatedPushout_compatibility_map f g a b w)).app
           (op ⦋2⦌))) y)
     rw [hfac]
     exact b.scaled y hy
@@ -491,8 +493,13 @@ theorem standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ
                 (Order.le_succ j))) ≫
               ((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).ι).app
                 (op ⦋2⦌)) x) at ht
-        rw [SSet.Subcomplex.homOfLE_ι] at ht
-        exact ht
+        have hι := ConcreteCategory.congr_hom
+          (congr_app
+            (SSet.Subcomplex.homOfLE_ι
+              ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
+                (Order.le_succ j)))
+            (op ⦋2⦌)) x
+        simpa only [hι] using ht
       exact Or.inr (Or.inl ⟨x, hx, rfl⟩)
     · have hy :
           (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j).thin y := by
@@ -519,13 +526,9 @@ noncomputable def standardTypeABoundaryPrism_rankStep_scaled_isPushout
       (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
       ((standardTypeABoundaryPrismRankFunction g).b j)
       (standardTypeABoundaryPrism_rankStep_isPushout g j)
-  simpa [generatedPushoutInl, generatedPushoutInr,
-    generatedPushoutTarget,
-    standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j,
-    standardTypeABoundaryPrismRankSigmaHornToStage,
-    standardTypeABoundaryPrismRankSigmaCellHom,
-    standardTypeABoundaryPrismRankSigmaStdSimplexToSucc,
-    standardTypeABoundaryPrismRankStageHom] using h
+  simp only [generatedPushoutTarget,
+    standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j] at h
+  convert h using 1 <;> apply ScaledSSet.ScaledMap.ext <;> rfl
 
 /-!
 The global rank filtration is now genuinely scaled:
