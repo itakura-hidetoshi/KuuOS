@@ -267,23 +267,14 @@ lemma unionProdPairing_typeTwo_firstCoordinate_scaled
       (SSet.yonedaEquiv.symm
         (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast
           ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace z).dim_eq).simplex.1) := by
-  simp only [SSet.prodStdSimplex.pairing_castSucc] at z ⊢
+  revert z
+  rw [SSet.prodStdSimplex.pairing_castSucc]
+  intro z
   obtain ⟨s, rfl⟩ :=
     (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
-  have hindex :
-      (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace
-        ((SSet.prodStdSimplex.pairingCore.{u} k 1).equivII s)).index rfl) =
-        s.index.castSucc := by
-    simp [SSet.prodStdSimplex.pairingCore]
-  have hfirst :
-      (((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.p
-        ((SSet.prodStdSimplex.pairingCore.{u} k 1).equivII s)).val.cast
-          ((SSet.prodStdSimplex.pairingCore.{u} k 1).pairing.isUniquelyCodimOneFace
-            ((SSet.prodStdSimplex.pairingCore.{u} k 1).equivII s)).dim_eq).simplex.1 =
-        (s.x.cast s.hd).simplex.1 := by
-    simp [SSet.prodStdSimplex.pairingCore]
-  rw [hindex, hfirst]
-  exact unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
+  simpa [SSet.prodStdSimplex.pairingCore,
+    unionProdPairingCoreTypeOneFirstCoordinateMap] using
+    unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
 
 /-! ## Every KuuOS boundary-prism cell is A-compatible -/
 
