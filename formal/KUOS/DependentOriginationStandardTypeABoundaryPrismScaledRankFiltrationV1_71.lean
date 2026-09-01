@@ -232,16 +232,20 @@ def standardTypeABoundaryPrismScaledCellTargetToRankSucc
   map := c.mapToSucc
   scaled := by
     intro t ht
+    have hmap := c.mapToSucc_ι
+    rw [Order.succ_eq_add_one] at hmap
+    have hcomp :=
+      ConcreteCategory.congr_hom
+        (congr_app hmap (op ⦋2⦌)) t
+    change
+      (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
+        (c.map.app (op ⦋2⦌) t) at ht
     change
       (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
         ((c.mapToSucc ≫
-          ((standardTypeABoundaryPrismRankFunction g).filtration (Nat.succ j)).ι).app
+          ((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).ι).app
             (op ⦋2⦌) t)
-    have hcomp :=
-      ConcreteCategory.congr_hom
-        (congr_app c.mapToSucc_ι (op ⦋2⦌)) t
-    rw [hcomp]
-    exact ht
+    exact hcomp.symm ▸ ht
 
 /-- Pulling the next-stage scaling back along the cell target map recovers
 exactly the cell scaling.  This is the key compatibility needed to assemble
@@ -256,27 +260,35 @@ theorem standardTypeABoundaryPrismRankSuccScaling_pullback_cell
       standardTypeABoundaryPrismCellScaling g j c := by
   apply scaling_eq_of_le_antisymm
   · intro t ht
+    have hmap := c.mapToSucc_ι
+    rw [Order.succ_eq_add_one] at hmap
+    have hcomp :=
+      ConcreteCategory.congr_hom
+        (congr_app hmap (op ⦋2⦌)) t
     change
       (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
         ((c.mapToSucc ≫
-          ((standardTypeABoundaryPrismRankFunction g).filtration (Nat.succ j)).ι).app
+          ((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).ι).app
             (op ⦋2⦌) t) at ht
+    change
+      (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
+        (c.map.app (op ⦋2⦌) t)
+    exact hcomp ▸ ht
+  · intro t ht
+    have hmap := c.mapToSucc_ι
+    rw [Order.succ_eq_add_one] at hmap
     have hcomp :=
       ConcreteCategory.congr_hom
-        (congr_app c.mapToSucc_ι (op ⦋2⦌)) t
-    rw [hcomp] at ht
-    exact ht
-  · intro t ht
+        (congr_app hmap (op ⦋2⦌)) t
+    change
+      (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
+        (c.map.app (op ⦋2⦌) t) at ht
     change
       (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
         ((c.mapToSucc ≫
-          ((standardTypeABoundaryPrismRankFunction g).filtration (Nat.succ j)).ι).app
+          ((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).ι).app
             (op ⦋2⦌) t)
-    have hcomp :=
-      ConcreteCategory.congr_hom
-        (congr_app c.mapToSucc_ι (op ⦋2⦌)) t
-    rw [hcomp]
-    exact ht
+    exact hcomp.symm ▸ ht
 
 /-!
 At this point the ordinary rank filtration has a canonical scaled lift and
