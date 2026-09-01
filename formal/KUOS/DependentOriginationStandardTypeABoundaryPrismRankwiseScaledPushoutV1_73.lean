@@ -524,55 +524,81 @@ noncomputable def standardTypeABoundaryPrism_rankStep_scaled_isPushout
       (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
       ((standardTypeABoundaryPrismRankFunction g).b j)
       (standardTypeABoundaryPrism_rankStep_isPushout g j)
+  have hScaling :
+      generatedPushoutScaling
+          (standardTypeABoundaryPrismRankStageScaling g j)
+          (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j)
+          (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
+          ((standardTypeABoundaryPrismRankFunction g).b j) =
+        standardTypeABoundaryPrismRankStageScaling g (Nat.succ j) := by
+    simpa only [Nat.add_one] using
+      standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j
   let eSucc :
       generatedPushoutTarget
           (standardTypeABoundaryPrismRankStageScaling g j)
           (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j)
           (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
           ((standardTypeABoundaryPrismRankFunction g).b j) ≅
-        standardTypeABoundaryPrismRankStage g (j + 1) :=
+        standardTypeABoundaryPrismRankStage g (Nat.succ j) :=
     scalingEqualityIso
       (generatedPushoutScaling
         (standardTypeABoundaryPrismRankStageScaling g j)
         (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j)
         (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
         ((standardTypeABoundaryPrismRankFunction g).b j))
-      (standardTypeABoundaryPrismRankStageScaling g (j + 1))
-      (standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j)
-  have heSuccMap : eSucc.hom.map = 𝟙 _ := by
-    simp only [eSucc, scalingEqualityIso_hom_map]
-  have hInl :
+      (standardTypeABoundaryPrismRankStageScaling g (Nat.succ j))
+      hScaling
+  refine h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eSucc ?_ ?_ ?_ ?_
+  · change
+      standardTypeABoundaryPrismRankSigmaHornToStage g j ≫ 𝟙 _ =
+        𝟙 _ ≫ standardTypeABoundaryPrismRankSigmaHornToStage g j
+    rw [Category.comp_id, Category.id_comp]
+  · change
+      standardTypeABoundaryPrismRankSigmaCellHom g j ≫ 𝟙 _ =
+        𝟙 _ ≫ standardTypeABoundaryPrismRankSigmaCellHom g j
+    rw [Category.comp_id, Category.id_comp]
+  · change
       generatedPushoutInl
           (standardTypeABoundaryPrismRankStageScaling g j)
           (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j)
           (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
           ((standardTypeABoundaryPrismRankFunction g).b j) ≫ eSucc.hom =
-        standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j) := by
+        𝟙 _ ≫ standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)
+    rw [Category.id_comp]
     apply ScaledSSet.ScaledMap.ext
     change
       (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map ≫
-          eSucc.hom.map =
+          (scalingEqualityIso
+            (generatedPushoutScaling
+              (standardTypeABoundaryPrismRankStageScaling g j)
+              (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j)
+              (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
+              ((standardTypeABoundaryPrismRankFunction g).b j))
+            (standardTypeABoundaryPrismRankStageScaling g (Nat.succ j))
+            hScaling).hom.map =
         (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
-    rw [heSuccMap]
-    simp only [Category.comp_id]
-  have hInr :
+    rw [scalingEqualityIso_hom_map, Category.comp_id]
+  · change
       generatedPushoutInr
           (standardTypeABoundaryPrismRankStageScaling g j)
           (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j)
           (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
           ((standardTypeABoundaryPrismRankFunction g).b j) ≫ eSucc.hom =
-        standardTypeABoundaryPrismRankSigmaStdSimplexToSucc g j := by
+        𝟙 _ ≫ standardTypeABoundaryPrismRankSigmaStdSimplexToSucc g j
+    rw [Category.id_comp]
     apply ScaledSSet.ScaledMap.ext
     change
-      ((standardTypeABoundaryPrismRankFunction g).b j) ≫ eSucc.hom.map =
+      ((standardTypeABoundaryPrismRankFunction g).b j) ≫
+          (scalingEqualityIso
+            (generatedPushoutScaling
+              (standardTypeABoundaryPrismRankStageScaling g j)
+              (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j)
+              (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
+              ((standardTypeABoundaryPrismRankFunction g).b j))
+            (standardTypeABoundaryPrismRankStageScaling g (Nat.succ j))
+            hScaling).hom.map =
         ((standardTypeABoundaryPrismRankFunction g).b j)
-    rw [heSuccMap]
-    simp only [Category.comp_id]
-  refine h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eSucc ?_ ?_ ?_ ?_
-  · simp only [Category.comp_id, Category.id_comp]
-  · simp only [Category.comp_id, Category.id_comp]
-  · simpa only [Category.id_comp] using hInl
-  · simpa only [Category.id_comp] using hInr
+    rw [scalingEqualityIso_hom_map, Category.comp_id]
 
 /-!
 The global rank filtration is now genuinely scaled:
