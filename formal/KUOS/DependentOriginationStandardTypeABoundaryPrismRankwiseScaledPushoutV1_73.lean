@@ -532,6 +532,7 @@ noncomputable def standardTypeABoundaryPrism_rankStep_scaled_isPushout
     standardTypeABoundaryPrismRankSigmaHorn,
     standardTypeABoundaryPrismRankSigmaStdSimplex,
     standardTypeABoundaryPrismRankStage,
+    standardTypeABoundaryPrismRankStageHom,
     standardTypeABoundaryPrismRankSigmaHornToStage,
     standardTypeABoundaryPrismRankSigmaCellHom,
     standardTypeABoundaryPrismRankSigmaStdSimplexToSucc] using h
