@@ -524,47 +524,13 @@ noncomputable def standardTypeABoundaryPrism_rankStep_scaled_isPushout
       (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
       ((standardTypeABoundaryPrismRankFunction g).b j)
       (standardTypeABoundaryPrism_rankStep_isPushout g j)
-  let eSucc :
-      generatedPushoutTarget
-          (standardTypeABoundaryPrismRankStageScaling g j)
-          (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j)
-          (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
-          ((standardTypeABoundaryPrismRankFunction g).b j) ≅
-        standardTypeABoundaryPrismRankStage g (j + 1) :=
-    scalingEqualityIso
-      (generatedPushoutScaling
-        (standardTypeABoundaryPrismRankStageScaling g j)
-        (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j)
-        (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
-        ((standardTypeABoundaryPrismRankFunction g).b j))
-      (standardTypeABoundaryPrismRankStageScaling g (j + 1))
-      (standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j)
-  refine h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eSucc ?_ ?_ ?_ ?_
-  · apply ScaledSSet.ScaledMap.ext
-    change
-      (standardTypeABoundaryPrismRankFunction g).t j ≫ 𝟙 _ =
-        𝟙 _ ≫ (standardTypeABoundaryPrismRankFunction g).t j
-    simp
-  · apply ScaledSSet.ScaledMap.ext
-    change
-      (standardTypeABoundaryPrismRankFunction g).m j ≫ 𝟙 _ =
-        𝟙 _ ≫ (standardTypeABoundaryPrismRankFunction g).m j
-    simp
-  · apply ScaledSSet.ScaledMap.ext
-    change
-      (SSet.Subcomplex.homOfLE
-        ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
-          (Order.le_succ j))) ≫ 𝟙 _ =
-        𝟙 _ ≫
-          (SSet.Subcomplex.homOfLE
-            ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
-              (Order.le_succ j)))
-    simp
-  · apply ScaledSSet.ScaledMap.ext
-    change
-      (standardTypeABoundaryPrismRankFunction g).b j ≫ 𝟙 _ =
-        𝟙 _ ≫ (standardTypeABoundaryPrismRankFunction g).b j
-    simp
+  rw [standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j] at h
+  simpa [generatedPushoutInl, generatedPushoutInr,
+    generatedPushoutTarget,
+    standardTypeABoundaryPrismRankSigmaHornToStage,
+    standardTypeABoundaryPrismRankSigmaCellHom,
+    standardTypeABoundaryPrismRankSigmaStdSimplexToSucc,
+    standardTypeABoundaryPrismRankStageHom] using h
 
 /-!
 The global rank filtration is now genuinely scaled:
