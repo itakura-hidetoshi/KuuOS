@@ -451,7 +451,7 @@ theorem standardTypeAThreeHornSaturatedScaling_two_eq_q23Base :
     · subst t
       exact Or.inl standardTypeAThree_index_two_triangle_123_thin
 
-structure StandardTypeAThreeResidualTable.{u} : Prop where
+structure StandardTypeAThreeResidualTable : Prop where
   index_one_base :
     standardTypeAThreeHornSaturatedScaling.{u} (1 : Fin 4) =
       standardTypeBCollapse12BaseScaling.{u}
