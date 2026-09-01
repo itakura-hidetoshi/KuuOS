@@ -202,8 +202,7 @@ theorem generatedPushoutDescMap_scaled
         ((inl ≫ h.desc a.map b.map
           (generatedPushout_compatibility_map f g a b w)).app
           (op ⦋2⦌))) x)
-    rw [hfac]
-    exact a.scaled x hx
+    exact hfac.symm ▸ a.scaled x hx
   · have hfac := ConcreteCategory.congr_hom
       (congr_app
         (h.inr_desc a.map b.map
@@ -214,8 +213,7 @@ theorem generatedPushoutDescMap_scaled
         ((inr ≫ h.desc a.map b.map
           (generatedPushout_compatibility_map f g a b w)).app
           (op ⦋2⦌))) y)
-    rw [hfac]
-    exact b.scaled y hy
+    exact hfac.symm ▸ b.scaled y hy
 
 /-- The native ordinary pushout desc map upgraded to a scaled map. -/
 noncomputable def generatedPushoutDesc
@@ -499,7 +497,7 @@ theorem standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ
               ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
                 (Order.le_succ j)))
             (op ⦋2⦌)) x
-        simpa only [hι] using ht
+        exact hι ▸ ht
       exact Or.inr (Or.inl ⟨x, hx, rfl⟩)
     · have hy :
           (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j).thin y := by
@@ -526,9 +524,17 @@ noncomputable def standardTypeABoundaryPrism_rankStep_scaled_isPushout
       (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
       ((standardTypeABoundaryPrismRankFunction g).b j)
       (standardTypeABoundaryPrism_rankStep_isPushout g j)
-  simp only [generatedPushoutTarget,
-    standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j] at h
-  convert h using 1 <;> apply ScaledSSet.ScaledMap.ext <;> rfl
+  simpa only [
+    generatedPushoutTarget,
+    generatedPushoutInl,
+    generatedPushoutInr,
+    standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j,
+    standardTypeABoundaryPrismRankSigmaHorn,
+    standardTypeABoundaryPrismRankSigmaStdSimplex,
+    standardTypeABoundaryPrismRankStage,
+    standardTypeABoundaryPrismRankSigmaHornToStage,
+    standardTypeABoundaryPrismRankSigmaCellHom,
+    standardTypeABoundaryPrismRankSigmaStdSimplexToSucc] using h
 
 /-!
 The global rank filtration is now genuinely scaled:
