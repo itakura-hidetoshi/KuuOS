@@ -539,29 +539,15 @@ noncomputable def standardTypeABoundaryPrism_rankStep_scaled_isPushout
         ((standardTypeABoundaryPrismRankFunction g).b j))
       (standardTypeABoundaryPrismRankStageScaling g (j + 1))
       (standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j)
-  have eSucc_hom_map : eSucc.hom.map = 𝟙 _ := by
-    exact scalingEqualityIso_hom_map
-      (generatedPushoutScaling
-        (standardTypeABoundaryPrismRankStageScaling g j)
-        (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j)
-        (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
-        ((standardTypeABoundaryPrismRankFunction g).b j))
-      (standardTypeABoundaryPrismRankStageScaling g (j + 1))
-      (standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j)
   refine h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eSucc ?_ ?_ ?_ ?_
-  · simp
-  · simp
   · apply ScaledSSet.ScaledMap.ext
-    change
-      (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map ≫
-          eSucc.hom.map =
-        (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
-    rw [eSucc_hom_map, Category.comp_id]
+    simp
   · apply ScaledSSet.ScaledMap.ext
-    change
-      ((standardTypeABoundaryPrismRankFunction g).b j) ≫ eSucc.hom.map =
-        (standardTypeABoundaryPrismRankFunction g).b j
-    rw [eSucc_hom_map, Category.comp_id]
+    simp
+  · apply ScaledSSet.ScaledMap.ext
+    simp [eSucc, generatedPushoutInl]
+  · apply ScaledSSet.ScaledMap.ext
+    simp [eSucc, generatedPushoutInr]
 
 /-!
 The global rank filtration is now genuinely scaled:
@@ -573,3 +559,19 @@ scaled sigmaHorn(j)  ---->  scaled rank stage j
        v                         v
 scaled sigmaDelta(j) ---->  scaled rank stage (j+1)
 ```
+
+and the square is a categorical pushout in `ScaledSSet` for every `j`.
+Moreover the target scaling is not merely comparable with the ambient one: it
+is exactly the ambient-pullback scaling of v1.71.
+
+This removes the final ambiguity between the ordinary Mathlib relative-cell
+filtration and the scaled KuuOS carrier.  The next unit may work purely in the
+morphism-property calculus: split the exact coproduct map into simultaneous A
+and exceptional-B coproduct phases, show each induced rank map belongs to
+`standardABCRawCellularStep`, and take the natural-number transfinite
+composition required by `StandardABCTypeAEndpointLeibnizCellularCertificate`.
+-/
+
+end
+
+end KUOS.DependentOriginationStandardTypeABoundaryPrismRankwiseScaledPushoutV1_73
