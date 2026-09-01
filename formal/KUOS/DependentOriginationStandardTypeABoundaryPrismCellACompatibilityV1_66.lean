@@ -252,6 +252,8 @@ theorem unionProdPairingCore_typeOne_firstCoordinate_scaled
 /-- Public `pairing k.castSucc 1` form of the preceding theorem.  Its source
 index is exactly the unique codimension-one face index of the paired type-(I)
 simplex, so this is the form consumed by rank cells. -/
+set_option backward.defeqAttrib.useBackward true in
+set_option backward.isDefEq.respectTransparency false in
 theorem unionProdPairing_typeTwo_firstCoordinate_scaled
     {m : ℕ}
     (k : Fin (m + 1))
@@ -278,17 +280,19 @@ a rank cell. -/
 noncomputable def standardTypeABoundaryPrismCellFirstCoordinateMap
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :
     (Δ[c.dim + 1] : SSet.{u}) ⟶ Δ[g.n] :=
   SSet.yonedaEquiv.symm
     (standardTypeABoundaryPrismCellPairedNondegenerate g j c).1.1
 
 /-- The first-coordinate cell map preserves the cell's own standard type-(A)
 scaling into the original generator's standard type-(A) scaling. -/
+set_option backward.defeqAttrib.useBackward true in
+set_option backward.isDefEq.respectTransparency false in
 theorem standardTypeABoundaryPrismCellFirstCoordinate_scaled
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :
     IsScaledMap
       (standardTypeASimplexScaling c.index)
       (standardTypeASimplexScaling g.i)
@@ -319,7 +323,7 @@ for every rank cell. -/
 theorem standardTypeABoundaryPrismCellACompatible_all
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :
     standardTypeABoundaryPrismCellACompatible g j c := by
   intro t ht
   change
@@ -335,7 +339,7 @@ standard type-(A) cobase-change scaling with no hypotheses left. -/
 theorem standardTypeABoundaryPrismCellAPushoutScaling_eq_cellScaling_of_four_le_all
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h4 : 4 ≤ c.dim + 1) :
     standardTypeABoundaryPrismCellAPushoutScaling g j c =
       standardTypeABoundaryPrismCellScaling g j c :=
@@ -347,7 +351,7 @@ pure type-(A) cobase-change target. -/
 theorem standardTypeABoundaryPrismCellAPushoutTarget_eq_cellTarget_of_four_le_all
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h4 : 4 ≤ c.dim + 1) :
     standardTypeABoundaryPrismCellAPushoutTarget g j c =
       standardTypeABoundaryPrismScaledCellTarget g j c :=
@@ -359,7 +363,7 @@ finite low-dimensional frontier `N = 2` or `N = 3`. -/
 theorem standardTypeABoundaryPrismCell_pureA_or_lowDim
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :
     standardTypeABoundaryPrismCellAPushoutScaling g j c =
         standardTypeABoundaryPrismCellScaling g j c ∨
       c.dim + 1 = 2 ∨ c.dim + 1 = 3 := by
@@ -377,7 +381,7 @@ never the source of the residual. -/
 theorem standardTypeABoundaryPrismCell_notOutsideACompatible_lowDim
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h : ¬ standardTypeABoundaryPrismCellOutsideACompatible g j c) :
     c.dim + 1 = 2 ∨ c.dim + 1 = 3 := by
   by_contra hlow
