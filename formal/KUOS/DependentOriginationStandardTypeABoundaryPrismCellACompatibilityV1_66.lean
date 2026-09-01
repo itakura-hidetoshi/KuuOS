@@ -249,11 +249,12 @@ theorem unionProdPairingCore_typeOne_firstCoordinate_scaled
 
 /-! ## Public pairing form -/
 
+set_option backward.defeqAttrib.useBackward true
+set_option backward.isDefEq.respectTransparency false
+
 /-- Public `pairing k.castSucc 1` form of the preceding theorem.  Its source
 index is exactly the unique codimension-one face index of the paired type-(I)
 simplex, so this is the form consumed by rank cells. -/
-set_option backward.defeqAttrib.useBackward true in
-set_option backward.isDefEq.respectTransparency false in
 lemma unionProdPairing_typeTwo_firstCoordinate_scaled
     {m : ℕ}
     (k : Fin (m + 1))
@@ -287,8 +288,6 @@ noncomputable def standardTypeABoundaryPrismCellFirstCoordinateMap
 
 /-- The first-coordinate cell map preserves the cell's own standard type-(A)
 scaling into the original generator's standard type-(A) scaling. -/
-set_option backward.defeqAttrib.useBackward true in
-set_option backward.isDefEq.respectTransparency false in
 lemma standardTypeABoundaryPrismCellFirstCoordinate_scaled
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
