@@ -65,8 +65,24 @@ theorem minimalScaling_stdSimplex_thin_of_one_eq_two
   refine Or.inr ⟨(Δ[n] : SSet.{u}).δ (2 : Fin 3) t, ?_⟩
   apply SSet.stdSimplex.ext
   intro a
-  fin_cases a <;>
-    simp [SSet.stdSimplex.σ_apply, SSet.stdSimplex.δ_apply, h12]
+  fin_cases a
+  · rfl
+  ·
+    simp only [SSet.stdSimplex.σ_apply, SSet.stdSimplex.δ_apply]
+    have hfin :
+        Fin.succAbove (2 : Fin 3)
+            (Fin.predAbove (1 : Fin 2) (1 : Fin 3)) =
+          (1 : Fin 3) := by
+      decide
+    exact (congrArg (fun k : Fin 3 => t k) hfin).trans h12
+  ·
+    simp only [SSet.stdSimplex.σ_apply, SSet.stdSimplex.δ_apply]
+    have hfin :
+        Fin.succAbove (2 : Fin 3)
+            (Fin.predAbove (1 : Fin 2) (2 : Fin 3)) =
+          (1 : Fin 3) := by
+      decide
+    exact (congrArg (fun k : Fin 3 => t k) hfin).trans h12
 
 /-! ## The unique inner type-(A) scaling on `Delta[2]` is maximal -/
 
