@@ -234,16 +234,12 @@ noncomputable def standardTypeABoundaryPrismRankAHornCofanIsColimit
     rcases c with ⟨c⟩
     apply ScaledSSet.ScaledMap.ext
     change
-      Sigma.ι
-          (fun c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>
-            (c.horn : SSet.{u})) c ≫
+      c.ιSigmaHorn ≫
           Sigma.desc
             (fun c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>
               (s.ι.app ⟨c⟩).map) =
         (s.ι.app ⟨c⟩).map
-    exact Sigma.ι_desc
-      (fun c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>
-        (s.ι.app ⟨c⟩).map) c
+    exact Sigma.ι_desc _ c
   uniq s m hm := by
     apply ScaledSSet.ScaledMap.ext
     apply Sigma.hom_ext
@@ -265,15 +261,21 @@ noncomputable def standardTypeABoundaryPrismRankAHornCofanIsColimit
             (fun c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>
               (s.ι.app ⟨c⟩).map)
     have hdesc :
-        (s.ι.app ⟨c⟩).map =
-          Sigma.ι
-              (fun c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>
-                (c.horn : SSet.{u})) c ≫
+        c.ιSigmaHorn ≫
             Sigma.desc
               (fun c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>
-                (s.ι.app ⟨c⟩).map) := by
-      exact (Sigma.ι_desc _ c).symm
-    exact hc.trans hdesc
+                (s.ι.app ⟨c⟩).map) =
+          (s.ι.app ⟨c⟩).map := by
+      exact Sigma.ι_desc _ c
+    change
+      Sigma.ι
+          (fun c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>
+            (c.horn : SSet.{u})) c ≫
+          Sigma.desc
+            (fun c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>
+              (s.ι.app ⟨c⟩).map) =
+        (s.ι.app ⟨c⟩).map at hdesc
+    exact hc.trans hdesc.symm
 
 /-- Cofan of all literal standard-A simplex targets. -/
 noncomputable def standardTypeABoundaryPrismRankASimplexCofan
@@ -324,16 +326,12 @@ noncomputable def standardTypeABoundaryPrismRankASimplexCofanIsColimit
     rcases c with ⟨c⟩
     apply ScaledSSet.ScaledMap.ext
     change
-      Sigma.ι
-          (fun c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>
-            (Δ[c.dim + 1] : SSet.{u})) c ≫
+      c.ιSigmaStdSimplex ≫
           Sigma.desc
             (fun c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>
               (s.ι.app ⟨c⟩).map) =
         (s.ι.app ⟨c⟩).map
-    exact Sigma.ι_desc
-      (fun c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>
-        (s.ι.app ⟨c⟩).map) c
+    exact Sigma.ι_desc _ c
   uniq s m hm := by
     apply ScaledSSet.ScaledMap.ext
     apply Sigma.hom_ext
@@ -355,15 +353,21 @@ noncomputable def standardTypeABoundaryPrismRankASimplexCofanIsColimit
             (fun c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>
               (s.ι.app ⟨c⟩).map)
     have hdesc :
-        (s.ι.app ⟨c⟩).map =
-          Sigma.ι
-              (fun c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>
-                (Δ[c.dim + 1] : SSet.{u})) c ≫
+        c.ιSigmaStdSimplex ≫
             Sigma.desc
               (fun c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>
-                (s.ι.app ⟨c⟩).map) := by
-      exact (Sigma.ι_desc _ c).symm
-    exact hc.trans hdesc
+                (s.ι.app ⟨c⟩).map) =
+          (s.ι.app ⟨c⟩).map := by
+      exact Sigma.ι_desc _ c
+    change
+      Sigma.ι
+          (fun c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>
+            (Δ[c.dim + 1] : SSet.{u})) c ≫
+          Sigma.desc
+            (fun c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j =>
+              (s.ι.app ⟨c⟩).map) =
+        (s.ι.app ⟨c⟩).map at hdesc
+    exact hc.trans hdesc.symm
 
 /-! ## The coproduct map is literally the coproduct of standard A generators -/
 
