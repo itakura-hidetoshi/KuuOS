@@ -78,40 +78,40 @@ strong unretracted standard cellular closure.
 theorem standardTypeABoundaryPrismCell_mapHorn_to_APhase
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :
     c.mapHorn ≫ (standardTypeABoundaryPrismRankStageToAPhase g j).map =
       c.horn.ι ≫ c.mapToSucc := by
   change
     c.mapHorn ≫
         SSet.Subcomplex.homOfLE
-          ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
+          ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone
             (Nat.le_succ j)) =
       c.horn.ι ≫ c.mapToSucc
   calc
     c.mapHorn ≫
         SSet.Subcomplex.homOfLE
-          ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
+          ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone
             (Nat.le_succ j)) =
-        (c.ιSigmaHorn ≫ (standardTypeABoundaryPrismRankFunction g).t j) ≫
+        (c.ιSigmaHorn ≫ (standardTypeABoundaryPrismRankFunction.{u} g).t j) ≫
           SSet.Subcomplex.homOfLE
-            ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
+            ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone
               (Nat.le_succ j)) := by rw [c.ι_t]
     _ = c.ιSigmaHorn ≫
-        ((standardTypeABoundaryPrismRankFunction g).t j ≫
+        ((standardTypeABoundaryPrismRankFunction.{u} g).t j ≫
           SSet.Subcomplex.homOfLE
-            ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
+            ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone
               (Nat.le_succ j))) := by simp [Category.assoc]
     _ = c.ιSigmaHorn ≫
-        ((standardTypeABoundaryPrismRankFunction g).m j ≫
-          (standardTypeABoundaryPrismRankFunction g).b j) := by
+        ((standardTypeABoundaryPrismRankFunction.{u} g).m j ≫
+          (standardTypeABoundaryPrismRankFunction.{u} g).b j) := by
           exact congrArg (fun k => c.ιSigmaHorn ≫ k)
-            ((standardTypeABoundaryPrismRankFunction g).w j)
-    _ = (c.ιSigmaHorn ≫ (standardTypeABoundaryPrismRankFunction g).m j) ≫
-        (standardTypeABoundaryPrismRankFunction g).b j := by simp [Category.assoc]
+            ((standardTypeABoundaryPrismRankFunction.{u} g).w j)
+    _ = (c.ιSigmaHorn ≫ (standardTypeABoundaryPrismRankFunction.{u} g).m j) ≫
+        (standardTypeABoundaryPrismRankFunction.{u} g).b j := by simp [Category.assoc]
     _ = (c.horn.ι ≫ c.ιSigmaStdSimplex) ≫
-        (standardTypeABoundaryPrismRankFunction g).b j := by rw [c.ι_m]
+        (standardTypeABoundaryPrismRankFunction.{u} g).b j := by rw [c.ι_m]
     _ = c.horn.ι ≫
-        (c.ιSigmaStdSimplex ≫ (standardTypeABoundaryPrismRankFunction g).b j) := by
+        (c.ιSigmaStdSimplex ≫ (standardTypeABoundaryPrismRankFunction.{u} g).b j) := by
           simp [Category.assoc]
     _ = c.horn.ι ≫ c.mapToSucc := by rw [c.ι_b]
 
@@ -120,7 +120,7 @@ A-phase target. -/
 def standardTypeABoundaryPrismCellAPushoutTargetToAPhase
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :
     standardTypeABoundaryPrismCellAPushoutTarget g j c ⟶
       standardTypeABoundaryPrismRankAPhase g j where
   map := c.mapToSucc
@@ -131,7 +131,7 @@ def standardTypeABoundaryPrismCellAPushoutTargetToAPhase
         (c.mapToSucc.app (op ⦋2⦌) t)
     change
       (minimalScaling
-          ((standardTypeABoundaryPrismRankFunction g).filtration (j + 1) : SSet.{u})).thin
+          ((standardTypeABoundaryPrismRankFunction.{u} g).filtration (j + 1) : SSet.{u})).thin
           (c.mapToSucc.app (op ⦋2⦌) t) ∨
         (∃ x,
           (standardTypeABoundaryPrismRankStageScaling g j).thin x ∧
@@ -139,7 +139,7 @@ def standardTypeABoundaryPrismCellAPushoutTargetToAPhase
               (op ⦋2⦌) x = c.mapToSucc.app (op ⦋2⦌) t) ∨
         ∃ y,
           (standardTypeABoundaryPrismRankASimplexSigmaScaling g j).thin y ∧
-            ((standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌) y =
+            ((standardTypeABoundaryPrismRankFunction.{u} g).b j).app (op ⦋2⦌) y =
               c.mapToSucc.app (op ⦋2⦌) t
     rcases ht with hA | ⟨x, hx, rfl⟩
     · right
@@ -177,10 +177,10 @@ inductive StandardTypeABoundaryPrismRankBCell
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) : Type u where
   | q12
-      (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+      (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
       (h : StandardTypeABoundaryPrismCellQ12Factorization g j c)
   | q23
-      (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+      (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
       (h : StandardTypeABoundaryPrismCellQ23Factorization g j c)
 
 /-- Underlying ordinary rank cell of an exceptional B datum. -/
@@ -188,7 +188,7 @@ def StandardTypeABoundaryPrismRankBCell.cell
     {g : StandardTypeAHornAttachmentGeneratorIndex}
     {j : ℕ} :
     StandardTypeABoundaryPrismRankBCell g j →
-      (standardTypeABoundaryPrismRankFunction g).Cell j := fun b =>
+      (standardTypeABoundaryPrismRankFunction.{u} g).Cell j := fun b =>
   match b with
   | .q12 c _ => c
   | .q23 c _ => c
@@ -924,36 +924,36 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
         t ∈
           Set.range
               ((SSet.Subcomplex.homOfLE
-                ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
+                ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone
                   (Order.le_succ j))).app (op ⦋2⦌)) ⊔
             Set.range
-              (((standardTypeABoundaryPrismRankFunction g).b j).app
+              (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app
                 (op ⦋2⦌)) := by
       rw [
-        (standardTypeABoundaryPrismRankFunction g).
+        (standardTypeABoundaryPrismRankFunction.{u} g).
           range_homOfLE_app_union_range_b_app j (op ⦋2⦌)]
       exact Set.mem_univ t
     change
       t ∈
         Set.range
             ((SSet.Subcomplex.homOfLE
-              ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
+              ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone
                 (Order.le_succ j))).app (op ⦋2⦌)) ∪
           Set.range
-            (((standardTypeABoundaryPrismRankFunction g).b j).app
+            (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app
               (op ⦋2⦌)) at hmem
     rcases hmem with ⟨x, rfl⟩ | ⟨y, rfl⟩
     · have hx : (standardTypeABoundaryPrismRankStageScaling g j).thin x := by
         change
           (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
-            (((standardTypeABoundaryPrismRankFunction g).filtration j).ι.app
+            (((standardTypeABoundaryPrismRankFunction.{u} g).filtration j).ι.app
               (op ⦋2⦌) x)
         change
           (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
-            (((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).ι.app
+            (((standardTypeABoundaryPrismRankFunction.{u} g).filtration (j + 1)).ι.app
               (op ⦋2⦌)
               ((SSet.Subcomplex.homOfLE
-                ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
+                ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone
                   (Order.le_succ j))).app (op ⦋2⦌) x)) at ht
         rw [← NatTrans.comp_app_apply] at ht
         rw [SSet.Subcomplex.homOfLE_ι] at ht
@@ -961,12 +961,12 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
       have hxA :
           (standardTypeABoundaryPrismRankAPhaseScaling g j).thin
             ((SSet.Subcomplex.homOfLE
-              ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
+              ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone
                 (Order.le_succ j))).app (op ⦋2⦌) x) :=
         Or.inr (Or.inl ⟨x, hx, rfl⟩)
       exact Or.inr (Or.inl ⟨_, hxA, by simp⟩)
     · obtain ⟨c, z, hz⟩ :=
-        (standardTypeABoundaryPrismRankFunction g).
+        (standardTypeABoundaryPrismRankFunction.{u} g).
           ιSigmaStdSimplex_jointly_surjective y
       have hb := ConcreteCategory.congr_hom
         (congr_app c.ι_b (op ⦋2⦌)) z
@@ -974,7 +974,7 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
           (standardTypeABoundaryPrismCellScaling g j c).thin z := by
         rw [hz] at ht
         rw [show
-          ((standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌)
+          ((standardTypeABoundaryPrismRankFunction.{u} g).b j).app (op ⦋2⦌)
               (c.ιSigmaStdSimplex.app (op ⦋2⦌) z) =
             c.mapToSucc.app (op ⦋2⦌) z by
               simpa only [NatTrans.comp_app_apply] using hb] at ht
@@ -1008,13 +1008,13 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
           · change
               (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map.app
                   (op ⦋2⦌) yB =
-                ((standardTypeABoundaryPrismRankFunction g).b j).app
+                ((standardTypeABoundaryPrismRankFunction.{u} g).b j).app
                   (op ⦋2⦌) y
             rw [hz]
             change
               (standardTypeABoundaryPrismRankBCellTargetToSucc g j b).map.app
                   (op ⦋2⦌) x =
-                ((standardTypeABoundaryPrismRankFunction g).b j).app
+                ((standardTypeABoundaryPrismRankFunction.{u} g).b j).app
                   (op ⦋2⦌)
                   (c.ιSigmaStdSimplex.app (op ⦋2⦌) z)
             rw [hxmap]
@@ -1036,13 +1036,13 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
           · change
               (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map.app
                   (op ⦋2⦌) yB =
-                ((standardTypeABoundaryPrismRankFunction g).b j).app
+                ((standardTypeABoundaryPrismRankFunction.{u} g).b j).app
                   (op ⦋2⦌) y
             rw [hz]
             change
               (standardTypeABoundaryPrismRankBCellTargetToSucc g j b).map.app
                   (op ⦋2⦌) x =
-                ((standardTypeABoundaryPrismRankFunction g).b j).app
+                ((standardTypeABoundaryPrismRankFunction.{u} g).b j).app
                   (op ⦋2⦌)
                   (c.ιSigmaStdSimplex.app (op ⦋2⦌) z)
             rw [hxmap]
@@ -1101,7 +1101,7 @@ noncomputable def standardTypeABoundaryPrism_rankB_scaled_isPushout
   · rw [Category.id_comp]
     apply ScaledSSet.ScaledMap.ext
     change
-      (𝟙 ((standardTypeABoundaryPrismRankFunction g).filtration (j + 1) : SSet.{u})) ≫
+      (𝟙 ((standardTypeABoundaryPrismRankFunction.{u} g).filtration (j + 1) : SSet.{u})) ≫
           (scalingEqualityIso
             (generatedPushoutScaling
               (standardTypeABoundaryPrismRankAPhaseScaling g j)
@@ -1110,7 +1110,7 @@ noncomputable def standardTypeABoundaryPrism_rankB_scaled_isPushout
               (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map)
             (standardTypeABoundaryPrismRankStageScaling g (j + 1))
             hScaling).hom.map =
-        (𝟙 ((standardTypeABoundaryPrismRankFunction g).filtration (j + 1) : SSet.{u}))
+        (𝟙 ((standardTypeABoundaryPrismRankFunction.{u} g).filtration (j + 1) : SSet.{u}))
     rw [scalingEqualityIso_hom_map]
     exact Category.comp_id _
   · rw [Category.id_comp]
@@ -1180,7 +1180,7 @@ theorem standardTypeABoundaryPrismRankStageHom_mem_cellular
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
     standardABCCellularClosure
-      (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)) :=
+      (standardTypeABoundaryPrismRankStageHom.{u} g (Nat.le_succ j)) :=
   standardABCStrongCellularClosure_le_standardABCCellularClosure _
     (standardTypeABoundaryPrismRankStageHom_mem_strongCellular g j)
 
