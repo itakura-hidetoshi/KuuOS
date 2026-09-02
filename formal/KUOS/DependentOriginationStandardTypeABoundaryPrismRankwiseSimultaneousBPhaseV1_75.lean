@@ -734,8 +734,8 @@ noncomputable def standardTypeABoundaryPrismRankBTargetSigmaToSucc
 theorem standardTypeABoundaryPrismRankBSourceTargetSigma_map_eq
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
-    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j).map =
-      (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map := by
+    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase.{u} g j).map =
+      (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map := by
   apply Sigma.hom_ext
     (f := fun _ : StandardTypeABoundaryPrismRankBCell.{u} g j =>
       (Δ[4] : SSet.{u}))
