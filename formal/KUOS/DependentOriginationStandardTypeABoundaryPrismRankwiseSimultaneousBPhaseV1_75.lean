@@ -641,6 +641,7 @@ theorem standardTypeABoundaryPrismRankBSigmaGeneratorHom_mem_coproductsABC
       standardTypeABoundaryPrismRankBTargetSigmaInclusion,
       standardTypeABoundaryPrismRankBSigmaGeneratorHom,
       standardTypeABoundaryPrismRankBGeneratorNatTrans]
+    exact (Category.comp_id _).trans (Category.id_comp _).symm
 
 /-! ## Attach the B coproduct to `A_j` -/
 
