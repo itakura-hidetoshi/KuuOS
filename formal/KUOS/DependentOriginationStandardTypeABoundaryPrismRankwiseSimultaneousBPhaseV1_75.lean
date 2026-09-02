@@ -103,7 +103,8 @@ theorem standardTypeABoundaryPrismCell_mapHorn_to_APhase
     _ = c.ιSigmaHorn ≫
         ((standardTypeABoundaryPrismRankFunction g).m j ≫
           (standardTypeABoundaryPrismRankFunction g).b j) := by
-          rw [(standardTypeABoundaryPrismRankFunction g).w j]
+          exact congrArg (fun k => c.ιSigmaHorn ≫ k)
+            ((standardTypeABoundaryPrismRankFunction g).w j)
     _ = (c.ιSigmaHorn ≫ (standardTypeABoundaryPrismRankFunction g).m j) ≫
         (standardTypeABoundaryPrismRankFunction g).b j := by simp [Category.assoc]
     _ = (c.horn.ι ≫ c.ιSigmaStdSimplex) ≫
