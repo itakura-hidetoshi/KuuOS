@@ -187,7 +187,8 @@ def StandardTypeABoundaryPrismRankBCell.cell
     {g : StandardTypeAHornAttachmentGeneratorIndex}
     {j : ℕ} :
     StandardTypeABoundaryPrismRankBCell g j →
-      (standardTypeABoundaryPrismRankFunction g).Cell j
+      (standardTypeABoundaryPrismRankFunction g).Cell j := fun b =>
+  match b with
   | .q12 c _ => c
   | .q23 c _ => c
 
