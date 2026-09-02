@@ -640,8 +640,7 @@ theorem standardTypeABoundaryPrismRankBSigmaGeneratorHom_mem_coproductsABC
       standardTypeABoundaryPrismRankBSourceSigmaInclusion,
       standardTypeABoundaryPrismRankBTargetSigmaInclusion,
       standardTypeABoundaryPrismRankBSigmaGeneratorHom,
-      standardTypeABoundaryPrismRankBGeneratorNatTrans,
-      standardTypeBGeneratorHom]
+      standardTypeABoundaryPrismRankBGeneratorNatTrans]
 
 /-! ## Attach the B coproduct to `A_j` -/
 
