@@ -200,7 +200,7 @@ noncomputable def standardTypeABoundaryPrismRankBCellSourceToAPhase
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (b : StandardTypeABoundaryPrismRankBCell g j) :
-    standardTypeBSource ⟶ standardTypeABoundaryPrismRankAPhase g j := by
+    standardTypeBSource.{u} ⟶ standardTypeABoundaryPrismRankAPhase g j := by
   cases b with
   | q12 c h =>
       exact
@@ -221,7 +221,7 @@ noncomputable def standardTypeABoundaryPrismRankBCellTargetToSucc
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (b : StandardTypeABoundaryPrismRankBCell g j) :
-    standardTypeBTarget ⟶ standardTypeABoundaryPrismRankStage g (j + 1) := by
+    standardTypeBTarget.{u} ⟶ standardTypeABoundaryPrismRankStage g (j + 1) := by
   cases b with
   | q12 c h =>
       exact
@@ -371,7 +371,7 @@ def standardTypeABoundaryPrismRankBSourceSigmaInclusion
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (b : StandardTypeABoundaryPrismRankBCell g j) :
-    standardTypeBSource ⟶ standardTypeABoundaryPrismRankBSourceSigma g j where
+    standardTypeBSource.{u} ⟶ standardTypeABoundaryPrismRankBSourceSigma g j where
   map := Sigma.ι
     (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b
   scaled := by
@@ -383,7 +383,7 @@ def standardTypeABoundaryPrismRankBTargetSigmaInclusion
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (b : StandardTypeABoundaryPrismRankBCell g j) :
-    standardTypeBTarget ⟶ standardTypeABoundaryPrismRankBTargetSigma g j where
+    standardTypeBTarget.{u} ⟶ standardTypeABoundaryPrismRankBTargetSigma g j where
   map := Sigma.ι
     (fun _ : StandardTypeABoundaryPrismRankBCell g j => (Δ[4] : SSet.{u})) b
   scaled := by
@@ -395,7 +395,7 @@ noncomputable def standardTypeABoundaryPrismRankBSourceCofan
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
     Cofan.{u}
-      (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBSource) :=
+      (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBSource.{u}) :=
   Cofan.mk (standardTypeABoundaryPrismRankBSourceSigma g j)
     (fun b => standardTypeABoundaryPrismRankBSourceSigmaInclusion g j b)
 
@@ -485,7 +485,7 @@ noncomputable def standardTypeABoundaryPrismRankBTargetCofan
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
     Cofan.{u}
-      (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBTarget) :=
+      (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBTarget.{u}) :=
   Cofan.mk (standardTypeABoundaryPrismRankBTargetSigma g j)
     (fun b => standardTypeABoundaryPrismRankBTargetSigmaInclusion g j b)
 
@@ -596,10 +596,10 @@ noncomputable def standardTypeABoundaryPrismRankBGeneratorNatTrans
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
     Discrete.functor
-        (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBSource) ⟶
+        (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBSource.{u}) ⟶
       Discrete.functor
-        (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBTarget) :=
-  Discrete.natTrans (fun _ => standardTypeBGeneratorHom)
+        (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBTarget.{u}) :=
+  Discrete.natTrans (fun _ => standardTypeBGeneratorHom.{u})
 
 /-- The simultaneous B coproduct is literally a coproduct of standard A/B/C
 generators. -/
@@ -615,9 +615,9 @@ theorem standardTypeABoundaryPrismRankBSigmaGeneratorHom_mem_coproductsABC
     (W := (standardScaledAnodyneGeneratorsABC :
       MorphismProperty (ScaledSSet.{u})))
     (Discrete.functor
-      (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBSource))
+      (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBSource.{u}))
     (Discrete.functor
-      (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBTarget))
+      (fun _ : StandardTypeABoundaryPrismRankBCell g j => standardTypeBTarget.{u}))
     (standardTypeABoundaryPrismRankBSourceCofan g j)
     (standardTypeABoundaryPrismRankBTargetCofan g j)
     (standardTypeABoundaryPrismRankBSourceCofanIsColimit g j)
@@ -625,7 +625,7 @@ theorem standardTypeABoundaryPrismRankBSigmaGeneratorHom_mem_coproductsABC
     (standardTypeABoundaryPrismRankBGeneratorNatTrans g j) ?_
     (standardTypeABoundaryPrismRankBSigmaGeneratorHom g j) ?_
   · intro b
-    exact standardTypeBGenerator_mem_ABC
+    exact standardTypeBGenerator_mem_ABC.{u}
   · intro b
     rcases b with ⟨b⟩
     apply ScaledSSet.ScaledMap.ext
