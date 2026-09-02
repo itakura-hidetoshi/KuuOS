@@ -249,7 +249,6 @@ private theorem standardTypeABoundaryPrismCellScalingIsoToThree_inv_map_eq
     (s t : ScaledSimplicialSet (Δ[c.dim + 1] : SSet.{u})) :
     (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3 s).inv.map =
       (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3 t).inv.map := by
-  cases h3
   rfl
 
 /-- The source and target maps of one B datum have exactly the same underlying
@@ -267,7 +266,8 @@ theorem standardTypeABoundaryPrismRankBCell_source_target_map_eq
           g j c h.target_three
           (standardTypeABoundaryPrismCellAPushoutScaling g j c)
           (standardTypeABoundaryPrismCellScaling g j c)
-      simp [standardTypeABoundaryPrismRankBCellSourceToAPhase,
+      simp [Category.assoc,
+        standardTypeABoundaryPrismRankBCellSourceToAPhase,
         standardTypeABoundaryPrismRankBCellTargetToSucc,
         standardTypeABoundaryPrismCellQ12SourceIso,
         standardTypeABoundaryPrismCellQ12TargetIso,
@@ -277,17 +277,21 @@ theorem standardTypeABoundaryPrismRankBCell_source_target_map_eq
         standardTypeABoundaryPrismScaledCellTargetToRankSucc,
         htransport]
   | q23 c h =>
-      subst_vars
-      simp [standardTypeABoundaryPrismRankBCellSourceToAPhase,
+      have htransport :=
+        standardTypeABoundaryPrismCellScalingIsoToThree_inv_map_eq
+          g j c h.target_three
+          (standardTypeABoundaryPrismCellAPushoutScaling g j c)
+          (standardTypeABoundaryPrismCellScaling g j c)
+      simp [Category.assoc,
+        standardTypeABoundaryPrismRankBCellSourceToAPhase,
         standardTypeABoundaryPrismRankBCellTargetToSucc,
         standardTypeABoundaryPrismCellQ23SourceIso,
         standardTypeABoundaryPrismCellQ23TargetIso,
-        standardTypeABoundaryPrismCellScalingIsoToThree,
-        scalingEqualityIso,
         scalingEnrichmentPushoutLowerMap,
         scalingEnrichmentPushoutUpperMap,
         standardTypeABoundaryPrismCellAPushoutTargetToAPhase,
-        standardTypeABoundaryPrismScaledCellTargetToRankSucc]
+        standardTypeABoundaryPrismScaledCellTargetToRankSucc,
+        htransport]
 
 /-! ## Coproduct of all literal standard-B copies -/
 
