@@ -270,6 +270,7 @@ theorem standardTypeABoundaryPrismRankBCell_source_target_map_eq
           (standardTypeABoundaryPrismCellAPushoutScaling g j c)
           (standardTypeABoundaryPrismCellScaling g j c)
       simp [
+        Category.assoc,
         standardTypeABoundaryPrismRankBCellSourceToAPhase,
         standardTypeABoundaryPrismRankBCellTargetToSucc,
         standardTypeABoundaryPrismCellQ12SourceIso,
@@ -277,9 +278,8 @@ theorem standardTypeABoundaryPrismRankBCell_source_target_map_eq
         scalingEnrichmentPushoutLowerMap,
         scalingEnrichmentPushoutUpperMap,
         standardTypeABoundaryPrismCellAPushoutTargetToAPhase,
-        standardTypeABoundaryPrismScaledCellTargetToRankSucc]
-      rw [htransport]
-      simp only [Category.assoc]
+        standardTypeABoundaryPrismScaledCellTargetToRankSucc,
+        htransport]
   | q23 c h =>
       have htransport :=
         standardTypeABoundaryPrismCellScalingIsoToThree_inv_map_eq
@@ -287,6 +287,7 @@ theorem standardTypeABoundaryPrismRankBCell_source_target_map_eq
           (standardTypeABoundaryPrismCellAPushoutScaling g j c)
           (standardTypeABoundaryPrismCellScaling g j c)
       simp [
+        Category.assoc,
         standardTypeABoundaryPrismRankBCellSourceToAPhase,
         standardTypeABoundaryPrismRankBCellTargetToSucc,
         standardTypeABoundaryPrismCellQ23SourceIso,
@@ -294,9 +295,8 @@ theorem standardTypeABoundaryPrismRankBCell_source_target_map_eq
         scalingEnrichmentPushoutLowerMap,
         scalingEnrichmentPushoutUpperMap,
         standardTypeABoundaryPrismCellAPushoutTargetToAPhase,
-        standardTypeABoundaryPrismScaledCellTargetToRankSucc]
-      rw [htransport]
-      simp only [Category.assoc]
+        standardTypeABoundaryPrismScaledCellTargetToRankSucc,
+        htransport]
 
 /-! ## Coproduct of all literal standard-B copies -/
 
