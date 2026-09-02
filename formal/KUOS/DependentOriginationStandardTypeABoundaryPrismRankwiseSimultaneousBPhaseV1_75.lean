@@ -161,7 +161,11 @@ def standardTypeABoundaryPrismCellAPushoutTargetToAPhase
             c.horn.ι ≫ c.mapToSucc at hnat
         have h := ConcreteCategory.congr_hom
           (congr_app hnat (op ⦋2⦌)) x
-        simpa only [NatTrans.comp_app_apply] using h
+        change
+          (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map.app
+              (op ⦋2⦌) (c.mapHorn.app (op ⦋2⦌) x) =
+            c.mapToSucc.app (op ⦋2⦌) (c.horn.ι.app (op ⦋2⦌) x) at h
+        exact h
 
 /-! ## Exceptional cells as data, not a proposition subtype -/
 
