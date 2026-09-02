@@ -239,6 +239,19 @@ noncomputable def standardTypeABoundaryPrismRankBCellTargetToSucc
           (standardTypeABoundaryPrismCellQ23TargetIso g j c h).inv ≫
           standardTypeABoundaryPrismScaledCellTargetToRankSucc g j c
 
+/-- The identity-underlying three-simplex carrier transport is independent of
+the scaling structure placed on the actual rank-cell carrier. -/
+private theorem standardTypeABoundaryPrismCellScalingIsoToThree_inv_map_eq
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (j : ℕ)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
+    (h3 : c.dim + 1 = 3)
+    (s t : ScaledSimplicialSet (Δ[c.dim + 1] : SSet.{u})) :
+    (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3 s).inv.map =
+      (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3 t).inv.map := by
+  cases h3
+  rfl
+
 /-- The source and target maps of one B datum have exactly the same underlying
 simplicial map. -/
 theorem standardTypeABoundaryPrismRankBCell_source_target_map_eq
@@ -249,17 +262,20 @@ theorem standardTypeABoundaryPrismRankBCell_source_target_map_eq
       (standardTypeABoundaryPrismRankBCellTargetToSucc g j b).map := by
   cases b with
   | q12 c h =>
-      subst_vars
+      have htransport :=
+        standardTypeABoundaryPrismCellScalingIsoToThree_inv_map_eq
+          g j c h.target_three
+          (standardTypeABoundaryPrismCellAPushoutScaling g j c)
+          (standardTypeABoundaryPrismCellScaling g j c)
       simp [standardTypeABoundaryPrismRankBCellSourceToAPhase,
         standardTypeABoundaryPrismRankBCellTargetToSucc,
         standardTypeABoundaryPrismCellQ12SourceIso,
         standardTypeABoundaryPrismCellQ12TargetIso,
-        standardTypeABoundaryPrismCellScalingIsoToThree,
-        scalingEqualityIso,
         scalingEnrichmentPushoutLowerMap,
         scalingEnrichmentPushoutUpperMap,
         standardTypeABoundaryPrismCellAPushoutTargetToAPhase,
-        standardTypeABoundaryPrismScaledCellTargetToRankSucc]
+        standardTypeABoundaryPrismScaledCellTargetToRankSucc,
+        htransport]
   | q23 c h =>
       subst_vars
       simp [standardTypeABoundaryPrismRankBCellSourceToAPhase,
