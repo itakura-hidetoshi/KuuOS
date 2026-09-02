@@ -577,7 +577,9 @@ noncomputable def standardTypeABoundaryPrism_rankStep_scaled_isPushout
             (standardTypeABoundaryPrismRankStageScaling g (Nat.succ j))
             hScaling).hom.map =
         (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
-    simp only [scalingEqualityIso_hom_map, Category.comp_id]
+    simpa only [scalingEqualityIso_hom_map] using
+      (Category.comp_id
+        (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map)
   · change
       generatedPushoutInr
           (standardTypeABoundaryPrismRankStageScaling g j)
@@ -598,7 +600,9 @@ noncomputable def standardTypeABoundaryPrism_rankStep_scaled_isPushout
             (standardTypeABoundaryPrismRankStageScaling g (Nat.succ j))
             hScaling).hom.map =
         ((standardTypeABoundaryPrismRankFunction g).b j)
-    simp only [scalingEqualityIso_hom_map, Category.comp_id]
+    simpa only [scalingEqualityIso_hom_map] using
+      (Category.comp_id
+        ((standardTypeABoundaryPrismRankFunction g).b j))
 
 /-!
 The global rank filtration is now genuinely scaled:
