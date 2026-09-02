@@ -3,218 +3,149 @@
 ![Core Governance](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/core_governance_validation.yml/badge.svg)
 ![KuuOS Runtime Full Check](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/kuuos_runtime_full_check.yml/badge.svg)
 
-**KuuOS / 空OS** は、観測・文脈・記憶・WORLD 表現・計画・判断・実行・再観測・検証を、provenance、履歴、責任主体、有限権限、content address、検証可能な receipt に結び付ける公開研究アーキテクチャです。
+**KuuOS / 空OS** is a public research architecture for formally verified contextual systems and bounded AI operation. It connects observation, context, memory, WORLD representation, planning, decision, action, re-observation, verification, provenance, authority boundaries, and reproducible receipts.
 
-理論的中心は、仏教語を AI に貼り付けることではありません。現在の formal spine では、**縁起を「対象を実体化する前の composable contextual transport」として置き、その上に高次 coherence、presentation-independent invariants、process/quantum realization、scaled simplicial geometry を段階的に積む**方針を取っています。
+Its mathematical center is **dependent origination (縁起)**, not as a graph slogan or a substance ontology, but as composable contextual transport equipped with higher coherence, descent, obstruction theory, and presentation-independent semantics.
 
-## 現在地
+The long-term mathematical objective is now explicit:
 
-**基準日：2026年8月28日 JST**
+> **Dependent Origination Universality Program** — characterize dependent-origination structure by a universal property, and prove a representation theorem showing when contextual systems factor essentially uniquely through a universal dependent-origination completion.
 
-Authoritative branch は `main` です。
+The corresponding AI objective is to investigate intelligence not only as a fixed internal representation, but as the capacity to transport state, meaning, memory, evidence, and action coherently across changing contexts while preserving justified invariants and detecting failures of descent.
 
-```text
-latest integrated formal milestone SHA: 9d8d9be1c001f0a6f7dbd0b30922c42066c9b21d
-latest integrated formal PR: #1535
-latest integrated local scaled frontier: v1.120
-runtime dependent-origination executable scope: #1386 adapter v0.1
-```
+## Current authoritative state
 
-PR #1535 **Prove terminal fibrancy does not faithfully reflect presentation order** は、PR #1534 / v1.119 で確定した standard/canonical orthogonality diamond を terminal-map slice に制限し、presentation の strict inequality が fibrant-object semantics では collapse し得ることを theorem-level に閉じました。
-
-現在の authoritative mathematical picture は次です。`S` を standard A/B/C generated presentation、`C` を canonical KuuOS generated presentation とします。
+**Baseline date: 2026-09-02 JST**
 
 ```text
-full generated left classes:
-  L_standard || L_canonical
-
-full generated right classes:
-  R_standard || R_canonical
-
-presentation lattice:
-
-        S ⊔ C
-        /   \
-       S     C
-        \   /
-        S ⊓ C
-
-all four displayed edges are strict.
-
-terminal/fibrant-object semantics:
-  Fib_C ⊊ Fib_S
+authoritative branch: main
+current main SHA: 58685ff57187434ddfd8dc8dfdb583a7a7097864
+latest integrated dependent-origination theorem merge: PR #1570
+latest integrated dependent-origination theorem merge SHA: 1d630820c0e867fdd3350d9ed9d8171c65f359ec
+latest integrated runtime/control-plane merge: PR #1571
 ```
 
-さらに `U := S ⊔ C` とすると、v1.86 の complete-lattice right-class formula と v1.115 の terminal implication により
+PR #1570 proves that fundamental-groupoid descent existence, quotient-kernel compatibility, and descent obstruction are invariant under natural isomorphism of the fine transport presentation, including the gauge-equivariant representation specialization.
+
+PR #1571 adds a bounded KuuOS ↔ OpenClaw control plane. OpenClaw is treated as an ActOS execution host and observation source, **not** as truth authority, WORLD-commit authority, PlanOS-completion authority, or automatic memory authority.
+
+A separate Lean 4.31 compatibility program is active. PR #1558 is a **validation-only stacked Draft PR** for coherent scaled-model equivalence. It is not part of canonical theorem advancement and explicitly must not be merged.
+
+## Mathematical thesis
+
+The parent form of dependent origination is a state-valued functor
 
 ```text
-R_U = R_S ∩ R_C
-
-Fib_U(X)
-↔ Fib_S(X) ∧ Fib_C(X)
-↔ Fib_C(X)
+D : Context ⥤ Type
 ```
 
-が成り立つ一方、v1.119 により
-
-```text
-C < U
-```
-
-です。したがって
-
-```text
-C < S ⊔ C
-but
-∀ X, Fib_C(X) ↔ Fib_(S ⊔ C)(X)
-```
-
-であり、presentation から fibrant objects への意味写像は injective でも order-reflecting でもありません。
-
-これは矛盾ではありません。terminal maps は generated right class 全体の special slice であり、full orthogonal theory の違いを忠実に保持する必要はありません。
-
-## 縁起の親構造
-
-KuuOS の parent definition は、一般の context category `Context` 上の state-valued functor です。
-
-```text
-Context  --D-->  Type
-
-X --f--> Y
-|        |
-D(X) --> D(Y)
-        D(f)
-```
-
-中心法則は
+with composable transport
 
 ```text
 D(id) = id
-D(g ∘ f) = D(g) ∘ D(f)
+D(g ≫ f) = D(g) ≫ D(f)
 ```
 
-です。したがって親レベルでは
+up to the appropriate higher coherence in higher-categorical realizations.
+
+The guiding interpretation is:
 
 ```text
-縁起 = context に依存して成立する state
-     + admissible relation に沿う transport
-     + transport の compositional coherence
+Dependent origination
+= context-dependent state
++ admissible transport
++ compositional/higher coherence
++ descent and obstruction
++ invariance under justified change of presentation.
 ```
 
-と読みます。
+The parent structure does not require one fixed substance carrier and does not require reversibility. Groupoids, gauge actions, histories, process theories, quantum realizations, and scaled simplicial models are specializations or realizations, not replacements for the parent notion.
 
-この親構造は最初から一つの固定 substance carrier を仮定しません。context ごとに state carrier 自体が変わり得ます。可逆性も親には要求しません。
+## The universality question
 
-- groupoid context は reversible specialization;
-- finite history は free-category / one-object specialization;
-- transfer semigroup は irreversible dynamical specialization;
-- memory-lifted history は enlarged-state specialization;
-- process tensor / Choi / CPTP / comb / tester は downstream operational/quantum realization;
-- higher categorical and scaled simplicial layers are coherence/presentation structures above the same parent idea.
+The central open problem is no longer merely to accumulate more presentations of dependent origination. It is:
 
-## Formal architecture
+> **Can dependent-origination structure itself be characterized universally?**
 
-現在の formal authority は一つの linear version number ではなく、相互に接続された複数の層から成ります。
-
-### 1. Contextual parent semantics
-
-主要な流れ:
+A target form is the construction of a universal object
 
 ```text
-#1416  contextual transport parent v1.0
-#1417  contextual refinement / semantic descent v1.1
-#1418  refinement transitivity v1.2
-#1419  directed cofinal semantics v1.3
-#1420  filtered categorical cofinal semantics v1.4
-#1422  two-cell refinement coherence v1.5
-#1423  native bicategorical coherence + operadic axis v1.6-v1.7
-#1424  higher multicategory + monoidal process theory v1.8-v1.9
-#1425-#1427
-       causal process / marginals / no-signalling / joint causal factorization
-#1428  enriched / stack / infinity-coherence optional layers v1.13-v1.15
-#1429  category-of-elements dependent nerve: strict Segal + quasicategory v1.16
+DO(C, W, J)
 ```
 
-重要な境界は現在も変わりません。
+from contextual data consisting schematically of:
+
+- a context or higher-context category `C`;
+- a class `W` of changes of presentation that should become equivalences;
+- descent/gluing data `J`;
+- the coherence required by the chosen categorical level.
+
+We seek a canonical map
 
 ```text
-unique invariant semantics
-!=
-one recovered root state
+η : C ⟶ DO(C, W, J)
 ```
 
-state/root-carrier recovery には explicit separation/descent data が必要です。
-
-### 2. Higher-categorical and presentation-independent realization
+such that every admissible contextual system
 
 ```text
-#1430-#1431
-       bicategorical 2-Yoneda, native mapping quasicategories,
-       local scaled / complete-Segal interfaces
-#1432  one global scaled Duskin nerve
-#1433-#1435
-       scaled-horn coherence and local/global 1-2 cell comparison
-#1436  presentation-independent invariant kernel
-#1437  invariance across bicategorical model equivalence
-#1440-#1441
-       strictly-unitary global Duskin transport and normalization-choice invariance
-#1442-#1451
-       scaled horn transport, presentation equivalence,
-       global Duskin prisms, homotopy-class invariance,
-       and conditional strictification
+D : C ⟶ X
 ```
 
-この系列での基本原則は
+which is presentation-invariant along `W`, satisfies the required descent, and preserves the relevant higher coherence, factors essentially uniquely as
 
 ```text
-presentation -> intrinsic bicategorical carrier -> observable
+D ≃ D̄ ⋙ η        (schematic orientation; exact variance will be fixed by the formal construction)
 ```
 
-です。local mapping nerve や global Duskin nerve のどちらか一方を substance とせず、presentation を越えて保持される intrinsic data を invariant とします。
+or, in the final variance-correct formulation, through `η` by a unique-up-to-equivalence `D̄`.
 
-### 3. Canonical scaled-anodyne weak factorization system
+The desired representation theorem is an equivalence of the schematic form
 
-`ScaledSSet` 上では、canonical horn-cylinder attachment family `T` を generator として
+```text
+AdmissibleContextualSystems(C, X)
+  ≃
+Fun(DO(C, W, J), X).
+```
+
+This README deliberately calls this a **target universal property**, not an established theorem. No localization, completion, colimit, stackification, or `(∞,2)`-categorical identification is claimed until its actual universal property is formalized.
+
+## Why the existing formalization points toward universality
+
+The current Lean spine already supplies several ingredients that a universal characterization should explain rather than duplicate.
+
+### 1. Contextual transport and higher coherence
+
+The integrated parent line develops contextual transport, refinement, semantic descent, directed/filtered cofinal invariance, two-cell refinement coherence, bicategorical coherence, operadic/multicategorical and causal-process extensions, and category-of-elements nerve constructions.
+
+The invariant principle is not that one presentation is privileged, but that meaningful structure survives justified transport between presentations.
+
+### 2. Presentation-independent higher realization
+
+The higher-categorical line includes 2-Yoneda interfaces, mapping quasicategories, global scaled Duskin nerves, scaled-horn coherence, presentation-independent invariant kernels, transport across bicategorical model equivalence, strictly-unitary normalization, and scaled-horn presentation transport.
+
+The guiding direction is
+
+```text
+presentation
+  -> intrinsic categorical carrier
+  -> observable/semantic projection.
+```
+
+### 3. Canonical scaled weak factorization structure
+
+For the canonical scaled attachment family `T` on `ScaledSSet`, the integrated construction reaches
 
 ```text
 canonicalGeneratedScaledAnodyne = T.rlp.llp
 canonicalGeneratedScaledFibration = T.rlp
 ```
 
-を構成しています。
-
-```text
-#1452-#1454  cylinder / attachment lifting -> native terminal RLP
-#1455         canonical generator closure T.rlp.llp
-#1456         orthogonal universality / WFS interface
-#1458         Mathlib small-object interface
-#1459         explicit colimits + finite presentability -> unconditional WFS
-#1460         external generator comparison interface
-#1461         external presentation -> global Duskin fibrancy
-```
-
-canonical KuuOS family 自身について small-object/WFS route は内部的に閉じています。
-
-```text
-(canonicalGeneratedScaledAnodyne,
- canonicalGeneratedScaledFibration)
-is a native weak factorization system.
-```
+with a native weak factorization system through the explicit small-object route.
 
 ### 4. Generated-presentation quotient and complete lattice
 
-literal generator list 自体を invariant とせず、mutual orthogonal generation で quotient した generated-presentation carrier を使います。
-
-```text
-v1.81  quotient by mutual generation
-v1.83  posetal reflection
-v1.84  order reflection
-v1.85  fixed-point order isomorphism
-v1.86  complete lattice
-v1.87  standard/canonical lower and upper envelopes
-```
-
-presentation `P` には generated orthogonal pair
+Literal generator lists are not treated as invariants. Presentations are quotiented by mutual orthogonal generation and related to saturated left/right fixed points. For a presentation `P`:
 
 ```text
 L_P := generatedAnodyneClass P
@@ -222,176 +153,149 @@ R_P := generatedFibrationClass P
 
 L_P.rlp = R_P
 R_P.llp = L_P
+
+P ≤ Q
+↔ L_P ≤ L_Q
+↔ R_Q ≤ R_P.
 ```
 
-が付随し、presentation order は
+This supplies a concrete laboratory for asking which semantic projections are faithful and which forget structure.
 
-```text
-P ≤ Q  ↔  L_P ≤ L_Q
-       ↔  R_Q ≤ R_P
-```
+### 5. Presentation incomparability and semantic information loss
 
-です。
-
-arbitrary joins については
-
-```text
-R_(⨆ i, P_i) = ⨅ i, R_(P_i)
-```
-
-が Mathlib complete-lattice structure から exact に得られます。
-
-### 5. Standard/canonical comparison — resolved as incomparability
-
-standard A/B/C family と canonical KuuOS arbitrary-scaling attachment family は、generator list が違うだけでなく、generated full orthogonal theories も一致しません。
-
-v1.107 と v1.118 の二方向の separator により、v1.119 で
+The standard A/B/C and canonical KuuOS generated theories are formally incomparable at the full orthogonality level:
 
 ```text
 L_standard || L_canonical
 R_standard || R_canonical
-S || C
+S || C.
 ```
 
-が確定しました。
-
-具体的には、canonical-not-standard 側には atomic scaling / `B^2 N` terminal witness があり、standard-not-canonical 側には degree-three Type-A horn `Λ[3,1] -> Δ[3]` の relative rigidity separator があります。
-
-したがって旧 comparison frontier
+Yet terminal/fibrant-object semantics can forget strict presentation distinctions. With `U := S ⊔ C`, the integrated line proves schematically
 
 ```text
-standard ≤ canonical
-or
-canonical ≤ standard
-```
-
-を「残りの Type-A / Type-C geometry を埋めれば達成される目標」として扱うことは終了しました。Type-C geometry 自体の研究は可能ですが、それによって global inclusion や equality を復活させることはできません。
-
-### 6. Terminal semantics — strict order and non-faithfulness
-
-v1.115 では object-level terminal maps に限って
-
-```text
-Fib_canonical ⊊ Fib_standardABC
-```
-
-が確定しました。これは full right classes の incomparability と両立します。
-
-v1.120 ではさらに upper envelope `U = S ⊔ C` に対して
-
-```text
-R_U = R_S ∩ R_C
-Fib_U = Fib_C
 C < U
+but
+Fib_C = Fib_U.
 ```
 
-を証明しました。
+Thus equality of an observable semantic slice does not imply equality of the underlying generated presentation. This is a concrete motivation for the universality program: we need to identify exactly which quotient, descent, or universal construction captures the intended invariant and which information it is allowed to forget.
 
-主要 theorem surface:
+### 6. Fundamental-groupoid descent and obstruction
+
+The newest integrated dependent-origination layer studies a finer transport
 
 ```text
-generatedFibrationClass_upperEnvelope
-upperEnvelope_isFibrant_iff_standard_and_canonical
-upperEnvelope_isFibrant_iff_canonical
-canonical_lt_upperEnvelope_but_same_fibrant_objects
-fibrantObjectSemantics_canonical_eq_upperEnvelope
-fibrantObjectSemantics_not_injective
-fibrantObjectSemantics_not_orderReflecting
+S : P ⥤ Type
 ```
 
-したがって terminal/fibrant-object semantics は presentation distinction の一部を忘却します。
-
-## Retired formal frontiers
-
-v1.69 時点の fixed `Δ[3]` A/B residual table や boundary-prism cellular classification は、その後の theorem progression のための中間 frontier でした。README / ROADMAP が長くそれを current frontier と表示していましたが、現在は historical milestone です。
-
-同様に、standard/canonical equality または一方向 inclusion を最終目標とする comparison program は v1.119 により theorem-level に退役しています。
-
-現在の presentation-independent 問題は「二つの presentations が同じか」ではなく、**どの semantic projection が full orthogonality information のどの部分を保持し、どの部分を忘れるか**です。
-
-## 空OSとしての読み
-
-現在の formal architecture に対応する読みは:
+and a quotient toward an ordinary fundamental groupoid
 
 ```text
-空   = 一つの representation / chart / carrier に絶対 authority を置かない
-縁起 = 条件・文脈・関係に沿う composable transport によって成立を記述する
-二諦 = presentation-independent meaning を証明しても、それを ultimate substance に昇格しない
-中道 = representation の実体化も、relation/coherence の消去も行わない
+Q : P ⥤ FundamentalGroupoid Base.
 ```
 
-v1.119-v1.120 はこの原則を order-theoretic に sharpen します。同じ terminal semantics を持つことは full presentation の同一性を意味しません。observable / semantic slice が一致しても、その背後の orthogonality structure を一つの実体として同一視しない、という区別が formal theorem になっています。
+A necessary descent compatibility requires fine transport to identify arrows identified by `Q`. Violations are packaged as descent obstructions. PR #1570 proves these notions and descent existence are invariant under natural isomorphism of the fine transport presentation.
 
-sheaf / stack、operad / multicategory、process theory、enriched category、higher category、causal structure は現在、親の contextual transport を置き換えるものではなく、それぞれ追加構造を持つ specialization / realization として formalize されています。
+This remains a categorical transport theorem. Ordinary `FundamentalGroupoid` represents the endpoint-fixed homotopy quotient / flat-like branch; it does not by itself construct arbitrary curvature-sensitive smooth connection transport.
 
-## Quantum and physical authority boundary
+## Candidate axioms for the universality program
 
-量子系列では Choi / complete positivity / CPTP finite words / instruments / comb / tester / dual recursive normalization まで integrated されています。ただし quantum realization は親の縁起そのものではありません。
-
-`itakura-hidetoshi/4d-mass-gap` の transfer/Hamiltonian/Yang-Mills formalization は KuuOS の structural motivation になり得ますが、repository authority は分離されています。
+The following are research targets, not yet a final axiom system.
 
 ```text
-KuuOS structural theorem
-!=
-4d-mass-gap physical Yang-Mills theorem authority
+DO1  Contextuality
+     state/meaning is indexed by context.
+
+DO2  Functorial transport
+     admissible context changes induce composable transport.
+
+DO3  Higher coherence
+     comparison data between transports is itself coherently compatible.
+
+DO4  Presentation invariance
+     justified equivalent presentations preserve intrinsic semantics.
+
+DO5  Descent
+     compatible local contextual data admits justified global realization.
+
+DO6  Obstruction
+     failure of descent is represented internally rather than silently erased.
+
+DO7  Non-reification
+     no chosen presentation is promoted to intrinsic substance merely because
+     it is computationally or syntactically convenient.
 ```
 
-## Integrated subsystem map
+A major objective is to minimize these assumptions, determine independence/redundancy, and derive the universal construction from the smallest mathematically natural package.
 
-Subsystem versions are independent; one linear maturity scaleではありません。
+## AI research direction
 
-| 系列 | 統合済み到達点 | 主な入口 |
-|---|---|---|
-| Repository lineage | self-organization v0.113 | `runtime/kuuos_current_root_sequence_v0_113.py` |
-| ObserveOS | v0.7 | `docs/ObserveOS/README.md` |
-| VerifyOS | v0.15 | `docs/VerifyOS/README.md` |
-| Qi architecture | Yin-Yang Wuxing Fibonacci History Geometry v2.5 | `docs/KUUOS_QI_YINYANG_WUXING_FIBONACCI_HISTORY_GEOMETRY_v2_5.md` |
-| PlanOS | v1.23 | `formal/KuuOSPlanOSV1_23.lean` |
-| DecisionOS | v0.6 | `formal/KuuOSDecisionOSV0_6.lean` |
-| MemoryOS | v1.00 | `formal/KuuOSMemoryOSV1_00.lean` |
-| CodeAI | frozen cohort / prediction-pack / execution-shard contract v0.1 | `docs/CodeAI/README.md` |
-| GitHub MCP | durable event-driven reentry v1.3 + parent cross-observation v1.1 | `runtime/kuuos_github_ci_durable_reentry_inbox_v1_3.py` |
-| Dependent origination runtime | executable gauge-invariant descent adapter v0.1 | `runtime/kuuos_gauge_invariant_dependent_origination_descent_v0_1.py` |
-| Contextual parent formal | contextual transport / filtered semantic descent / higher coherence | `formal/KUOS/` |
-| Global higher realization | scaled Duskin / presentation-independent invariant / scaled horn fibrancy | `formal/KUOS/` |
-| Canonical scaled WFS | `T.rlp.llp / T.rlp`, explicit small-object construction | `formal/KUOS/` |
-| Generated-presentation lattice | quotient / posetal reflection / complete lattice | `formal/KUOS/DependentOriginationGeneratedPresentationCompleteLatticeV1_86.lean` |
-| Standard/canonical orthogonality | strict diamond and full left/right incomparability v1.119 | `formal/KUOS/DependentOriginationStandardCanonicalOrthogonalityDiamondV1_119.lean` |
-| Terminal fibrancy semantics | non-faithful presentation order v1.120 | `formal/KUOS/DependentOriginationTerminalFibrancyNonfaithfulPresentationOrderV1_120.lean` |
-| Repository strict Lean baseline | aggregate import | `formal/KuuOSFormal.lean` |
+The AI connection is a research program, not a claim that current AI systems already satisfy the final dependent-origination axioms.
 
-## Canonical runtime root
+A future agent can be modeled schematically by contextual transports among observation, memory, world-model, tool, goal, and action contexts. Under this view:
 
-Standard entrypoint:
+- model/embedding/prompt changes become candidate changes of presentation;
+- invariant semantics should survive justified equivalences of representation;
+- memory integration becomes a descent/gluing problem over partial observations;
+- contradictory memories or incompatible tool evidence can appear as descent obstructions;
+- multi-agent agreement can require higher coherence rather than simple aggregation;
+- hallucination can be investigated, in part, as local plausibility without global realizability;
+- interoperability can be formulated around relational behavior and transport invariants rather than shared latent coordinates.
+
+The long-term question is therefore:
+
+> Can intelligence be characterized partly as the ability to move coherently among contexts while preserving justified invariants, detecting obstruction, and refusing unjustified promotion from local evidence to global truth?
+
+KuuOS runtime governance already enforces a weaker operational version of this principle:
+
+```text
+candidate != authority
+observation != verification
+host success != WORLD truth
+plan execution != PlanOS completion
+receipt != successor authority.
+```
+
+## Current mathematical frontier
+
+The immediate theorem program is organized toward universality rather than toward one more privileged presentation.
+
+1. **Finish the current Lean compatibility validation without changing theorem authority.** PR #1558 remains validation-only and must not be merged.
+2. **Close coherent round-trip horn descent.** Derive, where possible, horn-filler invariance from coherent bicategorical equivalence rather than assuming an extra certificate.
+3. **Complete the descent characterization.** Strengthen necessary quotient-kernel compatibility toward necessary-and-sufficient descent criteria under explicit hypotheses.
+4. **Package semantic information loss.** Separate faithful full-right semantics from terminal restriction; construct and characterize the fibrant-object semantic quotient without calling it a localization before proving a universal property.
+5. **Extract the minimal dependent-origination axioms.** Determine which current theorems follow from contextuality, coherence, invariance, descent, and obstruction alone.
+6. **Construct `DO(C,W,J)`.** Identify the correct categorical level and prove existence of the universal completion.
+7. **Prove the representation/universality theorem.** Establish essential uniqueness of factorization and characterize dependent-origination structures by that universal property.
+8. **Develop realizations.** Relate the universal structure to gauge/groupoid transport, smooth/thin-path geometry, process theory, probability, quantum structures, and AI agents without collapsing these specializations into the parent definition.
+
+See `ROADMAP.md` for theorem-sized milestones and exit criteria.
+
+## Runtime and control plane
+
+Canonical effect-free repository check:
 
 ```bash
 PYTHONPATH=. python3 runtime/kuuos_current_check.py
 ```
 
-Useful views:
+Useful profiles include repository, architecture, PlanOS, DecisionOS, MemoryOS, CodeAI, GitHub MCP, dependent origination, and the aggregate profile.
 
-```bash
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --summary
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --list
+PR #1571 integrates the OpenClaw control-plane line through the bounded supervisor architecture. The authority boundary remains strict:
 
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile repository
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile architecture
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile planos
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile decisionos
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile memoryos
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile codeai
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile github_mcp
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile dependent_origination
-PYTHONPATH=. python3 runtime/kuuos_current_check.py --profile all
+```text
+OpenClaw = execution host + observation source
+OpenClaw != truth authority
+OpenClaw != WORLD commit authority
+OpenClaw != automatic PlanOS completion
+OpenClaw != automatic rollback proof
+OpenClaw != automatic memory overwrite authority.
 ```
-
-The runtime root remains deterministic and effect-free. It does not perform live GitHub writes, workflow dispatch, external benchmark execution, external artifact acquisition, or gold-material access.
-
-The `dependent_origination` runtime profile still validates the executable/spec contract introduced in #1386. The formal theorem line through #1535 is strict Lean authority; Python runtime checks do **not** substitute for Lean compilation.
 
 ## Formal validation
 
-Lean toolchain and dependencies are repository-pinned.
+Lean toolchain and dependencies are repository-pinned. The repository aggregate remains the formal entry surface:
 
 ```bash
 lake update
@@ -401,17 +305,72 @@ lake -KleanArgs=-DwarningAsError=true \
   build KuuOSFormal
 ```
 
-Formal compilation establishes only the repository theorem surface under the pinned toolchain. It does not substitute for external theorem acceptance, empirical validity, clinical approval, organizational approval, production deployment, or live-service behavior.
+Formal compilation establishes the represented theorem surface under the pinned toolchain. It does **not** by itself establish external mathematical peer review, empirical truth, philosophical uniqueness, physical validity, clinical approval, organizational approval, or production safety.
+
+The external Lean 4 compatibility/review program is therefore valuable but must be described precisely: successful independent reconstruction would establish reproducible machine checking of the formal theorem surface under the reviewed toolchain and assumptions; it would not prove that philosophical dependent origination itself is uniquely captured by the chosen semantics.
 
 ## Repository development invariants
 
-Normal changes begin from an exact `main` SHA on a dedicated branch and normally enter as Draft PRs. CI status is final only after workflow, all jobs, exact selected Lean step, committed dependency manifest check, and governance/audit summary are completed / success. queued / in-progress state is not success or failure evidence.
+Normal theorem development uses exact-base branches and Draft-first PRs. Formal proof work remains no-`sorry`, no-`admit`, no new placeholder axioms/constants. Frozen boundaries remain append-only/tighten-only where specified, with same-root requirements preserved.
 
-Repository evolution remains append-only or tighten-only at frozen boundaries. Same-root requirements remain explicit wherever a theorem or receipt depends on them.
+CI is terminal evidence only after the relevant workflow, jobs, exact Lean step, dependency/manifest checks, and governance evidence are completed successfully. queued/in-progress is not success evidence.
+
+## Fixed authority boundaries
+
+```text
+candidate != authority
+validation != truth
+formal compilation != external theorem acceptance
+CI success != theorem meaning beyond the compiled statement
+
+contextual transport != substance ontology
+semantic descent != state descent
+cofinal semantic invariance != root-state existence
+reversible specialization != parent dependent origination
+quantum realization != parent dependent origination
+presentation-independent invariant != one privileged presentation
+
+same fibrant-object semantics != equal generated presentation
+Fib semantic quotient != localization until a universal property is proved
+universal-carrier language != universal theorem until factorization/uniqueness is proved
+
+ordinary fundamental-groupoid transport != arbitrary curvature-sensitive connection transport
+KuuOS structural theorem != physical Yang-Mills theorem authority
+
+MCP write capability != Git authority
+write accepted != effect verified
+receipt != successor authority
+host success != WORLD truth
+```
+
+## Integrated subsystem map
+
+Subsystem versions are independent; they are not one linear maturity scale.
+
+| Series | Integrated state | Main entry |
+|---|---|---|
+| Repository lineage | self-organization v0.113 | `runtime/kuuos_current_root_sequence_v0_113.py` |
+| ObserveOS | v0.7 + OpenClaw observation boundary | `docs/ObserveOS/README.md` |
+| VerifyOS | v0.15 | `docs/VerifyOS/README.md` |
+| Qi architecture | Yin-Yang Wuxing Fibonacci History Geometry v2.5 | `docs/KUUOS_QI_YINYANG_WUXING_FIBONACCI_HISTORY_GEOMETRY_v2_5.md` |
+| PlanOS | v1.23 | `formal/KuuOSPlanOSV1_23.lean` |
+| DecisionOS | v0.6 | `formal/KuuOSDecisionOSV0_6.lean` |
+| MemoryOS | v1.00 | `formal/KuuOSMemoryOSV1_00.lean` |
+| CodeAI | frozen cohort / prediction-pack / execution-shard contract v0.1 | `docs/CodeAI/README.md` |
+| GitHub MCP | durable event-driven reentry v1.3 + parent cross-observation v1.1 | `runtime/kuuos_github_ci_durable_reentry_inbox_v1_3.py` |
+| Dependent origination runtime | executable gauge-invariant descent adapter v0.1 | `runtime/kuuos_gauge_invariant_dependent_origination_descent_v0_1.py` |
+| Contextual parent formal | contextual transport / semantic descent / higher coherence | `formal/KUOS/` |
+| Higher realization | scaled Duskin / presentation-independent invariants / scaled horns | `formal/KUOS/` |
+| Canonical scaled WFS | explicit small-object WFS | `formal/KUOS/` |
+| Generated-presentation semantics | quotient / fixed points / complete lattice | `formal/KUOS/` |
+| Standard/canonical comparison | full left/right incomparability | `formal/KUOS/` |
+| Fundamental-groupoid descent | obstruction + natural-isomorphism invariance v0.6 | `formal/KUOS/DependentOriginationFundamentalGroupoidDescentNatIsoInvarianceV0_6.lean` |
+| OpenClaw control plane | bounded closed-loop supervisor through v0.5 | `integrations/openclaw/` and related runtime/formal surfaces |
+| Repository strict Lean baseline | aggregate import | `formal/KuuOSFormal.lean` |
 
 ## Legacy compatibility status surface
 
-Historical current-root/readme identifiers remain compatibility markers because repository self-organization tests still validate them.
+Historical current-root/readme identifiers remain compatibility markers because repository self-organization tests may validate them. They do not create new theorem or execution authority.
 
 ```text
 KuuOS README Public Status v0.66
@@ -437,45 +396,6 @@ status/current.manifest.json
 PYTHONPATH=. python3 runtime/kuuos_current_surface.py
 ```
 
-These compatibility tokens do not create new authority.
+## Research status
 
-## Fixed boundaries
-
-```text
-candidate != authority
-validation != truth
-formal compilation != external theorem acceptance
-CI success != theorem meaning beyond the compiled statement
-
-contextual transport != substance ontology
-semantic descent != state descent
-cofinal semantic invariance != root-state existence
-reversible specialization != parent dependent origination
-quantum realization != parent dependent origination
-presentation-independent invariant != one privileged presentation
-
-canonical arbitrary-scaling KuuOS generator family
-!= standard A/B/C generator-level family
-
-full standard/canonical presentation incomparability
-!= terminal/fibrant-object incomparability
-
-same fibrant-object semantics
-!= equal generated presentation
-
-presentation inequality
-!= terminal-semantic inequality
-
-Type-C geometric refinement
-!= restoration of a globally refuted presentation inclusion
-
-KuuOS structural theorem != physical Yang-Mills theorem authority
-
-MCP write capability != Git authority
-write accepted != effect verified
-receipt != successor authority
-```
-
-## Safety / research status
-
-KuuOS is a research architecture. Repository-local validation establishes bounded consistency of the represented artifact set; it does not establish medical efficacy, legal authority, autonomous operational authority, physical truth, or universal external-service guarantees.
+KuuOS is a research architecture. Its formal mathematics, runtime governance, physical specializations, and AI applications have different authority boundaries. The universality program is the long-term mathematical objective; until the representation theorem is actually proved, it remains a research program rather than an established characterization theorem.
