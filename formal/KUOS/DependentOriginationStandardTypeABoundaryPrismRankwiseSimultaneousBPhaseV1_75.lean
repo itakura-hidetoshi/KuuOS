@@ -153,10 +153,14 @@ def standardTypeABoundaryPrismCellAPushoutTargetToAPhase
       refine ⟨c.mapHorn.app (op ⦋2⦌) x, ?_, ?_⟩
       · exact
           (standardTypeABoundaryPrismScaledCellSourceToRankStage g j c).scaled x hx
-      · have h := ConcreteCategory.congr_hom
-          (congr_app
-            (standardTypeABoundaryPrismCell_mapHorn_to_APhase g j c)
-            (op ⦋2⦌)) x
+      · have hnat :=
+          standardTypeABoundaryPrismCell_mapHorn_to_APhase g j c
+        change
+          c.mapHorn ≫
+              (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map =
+            c.horn.ι ≫ c.mapToSucc at hnat
+        have h := ConcreteCategory.congr_hom
+          (congr_app hnat (op ⦋2⦌)) x
         simpa only [NatTrans.comp_app_apply] using h
 
 /-! ## Exceptional cells as data, not a proposition subtype -/
