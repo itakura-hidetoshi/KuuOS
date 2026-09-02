@@ -189,6 +189,15 @@ private noncomputable def scalingIsoToThreeAux
   subst d
   exact Iso.refl _
 
+private theorem scalingIsoToThreeAux_inv_map_eq
+    {d : ℕ}
+    (h3 : d = 3)
+    (s t : ScaledSimplicialSet (Δ[d] : SSet.{u})) :
+    (scalingIsoToThreeAux h3 s).inv.map =
+      (scalingIsoToThreeAux h3 t).inv.map := by
+  subst d
+  rfl
+
 /-- Canonical carrier/scaling isomorphism from an actual three-cell to the
 fixed three-simplex used by the q12/q23 tables. -/
 noncomputable def standardTypeABoundaryPrismCellScalingIsoToThree
@@ -201,6 +210,18 @@ noncomputable def standardTypeABoundaryPrismCellScalingIsoToThree
       ScaledSSet.of (Δ[3] : SSet.{u})
         (standardTypeABoundaryPrismTransportScalingToThree g j c h3 s) :=
   scalingIsoToThreeAux h3 s
+
+/-- The identity-underlying carrier transport has the same inverse simplicial
+map for every scaling on a fixed dimension. -/
+theorem standardTypeABoundaryPrismCellScalingIsoToThree_inv_map_eq
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (j : ℕ)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
+    (h3 : c.dim + 1 = 3)
+    (s t : ScaledSimplicialSet (Δ[c.dim + 1] : SSet.{u})) :
+    (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3 s).inv.map =
+      (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3 t).inv.map := by
+  exact scalingIsoToThreeAux_inv_map_eq h3 s t
 
 private noncomputable def transportHomToThreeAux
     {d : ℕ}
