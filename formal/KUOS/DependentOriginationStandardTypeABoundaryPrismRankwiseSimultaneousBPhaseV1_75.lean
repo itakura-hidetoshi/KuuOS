@@ -174,7 +174,7 @@ inductive type permits elimination into actual maps without choosing from a
 propositional disjunction. -/
 inductive StandardTypeABoundaryPrismRankBCell
     (g : StandardTypeAHornAttachmentGeneratorIndex)
-    (j : ℕ) : Type u
+    (j : ℕ) : Type u where
   | q12
       (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
       (h : StandardTypeABoundaryPrismCellQ12Factorization g j c)
