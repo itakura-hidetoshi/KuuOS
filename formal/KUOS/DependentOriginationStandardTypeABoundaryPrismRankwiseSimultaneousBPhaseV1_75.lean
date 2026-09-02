@@ -280,6 +280,7 @@ theorem standardTypeABoundaryPrismRankBCell_source_target_map_eq
         standardTypeABoundaryPrismCellAPushoutTargetToAPhase,
         standardTypeABoundaryPrismScaledCellTargetToRankSucc,
         htransport]
+      simp only [Category.assoc]
   | q23 c h =>
       have htransport :=
         standardTypeABoundaryPrismCellScalingIsoToThree_inv_map_eq
@@ -297,6 +298,7 @@ theorem standardTypeABoundaryPrismRankBCell_source_target_map_eq
         standardTypeABoundaryPrismCellAPushoutTargetToAPhase,
         standardTypeABoundaryPrismScaledCellTargetToRankSucc,
         htransport]
+      simp only [Category.assoc]
 
 /-! ## Coproduct of all literal standard-B copies -/
 
