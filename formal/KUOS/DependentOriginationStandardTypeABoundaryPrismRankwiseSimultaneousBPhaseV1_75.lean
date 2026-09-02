@@ -923,8 +923,7 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
       · exact
           (standardTypeABoundaryPrismRankStageScaling g (j + 1)).thin_sigma_one x
     · have hxt' : x = t := by
-        simpa only [Functor.id_obj, NatTrans.id_app, id_eq,
-          CategoryTheory.FunctorToTypes.map_id_apply] using hxt
+        simpa only [NatTrans.id_app, ConcreteCategory.id_apply] using hxt
       subst t
       exact standardTypeABoundaryPrismRankAPhaseScaling_le_succ g j x hx
     · rw [← hyt]
