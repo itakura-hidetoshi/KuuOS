@@ -251,9 +251,8 @@ private theorem standardTypeABoundaryPrismCellScalingIsoToThree_inv_map_eq
     (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3 s).inv.map =
       (standardTypeABoundaryPrismCellScalingIsoToThree g j c h3 t).inv.map := by
   exact
-    KUOS.DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_72
-      .standardTypeABoundaryPrismCellScalingIsoToThree_inv_map_eq
-        g j c h3 s t
+    KUOS.DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_72.standardTypeABoundaryPrismCellScalingIsoToThree_inv_map_eq
+      g j c h3 s t
 
 /-- The source and target maps of one B datum have exactly the same underlying
 simplicial map. -/
