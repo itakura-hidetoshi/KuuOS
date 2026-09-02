@@ -277,8 +277,7 @@ theorem standardTypeABoundaryPrismRankBCell_source_target_map_eq
         scalingEnrichmentPushoutLowerMap,
         scalingEnrichmentPushoutUpperMap,
         standardTypeABoundaryPrismCellAPushoutTargetToAPhase,
-        standardTypeABoundaryPrismScaledCellTargetToRankSucc,
-        scalingEqualityIso]
+        standardTypeABoundaryPrismScaledCellTargetToRankSucc]
       rw [htransport]
       simp only [Category.assoc]
   | q23 c h =>
@@ -295,8 +294,7 @@ theorem standardTypeABoundaryPrismRankBCell_source_target_map_eq
         scalingEnrichmentPushoutLowerMap,
         scalingEnrichmentPushoutUpperMap,
         standardTypeABoundaryPrismCellAPushoutTargetToAPhase,
-        standardTypeABoundaryPrismScaledCellTargetToRankSucc,
-        scalingEqualityIso]
+        standardTypeABoundaryPrismScaledCellTargetToRankSucc]
       rw [htransport]
       simp only [Category.assoc]
 
