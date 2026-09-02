@@ -737,6 +737,8 @@ theorem standardTypeABoundaryPrismRankBSourceTargetSigma_map_eq
     (standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j).map =
       (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map := by
   apply Sigma.hom_ext
+    (f := fun _ : StandardTypeABoundaryPrismRankBCell.{u} g j =>
+      (Δ[4] : SSet.{u}))
   intro b
   have hsrc :
       Sigma.ι
