@@ -577,9 +577,12 @@ noncomputable def standardTypeABoundaryPrism_rankStep_scaled_isPushout
             (standardTypeABoundaryPrismRankStageScaling g (Nat.succ j))
             hScaling).hom.map =
         (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
-    simpa only [scalingEqualityIso_hom_map] using
-      (Category.comp_id
-        (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map)
+    rw [scalingEqualityIso_hom_map]
+    change
+      (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map ≫
+          𝟙 (standardTypeABoundaryPrismRankStage g (Nat.succ j)).carrier =
+        (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
+    exact Category.comp_id _
   · change
       generatedPushoutInr
           (standardTypeABoundaryPrismRankStageScaling g j)
@@ -600,9 +603,12 @@ noncomputable def standardTypeABoundaryPrism_rankStep_scaled_isPushout
             (standardTypeABoundaryPrismRankStageScaling g (Nat.succ j))
             hScaling).hom.map =
         ((standardTypeABoundaryPrismRankFunction g).b j)
-    simpa only [scalingEqualityIso_hom_map] using
-      (Category.comp_id
-        ((standardTypeABoundaryPrismRankFunction g).b j))
+    rw [scalingEqualityIso_hom_map]
+    change
+      ((standardTypeABoundaryPrismRankFunction g).b j) ≫
+          𝟙 (standardTypeABoundaryPrismRankStage g (Nat.succ j)).carrier =
+        ((standardTypeABoundaryPrismRankFunction g).b j)
+    exact Category.comp_id _
 
 /-!
 The global rank filtration is now genuinely scaled:
