@@ -126,9 +126,6 @@ structure ScaledMap (X Y : ScaledSSet.{u}) where
   map : X.carrier ⟶ Y.carrier
   scaled : IsScaledMap X.scaling Y.scaling map
 
-instance : Quiver (ScaledSSet.{u}) where
-  Hom := ScaledMap
-
 @[ext]
 theorem ScaledMap.ext
     {X Y : ScaledSSet.{u}}
@@ -143,10 +140,9 @@ theorem ScaledMap.ext
           rfl
 
 instance : Category (ScaledSSet.{u}) where
-  toCategoryStruct :=
-    { toQuiver := inferInstance
-      id := fun X => ⟨𝟙 X.carrier, isScaledMap_id X.scaling⟩
-      comp := fun f g => ⟨f.map ≫ g.map, f.scaled.comp g.scaled⟩ }
+  Hom := ScaledMap
+  id := fun X => ⟨𝟙 X.carrier, isScaledMap_id X.scaling⟩
+  comp := fun f g => ⟨f.map ≫ g.map, f.scaled.comp g.scaled⟩
   id_comp := by
     intro X Y f
     apply ScaledMap.ext
@@ -318,7 +314,7 @@ noncomputable def forwardAttachmentLiftingOfTerminalRLP
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
     {n : Nat} {i : Fin (n + 1)}
-    {sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})}
+    {sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u}))
     (R : HasLiftingProperty
       (scaledHornCylinderAttachmentInclusion i 0 sΔ)
       (ScaledSSet.toPoint (ScaledSSet.of X sX))) :
