@@ -72,9 +72,13 @@ noncomputable def standardTypeABoundaryPrismScaledRankCocone
     { app := fun j => standardTypeABoundaryPrismRankStageToCylinder g j
       naturality := by
         intro j k f
-        simpa [standardTypeABoundaryPrismScaledRankFunctor, Category.comp_id] using
-          standardTypeABoundaryPrismRankStageHom_toCylinder g
-            (leOfHom f) }
+        change
+          standardTypeABoundaryPrismRankStageHom g (leOfHom f) ≫
+              standardTypeABoundaryPrismRankStageToCylinder g k =
+            standardTypeABoundaryPrismRankStageToCylinder g j ≫ 𝟙 _
+        exact
+          (standardTypeABoundaryPrismRankStageHom_toCylinder g
+            (leOfHom f)).trans (Category.comp_id _).symm }
 
 /-! ## Finite-rank exhaustion of the cylinder -/
 
@@ -88,14 +92,15 @@ theorem standardTypeABoundaryPrism_exists_rank_lift
     ∃ (j : ℕ)
       (x : (standardTypeABoundaryPrismRankStage g j).carrier.obj d),
       (standardTypeABoundaryPrismRankStageToCylinder g j).map.app d x = t := by
-  let topPrism : ((Δ[g.n] : SSet.{u}) ⊗ Δ[1]).Subcomplex := ⊤
+  let prismCarrier : SSet.{u} := (Δ[g.n] : SSet.{u}) ⊗ Δ[1]
+  let topPrism : prismCarrier.Subcomplex := ⊤
   have ht : t ∈ topPrism.obj d := by
-    simp [topPrism]
+    simp [topPrism, prismCarrier]
   have htop :
       topPrism =
         ⨆ j, (standardTypeABoundaryPrismRankFunction g).filtration j := by
-    dsimp [topPrism]
-    exact (standardTypeABoundaryPrism_iSup_filtration g).symm
+    simpa [topPrism, prismCarrier] using
+      (standardTypeABoundaryPrism_iSup_filtration g).symm
   rw [htop] at ht
   simp only [Subfunctor.iSup_obj, Set.mem_iUnion] at ht
   obtain ⟨j, hj⟩ := ht
@@ -159,9 +164,14 @@ noncomputable def standardTypeABoundaryPrismUnderlyingRankCocone
               ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
                 (leOfHom f)) ≫
             (s.ι.app k).map =
+              (s.ι.app j).map ≫ 𝟙 _ at h
+        change
+          SSet.Subcomplex.homOfLE
+              ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
+                (leOfHom f)) ≫
+            (s.ι.app k).map =
               (s.ι.app j).map
-        simpa [standardTypeABoundaryPrismScaledRankFunctor,
-          standardTypeABoundaryPrismRankStageHom, Category.comp_id] using h }
+        exact h.trans (Category.comp_id _) }
 
 /-- Universal scaled map induced by a cocone on the rank stages. -/
 noncomputable def standardTypeABoundaryPrismScaledRankDesc
@@ -255,6 +265,13 @@ theorem standardTypeABoundaryPrismAlternatingObj_bit_true
       standardTypeABoundaryPrismRankAPhase g j := by
   simp [standardTypeABoundaryPrismAlternatingObj]
 
+@[simp]
+theorem standardTypeABoundaryPrismAlternatingObj_zero
+    (g : StandardTypeAHornAttachmentGeneratorIndex) :
+    standardTypeABoundaryPrismAlternatingObj g 0 =
+      standardTypeABoundaryPrismRankStage g 0 := by
+  simpa using standardTypeABoundaryPrismAlternatingObj_bit_false g 0
+
 /-- Successor map of the flattened filtration.  The binary normal form is
 eliminated before the morphism is constructed, so the two branches are exactly
 the raw A- and B-phase maps. -/
@@ -263,14 +280,22 @@ noncomputable def standardTypeABoundaryPrismAlternatingStep
     (n : ℕ) :
     standardTypeABoundaryPrismAlternatingObj g n ⟶
       standardTypeABoundaryPrismAlternatingObj g (n + 1) :=
-  Nat.bitCasesOn n (fun b j => by
-    cases b with
-    | false =>
-        simpa [standardTypeABoundaryPrismAlternatingObj] using
-          standardTypeABoundaryPrismRankStageToAPhase g j
-    | true =>
-        simpa [standardTypeABoundaryPrismAlternatingObj] using
-          standardTypeABoundaryPrismRankAPhaseToSucc g j)
+  Nat.bitCasesOn
+    (motive := fun n =>
+      standardTypeABoundaryPrismAlternatingObj g n ⟶
+        standardTypeABoundaryPrismAlternatingObj g (n + 1))
+    n (fun b j => by
+      cases b with
+      | false =>
+          simpa only [standardTypeABoundaryPrismAlternatingObj_bit_false,
+            standardTypeABoundaryPrism_bit_false_succ,
+            standardTypeABoundaryPrismAlternatingObj_bit_true] using
+            standardTypeABoundaryPrismRankStageToAPhase g j
+      | true =>
+          simpa only [standardTypeABoundaryPrismAlternatingObj_bit_true,
+            standardTypeABoundaryPrism_bit_true_succ,
+            standardTypeABoundaryPrismAlternatingObj_bit_false] using
+            standardTypeABoundaryPrismRankAPhaseToSucc g j)
 
 /-- Every successor is literally one of the two raw standard cellular phases. -/
 theorem standardTypeABoundaryPrismAlternatingStep_mem_rawCellular
@@ -278,16 +303,18 @@ theorem standardTypeABoundaryPrismAlternatingStep_mem_rawCellular
     (n : ℕ) :
     standardABCRawCellularStep
       (standardTypeABoundaryPrismAlternatingStep g n) :=
-  Nat.bitCasesOn n (fun b j => by
-    cases b with
-    | false =>
-        simpa [standardTypeABoundaryPrismAlternatingStep,
-          standardTypeABoundaryPrismAlternatingObj] using
-          standardTypeABoundaryPrismRankStageToAPhase_mem_rawCellular g j
-    | true =>
-        simpa [standardTypeABoundaryPrismAlternatingStep,
-          standardTypeABoundaryPrismAlternatingObj] using
-          standardTypeABoundaryPrismRankAPhaseToSucc_mem_rawCellular g j)
+  Nat.bitCasesOn
+    (motive := fun n =>
+      standardABCRawCellularStep
+        (standardTypeABoundaryPrismAlternatingStep g n))
+    n (fun b j => by
+      cases b with
+      | false =>
+          simpa [standardTypeABoundaryPrismAlternatingStep] using
+            standardTypeABoundaryPrismRankStageToAPhase_mem_rawCellular g j
+      | true =>
+          simpa [standardTypeABoundaryPrismAlternatingStep] using
+            standardTypeABoundaryPrismRankAPhaseToSucc_mem_rawCellular g j)
 
 /-- The flattened natural-number diagram generated by the raw A/B successor
 maps. -/
@@ -304,15 +331,19 @@ noncomputable def standardTypeABoundaryPrismAlternatingToCylinder
     (n : ℕ) :
     standardTypeABoundaryPrismAlternatingObj g n ⟶
       scaledSimplexCylinder (standardTypeASimplexScaling g.i) :=
-  Nat.bitCasesOn n (fun b j => by
-    cases b with
-    | false =>
-        simpa [standardTypeABoundaryPrismAlternatingObj] using
-          standardTypeABoundaryPrismRankStageToCylinder g j
-    | true =>
-        simpa [standardTypeABoundaryPrismAlternatingObj] using
-          (standardTypeABoundaryPrismRankAPhaseToSucc g j ≫
-            standardTypeABoundaryPrismRankStageToCylinder g (j + 1)))
+  Nat.bitCasesOn
+    (motive := fun n =>
+      standardTypeABoundaryPrismAlternatingObj g n ⟶
+        scaledSimplexCylinder (standardTypeASimplexScaling g.i))
+    n (fun b j => by
+      cases b with
+      | false =>
+          simpa only [standardTypeABoundaryPrismAlternatingObj_bit_false] using
+            standardTypeABoundaryPrismRankStageToCylinder g j
+      | true =>
+          simpa only [standardTypeABoundaryPrismAlternatingObj_bit_true] using
+            (standardTypeABoundaryPrismRankAPhaseToSucc g j ≫
+              standardTypeABoundaryPrismRankStageToCylinder g (j + 1)))
 
 /-- Consecutive alternating maps are compatible with the common cylinder map. -/
 theorem standardTypeABoundaryPrismAlternatingStep_toCylinder
@@ -321,21 +352,24 @@ theorem standardTypeABoundaryPrismAlternatingStep_toCylinder
     standardTypeABoundaryPrismAlternatingStep g n ≫
         standardTypeABoundaryPrismAlternatingToCylinder g (n + 1) =
       standardTypeABoundaryPrismAlternatingToCylinder g n :=
-  Nat.bitCasesOn n (fun b j => by
-    cases b with
-    | false =>
-        have hc :=
-          standardTypeABoundaryPrismRankStageHom_toCylinder g
-            (Nat.le_succ j)
-        simpa [standardTypeABoundaryPrismAlternatingStep,
-          standardTypeABoundaryPrismAlternatingToCylinder,
-          standardTypeABoundaryPrismAlternatingObj,
-          ← Category.assoc,
-          standardTypeABoundaryPrismRankStep_factor_A_residual] using hc
-    | true =>
-        simp [standardTypeABoundaryPrismAlternatingStep,
-          standardTypeABoundaryPrismAlternatingToCylinder,
-          standardTypeABoundaryPrismAlternatingObj])
+  Nat.bitCasesOn
+    (motive := fun n =>
+      standardTypeABoundaryPrismAlternatingStep g n ≫
+          standardTypeABoundaryPrismAlternatingToCylinder g (n + 1) =
+        standardTypeABoundaryPrismAlternatingToCylinder g n)
+    n (fun b j => by
+      cases b with
+      | false =>
+          have hc :=
+            standardTypeABoundaryPrismRankStageHom_toCylinder g
+              (Nat.le_succ j)
+          simpa [standardTypeABoundaryPrismAlternatingStep,
+            standardTypeABoundaryPrismAlternatingToCylinder,
+            ← Category.assoc,
+            standardTypeABoundaryPrismRankStep_factor_A_residual] using hc
+      | true =>
+          simp [standardTypeABoundaryPrismAlternatingStep,
+            standardTypeABoundaryPrismAlternatingToCylinder])
 
 /-- The full cylinder cocone on the single flattened A/B sequence. -/
 noncomputable def standardTypeABoundaryPrismAlternatingCocone
@@ -346,8 +380,13 @@ noncomputable def standardTypeABoundaryPrismAlternatingCocone
     (NatTrans.ofSequence
       (standardTypeABoundaryPrismAlternatingToCylinder g)
       (fun n => by
-        simpa [standardTypeABoundaryPrismAlternatingFunctor, Category.comp_id] using
-          standardTypeABoundaryPrismAlternatingStep_toCylinder g n))
+        change
+          standardTypeABoundaryPrismAlternatingStep g n ≫
+              standardTypeABoundaryPrismAlternatingToCylinder g (n + 1) =
+            standardTypeABoundaryPrismAlternatingToCylinder g n ≫ 𝟙 _
+        exact
+          (standardTypeABoundaryPrismAlternatingStep_toCylinder g n).trans
+            (Category.comp_id _).symm))
 
 /-! ## Restrict an alternating cocone to its even rank stages -/
 
@@ -414,8 +453,13 @@ noncomputable def standardTypeABoundaryPrismRankCoconeOfAlternatingCocone
     (NatTrans.ofSequence
       (standardTypeABoundaryPrismAlternatingEvenLeg g s)
       (fun j => by
-        simpa [standardTypeABoundaryPrismScaledRankFunctor, Category.comp_id] using
-          standardTypeABoundaryPrismAlternatingEvenLeg_succ g s j))
+        change
+          standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j) ≫
+              standardTypeABoundaryPrismAlternatingEvenLeg g s (j + 1) =
+            standardTypeABoundaryPrismAlternatingEvenLeg g s j ≫ 𝟙 _
+        exact
+          (standardTypeABoundaryPrismAlternatingEvenLeg_succ g s j).trans
+            (Category.comp_id _).symm))
 
 /-- The odd cocone equation is the B-step followed by the next even leg. -/
 theorem standardTypeABoundaryPrismAlternatingOddLeg_eq
@@ -466,16 +510,18 @@ noncomputable def standardTypeABoundaryPrismAlternatingCoconeIsColimit
               (standardTypeABoundaryPrismScaledRankCoconeIsColimit g).fac
                 (standardTypeABoundaryPrismRankCoconeOfAlternatingCocone g s) (j + 1)
             have hb := standardTypeABoundaryPrismAlternatingOddLeg_eq g s j
-            change
-              (standardTypeABoundaryPrismRankAPhaseToSucc g j ≫
-                standardTypeABoundaryPrismRankStageToCylinder g (j + 1)) ≫
-                  standardTypeABoundaryPrismAlternatingDesc g s =
-                s.ι.app (Nat.bit true j)
-            rw [Category.assoc, hr]
-            simpa [standardTypeABoundaryPrismAlternatingEvenLeg,
+            have h :
+                (standardTypeABoundaryPrismRankAPhaseToSucc g j ≫
+                  standardTypeABoundaryPrismRankStageToCylinder g (j + 1)) ≫
+                    standardTypeABoundaryPrismAlternatingDesc g s =
+                  standardTypeABoundaryPrismAlternatingOddLeg g s j := by
+              rw [Category.assoc, hr]
+              exact hb
+            simpa [standardTypeABoundaryPrismAlternatingCocone,
+              standardTypeABoundaryPrismAlternatingToCylinder,
               standardTypeABoundaryPrismAlternatingOddLeg,
               standardTypeABoundaryPrismAlternatingFunctor,
-              standardTypeABoundaryPrismAlternatingObj] using hb
+              standardTypeABoundaryPrismAlternatingObj] using h
   uniq s m hm := by
     apply (standardTypeABoundaryPrismScaledRankCoconeIsColimit g).hom_ext
     intro j
@@ -483,19 +529,22 @@ noncomputable def standardTypeABoundaryPrismAlternatingCoconeIsColimit
     have hdesc :=
       (standardTypeABoundaryPrismScaledRankCoconeIsColimit g).fac
         (standardTypeABoundaryPrismRankCoconeOfAlternatingCocone g s) j
-    calc
-      (standardTypeABoundaryPrismScaledRankCocone g).ι.app j ≫ m =
+    have heven' :
+        (standardTypeABoundaryPrismScaledRankCocone g).ι.app j ≫ m =
           standardTypeABoundaryPrismAlternatingEvenLeg g s j := by
-            simpa [standardTypeABoundaryPrismScaledRankCocone,
-              standardTypeABoundaryPrismAlternatingCocone,
-              standardTypeABoundaryPrismAlternatingToCylinder,
-              standardTypeABoundaryPrismAlternatingEvenLeg,
-              standardTypeABoundaryPrismAlternatingFunctor,
-              standardTypeABoundaryPrismAlternatingObj] using heven
-      _ = (standardTypeABoundaryPrismScaledRankCocone g).ι.app j ≫
-          standardTypeABoundaryPrismAlternatingDesc g s := by
-            simpa [standardTypeABoundaryPrismAlternatingDesc,
-              standardTypeABoundaryPrismRankCoconeOfAlternatingCocone] using hdesc.symm
+      simpa [standardTypeABoundaryPrismScaledRankCocone,
+        standardTypeABoundaryPrismAlternatingCocone,
+        standardTypeABoundaryPrismAlternatingToCylinder,
+        standardTypeABoundaryPrismAlternatingEvenLeg,
+        standardTypeABoundaryPrismAlternatingFunctor,
+        standardTypeABoundaryPrismAlternatingObj] using heven
+    have hdesc' :
+        (standardTypeABoundaryPrismScaledRankCocone g).ι.app j ≫
+            standardTypeABoundaryPrismAlternatingDesc g s =
+          standardTypeABoundaryPrismAlternatingEvenLeg g s j := by
+      simpa [standardTypeABoundaryPrismAlternatingDesc,
+        standardTypeABoundaryPrismRankCoconeOfAlternatingCocone] using hdesc
+    exact heven'.trans hdesc'.symm
 
 /-! ## One raw transfinite composition from the boundary prism to the cylinder -/
 
@@ -509,10 +558,9 @@ noncomputable def standardTypeABoundaryPrismRawTransfiniteComposition
       (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
       ℕ (standardTypeABoundaryPrismToCylinder g) where
   F := standardTypeABoundaryPrismAlternatingFunctor g
-  isoBot := eqToIso (by
-    simp [standardTypeABoundaryPrismAlternatingFunctor,
-      standardTypeABoundaryPrismAlternatingObj,
-      standardTypeABoundaryPrismRankStage_zero])
+  isoBot := eqToIso
+    ((standardTypeABoundaryPrismAlternatingObj_zero g).trans
+      (standardTypeABoundaryPrismRankStage_zero g))
   incl := (standardTypeABoundaryPrismAlternatingCocone g).ι
   isColimit := standardTypeABoundaryPrismAlternatingCoconeIsColimit g
   fac := by
@@ -521,11 +569,13 @@ noncomputable def standardTypeABoundaryPrismRawTransfiniteComposition
       standardTypeABoundaryPrismAlternatingToCylinder,
       standardTypeABoundaryPrismAlternatingFunctor,
       standardTypeABoundaryPrismAlternatingObj,
+      standardTypeABoundaryPrismAlternatingObj_zero,
       standardTypeABoundaryPrismRankStage_zero,
       standardTypeABoundaryPrismRankStageToCylinder,
       standardTypeABoundaryPrismToCylinder]
   map_mem j _ := by
-    simpa [standardTypeABoundaryPrismAlternatingFunctor] using
+    simpa only [standardTypeABoundaryPrismAlternatingFunctor,
+      Functor.ofSequence_map_homOfLE_succ] using
       standardTypeABoundaryPrismAlternatingStep_mem_rawCellular g j
 
 /-- Strong unretracted cellularity of the entire boundary-prism inclusion. -/
@@ -533,7 +583,10 @@ theorem standardTypeABoundaryPrismToCylinder_mem_strongCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     standardABCStrongCellularClosure
       (standardTypeABoundaryPrismToCylinder g) := by
-  unfold standardABCStrongCellularClosure
+  change
+    (MorphismProperty.transfiniteCompositions.{u}
+      (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})))
+        (standardTypeABoundaryPrismToCylinder g)
   exact
     (MorphismProperty.transfiniteCompositionsOfShape_le_transfiniteCompositions
       (W := (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))) ℕ)
