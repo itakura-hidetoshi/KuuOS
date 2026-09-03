@@ -191,8 +191,7 @@ noncomputable def standardTypeABoundaryPrismUnderlyingRankCocone
 noncomputable def standardTypeABoundaryPrismScaledRankDesc
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (s : Cocone (standardTypeABoundaryPrismScaledRankFunctor g)) :
-    ScaledSSet.ScaledMap
-      (scaledSimplexCylinder (standardTypeASimplexScaling g.i)) s.pt where
+    scaledSimplexCylinder (standardTypeASimplexScaling g.i) ⟶ s.pt where
   map :=
     (standardTypeABoundaryPrismRelativeCellComplex g).isColimit.desc
       (standardTypeABoundaryPrismUnderlyingRankCocone g s)
@@ -334,14 +333,12 @@ local instance standardTypeABoundaryPrismRawStep_respectsIso :
 noncomputable def standardTypeABoundaryPrismAlternatingStep
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (n : ℕ) :
-    ScaledSSet.ScaledMap
-      (standardTypeABoundaryPrismAlternatingObj g n)
-      (standardTypeABoundaryPrismAlternatingObj g (n + 1)) :=
+    standardTypeABoundaryPrismAlternatingObj g n ⟶
+      standardTypeABoundaryPrismAlternatingObj g (n + 1) :=
   Nat.bitCasesOn
     (motive := fun n =>
-      ScaledSSet.ScaledMap
-        (standardTypeABoundaryPrismAlternatingObj g n)
-        (standardTypeABoundaryPrismAlternatingObj g (n + 1)))
+      standardTypeABoundaryPrismAlternatingObj g n ⟶
+        standardTypeABoundaryPrismAlternatingObj g (n + 1))
     n (fun b j =>
       match b with
       | false =>
@@ -411,25 +408,21 @@ theorem standardTypeABoundaryPrismAlternatingFunctor_map_succ
     (standardTypeABoundaryPrismAlternatingFunctor g).map
         (homOfLE (Nat.le_add_right n 1)) =
       standardTypeABoundaryPrismAlternatingStep g n := by
-  exact
-    Functor.ofSequence_map_homOfLE_succ
-      (C := ScaledSSet.{u})
-      (X := standardTypeABoundaryPrismAlternatingObj g)
-      (standardTypeABoundaryPrismAlternatingStep g) n
+  unfold standardTypeABoundaryPrismAlternatingFunctor
+  exact Functor.ofSequence_map_homOfLE_succ
+    (standardTypeABoundaryPrismAlternatingStep g) n
 
 /-! ## A cocone of the alternating diagram to the full cylinder -/
 
 noncomputable def standardTypeABoundaryPrismAlternatingToCylinder
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (n : ℕ) :
-    ScaledSSet.ScaledMap
-      (standardTypeABoundaryPrismAlternatingObj g n)
-      (scaledSimplexCylinder (standardTypeASimplexScaling g.i)) :=
+    standardTypeABoundaryPrismAlternatingObj g n ⟶
+      scaledSimplexCylinder (standardTypeASimplexScaling g.i) :=
   Nat.bitCasesOn
     (motive := fun n =>
-      ScaledSSet.ScaledMap
-        (standardTypeABoundaryPrismAlternatingObj g n)
-        (scaledSimplexCylinder (standardTypeASimplexScaling g.i)))
+      standardTypeABoundaryPrismAlternatingObj g n ⟶
+        scaledSimplexCylinder (standardTypeASimplexScaling g.i))
     n (fun b j =>
       match b with
       | false =>
@@ -550,8 +543,8 @@ noncomputable def standardTypeABoundaryPrismAlternatingCocone
       (standardTypeABoundaryPrismAlternatingToCylinder g)
       (fun n => by
         rw [standardTypeABoundaryPrismAlternatingFunctor_map_succ,
-          Functor.const_obj_map, Category.comp_id]
-        exact standardTypeABoundaryPrismAlternatingStep_toCylinder g n))
+          Functor.const_obj_map]
+        simpa using standardTypeABoundaryPrismAlternatingStep_toCylinder g n))
 
 @[simp]
 theorem standardTypeABoundaryPrismAlternatingCocone_ι_app
@@ -566,7 +559,7 @@ noncomputable def standardTypeABoundaryPrismAlternatingEvenLeg
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (s : Cocone (standardTypeABoundaryPrismAlternatingFunctor g))
     (j : ℕ) :
-    ScaledSSet.ScaledMap (standardTypeABoundaryPrismRankStage g j) s.pt :=
+    standardTypeABoundaryPrismRankStage g j ⟶ s.pt :=
   (standardTypeABoundaryPrismAlternatingEvenIso g j).inv ≫
     s.ι.app (Nat.bit false j)
 
@@ -574,7 +567,7 @@ noncomputable def standardTypeABoundaryPrismAlternatingOddLeg
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (s : Cocone (standardTypeABoundaryPrismAlternatingFunctor g))
     (j : ℕ) :
-    ScaledSSet.ScaledMap (standardTypeABoundaryPrismRankAPhase g j) s.pt :=
+    standardTypeABoundaryPrismRankAPhase g j ⟶ s.pt :=
   (standardTypeABoundaryPrismAlternatingOddIso g j).inv ≫
     s.ι.app (Nat.bit true j)
 
@@ -586,13 +579,9 @@ theorem standardTypeABoundaryPrismAlternatingCocone_step
     standardTypeABoundaryPrismAlternatingStep g n ≫ s.ι.app (n + 1) =
       s.ι.app n := by
   have h := s.w (homOfLE (Nat.le_add_right n 1))
-  change
-    (standardTypeABoundaryPrismAlternatingFunctor g).map
-          (homOfLE (Nat.le_add_right n 1)) ≫
-        s.ι.app (n + 1) =
-      s.ι.app n ≫ 𝟙 _ at h
-  rw [standardTypeABoundaryPrismAlternatingFunctor_map_succ] at h
-  exact h.trans (Category.comp_id _)
+  rw [standardTypeABoundaryPrismAlternatingFunctor_map_succ,
+    Functor.const_obj_map] at h
+  simpa using h
 
 /-- Equality of sequence indices transports every cocone leg canonically. -/
 theorem standardTypeABoundaryPrismAlternatingCocone_transport
@@ -620,7 +609,6 @@ theorem standardTypeABoundaryPrismAlternatingFalseSucc_leg
   rw [Iso.trans_inv, Category.assoc,
     standardTypeABoundaryPrismAlternatingCocone_transport g s
       (standardTypeABoundaryPrism_bit_false_succ j)]
-  rfl
 
 /-- Likewise the post-B leg is the next even rank leg. -/
 theorem standardTypeABoundaryPrismAlternatingTrueSucc_leg
@@ -635,7 +623,6 @@ theorem standardTypeABoundaryPrismAlternatingTrueSucc_leg
   rw [Iso.trans_inv, Category.assoc,
     standardTypeABoundaryPrismAlternatingCocone_transport g s
       (standardTypeABoundaryPrism_bit_true_succ j)]
-  rfl
 
 /-- The A-step cocone equation after removing the canonical parity isos. -/
 theorem standardTypeABoundaryPrismAlternatingA_leg_eq
@@ -784,8 +771,8 @@ noncomputable def standardTypeABoundaryPrismRankCoconeOfAlternatingCocone
       (standardTypeABoundaryPrismAlternatingEvenLeg g s)
       (fun j => by
         rw [standardTypeABoundaryPrismScaledRankFunctor_map_succ,
-          Functor.const_obj_map, Category.comp_id]
-        exact standardTypeABoundaryPrismAlternatingEvenLeg_succ g s j))
+          Functor.const_obj_map]
+        simpa using standardTypeABoundaryPrismAlternatingEvenLeg_succ g s j))
 
 /-! ## Inserting the A-phases does not change the colimit -/
 
@@ -793,8 +780,7 @@ noncomputable def standardTypeABoundaryPrismRankCoconeOfAlternatingCocone
 noncomputable def standardTypeABoundaryPrismAlternatingDesc
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (s : Cocone (standardTypeABoundaryPrismAlternatingFunctor g)) :
-    ScaledSSet.ScaledMap
-      (scaledSimplexCylinder (standardTypeASimplexScaling g.i)) s.pt :=
+    scaledSimplexCylinder (standardTypeASimplexScaling g.i) ⟶ s.pt :=
   (standardTypeABoundaryPrismScaledRankCoconeIsColimit g).desc
     (standardTypeABoundaryPrismRankCoconeOfAlternatingCocone g s)
 
@@ -835,8 +821,7 @@ noncomputable def standardTypeABoundaryPrismAlternatingCoconeIsColimit
                     standardTypeABoundaryPrismAlternatingEvenLeg g s j := by
                       rw [hr']
               _ = s.ι.app (Nat.bit false j) := by
-                    simp [standardTypeABoundaryPrismAlternatingEvenLeg,
-                      Category.assoc]
+                    simp [standardTypeABoundaryPrismAlternatingEvenLeg]
         | true =>
             have hr :=
               (standardTypeABoundaryPrismScaledRankCoconeIsColimit g).fac
@@ -876,8 +861,7 @@ noncomputable def standardTypeABoundaryPrismAlternatingCoconeIsColimit
                     standardTypeABoundaryPrismAlternatingOddLeg g s j := by
                       rw [standardTypeABoundaryPrismAlternatingOddLeg_eq]
               _ = s.ι.app (Nat.bit true j) := by
-                    simp [standardTypeABoundaryPrismAlternatingOddLeg,
-                      Category.assoc]
+                    simp [standardTypeABoundaryPrismAlternatingOddLeg]
   uniq s m hm := by
     apply (standardTypeABoundaryPrismScaledRankCoconeIsColimit g).hom_ext
     intro j
@@ -911,8 +895,8 @@ noncomputable def standardTypeABoundaryPrismAlternatingCoconeIsColimit
 
 noncomputable def standardTypeABoundaryPrismRankStageZeroToBoundary
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    ScaledSSet.ScaledMap (standardTypeABoundaryPrismRankStage g 0)
-      (standardTypeABoundaryPrism g) := by
+    standardTypeABoundaryPrismRankStage g 0 ⟶
+      standardTypeABoundaryPrism g := by
   let hle :
       (standardTypeABoundaryPrismRankFunction g).filtration 0 ≤
         standardTypeABoundaryPrismSubcomplex g := by
@@ -937,8 +921,8 @@ noncomputable def standardTypeABoundaryPrismRankStageZeroToBoundary
 
 noncomputable def standardTypeABoundaryPrismBoundaryToRankStageZero
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    ScaledSSet.ScaledMap (standardTypeABoundaryPrism g)
-      (standardTypeABoundaryPrismRankStage g 0) := by
+    standardTypeABoundaryPrism g ⟶
+      standardTypeABoundaryPrismRankStage g 0 := by
   let hle :
       standardTypeABoundaryPrismSubcomplex g ≤
         (standardTypeABoundaryPrismRankFunction g).filtration 0 := by
