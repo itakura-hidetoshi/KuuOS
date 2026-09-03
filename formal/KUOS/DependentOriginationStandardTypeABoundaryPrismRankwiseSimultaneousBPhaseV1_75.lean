@@ -1092,6 +1092,7 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
                 ((standardTypeABoundaryPrismRankFunction.{u} g).b j).app
                   (op ⦋2⦌)
                   (c.ιSigmaStdSimplex.app (op ⦋2⦌) z)
+            simp only [NatTrans.comp_app_apply] at hdescApp
             rw [hdescApp, hxmap]
             simpa only [NatTrans.comp_app_apply] using hb.symm
       · rcases standardTypeABoundaryPrismRankBCell_exactThin_generated
