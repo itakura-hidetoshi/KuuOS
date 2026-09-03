@@ -314,7 +314,7 @@ noncomputable def forwardAttachmentLiftingOfTerminalRLP
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
     {n : Nat} {i : Fin (n + 1)}
-    {sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u}))
+    {sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})}
     (R : HasLiftingProperty
       (scaledHornCylinderAttachmentInclusion i 0 sΔ)
       (ScaledSSet.toPoint (ScaledSSet.of X sX))) :
