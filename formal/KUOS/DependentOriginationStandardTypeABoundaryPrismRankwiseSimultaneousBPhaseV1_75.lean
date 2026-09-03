@@ -951,38 +951,42 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
             (((standardTypeABoundaryPrismRankFunction g).b j).app
               (op ⦋2⦌)) at hmem
     rcases hmem with ⟨x, rfl⟩ | ⟨y, rfl⟩
-    · have hx : (standardTypeABoundaryPrismRankStageScaling g j).thin x := by
+    · have hx :
+          (standardTypeABoundaryPrismRankStageScaling g j).thin x := by
         change
           (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
-            (((standardTypeABoundaryPrismRankFunction.{u} g).filtration j).ι.app
+            (((standardTypeABoundaryPrismRankFunction g).filtration j).ι.app
               (op ⦋2⦌) x)
         change
           (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
-            (((standardTypeABoundaryPrismRankFunction.{u} g).filtration (j + 1)).ι.app
-              (op ⦋2⦌)
-              ((SSet.Subcomplex.homOfLE
-                ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone
-                  (Order.le_succ j))).app (op ⦋2⦌) x)) at ht
-        rw [← NatTrans.comp_app_apply] at ht
-        rw [SSet.Subcomplex.homOfLE_ι] at ht
-        exact ht
+            ((((SSet.Subcomplex.homOfLE
+              ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
+                (Order.le_succ j))) ≫
+              ((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).ι).app
+                (op ⦋2⦌)) x) at ht
+        have hι := ConcreteCategory.congr_hom
+          (congr_app
+            (SSet.Subcomplex.homOfLE_ι
+              ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
+                (Order.le_succ j)))
+            (op ⦋2⦌)) x
+        exact hι ▸ ht
       have hxA :
           (standardTypeABoundaryPrismRankAPhaseScaling g j).thin
             ((SSet.Subcomplex.homOfLE
-              ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone
+              ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
                 (Order.le_succ j))).app (op ⦋2⦌) x) :=
         Or.inr (Or.inl ⟨x, hx, rfl⟩)
       exact Or.inr (Or.inl ⟨_, hxA, by simp⟩)
     · obtain ⟨c, z, hz⟩ :=
-        (standardTypeABoundaryPrismRankFunction.{u} g).
-          ιSigmaStdSimplex_jointly_surjective y
+        (standardTypeABoundaryPrismRankFunction g).ιSigmaStdSimplex_jointly_surjective y
       have hb := ConcreteCategory.congr_hom
         (congr_app c.ι_b (op ⦋2⦌)) z
       have hzcell :
           (standardTypeABoundaryPrismCellScaling g j c).thin z := by
         rw [hz] at ht
         rw [show
-          ((standardTypeABoundaryPrismRankFunction.{u} g).b j).app (op ⦋2⦌)
+          ((standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌)
               (c.ιSigmaStdSimplex.app (op ⦋2⦌) z) =
             c.mapToSucc.app (op ⦋2⦌) z by
               simpa only [NatTrans.comp_app_apply] using hb] at ht
