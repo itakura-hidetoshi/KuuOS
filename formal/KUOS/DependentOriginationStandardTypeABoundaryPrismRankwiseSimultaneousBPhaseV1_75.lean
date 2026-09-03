@@ -1182,91 +1182,108 @@ noncomputable def standardTypeABoundaryPrism_rankB_scaled_isPushout
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
     IsPushout
-      (standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j)
-      (standardTypeABoundaryPrismRankBSigmaGeneratorHom g j)
-      (standardTypeABoundaryPrismRankAPhaseToSucc g j)
-      (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j) := by
-  have h := generatedPushout_isPushout
-    (standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j)
-    (standardTypeABoundaryPrismRankBSigmaGeneratorHom g j)
-    (𝟙 _)
-    (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map
-    (standardTypeABoundaryPrism_rankB_underlying_isPushout g j)
+      (standardTypeABoundaryPrismRankBSourceSigmaToAPhase.{u} g j)
+      (standardTypeABoundaryPrismRankBSigmaGeneratorHom.{u} g j)
+      (standardTypeABoundaryPrismRankAPhaseToSucc.{u} g j)
+      (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j) := by
+  have h :
+      IsPushout
+        (standardTypeABoundaryPrismRankBSourceSigmaToAPhase.{u} g j)
+        (standardTypeABoundaryPrismRankBSigmaGeneratorHom.{u} g j)
+        (generatedPushoutInl
+          (standardTypeABoundaryPrismRankAPhaseScaling.{u} g j)
+          (standardTypeABoundaryPrismRankBTargetSigmaScaling.{u} g j)
+          (𝟙 _)
+          (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map)
+        (generatedPushoutInr
+          (standardTypeABoundaryPrismRankAPhaseScaling.{u} g j)
+          (standardTypeABoundaryPrismRankBTargetSigmaScaling.{u} g j)
+          (𝟙 _)
+          (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map) :=
+    generatedPushout_isPushout
+      (standardTypeABoundaryPrismRankBSourceSigmaToAPhase.{u} g j)
+      (standardTypeABoundaryPrismRankBSigmaGeneratorHom.{u} g j)
+      (𝟙 _)
+      (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map
+      (standardTypeABoundaryPrism_rankB_underlying_isPushout.{u} g j)
   have hScaling :
       generatedPushoutScaling
-          (standardTypeABoundaryPrismRankAPhaseScaling g j)
-          (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)
+          (standardTypeABoundaryPrismRankAPhaseScaling.{u} g j)
+          (standardTypeABoundaryPrismRankBTargetSigmaScaling.{u} g j)
           (𝟙 _)
-          (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map =
-        standardTypeABoundaryPrismRankStageScaling g (Nat.succ j) := by
-    simpa only [Nat.add_one] using
-      standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ.{u} g j
+          (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map =
+        standardTypeABoundaryPrismRankStageScaling.{u} g (j + 1) :=
+    standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ.{u} g j
   let eSucc :
       generatedPushoutTarget
-          (standardTypeABoundaryPrismRankAPhaseScaling g j)
-          (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)
+          (standardTypeABoundaryPrismRankAPhaseScaling.{u} g j)
+          (standardTypeABoundaryPrismRankBTargetSigmaScaling.{u} g j)
           (𝟙 _)
-          (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map ≅
-        standardTypeABoundaryPrismRankStage g (Nat.succ j) :=
+          (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map ≅
+        standardTypeABoundaryPrismRankStage.{u} g (j + 1) :=
     scalingEqualityIso
       (generatedPushoutScaling
-        (standardTypeABoundaryPrismRankAPhaseScaling g j)
-        (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)
+        (standardTypeABoundaryPrismRankAPhaseScaling.{u} g j)
+        (standardTypeABoundaryPrismRankBTargetSigmaScaling.{u} g j)
         (𝟙 _)
-        (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map)
-      (standardTypeABoundaryPrismRankStageScaling g (Nat.succ j))
+        (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map)
+      (standardTypeABoundaryPrismRankStageScaling.{u} g (j + 1))
       hScaling
-  refine h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eSucc ?_ ?_ ?_ ?_
+  refine h.of_iso
+    (Iso.refl (standardTypeABoundaryPrismRankBSourceSigma.{u} g j))
+    (Iso.refl (standardTypeABoundaryPrismRankAPhase.{u} g j))
+    (Iso.refl (standardTypeABoundaryPrismRankBTargetSigma.{u} g j))
+    eSucc ?_ ?_ ?_ ?_
   · change
-      standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j ≫ 𝟙 _ =
-        𝟙 _ ≫ standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j
+      standardTypeABoundaryPrismRankBSourceSigmaToAPhase.{u} g j ≫ 𝟙 _ =
+        𝟙 _ ≫ standardTypeABoundaryPrismRankBSourceSigmaToAPhase.{u} g j
     rw [Category.comp_id, Category.id_comp]
   · change
-      standardTypeABoundaryPrismRankBSigmaGeneratorHom g j ≫ 𝟙 _ =
-        𝟙 _ ≫ standardTypeABoundaryPrismRankBSigmaGeneratorHom g j
+      standardTypeABoundaryPrismRankBSigmaGeneratorHom.{u} g j ≫ 𝟙 _ =
+        𝟙 _ ≫ standardTypeABoundaryPrismRankBSigmaGeneratorHom.{u} g j
     rw [Category.comp_id, Category.id_comp]
   · change
       generatedPushoutInl
-          (standardTypeABoundaryPrismRankAPhaseScaling g j)
-          (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)
+          (standardTypeABoundaryPrismRankAPhaseScaling.{u} g j)
+          (standardTypeABoundaryPrismRankBTargetSigmaScaling.{u} g j)
           (𝟙 _)
-          (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map ≫ eSucc.hom =
-        𝟙 _ ≫ standardTypeABoundaryPrismRankAPhaseToSucc g j
+          (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map ≫ eSucc.hom =
+        𝟙 _ ≫ standardTypeABoundaryPrismRankAPhaseToSucc.{u} g j
     rw [Category.id_comp]
     apply ScaledSSet.ScaledMap.ext
     change
       (𝟙 ((standardTypeABoundaryPrismRankFunction.{u} g).filtration (j + 1) : SSet.{u})) ≫
           (scalingEqualityIso
             (generatedPushoutScaling
-              (standardTypeABoundaryPrismRankAPhaseScaling g j)
-              (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)
+              (standardTypeABoundaryPrismRankAPhaseScaling.{u} g j)
+              (standardTypeABoundaryPrismRankBTargetSigmaScaling.{u} g j)
               (𝟙 _)
-              (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map)
-            (standardTypeABoundaryPrismRankStageScaling g (Nat.succ j))
+              (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map)
+            (standardTypeABoundaryPrismRankStageScaling.{u} g (j + 1))
             hScaling).hom.map =
         (𝟙 ((standardTypeABoundaryPrismRankFunction.{u} g).filtration (j + 1) : SSet.{u}))
     rw [scalingEqualityIso_hom_map]
     exact Category.comp_id _
   · change
       generatedPushoutInr
-          (standardTypeABoundaryPrismRankAPhaseScaling g j)
-          (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)
+          (standardTypeABoundaryPrismRankAPhaseScaling.{u} g j)
+          (standardTypeABoundaryPrismRankBTargetSigmaScaling.{u} g j)
           (𝟙 _)
-          (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map ≫ eSucc.hom =
-        𝟙 _ ≫ standardTypeABoundaryPrismRankBTargetSigmaToSucc g j
+          (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map ≫ eSucc.hom =
+        𝟙 _ ≫ standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j
     rw [Category.id_comp]
     apply ScaledSSet.ScaledMap.ext
     change
-      (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map ≫
+      (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map ≫
           (scalingEqualityIso
             (generatedPushoutScaling
-              (standardTypeABoundaryPrismRankAPhaseScaling g j)
-              (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)
+              (standardTypeABoundaryPrismRankAPhaseScaling.{u} g j)
+              (standardTypeABoundaryPrismRankBTargetSigmaScaling.{u} g j)
               (𝟙 _)
-              (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map)
-            (standardTypeABoundaryPrismRankStageScaling g (Nat.succ j))
+              (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map)
+            (standardTypeABoundaryPrismRankStageScaling.{u} g (j + 1))
             hScaling).hom.map =
-        (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map
+        (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map
     rw [scalingEqualityIso_hom_map]
     exact Category.comp_id _
 
