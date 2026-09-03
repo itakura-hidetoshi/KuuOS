@@ -249,6 +249,14 @@ noncomputable def standardTypeABoundaryPrismScaledRankCoconeIsColimit
 
 /-! ## The alternating raw A/B sequence -/
 
+/-- Morphisms in the alternating package are pinned to the quiver owned by the
+category itself.  This avoids Lean 4.31 selecting the separate bare `Quiver`
+instance when elaborating sequence and cocone APIs. -/
+abbrev standardTypeABoundaryPrismScaledCatHom
+    (X Y : ScaledSSet.{u}) :=
+  @Quiver.Hom ScaledSSet
+    (inferInstance : Category (ScaledSSet.{u})).toQuiver X Y
+
 @[simp]
 theorem standardTypeABoundaryPrism_bit_false_succ (j : ℕ) :
     Nat.bit false j + 1 = Nat.bit true j := by
@@ -333,12 +341,12 @@ local instance standardTypeABoundaryPrismRawStep_respectsIso :
 noncomputable def standardTypeABoundaryPrismAlternatingStep
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (n : ℕ) :
-    ScaledSSet.ScaledMap
+    standardTypeABoundaryPrismScaledCatHom
       (standardTypeABoundaryPrismAlternatingObj g n)
       (standardTypeABoundaryPrismAlternatingObj g (n + 1)) :=
   Nat.bitCasesOn
     (motive := fun n =>
-      ScaledSSet.ScaledMap
+      standardTypeABoundaryPrismScaledCatHom
         (standardTypeABoundaryPrismAlternatingObj g n)
         (standardTypeABoundaryPrismAlternatingObj g (n + 1)))
     n (fun b j =>
@@ -419,12 +427,12 @@ theorem standardTypeABoundaryPrismAlternatingFunctor_map_succ
 noncomputable def standardTypeABoundaryPrismAlternatingToCylinder
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (n : ℕ) :
-    ScaledSSet.ScaledMap
+    standardTypeABoundaryPrismScaledCatHom
       (standardTypeABoundaryPrismAlternatingObj g n)
       (scaledSimplexCylinder (standardTypeASimplexScaling g.i)) :=
   Nat.bitCasesOn
     (motive := fun n =>
-      ScaledSSet.ScaledMap
+      standardTypeABoundaryPrismScaledCatHom
         (standardTypeABoundaryPrismAlternatingObj g n)
         (scaledSimplexCylinder (standardTypeASimplexScaling g.i)))
     n (fun b j =>
@@ -576,7 +584,8 @@ noncomputable def standardTypeABoundaryPrismAlternatingEvenLeg
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (s : Cocone (standardTypeABoundaryPrismAlternatingFunctor g))
     (j : ℕ) :
-    ScaledSSet.ScaledMap (standardTypeABoundaryPrismRankStage g j) s.pt :=
+    standardTypeABoundaryPrismScaledCatHom
+      (standardTypeABoundaryPrismRankStage g j) s.pt :=
   (standardTypeABoundaryPrismAlternatingEvenIso g j).inv ≫
     s.ι.app (Nat.bit false j)
 
@@ -584,7 +593,8 @@ noncomputable def standardTypeABoundaryPrismAlternatingOddLeg
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (s : Cocone (standardTypeABoundaryPrismAlternatingFunctor g))
     (j : ℕ) :
-    ScaledSSet.ScaledMap (standardTypeABoundaryPrismRankAPhase g j) s.pt :=
+    standardTypeABoundaryPrismScaledCatHom
+      (standardTypeABoundaryPrismRankAPhase g j) s.pt :=
   (standardTypeABoundaryPrismAlternatingOddIso g j).inv ≫
     s.ι.app (Nat.bit true j)
 
@@ -809,7 +819,7 @@ noncomputable def standardTypeABoundaryPrismRankCoconeOfAlternatingCocone
 noncomputable def standardTypeABoundaryPrismAlternatingDesc
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (s : Cocone (standardTypeABoundaryPrismAlternatingFunctor g)) :
-    ScaledSSet.ScaledMap
+    standardTypeABoundaryPrismScaledCatHom
       (scaledSimplexCylinder (standardTypeASimplexScaling g.i)) s.pt :=
   (standardTypeABoundaryPrismScaledRankCoconeIsColimit g).desc
     (standardTypeABoundaryPrismRankCoconeOfAlternatingCocone g s)
