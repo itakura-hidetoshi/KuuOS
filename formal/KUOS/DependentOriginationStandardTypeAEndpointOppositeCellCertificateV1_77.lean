@@ -28,13 +28,16 @@ universe u
 
 noncomputable section
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
-# The missing opposite endpoint A-cell and the final standard A/B/C certificate v1.77
+# Opposite endpoint A-cell and the full endpoint transfinite certificate v1.77
 
 The boundary-prism inclusion is already one raw A/B transfinite composition by
-v1.76.  Here the remaining endpoint map is exhibited as the pushout of the
-literal standard type-(A) generator after transporting the opposite-endpoint
-product square through explicit scaled isomorphisms.
+v1.76.  The remaining endpoint map is the pushout of one literal standard
+A-cell, up to explicit scaled isomorphism.  We then prepend that raw A-step to
+the v1.76 natural-number sequence, rather than assuming that arbitrary
+transfinite compositions are closed under binary composition.
 -/
 
 /-! ## The least-generated endpoint source is the ambient pullback source -/
@@ -45,13 +48,10 @@ theorem standardTypeAEndpointInducedProductPullbackScaling_le_generated
       (standardTypeAEndpointInducedProductPullbackScaling g)
       (standardTypeAEndpointGeneratedPushoutScaling g) := by
   intro t ht
-  have htmem :
-      t.val ∈
-        ((SSet.horn g.n g.i).unionProd
-          (intervalEndpoint g.endpoint)).obj (op ⦋2⦌) :=
-    t.property
-  rw [SSet.Subcomplex.mem_unionProd_iff] at htmem
-  rcases htmem with hendpoint | hhorn
+  rcases
+      (SSet.Subcomplex.mem_unionProd_iff
+        (SSet.horn g.n g.i) (intervalEndpoint g.endpoint) t.val).mp t.property with
+    hendpoint | hhorn
   · let x :
         ((Δ[g.n] : SSet.{u}) ⊗
           (intervalEndpoint g.endpoint : SSet.{u})).obj (op ⦋2⦌) :=
@@ -114,10 +114,23 @@ theorem standardTypeAEndpointGeneratedPushoutScaling_eq_ambient
   unfold standardTypeAEndpointInducedProductPullbackScaling
   unfold standardTypeAEndpointCylinderProductScaling
   unfold standardTypeAEndpointAmbientSourceScaling
-  rw [cartesianProductScaling_interval_eq_simplexCylinderScaling
-    (standardTypeASimplexScaling g.i)
-    (ScaledSimplicialSet.maximal (Δ[1] : SSet.{u}))]
-  rfl
+  change
+    pullbackScaling
+        (cartesianProductScaling
+          (standardTypeASimplexScaling g.i)
+          (ScaledSimplicialSet.maximal (Δ[1] : SSet.{u})))
+        ((SSet.horn g.n g.i).unionProd
+          (intervalEndpoint g.endpoint)).ι =
+      pullbackScaling
+        (simplexCylinderScaling (standardTypeASimplexScaling g.i))
+        ((SSet.horn g.n g.i).unionProd
+          (intervalEndpoint g.endpoint)).ι
+  exact congrArg
+    (fun s => pullbackScaling s
+      ((SSet.horn g.n g.i).unionProd (intervalEndpoint g.endpoint)).ι)
+    (cartesianProductScaling_interval_eq_simplexCylinderScaling
+      (standardTypeASimplexScaling g.i)
+      (ScaledSimplicialSet.maximal (Δ[1] : SSet.{u})))
 
 def standardTypeAEndpointAmbientSource
     (g : StandardTypeAHornAttachmentGeneratorIndex) : ScaledSSet.{u} :=
@@ -142,6 +155,10 @@ theorem intervalEndpoint_zero_eq_face_one :
       SSet.stdSimplex.face ({(1 : Fin 2)}ᶜ) := by
   unfold intervalEndpoint
   rw [SSet.stdSimplex.face_singleton_compl]
+  apply congrArg SSet.Subcomplex.ofSimplex
+  apply SSet.stdSimplex.ext
+  intro k
+  fin_cases k
   rfl
 
 theorem intervalEndpoint_one_eq_face_zero :
@@ -149,6 +166,10 @@ theorem intervalEndpoint_one_eq_face_zero :
       SSet.stdSimplex.face ({(0 : Fin 2)}ᶜ) := by
   unfold intervalEndpoint
   rw [SSet.stdSimplex.face_singleton_compl]
+  apply congrArg SSet.Subcomplex.ofSimplex
+  apply SSet.stdSimplex.ext
+  intro k
+  fin_cases k
   rfl
 
 theorem intervalEndpoint_eq_face_rev (ε : Fin 2) :
@@ -162,11 +183,15 @@ theorem intervalEndpoint_inf_rev_eq_bot (ε : Fin 2) :
     intervalEndpoint ε ⊓ intervalEndpoint ε.rev =
       (⊥ : (Δ[1] : SSet.{u}).Subcomplex) := by
   fin_cases ε
-  · rw [intervalEndpoint_zero_eq_face_one,
+  · change
+      intervalEndpoint (0 : Fin 2) ⊓ intervalEndpoint (1 : Fin 2) = ⊥
+    rw [intervalEndpoint_zero_eq_face_one,
       intervalEndpoint_one_eq_face_zero,
       SSet.stdSimplex.face_inter_face]
     simp
-  · rw [intervalEndpoint_one_eq_face_zero,
+  · change
+      intervalEndpoint (1 : Fin 2) ⊓ intervalEndpoint (0 : Fin 2) = ⊥
+    rw [intervalEndpoint_one_eq_face_zero,
       intervalEndpoint_zero_eq_face_one,
       SSet.stdSimplex.face_inter_face]
     simp
@@ -174,9 +199,9 @@ theorem intervalEndpoint_inf_rev_eq_bot (ε : Fin 2) :
 theorem intervalBoundary_eq_endpoint_zero_sup_one :
     (∂Δ[1] : (Δ[1] : SSet.{u}).Subcomplex) =
       intervalEndpoint 0 ⊔ intervalEndpoint 1 := by
-  rw [SSet.boundary_eq_iSup]
   apply le_antisymm
-  · refine iSup_le ?_
+  · rw [SSet.boundary_eq_iSup]
+    refine iSup_le ?_
     intro i
     fin_cases i
     · rw [← intervalEndpoint_one_eq_face_zero]
@@ -191,8 +216,14 @@ theorem intervalBoundary_eq_endpoint_sup_rev (ε : Fin 2) :
     (∂Δ[1] : (Δ[1] : SSet.{u}).Subcomplex) =
       intervalEndpoint ε ⊔ intervalEndpoint ε.rev := by
   fin_cases ε
-  · simpa using intervalBoundary_eq_endpoint_zero_sup_one
-  · simpa [sup_comm] using intervalBoundary_eq_endpoint_zero_sup_one
+  · change
+      (∂Δ[1] : (Δ[1] : SSet.{u}).Subcomplex) =
+        intervalEndpoint (0 : Fin 2) ⊔ intervalEndpoint (1 : Fin 2)
+    exact intervalBoundary_eq_endpoint_zero_sup_one
+  · change
+      (∂Δ[1] : (Δ[1] : SSet.{u}).Subcomplex) =
+        intervalEndpoint (1 : Fin 2) ⊔ intervalEndpoint (0 : Fin 2)
+    simpa [sup_comm] using intervalBoundary_eq_endpoint_zero_sup_one
 
 /-! ## The ordinary missing-endpoint square -/
 
@@ -332,7 +363,7 @@ def pullbackScalingIso
       scaled := by
         intro t ht
         change sY.thin (e.hom.app (op ⦋2⦌) (e.inv.app (op ⦋2⦌) t))
-        rw [← NatTrans.comp_app_apply, e.hom_inv_id]
+        rw [← NatTrans.comp_app_apply, e.inv_hom_id]
         exact ht }
   hom_inv_id := by
     apply ScaledSSet.ScaledMap.ext
@@ -418,9 +449,44 @@ noncomputable def standardTypeAEndpointOppositeCellArrowIso
     (standardTypeAEndpointOppositeCornerIso g)
     (standardTypeAEndpointOppositeSimplexIso g) ?_
   apply ScaledSSet.ScaledMap.ext
+  change
+    (standardTypeAEndpointOppositeCornerCarrierIso g).hom ≫
+        (SSet.horn g.n g.i).ι =
+      (SSet.Subcomplex.homOfLE
+        (standardTypeAEndpointOppositeCarrierBicartSq g).le₁₂) ≫
+        (standardTypeAEndpointOppositeSimplexCarrierIso g).hom
   ext d t
-  apply Subtype.ext
+  change
+    ((standardTypeAEndpointOppositeCornerCarrierIso g).hom.app d t).val =
+      (standardTypeAEndpointOppositeSimplexCarrierIso g).hom.app d
+        ((SSet.Subcomplex.homOfLE
+          (standardTypeAEndpointOppositeCarrierBicartSq g).le₁₂).app d t)
+  rw [standardTypeAEndpointOppositeCornerCarrierIso_hom_app_val,
+    standardTypeAEndpointOppositeSimplexCarrierIso_hom_app]
   rfl
+
+theorem standardTypeAEndpointOppositeCellHom_mem_coproductsABC
+    (g : StandardTypeAHornAttachmentGeneratorIndex) :
+    (MorphismProperty.coproducts.{u}
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u})))
+      (standardTypeAEndpointOppositeCellHom g) := by
+  have hA :
+      (MorphismProperty.coproducts.{u}
+        (standardScaledAnodyneGeneratorsABC :
+          MorphismProperty (ScaledSSet.{u})))
+        (standardTypeAScaledHornGeneratorHom
+          (StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g)) :=
+    MorphismProperty.le_coproducts
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u})) _
+      (standardTypeAGenerator_mem_ABC
+        (StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g))
+  exact
+    ((MorphismProperty.coproducts.{u}
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u}))).arrow_mk_iso_iff
+      (standardTypeAEndpointOppositeCellArrowIso g)).2 hA
 
 def standardTypeAEndpointOppositeCornerToAmbientSource
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
@@ -502,20 +568,26 @@ theorem standardTypeAEndpointOppositeGeneratedScaling_eq_boundary
     · exact (standardTypeAEndpointAmbientSourceToBoundary g).scaled x hx
     · exact (standardTypeAEndpointOppositeSimplexToBoundary g).scaled y hy
   · intro t ht
-    have hmem :
+    have hmem' :
         t.val ∈
-          (((SSet.horn g.n g.i).unionProd (intervalEndpoint g.endpoint)) ⊔
-            standardTypeAEndpointOppositeSimplexSubcomplex g).obj
-              (op ⦋2⦌) := by
+          (standardTypeAEndpointOppositeSimplexSubcomplex g ⊔
+            ((SSet.horn g.n g.i).unionProd
+              (intervalEndpoint g.endpoint))).obj (op ⦋2⦌) := by
       rw [(standardTypeAEndpointOppositeCarrierBicartSq g).sup_eq]
       exact t.property
-    change
-      t.val ∈
-          ((SSet.horn g.n g.i).unionProd (intervalEndpoint g.endpoint)).obj
-            (op ⦋2⦌) ∨
+    have hmem :
         t.val ∈
-          (standardTypeAEndpointOppositeSimplexSubcomplex g).obj
-            (op ⦋2⦌) at hmem
+            ((SSet.horn g.n g.i).unionProd
+              (intervalEndpoint g.endpoint)).obj (op ⦋2⦌) ∨
+          t.val ∈
+            (standardTypeAEndpointOppositeSimplexSubcomplex g).obj (op ⦋2⦌) := by
+      change
+        t.val ∈
+            (standardTypeAEndpointOppositeSimplexSubcomplex g).obj (op ⦋2⦌) ∨
+          t.val ∈
+            ((SSet.horn g.n g.i).unionProd
+              (intervalEndpoint g.endpoint)).obj (op ⦋2⦌) at hmem'
+      exact hmem'.symm
     rcases hmem with hsource | hopposite
     · let x :
           ((SSet.horn g.n g.i).unionProd
@@ -537,8 +609,7 @@ theorem standardTypeAEndpointOppositeGeneratedScaling_eq_boundary
           (standardTypeASimplexScaling g.i)).scaling.thin
           ((standardTypeABoundaryPrismSubcomplex g).ι.app
             (op ⦋2⦌) t) at ht
-      rw [hxmap]
-      exact ht
+      simpa using ht
     · let x :
           (standardTypeAEndpointOppositeSimplexSubcomplex g : SSet.{u}).obj
             (op ⦋2⦌) :=
@@ -551,6 +622,7 @@ theorem standardTypeAEndpointOppositeGeneratedScaling_eq_boundary
       refine Or.inr (Or.inr ⟨x, ?_, hxmap⟩)
       change (standardTypeAEndpointOppositeSimplexScaling g).thin x
       unfold standardTypeAEndpointOppositeSimplexScaling
+      rw [standardTypeAEndpointOppositeSimplexCarrierIso_hom_app]
       change
         (standardTypeASimplexScaling g.i).thin
           (((standardTypeABoundaryPrismSubcomplex g).ι.app
@@ -564,78 +636,112 @@ noncomputable def standardTypeAEndpointOpposite_scaled_isPushout
       (standardTypeAEndpointOppositeCellHom g)
       (standardTypeAEndpointAmbientSourceToBoundary g)
       (standardTypeAEndpointOppositeSimplexToBoundary g) := by
-  have h := generatedPushout_isPushout
-    (standardTypeAEndpointOppositeCornerToAmbientSource g)
-    (standardTypeAEndpointOppositeCellHom g)
-    (standardTypeAEndpointAmbientSourceToBoundary g).map
-    (standardTypeAEndpointOppositeSimplexToBoundary g).map
-    (standardTypeAEndpointOppositeCarrier_isPushout g)
-  rw [standardTypeAEndpointOppositeGeneratedScaling_eq_boundary g] at h
-  simpa [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget,
-    standardTypeAEndpointAmbientSourceToBoundary,
-    standardTypeAEndpointOppositeSimplexToBoundary] using h
-
-/-! ## Transport the scaled square so its top edge is the literal A generator -/
-
-def standardTypeAEndpointLiteralHornToAmbientSource
-    (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardTypeAScaledHorn
-        (StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g) ⟶
-      standardTypeAEndpointAmbientSource g :=
-  (standardTypeAEndpointOppositeCornerIso g).inv ≫
-    standardTypeAEndpointOppositeCornerToAmbientSource g
-
-def standardTypeAEndpointLiteralSimplexToBoundary
-    (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardTypeAScaledSimplex
-        (StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g) ⟶
-      standardTypeABoundaryPrism g :=
-  (standardTypeAEndpointOppositeSimplexIso g).inv ≫
-    standardTypeAEndpointOppositeSimplexToBoundary g
-
-noncomputable def standardTypeAEndpointLiteral_scaled_isPushout
-    (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    IsPushout
-      (standardTypeAEndpointLiteralHornToAmbientSource g)
-      (standardTypeAScaledHornGeneratorHom
-        (StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g))
-      (standardTypeAEndpointAmbientSourceToBoundary g)
-      (standardTypeAEndpointLiteralSimplexToBoundary g) := by
-  apply (standardTypeAEndpointOpposite_scaled_isPushout g).of_iso
-    (standardTypeAEndpointOppositeCornerIso g)
-    (Iso.refl _)
-    (standardTypeAEndpointOppositeSimplexIso g)
-    (Iso.refl _)
-  · simp [standardTypeAEndpointLiteralHornToAmbientSource, Category.assoc]
-  · exact (standardTypeAEndpointOppositeCellArrowIso g).hom.w
+  have h :
+      IsPushout
+        (standardTypeAEndpointOppositeCornerToAmbientSource g)
+        (standardTypeAEndpointOppositeCellHom g)
+        (generatedPushoutInl
+          (standardTypeAEndpointAmbientSourceScaling g)
+          (standardTypeAEndpointOppositeSimplexScaling g)
+          (standardTypeAEndpointAmbientSourceToBoundary g).map
+          (standardTypeAEndpointOppositeSimplexToBoundary g).map)
+        (generatedPushoutInr
+          (standardTypeAEndpointAmbientSourceScaling g)
+          (standardTypeAEndpointOppositeSimplexScaling g)
+          (standardTypeAEndpointAmbientSourceToBoundary g).map
+          (standardTypeAEndpointOppositeSimplexToBoundary g).map) :=
+    generatedPushout_isPushout
+      (standardTypeAEndpointOppositeCornerToAmbientSource g)
+      (standardTypeAEndpointOppositeCellHom g)
+      (standardTypeAEndpointAmbientSourceToBoundary g).map
+      (standardTypeAEndpointOppositeSimplexToBoundary g).map
+      (standardTypeAEndpointOppositeCarrier_isPushout g)
+  have hScaling :
+      generatedPushoutScaling
+          (standardTypeAEndpointAmbientSourceScaling g)
+          (standardTypeAEndpointOppositeSimplexScaling g)
+          (standardTypeAEndpointAmbientSourceToBoundary g).map
+          (standardTypeAEndpointOppositeSimplexToBoundary g).map =
+        standardTypeABoundaryPrismScaling.{u} g :=
+    standardTypeAEndpointOppositeGeneratedScaling_eq_boundary g
+  let eBoundary :
+      generatedPushoutTarget
+          (standardTypeAEndpointAmbientSourceScaling g)
+          (standardTypeAEndpointOppositeSimplexScaling g)
+          (standardTypeAEndpointAmbientSourceToBoundary g).map
+          (standardTypeAEndpointOppositeSimplexToBoundary g).map ≅
+        standardTypeABoundaryPrism g :=
+    scalingEqualityIso
+      (generatedPushoutScaling
+        (standardTypeAEndpointAmbientSourceScaling g)
+        (standardTypeAEndpointOppositeSimplexScaling g)
+        (standardTypeAEndpointAmbientSourceToBoundary g).map
+        (standardTypeAEndpointOppositeSimplexToBoundary g).map)
+      (standardTypeABoundaryPrismScaling.{u} g)
+      hScaling
+  refine h.of_iso
+    (Iso.refl (standardTypeAEndpointOppositeCorner g))
+    (Iso.refl (standardTypeAEndpointAmbientSource g))
+    (Iso.refl (standardTypeAEndpointOppositeSimplex g))
+    eBoundary ?_ ?_ ?_ ?_
   · simp
-  · simp [standardTypeAEndpointLiteralSimplexToBoundary, Category.assoc]
-
-local instance standardTypeAEndpointRawStep_respectsIso :
-    (standardABCRawCellularStep :
-      MorphismProperty (ScaledSSet.{u})).RespectsIso := by
-  unfold standardABCRawCellularStep
-  infer_instance
+  · simp
+  · change
+      generatedPushoutInl
+          (standardTypeAEndpointAmbientSourceScaling g)
+          (standardTypeAEndpointOppositeSimplexScaling g)
+          (standardTypeAEndpointAmbientSourceToBoundary g).map
+          (standardTypeAEndpointOppositeSimplexToBoundary g).map ≫ eBoundary.hom =
+        𝟙 _ ≫ standardTypeAEndpointAmbientSourceToBoundary g
+    rw [Category.id_comp]
+    apply ScaledSSet.ScaledMap.ext
+    change
+      (standardTypeAEndpointAmbientSourceToBoundary g).map ≫
+          (scalingEqualityIso
+            (generatedPushoutScaling
+              (standardTypeAEndpointAmbientSourceScaling g)
+              (standardTypeAEndpointOppositeSimplexScaling g)
+              (standardTypeAEndpointAmbientSourceToBoundary g).map
+              (standardTypeAEndpointOppositeSimplexToBoundary g).map)
+            (standardTypeABoundaryPrismScaling.{u} g)
+            hScaling).hom.map =
+        (standardTypeAEndpointAmbientSourceToBoundary g).map
+    rw [scalingEqualityIso_hom_map]
+    exact Category.comp_id _
+  · change
+      generatedPushoutInr
+          (standardTypeAEndpointAmbientSourceScaling g)
+          (standardTypeAEndpointOppositeSimplexScaling g)
+          (standardTypeAEndpointAmbientSourceToBoundary g).map
+          (standardTypeAEndpointOppositeSimplexToBoundary g).map ≫ eBoundary.hom =
+        𝟙 _ ≫ standardTypeAEndpointOppositeSimplexToBoundary g
+    rw [Category.id_comp]
+    apply ScaledSSet.ScaledMap.ext
+    change
+      (standardTypeAEndpointOppositeSimplexToBoundary g).map ≫
+          (scalingEqualityIso
+            (generatedPushoutScaling
+              (standardTypeAEndpointAmbientSourceScaling g)
+              (standardTypeAEndpointOppositeSimplexScaling g)
+              (standardTypeAEndpointAmbientSourceToBoundary g).map
+              (standardTypeAEndpointOppositeSimplexToBoundary g).map)
+            (standardTypeABoundaryPrismScaling.{u} g)
+            hScaling).hom.map =
+        (standardTypeAEndpointOppositeSimplexToBoundary g).map
+    rw [scalingEqualityIso_hom_map]
+    exact Category.comp_id _
 
 theorem standardTypeAEndpointAmbientSourceToBoundary_mem_rawCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
       (standardTypeAEndpointAmbientSourceToBoundary g) := by
-  let P : MorphismProperty (ScaledSSet.{u}) :=
-    MorphismProperty.coproducts.{u}
+  unfold standardABCRawCellularStep
+  exact
+    (MorphismProperty.coproducts.{u}
       (standardScaledAnodyneGeneratorsABC :
-        MorphismProperty (ScaledSSet.{u}))
-  have hA :
-      P (standardTypeAScaledHornGeneratorHom
-        (StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g)) :=
-    MorphismProperty.le_coproducts
-      (standardScaledAnodyneGeneratorsABC :
-        MorphismProperty (ScaledSSet.{u})) _
-      (standardTypeAGenerator_mem_ABC
-        (StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g))
-  change P.pushouts (standardTypeAEndpointAmbientSourceToBoundary g)
-  exact P.pushouts_mk
-    (standardTypeAEndpointLiteral_scaled_isPushout g) hA
+        MorphismProperty (ScaledSSet.{u}))).pushouts_mk
+      (standardTypeAEndpointOpposite_scaled_isPushout g)
+      (standardTypeAEndpointOppositeCellHom_mem_coproductsABC g)
 
 /-! ## Return to the actual v1.55 source -/
 
@@ -647,8 +753,19 @@ noncomputable def standardTypeAEndpointToBoundaryPrismArrowIsoAmbient
     (standardTypeAEndpointGeneratedSourceIsoAmbient g)
     (Iso.refl _) ?_
   apply ScaledSSet.ScaledMap.ext
-  ext d t
+  change
+    (standardTypeAEndpointGeneratedSourceIsoAmbient g).hom.map ≫
+        (standardTypeAEndpointAmbientSourceToBoundary g).map =
+      (standardTypeAEndpointToBoundaryPrism g).map
+  unfold standardTypeAEndpointGeneratedSourceIsoAmbient
+  rw [scalingEqualityIso_hom_map, Category.id_comp]
   rfl
+
+local instance standardTypeAEndpointRawStep_respectsIso :
+    (standardABCRawCellularStep :
+      MorphismProperty (ScaledSSet.{u})).RespectsIso := by
+  unfold standardABCRawCellularStep
+  infer_instance
 
 theorem standardTypeAEndpointToBoundaryPrism_mem_rawCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
@@ -669,19 +786,265 @@ theorem standardTypeAEndpointToBoundaryPrism_mem_strongCellular
       (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})) _
       (standardTypeAEndpointToBoundaryPrism_mem_rawCellular g)
 
-/-- The next theorem will be replaced by the explicit prefixed transfinite
-sequence once the literal opposite-endpoint pushout above is validated. -/
+/-! ## Prepend the endpoint A-step to the v1.76 alternating sequence -/
+
+def standardTypeAEndpointFullObj
+    (g : StandardTypeAHornAttachmentGeneratorIndex) : ℕ → ScaledSSet.{u}
+  | 0 => standardTypeAEndpointGeneratedPushoutSource g
+  | n + 1 => standardTypeABoundaryPrismAlternatingObj g n
+
+noncomputable def standardTypeAEndpointFullStep
+    (g : StandardTypeAHornAttachmentGeneratorIndex) :
+    (n : ℕ) →
+      standardTypeABoundaryPrismScaledCatHom
+        (standardTypeAEndpointFullObj g n)
+        (standardTypeAEndpointFullObj g (n + 1))
+  | 0 =>
+      standardTypeAEndpointToBoundaryPrism g ≫
+        (standardTypeABoundaryPrismAlternatingBotIso g).inv
+  | n + 1 => standardTypeABoundaryPrismAlternatingStep g n
+
+theorem standardTypeAEndpointFullStep_mem_rawCellular
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (n : ℕ) :
+    (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
+      (standardTypeAEndpointFullStep g n) := by
+  cases n with
+  | zero =>
+      change
+        (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
+          (standardTypeAEndpointToBoundaryPrism g ≫
+            (standardTypeABoundaryPrismAlternatingBotIso g).inv)
+      apply MorphismProperty.RespectsIso.postcomp
+      exact standardTypeAEndpointToBoundaryPrism_mem_rawCellular g
+  | succ n =>
+      change
+        (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
+          (standardTypeABoundaryPrismAlternatingStep g n)
+      exact standardTypeABoundaryPrismAlternatingStep_mem_rawCellular g n
+
+@[reducible]
+noncomputable def standardTypeAEndpointFullFunctor
+    (g : StandardTypeAHornAttachmentGeneratorIndex) :
+    ℕ ⥤ ScaledSSet.{u} :=
+  Functor.ofSequence (standardTypeAEndpointFullStep g)
+
+@[simp]
+theorem standardTypeAEndpointFullFunctor_map_succ
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (n : ℕ) :
+    (standardTypeAEndpointFullFunctor g).map
+        (homOfLE (Nat.le_add_right n 1)) =
+      standardTypeAEndpointFullStep g n := by
+  unfold standardTypeAEndpointFullFunctor
+  exact
+    Functor.ofSequence_map_homOfLE_succ
+      (C := ScaledSSet.{u})
+      (X := standardTypeAEndpointFullObj g)
+      (standardTypeAEndpointFullStep g) n
+
+noncomputable def standardTypeAEndpointFullToCylinder
+    (g : StandardTypeAHornAttachmentGeneratorIndex) :
+    (n : ℕ) →
+      standardTypeABoundaryPrismScaledCatHom
+        (standardTypeAEndpointFullObj g n)
+        (scaledSimplexCylinder (standardTypeASimplexScaling g.i))
+  | 0 => standardTypeAEndpointScaledLeibnizPushoutProductHom g
+  | n + 1 => standardTypeABoundaryPrismAlternatingToCylinder g n
+
+theorem standardTypeAEndpointFullStep_toCylinder
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (n : ℕ) :
+    standardTypeAEndpointFullStep g n ≫
+        standardTypeAEndpointFullToCylinder g (n + 1) =
+      standardTypeAEndpointFullToCylinder g n := by
+  cases n with
+  | zero =>
+      change
+        (standardTypeAEndpointToBoundaryPrism g ≫
+            (standardTypeABoundaryPrismAlternatingBotIso g).inv) ≫
+          standardTypeABoundaryPrismAlternatingToCylinder g 0 =
+        standardTypeAEndpointScaledLeibnizPushoutProductHom g
+      rw [Category.assoc]
+      have htail := (standardTypeABoundaryPrismRawTransfiniteComposition g).fac
+      change
+        (standardTypeABoundaryPrismAlternatingBotIso g).inv ≫
+            standardTypeABoundaryPrismAlternatingToCylinder g 0 =
+          standardTypeABoundaryPrismToCylinder g at htail
+      rw [htail]
+      exact standardTypeAEndpointLeibniz_factor_boundaryPrism g
+  | succ n =>
+      change
+        standardTypeABoundaryPrismAlternatingStep g n ≫
+            standardTypeABoundaryPrismAlternatingToCylinder g (n + 1) =
+          standardTypeABoundaryPrismAlternatingToCylinder g n
+      exact standardTypeABoundaryPrismAlternatingStep_toCylinder g n
+
+theorem standardTypeAEndpointFullToCylinder_succ_naturality
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (n : ℕ) :
+    (standardTypeAEndpointFullFunctor g).map
+          (homOfLE (Nat.le_add_right n 1)) ≫
+        standardTypeAEndpointFullToCylinder g (n + 1) =
+      standardTypeAEndpointFullToCylinder g n ≫
+        ((Functor.const ℕ).obj
+          (scaledSimplexCylinder (standardTypeASimplexScaling g.i))).map
+            (homOfLE (Nat.le_add_right n 1)) := by
+  rw [standardTypeAEndpointFullFunctor_map_succ,
+    Functor.const_obj_map, Category.comp_id]
+  exact standardTypeAEndpointFullStep_toCylinder g n
+
+@[reducible]
+noncomputable def standardTypeAEndpointFullCocone
+    (g : StandardTypeAHornAttachmentGeneratorIndex) :
+    Cocone (standardTypeAEndpointFullFunctor g) :=
+  Cocone.mk
+    (scaledSimplexCylinder (standardTypeASimplexScaling g.i))
+    (NatTrans.ofSequence
+      (F := standardTypeAEndpointFullFunctor g)
+      (G := (Functor.const ℕ).obj
+        (scaledSimplexCylinder (standardTypeASimplexScaling g.i)))
+      (standardTypeAEndpointFullToCylinder g)
+      (standardTypeAEndpointFullToCylinder_succ_naturality g))
+
+theorem standardTypeAEndpointFullCocone_step
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (s : Cocone (standardTypeAEndpointFullFunctor g))
+    (n : ℕ) :
+    standardTypeAEndpointFullStep g n ≫ s.ι.app (n + 1) =
+      s.ι.app n := by
+  have h := s.w (homOfLE (Nat.le_add_right n 1))
+  change
+    (standardTypeAEndpointFullFunctor g).map
+          (homOfLE (Nat.le_add_right n 1)) ≫ s.ι.app (n + 1) =
+      s.ι.app n ≫ 𝟙 _ at h
+  rw [standardTypeAEndpointFullFunctor_map_succ] at h
+  exact h.trans (Category.comp_id _)
+
+@[reducible]
+noncomputable def standardTypeAEndpointFullTailCocone
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (s : Cocone (standardTypeAEndpointFullFunctor g)) :
+    Cocone (standardTypeABoundaryPrismAlternatingFunctor g) :=
+  Cocone.mk s.pt
+    (NatTrans.ofSequence
+      (F := standardTypeABoundaryPrismAlternatingFunctor g)
+      (G := (Functor.const ℕ).obj s.pt)
+      (fun n => s.ι.app (n + 1))
+      (fun n => by
+        rw [standardTypeABoundaryPrismAlternatingFunctor_map_succ,
+          Functor.const_obj_map, Category.comp_id]
+        simpa [standardTypeAEndpointFullStep] using
+          standardTypeAEndpointFullCocone_step g s (n + 1)))
+
+noncomputable def standardTypeAEndpointFullCoconeIsColimit
+    (g : StandardTypeAHornAttachmentGeneratorIndex) :
+    IsColimit (standardTypeAEndpointFullCocone g) where
+  desc s :=
+    (standardTypeABoundaryPrismAlternatingCoconeIsColimit g).desc
+      (standardTypeAEndpointFullTailCocone g s)
+  fac s j := by
+    cases j with
+    | zero =>
+        have htail :=
+          (standardTypeABoundaryPrismAlternatingCoconeIsColimit g).fac
+            (standardTypeAEndpointFullTailCocone g s) 0
+        have hstep := standardTypeAEndpointFullCocone_step g s 0
+        change
+          standardTypeAEndpointFullToCylinder g 0 ≫
+              (standardTypeABoundaryPrismAlternatingCoconeIsColimit g).desc
+                (standardTypeAEndpointFullTailCocone g s) =
+            s.ι.app 0
+        calc
+          standardTypeAEndpointFullToCylinder g 0 ≫
+                (standardTypeABoundaryPrismAlternatingCoconeIsColimit g).desc
+                  (standardTypeAEndpointFullTailCocone g s) =
+              (standardTypeAEndpointFullStep g 0 ≫
+                  standardTypeAEndpointFullToCylinder g 1) ≫
+                (standardTypeABoundaryPrismAlternatingCoconeIsColimit g).desc
+                  (standardTypeAEndpointFullTailCocone g s) := by
+                    rw [standardTypeAEndpointFullStep_toCylinder]
+          _ = standardTypeAEndpointFullStep g 0 ≫
+                (standardTypeAEndpointFullToCylinder g 1 ≫
+                  (standardTypeABoundaryPrismAlternatingCoconeIsColimit g).desc
+                    (standardTypeAEndpointFullTailCocone g s)) := by
+                      simp only [Category.assoc]
+          _ = standardTypeAEndpointFullStep g 0 ≫ s.ι.app 1 := by
+                change
+                  standardTypeABoundaryPrismAlternatingToCylinder g 0 ≫
+                      (standardTypeABoundaryPrismAlternatingCoconeIsColimit g).desc
+                        (standardTypeAEndpointFullTailCocone g s) =
+                    s.ι.app 1 at htail
+                rw [htail]
+          _ = s.ι.app 0 := hstep
+    | succ n =>
+        have htail :=
+          (standardTypeABoundaryPrismAlternatingCoconeIsColimit g).fac
+            (standardTypeAEndpointFullTailCocone g s) n
+        change
+          standardTypeABoundaryPrismAlternatingToCylinder g n ≫
+              (standardTypeABoundaryPrismAlternatingCoconeIsColimit g).desc
+                (standardTypeAEndpointFullTailCocone g s) =
+            s.ι.app (n + 1)
+        exact htail
+  uniq s m hm := by
+    apply (standardTypeABoundaryPrismAlternatingCoconeIsColimit g).hom_ext
+    intro n
+    have hmn := hm (n + 1)
+    have hdesc :=
+      (standardTypeABoundaryPrismAlternatingCoconeIsColimit g).fac
+        (standardTypeAEndpointFullTailCocone g s) n
+    change
+      standardTypeABoundaryPrismAlternatingToCylinder g n ≫ m =
+        standardTypeABoundaryPrismAlternatingToCylinder g n ≫
+          (standardTypeABoundaryPrismAlternatingCoconeIsColimit g).desc
+            (standardTypeAEndpointFullTailCocone g s)
+    change
+      standardTypeABoundaryPrismAlternatingToCylinder g n ≫ m =
+        s.ι.app (n + 1) at hmn
+    change
+      standardTypeABoundaryPrismAlternatingToCylinder g n ≫
+          (standardTypeABoundaryPrismAlternatingCoconeIsColimit g).desc
+            (standardTypeAEndpointFullTailCocone g s) =
+        s.ι.app (n + 1) at hdesc
+    exact hmn.trans hdesc.symm
+
+noncomputable def standardTypeAEndpointRawTransfiniteComposition
+    (g : StandardTypeAHornAttachmentGeneratorIndex) :
+    MorphismProperty.TransfiniteCompositionOfShape
+      (C := ScaledSSet.{u})
+      (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u}))
+      ℕ (standardTypeAEndpointScaledLeibnizPushoutProductHom g) where
+  F := standardTypeAEndpointFullFunctor g
+  isoBot := Iso.refl (standardTypeAEndpointGeneratedPushoutSource g)
+  incl := (standardTypeAEndpointFullCocone g).ι
+  isColimit := standardTypeAEndpointFullCoconeIsColimit g
+  fac := by
+    change
+      (𝟙 (standardTypeAEndpointGeneratedPushoutSource g)) ≫
+          standardTypeAEndpointFullToCylinder g 0 =
+        standardTypeAEndpointScaledLeibnizPushoutProductHom g
+    simp [standardTypeAEndpointFullToCylinder]
+  map_mem j _ := by
+    have hhom :
+        (homOfLE (Order.le_succ j) : j ⟶ j + 1) =
+          homOfLE (Nat.le_add_right j 1) :=
+      Subsingleton.elim _ _
+    rw [hhom, standardTypeAEndpointFullFunctor_map_succ]
+    exact standardTypeAEndpointFullStep_mem_rawCellular g j
+
 theorem standardTypeAEndpointScaledLeibnizPushoutProductHom_mem_strongCellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u}))
       (standardTypeAEndpointScaledLeibnizPushoutProductHom g) := by
-  have hcomp :=
-    (standardABCStrongCellularClosure : MorphismProperty (ScaledSSet.{u})).comp_mem
-      (standardTypeAEndpointToBoundaryPrism g)
-      (standardTypeABoundaryPrismToCylinder g)
-      (standardTypeAEndpointToBoundaryPrism_mem_strongCellular g)
-      (standardTypeABoundaryPrismToCylinder_mem_strongCellular g)
-  simpa only [standardTypeAEndpointLeibniz_factor_boundaryPrism] using hcomp
+  unfold standardABCStrongCellularClosure
+  have h :=
+    (standardTypeAEndpointRawTransfiniteComposition g).ofOrderIso
+      (orderIsoShrink.{u} ℕ).symm
+  exact
+    (MorphismProperty.transfiniteCompositionsOfShape_le_transfiniteCompositions
+      (W := (standardABCRawCellularStep : MorphismProperty (ScaledSSet.{u})))
+      (Shrink.{u} ℕ)) _ h.mem
 
 theorem standardTypeAEndpointScaledLeibnizPushoutProductHom_mem_cellular
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
