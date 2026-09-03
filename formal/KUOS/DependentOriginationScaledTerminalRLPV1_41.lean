@@ -143,8 +143,10 @@ theorem ScaledMap.ext
           rfl
 
 instance : Category (ScaledSSet.{u}) where
-  id X := ⟨𝟙 X.carrier, isScaledMap_id X.scaling⟩
-  comp f g := ⟨f.map ≫ g.map, f.scaled.comp g.scaled⟩
+  toCategoryStruct :=
+    { toQuiver := inferInstance
+      id := fun X => ⟨𝟙 X.carrier, isScaledMap_id X.scaling⟩
+      comp := fun f g => ⟨f.map ≫ g.map, f.scaled.comp g.scaled⟩ }
   id_comp := by
     intro X Y f
     apply ScaledMap.ext
