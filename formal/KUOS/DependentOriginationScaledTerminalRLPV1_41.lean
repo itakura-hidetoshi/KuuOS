@@ -1,6 +1,5 @@
 import KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
 import Mathlib.CategoryTheory.LiftingProperties.Basic
-import Mathlib.Combinatorics.Quiver.ReflQuiver
 
 namespace KUOS.DependentOriginationScaledTerminalRLPV1_41
 
@@ -159,13 +158,6 @@ instance : Category (ScaledSSet.{u}) where
     apply ScaledMap.ext
     change (f.map ≫ g.map) ≫ h.map = f.map ≫ g.map ≫ h.map
     simp
-
-/-- Mathlib currently obtains a `ReflQuiver` from a category by structure
-copying.  Reuse the category's quiver explicitly so every `ScaledSSet`
-morphism notation has one definitionally coherent Hom family under Lean 4.31. -/
-instance (priority := 1100) : ReflQuiver (ScaledSSet.{u}) where
-  toQuiver := (inferInstance : Category (ScaledSSet.{u})).toCategoryStruct.toQuiver
-  id := fun X => 𝟙 X
 
 @[simp]
 theorem id_map (X : ScaledSSet.{u}) :
