@@ -139,7 +139,7 @@ theorem ScaledMap.ext
           cases h
           rfl
 
-instance : Category (ScaledSSet.{u}) where
+@[reducible] instance : Category (ScaledSSet.{u}) where
   Hom := ScaledMap
   id := fun X => ⟨𝟙 X.carrier, isScaledMap_id X.scaling⟩
   comp := fun f g => ⟨f.map ≫ g.map, f.scaled.comp g.scaled⟩
