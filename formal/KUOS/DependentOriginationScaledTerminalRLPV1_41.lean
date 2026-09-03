@@ -159,13 +159,14 @@ theorem ScaledMap.ext
     change (f.map ≫ g.map) ≫ h.map = f.map ≫ g.map ≫ h.map
     simp
 
-/-- Expose the category's own quiver directly.  Mathlib 4.31 constructs the
-reflexive quiver of a category by structure-copying (`{ inst with }`); without
-this direct alias, bare morphism notation can therefore select a distinct
-`ReflQuiver.toQuiver` projection.  This instance creates no new Hom family: it
-is definitionally the `toQuiver` already owned by `Category ScaledSSet`. -/
-@[reducible] instance (priority := 2000) : Quiver (ScaledSSet.{u}) :=
-  (inferInstance : Category (ScaledSSet.{u})).toCategoryStruct.toQuiver
+/-- Use the category's exact quiver inside the reflexive-quiver layer.
+Mathlib 4.31 normally builds `catToReflQuiver` by structure-copying a category;
+that copy yields a distinct `toQuiver` projection at instance transparency.
+This direct instance keeps the reflexive identity data while reusing exactly
+the `toQuiver` already owned by `Category ScaledSSet`. -/
+@[reducible] instance (priority := 2000) : ReflQuiver (ScaledSSet.{u}) where
+  toQuiver := (inferInstance : Category (ScaledSSet.{u})).toQuiver
+  id := fun X => ⟨𝟙 X.carrier, isScaledMap_id X.scaling⟩
 
 @[simp]
 theorem id_map (X : ScaledSSet.{u}) :
