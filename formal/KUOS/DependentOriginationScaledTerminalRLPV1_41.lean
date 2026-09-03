@@ -159,6 +159,14 @@ instance : Category (ScaledSSet.{u}) where
     change (f.map ≫ g.map) ≫ h.map = f.map ≫ g.map ≫ h.map
     simp
 
+/-- Expose the category's own quiver directly.  Mathlib 4.31 constructs the
+reflexive quiver of a category by structure-copying (`{ inst with }`); without
+this direct alias, bare morphism notation can therefore select a distinct
+`ReflQuiver.toQuiver` projection.  This instance creates no new Hom family: it
+is definitionally the `toQuiver` already owned by `Category ScaledSSet`. -/
+@[reducible] instance (priority := 2000) : Quiver (ScaledSSet.{u}) :=
+  (inferInstance : Category (ScaledSSet.{u})).toCategoryStruct.toQuiver
+
 @[simp]
 theorem id_map (X : ScaledSSet.{u}) :
     (𝟙 X : X ⟶ X).map = 𝟙 X.carrier := rfl
