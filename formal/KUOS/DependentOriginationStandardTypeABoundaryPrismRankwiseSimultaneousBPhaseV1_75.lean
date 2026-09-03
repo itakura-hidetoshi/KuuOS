@@ -933,23 +933,22 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
         t ∈
           Set.range
               ((SSet.Subcomplex.homOfLE
-                ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone
+                ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
                   (Order.le_succ j))).app (op ⦋2⦌)) ⊔
             Set.range
-              (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app
+              (((standardTypeABoundaryPrismRankFunction g).b j).app
                 (op ⦋2⦌)) := by
-      rw [
-        (standardTypeABoundaryPrismRankFunction.{u} g).
-          range_homOfLE_app_union_range_b_app j (op ⦋2⦌)]
+      rw [(standardTypeABoundaryPrismRankFunction g).range_homOfLE_app_union_range_b_app
+        j (op ⦋2⦌)]
       exact Set.mem_univ t
     change
       t ∈
         Set.range
             ((SSet.Subcomplex.homOfLE
-              ((standardTypeABoundaryPrismRankFunction.{u} g).filtration_monotone
+              ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
                 (Order.le_succ j))).app (op ⦋2⦌)) ∪
           Set.range
-            (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app
+            (((standardTypeABoundaryPrismRankFunction g).b j).app
               (op ⦋2⦌)) at hmem
     rcases hmem with ⟨x, rfl⟩ | ⟨y, rfl⟩
     · have hx : (standardTypeABoundaryPrismRankStageScaling g j).thin x := by
