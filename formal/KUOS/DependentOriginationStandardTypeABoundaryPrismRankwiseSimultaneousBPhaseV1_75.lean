@@ -1070,30 +1070,29 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
                   (op ⦋2⦌) y
             rw [← hz]
             have hdesc :
+                (standardTypeABoundaryPrismRankBTargetSigmaInclusion.{u} g j b).map ≫
+                    (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map =
+                  (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map := by
+              change
                 Sigma.ι
                     (fun _ : StandardTypeABoundaryPrismRankBCell.{u} g j =>
                       (Δ[4] : SSet.{u})) b ≫
                     Sigma.desc
                       (fun b : StandardTypeABoundaryPrismRankBCell.{u} g j =>
                         (standardTypeABoundaryPrismRankBCellTargetToSucc g j b).map) =
-                  (standardTypeABoundaryPrismRankBCellTargetToSucc g j b).map := by
+                  (standardTypeABoundaryPrismRankBCellTargetToSucc g j b).map
               exact Sigma.ι_desc _ b
             have hdescApp :=
               ConcreteCategory.congr_hom
                 (congr_app hdesc (op ⦋2⦌)) x
-            change
-              (Sigma.desc
-                (fun b : StandardTypeABoundaryPrismRankBCell.{u} g j =>
-                  (standardTypeABoundaryPrismRankBCellTargetToSucc g j b).map)).app
-                  (op ⦋2⦌)
-                  ((Sigma.ι
-                    (fun _ : StandardTypeABoundaryPrismRankBCell.{u} g j =>
-                      (Δ[4] : SSet.{u})) b).app (op ⦋2⦌) x) =
-                ((standardTypeABoundaryPrismRankFunction.{u} g).b j).app
-                  (op ⦋2⦌)
-                  (c.ιSigmaStdSimplex.app (op ⦋2⦌) z)
-            simp only [NatTrans.comp_app_apply] at hdescApp
-            rw [hdescApp, hxmap]
+            have hyB :
+                (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map.app
+                    (op ⦋2⦌) yB =
+                  (standardTypeABoundaryPrismRankBCellTargetToSucc.{u} g j b).map.app
+                    (op ⦋2⦌) x := by
+              simpa only [standardTypeABoundaryPrismRankBTargetSigmaInclusion,
+                yB, NatTrans.comp_app_apply] using hdescApp
+            rw [hyB, hxmap]
             simpa only [NatTrans.comp_app_apply] using hb.symm
       · rcases standardTypeABoundaryPrismRankBCell_exactThin_generated
           g j (.q23 c h23) z hzcell with hphase | ⟨x, hx, hxmap⟩
