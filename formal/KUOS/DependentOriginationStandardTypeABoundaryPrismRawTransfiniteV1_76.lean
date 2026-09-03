@@ -333,12 +333,14 @@ local instance standardTypeABoundaryPrismRawStep_respectsIso :
 noncomputable def standardTypeABoundaryPrismAlternatingStep
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (n : ℕ) :
-    standardTypeABoundaryPrismAlternatingObj g n ⟶
-      standardTypeABoundaryPrismAlternatingObj g (n + 1) :=
+    ScaledSSet.ScaledMap
+      (standardTypeABoundaryPrismAlternatingObj g n)
+      (standardTypeABoundaryPrismAlternatingObj g (n + 1)) :=
   Nat.bitCasesOn
     (motive := fun n =>
-      standardTypeABoundaryPrismAlternatingObj g n ⟶
-        standardTypeABoundaryPrismAlternatingObj g (n + 1))
+      ScaledSSet.ScaledMap
+        (standardTypeABoundaryPrismAlternatingObj g n)
+        (standardTypeABoundaryPrismAlternatingObj g (n + 1)))
     n (fun b j =>
       match b with
       | false =>
@@ -417,12 +419,14 @@ theorem standardTypeABoundaryPrismAlternatingFunctor_map_succ
 noncomputable def standardTypeABoundaryPrismAlternatingToCylinder
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (n : ℕ) :
-    standardTypeABoundaryPrismAlternatingObj g n ⟶
-      scaledSimplexCylinder (standardTypeASimplexScaling g.i) :=
+    ScaledSSet.ScaledMap
+      (standardTypeABoundaryPrismAlternatingObj g n)
+      (scaledSimplexCylinder (standardTypeASimplexScaling g.i)) :=
   Nat.bitCasesOn
     (motive := fun n =>
-      standardTypeABoundaryPrismAlternatingObj g n ⟶
-        scaledSimplexCylinder (standardTypeASimplexScaling g.i))
+      ScaledSSet.ScaledMap
+        (standardTypeABoundaryPrismAlternatingObj g n)
+        (scaledSimplexCylinder (standardTypeASimplexScaling g.i)))
     n (fun b j =>
       match b with
       | false =>
@@ -530,6 +534,22 @@ theorem standardTypeABoundaryPrismAlternatingStep_toCylinder
           simp only [Category.assoc,
             standardTypeABoundaryPrismAlternatingTrueSucc_toCylinder]
 
+/-- Successor naturality is kept as a named theorem so the alternating cocone
+stores only an opaque theorem reference rather than a large anonymous proof. -/
+theorem standardTypeABoundaryPrismAlternatingToCylinder_succ_naturality
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (n : ℕ) :
+    (standardTypeABoundaryPrismAlternatingFunctor g).map
+          (homOfLE (Nat.le_add_right n 1)) ≫
+        standardTypeABoundaryPrismAlternatingToCylinder g (n + 1) =
+      standardTypeABoundaryPrismAlternatingToCylinder g n ≫
+        ((Functor.const ℕ).obj
+          (scaledSimplexCylinder (standardTypeASimplexScaling g.i))).map
+            (homOfLE (Nat.le_add_right n 1)) := by
+  rw [standardTypeABoundaryPrismAlternatingFunctor_map_succ,
+    Functor.const_obj_map, Category.comp_id]
+  exact standardTypeABoundaryPrismAlternatingStep_toCylinder g n
+
 @[reducible]
 noncomputable def standardTypeABoundaryPrismAlternatingCocone
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
@@ -541,16 +561,7 @@ noncomputable def standardTypeABoundaryPrismAlternatingCocone
       (G := (Functor.const ℕ).obj
         (scaledSimplexCylinder (standardTypeASimplexScaling g.i)))
       (standardTypeABoundaryPrismAlternatingToCylinder g)
-      (fun n => by
-        rw [standardTypeABoundaryPrismAlternatingFunctor_map_succ,
-          Functor.const_obj_map]
-        apply ScaledSSet.ScaledMap.ext
-        change
-          (standardTypeABoundaryPrismAlternatingStep g n).map ≫
-              (standardTypeABoundaryPrismAlternatingToCylinder g (n + 1)).map =
-            (standardTypeABoundaryPrismAlternatingToCylinder g n).map
-        exact congrArg ScaledSSet.ScaledMap.map
-          (standardTypeABoundaryPrismAlternatingStep_toCylinder g n)))
+      (standardTypeABoundaryPrismAlternatingToCylinder_succ_naturality g))
 
 @[simp]
 theorem standardTypeABoundaryPrismAlternatingCocone_ι_app
@@ -565,7 +576,7 @@ noncomputable def standardTypeABoundaryPrismAlternatingEvenLeg
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (s : Cocone (standardTypeABoundaryPrismAlternatingFunctor g))
     (j : ℕ) :
-    standardTypeABoundaryPrismRankStage g j ⟶ s.pt :=
+    ScaledSSet.ScaledMap (standardTypeABoundaryPrismRankStage g j) s.pt :=
   (standardTypeABoundaryPrismAlternatingEvenIso g j).inv ≫
     s.ι.app (Nat.bit false j)
 
@@ -573,7 +584,7 @@ noncomputable def standardTypeABoundaryPrismAlternatingOddLeg
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (s : Cocone (standardTypeABoundaryPrismAlternatingFunctor g))
     (j : ℕ) :
-    standardTypeABoundaryPrismRankAPhase g j ⟶ s.pt :=
+    ScaledSSet.ScaledMap (standardTypeABoundaryPrismRankAPhase g j) s.pt :=
   (standardTypeABoundaryPrismAlternatingOddIso g j).inv ≫
     s.ι.app (Nat.bit true j)
 
@@ -584,16 +595,9 @@ theorem standardTypeABoundaryPrismAlternatingCocone_step
     (n : ℕ) :
     standardTypeABoundaryPrismAlternatingStep g n ≫ s.ι.app (n + 1) =
       s.ι.app n := by
-  apply ScaledSSet.ScaledMap.ext
-  have h := congrArg ScaledSSet.ScaledMap.map
-    (s.w (homOfLE (Nat.le_add_right n 1)))
-  change
-    ((standardTypeABoundaryPrismAlternatingFunctor g).map
-        (homOfLE (Nat.le_add_right n 1))).map ≫
-        (s.ι.app (n + 1)).map =
-      (s.ι.app n).map at h
-  rw [standardTypeABoundaryPrismAlternatingFunctor_map_succ] at h
-  exact h
+  have h := s.w (homOfLE (Nat.le_add_right n 1))
+  simpa only [standardTypeABoundaryPrismAlternatingFunctor_map_succ,
+    Functor.const_obj_map, Category.comp_id] using h
 
 /-- Equality of sequence indices transports every cocone leg canonically. -/
 theorem standardTypeABoundaryPrismAlternatingCocone_transport
@@ -771,6 +775,22 @@ theorem standardTypeABoundaryPrismAlternatingEvenLeg_succ
     standardTypeABoundaryPrismAlternatingOddLeg_eq g s j,
     standardTypeABoundaryPrismAlternatingA_leg_eq g s j]
 
+/-- The rank subsequence inherits its successor equation as a named naturality
+law, keeping the reconstructed rank cocone kernel-small. -/
+theorem standardTypeABoundaryPrismAlternatingEvenLeg_succ_naturality
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (s : Cocone (standardTypeABoundaryPrismAlternatingFunctor g))
+    (j : ℕ) :
+    (standardTypeABoundaryPrismScaledRankFunctor g).map
+          (homOfLE (Nat.le_add_right j 1)) ≫
+        standardTypeABoundaryPrismAlternatingEvenLeg g s (j + 1) =
+      standardTypeABoundaryPrismAlternatingEvenLeg g s j ≫
+        ((Functor.const ℕ).obj s.pt).map
+          (homOfLE (Nat.le_add_right j 1)) := by
+  rw [standardTypeABoundaryPrismScaledRankFunctor_map_succ,
+    Functor.const_obj_map, Category.comp_id]
+  exact standardTypeABoundaryPrismAlternatingEvenLeg_succ g s j
+
 @[reducible]
 noncomputable def standardTypeABoundaryPrismRankCoconeOfAlternatingCocone
     (g : StandardTypeAHornAttachmentGeneratorIndex)
@@ -781,16 +801,7 @@ noncomputable def standardTypeABoundaryPrismRankCoconeOfAlternatingCocone
       (F := standardTypeABoundaryPrismScaledRankFunctor g)
       (G := (Functor.const ℕ).obj s.pt)
       (standardTypeABoundaryPrismAlternatingEvenLeg g s)
-      (fun j => by
-        rw [standardTypeABoundaryPrismScaledRankFunctor_map_succ,
-          Functor.const_obj_map]
-        apply ScaledSSet.ScaledMap.ext
-        change
-          (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map ≫
-              (standardTypeABoundaryPrismAlternatingEvenLeg g s (j + 1)).map =
-            (standardTypeABoundaryPrismAlternatingEvenLeg g s j).map
-        exact congrArg ScaledSSet.ScaledMap.map
-          (standardTypeABoundaryPrismAlternatingEvenLeg_succ g s j)))
+      (standardTypeABoundaryPrismAlternatingEvenLeg_succ_naturality g s))
 
 /-! ## Inserting the A-phases does not change the colimit -/
 
@@ -798,7 +809,8 @@ noncomputable def standardTypeABoundaryPrismRankCoconeOfAlternatingCocone
 noncomputable def standardTypeABoundaryPrismAlternatingDesc
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (s : Cocone (standardTypeABoundaryPrismAlternatingFunctor g)) :
-    scaledSimplexCylinder (standardTypeASimplexScaling g.i) ⟶ s.pt :=
+    ScaledSSet.ScaledMap
+      (scaledSimplexCylinder (standardTypeASimplexScaling g.i)) s.pt :=
   (standardTypeABoundaryPrismScaledRankCoconeIsColimit g).desc
     (standardTypeABoundaryPrismRankCoconeOfAlternatingCocone g s)
 
