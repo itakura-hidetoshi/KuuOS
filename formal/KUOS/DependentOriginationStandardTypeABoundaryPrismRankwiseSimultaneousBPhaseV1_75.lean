@@ -984,14 +984,30 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
         (congr_app c.ι_b (op ⦋2⦌)) z
       have hzcell :
           (standardTypeABoundaryPrismCellScaling g j c).thin z := by
-        rw [hz] at ht
-        rw [show
-          ((standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌)
-              (c.ιSigmaStdSimplex.app (op ⦋2⦌) z) =
-            c.mapToSucc.app (op ⦋2⦌) z by
-              simpa only [NatTrans.comp_app_apply] using hb] at ht
+        have hzy :
+            ((standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌)
+                (c.ιSigmaStdSimplex.app (op ⦋2⦌) z) =
+              ((standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌) y :=
+          congrArg
+            (fun w =>
+              ((standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌) w)
+            hz
+        have htι :
+            (standardTypeABoundaryPrismRankStageScaling g (j + 1)).thin
+              (((standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌)
+                (c.ιSigmaStdSimplex.app (op ⦋2⦌) z)) := by
+          exact hzy.symm ▸ ht
+        have hb' :
+            ((standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌)
+                (c.ιSigmaStdSimplex.app (op ⦋2⦌) z) =
+              c.mapToSucc.app (op ⦋2⦌) z := by
+          simpa only [NatTrans.comp_app_apply] using hb
+        have htSucc :
+            (standardTypeABoundaryPrismRankStageScaling g (j + 1)).thin
+              (c.mapToSucc.app (op ⦋2⦌) z) := by
+          exact hb' ▸ htι
         rw [← standardTypeABoundaryPrismRankSuccScaling_pullback_cell g j c]
-        exact ht
+        exact htSucc
       rcases standardTypeABoundaryPrismCellCompletion_complete_classification
           g j c with hpure | h12 | h23
       · have hzA :
