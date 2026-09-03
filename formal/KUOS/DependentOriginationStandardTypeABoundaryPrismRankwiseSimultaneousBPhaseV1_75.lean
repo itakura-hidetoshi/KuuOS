@@ -909,11 +909,11 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ) :
     generatedPushoutScaling
-        (standardTypeABoundaryPrismRankAPhaseScaling g j)
-        (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)
+        (standardTypeABoundaryPrismRankAPhaseScaling.{u} g j)
+        (standardTypeABoundaryPrismRankBTargetSigmaScaling.{u} g j)
         (𝟙 _)
-        (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map =
-      standardTypeABoundaryPrismRankStageScaling g (j + 1) := by
+        (standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map =
+      standardTypeABoundaryPrismRankStageScaling.{u} g (j + 1) := by
   apply scaling_eq_of_le_antisymm
   · intro t ht
     rcases ht with hmin | ⟨x, hx, hxt⟩ | ⟨y, hy, hyt⟩
