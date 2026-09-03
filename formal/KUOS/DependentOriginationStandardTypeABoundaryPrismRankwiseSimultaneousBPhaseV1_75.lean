@@ -1038,8 +1038,22 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
       · rcases standardTypeABoundaryPrismRankBCell_exactThin_generated
           g j (.q12 c h12) z hzcell with hphase | ⟨x, hx, hxmap⟩
         · refine Or.inr (Or.inl ⟨c.mapToSucc.app (op ⦋2⦌) z, hphase, ?_⟩)
-          simpa only [Functor.id_obj, NatTrans.id_app, id_eq,
-            CategoryTheory.FunctorToTypes.map_id_apply] using hb.symm
+          have htarget :
+              c.mapToSucc.app (op ⦋2⦌) z =
+                ((standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌) y := by
+            calc
+              c.mapToSucc.app (op ⦋2⦌) z =
+                  ((standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌)
+                    (c.ιSigmaStdSimplex.app (op ⦋2⦌) z) := by
+                simpa only [NatTrans.comp_app_apply] using hb.symm
+              _ = ((standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌) y :=
+                congrArg
+                  (fun w =>
+                    ((standardTypeABoundaryPrismRankFunction g).b j).app (op ⦋2⦌) w)
+                  hz
+          simp only [NatTrans.id_app, ConcreteCategory.id_apply]
+          apply Subtype.ext
+          exact congrArg Subtype.val htarget
         · right
           right
           let b : StandardTypeABoundaryPrismRankBCell.{u} g j := .q12 c h12
