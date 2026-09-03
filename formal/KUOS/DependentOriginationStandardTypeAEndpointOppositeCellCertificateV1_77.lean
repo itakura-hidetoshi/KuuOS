@@ -192,14 +192,24 @@ theorem intervalEndpoint_inf_rev_eq_bot (ε : Fin 2) :
     rw [intervalEndpoint_zero_eq_face_one.{u},
       intervalEndpoint_one_eq_face_zero.{u},
       SSet.stdSimplex.face_inter_face]
-    simp
+    have h :
+        ({(1 : Fin 2)}ᶜ ∩ {(0 : Fin 2)}ᶜ : Finset (Fin 2)) = ∅ := by
+      ext i
+      fin_cases i <;> simp
+    rw [h]
+    exact SSet.stdSimplex.face_empty 1
   · change
       intervalEndpoint.{u} (1 : Fin 2) ⊓
           intervalEndpoint.{u} (0 : Fin 2) = ⊥
     rw [intervalEndpoint_one_eq_face_zero.{u},
       intervalEndpoint_zero_eq_face_one.{u},
       SSet.stdSimplex.face_inter_face]
-    simp
+    have h :
+        ({(0 : Fin 2)}ᶜ ∩ {(1 : Fin 2)}ᶜ : Finset (Fin 2)) = ∅ := by
+      ext i
+      fin_cases i <;> simp
+    rw [h]
+    exact SSet.stdSimplex.face_empty 1
 
 theorem intervalBoundary_eq_endpoint_zero_sup_one :
     (∂Δ[1] : (Δ[1] : SSet.{u}).Subcomplex) =
@@ -263,30 +273,23 @@ def standardTypeAEndpointOppositeCarrierBicartSq
       intervalBoundary_eq_endpoint_sup_rev.{u} g.endpoint]
     ext d z
     rcases z with ⟨x, y⟩
+    unfold standardTypeAEndpointOppositeSimplexSubcomplex
     simp only [CategoryTheory.Subfunctor.max_obj, Set.mem_union,
-      SSet.Subcomplex.mem_unionProd_iff]
-    change
-      ((x ∈ Set.univ ∧ y ∈ (intervalEndpoint.{u} g.endpoint.rev).obj d) ∨
-        (y ∈ (intervalEndpoint.{u} g.endpoint).obj d ∨
-          x ∈ (SSet.horn g.n g.i).obj d)) ↔
-        (y ∈
-            (intervalEndpoint.{u} g.endpoint ⊔
-              intervalEndpoint.{u} g.endpoint.rev).obj d ∨
-          x ∈ (SSet.horn g.n g.i).obj d)
-    rw [CategoryTheory.Subfunctor.max_obj]
-    simp only [Set.mem_univ, true_and, Set.mem_union]
+      SSet.Subcomplex.prod_obj, Set.mem_prod,
+      SSet.Subcomplex.mem_unionProd_iff,
+      CategoryTheory.Subfunctor.top_obj, Set.top_eq_univ,
+      Set.mem_univ, true_and]
     tauto
   inf_eq := by
     ext d z
     rcases z with ⟨x, y⟩
+    unfold standardTypeAEndpointOppositeSimplexSubcomplex
+    unfold standardTypeAEndpointOppositeCornerSubcomplex
     simp only [CategoryTheory.Subfunctor.min_obj, Set.mem_inter_iff,
-      SSet.Subcomplex.mem_unionProd_iff]
-    change
-      ((x ∈ Set.univ ∧ y ∈ (intervalEndpoint.{u} g.endpoint.rev).obj d) ∧
-        (y ∈ (intervalEndpoint.{u} g.endpoint).obj d ∨
-          x ∈ (SSet.horn g.n g.i).obj d)) ↔
-        (x ∈ (SSet.horn g.n g.i).obj d ∧
-          y ∈ (intervalEndpoint.{u} g.endpoint.rev).obj d)
+      SSet.Subcomplex.prod_obj, Set.mem_prod,
+      SSet.Subcomplex.mem_unionProd_iff,
+      CategoryTheory.Subfunctor.top_obj, Set.top_eq_univ,
+      Set.mem_univ, true_and]
     have hdis :
         ¬ (y ∈ (intervalEndpoint.{u} g.endpoint).obj d ∧
           y ∈ (intervalEndpoint.{u} g.endpoint.rev).obj d) := by
@@ -298,7 +301,6 @@ def standardTypeAEndpointOppositeCarrierBicartSq
         exact h
       rw [intervalEndpoint_inf_rev_eq_bot.{u} g.endpoint] at hm
       simpa using hm
-    simp only [Set.mem_univ, true_and]
     tauto
 
 noncomputable def standardTypeAEndpointOppositeCarrier_isPushout
@@ -790,11 +792,11 @@ noncomputable def standardTypeAEndpointOpposite_scaled_isPushout
     (Iso.refl (standardTypeABoundaryPrism.{u} g)) ?_ ?_ ?_ ?_
   · simp [standardTypeAEndpointStandardCornerToSource, Category.assoc]
   · exact (standardTypeAEndpointOppositeCellArrowIso.{u} g).hom.w.symm
-  · rw [Category.comp_id]
-    apply (cancel_epi
+  · apply (cancel_epi
       (standardTypeAEndpointGeneratedSourceIsoAmbient.{u} g).hom).1
-    simp only [Category.assoc, Iso.hom_inv_id_assoc]
-    exact standardTypeAEndpointGeneratedSourceIsoAmbient_hom_boundary.{u} g
+    simpa only [Category.assoc, Iso.hom_inv_id_assoc, Iso.refl_hom,
+      Category.comp_id] using
+      standardTypeAEndpointGeneratedSourceIsoAmbient_hom_boundary.{u} g
   · simp [standardTypeAEndpointStandardSimplexToBoundary, Category.assoc]
 
 theorem standardTypeAEndpointToBoundaryPrism_mem_rawCellular
@@ -827,7 +829,7 @@ theorem standardTypeAEndpointToBoundaryPrism_mem_strongCellular
 
 @[reducible]
 def standardTypeAEndpointFullObj
-    (g : StandardTypeAHornAttachmentGeneratorIndex) : ℕ → ScaledSSet.{u} :=
+    (g : StandardTypeAHornAttachmentGeneratorIndex) : ℕ → ScaledSSet.{u}
   | 0 => standardTypeAEndpointGeneratedPushoutSource.{u} g
   | Nat.succ n => standardTypeABoundaryPrismAlternatingObj.{u} g n
 
@@ -837,7 +839,7 @@ noncomputable def standardTypeAEndpointFullStep
     (n : ℕ) →
       standardTypeABoundaryPrismScaledCatHom
         (standardTypeAEndpointFullObj.{u} g n)
-        (standardTypeAEndpointFullObj.{u} g (n + 1)) :=
+        (standardTypeAEndpointFullObj.{u} g (n + 1))
   | 0 =>
       standardTypeAEndpointToBoundaryPrism.{u} g ≫
         (standardTypeABoundaryPrismAlternatingBotIso.{u} g).inv
@@ -894,7 +896,7 @@ noncomputable def standardTypeAEndpointFullToCylinder
     (n : ℕ) →
       standardTypeABoundaryPrismScaledCatHom
         (standardTypeAEndpointFullObj.{u} g n)
-        (scaledSimplexCylinder (standardTypeASimplexScaling g.i)) :=
+        (scaledSimplexCylinder (standardTypeASimplexScaling g.i))
   | 0 => standardTypeAEndpointScaledLeibnizPushoutProductHom.{u} g
   | Nat.succ n => standardTypeABoundaryPrismAlternatingToCylinder.{u} g n
 
