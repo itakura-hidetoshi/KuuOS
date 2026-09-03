@@ -150,14 +150,17 @@ instance : Category (ScaledSSet.{u}) where
   id_comp := by
     intro X Y f
     apply ScaledMap.ext
+    change (𝟙 X.carrier) ≫ f.map = f.map
     simp
   comp_id := by
     intro X Y f
     apply ScaledMap.ext
+    change f.map ≫ 𝟙 Y.carrier = f.map
     simp
   assoc := by
     intro W X Y Z f g h
     apply ScaledMap.ext
+    change (f.map ≫ g.map) ≫ h.map = f.map ≫ g.map ≫ h.map
     simp
 
 @[simp]
