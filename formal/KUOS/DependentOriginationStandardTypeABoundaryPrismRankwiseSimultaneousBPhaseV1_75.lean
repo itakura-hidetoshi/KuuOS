@@ -1068,7 +1068,7 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
                   (op ⦋2⦌) yB =
                 ((standardTypeABoundaryPrismRankFunction.{u} g).b j).app
                   (op ⦋2⦌) y
-            rw [hz]
+            rw [← hz]
             change
               (standardTypeABoundaryPrismRankBCellTargetToSucc g j b).map.app
                   (op ⦋2⦌) x =
