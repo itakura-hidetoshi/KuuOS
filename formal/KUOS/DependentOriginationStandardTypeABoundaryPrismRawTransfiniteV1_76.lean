@@ -544,7 +544,13 @@ noncomputable def standardTypeABoundaryPrismAlternatingCocone
       (fun n => by
         rw [standardTypeABoundaryPrismAlternatingFunctor_map_succ,
           Functor.const_obj_map]
-        simpa using standardTypeABoundaryPrismAlternatingStep_toCylinder g n))
+        apply ScaledSSet.ScaledMap.ext
+        change
+          (standardTypeABoundaryPrismAlternatingStep g n).map ≫
+              (standardTypeABoundaryPrismAlternatingToCylinder g (n + 1)).map =
+            (standardTypeABoundaryPrismAlternatingToCylinder g n).map
+        exact congrArg ScaledSSet.ScaledMap.map
+          (standardTypeABoundaryPrismAlternatingStep_toCylinder g n)))
 
 @[simp]
 theorem standardTypeABoundaryPrismAlternatingCocone_ι_app
@@ -578,10 +584,16 @@ theorem standardTypeABoundaryPrismAlternatingCocone_step
     (n : ℕ) :
     standardTypeABoundaryPrismAlternatingStep g n ≫ s.ι.app (n + 1) =
       s.ι.app n := by
-  have h := s.w (homOfLE (Nat.le_add_right n 1))
-  rw [standardTypeABoundaryPrismAlternatingFunctor_map_succ,
-    Functor.const_obj_map] at h
-  simpa using h
+  apply ScaledSSet.ScaledMap.ext
+  have h := congrArg ScaledSSet.ScaledMap.map
+    (s.w (homOfLE (Nat.le_add_right n 1)))
+  change
+    ((standardTypeABoundaryPrismAlternatingFunctor g).map
+        (homOfLE (Nat.le_add_right n 1))).map ≫
+        (s.ι.app (n + 1)).map =
+      (s.ι.app n).map at h
+  rw [standardTypeABoundaryPrismAlternatingFunctor_map_succ] at h
+  exact h
 
 /-- Equality of sequence indices transports every cocone leg canonically. -/
 theorem standardTypeABoundaryPrismAlternatingCocone_transport
@@ -772,7 +784,13 @@ noncomputable def standardTypeABoundaryPrismRankCoconeOfAlternatingCocone
       (fun j => by
         rw [standardTypeABoundaryPrismScaledRankFunctor_map_succ,
           Functor.const_obj_map]
-        simpa using standardTypeABoundaryPrismAlternatingEvenLeg_succ g s j))
+        apply ScaledSSet.ScaledMap.ext
+        change
+          (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map ≫
+              (standardTypeABoundaryPrismAlternatingEvenLeg g s (j + 1)).map =
+            (standardTypeABoundaryPrismAlternatingEvenLeg g s j).map
+        exact congrArg ScaledSSet.ScaledMap.map
+          (standardTypeABoundaryPrismAlternatingEvenLeg_succ g s j)))
 
 /-! ## Inserting the A-phases does not change the colimit -/
 
@@ -1031,12 +1049,7 @@ noncomputable def standardTypeABoundaryPrismRawTransfiniteComposition
         (homOfLE (Order.le_succ j) : j ⟶ j + 1) =
           homOfLE (Nat.le_add_right j 1) :=
       Subsingleton.elim _ _
-    have hmap :
-        (standardTypeABoundaryPrismAlternatingFunctor g).map
-            (homOfLE (Order.le_succ j)) =
-          standardTypeABoundaryPrismAlternatingStep g j := by
-      rw [hhom, standardTypeABoundaryPrismAlternatingFunctor_map_succ]
-    rw [hmap]
+    rw [hhom, standardTypeABoundaryPrismAlternatingFunctor_map_succ]
     exact standardTypeABoundaryPrismAlternatingStep_mem_rawCellular g j
 
 /-- Strong unretracted cellularity of the entire boundary-prism inclusion. -/
