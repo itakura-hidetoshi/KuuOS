@@ -1081,14 +1081,18 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
             have hdescApp :=
               ConcreteCategory.congr_hom
                 (congr_app hdesc (op ⦋2⦌)) x
-            have hyB :
-                (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map.app
-                    (op ⦋2⦌) yB =
-                  (standardTypeABoundaryPrismRankBCellTargetToSucc g j b).map.app
-                    (op ⦋2⦌) x := by
-              simpa only [standardTypeABoundaryPrismRankBTargetSigmaToSucc,
-                yB, NatTrans.comp_app_apply] using hdescApp
-            rw [hyB, hxmap]
+            change
+              (Sigma.desc
+                (fun b : StandardTypeABoundaryPrismRankBCell.{u} g j =>
+                  (standardTypeABoundaryPrismRankBCellTargetToSucc g j b).map)).app
+                  (op ⦋2⦌)
+                  ((Sigma.ι
+                    (fun _ : StandardTypeABoundaryPrismRankBCell.{u} g j =>
+                      (Δ[4] : SSet.{u})) b).app (op ⦋2⦌) x) =
+                ((standardTypeABoundaryPrismRankFunction.{u} g).b j).app
+                  (op ⦋2⦌)
+                  (c.ιSigmaStdSimplex.app (op ⦋2⦌) z)
+            rw [hdescApp, hxmap]
             simpa only [NatTrans.comp_app_apply] using hb.symm
       · rcases standardTypeABoundaryPrismRankBCell_exactThin_generated
           g j (.q23 c h23) z hzcell with hphase | ⟨x, hx, hxmap⟩
