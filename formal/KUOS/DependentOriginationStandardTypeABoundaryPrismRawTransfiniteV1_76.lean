@@ -24,6 +24,8 @@ universe u
 
 noncomputable section
 
+set_option backward.isDefEq.respectTransparency false
+
 /-!
 # One raw transfinite A/B composition for the boundary prism v1.76
 
@@ -411,6 +413,8 @@ theorem standardTypeABoundaryPrismAlternatingFunctor_map_succ
       standardTypeABoundaryPrismAlternatingStep g n := by
   exact
     Functor.ofSequence_map_homOfLE_succ
+      (C := ScaledSSet.{u})
+      (X := standardTypeABoundaryPrismAlternatingObj g)
       (standardTypeABoundaryPrismAlternatingStep g) n
 
 /-! ## A cocone of the alternating diagram to the full cylinder -/
@@ -540,12 +544,14 @@ noncomputable def standardTypeABoundaryPrismAlternatingCocone
   Cocone.mk
     (scaledSimplexCylinder (standardTypeASimplexScaling g.i))
     (NatTrans.ofSequence
+      (F := standardTypeABoundaryPrismAlternatingFunctor g)
+      (G := (Functor.const ℕ).obj
+        (scaledSimplexCylinder (standardTypeASimplexScaling g.i)))
       (standardTypeABoundaryPrismAlternatingToCylinder g)
       (fun n => by
-        simpa only [standardTypeABoundaryPrismAlternatingFunctor_obj,
-          standardTypeABoundaryPrismAlternatingFunctor_map_succ,
-          Functor.const_obj_obj, Functor.const_obj_map, Category.comp_id] using
-          standardTypeABoundaryPrismAlternatingStep_toCylinder g n))
+        rw [standardTypeABoundaryPrismAlternatingFunctor_map_succ,
+          Functor.const_obj_map, Category.comp_id]
+        exact standardTypeABoundaryPrismAlternatingStep_toCylinder g n))
 
 @[simp]
 theorem standardTypeABoundaryPrismAlternatingCocone_ι_app
@@ -580,9 +586,13 @@ theorem standardTypeABoundaryPrismAlternatingCocone_step
     standardTypeABoundaryPrismAlternatingStep g n ≫ s.ι.app (n + 1) =
       s.ι.app n := by
   have h := s.w (homOfLE (Nat.le_add_right n 1))
-  simpa only [standardTypeABoundaryPrismAlternatingFunctor_obj,
-    standardTypeABoundaryPrismAlternatingFunctor_map_succ,
-    Functor.const_obj_obj, Functor.const_obj_map, Category.comp_id] using h
+  change
+    (standardTypeABoundaryPrismAlternatingFunctor g).map
+          (homOfLE (Nat.le_add_right n 1)) ≫
+        s.ι.app (n + 1) =
+      s.ι.app n ≫ 𝟙 _ at h
+  rw [standardTypeABoundaryPrismAlternatingFunctor_map_succ] at h
+  exact h.trans (Category.comp_id _)
 
 /-- Equality of sequence indices transports every cocone leg canonically. -/
 theorem standardTypeABoundaryPrismAlternatingCocone_transport
@@ -769,12 +779,13 @@ noncomputable def standardTypeABoundaryPrismRankCoconeOfAlternatingCocone
     Cocone (standardTypeABoundaryPrismScaledRankFunctor g) :=
   Cocone.mk s.pt
     (NatTrans.ofSequence
+      (F := standardTypeABoundaryPrismScaledRankFunctor g)
+      (G := (Functor.const ℕ).obj s.pt)
       (standardTypeABoundaryPrismAlternatingEvenLeg g s)
       (fun j => by
-        simpa only [standardTypeABoundaryPrismScaledRankFunctor_obj,
-          standardTypeABoundaryPrismScaledRankFunctor_map_succ,
-          Functor.const_obj_obj, Functor.const_obj_map, Category.comp_id] using
-          standardTypeABoundaryPrismAlternatingEvenLeg_succ g s j))
+        rw [standardTypeABoundaryPrismScaledRankFunctor_map_succ,
+          Functor.const_obj_map, Category.comp_id]
+        exact standardTypeABoundaryPrismAlternatingEvenLeg_succ g s j))
 
 /-! ## Inserting the A-phases does not change the colimit -/
 
