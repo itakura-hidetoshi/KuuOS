@@ -159,14 +159,13 @@ theorem ScaledMap.ext
     change (f.map ≫ g.map) ≫ h.map = f.map ≫ g.map ≫ h.map
     simp
 
-/-- Use the category's exact quiver inside the reflexive-quiver layer.
-Mathlib 4.31 normally builds `catToReflQuiver` by structure-copying a category;
-that copy yields a distinct `toQuiver` projection at instance transparency.
-This direct instance keeps the reflexive identity data while reusing exactly
-the `toQuiver` already owned by `Category ScaledSSet`. -/
-@[reducible] instance (priority := 2000) : ReflQuiver (ScaledSSet.{u}) where
-  toQuiver := (inferInstance : Category (ScaledSSet.{u})).toQuiver
-  id := fun X => ⟨𝟙 X.carrier, isScaledMap_id X.scaling⟩
+/-- Bare morphism notation must use exactly the quiver owned by the category.
+The explicit `Category` type annotation is essential here: it prevents Lean
+4.31 from routing the projection through the generic reflexive-quiver layer,
+which otherwise structure-copies the quiver and breaks definitional equality
+with functor and cocone morphisms. -/
+@[reducible] instance (priority := 2000) : Quiver (ScaledSSet.{u}) :=
+  (inferInstance : Category (ScaledSSet.{u})).toQuiver
 
 @[simp]
 theorem id_map (X : ScaledSSet.{u}) :
