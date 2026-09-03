@@ -10,6 +10,8 @@ open CategoryTheory.Limits
 open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
+open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardABCLeibnizCellularComparisonV1_59
 open KUOS.DependentOriginationStandardTypeAEndpointPrismPairingV1_60
 open KUOS.DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61
@@ -120,7 +122,7 @@ theorem standardTypeABoundaryPrism_exists_rank_lift
       (standardTypeABoundaryPrismRankStageToCylinder g j).map.app d x = t := by
   have ht :
       t ∈
-        (⊤ : (((Δ[g.n] : SSet.{u}) ⊗ Δ[1]).Subcomplex)).obj d := by
+        (⊤ : ((Δ[g.n] : SSet.{u}) ⊗ Δ[1]).Subcomplex).obj d := by
     simp
   rw [← standardTypeABoundaryPrism_iSup_filtration g] at ht
   simp only [Subfunctor.iSup_obj, Set.mem_iUnion] at ht
