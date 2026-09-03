@@ -1112,11 +1112,11 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
             g j c z y hz
         · right
           right
-          let b : StandardTypeABoundaryPrismRankBCell.{u} g j := .q12 c h12
           refine ⟨
-            (standardTypeABoundaryPrismRankBTargetSigmaInclusion.{u} g j b).map.app
-              (op ⦋2⦌) x,
-            (standardTypeABoundaryPrismRankBTargetSigmaInclusion.{u} g j b).scaled x hx,
+            (standardTypeABoundaryPrismRankBTargetSigmaInclusion.{u}
+              g j (.q12 c h12)).map.app (op ⦋2⦌) x,
+            (standardTypeABoundaryPrismRankBTargetSigmaInclusion.{u}
+              g j (.q12 c h12)).scaled x hx,
             ?_⟩
           apply Subtype.ext
           calc
@@ -1124,16 +1124,15 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
                 ((standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map.app
                   (op ⦋2⦌)
                   ((standardTypeABoundaryPrismRankBTargetSigmaInclusion.{u}
-                    g j b).map.app (op ⦋2⦌) x)) =
+                    g j (.q12 c h12)).map.app (op ⦋2⦌) x)) =
               Subtype.val
                 ((standardTypeABoundaryPrismRankBCellTargetToSucc.{u}
-                  g j b).map.app (op ⦋2⦌) x) :=
+                  g j (.q12 c h12)).map.app (op ⦋2⦌) x) :=
               congrArg Subtype.val
                 (standardTypeABoundaryPrismRankBTargetSigmaToSucc_inclusion_apply
-                  g j b x)
-            _ = Subtype.val (c.mapToSucc.app (op ⦋2⦌) z) := by
-              simpa [b, StandardTypeABoundaryPrismRankBCell.cell] using
-                congrArg Subtype.val hxmap
+                  g j (.q12 c h12) x)
+            _ = Subtype.val (c.mapToSucc.app (op ⦋2⦌) z) :=
+              congrArg Subtype.val hxmap
             _ = Subtype.val
                 (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app
                   (op ⦋2⦌) y) :=
@@ -1148,11 +1147,11 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
             g j c z y hz
         · right
           right
-          let b : StandardTypeABoundaryPrismRankBCell.{u} g j := .q23 c h23
           refine ⟨
-            (standardTypeABoundaryPrismRankBTargetSigmaInclusion.{u} g j b).map.app
-              (op ⦋2⦌) x,
-            (standardTypeABoundaryPrismRankBTargetSigmaInclusion.{u} g j b).scaled x hx,
+            (standardTypeABoundaryPrismRankBTargetSigmaInclusion.{u}
+              g j (.q23 c h23)).map.app (op ⦋2⦌) x,
+            (standardTypeABoundaryPrismRankBTargetSigmaInclusion.{u}
+              g j (.q23 c h23)).scaled x hx,
             ?_⟩
           apply Subtype.ext
           calc
@@ -1160,16 +1159,15 @@ theorem standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ
                 ((standardTypeABoundaryPrismRankBTargetSigmaToSucc.{u} g j).map.app
                   (op ⦋2⦌)
                   ((standardTypeABoundaryPrismRankBTargetSigmaInclusion.{u}
-                    g j b).map.app (op ⦋2⦌) x)) =
+                    g j (.q23 c h23)).map.app (op ⦋2⦌) x)) =
               Subtype.val
                 ((standardTypeABoundaryPrismRankBCellTargetToSucc.{u}
-                  g j b).map.app (op ⦋2⦌) x) :=
+                  g j (.q23 c h23)).map.app (op ⦋2⦌) x) :=
               congrArg Subtype.val
                 (standardTypeABoundaryPrismRankBTargetSigmaToSucc_inclusion_apply
-                  g j b x)
-            _ = Subtype.val (c.mapToSucc.app (op ⦋2⦌) z) := by
-              simpa [b, StandardTypeABoundaryPrismRankBCell.cell] using
-                congrArg Subtype.val hxmap
+                  g j (.q23 c h23) x)
+            _ = Subtype.val (c.mapToSucc.app (op ⦋2⦌) z) :=
+              congrArg Subtype.val hxmap
             _ = Subtype.val
                 (((standardTypeABoundaryPrismRankFunction.{u} g).b j).app
                   (op ⦋2⦌) y) :=
@@ -1194,9 +1192,83 @@ noncomputable def standardTypeABoundaryPrism_rankB_scaled_isPushout
     (𝟙 _)
     (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map
     (standardTypeABoundaryPrism_rankB_underlying_isPushout g j)
-  rw [standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ.{u} g j] at h
-  simpa [generatedPushoutInl, generatedPushoutInr, generatedPushoutTarget,
-    standardTypeABoundaryPrismRankAPhaseToSucc] using h
+  have hScaling :
+      generatedPushoutScaling
+          (standardTypeABoundaryPrismRankAPhaseScaling g j)
+          (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)
+          (𝟙 _)
+          (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map =
+        standardTypeABoundaryPrismRankStageScaling g (Nat.succ j) := by
+    simpa only [Nat.add_one] using
+      standardTypeABoundaryPrismRankBGeneratedPushoutScaling_eq_succ.{u} g j
+  let eSucc :
+      generatedPushoutTarget
+          (standardTypeABoundaryPrismRankAPhaseScaling g j)
+          (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)
+          (𝟙 _)
+          (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map ≅
+        standardTypeABoundaryPrismRankStage g (Nat.succ j) :=
+    scalingEqualityIso
+      (generatedPushoutScaling
+        (standardTypeABoundaryPrismRankAPhaseScaling g j)
+        (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)
+        (𝟙 _)
+        (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map)
+      (standardTypeABoundaryPrismRankStageScaling g (Nat.succ j))
+      hScaling
+  refine h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eSucc ?_ ?_ ?_ ?_
+  · change
+      standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j ≫ 𝟙 _ =
+        𝟙 _ ≫ standardTypeABoundaryPrismRankBSourceSigmaToAPhase g j
+    rw [Category.comp_id, Category.id_comp]
+  · change
+      standardTypeABoundaryPrismRankBSigmaGeneratorHom g j ≫ 𝟙 _ =
+        𝟙 _ ≫ standardTypeABoundaryPrismRankBSigmaGeneratorHom g j
+    rw [Category.comp_id, Category.id_comp]
+  · change
+      generatedPushoutInl
+          (standardTypeABoundaryPrismRankAPhaseScaling g j)
+          (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)
+          (𝟙 _)
+          (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map ≫ eSucc.hom =
+        𝟙 _ ≫ standardTypeABoundaryPrismRankAPhaseToSucc g j
+    rw [Category.id_comp]
+    apply ScaledSSet.ScaledMap.ext
+    change
+      (𝟙 ((standardTypeABoundaryPrismRankFunction.{u} g).filtration (j + 1) : SSet.{u})) ≫
+          (scalingEqualityIso
+            (generatedPushoutScaling
+              (standardTypeABoundaryPrismRankAPhaseScaling g j)
+              (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)
+              (𝟙 _)
+              (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map)
+            (standardTypeABoundaryPrismRankStageScaling g (Nat.succ j))
+            hScaling).hom.map =
+        (𝟙 ((standardTypeABoundaryPrismRankFunction.{u} g).filtration (j + 1) : SSet.{u}))
+    rw [scalingEqualityIso_hom_map]
+    exact Category.comp_id _
+  · change
+      generatedPushoutInr
+          (standardTypeABoundaryPrismRankAPhaseScaling g j)
+          (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)
+          (𝟙 _)
+          (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map ≫ eSucc.hom =
+        𝟙 _ ≫ standardTypeABoundaryPrismRankBTargetSigmaToSucc g j
+    rw [Category.id_comp]
+    apply ScaledSSet.ScaledMap.ext
+    change
+      (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map ≫
+          (scalingEqualityIso
+            (generatedPushoutScaling
+              (standardTypeABoundaryPrismRankAPhaseScaling g j)
+              (standardTypeABoundaryPrismRankBTargetSigmaScaling g j)
+              (𝟙 _)
+              (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map)
+            (standardTypeABoundaryPrismRankStageScaling g (Nat.succ j))
+            hScaling).hom.map =
+        (standardTypeABoundaryPrismRankBTargetSigmaToSucc g j).map
+    rw [scalingEqualityIso_hom_map]
+    exact Category.comp_id _
 
 /-- Main B-phase output: all exceptional completions at rank `j` form one raw
 standard cellular step. -/
