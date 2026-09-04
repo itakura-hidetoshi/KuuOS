@@ -3,6 +3,7 @@ import KUOS.DependentOriginationGeneratedPresentationPosetalReflectionV1_83
 namespace KUOS.DependentOriginationGeneratedPresentationOrderReflectionV1_84
 
 open CategoryTheory
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
 open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
@@ -130,10 +131,9 @@ theorem presentationClass_eq_iff_mutual_preorder
   constructor
   · intro h
     subst F
-    exact
-      <| And.intro
-        (generatedPresentationPreorderLE_refl E)
-        (generatedPresentationPreorderLE_refl E)
+    exact And.intro
+      (generatedPresentationPreorderLE_refl E)
+      (generatedPresentationPreorderLE_refl E)
   · rintro ⟨hEF, hFE⟩
     apply le_antisymm
     · exact
