@@ -44,6 +44,28 @@ plan success is not execution permission
 DecisionOS remains the action-boundary owner
 ```
 
+### 1.1 Adaptive retrieval precondition
+
+GraphRAG is not the universal first retrieval step. `KUUOS_ADAPTIVE_RETRIEVAL_POLICY_v0_1.md` places it downstream of a least-sufficient retrieval decision:
+
+```text
+query context
+  -> lexical / bounded rewrite / semantic-on-demand / hybrid / pre-embedded
+  -> only when relational or path/cycle evidence is justified:
+       Gauge–Qi Process GraphRAG
+```
+
+This preserves the existing query-specific role and prevents a sophisticated retrieval presentation from being reified as the corpus ontology.
+
+```text
+retrieval complexity != evidence quality
+embedding similarity != truth
+rerank score != belief authority
+GraphRAG != global ontology
+```
+
+If no admissible retrieval mode is adequate, the upstream policy should route to `NO_DATA`, `HOLD`, `OBSERVE`, `REPAIR`, or `QUARANTINE` rather than silently escalating without a declared evidence basis.
+
 ## 2. Persistent query lineage
 
 A v0.2 store belongs to one declared `lineage_id` and one `query_id`. It does not become a corpus-wide graph. Every accepted event stores one complete v0.1 evidence bundle and one evaluated receipt.
