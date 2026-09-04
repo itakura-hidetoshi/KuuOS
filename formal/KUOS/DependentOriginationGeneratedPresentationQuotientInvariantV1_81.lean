@@ -4,12 +4,14 @@ import KUOS.DependentOriginationScaledColimitsPresentabilityV1_45
 namespace KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 
 open CategoryTheory
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationScaledColimitsPresentabilityV1_45
+open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
+open KUOS.DependentOriginationStandardABCLeibnizCellularComparisonV1_59
 open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80
-open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80.
-  GeneratedScaledAnodynePresentationEquivalence
+open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80.GeneratedScaledAnodynePresentationEquivalence
 open KUOS.DependentOriginationStandardABCPositiveCanonicalResidualSplitV1_79
 
 universe u
@@ -75,13 +77,13 @@ def generatedPresentationSetoid : Setoid ScaledAnodynePresentation.{u} where
 /-- The presentation-independent carrier: generator lists modulo mutual
 orthogonal generation. -/
 def GeneratedScaledAnodynePresentation : Type _ :=
-  Quotient (generatedPresentationSetoid (u := u))
+  Quotient (generatedPresentationSetoid.{u})
 
 /-- Canonical projection of a literal presentation to its generated theory. -/
 def presentationClass
     (E : ScaledAnodynePresentation.{u}) :
     GeneratedScaledAnodynePresentation.{u} :=
-  Quotient.mk (generatedPresentationSetoid (u := u)) E
+  Quotient.mk (generatedPresentationSetoid.{u}) E
 
 /-- Equality in the quotient is exactly v1.80 mutual generation. -/
 theorem presentationClass_eq_iff
@@ -305,7 +307,7 @@ theorem standardABCPresentation_endpointLifting :
 
 /-- The canonical quotient point carries an unconditional native WFS by the
 v1.45 small-object argument. -/
-noncomputable theorem canonicalKuuOSPresentation_isWFS :
+theorem canonicalKuuOSPresentation_isWFS :
     isWeakFactorizationSystem canonicalKuuOSPresentation := by
   change
     MorphismProperty.IsWeakFactorizationSystem
@@ -355,7 +357,7 @@ theorem canonicalKuuOSPresentation_endpointLifting_of_eq
 
 /-- Conversely the standard A/B/C quotient point inherits the canonical native
 WFS as soon as the two generated presentations are identified. -/
-noncomputable theorem standardABCPresentation_isWFS_of_eq
+theorem standardABCPresentation_isWFS_of_eq
     (h : standardABCPresentation = canonicalKuuOSPresentation) :
     isWeakFactorizationSystem standardABCPresentation := by
   rw [h]
@@ -369,7 +371,8 @@ v1.81 does not assert that the certificate is inhabited. -/
 theorem standardABC_eq_canonical_of_positiveComparison
     (K : StandardABCCanonicalPositiveComparisonCertificate.{u}) :
     standardABCPresentation = canonicalKuuOSPresentation :=
-  Quotient.sound K.toGeneratedPresentationEquivalence
+  Quotient.sound
+    (KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80.StandardABCCanonicalPositiveComparisonCertificate.toGeneratedPresentationEquivalence K)
 
 /-- Under a positive comparison, the canonical presentation inherits the
 standard endpoint stability invariant. -/
@@ -389,7 +392,7 @@ theorem canonicalKuuOSPresentation_endpointLifting_of_positiveComparison
 
 /-- Dually, the standard presentation inherits the unconditional canonical WFS
 once the positive comparison identifies the quotient points. -/
-noncomputable theorem standardABCPresentation_isWFS_of_positiveComparison
+theorem standardABCPresentation_isWFS_of_positiveComparison
     (K : StandardABCCanonicalPositiveComparisonCertificate.{u}) :
     isWeakFactorizationSystem standardABCPresentation :=
   standardABCPresentation_isWFS_of_eq
