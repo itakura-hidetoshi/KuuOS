@@ -238,7 +238,7 @@ theorem typeAEndpointLifting_mono
     typeAEndpointLifting Q := by
   rw [typeAEndpointLifting_iff] at hP ⊢
   intro g X Y p hp
-  exact hP g p (generatedFibrationClass_antitone hPQ hp)
+  exact hP g p (generatedFibrationClass_antitone hPQ p hp)
 
 /-- Fibrancy is contravariant in the presentation order, exactly because right
 classes reverse inclusions. -/
@@ -249,7 +249,7 @@ theorem isFibrant_antitone
     (hQ : isFibrant X Q) :
     isFibrant X P := by
   rw [isFibrant_iff] at hQ ⊢
-  exact generatedFibrationClass_antitone hPQ hQ
+  exact generatedFibrationClass_antitone hPQ (ScaledSSet.toPoint X) hQ
 
 /-! ## Standard/canonical comparison is now purely order-theoretic -/
 
