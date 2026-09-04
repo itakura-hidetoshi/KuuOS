@@ -109,7 +109,8 @@ theorem inducedCanonical_mem_standardTypeA_of_inner_standardScaling
     simpa [a] using
       canonicalIndex_eq_standardTypeA_toCanonical g h0 hn hs
   rw [hg]
-  simpa [standardTypeAInducedScaledHornAttachmentGeneratorHom] using
+  simpa [standardTypeAInducedScaledHornAttachmentGeneratorHom,
+    StandardTypeAHornAttachmentGeneratorIndex.toCanonical] using
     standardTypeAInducedScaledHornAttachmentGenerator_mem a
 
 /-! ## Positive forward residual data -/
