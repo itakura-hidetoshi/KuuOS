@@ -104,6 +104,10 @@ FRONTIER_STEPS_AFTER_V095: tuple[tuple[str, str], ...] = (
         "scripts/check_kuuos_live_v102.py",
         "tests.test_kuuos_repository_atomic_checkpoint_creation_v1_02",
     ),
+    (
+        "scripts/check_kuuos_adaptive_retrieval_policy_v0_1.py",
+        "tests.test_kuuos_adaptive_retrieval_policy_v0_1",
+    ),
 )
 
 
