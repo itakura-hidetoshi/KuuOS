@@ -1158,6 +1158,7 @@ theorem standardTypeAEndpointFullTailNatTrans_app
       standardTypeAEndpointFullTailLeg.{u} g s n := by
   rfl
 
+@[reducible]
 noncomputable def standardTypeAEndpointFullTailCocone
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (s : Cocone (standardTypeAEndpointFullFunctor.{u} g)) :
@@ -1166,7 +1167,9 @@ noncomputable def standardTypeAEndpointFullTailCocone
 
 noncomputable def standardTypeAEndpointFullDesc
     (g : StandardTypeAHornAttachmentGeneratorIndex)
-    (s : Cocone (standardTypeAEndpointFullFunctor.{u} g)) :=
+    (s : Cocone (standardTypeAEndpointFullFunctor.{u} g)) :
+    standardTypeABoundaryPrismScaledCatHom
+      (scaledSimplexCylinder (standardTypeASimplexScaling g.i)) s.pt :=
   standardTypeABoundaryPrismAlternatingDesc.{u} g
     (standardTypeAEndpointFullTailCocone.{u} g s)
 
