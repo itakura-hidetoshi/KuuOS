@@ -1083,7 +1083,6 @@ theorem standardTypeAEndpointFullFunctor_obj_succ_eq_alternating
     (standardTypeAEndpointFullFunctor.{u} g).obj (Nat.succ n) =
       (standardTypeABoundaryPrismAlternatingFunctor.{u} g).obj n := by
   rw [standardTypeAEndpointFullFunctor_obj]
-  rfl
 
 @[reducible]
 noncomputable def standardTypeAEndpointFullTailObjIso
@@ -1137,17 +1136,33 @@ theorem standardTypeAEndpointFullTailLeg_succ_naturality
   rw [Functor.const_obj_map, Category.comp_id]
   exact standardTypeAEndpointFullTailLeg_succ.{u} g s n
 
-@[reducible]
-noncomputable def standardTypeAEndpointFullTailCocone
+noncomputable def standardTypeAEndpointFullTailNatTrans
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (s : Cocone (standardTypeAEndpointFullFunctor.{u} g)) :
-    Cocone (standardTypeABoundaryPrismAlternatingFunctor.{u} g) :=
-  Cocone.mk s.pt
+    standardTypeABoundaryPrismAlternatingFunctor.{u} g ⟶
+      (Functor.const ℕ).obj s.pt where
+  app n := standardTypeAEndpointFullTailLeg.{u} g s n
+  naturality :=
     (NatTrans.ofSequence
       (F := standardTypeABoundaryPrismAlternatingFunctor.{u} g)
       (G := (Functor.const ℕ).obj s.pt)
       (standardTypeAEndpointFullTailLeg.{u} g s)
-      (standardTypeAEndpointFullTailLeg_succ_naturality.{u} g s))
+      (standardTypeAEndpointFullTailLeg_succ_naturality.{u} g s)).naturality
+
+@[simp]
+theorem standardTypeAEndpointFullTailNatTrans_app
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (s : Cocone (standardTypeAEndpointFullFunctor.{u} g))
+    (n : ℕ) :
+    (standardTypeAEndpointFullTailNatTrans.{u} g s).app n =
+      standardTypeAEndpointFullTailLeg.{u} g s n := by
+  rfl
+
+noncomputable def standardTypeAEndpointFullTailCocone
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (s : Cocone (standardTypeAEndpointFullFunctor.{u} g)) :
+    Cocone (standardTypeABoundaryPrismAlternatingFunctor.{u} g) :=
+  Cocone.mk s.pt (standardTypeAEndpointFullTailNatTrans.{u} g s)
 
 @[simp]
 theorem standardTypeAEndpointFullTailCocone_ι_app
@@ -1156,112 +1171,123 @@ theorem standardTypeAEndpointFullTailCocone_ι_app
     (n : ℕ) :
     (standardTypeAEndpointFullTailCocone.{u} g s).ι.app n =
       standardTypeAEndpointFullTailLeg.{u} g s n := by
-  change
-    (NatTrans.ofSequence
-      (F := standardTypeABoundaryPrismAlternatingFunctor.{u} g)
-      (G := (Functor.const ℕ).obj s.pt)
-      (standardTypeAEndpointFullTailLeg.{u} g s)
-      (standardTypeAEndpointFullTailLeg_succ_naturality.{u} g s)).app n =
-        standardTypeAEndpointFullTailLeg.{u} g s n
-  exact NatTrans.ofSequence_app
+  exact standardTypeAEndpointFullTailNatTrans_app.{u} g s n
+
+noncomputable def standardTypeAEndpointFullDesc
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (s : Cocone (standardTypeAEndpointFullFunctor.{u} g)) :
+    standardTypeABoundaryPrismScaledCatHom
+      (scaledSimplexCylinder (standardTypeASimplexScaling g.i)) s.pt :=
+  (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).desc
+    (standardTypeAEndpointFullTailCocone.{u} g s)
 
 theorem standardTypeAEndpointFullTailFac
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (s : Cocone (standardTypeAEndpointFullFunctor.{u} g))
     (n : ℕ) :
     standardTypeAEndpointFullToCylinder.{u} g (Nat.succ n) ≫
-        (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).desc
-          (standardTypeAEndpointFullTailCocone.{u} g s) =
+        standardTypeAEndpointFullDesc.{u} g s =
       s.ι.app (Nat.succ n) := by
   have htail :=
     (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).fac
       (standardTypeAEndpointFullTailCocone.{u} g s) n
   have htail' :
       (standardTypeABoundaryPrismAlternatingCocone.{u} g).ι.app n ≫
-          (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).desc
-            (standardTypeAEndpointFullTailCocone.{u} g s) =
+          standardTypeAEndpointFullDesc.{u} g s =
         standardTypeAEndpointFullTailLeg.{u} g s n := by
     rw [standardTypeAEndpointFullTailCocone_ι_app] at htail
     exact htail
   calc
     standardTypeAEndpointFullToCylinder.{u} g (Nat.succ n) ≫
-          (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).desc
-            (standardTypeAEndpointFullTailCocone.{u} g s) =
+          standardTypeAEndpointFullDesc.{u} g s =
         (standardTypeABoundaryPrismAlternatingCocone.{u} g).ι.app n ≫
-          (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).desc
-            (standardTypeAEndpointFullTailCocone.{u} g s) := by
+          standardTypeAEndpointFullDesc.{u} g s := by
       rw [standardTypeAEndpointFullToCylinder_succ]
     _ = standardTypeAEndpointFullTailLeg.{u} g s n := htail'
     _ = s.ι.app (Nat.succ n) :=
       standardTypeAEndpointFullTailLeg_eq_app.{u} g s n
 
+theorem standardTypeAEndpointFullDesc_fac_zero
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (s : Cocone (standardTypeAEndpointFullFunctor.{u} g)) :
+    (standardTypeAEndpointFullCocone.{u} g).ι.app 0 ≫
+        standardTypeAEndpointFullDesc.{u} g s =
+      s.ι.app 0 := by
+  have hnat :=
+    standardTypeAEndpointFullToCylinder_succ_naturality.{u} g 0
+  rw [Functor.const_obj_map, Category.comp_id] at hnat
+  have hstep := standardTypeAEndpointFullCocone_step.{u} g s 0
+  rw [standardTypeAEndpointFullCocone_ι_app]
+  calc
+    standardTypeAEndpointFullToCylinder.{u} g 0 ≫
+          standardTypeAEndpointFullDesc.{u} g s =
+        ((standardTypeAEndpointFullFunctor.{u} g).map
+              (homOfLE (Nat.le_add_right 0 1)) ≫
+            standardTypeAEndpointFullToCylinder.{u} g 1) ≫
+          standardTypeAEndpointFullDesc.{u} g s := by
+            rw [hnat]
+    _ = (standardTypeAEndpointFullFunctor.{u} g).map
+            (homOfLE (Nat.le_add_right 0 1)) ≫
+          (standardTypeAEndpointFullToCylinder.{u} g 1 ≫
+            standardTypeAEndpointFullDesc.{u} g s) := by
+              simp only [Category.assoc]
+    _ = (standardTypeAEndpointFullFunctor.{u} g).map
+            (homOfLE (Nat.le_add_right 0 1)) ≫
+          s.ι.app 1 := by
+            rw [standardTypeAEndpointFullTailFac.{u} g s 0]
+    _ = s.ι.app 0 := hstep
+
+theorem standardTypeAEndpointFullDesc_fac_succ
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (s : Cocone (standardTypeAEndpointFullFunctor.{u} g))
+    (n : ℕ) :
+    (standardTypeAEndpointFullCocone.{u} g).ι.app (Nat.succ n) ≫
+        standardTypeAEndpointFullDesc.{u} g s =
+      s.ι.app (Nat.succ n) := by
+  rw [standardTypeAEndpointFullCocone_ι_app]
+  exact standardTypeAEndpointFullTailFac.{u} g s n
+
+theorem standardTypeAEndpointFullDesc_fac
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (s : Cocone (standardTypeAEndpointFullFunctor.{u} g))
+    (j : ℕ) :
+    (standardTypeAEndpointFullCocone.{u} g).ι.app j ≫
+        standardTypeAEndpointFullDesc.{u} g s =
+      s.ι.app j := by
+  cases j with
+  | zero => exact standardTypeAEndpointFullDesc_fac_zero.{u} g s
+  | succ n => exact standardTypeAEndpointFullDesc_fac_succ.{u} g s n
+
+theorem standardTypeAEndpointFullDesc_uniq
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (s : Cocone (standardTypeAEndpointFullFunctor.{u} g))
+    (m : standardTypeABoundaryPrismScaledCatHom
+      (scaledSimplexCylinder (standardTypeASimplexScaling g.i)) s.pt)
+    (hm : ∀ j,
+      (standardTypeAEndpointFullCocone.{u} g).ι.app j ≫ m = s.ι.app j) :
+    m = standardTypeAEndpointFullDesc.{u} g s := by
+  apply (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).hom_ext
+  intro n
+  have hmn := hm (Nat.succ n)
+  rw [standardTypeAEndpointFullCocone_ι_app] at hmn
+  have hdesc := standardTypeAEndpointFullTailFac.{u} g s n
+  calc
+    (standardTypeABoundaryPrismAlternatingCocone.{u} g).ι.app n ≫ m =
+        standardTypeAEndpointFullToCylinder.{u} g (Nat.succ n) ≫ m := by
+      rw [standardTypeAEndpointFullToCylinder_succ]
+    _ = s.ι.app (Nat.succ n) := hmn
+    _ = standardTypeAEndpointFullToCylinder.{u} g (Nat.succ n) ≫
+          standardTypeAEndpointFullDesc.{u} g s := hdesc.symm
+    _ = (standardTypeABoundaryPrismAlternatingCocone.{u} g).ι.app n ≫
+          standardTypeAEndpointFullDesc.{u} g s := by
+      rw [standardTypeAEndpointFullToCylinder_succ]
+
 noncomputable def standardTypeAEndpointFullCoconeIsColimit
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     IsColimit (standardTypeAEndpointFullCocone.{u} g) where
-  desc s :=
-    (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).desc
-      (standardTypeAEndpointFullTailCocone.{u} g s)
-  fac s j := by
-    cases j with
-    | zero =>
-        have hnat :=
-          standardTypeAEndpointFullToCylinder_succ_naturality.{u} g 0
-        rw [Functor.const_obj_map, Category.comp_id] at hnat
-        have htail := standardTypeAEndpointFullTailFac.{u} g s 0
-        have htail' :
-            standardTypeAEndpointFullToCylinder.{u} g 1 ≫
-                (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).desc
-                  (standardTypeAEndpointFullTailCocone.{u} g s) =
-              s.ι.app 1 := by
-          simpa only [Nat.succ_eq_add_one] using htail
-        have hstep := standardTypeAEndpointFullCocone_step.{u} g s 0
-        rw [standardTypeAEndpointFullCocone_ι_app]
-        calc
-          standardTypeAEndpointFullToCylinder.{u} g 0 ≫
-                (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).desc
-                  (standardTypeAEndpointFullTailCocone.{u} g s) =
-              ((standardTypeAEndpointFullFunctor.{u} g).map
-                    (homOfLE (Nat.le_add_right 0 1)) ≫
-                  standardTypeAEndpointFullToCylinder.{u} g 1) ≫
-                (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).desc
-                  (standardTypeAEndpointFullTailCocone.{u} g s) := by
-                    rw [hnat]
-          _ = (standardTypeAEndpointFullFunctor.{u} g).map
-                  (homOfLE (Nat.le_add_right 0 1)) ≫
-                (standardTypeAEndpointFullToCylinder.{u} g 1 ≫
-                  (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).desc
-                    (standardTypeAEndpointFullTailCocone.{u} g s)) := by
-                      simp only [Category.assoc]
-          _ = (standardTypeAEndpointFullFunctor.{u} g).map
-                  (homOfLE (Nat.le_add_right 0 1)) ≫
-                s.ι.app 1 := by
-                  exact congrArg
-                    (fun q =>
-                      (standardTypeAEndpointFullFunctor.{u} g).map
-                          (homOfLE (Nat.le_add_right 0 1)) ≫ q)
-                    htail'
-          _ = s.ι.app 0 := hstep
-    | succ n =>
-        rw [standardTypeAEndpointFullCocone_ι_app]
-        exact standardTypeAEndpointFullTailFac.{u} g s n
-  uniq s m hm := by
-    apply (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).hom_ext
-    intro n
-    have hmn := hm (Nat.succ n)
-    rw [standardTypeAEndpointFullCocone_ι_app] at hmn
-    have hdesc := standardTypeAEndpointFullTailFac.{u} g s n
-    calc
-      (standardTypeABoundaryPrismAlternatingCocone.{u} g).ι.app n ≫ m =
-          standardTypeAEndpointFullToCylinder.{u} g (Nat.succ n) ≫ m := by
-        rw [standardTypeAEndpointFullToCylinder_succ]
-      _ = s.ι.app (Nat.succ n) := hmn
-      _ = standardTypeAEndpointFullToCylinder.{u} g (Nat.succ n) ≫
-            (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).desc
-              (standardTypeAEndpointFullTailCocone.{u} g s) := hdesc.symm
-      _ = (standardTypeABoundaryPrismAlternatingCocone.{u} g).ι.app n ≫
-            (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).desc
-              (standardTypeAEndpointFullTailCocone.{u} g s) := by
-        rw [standardTypeAEndpointFullToCylinder_succ]
+  desc s := standardTypeAEndpointFullDesc.{u} g s
+  fac s j := standardTypeAEndpointFullDesc_fac.{u} g s j
+  uniq s m hm := standardTypeAEndpointFullDesc_uniq.{u} g s m hm
 
 @[reducible]
 noncomputable def standardTypeAEndpointFullBotIso
