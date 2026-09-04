@@ -1164,21 +1164,13 @@ noncomputable def standardTypeAEndpointFullTailCocone
     Cocone (standardTypeABoundaryPrismAlternatingFunctor.{u} g) :=
   Cocone.mk s.pt (standardTypeAEndpointFullTailNatTrans.{u} g s)
 
-@[simp]
-theorem standardTypeAEndpointFullTailCocone_ι_app
-    (g : StandardTypeAHornAttachmentGeneratorIndex)
-    (s : Cocone (standardTypeAEndpointFullFunctor.{u} g))
-    (n : ℕ) :
-    (standardTypeAEndpointFullTailCocone.{u} g s).ι.app n =
-      standardTypeAEndpointFullTailLeg.{u} g s n := by
-  exact standardTypeAEndpointFullTailNatTrans_app.{u} g s n
-
+@[reducible]
 noncomputable def standardTypeAEndpointFullDesc
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (s : Cocone (standardTypeAEndpointFullFunctor.{u} g)) :
     standardTypeABoundaryPrismScaledCatHom
       (scaledSimplexCylinder (standardTypeASimplexScaling g.i)) s.pt :=
-  (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).desc
+  standardTypeABoundaryPrismAlternatingDesc.{u} g
     (standardTypeAEndpointFullTailCocone.{u} g s)
 
 theorem standardTypeAEndpointFullTailFac
@@ -1195,8 +1187,18 @@ theorem standardTypeAEndpointFullTailFac
       (standardTypeABoundaryPrismAlternatingCocone.{u} g).ι.app n ≫
           standardTypeAEndpointFullDesc.{u} g s =
         standardTypeAEndpointFullTailLeg.{u} g s n := by
-    rw [standardTypeAEndpointFullTailCocone_ι_app] at htail
-    exact htail
+    change
+      (standardTypeABoundaryPrismAlternatingCocone.{u} g).ι.app n ≫
+          standardTypeABoundaryPrismAlternatingDesc.{u} g
+            (standardTypeAEndpointFullTailCocone.{u} g s) =
+        standardTypeAEndpointFullTailLeg.{u} g s n
+    change
+      (standardTypeABoundaryPrismAlternatingCocone.{u} g).ι.app n ≫
+          standardTypeABoundaryPrismAlternatingDesc.{u} g
+            (standardTypeAEndpointFullTailCocone.{u} g s) =
+        (standardTypeAEndpointFullTailCocone.{u} g s).ι.app n at htail
+    simpa only [standardTypeAEndpointFullTailCocone,
+      standardTypeAEndpointFullTailNatTrans_app] using htail
   calc
     standardTypeAEndpointFullToCylinder.{u} g (Nat.succ n) ≫
           standardTypeAEndpointFullDesc.{u} g s =
