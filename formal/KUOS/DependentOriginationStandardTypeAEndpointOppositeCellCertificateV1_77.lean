@@ -271,12 +271,40 @@ def standardTypeAEndpointOppositeCarrierBicartSq
       intervalBoundary_eq_endpoint_sup_rev.{u} g.endpoint]
     ext d z
     rcases z with ⟨x, y⟩
-    simp only [standardTypeAEndpointOppositeSimplexSubcomplex,
-      CategoryTheory.Subfunctor.max_obj, Set.mem_union,
-      SSet.Subcomplex.prod_obj, Set.mem_prod,
-      SSet.Subcomplex.mem_unionProd_iff,
-      CategoryTheory.Subfunctor.top_obj, Set.top_eq_univ,
-      Set.mem_univ, true_and]
+    have hopp :
+        (x, y) ∈
+            (standardTypeAEndpointOppositeSimplexSubcomplex.{u} g).obj d ↔
+          y ∈ (intervalEndpoint.{u} g.endpoint.rev).obj d := by
+      simp only [standardTypeAEndpointOppositeSimplexSubcomplex,
+        SSet.Subcomplex.prod_obj, Set.prodMk_mem_set_prod_eq,
+        CategoryTheory.Subfunctor.top_obj, Set.top_eq_univ,
+        Set.mem_univ, true_and]
+    have hsource :
+        (x, y) ∈
+            ((SSet.horn g.n g.i).unionProd
+              (intervalEndpoint.{u} g.endpoint)).obj d ↔
+          y ∈ (intervalEndpoint.{u} g.endpoint).obj d ∨
+            x ∈ (SSet.horn g.n g.i).obj d :=
+      SSet.Subcomplex.mem_unionProd_iff
+        (SSet.horn g.n g.i) (intervalEndpoint.{u} g.endpoint) (x, y)
+    have hendpoint :
+        y ∈
+            (intervalEndpoint.{u} g.endpoint ⊔
+              intervalEndpoint.{u} g.endpoint.rev).obj d ↔
+          y ∈ (intervalEndpoint.{u} g.endpoint).obj d ∨
+            y ∈ (intervalEndpoint.{u} g.endpoint.rev).obj d := by
+      rw [CategoryTheory.Subfunctor.max_obj, Set.mem_union]
+    have htarget :
+        (x, y) ∈
+            ((SSet.horn g.n g.i).unionProd
+              (intervalEndpoint.{u} g.endpoint ⊔
+                intervalEndpoint.{u} g.endpoint.rev)).obj d ↔
+          (y ∈ (intervalEndpoint.{u} g.endpoint).obj d ∨
+            y ∈ (intervalEndpoint.{u} g.endpoint.rev).obj d) ∨
+            x ∈ (SSet.horn g.n g.i).obj d := by
+      rw [SSet.Subcomplex.mem_unionProd_iff, hendpoint]
+    rw [CategoryTheory.Subfunctor.max_obj, Set.mem_union,
+      hopp, hsource, htarget]
     tauto
   inf_eq := by
     ext d z
@@ -292,13 +320,31 @@ def standardTypeAEndpointOppositeCarrierBicartSq
         exact h
       rw [intervalEndpoint_inf_rev_eq_bot.{u} g.endpoint] at hm
       simpa using hm
-    simp only [standardTypeAEndpointOppositeSimplexSubcomplex,
-      standardTypeAEndpointOppositeCornerSubcomplex,
-      CategoryTheory.Subfunctor.min_obj, Set.mem_inter_iff,
-      SSet.Subcomplex.prod_obj, Set.mem_prod,
-      SSet.Subcomplex.mem_unionProd_iff,
-      CategoryTheory.Subfunctor.top_obj, Set.top_eq_univ,
-      Set.mem_univ, true_and]
+    have hopp :
+        (x, y) ∈
+            (standardTypeAEndpointOppositeSimplexSubcomplex.{u} g).obj d ↔
+          y ∈ (intervalEndpoint.{u} g.endpoint.rev).obj d := by
+      simp only [standardTypeAEndpointOppositeSimplexSubcomplex,
+        SSet.Subcomplex.prod_obj, Set.prodMk_mem_set_prod_eq,
+        CategoryTheory.Subfunctor.top_obj, Set.top_eq_univ,
+        Set.mem_univ, true_and]
+    have hsource :
+        (x, y) ∈
+            ((SSet.horn g.n g.i).unionProd
+              (intervalEndpoint.{u} g.endpoint)).obj d ↔
+          y ∈ (intervalEndpoint.{u} g.endpoint).obj d ∨
+            x ∈ (SSet.horn g.n g.i).obj d :=
+      SSet.Subcomplex.mem_unionProd_iff
+        (SSet.horn g.n g.i) (intervalEndpoint.{u} g.endpoint) (x, y)
+    have hcorner :
+        (x, y) ∈
+            (standardTypeAEndpointOppositeCornerSubcomplex.{u} g).obj d ↔
+          x ∈ (SSet.horn g.n g.i).obj d ∧
+            y ∈ (intervalEndpoint.{u} g.endpoint.rev).obj d := by
+      simp only [standardTypeAEndpointOppositeCornerSubcomplex,
+        SSet.Subcomplex.prod_obj, Set.prodMk_mem_set_prod_eq]
+    rw [CategoryTheory.Subfunctor.min_obj, Set.mem_inter_iff,
+      hopp, hsource, hcorner]
     tauto
 
 noncomputable def standardTypeAEndpointOppositeCarrier_isPushout
@@ -1039,6 +1085,19 @@ theorem standardTypeAEndpointFullTailLeg_succ
     standardTypeAEndpointFullStep_succ] at h
   simpa only [standardTypeAEndpointFullTailLeg, Nat.add_one] using h
 
+theorem standardTypeAEndpointFullTailLeg_succ_naturality
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (s : Cocone (standardTypeAEndpointFullFunctor.{u} g))
+    (n : ℕ) :
+    (standardTypeABoundaryPrismAlternatingFunctor.{u} g).map
+          (homOfLE (Nat.le_add_right n 1)) ≫
+        standardTypeAEndpointFullTailLeg.{u} g s (Nat.succ n) =
+      standardTypeAEndpointFullTailLeg.{u} g s n ≫
+        ((Functor.const ℕ).obj s.pt).map
+          (homOfLE (Nat.le_add_right n 1)) := by
+  rw [Functor.const_obj_map, Category.comp_id]
+  exact standardTypeAEndpointFullTailLeg_succ.{u} g s n
+
 @[reducible]
 noncomputable def standardTypeAEndpointFullTailCocone
     (g : StandardTypeAHornAttachmentGeneratorIndex)
@@ -1049,9 +1108,7 @@ noncomputable def standardTypeAEndpointFullTailCocone
       (F := standardTypeABoundaryPrismAlternatingFunctor.{u} g)
       (G := (Functor.const ℕ).obj s.pt)
       (standardTypeAEndpointFullTailLeg.{u} g s)
-      (fun n => by
-        rw [Functor.const_obj_map, Category.comp_id]
-        exact standardTypeAEndpointFullTailLeg_succ.{u} g s n))
+      (standardTypeAEndpointFullTailLeg_succ_naturality.{u} g s))
 
 @[simp]
 theorem standardTypeAEndpointFullTailCocone_ι_app
@@ -1090,6 +1147,12 @@ noncomputable def standardTypeAEndpointFullCoconeIsColimit
           standardTypeAEndpointFullToCylinder_succ_naturality.{u} g 0
         rw [Functor.const_obj_map, Category.comp_id] at hnat
         have htail := standardTypeAEndpointFullTailFac.{u} g s 0
+        have htail' :
+            standardTypeAEndpointFullToCylinder.{u} g 1 ≫
+                (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).desc
+                  (standardTypeAEndpointFullTailCocone.{u} g s) =
+              s.ι.app 1 := by
+          simpa only [Nat.succ_eq_add_one] using htail
         have hstep := standardTypeAEndpointFullCocone_step.{u} g s 0
         rw [standardTypeAEndpointFullCocone_ι_app]
         calc
@@ -1111,7 +1174,11 @@ noncomputable def standardTypeAEndpointFullCoconeIsColimit
           _ = (standardTypeAEndpointFullFunctor.{u} g).map
                   (homOfLE (Nat.le_add_right 0 1)) ≫
                 s.ι.app 1 := by
-                  simpa only [Nat.succ_eq_add_one] using htail
+                  exact congrArg
+                    (fun q =>
+                      (standardTypeAEndpointFullFunctor.{u} g).map
+                          (homOfLE (Nat.le_add_right 0 1)) ≫ q)
+                    htail'
           _ = s.ι.app 0 := hstep
     | succ n =>
         rw [standardTypeAEndpointFullCocone_ι_app]
