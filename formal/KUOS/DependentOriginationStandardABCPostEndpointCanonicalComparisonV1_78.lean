@@ -3,6 +3,7 @@ import KUOS.DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_7
 namespace KUOS.DependentOriginationStandardABCPostEndpointCanonicalComparisonV1_78
 
 open CategoryTheory
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationScaledAnodyneWFSUniversalityV1_43
 open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
@@ -197,8 +198,7 @@ theorem standardGeneratedScaledAnodyneABC_eq_canonical_via_master
     standardGeneratedScaledAnodyneABC =
       (canonicalGeneratedScaledAnodyne :
         MorphismProperty (ScaledSSet.{u})) :=
-  (standardABCCanonicalComparisonCertificateConstructed R V)
-    .generatedAnodyne_eq_canonical
+  (standardABCCanonicalComparisonCertificateConstructed R V).generatedAnodyne_eq_canonical
 
 /-- And likewise for the right class. -/
 theorem standardGeneratedScaledFibrationABC_eq_canonical_via_master
@@ -207,8 +207,7 @@ theorem standardGeneratedScaledFibrationABC_eq_canonical_via_master
     standardGeneratedScaledFibrationABC =
       (canonicalGeneratedScaledFibration :
         MorphismProperty (ScaledSSet.{u})) :=
-  (standardABCCanonicalComparisonCertificateConstructed R V)
-    .generatedFibration_eq_canonical
+  (standardABCCanonicalComparisonCertificateConstructed R V).generatedFibration_eq_canonical
 
 /-!
 The formal frontier is now directionally exact:
