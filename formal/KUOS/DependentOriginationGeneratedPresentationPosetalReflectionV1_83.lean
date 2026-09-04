@@ -8,8 +8,7 @@ open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55
 open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80
-open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80.
-  GeneratedScaledAnodynePresentationEquivalence
+open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80.GeneratedScaledAnodynePresentationEquivalence
 open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 
 universe u
@@ -256,9 +255,9 @@ theorem isFibrant_antitone
 /-- Equality of the standard A/B/C and canonical KuuOS presentation points is
 exactly the conjunction of the two directional presentation comparisons. -/
 theorem standardABC_eq_canonical_iff_mutual_le :
-    standardABCPresentation = canonicalKuuOSPresentation ↔
-      standardABCPresentation ≤ canonicalKuuOSPresentation ∧
-        canonicalKuuOSPresentation ≤ standardABCPresentation :=
+    standardABCPresentation.{u} = canonicalKuuOSPresentation.{u} ↔
+      standardABCPresentation.{u} ≤ canonicalKuuOSPresentation.{u} ∧
+        canonicalKuuOSPresentation.{u} ≤ standardABCPresentation.{u} :=
   eq_iff_le_and_le _ _
 
 /-!
