@@ -276,9 +276,13 @@ def standardTypeAEndpointOppositeCarrierBicartSq
             (standardTypeAEndpointOppositeSimplexSubcomplex.{u} g).obj d ↔
           y ∈ (intervalEndpoint.{u} g.endpoint.rev).obj d := by
       simp only [standardTypeAEndpointOppositeSimplexSubcomplex,
-        SSet.Subcomplex.prod_obj, Set.prodMk_mem_set_prod_eq,
-        CategoryTheory.Subfunctor.top_obj, Set.top_eq_univ,
-        Set.mem_univ, true_and]
+        SSet.Subcomplex.prod_obj,
+        CategoryTheory.Subfunctor.top_obj, Set.top_eq_univ]
+      change
+        (x ∈ Set.univ ∧
+          y ∈ (intervalEndpoint.{u} g.endpoint.rev).obj d) ↔
+        y ∈ (intervalEndpoint.{u} g.endpoint.rev).obj d
+      simp only [Set.mem_univ, true_and]
     have hsource :
         (x, y) ∈
             ((SSet.horn g.n g.i).unionProd
@@ -325,9 +329,13 @@ def standardTypeAEndpointOppositeCarrierBicartSq
             (standardTypeAEndpointOppositeSimplexSubcomplex.{u} g).obj d ↔
           y ∈ (intervalEndpoint.{u} g.endpoint.rev).obj d := by
       simp only [standardTypeAEndpointOppositeSimplexSubcomplex,
-        SSet.Subcomplex.prod_obj, Set.prodMk_mem_set_prod_eq,
-        CategoryTheory.Subfunctor.top_obj, Set.top_eq_univ,
-        Set.mem_univ, true_and]
+        SSet.Subcomplex.prod_obj,
+        CategoryTheory.Subfunctor.top_obj, Set.top_eq_univ]
+      change
+        (x ∈ Set.univ ∧
+          y ∈ (intervalEndpoint.{u} g.endpoint.rev).obj d) ↔
+        y ∈ (intervalEndpoint.{u} g.endpoint.rev).obj d
+      simp only [Set.mem_univ, true_and]
     have hsource :
         (x, y) ∈
             ((SSet.horn g.n g.i).unionProd
@@ -342,7 +350,13 @@ def standardTypeAEndpointOppositeCarrierBicartSq
           x ∈ (SSet.horn g.n g.i).obj d ∧
             y ∈ (intervalEndpoint.{u} g.endpoint.rev).obj d := by
       simp only [standardTypeAEndpointOppositeCornerSubcomplex,
-        SSet.Subcomplex.prod_obj, Set.prodMk_mem_set_prod_eq]
+        SSet.Subcomplex.prod_obj]
+      change
+        (x ∈ (SSet.horn g.n g.i).obj d ∧
+          y ∈ (intervalEndpoint.{u} g.endpoint.rev).obj d) ↔
+        x ∈ (SSet.horn g.n g.i).obj d ∧
+          y ∈ (intervalEndpoint.{u} g.endpoint.rev).obj d
+      rfl
     rw [CategoryTheory.Subfunctor.min_obj, Set.mem_inter_iff,
       hopp, hsource, hcorner]
     tauto
@@ -1064,6 +1078,14 @@ theorem standardTypeAEndpointFullCocone_step
   simpa only [Functor.const_obj_map, Category.comp_id] using h
 
 @[reducible]
+noncomputable def standardTypeAEndpointFullTailObjIso
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (n : ℕ) :
+    (standardTypeABoundaryPrismAlternatingFunctor.{u} g).obj n ≅
+      (standardTypeAEndpointFullFunctor.{u} g).obj (Nat.succ n) := by
+  exact Iso.refl _
+
+@[reducible]
 noncomputable def standardTypeAEndpointFullTailLeg
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (s : Cocone (standardTypeAEndpointFullFunctor.{u} g))
@@ -1117,6 +1139,25 @@ theorem standardTypeAEndpointFullTailCocone_ι_app
     (n : ℕ) :
     (standardTypeAEndpointFullTailCocone.{u} g s).ι.app n =
       standardTypeAEndpointFullTailLeg.{u} g s n := by
+  simp only [standardTypeAEndpointFullTailCocone, NatTrans.ofSequence_app]
+
+theorem standardTypeAEndpointFullTailObjIso_toCylinder
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (n : ℕ) :
+    (standardTypeAEndpointFullTailObjIso.{u} g n).hom ≫
+        standardTypeAEndpointFullToCylinder.{u} g (Nat.succ n) =
+      (standardTypeABoundaryPrismAlternatingCocone.{u} g).ι.app n := by
+  apply ScaledSSet.ScaledMap.ext
+  rfl
+
+theorem standardTypeAEndpointFullTailObjIso_toLeg
+    (g : StandardTypeAHornAttachmentGeneratorIndex)
+    (s : Cocone (standardTypeAEndpointFullFunctor.{u} g))
+    (n : ℕ) :
+    (standardTypeAEndpointFullTailObjIso.{u} g n).hom ≫
+        s.ι.app (Nat.succ n) =
+      standardTypeAEndpointFullTailLeg.{u} g s n := by
+  apply ScaledSSet.ScaledMap.ext
   rfl
 
 theorem standardTypeAEndpointFullTailFac
@@ -1127,12 +1168,29 @@ theorem standardTypeAEndpointFullTailFac
         (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).desc
           (standardTypeAEndpointFullTailCocone.{u} g s) =
       s.ι.app (Nat.succ n) := by
-  have htail :=
-    (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).fac
-      (standardTypeAEndpointFullTailCocone.{u} g s) n
-  simpa only [standardTypeAEndpointFullToCylinder_succ,
-    standardTypeAEndpointFullTailCocone_ι_app,
-    standardTypeAEndpointFullTailLeg] using htail
+  apply (cancel_epi (standardTypeAEndpointFullTailObjIso.{u} g n).hom).1
+  calc
+    (standardTypeAEndpointFullTailObjIso.{u} g n).hom ≫
+          (standardTypeAEndpointFullToCylinder.{u} g (Nat.succ n) ≫
+            (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).desc
+              (standardTypeAEndpointFullTailCocone.{u} g s)) =
+        ((standardTypeAEndpointFullTailObjIso.{u} g n).hom ≫
+            standardTypeAEndpointFullToCylinder.{u} g (Nat.succ n)) ≫
+          (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).desc
+            (standardTypeAEndpointFullTailCocone.{u} g s) :=
+      (Category.assoc _ _ _).symm
+    _ = (standardTypeABoundaryPrismAlternatingCocone.{u} g).ι.app n ≫
+          (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).desc
+            (standardTypeAEndpointFullTailCocone.{u} g s) := by
+      rw [standardTypeAEndpointFullTailObjIso_toCylinder.{u}]
+    _ = (standardTypeAEndpointFullTailCocone.{u} g s).ι.app n :=
+      (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).fac
+        (standardTypeAEndpointFullTailCocone.{u} g s) n
+    _ = standardTypeAEndpointFullTailLeg.{u} g s n := by
+      rw [standardTypeAEndpointFullTailCocone_ι_app]
+    _ = (standardTypeAEndpointFullTailObjIso.{u} g n).hom ≫
+          s.ι.app (Nat.succ n) :=
+      (standardTypeAEndpointFullTailObjIso_toLeg.{u} g s n).symm
 
 noncomputable def standardTypeAEndpointFullCoconeIsColimit
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
@@ -1189,8 +1247,31 @@ noncomputable def standardTypeAEndpointFullCoconeIsColimit
     have hmn := hm (Nat.succ n)
     rw [standardTypeAEndpointFullCocone_ι_app] at hmn
     have hdesc := standardTypeAEndpointFullTailFac.{u} g s n
-    have h := hmn.trans hdesc.symm
-    simpa only [standardTypeAEndpointFullToCylinder_succ] using h
+    calc
+      (standardTypeABoundaryPrismAlternatingCocone.{u} g).ι.app n ≫ m =
+          ((standardTypeAEndpointFullTailObjIso.{u} g n).hom ≫
+            standardTypeAEndpointFullToCylinder.{u} g (Nat.succ n)) ≫ m := by
+        rw [standardTypeAEndpointFullTailObjIso_toCylinder.{u}]
+      _ = (standardTypeAEndpointFullTailObjIso.{u} g n).hom ≫
+            (standardTypeAEndpointFullToCylinder.{u} g (Nat.succ n) ≫ m) :=
+        Category.assoc _ _ _
+      _ = (standardTypeAEndpointFullTailObjIso.{u} g n).hom ≫
+            s.ι.app (Nat.succ n) := by
+        rw [hmn]
+      _ = (standardTypeAEndpointFullTailObjIso.{u} g n).hom ≫
+            (standardTypeAEndpointFullToCylinder.{u} g (Nat.succ n) ≫
+              (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).desc
+                (standardTypeAEndpointFullTailCocone.{u} g s)) := by
+        rw [hdesc]
+      _ = ((standardTypeAEndpointFullTailObjIso.{u} g n).hom ≫
+              standardTypeAEndpointFullToCylinder.{u} g (Nat.succ n)) ≫
+            (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).desc
+              (standardTypeAEndpointFullTailCocone.{u} g s) :=
+        (Category.assoc _ _ _).symm
+      _ = (standardTypeABoundaryPrismAlternatingCocone.{u} g).ι.app n ≫
+            (standardTypeABoundaryPrismAlternatingCoconeIsColimit.{u} g).desc
+              (standardTypeAEndpointFullTailCocone.{u} g s) := by
+        rw [standardTypeAEndpointFullTailObjIso_toCylinder.{u}]
 
 @[reducible]
 noncomputable def standardTypeAEndpointFullBotIso
