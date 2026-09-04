@@ -1,0 +1,64 @@
+{
+  "version": "kuuos_adaptive_retrieval_policy_v0_1",
+  "scope": {
+    "query_scoped": true,
+    "effect_free_selector": true,
+    "performs_retrieval": false,
+    "persistent_global_context_graph": false,
+    "hardcoded_engineering_thresholds": false
+  },
+  "context_dimensions": [
+    "freshness_requirement",
+    "corpus_churn",
+    "query_pattern",
+    "request_scale",
+    "latency_cost_budget",
+    "operational_capability",
+    "provenance_requirement"
+  ],
+  "retrieval_ladder": [
+    {"rank": 0, "mode": "LEXICAL"},
+    {"rank": 1, "mode": "LEXICAL_REWRITE"},
+    {"rank": 2, "mode": "SEMANTIC_ON_DEMAND"},
+    {"rank": 3, "mode": "HYBRID"},
+    {"rank": 4, "mode": "PREEMBEDDED"},
+    {"rank": 5, "mode": "GRAPH_RELATIONAL"}
+  ],
+  "selection_contract": {
+    "all_modes_must_be_explicitly_assessed": true,
+    "selected_mode_must_be_adequate": true,
+    "all_simpler_modes_must_be_inadequate": true,
+    "no_adequate_mode_route": "NO_DATA",
+    "silent_complexity_escalation": false,
+    "graph_relational_default": false
+  },
+  "authority": {
+    "truth_authority_granted": false,
+    "world_commit_authority_granted": false,
+    "belief_authority_granted": false,
+    "decision_authority_granted": false,
+    "execution_authority_granted": false,
+    "clinical_authority_granted": false,
+    "theorem_authority_granted": false
+  },
+  "calibration": {
+    "source_article_numerical_examples_are_universal_constants": false,
+    "deployment_measurement_required": true,
+    "selector_infers_adequacy_from_thresholds": false
+  },
+  "downstream": {
+    "graph_rag": "docs/KUUOS_GAUGE_QI_PROCESS_GRAPHRAG_v0_2.md",
+    "belief_os_role": "candidate evidence only",
+    "verify_os_role": "independent provenance/evidence verification",
+    "decision_os_bypass": false
+  },
+  "artifacts": {
+    "design": "docs/KUUOS_ADAPTIVE_RETRIEVAL_POLICY_v0_1.md",
+    "subsystem_readme": "docs/AdaptiveRetrieval/README.md",
+    "runtime": "runtime/kuuos_adaptive_retrieval_policy_v0_1.py",
+    "validation": "scripts/check_kuuos_adaptive_retrieval_policy_v0_1.py",
+    "tests": "tests/test_kuuos_adaptive_retrieval_policy_v0_1.py",
+    "formal": "formal/KUOS/Retrieval/AdaptiveRetrievalPolicyV0_1.lean",
+    "formal_aggregate": "formal/KUOS/Retrieval.lean"
+  }
+}
