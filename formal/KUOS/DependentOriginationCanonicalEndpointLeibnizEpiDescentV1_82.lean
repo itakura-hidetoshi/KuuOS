@@ -91,7 +91,7 @@ theorem standardTypeAEndpointMinimalToGenerated_map
 precomposition is equality after an identity underlying simplicial map. -/
 instance standardTypeAEndpointMinimalToGenerated_epi
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    Epi (standardTypeAEndpointMinimalToGenerated g) where
+    Epi (standardTypeAEndpointMinimalToGenerated.{u} g) where
   left_cancellation := by
     intro Z f h w
     apply ScaledSSet.ScaledMap.ext
@@ -116,16 +116,18 @@ horn-cylinder generator is exactly the minimal-source enrichment followed by
 the genuine scaled categorical Leibniz map. -/
 theorem standardTypeAEndpointMinimalToGenerated_comp_scaledLeibniz
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    standardTypeAEndpointMinimalToGenerated g ≫
-        standardTypeAEndpointScaledLeibnizPushoutProductHom g =
-      scaledHornAttachmentGeneratorHom g.toCanonical := by
+    standardTypeAEndpointMinimalToGenerated.{u} g ≫
+        standardTypeAEndpointScaledLeibnizPushoutProductHom.{u} g =
+      scaledHornAttachmentGeneratorHom
+        (StandardTypeAHornAttachmentGeneratorIndex.toCanonical.{u} g) := by
   apply ScaledSSet.ScaledMap.ext
   change
-    (standardTypeAEndpointMinimalToGenerated g).map ≫
-        (standardTypeAEndpointScaledLeibnizPushoutProductHom g).map =
-      (scaledHornAttachmentGeneratorHom g.toCanonical).map
-  rw [standardTypeAEndpointMinimalToGenerated_map,
-    standardTypeAEndpointScaledLeibnizPushoutProductHom_map]
+    (standardTypeAEndpointMinimalToGenerated.{u} g).map ≫
+        (standardTypeAEndpointScaledLeibnizPushoutProductHom.{u} g).map =
+      (scaledHornAttachmentGeneratorHom
+        (StandardTypeAHornAttachmentGeneratorIndex.toCanonical.{u} g)).map
+  rw [standardTypeAEndpointMinimalToGenerated_map.{u},
+    standardTypeAEndpointScaledLeibnizPushoutProductHom_map.{u}]
   change
     𝟙 ((SSet.horn g.n g.i).unionProd
         (intervalEndpoint g.endpoint) : SSet.{u}) ≫
