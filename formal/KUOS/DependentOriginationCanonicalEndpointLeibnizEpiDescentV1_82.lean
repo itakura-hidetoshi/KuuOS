@@ -14,8 +14,7 @@ open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
 open KUOS.DependentOriginationStandardTypeAGeneratedPushoutLLPDescentV1_54
 open KUOS.DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55
 open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80
-open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80.
-  GeneratedScaledAnodynePresentationEquivalence
+open KUOS.DependentOriginationGeneratedPresentationEndpointInvariantV1_80.GeneratedScaledAnodynePresentationEquivalence
 open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 
 universe u
@@ -96,8 +95,19 @@ instance standardTypeAEndpointMinimalToGenerated_epi
   left_cancellation := by
     intro Z f h w
     apply ScaledSSet.ScaledMap.ext
+    change
+      @Eq
+        (((SSet.horn g.n g.i).unionProd
+          (intervalEndpoint g.endpoint) : SSet.{u}) ⟶ Z.carrier)
+        f.map h.map
     have hw := congrArg ScaledSSet.ScaledMap.map w
-    simpa [standardTypeAEndpointMinimalToGenerated] using hw
+    change
+      (𝟙 ((SSet.horn g.n g.i).unionProd
+          (intervalEndpoint g.endpoint) : SSet.{u}) ≫ f.map) =
+        (𝟙 ((SSet.horn g.n g.i).unionProd
+          (intervalEndpoint g.endpoint) : SSet.{u}) ≫ h.map)
+      at hw
+    simpa only [Category.id_comp] using hw
 
 /-! ## Exact factorization of the canonical generator -/
 
@@ -110,12 +120,20 @@ theorem standardTypeAEndpointMinimalToGenerated_comp_scaledLeibniz
         standardTypeAEndpointScaledLeibnizPushoutProductHom g =
       scaledHornAttachmentGeneratorHom g.toCanonical := by
   apply ScaledSSet.ScaledMap.ext
-  simp [standardTypeAEndpointMinimalToGenerated,
-    standardTypeAEndpointScaledLeibnizPushoutProductHom_map,
-    scaledHornAttachmentGeneratorHom,
-    scaledHornCylinderAttachmentInclusion,
-    hornCylinderAttachment,
-    StandardTypeAHornAttachmentGeneratorIndex.toCanonical]
+  change
+    (standardTypeAEndpointMinimalToGenerated g).map ≫
+        (standardTypeAEndpointScaledLeibnizPushoutProductHom g).map =
+      (scaledHornAttachmentGeneratorHom g.toCanonical).map
+  rw [standardTypeAEndpointMinimalToGenerated_map,
+    standardTypeAEndpointScaledLeibnizPushoutProductHom_map]
+  change
+    𝟙 ((SSet.horn g.n g.i).unionProd
+        (intervalEndpoint g.endpoint) : SSet.{u}) ≫
+        ((SSet.horn g.n g.i).unionProd
+          (intervalEndpoint g.endpoint)).ι =
+      ((SSet.horn g.n g.i).unionProd
+        (intervalEndpoint g.endpoint)).ι
+  simp only [Category.id_comp]
 
 /-! ## Generic orthogonal descent through an epi left factor -/
 
@@ -193,7 +211,7 @@ theorem canonicalTypeAEndpointLeibnizLiftingUnconditional :
 /-- The canonical KuuOS quotient point carries endpoint generator membership
 without identifying it with the standard A/B/C quotient point. -/
 theorem canonicalKuuOSPresentation_endpointGeneratorsGenerated_unconditional :
-    typeAEndpointGeneratorsGenerated canonicalKuuOSPresentation := by
+    typeAEndpointGeneratorsGenerated.{u} canonicalKuuOSPresentation := by
   change
     TypeAEndpointLeibnizGeneratorsGeneratedBy
       (scaledHornAttachmentGenerators :
@@ -208,7 +226,7 @@ theorem canonicalKuuOSPresentation_endpointGeneratorsGenerated_unconditional :
 /-- The canonical quotient point carries endpoint stability independently of
 any standard-vs-canonical quotient equality. -/
 theorem canonicalKuuOSPresentation_endpointStable_unconditional :
-    typeAEndpointStable canonicalKuuOSPresentation := by
+    typeAEndpointStable.{u} canonicalKuuOSPresentation := by
   change
     TypeAEndpointLeibnizStableForPresentation
       (scaledHornAttachmentGenerators :
@@ -222,7 +240,7 @@ theorem canonicalKuuOSPresentation_endpointStable_unconditional :
 /-- The canonical quotient point likewise carries endpoint right lifting
 unconditionally. -/
 theorem canonicalKuuOSPresentation_endpointLifting_unconditional :
-    typeAEndpointLifting canonicalKuuOSPresentation := by
+    typeAEndpointLifting.{u} canonicalKuuOSPresentation := by
   change
     TypeAEndpointLeibnizLiftingForPresentation
       (scaledHornAttachmentGenerators :
