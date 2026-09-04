@@ -1164,12 +1164,9 @@ noncomputable def standardTypeAEndpointFullTailCocone
     Cocone (standardTypeABoundaryPrismAlternatingFunctor.{u} g) :=
   Cocone.mk s.pt (standardTypeAEndpointFullTailNatTrans.{u} g s)
 
-@[reducible]
 noncomputable def standardTypeAEndpointFullDesc
     (g : StandardTypeAHornAttachmentGeneratorIndex)
-    (s : Cocone (standardTypeAEndpointFullFunctor.{u} g)) :
-    standardTypeABoundaryPrismScaledCatHom
-      (scaledSimplexCylinder (standardTypeASimplexScaling g.i)) s.pt :=
+    (s : Cocone (standardTypeAEndpointFullFunctor.{u} g)) :=
   standardTypeABoundaryPrismAlternatingDesc.{u} g
     (standardTypeAEndpointFullTailCocone.{u} g s)
 
