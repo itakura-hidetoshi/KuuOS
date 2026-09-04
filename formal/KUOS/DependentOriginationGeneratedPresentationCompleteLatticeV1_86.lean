@@ -176,7 +176,7 @@ theorem presentationToSaturatedAnodyne_iSup
     (P : ι → GeneratedScaledAnodynePresentation.{u}) :
     presentationToSaturatedAnodyne (⨆ i, P i) =
       ⨆ i, presentationToSaturatedAnodyne (P i) := by
-  exact map_iSup generatedPresentationSaturatedAnodyneOrderIso P
+  exact generatedPresentationSaturatedAnodyneOrderIso.map_iSup P
 
 /-- The left fixed-point coordinate preserves arbitrary meets. -/
 @[simp]
@@ -185,7 +185,7 @@ theorem presentationToSaturatedAnodyne_iInf
     (P : ι → GeneratedScaledAnodynePresentation.{u}) :
     presentationToSaturatedAnodyne (⨅ i, P i) =
       ⨅ i, presentationToSaturatedAnodyne (P i) := by
-  exact map_iInf generatedPresentationSaturatedAnodyneOrderIso P
+  exact generatedPresentationSaturatedAnodyneOrderIso.map_iInf P
 
 /-- Because the right coordinate is order reversing, a presentation join is a
 meet of generated right classes. -/
@@ -196,7 +196,7 @@ theorem presentationToSaturatedFibration_iSup
     presentationToSaturatedFibration (⨆ i, P i) =
       ⨅ i, presentationToSaturatedFibration (P i) := by
   simpa using
-    (map_iSup generatedPresentationSaturatedFibrationOrderIso P)
+    (generatedPresentationSaturatedFibrationOrderIso.map_iSup P)
 
 /-- Dually, a presentation meet is a join in the ordinary inclusion order on
 saturated right classes. -/
@@ -207,7 +207,7 @@ theorem presentationToSaturatedFibration_iInf
     presentationToSaturatedFibration (⨅ i, P i) =
       ⨆ i, presentationToSaturatedFibration (P i) := by
   simpa using
-    (map_iInf generatedPresentationSaturatedFibrationOrderIso P)
+    (generatedPresentationSaturatedFibrationOrderIso.map_iInf P)
 
 /-! ## Explicit left/right formulas for arbitrary lattice operations -/
 
