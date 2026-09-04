@@ -72,8 +72,8 @@ theorem canonicalGenerators_le_standardGenerated_of_residual
         (standardScaledAnodyneGeneratorsABC :
           MorphismProperty (ScaledSSet.{u}))
   exact
-    (standardABCCanonicalAttachmentFactorComparisonConstructed R)
-      .canonicalGenerators_le_externalGenerated
+    CanonicalAttachmentFactorComparison.canonicalGenerators_le_externalGenerated
+      (standardABCCanonicalAttachmentFactorComparisonConstructed R)
 
 /-! ## Forward direction: residual comparison implies canonical <= standard -/
 
@@ -149,7 +149,7 @@ theorem canonicalGeneratedFibration_le_standardGeneratedFibration_of_reverse
       MorphismProperty (ScaledSSet.{u})) ≤
       (standardScaledAnodyneGeneratorsABC :
         MorphismProperty (ScaledSSet.{u})).rlp
-  rw [← canonicalGeneratedScaledAnodyne_rlp_eq_fibration] at hrlp
+  rw [canonicalGeneratedScaledAnodyne_rlp_eq_fibration] at hrlp
   simpa [standardGeneratedScaledAnodyneABC] using hrlp
 
 /-! ## The post-endpoint master certificate has only the two comparison inputs -/
