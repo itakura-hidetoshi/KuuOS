@@ -167,8 +167,7 @@ theorem saturatedFibration_iSup_val
 saturated-left representatives. -/
 noncomputable instance generatedScaledAnodynePresentationCompleteLattice :
     CompleteLattice GeneratedScaledAnodynePresentation.{u} :=
-  generatedPresentationSaturatedAnodyneOrderIso.symm.toGaloisInsertion
-    .liftCompleteLattice
+  generatedPresentationSaturatedAnodyneOrderIso.symm.toGaloisInsertion.liftCompleteLattice
 
 /-- The left fixed-point coordinate preserves arbitrary joins. -/
 @[simp]
