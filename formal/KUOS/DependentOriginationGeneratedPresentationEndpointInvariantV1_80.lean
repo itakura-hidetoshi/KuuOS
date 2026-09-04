@@ -103,6 +103,8 @@ theorem generatedAnodyne_eq :
       K.right_generators_le_left_generated
       (externalGeneratedScaledAnodyne_isOrthogonallySaturated E)
 
+omit K
+
 /-- Conversely equality of generated left classes recovers mutual generation.
 Thus the structure above contains exactly the information relevant to the
 orthogonal closure. -/
@@ -136,6 +138,8 @@ theorem iff_generatedAnodyne_eq :
 def refl (E : MorphismProperty (ScaledSSet.{u})) :
     GeneratedScaledAnodynePresentationEquivalence E E :=
   ofGeneratedAnodyneEq rfl
+
+include K
 
 /-- Symmetry of generated presentation equivalence. -/
 def symm : GeneratedScaledAnodynePresentationEquivalence F E :=
@@ -358,8 +362,7 @@ theorem inducedTypeAAttachments_le_of_standardEquivalent
     (standardTypeAInducedScaledHornAttachmentGenerators :
       MorphismProperty (ScaledSSet.{u})) ≤
       externalGeneratedScaledAnodyne E :=
-  (K.standardTypeAExternalComparison_of_standardEquivalent)
-    .inducedTypeAAttachments_le_externalGenerated
+  (standardTypeAExternalComparison_of_standardEquivalent K).inducedTypeAAttachments_le_externalGenerated
 
 /-- The v1.50 endpoint-pushout-product presentation transports as well. -/
 theorem endpointPushoutProducts_le_of_standardEquivalent
@@ -369,8 +372,7 @@ theorem endpointPushoutProducts_le_of_standardEquivalent
     (standardTypeAEndpointPushoutProductGenerators :
       MorphismProperty (ScaledSSet.{u})) ≤
       externalGeneratedScaledAnodyne E :=
-  (K.standardTypeAExternalComparison_of_standardEquivalent)
-    .endpointPushoutProducts_le_externalGenerated
+  (standardTypeAExternalComparison_of_standardEquivalent K).endpointPushoutProducts_le_externalGenerated
 
 end GeneratedScaledAnodynePresentationEquivalence
 
@@ -403,8 +405,8 @@ theorem canonical_typeAEndpointLeibnizStable_of_positiveComparison
     GeneratedScaledAnodynePresentationEquivalence.TypeAEndpointLeibnizStableForPresentation
       (scaledHornAttachmentGenerators :
         MorphismProperty (ScaledSSet.{u})) :=
-  K.toGeneratedPresentationEquivalence
-    .typeAEndpointLeibnizStable_of_standardEquivalent
+  GeneratedScaledAnodynePresentationEquivalence.typeAEndpointLeibnizStable_of_standardEquivalent
+    (StandardABCCanonicalPositiveComparisonCertificate.toGeneratedPresentationEquivalence K)
 
 /-- And it inherits the endpoint right-lifting theorem through equality of the
 right orthogonals. -/
@@ -413,8 +415,8 @@ theorem canonical_typeAEndpointLeibnizLifting_of_positiveComparison
     GeneratedScaledAnodynePresentationEquivalence.TypeAEndpointLeibnizLiftingForPresentation
       (scaledHornAttachmentGenerators :
         MorphismProperty (ScaledSSet.{u})) :=
-  K.toGeneratedPresentationEquivalence
-    .typeAEndpointLeibnizLifting_of_standardEquivalent
+  GeneratedScaledAnodynePresentationEquivalence.typeAEndpointLeibnizLifting_of_standardEquivalent
+    (StandardABCCanonicalPositiveComparisonCertificate.toGeneratedPresentationEquivalence K)
 
 /-!
 The presentation-independent endpoint theorem is now separated cleanly from
