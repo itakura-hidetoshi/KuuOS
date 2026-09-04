@@ -87,6 +87,8 @@ variable
     {E F G : MorphismProperty (ScaledSSet.{u})}
     (K : GeneratedScaledAnodynePresentationEquivalence E F)
 
+include K
+
 /-- Mutual generation identifies the two orthogonally generated left classes.
 No small-object argument is needed: both targets are already orthogonally
 saturated. -/
