@@ -90,12 +90,20 @@ theorem standardTypeATwoHornMap_scaled
   exact (minimalScaling_map X.scaling f) t
     (standardTypeATwoHorn_every_two_simplex_minimally_thin t)
 
+/-- The Yoneda identity triangle acts as the identity order map on vertices. -/
+@[simp]
+theorem identityTwoSimplex_apply (j : Fin 3) :
+    identityTwoSimplex j = j := by
+  change (SSet.stdSimplex.objEquiv.symm (𝟙 ⦋2⦌)) j = j
+  rw [SSet.stdSimplex.objEquiv_symm_apply]
+  rfl
+
 /-- The Yoneda identity triangle is the distinguished type-(A) triangle for
 `n = 2, i = 1`. -/
 theorem identityTwoSimplex_isStandardTypeADistinguishedTriangle :
     IsStandardTypeADistinguishedTriangle
       (1 : Fin 3) (identityTwoSimplex : (Δ[2] : SSet.{u}).obj (op ⦋2⦌)) := by
-  simp [IsStandardTypeADistinguishedTriangle, identityTwoSimplex]
+  simp [IsStandardTypeADistinguishedTriangle]
 
 /-- Hence the identity triangle is thin in the standard type-(A) simplex
 scaling in dimension two. -/
@@ -111,9 +119,16 @@ theorem standardTypeATwo_distinguished_eq_identity
     (ht : IsStandardTypeADistinguishedTriangle (1 : Fin 3) t) :
     t = identityTwoSimplex := by
   rcases ht with ⟨h1, h0, h2⟩
-  ext j
-  fin_cases j <;> apply Fin.ext <;>
-    simp [identityTwoSimplex] <;> omega
+  rcases identityTwoSimplex_isStandardTypeADistinguishedTriangle with
+    ⟨hi1, hi0, hi2⟩
+  apply SSet.stdSimplex.ext
+  intro j
+  fin_cases j
+  · apply Fin.ext
+    omega
+  · exact h1.trans hi1.symm
+  · apply Fin.ext
+    omega
 
 /-- A map out of the standard type-(A) `Delta[2]` is scaled as soon as the
 image of the identity triangle is thin.  The minimally thin triangles are
@@ -198,14 +213,32 @@ theorem thinReplacement_of_standardTypeATwoRLP
     { map := SSet.yonedaEquiv.symm σ ≫ p.map
       scaled := by
         apply standardTypeATwoSimplexMap_scaled_of_identity_thin
-        simpa [identityTwoSimplex] using hσ }
+        have heval :
+            (SSet.yonedaEquiv.symm σ).app
+                (op ⦋2⦌) identityTwoSimplex = σ := by
+          simp [identityTwoSimplex]
+        set_option backward.isDefEq.respectTransparency false in
+          change
+            Y.scaling.thin
+              (p.map.app (op ⦋2⦌)
+                ((SSet.yonedaEquiv.symm σ).app
+                  (op ⦋2⦌) identityTwoSimplex))
+        rw [heval]
+        exact hσ }
   let sq : CommSq f
       (standardTypeAScaledHornGeneratorHom standardTypeATwoSimplexIndex)
       p g :=
     { w := by
         apply ScaledSSet.ScaledMap.ext
-        simp [f, g, standardTypeATwoSimplexIndex,
-          standardTypeAScaledHornGeneratorHom, Category.assoc] }
+        set_option backward.isDefEq.respectTransparency false in
+          change
+            ((Λ[2, (1 : Fin 3)].ι :
+                (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶ (Δ[2] : SSet.{u})) ≫
+              SSet.yonedaEquiv.symm σ) ≫ p.map =
+              (Λ[2, (1 : Fin 3)].ι :
+                (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶ (Δ[2] : SSet.{u})) ≫
+                (SSet.yonedaEquiv.symm σ ≫ p.map)
+        exact Category.assoc _ _ _ }
   rcases (hp.sq_hasLift sq).exists_lift with ⟨L⟩
   let τ : X.carrier.obj (op ⦋2⦌) :=
     L.l.map.app (op ⦋2⦌)
@@ -214,11 +247,19 @@ theorem thinReplacement_of_standardTypeATwoRLP
   · exact L.l.scaled _ identityTwoSimplex_standardTypeA_thin
   · have hleft := congrArg ScaledSSet.ScaledMap.map L.fac_left
     have hYoneda : SSet.yonedaEquiv.symm τ = L.l.map := by
+      apply SSet.yonedaEquiv.injective
       simp [τ, identityTwoSimplex]
     dsimp [SameStandardTypeAInnerHorn]
     rw [hYoneda]
-    simpa [f, standardTypeATwoSimplexIndex,
-      standardTypeAScaledHornGeneratorHom] using hleft.symm
+    set_option backward.isDefEq.respectTransparency false in
+      change
+        (Λ[2, (1 : Fin 3)].ι :
+            (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶ (Δ[2] : SSet.{u})) ≫
+              L.l.map =
+          (Λ[2, (1 : Fin 3)].ι :
+            (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶ (Δ[2] : SSet.{u})) ≫
+              SSet.yonedaEquiv.symm σ at hleft
+    exact hleft.symm
   · have hright := congrArg ScaledSSet.ScaledMap.map L.fac_right
     have hpoint := ConcreteCategory.congr_hom
       (congr_app hright (op ⦋2⦌))
