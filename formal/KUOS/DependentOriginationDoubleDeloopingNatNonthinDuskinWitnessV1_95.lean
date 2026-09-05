@@ -132,29 +132,29 @@ instance : Bicategory NatDoubleDelooping where
     intro a b f g η
     set_option backward.isDefEq.respectTransparency false in
       change (η : Nat) = (0 : Nat) + (η + 0)
-    omega
+    simp only [Nat.add_zero, Nat.zero_add]
   comp_whiskerLeft := by
     intro a b c d f g h h' η
     set_option backward.isDefEq.respectTransparency false in
       change (η : Nat) = (0 : Nat) + (η + 0)
-    omega
+    simp only [Nat.add_zero, Nat.zero_add]
   id_whiskerRight := by intros; rfl
   comp_whiskerRight := by intros; rfl
   whiskerRight_id := by
     intro a b f g η
     set_option backward.isDefEq.respectTransparency false in
       change (η : Nat) = (0 : Nat) + (η + 0)
-    omega
+    simp only [Nat.add_zero, Nat.zero_add]
   whiskerRight_comp := by
     intro a b c d f f' η g h
     set_option backward.isDefEq.respectTransparency false in
       change (η : Nat) = (0 : Nat) + (η + 0)
-    omega
+    simp only [Nat.add_zero, Nat.zero_add]
   whisker_assoc := by
     intro a b c d f g g' η h
     set_option backward.isDefEq.respectTransparency false in
       change (η : Nat) = (0 : Nat) + (η + 0)
-    omega
+    simp only [Nat.add_zero, Nat.zero_add]
   whisker_exchange := by
     intros
     change _ + _ = _ + _
@@ -250,26 +250,26 @@ def natNoninvertibleTriangleCore :
   mapComp f g := natTriangleMapComp f g
   mapComp_naturality_left := by
     intro a b c f f' η g
-    have hff' : f = f' := Subsingleton.elim _ _
-    subst f'
     set_option backward.isDefEq.respectTransparency false in
-      change natTriangleMapComp f g + 0 = 0 + natTriangleMapComp f g
-    omega
+      change natTriangleMapComp f g + 0 = 0 + natTriangleMapComp f' g
+    simp only [Nat.add_zero, Nat.zero_add, natTriangleMapComp]
   mapComp_naturality_right := by
     intro a b c f g g' η
-    have hgg' : g = g' := Subsingleton.elim _ _
-    subst g'
     set_option backward.isDefEq.respectTransparency false in
-      change natTriangleMapComp f g + 0 = 0 + natTriangleMapComp f g
-    omega
+      change natTriangleMapComp f g + 0 = 0 + natTriangleMapComp f g'
+    simp only [Nat.add_zero, Nat.zero_add, natTriangleMapComp]
   map₂_leftUnitor := by
     intro a b f
+    simp [natTriangleMapComp]
     set_option backward.isDefEq.respectTransparency false in
-      simp [natTriangleMapComp]
+      change (0 : Nat) = (0 : Nat) + 0
+    rfl
   map₂_rightUnitor := by
     intro a b f
+    simp [natTriangleMapComp]
     set_option backward.isDefEq.respectTransparency false in
-      simp [natTriangleMapComp]
+      change (0 : Nat) = (0 : Nat) + 0
+    rfl
   map₂_associator := by
     intro a b c d f g h
     set_option backward.isDefEq.respectTransparency false in
