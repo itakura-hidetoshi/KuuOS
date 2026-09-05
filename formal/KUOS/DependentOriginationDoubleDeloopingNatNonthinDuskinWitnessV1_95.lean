@@ -78,20 +78,6 @@ instance : Category NatOneCell where
     intro W X Y Z f g h
     exact Nat.add_assoc f g h
 
-/-- Numerals in any 2-hom of the one-cell category denote the corresponding
-natural-number 2-cell. -/
-instance homOfNat {f g : NatOneCell} (n : Nat) : OfNat (f ⟶ g) n where
-  ofNat := by
-    change Nat
-    exact n
-
-/-- Addition of composable 2-cells is the underlying natural-number addition. -/
-instance homHAdd {f g h : NatOneCell} :
-    HAdd (f ⟶ g) (g ⟶ h) (f ⟶ h) where
-  hAdd α β := by
-    change Nat at α β ⊢
-    exact α + β
-
 @[simp]
 theorem id_eq_zero (f : NatOneCell) : (𝟙 f : f ⟶ f) = 0 := rfl
 
@@ -164,8 +150,10 @@ theorem one_twoCell_not_isIso :
       (1 : (NatOneCell.star : NatOneCell) ⟶ NatOneCell.star) := h
   have hinv := IsIso.hom_inv_id
     (1 : (NatOneCell.star : NatOneCell) ⟶ NatOneCell.star)
-  change 1 + inv
-      (1 : (NatOneCell.star : NatOneCell) ⟶ NatOneCell.star) = 0 at hinv
+  change
+    (1 : Nat) +
+      (inv (1 : (NatOneCell.star : NatOneCell) ⟶ NatOneCell.star) : Nat) = 0
+      at hinv
   omega
 
 end NatDoubleDelooping
@@ -182,13 +170,44 @@ def natTriangleMapComp
     if b.as < c.as then 1 else 0
   else 0
 
+/-- The comparison labels satisfy the normal-lax associativity equation on
+all nondecreasing quadruples of vertices in `[2]`. -/
+theorem natTriangleMapComp_cocycle
+    {a b c d : DuskinOrdinal 2}
+    (f : a ⟶ b) (g : b ⟶ c) (h : c ⟶ d) :
+    natTriangleMapComp f g + natTriangleMapComp (f ≫ g) h =
+      natTriangleMapComp g h + natTriangleMapComp f (g ≫ h) := by
+  have hab : a.as ≤ b.as := f.as.le
+  have hbc : b.as ≤ c.as := g.as.le
+  have hcd : c.as ≤ d.as := h.as.le
+  by_cases habEq : a.as = b.as
+  · have habObj : a = b := LocallyDiscrete.ext habEq
+    subst b
+    simp [natTriangleMapComp]
+  by_cases hbcEq : b.as = c.as
+  · have hbcObj : b = c := LocallyDiscrete.ext hbcEq
+    subst c
+    simp [natTriangleMapComp]
+  by_cases hcdEq : c.as = d.as
+  · have hcdObj : c = d := LocallyDiscrete.ext hcdEq
+    subst d
+    simp [natTriangleMapComp]
+  have hablt : a.as < b.as := by omega
+  have hbclt : b.as < c.as := by omega
+  have hcdlt : c.as < d.as := by omega
+  have haclt : a.as < c.as := lt_trans hablt hbclt
+  have hbdlt : b.as < d.as := lt_trans hbclt hcdlt
+  simp [natTriangleMapComp, hablt, hbclt, hcdlt, haclt, hbdlt]
+
 /-- The normal-lax core of the concrete non-invertible Duskin triangle. -/
 def natNoninvertibleTriangleCore :
     StrictlyUnitaryLaxFunctorCore (DuskinOrdinal 2) NatDoubleDelooping where
   obj _ := NatDoubleDelooping.star
   map _ := NatOneCell.star
   map_id _ := rfl
-  map₂ _ := 0
+  map₂ _ := by
+    change Nat
+    exact 0
   map₂_id _ := rfl
   map₂_comp _ _ := rfl
   mapComp f g := natTriangleMapComp f g
@@ -206,15 +225,11 @@ def natNoninvertibleTriangleCore :
     simp [natTriangleMapComp]
   map₂_associator := by
     intro a b c d f g h
-    have hab : a.as ≤ b.as := f.as.le
-    have hbc : b.as ≤ c.as := g.as.le
-    have hcd : c.as ≤ d.as := h.as.le
-    have ha := a.as.isLt
-    have hb := b.as.isLt
-    have hc := c.as.isLt
-    have hd := d.as.isLt
-    simp only [natTriangleMapComp]
-    split_ifs <;> omega
+    change
+      natTriangleMapComp f g + natTriangleMapComp (f ≫ g) h + 0 =
+        0 + natTriangleMapComp g h + natTriangleMapComp f (g ≫ h)
+    simpa only [Nat.add_zero, Nat.zero_add] using
+      natTriangleMapComp_cocycle f g h
 
 /-- The concrete Duskin 2-simplex with comparison label `1`. -/
 def natNoninvertibleTriangle :
@@ -225,7 +240,8 @@ def natNoninvertibleTriangle :
 theorem natNoninvertibleTriangle_comparison :
     duskinComparison natNoninvertibleTriangle =
       (1 : (NatOneCell.star : NatOneCell) ⟶ NatOneCell.star) := by
-  rfl
+  change natTriangleMapComp edge01 edge12 = 1
+  simp [natTriangleMapComp, edge01, edge12]
 
 /-- Its intrinsic comparison 2-cell is not invertible. -/
 theorem natNoninvertibleTriangle_comparison_not_isIso :
