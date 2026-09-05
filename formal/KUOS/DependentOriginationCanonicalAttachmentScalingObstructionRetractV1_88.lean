@@ -119,17 +119,17 @@ noncomputable def minimalAttachmentFirstProjection
   scaled := minimalScaling_map _ _
 
 /-- First projection from the scaled cylinder to the chosen scaled simplex. -/
-set_option backward.isDefEq.respectTransparency false in
 def scaledCylinderFirstProjection
     {n : Nat}
     (sDelta : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     scaledSimplexCylinder sDelta ⟶ scaledSimplex sDelta where
   map := CartesianMonoidalCategory.fst _ _
   scaled := by
-    intro t ht
-    change sDelta.thin t.1 at ht
-    change sDelta.thin t.1
-    exact ht
+    set_option backward.isDefEq.respectTransparency false in
+      intro t ht
+      change sDelta.thin t.1 at ht
+      change sDelta.thin t.1
+      exact ht
 
 /-! ## The arrow retract -/
 
@@ -148,13 +148,19 @@ noncomputable def simplexScalingToAttachmentArrow
     (by
       apply ScaledSSet.ScaledMap.ext
       fin_cases endpoint
-      · simpa [minimalSimplexIntoAttachment, chosenScaledEndpoint,
-          minimalToChosenSimplexScaling,
-          scaledHornCylinderAttachmentInclusion, scaledEndpointZero] using
+      · change
+          endpointIntoAttachment n i 0 ≫ (hornCylinderAttachment n i 0).ι =
+            𝟙 (Δ[n] : SSet.{u}) ≫
+              (SSet.ι₀ :
+                (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1])
+        simpa only [Category.id_comp] using
           (endpointIntoAttachment_ι_zero n i)
-      · simpa [minimalSimplexIntoAttachment, chosenScaledEndpoint,
-          minimalToChosenSimplexScaling,
-          scaledHornCylinderAttachmentInclusion, scaledEndpointOne] using
+      · change
+          endpointIntoAttachment n i 1 ≫ (hornCylinderAttachment n i 1).ι =
+            𝟙 (Δ[n] : SSet.{u}) ≫
+              (SSet.ι₁ :
+                (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1])
+        simpa only [Category.id_comp] using
           (endpointIntoAttachment_ι_one n i))
 
 /-- First projections give the reverse arrow-category morphism. -/
