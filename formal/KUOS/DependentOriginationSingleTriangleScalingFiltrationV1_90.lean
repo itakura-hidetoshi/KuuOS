@@ -62,6 +62,7 @@ presentation comparison is used in this reduction.
 /-! ## Atomic one-triangle scalings -/
 
 /-- Add one chosen 2-simplex to the minimal scaling of `Δ[n]`. -/
+@[implicit_reducible]
 def singleTriangleScaling
     {n : Nat}
     (t : (Δ[n] : SSet.{u}).obj (op ⦋2⦌)) :
@@ -143,6 +144,7 @@ theorem singleTriangleScalingEnrichments_le_simplexScalingEnrichments :
 
 /-- Minimal scaling together with a finite set `F` of explicitly thin
 triangles. -/
+@[implicit_reducible]
 def finiteTriangleScaling
     {n : Nat}
     (F : Finset ((Δ[n] : SSet.{u}).obj (op ⦋2⦌))) :
