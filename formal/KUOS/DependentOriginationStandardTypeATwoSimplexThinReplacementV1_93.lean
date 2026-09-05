@@ -95,7 +95,24 @@ theorem standardTypeATwoHornMap_scaled
 theorem identityTwoSimplex_isStandardTypeADistinguishedTriangle :
     IsStandardTypeADistinguishedTriangle
       (1 : Fin 3) (identityTwoSimplex : (Δ[2] : SSet.{u}).obj (op ⦋2⦌)) := by
-  simp [IsStandardTypeADistinguishedTriangle]
+  unfold IsStandardTypeADistinguishedTriangle
+  constructor
+  · change
+      (SSet.stdSimplex.objEquiv.symm (𝟙 ⦋2⦌) :
+        (Δ[2] : SSet.{u}).obj (op ⦋2⦌)) (1 : Fin 3) = (1 : Fin 3)
+    rw [SSet.stdSimplex.objEquiv_symm_apply]
+    rfl
+  constructor
+  · change
+      ((SSet.stdSimplex.objEquiv.symm (𝟙 ⦋2⦌) :
+        (Δ[2] : SSet.{u}).obj (op ⦋2⦌)) (0 : Fin 3)).val + 1 = 1
+    rw [SSet.stdSimplex.objEquiv_symm_apply]
+    rfl
+  · change
+      2 = ((SSet.stdSimplex.objEquiv.symm (𝟙 ⦋2⦌) :
+        (Δ[2] : SSet.{u}).obj (op ⦋2⦌)) (2 : Fin 3)).val
+    rw [SSet.stdSimplex.objEquiv_symm_apply]
+    rfl
 
 /-- Hence the identity triangle is thin in the standard type-(A) simplex
 scaling in dimension two. -/
@@ -120,22 +137,13 @@ theorem standardTypeATwo_distinguished_eq_identity
   apply SSet.stdSimplex.ext
   intro j
   fin_cases j
-  · rw [show
-      (identityTwoSimplex :
-        (Δ[2] : SSet.{u}).obj (op ⦋2⦌)) (0 : Fin 3) = 0 by
-          simp [identityTwoSimplex]]
-    apply Fin.ext
+  · apply Fin.ext
+    change (t (0 : Fin 3)).val = 0
     exact h0val
-  · rw [show
-      (identityTwoSimplex :
-        (Δ[2] : SSet.{u}).obj (op ⦋2⦌)) (1 : Fin 3) = 1 by
-          simp [identityTwoSimplex]]
+  · change t (1 : Fin 3) = (1 : Fin 3)
     exact h1
-  · rw [show
-      (identityTwoSimplex :
-        (Δ[2] : SSet.{u}).obj (op ⦋2⦌)) (2 : Fin 3) = 2 by
-          simp [identityTwoSimplex]]
-    apply Fin.ext
+  · apply Fin.ext
+    change (t (2 : Fin 3)).val = 2
     exact h2val
 
 /-- A map out of the standard type-(A) `Delta[2]` is scaled as soon as the
