@@ -78,7 +78,12 @@ theorem hasLiftingProperty_singleTriangle_of_reflectsThinTwoSimplices
   intro f g sq
   have hsqmap : f.map ≫ p.map = g.map := by
     have hmap := congrArg ScaledSSet.ScaledMap.map sq.w
-    simpa [minimalToSingleTriangleScaling, scalingEnrichmentHom] using hmap
+    set_option backward.isDefEq.respectTransparency false in
+      change
+        f.map ≫ p.map =
+          𝟙 (scaledSimplex (singleTriangleScaling.{u} (n := n) t)).carrier ≫
+            g.map at hmap
+    simpa only [Category.id_comp] using hmap
   let l : scaledSimplex (singleTriangleScaling.{u} (n := n) t) ⟶ X :=
     { map := f.map
       scaled := by
@@ -91,15 +96,27 @@ theorem hasLiftingProperty_singleTriangle_of_reflectsThinTwoSimplices
           apply hreflect (f.map.app (op ⦋2⦌) t)
           have hthin := g.scaled t (Or.inr rfl)
           rw [← hsqmap] at hthin
-          simpa using hthin }
+          set_option backward.isDefEq.respectTransparency false in
+            change
+              Y.scaling.thin
+                (p.map.app (op ⦋2⦌)
+                  (f.map.app (op ⦋2⦌) t)) at hthin
+          exact hthin }
   exact CommSq.HasLift.mk'
     { l := l
       fac_left := by
         apply ScaledSSet.ScaledMap.ext
-        simp [l, minimalToSingleTriangleScaling, scalingEnrichmentHom]
+        set_option backward.isDefEq.respectTransparency false in
+          change
+            𝟙 (scaledSimplex
+              (singleTriangleScaling.{u} (n := n) t)).carrier ≫ f.map =
+              f.map
+        simp only [Category.id_comp]
       fac_right := by
         apply ScaledSSet.ScaledMap.ext
-        simpa [l] using hsqmap }
+        set_option backward.isDefEq.respectTransparency false in
+          change f.map ≫ p.map = g.map
+        exact hsqmap }
 
 /-- RLP against the universal atomic identity triangle therefore implies RLP
 against every one-triangle enrichment. -/
