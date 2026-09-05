@@ -132,29 +132,39 @@ instance : Bicategory NatDoubleDelooping where
     intro a b f g η
     set_option backward.isDefEq.respectTransparency false in
       change (η : Nat) = (0 : Nat) + (η + 0)
-    rfl
+    exact Eq.trans
+      (Nat.add_zero (η : Nat)).symm
+      (Nat.zero_add ((η : Nat) + 0)).symm
   comp_whiskerLeft := by
     intro a b c d f g h h' η
     set_option backward.isDefEq.respectTransparency false in
       change (η : Nat) = (0 : Nat) + (η + 0)
-    rfl
+    exact Eq.trans
+      (Nat.add_zero (η : Nat)).symm
+      (Nat.zero_add ((η : Nat) + 0)).symm
   id_whiskerRight := by intros; rfl
   comp_whiskerRight := by intros; rfl
   whiskerRight_id := by
     intro a b f g η
     set_option backward.isDefEq.respectTransparency false in
       change (η : Nat) = (0 : Nat) + (η + 0)
-    rfl
+    exact Eq.trans
+      (Nat.add_zero (η : Nat)).symm
+      (Nat.zero_add ((η : Nat) + 0)).symm
   whiskerRight_comp := by
     intro a b c d f f' η g h
     set_option backward.isDefEq.respectTransparency false in
       change (η : Nat) = (0 : Nat) + (η + 0)
-    rfl
+    exact Eq.trans
+      (Nat.add_zero (η : Nat)).symm
+      (Nat.zero_add ((η : Nat) + 0)).symm
   whisker_assoc := by
     intro a b c d f g g' η h
     set_option backward.isDefEq.respectTransparency false in
       change (η : Nat) = (0 : Nat) + (η + 0)
-    rfl
+    exact Eq.trans
+      (Nat.add_zero (η : Nat)).symm
+      (Nat.zero_add ((η : Nat) + 0)).symm
   whisker_exchange := by
     intros
     change _ + _ = _ + _
