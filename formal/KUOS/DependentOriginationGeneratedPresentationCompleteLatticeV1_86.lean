@@ -195,8 +195,7 @@ theorem presentationToSaturatedFibration_iSup
     (P : ι → GeneratedScaledAnodynePresentation.{u}) :
     presentationToSaturatedFibration (⨆ i, P i) =
       ⨅ i, presentationToSaturatedFibration (P i) := by
-  simpa using
-    (generatedPresentationSaturatedFibrationOrderIso.map_iSup P)
+  exact generatedPresentationSaturatedFibrationOrderIso.map_iSup P
 
 /-- Dually, a presentation meet is a join in the ordinary inclusion order on
 saturated right classes. -/
@@ -206,8 +205,7 @@ theorem presentationToSaturatedFibration_iInf
     (P : ι → GeneratedScaledAnodynePresentation.{u}) :
     presentationToSaturatedFibration (⨅ i, P i) =
       ⨆ i, presentationToSaturatedFibration (P i) := by
-  simpa using
-    (generatedPresentationSaturatedFibrationOrderIso.map_iInf P)
+  exact generatedPresentationSaturatedFibrationOrderIso.map_iInf P
 
 /-! ## Explicit left/right formulas for arbitrary lattice operations -/
 
