@@ -130,31 +130,36 @@ instance : Bicategory NatDoubleDelooping where
   whiskerLeft_comp := by intros; rfl
   id_whiskerLeft := by
     intro a b f g η
+    change Nat at η
     set_option backward.isDefEq.respectTransparency false in
-      change (η : Nat) = (0 : Nat) + (η + 0)
-    omega
+      change η = 0 + (η + 0)
+    simp only [Nat.zero_add, Nat.add_zero]
   comp_whiskerLeft := by
     intro a b c d f g h h' η
+    change Nat at η
     set_option backward.isDefEq.respectTransparency false in
-      change (η : Nat) = (0 : Nat) + (η + 0)
-    omega
+      change η = 0 + (η + 0)
+    simp only [Nat.zero_add, Nat.add_zero]
   id_whiskerRight := by intros; rfl
   comp_whiskerRight := by intros; rfl
   whiskerRight_id := by
     intro a b f g η
+    change Nat at η
     set_option backward.isDefEq.respectTransparency false in
-      change (η : Nat) = (0 : Nat) + (η + 0)
-    omega
+      change η = 0 + (η + 0)
+    simp only [Nat.zero_add, Nat.add_zero]
   whiskerRight_comp := by
     intro a b c d f f' η g h
+    change Nat at η
     set_option backward.isDefEq.respectTransparency false in
-      change (η : Nat) = (0 : Nat) + (η + 0)
-    omega
+      change η = 0 + (η + 0)
+    simp only [Nat.zero_add, Nat.add_zero]
   whisker_assoc := by
     intro a b c d f g g' η h
+    change Nat at η
     set_option backward.isDefEq.respectTransparency false in
-      change (η : Nat) = (0 : Nat) + (η + 0)
-    omega
+      change η = 0 + (η + 0)
+    simp only [Nat.zero_add, Nat.add_zero]
   whisker_exchange := by
     intros
     change _ + _ = _ + _
