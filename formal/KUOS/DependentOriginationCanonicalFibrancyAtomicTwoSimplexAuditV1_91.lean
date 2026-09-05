@@ -129,7 +129,9 @@ theorem atomicTwoSimplexRLP_iff_all_two_simplices_thin
     have hlmap : l.map = f.map := by
       have hmap := congrArg ScaledSSet.ScaledMap.map hl
       set_option backward.isDefEq.respectTransparency false in
-        change (𝟙 (Δ[2] : SSet.{u}) ≫ l.map) = f.map at hmap
+        change
+          (𝟙 (scaledSimplex atomicTwoSimplexScaling).carrier ≫ l.map) =
+            f.map at hmap
       simpa only [Category.id_comp] using hmap
     have hthin :=
       l.scaled identityTwoSimplex atomicTwoSimplexScaling_identity_thin
