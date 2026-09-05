@@ -3,6 +3,7 @@ import KUOS.DependentOriginationCanonicalAttachmentScalingObstructionRetractV1_8
 namespace KUOS.DependentOriginationStandardArbitraryScalingWaypointV1_89
 
 open CategoryTheory
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
@@ -118,7 +119,7 @@ theorem arbitrarySimplexScalingPresentation_le_standardABC_iff :
 /-! ## The scaling-adjusted standard waypoint -/
 
 /-- Adjoin the complete pure-scaling presentation to the standard A/B/C point. -/
-def standardArbitraryScalingWaypoint :
+noncomputable def standardArbitraryScalingWaypoint :
     GeneratedScaledAnodynePresentation.{u} :=
   standardABCPresentation ⊔ arbitrarySimplexScalingPresentation
 
@@ -252,7 +253,8 @@ theorem canonicalKuuOS_le_standardABC_iff_scalingClosed_and_residual :
     constructor
     · exact
         standardArbitraryScalingObstructionClosed_of_canonicalKuuOS_le_standardABC h
-    · exact h.trans standardABC_le_arbitraryScalingWaypoint
+    · unfold CanonicalBelowStandardAfterArbitraryScaling
+      exact h.trans standardABC_le_arbitraryScalingWaypoint
   · rintro ⟨hscale, hresidual⟩
     unfold CanonicalBelowStandardAfterArbitraryScaling at hresidual
     unfold StandardArbitraryScalingObstructionClosed at hscale
