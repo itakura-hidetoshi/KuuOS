@@ -93,7 +93,8 @@ theorem standardTypeATwoHornMap_scaled
 /-- The Yoneda identity triangle acts as the identity order map on vertices. -/
 @[simp]
 theorem identityTwoSimplex_apply (j : Fin 3) :
-    identityTwoSimplex j = j := by
+    (identityTwoSimplex :
+      (Δ[2] : SSet.{u}).obj (op ⦋2⦌)) j = j := by
   change (SSet.stdSimplex.objEquiv.symm (𝟙 ⦋2⦌)) j = j
   rw [SSet.stdSimplex.objEquiv_symm_apply]
   rfl
@@ -119,15 +120,16 @@ theorem standardTypeATwo_distinguished_eq_identity
     (ht : IsStandardTypeADistinguishedTriangle (1 : Fin 3) t) :
     t = identityTwoSimplex := by
   rcases ht with ⟨h1, h0, h2⟩
-  rcases identityTwoSimplex_isStandardTypeADistinguishedTriangle with
-    ⟨hi1, hi0, hi2⟩
   apply SSet.stdSimplex.ext
   intro j
   fin_cases j
   · apply Fin.ext
+    rw [identityTwoSimplex_apply]
     omega
-  · exact h1.trans hi1.symm
+  · rw [identityTwoSimplex_apply]
+    exact h1
   · apply Fin.ext
+    rw [identityTwoSimplex_apply]
     omega
 
 /-- A map out of the standard type-(A) `Delta[2]` is scaled as soon as the
@@ -247,8 +249,7 @@ theorem thinReplacement_of_standardTypeATwoRLP
   · exact L.l.scaled _ identityTwoSimplex_standardTypeA_thin
   · have hleft := congrArg ScaledSSet.ScaledMap.map L.fac_left
     have hYoneda : SSet.yonedaEquiv.symm τ = L.l.map := by
-      apply SSet.yonedaEquiv.injective
-      simp [τ, identityTwoSimplex]
+      exact SSet.yonedaEquiv.symm_apply_eq.mpr rfl
     dsimp [SameStandardTypeAInnerHorn]
     rw [hYoneda]
     set_option backward.isDefEq.respectTransparency false in
@@ -264,7 +265,19 @@ theorem thinReplacement_of_standardTypeATwoRLP
     have hpoint := ConcreteCategory.congr_hom
       (congr_app hright (op ⦋2⦌))
       (identityTwoSimplex : (Δ[2] : SSet.{u}).obj (op ⦋2⦌))
-    simpa [SameTwoSimplexImage, τ, g, identityTwoSimplex] using hpoint
+    set_option backward.isDefEq.respectTransparency false in
+      change
+        p.map.app (op ⦋2⦌) τ =
+          p.map.app (op ⦋2⦌)
+            ((SSet.yonedaEquiv.symm σ).app
+              (op ⦋2⦌) identityTwoSimplex) at hpoint
+    have heval :
+        (SSet.yonedaEquiv.symm σ).app
+            (op ⦋2⦌) identityTwoSimplex = σ := by
+      simp [identityTwoSimplex]
+    rw [heval] at hpoint
+    change p.map.app (op ⦋2⦌) τ = p.map.app (op ⦋2⦌) σ
+    exact hpoint
 
 /-- Every map in the complete standard A/B/C right class therefore has the
 degree-two thin-replacement property. -/
