@@ -108,9 +108,7 @@ theorem atomicTwoSimplexRLP_iff_reflectsThinTwoSimplices
             have heval :
                 (SSet.yonedaEquiv.symm σ).app
                     (op ⦋2⦌) identityTwoSimplex = σ := by
-              simpa [identityTwoSimplex] using
-                (SSet.yonedaEquiv_symm_app_objEquiv_symm
-                  σ (𝟙 ⦋2⦌))
+              simp [identityTwoSimplex]
             set_option backward.isDefEq.respectTransparency false in
               change
                 Y.scaling.thin
