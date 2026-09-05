@@ -105,7 +105,8 @@ theorem atomicTwoSimplexRLP_iff_reflectsThinTwoSimplices
           rcases ht with hmin | hident
           · exact p.scaled _ (f.scaled t hmin)
           · subst t
-            simpa [f, identityTwoSimplex] using hσ }
+            simpa [f, identityTwoSimplex,
+              SSet.yonedaEquiv_symm_app_objEquiv_symm] using hσ }
     let sq : CommSq f atomicTwoSimplexEnrichment p g :=
       { w := by
           apply ScaledSSet.ScaledMap.ext
@@ -114,7 +115,8 @@ theorem atomicTwoSimplexRLP_iff_reflectsThinTwoSimplices
               f.map ≫ p.map =
                 𝟙 (scaledSimplex atomicTwoSimplexScaling).carrier ≫
                   (f.map ≫ p.map)
-          simp only [Category.id_comp] }
+          simp only [Category.id_comp]
+          rfl }
     rcases (h.sq_hasLift sq).exists_lift with ⟨L⟩
     have hLmap : L.l.map = f.map := by
       have hmap := congrArg ScaledSSet.ScaledMap.map L.fac_left
@@ -126,7 +128,13 @@ theorem atomicTwoSimplexRLP_iff_reflectsThinTwoSimplices
     have hthin :=
       L.l.scaled identityTwoSimplex atomicTwoSimplexScaling_identity_thin
     rw [hLmap] at hthin
-    simpa [f, identityTwoSimplex] using hthin
+    have hthin' :
+        X.scaling.thin
+          ((SSet.yonedaEquiv.symm σ).app (op ⦋2⦌) identityTwoSimplex) := by
+      set_option backward.isDefEq.respectTransparency false in
+        exact hthin
+    simpa [identityTwoSimplex,
+      SSet.yonedaEquiv_symm_app_objEquiv_symm] using hthin'
   · intro hreflect
     refine ⟨?_⟩
     intro f g sq
@@ -153,7 +161,12 @@ theorem atomicTwoSimplexRLP_iff_reflectsThinTwoSimplices
               g.scaled identityTwoSimplex
                 atomicTwoSimplexScaling_identity_thin
             rw [← hsqmap] at hthin
-            simpa using hthin }
+            set_option backward.isDefEq.respectTransparency false in
+              change
+                Y.scaling.thin
+                  (p.map.app (op ⦋2⦌)
+                    (f.map.app (op ⦋2⦌) identityTwoSimplex)) at hthin
+            exact hthin }
     exact CommSq.HasLift.mk'
       { l := l
         fac_left := by
