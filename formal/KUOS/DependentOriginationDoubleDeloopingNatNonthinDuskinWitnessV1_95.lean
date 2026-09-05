@@ -117,26 +117,56 @@ instance : Bicategory NatDoubleDelooping where
   id _ := NatOneCell.star
   comp _ _ := NatOneCell.star
   homCategory _ _ := inferInstance
-  whiskerLeft _ η := η
-  whiskerRight η _ := η
+  whiskerLeft {_ _ _} _ {_ _} η := by
+    change Nat at η ⊢
+    exact η
+  whiskerRight {_ _ _} {_ _} η _ := by
+    change Nat at η ⊢
+    exact η
   associator _ _ _ := Iso.refl _
   leftUnitor _ := Iso.refl _
   rightUnitor _ := Iso.refl _
   whiskerLeft_id := by intros; rfl
   whiskerLeft_comp := by intros; rfl
-  id_whiskerLeft := by intros; simp
-  comp_whiskerLeft := by intros; simp
+  id_whiskerLeft := by
+    intro a b f g η
+    set_option backward.isDefEq.respectTransparency false in
+      change (η : Nat) = (0 : Nat) + (η + 0)
+    omega
+  comp_whiskerLeft := by
+    intro a b c d f g h h' η
+    set_option backward.isDefEq.respectTransparency false in
+      change (η : Nat) = (0 : Nat) + (η + 0)
+    omega
   id_whiskerRight := by intros; rfl
   comp_whiskerRight := by intros; rfl
-  whiskerRight_id := by intros; simp
-  whiskerRight_comp := by intros; simp
-  whisker_assoc := by intros; simp
+  whiskerRight_id := by
+    intro a b f g η
+    set_option backward.isDefEq.respectTransparency false in
+      change (η : Nat) = (0 : Nat) + (η + 0)
+    omega
+  whiskerRight_comp := by
+    intro a b c d f f' η g h
+    set_option backward.isDefEq.respectTransparency false in
+      change (η : Nat) = (0 : Nat) + (η + 0)
+    omega
+  whisker_assoc := by
+    intro a b c d f g g' η h
+    set_option backward.isDefEq.respectTransparency false in
+      change (η : Nat) = (0 : Nat) + (η + 0)
+    omega
   whisker_exchange := by
     intros
     change _ + _ = _ + _
     exact Nat.add_comm _ _
-  pentagon := by intros; simp
-  triangle := by intros; simp
+  pentagon := by
+    intros
+    change (0 : Nat) + (0 + 0) = 0 + 0
+    omega
+  triangle := by
+    intros
+    change (0 : Nat) + 0 = 0
+    omega
 
 /-- The double delooping is strict: all 1-cell unit and associativity equations
 are definitional because there is only one 1-cell. -/
@@ -212,25 +242,42 @@ def natNoninvertibleTriangleCore :
   obj _ := NatDoubleDelooping.star
   map _ := NatOneCell.star
   map_id _ := rfl
-  map₂ _ := 0
+  map₂ _ := by
+    change Nat
+    exact 0
   map₂_id _ := rfl
   map₂_comp _ _ := rfl
   mapComp f g := natTriangleMapComp f g
   mapComp_naturality_left := by
-    intros
-    simp [natTriangleMapComp]
+    intro a b c f f' η g
+    have hff' : f = f' := Subsingleton.elim _ _
+    subst f'
+    set_option backward.isDefEq.respectTransparency false in
+      change natTriangleMapComp f g + 0 = 0 + natTriangleMapComp f g
+    omega
   mapComp_naturality_right := by
-    intros
-    simp [natTriangleMapComp]
+    intro a b c f g g' η
+    have hgg' : g = g' := Subsingleton.elim _ _
+    subst g'
+    set_option backward.isDefEq.respectTransparency false in
+      change natTriangleMapComp f g + 0 = 0 + natTriangleMapComp f g
+    omega
   map₂_leftUnitor := by
-    intros
-    simp [natTriangleMapComp]
+    intro a b f
+    set_option backward.isDefEq.respectTransparency false in
+      simp [natTriangleMapComp]
   map₂_rightUnitor := by
-    intros
-    simp [natTriangleMapComp]
+    intro a b f
+    set_option backward.isDefEq.respectTransparency false in
+      simp [natTriangleMapComp]
   map₂_associator := by
     intro a b c d f g h
-    simpa using natTriangleMapComp_cocycle f g h
+    set_option backward.isDefEq.respectTransparency false in
+      change
+        natTriangleMapComp f g + (natTriangleMapComp (f ≫ g) h + 0) =
+          0 + (natTriangleMapComp g h + natTriangleMapComp f (g ≫ h))
+    have hcoc := natTriangleMapComp_cocycle f g h
+    omega
 
 /-- The concrete Duskin 2-simplex with comparison label `1`. -/
 def natNoninvertibleTriangle :
