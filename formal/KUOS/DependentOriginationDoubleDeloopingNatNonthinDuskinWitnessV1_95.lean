@@ -117,51 +117,26 @@ instance : Bicategory NatDoubleDelooping where
   id _ := NatOneCell.star
   comp _ _ := NatOneCell.star
   homCategory _ _ := inferInstance
-  whiskerLeft {_ _ _} _ {_ _} η := by
-    change Nat at η ⊢
-    exact η
-  whiskerRight {_ _ _} {_ _} η _ := by
-    change Nat at η ⊢
-    exact η
+  whiskerLeft _ η := η
+  whiskerRight η _ := η
   associator _ _ _ := Iso.refl _
   leftUnitor _ := Iso.refl _
   rightUnitor _ := Iso.refl _
   whiskerLeft_id := by intros; rfl
   whiskerLeft_comp := by intros; rfl
-  id_whiskerLeft := by
-    intros
-    change _ = (0 : Nat) + (_ + 0)
-    omega
-  comp_whiskerLeft := by
-    intros
-    change _ = (0 : Nat) + (_ + 0)
-    omega
+  id_whiskerLeft := by intros; simp
+  comp_whiskerLeft := by intros; simp
   id_whiskerRight := by intros; rfl
   comp_whiskerRight := by intros; rfl
-  whiskerRight_id := by
-    intros
-    change _ = (0 : Nat) + (_ + 0)
-    omega
-  whiskerRight_comp := by
-    intros
-    change _ = (0 : Nat) + (_ + 0)
-    omega
-  whisker_assoc := by
-    intros
-    change _ = (0 : Nat) + (_ + 0)
-    omega
+  whiskerRight_id := by intros; simp
+  whiskerRight_comp := by intros; simp
+  whisker_assoc := by intros; simp
   whisker_exchange := by
     intros
     change _ + _ = _ + _
     exact Nat.add_comm _ _
-  pentagon := by
-    intros
-    change (0 : Nat) + (0 + 0) = 0 + 0
-    omega
-  triangle := by
-    intros
-    change (0 : Nat) + 0 = 0
-    omega
+  pentagon := by intros; simp
+  triangle := by intros; simp
 
 /-- The double delooping is strict: all 1-cell unit and associativity equations
 are definitional because there is only one 1-cell. -/
@@ -237,22 +212,16 @@ def natNoninvertibleTriangleCore :
   obj _ := NatDoubleDelooping.star
   map _ := NatOneCell.star
   map_id _ := rfl
-  map₂ _ := by
-    change Nat
-    exact 0
+  map₂ _ := 0
   map₂_id _ := rfl
   map₂_comp _ _ := rfl
   mapComp f g := natTriangleMapComp f g
   mapComp_naturality_left := by
     intros
-    change natTriangleMapComp _ _ + (0 : Nat) =
-      0 + natTriangleMapComp _ _
-    simp only [Nat.add_zero, Nat.zero_add]
+    simp [natTriangleMapComp]
   mapComp_naturality_right := by
     intros
-    change natTriangleMapComp _ _ + (0 : Nat) =
-      0 + natTriangleMapComp _ _
-    simp only [Nat.add_zero, Nat.zero_add]
+    simp [natTriangleMapComp]
   map₂_leftUnitor := by
     intros
     simp [natTriangleMapComp]
@@ -261,11 +230,7 @@ def natNoninvertibleTriangleCore :
     simp [natTriangleMapComp]
   map₂_associator := by
     intro a b c d f g h
-    change
-      natTriangleMapComp f g + natTriangleMapComp (f ≫ g) h + 0 =
-        0 + natTriangleMapComp g h + natTriangleMapComp f (g ≫ h)
-    simpa only [Nat.add_zero, Nat.zero_add] using
-      natTriangleMapComp_cocycle f g h
+    simpa using natTriangleMapComp_cocycle f g h
 
 /-- The concrete Duskin 2-simplex with comparison label `1`. -/
 def natNoninvertibleTriangle :
@@ -277,7 +242,7 @@ theorem natNoninvertibleTriangle_comparison :
     duskinComparison natNoninvertibleTriangle =
       (1 : (NatOneCell.star : NatOneCell) ⟶ NatOneCell.star) := by
   change natTriangleMapComp edge01 edge12 = 1
-  simp [natTriangleMapComp, edge01, edge12]
+  simp [natTriangleMapComp]
 
 /-- Its intrinsic comparison 2-cell is not invertible. -/
 theorem natNoninvertibleTriangle_comparison_not_isIso :
