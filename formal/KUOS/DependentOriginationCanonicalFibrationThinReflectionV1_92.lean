@@ -9,8 +9,10 @@ open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
+open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 open KUOS.DependentOriginationGeneratedPresentationOrderReflectionV1_84
 open KUOS.DependentOriginationStandardCanonicalPresentationGapV1_87
+open KUOS.DependentOriginationCanonicalAttachmentScalingObstructionRetractV1_88
 open KUOS.DependentOriginationCanonicalFibrancyAtomicTwoSimplexAuditV1_91
 
 universe u
@@ -98,7 +100,7 @@ theorem atomicTwoSimplexRLP_iff_reflectsThinTwoSimplices
         scaled := by
           intro t ht
           change
-            (minimalScaling (Delta[2] : SSet.{u})).thin t ∨
+            (minimalScaling (Δ[2] : SSet.{u})).thin t ∨
               t = identityTwoSimplex at ht
           rcases ht with hmin | hident
           · exact p.scaled _ (f.scaled t hmin)
@@ -107,13 +109,20 @@ theorem atomicTwoSimplexRLP_iff_reflectsThinTwoSimplices
     let sq : CommSq f atomicTwoSimplexEnrichment p g :=
       { w := by
           apply ScaledSSet.ScaledMap.ext
-          simp [g, atomicTwoSimplexEnrichment,
-            minimalToSingleTriangleScaling, scalingEnrichmentHom] }
+          set_option backward.isDefEq.respectTransparency false in
+            change
+              f.map ≫ p.map =
+                𝟙 (scaledSimplex atomicTwoSimplexScaling).carrier ≫
+                  (f.map ≫ p.map)
+          simp only [Category.id_comp] }
     rcases (h.sq_hasLift sq).exists_lift with ⟨L⟩
     have hLmap : L.l.map = f.map := by
       have hmap := congrArg ScaledSSet.ScaledMap.map L.fac_left
-      simpa [atomicTwoSimplexEnrichment,
-        minimalToSingleTriangleScaling, scalingEnrichmentHom] using hmap
+      set_option backward.isDefEq.respectTransparency false in
+        change
+          (𝟙 (scaledSimplex atomicTwoSimplexScaling).carrier ≫ L.l.map) =
+            f.map at hmap
+      simpa only [Category.id_comp] using hmap
     have hthin :=
       L.l.scaled identityTwoSimplex atomicTwoSimplexScaling_identity_thin
     rw [hLmap] at hthin
@@ -123,14 +132,17 @@ theorem atomicTwoSimplexRLP_iff_reflectsThinTwoSimplices
     intro f g sq
     have hsqmap : f.map ≫ p.map = g.map := by
       have hmap := congrArg ScaledSSet.ScaledMap.map sq.w
-      simpa [atomicTwoSimplexEnrichment,
-        minimalToSingleTriangleScaling, scalingEnrichmentHom] using hmap
+      set_option backward.isDefEq.respectTransparency false in
+        change
+          f.map ≫ p.map =
+            𝟙 (scaledSimplex atomicTwoSimplexScaling).carrier ≫ g.map at hmap
+      simpa only [Category.id_comp] using hmap
     let l : scaledSimplex atomicTwoSimplexScaling ⟶ X :=
       { map := f.map
         scaled := by
           intro t ht
           change
-            (minimalScaling (Delta[2] : SSet.{u})).thin t ∨
+            (minimalScaling (Δ[2] : SSet.{u})).thin t ∨
               t = identityTwoSimplex at ht
           rcases ht with hmin | hident
           · exact f.scaled t hmin
@@ -146,11 +158,16 @@ theorem atomicTwoSimplexRLP_iff_reflectsThinTwoSimplices
       { l := l
         fac_left := by
           apply ScaledSSet.ScaledMap.ext
-          simp [l, atomicTwoSimplexEnrichment,
-            minimalToSingleTriangleScaling, scalingEnrichmentHom]
+          set_option backward.isDefEq.respectTransparency false in
+            change
+              𝟙 (scaledSimplex atomicTwoSimplexScaling).carrier ≫ f.map =
+                f.map
+          simp only [Category.id_comp]
         fac_right := by
           apply ScaledSSet.ScaledMap.ext
-          simpa [l] using hsqmap }
+          set_option backward.isDefEq.respectTransparency false in
+            change f.map ≫ p.map = g.map
+          exact hsqmap }
 
 /-! ## Canonical right maps are thin-reflecting -/
 
@@ -226,20 +243,23 @@ theorem atomicTwoSimplexRLP_toPoint_iff_all_two_simplices_thin
 standard-right map would have to reflect thin 2-simplices, not merely terminal
 maps. -/
 theorem standardRight_reflectsThinTwoSimplices_of_canonical_le_standard
-    (horder : canonicalKuuOSPresentation ≤ standardABCPresentation)
+    (horder :
+      (canonicalKuuOSPresentation : GeneratedScaledAnodynePresentation.{u}) ≤
+        standardABCPresentation)
     {X Y : ScaledSSet.{u}}
     {p : X ⟶ Y}
     (hstd :
-      (standardGeneratedScaledAnodyneABC :
+      (KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58.standardGeneratedScaledAnodyneABC :
         MorphismProperty (ScaledSSet.{u})).rlp p) :
     ReflectsThinTwoSimplices p := by
   have hgen :
       (scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})) ≤
-        standardGeneratedScaledAnodyneABC :=
+        (KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58.standardGeneratedScaledAnodyneABC :
+          MorphismProperty (ScaledSSet.{u})) :=
     canonicalKuuOS_le_standardABC_iff_canonicalGenerators_le_standardGenerated.1
       horder
   have hright :
-      (standardGeneratedScaledAnodyneABC :
+      (KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58.standardGeneratedScaledAnodyneABC :
         MorphismProperty (ScaledSSet.{u})).rlp ≤
         (scaledHornAttachmentGenerators :
           MorphismProperty (ScaledSSet.{u})).rlp :=
@@ -253,12 +273,13 @@ theorem not_canonicalKuuOS_le_standardABC_of_standardRLP_nonreflecting
     {X Y : ScaledSSet.{u}}
     {p : X ⟶ Y}
     (hstd :
-      (standardGeneratedScaledAnodyneABC :
+      (KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58.standardGeneratedScaledAnodyneABC :
         MorphismProperty (ScaledSSet.{u})).rlp p)
     (σ : X.carrier.obj (op ⦋2⦌))
     (himage : Y.scaling.thin (p.map.app (op ⦋2⦌) σ))
     (hsource : ¬ X.scaling.thin σ) :
-    ¬ canonicalKuuOSPresentation ≤ standardABCPresentation := by
+    ¬ ((canonicalKuuOSPresentation : GeneratedScaledAnodynePresentation.{u}) ≤
+      standardABCPresentation) := by
   intro horder
   have hreflect :=
     standardRight_reflectsThinTwoSimplices_of_canonical_le_standard
