@@ -69,7 +69,7 @@ the underlying simplicial map; reflection supplies scaledness for the one
 newly declared thin triangle. -/
 theorem hasLiftingProperty_singleTriangle_of_reflectsThinTwoSimplices
     {n : Nat}
-    (t : (Delta[n] : SSet.{u}).obj (op ⦋2⦌))
+    (t : (Δ[n] : SSet.{u}).obj (op ⦋2⦌))
     {X Y : ScaledSSet.{u}}
     (p : X ⟶ Y)
     (hreflect : ReflectsThinTwoSimplices p) :
@@ -84,7 +84,7 @@ theorem hasLiftingProperty_singleTriangle_of_reflectsThinTwoSimplices
       scaled := by
         intro s hs
         change
-          (minimalScaling (Delta[n] : SSet.{u})).thin s ∨ s = t at hs
+          (minimalScaling (Δ[n] : SSet.{u})).thin s ∨ s = t at hs
         rcases hs with hmin | hst
         · exact f.scaled s hmin
         · subst s
@@ -105,7 +105,7 @@ theorem hasLiftingProperty_singleTriangle_of_reflectsThinTwoSimplices
 against every one-triangle enrichment. -/
 theorem singleTriangleRLP_of_atomicTwoSimplexRLP
     {n : Nat}
-    (t : (Delta[n] : SSet.{u}).obj (op ⦋2⦌))
+    (t : (Δ[n] : SSet.{u}).obj (op ⦋2⦌))
     {X Y : ScaledSSet.{u}}
     (p : X ⟶ Y)
     (hatomic : HasLiftingProperty atomicTwoSimplexEnrichment.{u} p) :
