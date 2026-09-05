@@ -105,8 +105,20 @@ theorem atomicTwoSimplexRLP_iff_reflectsThinTwoSimplices
           rcases ht with hmin | hident
           · exact p.scaled _ (f.scaled t hmin)
           · subst t
-            simpa [f, identityTwoSimplex,
-              SSet.yonedaEquiv_symm_app_objEquiv_symm] using hσ }
+            have heval :
+                (SSet.yonedaEquiv.symm σ).app
+                    (op ⦋2⦌) identityTwoSimplex = σ := by
+              simpa [identityTwoSimplex] using
+                (SSet.yonedaEquiv_symm_app_objEquiv_symm
+                  σ (𝟙 ⦋2⦌))
+            set_option backward.isDefEq.respectTransparency false in
+              change
+                Y.scaling.thin
+                  (p.map.app (op ⦋2⦌)
+                    ((SSet.yonedaEquiv.symm σ).app
+                      (op ⦋2⦌) identityTwoSimplex))
+            rw [heval]
+            exact hσ }
     let sq : CommSq f atomicTwoSimplexEnrichment p g :=
       { w := by
           apply ScaledSSet.ScaledMap.ext
