@@ -29,11 +29,11 @@ then reduced the entire arbitrary-scaling obstruction to atomic one-triangle
 enrichments.
 
 This file audits the smallest atomic case, in dimension two.  Let `id₂` be the
-Yoneda identity 2-simplex of `Delta[2]`, and enlarge the minimal scaling only by
+Yoneda identity 2-simplex of `Δ[2]`, and enlarge the minimal scaling only by
 making `id₂` thin.  The corresponding enrichment
 
 ```text
-(Delta[2], minimal) -> (Delta[2], minimal + {id₂})
+(Δ[2], minimal) -> (Δ[2], minimal + {id₂})
 ```
 
 has terminal RLP against a scaled target exactly when every 2-simplex of the
@@ -58,13 +58,13 @@ canonical-to-standard order.
 
 /-- The Yoneda identity 2-simplex of the standard 2-simplex. -/
 def identityTwoSimplex :
-    (Delta[2] : SSet.{u}).obj (op ⦋2⦌) :=
+    (Δ[2] : SSet.{u}).obj (op ⦋2⦌) :=
   SSet.stdSimplex.objEquiv.symm (𝟙 ⦋2⦌)
 
-/-- Minimal scaling on `Delta[2]` enlarged only by the Yoneda identity
+/-- Minimal scaling on `Δ[2]` enlarged only by the Yoneda identity
 2-simplex. -/
 def atomicTwoSimplexScaling :
-    ScaledSimplicialSet (Delta[2] : SSet.{u}) :=
+    ScaledSimplicialSet (Δ[2] : SSet.{u}) :=
   singleTriangleScaling identityTwoSimplex
 
 /-- The atomic identity-underlying enrichment in dimension two. -/
@@ -83,7 +83,7 @@ theorem atomicTwoSimplexScaling_identity_thin :
 left class, by the arbitrary-scaling retract theorem of v1.88. -/
 theorem minimalToSingleTriangleScaling_mem_canonicalGenerated
     {n : Nat}
-    (t : (Delta[n] : SSet.{u}).obj (op ⦋2⦌)) :
+    (t : (Δ[n] : SSet.{u}).obj (op ⦋2⦌)) :
     (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
       (minimalToSingleTriangleScaling t) := by
   have h :=
@@ -145,7 +145,7 @@ theorem atomicTwoSimplexRLP_iff_all_two_simplices_thin
         scaled := by
           intro t ht
           change
-            (minimalScaling (Delta[2] : SSet.{u})).thin t ∨
+            (minimalScaling (Δ[2] : SSet.{u})).thin t ∨
               t = identityTwoSimplex at ht
           rcases ht with hmin | hident
           · exact f.scaled t hmin
