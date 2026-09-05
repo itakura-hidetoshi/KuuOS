@@ -56,9 +56,7 @@ theorem twoCell_isIso_iff_eq_zero
     have hinv := IsIso.hom_inv_id alpha
     set_option backward.isDefEq.respectTransparency false in
       change (alpha : Nat) + (inv alpha : Nat) = 0 at hinv
-    have halpha : (alpha : Nat) = 0 := by
-      omega
-    exact halpha
+    exact Nat.eq_zero_of_add_eq_zero_right hinv
   · intro h
     have hfg : f = g := Subsingleton.elim _ _
     subst g
@@ -104,9 +102,9 @@ theorem natDuskin_mapComp_id_left_eq_zero
     natDuskin_map₂_eq_zero sigma _
   have hleftUnitor : (λ_ (sigma.map g)).inv = (0 : Nat) :=
     NatDoubleDelooping.isIso_twoCell_eq_zero _
-  have heq : eqToHom (by rw [sigma.map_id a]) = (0 : Nat) :=
+  have hmapId : sigma.mapId a = (0 : Nat) :=
     NatDoubleDelooping.isIso_twoCell_eq_zero _
-  rw [hmap₂, hleftUnitor, heq] at h
+  rw [hmap₂, hleftUnitor, hmapId] at h
   simpa using h.symm
 
 /-- The comparison with an identity on the right is zero. -/
@@ -120,9 +118,9 @@ theorem natDuskin_mapComp_id_right_eq_zero
     natDuskin_map₂_eq_zero sigma _
   have hrightUnitor : (ρ_ (sigma.map f)).inv = (0 : Nat) :=
     NatDoubleDelooping.isIso_twoCell_eq_zero _
-  have heq : eqToHom (by rw [sigma.map_id b]) = (0 : Nat) :=
+  have hmapId : sigma.mapId b = (0 : Nat) :=
     NatDoubleDelooping.isIso_twoCell_eq_zero _
-  rw [hmap₂, hrightUnitor, heq] at h
+  rw [hmap₂, hrightUnitor, hmapId] at h
   simpa using h.symm
 
 /-! ## Every comparison in degree one is zero -/
