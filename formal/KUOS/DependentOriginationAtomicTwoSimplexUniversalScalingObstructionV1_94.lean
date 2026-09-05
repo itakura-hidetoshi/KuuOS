@@ -10,6 +10,7 @@ open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
 open KUOS.DependentOriginationStandardABCPositiveCanonicalResidualSplitV1_79
+open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 open KUOS.DependentOriginationStandardCanonicalPresentationGapV1_87
 open KUOS.DependentOriginationStandardArbitraryScalingWaypointV1_89
 open KUOS.DependentOriginationSingleTriangleScalingFiltrationV1_90
@@ -72,13 +73,13 @@ theorem hasLiftingProperty_singleTriangle_of_reflectsThinTwoSimplices
     {X Y : ScaledSSet.{u}}
     (p : X ⟶ Y)
     (hreflect : ReflectsThinTwoSimplices p) :
-    HasLiftingProperty (minimalToSingleTriangleScaling.{u} t) p := by
+    HasLiftingProperty (minimalToSingleTriangleScaling.{u} (n := n) t) p := by
   refine ⟨?_⟩
   intro f g sq
   have hsqmap : f.map ≫ p.map = g.map := by
     have hmap := congrArg ScaledSSet.ScaledMap.map sq.w
     simpa [minimalToSingleTriangleScaling, scalingEnrichmentHom] using hmap
-  let l : scaledSimplex (singleTriangleScaling.{u} t) ⟶ X :=
+  let l : scaledSimplex (singleTriangleScaling.{u} (n := n) t) ⟶ X :=
     { map := f.map
       scaled := by
         intro s hs
@@ -108,8 +109,9 @@ theorem singleTriangleRLP_of_atomicTwoSimplexRLP
     {X Y : ScaledSSet.{u}}
     (p : X ⟶ Y)
     (hatomic : HasLiftingProperty atomicTwoSimplexEnrichment.{u} p) :
-    HasLiftingProperty (minimalToSingleTriangleScaling.{u} t) p := by
-  apply hasLiftingProperty_singleTriangle_of_reflectsThinTwoSimplices.{u} t p
+    HasLiftingProperty (minimalToSingleTriangleScaling.{u} (n := n) t) p := by
+  apply hasLiftingProperty_singleTriangle_of_reflectsThinTwoSimplices.{u}
+    (n := n) t p
   exact (atomicTwoSimplexRLP_iff_reflectsThinTwoSimplices p).1 hatomic
 
 /-! ## One atomic map detects the complete standard pure-scaling layer -/
@@ -132,11 +134,12 @@ theorem atomicTwoSimplex_standardGenerated_iff_singleTriangles_le :
         change
           (standardScaledAnodyneGeneratorsABC :
             MorphismProperty (ScaledSSet.{u})).rlp.llp
-            (minimalToSingleTriangleScaling.{u} q.triangle)
+            (minimalToSingleTriangleScaling.{u} (n := q.n) q.triangle)
         intro X Y p hp
         have hi2 : HasLiftingProperty atomicTwoSimplexEnrichment.{u} p :=
           hatomic p hp
-        exact singleTriangleRLP_of_atomicTwoSimplexRLP.{u} q.triangle p hi2
+        exact singleTriangleRLP_of_atomicTwoSimplexRLP.{u}
+          (n := q.n) q.triangle p hi2
   · intro hall
     have hmem := hall _
       (singleTriangleScalingEnrichment_mem
