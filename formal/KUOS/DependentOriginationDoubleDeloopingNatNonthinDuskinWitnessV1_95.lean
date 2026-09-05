@@ -78,6 +78,17 @@ instance : Category NatOneCell where
     intro W X Y Z f g h
     exact Nat.add_assoc f g h
 
+/-- Reuse the native `Nat` numeral instance in every 2-hom.  Using the native
+instance rather than wrapping the operation keeps arithmetic visible to
+normalization tactics. -/
+instance homOfNat {f g : NatOneCell} (n : Nat) : OfNat (f ⟶ g) n :=
+  inferInstanceAs (OfNat Nat n)
+
+/-- Reuse native natural-number addition in every composable pair of 2-homs. -/
+instance homHAdd {f g h : NatOneCell} :
+    HAdd (f ⟶ g) (g ⟶ h) (f ⟶ h) :=
+  inferInstanceAs (HAdd Nat Nat Nat)
+
 @[simp]
 theorem id_eq_zero (f : NatOneCell) : (𝟙 f : f ⟶ f) = 0 := rfl
 
@@ -117,19 +128,40 @@ instance : Bicategory NatDoubleDelooping where
   rightUnitor _ := Iso.refl _
   whiskerLeft_id := by intros; rfl
   whiskerLeft_comp := by intros; rfl
-  id_whiskerLeft := by intros; simp
-  comp_whiskerLeft := by intros; simp
+  id_whiskerLeft := by
+    intros
+    change _ = (0 : Nat) + (_ + 0)
+    omega
+  comp_whiskerLeft := by
+    intros
+    change _ = (0 : Nat) + (_ + 0)
+    omega
   id_whiskerRight := by intros; rfl
   comp_whiskerRight := by intros; rfl
-  whiskerRight_id := by intros; simp
-  whiskerRight_comp := by intros; simp
-  whisker_assoc := by intros; simp
+  whiskerRight_id := by
+    intros
+    change _ = (0 : Nat) + (_ + 0)
+    omega
+  whiskerRight_comp := by
+    intros
+    change _ = (0 : Nat) + (_ + 0)
+    omega
+  whisker_assoc := by
+    intros
+    change _ = (0 : Nat) + (_ + 0)
+    omega
   whisker_exchange := by
     intros
     change _ + _ = _ + _
     exact Nat.add_comm _ _
-  pentagon := by intros; simp
-  triangle := by intros; simp
+  pentagon := by
+    intros
+    change (0 : Nat) + (0 + 0) = 0 + 0
+    omega
+  triangle := by
+    intros
+    change (0 : Nat) + 0 = 0
+    omega
 
 /-- The double delooping is strict: all 1-cell unit and associativity equations
 are definitional because there is only one 1-cell. -/
@@ -195,9 +227,9 @@ theorem natTriangleMapComp_cocycle
   have hablt : a.as < b.as := by omega
   have hbclt : b.as < c.as := by omega
   have hcdlt : c.as < d.as := by omega
-  have haclt : a.as < c.as := lt_trans hablt hbclt
-  have hbdlt : b.as < d.as := lt_trans hbclt hcdlt
-  simp [natTriangleMapComp, hablt, hbclt, hcdlt, haclt, hbdlt]
+  have ha := a.as.isLt
+  have hd := d.as.isLt
+  omega
 
 /-- The normal-lax core of the concrete non-invertible Duskin triangle. -/
 def natNoninvertibleTriangleCore :
@@ -213,10 +245,14 @@ def natNoninvertibleTriangleCore :
   mapComp f g := natTriangleMapComp f g
   mapComp_naturality_left := by
     intros
-    simp [natTriangleMapComp]
+    change natTriangleMapComp _ _ + (0 : Nat) =
+      0 + natTriangleMapComp _ _
+    simp only [Nat.add_zero, Nat.zero_add]
   mapComp_naturality_right := by
     intros
-    simp [natTriangleMapComp]
+    change natTriangleMapComp _ _ + (0 : Nat) =
+      0 + natTriangleMapComp _ _
+    simp only [Nat.add_zero, Nat.zero_add]
   map₂_leftUnitor := by
     intros
     simp [natTriangleMapComp]
