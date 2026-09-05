@@ -77,9 +77,7 @@ def atomicTwoSimplexEnrichment :
 @[simp]
 theorem atomicTwoSimplexScaling_identity_thin :
     atomicTwoSimplexScaling.thin identityTwoSimplex := by
-  change
-    (minimalScaling (Δ[2] : SSet.{u})).thin identityTwoSimplex ∨
-      identityTwoSimplex = identityTwoSimplex
+  unfold atomicTwoSimplexScaling singleTriangleScaling
   exact Or.inr rfl
 
 /-! ## Canonical left-class membership -/
@@ -131,7 +129,8 @@ theorem atomicTwoSimplexRLP_iff_all_two_simplices_thin
     have hlmap : l.map = f.map := by
       have hmap := congrArg ScaledSSet.ScaledMap.map hl
       set_option backward.isDefEq.respectTransparency false in
-        simpa only [Category.id_comp] using hmap
+        change (𝟙 (Δ[2] : SSet.{u}) ≫ l.map) = f.map at hmap
+      simpa only [Category.id_comp] using hmap
     have hthin :=
       l.scaled identityTwoSimplex atomicTwoSimplexScaling_identity_thin
     rw [hlmap] at hthin
@@ -290,12 +289,14 @@ theorem attachmentFibrant_of_standardRLP_of_canonical_le_standard
       (canonicalKuuOSPresentation : GeneratedScaledAnodynePresentation.{u}) ≤
         standardABCPresentation)
     (hstd :
-      (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{u})).rlp
+      (KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58.standardGeneratedScaledAnodyneABC :
+        MorphismProperty (ScaledSSet.{u})).rlp
         (ScaledSSet.toPoint X)) :
     IsAttachmentFibrant X := by
   have hgen :
       (scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})) ≤
-        standardGeneratedScaledAnodyneABC :=
+        (KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58.standardGeneratedScaledAnodyneABC :
+          MorphismProperty (ScaledSSet.{u})) :=
     canonicalKuuOS_le_standardABC_iff_canonicalGenerators_le_standardGenerated.1
       horder
   change
@@ -308,7 +309,8 @@ canonical-to-standard presentation order. -/
 theorem not_canonicalKuuOS_le_standardABC_of_standardRLP_nonThin
     {X : ScaledSSet.{u}}
     (hstd :
-      (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{u})).rlp
+      (KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58.standardGeneratedScaledAnodyneABC :
+        MorphismProperty (ScaledSSet.{u})).rlp
         (ScaledSSet.toPoint X))
     (σ : X.carrier.obj (op ⦋2⦌))
     (hσ : ¬ X.scaling.thin σ) :
@@ -325,7 +327,7 @@ terminal RLP together with one nondegenerate noninvertible comparison
 theorem not_canonicalKuuOS_le_standardABC_of_standardRLP_duskin_witness
     {B : Type u} [Bicategory.{w, v} B]
     (hstd :
-      (standardGeneratedScaledAnodyneABC :
+      (KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58.standardGeneratedScaledAnodyneABC :
         MorphismProperty (ScaledSSet.{max (max w v) u})).rlp
         (ScaledSSet.toPoint
           (ScaledSSet.of (duskinNerve B) (duskinScaling B))))
