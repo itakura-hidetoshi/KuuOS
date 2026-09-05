@@ -132,29 +132,29 @@ instance : Bicategory NatDoubleDelooping where
     intro a b f g η
     set_option backward.isDefEq.respectTransparency false in
       change (η : Nat) = (0 : Nat) + (η + 0)
-    simp only [Nat.add_zero, Nat.zero_add]
+    rfl
   comp_whiskerLeft := by
     intro a b c d f g h h' η
     set_option backward.isDefEq.respectTransparency false in
       change (η : Nat) = (0 : Nat) + (η + 0)
-    simp only [Nat.add_zero, Nat.zero_add]
+    rfl
   id_whiskerRight := by intros; rfl
   comp_whiskerRight := by intros; rfl
   whiskerRight_id := by
     intro a b f g η
     set_option backward.isDefEq.respectTransparency false in
       change (η : Nat) = (0 : Nat) + (η + 0)
-    simp only [Nat.add_zero, Nat.zero_add]
+    rfl
   whiskerRight_comp := by
     intro a b c d f f' η g h
     set_option backward.isDefEq.respectTransparency false in
       change (η : Nat) = (0 : Nat) + (η + 0)
-    simp only [Nat.add_zero, Nat.zero_add]
+    rfl
   whisker_assoc := by
     intro a b c d f g g' η h
     set_option backward.isDefEq.respectTransparency false in
       change (η : Nat) = (0 : Nat) + (η + 0)
-    simp only [Nat.add_zero, Nat.zero_add]
+    rfl
   whisker_exchange := by
     intros
     change _ + _ = _ + _
