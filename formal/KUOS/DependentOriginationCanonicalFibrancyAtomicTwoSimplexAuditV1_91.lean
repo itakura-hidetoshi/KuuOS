@@ -13,6 +13,7 @@ open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
 open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
 open KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56
+open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 open KUOS.DependentOriginationGeneratedPresentationOrderReflectionV1_84
 open KUOS.DependentOriginationStandardCanonicalPresentationGapV1_87
 open KUOS.DependentOriginationCanonicalAttachmentScalingObstructionRetractV1_88
@@ -63,6 +64,7 @@ def identityTwoSimplex :
 
 /-- Minimal scaling on `Δ[2]` enlarged only by the Yoneda identity
 2-simplex. -/
+@[implicit_reducible]
 def atomicTwoSimplexScaling :
     ScaledSimplicialSet (Δ[2] : SSet.{u}) :=
   singleTriangleScaling identityTwoSimplex
@@ -75,7 +77,10 @@ def atomicTwoSimplexEnrichment :
 @[simp]
 theorem atomicTwoSimplexScaling_identity_thin :
     atomicTwoSimplexScaling.thin identityTwoSimplex := by
-  simp [atomicTwoSimplexScaling, singleTriangleScaling]
+  change
+    (minimalScaling (Δ[2] : SSet.{u})).thin identityTwoSimplex ∨
+      identityTwoSimplex = identityTwoSimplex
+  exact Or.inr rfl
 
 /-! ## Canonical left-class membership -/
 
@@ -125,16 +130,18 @@ theorem atomicTwoSimplexRLP_iff_all_two_simplices_thin
       ⟨l, hl⟩
     have hlmap : l.map = f.map := by
       have hmap := congrArg ScaledSSet.ScaledMap.map hl
-      simpa [atomicTwoSimplexEnrichment,
-        minimalToSingleTriangleScaling, scalingEnrichmentHom] using hmap
+      set_option backward.isDefEq.respectTransparency false in
+        simpa only [Category.id_comp] using hmap
     have hthin :=
       l.scaled identityTwoSimplex atomicTwoSimplexScaling_identity_thin
     rw [hlmap] at hthin
     have hthin' :
         X.scaling.thin
           ((SSet.yonedaEquiv.symm σ).app (op ⦋2⦌) identityTwoSimplex) := by
-      simpa [f] using hthin
-    simpa [identityTwoSimplex] using hthin'
+      set_option backward.isDefEq.respectTransparency false in
+        exact hthin
+    simpa [identityTwoSimplex,
+      SSet.yonedaEquiv_symm_app_objEquiv_symm] using hthin'
   · intro hall
     apply
       (ScaledSSet.hasLiftingProperty_toPoint_iff
@@ -153,8 +160,9 @@ theorem atomicTwoSimplexRLP_iff_all_two_simplices_thin
             exact hall _ }
     refine ⟨l, ?_⟩
     apply ScaledSSet.ScaledMap.ext
-    simp [atomicTwoSimplexEnrichment,
-      minimalToSingleTriangleScaling, scalingEnrichmentHom, l]
+    set_option backward.isDefEq.respectTransparency false in
+      change 𝟙 (Δ[2] : SSet.{u}) ≫ f.map = f.map
+    simp only [Category.id_comp]
 
 /-- The same atomic RLP can be stated intrinsically as maximality of the target
 scaling. -/
@@ -278,7 +286,9 @@ theorem not_globalDuskin_attachmentFibrant_of_noninvertible_nondegenerate
 also be canonically attachment-fibrant. -/
 theorem attachmentFibrant_of_standardRLP_of_canonical_le_standard
     {X : ScaledSSet.{u}}
-    (horder : canonicalKuuOSPresentation ≤ standardABCPresentation)
+    (horder :
+      (canonicalKuuOSPresentation : GeneratedScaledAnodynePresentation.{u}) ≤
+        standardABCPresentation)
     (hstd :
       (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{u})).rlp
         (ScaledSSet.toPoint X)) :
@@ -302,7 +312,8 @@ theorem not_canonicalKuuOS_le_standardABC_of_standardRLP_nonThin
         (ScaledSSet.toPoint X))
     (σ : X.carrier.obj (op ⦋2⦌))
     (hσ : ¬ X.scaling.thin σ) :
-    ¬ canonicalKuuOSPresentation ≤ standardABCPresentation := by
+    ¬ ((canonicalKuuOSPresentation : GeneratedScaledAnodynePresentation.{u}) ≤
+      standardABCPresentation) := by
   intro horder
   have hX :=
     attachmentFibrant_of_standardRLP_of_canonical_le_standard horder hstd
@@ -314,13 +325,16 @@ terminal RLP together with one nondegenerate noninvertible comparison
 theorem not_canonicalKuuOS_le_standardABC_of_standardRLP_duskin_witness
     {B : Type u} [Bicategory.{w, v} B]
     (hstd :
-      (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{u})).rlp
+      (standardGeneratedScaledAnodyneABC :
+        MorphismProperty (ScaledSSet.{max (max w v) u})).rlp
         (ScaledSSet.toPoint
           (ScaledSSet.of (duskinNerve B) (duskinScaling B))))
     (σ : (duskinNerve B).obj (op ⦋2⦌))
     (hnotIso : ¬ IsIso (duskinComparison σ))
     (hnotDeg : ¬ IsDegenerateDuskinTwoSimplex σ) :
-    ¬ canonicalKuuOSPresentation ≤ standardABCPresentation := by
+    ¬ ((canonicalKuuOSPresentation :
+        GeneratedScaledAnodynePresentation.{max (max w v) u}) ≤
+      standardABCPresentation) := by
   apply not_canonicalKuuOS_le_standardABC_of_standardRLP_nonThin hstd σ
   intro hthin
   change IsIso (duskinComparison σ) ∨ IsDegenerateDuskinTwoSimplex σ at hthin
