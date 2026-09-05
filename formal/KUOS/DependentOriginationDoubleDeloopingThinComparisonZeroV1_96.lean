@@ -11,6 +11,7 @@ open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
+open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 open KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95
 
 /-!
@@ -48,13 +49,16 @@ namespace NatDoubleDelooping
 exactly when it is zero. -/
 theorem twoCell_isIso_iff_eq_zero
     {f g : NatOneCell} (alpha : f ⟶ g) :
-    IsIso alpha ↔ alpha = 0 := by
+    IsIso alpha ↔ alpha = (0 : Nat) := by
   constructor
   · intro h
     letI : IsIso alpha := h
     have hinv := IsIso.hom_inv_id alpha
-    change alpha + inv alpha = 0 at hinv
-    omega
+    set_option backward.isDefEq.respectTransparency false in
+      change (alpha : Nat) + (inv alpha : Nat) = 0 at hinv
+    have halpha : (alpha : Nat) = 0 := by
+      omega
+    exact halpha
   · intro h
     have hfg : f = g := Subsingleton.elim _ _
     subst g
@@ -65,7 +69,7 @@ theorem twoCell_isIso_iff_eq_zero
 /-- Any invertible 2-cell in the additive double delooping is literally zero. -/
 theorem isIso_twoCell_eq_zero
     {f g : NatOneCell} (alpha : f ⟶ g) [IsIso alpha] :
-    alpha = 0 :=
+    alpha = (0 : Nat) :=
   (twoCell_isIso_iff_eq_zero alpha).1 inferInstance
 
 end NatDoubleDelooping
@@ -80,7 +84,7 @@ theorem natDuskin_map₂_eq_zero
     (sigma : DuskinSimplex NatDoubleDelooping n)
     {a b : DuskinOrdinal n} {f g : a ⟶ b}
     (eta : f ⟶ g) :
-    sigma.map₂ eta = 0 := by
+    sigma.map₂ eta = (0 : Nat) := by
   have hfg : f = g := LocallyDiscrete.eq_of_hom eta
   subst g
   have heta : eta = 𝟙 f := Subsingleton.elim _ _
@@ -94,16 +98,15 @@ theorem natDuskin_mapComp_id_left_eq_zero
     {n : Nat}
     (sigma : DuskinSimplex NatDoubleDelooping n)
     {a b : DuskinOrdinal n} (g : a ⟶ b) :
-    sigma.mapComp (𝟙 a) g = 0 := by
+    sigma.mapComp (𝟙 a) g = (0 : Nat) := by
   have h := sigma.map₂_leftUnitor g
-  have hmap₂ : sigma.map₂ (λ_ g).inv = 0 :=
+  have hmap₂ : sigma.map₂ (λ_ g).inv = (0 : Nat) :=
     natDuskin_map₂_eq_zero sigma _
-  have hλ : (λ_ (sigma.map g)).inv = 0 :=
+  have hleftUnitor : (λ_ (sigma.map g)).inv = (0 : Nat) :=
     NatDoubleDelooping.isIso_twoCell_eq_zero _
-  have heq : eqToHom (by rw [sigma.map_id a]) =
-      (0 : (sigma.map (𝟙 a)) ⟶ 𝟙 (sigma.obj a)) :=
+  have heq : eqToHom (by rw [sigma.map_id a]) = (0 : Nat) :=
     NatDoubleDelooping.isIso_twoCell_eq_zero _
-  rw [hmap₂, hλ, heq] at h
+  rw [hmap₂, hleftUnitor, heq] at h
   simpa using h.symm
 
 /-- The comparison with an identity on the right is zero. -/
@@ -111,16 +114,15 @@ theorem natDuskin_mapComp_id_right_eq_zero
     {n : Nat}
     (sigma : DuskinSimplex NatDoubleDelooping n)
     {a b : DuskinOrdinal n} (f : a ⟶ b) :
-    sigma.mapComp f (𝟙 b) = 0 := by
+    sigma.mapComp f (𝟙 b) = (0 : Nat) := by
   have h := sigma.map₂_rightUnitor f
-  have hmap₂ : sigma.map₂ (ρ_ f).inv = 0 :=
+  have hmap₂ : sigma.map₂ (ρ_ f).inv = (0 : Nat) :=
     natDuskin_map₂_eq_zero sigma _
-  have hρ : (ρ_ (sigma.map f)).inv = 0 :=
+  have hrightUnitor : (ρ_ (sigma.map f)).inv = (0 : Nat) :=
     NatDoubleDelooping.isIso_twoCell_eq_zero _
-  have heq : eqToHom (by rw [sigma.map_id b]) =
-      (0 : (sigma.map (𝟙 b)) ⟶ 𝟙 (sigma.obj b)) :=
+  have heq : eqToHom (by rw [sigma.map_id b]) = (0 : Nat) :=
     NatDoubleDelooping.isIso_twoCell_eq_zero _
-  rw [hmap₂, hρ, heq] at h
+  rw [hmap₂, hrightUnitor, heq] at h
   simpa using h.symm
 
 /-! ## Every comparison in degree one is zero -/
@@ -132,7 +134,7 @@ theorem natOneSimplex_mapComp_eq_zero
     (sigma : DuskinSimplex NatDoubleDelooping 1)
     {a b c : DuskinOrdinal 1}
     (f : a ⟶ b) (g : b ⟶ c) :
-    sigma.mapComp f g = 0 := by
+    sigma.mapComp f g = (0 : Nat) := by
   have hab : a.as ≤ b.as := f.as.le
   have hbc : b.as ≤ c.as := g.as.le
   have heq : a.as = b.as ∨ b.as = c.as := by
@@ -151,12 +153,16 @@ theorem natOneSimplex_mapComp_eq_zero
   rcases heq with habEq | hbcEq
   · have habObj : a = b := LocallyDiscrete.ext habEq
     subst b
-    have hf : f = 𝟙 a := Subsingleton.elim _ _
+    have hf : f = 𝟙 a := by
+      apply Discrete.ext
+      apply Subsingleton.elim
     rw [hf]
     exact natDuskin_mapComp_id_left_eq_zero sigma g
   · have hbcObj : b = c := LocallyDiscrete.ext hbcEq
     subst c
-    have hg : g = 𝟙 b := Subsingleton.elim _ _
+    have hg : g = 𝟙 b := by
+      apply Discrete.ext
+      apply Subsingleton.elim
     rw [hg]
     exact natDuskin_mapComp_id_right_eq_zero sigma f
 
@@ -168,16 +174,18 @@ discrete. -/
 theorem natDegeneracy_comparison_eq_zero
     (e : DuskinSimplex NatDoubleDelooping 1)
     (i : Fin 2) :
-    duskinComparison ((duskinNerve NatDoubleDelooping).σ i e) = 0 := by
+    duskinComparison ((duskinNerve NatDoubleDelooping).σ i e) =
+      (0 : Nat) := by
   change
     (((duskinReindex (SimplexCategory.σ i).op).comp e).mapComp
-      edge01 edge12) = 0
+      edge01 edge12) = (0 : Nat)
   change
     (e.mapComp
         ((duskinReindex (SimplexCategory.σ i).op).map edge01)
         ((duskinReindex (SimplexCategory.σ i).op).map edge12) ≫
       e.map₂
-        ((duskinReindex (SimplexCategory.σ i).op).mapComp edge01 edge12)) = 0
+        ((duskinReindex (SimplexCategory.σ i).op).mapComp edge01 edge12)) =
+      (0 : Nat)
   rw [natOneSimplex_mapComp_eq_zero, natDuskin_map₂_eq_zero]
   rfl
 
@@ -185,7 +193,7 @@ theorem natDegeneracy_comparison_eq_zero
 theorem natDegenerate_comparison_eq_zero
     (sigma : DuskinSimplex NatDoubleDelooping 2)
     (hdeg : IsDegenerateDuskinTwoSimplex sigma) :
-    duskinComparison sigma = 0 := by
+    duskinComparison sigma = (0 : Nat) := by
   rcases hdeg with ⟨e, rfl⟩ | ⟨e, rfl⟩
   · exact natDegeneracy_comparison_eq_zero e 0
   · exact natDegeneracy_comparison_eq_zero e 1
@@ -197,11 +205,11 @@ zero locus of the comparison label. -/
 theorem natDuskin_thin_iff_comparison_eq_zero
     (sigma : DuskinSimplex NatDoubleDelooping 2) :
     (duskinScaling NatDoubleDelooping).thin sigma ↔
-      duskinComparison sigma = 0 := by
+      duskinComparison sigma = (0 : Nat) := by
   change
     (IsIso (duskinComparison sigma) ∨
       IsDegenerateDuskinTwoSimplex sigma) ↔
-      duskinComparison sigma = 0
+      duskinComparison sigma = (0 : Nat)
   constructor
   · intro h
     rcases h with hIso | hdeg
@@ -222,14 +230,16 @@ theorem natNoninvertibleTriangle_nondegenerate :
   have hzero := natDegenerate_comparison_eq_zero
     natNoninvertibleTriangle hdeg
   rw [natNoninvertibleTriangle_comparison] at hzero
-  omega
+  change (1 : Nat) = 0 at hzero
+  exact Nat.one_ne_zero hzero
 
 /-- The same simplex is unconditionally non-thin. -/
 theorem natNoninvertibleTriangle_not_thin :
     ¬ (duskinScaling NatDoubleDelooping).thin natNoninvertibleTriangle := by
   rw [natDuskin_thin_iff_comparison_eq_zero,
     natNoninvertibleTriangle_comparison]
-  omega
+  change (1 : Nat) ≠ 0
+  exact Nat.one_ne_zero
 
 /-! ## The separator certificate now has one field -/
 
@@ -238,7 +248,8 @@ strict standard/canonical separation is standard A/B/C terminal right lifting
 of the concrete scaled Duskin nerve. -/
 structure NatDoubleDeloopingStandardRightCertificate : Prop where
   standardRight :
-    (standardGeneratedScaledAnodyneABC : MorphismProperty ScaledSSet).rlp
+    (standardGeneratedScaledAnodyneABC :
+      MorphismProperty (ScaledSSet.{0})).rlp
       (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin)
 
 /-- The one-field certificate supplies the v1.95 two-field interface. -/
@@ -260,7 +271,7 @@ theorem terminal_not_reflects_of_standardRightCertificate
 right lifting is established for this concrete model. -/
 theorem not_standardArbitraryScalingObstructionClosed_of_standardRightCertificate
     (C : NatDoubleDeloopingStandardRightCertificate) :
-    ¬ KUOS.DependentOriginationStandardArbitraryScalingWaypointV1_89.StandardArbitraryScalingObstructionClosed :=
+    ¬ KUOS.DependentOriginationStandardArbitraryScalingWaypointV1_89.StandardArbitraryScalingObstructionClosed.{0} :=
   not_standardArbitraryScalingObstructionClosed_of_certificate
     C.toSeparatorCertificate
 
@@ -268,8 +279,7 @@ theorem not_standardArbitraryScalingObstructionClosed_of_standardRightCertificat
 the same single standard-right theorem. -/
 theorem not_canonicalKuuOS_le_standardABC_of_standardRightCertificate
     (C : NatDoubleDeloopingStandardRightCertificate) :
-    ¬ KUOS.DependentOriginationGeneratedPresentationPosetalReflectionV1_83.canonicalKuuOSPresentation ≤
-      KUOS.DependentOriginationGeneratedPresentationPosetalReflectionV1_83.standardABCPresentation :=
+    ¬ canonicalKuuOSPresentation.{0} ≤ standardABCPresentation.{0} :=
   not_canonicalKuuOS_le_standardABC_of_certificate
     C.toSeparatorCertificate
 
