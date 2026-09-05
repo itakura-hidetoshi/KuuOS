@@ -219,14 +219,12 @@ theorem singleTrianglePushoutScaling_eq_finiteInsert
     change
       ((minimalScaling (Δ[n] : SSet.{u})).thin u ∨ u ∈ F) ∨
         ∃ x : (Δ[n] : SSet.{u}).obj (op ⦋2⦌),
-          ((minimalScaling (Δ[n] : SSet.{u})).thin x ∨ x = t) ∧
-            (𝟙 (Δ[n] : SSet.{u})).app (op ⦋2⦌) x = u at hu
+          ((minimalScaling (Δ[n] : SSet.{u})).thin x ∨ x = t) ∧ x = u at hu
     rcases hu with hu | ⟨x, hx, hxu⟩
     · rcases hu with hmin | hF
       · exact Or.inl hmin
       · exact Or.inr (Finset.mem_insert_of_mem hF)
-    · have hxu' : x = u := by simpa using hxu
-      subst u
+    · subst u
       rcases hx with hmin | hxt
       · exact Or.inl hmin
       · subst x
@@ -294,6 +292,10 @@ theorem finiteTriangleInsertEnrichment_mem_llp
     apply ScaledSSet.ScaledMap.ext
     simp [e, finiteTriangleInsertEnrichment, scalingEnrichmentHom,
       scalingEnrichmentPushoutTargetEnrichment]
+    change
+      𝟙 (Δ[n] : SSet.{u}) ≫ 𝟙 (Δ[n] : SSet.{u}) =
+        𝟙 (Δ[n] : SSet.{u})
+    simp only [Category.id_comp]
   rw [← heq]
   exact hpush'
 
@@ -326,6 +328,10 @@ theorem minimalToFiniteTriangleScaling_mem_llp
               𝟙 (minimallyScaledSimplex n) := by
           apply ScaledSSet.ScaledMap.ext
           simp [e, minimalToFiniteTriangleScaling, scalingEnrichmentHom]
+          change
+            𝟙 (Δ[n] : SSet.{u}) ≫ 𝟙 (Δ[n] : SSet.{u}) =
+              𝟙 (Δ[n] : SSet.{u})
+          simp only [Category.id_comp]
         rw [heq]
         exact hid
       exact
@@ -426,6 +432,10 @@ theorem minimalToChosenSimplexScaling_mem_llp_of_singleTriangles
     apply ScaledSSet.ScaledMap.ext
     simp [e, minimalToFiniteTriangleScaling, minimalToChosenSimplexScaling,
       scalingEnrichmentHom]
+    change
+      𝟙 (Δ[n] : SSet.{u}) ≫ 𝟙 (Δ[n] : SSet.{u}) =
+        𝟙 (Δ[n] : SSet.{u})
+    simp only [Category.id_comp]
   rw [← heq]
   exact hfinite'
 
