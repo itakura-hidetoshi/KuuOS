@@ -143,8 +143,7 @@ theorem atomicTwoSimplex_standardGenerated_iff_singleTriangles_le :
       (singleTriangleScalingEnrichments : MorphismProperty (ScaledSSet.{u})) ≤
         standardGeneratedScaledAnodyneABC := by
   constructor
-  · intro hatomic
-    intro A B f hf
+  · intro hatomic A B f hf
     dsimp [singleTriangleScalingEnrichments] at hf
     cases hf with
     | mk q =>
