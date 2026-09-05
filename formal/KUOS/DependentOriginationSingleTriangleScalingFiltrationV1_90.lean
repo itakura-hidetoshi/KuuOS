@@ -13,8 +13,10 @@ open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
 open KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
+open KUOS.DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_72
 open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 open KUOS.DependentOriginationGeneratedPresentationOrderReflectionV1_84
+open KUOS.DependentOriginationStandardCanonicalPresentationGapV1_87
 open KUOS.DependentOriginationCanonicalAttachmentScalingObstructionRetractV1_88
 open KUOS.DependentOriginationStandardArbitraryScalingWaypointV1_89
 
@@ -162,7 +164,12 @@ theorem finiteTriangleScaling_empty
       minimalScaling (Δ[n] : SSet.{u}) := by
   apply scaling_eq_of_le_antisymm
   · intro t ht
-    simpa [finiteTriangleScaling] using ht
+    change
+      (minimalScaling (Δ[n] : SSet.{u})).thin t ∨
+        t ∈ (∅ : Finset ((Δ[n] : SSet.{u}).obj (op ⦋2⦌))) at ht
+    rcases ht with hmin | hmem
+    · exact hmin
+    · simp at hmem
   · intro t ht
     exact Or.inl ht
 
@@ -209,7 +216,11 @@ theorem singleTrianglePushoutScaling_eq_finiteInsert
       finiteTriangleScaling (insert t F) := by
   apply scaling_eq_of_le_antisymm
   · intro u hu
-    dsimp [scalingEnrichmentPushoutScaling] at hu
+    change
+      ((minimalScaling (Δ[n] : SSet.{u})).thin u ∨ u ∈ F) ∨
+        ∃ x : (Δ[n] : SSet.{u}).obj (op ⦋2⦌),
+          ((minimalScaling (Δ[n] : SSet.{u})).thin x ∨ x = t) ∧
+            (𝟙 (Δ[n] : SSet.{u})).app (op ⦋2⦌) x = u at hu
     rcases hu with hu | ⟨x, hx, hxu⟩
     · rcases hu with hmin | hF
       · exact Or.inl hmin
@@ -251,19 +262,40 @@ theorem finiteTriangleInsertEnrichment_mem_llp
       (finiteTriangleScaling F)
       (𝟙 (Δ[n] : SSet.{u}))
       (minimalScaling_map _ _)
-    simpa [minimalToSingleTriangleScaling] using ht
+    set_option backward.isDefEq.respectTransparency false in
+      exact ht
   have hscale := singleTrianglePushoutScaling_eq_finiteInsert F t
-  rw [hscale] at hpush
+  let e :=
+    scalingEqualityIso
+      (scalingEnrichmentPushoutScaling
+        (singleTriangleScaling t)
+        (finiteTriangleScaling F)
+        (𝟙 (Δ[n] : SSet.{u})))
+      (finiteTriangleScaling (insert t F))
+      hscale
+  have hpush' :
+      T.llp
+        (scalingEnrichmentPushoutTargetEnrichment
+            (singleTriangleScaling t)
+            (finiteTriangleScaling F)
+            (𝟙 (Δ[n] : SSet.{u})) ≫ e.hom) := by
+    exact
+      ((T.llp).cancel_right_of_respectsIso
+        (scalingEnrichmentPushoutTargetEnrichment
+          (singleTriangleScaling t)
+          (finiteTriangleScaling F)
+          (𝟙 (Δ[n] : SSet.{u}))) e.hom).2 hpush
   have heq :
       scalingEnrichmentPushoutTargetEnrichment
           (singleTriangleScaling t)
           (finiteTriangleScaling F)
-          (𝟙 (Δ[n] : SSet.{u})) =
+          (𝟙 (Δ[n] : SSet.{u})) ≫ e.hom =
         finiteTriangleInsertEnrichment F t := by
     apply ScaledSSet.ScaledMap.ext
-    rfl
+    simp [e, finiteTriangleInsertEnrichment, scalingEnrichmentHom,
+      scalingEnrichmentPushoutTargetEnrichment]
   rw [← heq]
-  exact hpush
+  exact hpush'
 
 /-! ## Finite composition of atomic steps -/
 
@@ -280,14 +312,25 @@ theorem minimalToFiniteTriangleScaling_mem_llp
   classical
   induction F using Finset.induction_on with
   | empty =>
-      rw [finiteTriangleScaling_empty]
-      have heq :
-          minimalToFiniteTriangleScaling (n := n) ∅ =
-            𝟙 (minimallyScaledSimplex n) := by
-        apply ScaledSSet.ScaledMap.ext
-        rfl
-      rw [heq]
-      exact T.llp.id_mem _
+      let e :=
+        scalingEqualityIso
+          (finiteTriangleScaling (n := n) ∅)
+          (minimalScaling (Δ[n] : SSet.{u}))
+          (finiteTriangleScaling_empty n)
+      have hcomp :
+          T.llp
+            (minimalToFiniteTriangleScaling (n := n) ∅ ≫ e.hom) := by
+        have hid : T.llp (𝟙 (minimallyScaledSimplex n)) := T.llp.id_mem _
+        have heq :
+            minimalToFiniteTriangleScaling (n := n) ∅ ≫ e.hom =
+              𝟙 (minimallyScaledSimplex n) := by
+          apply ScaledSSet.ScaledMap.ext
+          simp [e, minimalToFiniteTriangleScaling, scalingEnrichmentHom]
+        rw [heq]
+        exact hid
+      exact
+        ((T.llp).cancel_right_of_respectsIso
+          (minimalToFiniteTriangleScaling (n := n) ∅) e.hom).1 hcomp
   | @insert t F hnot ih =>
       have hstep : T.llp (finiteTriangleInsertEnrichment F t) :=
         finiteTriangleInsertEnrichment_mem_llp T F t (hatomic t)
@@ -301,8 +344,10 @@ theorem minimalToFiniteTriangleScaling_mem_llp
             minimalToFiniteTriangleScaling F ≫
               finiteTriangleInsertEnrichment F t := by
         apply ScaledSSet.ScaledMap.ext
-        simp [minimalToFiniteTriangleScaling, finiteTriangleInsertEnrichment,
-          scalingEnrichmentHom]
+        change
+          𝟙 (Δ[n] : SSet.{u}) =
+            𝟙 (Δ[n] : SSet.{u}) ≫ 𝟙 (Δ[n] : SSet.{u})
+        simp only [Category.id_comp]
       rw [heq]
       exact hcomp
 
@@ -364,14 +409,25 @@ theorem minimalToChosenSimplexScaling_mem_llp_of_singleTriangles
     minimalToFiniteTriangleScaling_mem_llp
       T hatomic (chosenThinTriangles sDelta)
   have hscale := finiteTriangleScaling_chosenThinTriangles_eq sDelta
-  rw [hscale] at hfinite
+  let e :=
+    scalingEqualityIso
+      (finiteTriangleScaling (chosenThinTriangles sDelta))
+      sDelta
+      hscale
+  have hfinite' :
+      T.llp
+        (minimalToFiniteTriangleScaling (chosenThinTriangles sDelta) ≫ e.hom) := by
+    exact
+      ((T.llp).cancel_right_of_respectsIso
+        (minimalToFiniteTriangleScaling (chosenThinTriangles sDelta)) e.hom).2 hfinite
   have heq :
-      minimalToFiniteTriangleScaling (chosenThinTriangles sDelta) =
+      minimalToFiniteTriangleScaling (chosenThinTriangles sDelta) ≫ e.hom =
         minimalToChosenSimplexScaling sDelta := by
     apply ScaledSSet.ScaledMap.ext
-    rfl
+    simp [e, minimalToFiniteTriangleScaling, minimalToChosenSimplexScaling,
+      scalingEnrichmentHom]
   rw [← heq]
-  exact hfinite
+  exact hfinite'
 
 /-! ## Equality of the atomic and arbitrary pure-scaling presentations -/
 
