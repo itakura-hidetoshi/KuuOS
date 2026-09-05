@@ -13,6 +13,8 @@ open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationPresentationIndependentInvariantV1_25
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
+open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
+open KUOS.DependentOriginationStandardArbitraryScalingWaypointV1_89
 open KUOS.DependentOriginationCanonicalFibrationThinReflectionV1_92
 open KUOS.DependentOriginationAtomicTwoSimplexUniversalScalingObstructionV1_94
 
@@ -51,9 +53,9 @@ proof.  No presentation inequality is concluded unconditionally.
 /-! ## The one-cell hom-category with additive natural 2-cells -/
 
 /-- The unique 1-cell in the additive double delooping. -/
-inductive NatOneCell : Type
+inductive NatOneCell : Type where
   | star
-  deriving DecidableEq
+deriving DecidableEq
 
 namespace NatOneCell
 
@@ -66,9 +68,15 @@ instance : Category NatOneCell where
   Hom _ _ := Nat
   id _ := 0
   comp f g := f + g
-  id_comp := by intro; exact Nat.zero_add _
-  comp_id := by intro; exact Nat.add_zero _
-  assoc := by intro; exact Nat.add_assoc _ _ _
+  id_comp := by
+    intro X Y f
+    exact Nat.zero_add f
+  comp_id := by
+    intro X Y f
+    exact Nat.add_zero f
+  assoc := by
+    intro W X Y Z f g h
+    exact Nat.add_assoc f g h
 
 @[simp]
 theorem id_eq_zero (f : NatOneCell) : (𝟙 f : f ⟶ f) = 0 := rfl
@@ -82,9 +90,9 @@ end NatOneCell
 /-! ## The additive double delooping bicategory -/
 
 /-- The unique object of the additive double delooping. -/
-inductive NatDoubleDelooping : Type
+inductive NatDoubleDelooping : Type where
   | star
-  deriving DecidableEq
+deriving DecidableEq
 
 namespace NatDoubleDelooping
 
