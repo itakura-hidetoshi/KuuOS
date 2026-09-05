@@ -90,15 +90,6 @@ theorem standardTypeATwoHornMap_scaled
   exact (minimalScaling_map X.scaling f) t
     (standardTypeATwoHorn_every_two_simplex_minimally_thin t)
 
-/-- The Yoneda identity triangle acts as the identity order map on vertices. -/
-@[simp]
-theorem identityTwoSimplex_apply (j : Fin 3) :
-    (identityTwoSimplex :
-      (Δ[2] : SSet.{u}).obj (op ⦋2⦌)) j = j := by
-  change (SSet.stdSimplex.objEquiv.symm (𝟙 ⦋2⦌)) j = j
-  rw [SSet.stdSimplex.objEquiv_symm_apply]
-  rfl
-
 /-- The Yoneda identity triangle is the distinguished type-(A) triangle for
 `n = 2, i = 1`. -/
 theorem identityTwoSimplex_isStandardTypeADistinguishedTriangle :
@@ -120,17 +111,32 @@ theorem standardTypeATwo_distinguished_eq_identity
     (ht : IsStandardTypeADistinguishedTriangle (1 : Fin 3) t) :
     t = identityTwoSimplex := by
   rcases ht with ⟨h1, h0, h2⟩
+  have h0val : (t (0 : Fin 3)).val = 0 := by
+    change (t (0 : Fin 3)).val + 1 = 0 + 1 at h0
+    exact Nat.add_right_cancel h0
+  have h2val : (t (2 : Fin 3)).val = 2 := by
+    change 2 = (t (2 : Fin 3)).val at h2
+    exact h2.symm
   apply SSet.stdSimplex.ext
   intro j
   fin_cases j
-  · apply Fin.ext
-    rw [identityTwoSimplex_apply]
-    omega
-  · rw [identityTwoSimplex_apply]
+  · rw [show
+      (identityTwoSimplex :
+        (Δ[2] : SSet.{u}).obj (op ⦋2⦌)) (0 : Fin 3) = 0 by
+          simp [identityTwoSimplex]]
+    apply Fin.ext
+    exact h0val
+  · rw [show
+      (identityTwoSimplex :
+        (Δ[2] : SSet.{u}).obj (op ⦋2⦌)) (1 : Fin 3) = 1 by
+          simp [identityTwoSimplex]]
     exact h1
-  · apply Fin.ext
-    rw [identityTwoSimplex_apply]
-    omega
+  · rw [show
+      (identityTwoSimplex :
+        (Δ[2] : SSet.{u}).obj (op ⦋2⦌)) (2 : Fin 3) = 2 by
+          simp [identityTwoSimplex]]
+    apply Fin.ext
+    exact h2val
 
 /-- A map out of the standard type-(A) `Delta[2]` is scaled as soon as the
 image of the identity triangle is thin.  The minimally thin triangles are
