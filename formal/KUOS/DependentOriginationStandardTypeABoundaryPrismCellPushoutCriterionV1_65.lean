@@ -9,6 +9,7 @@ open CategoryTheory.Limits
 open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
@@ -210,7 +211,7 @@ theorem standardTypeABoundaryPrismCellAPushoutScaling_le_cellScaling
   intro t ht
   change
     (standardTypeASimplexScaling c.index).thin t ∨
-      ∃ x : (c.horn : SSet.{u}).obj (op ⦋2⦌),
+      ∃ x,
         (standardTypeABoundaryPrismCellHornScaling g j c).thin x ∧
           c.horn.ι.app (op ⦋2⦌) x = t at ht
   rcases ht with ht | ⟨x, hx, rfl⟩
@@ -231,17 +232,16 @@ theorem standardTypeABoundaryPrismCell_cellScaling_le_APushoutScaling
   intro t ht
   change
     (standardTypeASimplexScaling c.index).thin t ∨
-      ∃ x : (c.horn : SSet.{u}).obj (op ⦋2⦌),
+      ∃ x,
         (standardTypeABoundaryPrismCellHornScaling g j c).thin x ∧
           c.horn.ι.app (op ⦋2⦌) x = t
   by_cases hm : t ∈ c.horn.obj (op ⦋2⦌)
   · right
-    let x : (c.horn : SSet.{u}).obj (op ⦋2⦌) := ⟨t, hm⟩
-    refine ⟨x, ?_, ?_⟩
+    refine ⟨⟨t, hm⟩, ?_, ?_⟩
     · change
         (standardTypeABoundaryPrismCellScaling g j c).thin
-          (c.horn.ι.app (op ⦋2⦌) x)
-      simpa [x] using ht
+          (c.horn.ι.app (op ⦋2⦌) (⟨t, hm⟩))
+      simpa using ht
     · rfl
   · exact Or.inl (hout t ht hm)
 

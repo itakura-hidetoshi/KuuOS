@@ -14,6 +14,7 @@ open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
+open KUOS.DependentOriginationScaledTerminalRLPV1_41.ScaledSSet
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationScaledAnodyneWFSUniversalityV1_43
 open KUOS.DependentOriginationScaledSmallObjectArgumentV1_44
@@ -115,6 +116,7 @@ variable {J : Type u} [Category.{u} J]
 
 /-- The least scaling on the underlying colimit containing every thin
 2-simplex coming from every object of the diagram. -/
+@[reducible]
 noncomputable def colimitScaling
     (D : J ⥤ ScaledSSet.{u})
     [HasColimit (D ⋙ forget)] :
@@ -135,12 +137,14 @@ noncomputable def colimitScaling
     exact Or.inr (Or.inl ⟨x, rfl⟩)
 
 /-- The scaled object carried by the underlying simplicial-set colimit. -/
+@[reducible]
 noncomputable def colimitObj
     (D : J ⥤ ScaledSSet.{u})
     [HasColimit (D ⋙ forget)] : ScaledSSet.{u} :=
   ScaledSSet.of (colimit (D ⋙ forget)) (colimitScaling D)
 
 /-- The canonical colimit leg is scaled by construction. -/
+@[reducible]
 noncomputable def colimitLeg
     (D : J ⥤ ScaledSSet.{u})
     [HasColimit (D ⋙ forget)]
@@ -151,6 +155,7 @@ noncomputable def colimitLeg
     exact Or.inr (Or.inr ⟨j, t, ht, rfl⟩)
 
 /-- The explicit scaled colimit cocone. -/
+@[reducible]
 noncomputable def colimitCocone
     (D : J ⥤ ScaledSSet.{u})
     [HasColimit (D ⋙ forget)] : Cocone D where
@@ -166,35 +171,72 @@ noncomputable def colimitCocone
 noncomputable def colimitCoconeIsColimit
     (D : J ⥤ ScaledSSet.{u})
     [HasColimit (D ⋙ forget)] : IsColimit (colimitCocone D) where
-  desc s :=
-    { map := colimit.desc (forget.mapCocone s)
-      scaled := by
-        intro t ht
-        rcases ht with ⟨x, rfl⟩ | ⟨x, rfl⟩ | ⟨j, x, hx, rfl⟩
-        · rw [SSet.σ_naturality_apply _ 0 x]
-          exact s.pt.scaling.thin_sigma_zero _
-        · rw [SSet.σ_naturality_apply _ 1 x]
-          exact s.pt.scaling.thin_sigma_one _
-        · have h := (s.ι.app j).scaled hx
-          simpa [forget, colimitCocone, colimitLeg, colimitObj] using h }
+  desc s := by
+    let d : colimit (D ⋙ forget) ⟶ s.pt.carrier :=
+      colimit.desc (D ⋙ forget) (forget.mapCocone s)
+    exact
+      { map := d
+        scaled := by
+          intro t ht
+          change s.pt.scaling.thin (d.app _ t)
+          rcases ht with ⟨x, rfl⟩ | ⟨x, rfl⟩ | ⟨j, x, hx, rfl⟩
+          · rw [SSet.σ_naturality_apply d 0 x]
+            exact s.pt.scaling.thin_sigma_zero _
+          · rw [SSet.σ_naturality_apply d 1 x]
+            exact s.pt.scaling.thin_sigma_one _
+          · have h :
+                s.pt.scaling.thin
+                  (((forget.mapCocone s).ι.app j).app (op ⦋2⦌) x) :=
+              (s.ι.app j).scaled x hx
+            change s.pt.scaling.thin
+              (((colimit.ι (D ⋙ forget) j ≫
+                  colimit.desc (D ⋙ forget) (forget.mapCocone s)).app
+                    (op ⦋2⦌)) x)
+            rw [colimit.ι_desc (forget.mapCocone s) j]
+            exact h }
   fac s j := by
     apply ScaledMap.ext
-    simp [colimitCocone, colimitLeg, colimitObj, forget]
+    change colimit.ι (D ⋙ forget) j ≫
+        colimit.desc (D ⋙ forget) (forget.mapCocone s) =
+      (s.ι.app j).map
+    exact colimit.ι_desc (forget.mapCocone s) j
   uniq s m hm := by
     apply ScaledMap.ext
+    let m' : colimit (D ⋙ forget) ⟶ s.pt.carrier := by
+      change (colimitCocone D).pt.carrier ⟶ s.pt.carrier
+      exact m.map
+    change m' = colimit.desc (D ⋙ forget) (forget.mapCocone s)
     apply colimit.hom_ext
     intro j
-    have h := congrArg ScaledMap.map (hm j)
-    simpa [colimitCocone, colimitLeg, colimitObj, forget] using h
+    have hleft := congrArg ScaledMap.map (hm j)
+    change colimit.ι (D ⋙ forget) j ≫ m' = (s.ι.app j).map at hleft
+    have hright :
+        colimit.ι (D ⋙ forget) j ≫
+            colimit.desc (D ⋙ forget) (forget.mapCocone s) =
+          (s.ι.app j).map :=
+      colimit.ι_desc (forget.mapCocone s) j
+    exact hleft.trans hright.symm
 
 /-- The underlying cocone of the explicit scaled colimit is the ordinary
 simplicial-set colimit cocone. -/
 noncomputable def forgetColimitCoconeIsColimit
     (D : J ⥤ ScaledSSet.{u})
     [HasColimit (D ⋙ forget)] :
-    IsColimit (forget.mapCocone (colimitCocone D)) := by
-  simpa [forget, colimitCocone, colimitLeg, colimitObj] using
-    (colimit.isColimit (D ⋙ forget))
+    IsColimit (forget.mapCocone (colimitCocone D)) where
+  desc s := by
+    change colimit (D ⋙ forget) ⟶ s.pt
+    exact colimit.desc (D ⋙ forget) s
+  fac s j := by
+    change colimit.ι (D ⋙ forget) j ≫ colimit.desc (D ⋙ forget) s = s.ι.app j
+    exact colimit.ι_desc s j
+  uniq s m hm := by
+    change m = colimit.desc (D ⋙ forget) s
+    apply colimit.hom_ext
+    intro j
+    have h := hm j
+    change colimit.ι (D ⋙ forget) j ≫ m = s.ι.app j at h
+    rw [colimit.ι_desc s j]
+    exact h
 
 /-- Every colimit shape available in simplicial sets is available in scaled
 simplicial sets. -/
@@ -287,7 +329,6 @@ noncomputable instance canonicalScaled_isCardinalForSmallObjectArgument :
       dsimp [scaledHornAttachmentGenerators] at hi
       cases hi with
       | mk g =>
-          dsimp [scaledHornAttachmentGeneratorHom]
           infer_instance
     letI : IsFinitelyPresentable.{u} A := hA
     infer_instance
@@ -301,12 +342,12 @@ noncomputable instance canonicalScaled_hasSmallObjectArgument :
 
 /-- The v1.43 generated pair is therefore an unconditional native weak
 factorization system. -/
+@[reducible]
 noncomputable def canonicalGeneratedScaledWeakFactorizationSystem_unconditional :
     MorphismProperty.IsWeakFactorizationSystem
       (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
       (canonicalGeneratedScaledFibration : MorphismProperty (ScaledSSet.{u})) :=
-  KUOS.DependentOriginationScaledSmallObjectArgumentV1_44.
-    canonicalGeneratedScaledWeakFactorizationSystem_of_smallObject inferInstance
+  canonicalGeneratedScaledWeakFactorizationSystem_of_smallObject inferInstance
 
 /-- The canonical generated left class has the expected cellular description
 without any extra hypothesis. -/
@@ -316,8 +357,7 @@ theorem canonicalGeneratedScaledAnodyne_eq_cellularClosure_unconditional :
         (MorphismProperty.coproducts.{u}
           (scaledHornAttachmentGenerators : MorphismProperty
             (ScaledSSet.{u}))).pushouts).retracts :=
-  KUOS.DependentOriginationScaledSmallObjectArgumentV1_44.
-    canonicalGeneratedScaledAnodyne_eq_cellularClosure inferInstance
+  canonicalGeneratedScaledAnodyne_eq_cellularClosure inferInstance
 
 /-!
 The complete lifting-theoretic spine is now theorem-level:

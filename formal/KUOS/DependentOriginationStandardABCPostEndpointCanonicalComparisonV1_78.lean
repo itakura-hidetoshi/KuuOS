@@ -3,6 +3,7 @@ import KUOS.DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_7
 namespace KUOS.DependentOriginationStandardABCPostEndpointCanonicalComparisonV1_78
 
 open CategoryTheory
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationScaledAnodyneWFSUniversalityV1_43
 open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
@@ -71,8 +72,8 @@ theorem canonicalGenerators_le_standardGenerated_of_residual
         (standardScaledAnodyneGeneratorsABC :
           MorphismProperty (ScaledSSet.{u}))
   exact
-    (standardABCCanonicalAttachmentFactorComparisonConstructed R)
-      .canonicalGenerators_le_externalGenerated
+    CanonicalAttachmentFactorComparison.canonicalGenerators_le_externalGenerated
+      (standardABCCanonicalAttachmentFactorComparisonConstructed R)
 
 /-! ## Forward direction: residual comparison implies canonical <= standard -/
 
@@ -148,7 +149,7 @@ theorem canonicalGeneratedFibration_le_standardGeneratedFibration_of_reverse
       MorphismProperty (ScaledSSet.{u})) ≤
       (standardScaledAnodyneGeneratorsABC :
         MorphismProperty (ScaledSSet.{u})).rlp
-  rw [← canonicalGeneratedScaledAnodyne_rlp_eq_fibration] at hrlp
+  rw [canonicalGeneratedScaledAnodyne_rlp_eq_fibration] at hrlp
   simpa [standardGeneratedScaledAnodyneABC] using hrlp
 
 /-! ## The post-endpoint master certificate has only the two comparison inputs -/
@@ -197,8 +198,7 @@ theorem standardGeneratedScaledAnodyneABC_eq_canonical_via_master
     standardGeneratedScaledAnodyneABC =
       (canonicalGeneratedScaledAnodyne :
         MorphismProperty (ScaledSSet.{u})) :=
-  (standardABCCanonicalComparisonCertificateConstructed R V)
-    .generatedAnodyne_eq_canonical
+  (standardABCCanonicalComparisonCertificateConstructed R V).generatedAnodyne_eq_canonical
 
 /-- And likewise for the right class. -/
 theorem standardGeneratedScaledFibrationABC_eq_canonical_via_master
@@ -207,8 +207,7 @@ theorem standardGeneratedScaledFibrationABC_eq_canonical_via_master
     standardGeneratedScaledFibrationABC =
       (canonicalGeneratedScaledFibration :
         MorphismProperty (ScaledSSet.{u})) :=
-  (standardABCCanonicalComparisonCertificateConstructed R V)
-    .generatedFibration_eq_canonical
+  (standardABCCanonicalComparisonCertificateConstructed R V).generatedFibration_eq_canonical
 
 /-!
 The formal frontier is now directionally exact:

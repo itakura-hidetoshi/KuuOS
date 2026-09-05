@@ -76,12 +76,25 @@ theorem hasLiftingProperty_of_epi_precomp
 is the identity, so cancellation reduces to `ScaledMap.ext`. -/
 instance standardTypeAEndpointGeneratedToInduced_epi
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    Epi (standardTypeAEndpointGeneratedToInduced g) where
+    Epi (standardTypeAEndpointGeneratedToInduced g :
+      (standardTypeAEndpointGeneratedPushoutSource g : ScaledSSet.{u}) ⟶
+        (standardTypeAEndpointPushoutProductSource g : ScaledSSet.{u})) where
   left_cancellation := by
     intro Z f h w
     apply ScaledSSet.ScaledMap.ext
+    change
+      @Eq
+        (((SSet.horn g.n g.i).unionProd
+          (KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40.intervalEndpoint g.endpoint) : SSet.{u}) ⟶
+            Z.carrier)
+        f.map h.map
     have hw := congrArg ScaledSSet.ScaledMap.map w
-    simpa using hw
+    change
+      (𝟙 ((SSet.horn g.n g.i).unionProd
+          (KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40.intervalEndpoint g.endpoint) : SSet.{u}) ≫ f.map) =
+        (𝟙 ((SSet.horn g.n g.i).unionProd
+          (KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40.intervalEndpoint g.endpoint) : SSet.{u}) ≫ h.map) at hw
+    simpa only [Category.id_comp] using hw
 
 /-- Lifting against the least-generated endpoint map descends to lifting
 against the v1.50 induced endpoint map. -/
@@ -124,7 +137,8 @@ structure StandardTypeAEndpointGeneratedPushoutProductStable
     (L : MorphismProperty (ScaledSSet.{u})) : Prop where
   pushoutProduct_mem :
     ∀ g : StandardTypeAHornAttachmentGeneratorIndex,
-      L (standardTypeAScaledHornGeneratorHom g.toHornGenerator) →
+      L (standardTypeAScaledHornGeneratorHom
+        (StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g)) →
       L (standardTypeAEndpointGeneratedPushoutProductHom g)
 
 /-! ## Orthogonal left classes only need least-generated stability -/
@@ -157,39 +171,40 @@ structure StandardTypeAExternalGeneratedPushoutComparison
 
 namespace StandardTypeAExternalGeneratedPushoutComparison
 
-variable
-    {E : MorphismProperty (ScaledSSet.{u})}
-    (K : StandardTypeAExternalGeneratedPushoutComparison E)
+variable {E : MorphismProperty (ScaledSSet.{u})}
 
 /-- Least-generated endpoint stability induces the older v1.50 comparison
 interface automatically. -/
-def toStandardTypeAExternalGeneratedComparison :
+def toStandardTypeAExternalGeneratedComparison
+    (K : StandardTypeAExternalGeneratedPushoutComparison E) :
     StandardTypeAExternalGeneratedComparison E where
   typeAHorns_le_externalGenerated :=
-    K.typeAHorns_le_externalGenerated
+    StandardTypeAExternalGeneratedPushoutComparison.typeAHorns_le_externalGenerated K
   endpointPushoutProductStable := by
     change StandardTypeAEndpointPushoutProductStable (E.rlp.llp)
     apply standardTypeAEndpointPushoutProductStable_of_generated (T := E.rlp)
     simpa [externalGeneratedScaledAnodyne] using
-      K.generatedEndpointPushoutProductStable
+      StandardTypeAExternalGeneratedPushoutComparison.generatedEndpointPushoutProductStable K
 
 /-- Hence all v1.50 induced type-(A) attachments belong to the externally
 generated left class from the strictly weaker least-generated stability input. -/
-theorem inducedTypeAAttachments_le_externalGenerated :
+theorem inducedTypeAAttachments_le_externalGenerated
+    (K : StandardTypeAExternalGeneratedPushoutComparison E) :
     (standardTypeAInducedScaledHornAttachmentGenerators :
       MorphismProperty (ScaledSSet.{u})) ≤
       externalGeneratedScaledAnodyne E :=
-  K.toStandardTypeAExternalGeneratedComparison
-    .inducedTypeAAttachments_le_externalGenerated
+  StandardTypeAExternalGeneratedComparison.inducedTypeAAttachments_le_externalGenerated
+    (toStandardTypeAExternalGeneratedComparison K)
 
 /-- The endpoint-pushout-product presentation itself is therefore externally
 generated as well. -/
-theorem endpointPushoutProducts_le_externalGenerated :
+theorem endpointPushoutProducts_le_externalGenerated
+    (K : StandardTypeAExternalGeneratedPushoutComparison E) :
     (standardTypeAEndpointPushoutProductGenerators :
       MorphismProperty (ScaledSSet.{u})) ≤
       externalGeneratedScaledAnodyne E :=
-  K.toStandardTypeAExternalGeneratedComparison
-    .endpointPushoutProducts_le_externalGenerated
+  StandardTypeAExternalGeneratedComparison.endpointPushoutProducts_le_externalGenerated
+    (toStandardTypeAExternalGeneratedComparison K)
 
 end StandardTypeAExternalGeneratedPushoutComparison
 

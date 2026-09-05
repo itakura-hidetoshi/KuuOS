@@ -6,8 +6,10 @@ namespace KUOS.DependentOriginationScaledHornHomotopyDescentV1_33
 open CategoryTheory
 open CategoryTheory.Category
 open Simplicial
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
+open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
 open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
 open KUOS.DependentOriginationNormalizationChoiceInvariantV1_28
 open KUOS.DependentOriginationScaledDuskinHornTransportV1_29
@@ -85,14 +87,18 @@ This is the precise simplicial realization expected from the strong
 quasi-inverse `G F ==> id_B` and `F G ==> id_C`.  It is weaker than demanding
 literal equality of the round-trip simplicial maps and stronger than merely
 knowing that object and 1-cell data are bicategorically equivalent.
+
+The full scaled-Duskin transport certificates of v1.27-v1.29 are bundled in a
+single universe triple.  We keep exactly that boundary here; the more general
+coherent quasi-inverse itself remains universe-polymorphic in v1.32.
 -/
 structure ScaledHornRoundTripBoundaryHomotopy
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u₁}
+    [Bicategory.{w₁, v₁} B] [Bicategory.{w₁, v₁} C]
     (F : StrictlyUnitaryBicategoricalModelEquivalence B C)
     (G : StrictlyUnitaryBicategoricalModelEquivalence C B)
     (HF : FullScaledDuskinMapCertificate F)
-    (HG : FullScaledDuskinMapCertificate G) : Prop where
+    (HG : FullScaledDuskinMapCertificate G) where
   source :
     ∀ {n : Nat} {i : Fin (n + 1)}
       (P : ScaledHornExtensionProblem
@@ -118,13 +124,13 @@ The construction of this certificate from `Oplax.StrongTrans` is now a sharply
 isolated nerve/prism problem rather than part of the filler-descent argument.
 -/
 structure NormalizedQuasiInverseDuskinHomotopyRealization
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u₁}
+    [Bicategory.{w₁, v₁} B] [Bicategory.{w₁, v₁} C]
     {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     (K : NormalizedCoherentQuasiInverse F G)
     (HF : FullScaledDuskinMapCertificate F)
-    (HG : FullScaledDuskinMapCertificate G) : Prop where
+    (HG : FullScaledDuskinMapCertificate G) where
   hornwise : ScaledHornRoundTripBoundaryHomotopy F G HF HG
 
 /--
@@ -132,8 +138,8 @@ A strict round-trip source filler canonically becomes a homotopy filler of the
 original source horn once the hornwise round-trip homotopy is supplied.
 -/
 def sourceHomotopyFillerOfRoundTrip
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u₁}
+    [Bicategory.{w₁, v₁} B] [Bicategory.{w₁, v₁} C]
     {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     {HF : FullScaledDuskinMapCertificate F}
@@ -153,8 +159,8 @@ def sourceHomotopyFillerOfRoundTrip
 
 /-- Target-side analogue of `sourceHomotopyFillerOfRoundTrip`. -/
 def targetHomotopyFillerOfRoundTrip
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u₁}
+    [Bicategory.{w₁, v₁} B] [Bicategory.{w₁, v₁} C]
     {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     {HF : FullScaledDuskinMapCertificate F}
@@ -174,8 +180,8 @@ def targetHomotopyFillerOfRoundTrip
 
 /-- Nonempty source round-trip fillers yield nonempty source homotopy fillers. -/
 theorem sourceRoundTripFiller_to_homotopyFiller
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u₁}
+    [Bicategory.{w₁, v₁} B] [Bicategory.{w₁, v₁} C]
     {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     {HF : FullScaledDuskinMapCertificate F}
@@ -194,8 +200,8 @@ theorem sourceRoundTripFiller_to_homotopyFiller
 
 /-- Nonempty target round-trip fillers yield nonempty target homotopy fillers. -/
 theorem targetRoundTripFiller_to_homotopyFiller
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u₁}
+    [Bicategory.{w₁, v₁} B] [Bicategory.{w₁, v₁} C]
     {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     {HF : FullScaledDuskinMapCertificate F}
@@ -220,8 +226,8 @@ The reverse directions of both equivalences are theorem-level already: an
 original strict filler is simply postcomposed with the two scaled Duskin maps.
 -/
 theorem scaledHornRoundTripDescent_of_homotopy_rectification
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u₁}
+    [Bicategory.{w₁, v₁} B] [Bicategory.{w₁, v₁} C]
     (HB : GlobalDuskinScaledHornFamily B)
     (HC : GlobalDuskinScaledHornFamily C)
     (F : StrictlyUnitaryBicategoricalModelEquivalence B C)
@@ -257,8 +263,8 @@ by its two mathematically distinct ingredients: Duskin hornwise homotopy and
 homotopy rectification.
 -/
 structure CoherentNormalizedScaledHomotopyModelEquivalence
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u₁}
+    [Bicategory.{w₁, v₁} B] [Bicategory.{w₁, v₁} C]
     (E : BicategoricalModelEquivalence B C)
     (G : BicategoricalModelEquivalence C B)
     (HB : GlobalDuskinScaledHornFamily B)
@@ -283,8 +289,8 @@ structure CoherentNormalizedScaledHomotopyModelEquivalence
 namespace CoherentNormalizedScaledHomotopyModelEquivalence
 
 variable
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u₁}
+    [Bicategory.{w₁, v₁} B] [Bicategory.{w₁, v₁} C]
     {E : BicategoricalModelEquivalence B C}
     {G : BicategoricalModelEquivalence C B}
     {HB : GlobalDuskinScaledHornFamily B}
@@ -310,10 +316,12 @@ def toCoherentNormalizedScaledModelEquivalence :
       K.sourceRectification K.targetRectification
 
 /-- Hence global scaled-Duskin fibrancy is invariant. -/
-theorem globalDuskinScaledFibrancy_iff :
+theorem globalDuskinScaledFibrancy_iff
+    (K : CoherentNormalizedScaledHomotopyModelEquivalence E G HB HC) :
     HasScaledHornFillers (duskinNerve B) (duskinScaling B) HB ↔
       HasScaledHornFillers (duskinNerve C) (duskinScaling C) HC :=
-  K.toCoherentNormalizedScaledModelEquivalence.globalDuskinScaledFibrancy_iff
+  KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32.CoherentNormalizedScaledModelEquivalence.globalDuskinScaledFibrancy_iff
+    (toCoherentNormalizedScaledModelEquivalence K)
 
 end CoherentNormalizedScaledHomotopyModelEquivalence
 

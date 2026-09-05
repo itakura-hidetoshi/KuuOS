@@ -13,6 +13,7 @@ open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationScaledAnodyneWFSUniversalityV1_43
 open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
 open KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
+open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
 open KUOS.DependentOriginationStandardTypeAScaledLeibnizPushoutV1_55
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
@@ -109,7 +110,7 @@ theorem standardABCCellularClosure_le_generated :
     (standardABCCellularClosure : MorphismProperty (ScaledSSet.{u})) ≤
       standardGeneratedScaledAnodyneABC := by
   simpa [standardABCCellularClosure, standardGeneratedScaledAnodyneABC] using
-    (MorphismProperty.retracts_transfiniteComposition_pushouts_coproducts_le_llp_rlp
+    (MorphismProperty.retracts_transfiniteComposition_pushouts_coproducts_le_llp_rlp.{u}
       (standardScaledAnodyneGeneratorsABC :
         MorphismProperty (ScaledSSet.{u})))
 
@@ -170,7 +171,8 @@ theorem standardABCTypeAEndpointLeibnizStability_iff_generators_le :
     cases hf with
     | mk g =>
         exact K.pushoutProduct_mem g
-          (standardTypeAGenerator_mem_standardGenerated g.toHornGenerator)
+          (standardTypeAGenerator_mem_standardGenerated
+            (StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g))
   · intro h
     refine { pushoutProduct_mem := ?_ }
     intro g _
@@ -197,7 +199,8 @@ theorem standardABCTypeAEndpointLeibnizStability_iff_lifting :
         standardGeneratedScaledAnodyneABC
           (standardTypeAEndpointScaledLeibnizPushoutProductHom g) :=
       K.pushoutProduct_mem g
-        (standardTypeAGenerator_mem_standardGenerated g.toHornGenerator)
+        (standardTypeAGenerator_mem_standardGenerated
+          (StandardTypeAHornAttachmentGeneratorIndex.toHornGenerator g))
     exact hi p hp
   · intro h
     refine { pushoutProduct_mem := ?_ }
@@ -280,8 +283,8 @@ theorem standardTypeAInducedAttachments_le_standardGenerated
         (standardScaledAnodyneGeneratorsABC :
           MorphismProperty (ScaledSSet.{u}))
   exact
-    (standardABCTypeAExternalScaledLeibnizComparison K)
-      .inducedTypeAAttachments_le_externalGenerated
+    StandardTypeAExternalScaledLeibnizComparison.inducedTypeAAttachments_le_externalGenerated
+      (standardABCTypeAExternalScaledLeibnizComparison K)
 
 /-- The same conclusion in the v1.50 induced endpoint-pushout-product
 presentation. -/
@@ -297,8 +300,8 @@ theorem standardTypeAEndpointPushoutProducts_le_standardGenerated
         (standardScaledAnodyneGeneratorsABC :
           MorphismProperty (ScaledSSet.{u}))
   exact
-    (standardABCTypeAExternalScaledLeibnizComparison K)
-      .endpointPushoutProducts_le_externalGenerated
+    StandardTypeAExternalScaledLeibnizComparison.endpointPushoutProducts_le_externalGenerated
+      (standardABCTypeAExternalScaledLeibnizComparison K)
 
 /-- A cellular certificate gives the restricted induced comparison directly. -/
 theorem StandardABCTypeAEndpointLeibnizCellularCertificate.inducedAttachments_le

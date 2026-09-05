@@ -78,7 +78,8 @@ def standardTypeABoundaryPrismCellPairedTop
     ((Δ[g.n] : SSet.{u}) ⊗ Δ[1]).nonDegenerate (g.n + 1) :=
   Eq.mp
     (congrArg
-      (fun d : ℕ => ((Δ[g.n] : SSet.{u}) ⊗ Δ[1]).nonDegenerate d)
+      (fun d : ℕ =>
+        (((Δ[g.n] : SSet.{u}) ⊗ Δ[1]).nonDegenerate d : Type u))
       htop)
     (standardTypeABoundaryPrismCellPairedNondegenerate g j c)
 

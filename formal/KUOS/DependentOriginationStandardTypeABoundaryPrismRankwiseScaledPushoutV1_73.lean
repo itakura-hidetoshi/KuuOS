@@ -8,8 +8,11 @@ open CategoryTheory.Limits
 open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
+open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
+open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
 open KUOS.DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61
 open KUOS.DependentOriginationStandardTypeABoundaryPrismScaledRankFiltrationV1_71
 open KUOS.DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_72
@@ -132,7 +135,7 @@ def generatedPushoutInr
 /-- A compatible square of scaled maps gives the underlying ordinary
 compatibility equation. -/
 theorem generatedPushout_compatibility_map
-    {Z X Y P : SSet.{u}}
+    {Z X Y : SSet.{u}}
     {sZ : ScaledSimplicialSet Z}
     {sX : ScaledSimplicialSet X}
     {sY : ScaledSimplicialSet Y}
@@ -194,15 +197,23 @@ theorem generatedPushoutDescMap_scaled
         (h.inl_desc a.map b.map
           (generatedPushout_compatibility_map f g a b w))
         (op ⦋2⦌)) x
-    rw [hfac]
-    exact a.scaled x hx
+    change W.scaling.thin
+      ((ConcreteCategory.hom
+        ((inl ≫ h.desc a.map b.map
+          (generatedPushout_compatibility_map f g a b w)).app
+          (op ⦋2⦌))) x)
+    exact hfac.symm ▸ a.scaled x hx
   · have hfac := ConcreteCategory.congr_hom
       (congr_app
         (h.inr_desc a.map b.map
           (generatedPushout_compatibility_map f g a b w))
         (op ⦋2⦌)) y
-    rw [hfac]
-    exact b.scaled y hy
+    change W.scaling.thin
+      ((ConcreteCategory.hom
+        ((inr ≫ h.desc a.map b.map
+          (generatedPushout_compatibility_map f g a b w)).app
+          (op ⦋2⦌))) y)
+    exact hfac.symm ▸ b.scaled y hy
 
 /-- The native ordinary pushout desc map upgraded to a scaled map. -/
 noncomputable def generatedPushoutDesc
@@ -287,9 +298,11 @@ theorem generatedPushout_hom_ext
   apply ScaledSSet.ScaledMap.ext
   apply h.hom_ext
   · have hm := congrArg ScaledSSet.ScaledMap.map h₁
-    simpa using hm
+    change inl ≫ a.map = inl ≫ b.map at hm
+    exact hm
   · have hm := congrArg ScaledSSet.ScaledMap.map h₂
-    simpa using hm
+    change inr ≫ a.map = inr ≫ b.map at hm
+    exact hm
 
 /-- Every ordinary simplicial pushout with scaled incoming objects becomes a
 genuine `ScaledSSet` pushout after equipping the target with the generated
@@ -308,25 +321,27 @@ noncomputable def generatedPushout_isPushout
       f g
       (generatedPushoutInl sX sY inl inr)
       (generatedPushoutInr sX sY inl inr) := by
+  have hw :
+      f ≫ generatedPushoutInl sX sY inl inr =
+        g ≫ generatedPushoutInr sX sY inl inr := by
+    apply ScaledSSet.ScaledMap.ext
+    exact h.w
   refine {
-    w := ?_
+    w := hw
     isColimit' := ⟨?_⟩
   }
-  · apply ScaledSSet.ScaledMap.ext
-    exact h.w
-  · apply PushoutCocone.IsColimit.mk _
-    · intro s
-      exact generatedPushoutDesc f g inl inr h s.inl s.inr s.condition
-    · intro s
-      exact generatedPushout_inl_desc
-        f g inl inr h s.inl s.inr s.condition
-    · intro s
-      exact generatedPushout_inr_desc
-        f g inl inr h s.inl s.inr s.condition
-    · intro s m hm₁ hm₂
+  exact PushoutCocone.IsColimit.mk
+    hw
+    (fun s => generatedPushoutDesc f g inl inr h s.inl s.inr s.condition)
+    (fun s => generatedPushout_inl_desc
+      f g inl inr h s.inl s.inr s.condition)
+    (fun s => generatedPushout_inr_desc
+      f g inl inr h s.inl s.inr s.condition)
+    (by
+      intro s m hm₁ hm₂
       apply generatedPushout_hom_ext f g inl inr h
       · rw [hm₁, generatedPushout_inl_desc]
-      · rw [hm₂, generatedPushout_inr_desc]
+      · rw [hm₂, generatedPushout_inr_desc])
 
 /-! ## Pullback scalings on the two Mathlib coproduct carriers -/
 
@@ -400,10 +415,9 @@ def standardTypeABoundaryPrismRankSigmaCellHom
     intro t ht
     change
       (standardTypeABoundaryPrismRankStageScaling g (j + 1)).thin
-        (((standardTypeABoundaryPrismRankFunction g).b j).app
-          (op ⦋2⦌)
-          (((standardTypeABoundaryPrismRankFunction g).m j).app
-            (op ⦋2⦌) t))
+        ((((standardTypeABoundaryPrismRankFunction g).m j ≫
+          (standardTypeABoundaryPrismRankFunction g).b j).app
+            (op ⦋2⦌)) t)
     have hstage :=
       (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).scaled
         (((standardTypeABoundaryPrismRankFunction g).t j).app
@@ -451,9 +465,8 @@ theorem standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ
             Set.range
               (((standardTypeABoundaryPrismRankFunction g).b j).app
                 (op ⦋2⦌)) := by
-      rw [
-        (standardTypeABoundaryPrismRankFunction g).
-          range_homOfLE_app_union_range_b_app j (op ⦋2⦌)]
+      rw [(standardTypeABoundaryPrismRankFunction g).range_homOfLE_app_union_range_b_app
+        j (op ⦋2⦌)]
       exact Set.mem_univ t
     change
       t ∈
@@ -473,14 +486,18 @@ theorem standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ
               (op ⦋2⦌) x)
         change
           (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
-            (((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).ι.app
-              (op ⦋2⦌)
-              ((SSet.Subcomplex.homOfLE
-                ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
-                  (Order.le_succ j))).app (op ⦋2⦌) x)) at ht
-        rw [← NatTrans.comp_app_apply] at ht
-        rw [SSet.Subcomplex.homOfLE_ι] at ht
-        exact ht
+            ((((SSet.Subcomplex.homOfLE
+              ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
+                (Order.le_succ j))) ≫
+              ((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).ι).app
+                (op ⦋2⦌)) x) at ht
+        have hι := ConcreteCategory.congr_hom
+          (congr_app
+            (SSet.Subcomplex.homOfLE_ι
+              ((standardTypeABoundaryPrismRankFunction g).filtration_monotone
+                (Order.le_succ j)))
+            (op ⦋2⦌)) x
+        exact hι ▸ ht
       exact Or.inr (Or.inl ⟨x, hx, rfl⟩)
     · have hy :
           (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j).thin y := by
@@ -507,13 +524,91 @@ noncomputable def standardTypeABoundaryPrism_rankStep_scaled_isPushout
       (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
       ((standardTypeABoundaryPrismRankFunction g).b j)
       (standardTypeABoundaryPrism_rankStep_isPushout g j)
-  rw [standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j] at h
-  simpa [generatedPushoutInl, generatedPushoutInr,
-    generatedPushoutTarget,
-    standardTypeABoundaryPrismRankSigmaHornToStage,
-    standardTypeABoundaryPrismRankSigmaCellHom,
-    standardTypeABoundaryPrismRankSigmaStdSimplexToSucc,
-    standardTypeABoundaryPrismRankStageHom] using h
+  have hScaling :
+      generatedPushoutScaling
+          (standardTypeABoundaryPrismRankStageScaling g j)
+          (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j)
+          (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
+          ((standardTypeABoundaryPrismRankFunction g).b j) =
+        standardTypeABoundaryPrismRankStageScaling g (Nat.succ j) := by
+    simpa only [Nat.add_one] using
+      standardTypeABoundaryPrismRankGeneratedPushoutScaling_eq_succ g j
+  let eSucc :
+      generatedPushoutTarget
+          (standardTypeABoundaryPrismRankStageScaling g j)
+          (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j)
+          (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
+          ((standardTypeABoundaryPrismRankFunction g).b j) ≅
+        standardTypeABoundaryPrismRankStage g (Nat.succ j) :=
+    scalingEqualityIso
+      (generatedPushoutScaling
+        (standardTypeABoundaryPrismRankStageScaling g j)
+        (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j)
+        (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
+        ((standardTypeABoundaryPrismRankFunction g).b j))
+      (standardTypeABoundaryPrismRankStageScaling g (Nat.succ j))
+      hScaling
+  refine h.of_iso (Iso.refl _) (Iso.refl _) (Iso.refl _) eSucc ?_ ?_ ?_ ?_
+  · change
+      standardTypeABoundaryPrismRankSigmaHornToStage g j ≫ 𝟙 _ =
+        𝟙 _ ≫ standardTypeABoundaryPrismRankSigmaHornToStage g j
+    rw [Category.comp_id, Category.id_comp]
+  · change
+      standardTypeABoundaryPrismRankSigmaCellHom g j ≫ 𝟙 _ =
+        𝟙 _ ≫ standardTypeABoundaryPrismRankSigmaCellHom g j
+    rw [Category.comp_id, Category.id_comp]
+  · change
+      generatedPushoutInl
+          (standardTypeABoundaryPrismRankStageScaling g j)
+          (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j)
+          (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
+          ((standardTypeABoundaryPrismRankFunction g).b j) ≫ eSucc.hom =
+        𝟙 _ ≫ standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)
+    rw [Category.id_comp]
+    apply ScaledSSet.ScaledMap.ext
+    change
+      (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map ≫
+          (scalingEqualityIso
+            (generatedPushoutScaling
+              (standardTypeABoundaryPrismRankStageScaling g j)
+              (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j)
+              (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
+              ((standardTypeABoundaryPrismRankFunction g).b j))
+            (standardTypeABoundaryPrismRankStageScaling g (Nat.succ j))
+            hScaling).hom.map =
+        (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
+    rw [scalingEqualityIso_hom_map]
+    change
+      (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map ≫
+          𝟙 (standardTypeABoundaryPrismRankStage g (Nat.succ j)).carrier =
+        (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
+    exact Category.comp_id _
+  · change
+      generatedPushoutInr
+          (standardTypeABoundaryPrismRankStageScaling g j)
+          (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j)
+          (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
+          ((standardTypeABoundaryPrismRankFunction g).b j) ≫ eSucc.hom =
+        𝟙 _ ≫ standardTypeABoundaryPrismRankSigmaStdSimplexToSucc g j
+    rw [Category.id_comp]
+    apply ScaledSSet.ScaledMap.ext
+    change
+      ((standardTypeABoundaryPrismRankFunction g).b j) ≫
+          (scalingEqualityIso
+            (generatedPushoutScaling
+              (standardTypeABoundaryPrismRankStageScaling g j)
+              (standardTypeABoundaryPrismRankSigmaStdSimplexScaling g j)
+              (standardTypeABoundaryPrismRankStageHom g (Nat.le_succ j)).map
+              ((standardTypeABoundaryPrismRankFunction g).b j))
+            (standardTypeABoundaryPrismRankStageScaling g (Nat.succ j))
+            hScaling).hom.map =
+        ((standardTypeABoundaryPrismRankFunction g).b j)
+    rw [scalingEqualityIso_hom_map]
+    change
+      ((standardTypeABoundaryPrismRankFunction g).b j) ≫
+          𝟙 (standardTypeABoundaryPrismRankStage g (Nat.succ j)).carrier =
+        ((standardTypeABoundaryPrismRankFunction g).b j)
+    exact Category.comp_id _
 
 /-!
 The global rank filtration is now genuinely scaled:

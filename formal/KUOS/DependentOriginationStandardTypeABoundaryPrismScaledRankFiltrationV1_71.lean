@@ -11,6 +11,7 @@ open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
+open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
 open KUOS.DependentOriginationStandardTypeAEndpointPrismPairingV1_60
 open KUOS.DependentOriginationStandardTypeABoundaryPrismRelativeCellV1_61
 open KUOS.DependentOriginationStandardTypeABoundaryPrismScaledCellsV1_62
@@ -125,6 +126,8 @@ theorem standardTypeABoundaryPrismRankStage_zero
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     standardTypeABoundaryPrismRankStage g 0 =
       standardTypeABoundaryPrism g := by
+  unfold standardTypeABoundaryPrismRankStage
+  unfold standardTypeABoundaryPrismRankStageScaling
   rw [standardTypeABoundaryPrism_filtration_zero]
   rfl
 
@@ -157,9 +160,8 @@ theorem standardTypeABoundaryPrismScaledCellHom_factor_A_completion
         standardTypeABoundaryPrismCellCompletionHom g j c =
       standardTypeABoundaryPrismScaledCellHom g j c := by
   apply ScaledSSet.ScaledMap.ext
-  simp [standardTypeABoundaryPrismCellCompletionHom,
-    standardTypeABoundaryPrismCellAPushoutHom_map,
-    standardTypeABoundaryPrismScaledCellHom_map]
+  change c.horn.ι ≫ 𝟙 _ = c.horn.ι
+  simp
 
 /-- The completion phase is exhaustively either trivial, q12, or q23.  This is
 the v1.70 local classification repackaged exactly in the form consumed by a
@@ -230,19 +232,18 @@ def standardTypeABoundaryPrismScaledCellTargetToRankSucc
   map := c.mapToSucc
   scaled := by
     intro t ht
+    have hcomp :=
+      ConcreteCategory.congr_hom
+        (congr_app c.mapToSucc_ι (op ⦋2⦌)) t
     change
       (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
-        (((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).ι.app
-          (op ⦋2⦌) (c.mapToSucc.app (op ⦋2⦌) t))
-    rw [← NatTrans.comp_app_apply]
-    simpa only [Nat.succ_eq_add_one] using
-      (show
-        (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
-          ((c.mapToSucc ≫
-            ((standardTypeABoundaryPrismRankFunction g).filtration (Nat.succ j)).ι).app
-              (op ⦋2⦌) t) from by
-          rw [c.mapToSucc_ι]
-          exact ht)
+        (c.map.app (op ⦋2⦌) t) at ht
+    change
+      (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
+        ((c.mapToSucc ≫
+          ((standardTypeABoundaryPrismRankFunction g).filtration (Order.succ j)).ι).app
+            (op ⦋2⦌) t)
+    exact hcomp.symm ▸ ht
 
 /-- Pulling the next-stage scaling back along the cell target map recovers
 exactly the cell scaling.  This is the key compatibility needed to assemble
@@ -257,19 +258,31 @@ theorem standardTypeABoundaryPrismRankSuccScaling_pullback_cell
       standardTypeABoundaryPrismCellScaling g j c := by
   apply scaling_eq_of_le_antisymm
   · intro t ht
+    have hcomp :=
+      ConcreteCategory.congr_hom
+        (congr_app c.mapToSucc_ι (op ⦋2⦌)) t
     change
       (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
-        (((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).ι.app
-          (op ⦋2⦌) (c.mapToSucc.app (op ⦋2⦌) t)) at ht
-    rw [← NatTrans.comp_app_apply] at ht
-    simpa only [Nat.succ_eq_add_one, c.mapToSucc_ι] using ht
+        ((c.mapToSucc ≫
+          ((standardTypeABoundaryPrismRankFunction g).filtration (Order.succ j)).ι).app
+            (op ⦋2⦌) t) at ht
+    change
+      (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
+        (c.map.app (op ⦋2⦌) t)
+    exact hcomp ▸ ht
   · intro t ht
+    have hcomp :=
+      ConcreteCategory.congr_hom
+        (congr_app c.mapToSucc_ι (op ⦋2⦌)) t
     change
       (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
-        (((standardTypeABoundaryPrismRankFunction g).filtration (j + 1)).ι.app
-          (op ⦋2⦌) (c.mapToSucc.app (op ⦋2⦌) t))
-    rw [← NatTrans.comp_app_apply]
-    simpa only [Nat.succ_eq_add_one, c.mapToSucc_ι] using ht
+        (c.map.app (op ⦋2⦌) t) at ht
+    change
+      (scaledSimplexCylinder (standardTypeASimplexScaling g.i)).scaling.thin
+        ((c.mapToSucc ≫
+          ((standardTypeABoundaryPrismRankFunction g).filtration (Order.succ j)).ι).app
+            (op ⦋2⦌) t)
+    exact hcomp.symm ▸ ht
 
 /-!
 At this point the ordinary rank filtration has a canonical scaled lift and
