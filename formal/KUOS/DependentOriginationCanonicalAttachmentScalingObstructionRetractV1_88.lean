@@ -98,10 +98,11 @@ noncomputable def chosenScaledEndpoint
     {n : Nat}
     (sDelta : ScaledSimplicialSet (Δ[n] : SSet.{u}))
     (endpoint : Fin 2) :
-    scaledSimplex sDelta ⟶ scaledSimplexCylinder sDelta := by
-  fin_cases endpoint
-  · exact scaledEndpointZero sDelta
-  · exact scaledEndpointOne sDelta
+    scaledSimplex sDelta ⟶ scaledSimplexCylinder sDelta :=
+  Fin.cases
+    (scaledEndpointZero sDelta)
+    (fun _ => scaledEndpointOne sDelta)
+    endpoint
 
 /-- First projection from the minimally scaled attachment back to the minimally
 scaled simplex.  Minimal source scaling makes the projection automatically a
@@ -126,7 +127,10 @@ def scaledCylinderFirstProjection
   scaled := by
     intro t ht
     change sDelta.thin t.1 at ht
-    simpa using ht
+    change sDelta.thin
+      (((CartesianMonoidalCategory.fst
+        (Δ[n] : SSet.{u}) Δ[1]).app _ t))
+    simpa only [CategoryTheory.Functor.Monoidal.fst_app] using ht
 
 /-! ## The arrow retract -/
 
