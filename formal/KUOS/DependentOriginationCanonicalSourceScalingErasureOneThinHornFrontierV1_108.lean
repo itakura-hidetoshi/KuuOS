@@ -123,17 +123,23 @@ theorem hasLiftingProperty_scalingEnrichment_of_reflectsThinTwoSimplices
     HasLiftingProperty (scalingEnrichmentHom h₁₂) p := by
   refine ⟨?_⟩
   intro f g sq
-  have hsqmap : f.map ≫ p.map = g.map := by
+  have hsqmap : @Eq (K ⟶ Y.carrier) (f.map ≫ p.map) g.map := by
     have hmap := congrArg ScaledSSet.ScaledMap.map sq.w
-    simpa [scalingEnrichmentHom] using hmap
+    change ((𝟙 K ≫ f.map) ≫ p.map) = (𝟙 K ≫ g.map) at hmap
+    simpa only [Category.id_comp] using hmap
   let l : ScaledSSet.of K s₂ ⟶ X :=
     { map := f.map
       scaled := by
         intro t ht
         apply hreflect (f.map.app (op ⦋2⦌) t)
-        have hthin := g.scaled t ht
-        rw [← hsqmap] at hthin
-        simpa using hthin }
+        have happ :
+            p.map.app (op ⦋2⦌) (f.map.app (op ⦋2⦌) t) =
+              g.map.app (op ⦋2⦌) t := by
+          have hcomp := ConcreteCategory.congr_hom
+            (congr_app hsqmap (op ⦋2⦌)) t
+          simpa using hcomp
+        rw [happ]
+        exact g.scaled t ht }
   exact CommSq.HasLift.mk'
     { l := l
       fac_left := by
@@ -142,7 +148,8 @@ theorem hasLiftingProperty_scalingEnrichment_of_reflectsThinTwoSimplices
         exact Category.id_comp _
       fac_right := by
         apply ScaledSSet.ScaledMap.ext
-        simpa [l] using hsqmap }
+        change @Eq (K ⟶ Y.carrier) (f.map ≫ p.map) g.map
+        exact hsqmap }
 
 /-- Every scaling enlargement on every simplicial carrier lies in the
 canonical generated left class.  This strictly generalizes the standard-simplex
@@ -219,6 +226,9 @@ theorem mem_canonicalGenerated_of_withMinimalSource_mem
     (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u})) f := by
   change
     (scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})).rlp.llp f
+  change
+    (scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})).rlp.llp
+      (withMinimalSource f) at hmin
   apply llp_mem_of_epi_precomp
     ((scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})).rlp)
     (scalingEnrichmentHom (minimalScaling_le_any sX))
@@ -268,9 +278,17 @@ theorem standardTypeA_mem_canonicalGenerated_iff_minimalSource
         (standardTypeAScaledHornGeneratorHom g) ↔
       (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
         (standardTypeAMinimalSourceHornHom g) := by
-  simpa only [standardTypeA_withMinimalSource_eq] using
-    (mem_canonicalGenerated_iff_withMinimalSource
-      (standardTypeAScaledHornGeneratorHom g))
+  constructor
+  · intro h
+    have hmin := withMinimalSource_mem_canonicalGenerated_of_mem
+      (standardTypeAScaledHornGeneratorHom g) h
+    rw [standardTypeA_withMinimalSource_eq] at hmin
+    exact hmin
+  · intro h
+    apply mem_canonicalGenerated_of_withMinimalSource_mem
+      (standardTypeAScaledHornGeneratorHom g)
+    rw [standardTypeA_withMinimalSource_eq]
+    exact h
 
 /-! ## Type-(C): remove source scaling and isolate the uncollapsed outer horn -/
 
@@ -278,17 +296,17 @@ theorem standardTypeA_mem_canonicalGenerated_iff_minimalSource
 unchanged one-distinguished-triangle target scaling. -/
 noncomputable def standardTypeCMinimalSourceGeneratorHom
     (m : Nat) :
-    ScaledSSet.of (standardTypeCSourceCarrier m)
-        (minimalScaling (standardTypeCSourceCarrier m)) ⟶
-      standardTypeCTarget m where
-  map := standardTypeCCarrierMap m
+    ScaledSSet.of (standardTypeCSourceCarrier.{u} m)
+        (minimalScaling (standardTypeCSourceCarrier.{u} m)) ⟶
+      standardTypeCTarget.{u} m where
+  map := standardTypeCCarrierMap.{u} m
   scaled := minimalScaling_map _ _
 
 /-- The minimal-source collapsed map is the source-erased standard type-(C)
 generator. -/
 theorem standardTypeC_withMinimalSource_eq
     (m : Nat) :
-    withMinimalSource (standardTypeCGeneratorHom m) =
+    withMinimalSource (standardTypeCGeneratorHom.{u} m) =
       standardTypeCMinimalSourceGeneratorHom m := by
   apply ScaledSSet.ScaledMap.ext
   rfl
@@ -298,19 +316,27 @@ collapsed form. -/
 theorem standardTypeC_mem_canonicalGenerated_iff_minimalSource
     (m : Nat) :
     (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
-        (standardTypeCGeneratorHom m) ↔
+        (standardTypeCGeneratorHom.{u} m) ↔
       (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
         (standardTypeCMinimalSourceGeneratorHom m) := by
-  simpa only [standardTypeC_withMinimalSource_eq] using
-    (mem_canonicalGenerated_iff_withMinimalSource
-      (standardTypeCGeneratorHom m))
+  constructor
+  · intro h
+    have hmin := withMinimalSource_mem_canonicalGenerated_of_mem
+      (standardTypeCGeneratorHom.{u} m) h
+    rw [standardTypeC_withMinimalSource_eq] at hmin
+    exact hmin
+  · intro h
+    apply mem_canonicalGenerated_of_withMinimalSource_mem
+      (standardTypeCGeneratorHom.{u} m)
+    rw [standardTypeC_withMinimalSource_eq]
+    exact h
 
 /-- On the uncollapsed simplex, mark exactly the type-(C) distinguished `01n`
 triangle in addition to the minimal scaling. -/
 @[reducible]
 def standardTypeCUncollapsedTargetScaling
     (m : Nat) : ScaledSimplicialSet (Δ[m + 3] : SSet.{u}) :=
-  minimalPlusTriangleScaling (standardTypeCTriangle01n m)
+  minimalPlusTriangleScaling (standardTypeCTriangle01n.{u} m)
 
 /-- The common outer-horn core of type-(C): minimal source scaling, one-thin
 simplex target. -/
@@ -331,22 +357,17 @@ def standardTypeCUncollapsedToTarget
     (m : Nat) :
     ScaledSSet.of (Δ[m + 3] : SSet.{u})
         (standardTypeCUncollapsedTargetScaling m) ⟶
-      standardTypeCTarget m where
-  map :=
-    pushout.inl
-      (standardTypeCEdgeToSimplex m)
-      (standardTypeCEdgeCollapseToPoint m)
+      standardTypeCTarget.{u} m where
+  map := standardTypeCTargetInl.{u} m
   scaled := by
     intro t ht
     rcases ht with hmin | hdist
     · exact
         (minimalScaling_map
-          (standardTypeCTargetScaling m)
-          (pushout.inl
-            (standardTypeCEdgeToSimplex m)
-            (standardTypeCEdgeCollapseToPoint m))) t hmin
+          (standardTypeCTargetScaling.{u} m)
+          (standardTypeCTargetInl.{u} m)) t hmin
     · subst t
-      exact standardTypeCTarget_distinguished_thin m
+      exact standardTypeCTarget_distinguished_thin.{u} m
 
 /-- Restrict a map out of the minimal-source collapsed type-(C) source to its
 horn leg. -/
@@ -354,15 +375,12 @@ def standardTypeCMinimalSourceHornLeg
     {m : Nat}
     {X : ScaledSSet.{u}}
     (f :
-      ScaledSSet.of (standardTypeCSourceCarrier m)
-          (minimalScaling (standardTypeCSourceCarrier m)) ⟶ X) :
+      ScaledSSet.of (standardTypeCSourceCarrier.{u} m)
+          (minimalScaling (standardTypeCSourceCarrier.{u} m)) ⟶ X) :
     ScaledSSet.of
         (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{u})
         (minimalScaling (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{u})) ⟶ X where
-  map :=
-    pushout.inl
-      (standardTypeCEdgeToHorn m)
-      (standardTypeCEdgeCollapseToPoint m) ≫ f.map
+  map := standardTypeCSourceInl.{u} m ≫ f.map
   scaled := minimalScaling_map _ _
 
 /-- Restrict a map out of the minimal-source collapsed type-(C) source to its
@@ -371,13 +389,10 @@ def standardTypeCMinimalSourcePointLeg
     {m : Nat}
     {X : ScaledSSet.{u}}
     (f :
-      ScaledSSet.of (standardTypeCSourceCarrier m)
-          (minimalScaling (standardTypeCSourceCarrier m)) ⟶ X) :
+      ScaledSSet.of (standardTypeCSourceCarrier.{u} m)
+          (minimalScaling (standardTypeCSourceCarrier.{u} m)) ⟶ X) :
     ScaledSSet.of (Δ[0] : SSet.{u}) (minimalScaling (Δ[0] : SSet.{u})) ⟶ X where
-  map :=
-    pushout.inr
-      (standardTypeCEdgeToHorn m)
-      (standardTypeCEdgeCollapseToPoint m) ≫ f.map
+  map := standardTypeCSourceInr.{u} m ≫ f.map
   scaled := minimalScaling_map _ _
 
 /-- The simplex leg of a map out of the type-(C) target, before the edge
@@ -385,7 +400,7 @@ collapse. -/
 def standardTypeCTargetSimplexLeg
     {m : Nat}
     {Y : ScaledSSet.{u}}
-    (g : standardTypeCTarget m ⟶ Y) :
+    (g : standardTypeCTarget.{u} m ⟶ Y) :
     ScaledSSet.of (Δ[m + 3] : SSet.{u})
         (standardTypeCUncollapsedTargetScaling m) ⟶ Y :=
   standardTypeCUncollapsedToTarget m ≫ g
@@ -398,9 +413,9 @@ theorem standardTypeC_outer_square_commutes
     {X Y : ScaledSSet.{u}}
     (p : X ⟶ Y)
     (f :
-      ScaledSSet.of (standardTypeCSourceCarrier m)
-          (minimalScaling (standardTypeCSourceCarrier m)) ⟶ X)
-    (g : standardTypeCTarget m ⟶ Y)
+      ScaledSSet.of (standardTypeCSourceCarrier.{u} m)
+          (minimalScaling (standardTypeCSourceCarrier.{u} m)) ⟶ X)
+    (g : standardTypeCTarget.{u} m ⟶ Y)
     (w : standardTypeCMinimalSourceGeneratorHom m ≫ g = f ≫ p) :
     standardTypeCMinimalSourceHornLeg f ≫ p =
       standardTypeCOuterOneThinHornHom m ≫
@@ -408,15 +423,11 @@ theorem standardTypeC_outer_square_commutes
   apply ScaledSSet.ScaledMap.ext
   have hw := congrArg ScaledSSet.ScaledMap.map w
   change
-    (pushout.inl
-        (standardTypeCEdgeToHorn m)
-        (standardTypeCEdgeCollapseToPoint m) ≫ f.map) ≫ p.map =
+    (standardTypeCSourceInl.{u} m ≫ f.map) ≫ p.map =
       (Λ[m + 3, (0 : Fin (m + 4))].ι :
           (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{u}) ⟶
             (Δ[m + 3] : SSet.{u})) ≫
-        (pushout.inl
-            (standardTypeCEdgeToSimplex m)
-            (standardTypeCEdgeCollapseToPoint m) ≫ g.map)
+        (standardTypeCTargetInl.{u} m ≫ g.map)
   rw [← Category.assoc, ← hw]
   simp [standardTypeCMinimalSourceGeneratorHom,
     standardTypeCCarrierMap_inl_horn, Category.assoc]
@@ -440,46 +451,42 @@ theorem hasLiftingProperty_standardTypeCMinimalSource_of_outerOneThin
   rcases (houter.sq_hasLift outerSq).exists_lift with ⟨L⟩
   let pointLeg := standardTypeCMinimalSourcePointLeg f
   have hedge :
-      standardTypeCEdgeToSimplex m ≫ L.l.map =
-        standardTypeCEdgeCollapseToPoint m ≫ pointLeg.map := by
+      standardTypeCEdgeToSimplex.{u} m ≫ L.l.map =
+        standardTypeCEdgeCollapseToPoint.{u} m ≫ pointLeg.map := by
     calc
-      standardTypeCEdgeToSimplex m ≫ L.l.map =
-          standardTypeCEdgeToHorn m ≫
+      standardTypeCEdgeToSimplex.{u} m ≫ L.l.map =
+          standardTypeCEdgeToHorn.{u} m ≫
             ((Λ[m + 3, (0 : Fin (m + 4))].ι :
                 (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{u}) ⟶
                   (Δ[m + 3] : SSet.{u})) ≫ L.l.map) := by
-            rw [← standardTypeCEdgeToHorn_comp_hornInclusion]
+            rw [← standardTypeCEdgeToHorn_comp_hornInclusion.{u}]
             simp
-      _ = standardTypeCEdgeToHorn m ≫
+      _ = standardTypeCEdgeToHorn.{u} m ≫
           (standardTypeCMinimalSourceHornLeg f).map := by
             have hleft := congrArg ScaledSSet.ScaledMap.map L.fac_left
             simpa [standardTypeCOuterOneThinHornHom] using
-              congrArg (fun q => standardTypeCEdgeToHorn m ≫ q) hleft
-      _ = standardTypeCEdgeCollapseToPoint m ≫ pointLeg.map := by
+              congrArg (fun q => standardTypeCEdgeToHorn.{u} m ≫ q) hleft
+      _ = standardTypeCEdgeCollapseToPoint.{u} m ≫ pointLeg.map := by
             have hcollapsed := congrArg
               (fun q :
-                  (standardTypeCEdgeFace m : SSet.{u}) ⟶
-                    standardTypeCSourceCarrier m => q ≫ f.map)
-              (standardTypeCSource_edge_collapsed m)
+                  (standardTypeCEdgeFace.{u} m : SSet.{u}) ⟶
+                    standardTypeCSourceCarrier.{u} m => q ≫ f.map)
+              (standardTypeCSource_edge_collapsed.{u} m)
             simpa [standardTypeCMinimalSourceHornLeg,
               standardTypeCMinimalSourcePointLeg, pointLeg,
               Category.assoc] using hcollapsed
-  let liftMap : standardTypeCTargetCarrier m ⟶ X.carrier :=
-    (standardTypeCTargetCarrier_isPushout m).desc
+  let liftMap : standardTypeCTargetCarrier.{u} m ⟶ X.carrier :=
+    (standardTypeCTargetCarrier_isPushout.{u} m).desc
       L.l.map pointLeg.map hedge
   have hinl :
-      pushout.inl
-          (standardTypeCEdgeToSimplex m)
-          (standardTypeCEdgeCollapseToPoint m) ≫ liftMap = L.l.map := by
-    exact (standardTypeCTargetCarrier_isPushout m).inl_desc
+      standardTypeCTargetInl.{u} m ≫ liftMap = L.l.map := by
+    exact (standardTypeCTargetCarrier_isPushout.{u} m).inl_desc
       L.l.map pointLeg.map hedge
   have hinr :
-      pushout.inr
-          (standardTypeCEdgeToSimplex m)
-          (standardTypeCEdgeCollapseToPoint m) ≫ liftMap = pointLeg.map := by
-    exact (standardTypeCTargetCarrier_isPushout m).inr_desc
+      standardTypeCTargetInr.{u} m ≫ liftMap = pointLeg.map := by
+    exact (standardTypeCTargetCarrier_isPushout.{u} m).inr_desc
       L.l.map pointLeg.map hedge
-  let lift : standardTypeCTarget m ⟶ X :=
+  let lift : standardTypeCTarget.{u} m ⟶ X :=
     { map := liftMap
       scaled := by
         intro t ht
@@ -487,31 +494,25 @@ theorem hasLiftingProperty_standardTypeCMinimalSource_of_outerOneThin
         · exact (minimalScaling_map X.scaling liftMap) t hmin
         · subst t
           have hpoint := ConcreteCategory.congr_hom
-            (congr_app hinl (op ⦋2⦌)) (standardTypeCTriangle01n m)
+            (congr_app hinl (op ⦋2⦌)) (standardTypeCTriangle01n.{u} m)
           change X.scaling.thin
             (liftMap.app (op ⦋2⦌)
-              ((pushout.inl
-                (standardTypeCEdgeToSimplex m)
-                (standardTypeCEdgeCollapseToPoint m)).app
-                  (op ⦋2⦌) (standardTypeCTriangle01n m)))
+              ((standardTypeCTargetInl.{u} m).app
+                (op ⦋2⦌) (standardTypeCTriangle01n.{u} m)))
           rw [hpoint]
           exact L.l.scaled _ (Or.inr rfl) }
   exact CommSq.HasLift.mk'
     { l := lift
       fac_left := by
         apply ScaledSSet.ScaledMap.ext
-        apply (standardTypeCSourceCarrier_isPushout m).hom_ext
+        apply (standardTypeCSourceCarrier_isPushout.{u} m).hom_ext
         · calc
-            pushout.inl
-                (standardTypeCEdgeToHorn m)
-                (standardTypeCEdgeCollapseToPoint m) ≫
+            standardTypeCSourceInl.{u} m ≫
                 (standardTypeCMinimalSourceGeneratorHom m).map ≫ liftMap =
               (Λ[m + 3, (0 : Fin (m + 4))].ι :
                   (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{u}) ⟶
                     (Δ[m + 3] : SSet.{u})) ≫
-                (pushout.inl
-                    (standardTypeCEdgeToSimplex m)
-                    (standardTypeCEdgeCollapseToPoint m) ≫ liftMap) := by
+                (standardTypeCTargetInl.{u} m ≫ liftMap) := by
                   simp [standardTypeCMinimalSourceGeneratorHom,
                     standardTypeCCarrierMap_inl_horn, Category.assoc]
             _ =
@@ -521,55 +522,33 @@ theorem hasLiftingProperty_standardTypeCMinimalSource_of_outerOneThin
             _ = (standardTypeCMinimalSourceHornLeg f).map := by
               have hleft := congrArg ScaledSSet.ScaledMap.map L.fac_left
               simpa [standardTypeCOuterOneThinHornHom] using hleft
-            _ = pushout.inl
-                (standardTypeCEdgeToHorn m)
-                (standardTypeCEdgeCollapseToPoint m) ≫ f.map := rfl
+            _ = standardTypeCSourceInl.{u} m ≫ f.map := rfl
         · calc
-            pushout.inr
-                (standardTypeCEdgeToHorn m)
-                (standardTypeCEdgeCollapseToPoint m) ≫
+            standardTypeCSourceInr.{u} m ≫
                 (standardTypeCMinimalSourceGeneratorHom m).map ≫ liftMap =
-              pushout.inr
-                  (standardTypeCEdgeToSimplex m)
-                  (standardTypeCEdgeCollapseToPoint m) ≫ liftMap := by
+              standardTypeCTargetInr.{u} m ≫ liftMap := by
                 simp [standardTypeCMinimalSourceGeneratorHom,
                   standardTypeCCarrierMap_inr_point, Category.assoc]
             _ = pointLeg.map := hinr
-            _ = pushout.inr
-                (standardTypeCEdgeToHorn m)
-                (standardTypeCEdgeCollapseToPoint m) ≫ f.map := rfl
+            _ = standardTypeCSourceInr.{u} m ≫ f.map := rfl
       fac_right := by
         apply ScaledSSet.ScaledMap.ext
-        apply (standardTypeCTargetCarrier_isPushout m).hom_ext
+        apply (standardTypeCTargetCarrier_isPushout.{u} m).hom_ext
         · have hright := congrArg ScaledSSet.ScaledMap.map L.fac_right
           calc
-            pushout.inl
-                (standardTypeCEdgeToSimplex m)
-                (standardTypeCEdgeCollapseToPoint m) ≫ liftMap ≫ p.map =
+            standardTypeCTargetInl.{u} m ≫ liftMap ≫ p.map =
               L.l.map ≫ p.map := by rw [hinl]
             _ = (standardTypeCTargetSimplexLeg g).map := hright
-            _ = pushout.inl
-                (standardTypeCEdgeToSimplex m)
-                (standardTypeCEdgeCollapseToPoint m) ≫ g.map := rfl
+            _ = standardTypeCTargetInl.{u} m ≫ g.map := rfl
         · have hw := congrArg ScaledSSet.ScaledMap.map sq.w
           calc
-            pushout.inr
-                (standardTypeCEdgeToSimplex m)
-                (standardTypeCEdgeCollapseToPoint m) ≫ liftMap ≫ p.map =
+            standardTypeCTargetInr.{u} m ≫ liftMap ≫ p.map =
               pointLeg.map ≫ p.map := by rw [hinr]
-            _ =
-              pushout.inr
-                  (standardTypeCEdgeToHorn m)
-                  (standardTypeCEdgeCollapseToPoint m) ≫ f.map ≫ p.map := rfl
-            _ =
-              pushout.inr
-                  (standardTypeCEdgeToHorn m)
-                  (standardTypeCEdgeCollapseToPoint m) ≫
+            _ = standardTypeCSourceInr.{u} m ≫ f.map ≫ p.map := rfl
+            _ = standardTypeCSourceInr.{u} m ≫
                 (standardTypeCMinimalSourceGeneratorHom m).map ≫ g.map := by
                   rw [← hw]
-            _ = pushout.inr
-                (standardTypeCEdgeToSimplex m)
-                (standardTypeCEdgeCollapseToPoint m) ≫ g.map := by
+            _ = standardTypeCTargetInr.{u} m ≫ g.map := by
                   simp [standardTypeCMinimalSourceGeneratorHom,
                     standardTypeCCarrierMap_inr_point, Category.assoc] }
 
@@ -581,7 +560,7 @@ theorem standardTypeC_mem_canonicalGenerated_of_outerOneThin
       (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
         (standardTypeCOuterOneThinHornHom m)) :
     (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
-      (standardTypeCGeneratorHom m) := by
+      (standardTypeCGeneratorHom.{u} m) := by
   apply (standardTypeC_mem_canonicalGenerated_iff_minimalSource m).2
   change
     (scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})).rlp.llp
