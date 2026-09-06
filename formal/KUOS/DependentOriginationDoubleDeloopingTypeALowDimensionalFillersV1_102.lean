@@ -58,7 +58,10 @@ theorem natDuskinSimplex_eq_of_mapComp_eq
   case map =>
     rw [heq_iff_eq]
     funext a b f
-    exact Subsingleton.elim _ _
+    exact
+      @Subsingleton.elim NatOneCell (by infer_instance)
+        (show NatOneCell from sigma.map f)
+        (show NatOneCell from tau.map f)
   case map₂ =>
     rw [heq_iff_eq]
     funext a b f g eta
@@ -212,7 +215,6 @@ def natThreeCocycleOfLabels
     intro a b c d hab hbc hcd
     fin_cases a <;> fin_cases b <;> fin_cases c <;> fin_cases d <;>
       simp_all [NatTetrahedronEquation]
-    all_goals omega
 
 @[simp]
 theorem natThreeCocycleOfLabels_label012
@@ -269,10 +271,18 @@ theorem natThreeCocycle_typeA_i2_zero
       (natThreeCocycleOfLabels a012 a013 a023 0 hcoh)
       (2 : Fin 4) := by
   intro a b c hab hbc hbi ha hc
-  have hb : b.val = 2 := by simpa using congrArg Fin.val hbi
-  have ha1 : a.val = 1 := by omega
-  have hc3 : c.val = 3 := by omega
-  simp [natThreeCocycleOfLabels, ha1, hb, hc3]
+  subst b
+  have haFin : a = (1 : Fin 4) := by
+    apply Fin.ext
+    change a.val = 1
+    omega
+  have hcFin : c = (3 : Fin 4) := by
+    apply Fin.ext
+    change c.val = 3
+    omega
+  subst a
+  subst c
+  simp [natThreeCocycleOfLabels]
 
 /-! ## Concrete codimension-one faces of the two 3-horns -/
 
@@ -366,9 +376,9 @@ comparison. -/
 theorem natTypeAThreeI1Label012_eq_zero
     (f : standardTypeAScaledHorn natTypeAThreeIndex1 ⟶
       natDoubleDeloopingScaledDuskin) :
-    (duskinComparison
+    duskinComparison
       (f.map.app (op ⦋2⦌)
-        (SSet.horn.face (1 : Fin 4) (3 : Fin 4) (by decide))) : Nat) = 0 := by
+        (SSet.horn.face (1 : Fin 4) (3 : Fin 4) (by decide))) = (0 : Nat) := by
   have hthin :
       (duskinScaling NatDoubleDelooping).thin
         (f.map.app (op ⦋2⦌)
@@ -508,9 +518,9 @@ comparison. -/
 theorem natTypeAThreeI2Label123_eq_zero
     (f : standardTypeAScaledHorn natTypeAThreeIndex2 ⟶
       natDoubleDeloopingScaledDuskin) :
-    (duskinComparison
+    duskinComparison
       (f.map.app (op ⦋2⦌)
-        (SSet.horn.face (2 : Fin 4) (0 : Fin 4) (by decide))) : Nat) = 0 := by
+        (SSet.horn.face (2 : Fin 4) (0 : Fin 4) (by decide))) = (0 : Nat) := by
   have hthin :
       (duskinScaling NatDoubleDelooping).thin
         (f.map.app (op ⦋2⦌)
