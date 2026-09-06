@@ -8,8 +8,10 @@ open CategoryTheory
 open CategoryTheory.Category
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
+open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
 open KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
 open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
@@ -84,10 +86,10 @@ theorem atomicTwoSimplexEnrichment_not_hasLiftingProperty_natDoubleDeloopingTerm
 generated right class, and the pair is not orthogonal. -/
 structure AtomicNatOrthogonalitySeparator : Prop where
   canonicalLeft :
-    (canonicalGeneratedScaledAnodyne : MorphismProperty ScaledSSet)
+    (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{0}))
       atomicTwoSimplexEnrichment
   standardRight :
-    (standardGeneratedScaledAnodyneABC : MorphismProperty ScaledSSet).rlp
+    (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{0})).rlp
       (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin)
   notOrthogonal :
     ¬ HasLiftingProperty
@@ -104,11 +106,12 @@ def atomicNatOrthogonalitySeparator : AtomicNatOrthogonalitySeparator where
 /-- The same one pair directly proves that the canonical generated left class
 is not contained in the standard generated left class. -/
 theorem canonicalGenerated_not_le_standardGenerated :
-    ¬ (canonicalGeneratedScaledAnodyne : MorphismProperty ScaledSSet) ≤
-      standardGeneratedScaledAnodyneABC := by
+    ¬ (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{0})) ≤
+      (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{0})) := by
   intro hle
   have hstdLeft :
-      standardGeneratedScaledAnodyneABC atomicTwoSimplexEnrichment :=
+      (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{0}))
+        atomicTwoSimplexEnrichment :=
     hle _ atomicNatOrthogonalitySeparator.canonicalLeft
   exact atomicNatOrthogonalitySeparator.notOrthogonal
     (hstdLeft _ atomicNatOrthogonalitySeparator.standardRight)
@@ -141,14 +144,15 @@ theorem canonicalKuuOSPresentation_everyGeneratedRightReflectsThinTwoSimplices :
 the terminal map of `B²ℕ`. -/
 theorem standardABCPresentation_not_everyGeneratedRightReflectsThinTwoSimplices :
     ¬ EveryGeneratedRightReflectsThinTwoSimplices
-      (standardABCPresentation : GeneratedScaledAnodynePresentation) := by
+      (standardABCPresentation : GeneratedScaledAnodynePresentation.{0}) := by
   intro hall
   have hreflect :
       ReflectsThinTwoSimplices
         (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin) := by
     apply hall
     change
-      (standardScaledAnodyneGeneratorsABC : MorphismProperty ScaledSSet).rlp
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{0})).rlp
         (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin)
     exact natDoubleDelooping_standardABC_generators_rlp
   exact natDoubleDelooping_terminal_not_reflectsThinTwoSimplices hreflect
@@ -156,8 +160,8 @@ theorem standardABCPresentation_not_everyGeneratedRightReflectsThinTwoSimplices 
 /-- Therefore the standard and canonical generated presentations are distinct
 as points of the quotient by mutual orthogonal generation. -/
 theorem standardABCPresentation_ne_canonicalKuuOSPresentation :
-    (standardABCPresentation : GeneratedScaledAnodynePresentation) ≠
-      canonicalKuuOSPresentation := by
+    (standardABCPresentation : GeneratedScaledAnodynePresentation.{0}) ≠
+      (canonicalKuuOSPresentation : GeneratedScaledAnodynePresentation.{0}) := by
   intro hEq
   apply standardABCPresentation_not_everyGeneratedRightReflectsThinTwoSimplices
   rw [hEq]
@@ -169,7 +173,7 @@ theorem standardABCPresentation_ne_canonicalKuuOSPresentation :
 simplicial map is the identity. -/
 instance minimalToChosenSimplexScaling_epi
     {n : Nat}
-    (sDelta : ScaledSimplicialSet (Delta[n] : SSet.{u})) :
+    (sDelta : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     Epi (minimalToChosenSimplexScaling sDelta) where
   left_cancellation := by
     intro Z f g h
@@ -181,7 +185,7 @@ instance minimalToChosenSimplexScaling_epi
 minimal-to-`s₂`. -/
 theorem minimalToChosen_comp_scalingEnrichmentHom
     {n : Nat}
-    {s₁ s₂ : ScaledSimplicialSet (Delta[n] : SSet.{u})}
+    {s₁ s₂ : ScaledSimplicialSet (Δ[n] : SSet.{u})}
     (h₁₂ : ScalingLE s₁ s₂) :
     minimalToChosenSimplexScaling s₁ ≫ scalingEnrichmentHom h₁₂ =
       minimalToChosenSimplexScaling s₂ := by
@@ -192,7 +196,7 @@ theorem minimalToChosen_comp_scalingEnrichmentHom
 standard simplex belongs to the canonical generated left class. -/
 theorem simplexScalingEnrichment_mem_canonicalGenerated
     {n : Nat}
-    {s₁ s₂ : ScaledSimplicialSet (Delta[n] : SSet.{u})}
+    {s₁ s₂ : ScaledSimplicialSet (Δ[n] : SSet.{u})}
     (h₁₂ : ScalingLE s₁ s₂) :
     (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
       (scalingEnrichmentHom h₁₂) := by
