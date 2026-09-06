@@ -107,25 +107,46 @@ def toCore (C : NatNormalizedDuskinCocycle n) :
   mapComp {a b c} _f _g :=
     C.label a.as b.as c.as _f.as.le _g.as.le
   mapComp_naturality_left := by
-    intros
-    simp
+    intro a b c f f' η g
+    set_option backward.isDefEq.respectTransparency false in
+      change
+        C.label a.as b.as c.as f.as.le g.as.le + 0 =
+          0 + C.label a.as b.as c.as f'.as.le g.as.le
+    simp only [Nat.add_zero, Nat.zero_add]
   mapComp_naturality_right := by
-    intros
-    simp
+    intro a b c f g g' η
+    set_option backward.isDefEq.respectTransparency false in
+      change
+        C.label a.as b.as c.as f.as.le g.as.le + 0 =
+          0 + C.label a.as b.as c.as f.as.le g'.as.le
+    simp only [Nat.add_zero, Nat.zero_add]
   map₂_leftUnitor := by
     intro a b f
     have hnorm := C.left_normalized a.as b.as f.as.le
-    simpa using hnorm.symm
+    rw [hnorm]
+    set_option backward.isDefEq.respectTransparency false in
+      change (0 : Nat) = (0 : Nat) + 0
+    rfl
   map₂_rightUnitor := by
     intro a b f
     have hnorm := C.right_normalized a.as b.as f.as.le
-    simpa using hnorm.symm
+    rw [hnorm]
+    set_option backward.isDefEq.respectTransparency false in
+      change (0 : Nat) = (0 : Nat) + 0
+    rfl
   map₂_associator := by
     intro a b c d f g h
+    set_option backward.isDefEq.respectTransparency false in
+      change
+        C.label a.as b.as c.as f.as.le g.as.le +
+            (C.label a.as c.as d.as (f ≫ g).as.le h.as.le + 0) =
+          0 +
+            (C.label b.as c.as d.as g.as.le h.as.le +
+              C.label a.as b.as d.as f.as.le (g ≫ h).as.le)
     have hcoc :=
       C.tetrahedron a.as b.as c.as d.as
         f.as.le g.as.le h.as.le
-    simpa using hcoc
+    omega
 
 /-- Realize a normalized additive cocycle as an actual Duskin simplex. -/
 def toDuskinSimplex (C : NatNormalizedDuskinCocycle n) :
@@ -274,8 +295,10 @@ theorem realize_ofDuskinSimplex_map
     {a b : DuskinOrdinal n} (f : a ⟶ b) :
     (ofDuskinSimplex sigma).toDuskinSimplex.map f =
       sigma.map f := by
-  rw [toDuskinSimplex_map]
-  exact Subsingleton.elim _ _
+  calc
+    (ofDuskinSimplex sigma).toDuskinSimplex.map f = NatOneCell.star :=
+      toDuskinSimplex_map (ofDuskinSimplex sigma) f
+    _ = sigma.map f := Subsingleton.elim _ _
 
 /-- It likewise recovers every mapped object. -/
 theorem realize_ofDuskinSimplex_obj
@@ -283,8 +306,11 @@ theorem realize_ofDuskinSimplex_obj
     (a : DuskinOrdinal n) :
     (ofDuskinSimplex sigma).toDuskinSimplex.obj a =
       sigma.obj a := by
-  rw [toDuskinSimplex_obj]
-  exact Subsingleton.elim _ _
+  calc
+    (ofDuskinSimplex sigma).toDuskinSimplex.obj a =
+        NatDoubleDelooping.star :=
+      toDuskinSimplex_obj (ofDuskinSimplex sigma) a
+    _ = sigma.obj a := Subsingleton.elim _ _
 
 /-! ## General ordered-triangle comparison under Yoneda -/
 
@@ -362,12 +388,10 @@ theorem toSimplexMap_triangle_comparison
           (X := duskinNerve NatDoubleDelooping)
           C.toDuskinSimplex
           (natSimplexTriangle a b c hab hbc)).symm
-    _ = C.toDuskinSimplex.mapComp
-        (natOrdinalEdge hab) (natOrdinalEdge hbc) :=
-      natSimplex_triangle_face_comparison
-        C.toDuskinSimplex a b c hab hbc
     _ = C.label a b c hab hbc := by
-      simpa using
+      exact
+        (natSimplex_triangle_face_comparison
+          C.toDuskinSimplex a b c hab hbc).trans
         (toDuskinSimplex_mapComp C
           (natOrdinalEdge hab) (natOrdinalEdge hbc))
 
@@ -382,7 +406,6 @@ theorem realized_two_simplex_thin_iff_label_zero
   rw [natDuskin_thin_iff_comparison_eq_zero]
   change C.toDuskinSimplex.mapComp edge01 edge12 = (0 : Nat) ↔ _
   rw [toDuskinSimplex_mapComp]
-  rfl
 
 /-!
 The representation layer is now exact enough for literal horn lifting:
