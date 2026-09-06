@@ -138,7 +138,13 @@ theorem natTypeAHornLabel_distinguished_zero
     (standardTypeASimplexScaling g.i).thin
       (SSet.stdSimplex.triangle a b c hab hbc)
   right
-  exact ⟨by simpa using hbi, by simpa using ha, by simpa using hc⟩
+  refine ⟨?_, ?_, ?_⟩
+  · change b = g.i
+    exact hbi
+  · change a.val + 1 = g.i.val
+    exact ha
+  · change g.i.val + 1 = c.val
+    exact hc
 
 /-! ## Simplicial naturality identifies every local mapComp with a visible label -/
 
@@ -186,7 +192,7 @@ theorem natTypeAHornMap_mapComp_eq_label
           (f.map.app (op ⦋m⦌) x)) := by
           symm
           simpa [t, alpha] using
-            natSimplex_triangle_face_comparison
+            NatNormalizedDuskinCocycle.natSimplex_triangle_face_comparison
               (f.map.app (op ⦋m⦌) x)
               a.as b.as c.as p.as.le q.as.le
     _ = duskinComparison
@@ -195,9 +201,8 @@ theorem natTypeAHornMap_mapComp_eq_label
             (x.val a.as) (x.val b.as) (x.val c.as)
             ((SSet.stdSimplex.monotone_apply x.val) p.as.le)
             ((SSet.stdSimplex.monotone_apply x.val) q.as.le))) := by
-          apply congrArg duskinComparison
           rw [← hsource]
-          exact hnat.symm
+          exact congrArg duskinComparison hnat.symm
     _ = natTypeAHornLabel g hn f
         (x.val a.as) (x.val b.as) (x.val c.as)
         ((SSet.stdSimplex.monotone_apply x.val) p.as.le)
@@ -264,8 +269,13 @@ theorem natTypeAHornLabel_tetrahedron_of_five_le
     natTypeAHornMap_mapComp_eq_label g (by omega) f x e12 e23
   have h013 :=
     natTypeAHornMap_mapComp_eq_label g (by omega) f x e01 (e12 ≫ e23)
+  change
+    (f.map.app (op ⦋3⦌) x).mapComp e01 e12 +
+        (f.map.app (op ⦋3⦌) x).mapComp (e01 ≫ e12) e23 =
+      (f.map.app (op ⦋3⦌) x).mapComp e12 e23 +
+        (f.map.app (op ⦋3⦌) x).mapComp e01 (e12 ≫ e23) at hcoc
   rw [h012, h023, h123, h013] at hcoc
-  simpa [x, sigma, natTypeAHornTetrahedron, natOrderedTetrahedron,
+  simpa [x, natTypeAHornTetrahedron, natOrderedTetrahedron,
     e01, e12, e23] using hcoc
 
 /-! ## The visible labels form the normalized high-dimensional cocycle -/
@@ -311,10 +321,17 @@ theorem toSimplexMap_mapComp
         ((duskinReindex (SSet.stdSimplex.objEquiv x).op).map q) ≫
       C.toDuskinSimplex.map₂
         ((duskinReindex (SSet.stdSimplex.objEquiv x).op).mapComp p q)) = _
-  rw [C.toDuskinSimplex_map₂]
-  change _ + 0 = _
-  rw [Nat.add_zero]
-  rfl
+  set_option backward.isDefEq.respectTransparency false in
+    change
+      C.label
+          (x a.as) (x b.as) (x c.as)
+          ((SSet.stdSimplex.monotone_apply x) p.as.le)
+          ((SSet.stdSimplex.monotone_apply x) q.as.le) + 0 =
+        C.label
+          (x a.as) (x b.as) (x c.as)
+          ((SSet.stdSimplex.monotone_apply x) p.as.le)
+          ((SSet.stdSimplex.monotone_apply x) q.as.le)
+  simp only [Nat.add_zero]
 
 end NatNormalizedDuskinCocycle
 
@@ -327,8 +344,8 @@ theorem natTypeAHighCocycle_restrict
     (Λ[g.n, g.i].ι :
       (Λ[g.n, g.i] : SSet) ⟶ (Δ[g.n] : SSet)) ≫
         (natTypeAHighCocycle g hn f).toSimplexMap = f.map := by
-  ext Δ x
-  rcases Δ with ⟨⟨m⟩⟩
+  ext d x
+  rcases d with ⟨⟨m⟩⟩
   apply natDuskinSimplex_eq_of_mapComp_eq
   intro a b c p q
   change
