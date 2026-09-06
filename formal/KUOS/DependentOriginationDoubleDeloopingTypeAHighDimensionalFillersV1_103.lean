@@ -186,7 +186,7 @@ theorem natTypeAHornMap_mapComp_eq_label
     (f.map.app (op ⦋m⦌) x).mapComp p q =
         (f.map.app (op ⦋m⦌) x).mapComp
           (natOrdinalEdge p.as.le) (natOrdinalEdge q.as.le) := by
-            congr <;> exact Subsingleton.elim _ _
+            congr
     _ = duskinComparison
         ((duskinNerve NatDoubleDelooping).map alpha.op
           (f.map.app (op ⦋m⦌) x)) := by
