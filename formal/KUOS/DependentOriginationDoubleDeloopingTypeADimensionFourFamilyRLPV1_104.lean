@@ -53,7 +53,7 @@ theorem natTypeAHornLabel_tetrahedron_of_hornSimplex
     (f : standardTypeAScaledHorn g ⟶ natDoubleDeloopingScaledDuskin)
     (a b c d : Fin (g.n + 1))
     (hab : a ≤ b) (hbc : b ≤ c) (hcd : c ≤ d)
-    (x : (Λ[g.n, g.i] : SSet).obj (op ⦋3⦌))
+    (x : (Λ[g.n, g.i] : SSet.{0}).obj (op ⦋3⦌))
     (hx : x.val = natOrderedTetrahedron a b c d hab hbc hcd) :
     NatTetrahedronEquation
       (natTypeAHornLabel g hn f a b c hab hbc)
@@ -78,6 +78,7 @@ theorem natTypeAHornLabel_tetrahedron_of_hornSimplex
   have h123 := natTypeAHornMap_mapComp_eq_label g hn f x e12 e23
   have h013 :=
     natTypeAHornMap_mapComp_eq_label g hn f x e01 (e12 ≫ e23)
+  dsimp [natDuskinMapCompLabel, sigma] at hcoc
   rw [h012, h023, h123, h013] at hcoc
   have hx0 : x.val (0 : Fin 4) = a := by
     rw [hx]
@@ -92,7 +93,7 @@ theorem natTypeAHornLabel_tetrahedron_of_hornSimplex
     rw [hx]
     rfl
   rw [hx0, hx1, hx2, hx3] at hcoc
-  simpa [NatTetrahedronEquation, sigma, e01, e12, e23] using hcoc
+  simpa [NatTetrahedronEquation, e01, e12, e23] using hcoc
 
 /-! ## The five codimension-one tetrahedra of `Delta[4]` -/
 
@@ -158,6 +159,23 @@ def natTypeAFourIndex
   inner_left := h0
   inner_right := h4
 
+/-- The dimension of the concrete four-index is literally four. -/
+theorem natTypeAFourIndex_four_le
+    (i : Fin 5) (h0 : 0 < i) (h4 : i < Fin.last 4) :
+    4 ≤ (natTypeAFourIndex i h0 h4).n := by
+  change 4 ≤ 4
+  exact le_rfl
+
+private theorem fin5_01 : (0 : Fin 5) ≤ 1 := by decide
+private theorem fin5_02 : (0 : Fin 5) ≤ 2 := by decide
+private theorem fin5_03 : (0 : Fin 5) ≤ 3 := by decide
+private theorem fin5_12 : (1 : Fin 5) ≤ 2 := by decide
+private theorem fin5_13 : (1 : Fin 5) ≤ 3 := by decide
+private theorem fin5_14 : (1 : Fin 5) ≤ 4 := by decide
+private theorem fin5_23 : (2 : Fin 5) ≤ 3 := by decide
+private theorem fin5_24 : (2 : Fin 5) ≤ 4 := by decide
+private theorem fin5_34 : (3 : Fin 5) ≤ 4 := by decide
+
 /-- The ten visible triangle labels of a dimension-four type-(A) horn. -/
 def natTypeAFourLabels
     (i : Fin 5)
@@ -165,26 +183,36 @@ def natTypeAFourLabels
     (h4 : i < Fin.last 4)
     (f : standardTypeAScaledHorn (natTypeAFourIndex i h0 h4) ⟶
       natDoubleDeloopingScaledDuskin) : NatFourSimplexTriangleLabels where
-  a012 := natTypeAHornLabel (natTypeAFourIndex i h0 h4) (by decide) f
-    (0 : Fin 5) 1 2 (by decide) (by decide)
-  a013 := natTypeAHornLabel (natTypeAFourIndex i h0 h4) (by decide) f
-    (0 : Fin 5) 1 3 (by decide) (by decide)
-  a014 := natTypeAHornLabel (natTypeAFourIndex i h0 h4) (by decide) f
-    (0 : Fin 5) 1 4 (by decide) (by decide)
-  a023 := natTypeAHornLabel (natTypeAFourIndex i h0 h4) (by decide) f
-    (0 : Fin 5) 2 3 (by decide) (by decide)
-  a024 := natTypeAHornLabel (natTypeAFourIndex i h0 h4) (by decide) f
-    (0 : Fin 5) 2 4 (by decide) (by decide)
-  a034 := natTypeAHornLabel (natTypeAFourIndex i h0 h4) (by decide) f
-    (0 : Fin 5) 3 4 (by decide) (by decide)
-  a123 := natTypeAHornLabel (natTypeAFourIndex i h0 h4) (by decide) f
-    (1 : Fin 5) 2 3 (by decide) (by decide)
-  a124 := natTypeAHornLabel (natTypeAFourIndex i h0 h4) (by decide) f
-    (1 : Fin 5) 2 4 (by decide) (by decide)
-  a134 := natTypeAHornLabel (natTypeAFourIndex i h0 h4) (by decide) f
-    (1 : Fin 5) 3 4 (by decide) (by decide)
-  a234 := natTypeAHornLabel (natTypeAFourIndex i h0 h4) (by decide) f
-    (2 : Fin 5) 3 4 (by decide) (by decide)
+  a012 := natTypeAHornLabel (natTypeAFourIndex i h0 h4)
+    (natTypeAFourIndex_four_le i h0 h4) f
+    (0 : Fin 5) 1 2 fin5_01 fin5_12
+  a013 := natTypeAHornLabel (natTypeAFourIndex i h0 h4)
+    (natTypeAFourIndex_four_le i h0 h4) f
+    (0 : Fin 5) 1 3 fin5_01 fin5_13
+  a014 := natTypeAHornLabel (natTypeAFourIndex i h0 h4)
+    (natTypeAFourIndex_four_le i h0 h4) f
+    (0 : Fin 5) 1 4 fin5_01 fin5_14
+  a023 := natTypeAHornLabel (natTypeAFourIndex i h0 h4)
+    (natTypeAFourIndex_four_le i h0 h4) f
+    (0 : Fin 5) 2 3 fin5_02 fin5_23
+  a024 := natTypeAHornLabel (natTypeAFourIndex i h0 h4)
+    (natTypeAFourIndex_four_le i h0 h4) f
+    (0 : Fin 5) 2 4 fin5_02 fin5_24
+  a034 := natTypeAHornLabel (natTypeAFourIndex i h0 h4)
+    (natTypeAFourIndex_four_le i h0 h4) f
+    (0 : Fin 5) 3 4 fin5_03 fin5_34
+  a123 := natTypeAHornLabel (natTypeAFourIndex i h0 h4)
+    (natTypeAFourIndex_four_le i h0 h4) f
+    (1 : Fin 5) 2 3 fin5_12 fin5_23
+  a124 := natTypeAHornLabel (natTypeAFourIndex i h0 h4)
+    (natTypeAFourIndex_four_le i h0 h4) f
+    (1 : Fin 5) 2 4 fin5_12 fin5_24
+  a134 := natTypeAHornLabel (natTypeAFourIndex i h0 h4)
+    (natTypeAFourIndex_four_le i h0 h4) f
+    (1 : Fin 5) 3 4 fin5_13 fin5_34
+  a234 := natTypeAHornLabel (natTypeAFourIndex i h0 h4)
+    (natTypeAFourIndex_four_le i h0 h4) f
+    (2 : Fin 5) 3 4 fin5_23 fin5_34
 
 /-- Visible face `0` gives equation `1234`. -/
 theorem natTypeAFour_face0_eq1234
@@ -194,8 +222,8 @@ theorem natTypeAFour_face0_eq1234
       natDoubleDeloopingScaledDuskin) :
     (natTypeAFourLabels i h0 h4 f).eq1234 := by
   have h := natTypeAHornLabel_tetrahedron_of_hornSimplex
-    (natTypeAFourIndex i h0 h4) (by decide) f
-    (1 : Fin 5) 2 3 4 (by decide) (by decide) (by decide)
+    (natTypeAFourIndex i h0 h4) (natTypeAFourIndex_four_le i h0 h4) f
+    (1 : Fin 5) 2 3 4 fin5_12 fin5_23 fin5_34
     (SSet.horn.face i (0 : Fin 5) hi)
     (natTypeAFour_face0_val i hi)
   simpa [natTypeAFourLabels, NatFourSimplexTriangleLabels.eq1234] using h
@@ -208,8 +236,8 @@ theorem natTypeAFour_face1_eq0234
       natDoubleDeloopingScaledDuskin) :
     (natTypeAFourLabels i h0 h4 f).eq0234 := by
   have h := natTypeAHornLabel_tetrahedron_of_hornSimplex
-    (natTypeAFourIndex i h0 h4) (by decide) f
-    (0 : Fin 5) 2 3 4 (by decide) (by decide) (by decide)
+    (natTypeAFourIndex i h0 h4) (natTypeAFourIndex_four_le i h0 h4) f
+    (0 : Fin 5) 2 3 4 fin5_02 fin5_23 fin5_34
     (SSet.horn.face i (1 : Fin 5) hi)
     (natTypeAFour_face1_val i hi)
   simpa [natTypeAFourLabels, NatFourSimplexTriangleLabels.eq0234] using h
@@ -222,8 +250,8 @@ theorem natTypeAFour_face2_eq0134
       natDoubleDeloopingScaledDuskin) :
     (natTypeAFourLabels i h0 h4 f).eq0134 := by
   have h := natTypeAHornLabel_tetrahedron_of_hornSimplex
-    (natTypeAFourIndex i h0 h4) (by decide) f
-    (0 : Fin 5) 1 3 4 (by decide) (by decide) (by decide)
+    (natTypeAFourIndex i h0 h4) (natTypeAFourIndex_four_le i h0 h4) f
+    (0 : Fin 5) 1 3 4 fin5_01 fin5_13 fin5_34
     (SSet.horn.face i (2 : Fin 5) hi)
     (natTypeAFour_face2_val i hi)
   simpa [natTypeAFourLabels, NatFourSimplexTriangleLabels.eq0134] using h
@@ -236,8 +264,8 @@ theorem natTypeAFour_face3_eq0124
       natDoubleDeloopingScaledDuskin) :
     (natTypeAFourLabels i h0 h4 f).eq0124 := by
   have h := natTypeAHornLabel_tetrahedron_of_hornSimplex
-    (natTypeAFourIndex i h0 h4) (by decide) f
-    (0 : Fin 5) 1 2 4 (by decide) (by decide) (by decide)
+    (natTypeAFourIndex i h0 h4) (natTypeAFourIndex_four_le i h0 h4) f
+    (0 : Fin 5) 1 2 4 fin5_01 fin5_12 fin5_24
     (SSet.horn.face i (3 : Fin 5) hi)
     (natTypeAFour_face3_val i hi)
   simpa [natTypeAFourLabels, NatFourSimplexTriangleLabels.eq0124] using h
@@ -250,8 +278,8 @@ theorem natTypeAFour_face4_eq0123
       natDoubleDeloopingScaledDuskin) :
     (natTypeAFourLabels i h0 h4 f).eq0123 := by
   have h := natTypeAHornLabel_tetrahedron_of_hornSimplex
-    (natTypeAFourIndex i h0 h4) (by decide) f
-    (0 : Fin 5) 1 2 3 (by decide) (by decide) (by decide)
+    (natTypeAFourIndex i h0 h4) (natTypeAFourIndex_four_le i h0 h4) f
+    (0 : Fin 5) 1 2 3 fin5_01 fin5_12 fin5_23
     (SSet.horn.face i (4 : Fin 5) hi)
     (natTypeAFour_face4_val i hi)
   simpa [natTypeAFourLabels, NatFourSimplexTriangleLabels.eq0123] using h
@@ -268,7 +296,7 @@ theorem natTypeAFourLabels_all_equations
       (natTypeAFourLabels i h0 h4 f).eq0234 ∧
       (natTypeAFourLabels i h0 h4 f).eq1234 := by
   fin_cases i
-  · omega
+  · exact False.elim ((ne_of_gt h0) rfl)
   · have h0123 := natTypeAFour_face4_eq0123
       (1 : Fin 5) h0 h4 (by decide) f
     have h0124 := natTypeAFour_face3_eq0124
@@ -305,7 +333,7 @@ theorem natTypeAFourLabels_all_equations
       (natTypeAFourLabels (3 : Fin 5) h0 h4 f)
       h0123 h0134 h0234 h1234
     exact ⟨h0123, h0124, h0134, h0234, h1234⟩
-  · omega
+  · exact False.elim ((ne_of_lt h4) rfl)
 
 /-! ## The completed normalized cocycle in dimension four -/
 
@@ -316,15 +344,16 @@ def natTypeAFourCocycle
     (i : Fin 5) (h0 : 0 < i) (h4 : i < Fin.last 4)
     (f : standardTypeAScaledHorn (natTypeAFourIndex i h0 h4) ⟶
       natDoubleDeloopingScaledDuskin) : NatNormalizedDuskinCocycle 4 where
-  label := natTypeAHornLabel (natTypeAFourIndex i h0 h4) (by decide) f
+  label := natTypeAHornLabel (natTypeAFourIndex i h0 h4)
+    (natTypeAFourIndex_four_le i h0 h4) f
   left_normalized := by
     intro a b hab
     exact natTypeAHornLabel_left_zero
-      (natTypeAFourIndex i h0 h4) (by decide) f a b hab
+      (natTypeAFourIndex i h0 h4) (natTypeAFourIndex_four_le i h0 h4) f a b hab
   right_normalized := by
     intro a b hab
     exact natTypeAHornLabel_right_zero
-      (natTypeAFourIndex i h0 h4) (by decide) f a b hab
+      (natTypeAFourIndex i h0 h4) (natTypeAFourIndex_four_le i h0 h4) f a b hab
   tetrahedron := by
     intro a b c d hab hbc hcd
     rcases natTypeAFourLabels_all_equations i h0 h4 f with
@@ -332,25 +361,24 @@ def natTypeAFourCocycle
     by_cases habEq : a = b
     · subst b
       rw [natTypeAHornLabel_left_zero
-            (natTypeAFourIndex i h0 h4) (by decide) f a c hbc,
+            (natTypeAFourIndex i h0 h4) (natTypeAFourIndex_four_le i h0 h4) f a c hbc,
           natTypeAHornLabel_left_zero
-            (natTypeAFourIndex i h0 h4) (by decide) f a d
+            (natTypeAFourIndex i h0 h4) (natTypeAFourIndex_four_le i h0 h4) f a d
               (hbc.trans hcd)]
       simp
     · by_cases hbcEq : b = c
       · subst c
         rw [natTypeAHornLabel_right_zero
-              (natTypeAFourIndex i h0 h4) (by decide) f a b hab,
+              (natTypeAFourIndex i h0 h4) (natTypeAFourIndex_four_le i h0 h4) f a b hab,
             natTypeAHornLabel_left_zero
-              (natTypeAFourIndex i h0 h4) (by decide) f b d hcd]
-        simp
+              (natTypeAFourIndex i h0 h4) (natTypeAFourIndex_four_le i h0 h4) f b d hcd]
       · by_cases hcdEq : c = d
         · subst d
           rw [natTypeAHornLabel_right_zero
-                (natTypeAFourIndex i h0 h4) (by decide) f a c
+                (natTypeAFourIndex i h0 h4) (natTypeAFourIndex_four_le i h0 h4) f a c
                   (hab.trans hbc),
               natTypeAHornLabel_right_zero
-                (natTypeAFourIndex i h0 h4) (by decide) f b c hbc]
+                (natTypeAFourIndex i h0 h4) (natTypeAFourIndex_four_le i h0 h4) f b c hbc]
           simp
         · have habVal : a.val < b.val := by
             have hne : a.val ≠ b.val := by
@@ -380,10 +408,10 @@ def natTypeAFourCocycle
             omega
           rcases hcases with h | h | h | h | h
           · rcases h with ⟨ha, hb, hc, hd⟩
-            have ha' : a = (0 : Fin 5) := by apply Fin.ext; omega
-            have hb' : b = (1 : Fin 5) := by apply Fin.ext; omega
-            have hc' : c = (2 : Fin 5) := by apply Fin.ext; omega
-            have hd' : d = (3 : Fin 5) := by apply Fin.ext; omega
+            have ha' : a = (0 : Fin 5) := by apply Fin.ext; exact ha
+            have hb' : b = (1 : Fin 5) := by apply Fin.ext; exact hb
+            have hc' : c = (2 : Fin 5) := by apply Fin.ext; exact hc
+            have hd' : d = (3 : Fin 5) := by apply Fin.ext; exact hd
             subst a
             subst b
             subst c
@@ -392,10 +420,10 @@ def natTypeAFourCocycle
               NatFourSimplexTriangleLabels.eq0123,
               NatTetrahedronEquation] using h0123
           · rcases h with ⟨ha, hb, hc, hd⟩
-            have ha' : a = (0 : Fin 5) := by apply Fin.ext; omega
-            have hb' : b = (1 : Fin 5) := by apply Fin.ext; omega
-            have hc' : c = (2 : Fin 5) := by apply Fin.ext; omega
-            have hd' : d = (4 : Fin 5) := by apply Fin.ext; omega
+            have ha' : a = (0 : Fin 5) := by apply Fin.ext; exact ha
+            have hb' : b = (1 : Fin 5) := by apply Fin.ext; exact hb
+            have hc' : c = (2 : Fin 5) := by apply Fin.ext; exact hc
+            have hd' : d = (4 : Fin 5) := by apply Fin.ext; exact hd
             subst a
             subst b
             subst c
@@ -404,10 +432,10 @@ def natTypeAFourCocycle
               NatFourSimplexTriangleLabels.eq0124,
               NatTetrahedronEquation] using h0124
           · rcases h with ⟨ha, hb, hc, hd⟩
-            have ha' : a = (0 : Fin 5) := by apply Fin.ext; omega
-            have hb' : b = (1 : Fin 5) := by apply Fin.ext; omega
-            have hc' : c = (3 : Fin 5) := by apply Fin.ext; omega
-            have hd' : d = (4 : Fin 5) := by apply Fin.ext; omega
+            have ha' : a = (0 : Fin 5) := by apply Fin.ext; exact ha
+            have hb' : b = (1 : Fin 5) := by apply Fin.ext; exact hb
+            have hc' : c = (3 : Fin 5) := by apply Fin.ext; exact hc
+            have hd' : d = (4 : Fin 5) := by apply Fin.ext; exact hd
             subst a
             subst b
             subst c
@@ -416,10 +444,10 @@ def natTypeAFourCocycle
               NatFourSimplexTriangleLabels.eq0134,
               NatTetrahedronEquation] using h0134
           · rcases h with ⟨ha, hb, hc, hd⟩
-            have ha' : a = (0 : Fin 5) := by apply Fin.ext; omega
-            have hb' : b = (2 : Fin 5) := by apply Fin.ext; omega
-            have hc' : c = (3 : Fin 5) := by apply Fin.ext; omega
-            have hd' : d = (4 : Fin 5) := by apply Fin.ext; omega
+            have ha' : a = (0 : Fin 5) := by apply Fin.ext; exact ha
+            have hb' : b = (2 : Fin 5) := by apply Fin.ext; exact hb
+            have hc' : c = (3 : Fin 5) := by apply Fin.ext; exact hc
+            have hd' : d = (4 : Fin 5) := by apply Fin.ext; exact hd
             subst a
             subst b
             subst c
@@ -428,10 +456,10 @@ def natTypeAFourCocycle
               NatFourSimplexTriangleLabels.eq0234,
               NatTetrahedronEquation] using h0234
           · rcases h with ⟨ha, hb, hc, hd⟩
-            have ha' : a = (1 : Fin 5) := by apply Fin.ext; omega
-            have hb' : b = (2 : Fin 5) := by apply Fin.ext; omega
-            have hc' : c = (3 : Fin 5) := by apply Fin.ext; omega
-            have hd' : d = (4 : Fin 5) := by apply Fin.ext; omega
+            have ha' : a = (1 : Fin 5) := by apply Fin.ext; exact ha
+            have hb' : b = (2 : Fin 5) := by apply Fin.ext; exact hb
+            have hc' : c = (3 : Fin 5) := by apply Fin.ext; exact hc
+            have hd' : d = (4 : Fin 5) := by apply Fin.ext; exact hd
             subst a
             subst b
             subst c
@@ -448,8 +476,8 @@ theorem natTypeAFourCocycle_restrict
       natDoubleDeloopingScaledDuskin) :
     (Λ[4, i].ι : (Λ[4, i] : SSet) ⟶ (Δ[4] : SSet)) ≫
         (natTypeAFourCocycle i h0 h4 f).toSimplexMap = f.map := by
-  ext Δ x
-  rcases Δ with ⟨⟨m⟩⟩
+  ext d x
+  rcases d with ⟨⟨m⟩⟩
   apply natDuskinSimplex_eq_of_mapComp_eq
   intro a b c p q
   change
@@ -459,7 +487,7 @@ theorem natTypeAFourCocycle_restrict
   rw [NatNormalizedDuskinCocycle.toSimplexMap_mapComp]
   exact
     (natTypeAHornMap_mapComp_eq_label
-      (natTypeAFourIndex i h0 h4) (by decide) f x p q).symm
+      (natTypeAFourIndex i h0 h4) (natTypeAFourIndex_four_le i h0 h4) f x p q).symm
 
 /-- The completed dimension-four cocycle vanishes on the distinguished
 consecutive type-(A) triangle. -/
@@ -470,10 +498,10 @@ theorem natTypeAFourCocycle_distinguished_zero
     (natTypeAFourCocycle i h0 h4 f).TypeADistinguishedZero i := by
   intro a b c hab hbc hbi ha hc
   change
-    natTypeAHornLabel (natTypeAFourIndex i h0 h4) (by decide) f
-      a b c hab hbc = 0
+    natTypeAHornLabel (natTypeAFourIndex i h0 h4)
+      (natTypeAFourIndex_four_le i h0 h4) f a b c hab hbc = 0
   exact natTypeAHornLabel_distinguished_zero
-    (natTypeAFourIndex i h0 h4) (by decide) f
+    (natTypeAFourIndex i h0 h4) (natTypeAFourIndex_four_le i h0 h4) f
     a b c hab hbc hbi ha hc
 
 /-- Every dimension-four standard type-(A) horn map has a literal normalized
@@ -515,16 +543,16 @@ theorem natDoubleDelooping_hasAllStandardTypeAHornCocycleCompletions :
   by_cases hn2 : n = 2
   · subst n
     fin_cases i
-    · omega
+    · exact False.elim ((ne_of_gt h0) rfl)
     · simpa [natTypeATwoIndex] using natTypeATwo_zero_cocycle_completion f
-    · omega
+    · exact False.elim ((ne_of_lt hN) rfl)
   · by_cases hn3 : n = 3
     · subst n
       fin_cases i
-      · omega
+      · exact False.elim ((ne_of_gt h0) rfl)
       · simpa [natTypeAThreeIndex1] using natTypeAThreeI1_cocycle_completion f
       · simpa [natTypeAThreeIndex2] using natTypeAThreeI2_cocycle_completion f
-      · omega
+      · exact False.elim ((ne_of_lt hN) rfl)
     · by_cases hn4 : n = 4
       · subst n
         exact natTypeAFour_cocycle_completion i h0 hN f
