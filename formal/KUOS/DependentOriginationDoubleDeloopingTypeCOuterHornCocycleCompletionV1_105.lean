@@ -59,33 +59,39 @@ mixing the finite arithmetic with the quotient universal property.
 
 /-- The horn leg into the collapsed type-(C) source carrier. -/
 def natTypeCSourceHornInl (m : Nat) :
-    (Λ[m + 3, (0 : Fin (m + 4))] : SSet) ⟶
-      standardTypeCSourceCarrier m :=
-  pushout.inl
-    (standardTypeCEdgeToHorn m)
-    (standardTypeCEdgeCollapseToPoint m)
+    (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0}) ⟶
+      standardTypeCSourceCarrier.{0} m :=
+  standardTypeCSourceInl.{0} m
 
 /-- The point leg into the collapsed type-(C) source carrier. -/
 def natTypeCSourcePointInr (m : Nat) :
-    (Δ[0] : SSet) ⟶ standardTypeCSourceCarrier m :=
-  pushout.inr
-    (standardTypeCEdgeToHorn m)
-    (standardTypeCEdgeCollapseToPoint m)
+    (Δ[0] : SSet.{0}) ⟶ standardTypeCSourceCarrier.{0} m :=
+  standardTypeCSourceInr.{0} m
 
 /-- Restrict a source map to its outer-horn leg. -/
 def natTypeCHornMap
     (m : Nat)
-    (f : standardTypeCSource m ⟶ natDoubleDeloopingScaledDuskin) :
-    (Λ[m + 3, (0 : Fin (m + 4))] : SSet) ⟶
+    (f : standardTypeCSource.{0} m ⟶ natDoubleDeloopingScaledDuskin) :
+    (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0}) ⟶
       duskinNerve NatDoubleDelooping :=
   natTypeCSourceHornInl m ≫ f.map
 
 /-- Restrict a source map to its collapsed-point leg. -/
 def natTypeCPointMap
     (m : Nat)
-    (f : standardTypeCSource m ⟶ natDoubleDeloopingScaledDuskin) :
-    (Δ[0] : SSet) ⟶ duskinNerve NatDoubleDelooping :=
+    (f : standardTypeCSource.{0} m ⟶ natDoubleDeloopingScaledDuskin) :
+    (Δ[0] : SSet.{0}) ⟶ duskinNerve NatDoubleDelooping :=
   natTypeCSourcePointInr m ≫ f.map
+
+private theorem natTypeC_zero_le_one (m : Nat) :
+    (0 : Fin (m + 4)) ≤ 1 := by
+  change 0 ≤ 1
+  omega
+
+private theorem natTypeC_one_le_last (m : Nat) :
+    (1 : Fin (m + 4)) ≤ Fin.last (m + 3) := by
+  change 1 ≤ m + 3
+  omega
 
 /-! ## Exact outer-horn completion interface -/
 
@@ -94,17 +100,17 @@ source map.  The last field is exactly the extra target-scaledness condition:
 the distinguished triangle `01n` has zero comparison. -/
 structure NatTypeCSourceCocycleCompletion
     (m : Nat)
-    (f : standardTypeCSource m ⟶ natDoubleDeloopingScaledDuskin) where
+    (f : standardTypeCSource.{0} m ⟶ natDoubleDeloopingScaledDuskin) where
   cocycle : NatNormalizedDuskinCocycle (m + 3)
   restrict :
     (Λ[m + 3, (0 : Fin (m + 4))].ι :
-      (Λ[m + 3, (0 : Fin (m + 4))] : SSet) ⟶
-        (Δ[m + 3] : SSet)) ≫
+      (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0}) ⟶
+        (Δ[m + 3] : SSet.{0})) ≫
       cocycle.toSimplexMap = natTypeCHornMap m f
   distinguished_zero :
     cocycle.label
       (0 : Fin (m + 4)) 1 (Fin.last (m + 3))
-      (by omega) (by omega) = 0
+      (natTypeC_zero_le_one m) (natTypeC_one_le_last m) = 0
 
 /-! ## Dimension three: the only missing triangle label -/
 
@@ -141,21 +147,21 @@ theorem typeCThree_face3_val
 /-- The horn face `013` is literally the distinguished type-(C) horn triangle. -/
 theorem typeCThree_face2_eq_distinguished :
     SSet.horn.face (0 : Fin 4) (2 : Fin 4) (by decide) =
-      standardTypeCTriangle01nInHorn 0 := by
+      standardTypeCTriangle01nInHorn.{0} 0 := by
   apply Subtype.ext
   rw [typeCThree_face2_val]
   rfl
 
 /-- Visible label `012`. -/
 def natTypeCThreeLabel012
-    (f : standardTypeCSource 0 ⟶ natDoubleDeloopingScaledDuskin) : Nat :=
+    (f : standardTypeCSource.{0} 0 ⟶ natDoubleDeloopingScaledDuskin) : Nat :=
   duskinComparison
     ((natTypeCHornMap 0 f).app (op ⦋2⦌)
       (SSet.horn.face (0 : Fin 4) (3 : Fin 4) (by decide)))
 
 /-- Visible label `023`. -/
 def natTypeCThreeLabel023
-    (f : standardTypeCSource 0 ⟶ natDoubleDeloopingScaledDuskin) : Nat :=
+    (f : standardTypeCSource.{0} 0 ⟶ natDoubleDeloopingScaledDuskin) : Nat :=
   duskinComparison
     ((natTypeCHornMap 0 f).app (op ⦋2⦌)
       (SSet.horn.face (0 : Fin 4) (1 : Fin 4) (by decide)))
@@ -163,7 +169,7 @@ def natTypeCThreeLabel023
 /-- The distinguished visible face `013` has zero comparison because the
 source quotient declares it thin and `f` is scaled. -/
 theorem natTypeCThreeLabel013_eq_zero
-    (f : standardTypeCSource 0 ⟶ natDoubleDeloopingScaledDuskin) :
+    (f : standardTypeCSource.{0} 0 ⟶ natDoubleDeloopingScaledDuskin) :
     duskinComparison
       ((natTypeCHornMap 0 f).app (op ⦋2⦌)
         (SSet.horn.face (0 : Fin 4) (2 : Fin 4) (by decide))) = 0 := by
@@ -172,15 +178,15 @@ theorem natTypeCThreeLabel013_eq_zero
       ((natTypeCHornMap 0 f).app (op ⦋2⦌)
         (SSet.horn.face (0 : Fin 4) (2 : Fin 4) (by decide)))).1
   have hthin := f.scaled
-    (standardTypeCSourceDistinguishedTriangle 0)
-    (standardTypeCSource_distinguished_thin 0)
+    (standardTypeCSourceDistinguishedTriangle.{0} 0)
+    (standardTypeCSource_distinguished_thin.{0} 0)
   simpa [natTypeCHornMap, natTypeCSourceHornInl,
     standardTypeCSourceDistinguishedTriangle,
     typeCThree_face2_eq_distinguished] using hthin
 
 /-- The dimension-three outer-horn completion. -/
 def natTypeCThreeCompletionCocycle
-    (f : standardTypeCSource 0 ⟶ natDoubleDeloopingScaledDuskin) :
+    (f : standardTypeCSource.{0} 0 ⟶ natDoubleDeloopingScaledDuskin) :
     NatNormalizedDuskinCocycle 3 :=
   natThreeCocycleOfLabels
     (natTypeCThreeLabel012 f)
@@ -192,9 +198,9 @@ def natTypeCThreeCompletionCocycle
 
 /-- The dimension-three completion restricts literally to the outer horn. -/
 theorem natTypeCThreeCompletionCocycle_restrict
-    (f : standardTypeCSource 0 ⟶ natDoubleDeloopingScaledDuskin) :
+    (f : standardTypeCSource.{0} 0 ⟶ natDoubleDeloopingScaledDuskin) :
     (Λ[3, (0 : Fin 4)].ι :
-      (Λ[3, (0 : Fin 4)] : SSet) ⟶ (Δ[3] : SSet)) ≫
+      (Λ[3, (0 : Fin 4)] : SSet.{0}) ⟶ (Δ[3] : SSet.{0})) ≫
         (natTypeCThreeCompletionCocycle f).toSimplexMap =
       natTypeCHornMap 0 f := by
   apply SSet.horn.hom_ext
@@ -241,7 +247,7 @@ theorem natTypeCThreeCompletionCocycle_restrict
 
 /-- Literal cocycle completion in the first type-(C) dimension. -/
 theorem natTypeCThree_cocycle_completion
-    (f : standardTypeCSource 0 ⟶ natDoubleDeloopingScaledDuskin) :
+    (f : standardTypeCSource.{0} 0 ⟶ natDoubleDeloopingScaledDuskin) :
     Nonempty (NatTypeCSourceCocycleCompletion 0 f) := by
   refine ⟨{
     cocycle := natTypeCThreeCompletionCocycle f
@@ -256,7 +262,7 @@ def natTypeCHornTriangle
     (m : Nat) (hm : 1 ≤ m)
     (a b c : Fin (m + 4))
     (hab : a ≤ b) (hbc : b ≤ c) :
-    (Λ[m + 3, (0 : Fin (m + 4))] : SSet).obj (op ⦋2⦌) :=
+    (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0}).obj (op ⦋2⦌) :=
   ⟨SSet.stdSimplex.triangle a b c hab hbc, by
     rw [typeC_outerHorn_all_two_simplices_of_one_le m hm]
     exact Set.mem_univ _⟩
@@ -265,7 +271,7 @@ def natTypeCHornTriangle
 def natTypeCHornEdge
     (m : Nat) (hm : 1 ≤ m)
     (a b : Fin (m + 4)) (hab : a ≤ b) :
-    (Λ[m + 3, (0 : Fin (m + 4))] : SSet).obj (op ⦋1⦌) :=
+    (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0}).obj (op ⦋1⦌) :=
   ⟨SSet.stdSimplex.edge (m + 3) a b hab, by
     rw [SSet.horn_obj_eq_univ (0 : Fin (m + 4)) 1 (by omega)]
     exact Set.mem_univ _⟩
@@ -273,7 +279,7 @@ def natTypeCHornEdge
 /-- Visible comparison label on an ordered triangle. -/
 def natTypeCHornLabel
     (m : Nat) (hm : 1 ≤ m)
-    (f : standardTypeCSource m ⟶ natDoubleDeloopingScaledDuskin)
+    (f : standardTypeCSource.{0} m ⟶ natDoubleDeloopingScaledDuskin)
     (a b c : Fin (m + 4))
     (hab : a ≤ b) (hbc : b ≤ c) : Nat :=
   duskinComparison
@@ -283,7 +289,7 @@ def natTypeCHornLabel
 /-- Repeating the left vertex gives zero comparison. -/
 theorem natTypeCHornLabel_left_zero
     (m : Nat) (hm : 1 ≤ m)
-    (f : standardTypeCSource m ⟶ natDoubleDeloopingScaledDuskin)
+    (f : standardTypeCSource.{0} m ⟶ natDoubleDeloopingScaledDuskin)
     (a b : Fin (m + 4)) (hab : a ≤ b) :
     natTypeCHornLabel m hm f a a b (le_refl a) hab = 0 := by
   apply
@@ -292,7 +298,7 @@ theorem natTypeCHornLabel_left_zero
         (natTypeCHornTriangle m hm a a b (le_refl a) hab))).1
   have hmin :
       (minimalScaling
-        (Λ[m + 3, (0 : Fin (m + 4))] : SSet)).thin
+        (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0})).thin
         (natTypeCHornTriangle m hm a a b (le_refl a) hab) := by
     left
     refine ⟨natTypeCHornEdge m hm a b hab, ?_⟩
@@ -302,11 +308,11 @@ theorem natTypeCHornLabel_left_zero
     fin_cases k <;> rfl
   have hinl :=
     (minimalScaling_map
-      (minimalScaling (standardTypeCSourceCarrier m))
+      (minimalScaling (standardTypeCSourceCarrier.{0} m))
       (natTypeCSourceHornInl m))
       (natTypeCHornTriangle m hm a a b (le_refl a) hab) hmin
   have hsrc :
-      (standardTypeCSourceScaling m).thin
+      (standardTypeCSourceScaling.{0} m).thin
         ((natTypeCSourceHornInl m).app (op ⦋2⦌)
           (natTypeCHornTriangle m hm a a b (le_refl a) hab)) :=
     Or.inl hinl
@@ -315,7 +321,7 @@ theorem natTypeCHornLabel_left_zero
 /-- Repeating the right vertex gives zero comparison. -/
 theorem natTypeCHornLabel_right_zero
     (m : Nat) (hm : 1 ≤ m)
-    (f : standardTypeCSource m ⟶ natDoubleDeloopingScaledDuskin)
+    (f : standardTypeCSource.{0} m ⟶ natDoubleDeloopingScaledDuskin)
     (a b : Fin (m + 4)) (hab : a ≤ b) :
     natTypeCHornLabel m hm f a b b hab (le_refl b) = 0 := by
   apply
@@ -324,7 +330,7 @@ theorem natTypeCHornLabel_right_zero
         (natTypeCHornTriangle m hm a b b hab (le_refl b)))).1
   have hmin :
       (minimalScaling
-        (Λ[m + 3, (0 : Fin (m + 4))] : SSet)).thin
+        (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0})).thin
         (natTypeCHornTriangle m hm a b b hab (le_refl b)) := by
     right
     refine ⟨natTypeCHornEdge m hm a b hab, ?_⟩
@@ -334,11 +340,11 @@ theorem natTypeCHornLabel_right_zero
     fin_cases k <;> rfl
   have hinl :=
     (minimalScaling_map
-      (minimalScaling (standardTypeCSourceCarrier m))
+      (minimalScaling (standardTypeCSourceCarrier.{0} m))
       (natTypeCSourceHornInl m))
       (natTypeCHornTriangle m hm a b b hab (le_refl b)) hmin
   have hsrc :
-      (standardTypeCSourceScaling m).thin
+      (standardTypeCSourceScaling.{0} m).thin
         ((natTypeCSourceHornInl m).app (op ⦋2⦌)
           (natTypeCHornTriangle m hm a b b hab (le_refl b))) :=
     Or.inl hinl
@@ -349,27 +355,27 @@ theorem natTypeCHornTriangle_distinguished
     (m : Nat) (hm : 1 ≤ m) :
     natTypeCHornTriangle m hm
       (0 : Fin (m + 4)) 1 (Fin.last (m + 3))
-      (by omega) (by omega) =
-      standardTypeCTriangle01nInHorn m := by
+      (natTypeC_zero_le_one m) (natTypeC_one_le_last m) =
+      standardTypeCTriangle01nInHorn.{0} m := by
   apply Subtype.ext
   rfl
 
 /-- The distinguished visible comparison is zero. -/
 theorem natTypeCHornLabel_distinguished_zero
     (m : Nat) (hm : 1 ≤ m)
-    (f : standardTypeCSource m ⟶ natDoubleDeloopingScaledDuskin) :
+    (f : standardTypeCSource.{0} m ⟶ natDoubleDeloopingScaledDuskin) :
     natTypeCHornLabel m hm f
       (0 : Fin (m + 4)) 1 (Fin.last (m + 3))
-      (by omega) (by omega) = 0 := by
+      (natTypeC_zero_le_one m) (natTypeC_one_le_last m) = 0 := by
   apply
     (natDuskin_thin_iff_comparison_eq_zero
       ((natTypeCHornMap m f).app (op ⦋2⦌)
         (natTypeCHornTriangle m hm
           (0 : Fin (m + 4)) 1 (Fin.last (m + 3))
-          (by omega) (by omega)))).1
+          (natTypeC_zero_le_one m) (natTypeC_one_le_last m)))).1
   have hthin := f.scaled
-    (standardTypeCSourceDistinguishedTriangle m)
-    (standardTypeCSource_distinguished_thin m)
+    (standardTypeCSourceDistinguishedTriangle.{0} m)
+    (standardTypeCSource_distinguished_thin.{0} m)
   simpa [natTypeCHornMap, natTypeCSourceHornInl,
     standardTypeCSourceDistinguishedTriangle,
     natTypeCHornTriangle_distinguished] using hthin
@@ -380,9 +386,9 @@ theorem natTypeCHornLabel_distinguished_zero
 triangle label. -/
 theorem natTypeCHornMap_mapComp_eq_label
     (m : Nat) (hm : 1 ≤ m)
-    (f : standardTypeCSource m ⟶ natDoubleDeloopingScaledDuskin)
+    (f : standardTypeCSource.{0} m ⟶ natDoubleDeloopingScaledDuskin)
     {q : Nat}
-    (x : (Λ[m + 3, (0 : Fin (m + 4))] : SSet).obj (op ⦋q⦌))
+    (x : (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0}).obj (op ⦋q⦌))
     {a b c : DuskinOrdinal q}
     (p : a ⟶ b) (r : b ⟶ c) :
     ((natTypeCHornMap m f).app (op ⦋q⦌) x).mapComp p r =
@@ -390,11 +396,11 @@ theorem natTypeCHornMap_mapComp_eq_label
         (x.val a.as) (x.val b.as) (x.val c.as)
         ((SSet.stdSimplex.monotone_apply x.val) p.as.le)
         ((SSet.stdSimplex.monotone_apply x.val) r.as.le) := by
-  let t : (Δ[q] : SSet).obj (op ⦋2⦌) :=
+  let t : (Δ[q] : SSet.{0}).obj (op ⦋2⦌) :=
     SSet.stdSimplex.triangle a.as b.as c.as p.as.le r.as.le
   let alpha : ⦋2⦌ ⟶ ⦋q⦌ := SSet.stdSimplex.objEquiv t
   have hsource :
-      (Λ[m + 3, (0 : Fin (m + 4))] : SSet).map alpha.op x =
+      (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0}).map alpha.op x =
         natTypeCHornTriangle m hm
           (x.val a.as) (x.val b.as) (x.val c.as)
           ((SSet.stdSimplex.monotone_apply x.val) p.as.le)
@@ -405,7 +411,7 @@ theorem natTypeCHornMap_mapComp_eq_label
     fin_cases k <;> rfl
   have hnat :
       (natTypeCHornMap m f).app (op ⦋2⦌)
-          ((Λ[m + 3, (0 : Fin (m + 4))] : SSet).map alpha.op x) =
+          ((Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0}).map alpha.op x) =
         (duskinNerve NatDoubleDelooping).map alpha.op
           ((natTypeCHornMap m f).app (op ⦋q⦌) x) := by
     exact ConcreteCategory.congr_hom
@@ -414,13 +420,13 @@ theorem natTypeCHornMap_mapComp_eq_label
     ((natTypeCHornMap m f).app (op ⦋q⦌) x).mapComp p r =
         ((natTypeCHornMap m f).app (op ⦋q⦌) x).mapComp
           (natOrdinalEdge p.as.le) (natOrdinalEdge r.as.le) := by
-            congr <;> exact Subsingleton.elim _ _
+            congr
     _ = duskinComparison
         ((duskinNerve NatDoubleDelooping).map alpha.op
           ((natTypeCHornMap m f).app (op ⦋q⦌) x)) := by
           symm
           simpa [t, alpha] using
-            natSimplex_triangle_face_comparison
+            NatNormalizedDuskinCocycle.natSimplex_triangle_face_comparison
               ((natTypeCHornMap m f).app (op ⦋q⦌) x)
               a.as b.as c.as p.as.le r.as.le
     _ = duskinComparison
@@ -429,9 +435,7 @@ theorem natTypeCHornMap_mapComp_eq_label
             (x.val a.as) (x.val b.as) (x.val c.as)
             ((SSet.stdSimplex.monotone_apply x.val) p.as.le)
             ((SSet.stdSimplex.monotone_apply x.val) r.as.le))) := by
-          apply congrArg duskinComparison
-          rw [← hsource]
-          exact hnat.symm
+          rw [← hnat, hsource]
     _ = natTypeCHornLabel m hm f
         (x.val a.as) (x.val b.as) (x.val c.as)
         ((SSet.stdSimplex.monotone_apply x.val) p.as.le)
@@ -442,10 +446,10 @@ theorem natTypeCHornMap_mapComp_eq_label
 /-- A visible outer-horn tetrahedron imposes its additive cocycle equation. -/
 theorem natTypeCHornLabel_tetrahedron_of_hornSimplex
     (m : Nat) (hm : 1 ≤ m)
-    (f : standardTypeCSource m ⟶ natDoubleDeloopingScaledDuskin)
+    (f : standardTypeCSource.{0} m ⟶ natDoubleDeloopingScaledDuskin)
     (a b c d : Fin (m + 4))
     (hab : a ≤ b) (hbc : b ≤ c) (hcd : c ≤ d)
-    (x : (Λ[m + 3, (0 : Fin (m + 4))] : SSet).obj (op ⦋3⦌))
+    (x : (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0}).obj (op ⦋3⦌))
     (hx : x.val = natOrderedTetrahedron a b c d hab hbc hcd) :
     NatTetrahedronEquation
       (natTypeCHornLabel m hm f a b c hab hbc)
@@ -470,88 +474,107 @@ theorem natTypeCHornLabel_tetrahedron_of_hornSimplex
   have h123 := natTypeCHornMap_mapComp_eq_label m hm f x e12 e23
   have h013 :=
     natTypeCHornMap_mapComp_eq_label m hm f x e01 (e12 ≫ e23)
+  dsimp [natDuskinMapCompLabel, sigma] at hcoc
   rw [h012, h023, h123, h013] at hcoc
-  have hx0 : x.val (0 : Fin 4) = a := by rw [hx]; rfl
-  have hx1 : x.val (1 : Fin 4) = b := by rw [hx]; rfl
-  have hx2 : x.val (2 : Fin 4) = c := by rw [hx]; rfl
-  have hx3 : x.val (3 : Fin 4) = d := by rw [hx]; rfl
-  rw [hx0, hx1, hx2, hx3] at hcoc
-  simpa [NatTetrahedronEquation, sigma, e01, e12, e23] using hcoc
+  set_option backward.isDefEq.respectTransparency false in
+    simpa [NatTetrahedronEquation, hx, natOrderedTetrahedron,
+      e01, e12, e23] using hcoc
 
 /-! ## Dimension four: four visible equations imply the outer fifth -/
 
+private theorem typeC_one_le_one : 1 ≤ (1 : Nat) := by
+  exact le_rfl
+
+private theorem typeC_fin5_01 : (0 : Fin 5) ≤ 1 := by decide
+private theorem typeC_fin5_02 : (0 : Fin 5) ≤ 2 := by decide
+private theorem typeC_fin5_03 : (0 : Fin 5) ≤ 3 := by decide
+private theorem typeC_fin5_12 : (1 : Fin 5) ≤ 2 := by decide
+private theorem typeC_fin5_13 : (1 : Fin 5) ≤ 3 := by decide
+private theorem typeC_fin5_14 : (1 : Fin 5) ≤ 4 := by decide
+private theorem typeC_fin5_23 : (2 : Fin 5) ≤ 3 := by decide
+private theorem typeC_fin5_24 : (2 : Fin 5) ≤ 4 := by decide
+private theorem typeC_fin5_34 : (3 : Fin 5) ≤ 4 := by decide
+private theorem typeC_fin5_1_ne_0 : (1 : Fin 5) ≠ 0 := by decide
+private theorem typeC_fin5_2_ne_0 : (2 : Fin 5) ≠ 0 := by decide
+private theorem typeC_fin5_3_ne_0 : (3 : Fin 5) ≠ 0 := by decide
+private theorem typeC_fin5_4_ne_0 : (4 : Fin 5) ≠ 0 := by decide
+
 /-- The ten visible labels in the dimension-four type-(C) outer horn. -/
 def natTypeCFourLabels
-    (f : standardTypeCSource 1 ⟶ natDoubleDeloopingScaledDuskin) :
+    (f : standardTypeCSource.{0} 1 ⟶ natDoubleDeloopingScaledDuskin) :
     NatFourSimplexTriangleLabels where
-  a012 := natTypeCHornLabel 1 (by decide) f
-    (0 : Fin 5) 1 2 (by decide) (by decide)
-  a013 := natTypeCHornLabel 1 (by decide) f
-    (0 : Fin 5) 1 3 (by decide) (by decide)
-  a014 := natTypeCHornLabel 1 (by decide) f
-    (0 : Fin 5) 1 4 (by decide) (by decide)
-  a023 := natTypeCHornLabel 1 (by decide) f
-    (0 : Fin 5) 2 3 (by decide) (by decide)
-  a024 := natTypeCHornLabel 1 (by decide) f
-    (0 : Fin 5) 2 4 (by decide) (by decide)
-  a034 := natTypeCHornLabel 1 (by decide) f
-    (0 : Fin 5) 3 4 (by decide) (by decide)
-  a123 := natTypeCHornLabel 1 (by decide) f
-    (1 : Fin 5) 2 3 (by decide) (by decide)
-  a124 := natTypeCHornLabel 1 (by decide) f
-    (1 : Fin 5) 2 4 (by decide) (by decide)
-  a134 := natTypeCHornLabel 1 (by decide) f
-    (1 : Fin 5) 3 4 (by decide) (by decide)
-  a234 := natTypeCHornLabel 1 (by decide) f
-    (2 : Fin 5) 3 4 (by decide) (by decide)
+  a012 := natTypeCHornLabel 1 typeC_one_le_one f
+    (0 : Fin 5) 1 2 typeC_fin5_01 typeC_fin5_12
+  a013 := natTypeCHornLabel 1 typeC_one_le_one f
+    (0 : Fin 5) 1 3 typeC_fin5_01 typeC_fin5_13
+  a014 := natTypeCHornLabel 1 typeC_one_le_one f
+    (0 : Fin 5) 1 4 typeC_fin5_01 typeC_fin5_14
+  a023 := natTypeCHornLabel 1 typeC_one_le_one f
+    (0 : Fin 5) 2 3 typeC_fin5_02 typeC_fin5_23
+  a024 := natTypeCHornLabel 1 typeC_one_le_one f
+    (0 : Fin 5) 2 4 typeC_fin5_02 typeC_fin5_24
+  a034 := natTypeCHornLabel 1 typeC_one_le_one f
+    (0 : Fin 5) 3 4 typeC_fin5_03 typeC_fin5_34
+  a123 := natTypeCHornLabel 1 typeC_one_le_one f
+    (1 : Fin 5) 2 3 typeC_fin5_12 typeC_fin5_23
+  a124 := natTypeCHornLabel 1 typeC_one_le_one f
+    (1 : Fin 5) 2 4 typeC_fin5_12 typeC_fin5_24
+  a134 := natTypeCHornLabel 1 typeC_one_le_one f
+    (1 : Fin 5) 3 4 typeC_fin5_13 typeC_fin5_34
+  a234 := natTypeCHornLabel 1 typeC_one_le_one f
+    (2 : Fin 5) 3 4 typeC_fin5_23 typeC_fin5_34
 
 /-- Visible face `1` gives equation `0234`. -/
 theorem natTypeCFour_face1_eq0234
-    (f : standardTypeCSource 1 ⟶ natDoubleDeloopingScaledDuskin) :
+    (f : standardTypeCSource.{0} 1 ⟶ natDoubleDeloopingScaledDuskin) :
     (natTypeCFourLabels f).eq0234 := by
   have h := natTypeCHornLabel_tetrahedron_of_hornSimplex
-    1 (by decide) f
-    (0 : Fin 5) 2 3 4 (by decide) (by decide) (by decide)
-    (SSet.horn.face (0 : Fin 5) (1 : Fin 5) (by decide))
-    (natTypeAFour_face1_val (0 : Fin 5) (by decide))
-  simpa [natTypeCFourLabels, NatFourSimplexTriangleLabels.eq0234] using h
+    1 typeC_one_le_one f
+    (0 : Fin 5) 2 3 4 typeC_fin5_02 typeC_fin5_23 typeC_fin5_34
+    (SSet.horn.face (0 : Fin 5) (1 : Fin 5) typeC_fin5_1_ne_0)
+    (natTypeAFour_face1_val (0 : Fin 5) typeC_fin5_1_ne_0)
+  set_option backward.isDefEq.respectTransparency false in
+    simpa [natTypeCFourLabels, NatFourSimplexTriangleLabels.eq0234] using h
 
 /-- Visible face `2` gives equation `0134`. -/
 theorem natTypeCFour_face2_eq0134
-    (f : standardTypeCSource 1 ⟶ natDoubleDeloopingScaledDuskin) :
+    (f : standardTypeCSource.{0} 1 ⟶ natDoubleDeloopingScaledDuskin) :
     (natTypeCFourLabels f).eq0134 := by
   have h := natTypeCHornLabel_tetrahedron_of_hornSimplex
-    1 (by decide) f
-    (0 : Fin 5) 1 3 4 (by decide) (by decide) (by decide)
-    (SSet.horn.face (0 : Fin 5) (2 : Fin 5) (by decide))
-    (natTypeAFour_face2_val (0 : Fin 5) (by decide))
-  simpa [natTypeCFourLabels, NatFourSimplexTriangleLabels.eq0134] using h
+    1 typeC_one_le_one f
+    (0 : Fin 5) 1 3 4 typeC_fin5_01 typeC_fin5_13 typeC_fin5_34
+    (SSet.horn.face (0 : Fin 5) (2 : Fin 5) typeC_fin5_2_ne_0)
+    (natTypeAFour_face2_val (0 : Fin 5) typeC_fin5_2_ne_0)
+  set_option backward.isDefEq.respectTransparency false in
+    simpa [natTypeCFourLabels, NatFourSimplexTriangleLabels.eq0134] using h
 
 /-- Visible face `3` gives equation `0124`. -/
 theorem natTypeCFour_face3_eq0124
-    (f : standardTypeCSource 1 ⟶ natDoubleDeloopingScaledDuskin) :
+    (f : standardTypeCSource.{0} 1 ⟶ natDoubleDeloopingScaledDuskin) :
     (natTypeCFourLabels f).eq0124 := by
   have h := natTypeCHornLabel_tetrahedron_of_hornSimplex
-    1 (by decide) f
-    (0 : Fin 5) 1 2 4 (by decide) (by decide) (by decide)
-    (SSet.horn.face (0 : Fin 5) (3 : Fin 5) (by decide))
-    (natTypeAFour_face3_val (0 : Fin 5) (by decide))
-  simpa [natTypeCFourLabels, NatFourSimplexTriangleLabels.eq0124] using h
+    1 typeC_one_le_one f
+    (0 : Fin 5) 1 2 4 typeC_fin5_01 typeC_fin5_12 typeC_fin5_24
+    (SSet.horn.face (0 : Fin 5) (3 : Fin 5) typeC_fin5_3_ne_0)
+    (natTypeAFour_face3_val (0 : Fin 5) typeC_fin5_3_ne_0)
+  set_option backward.isDefEq.respectTransparency false in
+    simpa [natTypeCFourLabels, NatFourSimplexTriangleLabels.eq0124] using h
 
 /-- Visible face `4` gives equation `0123`. -/
 theorem natTypeCFour_face4_eq0123
-    (f : standardTypeCSource 1 ⟶ natDoubleDeloopingScaledDuskin) :
+    (f : standardTypeCSource.{0} 1 ⟶ natDoubleDeloopingScaledDuskin) :
     (natTypeCFourLabels f).eq0123 := by
   have h := natTypeCHornLabel_tetrahedron_of_hornSimplex
-    1 (by decide) f
-    (0 : Fin 5) 1 2 3 (by decide) (by decide) (by decide)
-    (SSet.horn.face (0 : Fin 5) (4 : Fin 5) (by decide))
-    (natTypeAFour_face4_val (0 : Fin 5) (by decide))
-  simpa [natTypeCFourLabels, NatFourSimplexTriangleLabels.eq0123] using h
+    1 typeC_one_le_one f
+    (0 : Fin 5) 1 2 3 typeC_fin5_01 typeC_fin5_12 typeC_fin5_23
+    (SSet.horn.face (0 : Fin 5) (4 : Fin 5) typeC_fin5_4_ne_0)
+    (natTypeAFour_face4_val (0 : Fin 5) typeC_fin5_4_ne_0)
+  set_option backward.isDefEq.respectTransparency false in
+    simpa [natTypeCFourLabels, NatFourSimplexTriangleLabels.eq0123] using h
 
 /-- All five dimension-four equations, including the missing outer face. -/
 theorem natTypeCFourLabels_all_equations
-    (f : standardTypeCSource 1 ⟶ natDoubleDeloopingScaledDuskin) :
+    (f : standardTypeCSource.{0} 1 ⟶ natDoubleDeloopingScaledDuskin) :
     (natTypeCFourLabels f).eq0123 ∧
       (natTypeCFourLabels f).eq0124 ∧
       (natTypeCFourLabels f).eq0134 ∧
@@ -567,35 +590,34 @@ theorem natTypeCFourLabels_all_equations
 
 /-- The ten visible dimension-four labels form a normalized cocycle. -/
 def natTypeCFourCocycle
-    (f : standardTypeCSource 1 ⟶ natDoubleDeloopingScaledDuskin) :
+    (f : standardTypeCSource.{0} 1 ⟶ natDoubleDeloopingScaledDuskin) :
     NatNormalizedDuskinCocycle 4 where
-  label := natTypeCHornLabel 1 (by decide) f
+  label := natTypeCHornLabel 1 typeC_one_le_one f
   left_normalized := by
     intro a b hab
-    exact natTypeCHornLabel_left_zero 1 (by decide) f a b hab
+    exact natTypeCHornLabel_left_zero 1 typeC_one_le_one f a b hab
   right_normalized := by
     intro a b hab
-    exact natTypeCHornLabel_right_zero 1 (by decide) f a b hab
+    exact natTypeCHornLabel_right_zero 1 typeC_one_le_one f a b hab
   tetrahedron := by
     intro a b c d hab hbc hcd
     rcases natTypeCFourLabels_all_equations f with
       ⟨h0123, h0124, h0134, h0234, h1234⟩
     by_cases habEq : a = b
     · subst b
-      rw [natTypeCHornLabel_left_zero 1 (by decide) f a c hbc,
-          natTypeCHornLabel_left_zero 1 (by decide) f a d
+      rw [natTypeCHornLabel_left_zero 1 typeC_one_le_one f a c hbc,
+          natTypeCHornLabel_left_zero 1 typeC_one_le_one f a d
             (hbc.trans hcd)]
       simp
     · by_cases hbcEq : b = c
       · subst c
-        rw [natTypeCHornLabel_right_zero 1 (by decide) f a b hab,
-            natTypeCHornLabel_left_zero 1 (by decide) f b d hcd]
-        simp
+        rw [natTypeCHornLabel_right_zero 1 typeC_one_le_one f a b hab,
+            natTypeCHornLabel_left_zero 1 typeC_one_le_one f b d hcd]
       · by_cases hcdEq : c = d
         · subst d
-          rw [natTypeCHornLabel_right_zero 1 (by decide) f a c
+          rw [natTypeCHornLabel_right_zero 1 typeC_one_le_one f a c
                 (hab.trans hbc),
-              natTypeCHornLabel_right_zero 1 (by decide) f b c hbc]
+              natTypeCHornLabel_right_zero 1 typeC_one_le_one f b c hbc]
           simp
         · have habVal : a.val < b.val := by
             have hne : a.val ≠ b.val := by
@@ -625,59 +647,79 @@ def natTypeCFourCocycle
             omega
           rcases hcases with h | h | h | h | h
           · rcases h with ⟨ha, hb, hc, hd⟩
-            have ha' : a = (0 : Fin 5) := by apply Fin.ext; omega
-            have hb' : b = (1 : Fin 5) := by apply Fin.ext; omega
-            have hc' : c = (2 : Fin 5) := by apply Fin.ext; omega
-            have hd' : d = (3 : Fin 5) := by apply Fin.ext; omega
-            subst a; subst b; subst c; subst d
-            simpa [natTypeCFourLabels,
-              NatFourSimplexTriangleLabels.eq0123,
-              NatTetrahedronEquation] using h0123
+            have ha' : a = (0 : Fin 5) := by apply Fin.ext; exact ha
+            have hb' : b = (1 : Fin 5) := by apply Fin.ext; exact hb
+            have hc' : c = (2 : Fin 5) := by apply Fin.ext; exact hc
+            have hd' : d = (3 : Fin 5) := by apply Fin.ext; exact hd
+            subst a
+            subst b
+            subst c
+            subst d
+            set_option backward.isDefEq.respectTransparency false in
+              simpa [natTypeCFourLabels,
+                NatFourSimplexTriangleLabels.eq0123,
+                NatTetrahedronEquation] using h0123
           · rcases h with ⟨ha, hb, hc, hd⟩
-            have ha' : a = (0 : Fin 5) := by apply Fin.ext; omega
-            have hb' : b = (1 : Fin 5) := by apply Fin.ext; omega
-            have hc' : c = (2 : Fin 5) := by apply Fin.ext; omega
-            have hd' : d = (4 : Fin 5) := by apply Fin.ext; omega
-            subst a; subst b; subst c; subst d
-            simpa [natTypeCFourLabels,
-              NatFourSimplexTriangleLabels.eq0124,
-              NatTetrahedronEquation] using h0124
+            have ha' : a = (0 : Fin 5) := by apply Fin.ext; exact ha
+            have hb' : b = (1 : Fin 5) := by apply Fin.ext; exact hb
+            have hc' : c = (2 : Fin 5) := by apply Fin.ext; exact hc
+            have hd' : d = (4 : Fin 5) := by apply Fin.ext; exact hd
+            subst a
+            subst b
+            subst c
+            subst d
+            set_option backward.isDefEq.respectTransparency false in
+              simpa [natTypeCFourLabels,
+                NatFourSimplexTriangleLabels.eq0124,
+                NatTetrahedronEquation] using h0124
           · rcases h with ⟨ha, hb, hc, hd⟩
-            have ha' : a = (0 : Fin 5) := by apply Fin.ext; omega
-            have hb' : b = (1 : Fin 5) := by apply Fin.ext; omega
-            have hc' : c = (3 : Fin 5) := by apply Fin.ext; omega
-            have hd' : d = (4 : Fin 5) := by apply Fin.ext; omega
-            subst a; subst b; subst c; subst d
-            simpa [natTypeCFourLabels,
-              NatFourSimplexTriangleLabels.eq0134,
-              NatTetrahedronEquation] using h0134
+            have ha' : a = (0 : Fin 5) := by apply Fin.ext; exact ha
+            have hb' : b = (1 : Fin 5) := by apply Fin.ext; exact hb
+            have hc' : c = (3 : Fin 5) := by apply Fin.ext; exact hc
+            have hd' : d = (4 : Fin 5) := by apply Fin.ext; exact hd
+            subst a
+            subst b
+            subst c
+            subst d
+            set_option backward.isDefEq.respectTransparency false in
+              simpa [natTypeCFourLabels,
+                NatFourSimplexTriangleLabels.eq0134,
+                NatTetrahedronEquation] using h0134
           · rcases h with ⟨ha, hb, hc, hd⟩
-            have ha' : a = (0 : Fin 5) := by apply Fin.ext; omega
-            have hb' : b = (2 : Fin 5) := by apply Fin.ext; omega
-            have hc' : c = (3 : Fin 5) := by apply Fin.ext; omega
-            have hd' : d = (4 : Fin 5) := by apply Fin.ext; omega
-            subst a; subst b; subst c; subst d
-            simpa [natTypeCFourLabels,
-              NatFourSimplexTriangleLabels.eq0234,
-              NatTetrahedronEquation] using h0234
+            have ha' : a = (0 : Fin 5) := by apply Fin.ext; exact ha
+            have hb' : b = (2 : Fin 5) := by apply Fin.ext; exact hb
+            have hc' : c = (3 : Fin 5) := by apply Fin.ext; exact hc
+            have hd' : d = (4 : Fin 5) := by apply Fin.ext; exact hd
+            subst a
+            subst b
+            subst c
+            subst d
+            set_option backward.isDefEq.respectTransparency false in
+              simpa [natTypeCFourLabels,
+                NatFourSimplexTriangleLabels.eq0234,
+                NatTetrahedronEquation] using h0234
           · rcases h with ⟨ha, hb, hc, hd⟩
-            have ha' : a = (1 : Fin 5) := by apply Fin.ext; omega
-            have hb' : b = (2 : Fin 5) := by apply Fin.ext; omega
-            have hc' : c = (3 : Fin 5) := by apply Fin.ext; omega
-            have hd' : d = (4 : Fin 5) := by apply Fin.ext; omega
-            subst a; subst b; subst c; subst d
-            simpa [natTypeCFourLabels,
-              NatFourSimplexTriangleLabels.eq1234,
-              NatTetrahedronEquation] using h1234
+            have ha' : a = (1 : Fin 5) := by apply Fin.ext; exact ha
+            have hb' : b = (2 : Fin 5) := by apply Fin.ext; exact hb
+            have hc' : c = (3 : Fin 5) := by apply Fin.ext; exact hc
+            have hd' : d = (4 : Fin 5) := by apply Fin.ext; exact hd
+            subst a
+            subst b
+            subst c
+            subst d
+            set_option backward.isDefEq.respectTransparency false in
+              simpa [natTypeCFourLabels,
+                NatFourSimplexTriangleLabels.eq1234,
+                NatTetrahedronEquation] using h1234
 
 /-- The dimension-four realized cocycle restricts to the outer horn. -/
 theorem natTypeCFourCocycle_restrict
-    (f : standardTypeCSource 1 ⟶ natDoubleDeloopingScaledDuskin) :
+    (f : standardTypeCSource.{0} 1 ⟶ natDoubleDeloopingScaledDuskin) :
     (Λ[4, (0 : Fin 5)].ι :
-      (Λ[4, (0 : Fin 5)] : SSet) ⟶ (Δ[4] : SSet)) ≫
+      (Λ[4, (0 : Fin 5)] : SSet.{0}) ⟶ (Δ[4] : SSet.{0})) ≫
         (natTypeCFourCocycle f).toSimplexMap = natTypeCHornMap 1 f := by
-  ext Δ x
-  rcases Δ with ⟨⟨q⟩⟩
+  ext d x
+  rcases d with ⟨⟨q⟩⟩
   apply natDuskinSimplex_eq_of_mapComp_eq
   intro a b c p r
   change
@@ -686,26 +728,29 @@ theorem natTypeCFourCocycle_restrict
       ((natTypeCHornMap 1 f).app (op ⦋q⦌) x).mapComp p r
   rw [NatNormalizedDuskinCocycle.toSimplexMap_mapComp]
   exact (natTypeCHornMap_mapComp_eq_label
-    1 (by decide) f x p r).symm
+    1 typeC_one_le_one f x p r).symm
 
 /-- Literal dimension-four type-(C) cocycle completion. -/
 theorem natTypeCFour_cocycle_completion
-    (f : standardTypeCSource 1 ⟶ natDoubleDeloopingScaledDuskin) :
+    (f : standardTypeCSource.{0} 1 ⟶ natDoubleDeloopingScaledDuskin) :
     Nonempty (NatTypeCSourceCocycleCompletion 1 f) := by
   refine ⟨{
     cocycle := natTypeCFourCocycle f
     restrict := natTypeCFourCocycle_restrict f
     distinguished_zero := ?_ }⟩
-  exact natTypeCHornLabel_distinguished_zero 1 (by decide) f
+  exact natTypeCHornLabel_distinguished_zero 1 typeC_one_le_one f
 
 /-! ## Dimensions at least five: every tetrahedron is visible -/
+
+private theorem natTypeC_one_le_of_two_le (m : Nat) (hm : 2 ≤ m) : 1 ≤ m := by
+  omega
 
 /-- Every ordered tetrahedron is an outer-horn simplex for `m ≥ 2`. -/
 def natTypeCHornTetrahedron
     (m : Nat) (hm : 2 ≤ m)
     (a b c d : Fin (m + 4))
     (hab : a ≤ b) (hbc : b ≤ c) (hcd : c ≤ d) :
-    (Λ[m + 3, (0 : Fin (m + 4))] : SSet).obj (op ⦋3⦌) :=
+    (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0}).obj (op ⦋3⦌) :=
   ⟨natOrderedTetrahedron a b c d hab hbc hcd, by
     rw [typeC_outerHorn_all_three_simplices_of_two_le m hm]
     exact Set.mem_univ _⟩
@@ -714,30 +759,35 @@ def natTypeCHornTetrahedron
 law on its four triangle labels. -/
 theorem natTypeCHornLabel_tetrahedron_of_two_le
     (m : Nat) (hm : 2 ≤ m)
-    (f : standardTypeCSource m ⟶ natDoubleDeloopingScaledDuskin)
+    (f : standardTypeCSource.{0} m ⟶ natDoubleDeloopingScaledDuskin)
     (a b c d : Fin (m + 4))
     (hab : a ≤ b) (hbc : b ≤ c) (hcd : c ≤ d) :
-    natTypeCHornLabel m (by omega) f a b c hab hbc +
-        natTypeCHornLabel m (by omega) f a c d (hab.trans hbc) hcd =
-      natTypeCHornLabel m (by omega) f b c d hbc hcd +
-        natTypeCHornLabel m (by omega) f a b d hab (hbc.trans hcd) := by
+    natTypeCHornLabel m (natTypeC_one_le_of_two_le m hm) f a b c hab hbc +
+        natTypeCHornLabel m (natTypeC_one_le_of_two_le m hm) f a c d
+          (hab.trans hbc) hcd =
+      natTypeCHornLabel m (natTypeC_one_le_of_two_le m hm) f b c d hbc hcd +
+        natTypeCHornLabel m (natTypeC_one_le_of_two_le m hm) f a b d
+          hab (hbc.trans hcd) := by
   let x := natTypeCHornTetrahedron m hm a b c d hab hbc hcd
   have h := natTypeCHornLabel_tetrahedron_of_hornSimplex
-    m (by omega) f a b c d hab hbc hcd x rfl
-  simpa [NatTetrahedronEquation] using h
+    m (natTypeC_one_le_of_two_le m hm) f a b c d hab hbc hcd x rfl
+  set_option backward.isDefEq.respectTransparency false in
+    simpa [NatTetrahedronEquation] using h
 
 /-- The visible labels form a normalized cocycle for `m ≥ 2`. -/
 def natTypeCHighCocycle
     (m : Nat) (hm : 2 ≤ m)
-    (f : standardTypeCSource m ⟶ natDoubleDeloopingScaledDuskin) :
+    (f : standardTypeCSource.{0} m ⟶ natDoubleDeloopingScaledDuskin) :
     NatNormalizedDuskinCocycle (m + 3) where
-  label := natTypeCHornLabel m (by omega) f
+  label := natTypeCHornLabel m (natTypeC_one_le_of_two_le m hm) f
   left_normalized := by
     intro a b hab
-    exact natTypeCHornLabel_left_zero m (by omega) f a b hab
+    exact natTypeCHornLabel_left_zero m
+      (natTypeC_one_le_of_two_le m hm) f a b hab
   right_normalized := by
     intro a b hab
-    exact natTypeCHornLabel_right_zero m (by omega) f a b hab
+    exact natTypeCHornLabel_right_zero m
+      (natTypeC_one_le_of_two_le m hm) f a b hab
   tetrahedron := by
     intro a b c d hab hbc hcd
     exact natTypeCHornLabel_tetrahedron_of_two_le
@@ -746,13 +796,13 @@ def natTypeCHighCocycle
 /-- The high-dimensional realized cocycle restricts to the outer horn. -/
 theorem natTypeCHighCocycle_restrict
     (m : Nat) (hm : 2 ≤ m)
-    (f : standardTypeCSource m ⟶ natDoubleDeloopingScaledDuskin) :
+    (f : standardTypeCSource.{0} m ⟶ natDoubleDeloopingScaledDuskin) :
     (Λ[m + 3, (0 : Fin (m + 4))].ι :
-      (Λ[m + 3, (0 : Fin (m + 4))] : SSet) ⟶
-        (Δ[m + 3] : SSet)) ≫
+      (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0}) ⟶
+        (Δ[m + 3] : SSet.{0})) ≫
       (natTypeCHighCocycle m hm f).toSimplexMap = natTypeCHornMap m f := by
-  ext Δ x
-  rcases Δ with ⟨⟨q⟩⟩
+  ext d x
+  rcases d with ⟨⟨q⟩⟩
   apply natDuskinSimplex_eq_of_mapComp_eq
   intro a b c p r
   change
@@ -761,18 +811,19 @@ theorem natTypeCHighCocycle_restrict
       ((natTypeCHornMap m f).app (op ⦋q⦌) x).mapComp p r
   rw [NatNormalizedDuskinCocycle.toSimplexMap_mapComp]
   exact (natTypeCHornMap_mapComp_eq_label
-    m (by omega) f x p r).symm
+    m (natTypeC_one_le_of_two_le m hm) f x p r).symm
 
 /-- Literal high-dimensional type-(C) cocycle completion. -/
 theorem natTypeCHigh_cocycle_completion
     (m : Nat) (hm : 2 ≤ m)
-    (f : standardTypeCSource m ⟶ natDoubleDeloopingScaledDuskin) :
+    (f : standardTypeCSource.{0} m ⟶ natDoubleDeloopingScaledDuskin) :
     Nonempty (NatTypeCSourceCocycleCompletion m f) := by
   refine ⟨{
     cocycle := natTypeCHighCocycle m hm f
     restrict := natTypeCHighCocycle_restrict m hm f
     distinguished_zero := ?_ }⟩
-  exact natTypeCHornLabel_distinguished_zero m (by omega) f
+  exact natTypeCHornLabel_distinguished_zero m
+    (natTypeC_one_le_of_two_le m hm) f
 
 /-! ## Assemble every type-(C) dimension -/
 
@@ -780,7 +831,7 @@ theorem natTypeCHigh_cocycle_completion
 cocycle completion. -/
 theorem natDoubleDelooping_hasAllStandardTypeCSourceCocycleCompletions :
     ∀ (m : Nat)
-      (f : standardTypeCSource m ⟶ natDoubleDeloopingScaledDuskin),
+      (f : standardTypeCSource.{0} m ⟶ natDoubleDeloopingScaledDuskin),
       Nonempty (NatTypeCSourceCocycleCompletion m f) := by
   intro m f
   by_cases hm0 : m = 0
