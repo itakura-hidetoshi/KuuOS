@@ -173,17 +173,17 @@ theorem natTypeCThreeLabel013_eq_zero
     duskinComparison
       ((natTypeCHornMap 0 f).app (op ⦋2⦌)
         (SSet.horn.face (0 : Fin 4) (2 : Fin 4) (by decide))) = (0 : Nat) := by
-  apply
-    (natDuskin_thin_iff_comparison_eq_zero
-      ((natTypeCHornMap 0 f).app (op ⦋2⦌)
-        (SSet.horn.face (0 : Fin 4) (2 : Fin 4) (by decide)))).1
   have hthin := f.scaled
     (standardTypeCSourceDistinguishedTriangle.{0} 0)
     (standardTypeCSource_distinguished_thin.{0} 0)
+  have hzero :=
+    (natDuskin_thin_iff_comparison_eq_zero
+      (f.map.app (op ⦋2⦌)
+        (standardTypeCSourceDistinguishedTriangle.{0} 0))).1 hthin
   set_option backward.isDefEq.respectTransparency false in
-    simpa [natDoubleDeloopingScaledDuskin, natTypeCHornMap,
-      natTypeCSourceHornInl, standardTypeCSourceDistinguishedTriangle,
-      typeCThree_face2_eq_distinguished] using hthin
+    simpa [natTypeCHornMap, natTypeCSourceHornInl,
+      standardTypeCSourceDistinguishedTriangle,
+      typeCThree_face2_eq_distinguished] using hzero
 
 /-- The dimension-three outer-horn completion. -/
 def natTypeCThreeCompletionCocycle
@@ -368,19 +368,17 @@ theorem natTypeCHornLabel_distinguished_zero
     natTypeCHornLabel m hm f
       (0 : Fin (m + 4)) 1 (Fin.last (m + 3))
       (natTypeC_zero_le_one m) (natTypeC_one_le_last m) = 0 := by
-  apply
-    (natDuskin_thin_iff_comparison_eq_zero
-      ((natTypeCHornMap m f).app (op ⦋2⦌)
-        (natTypeCHornTriangle m hm
-          (0 : Fin (m + 4)) 1 (Fin.last (m + 3))
-          (natTypeC_zero_le_one m) (natTypeC_one_le_last m)))).1
   have hthin := f.scaled
     (standardTypeCSourceDistinguishedTriangle.{0} m)
     (standardTypeCSource_distinguished_thin.{0} m)
+  have hzero :=
+    (natDuskin_thin_iff_comparison_eq_zero
+      (f.map.app (op ⦋2⦌)
+        (standardTypeCSourceDistinguishedTriangle.{0} m))).1 hthin
   set_option backward.isDefEq.respectTransparency false in
-    simpa [natDoubleDeloopingScaledDuskin, natTypeCHornMap,
-      natTypeCSourceHornInl, standardTypeCSourceDistinguishedTriangle,
-      natTypeCHornTriangle_distinguished] using hthin
+    simpa [natTypeCHornLabel, natTypeCHornMap, natTypeCSourceHornInl,
+      standardTypeCSourceDistinguishedTriangle,
+      natTypeCHornTriangle_distinguished] using hzero
 
 /-! ## Simplicial naturality for visible outer-horn labels -/
 
