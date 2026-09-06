@@ -80,20 +80,9 @@ theorem natTypeAHornLabel_tetrahedron_of_hornSimplex
     natTypeAHornMap_mapComp_eq_label g hn f x e01 (e12 ≫ e23)
   dsimp [natDuskinMapCompLabel, sigma] at hcoc
   rw [h012, h023, h123, h013] at hcoc
-  have hx0 : x.val (0 : Fin 4) = a := by
-    rw [hx]
-    rfl
-  have hx1 : x.val (1 : Fin 4) = b := by
-    rw [hx]
-    rfl
-  have hx2 : x.val (2 : Fin 4) = c := by
-    rw [hx]
-    rfl
-  have hx3 : x.val (3 : Fin 4) = d := by
-    rw [hx]
-    rfl
-  rw [hx0, hx1, hx2, hx3] at hcoc
-  simpa [NatTetrahedronEquation, e01, e12, e23] using hcoc
+  set_option backward.isDefEq.respectTransparency false in
+    simpa [NatTetrahedronEquation, hx, natOrderedTetrahedron,
+      e01, e12, e23] using hcoc
 
 /-! ## The five codimension-one tetrahedra of `Delta[4]` -/
 
@@ -226,7 +215,8 @@ theorem natTypeAFour_face0_eq1234
     (1 : Fin 5) 2 3 4 fin5_12 fin5_23 fin5_34
     (SSet.horn.face i (0 : Fin 5) hi)
     (natTypeAFour_face0_val i hi)
-  simpa [natTypeAFourLabels, NatFourSimplexTriangleLabels.eq1234] using h
+  set_option backward.isDefEq.respectTransparency false in
+    simpa [natTypeAFourLabels, NatFourSimplexTriangleLabels.eq1234] using h
 
 /-- Visible face `1` gives equation `0234`. -/
 theorem natTypeAFour_face1_eq0234
@@ -240,7 +230,8 @@ theorem natTypeAFour_face1_eq0234
     (0 : Fin 5) 2 3 4 fin5_02 fin5_23 fin5_34
     (SSet.horn.face i (1 : Fin 5) hi)
     (natTypeAFour_face1_val i hi)
-  simpa [natTypeAFourLabels, NatFourSimplexTriangleLabels.eq0234] using h
+  set_option backward.isDefEq.respectTransparency false in
+    simpa [natTypeAFourLabels, NatFourSimplexTriangleLabels.eq0234] using h
 
 /-- Visible face `2` gives equation `0134`. -/
 theorem natTypeAFour_face2_eq0134
@@ -254,7 +245,8 @@ theorem natTypeAFour_face2_eq0134
     (0 : Fin 5) 1 3 4 fin5_01 fin5_13 fin5_34
     (SSet.horn.face i (2 : Fin 5) hi)
     (natTypeAFour_face2_val i hi)
-  simpa [natTypeAFourLabels, NatFourSimplexTriangleLabels.eq0134] using h
+  set_option backward.isDefEq.respectTransparency false in
+    simpa [natTypeAFourLabels, NatFourSimplexTriangleLabels.eq0134] using h
 
 /-- Visible face `3` gives equation `0124`. -/
 theorem natTypeAFour_face3_eq0124
@@ -268,7 +260,8 @@ theorem natTypeAFour_face3_eq0124
     (0 : Fin 5) 1 2 4 fin5_01 fin5_12 fin5_24
     (SSet.horn.face i (3 : Fin 5) hi)
     (natTypeAFour_face3_val i hi)
-  simpa [natTypeAFourLabels, NatFourSimplexTriangleLabels.eq0124] using h
+  set_option backward.isDefEq.respectTransparency false in
+    simpa [natTypeAFourLabels, NatFourSimplexTriangleLabels.eq0124] using h
 
 /-- Visible face `4` gives equation `0123`. -/
 theorem natTypeAFour_face4_eq0123
@@ -282,7 +275,8 @@ theorem natTypeAFour_face4_eq0123
     (0 : Fin 5) 1 2 3 fin5_01 fin5_12 fin5_23
     (SSet.horn.face i (4 : Fin 5) hi)
     (natTypeAFour_face4_val i hi)
-  simpa [natTypeAFourLabels, NatFourSimplexTriangleLabels.eq0123] using h
+  set_option backward.isDefEq.respectTransparency false in
+    simpa [natTypeAFourLabels, NatFourSimplexTriangleLabels.eq0123] using h
 
 /-- For every inner dimension-four index, the four visible face equations plus
 the v1.99 dependency give all five tetrahedral equations. -/
@@ -416,9 +410,10 @@ def natTypeAFourCocycle
             subst b
             subst c
             subst d
-            simpa [natTypeAFourLabels,
-              NatFourSimplexTriangleLabels.eq0123,
-              NatTetrahedronEquation] using h0123
+            set_option backward.isDefEq.respectTransparency false in
+              simpa [natTypeAFourLabels,
+                NatFourSimplexTriangleLabels.eq0123,
+                NatTetrahedronEquation] using h0123
           · rcases h with ⟨ha, hb, hc, hd⟩
             have ha' : a = (0 : Fin 5) := by apply Fin.ext; exact ha
             have hb' : b = (1 : Fin 5) := by apply Fin.ext; exact hb
@@ -428,9 +423,10 @@ def natTypeAFourCocycle
             subst b
             subst c
             subst d
-            simpa [natTypeAFourLabels,
-              NatFourSimplexTriangleLabels.eq0124,
-              NatTetrahedronEquation] using h0124
+            set_option backward.isDefEq.respectTransparency false in
+              simpa [natTypeAFourLabels,
+                NatFourSimplexTriangleLabels.eq0124,
+                NatTetrahedronEquation] using h0124
           · rcases h with ⟨ha, hb, hc, hd⟩
             have ha' : a = (0 : Fin 5) := by apply Fin.ext; exact ha
             have hb' : b = (1 : Fin 5) := by apply Fin.ext; exact hb
@@ -440,9 +436,10 @@ def natTypeAFourCocycle
             subst b
             subst c
             subst d
-            simpa [natTypeAFourLabels,
-              NatFourSimplexTriangleLabels.eq0134,
-              NatTetrahedronEquation] using h0134
+            set_option backward.isDefEq.respectTransparency false in
+              simpa [natTypeAFourLabels,
+                NatFourSimplexTriangleLabels.eq0134,
+                NatTetrahedronEquation] using h0134
           · rcases h with ⟨ha, hb, hc, hd⟩
             have ha' : a = (0 : Fin 5) := by apply Fin.ext; exact ha
             have hb' : b = (2 : Fin 5) := by apply Fin.ext; exact hb
@@ -452,9 +449,10 @@ def natTypeAFourCocycle
             subst b
             subst c
             subst d
-            simpa [natTypeAFourLabels,
-              NatFourSimplexTriangleLabels.eq0234,
-              NatTetrahedronEquation] using h0234
+            set_option backward.isDefEq.respectTransparency false in
+              simpa [natTypeAFourLabels,
+                NatFourSimplexTriangleLabels.eq0234,
+                NatTetrahedronEquation] using h0234
           · rcases h with ⟨ha, hb, hc, hd⟩
             have ha' : a = (1 : Fin 5) := by apply Fin.ext; exact ha
             have hb' : b = (2 : Fin 5) := by apply Fin.ext; exact hb
@@ -464,9 +462,10 @@ def natTypeAFourCocycle
             subst b
             subst c
             subst d
-            simpa [natTypeAFourLabels,
-              NatFourSimplexTriangleLabels.eq1234,
-              NatTetrahedronEquation] using h1234
+            set_option backward.isDefEq.respectTransparency false in
+              simpa [natTypeAFourLabels,
+                NatFourSimplexTriangleLabels.eq1234,
+                NatTetrahedronEquation] using h1234
 
 /-- The dimension-four realized cocycle restricts literally to the original
 horn map. -/
