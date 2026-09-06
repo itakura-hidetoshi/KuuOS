@@ -23,27 +23,9 @@ open KUOS.DependentOriginationDoubleDeloopingTypeACocycleLiftingV1_101
 # Literal low-dimensional type-(A) fillers for `B²ℕ` v1.102
 
 Version v1.101 reduced the complete type-(A) terminal RLP to normalized
-`Nat`-valued cocycle completion.  This file closes the genuinely low-dimensional
-part of that problem.
-
-First we prove an extensionality theorem specific to the additive double
-delooping: a Duskin simplex is determined by all of its composition-comparison
-labels.  Objects and 1-cells are unique and all mapped source 2-cells and unit
-constraints are zero, so `mapComp` is the only nontrivial datum.
-
-We then construct the three low-dimensional inner-horn fillers:
-
-* `n = 2, i = 1`: the zero cocycle gives the required thin replacement;
-* `n = 3, i = 1`: read `013` and `123`, force `012 = 0`, and set
-  `023 = 123 + 013`;
-* `n = 3, i = 2`: read `012` and `023`, force `123 = 0`, and set
-  `013 = 012 + 023`.
-
-The restrictions are proved literally, face by face, using Mathlib's
-`SSet.horn.hom_ext` and the comparison extensionality theorem.  Thus after this
-file the type-(A) frontier contains no dimension-two or dimension-three
-obligation; only the dimension-four four-implies-five step and the
-high-dimensional visibility step remain.
+`Nat`-valued cocycle completion. This unit closes the genuinely
+low-dimensional part of that problem while keeping the comparison API
+literal at the concrete additive double delooping.
 -/
 
 /-! ## Comparison extensionality in the additive double delooping -/
@@ -53,11 +35,13 @@ theorem natDuskin_mapId_eq_zero
     {n : Nat}
     (sigma : DuskinSimplex NatDoubleDelooping n)
     (a : DuskinOrdinal n) :
-    sigma.mapId a = 0 := by
+    sigma.mapId a = (0 : Nat) := by
+  letI : IsIso (sigma.mapId a) :=
+    StrictlyUnitaryLaxFunctor.mapId_isIso sigma a
   exact NatDoubleDelooping.isIso_twoCell_eq_zero _
 
 /-- In `B²ℕ`, all non-proof data of a Duskin simplex other than `mapComp` are
-forced.  Hence equality of all composition comparisons implies equality of the
+forced. Hence equality of all composition comparisons implies equality of the
 whole normal-lax simplex. -/
 theorem natDuskinSimplex_eq_of_mapComp_eq
     {n : Nat}
@@ -67,17 +51,28 @@ theorem natDuskinSimplex_eq_of_mapComp_eq
         (f : a ⟶ b) (g : b ⟶ c),
         sigma.mapComp f g = tau.mapComp f g) :
     sigma = tau := by
-  attribute [local ext] StrictlyUnitaryLaxFunctor
-  ext
-  · exact Subsingleton.elim _ _
-  all_goals
+  apply StrictlyUnitaryLaxFunctor.ext
+  case obj =>
+    funext a
+    exact Subsingleton.elim _ _
+  case map =>
     rw [heq_iff_eq]
-    ext
-    first
-    | exact Subsingleton.elim _ _
-    | exact hcomp _ _
-    | rw [natDuskin_map₂_eq_zero sigma, natDuskin_map₂_eq_zero tau]
-    | rw [natDuskin_mapId_eq_zero sigma, natDuskin_mapId_eq_zero tau]
+    funext a b f
+    exact Subsingleton.elim _ _
+  case map₂ =>
+    rw [heq_iff_eq]
+    funext a b f g eta
+    rw [natDuskin_map₂_eq_zero sigma eta,
+      natDuskin_map₂_eq_zero tau eta]
+  case mapId =>
+    rw [heq_iff_eq]
+    funext a
+    rw [natDuskin_mapId_eq_zero sigma,
+      natDuskin_mapId_eq_zero tau]
+  case mapComp =>
+    rw [heq_iff_eq]
+    funext a b c f g
+    exact hcomp f g
 
 /-- There is only one Duskin 1-simplex in the additive double delooping. -/
 theorem natDuskinOneSimplex_eq
@@ -99,13 +94,17 @@ theorem natDuskinTwoSimplex_eq_of_comparison_eq
   by_cases habEq : a.as = b.as
   · have habObj : a = b := LocallyDiscrete.ext habEq
     subst b
-    have hf : f = 𝟙 a := Subsingleton.elim _ _
+    have hf : f = 𝟙 a := by
+      apply Discrete.ext
+      apply Subsingleton.elim
     rw [hf, natDuskin_mapComp_id_left_eq_zero sigma,
       natDuskin_mapComp_id_left_eq_zero tau]
   · by_cases hbcEq : b.as = c.as
     · have hbcObj : b = c := LocallyDiscrete.ext hbcEq
       subst c
-      have hg : g = 𝟙 b := Subsingleton.elim _ _
+      have hg : g = 𝟙 b := by
+        apply Discrete.ext
+        apply Subsingleton.elim
       rw [hg, natDuskin_mapComp_id_right_eq_zero sigma,
         natDuskin_mapComp_id_right_eq_zero tau]
     · have hab : a.as ≤ b.as := f.as.le
@@ -119,12 +118,15 @@ theorem natDuskinTwoSimplex_eq_of_comparison_eq
         lt_of_le_of_ne hbc (fun h => hbcEq (Fin.ext h))
       have ha0 : a.as = (0 : Fin 3) := by
         apply Fin.ext
+        change a.as.val = 0
         omega
       have hb1 : b.as = (1 : Fin 3) := by
         apply Fin.ext
+        change b.as.val = 1
         omega
       have hc2 : c.as = (2 : Fin 3) := by
         apply Fin.ext
+        change c.as.val = 2
         omega
       have haObj : a = LocallyDiscrete.mk (0 : Fin 3) :=
         LocallyDiscrete.ext ha0
@@ -135,9 +137,15 @@ theorem natDuskinTwoSimplex_eq_of_comparison_eq
       subst a
       subst b
       subst c
-      have hf : f = edge01 := Subsingleton.elim _ _
-      have hg : g = edge12 := Subsingleton.elim _ _
-      simpa [duskinComparison, hf, hg] using hcomparison
+      have hf : f = edge01 := by
+        apply Discrete.ext
+        apply Subsingleton.elim
+      have hg : g = edge12 := by
+        apply Discrete.ext
+        apply Subsingleton.elim
+      subst f
+      subst g
+      exact hcomparison
 
 /-! ## The degree-two filler -/
 
@@ -149,7 +157,7 @@ def natTypeATwoIndex : StandardTypeAHornGeneratorIndex where
   inner_right := by decide
 
 /-- Every degree-two type-(A) horn map into `B²ℕ` has the zero-cocycle
-completion.  Its restriction agrees with the prescribed horn because the
+completion. Its restriction agrees with the prescribed horn because the
 target has a unique 1-simplex. -/
 theorem natTypeATwo_zero_cocycle_completion
     (f : standardTypeAScaledHorn natTypeATwoIndex ⟶
@@ -203,7 +211,8 @@ def natThreeCocycleOfLabels
   tetrahedron := by
     intro a b c d hab hbc hcd
     fin_cases a <;> fin_cases b <;> fin_cases c <;> fin_cases d <;>
-      simp_all [NatTetrahedronEquation] <;> omega
+      simp_all [NatTetrahedronEquation]
+    all_goals omega
 
 @[simp]
 theorem natThreeCocycleOfLabels_label012
@@ -242,8 +251,9 @@ condition at inner index `1`. -/
 theorem natThreeCocycle_typeA_i1_zero
     (a013 a023 a123 : Nat)
     (hcoh : NatTetrahedronEquation 0 a013 a023 a123) :
-    (natThreeCocycleOfLabels 0 a013 a023 a123 hcoh).
-      TypeADistinguishedZero (1 : Fin 4) := by
+    NatNormalizedDuskinCocycle.TypeADistinguishedZero
+      (natThreeCocycleOfLabels 0 a013 a023 a123 hcoh)
+      (1 : Fin 4) := by
   intro a b c hab hbc hbi ha hc
   have hb : b.val = 1 := by simpa using congrArg Fin.val hbi
   have ha0 : a.val = 0 := by omega
@@ -255,8 +265,9 @@ condition at inner index `2`. -/
 theorem natThreeCocycle_typeA_i2_zero
     (a012 a013 a023 : Nat)
     (hcoh : NatTetrahedronEquation a012 a013 a023 0) :
-    (natThreeCocycleOfLabels a012 a013 a023 0 hcoh).
-      TypeADistinguishedZero (2 : Fin 4) := by
+    NatNormalizedDuskinCocycle.TypeADistinguishedZero
+      (natThreeCocycleOfLabels a012 a013 a023 0 hcoh)
+      (2 : Fin 4) := by
   intro a b c hab hbc hbi ha hc
   have hb : b.val = 2 := by simpa using congrArg Fin.val hbi
   have ha1 : a.val = 1 := by omega
@@ -355,19 +366,30 @@ comparison. -/
 theorem natTypeAThreeI1Label012_eq_zero
     (f : standardTypeAScaledHorn natTypeAThreeIndex1 ⟶
       natDoubleDeloopingScaledDuskin) :
-    duskinComparison
+    (duskinComparison
       (f.map.app (op ⦋2⦌)
-        (SSet.horn.face (1 : Fin 4) (3 : Fin 4) (by decide))) = 0 := by
-  apply
+        (SSet.horn.face (1 : Fin 4) (3 : Fin 4) (by decide))) : Nat) = 0 := by
+  have hthin :
+      (duskinScaling NatDoubleDelooping).thin
+        (f.map.app (op ⦋2⦌)
+          (SSet.horn.face (1 : Fin 4) (3 : Fin 4) (by decide))) := by
+    apply f.scaled
+    change
+      (standardTypeASimplexScaling (1 : Fin 4)).thin
+        (SSet.horn.face (1 : Fin 4) (3 : Fin 4) (by decide)).val
+    rw [typeAThree_i1_face3_val]
+    refine Or.inr ?_
+    refine ⟨?_, ?_, ?_⟩
+    · change (1 : Fin 4) = 1
+      rfl
+    · change (0 : Nat) + 1 = 1
+      rfl
+    · change (1 : Nat) + 1 = 2
+      rfl
+  exact
     (natDuskin_thin_iff_comparison_eq_zero
       (f.map.app (op ⦋2⦌)
-        (SSet.horn.face (1 : Fin 4) (3 : Fin 4) (by decide)))).1
-  apply f.scaled
-  change
-    (standardTypeASimplexScaling (1 : Fin 4)).thin
-      (SSet.horn.face (1 : Fin 4) (3 : Fin 4) (by decide)).val
-  rw [typeAThree_i1_face3_val]
-  exact Or.inr (by simp [IsStandardTypeADistinguishedTriangle])
+        (SSet.horn.face (1 : Fin 4) (3 : Fin 4) (by decide)))).1 hthin
 
 /-- The additive completion cocycle for `Λ[3,1]`. -/
 def natTypeAThreeI1CompletionCocycle
@@ -486,19 +508,30 @@ comparison. -/
 theorem natTypeAThreeI2Label123_eq_zero
     (f : standardTypeAScaledHorn natTypeAThreeIndex2 ⟶
       natDoubleDeloopingScaledDuskin) :
-    duskinComparison
+    (duskinComparison
       (f.map.app (op ⦋2⦌)
-        (SSet.horn.face (2 : Fin 4) (0 : Fin 4) (by decide))) = 0 := by
-  apply
+        (SSet.horn.face (2 : Fin 4) (0 : Fin 4) (by decide))) : Nat) = 0 := by
+  have hthin :
+      (duskinScaling NatDoubleDelooping).thin
+        (f.map.app (op ⦋2⦌)
+          (SSet.horn.face (2 : Fin 4) (0 : Fin 4) (by decide))) := by
+    apply f.scaled
+    change
+      (standardTypeASimplexScaling (2 : Fin 4)).thin
+        (SSet.horn.face (2 : Fin 4) (0 : Fin 4) (by decide)).val
+    rw [typeAThree_i2_face0_val]
+    refine Or.inr ?_
+    refine ⟨?_, ?_, ?_⟩
+    · change (2 : Fin 4) = 2
+      rfl
+    · change (1 : Nat) + 1 = 2
+      rfl
+    · change (2 : Nat) + 1 = 3
+      rfl
+  exact
     (natDuskin_thin_iff_comparison_eq_zero
       (f.map.app (op ⦋2⦌)
-        (SSet.horn.face (2 : Fin 4) (0 : Fin 4) (by decide)))).1
-  apply f.scaled
-  change
-    (standardTypeASimplexScaling (2 : Fin 4)).thin
-      (SSet.horn.face (2 : Fin 4) (0 : Fin 4) (by decide)).val
-  rw [typeAThree_i2_face0_val]
-  exact Or.inr (by simp [IsStandardTypeADistinguishedTriangle])
+        (SSet.horn.face (2 : Fin 4) (0 : Fin 4) (by decide)))).1 hthin
 
 /-- The additive completion cocycle for `Λ[3,2]`. -/
 def natTypeAThreeI2CompletionCocycle
@@ -596,10 +629,8 @@ n = 3, i = 1 : 023 := 123 + 013, with 012 = 0;
 n = 3, i = 2 : 013 := 012 + 023, with 123 = 0.
 ```
 
-Every displayed formula is realized as a genuine scaled simplicial lift, not
-merely as arithmetic.  The remaining type-(A) completion theorem is therefore
-entirely the `n = 4` missing tetrahedron equation plus the `n ≥ 5` visibility
-case established arithmetically in v1.99.
+The remaining type-(A) completion theorem is the `n = 4` missing tetrahedron
+equation plus the `n ≥ 5` visibility case established arithmetically in v1.99.
 -/
 
 end KUOS.DependentOriginationDoubleDeloopingTypeALowDimensionalFillersV1_102
