@@ -102,10 +102,14 @@ theorem natDuskin_mapComp_id_left_eq_zero
     natDuskin_map₂_eq_zero sigma _
   have hleftUnitor : (λ_ (sigma.map g)).inv = (0 : Nat) :=
     NatDoubleDelooping.isIso_twoCell_eq_zero _
+  letI : IsIso (sigma.mapId a) :=
+    StrictlyUnitaryLaxFunctor.mapId_isIso sigma a
   have hmapId : sigma.mapId a = (0 : Nat) :=
     NatDoubleDelooping.isIso_twoCell_eq_zero _
   rw [hmap₂, hleftUnitor, hmapId] at h
-  simpa using h.symm
+  set_option backward.isDefEq.respectTransparency false in
+    change (0 : Nat) = 0 + (0 + sigma.mapComp (𝟙 a) g) at h
+  omega
 
 /-- The comparison with an identity on the right is zero. -/
 theorem natDuskin_mapComp_id_right_eq_zero
@@ -118,10 +122,14 @@ theorem natDuskin_mapComp_id_right_eq_zero
     natDuskin_map₂_eq_zero sigma _
   have hrightUnitor : (ρ_ (sigma.map f)).inv = (0 : Nat) :=
     NatDoubleDelooping.isIso_twoCell_eq_zero _
+  letI : IsIso (sigma.mapId b) :=
+    StrictlyUnitaryLaxFunctor.mapId_isIso sigma b
   have hmapId : sigma.mapId b = (0 : Nat) :=
     NatDoubleDelooping.isIso_twoCell_eq_zero _
   rw [hmap₂, hrightUnitor, hmapId] at h
-  simpa using h.symm
+  set_option backward.isDefEq.respectTransparency false in
+    change (0 : Nat) = 0 + (0 + sigma.mapComp f (𝟙 b)) at h
+  omega
 
 /-! ## Every comparison in degree one is zero -/
 
