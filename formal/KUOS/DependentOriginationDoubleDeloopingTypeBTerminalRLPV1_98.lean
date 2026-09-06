@@ -135,7 +135,8 @@ theorem natFour_triangle_face_comparison
               edge01 edge12)) = _
   rw [natDuskin_map₂_eq_zero]
   change _ + 0 = _
-  simp only [Nat.add_zero]
+  rw [Nat.add_zero]
+  congr 1 <;> exact Subsingleton.elim _ _
 
 /-- Re-express a simplicial map out of `Delta[4]` as its Yoneda four-simplex. -/
 theorem natFour_map_eq_yoneda
@@ -156,10 +157,24 @@ theorem natFour_map_triangle_comparison
           (SSet.stdSimplex.triangle a b c hab hbc)) =
       (SSet.yonedaEquiv F).mapComp
         (natFourEdge hab) (natFourEdge hbc) := by
-  rw [natFour_map_eq_yoneda F]
-  simp only [SSet.yonedaEquiv_symm_app, Equiv.apply_symm_apply]
-  exact natFour_triangle_face_comparison
-    (SSet.yonedaEquiv F) a b c hab hbc
+  calc
+    duskinComparison
+        (F.app (op ⦋2⦌)
+          (SSet.stdSimplex.triangle a b c hab hbc)) =
+      duskinComparison
+        ((SSet.yonedaEquiv.symm (SSet.yonedaEquiv F)).app (op ⦋2⦌)
+          (SSet.stdSimplex.triangle a b c hab hbc)) := by
+      exact congrArg
+        (fun G =>
+          duskinComparison
+            (G.app (op ⦋2⦌)
+              (SSet.stdSimplex.triangle a b c hab hbc)))
+        (natFour_map_eq_yoneda F)
+    _ = (SSet.yonedaEquiv F).mapComp
+        (natFourEdge hab) (natFourEdge hbc) := by
+      simpa only [SSet.yonedaEquiv_symm_app] using
+        natFour_triangle_face_comparison
+          (SSet.yonedaEquiv F) a b c hab hbc
 
 @[simp]
 theorem natFour_map_triangle012_comparison
