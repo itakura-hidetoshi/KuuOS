@@ -263,22 +263,25 @@ any horn.  Therefore all additive comparison labels are prescribed by a horn
 map; no new triangle label must be invented. -/
 theorem horn_all_two_simplices_of_four_le
     {n : Nat} (i : Fin (n + 1)) (hn : 4 ≤ n) :
-    (Λ[n, i] : SSet).obj (op ⦋2⦌) = Set.univ := by
-  exact SSet.horn_obj_eq_univ i 2 (by omega)
+    (SSet.horn.{0} n i).obj (op ⦋2⦌) =
+      (Set.univ : Set ((Δ[n] : SSet).obj (op ⦋2⦌))) := by
+  exact SSet.horn_obj_eq_univ.{0} i 2 (by omega)
 
 /-- From dimension five onward every 3-simplex of `Delta[n]` already lies in
 any horn.  Hence all tetrahedral cocycle equations are already part of the
 horn map itself. -/
 theorem horn_all_three_simplices_of_five_le
     {n : Nat} (i : Fin (n + 1)) (hn : 5 ≤ n) :
-    (Λ[n, i] : SSet).obj (op ⦋3⦌) = Set.univ := by
-  exact SSet.horn_obj_eq_univ i 3 (by omega)
+    (SSet.horn.{0} n i).obj (op ⦋3⦌) =
+      (Set.univ : Set ((Δ[n] : SSet).obj (op ⦋3⦌))) := by
+  exact SSet.horn_obj_eq_univ.{0} i 3 (by omega)
 
 /-- Type-(C) has dimension `m + 3`.  For every positive `m`, all triangles are
 already visible in its outer horn. -/
 theorem typeC_outerHorn_all_two_simplices_of_one_le
     (m : Nat) (hm : 1 ≤ m) :
-    (Λ[m + 3, (0 : Fin (m + 4))] : SSet).obj (op ⦋2⦌) = Set.univ := by
+    (SSet.horn.{0} (m + 3) (0 : Fin (m + 4))).obj (op ⦋2⦌) =
+      (Set.univ : Set ((Δ[m + 3] : SSet).obj (op ⦋2⦌))) := by
   exact horn_all_two_simplices_of_four_le
     (n := m + 3) (0 : Fin (m + 4)) (by omega)
 
@@ -286,7 +289,8 @@ theorem typeC_outerHorn_all_two_simplices_of_one_le
 already visible in the outer horn as well. -/
 theorem typeC_outerHorn_all_three_simplices_of_two_le
     (m : Nat) (hm : 2 ≤ m) :
-    (Λ[m + 3, (0 : Fin (m + 4))] : SSet).obj (op ⦋3⦌) = Set.univ := by
+    (SSet.horn.{0} (m + 3) (0 : Fin (m + 4))).obj (op ⦋3⦌) =
+      (Set.univ : Set ((Δ[m + 3] : SSet).obj (op ⦋3⦌))) := by
   exact horn_all_three_simplices_of_five_le
     (n := m + 3) (0 : Fin (m + 4)) (by omega)
 
