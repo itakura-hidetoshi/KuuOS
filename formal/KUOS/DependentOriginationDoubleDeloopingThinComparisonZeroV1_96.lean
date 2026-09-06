@@ -109,7 +109,8 @@ theorem natDuskin_mapComp_id_left_eq_zero
   rw [hmap₂, hleftUnitor, hmapId] at h
   set_option backward.isDefEq.respectTransparency false in
     change (0 : Nat) = 0 + (0 + sigma.mapComp (𝟙 a) g) at h
-  omega
+  rw [Nat.zero_add, Nat.zero_add] at h
+  exact h.symm
 
 /-- The comparison with an identity on the right is zero. -/
 theorem natDuskin_mapComp_id_right_eq_zero
@@ -129,7 +130,8 @@ theorem natDuskin_mapComp_id_right_eq_zero
   rw [hmap₂, hrightUnitor, hmapId] at h
   set_option backward.isDefEq.respectTransparency false in
     change (0 : Nat) = 0 + (0 + sigma.mapComp f (𝟙 b)) at h
-  omega
+  rw [Nat.zero_add, Nat.zero_add] at h
+  exact h.symm
 
 /-! ## Every comparison in degree one is zero -/
 
