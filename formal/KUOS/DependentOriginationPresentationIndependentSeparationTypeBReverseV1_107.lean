@@ -91,7 +91,7 @@ structure AtomicNatOrthogonalitySeparator : Prop where
     (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{0}))
       atomicTwoSimplexEnrichment.{0}
   standardRight :
-    (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{0})).rlp
+    (standardScaledAnodyneGeneratorsABC : MorphismProperty (ScaledSSet.{0})).rlp
       (ScaledSSet.toPoint.{0} natDoubleDeloopingScaledDuskin)
   notOrthogonal :
     ¬ HasLiftingProperty
@@ -101,7 +101,7 @@ structure AtomicNatOrthogonalitySeparator : Prop where
 /-- The concrete separator exists unconditionally after v1.106. -/
 def atomicNatOrthogonalitySeparator : AtomicNatOrthogonalitySeparator where
   canonicalLeft := atomicTwoSimplexEnrichment_mem_canonicalGenerated.{0}
-  standardRight := natDoubleDelooping_standardGeneratedABC_rlp
+  standardRight := natDoubleDelooping_standardABC_generators_rlp
   notOrthogonal :=
     atomicTwoSimplexEnrichment_not_hasLiftingProperty_natDoubleDeloopingTerminal
 
@@ -228,9 +228,12 @@ unconditionally. -/
 theorem standardTypeBGenerator_mem_canonicalGenerated :
     (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
       standardTypeBGeneratorHom := by
-  simpa [standardTypeBGeneratorHom] using
-    (simplexScalingEnrichment_mem_canonicalGenerated.{u}
-      standardTypeBSourceScaling_le_target)
+  change
+    (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
+      (scalingEnrichmentHom standardTypeBSourceScaling_le_target)
+  exact
+    simplexScalingEnrichment_mem_canonicalGenerated.{u}
+      standardTypeBSourceScaling_le_target
 
 /-- Hence the complete singleton type-(B) generator family lies in the
 canonical generated left class. -/
