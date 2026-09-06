@@ -164,9 +164,9 @@ theorem natTypeAHornMap_mapComp_eq_label
         (x.val a.as) (x.val b.as) (x.val c.as)
         ((SSet.stdSimplex.monotone_apply x.val) p.as.le)
         ((SSet.stdSimplex.monotone_apply x.val) q.as.le) := by
-  let t : (Δ[m] : SSet).obj (op ⦋2⦌) :=
-    SSet.stdSimplex.triangle a.as b.as c.as p.as.le q.as.le
-  let alpha : ⦋2⦌ ⟶ ⦋m⦌ := SSet.stdSimplex.objEquiv t
+  let alpha : ⦋2⦌ ⟶ ⦋m⦌ :=
+    NatNormalizedDuskinCocycle.natSimplexTriangleFace
+      a.as b.as c.as p.as.le q.as.le
   have hsource :
       (Λ[g.n, g.i] : SSet).map alpha.op x =
         natTypeAHornTriangle g hn
@@ -191,7 +191,7 @@ theorem natTypeAHornMap_mapComp_eq_label
         ((duskinNerve NatDoubleDelooping).map alpha.op
           (f.map.app (op ⦋m⦌) x)) := by
           symm
-          simpa [t, alpha] using
+          exact
             NatNormalizedDuskinCocycle.natSimplex_triangle_face_comparison
               (f.map.app (op ⦋m⦌) x)
               a.as b.as c.as p.as.le q.as.le
@@ -269,11 +269,7 @@ theorem natTypeAHornLabel_tetrahedron_of_five_le
     natTypeAHornMap_mapComp_eq_label g (by omega) f x e12 e23
   have h013 :=
     natTypeAHornMap_mapComp_eq_label g (by omega) f x e01 (e12 ≫ e23)
-  change
-    (f.map.app (op ⦋3⦌) x).mapComp e01 e12 +
-        (f.map.app (op ⦋3⦌) x).mapComp (e01 ≫ e12) e23 =
-      (f.map.app (op ⦋3⦌) x).mapComp e12 e23 +
-        (f.map.app (op ⦋3⦌) x).mapComp e01 (e12 ≫ e23) at hcoc
+  dsimp [natDuskinMapCompLabel, sigma] at hcoc
   rw [h012, h023, h123, h013] at hcoc
   simpa [x, natTypeAHornTetrahedron, natOrderedTetrahedron,
     e01, e12, e23] using hcoc
