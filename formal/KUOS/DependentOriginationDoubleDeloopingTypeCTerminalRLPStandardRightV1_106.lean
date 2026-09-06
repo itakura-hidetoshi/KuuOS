@@ -9,6 +9,7 @@ open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
@@ -50,41 +51,50 @@ namespace NatTypeCSourceCocycleCompletion
 
 variable
     {m : Nat}
-    {f : standardTypeCSource m ⟶ natDoubleDeloopingScaledDuskin}
+    {f : standardTypeCSource.{0} m ⟶ natDoubleDeloopingScaledDuskin}
+
+private theorem typeC106_zero_le_one (m : Nat) :
+    (0 : Fin (m + 4)) ≤ 1 := by
+  change (0 : Nat) ≤ 1
+  exact Nat.zero_le 1
+
+private theorem typeC106_one_le_last (m : Nat) :
+    (1 : Fin (m + 4)) ≤ Fin.last (m + 3) := by
+  change 1 ≤ m + 3
+  omega
 
 /-- The completed simplex leg and the original point leg agree on the collapsed
 edge.  This is exactly the source pushout compatibility transported through
 the horn restriction equation. -/
 theorem edge_compat
     (K : NatTypeCSourceCocycleCompletion m f) :
-    standardTypeCEdgeToSimplex m ≫ K.cocycle.toSimplexMap =
-      standardTypeCEdgeCollapseToPoint m ≫ natTypeCPointMap m f := by
+    standardTypeCEdgeToSimplex.{0} m ≫ K.cocycle.toSimplexMap =
+      standardTypeCEdgeCollapseToPoint.{0} m ≫ natTypeCPointMap m f := by
   calc
-    standardTypeCEdgeToSimplex m ≫ K.cocycle.toSimplexMap =
-        standardTypeCEdgeToHorn m ≫
+    standardTypeCEdgeToSimplex.{0} m ≫ K.cocycle.toSimplexMap =
+        standardTypeCEdgeToHorn.{0} m ≫
           ((Λ[m + 3, (0 : Fin (m + 4))].ι :
-            (Λ[m + 3, (0 : Fin (m + 4))] : SSet) ⟶
-              (Δ[m + 3] : SSet)) ≫ K.cocycle.toSimplexMap) := by
-            rw [← standardTypeCEdgeToHorn_comp_hornInclusion]
-            simp
-    _ = standardTypeCEdgeToHorn m ≫ natTypeCHornMap m f := by
+            (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0}) ⟶
+              (Δ[m + 3] : SSet.{0})) ≫ K.cocycle.toSimplexMap) := by
+            rw [← Category.assoc,
+              standardTypeCEdgeToHorn_comp_hornInclusion.{0}]
+    _ = standardTypeCEdgeToHorn.{0} m ≫ natTypeCHornMap m f := by
           rw [K.restrict]
-    _ = standardTypeCEdgeCollapseToPoint m ≫ natTypeCPointMap m f := by
-          have h := congrArg
-            (fun q :
-                (standardTypeCEdgeFace m : SSet) ⟶
-                  standardTypeCSourceCarrier m => q ≫ f.map)
-            (standardTypeCSource_edge_collapsed m)
-          simpa [natTypeCHornMap, natTypeCPointMap,
-            natTypeCSourceHornInl, natTypeCSourcePointInr,
-            Category.assoc] using h
+    _ = standardTypeCEdgeCollapseToPoint.{0} m ≫ natTypeCPointMap m f := by
+          change
+            standardTypeCEdgeToHorn.{0} m ≫
+                (standardTypeCSourceInl.{0} m ≫ f.map) =
+              standardTypeCEdgeCollapseToPoint.{0} m ≫
+                (standardTypeCSourceInr.{0} m ≫ f.map)
+          rw [← Category.assoc, ← Category.assoc,
+            standardTypeCSource_edge_collapsed.{0}]
 
 /-- The underlying map out of the collapsed target simplex supplied by its
 native pushout universal property. -/
 def toTargetMap
     (K : NatTypeCSourceCocycleCompletion m f) :
-    standardTypeCTargetCarrier m ⟶ duskinNerve NatDoubleDelooping :=
-  (standardTypeCTargetCarrier_isPushout m).desc
+    standardTypeCTargetCarrier.{0} m ⟶ duskinNerve NatDoubleDelooping :=
+  (standardTypeCTargetCarrier_isPushout.{0} m).desc
     K.cocycle.toSimplexMap
     (natTypeCPointMap m f)
     K.edge_compat
@@ -92,21 +102,17 @@ def toTargetMap
 @[simp, reassoc]
 theorem target_inl_desc
     (K : NatTypeCSourceCocycleCompletion m f) :
-    pushout.inl
-        (standardTypeCEdgeToSimplex m)
-        (standardTypeCEdgeCollapseToPoint m) ≫
-      K.toTargetMap = K.cocycle.toSimplexMap := by
-  exact (standardTypeCTargetCarrier_isPushout m).inl_desc
+    standardTypeCTargetInl.{0} m ≫ K.toTargetMap =
+      K.cocycle.toSimplexMap := by
+  exact (standardTypeCTargetCarrier_isPushout.{0} m).inl_desc
     K.cocycle.toSimplexMap (natTypeCPointMap m f) K.edge_compat
 
 @[simp, reassoc]
 theorem target_inr_desc
     (K : NatTypeCSourceCocycleCompletion m f) :
-    pushout.inr
-        (standardTypeCEdgeToSimplex m)
-        (standardTypeCEdgeCollapseToPoint m) ≫
-      K.toTargetMap = natTypeCPointMap m f := by
-  exact (standardTypeCTargetCarrier_isPushout m).inr_desc
+    standardTypeCTargetInr.{0} m ≫ K.toTargetMap =
+      natTypeCPointMap m f := by
+  exact (standardTypeCTargetCarrier_isPushout.{0} m).inr_desc
     K.cocycle.toSimplexMap (natTypeCPointMap m f) K.edge_compat
 
 /-- The realized completed simplex sends `01n` to a thin Duskin triangle. -/
@@ -114,11 +120,18 @@ theorem cocycle_distinguished_thin
     (K : NatTypeCSourceCocycleCompletion m f) :
     (duskinScaling NatDoubleDelooping).thin
       (K.cocycle.toSimplexMap.app (op ⦋2⦌)
-        (standardTypeCTriangle01n m)) := by
+        (standardTypeCTriangle01n.{0} m)) := by
   apply
     (natDuskin_thin_iff_comparison_eq_zero
       (K.cocycle.toSimplexMap.app (op ⦋2⦌)
-        (standardTypeCTriangle01n m))).2
+        (standardTypeCTriangle01n.{0} m))).2
+  set_option backward.isDefEq.respectTransparency false in
+    change
+      duskinComparison
+        (K.cocycle.toSimplexMap.app (op ⦋2⦌)
+          (SSet.stdSimplex.triangle
+            (0 : Fin (m + 4)) 1 (Fin.last (m + 3))
+            (typeC106_zero_le_one m) (typeC106_one_le_last m))) = 0
   rw [NatNormalizedDuskinCocycle.toSimplexMap_triangle_comparison]
   exact K.distinguished_zero
 
@@ -128,7 +141,7 @@ Minimal thin triangles are automatic; the only extra triangle is handled by
 theorem toTargetMap_scaled
     (K : NatTypeCSourceCocycleCompletion m f) :
     IsScaledMap
-      (standardTypeCTargetScaling m)
+      (standardTypeCTargetScaling.{0} m)
       (duskinScaling NatDoubleDelooping)
       K.toTargetMap := by
   intro t ht
@@ -139,13 +152,21 @@ theorem toTargetMap_scaled
   · subst t
     have hfac :
         K.toTargetMap.app (op ⦋2⦌)
-            (standardTypeCTargetDistinguishedTriangle m) =
+            (standardTypeCTargetDistinguishedTriangle.{0} m) =
           K.cocycle.toSimplexMap.app (op ⦋2⦌)
-            (standardTypeCTriangle01n m) := by
-      simpa [standardTypeCTargetDistinguishedTriangle] using
+            (standardTypeCTriangle01n.{0} m) := by
+      have h :=
         ConcreteCategory.congr_hom
           (congr_app K.target_inl_desc (op ⦋2⦌))
-          (standardTypeCTriangle01n m)
+          (standardTypeCTriangle01n.{0} m)
+      set_option backward.isDefEq.respectTransparency false in
+        change
+          K.toTargetMap.app (op ⦋2⦌)
+              ((standardTypeCTargetInl.{0} m).app (op ⦋2⦌)
+                (standardTypeCTriangle01n.{0} m)) =
+            K.cocycle.toSimplexMap.app (op ⦋2⦌)
+              (standardTypeCTriangle01n.{0} m)
+      exact h
     rw [hfac]
     exact K.cocycle_distinguished_thin
 
@@ -153,7 +174,7 @@ theorem toTargetMap_scaled
 collapsed target. -/
 def toLift
     (K : NatTypeCSourceCocycleCompletion m f) :
-    standardTypeCTarget m ⟶ natDoubleDeloopingScaledDuskin where
+    standardTypeCTarget.{0} m ⟶ natDoubleDeloopingScaledDuskin where
   map := K.toTargetMap
   scaled := K.toTargetMap_scaled
 
@@ -162,50 +183,42 @@ source.  The proof is the source pushout hom-extensionality on the horn and
 point legs. -/
 theorem toLift_fac
     (K : NatTypeCSourceCocycleCompletion m f) :
-    standardTypeCGeneratorHom m ≫ K.toLift = f := by
+    standardTypeCGeneratorHom.{0} m ≫ K.toLift = f := by
   apply ScaledSSet.ScaledMap.ext
-  change standardTypeCCarrierMap m ≫ K.toTargetMap = f.map
-  apply (standardTypeCSourceCarrier_isPushout m).hom_ext
+  change standardTypeCCarrierMap.{0} m ≫ K.toTargetMap = f.map
+  apply (standardTypeCSourceCarrier_isPushout.{0} m).hom_ext
   · calc
       natTypeCSourceHornInl m ≫
-          (standardTypeCCarrierMap m ≫ K.toTargetMap) =
-        (natTypeCSourceHornInl m ≫ standardTypeCCarrierMap m) ≫
-          K.toTargetMap := by simp
+          (standardTypeCCarrierMap.{0} m ≫ K.toTargetMap) =
+        (natTypeCSourceHornInl m ≫ standardTypeCCarrierMap.{0} m) ≫
+          K.toTargetMap := by simp only [Category.assoc]
       _ =
         ((Λ[m + 3, (0 : Fin (m + 4))].ι :
-            (Λ[m + 3, (0 : Fin (m + 4))] : SSet) ⟶
-              (Δ[m + 3] : SSet)) ≫
-          pushout.inl
-            (standardTypeCEdgeToSimplex m)
-            (standardTypeCEdgeCollapseToPoint m)) ≫
+            (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0}) ⟶
+              (Δ[m + 3] : SSet.{0})) ≫
+          standardTypeCTargetInl.{0} m) ≫
           K.toTargetMap := by
-            rw [standardTypeCCarrierMap_inl_horn]
+            rw [standardTypeCCarrierMap_inl_horn.{0}]
       _ =
         (Λ[m + 3, (0 : Fin (m + 4))].ι :
-            (Λ[m + 3, (0 : Fin (m + 4))] : SSet) ⟶
-              (Δ[m + 3] : SSet)) ≫
-          (pushout.inl
-              (standardTypeCEdgeToSimplex m)
-              (standardTypeCEdgeCollapseToPoint m) ≫
-            K.toTargetMap) := by simp
+            (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0}) ⟶
+              (Δ[m + 3] : SSet.{0})) ≫
+          (standardTypeCTargetInl.{0} m ≫ K.toTargetMap) := by
+            simp only [Category.assoc]
       _ =
         (Λ[m + 3, (0 : Fin (m + 4))].ι :
-            (Λ[m + 3, (0 : Fin (m + 4))] : SSet) ⟶
-              (Δ[m + 3] : SSet)) ≫ K.cocycle.toSimplexMap := by
+            (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0}) ⟶
+              (Δ[m + 3] : SSet.{0})) ≫ K.cocycle.toSimplexMap := by
             rw [K.target_inl_desc]
       _ = natTypeCHornMap m f := K.restrict
       _ = natTypeCSourceHornInl m ≫ f.map := rfl
   · calc
       natTypeCSourcePointInr m ≫
-          (standardTypeCCarrierMap m ≫ K.toTargetMap) =
-        (natTypeCSourcePointInr m ≫ standardTypeCCarrierMap m) ≫
-          K.toTargetMap := by simp
-      _ =
-        pushout.inr
-            (standardTypeCEdgeToSimplex m)
-            (standardTypeCEdgeCollapseToPoint m) ≫
-          K.toTargetMap := by
-            rw [standardTypeCCarrierMap_inr_point]
+          (standardTypeCCarrierMap.{0} m ≫ K.toTargetMap) =
+        (natTypeCSourcePointInr m ≫ standardTypeCCarrierMap.{0} m) ≫
+          K.toTargetMap := by simp only [Category.assoc]
+      _ = standardTypeCTargetInr.{0} m ≫ K.toTargetMap := by
+            rw [standardTypeCCarrierMap_inr_point.{0}]
       _ = natTypeCPointMap m f := K.target_inr_desc
       _ = natTypeCSourcePointInr m ≫ f.map := rfl
 
@@ -218,10 +231,10 @@ terminal right lifting property against the concrete scaled Duskin nerve. -/
 theorem natDoubleDelooping_hasLiftingProperty_standardTypeC
     (m : Nat) :
     HasLiftingProperty
-      (standardTypeCGeneratorHom m)
+      (standardTypeCGeneratorHom.{0} m)
       (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin) := by
   apply (ScaledSSet.hasLiftingProperty_toPoint_iff
-    (standardTypeCGeneratorHom m)).2
+    (standardTypeCGeneratorHom.{0} m)).2
   intro f
   rcases natDoubleDelooping_hasAllStandardTypeCSourceCocycleCompletions
     m f with ⟨K⟩
@@ -230,17 +243,26 @@ theorem natDoubleDelooping_hasLiftingProperty_standardTypeC
 /-- Equivalently, the terminal map belongs to the right class of the complete
 standard type-(C) generator family. -/
 theorem natDoubleDelooping_standardTypeC_rlp :
-    (standardTypeCScaledAnodyneGenerators : MorphismProperty ScaledSSet).rlp
+    (standardTypeCScaledAnodyneGenerators :
+      MorphismProperty (ScaledSSet.{0})).rlp
       (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin) := by
-  rw [MorphismProperty.rlp_ofHoms_iff_hasLiftingProperty Nat]
-  exact natDoubleDelooping_hasLiftingProperty_standardTypeC
+  change
+    (MorphismProperty.ofHoms
+      (fun m : Nat => standardTypeCGeneratorHom.{0} m)).rlp
+      (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin)
+  exact
+    (MorphismProperty.rlp_ofHoms_iff_hasLiftingProperty Nat
+      (fun m : Nat => standardTypeCGeneratorHom.{0} m)
+      (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin)).2
+      natDoubleDelooping_hasLiftingProperty_standardTypeC
 
 /-! ## Assemble the standard A/B/C right class -/
 
 /-- The concrete terminal map has RLP against every generator in the explicit
 standard A/B/C union. -/
 theorem natDoubleDelooping_standardABC_generators_rlp :
-    (standardScaledAnodyneGeneratorsABC : MorphismProperty ScaledSSet).rlp
+    (standardScaledAnodyneGeneratorsABC :
+      MorphismProperty (ScaledSSet.{0})).rlp
       (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin) := by
   intro X Y i hi
   rcases hi with (hiA | hiB) | hiC
@@ -252,10 +274,12 @@ theorem natDoubleDelooping_standardABC_generators_rlp :
 class, so the concrete terminal map is standard-right in the exact sense
 required by the v1.96 certificate. -/
 theorem natDoubleDelooping_standardGeneratedABC_rlp :
-    (standardGeneratedScaledAnodyneABC : MorphismProperty ScaledSSet).rlp
+    (standardGeneratedScaledAnodyneABC :
+      MorphismProperty (ScaledSSet.{0})).rlp
       (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin) := by
   change
-    ((standardScaledAnodyneGeneratorsABC : MorphismProperty ScaledSSet).rlp.llp).rlp
+    ((standardScaledAnodyneGeneratorsABC :
+      MorphismProperty (ScaledSSet.{0})).rlp.llp).rlp
       (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin)
   rw [MorphismProperty.rlp_llp_rlp]
   exact natDoubleDelooping_standardABC_generators_rlp
@@ -277,18 +301,15 @@ theorem natDoubleDelooping_terminal_not_reflectsThinTwoSimplices :
 
 /-- The arbitrary-scaling standard obstruction cannot be closed. -/
 theorem natDoubleDelooping_not_standardArbitraryScalingObstructionClosed :
-    ¬ KUOS.DependentOriginationStandardArbitraryScalingWaypointV1_89.
-      StandardArbitraryScalingObstructionClosed :=
+    ¬ KUOS.DependentOriginationStandardArbitraryScalingWaypointV1_89.StandardArbitraryScalingObstructionClosed.{0} :=
   not_standardArbitraryScalingObstructionClosed_of_standardRightCertificate
     natDoubleDeloopingStandardRightCertificate
 
 /-- The forward presentation order from the stronger canonical KuuOS
 presentation to the standard A/B/C presentation fails. -/
 theorem natDoubleDelooping_not_canonicalKuuOS_le_standardABC :
-    ¬ KUOS.DependentOriginationGeneratedPresentationPosetalReflectionV1_83.
-      canonicalKuuOSPresentation ≤
-      KUOS.DependentOriginationGeneratedPresentationPosetalReflectionV1_83.
-        standardABCPresentation :=
+    ¬ KUOS.DependentOriginationGeneratedPresentationPosetalReflectionV1_83.canonicalKuuOSPresentation.{0} ≤
+      KUOS.DependentOriginationGeneratedPresentationPosetalReflectionV1_83.standardABCPresentation.{0} :=
   not_canonicalKuuOS_le_standardABC_of_standardRightCertificate
     natDoubleDeloopingStandardRightCertificate
 
@@ -299,11 +320,14 @@ The witness is the terminal map of `B²ℕ`: it is standard-right by the theorem
 above, but cannot be canonical-right because every canonical-right map reflects
 thin 2-simplices. -/
 theorem standardGeneratedRight_not_le_canonicalGeneratedRight :
-    ¬ (standardGeneratedScaledFibrationABC : MorphismProperty ScaledSSet) ≤
-      (canonicalGeneratedScaledAnodyne : MorphismProperty ScaledSSet).rlp := by
+    ¬ (standardGeneratedScaledFibrationABC :
+        MorphismProperty (ScaledSSet.{0})) ≤
+      (canonicalGeneratedScaledAnodyne :
+        MorphismProperty (ScaledSSet.{0})).rlp := by
   intro hle
   have hcan :
-      (canonicalGeneratedScaledAnodyne : MorphismProperty ScaledSSet).rlp
+      (canonicalGeneratedScaledAnodyne :
+        MorphismProperty (ScaledSSet.{0})).rlp
         (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin) :=
     hle _ natDoubleDelooping_standardABC_generators_rlp
   have hreflect := canonicalGeneratedRight_reflectsThinTwoSimplices hcan
@@ -313,8 +337,10 @@ theorem standardGeneratedRight_not_le_canonicalGeneratedRight :
 equal.  This statement depends only on the resulting right classes, not on a
 choice of generating presentation. -/
 theorem standardGeneratedRight_ne_canonicalGeneratedRight :
-    (standardGeneratedScaledFibrationABC : MorphismProperty ScaledSSet) ≠
-      (canonicalGeneratedScaledAnodyne : MorphismProperty ScaledSSet).rlp := by
+    (standardGeneratedScaledFibrationABC :
+      MorphismProperty (ScaledSSet.{0})) ≠
+      (canonicalGeneratedScaledAnodyne :
+        MorphismProperty (ScaledSSet.{0})).rlp := by
   intro h
   apply standardGeneratedRight_not_le_canonicalGeneratedRight
   rw [h]
@@ -343,5 +369,7 @@ standardGeneratedScaledFibrationABC
 No claim `canonical = standard` is used; the explicit standard-right witness is
 now the formal reason the two right classes differ.
 -/
+
+end
 
 end KUOS.DependentOriginationDoubleDeloopingTypeCTerminalRLPStandardRightV1_106
