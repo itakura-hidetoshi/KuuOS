@@ -614,7 +614,12 @@ theorem hasLiftingProperty_standardTypeCMinimalSource_of_outerOneThin
               (standardTypeCSourceInr.{u} m ≫ f.map) ≫ p.map =
                 standardTypeCSourceInr.{u} m ≫
                   (standardTypeCCarrierMap.{u} m ≫ g.map) := by
-            rw [Category.assoc, hw]
+            have hwhisk :
+                standardTypeCSourceInr.{u} m ≫ (f.map ≫ p.map) =
+                  standardTypeCSourceInr.{u} m ≫
+                    (standardTypeCCarrierMap.{u} m ≫ g.map) :=
+              congrArg (fun q => standardTypeCSourceInr.{u} m ≫ q) hw
+            exact (Category.assoc _ _ _).trans hwhisk
           have h4 :
               standardTypeCSourceInr.{u} m ≫
                   (standardTypeCCarrierMap.{u} m ≫ g.map) =
@@ -653,7 +658,7 @@ def standardABCCanonicalGeneratorwiseReverseComparison_of_oneThinHorns
       ∀ m : Nat,
         (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
           (standardTypeCOuterOneThinHornHom m)) :
-    StandardABCCanonicalGeneratorwiseReverseComparison.{u} :=
+    KUOS.DependentOriginationStandardABCPositiveCanonicalResidualSplitV1_79.StandardABCCanonicalGeneratorwiseReverseComparison.{u} :=
   standardABCCanonicalGeneratorwiseReverseComparison_of_typeAC
     (fun g =>
       (standardTypeA_mem_canonicalGenerated_iff_minimalSource g).2 (hA g))
