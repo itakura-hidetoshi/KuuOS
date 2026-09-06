@@ -181,9 +181,13 @@ theorem natTypeCThreeLabel013_eq_zero
       (f.map.app (op ⦋2⦌)
         (standardTypeCSourceDistinguishedTriangle.{0} 0))).1 hthin
   set_option backward.isDefEq.respectTransparency false in
-    simpa [natTypeCHornMap, natTypeCSourceHornInl,
-      standardTypeCSourceDistinguishedTriangle,
-      typeCThree_face2_eq_distinguished] using hzero
+    change
+      duskinComparison
+        (f.map.app (op ⦋2⦌)
+          ((standardTypeCSourceInl.{0} 0).app (op ⦋2⦌)
+            (SSet.horn.face (0 : Fin 4) (2 : Fin 4) (by decide)))) = (0 : Nat)
+  rw [typeCThree_face2_eq_distinguished]
+  exact hzero
 
 /-- The dimension-three outer-horn completion. -/
 def natTypeCThreeCompletionCocycle
@@ -376,9 +380,15 @@ theorem natTypeCHornLabel_distinguished_zero
       (f.map.app (op ⦋2⦌)
         (standardTypeCSourceDistinguishedTriangle.{0} m))).1 hthin
   set_option backward.isDefEq.respectTransparency false in
-    simpa [natTypeCHornLabel, natTypeCHornMap, natTypeCSourceHornInl,
-      standardTypeCSourceDistinguishedTriangle,
-      natTypeCHornTriangle_distinguished] using hzero
+    change
+      duskinComparison
+        (f.map.app (op ⦋2⦌)
+          ((standardTypeCSourceInl.{0} m).app (op ⦋2⦌)
+            (natTypeCHornTriangle m hm
+              (0 : Fin (m + 4)) 1 (Fin.last (m + 3))
+              (natTypeC_zero_le_one m) (natTypeC_one_le_last m)))) = (0 : Nat)
+  rw [natTypeCHornTriangle_distinguished m hm]
+  exact hzero
 
 /-! ## Simplicial naturality for visible outer-horn labels -/
 
