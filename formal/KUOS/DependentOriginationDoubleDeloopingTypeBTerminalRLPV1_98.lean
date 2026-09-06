@@ -109,8 +109,7 @@ theorem standardVertexTriangle_eq_triangle
 /-! ## Yoneda face comparison -/
 
 /-- The concrete standard `2`-simplex selecting vertices `a ≤ b ≤ c` of
-`Delta[4]`.  Its codomain fixes the simplicial-set universe used by the
-Yoneda face calculation. -/
+`Delta[4]`. -/
 def natFourTriangle
     (a b c : Fin 5)
     (hab : a ≤ b) (hbc : b ≤ c) :
@@ -118,13 +117,14 @@ def natFourTriangle
   SSet.stdSimplex.triangle a b c hab hbc
 
 /-- The concrete face map `[2] -> [4]` selected by `natFourTriangle`.
-Packaging the `objEquiv` image once prevents independent universe metavariables
-from appearing in repeated reindexing expressions. -/
+The explicit universe-0 specialization fixes the `ULift` universe hidden in
+`stdSimplex.objEquiv` for the Yoneda face calculation. -/
 def natFourTriangleFace
     (a b c : Fin 5)
     (hab : a ≤ b) (hbc : b ≤ c) :
     ⦋2⦌ ⟶ ⦋4⦌ :=
-  SSet.stdSimplex.objEquiv (natFourTriangle a b c hab hbc)
+  SSet.stdSimplex.objEquiv.{0}
+    (natFourTriangle.{0} a b c hab hbc)
 
 /-- Restricting a Duskin four-simplex to the standard triangle `abc` sends
 its Duskin comparison to the corresponding comparison label of the original
@@ -151,7 +151,7 @@ theorem natFour_triangle_face_comparison
   rw [natDuskin_map₂_eq_zero]
   change _ + 0 = _
   exact (Nat.add_zero _).trans (by
-    congr 1 <;> exact Subsingleton.elim _ _)
+    congr 1)
 
 /-- Re-express a simplicial map out of `Delta[4]` as its Yoneda four-simplex. -/
 theorem natFour_map_eq_yoneda
