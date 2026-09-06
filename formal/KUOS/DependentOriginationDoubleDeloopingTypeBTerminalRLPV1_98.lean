@@ -108,6 +108,24 @@ theorem standardVertexTriangle_eq_triangle
 
 /-! ## Yoneda face comparison -/
 
+/-- The concrete standard `2`-simplex selecting vertices `a ≤ b ≤ c` of
+`Delta[4]`.  Its codomain fixes the simplicial-set universe used by the
+Yoneda face calculation. -/
+def natFourTriangle
+    (a b c : Fin 5)
+    (hab : a ≤ b) (hbc : b ≤ c) :
+    (Δ[4] : SSet).obj (op ⦋2⦌) :=
+  SSet.stdSimplex.triangle a b c hab hbc
+
+/-- The concrete face map `[2] -> [4]` selected by `natFourTriangle`.
+Packaging the `objEquiv` image once prevents independent universe metavariables
+from appearing in repeated reindexing expressions. -/
+def natFourTriangleFace
+    (a b c : Fin 5)
+    (hab : a ≤ b) (hbc : b ≤ c) :
+    ⦋2⦌ ⟶ ⦋4⦌ :=
+  SSet.stdSimplex.objEquiv (natFourTriangle a b c hab hbc)
+
 /-- Restricting a Duskin four-simplex to the standard triangle `abc` sends
 its Duskin comparison to the corresponding comparison label of the original
 four-simplex. -/
@@ -123,15 +141,12 @@ theorem natFour_triangle_face_comparison
   change
     (sigma.mapComp
         ((duskinReindex
-          (SSet.stdSimplex.objEquiv
-            (SSet.stdSimplex.triangle a b c hab hbc)).op).map edge01)
+          (natFourTriangleFace a b c hab hbc).op).map edge01)
         ((duskinReindex
-          (SSet.stdSimplex.objEquiv
-            (SSet.stdSimplex.triangle a b c hab hbc)).op).map edge12) ≫
+          (natFourTriangleFace a b c hab hbc).op).map edge12) ≫
       sigma.map₂
         ((duskinReindex
-          (SSet.stdSimplex.objEquiv
-            (SSet.stdSimplex.triangle a b c hab hbc)).op).mapComp
+          (natFourTriangleFace a b c hab hbc).op).mapComp
               edge01 edge12)) = _
   rw [natDuskin_map₂_eq_zero]
   change _ + 0 = _
@@ -157,30 +172,32 @@ theorem natFour_map_triangle_comparison
           (SSet.stdSimplex.triangle a b c hab hbc)) =
       (SSet.yonedaEquiv F).mapComp
         (natFourEdge hab) (natFourEdge hbc) := by
+  change
+    duskinComparison
+        (F.app (op ⦋2⦌) (natFourTriangle a b c hab hbc)) =
+      (SSet.yonedaEquiv F).mapComp
+        (natFourEdge hab) (natFourEdge hbc)
   calc
     duskinComparison
-        (F.app (op ⦋2⦌)
-          (SSet.stdSimplex.triangle a b c hab hbc)) =
+        (F.app (op ⦋2⦌) (natFourTriangle a b c hab hbc)) =
       duskinComparison
         ((SSet.yonedaEquiv.symm (SSet.yonedaEquiv F)).app (op ⦋2⦌)
-          (SSet.stdSimplex.triangle a b c hab hbc)) := by
+          (natFourTriangle a b c hab hbc)) := by
       exact congrArg
         (fun G =>
           duskinComparison
-            (G.app (op ⦋2⦌)
-              (SSet.stdSimplex.triangle a b c hab hbc)))
+            (G.app (op ⦋2⦌) (natFourTriangle a b c hab hbc)))
         (natFour_map_eq_yoneda F)
     _ =
       duskinComparison
         ((duskinNerve NatDoubleDelooping).map
-          (SSet.stdSimplex.objEquiv
-            (SSet.stdSimplex.triangle a b c hab hbc)).op
+          (natFourTriangleFace a b c hab hbc).op
           (SSet.yonedaEquiv F)) := by
       exact congrArg duskinComparison
         (SSet.stdSimplex.map_objEquiv_op_apply
           (X := duskinNerve NatDoubleDelooping)
           (SSet.yonedaEquiv F)
-          (SSet.stdSimplex.triangle a b c hab hbc)).symm
+          (natFourTriangle a b c hab hbc)).symm
     _ = (SSet.yonedaEquiv F).mapComp
         (natFourEdge hab) (natFourEdge hbc) :=
       natFour_triangle_face_comparison
