@@ -42,16 +42,21 @@ theorem natDuskin_mapComp_additive_cocycle
     (sigma : DuskinSimplex NatDoubleDelooping n)
     {a b c d : DuskinOrdinal n}
     (f : a ⟶ b) (g : b ⟶ c) (h : c ⟶ d) :
-    sigma.mapComp f g + sigma.mapComp (f ≫ g) h =
-      sigma.mapComp g h + sigma.mapComp f (g ≫ h) := by
+    (sigma.mapComp f g : Nat) +
+        (sigma.mapComp (f ≫ g) h : Nat) =
+      (sigma.mapComp g h : Nat) +
+        (sigma.mapComp f (g ≫ h) : Nat) := by
   have hcoh := sigma.map₂_associator f g h
-  have hmap₂ : sigma.map₂ (α_ f g h).hom = 0 :=
+  have hmap₂ : sigma.map₂ (α_ f g h).hom = (0 : Nat) :=
     natDuskin_map₂_eq_zero sigma _
   rw [hmap₂] at hcoh
-  change
-    sigma.mapComp f g + sigma.mapComp (f ≫ g) h + 0 =
-      0 + sigma.mapComp g h + sigma.mapComp f (g ≫ h) at hcoh
-  omega
+  set_option backward.isDefEq.respectTransparency false in
+    change
+      ((sigma.mapComp f g : Nat) +
+          (sigma.mapComp (f ≫ g) h : Nat)) + 0 =
+        0 + (sigma.mapComp g h : Nat) +
+          (sigma.mapComp f (g ≫ h) : Nat) at hcoh
+  simpa only [Nat.add_zero, Nat.zero_add] using hcoh
 
 /-- If the two labels on the left side of a tetrahedral cocycle equation are
 zero, both labels on the right side are zero. -/
@@ -60,10 +65,12 @@ theorem natDuskin_tetrahedron_zero_split
     (sigma : DuskinSimplex NatDoubleDelooping n)
     {a b c d : DuskinOrdinal n}
     (f : a ⟶ b) (g : b ⟶ c) (h : c ⟶ d)
-    (hfg : sigma.mapComp f g = 0)
-    (hfg_h : sigma.mapComp (f ≫ g) h = 0) :
-    sigma.mapComp g h = 0 ∧ sigma.mapComp f (g ≫ h) = 0 := by
+    (hfg : sigma.mapComp f g = (0 : Nat))
+    (hfg_h : sigma.mapComp (f ≫ g) h = (0 : Nat)) :
+    sigma.mapComp g h = (0 : Nat) ∧
+      sigma.mapComp f (g ≫ h) = (0 : Nat) := by
   have hcocycle := natDuskin_mapComp_additive_cocycle sigma f g h
+  rw [hfg, hfg_h] at hcocycle
   omega
 
 /-- If three labels in the tetrahedral equation vanish, the remaining
@@ -73,11 +80,12 @@ theorem natDuskin_tetrahedron_zero_remaining
     (sigma : DuskinSimplex NatDoubleDelooping n)
     {a b c d : DuskinOrdinal n}
     (f : a ⟶ b) (g : b ⟶ c) (h : c ⟶ d)
-    (hfg : sigma.mapComp f g = 0)
-    (hgh : sigma.mapComp g h = 0)
-    (houter : sigma.mapComp f (g ≫ h) = 0) :
-    sigma.mapComp (f ≫ g) h = 0 := by
+    (hfg : sigma.mapComp f g = (0 : Nat))
+    (hgh : sigma.mapComp g h = (0 : Nat))
+    (houter : sigma.mapComp f (g ≫ h) = (0 : Nat)) :
+    sigma.mapComp (f ≫ g) h = (0 : Nat) := by
   have hcocycle := natDuskin_mapComp_additive_cocycle sigma f g h
+  rw [hfg, hgh, houter] at hcocycle
   omega
 
 /-! ## The seven type-(B) labels inside a Duskin four-simplex -/
@@ -150,11 +158,15 @@ theorem natFour_first_typeB_tetrahedron_zero
   let e24 := natFourEdge (i := (2 : Fin 5)) (j := 4) (by decide)
   let e02 := natFourEdge (i := (0 : Fin 5)) (j := 2) (by decide)
   let e14 := natFourEdge (i := (1 : Fin 5)) (j := 4) (by decide)
-  have he02 : e01 ≫ e12 = e02 := Subsingleton.elim _ _
-  have he14 : e12 ≫ e24 = e14 := Subsingleton.elim _ _
-  have h012' : sigma.mapComp e01 e12 = 0 := by
+  have he02 : e01 ≫ e12 = e02 := by
+    apply Discrete.ext
+    apply Subsingleton.elim
+  have he14 : e12 ≫ e24 = e14 := by
+    apply Discrete.ext
+    apply Subsingleton.elim
+  have h012' : sigma.mapComp e01 e12 = (0 : Nat) := by
     simpa [natFourLabel012, e01, e12] using h012
-  have h024' : sigma.mapComp (e01 ≫ e12) e24 = 0 := by
+  have h024' : sigma.mapComp (e01 ≫ e12) e24 = (0 : Nat) := by
     rw [he02]
     simpa [natFourLabel024, e02, e24] using h024
   rcases natDuskin_tetrahedron_zero_split sigma e01 e12 e24 h012' h024' with
@@ -177,13 +189,17 @@ theorem natFour_second_typeB_tetrahedron_zero
   let e34 := natFourEdge (i := (3 : Fin 5)) (j := 4) (by decide)
   let e03 := natFourEdge (i := (0 : Fin 5)) (j := 3) (by decide)
   let e14 := natFourEdge (i := (1 : Fin 5)) (j := 4) (by decide)
-  have he03 : e01 ≫ e13 = e03 := Subsingleton.elim _ _
-  have he14 : e13 ≫ e34 = e14 := Subsingleton.elim _ _
-  have h013' : sigma.mapComp e01 e13 = 0 := by
+  have he03 : e01 ≫ e13 = e03 := by
+    apply Discrete.ext
+    apply Subsingleton.elim
+  have he14 : e13 ≫ e34 = e14 := by
+    apply Discrete.ext
+    apply Subsingleton.elim
+  have h013' : sigma.mapComp e01 e13 = (0 : Nat) := by
     simpa [natFourLabel013, e01, e13] using h013
-  have h134' : sigma.mapComp e13 e34 = 0 := by
+  have h134' : sigma.mapComp e13 e34 = (0 : Nat) := by
     simpa [natFourLabel134, e13, e34] using h134
-  have h014' : sigma.mapComp e01 (e13 ≫ e34) = 0 := by
+  have h014' : sigma.mapComp e01 (e13 ≫ e34) = (0 : Nat) := by
     rw [he14]
     simpa [natFourLabel014, e01, e14] using h014
   have h034 :=
