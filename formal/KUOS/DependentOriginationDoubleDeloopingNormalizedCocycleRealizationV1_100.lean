@@ -340,11 +340,11 @@ theorem natSimplex_triangle_face_comparison
     (sigma : DuskinSimplex NatDoubleDelooping n)
     (a b c : Fin (n + 1))
     (hab : a <= b) (hbc : b <= c) :
-    duskinComparison
+    (duskinComparison
         ((duskinNerve NatDoubleDelooping).map
           (SSet.stdSimplex.objEquiv
-            (SSet.stdSimplex.triangle a b c hab hbc)).op sigma) =
-      sigma.mapComp (natOrdinalEdge hab) (natOrdinalEdge hbc) := by
+            (SSet.stdSimplex.triangle a b c hab hbc)).op sigma) : Nat) =
+      (sigma.mapComp (natOrdinalEdge hab) (natOrdinalEdge hbc) : Nat) := by
   change
     (sigma.mapComp
         ((duskinReindex
@@ -366,45 +366,44 @@ theorem toSimplexMap_triangle_comparison
     (C : NatNormalizedDuskinCocycle n)
     (a b c : Fin (n + 1))
     (hab : a <= b) (hbc : b <= c) :
-    duskinComparison
+    (duskinComparison
         (C.toSimplexMap.app (op ⦋2⦌)
-          (SSet.stdSimplex.triangle a b c hab hbc)) =
+          (SSet.stdSimplex.triangle a b c hab hbc)) : Nat) =
       C.label a b c hab hbc := by
   change
-    duskinComparison
+    (duskinComparison
         ((SSet.yonedaEquiv.symm C.toDuskinSimplex).app (op ⦋2⦌)
-          (natSimplexTriangle a b c hab hbc)) =
+          (natSimplexTriangle a b c hab hbc)) : Nat) =
       C.label a b c hab hbc
   calc
-    duskinComparison
+    (duskinComparison
         ((SSet.yonedaEquiv.symm C.toDuskinSimplex).app (op ⦋2⦌)
-          (natSimplexTriangle a b c hab hbc)) =
-      duskinComparison
+          (natSimplexTriangle a b c hab hbc)) : Nat) =
+      (duskinComparison
         ((duskinNerve NatDoubleDelooping).map
           (natSimplexTriangleFace a b c hab hbc).op
-          C.toDuskinSimplex) := by
-      exact congrArg duskinComparison
+          C.toDuskinSimplex) : Nat) := by
+      have hyoneda :
+          ((SSet.yonedaEquiv.symm C.toDuskinSimplex).app (op ⦋2⦌)
+              (natSimplexTriangle a b c hab hbc)) =
+            (duskinNerve NatDoubleDelooping).map
+              (natSimplexTriangleFace a b c hab hbc).op
+              C.toDuskinSimplex :=
         (SSet.stdSimplex.map_objEquiv_op_apply
           (X := duskinNerve NatDoubleDelooping)
           C.toDuskinSimplex
           (natSimplexTriangle a b c hab hbc)).symm
+      exact congrArg
+        (fun sigma : DuskinSimplex NatDoubleDelooping 2 =>
+          (duskinComparison sigma : Nat))
+        hyoneda
+    _ = (C.toDuskinSimplex.mapComp
+          (natOrdinalEdge hab) (natOrdinalEdge hbc) : Nat) := by
+      exact natSimplex_triangle_face_comparison
+        C.toDuskinSimplex a b c hab hbc
     _ = C.label a b c hab hbc := by
-      have hface :
-          (duskinComparison
-              ((duskinNerve NatDoubleDelooping).map
-                (natSimplexTriangleFace a b c hab hbc).op
-                C.toDuskinSimplex) : Nat) =
-            (C.toDuskinSimplex.mapComp
-              (natOrdinalEdge hab) (natOrdinalEdge hbc) : Nat) := by
-        exact natSimplex_triangle_face_comparison
-          C.toDuskinSimplex a b c hab hbc
-      have hlabel :
-          (C.toDuskinSimplex.mapComp
-              (natOrdinalEdge hab) (natOrdinalEdge hbc) : Nat) =
-            C.label a b c hab hbc := by
-        exact toDuskinSimplex_mapComp C
-          (natOrdinalEdge hab) (natOrdinalEdge hbc)
-      exact hface.trans hlabel
+      exact toDuskinSimplex_mapComp C
+        (natOrdinalEdge hab) (natOrdinalEdge hbc)
 
 /-! ## Degree two: thinness is exactly zero cocycle label -/
 
