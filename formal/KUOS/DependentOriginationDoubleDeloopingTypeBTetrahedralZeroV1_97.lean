@@ -67,10 +67,10 @@ theorem natDuskin_mapComp_additive_cocycle
   rw [hmap₂] at hcoh
   set_option backward.isDefEq.respectTransparency false in
     change
-      (natDuskinMapCompLabel sigma f g +
-          natDuskinMapCompLabel sigma (f ≫ g) h) + 0 =
-        0 + natDuskinMapCompLabel sigma g h +
-          natDuskinMapCompLabel sigma f (g ≫ h) at hcoh
+      natDuskinMapCompLabel sigma f g +
+          (natDuskinMapCompLabel sigma (f ≫ g) h + 0) =
+        0 + (natDuskinMapCompLabel sigma g h +
+          natDuskinMapCompLabel sigma f (g ≫ h)) at hcoh
   simpa only [Nat.add_zero, Nat.zero_add] using hcoh
 
 /-- If the two labels on the left side of a tetrahedral cocycle equation are
