@@ -13,6 +13,7 @@ open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
+open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
 open KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
 open KUOS.DependentOriginationCanonicalEndpointLeibnizEpiDescentV1_82
@@ -105,8 +106,10 @@ instance scalingEnrichmentHom_epi
   left_cancellation := by
     intro Z f g h
     apply ScaledSSet.ScaledMap.ext
+    change @Eq (X ⟶ Z.carrier) f.map g.map
     have hmap := congrArg ScaledSSet.ScaledMap.map h
-    simpa [scalingEnrichmentHom] using hmap
+    change (𝟙 X ≫ f.map) = (𝟙 X ≫ g.map) at hmap
+    simpa only [Category.id_comp] using hmap
 
 /-- Thinness reflection gives RLP against an arbitrary identity-underlying
 scaling enlargement on an arbitrary simplicial carrier. -/
@@ -135,7 +138,8 @@ theorem hasLiftingProperty_scalingEnrichment_of_reflectsThinTwoSimplices
     { l := l
       fac_left := by
         apply ScaledSSet.ScaledMap.ext
-        simp [l, scalingEnrichmentHom]
+        change 𝟙 K ≫ f.map = f.map
+        exact Category.id_comp _
       fac_right := by
         apply ScaledSSet.ScaledMap.ext
         simpa [l] using hsqmap }
@@ -180,7 +184,8 @@ theorem scalingEnrichmentToSource_comp_original
     scalingEnrichmentHom (minimalScaling_le_any sX) ≫ f =
       withMinimalSource f := by
   apply ScaledSSet.ScaledMap.ext
-  simp [scalingEnrichmentHom, withMinimalSource]
+  change 𝟙 X ≫ f.map = f.map
+  exact Category.id_comp _
 
 /-- If the original scaled map is canonical-generated, then so is its
 minimal-source version: prepend the canonical source scaling enrichment. -/
@@ -218,8 +223,7 @@ theorem mem_canonicalGenerated_of_withMinimalSource_mem
     ((scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})).rlp)
     (scalingEnrichmentHom (minimalScaling_le_any sX))
     f
-  rw [scalingEnrichmentToSource_comp_original]
-  exact hmin
+  simpa only [scalingEnrichmentToSource_comp_original] using hmin
 
 /-- Exact source-scaling erasure: for fixed underlying map and target scaling,
 canonical-generated membership is independent of the source scaling. -/
@@ -264,14 +268,15 @@ theorem standardTypeA_mem_canonicalGenerated_iff_minimalSource
         (standardTypeAScaledHornGeneratorHom g) ↔
       (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
         (standardTypeAMinimalSourceHornHom g) := by
-  rw [mem_canonicalGenerated_iff_withMinimalSource]
-  rw [standardTypeA_withMinimalSource_eq]
+  simpa only [standardTypeA_withMinimalSource_eq] using
+    (mem_canonicalGenerated_iff_withMinimalSource
+      (standardTypeAScaledHornGeneratorHom g))
 
 /-! ## Type-(C): remove source scaling and isolate the uncollapsed outer horn -/
 
 /-- The type-(C) collapsed-edge carrier map with minimal source scaling and the
 unchanged one-distinguished-triangle target scaling. -/
-def standardTypeCMinimalSourceGeneratorHom
+noncomputable def standardTypeCMinimalSourceGeneratorHom
     (m : Nat) :
     ScaledSSet.of (standardTypeCSourceCarrier m)
         (minimalScaling (standardTypeCSourceCarrier m)) ⟶
@@ -296,11 +301,13 @@ theorem standardTypeC_mem_canonicalGenerated_iff_minimalSource
         (standardTypeCGeneratorHom m) ↔
       (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
         (standardTypeCMinimalSourceGeneratorHom m) := by
-  rw [mem_canonicalGenerated_iff_withMinimalSource]
-  rw [standardTypeC_withMinimalSource_eq]
+  simpa only [standardTypeC_withMinimalSource_eq] using
+    (mem_canonicalGenerated_iff_withMinimalSource
+      (standardTypeCGeneratorHom m))
 
 /-- On the uncollapsed simplex, mark exactly the type-(C) distinguished `01n`
 triangle in addition to the minimal scaling. -/
+@[reducible]
 def standardTypeCUncollapsedTargetScaling
     (m : Nat) : ScaledSimplicialSet (Δ[m + 3] : SSet.{u}) :=
   minimalPlusTriangleScaling (standardTypeCTriangle01n m)
