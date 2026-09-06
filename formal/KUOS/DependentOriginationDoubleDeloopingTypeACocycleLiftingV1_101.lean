@@ -8,6 +8,7 @@ open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
@@ -45,6 +46,30 @@ type-(A) horn generator.  Consequently terminal type-(A) RLP for `B²ℕ` is
 reduced to one purely cocyclic horn-extension property.  No bicategory
 coherence and no scaling argument remains hidden in that property.
 -/
+
+end KUOS.DependentOriginationDoubleDeloopingTypeACocycleLiftingV1_101
+
+/-!
+The cocycle predicates and realization lemmas extend the namespace of the
+carrier type itself.  This is intentional: downstream v1.102--v1.104 units use
+Lean field notation on `NatNormalizedDuskinCocycle`, so the extension API must
+live in the actual type namespace rather than only in the importing v1.101
+module namespace.
+-/
+namespace KUOS.DependentOriginationDoubleDeloopingNormalizedCocycleRealizationV1_100
+
+open CategoryTheory
+open CategoryTheory.Category
+open Opposite
+open Simplicial
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
+open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
+open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
+open KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95
+open KUOS.DependentOriginationDoubleDeloopingThinComparisonZeroV1_96
 
 namespace NatNormalizedDuskinCocycle
 
@@ -163,6 +188,24 @@ theorem toSimplexMap_scaled_standardTypeA_iff_distinguishedZero
 
 end NatNormalizedDuskinCocycle
 
+end KUOS.DependentOriginationDoubleDeloopingNormalizedCocycleRealizationV1_100
+
+namespace KUOS.DependentOriginationDoubleDeloopingTypeACocycleLiftingV1_101
+
+open CategoryTheory
+open CategoryTheory.Category
+open Opposite
+open Simplicial
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
+open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
+open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
+open KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95
+open KUOS.DependentOriginationDoubleDeloopingThinComparisonZeroV1_96
+open KUOS.DependentOriginationDoubleDeloopingNormalizedCocycleRealizationV1_100
+
 /-! ## Exact cocycle completion datum for one literal type-(A) horn -/
 
 /-- A completed additive cocycle for a literal scaled type-(A) horn map.
@@ -200,7 +243,11 @@ theorem toLift_fac
     (K : NatTypeAHornCocycleCompletion g f) :
     standardTypeAScaledHornGeneratorHom g ≫ K.toLift = f := by
   apply ScaledSSet.ScaledMap.ext
-  simpa [standardTypeAScaledHornGeneratorHom, toLift] using K.restrict
+  change
+    (Λ[g.n, g.i].ι :
+      (Λ[g.n, g.i] : SSet) ⟶ (Δ[g.n] : SSet)) ≫
+        K.cocycle.toSimplexMap = f.map
+  exact K.restrict
 
 end NatTypeAHornCocycleCompletion
 
@@ -235,6 +282,13 @@ theorem natDoubleDelooping_standardTypeA_rlp_of_cocycleCompletions
     (H : HasAllStandardTypeAHornCocycleCompletions) :
     (standardTypeAScaledHornGenerators : MorphismProperty ScaledSSet).rlp
       (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin) := by
+  letI : Nonempty StandardTypeAHornGeneratorIndex :=
+    ⟨{
+      n := 2
+      i := 1
+      inner_left := by decide
+      inner_right := by decide
+    }⟩
   rw [MorphismProperty.rlp_ofHoms_iff_hasLiftingProperty
     StandardTypeAHornGeneratorIndex]
   intro g
