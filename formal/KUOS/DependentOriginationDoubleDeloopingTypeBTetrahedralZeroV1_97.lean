@@ -23,11 +23,15 @@ the additive 2-cocycle equation on every tetrahedron:
 a_ijk + a_ikl = a_jkl + a_ijl.
 ```
 
-This file extracts that equation directly from Mathlib's
-`StrictlyUnitaryLaxFunctor.map₂_associator` and proves the exact zero
-propagation needed by type-(B).  On tetrahedron `0124`, zero labels `012` and
-`024` force both `124` and `014` to be zero.  On tetrahedron `0134`, zero
-labels `013`, `134`, and the newly obtained `014` force `034` to be zero.
+The comparison 2-cells have different bicategorical source and target
+1-cells, so they must first be observed in the underlying additive hom-set
+`Nat` before they can be added as arithmetic labels.  The function
+`natDuskinMapCompLabel` performs exactly this observation.  The cocycle and
+all zero-propagation arguments below are then carried out entirely in `Nat`.
+
+On tetrahedron `0124`, zero labels `012` and `024` force both `124` and `014`
+to be zero.  On tetrahedron `0134`, zero labels `013`, `134`, and the newly
+obtained `014` force `034` to be zero.
 
 Thus the substantive scaling arithmetic of type-(B) is now a finite theorem
 in natural-number addition.  The remaining bridge to literal terminal RLP is
@@ -35,27 +39,38 @@ only the Yoneda identification between these labels and the seven named
 triangles of the standard `Delta[4]` generator.
 -/
 
+/-- The underlying natural-number label of a lax composition comparison in
+`B²ℕ`.  Keeping this observation explicit prevents arithmetic addition from
+being confused with composition between differently typed bicategorical
+2-cells. -/
+def natDuskinMapCompLabel
+    {n : Nat}
+    (sigma : DuskinSimplex NatDoubleDelooping n)
+    {a b c : DuskinOrdinal n}
+    (f : a ⟶ b) (g : b ⟶ c) : Nat :=
+  sigma.mapComp f g
+
 /-- In the additive double delooping, lax associativity is the ordinary
-additive 2-cocycle equation. -/
+additive 2-cocycle equation on the observed natural-number labels. -/
 theorem natDuskin_mapComp_additive_cocycle
     {n : Nat}
     (sigma : DuskinSimplex NatDoubleDelooping n)
     {a b c d : DuskinOrdinal n}
     (f : a ⟶ b) (g : b ⟶ c) (h : c ⟶ d) :
-    (sigma.mapComp f g : Nat) +
-        (sigma.mapComp (f ≫ g) h : Nat) =
-      (sigma.mapComp g h : Nat) +
-        (sigma.mapComp f (g ≫ h) : Nat) := by
+    natDuskinMapCompLabel sigma f g +
+        natDuskinMapCompLabel sigma (f ≫ g) h =
+      natDuskinMapCompLabel sigma g h +
+        natDuskinMapCompLabel sigma f (g ≫ h) := by
   have hcoh := sigma.map₂_associator f g h
   have hmap₂ : sigma.map₂ (α_ f g h).hom = (0 : Nat) :=
     natDuskin_map₂_eq_zero sigma _
   rw [hmap₂] at hcoh
   set_option backward.isDefEq.respectTransparency false in
     change
-      ((sigma.mapComp f g : Nat) +
-          (sigma.mapComp (f ≫ g) h : Nat)) + 0 =
-        0 + (sigma.mapComp g h : Nat) +
-          (sigma.mapComp f (g ≫ h) : Nat) at hcoh
+      (natDuskinMapCompLabel sigma f g +
+          natDuskinMapCompLabel sigma (f ≫ g) h) + 0 =
+        0 + natDuskinMapCompLabel sigma g h +
+          natDuskinMapCompLabel sigma f (g ≫ h) at hcoh
   simpa only [Nat.add_zero, Nat.zero_add] using hcoh
 
 /-- If the two labels on the left side of a tetrahedral cocycle equation are
@@ -69,8 +84,13 @@ theorem natDuskin_tetrahedron_zero_split
     (hfg_h : sigma.mapComp (f ≫ g) h = (0 : Nat)) :
     sigma.mapComp g h = (0 : Nat) ∧
       sigma.mapComp f (g ≫ h) = (0 : Nat) := by
+  have hfgLabel : natDuskinMapCompLabel sigma f g = 0 := hfg
+  have hfg_hLabel : natDuskinMapCompLabel sigma (f ≫ g) h = 0 := hfg_h
   have hcocycle := natDuskin_mapComp_additive_cocycle sigma f g h
-  rw [hfg, hfg_h] at hcocycle
+  rw [hfgLabel, hfg_hLabel] at hcocycle
+  change
+    natDuskinMapCompLabel sigma g h = 0 ∧
+      natDuskinMapCompLabel sigma f (g ≫ h) = 0
   omega
 
 /-- If three labels in the tetrahedral equation vanish, the remaining
@@ -84,8 +104,12 @@ theorem natDuskin_tetrahedron_zero_remaining
     (hgh : sigma.mapComp g h = (0 : Nat))
     (houter : sigma.mapComp f (g ≫ h) = (0 : Nat)) :
     sigma.mapComp (f ≫ g) h = (0 : Nat) := by
+  have hfgLabel : natDuskinMapCompLabel sigma f g = 0 := hfg
+  have hghLabel : natDuskinMapCompLabel sigma g h = 0 := hgh
+  have houterLabel : natDuskinMapCompLabel sigma f (g ≫ h) = 0 := houter
   have hcocycle := natDuskin_mapComp_additive_cocycle sigma f g h
-  rw [hfg, hgh, houter] at hcocycle
+  rw [hfgLabel, hghLabel, houterLabel] at hcocycle
+  change natDuskinMapCompLabel sigma (f ≫ g) h = 0
   omega
 
 /-! ## The seven type-(B) labels inside a Duskin four-simplex -/
