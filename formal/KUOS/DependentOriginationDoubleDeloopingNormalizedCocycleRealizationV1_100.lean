@@ -366,23 +366,26 @@ theorem toSimplexMap_triangle_comparison
     (C : NatNormalizedDuskinCocycle n)
     (a b c : Fin (n + 1))
     (hab : a <= b) (hbc : b <= c) :
-    (duskinComparison
+    duskinComparison
         (C.toSimplexMap.app (op ⦋2⦌)
-          (SSet.stdSimplex.triangle a b c hab hbc)) : Nat) =
+          (SSet.stdSimplex.triangle a b c hab hbc) :
+            DuskinSimplex NatDoubleDelooping 2) =
       C.label a b c hab hbc := by
   change
-    (duskinComparison
+    duskinComparison
         ((SSet.yonedaEquiv.symm C.toDuskinSimplex).app (op ⦋2⦌)
-          (natSimplexTriangle a b c hab hbc)) : Nat) =
+          (natSimplexTriangle a b c hab hbc) :
+            DuskinSimplex NatDoubleDelooping 2) =
       C.label a b c hab hbc
   calc
-    (duskinComparison
+    duskinComparison
         ((SSet.yonedaEquiv.symm C.toDuskinSimplex).app (op ⦋2⦌)
-          (natSimplexTriangle a b c hab hbc)) : Nat) =
-      (duskinComparison
+          (natSimplexTriangle a b c hab hbc) :
+            DuskinSimplex NatDoubleDelooping 2) =
+      duskinComparison
         ((duskinNerve NatDoubleDelooping).map
           (natSimplexTriangleFace a b c hab hbc).op
-          C.toDuskinSimplex) : Nat) := by
+          C.toDuskinSimplex : DuskinSimplex NatDoubleDelooping 2) := by
       have hyoneda :
           ((SSet.yonedaEquiv.symm C.toDuskinSimplex).app (op ⦋2⦌)
               (natSimplexTriangle a b c hab hbc)) =
