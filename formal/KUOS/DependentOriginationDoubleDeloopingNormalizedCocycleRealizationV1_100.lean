@@ -389,11 +389,22 @@ theorem toSimplexMap_triangle_comparison
           C.toDuskinSimplex
           (natSimplexTriangle a b c hab hbc)).symm
     _ = C.label a b c hab hbc := by
-      exact
-        (natSimplex_triangle_face_comparison
-          C.toDuskinSimplex a b c hab hbc).trans
-        (toDuskinSimplex_mapComp C
-          (natOrdinalEdge hab) (natOrdinalEdge hbc))
+      have hface :
+          (duskinComparison
+              ((duskinNerve NatDoubleDelooping).map
+                (natSimplexTriangleFace a b c hab hbc).op
+                C.toDuskinSimplex) : Nat) =
+            (C.toDuskinSimplex.mapComp
+              (natOrdinalEdge hab) (natOrdinalEdge hbc) : Nat) := by
+        exact natSimplex_triangle_face_comparison
+          C.toDuskinSimplex a b c hab hbc
+      have hlabel :
+          (C.toDuskinSimplex.mapComp
+              (natOrdinalEdge hab) (natOrdinalEdge hbc) : Nat) =
+            C.label a b c hab hbc := by
+        exact toDuskinSimplex_mapComp C
+          (natOrdinalEdge hab) (natOrdinalEdge hbc)
+      exact hface.trans hlabel
 
 /-! ## Degree two: thinness is exactly zero cocycle label -/
 
