@@ -85,8 +85,8 @@ def natTypeCPointMap
 
 private theorem natTypeC_zero_le_one (m : Nat) :
     (0 : Fin (m + 4)) ≤ 1 := by
-  change 0 ≤ 1
-  omega
+  change (0 : Nat) ≤ 1
+  exact Nat.zero_le 1
 
 private theorem natTypeC_one_le_last (m : Nat) :
     (1 : Fin (m + 4)) ≤ Fin.last (m + 3) := by
@@ -172,7 +172,7 @@ theorem natTypeCThreeLabel013_eq_zero
     (f : standardTypeCSource.{0} 0 ⟶ natDoubleDeloopingScaledDuskin) :
     duskinComparison
       ((natTypeCHornMap 0 f).app (op ⦋2⦌)
-        (SSet.horn.face (0 : Fin 4) (2 : Fin 4) (by decide))) = 0 := by
+        (SSet.horn.face (0 : Fin 4) (2 : Fin 4) (by decide))) = (0 : Nat) := by
   apply
     (natDuskin_thin_iff_comparison_eq_zero
       ((natTypeCHornMap 0 f).app (op ⦋2⦌)
@@ -180,9 +180,10 @@ theorem natTypeCThreeLabel013_eq_zero
   have hthin := f.scaled
     (standardTypeCSourceDistinguishedTriangle.{0} 0)
     (standardTypeCSource_distinguished_thin.{0} 0)
-  simpa [natTypeCHornMap, natTypeCSourceHornInl,
-    standardTypeCSourceDistinguishedTriangle,
-    typeCThree_face2_eq_distinguished] using hthin
+  set_option backward.isDefEq.respectTransparency false in
+    simpa [natDoubleDeloopingScaledDuskin, natTypeCHornMap,
+      natTypeCSourceHornInl, standardTypeCSourceDistinguishedTriangle,
+      typeCThree_face2_eq_distinguished] using hthin
 
 /-- The dimension-three outer-horn completion. -/
 def natTypeCThreeCompletionCocycle
@@ -376,9 +377,10 @@ theorem natTypeCHornLabel_distinguished_zero
   have hthin := f.scaled
     (standardTypeCSourceDistinguishedTriangle.{0} m)
     (standardTypeCSource_distinguished_thin.{0} m)
-  simpa [natTypeCHornMap, natTypeCSourceHornInl,
-    standardTypeCSourceDistinguishedTriangle,
-    natTypeCHornTriangle_distinguished] using hthin
+  set_option backward.isDefEq.respectTransparency false in
+    simpa [natDoubleDeloopingScaledDuskin, natTypeCHornMap,
+      natTypeCSourceHornInl, standardTypeCSourceDistinguishedTriangle,
+      natTypeCHornTriangle_distinguished] using hthin
 
 /-! ## Simplicial naturality for visible outer-horn labels -/
 
@@ -850,5 +852,7 @@ remaining step is purely categorical: realize the completed cocycle on
 native target pushout, and verify the single distinguished target triangle is
 thin.  No further cocycle equation or new assumption is required.
 -/
+
+end
 
 end KUOS.DependentOriginationDoubleDeloopingTypeCOuterHornCocycleCompletionV1_105
