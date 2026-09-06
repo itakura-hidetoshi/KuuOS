@@ -271,16 +271,17 @@ theorem natThreeCocycle_typeA_i2_zero
       (natThreeCocycleOfLabels a012 a013 a023 0 hcoh)
       (2 : Fin 4) := by
   intro a b c hab hbc hbi ha hc
-  subst b
+  have hb : b.val = 2 := by simpa using congrArg Fin.val hbi
+  have ha1 : a.val = 1 := by omega
+  have hc3 : c.val = 3 := by omega
   have haFin : a = (1 : Fin 4) := by
     apply Fin.ext
-    change a.val = 1
-    omega
+    exact ha1
   have hcFin : c = (3 : Fin 4) := by
     apply Fin.ext
-    change c.val = 3
-    omega
+    exact hc3
   subst a
+  subst b
   subst c
   simp [natThreeCocycleOfLabels]
 
