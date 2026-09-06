@@ -12,6 +12,7 @@ open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
 open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
+open KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
 open KUOS.DependentOriginationStandardABCPositiveCanonicalResidualSplitV1_79
 open KUOS.DependentOriginationGeneratedPresentationPosetalReflectionV1_83
@@ -231,8 +232,7 @@ theorem standardGenerated_le_canonicalGenerated
 /-- Quotient-level reverse inclusion follows from exactly the same core. -/
 theorem standardPresentation_le_canonicalPresentation
     (K : StandardABCCanonicalMinimalHornReverseCore.{u}) :
-    (standardABCPresentation : GeneratedScaledAnodynePresentation.{u}) ≤
-      (canonicalKuuOSPresentation : GeneratedScaledAnodynePresentation.{u}) :=
+    standardABCPresentation.{u} ≤ canonicalKuuOSPresentation.{u} :=
   (standardABC_le_canonicalKuuOS_iff_generatorwiseReverse).2
     K.toGeneratorwiseReverse
 
@@ -254,10 +254,8 @@ the strictness witness is universe zero because the B²ℕ separator of v1.107 i
 constructed there; the reverse comparison itself remains polymorphic. -/
 theorem presentation_strictOrderCertificate
     (K : StandardABCCanonicalMinimalHornReverseCore.{0}) :
-    (standardABCPresentation : GeneratedScaledAnodynePresentation.{0}) ≤
-        (canonicalKuuOSPresentation : GeneratedScaledAnodynePresentation.{0}) ∧
-      ¬ (canonicalKuuOSPresentation : GeneratedScaledAnodynePresentation.{0}) ≤
-        (standardABCPresentation : GeneratedScaledAnodynePresentation.{0}) :=
+    standardABCPresentation.{0} ≤ canonicalKuuOSPresentation.{0} ∧
+      ¬ canonicalKuuOSPresentation.{0} ≤ standardABCPresentation.{0} :=
   ⟨K.standardPresentation_le_canonicalPresentation,
     natDoubleDelooping_not_canonicalKuuOS_le_standardABC⟩
 
@@ -292,10 +290,8 @@ theorem standardGenerated_le_canonicalGenerated_of_allMinimalHorns
 yields the strict presentation-order certificate. -/
 theorem presentation_strictOrderCertificate_of_allMinimalHorns
     (H : AllMinimalHornInclusionsCanonical.{0}) :
-    (standardABCPresentation : GeneratedScaledAnodynePresentation.{0}) ≤
-        (canonicalKuuOSPresentation : GeneratedScaledAnodynePresentation.{0}) ∧
-      ¬ (canonicalKuuOSPresentation : GeneratedScaledAnodynePresentation.{0}) ≤
-        (standardABCPresentation : GeneratedScaledAnodynePresentation.{0}) :=
+    standardABCPresentation.{0} ≤ canonicalKuuOSPresentation.{0} ∧
+      ¬ canonicalKuuOSPresentation.{0} ≤ standardABCPresentation.{0} :=
   (minimalHornReverseCore_of_all H).presentation_strictOrderCertificate
 
 /-!
