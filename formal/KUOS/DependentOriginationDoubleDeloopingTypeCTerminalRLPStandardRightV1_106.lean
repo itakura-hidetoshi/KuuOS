@@ -13,6 +13,7 @@ open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
+open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 open KUOS.DependentOriginationCanonicalFibrationThinReflectionV1_92
 open KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95
 open KUOS.DependentOriginationDoubleDeloopingThinComparisonZeroV1_96
@@ -97,23 +98,23 @@ def toTargetMap
   (standardTypeCTargetCarrier_isPushout.{0} m).desc
     K.cocycle.toSimplexMap
     (natTypeCPointMap m f)
-    K.edge_compat
+    (edge_compat K)
 
 @[simp, reassoc]
 theorem target_inl_desc
     (K : NatTypeCSourceCocycleCompletion m f) :
-    standardTypeCTargetInl.{0} m ≫ K.toTargetMap =
+    standardTypeCTargetInl.{0} m ≫ toTargetMap K =
       K.cocycle.toSimplexMap := by
   exact (standardTypeCTargetCarrier_isPushout.{0} m).inl_desc
-    K.cocycle.toSimplexMap (natTypeCPointMap m f) K.edge_compat
+    K.cocycle.toSimplexMap (natTypeCPointMap m f) (edge_compat K)
 
 @[simp, reassoc]
 theorem target_inr_desc
     (K : NatTypeCSourceCocycleCompletion m f) :
-    standardTypeCTargetInr.{0} m ≫ K.toTargetMap =
+    standardTypeCTargetInr.{0} m ≫ toTargetMap K =
       natTypeCPointMap m f := by
   exact (standardTypeCTargetCarrier_isPushout.{0} m).inr_desc
-    K.cocycle.toSimplexMap (natTypeCPointMap m f) K.edge_compat
+    K.cocycle.toSimplexMap (natTypeCPointMap m f) (edge_compat K)
 
 /-- The realized completed simplex sends `01n` to a thin Duskin triangle. -/
 theorem cocycle_distinguished_thin
@@ -131,7 +132,7 @@ theorem cocycle_distinguished_thin
         (K.cocycle.toSimplexMap.app (op ⦋2⦌)
           (SSet.stdSimplex.triangle
             (0 : Fin (m + 4)) 1 (Fin.last (m + 3))
-            (typeC106_zero_le_one m) (typeC106_one_le_last m))) = 0
+            (typeC106_zero_le_one m) (typeC106_one_le_last m))) = (0 : Nat)
   rw [NatNormalizedDuskinCocycle.toSimplexMap_triangle_comparison]
   exact K.distinguished_zero
 
@@ -143,83 +144,83 @@ theorem toTargetMap_scaled
     IsScaledMap
       (standardTypeCTargetScaling.{0} m)
       (duskinScaling NatDoubleDelooping)
-      K.toTargetMap := by
+      (toTargetMap K) := by
   intro t ht
   rcases ht with hmin | hdist
   · exact
       (minimalScaling_map
-        (duskinScaling NatDoubleDelooping) K.toTargetMap) t hmin
+        (duskinScaling NatDoubleDelooping) (toTargetMap K)) t hmin
   · subst t
     have hfac :
-        K.toTargetMap.app (op ⦋2⦌)
+        (toTargetMap K).app (op ⦋2⦌)
             (standardTypeCTargetDistinguishedTriangle.{0} m) =
           K.cocycle.toSimplexMap.app (op ⦋2⦌)
             (standardTypeCTriangle01n.{0} m) := by
       have h :=
         ConcreteCategory.congr_hom
-          (congr_app K.target_inl_desc (op ⦋2⦌))
+          (congr_app (target_inl_desc K) (op ⦋2⦌))
           (standardTypeCTriangle01n.{0} m)
       set_option backward.isDefEq.respectTransparency false in
         change
-          K.toTargetMap.app (op ⦋2⦌)
+          (toTargetMap K).app (op ⦋2⦌)
               ((standardTypeCTargetInl.{0} m).app (op ⦋2⦌)
                 (standardTypeCTriangle01n.{0} m)) =
             K.cocycle.toSimplexMap.app (op ⦋2⦌)
               (standardTypeCTriangle01n.{0} m)
       exact h
     rw [hfac]
-    exact K.cocycle_distinguished_thin
+    exact cocycle_distinguished_thin K
 
 /-- Upgrade the descended carrier map to a scaled map from the standard
 collapsed target. -/
 def toLift
     (K : NatTypeCSourceCocycleCompletion m f) :
     standardTypeCTarget.{0} m ⟶ natDoubleDeloopingScaledDuskin where
-  map := K.toTargetMap
-  scaled := K.toTargetMap_scaled
+  map := toTargetMap K
+  scaled := toTargetMap_scaled K
 
 /-- The descended lift restricts exactly to the original map on the collapsed
 source.  The proof is the source pushout hom-extensionality on the horn and
 point legs. -/
 theorem toLift_fac
     (K : NatTypeCSourceCocycleCompletion m f) :
-    standardTypeCGeneratorHom.{0} m ≫ K.toLift = f := by
+    standardTypeCGeneratorHom.{0} m ≫ toLift K = f := by
   apply ScaledSSet.ScaledMap.ext
-  change standardTypeCCarrierMap.{0} m ≫ K.toTargetMap = f.map
+  change standardTypeCCarrierMap.{0} m ≫ toTargetMap K = f.map
   apply (standardTypeCSourceCarrier_isPushout.{0} m).hom_ext
   · calc
       natTypeCSourceHornInl m ≫
-          (standardTypeCCarrierMap.{0} m ≫ K.toTargetMap) =
+          (standardTypeCCarrierMap.{0} m ≫ toTargetMap K) =
         (natTypeCSourceHornInl m ≫ standardTypeCCarrierMap.{0} m) ≫
-          K.toTargetMap := by simp only [Category.assoc]
+          toTargetMap K := by simp only [Category.assoc]
       _ =
         ((Λ[m + 3, (0 : Fin (m + 4))].ι :
             (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0}) ⟶
               (Δ[m + 3] : SSet.{0})) ≫
           standardTypeCTargetInl.{0} m) ≫
-          K.toTargetMap := by
+          toTargetMap K := by
             rw [standardTypeCCarrierMap_inl_horn.{0}]
       _ =
         (Λ[m + 3, (0 : Fin (m + 4))].ι :
             (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0}) ⟶
               (Δ[m + 3] : SSet.{0})) ≫
-          (standardTypeCTargetInl.{0} m ≫ K.toTargetMap) := by
+          (standardTypeCTargetInl.{0} m ≫ toTargetMap K) := by
             simp only [Category.assoc]
       _ =
         (Λ[m + 3, (0 : Fin (m + 4))].ι :
             (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0}) ⟶
               (Δ[m + 3] : SSet.{0})) ≫ K.cocycle.toSimplexMap := by
-            rw [K.target_inl_desc]
+            rw [target_inl_desc K]
       _ = natTypeCHornMap m f := K.restrict
       _ = natTypeCSourceHornInl m ≫ f.map := rfl
   · calc
       natTypeCSourcePointInr m ≫
-          (standardTypeCCarrierMap.{0} m ≫ K.toTargetMap) =
+          (standardTypeCCarrierMap.{0} m ≫ toTargetMap K) =
         (natTypeCSourcePointInr m ≫ standardTypeCCarrierMap.{0} m) ≫
-          K.toTargetMap := by simp only [Category.assoc]
-      _ = standardTypeCTargetInr.{0} m ≫ K.toTargetMap := by
+          toTargetMap K := by simp only [Category.assoc]
+      _ = standardTypeCTargetInr.{0} m ≫ toTargetMap K := by
             rw [standardTypeCCarrierMap_inr_point.{0}]
-      _ = natTypeCPointMap m f := K.target_inr_desc
+      _ = natTypeCPointMap m f := target_inr_desc K
       _ = natTypeCSourcePointInr m ≫ f.map := rfl
 
 end NatTypeCSourceCocycleCompletion
@@ -238,7 +239,9 @@ theorem natDoubleDelooping_hasLiftingProperty_standardTypeC
   intro f
   rcases natDoubleDelooping_hasAllStandardTypeCSourceCocycleCompletions
     m f with ⟨K⟩
-  exact ⟨K.toLift, K.toLift_fac⟩
+  exact ⟨
+    NatTypeCSourceCocycleCompletion.toLift K,
+    NatTypeCSourceCocycleCompletion.toLift_fac K⟩
 
 /-- Equivalently, the terminal map belongs to the right class of the complete
 standard type-(C) generator family. -/
@@ -250,11 +253,10 @@ theorem natDoubleDelooping_standardTypeC_rlp :
     (MorphismProperty.ofHoms
       (fun m : Nat => standardTypeCGeneratorHom.{0} m)).rlp
       (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin)
-  exact
-    (MorphismProperty.rlp_ofHoms_iff_hasLiftingProperty Nat
-      (fun m : Nat => standardTypeCGeneratorHom.{0} m)
-      (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin)).2
-      natDoubleDelooping_hasLiftingProperty_standardTypeC
+  intro X Y q hq
+  cases hq with
+  | mk m =>
+      exact natDoubleDelooping_hasLiftingProperty_standardTypeC m
 
 /-! ## Assemble the standard A/B/C right class -/
 
@@ -308,8 +310,7 @@ theorem natDoubleDelooping_not_standardArbitraryScalingObstructionClosed :
 /-- The forward presentation order from the stronger canonical KuuOS
 presentation to the standard A/B/C presentation fails. -/
 theorem natDoubleDelooping_not_canonicalKuuOS_le_standardABC :
-    ¬ KUOS.DependentOriginationGeneratedPresentationPosetalReflectionV1_83.canonicalKuuOSPresentation.{0} ≤
-      KUOS.DependentOriginationGeneratedPresentationPosetalReflectionV1_83.standardABCPresentation.{0} :=
+    ¬ canonicalKuuOSPresentation.{0} ≤ standardABCPresentation.{0} :=
   not_canonicalKuuOS_le_standardABC_of_standardRightCertificate
     natDoubleDeloopingStandardRightCertificate
 
