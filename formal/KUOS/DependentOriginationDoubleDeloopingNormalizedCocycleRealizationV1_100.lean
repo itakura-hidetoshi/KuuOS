@@ -360,6 +360,59 @@ theorem natSimplex_triangle_face_comparison
   exact (Nat.add_zero _).trans (by
     congr 1)
 
+/-- Re-express a typed map out of `Delta[n]` as its Yoneda `n`-simplex.
+Keeping the typed map `F` at the boundary fixes the target simplicial set
+before `yonedaEquiv.symm` is elaborated. -/
+theorem natSimplex_map_eq_yoneda
+    (F : (Δ[n] : SSet) ⟶ duskinNerve NatDoubleDelooping) :
+    F = SSet.yonedaEquiv.symm (SSet.yonedaEquiv F) := by
+  apply SSet.yonedaEquiv.injective
+  simp
+
+/-- The comparison of the image of any ordered standard triangle under a
+typed map out of `Delta[n]` is the corresponding comparison of its Yoneda
+`n`-simplex.  This is the arbitrary-dimensional form of the validated v1.98
+map-level bridge. -/
+theorem natSimplex_map_triangle_comparison
+    (F : (Δ[n] : SSet) ⟶ duskinNerve NatDoubleDelooping)
+    (a b c : Fin (n + 1))
+    (hab : a <= b) (hbc : b <= c) :
+    duskinComparison
+        (F.app (op ⦋2⦌)
+          (SSet.stdSimplex.triangle a b c hab hbc)) =
+      (SSet.yonedaEquiv F).mapComp
+        (natOrdinalEdge hab) (natOrdinalEdge hbc) := by
+  change
+    duskinComparison
+        (F.app (op ⦋2⦌) (natSimplexTriangle a b c hab hbc)) =
+      (SSet.yonedaEquiv F).mapComp
+        (natOrdinalEdge hab) (natOrdinalEdge hbc)
+  calc
+    duskinComparison
+        (F.app (op ⦋2⦌) (natSimplexTriangle a b c hab hbc)) =
+      duskinComparison
+        ((SSet.yonedaEquiv.symm (SSet.yonedaEquiv F)).app (op ⦋2⦌)
+          (natSimplexTriangle a b c hab hbc)) := by
+      exact congrArg
+        (fun G =>
+          duskinComparison
+            (G.app (op ⦋2⦌) (natSimplexTriangle a b c hab hbc)))
+        (natSimplex_map_eq_yoneda F)
+    _ =
+      duskinComparison
+        ((duskinNerve NatDoubleDelooping).map
+          (natSimplexTriangleFace a b c hab hbc).op
+          (SSet.yonedaEquiv F)) := by
+      exact congrArg duskinComparison
+        (SSet.stdSimplex.map_objEquiv_op_apply
+          (X := duskinNerve NatDoubleDelooping)
+          (SSet.yonedaEquiv F)
+          (natSimplexTriangle a b c hab hbc)).symm
+    _ = (SSet.yonedaEquiv F).mapComp
+        (natOrdinalEdge hab) (natOrdinalEdge hbc) :=
+      natSimplex_triangle_face_comparison
+        (SSet.yonedaEquiv F) a b c hab hbc
+
 /-- For a realized normalized cocycle, the comparison of the image of every
 ordered standard triangle is exactly the cocycle label on that triangle. -/
 theorem toSimplexMap_triangle_comparison
@@ -371,39 +424,18 @@ theorem toSimplexMap_triangle_comparison
           (SSet.stdSimplex.triangle a b c hab hbc) :
             DuskinSimplex NatDoubleDelooping 2) =
       C.label a b c hab hbc := by
-  change
-    duskinComparison
-        ((SSet.yonedaEquiv.symm C.toDuskinSimplex).app (op ⦋2⦌)
-          (natSimplexTriangle a b c hab hbc) :
-            DuskinSimplex NatDoubleDelooping 2) =
-      C.label a b c hab hbc
   calc
     duskinComparison
-        ((SSet.yonedaEquiv.symm C.toDuskinSimplex).app (op ⦋2⦌)
-          (natSimplexTriangle a b c hab hbc) :
+        (C.toSimplexMap.app (op ⦋2⦌)
+          (SSet.stdSimplex.triangle a b c hab hbc) :
             DuskinSimplex NatDoubleDelooping 2) =
-      duskinComparison
-        ((duskinNerve NatDoubleDelooping).map
-          (natSimplexTriangleFace a b c hab hbc).op
-          C.toDuskinSimplex : DuskinSimplex NatDoubleDelooping 2) := by
-      have hyoneda :
-          ((SSet.yonedaEquiv.symm C.toDuskinSimplex).app (op ⦋2⦌)
-              (natSimplexTriangle a b c hab hbc)) =
-            (duskinNerve NatDoubleDelooping).map
-              (natSimplexTriangleFace a b c hab hbc).op
-              C.toDuskinSimplex :=
-        (SSet.stdSimplex.map_objEquiv_op_apply
-          (X := duskinNerve NatDoubleDelooping)
-          C.toDuskinSimplex
-          (natSimplexTriangle a b c hab hbc)).symm
-      exact congrArg
-        (fun sigma : DuskinSimplex NatDoubleDelooping 2 =>
-          (duskinComparison sigma : Nat))
-        hyoneda
-    _ = (C.toDuskinSimplex.mapComp
-          (natOrdinalEdge hab) (natOrdinalEdge hbc) : Nat) := by
-      exact natSimplex_triangle_face_comparison
-        C.toDuskinSimplex a b c hab hbc
+      (SSet.yonedaEquiv C.toSimplexMap).mapComp
+        (natOrdinalEdge hab) (natOrdinalEdge hbc) :=
+      natSimplex_map_triangle_comparison
+        C.toSimplexMap a b c hab hbc
+    _ = C.toDuskinSimplex.mapComp
+        (natOrdinalEdge hab) (natOrdinalEdge hbc) := by
+      rw [yonedaEquiv_toSimplexMap]
     _ = C.label a b c hab hbc := by
       exact toDuskinSimplex_mapComp C
         (natOrdinalEdge hab) (natOrdinalEdge hbc)
