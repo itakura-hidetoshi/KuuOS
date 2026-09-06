@@ -199,7 +199,9 @@ theorem toLift_fac
               (Δ[m + 3] : SSet.{0})) ≫
           standardTypeCTargetInl.{0} m) ≫
           toTargetMap K := by
-            rw [standardTypeCCarrierMap_inl_horn.{0}]
+            simpa only [natTypeCSourceHornInl] using
+              congrArg (fun g => g ≫ toTargetMap K)
+                (standardTypeCCarrierMap_inl_horn.{0} m)
       _ =
         (Λ[m + 3, (0 : Fin (m + 4))].ι :
             (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{0}) ⟶
@@ -219,7 +221,9 @@ theorem toLift_fac
         (natTypeCSourcePointInr m ≫ standardTypeCCarrierMap.{0} m) ≫
           toTargetMap K := by simp only [Category.assoc]
       _ = standardTypeCTargetInr.{0} m ≫ toTargetMap K := by
-            rw [standardTypeCCarrierMap_inr_point.{0}]
+            simpa only [natTypeCSourcePointInr] using
+              congrArg (fun g => g ≫ toTargetMap K)
+                (standardTypeCCarrierMap_inr_point.{0} m)
       _ = natTypeCPointMap m f := target_inr_desc K
       _ = natTypeCSourcePointInr m ≫ f.map := rfl
 
