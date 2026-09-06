@@ -161,9 +161,12 @@ theorem distinguishedZero_of_toSimplexMap_scaled_standardTypeA
     SSet.stdSimplex.triangle a b c hab hbc
   have hdist : IsStandardTypeADistinguishedTriangle i t := by
     refine ⟨?_, ?_, ?_⟩
-    · simpa [t] using hbi
-    · simpa [t] using ha
-    · simpa [t] using hc
+    · change b = i
+      exact hbi
+    · change a.val + 1 = i.val
+      exact ha
+    · change i.val + 1 = c.val
+      exact hc
   have hthin := hscaled t (Or.inr hdist)
   have hcomp :=
     (natDuskin_thin_iff_comparison_eq_zero
@@ -282,19 +285,17 @@ theorem natDoubleDelooping_standardTypeA_rlp_of_cocycleCompletions
     (H : HasAllStandardTypeAHornCocycleCompletions) :
     (standardTypeAScaledHornGenerators : MorphismProperty ScaledSSet).rlp
       (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin) := by
-  letI : Nonempty StandardTypeAHornGeneratorIndex :=
-    ⟨{
-      n := 2
-      i := 1
-      inner_left := by decide
-      inner_right := by decide
-    }⟩
-  rw [MorphismProperty.rlp_ofHoms_iff_hasLiftingProperty
-    StandardTypeAHornGeneratorIndex]
-  intro g
-  exact
-    natDoubleDelooping_hasLiftingProperty_standardTypeA_of_cocycleCompletions
-      g (H g)
+  change
+    (MorphismProperty.ofHoms
+      (fun g : StandardTypeAHornGeneratorIndex =>
+        standardTypeAScaledHornGeneratorHom g)).rlp
+      (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin)
+  intro X Y q hq
+  cases hq with
+  | mk g =>
+      exact
+        natDoubleDelooping_hasLiftingProperty_standardTypeA_of_cocycleCompletions
+          g (H g)
 
 /-!
 The type-(A) frontier is now purely arithmetic:
