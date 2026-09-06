@@ -436,7 +436,8 @@ theorem standardTypeC_outer_square_commutes
       Category.assoc _ _ _
     _ = standardTypeCSourceInl.{u} m ≫
         ((standardTypeCMinimalSourceGeneratorHom m).map ≫ g.map) := by
-      rw [← hw]
+      exact congrArg
+        (fun q => standardTypeCSourceInl.{u} m ≫ q) hw.symm
     _ = (standardTypeCSourceInl.{u} m ≫ standardTypeCCarrierMap.{u} m) ≫
         g.map := by
       exact (Category.assoc _ _ _).symm
@@ -469,6 +470,9 @@ theorem hasLiftingProperty_standardTypeCMinimalSource_of_outerOneThin
     { w := standardTypeC_outer_square_commutes p f g sq.w.symm }
   rcases (houter.sq_hasLift outerSq).exists_lift with ⟨L⟩
   let pointLeg := standardTypeCMinimalSourcePointLeg f
+  have hpointLeg :
+      pointLeg.map = standardTypeCSourceInr.{u} m ≫ f.map := by
+    rfl
   have hedge :
       standardTypeCEdgeToSimplex.{u} m ≫ L.l.map =
         standardTypeCEdgeCollapseToPoint.{u} m ≫ pointLeg.map := by
@@ -582,7 +586,7 @@ theorem hasLiftingProperty_standardTypeCMinimalSource_of_outerOneThin
               standardTypeCTargetInr.{u} m ≫ liftMap := by
                 rw [standardTypeCCarrierMap_inr_point.{u}]
             _ = pointLeg.map := hinr
-            _ = standardTypeCSourceInr.{u} m ≫ f.map := rfl
+            _ = standardTypeCSourceInr.{u} m ≫ f.map := hpointLeg
       fac_right := by
         apply ScaledSSet.ScaledMap.ext
         have hright := congrArg ScaledSSet.ScaledMap.map L.fac_right
@@ -603,11 +607,14 @@ theorem hasLiftingProperty_standardTypeCMinimalSource_of_outerOneThin
           calc
             (standardTypeCTargetInr.{u} m ≫ liftMap) ≫ p.map =
               pointLeg.map ≫ p.map := by rw [hinr]
-            _ = (standardTypeCSourceInr.{u} m ≫ f.map) ≫ p.map := rfl
+            _ = (standardTypeCSourceInr.{u} m ≫ f.map) ≫ p.map := by
+              exact congrArg (fun q => q ≫ p.map) hpointLeg
             _ = standardTypeCSourceInr.{u} m ≫ (f.map ≫ p.map) :=
               Category.assoc _ _ _
             _ = standardTypeCSourceInr.{u} m ≫
-                (standardTypeCCarrierMap.{u} m ≫ g.map) := by rw [hw]
+                (standardTypeCCarrierMap.{u} m ≫ g.map) := by
+              exact congrArg
+                (fun q => standardTypeCSourceInr.{u} m ≫ q) hw
             _ = (standardTypeCSourceInr.{u} m ≫
                 standardTypeCCarrierMap.{u} m) ≫ g.map :=
               (Category.assoc _ _ _).symm
@@ -645,7 +652,8 @@ def standardABCCanonicalGeneratorwiseReverseComparison_of_oneThinHorns
       ∀ m : Nat,
         (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
           (standardTypeCOuterOneThinHornHom m)) :
-    StandardABCCanonicalGeneratorwiseReverseComparison :=
+    KUOS.DependentOriginationStandardABCPositiveCanonicalResidualSplitV1_79.
+      StandardABCCanonicalGeneratorwiseReverseComparison.{u} :=
   standardABCCanonicalGeneratorwiseReverseComparison_of_typeAC
     (fun g =>
       (standardTypeA_mem_canonicalGenerated_iff_minimalSource g).2 (hA g))
