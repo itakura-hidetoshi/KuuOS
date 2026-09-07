@@ -5,6 +5,7 @@ namespace KUOS.DependentOriginationCanonicalTypeAHigherMaxPrismRigidityV1_116
 
 open CategoryTheory
 open CategoryTheory.Category
+open MonoidalCategory
 open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
