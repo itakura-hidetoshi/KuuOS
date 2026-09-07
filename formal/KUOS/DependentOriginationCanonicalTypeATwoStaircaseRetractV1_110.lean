@@ -114,6 +114,14 @@ private theorem sigma_sum_eq (a : Fin 3) :
         ((SimplexCategory.σ (0 : Fin 2)).toOrderHom a).val = a.val := by
   fin_cases a <;> decide
 
+private theorem fin_two_val_add_zero_ne_two (a : Fin 2) :
+    a.val + 0 ≠ 2 := by
+  fin_cases a <;> decide
+
+private theorem fin_two_left_val_eq_zero_of_add_eq_zero
+    (a b : Fin 2) (h : a.val + b.val = 0) : a.val = 0 := by
+  fin_cases a <;> fin_cases b <;> simp_all
+
 /-- Addition retracts the staircase section. -/
 theorem typeATwoLowerRightStaircaseSection_comp_addition :
     typeATwoLowerRightStaircaseSection ≫ typeATwoSquareAdditionMap =
@@ -159,9 +167,10 @@ def typeATwoHornIntoCanonicalAttachmentMap :
         rintro ⟨k, hk⟩
         apply hmissing
         refine ⟨k, ?_⟩
-        exact
-          (sigma_one_eq_zero_iff (x.val k)).1
-            (by simpa using hk)
+        change
+          (typeATwoLowerRightStaircaseSection.app (op ⦋d⦌) x.val).1 k = 0 at hk
+        rw [typeATwoLowerRightStaircaseSection_fst_apply] at hk
+        exact (sigma_one_eq_zero_iff (x.val k)).1 hk
       · exact (hmissing_ne rfl).elim
       · left
         rw [intervalEndpoint_zero_eq_face_one,
@@ -229,9 +238,9 @@ def typeATwoCanonicalAttachmentToHornMap :
         rw [typeATwoSquareAdditionMap_apply] at hk
         have hkval := congrArg Fin.val hk
         change (z.val.1 k).val + (z.val.2 k).val = 2 at hkval
-        have hfst : (z.val.1 k).val < 2 := (z.val.1 k).isLt
         rw [hs_zero] at hkval
-        omega
+        change (z.val.1 k).val + 0 = 2 at hkval
+        exact (fin_two_val_add_zero_ne_two (z.val.1 k)) hkval
       · have hzero : (0 : Fin 2) ∉ Set.range z.val.1 := by
           rcases
               (SSet.mem_horn_iff_notMem_range z.val.1 (1 : Fin 2)).1 hhorn with
@@ -247,9 +256,9 @@ def typeATwoCanonicalAttachmentToHornMap :
         rw [typeATwoSquareAdditionMap_apply] at hk
         have hkval := congrArg Fin.val hk
         change (z.val.1 k).val + (z.val.2 k).val = 0 at hkval
-        have hfst : (z.val.1 k).val < 2 := (z.val.1 k).isLt
-        have hsnd : (z.val.2 k).val < 2 := (z.val.2 k).isLt
-        omega)
+        change (z.val.1 k).val = 0
+        exact fin_two_left_val_eq_zero_of_add_eq_zero
+          (z.val.1 k) (z.val.2 k) hkval)
 
 @[reassoc (attr := simp)]
 theorem typeATwoCanonicalAttachmentToHornMap_ι :
