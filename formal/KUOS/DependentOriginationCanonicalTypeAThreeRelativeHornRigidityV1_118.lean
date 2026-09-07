@@ -238,8 +238,11 @@ theorem typeAThreePrismMap_apply_eq_vertexValue
           (r.map.app (op ⦋d⦌) z) := by
     exact ConcreteCategory.congr_hom (r.map.naturality alpha.op) z
   have hpoint := congrArg (fun q => SSet.stdSimplex.obj₀Equiv q) hnat
-  simpa [typeAThreePrismVertexValue, typeAThreePrismVertex, alpha, v] using
-    hpoint.symm
+  set_option backward.isDefEq.respectTransparency false in
+    change
+      typeAThreePrismVertexValue r (z.1 k) (z.2 k) =
+        ((r.map.app (op ⦋d⦌) z : (Δ[3] : SSet.{u}) _⦋d⦌)) k at hpoint
+  exact hpoint.symm
 
 /-- Vertex values are monotone in both prism coordinates. -/
 theorem typeAThreePrismVertexValue_mono
@@ -262,7 +265,11 @@ theorem typeAThreePrismVertexValue_mono
       (show (0 : Fin 2) ≤ 1 by decide)
   rw [typeAThreePrismMap_apply_eq_vertexValue r z 0,
     typeAThreePrismMap_apply_eq_vertexValue r z 1] at hmono
-  simpa [z] using hmono
+  set_option backward.isDefEq.respectTransparency false in
+    change
+      typeAThreePrismVertexValue r a e ≤
+        typeAThreePrismVertexValue r b f at hmono
+  exact hmono
 
 /-! ## Reusable prism triangles -/
 
@@ -297,7 +304,7 @@ theorem typeAThreeEndpointTriangle_zero
   · simp [typeAThreeEndpointTriangle]
   · apply SSet.stdSimplex.ext
     intro k
-    fin_cases k <;> simp [typeAThreeEndpointTriangle]
+    fin_cases k <;> rfl
 
 @[simp]
 theorem typeAThreeEndpointTriangle_one
@@ -310,7 +317,7 @@ theorem typeAThreeEndpointTriangle_one
   · simp [typeAThreeEndpointTriangle]
   · apply SSet.stdSimplex.ext
     intro k
-    fin_cases k <;> simp [typeAThreeEndpointTriangle]
+    fin_cases k <;> rfl
 
 /-! ## Endpoint propagation of the missing triangle -/
 
@@ -384,15 +391,27 @@ theorem typeAThreeOne_missingTriangle_endpoint_propagation
         have hy := r.scaled v hthin
         have hy1 : (r.map.app (op ⦋2⦌) v) 1 = (2 : Fin 4) := by
           rw [typeAThreePrismMap_apply_eq_vertexValue]
-          simpa [v, hq1] using hv1
+          set_option backward.isDefEq.respectTransparency false in
+            change
+              typeAThreePrismVertexValue r (t.1 1) (1 : Fin 2) =
+                (2 : Fin 4)
+          simpa [hq1] using hv1
         have hy2 : (r.map.app (op ⦋2⦌) v) 2 = (3 : Fin 4) := by
           rw [typeAThreePrismMap_apply_eq_vertexValue]
-          simpa [v, hq2] using hv2
+          set_option backward.isDefEq.respectTransparency false in
+            change
+              typeAThreePrismVertexValue r (t.1 2) (1 : Fin 2) =
+                (3 : Fin 4)
+          simpa [hq2] using hv2
         have hEq :=
           typeAThreeOne_thin_eq_left_of_middle_two_right_three
             (r.map.app (op ⦋2⦌) v) hy hy1 hy2
         rw [typeAThreePrismMap_apply_eq_vertexValue,
           typeAThreePrismMap_apply_eq_vertexValue] at hEq
+        set_option backward.isDefEq.respectTransparency false in
+          change
+            typeAThreePrismVertexValue r (t.1 1) (0 : Fin 2) =
+              typeAThreePrismVertexValue r (t.1 1) (1 : Fin 2) at hEq
         have hv1' :
             typeAThreePrismVertexValue r (t.1 1) (1 : Fin 2) =
               (2 : Fin 4) := by
@@ -417,25 +436,41 @@ theorem typeAThreeOne_missingTriangle_endpoint_propagation
         have hy := r.scaled v hthin
         have hy0 : (r.map.app (op ⦋2⦌) v) 0 = (0 : Fin 4) := by
           rw [typeAThreePrismMap_apply_eq_vertexValue]
-          simpa [v] using he0
+          set_option backward.isDefEq.respectTransparency false in
+            change
+              typeAThreePrismVertexValue r (t.1 0) (0 : Fin 2) =
+                (0 : Fin 4)
+          exact he0
         have hy2 : (r.map.app (op ⦋2⦌) v) 2 = (3 : Fin 4) := by
           rw [typeAThreePrismMap_apply_eq_vertexValue]
-          simpa [v, hq2] using hv2
+          set_option backward.isDefEq.respectTransparency false in
+            change
+              typeAThreePrismVertexValue r (t.1 2) (1 : Fin 2) =
+                (3 : Fin 4)
+          simpa [hq2] using hv2
         have hrep :=
           typeAThreeOne_thin_middle_eq_endpoint_of_left_zero_right_three
             (r.map.app (op ⦋2⦌) v) hy hy0 hy2
         rcases hrep with hleft | hright
         · rw [typeAThreePrismMap_apply_eq_vertexValue,
             typeAThreePrismMap_apply_eq_vertexValue] at hleft
+          set_option backward.isDefEq.respectTransparency false in
+            change
+              typeAThreePrismVertexValue r (t.1 0) (0 : Fin 2) =
+                typeAThreePrismVertexValue r (t.1 2) (0 : Fin 2) at hleft
           have hz :
               typeAThreePrismVertexValue r (t.1 2) (0 : Fin 2) =
                 (0 : Fin 4) := by
-            exact he0.symm.trans hleft
+            exact hleft.symm.trans he0
           have hle := typeAThreePrismVertexValue_mono r hx12 le_rfl
           rw [he1, hz] at hle
           omega
         · rw [typeAThreePrismMap_apply_eq_vertexValue,
             typeAThreePrismMap_apply_eq_vertexValue] at hright
+          set_option backward.isDefEq.respectTransparency false in
+            change
+              typeAThreePrismVertexValue r (t.1 2) (0 : Fin 2) =
+                typeAThreePrismVertexValue r (t.1 2) (1 : Fin 2) at hright
           have hv2' :
               typeAThreePrismVertexValue r (t.1 2) (1 : Fin 2) =
                 (3 : Fin 4) := by
@@ -445,11 +480,17 @@ theorem typeAThreeOne_missingTriangle_endpoint_propagation
     intro k
     fin_cases k
     · rw [typeAThreePrismMap_apply_eq_vertexValue]
-      simpa [typeAThreeEndpointTriangle] using he0
+      set_option backward.isDefEq.respectTransparency false in
+        change typeAThreePrismVertexValue r (t.1 0) 0 = (0 : Fin 4)
+      exact he0
     · rw [typeAThreePrismMap_apply_eq_vertexValue]
-      simpa [typeAThreeEndpointTriangle] using he1
+      set_option backward.isDefEq.respectTransparency false in
+        change typeAThreePrismVertexValue r (t.1 1) 0 = (2 : Fin 4)
+      exact he1
     · rw [typeAThreePrismMap_apply_eq_vertexValue]
-      simpa [typeAThreeEndpointTriangle] using he2
+      set_option backward.isDefEq.respectTransparency false in
+        change typeAThreePrismVertexValue r (t.1 2) 0 = (3 : Fin 4)
+      exact he2
   · have he2 :
         typeAThreePrismVertexValue r (t.1 2) (1 : Fin 2) =
           (3 : Fin 4) := by
@@ -483,20 +524,32 @@ theorem typeAThreeOne_missingTriangle_endpoint_propagation
         have hy := r.scaled v hthin
         have hy0 : (r.map.app (op ⦋2⦌) v) 0 = (0 : Fin 4) := by
           rw [typeAThreePrismMap_apply_eq_vertexValue]
-          simpa [v, hq0] using hv0
+          set_option backward.isDefEq.respectTransparency false in
+            change
+              typeAThreePrismVertexValue r (t.1 0) (0 : Fin 2) =
+                (0 : Fin 4)
+          simpa [hq0] using hv0
         have hy1 : (r.map.app (op ⦋2⦌) v) 1 = (2 : Fin 4) := by
           rw [typeAThreePrismMap_apply_eq_vertexValue]
-          simpa [v, hq1] using hv1
+          set_option backward.isDefEq.respectTransparency false in
+            change
+              typeAThreePrismVertexValue r (t.1 1) (0 : Fin 2) =
+                (2 : Fin 4)
+          simpa [hq1] using hv1
         have hEq :=
           typeAThreeOne_thin_eq_right_of_left_zero_middle_two
             (r.map.app (op ⦋2⦌) v) hy hy0 hy1
         rw [typeAThreePrismMap_apply_eq_vertexValue,
           typeAThreePrismMap_apply_eq_vertexValue] at hEq
+        set_option backward.isDefEq.respectTransparency false in
+          change
+            typeAThreePrismVertexValue r (t.1 1) (0 : Fin 2) =
+              typeAThreePrismVertexValue r (t.1 1) (1 : Fin 2) at hEq
         have hv1' :
             typeAThreePrismVertexValue r (t.1 1) (0 : Fin 2) =
               (2 : Fin 4) := by
           simpa [hq1] using hv1
-        exact hv1'.symm.trans hEq
+        exact hEq.symm.trans hv1'
       · have hq1 : t.2 1 = (1 : Fin 2) :=
           Fin.eq_one_of_ne_zero _ hq1zero
         simpa [hq1] using hv1
@@ -517,23 +570,39 @@ theorem typeAThreeOne_missingTriangle_endpoint_propagation
         have hy := r.scaled v hthin
         have hy0 : (r.map.app (op ⦋2⦌) v) 0 = (0 : Fin 4) := by
           rw [typeAThreePrismMap_apply_eq_vertexValue]
-          simpa [v, hq0] using hv0
+          set_option backward.isDefEq.respectTransparency false in
+            change
+              typeAThreePrismVertexValue r (t.1 0) (0 : Fin 2) =
+                (0 : Fin 4)
+          simpa [hq0] using hv0
         have hy2 : (r.map.app (op ⦋2⦌) v) 2 = (3 : Fin 4) := by
           rw [typeAThreePrismMap_apply_eq_vertexValue]
-          simpa [v] using he2
+          set_option backward.isDefEq.respectTransparency false in
+            change
+              typeAThreePrismVertexValue r (t.1 2) (1 : Fin 2) =
+                (3 : Fin 4)
+          exact he2
         have hrep :=
           typeAThreeOne_thin_middle_eq_endpoint_of_left_zero_right_three
             (r.map.app (op ⦋2⦌) v) hy hy0 hy2
         rcases hrep with hleft | hright
         · rw [typeAThreePrismMap_apply_eq_vertexValue,
             typeAThreePrismMap_apply_eq_vertexValue] at hleft
+          set_option backward.isDefEq.respectTransparency false in
+            change
+              typeAThreePrismVertexValue r (t.1 0) (0 : Fin 2) =
+                typeAThreePrismVertexValue r (t.1 0) (1 : Fin 2) at hleft
           have hv0' :
               typeAThreePrismVertexValue r (t.1 0) (0 : Fin 2) =
                 (0 : Fin 4) := by
             simpa [hq0] using hv0
-          exact hv0'.symm.trans hleft
+          exact hleft.symm.trans hv0'
         · rw [typeAThreePrismMap_apply_eq_vertexValue,
             typeAThreePrismMap_apply_eq_vertexValue] at hright
+          set_option backward.isDefEq.respectTransparency false in
+            change
+              typeAThreePrismVertexValue r (t.1 0) (1 : Fin 2) =
+                typeAThreePrismVertexValue r (t.1 2) (1 : Fin 2) at hright
           have hle := typeAThreePrismVertexValue_mono r hx01 le_rfl
           rw [hright, he1, he2] at hle
           omega
@@ -544,11 +613,17 @@ theorem typeAThreeOne_missingTriangle_endpoint_propagation
     intro k
     fin_cases k
     · rw [typeAThreePrismMap_apply_eq_vertexValue]
-      simpa [typeAThreeEndpointTriangle] using he0
+      set_option backward.isDefEq.respectTransparency false in
+        change typeAThreePrismVertexValue r (t.1 0) 1 = (0 : Fin 4)
+      exact he0
     · rw [typeAThreePrismMap_apply_eq_vertexValue]
-      simpa [typeAThreeEndpointTriangle] using he1
+      set_option backward.isDefEq.respectTransparency false in
+        change typeAThreePrismVertexValue r (t.1 1) 1 = (2 : Fin 4)
+      exact he1
     · rw [typeAThreePrismMap_apply_eq_vertexValue]
-      simpa [typeAThreeEndpointTriangle] using he2
+      set_option backward.isDefEq.respectTransparency false in
+        change typeAThreePrismVertexValue r (t.1 2) 1 = (3 : Fin 4)
+      exact he2
 
 /-! ## Endpoint source of a canonical lifting square lands in the horn -/
 
@@ -570,8 +645,9 @@ theorem typeAThreeOne_square_endpointTriangle_mem_horn
               (le_refl _) (le_refl _)⟩) ∈
       (SSet.horn 3 (1 : Fin 4)).obj (op ⦋2⦌) := by
   have hsqmap := congrArg ScaledSSet.ScaledMap.map sq.w
-  fin_cases hε : c.endpoint
-  · let a :=
+  by_cases hε : c.endpoint = (0 : Fin 2)
+  · rw [hε, typeAThreeEndpointTriangle_zero]
+    let a :=
       (endpointIntoAttachment c.n c.i 0).app (op ⦋2⦌) x
     have hp :=
       ConcreteCategory.congr_hom (congr_app hsqmap (op ⦋2⦌)) a
@@ -596,7 +672,10 @@ theorem typeAThreeOne_square_endpointTriangle_mem_horn
         (SSet.horn 3 (1 : Fin 4)).obj (op ⦋2⦌)
     rw [← hp]
     exact hmem
-  · let a :=
+  · have hε1 : c.endpoint = (1 : Fin 2) :=
+      Fin.eq_one_of_ne_zero _ hε
+    rw [hε1, typeAThreeEndpointTriangle_one]
+    let a :=
       (endpointIntoAttachment c.n c.i 1).app (op ⦋2⦌) x
     have hp :=
       ConcreteCategory.congr_hom (congr_app hsqmap (op ⦋2⦌)) a
@@ -607,7 +686,7 @@ theorem typeAThreeOne_square_endpointTriangle_mem_horn
       have h := ConcreteCategory.congr_hom
         (congr_app (endpointIntoAttachment_ι_one c.n c.i) (op ⦋2⦌)) x
       simpa [a, scaledHornAttachmentGeneratorHom,
-        scaledHornCylinderAttachmentInclusion, hε] using h
+        scaledHornCylinderAttachmentInclusion, hε1] using h
     change
       (f.map.app (op ⦋2⦌) a).val =
         g.map.app (op ⦋2⦌)
@@ -755,7 +834,6 @@ theorem canonicalGenerator_hasLiftingProperty_typeAThreeOne
             (Λ[3, (1 : Fin 4)] : SSet.{u}) ⟶ (Δ[3] : SSet.{u})) =
         g.map := by
     dsimp [lmap]
-    exact SSet.Subcomplex.lift_ι _ _
   let l :
       scaledSimplexCylinder c.simplexScaling ⟶
         standardTypeAScaledHorn typeAThreeOneIndex :=
