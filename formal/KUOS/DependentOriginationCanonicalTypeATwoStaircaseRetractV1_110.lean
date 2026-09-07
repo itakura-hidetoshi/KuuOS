@@ -1,6 +1,7 @@
 import KUOS.DependentOriginationCanonicalMinimalHornReverseCoreV1_109
 import KUOS.DependentOriginationStandardTypeATwoSimplexThinReplacementV1_93
 import KUOS.DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77
+import KUOS.DependentOriginationPresentationIndependentSeparationTypeBReverseV1_107
 import Mathlib.AlgebraicTopology.SimplicialSet.ProdStdSimplexOne
 import Mathlib.CategoryTheory.MorphismProperty.Retract
 
@@ -19,9 +20,12 @@ open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
+open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
 open KUOS.DependentOriginationStandardABCPositiveCanonicalResidualSplitV1_79
 open KUOS.DependentOriginationCanonicalAttachmentScalingObstructionRetractV1_88
+open KUOS.DependentOriginationCanonicalFibrancyAtomicTwoSimplexAuditV1_91
 open KUOS.DependentOriginationStandardTypeATwoSimplexThinReplacementV1_93
+open KUOS.DependentOriginationPresentationIndependentSeparationTypeBReverseV1_107
 open KUOS.DependentOriginationCanonicalMinimalHornReverseCoreV1_109
 open KUOS.DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77
 
@@ -29,73 +33,27 @@ universe u
 
 noncomputable section
 
-/-!
-# The degree-two type-A horn as a dimension-raising canonical staircase retract v1.110
+/-! The degree-two standard type-(A) horn is an arrow retract of the literal
+canonical `n = 1, i = 1, endpoint = 0` minimal horn-cylinder attachment. -/
 
-Version v1.109 removed all scaling decoration from one sufficient route to the
-standard-to-canonical reverse comparison.  That uniform minimal-horn route is
-stronger than necessary in the lowest type-(A) dimension.
-
-For the unique type-(A) generator `n = 2, i = 1`, use instead the canonical
-horn-cylinder attachment one dimension lower:
-
-```text
-n = 1, i = 1, endpoint = 0,
-simplex scaling = minimal.
-```
-
-Its ordinary target is the square `Delta[1] x Delta[1]`, and its source is the
-union of the bottom and right edges.  The monotone addition map
-
-```text
-(a,b) |-> a+b
-
-Delta[1] x Delta[1] -> Delta[2]
-```
-
-sends those two edges onto `Lambda[2,1]`.  Conversely the lower-right
-staircase triangle
-
-```text
-(0,0) < (1,0) < (1,1)
-```
-
-gives a simplicial section `Delta[2] -> Delta[1] x Delta[1]` and restricts to
-the same horn-source union.  Thus the degree-two type-(A) arrow is an arrow
-retract of this literal canonical attachment.
-
-The scaled part is exactly why the dimension shift is useful.  Every
-2-simplex of `Delta[1]` is minimally thin, so every 2-simplex of the canonical
-square cylinder is thin.  Every 2-simplex of the degree-two type-(A) simplex
-is also thin: a degenerate one is minimally thin, while the unique
-nondegenerate triangle is the distinguished type-(A) triangle.  Hence both
-staircase target maps are scaled.  The source maps are controlled by the
-minimal scaling and the fact, proved in v1.93, that every 2-simplex of
-`Lambda[2,1]` is minimally thin.
-
-This closes the literal `n=2` type-(A) reverse generator unconditionally and
-strictly shrinks the v1.109 frontier: future type-(A) geometry only needs
-simplex dimensions at least three.  No same-dimensional contraction is used.
--/
-
-/-! ## The square-to-triangle addition map and its staircase section -/
-
-/-- Pointwise addition of the two `Delta[1]` coordinates. -/
+/-- Pointwise addition on `Delta[1] x Delta[1]`. -/
 def typeATwoSquareAdditionMap :
     ((Δ[1] : SSet.{u}) ⊗ Δ[1]) ⟶ (Δ[2] : SSet.{u}) where
   app := fun ⟨⟨d⟩⟩ => ↾fun z =>
     SSet.stdSimplex.objMk
       { toFun := fun j =>
-          ⟨(z.1 j).val + (z.2 j).val, by omega⟩
+          ⟨(z.1 j).val + (z.2 j).val, by
+            have h1 : (z.1 j).val < 2 := (z.1 j).isLt
+            have h2 : (z.2 j).val < 2 := (z.2 j).isLt
+            omega⟩
         monotone' := by
           intro a b hab
-          have h₁ := SSet.stdSimplex.monotone_apply z.1 hab
-          have h₂ := SSet.stdSimplex.monotone_apply z.2 hab
           apply Fin.mk_le_mk.mpr
-          omega }
+          exact Nat.add_le_add
+            (Fin.mk_le_mk.mp (SSet.stdSimplex.monotone_apply z.1 hab))
+            (Fin.mk_le_mk.mp (SSet.stdSimplex.monotone_apply z.2 hab)) }
   naturality := by
     intro d e f
-    ext z j
     rfl
 
 @[simp]
@@ -104,11 +62,13 @@ theorem typeATwoSquareAdditionMap_apply
     (z : ((Δ[1] : SSet.{u}) ⊗ Δ[1]) _⦋d⦌)
     (j : Fin (d + 1)) :
     typeATwoSquareAdditionMap.app (op ⦋d⦌) z j =
-      ⟨(z.1 j).val + (z.2 j).val, by omega⟩ :=
+      ⟨(z.1 j).val + (z.2 j).val, by
+        have h1 : (z.1 j).val < 2 := (z.1 j).isLt
+        have h2 : (z.2 j).val < 2 := (z.2 j).isLt
+        omega⟩ :=
   rfl
 
-/-- The lower-right staircase `Delta[2] -> Delta[1] x Delta[1]`.
-Its coordinate maps are the two codegeneracies `[0,1,1]` and `[0,0,1]`. -/
+/-- The lower-right staircase section. -/
 def typeATwoLowerRightStaircaseSection :
     (Δ[2] : SSet.{u}) ⟶ (Δ[1] : SSet.{u}) ⊗ Δ[1] :=
   CartesianMonoidalCategory.lift
@@ -141,25 +101,28 @@ private theorem sigma_zero_eq_zero_iff (a : Fin 3) :
     (SimplexCategory.σ (0 : Fin 2)).toOrderHom a = 0 ↔ a ≠ 2 := by
   fin_cases a <;> decide
 
-/-- Addition retracts the lower-right staircase section. -/
+private theorem sigma_sum_eq (a : Fin 3) :
+    ((SimplexCategory.σ (1 : Fin 2)).toOrderHom a).val +
+        ((SimplexCategory.σ (0 : Fin 2)).toOrderHom a).val = a.val := by
+  fin_cases a <;> decide
+
+/-- Addition retracts the staircase section. -/
 theorem typeATwoLowerRightStaircaseSection_comp_addition :
     typeATwoLowerRightStaircaseSection ≫ typeATwoSquareAdditionMap =
       𝟙 (Δ[2] : SSet.{u}) := by
   ext d x
   apply SSet.stdSimplex.ext
   intro j
+  apply Fin.ext
   change
-    ⟨((SimplexCategory.σ (1 : Fin 2)).toOrderHom (x j)).val +
-        ((SimplexCategory.σ (0 : Fin 2)).toOrderHom (x j)).val,
-      by omega⟩ = x j
-  fin_cases h : x j <;> rfl
+    ((SimplexCategory.σ (1 : Fin 2)).toOrderHom
+          (SSet.stdSimplex.asOrderHom x j)).val +
+        ((SimplexCategory.σ (0 : Fin 2)).toOrderHom
+          (SSet.stdSimplex.asOrderHom x j)).val =
+      (SSet.stdSimplex.asOrderHom x j).val
+  exact sigma_sum_eq (SSet.stdSimplex.asOrderHom x j)
 
-/-! ## The two source restrictions -/
-
-/-- Restrict the lower-right staircase to `Lambda[2,1]`.  The horn condition
-says either vertex `0` or vertex `2` is absent.  In the first case the first
-staircase coordinate is the right vertex of `Delta[1]`; in the second case the
-second coordinate is the bottom endpoint. -/
+/-- Restrict the staircase section to `Lambda[2,1]`. -/
 def typeATwoHornIntoCanonicalAttachmentMap :
     (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶
       (hornCylinderAttachment 1 (1 : Fin 2) 0 : SSet.{u}) :=
@@ -169,6 +132,10 @@ def typeATwoHornIntoCanonicalAttachmentMap :
       typeATwoLowerRightStaircaseSection)
     (by
       rintro d y ⟨x, rfl⟩
+      change
+        typeATwoLowerRightStaircaseSection.app d x.val ∈
+          ((SSet.horn 1 (1 : Fin 2)).unionProd
+            (intervalEndpoint (0 : Fin 2))).obj d
       rw [SSet.Subcomplex.mem_unionProd_iff]
       rcases
           (SSet.mem_horn_iff_notMem_range x.val (1 : Fin 3)).1 x.property with
@@ -206,9 +173,7 @@ theorem typeATwoHornIntoCanonicalAttachmentMap_ι :
         typeATwoLowerRightStaircaseSection := by
   exact SSet.Subcomplex.lift_ι _ _
 
-/-- Addition sends the canonical bottom-plus-right source into
-`Lambda[2,1]`: on the bottom edge the value `2` is absent, while on the right
-edge the value `0` is absent. -/
+/-- Addition sends the canonical bottom-plus-right source into `Lambda[2,1]`. -/
 def typeATwoCanonicalAttachmentToHornMap :
     (hornCylinderAttachment 1 (1 : Fin 2) 0 : SSet.{u}) ⟶
       (Λ[2, (1 : Fin 3)] : SSet.{u}) :=
@@ -217,17 +182,35 @@ def typeATwoCanonicalAttachmentToHornMap :
       typeATwoSquareAdditionMap)
     (by
       rintro d y ⟨z, rfl⟩
+      change
+        typeATwoSquareAdditionMap.app d z.val ∈
+          (SSet.horn 2 (1 : Fin 3)).obj d
       rw [SSet.mem_horn_iff_notMem_range]
-      rw [SSet.Subcomplex.mem_unionProd_iff] at z.property
-      rcases z.property with hendpoint | hhorn
+      have hzprop :
+          z.val ∈
+            ((SSet.horn 1 (1 : Fin 2)).unionProd
+              (intervalEndpoint (0 : Fin 2))).obj d := z.property
+      rw [SSet.Subcomplex.mem_unionProd_iff] at hzprop
+      rcases hzprop with hendpoint | hhorn
       · refine ⟨2, by decide, ?_⟩
         rintro ⟨k, hk⟩
         rw [intervalEndpoint_zero_eq_face_one,
           SSet.stdSimplex.mem_face_iff] at hendpoint
-        have hs_mem := hendpoint k
         have hs_zero : z.val.2 k = (0 : Fin 2) := by
-          fin_cases h : z.val.2 k <;> simp_all
+          by_contra hne
+          have hval_ne : (z.val.2 k).val ≠ 0 := by
+            intro hv
+            apply hne
+            apply Fin.ext
+            exact hv
+          have hlt : (z.val.2 k).val < 2 := (z.val.2 k).isLt
+          have hone : z.val.2 k = (1 : Fin 2) := by
+            apply Fin.ext
+            change (z.val.2 k).val = 1
+            omega
+          exact hendpoint k hone
         have hkval := congrArg Fin.val hk
+        have hfst : (z.val.1 k).val < 2 := (z.val.1 k).isLt
         simp [typeATwoSquareAdditionMap_apply, hs_zero] at hkval
         omega
       · have hzero : (0 : Fin 2) ∉ Set.range z.val.1 := by
@@ -243,6 +226,8 @@ def typeATwoCanonicalAttachmentToHornMap :
         refine ⟨k, ?_⟩
         apply Fin.ext
         have hkval := congrArg Fin.val hk
+        have hfst : (z.val.1 k).val < 2 := (z.val.1 k).isLt
+        have hsnd : (z.val.2 k).val < 2 := (z.val.2 k).isLt
         simp [typeATwoSquareAdditionMap_apply] at hkval
         omega)
 
@@ -255,14 +240,11 @@ theorem typeATwoCanonicalAttachmentToHornMap_ι :
         typeATwoSquareAdditionMap := by
   exact SSet.Subcomplex.lift_ι _ _
 
-/-! ## Thinness in the two target dimensions -/
-
 /-- Every 2-simplex of `Delta[1]` is minimally thin. -/
 theorem stdOne_every_two_simplex_minimally_thin
     (t : (Δ[1] : SSet.{u}) _⦋2⦌) :
     (minimalScaling (Δ[1] : SSet.{u})).thin t := by
-  have hdeg :
-      t ∈ (Δ[1] : SSet.{u}).degenerate 2 := by
+  have hdeg : t ∈ (Δ[1] : SSet.{u}).degenerate 2 := by
     rw [SSet.degenerate_eq_univ_of_hasDimensionLT
       (Δ[1] : SSet.{u}) 2 2]
     simp
@@ -273,9 +255,7 @@ theorem stdOne_every_two_simplex_minimally_thin
   · exact Or.inl ⟨x, rfl⟩
   · exact Or.inr ⟨x, rfl⟩
 
-/-- Every 2-simplex of the degree-two standard type-(A) simplex is thin.
-The unique nondegenerate 2-simplex is the identity triangle and is the
-standard distinguished triangle. -/
+/-- Every 2-simplex of the degree-two standard type-(A) target is thin. -/
 theorem standardTypeATwo_every_two_simplex_thin
     (t : (Δ[2] : SSet.{u}) _⦋2⦌) :
     (standardTypeASimplexScaling (1 : Fin 3)).thin t := by
@@ -300,9 +280,7 @@ theorem standardTypeATwo_every_two_simplex_thin
     · exact Or.inl (Or.inl ⟨x, rfl⟩)
     · exact Or.inl (Or.inr ⟨x, rfl⟩)
 
-/-! ## Upgrade the four staircase maps to scaled maps -/
-
-/-- The literal canonical `n=1` attachment used by the retract. -/
+/-- The literal canonical lower-dimensional attachment index. -/
 def typeATwoStaircaseCanonicalIndex :
     ScaledHornAttachmentGeneratorIndex.{u} where
   n := 1
@@ -310,7 +288,7 @@ def typeATwoStaircaseCanonicalIndex :
   endpoint := 0
   simplexScaling := minimalScaling (Δ[1] : SSet.{u})
 
-/-- Horn source section into the minimally scaled canonical attachment. -/
+/-- Horn source section into the canonical attachment source. -/
 def typeATwoSourceToCanonicalSource :
     standardTypeAScaledHorn standardTypeATwoSimplexIndex ⟶
       minimallyScaledHornCylinderAttachment 1 (1 : Fin 2) 0 where
@@ -323,15 +301,14 @@ def typeATwoSourceToCanonicalSource :
         typeATwoHornIntoCanonicalAttachmentMap) t
         (standardTypeATwoHorn_every_two_simplex_minimally_thin t)
 
-/-- Retraction from the minimally scaled canonical source to the type-(A)
-horn. -/
+/-- Source retraction by addition. -/
 def typeATwoCanonicalSourceToSource :
     minimallyScaledHornCylinderAttachment 1 (1 : Fin 2) 0 ⟶
       standardTypeAScaledHorn standardTypeATwoSimplexIndex where
   map := typeATwoCanonicalAttachmentToHornMap
   scaled := minimalScaling_map _ _
 
-/-- Target staircase section into the canonical square cylinder. -/
+/-- Target staircase section. -/
 def typeATwoTargetToCanonicalTarget :
     standardTypeAScaledSimplex standardTypeATwoSimplexIndex ⟶
       scaledSimplexCylinder (minimalScaling (Δ[1] : SSet.{u})) where
@@ -364,6 +341,10 @@ theorem typeATwoSource_retract :
     typeATwoSourceToCanonicalSource ≫ typeATwoCanonicalSourceToSource =
       𝟙 (standardTypeAScaledHorn standardTypeATwoSimplexIndex) := by
   apply ScaledSSet.ScaledMap.ext
+  change
+    typeATwoHornIntoCanonicalAttachmentMap ≫
+        typeATwoCanonicalAttachmentToHornMap =
+      𝟙 (Λ[2, (1 : Fin 3)] : SSet.{u})
   apply (cancel_mono
     (Λ[2, (1 : Fin 3)].ι :
       (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶ (Δ[2] : SSet.{u}))).1
@@ -375,10 +356,7 @@ theorem typeATwoSource_retract :
     typeATwoLowerRightStaircaseSection_comp_addition]
   simp
 
-/-! ## Arrow retract and unconditional canonical membership -/
-
-/-- The staircase sections define a morphism from the degree-two type-(A)
-arrow into the literal canonical `n=1` attachment arrow. -/
+/-- Arrow morphism from the degree-two standard generator into the canonical attachment. -/
 def typeATwoToCanonicalAttachmentArrow :
     Arrow.mk
         (standardTypeAScaledHornGeneratorHom standardTypeATwoSimplexIndex) ⟶
@@ -396,7 +374,7 @@ def typeATwoToCanonicalAttachmentArrow :
           (hornCylinderAttachment 1 (1 : Fin 2) 0).ι
       exact typeATwoHornIntoCanonicalAttachmentMap_ι.symm)
 
-/-- Addition defines the reverse arrow morphism. -/
+/-- Reverse arrow morphism by addition. -/
 def canonicalAttachmentToTypeATwoArrow :
     Arrow.mk (scaledHornAttachmentGeneratorHom typeATwoStaircaseCanonicalIndex) ⟶
       Arrow.mk
@@ -414,8 +392,7 @@ def canonicalAttachmentToTypeATwoArrow :
               (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶ (Δ[2] : SSet.{u}))
       exact typeATwoCanonicalAttachmentToHornMap_ι.symm)
 
-/-- The degree-two type-(A) generator is an arrow retract of a literal
-canonical attachment one simplex dimension lower. -/
+/-- The degree-two standard type-(A) generator is an arrow retract. -/
 def standardTypeATwoGenerator_retractArrow :
     RetractArrow
       (standardTypeAScaledHornGeneratorHom standardTypeATwoSimplexIndex)
@@ -427,8 +404,7 @@ def standardTypeATwoGenerator_retractArrow :
     · exact typeATwoSource_retract
     · exact typeATwoTarget_retract
 
-/-- The unique degree-two standard type-(A) generator is therefore
-canonical-generated unconditionally. -/
+/-- The degree-two standard type-(A) generator is canonical-generated. -/
 theorem standardTypeATwoGenerator_mem_canonicalGenerated :
     (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
       (standardTypeAScaledHornGeneratorHom standardTypeATwoSimplexIndex) := by
@@ -438,14 +414,13 @@ theorem standardTypeATwoGenerator_mem_canonicalGenerated :
     (scaledHornAttachmentGenerators_le_generated _
       (scaledHornAttachmentGenerator_mem typeATwoStaircaseCanonicalIndex))
 
-/-! ## Remove dimension two from the remaining type-(A) frontier -/
-
-/-- The degree-two inner index is unique. -/
+/-- The degree-two inner type-(A) index is unique. -/
 theorem standardTypeAHornGeneratorIndex_eq_two
     (g : StandardTypeAHornGeneratorIndex)
     (hn : g.n = 2) :
     g = standardTypeATwoSimplexIndex := by
   rcases g with ⟨n, i, hleft, hright⟩
+  change n = 2 at hn
   subst n
   have hi : i = (1 : Fin 3) := by
     apply Fin.ext
@@ -465,9 +440,8 @@ theorem standardTypeA_mem_canonicalGenerated_of_dim_two
   rw [standardTypeAHornGeneratorIndex_eq_two g hn]
   exact standardTypeATwoGenerator_mem_canonicalGenerated
 
-/-- After closing dimension two, a sufficient reverse core only needs the
-literal type-(A) generators in dimensions at least three and the same minimal
-outer horns for type-(C) as v1.109. -/
+/-- After degree two, only type-A dimensions at least three and the v1.109
+minimal type-C outer horns remain in this sufficient reverse core. -/
 structure StandardABCCanonicalPostTwoReverseCore : Prop where
   typeA_ge_three :
     ∀ g : StandardTypeAHornGeneratorIndex,
@@ -481,8 +455,7 @@ structure StandardABCCanonicalPostTwoReverseCore : Prop where
 
 namespace StandardABCCanonicalPostTwoReverseCore
 
-/-- The refined post-two core gives the complete generatorwise reverse
-comparison. -/
+/-- The post-two core supplies the complete generatorwise reverse certificate. -/
 def toGeneratorwiseReverse
     (K : StandardABCCanonicalPostTwoReverseCore.{u}) :
     StandardABCCanonicalGeneratorwiseReverseComparison.{u} where
@@ -502,57 +475,34 @@ def toGeneratorwiseReverse
     intro m
     exact standardTypeC_mem_canonicalGenerated_of_minimalHorn m (K.typeC m)
 
-/-- Hence this strictly smaller core suffices for the full standard-to-canonical
-left-class inclusion. -/
+/-- Generic generated-left inclusion remains universe-polymorphic. -/
 theorem standardGenerated_le_canonicalGenerated
     (K : StandardABCCanonicalPostTwoReverseCore.{u}) :
-    standardGeneratedScaledAnodyneABC ≤
+    (KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58.standardGeneratedScaledAnodyneABC :
+        MorphismProperty (ScaledSSet.{u})) ≤
       (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u})) :=
   K.toGeneratorwiseReverse.standardGenerated_le_canonicalGenerated
 
-/-- At quotient level, the refined core places standard below canonical. -/
+/-- Generic quotient-presentation inclusion remains universe-polymorphic. -/
 theorem standardPresentation_le_canonicalPresentation
     (K : StandardABCCanonicalPostTwoReverseCore.{u}) :
-    standardABCPresentation ≤ canonicalKuuOSPresentation :=
+    KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.standardABCPresentation.{u} ≤
+      KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.canonicalKuuOSPresentation.{u} :=
   (standardABC_le_canonicalKuuOS_iff_generatorwiseReverse).2
     K.toGeneratorwiseReverse
 
-/-- Combined with the already unconditional opposite-order obstruction, this
-refined core is sufficient for the desired strict presentation order. -/
+/-- The v1.107 strictness witness is concrete universe zero. -/
 theorem presentation_strictOrderCertificate
-    (K : StandardABCCanonicalPostTwoReverseCore.{u}) :
-    standardABCPresentation ≤ canonicalKuuOSPresentation ∧
-      ¬ canonicalKuuOSPresentation ≤ standardABCPresentation :=
+    (K : StandardABCCanonicalPostTwoReverseCore.{0}) :
+    KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.standardABCPresentation.{0} ≤
+        KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.canonicalKuuOSPresentation.{0} ∧
+      ¬ KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.canonicalKuuOSPresentation.{0} ≤
+        KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.standardABCPresentation.{0} :=
   ⟨K.standardPresentation_le_canonicalPresentation,
     natDoubleDelooping_not_canonicalKuuOS_le_standardABC⟩
 
 end StandardABCCanonicalPostTwoReverseCore
 
-/-!
-The reverse frontier has now genuinely moved:
-
-```text
-canonical n=1 minimal attachment
-       |
-       |  lower-right staircase / coordinate addition
-       v
-standard type-A n=2 generator
-       |
-       |  arrow retract
-       v
-canonicalGenerated
-```
-
-Therefore the type-(A) part of the remaining standard-to-canonical problem
-starts only in dimension three.  The old mixed-thin obstruction applied to a
-same-dimensional cylinder contraction; it does not apply to this
-one-dimension-lower staircase retract because the `Delta[1]` cylinder is
-already thin in every degree-two simplex.
-
-The next unit can ask whether the same dimension-raising staircase mechanism
-extends to `n >= 3`, or whether those dimensions require the local prism/cell
-filtration isolated in v1.109.  In either case dimension two is no longer part
-of the residual comparison.
--/
+end
 
 end KUOS.DependentOriginationCanonicalTypeATwoStaircaseRetractV1_110
