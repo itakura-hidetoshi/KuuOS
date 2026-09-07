@@ -646,8 +646,11 @@ theorem typeAThreeOne_square_endpointTriangle_mem_horn
             SSet.stdSimplex.triangle c.endpoint c.endpoint c.endpoint
               (le_refl _) (le_refl _)⟩) ∈
       (SSet.horn 3 (1 : Fin 4)).obj (op ⦋2⦌) := by
+  rcases c with ⟨n, i, endpoint, sΔ⟩
+  let c : ScaledHornAttachmentGeneratorIndex.{u} :=
+    ⟨n, i, endpoint, sΔ⟩
   have hsqmap := congrArg ScaledSSet.ScaledMap.map sq.w
-  fin_cases hε : c.endpoint
+  fin_cases endpoint
   · let a :=
       (endpointIntoAttachment c.n c.i 0).app (op ⦋2⦌) x
     have hp :=
@@ -658,8 +661,8 @@ theorem typeAThreeOne_square_endpointTriangle_mem_horn
             (Δ[c.n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x := by
       have h := ConcreteCategory.congr_hom
         (congr_app (endpointIntoAttachment_ι_zero c.n c.i) (op ⦋2⦌)) x
-      simpa [a, scaledHornAttachmentGeneratorHom,
-        scaledHornCylinderAttachmentInclusion, hε] using h
+      simpa [a, c, scaledHornAttachmentGeneratorHom,
+        scaledHornCylinderAttachmentInclusion] using h
     change
       (f.map.app (op ⦋2⦌) a).val =
         g.map.app (op ⦋2⦌)
@@ -683,8 +686,8 @@ theorem typeAThreeOne_square_endpointTriangle_mem_horn
             (Δ[c.n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x := by
       have h := ConcreteCategory.congr_hom
         (congr_app (endpointIntoAttachment_ι_one c.n c.i) (op ⦋2⦌)) x
-      simpa [a, scaledHornAttachmentGeneratorHom,
-        scaledHornCylinderAttachmentInclusion, hε] using h
+      simpa [a, c, scaledHornAttachmentGeneratorHom,
+        scaledHornCylinderAttachmentInclusion] using h
     change
       (f.map.app (op ⦋2⦌) a).val =
         g.map.app (op ⦋2⦌)
