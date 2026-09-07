@@ -46,6 +46,10 @@ def typeAThreeOneIndex : StandardTypeAHornGeneratorIndex where
   inner_left := by decide
   inner_right := by decide
 
+set_option allowUnsafeReducibility true in
+attribute [local reducible]
+  ScaledSSet.of scaledSimplex standardTypeAScaledSimplex typeAThreeOneIndex
+
 /-- The unique missing codimension-one face of `Λ[3,1]`: `023`. -/
 def typeAThreeOneMissingTriangle :
     (Δ[3] : SSet.{u}) _⦋2⦌ :=
@@ -289,7 +293,11 @@ theorem typeAThreeEndpointTriangle_zero
     typeAThreeEndpointTriangle (0 : Fin 2) t =
       (SSet.ι₀ : (Δ[n] : SSet.{u}) ⟶
         (Δ[n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) t.1 := by
-  rfl
+  apply Prod.ext
+  · simp [typeAThreeEndpointTriangle]
+  · apply SSet.stdSimplex.ext
+    intro k
+    fin_cases k <;> simp [typeAThreeEndpointTriangle]
 
 @[simp]
 theorem typeAThreeEndpointTriangle_one
@@ -298,7 +306,11 @@ theorem typeAThreeEndpointTriangle_one
     typeAThreeEndpointTriangle (1 : Fin 2) t =
       (SSet.ι₁ : (Δ[n] : SSet.{u}) ⟶
         (Δ[n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) t.1 := by
-  rfl
+  apply Prod.ext
+  · simp [typeAThreeEndpointTriangle]
+  · apply SSet.stdSimplex.ext
+    intro k
+    fin_cases k <;> simp [typeAThreeEndpointTriangle]
 
 /-! ## Endpoint propagation of the missing triangle -/
 
@@ -558,31 +570,25 @@ theorem typeAThreeOne_square_endpointTriangle_mem_horn
               (le_refl _) (le_refl _)⟩) ∈
       (SSet.horn 3 (1 : Fin 4)).obj (op ⦋2⦌) := by
   have hsqmap := congrArg ScaledSSet.ScaledMap.map sq.w
-  let a :=
-    (endpointIntoAttachment c.n c.i c.endpoint).app (op ⦋2⦌) x
-  have hp :=
-    ConcreteCategory.congr_hom (congr_app hsqmap (op ⦋2⦌)) a
-  by_cases hε0 : c.endpoint = (0 : Fin 2)
-  · have hcyl :
+  fin_cases hε : c.endpoint
+  · let a :=
+      (endpointIntoAttachment c.n c.i 0).app (op ⦋2⦌) x
+    have hp :=
+      ConcreteCategory.congr_hom (congr_app hsqmap (op ⦋2⦌)) a
+    have hcyl :
         (scaledHornAttachmentGeneratorHom c).map.app (op ⦋2⦌) a =
           (SSet.ι₀ : (Δ[c.n] : SSet.{u}) ⟶
             (Δ[c.n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x := by
-      change
-        (hornCylinderAttachment c.n c.i c.endpoint).ι.app (op ⦋2⦌) a =
-          (SSet.ι₀ : (Δ[c.n] : SSet.{u}) ⟶
-            (Δ[c.n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x
-      rw [hε0]
-      dsimp [a]
       have h := ConcreteCategory.congr_hom
         (congr_app (endpointIntoAttachment_ι_zero c.n c.i) (op ⦋2⦌)) x
-      simpa only [NatTrans.comp_app_apply] using h
+      simpa [a, scaledHornAttachmentGeneratorHom,
+        scaledHornCylinderAttachmentInclusion, hε] using h
     change
       (f.map.app (op ⦋2⦌) a).val =
         g.map.app (op ⦋2⦌)
           ((scaledHornAttachmentGeneratorHom c).map.app (op ⦋2⦌) a) at hp
     rw [hcyl] at hp
     have hmem := (f.map.app (op ⦋2⦌) a).property
-    rw [hε0, typeAThreeEndpointTriangle_zero]
     change
       g.map.app (op ⦋2⦌)
           ((SSet.ι₀ : (Δ[c.n] : SSet.{u}) ⟶
@@ -590,28 +596,24 @@ theorem typeAThreeOne_square_endpointTriangle_mem_horn
         (SSet.horn 3 (1 : Fin 4)).obj (op ⦋2⦌)
     rw [← hp]
     exact hmem
-  · have hε1 : c.endpoint = (1 : Fin 2) :=
-      Fin.eq_one_of_ne_zero _ hε0
+  · let a :=
+      (endpointIntoAttachment c.n c.i 1).app (op ⦋2⦌) x
+    have hp :=
+      ConcreteCategory.congr_hom (congr_app hsqmap (op ⦋2⦌)) a
     have hcyl :
         (scaledHornAttachmentGeneratorHom c).map.app (op ⦋2⦌) a =
           (SSet.ι₁ : (Δ[c.n] : SSet.{u}) ⟶
             (Δ[c.n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x := by
-      change
-        (hornCylinderAttachment c.n c.i c.endpoint).ι.app (op ⦋2⦌) a =
-          (SSet.ι₁ : (Δ[c.n] : SSet.{u}) ⟶
-            (Δ[c.n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x
-      rw [hε1]
-      dsimp [a]
       have h := ConcreteCategory.congr_hom
         (congr_app (endpointIntoAttachment_ι_one c.n c.i) (op ⦋2⦌)) x
-      simpa only [NatTrans.comp_app_apply] using h
+      simpa [a, scaledHornAttachmentGeneratorHom,
+        scaledHornCylinderAttachmentInclusion, hε] using h
     change
       (f.map.app (op ⦋2⦌) a).val =
         g.map.app (op ⦋2⦌)
           ((scaledHornAttachmentGeneratorHom c).map.app (op ⦋2⦌) a) at hp
     rw [hcyl] at hp
     have hmem := (f.map.app (op ⦋2⦌) a).property
-    rw [hε1, typeAThreeEndpointTriangle_one]
     change
       g.map.app (op ⦋2⦌)
           ((SSet.ι₁ : (Δ[c.n] : SSet.{u}) ⟶
@@ -723,7 +725,9 @@ theorem canonicalGenerator_hasLiftingProperty_typeAThreeOne
       ((Δ[c.n] : SSet.{u}) ⊗ Δ[1]) ⟶
         (Λ[3, (1 : Fin 4)] : SSet.{u}) :=
     SSet.Subcomplex.lift g.map (by
-      rintro ⟨⟨d⟩⟩ z
+      rintro ⟨⟨d⟩⟩ y hy
+      rw [Subfunctor.range_obj] at hy
+      rcases hy with ⟨z, rfl⟩
       by_contra hmem
       obtain ⟨a, b, cc, hab, hbc, hface⟩ :=
         typeAThreeOne_outside_horn_has_missingTriangle_face
