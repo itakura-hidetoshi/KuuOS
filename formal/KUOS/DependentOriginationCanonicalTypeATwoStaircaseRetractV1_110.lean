@@ -18,13 +18,19 @@ open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
+open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
+open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
+open KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
 open KUOS.DependentOriginationStandardABCPositiveCanonicalResidualSplitV1_79
+open KUOS.DependentOriginationGeneratedPresentationPosetalReflectionV1_83
+open KUOS.DependentOriginationGeneratedPresentationOrderReflectionV1_84
 open KUOS.DependentOriginationCanonicalAttachmentScalingObstructionRetractV1_88
 open KUOS.DependentOriginationCanonicalFibrancyAtomicTwoSimplexAuditV1_91
 open KUOS.DependentOriginationStandardTypeATwoSimplexThinReplacementV1_93
+open KUOS.DependentOriginationDoubleDeloopingTypeCTerminalRLPStandardRightV1_106
 open KUOS.DependentOriginationPresentationIndependentSeparationTypeBReverseV1_107
 open KUOS.DependentOriginationCanonicalMinimalHornReverseCoreV1_109
 open KUOS.DependentOriginationStandardTypeAEndpointOppositeCellCertificateV1_77
@@ -43,6 +49,7 @@ def typeATwoSquareAdditionMap :
     SSet.stdSimplex.objMk
       { toFun := fun j =>
           ⟨(z.1 j).val + (z.2 j).val, by
+            show (z.1 j).val + (z.2 j).val < 3
             have h1 : (z.1 j).val < 2 := (z.1 j).isLt
             have h2 : (z.2 j).val < 2 := (z.2 j).isLt
             omega⟩
@@ -63,6 +70,7 @@ theorem typeATwoSquareAdditionMap_apply
     (j : Fin (d + 1)) :
     typeATwoSquareAdditionMap.app (op ⦋d⦌) z j =
       ⟨(z.1 j).val + (z.2 j).val, by
+        show (z.1 j).val + (z.2 j).val < 3
         have h1 : (z.1 j).val < 2 := (z.1 j).isLt
         have h2 : (z.2 j).val < 2 := (z.2 j).isLt
         omega⟩ :=
@@ -131,11 +139,11 @@ def typeATwoHornIntoCanonicalAttachmentMap :
         (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶ (Δ[2] : SSet.{u})) ≫
       typeATwoLowerRightStaircaseSection)
     (by
-      rintro d y ⟨x, rfl⟩
+      rintro ⟨⟨d⟩⟩ y ⟨x, rfl⟩
       change
-        typeATwoLowerRightStaircaseSection.app d x.val ∈
+        typeATwoLowerRightStaircaseSection.app (op ⦋d⦌) x.val ∈
           ((SSet.horn 1 (1 : Fin 2)).unionProd
-            (intervalEndpoint (0 : Fin 2))).obj d
+            (intervalEndpoint (0 : Fin 2))).obj (op ⦋d⦌)
       rw [SSet.Subcomplex.mem_unionProd_iff]
       rcases
           (SSet.mem_horn_iff_notMem_range x.val (1 : Fin 3)).1 x.property with
@@ -181,15 +189,15 @@ def typeATwoCanonicalAttachmentToHornMap :
     ((hornCylinderAttachment 1 (1 : Fin 2) 0).ι ≫
       typeATwoSquareAdditionMap)
     (by
-      rintro d y ⟨z, rfl⟩
+      rintro ⟨⟨d⟩⟩ y ⟨z, rfl⟩
       change
-        typeATwoSquareAdditionMap.app d z.val ∈
-          (SSet.horn 2 (1 : Fin 3)).obj d
+        typeATwoSquareAdditionMap.app (op ⦋d⦌) z.val ∈
+          (SSet.horn 2 (1 : Fin 3)).obj (op ⦋d⦌)
       rw [SSet.mem_horn_iff_notMem_range]
       have hzprop :
           z.val ∈
             ((SSet.horn 1 (1 : Fin 2)).unionProd
-              (intervalEndpoint (0 : Fin 2))).obj d := z.property
+              (intervalEndpoint (0 : Fin 2))).obj (op ⦋d⦌) := z.property
       rw [SSet.Subcomplex.mem_unionProd_iff] at hzprop
       rcases hzprop with hendpoint | hhorn
       · refine ⟨2, by decide, ?_⟩
@@ -268,7 +276,11 @@ theorem standardTypeATwo_every_two_simplex_thin
       apply SSet.stdSimplex.ext
       intro j
       have hj := DFunLike.congr_fun hord j
-      simpa [identityTwoSimplex] using hj
+      change t j =
+        (SSet.stdSimplex.objEquiv.symm (𝟙 ⦋2⦌) :
+          (Δ[2] : SSet.{u}) _⦋2⦌) j
+      rw [SSet.stdSimplex.objEquiv_symm_apply]
+      exact hj
     rw [ht]
     exact identityTwoSimplex_standardTypeA_thin
   · have hdeg : t ∈ (Δ[2] : SSet.{u}).degenerate 2 := by
@@ -340,21 +352,23 @@ theorem typeATwoTarget_retract :
 theorem typeATwoSource_retract :
     typeATwoSourceToCanonicalSource ≫ typeATwoCanonicalSourceToSource =
       𝟙 (standardTypeAScaledHorn standardTypeATwoSimplexIndex) := by
+  have hmap :
+      typeATwoHornIntoCanonicalAttachmentMap ≫
+          typeATwoCanonicalAttachmentToHornMap =
+        𝟙 (Λ[2, (1 : Fin 3)] : SSet.{u}) := by
+    apply (cancel_mono
+      (Λ[2, (1 : Fin 3)].ι :
+        (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶ (Δ[2] : SSet.{u}))).1
+    rw [Category.assoc,
+      typeATwoCanonicalAttachmentToHornMap_ι,
+      ← Category.assoc,
+      typeATwoHornIntoCanonicalAttachmentMap_ι,
+      Category.assoc,
+      typeATwoLowerRightStaircaseSection_comp_addition]
+    simp
   apply ScaledSSet.ScaledMap.ext
-  change
-    typeATwoHornIntoCanonicalAttachmentMap ≫
-        typeATwoCanonicalAttachmentToHornMap =
-      𝟙 (Λ[2, (1 : Fin 3)] : SSet.{u})
-  apply (cancel_mono
-    (Λ[2, (1 : Fin 3)].ι :
-      (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶ (Δ[2] : SSet.{u}))).1
-  rw [Category.assoc,
-    typeATwoCanonicalAttachmentToHornMap_ι,
-    ← Category.assoc,
-    typeATwoHornIntoCanonicalAttachmentMap_ι,
-    Category.assoc,
-    typeATwoLowerRightStaircaseSection_comp_addition]
-  simp
+  simpa [typeATwoSourceToCanonicalSource,
+    typeATwoCanonicalSourceToSource] using hmap
 
 /-- Arrow morphism from the degree-two standard generator into the canonical attachment. -/
 def typeATwoToCanonicalAttachmentArrow :
