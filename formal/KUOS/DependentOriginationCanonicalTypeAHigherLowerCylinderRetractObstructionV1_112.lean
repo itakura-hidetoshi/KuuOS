@@ -91,8 +91,22 @@ theorem arbitraryScaling_thin_of_one_eq_two
     intro a
     fin_cases a
     · rfl
-    · convert h12 using 1 <;> decide
-    · convert h12 using 1 <;> decide
+    ·
+      simp only [e, SSet.stdSimplex.σ_apply, SSet.stdSimplex.δ_apply]
+      have hidx :
+          Fin.succAbove (2 : Fin 3)
+              (Fin.predAbove (1 : Fin 2) (1 : Fin 3)) =
+            (1 : Fin 3) := by
+        decide
+      exact congrArg t hidx
+    ·
+      simp only [e, SSet.stdSimplex.σ_apply, SSet.stdSimplex.δ_apply]
+      have hidx :
+          Fin.succAbove (2 : Fin 3)
+              (Fin.predAbove (1 : Fin 2) (2 : Fin 3)) =
+            (1 : Fin 3) := by
+        decide
+      exact (congrArg t hidx).trans h12
   rw [← hσ]
   exact sΔ.thin_sigma_one e
 
@@ -144,8 +158,8 @@ theorem typeAAdjacentNonthinWitness_exists
     (m : Nat)
     (hm : 2 ≤ m)
     (i : Fin (m + 2))
-    (hi0 : 0 < i)
-    (hilast : i < Fin.last (m + 1))
+    (_hi0 : 0 < i)
+    (_hilast : i < Fin.last (m + 1))
     (k : Fin (m + 1)) :
     Nonempty (TypeAAdjacentNonthinWitness.{u} m i k) := by
   by_cases hk0 : k = 0
