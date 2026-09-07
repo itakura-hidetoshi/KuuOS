@@ -395,9 +395,9 @@ theorem natDoubleDelooping_not_attachmentFibrant :
 fibrant-object semantics: inclusion holds for every object, and `B^2 N` is a
 concrete object in the difference. -/
 theorem canonicalFibrantObjects_strictlyContainedIn_standardABCFibrantObjects :
-    (∀ X : ScaledSSet,
+    (∀ X : ScaledSSet.{u},
       IsAttachmentFibrant X → IsStandardABCFibrant X) ∧
-    (∃ X : ScaledSSet,
+    (∃ X : ScaledSSet.{0},
       IsStandardABCFibrant X ∧ ¬ IsAttachmentFibrant X) := by
   constructor
   · intro X hX
