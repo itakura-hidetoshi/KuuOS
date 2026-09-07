@@ -106,6 +106,17 @@ def innerHornConstMap
     (Λ[m + 2, i] : SSet.{u}) ⟶ (Λ[m + 2, i] : SSet.{u}) :=
   SSet.const (innerHornCenter m i)
 
+/-- Pointwise evaluation of the horn constant endomap. -/
+private theorem innerHornConstMap_val_apply
+    (m : Nat)
+    (i : Fin (m + 3))
+    (d : Nat)
+    (x : (Λ[m + 2, i] : SSet.{u}) _⦋d⦌)
+    (j : Fin (d + 1)) :
+    ((innerHornConstMap m i).app (op ⦋d⦌) x).val j = i := by
+  change (SSet.horn.const m i i (op ⦋d⦌)).val j = i
+  exact SSet.horn.const_val_apply m i i j
+
 /-- Pointwise maximum with the distinguished horn vertex. -/
 def innerHornMaxMap
     (m : Nat)
@@ -143,6 +154,9 @@ def innerHornIdToMaxPrism
           intro a b hab
           have hx := SSet.stdSimplex.monotone_apply z.1.val hab
           have ht := SSet.stdSimplex.monotone_apply z.2 hab
+          change
+            (if z.2 a = 0 then z.1.val a else max (z.1.val a) i) ≤
+              (if z.2 b = 0 then z.1.val b else max (z.1.val b) i)
           by_cases ha : z.2 a = 0
           · by_cases hb : z.2 b = 0
             · rw [if_pos ha, if_pos hb]
@@ -187,6 +201,9 @@ def innerHornConstToMaxPrism
           intro a b hab
           have hx := SSet.stdSimplex.monotone_apply z.1.val hab
           have ht := SSet.stdSimplex.monotone_apply z.2 hab
+          change
+            (if z.2 a = 0 then i else max (z.1.val a) i) ≤
+              (if z.2 b = 0 then i else max (z.1.val b) i)
           by_cases ha : z.2 a = 0
           · by_cases hb : z.2 b = 0
             · rw [if_pos ha, if_pos hb]
@@ -234,7 +251,12 @@ def innerHornIdToMaxHomotopy
     apply Subtype.ext
     apply SSet.stdSimplex.ext
     intro j
-    simp [innerHornIdToMaxPrism]
+    change
+      (if (SSet.ι₀.app (op ⦋d⦌) x).2 j = 0 then
+          (SSet.ι₀.app (op ⦋d⦌) x).1.val j
+        else max ((SSet.ι₀.app (op ⦋d⦌) x).1.val j) i) =
+        x.val j
+    rw [SSet.ι₀_app_snd_apply, if_pos rfl, SSet.ι₀_app_fst]
   h₁ := by
     change SSet.ι₁ ≫ innerHornIdToMaxPrism m i = innerHornMaxMap m i
     apply SSet.hom_ext
@@ -243,9 +265,20 @@ def innerHornIdToMaxHomotopy
     apply Subtype.ext
     apply SSet.stdSimplex.ext
     intro j
-    simp [innerHornIdToMaxPrism, innerHornMaxMap]
+    change
+      (if (SSet.ι₁.app (op ⦋d⦌) x).2 j = 0 then
+          (SSet.ι₁.app (op ⦋d⦌) x).1.val j
+        else max ((SSet.ι₁.app (op ⦋d⦌) x).1.val j) i) =
+        max (x.val j) i
+    rw [SSet.ι₁_app_snd_apply, if_neg (by decide), SSet.ι₁_app_fst]
   rel := by
-    cat_disch
+    apply SSet.hom_ext
+    intro d
+    ext z
+    have hz : False := by
+      simpa only [Subfunctor.bot_obj, Set.bot_eq_empty,
+        Set.mem_empty_iff_false] using z.1.property
+    exact hz.elim
 
 /-- The second prism is a literal simplicial homotopy `const_i ~ max(-,i)`. -/
 def innerHornConstToMaxHomotopy
@@ -263,8 +296,12 @@ def innerHornConstToMaxHomotopy
     apply Subtype.ext
     apply SSet.stdSimplex.ext
     intro j
-    simp [innerHornConstToMaxPrism, innerHornConstMap, innerHornCenter,
-      SSet.const, SSet.horn.const]
+    change
+      (if (SSet.ι₀.app (op ⦋d⦌) x).2 j = 0 then i
+        else max ((SSet.ι₀.app (op ⦋d⦌) x).1.val j) i) =
+        ((innerHornConstMap m i).app (op ⦋d⦌) x).val j
+    rw [SSet.ι₀_app_snd_apply, if_pos rfl]
+    exact (innerHornConstMap_val_apply m i d x j).symm
   h₁ := by
     change SSet.ι₁ ≫ innerHornConstToMaxPrism m i = innerHornMaxMap m i
     apply SSet.hom_ext
@@ -273,9 +310,19 @@ def innerHornConstToMaxHomotopy
     apply Subtype.ext
     apply SSet.stdSimplex.ext
     intro j
-    simp [innerHornConstToMaxPrism, innerHornMaxMap]
+    change
+      (if (SSet.ι₁.app (op ⦋d⦌) x).2 j = 0 then i
+        else max ((SSet.ι₁.app (op ⦋d⦌) x).1.val j) i) =
+        max (x.val j) i
+    rw [SSet.ι₁_app_snd_apply, if_neg (by decide), SSet.ι₁_app_fst]
   rel := by
-    cat_disch
+    apply SSet.hom_ext
+    intro d
+    ext z
+    have hz : False := by
+      simpa only [Subfunctor.bot_obj, Set.bot_eq_empty,
+        Set.mem_empty_iff_false] using z.1.property
+    exact hz.elim
 
 /-! ## Postcomposition and contractibility of horn mapping classes -/
 
