@@ -4,9 +4,12 @@ namespace KUOS.DependentOriginationCanonicalTypeAThreeAdditionObstructionV1_111
 
 open CategoryTheory
 open CategoryTheory.Category
+open MonoidalCategory
+open CartesianMonoidalCategory
 open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
@@ -64,13 +67,17 @@ def typeAThreeAdditionMap :
   app := fun ⟨⟨d⟩⟩ => ↾fun z =>
     SSet.stdSimplex.objMk
       { toFun := fun j =>
-          ⟨(z.1 j).val + (z.2 j).val, by omega⟩
+          ⟨(z.1 j).val + (z.2 j).val, by
+            show (z.1 j).val + (z.2 j).val < 4
+            have h1 : (z.1 j).val < 3 := (z.1 j).isLt
+            have h2 : (z.2 j).val < 2 := (z.2 j).isLt
+            omega⟩
         monotone' := by
           intro a b hab
-          have h₁ := SSet.stdSimplex.monotone_apply z.1 hab
-          have h₂ := SSet.stdSimplex.monotone_apply z.2 hab
           apply Fin.mk_le_mk.mpr
-          omega }
+          exact Nat.add_le_add
+            (Fin.mk_le_mk.mp (SSet.stdSimplex.monotone_apply z.1 hab))
+            (Fin.mk_le_mk.mp (SSet.stdSimplex.monotone_apply z.2 hab)) }
   naturality := by
     intro d e f
     ext z j
@@ -81,8 +88,12 @@ theorem typeAThreeAdditionMap_apply
     {d : Nat}
     (z : ((Δ[2] : SSet.{u}) ⊗ Δ[1]) _⦋d⦌)
     (j : Fin (d + 1)) :
-    typeAThreeAdditionMap.app (op ⦋d⦌) z j =
-      ⟨(z.1 j).val + (z.2 j).val, by omega⟩ :=
+    typeAThreeAdditionMap.{u}.app (op ⦋d⦌) z j =
+      ⟨(z.1 j).val + (z.2 j).val, by
+        show (z.1 j).val + (z.2 j).val < 4
+        have h1 : (z.1 j).val < 3 := (z.1 j).isLt
+        have h2 : (z.2 j).val < 2 := (z.2 j).isLt
+        omega⟩ :=
   rfl
 
 /-! ## Explicit obstruction at the inner index i = 1 -/
@@ -105,13 +116,18 @@ def typeAThreeIndexOneTargetTriangle : (Δ[3] : SSet.{u}) _⦋2⦌ :=
 on `Delta[2]`. -/
 theorem typeAThreeIndexOneSourceTriangle_thin
     (sΔ : ScaledSimplicialSet (Δ[2] : SSet.{u})) :
-    (simplexCylinderScaling sΔ).thin typeAThreeIndexOneSourceTriangle := by
-  change sΔ.thin typeAThreeIndexOneSourceTriangle.1
+    (simplexCylinderScaling sΔ).thin
+      typeAThreeIndexOneSourceTriangle.{u} := by
+  change sΔ.thin typeAThreeIndexOneSourceTriangle.{u}.1
   let e : (Δ[2] : SSet.{u}) _⦋1⦌ :=
     SSet.stdSimplex.edge 2 (0 : Fin 3) (2 : Fin 3) (by decide)
   have hσ :
       (Δ[2] : SSet.{u}).σ (0 : Fin 2) e =
-        typeAThreeIndexOneSourceTriangle.1 := by
+        typeAThreeIndexOneSourceTriangle.{u}.1 := by
+    change
+      (Δ[2] : SSet.{u}).σ (0 : Fin 2) e =
+        SSet.stdSimplex.triangle
+          (0 : Fin 3) (0 : Fin 3) (2 : Fin 3) (by decide) (by decide)
     apply SSet.stdSimplex.ext
     intro j
     fin_cases j <;> rfl
@@ -120,16 +136,16 @@ theorem typeAThreeIndexOneSourceTriangle_thin
 
 /-- Coordinate addition sends the first source witness exactly to `[0,1,3]`. -/
 theorem typeAThreeAdditionMap_indexOneSource :
-    typeAThreeAdditionMap.app (op ⦋2⦌)
-        typeAThreeIndexOneSourceTriangle =
-      typeAThreeIndexOneTargetTriangle := by
+    typeAThreeAdditionMap.{u}.app (op ⦋2⦌)
+        typeAThreeIndexOneSourceTriangle.{u} =
+      typeAThreeIndexOneTargetTriangle.{u} := by
   apply SSet.stdSimplex.ext
   intro j
   fin_cases j <;> rfl
 
 /-- `[0,1,3]` is nondegenerate. -/
 theorem typeAThreeIndexOneTargetTriangle_nondegenerate :
-    typeAThreeIndexOneTargetTriangle ∈
+    typeAThreeIndexOneTargetTriangle.{u} ∈
       (Δ[3] : SSet.{u}).nonDegenerate 2 := by
   rw [SSet.stdSimplex.mem_nonDegenerate_iff_strictMono,
     Fin.strictMono_iff_lt_succ]
@@ -138,12 +154,13 @@ theorem typeAThreeIndexOneTargetTriangle_nondegenerate :
 
 /-- `[0,1,3]` is not thin for the standard type-(A) scaling at `i = 1`. -/
 theorem typeAThreeIndexOneTargetTriangle_not_thin :
-    ¬ (standardTypeASimplexScaling (1 : Fin 4)).thin
-        typeAThreeIndexOneTargetTriangle := by
+    ¬ (standardTypeASimplexScaling (1 : Fin 4) :
+        ScaledSimplicialSet (Δ[3] : SSet.{u})).thin
+        typeAThreeIndexOneTargetTriangle.{u} := by
   intro hthin
   rcases hthin with hmin | hdist
   · have hdeg :
-        typeAThreeIndexOneTargetTriangle ∈
+        typeAThreeIndexOneTargetTriangle.{u} ∈
           (Δ[3] : SSet.{u}).degenerate 2 := by
       rw [SSet.degenerate_eq_iUnion_range_σ]
       simp only [Set.mem_iUnion, Set.mem_range]
@@ -151,7 +168,7 @@ theorem typeAThreeIndexOneTargetTriangle_not_thin :
       · exact ⟨(0 : Fin 2), x, hx⟩
       · exact ⟨(1 : Fin 2), x, hx⟩
     rw [SSet.mem_degenerate_iff_notMem_nonDegenerate] at hdeg
-    exact hdeg typeAThreeIndexOneTargetTriangle_nondegenerate
+    exact hdeg typeAThreeIndexOneTargetTriangle_nondegenerate.{u}
   · rcases hdist with ⟨_, _, hbad⟩
     change 1 + 1 = 3 at hbad
     omega
@@ -162,13 +179,14 @@ theorem typeAThreeAdditionMap_not_scaled_indexOne
     (sΔ : ScaledSimplicialSet (Δ[2] : SSet.{u})) :
     ¬ IsScaledMap
         (simplexCylinderScaling sΔ)
-        (standardTypeASimplexScaling (1 : Fin 4))
-        typeAThreeAdditionMap := by
+        (standardTypeASimplexScaling (1 : Fin 4) :
+          ScaledSimplicialSet (Δ[3] : SSet.{u}))
+        typeAThreeAdditionMap.{u} := by
   intro hscaled
-  have himage := hscaled typeAThreeIndexOneSourceTriangle
-    (typeAThreeIndexOneSourceTriangle_thin sΔ)
-  rw [typeAThreeAdditionMap_indexOneSource] at himage
-  exact typeAThreeIndexOneTargetTriangle_not_thin himage
+  have himage := hscaled typeAThreeIndexOneSourceTriangle.{u}
+    (typeAThreeIndexOneSourceTriangle_thin.{u} sΔ)
+  rw [typeAThreeAdditionMap_indexOneSource.{u}] at himage
+  exact typeAThreeIndexOneTargetTriangle_not_thin.{u} himage
 
 /-! ## Explicit obstruction at the inner index i = 2 -/
 
@@ -190,13 +208,18 @@ def typeAThreeIndexTwoTargetTriangle : (Δ[3] : SSet.{u}) _⦋2⦌ :=
 on `Delta[2]`. -/
 theorem typeAThreeIndexTwoSourceTriangle_thin
     (sΔ : ScaledSimplicialSet (Δ[2] : SSet.{u})) :
-    (simplexCylinderScaling sΔ).thin typeAThreeIndexTwoSourceTriangle := by
-  change sΔ.thin typeAThreeIndexTwoSourceTriangle.1
+    (simplexCylinderScaling sΔ).thin
+      typeAThreeIndexTwoSourceTriangle.{u} := by
+  change sΔ.thin typeAThreeIndexTwoSourceTriangle.{u}.1
   let e : (Δ[2] : SSet.{u}) _⦋1⦌ :=
     SSet.stdSimplex.edge 2 (0 : Fin 3) (2 : Fin 3) (by decide)
   have hσ :
       (Δ[2] : SSet.{u}).σ (1 : Fin 2) e =
-        typeAThreeIndexTwoSourceTriangle.1 := by
+        typeAThreeIndexTwoSourceTriangle.{u}.1 := by
+    change
+      (Δ[2] : SSet.{u}).σ (1 : Fin 2) e =
+        SSet.stdSimplex.triangle
+          (0 : Fin 3) (2 : Fin 3) (2 : Fin 3) (by decide) (by decide)
     apply SSet.stdSimplex.ext
     intro j
     fin_cases j <;> rfl
@@ -205,16 +228,16 @@ theorem typeAThreeIndexTwoSourceTriangle_thin
 
 /-- Coordinate addition sends the second source witness exactly to `[0,2,3]`. -/
 theorem typeAThreeAdditionMap_indexTwoSource :
-    typeAThreeAdditionMap.app (op ⦋2⦌)
-        typeAThreeIndexTwoSourceTriangle =
-      typeAThreeIndexTwoTargetTriangle := by
+    typeAThreeAdditionMap.{u}.app (op ⦋2⦌)
+        typeAThreeIndexTwoSourceTriangle.{u} =
+      typeAThreeIndexTwoTargetTriangle.{u} := by
   apply SSet.stdSimplex.ext
   intro j
   fin_cases j <;> rfl
 
 /-- `[0,2,3]` is nondegenerate. -/
 theorem typeAThreeIndexTwoTargetTriangle_nondegenerate :
-    typeAThreeIndexTwoTargetTriangle ∈
+    typeAThreeIndexTwoTargetTriangle.{u} ∈
       (Δ[3] : SSet.{u}).nonDegenerate 2 := by
   rw [SSet.stdSimplex.mem_nonDegenerate_iff_strictMono,
     Fin.strictMono_iff_lt_succ]
@@ -223,12 +246,13 @@ theorem typeAThreeIndexTwoTargetTriangle_nondegenerate :
 
 /-- `[0,2,3]` is not thin for the standard type-(A) scaling at `i = 2`. -/
 theorem typeAThreeIndexTwoTargetTriangle_not_thin :
-    ¬ (standardTypeASimplexScaling (2 : Fin 4)).thin
-        typeAThreeIndexTwoTargetTriangle := by
+    ¬ (standardTypeASimplexScaling (2 : Fin 4) :
+        ScaledSimplicialSet (Δ[3] : SSet.{u})).thin
+        typeAThreeIndexTwoTargetTriangle.{u} := by
   intro hthin
   rcases hthin with hmin | hdist
   · have hdeg :
-        typeAThreeIndexTwoTargetTriangle ∈
+        typeAThreeIndexTwoTargetTriangle.{u} ∈
           (Δ[3] : SSet.{u}).degenerate 2 := by
       rw [SSet.degenerate_eq_iUnion_range_σ]
       simp only [Set.mem_iUnion, Set.mem_range]
@@ -236,7 +260,7 @@ theorem typeAThreeIndexTwoTargetTriangle_not_thin :
       · exact ⟨(0 : Fin 2), x, hx⟩
       · exact ⟨(1 : Fin 2), x, hx⟩
     rw [SSet.mem_degenerate_iff_notMem_nonDegenerate] at hdeg
-    exact hdeg typeAThreeIndexTwoTargetTriangle_nondegenerate
+    exact hdeg typeAThreeIndexTwoTargetTriangle_nondegenerate.{u}
   · rcases hdist with ⟨_, hbad, _⟩
     change 0 + 1 = 2 at hbad
     omega
@@ -247,13 +271,14 @@ theorem typeAThreeAdditionMap_not_scaled_indexTwo
     (sΔ : ScaledSimplicialSet (Δ[2] : SSet.{u})) :
     ¬ IsScaledMap
         (simplexCylinderScaling sΔ)
-        (standardTypeASimplexScaling (2 : Fin 4))
-        typeAThreeAdditionMap := by
+        (standardTypeASimplexScaling (2 : Fin 4) :
+          ScaledSimplicialSet (Δ[3] : SSet.{u}))
+        typeAThreeAdditionMap.{u} := by
   intro hscaled
-  have himage := hscaled typeAThreeIndexTwoSourceTriangle
-    (typeAThreeIndexTwoSourceTriangle_thin sΔ)
-  rw [typeAThreeAdditionMap_indexTwoSource] at himage
-  exact typeAThreeIndexTwoTargetTriangle_not_thin himage
+  have himage := hscaled typeAThreeIndexTwoSourceTriangle.{u}
+    (typeAThreeIndexTwoSourceTriangle_thin.{u} sΔ)
+  rw [typeAThreeAdditionMap_indexTwoSource.{u}] at himage
+  exact typeAThreeIndexTwoTargetTriangle_not_thin.{u} himage
 
 /-! ## Exhaust the dimension-three type-(A) family -/
 
@@ -278,6 +303,7 @@ theorem standardTypeAHornGeneratorIndex_dim_three_cases
     g = standardTypeAThreeIndexOne ∨
       g = standardTypeAThreeIndexTwo := by
   rcases g with ⟨n, i, hleft, hright⟩
+  change n = 3 at hn
   subst n
   change 0 < i.val at hleft
   change i.val < 3 at hright
@@ -300,13 +326,16 @@ theorem typeAThreeAdditionMap_not_scaled
     (sΔ : ScaledSimplicialSet (Δ[2] : SSet.{u})) :
     ¬ IsScaledMap
         (simplexCylinderScaling sΔ)
-        (standardTypeASimplexScaling g.i)
-        typeAThreeAdditionMap := by
+        (hn ▸ (standardTypeASimplexScaling g.i :
+          ScaledSimplicialSet (Δ[g.n] : SSet.{u})))
+        typeAThreeAdditionMap.{u} := by
   rcases standardTypeAHornGeneratorIndex_dim_three_cases g hn with hg | hg
   · subst g
-    exact typeAThreeAdditionMap_not_scaled_indexOne sΔ
+    cases hn
+    exact typeAThreeAdditionMap_not_scaled_indexOne.{u} sΔ
   · subst g
-    exact typeAThreeAdditionMap_not_scaled_indexTwo sΔ
+    cases hn
+    exact typeAThreeAdditionMap_not_scaled_indexTwo.{u} sΔ
 
 /-- In existential form: the target half of a one-step addition staircase
 retract does not exist for any dimension-three type-(A) generator. -/
@@ -316,8 +345,9 @@ theorem typeAThree_no_oneStepAdditionTargetRetraction
     ¬ ∃ sΔ : ScaledSimplicialSet (Δ[2] : SSet.{u}),
         IsScaledMap
           (simplexCylinderScaling sΔ)
-          (standardTypeASimplexScaling g.i)
-          typeAThreeAdditionMap := by
+          (hn ▸ (standardTypeASimplexScaling g.i :
+            ScaledSimplicialSet (Δ[g.n] : SSet.{u})))
+          typeAThreeAdditionMap.{u} := by
   rintro ⟨sΔ, hsΔ⟩
   exact typeAThreeAdditionMap_not_scaled g hn sΔ hsΔ
 
