@@ -106,8 +106,8 @@ theorem minimalHorn_comp_typeATargetEnrichment
     minimalHornInclusionHom g.i ≫ minimalToStandardTypeATarget g =
       standardTypeAMinimalSourceHornHom g := by
   apply ScaledSSet.ScaledMap.ext
-  simp [minimalHornInclusionHom, minimalToStandardTypeATarget,
-    scalingEnrichmentHom, standardTypeAMinimalSourceHornHom]
+  change Λ[g.n, g.i].ι ≫ 𝟙 Δ[g.n] = Λ[g.n, g.i].ι
+  exact Category.comp_id _
 
 /-- Canonical generation of the completely minimal inner horn implies the
 standard type-(A) one-thin minimal-source horn. -/
@@ -165,8 +165,9 @@ theorem minimalOuterHorn_comp_typeCTargetEnrichment
         minimalToStandardTypeCUncollapsedTarget m =
       standardTypeCOuterOneThinHornHom m := by
   apply ScaledSSet.ScaledMap.ext
-  simp [minimalHornInclusionHom, minimalToStandardTypeCUncollapsedTarget,
-    scalingEnrichmentHom, standardTypeCOuterOneThinHornHom]
+  change Λ[m + 3, (0 : Fin (m + 4))].ι ≫ 𝟙 Δ[m + 3] =
+    Λ[m + 3, (0 : Fin (m + 4))].ι
+  exact Category.comp_id _
 
 /-- Canonical generation of the completely minimal outer horn implies
 canonical generation of the uncollapsed type-(C) one-thin horn. -/
@@ -232,7 +233,8 @@ theorem standardGenerated_le_canonicalGenerated
 /-- Quotient-level reverse inclusion follows from exactly the same core. -/
 theorem standardPresentation_le_canonicalPresentation
     (K : StandardABCCanonicalMinimalHornReverseCore.{u}) :
-    standardABCPresentation.{u} ≤ canonicalKuuOSPresentation.{u} :=
+    KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.standardABCPresentation.{u} ≤
+      KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.canonicalKuuOSPresentation.{u} :=
   (standardABC_le_canonicalKuuOS_iff_generatorwiseReverse).2
     K.toGeneratorwiseReverse
 
@@ -254,8 +256,10 @@ the strictness witness is universe zero because the B²ℕ separator of v1.107 i
 constructed there; the reverse comparison itself remains polymorphic. -/
 theorem presentation_strictOrderCertificate
     (K : StandardABCCanonicalMinimalHornReverseCore.{0}) :
-    standardABCPresentation.{0} ≤ canonicalKuuOSPresentation.{0} ∧
-      ¬ canonicalKuuOSPresentation.{0} ≤ standardABCPresentation.{0} :=
+    KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.standardABCPresentation.{0} ≤
+        KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.canonicalKuuOSPresentation.{0} ∧
+      ¬ KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.canonicalKuuOSPresentation.{0} ≤
+        KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.standardABCPresentation.{0} :=
   ⟨K.standardPresentation_le_canonicalPresentation,
     natDoubleDelooping_not_canonicalKuuOS_le_standardABC⟩
 
@@ -290,8 +294,10 @@ theorem standardGenerated_le_canonicalGenerated_of_allMinimalHorns
 yields the strict presentation-order certificate. -/
 theorem presentation_strictOrderCertificate_of_allMinimalHorns
     (H : AllMinimalHornInclusionsCanonical.{0}) :
-    standardABCPresentation.{0} ≤ canonicalKuuOSPresentation.{0} ∧
-      ¬ canonicalKuuOSPresentation.{0} ≤ standardABCPresentation.{0} :=
+    KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.standardABCPresentation.{0} ≤
+        KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.canonicalKuuOSPresentation.{0} ∧
+      ¬ KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.canonicalKuuOSPresentation.{0} ≤
+        KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.standardABCPresentation.{0} :=
   (minimalHornReverseCore_of_all H).presentation_strictOrderCertificate
 
 /-!
