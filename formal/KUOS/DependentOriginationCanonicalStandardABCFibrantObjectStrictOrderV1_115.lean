@@ -148,8 +148,8 @@ theorem standardTypeC_edge_compat_of_hornFiller
     standardTypeCEdgeToSimplex.{u} m ≫ Q.simplexMap =
         standardTypeCEdgeToHorn.{u} m ≫
           (standardTypeCMinimalHornProblem f).hornMap := by
-      rw [Q.extends_horn]
-      simp
+      rw [Q.extends_horn, ← Category.assoc,
+        standardTypeCEdgeToHorn_comp_hornInclusion.{u}]
     _ = standardTypeCEdgeToHorn.{u} m ≫
           (standardTypeCSourceInl.{u} m ≫ f.map) := rfl
     _ = standardTypeCEdgeCollapseToPoint.{u} m ≫
@@ -317,7 +317,9 @@ theorem attachmentFibrant_standardABC_generators_rlp
     standardGeneratedScaledFibrationABC (ScaledSSet.toPoint X) := by
   intro A B j hj
   rcases hj with (hjA | hjB) | hjC
-  · dsimp [standardTypeAScaledHornGenerators] at hjA
+  · dsimp [
+      KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50.standardTypeAScaledHornGenerators
+    ] at hjA
     cases hjA with
     | mk g =>
         exact attachmentFibrant_hasStandardTypeATerminalRLP_unconditional hX g
@@ -365,19 +367,29 @@ theorem attachmentFibrant_implies_standardABCFibrant
 
 /-- The existing `B^2 N` witness is standard A/B/C fibrant. -/
 theorem natDoubleDelooping_isStandardABCFibrant :
-    IsStandardABCFibrant natDoubleDeloopingScaledDuskin := by
-  exact natDoubleDelooping_standardGeneratedABC_rlp
+    IsStandardABCFibrant
+      KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.natDoubleDeloopingScaledDuskin := by
+  change
+    (standardGeneratedScaledAnodyneABC :
+      MorphismProperty (ScaledSSet.{0})).rlp
+      (ScaledSSet.toPoint.{0}
+        KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.natDoubleDeloopingScaledDuskin)
+  exact
+    KUOS.DependentOriginationDoubleDeloopingTypeCTerminalRLPStandardRightV1_106.natDoubleDelooping_standardGeneratedABC_rlp
 
 /-- The same object is not canonically attachment-fibrant, by the atomic
 2-simplex orthogonality separator. -/
 theorem natDoubleDelooping_not_attachmentFibrant :
-    ¬ IsAttachmentFibrant natDoubleDeloopingScaledDuskin := by
+    ¬ IsAttachmentFibrant
+      KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.natDoubleDeloopingScaledDuskin := by
   intro hX
-  apply atomicTwoSimplexEnrichment_not_hasLiftingProperty_natDoubleDeloopingTerminal
+  apply
+    KUOS.DependentOriginationPresentationIndependentSeparationTypeBReverseV1_107.atomicTwoSimplexEnrichment_not_hasLiftingProperty_natDoubleDeloopingTerminal
   exact
-    attachmentFibrant_hasLiftingProperty_of_canonicalGenerated
-      hX atomicTwoSimplexEnrichment
-      atomicTwoSimplexEnrichment_mem_canonicalGenerated
+    attachmentFibrant_hasLiftingProperty_of_canonicalGenerated.{0}
+      hX
+      KUOS.DependentOriginationCanonicalFibrancyAtomicTwoSimplexAuditV1_91.atomicTwoSimplexEnrichment.{0}
+      KUOS.DependentOriginationCanonicalFibrancyAtomicTwoSimplexAuditV1_91.atomicTwoSimplexEnrichment_mem_canonicalGenerated.{0}
 
 /-- Canonical fibrant-object semantics is strictly contained in standard A/B/C
 fibrant-object semantics: inclusion holds for every object, and `B^2 N` is a
@@ -391,7 +403,7 @@ theorem canonicalFibrantObjects_strictlyContainedIn_standardABCFibrantObjects :
   · intro X hX
     exact attachmentFibrant_implies_standardABCFibrant hX
   · exact
-      ⟨natDoubleDeloopingScaledDuskin,
+      ⟨KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.natDoubleDeloopingScaledDuskin,
         natDoubleDelooping_isStandardABCFibrant,
         natDoubleDelooping_not_attachmentFibrant⟩
 
@@ -423,5 +435,7 @@ assert `standardGeneratedScaledAnodyneABC <= canonicalGeneratedScaledAnodyne`.
 The remaining presentation-level type-(A)/(C) reverse geometry is therefore a
 strictly finer problem than fibrant-object comparison.
 -/
+
+end
 
 end KUOS.DependentOriginationCanonicalStandardABCFibrantObjectStrictOrderV1_115
