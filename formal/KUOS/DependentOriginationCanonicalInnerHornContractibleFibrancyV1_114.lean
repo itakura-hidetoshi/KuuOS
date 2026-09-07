@@ -125,7 +125,6 @@ def innerHornMaxMap
         · exact Or.inr (max_eq_right (le_of_lt (lt_of_not_ge h))))⟩
   naturality := by
     intro d e f
-    ext x j
     rfl
 
 /-! ## Literal prisms id ~ max and const ~ max -/
@@ -146,28 +145,32 @@ def innerHornIdToMaxPrism
           have ht := SSet.stdSimplex.monotone_apply z.2 hab
           by_cases ha : z.2 a = 0
           · by_cases hb : z.2 b = 0
-            · simpa [ha, hb] using hx
-            · simp only [ha, if_pos, hb, if_neg]
+            · rw [if_pos ha, if_pos hb]
+              exact hx
+            · rw [if_pos ha, if_neg hb]
               exact hx.trans (le_max_left _ _)
           · have hb : z.2 b ≠ 0 := by
               intro hb
               have hz : z.2 a ≤ 0 := by simpa [hb] using ht
               have : z.2 a = 0 := le_antisymm hz (Fin.zero_le _)
               exact ha this
-            simp only [ha, if_neg, hb]
+            rw [if_neg ha, if_neg hb]
             exact max_le_max hx le_rfl },
       horn_mem_of_pointwise_eq_or_index m i z.1 _ (by
         intro k
+        change
+          (if z.2 k = 0 then z.1.val k else max (z.1.val k) i) = z.1.val k ∨
+            (if z.2 k = 0 then z.1.val k else max (z.1.val k) i) = i
         by_cases hk : z.2 k = 0
-        · exact Or.inl (by simp [hk])
-        · simp only [hk, if_neg]
+        · rw [if_pos hk]
+          exact Or.inl rfl
+        · rw [if_neg hk]
           by_cases h : i ≤ z.1.val k
           · exact Or.inl (max_eq_left h)
           · exact Or.inr
               (max_eq_right (le_of_lt (lt_of_not_ge h))))⟩
   naturality := by
     intro d e f
-    ext z j
     rfl
 
 /-- Prism from the constant endomap at `i` to pointwise maximum with `i`. -/
@@ -186,28 +189,31 @@ def innerHornConstToMaxPrism
           have ht := SSet.stdSimplex.monotone_apply z.2 hab
           by_cases ha : z.2 a = 0
           · by_cases hb : z.2 b = 0
-            · simp [ha, hb]
-            · simp only [ha, if_pos, hb, if_neg]
+            · rw [if_pos ha, if_pos hb]
+            · rw [if_pos ha, if_neg hb]
               exact le_max_right _ _
           · have hb : z.2 b ≠ 0 := by
               intro hb
               have hz : z.2 a ≤ 0 := by simpa [hb] using ht
               have : z.2 a = 0 := le_antisymm hz (Fin.zero_le _)
               exact ha this
-            simp only [ha, if_neg, hb]
+            rw [if_neg ha, if_neg hb]
             exact max_le_max hx le_rfl },
       horn_mem_of_pointwise_eq_or_index m i z.1 _ (by
         intro k
+        change
+          (if z.2 k = 0 then i else max (z.1.val k) i) = z.1.val k ∨
+            (if z.2 k = 0 then i else max (z.1.val k) i) = i
         by_cases hk : z.2 k = 0
-        · exact Or.inr (by simp [hk])
-        · simp only [hk, if_neg]
+        · rw [if_pos hk]
+          exact Or.inr rfl
+        · rw [if_neg hk]
           by_cases h : i ≤ z.1.val k
           · exact Or.inl (max_eq_left h)
           · exact Or.inr
               (max_eq_right (le_of_lt (lt_of_not_ge h))))⟩
   naturality := by
     intro d e f
-    ext z j
     rfl
 
 /-- The first prism is a literal simplicial homotopy `id ~ max(-,i)`. -/
@@ -219,15 +225,24 @@ def innerHornIdToMaxHomotopy
       (innerHornMaxMap m i) where
   h := innerHornIdToMaxPrism m i
   h₀ := by
+    change SSet.ι₀ ≫ innerHornIdToMaxPrism m i =
+      𝟙 (Λ[m + 2, i] : SSet.{u})
     apply SSet.hom_ext
     intro d
-    ext x j
-    rfl
+    ext x
+    simp [innerHornIdToMaxPrism]
   h₁ := by
+    change SSet.ι₁ ≫ innerHornIdToMaxPrism m i = innerHornMaxMap m i
     apply SSet.hom_ext
     intro d
-    ext x j
-    rfl
+    ext x
+    simp [innerHornIdToMaxPrism, innerHornMaxMap]
+  rel := by
+    apply SSet.hom_ext
+    intro d
+    ext z
+    have hz := z.1.property
+    simp at hz
 
 /-- The second prism is a literal simplicial homotopy `const_i ~ max(-,i)`. -/
 def innerHornConstToMaxHomotopy
@@ -238,15 +253,23 @@ def innerHornConstToMaxHomotopy
       (innerHornMaxMap m i) where
   h := innerHornConstToMaxPrism m i
   h₀ := by
+    change SSet.ι₀ ≫ innerHornConstToMaxPrism m i = innerHornConstMap m i
     apply SSet.hom_ext
     intro d
-    ext x j
-    rfl
+    ext x
+    simp [innerHornConstToMaxPrism, innerHornConstMap, innerHornCenter]
   h₁ := by
+    change SSet.ι₁ ≫ innerHornConstToMaxPrism m i = innerHornMaxMap m i
     apply SSet.hom_ext
     intro d
-    ext x j
-    rfl
+    ext x
+    simp [innerHornConstToMaxPrism, innerHornMaxMap]
+  rel := by
+    apply SSet.hom_ext
+    intro d
+    ext z
+    have hz := z.1.property
+    simp at hz
 
 /-! ## Postcomposition and contractibility of horn mapping classes -/
 
@@ -258,8 +281,18 @@ def postcomposeSSetHomotopy
     (k : B ⟶ C) :
     SSet.Homotopy (f ≫ k) (g ≫ k) where
   h := H.h ≫ k
-  h₀ := by simp
-  h₁ := by simp
+  h₀ := by
+    change SSet.ι₀ ≫ (H.h ≫ k) = f ≫ k
+    rw [← Category.assoc, H.h₀]
+  h₁ := by
+    change SSet.ι₁ ≫ (H.h ≫ k) = g ≫ k
+    rw [← Category.assoc, H.h₁]
+  rel := by
+    apply SSet.hom_ext
+    intro d
+    ext z
+    have hz := z.1.property
+    simp at hz
 
 /-- Every map out of a horn of dimension at least two has the same simplicial
 homotopy class as the constant map at its value on the distinguished vertex. -/
@@ -314,8 +347,8 @@ noncomputable def innerHornHomotopyClassFillerOfMaximalScaling
     rw [SSet.comp_const]
     exact (innerHornMap_homotopyClass_eq_const m i P.hornMap).symm
   simplexMap_scaled := by
-    rw [hmax]
     intro t ht
+    rw [hmax]
     exact ScaledSimplicialSet.maximal_thin X _
 
 /-! ## Attachment fibrancy gives every strict inner horn filler -/
@@ -348,6 +381,7 @@ theorem attachmentFibrant_innerHornFiller
 
 /-- Hence an attachment-fibrant target fills every inner horn selected by any
 scaled horn family. -/
+@[implicit_reducible]
 noncomputable def hasScaledHornFillersOfAttachmentFibrant
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
@@ -360,6 +394,7 @@ noncomputable def hasScaledHornFillersOfAttachmentFibrant
 
 /-- The same universal inner-horn fibrancy follows from fibrancy for any
 compatible canonical scaled-anodyne presentation. -/
+@[implicit_reducible]
 noncomputable def hasScaledHornFillersOfPresentationFibrant
     {X : SSet.{u}}
     {sX : ScaledSimplicialSet X}
@@ -381,7 +416,7 @@ theorem attachmentFibrant_hasStandardTypeATerminalRLP_unconditional
   intro g
   apply
     (ScaledSSet.hasLiftingProperty_toPoint_iff
-      (standardTypeAScaledHornGeneratorHom g)).2
+      (KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49.standardTypeAScaledHornGeneratorHom g)).2
   intro f
   let P : ScaledHornExtensionProblem
       X.carrier X.scaling g.n g.i :=
@@ -430,5 +465,7 @@ one-lower-cylinder full target retracts in dimensions at least three.  Thus
 v1.114 cleanly separates object fibrancy from presentation comparison rather
 than weakening either notion.
 -/
+
+end
 
 end KUOS.DependentOriginationCanonicalInnerHornContractibleFibrancyV1_114
