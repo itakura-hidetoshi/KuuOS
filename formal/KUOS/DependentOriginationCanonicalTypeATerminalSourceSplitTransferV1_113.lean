@@ -209,7 +209,8 @@ retract.  The remaining source split is exactly the data needed for terminal
 lifting transfer. -/
 def standardTypeATwoTerminalSourceSplit :
     TerminalSourceSplitTransferData
-      (standardTypeAScaledHornGeneratorHom.{u} standardTypeATwoSimplexIndex)
+      (standardTypeAScaledHornGeneratorHom.{u}
+        KUOS.DependentOriginationStandardTypeATwoSimplexThinReplacementV1_93.standardTypeATwoSimplexIndex)
       (scaledHornCylinderAttachmentInclusion
         (1 : Fin 2) 0 (minimalScaling (Δ[1] : SSet.{u}))) where
   sourceInto := typeATwoSourceToCanonicalSource
@@ -224,7 +225,8 @@ def standardTypeATwoTerminalSourceSplit :
 realization through a literal canonical attachment. -/
 theorem standardTypeATwo_isCanonicalTerminalSourceSplit :
     IsCanonicalTerminalSourceSplit.{u}
-      (standardTypeAScaledHornGeneratorHom.{u} standardTypeATwoSimplexIndex) := by
+      (standardTypeAScaledHornGeneratorHom.{u}
+        KUOS.DependentOriginationStandardTypeATwoSimplexThinReplacementV1_93.standardTypeATwoSimplexIndex) := by
   refine ⟨
     minimallyScaledHornCylinderAttachment 1 (1 : Fin 2) 0,
     scaledSimplexCylinder (minimalScaling (Δ[1] : SSet.{u})),
