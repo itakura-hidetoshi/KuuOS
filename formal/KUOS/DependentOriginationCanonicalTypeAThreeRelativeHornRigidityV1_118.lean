@@ -7,6 +7,7 @@ open CategoryTheory
 open CategoryTheory.Category
 open Opposite
 open Simplicial
+open MonoidalCategory
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
@@ -141,10 +142,10 @@ theorem typeAThreeOneMissingTriangle_not_mem_horn :
   rcases
       (SSet.mem_horn_iff_notMem_range
         typeAThreeOneMissingTriangle (1 : Fin 4)).1 hmem with
-    ⟨missing, _, hmissing⟩
+    ⟨missing, hmissing_ne, hmissing⟩
   fin_cases missing
   · exact hmissing ⟨0, rfl⟩
-  · exact hmissing ⟨0, rfl⟩
+  · exact hmissing_ne rfl
   · exact hmissing ⟨1, rfl⟩
   · exact hmissing ⟨2, rfl⟩
 
@@ -169,11 +170,15 @@ theorem typeAThreeOne_thin_eq_left_of_middle_two_right_three
         SSet.stdSimplex.monotone_apply y
           (show (0 : Fin 3) ≤ 1 by decide)
       exact lt_of_le_of_ne hle h01
-    · rw [h1, h2]
+    · set_option backward.isDefEq.respectTransparency false in
+        change y 1 < y 2
+      rw [h1, h2]
       decide
   have hnot : ¬ IsStandardTypeADistinguishedTriangle (1 : Fin 4) y := by
     intro hdist
     have hmid := congrArg Fin.val hdist.1
+    set_option backward.isDefEq.respectTransparency false in
+      change (y 1).val = (1 : Fin 4).val at hmid
     rw [h1] at hmid
     omega
   exact
@@ -194,7 +199,9 @@ theorem typeAThreeOne_thin_eq_right_of_left_zero_middle_two
       Fin.strictMono_iff_lt_succ]
     intro k
     fin_cases k
-    · rw [h0, h1]
+    · set_option backward.isDefEq.respectTransparency false in
+        change y 0 < y 1
+      rw [h0, h1]
       decide
     · have hle :=
         SSet.stdSimplex.monotone_apply y
@@ -203,6 +210,8 @@ theorem typeAThreeOne_thin_eq_right_of_left_zero_middle_two
   have hnot : ¬ IsStandardTypeADistinguishedTriangle (1 : Fin 4) y := by
     intro hdist
     have hmid := congrArg Fin.val hdist.1
+    set_option backward.isDefEq.respectTransparency false in
+      change (y 1).val = (1 : Fin 4).val at hmid
     rw [h1] at hmid
     omega
   exact
@@ -214,11 +223,11 @@ one of the endpoints. -/
 theorem typeAThreeOne_thin_middle_eq_endpoint_of_left_zero_right_three
     (y : (Δ[3] : SSet.{u}) _⦋2⦌)
     (hy : (standardTypeASimplexScaling (1 : Fin 4)).thin y)
-    (h0 : y 0 = (0 : Fin 4))
+    (_h0 : y 0 = (0 : Fin 4))
     (h2 : y 2 = (3 : Fin 4)) :
     y 0 = y 1 ∨ y 1 = y 2 := by
   by_contra h
-  push_neg at h
+  push Not at h
   have hnd : y ∈ (Δ[3] : SSet.{u}).nonDegenerate 2 := by
     rw [SSet.stdSimplex.mem_nonDegenerate_iff_strictMono,
       Fin.strictMono_iff_lt_succ]
@@ -713,21 +722,31 @@ theorem typeAThreeOne_outside_horn_has_missingTriangle_face
     by_contra h
     have hba : b ≤ a := le_of_not_ge h
     have hm := SSet.stdSimplex.monotone_apply y hba
-    rw [ha, hb] at hm
+    set_option backward.isDefEq.respectTransparency false in
+      change y b ≤ y a at hm
+    rw [hb, ha] at hm
     omega
   have hbc : b ≤ c := by
     by_contra h
     have hcb : c ≤ b := le_of_not_ge h
     have hm := SSet.stdSimplex.monotone_apply y hcb
-    rw [hb, hc] at hm
+    set_option backward.isDefEq.respectTransparency false in
+      change y c ≤ y b at hm
+    rw [hc, hb] at hm
     omega
   refine ⟨a, b, c, hab, hbc, ?_⟩
   apply SSet.stdSimplex.ext
   intro k
   fin_cases k
-  · simpa using ha
-  · simpa using hb
-  · simpa using hc
+  · set_option backward.isDefEq.respectTransparency false in
+      change y a = (0 : Fin 4)
+    exact ha
+  · set_option backward.isDefEq.respectTransparency false in
+      change y b = (2 : Fin 4)
+    exact hb
+  · set_option backward.isDefEq.respectTransparency false in
+      change y c = (3 : Fin 4)
+    exact hc
 
 /-- Every canonical attachment generator has the lifting property against the
 single degree-three standard type-(A) horn inclusion. -/
@@ -822,12 +841,12 @@ theorem typeAThreeOne_canonicalRight :
 
 /-- The top identity `3`-simplex is not a simplex of `Lambda[3,1]`. -/
 theorem typeAThreeTopSimplex_not_mem_horn :
-    typeAHigherTargetTopSimplex (u := u) 2 ∉
+    typeAHigherTargetTopSimplex 2 ∉
       (SSet.horn 3 (1 : Fin 4)).obj (op ⦋3⦌) := by
   intro hmem
   rcases
       (SSet.mem_horn_iff_notMem_range
-        (typeAHigherTargetTopSimplex (u := u) 2) (1 : Fin 4)).1 hmem with
+        (typeAHigherTargetTopSimplex 2) (1 : Fin 4)).1 hmem with
     ⟨missing, _, hmissing⟩
   apply hmissing
   exact ⟨missing, rfl⟩
@@ -835,30 +854,37 @@ theorem typeAThreeTopSimplex_not_mem_horn :
 /-- A proper horn inclusion has no self-lifting property. -/
 theorem typeAThreeOne_not_hasLiftingProperty_self :
     ¬ HasLiftingProperty
-      (standardTypeAScaledHornGeneratorHom typeAThreeOneIndex)
-      (standardTypeAScaledHornGeneratorHom typeAThreeOneIndex) := by
+      (standardTypeAScaledHornGeneratorHom typeAThreeOneIndex :
+        (standardTypeAScaledHorn typeAThreeOneIndex : ScaledSSet.{u}) ⟶
+          (standardTypeAScaledSimplex typeAThreeOneIndex : ScaledSSet.{u}))
+      (standardTypeAScaledHornGeneratorHom typeAThreeOneIndex :
+        (standardTypeAScaledHorn typeAThreeOneIndex : ScaledSSet.{u}) ⟶
+          (standardTypeAScaledSimplex typeAThreeOneIndex : ScaledSSet.{u})) := by
   intro h
-  let j := standardTypeAScaledHornGeneratorHom typeAThreeOneIndex
+  let j :
+      (standardTypeAScaledHorn typeAThreeOneIndex : ScaledSSet.{u}) ⟶
+        (standardTypeAScaledSimplex typeAThreeOneIndex : ScaledSSet.{u}) :=
+    standardTypeAScaledHornGeneratorHom typeAThreeOneIndex
   let sq : CommSq
-      (𝟙 (standardTypeAScaledHorn typeAThreeOneIndex)) j j
-      (𝟙 (standardTypeAScaledSimplex typeAThreeOneIndex)) :=
+      (𝟙 (standardTypeAScaledHorn typeAThreeOneIndex : ScaledSSet.{u})) j j
+      (𝟙 (standardTypeAScaledSimplex typeAThreeOneIndex : ScaledSSet.{u})) :=
     { w := by simp }
   rcases (h.sq_hasLift sq).exists_lift with ⟨L⟩
   have hright := congrArg ScaledSSet.ScaledMap.map L.fac_right
   have hpoint := ConcreteCategory.congr_hom
     (congr_app hright (op ⦋3⦌))
-    (typeAHigherTargetTopSimplex (u := u) 2)
+    (typeAHigherTargetTopSimplex 2)
   let x := L.l.map.app (op ⦋3⦌)
-    (typeAHigherTargetTopSimplex (u := u) 2)
+    (typeAHigherTargetTopSimplex 2)
   have hx :
       (Λ[3, (1 : Fin 4)].ι :
         (Λ[3, (1 : Fin 4)] : SSet.{u}) ⟶ (Δ[3] : SSet.{u})).app
           (op ⦋3⦌) x =
-        typeAHigherTargetTopSimplex (u := u) 2 := by
+        typeAHigherTargetTopSimplex 2 := by
     simpa [j, typeAThreeOneIndex, standardTypeAScaledHornGeneratorHom, x]
       using hpoint
   have hmem :
-      typeAHigherTargetTopSimplex (u := u) 2 ∈
+      typeAHigherTargetTopSimplex 2 ∈
         (SSet.horn 3 (1 : Fin 4)).obj (op ⦋3⦌) := by
     rw [← hx]
     exact x.property
@@ -911,5 +937,7 @@ homotopy-class representatives there, so canonical fibrancy still implies
 standard A/B/C fibrancy.  For arbitrary maps, the degree-three horn itself is a
 canonical fibration and separates the presentations.
 -/
+
+end
 
 end KUOS.DependentOriginationCanonicalTypeAThreeRelativeHornRigidityV1_118
