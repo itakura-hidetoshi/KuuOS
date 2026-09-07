@@ -144,7 +144,11 @@ def typeATwoHornIntoCanonicalAttachmentMap :
         typeATwoLowerRightStaircaseSection.app (op ⦋d⦌) x.val ∈
           ((SSet.horn 1 (1 : Fin 2)).unionProd
             (intervalEndpoint (0 : Fin 2))).obj (op ⦋d⦌)
-      apply (SSet.Subcomplex.mem_unionProd_iff).2
+      apply
+        (SSet.Subcomplex.mem_unionProd_iff
+          (SSet.horn 1 (1 : Fin 2))
+          (intervalEndpoint (0 : Fin 2))
+          (typeATwoLowerRightStaircaseSection.app (op ⦋d⦌) x.val)).2
       rcases
           (SSet.mem_horn_iff_notMem_range x.val (1 : Fin 3)).1 x.property with
         ⟨missing, hmissing_ne, hmissing⟩
@@ -202,28 +206,31 @@ def typeATwoCanonicalAttachmentToHornMap :
       have hzprop :
           z.val.2 ∈ (intervalEndpoint (0 : Fin 2)).obj (op ⦋d⦌) ∨
             z.val.1 ∈ (SSet.horn 1 (1 : Fin 2)).obj (op ⦋d⦌) :=
-        (SSet.Subcomplex.mem_unionProd_iff).1 hzprop_union
+        (SSet.Subcomplex.mem_unionProd_iff
+          (SSet.horn 1 (1 : Fin 2))
+          (intervalEndpoint (0 : Fin 2)) z.val).1 hzprop_union
       rcases hzprop with hendpoint | hhorn
       · refine ⟨2, by decide, ?_⟩
         rintro ⟨k, hk⟩
         rw [intervalEndpoint_zero_eq_face_one,
           SSet.stdSimplex.mem_face_iff] at hendpoint
+        have hs_ne_one : z.val.2 k ≠ (1 : Fin 2) := by
+          simpa using hendpoint k
         have hs_zero : z.val.2 k = (0 : Fin 2) := by
-          by_contra hne
-          have hval_ne : (z.val.2 k).val ≠ 0 := by
+          apply Fin.ext
+          change (z.val.2 k).val = 0
+          have hlt : (z.val.2 k).val < 2 := (z.val.2 k).isLt
+          have hne_one_val : (z.val.2 k).val ≠ 1 := by
             intro hv
-            apply hne
+            apply hs_ne_one
             apply Fin.ext
             exact hv
-          have hlt : (z.val.2 k).val < 2 := (z.val.2 k).isLt
-          have hone : z.val.2 k = (1 : Fin 2) := by
-            apply Fin.ext
-            change (z.val.2 k).val = 1
-            omega
-          exact hendpoint k hone
+          omega
+        rw [typeATwoSquareAdditionMap_apply] at hk
         have hkval := congrArg Fin.val hk
+        change (z.val.1 k).val + (z.val.2 k).val = 2 at hkval
         have hfst : (z.val.1 k).val < 2 := (z.val.1 k).isLt
-        simp [typeATwoSquareAdditionMap_apply, hs_zero] at hkval
+        rw [hs_zero] at hkval
         omega
       · have hzero : (0 : Fin 2) ∉ Set.range z.val.1 := by
           rcases
@@ -237,10 +244,11 @@ def typeATwoCanonicalAttachmentToHornMap :
         apply hzero
         refine ⟨k, ?_⟩
         apply Fin.ext
+        rw [typeATwoSquareAdditionMap_apply] at hk
         have hkval := congrArg Fin.val hk
+        change (z.val.1 k).val + (z.val.2 k).val = 0 at hkval
         have hfst : (z.val.1 k).val < 2 := (z.val.1 k).isLt
         have hsnd : (z.val.2 k).val < 2 := (z.val.2 k).isLt
-        simp [typeATwoSquareAdditionMap_apply] at hkval
         omega)
 
 @[reassoc (attr := simp)]
@@ -354,11 +362,12 @@ theorem typeATwoTarget_retract :
 
 /-- The source section/retraction pair is split. -/
 theorem typeATwoSource_retract :
-    typeATwoSourceToCanonicalSource ≫ typeATwoCanonicalSourceToSource =
-      𝟙 (standardTypeAScaledHorn standardTypeATwoSimplexIndex) := by
+    typeATwoSourceToCanonicalSource.{u} ≫
+        typeATwoCanonicalSourceToSource.{u} =
+      𝟙 (standardTypeAScaledHorn standardTypeATwoSimplexIndex : ScaledSSet.{u}) := by
   have hmap :
-      typeATwoHornIntoCanonicalAttachmentMap ≫
-          typeATwoCanonicalAttachmentToHornMap =
+      typeATwoHornIntoCanonicalAttachmentMap.{u} ≫
+          typeATwoCanonicalAttachmentToHornMap.{u} =
         𝟙 (Λ[2, (1 : Fin 3)] : SSet.{u}) := by
     apply (cancel_mono
       (Λ[2, (1 : Fin 3)].ι :
