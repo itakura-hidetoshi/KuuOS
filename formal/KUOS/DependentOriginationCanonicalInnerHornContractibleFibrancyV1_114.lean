@@ -115,7 +115,7 @@ private theorem innerHornConstMap_val_apply
     (j : Fin (d + 1)) :
     ((innerHornConstMap m i).app (op ⦋d⦌) x).val j = i := by
   change (SSet.horn.const m i i (op ⦋d⦌)).val j = i
-  exact SSet.horn.const_val_apply m i i j
+  exact SSet.horn.const_val_apply.{u} m i i j
 
 /-- Pointwise maximum with the distinguished horn vertex. -/
 def innerHornMaxMap
@@ -207,7 +207,6 @@ def innerHornConstToMaxPrism
           by_cases ha : z.2 a = 0
           · by_cases hb : z.2 b = 0
             · rw [if_pos ha, if_pos hb]
-              exact le_rfl
             · rw [if_pos ha, if_neg hb]
               exact le_max_right _ _
           · have hb : z.2 b ≠ 0 := by
@@ -252,11 +251,8 @@ def innerHornIdToMaxHomotopy
     apply SSet.stdSimplex.ext
     intro j
     change
-      (if (SSet.ι₀.app (op ⦋d⦌) x).2 j = 0 then
-          (SSet.ι₀.app (op ⦋d⦌) x).1.val j
-        else max ((SSet.ι₀.app (op ⦋d⦌) x).1.val j) i) =
-        x.val j
-    rw [SSet.ι₀_app_snd_apply, if_pos rfl, SSet.ι₀_app_fst]
+      (if (0 : Fin 2) = 0 then x.val j else max (x.val j) i) = x.val j
+    rw [if_pos rfl]
   h₁ := by
     change SSet.ι₁ ≫ innerHornIdToMaxPrism m i = innerHornMaxMap m i
     apply SSet.hom_ext
@@ -266,11 +262,9 @@ def innerHornIdToMaxHomotopy
     apply SSet.stdSimplex.ext
     intro j
     change
-      (if (SSet.ι₁.app (op ⦋d⦌) x).2 j = 0 then
-          (SSet.ι₁.app (op ⦋d⦌) x).1.val j
-        else max ((SSet.ι₁.app (op ⦋d⦌) x).1.val j) i) =
+      (if (1 : Fin 2) = 0 then x.val j else max (x.val j) i) =
         max (x.val j) i
-    rw [SSet.ι₁_app_snd_apply, if_neg (by decide), SSet.ι₁_app_fst]
+    rw [if_neg (by decide)]
   rel := by
     apply SSet.hom_ext
     intro d
@@ -297,10 +291,9 @@ def innerHornConstToMaxHomotopy
     apply SSet.stdSimplex.ext
     intro j
     change
-      (if (SSet.ι₀.app (op ⦋d⦌) x).2 j = 0 then i
-        else max ((SSet.ι₀.app (op ⦋d⦌) x).1.val j) i) =
+      (if (0 : Fin 2) = 0 then i else max (x.val j) i) =
         ((innerHornConstMap m i).app (op ⦋d⦌) x).val j
-    rw [SSet.ι₀_app_snd_apply, if_pos rfl]
+    rw [if_pos rfl]
     exact (innerHornConstMap_val_apply m i d x j).symm
   h₁ := by
     change SSet.ι₁ ≫ innerHornConstToMaxPrism m i = innerHornMaxMap m i
@@ -311,10 +304,9 @@ def innerHornConstToMaxHomotopy
     apply SSet.stdSimplex.ext
     intro j
     change
-      (if (SSet.ι₁.app (op ⦋d⦌) x).2 j = 0 then i
-        else max ((SSet.ι₁.app (op ⦋d⦌) x).1.val j) i) =
+      (if (1 : Fin 2) = 0 then i else max (x.val j) i) =
         max (x.val j) i
-    rw [SSet.ι₁_app_snd_apply, if_neg (by decide), SSet.ι₁_app_fst]
+    rw [if_neg (by decide)]
   rel := by
     apply SSet.hom_ext
     intro d
