@@ -88,18 +88,18 @@ def typeAHigherIdToMaxPrismMap
           by_cases ha : z.2 a = 0
           · by_cases hb : z.2 b = 0
             · simpa [ha, hb] using hx
-            · simp only [ha, if_pos, hb, if_neg]
+            · simp only [ha, if_pos, hb]
               exact hx.trans (le_max_left _ _)
           · have hb : z.2 b ≠ 0 := by
               intro hb
               have hz : z.2 a ≤ 0 := by simpa [hb] using ht
               have : z.2 a = 0 := le_antisymm hz (Fin.zero_le _)
               exact ha this
-            simp only [ha, if_neg, hb]
+            simp only [ha, hb]
             exact max_le_max hx le_rfl }
   naturality := by
     intro d e f
-    ext z j
+    ext z
     rfl
 
 /-! ## A uniform thin source witness -/
