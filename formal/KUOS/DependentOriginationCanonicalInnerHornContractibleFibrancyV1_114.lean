@@ -145,17 +145,16 @@ def innerHornIdToMaxPrism
           have ht := SSet.stdSimplex.monotone_apply z.2 hab
           by_cases ha : z.2 a = 0
           · by_cases hb : z.2 b = 0
-            · change z.1.val a ≤ z.1.val b
-              exact hx
-            · change z.1.val a ≤ max (z.1.val b) i
-              exact hx.trans (le_max_left _ _)
+            · simpa only [ha, hb, if_pos] using hx
+            · simpa only [ha, hb, if_pos, if_neg] using
+                hx.trans (le_max_left (z.1.val b) i)
           · have hb : z.2 b ≠ 0 := by
               intro hb
               have hz : z.2 a ≤ 0 := by simpa [hb] using ht
               have : z.2 a = 0 := le_antisymm hz (Fin.zero_le _)
               exact ha this
-            change max (z.1.val a) i ≤ max (z.1.val b) i
-            exact max_le_max hx le_rfl },
+            simpa only [ha, hb, if_neg] using
+              max_le_max hx (le_rfl : i ≤ i) },
       horn_mem_of_pointwise_eq_or_index m i z.1 _ (by
         intro k
         change
@@ -189,17 +188,16 @@ def innerHornConstToMaxPrism
           have ht := SSet.stdSimplex.monotone_apply z.2 hab
           by_cases ha : z.2 a = 0
           · by_cases hb : z.2 b = 0
-            · change i ≤ i
-              exact le_rfl
-            · change i ≤ max (z.1.val b) i
-              exact le_max_right _ _
+            · simpa only [ha, hb, if_pos] using (le_rfl : i ≤ i)
+            · simpa only [ha, hb, if_pos, if_neg] using
+                (le_max_right (z.1.val b) i)
           · have hb : z.2 b ≠ 0 := by
               intro hb
               have hz : z.2 a ≤ 0 := by simpa [hb] using ht
               have : z.2 a = 0 := le_antisymm hz (Fin.zero_le _)
               exact ha this
-            change max (z.1.val a) i ≤ max (z.1.val b) i
-            exact max_le_max hx le_rfl },
+            simpa only [ha, hb, if_neg] using
+              max_le_max hx (le_rfl : i ≤ i) },
       horn_mem_of_pointwise_eq_or_index m i z.1 _ (by
         intro k
         change
@@ -230,14 +228,27 @@ def innerHornIdToMaxHomotopy
       𝟙 (Λ[m + 2, i] : SSet.{u})
     apply SSet.hom_ext
     intro d
-    ext x j
+    ext x
+    apply Subtype.ext
+    apply SSet.stdSimplex.ext
+    intro j
     simp [innerHornIdToMaxPrism]
   h₁ := by
     change SSet.ι₁ ≫ innerHornIdToMaxPrism m i = innerHornMaxMap m i
     apply SSet.hom_ext
     intro d
-    ext x j
+    ext x
+    apply Subtype.ext
+    apply SSet.stdSimplex.ext
+    intro j
     simp [innerHornIdToMaxPrism, innerHornMaxMap]
+  rel := by
+    apply SSet.hom_ext
+    intro d
+    ext z
+    have hz : False := by
+      simpa using z.1.property
+    exact hz.elim
 
 /-- The second prism is a literal simplicial homotopy `const_i ~ max(-,i)`. -/
 def innerHornConstToMaxHomotopy
@@ -251,32 +262,49 @@ def innerHornConstToMaxHomotopy
     change SSet.ι₀ ≫ innerHornConstToMaxPrism m i = innerHornConstMap m i
     apply SSet.hom_ext
     intro d
-    ext x j
+    ext x
+    apply Subtype.ext
+    apply SSet.stdSimplex.ext
+    intro j
     simp [innerHornConstToMaxPrism, innerHornConstMap, innerHornCenter,
       SSet.const, SSet.horn.const]
   h₁ := by
     change SSet.ι₁ ≫ innerHornConstToMaxPrism m i = innerHornMaxMap m i
     apply SSet.hom_ext
     intro d
-    ext x j
+    ext x
+    apply Subtype.ext
+    apply SSet.stdSimplex.ext
+    intro j
     simp [innerHornConstToMaxPrism, innerHornMaxMap]
+  rel := by
+    apply SSet.hom_ext
+    intro d
+    ext z
+    have hz : False := by
+      simpa using z.1.property
+    exact hz.elim
 
 /-! ## Postcomposition and contractibility of horn mapping classes -/
 
 /-- A simplicial homotopy remains a simplicial homotopy after postcomposition. -/
-def postcomposeSSetHomotopy
+noncomputable def postcomposeSSetHomotopy
     {A B C : SSet.{u}}
     {f g : A ⟶ B}
     (H : SSet.Homotopy f g)
     (k : B ⟶ C) :
-    SSet.Homotopy (f ≫ k) (g ≫ k) where
-  h := H.h ≫ k
-  h₀ := by
-    change SSet.ι₀ ≫ (H.h ≫ k) = f ≫ k
-    rw [← Category.assoc, H.h₀]
-  h₁ := by
-    change SSet.ι₁ ≫ (H.h ≫ k) = g ≫ k
-    rw [← Category.assoc, H.h₁]
+    SSet.Homotopy (f ≫ k) (g ≫ k) := by
+  let H' :=
+    SSet.RelativeMorphism.Homotopy.postcomp H
+      (SSet.RelativeMorphism.botEquiv.symm k)
+      (φψ := SSet.Subcomplex.isInitialBot.to _)
+      (by cat_disch)
+  exact {
+    h := H'.h
+    h₀ := by simpa using H'.h₀
+    h₁ := by simpa using H'.h₁
+    rel := by simpa using H'.rel
+  }
 
 /-- Every map out of a horn of dimension at least two has the same simplicial
 homotopy class as the constant map at its value on the distinguished vertex. -/
@@ -416,7 +444,8 @@ theorem attachmentFibrant_hasStandardTypeATerminalRLP_unconditional
       attachmentFibrant_innerHornFiller
         hX P g.inner_left g.inner_right with
     ⟨Q⟩
-  let l : standardTypeAScaledSimplex g ⟶ X :=
+  let l :
+      KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50.standardTypeAScaledSimplex g ⟶ X :=
     { map := Q.simplexMap
       scaled := Q.simplexMap_scaled }
   refine ⟨l, ?_⟩
