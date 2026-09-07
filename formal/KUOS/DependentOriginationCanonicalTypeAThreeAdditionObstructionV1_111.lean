@@ -80,7 +80,6 @@ def typeAThreeAdditionMap :
             (Fin.mk_le_mk.mp (SSet.stdSimplex.monotone_apply z.2 hab)) }
   naturality := by
     intro d e f
-    ext z j
     rfl
 
 @[simp]

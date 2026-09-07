@@ -4,6 +4,8 @@ namespace KUOS.DependentOriginationCanonicalTypeAHigherLowerCylinderRetractObstr
 
 open CategoryTheory
 open CategoryTheory.Category
+open MonoidalCategory
+open CartesianMonoidalCategory
 open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
@@ -87,8 +89,10 @@ theorem arbitraryScaling_thin_of_one_eq_two
   have hσ : (Δ[n] : SSet.{u}).σ (1 : Fin 2) e = t := by
     apply SSet.stdSimplex.ext
     intro a
-    fin_cases a <;>
-      simp [e, SSet.stdSimplex.σ_apply, SSet.stdSimplex.δ_apply, h12]
+    fin_cases a
+    · rfl
+    · convert h12 using 1 <;> decide
+    · convert h12 using 1 <;> decide
   rw [← hσ]
   exact sΔ.thin_sigma_one e
 
@@ -149,13 +153,21 @@ theorem typeAAdjacentNonthinWitness_exists
     let t : (Δ[m + 1] : SSet.{u}).obj (op ⦋2⦌) :=
       SSet.stdSimplex.triangle
         (0 : Fin (m + 2)) (1 : Fin (m + 2)) (Fin.last (m + 1))
-        (by omega) (by omega)
+        (by
+          change (0 : Nat) ≤ 1
+          omega)
+        (by
+          change (1 : Nat) ≤ m + 1
+          omega)
     have hnd : t ∈ (Δ[m + 1] : SSet.{u}).nonDegenerate 2 := by
       rw [SSet.stdSimplex.mem_nonDegenerate_iff_strictMono,
         Fin.strictMono_iff_lt_succ]
       intro a
-      fin_cases a <;>
-        simp [t, SSet.stdSimplex.triangle] <;> omega
+      fin_cases a
+      · change (0 : Nat) < 1
+        omega
+      · change (1 : Nat) < m + 1
+        omega
     have hnot : ¬ IsStandardTypeADistinguishedTriangle i t := by
       intro hdist
       have hmid := congrArg Fin.val hdist.1
@@ -175,13 +187,16 @@ theorem typeAAdjacentNonthinWitness_exists
       intro hkval
       apply hk0
       apply Fin.ext
-      simpa using hkval
+      exact hkval
     have hkpos : 0 < k.val := Nat.pos_of_ne_zero hkval_ne
     by_cases hspecial : k.val = 1 ∧ i.val = 1
     · let t : (Δ[m + 1] : SSet.{u}).obj (op ⦋2⦌) :=
         SSet.stdSimplex.triangle
           k.castSucc k.succ (Fin.last (m + 1))
-          (by omega) (by
+          (by
+            change k.val ≤ k.val + 1
+            omega)
+          (by
             change k.val + 1 ≤ m + 1
             omega)
       have hnd : t ∈ (Δ[m + 1] : SSet.{u}).nonDegenerate 2 := by
@@ -212,7 +227,9 @@ theorem typeAAdjacentNonthinWitness_exists
           (by
             change 0 ≤ k.val
             omega)
-          (by omega)
+          (by
+            change k.val ≤ k.val + 1
+            omega)
       have hnd : t ∈ (Δ[m + 1] : SSet.{u}).nonDegenerate 2 := by
         rw [SSet.stdSimplex.mem_nonDegenerate_iff_strictMono,
           Fin.strictMono_iff_lt_succ]
@@ -306,7 +323,7 @@ theorem typeAHigherLowerCylinderSectionFirstCoordinate_exists_adjacent_eq
   have hnot :=
     typeAHigherLowerCylinderSectionFirstCoordinate_not_injective m i s
   rw [Fin.orderHom_injective_iff] at hnot
-  push_neg at hnot
+  push Not at hnot
   exact hnot
 
 /-! ## The adjacent-collapse witness is forced thin in the cylinder -/
@@ -416,5 +433,7 @@ edges, while the rank filtration controls which thin triangles are exposed at
 each stage.  A logically independent retained alternative is to search for a
 canonical-right map failing a standard higher type-(A) lifting property.
 -/
+
+end
 
 end KUOS.DependentOriginationCanonicalTypeAHigherLowerCylinderRetractObstructionV1_112
