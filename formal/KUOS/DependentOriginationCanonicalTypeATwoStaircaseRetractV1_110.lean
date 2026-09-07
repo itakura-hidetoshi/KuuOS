@@ -140,11 +140,12 @@ def typeATwoHornIntoCanonicalAttachmentMap :
       typeATwoLowerRightStaircaseSection)
     (by
       rintro ⟨⟨d⟩⟩ y ⟨x, rfl⟩
-      change
-        typeATwoLowerRightStaircaseSection.app (op ⦋d⦌) x.val ∈
-          ((SSet.horn 1 (1 : Fin 2)).unionProd
-            (intervalEndpoint (0 : Fin 2))).obj (op ⦋d⦌)
-      rw [SSet.Subcomplex.mem_unionProd_iff]
+      set_option backward.isDefEq.respectTransparency false in
+        change
+          (typeATwoLowerRightStaircaseSection.app (op ⦋d⦌) x.val).2 ∈
+              (intervalEndpoint (0 : Fin 2)).obj (op ⦋d⦌) ∨
+            (typeATwoLowerRightStaircaseSection.app (op ⦋d⦌) x.val).1 ∈
+              (SSet.horn 1 (1 : Fin 2)).obj (op ⦋d⦌)
       rcases
           (SSet.mem_horn_iff_notMem_range x.val (1 : Fin 3)).1 x.property with
         ⟨missing, hmissing_ne, hmissing⟩
@@ -190,15 +191,16 @@ def typeATwoCanonicalAttachmentToHornMap :
       typeATwoSquareAdditionMap)
     (by
       rintro ⟨⟨d⟩⟩ y ⟨z, rfl⟩
-      change
-        typeATwoSquareAdditionMap.app (op ⦋d⦌) z.val ∈
-          (SSet.horn 2 (1 : Fin 3)).obj (op ⦋d⦌)
+      set_option backward.isDefEq.respectTransparency false in
+        change
+          typeATwoSquareAdditionMap.app (op ⦋d⦌) z.val ∈
+            (SSet.horn 2 (1 : Fin 3)).obj (op ⦋d⦌)
       rw [SSet.mem_horn_iff_notMem_range]
-      have hzprop :
-          z.val ∈
-            ((SSet.horn 1 (1 : Fin 2)).unionProd
-              (intervalEndpoint (0 : Fin 2))).obj (op ⦋d⦌) := z.property
-      rw [SSet.Subcomplex.mem_unionProd_iff] at hzprop
+      have hzprop := z.property
+      set_option backward.isDefEq.respectTransparency false in
+        change
+          z.val.2 ∈ (intervalEndpoint (0 : Fin 2)).obj (op ⦋d⦌) ∨
+            z.val.1 ∈ (SSet.horn 1 (1 : Fin 2)).obj (op ⦋d⦌) at hzprop
       rcases hzprop with hendpoint | hhorn
       · refine ⟨2, by decide, ?_⟩
         rintro ⟨k, hk⟩
@@ -352,23 +354,22 @@ theorem typeATwoTarget_retract :
 theorem typeATwoSource_retract :
     typeATwoSourceToCanonicalSource ≫ typeATwoCanonicalSourceToSource =
       𝟙 (standardTypeAScaledHorn standardTypeATwoSimplexIndex) := by
-  have hmap :
+  apply ScaledSSet.ScaledMap.ext
+  set_option backward.isDefEq.respectTransparency false in
+    change
       typeATwoHornIntoCanonicalAttachmentMap ≫
           typeATwoCanonicalAttachmentToHornMap =
-        𝟙 (Λ[2, (1 : Fin 3)] : SSet.{u}) := by
-    apply (cancel_mono
-      (Λ[2, (1 : Fin 3)].ι :
-        (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶ (Δ[2] : SSet.{u}))).1
-    rw [Category.assoc,
-      typeATwoCanonicalAttachmentToHornMap_ι,
-      ← Category.assoc,
-      typeATwoHornIntoCanonicalAttachmentMap_ι,
-      Category.assoc,
-      typeATwoLowerRightStaircaseSection_comp_addition]
-    simp
-  apply ScaledSSet.ScaledMap.ext
-  simpa [typeATwoSourceToCanonicalSource,
-    typeATwoCanonicalSourceToSource] using hmap
+        𝟙 (Λ[2, (1 : Fin 3)] : SSet.{u})
+  apply (cancel_mono
+    (Λ[2, (1 : Fin 3)].ι :
+      (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶ (Δ[2] : SSet.{u}))).1
+  rw [Category.assoc,
+    typeATwoCanonicalAttachmentToHornMap_ι,
+    ← Category.assoc,
+    typeATwoHornIntoCanonicalAttachmentMap_ι,
+    Category.assoc,
+    typeATwoLowerRightStaircaseSection_comp_addition]
+  simp
 
 /-- Arrow morphism from the degree-two standard generator into the canonical attachment. -/
 def typeATwoToCanonicalAttachmentArrow :
