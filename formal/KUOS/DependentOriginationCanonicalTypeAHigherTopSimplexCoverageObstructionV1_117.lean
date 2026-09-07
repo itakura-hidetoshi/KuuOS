@@ -112,7 +112,7 @@ theorem typeAHigherLowerCylinderTopFirstCoordinate_exists_adjacent_eq
   have hnot :=
     typeAHigherLowerCylinderTopFirstCoordinate_not_injective m z
   rw [Fin.orderHom_injective_iff] at hnot
-  push_neg at hnot
+  push Not at hnot
   exact hnot
 
 /-! ## Restrict a top cylinder simplex to an arbitrary target triangle -/
@@ -154,17 +154,21 @@ theorem typeAHigherLowerCylinderTopFace_thin_of_adjacent_collapse
     (simplexCylinderScaling sΔ).thin
       (typeAHigherLowerCylinderTopFace m z W.triangle) := by
   change sΔ.thin (typeAHigherLowerCylinderTopFace m z W.triangle).1
+  have hk' : z.1 k.castSucc = z.1 k.succ := by
+    set_option backward.isDefEq.respectTransparency false in
+      change z.1 k.castSucc = z.1 k.succ at hk
+    exact hk
   rcases W.containsAdjacent with hfirst | hsecond
   · apply arbitraryScaling_thin_of_zero_eq_one sΔ
     rw [typeAHigherLowerCylinderTopFace_fst_apply,
       typeAHigherLowerCylinderTopFace_fst_apply,
       hfirst.1, hfirst.2]
-    simpa [typeAHigherLowerCylinderTopFirstCoordinate] using hk
+    exact hk'
   · apply arbitraryScaling_thin_of_one_eq_two sΔ
     rw [typeAHigherLowerCylinderTopFace_fst_apply,
       typeAHigherLowerCylinderTopFace_fst_apply,
       hsecond.1, hsecond.2]
-    simpa [typeAHigherLowerCylinderTopFirstCoordinate] using hk
+    exact hk'
 
 /-! ## Naturality transfers top coverage to every triangle face -/
 
@@ -200,7 +204,7 @@ theorem typeAHigherLowerCylinderTopFace_image
     _ = (Δ[m + 1] : SSet.{u}).map alpha.op
         (typeAHigherTargetTopSimplex m) := by rw [hz]
     _ = t := by
-      simpa [alpha] using typeAHigherTargetTopSimplex_face (u := u) m t
+      simpa [alpha] using typeAHigherTargetTopSimplex_face m t
 
 /-! ## Main coverage obstruction -/
 
