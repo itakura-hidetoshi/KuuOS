@@ -154,8 +154,8 @@ realizations, not canonical left-class membership of the standard horn itself. -
 structure StandardTypeATerminalSourceSplitCanonicalCertificate : Prop where
   sourceSplit :
     ∀ g : StandardTypeAHornGeneratorIndex,
-      IsCanonicalTerminalSourceSplit
-        (standardTypeAScaledHornGeneratorHom g)
+      IsCanonicalTerminalSourceSplit.{u}
+        (standardTypeAScaledHornGeneratorHom.{u} g)
 
 namespace StandardTypeATerminalSourceSplitCanonicalCertificate
 
@@ -195,10 +195,10 @@ theorem attachmentFibrant_standardTypeAHornExtension
     (f : standardTypeAScaledHorn g ⟶ X) :
     ∃ l : standardTypeAScaledSimplex g ⟶ X,
       standardTypeAScaledHornGeneratorHom g ≫ l = f := by
-  apply
+  exact
     (ScaledSSet.hasLiftingProperty_toPoint_iff
       (standardTypeAScaledHornGeneratorHom g)).1
-  exact K.attachmentFibrant_hasStandardTypeATerminalRLP hX g
+      (K.attachmentFibrant_hasStandardTypeATerminalRLP hX g) f
 
 end StandardTypeATerminalSourceSplitCanonicalCertificate
 
@@ -209,42 +209,43 @@ retract.  The remaining source split is exactly the data needed for terminal
 lifting transfer. -/
 def standardTypeATwoTerminalSourceSplit :
     TerminalSourceSplitTransferData
-      (standardTypeAScaledHornGeneratorHom standardTypeATwoSimplexIndex)
-      (scaledHornAttachmentGeneratorHom typeATwoStaircaseCanonicalIndex) where
+      (standardTypeAScaledHornGeneratorHom.{u} standardTypeATwoSimplexIndex)
+      (scaledHornCylinderAttachmentInclusion
+        (1 : Fin 2) 0 (minimalScaling (Δ[1] : SSet.{u}))) where
   sourceInto := typeATwoSourceToCanonicalSource
   targetInto := typeATwoTargetToCanonicalTarget
   square := by
     apply ScaledSSet.ScaledMap.ext
-    change
-      (Λ[2, (1 : Fin 3)].ι :
-          (Λ[2, (1 : Fin 3)] : SSet.{u}) ⟶ (Δ[2] : SSet.{u})) ≫
-        typeATwoLowerRightStaircaseSection =
-      typeATwoHornIntoCanonicalAttachmentMap ≫
-        (hornCylinderAttachment 1 (1 : Fin 2) 0).ι
-    exact typeATwoHornIntoCanonicalAttachmentMap_ι.symm
+    exact typeATwoHornIntoCanonicalAttachmentMap_ι
   sourceRetraction := typeATwoCanonicalSourceToSource
   source_retract := typeATwoSource_retract
 
 /-- Hence the unique degree-two type-(A) horn has a terminal source-split
 realization through a literal canonical attachment. -/
 theorem standardTypeATwo_isCanonicalTerminalSourceSplit :
-    IsCanonicalTerminalSourceSplit
-      (standardTypeAScaledHornGeneratorHom standardTypeATwoSimplexIndex) := by
+    IsCanonicalTerminalSourceSplit.{u}
+      (standardTypeAScaledHornGeneratorHom.{u} standardTypeATwoSimplexIndex) := by
   refine ⟨
     minimallyScaledHornCylinderAttachment 1 (1 : Fin 2) 0,
     scaledSimplexCylinder (minimalScaling (Δ[1] : SSet.{u})),
-    scaledHornAttachmentGeneratorHom typeATwoStaircaseCanonicalIndex,
+    scaledHornCylinderAttachmentInclusion
+      (1 : Fin 2) 0 (minimalScaling (Δ[1] : SSet.{u})),
     ?_, ⟨standardTypeATwoTerminalSourceSplit⟩⟩
-  exact scaledHornAttachmentGenerators_le_generated _
-    (scaledHornAttachmentGenerator_mem typeATwoStaircaseCanonicalIndex)
+  have hk :
+      (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u}))
+        (scaledHornAttachmentGeneratorHom (typeATwoStaircaseCanonicalIndex.{u})) :=
+    scaledHornAttachmentGenerators_le_generated _
+      (scaledHornAttachmentGenerator_mem (typeATwoStaircaseCanonicalIndex.{u}))
+  simpa [scaledHornAttachmentGeneratorHom,
+    typeATwoStaircaseCanonicalIndex] using hk
 
 /-- Every literal degree-two type-(A) generator has the preceding source-split
 realization. -/
 theorem standardTypeA_dim_two_isCanonicalTerminalSourceSplit
     (g : StandardTypeAHornGeneratorIndex)
     (hn : g.n = 2) :
-    IsCanonicalTerminalSourceSplit
-      (standardTypeAScaledHornGeneratorHom g) := by
+    IsCanonicalTerminalSourceSplit.{u}
+      (standardTypeAScaledHornGeneratorHom.{u} g) := by
   rw [standardTypeAHornGeneratorIndex_eq_two g hn]
   exact standardTypeATwo_isCanonicalTerminalSourceSplit
 
@@ -256,8 +257,8 @@ structure StandardTypeAPostTwoTerminalSourceSplitCore : Prop where
   higher :
     ∀ g : StandardTypeAHornGeneratorIndex,
       3 ≤ g.n →
-        IsCanonicalTerminalSourceSplit
-          (standardTypeAScaledHornGeneratorHom g)
+        IsCanonicalTerminalSourceSplit.{u}
+          (standardTypeAScaledHornGeneratorHom.{u} g)
 
 namespace StandardTypeAPostTwoTerminalSourceSplitCore
 
@@ -266,8 +267,8 @@ all type-(A) dimensions. -/
 theorem all
     (K : StandardTypeAPostTwoTerminalSourceSplitCore.{u})
     (g : StandardTypeAHornGeneratorIndex) :
-    IsCanonicalTerminalSourceSplit
-      (standardTypeAScaledHornGeneratorHom g) := by
+    IsCanonicalTerminalSourceSplit.{u}
+      (standardTypeAScaledHornGeneratorHom.{u} g) := by
   have hge2 : 2 ≤ g.n := by
     have hleft := g.inner_left
     have hright := g.inner_right
@@ -323,5 +324,7 @@ A multi-cell prism construction may satisfy this even though no single lower
 cylinder can be a full arrow retract.  This is the source-side geometry to be
 built next; no higher type-A canonical membership is assumed in the interface.
 -/
+
+end
 
 end KUOS.DependentOriginationCanonicalTypeATerminalSourceSplitTransferV1_113
