@@ -145,16 +145,16 @@ def innerHornIdToMaxPrism
           have ht := SSet.stdSimplex.monotone_apply z.2 hab
           by_cases ha : z.2 a = 0
           · by_cases hb : z.2 b = 0
-            · rw [if_pos ha, if_pos hb]
+            · change z.1.val a ≤ z.1.val b
               exact hx
-            · rw [if_pos ha, if_neg hb]
+            · change z.1.val a ≤ max (z.1.val b) i
               exact hx.trans (le_max_left _ _)
           · have hb : z.2 b ≠ 0 := by
               intro hb
               have hz : z.2 a ≤ 0 := by simpa [hb] using ht
               have : z.2 a = 0 := le_antisymm hz (Fin.zero_le _)
               exact ha this
-            rw [if_neg ha, if_neg hb]
+            change max (z.1.val a) i ≤ max (z.1.val b) i
             exact max_le_max hx le_rfl },
       horn_mem_of_pointwise_eq_or_index m i z.1 _ (by
         intro k
@@ -189,15 +189,16 @@ def innerHornConstToMaxPrism
           have ht := SSet.stdSimplex.monotone_apply z.2 hab
           by_cases ha : z.2 a = 0
           · by_cases hb : z.2 b = 0
-            · rw [if_pos ha, if_pos hb]
-            · rw [if_pos ha, if_neg hb]
+            · change i ≤ i
+              exact le_rfl
+            · change i ≤ max (z.1.val b) i
               exact le_max_right _ _
           · have hb : z.2 b ≠ 0 := by
               intro hb
               have hz : z.2 a ≤ 0 := by simpa [hb] using ht
               have : z.2 a = 0 := le_antisymm hz (Fin.zero_le _)
               exact ha this
-            rw [if_neg ha, if_neg hb]
+            change max (z.1.val a) i ≤ max (z.1.val b) i
             exact max_le_max hx le_rfl },
       horn_mem_of_pointwise_eq_or_index m i z.1 _ (by
         intro k
@@ -229,20 +230,14 @@ def innerHornIdToMaxHomotopy
       𝟙 (Λ[m + 2, i] : SSet.{u})
     apply SSet.hom_ext
     intro d
-    ext x
+    ext x j
     simp [innerHornIdToMaxPrism]
   h₁ := by
     change SSet.ι₁ ≫ innerHornIdToMaxPrism m i = innerHornMaxMap m i
     apply SSet.hom_ext
     intro d
-    ext x
+    ext x j
     simp [innerHornIdToMaxPrism, innerHornMaxMap]
-  rel := by
-    apply SSet.hom_ext
-    intro d
-    ext z
-    have hz := z.1.property
-    simp at hz
 
 /-- The second prism is a literal simplicial homotopy `const_i ~ max(-,i)`. -/
 def innerHornConstToMaxHomotopy
@@ -256,20 +251,15 @@ def innerHornConstToMaxHomotopy
     change SSet.ι₀ ≫ innerHornConstToMaxPrism m i = innerHornConstMap m i
     apply SSet.hom_ext
     intro d
-    ext x
-    simp [innerHornConstToMaxPrism, innerHornConstMap, innerHornCenter]
+    ext x j
+    simp [innerHornConstToMaxPrism, innerHornConstMap, innerHornCenter,
+      SSet.const, SSet.horn.const]
   h₁ := by
     change SSet.ι₁ ≫ innerHornConstToMaxPrism m i = innerHornMaxMap m i
     apply SSet.hom_ext
     intro d
-    ext x
+    ext x j
     simp [innerHornConstToMaxPrism, innerHornMaxMap]
-  rel := by
-    apply SSet.hom_ext
-    intro d
-    ext z
-    have hz := z.1.property
-    simp at hz
 
 /-! ## Postcomposition and contractibility of horn mapping classes -/
 
@@ -287,12 +277,6 @@ def postcomposeSSetHomotopy
   h₁ := by
     change SSet.ι₁ ≫ (H.h ≫ k) = g ≫ k
     rw [← Category.assoc, H.h₁]
-  rel := by
-    apply SSet.hom_ext
-    intro d
-    ext z
-    have hz := z.1.property
-    simp at hz
 
 /-- Every map out of a horn of dimension at least two has the same simplicial
 homotopy class as the constant map at its value on the distinguished vertex. -/
@@ -348,8 +332,11 @@ noncomputable def innerHornHomotopyClassFillerOfMaximalScaling
     exact (innerHornMap_homotopyClass_eq_const m i P.hornMap).symm
   simplexMap_scaled := by
     intro t ht
-    rw [hmax]
-    exact ScaledSimplicialSet.maximal_thin X _
+    exact hmax.symm ▸
+      ScaledSimplicialSet.maximal_thin X
+        ((SSet.const
+          (P.hornMap.app (op ⦋0⦌) (innerHornCenter m i))).app
+            (op ⦋2⦌) t)
 
 /-! ## Attachment fibrancy gives every strict inner horn filler -/
 
@@ -416,7 +403,7 @@ theorem attachmentFibrant_hasStandardTypeATerminalRLP_unconditional
   intro g
   apply
     (ScaledSSet.hasLiftingProperty_toPoint_iff
-      (KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49.standardTypeAScaledHornGeneratorHom g)).2
+      (KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50.standardTypeAScaledHornGeneratorHom g)).2
   intro f
   let P : ScaledHornExtensionProblem
       X.carrier X.scaling g.n g.i :=
