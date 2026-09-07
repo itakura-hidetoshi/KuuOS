@@ -7,6 +7,7 @@ open CategoryTheory
 open CategoryTheory.Category
 open Opposite
 open Simplicial
+open MonoidalCategory
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
@@ -555,12 +556,12 @@ theorem typeAThreeOne_square_endpointTriangle_mem_horn
               (le_refl _) (le_refl _)⟩) ∈
       (SSet.horn 3 (1 : Fin 4)).obj (op ⦋2⦌) := by
   have hsqmap := congrArg ScaledSSet.ScaledMap.map sq.w
+  let a :=
+    (endpointIntoAttachment c.n c.i c.endpoint).app (op ⦋2⦌) x
+  have hp :=
+    ConcreteCategory.congr_hom (congr_app hsqmap (op ⦋2⦌)) a
   by_cases hε0 : c.endpoint = (0 : Fin 2)
-  · let a :=
-      (endpointIntoAttachment c.n c.i 0).app (op ⦋2⦌) x
-    have hp :=
-      ConcreteCategory.congr_hom (congr_app hsqmap (op ⦋2⦌)) a
-    have hcyl :
+  · have hcyl :
         (scaledHornAttachmentGeneratorHom c).map.app (op ⦋2⦌) a =
           (SSet.ι₀ : (Δ[c.n] : SSet.{u}) ⟶
             (Δ[c.n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x := by
@@ -583,10 +584,6 @@ theorem typeAThreeOne_square_endpointTriangle_mem_horn
     exact hmem
   · have hε1 : c.endpoint = (1 : Fin 2) :=
       Fin.eq_one_of_ne_zero _ hε0
-    let a :=
-      (endpointIntoAttachment c.n c.i 1).app (op ⦋2⦌) x
-    have hp :=
-      ConcreteCategory.congr_hom (congr_app hsqmap (op ⦋2⦌)) a
     have hcyl :
         (scaledHornAttachmentGeneratorHom c).map.app (op ⦋2⦌) a =
           (SSet.ι₁ : (Δ[c.n] : SSet.{u}) ⟶
@@ -829,23 +826,29 @@ theorem typeAThreeOne_not_hasLiftingProperty_self :
     { w := by simp }
   rcases (h.sq_hasLift sq).exists_lift with ⟨L⟩
   have hright := congrArg ScaledSSet.ScaledMap.map L.fac_right
-  have hright' :
+  set_option backward.isDefEq.respectTransparency false in
+    change
       L.l.map ≫
           (Λ[3, (1 : Fin 4)].ι :
             (Λ[3, (1 : Fin 4)] : SSet.{u}) ⟶ (Δ[3] : SSet.{u})) =
-        𝟙 (Δ[3] : SSet.{u}) := by
-    simpa [j, typeAThreeOneIndex, standardTypeAScaledHornGeneratorHom] using
-      hright
+        𝟙 (Δ[3] : SSet.{u}) at hright
   let x := L.l.map.app (op ⦋3⦌)
     (typeAHigherTargetTopSimplex 2)
   have hpoint := ConcreteCategory.congr_hom
-    (congr_app hright' (op ⦋3⦌))
+    (congr_app hright (op ⦋3⦌))
     (typeAHigherTargetTopSimplex 2)
   have hx :
       (Λ[3, (1 : Fin 4)].ι :
         (Λ[3, (1 : Fin 4)] : SSet.{u}) ⟶ (Δ[3] : SSet.{u})).app
           (op ⦋3⦌) x =
         typeAHigherTargetTopSimplex 2 := by
+    set_option backward.isDefEq.respectTransparency false in
+      change
+        (Λ[3, (1 : Fin 4)].ι :
+          (Λ[3, (1 : Fin 4)] : SSet.{u}) ⟶ (Δ[3] : SSet.{u})).app
+            (op ⦋3⦌)
+            (L.l.map.app (op ⦋3⦌) (typeAHigherTargetTopSimplex 2)) =
+          typeAHigherTargetTopSimplex 2 at hpoint
     simpa [x] using hpoint
   have hmem :
       typeAHigherTargetTopSimplex 2 ∈
