@@ -3,6 +3,7 @@ import KUOS.DependentOriginationGeneratedPresentationOrderReflectionV1_84
 namespace KUOS.DependentOriginationGeneratedPresentationFixedPointOrderIsoV1_85
 
 open CategoryTheory
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneWFSUniversalityV1_43
 open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
 open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
@@ -93,6 +94,7 @@ def saturatedAnodyneToPresentation
 theorem saturatedAnodyneToPresentation_presentationToSaturatedAnodyne
     (P : GeneratedScaledAnodynePresentation.{u}) :
     saturatedAnodyneToPresentation (presentationToSaturatedAnodyne P) = P := by
+  change presentationClass (generatedAnodyneClass P) = P
   apply eq_of_generatedAnodyneClass_eq
   rw [generatedAnodyneClass_presentationClass]
   exact generatedAnodyneClass_isOrthogonallySaturated P

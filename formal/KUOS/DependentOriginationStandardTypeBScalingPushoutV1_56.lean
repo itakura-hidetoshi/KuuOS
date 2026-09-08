@@ -9,6 +9,7 @@ open CategoryTheory.Limits
 open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
 open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
@@ -95,7 +96,8 @@ def scalingEnrichmentHom
   map := 𝟙 X
   scaled := by
     intro t ht
-    simpa using h t ht
+    change sX'.thin t
+    exact h t ht
 
 /-- The original lower map in the scaling-enrichment pushout square. -/
 def scalingEnrichmentPushoutLowerMap
@@ -150,9 +152,8 @@ theorem scalingEnrichmentPushout_commutes
       scalingEnrichmentHom hXX' ≫
         scalingEnrichmentPushoutUpperMap sX' sY f := by
   apply ScaledSSet.ScaledMap.ext
-  simp [scalingEnrichmentPushoutLowerMap,
-    scalingEnrichmentPushoutTargetEnrichment,
-    scalingEnrichmentHom, scalingEnrichmentPushoutUpperMap]
+  change f ≫ 𝟙 Y = 𝟙 X ≫ f
+  simp
 
 /-- Compatibility in a scaled cocone gives the underlying simplicial equation
 used to prove scaledness of the universal desc map. -/
@@ -170,8 +171,8 @@ theorem scalingEnrichmentPushout_compatibility_map
       scalingEnrichmentHom hXX' ≫ a) :
     f ≫ b.map = a.map := by
   have hw := congrArg ScaledSSet.ScaledMap.map w
-  simpa [scalingEnrichmentPushoutLowerMap,
-    scalingEnrichmentHom] using hw
+  change f ≫ b.map = (𝟙 X) ≫ a.map at hw
+  simpa using hw
 
 /-- The universal desc map for the generated target scaling.  Its underlying
 simplicial map is the map already prescribed on the old target `Y`. -/
@@ -196,10 +197,8 @@ noncomputable def scalingEnrichmentPushoutDesc
     · exact b.scaled t ht
     · have hmap := scalingEnrichmentPushout_compatibility_map
         hXX' sY f hf b a w
-      have hpoint := ConcreteCategory.congr_hom
-        (congr_app hmap (op ⦋2⦌)) x
-      change W.scaling.thin (b.map.app (op ⦋2⦌) (f.app (op ⦋2⦌) x))
-      rw [← hpoint]
+      change W.scaling.thin (((f ≫ b.map).app (op ⦋2⦌)) x)
+      rw [hmap]
       exact a.scaled x hx
 
 @[simp, reassoc]
@@ -218,8 +217,8 @@ theorem scalingEnrichmentPushout_target_desc
     scalingEnrichmentPushoutTargetEnrichment sX' sY f ≫
         scalingEnrichmentPushoutDesc hXX' sY f hf b a w = b := by
   apply ScaledSSet.ScaledMap.ext
-  simp [scalingEnrichmentPushoutTargetEnrichment,
-    scalingEnrichmentPushoutDesc]
+  change (𝟙 Y) ≫ b.map = b.map
+  simp
 
 @[simp, reassoc]
 theorem scalingEnrichmentPushout_upper_desc
@@ -256,7 +255,9 @@ theorem scalingEnrichmentPushout_hom_ext
     k = l := by
   apply ScaledSSet.ScaledMap.ext
   have hm := congrArg ScaledSSet.ScaledMap.map h
-  simpa [scalingEnrichmentPushoutTargetEnrichment] using hm
+  simpa only [ScaledSSet.comp_map,
+    scalingEnrichmentPushoutTargetEnrichment, ScaledSSet.of,
+    Category.id_comp] using hm
 
 /-- Pushout theorem for an arbitrary identity-underlying scaling enrichment. -/
 noncomputable def scalingEnrichmentPushout_isPushout
@@ -275,19 +276,18 @@ noncomputable def scalingEnrichmentPushout_isPushout
     w := scalingEnrichmentPushout_commutes hXX' sY f hf
     isColimit' := ⟨?_⟩
   }
-  apply PushoutCocone.IsColimit.mk _
-  · intro s
-    exact scalingEnrichmentPushoutDesc
-      hXX' sY f hf s.inl s.inr s.condition
-  · intro s
-    exact scalingEnrichmentPushout_target_desc
-      hXX' sY f hf s.inl s.inr s.condition
-  · intro s
-    exact scalingEnrichmentPushout_upper_desc
-      hXX' sY f hf s.inl s.inr s.condition
-  · intro s m hm₁ hm₂
-    apply scalingEnrichmentPushout_hom_ext sX' sY f
-    rw [hm₁, scalingEnrichmentPushout_target_desc]
+  exact PushoutCocone.IsColimit.mk
+    (scalingEnrichmentPushout_commutes hXX' sY f hf)
+    (fun s => scalingEnrichmentPushoutDesc
+      hXX' sY f hf s.inl s.inr s.condition)
+    (fun s => scalingEnrichmentPushout_target_desc
+      hXX' sY f hf s.inl s.inr s.condition)
+    (fun s => scalingEnrichmentPushout_upper_desc
+      hXX' sY f hf s.inl s.inr s.condition)
+    (by
+      intro s m hm₁ hm₂
+      apply scalingEnrichmentPushout_hom_ext sX' sY f
+      rw [hm₁, scalingEnrichmentPushout_target_desc])
 
 /-- Left lifting properties descend through this pushout square: if the source
 scaling enrichment lifts against `p`, then so does its pushed-out target

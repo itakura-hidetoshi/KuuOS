@@ -7,12 +7,16 @@ open CategoryTheory
 open CategoryTheory.Category
 open Opposite
 open Simplicial
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
 open KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
+open KUOS.DependentOriginationStandardTypeABoundaryPrismRankwiseABCellularityV1_72
 open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 open KUOS.DependentOriginationGeneratedPresentationOrderReflectionV1_84
+open KUOS.DependentOriginationStandardCanonicalPresentationGapV1_87
 open KUOS.DependentOriginationCanonicalAttachmentScalingObstructionRetractV1_88
 open KUOS.DependentOriginationStandardArbitraryScalingWaypointV1_89
 
@@ -30,7 +34,7 @@ The remaining scaling family still quantifies over an arbitrary scaling on
 every standard simplex.  This file reduces that family to its atomic finite
 pieces.
 
-A scaling on `Delta[n]` is determined in degree two, and the set of
+A scaling on `Δ[n]` is determined in degree two, and the set of
 2-simplices of a standard simplex is finite.  We therefore introduce the
 single-triangle enrichment
 
@@ -57,26 +61,27 @@ presentation comparison is used in this reduction.
 
 /-! ## Atomic one-triangle scalings -/
 
-/-- Add one chosen 2-simplex to the minimal scaling of `Delta[n]`. -/
+/-- Add one chosen 2-simplex to the minimal scaling of `Δ[n]`. -/
+@[implicit_reducible]
 def singleTriangleScaling
     {n : Nat}
-    (t : (Delta[n] : SSet.{u}).obj (op ⦋2⦌)) :
-    ScaledSimplicialSet (Delta[n] : SSet.{u}) where
+    (t : (Δ[n] : SSet.{u}).obj (op ⦋2⦌)) :
+    ScaledSimplicialSet (Δ[n] : SSet.{u}) where
   thin := fun u =>
-    (minimalScaling (Delta[n] : SSet.{u})).thin u ∨ u = t
+    (minimalScaling (Δ[n] : SSet.{u})).thin u ∨ u = t
   thin_sigma_zero := by
     intro x
-    exact Or.inl ((minimalScaling (Delta[n] : SSet.{u})).thin_sigma_zero x)
+    exact Or.inl ((minimalScaling (Δ[n] : SSet.{u})).thin_sigma_zero x)
   thin_sigma_one := by
     intro x
-    exact Or.inl ((minimalScaling (Delta[n] : SSet.{u})).thin_sigma_one x)
+    exact Or.inl ((minimalScaling (Δ[n] : SSet.{u})).thin_sigma_one x)
 
 /-- Minimal scaling is contained in every one-triangle enlargement. -/
 theorem minimalScaling_le_singleTriangleScaling
     {n : Nat}
-    (t : (Delta[n] : SSet.{u}).obj (op ⦋2⦌)) :
+    (t : (Δ[n] : SSet.{u}).obj (op ⦋2⦌)) :
     ScalingLE
-      (minimalScaling (Delta[n] : SSet.{u}))
+      (minimalScaling (Δ[n] : SSet.{u}))
       (singleTriangleScaling t) := by
   intro u hu
   exact Or.inl hu
@@ -84,14 +89,14 @@ theorem minimalScaling_le_singleTriangleScaling
 /-- The atomic identity-underlying enrichment. -/
 def minimalToSingleTriangleScaling
     {n : Nat}
-    (t : (Delta[n] : SSet.{u}).obj (op ⦋2⦌)) :
+    (t : (Δ[n] : SSet.{u}).obj (op ⦋2⦌)) :
     minimallyScaledSimplex n ⟶ scaledSimplex (singleTriangleScaling t) :=
   scalingEnrichmentHom (minimalScaling_le_singleTriangleScaling t)
 
 /-- Index for the atomic scaling family in all dimensions. -/
 structure SingleTriangleScalingEnrichmentIndex where
   n : Nat
-  triangle : (Delta[n] : SSet.{u}).obj (op ⦋2⦌)
+  triangle : (Δ[n] : SSet.{u}).obj (op ⦋2⦌)
 
 /-- Atomic enrichment represented by one index. -/
 def singleTriangleScalingEnrichmentHom
@@ -139,37 +144,43 @@ theorem singleTriangleScalingEnrichments_le_simplexScalingEnrichments :
 
 /-- Minimal scaling together with a finite set `F` of explicitly thin
 triangles. -/
+@[implicit_reducible]
 def finiteTriangleScaling
     {n : Nat}
-    (F : Finset ((Delta[n] : SSet.{u}).obj (op ⦋2⦌))) :
-    ScaledSimplicialSet (Delta[n] : SSet.{u}) where
+    (F : Finset ((Δ[n] : SSet.{u}).obj (op ⦋2⦌))) :
+    ScaledSimplicialSet (Δ[n] : SSet.{u}) where
   thin := fun t =>
-    (minimalScaling (Delta[n] : SSet.{u})).thin t ∨ t ∈ F
+    (minimalScaling (Δ[n] : SSet.{u})).thin t ∨ t ∈ F
   thin_sigma_zero := by
     intro x
-    exact Or.inl ((minimalScaling (Delta[n] : SSet.{u})).thin_sigma_zero x)
+    exact Or.inl ((minimalScaling (Δ[n] : SSet.{u})).thin_sigma_zero x)
   thin_sigma_one := by
     intro x
-    exact Or.inl ((minimalScaling (Delta[n] : SSet.{u})).thin_sigma_one x)
+    exact Or.inl ((minimalScaling (Δ[n] : SSet.{u})).thin_sigma_one x)
 
 /-- The empty finite scaling is exactly minimal. -/
 @[simp]
 theorem finiteTriangleScaling_empty
     (n : Nat) :
     finiteTriangleScaling (n := n) ∅ =
-      minimalScaling (Delta[n] : SSet.{u}) := by
+      minimalScaling (Δ[n] : SSet.{u}) := by
   apply scaling_eq_of_le_antisymm
   · intro t ht
-    simpa [finiteTriangleScaling] using ht
+    change
+      (minimalScaling (Δ[n] : SSet.{u})).thin t ∨
+        t ∈ (∅ : Finset ((Δ[n] : SSet.{u}).obj (op ⦋2⦌))) at ht
+    rcases ht with hmin | hmem
+    · exact hmin
+    · simp at hmem
   · intro t ht
     exact Or.inl ht
 
 /-- Minimal scaling maps into every finite scaling. -/
 theorem minimalScaling_le_finiteTriangleScaling
     {n : Nat}
-    (F : Finset ((Delta[n] : SSet.{u}).obj (op ⦋2⦌))) :
+    (F : Finset ((Δ[n] : SSet.{u}).obj (op ⦋2⦌))) :
     ScalingLE
-      (minimalScaling (Delta[n] : SSet.{u}))
+      (minimalScaling (Δ[n] : SSet.{u}))
       (finiteTriangleScaling F) := by
   intro t ht
   exact Or.inl ht
@@ -177,15 +188,15 @@ theorem minimalScaling_le_finiteTriangleScaling
 /-- Identity-underlying enrichment from minimal scaling to a finite scaling. -/
 def minimalToFiniteTriangleScaling
     {n : Nat}
-    (F : Finset ((Delta[n] : SSet.{u}).obj (op ⦋2⦌))) :
+    (F : Finset ((Δ[n] : SSet.{u}).obj (op ⦋2⦌))) :
     minimallyScaledSimplex n ⟶ scaledSimplex (finiteTriangleScaling F) :=
   scalingEnrichmentHom (minimalScaling_le_finiteTriangleScaling F)
 
 /-- Add one triangle to an already-built finite scaling. -/
 def finiteTriangleInsertEnrichment
     {n : Nat}
-    (F : Finset ((Delta[n] : SSet.{u}).obj (op ⦋2⦌)))
-    (t : (Delta[n] : SSet.{u}).obj (op ⦋2⦌)) :
+    (F : Finset ((Δ[n] : SSet.{u}).obj (op ⦋2⦌)))
+    (t : (Δ[n] : SSet.{u}).obj (op ⦋2⦌)) :
     scaledSimplex (finiteTriangleScaling F) ⟶
       scaledSimplex (finiteTriangleScaling (insert t F)) :=
   scalingEnrichmentHom (by
@@ -198,22 +209,24 @@ def finiteTriangleInsertEnrichment
 finite scaling `F` produces exactly the scaling obtained by inserting `t`. -/
 theorem singleTrianglePushoutScaling_eq_finiteInsert
     {n : Nat}
-    (F : Finset ((Delta[n] : SSet.{u}).obj (op ⦋2⦌)))
-    (t : (Delta[n] : SSet.{u}).obj (op ⦋2⦌)) :
+    (F : Finset ((Δ[n] : SSet.{u}).obj (op ⦋2⦌)))
+    (t : (Δ[n] : SSet.{u}).obj (op ⦋2⦌)) :
     scalingEnrichmentPushoutScaling
         (singleTriangleScaling t)
         (finiteTriangleScaling F)
-        (𝟙 (Delta[n] : SSet.{u})) =
+        (𝟙 (Δ[n] : SSet.{u})) =
       finiteTriangleScaling (insert t F) := by
   apply scaling_eq_of_le_antisymm
   · intro u hu
-    dsimp [scalingEnrichmentPushoutScaling] at hu
+    change
+      ((minimalScaling (Δ[n] : SSet.{u})).thin u ∨ u ∈ F) ∨
+        ∃ x : (Δ[n] : SSet.{u}).obj (op ⦋2⦌),
+          ((minimalScaling (Δ[n] : SSet.{u})).thin x ∨ x = t) ∧ x = u at hu
     rcases hu with hu | ⟨x, hx, hxu⟩
     · rcases hu with hmin | hF
       · exact Or.inl hmin
       · exact Or.inr (Finset.mem_insert_of_mem hF)
-    · have hxu' : x = u := by simpa using hxu
-      subst u
+    · subst u
       rcases hx with hmin | hxt
       · exact Or.inl hmin
       · subst x
@@ -233,8 +246,8 @@ membership of its pushout step over a finite scaling. -/
 theorem finiteTriangleInsertEnrichment_mem_llp
     (T : MorphismProperty (ScaledSSet.{u}))
     {n : Nat}
-    (F : Finset ((Delta[n] : SSet.{u}).obj (op ⦋2⦌)))
-    (t : (Delta[n] : SSet.{u}).obj (op ⦋2⦌))
+    (F : Finset ((Δ[n] : SSet.{u}).obj (op ⦋2⦌)))
+    (t : (Δ[n] : SSet.{u}).obj (op ⦋2⦌))
     (ht : T.llp (minimalToSingleTriangleScaling t)) :
     T.llp (finiteTriangleInsertEnrichment F t) := by
   have hpush :
@@ -242,26 +255,51 @@ theorem finiteTriangleInsertEnrichment_mem_llp
         (scalingEnrichmentPushoutTargetEnrichment
           (singleTriangleScaling t)
           (finiteTriangleScaling F)
-          (𝟙 (Delta[n] : SSet.{u}))) := by
+          (𝟙 (Δ[n] : SSet.{u}))) := by
     apply scalingEnrichmentPushoutTarget_mem_llp
       T
       (minimalScaling_le_singleTriangleScaling t)
       (finiteTriangleScaling F)
-      (𝟙 (Delta[n] : SSet.{u}))
+      (𝟙 (Δ[n] : SSet.{u}))
       (minimalScaling_map _ _)
-    simpa [minimalToSingleTriangleScaling] using ht
+    set_option backward.isDefEq.respectTransparency false in
+      exact ht
   have hscale := singleTrianglePushoutScaling_eq_finiteInsert F t
-  rw [hscale] at hpush
+  let e :=
+    scalingEqualityIso
+      (scalingEnrichmentPushoutScaling
+        (singleTriangleScaling t)
+        (finiteTriangleScaling F)
+        (𝟙 (Δ[n] : SSet.{u})))
+      (finiteTriangleScaling (insert t F))
+      hscale
+  have hpush' :
+      T.llp
+        (scalingEnrichmentPushoutTargetEnrichment
+            (singleTriangleScaling t)
+            (finiteTriangleScaling F)
+            (𝟙 (Δ[n] : SSet.{u})) ≫ e.hom) := by
+    exact
+      ((T.llp).cancel_right_of_respectsIso
+        (scalingEnrichmentPushoutTargetEnrichment
+          (singleTriangleScaling t)
+          (finiteTriangleScaling F)
+          (𝟙 (Δ[n] : SSet.{u}))) e.hom).2 hpush
   have heq :
       scalingEnrichmentPushoutTargetEnrichment
           (singleTriangleScaling t)
           (finiteTriangleScaling F)
-          (𝟙 (Delta[n] : SSet.{u})) =
+          (𝟙 (Δ[n] : SSet.{u})) ≫ e.hom =
         finiteTriangleInsertEnrichment F t := by
     apply ScaledSSet.ScaledMap.ext
-    rfl
+    simp [e, finiteTriangleInsertEnrichment, scalingEnrichmentHom,
+      scalingEnrichmentPushoutTargetEnrichment]
+    change
+      𝟙 (Δ[n] : SSet.{u}) ≫ 𝟙 (Δ[n] : SSet.{u}) =
+        𝟙 (Δ[n] : SSet.{u})
+    simp only [Category.id_comp]
   rw [← heq]
-  exact hpush
+  exact hpush'
 
 /-! ## Finite composition of atomic steps -/
 
@@ -271,21 +309,36 @@ theorem minimalToFiniteTriangleScaling_mem_llp
     (T : MorphismProperty (ScaledSSet.{u}))
     {n : Nat}
     (hatomic :
-      ∀ t : (Delta[n] : SSet.{u}).obj (op ⦋2⦌),
+      ∀ t : (Δ[n] : SSet.{u}).obj (op ⦋2⦌),
         T.llp (minimalToSingleTriangleScaling t))
-    (F : Finset ((Delta[n] : SSet.{u}).obj (op ⦋2⦌))) :
+    (F : Finset ((Δ[n] : SSet.{u}).obj (op ⦋2⦌))) :
     T.llp (minimalToFiniteTriangleScaling F) := by
   classical
   induction F using Finset.induction_on with
   | empty =>
-      rw [finiteTriangleScaling_empty]
-      have heq :
-          minimalToFiniteTriangleScaling (n := n) ∅ =
-            𝟙 (minimallyScaledSimplex n) := by
-        apply ScaledSSet.ScaledMap.ext
-        rfl
-      rw [heq]
-      exact T.llp.id_mem _
+      let e :=
+        scalingEqualityIso
+          (finiteTriangleScaling (n := n) ∅)
+          (minimalScaling (Δ[n] : SSet.{u}))
+          (finiteTriangleScaling_empty n)
+      have hcomp :
+          T.llp
+            (minimalToFiniteTriangleScaling (n := n) ∅ ≫ e.hom) := by
+        have hid : T.llp (𝟙 (minimallyScaledSimplex n)) := T.llp.id_mem _
+        have heq :
+            minimalToFiniteTriangleScaling (n := n) ∅ ≫ e.hom =
+              𝟙 (minimallyScaledSimplex n) := by
+          apply ScaledSSet.ScaledMap.ext
+          simp [e, minimalToFiniteTriangleScaling, scalingEnrichmentHom]
+          change
+            𝟙 (Δ[n] : SSet.{u}) ≫ 𝟙 (Δ[n] : SSet.{u}) =
+              𝟙 (Δ[n] : SSet.{u})
+          simp only [Category.id_comp]
+        rw [heq]
+        exact hid
+      exact
+        ((T.llp).cancel_right_of_respectsIso
+          (minimalToFiniteTriangleScaling (n := n) ∅) e.hom).1 hcomp
   | @insert t F hnot ih =>
       have hstep : T.llp (finiteTriangleInsertEnrichment F t) :=
         finiteTriangleInsertEnrichment_mem_llp T F t (hatomic t)
@@ -299,8 +352,10 @@ theorem minimalToFiniteTriangleScaling_mem_llp
             minimalToFiniteTriangleScaling F ≫
               finiteTriangleInsertEnrichment F t := by
         apply ScaledSSet.ScaledMap.ext
-        simp [minimalToFiniteTriangleScaling, finiteTriangleInsertEnrichment,
-          scalingEnrichmentHom]
+        change
+          𝟙 (Δ[n] : SSet.{u}) =
+            𝟙 (Δ[n] : SSet.{u}) ≫ 𝟙 (Δ[n] : SSet.{u})
+        simp only [Category.id_comp]
       rw [heq]
       exact hcomp
 
@@ -310,20 +365,20 @@ theorem minimalToFiniteTriangleScaling_mem_llp
 standard simplex. -/
 noncomputable def chosenThinTriangles
     {n : Nat}
-    (sDelta : ScaledSimplicialSet (Delta[n] : SSet.{u})) :
-    Finset ((Delta[n] : SSet.{u}).obj (op ⦋2⦌)) := by
+    (sDelta : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
+    Finset ((Δ[n] : SSet.{u}).obj (op ⦋2⦌)) := by
   classical
-  letI := Fintype.ofFinite ((Delta[n] : SSet.{u}).obj (op ⦋2⦌))
+  letI := Fintype.ofFinite ((Δ[n] : SSet.{u}).obj (op ⦋2⦌))
   exact Finset.univ.filter sDelta.thin
 
 @[simp]
 theorem mem_chosenThinTriangles
     {n : Nat}
-    (sDelta : ScaledSimplicialSet (Delta[n] : SSet.{u}))
-    (t : (Delta[n] : SSet.{u}).obj (op ⦋2⦌)) :
+    (sDelta : ScaledSimplicialSet (Δ[n] : SSet.{u}))
+    (t : (Δ[n] : SSet.{u}).obj (op ⦋2⦌)) :
     t ∈ chosenThinTriangles sDelta ↔ sDelta.thin t := by
   classical
-  letI := Fintype.ofFinite ((Delta[n] : SSet.{u}).obj (op ⦋2⦌))
+  letI := Fintype.ofFinite ((Δ[n] : SSet.{u}).obj (op ⦋2⦌))
   simp [chosenThinTriangles]
 
 /-- Minimal scaling is contained in any scaling on the same carrier. -/
@@ -338,7 +393,7 @@ theorem minimalScaling_le_any
 chosen scaling. -/
 theorem finiteTriangleScaling_chosenThinTriangles_eq
     {n : Nat}
-    (sDelta : ScaledSimplicialSet (Delta[n] : SSet.{u})) :
+    (sDelta : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     finiteTriangleScaling (chosenThinTriangles sDelta) = sDelta := by
   apply scaling_eq_of_le_antisymm
   · intro t ht
@@ -354,22 +409,37 @@ theorem minimalToChosenSimplexScaling_mem_llp_of_singleTriangles
     (T : MorphismProperty (ScaledSSet.{u}))
     {n : Nat}
     (hatomic :
-      ∀ t : (Delta[n] : SSet.{u}).obj (op ⦋2⦌),
+      ∀ t : (Δ[n] : SSet.{u}).obj (op ⦋2⦌),
         T.llp (minimalToSingleTriangleScaling t))
-    (sDelta : ScaledSimplicialSet (Delta[n] : SSet.{u})) :
+    (sDelta : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     T.llp (minimalToChosenSimplexScaling sDelta) := by
   have hfinite :=
     minimalToFiniteTriangleScaling_mem_llp
       T hatomic (chosenThinTriangles sDelta)
   have hscale := finiteTriangleScaling_chosenThinTriangles_eq sDelta
-  rw [hscale] at hfinite
+  let e :=
+    scalingEqualityIso
+      (finiteTriangleScaling (chosenThinTriangles sDelta))
+      sDelta
+      hscale
+  have hfinite' :
+      T.llp
+        (minimalToFiniteTriangleScaling (chosenThinTriangles sDelta) ≫ e.hom) := by
+    exact
+      ((T.llp).cancel_right_of_respectsIso
+        (minimalToFiniteTriangleScaling (chosenThinTriangles sDelta)) e.hom).2 hfinite
   have heq :
-      minimalToFiniteTriangleScaling (chosenThinTriangles sDelta) =
+      minimalToFiniteTriangleScaling (chosenThinTriangles sDelta) ≫ e.hom =
         minimalToChosenSimplexScaling sDelta := by
     apply ScaledSSet.ScaledMap.ext
-    rfl
+    simp [e, minimalToFiniteTriangleScaling, minimalToChosenSimplexScaling,
+      scalingEnrichmentHom]
+    change
+      𝟙 (Δ[n] : SSet.{u}) ≫ 𝟙 (Δ[n] : SSet.{u}) =
+        𝟙 (Δ[n] : SSet.{u})
+    simp only [Category.id_comp]
   rw [← heq]
-  exact hfinite
+  exact hfinite'
 
 /-! ## Equality of the atomic and arbitrary pure-scaling presentations -/
 

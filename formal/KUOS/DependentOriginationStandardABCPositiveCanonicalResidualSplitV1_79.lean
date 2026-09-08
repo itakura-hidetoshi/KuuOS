@@ -3,6 +3,7 @@ import KUOS.DependentOriginationStandardABCPostEndpointCanonicalComparisonV1_78
 namespace KUOS.DependentOriginationStandardABCPositiveCanonicalResidualSplitV1_79
 
 open CategoryTheory
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationScaledAnodyneWFSUniversalityV1_43
 open KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
@@ -108,7 +109,8 @@ theorem inducedCanonical_mem_standardTypeA_of_inner_standardScaling
     simpa [a] using
       canonicalIndex_eq_standardTypeA_toCanonical g h0 hn hs
   rw [hg]
-  simpa [standardTypeAInducedScaledHornAttachmentGeneratorHom] using
+  simpa [standardTypeAInducedScaledHornAttachmentGeneratorHom,
+    StandardTypeAHornAttachmentGeneratorIndex.toCanonical] using
     standardTypeAInducedScaledHornAttachmentGenerator_mem a
 
 /-! ## Positive forward residual data -/

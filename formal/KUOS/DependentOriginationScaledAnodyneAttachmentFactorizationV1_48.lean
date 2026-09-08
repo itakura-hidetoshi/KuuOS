@@ -5,6 +5,8 @@ namespace KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
 open CategoryTheory
 open CategoryTheory.Category
 open Simplicial
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
@@ -134,9 +136,11 @@ theorem scaledHornCylinderAttachmentInclusion_factorization
         inducedScaledHornCylinderAttachmentInclusion i ε sΔ =
       scaledHornCylinderAttachmentInclusion i ε sΔ := by
   apply ScaledSSet.ScaledMap.ext
-  simp [minimalToInducedHornCylinderAttachment,
-    inducedScaledHornCylinderAttachmentInclusion,
-    scaledHornCylinderAttachmentInclusion]
+  change
+    𝟙 (hornCylinderAttachment n i ε : SSet.{u}) ≫
+        (hornCylinderAttachment n i ε).ι =
+      (hornCylinderAttachment n i ε).ι
+  exact Category.id_comp _
 
 /-! ## Factor the canonical generator family -/
 
@@ -209,13 +213,12 @@ structure CanonicalAttachmentFactorComparison
 
 namespace CanonicalAttachmentFactorComparison
 
-variable
-    {E : MorphismProperty (ScaledSSet.{u})}
-    (K : CanonicalAttachmentFactorComparison E)
+variable {E : MorphismProperty (ScaledSSet.{u})}
 
 /-- If both factors are externally generated-anodyne, then every original
 canonical attachment generator is externally generated-anodyne. -/
-theorem canonicalGenerators_le_externalGenerated :
+theorem canonicalGenerators_le_externalGenerated
+    (K : CanonicalAttachmentFactorComparison E) :
     (scaledHornAttachmentGenerators : MorphismProperty (ScaledSSet.{u})) ≤
       externalGeneratedScaledAnodyne E := by
   intro A B f hf
@@ -223,13 +226,16 @@ theorem canonicalGenerators_le_externalGenerated :
   cases hf with
   | mk g =>
       rw [← scaledHornAttachmentGeneratorHom_factorization g]
+      change E.rlp.llp
+        (scaledHornAttachmentScalingEnrichment g ≫
+          inducedScaledHornAttachmentGeneratorHom g)
       exact MorphismProperty.comp_mem
-        (externalGeneratedScaledAnodyne E)
+        (E.rlp.llp)
         (scaledHornAttachmentScalingEnrichment g)
         (inducedScaledHornAttachmentGeneratorHom g)
-        (K.scalingEnrichments_le_externalGenerated _
+        (CanonicalAttachmentFactorComparison.scalingEnrichments_le_externalGenerated K _
           (scaledHornAttachmentScalingEnrichment_mem g))
-        (K.inducedAttachments_le_externalGenerated _
+        (CanonicalAttachmentFactorComparison.inducedAttachments_le_externalGenerated K _
           (inducedScaledHornAttachmentGenerator_mem g))
 
 end CanonicalAttachmentFactorComparison
@@ -244,13 +250,12 @@ structure FactorizedScaledAnodyneGeneratorComparison
 
 namespace FactorizedScaledAnodyneGeneratorComparison
 
-variable
-    {E : MorphismProperty (ScaledSSet.{u})}
-    (K : FactorizedScaledAnodyneGeneratorComparison E)
+variable {E : MorphismProperty (ScaledSSet.{u})}
 
 /-- Factor-level comparison data canonically produces the exact v1.46
 mutual-closure comparison certificate. -/
-def toScaledAnodyneGeneratorComparison :
+def toScaledAnodyneGeneratorComparison
+    (K : FactorizedScaledAnodyneGeneratorComparison E) :
     ScaledAnodyneGeneratorComparison E where
   canonicalGenerators_le_externalGenerated :=
     K.factors.canonicalGenerators_le_externalGenerated
@@ -258,16 +263,20 @@ def toScaledAnodyneGeneratorComparison :
     K.externalGenerators_le_canonicalGenerated
 
 /-- Hence the external and canonical generated left classes agree. -/
-theorem externalGeneratedScaledAnodyne_eq_canonical :
+theorem externalGeneratedScaledAnodyne_eq_canonical
+    (K : FactorizedScaledAnodyneGeneratorComparison E) :
     externalGeneratedScaledAnodyne E =
       (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u})) :=
-  K.toScaledAnodyneGeneratorComparison.externalGeneratedScaledAnodyne_eq_canonical
+  ScaledAnodyneGeneratorComparison.externalGeneratedScaledAnodyne_eq_canonical
+    (toScaledAnodyneGeneratorComparison K)
 
 /-- And their right lifting classes agree. -/
-theorem externalGeneratedScaledFibration_eq_canonical :
+theorem externalGeneratedScaledFibration_eq_canonical
+    (K : FactorizedScaledAnodyneGeneratorComparison E) :
     externalGeneratedScaledFibration E =
       (canonicalGeneratedScaledFibration : MorphismProperty (ScaledSSet.{u})) :=
-  K.toScaledAnodyneGeneratorComparison.externalGeneratedScaledFibration_eq_canonical
+  ScaledAnodyneGeneratorComparison.externalGeneratedScaledFibration_eq_canonical
+    (toScaledAnodyneGeneratorComparison K)
 
 end FactorizedScaledAnodyneGeneratorComparison
 

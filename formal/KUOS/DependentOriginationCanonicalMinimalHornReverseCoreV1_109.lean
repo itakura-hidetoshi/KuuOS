@@ -11,6 +11,8 @@ open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
+open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
+open KUOS.DependentOriginationStandardTypeBScalingPushoutV1_56
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
 open KUOS.DependentOriginationStandardABCPositiveCanonicalResidualSplitV1_79
 open KUOS.DependentOriginationGeneratedPresentationPosetalReflectionV1_83
@@ -104,8 +106,8 @@ theorem minimalHorn_comp_typeATargetEnrichment
     minimalHornInclusionHom g.i ≫ minimalToStandardTypeATarget g =
       standardTypeAMinimalSourceHornHom g := by
   apply ScaledSSet.ScaledMap.ext
-  simp [minimalHornInclusionHom, minimalToStandardTypeATarget,
-    scalingEnrichmentHom, standardTypeAMinimalSourceHornHom]
+  change Λ[g.n, g.i].ι ≫ 𝟙 Δ[g.n] = Λ[g.n, g.i].ι
+  exact Category.comp_id _
 
 /-- Canonical generation of the completely minimal inner horn implies the
 standard type-(A) one-thin minimal-source horn. -/
@@ -163,8 +165,9 @@ theorem minimalOuterHorn_comp_typeCTargetEnrichment
         minimalToStandardTypeCUncollapsedTarget m =
       standardTypeCOuterOneThinHornHom m := by
   apply ScaledSSet.ScaledMap.ext
-  simp [minimalHornInclusionHom, minimalToStandardTypeCUncollapsedTarget,
-    scalingEnrichmentHom, standardTypeCOuterOneThinHornHom]
+  change Λ[m + 3, (0 : Fin (m + 4))].ι ≫ 𝟙 Δ[m + 3] =
+    Λ[m + 3, (0 : Fin (m + 4))].ι
+  exact Category.comp_id _
 
 /-- Canonical generation of the completely minimal outer horn implies
 canonical generation of the uncollapsed type-(C) one-thin horn. -/
@@ -223,36 +226,40 @@ def toGeneratorwiseReverse
 /-- Hence every standard-generated left map is canonical-generated. -/
 theorem standardGenerated_le_canonicalGenerated
     (K : StandardABCCanonicalMinimalHornReverseCore.{u}) :
-    standardGeneratedScaledAnodyneABC ≤
+    (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{u})) ≤
       (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u})) :=
   K.toGeneratorwiseReverse.standardGenerated_le_canonicalGenerated
 
 /-- Quotient-level reverse inclusion follows from exactly the same core. -/
 theorem standardPresentation_le_canonicalPresentation
     (K : StandardABCCanonicalMinimalHornReverseCore.{u}) :
-    standardABCPresentation ≤ canonicalKuuOSPresentation :=
+    KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.standardABCPresentation.{u} ≤
+      KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.canonicalKuuOSPresentation.{u} :=
   (standardABC_le_canonicalKuuOS_iff_generatorwiseReverse).2
     K.toGeneratorwiseReverse
 
-/-- Combined with the unconditional B²ℕ separator, the minimal-horn core would
-make the generated-left inclusion genuinely strict.  This form avoids any
-ambiguity about `<`: it states both the inclusion and failure of its converse. -/
+/-- Combined with the unconditional B²ℕ separator, the minimal-horn core gives
+the concrete universe-zero generated-left strict-order certificate.  The reverse
+core itself remains universe-polymorphic above; only this separator corollary is
+specialized to the universe in which v1.107 constructs the witness. -/
 theorem generatedLeft_strictOrderCertificate
-    (K : StandardABCCanonicalMinimalHornReverseCore.{u}) :
-    standardGeneratedScaledAnodyneABC ≤
-        (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u})) ∧
-      ¬ (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u})) ≤
-        standardGeneratedScaledAnodyneABC :=
+    (K : StandardABCCanonicalMinimalHornReverseCore.{0}) :
+    (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{0})) ≤
+        (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{0})) ∧
+      ¬ (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{0})) ≤
+        (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{0})) :=
   ⟨K.standardGenerated_le_canonicalGenerated,
     canonicalGenerated_not_le_standardGenerated⟩
 
-/-- The same conclusion at the presentation quotient level: if the minimal
-horn core is closed, standard lies strictly below canonical because the reverse
-order direction is already unconditionally impossible. -/
+/-- The same concrete conclusion at the presentation quotient level.  As above,
+the strictness witness is universe zero because the B²ℕ separator of v1.107 is
+constructed there; the reverse comparison itself remains polymorphic. -/
 theorem presentation_strictOrderCertificate
-    (K : StandardABCCanonicalMinimalHornReverseCore.{u}) :
-    standardABCPresentation ≤ canonicalKuuOSPresentation ∧
-      ¬ canonicalKuuOSPresentation ≤ standardABCPresentation :=
+    (K : StandardABCCanonicalMinimalHornReverseCore.{0}) :
+    KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.standardABCPresentation.{0} ≤
+        KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.canonicalKuuOSPresentation.{0} ∧
+      ¬ KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.canonicalKuuOSPresentation.{0} ≤
+        KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.standardABCPresentation.{0} :=
   ⟨K.standardPresentation_le_canonicalPresentation,
     natDoubleDelooping_not_canonicalKuuOS_le_standardABC⟩
 
@@ -279,16 +286,18 @@ def minimalHornReverseCore_of_all
 standard-to-canonical generated-left inclusion. -/
 theorem standardGenerated_le_canonicalGenerated_of_allMinimalHorns
     (H : AllMinimalHornInclusionsCanonical.{u}) :
-    standardGeneratedScaledAnodyneABC ≤
+    (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{u})) ≤
       (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u})) :=
   (minimalHornReverseCore_of_all H).standardGenerated_le_canonicalGenerated
 
-/-- And, because the opposite inclusion is already refuted, the same theorem
-would establish the desired strict presentation order. -/
+/-- At the concrete separator universe, a uniform minimal-horn theorem also
+yields the strict presentation-order certificate. -/
 theorem presentation_strictOrderCertificate_of_allMinimalHorns
-    (H : AllMinimalHornInclusionsCanonical.{u}) :
-    standardABCPresentation ≤ canonicalKuuOSPresentation ∧
-      ¬ canonicalKuuOSPresentation ≤ standardABCPresentation :=
+    (H : AllMinimalHornInclusionsCanonical.{0}) :
+    KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.standardABCPresentation.{0} ≤
+        KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.canonicalKuuOSPresentation.{0} ∧
+      ¬ KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.canonicalKuuOSPresentation.{0} ≤
+        KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81.standardABCPresentation.{0} :=
   (minimalHornReverseCore_of_all H).presentation_strictOrderCertificate
 
 /-!
@@ -310,7 +319,7 @@ literal standard A/C generator
 standardGenerated <= canonicalGenerated.
 ```
 
-Together with v1.106-v1.107:
+Together with v1.106-v1.107 at the concrete separator universe:
 
 ```text
 canonicalGenerated ≰ standardGenerated
@@ -324,10 +333,11 @@ standardGenerated < canonicalGenerated
 [standard] < [canonical]
 ```
 
-in the precise order-theoretic sense of inclusion plus failure of the converse.
-The next mathematical unit can work entirely on ordinary/minimally scaled horn
-geometry, using the existing Mathlib prism pairing and relative-cell machinery;
-no further source-scaling or distinguished-triangle algebra is needed.
+in the precise order-theoretic sense of inclusion plus failure of the converse
+at that concrete universe.  The next mathematical unit can work entirely on
+ordinary/minimally scaled horn geometry, using the existing Mathlib prism
+pairing and relative-cell machinery; no further source-scaling or
+distinguished-triangle algebra is needed.
 -/
 
 end KUOS.DependentOriginationCanonicalMinimalHornReverseCoreV1_109

@@ -5,9 +5,12 @@ import KUOS.DependentOriginationStandardCanonicalPresentationGapV1_87
 namespace KUOS.DependentOriginationStandardCanonicalOrthogonalityDiamondV1_119
 
 open CategoryTheory
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationScaledAnodyneWFSUniversalityV1_43
 open KUOS.DependentOriginationExternalScaledAnodyneGeneratorComparisonV1_46
+open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
 open KUOS.DependentOriginationStandardABCPositiveCanonicalResidualSplitV1_79
 open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
@@ -306,10 +309,10 @@ def standardCanonicalOrthogonalityDiamond :
 canonical fibrant-object semantics is strictly contained in standard A/B/C
 fibrant-object semantics. -/
 theorem standardCanonical_finalSemanticProfile :
-    StandardCanonicalOrthogonalityDiamond ∧
-      ((∀ X : ScaledSSet,
+    StandardCanonicalOrthogonalityDiamond.{u} ∧
+      ((∀ X : ScaledSSet.{u},
           IsAttachmentFibrant X → IsStandardABCFibrant X) ∧
-        (∃ X : ScaledSSet,
+        (∃ X : ScaledSSet.{0},
           IsStandardABCFibrant X ∧ ¬ IsAttachmentFibrant X)) := by
   exact ⟨standardCanonicalOrthogonalityDiamond,
     canonicalFibrantObjects_strictlyContainedIn_standardABCFibrantObjects⟩

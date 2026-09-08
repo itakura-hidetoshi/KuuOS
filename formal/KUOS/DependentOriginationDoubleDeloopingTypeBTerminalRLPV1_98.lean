@@ -108,6 +108,24 @@ theorem standardVertexTriangle_eq_triangle
 
 /-! ## Yoneda face comparison -/
 
+/-- The concrete standard `2`-simplex selecting vertices `a ≤ b ≤ c` of
+`Delta[4]`. -/
+def natFourTriangle
+    (a b c : Fin 5)
+    (hab : a ≤ b) (hbc : b ≤ c) :
+    (Δ[4] : SSet).obj (op ⦋2⦌) :=
+  SSet.stdSimplex.triangle a b c hab hbc
+
+/-- The concrete face map `[2] -> [4]` selected by `natFourTriangle`.
+The explicit universe-0 specialization fixes the `ULift` universe hidden in
+`stdSimplex.objEquiv` for the Yoneda face calculation. -/
+def natFourTriangleFace
+    (a b c : Fin 5)
+    (hab : a ≤ b) (hbc : b ≤ c) :
+    ⦋2⦌ ⟶ ⦋4⦌ :=
+  SSet.stdSimplex.objEquiv.{0}
+    (natFourTriangle.{0} a b c hab hbc)
+
 /-- Restricting a Duskin four-simplex to the standard triangle `abc` sends
 its Duskin comparison to the corresponding comparison label of the original
 four-simplex. -/
@@ -123,20 +141,17 @@ theorem natFour_triangle_face_comparison
   change
     (sigma.mapComp
         ((duskinReindex
-          (SSet.stdSimplex.objEquiv
-            (SSet.stdSimplex.triangle a b c hab hbc)).op).map edge01)
+          (natFourTriangleFace a b c hab hbc).op).map edge01)
         ((duskinReindex
-          (SSet.stdSimplex.objEquiv
-            (SSet.stdSimplex.triangle a b c hab hbc)).op).map edge12) ≫
+          (natFourTriangleFace a b c hab hbc).op).map edge12) ≫
       sigma.map₂
         ((duskinReindex
-          (SSet.stdSimplex.objEquiv
-            (SSet.stdSimplex.triangle a b c hab hbc)).op).mapComp
+          (natFourTriangleFace a b c hab hbc).op).mapComp
               edge01 edge12)) = _
   rw [natDuskin_map₂_eq_zero]
   change _ + 0 = _
-  rw [Nat.add_zero]
-  rfl
+  exact (Nat.add_zero _).trans (by
+    congr 1)
 
 /-- Re-express a simplicial map out of `Delta[4]` as its Yoneda four-simplex. -/
 theorem natFour_map_eq_yoneda
@@ -157,9 +172,36 @@ theorem natFour_map_triangle_comparison
           (SSet.stdSimplex.triangle a b c hab hbc)) =
       (SSet.yonedaEquiv F).mapComp
         (natFourEdge hab) (natFourEdge hbc) := by
-  rw [natFour_map_eq_yoneda F, SSet.yonedaEquiv_symm_app]
-  exact natFour_triangle_face_comparison
-    (SSet.yonedaEquiv F) a b c hab hbc
+  change
+    duskinComparison
+        (F.app (op ⦋2⦌) (natFourTriangle a b c hab hbc)) =
+      (SSet.yonedaEquiv F).mapComp
+        (natFourEdge hab) (natFourEdge hbc)
+  calc
+    duskinComparison
+        (F.app (op ⦋2⦌) (natFourTriangle a b c hab hbc)) =
+      duskinComparison
+        ((SSet.yonedaEquiv.symm (SSet.yonedaEquiv F)).app (op ⦋2⦌)
+          (natFourTriangle a b c hab hbc)) := by
+      exact congrArg
+        (fun G =>
+          duskinComparison
+            (G.app (op ⦋2⦌) (natFourTriangle a b c hab hbc)))
+        (natFour_map_eq_yoneda F)
+    _ =
+      duskinComparison
+        ((duskinNerve NatDoubleDelooping).map
+          (natFourTriangleFace a b c hab hbc).op
+          (SSet.yonedaEquiv F)) := by
+      exact congrArg duskinComparison
+        (SSet.stdSimplex.map_objEquiv_op_apply
+          (X := duskinNerve NatDoubleDelooping)
+          (SSet.yonedaEquiv F)
+          (natFourTriangle a b c hab hbc)).symm
+    _ = (SSet.yonedaEquiv F).mapComp
+        (natFourEdge hab) (natFourEdge hbc) :=
+      natFour_triangle_face_comparison
+        (SSet.yonedaEquiv F) a b c hab hbc
 
 @[simp]
 theorem natFour_map_triangle012_comparison
@@ -241,22 +283,26 @@ theorem natDoubleDelooping_hasLiftingProperty_standardTypeB :
     have h :=
       (natDuskin_thin_iff_comparison_eq_zero
         (f.map.app (op ⦋2⦌) natTypeBTriangle012)).1 h012thin
-    simpa [sigma] using h
+    change natFourLabel012 (SSet.yonedaEquiv f.map) = 0
+    exact (natFour_map_triangle012_comparison f.map).symm.trans h
   have h024 : natFourLabel024 sigma = 0 := by
     have h :=
       (natDuskin_thin_iff_comparison_eq_zero
         (f.map.app (op ⦋2⦌) natTypeBTriangle024)).1 h024thin
-    simpa [sigma] using h
+    change natFourLabel024 (SSet.yonedaEquiv f.map) = 0
+    exact (natFour_map_triangle024_comparison f.map).symm.trans h
   have h013 : natFourLabel013 sigma = 0 := by
     have h :=
       (natDuskin_thin_iff_comparison_eq_zero
         (f.map.app (op ⦋2⦌) natTypeBTriangle013)).1 h013thin
-    simpa [sigma] using h
+    change natFourLabel013 (SSet.yonedaEquiv f.map) = 0
+    exact (natFour_map_triangle013_comparison f.map).symm.trans h
   have h134 : natFourLabel134 sigma = 0 := by
     have h :=
       (natDuskin_thin_iff_comparison_eq_zero
         (f.map.app (op ⦋2⦌) natTypeBTriangle134)).1 h134thin
-    simpa [sigma] using h
+    change natFourLabel134 (SSet.yonedaEquiv f.map) = 0
+    exact (natFour_map_triangle134_comparison f.map).symm.trans h
   have htarget :=
     natFour_typeB_target_zero_of_source_zero
       sigma h012 h024 h013 h134
@@ -266,14 +312,20 @@ theorem natDoubleDelooping_hasLiftingProperty_standardTypeB :
     apply
       (natDuskin_thin_iff_comparison_eq_zero
         (f.map.app (op ⦋2⦌) natTypeBTriangle014)).2
-    simpa [sigma] using htarget.1
+    have h014zero : natFourLabel014 (SSet.yonedaEquiv f.map) = 0 := by
+      change natFourLabel014 sigma = 0
+      exact htarget.1
+    exact (natFour_map_triangle014_comparison f.map).trans h014zero
   have h034thin :
       (duskinScaling NatDoubleDelooping).thin
         (f.map.app (op ⦋2⦌) natTypeBTriangle034) := by
     apply
       (natDuskin_thin_iff_comparison_eq_zero
         (f.map.app (op ⦋2⦌) natTypeBTriangle034)).2
-    simpa [sigma] using htarget.2
+    have h034zero : natFourLabel034 (SSet.yonedaEquiv f.map) = 0 := by
+      change natFourLabel034 sigma = 0
+      exact htarget.2
+    exact (natFour_map_triangle034_comparison f.map).trans h034zero
   let l : standardTypeBTarget ⟶ natDoubleDeloopingScaledDuskin :=
     { map := f.map
       scaled := by
@@ -284,31 +336,41 @@ theorem natDoubleDelooping_hasLiftingProperty_standardTypeB :
             IsStandardVertexTriangle (0 : Fin 5) 3 4 t at ht
         rcases ht with hsrc | h014 | h034
         · exact f.scaled t hsrc
-        · have ht014 : t = natTypeBTriangle014 := by
-            simpa [natTypeBTriangle014] using
+        · have ht014 :
+              (show (Δ[4] : SSet).obj (op ⦋2⦌) from t) =
+                natTypeBTriangle014 := by
+            exact
               standardVertexTriangle_eq_triangle
                 (a := (0 : Fin 5)) (b := 1) (c := 4)
                 (by decide) (by decide) h014
-          subst t
-          exact h014thin
-        · have ht034 : t = natTypeBTriangle034 := by
-            simpa [natTypeBTriangle034] using
+          exact ht014.symm ▸ h014thin
+        · have ht034 :
+              (show (Δ[4] : SSet).obj (op ⦋2⦌) from t) =
+                natTypeBTriangle034 := by
+            exact
               standardVertexTriangle_eq_triangle
                 (a := (0 : Fin 5)) (b := 3) (c := 4)
                 (by decide) (by decide) h034
-          subst t
-          exact h034thin }
+          exact ht034.symm ▸ h034thin }
   refine ⟨l, ?_⟩
   apply ScaledSSet.ScaledMap.ext
-  simp [standardTypeBGeneratorHom, scalingEnrichmentHom, l]
+  change (𝟙 (Δ[4] : SSet)) ≫ f.map = f.map
+  exact Category.id_comp f.map
 
 /-- Equivalently, the terminal map belongs to the right class of the type-(B)
 generator property. -/
 theorem natDoubleDelooping_standardTypeB_rlp :
     (standardTypeBScaledAnodyneGenerators : MorphismProperty ScaledSSet).rlp
       (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin) := by
-  rw [MorphismProperty.rlp_ofHoms_iff_hasLiftingProperty Unit]
-  exact natDoubleDelooping_hasLiftingProperty_standardTypeB
+  change
+    (MorphismProperty.ofHoms
+      (fun _ : Unit => standardTypeBGeneratorHom)).rlp
+      (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin)
+  exact
+    (MorphismProperty.rlp_ofHoms_iff_hasLiftingProperty Unit
+      standardTypeBGeneratorHom
+      (ScaledSSet.toPoint natDoubleDeloopingScaledDuskin)).2
+      natDoubleDelooping_hasLiftingProperty_standardTypeB
 
 /-!
 The standard type-(B) obligation for the concrete separator is now closed.

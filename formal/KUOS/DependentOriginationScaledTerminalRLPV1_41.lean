@@ -11,6 +11,9 @@ open Simplicial
 open Opposite
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
+open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
+open KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37
+open KUOS.DependentOriginationHomotopyClassStrictificationV1_38
 open KUOS.DependentOriginationScaledHornCylinderExtensionV1_39
 open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
 
@@ -92,9 +95,10 @@ theorem endpointZero_scaled
     {n : Nat}
     (sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     IsScaledMap sΔ (simplexCylinderScaling sΔ)
-      (ι₀ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
+      (SSet.ι₀ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
   intro t ht
-  change sΔ.thin ((ι₀.app _ t).1)
+  change sΔ.thin ((((SSet.ι₀ : (Δ[n] : SSet.{u}) ⟶
+    (Δ[n] : SSet.{u}) ⊗ Δ[1])).app _ t).1)
   simpa using ht
 
 /-- Endpoint one preserves the cylinder scaling. -/
@@ -102,9 +106,10 @@ theorem endpointOne_scaled
     {n : Nat}
     (sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     IsScaledMap sΔ (simplexCylinderScaling sΔ)
-      (ι₁ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
+      (SSet.ι₁ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1]) := by
   intro t ht
-  change sΔ.thin ((ι₁.app _ t).1)
+  change sΔ.thin ((((SSet.ι₁ : (Δ[n] : SSet.{u}) ⟶
+    (Δ[n] : SSet.{u}) ⊗ Δ[1])).app _ t).1)
   simpa using ht
 
 /-! ## The category of explicitly scaled simplicial sets -/
@@ -121,37 +126,46 @@ structure ScaledMap (X Y : ScaledSSet.{u}) where
   map : X.carrier ⟶ Y.carrier
   scaled : IsScaledMap X.scaling Y.scaling map
 
-instance : Quiver (ScaledSSet.{u}) where
-  Hom := ScaledMap
-
 @[ext]
 theorem ScaledMap.ext
     {X Y : ScaledSSet.{u}}
-    {f g : X ⟶ Y}
+    {f g : ScaledMap X Y}
     (h : f.map = g.map) : f = g := by
   cases f with
   | mk f hf =>
       cases g with
       | mk g hg =>
           dsimp at h
-          subst g
+          cases h
           rfl
 
-instance : Category (ScaledSSet.{u}) where
-  id X := ⟨𝟙 X.carrier, isScaledMap_id X.scaling⟩
-  comp f g := ⟨f.map ≫ g.map, f.scaled.comp g.scaled⟩
+@[reducible] instance : Category (ScaledSSet.{u}) where
+  Hom := ScaledMap
+  id := fun X => ⟨𝟙 X.carrier, isScaledMap_id X.scaling⟩
+  comp := fun f g => ⟨f.map ≫ g.map, f.scaled.comp g.scaled⟩
   id_comp := by
     intro X Y f
     apply ScaledMap.ext
+    change (𝟙 X.carrier) ≫ f.map = f.map
     simp
   comp_id := by
     intro X Y f
     apply ScaledMap.ext
+    change f.map ≫ 𝟙 Y.carrier = f.map
     simp
   assoc := by
     intro W X Y Z f g h
     apply ScaledMap.ext
+    change (f.map ≫ g.map) ≫ h.map = f.map ≫ g.map ≫ h.map
     simp
+
+/-- Bare morphism notation must use exactly the quiver owned by the category.
+The explicit `Category` type annotation is essential here: it prevents Lean
+4.31 from routing the projection through the generic reflexive-quiver layer,
+which otherwise structure-copies the quiver and breaks definitional equality
+with functor and cocone morphisms. -/
+@[reducible] instance (priority := 2000) : Quiver (ScaledSSet.{u}) :=
+  (inferInstance : Category (ScaledSSet.{u})).toQuiver
 
 @[simp]
 theorem id_map (X : ScaledSSet.{u}) :
@@ -254,19 +268,19 @@ def scaledHornCylinderAttachmentInclusion
   scaled := minimalScaling_map _ _
 
 /-- Endpoint zero as a morphism of scaled simplicial sets. -/
-def scaledEndpointZero
+noncomputable def scaledEndpointZero
     {n : Nat}
     (sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     scaledSimplex sΔ ⟶ scaledSimplexCylinder sΔ where
-  map := ι₀
+  map := (SSet.ι₀ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1])
   scaled := endpointZero_scaled sΔ
 
 /-- Endpoint one as a morphism of scaled simplicial sets. -/
-def scaledEndpointOne
+noncomputable def scaledEndpointOne
     {n : Nat}
     (sΔ : ScaledSimplicialSet (Δ[n] : SSet.{u})) :
     scaledSimplex sΔ ⟶ scaledSimplexCylinder sΔ where
-  map := ι₁
+  map := (SSet.ι₁ : (Δ[n] : SSet.{u}) ⟶ (Δ[n] : SSet.{u}) ⊗ Δ[1])
   scaled := endpointOne_scaled sΔ
 
 /-- The canonical forward attachment map is automatically a scaled morphism
@@ -299,6 +313,10 @@ noncomputable def scaledBackwardAttachmentMap
 
 /-! ## Native terminal RLP implies v1.40 attachment lifting -/
 
+section
+
+set_option backward.isDefEq.respectTransparency false
+
 /-- Forward v1.40 attachment lifting follows from the native scaled RLP. -/
 noncomputable def forwardAttachmentLiftingOfTerminalRLP
     {X : SSet.{u}}
@@ -308,7 +326,7 @@ noncomputable def forwardAttachmentLiftingOfTerminalRLP
     (R : HasLiftingProperty
       (scaledHornCylinderAttachmentInclusion i 0 sΔ)
       (ScaledSSet.toPoint (ScaledSSet.of X sX))) :
-    ForwardScaledHornAttachmentLifting sX sΔ where
+    ForwardScaledHornAttachmentLifting (i := i) sX sΔ where
   lift := by
     intro f g H Q
     let a := scaledForwardAttachmentMap H Q
@@ -330,7 +348,7 @@ noncomputable def backwardAttachmentLiftingOfTerminalRLP
     (R : HasLiftingProperty
       (scaledHornCylinderAttachmentInclusion i 1 sΔ)
       (ScaledSSet.toPoint (ScaledSSet.of X sX))) :
-    BackwardScaledHornAttachmentLifting sX sΔ where
+    BackwardScaledHornAttachmentLifting (i := i) sX sΔ where
   lift := by
     intro f g H Q
     let a := scaledBackwardAttachmentMap H Q
@@ -342,6 +360,8 @@ noncomputable def backwardAttachmentLiftingOfTerminalRLP
       simpa [a, sq, scaledBackwardAttachmentMap,
         scaledHornCylinderAttachmentInclusion] using h
     · exact (endpointZero_scaled sΔ).comp L.l.scaled
+
+end
 
 /-- Two-sided terminal RLP for one scaled horn problem. -/
 structure ScaledHornProblemTerminalRLP
@@ -423,12 +443,14 @@ end ScaledHornFamilyTerminalRLP
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
 
+universe v w
+
 /-- A coherent normalized scaled model equivalence whose global Duskin
 presentations satisfy the native scaled-terminal RLP for their selected horn
 families. -/
 structure CoherentNormalizedScaledTerminalRLPModelEquivalence
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     (E : BicategoricalModelEquivalence B C)
     (G : BicategoricalModelEquivalence C B)
     (HB : GlobalDuskinScaledHornFamily B)
@@ -443,8 +465,8 @@ structure CoherentNormalizedScaledTerminalRLPModelEquivalence
 namespace CoherentNormalizedScaledTerminalRLPModelEquivalence
 
 variable
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {E : BicategoricalModelEquivalence B C}
     {G : BicategoricalModelEquivalence C B}
     {HB : GlobalDuskinScaledHornFamily B}
@@ -459,6 +481,7 @@ noncomputable def toAttachmentLiftableModelEquivalence :
   sourceAttachmentLifting := K.sourceTerminalRLP.toAttachmentLifting
   targetAttachmentLifting := K.targetTerminalRLP.toAttachmentLifting
 
+include K in
 /-- Strict global scaled-Duskin fibrancy is presentation-independent under the
 native scaled-terminal RLP on both presentations. -/
 theorem globalDuskinStrictFibrancy_iff :

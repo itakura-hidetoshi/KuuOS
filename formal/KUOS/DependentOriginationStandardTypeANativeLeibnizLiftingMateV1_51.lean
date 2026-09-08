@@ -1,4 +1,5 @@
 import KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
+import Mathlib.AlgebraicTopology.SimplicialSet.PushoutProduct
 import Mathlib.CategoryTheory.LiftingProperties.ParametrizedAdjunction
 
 namespace KUOS.DependentOriginationStandardTypeANativeLeibnizLiftingMateV1_51
@@ -49,20 +50,9 @@ noncomputable def standardTypeAEndpointLeibnizSquare
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     (curriedTensor (SSet.{u})).PushoutObjObj
       (SSet.horn g.n g.i).ι
-      (intervalEndpoint g.endpoint).ι where
-  pt :=
-    ((SSet.horn g.n g.i).unionProd
-      (intervalEndpoint g.endpoint) : SSet.{u})
-  inl :=
-    SSet.Subcomplex.unionProd.ι₁
-      (SSet.horn g.n g.i) (intervalEndpoint g.endpoint)
-  inr :=
-    SSet.Subcomplex.unionProd.ι₂
-      (SSet.horn g.n g.i) (intervalEndpoint g.endpoint)
-  isPushout := by
-    simpa using
-      SSet.Subcomplex.unionProd.isPushout
-        (SSet.horn g.n g.i) (intervalEndpoint g.endpoint)
+      (intervalEndpoint g.endpoint).ι :=
+  SSet.Subcomplex.unionProd.pushoutObjObj
+    (SSet.horn g.n g.i) (intervalEndpoint g.endpoint)
 
 /-- The native Leibniz inclusion of the packaged square is exactly the
 ordinary inclusion of the endpoint union-product subcomplex. -/
@@ -71,9 +61,11 @@ theorem standardTypeAEndpointLeibnizSquare_ι
     (standardTypeAEndpointLeibnizSquare g).ι =
       ((SSet.horn g.n g.i).unionProd
         (intervalEndpoint g.endpoint)).ι := by
-  apply (standardTypeAEndpointLeibnizSquare g).isPushout.hom_ext
-  · simp [standardTypeAEndpointLeibnizSquare]
-  · simp [standardTypeAEndpointLeibnizSquare]
+  change
+    (SSet.Subcomplex.unionProd.pushoutObjObj
+      (SSet.horn g.n g.i) (intervalEndpoint g.endpoint)).ι = _
+  exact SSet.Subcomplex.unionProd.pushoutObjObj_ι
+    (SSet.horn g.n g.i) (intervalEndpoint g.endpoint)
 
 /-- Hence the native Leibniz inclusion is the underlying map of the v1.50
 scaled endpoint pushout-product. -/

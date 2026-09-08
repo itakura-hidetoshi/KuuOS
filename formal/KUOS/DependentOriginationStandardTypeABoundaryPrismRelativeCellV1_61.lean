@@ -57,7 +57,9 @@ noncomputable def standardTypeABoundaryPrismPairing
   rcases g with ⟨n, i, h0, hn, endpoint⟩
   cases n with
   | zero =>
-      have hi : i = 0 := Subsingleton.elim _ _
+      have hi : i = 0 := by
+        apply Fin.ext
+        omega
       subst i
       simp at h0
   | succ n =>
@@ -71,7 +73,9 @@ instance standardTypeABoundaryPrismPairing_isRegular
   rcases g with ⟨n, i, h0, hn, endpoint⟩
   cases n with
   | zero =>
-      have hi : i = 0 := Subsingleton.elim _ _
+      have hi : i = 0 := by
+        apply Fin.ext
+        omega
       subst i
       simp at h0
   | succ n =>
@@ -87,7 +91,9 @@ instance standardTypeABoundaryPrismPairing_isInner
   rcases g with ⟨n, i, h0, hn, endpoint⟩
   cases n with
   | zero =>
-      have hi : i = 0 := Subsingleton.elim _ _
+      have hi : i = 0 := by
+        apply Fin.ext
+        omega
       subst i
       simp at h0
   | succ n =>
@@ -193,7 +199,7 @@ theorem standardTypeABoundaryPrism_cell_index_lt_last
 
 /-- Package the ordinary horn attached at a rank cell as exactly one KuuOS
 standard type-(A) horn-generator index. -/
-def standardTypeABoundaryPrismCellHornIndex
+noncomputable def standardTypeABoundaryPrismCellHornIndex
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :

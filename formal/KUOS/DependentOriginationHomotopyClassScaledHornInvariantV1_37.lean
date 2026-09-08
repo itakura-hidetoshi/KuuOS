@@ -5,8 +5,10 @@ namespace KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37
 open CategoryTheory
 open CategoryTheory.Category
 open Simplicial
+open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledNerveV1_21
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
+open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
 open KUOS.DependentOriginationStrictlyUnitaryDuskinModelTransportV1_27
 open KUOS.DependentOriginationNormalizationChoiceInvariantV1_28
 open KUOS.DependentOriginationScaledDuskinHornTransportV1_29
@@ -15,7 +17,7 @@ open KUOS.DependentOriginationScaledHornHomotopyDescentV1_33
 open KUOS.DependentOriginationGlobalDuskinPrismHomotopyV1_34
 open KUOS.DependentOriginationStrongTransformationCylinderUncurryingV1_36
 
-universe u u₁ u₂ v₁ v₂ w₁ w₂
+universe u v w
 
 /-!
 # Presentation-independent homotopy-class scaled horn filling v1.37
@@ -81,8 +83,6 @@ noncomputable def postcompSSetHomotopyClass
       (SSet.RelativeMorphism.botEquiv.symm k) (by cat_disch)).homotopyClass =
       (SSet.RelativeMorphism.botEquiv.symm (f ≫ k)).homotopyClass
   congr 1
-  ext
-  rfl
 
 /-! ## Scaled horn fillers modulo boundary homotopy class -/
 
@@ -173,20 +173,19 @@ noncomputable def hasHomotopyClassScaledHornFillersOfStrict
 /-- The canonical global prism produced theorem-level by the v1.36 strong
 transformation cylinder construction. -/
 noncomputable def canonicalGlobalDuskinRoundTripPrism
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     (K : NormalizedCoherentQuasiInverse F G) :
     GlobalDuskinRoundTripPrismRealization K :=
-  KUOS.DependentOriginationStrongTransformationCylinderUncurryingV1_36.
-    globalDuskinRoundTripPrismRealization K
+  globalDuskinRoundTripPrismRealization K
 
 /-- A source round-trip homotopy-class filler descends to the original source
 horn by transitivity of homotopy-class equality. -/
 noncomputable def sourceHomotopyClassFillerOfRoundTrip
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     {K : NormalizedCoherentQuasiInverse F G}
@@ -210,8 +209,8 @@ noncomputable def sourceHomotopyClassFillerOfRoundTrip
 
 /-- Target-side round-trip descent modulo boundary homotopy class. -/
 noncomputable def targetHomotopyClassFillerOfRoundTrip
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {F : StrictlyUnitaryBicategoricalModelEquivalence B C}
     {G : StrictlyUnitaryBicategoricalModelEquivalence C B}
     {K : NormalizedCoherentQuasiInverse F G}
@@ -243,8 +242,8 @@ no separately supplied global prism are fields.  The prism follows canonically
 from `quasiInverse` by v1.36, and class-level descent uses equality transitivity.
 -/
 structure CoherentNormalizedScaledHomotopyClassModelEquivalence
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     (E : BicategoricalModelEquivalence B C)
     (G : BicategoricalModelEquivalence C B)
     (HB : GlobalDuskinScaledHornFamily B)
@@ -262,8 +261,8 @@ structure CoherentNormalizedScaledHomotopyClassModelEquivalence
 namespace CoherentNormalizedScaledHomotopyClassModelEquivalence
 
 variable
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {E : BicategoricalModelEquivalence B C}
     {G : BicategoricalModelEquivalence C B}
     {HB : GlobalDuskinScaledHornFamily B}
@@ -290,7 +289,7 @@ noncomputable def forwardHasHomotopyClassScaledHornFillers
     let R' := mapHomotopyClassScaledHornFiller
       K.forwardScaled.map_scaled R
     exact ⟨targetHomotopyClassFillerOfRoundTrip
-      K.forwardScaled K.backwardScaled R'⟩
+      (K := K.quasiInverse) K.forwardScaled K.backwardScaled R'⟩
 
 /-- Symmetric transport from the target model back to the source model. -/
 noncomputable def backwardHasHomotopyClassScaledHornFillers
@@ -310,8 +309,9 @@ noncomputable def backwardHasHomotopyClassScaledHornFillers
     let Q' := mapHomotopyClassScaledHornFiller
       K.backwardScaled.map_scaled Q
     exact ⟨sourceHomotopyClassFillerOfRoundTrip
-      K.forwardScaled K.backwardScaled Q'⟩
+      (K := K.quasiInverse) K.forwardScaled K.backwardScaled Q'⟩
 
+include K in
 /--
 Global scaled Duskin inner-horn filling modulo boundary homotopy class is a
 presentation-independent invariant of the coherent normalized scaled
@@ -323,8 +323,8 @@ theorem globalDuskinHomotopyClassFibrancy_iff :
       HasHomotopyClassScaledHornFillers
         (duskinNerve C) (duskinScaling C) HC := by
   constructor
-  · exact K.forwardHasHomotopyClassScaledHornFillers
-  · exact K.backwardHasHomotopyClassScaledHornFillers
+  · exact forwardHasHomotopyClassScaledHornFillers K
+  · exact backwardHasHomotopyClassScaledHornFillers K
 
 end CoherentNormalizedScaledHomotopyClassModelEquivalence
 

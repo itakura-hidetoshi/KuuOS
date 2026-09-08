@@ -5,6 +5,7 @@ namespace KUOS.DependentOriginationStandardTypeABoundaryPrismCellACompatibilityV
 open CategoryTheory
 open Opposite
 open Simplicial
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
@@ -138,6 +139,9 @@ theorem unionProdPairingCore_typeOne_distinguished_firstCoordinate_thin
     have hpq : s.index.castSucc ≤ q := le_of_not_gt hnot
     have hmono :=
       SSet.stdSimplex.monotone_apply (s.x.cast s.hd).simplex.1 hpq
+    change
+      (s.x.cast s.hd).simplex.1 s.index.castSucc ≤
+        (s.x.cast s.hd).simplex.1 q at hmono
     rw [s.isIndex.simplex_fst_castSucc, hq] at hmono
     change k.val ≤ km1.val at hmono
     dsimp [km1] at hmono
@@ -145,7 +149,8 @@ theorem unionProdPairingCore_typeOne_distinguished_firstCoordinate_thin
   have ht0val : (t 0).val + 1 = s.index.val := by
     simpa using ht.2.1
   have hqval : q.val < s.index.val := by
-    simpa using hq_lt
+    change q.val < s.index.val at hq_lt
+    exact hq_lt
   have hq_le_t0 : q ≤ t 0 := by
     change q.val ≤ (t 0).val
     omega
@@ -154,9 +159,15 @@ theorem unionProdPairingCore_typeOne_distinguished_firstCoordinate_thin
     omega
   have hlower :=
     SSet.stdSimplex.monotone_apply (s.x.cast s.hd).simplex.1 hq_le_t0
+  change
+    (s.x.cast s.hd).simplex.1 q ≤
+      (s.x.cast s.hd).simplex.1 (t 0) at hlower
   rw [hq] at hlower
   have hupper :=
     SSet.stdSimplex.monotone_apply (s.x.cast s.hd).simplex.1 ht0_le_index
+  change
+    (s.x.cast s.hd).simplex.1 (t 0) ≤
+      (s.x.cast s.hd).simplex.1 s.index.castSucc at hupper
   rw [s.isIndex.simplex_fst_castSucc] at hupper
   have hpred_or_eq :
       (s.x.cast s.hd).simplex.1 (t 0) = km1 ∨
@@ -165,7 +176,6 @@ theorem unionProdPairingCore_typeOne_distinguished_firstCoordinate_thin
     · exact Or.inr heq
     · left
       apply Fin.ext
-      change km1.val = ((s.x.cast s.hd).simplex.1 (t 0)).val
       change km1.val ≤ ((s.x.cast s.hd).simplex.1 (t 0)).val at hlower
       change ((s.x.cast s.hd).simplex.1 (t 0)).val ≤ k.val at hupper
       have hne : ((s.x.cast s.hd).simplex.1 (t 0)).val ≠ k.val := by
@@ -173,8 +183,16 @@ theorem unionProdPairingCore_typeOne_distinguished_firstCoordinate_thin
         apply heq
         apply Fin.ext
         exact hval
-      dsimp [km1] at hlower ⊢
-      omega
+      let r : ℕ := ((s.x.cast s.hd).simplex.1 (t 0)).val
+      have hlower' : k.val - 1 ≤ r := by
+        simpa [r, km1] using hlower
+      have hupper' : r ≤ k.val := by
+        simpa [r] using hupper
+      have hne' : r ≠ k.val := by
+        simpa [r] using hne
+      have hr : r = k.val - 1 := by
+        omega
+      simpa [r, km1] using hr
   have ht2 : t 2 = s.index.succ := by
     apply Fin.ext
     change (t 2).val = s.index.val + 1
@@ -231,29 +249,119 @@ theorem unionProdPairingCore_typeOne_firstCoordinate_scaled
 
 /-! ## Public pairing form -/
 
+set_option backward.defeqAttrib.useBackward true
+set_option backward.isDefEq.respectTransparency false
+
+/-- Transport a pairing and all of its dependent regularity data to the core
+pairing before identifying its type-(II) cell.  Abstracting the pairing itself
+keeps the `IsRegular -> IsProper` instance in the motive, so `subst` moves the
+cell and the instance together under Lean 4.31. -/
+private lemma unionProdPairing_eq_core_firstCoordinate_scaled
+    {m : ℕ}
+    (k : Fin (m + 1))
+    (hk0 : 0 < k.castSucc)
+    {P : (SSet.Subcomplex.unionProd.{u} Λ[m + 1, k.castSucc] ∂Δ[1]).Pairing}
+    [P.IsRegular]
+    (hP : P = (SSet.prodStdSimplex.pairingCore.{u} k 1).pairing)
+    (z : P.II) :
+    IsScaledMap
+      (standardTypeASimplexScaling
+        ((P.isUniquelyCodimOneFace z).index rfl))
+      (standardTypeASimplexScaling k.castSucc)
+      (SSet.yonedaEquiv.symm
+        ((P.p z).val.cast (P.isUniquelyCodimOneFace z).dim_eq).simplex.1) := by
+  subst P
+  let C := SSet.prodStdSimplex.pairingCore.{u} k 1
+  obtain ⟨s, rfl⟩ := C.equivII.surjective z
+  have hdim : (C.equivII s).val.dim = C.dim s := by
+    rfl
+  have htop :
+      (C.pairing.p (C.equivII s)).val.cast
+          (C.pairing.isUniquelyCodimOneFace (C.equivII s)).dim_eq =
+        s.x.cast s.hd := by
+    calc
+      _ = (C.pairing.p (C.equivII s)).val :=
+        (C.pairing.p (C.equivII s)).val.cast_eq_self
+          (C.pairing.isUniquelyCodimOneFace (C.equivII s)).dim_eq
+      _ = C.type₁ s := (C.type₁_pairing s).symm
+      _ = s.x := by
+        simpa [C] using SSet.prodStdSimplex.type₁_pairingCore k s
+      _ = s.x.cast s.hd := (s.x.cast_eq_self s.hd).symm
+  have hbottom :
+      (C.equivII s).val.cast hdim = C.type₂ s := by
+    calc
+      _ = (C.equivII s).val := (C.equivII s).val.cast_eq_self hdim
+      _ = C.type₂ s := by rfl
+  have htopSimplex :
+      ((C.pairing.p (C.equivII s)).val.cast
+          (C.pairing.isUniquelyCodimOneFace (C.equivII s)).dim_eq).simplex =
+        (s.x.cast s.hd).simplex := by
+    have hs := congrArg (fun q => q.toS) htop
+    rw [SSet.S.ext_iff'] at hs
+    rcases hs with ⟨hd, hs⟩
+    simpa using hs
+  have hbottomSimplex :
+      ((C.equivII s).val.cast hdim).simplex = (C.type₂ s).simplex := by
+    have hs := congrArg (fun q => q.toS) hbottom
+    rw [SSet.S.ext_iff'] at hs
+    rcases hs with ⟨hd, hs⟩
+    simpa using hs
+  have hidx :
+      (C.pairing.isUniquelyCodimOneFace (C.equivII s)).index rfl =
+        C.index s := by
+    symm
+    apply
+      ((C.pairing.isUniquelyCodimOneFace (C.equivII s)).δ_eq_iff
+        hdim (C.index s)).mp
+    rw [htopSimplex, hbottomSimplex]
+    simpa [C, SSet.prodStdSimplex.pairingCore] using
+      (C.isUniquelyCodimOneFace s).δ_index rfl
+  have hfirst :
+      ((C.pairing.p (C.equivII s)).val.cast
+          (C.pairing.isUniquelyCodimOneFace (C.equivII s)).dim_eq).simplex.1 =
+        (s.x.cast s.hd).simplex.1 :=
+    congrArg Prod.fst htopSimplex
+  have hmap :
+      SSet.yonedaEquiv.symm
+          ((C.pairing.p (C.equivII s)).val.cast
+            (C.pairing.isUniquelyCodimOneFace (C.equivII s)).dim_eq).simplex.1 =
+        unionProdPairingCoreTypeOneFirstCoordinateMap k s := by
+    rw [hfirst]
+    rfl
+  change
+    IsScaledMap
+      (standardTypeASimplexScaling
+        ((C.pairing.isUniquelyCodimOneFace (C.equivII s)).index rfl))
+      (standardTypeASimplexScaling k.castSucc)
+      (SSet.yonedaEquiv.symm
+        ((C.pairing.p (C.equivII s)).val.cast
+          (C.pairing.isUniquelyCodimOneFace (C.equivII s)).dim_eq).simplex.1)
+  rw [hidx, hmap]
+  change
+    IsScaledMap
+      (standardTypeASimplexScaling s.index.castSucc)
+      (standardTypeASimplexScaling k.castSucc)
+      (unionProdPairingCoreTypeOneFirstCoordinateMap k s)
+  exact unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
+
 /-- Public `pairing k.castSucc 1` form of the preceding theorem.  Its source
 index is exactly the unique codimension-one face index of the paired type-(I)
 simplex, so this is the form consumed by rank cells. -/
-theorem unionProdPairing_typeTwo_firstCoordinate_scaled
+lemma unionProdPairing_typeTwo_firstCoordinate_scaled
     {m : ℕ}
     (k : Fin (m + 1))
     (hk0 : 0 < k.castSucc)
     (z : (SSet.prodStdSimplex.pairing.{u} k.castSucc 1).II) :
     IsScaledMap
       (standardTypeASimplexScaling
-        ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
-          .isUniquelyCodimOneFace z).index rfl)
+        (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace z).index rfl))
       (standardTypeASimplexScaling k.castSucc)
       (SSet.yonedaEquiv.symm
         (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p z).val.cast
-          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
-            .isUniquelyCodimOneFace z).dim_eq).simplex.1) := by
-  rw [SSet.prodStdSimplex.pairing_castSucc] at z ⊢
-  obtain ⟨s, rfl⟩ :=
-    (SSet.prodStdSimplex.pairingCore.{u} k 1).equivII.surjective z
-  simpa [SSet.prodStdSimplex.pairingCore,
-    unionProdPairingCoreTypeOneFirstCoordinateMap] using
-    unionProdPairingCore_typeOne_firstCoordinate_scaled k hk0 s
+          ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace z).dim_eq).simplex.1) := by
+  exact unionProdPairing_eq_core_firstCoordinate_scaled
+    k hk0 (P := SSet.prodStdSimplex.pairing.{u} k.castSucc 1)
+      (SSet.prodStdSimplex.pairing_castSucc k 1) z
 
 /-! ## Every KuuOS boundary-prism cell is A-compatible -/
 
@@ -262,17 +370,17 @@ a rank cell. -/
 noncomputable def standardTypeABoundaryPrismCellFirstCoordinateMap
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :
     (Δ[c.dim + 1] : SSet.{u}) ⟶ Δ[g.n] :=
   SSet.yonedaEquiv.symm
     (standardTypeABoundaryPrismCellPairedNondegenerate g j c).1.1
 
 /-- The first-coordinate cell map preserves the cell's own standard type-(A)
 scaling into the original generator's standard type-(A) scaling. -/
-theorem standardTypeABoundaryPrismCellFirstCoordinate_scaled
+lemma standardTypeABoundaryPrismCellFirstCoordinate_scaled
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :
     IsScaledMap
       (standardTypeASimplexScaling c.index)
       (standardTypeASimplexScaling g.i)
@@ -280,29 +388,36 @@ theorem standardTypeABoundaryPrismCellFirstCoordinate_scaled
   rcases g with ⟨n, i, h0, hn, endpoint⟩
   cases n with
   | zero =>
-      have hi : i = 0 := Subsingleton.elim _ _
+      have hi : i = 0 := by
+        apply Fin.ext
+        omega
       subst i
       simp at h0
   | succ m =>
       have hilast : i ≠ Fin.last (m + 1) := ne_of_lt hn
       obtain ⟨k, rfl⟩ := Fin.eq_castSucc_of_ne_last hilast
-      simpa [standardTypeABoundaryPrismCellFirstCoordinateMap,
-        standardTypeABoundaryPrismCellPairedNondegenerate,
-        standardTypeABoundaryPrismPairing] using
-        unionProdPairing_typeTwo_firstCoordinate_scaled k h0 c.s
+      change
+        IsScaledMap
+          (standardTypeASimplexScaling
+            (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace c.s).index rfl))
+          (standardTypeASimplexScaling k.castSucc)
+          (SSet.yonedaEquiv.symm
+            (((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).p c.s).val.cast
+              ((SSet.prodStdSimplex.pairing.{u} k.castSucc 1).isUniquelyCodimOneFace c.s).dim_eq).simplex.1)
+      exact unionProdPairing_typeTwo_firstCoordinate_scaled k h0 c.s
 
 /-- The v1.65 target type-(A) compatibility condition is therefore automatic
 for every rank cell. -/
 theorem standardTypeABoundaryPrismCellACompatible_all
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :
     standardTypeABoundaryPrismCellACompatible g j c := by
   intro t ht
   change
     (standardTypeASimplexScaling g.i).thin
-      ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c)
-        .app (op ⦋2⦌) t)
+      ((standardTypeABoundaryPrismCellFirstCoordinateMap g j c).app
+        (op ⦋2⦌) t)
   exact standardTypeABoundaryPrismCellFirstCoordinate_scaled g j c t ht
 
 /-! ## High-dimensional cells are now unconditionally pure type-(A) -/
@@ -312,7 +427,7 @@ standard type-(A) cobase-change scaling with no hypotheses left. -/
 theorem standardTypeABoundaryPrismCellAPushoutScaling_eq_cellScaling_of_four_le_all
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h4 : 4 ≤ c.dim + 1) :
     standardTypeABoundaryPrismCellAPushoutScaling g j c =
       standardTypeABoundaryPrismCellScaling g j c :=
@@ -324,7 +439,7 @@ pure type-(A) cobase-change target. -/
 theorem standardTypeABoundaryPrismCellAPushoutTarget_eq_cellTarget_of_four_le_all
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h4 : 4 ≤ c.dim + 1) :
     standardTypeABoundaryPrismCellAPushoutTarget g j c =
       standardTypeABoundaryPrismScaledCellTarget g j c :=
@@ -336,7 +451,7 @@ finite low-dimensional frontier `N = 2` or `N = 3`. -/
 theorem standardTypeABoundaryPrismCell_pureA_or_lowDim
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j) :
     standardTypeABoundaryPrismCellAPushoutScaling g j c =
         standardTypeABoundaryPrismCellScaling g j c ∨
       c.dim + 1 = 2 ∨ c.dim + 1 = 3 := by
@@ -354,7 +469,7 @@ never the source of the residual. -/
 theorem standardTypeABoundaryPrismCell_notOutsideACompatible_lowDim
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
-    (c : (standardTypeABoundaryPrismRankFunction g).Cell j)
+    (c : (standardTypeABoundaryPrismRankFunction.{u} g).Cell j)
     (h : ¬ standardTypeABoundaryPrismCellOutsideACompatible g j c) :
     c.dim + 1 = 2 ∨ c.dim + 1 = 3 := by
   by_contra hlow

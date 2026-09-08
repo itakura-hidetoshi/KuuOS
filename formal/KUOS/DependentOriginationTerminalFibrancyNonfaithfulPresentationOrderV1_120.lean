@@ -4,6 +4,7 @@ import Mathlib.Order.CompleteLattice.Lemmas
 namespace KUOS.DependentOriginationTerminalFibrancyNonfaithfulPresentationOrderV1_120
 
 open CategoryTheory
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationScaledAnodyneWFSUniversalityV1_43
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
@@ -76,6 +77,19 @@ theorem generatedFibrationClass_canonicalKuuOSPresentation :
       canonicalGeneratedScaledFibration :=
   rfl
 
+/-- Orthogonal saturation of the standard generated left class recovers the
+same explicit A/B/C right class. -/
+theorem standardGeneratedScaledAnodyneABC_rlp_eq_fibration :
+    (standardGeneratedScaledAnodyneABC :
+        MorphismProperty (ScaledSSet.{u})).rlp =
+      standardGeneratedScaledFibrationABC := by
+  change
+    ((standardScaledAnodyneGeneratorsABC :
+      MorphismProperty (ScaledSSet.{u})).rlp.llp).rlp =
+      (standardScaledAnodyneGeneratorsABC :
+        MorphismProperty (ScaledSSet.{u})).rlp
+  exact MorphismProperty.rlp_llp_rlp _
+
 /-- Specializing the v1.86 arbitrary-join formula to the binary
 standard/canonical join gives the exact full right-class intersection. -/
 theorem generatedFibrationClass_upperEnvelope :
@@ -97,7 +111,8 @@ terminal-right predicate from v1.115. -/
 theorem standardABCPresentation_isFibrant_iff_standardABCFibrant
     (X : ScaledSSet.{u}) :
     isFibrant X standardABCPresentation ↔ IsStandardABCFibrant X := by
-  rw [isFibrant_iff]
+  rw [isFibrant_iff, generatedFibrationClass_standardABCPresentation,
+    ← standardGeneratedScaledAnodyneABC_rlp_eq_fibration]
   rfl
 
 /-- Quotient fibrancy at the canonical point is exactly attachment fibrancy. -/
@@ -113,7 +128,8 @@ theorem upperEnvelope_isFibrant_iff_standard_and_canonical
     (X : ScaledSSet.{u}) :
     isFibrant X standardCanonicalUpperEnvelope ↔
       IsStandardABCFibrant X ∧ IsAttachmentFibrant X := by
-  rw [isFibrant_iff, generatedFibrationClass_upperEnvelope]
+  rw [isFibrant_iff, generatedFibrationClass_upperEnvelope,
+    ← standardGeneratedScaledAnodyneABC_rlp_eq_fibration]
   rfl
 
 /-- On terminal maps the standard factor in the upper-envelope intersection is
@@ -163,7 +179,7 @@ theorem fibrantObjectSemantics_canonical_eq_upperEnvelope :
 /-- Consequently terminal fibrant-object semantics is not injective on the
 presentation lattice. -/
 theorem fibrantObjectSemantics_not_injective :
-    ¬ Function.Injective (fibrantObjectSemantics (u := u)) := by
+    ¬ Function.Injective fibrantObjectSemantics.{u} := by
   intro hinj
   apply canonicalKuuOSPresentation_ne_upperEnvelope
   exact hinj fibrantObjectSemantics_canonical_eq_upperEnvelope
@@ -217,7 +233,7 @@ structure TerminalFibrancyNonfaithfulPresentationOrder : Prop where
           GeneratedScaledAnodynePresentation.{u}) =
       fibrantObjectSemantics standardCanonicalUpperEnvelope
   semanticsNotInjective :
-    ¬ Function.Injective (fibrantObjectSemantics (u := u))
+    ¬ Function.Injective fibrantObjectSemantics.{u}
   semanticsNotOrderReflecting :
     ¬ (∀ P Q : GeneratedScaledAnodynePresentation.{u},
       fibrantObjectSemantics Q ⊆ fibrantObjectSemantics P → P ≤ Q)

@@ -5,9 +5,11 @@ namespace KUOS.DependentOriginationCanonicalTypeAHigherMaxPrismRigidityV1_116
 
 open CategoryTheory
 open CategoryTheory.Category
+open MonoidalCategory
 open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
+open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
@@ -86,18 +88,18 @@ def typeAHigherIdToMaxPrismMap
           by_cases ha : z.2 a = 0
           · by_cases hb : z.2 b = 0
             · simpa [ha, hb] using hx
-            · simp only [ha, if_pos, hb, if_neg]
+            · simp only [ha, if_pos, hb]
               exact hx.trans (le_max_left _ _)
           · have hb : z.2 b ≠ 0 := by
               intro hb
               have hz : z.2 a ≤ 0 := by simpa [hb] using ht
               have : z.2 a = 0 := le_antisymm hz (Fin.zero_le _)
               exact ha this
-            simp only [ha, if_neg, hb]
+            simp only [ha, hb]
             exact max_le_max hx le_rfl }
   naturality := by
     intro d e f
-    ext z j
+    ext z
     rfl
 
 /-! ## A uniform thin source witness -/
@@ -107,7 +109,7 @@ index.  Its simplex coordinate is `[0,0,n]`, and its interval coordinate is
 `[0,1,1]`. -/
 def typeAHigherIdToMaxSourceTriangle
     (g : StandardTypeAHornGeneratorIndex) :
-    ((Δ[g.n] : SSet.{u}) ⊗ Δ[1]) _⦋2⦌ :=
+    ((Δ[g.n] : SSet.{u}) ⊗ Δ[1]).obj (op ⦋2⦌) :=
   ⟨SSet.stdSimplex.triangle
       (0 : Fin (g.n + 1))
       (0 : Fin (g.n + 1))
@@ -126,7 +128,7 @@ theorem typeAHigherIdToMaxSourceTriangle_thin
     (simplexCylinderScaling sΔ).thin
       (typeAHigherIdToMaxSourceTriangle g) := by
   change sΔ.thin (typeAHigherIdToMaxSourceTriangle g).1
-  let e : (Δ[g.n] : SSet.{u}) _⦋1⦌ :=
+  let e : (Δ[g.n] : SSet.{u}).obj (op ⦋1⦌) :=
     SSet.stdSimplex.edge
       g.n (0 : Fin (g.n + 1)) (Fin.last g.n) (Fin.zero_le _)
   have hσ :
@@ -143,7 +145,7 @@ theorem typeAHigherIdToMaxSourceTriangle_thin
 /-- The image of the uniform source witness is the triangle `[0,i,n]`. -/
 def typeAHigherIdToMaxTargetTriangle
     (g : StandardTypeAHornGeneratorIndex) :
-    (Δ[g.n] : SSet.{u}) _⦋2⦌ :=
+    (Δ[g.n] : SSet.{u}).obj (op ⦋2⦌) :=
   SSet.stdSimplex.triangle
     (0 : Fin (g.n + 1))
     g.i
@@ -190,10 +192,12 @@ theorem typeAHigherIdToMaxTargetTriangle_not_distinguished
     ¬ IsStandardTypeADistinguishedTriangle
         g.i (typeAHigherIdToMaxTargetTriangle g) := by
   intro hdist
-  have hleft : 1 = g.i.val := by
-    simpa [typeAHigherIdToMaxTargetTriangle] using hdist.2.1
-  have hright : g.i.val + 1 = g.n := by
-    simpa [typeAHigherIdToMaxTargetTriangle] using hdist.2.2
+  have hleft := hdist.2.1
+  have hright := hdist.2.2
+  set_option backward.isDefEq.respectTransparency false in
+    change 0 + 1 = g.i.val at hleft
+  set_option backward.isDefEq.respectTransparency false in
+    change g.i.val + 1 = g.n at hright
   omega
 
 /-- Therefore `[0,i,n]` is not thin in the sparse standard type-(A) scaling
@@ -284,5 +288,7 @@ Thus the successful object-level argument and the still-open left-class
 comparison are now separated not only conceptually but by an explicit uniform
 scaling obstruction theorem.
 -/
+
+end
 
 end KUOS.DependentOriginationCanonicalTypeAHigherMaxPrismRigidityV1_116

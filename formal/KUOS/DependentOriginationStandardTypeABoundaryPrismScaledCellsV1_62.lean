@@ -9,6 +9,7 @@ open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
 open KUOS.DependentOriginationScaledTerminalRLPV1_41
+open KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeBThreeSimplexCompletionV1_57
 open KUOS.DependentOriginationStandardTypeAEndpointPrismPairingV1_60
@@ -22,7 +23,7 @@ universe u
 Version v1.61 solved the ordinary combinatorics of
 
 ```text
-A_boundary = (Lambda_i^n x Delta[1]) union (Delta[n] x boundary Delta[1])
+A_boundary = (Lambda_i^n x Delta[1]) union (Delta[n] x boundary Delta[1]).
 ```
 
 by a regular inner pairing and its natural-number relative-cell filtration.
@@ -65,7 +66,7 @@ rank with these A/B generators and packages the transfinite composite as
 
 /-- The exact scaling on the simplex attached by a boundary-prism rank cell:
 pull back the ambient type-(A) cylinder scaling along the Mathlib cell map. -/
-def standardTypeABoundaryPrismCellScaling
+noncomputable def standardTypeABoundaryPrismCellScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
@@ -75,7 +76,7 @@ def standardTypeABoundaryPrismCellScaling
     c.map
 
 /-- The corresponding horn scaling is the pullback of the exact cell scaling. -/
-def standardTypeABoundaryPrismCellHornScaling
+noncomputable def standardTypeABoundaryPrismCellHornScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
@@ -83,7 +84,7 @@ def standardTypeABoundaryPrismCellHornScaling
   pullbackScaling (standardTypeABoundaryPrismCellScaling g j c) c.horn.ι
 
 /-- The scaled source object of one relative cell. -/
-def standardTypeABoundaryPrismScaledCellSource
+noncomputable def standardTypeABoundaryPrismScaledCellSource
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (c : (standardTypeABoundaryPrismRankFunction g).Cell j) : ScaledSSet.{u} :=
@@ -91,7 +92,7 @@ def standardTypeABoundaryPrismScaledCellSource
     (standardTypeABoundaryPrismCellHornScaling g j c)
 
 /-- The scaled target object of one relative cell. -/
-def standardTypeABoundaryPrismScaledCellTarget
+noncomputable def standardTypeABoundaryPrismScaledCellTarget
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (c : (standardTypeABoundaryPrismRankFunction g).Cell j) : ScaledSSet.{u} :=
@@ -99,7 +100,7 @@ def standardTypeABoundaryPrismScaledCellTarget
     (standardTypeABoundaryPrismCellScaling g j c)
 
 /-- The ordinary basic horn cell with its exact ambient pullback scalings. -/
-def standardTypeABoundaryPrismScaledCellHom
+noncomputable def standardTypeABoundaryPrismScaledCellHom
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :
@@ -119,7 +120,7 @@ theorem standardTypeABoundaryPrismScaledCellHom_map
 
 /-- The attached scaled simplex maps canonically back into the ambient
 standard type-(A) cylinder. -/
-def standardTypeABoundaryPrismScaledCellToCylinder
+noncomputable def standardTypeABoundaryPrismScaledCellToCylinder
     (g : StandardTypeAHornAttachmentGeneratorIndex)
     (j : ℕ)
     (c : (standardTypeABoundaryPrismRankFunction g).Cell j) :

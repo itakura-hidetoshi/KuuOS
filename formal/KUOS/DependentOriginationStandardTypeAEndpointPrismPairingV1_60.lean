@@ -13,6 +13,8 @@ open Opposite
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationScaledHornAttachmentLiftingV1_40
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
+open KUOS.DependentOriginationScaledAnodyneAttachmentFactorizationV1_48
 open KUOS.DependentOriginationStandardTypeAScaledHornFamilyV1_49
 open KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50
 open KUOS.DependentOriginationStandardTypeAScaledPushoutSourceEnrichmentV1_53
@@ -66,7 +68,9 @@ repository's pinned Mathlib revision.
 theorem intervalEndpoint_le_boundary (epsilon : Fin 2) :
     (intervalEndpoint epsilon : (Δ[1] : SSet.{u}).Subcomplex) <=
       (∂Δ[1] : (Δ[1] : SSet.{u}).Subcomplex) := by
-  rw [SSet.Subcomplex.ofSimplex_le_iff]
+  refine (SSet.Subcomplex.ofSimplex_le_iff
+    (SSet.stdSimplex.obj₀Equiv.{u}.symm epsilon)
+    (∂Δ[1] : (Δ[1] : SSet.{u}).Subcomplex)).2 ?_
   rw [SSet.boundary_obj_eq_univ 0 1 (by omega)]
   exact Set.mem_univ _
 
@@ -85,11 +89,11 @@ theorem standardTypeAEndpointPrism_le_boundaryPrism
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     (SSet.horn g.n g.i).unionProd (intervalEndpoint g.endpoint) <=
       standardTypeABoundaryPrismSubcomplex g := by
-  intro d z hz
-  rw [SSet.Subcomplex.mem_unionProd_iff] at hz ⊢
-  rcases hz with hz | hz
-  · exact Or.inl (intervalEndpoint_le_boundary g.endpoint _ hz)
-  · exact Or.inr hz
+  dsimp [standardTypeABoundaryPrismSubcomplex, SSet.Subcomplex.unionProd]
+  apply sup_le_sup
+  · exact SSet.Subcomplex.prod_monotone (by rfl)
+      (intervalEndpoint_le_boundary g.endpoint)
+  · rfl
 
 /-- Underlying simplicial inclusion from the endpoint prism source to the
 boundary-prism source. -/
@@ -186,9 +190,30 @@ theorem standardTypeABoundaryPrism_notMem_iff
     z ∉ (standardTypeABoundaryPrismSubcomplex g).obj d ↔
       z.1 ∉ (SSet.horn g.n g.i).obj d ∧
         z.2 ∉ (∂Δ[1] : (Δ[1] : SSet.{u}).Subcomplex).obj d := by
-  rw [standardTypeABoundaryPrismSubcomplex,
-    SSet.Subcomplex.mem_unionProd_iff]
-  tauto
+  have hmem :
+      z ∈ ((SSet.horn g.n g.i).unionProd
+          (∂Δ[1] : (Δ[1] : SSet.{u}).Subcomplex)).obj d ↔
+        z.2 ∈ (∂Δ[1] : (Δ[1] : SSet.{u}).Subcomplex).obj d ∨
+          z.1 ∈ (SSet.horn g.n g.i).obj d :=
+    SSet.Subcomplex.mem_unionProd_iff
+      (SSet.horn g.n g.i)
+      (∂Δ[1] : (Δ[1] : SSet.{u}).Subcomplex) z
+  change
+    z ∉ ((SSet.horn g.n g.i).unionProd
+        (∂Δ[1] : (Δ[1] : SSet.{u}).Subcomplex)).obj d ↔ _
+  constructor
+  · intro hz
+    constructor
+    · intro hs
+      apply hz
+      exact hmem.mpr (Or.inr hs)
+    · intro ht
+      apply hz
+      exact hmem.mpr (Or.inl ht)
+  · rintro ⟨hs, ht⟩ hz
+    rcases hmem.mp hz with h | h
+    · exact ht h
+    · exact hs h
 
 /-- Equivalently, outside the boundary prism the simplex-coordinate range,
 together with the distinguished horn vertex, is all of `Fin (n+1)`, while the

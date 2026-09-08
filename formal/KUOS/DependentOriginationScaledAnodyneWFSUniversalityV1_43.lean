@@ -175,6 +175,7 @@ abbrev CanonicalGeneratedScaledFactorization : Prop :=
 
 /-- Once the factorization theorem is supplied, Mathlib's retract argument
 upgrades the canonical orthogonal pair to a genuine weak factorization system. -/
+@[reducible]
 def canonicalGeneratedScaledWeakFactorizationSystem
     (hfac : CanonicalGeneratedScaledFactorization.{u}) :
     MorphismProperty.IsWeakFactorizationSystem
@@ -196,6 +197,7 @@ namespace CanonicalGeneratedScaledWFSCertificate
 
 /-- The certificate canonically yields Mathlib's native weak factorization
 system. -/
+@[reducible]
 def toWeakFactorizationSystem
     (K : CanonicalGeneratedScaledWFSCertificate.{u}) :
     MorphismProperty.IsWeakFactorizationSystem

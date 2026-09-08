@@ -11,10 +11,11 @@ open MonoidalCategory
 open Simplicial
 open KUOS.DependentOriginationNativeInfinityTwoScaledV1_19
 open KUOS.DependentOriginationGlobalDuskinScaledHornCoherenceV1_22
+open KUOS.DependentOriginationBiequivalencePresentationInvariantV1_26
 open KUOS.DependentOriginationHomotopyClassScaledHornInvariantV1_37
 open KUOS.DependentOriginationHomotopyClassStrictificationV1_38
 
-universe u u₁ u₂ v₁ v₂ w₁ w₂
+universe u v w
 
 /-!
 # Two-sided scaled horn cylinder extension v1.39
@@ -90,9 +91,9 @@ structure ForwardScaledHornCylinderExtension
     (H : f.Homotopy g)
     (Q : ScaledHornBoundaryRealization sX sΔ f) where
   extension : (Δ[n] : SSet.{u}) ⊗ Δ[1] ⟶ X
-  endpoint_zero : ι₀ ≫ extension = Q.simplexMap
+  endpoint_zero : SSet.ι₀ ≫ extension = Q.simplexMap
   on_horn : Λ[n, i].ι ▷ Δ[1] ≫ extension = H.h
-  endpoint_one_scaled : IsScaledMap sΔ sX (ι₁ ≫ extension)
+  endpoint_one_scaled : IsScaledMap sΔ sX (SSet.ι₁ ≫ extension)
 
 namespace ForwardScaledHornCylinderExtension
 
@@ -108,7 +109,7 @@ noncomputable def toTarget
     {Q : ScaledHornBoundaryRealization sX sΔ f}
     (E : ForwardScaledHornCylinderExtension sX sΔ H Q) :
     ScaledHornBoundaryRealization sX sΔ g where
-  simplexMap := ι₁ ≫ E.extension
+  simplexMap := SSet.ι₁ ≫ E.extension
   boundary_eq := by
     rw [← H.h₁, ← E.on_horn]
     simp
@@ -129,9 +130,9 @@ structure BackwardScaledHornCylinderExtension
     (H : f.Homotopy g)
     (Q : ScaledHornBoundaryRealization sX sΔ g) where
   extension : (Δ[n] : SSet.{u}) ⊗ Δ[1] ⟶ X
-  endpoint_one : ι₁ ≫ extension = Q.simplexMap
+  endpoint_one : SSet.ι₁ ≫ extension = Q.simplexMap
   on_horn : Λ[n, i].ι ▷ Δ[1] ≫ extension = H.h
-  endpoint_zero_scaled : IsScaledMap sΔ sX (ι₀ ≫ extension)
+  endpoint_zero_scaled : IsScaledMap sΔ sX (SSet.ι₀ ≫ extension)
 
 namespace BackwardScaledHornCylinderExtension
 
@@ -147,7 +148,7 @@ noncomputable def toSource
     {Q : ScaledHornBoundaryRealization sX sΔ g}
     (E : BackwardScaledHornCylinderExtension sX sΔ H Q) :
     ScaledHornBoundaryRealization sX sΔ f where
-  simplexMap := ι₀ ≫ E.extension
+  simplexMap := SSet.ι₀ ≫ E.extension
   boundary_eq := by
     rw [← H.h₀, ← E.on_horn]
     simp
@@ -229,7 +230,9 @@ noncomputable def strictify
   let g : HornRelativeMap X n i :=
     SSet.RelativeMorphism.botEquiv.symm P.hornMap
   have hEqv : Relation.EqvGen HornHomotopyStep f g := by
-    simpa [f, g, HornHomotopyStep, homotopyClassOfMap] using
+    change Relation.EqvGen
+      (fun a b : HornRelativeMap X n i => Nonempty (a.Homotopy b)) f g
+    simpa [f, g, homotopyClassOfMap] using
       (Quot.eqvGen_exact Q.boundary_class_eq)
   have hStart :
       Nonempty (ScaledHornBoundaryRealization
@@ -345,8 +348,8 @@ open KUOS.DependentOriginationCoherentNormalizedScaledModelEquivalenceV1_32
 /-- A coherent normalized scaled model equivalence whose two presentations
 support the geometric two-sided cylinder extension needed for strictification. -/
 structure CoherentNormalizedScaledCylinderExtendableModelEquivalence
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     (E : BicategoricalModelEquivalence B C)
     (G : BicategoricalModelEquivalence C B)
     (HB : GlobalDuskinScaledHornFamily B)
@@ -363,8 +366,8 @@ structure CoherentNormalizedScaledCylinderExtendableModelEquivalence
 namespace CoherentNormalizedScaledCylinderExtendableModelEquivalence
 
 variable
-    {B : Type u₁} [Bicategory.{w₁, v₁} B]
-    {C : Type u₂} [Bicategory.{w₂, v₂} C]
+    {B C : Type u}
+    [Bicategory.{w, v} B] [Bicategory.{w, v} C]
     {E : BicategoricalModelEquivalence B C}
     {G : BicategoricalModelEquivalence C B}
     {HB : GlobalDuskinScaledHornFamily B}
@@ -379,6 +382,7 @@ noncomputable def toStrictifiableModelEquivalence :
   sourceStrictification := K.sourceCylinderExtension.toStrictification
   targetStrictification := K.targetCylinderExtension.toStrictification
 
+include K in
 /-- Strict global scaled-Duskin fibrancy is presentation-independent under the
 geometric two-sided cylinder-extension principle. -/
 theorem globalDuskinStrictFibrancy_iff :

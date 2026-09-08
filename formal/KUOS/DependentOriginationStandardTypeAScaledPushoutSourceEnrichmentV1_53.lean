@@ -121,7 +121,7 @@ def standardTypeAEndpointInducedProductPullbackScaling
 induced endpoint-pushout-product source. -/
 theorem standardTypeAEndpointPushoutProductSource_scaling_eq_inducedProductPullback
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    (standardTypeAEndpointPushoutProductSource g).scaling =
+    (standardTypeAEndpointPushoutProductSource g : ScaledSSet.{u}).scaling =
       standardTypeAEndpointInducedProductPullbackScaling g := by
   simpa [standardTypeAEndpointInducedProductPullbackScaling,
     standardTypeAEndpointCylinderProductScaling] using
@@ -132,7 +132,7 @@ theorem standardTypeAEndpointPushoutProductSource_scaling_eq_inducedProductPullb
 
 /-- The scaling on `Delta[n] x {epsilon}` obtained by restricting the induced
 union-product scaling along the first union leg. -/
-def standardTypeAEndpointSimplexEndpointLegScaling
+noncomputable def standardTypeAEndpointSimplexEndpointLegScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     ScaledSimplicialSet
       ((Δ[g.n] : SSet.{u}) ⊗
@@ -144,7 +144,7 @@ def standardTypeAEndpointSimplexEndpointLegScaling
 
 /-- The scaling on `Lambda_i^n x Delta[1]` obtained by restricting the induced
 union-product scaling along the second union leg. -/
-def standardTypeAEndpointHornIntervalLegScaling
+noncomputable def standardTypeAEndpointHornIntervalLegScaling
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     ScaledSimplicialSet
       ((SSet.horn g.n g.i : SSet.{u}) ⊗ Δ[1]) :=
@@ -285,13 +285,13 @@ full induced pullback scaling.  Its underlying simplicial map is the identity. -
 def standardTypeAEndpointGeneratedToInduced
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
     standardTypeAEndpointGeneratedPushoutSource g ⟶
-      standardTypeAEndpointPushoutProductSource g where
+      (standardTypeAEndpointPushoutProductSource g : ScaledSSet.{u}) where
   map := 𝟙 _
   scaled := by
     intro t ht
     rw [standardTypeAEndpointPushoutProductSource_scaling_eq_inducedProductPullback g]
-    simpa using
-      standardTypeAEndpointGeneratedPushoutScaling_le_induced g t ht
+    change (standardTypeAEndpointInducedProductPullbackScaling g).thin t
+    exact standardTypeAEndpointGeneratedPushoutScaling_le_induced g t ht
 
 @[simp]
 theorem standardTypeAEndpointGeneratedToInduced_map
@@ -311,12 +311,20 @@ def standardTypeAEndpointGeneratedPushoutProductHom
 /-- Its underlying map is still exactly the ordinary union-product inclusion. -/
 theorem standardTypeAEndpointGeneratedPushoutProductHom_map
     (g : StandardTypeAHornAttachmentGeneratorIndex) :
-    (standardTypeAEndpointGeneratedPushoutProductHom g).map =
+    ((standardTypeAEndpointGeneratedPushoutProductHom g :
+      (standardTypeAEndpointGeneratedPushoutSource g : ScaledSSet.{u}) ⟶
+        (scaledSimplexCylinder (standardTypeASimplexScaling g.i) :
+          ScaledSSet.{u}))).map =
       ((SSet.horn g.n g.i).unionProd
         (intervalEndpoint g.endpoint)).ι := by
-  simp [standardTypeAEndpointGeneratedPushoutProductHom,
-    standardTypeAEndpointGeneratedToInduced,
-    standardTypeAEndpointPushoutProductHom]
+  change
+    (𝟙 ((SSet.horn g.n g.i).unionProd
+        (intervalEndpoint g.endpoint) : SSet.{u}) ≫
+      ((SSet.horn g.n g.i).unionProd
+        (intervalEndpoint g.endpoint)).ι) =
+      ((SSet.horn g.n g.i).unionProd
+        (intervalEndpoint g.endpoint)).ι
+  simp
 
 /-- The endpoint map factors exactly into least-generated geometry followed by
 source-scaling enrichment and then the induced attachment inclusion. -/

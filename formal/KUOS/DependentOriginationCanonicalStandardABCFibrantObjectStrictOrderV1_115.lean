@@ -101,23 +101,17 @@ theorem attachmentFibrant_hornFiller_of_two_le
 def standardTypeCHornLeg
     {X : ScaledSSet.{u}}
     {m : Nat}
-    (f : standardTypeCSource m ⟶ X) :
+    (f : standardTypeCSource.{u} m ⟶ X) :
     (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{u}) ⟶ X.carrier :=
-  pushout.inl
-      (standardTypeCEdgeToHorn m)
-      (standardTypeCEdgeCollapseToPoint m) ≫
-    f.map
+  standardTypeCSourceInl.{u} m ≫ f.map
 
 /-- The collapsed-point leg of a standard type-(C) source map. -/
 def standardTypeCPointLeg
     {X : ScaledSSet.{u}}
     {m : Nat}
-    (f : standardTypeCSource m ⟶ X) :
+    (f : standardTypeCSource.{u} m ⟶ X) :
     (Δ[0] : SSet.{u}) ⟶ X.carrier :=
-  pushout.inr
-      (standardTypeCEdgeToHorn m)
-      (standardTypeCEdgeCollapseToPoint m) ≫
-    f.map
+  standardTypeCSourceInr.{u} m ≫ f.map
 
 /-- Forget the type-(C) horn leg to a minimally-scaled horn problem.  Minimal
 source scaling makes both the horn inclusion and the horn map automatically
@@ -125,7 +119,7 @@ scaled. -/
 def standardTypeCMinimalHornProblem
     {X : ScaledSSet.{u}}
     {m : Nat}
-    (f : standardTypeCSource m ⟶ X) :
+    (f : standardTypeCSource.{u} m ⟶ X) :
     ScaledHornExtensionProblem
       X.carrier X.scaling (m + 3) (0 : Fin (m + 4)) where
   hornScaling :=
@@ -146,41 +140,37 @@ collapsed-point leg on the edge `{0,1}`. -/
 theorem standardTypeC_edge_compat_of_hornFiller
     {X : ScaledSSet.{u}}
     {m : Nat}
-    (f : standardTypeCSource m ⟶ X)
+    (f : standardTypeCSource.{u} m ⟶ X)
     (Q : ScaledHornFiller (standardTypeCMinimalHornProblem f)) :
-    standardTypeCEdgeToSimplex m ≫ Q.simplexMap =
-      standardTypeCEdgeCollapseToPoint m ≫ standardTypeCPointLeg f := by
+    standardTypeCEdgeToSimplex.{u} m ≫ Q.simplexMap =
+      standardTypeCEdgeCollapseToPoint.{u} m ≫ standardTypeCPointLeg f := by
   calc
-    standardTypeCEdgeToSimplex m ≫ Q.simplexMap =
-        standardTypeCEdgeToHorn m ≫
+    standardTypeCEdgeToSimplex.{u} m ≫ Q.simplexMap =
+        standardTypeCEdgeToHorn.{u} m ≫
           (standardTypeCMinimalHornProblem f).hornMap := by
-      rw [Q.extends_horn]
-      simp
-    _ = standardTypeCEdgeToHorn m ≫
-          (pushout.inl
-              (standardTypeCEdgeToHorn m)
-              (standardTypeCEdgeCollapseToPoint m) ≫ f.map) := rfl
-    _ = standardTypeCEdgeCollapseToPoint m ≫
-          (pushout.inr
-              (standardTypeCEdgeToHorn m)
-              (standardTypeCEdgeCollapseToPoint m) ≫ f.map) := by
+      rw [Q.extends_horn, ← Category.assoc,
+        standardTypeCEdgeToHorn_comp_hornInclusion.{u}]
+    _ = standardTypeCEdgeToHorn.{u} m ≫
+          (standardTypeCSourceInl.{u} m ≫ f.map) := rfl
+    _ = standardTypeCEdgeCollapseToPoint.{u} m ≫
+          (standardTypeCSourceInr.{u} m ≫ f.map) := by
       have h := congrArg
         (fun q :
-            (standardTypeCEdgeFace m : SSet.{u}) ⟶
-              standardTypeCSourceCarrier m => q ≫ f.map)
-        (standardTypeCSource_edge_collapsed m)
+            (standardTypeCEdgeFace.{u} m : SSet.{u}) ⟶
+              standardTypeCSourceCarrier.{u} m => q ≫ f.map)
+        (standardTypeCSource_edge_collapsed.{u} m)
       simpa [Category.assoc] using h
-    _ = standardTypeCEdgeCollapseToPoint m ≫ standardTypeCPointLeg f := rfl
+    _ = standardTypeCEdgeCollapseToPoint.{u} m ≫ standardTypeCPointLeg f := rfl
 
 /-- Descend a strict outer-horn filler and the collapsed point leg through the
 standard type-(C) target pushout. -/
 def standardTypeCTargetMapOfHornFiller
     {X : ScaledSSet.{u}}
     {m : Nat}
-    (f : standardTypeCSource m ⟶ X)
+    (f : standardTypeCSource.{u} m ⟶ X)
     (Q : ScaledHornFiller (standardTypeCMinimalHornProblem f)) :
-    standardTypeCTargetCarrier m ⟶ X.carrier :=
-  (standardTypeCTargetCarrier_isPushout m).desc
+    standardTypeCTargetCarrier.{u} m ⟶ X.carrier :=
+  (standardTypeCTargetCarrier_isPushout.{u} m).desc
     Q.simplexMap
     (standardTypeCPointLeg f)
     (standardTypeC_edge_compat_of_hornFiller f Q)
@@ -189,14 +179,12 @@ def standardTypeCTargetMapOfHornFiller
 theorem standardTypeCTargetMapOfHornFiller_inl
     {X : ScaledSSet.{u}}
     {m : Nat}
-    (f : standardTypeCSource m ⟶ X)
+    (f : standardTypeCSource.{u} m ⟶ X)
     (Q : ScaledHornFiller (standardTypeCMinimalHornProblem f)) :
-    pushout.inl
-        (standardTypeCEdgeToSimplex m)
-        (standardTypeCEdgeCollapseToPoint m) ≫
+    standardTypeCTargetInl.{u} m ≫
       standardTypeCTargetMapOfHornFiller f Q = Q.simplexMap := by
   exact
-    (standardTypeCTargetCarrier_isPushout m).inl_desc
+    (standardTypeCTargetCarrier_isPushout.{u} m).inl_desc
       Q.simplexMap
       (standardTypeCPointLeg f)
       (standardTypeC_edge_compat_of_hornFiller f Q)
@@ -205,14 +193,12 @@ theorem standardTypeCTargetMapOfHornFiller_inl
 theorem standardTypeCTargetMapOfHornFiller_inr
     {X : ScaledSSet.{u}}
     {m : Nat}
-    (f : standardTypeCSource m ⟶ X)
+    (f : standardTypeCSource.{u} m ⟶ X)
     (Q : ScaledHornFiller (standardTypeCMinimalHornProblem f)) :
-    pushout.inr
-        (standardTypeCEdgeToSimplex m)
-        (standardTypeCEdgeCollapseToPoint m) ≫
+    standardTypeCTargetInr.{u} m ≫
       standardTypeCTargetMapOfHornFiller f Q = standardTypeCPointLeg f := by
   exact
-    (standardTypeCTargetCarrier_isPushout m).inr_desc
+    (standardTypeCTargetCarrier_isPushout.{u} m).inr_desc
       Q.simplexMap
       (standardTypeCPointLeg f)
       (standardTypeC_edge_compat_of_hornFiller f Q)
@@ -223,9 +209,9 @@ def standardTypeCLiftOfAttachmentFibrant
     {X : ScaledSSet.{u}}
     {m : Nat}
     (hX : IsAttachmentFibrant X)
-    (f : standardTypeCSource m ⟶ X)
+    (f : standardTypeCSource.{u} m ⟶ X)
     (Q : ScaledHornFiller (standardTypeCMinimalHornProblem f)) :
-    standardTypeCTarget m ⟶ X where
+    standardTypeCTarget.{u} m ⟶ X where
   map := standardTypeCTargetMapOfHornFiller f Q
   scaled := by
     intro t ht
@@ -237,42 +223,34 @@ theorem standardTypeCLiftOfAttachmentFibrant_fac
     {X : ScaledSSet.{u}}
     {m : Nat}
     (hX : IsAttachmentFibrant X)
-    (f : standardTypeCSource m ⟶ X)
+    (f : standardTypeCSource.{u} m ⟶ X)
     (Q : ScaledHornFiller (standardTypeCMinimalHornProblem f)) :
-    standardTypeCGeneratorHom m ≫
+    standardTypeCGeneratorHom.{u} m ≫
         standardTypeCLiftOfAttachmentFibrant hX f Q = f := by
   apply ScaledSSet.ScaledMap.ext
   change
-    standardTypeCCarrierMap m ≫
+    standardTypeCCarrierMap.{u} m ≫
         standardTypeCTargetMapOfHornFiller f Q = f.map
-  apply (standardTypeCSourceCarrier_isPushout m).hom_ext
+  apply (standardTypeCSourceCarrier_isPushout.{u} m).hom_ext
   · calc
-      pushout.inl
-          (standardTypeCEdgeToHorn m)
-          (standardTypeCEdgeCollapseToPoint m) ≫
-          (standardTypeCCarrierMap m ≫
+      standardTypeCSourceInl.{u} m ≫
+          (standardTypeCCarrierMap.{u} m ≫
             standardTypeCTargetMapOfHornFiller f Q) =
-        (pushout.inl
-            (standardTypeCEdgeToHorn m)
-            (standardTypeCEdgeCollapseToPoint m) ≫
-          standardTypeCCarrierMap m) ≫
+        (standardTypeCSourceInl.{u} m ≫
+          standardTypeCCarrierMap.{u} m) ≫
             standardTypeCTargetMapOfHornFiller f Q := by simp
       _ =
         ((Λ[m + 3, (0 : Fin (m + 4))].ι :
             (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{u}) ⟶
               (Δ[m + 3] : SSet.{u})) ≫
-          pushout.inl
-            (standardTypeCEdgeToSimplex m)
-            (standardTypeCEdgeCollapseToPoint m)) ≫
+          standardTypeCTargetInl.{u} m) ≫
             standardTypeCTargetMapOfHornFiller f Q := by
-              rw [standardTypeCCarrierMap_inl_horn]
+              rw [standardTypeCCarrierMap_inl_horn.{u}]
       _ =
         (Λ[m + 3, (0 : Fin (m + 4))].ι :
             (Λ[m + 3, (0 : Fin (m + 4))] : SSet.{u}) ⟶
               (Δ[m + 3] : SSet.{u})) ≫
-          (pushout.inl
-              (standardTypeCEdgeToSimplex m)
-              (standardTypeCEdgeCollapseToPoint m) ≫
+          (standardTypeCTargetInl.{u} m ≫
             standardTypeCTargetMapOfHornFiller f Q) := by simp
       _ =
         (Λ[m + 3, (0 : Fin (m + 4))].ι :
@@ -281,33 +259,21 @@ theorem standardTypeCLiftOfAttachmentFibrant_fac
               rw [standardTypeCTargetMapOfHornFiller_inl]
       _ = (standardTypeCMinimalHornProblem f).hornMap :=
         Q.extends_horn.symm
-      _ =
-        pushout.inl
-            (standardTypeCEdgeToHorn m)
-            (standardTypeCEdgeCollapseToPoint m) ≫ f.map := rfl
+      _ = standardTypeCSourceInl.{u} m ≫ f.map := rfl
   · calc
-      pushout.inr
-          (standardTypeCEdgeToHorn m)
-          (standardTypeCEdgeCollapseToPoint m) ≫
-          (standardTypeCCarrierMap m ≫
+      standardTypeCSourceInr.{u} m ≫
+          (standardTypeCCarrierMap.{u} m ≫
             standardTypeCTargetMapOfHornFiller f Q) =
-        (pushout.inr
-            (standardTypeCEdgeToHorn m)
-            (standardTypeCEdgeCollapseToPoint m) ≫
-          standardTypeCCarrierMap m) ≫
+        (standardTypeCSourceInr.{u} m ≫
+          standardTypeCCarrierMap.{u} m) ≫
             standardTypeCTargetMapOfHornFiller f Q := by simp
       _ =
-        pushout.inr
-            (standardTypeCEdgeToSimplex m)
-            (standardTypeCEdgeCollapseToPoint m) ≫
+        standardTypeCTargetInr.{u} m ≫
           standardTypeCTargetMapOfHornFiller f Q := by
-            rw [standardTypeCCarrierMap_inr_point]
+            rw [standardTypeCCarrierMap_inr_point.{u}]
       _ = standardTypeCPointLeg f :=
         standardTypeCTargetMapOfHornFiller_inr f Q
-      _ =
-        pushout.inr
-            (standardTypeCEdgeToHorn m)
-            (standardTypeCEdgeCollapseToPoint m) ≫ f.map := rfl
+      _ = standardTypeCSourceInr.{u} m ≫ f.map := rfl
 
 /-- Every standard type-(C) generator has terminal RLP against an
 attachment-fibrant target. -/
@@ -316,11 +282,11 @@ theorem attachmentFibrant_hasLiftingProperty_standardTypeC
     (hX : IsAttachmentFibrant X)
     (m : Nat) :
     HasLiftingProperty
-      (standardTypeCGeneratorHom m)
+      (standardTypeCGeneratorHom.{u} m)
       (ScaledSSet.toPoint X) := by
   apply
     (ScaledSSet.hasLiftingProperty_toPoint_iff
-      (standardTypeCGeneratorHom m)).2
+      (standardTypeCGeneratorHom.{u} m)).2
   intro f
   rcases
       attachmentFibrant_hornFiller_of_two_le
@@ -351,7 +317,9 @@ theorem attachmentFibrant_standardABC_generators_rlp
     standardGeneratedScaledFibrationABC (ScaledSSet.toPoint X) := by
   intro A B j hj
   rcases hj with (hjA | hjB) | hjC
-  · dsimp [standardTypeAScaledHornGenerators] at hjA
+  · dsimp [
+      KUOS.DependentOriginationStandardTypeAEndpointPushoutProductV1_50.standardTypeAScaledHornGenerators
+    ] at hjA
     cases hjA with
     | mk g =>
         exact attachmentFibrant_hasStandardTypeATerminalRLP_unconditional hX g
@@ -399,33 +367,43 @@ theorem attachmentFibrant_implies_standardABCFibrant
 
 /-- The existing `B^2 N` witness is standard A/B/C fibrant. -/
 theorem natDoubleDelooping_isStandardABCFibrant :
-    IsStandardABCFibrant natDoubleDeloopingScaledDuskin := by
-  exact natDoubleDelooping_standardGeneratedABC_rlp
+    IsStandardABCFibrant
+      KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.natDoubleDeloopingScaledDuskin := by
+  change
+    (standardGeneratedScaledAnodyneABC :
+      MorphismProperty (ScaledSSet.{0})).rlp
+      (ScaledSSet.toPoint.{0}
+        KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.natDoubleDeloopingScaledDuskin)
+  exact
+    KUOS.DependentOriginationDoubleDeloopingTypeCTerminalRLPStandardRightV1_106.natDoubleDelooping_standardGeneratedABC_rlp
 
 /-- The same object is not canonically attachment-fibrant, by the atomic
 2-simplex orthogonality separator. -/
 theorem natDoubleDelooping_not_attachmentFibrant :
-    ¬ IsAttachmentFibrant natDoubleDeloopingScaledDuskin := by
+    ¬ IsAttachmentFibrant
+      KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.natDoubleDeloopingScaledDuskin := by
   intro hX
-  apply atomicTwoSimplexEnrichment_not_hasLiftingProperty_natDoubleDeloopingTerminal
+  apply
+    KUOS.DependentOriginationPresentationIndependentSeparationTypeBReverseV1_107.atomicTwoSimplexEnrichment_not_hasLiftingProperty_natDoubleDeloopingTerminal
   exact
-    attachmentFibrant_hasLiftingProperty_of_canonicalGenerated
-      hX atomicTwoSimplexEnrichment
-      atomicTwoSimplexEnrichment_mem_canonicalGenerated
+    attachmentFibrant_hasLiftingProperty_of_canonicalGenerated.{0}
+      hX
+      KUOS.DependentOriginationCanonicalFibrancyAtomicTwoSimplexAuditV1_91.atomicTwoSimplexEnrichment.{0}
+      KUOS.DependentOriginationCanonicalFibrancyAtomicTwoSimplexAuditV1_91.atomicTwoSimplexEnrichment_mem_canonicalGenerated.{0}
 
 /-- Canonical fibrant-object semantics is strictly contained in standard A/B/C
 fibrant-object semantics: inclusion holds for every object, and `B^2 N` is a
 concrete object in the difference. -/
 theorem canonicalFibrantObjects_strictlyContainedIn_standardABCFibrantObjects :
-    (∀ X : ScaledSSet,
+    (∀ X : ScaledSSet.{u},
       IsAttachmentFibrant X → IsStandardABCFibrant X) ∧
-    (∃ X : ScaledSSet,
+    (∃ X : ScaledSSet.{0},
       IsStandardABCFibrant X ∧ ¬ IsAttachmentFibrant X) := by
   constructor
   · intro X hX
     exact attachmentFibrant_implies_standardABCFibrant hX
   · exact
-      ⟨natDoubleDeloopingScaledDuskin,
+      ⟨KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95.natDoubleDeloopingScaledDuskin,
         natDoubleDelooping_isStandardABCFibrant,
         natDoubleDelooping_not_attachmentFibrant⟩
 
@@ -457,5 +435,7 @@ assert `standardGeneratedScaledAnodyneABC <= canonicalGeneratedScaledAnodyne`.
 The remaining presentation-level type-(A)/(C) reverse geometry is therefore a
 strictly finer problem than fibrant-object comparison.
 -/
+
+end
 
 end KUOS.DependentOriginationCanonicalStandardABCFibrantObjectStrictOrderV1_115
