@@ -3,6 +3,10 @@
 ![Core Governance](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/core_governance_validation.yml/badge.svg)
 ![KuuOS Runtime Full Check](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/kuuos_runtime_full_check.yml/badge.svg)
 
+**GPT-6 / 新しいモデルで空OSを使う:** [日本語の起動文](docs/model_migration/BOOTSTRAP_JA.md)を新しい会話へ貼り付け、今回の依頼を伝えてください。[移行手順](docs/model_migration/README.md)には、個別履歴の継続用テンプレートと16件の行動テストを用意しています。
+
+The portable bootstrap carries the fourfold core and contextual reasoning route across model changes. Reading it is distinct from inheriting private conversation history or passing behavioral evaluations; see the [validation scope](docs/model_migration/VALIDATION.md).
+
 **KuuOS / 空OS** is a public research architecture for formally verified contextual systems and bounded AI operation. It connects observation, context, memory, WORLD representation, retrieval, planning, decision, action, re-observation, verification, provenance, authority boundaries, and reproducible receipts.
 
 Its mathematical center is **dependent origination (縁起)**. Its interpretation of **空 (śūnyatā / emptiness)** is an anti-reification constraint: no model, representation, index, graph, memory state, runtime receipt, or preferred presentation receives intrinsic truth merely because it is convenient, executable, canonical, or locally successful.

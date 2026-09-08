@@ -1,0 +1,62 @@
+{
+  "schema_version": "kuuos.portable_evaluation.v0.1",
+  "template_only": true,
+  "measured_at": null,
+  "suite_version": "kuuos.portable_inheritance.v0.1",
+  "bootstrap_commit": null,
+  "suite_commit": null,
+  "target_model": {
+    "requested_family": "GPT-6",
+    "verified_model": null,
+    "verification_source": null
+  },
+  "settings": {
+    "reasoning_effort": null,
+    "available_tools": [],
+    "other_settings": null
+  },
+  "evaluator": {
+    "identity": null,
+    "independent_of_answer_generation": null
+  },
+  "required_conditions": [
+    "cold",
+    "bootstrap",
+    "bootstrap_with_handoff",
+    "retention",
+    "reentry"
+  ],
+  "minimum_independent_repeats": 3,
+  "runs": [],
+  "run_record_shape": {
+    "condition": null,
+    "repeat_index": null,
+    "session_ref": null,
+    "source_lock": null,
+    "inputs_ref": null,
+    "responses_ref": null,
+    "intervening_turn_count": null,
+    "case_results": [],
+    "semantic_score": null,
+    "relational_history_score": null,
+    "critical_failure_count": null,
+    "status": "not_evaluated"
+  },
+  "case_result_shape": {
+    "case_id": null,
+    "score": null,
+    "critical_failure": null,
+    "reason": null,
+    "response_ref": null,
+    "tool_evidence_ref": null
+  },
+  "comparison": {
+    "semantic_delta_vs_cold": null,
+    "relational_history_delta_vs_cold": null,
+    "limitations": []
+  },
+  "overall_status": "not_evaluated",
+  "canonical_adoption": "not_claimed",
+  "notes": "これは結果ではなく空の記録様式。未実施・未採点はnull。合格やGPT-6実測を推定して埋めない。"
+}
+

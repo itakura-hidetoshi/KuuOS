@@ -1,0 +1,109 @@
+{
+  "schema_version": "kuuos.portable_sources.v0.1",
+  "created_at": "2026-09-08",
+  "author": "Hidetoshi Itakura / 板倉英俊",
+  "package_status": "documented_not_behaviorally_validated",
+  "repository": "itakura-hidetoshi/KuuOS",
+  "canonical_source_snapshot": {
+    "branch": "main",
+    "commit": "0e6987a4de0fbc03f5b6d537afa06b153d294c07",
+    "meaning": "原則を抽出した参照時点。現在のmainや、この追加パケットのcommitを表す値ではない。"
+  },
+  "core_sources": [
+    {
+      "path": "README.md",
+      "git_blob_sha": "ce12b5b9cc10cc105e48d93b99de1acab799b58e",
+      "url": "https://github.com/itakura-hidetoshi/KuuOS/blob/0e6987a4de0fbc03f5b6d537afa06b153d294c07/README.md"
+    },
+    {
+      "path": "docs/KUOS_FOURFOLD_CORE_v0_1.md",
+      "git_blob_sha": "5c1a9d28930fa06cadf66ef3c3086d8203b363a2",
+      "url": "https://github.com/itakura-hidetoshi/KuuOS/blob/0e6987a4de0fbc03f5b6d537afa06b153d294c07/docs/KUOS_FOURFOLD_CORE_v0_1.md"
+    },
+    {
+      "path": "docs/KUOS_CORE_CHARTER_v0_1.md",
+      "git_blob_sha": "5fe943334f50e82f2c5e5ca7fcee95fa35489f57",
+      "url": "https://github.com/itakura-hidetoshi/KuuOS/blob/0e6987a4de0fbc03f5b6d537afa06b153d294c07/docs/KUOS_CORE_CHARTER_v0_1.md"
+    },
+    {
+      "path": "docs/RELATIONAL_OS_CONSTITUTION_v0_1.md",
+      "git_blob_sha": "8176ed35d93697afba188d125bfa3992cd587c14",
+      "url": "https://github.com/itakura-hidetoshi/KuuOS/blob/0e6987a4de0fbc03f5b6d537afa06b153d294c07/docs/RELATIONAL_OS_CONSTITUTION_v0_1.md"
+    },
+    {
+      "path": "docs/NONSOVEREIGNTY_PRINCIPLE_v0_1.md",
+      "git_blob_sha": "cad6ee8c28a7e285d6ca0953c88de9813abe9a6c",
+      "url": "https://github.com/itakura-hidetoshi/KuuOS/blob/0e6987a4de0fbc03f5b6d537afa06b153d294c07/docs/NONSOVEREIGNTY_PRINCIPLE_v0_1.md"
+    },
+    {
+      "path": "docs/ROLLBACK_AND_REOBSERVATION_CONSTITUTION_v0_1.md",
+      "git_blob_sha": "2b172e816b3c677d987dfe7daadf523a23c3a439",
+      "url": "https://github.com/itakura-hidetoshi/KuuOS/blob/0e6987a4de0fbc03f5b6d537afa06b153d294c07/docs/ROLLBACK_AND_REOBSERVATION_CONSTITUTION_v0_1.md"
+    },
+    {
+      "path": "specs/kuos_core_manifest_v0_1.yaml",
+      "git_blob_sha": "2cd73d2f9aae6bd5ea0818025bb7c2ffebdebcf9",
+      "url": "https://github.com/itakura-hidetoshi/KuuOS/blob/0e6987a4de0fbc03f5b6d537afa06b153d294c07/specs/kuos_core_manifest_v0_1.yaml"
+    },
+    {
+      "path": "docs/YINYANG_TO_WUXING_FUNCTIONAL_DIFFERENTIATION_v0_1.md",
+      "git_blob_sha": "63fae31f04e3f363b41e29f122aeabcc86806815",
+      "url": "https://github.com/itakura-hidetoshi/KuuOS/blob/0e6987a4de0fbc03f5b6d537afa06b153d294c07/docs/YINYANG_TO_WUXING_FUNCTIONAL_DIFFERENTIATION_v0_1.md"
+    },
+    {
+      "path": "docs/GPT_GITHUB_KUOS_INTEGRATION_v0_1.md",
+      "git_blob_sha": "d3e12023e4d77fe1b433a81daa95c097b04af6b4",
+      "url": "https://github.com/itakura-hidetoshi/KuuOS/blob/0e6987a4de0fbc03f5b6d537afa06b153d294c07/docs/GPT_GITHUB_KUOS_INTEGRATION_v0_1.md"
+    },
+    {
+      "path": "docs/KUOS_GITHUB_FORMAL_VERIFICATION_BRIDGE_v0_1.md",
+      "git_blob_sha": "7e39bad247c8c71a8eaf89bd09776d70e1d67118",
+      "url": "https://github.com/itakura-hidetoshi/KuuOS/blob/0e6987a4de0fbc03f5b6d537afa06b153d294c07/docs/KUOS_GITHUB_FORMAL_VERIFICATION_BRIDGE_v0_1.md"
+    },
+    {
+      "path": "COPYRIGHT.md",
+      "git_blob_sha": "113442ef1c6d0f4eea2c0a7e9ec96f2ea78823fa",
+      "url": "https://github.com/itakura-hidetoshi/KuuOS/blob/0e6987a4de0fbc03f5b6d537afa06b153d294c07/COPYRIGHT.md"
+    }
+  ],
+  "adaptation_sources": [
+    {
+      "kind": "maintainer_request",
+      "date": "2026-09-08",
+      "scope": "GPT-6でも空OSを利用すること。日本語優先、Reasoning Route、必要最小限の手続き。個別対話履歴は収録しない。"
+    }
+  ],
+  "model_guidance": [
+    {
+      "provider": "OpenAI",
+      "title": "Model guidance — Using GPT-6 Astra",
+      "url": "https://developers.openai.com/api/docs/guides/latest-model",
+      "retrieved_on": "2026-09-08",
+      "documented_api_model": "gpt-6-astra",
+      "scope": "公式資料で確認したIDと移行時の設定。アカウントでの利用可否や行動試験の証拠ではない。"
+    }
+  ],
+  "authority": {
+    "canonical_theorem_update": false,
+    "validation_branch_adoption": false,
+    "behavioral_test_pass_claim": false,
+    "automatic_promotion": false,
+    "base_model_transformation": false
+  },
+  "interpretation_limits": [
+    "道、理・気、礼、天人相関への具体的な対応は課題ごとの原典・設計資料で確認する。この追加は未読の個別仕様を再構成しない。",
+    "数学的なdescent・表現同値と、モデル移行での運用上の対応を区別する。",
+    "以前のMigration Protocolや事前検証報告の採用状態を変更しない。"
+  ],
+  "files": [
+    "docs/model_migration/BOOTSTRAP_JA.md",
+    "docs/model_migration/README.md",
+    "docs/model_migration/HANDOFF_TEMPLATE.json",
+    "docs/model_migration/INHERITANCE_TESTS.json",
+    "docs/model_migration/EVALUATION_TEMPLATE.json",
+    "docs/model_migration/SOURCE_MANIFEST.json",
+    "docs/model_migration/VALIDATION.md"
+  ],
+  "rights": "Copyright (c) 2026 Hidetoshi Itakura / 板倉英俊. Existing COPYRIGHT.md and LICENSE apply."
+}
+

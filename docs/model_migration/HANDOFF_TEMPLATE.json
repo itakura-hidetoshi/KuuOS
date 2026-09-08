@@ -1,0 +1,84 @@
+{
+  "schema_version": "kuuos.portable_handoff.v0.1",
+  "template_only": true,
+  "instructions": "このファイルは空のひな型。実データは利用者が指定した保存先で扱う。null・空配列は未提供を意味し、存在しないという断定ではない。",
+  "created_at": null,
+  "source_model": {
+    "reported_model": null,
+    "verified_model": null,
+    "evidence_ref": null
+  },
+  "target_model": {
+    "requested_family": "GPT-6",
+    "verified_model": null,
+    "evidence_ref": null
+  },
+  "source_lock": {
+    "bootstrap_commit": null,
+    "semantic_source_repository": "itakura-hidetoshi/KuuOS",
+    "semantic_source_commit": "0e6987a4de0fbc03f5b6d537afa06b153d294c07",
+    "observed_current_head": null,
+    "observed_at": null
+  },
+  "semantic_context": {
+    "bootstrap_path": "docs/model_migration/BOOTSTRAP_JA.md",
+    "loaded_source_refs": [],
+    "unread_source_refs": [],
+    "application_status": "not_loaded"
+  },
+  "relational_history": {
+    "coverage": "not_provided",
+    "user_preferences": [],
+    "active_goal": null,
+    "completion_criteria": [],
+    "decisions": [],
+    "corrections": [],
+    "rejected_options": [],
+    "unresolved_questions": [],
+    "latest_observation": null,
+    "next_action": null
+  },
+  "provenance_entry_shape": {
+    "claim": null,
+    "source_ref": null,
+    "observed_at": null,
+    "context": null,
+    "reason": null,
+    "supersedes": null,
+    "status": "unverified"
+  },
+  "work_state": {
+    "repository": null,
+    "branch": null,
+    "head_sha": null,
+    "base_sha": null,
+    "validation_evidence": [],
+    "known_blockers": [],
+    "protected_branches": []
+  },
+  "authorization_context": {
+    "instructions": "許可の存在は元の利用者指示・現在の権限で確認する。記録の読み込みだけでは新しい許可にならない。",
+    "source_refs": [],
+    "scope": null,
+    "existing_constraints": [],
+    "not_authorized": []
+  },
+  "rollback_scope": {
+    "previous_packet_ref": null,
+    "previous_settings_ref": null,
+    "external_effects": [],
+    "external_effects_reobserved": false
+  },
+  "evaluation": {
+    "record_ref": null,
+    "semantic_status": "not_evaluated",
+    "relational_history_status": "not_evaluated",
+    "retention_status": "not_evaluated"
+  },
+  "boundary": {
+    "automatic_memory_overwrite": false,
+    "automatic_canonical_promotion": false,
+    "base_model_change_claim": false
+  }
+}
+
