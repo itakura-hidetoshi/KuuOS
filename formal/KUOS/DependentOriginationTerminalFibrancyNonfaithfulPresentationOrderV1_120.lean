@@ -98,7 +98,7 @@ terminal-right predicate from v1.115. -/
 theorem standardABCPresentation_isFibrant_iff_standardABCFibrant
     (X : ScaledSSet.{u}) :
     isFibrant X standardABCPresentation ↔ IsStandardABCFibrant X := by
-  rw [isFibrant_iff]
+  rw [isFibrant_iff, generatedFibrationClass_standardABCPresentation]
   rfl
 
 /-- Quotient fibrancy at the canonical point is exactly attachment fibrancy. -/
@@ -115,6 +115,9 @@ theorem upperEnvelope_isFibrant_iff_standard_and_canonical
     isFibrant X standardCanonicalUpperEnvelope ↔
       IsStandardABCFibrant X ∧ IsAttachmentFibrant X := by
   rw [isFibrant_iff, generatedFibrationClass_upperEnvelope]
+  change
+    (IsStandardABCFibrant X ∧ IsAttachmentFibrant X) ↔
+      IsStandardABCFibrant X ∧ IsAttachmentFibrant X
   rfl
 
 /-- On terminal maps the standard factor in the upper-envelope intersection is
@@ -164,7 +167,7 @@ theorem fibrantObjectSemantics_canonical_eq_upperEnvelope :
 /-- Consequently terminal fibrant-object semantics is not injective on the
 presentation lattice. -/
 theorem fibrantObjectSemantics_not_injective :
-    ¬ Function.Injective (fibrantObjectSemantics (u := u)) := by
+    ¬ Function.Injective fibrantObjectSemantics.{u} := by
   intro hinj
   apply canonicalKuuOSPresentation_ne_upperEnvelope
   exact hinj fibrantObjectSemantics_canonical_eq_upperEnvelope
@@ -218,7 +221,7 @@ structure TerminalFibrancyNonfaithfulPresentationOrder : Prop where
           GeneratedScaledAnodynePresentation.{u}) =
       fibrantObjectSemantics standardCanonicalUpperEnvelope
   semanticsNotInjective :
-    ¬ Function.Injective (fibrantObjectSemantics (u := u))
+    ¬ Function.Injective fibrantObjectSemantics.{u}
   semanticsNotOrderReflecting :
     ¬ (∀ P Q : GeneratedScaledAnodynePresentation.{u},
       fibrantObjectSemantics Q ⊆ fibrantObjectSemantics P → P ≤ Q)
