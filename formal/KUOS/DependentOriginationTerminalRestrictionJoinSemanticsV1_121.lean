@@ -177,6 +177,7 @@ theorem isFibrant_sup_iff
       fullRightSemantics Q (ScaledSSet.toPoint X)) ↔
         isFibrant X P ∧ isFibrant X Q
   rw [isFibrant_iff, isFibrant_iff]
+  rfl
 
 /-- Set-valued fibrant-object semantics sends presentation joins to literal
 set intersection. -/
