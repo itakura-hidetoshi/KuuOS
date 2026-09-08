@@ -652,55 +652,75 @@ theorem typeAThreeOne_square_endpointTriangle_mem_horn
   have hsqmap := congrArg ScaledSSet.ScaledMap.map sq.w
   fin_cases endpoint
   · let a :=
-      (endpointIntoAttachment c.n c.i 0).app (op ⦋2⦌) x
+      (endpointIntoAttachment n i 0).app (op ⦋2⦌) x
     have hp :=
       ConcreteCategory.congr_hom (congr_app hsqmap (op ⦋2⦌)) a
     have hcyl :
         (scaledHornAttachmentGeneratorHom c).map.app (op ⦋2⦌) a =
-          (SSet.ι₀ : (Δ[c.n] : SSet.{u}) ⟶
-            (Δ[c.n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x := by
+          (SSet.ι₀ : (Δ[n] : SSet.{u}) ⟶
+            (Δ[n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x := by
+      change
+        (hornCylinderAttachment n i 0).ι.app (op ⦋2⦌)
+            ((endpointIntoAttachment n i 0).app (op ⦋2⦌) x) =
+          (SSet.ι₀ : (Δ[n] : SSet.{u}) ⟶
+            (Δ[n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x
       have h := ConcreteCategory.congr_hom
-        (congr_app (endpointIntoAttachment_ι_zero c.n c.i) (op ⦋2⦌)) x
-      simpa [a, c, scaledHornAttachmentGeneratorHom,
-        scaledHornCylinderAttachmentInclusion] using h
+        (congr_app (endpointIntoAttachment_ι_zero n i) (op ⦋2⦌)) x
+      change
+        (hornCylinderAttachment n i 0).ι.app (op ⦋2⦌)
+            ((endpointIntoAttachment n i 0).app (op ⦋2⦌) x) =
+          (SSet.ι₀ : (Δ[n] : SSet.{u}) ⟶
+            (Δ[n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x at h
+      exact h
     change
       (f.map.app (op ⦋2⦌) a).val =
         g.map.app (op ⦋2⦌)
           ((scaledHornAttachmentGeneratorHom c).map.app (op ⦋2⦌) a) at hp
     rw [hcyl] at hp
     have hmem := (f.map.app (op ⦋2⦌) a).property
-    change
-      g.map.app (op ⦋2⦌)
-          ((SSet.ι₀ : (Δ[c.n] : SSet.{u}) ⟶
-            (Δ[c.n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x) ∈
-        (SSet.horn 3 (1 : Fin 4)).obj (op ⦋2⦌)
-    rw [← hp]
-    exact hmem
+    have hendpoint :
+        g.map.app (op ⦋2⦌)
+            ((SSet.ι₀ : (Δ[n] : SSet.{u}) ⟶
+              (Δ[n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x) ∈
+          (SSet.horn 3 (1 : Fin 4)).obj (op ⦋2⦌) := by
+      rw [← hp]
+      exact hmem
+    simpa [c] using hendpoint
   · let a :=
-      (endpointIntoAttachment c.n c.i 1).app (op ⦋2⦌) x
+      (endpointIntoAttachment n i 1).app (op ⦋2⦌) x
     have hp :=
       ConcreteCategory.congr_hom (congr_app hsqmap (op ⦋2⦌)) a
     have hcyl :
         (scaledHornAttachmentGeneratorHom c).map.app (op ⦋2⦌) a =
-          (SSet.ι₁ : (Δ[c.n] : SSet.{u}) ⟶
-            (Δ[c.n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x := by
+          (SSet.ι₁ : (Δ[n] : SSet.{u}) ⟶
+            (Δ[n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x := by
+      change
+        (hornCylinderAttachment n i 1).ι.app (op ⦋2⦌)
+            ((endpointIntoAttachment n i 1).app (op ⦋2⦌) x) =
+          (SSet.ι₁ : (Δ[n] : SSet.{u}) ⟶
+            (Δ[n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x
       have h := ConcreteCategory.congr_hom
-        (congr_app (endpointIntoAttachment_ι_one c.n c.i) (op ⦋2⦌)) x
-      simpa [a, c, scaledHornAttachmentGeneratorHom,
-        scaledHornCylinderAttachmentInclusion] using h
+        (congr_app (endpointIntoAttachment_ι_one n i) (op ⦋2⦌)) x
+      change
+        (hornCylinderAttachment n i 1).ι.app (op ⦋2⦌)
+            ((endpointIntoAttachment n i 1).app (op ⦋2⦌) x) =
+          (SSet.ι₁ : (Δ[n] : SSet.{u}) ⟶
+            (Δ[n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x at h
+      exact h
     change
       (f.map.app (op ⦋2⦌) a).val =
         g.map.app (op ⦋2⦌)
           ((scaledHornAttachmentGeneratorHom c).map.app (op ⦋2⦌) a) at hp
     rw [hcyl] at hp
     have hmem := (f.map.app (op ⦋2⦌) a).property
-    change
-      g.map.app (op ⦋2⦌)
-          ((SSet.ι₁ : (Δ[c.n] : SSet.{u}) ⟶
-            (Δ[c.n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x) ∈
-        (SSet.horn 3 (1 : Fin 4)).obj (op ⦋2⦌)
-    rw [← hp]
-    exact hmem
+    have hendpoint :
+        g.map.app (op ⦋2⦌)
+            ((SSet.ι₁ : (Δ[n] : SSet.{u}) ⟶
+              (Δ[n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x) ∈
+          (SSet.horn 3 (1 : Fin 4)).obj (op ⦋2⦌) := by
+      rw [← hp]
+      exact hmem
+    simpa [c] using hendpoint
 
 /-! ## A canonical square can never create the missing face -/
 
@@ -927,7 +947,7 @@ theorem typeAThreeOne_not_hasLiftingProperty_self :
     change
       L.l.map ≫
           (Λ[3, (1 : Fin 4)].ι :
-            (Λ[3, (1 : Fin 4)] : SSet.{u}) ⟶ (Δ[3] : SSet.{u}) =
+            (Λ[3, (1 : Fin 4)] : SSet.{u}) ⟶ (Δ[3] : SSet.{u})) =
         𝟙 (Δ[3] : SSet.{u}) at hright
   let x := L.l.map.app (op ⦋3⦌)
     (typeAHigherTargetTopSimplex 2)
