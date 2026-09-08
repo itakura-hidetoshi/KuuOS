@@ -262,14 +262,17 @@ def hornUliftObjEquiv
   left_inv x := by
     apply ULift.ext
     apply Subtype.ext
-    exact congrArg ULift.down
-      (ConcreteCategory.congr_hom
-        ((stdSimplexUliftIso.{u} n).hom_inv_id_app J)
-        (ULift.up x.down.1))
+    change
+      ((stdSimplexUliftObjEquiv.{u} n J).symm
+        ((stdSimplexUliftObjEquiv.{u} n J)
+          (ULift.up x.down.1))).down = x.down.1
+    rw [Equiv.symm_apply_apply]
   right_inv x := by
     apply Subtype.ext
-    exact ConcreteCategory.congr_hom
-      ((stdSimplexUliftIso.{u} n).inv_hom_id_app J) x.1
+    change
+      (stdSimplexUliftObjEquiv.{u} n J)
+        ((stdSimplexUliftObjEquiv.{u} n J).symm x.1) = x.1
+    rw [Equiv.apply_symm_apply]
 
 /-- The horn degreewise equivalences are natural in the simplex degree. -/
 def hornUliftIso
@@ -371,7 +374,11 @@ theorem minimalScaling_iso_iff
       minimalScaling_iso_hom e.symm
         (e.hom.app (op ⦋2⦌) t) ht
     have hcancel :
-        e.inv.app (op ⦋2⦌) (e.hom.app (op ⦋2⦌) t) = t := by
+        e.symm.hom.app (op ⦋2⦌)
+            (e.hom.app (op ⦋2⦌) t) = t := by
+      change
+        e.inv.app (op ⦋2⦌)
+            (e.hom.app (op ⦋2⦌) t) = t
       exact ConcreteCategory.congr_hom
         (e.hom_inv_id_app (op ⦋2⦌)) t
     rw [hcancel] at hback
