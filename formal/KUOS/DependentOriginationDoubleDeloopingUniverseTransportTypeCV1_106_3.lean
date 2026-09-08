@@ -300,7 +300,11 @@ theorem standardTypeCSourceCarrierUliftIso_hom_inl (m : Nat) :
       (standardTypeCSourceCarrier_isPushout.{u} m)
   rw [← cancel_epi
     (hornUliftIso.{u} (m + 3) (0 : Fin (m + 4))).inv]
-  simpa [standardTypeCSourceNativeUliftInl, Category.assoc] using h
+  change
+    standardTypeCSourceNativeUliftInl.{u} m ≫
+      (standardTypeCSourceCarrierUliftIso.{u} m).hom =
+    standardTypeCSourceInl.{u} m
+  exact h
 
 /-- Source-apex identification on the point leg. -/
 theorem standardTypeCSourceCarrierUliftIso_hom_inr (m : Nat) :
@@ -316,7 +320,11 @@ theorem standardTypeCSourceCarrierUliftIso_hom_inr (m : Nat) :
       (standardTypeCSourceNativeSpanUlift_isPushout.{u} m)
       (standardTypeCSourceCarrier_isPushout.{u} m)
   rw [← cancel_epi (stdSimplexUliftIso.{u} 0).inv]
-  simpa [standardTypeCSourceNativeUliftInr, Category.assoc] using h
+  change
+    standardTypeCSourceNativeUliftInr.{u} m ≫
+      (standardTypeCSourceCarrierUliftIso.{u} m).hom =
+    standardTypeCSourceInr.{u} m
+  exact h
 
 /-- Target-apex identification on the simplex leg. -/
 theorem standardTypeCTargetCarrierUliftIso_hom_inl (m : Nat) :
@@ -332,7 +340,11 @@ theorem standardTypeCTargetCarrierUliftIso_hom_inl (m : Nat) :
       (standardTypeCTargetNativeSpanUlift_isPushout.{u} m)
       (standardTypeCTargetCarrier_isPushout.{u} m)
   rw [← cancel_epi (stdSimplexUliftIso.{u} (m + 3)).inv]
-  simpa [standardTypeCTargetNativeUliftInl, Category.assoc] using h
+  change
+    standardTypeCTargetNativeUliftInl.{u} m ≫
+      (standardTypeCTargetCarrierUliftIso.{u} m).hom =
+    standardTypeCTargetInl.{u} m
+  exact h
 
 /-- Target-apex identification on the point leg. -/
 theorem standardTypeCTargetCarrierUliftIso_hom_inr (m : Nat) :
@@ -348,7 +360,11 @@ theorem standardTypeCTargetCarrierUliftIso_hom_inr (m : Nat) :
       (standardTypeCTargetNativeSpanUlift_isPushout.{u} m)
       (standardTypeCTargetCarrier_isPushout.{u} m)
   rw [← cancel_epi (stdSimplexUliftIso.{u} 0).inv]
-  simpa [standardTypeCTargetNativeUliftInr, Category.assoc] using h
+  change
+    standardTypeCTargetNativeUliftInr.{u} m ≫
+      (standardTypeCTargetCarrierUliftIso.{u} m).hom =
+    standardTypeCTargetInr.{u} m
+  exact h
 
 /-! ## Distinguished triangle transport -/
 
@@ -466,8 +482,7 @@ theorem minimalPlusTriangleScaling_ulift_iso_iff
       have ht0 :
           t = (ULift.up t0 :
             ((SSet.uliftFunctor.{u, 0}).obj X).obj (op ⦋2⦌)) :=
-        CategoryTheory.Type.injective_of_mono
-          (e.hom.app (op ⦋2⦌)) heq'
+        (e.app (op ⦋2⦌)).toEquiv.injective heq'
       exact Or.inr (congrArg ULift.down ht0)
 
 /-- Lifted low-universe type-(C) source and native high-universe source are
@@ -633,7 +648,7 @@ theorem standardTypeCCarrierMap_ulift_commutes (m : Nat) :
           (standardTypeCSourceInl.{u} m ≫
             standardTypeCCarrierMap.{u} m) := by
             rw [standardTypeCCarrierMap_inl_horn.{u} m]
-            exact Category.assoc _ _ _
+            exact (Category.assoc _ _ _).symm
       _ =
         ((SSet.uliftFunctor.{u, 0}).map
               (standardTypeCSourceInl.{0} m) ≫
@@ -672,6 +687,7 @@ theorem standardTypeCCarrierMap_ulift_commutes (m : Nat) :
           (standardTypeCSourceInr.{u} m ≫
             standardTypeCCarrierMap.{u} m) := by
             rw [standardTypeCCarrierMap_inr_point.{u} m]
+            exact (Category.assoc _ _ _).symm
       _ =
         ((SSet.uliftFunctor.{u, 0}).map
               (standardTypeCSourceInr.{0} m) ≫
