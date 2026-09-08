@@ -26,7 +26,7 @@ noncomputable section
 # Universe transport for the concrete B²ℕ standard-right separator v1.106.1
 
 The concrete arithmetic separator proved in v1.95--v1.106 lives in universe
-zero.  This file begins the strictly structural transport needed to reuse that
+zero.  This file gives the structural transport needed to reuse that
 certificate in an arbitrary simplicial-set universe without rebuilding any of
 the B²ℕ cocycle arithmetic.
 
@@ -45,6 +45,7 @@ unique one preserving the underlying simplex-category morphism under
 /-! ## Pointwise ULift of scaled simplicial sets -/
 
 /-- Transport a scaling through the pointwise universe lift of its carrier. -/
+@[reducible]
 def uliftScaling
     {X : SSet.{0}}
     (sX : ScaledSimplicialSet X) :
@@ -87,38 +88,35 @@ def scaledUliftFunctor : ScaledSSet.{0} ⥤ ScaledSSet.{u} where
     apply ScaledSSet.ScaledMap.ext
     exact (SSet.uliftFunctor.{u, 0}).map_comp f.map g.map
 
+/-- The simplicial-set universe lift is fully faithful because it is the
+pointwise whiskering of the fully faithful universe lift on types. -/
+def ssetUliftFullyFaithful :
+    (SSet.uliftFunctor.{u, 0}).FullyFaithful := by
+  simpa only [SSet.uliftFunctor, SimplicialObject.whiskering] using
+    (CategoryTheory.fullyFaithfulULiftFunctor.{u, 0}.whiskeringRight
+      SimplexCategoryᵒᵖ)
+
 /-- A high-universe map between two lifted scaled objects has a unique
 low-universe preimage.  Scaledness descends because thinness was defined by
 `ULift.down`. -/
 def scaledUliftFullyFaithful :
     (scaledUliftFunctor.{u}).FullyFaithful where
   preimage {X Y} f :=
-    { map := (SSet.uliftFunctor.{u, 0}).preimage f.map
+    { map := (ssetUliftFullyFaithful.{u}).preimage f.map
       scaled := by
         intro t ht
-        have hf := f.scaled (ULift.up t) ht
         change
           Y.scaling.thin
-            ((f.map.app (op ⦋2⦌) (ULift.up t)).down) at hf
-        have hmap := congr_app
-          ((SSet.uliftFunctor.{u, 0}).map_preimage f.map)
-          (op ⦋2⦌)
-        have happ := ConcreteCategory.congr_hom hmap (ULift.up t)
-        have hdown := congrArg ULift.down happ
-        change
-          Y.scaling.thin
-            (((SSet.uliftFunctor.{u, 0}).preimage f.map).app
-              (op ⦋2⦌) t)
-        rw [hdown]
-        exact hf }
+            ((f.map.app (op ⦋2⦌) (ULift.up t)).down)
+        exact f.scaled (ULift.up t) ht }
   map_preimage := by
     intro X Y f
     apply ScaledSSet.ScaledMap.ext
-    exact (SSet.uliftFunctor.{u, 0}).map_preimage f.map
+    exact (ssetUliftFullyFaithful.{u}).map_preimage f.map
   preimage_map := by
     intro X Y f
     apply ScaledSSet.ScaledMap.ext
-    exact (SSet.uliftFunctor.{u, 0}).preimage_map f.map
+    exact (ssetUliftFullyFaithful.{u}).preimage_map f.map
 
 instance scaledUliftFunctor_full : (scaledUliftFunctor.{u}).Full :=
   (scaledUliftFullyFaithful.{u}).full
@@ -129,7 +127,7 @@ instance scaledUliftFunctor_faithful : (scaledUliftFunctor.{u}).Faithful :=
 /-! ## Lifting and thin-reflection transport -/
 
 /-- A fully faithful functor preserves a lifting property between maps in its
-image.  This is the only categorical fact needed to transport the low-universe
+image.  This is the categorical fact needed to transport the low-universe
 B²ℕ right-lifting certificate itself. -/
 theorem hasLiftingProperty_map_of_full_faithful
     {C : Type*} [Category* C]
@@ -165,11 +163,15 @@ theorem reflectsThinTwoSimplices_scaledUlift_map_iff
       ReflectsThinTwoSimplices f := by
   constructor
   · intro h σ hσ
-    have hs := h (ULift.up σ)
+    have hσhigh :
+        (scaledUliftObj.{u} Y).scaling.thin
+          (((scaledUliftFunctor.{u}).map f).map.app
+            (op ⦋2⦌) (ULift.up σ)) := by
+      change Y.scaling.thin (f.map.app (op ⦋2⦌) σ)
+      exact hσ
+    have hs := h (ULift.up σ) hσhigh
     change X.scaling.thin σ at hs
-    apply hs
-    change Y.scaling.thin (f.map.app (op ⦋2⦌) σ)
-    exact hσ
+    exact hs
   · intro h σ hσ
     change X.scaling.thin σ.down
     apply h σ.down
@@ -232,39 +234,42 @@ def hornUliftObjEquiv
       (Λ[n, i] : SSet.{u}).obj J where
   toFun x :=
     ⟨(stdSimplexUliftIso.{u} n).hom.app J (ULift.up x.down.1), by
-      rw [SSet.mem_horn_iff] at x.down.2 ⊢
+      have hx := x.down.2
+      rw [SSet.mem_horn_iff] at hx ⊢
       change
         Set.range
             (SSet.stdSimplex.objEquiv.{0} x.down.1).toOrderHom ∪ {i} ≠
-          Set.univ at x.down.2
+          Set.univ at hx
       change
         Set.range
             (SSet.stdSimplex.objEquiv.{0} x.down.1).toOrderHom ∪ {i} ≠
           Set.univ
-      exact x.down.2⟩
+      exact hx⟩
   invFun x :=
     ULift.up
       ⟨((stdSimplexUliftIso.{u} n).inv.app J x.1).down, by
-        rw [SSet.mem_horn_iff] at x.2 ⊢
+        have hx := x.2
+        rw [SSet.mem_horn_iff] at hx ⊢
         change
           Set.range
               (SSet.stdSimplex.objEquiv.{u} x.1).toOrderHom ∪ {i} ≠
-            Set.univ at x.2
+            Set.univ at hx
         change
           Set.range
               (SSet.stdSimplex.objEquiv.{u} x.1).toOrderHom ∪ {i} ≠
             Set.univ
-        exact x.2⟩
+        exact hx⟩
   left_inv x := by
     apply ULift.ext
     apply Subtype.ext
-    simpa using congrArg ULift.down
-      ((stdSimplexUliftIso.{u} n).inv_hom_id_app J (ULift.up x.down.1))
+    exact congrArg ULift.down
+      (ConcreteCategory.congr_hom
+        ((stdSimplexUliftIso.{u} n).hom_inv_id_app J)
+        (ULift.up x.down.1))
   right_inv x := by
     apply Subtype.ext
-    simpa using
-      ConcreteCategory.congr_hom
-        ((stdSimplexUliftIso.{u} n).hom_inv_id_app J) x.1
+    exact ConcreteCategory.congr_hom
+      ((stdSimplexUliftIso.{u} n).inv_hom_id_app J) x.1
 
 /-- The horn degreewise equivalences are natural in the simplex degree. -/
 def hornUliftIso
@@ -365,15 +370,24 @@ theorem minimalScaling_iso_iff
     have hback :=
       minimalScaling_iso_hom e.symm
         (e.hom.app (op ⦋2⦌) t) ht
-    simpa using hback
+    have hcancel :
+        e.inv.app (op ⦋2⦌) (e.hom.app (op ⦋2⦌) t) = t := by
+      exact ConcreteCategory.congr_hom
+        (e.hom_inv_id_app (op ⦋2⦌)) t
+    rw [hcancel] at hback
+    exact hback
 
 /-- Lift a carrier isomorphism to an isomorphism of scaled objects once both
 carrier directions are known to preserve thinness. -/
 def scaledIsoOfCarrierIso
     {X Y : ScaledSSet.{u}}
     (e : X.carrier ≅ Y.carrier)
-    (hhom : IsScaledMap X.scaling Y.scaling e.hom)
-    (hinv : IsScaledMap Y.scaling X.scaling e.inv) :
+    (hhom : ∀ t : X.carrier.obj (op ⦋2⦌),
+      X.scaling.thin t →
+        Y.scaling.thin (e.hom.app (op ⦋2⦌) t))
+    (hinv : ∀ t : Y.carrier.obj (op ⦋2⦌),
+      Y.scaling.thin t →
+        X.scaling.thin (e.inv.app (op ⦋2⦌) t)) :
     X ≅ Y where
   hom := ⟨e.hom, hhom⟩
   inv := ⟨e.inv, hinv⟩
