@@ -309,10 +309,10 @@ def standardCanonicalOrthogonalityDiamond :
 canonical fibrant-object semantics is strictly contained in standard A/B/C
 fibrant-object semantics. -/
 theorem standardCanonical_finalSemanticProfile :
-    StandardCanonicalOrthogonalityDiamond ∧
-      ((∀ X : ScaledSSet,
+    StandardCanonicalOrthogonalityDiamond.{u} ∧
+      ((∀ X : ScaledSSet.{u},
           IsAttachmentFibrant X → IsStandardABCFibrant X) ∧
-        (∃ X : ScaledSSet,
+        (∃ X : ScaledSSet.{0},
           IsStandardABCFibrant X ∧ ¬ IsAttachmentFibrant X)) := by
   exact ⟨standardCanonicalOrthogonalityDiamond,
     canonicalFibrantObjects_strictlyContainedIn_standardABCFibrantObjects⟩
