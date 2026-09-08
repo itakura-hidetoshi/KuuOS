@@ -4,6 +4,7 @@ import Mathlib.Order.CompleteLattice.Lemmas
 namespace KUOS.DependentOriginationTerminalFibrancyNonfaithfulPresentationOrderV1_120
 
 open CategoryTheory
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationScaledAnodyneWFSUniversalityV1_43
 open KUOS.DependentOriginationStandardTypeCCollapsedEdgeV1_58
