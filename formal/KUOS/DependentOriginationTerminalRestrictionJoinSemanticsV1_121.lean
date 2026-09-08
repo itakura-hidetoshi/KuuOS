@@ -4,6 +4,7 @@ import Mathlib.Order.CompleteLattice.Lemmas
 namespace KUOS.DependentOriginationTerminalRestrictionJoinSemanticsV1_121
 
 open CategoryTheory
+open KUOS.DependentOriginationScaledTerminalRLPV1_41
 open KUOS.DependentOriginationScaledAnodyneGeneratorClosureV1_42
 open KUOS.DependentOriginationGeneratedPresentationQuotientInvariantV1_81
 open KUOS.DependentOriginationGeneratedPresentationPosetalReflectionV1_83
@@ -105,7 +106,7 @@ theorem fullRightSemantics_eq_iff
 
 /-- In particular the full right semantic coordinate is injective. -/
 theorem fullRightSemantics_injective :
-    Function.Injective (fullRightSemantics (u := u)) := by
+    Function.Injective fullRightSemantics.{u} := by
   intro P Q h
   exact (fullRightSemantics_eq_iff P Q).1 h
 
@@ -261,7 +262,7 @@ theorem terminalRestriction_canonical_eq_upperEnvelope :
 is not caused by the presentation-to-right-class coordinate, but by forgetting
 all nonterminal morphisms. -/
 theorem terminalRestriction_not_injective :
-    ¬ Function.Injective (terminalRestriction (u := u)) := by
+    ¬ Function.Injective terminalRestriction.{u} := by
   intro hinj
   apply fullRightSemantics_canonical_ne_upperEnvelope
   exact hinj terminalRestriction_canonical_eq_upperEnvelope
@@ -300,7 +301,7 @@ coordinate; fibrant semantics is its terminal restriction; joins become
 intersections; and the restriction is the precise non-faithful step. -/
 structure TerminalRestrictionJoinSemantics : Prop where
   fullRightFaithful :
-    Function.Injective (fullRightSemantics (u := u))
+    Function.Injective fullRightSemantics.{u}
   fullRightOrderReflection :
     ∀ P Q : GeneratedScaledAnodynePresentation.{u},
       P ≤ Q ↔ fullRightSemantics Q ≤ fullRightSemantics P
@@ -316,7 +317,7 @@ structure TerminalRestrictionJoinSemantics : Prop where
       fibrantObjectSemantics (P ⊔ Q) =
         fibrantObjectSemantics P ∩ fibrantObjectSemantics Q
   restrictionNotInjective :
-    ¬ Function.Injective (terminalRestriction (u := u))
+    ¬ Function.Injective terminalRestriction.{u}
   restrictionNotOrderReflecting :
     ¬ (∀ R S : MorphismProperty (ScaledSSet.{u}),
       terminalRestriction R ⊆ terminalRestriction S → R ≤ S)
@@ -350,8 +351,8 @@ theorem terminalRestriction_identifies_distinct_fullRightSemantics :
 /-- The exact information-flow statement: the full right coordinate remains
 faithful, and non-faithfulness appears only after terminal restriction. -/
 theorem terminalRestriction_is_information_loss_locus :
-    Function.Injective (fullRightSemantics (u := u)) ∧
-      (¬ Function.Injective (terminalRestriction (u := u))) ∧
+    Function.Injective fullRightSemantics.{u} ∧
+      (¬ Function.Injective terminalRestriction.{u}) ∧
       (∃ R S : MorphismProperty (ScaledSSet.{u}),
         R ≠ S ∧ terminalRestriction R = terminalRestriction S) := by
   exact ⟨fullRightSemantics_injective,
