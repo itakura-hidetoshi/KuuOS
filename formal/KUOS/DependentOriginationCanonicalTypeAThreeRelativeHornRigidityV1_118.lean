@@ -657,7 +657,7 @@ theorem typeAThreeOne_square_endpointTriangle_mem_horn
       ConcreteCategory.congr_hom (congr_app hsqmap (op ⦋2⦌)) a
     have hcyl :
         (scaledHornAttachmentGeneratorHom c).map.app (op ⦋2⦌) a =
-          (ι₀ : (Δ[c.n] : SSet.{u}) ⟶
+          (SSet.ι₀ : (Δ[c.n] : SSet.{u}) ⟶
             (Δ[c.n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x := by
       have h := ConcreteCategory.congr_hom
         (congr_app (endpointIntoAttachment_ι_zero c.n c.i) (op ⦋2⦌)) x
@@ -671,7 +671,7 @@ theorem typeAThreeOne_square_endpointTriangle_mem_horn
     have hmem := (f.map.app (op ⦋2⦌) a).property
     change
       g.map.app (op ⦋2⦌)
-          ((ι₀ : (Δ[c.n] : SSet.{u}) ⟶
+          ((SSet.ι₀ : (Δ[c.n] : SSet.{u}) ⟶
             (Δ[c.n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x) ∈
         (SSet.horn 3 (1 : Fin 4)).obj (op ⦋2⦌)
     rw [← hp]
@@ -682,7 +682,7 @@ theorem typeAThreeOne_square_endpointTriangle_mem_horn
       ConcreteCategory.congr_hom (congr_app hsqmap (op ⦋2⦌)) a
     have hcyl :
         (scaledHornAttachmentGeneratorHom c).map.app (op ⦋2⦌) a =
-          (ι₁ : (Δ[c.n] : SSet.{u}) ⟶
+          (SSet.ι₁ : (Δ[c.n] : SSet.{u}) ⟶
             (Δ[c.n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x := by
       have h := ConcreteCategory.congr_hom
         (congr_app (endpointIntoAttachment_ι_one c.n c.i) (op ⦋2⦌)) x
@@ -696,7 +696,7 @@ theorem typeAThreeOne_square_endpointTriangle_mem_horn
     have hmem := (f.map.app (op ⦋2⦌) a).property
     change
       g.map.app (op ⦋2⦌)
-          ((ι₁ : (Δ[c.n] : SSet.{u}) ⟶
+          ((SSet.ι₁ : (Δ[c.n] : SSet.{u}) ⟶
             (Δ[c.n] : SSet.{u}) ⊗ Δ[1]).app (op ⦋2⦌) x) ∈
         (SSet.horn 3 (1 : Fin 4)).obj (op ⦋2⦌)
     rw [← hp]
@@ -927,7 +927,7 @@ theorem typeAThreeOne_not_hasLiftingProperty_self :
     change
       L.l.map ≫
           (Λ[3, (1 : Fin 4)].ι :
-            (Λ[3, (1 : Fin 4)] : SSet.{u}) ⟶ (Δ[3] : SSet.{u})) =
+            (Λ[3, (1 : Fin 4)] : SSet.{u}) ⟶ (Δ[3] : SSet.{u}) =
         𝟙 (Δ[3] : SSet.{u}) at hright
   let x := L.l.map.app (op ⦋3⦌)
     (typeAHigherTargetTopSimplex 2)
