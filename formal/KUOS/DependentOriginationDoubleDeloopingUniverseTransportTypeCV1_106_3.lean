@@ -647,14 +647,13 @@ theorem standardTypeCCarrierMap_ulift_commutes (m : Nat) :
         (hornUliftIso.{u} (m + 3) (0 : Fin (m + 4))).hom ≫
           (standardTypeCSourceInl.{u} m ≫
             standardTypeCCarrierMap.{u} m) := by
-            rw [standardTypeCCarrierMap_inl_horn.{u} m]
-            exact (Category.assoc _ _ _).symm
+            simp only [standardTypeCCarrierMap_inl_horn, Category.assoc]
       _ =
         ((SSet.uliftFunctor.{u, 0}).map
               (standardTypeCSourceInl.{0} m) ≫
             (standardTypeCSourceCarrierUliftIso.{u} m).hom) ≫
           standardTypeCCarrierMap.{u} m := by
-            rw [standardTypeCSourceCarrierUliftIso_hom_inl.{u} m]
+            simp only [standardTypeCSourceCarrierUliftIso_hom_inl, Category.assoc]
       _ =
         (SSet.uliftFunctor.{u, 0}).map
             (standardTypeCSourceInl.{0} m) ≫
@@ -687,13 +686,12 @@ theorem standardTypeCCarrierMap_ulift_commutes (m : Nat) :
           (standardTypeCSourceInr.{u} m ≫
             standardTypeCCarrierMap.{u} m) := by
             rw [standardTypeCCarrierMap_inr_point.{u} m]
-            exact (Category.assoc _ _ _).symm
       _ =
         ((SSet.uliftFunctor.{u, 0}).map
               (standardTypeCSourceInr.{0} m) ≫
             (standardTypeCSourceCarrierUliftIso.{u} m).hom) ≫
           standardTypeCCarrierMap.{u} m := by
-            rw [standardTypeCSourceCarrierUliftIso_hom_inr.{u} m]
+            simp only [standardTypeCSourceCarrierUliftIso_hom_inr, Category.assoc]
       _ =
         (SSet.uliftFunctor.{u, 0}).map
             (standardTypeCSourceInr.{0} m) ≫
