@@ -34,6 +34,17 @@ distinguished triangle.  The resulting arrow isomorphism transports the
 right-lifting property with Mathlib's arrow-isomorphism API.
 -/
 
+/-- Pointwise universe lift of simplicial sets preserves walking-span
+colimits, because Type-level `ULift` preserves arbitrary colimits and
+functor-category colimits are computed pointwise. -/
+noncomputable instance ssetUlift_preservesWalkingSpan :
+    PreservesColimitsOfShape WalkingSpan (SSet.uliftFunctor.{u, 0}) := by
+  simpa only [SSet.uliftFunctor, SimplicialObject.whiskering] using
+    (inferInstance :
+      PreservesColimitsOfShape WalkingSpan
+        ((Functor.whiskeringRight SimplexCategoryᵒᵖ (Type 0) (Type u)).obj
+          CategoryTheory.uliftFunctor.{u, 0}))
+
 /-! ## The collapsed edge face -/
 
 /-- Degreewise identification of the lifted low-universe edge face with the
@@ -283,6 +294,8 @@ theorem standardTypeCSourceCarrierUliftIso_hom_inl (m : Nat) :
       standardTypeCSourceInl.{u} m := by
   have h :=
     IsPushout.inl_isoIsPushout_hom
+      (SSet.horn (m + 3) (0 : Fin (m + 4)) : SSet.{u})
+      (Δ[0] : SSet.{u})
       (standardTypeCSourceNativeSpanUlift_isPushout.{u} m)
       (standardTypeCSourceCarrier_isPushout.{u} m)
   rw [← cancel_epi
@@ -298,6 +311,8 @@ theorem standardTypeCSourceCarrierUliftIso_hom_inr (m : Nat) :
       standardTypeCSourceInr.{u} m := by
   have h :=
     IsPushout.inr_isoIsPushout_hom
+      (SSet.horn (m + 3) (0 : Fin (m + 4)) : SSet.{u})
+      (Δ[0] : SSet.{u})
       (standardTypeCSourceNativeSpanUlift_isPushout.{u} m)
       (standardTypeCSourceCarrier_isPushout.{u} m)
   rw [← cancel_epi (stdSimplexUliftIso.{u} 0).inv]
@@ -312,6 +327,8 @@ theorem standardTypeCTargetCarrierUliftIso_hom_inl (m : Nat) :
       standardTypeCTargetInl.{u} m := by
   have h :=
     IsPushout.inl_isoIsPushout_hom
+      (Δ[m + 3] : SSet.{u})
+      (Δ[0] : SSet.{u})
       (standardTypeCTargetNativeSpanUlift_isPushout.{u} m)
       (standardTypeCTargetCarrier_isPushout.{u} m)
   rw [← cancel_epi (stdSimplexUliftIso.{u} (m + 3)).inv]
@@ -326,12 +343,26 @@ theorem standardTypeCTargetCarrierUliftIso_hom_inr (m : Nat) :
       standardTypeCTargetInr.{u} m := by
   have h :=
     IsPushout.inr_isoIsPushout_hom
+      (Δ[m + 3] : SSet.{u})
+      (Δ[0] : SSet.{u})
       (standardTypeCTargetNativeSpanUlift_isPushout.{u} m)
       (standardTypeCTargetCarrier_isPushout.{u} m)
   rw [← cancel_epi (stdSimplexUliftIso.{u} 0).inv]
   simpa [standardTypeCTargetNativeUliftInr, Category.assoc] using h
 
 /-! ## Distinguished triangle transport -/
+
+/-- Pointwise `ULift` on a simplicial morphism acts by `ULift.up` on each
+simplex. -/
+@[simp]
+theorem ssetUlift_map_app_up
+    {X Y : SSet.{0}}
+    (f : X ⟶ Y)
+    (J : SimplexCategoryᵒᵖ)
+    (x : X.obj J) :
+    ((SSet.uliftFunctor.{u, 0}).map f).app J (ULift.up x) =
+      ULift.up (f.app J x) := by
+  rfl
 
 /-- The canonical simplex universe isomorphism carries the low `01n` triangle
 to the native high one. -/
@@ -393,7 +424,9 @@ theorem minimalPlusTriangleScaling_ulift_iso_iff
     (e : (SSet.uliftFunctor.{u, 0}).obj X ≅ Y)
     (t0 : X.obj (op ⦋2⦌))
     (t1 : Y.obj (op ⦋2⦌))
-    (hdist : e.hom.app (op ⦋2⦌) (ULift.up t0) = t1)
+    (hdist : e.hom.app (op ⦋2⦌)
+        (ULift.up t0 :
+          ((SSet.uliftFunctor.{u, 0}).obj X).obj (op ⦋2⦌)) = t1)
     (t : ((SSet.uliftFunctor.{u, 0}).obj X).obj (op ⦋2⦌)) :
     (uliftScaling (minimalPlusTriangleScaling t0)).thin t ↔
       (minimalPlusTriangleScaling t1).thin
@@ -410,10 +443,12 @@ theorem minimalPlusTriangleScaling_ulift_iso_iff
             ((SSet.uliftFunctor.{u, 0}).obj X)).thin t :=
         (uliftScaling_minimal_iff t).1 hmin
       exact Or.inl ((minimalScaling_iso_iff e t).1 hLift)
-    · have ht0 : t = ULift.up t0 := by
+    · have ht0 :
+          t = (ULift.up t0 :
+            ((SSet.uliftFunctor.{u, 0}).obj X).obj (op ⦋2⦌)) := by
         apply ULift.ext
         exact heq
-      subst t
+      rw [ht0]
       exact Or.inr hdist
   · intro ht
     rcases ht with hmin | heq
@@ -424,20 +459,15 @@ theorem minimalPlusTriangleScaling_ulift_iso_iff
       exact Or.inl ((uliftScaling_minimal_iff t).2 hLift)
     · have heq' :
           e.hom.app (op ⦋2⦌) t =
-            e.hom.app (op ⦋2⦌) (ULift.up t0) := by
+            e.hom.app (op ⦋2⦌)
+              (ULift.up t0 :
+                ((SSet.uliftFunctor.{u, 0}).obj X).obj (op ⦋2⦌)) := by
         rw [heq, hdist]
-      have ht0 : t = ULift.up t0 := by
-        calc
-          t = e.inv.app (op ⦋2⦌)
-                (e.hom.app (op ⦋2⦌) t) := by
-              exact (ConcreteCategory.congr_hom
-                (e.hom_inv_id_app (op ⦋2⦌)) t).symm
-          _ = e.inv.app (op ⦋2⦌)
-                (e.hom.app (op ⦋2⦌) (ULift.up t0)) :=
-              congrArg (e.inv.app (op ⦋2⦌)) heq'
-          _ = ULift.up t0 := by
-              exact ConcreteCategory.congr_hom
-                (e.hom_inv_id_app (op ⦋2⦌)) (ULift.up t0)
+      have ht0 :
+          t = (ULift.up t0 :
+            ((SSet.uliftFunctor.{u, 0}).obj X).obj (op ⦋2⦌)) :=
+        CategoryTheory.Type.injective_of_mono
+          (e.hom.app (op ⦋2⦌)) heq'
       exact Or.inr (congrArg ULift.down ht0)
 
 /-- Lifted low-universe type-(C) source and native high-universe source are
@@ -449,11 +479,14 @@ def standardTypeCSourceUliftIso (m : Nat) :
     (standardTypeCSourceCarrierUliftIso.{u} m) ?_ ?_
   · intro t ht
     change
-      (uliftScaling (standardTypeCSourceScaling.{0} m)).thin t at ht
+      (uliftScaling
+        (minimalPlusTriangleScaling
+          (standardTypeCSourceDistinguishedTriangle.{0} m))).thin t at ht
     change
-      (standardTypeCSourceScaling.{u} m).thin
-        ((standardTypeCSourceCarrierUliftIso.{u} m).hom.app
-          (op ⦋2⦌) t)
+      (minimalPlusTriangleScaling
+        (standardTypeCSourceDistinguishedTriangle.{u} m)).thin
+          ((standardTypeCSourceCarrierUliftIso.{u} m).hom.app
+            (op ⦋2⦌) t)
     exact
       (minimalPlusTriangleScaling_ulift_iso_iff
         (standardTypeCSourceCarrierUliftIso.{u} m)
@@ -462,11 +495,15 @@ def standardTypeCSourceUliftIso (m : Nat) :
         (standardTypeCSourceCarrierUliftIso_hom_distinguished.{u} m)
         t).1 ht
   · intro t ht
-    change (standardTypeCSourceScaling.{u} m).thin t at ht
     change
-      (uliftScaling (standardTypeCSourceScaling.{0} m)).thin
-        ((standardTypeCSourceCarrierUliftIso.{u} m).inv.app
-          (op ⦋2⦌) t)
+      (minimalPlusTriangleScaling
+        (standardTypeCSourceDistinguishedTriangle.{u} m)).thin t at ht
+    change
+      (uliftScaling
+        (minimalPlusTriangleScaling
+          (standardTypeCSourceDistinguishedTriangle.{0} m))).thin
+            ((standardTypeCSourceCarrierUliftIso.{u} m).inv.app
+              (op ⦋2⦌) t)
     apply
       (minimalPlusTriangleScaling_ulift_iso_iff
         (standardTypeCSourceCarrierUliftIso.{u} m)
@@ -486,11 +523,14 @@ def standardTypeCTargetUliftIso (m : Nat) :
     (standardTypeCTargetCarrierUliftIso.{u} m) ?_ ?_
   · intro t ht
     change
-      (uliftScaling (standardTypeCTargetScaling.{0} m)).thin t at ht
+      (uliftScaling
+        (minimalPlusTriangleScaling
+          (standardTypeCTargetDistinguishedTriangle.{0} m))).thin t at ht
     change
-      (standardTypeCTargetScaling.{u} m).thin
-        ((standardTypeCTargetCarrierUliftIso.{u} m).hom.app
-          (op ⦋2⦌) t)
+      (minimalPlusTriangleScaling
+        (standardTypeCTargetDistinguishedTriangle.{u} m)).thin
+          ((standardTypeCTargetCarrierUliftIso.{u} m).hom.app
+            (op ⦋2⦌) t)
     exact
       (minimalPlusTriangleScaling_ulift_iso_iff
         (standardTypeCTargetCarrierUliftIso.{u} m)
@@ -499,11 +539,15 @@ def standardTypeCTargetUliftIso (m : Nat) :
         (standardTypeCTargetCarrierUliftIso_hom_distinguished.{u} m)
         t).1 ht
   · intro t ht
-    change (standardTypeCTargetScaling.{u} m).thin t at ht
     change
-      (uliftScaling (standardTypeCTargetScaling.{0} m)).thin
-        ((standardTypeCTargetCarrierUliftIso.{u} m).inv.app
-          (op ⦋2⦌) t)
+      (minimalPlusTriangleScaling
+        (standardTypeCTargetDistinguishedTriangle.{u} m)).thin t at ht
+    change
+      (uliftScaling
+        (minimalPlusTriangleScaling
+          (standardTypeCTargetDistinguishedTriangle.{0} m))).thin
+            ((standardTypeCTargetCarrierUliftIso.{u} m).inv.app
+              (op ⦋2⦌) t)
     apply
       (minimalPlusTriangleScaling_ulift_iso_iff
         (standardTypeCTargetCarrierUliftIso.{u} m)
@@ -564,7 +608,7 @@ theorem standardTypeCCarrierMap_ulift_commutes (m : Nat) :
             (SSet.uliftFunctor.{u, 0}).map
               (standardTypeCCarrierMap.{0} m)) ≫
           (standardTypeCTargetCarrierUliftIso.{u} m).hom := by
-            simp only [Category.assoc]
+            exact (Category.assoc _ _ _).symm
       _ =
         ((SSet.uliftFunctor.{u, 0}).map
               ((SSet.horn.{0} (m + 3) (0 : Fin (m + 4))).ι) ≫
@@ -583,13 +627,13 @@ theorem standardTypeCCarrierMap_ulift_commutes (m : Nat) :
         ((hornUliftIso.{u} (m + 3) (0 : Fin (m + 4))).hom ≫
             (SSet.horn.{u} (m + 3) (0 : Fin (m + 4))).ι) ≫
           standardTypeCTargetInl.{u} m := by
-            rw [Category.assoc, ← hornUliftIso_hom_ι.{u}]
+            rw [← Category.assoc, ← hornUliftIso_hom_ι.{u}]
       _ =
         (hornUliftIso.{u} (m + 3) (0 : Fin (m + 4))).hom ≫
           (standardTypeCSourceInl.{u} m ≫
             standardTypeCCarrierMap.{u} m) := by
             rw [standardTypeCCarrierMap_inl_horn.{u} m]
-            simp only [Category.assoc]
+            exact Category.assoc _ _ _
       _ =
         ((SSet.uliftFunctor.{u, 0}).map
               (standardTypeCSourceInl.{0} m) ≫
@@ -601,7 +645,7 @@ theorem standardTypeCCarrierMap_ulift_commutes (m : Nat) :
             (standardTypeCSourceInl.{0} m) ≫
           ((standardTypeCSourceCarrierUliftIso.{u} m).hom ≫
             standardTypeCCarrierMap.{u} m) := by
-            simp only [Category.assoc]
+            exact Category.assoc _ _ _
   · calc
       (SSet.uliftFunctor.{u, 0}).map
             (standardTypeCSourceInr.{0} m) ≫
@@ -613,7 +657,7 @@ theorem standardTypeCCarrierMap_ulift_commutes (m : Nat) :
             (SSet.uliftFunctor.{u, 0}).map
               (standardTypeCCarrierMap.{0} m)) ≫
           (standardTypeCTargetCarrierUliftIso.{u} m).hom := by
-            simp only [Category.assoc]
+            exact (Category.assoc _ _ _).symm
       _ =
         (SSet.uliftFunctor.{u, 0}).map
               (standardTypeCTargetInr.{0} m) ≫
@@ -639,7 +683,7 @@ theorem standardTypeCCarrierMap_ulift_commutes (m : Nat) :
             (standardTypeCSourceInr.{0} m) ≫
           ((standardTypeCSourceCarrierUliftIso.{u} m).hom ≫
             standardTypeCCarrierMap.{u} m) := by
-            simp only [Category.assoc]
+            exact Category.assoc _ _ _
 
 /-- The lifted low-universe type-(C) generator is isomorphic, as an arrow, to
 the native high-universe type-(C) generator. -/
