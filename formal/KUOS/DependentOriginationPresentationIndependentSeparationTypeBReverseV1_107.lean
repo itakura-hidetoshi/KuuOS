@@ -1,6 +1,7 @@
 import KUOS.DependentOriginationCanonicalEndpointLeibnizEpiDescentV1_82
 import KUOS.DependentOriginationCanonicalAttachmentScalingObstructionRetractV1_88
 import KUOS.DependentOriginationDoubleDeloopingTypeCTerminalRLPStandardRightV1_106
+import KUOS.DependentOriginationDoubleDeloopingUniverseTransportTypeCV1_106_3
 
 namespace KUOS.DependentOriginationPresentationIndependentSeparationTypeBReverseV1_107
 
@@ -22,6 +23,9 @@ open KUOS.DependentOriginationCanonicalFibrancyAtomicTwoSimplexAuditV1_91
 open KUOS.DependentOriginationCanonicalFibrationThinReflectionV1_92
 open KUOS.DependentOriginationDoubleDeloopingNatNonthinDuskinWitnessV1_95
 open KUOS.DependentOriginationDoubleDeloopingTypeCTerminalRLPStandardRightV1_106
+open KUOS.DependentOriginationDoubleDeloopingUniverseTransportV1_106_1
+open KUOS.DependentOriginationDoubleDeloopingUniverseTransportTypeABV1_106_2
+open KUOS.DependentOriginationDoubleDeloopingUniverseTransportTypeCV1_106_3
 open KUOS.DependentOriginationStandardABCPositiveCanonicalResidualSplitV1_79
 
 universe u
@@ -105,18 +109,73 @@ def atomicNatOrthogonalitySeparator : AtomicNatOrthogonalitySeparator where
   notOrthogonal :=
     atomicTwoSimplexEnrichment_not_hasLiftingProperty_natDoubleDeloopingTerminal
 
-/-- The same one pair directly proves that the canonical generated left class
-is not contained in the standard generated left class. -/
+/-- The universe lift of the `B²ℕ` terminal map is right orthogonal to every
+native standard A/B/C generator in an arbitrary universe. -/
+theorem natDoubleDelooping_ulift_standardABC_generators_rlp :
+    (standardScaledAnodyneGeneratorsABC :
+      MorphismProperty (ScaledSSet.{u})).rlp
+      ((scaledUliftFunctor.{u}).map
+        (ScaledSSet.toPoint.{0} natDoubleDeloopingScaledDuskin)) := by
+  intro X Y i hi
+  rcases hi with (hiA | hiB) | hiC
+  · dsimp [standardTypeAScaledHornGenerators] at hiA
+    cases hiA with
+    | mk g =>
+        apply hasLiftingProperty_standardTypeA_ulift.{u}
+          g (ScaledSSet.toPoint.{0} natDoubleDeloopingScaledDuskin)
+        exact natDoubleDelooping_standardABC_generators_rlp
+          (standardTypeAScaledHornGeneratorHom.{0} g)
+          (Or.inl (Or.inl (MorphismProperty.ofHoms.mk g)))
+  · dsimp [standardTypeBScaledAnodyneGenerators] at hiB
+    cases hiB with
+    | mk unitIndex =>
+        cases unitIndex
+        apply hasLiftingProperty_standardTypeB_ulift.{u}
+          (ScaledSSet.toPoint.{0} natDoubleDeloopingScaledDuskin)
+        exact natDoubleDelooping_standardABC_generators_rlp
+          standardTypeBGeneratorHom.{0}
+          (Or.inl (Or.inr (MorphismProperty.ofHoms.mk ())))
+  · dsimp [standardTypeCScaledAnodyneGenerators] at hiC
+    cases hiC with
+    | mk m =>
+        apply hasLiftingProperty_standardTypeC_ulift.{u}
+          m (ScaledSSet.toPoint.{0} natDoubleDeloopingScaledDuskin)
+        exact natDoubleDelooping_standardABC_generators_rlp
+          (standardTypeCGeneratorHom.{0} m)
+          (Or.inr (MorphismProperty.ofHoms.mk m))
+
+/-- Universe lift preserves the concrete failure of thin-two-simplex
+reflection. -/
+theorem natDoubleDelooping_ulift_terminal_not_reflectsThinTwoSimplices :
+    ¬ ReflectsThinTwoSimplices
+      ((scaledUliftFunctor.{u}).map
+        (ScaledSSet.toPoint.{0} natDoubleDeloopingScaledDuskin)) := by
+  intro hhigh
+  exact natDoubleDelooping_terminal_not_reflectsThinTwoSimplices
+    ((reflectsThinTwoSimplices_scaledUlift_map_iff
+      (ScaledSSet.toPoint.{0} natDoubleDeloopingScaledDuskin)).1 hhigh)
+
+/-- The concrete separator transports through the fully faithful universe lift,
+so in every universe the canonical generated left class is not contained in
+the standard generated left class. -/
 theorem canonicalGenerated_not_le_standardGenerated :
-    ¬ (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{0})) ≤
-      (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{0})) := by
+    ¬ (canonicalGeneratedScaledAnodyne : MorphismProperty (ScaledSSet.{u})) ≤
+      (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{u})) := by
   intro hle
   have hstdLeft :
-      (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{0}))
-        atomicTwoSimplexEnrichment.{0} :=
-    hle _ atomicNatOrthogonalitySeparator.canonicalLeft
-  exact atomicNatOrthogonalitySeparator.notOrthogonal
-    (hstdLeft _ atomicNatOrthogonalitySeparator.standardRight)
+      (standardGeneratedScaledAnodyneABC : MorphismProperty (ScaledSSet.{u}))
+        atomicTwoSimplexEnrichment.{u} :=
+    hle _ atomicTwoSimplexEnrichment_mem_canonicalGenerated.{u}
+  have horth :
+      HasLiftingProperty
+        atomicTwoSimplexEnrichment.{u}
+        ((scaledUliftFunctor.{u}).map
+          (ScaledSSet.toPoint.{0} natDoubleDeloopingScaledDuskin)) :=
+    hstdLeft _ natDoubleDelooping_ulift_standardABC_generators_rlp
+  exact natDoubleDelooping_ulift_terminal_not_reflectsThinTwoSimplices
+    ((atomicTwoSimplexRLP_iff_reflectsThinTwoSimplices
+      ((scaledUliftFunctor.{u}).map
+        (ScaledSSet.toPoint.{0} natDoubleDeloopingScaledDuskin))).1 horth)
 
 /-! ## Quotient-level thin-reflection invariant -/
 
