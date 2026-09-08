@@ -66,7 +66,7 @@ variance correction into the double-opposite category used by the localized
 stack semantics. -/
 def higherPresentationUnitFunctor :
     Context ⥤ (HigherLocalizedSite W)ᵒᵖ :=
-  W.Q ⋙ unopUnop (LocalizedContext W)
+  W.Q ⋙ opOp (LocalizedContext W)
 
 /-- Restrict a localized Cat-valued contextual system back to the raw context
 category along the canonical presentation unit. -/
