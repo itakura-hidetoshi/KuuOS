@@ -1,364 +1,517 @@
 # KuuOS / 空OS Roadmap
 
-**Baseline: 2026-09-04 JST**
+**Baseline: 2026-09-10 JST**
 
-This roadmap separates four kinds of authority:
+This roadmap is organized from the current canonical higher dependent-origination state rather than from repository history.
+
+Mathematical snapshot:
 
 ```text
-1. canonical integrated theorem authority on main
+authoritative branch: main
+latest theorem merge: PR #1621
+latest theorem layer: v2.42
+snapshot SHA: 0045c0c87c26f36ea525ef60ad26de174f2d4b3a
+```
+
+Pinned formal environment:
+
+```text
+Lean:    leanprover/lean4:v4.30.0-rc2
+Mathlib: 5450b53e5ddc75d46418fabb605edbf36bd0beb6
+```
+
+The roadmap keeps separate:
+
+```text
+1. canonical theorem authority on main
 2. validation-only compatibility evidence
 3. runtime / control-plane architecture
-4. open mathematical and empirical research targets.
+4. philosophical interpretation
+5. open mathematical and empirical research targets
 ```
 
-Queued or in-progress CI, validation-only branches, runtime receipts, retrieval scores, and conjectural universal constructions are never promoted to a stronger authority class merely because they are available or computationally successful.
+A queued CI run, runtime receipt, retrieval score, model answer, validation-only branch, or attractive mathematical analogy never promotes itself into canonical theorem authority.
 
-## North-star objective — Dependent Origination Universality Program
+---
 
-The long-term mathematical objective of KuuOS is:
+# North star — Dependent Origination Universality
 
-> **Characterize dependent-origination structure itself by a universal property.**
+The mathematical north star remains:
 
-The target is not merely another model of dependent origination. We seek conditions under which a contextual system is forced, up to the appropriate coherent equivalence, to factor through a universal dependent-origination structure.
+> **Characterize dependent-origination structure by a universal property.**
 
-Schematic target:
+Schematic input:
 
 ```text
-input:
-  C  = context / higher-context category
-  W  = presentation changes to be treated as equivalences
-  J  = descent / gluing structure
-  H  = required higher coherence
-
-construct:
-  η : C ⟶ DO(C, W, J, H)
-
-prove:
-  every admissible D : C ⟶ X
-  factors through η essentially uniquely.
+C = context / higher-context carrier
+W = presentation changes intended to become equivalences
+J = descent / gluing data
+H = required higher coherence
 ```
 
-The final theorem should have a variance-correct form equivalent in spirit to
+Target construction:
+
+```text
+η : C ⟶ DO(C, W, J, H)
+```
+
+Target mapping property:
 
 ```text
 AdmissibleContextualSystems(C, X)
   ≃
-Fun(DO(C, W, J, H), X).
+Fun(DO(C, W, J, H), X)
 ```
 
-No object is to be called the universal dependent-origination completion merely because it looks like a localization, quotient, colimit, stackification, fibrant replacement, or higher-categorical completion.
+with correct variance and naturality.
 
-**Factorization + essential uniqueness + naturality is the authority boundary.**
+The final claim requires:
 
-## What “空” contributes to the roadmap
+```text
+factorization
++ essential uniqueness
++ coherent naturality
++ uniqueness of the carrier up to the appropriate equivalence
+```
 
-The role of 空 in KuuOS is an anti-reification discipline:
+No candidate completion is called **the universal dependent-origination object** before those conditions are proved.
+
+---
+
+# What 空 contributes
+
+空 is used as an anti-reification constraint:
 
 ```text
 presentation != intrinsic substance
-observation != global truth
-retrieval ranking != entailment
+local success != global truth
+retrieval != entailment
 runtime receipt != WORLD truth
-formal encoding != philosophical uniqueness.
+formal encoding != philosophical uniqueness
+model confidence != authority
 ```
 
-Mathematically, this pushes the project toward three questions:
+Mathematically this forces the roadmap to ask:
 
 ```text
-1. Which changes of presentation should preserve intrinsic semantics?
-2. When do compatible local contextual states descend to a justified global state?
-3. Which universal property characterizes the structure that survives those changes?
+Which presentation changes preserve intrinsic structure?
+Which local data descend coherently?
+Which obstructions prevent descent or factorization?
+Which universal property captures exactly the invariant content?
 ```
 
-The roadmap therefore treats presentation invariance, descent, obstruction, and universality as one connected program rather than as unrelated theorem families.
+The project therefore treats presentation invariance, descent, obstruction, and universality as one program.
 
-## Canonical integrated baseline
+---
 
-This documentation update is based on canonical main at:
+# Current theorem state — v2.42
+
+The higher dependent-origination spine now has a precise internal normal form.
+
+## v2.10–v2.19: higher factorization and universality interfaces
+
+The formal line distinguishes ordinary localization from higher localization.
 
 ```text
-documentation snapshot base SHA: c188314e60fbd03dd6044075a19c89ab95634aea
-latest integrated dependent-origination theorem merge: PR #1570
-latest integrated dependent-origination theorem merge SHA: 1d630820c0e867fdd3350d9ed9d8171c65f359ec
-universality-program documentation integration: PR #1573
-adaptive retrieval policy integration: PR #1574
-adaptive retrieval subsystem integration: PR #1575
-bounded OpenClaw control-plane integration: PR #1571
+v2.10  HigherLocalizationFactorization interface
+v2.18  WeakHigherLocalizationUniversalProperty
+v2.19  CoherentWeakHigherLocalizationUniversalProperty
 ```
 
-Integrated mathematical state includes:
+The ordinary v2.0 localization theorem does not substitute for the higher theorem.
+
+## v2.20–v2.30: coherence normal forms
+
+The spine develops:
 
 ```text
-contextual transport
--> refinement and semantic descent
--> directed / filtered cofinal invariance
--> two-cell / bicategorical coherence
--> operadic, multicategorical, causal and process extensions
--> category-of-elements nerve / quasicategorical realization
--> 2-Yoneda and global scaled Duskin realization
--> presentation-independent invariant transport
--> canonical scaled weak factorization structure
--> generated-presentation quotient / fixed points / complete lattice
--> standard/canonical full orthogonality incomparability
--> non-faithfulness of terminal/fibrant-object semantics
--> contextual gauge transport
--> ordinary fundamental-groupoid transport
--> quotient-kernel descent obstruction
--> natural-isomorphism invariance of descent and obstruction.
+coherent -> weak forgetful bridge
+factor-coherence lifting
+modification-triangle normal form
+stored triangle naturality
+arbitrary triangle presentation
+correction equation
+rigidity / torsor structure
+pointwise extension obstruction
+arrowwise coherence equation
 ```
 
-PR #1570 remains the newest integrated dependent-origination theorem layer: for naturally isomorphic fine transports, quotient-kernel compatibility, descent obstruction, and existence of fundamental-groupoid descent are invariant. The gauge-equivariant representation specialization is included.
+General solvability is not assumed.
 
-PR #1573 made the universality program the explicit public mathematical north star.
+## v2.31: three-stage weak universality gap
 
-PR #1574 and PR #1575 add a new operational realization layer: **Adaptive Retrieval**, whose governing rule is to select the least complex retrieval presentation explicitly assessed as adequate and otherwise fail closed.
-
-## Active validation boundary — PR #1558
-
-PR #1558, **Validate coherent scaled model equivalence under Lean 4.31**, remains a validation-only stacked Draft PR.
-
-Its original trigger was the coherent scaled-model compatibility frontier. The stacked line has since accumulated later scaled-simplicial validation work, so its current purpose is broader than the original v1.32 repair while its authority boundary is unchanged.
-
-It must remain:
+For one raw higher contextual system `R`:
 
 ```text
-open as validation-only while needed
-Draft
-not merged
-not Ready for review
-auto-merge disabled
+Stage I
+  some higher localization factorization exists
+
+Stage II
+  some chosen factorization receives a weak factor from every competitor
+
+Stage III
+  factor morphisms into that chosen carrier are essentially unique
 ```
 
-The PR body explicitly states:
+The weak universal property exists exactly when one Stage II candidate also satisfies Stage III.
+
+## v2.32–v2.36: coherent data and fixed-carrier normalization
+
+An explicit coherent datum supplies Stage I/II structure. The remaining local gap is Stage III and, more specifically, transfer of Stage III uniqueness to the fixed coherent carrier.
+
+## v2.37–v2.39: split-carrier and equivalence transport
+
+The integrated results show:
 
 ```text
-This PR must not be merged.
+one-sided split on fixed carrier
+  -> transfer of Stage III uniqueness
+
+unit-isomorphism adjunction
+  -> one-sided split
+
+completed carrier + one-sided split
+  -> two-sided equivalence data
 ```
 
-Its success or failure changes compatibility evidence, not canonical theorem meaning.
+No arbitrary split is assumed to exist.
 
-### Current validation proof frontier
+## v2.40–v2.41: exact fixed-route normal form
 
-The active proof engineering is in the standard Type-A endpoint / boundary-prism route. The intended construction is:
+For a Stage III-completed carrier `C`:
 
 ```text
-endpoint source
-  -> one literal opposite-endpoint standard Type-A horn pushout
-  -> boundary prism
-  -> v1.76 alternating A/B raw-cellular sequence
-  -> one prefixed ℕ-indexed transfinite composition
-  -> strong cellularity
-  -> cellularity / stability / lifting certificate.
+split comparison
+  <-> coherent forward factor
+  <-> weak forward factor + invertible modification triangle
 ```
 
-The target surface includes:
+For one coherent datum `U`:
 
 ```text
-standardABCTypeAEndpointLeibnizCellularCertificateConstructed
-standardABCTypeAEndpointLeibnizStability_proved
-standardABCTypeAEndpointLeibnizLifting_proved
+HigherCoherentRouteCompleteness
+  <-> every completed carrier admits a split
+  <-> every completed carrier admits a coherent forward factor
+  <-> every completed carrier admits a forward modification triangle
 ```
 
-The validation route must not be replaced by an arbitrary binary-composition shortcut merely to satisfy elaboration.
+Hence route failure is exactly a concrete two-cell obstruction.
 
-Exit criterion for this local validation frontier:
+## v2.42: two-axis weak/coherent obstruction
+
+For one fixed coherent datum `U`, the state space is now:
 
 ```text
-exact-head changed-target Lean = completed / success
-manifest/dependency verification = completed / success
-governance gate = completed / success
-no theorem weakening
-no sorry / admit / axiom / placeholder theorem authority
-PR #1558 remains unmerged.
+E — existence obstruction
+    no Stage III-completed weak carrier
+    no weak universal property
+    route completeness vacuous
+
+R — fixed-route obstruction
+    completed weak carrier exists
+    weak universal property exists
+    fixed coherent route fails
+
+A — alignment
+    weak universal property exists
+    fixed coherent route is complete
 ```
 
-After successful validation, any material intended for canonical theorem authority must be ported through a separate clean exact-base canonical development route. **PR #1558 itself is never the canonical merge vehicle.**
+The E and R states are locally mutually exclusive.
 
-## Candidate dependent-origination axioms
-
-The universality program begins by extracting a minimal axiom system from the existing theorem spine.
+Exact local normal form:
 
 ```text
-DO1 Contextuality
-    state / meaning is indexed by context.
-
-DO2 Functorial transport
-    admissible context changes induce composable transport.
-
-DO3 Higher coherence
-    comparisons among transports satisfy the required higher coherence.
-
-DO4 Presentation invariance
-    justified equivalent presentations preserve intrinsic semantics.
-
-DO5 Descent
-    compatible local data admits justified global realization.
-
-DO6 Obstruction
-    failure of descent is internally represented and detectable.
-
-DO7 Non-reification
-    no selected presentation is identified with intrinsic substance merely
-    because it is convenient, canonical, executable, or observable.
+alignment <-> no E and no R
+failure   <-> E or R
 ```
 
-These labels are provisional. A central theorem task is to determine which are primitive, derivable, redundant, interpretive rather than mathematical, or too strong.
-
-# Mathematical program
-
-The stages below are ordered by logical dependency, not by repository history or PR size.
-
-## Stage 0 — finish external/current-toolchain validation without changing authority
-
-**Purpose:** establish reproducible machine checking of the intended formal spine under the current Lean/mathlib environment without silently changing theorem meaning.
-
-Tasks:
+Relative to a coherent universal principle:
 
 ```text
-- continue exact-head validation from exact bases;
-- finish the prefixed Type-A endpoint transfinite route;
-- repair compatibility failures without weakening statements;
-- preserve intended universe-polymorphic structure;
-- keep validation-only PRs non-mergeable by policy;
-- record exact workflow/job/Lean-step evidence;
-- separate validated proof material from canonical merge authority.
+HigherWeakLocalizationUniversalPrinciple
+AND
+HigherCoherentRouteCompletenessPrinciple
+
+<->
+
+no HigherGlobalWeakStageIIIExistenceObstruction
+AND
+no HigherGlobalFixedRouteObstruction
 ```
 
-Exit criterion:
+This is the new organizing point of the roadmap.
+
+---
+
+# Main dependency graph from v2.42
+
+The remaining program should not collapse logically distinct obligations.
 
 ```text
-the intended validation surface reconstructs under the pinned/current toolchain
-with no sorry, admit, new axiom, placeholder constant, or hidden weakening.
+higher admissibility
+      |
+      |  [OPEN: coherent existence]
+      v
+coherent weak universal datum U
+      |
+      +-----------------------------+
+      |                             |
+      | Axis E                      | Axis R
+      | Stage III existence         | fixed-route coherence
+      |                             |
+      v                             v
+completed weak carrier        forward modification triangle
+      |                             |
+      +-------------+---------------+
+                    |
+                    v
+          weak/coherent alignment
+                    |
+                    v
+       weak higher universality
+                    |
+                    v
+       minimal axiom extraction
+                    |
+                    v
+       universal DO(C,W,J,H)
+                    |
+                    v
+      representation theorem
 ```
 
-This establishes machine-checking reproducibility. It does not establish philosophical uniqueness, external mathematical acceptance, or empirical validity.
+The arrows above are a research dependency plan, not all currently proved implications.
 
-## Stage I — canonicalize validated Type-A endpoint / transfinite structure
+---
 
-Once the validation proof is stable, port only theorem-preserving material onto a clean canonical branch based on then-current main.
+# Track A — coherent higher-localization existence
 
-Required properties:
+## A0. Current open proposition
+
+General coherent existence remains open:
 
 ```text
-literal opposite-endpoint Type-A cell remains explicit
-whole endpoint map remains one transfinite-composition witness
-theorem statements remain at least as strong as the validated versions
-no dependency on validation-only branch authority
-strict Lean aggregate and repository governance pass on the canonical branch.
+IsHigherWAdmissible W R
+  ->
+HasCoherentWeakHigherLocalizationUniversalProperty W R
 ```
 
-Exit criterion: canonical main contains the validated cellular certificate through normal review without merging PR #1558.
+The global proposition
 
-## Stage II — close coherent horn round-trip descent
+```text
+CoherentHigherWeakLocalizationUniversalPrinciple
+```
 
-The coherent scaled-model line isolates a key bridge in which bicategorical quasi-inverse data and scaled Duskin transport are represented, while round-trip filler invariance still requires explicit descent control.
+remains an explicit target, not an axiom.
+
+## A1. Factorization existence
+
+A still more primitive open problem is:
+
+```text
+IsHigherWAdmissible W R
+  ->
+HasHigherLocalizationFactorization W R
+```
+
+Possible routes must preserve the higher-equivalence semantics and must not reuse ordinary localization as a substitute.
+
+### Exit criterion
+
+A theorem producing an actual `HigherLocalizationFactorization` from explicit higher-admissibility hypotheses, with no assumption weakening and no hidden strictification.
+
+## A2. Stage II / coherent factor-existence construction
+
+After a factorization carrier exists, construct a chosen carrier receiving factors from competitors with the coherent comparison triangle required by v2.19.
+
+### Required checks
+
+```text
+factor existence
+comparison triangle
+higher naturality / modification data
+presentation transport
+no silent carrier identification
+```
+
+### Exit criterion
+
+An explicit theorem yielding `HasCoherentWeakHigherLocalizationUniversalProperty` under stated hypotheses.
+
+## A3. Strictification as a possible route, not an assumption
+
+The general higher strictification principle remains open. Any strictification-based construction must prove:
+
+```text
+weak input -> strict presentation model
+strict theorem -> weak theorem transport
+no loss of universes / coherence / admissibility
+```
+
+Exit only when the transfer back to the weak/higher statement is proved.
+
+---
+
+# Track B — Axis E: Stage III existence
+
+Axis E is the genuinely existential obstruction:
+
+```text
+HigherWeakEssentialUniquenessObstruction
+```
+
+Under coherent existence, eliminating Axis E is equivalent to producing at least one Stage III-completed weak universal candidate.
+
+## B1. Candidate-selection theorem
 
 Target:
 
 ```text
-coherent normalized bicategorical equivalence
-+ full scaled Duskin transport
-+ admissible-family preservation
----------------------------------------------
-=> horn-filler round-trip invariance
+coherent datum U
++ explicit structural hypotheses
+--------------------------------
+exists C, C is Stage II universal candidate
+          and C.HasEssentialUniqueness
 ```
 
-The strongest desired result is to derive the descent certificate from intrinsic coherence hypotheses rather than assume it as independent data.
+The candidate may differ from `U.chosen`; v2.36–v2.41 already describe how uniqueness transfer interacts with the fixed carrier.
 
-Exit criterion: identify the weakest hypotheses under which coherent equivalence implies scaled-horn descent invariance, and package the theorem so presentation equivalence follows without redundant certificate data.
+## B2. Representability / hom-category route
 
-## Stage III — complete categorical descent characterization
+Investigate whether Stage III uniqueness can be derived from intrinsic representability, contractibility, adjoint equivalence, or a suitable local hom-category property rather than postulated directly.
 
-The fundamental-groupoid line currently has a necessary quotient-kernel compatibility, explicit obstruction theory, and natural-isomorphism invariance.
+Do not identify “mutual factor existence” with equivalence unless the required 2-isomorphisms are constructed.
 
-Move from
+## B3. Saturation route
+
+The strict-sector saturation results are conditional. Determine whether weak admissible systems lie in a pointwise-equivalence saturation strong enough to produce a completed candidate.
+
+### Exit criterion
+
+A theorem eliminating `HigherWeakEssentialUniquenessObstruction` under the smallest explicit hypotheses found.
+
+---
+
+# Track C — Axis R: fixed coherent route
+
+Axis R is:
 
 ```text
-descent => quotient-kernel compatibility
+HigherFixedChosenForwardModificationTriangleObstruction
 ```
 
-toward a theorem of the form
+It occurs only when weak universality already exists.
+
+## C1. Local forward triangle construction
+
+For a completed carrier `C`, construct at least one
 
 ```text
-FundamentalDescent Q S is nonempty
-↔
-IntrinsicDescentCondition(Q, S)
+alpha : U.chosen -> C.chosen
+```
+
+whose underlying StrongTrans carries the invertible modification triangle required by v2.22.
+
+By v2.41 this is exactly enough to obtain the split/equivalence route.
+
+## C2. Correction-equation route
+
+Use the v2.26 stored-triangle correction equation as a concrete algebraic normal form.
+
+Target:
+
+```text
+explicit correction data
+  -> modification triangle
+  -> coherent forward factor
+  -> split
+```
+
+General correction solvability remains open and must not be replaced by a placeholder existence assumption.
+
+## C3. Extension / obstruction route
+
+Use v2.29–v2.30 pointwise and arrowwise coherence equations to classify exactly when local comparison data extends globally.
+
+Desired outcome:
+
+```text
+obstruction = 0
+  <-> coherent extension exists
 ```
 
 under explicit hypotheses.
 
-Tasks:
+## C4. Global route completeness
+
+Target:
 
 ```text
-- determine sufficient conditions complementing the current necessary kernel condition;
-- isolate connectedness / nonemptiness / choice hypotheses where required;
-- distinguish ordinary fundamental-groupoid descent from thin/smooth transport;
-- prove natural-equivalence invariance of the final intrinsic criterion;
-- identify obstruction classes or obstruction objects when descent fails.
+HigherCoherentRouteCompletenessPrinciple
 ```
 
-Exit criterion: a necessary-and-sufficient descent theorem with all assumptions visible in the theorem statement.
+By v2.42, failure is exactly `HigherGlobalFixedRouteObstruction`.
 
-## Stage IV — semantic restriction and information-loss theory
+### Exit criterion
 
-The generated-presentation lattice already gives faithful full right-class semantics, while terminal/fibrant-object semantics is non-faithful.
+A theorem eliminating the global fixed-route obstruction under stated structural assumptions.
 
-Package explicitly:
+---
+
+# Track D — assemble weak/coherent alignment
+
+After Tracks A–C, the intended assembly is:
 
 ```text
-fullRightSemantics(P) := R_P
-terminalRestriction(R) := { X | R(toPoint X) }
-fibrantObjectSemantics(P)
-  = terminalRestriction(fullRightSemantics(P)).
+coherent existence
++ no Axis E
++ no Axis R
+----------------
+weak/coherent alignment
 ```
 
-Then formalize:
+The target global package is:
 
 ```text
-fullRightSemantics is faithful / order-reflecting;
-terminalRestriction ∘ fullRightSemantics is not injective;
-terminalRestriction ∘ fullRightSemantics is not order-reflecting.
+HigherWeakLocalizationUniversalPrinciple
+AND
+HigherCoherentRouteCompletenessPrinciple
 ```
 
-Use the integrated witness
+v2.42 already gives the exact obstruction normal form relative to coherent existence.
+
+### Exit criterion
+
+A theorem deriving the two global principles from explicit assumptions without hiding either obstruction class.
+
+---
+
+# Track E — reduce assumptions and identify minimal axioms
+
+The final universality program should not permanently depend on every historical intermediate interface.
+
+Candidate parent axioms remain provisional:
 
 ```text
-U := S ⊔ C
-C < U
-Fib_C = Fib_U.
+DO1 Contextuality
+DO2 Functorial transport
+DO3 Higher coherence
+DO4 Presentation invariance
+DO5 Descent
+DO6 Obstruction
+DO7 Non-reification
 ```
-
-Generalize join behavior:
-
-```text
-Fib_(P ⊔ Q)(X)
-↔ Fib_P(X) ∧ Fib_Q(X).
-```
-
-Define
-
-```text
-P ≈_Fib Q :↔ ∀ X, Fib_P(X) ↔ Fib_Q(X)
-```
-
-and study the quotient, but do **not** call it a localization until a universal property is proved.
-
-Exit criterion: a theorem-level account of exactly where semantic information is lost and which lattice operations survive terminal restriction.
-
-## Stage V — minimal axiom extraction
-
-Refactor the existing dependent-origination theorem families against DO1–DO7.
 
 Questions:
 
 ```text
-Which theorems need only functoriality?
-Which genuinely need bicategorical coherence?
-Which require descent rather than semantic invariance alone?
-Can obstruction be derived from a general lifting/factorization principle?
-Is non-reification mathematical data, a universal-property consequence,
-or an interpretive/governance boundary?
-Which assumptions are independent?
+Which are mathematical data?
+Which are properties?
+Which are derivable?
+Which are interpretive boundaries rather than axioms?
+Which current theorems use only a strict subset?
+Which countermodels separate them?
 ```
 
 Deliverables:
@@ -367,35 +520,50 @@ Deliverables:
 DependentOriginationAxioms
 DependentOriginationMorphism
 DependentOriginationEquivalence
-minimal theorem dependency graph
-countermodels separating non-derivable axioms.
+explicit theorem dependency map
+countermodels / independence witnesses where feasible
 ```
 
-Exit criterion: a small axiom package from which the contextual invariance/descent core can be reconstructed without importing unnecessary specializations.
+### Exit criterion
 
-## Stage VI — identify the correct categorical level
+A small theorem-backed axiom package sufficient to reconstruct the contextual/coherent/descent core.
 
-Do not presuppose that the final carrier is an ordinary category, bicategory, `(∞,1)`-category, `(∞,2)`-category, stack, or model category.
+---
 
-Compare candidate carriers by what the axioms force:
+# Track F — determine the correct categorical level
+
+Do not decide in advance that the final universal carrier must be one of:
 
 ```text
-ordinary categorical localization
-bicategorical localization
-simplicial / quasicategorical completion
-scaled simplicial / (∞,2)-categorical realization
-stack / descent completion
-orthogonality / WFS-based completion
-hybrid construction linked by universal comparison maps.
+ordinary category
+bicategory
+(∞,1)-category
+(∞,2)-category
+stack
+model category
+orthogonality/WFS completion
 ```
 
-Selection criterion: the chosen level must encode the actual equivalences, coherence, and descent needed by the parent theory with no unnecessary structure.
+Compare candidate constructions by the actual structure forced by the minimal axioms.
 
-Exit criterion: a theorem-backed choice of ambient categorical level, or an equivalence theorem showing multiple constructions present the same intrinsic universal object.
+Possible outcome:
 
-## Stage VII — construct the universal dependent-origination object
+```text
+multiple presentations
+  -> proved equivalence of universal carriers
+```
 
-Construct
+rather than one privileged syntax.
+
+### Exit criterion
+
+A theorem-backed ambient level or a comparison theorem showing that multiple constructions present the same universal content.
+
+---
+
+# Track G — construct DO(C,W,J,H)
+
+Construct an explicit carrier
 
 ```text
 DO(C, W, J, H)
@@ -403,26 +571,26 @@ DO(C, W, J, H)
 
 and canonical map `η`.
 
-Required theorem package:
+Required data/theorems before any universal claim:
 
 ```text
 existence
+functoriality
 presentation invariance
 compatibility with descent
 compatibility with higher coherence
-functoriality in admissible maps of input data
-independence of auxiliary construction choices.
+independence of auxiliary choices
 ```
 
-No universal claim is accepted yet at this stage unless the mapping property is proved.
+### Exit criterion
 
-Exit criterion: a concrete Lean object with all data needed to state the universal mapping property cleanly.
+A concrete Lean object on which the final mapping property can be stated without hidden construction choices.
 
-## Stage VIII — Dependent Origination Representation / Universality Theorem
+---
 
-This is the mathematical north star.
+# Track H — Dependent Origination Representation Theorem
 
-Prove a variance-correct equivalence of the form
+Prove the final mapping property, schematically:
 
 ```text
 AdmissibleContextualSystems(C, X)
@@ -430,412 +598,344 @@ AdmissibleContextualSystems(C, X)
 Fun(DO(C, W, J, H), X)
 ```
 
-natural in the appropriate variables.
+or a variance-correct higher-categorical equivalent.
 
-Equivalent formulation:
-
-```text
-for every admissible D : C ⟶ X,
-there exists D̄ with D ≃ factorization through η,
-and D̄ is unique up to the correct coherent equivalence.
-```
-
-Then prove the converse characterization: any construction with this mapping property is equivalent to `DO(C,W,J,H)`.
-
-Exit criterion:
+Required package:
 
 ```text
-existence of factorization
-+ essential uniqueness
-+ naturality
-+ uniqueness of the universal carrier up to equivalence.
+factorization exists
+essential uniqueness
+higher coherence of comparison
+naturality in the appropriate variables
+uniqueness of DO up to the correct equivalence
 ```
 
-Only after this exit criterion may README/ROADMAP describe dependent origination as a proved universal structure rather than a universality program.
+Only after this stage may documentation say that dependent origination has been proved universal in the stated formal sense.
 
-## Stage IX — realization theorems
+---
 
-After the parent universal theorem is stable, derive specializations without silently adding them to the parent definition.
+# Parallel mathematical workstreams
 
-### A. Gauge / geometry realization
+These remain important because the final universality theorem should explain them rather than discard them.
+
+## P1. Fundamental-groupoid descent
+
+Current integrated state includes:
 
 ```text
-contextual transport
--> action-groupoid transport
--> thin/smooth path transport
--> connection
--> curvature.
+necessary quotient-kernel compatibility
+explicit descent obstruction
+natural-isomorphism invariance
 ```
 
-Ordinary `FundamentalGroupoid` remains the homotopy-invariant/flat-like branch. Curvature-sensitive transport requires thin/smooth path structure and appropriate differential geometry.
+Next target:
 
-### B. Process / probability realization
+```text
+FundamentalDescent Q S is nonempty
+  <-> IntrinsicDescentCondition(Q,S)
+```
 
-Relate dependent-origination structure to stochastic kernels, causal processes, non-Markovian process tensors, and compositional process theories where hypotheses justify the bridge.
+under visible hypotheses.
 
-### C. Quantum realization
+Keep ordinary homotopy-groupoid transport separate from arbitrary curvature-sensitive thin/smooth connection transport.
 
-Continue Choi/CPTP/instrument/comb/tester realizations as downstream operational mathematics. Quantum realization is not the parent definition.
+## P2. Semantic information loss
 
-### D. AI-agent realization
+Continue formal separation of:
 
-Develop a mathematical agent model in which observation, retrieval, memory, WORLD representation, tools, goals, plans, and actions form contextual transports.
+```text
+full generated-presentation semantics
+vs
+terminal / fibrant-object restriction
+```
+
+with the integrated phenomenon that distinct presentations may induce identical fibrant-object semantics.
+
+Do not call the resulting semantic quotient a localization before proving a universal property.
+
+## P3. Scaled simplicial / higher realization
+
+Continue scaled Duskin, mapping-quasicategory, horn-coherence, and presentation-transport results as candidate realizations of the parent theory.
+
+---
+
+# Validation-only Lean 4.31 workstream
+
+PR #1558 remains separate from canonical theorem advancement.
+
+```text
+PR #1558 = validation-only
+Draft = true
+merge = forbidden
+Ready-for-review = forbidden
+auto-merge = forbidden
+CI result = compatibility evidence only
+```
+
+Its purpose is toolchain compatibility/reconstruction, not theorem authority.
+
+Any proof engineering worth preserving must later be ported theorem-preservingly onto a fresh canonical branch.
+
+### Validation exit criterion
+
+```text
+exact-head selected Lean check = success
+dependency manifest verification = success
+governance = success
+no sorry / admit / new axiom / weakening
+PR remains unmerged
+```
+
+---
+
+# AI realization roadmap
+
+The AI program should derive operational invariants from the parent mathematics rather than merely reuse Buddhist or categorical vocabulary.
+
+## AI-1. Model migration as presentation transport
+
+Treat model upgrades and cross-model transfer as explicit changes of presentation.
 
 Research targets:
 
 ```text
-representation change -> equivalence / invariance problem
-partial memory -> descent problem
-contradictory memory/tool/retrieval evidence -> obstruction problem
-multi-agent mediation -> higher-coherence problem
-local plausibility without global realization -> candidate descent-failure model
-cross-model interoperability -> invariant relational/transport semantics.
+semantic invariant packet
+contextual transport map
+provenance-preserving migration
+regression / retention tests
+obstruction when transport fails
+rollback when critical invariants fail
 ```
 
-Exit criterion: at least one nontrivial AI architecture whose correctness/invariance property is derived from the parent universal theorem rather than merely described using its vocabulary.
+The goal is model-independent KuuOS continuity, not copying one model’s prose or hidden state.
 
-# Adaptive Retrieval workstream
+## AI-2. Memory as descent
 
-Adaptive Retrieval is now integrated through PR #1575 and should be developed as a bounded realization of the dependent-origination principles, not as a separate ontology.
+Treat memory integration as gluing partial observations across contexts.
 
-## Integrated baseline
+Targets:
 
-Retrieval ladder:
+```text
+source-indexed memory states
+provenance-preserving merge
+contradiction obstruction
+no retroactive truth promotion
+explicit uncertainty / NO_DATA
+```
+
+Exit criterion: at least one formal or executable memory invariant that distinguishes successful descent from unresolved contradiction.
+
+## AI-3. Adaptive Retrieval as bounded presentation selection
+
+Current ladder:
 
 ```text
 R0 lexical
 R1 lexical + bounded rewrite
 R2 semantic on demand
 R3 hybrid
-R4 pre-embedded semantic retrieval
-R5 bounded relational / GraphRAG.
+R4 pre-embedded semantic
+R5 bounded relational / GraphRAG
 ```
 
-Formal invariant:
+Current formal policy:
 
 ```text
-IsLeastSufficient adequate selected
+selected mode = least complex mode explicitly assessed as adequate
 ```
 
-means:
+Next milestones:
 
 ```text
-selected is adequate
-and every strictly simpler mode is inadequate.
+empirical adequacy interface
+provenance-preserving transport
+contradiction / obstruction surface
+presentation-invariance experiments
+bounded GraphRAG as last-resort relational mode
 ```
 
-The Lean contract also proves that `graphRelational` may be least-sufficient only when all simpler modes are inadequate.
-
-Authority boundary:
+Authority remains:
 
 ```text
-truth authority = false
-WORLD commit authority = false
-belief authority = false
-decision authority = false
-execution authority = false
-clinical authority = false
-theorem authority = false.
+retrieval != truth
+ranking != entailment
+GraphRAG != ontology
+selection != execution
 ```
 
-## Near-term retrieval milestones
+## AI-4. Multi-agent / multi-model coherence
 
-### Retrieval R1 — empirical adequacy interface
+Simple agreement is not enough.
 
-Build an explicit interface that supplies adequacy evidence to the selector without embedding arbitrary thresholds into the formal kernel.
-
-Candidate inputs:
+Targets:
 
 ```text
-known-answer recall
-source-level precision
-identifier preservation
-latency / cost
-source freshness
-index staleness
-provenance completeness
-contradiction rate
-operator-debuggability.
+agent-specific context
+transport between agent presentations
+2-cell comparison between transports
+coherence tests for mediation loops
+explicit obstruction when round trips disagree
 ```
 
-Exit criterion: selector receipts can cite a reproducible adequacy assessment without turning the assessment into truth authority.
+Exit criterion: a nontrivial coordination theorem or executable invariant stronger than majority vote / text agreement.
 
-### Retrieval R2 — provenance-preserving result transport
+## AI-5. Plan / decision / action authority
 
-For every mode, retain source identity, source version/timestamp where available, query transformation lineage, model/index version, and fusion/rerank provenance.
-
-Exit criterion: retrieved evidence can be passed into VerifyOS without losing the presentation path that produced it.
-
-### Retrieval R3 — contradiction / obstruction surface
-
-Represent materially incompatible lexical, semantic, hybrid, and relational evidence explicitly rather than hiding it behind a final score.
-
-Exit criterion: contradictory retrieval evidence produces a bounded obstruction object or receipt state instead of silent ranking collapse.
-
-### Retrieval R4 — presentation-invariance experiments
-
-Compare two retrieval presentations under a declared semantic invariant.
-
-Examples:
-
-```text
-lexical vs lexical-rewrite
-semantic-on-demand vs pre-embedded
-hybrid vs relational
-embedding model A vs embedding model B
-index snapshot t0 vs t1.
-```
-
-Exit criterion: at least one experimentally measured invariant can be stated precisely enough to become a formal realization theorem candidate.
-
-### Retrieval R5 — GraphRAG remains last-resort relational mode
-
-Preserve:
-
-```text
-R5 is selected only when simpler adequate modes are unavailable
-query-specific graph != persistent global ontology
-GraphRAG candidate != committed belief
-path/cycle evidence != truth authority.
-```
-
-Exit criterion: relational retrieval remains bounded behind the least-sufficient policy and carries complete provenance into verification.
-
-# Runtime / control-plane workstream
-
-## OpenClaw integrated baseline
-
-PR #1571 integrates the bounded closed-loop control plane through the v0.5 supervisor architecture.
-
-Preserved boundaries:
-
-```text
-adapter invocation != WORLD commit
-Gateway accepted != plan completed
-Gateway terminal ok != WORLD truth
-host receipt != WORLD truth
-live event != durable history
-live/audit event != ObserveOS verification
-supervisor ready != WORLD truth / PlanOS completion
-serialization != WORLD authority.
-```
-
-Next runtime work should focus on making contextual provenance, retrieval provenance, and obstruction visible to the mathematical/AI layer without promoting runtime receipts to theorem or truth authority.
-
-## Mission-cycle integration
-
-The preferred operational cycle remains:
+Keep the operational cycle:
 
 ```text
 Plan
-  choose bounded objective, evidence needs, and authority scope
-
 Act
-  execute only licensed operations
-
 Observe
-  capture outputs, failures, timestamps, provenance, and context
-
 Verify
-  check adequacy, lineage, consistency, and authority boundaries
-
 Learn
-  record future-only evidence without retroactive truth promotion
-
 Replan
-  continue, simplify, escalate, hold, repair, or return NO_DATA.
 ```
 
-# Existing formal architecture retained as foundations
-
-The universality program does not discard the existing theorem spine.
-
-## Contextual parent
+with bounded authority:
 
 ```text
-context-valued relation
--> state-valued functor
--> composable transport
--> semantic descent under refinement
--> directed / filtered cofinal invariance
--> two-cell and bicategorical coherence.
-```
-
-## Higher realization
-
-```text
-2-Yoneda
--> mapping quasicategories
--> global scaled Duskin nerve
--> scaled-horn coherence
--> presentation-independent invariants
--> coherent model transport.
-```
-
-## Canonical scaled WFS
-
-```text
-canonicalGeneratedScaledAnodyne = T.rlp.llp
-canonicalGeneratedScaledFibration = T.rlp
-(T.rlp.llp, T.rlp) is a native weak factorization system.
-```
-
-## Generated-presentation lattice
-
-For each presentation `P`:
-
-```text
-L_P.rlp = R_P
-R_P.llp = L_P
-P ≤ Q ↔ L_P ≤ L_Q ↔ R_Q ≤ R_P.
-```
-
-## Resolved standard/canonical comparison
-
-The full generated theories are incomparable:
-
-```text
-L_standard || L_canonical
-R_standard || R_canonical
-S || C.
-```
-
-This is a resolved theorem, not an open comparison target. Remaining Type-A/Type-C geometry may be studied for intrinsic structure but cannot restore a globally refuted inclusion/equality.
-
-## Terminal semantic non-faithfulness
-
-```text
-Fib_C ⊊ Fib_S
-U := S ⊔ C
-C < U
-Fib_U = Fib_C.
-```
-
-This becomes input to the general semantic-information-loss program.
-
-# External verification program
-
-KuuOS distinguishes four levels:
-
-```text
-Level 1  repository-local Lean compilation
-Level 2  independent/current-toolchain Lean reconstruction
-Level 3  mathematical expert review of definitions and proofs
-Level 4  external evaluation of interpretations/applications.
-```
-
-Completing Level 2 permits the claim that the formal theorem surface is independently reproducible under the reviewed Lean/mathlib assumptions. Levels 3–4 are separate and remain necessary for broader mathematical or application claims.
-
-# Runtime root
-
-Canonical effect-free entrypoint remains:
-
-```bash
-PYTHONPATH=. python3 runtime/kuuos_current_check.py
-```
-
-The runtime root is deterministic/effect-free by design. It does not turn Python validation into Lean theorem authority or external truth.
-
-# Integrated subsystem map
-
-| Series | State |
-|---|---|
-| Core governance | Frozen boundary |
-| Repository self-organization root | Integrated / v0.113 current root |
-| ObserveOS | Integrated / Dedicated CI |
-| VerifyOS | Integrated / Dedicated CI |
-| PlanOS | Integrated / Current root |
-| DecisionOS | Integrated / Current root |
-| MemoryOS | Integrated / Current root |
-| Adaptive Retrieval | Integrated v0.1 / runtime + formal contract + tests |
-| Qi Wuxing/Fibonacci history geometry | Integrated / Current root + Dedicated CI |
-| CodeAI external benchmark contract | Integrated / Current root |
-| GitHub MCP durable reentry | Integrated |
-| Dependent-origination runtime adapter | Integrated / Current root |
-| Contextual parent formal | Formal integrated |
-| Presentation-independent higher realization | Formal integrated |
-| Canonical scaled WFS | Formal integrated |
-| Generated-presentation lattice | Formal integrated |
-| Standard/canonical full orthogonality | Resolved: incomparable |
-| Terminal fibrant-object semantics | Formal integrated: non-faithful |
-| Fundamental-groupoid descent obstruction | Formal integrated |
-| Natural-isomorphism invariance of descent | Formal integrated through PR #1570 |
-| Lean 4.31 scaled-model / endpoint validation | Validation-only, open frontier in PR #1558 |
-| Dependent-origination minimal axioms | Open theorem frontier |
-| Universal object `DO(C,W,J,H)` | Research target; not yet constructed |
-| Universality / representation theorem | North-star theorem; not yet proved |
-| AI realization theorem | Long-term research target |
-| OpenClaw bounded control plane | Integrated through PR #1571 |
-
-# Retired theorem programs
-
-The following are historical foundations, not current final objectives:
-
-```text
-- fixed Δ[3] A/B residual-table frontier;
-- boundary-prism classification as the global endpoint;
-- standard/canonical equality;
-- standard ≤ canonical;
-- canonical ≤ standard.
-```
-
-Theorem-level incomparability makes the last three unavailable as future global goals.
-
-# Frozen boundaries
-
-```text
-candidate != authority
+plan != completed action
+action receipt != WORLD truth
 observation != verification
-validation != truth
-formal compilation != external theorem acceptance
-receipt != successor authority
-selection != execution
-
-contextual transport != substance ontology
-semantic descent != state descent
-semantic invariance != presentation immobility
-cofinal semantic invariance != root-state existence
-filtered indexing != categorical colimit
-objectwise cofinality != standard final-functor theorem
-
-reversible groupoid specialization != parent dependent origination
-quantum realization != parent dependent origination
-presentation-independent invariant != preferred presentation
-
-full right-class semantics != terminal-map restriction
-same fibrant-object semantics != equal generated presentation
-presentation inequality != terminal-semantic inequality
-Fib semantic quotient != localization until a universal property is proved
-universal-carrier candidate != universal object until mapping property is proved
-
-retrieval score != entailment
-embedding similarity != semantic proof
-index freshness != source freshness
-retrieved evidence != verified evidence
-GraphRAG != global ontology
-
-ordinary FundamentalGroupoid != arbitrary curvature-sensitive connection transport
-KuuOS structural theorem != physical Yang-Mills theorem authority
-
-write accepted != effect verified
-MCP write capability != Git authority
-host success != WORLD truth
-comparison complete != performance claim approved.
+verification != theorem authority
+model output != execution license
 ```
 
-# Governance rule
+---
 
-Repository evolution at this frontier remains:
+# Runtime / control-plane workstream
+
+The runtime architecture includes ObserveOS, VerifyOS, PlanOS, DecisionOS, MemoryOS, CodeAI, GitHub MCP durable reentry, OpenClaw integration, dependent-origination adapters, and Adaptive Retrieval.
+
+OpenClaw remains:
 
 ```text
-append-only / tighten-only at frozen boundaries
-exact-base branches
-Draft-first for normal theorem work
-same-root where theorem/receipt requires it
-no sorry / admit / axiom / placeholder theorem authority in formal proof work
-no writes to queued/in-progress exact proof heads
-completed workflow + jobs + exact Lean step + dependency/manifest + governance evidence before merge
-validation-only PRs remain non-mergeable when explicitly marked.
+execution host + observation source
 ```
 
-The roadmap may evolve, but claims of universality may only strengthen when supported by an actual universal mapping theorem.
+and not:
+
+```text
+truth authority
+WORLD commit authority
+automatic PlanOS completion
+automatic rollback proof
+automatic memory overwrite authority
+```
+
+Next runtime work should improve contextual provenance and obstruction visibility without promoting runtime receipts into theorem authority.
+
+---
+
+# Repository governance roadmap
+
+## Exact-SHA formal discipline
+
+Formal theorem work follows:
+
+```text
+fresh canonical base
+one mathematical unit
+Draft PR
+exact-head CI
+write freeze while CI runs
+no weakening
+no sorry / admit / new axiom
+fresh Ready gate
+exact-head normal merge
+post-merge parent check
+mergeSHA...main = identical / ahead 0 / behind 0
+```
+
+If the head changes, old CI no longer validates the new head.
+
+## Documentation discipline
+
+README and ROADMAP must distinguish:
+
+```text
+proved theorem
+conditional theorem
+explicit open principle
+validation-only evidence
+runtime implementation
+philosophical interpretation
+future target
+```
+
+Snapshot SHAs should identify the theorem state being summarized.
+
+---
+
+# Priority order from the current frontier
+
+The next theorem work should be chosen by mathematical leverage, not version number.
+
+### Priority 1 — attack Axis R structurally
+
+Because v2.41 gives an exact local criterion, any theorem constructing a forward modification triangle on completed carriers immediately closes the fixed-route side.
+
+High-value routes:
+
+```text
+correction equation solvability
+intrinsic adjunction/equivalence data
+extension theorem for pointwise coherence
+a representable hom-category criterion
+```
+
+### Priority 2 — attack Axis E existentially
+
+Produce or characterize Stage III-completed candidates without assuming the desired conclusion.
+
+High-value routes:
+
+```text
+representability
+strictification + theorem-preserving transport
+saturation
+contractible factor categories
+explicit universal candidate construction
+```
+
+### Priority 3 — coherent existence from admissibility
+
+The final global theorem cannot rely forever on an externally supplied coherent datum.
+
+### Priority 4 — assemble the weak universal principle
+
+Once coherent existence and both axes are controlled, prove the genuine higher weak-universality theorem.
+
+### Priority 5 — minimize assumptions
+
+Remove historical scaffolding that is sufficient but not necessary.
+
+### Priority 6 — build the universal DO carrier
+
+Only after the mapping-property prerequisites are explicit.
+
+---
+
+# Definition of success
+
+KuuOS will have reached the main mathematical milestone when the repository contains, under pinned reproducible Lean checking:
+
+```text
+an explicit dependent-origination carrier DO(C,W,J,H)
++ a canonical map η
++ factorization for every admissible contextual system
++ essential uniqueness
++ coherent naturality
++ uniqueness of the carrier up to the correct equivalence
+```
+
+The AI milestone is stronger than a demo:
+
+```text
+at least one nontrivial memory / retrieval / migration / multi-agent invariant
+must be derived from the parent formal structure
+and verified operationally without collapsing runtime success into truth authority.
+```
+
+Until then, KuuOS remains a deliberately open research program with increasingly precise obstruction boundaries rather than a finished universal theory.
