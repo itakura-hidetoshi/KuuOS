@@ -3,13 +3,13 @@
 ![Core Governance](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/core_governance_validation.yml/badge.svg)
 ![KuuOS Runtime Full Check](https://github.com/itakura-hidetoshi/KuuOS/actions/workflows/kuuos_runtime_full_check.yml/badge.svg)
 
-**KuuOS / 空OS** is a public research architecture for **dependent origination (縁起)**, formally verified contextual systems, and bounded AI operation.
+**KuuOS / 空OS** is a public research architecture for **dependent origination (縁起)**, formally verified contextual systems, higher-coherence / obstruction theory, and bounded AI operation.
 
 Its central question is:
 
 > **Which structure survives justified changes of context and presentation, how can local information be transported and glued coherently, what obstructs that gluing, and which universal property characterizes the invariant content?**
 
-KuuOS treats this as one connected program spanning philosophy, mathematics, formal proof, and AI systems engineering while keeping their authority layers distinct.
+KuuOS treats philosophy, mathematics, formal proof, and AI systems engineering as connected but **not interchangeable authority layers**.
 
 ---
 
@@ -17,16 +17,18 @@ KuuOS treats this as one connected program spanning philosophy, mathematics, for
 
 **Documentation state: 2026-09-10 JST**
 
-The latest theorem-bearing canonical merge represented by this document is:
+The latest theorem-bearing canonical merge represented here is:
 
 ```text
 authoritative theorem branch: main
-latest theorem-bearing merge: PR #1635
-latest theorem layer: v2.55
+latest theorem-bearing merge: PR #1648
+latest theorem layer: v2.67
 last theorem-bearing canonical SHA:
-  ef03967b028e531be997941ca8205969391dce35
-exact validated v2.55 proof head:
-  93b210c11aefea70ece7fadd37b212d0ed604e18
+  da0c3f185bf7808a1f3dc3c5facb4c8d388e1226
+exact validated v2.67 proof head:
+  95e9e16ae5c79574bea1d3cd31a27d014273ab9b
+exact-head governance CI:
+  KuuOS PR Governance Gate #1880 = completed / success
 ```
 
 Pinned formal environment:
@@ -44,24 +46,26 @@ lake -KleanArgs=-DwarningAsError=true \
   build KuuOSFormal
 ```
 
-A later documentation-only commit may advance the `main` SHA without changing this theorem baseline. The theorem authority is always the integrated canonical repository state together with the exact theorem-bearing provenance, not a model answer, memory, runtime receipt, validation-only branch, or old documentation snapshot.
+A documentation-only merge may advance `main` beyond the theorem-bearing SHA above. In that case the theorem baseline remains the exact integrated theorem merge named here until another theorem-bearing PR is merged.
+
+Repository authority is not inferred from model memory, prose summaries, queued CI, validation-only branches, runtime receipts, retrieval scores, or philosophical analogy.
 
 ---
 
 # What 空 means in KuuOS
 
-KuuOS does **not** formalize 空 as the slogan “nothing exists.” Its operational use is an anti-reification discipline:
+KuuOS does **not** formalize 空 as the slogan “nothing exists.” Its operational role is an anti-reification discipline:
 
 ```text
-no chosen presentation = intrinsic substance by default
-no local observation   = global truth by default
-no retrieval score     = entailment by default
-no runtime success     = WORLD truth by default
-no formal encoding     = philosophical uniqueness by default
-no model generation    = theorem authority by default
+chosen presentation != intrinsic substance
+local observation    != global truth
+retrieval score      != entailment
+runtime success      != WORLD truth
+formal encoding      != unique philosophical interpretation
+model generation     != theorem authority
 ```
 
-The bridge from 空 to 縁起 is therefore not erasure of structure but refusal to absolutize one presentation:
+The bridge from 空 to 縁起 is therefore not erasure of structure. It is refusal to absolutize one representation while retaining the relations and coherence needed to transport between representations:
 
 ```text
 context-indexed state
@@ -75,7 +79,7 @@ context-indexed state
 
 In KuuOS, **縁起 is not reduced to a graph metaphor or a single causal chain**. It is treated as relational and contextual dependence together with transport, history, compatibility, higher coherence, descent, and the possibility of genuine obstruction.
 
-KuuOS also maintains interpretive bridges to Madhyamaka, Yogācāra, Huayan, Tiantai, and East Asian structures such as 陰陽, 五行, 道, 理・気, 礼, and 天人相関. These are not silently identified with one Lean definition. Historical-philosophical interpretation, mathematical structure, and AI implementation remain distinct layers.
+KuuOS also maintains interpretive bridges to Madhyamaka, Yogācāra, Huayan, Tiantai, and East Asian structures such as 陰陽, 五行, 道, 理・気, 礼, and 天人相関. These bridges are not silent mathematical identifications: historical-philosophical interpretation, formal mathematics, and AI implementation remain distinct presentations.
 
 ---
 
@@ -83,11 +87,11 @@ KuuOS also maintains interpretive bridges to Madhyamaka, Yogācāra, Huayan, Tia
 
 ## 1. Philosophical layer
 
-The philosophical layer asks how to reason without reifying a local representation into an intrinsic substance. It emphasizes relation, context, transformation, dependence, compatibility, and the limits of any one viewpoint.
+The philosophical layer asks how to reason without turning a local representation into an intrinsic substance. It emphasizes relation, context, transformation, dependence, compatibility, and the limits of any one viewpoint.
 
 ## 2. Mathematical layer
 
-The mathematical layer studies contextual systems using categories, bicategories, higher coherence, localization-style factorization, descent, obstruction, orthogonality, scaled simplicial methods, and universal properties.
+The mathematical layer studies contextual systems using categories, bicategories, pseudofunctors, localization-style factorization, higher coherence, descent, obstruction, gauge freedom, relation holonomy, orthogonality, scaled simplicial methods, and universal properties.
 
 ## 3. AI / operational layer
 
@@ -120,13 +124,7 @@ retrieved evidence     != verified evidence
 
 # Dependent Origination Universality Program
 
-A parent categorical presentation is a context-indexed system such as
-
-```text
-D : Context ⥤ Type
-```
-
-or, at the higher level, a Cat-valued pseudofunctor with coherent transport.
+At the higher level, KuuOS studies Cat-valued contextual systems represented by pseudofunctors and asks how they behave under admissible changes of presentation.
 
 The guiding parent interpretation is:
 
@@ -171,20 +169,20 @@ Fun(DO(C, W, J, H), X)
 
 with the correct variance, factorization, essential uniqueness, coherence, and naturality.
 
-**The final universal object and representation theorem are not yet proved.** No localization, stackification, quotient, fibrant replacement, or higher completion is called the universal dependent-origination object until its mapping property is established.
+**The final universal object and representation theorem are not yet proved.** No localization, stackification, quotient, fibrant replacement, or higher completion is called the universal dependent-origination object until the required mapping property is established.
 
 ---
 
 # Current formal spine
 
-The integrated higher dependent-origination line now reaches **v2.55**.
+The integrated higher dependent-origination line now reaches **v2.67**.
 
 ```text
 v2.0       ordinary localization universal-property layer
 v2.1–2.7   W + J dependent-origination sector
 v2.8       Cat-valued stack descent
 v2.9       bicategorical higher stack sector
-v2.10      higher-localization factorization interface
+v2.10      HigherLocalizationFactorization interface
 v2.11–17   strict / weak-to-strict / saturation analysis
 v2.18      weak higher-localization universal property
 v2.19      coherent weak higher-localization universal property
@@ -195,147 +193,377 @@ v2.32–36   coherent-data and fixed-carrier normalization
 v2.37–41   split / adjunction / coherent-forward exactness
 v2.42      E/R/A two-axis obstruction normal form
 v2.43–54   structural sufficient routes eliminating local E/R
-v2.55      restricted Track A1 factorization-existence theorem
+v2.55      restricted Track A1 existence: W already base-isomorphisms
+v2.56      pointwise W adjoint-equivalence data from weak admissibility
+v2.57      free localization-path evaluator
+v2.58      quotient-equal paths have nonempty evaluation isomorphisms
+v2.59      exact coherent quotient-transport interface
+v2.60      five-law coherent general-W factorization package
+v2.61      unconditional simultaneous pointwise local choices
+v2.62      fiber-functor 2-thin sufficient theorem
+v2.63      fiber-hom thin sufficient theorem
+v2.64      invertible-2-cell / fiber-core / automorphism-thin sharpening
+v2.65      five explicit automorphism-valued coherence defects
+v2.66      gauge-orbit normal form and canonical gauge obstruction
+v2.67      untruncated relation 2-cells and relation-loop holonomy
 ```
 
-The crucial distinction is that **v2.43–54 and v2.55 solve different kinds of problems**.
+The main advance after v2.55 is that the general-`W` problem is no longer described merely as “missing coherence.” The repository now exposes a concrete chain from local equivalence data to an explicit gauge/holonomy obstruction.
 
 ---
 
-# v2.42 — exact weak/coherent obstruction normal form
+# General-W factorization: what is already proved
 
-For one coherent datum `U`, v2.42 isolates three states.
+Let `R` be a raw Cat-valued higher contextual system and let `W` be the class of presentation changes intended to become equivalences.
+
+The still-open unrestricted implication is:
+
+```text
+IsHigherWAdmissible W R
+  ->
+HasHigherLocalizationFactorization W R
+```
+
+The repository does **not** claim this theorem yet. Instead it has now decomposed the problem into exact layers.
+
+## v2.56 — pointwise adjoint equivalences
+
+Weak admissibility says each `R.map f`, for `f ∈ W`, is an equivalence of categories. v2.56 converts this into chosen pointwise adjoint-equivalence data using the actual Mathlib equivalence structure.
+
+Thus the obstruction is **not** the existence of individual inverse functors.
+
+## v2.57 — free-path evaluation
+
+The formal localization quiver has ordinary arrows and formal inverses. v2.57 evaluates free paths in this quiver into `Cat`, using `R.map` on ordinary arrows and the chosen inverse on formal `W`-inverses.
+
+Thus the obstruction is **not** evaluation of individual free paths.
+
+## v2.58 — quotient-equal paths are locally isomorphic
+
+If two free paths become equal in the ordinary Mathlib localization quotient, v2.58 proves that their evaluations are naturally isomorphic:
+
+```text
+localized equality of p and q
+  ->
+Nonempty (eval p ≅ eval q)
+```
+
+This proves local existence, not coherent global choice.
+
+## v2.59–v2.60 — exact five-law coherence frontier
+
+Using `Quot.out`, v2.59 fixes one representative for each localized arrow. To turn the representative assignment into a pseudofunctor, exactly three coherence equations are isolated:
+
+```text
+1. associativity
+2. left unit
+3. right unit
+```
+
+v2.60 adds the identity-component strong comparison back to the original `R`, whose remaining coherence is exactly:
+
+```text
+4. comparison identity
+5. comparison composition
+```
+
+A complete five-law package constructs a genuine v2.10 `HigherLocalizationFactorization`.
+
+## v2.61 — the local-choice space is inhabited
+
+The individual `mapId`, `mapComp`, and `mapIso` witness types are all inhabited. A simultaneous pointwise choice can therefore always be made once v2.56 data are available.
+
+No theorem infers coherence from `Classical.choice`.
+
+## v2.62–v2.64 — proved sufficient sectors
+
+The five laws become automatic under explicit thinness conditions.
+
+The sequence sharpens from arbitrary 2-cell uniqueness to the invertible part only:
+
+```text
+fiber hom thin
+  -> trivial fiber automorphisms
+  -> fiber core thin
+  -> relevant functor-iso thin
+  -> five-law coherence
+  -> HigherLocalizationFactorization
+```
+
+The sharp lesson is that the possible general obstruction lives in **invertible 2-dimensional isotropy**, not in arbitrary noninvertible natural transformations.
+
+---
+
+# v2.65 — five explicit automorphism-valued defects
+
+For two parallel invertible 2-cells `η` and `θ`, v2.65 uses the defect
+
+```text
+δ(η, θ) = η⁻¹ θ
+```
+
+so that
+
+```text
+δ(η, θ) = 1  <->  η = θ.
+```
+
+The three quotient-pseudofunctor equations and two comparison equations therefore become five explicit automorphism-valued defects:
+
+```text
+δ_assoc
+δ_left
+δ_right
+δ_comparison_id
+δ_comparison_comp
+```
+
+Their simultaneous vanishing reconstructs the coherent v2.60 package and hence the genuine higher-localization factorization.
+
+This turns an abstract coherence request into a concrete obstruction problem.
+
+---
+
+# v2.66 — gauge independence of the obstruction
+
+The pointwise witnesses themselves are not intrinsic: any two valid local choices differ by target automorphisms.
+
+v2.66 packages this as an explicit gauge action and proves that **all pointwise choices lie in one gauge orbit**.
+
+It also proves the converse direction: every coherent v2.60 package projects to pointwise data whose five v2.65 defects vanish.
+
+Therefore:
+
+```text
+HasCoherentGeneralWFactorizationData W R D
+  <->
+∃ L, FiveCoherenceDefectsTrivial W R D L
+```
+
+and, after basing at the canonical v2.61 pointwise choice:
+
+```text
+HasCoherentGeneralWFactorizationData W R D
+  <->
+CanonicalGeneralWGaugeTrivializable W R D.
+```
+
+Thus the remaining obstruction is **choice-independent at the level of the gauge orbit**.
+
+Weak admissibility alone has not yet been proved to force this gauge obstruction to vanish.
+
+---
+
+# v2.67 — untruncated relation 2-cells and holonomy
+
+Mathlib's ordinary localization is constructed by quotienting the path category by a propositionally truncated equivalence relation generated from:
+
+```text
+id
+comp
+Winv₁
+Winv₂
+```
+
+with closure under composition and equivalence generation.
+
+For ordinary 1-categorical localization this is exactly appropriate. For a Cat-valued pseudofunctor, however, different derivations of the same quotient equality may carry different invertible 2-dimensional information.
+
+v2.67 therefore introduces a **Type-valued retained relation 2-cell**:
+
+```text
+LocalizationRelation2Cell W p q
+```
+
+with actual derivation constructors and an erasure back to the ordinary propositionally truncated localization equality.
+
+Every retained relation 2-cell is evaluated to an actual natural isomorphism between free-path evaluations.
+
+For two derivations
+
+```text
+α β : p ⇒ q
+```
+
+their difference loop is
+
+```text
+α⁻¹ · β : p ⇒ p
+```
+
+and its evaluation is a relation-loop holonomy automorphism.
+
+The key theorem is:
+
+```text
+eval α = eval β
+  <->
+holonomy(α⁻¹ · β) = 1.
+```
+
+Globally v2.67 proves:
+
+```text
+EvaluationHolonomyTrivial W R D
+  <->
+Relation2CellEvaluationPathIndependent W R D.
+```
+
+The previously known v2.64 invertible-2-cell-thin sectors force this holonomy to vanish automatically.
+
+### Boundary of v2.67
+
+v2.67 is intentionally not the end of the general-`W` problem.
+
+Its retained outer derivation is Type-valued, but the embedded Mathlib `CompClosure` witness is still proposition-valued and therefore still hides which generating relation was whiskered by which left/right paths. The base relation evaluation is correspondingly not yet the fully canonical generated 2-cell semantics needed to identify the five v2.65 defects with explicit generator-level loops.
+
+That is the immediate next formal frontier.
+
+---
+
+# Current dependency graph
+
+The theorem-backed general-`W` chain is now:
+
+```text
+IsHigherWAdmissible W R
+        |
+        v
+pointwise W adjoint-equivalence data                    [v2.56]
+        |
+        v
+free-path evaluator                                     [v2.57]
+        |
+        v
+quotient-equal paths have local evaluation Iso          [v2.58]
+        |
+        +------------------------------+
+        |                              |
+        v                              v
+pointwise local choices            retained relation 2-cells
+        [v2.61]                         [v2.67]
+        |                              |
+        v                              v
+five automorphism defects          relation-loop holonomy
+        [v2.65]                         [v2.67]
+        |                              |
+        v                              v
+single gauge orbit                 path independence
+        [v2.66]                  <-> trivial holonomy
+        |                              |
+        +--------------+---------------+
+                       |
+                       v
+      [CURRENT FRONTIER: identify generated relation
+       holonomy with the five coherence defects]
+                       |
+                       v
+        coherent general-W factorization data
+                       |
+                       v
+        HigherLocalizationFactorization W R
+```
+
+The thinness results v2.62–64 enter as proved sufficient routes that kill the relevant automorphism/holonomy obstruction.
+
+---
+
+# Immediate next mathematical unit
+
+The next layer should not add another arbitrary thinness hypothesis. It should remove the remaining proposition-level opacity in the relation syntax.
+
+The planned generated 2-cell presentation retains, as Type-valued constructors:
+
+```text
+base generators:
+  id
+  comp
+  Winv₁
+  Winv₂
+
+congruence generation:
+  left whiskering
+  right whiskering
+
+2-cell closure:
+  refl
+  symm
+  trans
+```
+
+Its evaluation should be defined recursively and canonically from:
+
+```text
+R.mapId
+R.mapComp
+chosen W-adjoint-equivalence unit/counit
+functorial whiskering
+vertical composition
+```
+
+rather than by choosing an arbitrary isomorphism supplied by a propositionally truncated relation witness.
+
+The first major exit theorem is intended to have the form:
+
+```text
+GeneratedHolonomyTrivial W R D
+  ->
+HasHigherLocalizationFactorization W R.
+```
+
+The decisive research question after that is:
+
+```text
+Does IsHigherWAdmissible W R force GeneratedHolonomyTrivial W R D?
+```
+
+There are two legitimate outcomes:
+
+```text
+YES:
+  prove unrestricted general-W factorization.
+
+NO:
+  construct an explicit 2-monodromy / cocycle countermodel,
+  characterize the additional higher localization datum exactly,
+  and replace ordinary 1-localization by the appropriate untruncated
+  or bicategorical presentation where required.
+```
+
+KuuOS will not assume the positive answer in advance.
+
+---
+
+# Earlier obstruction structure remains active
+
+The v2.42 E/R/A normal form remains part of the later universality program.
+
+For one coherent datum `U`:
 
 ```text
 E — HigherWeakEssentialUniquenessObstruction
-    no Stage III-completed weak carrier exists
-
 R — HigherFixedChosenForwardModificationTriangleObstruction
-    a completed weak carrier exists, but the fixed coherent
-    forward route fails
-
 A — HigherWeakCoherentAlignment
-    weak universality exists and the fixed coherent route is complete
 ```
 
-Locally:
+with:
 
 ```text
 alignment     <-> no E and no R
 not alignment <-> E or R
 ```
 
-The E and R states are mutually exclusive for one fixed coherent datum. Global witnesses may occur on different raw systems.
+v2.43–54 provide several theorem-backed sufficient mechanisms for eliminating these later-stage obstructions once the required coherent universal datum exists.
 
-This did **not** prove a general coherent existence principle; it made the remaining failure modes explicit.
-
----
-
-# v2.43–v2.54 — structural obstruction elimination
-
-Once coherent universal data are already available, the repository now contains several theorem-backed sufficient mechanisms for eliminating the local E/R obstruction.
-
-## Base-side rigidity
-
-```text
-v2.43  concrete Discrete I base
-v2.44  arbitrary [CategoryTheory.IsDiscrete Context]
-```
-
-Base discreteness makes the stored naturality problem collapse to identity coherence.
-
-## Target / local 2-cell rigidity
-
-```text
-v2.45  whole raw fiber thin
-v2.46  exact stored Cat 2-cell hom is Subsingleton
-v2.47  pointwise component homs are Subsingleton
-v2.48  full image-envelope subcategory is thin
-```
-
-v2.47 is the key local criterion:
-
-```text
-(∀ Z, Subsingleton (F.obj Z ⟶ G.obj Z))
-  ->
-Subsingleton (F ⟶ G)
-```
-
-which converts componentwise uniqueness into uniqueness of the relevant Cat 2-cell.
-
-## Cancellation and probe-family routes
-
-```text
-v2.49  common epi / mono cancellation detector
-v2.50  global separating / coseparating family
-v2.51  shared EffectiveEpiFamily probe family
-```
-
-These are independent sufficient routes into the v2.47 pointwise criterion; the repository does not assert unsupported equivalences among them.
-
-## Standard Mathlib detector routes
-
-```text
-v2.52  single IsSeparator / IsCoseparator object
-v2.53  IsDetector + equalizers, or IsCodetector + coequalizers
-v2.54  detecting family + equalizers,
-        or codetecting family + coequalizers
-```
-
-v2.54 is the family-level structural endpoint of this sequence. The equalizer/coequalizer hypotheses are retained rather than silently weakened.
-
-### What v2.43–54 do not prove
-
-They do not by themselves construct coherent universal data or solve general higher-localization existence. They are conditional **obstruction-elimination mechanisms**, not replacements for Track A existence.
-
----
-
-# v2.55 — first restricted Track A1 existence sector
-
-v2.55 returns to the more primitive factorization-existence problem.
-
-Assume:
-
-```text
-W ≤ MorphismProperty.isomorphisms Context
-```
-
-Then the identity functor on `Context` is already a localization at `W`, so the canonical localization carrier is equivalent to `Context`. The proof transports an **arbitrary raw Cat-valued pseudofunctor** along that base equivalence, constructs the localized pseudofunctor directly, and builds the comparison from the canonical localization triangle.
-
-The theorem is:
-
-```text
-W ≤ isomorphisms(Context)
-  ->
-HasHigherLocalizationFactorization W R
-```
-
-for arbitrary raw `R`.
-
-This matters because it gives a genuine higher-localization factorization existence result **without assuming a strict presentation model** in this restricted sector.
-
-But the boundary is equally important:
-
-```text
-NOT proved:
-IsHigherWAdmissible W R
-  ->
-HasHigherLocalizationFactorization W R
-```
-
-for general `W`.
-
-v2.55 does not replace an arbitrary equivalence-valued pseudofunctor by an ordinary functor, does not establish a general bicategorical localization theorem, and does not prove coherent weak universality or the final `DO(C,W,J,H)` theorem.
+These results do **not** replace the current Track A1 existence problem.
 
 ---
 
 # What remains open
 
-The present frontier is now sharper.
+## A1. Unrestricted higher-localization factorization
 
-## A1. General higher-localization factorization existence
-
-Open in general:
+Still open:
 
 ```text
 IsHigherWAdmissible W R
@@ -343,9 +571,7 @@ IsHigherWAdmissible W R
 HasHigherLocalizationFactorization W R
 ```
 
-v2.55 solves only the sector where every `W`-arrow was already an isomorphism in the base.
-
-The next useful step should move beyond that trivial-localization sector by making the **coherent inversion data for equivalence-valued `R.map f`** explicit, rather than hiding the problem in a global strictification principle.
+Unlike the old v2.55-era roadmap, the missing structure is now sharply identified by v2.65–67 as an automorphism-valued gauge / relation-holonomy problem.
 
 ## A2. Coherent universal-data existence
 
@@ -357,21 +583,21 @@ IsHigherWAdmissible W R
 HasCoherentWeakHigherLocalizationUniversalProperty W R
 ```
 
-Factorization alone is not yet Stage II coherent universality.
+Factorization is Stage I. It is not yet coherent Stage II universality.
 
 ## Axis E — Stage III existence
 
-The general existence of a Stage III-completed carrier remains open. v2.43–54 provide strong sufficient uniqueness mechanisms once their structural hypotheses and coherent datum are present, but do not prove those hypotheses universally.
+General essential uniqueness remains open. v2.43–54 provide structural sufficient routes, not a universal existence theorem.
 
 ## Axis R — fixed coherent route
 
-General correction/modification-triangle solvability remains open. v2.37–42 give its exact normal form; v2.43–54 eliminate it under several structural rigidity conditions.
+General correction / modification-triangle solvability remains open. v2.37–42 give its exact normal form; v2.43–54 eliminate it under explicit rigidity hypotheses.
 
-## General strictification and saturation
+## General strictification
 
-The strict-sector reductions remain conditional. The repository does not assume a global theorem turning every weakly admissible pseudofunctor into a strict ordinary presentation model.
+Strictification remains a possible theorem route, not an axiom. KuuOS does not silently replace a weak equivalence-valued pseudofunctor by an unrelated ordinary functor.
 
-## Final universal dependent-origination theorem
+## Final dependent-origination universal object
 
 `DO(C,W,J,H)` and its representation theorem remain research targets.
 
@@ -401,6 +627,9 @@ contradictory memory or evidence
 multi-agent coordination
   -> higher-coherence problem
 
+multiple valid transformation histories
+  -> path-independence / holonomy problem
+
 local plausibility without global support
   -> descent-failure candidate
 
@@ -408,9 +637,9 @@ interoperability
   -> relational invariance, not assumed shared latent coordinates
 ```
 
-The aim is not to claim that present LLMs already satisfy the final KuuOS axioms. The aim is to build systems in which context, provenance, representation change, inconsistency, verification, and authority are first-class objects.
+The aim is not to claim that present LLMs already satisfy the final KuuOS axioms. The aim is to build systems in which context, provenance, representation change, inconsistency, verification, authority, and failure of coherence are first-class objects.
 
-A model migration should therefore be treated schematically as
+A model migration should therefore be treated schematically as:
 
 ```text
 old presentation
@@ -450,11 +679,11 @@ If adequacy is unknown, the runtime fails closed. If all modes are explicitly in
 Authority boundaries:
 
 ```text
-retrieval score     != entailment
+retrieval score      != entailment
 embedding similarity != semantic proof
-GraphRAG             != global ontology
-retrieved evidence   != verified evidence
-selection            != execution
+GraphRAG              != global ontology
+retrieved evidence    != verified evidence
+selection             != execution
 ```
 
 Main surfaces:
@@ -518,6 +747,7 @@ no new axiom as theorem authority
 no placeholder proof authority
 no silent assumption weakening
 no silent identification of unrelated carriers
+no arbitrary Classical.choice => coherence inference
 no ordinary-localization substitute for the general higher theorem
 ```
 
@@ -529,7 +759,7 @@ head change invalidates old CI authority
 exact-head CI running => write freeze
 Ready only after exact-head green
 normal merge uses exact expected head SHA
-post-merge authority requires fresh main + parent check + identical compare
+post-merge authority requires fresh main verification
 ```
 
 ---
@@ -544,6 +774,12 @@ formal compilation != external theorem acceptance
 contextual transport != substance ontology
 mathematical dependent origination != unique historical-philosophical interpretation
 quantum realization != parent dependent origination
+
+same quotient arrow != automatically same retained 2-dimensional derivation
+local Nonempty Iso != coherent descent
+pointwise inverse choice != pseudofunctor coherence
+gauge equivalence != automatic zero obstruction
+ordinary 1-localization != automatically sufficient for arbitrary 2-monodromy
 
 same fibrant-object semantics != equal generated presentation
 semantic quotient != localization until a universal property is proved
@@ -560,54 +796,10 @@ KuuOS structural theorem != physical Yang-Mills theorem authority
 
 ---
 
-# Integrated subsystem map
+# Current research sentence
 
-Subsystem versions are independent; they are not one linear maturity scale.
+As of v2.67, the central formal question is no longer “can individual `W`-equivalences be inverted?” They can. It is:
 
-| Series | Integrated state | Main entry |
-|---|---|---|
-| Repository lineage | self-organization v0.113 | `runtime/kuuos_current_root_sequence_v0_113.py` |
-| ObserveOS | v0.7 + bounded external observation | `docs/ObserveOS/README.md` |
-| VerifyOS | v0.15 | `docs/VerifyOS/README.md` |
-| Qi architecture | Yin-Yang Wuxing Fibonacci History Geometry v2.5 | `docs/KUUOS_QI_YINYANG_WUXING_FIBONACCI_HISTORY_GEOMETRY_v2_5.md` |
-| PlanOS | v1.23 | `formal/KuuOSPlanOSV1_23.lean` |
-| DecisionOS | v0.6 | `formal/KuuOSDecisionOSV0_6.lean` |
-| MemoryOS | v1.00 | `formal/KuuOSMemoryOSV1_00.lean` |
-| Adaptive Retrieval | least-sufficient bounded selector v0.1 | `docs/AdaptiveRetrieval/README.md` |
-| CodeAI | bounded prediction/execution contract | `docs/CodeAI/README.md` |
-| Higher dependent origination | v2.55 restricted A1 existence; v2.42 E/R/A normal form; v2.43–54 structural eliminators | `formal/KUOS/DependentOriginationIsoClassHigherLocalizationExistenceV2_55.lean` |
-| Fundamental-groupoid descent | obstruction + natural-iso invariance | `formal/KUOS/` |
-| OpenClaw control plane | bounded execution/observation host | `integrations/openclaw/` |
-| Lean 4.31 validation | validation-only Draft PR #1558 | non-canonical compatibility evidence |
-| Repository strict Lean baseline | aggregate import | `formal/KuuOSFormal.lean` |
+> **When ordinary localization identifies two presentation paths, is the Cat-valued evaluation independent of the retained 2-dimensional derivation, and if not, what higher localization data exactly records the resulting holonomy?**
 
----
-
-# Immediate frontier
-
-The next phase should prioritize theorem-bearing progress that crosses the remaining logical boundaries rather than accumulating synonymous interfaces.
-
-```text
-1. Generalize Track A1 beyond W ≤ isomorphisms.
-2. Isolate minimal coherent inversion data for equivalence-valued W-images.
-3. Construct coherent Stage II universal data from explicit hypotheses.
-4. Apply or derive structural hypotheses that eliminate Axis E and Axis R.
-5. Extract a smaller theorem-backed dependent-origination axiom package.
-6. Determine the categorical level forced by those axioms.
-7. Construct DO(C,W,J,H).
-8. Prove the representation theorem.
-9. Derive nontrivial AI migration / memory / retrieval / multi-agent invariants
-   from the parent mathematics.
-```
-
----
-
-## Research status
-
-KuuOS is a research architecture. Its formal mathematics, philosophical interpretation, runtime governance, physical specializations, and AI applications have different authority boundaries.
-
-The strongest long-term claim remains open:
-
-> **Dependent origination may admit a universal mathematical characterization under explicit contextual, coherence, presentation-invariance, and descent hypotheses.**
-
-The current formal advantage is that the gap is no longer a single vague promise. v2.42 identifies the weak/coherent obstruction axes, v2.43–54 provide concrete structural mechanisms that eliminate them, and v2.55 establishes the first restricted arbitrary-pseudofunctor factorization-existence sector without invoking a strict presentation model. The next task is to carry that existence mechanism beyond the isomorphism-only base sector while preserving higher-equivalence semantics.
+That question is now represented in Lean by explicit gauge defects and relation-loop holonomy rather than by an unspecified coherence gap.
