@@ -2,15 +2,16 @@
 
 **Baseline: 2026-09-10 JST**
 
-This roadmap is organized from the current canonical higher dependent-origination state rather than from repository history.
-
-Mathematical snapshot:
+This roadmap is organized around the current theorem-bearing state of the higher dependent-origination program, not around repository chronology.
 
 ```text
-authoritative branch: main
-latest theorem merge: PR #1621
-latest theorem layer: v2.42
-snapshot SHA: 0045c0c87c26f36ea525ef60ad26de174f2d4b3a
+authoritative theorem branch: main
+latest theorem-bearing merge: PR #1635
+latest theorem layer: v2.55
+last theorem-bearing canonical SHA:
+  ef03967b028e531be997941ca8205969391dce35
+exact validated v2.55 proof head:
+  93b210c11aefea70ece7fadd37b212d0ed604e18
 ```
 
 Pinned formal environment:
@@ -20,25 +21,25 @@ Lean:    leanprover/lean4:v4.30.0-rc2
 Mathlib: 5450b53e5ddc75d46418fabb605edbf36bd0beb6
 ```
 
+Documentation-only commits may advance `main` beyond the theorem-bearing SHA above. The theorem baseline records the latest integrated theorem-bearing state represented by this roadmap.
+
 The roadmap keeps separate:
 
 ```text
-1. canonical theorem authority on main
-2. validation-only compatibility evidence
-3. runtime / control-plane architecture
-4. philosophical interpretation
-5. open mathematical and empirical research targets
+canonical theorem authority
+validation-only compatibility evidence
+runtime / control-plane evidence
+philosophical interpretation
+open mathematical conjectures and research targets
 ```
 
-A queued CI run, runtime receipt, retrieval score, model answer, validation-only branch, or attractive mathematical analogy never promotes itself into canonical theorem authority.
+No queued CI run, runtime receipt, model answer, retrieval score, validation-only branch, or philosophical analogy promotes itself into theorem authority.
 
 ---
 
 # North star — Dependent Origination Universality
 
-The mathematical north star remains:
-
-> **Characterize dependent-origination structure by a universal property.**
+The long-term mathematical objective is to characterize dependent-origination structure by a universal property.
 
 Schematic input:
 
@@ -46,7 +47,7 @@ Schematic input:
 C = context / higher-context carrier
 W = presentation changes intended to become equivalences
 J = descent / gluing data
-H = required higher coherence
+H = higher-coherence data
 ```
 
 Target construction:
@@ -63,22 +64,22 @@ AdmissibleContextualSystems(C, X)
 Fun(DO(C, W, J, H), X)
 ```
 
-with correct variance and naturality.
+with the appropriate higher-categorical variance and naturality.
 
-The final claim requires:
+The final theorem must provide at least:
 
 ```text
 factorization
 + essential uniqueness
 + coherent naturality
-+ uniqueness of the carrier up to the appropriate equivalence
++ uniqueness of the carrier up to the correct equivalence
 ```
 
-No candidate completion is called **the universal dependent-origination object** before those conditions are proved.
+No candidate completion is called **the universal dependent-origination object** before these conditions are proved.
 
 ---
 
-# What 空 contributes
+# What 空 contributes to the roadmap
 
 空 is used as an anti-reification constraint:
 
@@ -91,36 +92,37 @@ formal encoding != philosophical uniqueness
 model confidence != authority
 ```
 
-Mathematically this forces the roadmap to ask:
+Therefore every mathematical promotion must answer:
 
 ```text
-Which presentation changes preserve intrinsic structure?
-Which local data descend coherently?
-Which obstructions prevent descent or factorization?
-Which universal property captures exactly the invariant content?
+What is the context?
+What is transported?
+Which presentation changes are admissible?
+What coherence is required?
+Can local data descend globally?
+What obstruction remains?
+What universal property justifies the invariant content?
 ```
 
-The project therefore treats presentation invariance, descent, obstruction, and universality as one program.
+This is why presentation invariance, higher localization, descent, obstruction, and universality are treated as one connected program.
 
 ---
 
-# Current theorem state — v2.42
+# Proved theorem state through v2.55
 
-The higher dependent-origination spine now has a precise internal normal form.
-
-## v2.10–v2.19: higher factorization and universality interfaces
+## v2.10–v2.19 — higher factorization and universality interfaces
 
 The formal line distinguishes ordinary localization from higher localization.
 
 ```text
-v2.10  HigherLocalizationFactorization interface
+v2.10  HigherLocalizationFactorization
 v2.18  WeakHigherLocalizationUniversalProperty
 v2.19  CoherentWeakHigherLocalizationUniversalProperty
 ```
 
-The ordinary v2.0 localization theorem does not substitute for the higher theorem.
+The ordinary v2.0 localization theorem remains useful infrastructure, but it is not silently substituted for the general weak/higher theorem.
 
-## v2.20–v2.30: coherence normal forms
+## v2.20–v2.30 — coherence normal forms
 
 The spine develops:
 
@@ -129,56 +131,27 @@ coherent -> weak forgetful bridge
 factor-coherence lifting
 modification-triangle normal form
 stored triangle naturality
-arbitrary triangle presentation
-correction equation
+correction equations
 rigidity / torsor structure
 pointwise extension obstruction
-arrowwise coherence equation
+arrowwise coherence equations
 ```
 
 General solvability is not assumed.
 
-## v2.31: three-stage weak universality gap
+## v2.31–v2.41 — weak-universality gap and fixed-carrier exactness
 
-For one raw higher contextual system `R`:
-
-```text
-Stage I
-  some higher localization factorization exists
-
-Stage II
-  some chosen factorization receives a weak factor from every competitor
-
-Stage III
-  factor morphisms into that chosen carrier are essentially unique
-```
-
-The weak universal property exists exactly when one Stage II candidate also satisfies Stage III.
-
-## v2.32–v2.36: coherent data and fixed-carrier normalization
-
-An explicit coherent datum supplies Stage I/II structure. The remaining local gap is Stage III and, more specifically, transfer of Stage III uniqueness to the fixed coherent carrier.
-
-## v2.37–v2.39: split-carrier and equivalence transport
-
-The integrated results show:
+For a raw higher contextual system `R`, v2.31 decomposes weak universality into:
 
 ```text
-one-sided split on fixed carrier
-  -> transfer of Stage III uniqueness
-
-unit-isomorphism adjunction
-  -> one-sided split
-
-completed carrier + one-sided split
-  -> two-sided equivalence data
+Stage I   some higher localization factorization exists
+Stage II  one chosen factorization receives factors from every competitor
+Stage III those factor morphisms are essentially unique
 ```
 
-No arbitrary split is assumed to exist.
+With an explicit coherent datum, Stage I/II are supplied and the remaining local problem becomes Stage III plus fixed-carrier transport. v2.37–41 identify exact split, adjunction, coherent-forward, and modification-triangle mechanisms for that transport.
 
-## v2.40–v2.41: exact fixed-route normal form
-
-For a Stage III-completed carrier `C`:
+On Stage III-completed carriers:
 
 ```text
 split comparison
@@ -186,128 +159,156 @@ split comparison
   <-> weak forward factor + invertible modification triangle
 ```
 
+## v2.42 — E/R/A normal form
+
 For one coherent datum `U`:
 
 ```text
-HigherCoherentRouteCompleteness
-  <-> every completed carrier admits a split
-  <-> every completed carrier admits a coherent forward factor
-  <-> every completed carrier admits a forward modification triangle
+E — Stage III existence obstruction
+R — fixed-route modification-triangle obstruction
+A — weak/coherent alignment
 ```
 
-Hence route failure is exactly a concrete two-cell obstruction.
-
-## v2.42: two-axis weak/coherent obstruction
-
-For one fixed coherent datum `U`, the state space is now:
+with exact local normal form:
 
 ```text
-E — existence obstruction
-    no Stage III-completed weak carrier
-    no weak universal property
-    route completeness vacuous
-
-R — fixed-route obstruction
-    completed weak carrier exists
-    weak universal property exists
-    fixed coherent route fails
-
-A — alignment
-    weak universal property exists
-    fixed coherent route is complete
+alignment     <-> no E and no R
+not alignment <-> E or R
 ```
 
-The E and R states are locally mutually exclusive.
+The two obstruction axes are locally disjoint, though global witnesses can occur on different raw systems.
 
-Exact local normal form:
+## v2.43–v2.54 — structural E/R elimination
+
+These results assume coherent universal data are already available and then provide sufficient structural hypotheses under which the stored coherence equations become unique/automatic.
+
+### Base rigidity
 
 ```text
-alignment <-> no E and no R
-failure   <-> E or R
+v2.43  Context = Discrete I
+v2.44  [CategoryTheory.IsDiscrete Context]
 ```
 
-Relative to a coherent universal principle:
+### Local target / 2-cell rigidity
 
 ```text
-HigherWeakLocalizationUniversalPrinciple
-AND
-HigherCoherentRouteCompletenessPrinciple
-
-<->
-
-no HigherGlobalWeakStageIIIExistenceObstruction
-AND
-no HigherGlobalFixedRouteObstruction
+v2.45  raw target fibers are thin
+v2.46  exact stored Cat 2-cell hom is Subsingleton
+v2.47  pointwise component homs are Subsingleton
+v2.48  the relevant image-envelope full subcategory is thin
 ```
 
-This is the new organizing point of the roadmap.
+### Cancellation and probe mechanisms
+
+```text
+v2.49  common epi / mono cancellation detector
+v2.50  global separating / coseparating family
+v2.51  shared EffectiveEpiFamily probe family
+```
+
+### Standard detector mechanisms
+
+```text
+v2.52  IsSeparator / IsCoseparator singleton route
+v2.53  IsDetector + equalizers
+        or IsCodetector + coequalizers
+v2.54  detecting family + equalizers
+        or codetecting family + coequalizers
+```
+
+Under their stated hypotheses these routes feed into v2.47/v2.46, stored modification naturality, weak universality, coherent route completeness, and local elimination of E/R.
+
+They do **not** prove coherent universal-data existence or general higher-localization factorization existence.
+
+## v2.55 — restricted Track A1 factorization existence
+
+v2.55 proves a logically different result.
+
+If
+
+```text
+W ≤ MorphismProperty.isomorphisms Context
+```
+
+then for arbitrary raw Cat-valued pseudofunctor `R`:
+
+```text
+HasHigherLocalizationFactorization W R
+```
+
+is constructed directly.
+
+The proof uses that the identity functor is already a localization of `Context` at `W`, hence the canonical localization carrier is equivalent to `Context`. `R` is transported along this base equivalence; it is **not strictified to an ordinary Cat-valued functor**.
+
+This closes one genuine Track A1 sector, but only the isomorphism-class sector.
 
 ---
 
-# Main dependency graph from v2.42
+# Current dependency graph
 
-The remaining program should not collapse logically distinct obligations.
-
-```text
-higher admissibility
-      |
-      |  [OPEN: coherent existence]
-      v
-coherent weak universal datum U
-      |
-      +-----------------------------+
-      |                             |
-      | Axis E                      | Axis R
-      | Stage III existence         | fixed-route coherence
-      |                             |
-      v                             v
-completed weak carrier        forward modification triangle
-      |                             |
-      +-------------+---------------+
-                    |
-                    v
-          weak/coherent alignment
-                    |
-                    v
-       weak higher universality
-                    |
-                    v
-       minimal axiom extraction
-                    |
-                    v
-       universal DO(C,W,J,H)
-                    |
-                    v
-      representation theorem
-```
-
-The arrows above are a research dependency plan, not all currently proved implications.
-
----
-
-# Track A — coherent higher-localization existence
-
-## A0. Current open proposition
-
-General coherent existence remains open:
+The roadmap after v2.55 is:
 
 ```text
 IsHigherWAdmissible W R
-  ->
-HasCoherentWeakHigherLocalizationUniversalProperty W R
+       |
+       +-- if W ≤ isomorphisms(Context)
+       |        |
+       |        v
+       |  HasHigherLocalizationFactorization W R
+       |        [v2.55 PROVED]
+       |
+       +-- general W
+                |
+                v
+        [OPEN A1: factorization existence]
+                |
+                v
+        [OPEN A2: coherent universal datum U]
+                |
+          +-----+-----+
+          |           |
+          | Axis E    | Axis R
+          | Stage III | fixed-route coherence
+          |           |
+          +-----+-----+
+                |
+                v
+             alignment
+                |
+                v
+       weak higher universality
+                |
+                v
+        minimal axiom package
+                |
+                v
+          DO(C,W,J,H)
+                |
+                v
+       representation theorem
 ```
 
-The global proposition
+The v2.43–54 structural routes enter **after coherent `U` exists**. They are not substitutes for A1/A2.
+
+---
+
+# Track A — higher-localization existence
+
+## A0. Solved restricted sector: v2.55
+
+Status: **proved**.
 
 ```text
-CoherentHigherWeakLocalizationUniversalPrinciple
+W ≤ isomorphisms(Context)
+  ->
+∀ R, HasHigherLocalizationFactorization W R
 ```
 
-remains an explicit target, not an axiom.
+This is now the reference test case for any broader construction: a future general theorem should reduce coherently to this sector rather than conflict with it.
 
-## A1. Factorization existence
+## A1. General factorization existence
 
-A still more primitive open problem is:
+Still open:
 
 ```text
 IsHigherWAdmissible W R
@@ -315,53 +316,104 @@ IsHigherWAdmissible W R
 HasHigherLocalizationFactorization W R
 ```
 
-Possible routes must preserve the higher-equivalence semantics and must not reuse ordinary localization as a substitute.
+Here `R.map f` for `f ∈ W` is only required to be an equivalence of categories, not an actual isomorphism in `Cat`.
 
-### Exit criterion
+### Immediate mathematical target
 
-A theorem producing an actual `HigherLocalizationFactorization` from explicit higher-admissibility hypotheses, with no assumption weakening and no hidden strictification.
+Do not jump directly to an unproved global strictification principle. First isolate the smallest explicit **coherent inversion datum** needed on the `W`-images of `R`.
 
-## A2. Stage II / coherent factor-existence construction
-
-After a factorization carrier exists, construct a chosen carrier receiving factors from competitors with the coherent comparison triangle required by v2.19.
-
-### Required checks
+A useful candidate interface should make visible:
 
 ```text
-factor existence
-comparison triangle
-higher naturality / modification data
+for f ∈ W:
+  chosen quasi-inverse / adjoint-equivalence data for R.map f
+
+compatibility with:
+  identities
+  composition
+  pseudofunctor mapComp
+  2-cell transport / naturality
+  presentation localization
+```
+
+Then prove a theorem of the shape:
+
+```text
+IsHigherWAdmissible W R
++ ExplicitCoherentWInversionData W R
+-----------------------------------
+HasHigherLocalizationFactorization W R
+```
+
+without replacing `R` by an unrelated ordinary functor and without weakening the higher-equivalence semantics.
+
+This interface is a **roadmap target**, not a theorem currently in the repository.
+
+### A1 exit criterion
+
+A theorem constructing an actual v2.10 `HigherLocalizationFactorization` for a class strictly broader than `W ≤ isomorphisms`, from explicit and mathematically justified higher data.
+
+General A1 is complete only when weak higher admissibility alone is sufficient, or when an exact theorem characterizes the additional necessary data.
+
+## A2. Coherent Stage II construction
+
+After one factorization exists, construct coherent universal data rather than merely a carrier.
+
+Required output must include:
+
+```text
+chosen factorization
+factor existence from every competitor
+comparison triangles
+modification / higher naturality data
 presentation transport
-no silent carrier identification
 ```
 
-### Exit criterion
+### A2 exit criterion
 
-An explicit theorem yielding `HasCoherentWeakHigherLocalizationUniversalProperty` under stated hypotheses.
-
-## A3. Strictification as a possible route, not an assumption
-
-The general higher strictification principle remains open. Any strictification-based construction must prove:
+An explicit theorem yielding:
 
 ```text
-weak input -> strict presentation model
-strict theorem -> weak theorem transport
-no loss of universes / coherence / admissibility
+HasCoherentWeakHigherLocalizationUniversalProperty W R
 ```
 
-Exit only when the transfer back to the weak/higher statement is proved.
+from stated hypotheses, with no hidden carrier identification.
+
+## A3. Strictification remains a possible route, not an axiom
+
+The global higher strictification principle remains unproved.
+
+Any future strictification route must establish:
+
+```text
+weak equivalence-valued input
+  -> justified strict presentation model
+  -> strict localization theorem
+  -> transport back to the original weak/higher statement
+```
+
+including universes, coherence, and admissibility.
 
 ---
 
 # Track B — Axis E: Stage III existence
 
-Axis E is the genuinely existential obstruction:
+Axis E is the failure to obtain a Stage III-completed weak carrier.
+
+## B0. Existing conditional eliminators
+
+v2.43–54 give a substantial library of sufficient uniqueness mechanisms, but only once their hypotheses and coherent datum are available.
+
+The next phase should prioritize **applicability**, not endless renaming of equivalent rigidity conditions.
+
+Questions:
 
 ```text
-HigherWeakEssentialUniquenessObstruction
+Which naturally occurring KuuOS carriers satisfy v2.45–54 hypotheses?
+Can detector/separator structures be derived from existing limits or generators?
+Can cancellation/effective-epi families be constructed canonically?
+Can one obtain a Stage III carrier from representability or contractibility?
 ```
-
-Under coherent existence, eliminating Axis E is equivalent to producing at least one Stage III-completed weak universal candidate.
 
 ## B1. Candidate-selection theorem
 
@@ -371,55 +423,50 @@ Target:
 coherent datum U
 + explicit structural hypotheses
 --------------------------------
-exists C, C is Stage II universal candidate
-          and C.HasEssentialUniqueness
+∃ C, StageIIICompleted C
 ```
 
-The candidate may differ from `U.chosen`; v2.36–v2.41 already describe how uniqueness transfer interacts with the fixed carrier.
+The carrier `C` need not be definitionally equal to `U.chosen`; v2.37–41 already control transfer back to the fixed carrier under the required comparison data.
 
 ## B2. Representability / hom-category route
 
-Investigate whether Stage III uniqueness can be derived from intrinsic representability, contractibility, adjoint equivalence, or a suitable local hom-category property rather than postulated directly.
+Investigate whether essential uniqueness follows from:
 
-Do not identify “mutual factor existence” with equivalence unless the required 2-isomorphisms are constructed.
+```text
+representability
+contractibility
+local hom-category rigidity
+adjoint-equivalence structure
+canonical generator / detector data
+```
 
-## B3. Saturation route
+rather than being separately postulated.
 
-The strict-sector saturation results are conditional. Determine whether weak admissible systems lie in a pointwise-equivalence saturation strong enough to produce a completed candidate.
+### Track B exit criterion
 
-### Exit criterion
-
-A theorem eliminating `HigherWeakEssentialUniquenessObstruction` under the smallest explicit hypotheses found.
+A theorem eliminating `HigherWeakEssentialUniquenessObstruction` under the smallest explicit hypotheses available, ideally in a class of nontrivial natural examples.
 
 ---
 
 # Track C — Axis R: fixed coherent route
 
-Axis R is:
+Axis R is the failure of the fixed coherent forward modification-triangle route when weak universality already exists.
+
+## C0. Existing exact normal form
+
+v2.37–42 already show that, on completed carriers:
 
 ```text
-HigherFixedChosenForwardModificationTriangleObstruction
+split
+<-> coherent forward factor
+<-> forward weak factor + invertible modification triangle
 ```
 
-It occurs only when weak universality already exists.
+v2.43–54 supply several rigidity conditions under which the relevant naturality is automatic.
 
-## C1. Local forward triangle construction
+## C1. Correction-equation route
 
-For a completed carrier `C`, construct at least one
-
-```text
-alpha : U.chosen -> C.chosen
-```
-
-whose underlying StrongTrans carries the invertible modification triangle required by v2.22.
-
-By v2.41 this is exactly enough to obtain the split/equivalence route.
-
-## C2. Correction-equation route
-
-Use the v2.26 stored-triangle correction equation as a concrete algebraic normal form.
-
-Target:
+Use the v2.26 stored-triangle correction equation as an algebraic normal form:
 
 ```text
 explicit correction data
@@ -428,13 +475,11 @@ explicit correction data
   -> split
 ```
 
-General correction solvability remains open and must not be replaced by a placeholder existence assumption.
+Do not replace general solvability with a placeholder existence assumption.
 
-## C3. Extension / obstruction route
+## C2. Extension / obstruction route
 
-Use v2.29–v2.30 pointwise and arrowwise coherence equations to classify exactly when local comparison data extends globally.
-
-Desired outcome:
+Use the v2.29–30 pointwise and arrowwise coherence equations to seek an exact statement:
 
 ```text
 obstruction = 0
@@ -443,25 +488,19 @@ obstruction = 0
 
 under explicit hypotheses.
 
-## C4. Global route completeness
+## C3. Structural detection route
 
-Target:
+Use the v2.47–54 criteria to identify natural target categories where the correction equation becomes unique or automatically solvable.
 
-```text
-HigherCoherentRouteCompletenessPrinciple
-```
+### Track C exit criterion
 
-By v2.42, failure is exactly `HigherGlobalFixedRouteObstruction`.
-
-### Exit criterion
-
-A theorem eliminating the global fixed-route obstruction under stated structural assumptions.
+A theorem eliminating the global fixed-route obstruction under explicit structural assumptions, followed eventually by a general route-completeness theorem or exact characterization of its additional data.
 
 ---
 
 # Track D — assemble weak/coherent alignment
 
-After Tracks A–C, the intended assembly is:
+After A2 supplies coherent data and Tracks B/C control the two axes:
 
 ```text
 coherent existence
@@ -471,27 +510,17 @@ coherent existence
 weak/coherent alignment
 ```
 
-The target global package is:
-
-```text
-HigherWeakLocalizationUniversalPrinciple
-AND
-HigherCoherentRouteCompletenessPrinciple
-```
-
-v2.42 already gives the exact obstruction normal form relative to coherent existence.
+v2.42 already supplies the exact local obstruction normal form.
 
 ### Exit criterion
 
-A theorem deriving the two global principles from explicit assumptions without hiding either obstruction class.
+A theorem deriving weak universality and coherent route completeness from explicit assumptions without hiding either obstruction class.
 
 ---
 
-# Track E — reduce assumptions and identify minimal axioms
+# Track E — minimal dependent-origination axioms
 
-The final universality program should not permanently depend on every historical intermediate interface.
-
-Candidate parent axioms remain provisional:
+Candidate parent principles remain provisional:
 
 ```text
 DO1 Contextuality
@@ -500,18 +529,18 @@ DO3 Higher coherence
 DO4 Presentation invariance
 DO5 Descent
 DO6 Obstruction
-DO7 Non-reification
+DO7 Non-reification / authority boundary
 ```
 
-Questions:
+The formal task is to classify them:
 
 ```text
-Which are mathematical data?
-Which are properties?
-Which are derivable?
-Which are interpretive boundaries rather than axioms?
-Which current theorems use only a strict subset?
-Which countermodels separate them?
+which are data?
+which are properties?
+which are derivable?
+which are interpretive constraints rather than mathematical axioms?
+which current theorems need only a strict subset?
+which countermodels separate them?
 ```
 
 Deliverables:
@@ -526,13 +555,13 @@ countermodels / independence witnesses where feasible
 
 ### Exit criterion
 
-A small theorem-backed axiom package sufficient to reconstruct the contextual/coherent/descent core.
+A small theorem-backed axiom package sufficient to reconstruct the contextual/coherent/descent core without fossilizing historical implementation details.
 
 ---
 
 # Track F — determine the correct categorical level
 
-Do not decide in advance that the final universal carrier must be one of:
+Do not decide in advance that the final carrier must be exactly one of:
 
 ```text
 ordinary category
@@ -541,15 +570,15 @@ bicategory
 (∞,2)-category
 stack
 model category
-orthogonality/WFS completion
+orthogonality / WFS completion
 ```
 
-Compare candidate constructions by the actual structure forced by the minimal axioms.
+Instead ask what structure the minimal axioms force.
 
-Possible outcome:
+Possible successful outcome:
 
 ```text
-multiple presentations
+multiple constructions
   -> proved equivalence of universal carriers
 ```
 
@@ -557,21 +586,19 @@ rather than one privileged syntax.
 
 ### Exit criterion
 
-A theorem-backed ambient level or a comparison theorem showing that multiple constructions present the same universal content.
+A theorem-backed ambient level, or comparison theorems showing that several presentations encode the same universal content.
 
 ---
 
 # Track G — construct DO(C,W,J,H)
 
-Construct an explicit carrier
+Construct an explicit carrier and canonical map:
 
 ```text
-DO(C, W, J, H)
+η : C ⟶ DO(C,W,J,H)
 ```
 
-and canonical map `η`.
-
-Required data/theorems before any universal claim:
+Required before any universal claim:
 
 ```text
 existence
@@ -590,15 +617,15 @@ A concrete Lean object on which the final mapping property can be stated without
 
 # Track H — Dependent Origination Representation Theorem
 
-Prove the final mapping property, schematically:
+Prove the mapping property, schematically:
 
 ```text
 AdmissibleContextualSystems(C, X)
   ≃
-Fun(DO(C, W, J, H), X)
+Fun(DO(C,W,J,H), X)
 ```
 
-or a variance-correct higher-categorical equivalent.
+or its variance-correct higher-categorical analogue.
 
 Required package:
 
@@ -606,24 +633,24 @@ Required package:
 factorization exists
 essential uniqueness
 higher coherence of comparison
-naturality in the appropriate variables
+naturality in the relevant variables
 uniqueness of DO up to the correct equivalence
 ```
 
-Only after this stage may documentation say that dependent origination has been proved universal in the stated formal sense.
+Only after this may documentation say that dependent origination has been proved universal in the stated formal sense.
 
 ---
 
 # Parallel mathematical workstreams
 
-These remain important because the final universality theorem should explain them rather than discard them.
+These should remain connected to the parent universality program rather than becoming isolated side projects.
 
 ## P1. Fundamental-groupoid descent
 
-Current integrated state includes:
+Current integrated themes include:
 
 ```text
-necessary quotient-kernel compatibility
+quotient-kernel compatibility
 explicit descent obstruction
 natural-isomorphism invariance
 ```
@@ -635,13 +662,13 @@ FundamentalDescent Q S is nonempty
   <-> IntrinsicDescentCondition(Q,S)
 ```
 
-under visible hypotheses.
+under explicit hypotheses.
 
 Keep ordinary homotopy-groupoid transport separate from arbitrary curvature-sensitive thin/smooth connection transport.
 
 ## P2. Semantic information loss
 
-Continue formal separation of:
+Continue distinguishing:
 
 ```text
 full generated-presentation semantics
@@ -649,19 +676,21 @@ vs
 terminal / fibrant-object restriction
 ```
 
-with the integrated phenomenon that distinct presentations may induce identical fibrant-object semantics.
-
-Do not call the resulting semantic quotient a localization before proving a universal property.
+Do not call a semantic quotient a localization until its universal property is proved.
 
 ## P3. Scaled simplicial / higher realization
 
 Continue scaled Duskin, mapping-quasicategory, horn-coherence, and presentation-transport results as candidate realizations of the parent theory.
 
+## P4. Cross-realization comparison
+
+Where two formal realizations encode the same intended dependent-origination structure, prove comparison/transport theorems rather than relying on verbal analogy.
+
 ---
 
 # Validation-only Lean 4.31 workstream
 
-PR #1558 remains separate from canonical theorem advancement.
+PR **#1558** remains separate from canonical theorem advancement.
 
 ```text
 PR #1558 = validation-only
@@ -674,17 +703,7 @@ CI result = compatibility evidence only
 
 Its purpose is toolchain compatibility/reconstruction, not theorem authority.
 
-Any proof engineering worth preserving must later be ported theorem-preservingly onto a fresh canonical branch.
-
-### Validation exit criterion
-
-```text
-exact-head selected Lean check = success
-dependency manifest verification = success
-governance = success
-no sorry / admit / new axiom / weakening
-PR remains unmerged
-```
+Any proof engineering worth preserving must be ported theorem-preservingly onto a fresh canonical branch.
 
 ---
 
@@ -694,20 +713,22 @@ The AI program should derive operational invariants from the parent mathematics 
 
 ## AI-1. Model migration as presentation transport
 
-Treat model upgrades and cross-model transfer as explicit changes of presentation.
+Treat model upgrades and cross-model transfer as changes of presentation.
 
-Research targets:
+Targets:
 
 ```text
 semantic invariant packet
+explicit authority hierarchy
 contextual transport map
-provenance-preserving migration
-regression / retention tests
-obstruction when transport fails
-rollback when critical invariants fail
+retention / regression tests
+false-fluency detection
+stress tests
+canary promotion
+rollback on critical invariant failure
 ```
 
-The goal is model-independent KuuOS continuity, not copying one model’s prose or hidden state.
+The objective is model-independent KuuOS continuity, not copying one model's prose or hidden state.
 
 ## AI-2. Memory as descent
 
@@ -716,226 +737,117 @@ Treat memory integration as gluing partial observations across contexts.
 Targets:
 
 ```text
-source-indexed memory states
-provenance-preserving merge
-contradiction obstruction
-no retroactive truth promotion
-explicit uncertainty / NO_DATA
+source provenance
+compatibility checks
+contradiction witnesses
+partial gluing
+explicit obstruction
+no silent overwrite
 ```
 
-Exit criterion: at least one formal or executable memory invariant that distinguishes successful descent from unresolved contradiction.
-
-## AI-3. Adaptive Retrieval as bounded presentation selection
-
-Current ladder:
+Desired theorem-like contract:
 
 ```text
-R0 lexical
-R1 lexical + bounded rewrite
-R2 semantic on demand
-R3 hybrid
-R4 pre-embedded semantic
-R5 bounded relational / GraphRAG
+compatible local memories
+  -> justified merged state
+
+incompatible local memories
+  -> explicit obstruction / unresolved branch
 ```
 
-Current formal policy:
+## AI-3. Retrieval as bounded observation
+
+Keep the least-sufficient retrieval hierarchy and prove/validate properties such as:
 
 ```text
-selected mode = least complex mode explicitly assessed as adequate
-```
-
-Next milestones:
-
-```text
-empirical adequacy interface
-provenance-preserving transport
-contradiction / obstruction surface
-presentation-invariance experiments
-bounded GraphRAG as last-resort relational mode
-```
-
-Authority remains:
-
-```text
-retrieval != truth
-ranking != entailment
-GraphRAG != ontology
+bounded escalation
+fail-closed adequacy
+provenance preservation
+retrieval != entailment
 selection != execution
 ```
 
-## AI-4. Multi-agent / multi-model coherence
+## AI-4. Multi-agent coordination as higher coherence
 
-Simple agreement is not enough.
+Model independent agents as context-indexed actors whose local outputs require explicit comparison/transport before global synthesis.
 
 Targets:
 
 ```text
-agent-specific context
-transport between agent presentations
-2-cell comparison between transports
-coherence tests for mediation loops
-explicit obstruction when round trips disagree
+pairwise agreement != global coherence
+local consensus != truth
+agent handoff = transport with provenance
+incompatible plans -> obstruction
+coherent composition -> reusable higher route
 ```
 
-Exit criterion: a nontrivial coordination theorem or executable invariant stronger than majority vote / text agreement.
+## AI-5. Bounded control plane
 
-## AI-5. Plan / decision / action authority
-
-Keep the operational cycle:
+Maintain the closed loop:
 
 ```text
-Plan
-Act
-Observe
-Verify
-Learn
-Replan
+observe -> represent -> retrieve -> plan -> decide
+        -> act -> re-observe -> verify
 ```
 
-with bounded authority:
-
-```text
-plan != completed action
-action receipt != WORLD truth
-observation != verification
-verification != theorem authority
-model output != execution license
-```
+No external host or model receives automatic truth, WORLD-commit, rollback-proof, or memory-overwrite authority.
 
 ---
 
-# Runtime / control-plane workstream
+# Immediate theorem-sized milestones
 
-The runtime architecture includes ObserveOS, VerifyOS, PlanOS, DecisionOS, MemoryOS, CodeAI, GitHub MCP durable reentry, OpenClaw integration, dependent-origination adapters, and Adaptive Retrieval.
-
-OpenClaw remains:
+Priority order after v2.55:
 
 ```text
-execution host + observation source
+1. Define a minimal explicit coherent W-inversion interface for arbitrary
+   equivalence-valued R.map f.
+
+2. Prove that interface yields HigherLocalizationFactorization for a class
+   strictly broader than W ≤ isomorphisms.
+
+3. Compare the new construction with the v2.55 isomorphism-class sector.
+
+4. Construct coherent Stage II data from the factorization route rather than
+   postulating a global coherent universal principle.
+
+5. Apply v2.47–54 structural uniqueness criteria to natural carriers and
+   eliminate Axis E / Axis R in nontrivial examples.
+
+6. Extract the minimal theorem dependency package.
+
+7. Determine the categorical level required by the surviving invariants.
+
+8. Construct DO(C,W,J,H), then prove its representation theorem.
 ```
 
-and not:
+A useful discipline for subsequent PRs is:
 
 ```text
-truth authority
-WORLD commit authority
-automatic PlanOS completion
-automatic rollback proof
-automatic memory overwrite authority
-```
-
-Next runtime work should improve contextual provenance and obstruction visibility without promoting runtime receipts into theorem authority.
-
----
-
-# Repository governance roadmap
-
-## Exact-SHA formal discipline
-
-Formal theorem work follows:
-
-```text
-fresh canonical base
-one mathematical unit
-Draft PR
-exact-head CI
-write freeze while CI runs
+one theorem-sized mathematical unit
+exact canonical base
+explicit authority boundary
 no weakening
-no sorry / admit / new axiom
-fresh Ready gate
-exact-head normal merge
-post-merge parent check
-mergeSHA...main = identical / ahead 0 / behind 0
+no hidden strictification
+no carrier collapse
+exact-head CI
+normal merge only after fresh gate
+post-merge verification before the next write
 ```
-
-If the head changes, old CI no longer validates the new head.
-
-## Documentation discipline
-
-README and ROADMAP must distinguish:
-
-```text
-proved theorem
-conditional theorem
-explicit open principle
-validation-only evidence
-runtime implementation
-philosophical interpretation
-future target
-```
-
-Snapshot SHAs should identify the theorem state being summarized.
 
 ---
 
-# Priority order from the current frontier
+# Completion criteria
 
-The next theorem work should be chosen by mathematical leverage, not version number.
-
-### Priority 1 — attack Axis R structurally
-
-Because v2.41 gives an exact local criterion, any theorem constructing a forward modification triangle on completed carriers immediately closes the fixed-route side.
-
-High-value routes:
+The project reaches its mathematical north star only when the repository contains an explicit theorem package proving, under stated hypotheses:
 
 ```text
-correction equation solvability
-intrinsic adjunction/equivalence data
-extension theorem for pointwise coherence
-a representable hom-category criterion
+1. the relevant higher localization / presentation transport exists;
+2. coherent factorization exists;
+3. essential uniqueness is proved;
+4. descent and higher coherence are compatible;
+5. the resulting carrier is independent of auxiliary presentation up to the
+   appropriate equivalence;
+6. the representation theorem is natural and formally checked.
 ```
 
-### Priority 2 — attack Axis E existentially
-
-Produce or characterize Stage III-completed candidates without assuming the desired conclusion.
-
-High-value routes:
-
-```text
-representability
-strictification + theorem-preserving transport
-saturation
-contractible factor categories
-explicit universal candidate construction
-```
-
-### Priority 3 — coherent existence from admissibility
-
-The final global theorem cannot rely forever on an externally supplied coherent datum.
-
-### Priority 4 — assemble the weak universal principle
-
-Once coherent existence and both axes are controlled, prove the genuine higher weak-universality theorem.
-
-### Priority 5 — minimize assumptions
-
-Remove historical scaffolding that is sufficient but not necessary.
-
-### Priority 6 — build the universal DO carrier
-
-Only after the mapping-property prerequisites are explicit.
-
----
-
-# Definition of success
-
-KuuOS will have reached the main mathematical milestone when the repository contains, under pinned reproducible Lean checking:
-
-```text
-an explicit dependent-origination carrier DO(C,W,J,H)
-+ a canonical map η
-+ factorization for every admissible contextual system
-+ essential uniqueness
-+ coherent naturality
-+ uniqueness of the carrier up to the correct equivalence
-```
-
-The AI milestone is stronger than a demo:
-
-```text
-at least one nontrivial memory / retrieval / migration / multi-agent invariant
-must be derived from the parent formal structure
-and verified operationally without collapsing runtime success into truth authority.
-```
-
-Until then, KuuOS remains a deliberately open research program with increasingly precise obstruction boundaries rather than a finished universal theory.
+Until then, KuuOS should continue to state precisely which sectors are proved, which obstructions are eliminated conditionally, and which global principles remain open.
