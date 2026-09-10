@@ -5,17 +5,18 @@ namespace KUOS.DependentOriginationFiniteTransferWordV0_4
 
 open KUOS.DependentOriginationFunctorialTransportV0_1
 open KUOS.DependentOriginationExponentialGapTransportV0_2
-open KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3
+
+end KUOS.DependentOriginationFiniteTransferWordV0_4
+
+namespace KUOS.DependentOriginationExponentialGapTransportV0_2
+
+open KUOS.DependentOriginationFunctorialTransportV0_1
 
 universe u
 
 namespace ExponentiallyGappedVacuumTransport
 
 variable {State : Type u} [SeminormedAddCommGroup State] [NormedSpace ℝ State]
-
-namespace LinearTransferRealization
-
-variable {D : ExponentiallyGappedVacuumTransport State}
 
 /--
 A finite positive-time transfer word.  The list order is retained syntactically
@@ -26,6 +27,10 @@ abbrev TransferWord := List NNReal
 /-- Total elapsed positive time represented by a finite transfer word. -/
 def wordTotalTime (word : TransferWord) : NNReal :=
   word.sum
+
+namespace LinearTransferRealization
+
+variable {D : ExponentiallyGappedVacuumTransport State}
 
 /--
 Evaluate a finite transfer word using the supplied linear transfer realization.
@@ -118,8 +123,10 @@ theorem wordOperatorApply_eq_of_totalTime_eq
     _ = L.wordOperatorApply right x :=
       (L.wordOperatorApply_eq_totalTime right x).symm
 
+end LinearTransferRealization
+
 /-- Product of the exponential decay factors associated with all letters of a word. -/
-def wordDecayProduct
+noncomputable def wordDecayProduct
     (D : ExponentiallyGappedVacuumTransport State) : TransferWord → ℝ
   | [] => 1
   | t :: tail => D.decayFactor t * D.wordDecayProduct tail
@@ -142,6 +149,10 @@ theorem wordDecayProduct_eq_totalTime
           (D.decayFactor_add t (wordTotalTime tail)).symm
         _ = D.decayFactor (wordTotalTime (t :: tail)) := by
           simp [wordTotalTime]
+
+namespace LinearTransferRealization
+
+variable {D : ExponentiallyGappedVacuumTransport State}
 
 /-- Connected/vacuum-subtracted readout after a finite transfer word. -/
 def connectedWordReadout
@@ -206,4 +217,4 @@ end LinearTransferRealization
 
 end ExponentiallyGappedVacuumTransport
 
-end KUOS.DependentOriginationFiniteTransferWordV0_4
+end KUOS.DependentOriginationExponentialGapTransportV0_2
