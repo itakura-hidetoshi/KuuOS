@@ -1,7 +1,7 @@
 import KUOS.DependentOriginationGeneratedFactorizationV2_68
 import Mathlib.CategoryTheory.SingleObj
 import Mathlib.Data.ZMod.Basic
-import Mathlib.Tactic.Omega
+import Mathlib
 
 namespace KUOS.DependentOriginationGeneratedHolonomyCountermodelV2_69
 
