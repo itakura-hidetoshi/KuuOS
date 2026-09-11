@@ -3,6 +3,7 @@ import KUOS.DependentOriginationStrictHigherLocalizationV2_11
 namespace KUOS.DependentOriginationStrictHigherFactorizationV2_12
 
 open CategoryTheory
+open CategoryTheory.Bicategory
 open Opposite
 open KUOS.DependentOriginationPresentationUniversalityV2_0
 open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
@@ -13,6 +14,9 @@ open KUOS.DependentOriginationStrictHigherLocalizationV2_11
 open scoped CategoryTheory.Pseudofunctor.StrongTrans
 
 universe u v uH vH
+
+attribute [local simp]
+  Strict.leftUnitor_eqToIso Strict.rightUnitor_eqToIso Strict.associator_eqToIso
 
 /-!
 # Strict higher presentation-localization factorization v2.12
@@ -48,7 +52,13 @@ variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
 
 /-- The ordinary localization natural isomorphism promoted to the strong
-comparison required by the higher localization interface. -/
+comparison required by the higher localization interface.
+
+The source bicategory is locally discrete, so 2-cell naturality reduces to the
+unique identity 2-cell.  The remaining identity/composition laws are exactly
+the ordinary naturality equation together with strict bicategory coherence in
+`Cat`; they are proved explicitly here rather than delegated to the default
+`cat_disch` synthesis. -/
 noncomputable def strictHigherLocalizationComparison
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
@@ -63,6 +73,16 @@ noncomputable def strictHigherLocalizationComparison
         (strictLocalizationFactorizationIso W G hG).hom.app X.as ≫ G.map f.as
     simpa using
       (strictLocalizationFactorizationIso W G hG).hom.naturality f.as)
+  naturality_naturality η := by
+    obtain rfl := obj_ext_of_isDiscrete η
+    simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
+      strictRawHigherSystem, higherPresentationUnitFunctor, Pseudofunctor.comp]
+  naturality_id X := by
+    simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
+      strictRawHigherSystem, higherPresentationUnitFunctor, Pseudofunctor.comp]
+  naturality_comp f g := by
+    simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
+      strictRawHigherSystem, higherPresentationUnitFunctor, Pseudofunctor.comp]
 
 /-- Every component of the strict comparison is an equivalence of categories.
 Indeed it is already an isomorphism in `Cat`, because it is a component of the
