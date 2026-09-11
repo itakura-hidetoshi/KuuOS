@@ -2,8 +2,10 @@
 from __future__ import annotations
 
 import pathlib
+import tempfile
 import unittest
 
+import scripts.select_impacted_checks as selector
 from scripts.select_impacted_checks import load_registry, select
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -78,6 +80,53 @@ class CiAuditSelectorV01Tests(unittest.TestCase):
             selected_ids(result),
             {"lean-formal", "plan-os", "workflow-integrity"},
         )
+
+    def test_impacted_lean_targets_include_reverse_import_closure(self) -> None:
+        fn = getattr(selector, "select_lean_targets", None)
+        self.assertIsNotNone(fn, "select_lean_targets must exist")
+        if fn is None:
+            return
+        with tempfile.TemporaryDirectory() as tmp:
+            formal = pathlib.Path(tmp) / "formal"
+            formal.mkdir()
+            (formal / "A.lean").write_text("def a : Nat := 0\n", encoding="utf-8")
+            (formal / "B.lean").write_text("import A\ndef b : Nat := a\n", encoding="utf-8")
+            (formal / "C.lean").write_text("import B\ndef c : Nat := b\n", encoding="utf-8")
+            (formal / "D.lean").write_text("def d : Nat := 1\n", encoding="utf-8")
+            targets, reason = fn(
+                ["formal/A.lean"],
+                formal_root=formal,
+                max_targets=10,
+            )
+        self.assertIsNone(reason)
+        self.assertEqual(targets, ["A", "B", "C"])
+
+    def test_lean_target_selection_falls_back_for_toolchain_changes(self) -> None:
+        fn = getattr(selector, "select_lean_targets", None)
+        self.assertIsNotNone(fn, "select_lean_targets must exist")
+        if fn is None:
+            return
+        targets, reason = fn(["lean-toolchain"])
+        self.assertEqual(targets, ["KuuOSFormal"])
+        self.assertIsNotNone(reason)
+
+    def test_lean_target_selection_falls_back_when_closure_is_too_large(self) -> None:
+        fn = getattr(selector, "select_lean_targets", None)
+        self.assertIsNotNone(fn, "select_lean_targets must exist")
+        if fn is None:
+            return
+        with tempfile.TemporaryDirectory() as tmp:
+            formal = pathlib.Path(tmp) / "formal"
+            formal.mkdir()
+            (formal / "A.lean").write_text("def a : Nat := 0\n", encoding="utf-8")
+            (formal / "B.lean").write_text("import A\ndef b : Nat := a\n", encoding="utf-8")
+            targets, reason = fn(
+                ["formal/A.lean"],
+                formal_root=formal,
+                max_targets=1,
+            )
+        self.assertEqual(targets, ["KuuOSFormal"])
+        self.assertIsNotNone(reason)
 
     def assert_full_governance_shards(self, result: dict[str, object]) -> set[str]:
         ids = selected_ids(result)
