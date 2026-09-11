@@ -44,7 +44,7 @@ variable (W : MorphismProperty Context)
 morphism.  The factor 1-cell is fixed to be `alpha.hom`; only an invertible
 modification filling the comparison triangle is requested. -/
 def HasFactorModificationTriangle
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=
   Nonempty
@@ -54,7 +54,7 @@ def HasFactorModificationTriangle
 /-- A v2.21 coherent lift exists exactly when the already-given v2.18 factor
 StrongTrans admits the required invertible modification triangle. -/
 theorem coherentLiftOfV2_18Factor_iff_hasFactorModificationTriangle
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) :
     Nonempty (CoherentLiftOfV2_18Factor (W := W) alpha) ↔
@@ -75,7 +75,7 @@ theorem coherentLiftOfV2_18Factor_iff_hasFactorModificationTriangle
 chosen coherent universal factorization carries the modification triangle on its
 existing underlying StrongTrans. -/
 def HigherFactorModificationTriangleLifting
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -84,7 +84,7 @@ def HigherFactorModificationTriangleLifting
 /-- The v2.21 factor-coherence lifting condition is exactly the pure
 modification-triangle lifting condition. -/
 theorem higherFactorCoherenceLifting_iff_modificationTriangleLifting
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFactorCoherenceLifting (W := W) U ↔
       HigherFactorModificationTriangleLifting (W := W) U := by
@@ -101,7 +101,7 @@ theorem higherFactorCoherenceLifting_iff_modificationTriangleLifting
 /-- The normal-form obstruction: one already-given v2.18 factor StrongTrans has
 no invertible modification filling its comparison triangle. -/
 def HigherFactorModificationTriangleObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∃ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -110,7 +110,7 @@ def HigherFactorModificationTriangleObstruction
 /-- The v2.21 obstruction is equivalent to failure of an invertible
 modification triangle on an existing factor StrongTrans. -/
 theorem higherFactorCoherenceObstruction_iff_modificationTriangleObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFactorCoherenceObstruction (W := W) U ↔
       HigherFactorModificationTriangleObstruction (W := W) U := by
@@ -130,7 +130,7 @@ theorem higherFactorCoherenceObstruction_iff_modificationTriangleObstruction
 
 /-- Pure triangle lifting is exactly absence of the pure triangle obstruction. -/
 theorem higherFactorModificationTriangleLifting_iff_no_obstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFactorModificationTriangleLifting (W := W) U ↔
       ¬ HigherFactorModificationTriangleObstruction (W := W) U := by
@@ -142,16 +142,15 @@ theorem higherFactorModificationTriangleLifting_iff_no_obstruction
 universal-property datum admits the required invertible modification triangle on
 its existing StrongTrans.  This remains an explicit proposition, not an axiom. -/
 def HigherFactorModificationTriangleLiftingPrinciple : Prop :=
-  ∀ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
+  ∀ (R : RawHigherContextualSystem (Context := Context))
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
     HigherFactorModificationTriangleLifting (W := W) U
 
 /-- The global v2.21 lifting principle and its pure modification-triangle normal
 form are equivalent. -/
 theorem higherFactorCoherenceLiftingPrinciple_iff_modificationTrianglePrinciple :
-    HigherFactorCoherenceLiftingPrinciple (W := W) (uH := uH) (vH := vH) ↔
-      HigherFactorModificationTriangleLiftingPrinciple
-        (W := W) (uH := uH) (vH := vH) := by
+    HigherFactorCoherenceLiftingPrinciple (W := W) ↔
+      HigherFactorModificationTriangleLiftingPrinciple (W := W) := by
   constructor
   · intro h R U
     exact
@@ -168,16 +167,13 @@ higher localization universal principle.
 
 This is only a conditional transport theorem: neither premise is proved here. -/
 theorem higherWeakLocalizationUniversalPrinciple_of_coherent_and_modificationTriangles
-    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH))
-    (hTriangles : HigherFactorModificationTriangleLiftingPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH) :=
+    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple (W := W))
+    (hTriangles : HigherFactorModificationTriangleLiftingPrinciple (W := W)) :
+    HigherWeakLocalizationUniversalPrinciple (W := W) :=
   higherWeakLocalizationUniversalPrinciple_of_coherent_and_factorCoherenceLifting
     W hCoherent
       ((higherFactorCoherenceLiftingPrinciple_iff_modificationTrianglePrinciple
-        (W := W) (uH := uH) (vH := vH)).mpr hTriangles)
+        (W := W)).mpr hTriangles)
 
 /-!
 The boundary after v2.22 is therefore sharper:

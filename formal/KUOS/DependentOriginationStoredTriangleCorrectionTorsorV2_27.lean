@@ -65,7 +65,7 @@ variable (W : MorphismProperty Context)
 /-- The invertible target modification measuring the difference between two
 solutions of the stored-triangle correction equation. -/
 def storedTriangleCorrectionDifference
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (C D : StoredTriangleTargetCorrection (W := W) alpha) :
@@ -78,7 +78,7 @@ def storedTriangleCorrectionDifference
 At the modification-triangle level this is simply postcomposition
 `E(C) ≪≫ g`; v2.26 transports the result back to a correction. -/
 def storedTriangleCorrectionAct
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (C : StoredTriangleTargetCorrection (W := W) alpha)
@@ -89,7 +89,7 @@ def storedTriangleCorrectionAct
 
 /-- The target action has the expected identity law. -/
 theorem storedTriangleCorrectionAct_refl
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (C : StoredTriangleTargetCorrection (W := W) alpha) :
@@ -101,7 +101,7 @@ theorem storedTriangleCorrectionAct_refl
 /-- The target action is associative with composition of invertible
 modifications. -/
 theorem storedTriangleCorrectionAct_assoc
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (C : StoredTriangleTargetCorrection (W := W) alpha)
@@ -115,7 +115,7 @@ theorem storedTriangleCorrectionAct_assoc
 
 /-- A correction has trivial difference from itself. -/
 theorem storedTriangleCorrectionDifference_self
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (C : StoredTriangleTargetCorrection (W := W) alpha) :
@@ -125,7 +125,7 @@ theorem storedTriangleCorrectionDifference_self
 
 /-- Reversing the pair of corrections inverts their difference. -/
 theorem storedTriangleCorrectionDifference_symm
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (C D : StoredTriangleTargetCorrection (W := W) alpha) :
@@ -137,7 +137,7 @@ theorem storedTriangleCorrectionDifference_symm
 /-- Differences satisfy the cocycle law.  This is the nonabelian replacement
 for subtraction of two correction solutions. -/
 theorem storedTriangleCorrectionDifference_trans
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (C D E : StoredTriangleTargetCorrection (W := W) alpha) :
@@ -150,7 +150,7 @@ theorem storedTriangleCorrectionDifference_trans
 /-- Acting by an automorphism produces exactly that automorphism as the
 correction difference.  This is freeness/transitivity in one direction. -/
 theorem storedTriangleCorrectionDifference_act
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (C : StoredTriangleTargetCorrection (W := W) alpha)
@@ -164,7 +164,7 @@ theorem storedTriangleCorrectionDifference_act
 /-- Acting on `C` by its difference to `D` recovers `D`.  This is the converse
 freeness/transitivity statement. -/
 theorem storedTriangleCorrectionAct_difference
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (C D : StoredTriangleTargetCorrection (W := W) alpha) :
@@ -180,7 +180,7 @@ invertible modification automorphisms of the target comparison StrongTrans.
 
 This is the precise torsor classification. -/
 def storedTriangleCorrectionTorsorEquiv
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (C0 : StoredTriangleTargetCorrection (W := W) alpha) :
@@ -192,7 +192,7 @@ def storedTriangleCorrectionTorsorEquiv
   right_inv := storedTriangleCorrectionDifference_act (W := W) C0
 
 @[simp] theorem storedTriangleCorrectionTorsorEquiv_apply
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (C0 C : StoredTriangleTargetCorrection (W := W) alpha) :
@@ -203,7 +203,7 @@ def storedTriangleCorrectionTorsorEquiv
 /-- With a base solution present, the correction type is subsingleton exactly
 when the target has at most one invertible modification automorphism. -/
 theorem subsingleton_storedTriangleCorrection_iff_targetAutomorphism
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (C0 : StoredTriangleTargetCorrection (W := W) alpha) :
@@ -224,7 +224,7 @@ theorem subsingleton_storedTriangleCorrection_iff_targetAutomorphism
 /-- A factor has a unique correction solution when the correction type is both
 inhabited and subsingleton. -/
 def HasUniqueStoredTriangleTargetCorrection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=
   Nonempty (StoredTriangleTargetCorrection (W := W) alpha) ∧
@@ -232,7 +232,7 @@ def HasUniqueStoredTriangleTargetCorrection
 
 /-- Given one correction, uniqueness is exactly target modification rigidity. -/
 theorem hasUniqueStoredTriangleTargetCorrection_iff_targetAutomorphismSubsingleton
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (C0 : StoredTriangleTargetCorrection (W := W) alpha) :
@@ -251,7 +251,7 @@ theorem hasUniqueStoredTriangleTargetCorrection_iff_targetAutomorphismSubsinglet
 /-- Uniform target-comparison rigidity for all v2.18 factor morphisms into one
 chosen coherent universal datum. -/
 def HigherFactorComparisonAutomorphismRigidity
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (_alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -259,7 +259,7 @@ def HigherFactorComparisonAutomorphismRigidity
 
 /-- Uniform existence-and-uniqueness of stored-triangle corrections. -/
 def HigherStoredTriangleTargetCorrectionUniqueLifting
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -268,7 +268,7 @@ def HigherStoredTriangleTargetCorrectionUniqueLifting
 /-- Uniform unique correction lifting splits exactly into the already-known
 existence problem plus an independent target-automorphism rigidity problem. -/
 theorem higherUniqueStoredTriangleCorrectionLifting_iff_existence_and_rigidity
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherStoredTriangleTargetCorrectionUniqueLifting (W := W) U ↔
       HigherStoredTriangleTargetCorrectionLifting (W := W) U ∧
@@ -291,7 +291,7 @@ theorem higherUniqueStoredTriangleCorrectionLifting_iff_existence_and_rigidity
 
 /-- Explicit failure of target-comparison rigidity. -/
 def HigherFactorComparisonAutomorphismNonRigidity
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∃ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -300,7 +300,7 @@ def HigherFactorComparisonAutomorphismNonRigidity
 /-- Uniform target rigidity is exactly absence of its explicit non-rigidity
 obstruction. -/
 theorem higherFactorComparisonAutomorphismRigidity_iff_no_nonRigidity
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFactorComparisonAutomorphismRigidity (W := W) U ↔
       ¬ HigherFactorComparisonAutomorphismNonRigidity (W := W) U := by
@@ -317,7 +317,7 @@ theorem higherFactorComparisonAutomorphismRigidity_iff_no_nonRigidity
 v2.26 existence obstruction and the new target-automorphism rigidity
 obstruction. -/
 theorem higherUniqueStoredTriangleCorrectionLifting_iff_no_two_obstructions
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherStoredTriangleTargetCorrectionUniqueLifting (W := W) U ↔
       (¬ HigherStoredTriangleTargetCorrectionObstruction (W := W) U) ∧
@@ -330,13 +330,13 @@ theorem higherUniqueStoredTriangleCorrectionLifting_iff_no_two_obstructions
 /-- Global target-comparison rigidity principle.  This is an explicit
 proposition, not an axiom. -/
 def HigherFactorComparisonAutomorphismRigidityPrinciple : Prop :=
-  ∀ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
+  ∀ (R : RawHigherContextualSystem (Context := Context))
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
     HigherFactorComparisonAutomorphismRigidity (W := W) U
 
 /-- Global existence-and-uniqueness principle for stored-triangle corrections. -/
 def HigherStoredTriangleTargetCorrectionUniquePrinciple : Prop :=
-  ∀ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
+  ∀ (R : RawHigherContextualSystem (Context := Context))
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
     HigherStoredTriangleTargetCorrectionUniqueLifting (W := W) U
 
@@ -344,12 +344,9 @@ def HigherStoredTriangleTargetCorrectionUniquePrinciple : Prop :=
 global correction-existence principle and the independent global rigidity
 principle. -/
 theorem higherUniqueStoredTriangleCorrectionPrinciple_iff_correction_and_rigidity :
-    HigherStoredTriangleTargetCorrectionUniquePrinciple
-        (W := W) (uH := uH) (vH := vH) ↔
-      HigherStoredTriangleTargetCorrectionPrinciple
-          (W := W) (uH := uH) (vH := vH) ∧
-        HigherFactorComparisonAutomorphismRigidityPrinciple
-          (W := W) (uH := uH) (vH := vH) := by
+    HigherStoredTriangleTargetCorrectionUniquePrinciple (W := W) ↔
+      HigherStoredTriangleTargetCorrectionPrinciple (W := W) ∧
+        HigherFactorComparisonAutomorphismRigidityPrinciple (W := W) := by
   constructor
   · intro hUnique
     constructor

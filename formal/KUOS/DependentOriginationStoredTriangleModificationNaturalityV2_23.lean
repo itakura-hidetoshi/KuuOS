@@ -45,7 +45,7 @@ variable (W : MorphismProperty Context)
 /-- The Cat-level 2-isomorphism obtained from the objectwise natural isomorphism
 stored in a v2.18 factor morphism. -/
 def storedV2_18ComparisonComponentIso
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (X : Context) :
@@ -59,7 +59,7 @@ already stored in a v2.18 factor morphism.
 This is the missing coherence equation needed by `StrongTrans.isoMk`; no new
 factor 1-cell and no new objectwise triangle are introduced. -/
 def StoredV2_18TriangleIsModificationNatural
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=
   ∀ {X Y : Context} (f : X ⟶ Y),
@@ -74,7 +74,7 @@ def StoredV2_18TriangleIsModificationNatural
 modification naturality equation, then that exact family assembles into the
 invertible modification triangle required by v2.22. -/
 theorem hasFactorModificationTriangle_of_storedV2_18TriangleIsModificationNatural
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (hNatural : StoredV2_18TriangleIsModificationNatural (W := W) alpha) :
@@ -87,7 +87,7 @@ theorem hasFactorModificationTriangle_of_storedV2_18TriangleIsModificationNatura
 /-- Uniform stored-triangle coherence for every v2.18 factor into one chosen
 coherent universal factorization. -/
 def HigherStoredV2_18TriangleModificationNaturality
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -97,7 +97,7 @@ def HigherStoredV2_18TriangleModificationNaturality
 sufficient condition for the pure modification-triangle lifting property of
 v2.22. -/
 theorem higherFactorModificationTriangleLifting_of_storedTriangleNaturality
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hNatural : HigherStoredV2_18TriangleModificationNaturality (W := W) U) :
     HigherFactorModificationTriangleLifting (W := W) U := by
@@ -109,7 +109,7 @@ theorem higherFactorModificationTriangleLifting_of_storedTriangleNaturality
 /-- Hence stored-triangle modification naturality also supplies the v2.21
 factor-coherence lifting condition. -/
 theorem higherFactorCoherenceLifting_of_storedTriangleNaturality
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hNatural : HigherStoredV2_18TriangleModificationNaturality (W := W) U) :
     KUOS.DependentOriginationFactorCoherenceLiftingV2_21.HigherFactorCoherenceLifting
@@ -123,17 +123,15 @@ theorem higherFactorCoherenceLifting_of_storedTriangleNaturality
 into every coherent universal-property datum satisfies modification naturality.
 This remains an explicit proposition, not an axiom. -/
 def HigherStoredV2_18TriangleModificationNaturalityPrinciple : Prop :=
-  ∀ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
+  ∀ (R : RawHigherContextualSystem (Context := Context))
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
     HigherStoredV2_18TriangleModificationNaturality (W := W) U
 
 /-- The global stored-triangle naturality principle implies the v2.22 pure
 modification-triangle lifting principle. -/
 theorem higherFactorModificationTriangleLiftingPrinciple_of_storedTriangleNaturality
-    (hNatural : HigherStoredV2_18TriangleModificationNaturalityPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherFactorModificationTriangleLiftingPrinciple
-      (W := W) (uH := uH) (vH := vH) := by
+    (hNatural : HigherStoredV2_18TriangleModificationNaturalityPrinciple (W := W)) :
+    HigherFactorModificationTriangleLiftingPrinciple (W := W) := by
   intro R U
   exact
     higherFactorModificationTriangleLifting_of_storedTriangleNaturality
@@ -145,12 +143,9 @@ the v2.18 weak higher localization universal principle.
 
 Neither premise is proved here. -/
 theorem higherWeakLocalizationUniversalPrinciple_of_coherent_and_storedTriangleNaturality
-    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH))
-    (hNatural : HigherStoredV2_18TriangleModificationNaturalityPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH) :=
+    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple (W := W))
+    (hNatural : HigherStoredV2_18TriangleModificationNaturalityPrinciple (W := W)) :
+    HigherWeakLocalizationUniversalPrinciple (W := W) :=
   higherWeakLocalizationUniversalPrinciple_of_coherent_and_modificationTriangles
     W hCoherent
       (higherFactorModificationTriangleLiftingPrinciple_of_storedTriangleNaturality
