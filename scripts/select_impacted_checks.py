@@ -9,6 +9,7 @@ import json
 import pathlib
 import subprocess
 import sys
+import tomllib
 from collections.abc import Iterable, Mapping
 from typing import Any
 
@@ -16,6 +17,7 @@ ROOT = pathlib.Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY = ROOT / "ci" / "check_registry.yaml"
 REGISTRY_FRAGMENT_DIRNAME = "check_registry.d"
 FORMAL_ROOT = ROOT / "formal"
+LAKEFILE = ROOT / "lakefile.toml"
 FULL_LEAN_TARGET = "KuuOSFormal"
 DEFAULT_MAX_LEAN_TARGETS = 256
 LEAN_FULL_BUILD_PATHS = {
@@ -133,22 +135,61 @@ def _lean_imports(text: str) -> set[str]:
     return imports
 
 
+def _load_lean_library_roots(lakefile_path: pathlib.Path = LAKEFILE) -> set[str]:
+    try:
+        data = tomllib.loads(lakefile_path.read_text(encoding="utf-8"))
+    except (OSError, tomllib.TOMLDecodeError) as exc:
+        raise ValueError(f"cannot load Lean library roots from {lakefile_path}: {exc}") from exc
+
+    libraries = data.get("lean_lib")
+    if isinstance(libraries, dict):
+        libraries = [libraries]
+    if not isinstance(libraries, list) or not libraries:
+        raise ValueError(f"no [[lean_lib]] entries in {lakefile_path}")
+
+    roots: set[str] = set()
+    for library in libraries:
+        if not isinstance(library, dict):
+            raise ValueError(f"invalid [[lean_lib]] entry in {lakefile_path}")
+        values = library.get("roots", [])
+        if not isinstance(values, list) or not all(isinstance(value, str) for value in values):
+            raise ValueError(f"lean_lib roots must be a string list in {lakefile_path}")
+        roots.update(values)
+    if not roots:
+        raise ValueError(f"no Lean library roots declared in {lakefile_path}")
+    return roots
+
+
+def _is_buildable_lean_module(module: str, library_roots: set[str]) -> bool:
+    return any(module == root or module.startswith(f"{root}.") for root in library_roots)
+
+
 def select_lean_targets(
     changed_paths: list[str],
     *,
     formal_root: pathlib.Path = FORMAL_ROOT,
     max_targets: int = DEFAULT_MAX_LEAN_TARGETS,
+    library_roots: set[str] | None = None,
+    lakefile_path: pathlib.Path = LAKEFILE,
 ) -> tuple[list[str], str | None]:
-    """Select strict Lean module targets by reverse-import impact closure.
+    """Select strict Lean targets by reverse-import impact closure.
 
-    The selector is deliberately fail-closed. Changes to the Lean toolchain or
-    Lake dependency surface, missing changed modules, unreadable source files,
-    an empty formal change set when Lean validation was requested, or an impact
-    closure larger than `max_targets` all fall back to the complete
-    `KuuOSFormal` library target.
+    The reverse-import closure may include top-level Lean modules that are not
+    exposed as Lake build targets. We therefore use the full closure for impact
+    analysis but project the final target list onto the declared `lean_lib`
+    roots. Changes to the toolchain/library surface, invalid root metadata,
+    missing changed modules, unreadable source files, an empty formal change
+    set, or an impact closure larger than `max_targets` all fail closed to the
+    complete `KuuOSFormal` library target.
     """
     if any(path in LEAN_FULL_BUILD_PATHS for path in changed_paths):
         return [FULL_LEAN_TARGET], "Lean toolchain/library root changed"
+
+    if library_roots is None:
+        try:
+            library_roots = _load_lean_library_roots(lakefile_path)
+        except ValueError as exc:
+            return [FULL_LEAN_TARGET], str(exc)
 
     changed_modules = {
         module
@@ -194,7 +235,12 @@ def select_lean_targets(
                         f"reverse-import closure exceeds {max_targets} modules"
                     )
 
-    return sorted(closure), None
+    targets = sorted(
+        module for module in closure if _is_buildable_lean_module(module, library_roots)
+    )
+    if not targets:
+        return [FULL_LEAN_TARGET], "impact closure contains no buildable Lake module target"
+    return targets, None
 
 
 def dependency_closure(

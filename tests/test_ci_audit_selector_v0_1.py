@@ -97,9 +97,55 @@ class CiAuditSelectorV01Tests(unittest.TestCase):
                 ["formal/A.lean"],
                 formal_root=formal,
                 max_targets=10,
+                library_roots={"A", "B", "C", "D"},
             )
         self.assertIsNone(reason)
         self.assertEqual(targets, ["A", "B", "C"])
+
+    def test_lean_targets_exclude_nonroot_top_level_importers(self) -> None:
+        fn = getattr(selector, "select_lean_targets", None)
+        self.assertIsNotNone(fn, "select_lean_targets must exist")
+        if fn is None:
+            return
+        with tempfile.TemporaryDirectory() as tmp:
+            formal = pathlib.Path(tmp) / "formal"
+            kuos = formal / "KUOS"
+            kuos.mkdir(parents=True)
+            (kuos / "Counter.lean").write_text("def counter : Nat := 0\n", encoding="utf-8")
+            (formal / "KuuOSFormalV0_69.lean").write_text(
+                "import KUOS.Counter\ndef aggregate : Nat := counter\n",
+                encoding="utf-8",
+            )
+            (formal / "KuuOSObserveOSV0_5.lean").write_text(
+                "import KUOS.Counter\ndef observe : Nat := counter\n",
+                encoding="utf-8",
+            )
+            (formal / "KuuOSVerifyOSV0_7.lean").write_text(
+                "import KUOS.Counter\ndef verify : Nat := counter\n",
+                encoding="utf-8",
+            )
+            targets, reason = fn(
+                ["formal/KUOS/Counter.lean"],
+                formal_root=formal,
+                max_targets=10,
+                library_roots={"KUOS", "KuuOSFormalV0_69"},
+            )
+        self.assertIsNone(reason)
+        self.assertEqual(targets, ["KUOS.Counter", "KuuOSFormalV0_69"])
+
+    def test_lean_library_roots_are_read_from_lakefile(self) -> None:
+        fn = getattr(selector, "_load_lean_library_roots", None)
+        self.assertIsNotNone(fn, "_load_lean_library_roots must exist")
+        if fn is None:
+            return
+        with tempfile.TemporaryDirectory() as tmp:
+            lakefile = pathlib.Path(tmp) / "lakefile.toml"
+            lakefile.write_text(
+                'name = "Example"\n\n[[lean_lib]]\nname = "Example"\nroots = ["KUOS", "Top"]\n',
+                encoding="utf-8",
+            )
+            roots = fn(lakefile)
+        self.assertEqual(roots, {"KUOS", "Top"})
 
     def test_lean_target_selection_falls_back_for_toolchain_changes(self) -> None:
         fn = getattr(selector, "select_lean_targets", None)
@@ -124,6 +170,7 @@ class CiAuditSelectorV01Tests(unittest.TestCase):
                 ["formal/A.lean"],
                 formal_root=formal,
                 max_targets=1,
+                library_roots={"A", "B"},
             )
         self.assertEqual(targets, ["KuuOSFormal"])
         self.assertIsNotNone(reason)
