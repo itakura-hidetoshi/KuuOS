@@ -55,9 +55,11 @@ abbrev descentForgetFunctor :
   sheafToPresheaf J A
 
 /-- Sheafification is left adjoint to the inclusion of descent-complete
-systems. -/
+systems.  The target category `A` is explicit throughout this adjunction spine:
+`J` alone does not determine the sheaf value category. -/
 noncomputable def descentCompletionAdjunction :
-    descentCompletionFunctor J ⊣ descentForgetFunctor J :=
+    descentCompletionFunctor (A := A) J ⊣
+      descentForgetFunctor (A := A) J :=
   sheafificationAdjunction J A
 
 /-- The underlying presheaf of the semantic descent completion of `P`. -/
@@ -81,9 +83,9 @@ theorem descentCompletion_isSheaf
 noncomputable def descentHomEquiv
     (P : Siteᵒᵖ ⥤ A)
     (Q : Sheaf J A) :
-    ((descentCompletionFunctor J).obj P ⟶ Q) ≃
-      (P ⟶ (descentForgetFunctor J).obj Q) :=
-  (descentCompletionAdjunction J).homEquiv P Q
+    ((descentCompletionFunctor (A := A) J).obj P ⟶ Q) ≃
+      (P ⟶ (descentForgetFunctor (A := A) J).obj Q) :=
+  (descentCompletionAdjunction (A := A) J).homEquiv P Q
 
 /-- Factor a map from an arbitrary presheaf to any descent-complete presheaf
 through the canonical descent completion. -/
