@@ -48,7 +48,7 @@ variable (W : MorphismProperty Context)
 /-- An ordinary Cat-valued contextual functor, promoted to a pseudofunctor. -/
 abbrev strictRawHigherSystem
     (G : Context ⥤ Cat.{vH, uH}) :
-    RawHigherContextualSystem (Context := Context) :=
+    RawHigherContextualSystem.{u, v, uH, vH} (Context := Context) :=
   G.toPseudofunctor'
 
 /-- The underlying functor of an isomorphism in `Cat` is an equivalence of
@@ -77,7 +77,7 @@ pseudofunctor. -/
 noncomputable def strictLocalizedHigherSystem
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
-    HigherLocalizedDescentSystem (W := W) :=
+    HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W) :=
   (unopUnop (LocalizedContext W) ⋙ strictLocalizedFunctor W G hG).toPseudofunctor'
 
 /-- Ordinary localization recovers the original Cat-valued contextual functor
@@ -103,7 +103,7 @@ functor has a canonical localized Cat-valued higher lift. -/
 theorem strictSector_hasLocalizedHigherLift
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
-    Nonempty (HigherLocalizedDescentSystem (W := W)) :=
+    Nonempty (HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)) :=
   ⟨strictLocalizedHigherSystem W G hG⟩
 
 /-!
