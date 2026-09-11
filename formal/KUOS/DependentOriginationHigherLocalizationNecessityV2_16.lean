@@ -73,7 +73,7 @@ variable (W : MorphismProperty Context)
 /-- Restricting any localized higher system along the presentation-localization
 unit automatically produces a weakly `W`-admissible raw system. -/
 theorem restrictHigherLocalizedSystem_isHigherWAdmissible
-    (F : HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH)) :
+    (F : HigherLocalizedDescentSystem (W := W)) :
     IsHigherWAdmissible W (restrictHigherLocalizedSystem W F) := by
   intro X Y f hf
   haveI : IsIso (W.Q.map f) := W.Q_inverts f hf
