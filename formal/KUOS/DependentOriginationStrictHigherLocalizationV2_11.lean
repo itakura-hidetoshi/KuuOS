@@ -65,7 +65,7 @@ pseudofunctor. -/
 noncomputable def strictLocalizedHigherSystem
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
-    HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH) :=
+    HigherLocalizedDescentSystem (W := W) :=
   (unopUnop (LocalizedContext W) ⋙ strictLocalizedFunctor W G hG).toPseudofunctor'
 
 /-- Ordinary localization recovers the original Cat-valued contextual functor
@@ -91,7 +91,7 @@ functor has a canonical localized Cat-valued higher lift. -/
 theorem strictSector_hasLocalizedHigherLift
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
-    Nonempty (HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH)) :=
+    Nonempty (HigherLocalizedDescentSystem (W := W)) :=
   ⟨strictLocalizedHigherSystem W G hG⟩
 
 /-!
