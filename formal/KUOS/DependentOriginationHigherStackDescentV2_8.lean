@@ -98,7 +98,7 @@ theorem declaredCover_toDescentData_isEquivalence
     (X : HigherLocalizedSite W) :
     (F.toDescentData
       (fun i : A.Index (unop X) => (A.toChart (unop X) i).op)).IsEquivalence := by
-  apply (F.isStackFor_ofArrows_iff).1
+  apply (Pseudofunctor.isStackFor_ofArrows_iff F _).1
   simpa [RefinementAtlas.presieveAt] using
     isStackFor_declaredCover W A F hF X
 
@@ -155,7 +155,7 @@ theorem isHigherGrothendieckDescentComplete_iff_declaredDescentEquivalences :
       (Presieve.ofArrows
         (fun i : A.Index (unop X) => op (A.chart (unop X) i))
         (fun i => (A.toChart (unop X) i).op))
-    exact (F.isStackFor_ofArrows_iff).2 (hF X)
+    exact (Pseudofunctor.isStackFor_ofArrows_iff F _).2 (hF X)
 
 end LocalToGlobal
 
