@@ -104,6 +104,15 @@ def LocalizedDescentFunctorProperty
     (LocalizedSheafProperty (W := W) A)
     (localizedFunctorPresheafEquivalence W).functor
 
+/-- Descent membership is invariant under isomorphism because it is the inverse
+image of the sheaf property along the variance-correction functor. -/
+instance localizedDescentFunctorProperty_isClosedUnderIsomorphisms
+    (A : RefinementAtlas (LocalizedContext W)) :
+    ObjectProperty.IsClosedUnderIsomorphisms
+      (LocalizedDescentFunctorProperty (W := W) A) := by
+  unfold LocalizedDescentFunctorProperty
+  infer_instance
+
 /-- The full category of localized covariant contextual functors satisfying the
 generated Grothendieck descent condition. -/
 abbrev LocalizedDescentFunctorCategory
@@ -175,6 +184,16 @@ def RawWJFunctorProperty
   ObjectProperty.inverseImage
     (LocalizedDescentFunctorProperty (W := W) A)
     (rawWInvertingLocalizedEquivalence W).functor
+
+/-- Raw `W + J` admissibility is invariant under isomorphism by the second
+inverse-image transport, now from localized descent along presentation
+localization. -/
+instance rawWJFunctorProperty_isClosedUnderIsomorphisms
+    (A : RefinementAtlas (LocalizedContext W)) :
+    ObjectProperty.IsClosedUnderIsomorphisms
+      (RawWJFunctorProperty (W := W) A) := by
+  unfold RawWJFunctorProperty
+  infer_instance
 
 /-- The category of raw Type-valued contextual functors which invert `W` and
 whose presentation-independent representative satisfies `J_A` descent. -/
