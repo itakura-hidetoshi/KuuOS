@@ -102,7 +102,7 @@ class CiAuditSelectorV01Tests(unittest.TestCase):
         self.assertIsNone(reason)
         self.assertEqual(targets, ["A", "B", "C"])
 
-    def test_lean_targets_exclude_nonroot_top_level_importers(self) -> None:
+    def test_lean_targets_exclude_nonroot_and_full_library_aggregate_importers(self) -> None:
         fn = getattr(selector, "select_lean_targets", None)
         self.assertIsNotNone(fn, "select_lean_targets must exist")
         if fn is None:
@@ -113,7 +113,7 @@ class CiAuditSelectorV01Tests(unittest.TestCase):
             kuos.mkdir(parents=True)
             (kuos / "Counter.lean").write_text("def counter : Nat := 0\n", encoding="utf-8")
             (formal / "KuuOSFormalV0_69.lean").write_text(
-                "import KUOS.Counter\ndef aggregate : Nat := counter\n",
+                "import KuuOSFormal\nimport KUOS.Counter\n",
                 encoding="utf-8",
             )
             (formal / "KuuOSObserveOSV0_5.lean").write_text(
@@ -125,13 +125,34 @@ class CiAuditSelectorV01Tests(unittest.TestCase):
                 encoding="utf-8",
             )
             targets, reason = fn(
-                ["formal/KUOS/Counter.lean"],
+                ["formal/KUOS/Counter.lean", "formal/KuuOSFormalV0_69.lean"],
                 formal_root=formal,
                 max_targets=10,
                 library_roots={"KUOS", "KuuOSFormalV0_69"},
             )
         self.assertIsNone(reason)
-        self.assertEqual(targets, ["KUOS.Counter", "KuuOSFormalV0_69"])
+        self.assertEqual(targets, ["KUOS.Counter"])
+
+    def test_full_library_aggregate_only_change_fails_closed(self) -> None:
+        fn = getattr(selector, "select_lean_targets", None)
+        self.assertIsNotNone(fn, "select_lean_targets must exist")
+        if fn is None:
+            return
+        with tempfile.TemporaryDirectory() as tmp:
+            formal = pathlib.Path(tmp) / "formal"
+            formal.mkdir()
+            (formal / "KuuOSFormalV0_69.lean").write_text(
+                "import KuuOSFormal\n",
+                encoding="utf-8",
+            )
+            targets, reason = fn(
+                ["formal/KuuOSFormalV0_69.lean"],
+                formal_root=formal,
+                max_targets=10,
+                library_roots={"KuuOSFormalV0_69"},
+            )
+        self.assertEqual(targets, ["KuuOSFormal"])
+        self.assertIsNotNone(reason)
 
     def test_lean_library_roots_are_read_from_lakefile(self) -> None:
         fn = getattr(selector, "_load_lean_library_roots", None)
