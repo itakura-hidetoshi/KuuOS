@@ -107,7 +107,7 @@ noncomputable def isoClassLocalizedHigherSystem
     (R : RawHigherContextualSystem
       (Context := Context) (uH := uH) (vH := vH))
     (hW : W ≤ MorphismProperty.isomorphisms Context) :
-    HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH) :=
+    HigherLocalizedDescentSystem (W := W) :=
   Pseudofunctor.comp
     (isoClassLocalizedBaseFunctor W hW).toPseudofunctor R
 
