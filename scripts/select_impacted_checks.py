@@ -15,6 +15,16 @@ from typing import Any
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY = ROOT / "ci" / "check_registry.yaml"
 REGISTRY_FRAGMENT_DIRNAME = "check_registry.d"
+FORMAL_ROOT = ROOT / "formal"
+FULL_LEAN_TARGET = "KuuOSFormal"
+DEFAULT_MAX_LEAN_TARGETS = 256
+LEAN_FULL_BUILD_PATHS = {
+    "lean-toolchain",
+    "lakefile.toml",
+    "lake-manifest.json",
+    "formal/KuuOSFormal.lean",
+    "formal/KUOS.lean",
+}
 
 
 def _load_json(path: pathlib.Path) -> dict[str, Any]:
@@ -101,6 +111,90 @@ def git_changed_paths(base: str, head: str) -> tuple[list[str], str | None]:
 
 def matches(path: str, patterns: Iterable[str]) -> bool:
     return any(fnmatch.fnmatchcase(path, pattern) for pattern in patterns)
+
+
+def lean_module_name(path: str) -> str | None:
+    """Translate `formal/Foo/Bar.lean` to the Lake module name `Foo.Bar`."""
+    pure = pathlib.PurePosixPath(path)
+    if len(pure.parts) < 2 or pure.parts[0] != "formal" or pure.suffix != ".lean":
+        return None
+    relative = pathlib.PurePosixPath(*pure.parts[1:]).with_suffix("")
+    return ".".join(relative.parts)
+
+
+def _lean_imports(text: str) -> set[str]:
+    imports: set[str] = set()
+    for raw_line in text.splitlines():
+        line = raw_line.split("--", 1)[0].strip()
+        for prefix in ("import ", "public import ", "private import "):
+            if line.startswith(prefix):
+                imports.update(token for token in line[len(prefix):].split() if token)
+                break
+    return imports
+
+
+def select_lean_targets(
+    changed_paths: list[str],
+    *,
+    formal_root: pathlib.Path = FORMAL_ROOT,
+    max_targets: int = DEFAULT_MAX_LEAN_TARGETS,
+) -> tuple[list[str], str | None]:
+    """Select strict Lean module targets by reverse-import impact closure.
+
+    The selector is deliberately fail-closed. Changes to the Lean toolchain or
+    Lake dependency surface, missing changed modules, unreadable source files,
+    an empty formal change set when Lean validation was requested, or an impact
+    closure larger than `max_targets` all fall back to the complete
+    `KuuOSFormal` library target.
+    """
+    if any(path in LEAN_FULL_BUILD_PATHS for path in changed_paths):
+        return [FULL_LEAN_TARGET], "Lean toolchain/library root changed"
+
+    changed_modules = {
+        module
+        for path in changed_paths
+        if (module := lean_module_name(path)) is not None
+    }
+    if not changed_modules:
+        return [FULL_LEAN_TARGET], "Lean validation selected without formal Lean file changes"
+
+    try:
+        module_files = {
+            ".".join(path.relative_to(formal_root).with_suffix("").parts): path
+            for path in formal_root.rglob("*.lean")
+            if path.is_file()
+        }
+    except OSError as exc:
+        return [FULL_LEAN_TARGET], f"cannot enumerate formal Lean modules: {exc}"
+
+    missing = sorted(changed_modules - set(module_files))
+    if missing:
+        return [FULL_LEAN_TARGET], f"changed Lean module missing from checkout: {missing[0]}"
+
+    reverse_imports: dict[str, set[str]] = {module: set() for module in module_files}
+    try:
+        for module, path in module_files.items():
+            imports = _lean_imports(path.read_text(encoding="utf-8"))
+            for dependency in imports:
+                if dependency in reverse_imports:
+                    reverse_imports[dependency].add(module)
+    except (OSError, UnicodeDecodeError) as exc:
+        return [FULL_LEAN_TARGET], f"cannot read formal Lean import graph: {exc}"
+
+    closure = set(changed_modules)
+    pending = list(changed_modules)
+    while pending:
+        dependency = pending.pop()
+        for importer in reverse_imports.get(dependency, ()):
+            if importer not in closure:
+                closure.add(importer)
+                pending.append(importer)
+                if len(closure) > max_targets:
+                    return [FULL_LEAN_TARGET], (
+                        f"reverse-import closure exceeds {max_targets} modules"
+                    )
+
+    return sorted(closure), None
 
 
 def dependency_closure(
@@ -231,13 +325,22 @@ def select(
     if unsupported:
         raise ValueError(f"unsupported expanded runner {unsupported[0]!r}")
 
+    lean_required = any(item["runner"] == "lean" for item in expanded)
+    lean_targets: list[str] = []
+    lean_fallback_reason: str | None = None
+    if lean_required:
+        lean_targets, lean_fallback_reason = select_lean_targets(changed_paths)
+
     return {
         "schema_version": "0.2",
         "changed_paths": changed_paths,
         "direct_checks": sorted(direct),
         "selected_checks": expanded,
         "python_matrix": python_matrix,
-        "lean_required": any(item["runner"] == "lean" for item in expanded),
+        "lean_required": lean_required,
+        "lean_targets": lean_targets,
+        "lean_full_build": lean_targets == [FULL_LEAN_TARGET],
+        "lean_fallback_reason": lean_fallback_reason,
         "full_audit_required": full_audit,
         "unknown_paths": unknown_paths,
         "unmapped_paths": unmapped_paths,
