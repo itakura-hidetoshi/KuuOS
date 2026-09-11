@@ -49,6 +49,14 @@ mapping property.  No assertion is made that an arbitrary topology on the raw
 category descends through `W`: the atlas lives directly on the localization.
 Likewise this is the `W + J` 1-categorical layer only; higher coherence `H`
 remains a separate later theorem.
+
+There is one additional universe-level boundary which must remain explicit.
+Mathlib's sheafification reflection is available only under
+`HasWeakSheafify J A`.  For an arbitrary value universe `Type w` this is not a
+free consequence of the site data.  Accordingly, declarations below which
+actually invoke sheafification require
+`HasWeakSheafify A.generatedTopology (Type w)` explicitly; the sheaf carrier
+and the descent predicate themselves do not.
 -/
 
 variable {Context : Type u} [Category.{v} Context]
@@ -88,6 +96,7 @@ through presentation localization, then sheafify on the localized opposite
 site. -/
 noncomputable def dependentOriginationCompletionObj
     (A : RefinementAtlas (LocalizedContext W))
+    [HasWeakSheafify A.generatedTopology (Type w)]
     (D : FunctorialTransportSystem.{u, v, w} Context)
     (hD : W.IsInvertedBy D.state) :
     DependentOriginationCompletion1 (W := W) A :=
@@ -98,6 +107,7 @@ noncomputable def dependentOriginationCompletionObj
 localization. -/
 noncomputable abbrev dependentOriginationCompletionUnit
     (A : RefinementAtlas (LocalizedContext W))
+    [HasWeakSheafify A.generatedTopology (Type w)]
     (D : FunctorialTransportSystem.{u, v, w} Context)
     (hD : W.IsInvertedBy D.state) :
     localizedOppositePresheaf W D hD ⟶
@@ -111,6 +121,7 @@ to `Q` are equivalent to maps from the localized presheaf to the underlying
 presheaf of `Q`. -/
 noncomputable def dependentOriginationCompletionHomEquiv
     (A : RefinementAtlas (LocalizedContext W))
+    [HasWeakSheafify A.generatedTopology (Type w)]
     (D : FunctorialTransportSystem.{u, v, w} Context)
     (hD : W.IsInvertedBy D.state)
     (Q : DependentOriginationCompletion1 (W := W) A) :
@@ -162,6 +173,7 @@ localization may still change the carrier category, but v2.0 records its
 canonical recovery via `presentationRecoveryIso`. -/
 noncomputable def alreadyWJAdmissibleIso
     (A : RefinementAtlas (LocalizedContext W))
+    [HasWeakSheafify A.generatedTopology (Type w)]
     (D : FunctorialTransportSystem.{u, v, w} Context)
     (hD : W.IsInvertedBy D.state)
     (hJ : IsWJAdmissible W A D hD) :
@@ -185,17 +197,20 @@ namespace WJAdmissibleSystem
 variable {W}
 
 /-- Every bundled `W + J` admissible system determines a canonical object of the
-localized sheaf carrier. -/
+localized sheaf carrier whenever the corresponding sheafification reflection is
+available. -/
 noncomputable def toCompletion
     {A : RefinementAtlas (LocalizedContext W)}
+    [HasWeakSheafify A.generatedTopology (Type w)]
     (S : WJAdmissibleSystem W A) :
     DependentOriginationCompletion1 (W := W) A :=
   dependentOriginationCompletionObj W A S.raw S.inverts
 
 /-- The sheafification step for an already admissible bundled system is
-canonically invisible at the presheaf level. -/
+canonically invisible at the presheaf level whenever the reflection exists. -/
 noncomputable def toCompletionAlreadyCompleteIso
     {A : RefinementAtlas (LocalizedContext W)}
+    [HasWeakSheafify A.generatedTopology (Type w)]
     (S : WJAdmissibleSystem W A) :
     localizedOppositePresheaf W S.raw S.inverts ≅
       descentCompletionObj A.generatedTopology
@@ -205,8 +220,8 @@ noncomputable def toCompletionAlreadyCompleteIso
 end WJAdmissibleSystem
 
 /-!
-The 1-categorical `W + J` spine now has a canonical carrier and a canonical
-objectwise completion:
+The 1-categorical `W + J` spine now has a canonical carrier and, whenever the
+relevant sheafification reflection exists, a canonical objectwise completion:
 
 ```text
 D : C ⥤ Type,  D(W) iso
@@ -222,10 +237,10 @@ DO₁(C,W,A) := Sh_{J_A}((C[W⁻¹])ᵒᵖ, Type).
 ```
 
 The localization factor is canonical up to coherent natural isomorphism (v2.0),
-and the sheafification factor is universal by adjunction (v2.2).  Under the v2.5
-base-change and pushout-overlap hypotheses, being already in the image of the
-`J` reflection is equivalent to effective KuuOS descent at every localized
-context.
+and the sheafification factor is universal by adjunction (v2.2) under the
+explicit `HasWeakSheafify` existence condition.  Under the v2.5 base-change and
+pushout-overlap hypotheses, being already in the image of the `J` reflection is
+equivalent to effective KuuOS descent at every localized context.
 
 A later theorem may organize morphisms between admissible raw systems and prove
 a category-level equivalence with an appropriate sheaf category.  That stronger
