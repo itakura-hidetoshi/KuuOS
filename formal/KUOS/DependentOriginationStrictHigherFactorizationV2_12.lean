@@ -3,7 +3,6 @@ import KUOS.DependentOriginationStrictHigherLocalizationV2_11
 namespace KUOS.DependentOriginationStrictHigherFactorizationV2_12
 
 open CategoryTheory
-open CategoryTheory.Bicategory
 open Opposite
 open KUOS.DependentOriginationPresentationUniversalityV2_0
 open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
@@ -14,9 +13,6 @@ open KUOS.DependentOriginationStrictHigherLocalizationV2_11
 open scoped CategoryTheory.Pseudofunctor.StrongTrans
 
 universe u v uH vH
-
-attribute [local simp]
-  Strict.leftUnitor_eqToIso Strict.rightUnitor_eqToIso Strict.associator_eqToIso
 
 /-!
 # Strict higher presentation-localization factorization v2.12
@@ -52,19 +48,13 @@ variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
 
 /-- The ordinary localization natural isomorphism promoted to the strong
-comparison required by the higher localization interface.
-
-The source bicategory is locally discrete, so 2-cell naturality reduces to the
-unique identity 2-cell.  The remaining identity/composition laws are exactly
-the ordinary naturality equation together with strict bicategory coherence in
-`Cat`; they are proved explicitly here rather than delegated to the default
-`cat_disch` synthesis. -/
+comparison required by the higher localization interface. -/
 noncomputable def strictHigherLocalizationComparison
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
     restrictHigherLocalizedSystem W
         (strictLocalizedHigherSystem W G hG) ⟶
-      strictRawHigherSystem G where
+      strictRawHigherSystem (uH := uH) (vH := vH) G where
   app X := (strictLocalizationFactorizationIso W G hG).hom.app X.as
   naturality {X Y} f := eqToIso (by
     change
@@ -73,22 +63,6 @@ noncomputable def strictHigherLocalizationComparison
         (strictLocalizationFactorizationIso W G hG).hom.app X.as ≫ G.map f.as
     simpa using
       (strictLocalizationFactorizationIso W G hG).hom.naturality f.as)
-  naturality_naturality {f := f} {g := g} η := by
-    have hfg : f = g := LocallyDiscrete.eq_of_hom η
-    subst g
-    have hη : η = 𝟙 f := Subsingleton.elim _ _
-    subst η
-    ext Z
-    simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
-      strictRawHigherSystem, higherPresentationUnitFunctor, Pseudofunctor.comp]
-  naturality_id X := by
-    ext Z
-    simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
-      strictRawHigherSystem, higherPresentationUnitFunctor, Pseudofunctor.comp]
-  naturality_comp f g := by
-    ext Z
-    simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
-      strictRawHigherSystem, higherPresentationUnitFunctor, Pseudofunctor.comp]
 
 /-- Every component of the strict comparison is an equivalence of categories.
 Indeed it is already an isomorphism in `Cat`, because it is a component of the
@@ -100,9 +74,7 @@ theorem strictHigherLocalizationComparison_app_isEquivalence
     ((strictHigherLocalizationComparison W G hG).app (.mk X)).toFunctor.IsEquivalence := by
   change
     ((strictLocalizationFactorizationIso W G hG).hom.app X).toFunctor.IsEquivalence
-  haveI : IsIso ((strictLocalizationFactorizationIso W G hG).hom.app X) := inferInstance
-  exact catHom_toFunctor_isEquivalence_of_isIso
-    ((strictLocalizationFactorizationIso W G hG).hom.app X)
+  infer_instance
 
 /-- Canonical v2.10 higher localization factorization data for the strict
 Cat-valued sector. -/
@@ -110,7 +82,7 @@ noncomputable def strictHigherLocalizationFactorization
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
     HigherLocalizationFactorization (W := W)
-      (strictRawHigherSystem G) where
+      (strictRawHigherSystem (uH := uH) (vH := vH) G) where
   lift := strictLocalizedHigherSystem W G hG
   comparison := strictHigherLocalizationComparison W G hG
   comparison_isEquivalence :=
@@ -122,7 +94,7 @@ theorem strictSector_hasHigherLocalizationFactorization
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
     HasHigherLocalizationFactorization (W := W)
-      (strictRawHigherSystem G) :=
+      (strictRawHigherSystem (uH := uH) (vH := vH) G) :=
   ⟨strictHigherLocalizationFactorization W G hG⟩
 
 /-!

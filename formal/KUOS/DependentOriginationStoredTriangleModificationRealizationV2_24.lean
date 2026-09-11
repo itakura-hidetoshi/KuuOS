@@ -44,7 +44,7 @@ stored Cat 2-isomorphism.
 Only the forward component is recorded explicitly.  Since `e` is an isomorphism,
 its inverse component is already determined by the forward isomorphism data. -/
 def HasStoredV2_18TriangleModification
-    {R : RawHigherContextualSystem (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=
   ∃ e :
@@ -57,7 +57,7 @@ def HasStoredV2_18TriangleModification
 /-- Modification naturality of the stored v2.18 family constructs a modification
 that realizes that exact stored family. -/
 theorem hasStoredV2_18TriangleModification_of_naturality
-    {R : RawHigherContextualSystem (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (hNatural : StoredV2_18TriangleIsModificationNatural (W := W) alpha) :
@@ -73,7 +73,7 @@ theorem hasStoredV2_18TriangleModification_of_naturality
 components, its modification naturality equation is exactly the v2.23 stored-family
 naturality condition. -/
 theorem storedV2_18TriangleIsModificationNatural_of_hasStoredModification
-    {R : RawHigherContextualSystem (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (h : HasStoredV2_18TriangleModification (W := W) alpha) :
@@ -87,7 +87,7 @@ theorem storedV2_18TriangleIsModificationNatural_of_hasStoredModification
 /-- Exact factorwise characterization of coherence of the *stored* v2.18
 objectwise triangle family. -/
 theorem storedV2_18TriangleIsModificationNatural_iff_hasStoredModification
-    {R : RawHigherContextualSystem (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) :
     StoredV2_18TriangleIsModificationNatural (W := W) alpha ↔
@@ -99,7 +99,7 @@ theorem storedV2_18TriangleIsModificationNatural_iff_hasStoredModification
 /-- A stored-family realization is, in particular, an arbitrary v2.22 factor
 modification triangle after forgetting which objectwise components realize it. -/
 theorem hasFactorModificationTriangle_of_hasStoredV2_18TriangleModification
-    {R : RawHigherContextualSystem (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (h : HasStoredV2_18TriangleModification (W := W) alpha) :
@@ -110,7 +110,7 @@ theorem hasFactorModificationTriangle_of_hasStoredV2_18TriangleModification
 /-- Every v2.18 factor into one chosen coherent universal factorization has its
 stored objectwise triangle realized by an invertible modification. -/
 def HigherStoredV2_18TriangleModificationRealization
-    {R : RawHigherContextualSystem (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -119,7 +119,7 @@ def HigherStoredV2_18TriangleModificationRealization
 /-- Uniform v2.23 stored-family naturality is exactly uniform realization of the
 stored family by invertible modifications. -/
 theorem higherStoredV2_18TriangleModificationNaturality_iff_realization
-    {R : RawHigherContextualSystem (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherStoredV2_18TriangleModificationNaturality (W := W) U ↔
       HigherStoredV2_18TriangleModificationRealization (W := W) U := by
@@ -138,7 +138,7 @@ stored objectwise triangle cannot itself be assembled into an invertible
 modification.  This is deliberately narrower than the v2.22 obstruction to all
 possible modification triangles. -/
 def HigherStoredV2_18TriangleRealizationObstruction
-    {R : RawHigherContextualSystem (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∃ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -147,7 +147,7 @@ def HigherStoredV2_18TriangleRealizationObstruction
 /-- Uniform realization of the stored family is exactly absence of the explicit
 stored-family realization obstruction. -/
 theorem higherStoredV2_18TriangleModificationRealization_iff_no_obstruction
-    {R : RawHigherContextualSystem (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherStoredV2_18TriangleModificationRealization (W := W) U ↔
       ¬ HigherStoredV2_18TriangleRealizationObstruction (W := W) U := by
@@ -164,7 +164,7 @@ theorem higherStoredV2_18TriangleModificationRealization_iff_no_obstruction
 of the stored-family realization obstruction.  No statement about arbitrary
 alternative modification triangles is inferred. -/
 theorem higherStoredV2_18TriangleModificationNaturality_iff_no_realizationObstruction
-    {R : RawHigherContextualSystem (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherStoredV2_18TriangleModificationNaturality (W := W) U ↔
       ¬ HigherStoredV2_18TriangleRealizationObstruction (W := W) U :=
@@ -176,15 +176,17 @@ theorem higherStoredV2_18TriangleModificationNaturality_iff_no_realizationObstru
 /-- Global realization principle for the stored v2.18 triangle families.  This is
 an explicit proposition, not an axiom. -/
 def HigherStoredV2_18TriangleModificationRealizationPrinciple : Prop :=
-  ∀ (R : RawHigherContextualSystem (Context := Context))
+  ∀ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
     HigherStoredV2_18TriangleModificationRealization (W := W) U
 
 /-- The global v2.23 naturality principle and the global stored-family realization
 principle are equivalent formulations of the same additional coherence demand. -/
 theorem higherStoredV2_18TriangleModificationNaturalityPrinciple_iff_realizationPrinciple :
-    HigherStoredV2_18TriangleModificationNaturalityPrinciple (W := W) ↔
-      HigherStoredV2_18TriangleModificationRealizationPrinciple (W := W) := by
+    HigherStoredV2_18TriangleModificationNaturalityPrinciple
+        (W := W) (uH := uH) (vH := vH) ↔
+      HigherStoredV2_18TriangleModificationRealizationPrinciple
+        (W := W) (uH := uH) (vH := vH) := by
   constructor
   · intro hNatural R U
     exact

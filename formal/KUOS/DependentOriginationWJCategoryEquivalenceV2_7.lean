@@ -69,49 +69,16 @@ noncomputable def localizedFunctorPresheafEquivalence :
       (((LocalizedContext W)ᵒᵖ)ᵒᵖ ⥤ Type w) :=
   Equivalence.congrLeft (opOpEquivalence (LocalizedContext W)).symm
 
-/-- The ordinary Mathlib sheaf predicate, explicitly packaged as an
-`ObjectProperty` on the variance-correct presheaf category.
-
-Keeping this carrier explicit prevents Lean from interpreting the raw function
-`Presheaf.IsSheaf ...` through the unrelated `Function` namespace when the
-isomorphism-closure typeclass is requested. -/
-def LocalizedSheafProperty
-    (A : RefinementAtlas (LocalizedContext W)) :
-    ObjectProperty ((((LocalizedContext W)ᵒᵖ)ᵒᵖ ⥤ Type w)) :=
-  Presheaf.IsSheaf A.generatedTopology (A := Type w)
-
-/-- The ordinary Mathlib sheaf property is invariant under natural isomorphism.
-This explicit instance is the source closure needed by both categorical
-restrictions below. -/
-instance localizedSheafProperty_isClosedUnderIsomorphisms
-    (A : RefinementAtlas (LocalizedContext W)) :
-    ObjectProperty.IsClosedUnderIsomorphisms
-      (LocalizedSheafProperty (W := W) A) where
-  of_iso e h :=
-    (Presheaf.isSheaf_of_iso_iff e).1 h
-
 /-- The property of a localized covariant Type-valued functor whose
 variance-correct opposite-site presheaf is a sheaf for the atlas topology.
 
 It is intentionally defined as the inverse image of the ordinary Mathlib sheaf
-property along the double-opposite functor-category equivalence.  Its closure
-under isomorphisms is then inherited from the general Mathlib inverse-image
-instance. -/
+property along the double-opposite functor-category equivalence. -/
 def LocalizedDescentFunctorProperty
     (A : RefinementAtlas (LocalizedContext W)) :
     ObjectProperty (LocalizedContext W ⥤ Type w) :=
-  ObjectProperty.inverseImage
-    (LocalizedSheafProperty (W := W) A)
+  (Presheaf.IsSheaf A.generatedTopology (A := Type w)).inverseImage
     (localizedFunctorPresheafEquivalence W).functor
-
-/-- Descent membership is invariant under isomorphism because it is the inverse
-image of the sheaf property along the variance-correction functor. -/
-instance localizedDescentFunctorProperty_isClosedUnderIsomorphisms
-    (A : RefinementAtlas (LocalizedContext W)) :
-    ObjectProperty.IsClosedUnderIsomorphisms
-      (LocalizedDescentFunctorProperty (W := W) A) := by
-  unfold LocalizedDescentFunctorProperty
-  infer_instance
 
 /-- The full category of localized covariant contextual functors satisfying the
 generated Grothendieck descent condition. -/
@@ -127,7 +94,7 @@ noncomputable def localizedDescentFunctorEquivalenceCompletion
     LocalizedDescentFunctorCategory (W := W) A ≌
       DependentOriginationCompletion1 (W := W) A :=
   (localizedFunctorPresheafEquivalence W).congrFullSubcategory
-    (Q := LocalizedSheafProperty (W := W) A) rfl
+    (Q := Presheaf.IsSheaf A.generatedTopology (A := Type w)) rfl
 
 /-- Package an ordinary localized functor as the existing KuuOS contextual
 transport-system interface. -/
@@ -176,24 +143,12 @@ noncomputable def rawWInvertingLocalizedEquivalence :
 
 /-- The raw `W + J` admissibility property on already bundled `W`-inverting
 functors.  It is the inverse image of localized Grothendieck descent along the
-localization equivalence.  Isomorphism closure is inherited transitively from
-the explicit sheaf property through the two inverse-image constructions. -/
+localization equivalence. -/
 def RawWJFunctorProperty
     (A : RefinementAtlas (LocalizedContext W)) :
     ObjectProperty (W.FunctorsInverting (Type w)) :=
-  ObjectProperty.inverseImage
-    (LocalizedDescentFunctorProperty (W := W) A)
+  (LocalizedDescentFunctorProperty (W := W) A).inverseImage
     (rawWInvertingLocalizedEquivalence W).functor
-
-/-- Raw `W + J` admissibility is invariant under isomorphism by the second
-inverse-image transport, now from localized descent along presentation
-localization. -/
-instance rawWJFunctorProperty_isClosedUnderIsomorphisms
-    (A : RefinementAtlas (LocalizedContext W)) :
-    ObjectProperty.IsClosedUnderIsomorphisms
-      (RawWJFunctorProperty (W := W) A) := by
-  unfold RawWJFunctorProperty
-  infer_instance
 
 /-- The category of raw Type-valued contextual functors which invert `W` and
 whose presentation-independent representative satisfies `J_A` descent. -/

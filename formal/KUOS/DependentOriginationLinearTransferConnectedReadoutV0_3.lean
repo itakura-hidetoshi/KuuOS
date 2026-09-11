@@ -1,9 +1,10 @@
 import Mathlib
 import KUOS.DependentOriginationExponentialGapTransportV0_2
 
-namespace KUOS.DependentOriginationExponentialGapTransportV0_2
+namespace KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3
 
 open KUOS.DependentOriginationFunctorialTransportV0_1
+open KUOS.DependentOriginationExponentialGapTransportV0_2
 
 universe u
 
@@ -173,4 +174,4 @@ end LinearTransferRealization
 
 end ExponentiallyGappedVacuumTransport
 
-end KUOS.DependentOriginationExponentialGapTransportV0_2
+end KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3

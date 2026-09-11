@@ -46,7 +46,7 @@ The object components are obtained by evaluating the original invertible
 modification at the image of the presentation unit.  Naturality is inherited
 from the original modification. -/
 def restrictHigherLocalizedStrongTransIso
-    {F G : HigherLocalizedDescentSystem (W := W)}
+    {F G : HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH)}
     {alpha beta : F ⟶ G}
     (e : alpha ≅ beta) :
     restrictHigherLocalizedStrongTrans (W := W) alpha ≅

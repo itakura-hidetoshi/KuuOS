@@ -48,7 +48,7 @@ An isomorphism in the StrongTrans hom-category consists of inverse
 modifications.  Evaluating those modifications at `X` gives inverse 2-cells in
 `Cat`, hence an isomorphism between the corresponding functors. -/
 def coherentComparisonComponentIso
-    {R : RawHigherContextualSystem (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : CoherentHigherLocalizationFactorMorphism (W := W) H K)
     (X : Context) :
@@ -68,7 +68,7 @@ def coherentComparisonComponentIso
 /-- The modification-level triangle of v2.19 yields exactly the objectwise
 natural-isomorphism triangle required by v2.18. -/
 def coherentComparisonTriangleNatIso
-    {R : RawHigherContextualSystem (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : CoherentHigherLocalizationFactorMorphism (W := W) H K)
     (X : Context) :
@@ -81,7 +81,7 @@ def coherentComparisonTriangleNatIso
 /-- Forget the modification-level coherence of a v2.19 factor morphism and
 recover a valid v2.18 factor morphism with the same underlying StrongTrans. -/
 def coherentHigherLocalizationFactorMorphismToV2_18
-    {R : RawHigherContextualSystem (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : CoherentHigherLocalizationFactorMorphism (W := W) H K) :
     HigherLocalizationFactorMorphism (W := W) H K where
@@ -90,7 +90,7 @@ def coherentHigherLocalizationFactorMorphismToV2_18
 
 /-- Forgetting coherence preserves the underlying StrongTrans definitionally. -/
 @[simp] theorem coherentHigherLocalizationFactorMorphismToV2_18_hom
-    {R : RawHigherContextualSystem (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : CoherentHigherLocalizationFactorMorphism (W := W) H K) :
     (coherentHigherLocalizationFactorMorphismToV2_18 (W := W) alpha).hom = alpha.hom := by
@@ -103,7 +103,7 @@ This theorem intentionally states only factor existence.  It does not claim the
 full v2.18 universal property because of the different domains quantified over by
 the two essential-uniqueness fields. -/
 theorem coherentWeakUniversalProperty_hasV2_18Factor
-    {R : RawHigherContextualSystem (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (H : HigherLocalizationFactorization (W := W) R) :
     Nonempty (HigherLocalizationFactorMorphism (W := W) H U.chosen) := by

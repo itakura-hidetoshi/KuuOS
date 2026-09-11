@@ -48,20 +48,8 @@ variable (W : MorphismProperty Context)
 /-- An ordinary Cat-valued contextual functor, promoted to a pseudofunctor. -/
 abbrev strictRawHigherSystem
     (G : Context ⥤ Cat.{vH, uH}) :
-    RawHigherContextualSystem.{u, v, uH, vH} (Context := Context) :=
+    RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH) :=
   G.toPseudofunctor'
-
-/-- The underlying functor of an isomorphism in `Cat` is an equivalence of
-categories.  We record this explicitly rather than relying on typeclass search
-to cross the wrapper boundary between `Cat.Hom` and `Functor`. -/
-theorem catHom_toFunctor_isEquivalence_of_isIso
-    {C D : Cat.{vH, uH}} (F : C ⟶ D) [IsIso F] :
-    F.toFunctor.IsEquivalence := by
-  apply Functor.IsEquivalence.mk' (inv F).toFunctor
-  · simpa only [Cat.Hom.comp_toFunctor, Cat.Hom.id_toFunctor] using
-      (Cat.Hom.toNatIso (eqToIso (IsIso.hom_inv_id F))).symm
-  · simpa only [Cat.Hom.comp_toFunctor, Cat.Hom.id_toFunctor] using
-      Cat.Hom.toNatIso (eqToIso (IsIso.inv_hom_id F))
 
 /-- The ordinary localized Cat-valued functor supplied by Mathlib when `G`
 strictly inverts `W` in the category `Cat`. -/
@@ -77,7 +65,7 @@ pseudofunctor. -/
 noncomputable def strictLocalizedHigherSystem
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
-    HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W) :=
+    HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH) :=
   (unopUnop (LocalizedContext W) ⋙ strictLocalizedFunctor W G hG).toPseudofunctor'
 
 /-- Ordinary localization recovers the original Cat-valued contextual functor
@@ -93,17 +81,17 @@ to satisfy the weaker v2.10 higher `W`-admissibility condition. -/
 theorem strictRawHigherSystem_isHigherWAdmissible
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
-    IsHigherWAdmissible W (strictRawHigherSystem G) := by
+    IsHigherWAdmissible W (strictRawHigherSystem (uH := uH) (vH := vH) G) := by
   intro X Y f hf
   haveI : IsIso (G.map f) := hG f hf
-  exact catHom_toFunctor_isEquivalence_of_isIso (G.map f)
+  simpa using (inferInstance : (G.map f).toFunctor.IsEquivalence)
 
 /-- Therefore every strictly `W`-inverting ordinary Cat-valued contextual
 functor has a canonical localized Cat-valued higher lift. -/
 theorem strictSector_hasLocalizedHigherLift
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
-    Nonempty (HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)) :=
+    Nonempty (HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH)) :=
   ⟨strictLocalizedHigherSystem W G hG⟩
 
 /-!

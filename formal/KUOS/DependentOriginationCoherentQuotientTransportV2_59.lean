@@ -178,7 +178,7 @@ noncomputable def coherentQuotientLocalizedHigherSystem
       (Context := Context) (uH := uH) (vH := vH))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (T : CoherentQuotientTransportData (W := W) R D) :
-    HigherLocalizedDescentSystem (W := W) :=
+    HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH) :=
   Pseudofunctor.comp
     (unopUnop (LocalizedContext W)).toPseudofunctor
     (quotientLocalizationPseudofunctor W R D T)
@@ -190,7 +190,7 @@ theorem hasLocalizedHigherSystem_of_coherentQuotientTransport
       (Context := Context) (uH := uH) (vH := vH))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hT : HasCoherentQuotientTransportData W R D) :
-    Nonempty (HigherLocalizedDescentSystem (W := W)) := by
+    Nonempty (HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH)) := by
   rcases hT with ⟨T⟩
   exact ⟨coherentQuotientLocalizedHigherSystem W R D T⟩
 

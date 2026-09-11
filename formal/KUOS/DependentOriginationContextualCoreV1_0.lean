@@ -134,7 +134,7 @@ variable {Context : Type u} [Category.{v} Context]
 variable {D E : FunctorialTransportSystem Context}
 
 /-- Pointwise equivalence of state fibers induced by a system equivalence. -/
-def fiberEquiv (e : SystemEquiv D E) (X : Context) :
+def at (e : SystemEquiv D E) (X : Context) :
     D.state.obj X ≃ E.state.obj X where
   toFun := e.toHom.app X
   invFun := e.invHom.app X
@@ -145,8 +145,8 @@ def fiberEquiv (e : SystemEquiv D E) (X : Context) :
 theorem transport_commutes
     (e : SystemEquiv D E)
     {X Y : Context} (f : X ⟶ Y) (x : D.state.obj X) :
-    e.fiberEquiv Y (D.transport f x) =
-      E.transport f (e.fiberEquiv X x) := by
+    e.at Y (D.transport f x) =
+      E.transport f (e.at X x) := by
   exact e.toHom.naturality f x
 
 end SystemEquiv
@@ -228,17 +228,11 @@ def comp
 
 end ContextSpecialization
 
-end KUOS.DependentOriginationContextualCoreV1_0
-
 /-!
 ## Reversible contexts are a specialization, not the parent definition
 -/
 
-namespace KUOS.DependentOriginationFunctorialTransportV0_1.FunctorialTransportSystem
-
-open CategoryTheory
-
-universe u v
+namespace FunctorialTransportSystem
 
 variable {Context : Type u} [Category.{v} Context]
 
@@ -248,15 +242,19 @@ def IsIrreversibleAt
     {X Y : Context} (f : X ⟶ Y) : Prop :=
   ¬ Function.Bijective (D.transport f)
 
+end FunctorialTransportSystem
+
 section GroupoidContext
 
 variable {Context : Type u} [Groupoid.{v} Context]
+
+namespace FunctorialTransportSystem
 
 /--
 In a groupoid context, functorial transport along every morphism is an actual
 state equivalence, with inverse supplied by the inverse context morphism.
 -/
-noncomputable def transportEquiv
+def transportEquiv
     (D : FunctorialTransportSystem Context)
     {X Y : Context} (f : X ⟶ Y) :
     D.state.obj X ≃ D.state.obj Y where
@@ -279,21 +277,15 @@ theorem not_irreversibleAt
   intro h
   exact h (D.transportEquiv f).bijective
 
-end GroupoidContext
+end FunctorialTransportSystem
 
-end KUOS.DependentOriginationFunctorialTransportV0_1.FunctorialTransportSystem
+end GroupoidContext
 
 /-!
 ## Finite history as a specialization of the contextual parent
 -/
 
-namespace KUOS.DependentOriginationHistorySensitiveTransportV0_5.HistoryTransport
-
-open CategoryTheory
-open KUOS.DependentOriginationFunctorialTransportV0_1
-open KUOS.DependentOriginationFreeHistoryFunctorV0_6
-
-universe u w
+namespace HistoryTransport
 
 variable {Event : Type u} {State : Type w}
 
@@ -310,10 +302,9 @@ def asContextualSystem
 theorem asContextualSystem_transport
     (H : HistoryTransport Event State)
     (word : List Event) (x : State) :
-    H.asContextualSystem.transport
-        (X := SingleObj.star (FreeMonoid Event))
-        (Z := SingleObj.star (FreeMonoid Event)) word x =
-      H.eval word x := by
+    H.asContextualSystem.transport word x = H.eval word x := by
   rfl
 
-end KUOS.DependentOriginationHistorySensitiveTransportV0_5.HistoryTransport
+end HistoryTransport
+
+end KUOS.DependentOriginationContextualCoreV1_0

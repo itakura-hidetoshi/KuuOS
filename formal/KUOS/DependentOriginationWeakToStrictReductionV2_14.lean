@@ -49,14 +49,14 @@ This is data, not an existence theorem.  The ordinary functor strictly inverts
 raw system by a strong transformation whose components are equivalences of
 categories. -/
 structure HigherStrictPresentationModel
-    (R : RawHigherContextualSystem (Context := Context)) where
+    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) where
   /-- Ordinary Cat-valued strict model. -/
   strictFunctor : Context ⥤ Cat.{vH, uH}
   /-- The strict model sends every arrow in `W` to an actual isomorphism in `Cat`. -/
   strict_inverts : W.IsInvertedBy strictFunctor
   /-- Strong comparison from the promoted strict model to the raw higher system. -/
   comparison :
-    strictRawHigherSystem strictFunctor ⟶ R
+    strictRawHigherSystem (uH := uH) (vH := vH) strictFunctor ⟶ R
   /-- The comparison is pointwise an equivalence of categories. -/
   comparison_isEquivalence :
     ∀ X : Context, (comparison.app (.mk X)).toFunctor.IsEquivalence
@@ -64,13 +64,13 @@ structure HigherStrictPresentationModel
 /-- Existence of a strict presentation model is kept explicit rather than
 silently assumed. -/
 def HasHigherStrictPresentationModel
-    (R : RawHigherContextualSystem (Context := Context)) : Prop :=
+    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) : Prop :=
   Nonempty (HigherStrictPresentationModel (W := W) R)
 
 /-- Transport the canonical strict higher localization factorization along a
 pointwise-equivalence strong comparison to an arbitrary raw higher system. -/
 noncomputable def higherLocalizationFactorizationOfStrictPresentationModel
-    {R : RawHigherContextualSystem (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     (S : HigherStrictPresentationModel (W := W) R) :
     HigherLocalizationFactorization (W := W) R where
   lift := strictLocalizedHigherSystem W S.strictFunctor S.strict_inverts
@@ -79,13 +79,6 @@ noncomputable def higherLocalizationFactorizationOfStrictPresentationModel
       S.comparison
   comparison_isEquivalence := by
     intro X
-    letI :
-        ((strictHigherLocalizationComparison W S.strictFunctor S.strict_inverts).app
-          (.mk X)).toFunctor.IsEquivalence :=
-      strictHigherLocalizationComparison_app_isEquivalence
-        W S.strictFunctor S.strict_inverts X
-    letI : (S.comparison.app (.mk X)).toFunctor.IsEquivalence :=
-      S.comparison_isEquivalence X
     change
       (((strictHigherLocalizationComparison W S.strictFunctor S.strict_inverts).app (.mk X)).toFunctor ⋙
         (S.comparison.app (.mk X)).toFunctor).IsEquivalence
@@ -94,7 +87,7 @@ noncomputable def higherLocalizationFactorizationOfStrictPresentationModel
 /-- Therefore a strict presentation model is a sufficient condition for the
 exact v2.10 higher localization factorization to exist. -/
 theorem hasHigherLocalizationFactorization_of_strictPresentationModel
-    {R : RawHigherContextualSystem (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     (h : HasHigherStrictPresentationModel (W := W) R) :
     HasHigherLocalizationFactorization (W := W) R := by
   rcases h with ⟨S⟩
@@ -107,7 +100,7 @@ noncomputable def strictRawHigherSystem_strictPresentationModel
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
     HigherStrictPresentationModel (W := W)
-      (strictRawHigherSystem G) where
+      (strictRawHigherSystem (uH := uH) (vH := vH) G) where
   strictFunctor := G
   strict_inverts := hG
   comparison := 𝟙 _
@@ -122,7 +115,7 @@ theorem strictSector_hasHigherStrictPresentationModel
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
     HasHigherStrictPresentationModel (W := W)
-      (strictRawHigherSystem G) :=
+      (strictRawHigherSystem (uH := uH) (vH := vH) G) :=
   ⟨strictRawHigherSystem_strictPresentationModel W G hG⟩
 
 /-!

@@ -142,15 +142,15 @@ theorem cover_isSheafFor_iff_effectiveStateDescent
         rfl)
       have hy : y = t := ht_unique y (by
         intro i
-        simpa [s] using (hxy i).symm)
+        simpa [s] using hxy i)
       exact hx.trans hy.symm
   · rintro ⟨hdescent, hseparate⟩ s hs
-    let localFamily : LocalStateFamily D C := ⟨s⟩
-    have hlocal : OverlapCompatible D C O localFamily :=
+    let local : LocalStateFamily D C := ⟨s⟩
+    have hlocal : OverlapCompatible D C O local :=
       (arrowsCompatible_iff_overlapCompatible D C O hpush s).1 hs
     have hunique := existsUnique_globalState_of_descent_and_separation
-      D C O hdescent hseparate localFamily hlocal
-    simpa [localFamily] using hunique
+      D C O hdescent hseparate local hlocal
+    simpa [local] using hunique
 
 end OneCover
 

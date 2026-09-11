@@ -6,7 +6,6 @@ namespace KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open CategoryTheory
 open Opposite
 open KUOS.DependentOriginationPresentationUniversalityV2_0
-open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
 open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
 open KUOS.DependentOriginationHigherStackDescentV2_8
 open KUOS.DependentOriginationHigherStackCarrierV2_9
@@ -65,27 +64,27 @@ abbrev RawHigherContextualSystem :=
 /-- The ordinary presentation-localization functor, followed by the canonical
 variance correction into the double-opposite category used by the localized
 stack semantics. -/
-noncomputable def higherPresentationUnitFunctor :
+def higherPresentationUnitFunctor :
     Context ⥤ (HigherLocalizedSite W)ᵒᵖ :=
   W.Q ⋙ opOp (LocalizedContext W)
 
 /-- Restrict a localized Cat-valued contextual system back to the raw context
 category along the canonical presentation unit. -/
-noncomputable def restrictHigherLocalizedSystem
-    (F : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)) :
-    RawHigherContextualSystem.{u, v, uH, vH} (Context := Context) :=
+def restrictHigherLocalizedSystem
+    (F : HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH)) :
+    RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH) :=
   Pseudofunctor.comp (higherPresentationUnitFunctor W).toPseudofunctor F
 
 /-- Weak higher presentation invariance: every declared presentation morphism is
 sent to an equivalence of categories, not necessarily to a strict isomorphism. -/
 def IsHigherWAdmissible
-    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)) : Prop :=
+    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) : Prop :=
   ∀ ⦃X Y : Context⦄ (f : X ⟶ Y), W f → (R.map f.toLoc).toFunctor.IsEquivalence
 
 /-- Raw higher contextual systems bundled with the exact weak `W`-admissibility
 condition required by a bicategorical presentation-localization theorem. -/
 def RawHigherWObject :=
-  { R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context) //
+  { R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH) //
       IsHigherWAdmissible W R }
 
 /-- Explicit factorization data for the still-missing higher localization theorem.
@@ -95,9 +94,9 @@ localized lift to the raw system.  Requiring every component to be an equivalenc
 of categories records the correct weak notion of agreement at the Cat-valued
 level, without pretending that the two pseudofunctors are definitionally equal. -/
 structure HigherLocalizationFactorization
-    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)) where
+    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) where
   /-- Proposed localized pseudofunctor. -/
-  lift : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)
+  lift : HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH)
   /-- Pseudonatural comparison back to the raw system. -/
   comparison : restrictHigherLocalizedSystem W lift ⟶ R
   /-- The comparison is pointwise an equivalence of categories. -/
@@ -108,7 +107,7 @@ structure HigherLocalizationFactorization
 full generated-topology stack condition. -/
 structure HigherStackLocalizationFactorization
     (A : RefinementAtlas (LocalizedContext W))
-    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
+    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
     extends HigherLocalizationFactorization (W := W) R where
   /-- The localized lift is a genuine Cat-valued stack. -/
   isStack : IsHigherGrothendieckDescentComplete W A lift
@@ -117,39 +116,39 @@ structure HigherStackLocalizationFactorization
 canonically an object of the already-constructed higher carrier `DO₂`. -/
 def completion2OfHigherStackLocalizationFactorization
     (A : RefinementAtlas (LocalizedContext W))
-    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     (h : HigherStackLocalizationFactorization (W := W) A R) :
-    DependentOriginationCompletion2 (W := W) A :=
+    DependentOriginationCompletion2 (W := W) (uH := uH) (vH := vH) A :=
   ⟨h.lift, h.isStack⟩
 
 /-- The object of `DO₂` produced by a successful higher factorization has exactly
 the localized pseudofunctor supplied by that factorization. -/
 @[simp] theorem completion2OfHigherStackLocalizationFactorization_val
     (A : RefinementAtlas (LocalizedContext W))
-    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     (h : HigherStackLocalizationFactorization (W := W) A R) :
     (completion2OfHigherStackLocalizationFactorization (W := W) A h :
-      HigherStackObject (W := W) A).1 = h.lift := by
+      HigherStackObject (W := W) (uH := uH) (vH := vH) A).1 = h.lift := by
   rfl
 
 /-- Existence of a higher localization factorization is kept as an explicit
 proposition rather than silently assumed. -/
 def HasHigherLocalizationFactorization
-    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)) : Prop :=
+    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) : Prop :=
   Nonempty (HigherLocalizationFactorization (W := W) R)
 
 /-- Likewise, existence of a factorization landing in the stack carrier is an
 explicit proposition. -/
 def HasHigherStackLocalizationFactorization
     (A : RefinementAtlas (LocalizedContext W))
-    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)) : Prop :=
+    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) : Prop :=
   Nonempty (HigherStackLocalizationFactorization (W := W) A R)
 
 /-- A stack-localization factorization in particular provides ordinary higher
 localization factorization data. -/
 theorem hasHigherLocalizationFactorization_of_stack
     (A : RefinementAtlas (LocalizedContext W))
-    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
+    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
     (h : HasHigherStackLocalizationFactorization (W := W) A R) :
     HasHigherLocalizationFactorization (W := W) R := by
   rcases h with ⟨h⟩

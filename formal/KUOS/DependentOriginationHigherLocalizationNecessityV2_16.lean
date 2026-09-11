@@ -73,7 +73,7 @@ variable (W : MorphismProperty Context)
 /-- Restricting any localized higher system along the presentation-localization
 unit automatically produces a weakly `W`-admissible raw system. -/
 theorem restrictHigherLocalizedSystem_isHigherWAdmissible
-    (F : HigherLocalizedDescentSystem (W := W)) :
+    (F : HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH)) :
     IsHigherWAdmissible W (restrictHigherLocalizedSystem W F) := by
   intro X Y f hf
   haveI : IsIso (W.Q.map f) := W.Q_inverts f hf
@@ -88,7 +88,7 @@ theorem restrictHigherLocalizedSystem_isHigherWAdmissible
 /-- Any actual v2.10 higher localization factorization forces the raw system to
 satisfy weak `W`-admissibility. -/
 theorem higherLocalizationFactorization_isHigherWAdmissible
-    {R : RawHigherContextualSystem (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     (H : HigherLocalizationFactorization (W := W) R) :
     IsHigherWAdmissible W R := by
   intro X Y f hf
@@ -122,7 +122,7 @@ theorem higherLocalizationFactorization_isHigherWAdmissible
 
 /-- Existence-level form of the necessity theorem. -/
 theorem hasHigherLocalizationFactorization_isHigherWAdmissible
-    {R : RawHigherContextualSystem (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     (h : HasHigherLocalizationFactorization (W := W) R) :
     IsHigherWAdmissible W R := by
   rcases h with ⟨H⟩
@@ -131,7 +131,7 @@ theorem hasHigherLocalizationFactorization_isHigherWAdmissible
 /-- In particular, the strict-presentation-model sufficient datum introduced in
 v2.14 can only exist for a weakly `W`-admissible raw system. -/
 theorem hasHigherStrictPresentationModel_isHigherWAdmissible
-    {R : RawHigherContextualSystem (Context := Context)}
+    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     (h : HasHigherStrictPresentationModel (W := W) R) :
     IsHigherWAdmissible W R :=
   hasHigherLocalizationFactorization_isHigherWAdmissible W
@@ -142,8 +142,8 @@ theorem hasHigherStrictPresentationModel_isHigherWAdmissible
 factorization.  The reverse implication is unconditional; only the forward
 implication uses the principle. -/
 theorem higherWAdmissible_iff_hasHigherLocalizationFactorization_of_strictificationPrinciple
-    (hstrict : HigherStrictificationPrinciple (W := W))
-    (R : RawHigherContextualSystem (Context := Context)) :
+    (hstrict : HigherStrictificationPrinciple (W := W) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) :
     IsHigherWAdmissible W R ↔ HasHigherLocalizationFactorization (W := W) R := by
   constructor
   · intro hR

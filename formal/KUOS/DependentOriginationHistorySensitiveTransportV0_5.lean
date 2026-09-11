@@ -5,6 +5,7 @@ namespace KUOS.DependentOriginationHistorySensitiveTransportV0_5
 
 open KUOS.DependentOriginationFunctorialTransportV0_1
 open KUOS.DependentOriginationExponentialGapTransportV0_2
+open KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3
 open KUOS.DependentOriginationFiniteTransferWordV0_4
 
 universe u v w
@@ -132,8 +133,6 @@ theorem not_genuinelyHistorySensitive_of_factorization
 
 end HistoryTransport
 
-end KUOS.DependentOriginationHistorySensitiveTransportV0_5
-
 /-!
 ## The v0.4 finite transfer word as the factorizable specialization
 
@@ -141,13 +140,6 @@ The existing linear positive-time transfer word is embedded into the new parent
 history structure.  Its total-time collapse is then re-expressed as an explicit
 `TotalTimeFactorization` certificate.
 -/
-
-namespace KUOS.DependentOriginationExponentialGapTransportV0_2
-
-open KUOS.DependentOriginationFunctorialTransportV0_1
-open KUOS.DependentOriginationHistorySensitiveTransportV0_5
-
-universe u v w
 
 namespace ExponentiallyGappedVacuumTransport
 
@@ -205,4 +197,4 @@ end LinearTransferRealization
 
 end ExponentiallyGappedVacuumTransport
 
-end KUOS.DependentOriginationExponentialGapTransportV0_2
+end KUOS.DependentOriginationHistorySensitiveTransportV0_5
