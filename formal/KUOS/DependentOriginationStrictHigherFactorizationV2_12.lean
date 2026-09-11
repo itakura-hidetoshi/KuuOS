@@ -73,14 +73,20 @@ noncomputable def strictHigherLocalizationComparison
         (strictLocalizationFactorizationIso W G hG).hom.app X.as ≫ G.map f.as
     simpa using
       (strictLocalizationFactorizationIso W G hG).hom.naturality f.as)
-  naturality_naturality η := by
-    obtain rfl := obj_ext_of_isDiscrete η
+  naturality_naturality {f := f} {g := g} η := by
+    have hfg : f = g := LocallyDiscrete.eq_of_hom η
+    subst g
+    have hη : η = 𝟙 f := Subsingleton.elim _ _
+    subst η
+    ext Z
     simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
       strictRawHigherSystem, higherPresentationUnitFunctor, Pseudofunctor.comp]
   naturality_id X := by
+    ext Z
     simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
       strictRawHigherSystem, higherPresentationUnitFunctor, Pseudofunctor.comp]
   naturality_comp f g := by
+    ext Z
     simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
       strictRawHigherSystem, higherPresentationUnitFunctor, Pseudofunctor.comp]
 
