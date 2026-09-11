@@ -62,7 +62,7 @@ Because pseudofunctor composition is definitionally objectwise on objects and
 `alpha`; the remaining coherence obligations are discharged by the bicategorical
 coherence tactic built into the `StrongTrans` structure defaults. -/
 def restrictHigherLocalizedStrongTrans
-    {F G : HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH)}
+    {F G : HigherLocalizedDescentSystem (W := W)}
     (alpha : F ⟶ G) :
     restrictHigherLocalizedSystem W F ⟶ restrictHigherLocalizedSystem W G where
   app X :=
@@ -73,7 +73,7 @@ def restrictHigherLocalizedStrongTrans
 /-- On a raw context object, restriction of a StrongTrans has exactly the
 component of the original StrongTrans at the image of the presentation unit. -/
 @[simp] theorem restrictHigherLocalizedStrongTrans_app
-    {F G : HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH)}
+    {F G : HigherLocalizedDescentSystem (W := W)}
     (alpha : F ⟶ G) (X : Context) :
     (restrictHigherLocalizedStrongTrans (W := W) alpha).app (.mk X) =
       alpha.app (.mk ((higherPresentationUnitFunctor W).obj X)) := by
