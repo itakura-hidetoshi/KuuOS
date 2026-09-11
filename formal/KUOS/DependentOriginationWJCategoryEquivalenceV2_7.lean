@@ -69,6 +69,15 @@ noncomputable def localizedFunctorPresheafEquivalence :
       (((LocalizedContext W)ᵒᵖ)ᵒᵖ ⥤ Type w) :=
   Equivalence.congrLeft (opOpEquivalence (LocalizedContext W)).symm
 
+/-- The ordinary Mathlib sheaf property is invariant under natural isomorphism.
+This explicit instance is the boundary required by `congrFullSubcategory` in the
+pinned ObjectProperty API. -/
+instance sheafProperty_isClosedUnderIsomorphisms
+    (A : RefinementAtlas (LocalizedContext W)) :
+    (Presheaf.IsSheaf A.generatedTopology (A := Type w)).IsClosedUnderIsomorphisms where
+  of_iso e h :=
+    (Presheaf.isSheaf_of_iso_iff e).1 h
+
 /-- The property of a localized covariant Type-valued functor whose
 variance-correct opposite-site presheaf is a sheaf for the atlas topology.
 
@@ -77,7 +86,8 @@ property along the double-opposite functor-category equivalence. -/
 def LocalizedDescentFunctorProperty
     (A : RefinementAtlas (LocalizedContext W)) :
     ObjectProperty (LocalizedContext W ⥤ Type w) :=
-  (Presheaf.IsSheaf A.generatedTopology (A := Type w)).inverseImage
+  ObjectProperty.inverseImage
+    (Presheaf.IsSheaf A.generatedTopology (A := Type w))
     (localizedFunctorPresheafEquivalence W).functor
 
 /-- The full category of localized covariant contextual functors satisfying the
@@ -147,7 +157,8 @@ localization equivalence. -/
 def RawWJFunctorProperty
     (A : RefinementAtlas (LocalizedContext W)) :
     ObjectProperty (W.FunctorsInverting (Type w)) :=
-  (LocalizedDescentFunctorProperty (W := W) A).inverseImage
+  ObjectProperty.inverseImage
+    (LocalizedDescentFunctorProperty (W := W) A)
     (rawWInvertingLocalizedEquivalence W).functor
 
 /-- The category of raw Type-valued contextual functors which invert `W` and
