@@ -57,7 +57,7 @@ agree with the source comparison up to a natural isomorphism of functors.
 This records the universal-property triangle at the Cat-valued object level
 without pretending that the triangle commutes definitionally. -/
 structure HigherLocalizationFactorMorphism
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (H K : HigherLocalizationFactorization (W := W) R) where
   /-- Strong factor map between localized pseudofunctors. -/
   hom : H.lift ⟶ K.lift
@@ -78,7 +78,7 @@ of their underlying StrongTrans.
 
 Existence of this structure is deliberately *not* postulated. -/
 structure WeakHigherLocalizationUniversalProperty
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) where
+    (R : RawHigherContextualSystem (Context := Context)) where
   /-- Chosen weak higher localization factorization. -/
   chosen : HigherLocalizationFactorization (W := W) R
   /-- Every competing higher factorization admits a weakly comparison-preserving
@@ -96,7 +96,7 @@ structure WeakHigherLocalizationUniversalProperty
 /-- Existence of the v2.18 weak higher localization universal-property datum is
 kept as an explicit proposition. -/
 def HasWeakHigherLocalizationUniversalProperty
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) : Prop :=
+    (R : RawHigherContextualSystem (Context := Context)) : Prop :=
   Nonempty (WeakHigherLocalizationUniversalProperty (W := W) R)
 
 /-- The genuine weak-localization existence principle that remains open: every
@@ -105,14 +105,14 @@ datum.
 
 This is a proposition, not an axiom and not a theorem proved in this file. -/
 def HigherWeakLocalizationUniversalPrinciple : Prop :=
-  ∀ R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH),
+  ∀ R : RawHigherContextualSystem (Context := Context),
     IsHigherWAdmissible W R →
       HasWeakHigherLocalizationUniversalProperty (W := W) R
 
 /-- A v2.18 universal-property datum contains, in particular, the exact v2.10
 higher localization factorization data. -/
 def higherLocalizationFactorizationOfWeakUniversalProperty
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (U : WeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherLocalizationFactorization (W := W) R :=
   U.chosen
@@ -120,7 +120,7 @@ def higherLocalizationFactorizationOfWeakUniversalProperty
 /-- Existence of the stronger v2.18 universal property implies existence of the
 v2.10 higher localization factorization. -/
 theorem hasHigherLocalizationFactorization_of_hasWeakHigherLocalizationUniversalProperty
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (hU : HasWeakHigherLocalizationUniversalProperty (W := W) R) :
     HasHigherLocalizationFactorization (W := W) R := by
   rcases hU with ⟨U⟩
@@ -130,7 +130,7 @@ theorem hasHigherLocalizationFactorization_of_hasWeakHigherLocalizationUniversal
 system to satisfy the exact weak `W`-admissibility condition.  This direction is
 unconditional and reuses the v2.16 necessity theorem. -/
 theorem hasWeakHigherLocalizationUniversalProperty_isHigherWAdmissible
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (hU : HasWeakHigherLocalizationUniversalProperty (W := W) R) :
     IsHigherWAdmissible W R :=
   hasHigherLocalizationFactorization_isHigherWAdmissible W
@@ -142,9 +142,8 @@ v2.15 existence principle follows.  This is the formal one-way bridge from the
 proposed genuine weak universal property to the already-established v2.10
 factorization interface. -/
 theorem higherWeakLocalizationExistence_of_universalPrinciple
-    (hU : HigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakLocalizationExistence (W := W) (uH := uH) (vH := vH) := by
+    (hU : HigherWeakLocalizationUniversalPrinciple (W := W)) :
+    HigherWeakLocalizationExistence (W := W) := by
   intro R hR
   exact
     hasHigherLocalizationFactorization_of_hasWeakHigherLocalizationUniversalProperty W
@@ -154,9 +153,8 @@ theorem higherWeakLocalizationExistence_of_universalPrinciple
 characterized by existence of the v2.18 universal-property datum.  The reverse
 direction remains unconditional. -/
 theorem higherWAdmissible_iff_hasWeakHigherLocalizationUniversalProperty_of_universalPrinciple
-    (hU : HigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH))
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) :
+    (hU : HigherWeakLocalizationUniversalPrinciple (W := W))
+    (R : RawHigherContextualSystem (Context := Context)) :
     IsHigherWAdmissible W R ↔
       HasWeakHigherLocalizationUniversalProperty (W := W) R := by
   constructor

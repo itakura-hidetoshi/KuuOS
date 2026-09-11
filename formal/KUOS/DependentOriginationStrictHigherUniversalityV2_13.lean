@@ -61,8 +61,8 @@ Precomposition with the localization unit `W.Q` is an equivalence between
 Cat-valued systems on the localization and raw Cat-valued systems which send
 `W` to actual isomorphisms in `Cat`. -/
 noncomputable def strictCatLocalizationEquivalence :
-    StrictLocalizedCatSystem (W := W) (uH := uH) (vH := vH) ≌
-      StrictRawCatWSystem (W := W) (uH := uH) (vH := vH) :=
+    StrictLocalizedCatSystem (W := W) ≌
+      StrictRawCatWSystem (W := W) :=
   Localization.functorEquivalence W.Q W Cat.{vH, uH}
 
 /-- Essential uniqueness of the canonical strict localized lift.
@@ -111,7 +111,7 @@ theorem strictSector_has_factorization_and_unique_ordinary_carrier
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
     HasHigherLocalizationFactorization (W := W)
-        (strictRawHigherSystem (uH := uH) (vH := vH) G) ∧
+        (strictRawHigherSystem G) ∧
       ∀ (E : LocalizedContext W ⥤ Cat.{vH, uH})
         (hE : W.Q ⋙ E ≅ G),
         Nonempty (E ≅ strictLocalizedFunctor W G hG) := by

@@ -54,7 +54,7 @@ noncomputable def strictHigherLocalizationComparison
     (hG : W.IsInvertedBy G) :
     restrictHigherLocalizedSystem W
         (strictLocalizedHigherSystem W G hG) ⟶
-      strictRawHigherSystem (uH := uH) (vH := vH) G where
+      strictRawHigherSystem G where
   app X := (strictLocalizationFactorizationIso W G hG).hom.app X.as
   naturality {X Y} f := eqToIso (by
     change
@@ -74,7 +74,9 @@ theorem strictHigherLocalizationComparison_app_isEquivalence
     ((strictHigherLocalizationComparison W G hG).app (.mk X)).toFunctor.IsEquivalence := by
   change
     ((strictLocalizationFactorizationIso W G hG).hom.app X).toFunctor.IsEquivalence
-  infer_instance
+  haveI : IsIso ((strictLocalizationFactorizationIso W G hG).hom.app X) := inferInstance
+  exact catHom_toFunctor_isEquivalence_of_isIso
+    ((strictLocalizationFactorizationIso W G hG).hom.app X)
 
 /-- Canonical v2.10 higher localization factorization data for the strict
 Cat-valued sector. -/
@@ -82,7 +84,7 @@ noncomputable def strictHigherLocalizationFactorization
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
     HigherLocalizationFactorization (W := W)
-      (strictRawHigherSystem (uH := uH) (vH := vH) G) where
+      (strictRawHigherSystem G) where
   lift := strictLocalizedHigherSystem W G hG
   comparison := strictHigherLocalizationComparison W G hG
   comparison_isEquivalence :=
@@ -94,7 +96,7 @@ theorem strictSector_hasHigherLocalizationFactorization
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
     HasHigherLocalizationFactorization (W := W)
-      (strictRawHigherSystem (uH := uH) (vH := vH) G) :=
+      (strictRawHigherSystem G) :=
   ⟨strictHigherLocalizationFactorization W G hG⟩
 
 /-!

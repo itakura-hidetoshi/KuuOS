@@ -55,7 +55,7 @@ equivalences of categories.
 This is intentionally weaker than an isomorphism of pseudofunctors: no inverse
 comparison is part of the data. -/
 structure HigherPointwiseEquivalenceComparison
-    (R S : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) where
+    (R S : RawHigherContextualSystem (Context := Context)) where
   comparison : R ⟶ S
   comparison_isEquivalence :
     ∀ X : Context, (comparison.app (.mk X)).toFunctor.IsEquivalence
@@ -64,7 +64,7 @@ namespace HigherPointwiseEquivalenceComparison
 
 /-- Identity comparison. -/
 noncomputable def refl
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) :
+    (R : RawHigherContextualSystem (Context := Context)) :
     HigherPointwiseEquivalenceComparison (W := W) R R where
   comparison := 𝟙 _
   comparison_isEquivalence := by
@@ -74,7 +74,7 @@ noncomputable def refl
 
 /-- Composition of pointwise-equivalence comparisons. -/
 noncomputable def comp
-    {R S T : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R S T : RawHigherContextualSystem (Context := Context)}
     (E₁ : HigherPointwiseEquivalenceComparison (W := W) R S)
     (E₂ : HigherPointwiseEquivalenceComparison (W := W) S T) :
     HigherPointwiseEquivalenceComparison (W := W) R T where
@@ -96,7 +96,7 @@ end HigherPointwiseEquivalenceComparison
 pointwise-equivalence comparison.  The localized lift itself is unchanged; only
 the comparison back to the raw system is composed. -/
 noncomputable def higherLocalizationFactorizationOfPointwiseEquivalenceComparison
-    {R S : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R S : RawHigherContextualSystem (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R)
     (E : HigherPointwiseEquivalenceComparison (W := W) R S) :
     HigherLocalizationFactorization (W := W) S where
@@ -116,7 +116,7 @@ noncomputable def higherLocalizationFactorizationOfPointwiseEquivalenceCompariso
 /-- Existence of higher localization factorization is preserved by a directed
 pointwise-equivalence comparison. -/
 theorem hasHigherLocalizationFactorization_of_pointwiseEquivalenceComparison
-    {R S : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R S : RawHigherContextualSystem (Context := Context)}
     (hR : HasHigherLocalizationFactorization (W := W) R)
     (E : HigherPointwiseEquivalenceComparison (W := W) R S) :
     HasHigherLocalizationFactorization (W := W) S := by
@@ -126,7 +126,7 @@ theorem hasHigherLocalizationFactorization_of_pointwiseEquivalenceComparison
 /-- Weak `W`-admissibility itself is preserved by a directed
 pointwise-equivalence strong comparison. -/
 theorem isHigherWAdmissible_of_pointwiseEquivalenceComparison
-    {R S : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R S : RawHigherContextualSystem (Context := Context)}
     (hR : IsHigherWAdmissible W R)
     (E : HigherPointwiseEquivalenceComparison (W := W) R S) :
     IsHigherWAdmissible W S := by
@@ -159,7 +159,7 @@ theorem isHigherWAdmissible_of_pointwiseEquivalenceComparison
 comparison.  This proves that the v2.14 strictifiable sector is saturated under
 exactly the comparison notion used by the higher localization interface. -/
 noncomputable def higherStrictPresentationModelOfPointwiseEquivalenceComparison
-    {R S : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R S : RawHigherContextualSystem (Context := Context)}
     (M : HigherStrictPresentationModel (W := W) R)
     (E : HigherPointwiseEquivalenceComparison (W := W) R S) :
     HigherStrictPresentationModel (W := W) S where
@@ -179,7 +179,7 @@ noncomputable def higherStrictPresentationModelOfPointwiseEquivalenceComparison
 
 /-- Existence-level strict-model transport. -/
 theorem hasHigherStrictPresentationModel_of_pointwiseEquivalenceComparison
-    {R S : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R S : RawHigherContextualSystem (Context := Context)}
     (hR : HasHigherStrictPresentationModel (W := W) R)
     (E : HigherPointwiseEquivalenceComparison (W := W) R S) :
     HasHigherStrictPresentationModel (W := W) S := by
@@ -193,16 +193,16 @@ Concretely, a raw system lies in this saturation when some ordinary Cat-valued
 functor strictly inverting `W` admits a pointwise-equivalence strong comparison
 to the raw system. -/
 def InStrictSectorPointwiseEquivalenceSaturation
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) : Prop :=
+    (R : RawHigherContextualSystem (Context := Context)) : Prop :=
   ∃ (G : Context ⥤ Cat.{vH, uH}) (hG : W.IsInvertedBy G),
     Nonempty
       (HigherPointwiseEquivalenceComparison (W := W)
-        (strictRawHigherSystem (uH := uH) (vH := vH) G) R)
+        (strictRawHigherSystem G) R)
 
 /-- The v2.14 notion `HasHigherStrictPresentationModel` is exactly membership in
 the pointwise-equivalence saturation of the strict sector. -/
 theorem hasHigherStrictPresentationModel_iff_inStrictSectorPointwiseEquivalenceSaturation
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) :
+    (R : RawHigherContextualSystem (Context := Context)) :
     HasHigherStrictPresentationModel (W := W) R ↔
       InStrictSectorPointwiseEquivalenceSaturation (W := W) R := by
   constructor
@@ -222,7 +222,7 @@ theorem hasHigherStrictPresentationModel_iff_inStrictSectorPointwiseEquivalenceS
 
 /-- Every raw system in the strict-sector saturation is weakly `W`-admissible. -/
 theorem inStrictSectorPointwiseEquivalenceSaturation_isHigherWAdmissible
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (hR : InStrictSectorPointwiseEquivalenceSaturation (W := W) R) :
     IsHigherWAdmissible W R := by
   apply hasHigherStrictPresentationModel_isHigherWAdmissible W
@@ -234,8 +234,8 @@ theorem inStrictSectorPointwiseEquivalenceSaturation_isHigherWAdmissible
 `W`-admissibility is precisely membership in the pointwise-equivalence
 saturation of the strict sector. -/
 theorem higherWAdmissible_iff_inStrictSectorPointwiseEquivalenceSaturation_of_strictificationPrinciple
-    (hstrict : HigherStrictificationPrinciple (W := W) (uH := uH) (vH := vH))
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) :
+    (hstrict : HigherStrictificationPrinciple (W := W))
+    (R : RawHigherContextualSystem (Context := Context)) :
     IsHigherWAdmissible W R ↔
       InStrictSectorPointwiseEquivalenceSaturation (W := W) R := by
   constructor
@@ -248,7 +248,7 @@ theorem higherWAdmissible_iff_inStrictSectorPointwiseEquivalenceSaturation_of_st
 /-- The v2.15 strictification obstruction is equivalently a weakly admissible raw
 system lying outside the strict-sector pointwise-equivalence saturation. -/
 theorem higherStrictificationObstruction_iff_not_inStrictSectorPointwiseEquivalenceSaturation
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) :
+    (R : RawHigherContextualSystem (Context := Context)) :
     HigherStrictificationObstruction (W := W) R ↔
       IsHigherWAdmissible W R ∧
         ¬ InStrictSectorPointwiseEquivalenceSaturation (W := W) R := by

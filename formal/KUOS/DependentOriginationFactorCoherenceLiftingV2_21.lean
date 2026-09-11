@@ -43,7 +43,7 @@ The coherent factor has a modification-level comparison triangle, while
 `hom_eq` states that no new factor 1-cell is introduced: its underlying
 StrongTrans is exactly the StrongTrans of the original v2.18 factor morphism. -/
 structure CoherentLiftOfV2_18Factor
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) where
   /-- The coherent refinement. -/
@@ -57,7 +57,7 @@ underlying StrongTrans.
 
 This is the precise lifting condition missing after v2.20. -/
 def HigherFactorCoherenceLifting
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -66,7 +66,7 @@ def HigherFactorCoherenceLifting
 /-- Failure of factor-coherence lifting is exhibited by one v2.18 factor morphism
 that admits no coherent refinement with the same underlying StrongTrans. -/
 def HigherFactorCoherenceObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∃ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -75,7 +75,7 @@ def HigherFactorCoherenceObstruction
 /-- The lifting condition is exactly absence of the explicit factor-coherence
 obstruction. -/
 theorem higherFactorCoherenceLifting_iff_no_obstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFactorCoherenceLifting (W := W) U ↔
       ¬ HigherFactorCoherenceObstruction (W := W) U := by
@@ -97,7 +97,7 @@ essential uniqueness, arbitrary v2.18 factors are coherently refined, compared
 using v2.19 essential uniqueness, and then transported back along the equalities
 of underlying StrongTrans. -/
 def weakHigherLocalizationUniversalPropertyOfCoherent
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hLift : HigherFactorCoherenceLifting (W := W) U) :
     WeakHigherLocalizationUniversalProperty (W := W) R where
@@ -112,14 +112,14 @@ def weakHigherLocalizationUniversalPropertyOfCoherent
 /-- Package the exact additional data needed to descend from the coherent v2.19
 universal property to the v2.18 universal property. -/
 def HasCoherentWeakHigherLocalizationUniversalPropertyWithFactorLifting
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) : Prop :=
+    (R : RawHigherContextualSystem (Context := Context)) : Prop :=
   ∃ U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R,
     HigherFactorCoherenceLifting (W := W) U
 
 /-- Coherent universal data together with factor-coherence lifting imply
 existence of the v2.18 weak higher localization universal-property datum. -/
 theorem hasWeakHigherLocalizationUniversalProperty_of_coherent_with_factorLifting
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (h : HasCoherentWeakHigherLocalizationUniversalPropertyWithFactorLifting
       (W := W) R) :
     HasWeakHigherLocalizationUniversalProperty (W := W) R := by
@@ -129,7 +129,7 @@ theorem hasWeakHigherLocalizationUniversalProperty_of_coherent_with_factorLiftin
 /-- Global factor-coherence lifting principle for coherent universal-property
 data.  This remains an explicit proposition rather than an axiom. -/
 def HigherFactorCoherenceLiftingPrinciple : Prop :=
-  ∀ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
+  ∀ (R : RawHigherContextualSystem (Context := Context))
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
     HigherFactorCoherenceLifting (W := W) U
 
@@ -139,12 +139,9 @@ lifting principle imply the v2.18 weak universal principle.
 This theorem closes only the logical mismatch between the two interfaces.  It
 does not prove either premise. -/
 theorem higherWeakLocalizationUniversalPrinciple_of_coherent_and_factorCoherenceLifting
-    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH))
-    (hLift : HigherFactorCoherenceLiftingPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH) := by
+    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple (W := W))
+    (hLift : HigherFactorCoherenceLiftingPrinciple (W := W)) :
+    HigherWeakLocalizationUniversalPrinciple (W := W) := by
   intro R hR
   rcases hCoherent R hR with ⟨U⟩
   exact ⟨weakHigherLocalizationUniversalPropertyOfCoherent W U (hLift R U)⟩
