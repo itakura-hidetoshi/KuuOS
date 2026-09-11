@@ -69,12 +69,24 @@ noncomputable def localizedFunctorPresheafEquivalence :
       (((LocalizedContext W)ᵒᵖ)ᵒᵖ ⥤ Type w) :=
   Equivalence.congrLeft (opOpEquivalence (LocalizedContext W)).symm
 
-/-- The ordinary Mathlib sheaf property is invariant under natural isomorphism.
-This explicit instance is the boundary required by `congrFullSubcategory` in the
-pinned ObjectProperty API. -/
-instance sheafProperty_isClosedUnderIsomorphisms
+/-- The ordinary Mathlib sheaf predicate, explicitly packaged as an
+`ObjectProperty` on the variance-correct presheaf category.
+
+Keeping this carrier explicit prevents Lean from interpreting the raw function
+`Presheaf.IsSheaf ...` through the unrelated `Function` namespace when the
+isomorphism-closure typeclass is requested. -/
+def LocalizedSheafProperty
     (A : RefinementAtlas (LocalizedContext W)) :
-    (Presheaf.IsSheaf A.generatedTopology (A := Type w)).IsClosedUnderIsomorphisms where
+    ObjectProperty ((((LocalizedContext W)ᵒᵖ)ᵒᵖ ⥤ Type w)) :=
+  Presheaf.IsSheaf A.generatedTopology (A := Type w)
+
+/-- The ordinary Mathlib sheaf property is invariant under natural isomorphism.
+This explicit instance is the source closure needed by both categorical
+restrictions below. -/
+instance localizedSheafProperty_isClosedUnderIsomorphisms
+    (A : RefinementAtlas (LocalizedContext W)) :
+    ObjectProperty.IsClosedUnderIsomorphisms
+      (LocalizedSheafProperty (W := W) A) where
   of_iso e h :=
     (Presheaf.isSheaf_of_iso_iff e).1 h
 
@@ -82,12 +94,14 @@ instance sheafProperty_isClosedUnderIsomorphisms
 variance-correct opposite-site presheaf is a sheaf for the atlas topology.
 
 It is intentionally defined as the inverse image of the ordinary Mathlib sheaf
-property along the double-opposite functor-category equivalence. -/
+property along the double-opposite functor-category equivalence.  Its closure
+under isomorphisms is then inherited from the general Mathlib inverse-image
+instance. -/
 def LocalizedDescentFunctorProperty
     (A : RefinementAtlas (LocalizedContext W)) :
     ObjectProperty (LocalizedContext W ⥤ Type w) :=
   ObjectProperty.inverseImage
-    (Presheaf.IsSheaf A.generatedTopology (A := Type w))
+    (LocalizedSheafProperty (W := W) A)
     (localizedFunctorPresheafEquivalence W).functor
 
 /-- The full category of localized covariant contextual functors satisfying the
@@ -104,7 +118,7 @@ noncomputable def localizedDescentFunctorEquivalenceCompletion
     LocalizedDescentFunctorCategory (W := W) A ≌
       DependentOriginationCompletion1 (W := W) A :=
   (localizedFunctorPresheafEquivalence W).congrFullSubcategory
-    (Q := Presheaf.IsSheaf A.generatedTopology (A := Type w)) rfl
+    (Q := LocalizedSheafProperty (W := W) A) rfl
 
 /-- Package an ordinary localized functor as the existing KuuOS contextual
 transport-system interface. -/
@@ -153,7 +167,8 @@ noncomputable def rawWInvertingLocalizedEquivalence :
 
 /-- The raw `W + J` admissibility property on already bundled `W`-inverting
 functors.  It is the inverse image of localized Grothendieck descent along the
-localization equivalence. -/
+localization equivalence.  Isomorphism closure is inherited transitively from
+the explicit sheaf property through the two inverse-image constructions. -/
 def RawWJFunctorProperty
     (A : RefinementAtlas (LocalizedContext W)) :
     ObjectProperty (W.FunctorsInverting (Type w)) :=
