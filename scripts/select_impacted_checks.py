@@ -54,7 +54,7 @@ def load_registry(path: pathlib.Path) -> dict[str, Any]:
     if data.get("schema_version") not in {"0.1", "0.2"}:
         raise ValueError("unsupported or missing registry schema_version")
     if not isinstance(data.get("checks"), dict) or not data["checks"]:
-        raise ValueError("registry checks must be a non-empty object")
+        raise ValueError("check registry must contain a non-empty checks object")
 
     data.setdefault("known_paths", [])
     data.setdefault("full_audit_paths", [])
@@ -164,6 +164,21 @@ def _is_buildable_lean_module(module: str, library_roots: set[str]) -> bool:
     return any(module == root or module.startswith(f"{root}.") for root in library_roots)
 
 
+def _is_full_library_aggregate(module: str, imports: set[str]) -> bool:
+    """Recognize versioned top-level aggregate modules that import the full library.
+
+    These roots are useful as release/landing import surfaces, but selecting one
+    for a focused PR build recursively rebuilds the unrelated full library.  If
+    the aggregate is the only buildable impact target we still fail closed to
+    `KuuOSFormal`; otherwise the changed proof modules are validated directly.
+    """
+    return (
+        "." not in module
+        and module.startswith("KuuOSFormalV")
+        and FULL_LEAN_TARGET in imports
+    )
+
+
 def select_lean_targets(
     changed_paths: list[str],
     *,
@@ -177,10 +192,13 @@ def select_lean_targets(
     The reverse-import closure may include top-level Lean modules that are not
     exposed as Lake build targets. We therefore use the full closure for impact
     analysis but project the final target list onto the declared `lean_lib`
-    roots. Changes to the toolchain/library surface, invalid root metadata,
-    missing changed modules, unreadable source files, an empty formal change
-    set, or an impact closure larger than `max_targets` all fail closed to the
-    complete `KuuOSFormal` library target.
+    roots. Versioned aggregate roots that directly import `KuuOSFormal` are
+    omitted from a focused build when concrete impacted proof targets remain;
+    selecting them would turn a local proof check back into an unrelated full
+    library rebuild. Changes to the toolchain/library surface, invalid root
+    metadata, missing changed modules, unreadable source files, an empty formal
+    change set, or an impact closure larger than `max_targets` all fail closed
+    to the complete `KuuOSFormal` library target.
     """
     if any(path in LEAN_FULL_BUILD_PATHS for path in changed_paths):
         return [FULL_LEAN_TARGET], "Lean toolchain/library root changed"
@@ -213,9 +231,11 @@ def select_lean_targets(
         return [FULL_LEAN_TARGET], f"changed Lean module missing from checkout: {missing[0]}"
 
     reverse_imports: dict[str, set[str]] = {module: set() for module in module_files}
+    module_imports: dict[str, set[str]] = {}
     try:
         for module, path in module_files.items():
             imports = _lean_imports(path.read_text(encoding="utf-8"))
+            module_imports[module] = imports
             for dependency in imports:
                 if dependency in reverse_imports:
                     reverse_imports[dependency].add(module)
@@ -236,10 +256,13 @@ def select_lean_targets(
                     )
 
     targets = sorted(
-        module for module in closure if _is_buildable_lean_module(module, library_roots)
+        module
+        for module in closure
+        if _is_buildable_lean_module(module, library_roots)
+        and not _is_full_library_aggregate(module, module_imports.get(module, set()))
     )
     if not targets:
-        return [FULL_LEAN_TARGET], "impact closure contains no buildable Lake module target"
+        return [FULL_LEAN_TARGET], "impact closure contains no focused buildable Lake module target"
     return targets, None
 
 
