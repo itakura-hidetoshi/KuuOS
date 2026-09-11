@@ -71,7 +71,7 @@ def higherPresentationUnitFunctor :
 /-- Restrict a localized Cat-valued contextual system back to the raw context
 category along the canonical presentation unit. -/
 def restrictHigherLocalizedSystem
-    (F : HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH)) :
+    (F : HigherLocalizedDescentSystem (W := W)) :
     RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH) :=
   Pseudofunctor.comp (higherPresentationUnitFunctor W).toPseudofunctor F
 
@@ -96,7 +96,7 @@ level, without pretending that the two pseudofunctors are definitionally equal. 
 structure HigherLocalizationFactorization
     (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) where
   /-- Proposed localized pseudofunctor. -/
-  lift : HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH)
+  lift : HigherLocalizedDescentSystem (W := W)
   /-- Pseudonatural comparison back to the raw system. -/
   comparison : restrictHigherLocalizedSystem W lift ⟶ R
   /-- The comparison is pointwise an equivalence of categories. -/
@@ -118,7 +118,7 @@ def completion2OfHigherStackLocalizationFactorization
     (A : RefinementAtlas (LocalizedContext W))
     {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     (h : HigherStackLocalizationFactorization (W := W) A R) :
-    DependentOriginationCompletion2 (W := W) (uH := uH) (vH := vH) A :=
+    DependentOriginationCompletion2 (W := W) A :=
   ⟨h.lift, h.isStack⟩
 
 /-- The object of `DO₂` produced by a successful higher factorization has exactly
@@ -128,7 +128,7 @@ the localized pseudofunctor supplied by that factorization. -/
     {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
     (h : HigherStackLocalizationFactorization (W := W) A R) :
     (completion2OfHigherStackLocalizationFactorization (W := W) A h :
-      HigherStackObject (W := W) (uH := uH) (vH := vH) A).1 = h.lift := by
+      HigherStackObject (W := W) A).1 = h.lift := by
   rfl
 
 /-- Existence of a higher localization factorization is kept as an explicit
