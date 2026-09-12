@@ -71,11 +71,14 @@ noncomputable def strictHigherLocalizationComparison
       (strictLocalizationFactorizationIso W G hG).hom.naturality f.as)
   naturality_naturality η := by
     obtain rfl := obj_ext_of_isDiscrete η
-    simp
+    simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
+      CategoryTheory.Pseudofunctor.comp]
   naturality_id X := by
-    simp
+    simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
+      CategoryTheory.Pseudofunctor.comp]
   naturality_comp f g := by
-    simp
+    simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
+      CategoryTheory.Pseudofunctor.comp]
 
 /-- Every component of the strict comparison is an equivalence of categories.
 Indeed it is already an isomorphism in `Cat`, because it is a component of the
