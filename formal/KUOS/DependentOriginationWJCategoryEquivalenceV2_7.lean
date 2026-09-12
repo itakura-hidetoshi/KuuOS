@@ -90,6 +90,14 @@ def LocalizedDescentFunctorProperty
     (Presheaf.IsSheaf A.generatedTopology (A := Type w))
     (localizedFunctorPresheafEquivalence W).functor
 
+/-- The pulled-back localized descent property inherits invariance under natural
+isomorphism from the ordinary sheaf property. -/
+instance localizedDescentFunctorProperty_isClosedUnderIsomorphisms
+    (A : RefinementAtlas (LocalizedContext W)) :
+    (LocalizedDescentFunctorProperty (W := W) A).IsClosedUnderIsomorphisms := by
+  unfold LocalizedDescentFunctorProperty
+  infer_instance
+
 /-- The full category of localized covariant contextual functors satisfying the
 generated Grothendieck descent condition. -/
 abbrev LocalizedDescentFunctorCategory
