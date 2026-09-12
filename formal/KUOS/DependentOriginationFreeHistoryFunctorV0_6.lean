@@ -47,16 +47,16 @@ def toFreeHistoryFunctor
     (H : HistoryTransport Event State) :
     FreeHistoryCategory Event ⥤ Type v where
   obj := fun _ => State
-  map := fun word x => H.eval (FreeMonoid.toList word) x
+  map := fun word => TypeCat.ofHom fun x => H.eval (FreeMonoid.toList word) x
   map_id := by
     intro X
-    funext x
+    ext x
     change H.eval (FreeMonoid.toList (1 : FreeMonoid Event)) x = x
     rw [FreeMonoid.toList_one]
     exact H.eval_nil x
   map_comp := by
     intro X Y Z f g
-    funext x
+    ext x
     change
       H.eval (FreeMonoid.toList (g * f)) x =
         H.eval (FreeMonoid.toList g) (H.eval (FreeMonoid.toList f) x)
