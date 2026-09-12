@@ -87,7 +87,7 @@ instance completion2ObjectIsStack
 
 /-- The canonical strict pseudofunctor from the full stack sub-bicategory back to the ambient
 bicategory of all Cat-valued contextual pseudofunctors. -/
-def completion2Forget
+noncomputable def completion2Forget
     (A : RefinementAtlas (LocalizedContext W)) :
     StrictPseudofunctor
       (DependentOriginationCompletion2 (W := W) A)
@@ -96,7 +96,7 @@ def completion2Forget
 
 /-- `DO₂` is full on 1-morphisms: every ambient strong natural transformation between two stack
 objects defines a 1-morphism in the carrier. -/
-def completion2MkHom
+noncomputable def completion2MkHom
     (A : RefinementAtlas (LocalizedContext W))
     {X Y : DependentOriginationCompletion2 (W := W) A}
     (η :
