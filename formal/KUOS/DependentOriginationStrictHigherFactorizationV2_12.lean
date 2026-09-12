@@ -80,6 +80,7 @@ noncomputable def strictHigherLocalizationComparison
       CategoryTheory.Functor.toPseudofunctor',
       CategoryTheory.pseudofunctorOfIsLocallyDiscrete] <;>
       ext X <;>
+      simp only [CategoryTheory.Cat.Hom₂.comp_app] <;>
       simp
   naturality_id X := by
     apply Cat.Hom₂.ext
@@ -89,6 +90,7 @@ noncomputable def strictHigherLocalizationComparison
       CategoryTheory.Functor.toPseudofunctor',
       CategoryTheory.pseudofunctorOfIsLocallyDiscrete] <;>
       ext Y <;>
+      simp only [CategoryTheory.Cat.Hom₂.comp_app] <;>
       simp
   naturality_comp f g := by
     apply Cat.Hom₂.ext
@@ -98,6 +100,7 @@ noncomputable def strictHigherLocalizationComparison
       CategoryTheory.Functor.toPseudofunctor',
       CategoryTheory.pseudofunctorOfIsLocallyDiscrete] <;>
       ext X <;>
+      simp only [CategoryTheory.Cat.Hom₂.comp_app] <;>
       simp
 
 /-- Every component of the strict comparison is an equivalence of categories.
