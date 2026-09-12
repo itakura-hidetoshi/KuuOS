@@ -364,7 +364,7 @@ one unique invariant semantic value.
 theorem semanticDescent_without_stateDescent
     {Context : Type u} [Category.{v} Context]
     {Index : Type w} [Nonempty Index]
-    {D : FunctorialTransportSystem Context]
+    {D : FunctorialTransportSystem Context}
     {Semantic : Type y}
     (R : FunctorialTransportSystem.InvariantReadout D Semantic)
     (C : RefinementCover Context Index)
