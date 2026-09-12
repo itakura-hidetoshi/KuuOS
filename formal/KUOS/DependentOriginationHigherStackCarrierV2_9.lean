@@ -56,14 +56,14 @@ variable (W : MorphismProperty Context)
 localized site satisfying genuine stack descent for the generated KuuOS topology. -/
 def HigherStackObject
     (A : RefinementAtlas (LocalizedContext W)) :=
-  { F : HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH) //
+  { F : HigherLocalizedDescentSystem (W := W) //
       IsHigherGrothendieckDescentComplete W A F }
 
 /-- Forget the stack witness and retain the underlying Cat-valued pseudofunctor. -/
 abbrev higherStackObjectVal
     (A : RefinementAtlas (LocalizedContext W)) :
-    HigherStackObject (W := W) (uH := uH) (vH := vH) A →
-      HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH) :=
+    HigherStackObject (W := W) A →
+      HigherLocalizedDescentSystem (W := W) :=
   Subtype.val
 
 /-- The Cat-valued `W + J + H` carrier.
@@ -74,14 +74,14 @@ modifications, so no ad hoc higher morphism structure is introduced. -/
 abbrev DependentOriginationCompletion2
     (A : RefinementAtlas (LocalizedContext W)) :=
   CategoryTheory.Bicategory.InducedBicategory
-    (HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH))
-    (higherStackObjectVal (W := W) (uH := uH) (vH := vH) A)
+    (HigherLocalizedDescentSystem (W := W))
+    (higherStackObjectVal (W := W) A)
 
 /-- Every object of `DO₂` carries the native Mathlib stack instance represented by its subtype
 witness. -/
 instance completion2ObjectIsStack
     (A : RefinementAtlas (LocalizedContext W))
-    (X : HigherStackObject (W := W) (uH := uH) (vH := vH) A) :
+    (X : HigherStackObject (W := W) A) :
     (X.1).IsStack A.generatedTopology := by
   exact X.2
 
@@ -90,18 +90,18 @@ bicategory of all Cat-valued contextual pseudofunctors. -/
 def completion2Forget
     (A : RefinementAtlas (LocalizedContext W)) :
     StrictPseudofunctor
-      (DependentOriginationCompletion2 (W := W) (uH := uH) (vH := vH) A)
-      (HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH)) :=
+      (DependentOriginationCompletion2 (W := W) A)
+      (HigherLocalizedDescentSystem (W := W)) :=
   CategoryTheory.Bicategory.InducedBicategory.forget
 
 /-- `DO₂` is full on 1-morphisms: every ambient strong natural transformation between two stack
 objects defines a 1-morphism in the carrier. -/
 def completion2MkHom
     (A : RefinementAtlas (LocalizedContext W))
-    {X Y : DependentOriginationCompletion2 (W := W) (uH := uH) (vH := vH) A}
+    {X Y : DependentOriginationCompletion2 (W := W) A}
     (η :
-      higherStackObjectVal (W := W) (uH := uH) (vH := vH) A X ⟶
-        higherStackObjectVal (W := W) (uH := uH) (vH := vH) A Y) :
+      higherStackObjectVal (W := W) A X ⟶
+        higherStackObjectVal (W := W) A Y) :
     X ⟶ Y :=
   CategoryTheory.Bicategory.InducedBicategory.mkHom η
 
@@ -109,7 +109,7 @@ def completion2MkHom
 KuuOS root to its category of descent data. -/
 theorem completion2Object_declaredDescentEquivalences
     (A : RefinementAtlas (LocalizedContext W))
-    (X : HigherStackObject (W := W) (uH := uH) (vH := vH) A)
+    (X : HigherStackObject (W := W) A)
     (S : HigherLocalizedSite W) :
     (X.1.toDescentData
       (fun i : A.Index (unop S) => (A.toChart (unop S) i).op)).IsEquivalence := by
@@ -127,11 +127,11 @@ variable [A.precoverage.IsStableUnderComposition]
 whose declared root-to-descent-data functors are all equivalences canonically determines an
 object of `DO₂`. -/
 def completion2ObjectOfDeclaredDescentEquivalences
-    (F : HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH))
+    (F : HigherLocalizedDescentSystem (W := W))
     (hF : ∀ S : HigherLocalizedSite W,
       (F.toDescentData
         (fun i : A.Index (unop S) => (A.toChart (unop S) i).op)).IsEquivalence) :
-    DependentOriginationCompletion2 (W := W) (uH := uH) (vH := vH) A :=
+    DependentOriginationCompletion2 (W := W) A :=
   ⟨F,
     (isHigherGrothendieckDescentComplete_iff_declaredDescentEquivalences W A F).2 hF⟩
 
