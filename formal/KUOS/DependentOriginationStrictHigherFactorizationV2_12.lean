@@ -54,7 +54,7 @@ noncomputable def strictHigherLocalizationComparison
     (hG : W.IsInvertedBy G) :
     restrictHigherLocalizedSystem W
         (strictLocalizedHigherSystem W G hG) ⟶
-      strictRawHigherSystem (uH := uH) (vH := vH) G where
+      strictRawHigherSystem G where
   app X := (strictLocalizationFactorizationIso W G hG).hom.app X.as
   naturality {X Y} f := eqToIso (by
     change
@@ -82,7 +82,7 @@ noncomputable def strictHigherLocalizationFactorization
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
     HigherLocalizationFactorization (W := W)
-      (strictRawHigherSystem (uH := uH) (vH := vH) G) where
+      (strictRawHigherSystem G) where
   lift := strictLocalizedHigherSystem W G hG
   comparison := strictHigherLocalizationComparison W G hG
   comparison_isEquivalence :=
@@ -94,7 +94,7 @@ theorem strictSector_hasHigherLocalizationFactorization
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
     HasHigherLocalizationFactorization (W := W)
-      (strictRawHigherSystem (uH := uH) (vH := vH) G) :=
+      (strictRawHigherSystem G) :=
   ⟨strictHigherLocalizationFactorization W G hG⟩
 
 /-!
