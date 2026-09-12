@@ -74,35 +74,39 @@ noncomputable def strictHigherLocalizationComparison
     apply Cat.Hom₂.ext
     ext X
     simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
-      strictRawHigherSystem, CategoryTheory.Pseudofunctor.comp,
+      CategoryTheory.Pseudofunctor.comp,
       CategoryTheory.Functor.toPseudofunctor,
       CategoryTheory.Functor.toPseudofunctor',
       CategoryTheory.pseudofunctorOfIsLocallyDiscrete,
-      CategoryTheory.Cat.eqToHom_app,
-      CategoryTheory.Bicategory.comp_whiskerRight,
-      CategoryTheory.Bicategory.whiskerLeft_comp]
+      CategoryTheory.Cat.Hom₂.comp_app,
+      CategoryTheory.Cat.Hom₂.id_app,
+      CategoryTheory.Cat.eqToHom_app]
   naturality_id X := by
     apply Cat.Hom₂.ext
     ext Y
     simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
-      strictRawHigherSystem, CategoryTheory.Pseudofunctor.comp,
+      CategoryTheory.Pseudofunctor.comp,
       CategoryTheory.Functor.toPseudofunctor,
       CategoryTheory.Functor.toPseudofunctor',
       CategoryTheory.pseudofunctorOfIsLocallyDiscrete,
+      CategoryTheory.Cat.Hom₂.comp_app,
+      CategoryTheory.Cat.whiskerRight_app,
       CategoryTheory.Cat.eqToHom_app,
-      CategoryTheory.Bicategory.comp_whiskerRight,
-      CategoryTheory.Bicategory.whiskerLeft_comp]
+      CategoryTheory.Functor.map_comp,
+      CategoryTheory.eqToHom_map]
   naturality_comp f g := by
     apply Cat.Hom₂.ext
     ext X
     simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
-      strictRawHigherSystem, CategoryTheory.Pseudofunctor.comp,
+      CategoryTheory.Pseudofunctor.comp,
       CategoryTheory.Functor.toPseudofunctor,
       CategoryTheory.Functor.toPseudofunctor',
       CategoryTheory.pseudofunctorOfIsLocallyDiscrete,
+      CategoryTheory.Cat.Hom₂.comp_app,
+      CategoryTheory.Cat.whiskerRight_app,
       CategoryTheory.Cat.eqToHom_app,
-      CategoryTheory.Bicategory.comp_whiskerRight,
-      CategoryTheory.Bicategory.whiskerLeft_comp]
+      CategoryTheory.Functor.map_comp,
+      CategoryTheory.eqToHom_map]
 
 /-- Every component of the strict comparison is an equivalence of categories.
 Indeed it is already an isomorphism in `Cat`, because it is a component of the
