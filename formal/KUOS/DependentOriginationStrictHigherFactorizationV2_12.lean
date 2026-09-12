@@ -18,6 +18,7 @@ attribute [local simp]
   CategoryTheory.Bicategory.Strict.associator_eqToIso
   CategoryTheory.PrelaxFunctor.map₂_eqToHom
   CategoryTheory.eqToHom_map
+  CategoryTheory.Cat.eqToHom_app
 
 universe u v uH vH
 
@@ -73,44 +74,31 @@ noncomputable def strictHigherLocalizationComparison
   naturality_naturality η := by
     obtain rfl := obj_ext_of_isDiscrete η
     apply Cat.Hom₂.ext
-    ext X
     simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
       CategoryTheory.Pseudofunctor.comp,
       CategoryTheory.Functor.toPseudofunctor,
       CategoryTheory.Functor.toPseudofunctor',
-      CategoryTheory.pseudofunctorOfIsLocallyDiscrete]
-    change
-      (𝟙 _).toNatTrans.app X ≫ (eqToHom _).toNatTrans.app X =
-        (eqToHom _).toNatTrans.app X ≫ (𝟙 _).toNatTrans.app X
-    simp [CategoryTheory.Cat.eqToHom_app]
+      CategoryTheory.pseudofunctorOfIsLocallyDiscrete] <;>
+      ext X <;>
+      simp
   naturality_id X := by
     apply Cat.Hom₂.ext
-    ext Y
     simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
       CategoryTheory.Pseudofunctor.comp,
       CategoryTheory.Functor.toPseudofunctor,
       CategoryTheory.Functor.toPseudofunctor',
-      CategoryTheory.pseudofunctorOfIsLocallyDiscrete]
-    change
-      (eqToHom _).toNatTrans.app Y ≫ (eqToHom _).toNatTrans.app Y =
-        (CategoryTheory.Bicategory.whiskerRight (eqToHom _ ≫ eqToHom _) _).toNatTrans.app Y ≫
-          (eqToHom _).toNatTrans.app Y ≫ (eqToHom _).toNatTrans.app Y
-    simp [CategoryTheory.Cat.eqToHom_app]
+      CategoryTheory.pseudofunctorOfIsLocallyDiscrete] <;>
+      ext Y <;>
+      simp
   naturality_comp f g := by
     apply Cat.Hom₂.ext
-    ext X
     simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
       CategoryTheory.Pseudofunctor.comp,
       CategoryTheory.Functor.toPseudofunctor,
       CategoryTheory.Functor.toPseudofunctor',
-      CategoryTheory.pseudofunctorOfIsLocallyDiscrete]
-    change
-      (eqToHom _).toNatTrans.app X ≫ (eqToHom _).toNatTrans.app X =
-        (CategoryTheory.Bicategory.whiskerRight (eqToHom _ ≫ eqToHom _) _).toNatTrans.app X ≫
-          (eqToHom _).toNatTrans.app X ≫ (eqToHom _).toNatTrans.app X ≫
-            (eqToHom _).toNatTrans.app X ≫ (eqToHom _).toNatTrans.app X ≫
-              (eqToHom _).toNatTrans.app X
-    simp [CategoryTheory.Cat.eqToHom_app]
+      CategoryTheory.pseudofunctorOfIsLocallyDiscrete] <;>
+      ext X <;>
+      simp
 
 /-- Every component of the strict comparison is an equivalence of categories.
 Indeed it is already an isomorphism in `Cat`, because it is a component of the
