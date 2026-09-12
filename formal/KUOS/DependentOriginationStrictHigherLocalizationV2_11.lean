@@ -86,10 +86,9 @@ theorem strictRawHigherSystem_isHigherWAdmissible
   haveI : IsIso (G.map f) := hG f hf
   let eCat := asIso (G.map f)
   let e : (G.obj X) ≌ (G.obj Y) :=
-    { functor := eCat.hom.toFunctor
-      inverse := eCat.inv.toFunctor
-      unitIso := eqToIso (congrArg Cat.Hom.toFunctor eCat.hom_inv_id).symm
-      counitIso := eqToIso (congrArg Cat.Hom.toFunctor eCat.inv_hom_id) }
+    Equivalence.mk eCat.hom.toFunctor eCat.inv.toFunctor
+      (eqToIso (congrArg Cat.Hom.toFunctor eCat.hom_inv_id).symm)
+      (eqToIso (congrArg Cat.Hom.toFunctor eCat.inv_hom_id))
   change (G.map f).toFunctor.IsEquivalence
   simpa [e, eCat] using e.isEquivalence_functor
 
@@ -98,7 +97,10 @@ functor has a canonical localized Cat-valued higher lift. -/
 theorem strictSector_hasLocalizedHigherLift
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
-    Nonempty (HigherLocalizedDescentSystem (W := W)) :=
+    Nonempty
+      (Pseudofunctor
+        (LocallyDiscrete ((HigherLocalizedSite W)ᵒᵖ))
+        Cat.{vH, uH}) :=
   ⟨strictLocalizedHigherSystem W G hG⟩
 
 /-!
