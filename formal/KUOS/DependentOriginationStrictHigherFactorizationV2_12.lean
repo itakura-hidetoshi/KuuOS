@@ -79,26 +79,7 @@ noncomputable def strictHigherLocalizationComparison
       CategoryTheory.Functor.toPseudofunctor,
       CategoryTheory.Functor.toPseudofunctor',
       CategoryTheory.pseudofunctorOfIsLocallyDiscrete] <;>
-      simp only [CategoryTheory.Cat.Hom.comp_toFunctor,
-        CategoryTheory.Functor.comp_obj,
-        CategoryTheory.Cat.Hom.comp_obj,
-        CategoryTheory.Cat.whiskerLeft_app,
-        CategoryTheory.Cat.whiskerRight_app,
-        CategoryTheory.Cat.Hom₂.id_app,
-        CategoryTheory.Cat.Hom₂.comp_app,
-        CategoryTheory.Cat.eqToHom_app,
-        CategoryTheory.Cat.leftUnitor_hom_app,
-        CategoryTheory.Cat.leftUnitor_inv_app,
-        CategoryTheory.Cat.rightUnitor_hom_app,
-        CategoryTheory.Cat.rightUnitor_inv_app,
-        CategoryTheory.Cat.associator_hom_app,
-        CategoryTheory.Cat.associator_inv_app,
-        CategoryTheory.eqToHom_refl,
-        CategoryTheory.Category.comp_id,
-        CategoryTheory.Category.id_comp,
-        CategoryTheory.eqToHom_trans,
-        CategoryTheory.Functor.map_comp,
-        CategoryTheory.eqToHom_map]
+      cat_disch
   naturality_id X := by
     apply Cat.Hom₂.ext
     ext Y
@@ -107,26 +88,7 @@ noncomputable def strictHigherLocalizationComparison
       CategoryTheory.Functor.toPseudofunctor,
       CategoryTheory.Functor.toPseudofunctor',
       CategoryTheory.pseudofunctorOfIsLocallyDiscrete] <;>
-      simp only [CategoryTheory.Cat.Hom.comp_toFunctor,
-        CategoryTheory.Functor.comp_obj,
-        CategoryTheory.Cat.Hom.comp_obj,
-        CategoryTheory.Cat.whiskerLeft_app,
-        CategoryTheory.Cat.whiskerRight_app,
-        CategoryTheory.Cat.Hom₂.id_app,
-        CategoryTheory.Cat.Hom₂.comp_app,
-        CategoryTheory.Cat.eqToHom_app,
-        CategoryTheory.Cat.leftUnitor_hom_app,
-        CategoryTheory.Cat.leftUnitor_inv_app,
-        CategoryTheory.Cat.rightUnitor_hom_app,
-        CategoryTheory.Cat.rightUnitor_inv_app,
-        CategoryTheory.Cat.associator_hom_app,
-        CategoryTheory.Cat.associator_inv_app,
-        CategoryTheory.eqToHom_refl,
-        CategoryTheory.Category.comp_id,
-        CategoryTheory.Category.id_comp,
-        CategoryTheory.eqToHom_trans,
-        CategoryTheory.Functor.map_comp,
-        CategoryTheory.eqToHom_map]
+      cat_disch
   naturality_comp f g := by
     apply Cat.Hom₂.ext
     ext X
@@ -135,26 +97,7 @@ noncomputable def strictHigherLocalizationComparison
       CategoryTheory.Functor.toPseudofunctor,
       CategoryTheory.Functor.toPseudofunctor',
       CategoryTheory.pseudofunctorOfIsLocallyDiscrete] <;>
-      simp only [CategoryTheory.Cat.Hom.comp_toFunctor,
-        CategoryTheory.Functor.comp_obj,
-        CategoryTheory.Cat.Hom.comp_obj,
-        CategoryTheory.Cat.whiskerLeft_app,
-        CategoryTheory.Cat.whiskerRight_app,
-        CategoryTheory.Cat.Hom₂.id_app,
-        CategoryTheory.Cat.Hom₂.comp_app,
-        CategoryTheory.Cat.eqToHom_app,
-        CategoryTheory.Cat.leftUnitor_hom_app,
-        CategoryTheory.Cat.leftUnitor_inv_app,
-        CategoryTheory.Cat.rightUnitor_hom_app,
-        CategoryTheory.Cat.rightUnitor_inv_app,
-        CategoryTheory.Cat.associator_hom_app,
-        CategoryTheory.Cat.associator_inv_app,
-        CategoryTheory.eqToHom_refl,
-        CategoryTheory.Category.comp_id,
-        CategoryTheory.Category.id_comp,
-        CategoryTheory.eqToHom_trans,
-        CategoryTheory.Functor.map_comp,
-        CategoryTheory.eqToHom_map]
+      cat_disch
 
 /-- Every component of the strict comparison is an equivalence of categories.
 Indeed it is already an isomorphism in `Cat`, because it is a component of the
