@@ -69,6 +69,40 @@ noncomputable def strictHigherLocalizationComparison
         (strictLocalizationFactorizationIso W G hG).hom.app X.as ≫ G.map f.as
     simpa using
       (strictLocalizationFactorizationIso W G hG).hom.naturality f.as)
+  naturality_naturality η := by
+    obtain rfl := obj_ext_of_isDiscrete η
+    apply Cat.Hom₂.ext
+    ext X
+    simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
+      strictRawHigherSystem, CategoryTheory.Pseudofunctor.comp,
+      CategoryTheory.Functor.toPseudofunctor,
+      CategoryTheory.Functor.toPseudofunctor',
+      CategoryTheory.pseudofunctorOfIsLocallyDiscrete,
+      CategoryTheory.Cat.eqToHom_app,
+      CategoryTheory.Bicategory.comp_whiskerRight,
+      CategoryTheory.Bicategory.whiskerLeft_comp]
+  naturality_id X := by
+    apply Cat.Hom₂.ext
+    ext Y
+    simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
+      strictRawHigherSystem, CategoryTheory.Pseudofunctor.comp,
+      CategoryTheory.Functor.toPseudofunctor,
+      CategoryTheory.Functor.toPseudofunctor',
+      CategoryTheory.pseudofunctorOfIsLocallyDiscrete,
+      CategoryTheory.Cat.eqToHom_app,
+      CategoryTheory.Bicategory.comp_whiskerRight,
+      CategoryTheory.Bicategory.whiskerLeft_comp]
+  naturality_comp f g := by
+    apply Cat.Hom₂.ext
+    ext X
+    simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
+      strictRawHigherSystem, CategoryTheory.Pseudofunctor.comp,
+      CategoryTheory.Functor.toPseudofunctor,
+      CategoryTheory.Functor.toPseudofunctor',
+      CategoryTheory.pseudofunctorOfIsLocallyDiscrete,
+      CategoryTheory.Cat.eqToHom_app,
+      CategoryTheory.Bicategory.comp_whiskerRight,
+      CategoryTheory.Bicategory.whiskerLeft_comp]
 
 /-- Every component of the strict comparison is an equivalence of categories.
 Indeed it is already an isomorphism in `Cat`, because it is a component of the
