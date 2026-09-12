@@ -133,6 +133,7 @@ theorem presieveIsSheaf_generatedTopology_iff_declaredCovers
     (P : (Contextᵒᵖ)ᵒᵖ ⥤ Type w) :
     Presieve.IsSheaf A.generatedTopology P ↔
       ∀ X : Contextᵒᵖ, Presieve.IsSheafFor P (A.presieveAt X) := by
+  unfold RefinementAtlas.generatedTopology
   rw [Precoverage.isSheaf_toGrothendieck_iff]
   constructor
   · intro h X
