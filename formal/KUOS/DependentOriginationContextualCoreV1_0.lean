@@ -315,7 +315,10 @@ def asContextualSystem
 theorem asContextualSystem_transport
     (H : HistoryTransport Event State)
     (word : List Event) (x : State) :
-    H.asContextualSystem.transport word x = H.eval word x := by
+    H.asContextualSystem.transport
+        (X := CategoryTheory.SingleObj.star (FreeMonoid Event))
+        (Z := CategoryTheory.SingleObj.star (FreeMonoid Event))
+        word x = H.eval word x := by
   rfl
 
 end HistoryTransport
