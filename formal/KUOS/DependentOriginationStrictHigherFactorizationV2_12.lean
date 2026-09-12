@@ -63,6 +63,13 @@ noncomputable def strictHigherLocalizationComparison
         (strictLocalizationFactorizationIso W G hG).hom.app X.as ≫ G.map f.as
     simpa using
       (strictLocalizationFactorizationIso W G hG).hom.naturality f.as)
+  naturality_naturality η := by
+    obtain rfl := obj_ext_of_isDiscrete η
+    simp
+  naturality_id X := by
+    simp
+  naturality_comp f g := by
+    simp
 
 /-- Every component of the strict comparison is an equivalence of categories.
 Indeed it is already an isomorphism in `Cat`, because it is a component of the
@@ -74,7 +81,13 @@ theorem strictHigherLocalizationComparison_app_isEquivalence
     ((strictHigherLocalizationComparison W G hG).app (.mk X)).toFunctor.IsEquivalence := by
   change
     ((strictLocalizationFactorizationIso W G hG).hom.app X).toFunctor.IsEquivalence
-  infer_instance
+  let eCat := (strictLocalizationFactorizationIso W G hG).app X
+  let e :
+      (strictLocalizedFunctor W G hG).obj (W.Q.obj X) ≌ G.obj X :=
+    CategoryTheory.Equivalence.mk eCat.hom.toFunctor eCat.inv.toFunctor
+      (eqToIso (congrArg Cat.Hom.toFunctor eCat.hom_inv_id).symm)
+      (eqToIso (congrArg Cat.Hom.toFunctor eCat.inv_hom_id))
+  simpa [e, eCat] using e.isEquivalence_functor
 
 /-- Canonical v2.10 higher localization factorization data for the strict
 Cat-valued sector. -/
