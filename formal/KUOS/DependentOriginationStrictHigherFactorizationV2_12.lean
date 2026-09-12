@@ -17,6 +17,7 @@ attribute [local simp]
   CategoryTheory.Bicategory.Strict.rightUnitor_eqToIso
   CategoryTheory.Bicategory.Strict.associator_eqToIso
   CategoryTheory.PrelaxFunctor.map₂_eqToHom
+  CategoryTheory.eqToHom_map
 
 universe u v uH vH
 
@@ -77,10 +78,8 @@ noncomputable def strictHigherLocalizationComparison
       CategoryTheory.Pseudofunctor.comp,
       CategoryTheory.Functor.toPseudofunctor,
       CategoryTheory.Functor.toPseudofunctor',
-      CategoryTheory.pseudofunctorOfIsLocallyDiscrete,
-      CategoryTheory.Cat.Hom₂.comp_app,
-      CategoryTheory.Cat.Hom₂.id_app,
-      CategoryTheory.Cat.eqToHom_app]
+      CategoryTheory.pseudofunctorOfIsLocallyDiscrete] <;>
+      simp
   naturality_id X := by
     apply Cat.Hom₂.ext
     ext Y
@@ -88,12 +87,8 @@ noncomputable def strictHigherLocalizationComparison
       CategoryTheory.Pseudofunctor.comp,
       CategoryTheory.Functor.toPseudofunctor,
       CategoryTheory.Functor.toPseudofunctor',
-      CategoryTheory.pseudofunctorOfIsLocallyDiscrete,
-      CategoryTheory.Cat.Hom₂.comp_app,
-      CategoryTheory.Cat.whiskerRight_app,
-      CategoryTheory.Cat.eqToHom_app,
-      CategoryTheory.Functor.map_comp,
-      CategoryTheory.eqToHom_map]
+      CategoryTheory.pseudofunctorOfIsLocallyDiscrete] <;>
+      simp
   naturality_comp f g := by
     apply Cat.Hom₂.ext
     ext X
@@ -101,12 +96,8 @@ noncomputable def strictHigherLocalizationComparison
       CategoryTheory.Pseudofunctor.comp,
       CategoryTheory.Functor.toPseudofunctor,
       CategoryTheory.Functor.toPseudofunctor',
-      CategoryTheory.pseudofunctorOfIsLocallyDiscrete,
-      CategoryTheory.Cat.Hom₂.comp_app,
-      CategoryTheory.Cat.whiskerRight_app,
-      CategoryTheory.Cat.eqToHom_app,
-      CategoryTheory.Functor.map_comp,
-      CategoryTheory.eqToHom_map]
+      CategoryTheory.pseudofunctorOfIsLocallyDiscrete] <;>
+      simp
 
 /-- Every component of the strict comparison is an equivalence of categories.
 Indeed it is already an isomorphism in `Cat`, because it is a component of the
