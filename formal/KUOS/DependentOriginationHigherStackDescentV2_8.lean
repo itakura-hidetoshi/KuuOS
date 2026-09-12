@@ -152,7 +152,10 @@ theorem isHigherGrothendieckDescentComplete_iff_declaredDescentEquivalences :
     apply (isHigherGrothendieckDescentComplete_iff_declaredCovers W A F).2
     intro X
     rw [RefinementAtlas.presieveAt]
-    exact (F.isStackFor_ofArrows_iff).2 (hF X)
+    exact
+      (F.isStackFor_ofArrows_iff
+        (fun i : A.Index (unop X) => (A.toChart (unop X) i).op)).2
+        (hF X)
 
 end LocalToGlobal
 
