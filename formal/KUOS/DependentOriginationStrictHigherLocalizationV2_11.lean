@@ -86,7 +86,7 @@ theorem strictRawHigherSystem_isHigherWAdmissible
   haveI : IsIso (G.map f) := hG f hf
   let eCat := asIso (G.map f)
   let e : (G.obj X) ≌ (G.obj Y) :=
-    Equivalence.mk eCat.hom.toFunctor eCat.inv.toFunctor
+    CategoryTheory.Equivalence.mk eCat.hom.toFunctor eCat.inv.toFunctor
       (eqToIso (congrArg Cat.Hom.toFunctor eCat.hom_inv_id).symm)
       (eqToIso (congrArg Cat.Hom.toFunctor eCat.inv_hom_id))
   change (G.map f).toFunctor.IsEquivalence
