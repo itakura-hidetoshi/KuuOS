@@ -3,8 +3,13 @@ import KUOS.DependentOriginationExponentialGapTransportV0_2
 
 namespace KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3
 
+/-! The v0.3 module extends the v0.2 exponentially-gapped transport API below. -/
+
+end KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3
+
+namespace KUOS.DependentOriginationExponentialGapTransportV0_2
+
 open KUOS.DependentOriginationFunctorialTransportV0_1
-open KUOS.DependentOriginationExponentialGapTransportV0_2
 
 universe u
 
@@ -174,4 +179,4 @@ end LinearTransferRealization
 
 end ExponentiallyGappedVacuumTransport
 
-end KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3
+end KUOS.DependentOriginationExponentialGapTransportV0_2
