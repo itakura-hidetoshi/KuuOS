@@ -48,7 +48,7 @@ variable (W : MorphismProperty Context)
 /-- An ordinary Cat-valued contextual functor, promoted to a pseudofunctor. -/
 abbrev strictRawHigherSystem
     (G : Context ⥤ Cat.{vH, uH}) :
-    RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH) :=
+    RawHigherContextualSystem (Context := Context) :=
   G.toPseudofunctor'
 
 /-- The ordinary localized Cat-valued functor supplied by Mathlib when `G`
@@ -65,7 +65,7 @@ pseudofunctor. -/
 noncomputable def strictLocalizedHigherSystem
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
-    HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH) :=
+    HigherLocalizedDescentSystem (W := W) :=
   (unopUnop (LocalizedContext W) ⋙ strictLocalizedFunctor W G hG).toPseudofunctor'
 
 /-- Ordinary localization recovers the original Cat-valued contextual functor
@@ -81,17 +81,24 @@ to satisfy the weaker v2.10 higher `W`-admissibility condition. -/
 theorem strictRawHigherSystem_isHigherWAdmissible
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
-    IsHigherWAdmissible W (strictRawHigherSystem (uH := uH) (vH := vH) G) := by
+    IsHigherWAdmissible W (strictRawHigherSystem G) := by
   intro X Y f hf
   haveI : IsIso (G.map f) := hG f hf
-  simpa using (inferInstance : (G.map f).toFunctor.IsEquivalence)
+  let eCat := asIso (G.map f)
+  let e : (G.obj X) ≌ (G.obj Y) :=
+    { functor := eCat.hom.toFunctor
+      inverse := eCat.inv.toFunctor
+      unitIso := eqToIso (congrArg Cat.Hom.toFunctor eCat.hom_inv_id).symm
+      counitIso := eqToIso (congrArg Cat.Hom.toFunctor eCat.inv_hom_id) }
+  change (G.map f).toFunctor.IsEquivalence
+  simpa [e, eCat] using e.isEquivalence_functor
 
 /-- Therefore every strictly `W`-inverting ordinary Cat-valued contextual
 functor has a canonical localized Cat-valued higher lift. -/
 theorem strictSector_hasLocalizedHigherLift
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
-    Nonempty (HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH)) :=
+    Nonempty (HigherLocalizedDescentSystem (W := W)) :=
   ⟨strictLocalizedHigherSystem W G hG⟩
 
 /-!
