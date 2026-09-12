@@ -78,8 +78,11 @@ noncomputable def strictHigherLocalizationComparison
       CategoryTheory.Pseudofunctor.comp,
       CategoryTheory.Functor.toPseudofunctor,
       CategoryTheory.Functor.toPseudofunctor',
-      CategoryTheory.pseudofunctorOfIsLocallyDiscrete] <;>
-      cat_disch
+      CategoryTheory.pseudofunctorOfIsLocallyDiscrete]
+    change
+      (𝟙 _).toNatTrans.app X ≫ (eqToHom _).toNatTrans.app X =
+        (eqToHom _).toNatTrans.app X ≫ (𝟙 _).toNatTrans.app X
+    simp [CategoryTheory.Cat.eqToHom_app]
   naturality_id X := by
     apply Cat.Hom₂.ext
     ext Y
@@ -87,8 +90,12 @@ noncomputable def strictHigherLocalizationComparison
       CategoryTheory.Pseudofunctor.comp,
       CategoryTheory.Functor.toPseudofunctor,
       CategoryTheory.Functor.toPseudofunctor',
-      CategoryTheory.pseudofunctorOfIsLocallyDiscrete] <;>
-      cat_disch
+      CategoryTheory.pseudofunctorOfIsLocallyDiscrete]
+    change
+      (eqToHom _).toNatTrans.app Y ≫ (eqToHom _).toNatTrans.app Y =
+        (CategoryTheory.Bicategory.whiskerRight (eqToHom _ ≫ eqToHom _) _).toNatTrans.app Y ≫
+          (eqToHom _).toNatTrans.app Y ≫ (eqToHom _).toNatTrans.app Y
+    simp [CategoryTheory.Cat.eqToHom_app]
   naturality_comp f g := by
     apply Cat.Hom₂.ext
     ext X
@@ -96,8 +103,14 @@ noncomputable def strictHigherLocalizationComparison
       CategoryTheory.Pseudofunctor.comp,
       CategoryTheory.Functor.toPseudofunctor,
       CategoryTheory.Functor.toPseudofunctor',
-      CategoryTheory.pseudofunctorOfIsLocallyDiscrete] <;>
-      cat_disch
+      CategoryTheory.pseudofunctorOfIsLocallyDiscrete]
+    change
+      (eqToHom _).toNatTrans.app X ≫ (eqToHom _).toNatTrans.app X =
+        (CategoryTheory.Bicategory.whiskerRight (eqToHom _ ≫ eqToHom _) _).toNatTrans.app X ≫
+          (eqToHom _).toNatTrans.app X ≫ (eqToHom _).toNatTrans.app X ≫
+            (eqToHom _).toNatTrans.app X ≫ (eqToHom _).toNatTrans.app X ≫
+              (eqToHom _).toNatTrans.app X
+    simp [CategoryTheory.Cat.eqToHom_app]
 
 /-- Every component of the strict comparison is an equivalence of categories.
 Indeed it is already an isomorphism in `Cat`, because it is a component of the
