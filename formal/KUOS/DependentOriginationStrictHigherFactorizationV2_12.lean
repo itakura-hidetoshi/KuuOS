@@ -95,8 +95,7 @@ noncomputable def strictHigherLocalizationComparison
       simp only [CategoryTheory.Cat.Hom.toNatTrans_comp,
         CategoryTheory.Cat.Hom.toNatTrans_id,
         CategoryTheory.Cat.whiskerRight_toNatTrans] <;>
-      ext Y <;>
-      simp
+      ext Y
   naturality_comp f g := by
     apply Cat.Hom₂.ext
     simp [restrictHigherLocalizedSystem, strictLocalizedHigherSystem,
@@ -107,8 +106,7 @@ noncomputable def strictHigherLocalizationComparison
       simp only [CategoryTheory.Cat.Hom.toNatTrans_comp,
         CategoryTheory.Cat.Hom.toNatTrans_id,
         CategoryTheory.Cat.whiskerRight_toNatTrans] <;>
-      ext X <;>
-      simp
+      ext X
 
 /-- Every component of the strict comparison is an equivalence of categories.
 Indeed it is already an isomorphism in `Cat`, because it is a component of the
