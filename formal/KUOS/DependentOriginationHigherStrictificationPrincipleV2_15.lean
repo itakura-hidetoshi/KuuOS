@@ -52,7 +52,7 @@ every raw higher system which sends `W` to equivalences of categories admits the
 v2.10 higher localization factorization.  It is defined as a proposition here;
 its proof is not assumed. -/
 def HigherWeakLocalizationExistence : Prop :=
-  ∀ R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH),
+  ∀ R : RawHigherContextualSystem (Context := Context),
     IsHigherWAdmissible W R → HasHigherLocalizationFactorization (W := W) R
 
 /-- The explicit strictification principle isolated by v2.14.
@@ -61,21 +61,21 @@ It says that every weakly `W`-admissible raw higher system has a strict
 presentation model in the exact sense of v2.14.  This proposition is *not*
 proved globally in the present development. -/
 def HigherStrictificationPrinciple : Prop :=
-  ∀ R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH),
+  ∀ R : RawHigherContextualSystem (Context := Context),
     IsHigherWAdmissible W R → HasHigherStrictPresentationModel (W := W) R
 
 /-- The exact objectwise obstruction to the v2.14 strictification route:
 weak `W`-admissibility together with failure of existence of a strict
 presentation model. -/
 def HigherStrictificationObstruction
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) : Prop :=
+    (R : RawHigherContextualSystem (Context := Context)) : Prop :=
   IsHigherWAdmissible W R ∧ ¬ HasHigherStrictPresentationModel (W := W) R
 
 /-- If the strictification principle is supplied, the full weak
 higher-localization existence obligation follows from v2.14. -/
 theorem weakLocalizationExistence_of_strictificationPrinciple
-    (hstrict : HigherStrictificationPrinciple (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakLocalizationExistence (W := W) (uH := uH) (vH := vH) := by
+    (hstrict : HigherStrictificationPrinciple (W := W)) :
+    HigherWeakLocalizationExistence (W := W) := by
   intro R hR
   exact
     hasHigherLocalizationFactorization_of_strictPresentationModel W
@@ -84,8 +84,8 @@ theorem weakLocalizationExistence_of_strictificationPrinciple
 /-- A global strictification principle rules out every objectwise
 strictification obstruction. -/
 theorem no_strictificationObstruction_of_principle
-    (hstrict : HigherStrictificationPrinciple (W := W) (uH := uH) (vH := vH))
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) :
+    (hstrict : HigherStrictificationPrinciple (W := W))
+    (R : RawHigherContextualSystem (Context := Context)) :
     ¬ HigherStrictificationObstruction (W := W) R := by
   intro hobs
   exact hobs.2 (hstrict R hobs.1)
@@ -93,7 +93,7 @@ theorem no_strictificationObstruction_of_principle
 /-- Conversely at the level of explicit evidence, weak admissibility plus a
 proof that no strict presentation model exists is precisely an obstruction. -/
 theorem strictificationObstruction_of_failure
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem (Context := Context)}
     (hR : IsHigherWAdmissible W R)
     (hfail : ¬ HasHigherStrictPresentationModel (W := W) R) :
     HigherStrictificationObstruction (W := W) R :=
@@ -105,7 +105,7 @@ theorem strictSector_has_no_strictificationObstruction
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
     ¬ HigherStrictificationObstruction (W := W)
-      (strictRawHigherSystem (uH := uH) (vH := vH) G) := by
+      (strictRawHigherSystem G) := by
   intro hobs
   exact hobs.2 (strictSector_hasHigherStrictPresentationModel W G hG)
 
@@ -115,7 +115,7 @@ theorem strictSector_isHigherWAdmissible
     (G : Context ⥤ Cat.{vH, uH})
     (hG : W.IsInvertedBy G) :
     IsHigherWAdmissible W
-      (strictRawHigherSystem (uH := uH) (vH := vH) G) :=
+      (strictRawHigherSystem G) :=
   strictRawHigherSystem_isHigherWAdmissible W G hG
 
 /-!
