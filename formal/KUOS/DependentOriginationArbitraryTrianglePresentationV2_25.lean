@@ -130,7 +130,6 @@ theorem presentationOfIso_ofPresentation
     factorModificationTrianglePresentationOfIso
         (W := W) (factorModificationTriangleOfPresentation (W := W) P) = P := by
   ext X
-  apply Iso.ext
   rfl
 
 /-- Reassembling the objectwise presentation extracted from an actual
@@ -151,7 +150,7 @@ theorem isoOfPresentation_ofIso
 
 /-- Exact data-level equivalence between arbitrary invertible modification
 triangles and coherent objectwise 2-isomorphism presentations. -/
-def factorModificationTrianglePresentationEquiv
+noncomputable def factorModificationTrianglePresentationEquiv
     {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) :
@@ -188,7 +187,7 @@ theorem hasFactorModificationTriangle_iff_hasCoherentPresentation
 
 /-- When the stored v2.18 family is modification-natural, it determines a
 distinguished coherent presentation among all possible arbitrary presentations. -/
-def storedFactorModificationTrianglePresentation
+noncomputable def storedFactorModificationTrianglePresentation
     {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
