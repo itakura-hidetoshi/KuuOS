@@ -9,6 +9,8 @@ open KUOS.DependentOriginationCoherentWeakHigherLocalizationV2_19
 open KUOS.DependentOriginationStoredTriangleCorrectionTorsorV2_27
 open KUOS.DependentOriginationComparisonAutomorphismSectionsV2_28
 
+open scoped CategoryTheory.Pseudofunctor.StrongTrans
+
 universe u v uH vH
 
 /-!
@@ -116,7 +118,8 @@ theorem hasNontrivialSection_iff_exists_extendablePointwiseWitness
     have hObject : ∃ X : Context, P.component X ≠ Iso.refl _ := by
       by_contra hNoObject
       apply hP
-      ext X
+      apply FactorComparisonAutomorphismSection.ext
+      funext X
       have hX : P.component X = Iso.refl _ := by
         by_contra hXne
         exact hNoObject ⟨X, hXne⟩
