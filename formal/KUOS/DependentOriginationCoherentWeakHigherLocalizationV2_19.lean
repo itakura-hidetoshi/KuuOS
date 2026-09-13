@@ -4,6 +4,7 @@ import KUOS.DependentOriginationWeakHigherLocalizationUniversalPropertyV2_18
 namespace KUOS.DependentOriginationCoherentWeakHigherLocalizationV2_19
 
 open CategoryTheory
+open KUOS.DependentOriginationHigherStackDescentV2_8
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationHigherStrictificationPrincipleV2_15
 open KUOS.DependentOriginationHigherLocalizationNecessityV2_16
@@ -50,9 +51,13 @@ source category contributes `u` and `v`, while the target `Cat.{vH, uH}`
 contributes `uH` and `vH`.  Consequently both
 `HigherLocalizedDescentSystem` and `RawHigherContextualSystem` are instantiated
 with universe application syntax `.{u, v, uH, vH}`; `uH` and `vH` are not
-term-level named arguments.  In contrast, `W` is genuine localization data and
-is retained as `(W := W)` exactly for declarations whose types depend on the
-presentation localization.  Keeping these two parameter layers separate is also
+term-level named arguments.  The localized descent abbreviation itself lives in
+the v2.8 namespace, so that namespace must also be in scope before applying
+explicit universe parameters; otherwise Lean's auto-implicit mechanism may treat
+an unresolved identifier as a local variable, producing misleading downstream
+universe and field-notation errors.  In contrast, `W` is genuine localization
+data and is retained as `(W := W)` exactly for declarations whose types depend on
+the presentation localization.  Keeping these parameter layers separate is also
 important for StrongTrans field notation: if the source or target pseudofunctor
 fails to elaborate, the transformation acquires metavariable type and expressions
 such as `alpha.app` fail only as a downstream consequence.
