@@ -59,26 +59,18 @@ universe and field-notation errors.  In contrast, `W` is genuine localization
 data and is retained as `(W := W)` exactly for declarations whose types depend on
 the presentation localization.
 
-There is a second, independent coherence issue at the StrongTrans level.  After
-precomposition by the presentation pseudofunctor, the component and the
-1-morphism naturality isomorphism are inherited from `alpha`, but the identity
-and composition axioms are not definitionally the original axioms: the
-`Pseudofunctor.comp` mapId and mapComp contain the image of the presentation
-pseudofunctor's own mapId and mapComp constraints.  The restricted StrongTrans
-therefore transports coherence in two stages.  Since `Cat` deliberately wraps
-2-morphisms in `Cat.Hom₂`, generic bicategorical rewriting need not see a
-composite 2-cell through whiskering even when the pretty-printer displays that
-composite.  We therefore cross the wrapper boundary explicitly with
-`Cat.Hom₂.ext`, transport the StrongTrans coherence laws to the underlying
-natural transformations, and split the concrete presentation mapId or mapComp
-composite there using ordinary functor-whiskering functoriality.  The inner
-presentation constraint is then transported by `alpha.naturality_naturality`,
-after which `alpha.naturality_id` or `alpha.naturality_comp` handles the outer
-constraint.  Rewriting those laws reintroduces Cat structural 2-cells, so these
-are first bridged through the explicit `Cat.*_toNatTrans` lemmas before the
-ordinary functor-level unitor and associator components are normalized.  This
-preserves the two-stage pseudonatural precomposition argument without relying on
-rewrite matching through the `Cat.Hom₂` representation layer.
+At the StrongTrans level, pseudonatural precomposition should be expressed at the
+abstraction level provided by Mathlib itself.  A `StrongTrans` has default proofs
+for `naturality_naturality`, `naturality_id`, and `naturality_comp`, each discharged
+by the bicategorical coherence tactic `cat_disch`.  Once the component and
+1-morphism naturality isomorphism are inherited from `alpha`, those defaults see
+the map₂/mapId/mapComp coherence of `Pseudofunctor.comp` together with the
+registered StrongTrans coherence lemmas.  Keeping hand-expanded proofs here is
+both redundant and brittle: it exposes the `Cat.Hom₂` representation wrapper and
+forces ordinary natural-transformation normalization of coherence that the
+structure defaults are specifically designed to avoid.  We therefore retain the
+corrected universe and namespace bookkeeping while restoring the standard
+`StrongTrans` default-coherence construction.
 
 No existence of such coherent factor morphisms is proved here.  In particular,
 this theorem unit does not identify ordinary 1-categorical localization with the
@@ -94,7 +86,9 @@ canonical higher presentation unit.
 
 This is pseudonatural precomposition by the presentation pseudofunctor.  The
 localization functor is noncomputable, so the induced restricted transformation
-is noncomputable as well. -/
+is noncomputable as well.  The three coherence fields use the `StrongTrans`
+structure defaults, whose `cat_disch` proofs are the canonical Mathlib route for
+these bicategorical coherence obligations. -/
 noncomputable def restrictHigherLocalizedStrongTrans
     {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
     (alpha : F ⟶ G) :
@@ -103,48 +97,6 @@ noncomputable def restrictHigherLocalizedStrongTrans
     alpha.app ((higherPresentationUnitFunctor W).toPseudofunctor.obj X)
   naturality f :=
     alpha.naturality ((higherPresentationUnitFunctor W).toPseudofunctor.map f)
-  naturality_naturality η := by
-    simpa [restrictHigherLocalizedSystem] using
-      alpha.naturality_naturality
-        ((higherPresentationUnitFunctor W).toPseudofunctor.map₂ η)
-  naturality_id a := by
-    let P := (higherPresentationUnitFunctor W).toPseudofunctor
-    have hnat := congrArg Cat.Hom₂.toNatTrans
-      (alpha.naturality_naturality (P.mapId a).hom)
-    have hid := congrArg Cat.Hom₂.toNatTrans
-      (alpha.naturality_id (P.obj a))
-    apply Cat.Hom₂.ext
-    dsimp [P, restrictHigherLocalizedSystem, Pseudofunctor.comp] at hnat hid ⊢
-    simp only [Cat.Hom.toNatTrans_comp, Cat.whiskerLeft_toNatTrans,
-      Cat.whiskerRight_toNatTrans, Functor.whiskerLeft_comp,
-      Functor.whiskerRight_comp] at hnat hid ⊢
-    rw [← Category.assoc, ← hnat]
-    rw [Category.assoc, hid]
-    ext X
-    simp only [NatTrans.comp_app, Cat.leftUnitor_hom_toNatTrans,
-      Cat.rightUnitor_inv_toNatTrans, Functor.whiskerLeft_app,
-      Functor.whiskerRight_app, Functor.leftUnitor_hom_app,
-      Functor.rightUnitor_inv_app, eqToHom_refl, Category.id_comp,
-      Category.comp_id, Category.assoc]
-  naturality_comp {a b c} f g := by
-    let P := (higherPresentationUnitFunctor W).toPseudofunctor
-    have hnat := congrArg Cat.Hom₂.toNatTrans
-      (alpha.naturality_naturality (P.mapComp f g).hom)
-    have hcomp := congrArg Cat.Hom₂.toNatTrans
-      (alpha.naturality_comp (P.map f) (P.map g))
-    apply Cat.Hom₂.ext
-    dsimp [P, restrictHigherLocalizedSystem, Pseudofunctor.comp] at hnat hcomp ⊢
-    simp only [Cat.Hom.toNatTrans_comp, Cat.whiskerLeft_toNatTrans,
-      Cat.whiskerRight_toNatTrans, Functor.whiskerLeft_comp,
-      Functor.whiskerRight_comp] at hnat hcomp ⊢
-    rw [← Category.assoc, ← hnat]
-    rw [Category.assoc, hcomp]
-    ext X
-    simp only [NatTrans.comp_app, Cat.associator_hom_toNatTrans,
-      Cat.associator_inv_toNatTrans, Functor.whiskerLeft_app,
-      Functor.whiskerRight_app, Functor.associator_hom_app,
-      Functor.associator_inv_app, eqToHom_refl, Category.id_comp,
-      Category.comp_id, Category.assoc]
 
 /-- On a raw context object, restriction of a StrongTrans has exactly the
 component of the original StrongTrans at the image of the presentation unit. -/
