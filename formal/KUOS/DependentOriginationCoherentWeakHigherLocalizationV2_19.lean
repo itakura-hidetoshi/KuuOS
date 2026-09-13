@@ -74,12 +74,11 @@ natural transformations, and split the concrete presentation mapId or mapComp
 composite there using ordinary functor-whiskering functoriality.  The inner
 presentation constraint is then transported by `alpha.naturality_naturality`,
 after which `alpha.naturality_id` or `alpha.naturality_comp` handles the outer
-constraint.  The remaining Cat structural cells are finally normalized at their
-ordinary natural-transformation components, where the explicit unitor and
-associator component lemmas expose only identity transports and category
-associativity.  This preserves the two-stage pseudonatural precomposition
-argument without relying on rewrite matching through the `Cat.Hom₂`
-representation layer.
+constraint.  Rewriting those laws reintroduces Cat structural 2-cells, so these
+are first bridged through the explicit `Cat.*_toNatTrans` lemmas before the
+ordinary functor-level unitor and associator components are normalized.  This
+preserves the two-stage pseudonatural precomposition argument without relying on
+rewrite matching through the `Cat.Hom₂` representation layer.
 
 No existence of such coherent factor morphisms is proved here.  In particular,
 this theorem unit does not identify ordinary 1-categorical localization with the
@@ -122,7 +121,8 @@ noncomputable def restrictHigherLocalizedStrongTrans
     rw [← Category.assoc, ← hnat]
     rw [Category.assoc, hid]
     ext X
-    simp only [NatTrans.comp_app, Functor.whiskerLeft_app,
+    simp only [NatTrans.comp_app, Cat.leftUnitor_hom_toNatTrans,
+      Cat.rightUnitor_inv_toNatTrans, Functor.whiskerLeft_app,
       Functor.whiskerRight_app, Functor.leftUnitor_hom_app,
       Functor.rightUnitor_inv_app, eqToHom_refl, Category.id_comp,
       Category.comp_id, Category.assoc]
@@ -140,7 +140,8 @@ noncomputable def restrictHigherLocalizedStrongTrans
     rw [← Category.assoc, ← hnat]
     rw [Category.assoc, hcomp]
     ext X
-    simp only [NatTrans.comp_app, Functor.whiskerLeft_app,
+    simp only [NatTrans.comp_app, Cat.associator_hom_toNatTrans,
+      Cat.associator_inv_toNatTrans, Functor.whiskerLeft_app,
       Functor.whiskerRight_app, Functor.associator_hom_app,
       Functor.associator_inv_app, eqToHom_refl, Category.id_comp,
       Category.comp_id, Category.assoc]
