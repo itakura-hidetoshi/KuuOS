@@ -67,7 +67,7 @@ def coherentComparisonComponentIso
 
 /-- The modification-level triangle of v2.19 yields exactly the objectwise
 natural-isomorphism triangle required by v2.18. -/
-def coherentComparisonTriangleNatIso
+noncomputable def coherentComparisonTriangleNatIso
     {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : CoherentHigherLocalizationFactorMorphism (W := W) H K)
@@ -80,7 +80,7 @@ def coherentComparisonTriangleNatIso
 
 /-- Forget the modification-level coherence of a v2.19 factor morphism and
 recover a valid v2.18 factor morphism with the same underlying StrongTrans. -/
-def coherentHigherLocalizationFactorMorphismToV2_18
+noncomputable def coherentHigherLocalizationFactorMorphismToV2_18
     {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : CoherentHigherLocalizationFactorMorphism (W := W) H K) :
