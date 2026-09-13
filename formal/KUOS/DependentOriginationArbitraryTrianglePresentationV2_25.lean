@@ -10,6 +10,7 @@ open KUOS.DependentOriginationModificationTriangleNormalFormV2_22
 open KUOS.DependentOriginationStoredTriangleModificationNaturalityV2_23
 open KUOS.DependentOriginationStoredTriangleModificationRealizationV2_24
 
+open scoped Bicategory
 open scoped CategoryTheory.Pseudofunctor.StrongTrans
 
 universe u v uH vH
@@ -57,7 +58,7 @@ the correct endpoints, provided that its forward components satisfy the
 modification naturality equation. -/
 @[ext]
 structure FactorModificationTrianglePresentation
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) where
   component : ∀ X : Context,
@@ -74,7 +75,7 @@ structure FactorModificationTrianglePresentation
 /-- Evaluate an actual invertible modification triangle at one raw context
 object, obtaining its objectwise Cat 2-isomorphism. -/
 def factorModificationTriangleComponentIso
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (e :
@@ -94,8 +95,8 @@ def factorModificationTriangleComponentIso
 
 /-- Assemble a coherent objectwise presentation into the corresponding
 invertible StrongTrans modification triangle. -/
-def factorModificationTriangleOfPresentation
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+noncomputable def factorModificationTriangleOfPresentation
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (P : FactorModificationTrianglePresentation (W := W) alpha) :
@@ -108,7 +109,7 @@ def factorModificationTriangleOfPresentation
 /-- Extract the coherent objectwise presentation carried by an actual invertible
 modification triangle. -/
 def factorModificationTrianglePresentationOfIso
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (e :
@@ -122,7 +123,7 @@ def factorModificationTrianglePresentationOfIso
 /-- Extracting a presentation from one assembled by `isoMk` recovers the same
 objectwise coherent presentation. -/
 theorem presentationOfIso_ofPresentation
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (P : FactorModificationTrianglePresentation (W := W) alpha) :
@@ -135,7 +136,7 @@ theorem presentationOfIso_ofPresentation
 /-- Reassembling the objectwise presentation extracted from an actual
 modification triangle recovers the original modification triangle. -/
 theorem isoOfPresentation_ofIso
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (e :
@@ -151,7 +152,7 @@ theorem isoOfPresentation_ofIso
 /-- Exact data-level equivalence between arbitrary invertible modification
 triangles and coherent objectwise 2-isomorphism presentations. -/
 def factorModificationTrianglePresentationEquiv
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) :
     FactorModificationTrianglePresentation (W := W) alpha ≃
@@ -166,7 +167,7 @@ def factorModificationTrianglePresentationEquiv
 triangle.  This is deliberately broader than realization of the stored v2.18
 family. -/
 def HasCoherentFactorModificationTrianglePresentation
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=
   Nonempty (FactorModificationTrianglePresentation (W := W) alpha)
@@ -174,7 +175,7 @@ def HasCoherentFactorModificationTrianglePresentation
 /-- The general v2.22 modification-triangle condition is exactly existence of an
 arbitrary coherent objectwise presentation. -/
 theorem hasFactorModificationTriangle_iff_hasCoherentPresentation
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) :
     HasFactorModificationTriangle (W := W) alpha ↔
@@ -188,7 +189,7 @@ theorem hasFactorModificationTriangle_iff_hasCoherentPresentation
 /-- When the stored v2.18 family is modification-natural, it determines a
 distinguished coherent presentation among all possible arbitrary presentations. -/
 def storedFactorModificationTrianglePresentation
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (hNatural : StoredV2_18TriangleIsModificationNatural (W := W) alpha) :
@@ -199,7 +200,7 @@ def storedFactorModificationTrianglePresentation
 /-- The distinguished presentation above has exactly the originally stored
 objectwise components. -/
 @[simp] theorem storedFactorModificationTrianglePresentation_component
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (hNatural : StoredV2_18TriangleIsModificationNatural (W := W) alpha)
@@ -213,7 +214,7 @@ objectwise components. -/
 of an arbitrary coherent presentation, but the converse is intentionally not
 claimed. -/
 theorem hasCoherentPresentation_of_storedTriangleNaturality
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (hNatural : StoredV2_18TriangleIsModificationNatural (W := W) alpha) :
@@ -223,7 +224,7 @@ theorem hasCoherentPresentation_of_storedTriangleNaturality
 /-- Uniform existence of coherent objectwise presentations for every v2.18
 factor into one chosen coherent universal-property datum. -/
 def HigherCoherentFactorModificationTrianglePresentationLifting
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -232,7 +233,7 @@ def HigherCoherentFactorModificationTrianglePresentationLifting
 /-- Uniform coherent-presentation lifting is exactly the v2.22 arbitrary
 modification-triangle lifting condition. -/
 theorem higherCoherentPresentationLifting_iff_modificationTriangleLifting
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherCoherentFactorModificationTrianglePresentationLifting (W := W) U ↔
       HigherFactorModificationTriangleLifting (W := W) U := by
@@ -250,7 +251,7 @@ theorem higherCoherentPresentationLifting_iff_modificationTriangleLifting
 factor has no coherent objectwise 2-isomorphism family at all with the required
 endpoints. -/
 def HigherCoherentFactorModificationTrianglePresentationObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∃ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -259,7 +260,7 @@ def HigherCoherentFactorModificationTrianglePresentationObstruction
 /-- The arbitrary coherent-presentation obstruction is exactly the v2.22
 modification-triangle obstruction. -/
 theorem higherCoherentPresentationObstruction_iff_modificationTriangleObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherCoherentFactorModificationTrianglePresentationObstruction (W := W) U ↔
       HigherFactorModificationTriangleObstruction (W := W) U := by
@@ -280,7 +281,7 @@ theorem higherCoherentPresentationObstruction_iff_modificationTriangleObstructio
 /-- Uniform arbitrary coherent-presentation lifting is exactly absence of its
 explicit obstruction. -/
 theorem higherCoherentPresentationLifting_iff_no_obstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherCoherentFactorModificationTrianglePresentationLifting (W := W) U ↔
       ¬ HigherCoherentFactorModificationTrianglePresentationObstruction
@@ -297,7 +298,7 @@ obstruction.
 
 The converse is deliberately not asserted. -/
 theorem higherStoredRealizationObstruction_of_coherentPresentationObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hObs : HigherCoherentFactorModificationTrianglePresentationObstruction
       (W := W) U) :
@@ -315,7 +316,7 @@ theorem higherStoredRealizationObstruction_of_coherentPresentationObstruction
 /-- Uniform realization of the stored v2.18 family implies uniform existence of
 arbitrary coherent presentations. -/
 theorem higherCoherentPresentationLifting_of_storedRealization
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hStored : HigherStoredV2_18TriangleModificationRealization (W := W) U) :
     HigherCoherentFactorModificationTrianglePresentationLifting (W := W) U := by
@@ -331,17 +332,17 @@ theorem higherCoherentPresentationLifting_of_storedRealization
 is a reformulation of the existing v2.22 global triangle-lifting principle, not
 an additional axiom. -/
 def HigherCoherentFactorModificationTrianglePresentationPrinciple : Prop :=
-  ∀ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
+  ∀ (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
     HigherCoherentFactorModificationTrianglePresentationLifting (W := W) U
 
 /-- The global coherent-presentation principle and the v2.22 global arbitrary
 modification-triangle principle are equivalent. -/
 theorem higherCoherentPresentationPrinciple_iff_modificationTrianglePrinciple :
-    HigherCoherentFactorModificationTrianglePresentationPrinciple
-        (W := W) (uH := uH) (vH := vH) ↔
-      HigherFactorModificationTriangleLiftingPrinciple
-        (W := W) (uH := uH) (vH := vH) := by
+    HigherCoherentFactorModificationTrianglePresentationPrinciple.{u, v, uH, vH}
+        (W := W) ↔
+      HigherFactorModificationTriangleLiftingPrinciple.{u, v, uH, vH}
+        (W := W) := by
   constructor
   · intro h R U
     exact
@@ -356,10 +357,10 @@ theorem higherCoherentPresentationPrinciple_iff_modificationTrianglePrinciple :
 coherent presentation for every factor, and hence implies the general coherent-
 presentation principle. -/
 theorem higherCoherentPresentationPrinciple_of_storedTriangleNaturality
-    (hStored : HigherStoredV2_18TriangleModificationNaturalityPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherCoherentFactorModificationTrianglePresentationPrinciple
-      (W := W) (uH := uH) (vH := vH) := by
+    (hStored : HigherStoredV2_18TriangleModificationNaturalityPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    HigherCoherentFactorModificationTrianglePresentationPrinciple.{u, v, uH, vH}
+      (W := W) := by
   intro R U H alpha
   exact
     hasCoherentPresentation_of_storedTriangleNaturality
@@ -371,16 +372,16 @@ localization universal principle.
 
 This remains conditional: neither global premise is proved here. -/
 theorem higherWeakLocalizationUniversalPrinciple_of_coherent_and_presentations
-    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH))
-    (hPresentations : HigherCoherentFactorModificationTrianglePresentationPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH) :=
+    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W))
+    (hPresentations : HigherCoherentFactorModificationTrianglePresentationPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    HigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W) :=
   higherWeakLocalizationUniversalPrinciple_of_coherent_and_modificationTriangles
     W hCoherent
       ((higherCoherentPresentationPrinciple_iff_modificationTrianglePrinciple
-        (W := W) (uH := uH) (vH := vH)).mp hPresentations)
+        (W := W)).mp hPresentations)
 
 /-!
 The frontier is now organized as an exact hierarchy:
