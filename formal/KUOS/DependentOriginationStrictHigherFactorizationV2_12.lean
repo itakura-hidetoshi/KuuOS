@@ -55,6 +55,7 @@ the v2.10 factorization interface for the strict sector, while leaving the weak
 variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
 
+set_option backward.isDefEq.respectTransparency false in
 /-- The ordinary localization natural isomorphism promoted to the strong
 comparison required by the higher localization interface. -/
 noncomputable def strictHigherLocalizationComparison
