@@ -59,18 +59,19 @@ universe and field-notation errors.  In contrast, `W` is genuine localization
 data and is retained as `(W := W)` exactly for declarations whose types depend on
 the presentation localization.
 
-At the StrongTrans level, pseudonatural precomposition should be expressed at the
-abstraction level provided by Mathlib itself.  A `StrongTrans` has default proofs
-for `naturality_naturality`, `naturality_id`, and `naturality_comp`, each discharged
-by the bicategorical coherence tactic `cat_disch`.  Once the component and
-1-morphism naturality isomorphism are inherited from `alpha`, those defaults see
-the map₂/mapId/mapComp coherence of `Pseudofunctor.comp` together with the
-registered StrongTrans coherence lemmas.  Keeping hand-expanded proofs here is
-both redundant and brittle: it exposes the `Cat.Hom₂` representation wrapper and
-forces ordinary natural-transformation normalization of coherence that the
-structure defaults are specifically designed to avoid.  We therefore retain the
-corrected universe and namespace bookkeeping while restoring the standard
-`StrongTrans` default-coherence construction.
+At the StrongTrans level, the component and 1-morphism naturality isomorphism are
+inherited from `alpha`.  The three coherence laws are then transported through
+the presentation pseudofunctor.  Naturality in 2-cells is exactly the original
+`alpha.naturality_naturality` applied to the mapped 2-cell.  For identity and
+composition, `Pseudofunctor.comp` additionally contains the presentation
+pseudofunctor's own mapId and mapComp constraints.  Here that inner
+pseudofunctor is obtained from the ordinary presentation functor by
+`Functor.toPseudofunctor`, so those constraints are `eqToIso` transports.  We
+normalize that locally-discrete presentation layer completely before invoking
+the registered StrongTrans coherence simp rules.  This is the same proof pattern
+already used by the compiler-green strict comparison in v2.12, and avoids
+reasoning through the concrete `Cat.Hom₂` wrapper beyond its extensionality
+boundary.
 
 No existence of such coherent factor morphisms is proved here.  In particular,
 this theorem unit does not identify ordinary 1-categorical localization with the
@@ -81,14 +82,13 @@ to isomorphisms, and does not assert the global weak localization principle.
 variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
 
+set_option backward.isDefEq.respectTransparency false in
 /-- Restrict a StrongTrans between localized Cat-valued pseudofunctors along the
 canonical higher presentation unit.
 
 This is pseudonatural precomposition by the presentation pseudofunctor.  The
 localization functor is noncomputable, so the induced restricted transformation
-is noncomputable as well.  The three coherence fields use the `StrongTrans`
-structure defaults, whose `cat_disch` proofs are the canonical Mathlib route for
-these bicategorical coherence obligations. -/
+is noncomputable as well. -/
 noncomputable def restrictHigherLocalizedStrongTrans
     {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
     (alpha : F ⟶ G) :
@@ -97,6 +97,22 @@ noncomputable def restrictHigherLocalizedStrongTrans
     alpha.app ((higherPresentationUnitFunctor W).toPseudofunctor.obj X)
   naturality f :=
     alpha.naturality ((higherPresentationUnitFunctor W).toPseudofunctor.map f)
+  naturality_naturality η := by
+    simpa [restrictHigherLocalizedSystem] using
+      alpha.naturality_naturality
+        ((higherPresentationUnitFunctor W).toPseudofunctor.map₂ η)
+  naturality_id a := by
+    apply Cat.Hom₂.ext
+    simp [restrictHigherLocalizedSystem,
+      CategoryTheory.Pseudofunctor.comp,
+      CategoryTheory.Functor.toPseudofunctor,
+      CategoryTheory.pseudofunctorOfIsLocallyDiscrete]
+  naturality_comp f g := by
+    apply Cat.Hom₂.ext
+    simp [restrictHigherLocalizedSystem,
+      CategoryTheory.Pseudofunctor.comp,
+      CategoryTheory.Functor.toPseudofunctor,
+      CategoryTheory.pseudofunctorOfIsLocallyDiscrete]
 
 /-- On a raw context object, restriction of a StrongTrans has exactly the
 component of the original StrongTrans at the image of the presentation unit. -/
