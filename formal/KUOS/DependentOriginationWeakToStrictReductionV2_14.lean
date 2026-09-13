@@ -82,6 +82,11 @@ noncomputable def higherLocalizationFactorizationOfStrictPresentationModel
     change
       (((strictHigherLocalizationComparison W S.strictFunctor S.strict_inverts).app (.mk X)).toFunctor ⋙
         (S.comparison.app (.mk X)).toFunctor).IsEquivalence
+    haveI :
+        ((strictHigherLocalizationComparison W S.strictFunctor S.strict_inverts).app (.mk X)).toFunctor.IsEquivalence :=
+      strictHigherLocalizationComparison_app_isEquivalence W S.strictFunctor S.strict_inverts X
+    haveI : (S.comparison.app (.mk X)).toFunctor.IsEquivalence :=
+      S.comparison_isEquivalence X
     infer_instance
 
 /-- Therefore a strict presentation model is a sufficient condition for the
