@@ -69,6 +69,15 @@ noncomputable def localizedFunctorPresheafEquivalence :
       (((LocalizedContext W)ᵒᵖ)ᵒᵖ ⥤ Type w) :=
   Equivalence.congrLeft (opOpEquivalence (LocalizedContext W)).symm
 
+/-- The ordinary Mathlib sheaf property is invariant under natural isomorphism,
+so it can be used as the target object property of `congrFullSubcategory`. -/
+instance sheafProperty_isClosedUnderIsomorphisms
+    (A : RefinementAtlas (LocalizedContext W)) :
+    ObjectProperty.IsClosedUnderIsomorphisms
+      (Presheaf.IsSheaf A.generatedTopology (A := Type w)) where
+  of_iso e h :=
+    (Presheaf.isSheaf_of_iso_iff e).1 h
+
 /-- The property of a localized covariant Type-valued functor whose
 variance-correct opposite-site presheaf is a sheaf for the atlas topology.
 
@@ -77,8 +86,17 @@ property along the double-opposite functor-category equivalence. -/
 def LocalizedDescentFunctorProperty
     (A : RefinementAtlas (LocalizedContext W)) :
     ObjectProperty (LocalizedContext W ⥤ Type w) :=
-  (Presheaf.IsSheaf A.generatedTopology (A := Type w)).inverseImage
+  ObjectProperty.inverseImage
+    (Presheaf.IsSheaf A.generatedTopology (A := Type w))
     (localizedFunctorPresheafEquivalence W).functor
+
+/-- The pulled-back localized descent property inherits invariance under natural
+isomorphism from the ordinary sheaf property. -/
+instance localizedDescentFunctorProperty_isClosedUnderIsomorphisms
+    (A : RefinementAtlas (LocalizedContext W)) :
+    (LocalizedDescentFunctorProperty (W := W) A).IsClosedUnderIsomorphisms := by
+  unfold LocalizedDescentFunctorProperty
+  infer_instance
 
 /-- The full category of localized covariant contextual functors satisfying the
 generated Grothendieck descent condition. -/
@@ -147,7 +165,8 @@ localization equivalence. -/
 def RawWJFunctorProperty
     (A : RefinementAtlas (LocalizedContext W)) :
     ObjectProperty (W.FunctorsInverting (Type w)) :=
-  (LocalizedDescentFunctorProperty (W := W) A).inverseImage
+  ObjectProperty.inverseImage
+    (LocalizedDescentFunctorProperty (W := W) A)
     (rawWInvertingLocalizedEquivalence W).functor
 
 /-- The category of raw Type-valued contextual functors which invert `W` and

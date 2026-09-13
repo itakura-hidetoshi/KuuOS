@@ -257,7 +257,7 @@ theorem existsUnique_globalState_of_descent_and_separation
     (hSeparate : CoverSeparatesGlobalStates D C)
     (s : LocalStateFamily D C)
     (hCompatible : OverlapCompatible D C O s) :
-    exists! x : D.state.obj C.rootContext,
+    ∃! x : D.state.obj C.rootContext,
       forall i, D.transport (C.toChart i) x = s.state i := by
   rcases hDescent s hCompatible with ⟨x, hx⟩
   refine ⟨x, hx, ?_⟩
@@ -278,7 +278,7 @@ def SemanticDescends
     (R : FunctorialTransportSystem.InvariantReadout D Semantic)
     (C : RefinementCover Context Index)
     (s : LocalStateFamily D C) : Prop :=
-  exists! value : Semantic,
+  ∃! value : Semantic,
     forall i, R.readout (C.chart i) (s.state i) = value
 
 /--

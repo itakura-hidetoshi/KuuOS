@@ -88,6 +88,7 @@ through presentation localization, then sheafify on the localized opposite
 site. -/
 noncomputable def dependentOriginationCompletionObj
     (A : RefinementAtlas (LocalizedContext W))
+    [HasWeakSheafify A.generatedTopology (Type w)]
     (D : FunctorialTransportSystem.{u, v, w} Context)
     (hD : W.IsInvertedBy D.state) :
     DependentOriginationCompletion1 (W := W) A :=
@@ -98,6 +99,7 @@ noncomputable def dependentOriginationCompletionObj
 localization. -/
 noncomputable abbrev dependentOriginationCompletionUnit
     (A : RefinementAtlas (LocalizedContext W))
+    [HasWeakSheafify A.generatedTopology (Type w)]
     (D : FunctorialTransportSystem.{u, v, w} Context)
     (hD : W.IsInvertedBy D.state) :
     localizedOppositePresheaf W D hD ⟶
@@ -111,6 +113,7 @@ to `Q` are equivalent to maps from the localized presheaf to the underlying
 presheaf of `Q`. -/
 noncomputable def dependentOriginationCompletionHomEquiv
     (A : RefinementAtlas (LocalizedContext W))
+    [HasWeakSheafify A.generatedTopology (Type w)]
     (D : FunctorialTransportSystem.{u, v, w} Context)
     (hD : W.IsInvertedBy D.state)
     (Q : DependentOriginationCompletion1 (W := W) A) :
@@ -162,6 +165,7 @@ localization may still change the carrier category, but v2.0 records its
 canonical recovery via `presentationRecoveryIso`. -/
 noncomputable def alreadyWJAdmissibleIso
     (A : RefinementAtlas (LocalizedContext W))
+    [HasWeakSheafify A.generatedTopology (Type w)]
     (D : FunctorialTransportSystem.{u, v, w} Context)
     (hD : W.IsInvertedBy D.state)
     (hJ : IsWJAdmissible W A D hD) :
@@ -188,6 +192,7 @@ variable {W}
 localized sheaf carrier. -/
 noncomputable def toCompletion
     {A : RefinementAtlas (LocalizedContext W)}
+    [HasWeakSheafify A.generatedTopology (Type w)]
     (S : WJAdmissibleSystem W A) :
     DependentOriginationCompletion1 (W := W) A :=
   dependentOriginationCompletionObj W A S.raw S.inverts
@@ -196,6 +201,7 @@ noncomputable def toCompletion
 canonically invisible at the presheaf level. -/
 noncomputable def toCompletionAlreadyCompleteIso
     {A : RefinementAtlas (LocalizedContext W)}
+    [HasWeakSheafify A.generatedTopology (Type w)]
     (S : WJAdmissibleSystem W A) :
     localizedOppositePresheaf W S.raw S.inverts ≅
       descentCompletionObj A.generatedTopology
