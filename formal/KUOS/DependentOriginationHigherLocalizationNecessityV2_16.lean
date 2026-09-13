@@ -41,6 +41,14 @@ The proof has two ingredients.
    pointwise-equivalence strong comparison then transports this property to the
    raw system by the two-out-of-three property for equivalences of categories.
 
+Universe bookkeeping is part of this mathematical interface.  The levels `u`
+and `v` belong to the source category, while `uH` and `vH` belong to the target
+`Cat.{vH, uH}`.  `HigherLocalizedDescentSystem`, `RawHigherContextualSystem`, and
+`HigherStrictificationPrinciple` carry these as universe parameters, not as
+term-level named arguments.  Whenever the higher levels are not already fixed by
+an input object, this file therefore instantiates them explicitly with
+`.{u, v, uH, vH}`.
+
 Thus weak `W`-admissibility is not merely a plausible input condition: it is a
 necessary condition for the exact v2.10 factorization interface.
 -/
@@ -73,7 +81,7 @@ variable (W : MorphismProperty Context)
 /-- Restricting any localized higher system along the presentation-localization
 unit automatically produces a weakly `W`-admissible raw system. -/
 theorem restrictHigherLocalizedSystem_isHigherWAdmissible
-    (F : HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH)) :
+    (F : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)) :
     IsHigherWAdmissible W (restrictHigherLocalizedSystem W F) := by
   intro X Y f hf
   haveI : IsIso (W.Q.map f) := W.Q_inverts f hf
@@ -88,7 +96,7 @@ theorem restrictHigherLocalizedSystem_isHigherWAdmissible
 /-- Any actual v2.10 higher localization factorization forces the raw system to
 satisfy weak `W`-admissibility. -/
 theorem higherLocalizationFactorization_isHigherWAdmissible
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) :
     IsHigherWAdmissible W R := by
   intro X Y f hf
@@ -122,7 +130,7 @@ theorem higherLocalizationFactorization_isHigherWAdmissible
 
 /-- Existence-level form of the necessity theorem. -/
 theorem hasHigherLocalizationFactorization_isHigherWAdmissible
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (h : HasHigherLocalizationFactorization (W := W) R) :
     IsHigherWAdmissible W R := by
   rcases h with ⟨H⟩
@@ -131,7 +139,7 @@ theorem hasHigherLocalizationFactorization_isHigherWAdmissible
 /-- In particular, the strict-presentation-model sufficient datum introduced in
 v2.14 can only exist for a weakly `W`-admissible raw system. -/
 theorem hasHigherStrictPresentationModel_isHigherWAdmissible
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (h : HasHigherStrictPresentationModel (W := W) R) :
     IsHigherWAdmissible W R :=
   hasHigherLocalizationFactorization_isHigherWAdmissible W
@@ -142,8 +150,8 @@ theorem hasHigherStrictPresentationModel_isHigherWAdmissible
 factorization.  The reverse implication is unconditional; only the forward
 implication uses the principle. -/
 theorem higherWAdmissible_iff_hasHigherLocalizationFactorization_of_strictificationPrinciple
-    (hstrict : HigherStrictificationPrinciple (W := W) (uH := uH) (vH := vH))
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) :
+    (hstrict : HigherStrictificationPrinciple.{u, v, uH, vH} (W := W))
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)) :
     IsHigherWAdmissible W R ↔ HasHigherLocalizationFactorization (W := W) R := by
   constructor
   · intro hR
