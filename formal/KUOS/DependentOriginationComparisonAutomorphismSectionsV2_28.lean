@@ -150,7 +150,7 @@ noncomputable def factorComparisonAutomorphismSectionEquivIso
 /-- The identity coherent automorphism section.  It is obtained from the
 identity invertible modification, so coherence is inherited rather than
 reproved separately. -/
-def identityFactorComparisonAutomorphismSection
+noncomputable def identityFactorComparisonAutomorphismSection
     {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) :
     FactorComparisonAutomorphismSection (W := W) H :=
@@ -245,7 +245,8 @@ theorem subsingleton_section_of_pointwiseAutomorphismRigidity
     Subsingleton (FactorComparisonAutomorphismSection (W := W) H) := by
   constructor
   intro P Q
-  ext X
+  apply FactorComparisonAutomorphismSection.ext
+  funext X
   exact @Subsingleton.elim _ (hPointwise X) (P.component X) (Q.component X)
 
 /-- Therefore pointwise automorphism rigidity is a sufficient criterion for
