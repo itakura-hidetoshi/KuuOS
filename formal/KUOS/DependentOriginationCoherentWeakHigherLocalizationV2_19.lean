@@ -57,10 +57,19 @@ explicit universe parameters; otherwise Lean's auto-implicit mechanism may treat
 an unresolved identifier as a local variable, producing misleading downstream
 universe and field-notation errors.  In contrast, `W` is genuine localization
 data and is retained as `(W := W)` exactly for declarations whose types depend on
-the presentation localization.  Keeping these parameter layers separate is also
-important for StrongTrans field notation: if the source or target pseudofunctor
-fails to elaborate, the transformation acquires metavariable type and expressions
-such as `alpha.app` fail only as a downstream consequence.
+the presentation localization.
+
+There is a second, independent coherence issue at the StrongTrans level.  After
+precomposition by the presentation pseudofunctor, the component and the
+1-morphism naturality isomorphism are inherited from `alpha`, but the identity
+and composition axioms are not definitionally the original axioms: the
+`Pseudofunctor.comp` mapId and mapComp contain the image of the presentation
+pseudofunctor's own mapId and mapComp constraints.  The restricted StrongTrans
+therefore transports coherence in two stages: first use
+`alpha.naturality_naturality` on those inner structural 2-isomorphisms, then use
+`alpha.naturality_id` or `alpha.naturality_comp`.  This is the actual
+pseudonatural precomposition law; relying on the structure defaults alone loses
+that intermediate transport.
 
 No existence of such coherent factor morphisms is proved here.  In particular,
 this theorem unit does not identify ordinary 1-categorical localization with the
@@ -74,11 +83,10 @@ variable (W : MorphismProperty Context)
 /-- Restrict a StrongTrans between localized Cat-valued pseudofunctors along the
 canonical higher presentation unit.
 
-Because pseudofunctor composition is definitionally objectwise on objects and
-1-morphisms, the component and pseudonaturality isomorphism are inherited from
-`alpha`; the remaining coherence obligations are discharged by the bicategorical
-coherence tactic built into the `StrongTrans` structure defaults. -/
-def restrictHigherLocalizedStrongTrans
+This is pseudonatural precomposition by the presentation pseudofunctor.  The
+localization functor is noncomputable, so the induced restricted transformation
+is noncomputable as well. -/
+noncomputable def restrictHigherLocalizedStrongTrans
     {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
     (alpha : F ⟶ G) :
     restrictHigherLocalizedSystem W F ⟶ restrictHigherLocalizedSystem W G where
@@ -86,6 +94,20 @@ def restrictHigherLocalizedStrongTrans
     alpha.app ((higherPresentationUnitFunctor W).toPseudofunctor.obj X)
   naturality f :=
     alpha.naturality ((higherPresentationUnitFunctor W).toPseudofunctor.map f)
+  naturality_naturality η := by
+    simpa [restrictHigherLocalizedSystem] using
+      alpha.naturality_naturality
+        ((higherPresentationUnitFunctor W).toPseudofunctor.map₂ η)
+  naturality_id a := by
+    dsimp [restrictHigherLocalizedSystem, Pseudofunctor.comp]
+    rw [← alpha.naturality_naturality_assoc]
+    rw [alpha.naturality_id]
+    bicategory
+  naturality_comp f g := by
+    dsimp [restrictHigherLocalizedSystem, Pseudofunctor.comp]
+    rw [← alpha.naturality_naturality_assoc]
+    rw [alpha.naturality_comp]
+    bicategory
 
 /-- On a raw context object, restriction of a StrongTrans has exactly the
 component of the original StrongTrans at the image of the presentation unit. -/
