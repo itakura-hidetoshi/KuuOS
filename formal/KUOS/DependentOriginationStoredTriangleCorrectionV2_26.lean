@@ -103,7 +103,7 @@ structure StoredTriangleTargetCorrection
 
 /-- Apply a stored-family correction to obtain the corresponding arbitrary
 coherent presentation. -/
-def factorModificationTrianglePresentationOfStoredCorrection
+noncomputable def factorModificationTrianglePresentationOfStoredCorrection
     {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
@@ -116,7 +116,7 @@ def factorModificationTrianglePresentationOfStoredCorrection
 /-- Every arbitrary coherent presentation determines a unique pointwise
 correction relative to the stored v2.18 family, obtained by cancelling the
 stored isomorphism on the left. -/
-def storedTriangleTargetCorrectionOfPresentation
+noncomputable def storedTriangleTargetCorrectionOfPresentation
     {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
@@ -137,7 +137,6 @@ theorem presentationOfStoredCorrection_ofPresentation
     factorModificationTrianglePresentationOfStoredCorrection
         (W := W) (storedTriangleTargetCorrectionOfPresentation (W := W) P) = P := by
   ext X
-  apply Iso.ext
   simp [factorModificationTrianglePresentationOfStoredCorrection,
     storedTriangleTargetCorrectionOfPresentation, Category.assoc]
 
@@ -152,13 +151,12 @@ theorem storedCorrectionOfPresentation_ofStoredCorrection
         (W := W)
         (factorModificationTrianglePresentationOfStoredCorrection (W := W) C) = C := by
   ext X
-  apply Iso.ext
   simp [factorModificationTrianglePresentationOfStoredCorrection,
     storedTriangleTargetCorrectionOfPresentation, Category.assoc]
 
 /-- Exact data-level equivalence between stored-family target corrections and
 arbitrary coherent modification-triangle presentations. -/
-def storedTriangleTargetCorrectionEquivPresentation
+noncomputable def storedTriangleTargetCorrectionEquivPresentation
     {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) :
@@ -171,7 +169,7 @@ def storedTriangleTargetCorrectionEquivPresentation
 
 /-- Exact data-level equivalence between stored-family target corrections and
 actual invertible modification triangles. -/
-def storedTriangleTargetCorrectionEquivIso
+noncomputable def storedTriangleTargetCorrectionEquivIso
     {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) :
@@ -216,7 +214,7 @@ theorem hasStoredTriangleTargetCorrection_iff_hasFactorModificationTriangle
 
 /-- When the stored family is already modification-natural, the identity
 pointwise automorphism is a correction solution. -/
-def identityStoredTriangleTargetCorrection
+noncomputable def identityStoredTriangleTargetCorrection
     {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
