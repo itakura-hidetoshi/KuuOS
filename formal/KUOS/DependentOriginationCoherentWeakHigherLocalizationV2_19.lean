@@ -117,7 +117,8 @@ noncomputable def restrictHigherLocalizedStrongTrans
       Functor.whiskerRight_comp] at hnat hid ⊢
     rw [← Category.assoc, ← hnat]
     rw [Category.assoc, hid]
-    simp only [Category.assoc]
+    ext X
+    simp
   naturality_comp {a b c} f g := by
     let P := (higherPresentationUnitFunctor W).toPseudofunctor
     have hnat := congrArg Cat.Hom₂.toNatTrans
@@ -131,7 +132,8 @@ noncomputable def restrictHigherLocalizedStrongTrans
       Functor.whiskerRight_comp] at hnat hcomp ⊢
     rw [← Category.assoc, ← hnat]
     rw [Category.assoc, hcomp]
-    simp only [Category.assoc]
+    ext X
+    simp
 
 /-- On a raw context object, restriction of a StrongTrans has exactly the
 component of the original StrongTrans at the image of the presentation unit. -/
