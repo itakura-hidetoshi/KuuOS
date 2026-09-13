@@ -45,6 +45,18 @@ restrict(H.lift) --restrict(alpha)--> restrict(K.lift)
 to commute up to an invertible **modification**, rather than merely objectwise
 up to unrelated natural isomorphisms.
 
+Universe bookkeeping follows the same four-level discipline as v2.18.  The
+source category contributes `u` and `v`, while the target `Cat.{vH, uH}`
+contributes `uH` and `vH`.  Consequently both
+`HigherLocalizedDescentSystem` and `RawHigherContextualSystem` are instantiated
+with universe application syntax `.{u, v, uH, vH}`; `uH` and `vH` are not
+term-level named arguments.  In contrast, `W` is genuine localization data and
+is retained as `(W := W)` exactly for declarations whose types depend on the
+presentation localization.  Keeping these two parameter layers separate is also
+important for StrongTrans field notation: if the source or target pseudofunctor
+fails to elaborate, the transformation acquires metavariable type and expressions
+such as `alpha.app` fail only as a downstream consequence.
+
 No existence of such coherent factor morphisms is proved here.  In particular,
 this theorem unit does not identify ordinary 1-categorical localization with the
 required bicategorical localization, does not strictify equivalences of categories
@@ -62,7 +74,7 @@ Because pseudofunctor composition is definitionally objectwise on objects and
 `alpha`; the remaining coherence obligations are discharged by the bicategorical
 coherence tactic built into the `StrongTrans` structure defaults. -/
 def restrictHigherLocalizedStrongTrans
-    {F G : HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH)}
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
     (alpha : F ⟶ G) :
     restrictHigherLocalizedSystem W F ⟶ restrictHigherLocalizedSystem W G where
   app X :=
@@ -73,7 +85,7 @@ def restrictHigherLocalizedStrongTrans
 /-- On a raw context object, restriction of a StrongTrans has exactly the
 component of the original StrongTrans at the image of the presentation unit. -/
 @[simp] theorem restrictHigherLocalizedStrongTrans_app
-    {F G : HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH)}
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
     (alpha : F ⟶ G) (X : Context) :
     (restrictHigherLocalizedStrongTrans (W := W) alpha).app (.mk X) =
       alpha.app (.mk ((higherPresentationUnitFunctor W).obj X)) := by
@@ -86,7 +98,7 @@ The field `comparison_triangle` is an isomorphism in the hom-category of
 StrongTrans, hence an invertible modification.  This is strictly stronger data
 than the objectwise natural-isomorphism triangle used in v2.18. -/
 structure CoherentHigherLocalizationFactorMorphism
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H K : HigherLocalizationFactorization (W := W) R) where
   /-- Strong factor map between localized lifts. -/
   hom : H.lift ⟶ K.lift
@@ -103,7 +115,7 @@ now carries a modification-level comparison triangle.  Essential uniqueness is
 again expressed by an invertible modification between the underlying StrongTrans
 factor maps. -/
 structure CoherentWeakHigherLocalizationUniversalProperty
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) where
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)) where
   /-- Chosen weak higher localization factorization. -/
   chosen : HigherLocalizationFactorization (W := W) R
   /-- Every competing factorization admits a coherently comparison-preserving
@@ -121,20 +133,20 @@ structure CoherentWeakHigherLocalizationUniversalProperty
 /-- Existence of the coherent v2.19 universal-property datum remains an explicit
 proposition. -/
 def HasCoherentWeakHigherLocalizationUniversalProperty
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) : Prop :=
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)) : Prop :=
   Nonempty (CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
 
 /-- The global coherent weak-localization principle that remains open in general.
 It is deliberately a proposition rather than an axiom or theorem of this file. -/
 def CoherentHigherWeakLocalizationUniversalPrinciple : Prop :=
-  ∀ R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH),
+  ∀ R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context),
     IsHigherWAdmissible W R →
       HasCoherentWeakHigherLocalizationUniversalProperty (W := W) R
 
 /-- A coherent universal-property datum contains a v2.10 higher localization
 factorization. -/
 def higherLocalizationFactorizationOfCoherentWeakUniversalProperty
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherLocalizationFactorization (W := W) R :=
   U.chosen
@@ -142,7 +154,7 @@ def higherLocalizationFactorizationOfCoherentWeakUniversalProperty
 /-- Existence of the coherent v2.19 universal property implies existence of the
 v2.10 higher localization factorization. -/
 theorem hasHigherLocalizationFactorization_of_hasCoherentWeakHigherLocalizationUniversalProperty
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (hU : HasCoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HasHigherLocalizationFactorization (W := W) R := by
   rcases hU with ⟨U⟩
@@ -151,7 +163,7 @@ theorem hasHigherLocalizationFactorization_of_hasCoherentWeakHigherLocalizationU
 /-- Consequently, coherent weak higher-localization universal data force the exact
 weak `W`-admissibility predicate from v2.10. -/
 theorem hasCoherentWeakHigherLocalizationUniversalProperty_isHigherWAdmissible
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (hU : HasCoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     IsHigherWAdmissible W R :=
   hasHigherLocalizationFactorization_isHigherWAdmissible W
@@ -161,9 +173,9 @@ theorem hasCoherentWeakHigherLocalizationUniversalProperty_isHigherWAdmissible
 /-- Supplying the still-open coherent universal principle is enough to recover the
 weaker v2.15 higher localization existence principle. -/
 theorem higherWeakLocalizationExistence_of_coherentUniversalPrinciple
-    (hU : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakLocalizationExistence (W := W) (uH := uH) (vH := vH) := by
+    (hU : CoherentHigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    HigherWeakLocalizationExistence.{u, v, uH, vH} (W := W) := by
   intro R hR
   exact
     hasHigherLocalizationFactorization_of_hasCoherentWeakHigherLocalizationUniversalProperty W
@@ -172,9 +184,9 @@ theorem higherWeakLocalizationExistence_of_coherentUniversalPrinciple
 /-- Under an explicitly supplied coherent universal principle, weak
 `W`-admissibility is characterized by existence of coherent universal data. -/
 theorem higherWAdmissible_iff_hasCoherentWeakHigherLocalizationUniversalProperty_of_principle
-    (hU : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH))
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) :
+    (hU : CoherentHigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W))
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)) :
     IsHigherWAdmissible W R ↔
       HasCoherentWeakHigherLocalizationUniversalProperty (W := W) R := by
   constructor
