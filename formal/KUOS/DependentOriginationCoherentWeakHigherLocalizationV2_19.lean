@@ -66,14 +66,16 @@ and composition axioms are not definitionally the original axioms: the
 `Pseudofunctor.comp` mapId and mapComp contain the image of the presentation
 pseudofunctor's own mapId and mapComp constraints.  The restricted StrongTrans
 therefore transports coherence in two stages.  Since `Cat` deliberately wraps
-2-morphisms in `Cat.Hom₂`, a generic rewrite search need not see a composite
-2-cell through bicategorical whiskering even when the pretty-printer displays
-that composite.  We therefore instantiate whisker functoriality at the exact
-presentation mapId or mapComp cell, obtaining a typed local splitting equality.
-After this split, `alpha.naturality_naturality` transports the inner presentation
-constraint and `alpha.naturality_id` or `alpha.naturality_comp` handles the outer
-constraint; the remaining source-side whiskering and structural associators are
-pure bicategorical coherence.
+2-morphisms in `Cat.Hom₂`, generic bicategorical rewriting need not see a
+composite 2-cell through whiskering even when the pretty-printer displays that
+composite.  We therefore cross the wrapper boundary explicitly with
+`Cat.Hom₂.ext`, transport the StrongTrans coherence laws to the underlying
+natural transformations, and split the concrete presentation mapId or mapComp
+composite there using ordinary functor-whiskering functoriality.  The inner
+presentation constraint is then transported by `alpha.naturality_naturality`,
+after which `alpha.naturality_id` or `alpha.naturality_comp` handles the outer
+constraint.  This preserves the two-stage pseudonatural precomposition argument
+without relying on rewrite matching through the `Cat.Hom₂` representation layer.
 
 No existence of such coherent factor morphisms is proved here.  In particular,
 this theorem unit does not identify ordinary 1-categorical localization with the
@@ -104,35 +106,32 @@ noncomputable def restrictHigherLocalizedStrongTrans
         ((higherPresentationUnitFunctor W).toPseudofunctor.map₂ η)
   naturality_id a := by
     let P := (higherPresentationUnitFunctor W).toPseudofunctor
-    have hsplit :
-        Bicategory.whiskerLeft (alpha.app (P.obj a))
-            (G.map₂ (P.mapId a).hom ≫ (G.mapId (P.obj a)).hom) =
-          Bicategory.whiskerLeft (alpha.app (P.obj a))
-              (G.map₂ (P.mapId a).hom) ≫
-            Bicategory.whiskerLeft (alpha.app (P.obj a))
-              (G.mapId (P.obj a)).hom :=
-      Bicategory.whiskerLeft_comp _ _ _
-    dsimp [P, restrictHigherLocalizedSystem, Pseudofunctor.comp] at hsplit ⊢
-    rw [hsplit]
-    rw [← alpha.naturality_naturality_assoc]
-    rw [alpha.naturality_id]
-    bicategory
+    have hnat := congrArg Cat.Hom₂.toNatTrans
+      (alpha.naturality_naturality (P.mapId a).hom)
+    have hid := congrArg Cat.Hom₂.toNatTrans
+      (alpha.naturality_id (P.obj a))
+    apply Cat.Hom₂.ext
+    dsimp [P, restrictHigherLocalizedSystem, Pseudofunctor.comp] at hnat hid ⊢
+    simp only [Cat.Hom.toNatTrans_comp, Cat.whiskerLeft_toNatTrans,
+      Cat.whiskerRight_toNatTrans, Functor.whiskerLeft_comp,
+      Functor.whiskerRight_comp] at hnat hid ⊢
+    rw [← Category.assoc, ← hnat]
+    rw [Category.assoc, hid]
+    simp only [Category.assoc]
   naturality_comp {a b c} f g := by
     let P := (higherPresentationUnitFunctor W).toPseudofunctor
-    have hsplit :
-        Bicategory.whiskerLeft (alpha.app (P.obj a))
-            (G.map₂ (P.mapComp f g).hom ≫
-              (G.mapComp (P.map f) (P.map g)).hom) =
-          Bicategory.whiskerLeft (alpha.app (P.obj a))
-              (G.map₂ (P.mapComp f g).hom) ≫
-            Bicategory.whiskerLeft (alpha.app (P.obj a))
-              (G.mapComp (P.map f) (P.map g)).hom :=
-      Bicategory.whiskerLeft_comp _ _ _
-    dsimp [P, restrictHigherLocalizedSystem, Pseudofunctor.comp] at hsplit ⊢
-    rw [hsplit]
-    rw [← alpha.naturality_naturality_assoc]
-    rw [alpha.naturality_comp]
-    bicategory
+    have hnat := congrArg Cat.Hom₂.toNatTrans
+      (alpha.naturality_naturality (P.mapComp f g).hom)
+    have hcomp := congrArg Cat.Hom₂.toNatTrans
+      (alpha.naturality_comp (P.map f) (P.map g))
+    apply Cat.Hom₂.ext
+    dsimp [P, restrictHigherLocalizedSystem, Pseudofunctor.comp] at hnat hcomp ⊢
+    simp only [Cat.Hom.toNatTrans_comp, Cat.whiskerLeft_toNatTrans,
+      Cat.whiskerRight_toNatTrans, Functor.whiskerLeft_comp,
+      Functor.whiskerRight_comp] at hnat hcomp ⊢
+    rw [← Category.assoc, ← hnat]
+    rw [Category.assoc, hcomp]
+    simp only [Category.assoc]
 
 /-- On a raw context object, restriction of a StrongTrans has exactly the
 component of the original StrongTrans at the image of the presentation unit. -/
