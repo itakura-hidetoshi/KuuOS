@@ -12,6 +12,14 @@ open KUOS.DependentOriginationWeakHigherLocalizationUniversalPropertyV2_18
 
 open scoped CategoryTheory.Pseudofunctor.StrongTrans
 
+attribute [local simp]
+  CategoryTheory.Bicategory.Strict.leftUnitor_eqToIso
+  CategoryTheory.Bicategory.Strict.rightUnitor_eqToIso
+  CategoryTheory.Bicategory.Strict.associator_eqToIso
+  CategoryTheory.PrelaxFunctor.map₂_eqToHom
+  CategoryTheory.eqToHom_map
+  CategoryTheory.Cat.eqToHom_app
+
 universe u v uH vH
 
 /-!
