@@ -65,11 +65,13 @@ precomposition by the presentation pseudofunctor, the component and the
 and composition axioms are not definitionally the original axioms: the
 `Pseudofunctor.comp` mapId and mapComp contain the image of the presentation
 pseudofunctor's own mapId and mapComp constraints.  The restricted StrongTrans
-therefore transports coherence in two stages: first use
-`alpha.naturality_naturality` on those inner structural 2-isomorphisms, then use
-`alpha.naturality_id` or `alpha.naturality_comp`.  This is the actual
-pseudonatural precomposition law; relying on the structure defaults alone loses
-that intermediate transport.
+therefore transports coherence in two stages: first expose the whiskering of the
+composite structural 2-cell using bicategorical whisker functoriality, then use
+`alpha.naturality_naturality` on the inner structural 2-isomorphism, and finally
+use `alpha.naturality_id` or `alpha.naturality_comp`.  This is the actual
+pseudonatural precomposition law.  In particular, the reassociated naturality
+lemma cannot match while `G.map₂` and `G.mapId`/`G.mapComp` remain syntactically
+hidden inside one `whiskerLeft` of a composite 2-cell.
 
 No existence of such coherent factor morphisms is proved here.  In particular,
 this theorem unit does not identify ordinary 1-categorical localization with the
@@ -100,11 +102,13 @@ noncomputable def restrictHigherLocalizedStrongTrans
         ((higherPresentationUnitFunctor W).toPseudofunctor.map₂ η)
   naturality_id a := by
     dsimp [restrictHigherLocalizedSystem, Pseudofunctor.comp]
+    rw [Bicategory.whiskerLeft_comp]
     rw [← alpha.naturality_naturality_assoc]
     rw [alpha.naturality_id]
     bicategory
   naturality_comp f g := by
     dsimp [restrictHigherLocalizedSystem, Pseudofunctor.comp]
+    rw [Bicategory.whiskerLeft_comp]
     rw [← alpha.naturality_naturality_assoc]
     rw [alpha.naturality_comp]
     bicategory
