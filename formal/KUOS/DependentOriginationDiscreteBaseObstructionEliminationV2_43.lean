@@ -17,6 +17,7 @@ open KUOS.DependentOriginationStageIIIRouteCompletenessV2_33
 open KUOS.DependentOriginationWeakCoherentTwoAxisObstructionV2_42
 
 open scoped Bicategory
+open scoped CategoryTheory.Pseudofunctor.StrongTrans
 
 universe u uH vH
 
