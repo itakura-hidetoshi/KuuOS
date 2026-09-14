@@ -78,7 +78,7 @@ theorem storedV2_18TriangleIsModificationNatural_of_discrete
   rcases Y with ⟨y⟩
   rcases f with ⟨⟨h⟩⟩
   cases h
-  simp [CategoryTheory.Pseudofunctor.StrongTrans.naturality_id_hom]
+  simp only [CategoryTheory.Pseudofunctor.StrongTrans.naturality_id_hom]
   bicategory
 
 /-- Uniformly, every weak factor into the chosen coherent carrier has a stored
