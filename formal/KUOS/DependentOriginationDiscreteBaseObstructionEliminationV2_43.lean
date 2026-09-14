@@ -89,7 +89,7 @@ theorem storedV2_18TriangleIsModificationNatural_of_discrete
           K.comparison).naturality (𝟙 _)).hom ≫
         (storedV2_18ComparisonComponentIso (W := W) alpha _).hom ▷
           R.map (𝟙 _)
-  simp
+  simp [Pseudofunctor.StrongTrans.naturality_id_hom]
 
 /-- Uniformly, every weak factor into the chosen coherent carrier has a stored
 triangle that is already modification-natural. -/
