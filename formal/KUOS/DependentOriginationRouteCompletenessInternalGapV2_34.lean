@@ -249,10 +249,18 @@ theorem not_routeCompleteness_iff_reflectionFailure_of_isoTransport
     (hTransport : HigherFactorModificationTriangleIsoTransport (W := W) U) :
     (¬ HigherCoherentRouteCompleteness (W := W) U) ↔
       HigherFixedChosenEssentialUniquenessReflectionFailure (W := W) U := by
+  classical
   rw [routeCompleteness_iff_fixedChosenReflection_of_isoTransport
     (W := W) U hTransport]
-  exact not_congr
-    (fixedChosenReflection_iff_no_reflectionFailure (W := W) U)
+  constructor
+  · intro hNoReflect
+    by_contra hNoFailure
+    exact hNoReflect
+      ((fixedChosenReflection_iff_no_reflectionFailure (W := W) U).mpr hNoFailure)
+  · intro hFailure hReflect
+    exact
+      ((fixedChosenReflection_iff_no_reflectionFailure (W := W) U).mp hReflect)
+        hFailure
 
 /-- Obstruction-free normal form of the same local closure. -/
 theorem routeCompleteness_iff_no_reflectionFailure_of_isoTransport
