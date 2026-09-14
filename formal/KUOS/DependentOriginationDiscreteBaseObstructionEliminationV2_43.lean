@@ -55,6 +55,14 @@ an explicit premise at the global level.
 variable {I : Type u}
 variable (W : MorphismProperty (Discrete I))
 
+attribute [local simp]
+  CategoryTheory.Bicategory.Strict.leftUnitor_eqToIso
+  CategoryTheory.Bicategory.Strict.rightUnitor_eqToIso
+  CategoryTheory.Bicategory.Strict.associator_eqToIso
+  CategoryTheory.PrelaxFunctor.map₂_eqToHom
+  CategoryTheory.eqToHom_map
+  CategoryTheory.Cat.eqToHom_app
+in
 /-- On a discrete context, the objectwise v2.18 comparison triangle is already
 modification-natural.  The only possible base arrow reduces to an identity, and
 Mathlib's StrongTrans identity coherence discharges the resulting equation. -/
@@ -69,7 +77,9 @@ theorem storedV2_18TriangleIsModificationNatural_of_discrete
   rcases Y with ⟨y⟩
   rcases f with ⟨⟨h⟩⟩
   cases h
-  simp
+  apply Cat.Hom₂.ext
+  ext Z
+  simp [CategoryTheory.Pseudofunctor.StrongTrans.naturality_id_hom]
 
 /-- Uniformly, every weak factor into the chosen coherent carrier has a stored
 triangle that is already modification-natural. -/
