@@ -8,6 +8,7 @@ open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationCoherentWeakHigherLocalizationV2_19
 open KUOS.DependentOriginationWeakHigherLocalizationUniversalPropertyV2_18
 open KUOS.DependentOriginationModificationTriangleNormalFormV2_22
+open KUOS.DependentOriginationStageIIIRouteCompletenessV2_33
 open KUOS.DependentOriginationRouteCompletenessInternalGapV2_34
 
 open scoped CategoryTheory.Pseudofunctor.StrongTrans
@@ -46,7 +47,7 @@ StrongTrans 1-cells.
 The object components are obtained by evaluating the original invertible
 modification at the image of the presentation unit.  Naturality is inherited
 from the original modification. -/
-def restrictHigherLocalizedStrongTransIso
+noncomputable def restrictHigherLocalizedStrongTransIso
     {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
     {alpha beta : F ⟶ G}
     (e : alpha ≅ beta) :
