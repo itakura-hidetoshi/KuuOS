@@ -61,7 +61,7 @@ factorization admits a v2.18 factor morphism into `K`.
 This requires only the objectwise comparison triangles of v2.18.  No v2.19
 modification-level coherence is added here. -/
 def WeakUniversalFactorExistence
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (K : HigherLocalizationFactorization (W := W) R) : Prop :=
   ∀ H : HigherLocalizationFactorization (W := W) R,
     Nonempty (HigherLocalizationFactorMorphism (W := W) H K)
@@ -70,7 +70,7 @@ def WeakUniversalFactorExistence
 factor morphisms from the same competitor into `K` have isomorphic underlying
 StrongTrans 1-cells. -/
 def WeakUniversalEssentialUniqueness
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (K : HigherLocalizationFactorization (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (alpha beta : HigherLocalizationFactorMorphism (W := W) H K),
@@ -79,7 +79,7 @@ def WeakUniversalEssentialUniqueness
 /-- A Stage II universal candidate consists of one actual v2.10 factorization
 plus the v2.18 factor-existence property for that same chosen factorization. -/
 structure WeakHigherLocalizationUniversalCandidate
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) where
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)) where
   /-- Chosen higher localization factorization. -/
   chosen : HigherLocalizationFactorization (W := W) R
   /-- Every competing factorization factors weakly into `chosen`. -/
@@ -87,25 +87,25 @@ structure WeakHigherLocalizationUniversalCandidate
 
 /-- Stage III property attached to a fixed Stage II candidate. -/
 def WeakHigherLocalizationUniversalCandidate.HasEssentialUniqueness
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (C : WeakHigherLocalizationUniversalCandidate (W := W) R) : Prop :=
   WeakUniversalEssentialUniqueness (W := W) C.chosen
 
 /-- Existence of some Stage II universal candidate. -/
 def HasWeakHigherLocalizationUniversalCandidate
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) : Prop :=
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)) : Prop :=
   Nonempty (WeakHigherLocalizationUniversalCandidate (W := W) R)
 
 /-- Existence of one Stage II candidate for which Stage III essential uniqueness
 also holds on the same chosen factorization. -/
 def HasWeakHigherLocalizationUniversalCandidateWithUniqueness
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) : Prop :=
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)) : Prop :=
   ∃ C : WeakHigherLocalizationUniversalCandidate (W := W) R,
     C.HasEssentialUniqueness (W := W)
 
 /-- Forget a v2.18 universal-property datum to its Stage II universal candidate. -/
 def weakUniversalCandidateOfUniversalProperty
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : WeakHigherLocalizationUniversalProperty (W := W) R) :
     WeakHigherLocalizationUniversalCandidate (W := W) R where
   chosen := U.chosen
@@ -114,7 +114,7 @@ def weakUniversalCandidateOfUniversalProperty
 /-- Reassemble the v2.18 universal-property datum from one Stage II candidate
 and Stage III essential uniqueness for the same chosen factorization. -/
 def weakHigherLocalizationUniversalPropertyOfCandidateWithUniqueness
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (C : WeakHigherLocalizationUniversalCandidate (W := W) R)
     (hUnique : C.HasEssentialUniqueness (W := W)) :
     WeakHigherLocalizationUniversalProperty (W := W) R where
@@ -125,7 +125,7 @@ def weakHigherLocalizationUniversalPropertyOfCandidateWithUniqueness
 /-- Exact local characterization: the v2.18 universal property exists exactly
 when there is one Stage II candidate carrying Stage III essential uniqueness. -/
 theorem hasWeakHigherLocalizationUniversalProperty_iff_candidateWithUniqueness
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) :
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)) :
     HasWeakHigherLocalizationUniversalProperty (W := W) R ↔
       HasWeakHigherLocalizationUniversalCandidateWithUniqueness (W := W) R := by
   constructor
@@ -139,7 +139,7 @@ theorem hasWeakHigherLocalizationUniversalProperty_iff_candidateWithUniqueness
 /-- A Stage II candidate contains, in particular, a genuine v2.10
 factorization. -/
 theorem hasHigherLocalizationFactorization_of_hasWeakUniversalCandidate
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (hC : HasWeakHigherLocalizationUniversalCandidate (W := W) R) :
     HasHigherLocalizationFactorization (W := W) R := by
   rcases hC with ⟨C⟩
@@ -147,7 +147,7 @@ theorem hasHigherLocalizationFactorization_of_hasWeakUniversalCandidate
 
 /-- A completed candidate contains its Stage II candidate. -/
 theorem hasWeakUniversalCandidate_of_candidateWithUniqueness
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (hC : HasWeakHigherLocalizationUniversalCandidateWithUniqueness (W := W) R) :
     HasWeakHigherLocalizationUniversalCandidate (W := W) R := by
   rcases hC with ⟨C, _⟩
@@ -156,14 +156,14 @@ theorem hasWeakUniversalCandidate_of_candidateWithUniqueness
 /-- Stage I obstruction on the admissible domain: `R` is weakly `W`-admissible
 but has no v2.10 higher localization factorization at all. -/
 def HigherWeakLocalizationFactorizationExistenceObstruction
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) : Prop :=
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)) : Prop :=
   IsHigherWAdmissible W R ∧
     ¬ HasHigherLocalizationFactorization (W := W) R
 
 /-- Stage II obstruction: a factorization exists, but no factorization can be
 chosen that receives v2.18 factor morphisms from all competitors. -/
 def HigherWeakUniversalFactorExistenceObstruction
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) : Prop :=
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)) : Prop :=
   IsHigherWAdmissible W R ∧
     HasHigherLocalizationFactorization (W := W) R ∧
       ¬ HasWeakHigherLocalizationUniversalCandidate (W := W) R
@@ -171,7 +171,7 @@ def HigherWeakUniversalFactorExistenceObstruction
 /-- Stage III obstruction: a Stage II universal candidate exists, but no such
 candidate also satisfies v2.18 essential uniqueness. -/
 def HigherWeakEssentialUniquenessObstruction
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) : Prop :=
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)) : Prop :=
   IsHigherWAdmissible W R ∧
     HasWeakHigherLocalizationUniversalCandidate (W := W) R ∧
       ¬ HasWeakHigherLocalizationUniversalCandidateWithUniqueness (W := W) R
@@ -179,7 +179,7 @@ def HigherWeakEssentialUniquenessObstruction
 /-- The complete local gap obstruction is the disjunction of the three exact
 stage failures. -/
 def HigherWeakLocalizationUniversalGapObstruction
-    (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)) : Prop :=
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)) : Prop :=
   HigherWeakLocalizationFactorizationExistenceObstruction (W := W) R ∨
     HigherWeakUniversalFactorExistenceObstruction (W := W) R ∨
       HigherWeakEssentialUniquenessObstruction (W := W) R
@@ -192,7 +192,7 @@ factorization.
 The converse is deliberately not claimed.  Thus strictification failure is not
 silently identified with Stage I failure. -/
 theorem higherStrictificationObstruction_of_factorizationExistenceObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (hObs : HigherWeakLocalizationFactorizationExistenceObstruction (W := W) R) :
     HigherStrictificationObstruction (W := W) R := by
   refine ⟨hObs.1, ?_⟩
@@ -205,7 +205,7 @@ failure of the v2.18 universal property occurs exactly at one of the three
 stages: no factorization, no universal candidate, or no essentially unique
 universal candidate. -/
 theorem not_hasWeakHigherLocalizationUniversalProperty_iff_gapObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (hR : IsHigherWAdmissible W R) :
     (¬ HasWeakHigherLocalizationUniversalProperty (W := W) R) ↔
       HigherWeakLocalizationUniversalGapObstruction (W := W) R := by
@@ -245,7 +245,7 @@ theorem not_hasWeakHigherLocalizationUniversalProperty_iff_gapObstruction
 factorization is universal: given admissibility and Stage I existence, it asks
 only for existence of some Stage II universal candidate. -/
 def HigherWeakUniversalFactorExistenceCompletion : Prop :=
-  ∀ R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH),
+  ∀ R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context),
     IsHigherWAdmissible W R →
       HasHigherLocalizationFactorization (W := W) R →
         HasWeakHigherLocalizationUniversalCandidate (W := W) R
@@ -256,7 +256,7 @@ that retains Stage II factor existence and also satisfies essential uniqueness.
 The completed candidate itself keeps both properties on one chosen
 factorization. -/
 def HigherWeakEssentialUniquenessCompletion : Prop :=
-  ∀ R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH),
+  ∀ R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context),
     IsHigherWAdmissible W R →
       HasWeakHigherLocalizationUniversalCandidate (W := W) R →
         HasWeakHigherLocalizationUniversalCandidateWithUniqueness (W := W) R
@@ -264,26 +264,26 @@ def HigherWeakEssentialUniquenessCompletion : Prop :=
 /-- Package the three global completion obligations without asserting any of
 them. -/
 def HigherWeakLocalizationUniversalGapCompletion : Prop :=
-  HigherWeakLocalizationExistence (W := W) (uH := uH) (vH := vH) ∧
-    HigherWeakUniversalFactorExistenceCompletion (W := W) (uH := uH) (vH := vH) ∧
-      HigherWeakEssentialUniquenessCompletion (W := W) (uH := uH) (vH := vH)
+  HigherWeakLocalizationExistence.{u, v, uH, vH} (W := W) ∧
+    HigherWeakUniversalFactorExistenceCompletion.{u, v, uH, vH} (W := W) ∧
+      HigherWeakEssentialUniquenessCompletion.{u, v, uH, vH} (W := W)
 
 /-- The v2.18 universal principle implies Stage II completion. -/
 theorem higherWeakUniversalFactorExistenceCompletion_of_universalPrinciple
-    (hUniversal : HigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakUniversalFactorExistenceCompletion
-      (W := W) (uH := uH) (vH := vH) := by
+    (hUniversal : HigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    HigherWeakUniversalFactorExistenceCompletion.{u, v, uH, vH}
+      (W := W) := by
   intro R hR _
   rcases hUniversal R hR with ⟨U⟩
   exact ⟨weakUniversalCandidateOfUniversalProperty (W := W) U⟩
 
 /-- The v2.18 universal principle implies Stage III completion. -/
 theorem higherWeakEssentialUniquenessCompletion_of_universalPrinciple
-    (hUniversal : HigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakEssentialUniquenessCompletion
-      (W := W) (uH := uH) (vH := vH) := by
+    (hUniversal : HigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    HigherWeakEssentialUniquenessCompletion.{u, v, uH, vH}
+      (W := W) := by
   intro R hR _
   rcases hUniversal R hR with ⟨U⟩
   exact ⟨weakUniversalCandidateOfUniversalProperty (W := W) U, U.essential_unique⟩
@@ -291,10 +291,10 @@ theorem higherWeakEssentialUniquenessCompletion_of_universalPrinciple
 /-- The three stage-completion obligations reconstruct the full v2.18 universal
 principle by following the dependency chain on each admissible raw system. -/
 theorem higherWeakLocalizationUniversalPrinciple_of_gapCompletion
-    (hGap : HigherWeakLocalizationUniversalGapCompletion
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH) := by
+    (hGap : HigherWeakLocalizationUniversalGapCompletion.{u, v, uH, vH}
+      (W := W)) :
+    HigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W) := by
   intro R hR
   have hFactorization : HasHigherLocalizationFactorization (W := W) R :=
     hGap.1 R hR
@@ -316,10 +316,10 @@ equivalent to the conjunction of:
 
 This is an equivalence of propositions, not a proof that either side holds. -/
 theorem higherWeakLocalizationUniversalPrinciple_iff_gapCompletion :
-    HigherWeakLocalizationUniversalPrinciple
-        (W := W) (uH := uH) (vH := vH) ↔
-      HigherWeakLocalizationUniversalGapCompletion
-        (W := W) (uH := uH) (vH := vH) := by
+    HigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+        (W := W) ↔
+      HigherWeakLocalizationUniversalGapCompletion.{u, v, uH, vH}
+        (W := W) := by
   constructor
   · intro hUniversal
     exact
@@ -334,9 +334,9 @@ theorem higherWeakLocalizationUniversalPrinciple_iff_gapCompletion :
 holds exactly when every admissible raw system has no Stage I/II/III gap
 obstruction. -/
 theorem higherWeakLocalizationUniversalPrinciple_iff_no_gapObstruction :
-    HigherWeakLocalizationUniversalPrinciple
-        (W := W) (uH := uH) (vH := vH) ↔
-      ∀ R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH),
+    HigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+        (W := W) ↔
+      ∀ R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context),
         IsHigherWAdmissible W R →
           ¬ HigherWeakLocalizationUniversalGapObstruction (W := W) R := by
   classical
