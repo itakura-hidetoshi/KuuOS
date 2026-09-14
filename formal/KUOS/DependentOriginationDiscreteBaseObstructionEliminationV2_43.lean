@@ -16,6 +16,8 @@ open KUOS.DependentOriginationStoredTriangleCorrectionV2_26
 open KUOS.DependentOriginationStageIIIRouteCompletenessV2_33
 open KUOS.DependentOriginationWeakCoherentTwoAxisObstructionV2_42
 
+open scoped Bicategory
+
 universe u uH vH
 
 /-!
