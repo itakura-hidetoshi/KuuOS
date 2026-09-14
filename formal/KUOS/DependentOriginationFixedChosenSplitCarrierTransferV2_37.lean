@@ -7,6 +7,7 @@ open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationWeakHigherLocalizationUniversalPropertyV2_18
 open KUOS.DependentOriginationCoherentWeakHigherLocalizationV2_19
 open KUOS.DependentOriginationWeakHigherLocalizationGapDecompositionV2_31
+open KUOS.DependentOriginationStageIIIRouteCompletenessV2_33
 open KUOS.DependentOriginationRouteCompletenessInternalGapV2_34
 open KUOS.DependentOriginationFixedChosenEssentialUniquenessReflectionV2_36
 
@@ -60,8 +61,8 @@ variable (W : MorphismProperty Context)
 
 Its objectwise comparison triangle is the ordinary left-unitor natural
 isomorphism. -/
-def higherLocalizationFactorMorphismId
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+noncomputable def higherLocalizationFactorMorphismId
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) :
     HigherLocalizationFactorMorphism (W := W) H H where
   hom := 𝟙 H.lift
@@ -77,8 +78,8 @@ The underlying StrongTrans are composed in the pseudofunctor bicategory.  At a
 raw context object, the comparison triangle is obtained by reassociating the
 three functors, whiskering the second triangle by the first factor component,
 and then composing with the first triangle. -/
-def higherLocalizationFactorMorphismComp
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+noncomputable def higherLocalizationFactorMorphismComp
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K L : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (beta : HigherLocalizationFactorMorphism (W := W) K L) :
@@ -92,13 +93,13 @@ def higherLocalizationFactorMorphismComp
         (H.comparison.app (.mk X)).toFunctor
     exact
       Functor.associator _ _ _ ≪≫
-        isoWhiskerLeft
+        Functor.isoWhiskerLeft
           (alpha.hom.app (.mk ((higherPresentationUnitFunctor W).obj X))).toFunctor
           (beta.comparison_triangle X) ≪≫
         alpha.comparison_triangle X
 
 @[simp] theorem higherLocalizationFactorMorphismComp_hom
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K L : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (beta : HigherLocalizationFactorMorphism (W := W) K L) :
@@ -120,7 +121,7 @@ forward.hom ≫ backward.hom ≅ 𝟙 U.chosen.lift.
 Thus `U.chosen` is a retract of `C.chosen` at the localized-lift 1-cell level.
 No inverse equation on `C.chosen` is assumed. -/
 structure HigherFixedChosenSplitCarrierComparison
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (C : WeakHigherLocalizationUniversalCandidate (W := W) R) where
   forward : HigherLocalizationFactorMorphism (W := W) U.chosen C.chosen
@@ -146,7 +147,7 @@ alpha
 The middle isomorphism is uniqueness on `C.chosen`, after composing the two
 v2.18 factors with `p`. -/
 theorem fixedChosenEssentialUniqueness_of_splitCarrierComparison
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (C : WeakHigherLocalizationUniversalCandidate (W := W) R)
     (hUnique : C.HasEssentialUniqueness (W := W))
@@ -173,8 +174,8 @@ theorem fixedChosenEssentialUniqueness_of_splitCarrierComparison
 /-- The fixed Stage II candidate has a canonical split comparison with itself.
 This witness is used only to show that the split-completed-carrier predicate below
 is exact once fixed essential uniqueness is already known. -/
-def fixedChosenSelfSplitCarrierComparison
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+noncomputable def fixedChosenSelfSplitCarrierComparison
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFixedChosenSplitCarrierComparison
       (W := W) U (fixedChosenWeakUniversalCandidate (W := W) U) where
@@ -187,7 +188,7 @@ def fixedChosenSelfSplitCarrierComparison
 /-- There exists a completed weak Stage II carrier equipped with a split comparison
 back to the fixed coherent carrier. -/
 def HasHigherFixedChosenSplitCompletedCarrier
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∃ C : WeakHigherLocalizationUniversalCandidate (W := W) R,
     C.HasEssentialUniqueness (W := W) ∧
@@ -200,7 +201,7 @@ The forward implication is the cancellation theorem above.  For the reverse
 implication, choose the fixed Stage II candidate itself and its canonical identity
 split comparison. -/
 theorem hasSplitCompletedCarrier_iff_fixedChosenEssentialUniqueness
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HasHigherFixedChosenSplitCompletedCarrier (W := W) U ↔
       HigherFixedChosenEssentialUniqueness (W := W) U := by
@@ -219,7 +220,7 @@ theorem hasSplitCompletedCarrier_iff_fixedChosenEssentialUniqueness
 Stage II candidate is completed through Stage III, one can select a completed
 candidate carrying a one-sided split comparison to `U.chosen`. -/
 def HigherFixedChosenSplitCarrierSelection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   HasWeakHigherLocalizationUniversalCandidateWithUniqueness (W := W) R →
     HasHigherFixedChosenSplitCompletedCarrier (W := W) U
@@ -228,7 +229,7 @@ def HigherFixedChosenSplitCarrierSelection
 selection.  The new formulation exposes an explicit categorical transport witness
 rather than leaving carrier transfer opaque. -/
 theorem stageIIICompletion_iff_splitCarrierSelection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFixedChosenStageIIICompletion (W := W) U ↔
       HigherFixedChosenSplitCarrierSelection (W := W) U := by
@@ -244,7 +245,7 @@ theorem stageIIICompletion_iff_splitCarrierSelection
 
 /-- Consequently, fixed-chosen reflection is exactly split-carrier selection. -/
 theorem fixedChosenReflection_iff_splitCarrierSelection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFixedChosenEssentialUniquenessReflection (W := W) U ↔
       HigherFixedChosenSplitCarrierSelection (W := W) U :=
@@ -253,7 +254,7 @@ theorem fixedChosenReflection_iff_splitCarrierSelection
 
 /-- Coherent route completeness is exactly split-carrier selection. -/
 theorem routeCompleteness_iff_splitCarrierSelection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherCoherentRouteCompleteness (W := W) U ↔
       HigherFixedChosenSplitCarrierSelection (W := W) U :=
@@ -262,7 +263,7 @@ theorem routeCompleteness_iff_splitCarrierSelection
 
 /-- Failure of split-carrier selection in the non-vacuous regime. -/
 def HigherFixedChosenSplitCarrierSelectionFailure
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   HasWeakHigherLocalizationUniversalCandidateWithUniqueness (W := W) R ∧
     ¬ HasHigherFixedChosenSplitCompletedCarrier (W := W) U
@@ -270,7 +271,7 @@ def HigherFixedChosenSplitCarrierSelectionFailure
 /-- The v2.36 carrier-mismatch obstruction is exactly failure to select a split
 completed carrier. -/
 theorem carrierMismatchObstruction_iff_splitCarrierSelectionFailure
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFixedChosenCarrierMismatchObstruction (W := W) U ↔
       HigherFixedChosenSplitCarrierSelectionFailure (W := W) U := by
@@ -291,7 +292,7 @@ theorem carrierMismatchObstruction_iff_splitCarrierSelectionFailure
 /-- The exact route-completeness failure normal form can therefore be stated as
 split-carrier selection failure. -/
 theorem not_routeCompleteness_iff_splitCarrierSelectionFailure
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     (¬ HigherCoherentRouteCompleteness (W := W) U) ↔
       HigherFixedChosenSplitCarrierSelectionFailure (W := W) U :=
@@ -301,7 +302,7 @@ theorem not_routeCompleteness_iff_splitCarrierSelectionFailure
 /-- A direct sufficient condition: if every completed weak candidate admits a
 split comparison to the fixed carrier, then carrier uniqueness transfer follows. -/
 def HigherFixedChosenSplitCarrierComparisonCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ C : WeakHigherLocalizationUniversalCandidate (W := W) R,
     C.HasEssentialUniqueness (W := W) →
@@ -310,7 +311,7 @@ def HigherFixedChosenSplitCarrierComparisonCompletion
 /-- The explicit split-comparison completion condition is sufficient for the
 v2.36 carrier-transfer property. -/
 theorem carrierUniquenessTransfer_of_splitCarrierComparisonCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hSplit : HigherFixedChosenSplitCarrierComparisonCompletion (W := W) U) :
     HigherFixedChosenCarrierUniquenessTransfer (W := W) U := by
@@ -323,7 +324,7 @@ theorem carrierUniquenessTransfer_of_splitCarrierComparisonCompletion
 /-- Hence the explicit split-comparison completion condition is sufficient for
 coherent route completeness. -/
 theorem routeCompleteness_of_splitCarrierComparisonCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hSplit : HigherFixedChosenSplitCarrierComparisonCompletion (W := W) U) :
     HigherCoherentRouteCompleteness (W := W) U :=
@@ -335,17 +336,17 @@ theorem routeCompleteness_of_splitCarrierComparisonCompletion
 explicit proposition, not a theorem asserted for arbitrary coherent universal
 data. -/
 def HigherFixedChosenSplitCarrierComparisonCompletionPrinciple : Prop :=
-  ∀ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
+  ∀ (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
     HigherFixedChosenSplitCarrierComparisonCompletion (W := W) U
 
 /-- The global split-comparison principle implies the global fixed-chosen
 reflection principle. -/
 theorem fixedChosenReflectionPrinciple_of_splitCarrierComparisonCompletionPrinciple
-    (hSplit : HigherFixedChosenSplitCarrierComparisonCompletionPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherFixedChosenEssentialUniquenessReflectionPrinciple
-      (W := W) (uH := uH) (vH := vH) := by
+    (hSplit : HigherFixedChosenSplitCarrierComparisonCompletionPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    HigherFixedChosenEssentialUniquenessReflectionPrinciple.{u, v, uH, vH}
+      (W := W) := by
   intro R U
   exact
     (fixedChosenReflection_iff_carrierUniquenessTransfer (W := W) U).mpr
