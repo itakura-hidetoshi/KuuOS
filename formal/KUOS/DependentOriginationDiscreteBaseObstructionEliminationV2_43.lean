@@ -94,7 +94,7 @@ theorem storedV2_18TriangleIsModificationNatural_of_discrete
   simp [CategoryTheory.Pseudofunctor.StrongTrans.naturality_id_hom]
   conv_lhs =>
     rw [← Category.assoc]
-    rw [←
+    erw [←
       (storedV2_18ComparisonComponentIso (W := W) alpha _).hom.toNatTrans.naturality
         (((restrictHigherLocalizedSystem W H.lift).mapId _).hom.toNatTrans.app Z)]
     rw [Category.assoc]
