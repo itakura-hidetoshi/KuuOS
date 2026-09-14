@@ -89,6 +89,7 @@ theorem storedV2_18TriangleIsModificationNatural_of_discrete
           K.comparison).naturality (𝟙 _)).hom ≫
         (storedV2_18ComparisonComponentIso (W := W) alpha _).hom ▷
           R.map (𝟙 _)
+  rw [CategoryTheory.Pseudofunctor.StrongTrans.comp_naturality_hom]
   apply Cat.Hom₂.ext
   ext Z
   simp [CategoryTheory.Pseudofunctor.StrongTrans.naturality_id_hom]
