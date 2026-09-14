@@ -11,6 +11,7 @@ open KUOS.DependentOriginationCoherentFactorForgetfulBridgeV2_20
 open KUOS.DependentOriginationFactorCoherenceLiftingV2_21
 open KUOS.DependentOriginationModificationTriangleNormalFormV2_22
 open KUOS.DependentOriginationWeakHigherLocalizationGapDecompositionV2_31
+open KUOS.DependentOriginationStageIIIRouteCompletenessV2_33
 open KUOS.DependentOriginationRouteCompletenessInternalGapV2_34
 open KUOS.DependentOriginationFixedChosenSplitCarrierTransferV2_37
 open KUOS.DependentOriginationCompletedCarrierTwoSidedUpgradeV2_39
@@ -73,8 +74,8 @@ variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
 
 /-- Coherent identity factor on a higher-localization factorization. -/
-def coherentHigherLocalizationFactorMorphismId
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+noncomputable def coherentHigherLocalizationFactorMorphismId
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) :
     CoherentHigherLocalizationFactorMorphism (W := W) H H where
   hom := 𝟙 H.lift
@@ -83,7 +84,7 @@ def coherentHigherLocalizationFactorMorphismId
     exact Bicategory.leftUnitor H.comparison
 
 @[simp] theorem coherentHigherLocalizationFactorMorphismId_hom
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) :
     (coherentHigherLocalizationFactorMorphismId (W := W) H).hom = 𝟙 H.lift := by
   rfl
@@ -93,8 +94,8 @@ def coherentHigherLocalizationFactorMorphismId
 The comparison triangle is obtained by reassociating, whiskering the second
 coherent triangle by the restricted first factor, and then composing with the
 first coherent triangle. -/
-def coherentHigherLocalizationFactorMorphismComp
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+noncomputable def coherentHigherLocalizationFactorMorphismComp
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K L : HigherLocalizationFactorization (W := W) R}
     (alpha : CoherentHigherLocalizationFactorMorphism (W := W) H K)
     (beta : CoherentHigherLocalizationFactorMorphism (W := W) K L) :
@@ -116,7 +117,7 @@ def coherentHigherLocalizationFactorMorphismComp
         alpha.comparison_triangle
 
 @[simp] theorem coherentHigherLocalizationFactorMorphismComp_hom
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K L : HigherLocalizationFactorization (W := W) R}
     (alpha : CoherentHigherLocalizationFactorMorphism (W := W) H K)
     (beta : CoherentHigherLocalizationFactorMorphism (W := W) K L) :
@@ -130,7 +131,7 @@ Only existence of one coherent factor from the fixed carrier to `C.chosen` is
 required.  The backward coherent factor is supplied automatically by `U.factor`.
 -/
 def HasHigherFixedChosenCoherentForwardFactor
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (C : WeakHigherLocalizationUniversalCandidate (W := W) R) : Prop :=
   Nonempty
@@ -140,7 +141,7 @@ def HasHigherFixedChosenCoherentForwardFactor
 forward factor exists exactly when some existing v2.18 forward factor carries an
 invertible modification triangle on its already-fixed StrongTrans. -/
 theorem hasCoherentForwardFactor_iff_exists_forwardModificationTriangle
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (C : WeakHigherLocalizationUniversalCandidate (W := W) R) :
     HasHigherFixedChosenCoherentForwardFactor (W := W) U C ↔
@@ -173,7 +174,7 @@ composition gives a coherent endomorphism of `U.chosen`; `U.essential_unique`
 compares it with the coherent identity factor and produces the required
 StrongTrans isomorphism. -/
 theorem hasSplitCarrierComparison_of_coherentForwardFactor
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (C : WeakHigherLocalizationUniversalCandidate (W := W) R)
     (hForward : HasHigherFixedChosenCoherentForwardFactor (W := W) U C) :
@@ -202,7 +203,7 @@ theorem hasSplitCarrierComparison_of_coherentForwardFactor
 v2.39 to an actual Mathlib bicategorical adjoint equivalence of the localized
 lifts. -/
 theorem hasAdjointEquivalence_of_coherentForwardFactor
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (C : WeakHigherLocalizationUniversalCandidate (W := W) R)
     (hUnique : C.HasEssentialUniqueness (W := W))
@@ -217,7 +218,7 @@ theorem hasAdjointEquivalence_of_coherentForwardFactor
 /-- Completion condition: every Stage III-completed weak carrier admits at least
 one coherent forward factor from the fixed coherent carrier. -/
 def HigherFixedChosenCoherentForwardFactorCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ C : WeakHigherLocalizationUniversalCandidate (W := W) R,
     C.HasEssentialUniqueness (W := W) →
@@ -226,7 +227,7 @@ def HigherFixedChosenCoherentForwardFactorCompletion
 /-- Pure modification-triangle normal form of the preceding completion
 condition. -/
 def HigherFixedChosenForwardModificationTriangleCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ C : WeakHigherLocalizationUniversalCandidate (W := W) R,
     C.HasEssentialUniqueness (W := W) →
@@ -236,7 +237,7 @@ def HigherFixedChosenForwardModificationTriangleCompletion
 /-- The coherent-forward completion condition is exactly its v2.22 pure
 modification-triangle normal form. -/
 theorem coherentForwardFactorCompletion_iff_forwardModificationTriangleCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFixedChosenCoherentForwardFactorCompletion (W := W) U ↔
       HigherFixedChosenForwardModificationTriangleCompletion (W := W) U := by
@@ -252,7 +253,7 @@ theorem coherentForwardFactorCompletion_iff_forwardModificationTriangleCompletio
 
 /-- Coherent-forward completion implies the v2.37 split-comparison completion. -/
 theorem splitCarrierComparisonCompletion_of_coherentForwardFactorCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hForward : HigherFixedChosenCoherentForwardFactorCompletion (W := W) U) :
     HigherFixedChosenSplitCarrierComparisonCompletion (W := W) U := by
@@ -264,7 +265,7 @@ theorem splitCarrierComparisonCompletion_of_coherentForwardFactorCompletion
 /-- Hence local coherent-forward selection on every completed carrier is
 sufficient for coherent route completeness. -/
 theorem routeCompleteness_of_coherentForwardFactorCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hForward : HigherFixedChosenCoherentForwardFactorCompletion (W := W) U) :
     HigherCoherentRouteCompleteness (W := W) U :=
@@ -276,7 +277,7 @@ theorem routeCompleteness_of_coherentForwardFactorCompletion
 /-- Pure modification-triangle selection is therefore also sufficient for route
 completeness. -/
 theorem routeCompleteness_of_forwardModificationTriangleCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hTriangle : HigherFixedChosenForwardModificationTriangleCompletion (W := W) U) :
     HigherCoherentRouteCompleteness (W := W) U :=
@@ -290,7 +291,7 @@ criterion: some Stage III-completed carrier admits no forward v2.18 factor whose
 already-fixed StrongTrans carries the required invertible modification triangle.
 -/
 def HigherFixedChosenForwardModificationTriangleObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∃ C : WeakHigherLocalizationUniversalCandidate (W := W) R,
     C.HasEssentialUniqueness (W := W) ∧
@@ -300,7 +301,7 @@ def HigherFixedChosenForwardModificationTriangleObstruction
 /-- The forward modification-triangle completion condition is exactly absence of
 the explicit local selection obstruction. -/
 theorem forwardModificationTriangleCompletion_iff_no_obstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFixedChosenForwardModificationTriangleCompletion (W := W) U ↔
       ¬ HigherFixedChosenForwardModificationTriangleObstruction (W := W) U := by
@@ -324,7 +325,7 @@ Only this direction is asserted.  The reverse implication is not generally
 available from the current spine, because a split comparison might conceivably
 exist through factor maps not carrying the selected coherent-forward triangle. -/
 theorem forwardModificationTriangleObstruction_of_not_routeCompleteness
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hFail : ¬ HigherCoherentRouteCompleteness (W := W) U) :
     HigherFixedChosenForwardModificationTriangleObstruction (W := W) U := by
