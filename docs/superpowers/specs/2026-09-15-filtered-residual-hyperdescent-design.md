@@ -43,7 +43,8 @@ The next question is not merely whether an obstruction is zero, but whether it c
 retain exact constraints
 + measure residual order by a decreasing filtration
 + improve that order by correction steps
-+ pass to a limit that preserves eventual level membership
++ make an infinite correction history explicit rather than inferred
++ pass to a limit only through a stated level-transfer principle
 + distinguish flat-but-nontrivial phenomena from genuinely trivial defects.
 ```
 
@@ -60,14 +61,17 @@ It must not:
 - assume a metric, topology, norm, or completeness in v2.70,
 - introduce PDE-specific objects into the KuuOS core,
 - silently identify asymptotic smallness with equality,
+- infer an infinite correction tower from one-step existential correction without an explicit choice/construction boundary,
 - add axioms, `sorry`, or `admit`.
 
 It must:
 
 - separate exact constraints from residual defects,
 - expose filtration order explicitly,
-- allow nondeterministic/existential correction steps,
+- allow nondeterministic/existential finite correction steps,
+- represent infinite correction histories as explicit data,
 - state exactly which limit principle turns eventual level control into flatness,
+- require the distinguished exact defect itself to be flat,
 - require separatedness before flatness can imply exact triviality,
 - connect back to generated holonomy only through an explicit bridge.
 
@@ -98,7 +102,7 @@ def ObstructionFiltration.Flat
 
 def ObstructionFiltration.SeparatedAt
     (F : ObstructionFiltration D) (e : D) : Prop :=
-  ∀ d, F.Flat d → d = e
+  F.Flat e ∧ ∀ d, F.Flat d → d = e
 ```
 
 The intended interpretation is:
@@ -106,8 +110,10 @@ The intended interpretation is:
 ```text
 OrderAtLeast F n d = defect d vanishes through level n
 Flat F d           = defect lies in every filtration level
-SeparatedAt F e    = the only flat defect is the distinguished exact defect e
+SeparatedAt F e    = e is flat and every flat defect equals e
 ```
+
+This definition prevents vacuous “separatedness” in a filtration with no flat elements.
 
 ### 4.3 Required theorems
 
@@ -116,6 +122,7 @@ At minimum:
 ```lean
 orderAtLeast_mono
 flat_orderAtLeast
+separatedAt_exact_flat
 flat_eq_of_separatedAt
 not_flat_of_ne_of_separatedAt
 ```
@@ -150,7 +157,7 @@ Step : State → State → Prop
 
 This avoids hiding noncanonical correction choices inside `Classical.choice`.
 
-### 5.2 Gain predicate
+### 5.2 One-step gain predicate
 
 For positive gain `δ`:
 
@@ -170,38 +177,63 @@ def HasCorrectionGain
       F.OrderAtLeast (n + δ) (P.residual y)
 ```
 
-### 5.3 Required theorem boundary
+The witness `y` may depend on the certified current order `n`. This dependence is retained rather than erased.
 
-v2.71 proves finite iteration only. It must not claim convergence.
+### 5.3 Finite correction chain
 
-Define a finite correction chain and prove that `k` correction steps raise the residual order by at least `k * δ`, while preserving the exact invariant.
+Define a finite chain carrying the certified order at each stage. The chain must store enough data that no theorem needs to guess which existential witness was selected.
 
-Schematic target:
+Schematic data:
 
-```text
-initial residual ∈ F^n
-+ k admissible correction steps of gain δ
-------------------------------------------
-final residual ∈ F^(n + kδ)
-and invariant remains exact.
+```lean
+structure FiniteCorrectionChain
+    (F : ObstructionFiltration D)
+    (P : ResidualProblem State D)
+    (Step : State → State → Prop)
+    (δ n₀ k : ℕ) where
+  state : Fin (k + 1) → State
+  invariant : ∀ i, P.invariant (state i)
+  step : ∀ i : Fin k, Step (state i.castSucc) (state i.succ)
+  order : ∀ i, F.OrderAtLeast (n₀ + i.1 * δ) (P.residual (state i))
 ```
 
-This is the formal analogue of repeated residual-order improvement while preserving a hard constraint by construction.
+Exact indexing may be adjusted to Mathlib ergonomics, but the stored mathematical content must remain explicit.
+
+### 5.4 Required theorem boundary
+
+v2.71 proves finite iteration only. From `HasCorrectionGain`, an invariant initial state, and an initial order certificate, prove existence of a `k`-step finite correction chain ending at order at least `n₀ + k * δ`.
+
+It must not claim:
+
+- convergence,
+- existence of an infinite tower,
+- flatness,
+- exact residual triviality.
+
+This keeps finite dependent choice separate from the later infinite-history boundary.
 
 ## 6. v2.72 — Flat Completion / Limit Descent
 
-v2.72 adds only the abstract limit principle needed to turn arbitrarily high finite order into flatness.
+v2.72 adds the abstract data needed to turn an **explicit** arbitrarily improving correction history into flatness. It does not derive that infinite history from v2.71.
 
-### 6.1 Correction tower
-
-A tower stores the actual sequence and proof of each step:
+### 6.1 Filtered correction tower
 
 ```lean
-structure CorrectionTower
-    (Step : State → State → Prop) where
+structure FilteredCorrectionTower
+    (F : ObstructionFiltration D)
+    (P : ResidualProblem State D)
+    (Step : State → State → Prop)
+    (δ n₀ : ℕ) where
   state : ℕ → State
+  invariant : ∀ n, P.invariant (state n)
   step : ∀ n, Step (state n) (state (n + 1))
+  order : ∀ n,
+    F.OrderAtLeast (n₀ + n * δ) (P.residual (state n))
 ```
+
+A positive-gain hypothesis `0 < δ` is supplied to theorems using the tower rather than hidden in the structure.
+
+This explicit `order` field is intentional: an arbitrary `Step` tower need not consist of the improving witnesses promised existentially by v2.71.
 
 ### 6.2 Limit transfer datum
 
@@ -211,29 +243,49 @@ Do not assume a topology. Instead isolate exactly what a chosen limit constructi
 structure ResidualLimitData
     (F : ObstructionFiltration D)
     (P : ResidualProblem State D)
-    (T : CorrectionTower Step) where
+    (T : FilteredCorrectionTower F P Step δ n₀) where
   limitState : State
-  invariant_limit :
-    (∀ n, P.invariant (T.state n)) → P.invariant limitState
+  invariant_limit : P.invariant limitState
   level_limit :
     ∀ k,
-      (∃ N, ∀ n ≥ N, F.OrderAtLeast k (P.residual (T.state n))) →
+      (∃ N, ∀ n ≥ N,
+        F.OrderAtLeast k (P.residual (T.state n))) →
       F.OrderAtLeast k (P.residual limitState)
 ```
 
-This datum is the authority boundary between a formal/asymptotic tower and an actual completed state.
+`invariant_limit` is stored directly. A concrete analytic/topological realization may later prove it from a convergence theorem, but the generic core does not pretend that arbitrary invariants are closed under unspecified limits.
+
+`level_limit` is the precise authority boundary between an asymptotic correction history and an actual completed state.
 
 ### 6.3 Main theorem
 
-Under positive correction gain, an initial finite-order bound, and a compatible correction tower, residual order eventually exceeds every fixed level. `ResidualLimitData.level_limit` then gives:
+Given `0 < δ`, arithmetic implies that for every fixed filtration level `k`, sufficiently late stages of the tower lie in level `k`. `ResidualLimitData.level_limit` then gives
 
 ```lean
 F.Flat (P.residual L.limitState)
 ```
 
-while `invariant_limit` preserves the exact invariant.
+and `L.invariant_limit` supplies the exact invariant.
 
-No theorem may conclude `P.residual L.limitState = e` without an explicit `F.SeparatedAt e` hypothesis.
+No theorem may conclude
+
+```lean
+P.residual L.limitState = e
+```
+
+without an explicit `F.SeparatedAt e` hypothesis.
+
+### 6.4 Separated completion corollary
+
+With separatedness, prove the conservative corollary:
+
+```lean
+0 < δ →
+F.SeparatedAt e →
+P.residual L.limitState = e.
+```
+
+This is the only generic route in v2.72 from arbitrarily high correction order to exact residual triviality.
 
 ## 7. v2.73 — Filtered Generated-Holonomy Bridge
 
@@ -295,7 +347,7 @@ F.SeparatedAt (Iso.refl _) →
 
 In particular, for `counterD`, the explicit octahedral holonomy is not merely nontrivial; it is incompatible with flatness in every filtration separated at the identity.
 
-This formally distinguishes a **hard obstruction** from a defect that can be pushed to arbitrarily high filtration order.
+This formally distinguishes a **hard obstruction** from a defect that can be pushed to arbitrarily high filtration order in some correction system.
 
 ## 8. The mathematical distinction introduced by v2.70–v2.73
 
@@ -311,14 +363,17 @@ flat obstruction
 separated flat obstruction
     d ∈ ⋂ₙ Fⁿ and separatedness forces d = e
 
-correctable obstruction
-    finite correction steps raise filtration order
+finite-order correctable obstruction
+    certified correction steps raise filtration order
+
+completed correctable obstruction
+    an explicit improving tower plus level-compatible limit gives flatness
 
 hard obstruction
-    d ≠ e in a separated filtration, hence d is not flat
+    d ≠ e in a filtration separated at e, hence d is not flat
 ```
 
-Thus `flat` is never silently equated with `trivial`.
+Thus `flat` is never silently equated with `trivial`, and one-step correctability is never silently promoted to existence of an infinite correction history.
 
 ## 9. Relation to dependent origination
 
@@ -334,13 +389,14 @@ into:
 What is the obstruction presentation?
 At what filtration order does it survive?
 Which corrections preserve the exact invariant?
-Does each correction raise obstruction order?
-Does the correction history admit a completion?
+Does each certified correction raise obstruction order?
+Does an explicit correction history exist?
+Does that history admit a level-compatible completion?
 Does the completed residual become flat?
 Is the filtration separated, so flatness descends to exact triviality?
 ```
 
-This preserves the KuuOS anti-reification boundary: neither a local approximation, an asymptotic tower, nor a model assertion promotes itself to exact global truth.
+This preserves the KuuOS anti-reification boundary: neither a local approximation, a finite correction theorem, an asymptotic tower, nor a model assertion promotes itself to exact global truth.
 
 ## 10. File decomposition
 
@@ -379,6 +435,7 @@ The following are intentionally outside v2.70–v2.73:
 - filtered groups / pronilpotent groups,
 - multiplicative compatibility `F^m * F^n ⊆ F^(m+n)`,
 - metric or topological completeness,
+- a theorem deriving an infinite correction tower from `HasCorrectionGain` without an explicit additional choice/construction principle,
 - Borel realization,
 - PDE residuals,
 - concentration/compactness theorems,
@@ -392,9 +449,9 @@ These become meaningful only after the generic hard/soft obstruction distinction
 The mathematical unit is successful when Lean proves, without altering v2.69, the chain
 
 ```text
-positive correction gain
-→ arbitrarily high finite residual order
-→ flat residual at an explicitly justified limit
+positive one-step correction gain
+→ arbitrarily high finite residual order along finite certified chains
+→ flat residual from an explicit improving tower plus justified limit transfer
 → exact triviality only under separatedness
 ```
 
@@ -402,8 +459,8 @@ and independently proves for the explicit v2.69 octahedral loop
 
 ```text
 nontrivial generated holonomy
-+ separated filtration at identity
++ filtration separated at identity
 → not flat.
 ```
 
-That is the first theorem-level KuuOS distinction between an asymptotically removable obstruction and a genuinely persistent generated-holonomy obstruction.
+That is the first theorem-level KuuOS distinction between a defect that admits controlled asymptotic removal data and a genuinely persistent generated-holonomy obstruction.
