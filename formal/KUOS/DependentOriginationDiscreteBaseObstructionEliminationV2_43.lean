@@ -1,4 +1,5 @@
 import Mathlib.CategoryTheory.Discrete.Basic
+import Mathlib.Tactic.CategoryTheory.Bicategory.Basic
 import KUOS.DependentOriginationWeakCoherentTwoAxisObstructionV2_42
 import KUOS.DependentOriginationStoredTriangleModificationNaturalityV2_23
 
@@ -77,9 +78,8 @@ theorem storedV2_18TriangleIsModificationNatural_of_discrete
   rcases Y with ⟨y⟩
   rcases f with ⟨⟨h⟩⟩
   cases h
-  apply Cat.Hom₂.ext
-  ext Z
   simp [CategoryTheory.Pseudofunctor.StrongTrans.naturality_id_hom]
+  bicategory
 
 /-- Uniformly, every weak factor into the chosen coherent carrier has a stored
 triangle that is already modification-natural. -/
