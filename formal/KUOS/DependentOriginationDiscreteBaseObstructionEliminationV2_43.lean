@@ -78,6 +78,14 @@ theorem storedV2_18TriangleIsModificationNatural_of_discrete
   rcases Y with ⟨y⟩
   rcases f with ⟨⟨h⟩⟩
   cases h
+  change
+    (restrictHigherLocalizedSystem W H.lift).map (𝟙 _) ◁
+          (storedV2_18ComparisonComponentIso (W := W) alpha _).hom ≫
+        (H.comparison.naturality (𝟙 _)).hom =
+      ((restrictHigherLocalizedStrongTrans (W := W) alpha.hom ≫
+          K.comparison).naturality (𝟙 _)).hom ≫
+        (storedV2_18ComparisonComponentIso (W := W) alpha _).hom ▷
+          R.map (𝟙 _)
   simp only [CategoryTheory.Pseudofunctor.StrongTrans.naturality_id_hom]
   bicategory
 
