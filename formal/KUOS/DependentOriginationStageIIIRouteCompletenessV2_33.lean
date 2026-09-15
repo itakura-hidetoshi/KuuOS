@@ -74,7 +74,7 @@ The implication is deliberately from *some* v2.18 universal property on `R`
 to correction lifting for the fixed coherent datum `U`.  This is exactly the
 missing converse content left open in v2.32. -/
 def HigherCoherentRouteCompleteness
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   HasWeakHigherLocalizationUniversalProperty (W := W) R →
     HigherStoredTriangleTargetCorrectionLifting (W := W) U
@@ -82,7 +82,7 @@ def HigherCoherentRouteCompleteness
 /-- The same route-completeness condition may be stated at the v2.21
 factor-coherence layer. -/
 theorem higherCoherentRouteCompleteness_iff_factorCoherenceRoute
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherCoherentRouteCompleteness (W := W) U ↔
       (HasWeakHigherLocalizationUniversalProperty (W := W) R →
@@ -110,7 +110,7 @@ theorem higherCoherentRouteCompleteness_iff_factorCoherenceRoute
 /-- Equivalently, route completeness says that any explicit correction
 obstruction reflects to failure of the full v2.18 weak universal property. -/
 theorem higherCoherentRouteCompleteness_iff_correctionObstructionReflectsNonuniversality
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherCoherentRouteCompleteness (W := W) U ↔
       (HigherStoredTriangleTargetCorrectionObstruction (W := W) U →
@@ -132,7 +132,7 @@ theorem higherCoherentRouteCompleteness_iff_correctionObstructionReflectsNonuniv
 /-- Under route completeness, the v2.26 correction obstruction is not merely a
 consequence of Stage III failure: it is exactly Stage III failure. -/
 theorem higherStoredTriangleCorrectionObstruction_iff_essentialUniquenessObstruction_of_routeCompleteness
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hRoute : HigherCoherentRouteCompleteness (W := W) U) :
     HigherStoredTriangleTargetCorrectionObstruction (W := W) U ↔
@@ -153,7 +153,7 @@ theorem higherStoredTriangleCorrectionObstruction_iff_essentialUniquenessObstruc
 /-- The v2.22 modification-triangle obstruction therefore has the same exact
 Stage III normal form under route completeness. -/
 theorem higherFactorModificationTriangleObstruction_iff_essentialUniquenessObstruction_of_routeCompleteness
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hRoute : HigherCoherentRouteCompleteness (W := W) U) :
     HigherFactorModificationTriangleObstruction (W := W) U ↔
@@ -170,7 +170,7 @@ theorem higherFactorModificationTriangleObstruction_iff_essentialUniquenessObstr
 /-- Likewise the v2.21 factor-coherence obstruction is exactly Stage III under
 route completeness. -/
 theorem higherFactorCoherenceObstruction_iff_essentialUniquenessObstruction_of_routeCompleteness
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hRoute : HigherCoherentRouteCompleteness (W := W) U) :
     HigherFactorCoherenceObstruction (W := W) U ↔
@@ -191,7 +191,7 @@ Stage III.
 Thus v2.33 does not merely provide one sufficient extra assumption; it
 characterizes the missing assumption propositionally. -/
 theorem higherCoherentRouteCompleteness_iff_exactStageIIICorrectionCollapse
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherCoherentRouteCompleteness (W := W) U ↔
       (HigherStoredTriangleTargetCorrectionObstruction (W := W) U ↔
@@ -215,7 +215,7 @@ theorem higherCoherentRouteCompleteness_iff_exactStageIIICorrectionCollapse
 /-- The same minimality statement may be read at the v2.21 factor-coherence
 obstruction layer. -/
 theorem higherCoherentRouteCompleteness_iff_exactStageIIIFactorCoherenceCollapse
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherCoherentRouteCompleteness (W := W) U ↔
       (HigherFactorCoherenceObstruction (W := W) U ↔
@@ -242,16 +242,16 @@ theorem higherCoherentRouteCompleteness_iff_exactStageIIIFactorCoherenceCollapse
 /-- Global route completeness over every coherent v2.19 universal datum.  This
 is an explicit principle, not an axiom. -/
 def HigherCoherentRouteCompletenessPrinciple : Prop :=
-  ∀ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
+  ∀ (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
     HigherCoherentRouteCompleteness (W := W) U
 
 /-- Global minimality: route completeness is exactly the assertion that every
 coherent datum identifies correction obstruction with Stage III obstruction. -/
 theorem higherCoherentRouteCompletenessPrinciple_iff_exactStageIIICorrectionCollapse :
-    HigherCoherentRouteCompletenessPrinciple
-        (W := W) (uH := uH) (vH := vH) ↔
-      ∀ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
+    HigherCoherentRouteCompletenessPrinciple.{u, v, uH, vH}
+        (W := W) ↔
+      ∀ (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
         (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
         HigherStoredTriangleTargetCorrectionObstruction (W := W) U ↔
           HigherWeakEssentialUniquenessObstruction (W := W) R := by
@@ -269,14 +269,14 @@ theorem higherCoherentRouteCompletenessPrinciple_iff_exactStageIIICorrectionColl
 the full v2.18 weak universal principle is exactly the global stored-correction
 principle. -/
 theorem higherWeakLocalizationUniversalPrinciple_iff_storedTriangleCorrectionPrinciple_of_coherent_and_routeCompleteness
-    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH))
-    (hRoute : HigherCoherentRouteCompletenessPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakLocalizationUniversalPrinciple
-        (W := W) (uH := uH) (vH := vH) ↔
-      HigherStoredTriangleTargetCorrectionPrinciple
-        (W := W) (uH := uH) (vH := vH) := by
+    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W))
+    (hRoute : HigherCoherentRouteCompletenessPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    HigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+        (W := W) ↔
+      HigherStoredTriangleTargetCorrectionPrinciple.{u, v, uH, vH}
+        (W := W) := by
   constructor
   · intro hUniversal R U
     have hR : IsHigherWAdmissible W R :=
@@ -298,23 +298,23 @@ theorem higherWeakLocalizationUniversalPrinciple_iff_storedTriangleCorrectionPri
 Stage III completion itself is exactly the global correction-solvability
 principle. -/
 theorem higherWeakEssentialUniquenessCompletion_iff_storedTriangleCorrectionPrinciple_of_coherent_and_routeCompleteness
-    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH))
-    (hRoute : HigherCoherentRouteCompletenessPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakEssentialUniquenessCompletion
-        (W := W) (uH := uH) (vH := vH) ↔
-      HigherStoredTriangleTargetCorrectionPrinciple
-        (W := W) (uH := uH) (vH := vH) := by
+    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W))
+    (hRoute : HigherCoherentRouteCompletenessPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    HigherWeakEssentialUniquenessCompletion.{u, v, uH, vH}
+        (W := W) ↔
+      HigherStoredTriangleTargetCorrectionPrinciple.{u, v, uH, vH}
+        (W := W) := by
   calc
-    HigherWeakEssentialUniquenessCompletion
-        (W := W) (uH := uH) (vH := vH) ↔
-      HigherWeakLocalizationUniversalPrinciple
-        (W := W) (uH := uH) (vH := vH) :=
+    HigherWeakEssentialUniquenessCompletion.{u, v, uH, vH}
+        (W := W) ↔
+      HigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+        (W := W) :=
       (higherWeakLocalizationUniversalPrinciple_iff_essentialUniquenessCompletion_of_coherent
         (W := W) hCoherent).symm
-    _ ↔ HigherStoredTriangleTargetCorrectionPrinciple
-        (W := W) (uH := uH) (vH := vH) :=
+    _ ↔ HigherStoredTriangleTargetCorrectionPrinciple.{u, v, uH, vH}
+        (W := W) :=
       higherWeakLocalizationUniversalPrinciple_iff_storedTriangleCorrectionPrinciple_of_coherent_and_routeCompleteness
         (W := W) hCoherent hRoute
 

@@ -7,6 +7,7 @@ namespace KUOS.DependentOriginationIsoClassHigherLocalizationExistenceV2_55
 open CategoryTheory
 open Opposite
 open KUOS.DependentOriginationPresentationUniversalityV2_0
+open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
 open KUOS.DependentOriginationHigherStackDescentV2_8
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationHigherLocalizationNecessityV2_16
@@ -104,31 +105,26 @@ noncomputable def isoClassLocalizedBaseFunctor
 /-- Transport an arbitrary raw Cat-valued pseudofunctor along the equivalence of
 base categories.  No ordinary Cat-valued replacement of `R` is introduced. -/
 noncomputable def isoClassLocalizedHigherSystem
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (hW : W ≤ MorphismProperty.isomorphisms Context) :
-    HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH) :=
+    HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W) :=
   Pseudofunctor.comp
     (isoClassLocalizedBaseFunctor W hW).toPseudofunctor R
 
-/-- The strong comparison from the restriction of the transported localized
-system back to the original arbitrary pseudofunctor.
-
-The component at `X` is `R` applied to the `X`-component of the canonical base
-triangle.  Naturality is obtained by pasting the two pseudofunctor compositors
-around the image under `R` of the ordinary naturality equality. -/
-noncomputable def isoClassHigherLocalizationComparison
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
-    (hW : W ≤ MorphismProperty.isomorphisms Context) :
-    restrictHigherLocalizedSystem W
-        (isoClassLocalizedHigherSystem W R hW) ⟶ R := by
+/-- The naturality 2-isomorphism of the v2.55 comparison, isolated so that the
+StrongTrans 2-cell, unit, and composition laws elaborate against one fixed
+normal form rather than an unresolved structure-field metavariable. -/
+noncomputable def isoClassHigherLocalizationNaturalityIso
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
+    (hW : W ≤ MorphismProperty.isomorphisms Context)
+    {X Y : LocallyDiscrete Context} (f : X ⟶ Y) :
+    (restrictHigherLocalizedSystem W
+        (isoClassLocalizedHigherSystem W R hW)).map f ≫
+          R.map (((isoClassPresentationTriangleIso W hW).hom.app Y.as).toLoc) ≅
+      R.map (((isoClassPresentationTriangleIso W hW).hom.app X.as).toLoc) ≫
+        R.map (f.as.toLoc) := by
   let E := isoClassLocalizationEquivalence W hW
   let η := isoClassPresentationTriangleIso W hW
-  refine
-    { app := fun X => R.map ((η.hom.app X.as).toLoc)
-      naturality := ?_ }
-  intro X Y f
   change
     R.map (((W.Q ⋙ E.functor).map f.as).toLoc) ≫
           R.map ((η.hom.app Y.as).toLoc) ≅
@@ -142,11 +138,33 @@ noncomputable def isoClassHigherLocalizationComparison
   simpa only [Quiver.Hom.comp_toLoc] using
     congrArg (fun k => k.toLoc) (η.hom.naturality f.as)
 
+/-- The strong comparison from the restriction of the transported localized
+system back to the original arbitrary pseudofunctor.
+
+The component at `X` is `R` applied to the `X`-component of the canonical base
+triangle.  Naturality is obtained by pasting the two pseudofunctor compositors
+around the image under `R` of the ordinary naturality equality. -/
+noncomputable def isoClassHigherLocalizationComparison
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
+    (hW : W ≤ MorphismProperty.isomorphisms Context) :
+    restrictHigherLocalizedSystem W
+        (isoClassLocalizedHigherSystem W R hW) ⟶ R := by
+  let η := isoClassPresentationTriangleIso W hW
+  refine
+    { app := fun X => R.map ((η.hom.app X.as).toLoc)
+      naturality := fun f => isoClassHigherLocalizationNaturalityIso W R hW f
+      naturality_naturality := ?_ }
+  intro X Y f g θ
+  have hfg : f = g := LocallyDiscrete.eq_of_hom θ
+  subst g
+  have hθ : θ = 𝟙 f := Subsingleton.elim _ _
+  subst θ
+  simp [isoClassHigherLocalizationNaturalityIso]
+
 /-- Every component of the v2.55 comparison is an equivalence of categories,
 because it is the image under `R` of an actual isomorphism in `Context`. -/
 theorem isoClassHigherLocalizationComparison_app_isEquivalence
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (hW : W ≤ MorphismProperty.isomorphisms Context)
     (X : Context) :
     ((isoClassHigherLocalizationComparison W R hW).app (.mk X)).toFunctor.IsEquivalence := by
@@ -159,8 +177,7 @@ theorem isoClassHigherLocalizationComparison_app_isEquivalence
 /-- Actual v2.10 higher-localization factorization data for an arbitrary raw
 higher system when `W` contains only morphisms that were already isomorphisms. -/
 noncomputable def isoClassHigherLocalizationFactorization
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (hW : W ≤ MorphismProperty.isomorphisms Context) :
     HigherLocalizationFactorization (W := W) R where
   lift := isoClassLocalizedHigherSystem W R hW
@@ -174,8 +191,7 @@ If all declared presentation maps are already isomorphisms in `Context`, every
 raw Cat-valued pseudofunctor admits an actual higher-localization factorization
 in the exact v2.10 interface. -/
 theorem hasHigherLocalizationFactorization_of_le_isomorphisms
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (hW : W ≤ MorphismProperty.isomorphisms Context) :
     HasHigherLocalizationFactorization (W := W) R :=
   ⟨isoClassHigherLocalizationFactorization W R hW⟩
@@ -184,8 +200,7 @@ theorem hasHigherLocalizationFactorization_of_le_isomorphisms
 weakly `W`-admissible.  This is also forced by v2.16 from the factorization just
 constructed, but the direct proof records the elementary reason. -/
 theorem isHigherWAdmissible_of_le_isomorphisms
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (hW : W ≤ MorphismProperty.isomorphisms Context) :
     IsHigherWAdmissible W R := by
   intro X Y f hf
@@ -197,8 +212,7 @@ existence predicate and weak admissibility are both inhabited for every raw
 higher system.  This is deliberately not stated as a general equivalence beyond
 that sector. -/
 theorem isoClassSector_admissible_and_hasFactorization
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (hW : W ≤ MorphismProperty.isomorphisms Context) :
     IsHigherWAdmissible W R ∧
       HasHigherLocalizationFactorization (W := W) R :=

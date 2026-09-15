@@ -5,6 +5,7 @@ namespace KUOS.DependentOriginationDetectingFamilyObstructionEliminationV2_54
 
 open CategoryTheory
 open CategoryTheory.Limits
+open scoped CategoryTheory.Pseudofunctor.StrongTrans
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationWeakHigherLocalizationUniversalPropertyV2_18
 open KUOS.DependentOriginationCoherentWeakHigherLocalizationV2_19
@@ -81,7 +82,7 @@ def CatHom₂DetectingTargetFamily
     {C D : Cat.{vH, uH}} (G : C ⟶ D) : Prop :=
   ∃ P : ObjectProperty D,
     P.IsDetecting ∧
-      ∀ (Z : C) (Q : D), P Q → Subsingleton (Q ⟶ G.obj Z)
+      ∀ (Z : C) (Q : D), P Q → Subsingleton (Q ⟶ G.toFunctor.obj Z)
 
 /-- Dually, a globally codetecting source family whose maps out of every
 source component of `F` are subsingletons. -/
@@ -89,7 +90,7 @@ def CatHom₂CodetectingSourceFamily
     {C D : Cat.{vH, uH}} (F : C ⟶ D) : Prop :=
   ∃ P : ObjectProperty D,
     P.IsCodetecting ∧
-      ∀ (Z : C) (Q : D), P Q → Subsingleton (F.obj Z ⟶ Q)
+      ∀ (Z : C) (Q : D), P Q → Subsingleton (F.toFunctor.obj Z ⟶ Q)
 
 /-- In a category with equalizers, a detecting target family gives exactly the
 v2.50 separating-target-family hypothesis. -/
@@ -155,8 +156,7 @@ theorem codetectingSourceFamily_of_codetectorSourceObject
 /-- For every raw base arrow, the target Cat 1-morphism in the exact stored
 naturality square admits a detecting family with subsingleton probe homs. -/
 def StoredV2_18NaturalityDetectingTargetFamily
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=
   ∀ {X Y : Context} (f : X ⟶ Y),
@@ -166,8 +166,7 @@ def StoredV2_18NaturalityDetectingTargetFamily
 /-- Dually, every exact stored source Cat 1-morphism admits a codetecting
 family with subsingleton outgoing probe homs. -/
 def StoredV2_18NaturalityCodetectingSourceFamily
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=
   ∀ {X Y : Context} (f : X ⟶ Y),
@@ -179,8 +178,7 @@ def StoredV2_18NaturalityCodetectingSourceFamily
 /-- Fiberwise equalizers plus stored target detecting families give the exact
 v2.50 stored separating-family rigidity condition. -/
 theorem storedV2_18NaturalitySeparatingFamilyRigidity_of_detectingTargetFamily
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (hEq : HigherRawFiberHasEqualizers R)
@@ -195,8 +193,7 @@ theorem storedV2_18NaturalitySeparatingFamilyRigidity_of_detectingTargetFamily
 /-- Fiberwise coequalizers plus stored source codetecting families give the
 dual v2.50 criterion. -/
 theorem storedV2_18NaturalitySeparatingFamilyRigidity_of_codetectingSourceFamily
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (hCoeq : HigherRawFiberHasCoequalizers R)
@@ -211,8 +208,7 @@ theorem storedV2_18NaturalitySeparatingFamilyRigidity_of_codetectingSourceFamily
 /-- The v2.53 stored singleton target-detector condition embeds into the
 family-level condition. -/
 theorem storedV2_18NaturalityDetectingTargetFamily_of_detectorTargetObject
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (hObj : StoredV2_18NaturalityDetectorTargetObject (W := W) alpha) :
@@ -222,8 +218,7 @@ theorem storedV2_18NaturalityDetectingTargetFamily_of_detectorTargetObject
 
 /-- The v2.53 stored singleton source-codetector condition embeds dually. -/
 theorem storedV2_18NaturalityCodetectingSourceFamily_of_codetectorSourceObject
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (hObj : StoredV2_18NaturalityCodetectorSourceObject (W := W) alpha) :
@@ -234,8 +229,7 @@ theorem storedV2_18NaturalityCodetectingSourceFamily_of_codetectorSourceObject
 /-- Uniform target detecting-family rigidity for every factor into one
 coherent chosen carrier. -/
 def HigherStoredV2_18NaturalityDetectingTargetFamily
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -243,8 +237,7 @@ def HigherStoredV2_18NaturalityDetectingTargetFamily
 
 /-- Uniform source codetecting-family rigidity on the same chosen carrier. -/
 def HigherStoredV2_18NaturalityCodetectingSourceFamily
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -253,8 +246,7 @@ def HigherStoredV2_18NaturalityCodetectingSourceFamily
 /-- The two family-level detector/limit routes.  The Mathlib limit hypotheses
 are kept exactly as in v2.53. -/
 def HigherStoredV2_18NaturalityDetectingFamilyLimitRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   (HigherRawFiberHasEqualizers R ∧
       HigherStoredV2_18NaturalityDetectingTargetFamily (W := W) U) ∨
@@ -264,8 +256,7 @@ def HigherStoredV2_18NaturalityDetectingFamilyLimitRigidity
 /-- Either detecting-family/limit route gives the uniform v2.50
 separating-family criterion on the exact same chosen carrier. -/
 theorem higherStoredV2_18NaturalitySeparatingFamilyRigidity_of_detectingFamilyLimitRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hDetect : HigherStoredV2_18NaturalityDetectingFamilyLimitRigidity
       (W := W) U) :
@@ -281,8 +272,7 @@ theorem higherStoredV2_18NaturalitySeparatingFamilyRigidity_of_detectingFamilyLi
 /-- The v2.53 uniform singleton-detector condition is a special case of the
 v2.54 detecting-family condition, with the same equalizer/coequalizer branch. -/
 theorem higherStoredV2_18NaturalityDetectingFamilyLimitRigidity_of_singleDetectorLimitRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hSingle : HigherStoredV2_18NaturalitySingleDetectorLimitRigidity
       (W := W) U) :
@@ -298,8 +288,7 @@ theorem higherStoredV2_18NaturalityDetectingFamilyLimitRigidity_of_singleDetecto
 /-- Detecting-family rigidity therefore supplies the uniform v2.47 pointwise
 component-hom criterion. -/
 theorem higherStoredV2_18NaturalityComponentHomSubsingleton_of_detectingFamilyLimitRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hDetect : HigherStoredV2_18NaturalityDetectingFamilyLimitRigidity
       (W := W) U) :
@@ -312,8 +301,7 @@ theorem higherStoredV2_18NaturalityComponentHomSubsingleton_of_detectingFamilyLi
 /-- Coherent universal data plus detecting-family rigidity give the v2.18 weak
 universal property on the same chosen carrier. -/
 theorem hasWeakHigherLocalizationUniversalProperty_of_detectingFamilyLimitRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hDetect : HigherStoredV2_18NaturalityDetectingFamilyLimitRigidity
       (W := W) U) :
@@ -326,8 +314,7 @@ theorem hasWeakHigherLocalizationUniversalProperty_of_detectingFamilyLimitRigidi
 /-- The coherent Stage III route obstruction disappears under the same
 family-level detector/limit condition. -/
 theorem higherCoherentRouteCompleteness_of_detectingFamilyLimitRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hDetect : HigherStoredV2_18NaturalityDetectingFamilyLimitRigidity
       (W := W) U) :
@@ -340,8 +327,7 @@ theorem higherCoherentRouteCompleteness_of_detectingFamilyLimitRigidity
 /-- Detecting-family rigidity gives the aligned state in the v2.42 local
 classification. -/
 theorem higherWeakCoherentAlignment_of_detectingFamilyLimitRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hDetect : HigherStoredV2_18NaturalityDetectingFamilyLimitRigidity
       (W := W) U) :
@@ -354,8 +340,7 @@ theorem higherWeakCoherentAlignment_of_detectingFamilyLimitRigidity
 /-- Exact local E/R obstruction elimination under the family-level
 detector/limit rigidity condition. -/
 theorem no_twoAxisObstruction_of_detectingFamilyLimitRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hDetect : HigherStoredV2_18NaturalityDetectingFamilyLimitRigidity
       (W := W) U) :

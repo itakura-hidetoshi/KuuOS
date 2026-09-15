@@ -9,12 +9,24 @@ import json
 import pathlib
 import subprocess
 import sys
+import tomllib
 from collections.abc import Iterable, Mapping
 from typing import Any
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 DEFAULT_REGISTRY = ROOT / "ci" / "check_registry.yaml"
 REGISTRY_FRAGMENT_DIRNAME = "check_registry.d"
+FORMAL_ROOT = ROOT / "formal"
+LAKEFILE = ROOT / "lakefile.toml"
+FULL_LEAN_TARGET = "KuuOSFormal"
+DEFAULT_MAX_LEAN_TARGETS = 256
+LEAN_FULL_BUILD_PATHS = {
+    "lean-toolchain",
+    "lakefile.toml",
+    "lake-manifest.json",
+    "formal/KuuOSFormal.lean",
+    "formal/KUOS.lean",
+}
 
 
 def _load_json(path: pathlib.Path) -> dict[str, Any]:
@@ -42,7 +54,7 @@ def load_registry(path: pathlib.Path) -> dict[str, Any]:
     if data.get("schema_version") not in {"0.1", "0.2"}:
         raise ValueError("unsupported or missing registry schema_version")
     if not isinstance(data.get("checks"), dict) or not data["checks"]:
-        raise ValueError("registry checks must be a non-empty object")
+        raise ValueError("check registry must contain a non-empty checks object")
 
     data.setdefault("known_paths", [])
     data.setdefault("full_audit_paths", [])
@@ -101,6 +113,157 @@ def git_changed_paths(base: str, head: str) -> tuple[list[str], str | None]:
 
 def matches(path: str, patterns: Iterable[str]) -> bool:
     return any(fnmatch.fnmatchcase(path, pattern) for pattern in patterns)
+
+
+def lean_module_name(path: str) -> str | None:
+    """Translate `formal/Foo/Bar.lean` to the Lake module name `Foo.Bar`."""
+    pure = pathlib.PurePosixPath(path)
+    if len(pure.parts) < 2 or pure.parts[0] != "formal" or pure.suffix != ".lean":
+        return None
+    relative = pathlib.PurePosixPath(*pure.parts[1:]).with_suffix("")
+    return ".".join(relative.parts)
+
+
+def _lean_imports(text: str) -> set[str]:
+    imports: set[str] = set()
+    for raw_line in text.splitlines():
+        line = raw_line.split("--", 1)[0].strip()
+        for prefix in ("import ", "public import ", "private import "):
+            if line.startswith(prefix):
+                imports.update(token for token in line[len(prefix):].split() if token)
+                break
+    return imports
+
+
+def _load_lean_library_roots(lakefile_path: pathlib.Path = LAKEFILE) -> set[str]:
+    try:
+        data = tomllib.loads(lakefile_path.read_text(encoding="utf-8"))
+    except (OSError, tomllib.TOMLDecodeError) as exc:
+        raise ValueError(f"cannot load Lean library roots from {lakefile_path}: {exc}") from exc
+
+    libraries = data.get("lean_lib")
+    if isinstance(libraries, dict):
+        libraries = [libraries]
+    if not isinstance(libraries, list) or not libraries:
+        raise ValueError(f"no [[lean_lib]] entries in {lakefile_path}")
+
+    roots: set[str] = set()
+    for library in libraries:
+        if not isinstance(library, dict):
+            raise ValueError(f"invalid [[lean_lib]] entry in {lakefile_path}")
+        values = library.get("roots", [])
+        if not isinstance(values, list) or not all(isinstance(value, str) for value in values):
+            raise ValueError(f"lean_lib roots must be a string list in {lakefile_path}")
+        roots.update(values)
+    if not roots:
+        raise ValueError(f"no Lean library roots declared in {lakefile_path}")
+    return roots
+
+
+def _is_buildable_lean_module(module: str, library_roots: set[str]) -> bool:
+    return any(module == root or module.startswith(f"{root}.") for root in library_roots)
+
+
+def _is_full_library_aggregate(module: str, imports: set[str]) -> bool:
+    """Recognize versioned top-level aggregate modules that import the full library.
+
+    These roots are useful as release/landing import surfaces, but selecting one
+    for a focused PR build recursively rebuilds the unrelated full library.  If
+    the aggregate is the only buildable impact target we still fail closed to
+    `KuuOSFormal`; otherwise the changed proof modules are validated directly.
+    """
+    return (
+        "." not in module
+        and module.startswith("KuuOSFormalV")
+        and FULL_LEAN_TARGET in imports
+    )
+
+
+def select_lean_targets(
+    changed_paths: list[str],
+    *,
+    formal_root: pathlib.Path = FORMAL_ROOT,
+    max_targets: int = DEFAULT_MAX_LEAN_TARGETS,
+    library_roots: set[str] | None = None,
+    lakefile_path: pathlib.Path = LAKEFILE,
+) -> tuple[list[str], str | None]:
+    """Select strict Lean targets by reverse-import impact closure.
+
+    The reverse-import closure may include top-level Lean modules that are not
+    exposed as Lake build targets. We therefore use the full closure for impact
+    analysis but project the final target list onto the declared `lean_lib`
+    roots. Versioned aggregate roots that directly import `KuuOSFormal` are
+    omitted from a focused build when concrete impacted proof targets remain;
+    selecting them would turn a local proof check back into an unrelated full
+    library rebuild. Changes to the toolchain/library surface, invalid root
+    metadata, missing changed modules, unreadable source files, an empty formal
+    change set, or an impact closure larger than `max_targets` all fail closed
+    to the complete `KuuOSFormal` library target.
+    """
+    if any(path in LEAN_FULL_BUILD_PATHS for path in changed_paths):
+        return [FULL_LEAN_TARGET], "Lean toolchain/library root changed"
+
+    if library_roots is None:
+        try:
+            library_roots = _load_lean_library_roots(lakefile_path)
+        except ValueError as exc:
+            return [FULL_LEAN_TARGET], str(exc)
+
+    changed_modules = {
+        module
+        for path in changed_paths
+        if (module := lean_module_name(path)) is not None
+    }
+    if not changed_modules:
+        return [FULL_LEAN_TARGET], "Lean validation selected without formal Lean file changes"
+
+    try:
+        module_files = {
+            ".".join(path.relative_to(formal_root).with_suffix("").parts): path
+            for path in formal_root.rglob("*.lean")
+            if path.is_file()
+        }
+    except OSError as exc:
+        return [FULL_LEAN_TARGET], f"cannot enumerate formal Lean modules: {exc}"
+
+    missing = sorted(changed_modules - set(module_files))
+    if missing:
+        return [FULL_LEAN_TARGET], f"changed Lean module missing from checkout: {missing[0]}"
+
+    reverse_imports: dict[str, set[str]] = {module: set() for module in module_files}
+    module_imports: dict[str, set[str]] = {}
+    try:
+        for module, path in module_files.items():
+            imports = _lean_imports(path.read_text(encoding="utf-8"))
+            module_imports[module] = imports
+            for dependency in imports:
+                if dependency in reverse_imports:
+                    reverse_imports[dependency].add(module)
+    except (OSError, UnicodeDecodeError) as exc:
+        return [FULL_LEAN_TARGET], f"cannot read formal Lean import graph: {exc}"
+
+    closure = set(changed_modules)
+    pending = list(changed_modules)
+    while pending:
+        dependency = pending.pop()
+        for importer in reverse_imports.get(dependency, ()):
+            if importer not in closure:
+                closure.add(importer)
+                pending.append(importer)
+                if len(closure) > max_targets:
+                    return [FULL_LEAN_TARGET], (
+                        f"reverse-import closure exceeds {max_targets} modules"
+                    )
+
+    targets = sorted(
+        module
+        for module in closure
+        if _is_buildable_lean_module(module, library_roots)
+        and not _is_full_library_aggregate(module, module_imports.get(module, set()))
+    )
+    if not targets:
+        return [FULL_LEAN_TARGET], "impact closure contains no focused buildable Lake module target"
+    return targets, None
 
 
 def dependency_closure(
@@ -231,13 +394,22 @@ def select(
     if unsupported:
         raise ValueError(f"unsupported expanded runner {unsupported[0]!r}")
 
+    lean_required = any(item["runner"] == "lean" for item in expanded)
+    lean_targets: list[str] = []
+    lean_fallback_reason: str | None = None
+    if lean_required:
+        lean_targets, lean_fallback_reason = select_lean_targets(changed_paths)
+
     return {
         "schema_version": "0.2",
         "changed_paths": changed_paths,
         "direct_checks": sorted(direct),
         "selected_checks": expanded,
         "python_matrix": python_matrix,
-        "lean_required": any(item["runner"] == "lean" for item in expanded),
+        "lean_required": lean_required,
+        "lean_targets": lean_targets,
+        "lean_full_build": lean_targets == [FULL_LEAN_TARGET],
+        "lean_fallback_reason": lean_fallback_reason,
         "full_audit_required": full_audit,
         "unknown_paths": unknown_paths,
         "unmapped_paths": unmapped_paths,

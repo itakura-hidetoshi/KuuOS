@@ -9,6 +9,7 @@ open KUOS.DependentOriginationWeakHigherLocalizationUniversalPropertyV2_18
 open KUOS.DependentOriginationCoherentWeakHigherLocalizationV2_19
 open KUOS.DependentOriginationCoherentFactorForgetfulBridgeV2_20
 open KUOS.DependentOriginationWeakHigherLocalizationGapDecompositionV2_31
+open KUOS.DependentOriginationStageIIIRouteCompletenessV2_33
 open KUOS.DependentOriginationRouteCompletenessInternalGapV2_34
 open KUOS.DependentOriginationFixedChosenEssentialUniquenessReflectionV2_36
 open KUOS.DependentOriginationFixedChosenSplitCarrierTransferV2_37
@@ -77,7 +78,7 @@ variable (W : MorphismProperty Context)
 carrier and another Stage II candidate.  No split, adjunction, or equivalence
 data are stored. -/
 structure HigherFixedChosenMutualFactorComparison
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (C : WeakHigherLocalizationUniversalCandidate (W := W) R) where
   forward : HigherLocalizationFactorMorphism (W := W) U.chosen C.chosen
@@ -91,7 +92,7 @@ The backward factor comes from the coherent universal property of `U`, followed
 by the v2.20 forgetful bridge.  This theorem intentionally produces only mutual
 factor maps, not an adjunction or an equivalence. -/
 theorem hasMutualFactorComparison
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (C : WeakHigherLocalizationUniversalCandidate (W := W) R) :
     Nonempty (HigherFixedChosenMutualFactorComparison (W := W) U C) := by
@@ -103,7 +104,7 @@ theorem hasMutualFactorComparison
 /-- A v2.37 split comparison has, in particular, the underlying mutual factor
 comparison. -/
 def mutualFactorComparisonOfSplit
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R}
     {C : WeakHigherLocalizationUniversalCandidate (W := W) R}
     (S : HigherFixedChosenSplitCarrierComparison (W := W) U C) :
@@ -122,7 +123,7 @@ This is the key asymmetry of v2.39.  It uses only `C.HasEssentialUniqueness`,
 applied to the composite factor morphism `C -> U -> C` and the identity factor
 morphism on `C`. -/
 theorem completedCarrierCounitIso
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (C : WeakHigherLocalizationUniversalCandidate (W := W) R)
     (hUnique : C.HasEssentialUniqueness (W := W))
@@ -140,7 +141,7 @@ comparison whose completed-carrier composite is isomorphic to the identity.
 The theorem still says nothing about the opposite composite on `U.chosen`; that
 is precisely the fixed-side obstruction. -/
 theorem hasCompletedCarrierCounitSplitComparison
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (C : WeakHigherLocalizationUniversalCandidate (W := W) R)
     (hUnique : C.HasEssentialUniqueness (W := W)) :
@@ -155,7 +156,7 @@ full two-sided factor equivalence data of v2.38.
 The fixed-side unit is the inverse of the v2.37 retract.  The completed-carrier
 counit is supplied automatically by `completedCarrierCounitIso`. -/
 theorem hasTwoSidedCarrierEquivalenceData_of_splitCompletedCarrier
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (C : WeakHigherLocalizationUniversalCandidate (W := W) R)
     (hUnique : C.HasEssentialUniqueness (W := W))
@@ -179,7 +180,7 @@ The factor triangles are not forgotten in the construction: they are used first
 to build the v2.38 two-sided factor data, from which the adjoint equivalence is
 then constructed. -/
 theorem hasAdjointEquivalence_of_splitCompletedCarrier
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (C : WeakHigherLocalizationUniversalCandidate (W := W) R)
     (hUnique : C.HasEssentialUniqueness (W := W))
@@ -200,7 +201,7 @@ two-sided factor equivalence data.
 The reverse implication is the unconditional v2.38 forgetful construction; the
 forward implication is the new Stage III upgrade proved above. -/
 theorem nonempty_splitCarrierComparison_iff_nonempty_twoSidedEquivalenceData_of_completed
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (C : WeakHigherLocalizationUniversalCandidate (W := W) R)
     (hUnique : C.HasEssentialUniqueness (W := W)) :
@@ -218,7 +219,7 @@ not stronger than the v2.37 split condition: because both predicates quantify
 only over candidates already carrying Stage III uniqueness, they are exactly
 equivalent. -/
 theorem splitCarrierComparisonCompletion_iff_twoSidedCarrierEquivalenceCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFixedChosenSplitCarrierComparisonCompletion (W := W) U ↔
       HigherFixedChosenTwoSidedCarrierEquivalenceCompletion (W := W) U := by
@@ -233,7 +234,7 @@ theorem splitCarrierComparisonCompletion_iff_twoSidedCarrierEquivalenceCompletio
 /-- There exists a Stage III-completed weak carrier carrying two-sided factor
 equivalence data with the fixed coherent carrier. -/
 def HasHigherFixedChosenTwoSidedEquivalentCompletedCarrier
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∃ C : WeakHigherLocalizationUniversalCandidate (W := W) R,
     C.HasEssentialUniqueness (W := W) ∧
@@ -242,7 +243,7 @@ def HasHigherFixedChosenTwoSidedEquivalentCompletedCarrier
 /-- Existence of a two-sided-equivalent completed carrier is exactly existence of
 a split completed carrier. -/
 theorem hasTwoSidedEquivalentCompletedCarrier_iff_hasSplitCompletedCarrier
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HasHigherFixedChosenTwoSidedEquivalentCompletedCarrier (W := W) U ↔
       HasHigherFixedChosenSplitCompletedCarrier (W := W) U := by
@@ -257,7 +258,7 @@ theorem hasTwoSidedEquivalentCompletedCarrier_iff_hasSplitCompletedCarrier
 /-- Hence existence of a two-sided-equivalent completed carrier is exactly
 fixed-carrier Stage III essential uniqueness. -/
 theorem hasTwoSidedEquivalentCompletedCarrier_iff_fixedChosenEssentialUniqueness
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HasHigherFixedChosenTwoSidedEquivalentCompletedCarrier (W := W) U ↔
       HigherFixedChosenEssentialUniqueness (W := W) U :=
@@ -269,7 +270,7 @@ theorem hasTwoSidedEquivalentCompletedCarrier_iff_fixedChosenEssentialUniqueness
 completed candidate, one can select a completed candidate that is two-sided
 factor-equivalent to the fixed coherent carrier. -/
 def HigherFixedChosenTwoSidedCarrierEquivalenceSelection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   HasWeakHigherLocalizationUniversalCandidateWithUniqueness (W := W) R →
     HasHigherFixedChosenTwoSidedEquivalentCompletedCarrier (W := W) U
@@ -277,7 +278,7 @@ def HigherFixedChosenTwoSidedCarrierEquivalenceSelection
 /-- Split-carrier selection and two-sided-equivalence selection are exactly the
 same completion problem. -/
 theorem splitCarrierSelection_iff_twoSidedCarrierEquivalenceSelection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFixedChosenSplitCarrierSelection (W := W) U ↔
       HigherFixedChosenTwoSidedCarrierEquivalenceSelection (W := W) U := by
@@ -295,7 +296,7 @@ theorem splitCarrierSelection_iff_twoSidedCarrierEquivalenceSelection
 of a Stage III-completed carrier carrying genuine two-sided factor equivalence
 data with the fixed carrier. -/
 theorem routeCompleteness_iff_twoSidedCarrierEquivalenceSelection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherCoherentRouteCompleteness (W := W) U ↔
       HigherFixedChosenTwoSidedCarrierEquivalenceSelection (W := W) U :=
@@ -304,7 +305,7 @@ theorem routeCompleteness_iff_twoSidedCarrierEquivalenceSelection
 
 /-- Non-vacuous failure normal form for the two-sided selection route. -/
 def HigherFixedChosenTwoSidedCarrierEquivalenceSelectionFailure
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   HasWeakHigherLocalizationUniversalCandidateWithUniqueness (W := W) R ∧
     ¬ HasHigherFixedChosenTwoSidedEquivalentCompletedCarrier (W := W) U
@@ -312,7 +313,7 @@ def HigherFixedChosenTwoSidedCarrierEquivalenceSelectionFailure
 /-- Route incompleteness is exactly the non-vacuous failure to select a completed
 carrier with two-sided factor equivalence data. -/
 theorem not_routeCompleteness_iff_twoSidedCarrierEquivalenceSelectionFailure
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     (¬ HigherCoherentRouteCompleteness (W := W) U) ↔
       HigherFixedChosenTwoSidedCarrierEquivalenceSelectionFailure (W := W) U := by

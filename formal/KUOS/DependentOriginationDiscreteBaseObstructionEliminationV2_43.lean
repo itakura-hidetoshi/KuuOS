@@ -1,4 +1,5 @@
 import Mathlib.CategoryTheory.Discrete.Basic
+import Mathlib.Tactic.CategoryTheory.Bicategory.Basic
 import KUOS.DependentOriginationWeakCoherentTwoAxisObstructionV2_42
 import KUOS.DependentOriginationStoredTriangleModificationNaturalityV2_23
 
@@ -14,6 +15,9 @@ open KUOS.DependentOriginationStoredTriangleModificationNaturalityV2_23
 open KUOS.DependentOriginationStoredTriangleCorrectionV2_26
 open KUOS.DependentOriginationStageIIIRouteCompletenessV2_33
 open KUOS.DependentOriginationWeakCoherentTwoAxisObstructionV2_42
+
+open scoped Bicategory
+open scoped CategoryTheory.Pseudofunctor.StrongTrans
 
 universe u uH vH
 
@@ -55,12 +59,20 @@ an explicit premise at the global level.
 variable {I : Type u}
 variable (W : MorphismProperty (Discrete I))
 
+attribute [local simp]
+  CategoryTheory.Bicategory.Strict.leftUnitor_eqToIso
+  CategoryTheory.Bicategory.Strict.rightUnitor_eqToIso
+  CategoryTheory.Bicategory.Strict.associator_eqToIso
+  CategoryTheory.PrelaxFunctor.map₂_eqToHom
+  CategoryTheory.eqToHom_map
+  CategoryTheory.Cat.eqToHom_app
+in
 /-- On a discrete context, the objectwise v2.18 comparison triangle is already
 modification-natural.  The only possible base arrow reduces to an identity, and
 Mathlib's StrongTrans identity coherence discharges the resulting equation. -/
 theorem storedV2_18TriangleIsModificationNatural_of_discrete
-    {R : RawHigherContextualSystem
-      (Context := Discrete I) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, u, uH, vH}
+      (Context := Discrete I)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) :
     StoredV2_18TriangleIsModificationNatural (W := W) alpha := by
@@ -69,13 +81,31 @@ theorem storedV2_18TriangleIsModificationNatural_of_discrete
   rcases Y with ⟨y⟩
   rcases f with ⟨⟨h⟩⟩
   cases h
+  change
+    (restrictHigherLocalizedSystem W H.lift).map (𝟙 _) ◁
+          (storedV2_18ComparisonComponentIso (W := W) alpha _).hom ≫
+        (H.comparison.naturality (𝟙 _)).hom =
+      ((restrictHigherLocalizedStrongTrans (W := W) alpha.hom ≫
+          K.comparison).naturality (𝟙 _)).hom ≫
+        (storedV2_18ComparisonComponentIso (W := W) alpha _).hom ▷
+          R.map (𝟙 _)
+  rw [CategoryTheory.Pseudofunctor.StrongTrans.naturality_id_hom
+    (restrictHigherLocalizedStrongTrans (W := W) alpha.hom ≫ K.comparison) _]
+  apply Cat.Hom₂.ext
+  ext Z
+  simp [CategoryTheory.Pseudofunctor.StrongTrans.naturality_id_hom]
+  erw [←
+    (storedV2_18ComparisonComponentIso (W := W) alpha _).hom.toNatTrans.naturality_assoc
+      (((restrictHigherLocalizedSystem W H.lift).mapId _).hom.toNatTrans.app Z)]
+  erw [(R.mapId _).inv.toNatTrans.naturality
+    ((storedV2_18ComparisonComponentIso (W := W) alpha _).hom.toNatTrans.app Z)]
   simp
 
 /-- Uniformly, every weak factor into the chosen coherent carrier has a stored
 triangle that is already modification-natural. -/
 theorem higherStoredV2_18TriangleModificationNaturality_of_discrete
-    {R : RawHigherContextualSystem
-      (Context := Discrete I) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, u, uH, vH}
+      (Context := Discrete I)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherStoredV2_18TriangleModificationNaturality (W := W) U := by
   intro H alpha
@@ -84,8 +114,8 @@ theorem higherStoredV2_18TriangleModificationNaturality_of_discrete
 /-- Hence factor-coherence lifting is automatic for coherent universal data on a
 discrete base. -/
 theorem higherFactorCoherenceLifting_of_discrete
-    {R : RawHigherContextualSystem
-      (Context := Discrete I) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, u, uH, vH}
+      (Context := Discrete I)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFactorCoherenceLifting (W := W) U :=
   higherFactorCoherenceLifting_of_storedTriangleNaturality
@@ -94,8 +124,8 @@ theorem higherFactorCoherenceLifting_of_discrete
 /-- A coherent universal datum on a discrete base therefore already determines a
 full v2.18 weak universal property on the same chosen factorization. -/
 theorem hasWeakHigherLocalizationUniversalProperty_of_discrete_coherent
-    {R : RawHigherContextualSystem
-      (Context := Discrete I) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, u, uH, vH}
+      (Context := Discrete I)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HasWeakHigherLocalizationUniversalProperty (W := W) R := by
   exact ⟨weakHigherLocalizationUniversalPropertyOfCoherent
@@ -105,8 +135,8 @@ theorem hasWeakHigherLocalizationUniversalProperty_of_discrete_coherent
 which weak universal-property witness is supplied, so the fixed coherent route
 is complete. -/
 theorem higherCoherentRouteCompleteness_of_discrete
-    {R : RawHigherContextualSystem
-      (Context := Discrete I) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, u, uH, vH}
+      (Context := Discrete I)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherCoherentRouteCompleteness (W := W) U := by
   intro _hUniversal
@@ -120,8 +150,8 @@ theorem higherCoherentRouteCompleteness_of_discrete
 /-- Local discrete-base obstruction elimination: a coherent datum is aligned, so
 neither Axis E nor Axis R can occur. -/
 theorem higherWeakCoherentAlignment_of_discrete
-    {R : RawHigherContextualSystem
-      (Context := Discrete I) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, u, uH, vH}
+      (Context := Discrete I)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherWeakCoherentAlignment (W := W) U :=
   ⟨hasWeakHigherLocalizationUniversalProperty_of_discrete_coherent (W := W) U,
@@ -130,8 +160,8 @@ theorem higherWeakCoherentAlignment_of_discrete
 /-- Equivalently, the exact local v2.42 two-axis obstruction is absent on every
 discrete base carrying coherent universal data. -/
 theorem no_twoAxisObstruction_of_discrete
-    {R : RawHigherContextualSystem
-      (Context := Discrete I) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, u, uH, vH}
+      (Context := Discrete I)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     ¬ HigherWeakCoherentTwoAxisObstruction (W := W) U :=
   (higherWeakCoherentAlignment_iff_no_twoAxisObstruction
@@ -142,12 +172,12 @@ existence is the only remaining premise: once coherent data exist for every
 admissible raw system, both the weak universal principle and coherent route
 completeness follow automatically. -/
 theorem universal_and_route_of_discrete_coherentPrinciple
-    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakLocalizationUniversalPrinciple
-        (W := W) (uH := uH) (vH := vH) ∧
-      HigherCoherentRouteCompletenessPrinciple
-        (W := W) (uH := uH) (vH := vH) := by
+    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple.{u, u, uH, vH}
+      (W := W)) :
+    HigherWeakLocalizationUniversalPrinciple.{u, u, uH, vH}
+        (W := W) ∧
+      HigherCoherentRouteCompletenessPrinciple.{u, u, uH, vH}
+        (W := W) := by
   apply
     (higherWeakCoherentAlignmentPrinciple_iff_universal_and_route_of_coherent
       (W := W) hCoherent).mp

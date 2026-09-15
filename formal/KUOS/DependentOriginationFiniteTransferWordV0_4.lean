@@ -3,9 +3,13 @@ import KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3
 
 namespace KUOS.DependentOriginationFiniteTransferWordV0_4
 
+/-! The v0.4 module extends the v0.2 exponentially-gapped transport API below. -/
+
+end KUOS.DependentOriginationFiniteTransferWordV0_4
+
+namespace KUOS.DependentOriginationExponentialGapTransportV0_2
+
 open KUOS.DependentOriginationFunctorialTransportV0_1
-open KUOS.DependentOriginationExponentialGapTransportV0_2
-open KUOS.DependentOriginationLinearTransferConnectedReadoutV0_3
 
 universe u
 
@@ -118,8 +122,12 @@ theorem wordOperatorApply_eq_of_totalTime_eq
     _ = L.wordOperatorApply right x :=
       (L.wordOperatorApply_eq_totalTime right x).symm
 
+end LinearTransferRealization
+
+open LinearTransferRealization
+
 /-- Product of the exponential decay factors associated with all letters of a word. -/
-def wordDecayProduct
+noncomputable def wordDecayProduct
     (D : ExponentiallyGappedVacuumTransport State) : TransferWord → ℝ
   | [] => 1
   | t :: tail => D.decayFactor t * D.wordDecayProduct tail
@@ -142,6 +150,10 @@ theorem wordDecayProduct_eq_totalTime
           (D.decayFactor_add t (wordTotalTime tail)).symm
         _ = D.decayFactor (wordTotalTime (t :: tail)) := by
           simp [wordTotalTime]
+
+namespace LinearTransferRealization
+
+variable {D : ExponentiallyGappedVacuumTransport State}
 
 /-- Connected/vacuum-subtracted readout after a finite transfer word. -/
 def connectedWordReadout
@@ -206,4 +218,4 @@ end LinearTransferRealization
 
 end ExponentiallyGappedVacuumTransport
 
-end KUOS.DependentOriginationFiniteTransferWordV0_4
+end KUOS.DependentOriginationExponentialGapTransportV0_2

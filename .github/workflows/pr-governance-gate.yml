@@ -128,7 +128,7 @@ jobs:
           name: audit-selection-${{ github.run_id }}-${{ github.run_attempt }}
           path: artifacts/selection
 
-      - name: Set up pinned Lean, Mathlib, and caches
+      - name: Set up pinned Lean and Mathlib cache
         uses: leanprover/lean-action@v1
         with:
           auto-config: false
@@ -136,15 +136,38 @@ jobs:
           test: false
           lint: false
           use-mathlib-cache: true
-          use-github-cache: true
+          use-github-cache: false
 
       - name: Run selected Lean check
         shell: bash
         run: |
           set -euo pipefail
+          LEAN_COMMAND="$(
+            python3 - <<'PY'
+          import json
+          import pathlib
+          import shlex
+
+          selection = json.loads(
+              pathlib.Path("artifacts/selection/selection.json").read_text(encoding="utf-8")
+          )
+          targets = selection.get("lean_targets")
+          if not isinstance(targets, list) or not targets or not all(isinstance(t, str) for t in targets):
+              raise SystemExit("missing or invalid lean_targets in selection receipt")
+          argv = [
+              "lake",
+              "-KleanArgs=-DwarningAsError=true",
+              "-KleanArgs=-DsorryAsError=true",
+              "build",
+              *targets,
+          ]
+          print(shlex.join(argv))
+          PY
+          )"
+          echo "Lean command: ${LEAN_COMMAND}"
           python3 scripts/run_ci_check.py \
             --check-id lean-formal \
-            --command 'lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal' \
+            --command "${LEAN_COMMAND}" \
             --selection artifacts/selection/selection.json
 
       - name: Verify committed dependency manifest remains canonical

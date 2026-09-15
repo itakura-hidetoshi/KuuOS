@@ -11,6 +11,7 @@ open KUOS.DependentOriginationStoredTriangleModificationNaturalityV2_23
 open KUOS.DependentOriginationStoredTriangleModificationRealizationV2_24
 open KUOS.DependentOriginationArbitraryTrianglePresentationV2_25
 
+open scoped Bicategory
 open scoped CategoryTheory.Pseudofunctor.StrongTrans
 
 universe u v uH vH
@@ -85,7 +86,7 @@ condition is that postcomposing the stored triangle component by the correction
 produces a valid modification-natural family. -/
 @[ext]
 structure StoredTriangleTargetCorrection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) where
   component : ∀ X : Context,
@@ -102,8 +103,8 @@ structure StoredTriangleTargetCorrection
 
 /-- Apply a stored-family correction to obtain the corresponding arbitrary
 coherent presentation. -/
-def factorModificationTrianglePresentationOfStoredCorrection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+noncomputable def factorModificationTrianglePresentationOfStoredCorrection
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (C : StoredTriangleTargetCorrection (W := W) alpha) :
@@ -115,8 +116,8 @@ def factorModificationTrianglePresentationOfStoredCorrection
 /-- Every arbitrary coherent presentation determines a unique pointwise
 correction relative to the stored v2.18 family, obtained by cancelling the
 stored isomorphism on the left. -/
-def storedTriangleTargetCorrectionOfPresentation
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+noncomputable def storedTriangleTargetCorrectionOfPresentation
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (P : FactorModificationTrianglePresentation (W := W) alpha) :
@@ -129,21 +130,20 @@ def storedTriangleTargetCorrectionOfPresentation
 /-- Cancelling the stored family and then reapplying it recovers the original
 coherent presentation. -/
 theorem presentationOfStoredCorrection_ofPresentation
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (P : FactorModificationTrianglePresentation (W := W) alpha) :
     factorModificationTrianglePresentationOfStoredCorrection
         (W := W) (storedTriangleTargetCorrectionOfPresentation (W := W) P) = P := by
   ext X
-  apply Iso.ext
   simp [factorModificationTrianglePresentationOfStoredCorrection,
     storedTriangleTargetCorrectionOfPresentation, Category.assoc]
 
 /-- Reapplying the stored family and then cancelling it recovers the original
 pointwise correction. -/
 theorem storedCorrectionOfPresentation_ofStoredCorrection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     {alpha : HigherLocalizationFactorMorphism (W := W) H K}
     (C : StoredTriangleTargetCorrection (W := W) alpha) :
@@ -151,14 +151,13 @@ theorem storedCorrectionOfPresentation_ofStoredCorrection
         (W := W)
         (factorModificationTrianglePresentationOfStoredCorrection (W := W) C) = C := by
   ext X
-  apply Iso.ext
   simp [factorModificationTrianglePresentationOfStoredCorrection,
     storedTriangleTargetCorrectionOfPresentation, Category.assoc]
 
 /-- Exact data-level equivalence between stored-family target corrections and
 arbitrary coherent modification-triangle presentations. -/
-def storedTriangleTargetCorrectionEquivPresentation
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+noncomputable def storedTriangleTargetCorrectionEquivPresentation
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) :
     StoredTriangleTargetCorrection (W := W) alpha ≃
@@ -170,8 +169,8 @@ def storedTriangleTargetCorrectionEquivPresentation
 
 /-- Exact data-level equivalence between stored-family target corrections and
 actual invertible modification triangles. -/
-def storedTriangleTargetCorrectionEquivIso
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+noncomputable def storedTriangleTargetCorrectionEquivIso
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) :
     StoredTriangleTargetCorrection (W := W) alpha ≃
@@ -182,7 +181,7 @@ def storedTriangleTargetCorrectionEquivIso
 
 /-- Solvability of the stored-family correction equation for one factor. -/
 def HasStoredTriangleTargetCorrection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=
   Nonempty (StoredTriangleTargetCorrection (W := W) alpha)
@@ -190,7 +189,7 @@ def HasStoredTriangleTargetCorrection
 /-- The correction equation is solvable exactly when an arbitrary coherent
 presentation exists. -/
 theorem hasStoredTriangleTargetCorrection_iff_hasCoherentPresentation
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) :
     HasStoredTriangleTargetCorrection (W := W) alpha ↔
@@ -204,7 +203,7 @@ theorem hasStoredTriangleTargetCorrection_iff_hasCoherentPresentation
 /-- Equivalently, solvability of the correction equation is exactly the v2.22
 arbitrary modification-triangle condition. -/
 theorem hasStoredTriangleTargetCorrection_iff_hasFactorModificationTriangle
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) :
     HasStoredTriangleTargetCorrection (W := W) alpha ↔
@@ -215,8 +214,8 @@ theorem hasStoredTriangleTargetCorrection_iff_hasFactorModificationTriangle
 
 /-- When the stored family is already modification-natural, the identity
 pointwise automorphism is a correction solution. -/
-def identityStoredTriangleTargetCorrection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+noncomputable def identityStoredTriangleTargetCorrection
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (hNatural : StoredV2_18TriangleIsModificationNatural (W := W) alpha) :
@@ -226,7 +225,7 @@ def identityStoredTriangleTargetCorrection
     simpa using hNatural f
 
 @[simp] theorem identityStoredTriangleTargetCorrection_component
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (hNatural : StoredV2_18TriangleIsModificationNatural (W := W) alpha)
@@ -241,7 +240,7 @@ stored v2.18 family itself is modification-natural.
 This makes the distinction from v2.25 precise: arbitrary correction solvability
 may hold even when the identity correction does not. -/
 theorem storedTriangleNaturality_iff_exists_identityCorrection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) :
     StoredV2_18TriangleIsModificationNatural (W := W) alpha ↔
@@ -261,7 +260,7 @@ theorem storedTriangleNaturality_iff_exists_identityCorrection
 /-- Uniform solvability of the stored-family correction equation over all v2.18
 factors into one chosen coherent universal datum. -/
 def HigherStoredTriangleTargetCorrectionLifting
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -270,7 +269,7 @@ def HigherStoredTriangleTargetCorrectionLifting
 /-- Uniform correction solvability is exactly uniform arbitrary coherent-
 presentation lifting. -/
 theorem higherStoredTriangleCorrectionLifting_iff_coherentPresentationLifting
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherStoredTriangleTargetCorrectionLifting (W := W) U ↔
       HigherCoherentFactorModificationTrianglePresentationLifting (W := W) U := by
@@ -287,7 +286,7 @@ theorem higherStoredTriangleCorrectionLifting_iff_coherentPresentationLifting
 /-- Uniform correction solvability is therefore exactly the existing v2.22
 modification-triangle lifting condition. -/
 theorem higherStoredTriangleCorrectionLifting_iff_modificationTriangleLifting
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherStoredTriangleTargetCorrectionLifting (W := W) U ↔
       HigherFactorModificationTriangleLifting (W := W) U := by
@@ -298,7 +297,7 @@ theorem higherStoredTriangleCorrectionLifting_iff_modificationTriangleLifting
 
 /-- Failure of the correction equation for some factor. -/
 def HigherStoredTriangleTargetCorrectionObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∃ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -307,7 +306,7 @@ def HigherStoredTriangleTargetCorrectionObstruction
 /-- The correction obstruction is exactly the v2.25 coherent-presentation
 obstruction. -/
 theorem higherStoredTriangleCorrectionObstruction_iff_coherentPresentationObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherStoredTriangleTargetCorrectionObstruction (W := W) U ↔
       HigherCoherentFactorModificationTrianglePresentationObstruction (W := W) U := by
@@ -328,7 +327,7 @@ theorem higherStoredTriangleCorrectionObstruction_iff_coherentPresentationObstru
 /-- The correction obstruction is also exactly the v2.22 modification-triangle
 obstruction. -/
 theorem higherStoredTriangleCorrectionObstruction_iff_modificationTriangleObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherStoredTriangleTargetCorrectionObstruction (W := W) U ↔
       HigherFactorModificationTriangleObstruction (W := W) U := by
@@ -340,7 +339,7 @@ theorem higherStoredTriangleCorrectionObstruction_iff_modificationTriangleObstru
 /-- Uniform correction solvability is exactly absence of the explicit correction
 obstruction. -/
 theorem higherStoredTriangleCorrectionLifting_iff_no_obstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherStoredTriangleTargetCorrectionLifting (W := W) U ↔
       ¬ HigherStoredTriangleTargetCorrectionObstruction (W := W) U := by
@@ -353,7 +352,7 @@ theorem higherStoredTriangleCorrectionLifting_iff_no_obstruction
 /-- Uniform stored-family naturality is the special case of uniform correction
 solvability in which the identity correction works for every factor. -/
 theorem higherStoredTriangleCorrectionLifting_of_storedTriangleNaturality
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hNatural : HigherStoredV2_18TriangleModificationNaturality (W := W) U) :
     HigherStoredTriangleTargetCorrectionLifting (W := W) U := by
@@ -362,17 +361,17 @@ theorem higherStoredTriangleCorrectionLifting_of_storedTriangleNaturality
 
 /-- Global correction-solvability principle. -/
 def HigherStoredTriangleTargetCorrectionPrinciple : Prop :=
-  ∀ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
+  ∀ (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
     HigherStoredTriangleTargetCorrectionLifting (W := W) U
 
 /-- The global correction principle is exactly the v2.25 global coherent-
 presentation principle. -/
 theorem higherStoredTriangleCorrectionPrinciple_iff_coherentPresentationPrinciple :
-    HigherStoredTriangleTargetCorrectionPrinciple
-        (W := W) (uH := uH) (vH := vH) ↔
-      HigherCoherentFactorModificationTrianglePresentationPrinciple
-        (W := W) (uH := uH) (vH := vH) := by
+    HigherStoredTriangleTargetCorrectionPrinciple.{u, v, uH, vH}
+        (W := W) ↔
+      HigherCoherentFactorModificationTrianglePresentationPrinciple.{u, v, uH, vH}
+        (W := W) := by
   constructor
   · intro h R U
     exact
@@ -386,30 +385,30 @@ theorem higherStoredTriangleCorrectionPrinciple_iff_coherentPresentationPrincipl
 /-- The global correction principle is exactly the existing v2.22 global
 modification-triangle lifting principle. -/
 theorem higherStoredTriangleCorrectionPrinciple_iff_modificationTrianglePrinciple :
-    HigherStoredTriangleTargetCorrectionPrinciple
-        (W := W) (uH := uH) (vH := vH) ↔
-      HigherFactorModificationTriangleLiftingPrinciple
-        (W := W) (uH := uH) (vH := vH) := by
+    HigherStoredTriangleTargetCorrectionPrinciple.{u, v, uH, vH}
+        (W := W) ↔
+      HigherFactorModificationTriangleLiftingPrinciple.{u, v, uH, vH}
+        (W := W) := by
   rw [higherStoredTriangleCorrectionPrinciple_iff_coherentPresentationPrinciple
-    (W := W) (uH := uH) (vH := vH)]
+    (W := W)]
   exact higherCoherentPresentationPrinciple_iff_modificationTrianglePrinciple
-    (W := W) (uH := uH) (vH := vH)
+    (W := W)
 
 /-- Hence the coherent higher universal principle plus global correction
 solvability implies the v2.18 weak higher-localization universal principle.
 
 This is still conditional: neither global premise is asserted here. -/
 theorem higherWeakLocalizationUniversalPrinciple_of_coherent_and_corrections
-    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH))
-    (hCorrections : HigherStoredTriangleTargetCorrectionPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH) :=
+    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W))
+    (hCorrections : HigherStoredTriangleTargetCorrectionPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    HigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W) :=
   higherWeakLocalizationUniversalPrinciple_of_coherent_and_presentations
     W hCoherent
       ((higherStoredTriangleCorrectionPrinciple_iff_coherentPresentationPrinciple
-        (W := W) (uH := uH) (vH := vH)).mp hCorrections)
+        (W := W)).mp hCorrections)
 
 /-!
 The coherent-replacement frontier now has an exact correction form:

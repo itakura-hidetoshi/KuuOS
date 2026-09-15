@@ -9,6 +9,8 @@ open KUOS.DependentOriginationCoherentWeakHigherLocalizationV2_19
 open KUOS.DependentOriginationStoredTriangleCorrectionTorsorV2_27
 open KUOS.DependentOriginationComparisonAutomorphismSectionsV2_28
 
+open scoped CategoryTheory.Pseudofunctor.StrongTrans
+
 universe u v uH vH
 
 /-!
@@ -52,7 +54,7 @@ variable (W : MorphismProperty Context)
 /-- A concrete nonidentity self-isomorphism of one objectwise comparison
 functor.  It is local data only; no coherence is included. -/
 structure FactorComparisonPointwiseAutomorphismWitness
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) where
   object : Context
   automorphism :
@@ -62,7 +64,7 @@ structure FactorComparisonPointwiseAutomorphismWitness
 /-- A chosen pointwise witness admits a coherent extension when it occurs as
 one component of a v2.28 coherent automorphism section. -/
 def FactorComparisonPointwiseAutomorphismWitness.HasCoherentExtension
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     (q : FactorComparisonPointwiseAutomorphismWitness (W := W) H) : Prop :=
   ∃ P : FactorComparisonAutomorphismSection (W := W) H,
@@ -71,7 +73,7 @@ def FactorComparisonPointwiseAutomorphismWitness.HasCoherentExtension
 /-- If a nontrivial pointwise witness is realized by a coherent section, that
 section cannot be the identity section. -/
 theorem section_ne_identity_of_pointwiseWitness_extension
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     (q : FactorComparisonPointwiseAutomorphismWitness (W := W) H)
     (P : FactorComparisonAutomorphismSection (W := W) H)
@@ -92,7 +94,7 @@ theorem section_ne_identity_of_pointwiseWitness_extension
 /-- Any coherent extension of a nontrivial pointwise witness gives a nontrivial
 coherent section. -/
 theorem hasNontrivialSection_of_pointwiseWitness_extension
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     (q : FactorComparisonPointwiseAutomorphismWitness (W := W) H)
     (hExtension : q.HasCoherentExtension (W := W)) :
@@ -105,7 +107,7 @@ theorem hasNontrivialSection_of_pointwiseWitness_extension
 /-- Exact bridge: a nonidentity coherent section exists exactly when some
 nontrivial pointwise witness extends coherently. -/
 theorem hasNontrivialSection_iff_exists_extendablePointwiseWitness
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) :
     HasNontrivialFactorComparisonAutomorphismSection (W := W) H ↔
       ∃ q : FactorComparisonPointwiseAutomorphismWitness (W := W) H,
@@ -116,7 +118,8 @@ theorem hasNontrivialSection_iff_exists_extendablePointwiseWitness
     have hObject : ∃ X : Context, P.component X ≠ Iso.refl _ := by
       by_contra hNoObject
       apply hP
-      ext X
+      apply FactorComparisonAutomorphismSection.ext
+      funext X
       have hX : P.component X = Iso.refl _ := by
         by_contra hXne
         exact hNoObject ⟨X, hXne⟩
@@ -140,14 +143,14 @@ theorem hasNontrivialSection_iff_exists_extendablePointwiseWitness
 /-- Positive pointwise non-rigidity: there exists some nontrivial local
 self-isomorphism, without assuming it extends coherently. -/
 def HasNontrivialFactorComparisonPointwiseAutomorphism
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) : Prop :=
   Nonempty (FactorComparisonPointwiseAutomorphismWitness (W := W) H)
 
 /-- Since identity exists objectwise, failure of v2.28 pointwise rigidity is
 exactly existence of a nontrivial pointwise automorphism witness. -/
 theorem not_pointwiseAutomorphismRigidity_iff_hasNontrivialPointwiseAutomorphism
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) :
     (¬ FactorComparisonPointwiseAutomorphismRigidity (W := W) H) ↔
       HasNontrivialFactorComparisonPointwiseAutomorphism (W := W) H := by
@@ -182,7 +185,7 @@ theorem not_pointwiseAutomorphismRigidity_iff_hasNontrivialPointwiseAutomorphism
 /-- Exact target non-rigidity normal form in terms of extendable pointwise
 witnesses. -/
 theorem not_targetAutomorphismRigidity_iff_exists_extendablePointwiseWitness
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) :
     (¬ Subsingleton (H.comparison ≅ H.comparison)) ↔
       ∃ q : FactorComparisonPointwiseAutomorphismWitness (W := W) H,
@@ -200,7 +203,7 @@ theorem not_targetAutomorphismRigidity_iff_exists_extendablePointwiseWitness
 /-- The precise residual gap left by v2.28: local nontrivial automorphisms exist,
 but no nontrivial pointwise witness extends to a coherent section. -/
 def FactorComparisonCoherenceExtensionObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) : Prop :=
   HasNontrivialFactorComparisonPointwiseAutomorphism (W := W) H ∧
     ∀ q : FactorComparisonPointwiseAutomorphismWitness (W := W) H,
@@ -210,7 +213,7 @@ def FactorComparisonCoherenceExtensionObstruction
 coexist with target rigidity precisely when coherence blocks every nontrivial
 pointwise witness from extending. -/
 theorem coherenceExtensionObstruction_iff_pointwiseNonrigid_and_targetRigid
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) :
     FactorComparisonCoherenceExtensionObstruction (W := W) H ↔
       (¬ FactorComparisonPointwiseAutomorphismRigidity (W := W) H) ∧
@@ -242,7 +245,7 @@ theorem coherenceExtensionObstruction_iff_pointwiseNonrigid_and_targetRigid
 extends to a coherent section.  This is an explicit proposition and is not
 asserted unconditionally. -/
 def FactorComparisonPointwiseAutomorphismExtensionProperty
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) : Prop :=
   ∀ q : FactorComparisonPointwiseAutomorphismWitness (W := W) H,
     q.HasCoherentExtension (W := W)
@@ -250,7 +253,7 @@ def FactorComparisonPointwiseAutomorphismExtensionProperty
 /-- Under the explicit extension property, pointwise non-rigidity forces target
 modification non-rigidity. -/
 theorem not_targetRigidity_of_not_pointwiseRigidity_and_extensionProperty
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R)
     (hPointwiseNotRigid :
       ¬ FactorComparisonPointwiseAutomorphismRigidity (W := W) H)
@@ -266,7 +269,7 @@ theorem not_targetRigidity_of_not_pointwiseRigidity_and_extensionProperty
 
 /-- The extension property closes the local v2.28 gap exactly. -/
 theorem pointwiseRigidity_iff_targetRigidity_of_extensionProperty
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R)
     (hExtension : FactorComparisonPointwiseAutomorphismExtensionProperty
       (W := W) H) :
@@ -286,7 +289,7 @@ theorem pointwiseRigidity_iff_targetRigidity_of_extensionProperty
 /-- Uniform extension property over every factor morphism into one coherent
 universal datum. -/
 def HigherFactorComparisonPointwiseAutomorphismExtensionProperty
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (_alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -295,7 +298,7 @@ def HigherFactorComparisonPointwiseAutomorphismExtensionProperty
 /-- Under uniform extension, the v2.28 uniform pointwise criterion is not merely
 sufficient but equivalent to target modification rigidity. -/
 theorem higherPointwiseRigidity_iff_targetRigidity_of_extensionProperty
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hExtension : HigherFactorComparisonPointwiseAutomorphismExtensionProperty
       (W := W) U) :
@@ -312,7 +315,7 @@ theorem higherPointwiseRigidity_iff_targetRigidity_of_extensionProperty
 /-- Uniformly witnessed coherence-extension obstruction: some factor has local
 pointwise non-rigidity while every nontrivial witness there is coherence-blocked. -/
 def HigherFactorComparisonCoherenceExtensionObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∃ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -322,7 +325,7 @@ def HigherFactorComparisonCoherenceExtensionObstruction
 uniform pointwise rigidity is exactly the existence of a coherence-extension
 obstruction at some factor. -/
 theorem higherCoherenceExtensionObstruction_iff_not_pointwiseRigidity_of_targetRigidity
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hTarget : HigherFactorComparisonAutomorphismRigidity (W := W) U) :
     HigherFactorComparisonCoherenceExtensionObstruction (W := W) U ↔

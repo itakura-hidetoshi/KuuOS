@@ -11,6 +11,8 @@ open KUOS.DependentOriginationWeakCoherentTwoAxisObstructionV2_42
 open KUOS.DependentOriginationPointwise2CellRigidityObstructionEliminationV2_47
 open KUOS.DependentOriginationSeparatingFamilyObstructionEliminationV2_50
 
+open scoped CategoryTheory.Pseudofunctor.StrongTrans
+
 universe u v uH vH
 
 /-!
@@ -71,14 +73,14 @@ subsingletons. -/
 def CatHom₂SeparatorTargetObject
     {C D : Cat.{vH, uH}} (G : C ⟶ D) : Prop :=
   ∃ S : D, IsSeparator S ∧
-    ∀ Z : C, Subsingleton (S ⟶ G.obj Z)
+    ∀ Z : C, Subsingleton (S ⟶ G.toFunctor.obj Z)
 
 /-- Dually, a single coseparator object whose homs out of all source
 components of `F` are subsingletons. -/
 def CatHom₂CoseparatorSourceObject
     {C D : Cat.{vH, uH}} (F : C ⟶ D) : Prop :=
   ∃ S : D, IsCoseparator S ∧
-    ∀ Z : C, Subsingleton (F.obj Z ⟶ S)
+    ∀ Z : C, Subsingleton (F.toFunctor.obj Z ⟶ S)
 
 /-- Either singleton separator mechanism is available for the pair `F`, `G`. -/
 def CatHom₂SingleSeparatorRigidity
@@ -133,8 +135,7 @@ theorem catHom₂PointwiseSubsingleton_of_singleSeparatorRigidity
 v2.23 stored-triangle naturality square admits a singleton separator or
 coseparator rigidity witness. -/
 def StoredV2_18NaturalitySingleSeparatorRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=
   ∀ {X Y : Context} (f : X ⟶ Y),
@@ -147,8 +148,7 @@ def StoredV2_18NaturalitySingleSeparatorRigidity
 /-- The singleton criterion supplies the exact stored v2.50 separating-family
 rigidity hypothesis. -/
 theorem storedV2_18NaturalitySeparatingFamilyRigidity_of_singleSeparatorRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (hSingle : StoredV2_18NaturalitySingleSeparatorRigidity
@@ -161,8 +161,7 @@ theorem storedV2_18NaturalitySeparatingFamilyRigidity_of_singleSeparatorRigidity
 /-- The same singleton criterion therefore gives the stored v2.47 component
 hom-subsingleton condition. -/
 theorem storedV2_18NaturalityComponentHomSubsingleton_of_singleSeparatorRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (hSingle : StoredV2_18NaturalitySingleSeparatorRigidity
@@ -176,8 +175,7 @@ theorem storedV2_18NaturalityComponentHomSubsingleton_of_singleSeparatorRigidity
 /-- Uniform singleton separator rigidity for every v2.18 factor into one
 coherent chosen carrier. -/
 def HigherStoredV2_18NaturalitySingleSeparatorRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -186,8 +184,7 @@ def HigherStoredV2_18NaturalitySingleSeparatorRigidity
 /-- Uniform singleton rigidity gives the uniform v2.50 separating-family
 criterion on the same chosen carrier. -/
 theorem higherStoredV2_18NaturalitySeparatingFamilyRigidity_of_singleSeparatorRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hSingle : HigherStoredV2_18NaturalitySingleSeparatorRigidity
       (W := W) U) :
@@ -199,8 +196,7 @@ theorem higherStoredV2_18NaturalitySeparatingFamilyRigidity_of_singleSeparatorRi
 
 /-- Uniform singleton rigidity implies the uniform v2.47 pointwise criterion. -/
 theorem higherStoredV2_18NaturalityComponentHomSubsingleton_of_singleSeparatorRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hSingle : HigherStoredV2_18NaturalitySingleSeparatorRigidity
       (W := W) U) :
@@ -213,8 +209,7 @@ theorem higherStoredV2_18NaturalityComponentHomSubsingleton_of_singleSeparatorRi
 /-- Coherent universal data plus uniform singleton separator rigidity give the
 v2.18 weak universal property on the same chosen carrier. -/
 theorem hasWeakHigherLocalizationUniversalProperty_of_singleSeparatorRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hSingle : HigherStoredV2_18NaturalitySingleSeparatorRigidity
       (W := W) U) :
@@ -227,8 +222,7 @@ theorem hasWeakHigherLocalizationUniversalProperty_of_singleSeparatorRigidity
 /-- The coherent Stage III route obstruction disappears under the same
 singleton separator rigidity condition. -/
 theorem higherCoherentRouteCompleteness_of_singleSeparatorRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hSingle : HigherStoredV2_18NaturalitySingleSeparatorRigidity
       (W := W) U) :
@@ -241,8 +235,7 @@ theorem higherCoherentRouteCompleteness_of_singleSeparatorRigidity
 /-- Singleton separator rigidity gives the aligned state in the v2.42 local
 classification. -/
 theorem higherWeakCoherentAlignment_of_singleSeparatorRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hSingle : HigherStoredV2_18NaturalitySingleSeparatorRigidity
       (W := W) U) :
@@ -255,8 +248,7 @@ theorem higherWeakCoherentAlignment_of_singleSeparatorRigidity
 /-- Exact local E/R obstruction elimination under a single separator or
 coseparator object. -/
 theorem no_twoAxisObstruction_of_singleSeparatorRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hSingle : HigherStoredV2_18NaturalitySingleSeparatorRigidity
       (W := W) U) :

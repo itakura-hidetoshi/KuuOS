@@ -65,14 +65,14 @@ variable (W : MorphismProperty Context)
 
 /-- Essential uniqueness on the particular coherent carrier `U.chosen`. -/
 def HigherFixedChosenEssentialUniqueness
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   WeakUniversalEssentialUniqueness (W := W) U.chosen
 
 /-- Reflection of an arbitrary v2.18 weak universal property back to essential
 uniqueness on the fixed coherent carrier `U.chosen`. -/
 def HigherFixedChosenEssentialUniquenessReflection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   HasWeakHigherLocalizationUniversalProperty (W := W) R ->
     HigherFixedChosenEssentialUniqueness (W := W) U
@@ -80,7 +80,7 @@ def HigherFixedChosenEssentialUniquenessReflection
 /-- First internal obstruction: weak universality exists somewhere, but does not
 reflect to essential uniqueness on `U.chosen`. -/
 def HigherFixedChosenEssentialUniquenessReflectionFailure
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   HasWeakHigherLocalizationUniversalProperty (W := W) R ∧
     ¬ HigherFixedChosenEssentialUniqueness (W := W) U
@@ -88,7 +88,7 @@ def HigherFixedChosenEssentialUniquenessReflectionFailure
 /-- Second internal obstruction: weak universality exists and fixed-chosen
 essential uniqueness already holds, but the correction route still fails. -/
 def HigherIsoCoherenceTransportResidualObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   HasWeakHigherLocalizationUniversalProperty (W := W) R ∧
     HigherFixedChosenEssentialUniqueness (W := W) U ∧
@@ -99,7 +99,7 @@ fixed chosen carrier.  The proof passes through the exact v2.26 -> v2.22 ->
 v2.21 route and then reads the `essential_unique` field of the reconstructed
 v2.18 universal datum. -/
 theorem fixedChosenEssentialUniqueness_of_correctionLifting
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hCorrection : HigherStoredTriangleTargetCorrectionLifting (W := W) U) :
     HigherFixedChosenEssentialUniqueness (W := W) U := by
@@ -114,7 +114,7 @@ theorem fixedChosenEssentialUniqueness_of_correctionLifting
 /-- Route completeness therefore always implies fixed-chosen essential-
 uniqueness reflection. -/
 theorem fixedChosenReflection_of_routeCompleteness
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hRoute : HigherCoherentRouteCompleteness (W := W) U) :
     HigherFixedChosenEssentialUniquenessReflection (W := W) U := by
@@ -124,7 +124,7 @@ theorem fixedChosenReflection_of_routeCompleteness
 
 /-- Exact internal failure decomposition of v2.33 route completeness. -/
 theorem not_routeCompleteness_iff_reflectionFailure_or_transportResidual
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     (¬ HigherCoherentRouteCompleteness (W := W) U) ↔
       HigherFixedChosenEssentialUniquenessReflectionFailure (W := W) U ∨
@@ -154,7 +154,7 @@ theorem not_routeCompleteness_iff_reflectionFailure_or_transportResidual
 /-- Fixed-chosen reflection is exactly absence of its explicit first-stage
 obstruction. -/
 theorem fixedChosenReflection_iff_no_reflectionFailure
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFixedChosenEssentialUniquenessReflection (W := W) U ↔
       ¬ HigherFixedChosenEssentialUniquenessReflectionFailure (W := W) U := by
@@ -173,7 +173,7 @@ underlying StrongTrans 1-cells is required to transport a modification triangle
 from the second factor to the first.  This proposition precisely exposes the
 bicategorical whiskering/coherence step; it is not asserted unconditionally. -/
 def HigherFactorModificationTriangleIsoTransport
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (alpha beta : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -184,7 +184,7 @@ def HigherFactorModificationTriangleIsoTransport
 /-- The coherent factor supplied by `U` gives a v2.18 factor whose modification
 triangle is already available. -/
 theorem hasTriangle_for_forgottenCoherentFactor
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     {K : HigherLocalizationFactorization (W := W) R}
     (beta : CoherentHigherLocalizationFactorMorphism (W := W) H K) :
@@ -197,7 +197,7 @@ theorem hasTriangle_for_forgottenCoherentFactor
 /-- Fixed-chosen essential uniqueness plus iso-transport is sufficient to solve
 all correction equations into the same coherent carrier `U.chosen`. -/
 theorem correctionLifting_of_fixedChosenUniqueness_and_isoTransport
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hUnique : HigherFixedChosenEssentialUniqueness (W := W) U)
     (hTransport : HigherFactorModificationTriangleIsoTransport (W := W) U) :
@@ -217,7 +217,7 @@ theorem correctionLifting_of_fixedChosenUniqueness_and_isoTransport
 
 /-- Under iso-transport, the second residual obstruction is impossible. -/
 theorem not_transportResidual_of_isoTransport
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hTransport : HigherFactorModificationTriangleIsoTransport (W := W) U) :
     ¬ HigherIsoCoherenceTransportResidualObstruction (W := W) U := by
@@ -230,7 +230,7 @@ theorem not_transportResidual_of_isoTransport
 triangle transport, route completeness is exactly reflection of essential
 uniqueness to the fixed coherent carrier. -/
 theorem routeCompleteness_iff_fixedChosenReflection_of_isoTransport
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hTransport : HigherFactorModificationTriangleIsoTransport (W := W) U) :
     HigherCoherentRouteCompleteness (W := W) U ↔
@@ -244,19 +244,27 @@ theorem routeCompleteness_iff_fixedChosenReflection_of_isoTransport
 /-- Equivalently, under iso-transport, failure of route completeness is exactly
 fixed-chosen reflection failure. -/
 theorem not_routeCompleteness_iff_reflectionFailure_of_isoTransport
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hTransport : HigherFactorModificationTriangleIsoTransport (W := W) U) :
     (¬ HigherCoherentRouteCompleteness (W := W) U) ↔
       HigherFixedChosenEssentialUniquenessReflectionFailure (W := W) U := by
+  classical
   rw [routeCompleteness_iff_fixedChosenReflection_of_isoTransport
     (W := W) U hTransport]
-  exact not_congr
-    (fixedChosenReflection_iff_no_reflectionFailure (W := W) U)
+  constructor
+  · intro hNoReflect
+    by_contra hNoFailure
+    exact hNoReflect
+      ((fixedChosenReflection_iff_no_reflectionFailure (W := W) U).mpr hNoFailure)
+  · intro hFailure hReflect
+    exact
+      ((fixedChosenReflection_iff_no_reflectionFailure (W := W) U).mp hReflect)
+        hFailure
 
 /-- Obstruction-free normal form of the same local closure. -/
 theorem routeCompleteness_iff_no_reflectionFailure_of_isoTransport
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hTransport : HigherFactorModificationTriangleIsoTransport (W := W) U) :
     HigherCoherentRouteCompleteness (W := W) U ↔
@@ -268,25 +276,25 @@ theorem routeCompleteness_iff_no_reflectionFailure_of_isoTransport
 
 /-- Global StrongTrans-iso triangle-transport principle. -/
 def HigherFactorModificationTriangleIsoTransportPrinciple : Prop :=
-  ∀ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
+  ∀ (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
     HigherFactorModificationTriangleIsoTransport (W := W) U
 
 /-- Global fixed-chosen essential-uniqueness reflection principle. -/
 def HigherFixedChosenEssentialUniquenessReflectionPrinciple : Prop :=
-  ∀ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
+  ∀ (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
     HigherFixedChosenEssentialUniquenessReflection (W := W) U
 
 /-- Globally, under the explicit iso-transport principle, v2.33 route
 completeness is exactly fixed-chosen essential-uniqueness reflection. -/
 theorem routeCompletenessPrinciple_iff_fixedChosenReflectionPrinciple_of_isoTransport
-    (hTransport : HigherFactorModificationTriangleIsoTransportPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherCoherentRouteCompletenessPrinciple
-        (W := W) (uH := uH) (vH := vH) ↔
-      HigherFixedChosenEssentialUniquenessReflectionPrinciple
-        (W := W) (uH := uH) (vH := vH) := by
+    (hTransport : HigherFactorModificationTriangleIsoTransportPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    HigherCoherentRouteCompletenessPrinciple.{u, v, uH, vH}
+        (W := W) ↔
+      HigherFixedChosenEssentialUniquenessReflectionPrinciple.{u, v, uH, vH}
+        (W := W) := by
   constructor
   · intro hRoute R U
     exact fixedChosenReflection_of_routeCompleteness (W := W) U (hRoute R U)
@@ -299,18 +307,18 @@ theorem routeCompletenessPrinciple_iff_fixedChosenReflectionPrinciple_of_isoTran
 existence, iso-transport, and fixed-chosen reflection are sufficient to identify
 the full v2.18 universal principle with global correction solvability. -/
 theorem higherWeakLocalizationUniversalPrinciple_iff_storedCorrection_of_coherent_isoTransport_fixedReflection
-    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH))
-    (hTransport : HigherFactorModificationTriangleIsoTransportPrinciple
-      (W := W) (uH := uH) (vH := vH))
-    (hReflect : HigherFixedChosenEssentialUniquenessReflectionPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakLocalizationUniversalPrinciple
-        (W := W) (uH := uH) (vH := vH) ↔
-      HigherStoredTriangleTargetCorrectionPrinciple
-        (W := W) (uH := uH) (vH := vH) := by
-  have hRoute : HigherCoherentRouteCompletenessPrinciple
-      (W := W) (uH := uH) (vH := vH) :=
+    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W))
+    (hTransport : HigherFactorModificationTriangleIsoTransportPrinciple.{u, v, uH, vH}
+      (W := W))
+    (hReflect : HigherFixedChosenEssentialUniquenessReflectionPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    HigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+        (W := W) ↔
+      HigherStoredTriangleTargetCorrectionPrinciple.{u, v, uH, vH}
+        (W := W) := by
+  have hRoute : HigherCoherentRouteCompletenessPrinciple.{u, v, uH, vH}
+      (W := W) :=
     (routeCompletenessPrinciple_iff_fixedChosenReflectionPrinciple_of_isoTransport
       (W := W) hTransport).mpr hReflect
   exact
@@ -319,18 +327,18 @@ theorem higherWeakLocalizationUniversalPrinciple_iff_storedCorrection_of_coheren
 
 /-- The corresponding Stage III completion normal form. -/
 theorem higherWeakEssentialUniquenessCompletion_iff_storedCorrection_of_coherent_isoTransport_fixedReflection
-    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH))
-    (hTransport : HigherFactorModificationTriangleIsoTransportPrinciple
-      (W := W) (uH := uH) (vH := vH))
-    (hReflect : HigherFixedChosenEssentialUniquenessReflectionPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakEssentialUniquenessCompletion
-        (W := W) (uH := uH) (vH := vH) ↔
-      HigherStoredTriangleTargetCorrectionPrinciple
-        (W := W) (uH := uH) (vH := vH) := by
-  have hRoute : HigherCoherentRouteCompletenessPrinciple
-      (W := W) (uH := uH) (vH := vH) :=
+    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W))
+    (hTransport : HigherFactorModificationTriangleIsoTransportPrinciple.{u, v, uH, vH}
+      (W := W))
+    (hReflect : HigherFixedChosenEssentialUniquenessReflectionPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    HigherWeakEssentialUniquenessCompletion.{u, v, uH, vH}
+        (W := W) ↔
+      HigherStoredTriangleTargetCorrectionPrinciple.{u, v, uH, vH}
+        (W := W) := by
+  have hRoute : HigherCoherentRouteCompletenessPrinciple.{u, v, uH, vH}
+      (W := W) :=
     (routeCompletenessPrinciple_iff_fixedChosenReflectionPrinciple_of_isoTransport
       (W := W) hTransport).mpr hReflect
   exact

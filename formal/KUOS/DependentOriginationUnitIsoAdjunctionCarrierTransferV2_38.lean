@@ -7,6 +7,8 @@ open CategoryTheory
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationWeakHigherLocalizationUniversalPropertyV2_18
 open KUOS.DependentOriginationCoherentWeakHigherLocalizationV2_19
+open KUOS.DependentOriginationWeakHigherLocalizationGapDecompositionV2_31
+open KUOS.DependentOriginationStageIIIRouteCompletenessV2_33
 open KUOS.DependentOriginationRouteCompletenessInternalGapV2_34
 open KUOS.DependentOriginationFixedChosenEssentialUniquenessReflectionV2_36
 open KUOS.DependentOriginationFixedChosenSplitCarrierTransferV2_37
@@ -71,7 +73,7 @@ The factor morphisms retain the v2.18 objectwise comparison triangles.  The
 adjunction lives on their underlying StrongTrans 1-cells.  Only the unit is
 required to be an isomorphism; the counit need not be invertible. -/
 structure HigherFixedChosenUnitIsoAdjunctionComparison
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (C : WeakHigherLocalizationUniversalCandidate (W := W) R) where
   forward : HigherLocalizationFactorMorphism (W := W) U.chosen C.chosen
@@ -82,7 +84,7 @@ structure HigherFixedChosenUnitIsoAdjunctionComparison
 /-- An invertible-unit adjunction canonically supplies the one-sided split
 comparison required by v2.37. -/
 noncomputable def splitCarrierComparisonOfUnitIsoAdjunction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R}
     {C : WeakHigherLocalizationUniversalCandidate (W := W) R}
     (A : HigherFixedChosenUnitIsoAdjunctionComparison (W := W) U C) :
@@ -96,7 +98,7 @@ noncomputable def splitCarrierComparisonOfUnitIsoAdjunction
 /-- Therefore Stage III essential uniqueness transports along an invertible-unit
 factor adjunction. -/
 theorem fixedChosenEssentialUniqueness_of_unitIsoAdjunction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (C : WeakHigherLocalizationUniversalCandidate (W := W) R)
     (hUnique : C.HasEssentialUniqueness (W := W))
@@ -109,7 +111,7 @@ theorem fixedChosenEssentialUniqueness_of_unitIsoAdjunction
 /-- Completion condition using invertible-unit factor adjunctions on all completed
 weak carriers. -/
 def HigherFixedChosenUnitIsoAdjunctionComparisonCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ C : WeakHigherLocalizationUniversalCandidate (W := W) R,
     C.HasEssentialUniqueness (W := W) →
@@ -118,7 +120,7 @@ def HigherFixedChosenUnitIsoAdjunctionComparisonCompletion
 /-- Invertible-unit adjunction completion implies the v2.37 split-comparison
 completion condition. -/
 theorem splitCarrierComparisonCompletion_of_unitIsoAdjunctionCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hAdj : HigherFixedChosenUnitIsoAdjunctionComparisonCompletion (W := W) U) :
     HigherFixedChosenSplitCarrierComparisonCompletion (W := W) U := by
@@ -129,7 +131,7 @@ theorem splitCarrierComparisonCompletion_of_unitIsoAdjunctionCompletion
 /-- Hence invertible-unit adjunction completion is sufficient for fixed-carrier
 Stage III uniqueness transfer. -/
 theorem carrierUniquenessTransfer_of_unitIsoAdjunctionCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hAdj : HigherFixedChosenUnitIsoAdjunctionComparisonCompletion (W := W) U) :
     HigherFixedChosenCarrierUniquenessTransfer (W := W) U :=
@@ -141,7 +143,7 @@ theorem carrierUniquenessTransfer_of_unitIsoAdjunctionCompletion
 /-- Consequently, invertible-unit adjunction completion closes the coherent route
 for the fixed datum. -/
 theorem routeCompleteness_of_unitIsoAdjunctionCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hAdj : HigherFixedChosenUnitIsoAdjunctionComparisonCompletion (W := W) U) :
     HigherCoherentRouteCompleteness (W := W) U :=
@@ -168,7 +170,7 @@ def adjunctionOfAdjointEquivalence
 No triangle identity is required as input.  Mathlib can adjointify the counit to
 produce an actual bicategorical equivalence. -/
 structure HigherFixedChosenTwoSidedCarrierEquivalenceData
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (C : WeakHigherLocalizationUniversalCandidate (W := W) R) where
   forward : HigherLocalizationFactorMorphism (W := W) U.chosen C.chosen
@@ -180,7 +182,7 @@ structure HigherFixedChosenTwoSidedCarrierEquivalenceData
 adjoint equivalence.  The given unit is retained; the counit may be adjusted by
 `mkOfAdjointifyCounit` to satisfy the triangle law. -/
 noncomputable def adjointEquivalenceOfTwoSidedCarrierData
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R}
     {C : WeakHigherLocalizationUniversalCandidate (W := W) R}
     (E : HigherFixedChosenTwoSidedCarrierEquivalenceData (W := W) U C) :
@@ -188,7 +190,7 @@ noncomputable def adjointEquivalenceOfTwoSidedCarrierData
   Bicategory.Equivalence.mkOfAdjointifyCounit E.unit E.counit
 
 @[simp] theorem adjointEquivalenceOfTwoSidedCarrierData_hom
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R}
     {C : WeakHigherLocalizationUniversalCandidate (W := W) R}
     (E : HigherFixedChosenTwoSidedCarrierEquivalenceData (W := W) U C) :
@@ -196,7 +198,7 @@ noncomputable def adjointEquivalenceOfTwoSidedCarrierData
   rfl
 
 @[simp] theorem adjointEquivalenceOfTwoSidedCarrierData_inv
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R}
     {C : WeakHigherLocalizationUniversalCandidate (W := W) R}
     (E : HigherFixedChosenTwoSidedCarrierEquivalenceData (W := W) U C) :
@@ -204,7 +206,7 @@ noncomputable def adjointEquivalenceOfTwoSidedCarrierData
   rfl
 
 @[simp] theorem adjointEquivalenceOfTwoSidedCarrierData_unit
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R}
     {C : WeakHigherLocalizationUniversalCandidate (W := W) R}
     (E : HigherFixedChosenTwoSidedCarrierEquivalenceData (W := W) U C) :
@@ -214,7 +216,7 @@ noncomputable def adjointEquivalenceOfTwoSidedCarrierData
 /-- Two-sided equivalence data already contains the retract required by v2.37:
 the inverse of its unit. -/
 noncomputable def splitCarrierComparisonOfTwoSidedCarrierData
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R}
     {C : WeakHigherLocalizationUniversalCandidate (W := W) R}
     (E : HigherFixedChosenTwoSidedCarrierEquivalenceData (W := W) U C) :
@@ -226,7 +228,7 @@ noncomputable def splitCarrierComparisonOfTwoSidedCarrierData
 /-- Two-sided factor equivalence data transports Stage III uniqueness to the
 fixed carrier. -/
 theorem fixedChosenEssentialUniqueness_of_twoSidedCarrierEquivalenceData
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (C : WeakHigherLocalizationUniversalCandidate (W := W) R)
     (hUnique : C.HasEssentialUniqueness (W := W))
@@ -238,7 +240,7 @@ theorem fixedChosenEssentialUniqueness_of_twoSidedCarrierEquivalenceData
 
 /-- Completion condition using two-sided factor equivalence data. -/
 def HigherFixedChosenTwoSidedCarrierEquivalenceCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ C : WeakHigherLocalizationUniversalCandidate (W := W) R,
     C.HasEssentialUniqueness (W := W) →
@@ -246,7 +248,7 @@ def HigherFixedChosenTwoSidedCarrierEquivalenceCompletion
 
 /-- Two-sided equivalence completion implies split-comparison completion. -/
 theorem splitCarrierComparisonCompletion_of_twoSidedEquivalenceCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hEq : HigherFixedChosenTwoSidedCarrierEquivalenceCompletion (W := W) U) :
     HigherFixedChosenSplitCarrierComparisonCompletion (W := W) U := by
@@ -257,7 +259,7 @@ theorem splitCarrierComparisonCompletion_of_twoSidedEquivalenceCompletion
 /-- Therefore two-sided factor equivalence completion is sufficient for carrier
 uniqueness transfer. -/
 theorem carrierUniquenessTransfer_of_twoSidedEquivalenceCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hEq : HigherFixedChosenTwoSidedCarrierEquivalenceCompletion (W := W) U) :
     HigherFixedChosenCarrierUniquenessTransfer (W := W) U :=
@@ -269,7 +271,7 @@ theorem carrierUniquenessTransfer_of_twoSidedEquivalenceCompletion
 /-- Hence two-sided factor equivalence completion closes coherent route
 completeness. -/
 theorem routeCompleteness_of_twoSidedEquivalenceCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hEq : HigherFixedChosenTwoSidedCarrierEquivalenceCompletion (W := W) U) :
     HigherCoherentRouteCompleteness (W := W) U :=
@@ -281,13 +283,13 @@ theorem routeCompleteness_of_twoSidedEquivalenceCompletion
 /-- Global invertible-unit adjunction completion principle.  This remains an
 explicit hypothesis, not a theorem for arbitrary coherent universal data. -/
 def HigherFixedChosenUnitIsoAdjunctionComparisonCompletionPrinciple : Prop :=
-  ∀ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
+  ∀ (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
     HigherFixedChosenUnitIsoAdjunctionComparisonCompletion (W := W) U
 
 /-- Global two-sided factor equivalence completion principle. -/
 def HigherFixedChosenTwoSidedCarrierEquivalenceCompletionPrinciple : Prop :=
-  ∀ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
+  ∀ (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
     HigherFixedChosenTwoSidedCarrierEquivalenceCompletion (W := W) U
 

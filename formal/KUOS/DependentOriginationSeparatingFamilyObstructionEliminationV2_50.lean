@@ -11,6 +11,8 @@ open KUOS.DependentOriginationStageIIIRouteCompletenessV2_33
 open KUOS.DependentOriginationWeakCoherentTwoAxisObstructionV2_42
 open KUOS.DependentOriginationPointwise2CellRigidityObstructionEliminationV2_47
 
+open scoped CategoryTheory.Pseudofunctor.StrongTrans
+
 universe u v uH vH
 
 /-!
@@ -84,7 +86,7 @@ def CatHom₂SeparatingTargetFamily
     {C D : Cat.{vH, uH}} (G : C ⟶ D) : Prop :=
   ∃ P : ObjectProperty D,
     P.IsSeparating ∧
-      ∀ (Z : C) (Q : D), P Q → Subsingleton (Q ⟶ G.obj Z)
+      ∀ (Z : C) (Q : D), P Q → Subsingleton (Q ⟶ G.toFunctor.obj Z)
 
 /-- Dually, a globally coseparating family whose maps out of every source
 component are subsingletons. -/
@@ -92,7 +94,7 @@ def CatHom₂CoseparatingSourceFamily
     {C D : Cat.{vH, uH}} (F : C ⟶ D) : Prop :=
   ∃ P : ObjectProperty D,
     P.IsCoseparating ∧
-      ∀ (Z : C) (Q : D), P Q → Subsingleton (F.obj Z ⟶ Q)
+      ∀ (Z : C) (Q : D), P Q → Subsingleton (F.toFunctor.obj Z ⟶ Q)
 
 /-- Either standard global probe-family mechanism is available for the pair
 `F`, `G`. -/
@@ -142,8 +144,7 @@ theorem catHom₂PointwiseSubsingleton_of_separatingFamilyRigidity
 the v2.23 stored-triangle naturality square admits one of the two standard
 global separating-family rigidity mechanisms. -/
 def StoredV2_18NaturalitySeparatingFamilyRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=
   ∀ {X Y : Context} (f : X ⟶ Y),
@@ -156,8 +157,7 @@ def StoredV2_18NaturalitySeparatingFamilyRigidity
 /-- Separating-family rigidity supplies the exact v2.47 component-hom
 subsingleton condition for a stored naturality square. -/
 theorem storedV2_18NaturalityComponentHomSubsingleton_of_separatingFamilyRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (hFamily : StoredV2_18NaturalitySeparatingFamilyRigidity
@@ -170,8 +170,7 @@ theorem storedV2_18NaturalityComponentHomSubsingleton_of_separatingFamilyRigidit
 /-- Uniform separating-family rigidity for every v2.18 factor into one
 coherent chosen carrier. -/
 def HigherStoredV2_18NaturalitySeparatingFamilyRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -180,8 +179,7 @@ def HigherStoredV2_18NaturalitySeparatingFamilyRigidity
 /-- Uniform separating-family rigidity implies the uniform v2.47 pointwise
 criterion. -/
 theorem higherStoredV2_18NaturalityComponentHomSubsingleton_of_separatingFamilyRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hFamily : HigherStoredV2_18NaturalitySeparatingFamilyRigidity
       (W := W) U) :
@@ -194,8 +192,7 @@ theorem higherStoredV2_18NaturalityComponentHomSubsingleton_of_separatingFamilyR
 /-- Coherent universal data plus uniform separating-family rigidity give the
 v2.18 weak universal property on the same chosen carrier. -/
 theorem hasWeakHigherLocalizationUniversalProperty_of_separatingFamilyRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hFamily : HigherStoredV2_18NaturalitySeparatingFamilyRigidity
       (W := W) U) :
@@ -208,8 +205,7 @@ theorem hasWeakHigherLocalizationUniversalProperty_of_separatingFamilyRigidity
 /-- The coherent Stage III route obstruction disappears under the same
 separating-family rigidity condition. -/
 theorem higherCoherentRouteCompleteness_of_separatingFamilyRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hFamily : HigherStoredV2_18NaturalitySeparatingFamilyRigidity
       (W := W) U) :
@@ -222,8 +218,7 @@ theorem higherCoherentRouteCompleteness_of_separatingFamilyRigidity
 /-- Separating-family rigidity gives the aligned state in the v2.42 local
 classification. -/
 theorem higherWeakCoherentAlignment_of_separatingFamilyRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hFamily : HigherStoredV2_18NaturalitySeparatingFamilyRigidity
       (W := W) U) :
@@ -236,8 +231,7 @@ theorem higherWeakCoherentAlignment_of_separatingFamilyRigidity
 /-- Exact local E/R obstruction elimination under standard global separating
 or coseparating probe-family rigidity. -/
 theorem no_twoAxisObstruction_of_separatingFamilyRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hFamily : HigherStoredV2_18NaturalitySeparatingFamilyRigidity
       (W := W) U) :
