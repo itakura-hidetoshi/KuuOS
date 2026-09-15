@@ -173,7 +173,7 @@ noncomputable def isoClassHigherLocalizationComparison
       Pseudofunctor.comp, Functor.toPseudofunctor,
       pseudofunctorOfIsLocallyDiscrete,
       R.mapComp_id_left_inv_app, R.mapComp_id_right_hom_app,
-      Strict.leftUnitor_eqToIso, Strict.rightUnitor_eqToIso,
+      Bicategory.Strict.leftUnitor_eqToIso, Bicategory.Strict.rightUnitor_eqToIso,
       PrelaxFunctor.map₂_eqToHom, ← Functor.map_comp_assoc,
       ← Cat.Hom₂.comp_app]
   · intro X Y Z f g
