@@ -11,6 +11,8 @@ open KUOS.DependentOriginationStageIIIRouteCompletenessV2_33
 open KUOS.DependentOriginationWeakCoherentTwoAxisObstructionV2_42
 open KUOS.DependentOriginationPointwise2CellRigidityObstructionEliminationV2_47
 
+open scoped CategoryTheory.Pseudofunctor.StrongTrans
+
 universe u v uH vH
 
 /-!
@@ -88,9 +90,9 @@ corresponding `G.obj Z`. -/
 def CatHom₂CommonEffectiveEpiFamily
     {C D : Cat.{vH, uH}} (F G : C ⟶ D) : Prop :=
   ∃ (ι : Type uH) (Q : ι → D)
-      (e : ∀ Z : C, (i : ι) → Q i ⟶ F.obj Z),
+      (e : ∀ Z : C, (i : ι) → Q i ⟶ F.toFunctor.obj Z),
     (∀ Z : C, EffectiveEpiFamily Q (e Z)) ∧
-      ∀ (Z : C) (i : ι), Subsingleton (Q i ⟶ G.obj Z)
+      ∀ (Z : C) (i : ι), Subsingleton (Q i ⟶ G.toFunctor.obj Z)
 
 /-- A common effective-epimorphic probe family forces uniqueness of all
 corresponding component morphisms. -/
@@ -111,8 +113,7 @@ theorem catHom₂PointwiseSubsingleton_of_commonEffectiveEpiFamily
 the v2.23 stored-triangle naturality square admits a common effective-epi
 probe family. -/
 def StoredV2_18NaturalityCommonEffectiveEpiFamily
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=
   ∀ {X Y : Context} (f : X ⟶ Y),
@@ -125,8 +126,7 @@ def StoredV2_18NaturalityCommonEffectiveEpiFamily
 /-- Common effective-epi-family rigidity supplies the exact v2.47
 component-hom subsingleton condition for a stored naturality square. -/
 theorem storedV2_18NaturalityComponentHomSubsingleton_of_commonEffectiveEpiFamily
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (hFamily : StoredV2_18NaturalityCommonEffectiveEpiFamily
@@ -139,8 +139,7 @@ theorem storedV2_18NaturalityComponentHomSubsingleton_of_commonEffectiveEpiFamil
 /-- Uniform common effective-epi-family rigidity for every v2.18 factor into
 one coherent chosen carrier. -/
 def HigherStoredV2_18NaturalityCommonEffectiveEpiFamily
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -149,8 +148,7 @@ def HigherStoredV2_18NaturalityCommonEffectiveEpiFamily
 /-- Uniform common effective-epi-family rigidity implies the uniform v2.47
 pointwise criterion. -/
 theorem higherStoredV2_18NaturalityComponentHomSubsingleton_of_commonEffectiveEpiFamily
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hFamily : HigherStoredV2_18NaturalityCommonEffectiveEpiFamily
       (W := W) U) :
@@ -163,8 +161,7 @@ theorem higherStoredV2_18NaturalityComponentHomSubsingleton_of_commonEffectiveEp
 /-- Coherent universal data plus uniform common effective-epi-family rigidity
 give the v2.18 weak universal property on the same chosen carrier. -/
 theorem hasWeakHigherLocalizationUniversalProperty_of_commonEffectiveEpiFamily
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hFamily : HigherStoredV2_18NaturalityCommonEffectiveEpiFamily
       (W := W) U) :
@@ -177,8 +174,7 @@ theorem hasWeakHigherLocalizationUniversalProperty_of_commonEffectiveEpiFamily
 /-- The coherent Stage III route obstruction disappears under the same common
 effective-epi-family condition. -/
 theorem higherCoherentRouteCompleteness_of_commonEffectiveEpiFamily
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hFamily : HigherStoredV2_18NaturalityCommonEffectiveEpiFamily
       (W := W) U) :
@@ -191,8 +187,7 @@ theorem higherCoherentRouteCompleteness_of_commonEffectiveEpiFamily
 /-- Common effective-epi-family rigidity gives the aligned state in the v2.42
 local classification. -/
 theorem higherWeakCoherentAlignment_of_commonEffectiveEpiFamily
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hFamily : HigherStoredV2_18NaturalityCommonEffectiveEpiFamily
       (W := W) U) :
@@ -205,8 +200,7 @@ theorem higherWeakCoherentAlignment_of_commonEffectiveEpiFamily
 /-- Exact local E/R obstruction elimination under a common effective-epi probe
 family. -/
 theorem no_twoAxisObstruction_of_commonEffectiveEpiFamily
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hFamily : HigherStoredV2_18NaturalityCommonEffectiveEpiFamily
       (W := W) U) :
