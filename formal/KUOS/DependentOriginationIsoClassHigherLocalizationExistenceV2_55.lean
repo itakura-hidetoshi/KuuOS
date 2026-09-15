@@ -153,43 +153,13 @@ noncomputable def isoClassHigherLocalizationComparison
   refine
     { app := fun X => R.map ((η.hom.app X.as).toLoc)
       naturality := fun f => isoClassHigherLocalizationNaturalityIso W R hW f
-      naturality_naturality := ?_
-      naturality_id := ?_
-      naturality_comp := ?_ }
-  · intro X Y f g θ
-    have hfg : f = g := LocallyDiscrete.eq_of_hom θ
-    subst g
-    have hθ : θ = 𝟙 f := Subsingleton.elim _ _
-    subst θ
-    simp [isoClassHigherLocalizationNaturalityIso]
-  · intro X
-    rcases X with ⟨X⟩
-    apply Cat.Hom₂.ext
-    apply NatTrans.ext
-    funext A
-    simp only [isoClassHigherLocalizationNaturalityIso,
-      restrictHigherLocalizedSystem, isoClassLocalizedHigherSystem,
-      isoClassLocalizedBaseFunctor, higherPresentationUnitFunctor,
-      Pseudofunctor.comp, Functor.toPseudofunctor,
-      pseudofunctorOfIsLocallyDiscrete, LocallyDiscrete.id_as]
-    simp only [Functor.comp_map]
-    simp only [W.Q.map_id X,
-      (isoClassLocalizationEquivalence W hW).functor.map_id (W.Q.obj X)]
-    simp [Quiver.Hom.id_toLoc, R.mapComp_id_left_inv_app,
-      R.mapComp_id_right_hom_app, Bicategory.Strict.leftUnitor_eqToIso,
-      Bicategory.Strict.rightUnitor_eqToIso, PrelaxFunctor.map₂_eqToHom]
-  · intro X Y Z f g
-    rcases X with ⟨X⟩
-    rcases Y with ⟨Y⟩
-    rcases Z with ⟨Z⟩
-    apply Cat.Hom₂.ext
-    apply NatTrans.ext
-    funext A
-    simp [isoClassHigherLocalizationNaturalityIso, Quiver.Hom.comp_toLoc,
-      restrictHigherLocalizedSystem, isoClassLocalizedHigherSystem,
-      isoClassLocalizedBaseFunctor, higherPresentationUnitFunctor,
-      Pseudofunctor.comp, Functor.toPseudofunctor,
-      pseudofunctorOfIsLocallyDiscrete]
+      naturality_naturality := ?_ }
+  intro X Y f g θ
+  have hfg : f = g := LocallyDiscrete.eq_of_hom θ
+  subst g
+  have hθ : θ = 𝟙 f := Subsingleton.elim _ _
+  subst θ
+  simp [isoClassHigherLocalizationNaturalityIso]
 
 /-- Every component of the v2.55 comparison is an equivalence of categories,
 because it is the image under `R` of an actual isomorphism in `Context`. -/
