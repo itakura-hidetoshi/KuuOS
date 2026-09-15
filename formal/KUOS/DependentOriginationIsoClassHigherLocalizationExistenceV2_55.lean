@@ -167,7 +167,13 @@ noncomputable def isoClassHigherLocalizationComparison
     apply Cat.Hom₂.ext
     apply NatTrans.ext
     funext A
-    simp [isoClassHigherLocalizationNaturalityIso,
+    have hSourceId :
+        ((isoClassLocalizationEquivalence W hW).functor.map
+            (W.Q.map (𝟙 X))).toLoc =
+          𝟙 (LocallyDiscrete.mk
+            ((isoClassLocalizationEquivalence W hW).functor.obj (W.Q.obj X))) := by
+      simp
+    simp [hSourceId, isoClassHigherLocalizationNaturalityIso,
       restrictHigherLocalizedSystem, isoClassLocalizedHigherSystem,
       isoClassLocalizedBaseFunctor, higherPresentationUnitFunctor,
       Pseudofunctor.comp, Functor.toPseudofunctor,
