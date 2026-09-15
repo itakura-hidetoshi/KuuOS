@@ -173,12 +173,13 @@ noncomputable def isoClassHigherLocalizationComparison
           𝟙 (LocallyDiscrete.mk
             ((isoClassLocalizationEquivalence W hW).functor.obj (W.Q.obj X))) := by
       simp
-    simp [hSourceId, isoClassHigherLocalizationNaturalityIso,
+    simp only [isoClassHigherLocalizationNaturalityIso,
       restrictHigherLocalizedSystem, isoClassLocalizedHigherSystem,
       isoClassLocalizedBaseFunctor, higherPresentationUnitFunctor,
       Pseudofunctor.comp, Functor.toPseudofunctor,
-      pseudofunctorOfIsLocallyDiscrete,
-      R.mapComp_id_left_inv_app, R.mapComp_id_right_hom_app,
+      pseudofunctorOfIsLocallyDiscrete]
+    rw [hSourceId]
+    simp [R.mapComp_id_left_inv_app, R.mapComp_id_right_hom_app,
       Bicategory.Strict.leftUnitor_eqToIso, Bicategory.Strict.rightUnitor_eqToIso,
       PrelaxFunctor.map₂_eqToHom, ← Functor.map_comp_assoc,
       ← Cat.Hom₂.comp_app]
