@@ -171,7 +171,11 @@ noncomputable def isoClassHigherLocalizationComparison
       restrictHigherLocalizedSystem, isoClassLocalizedHigherSystem,
       isoClassLocalizedBaseFunctor, higherPresentationUnitFunctor,
       Pseudofunctor.comp, Functor.toPseudofunctor,
-      pseudofunctorOfIsLocallyDiscrete]
+      pseudofunctorOfIsLocallyDiscrete,
+      R.mapComp_id_left_inv_app, R.mapComp_id_right_hom_app,
+      Strict.leftUnitor_eqToIso, Strict.rightUnitor_eqToIso,
+      PrelaxFunctor.map₂_eqToHom, ← Functor.map_comp_assoc,
+      ← Cat.Hom₂.comp_app]
   · intro X Y Z f g
     rcases X with ⟨X⟩
     rcases Y with ⟨Y⟩
