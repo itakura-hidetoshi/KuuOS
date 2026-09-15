@@ -164,12 +164,18 @@ noncomputable def isoClassHigherLocalizationComparison
     simp [isoClassHigherLocalizationNaturalityIso]
   · intro X
     rcases X with ⟨X⟩
-    simp [isoClassHigherLocalizationNaturalityIso] <;> bicategory
+    apply Cat.Hom₂.ext
+    apply NatTrans.ext
+    funext A
+    simp [isoClassHigherLocalizationNaturalityIso]
   · intro X Y Z f g
     rcases X with ⟨X⟩
     rcases Y with ⟨Y⟩
     rcases Z with ⟨Z⟩
-    simp [isoClassHigherLocalizationNaturalityIso, Quiver.Hom.comp_toLoc] <;> bicategory
+    apply Cat.Hom₂.ext
+    apply NatTrans.ext
+    funext A
+    simp [isoClassHigherLocalizationNaturalityIso, Quiver.Hom.comp_toLoc]
 
 /-- Every component of the v2.55 comparison is an equivalence of categories,
 because it is the image under `R` of an actual isomorphism in `Context`. -/
