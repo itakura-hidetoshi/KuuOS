@@ -172,7 +172,8 @@ noncomputable def isoClassHigherLocalizationComparison
       isoClassLocalizedBaseFunctor, higherPresentationUnitFunctor,
       Pseudofunctor.comp, Functor.toPseudofunctor,
       pseudofunctorOfIsLocallyDiscrete, LocallyDiscrete.id_as]
-    simp only [Functor.comp_map, Functor.map_id]
+    simp only [Functor.comp_map, W.Q.map_id X,
+      (isoClassLocalizationEquivalence W hW).functor.map_id (W.Q.obj X)]
     simp [Quiver.Hom.id_toLoc, R.mapComp_id_left_inv_app,
       R.mapComp_id_right_hom_app, Bicategory.Strict.leftUnitor_eqToIso,
       Bicategory.Strict.rightUnitor_eqToIso, PrelaxFunctor.map₂_eqToHom]
