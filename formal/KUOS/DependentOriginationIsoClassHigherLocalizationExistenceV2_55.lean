@@ -167,7 +167,11 @@ noncomputable def isoClassHigherLocalizationComparison
     apply Cat.Hom₂.ext
     apply NatTrans.ext
     funext A
-    simp [isoClassHigherLocalizationNaturalityIso]
+    simp [isoClassHigherLocalizationNaturalityIso,
+      restrictHigherLocalizedSystem, isoClassLocalizedHigherSystem,
+      isoClassLocalizedBaseFunctor, higherPresentationUnitFunctor,
+      Pseudofunctor.comp, Functor.toPseudofunctor,
+      pseudofunctorOfIsLocallyDiscrete]
   · intro X Y Z f g
     rcases X with ⟨X⟩
     rcases Y with ⟨Y⟩
@@ -175,7 +179,11 @@ noncomputable def isoClassHigherLocalizationComparison
     apply Cat.Hom₂.ext
     apply NatTrans.ext
     funext A
-    simp [isoClassHigherLocalizationNaturalityIso, Quiver.Hom.comp_toLoc]
+    simp [isoClassHigherLocalizationNaturalityIso, Quiver.Hom.comp_toLoc,
+      restrictHigherLocalizedSystem, isoClassLocalizedHigherSystem,
+      isoClassLocalizedBaseFunctor, higherPresentationUnitFunctor,
+      Pseudofunctor.comp, Functor.toPseudofunctor,
+      pseudofunctorOfIsLocallyDiscrete]
 
 /-- Every component of the v2.55 comparison is an equivalence of categories,
 because it is the image under `R` of an actual isomorphism in `Context`. -/
