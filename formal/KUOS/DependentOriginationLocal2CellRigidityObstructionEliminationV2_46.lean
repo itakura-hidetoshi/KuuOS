@@ -14,6 +14,8 @@ open KUOS.DependentOriginationStageIIIRouteCompletenessV2_33
 open KUOS.DependentOriginationWeakCoherentTwoAxisObstructionV2_42
 open KUOS.DependentOriginationFiberwiseThinObstructionEliminationV2_45
 
+open scoped CategoryTheory.Pseudofunctor.StrongTrans
+
 universe u v uH vH
 
 /-!
