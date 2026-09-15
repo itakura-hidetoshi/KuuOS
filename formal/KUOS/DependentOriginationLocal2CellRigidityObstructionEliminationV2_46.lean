@@ -57,8 +57,7 @@ This is local to the chosen factor morphism and to the single source/target pair
 appearing in the v2.23 square; it does not require the whole raw target fiber to
 be thin. -/
 def StoredV2_18NaturalityHomSubsingleton
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=
   ∀ {X Y : Context} (f : X ⟶ Y),
@@ -70,8 +69,7 @@ def StoredV2_18NaturalityHomSubsingleton
 
 /-- Local 2-cell uniqueness forces the stored v2.18 naturality equation. -/
 theorem storedV2_18TriangleIsModificationNatural_of_local2CellRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (hRigid : StoredV2_18NaturalityHomSubsingleton (W := W) alpha) :
@@ -83,8 +81,7 @@ theorem storedV2_18TriangleIsModificationNatural_of_local2CellRigidity
 /-- Fiberwise thinness from v2.45 implies the strictly more local v2.46
 subsingleton condition. -/
 theorem storedV2_18NaturalityHomSubsingleton_of_fiberwiseThin
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (hThin : HigherRawFiberwiseThin R)
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) :
@@ -96,8 +93,7 @@ theorem storedV2_18NaturalityHomSubsingleton_of_fiberwiseThin
 /-- Uniform local 2-cell rigidity for all v2.18 factors into one coherent chosen
 carrier. -/
 def HigherStoredV2_18NaturalityHomSubsingleton
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -106,8 +102,7 @@ def HigherStoredV2_18NaturalityHomSubsingleton
 /-- Uniform local 2-cell rigidity implies uniform stored-triangle modification
 naturality. -/
 theorem higherStoredV2_18TriangleModificationNaturality_of_local2CellRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hRigid : HigherStoredV2_18NaturalityHomSubsingleton (W := W) U) :
     HigherStoredV2_18TriangleModificationNaturality (W := W) U := by
@@ -118,8 +113,7 @@ theorem higherStoredV2_18TriangleModificationNaturality_of_local2CellRigidity
 /-- The v2.45 fiberwise-thin route factors through the local v2.46 rigidity
 interface. -/
 theorem higherStoredV2_18NaturalityHomSubsingleton_of_fiberwiseThin
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (hThin : HigherRawFiberwiseThin R)
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherStoredV2_18NaturalityHomSubsingleton (W := W) U := by
@@ -129,8 +123,7 @@ theorem higherStoredV2_18NaturalityHomSubsingleton_of_fiberwiseThin
 
 /-- Local 2-cell rigidity makes factor-coherence lifting automatic. -/
 theorem higherFactorCoherenceLifting_of_local2CellRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hRigid : HigherStoredV2_18NaturalityHomSubsingleton (W := W) U) :
     HigherFactorCoherenceLifting (W := W) U :=
@@ -142,8 +135,7 @@ theorem higherFactorCoherenceLifting_of_local2CellRigidity
 /-- Hence coherent universal data plus local 2-cell rigidity give the full v2.18
 weak universal property on the same chosen carrier. -/
 theorem hasWeakHigherLocalizationUniversalProperty_of_local2CellRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hRigid : HigherStoredV2_18NaturalityHomSubsingleton (W := W) U) :
     HasWeakHigherLocalizationUniversalProperty (W := W) R := by
@@ -154,8 +146,7 @@ theorem hasWeakHigherLocalizationUniversalProperty_of_local2CellRigidity
 /-- The Stage III route obstruction also disappears under the same local
 2-cell-rigidity hypothesis. -/
 theorem higherCoherentRouteCompleteness_of_local2CellRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hRigid : HigherStoredV2_18NaturalityHomSubsingleton (W := W) U) :
     HigherCoherentRouteCompleteness (W := W) U := by
@@ -171,8 +162,7 @@ theorem higherCoherentRouteCompleteness_of_local2CellRigidity
 
 /-- Local 2-cell rigidity gives the aligned state in the v2.42 classification. -/
 theorem higherWeakCoherentAlignment_of_local2CellRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hRigid : HigherStoredV2_18NaturalityHomSubsingleton (W := W) U) :
     HigherWeakCoherentAlignment (W := W) U :=
@@ -184,8 +174,7 @@ theorem higherWeakCoherentAlignment_of_local2CellRigidity
 /-- Exact local E/R obstruction elimination under the minimal ambient 2-cell
 uniqueness condition used by the v2.23 stored naturality square. -/
 theorem no_twoAxisObstruction_of_local2CellRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hRigid : HigherStoredV2_18NaturalityHomSubsingleton (W := W) U) :
     ¬ HigherWeakCoherentTwoAxisObstruction (W := W) U :=
