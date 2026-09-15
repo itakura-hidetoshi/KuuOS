@@ -56,8 +56,7 @@ variable (W : MorphismProperty Context)
 This is a property of the Cat-valued target fibers, not of `W` and not of the
 base context category. -/
 def HigherRawFiberwiseThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)) : Prop :=
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)) : Prop :=
   ∀ X : Context, Quiver.IsThin (R.obj (.mk X))
 
 /-- Cat 2-cells between fixed functors into a thin target category are unique.
@@ -74,8 +73,7 @@ theorem subsingleton_catHom₂_of_targetThin
 /-- Fiberwise thinness makes every stored v2.18 triangle automatically
 modification-natural, with no discreteness assumption on `Context`. -/
 theorem storedV2_18TriangleIsModificationNatural_of_fiberwiseThin
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (hThin : HigherRawFiberwiseThin R)
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) :
@@ -88,8 +86,7 @@ theorem storedV2_18TriangleIsModificationNatural_of_fiberwiseThin
 /-- Uniform stored-triangle modification naturality follows from fiberwise
 thinness of the raw system. -/
 theorem higherStoredV2_18TriangleModificationNaturality_of_fiberwiseThin
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (hThin : HigherRawFiberwiseThin R)
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherStoredV2_18TriangleModificationNaturality (W := W) U := by
@@ -100,8 +97,7 @@ theorem higherStoredV2_18TriangleModificationNaturality_of_fiberwiseThin
 /-- Fiberwise thinness therefore makes factor-coherence lifting automatic for a
 fixed coherent universal datum. -/
 theorem higherFactorCoherenceLifting_of_fiberwiseThin
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (hThin : HigherRawFiberwiseThin R)
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFactorCoherenceLifting (W := W) U :=
@@ -113,8 +109,7 @@ theorem higherFactorCoherenceLifting_of_fiberwiseThin
 /-- On a fiberwise-thin raw system, coherent universal data already give a full
 v2.18 weak universal property on the same chosen carrier. -/
 theorem hasWeakHigherLocalizationUniversalProperty_of_fiberwiseThin_coherent
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (hThin : HigherRawFiberwiseThin R)
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HasWeakHigherLocalizationUniversalProperty (W := W) R := by
@@ -124,8 +119,7 @@ theorem hasWeakHigherLocalizationUniversalProperty_of_fiberwiseThin_coherent
 /-- The route obstruction also disappears: the required correction/modification
 lifting is forced by 2-cell uniqueness in the raw target fibers. -/
 theorem higherCoherentRouteCompleteness_of_fiberwiseThin
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (hThin : HigherRawFiberwiseThin R)
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherCoherentRouteCompleteness (W := W) U := by
@@ -142,8 +136,7 @@ theorem higherCoherentRouteCompleteness_of_fiberwiseThin
 /-- Fiberwise thinness gives the positive aligned state of the v2.42 local
 classification. -/
 theorem higherWeakCoherentAlignment_of_fiberwiseThin
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (hThin : HigherRawFiberwiseThin R)
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherWeakCoherentAlignment (W := W) U :=
@@ -154,8 +147,7 @@ theorem higherWeakCoherentAlignment_of_fiberwiseThin
 /-- Exact local E/R obstruction elimination under the target-side fiberwise
 thinness criterion. -/
 theorem no_twoAxisObstruction_of_fiberwiseThin
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (hThin : HigherRawFiberwiseThin R)
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     ¬ HigherWeakCoherentTwoAxisObstruction (W := W) U :=
