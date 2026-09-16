@@ -132,11 +132,15 @@ noncomputable def isoClassHigherLocalizationNaturalityIso
   refine
     (R.mapComp
         (((W.Q ⋙ E.functor).map f.as).toLoc)
-        ((η.hom.app Y.as).toLoc)).symm ≪≫
-      R.map₂Iso (eqToIso ?_) ≪≫
-      R.mapComp ((η.hom.app X.as).toLoc) (f.as.toLoc)
-  simpa only [Quiver.Hom.comp_toLoc] using
-    congrArg (fun k => k.toLoc) (η.hom.naturality f.as)
+        ((η.hom.app Y.as).toLoc)).symm ≪≫ ?_
+  have hnat :
+      (((W.Q ⋙ E.functor).map f.as).toLoc ≫
+          (η.hom.app Y.as).toLoc) =
+        ((η.hom.app X.as).toLoc ≫ f.as.toLoc) := by
+    simpa only [Quiver.Hom.comp_toLoc] using
+      congrArg (fun k => k.toLoc) (η.hom.naturality f.as)
+  rw [hnat]
+  exact R.mapComp ((η.hom.app X.as).toLoc) (f.as.toLoc)
 
 /-- The strong comparison from the restriction of the transported localized
 system back to the original arbitrary pseudofunctor.
