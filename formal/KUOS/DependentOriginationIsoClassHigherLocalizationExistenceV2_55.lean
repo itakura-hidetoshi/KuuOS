@@ -149,23 +149,16 @@ noncomputable def isoClassHigherLocalizationNaturalityIso
       R.map (((isoClassPresentationTriangleIso W hW).hom.app X.as).toLoc) ≫
         R.map (f.as.toLoc) := by
   let E := isoClassLocalizationEquivalence W hW
-  let η := isoClassPresentationTriangleIso W hW
+  let β := isoClassPresentationTriangleStrongTrans W hW
   change
-    R.map (((W.Q ⋙ E.functor).map f.as).toLoc) ≫
-          R.map ((η.hom.app Y.as).toLoc) ≅
-      R.map ((η.hom.app X.as).toLoc) ≫ R.map (f.as.toLoc)
-  have hnat :
-      (((W.Q ⋙ E.functor).map f.as).toLoc ≫
-          (η.hom.app Y.as).toLoc) =
-        ((η.hom.app X.as).toLoc ≫ f.as.toLoc) := by
-    simpa only [Quiver.Hom.comp_toLoc] using
-      congrArg (fun k => k.toLoc) (η.hom.naturality f.as)
+    R.map (((W.Q ⋙ E.functor).map f.as).toLoc) ≫ R.map (β.app Y) ≅
+      R.map (β.app X) ≫ R.map (f.as.toLoc)
   exact
     (R.mapComp
         (((W.Q ⋙ E.functor).map f.as).toLoc)
-        ((η.hom.app Y.as).toLoc)).symm ≪≫
-      R.map₂Iso (eqToIso hnat) ≪≫
-      R.mapComp ((η.hom.app X.as).toLoc) (f.as.toLoc)
+        (β.app Y)).symm ≪≫
+      R.map₂Iso (β.naturality f) ≪≫
+      R.mapComp (β.app X) (f.as.toLoc)
 
 set_option backward.isDefEq.respectTransparency false in
 /-- The strong comparison from the restriction of the transported localized
