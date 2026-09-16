@@ -111,6 +111,9 @@ noncomputable def isoClassPresentationTriangleStrongTrans
         exact Subsingleton.elim _ _
       naturality_id := by
         intro X
+        exact Subsingleton.elim _ _
+      naturality_comp := by
+        intro X Y Z f g
         exact Subsingleton.elim _ _ }
   apply eqToIso
   apply Discrete.ext
