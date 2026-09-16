@@ -186,22 +186,19 @@ noncomputable def isoClassHigherLocalizationComparison
     subst θ
     simp [isoClassHigherLocalizationNaturalityIso]
   · intro X
-    rcases X with ⟨X⟩
     apply Cat.Hom₂.ext
     apply NatTrans.ext
     funext A
-    simp only [isoClassHigherLocalizationNaturalityIso,
+    simp [isoClassHigherLocalizationNaturalityIso,
       restrictHigherLocalizedSystem, isoClassLocalizedHigherSystem,
       isoClassLocalizedBaseFunctor, higherPresentationUnitFunctor,
-      Pseudofunctor.comp, Functor.toPseudofunctor,
-      pseudofunctorOfIsLocallyDiscrete, LocallyDiscrete.id_as]
-    simp only [PrelaxFunctor.map₂Iso_eqToIso]
-    simp only [Functor.comp_map]
-    simp only [W.Q.map_id X,
-      (isoClassLocalizationEquivalence W hW).functor.map_id (W.Q.obj X)]
-    simp [Quiver.Hom.id_toLoc, R.mapComp_id_left_inv_app,
-      R.mapComp_id_right_hom_app, Bicategory.Strict.leftUnitor_eqToIso,
-      Bicategory.Strict.rightUnitor_eqToIso, PrelaxFunctor.map₂_eqToHom]
+      Pseudofunctor.comp,
+      Pseudofunctor.StrongTrans.naturality_id_hom,
+      R.mapComp_id_left_inv_app, R.mapComp_id_right_hom_app,
+      Bicategory.Strict.leftUnitor_eqToIso,
+      Bicategory.Strict.rightUnitor_eqToIso,
+      PrelaxFunctor.map₂_eqToHom]
+    bicategory
   · intro X Y Z f g
     simp [isoClassHigherLocalizationNaturalityIso,
       restrictHigherLocalizedSystem, isoClassLocalizedHigherSystem,
