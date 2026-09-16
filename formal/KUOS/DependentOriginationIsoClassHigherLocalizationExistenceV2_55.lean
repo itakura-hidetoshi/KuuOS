@@ -142,13 +142,13 @@ noncomputable def isoClassHigherLocalizationNaturalityIso
   rw [hnat]
   exact R.mapComp ((η.hom.app X.as).toLoc) (f.as.toLoc)
 
+set_option backward.isDefEq.respectTransparency false in
 /-- The strong comparison from the restriction of the transported localized
 system back to the original arbitrary pseudofunctor.
 
 The component at `X` is `R` applied to the `X`-component of the canonical base
 triangle.  Naturality is obtained by pasting the two pseudofunctor compositors
 around the image under `R` of the ordinary naturality equality. -/
-set_option backward.isDefEq.respectTransparency false in
 noncomputable def isoClassHigherLocalizationComparison
     (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (hW : W ≤ MorphismProperty.isomorphisms Context) :
