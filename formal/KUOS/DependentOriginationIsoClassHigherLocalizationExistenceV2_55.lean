@@ -94,6 +94,22 @@ noncomputable def isoClassPresentationTriangleIso
     Functor.IsLocalization.for_id (W := W) hW
   exact Localization.qCompEquivalenceFromModelFunctorIso (𝟭 Context) W
 
+/-- The canonical base triangle as a strong transformation between the locally
+discrete pseudofunctors induced by the two ordinary base functors.  Packaging
+the ordinary naturality equality here keeps its proof transport inside a
+locally discrete hom-category, where all 2-cell coherence is subsingleton. -/
+noncomputable def isoClassPresentationTriangleStrongTrans
+    (hW : W ≤ MorphismProperty.isomorphisms Context) :
+    (W.Q ⋙ (isoClassLocalizationEquivalence W hW).functor).toPseudofunctor ⟶
+      (𝟭 Context).toPseudofunctor := by
+  let η := isoClassPresentationTriangleIso W hW
+  refine
+    { app := fun X => (η.hom.app X.as).toLoc
+      naturality := fun {X Y} f => ?_ }
+  apply eqToIso
+  apply Discrete.ext
+  simpa using η.hom.naturality f.as
+
 /-- The ordinary base functor underlying the localized source of an arbitrary
 raw higher system in the isomorphism-only sector. -/
 noncomputable def isoClassLocalizedBaseFunctor
