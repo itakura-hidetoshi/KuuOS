@@ -177,7 +177,8 @@ noncomputable def isoClassHigherLocalizationComparison
     { app := fun X => R.map ((η.hom.app X.as).toLoc)
       naturality := fun f => isoClassHigherLocalizationNaturalityIso W R hW f
       naturality_naturality := ?_
-      naturality_id := ?_ }
+      naturality_id := ?_
+      naturality_comp := ?_ }
   · intro X Y f g θ
     have hfg : f = g := LocallyDiscrete.eq_of_hom θ
     subst g
@@ -201,6 +202,13 @@ noncomputable def isoClassHigherLocalizationComparison
     simp [Quiver.Hom.id_toLoc, R.mapComp_id_left_inv_app,
       R.mapComp_id_right_hom_app, Bicategory.Strict.leftUnitor_eqToIso,
       Bicategory.Strict.rightUnitor_eqToIso, PrelaxFunctor.map₂_eqToHom]
+  · intro X Y Z f g
+    simp [isoClassHigherLocalizationNaturalityIso,
+      restrictHigherLocalizedSystem, isoClassLocalizedHigherSystem,
+      isoClassLocalizedBaseFunctor, higherPresentationUnitFunctor,
+      Pseudofunctor.comp,
+      Pseudofunctor.StrongTrans.naturality_comp_hom]
+    bicategory
 
 /-- Every component of the v2.55 comparison is an equivalence of categories,
 because it is the image under `R` of an actual isomorphism in `Context`. -/
