@@ -228,12 +228,47 @@ noncomputable def isoClassHigherLocalizationComparison
       PrelaxFunctor.map₂_eqToHom,
       β] using h
   · intro X Y Z f g
-    simp [isoClassHigherLocalizationNaturalityIso,
+    let β := isoClassPresentationTriangleStrongTrans W hW
+    have h := congrArg
+      (fun t =>
+        (R.mapComp _ _).inv ≫ R.map₂ t ≫
+          (R.mapComp (β.app X) (_ ≫ _)).hom ≫
+            Bicategory.whiskerLeft _ (R.mapComp _ _).hom)
+      (β.naturality_comp f g)
+    simp only [PrelaxFunctor.map₂_comp,
+      Pseudofunctor.map₂_whisker_right,
+      Pseudofunctor.map₂_associator,
+      Pseudofunctor.map₂_whisker_left,
+      Category.assoc, Iso.inv_hom_id_assoc,
+      Bicategory.whiskerLeft_inv_hom, Category.comp_id] at h
+    have hR := congrArg
+      (fun t =>
+        Bicategory.whiskerLeft _ (R.mapComp _ _).hom ≫ t ≫
+          R.map₂ (Bicategory.associator _ _ _).inv ≫
+            (R.mapComp _ _).hom)
+      (R.toLax.mapComp_assoc_right
+        (((W.Q ⋙ (isoClassLocalizationEquivalence W hW).functor).map f.as).toLoc)
+        (β.app Y) (g.as.toLoc))
+    simp only [Pseudofunctor.toLax_toPrelaxFunctor,
+      Pseudofunctor.toLax_mapComp, Category.assoc,
+      Bicategory.whiskerLeft_hom_inv_assoc,
+      ← Category.assoc (R.map₂ (Bicategory.associator _ _ _).hom),
+      ← R.map₂_comp, Iso.inv_hom_id, Iso.hom_inv_id,
+      R.map₂_id, Category.id_comp, Category.comp_id] at hR
+    rw [← Category.assoc (R.mapComp _ (_ ≫ _)).inv,
+      ← Category.assoc ((_ ≫ R.map₂ (Bicategory.associator _ _ _).inv)),
+      Category.assoc (R.mapComp _ _).inv, hR] at h
+    simp only [Category.assoc] at h
+    simpa [isoClassHigherLocalizationNaturalityIso,
       restrictHigherLocalizedSystem, isoClassLocalizedHigherSystem,
       isoClassLocalizedBaseFunctor, higherPresentationUnitFunctor,
-      Pseudofunctor.comp,
-      Pseudofunctor.StrongTrans.naturality_comp_hom]
-    bicategory
+      Pseudofunctor.comp, Functor.toPseudofunctor,
+      pseudofunctorOfIsLocallyDiscrete,
+      PrelaxFunctor.map₂Iso_eqToIso,
+      Bicategory.Strict.leftUnitor_eqToIso,
+      Bicategory.Strict.rightUnitor_eqToIso,
+      PrelaxFunctor.map₂_eqToHom,
+      β] using h
 
 /-- Every component of the v2.55 comparison is an equivalence of categories,
 because it is the image under `R` of an actual isomorphism in `Context`. -/
@@ -281,10 +316,9 @@ theorem isHigherWAdmissible_of_le_isomorphisms
   letI : IsIso f := hW f hf
   exact pseudofunctor_map_of_isIso_isEquivalence R f
 
-/-- Therefore, in the isomorphism-only presentation sector the exact v2.10
-existence predicate and weak admissibility are both inhabited for every raw
-higher system.  This is deliberately not stated as a general equivalence beyond
-that sector. -/
+/-- Therefore, in the isomorphism-only presentation sector every raw pseudofunctor is automatically
+weakly `W`-admissible.  This is also forced by v2.16 from the factorization just
+constructed, but the direct proof records the elementary reason. -/
 theorem isoClassSector_admissible_and_hasFactorization
     (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (hW : W ≤ MorphismProperty.isomorphisms Context) :
