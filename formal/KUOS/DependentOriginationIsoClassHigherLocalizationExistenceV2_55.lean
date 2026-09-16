@@ -160,6 +160,20 @@ noncomputable def isoClassHigherLocalizationNaturalityIso
       R.map₂Iso (β.naturality f) ≪≫
       R.mapComp (β.app X) (f.as.toLoc)
 
+/-- Source-side identity normalization for the transported presentation unit.
+Keeping this equality in the locally discrete source prevents dependent rewrites
+from being attempted only after `R.map`, `mapComp`, and `mapId` have expanded. -/
+theorem isoClassPresentationUnitMapId
+    (hW : W ≤ MorphismProperty.isomorphisms Context)
+    (X : LocallyDiscrete Context) :
+    ((isoClassLocalizationEquivalence W hW).functor.map
+        (W.Q.map (𝟙 X.as))).toLoc =
+      𝟙 (LocallyDiscrete.mk
+        ((isoClassLocalizationEquivalence W hW).functor.obj
+          (W.Q.obj X.as))) := by
+  apply Discrete.ext
+  simp
+
 set_option backward.isDefEq.respectTransparency false in
 /-- The strong comparison from the restriction of the transported localized
 system back to the original arbitrary pseudofunctor.
@@ -187,6 +201,7 @@ noncomputable def isoClassHigherLocalizationComparison
     simp [isoClassHigherLocalizationNaturalityIso]
   · intro X
     simp [isoClassHigherLocalizationNaturalityIso,
+      isoClassPresentationUnitMapId,
       restrictHigherLocalizedSystem, isoClassLocalizedHigherSystem,
       isoClassLocalizedBaseFunctor, higherPresentationUnitFunctor,
       Pseudofunctor.comp,
