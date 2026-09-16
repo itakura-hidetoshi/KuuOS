@@ -160,17 +160,17 @@ noncomputable def isoClassHigherLocalizationNaturalityIso
       R.map₂Iso (β.naturality f) ≪≫
       R.mapComp (β.app X) (f.as.toLoc)
 
-/-- Source-side identity normalization for the transported presentation unit.
-Keeping this equality in the locally discrete source prevents dependent rewrites
-from being attempted only after `R.map`, `mapComp`, and `mapId` have expanded. -/
+/-- Source-side identity normalization for the outer presentation-unit layer.
+This stops at the intermediate `E.map (𝟙 _)` form used by the staged
+`Pseudofunctor.comp.mapId` coherence instead of collapsing directly to the final
+identity before transport through `R`. -/
 theorem isoClassPresentationUnitMapId
     (hW : W ≤ MorphismProperty.isomorphisms Context)
     (X : LocallyDiscrete Context) :
     ((isoClassLocalizationEquivalence W hW).functor.map
         (W.Q.map (𝟙 X.as))).toLoc =
-      𝟙 (LocallyDiscrete.mk
-        ((isoClassLocalizationEquivalence W hW).functor.obj
-          (W.Q.obj X.as))) := by
+      ((isoClassLocalizationEquivalence W hW).functor.map
+        (𝟙 (W.Q.obj X.as))).toLoc := by
   apply Discrete.ext
   simp
 
@@ -201,7 +201,6 @@ noncomputable def isoClassHigherLocalizationComparison
     simp [isoClassHigherLocalizationNaturalityIso]
   · intro X
     simp [isoClassHigherLocalizationNaturalityIso,
-      isoClassPresentationUnitMapId,
       restrictHigherLocalizedSystem, isoClassLocalizedHigherSystem,
       isoClassLocalizedBaseFunctor, higherPresentationUnitFunctor,
       Pseudofunctor.comp,
@@ -212,6 +211,7 @@ noncomputable def isoClassHigherLocalizationComparison
       Bicategory.Strict.leftUnitor_eqToIso,
       Bicategory.Strict.rightUnitor_eqToIso,
       PrelaxFunctor.map₂_eqToHom]
+    rw [isoClassPresentationUnitMapId W hW X]
     bicategory
   · intro X Y Z f g
     simp [isoClassHigherLocalizationNaturalityIso,
