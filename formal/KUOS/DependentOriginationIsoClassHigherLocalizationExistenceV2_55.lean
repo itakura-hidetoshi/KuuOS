@@ -200,19 +200,33 @@ noncomputable def isoClassHigherLocalizationComparison
     subst θ
     simp [isoClassHigherLocalizationNaturalityIso]
   · intro X
-    simp [isoClassHigherLocalizationNaturalityIso,
+    let β := isoClassPresentationTriangleStrongTrans W hW
+    have h := congrArg
+      (fun t =>
+        (R.mapComp _ _).inv ≫ R.map₂ t ≫ (R.mapComp _ _).hom ≫
+          Bicategory.whiskerLeft _ (R.mapId _).hom)
+      (β.naturality_id X)
+    simp only [PrelaxFunctor.map₂_comp, Category.assoc,
+      Pseudofunctor.map₂_whisker_right,
+      Pseudofunctor.map₂_whisker_left] at h
+    nth_rewrite 2 [← Category.assoc ((R.mapComp _ _).inv)] at h
+    rw [Iso.inv_hom_id_assoc, Iso.inv_hom_id, Category.id_comp,
+      ← Category.assoc (R.map₂ _), Pseudofunctor.map₂_left_unitor] at h
+    have hR := R.toLax.map₂_rightUnitor (β.app X)
+    simp only [Pseudofunctor.toLax_toPrelaxFunctor,
+      Pseudofunctor.toLax_mapId, Pseudofunctor.toLax_mapComp] at hR
+    simp only [hR, Category.assoc, Iso.inv_hom_id_assoc,
+      Bicategory.whiskerLeft_inv_hom, Category.comp_id] at h
+    simpa [isoClassHigherLocalizationNaturalityIso,
       restrictHigherLocalizedSystem, isoClassLocalizedHigherSystem,
       isoClassLocalizedBaseFunctor, higherPresentationUnitFunctor,
-      Pseudofunctor.comp,
-      Functor.toPseudofunctor, pseudofunctorOfIsLocallyDiscrete,
-      Pseudofunctor.StrongTrans.naturality_id_hom,
-      R.mapComp_id_right_hom,
+      Pseudofunctor.comp, Functor.toPseudofunctor,
+      pseudofunctorOfIsLocallyDiscrete,
       PrelaxFunctor.map₂Iso_eqToIso,
       Bicategory.Strict.leftUnitor_eqToIso,
       Bicategory.Strict.rightUnitor_eqToIso,
-      PrelaxFunctor.map₂_eqToHom]
-    rw [isoClassPresentationUnitMapId W hW X]
-    bicategory
+      PrelaxFunctor.map₂_eqToHom,
+      β] using h
   · intro X Y Z f g
     simp [isoClassHigherLocalizationNaturalityIso,
       restrictHigherLocalizedSystem, isoClassLocalizedHigherSystem,
