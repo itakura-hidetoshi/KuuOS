@@ -316,9 +316,10 @@ theorem isHigherWAdmissible_of_le_isomorphisms
   letI : IsIso f := hW f hf
   exact pseudofunctor_map_of_isIso_isEquivalence R f
 
-/-- Therefore, in the isomorphism-only presentation sector every raw pseudofunctor is automatically
-weakly `W`-admissible.  This is also forced by v2.16 from the factorization just
-constructed, but the direct proof records the elementary reason. -/
+/-- Therefore, in the isomorphism-only presentation sector the exact v2.10
+existence predicate and weak admissibility are both inhabited for every raw
+higher system.  This is deliberately not stated as a general equivalence beyond
+that sector. -/
 theorem isoClassSector_admissible_and_hasFactorization
     (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (hW : W ≤ MorphismProperty.isomorphisms Context) :
