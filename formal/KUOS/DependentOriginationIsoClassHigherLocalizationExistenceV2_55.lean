@@ -195,7 +195,9 @@ noncomputable def isoClassHigherLocalizationComparison
       Pseudofunctor.comp,
       Pseudofunctor.StrongTrans.naturality_id_hom_app,
       Cat.Hom.comp_toFunctor, Cat.Hom.id_toFunctor,
-      ← Category.assoc, ← Functor.map_comp, ← Cat.Hom₂.comp_app,
+      ← Category.assoc, ← Functor.map_comp,
+      -Cat.Hom.toNatTrans_comp, -NatTrans.comp_app,
+      ← Cat.Hom₂.comp_app,
       Bicategory.Strict.leftUnitor_eqToIso,
       Bicategory.Strict.rightUnitor_eqToIso,
       PrelaxFunctor.map₂_eqToHom]
