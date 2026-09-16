@@ -108,6 +108,9 @@ noncomputable def isoClassPresentationTriangleStrongTrans
       naturality := fun {X Y} f => ?_
       naturality_naturality := by
         intro X Y f g θ
+        exact Subsingleton.elim _ _
+      naturality_id := by
+        intro X
         exact Subsingleton.elim _ _ }
   apply eqToIso
   apply Discrete.ext
