@@ -105,7 +105,10 @@ noncomputable def isoClassPresentationTriangleStrongTrans
   let η := isoClassPresentationTriangleIso W hW
   refine
     { app := fun X => (η.hom.app X.as).toLoc
-      naturality := fun {X Y} f => ?_ }
+      naturality := fun {X Y} f => ?_
+      naturality_naturality := by
+        intro X Y f g θ
+        exact Subsingleton.elim _ _ }
   apply eqToIso
   apply Discrete.ext
   simpa using η.hom.naturality f.as
