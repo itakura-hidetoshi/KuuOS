@@ -129,18 +129,18 @@ noncomputable def isoClassHigherLocalizationNaturalityIso
     R.map (((W.Q ⋙ E.functor).map f.as).toLoc) ≫
           R.map ((η.hom.app Y.as).toLoc) ≅
       R.map ((η.hom.app X.as).toLoc) ≫ R.map (f.as.toLoc)
-  refine
-    (R.mapComp
-        (((W.Q ⋙ E.functor).map f.as).toLoc)
-        ((η.hom.app Y.as).toLoc)).symm ≪≫ ?_
   have hnat :
       (((W.Q ⋙ E.functor).map f.as).toLoc ≫
           (η.hom.app Y.as).toLoc) =
         ((η.hom.app X.as).toLoc ≫ f.as.toLoc) := by
     simpa only [Quiver.Hom.comp_toLoc] using
       congrArg (fun k => k.toLoc) (η.hom.naturality f.as)
-  rw [hnat]
-  exact R.mapComp ((η.hom.app X.as).toLoc) (f.as.toLoc)
+  exact
+    (R.mapComp
+        (((W.Q ⋙ E.functor).map f.as).toLoc)
+        ((η.hom.app Y.as).toLoc)).symm ≪≫
+      R.map₂Iso (eqToIso hnat) ≪≫
+      R.mapComp ((η.hom.app X.as).toLoc) (f.as.toLoc)
 
 set_option backward.isDefEq.respectTransparency false in
 /-- The strong comparison from the restriction of the transported localized
@@ -158,13 +158,31 @@ noncomputable def isoClassHigherLocalizationComparison
   refine
     { app := fun X => R.map ((η.hom.app X.as).toLoc)
       naturality := fun f => isoClassHigherLocalizationNaturalityIso W R hW f
-      naturality_naturality := ?_ }
-  intro X Y f g θ
-  have hfg : f = g := LocallyDiscrete.eq_of_hom θ
-  subst g
-  have hθ : θ = 𝟙 f := Subsingleton.elim _ _
-  subst θ
-  simp [isoClassHigherLocalizationNaturalityIso]
+      naturality_naturality := ?_
+      naturality_id := ?_ }
+  · intro X Y f g θ
+    have hfg : f = g := LocallyDiscrete.eq_of_hom θ
+    subst g
+    have hθ : θ = 𝟙 f := Subsingleton.elim _ _
+    subst θ
+    simp [isoClassHigherLocalizationNaturalityIso]
+  · intro X
+    rcases X with ⟨X⟩
+    apply Cat.Hom₂.ext
+    apply NatTrans.ext
+    funext A
+    simp only [isoClassHigherLocalizationNaturalityIso,
+      restrictHigherLocalizedSystem, isoClassLocalizedHigherSystem,
+      isoClassLocalizedBaseFunctor, higherPresentationUnitFunctor,
+      Pseudofunctor.comp, Functor.toPseudofunctor,
+      pseudofunctorOfIsLocallyDiscrete, LocallyDiscrete.id_as]
+    simp only [PrelaxFunctor.map₂Iso_eqToIso]
+    simp only [Functor.comp_map]
+    simp only [W.Q.map_id X,
+      (isoClassLocalizationEquivalence W hW).functor.map_id (W.Q.obj X)]
+    simp [Quiver.Hom.id_toLoc, R.mapComp_id_left_inv_app,
+      R.mapComp_id_right_hom_app, Bicategory.Strict.leftUnitor_eqToIso,
+      Bicategory.Strict.rightUnitor_eqToIso, PrelaxFunctor.map₂_eqToHom]
 
 /-- Every component of the v2.55 comparison is an equivalence of categories,
 because it is the image under `R` of an actual isomorphism in `Context`. -/
