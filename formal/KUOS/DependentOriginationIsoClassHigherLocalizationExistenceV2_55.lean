@@ -186,21 +186,17 @@ noncomputable def isoClassHigherLocalizationComparison
     subst θ
     simp [isoClassHigherLocalizationNaturalityIso]
   · intro X
-    apply Cat.Hom₂.ext
-    apply NatTrans.ext
-    funext A
     simp [isoClassHigherLocalizationNaturalityIso,
       restrictHigherLocalizedSystem, isoClassLocalizedHigherSystem,
       isoClassLocalizedBaseFunctor, higherPresentationUnitFunctor,
       Pseudofunctor.comp,
-      Pseudofunctor.StrongTrans.naturality_id_hom_app,
-      Cat.Hom.comp_toFunctor, Cat.Hom.id_toFunctor,
-      ← Category.assoc, ← Functor.map_comp,
-      -Cat.Hom.toNatTrans_comp, -NatTrans.comp_app,
-      ← Cat.Hom₂.comp_app,
+      Pseudofunctor.StrongTrans.naturality_id_hom,
+      R.mapComp_id_left_inv, R.mapComp_id_right_hom,
+      PrelaxFunctor.map₂Iso_eqToIso,
       Bicategory.Strict.leftUnitor_eqToIso,
       Bicategory.Strict.rightUnitor_eqToIso,
       PrelaxFunctor.map₂_eqToHom]
+    bicategory
   · intro X Y Z f g
     simp [isoClassHigherLocalizationNaturalityIso,
       restrictHigherLocalizedSystem, isoClassLocalizedHigherSystem,
