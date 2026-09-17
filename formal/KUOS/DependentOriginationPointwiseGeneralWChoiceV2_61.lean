@@ -99,6 +99,7 @@ theorem quotientComposition_hasMapIso
       Quot.mk _ (Quot.out (f ≫ g)) =
         Quot.mk _ (Quot.out f ≫ Quot.out g)
     rw [← Quotient.comp_mk, Quot.out_eq (f ≫ g), Quot.out_eq f, Quot.out_eq g]
+    rfl
   rcases equalInLocalization_hasEvaluationIso W R D hq with ⟨e⟩
   exact ⟨by simpa only [Functor.map_comp] using e⟩
 
