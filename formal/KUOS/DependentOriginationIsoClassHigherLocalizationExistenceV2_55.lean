@@ -247,8 +247,8 @@ noncomputable def isoClassHigherLocalizationComparison
           R.map₂ (Bicategory.associator _ _ _).inv ≫
             (R.mapComp _ _).hom)
       (R.toLax.mapComp_assoc_right
-        (((W.Q ⋙ (isoClassLocalizationEquivalence W hW).functor).map f.as).toLoc)
-        (β.app Y) (g.as.toLoc))
+        ((W.Q ⋙ (isoClassLocalizationEquivalence W hW).functor).toPseudofunctor.map f)
+        (β.app Y) ((𝟭 Context).toPseudofunctor.map g))
     simp only [Pseudofunctor.toLax_toPrelaxFunctor,
       Pseudofunctor.toLax_mapComp, Category.assoc,
       Bicategory.whiskerLeft_hom_inv_assoc,
