@@ -397,7 +397,7 @@ theorem evaluationHolonomyTrivial_of_fiberFunctorIsoThin
   letI : Subsingleton
       ((freePathEvaluator W R D).map p ≅
         (freePathEvaluator W R D).map p) :=
-    hiso X Y _ _
+    hiso X.obj Y.obj _ _
   exact Subsingleton.elim _ _
 
 /-- The intrinsic trivial-fiber-automorphism sector from v2.64 is therefore a
