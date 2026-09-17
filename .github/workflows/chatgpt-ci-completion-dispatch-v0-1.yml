@@ -8,7 +8,7 @@ permissions:
   actions: read
   contents: read
   issues: write
-  pull-requests: read
+  pull-requests: write
 
 concurrency:
   group: chatgpt-ci-completion-dispatch-v01-${{ github.event.client_payload.run_id }}-${{ github.event.client_payload.run_attempt }}
