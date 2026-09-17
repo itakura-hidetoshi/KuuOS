@@ -1,0 +1,56 @@
+name: ChatGPT CI Completion Dispatch v0.1
+
+on:
+  repository_dispatch:
+    types: [chatgpt_ci_completion_dispatch_v0_1]
+
+permissions:
+  actions: read
+  contents: read
+  issues: write
+  pull-requests: read
+
+concurrency:
+  group: chatgpt-ci-completion-dispatch-v01-${{ github.event.client_payload.run_id }}-${{ github.event.client_payload.run_attempt }}
+  cancel-in-progress: false
+
+jobs:
+  notify:
+    name: Emit secondary PR completion wake-up
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out trusted default branch
+        uses: actions/checkout@v6
+        with:
+          ref: main
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run focused dispatch receiver tests
+        run: python3 -m unittest -v tests.test_chatgpt_ci_completion_dispatch_v0_1
+
+      - name: Process exact source-run dispatch
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python3 scripts/chatgpt_ci_completion_dispatch_v0_1.py
+          --event "$GITHUB_EVENT_PATH"
+          --repository "${{ github.repository }}"
+
+      - name: Publish non-authority summary
+        if: always()
+        run: |
+          {
+            echo '## ChatGPT CI Completion Dispatch v0.1'
+            echo
+            echo '- Trigger: same-repository `repository_dispatch` from the source PR CI finalizer.'
+            echo '- Receiver re-reads the exact source run and current PR head before commenting.'
+            echo '- Short bounded polling is permitted only for the fixed source run while its finalizer exits.'
+            echo '- Producer marker is independent from the existing `workflow_run` notifier marker.'
+            echo '- Wake-up comments are not CI truth and grant no merge/write authority.'
+          } >> "$GITHUB_STEP_SUMMARY"
