@@ -61,8 +61,8 @@ for fixed image fibers and fixed functors `F,G`, the type of 2-isomorphisms
 This is weaker than `IsFiberFunctorTwoThin`: noninvertible natural transformations
 need not be unique. -/
 def IsFiberFunctorIsoThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)) : Prop :=
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)) : Prop :=
   ∀ (X Y : Context)
     (F G : R.obj (.mk X) ⟶ R.obj (.mk Y)),
     Subsingleton (F ≅ G)
@@ -70,8 +70,8 @@ def IsFiberFunctorIsoThin
 /-- Each image fiber has a thin core groupoid: between any two objects of one
 fiber there is at most one isomorphism.  Noninvertible morphisms are unrestricted. -/
 def IsFiberCoreThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)) : Prop :=
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)) : Prop :=
   ∀ (X : Context) (A B : R.obj (.mk X)), Subsingleton (A ≅ B)
 
 /-- Every object in every image fiber has trivial automorphism group.
@@ -79,14 +79,14 @@ def IsFiberCoreThin
 Because an automorphism type is always inhabited by `Iso.refl`, subsingleton here
 means exactly that every automorphism is the identity. -/
 def IsFiberAutomorphismTrivial
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)) : Prop :=
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)) : Prop :=
   ∀ (X : Context) (A : R.obj (.mk X)), Subsingleton (A ≅ A)
 
 /-- Full v2.62 2-thinness implies invertible-2-cell thinness. -/
 theorem isFiberFunctorIsoThin_of_fiberFunctorTwoThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (hthin : IsFiberFunctorTwoThin R) :
     IsFiberFunctorIsoThin R := by
   intro X Y F G
@@ -97,8 +97,8 @@ theorem isFiberFunctorIsoThin_of_fiberFunctorTwoThin
 
 /-- Thin fibers from v2.63 have trivial automorphism groups. -/
 theorem isFiberAutomorphismTrivial_of_fiberHomThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (hthin : IsFiberHomThin R) :
     IsFiberAutomorphismTrivial R := by
   intro X A
@@ -108,8 +108,8 @@ theorem isFiberAutomorphismTrivial_of_fiberHomThin
 /-- Trivial automorphism groups force the whole core groupoid of each fiber to be
 thin: any two isomorphisms `A ≅ B` differ by an automorphism of `A`. -/
 theorem isFiberCoreThin_of_automorphismTrivial
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (htriv : IsFiberAutomorphismTrivial R) :
     IsFiberCoreThin R := by
   intro X A B
@@ -135,8 +135,8 @@ The proof descends a Cat 2-isomorphism to its natural transformation, then to ea
 component.  Each component is an isomorphism in the target fiber, hence unique by
 `IsFiberCoreThin`. -/
 theorem isFiberFunctorIsoThin_of_fiberCoreThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (hcore : IsFiberCoreThin R) :
     IsFiberFunctorIsoThin R := by
   intro X Y F G
@@ -157,8 +157,8 @@ theorem isFiberFunctorIsoThin_of_fiberCoreThin
 /-- A convenient consequence: v2.63 fiber-hom thinness implies the weaker
 fiber-core thinness through trivial automorphism groups. -/
 theorem isFiberCoreThin_of_fiberHomThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (hthin : IsFiberHomThin R) :
     IsFiberCoreThin R :=
   isFiberCoreThin_of_automorphismTrivial R
@@ -170,8 +170,8 @@ theorem isFiberCoreThin_of_fiberHomThin
 This is the exact equality principle needed for all five v2.59/v2.60 coherence
 laws. -/
 theorem eq_of_isIso_of_fiberFunctorIsoThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (hiso : IsFiberFunctorIsoThin R)
     (X Y : Context)
     {F G : R.obj (.mk X) ⟶ R.obj (.mk Y)}
@@ -185,8 +185,8 @@ choices to the three coherent quotient-pseudofunctor laws of v2.59.
 
 Unlike v2.62, no equality of arbitrary noninvertible 2-cells is assumed. -/
 noncomputable def coherentQuotientTransportDataOfFiberFunctorIsoThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hiso : IsFiberFunctorIsoThin R)
     (L : PointwiseGeneralWChoiceData (W := W) R D) :
@@ -206,8 +206,8 @@ noncomputable def coherentQuotientTransportDataOfFiberFunctorIsoThin
 /-- The same invertible-2-cell uniqueness automatically closes the two
 StrongTrans coherence equations from v2.60. -/
 noncomputable def coherentPresentationComparisonDataOfFiberFunctorIsoThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hiso : IsFiberFunctorIsoThin R)
     (L : PointwiseGeneralWChoiceData (W := W) R D) :
@@ -226,8 +226,8 @@ noncomputable def coherentPresentationComparisonDataOfFiberFunctorIsoThin
 
 /-- Assemble all five laws from invertible-2-cell uniqueness. -/
 noncomputable def coherentGeneralWFactorizationDataOfFiberFunctorIsoThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hiso : IsFiberFunctorIsoThin R)
     (L : PointwiseGeneralWChoiceData (W := W) R D) :
@@ -240,8 +240,8 @@ noncomputable def coherentGeneralWFactorizationDataOfFiberFunctorIsoThin
 /-- Hence invertible-2-cell thinness alone guarantees existence of the complete
 coherent general-`W` factorization package. -/
 theorem hasCoherentGeneralWFactorizationData_of_fiberFunctorIsoThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hiso : IsFiberFunctorIsoThin R) :
     HasCoherentGeneralWFactorizationData W R D := by
@@ -252,8 +252,8 @@ theorem hasCoherentGeneralWFactorizationData_of_fiberFunctorIsoThin
 /-- Main functor-iso-thin theorem: pointwise adjoint equivalences plus uniqueness
 of invertible parallel 2-cells yield a genuine higher-localization factorization. -/
 theorem hasHigherLocalizationFactorization_of_fiberFunctorIsoThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hiso : IsFiberFunctorIsoThin R) :
     HasHigherLocalizationFactorization (W := W) R :=
@@ -264,8 +264,8 @@ theorem hasHigherLocalizationFactorization_of_fiberFunctorIsoThin
 /-- Weak `W`-admissibility plus fiber-functor iso-thinness closes the complete
 general-`W` factorization route. -/
 theorem hasHigherLocalizationFactorization_of_admissible_and_fiberFunctorIsoThin
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
     (hR : IsHigherWAdmissible W R)
     (hiso : IsFiberFunctorIsoThin R) :
     HasHigherLocalizationFactorization (W := W) R :=
@@ -276,8 +276,8 @@ theorem hasHigherLocalizationFactorization_of_admissible_and_fiberFunctorIsoThin
 the image fibers suffice.  Fibers may still have arbitrarily many noninvertible
 morphisms. -/
 theorem hasHigherLocalizationFactorization_of_admissible_and_fiberCoreThin
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
     (hR : IsHigherWAdmissible W R)
     (hcore : IsFiberCoreThin R) :
     HasHigherLocalizationFactorization (W := W) R :=
@@ -288,8 +288,8 @@ theorem hasHigherLocalizationFactorization_of_admissible_and_fiberCoreThin
 fiber object have trivial automorphism group.  No uniqueness assumption on
 noninvertible morphisms is needed. -/
 theorem hasHigherLocalizationFactorization_of_admissible_and_trivialFiberAutomorphisms
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
     (hR : IsHigherWAdmissible W R)
     (htriv : IsFiberAutomorphismTrivial R) :
     HasHigherLocalizationFactorization (W := W) R :=
