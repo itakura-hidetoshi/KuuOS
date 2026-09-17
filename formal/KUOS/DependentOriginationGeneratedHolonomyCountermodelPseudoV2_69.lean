@@ -110,8 +110,8 @@ theorem counterMapComp_eq_of_compScalar_eq
 
 /-- The single-face twisted raw higher contextual system. -/
 noncomputable def counterSystem :
-    RawHigherContextualSystem
-      (Context := OctahedralVertex) (uH := 0) (vH := 0) :=
+    RawHigherContextualSystem.{0, 0, 0, 0}
+      (Context := OctahedralVertex) :=
   LocallyDiscrete.mkPseudofunctor
     (fun _ => Cat.of CounterFiber)
     (fun _ => 𝟙 (Cat.of CounterFiber))
