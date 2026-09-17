@@ -51,7 +51,7 @@ structure PointwiseWAdjointEquivalenceData
       (Context := Context)) where
   chosen :
     ∀ {X Y : Context} (f : X ⟶ Y), W f →
-      R.obj (.mk X) ≌ R.obj (.mk Y)
+      (R.obj (.mk X) ≌ R.obj (.mk Y))
   chosen_functor :
     ∀ {X Y : Context} (f : X ⟶ Y) (hf : W f),
       (chosen f hf).functor = (R.map f.toLoc).toFunctor
