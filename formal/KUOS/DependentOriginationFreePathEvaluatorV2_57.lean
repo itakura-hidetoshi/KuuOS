@@ -75,7 +75,7 @@ noncomputable def freePathEvaluator
       (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (X : Localization.Construction.LocQuiver W) :
-    (freePathEvaluator W R D).obj (.mk X) = R.obj (.mk X.obj) := by
+    (freePathEvaluator W R D).obj X = R.obj (.mk X.obj) := by
   rfl
 
 /-- On an ordinary generator, free-path evaluation is exactly the original
