@@ -275,11 +275,11 @@ def generatedLocalization2CellToV267
       LocalizationRelation2Cell.refl p
   | .symm α =>
       LocalizationRelation2Cell.symm
-        (generatedLocalization2CellToV267 W α)
+        (generatedLocalization2CellToV267 (W := W) α)
   | .trans α β =>
       LocalizationRelation2Cell.trans
-        (generatedLocalization2CellToV267 W α)
-        (generatedLocalization2CellToV267 W β)
+        (generatedLocalization2CellToV267 (W := W) α)
+        (generatedLocalization2CellToV267 (W := W) β)
 
 /-! ## Canonical recursive evaluation -/
 
