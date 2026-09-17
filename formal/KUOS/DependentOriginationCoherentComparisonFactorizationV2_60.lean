@@ -107,10 +107,15 @@ theorem presentationArrow_hasMapIso
   change Nonempty
     ((freePathEvaluator W R D).map (Quot.out (W.Q.map f)) ≅
       R.map f.toLoc)
-  rw [← freePathEvaluator_map_ordinary W R D f]
-  apply equalInLocalization_hasEvaluationIso W R D
-  change Quot.mk _ (Quot.out (W.Q.map f)) = W.Q.map f
-  exact Quot.out_eq _
+  have h :
+      Nonempty
+        ((freePathEvaluator W R D).map (Quot.out (W.Q.map f)) ≅
+          (freePathEvaluator W R D).map
+            (Localization.Construction.ψ₁ W f)) := by
+    apply equalInLocalization_hasEvaluationIso W R D
+    change Quot.mk _ (Quot.out (W.Q.map f)) = W.Q.map f
+    exact Quot.out_eq _
+  simpa only [freePathEvaluator_map_ordinary] using h
 
 /-- Turn an isomorphism between the two arrow maps into the StrongTrans
 naturality isomorphism when both object components are fixed to identities. -/
@@ -192,22 +197,21 @@ noncomputable def coherentPresentationComparison
     restrictedCoherentQuotientSystem W R D T ⟶ R := by
   refine
     { app := fun X => 𝟙 (R.obj X)
-      naturality := ?_
+      naturality := fun f =>
+        identityComponentNaturalityIso W R D T f.as (C.mapIso f.as)
+      naturality_naturality := ?_
       naturality_id := ?_
       naturality_comp := ?_ }
-  · intro X Y f
-    rcases X with ⟨X⟩
-    rcases Y with ⟨Y⟩
-    simpa using
-      identityComponentNaturalityIso W R D T f.as (C.mapIso f.as)
+  · intro X Y f g θ
+    have hfg : f = g := LocallyDiscrete.eq_of_hom θ
+    subst g
+    have hθ : θ = 𝟙 f := Subsingleton.elim _ _
+    subst θ
+    simp [identityComponentNaturalityIso]
   · intro X
-    rcases X with ⟨X⟩
-    simpa using C.naturality_id X
+    exact C.naturality_id X.as
   · intro X Y Z f g
-    rcases X with ⟨X⟩
-    rcases Y with ⟨Y⟩
-    rcases Z with ⟨Z⟩
-    simpa using C.naturality_comp f.as g.as
+    exact C.naturality_comp f.as g.as
 
 /-- The comparison components are exactly identity functors. -/
 @[simp] theorem coherentPresentationComparison_app
