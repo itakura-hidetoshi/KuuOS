@@ -96,10 +96,9 @@ theorem quotientComposition_hasMapIso
         (Quotient.functor (Localization.Construction.relations W)).map
           (Quot.out f ≫ Quot.out g) := by
     change
-      (Quot.mk _ (Quot.out (f ≫ g)) : X ⟶ Z) =
-        (Quot.mk _ (Quot.out f) : X ⟶ Y) ≫
-          (Quot.mk _ (Quot.out g) : Y ⟶ Z)
-    rw [Quot.out_eq (f ≫ g), Quot.out_eq f, Quot.out_eq g]
+      Quot.mk _ (Quot.out (f ≫ g)) =
+        Quot.mk _ (Quot.out f ≫ Quot.out g)
+    rw [← Quotient.comp_mk, Quot.out_eq (f ≫ g), Quot.out_eq f, Quot.out_eq g]
   rcases equalInLocalization_hasEvaluationIso W R D hq with ⟨e⟩
   exact ⟨by simpa only [Functor.map_comp] using e⟩
 
