@@ -266,17 +266,20 @@ noncomputable def chosenGeneratedLocalization2CellOfEquality
 def generatedLocalization2CellToV267
     {X Y : LocalizationPaths W} {p q : X ⟶ Y}
     (α : GeneratedLocalization2Cell W p q) :
-    LocalizationRelation2Cell W p q := by
-  induction α with
-  | ofCompClosure α =>
-      exact LocalizationRelation2Cell.ofCompRel
+    LocalizationRelation2Cell W p q :=
+  match α with
+  | .ofCompClosure α =>
+      LocalizationRelation2Cell.ofCompRel
         (generatedCompClosure2CellToCompRel W α)
-  | refl p =>
-      exact LocalizationRelation2Cell.refl p
-  | symm α ih =>
-      exact LocalizationRelation2Cell.symm ih
-  | trans α β ihα ihβ =>
-      exact LocalizationRelation2Cell.trans ihα ihβ
+  | .refl p =>
+      LocalizationRelation2Cell.refl p
+  | .symm α =>
+      LocalizationRelation2Cell.symm
+        (generatedLocalization2CellToV267 W α)
+  | .trans α β =>
+      LocalizationRelation2Cell.trans
+        (generatedLocalization2CellToV267 W α)
+        (generatedLocalization2CellToV267 W β)
 
 /-! ## Canonical recursive evaluation -/
 
