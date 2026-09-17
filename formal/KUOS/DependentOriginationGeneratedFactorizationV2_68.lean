@@ -56,8 +56,8 @@ variable (W : MorphismProperty Context)
 comparison data on the coherent quotient carrier constructed from the first
 three generated defect vanishings. -/
 noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hPI : GeneratedEvaluationPathIndependent W R D) :
     let L := generatedPointwiseGeneralWChoiceData W R D
@@ -119,8 +119,8 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
 path-independence, after the first three quotient defects have been killed by the
 preceding generated quotient-coherence layer. -/
 noncomputable def generatedComparisonDefectsTrivialOfPathIndependent
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hPI : GeneratedEvaluationPathIndependent W R D) :
     let L := generatedPointwiseGeneralWChoiceData W R D
@@ -143,8 +143,8 @@ noncomputable def generatedComparisonDefectsTrivialOfPathIndependent
 /-- All five v2.65 coherence defects vanish for the exact canonical generated
 pointwise bundle under generated evaluation path-independence. -/
 noncomputable def generatedFiveCoherenceDefectsTrivialOfPathIndependent
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hPI : GeneratedEvaluationPathIndependent W R D) :
     FiveCoherenceDefectsTrivial W R D
@@ -155,8 +155,8 @@ noncomputable def generatedFiveCoherenceDefectsTrivialOfPathIndependent
 
 /-- Trivial generated holonomy kills all five coherence defects. -/
 noncomputable def generatedFiveCoherenceDefectsTrivialOfHolonomyTrivial
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (htriv : GeneratedHolonomyTrivial W R D) :
     FiveCoherenceDefectsTrivial W R D
@@ -168,8 +168,8 @@ noncomputable def generatedFiveCoherenceDefectsTrivialOfHolonomyTrivial
 2-holonomy is sufficient for the genuine general-W higher-localization
 factorization. -/
 theorem hasHigherLocalizationFactorization_of_generatedHolonomyTrivial
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (htriv : GeneratedHolonomyTrivial W R D) :
     HasHigherLocalizationFactorization (W := W) R :=
@@ -181,8 +181,8 @@ theorem hasHigherLocalizationFactorization_of_generatedHolonomyTrivial
 provides the v2.56 pointwise adjoint-equivalence data; generated holonomy
 triviality remains an explicit additional hypothesis. -/
 theorem hasHigherLocalizationFactorization_of_admissible_and_generatedHolonomyTrivial
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
     (hR : IsHigherWAdmissible W R)
     (htriv : GeneratedHolonomyTrivial W R
       (pointwiseWAdjointEquivalenceDataOfAdmissible W hR)) :
