@@ -182,8 +182,8 @@ noncomputable def generatedComparisonCompositionQuotientRoute
 /-- Generated path-independence is exactly strong enough to identify the two
 associativity routes. -/
 theorem generatedQuotientAssociatorRoutes_evaluation_eq
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hPI : GeneratedEvaluationPathIndependent W R D)
     {X Y Z T : W.Localization}
@@ -196,8 +196,8 @@ theorem generatedQuotientAssociatorRoutes_evaluation_eq
 
 /-- Generated path-independence identifies the two left-unit routes. -/
 theorem generatedQuotientLeftUnitorRoutes_evaluation_eq
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hPI : GeneratedEvaluationPathIndependent W R D)
     {X Y : W.Localization} (f : X ⟶ Y) :
@@ -209,8 +209,8 @@ theorem generatedQuotientLeftUnitorRoutes_evaluation_eq
 
 /-- Generated path-independence identifies the two right-unit routes. -/
 theorem generatedQuotientRightUnitorRoutes_evaluation_eq
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hPI : GeneratedEvaluationPathIndependent W R D)
     {X Y : W.Localization} (f : X ⟶ Y) :
@@ -222,8 +222,8 @@ theorem generatedQuotientRightUnitorRoutes_evaluation_eq
 
 /-- Generated path-independence identifies the two identity-presentation routes. -/
 theorem generatedComparisonIdentityRoutes_evaluation_eq
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hPI : GeneratedEvaluationPathIndependent W R D)
     (X : Context) :
@@ -236,8 +236,8 @@ theorem generatedComparisonIdentityRoutes_evaluation_eq
 /-- Generated path-independence identifies the two composition-presentation
 routes. -/
 theorem generatedComparisonCompositionRoutes_evaluation_eq
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hPI : GeneratedEvaluationPathIndependent W R D)
     {X Y Z : Context} (f : X ⟶ Y) (g : Y ⟶ Z) :
