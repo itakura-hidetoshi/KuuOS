@@ -124,9 +124,11 @@ theorem generatedLocalization2CellEvaluationIso_whiskerLeft
     (α : GeneratedLocalization2Cell W p q) :
     generatedLocalization2CellEvaluationIso W R D
         (generatedLocalization2CellWhiskerLeft W k α) =
-      Bicategory.whiskerLeftIso
-        ((freePathEvaluator W R D).map k)
-        (generatedLocalization2CellEvaluationIso W R D α) := by
+      (by
+        simpa only [Functor.map_comp] using
+          (Bicategory.whiskerLeftIso
+            ((freePathEvaluator W R D).map k)
+            (generatedLocalization2CellEvaluationIso W R D α))) := by
   induction α with
   | ofCompClosure α =>
       cases α with
@@ -174,9 +176,11 @@ theorem generatedLocalization2CellEvaluationIso_whiskerRight
     (α : GeneratedLocalization2Cell W p q) :
     generatedLocalization2CellEvaluationIso W R D
         (generatedLocalization2CellWhiskerRight W k α) =
-      Bicategory.whiskerRightIso
-        (generatedLocalization2CellEvaluationIso W R D α)
-        ((freePathEvaluator W R D).map k) := by
+      (by
+        simpa only [Functor.map_comp] using
+          (Bicategory.whiskerRightIso
+            (generatedLocalization2CellEvaluationIso W R D α)
+            ((freePathEvaluator W R D).map k))) := by
   induction α with
   | ofCompClosure α =>
       cases α with
@@ -225,10 +229,13 @@ theorem generatedLocalization2CellEvaluationIso_whiskerLeft_hom
     (α : GeneratedLocalization2Cell W p q) :
     (generatedLocalization2CellEvaluationIso W R D
         (generatedLocalization2CellWhiskerLeft W k α)).hom =
-      (freePathEvaluator W R D).map k ◁
-        (generatedLocalization2CellEvaluationIso W R D α).hom := by
-  rw [generatedLocalization2CellEvaluationIso_whiskerLeft W R D k α]
-  rfl
+      (by
+        simpa only [Functor.map_comp] using
+          ((freePathEvaluator W R D).map k ◁
+            (generatedLocalization2CellEvaluationIso W R D α).hom)) := by
+  simpa only [Functor.map_comp, whiskerLeftIso_hom] using
+    congrArg Iso.hom
+      (generatedLocalization2CellEvaluationIso_whiskerLeft W R D k α)
 
 /-- The hom of the evaluated right whisker is the ordinary bicategorical right
 whisker of the evaluated hom. -/
@@ -242,10 +249,13 @@ theorem generatedLocalization2CellEvaluationIso_whiskerRight_hom
     (α : GeneratedLocalization2Cell W p q) :
     (generatedLocalization2CellEvaluationIso W R D
         (generatedLocalization2CellWhiskerRight W k α)).hom =
-      (generatedLocalization2CellEvaluationIso W R D α).hom ▷
-        (freePathEvaluator W R D).map k := by
-  rw [generatedLocalization2CellEvaluationIso_whiskerRight W R D k α]
-  rfl
+      (by
+        simpa only [Functor.map_comp] using
+          ((generatedLocalization2CellEvaluationIso W R D α).hom ▷
+            (freePathEvaluator W R D).map k)) := by
+  simpa only [Functor.map_comp, whiskerRightIso_hom] using
+    congrArg Iso.hom
+      (generatedLocalization2CellEvaluationIso_whiskerRight W R D k α)
 
 /-- Evaluation of a generated cell arising only from literal path equality is
 the equality-induced isomorphism between the evaluated paths. -/
