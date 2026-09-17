@@ -310,8 +310,8 @@ theorem counterSystem_not_generatedHolonomyTrivial :
 global generated-holonomy condition used in v2.68. -/
 theorem weak_admissibility_does_not_force_generatedHolonomyTrivial :
     ¬ (∀
-      (R : RawHigherContextualSystem
-        (Context := OctahedralVertex) (uH := 0) (vH := 0))
+      (R : RawHigherContextualSystem.{0, 0, 0, 0}
+        (Context := OctahedralVertex))
       (hR : IsHigherWAdmissible allMorphisms R),
       GeneratedHolonomyTrivial allMorphisms R
         (pointwiseWAdjointEquivalenceDataOfAdmissible allMorphisms hR)) := by

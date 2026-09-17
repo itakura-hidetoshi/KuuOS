@@ -61,34 +61,40 @@ def generatedLocalization2CellWhiskerLeft
     {X Y Z : LocalizationPaths W}
     (k : X ⟶ Y) {p q : Y ⟶ Z}
     (α : GeneratedLocalization2Cell W p q) :
-    GeneratedLocalization2Cell W (k ≫ p) (k ≫ q) := by
-  induction α with
-  | ofCompClosure α =>
-      exact GeneratedLocalization2Cell.ofCompClosure
+    GeneratedLocalization2Cell W (k ≫ p) (k ≫ q) :=
+  match α with
+  | .ofCompClosure α =>
+      GeneratedLocalization2Cell.ofCompClosure
         (generatedCompClosureWhiskerLeft W k α)
-  | refl p =>
-      exact GeneratedLocalization2Cell.refl _
-  | symm α ih =>
-      exact GeneratedLocalization2Cell.symm ih
-  | trans α β ihα ihβ =>
-      exact GeneratedLocalization2Cell.trans ihα ihβ
+  | .refl p =>
+      GeneratedLocalization2Cell.refl _
+  | .symm α =>
+      GeneratedLocalization2Cell.symm
+        (generatedLocalization2CellWhiskerLeft k α)
+  | .trans α β =>
+      GeneratedLocalization2Cell.trans
+        (generatedLocalization2CellWhiskerLeft k α)
+        (generatedLocalization2CellWhiskerLeft k β)
 
 /-- Right-whisker an arbitrary fully generated localization derivation. -/
 def generatedLocalization2CellWhiskerRight
     {X Y Z : LocalizationPaths W}
     {p q : X ⟶ Y} (k : Y ⟶ Z)
     (α : GeneratedLocalization2Cell W p q) :
-    GeneratedLocalization2Cell W (p ≫ k) (q ≫ k) := by
-  induction α with
-  | ofCompClosure α =>
-      exact GeneratedLocalization2Cell.ofCompClosure
+    GeneratedLocalization2Cell W (p ≫ k) (q ≫ k) :=
+  match α with
+  | .ofCompClosure α =>
+      GeneratedLocalization2Cell.ofCompClosure
         (generatedCompClosureWhiskerRight W k α)
-  | refl p =>
-      exact GeneratedLocalization2Cell.refl _
-  | symm α ih =>
-      exact GeneratedLocalization2Cell.symm ih
-  | trans α β ihα ihβ =>
-      exact GeneratedLocalization2Cell.trans ihα ihβ
+  | .refl p =>
+      GeneratedLocalization2Cell.refl _
+  | .symm α =>
+      GeneratedLocalization2Cell.symm
+        (generatedLocalization2CellWhiskerRight k α)
+  | .trans α β =>
+      GeneratedLocalization2Cell.trans
+        (generatedLocalization2CellWhiskerRight k α)
+        (generatedLocalization2CellWhiskerRight k β)
 
 /-- A literal equality of free paths gives a generated localization 2-cell.
 This is derived from `refl`; it introduces no new localization relation. -/
