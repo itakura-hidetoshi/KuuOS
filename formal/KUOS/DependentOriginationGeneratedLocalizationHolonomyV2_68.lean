@@ -286,8 +286,8 @@ There is no local `Classical.choice`: the four cases are exactly the
 pseudofunctor identity/composition isomorphisms and the chosen W-adjoint
 unit/counit isomorphisms. -/
 noncomputable def generating2CellEvaluationIso
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} {p q : X ⟶ Y}
     (α : LocalizationGenerating2Cell W p q) :
@@ -305,8 +305,8 @@ noncomputable def generating2CellEvaluationIso
 
 /-- Canonical evaluation of an explicitly whiskered generating relation. -/
 noncomputable def generatedCompClosure2CellEvaluationIso
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} {p q : X ⟶ Y}
     (α : GeneratedCompClosure2Cell W p q) :
@@ -323,8 +323,8 @@ noncomputable def generatedCompClosure2CellEvaluationIso
 
 /-- Canonical recursive evaluation of a fully generated localization 2-cell. -/
 noncomputable def generatedLocalization2CellEvaluationIso
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} {p q : X ⟶ Y}
     (α : GeneratedLocalization2Cell W p q) :
@@ -342,8 +342,8 @@ noncomputable def generatedLocalization2CellEvaluationIso
 
 @[simp]
 theorem generatedLocalization2CellEvaluationIso_refl
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} (p : X ⟶ Y) :
     generatedLocalization2CellEvaluationIso W R D
@@ -352,8 +352,8 @@ theorem generatedLocalization2CellEvaluationIso_refl
 
 @[simp]
 theorem generatedLocalization2CellEvaluationIso_symm
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} {p q : X ⟶ Y}
     (α : GeneratedLocalization2Cell W p q) :
@@ -364,8 +364,8 @@ theorem generatedLocalization2CellEvaluationIso_symm
 
 @[simp]
 theorem generatedLocalization2CellEvaluationIso_trans
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} {p q r : X ⟶ Y}
     (α : GeneratedLocalization2Cell W p q)
@@ -378,8 +378,8 @@ theorem generatedLocalization2CellEvaluationIso_trans
 
 /-- Evaluate a chosen fully generated lift of an ordinary localization equality. -/
 noncomputable def chosenGeneratedEvaluationIsoOfEquality
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} {p q : X ⟶ Y}
     (h :
@@ -399,8 +399,8 @@ abbrev GeneratedLocalizationLoop
 
 /-- Holonomy automorphism obtained by canonically evaluating a generated loop. -/
 noncomputable def generatedHolonomy
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} {p : X ⟶ Y}
     (γ : GeneratedLocalizationLoop W p) :
@@ -417,8 +417,8 @@ def generatedLocalization2CellDifference
 
 @[simp]
 theorem generatedLocalization2CellDifference_holonomy
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} {p q : X ⟶ Y}
     (α β : GeneratedLocalization2Cell W p q) :
@@ -430,8 +430,8 @@ theorem generatedLocalization2CellDifference_holonomy
 /-- Two generated derivations evaluate equally exactly when the holonomy of their
 difference loop is trivial. -/
 theorem generatedLocalization2CellEvaluationIso_eq_iff_differenceHolonomy_trivial
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} {p q : X ⟶ Y}
     (α β : GeneratedLocalization2Cell W p q) :
@@ -464,8 +464,8 @@ theorem generatedLocalization2CellEvaluationIso_eq_iff_differenceHolonomy_trivia
 /-- Every fully generated closed localization derivation has trivial evaluated
 holonomy. -/
 def GeneratedHolonomyTrivial
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R) : Prop :=
   ∀ {X Y : LocalizationPaths W} (p : X ⟶ Y)
     (γ : GeneratedLocalizationLoop W p),
@@ -474,8 +474,8 @@ def GeneratedHolonomyTrivial
 /-- Canonical evaluation of fully generated localization derivations is
 path-independent. -/
 def GeneratedEvaluationPathIndependent
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R) : Prop :=
   ∀ {X Y : LocalizationPaths W} {p q : X ⟶ Y}
     (α β : GeneratedLocalization2Cell W p q),
@@ -484,8 +484,8 @@ def GeneratedEvaluationPathIndependent
 
 /-- Trivial generated holonomy forces path-independent generated evaluation. -/
 theorem generatedEvaluationPathIndependent_of_holonomyTrivial
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (h : GeneratedHolonomyTrivial W R D) :
     GeneratedEvaluationPathIndependent W R D := by
@@ -498,8 +498,8 @@ theorem generatedEvaluationPathIndependent_of_holonomyTrivial
 /-- Path-independent generated evaluation forces every generated loop holonomy to
 be the identity. -/
 theorem generatedHolonomyTrivial_of_evaluationPathIndependent
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (h : GeneratedEvaluationPathIndependent W R D) :
     GeneratedHolonomyTrivial W R D := by
@@ -511,8 +511,8 @@ theorem generatedHolonomyTrivial_of_evaluationPathIndependent
 path-independent exactly when every fully retained relation-loop holonomy is
 trivial. -/
 theorem generatedHolonomyTrivial_iff_evaluationPathIndependent
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R) :
     GeneratedHolonomyTrivial W R D ↔
       GeneratedEvaluationPathIndependent W R D := by
@@ -523,8 +523,8 @@ theorem generatedHolonomyTrivial_iff_evaluationPathIndependent
 /-- Under trivial generated holonomy, every generated lift of a fixed ordinary
 localization equality evaluates to the same iso as the selected generated lift. -/
 theorem generatedLocalization2CellEvaluationIso_eq_chosen_of_holonomyTrivial
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (htriv : GeneratedHolonomyTrivial W R D)
     {X Y : LocalizationPaths W} {p q : X ⟶ Y}
@@ -543,8 +543,8 @@ theorem generatedLocalization2CellEvaluationIso_eq_chosen_of_holonomyTrivial
 /-- v2.64 fiber-functor iso-thinness forces every generated loop holonomy to be
 trivial. -/
 theorem generatedHolonomyTrivial_of_fiberFunctorIsoThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hiso : IsFiberFunctorIsoThin R) :
     GeneratedHolonomyTrivial W R D := by
@@ -558,8 +558,8 @@ theorem generatedHolonomyTrivial_of_fiberFunctorIsoThin
 /-- Trivial fiber automorphisms from v2.64 are therefore a sufficient special
 case of generated holonomy triviality. -/
 theorem generatedHolonomyTrivial_of_trivialFiberAutomorphisms
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (htriv : IsFiberAutomorphismTrivial R) :
     GeneratedHolonomyTrivial W R D :=
