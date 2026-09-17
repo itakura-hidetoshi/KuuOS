@@ -123,7 +123,13 @@ every ordinary presentation arrow. -/
     {X Y : Context} (f : X ⟶ Y) :
     (freePathEvaluatorOfAdmissible W hR).map
         (Localization.Construction.ψ₁ W f) = R.map f.toLoc := by
-  simp [freePathEvaluatorOfAdmissible]
+  change
+    (freePathEvaluator W R
+      (pointwiseWAdjointEquivalenceDataOfAdmissible W hR)).map
+        (Localization.Construction.ψ₁ W f) = R.map f.toLoc
+  exact
+    freePathEvaluator_map_ordinary W R
+      (pointwiseWAdjointEquivalenceDataOfAdmissible W hR) f
 
 /-!
 ## Boundary fixed by v2.57
