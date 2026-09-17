@@ -110,8 +110,8 @@ theorem generatedLocalization2CellOfEq_rfl
 /-- Evaluation of a left-whiskered generated derivation is exactly left
 whiskering of its evaluated isomorphism. -/
 theorem generatedLocalization2CellEvaluationIso_whiskerLeft
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y Z : LocalizationPaths W}
     (k : X ⟶ Y) {p q : Y ⟶ Z}
@@ -160,8 +160,8 @@ theorem generatedLocalization2CellEvaluationIso_whiskerLeft
 /-- Evaluation of a right-whiskered generated derivation is exactly right
 whiskering of its evaluated isomorphism. -/
 theorem generatedLocalization2CellEvaluationIso_whiskerRight
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y Z : LocalizationPaths W}
     {p q : X ⟶ Y} (k : Y ⟶ Z)
@@ -211,8 +211,8 @@ theorem generatedLocalization2CellEvaluationIso_whiskerRight
 whisker of the evaluated hom. -/
 @[simp]
 theorem generatedLocalization2CellEvaluationIso_whiskerLeft_hom
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y Z : LocalizationPaths W}
     (k : X ⟶ Y) {p q : Y ⟶ Z}
@@ -228,8 +228,8 @@ theorem generatedLocalization2CellEvaluationIso_whiskerLeft_hom
 whisker of the evaluated hom. -/
 @[simp]
 theorem generatedLocalization2CellEvaluationIso_whiskerRight_hom
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y Z : LocalizationPaths W}
     {p q : X ⟶ Y} (k : Y ⟶ Z)
@@ -244,8 +244,8 @@ theorem generatedLocalization2CellEvaluationIso_whiskerRight_hom
 /-- Evaluation of a generated cell arising only from literal path equality is
 the equality-induced isomorphism between the evaluated paths. -/
 theorem generatedLocalization2CellEvaluationIso_ofEq
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} {p q : X ⟶ Y}
     (h : p = q) :
@@ -258,8 +258,8 @@ theorem generatedLocalization2CellEvaluationIso_ofEq
 /-- Hom-level equality form of `generatedLocalization2CellEvaluationIso_ofEq`. -/
 @[simp]
 theorem generatedLocalization2CellEvaluationIso_ofEq_hom
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} {p q : X ⟶ Y}
     (h : p = q) :
