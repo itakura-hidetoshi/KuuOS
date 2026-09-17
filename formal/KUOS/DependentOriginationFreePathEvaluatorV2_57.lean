@@ -55,7 +55,7 @@ noncomputable def localizedGeneratorPrefunctor
     intro X Y e
     rcases e with f | w
     · exact R.map f.toLoc
-    · exact D.inverse w.1 w.2
+    · exact PointwiseWAdjointEquivalenceData.inverse W D w.1 w.2
 
 /-- Evaluate every finite localization word in `Cat` by the free-category
 universal property.
@@ -98,8 +98,10 @@ v2.56 quasi-inverse. -/
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : Context} (w : X ⟶ Y) (hw : W w) :
     (freePathEvaluator W R D).map
-        (Localization.Construction.ψ₂ W w hw) = D.inverse w hw := by
-  change 𝟙 _ ≫ D.inverse w hw = D.inverse w hw
+        (Localization.Construction.ψ₂ W w hw) =
+      PointwiseWAdjointEquivalenceData.inverse W D w hw := by
+  change 𝟙 _ ≫ PointwiseWAdjointEquivalenceData.inverse W D w hw =
+    PointwiseWAdjointEquivalenceData.inverse W D w hw
   simp
 
 /-- Weak `W`-admissibility therefore canonically produces a free-path evaluator
