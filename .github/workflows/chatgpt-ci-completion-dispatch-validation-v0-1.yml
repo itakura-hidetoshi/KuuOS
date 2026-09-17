@@ -1,0 +1,36 @@
+name: ChatGPT CI Completion Dispatch Validation v0.1
+
+on:
+  pull_request:
+    paths:
+      - ".github/workflows/chatgpt-ci-completion-dispatch-v0-1.yml"
+      - ".github/workflows/chatgpt-ci-completion-dispatch-validation-v0-1.yml"
+      - ".github/workflows/pr-governance-gate.yml"
+      - "scripts/chatgpt_ci_completion_dispatch_v0_1.py"
+      - "tests/test_chatgpt_ci_completion_dispatch_v0_1.py"
+      - "tests/test_chatgpt_ci_completion_dispatch_workflow_v0_1.py"
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    name: Validate secondary CI completion dispatch
+    runs-on: ubuntu-24.04
+    timeout-minutes: 5
+    steps:
+      - name: Check out PR code read-only
+        uses: actions/checkout@v6
+        with:
+          persist-credentials: false
+
+      - name: Set up Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Run focused unit and workflow wiring tests
+        run: >-
+          python3 -m unittest -v
+          tests.test_chatgpt_ci_completion_dispatch_v0_1
+          tests.test_chatgpt_ci_completion_dispatch_workflow_v0_1
