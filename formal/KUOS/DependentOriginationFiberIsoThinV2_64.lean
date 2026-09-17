@@ -180,6 +180,20 @@ theorem eq_of_isIso_of_fiberFunctorIsoThin
   letI : Subsingleton (F ≅ G) := hiso X Y F G
   exact congrArg Iso.hom (Subsingleton.elim (asIso η) (asIso θ))
 
+/-- Iso-level form of the same uniqueness principle.  This avoids asking typeclass
+search to reconstruct `IsIso` for long composites of whiskered invertible
+2-cells. -/
+theorem hom_eq_hom_of_fiberFunctorIsoThin
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
+    (hiso : IsFiberFunctorIsoThin R)
+    (X Y : Context)
+    {F G : R.obj (.mk X) ⟶ R.obj (.mk Y)}
+    (e₁ e₂ : F ≅ G) :
+    e₁.hom = e₂.hom := by
+  letI : Subsingleton (F ≅ G) := hiso X Y F G
+  exact congrArg Iso.hom (Subsingleton.elim e₁ e₂)
+
 /-- Invertible-2-cell thinness upgrades any v2.61 pointwise identity/composition
 choices to the three coherent quotient-pseudofunctor laws of v2.59.
 
@@ -219,10 +233,57 @@ noncomputable def coherentPresentationComparisonDataOfFiberFunctorIsoThin
     exact L.mapIso f
   naturality_id := by
     intro X
-    apply eq_of_isIso_of_fiberFunctorIsoThin R hiso X X
+    let T := coherentQuotientTransportDataOfFiberFunctorIsoThin W R D hiso L
+    let eLeft :=
+      identityComponentNaturalityIso W R D T
+          (𝟙 X) (L.mapIso (𝟙 X)) ≪≫
+        Bicategory.whiskerLeftIso
+          (𝟙 (R.obj (.mk X))) (R.mapId (.mk X))
+    let eRight :=
+      Bicategory.whiskerRightIso
+          ((restrictedCoherentQuotientSystem W R D T).mapId (.mk X))
+          (𝟙 (R.obj (.mk X))) ≪≫
+        Bicategory.leftUnitor (𝟙 (R.obj (.mk X))) ≪≫
+          (Bicategory.rightUnitor (𝟙 (R.obj (.mk X)))).symm
+    have hIso : eLeft = eRight := by
+      apply Subsingleton.elim
+      exact hiso X X _ _
+    simpa only [T, eLeft, eRight, Iso.trans_hom, Iso.symm_hom,
+      whiskerLeftIso_hom, whiskerRightIso_hom] using congrArg Iso.hom hIso
   naturality_comp := by
     intro X Y Z f g
-    apply eq_of_isIso_of_fiberFunctorIsoThin R hiso X Z
+    let T := coherentQuotientTransportDataOfFiberFunctorIsoThin W R D hiso L
+    let eLeft :=
+      identityComponentNaturalityIso W R D T
+          (f ≫ g) (L.mapIso (f ≫ g)) ≪≫
+        Bicategory.whiskerLeftIso
+          (𝟙 (R.obj (.mk X))) (R.mapComp f.toLoc g.toLoc)
+    let eRight :=
+      Bicategory.whiskerRightIso
+          ((restrictedCoherentQuotientSystem W R D T).mapComp
+            f.toLoc g.toLoc)
+          (𝟙 (R.obj (.mk Z))) ≪≫
+        Bicategory.associator
+          ((restrictedCoherentQuotientSystem W R D T).map f.toLoc)
+          ((restrictedCoherentQuotientSystem W R D T).map g.toLoc)
+          (𝟙 (R.obj (.mk Z))) ≪≫
+        Bicategory.whiskerLeftIso
+          ((restrictedCoherentQuotientSystem W R D T).map f.toLoc)
+          (identityComponentNaturalityIso W R D T g (L.mapIso g)) ≪≫
+        (Bicategory.associator
+          ((restrictedCoherentQuotientSystem W R D T).map f.toLoc)
+          (𝟙 (R.obj (.mk Y)))
+          (R.map g.toLoc)).symm ≪≫
+        Bicategory.whiskerRightIso
+          (identityComponentNaturalityIso W R D T f (L.mapIso f))
+          (R.map g.toLoc) ≪≫
+        Bicategory.associator
+          (𝟙 (R.obj (.mk X))) (R.map f.toLoc) (R.map g.toLoc)
+    have hIso : eLeft = eRight := by
+      apply Subsingleton.elim
+      exact hiso X Z _ _
+    simpa only [T, eLeft, eRight, Iso.trans_hom, Iso.symm_hom,
+      whiskerLeftIso_hom, whiskerRightIso_hom] using congrArg Iso.hom hIso
 
 /-- Assemble all five laws from invertible-2-cell uniqueness. -/
 noncomputable def coherentGeneralWFactorizationDataOfFiberFunctorIsoThin
