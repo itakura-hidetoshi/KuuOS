@@ -5,6 +5,7 @@ on:
     paths:
       - ".github/workflows/chatgpt-ci-completion-dispatch-v0-1.yml"
       - ".github/workflows/chatgpt-ci-completion-dispatch-validation-v0-1.yml"
+      - ".github/workflows/chatgpt-ci-completion-push-v0-1.yml"
       - ".github/workflows/pr-governance-gate.yml"
       - "scripts/chatgpt_ci_completion_dispatch_v0_1.py"
       - "tests/test_chatgpt_ci_completion_dispatch_v0_1.py"
