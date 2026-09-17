@@ -245,11 +245,10 @@ noncomputable def coherentPresentationComparisonDataOfFiberFunctorIsoThin
           (𝟙 (R.obj (.mk X))) ≪≫
         Bicategory.leftUnitor (𝟙 (R.obj (.mk X))) ≪≫
           (Bicategory.rightUnitor (𝟙 (R.obj (.mk X)))).symm
-    have hIso : eLeft = eRight := by
-      apply Subsingleton.elim
-      exact hiso X X _ _
+    have hhom :=
+      hom_eq_hom_of_fiberFunctorIsoThin R hiso X X eLeft eRight
     simpa only [T, eLeft, eRight, Iso.trans_hom, Iso.symm_hom,
-      whiskerLeftIso_hom, whiskerRightIso_hom] using congrArg Iso.hom hIso
+      whiskerLeftIso_hom, whiskerRightIso_hom] using hhom
   naturality_comp := by
     intro X Y Z f g
     let T := coherentQuotientTransportDataOfFiberFunctorIsoThin W R D hiso L
@@ -279,11 +278,10 @@ noncomputable def coherentPresentationComparisonDataOfFiberFunctorIsoThin
           (R.map g.toLoc) ≪≫
         Bicategory.associator
           (𝟙 (R.obj (.mk X))) (R.map f.toLoc) (R.map g.toLoc)
-    have hIso : eLeft = eRight := by
-      apply Subsingleton.elim
-      exact hiso X Z _ _
+    have hhom :=
+      hom_eq_hom_of_fiberFunctorIsoThin R hiso X Z eLeft eRight
     simpa only [T, eLeft, eRight, Iso.trans_hom, Iso.symm_hom,
-      whiskerLeftIso_hom, whiskerRightIso_hom] using congrArg Iso.hom hIso
+      whiskerLeftIso_hom, whiskerRightIso_hom] using hhom
 
 /-- Assemble all five laws from invertible-2-cell uniqueness. -/
 noncomputable def coherentGeneralWFactorizationDataOfFiberFunctorIsoThin
