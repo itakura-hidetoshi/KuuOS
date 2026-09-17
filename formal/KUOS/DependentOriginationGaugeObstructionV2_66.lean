@@ -135,7 +135,7 @@ noncomputable def pointwiseChoiceGaugeBetween
     simp
   mapIsoGauge f := (L.mapIso f).symm ≪≫ L'.mapIso f
   mapIso_fac f := by
-    simpa using Iso.self_symm_id_assoc (L.mapIso f) (L'.mapIso f)
+    exact Iso.self_symm_id_assoc (L.mapIso f) (L'.mapIso f)
 
 /-- Gauge-equivalence of pointwise choice bundles. -/
 def PointwiseChoicesGaugeEquivalent
