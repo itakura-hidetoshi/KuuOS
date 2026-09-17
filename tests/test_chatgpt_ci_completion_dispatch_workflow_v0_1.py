@@ -3,6 +3,7 @@ import unittest
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
 RECEIVER = ROOT / ".github/workflows/chatgpt-ci-completion-dispatch-v0-1.yml"
+PRIMARY = ROOT / ".github/workflows/chatgpt-ci-completion-push-v0-1.yml"
 KUUOS_GATE = ROOT / ".github/workflows/pr-governance-gate.yml"
 
 
@@ -14,7 +15,7 @@ class WorkflowWiringTests(unittest.TestCase):
         self.assertIn("actions: read", text)
         self.assertIn("contents: read", text)
         self.assertIn("issues: write", text)
-        self.assertIn("pull-requests: read", text)
+        self.assertIn("pull-requests: write", text)
         self.assertIn("ref: main", text)
         self.assertIn("persist-credentials: false", text)
         self.assertIn(
@@ -22,6 +23,11 @@ class WorkflowWiringTests(unittest.TestCase):
             text,
         )
         self.assertIn("scripts/chatgpt_ci_completion_dispatch_v0_1.py", text)
+
+    def test_primary_wakeup_can_write_pr_comment(self):
+        text = PRIMARY.read_text(encoding="utf-8")
+        self.assertIn("issues: write", text)
+        self.assertIn("pull-requests: write", text)
 
     def test_kuuos_source_gate_dispatches_exact_identity_nonfatally(self):
         text = KUUOS_GATE.read_text(encoding="utf-8")
