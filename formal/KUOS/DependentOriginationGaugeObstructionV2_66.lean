@@ -91,8 +91,8 @@ No coherence equation is imposed on the gauge itself: these are precisely the
 zero-dimensional local witness changes whose higher compatibility is measured
 by the v2.65 defects. -/
 structure PointwiseChoiceGauge
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L L' : PointwiseGeneralWChoiceData (W := W) R D) where
   mapIdGauge :
@@ -120,8 +120,8 @@ structure PointwiseChoiceGauge
 /-- Any two pointwise choices have an explicit gauge between them: take the
 right quotient `e⁻¹ e'` in each local Iso torsor. -/
 noncomputable def pointwiseChoiceGaugeBetween
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L L' : PointwiseGeneralWChoiceData (W := W) R D) :
     PointwiseChoiceGauge W R D L L' where
@@ -140,16 +140,16 @@ noncomputable def pointwiseChoiceGaugeBetween
 
 /-- Gauge-equivalence of pointwise choice bundles. -/
 def PointwiseChoicesGaugeEquivalent
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L L' : PointwiseGeneralWChoiceData (W := W) R D) : Prop :=
   Nonempty (PointwiseChoiceGauge W R D L L')
 
 /-- The pointwise-choice space is a single gauge orbit. -/
 theorem pointwiseChoicesGaugeEquivalent_all
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L L' : PointwiseGeneralWChoiceData (W := W) R D) :
     PointwiseChoicesGaugeEquivalent W R D L L' :=
@@ -157,8 +157,8 @@ theorem pointwiseChoicesGaugeEquivalent_all
 
 /-- In particular gauge-equivalence is reflexive. -/
 theorem pointwiseChoicesGaugeEquivalent_refl
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D) :
     PointwiseChoicesGaugeEquivalent W R D L L :=
@@ -166,8 +166,8 @@ theorem pointwiseChoicesGaugeEquivalent_refl
 
 /-- Gauge-equivalence is symmetric. -/
 theorem pointwiseChoicesGaugeEquivalent_symm
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {L L' : PointwiseGeneralWChoiceData (W := W) R D}
     (_ : PointwiseChoicesGaugeEquivalent W R D L L') :
@@ -176,8 +176,8 @@ theorem pointwiseChoicesGaugeEquivalent_symm
 
 /-- Gauge-equivalence is transitive. -/
 theorem pointwiseChoicesGaugeEquivalent_trans
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {L₁ L₂ L₃ : PointwiseGeneralWChoiceData (W := W) R D}
     (_ : PointwiseChoicesGaugeEquivalent W R D L₁ L₂)
@@ -190,8 +190,8 @@ theorem pointwiseChoicesGaugeEquivalent_trans
 /-- The pointwise projection of a coherent v2.60 package has vanishing three
 quotient-transport defects. -/
 noncomputable def quotientTransportDefectsTrivialOfCoherentData
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (H : CoherentGeneralWFactorizationData (W := W) R D) :
     QuotientTransportDefectsTrivial W R D
@@ -220,8 +220,8 @@ noncomputable def quotientTransportDefectsTrivialOfCoherentData
 vanishing defects returns the original transport.  Only proof fields can differ,
 and those are propositionally irrelevant. -/
 theorem reconstructedTransportOfCoherentData_eq
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (H : CoherentGeneralWFactorizationData (W := W) R D) :
     coherentQuotientTransportDataOfTrivialDefects W R D
@@ -236,8 +236,8 @@ theorem reconstructedTransportOfCoherentData_eq
 /-- The same projected coherent package has vanishing two StrongTrans comparison
 defects on the reconstructed quotient carrier. -/
 noncomputable def comparisonDefectsTrivialOfCoherentData
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (H : CoherentGeneralWFactorizationData (W := W) R D) :
     ComparisonDefectsTrivial W R D
@@ -267,8 +267,8 @@ noncomputable def comparisonDefectsTrivialOfCoherentData
 /-- Every complete coherent package therefore determines a pointwise choice with
 all five explicit v2.65 defects trivial. -/
 theorem exists_fiveTrivialDefects_of_hasCoherentGeneralWFactorizationData
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (h : HasCoherentGeneralWFactorizationData W R D) :
     ∃ L : PointwiseGeneralWChoiceData (W := W) R D,
@@ -282,8 +282,8 @@ theorem exists_fiveTrivialDefects_of_hasCoherentGeneralWFactorizationData
 /-- Conversely v2.65 already constructs coherent data from a pointwise choice
 whose five defects vanish.  Hence the existence problems are equivalent. -/
 theorem hasCoherentGeneralWFactorizationData_iff_exists_fiveTrivialDefects
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R) :
     HasCoherentGeneralWFactorizationData W R D ↔
       ∃ L : PointwiseGeneralWChoiceData (W := W) R D,
@@ -298,8 +298,8 @@ theorem hasCoherentGeneralWFactorizationData_iff_exists_fiveTrivialDefects
 /-- A pointwise choice is gauge-trivializable when some gauge-related choice has
 all five v2.65 defects trivial. -/
 def FiveDefectGaugeTrivializable
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L₀ : PointwiseGeneralWChoiceData (W := W) R D) : Prop :=
   ∃ L : PointwiseGeneralWChoiceData (W := W) R D,
@@ -309,8 +309,8 @@ def FiveDefectGaugeTrivializable
 /-- Since all local choices form one gauge orbit, gauge-trivializability is
 independent of the chosen base point. -/
 theorem fiveDefectGaugeTrivializable_iff_exists_fiveTrivialDefects
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L₀ : PointwiseGeneralWChoiceData (W := W) R D) :
     FiveDefectGaugeTrivializable W R D L₀ ↔
@@ -325,8 +325,8 @@ theorem fiveDefectGaugeTrivializable_iff_exists_fiveTrivialDefects
 /-- Main obstruction theorem of v2.66: coherent general-`W` factorization data
 exist exactly when any fixed pointwise choice is gauge-trivializable. -/
 theorem hasCoherentGeneralWFactorizationData_iff_gaugeTrivializable
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L₀ : PointwiseGeneralWChoiceData (W := W) R D) :
     HasCoherentGeneralWFactorizationData W R D ↔
@@ -338,16 +338,16 @@ theorem hasCoherentGeneralWFactorizationData_iff_gaugeTrivializable
 /-- Canonical gauge-trivializability proposition based at the unconditional
 v2.61 pointwise choice. -/
 def CanonicalGeneralWGaugeTrivializable
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R) : Prop :=
   FiveDefectGaugeTrivializable W R D (pointwiseGeneralWChoiceData W R D)
 
 /-- The complete coherent-data existence problem is therefore exactly the
 canonical gauge-trivialization problem. -/
 theorem hasCoherentGeneralWFactorizationData_iff_canonicalGaugeTrivializable
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R) :
     HasCoherentGeneralWFactorizationData W R D ↔
       CanonicalGeneralWGaugeTrivializable W R D :=
@@ -357,8 +357,8 @@ theorem hasCoherentGeneralWFactorizationData_iff_canonicalGaugeTrivializable
 /-- A canonical gauge trivialization yields the genuine v2.10 higher-localization
 factorization. -/
 theorem hasHigherLocalizationFactorization_of_canonicalGaugeTrivializable
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (h : CanonicalGeneralWGaugeTrivializable W R D) :
     HasHigherLocalizationFactorization (W := W) R := by
@@ -373,8 +373,8 @@ theorem hasHigherLocalizationFactorization_of_canonicalGaugeTrivializable
 canonical gauge-obstruction proposition.  No vanishing of that proposition is
 asserted here. -/
 theorem hasHigherLocalizationFactorization_of_admissible_and_canonicalGaugeTrivializable
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
     (hR : IsHigherWAdmissible W R)
     (hGauge : CanonicalGeneralWGaugeTrivializable W R
       (pointwiseWAdjointEquivalenceDataOfAdmissible W hR)) :
