@@ -40,8 +40,8 @@ variable (W : MorphismProperty Context)
 /-- Generated path-independence supplies a genuine coherent quotient transport
 with exactly the canonical generated pointwise identity/composition choices. -/
 noncomputable def coherentGeneratedQuotientTransportData
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hPI : GeneratedEvaluationPathIndependent W R D) :
     CoherentQuotientTransportData (W := W) R D where
@@ -90,8 +90,8 @@ noncomputable def coherentGeneratedQuotientTransportData
 /-- The first three v2.65 defects vanish for the exact canonical generated
 pointwise bundle whenever generated evaluation is path-independent. -/
 noncomputable def generatedQuotientTransportDefectsTrivialOfPathIndependent
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hPI : GeneratedEvaluationPathIndependent W R D) :
     QuotientTransportDefectsTrivial W R D
@@ -115,8 +115,8 @@ noncomputable def generatedQuotientTransportDefectsTrivialOfPathIndependent
 /-- Trivial generated holonomy is therefore already sufficient for vanishing of
 the three quotient-transport defects. -/
 noncomputable def generatedQuotientTransportDefectsTrivialOfHolonomyTrivial
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (htriv : GeneratedHolonomyTrivial W R D) :
     QuotientTransportDefectsTrivial W R D
