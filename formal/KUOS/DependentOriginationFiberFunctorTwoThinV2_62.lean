@@ -49,8 +49,8 @@ The objects `X` and `Y` range over the original context category, while `F` and
 `G` range over 1-morphisms in `Cat`, i.e. functors between the corresponding
 fiber categories. -/
 def IsFiberFunctorTwoThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)) : Prop :=
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)) : Prop :=
   ∀ (X Y : Context)
     (F G : R.obj (.mk X) ⟶ R.obj (.mk Y))
     (η θ : F ⟶ G), η = θ
@@ -61,8 +61,8 @@ choice automatically satisfies the three v2.59 pseudofunctor coherence laws.
 No special property of the chosen `mapId` or `mapComp` witnesses is needed:
 the two sides of each law are merely parallel 2-cells in a thin hom-category. -/
 noncomputable def coherentQuotientTransportDataOfFiberFunctorTwoThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hthin : IsFiberFunctorTwoThin R)
     (L : PointwiseGeneralWChoiceData (W := W) R D) :
@@ -84,8 +84,8 @@ v2.61 automatically satisfy the two StrongTrans coherence laws of v2.60.
 
 The comparison components remain the identity functors, exactly as in v2.60. -/
 noncomputable def coherentPresentationComparisonDataOfFiberFunctorTwoThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hthin : IsFiberFunctorTwoThin R)
     (L : PointwiseGeneralWChoiceData (W := W) R D) :
@@ -105,8 +105,8 @@ noncomputable def coherentPresentationComparisonDataOfFiberFunctorTwoThin
 /-- Fiber-functor 2-thinness upgrades *any* pointwise local choice bundle to the
 complete five-law coherent factorization datum of v2.60. -/
 noncomputable def coherentGeneralWFactorizationDataOfFiberFunctorTwoThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hthin : IsFiberFunctorTwoThin R)
     (L : PointwiseGeneralWChoiceData (W := W) R D) :
@@ -119,8 +119,8 @@ noncomputable def coherentGeneralWFactorizationDataOfFiberFunctorTwoThin
 /-- Consequently the complete five-law coherence package exists whenever the
 image fiber-functor hom-categories are 2-thin. -/
 theorem hasCoherentGeneralWFactorizationData_of_fiberFunctorTwoThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hthin : IsFiberFunctorTwoThin R) :
     HasCoherentGeneralWFactorizationData W R D := by
@@ -134,8 +134,8 @@ sufficient for an actual general-`W` higher-localization factorization.
 The local identity/composition/presentation isomorphisms are supplied
 unconditionally by v2.61; 2-thinness supplies exactly the five missing equations. -/
 theorem hasHigherLocalizationFactorization_of_fiberFunctorTwoThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hthin : IsFiberFunctorTwoThin R) :
     HasHigherLocalizationFactorization (W := W) R :=
@@ -147,8 +147,8 @@ theorem hasHigherLocalizationFactorization_of_fiberFunctorTwoThin
 data.  Thus, in the 2-thin image-fiber sector, weak admissibility alone closes
 the whole general-`W` factorization route. -/
 theorem hasHigherLocalizationFactorization_of_admissible_and_fiberFunctorTwoThin
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
     (hR : IsHigherWAdmissible W R)
     (hthin : IsFiberFunctorTwoThin R) :
     HasHigherLocalizationFactorization (W := W) R :=
