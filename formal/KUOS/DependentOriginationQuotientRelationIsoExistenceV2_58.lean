@@ -55,7 +55,9 @@ noncomputable def forwardInverseIso
       (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : Context} (w : X ⟶ Y) (hw : W w) :
-    R.map w.toLoc ≫ D.inverse w hw ≅ 𝟙 (R.obj (.mk X)) := by
+    R.map w.toLoc ≫
+        PointwiseWAdjointEquivalenceData.inverse W D w hw ≅
+      𝟙 (R.obj (.mk X)) := by
   apply Cat.Hom.isoMk
   change
     (R.map w.toLoc).toFunctor ⋙ (D.chosen w hw).inverse ≅
@@ -70,7 +72,9 @@ noncomputable def inverseForwardIso
       (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : Context} (w : X ⟶ Y) (hw : W w) :
-    D.inverse w hw ≫ R.map w.toLoc ≅ 𝟙 (R.obj (.mk Y)) := by
+    PointwiseWAdjointEquivalenceData.inverse W D w hw ≫
+        R.map w.toLoc ≅
+      𝟙 (R.obj (.mk Y)) := by
   apply Cat.Hom.isoMk
   change
     (D.chosen w hw).inverse ⋙ (R.map w.toLoc).toFunctor ≅
