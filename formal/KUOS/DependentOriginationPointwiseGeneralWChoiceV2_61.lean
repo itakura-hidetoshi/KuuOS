@@ -65,17 +65,10 @@ theorem quotientIdentity_hasMapIso
           (Quot.out (𝟙 X)) =
         (Quotient.functor (Localization.Construction.relations W)).map
           (𝟙 X.as) := by
-    calc
-      (Quotient.functor (Localization.Construction.relations W)).map
-          (Quot.out (𝟙 X)) = 𝟙 X := by
-            change Quot.mk _ (Quot.out (𝟙 X)) = 𝟙 X
-            exact Quot.out_eq _
-      _ =
-          (Quotient.functor (Localization.Construction.relations W)).map
-            (𝟙 X.as) := by
-            simpa using
-              ((Quotient.functor
-                (Localization.Construction.relations W)).map_id X.as).symm
+    change
+      Quot.mk _ (Quot.out (𝟙 X)) =
+        Quot.mk _ (𝟙 X.as)
+    exact Quot.out_eq _
   rcases equalInLocalization_hasEvaluationIso W R D hq with ⟨e⟩
   exact ⟨by simpa only [Functor.map_id] using e⟩
 
@@ -102,27 +95,15 @@ theorem quotientComposition_hasMapIso
           (Quot.out (f ≫ g)) =
         (Quotient.functor (Localization.Construction.relations W)).map
           (Quot.out f ≫ Quot.out g) := by
+    change
+      Quot.mk _ (Quot.out (f ≫ g)) =
+        Quot.mk _ (Quot.out f ≫ Quot.out g)
     calc
-      (Quotient.functor (Localization.Construction.relations W)).map
-          (Quot.out (f ≫ g)) = f ≫ g := by
-            change Quot.mk _ (Quot.out (f ≫ g)) = f ≫ g
-            exact Quot.out_eq _
-      _ =
-          (Quotient.functor (Localization.Construction.relations W)).map
-              (Quot.out f) ≫
-            (Quotient.functor (Localization.Construction.relations W)).map
-              (Quot.out g) := by
-            change
-              f ≫ g =
-                Quot.mk _ (Quot.out f) ≫ Quot.mk _ (Quot.out g)
-            rw [Quot.out_eq, Quot.out_eq]
-      _ =
-          (Quotient.functor (Localization.Construction.relations W)).map
-            (Quot.out f ≫ Quot.out g) := by
-            exact
-              ((Quotient.functor
-                (Localization.Construction.relations W)).map_comp
-                  (Quot.out f) (Quot.out g)).symm
+      Quot.mk _ (Quot.out (f ≫ g)) = f ≫ g := Quot.out_eq _
+      _ = Quot.mk _ (Quot.out f) ≫ Quot.mk _ (Quot.out g) := by
+        rw [Quot.out_eq, Quot.out_eq]
+      _ = Quot.mk _ (Quot.out f ≫ Quot.out g) := by
+        rfl
   rcases equalInLocalization_hasEvaluationIso W R D hq with ⟨e⟩
   exact ⟨by simpa only [Functor.map_comp] using e⟩
 
