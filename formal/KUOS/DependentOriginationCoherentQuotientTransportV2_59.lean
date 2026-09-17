@@ -6,6 +6,7 @@ open CategoryTheory
 open CategoryTheory.Bicategory
 open Opposite
 open KUOS.DependentOriginationPresentationUniversalityV2_0
+open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
 open KUOS.DependentOriginationHigherStackDescentV2_8
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationPointwiseWAdjointEquivalenceV2_56
@@ -63,8 +64,8 @@ The choice of representative is computational scaffolding only: v2.58 proves
 that changing to any quotient-equal representative changes the result only up
 to natural isomorphism. -/
 noncomputable def quotientRepresentativeMap
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : W.Localization} (f : X ⟶ Y) :
     R.obj (.mk X.as.obj) ⟶ R.obj (.mk Y.as.obj) :=
@@ -79,8 +80,8 @@ coherence equations are fields.
 This is intentionally weaker than storing a localized pseudofunctor as a field:
 the latter would merely restate the desired construction. -/
 structure CoherentQuotientTransportData
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R) where
   /-- Chosen coherent comparison for the identity morphism of the quotient. -/
   mapId :
@@ -124,8 +125,8 @@ structure CoherentQuotientTransportData
 /-- Existence of coherent quotient transport is kept as an explicit proposition.
 It is the sharpened general-`W` obstruction after v2.58. -/
 def HasCoherentQuotientTransportData
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R) : Prop :=
   Nonempty (CoherentQuotientTransportData (W := W) R D)
 
@@ -135,8 +136,8 @@ canonical localization category.
 Mathlib's locally-discrete constructor shows that the three equations packaged
 above are exactly sufficient: no extra hidden coherence field is introduced. -/
 noncomputable def quotientLocalizationPseudofunctor
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (T : CoherentQuotientTransportData (W := W) R D) :
     Pseudofunctor (LocallyDiscrete W.Localization) Cat.{vH, uH} :=
@@ -149,8 +150,8 @@ noncomputable def quotientLocalizationPseudofunctor
 /-- The quotient pseudofunctor has exactly the original raw fiber category on
 each localized object representative. -/
 @[simp] theorem quotientLocalizationPseudofunctor_obj
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (T : CoherentQuotientTransportData (W := W) R D)
     (X : W.Localization) :
@@ -161,8 +162,8 @@ each localized object representative. -/
 /-- Its map on a localized 1-morphism is exactly evaluation of the chosen
 `Quot.out` free-path representative. -/
 @[simp] theorem quotientLocalizationPseudofunctor_map
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (T : CoherentQuotientTransportData (W := W) R D)
     {X Y : W.Localization} (f : X ⟶ Y) :
@@ -174,11 +175,11 @@ each localized object representative. -/
 the localized higher-system type used by the v2.10 KuuOS factorization
 interface. -/
 noncomputable def coherentQuotientLocalizedHigherSystem
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (T : CoherentQuotientTransportData (W := W) R D) :
-    HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH) :=
+    HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W) :=
   Pseudofunctor.comp
     (unopUnop (LocalizedContext W)).toPseudofunctor
     (quotientLocalizationPseudofunctor W R D T)
@@ -186,11 +187,11 @@ noncomputable def coherentQuotientLocalizedHigherSystem
 /-- Coherent quotient transport therefore suffices for existence of an actual
 localized pseudofunctor candidate in the exact KuuOS carrier. -/
 theorem hasLocalizedHigherSystem_of_coherentQuotientTransport
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hT : HasCoherentQuotientTransportData W R D) :
-    Nonempty (HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH)) := by
+    Nonempty (HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)) := by
   rcases hT with ⟨T⟩
   exact ⟨coherentQuotientLocalizedHigherSystem W R D T⟩
 
