@@ -41,12 +41,24 @@ This remains in place.
 
 ### Producer B — raw GitHub webhook receiver on Vercel
 
-Reuse the existing production Vercel project `kuuos-chat-work-mcp` if its current application structure permits an isolated webhook route. If reuse would couple unrelated behavior, deploy the receiver as a separate small Vercel project instead.
+Reuse the existing production Vercel project `kuuos-chat-work-mcp` and add an isolated receiver route at:
+
+`/api/github/workflow-run`
+
+Observed deployment facts before design freeze:
+
+- project framework: Python,
+- Python runtime: 3.12,
+- current production deployment: READY,
+- build contains a small six-file deployment,
+- root route currently returns 404.
+
+Therefore the receiver is added as a separate API route rather than creating another Vercel project.
 
 Use Vercel Connect GitHub app credentials so that:
 
-- GitHub webhooks are forwarded by Vercel Connect.
-- inbound webhook authenticity is verified via Vercel OIDC.
+- GitHub webhooks are forwarded by Vercel Connect,
+- inbound webhook authenticity is verified via Vercel OIDC,
 - app-scoped GitHub installation credentials are obtained without storing GitHub private keys or webhook secrets in application code.
 
 The receiver accepts raw GitHub `workflow_run` events and only processes events satisfying all of:
@@ -203,9 +215,9 @@ Integration test:
 
 Phase 1:
 
-- build and deploy Producer B on Vercel,
+- add `/api/github/workflow-run` to `kuuos-chat-work-mcp`,
+- configure Vercel Connect GitHub app delivery for both repositories,
 - leave Producer A unchanged,
-- connect raw GitHub webhook events for both repositories,
 - validate deduplication against a controlled completed run.
 
 Phase 2:
@@ -230,8 +242,8 @@ Phase 3:
 
 The design is successful when:
 
-- KuuOS and 4d-mass-gap each have two independent event producers for the same CI completion.
-- a failure of the GitHub Actions notifier alone does not prevent a PR wake-up comment.
-- a failure of the Vercel receiver alone does not affect the existing notifier path.
-- duplicate events produce one canonical wake-up marker per exact run/attempt/PR.
+- KuuOS and 4d-mass-gap each have two independent event producers for the same CI completion,
+- a failure of the GitHub Actions notifier alone does not prevent a PR wake-up comment,
+- a failure of the Vercel receiver alone does not affect the existing notifier path,
+- duplicate events produce one canonical wake-up marker per exact run/attempt/PR,
 - all governed actions still depend on fresh GitHub MCP evidence, not webhook or comment claims.
