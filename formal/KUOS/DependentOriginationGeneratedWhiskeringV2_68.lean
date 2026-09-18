@@ -175,7 +175,7 @@ theorem generatedLocalization2CellEvaluationIso_whiskerLeft
       rw [generatedLocalization2CellEvaluationIso_symm, ih]
       apply Iso.ext
       simp [Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
-        whiskerLeftIso_hom, Functor.map_comp] <;> bicategory
+        whiskerLeftIso_hom]
   | trans α β ihα ihβ =>
       rw [show generatedLocalization2CellWhiskerLeft W k
           (GeneratedLocalization2Cell.trans α β) =
@@ -185,7 +185,7 @@ theorem generatedLocalization2CellEvaluationIso_whiskerLeft
       rw [generatedLocalization2CellEvaluationIso_trans, ihα, ihβ]
       apply Iso.ext
       simp [Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
-        whiskerLeftIso_hom, Functor.map_comp] <;> bicategory
+        whiskerLeftIso_hom]
 
 /-- Evaluation of a right-whiskered generated derivation is the bicategorical
 right whisker of its evaluated isomorphism, transported across functoriality of
@@ -219,7 +219,7 @@ theorem generatedLocalization2CellEvaluationIso_whiskerRight
       rw [generatedLocalization2CellEvaluationIso_symm, ih]
       apply Iso.ext
       simp [Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
-        whiskerRightIso_hom, Functor.map_comp] <;> bicategory
+        whiskerRightIso_hom]
   | trans α β ihα ihβ =>
       rw [show generatedLocalization2CellWhiskerRight W k
           (GeneratedLocalization2Cell.trans α β) =
@@ -229,7 +229,7 @@ theorem generatedLocalization2CellEvaluationIso_whiskerRight
       rw [generatedLocalization2CellEvaluationIso_trans, ihα, ihβ]
       apply Iso.ext
       simp [Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
-        whiskerRightIso_hom, Functor.map_comp] <;> bicategory
+        whiskerRightIso_hom]
 
 /-- Hom-level form of the transported left-whisker evaluation theorem. -/
 @[simp]
