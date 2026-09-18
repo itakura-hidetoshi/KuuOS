@@ -52,7 +52,7 @@ noncomputable def coherentGeneratedQuotientTransportData
     intro X Y Z T f g h
     have heq := congrArg Iso.hom
       (generatedQuotientAssociatorRoutes_evaluation_eq W R D hPI f g h)
-    simpa [generatedQuotientAssociatorRoute,
+    simp only [generatedQuotientAssociatorRoute,
       generatedQuotientAssociatorDirect,
       generatedCompositionMapIso,
       quotientRepresentativeMap,
@@ -64,14 +64,17 @@ noncomputable def coherentGeneratedQuotientTransportData
       Iso.trans_hom, Iso.symm_hom,
       eqToIso.hom, eqToIso.inv,
       whiskerLeftIso_hom, whiskerRightIso_hom,
-      Bicategory.Strict.associator_eqToIso,
-      Bicategory.comp_whiskerRight, Bicategory.whiskerLeft_comp,
-      eqToHom_trans, Category.assoc] using heq
+      Bicategory.Strict.associator_eqToIso] at heq ⊢
+    rw [Bicategory.comp_whiskerRight, Bicategory.whiskerLeft_comp]
+    simp only [Bicategory.eqToHom_whiskerRight,
+      Bicategory.whiskerLeft_eqToHom,
+      eqToHom_trans, Category.assoc] at heq ⊢
+    exact heq
   map₂_left_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
       (generatedQuotientLeftUnitorRoutes_evaluation_eq W R D hPI f)
-    simpa [generatedQuotientLeftUnitorRoute,
+    simp only [generatedQuotientLeftUnitorRoute,
       generatedQuotientLeftUnitorDirect,
       generatedIdentityMapIso, generatedCompositionMapIso,
       quotientRepresentativeMap,
@@ -81,14 +84,16 @@ noncomputable def coherentGeneratedQuotientTransportData
       Iso.trans_hom, Iso.symm_hom,
       eqToIso.hom, eqToIso.inv,
       whiskerRightIso_hom,
-      Bicategory.Strict.leftUnitor_eqToIso,
-      Bicategory.comp_whiskerRight,
-      eqToHom_trans, Category.assoc] using heq
+      Bicategory.Strict.leftUnitor_eqToIso] at heq ⊢
+    rw [Bicategory.comp_whiskerRight]
+    simp only [Bicategory.eqToHom_whiskerRight,
+      eqToHom_trans, Category.assoc] at heq ⊢
+    exact heq
   map₂_right_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
       (generatedQuotientRightUnitorRoutes_evaluation_eq W R D hPI f)
-    simpa [generatedQuotientRightUnitorRoute,
+    simp only [generatedQuotientRightUnitorRoute,
       generatedQuotientRightUnitorDirect,
       generatedIdentityMapIso, generatedCompositionMapIso,
       quotientRepresentativeMap,
@@ -98,9 +103,11 @@ noncomputable def coherentGeneratedQuotientTransportData
       Iso.trans_hom, Iso.symm_hom,
       eqToIso.hom, eqToIso.inv,
       whiskerLeftIso_hom,
-      Bicategory.Strict.rightUnitor_eqToIso,
-      Bicategory.whiskerLeft_comp,
-      eqToHom_trans, Category.assoc] using heq
+      Bicategory.Strict.rightUnitor_eqToIso] at heq ⊢
+    rw [Bicategory.whiskerLeft_comp]
+    simp only [Bicategory.whiskerLeft_eqToHom,
+      eqToHom_trans, Category.assoc] at heq ⊢
+    exact heq
 
 /-- The first three v2.65 defects vanish for the exact canonical generated
 pointwise bundle whenever generated evaluation is path-independent. -/
