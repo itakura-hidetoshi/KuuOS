@@ -72,7 +72,9 @@ noncomputable def coherentGeneratedQuotientTransportData
     set_option backward.isDefEq.respectTransparency false in
       simpa only [Cat.Hom.toNatTrans_comp,
         Cat.whiskerLeft_toNatTrans, Cat.whiskerRight_toNatTrans,
-        Cat.Hom₂.eqToHom_toNatTrans] using heqNat
+        Cat.Hom₂.eqToHom_toNatTrans,
+        Functor.whiskerLeft_comp, Functor.whiskerRight_comp,
+        Category.assoc] using heqNat
   map₂_left_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -93,7 +95,9 @@ noncomputable def coherentGeneratedQuotientTransportData
     set_option backward.isDefEq.respectTransparency false in
       simpa only [Cat.Hom.toNatTrans_comp,
         Cat.whiskerLeft_toNatTrans, Cat.whiskerRight_toNatTrans,
-        Cat.Hom₂.eqToHom_toNatTrans] using heqNat
+        Cat.Hom₂.eqToHom_toNatTrans,
+        Functor.whiskerLeft_comp, Functor.whiskerRight_comp,
+        Category.assoc] using heqNat
   map₂_right_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -114,7 +118,9 @@ noncomputable def coherentGeneratedQuotientTransportData
     set_option backward.isDefEq.respectTransparency false in
       simpa only [Cat.Hom.toNatTrans_comp,
         Cat.whiskerLeft_toNatTrans, Cat.whiskerRight_toNatTrans,
-        Cat.Hom₂.eqToHom_toNatTrans] using heqNat
+        Cat.Hom₂.eqToHom_toNatTrans,
+        Functor.whiskerLeft_comp, Functor.whiskerRight_comp,
+        Category.assoc] using heqNat
 
 /-- The first three v2.65 defects vanish for the exact canonical generated
 pointwise bundle whenever generated evaluation is path-independent. -/
