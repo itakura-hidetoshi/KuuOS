@@ -109,9 +109,10 @@ noncomputable def generatedIdentityMapIso
   change
     (freePathEvaluator W R D).map (Quot.out (𝟙 X)) ≅
       𝟙 (R.obj (.mk X.as.obj))
-  simpa only [Functor.map_id] using
-    (generatedLocalization2CellEvaluationIso W R D
-      (generatedIdentityRepresentativeCell W X))
+  exact
+    generatedLocalization2CellEvaluationIso W R D
+        (generatedIdentityRepresentativeCell W X) ≪≫
+      eqToIso ((freePathEvaluator W R D).map_id X.as)
 
 /-- Canonical generated composition comparison. -/
 noncomputable def generatedCompositionMapIso
@@ -126,9 +127,10 @@ noncomputable def generatedCompositionMapIso
     (freePathEvaluator W R D).map (Quot.out (f ≫ g)) ≅
       (freePathEvaluator W R D).map (Quot.out f) ≫
         (freePathEvaluator W R D).map (Quot.out g)
-  simpa only [Functor.map_comp] using
-    (generatedLocalization2CellEvaluationIso W R D
-      (generatedCompositionRepresentativeCell W f g))
+  exact
+    generatedLocalization2CellEvaluationIso W R D
+        (generatedCompositionRepresentativeCell W f g) ≪≫
+      eqToIso ((freePathEvaluator W R D).map_comp (Quot.out f) (Quot.out g))
 
 /-- Canonical generated comparison from a localized raw presentation to the
 original raw pseudofunctor map. -/
@@ -142,9 +144,10 @@ noncomputable def generatedPresentationMapIso
   change
     (freePathEvaluator W R D).map (Quot.out (W.Q.map f)) ≅
       R.map f.toLoc
-  simpa only [freePathEvaluator_map_ordinary] using
-    (generatedLocalization2CellEvaluationIso W R D
-      (generatedPresentationRepresentativeCell W f))
+  exact
+    generatedLocalization2CellEvaluationIso W R D
+        (generatedPresentationRepresentativeCell W f) ≪≫
+      eqToIso (freePathEvaluator_map_ordinary W R D f)
 
 /-- The canonical pointwise v2.61 choice bundle induced by fully generated
 localization derivations. -/
