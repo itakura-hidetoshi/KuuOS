@@ -68,6 +68,7 @@ noncomputable def coherentGeneratedQuotientTransportData
     have heqA := congrArg (fun η => η.toNatTrans.app A) heq
     simpa only [Cat.Hom₂.comp_app, Cat.whiskerLeft_app, Cat.whiskerRight_app,
       Cat.eqToHom_app, Cat.associator_hom_app,
+      Functor.map_comp, eqToHom_map,
       eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
       Category.assoc] using heqA
   map₂_left_unitor := by
@@ -89,6 +90,7 @@ noncomputable def coherentGeneratedQuotientTransportData
     have heqA := congrArg (fun η => η.toNatTrans.app A) heq
     simpa only [Cat.Hom₂.comp_app, Cat.whiskerRight_app, Cat.eqToHom_app,
       Cat.leftUnitor_hom_app,
+      Functor.map_comp, eqToHom_map,
       eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
       Category.assoc, Category.id_comp] using heqA
   map₂_right_unitor := by
