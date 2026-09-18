@@ -61,12 +61,13 @@ noncomputable def coherentGeneratedQuotientTransportData
       generatedLocalization2CellEvaluationIso_whiskerLeft_hom,
       generatedLocalization2CellEvaluationIso_whiskerRight_hom,
       generatedLocalization2CellEvaluationIso_ofEq_hom,
-      Iso.trans_hom, Iso.symm_hom, id_eq,
+      Iso.trans_hom, Iso.trans_inv, Iso.symm_hom, id_eq,
       eqToIso.hom, eqToIso.inv,
       whiskerLeftIso_hom, whiskerRightIso_hom,
       Bicategory.Strict.associator_eqToIso] at heq ⊢
-    rw [Bicategory.comp_whiskerRight, Bicategory.whiskerLeft_comp]
-    simp only [Bicategory.eqToHom_whiskerRight,
+    simp only [Bicategory.comp_whiskerRight,
+      Bicategory.whiskerLeft_comp,
+      Bicategory.eqToHom_whiskerRight,
       Bicategory.whiskerLeft_eqToHom,
       eqToHom_trans, Category.assoc] at heq ⊢
     exact heq
@@ -85,8 +86,8 @@ noncomputable def coherentGeneratedQuotientTransportData
       eqToIso.hom, eqToIso.inv,
       whiskerRightIso_hom,
       Bicategory.Strict.leftUnitor_eqToIso] at heq ⊢
-    rw [Bicategory.comp_whiskerRight]
-    simp only [Bicategory.eqToHom_whiskerRight,
+    simp only [Bicategory.comp_whiskerRight,
+      Bicategory.eqToHom_whiskerRight,
       eqToHom_trans, Category.assoc] at heq ⊢
     exact heq
   map₂_right_unitor := by
@@ -104,8 +105,8 @@ noncomputable def coherentGeneratedQuotientTransportData
       eqToIso.hom, eqToIso.inv,
       whiskerLeftIso_hom,
       Bicategory.Strict.rightUnitor_eqToIso] at heq ⊢
-    rw [Bicategory.whiskerLeft_comp]
-    simp only [Bicategory.whiskerLeft_eqToHom,
+    simp only [Bicategory.whiskerLeft_comp,
+      Bicategory.whiskerLeft_eqToHom,
       eqToHom_trans, Category.assoc] at heq ⊢
     exact heq
 
