@@ -68,7 +68,6 @@ noncomputable def coherentGeneratedQuotientTransportData
       Cat.Hom₂.comp_app, Cat.whiskerLeft_app, Cat.whiskerRight_app,
       Cat.eqToHom_app, Cat.associator_hom_app,
       Bicategory.comp_whiskerRight, Bicategory.whiskerLeft_comp] at heqA ⊢
-    simp_rw [Functor.map_comp, eqToHom_map] at heqA ⊢
     simpa only [eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
       Category.assoc] using heqA
   map₂_left_unitor := by
@@ -90,7 +89,6 @@ noncomputable def coherentGeneratedQuotientTransportData
       Cat.Hom₂.comp_app, Cat.whiskerRight_app, Cat.eqToHom_app,
       Cat.leftUnitor_hom_app,
       Bicategory.comp_whiskerRight] at heqA ⊢
-    simp_rw [Functor.map_comp, Functor.map_id, eqToHom_map] at heqA ⊢
     simpa only [eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
       Category.assoc, Category.id_comp] using heqA
   map₂_right_unitor := by
@@ -112,7 +110,6 @@ noncomputable def coherentGeneratedQuotientTransportData
       Cat.Hom₂.comp_app, Cat.whiskerLeft_app, Cat.eqToHom_app,
       Cat.rightUnitor_hom_app,
       Bicategory.whiskerLeft_comp] at heqA ⊢
-    simp_rw [Functor.map_comp, Functor.map_id, eqToHom_map] at heqA ⊢
     simpa only [eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
       Category.assoc, Category.comp_id] using heqA
 
