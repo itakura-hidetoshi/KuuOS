@@ -75,11 +75,6 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
     change quotientRepresentativeMap W R D (W.Q.map f) ≅ R.map f.toLoc
     exact generatedPresentationMapIso W R D f
   · intro X
-    have hMapId :
-        (restrictedCoherentQuotientSystem W R D T).mapId (.mk X) =
-          generatedIdentityMapIso W R D (W.Q.obj X) := by
-      rfl
-    rw [hMapId]
     have heq := congrArg Iso.hom
       (generatedComparisonIdentityRoutes_evaluation_eq W R D hPI X)
     simp [L, hQ, T,
@@ -107,21 +102,8 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
     apply Cat.Hom₂.ext
     ext A
     have heqA := NatTrans.congr_app heqNat A
-    set_option backward.isDefEq.respectTransparency false in
-      simpa only [Cat.Hom.id_toFunctor, Cat.Hom.id_obj, Cat.Hom.id_map,
-        Cat.Hom.comp_toFunctor, Cat.Hom.comp_obj, Cat.Hom.comp_map,
-        Functor.id_obj, Functor.id_map, Functor.comp_obj, Functor.comp_map,
-        Cat.whiskerLeft_app, Cat.whiskerRight_app,
-        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
-        Functor.map_comp, eqToHom_map, eqToHom_refl,
-        eqToHom_trans, eqToHom_trans_assoc,
-        Category.comp_id, Category.id_comp, Category.assoc] using heqA
+    convert! heqA using 1 <;> simp
   · intro X Y Z f g
-    have hMapComp :
-        (restrictedCoherentQuotientSystem W R D T).mapComp f.toLoc g.toLoc =
-          generatedCompositionMapIso W R D (W.Q.map f) (W.Q.map g) := by
-      rfl
-    rw [hMapComp]
     have heq := congrArg Iso.hom
       (generatedComparisonCompositionRoutes_evaluation_eq W R D hPI f g)
     simp [L, hQ, T,
@@ -151,15 +133,7 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
     apply Cat.Hom₂.ext
     ext A
     have heqA := NatTrans.congr_app heqNat A
-    set_option backward.isDefEq.respectTransparency false in
-      simpa only [Cat.Hom.id_toFunctor, Cat.Hom.id_obj, Cat.Hom.id_map,
-        Cat.Hom.comp_toFunctor, Cat.Hom.comp_obj, Cat.Hom.comp_map,
-        Functor.id_obj, Functor.id_map, Functor.comp_obj, Functor.comp_map,
-        Cat.whiskerLeft_app, Cat.whiskerRight_app,
-        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
-        Functor.map_comp, eqToHom_map, eqToHom_refl,
-        eqToHom_trans, eqToHom_trans_assoc,
-        Category.comp_id, Category.id_comp, Category.assoc] using heqA
+    convert! heqA using 1 <;> simp
 
 /-- The two v2.65 StrongTrans comparison defects vanish under generated
 path-independence, after the first three quotient defects have been killed by the
