@@ -62,15 +62,10 @@ noncomputable def coherentGeneratedQuotientTransportData
       generatedLocalization2CellEvaluationIso_ofEq_hom,
       Iso.trans_hom, Iso.symm_hom,
       eqToIso.hom, eqToIso.inv, id_eq,
-      whiskerLeftIso_hom, whiskerRightIso_hom,
-      Bicategory.comp_whiskerRight, Bicategory.whiskerLeft_comp] at heq ⊢
+      whiskerLeftIso_hom, whiskerRightIso_hom] at heq ⊢
     ext A
     have heqA := congrArg (fun η => η.toNatTrans.app A) heq
-    simpa only [Cat.Hom₂.comp_app, Cat.whiskerLeft_app, Cat.whiskerRight_app,
-      Cat.eqToHom_app, Cat.associator_hom_app,
-      Functor.map_comp, eqToHom_map,
-      eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
-      Category.assoc] using heqA
+    simpa using heqA
   map₂_left_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -84,15 +79,10 @@ noncomputable def coherentGeneratedQuotientTransportData
       generatedLocalization2CellEvaluationIso_ofEq_hom,
       Iso.trans_hom, Iso.symm_hom,
       eqToIso.hom, eqToIso.inv, id_eq,
-      whiskerRightIso_hom,
-      Bicategory.comp_whiskerRight] at heq ⊢
+      whiskerRightIso_hom] at heq ⊢
     ext A
     have heqA := congrArg (fun η => η.toNatTrans.app A) heq
-    simpa only [Cat.Hom₂.comp_app, Cat.whiskerRight_app, Cat.eqToHom_app,
-      Cat.leftUnitor_hom_app,
-      Functor.map_comp, eqToHom_map,
-      eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
-      Category.assoc, Category.id_comp] using heqA
+    simpa using heqA
   map₂_right_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -106,14 +96,10 @@ noncomputable def coherentGeneratedQuotientTransportData
       generatedLocalization2CellEvaluationIso_ofEq_hom,
       Iso.trans_hom, Iso.symm_hom,
       eqToIso.hom, eqToIso.inv, id_eq,
-      whiskerLeftIso_hom,
-      Bicategory.whiskerLeft_comp] at heq ⊢
+      whiskerLeftIso_hom] at heq ⊢
     ext A
     have heqA := congrArg (fun η => η.toNatTrans.app A) heq
-    simpa only [Cat.Hom₂.comp_app, Cat.whiskerLeft_app, Cat.eqToHom_app,
-      Cat.rightUnitor_hom_app,
-      eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
-      Category.assoc, Category.comp_id] using heqA
+    simpa using heqA
 
 /-- The first three v2.65 defects vanish for the exact canonical generated
 pointwise bundle whenever generated evaluation is path-independent. -/
