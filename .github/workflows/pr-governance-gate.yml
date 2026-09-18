@@ -56,7 +56,51 @@ jobs:
           mode="full-pr"
 
           if [[ "${EVENT_ACTION}" == "synchronize" ]]; then
-            while IFS=
+            while IFS='|' read -r run_id candidate_sha run_status; do
+              [[ -n "${run_id}" && -n "${candidate_sha}" ]] || continue
+              [[ "${run_id}" != "${CURRENT_RUN_ID}" ]] || continue
+              [[ "${run_status}" == "completed" ]] || continue
+              git cat-file -e "${candidate_sha}^{commit}" 2>/dev/null || continue
+              git merge-base --is-ancestor "${candidate_sha}" "${head}" || continue
+
+              baseline_count="$(
+                gh api -X GET "repos/${REPOSITORY}/actions/runs/${run_id}/jobs" \
+                  -f per_page=100 \
+                  --jq '[.jobs[] | select(.name == "Full PR non-Lean baseline" and .conclusion == "success")] | length'
+              )"
+              [[ "${baseline_count}" == "1" ]] || continue
+
+              mapfile -t delta_paths < <(
+                git diff --name-only --diff-filter=ACMR "${candidate_sha}...${head}"
+              )
+              [[ "${#delta_paths[@]}" -gt 0 ]] || continue
+
+              lean_only=true
+              for changed_path in "${delta_paths[@]}"; do
+                if [[ ! "${changed_path}" =~ ^formal/.+\.lean$ ]]; then
+                  lean_only=false
+                  break
+                fi
+              done
+              [[ "${lean_only}" == "true" ]] || continue
+
+              base="${candidate_sha}"
+              mode="validated-lean-incremental"
+              break
+            done < <(
+              gh api -X GET \
+                "repos/${REPOSITORY}/actions/workflows/pr-governance-gate.yml/runs" \
+                -f event=pull_request \
+                -f branch="${PR_HEAD_REF}" \
+                -f per_page=50 \
+                --jq '.workflow_runs[] | "\(.id)|\(.head_sha)|\(.status)"'
+            )
+          fi
+
+          echo "base=${base}" >> "${GITHUB_OUTPUT}"
+          echo "head=${head}" >> "${GITHUB_OUTPUT}"
+          echo "mode=${mode}" >> "${GITHUB_OUTPUT}"
+
       - name: Select checks with fail-closed fallback
         id: selection
         shell: bash
@@ -169,243 +213,6 @@ jobs:
               exit 1
               ;;
           esac
-
-  lean-formal:
-    name: Strict Lean formal validation
-    needs: select
-    if: needs.select.outputs.lean_required == 'true'
-    runs-on: ubuntu-24.04
-    timeout-minutes: 30
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
-
-      - name: Download selection receipt
-        uses: actions/download-artifact@v5
-        with:
-          name: audit-selection-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/selection
-
-      - name: Set up pinned Lean and Mathlib cache
-        uses: leanprover/lean-action@v1
-        with:
-          auto-config: false
-          build: false
-          test: false
-          lint: false
-          use-mathlib-cache: true
-          use-github-cache: false
-
-      - name: Run selected Lean check
-        shell: bash
-        run: |
-          set -euo pipefail
-          LEAN_COMMAND="$(
-            python3 - <<'PY'
-          import json
-          import pathlib
-          import shlex
-
-          selection = json.loads(
-              pathlib.Path("artifacts/selection/selection.json").read_text(encoding="utf-8")
-          )
-          targets = selection.get("lean_targets")
-          if not isinstance(targets, list) or not targets or not all(isinstance(t, str) for t in targets):
-              raise SystemExit("missing or invalid lean_targets in selection receipt")
-          argv = [
-              "lake",
-              "-KleanArgs=-DwarningAsError=true",
-              "-KleanArgs=-DsorryAsError=true",
-              "build",
-              *targets,
-          ]
-          print(shlex.join(argv))
-          PY
-          )"
-          echo "Lean command: ${LEAN_COMMAND}"
-          python3 scripts/run_ci_check.py \
-            --check-id lean-formal \
-            --command "${LEAN_COMMAND}" \
-            --selection artifacts/selection/selection.json
-
-      - name: Verify committed dependency manifest remains canonical
-        shell: bash
-        run: git diff --exit-code -- lake-manifest.json
-
-      - name: Upload Lean receipt and log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: audit-check-lean-formal-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/checks/
-          if-no-files-found: warn
-          retention-days: 14
-
-  governance-gate:
-    name: Governance gate and audit summary
-    needs:
-      - select
-      - python-checks
-      - lean-formal
-    if: always()
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
-
-      - name: Download selection receipt
-        continue-on-error: true
-        uses: actions/download-artifact@v5
-        with:
-          name: audit-selection-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/selection
-
-      - name: Download check receipts
-        continue-on-error: true
-        uses: actions/download-artifact@v5
-        with:
-          pattern: audit-check-*-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/receipts
-          merge-multiple: true
-
-      - name: Build audit summary
-        shell: bash
-        run: |
-          set -euo pipefail
-          python3 scripts/build_audit_summary.py \
-            --selection artifacts/selection/selection.json \
-            --receipts-root artifacts/receipts \
-            --output-dir artifacts/summary \
-            --python-result '${{ needs.python-checks.result }}' \
-            --lean-result '${{ needs.lean-formal.result }}'
-
-      - name: Publish report in job summary
-        if: always()
-        shell: bash
-        run: |
-          if [[ -f artifacts/summary/audit-report.md ]]; then
-            cat artifacts/summary/audit-report.md >> "${GITHUB_STEP_SUMMARY}"
-          fi
-
-      - name: Upload audit summary
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: audit-summary-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/summary/
-          if-no-files-found: warn
-          retention-days: 30
-\t' read -r run_id candidate_sha run_status; do
-              [[ -n "${run_id}" && -n "${candidate_sha}" ]] || continue
-              [[ "${run_id}" != "${CURRENT_RUN_ID}" ]] || continue
-              [[ "${run_status}" == "completed" ]] || continue
-              git cat-file -e "${candidate_sha}^{commit}" 2>/dev/null || continue
-              git merge-base --is-ancestor "${candidate_sha}" "${head}" || continue
-
-              baseline_count="$(
-                gh api -X GET "repos/${REPOSITORY}/actions/runs/${run_id}/jobs" \
-                  -f per_page=100 \
-                  --jq '[.jobs[] | select(.name == "Full PR non-Lean baseline" and .conclusion == "success")] | length'
-              )"
-              [[ "${baseline_count}" == "1" ]] || continue
-
-              mapfile -t delta_paths < <(
-                git diff --name-only --diff-filter=ACMR "${candidate_sha}...${head}"
-              )
-              [[ "${#delta_paths[@]}" -gt 0 ]] || continue
-
-              lean_only=true
-              for changed_path in "${delta_paths[@]}"; do
-                if [[ ! "${changed_path}" =~ ^formal/.+\.lean$ ]]; then
-                  lean_only=false
-                  break
-                fi
-              done
-              [[ "${lean_only}" == "true" ]] || continue
-
-              base="${candidate_sha}"
-              mode="validated-lean-incremental"
-              break
-            done < <(
-              gh api -X GET \
-                "repos/${REPOSITORY}/actions/workflows/pr-governance-gate.yml/runs" \
-                -f event=pull_request \
-                -f branch="${PR_HEAD_REF}" \
-                -f per_page=50 \
-                --jq '.workflow_runs[] | [.id, .head_sha, .status] | @tsv'
-            )
-          fi
-
-          echo "base=${base}" >> "${GITHUB_OUTPUT}"
-          echo "head=${head}" >> "${GITHUB_OUTPUT}"
-          echo "mode=${mode}" >> "${GITHUB_OUTPUT}"
-
-      - name: Select checks with fail-closed fallback
-        id: selection
-        shell: bash
-        run: |
-          set -euo pipefail
-          mkdir -p artifacts/selection
-          python3 scripts/select_impacted_checks.py \
-            --base '${{ steps.refs.outputs.base }}' \
-            --head '${{ steps.refs.outputs.head }}' \
-            --output artifacts/selection/selection.json \
-            --github-output "${GITHUB_OUTPUT}"
-
-      - name: Upload selection receipt
-        uses: actions/upload-artifact@v4
-        with:
-          name: audit-selection-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/selection/selection.json
-          if-no-files-found: error
-          retention-days: 14
-
-  python-checks:
-    name: ${{ matrix.check.name }}
-    needs: select
-    if: needs.select.outputs.python_count != '0'
-    runs-on: ubuntu-24.04
-    timeout-minutes: 65
-    strategy:
-      fail-fast: false
-      max-parallel: 16
-      matrix:
-        check: ${{ fromJSON(needs.select.outputs.python_matrix) }}
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
-
-      - name: Set up Python
-        uses: actions/setup-python@v5
-        with:
-          python-version: '3.12'
-
-      - name: Download selection receipt
-        uses: actions/download-artifact@v5
-        with:
-          name: audit-selection-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/selection
-
-      - name: Run selected check
-        shell: bash
-        env:
-          PYTHONPATH: .
-          PYTHONUNBUFFERED: '1'
-        run: |
-          set -euo pipefail
-          python3 scripts/run_ci_check.py \
-            --check-id '${{ matrix.check.id }}' \
-            --command '${{ matrix.check.command }}' \
-            --selection artifacts/selection/selection.json
-
-      - name: Upload check receipt and log
-        if: always()
-        uses: actions/upload-artifact@v4
-        with:
-          name: audit-check-${{ matrix.check.id }}-${{ github.run_id }}-${{ github.run_attempt }}
-          path: artifacts/checks/
-          if-no-files-found: warn
-          retention-days: 14
 
   lean-formal:
     name: Strict Lean formal validation
