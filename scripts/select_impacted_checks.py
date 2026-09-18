@@ -340,9 +340,22 @@ def expand_check(check_id: str, check: Mapping[str, Any]) -> list[dict[str, Any]
 
 
 def select(
-    registry: Mapping[str, Any], changed_paths: list[str], diff_error: str | None
+    registry: Mapping[str, Any],
+    changed_paths: list[str],
+    diff_error: str | None,
+    *,
+    validated_lean_incremental: bool = False,
 ) -> dict[str, Any]:
     checks: Mapping[str, Mapping[str, Any]] = registry["checks"]
+    if validated_lean_incremental:
+        non_lean_paths = [
+            path for path in changed_paths
+            if not (path.startswith("formal/") and path.endswith(".lean"))
+        ]
+        if diff_error or not changed_paths or non_lean_paths:
+            raise ValueError(
+                "validated Lean incremental mode requires a non-empty, available formal/**/*.lean-only diff"
+            )
     patterns: dict[str, list[str]] = {}
     for check_id, check in checks.items():
         value = check.get("paths", [])
@@ -373,7 +386,8 @@ def select(
         check_id for check_id, values in patterns.items()
         if any(matches(path, values) for path in changed_paths)
     }
-    direct.add("workflow-integrity")
+    if not validated_lean_incremental:
+        direct.add("workflow-integrity")
     selected = (
         {check_id for check_id, check in checks.items() if check.get("full_audit_member")}
         if full_audit else set(direct)
@@ -417,6 +431,7 @@ def select(
         "reasons": reasons,
         "registry_fragments": registry.get("registry_fragments", []),
         "boundaries": registry.get("policy", {}).get("boundaries", []),
+        "validated_lean_incremental": validated_lean_incremental,
     }
 
 
@@ -439,11 +454,17 @@ def main() -> int:
     parser.add_argument("--registry", type=pathlib.Path, default=DEFAULT_REGISTRY)
     parser.add_argument("--output", type=pathlib.Path, required=True)
     parser.add_argument("--github-output", type=pathlib.Path)
+    parser.add_argument("--validated-lean-incremental", action="store_true")
     args = parser.parse_args()
     try:
         registry = load_registry(args.registry)
         changed_paths, diff_error = git_changed_paths(args.base, args.head)
-        selection = select(registry, changed_paths, diff_error)
+        selection = select(
+            registry,
+            changed_paths,
+            diff_error,
+            validated_lean_incremental=args.validated_lean_incremental,
+        )
     except ValueError as exc:
         print(f"ERROR: {exc}", file=sys.stderr)
         return 1
