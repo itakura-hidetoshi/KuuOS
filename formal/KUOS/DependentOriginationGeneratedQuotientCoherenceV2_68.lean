@@ -65,6 +65,7 @@ noncomputable def coherentGeneratedQuotientTransportData
       whiskerLeftIso_hom, whiskerRightIso_hom] at heq ⊢
     ext A
     have heqA := congrArg (fun η => η.toNatTrans.app A) heq
+    simp only [Cat.Hom.toNatTrans_comp, NatTrans.comp_app] at heqA ⊢
     simpa using heqA
   map₂_left_unitor := by
     intro X Y f
@@ -82,6 +83,7 @@ noncomputable def coherentGeneratedQuotientTransportData
       whiskerRightIso_hom] at heq ⊢
     ext A
     have heqA := congrArg (fun η => η.toNatTrans.app A) heq
+    simp only [Cat.Hom.toNatTrans_comp, NatTrans.comp_app] at heqA ⊢
     simpa using heqA
   map₂_right_unitor := by
     intro X Y f
@@ -99,6 +101,7 @@ noncomputable def coherentGeneratedQuotientTransportData
       whiskerLeftIso_hom] at heq ⊢
     ext A
     have heqA := congrArg (fun η => η.toNatTrans.app A) heq
+    simp only [Cat.Hom.toNatTrans_comp, NatTrans.comp_app] at heqA ⊢
     simpa using heqA
 
 /-- The first three v2.65 defects vanish for the exact canonical generated
