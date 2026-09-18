@@ -1,6 +1,10 @@
+import pathlib
 import unittest
 
 from scripts.chatgpt_ci_completion_push_v0_2 import resolve_pr_numbers
+
+ROOT = pathlib.Path(__file__).resolve().parents[1]
+WORKFLOW = ROOT / ".github/workflows/chatgpt-ci-completion-push-v0-1.yml"
 
 
 class ResolvePrNumbersTests(unittest.TestCase):
@@ -80,6 +84,11 @@ class ResolvePrNumbersTests(unittest.TestCase):
             ),
             [1651],
         )
+
+    def test_workflow_can_write_pull_request_comments(self):
+        text = WORKFLOW.read_text(encoding="utf-8")
+        self.assertIn("issues: write", text)
+        self.assertIn("pull-requests: write", text)
 
 
 if __name__ == "__main__":
