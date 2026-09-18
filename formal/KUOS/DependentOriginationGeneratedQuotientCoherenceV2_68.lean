@@ -1,6 +1,7 @@
 import KUOS.DependentOriginationGeneratedCoherenceRoutesV2_68
 import KUOS.DependentOriginationCoherenceDefectsV2_65
 import Mathlib.Tactic.CategoryTheory.Bicategory.Basic
+import Mathlib.Tactic.CategoryTheory.ToApp
 import Mathlib.CategoryTheory.Bicategory.Strict.Basic
 
 namespace KUOS.DependentOriginationGeneratedQuotientCoherenceV2_68
@@ -66,8 +67,9 @@ noncomputable def coherentGeneratedQuotientTransportData
       whiskerLeftIso_hom, whiskerRightIso_hom,
       Bicategory.Strict.associator_eqToIso] at heq ⊢
     have heqNat := congrArg (fun η => η.toNatTrans) heq
-    have heqHom := congrArg NatTrans.toCatHom₂ heqNat
-    simpa using heqHom
+    ext A
+    have heqA := (to_app_of% heqNat) A
+    convert heqA using 1 <;> simp
   map₂_left_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -84,8 +86,9 @@ noncomputable def coherentGeneratedQuotientTransportData
       whiskerRightIso_hom,
       Bicategory.Strict.leftUnitor_eqToIso] at heq ⊢
     have heqNat := congrArg (fun η => η.toNatTrans) heq
-    have heqHom := congrArg NatTrans.toCatHom₂ heqNat
-    simpa using heqHom
+    ext A
+    have heqA := (to_app_of% heqNat) A
+    convert heqA using 1 <;> simp
   map₂_right_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -102,8 +105,9 @@ noncomputable def coherentGeneratedQuotientTransportData
       whiskerLeftIso_hom,
       Bicategory.Strict.rightUnitor_eqToIso] at heq ⊢
     have heqNat := congrArg (fun η => η.toNatTrans) heq
-    have heqHom := congrArg NatTrans.toCatHom₂ heqNat
-    simpa using heqHom
+    ext A
+    have heqA := (to_app_of% heqNat) A
+    convert heqA using 1 <;> simp
 
 /-- The first three v2.65 defects vanish for the exact canonical generated
 pointwise bundle whenever generated evaluation is path-independent. -/
