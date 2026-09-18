@@ -92,7 +92,7 @@ jobs:
                 "repos/${REPOSITORY}/actions/workflows/pr-governance-gate.yml/runs" \
                 -f event=pull_request \
                 -f branch="${PR_HEAD_REF}" \
-                -f per_page=50 \
+                -f per_page=10 \
                 --jq '.workflow_runs[] | "\(.id)|\(.head_sha)|\(.status)"'
             )
           fi
