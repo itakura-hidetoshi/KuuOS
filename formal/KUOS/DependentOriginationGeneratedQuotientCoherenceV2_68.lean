@@ -65,11 +65,19 @@ noncomputable def coherentGeneratedQuotientTransportData
       eqToIso.hom, eqToIso.inv,
       whiskerLeftIso_hom, whiskerRightIso_hom,
       Bicategory.Strict.associator_eqToIso] at heq ⊢
-    simp only [Bicategory.comp_whiskerRight,
-      Bicategory.whiskerLeft_comp,
-      Bicategory.eqToHom_whiskerRight,
-      Bicategory.whiskerLeft_eqToHom,
-      eqToHom_trans, Category.assoc] at heq ⊢
+    rw [Bicategory.comp_whiskerRight
+      (generatedLocalization2CellEvaluationIso W R D
+        (generatedCompositionRepresentativeCell W f g)).hom
+      (eqToHom ((freePathEvaluator W R D).map_comp (Quot.out f) (Quot.out g)))
+      ((freePathEvaluator W R D).map (Quot.out h))]
+    rw [Bicategory.whiskerLeft_comp
+      ((freePathEvaluator W R D).map (Quot.out f))
+      (eqToHom
+        ((freePathEvaluator W R D).map_comp (Quot.out g) (Quot.out h)).symm)
+      (generatedLocalization2CellEvaluationIso W R D
+        (generatedCompositionRepresentativeCell W g h)).inv]
+    simp only [Bicategory.eqToHom_whiskerRight,
+      Bicategory.whiskerLeft_eqToHom, Category.assoc] at heq ⊢
     exact heq
   map₂_left_unitor := by
     intro X Y f
@@ -86,9 +94,12 @@ noncomputable def coherentGeneratedQuotientTransportData
       eqToIso.hom, eqToIso.inv,
       whiskerRightIso_hom,
       Bicategory.Strict.leftUnitor_eqToIso] at heq ⊢
-    simp only [Bicategory.comp_whiskerRight,
-      Bicategory.eqToHom_whiskerRight,
-      eqToHom_trans, Category.assoc] at heq ⊢
+    rw [Bicategory.comp_whiskerRight
+      (generatedLocalization2CellEvaluationIso W R D
+        (generatedIdentityRepresentativeCell W X)).hom
+      (eqToHom ((freePathEvaluator W R D).map_id X.as))
+      ((freePathEvaluator W R D).map (Quot.out f))]
+    simp only [Bicategory.eqToHom_whiskerRight, Category.assoc] at heq ⊢
     exact heq
   map₂_right_unitor := by
     intro X Y f
@@ -105,9 +116,12 @@ noncomputable def coherentGeneratedQuotientTransportData
       eqToIso.hom, eqToIso.inv,
       whiskerLeftIso_hom,
       Bicategory.Strict.rightUnitor_eqToIso] at heq ⊢
-    simp only [Bicategory.whiskerLeft_comp,
-      Bicategory.whiskerLeft_eqToHom,
-      eqToHom_trans, Category.assoc] at heq ⊢
+    rw [Bicategory.whiskerLeft_comp
+      ((freePathEvaluator W R D).map (Quot.out f))
+      (generatedLocalization2CellEvaluationIso W R D
+        (generatedIdentityRepresentativeCell W Y)).hom
+      (eqToHom ((freePathEvaluator W R D).map_id Y.as))]
+    simp only [Bicategory.whiskerLeft_eqToHom, Category.assoc] at heq ⊢
     exact heq
 
 /-- The first three v2.65 defects vanish for the exact canonical generated
