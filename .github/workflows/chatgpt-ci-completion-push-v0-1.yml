@@ -9,7 +9,7 @@ on:
 permissions:
   contents: read
   issues: write
-  pull-requests: read
+  pull-requests: write
 
 concurrency:
   group: chatgpt-ci-completion-push-v01-${{ github.event.workflow_run.id }}-${{ github.event.workflow_run.run_attempt }}
