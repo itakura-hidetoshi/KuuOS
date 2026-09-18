@@ -75,6 +75,11 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
     change quotientRepresentativeMap W R D (W.Q.map f) ≅ R.map f.toLoc
     exact generatedPresentationMapIso W R D f
   · intro X
+    have hMapId :
+        (restrictedCoherentQuotientSystem W R D T).mapId (.mk X) =
+          generatedIdentityMapIso W R D (W.Q.obj X) := by
+      rfl
+    rw [hMapId]
     have heq := congrArg Iso.hom
       (generatedComparisonIdentityRoutes_evaluation_eq W R D hPI X)
     simp [L, hQ, T,
@@ -112,6 +117,11 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
         eqToHom_trans, eqToHom_trans_assoc,
         Category.comp_id, Category.id_comp, Category.assoc] using heqA
   · intro X Y Z f g
+    have hMapComp :
+        (restrictedCoherentQuotientSystem W R D T).mapComp f.toLoc g.toLoc =
+          generatedCompositionMapIso W R D (W.Q.map f) (W.Q.map g) := by
+      rfl
+    rw [hMapComp]
     have heq := congrArg Iso.hom
       (generatedComparisonCompositionRoutes_evaluation_eq W R D hPI f g)
     simp [L, hQ, T,
