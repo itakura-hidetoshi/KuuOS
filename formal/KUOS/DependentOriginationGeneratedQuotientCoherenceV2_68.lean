@@ -75,8 +75,8 @@ noncomputable def coherentGeneratedQuotientTransportData
         generatedLocalization2CellEvaluationIso_whiskerRight_hom,
         generatedLocalization2CellEvaluationIso_ofEq_hom,
         Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
-        whiskerLeftIso_hom, whiskerRightIso_hom, Functor.map_comp] <;>
-        bicategory
+        whiskerLeftIso_hom, whiskerRightIso_hom]
+      cat_disch
     have hdirect :
         generatedLocalization2CellEvaluationIso W R D
             (generatedQuotientAssociatorDirect W f g h) =
