@@ -67,12 +67,17 @@ noncomputable def coherentGeneratedQuotientTransportData
       whiskerLeftIso_hom, whiskerRightIso_hom,
       Bicategory.Strict.associator_eqToIso] at heq ⊢
     have heqNat := congrArg (fun η => η.toNatTrans) heq
-    apply Cat.Hom₂.ext
-    simpa only [Cat.Hom.toNatTrans_comp,
+    simp only [Cat.Hom.toNatTrans_comp,
       Cat.whiskerLeft_toNatTrans, Cat.whiskerRight_toNatTrans,
       Cat.Hom₂.eqToHom_toNatTrans,
       Functor.whiskerLeft_comp, Functor.whiskerRight_comp,
-      Category.assoc] using heqNat
+      Category.assoc] at heqNat
+    apply Cat.Hom₂.ext
+    simp_rw [Cat.Hom.toNatTrans_comp]
+    simp_rw [Cat.whiskerLeft_toNatTrans, Cat.whiskerRight_toNatTrans]
+    simp_rw [Functor.whiskerLeft_comp, Functor.whiskerRight_comp]
+    simp_rw [Cat.Hom₂.eqToHom_toNatTrans]
+    simpa only [Category.assoc] using heqNat
   map₂_left_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -89,12 +94,17 @@ noncomputable def coherentGeneratedQuotientTransportData
       whiskerRightIso_hom,
       Bicategory.Strict.leftUnitor_eqToIso] at heq ⊢
     have heqNat := congrArg (fun η => η.toNatTrans) heq
-    apply Cat.Hom₂.ext
-    simpa only [Cat.Hom.toNatTrans_comp,
+    simp only [Cat.Hom.toNatTrans_comp,
       Cat.whiskerRight_toNatTrans,
       Cat.Hom₂.eqToHom_toNatTrans,
       Functor.whiskerRight_comp,
-      Category.assoc] using heqNat
+      Category.assoc] at heqNat
+    apply Cat.Hom₂.ext
+    simp_rw [Cat.Hom.toNatTrans_comp]
+    simp_rw [Cat.whiskerRight_toNatTrans]
+    simp_rw [Functor.whiskerRight_comp]
+    simp_rw [Cat.Hom₂.eqToHom_toNatTrans]
+    simpa only [Category.assoc] using heqNat
   map₂_right_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -111,12 +121,17 @@ noncomputable def coherentGeneratedQuotientTransportData
       whiskerLeftIso_hom,
       Bicategory.Strict.rightUnitor_eqToIso] at heq ⊢
     have heqNat := congrArg (fun η => η.toNatTrans) heq
-    apply Cat.Hom₂.ext
-    simpa only [Cat.Hom.toNatTrans_comp,
+    simp only [Cat.Hom.toNatTrans_comp,
       Cat.whiskerLeft_toNatTrans,
       Cat.Hom₂.eqToHom_toNatTrans,
       Functor.whiskerLeft_comp,
-      Category.assoc] using heqNat
+      Category.assoc] at heqNat
+    apply Cat.Hom₂.ext
+    simp_rw [Cat.Hom.toNatTrans_comp]
+    simp_rw [Cat.whiskerLeft_toNatTrans]
+    simp_rw [Functor.whiskerLeft_comp]
+    simp_rw [Cat.Hom₂.eqToHom_toNatTrans]
+    simpa only [Category.assoc] using heqNat
 
 /-- The first three v2.65 defects vanish for the exact canonical generated
 pointwise bundle whenever generated evaluation is path-independent. -/
