@@ -77,7 +77,7 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
   · intro X
     have heq := congrArg Iso.hom
       (generatedComparisonIdentityRoutes_evaluation_eq W R D hPI X)
-    simpa [L, hQ, T,
+    simp [L, hQ, T,
       identityComponentNaturalityIso,
       generatedComparisonIdentityRawRoute,
       generatedComparisonIdentityQuotientRoute,
@@ -97,11 +97,22 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
       Bicategory.Strict.associator_eqToIso,
       Functor.map_id, Functor.map_comp,
       eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
-      Category.comp_id, Category.id_comp, Category.assoc] using heq
+      Category.comp_id, Category.id_comp, Category.assoc] at heq ⊢
+    have heqNat := congrArg (fun η => η.toNatTrans) heq
+    apply Cat.Hom₂.ext
+    ext A
+    have heqA := NatTrans.congr_app heqNat A
+    set_option backward.isDefEq.respectTransparency false in
+      simpa only [Cat.Hom.comp_toFunctor, Functor.comp_obj, Cat.Hom.comp_obj,
+        Cat.whiskerLeft_app, Cat.whiskerRight_app,
+        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
+        Functor.map_comp, eqToHom_map, eqToHom_refl,
+        eqToHom_trans, eqToHom_trans_assoc,
+        Category.comp_id, Category.id_comp, Category.assoc] using heqA
   · intro X Y Z f g
     have heq := congrArg Iso.hom
       (generatedComparisonCompositionRoutes_evaluation_eq W R D hPI f g)
-    simpa [L, hQ, T,
+    simp [L, hQ, T,
       identityComponentNaturalityIso,
       generatedComparisonCompositionRawRoute,
       generatedComparisonCompositionQuotientRoute,
@@ -123,7 +134,18 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
       Bicategory.Strict.associator_eqToIso,
       Functor.map_id, Functor.map_comp,
       eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
-      Category.comp_id, Category.id_comp, Category.assoc] using heq
+      Category.comp_id, Category.id_comp, Category.assoc] at heq ⊢
+    have heqNat := congrArg (fun η => η.toNatTrans) heq
+    apply Cat.Hom₂.ext
+    ext A
+    have heqA := NatTrans.congr_app heqNat A
+    set_option backward.isDefEq.respectTransparency false in
+      simpa only [Cat.Hom.comp_toFunctor, Functor.comp_obj, Cat.Hom.comp_obj,
+        Cat.whiskerLeft_app, Cat.whiskerRight_app,
+        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
+        Functor.map_comp, eqToHom_map, eqToHom_refl,
+        eqToHom_trans, eqToHom_trans_assoc,
+        Category.comp_id, Category.id_comp, Category.assoc] using heqA
 
 /-- The two v2.65 StrongTrans comparison defects vanish under generated
 path-independence, after the first three quotient defects have been killed by the
