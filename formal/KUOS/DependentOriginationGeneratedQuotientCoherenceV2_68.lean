@@ -69,7 +69,7 @@ noncomputable def coherentGeneratedQuotientTransportData
     have heqNat := congrArg (fun η => η.toNatTrans) heq
     ext A
     have heqA := (to_app_of% heqNat) A
-    convert (config := .unfoldSameFun) heqA using 1
+    convert! heqA using 1 <;> simp
   map₂_left_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -88,7 +88,7 @@ noncomputable def coherentGeneratedQuotientTransportData
     have heqNat := congrArg (fun η => η.toNatTrans) heq
     ext A
     have heqA := (to_app_of% heqNat) A
-    convert (config := .unfoldSameFun) heqA using 1
+    convert! heqA using 1 <;> simp
   map₂_right_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -107,7 +107,7 @@ noncomputable def coherentGeneratedQuotientTransportData
     have heqNat := congrArg (fun η => η.toNatTrans) heq
     ext A
     have heqA := (to_app_of% heqNat) A
-    convert (config := .unfoldSameFun) heqA using 1
+    convert! heqA using 1 <;> simp
 
 /-- The first three v2.65 defects vanish for the exact canonical generated
 pointwise bundle whenever generated evaluation is path-independent. -/
