@@ -69,14 +69,7 @@ noncomputable def coherentGeneratedQuotientTransportData
     have heqNat := congrArg (fun η => η.toNatTrans) heq
     ext A
     have heqA := (to_app_of% heqNat) A
-    convert heqA using 1 <;>
-      simp only [Cat.Hom.comp_toFunctor, Functor.comp_obj, Cat.Hom.comp_obj,
-        Cat.whiskerLeft_app, Cat.whiskerRight_app,
-        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
-        Cat.leftUnitor_hom_app, Cat.leftUnitor_inv_app,
-        Cat.rightUnitor_hom_app, Cat.rightUnitor_inv_app,
-        Cat.associator_hom_app, Cat.associator_inv_app,
-        eqToHom_refl, Category.comp_id, Category.id_comp]
+    convert heqA using 1 <;> simp [Cat.eqToHom_app]
   map₂_left_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -95,14 +88,7 @@ noncomputable def coherentGeneratedQuotientTransportData
     have heqNat := congrArg (fun η => η.toNatTrans) heq
     ext A
     have heqA := (to_app_of% heqNat) A
-    convert heqA using 1 <;>
-      simp only [Cat.Hom.comp_toFunctor, Functor.comp_obj, Cat.Hom.comp_obj,
-        Cat.whiskerLeft_app, Cat.whiskerRight_app,
-        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
-        Cat.leftUnitor_hom_app, Cat.leftUnitor_inv_app,
-        Cat.rightUnitor_hom_app, Cat.rightUnitor_inv_app,
-        Cat.associator_hom_app, Cat.associator_inv_app,
-        eqToHom_refl, Category.comp_id, Category.id_comp]
+    convert heqA using 1 <;> simp [Cat.eqToHom_app]
   map₂_right_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -121,14 +107,7 @@ noncomputable def coherentGeneratedQuotientTransportData
     have heqNat := congrArg (fun η => η.toNatTrans) heq
     ext A
     have heqA := (to_app_of% heqNat) A
-    convert heqA using 1 <;>
-      simp only [Cat.Hom.comp_toFunctor, Functor.comp_obj, Cat.Hom.comp_obj,
-        Cat.whiskerLeft_app, Cat.whiskerRight_app,
-        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
-        Cat.leftUnitor_hom_app, Cat.leftUnitor_inv_app,
-        Cat.rightUnitor_hom_app, Cat.rightUnitor_inv_app,
-        Cat.associator_hom_app, Cat.associator_inv_app,
-        eqToHom_refl, Category.comp_id, Category.id_comp]
+    convert heqA using 1 <;> simp [Cat.eqToHom_app]
 
 /-- The first three v2.65 defects vanish for the exact canonical generated
 pointwise bundle whenever generated evaluation is path-independent. -/
