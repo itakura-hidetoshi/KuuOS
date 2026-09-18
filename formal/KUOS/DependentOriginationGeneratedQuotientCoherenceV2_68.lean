@@ -68,7 +68,8 @@ noncomputable def coherentGeneratedQuotientTransportData
       Cat.Hom₂.comp_app, Cat.whiskerLeft_app, Cat.whiskerRight_app,
       Cat.eqToHom_app, Cat.associator_hom_app,
       Bicategory.comp_whiskerRight, Bicategory.whiskerLeft_comp,
-      Functor.map_comp, Category.assoc] using heqA
+      Functor.map_comp, eqToHom_map, eqToHom_trans, eqToHom_trans_assoc,
+      eqToHom_refl, Category.assoc] using heqA
   map₂_left_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -89,6 +90,7 @@ noncomputable def coherentGeneratedQuotientTransportData
       Cat.leftUnitor_hom_app,
       Bicategory.comp_whiskerRight,
       Functor.map_comp, Functor.map_id,
+      eqToHom_map, eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
       Category.assoc, Category.id_comp] using heqA
   map₂_right_unitor := by
     intro X Y f
@@ -110,6 +112,7 @@ noncomputable def coherentGeneratedQuotientTransportData
       Cat.rightUnitor_hom_app,
       Bicategory.whiskerLeft_comp,
       Functor.map_comp, Functor.map_id,
+      eqToHom_map, eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
       Category.assoc, Category.comp_id] using heqA
 
 /-- The first three v2.65 defects vanish for the exact canonical generated
