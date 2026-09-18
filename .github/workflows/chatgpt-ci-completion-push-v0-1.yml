@@ -7,7 +7,7 @@ on:
     types: [completed]
 
 permissions:
-  contents: read
+  contents: write
   issues: write
   pull-requests: write
 
@@ -33,8 +33,12 @@ jobs:
           ref: ${{ github.event.repository.default_branch }}
           persist-credentials: false
 
-      - name: Run PR-resolution regression tests
-        run: python3 -m unittest -v tests.test_chatgpt_ci_completion_push_v0_2
+      - name: Run wake-up regression tests
+        id: regression
+        run: >-
+          python3 -m unittest -v
+          tests.test_chatgpt_ci_completion_push_v0_2
+          tests.test_chatgpt_ci_completion_commit_wakeup_v0_1
 
       - name: Publish deduplicated PR comment
         env:
@@ -53,6 +57,26 @@ jobs:
           USER_AGENT: KuuOS-ChatGPT-CI-Completion-Push-v0.2
         run: python3 scripts/chatgpt_ci_completion_push_v0_2.py
 
+      - name: Publish immutable CI Inbox commit update
+        if: ${{ always() && steps.regression.outcome == 'success' }}
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          EVENT_PULL_REQUESTS_JSON: ${{ toJson(github.event.workflow_run.pull_requests) }}
+          WORKFLOW_NAME: ${{ github.event.workflow_run.name }}
+          RUN_ID: ${{ github.event.workflow_run.id }}
+          RUN_ATTEMPT: ${{ github.event.workflow_run.run_attempt }}
+          RUN_STATUS: ${{ github.event.workflow_run.status }}
+          RUN_CONCLUSION: ${{ github.event.workflow_run.conclusion }}
+          HEAD_SHA: ${{ github.event.workflow_run.head_sha }}
+          HEAD_BRANCH: ${{ github.event.workflow_run.head_branch }}
+          RUN_URL: ${{ github.event.workflow_run.html_url }}
+          UPDATED_AT: ${{ github.event.workflow_run.updated_at }}
+          INBOX_BRANCH: infra/chatgpt-ci-inbox-events-v0-1
+          INBOX_PULL_REQUEST: "1663"
+          USER_AGENT: KuuOS-ChatGPT-CI-Commit-Wakeup-v0.1
+        run: python3 scripts/chatgpt_ci_completion_commit_wakeup_v0_1.py
+
       - name: Publish non-authority summary
         if: always()
         run: |
@@ -60,10 +84,9 @@ jobs:
             echo '## ChatGPT CI Completion Push v0.1 / resolver v0.2'
             echo
             echo '- Trigger: `workflow_run: completed` for `KuuOS PR Governance Gate`.'
-            echo '- If `workflow_run.pull_requests` is empty, resolve the PR once from the completed run `head_sha` via GitHub commit association.'
-            echo '- Exact head SHA and repository identity are required for fallback association.'
-            echo '- Delivery surface: deduplicated pull-request comment for ChatGPT Work webhook activation.'
-            echo '- The comment is a wake-up signal only, not CI truth.'
-            echo '- After activation, perform one fresh exact GitHub MCP observation; do not poll for completion.'
-            echo '- Existing durable re-entry remains independent fallback storage.'
+            echo '- Exact source PR/run/head identity is resolved from the completed workflow run or exact commit association.'
+            echo '- Delivery surface A: deduplicated pull-request comment.'
+            echo '- Delivery surface B: immutable receipt commit on the persistent CI Inbox PR #1663.'
+            echo '- Comment and commit-update receipts are wake-up signals only, never CI truth.'
+            echo '- Work must freshly re-observe the exact source run through GitHub MCP and deduplicate by exact identity.'
           } >> "$GITHUB_STEP_SUMMARY"
