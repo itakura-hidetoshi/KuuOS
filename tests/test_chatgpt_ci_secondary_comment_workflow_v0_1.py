@@ -33,10 +33,9 @@ class SecondaryCommentWorkflowTests(unittest.TestCase):
             "python3 scripts/chatgpt_ci_secondary_comment_v0_1.py",
             text,
         )
-        self.assertIn(
-            "python3 -m unittest -v tests.test_chatgpt_ci_secondary_comment_v0_1",
-            text,
-        )
+        self.assertIn("python3 -m unittest -v", text)
+        self.assertIn("tests.test_chatgpt_ci_secondary_comment_v0_1", text)
+        self.assertIn("tests.test_chatgpt_ci_secondary_comment_workflow_v0_1", text)
 
 
 if __name__ == "__main__":
