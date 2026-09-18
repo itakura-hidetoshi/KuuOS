@@ -69,7 +69,7 @@ noncomputable def coherentGeneratedQuotientTransportData
     have heqNat := congrArg (fun η => η.toNatTrans) heq
     ext A
     have heqA := (to_app_of% heqNat) A
-    convert heqA using 1 <;> simp
+    convert heqA using 1
   map₂_left_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -88,7 +88,7 @@ noncomputable def coherentGeneratedQuotientTransportData
     have heqNat := congrArg (fun η => η.toNatTrans) heq
     ext A
     have heqA := (to_app_of% heqNat) A
-    convert heqA using 1 <;> simp
+    convert heqA using 1
   map₂_right_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -107,7 +107,7 @@ noncomputable def coherentGeneratedQuotientTransportData
     have heqNat := congrArg (fun η => η.toNatTrans) heq
     ext A
     have heqA := (to_app_of% heqNat) A
-    convert heqA using 1 <;> simp
+    convert heqA using 1
 
 /-- The first three v2.65 defects vanish for the exact canonical generated
 pointwise bundle whenever generated evaluation is path-independent. -/
@@ -122,17 +122,25 @@ noncomputable def generatedQuotientTransportDefectsTrivialOfPathIndependent
     intro X Y Z T f g h
     apply (quotientAssociatorDefect_eq_refl_iff W R D
       (generatedPointwiseGeneralWChoiceData W R D) f g h).2
-    exact (coherentGeneratedQuotientTransportData W R D hPI).map₂_associator f g h
+    simpa only [generatedPointwiseGeneralWChoiceData_mapComp,
+      coherentGeneratedQuotientTransportData] using
+      (coherentGeneratedQuotientTransportData W R D hPI).map₂_associator f g h
   leftUnitor := by
     intro X Y f
     apply (quotientLeftUnitorDefect_eq_refl_iff W R D
       (generatedPointwiseGeneralWChoiceData W R D) f).2
-    exact (coherentGeneratedQuotientTransportData W R D hPI).map₂_left_unitor f
+    simpa only [generatedPointwiseGeneralWChoiceData_mapId,
+      generatedPointwiseGeneralWChoiceData_mapComp,
+      coherentGeneratedQuotientTransportData] using
+      (coherentGeneratedQuotientTransportData W R D hPI).map₂_left_unitor f
   rightUnitor := by
     intro X Y f
     apply (quotientRightUnitorDefect_eq_refl_iff W R D
       (generatedPointwiseGeneralWChoiceData W R D) f).2
-    exact (coherentGeneratedQuotientTransportData W R D hPI).map₂_right_unitor f
+    simpa only [generatedPointwiseGeneralWChoiceData_mapId,
+      generatedPointwiseGeneralWChoiceData_mapComp,
+      coherentGeneratedQuotientTransportData] using
+      (coherentGeneratedQuotientTransportData W R D hPI).map₂_right_unitor f
 
 /-- Trivial generated holonomy is therefore already sufficient for vanishing of
 the three quotient-transport defects. -/
