@@ -69,9 +69,10 @@ noncomputable def coherentGeneratedQuotientTransportData
       Bicategory.Strict.associator_eqToIso] at heq ⊢
     have heqNat := congrArg (fun η => η.toNatTrans) heq
     apply Cat.Hom₂.ext
-    simpa only [Cat.Hom.toNatTrans_comp,
-      Cat.whiskerLeft_toNatTrans, Cat.whiskerRight_toNatTrans,
-      Cat.Hom₂.eqToHom_toNatTrans] using heqNat
+    set_option backward.isDefEq.respectTransparency false in
+      simpa only [Cat.Hom.toNatTrans_comp,
+        Cat.whiskerLeft_toNatTrans, Cat.whiskerRight_toNatTrans,
+        Cat.Hom₂.eqToHom_toNatTrans] using heqNat
   map₂_left_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -89,9 +90,10 @@ noncomputable def coherentGeneratedQuotientTransportData
       Bicategory.Strict.leftUnitor_eqToIso] at heq ⊢
     have heqNat := congrArg (fun η => η.toNatTrans) heq
     apply Cat.Hom₂.ext
-    simpa only [Cat.Hom.toNatTrans_comp,
-      Cat.whiskerLeft_toNatTrans, Cat.whiskerRight_toNatTrans,
-      Cat.Hom₂.eqToHom_toNatTrans] using heqNat
+    set_option backward.isDefEq.respectTransparency false in
+      simpa only [Cat.Hom.toNatTrans_comp,
+        Cat.whiskerLeft_toNatTrans, Cat.whiskerRight_toNatTrans,
+        Cat.Hom₂.eqToHom_toNatTrans] using heqNat
   map₂_right_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -109,9 +111,10 @@ noncomputable def coherentGeneratedQuotientTransportData
       Bicategory.Strict.rightUnitor_eqToIso] at heq ⊢
     have heqNat := congrArg (fun η => η.toNatTrans) heq
     apply Cat.Hom₂.ext
-    simpa only [Cat.Hom.toNatTrans_comp,
-      Cat.whiskerLeft_toNatTrans, Cat.whiskerRight_toNatTrans,
-      Cat.Hom₂.eqToHom_toNatTrans] using heqNat
+    set_option backward.isDefEq.respectTransparency false in
+      simpa only [Cat.Hom.toNatTrans_comp,
+        Cat.whiskerLeft_toNatTrans, Cat.whiskerRight_toNatTrans,
+        Cat.Hom₂.eqToHom_toNatTrans] using heqNat
 
 /-- The first three v2.65 defects vanish for the exact canonical generated
 pointwise bundle whenever generated evaluation is path-independent. -/
