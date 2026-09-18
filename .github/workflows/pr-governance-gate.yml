@@ -246,7 +246,6 @@ jobs:
           import pathlib
           import sys
 
-          workflow = os.environ["SOURCE_WORKFLOW"]
           body = {
               "event_type": "kuuos_ci_completion_v1_1",
               "client_payload": {
@@ -256,8 +255,8 @@ jobs:
                   "run_attempt": int(os.environ["SOURCE_RUN_ATTEMPT"]),
                   "head_sha": os.environ["SOURCE_HEAD_SHA"],
                   "head_branch": os.environ["SOURCE_HEAD_BRANCH"],
-                  "workflow": workflow,
-                  "workflow_name": workflow,
+                  "workflow": os.environ["SOURCE_WORKFLOW"],
+                  "workflow_name": os.environ["SOURCE_WORKFLOW"],
                   "status": "completed",
                   "conclusion": os.environ["SOURCE_CONCLUSION"],
                   "run_event": "pull_request",
