@@ -372,24 +372,10 @@ noncomputable def generatedCompClosure2CellEvaluationIso
     (freePathEvaluator W R D).map p ≅
       (freePathEvaluator W R D).map q := by
   induction α with
-  | @whisker a b f m₁ m₂ α g =>
-      let F := freePathEvaluator W R D
-      let h₁ :
-          F.map (f ≫ m₁ ≫ g) =
-            (F.map f ≫ F.map m₁) ≫ F.map g := by
-        simp only [Functor.map_comp, Category.assoc]
-      let h₂ :
-          F.map (f ≫ m₂ ≫ g) =
-            (F.map f ≫ F.map m₂) ≫ F.map g := by
-        simp only [Functor.map_comp, Category.assoc]
-      exact
-        eqToIso h₁ ≪≫
-          Bicategory.whiskerRightIso
-            (Bicategory.whiskerLeftIso
-              (F.map f)
-              (generating2CellEvaluationIso W R D α))
-            (F.map g) ≪≫
-          (eqToIso h₂).symm
+  | whisker f α g =>
+      exact freePathEvaluationWhiskerLeftIso W R D f
+        (freePathEvaluationWhiskerRightIso W R D g
+          (generating2CellEvaluationIso W R D α))
   | whiskerLeft k α ih =>
       exact freePathEvaluationWhiskerLeftIso W R D k ih
   | whiskerRight k α ih =>
