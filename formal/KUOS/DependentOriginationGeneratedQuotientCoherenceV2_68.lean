@@ -69,7 +69,11 @@ noncomputable def coherentGeneratedQuotientTransportData
     have heqNat := congrArg (fun η => η.toNatTrans) heq
     ext A
     have heqA := (to_app_of% heqNat) A
-    convert heqA using 1 <;> simp [Cat.eqToHom_app]
+    convert heqA using 1
+    · simp only [Cat.Hom₂.comp_app, Cat.whiskerLeft_app,
+        Cat.whiskerRight_app, Cat.eqToHom_app,
+        Functor.map_comp, eqToHom_map, Category.assoc]
+    · simpa only [Cat.eqToHom_app]
   map₂_left_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -88,7 +92,10 @@ noncomputable def coherentGeneratedQuotientTransportData
     have heqNat := congrArg (fun η => η.toNatTrans) heq
     ext A
     have heqA := (to_app_of% heqNat) A
-    convert heqA using 1 <;> simp [Cat.eqToHom_app]
+    convert heqA using 1
+    · simp only [Cat.Hom₂.comp_app, Cat.whiskerRight_app,
+        Cat.eqToHom_app, Functor.map_comp, eqToHom_map, Category.assoc]
+    · simpa only [Cat.eqToHom_app]
   map₂_right_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -107,7 +114,10 @@ noncomputable def coherentGeneratedQuotientTransportData
     have heqNat := congrArg (fun η => η.toNatTrans) heq
     ext A
     have heqA := (to_app_of% heqNat) A
-    convert heqA using 1 <;> simp [Cat.eqToHom_app]
+    convert heqA using 1
+    · simp only [Cat.Hom₂.comp_app, Cat.whiskerLeft_app,
+        Cat.eqToHom_app, Category.assoc]
+    · simpa only [Cat.eqToHom_app]
 
 /-- The first three v2.65 defects vanish for the exact canonical generated
 pointwise bundle whenever generated evaluation is path-independent. -/
