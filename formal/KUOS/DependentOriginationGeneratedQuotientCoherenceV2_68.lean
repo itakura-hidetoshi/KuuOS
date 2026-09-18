@@ -41,6 +41,7 @@ variable (W : MorphismProperty Context)
 
 /-- Generated path-independence supplies a genuine coherent quotient transport
 with exactly the canonical generated pointwise identity/composition choices. -/
+set_option backward.isDefEq.respectTransparency false in
 noncomputable def coherentGeneratedQuotientTransportData
     (R : RawHigherContextualSystem.{u, v, uH, vH}
       (Context := Context))
