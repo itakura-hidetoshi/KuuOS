@@ -90,9 +90,14 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
       generating2CellEvaluationIso,
       generatedCompClosure2CellEvaluationIso,
       generatedLocalization2CellEvaluationIso,
-      Iso.trans_hom, Iso.symm_hom,
+      Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
       whiskerLeftIso_hom, whiskerRightIso_hom,
-      Functor.map_id, Functor.map_comp] using heq
+      Bicategory.Strict.leftUnitor_eqToIso,
+      Bicategory.Strict.rightUnitor_eqToIso,
+      Bicategory.Strict.associator_eqToIso,
+      Functor.map_id, Functor.map_comp,
+      eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
+      Category.comp_id, Category.id_comp, Category.assoc] using heq
   · intro X Y Z f g
     have heq := congrArg Iso.hom
       (generatedComparisonCompositionRoutes_evaluation_eq W R D hPI f g)
@@ -111,9 +116,14 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
       generating2CellEvaluationIso,
       generatedCompClosure2CellEvaluationIso,
       generatedLocalization2CellEvaluationIso,
-      Iso.trans_hom, Iso.symm_hom,
+      Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
       whiskerLeftIso_hom, whiskerRightIso_hom,
-      Functor.map_id, Functor.map_comp] using heq
+      Bicategory.Strict.leftUnitor_eqToIso,
+      Bicategory.Strict.rightUnitor_eqToIso,
+      Bicategory.Strict.associator_eqToIso,
+      Functor.map_id, Functor.map_comp,
+      eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
+      Category.comp_id, Category.id_comp, Category.assoc] using heq
 
 /-- The two v2.65 StrongTrans comparison defects vanish under generated
 path-independence, after the first three quotient defects have been killed by the
