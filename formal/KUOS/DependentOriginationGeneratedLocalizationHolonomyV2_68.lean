@@ -322,20 +322,22 @@ noncomputable def generatedCompClosure2CellEvaluationIso
   cases α with
   | @whisker a b f m₁ m₂ α g =>
       let F := freePathEvaluator W R D
+      let h₁ :
+          F.map (f ≫ m₁ ≫ g) =
+            (F.map f ≫ F.map m₁) ≫ F.map g := by
+        simp only [Functor.map_comp, Category.assoc]
+      let h₂ :
+          F.map (f ≫ m₂ ≫ g) =
+            (F.map f ≫ F.map m₂) ≫ F.map g := by
+        simp only [Functor.map_comp, Category.assoc]
       exact
-        eqToIso (F.map_comp (f ≫ m₁) g) ≪≫
-          Bicategory.whiskerRightIso
-            (eqToIso (F.map_comp f m₁))
-            (F.map g) ≪≫
+        eqToIso h₁ ≪≫
           Bicategory.whiskerRightIso
             (Bicategory.whiskerLeftIso
               (F.map f)
               (generating2CellEvaluationIso W R D α))
             (F.map g) ≪≫
-          (Bicategory.whiskerRightIso
-            (eqToIso (F.map_comp f m₂))
-            (F.map g)).symm ≪≫
-          (eqToIso (F.map_comp (f ≫ m₂) g)).symm
+          (eqToIso h₂).symm
 
 /-- Canonical recursive evaluation of a fully generated localization 2-cell. -/
 noncomputable def generatedLocalization2CellEvaluationIso
