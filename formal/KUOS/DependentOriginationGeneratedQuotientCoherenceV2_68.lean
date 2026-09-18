@@ -41,7 +41,6 @@ variable (W : MorphismProperty Context)
 
 /-- Generated path-independence supplies a genuine coherent quotient transport
 with exactly the canonical generated pointwise identity/composition choices. -/
-set_option backward.isDefEq.respectTransparency false in
 noncomputable def coherentGeneratedQuotientTransportData
     (R : RawHigherContextualSystem.{u, v, uH, vH}
       (Context := Context))
@@ -70,13 +69,7 @@ noncomputable def coherentGeneratedQuotientTransportData
     have heqNat := congrArg (fun η => η.toNatTrans) heq
     ext A
     have heqA := (to_app_of% heqNat) A
-    convert heqA using 1
-    · rw [Cat.Hom₂.comp_app]
-      simp only [Cat.Hom₂.comp_app, Cat.whiskerLeft_app,
-        Cat.whiskerRight_app, Cat.eqToHom_app,
-        Functor.map_comp, eqToHom_map, Category.assoc]
-    · rw [Cat.eqToHom_app]
-      cat_disch
+    convert (config := .unfoldSameFun) heqA using 1
   map₂_left_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -95,12 +88,7 @@ noncomputable def coherentGeneratedQuotientTransportData
     have heqNat := congrArg (fun η => η.toNatTrans) heq
     ext A
     have heqA := (to_app_of% heqNat) A
-    convert heqA using 1
-    · rw [Cat.Hom₂.comp_app]
-      simp only [Cat.Hom₂.comp_app, Cat.whiskerRight_app,
-        Cat.eqToHom_app, Functor.map_comp, eqToHom_map, Category.assoc]
-    · rw [Cat.eqToHom_app]
-      cat_disch
+    convert (config := .unfoldSameFun) heqA using 1
   map₂_right_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -119,11 +107,7 @@ noncomputable def coherentGeneratedQuotientTransportData
     have heqNat := congrArg (fun η => η.toNatTrans) heq
     ext A
     have heqA := (to_app_of% heqNat) A
-    convert heqA using 1
-    · rw [Cat.Hom₂.comp_app]
-      simp only [Cat.Hom₂.comp_app, Cat.whiskerLeft_app, Category.assoc]
-    · rw [Cat.eqToHom_app]
-      cat_disch
+    convert (config := .unfoldSameFun) heqA using 1
 
 /-- The first three v2.65 defects vanish for the exact canonical generated
 pointwise bundle whenever generated evaluation is path-independent. -/
