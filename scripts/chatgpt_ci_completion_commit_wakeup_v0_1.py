@@ -9,7 +9,10 @@ import urllib.parse
 import urllib.request
 from typing import Any
 
-from scripts.chatgpt_ci_completion_push_v0_2 import resolve_pr_numbers
+try:
+    from scripts.chatgpt_ci_completion_push_v0_2 import resolve_pr_numbers
+except ModuleNotFoundError:  # direct execution via python3 scripts/<file>.py
+    from chatgpt_ci_completion_push_v0_2 import resolve_pr_numbers
 
 
 def receipt_path(
