@@ -1,0 +1,18 @@
+{
+  "version": "chatgpt_ci_commit_wakeup_v0_1",
+  "source_repository": "itakura-hidetoshi/KuuOS",
+  "source_pull_request": 1661,
+  "workflow": "KuuOS PR Governance Gate",
+  "run_id": 35299182611,
+  "run_attempt": 1,
+  "status": "completed",
+  "conclusion": "success",
+  "head_sha": "873428ba701fa7127fa29cfc9e42e8bc49cc239e",
+  "head_branch": "infra/kuuos-primary-ci-wakeup-pr-write-v0-1",
+  "run_url": "https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35299182611",
+  "event_is_wakeup_signal_only": true,
+  "fresh_mcp_reobservation_required": true,
+  "merge_authority_granted": false,
+  "write_authority_granted": false,
+  "probe": "commit-update-only"
+}
