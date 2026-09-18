@@ -306,7 +306,11 @@ noncomputable def generating2CellEvaluationIso
   | Winv₂ w hw =>
       simpa [Functor.map_comp] using inverseForwardIso W R D w hw
 
-/-- Canonical evaluation of an explicitly whiskered generating relation. -/
+/-- Canonical evaluation of an explicitly whiskered generating relation.
+
+The endpoint transports are written explicitly.  In particular, functoriality
+of the free-path evaluator is not hidden behind `simpa [Functor.map_comp]`,
+so dependent endpoint casts do not leak into later whiskering calculations. -/
 noncomputable def generatedCompClosure2CellEvaluationIso
     (R : RawHigherContextualSystem.{u, v, uH, vH}
       (Context := Context))
@@ -316,13 +320,22 @@ noncomputable def generatedCompClosure2CellEvaluationIso
     (freePathEvaluator W R D).map p ≅
       (freePathEvaluator W R D).map q := by
   cases α with
-  | whisker f α g =>
-      simpa only [Functor.map_comp] using
-        (Bicategory.whiskerRightIso
-          (Bicategory.whiskerLeftIso
-            ((freePathEvaluator W R D).map f)
-            (generating2CellEvaluationIso W R D α))
-          ((freePathEvaluator W R D).map g))
+  | @whisker s t a b f m₁ m₂ α g =>
+      let F := freePathEvaluator W R D
+      exact
+        eqToIso (F.map_comp (f ≫ m₁) g) ≪≫
+          Bicategory.whiskerRightIso
+            (eqToIso (F.map_comp f m₁))
+            (F.map g) ≪≫
+          Bicategory.whiskerRightIso
+            (Bicategory.whiskerLeftIso
+              (F.map f)
+              (generating2CellEvaluationIso W R D α))
+            (F.map g) ≪≫
+          (Bicategory.whiskerRightIso
+            (eqToIso (F.map_comp f m₂))
+            (F.map g)).symm ≪≫
+          (eqToIso (F.map_comp (f ≫ m₂) g)).symm
 
 /-- Canonical recursive evaluation of a fully generated localization 2-cell. -/
 noncomputable def generatedLocalization2CellEvaluationIso
