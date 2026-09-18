@@ -189,12 +189,13 @@ theorem generatedLocalization2CellEvaluationIso_whiskerLeft
       | whisker f γ g =>
           apply Iso.ext
           simp only [generatedLocalization2CellWhiskerLeft,
-            generatedCompClosureWhiskerLeft,
+            generatedLocalization2CellEvaluationIso_trans,
+            generatedLocalization2CellEvaluationIso_ofEq,
             generatedLocalization2CellEvaluationIso,
             generatedCompClosure2CellEvaluationIso,
             Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
             whiskerLeftIso_hom, whiskerRightIso_hom]
-          simp [Functor.map_comp] <;> bicategory
+          simp [Category.assoc, Functor.map_comp] <;> bicategory
   | refl p =>
       apply Iso.ext
       simp [generatedLocalization2CellWhiskerLeft,
@@ -242,12 +243,13 @@ theorem generatedLocalization2CellEvaluationIso_whiskerRight
       | whisker f γ g =>
           apply Iso.ext
           simp only [generatedLocalization2CellWhiskerRight,
-            generatedCompClosureWhiskerRight,
+            generatedLocalization2CellEvaluationIso_trans,
+            generatedLocalization2CellEvaluationIso_ofEq,
             generatedLocalization2CellEvaluationIso,
             generatedCompClosure2CellEvaluationIso,
             Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
             whiskerLeftIso_hom, whiskerRightIso_hom]
-          simp [Functor.map_comp] <;> bicategory
+          simp [Category.assoc, Functor.map_comp] <;> bicategory
   | refl p =>
       apply Iso.ext
       simp [generatedLocalization2CellWhiskerRight,
