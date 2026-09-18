@@ -1,6 +1,7 @@
 import KUOS.DependentOriginationGeneratedCoherenceRoutesV2_68
 import KUOS.DependentOriginationCoherenceDefectsV2_65
 import Mathlib.Tactic.CategoryTheory.Bicategory.Basic
+import Mathlib.Tactic.CategoryTheory.ToApp
 import Mathlib.CategoryTheory.Bicategory.Strict.Basic
 
 namespace KUOS.DependentOriginationGeneratedQuotientCoherenceV2_68
@@ -65,20 +66,9 @@ noncomputable def coherentGeneratedQuotientTransportData
       eqToIso.hom, eqToIso.inv,
       whiskerLeftIso_hom, whiskerRightIso_hom,
       Bicategory.Strict.associator_eqToIso] at heq ⊢
-    rw [Bicategory.comp_whiskerRight
-      (generatedLocalization2CellEvaluationIso W R D
-        (generatedCompositionRepresentativeCell W f g)).hom
-      (eqToHom ((freePathEvaluator W R D).map_comp (Quot.out f) (Quot.out g)))
-      ((freePathEvaluator W R D).map (Quot.out h))]
-    rw [Bicategory.whiskerLeft_comp
-      ((freePathEvaluator W R D).map (Quot.out f))
-      (eqToHom
-        ((freePathEvaluator W R D).map_comp (Quot.out g) (Quot.out h)).symm)
-      (generatedLocalization2CellEvaluationIso W R D
-        (generatedCompositionRepresentativeCell W g h)).inv]
-    simp only [Bicategory.eqToHom_whiskerRight,
-      Bicategory.whiskerLeft_eqToHom, Category.assoc] at heq ⊢
-    exact heq
+    ext A
+    have heqA := (to_app_of% heq) A
+    simpa using heqA
   map₂_left_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -94,13 +84,9 @@ noncomputable def coherentGeneratedQuotientTransportData
       eqToIso.hom, eqToIso.inv,
       whiskerRightIso_hom,
       Bicategory.Strict.leftUnitor_eqToIso] at heq ⊢
-    rw [Bicategory.comp_whiskerRight
-      (generatedLocalization2CellEvaluationIso W R D
-        (generatedIdentityRepresentativeCell W X)).hom
-      (eqToHom ((freePathEvaluator W R D).map_id X.as))
-      ((freePathEvaluator W R D).map (Quot.out f))]
-    simp only [Bicategory.eqToHom_whiskerRight, Category.assoc] at heq ⊢
-    exact heq
+    ext A
+    have heqA := (to_app_of% heq) A
+    simpa using heqA
   map₂_right_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -116,13 +102,9 @@ noncomputable def coherentGeneratedQuotientTransportData
       eqToIso.hom, eqToIso.inv,
       whiskerLeftIso_hom,
       Bicategory.Strict.rightUnitor_eqToIso] at heq ⊢
-    rw [Bicategory.whiskerLeft_comp
-      ((freePathEvaluator W R D).map (Quot.out f))
-      (generatedLocalization2CellEvaluationIso W R D
-        (generatedIdentityRepresentativeCell W Y)).hom
-      (eqToHom ((freePathEvaluator W R D).map_id Y.as))]
-    simp only [Bicategory.whiskerLeft_eqToHom, Category.assoc] at heq ⊢
-    exact heq
+    ext A
+    have heqA := (to_app_of% heq) A
+    simpa using heqA
 
 /-- The first three v2.65 defects vanish for the exact canonical generated
 pointwise bundle whenever generated evaluation is path-independent. -/
