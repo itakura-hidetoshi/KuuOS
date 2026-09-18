@@ -49,24 +49,48 @@ noncomputable def coherentGeneratedQuotientTransportData
   mapComp := generatedCompositionMapIso W R D
   map₂_associator := by
     intro X Y Z T f g h
-    have heq := congrArg Iso.hom
-      (generatedQuotientAssociatorRoutes_evaluation_eq W R D hPI f g h)
-    simp only [generatedQuotientAssociatorRoute,
-      generatedQuotientAssociatorDirect,
-      generatedCompositionMapIso,
-      quotientRepresentativeMap,
-      generatedLocalization2CellEvaluationIso_trans,
-      generatedLocalization2CellEvaluationIso_symm,
-      generatedLocalization2CellEvaluationIso_whiskerLeft_hom,
-      generatedLocalization2CellEvaluationIso_whiskerRight_hom,
-      generatedLocalization2CellEvaluationIso_ofEq_hom,
-      Iso.trans_hom, Iso.symm_hom,
-      eqToIso.hom, eqToIso.inv, id_eq,
-      whiskerLeftIso_hom, whiskerRightIso_hom] at heq ⊢
-    ext A
-    have heqA := congrArg (fun η => η.toNatTrans.app A) heq
-    simp only [Cat.Hom.toNatTrans_comp, NatTrans.comp_app] at heqA ⊢
-    simpa using heqA
+    let targetIso :=
+      generatedCompositionMapIso W R D (f ≫ g) h ≪≫
+        Bicategory.whiskerRightIso
+          (generatedCompositionMapIso W R D f g)
+          (quotientRepresentativeMap W R D h) ≪≫
+        (α_
+          (quotientRepresentativeMap W R D f)
+          (quotientRepresentativeMap W R D g)
+          (quotientRepresentativeMap W R D h)) ≪≫
+        Bicategory.whiskerLeftIso
+          (quotientRepresentativeMap W R D f)
+          (generatedCompositionMapIso W R D g h).symm ≪≫
+        (generatedCompositionMapIso W R D f (g ≫ h)).symm
+    have hroute :
+        generatedLocalization2CellEvaluationIso W R D
+            (generatedQuotientAssociatorRoute W f g h) =
+          targetIso := by
+      apply Iso.ext
+      simp [targetIso, generatedQuotientAssociatorRoute,
+        generatedCompositionMapIso, quotientRepresentativeMap,
+        generatedLocalization2CellEvaluationIso_trans,
+        generatedLocalization2CellEvaluationIso_symm,
+        generatedLocalization2CellEvaluationIso_whiskerLeft_hom,
+        generatedLocalization2CellEvaluationIso_whiskerRight_hom,
+        generatedLocalization2CellEvaluationIso_ofEq_hom,
+        Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
+        whiskerLeftIso_hom, whiskerRightIso_hom, Functor.map_comp] <;>
+        bicategory
+    have hdirect :
+        generatedLocalization2CellEvaluationIso W R D
+            (generatedQuotientAssociatorDirect W f g h) =
+          eqToIso (by simp) := by
+      apply Iso.ext
+      simp [generatedQuotientAssociatorDirect,
+        generatedLocalization2CellEvaluationIso_ofEq_hom]
+    have hIso :
+        targetIso = eqToIso (by simp) :=
+      hroute.symm.trans
+        ((generatedQuotientAssociatorRoutes_evaluation_eq W R D hPI f g h).trans
+          hdirect)
+    simpa [targetIso, Iso.trans_hom, whiskerLeftIso_hom,
+      whiskerRightIso_hom] using congrArg Iso.hom hIso
   map₂_left_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
