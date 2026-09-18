@@ -63,12 +63,24 @@ jobs:
               git cat-file -e "${candidate_sha}^{commit}" 2>/dev/null || continue
               git merge-base --is-ancestor "${candidate_sha}" "${head}" || continue
 
-              baseline_count="$(
+              nonlean_count="$(
                 gh api -X GET "repos/${REPOSITORY}/actions/runs/${run_id}/jobs" \
                   -f per_page=100 \
-                  --jq '[.jobs[] | select(.name == "Full PR non-Lean baseline" and .conclusion == "success")] | length'
+                  --jq '[.jobs[]
+                    | select(.name != "Select impacted audit checks")
+                    | select(.name != "Strict Lean formal validation")
+                    | select(.name != "Governance gate and audit summary")] | length'
               )"
-              [[ "${baseline_count}" == "1" ]] || continue
+              nonlean_bad_count="$(
+                gh api -X GET "repos/${REPOSITORY}/actions/runs/${run_id}/jobs" \
+                  -f per_page=100 \
+                  --jq '[.jobs[]
+                    | select(.name != "Select impacted audit checks")
+                    | select(.name != "Strict Lean formal validation")
+                    | select(.name != "Governance gate and audit summary")
+                    | select(.conclusion != "success" and .conclusion != "skipped")] | length'
+              )"
+              [[ "${nonlean_count}" -gt 0 && "${nonlean_bad_count}" == "0" ]] || continue
 
               mapfile -t delta_paths < <(
                 git diff --name-only --diff-filter=ACMR "${candidate_sha}...${head}"
@@ -189,30 +201,6 @@ jobs:
           path: artifacts/checks/
           if-no-files-found: warn
           retention-days: 14
-
-  nonlean-baseline:
-    name: Full PR non-Lean baseline
-    needs:
-      - select
-      - python-checks
-    if: always() && needs.select.outputs.comparison_mode == 'full-pr'
-    runs-on: ubuntu-24.04
-    steps:
-      - name: Confirm selected non-Lean checks are green
-        shell: bash
-        env:
-          PYTHON_RESULT: ${{ needs.python-checks.result }}
-        run: |
-          set -euo pipefail
-          case "${PYTHON_RESULT}" in
-            success|skipped)
-              echo "Non-Lean PR baseline is terminal green."
-              ;;
-            *)
-              echo "Non-Lean PR baseline is not green: ${PYTHON_RESULT}" >&2
-              exit 1
-              ;;
-          esac
 
   lean-formal:
     name: Strict Lean formal validation
