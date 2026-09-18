@@ -137,6 +137,14 @@ inductive GeneratedCompClosure2Cell :
       (g : b ⟶ t) :
       GeneratedCompClosure2Cell
         (f ≫ m₁ ≫ g) (f ≫ m₂ ≫ g)
+  | whiskerLeft {X Y Z : LocalizationPaths W}
+      (k : X ⟶ Y) {p q : Y ⟶ Z}
+      (α : GeneratedCompClosure2Cell p q) :
+      GeneratedCompClosure2Cell (k ≫ p) (k ≫ q)
+  | whiskerRight {X Y Z : LocalizationPaths W}
+      {p q : X ⟶ Y} (k : Y ⟶ Z)
+      (α : GeneratedCompClosure2Cell p q) :
+      GeneratedCompClosure2Cell (p ≫ k) (q ≫ k)
 
 /-- Erase an explicit generated composition-closure step to Mathlib's
 proposition-valued `HomRel.CompClosure`. -/
@@ -146,10 +154,18 @@ def generatedCompClosure2CellToCompRel
     @HomRel.CompClosure
       (LocalizationPaths W) _
       (Localization.Construction.relations W) X Y p q := by
-  cases α with
+  induction α with
   | whisker f α g =>
       exact HomRel.CompClosure.intro _ _ f _ _ g
         (generating2CellToRelation W α)
+  | whiskerLeft k α ih =>
+      rcases ih with ⟨a, b, f, m₁, m₂, g, hm⟩
+      simpa only [Category.assoc] using
+        (HomRel.CompClosure.intro _ _ (k ≫ f) _ _ g hm)
+  | whiskerRight k α ih =>
+      rcases ih with ⟨a, b, f, m₁, m₂, g, hm⟩
+      simpa only [Category.assoc] using
+        (HomRel.CompClosure.intro _ _ f _ _ (g ≫ k) hm)
 
 /-- Every proposition-valued composition-closure proof has a nonempty fully
 retained lift containing the generator and both whiskers. -/
@@ -306,6 +322,42 @@ noncomputable def generating2CellEvaluationIso
   | Winv₂ w hw =>
       simpa [Functor.map_comp] using inverseForwardIso W R D w hw
 
+/-- Transport an evaluated 2-isomorphism across an outer left path.
+The functoriality equalities remain explicit at the two endpoints. -/
+noncomputable def freePathEvaluationWhiskerLeftIso
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
+    (D : PointwiseWAdjointEquivalenceData (W := W) R)
+    {X Y Z : LocalizationPaths W}
+    (k : X ⟶ Y) {p q : Y ⟶ Z}
+    (e :
+      (freePathEvaluator W R D).map p ≅
+        (freePathEvaluator W R D).map q) :
+    (freePathEvaluator W R D).map (k ≫ p) ≅
+      (freePathEvaluator W R D).map (k ≫ q) :=
+  eqToIso ((freePathEvaluator W R D).map_comp k p) ≪≫
+    Bicategory.whiskerLeftIso
+      ((freePathEvaluator W R D).map k) e ≪≫
+    (eqToIso ((freePathEvaluator W R D).map_comp k q)).symm
+
+/-- Transport an evaluated 2-isomorphism across an outer right path.
+The functoriality equalities remain explicit at the two endpoints. -/
+noncomputable def freePathEvaluationWhiskerRightIso
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
+    (D : PointwiseWAdjointEquivalenceData (W := W) R)
+    {X Y Z : LocalizationPaths W}
+    {p q : X ⟶ Y} (k : Y ⟶ Z)
+    (e :
+      (freePathEvaluator W R D).map p ≅
+        (freePathEvaluator W R D).map q) :
+    (freePathEvaluator W R D).map (p ≫ k) ≅
+      (freePathEvaluator W R D).map (q ≫ k) :=
+  eqToIso ((freePathEvaluator W R D).map_comp p k) ≪≫
+    Bicategory.whiskerRightIso e
+      ((freePathEvaluator W R D).map k) ≪≫
+    (eqToIso ((freePathEvaluator W R D).map_comp q k)).symm
+
 /-- Canonical evaluation of an explicitly whiskered generating relation.
 
 The endpoint transports are written explicitly.  In particular, functoriality
@@ -319,7 +371,7 @@ noncomputable def generatedCompClosure2CellEvaluationIso
     (α : GeneratedCompClosure2Cell W p q) :
     (freePathEvaluator W R D).map p ≅
       (freePathEvaluator W R D).map q := by
-  cases α with
+  induction α with
   | @whisker a b f m₁ m₂ α g =>
       let F := freePathEvaluator W R D
       let h₁ :
@@ -338,6 +390,10 @@ noncomputable def generatedCompClosure2CellEvaluationIso
               (generating2CellEvaluationIso W R D α))
             (F.map g) ≪≫
           (eqToIso h₂).symm
+  | whiskerLeft k α ih =>
+      exact freePathEvaluationWhiskerLeftIso W R D k ih
+  | whiskerRight k α ih =>
+      exact freePathEvaluationWhiskerRightIso W R D k ih
 
 /-- Canonical recursive evaluation of a fully generated localization 2-cell. -/
 noncomputable def generatedLocalization2CellEvaluationIso

@@ -49,33 +49,26 @@ theorem generatedLocalization2CellOfEq_rfl
       GeneratedLocalization2Cell.refl p := by
   rfl
 
-/-- Add an outer left whisker to one fully retained composition-closure step. -/
+/-- Add an outer left whisker while retaining it as syntax. -/
 def generatedCompClosureWhiskerLeft
     {X Y Z : LocalizationPaths W}
     (k : X ⟶ Y) {p q : Y ⟶ Z}
     (α : GeneratedCompClosure2Cell W p q) :
-    GeneratedCompClosure2Cell W (k ≫ p) (k ≫ q) := by
-  cases α with
-  | whisker f γ g =>
-      simpa only [Category.assoc] using
-        (GeneratedCompClosure2Cell.whisker (W := W) (k ≫ f) γ g)
+    GeneratedCompClosure2Cell W (k ≫ p) (k ≫ q) :=
+  GeneratedCompClosure2Cell.whiskerLeft k α
 
-/-- Add an outer right whisker to one fully retained composition-closure step. -/
+/-- Add an outer right whisker while retaining it as syntax. -/
 def generatedCompClosureWhiskerRight
     {X Y Z : LocalizationPaths W}
     {p q : X ⟶ Y} (k : Y ⟶ Z)
     (α : GeneratedCompClosure2Cell W p q) :
-    GeneratedCompClosure2Cell W (p ≫ k) (q ≫ k) := by
-  cases α with
-  | whisker f γ g =>
-      simpa only [Category.assoc] using
-        (GeneratedCompClosure2Cell.whisker (W := W) f γ (g ≫ k))
+    GeneratedCompClosure2Cell W (p ≫ k) (q ≫ k) :=
+  GeneratedCompClosure2Cell.whiskerRight k α
 
 /-- Left-whisker an arbitrary fully generated localization derivation.
 
-In the base-generator case, associativity is retained explicitly as generated
-path-equality cells on both sides of the directly whiskered generator.  This
-avoids hiding dependent endpoint transport inside `Eq.rec`. -/
+The composition-closure case retains the outer whisker directly instead of
+flattening it through associativity casts. -/
 def generatedLocalization2CellWhiskerLeft
     {X Y Z : LocalizationPaths W}
     (k : X ⟶ Y) {p q : Y ⟶ Z}
@@ -83,16 +76,8 @@ def generatedLocalization2CellWhiskerLeft
     GeneratedLocalization2Cell W (k ≫ p) (k ≫ q) :=
   match α with
   | .ofCompClosure β =>
-      match β with
-      | .whisker f γ g =>
-          GeneratedLocalization2Cell.trans
-            (generatedLocalization2CellOfEq W (by
-              simp only [Category.assoc]))
-            (GeneratedLocalization2Cell.trans
-              (GeneratedLocalization2Cell.ofCompClosure
-                (GeneratedCompClosure2Cell.whisker (W := W) (k ≫ f) γ g))
-              (generatedLocalization2CellOfEq W (by
-                simp only [Category.assoc])))
+      GeneratedLocalization2Cell.ofCompClosure
+        (generatedCompClosureWhiskerLeft W k β)
   | .refl p =>
       GeneratedLocalization2Cell.refl _
   | .symm α =>
@@ -105,8 +90,8 @@ def generatedLocalization2CellWhiskerLeft
 
 /-- Right-whisker an arbitrary fully generated localization derivation.
 
-As on the left, the base-generator case records the associativity transports as
-literal generated path-equality cells rather than as dependent casts. -/
+The composition-closure case retains the outer whisker directly instead of
+flattening it through associativity casts. -/
 def generatedLocalization2CellWhiskerRight
     {X Y Z : LocalizationPaths W}
     {p q : X ⟶ Y} (k : Y ⟶ Z)
@@ -114,16 +99,8 @@ def generatedLocalization2CellWhiskerRight
     GeneratedLocalization2Cell W (p ≫ k) (q ≫ k) :=
   match α with
   | .ofCompClosure β =>
-      match β with
-      | .whisker f γ g =>
-          GeneratedLocalization2Cell.trans
-            (generatedLocalization2CellOfEq W (by
-              simp only [Category.assoc]))
-            (GeneratedLocalization2Cell.trans
-              (GeneratedLocalization2Cell.ofCompClosure
-                (GeneratedCompClosure2Cell.whisker (W := W) f γ (g ≫ k)))
-              (generatedLocalization2CellOfEq W (by
-                simp only [Category.assoc])))
+      GeneratedLocalization2Cell.ofCompClosure
+        (generatedCompClosureWhiskerRight W k β)
   | .refl p =>
       GeneratedLocalization2Cell.refl _
   | .symm α =>
@@ -185,17 +162,7 @@ theorem generatedLocalization2CellEvaluationIso_whiskerLeft
         (eqToIso ((freePathEvaluator W R D).map_comp k q)).symm := by
   induction α with
   | ofCompClosure α =>
-      cases α with
-      | whisker f γ g =>
-          apply Iso.ext
-          simp only [generatedLocalization2CellWhiskerLeft,
-            generatedLocalization2CellEvaluationIso_trans,
-            generatedLocalization2CellEvaluationIso_ofEq,
-            generatedLocalization2CellEvaluationIso,
-            generatedCompClosure2CellEvaluationIso,
-            Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
-            whiskerLeftIso_hom, whiskerRightIso_hom]
-          simp [Category.assoc, Functor.map_comp] <;> bicategory
+      rfl
   | refl p =>
       apply Iso.ext
       simp [generatedLocalization2CellWhiskerLeft,
@@ -239,17 +206,7 @@ theorem generatedLocalization2CellEvaluationIso_whiskerRight
         (eqToIso ((freePathEvaluator W R D).map_comp q k)).symm := by
   induction α with
   | ofCompClosure α =>
-      cases α with
-      | whisker f γ g =>
-          apply Iso.ext
-          simp only [generatedLocalization2CellWhiskerRight,
-            generatedLocalization2CellEvaluationIso_trans,
-            generatedLocalization2CellEvaluationIso_ofEq,
-            generatedLocalization2CellEvaluationIso,
-            generatedCompClosure2CellEvaluationIso,
-            Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
-            whiskerLeftIso_hom, whiskerRightIso_hom]
-          simp [Category.assoc, Functor.map_comp] <;> bicategory
+      rfl
   | refl p =>
       apply Iso.ext
       simp [generatedLocalization2CellWhiskerRight,
