@@ -103,7 +103,9 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
     ext A
     have heqA := NatTrans.congr_app heqNat A
     set_option backward.isDefEq.respectTransparency false in
-      simpa only [Cat.Hom.comp_toFunctor, Functor.comp_obj, Cat.Hom.comp_obj,
+      simpa only [Cat.Hom.id_toFunctor, Cat.Hom.id_obj, Cat.Hom.id_map,
+        Cat.Hom.comp_toFunctor, Cat.Hom.comp_obj, Cat.Hom.comp_map,
+        Functor.id_obj, Functor.id_map, Functor.comp_obj, Functor.comp_map,
         Cat.whiskerLeft_app, Cat.whiskerRight_app,
         Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
         Functor.map_comp, eqToHom_map, eqToHom_refl,
@@ -140,7 +142,9 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
     ext A
     have heqA := NatTrans.congr_app heqNat A
     set_option backward.isDefEq.respectTransparency false in
-      simpa only [Cat.Hom.comp_toFunctor, Functor.comp_obj, Cat.Hom.comp_obj,
+      simpa only [Cat.Hom.id_toFunctor, Cat.Hom.id_obj, Cat.Hom.id_map,
+        Cat.Hom.comp_toFunctor, Cat.Hom.comp_obj, Cat.Hom.comp_map,
+        Functor.id_obj, Functor.id_map, Functor.comp_obj, Functor.comp_map,
         Cat.whiskerLeft_app, Cat.whiskerRight_app,
         Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
         Functor.map_comp, eqToHom_map, eqToHom_refl,
