@@ -66,8 +66,8 @@ noncomputable def coherentGeneratedQuotientTransportData
       whiskerLeftIso_hom, whiskerRightIso_hom,
       Bicategory.Strict.associator_eqToIso] at heq ⊢
     have heqNat := congrArg (fun η => η.toNatTrans) heq
-    apply Cat.Hom₂.ext
-    simpa using heqNat
+    have heqHom := congrArg NatTrans.toCatHom₂ heqNat
+    simpa using heqHom
   map₂_left_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -84,8 +84,8 @@ noncomputable def coherentGeneratedQuotientTransportData
       whiskerRightIso_hom,
       Bicategory.Strict.leftUnitor_eqToIso] at heq ⊢
     have heqNat := congrArg (fun η => η.toNatTrans) heq
-    apply Cat.Hom₂.ext
-    simpa using heqNat
+    have heqHom := congrArg NatTrans.toCatHom₂ heqNat
+    simpa using heqHom
   map₂_right_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -102,8 +102,8 @@ noncomputable def coherentGeneratedQuotientTransportData
       whiskerLeftIso_hom,
       Bicategory.Strict.rightUnitor_eqToIso] at heq ⊢
     have heqNat := congrArg (fun η => η.toNatTrans) heq
-    apply Cat.Hom₂.ext
-    simpa using heqNat
+    have heqHom := congrArg NatTrans.toCatHom₂ heqNat
+    simpa using heqHom
 
 /-- The first three v2.65 defects vanish for the exact canonical generated
 pointwise bundle whenever generated evaluation is path-independent. -/
