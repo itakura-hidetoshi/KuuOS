@@ -34,6 +34,21 @@ No factorization or holonomy-vanishing claim is added here.
 variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
 
+/-- A literal equality of free paths gives a generated localization 2-cell.
+This is derived from `refl`; it introduces no new localization relation. -/
+def generatedLocalization2CellOfEq
+    {X Y : LocalizationPaths W} {p q : X ⟶ Y}
+    (h : p = q) : GeneratedLocalization2Cell W p q := by
+  subst q
+  exact GeneratedLocalization2Cell.refl p
+
+@[simp]
+theorem generatedLocalization2CellOfEq_rfl
+    {X Y : LocalizationPaths W} (p : X ⟶ Y) :
+    generatedLocalization2CellOfEq W (rfl : p = p) =
+      GeneratedLocalization2Cell.refl p := by
+  rfl
+
 /-- Add an outer left whisker to one fully retained composition-closure step. -/
 def generatedCompClosureWhiskerLeft
     {X Y Z : LocalizationPaths W}
@@ -56,16 +71,28 @@ def generatedCompClosureWhiskerRight
       simpa only [Category.assoc] using
         (GeneratedCompClosure2Cell.whisker (W := W) f γ (g ≫ k))
 
-/-- Left-whisker an arbitrary fully generated localization derivation. -/
+/-- Left-whisker an arbitrary fully generated localization derivation.
+
+In the base-generator case, associativity is retained explicitly as generated
+path-equality cells on both sides of the directly whiskered generator.  This
+avoids hiding dependent endpoint transport inside `Eq.rec`. -/
 def generatedLocalization2CellWhiskerLeft
     {X Y Z : LocalizationPaths W}
     (k : X ⟶ Y) {p q : Y ⟶ Z}
     (α : GeneratedLocalization2Cell W p q) :
     GeneratedLocalization2Cell W (k ≫ p) (k ≫ q) :=
   match α with
-  | .ofCompClosure α =>
-      GeneratedLocalization2Cell.ofCompClosure
-        (generatedCompClosureWhiskerLeft W k α)
+  | .ofCompClosure β =>
+      match β with
+      | .whisker f γ g =>
+          GeneratedLocalization2Cell.trans
+            (generatedLocalization2CellOfEq W (by
+              simp only [Category.assoc]))
+            (GeneratedLocalization2Cell.trans
+              (GeneratedLocalization2Cell.ofCompClosure
+                (GeneratedCompClosure2Cell.whisker (W := W) (k ≫ f) γ g))
+              (generatedLocalization2CellOfEq W (by
+                simp only [Category.assoc])))
   | .refl p =>
       GeneratedLocalization2Cell.refl _
   | .symm α =>
@@ -76,16 +103,27 @@ def generatedLocalization2CellWhiskerLeft
         (generatedLocalization2CellWhiskerLeft k α)
         (generatedLocalization2CellWhiskerLeft k β)
 
-/-- Right-whisker an arbitrary fully generated localization derivation. -/
+/-- Right-whisker an arbitrary fully generated localization derivation.
+
+As on the left, the base-generator case records the associativity transports as
+literal generated path-equality cells rather than as dependent casts. -/
 def generatedLocalization2CellWhiskerRight
     {X Y Z : LocalizationPaths W}
     {p q : X ⟶ Y} (k : Y ⟶ Z)
     (α : GeneratedLocalization2Cell W p q) :
     GeneratedLocalization2Cell W (p ≫ k) (q ≫ k) :=
   match α with
-  | .ofCompClosure α =>
-      GeneratedLocalization2Cell.ofCompClosure
-        (generatedCompClosureWhiskerRight W k α)
+  | .ofCompClosure β =>
+      match β with
+      | .whisker f γ g =>
+          GeneratedLocalization2Cell.trans
+            (generatedLocalization2CellOfEq W (by
+              simp only [Category.assoc]))
+            (GeneratedLocalization2Cell.trans
+              (GeneratedLocalization2Cell.ofCompClosure
+                (GeneratedCompClosure2Cell.whisker (W := W) f γ (g ≫ k)))
+              (generatedLocalization2CellOfEq W (by
+                simp only [Category.assoc])))
   | .refl p =>
       GeneratedLocalization2Cell.refl _
   | .symm α =>
@@ -96,19 +134,34 @@ def generatedLocalization2CellWhiskerRight
         (generatedLocalization2CellWhiskerRight k α)
         (generatedLocalization2CellWhiskerRight k β)
 
-/-- A literal equality of free paths gives a generated localization 2-cell.
-This is derived from `refl`; it introduces no new localization relation. -/
-def generatedLocalization2CellOfEq
-    {X Y : LocalizationPaths W} {p q : X ⟶ Y}
-    (h : p = q) : GeneratedLocalization2Cell W p q := by
-  subst q
-  exact GeneratedLocalization2Cell.refl p
+/-! ## Equality evaluation -/
 
+/-- Evaluation of a generated cell arising only from literal path equality is
+the equality-induced isomorphism between the evaluated paths. -/
+theorem generatedLocalization2CellEvaluationIso_ofEq
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
+    (D : PointwiseWAdjointEquivalenceData (W := W) R)
+    {X Y : LocalizationPaths W} {p q : X ⟶ Y}
+    (h : p = q) :
+    generatedLocalization2CellEvaluationIso W R D
+        (generatedLocalization2CellOfEq W h) =
+      eqToIso (congrArg (freePathEvaluator W R D).map h) := by
+  subst q
+  rfl
+
+/-- Hom-level equality form of `generatedLocalization2CellEvaluationIso_ofEq`. -/
 @[simp]
-theorem generatedLocalization2CellOfEq_rfl
-    {X Y : LocalizationPaths W} (p : X ⟶ Y) :
-    generatedLocalization2CellOfEq W (rfl : p = p) =
-      GeneratedLocalization2Cell.refl p := by
+theorem generatedLocalization2CellEvaluationIso_ofEq_hom
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
+    (D : PointwiseWAdjointEquivalenceData (W := W) R)
+    {X Y : LocalizationPaths W} {p q : X ⟶ Y}
+    (h : p = q) :
+    (generatedLocalization2CellEvaluationIso W R D
+        (generatedLocalization2CellOfEq W h)).hom =
+      eqToHom (congrArg (freePathEvaluator W R D).map h) := by
+  rw [generatedLocalization2CellEvaluationIso_ofEq W R D h]
   rfl
 
 /-! ## Evaluation compatibility -/
@@ -256,34 +309,6 @@ theorem generatedLocalization2CellEvaluationIso_whiskerRight_hom
         (eqToIso ((freePathEvaluator W R D).map_comp q k)).symm).hom := by
   exact congrArg Iso.hom
     (generatedLocalization2CellEvaluationIso_whiskerRight W R D k α)
-
-/-- Evaluation of a generated cell arising only from literal path equality is
-the equality-induced isomorphism between the evaluated paths. -/
-theorem generatedLocalization2CellEvaluationIso_ofEq
-    (R : RawHigherContextualSystem.{u, v, uH, vH}
-      (Context := Context))
-    (D : PointwiseWAdjointEquivalenceData (W := W) R)
-    {X Y : LocalizationPaths W} {p q : X ⟶ Y}
-    (h : p = q) :
-    generatedLocalization2CellEvaluationIso W R D
-        (generatedLocalization2CellOfEq W h) =
-      eqToIso (congrArg (freePathEvaluator W R D).map h) := by
-  subst q
-  rfl
-
-/-- Hom-level equality form of `generatedLocalization2CellEvaluationIso_ofEq`. -/
-@[simp]
-theorem generatedLocalization2CellEvaluationIso_ofEq_hom
-    (R : RawHigherContextualSystem.{u, v, uH, vH}
-      (Context := Context))
-    (D : PointwiseWAdjointEquivalenceData (W := W) R)
-    {X Y : LocalizationPaths W} {p q : X ⟶ Y}
-    (h : p = q) :
-    (generatedLocalization2CellEvaluationIso W R D
-        (generatedLocalization2CellOfEq W h)).hom =
-      eqToHom (congrArg (freePathEvaluator W R D).map h) := by
-  rw [generatedLocalization2CellEvaluationIso_ofEq W R D h]
-  rfl
 
 /-!
 ## Fixed boundary
