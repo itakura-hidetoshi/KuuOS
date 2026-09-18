@@ -12,7 +12,10 @@ on:
     types: [kuuos_ci_completion_v1_1]
 
 permissions:
+  actions: read
   contents: read
+  issues: write
+  pull-requests: write
 
 concurrency:
   group: kuuos-github-ci-completion-reentry-v11-${{ github.event.workflow_run.id || github.run_id }}
@@ -47,6 +50,23 @@ jobs:
             --event "$GITHUB_EVENT_PATH" \
             --event-name repository_dispatch \
             --output-dir .kuuos/github-ci-completion-reentry-v1-1
+
+      - name: Validate secondary ChatGPT CI comment producer
+        if: github.event_name == 'repository_dispatch'
+        run: >-
+          python3 -m unittest -v
+          tests.test_chatgpt_ci_secondary_comment_v0_1
+          tests.test_chatgpt_ci_secondary_comment_workflow_v0_1
+
+      - name: Emit secondary ChatGPT CI completion PR comment
+        if: github.event_name == 'repository_dispatch'
+        env:
+          GH_TOKEN: ${{ github.token }}
+        run: >-
+          python3 scripts/chatgpt_ci_secondary_comment_v0_1.py
+          --event "$GITHUB_EVENT_PATH"
+          --repository "${{ github.repository }}"
+
       - name: Publish bounded handoff artifact
         uses: actions/upload-artifact@v6
         with:
@@ -55,12 +75,14 @@ jobs:
           if-no-files-found: error
           retention-days: 7
       - name: Publish non-authority summary
+        if: always()
         run: |
           set -euo pipefail
           {
             echo '## KuuOS GitHub CI Completion Reentry v1.1'
             echo
             echo '- GitHub completion event compiled as a wake-up signal.'
+            echo '- Same-repository Governance Gate dispatches also attempt an independent producer-specific PR wake-up comment.'
             echo '- Event success is not success evidence.'
             echo '- Fresh GitHub MCP re-observation is required before verified re-entry.'
             echo '- This workflow grants neither merge nor write authority.'
