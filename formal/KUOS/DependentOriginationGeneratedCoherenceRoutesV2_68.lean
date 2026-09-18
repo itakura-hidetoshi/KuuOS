@@ -63,7 +63,7 @@ noncomputable def generatedQuotientAssociatorRoute
     (generatedCompositionRepresentativeCell W f (g ≫ h))
 
 /-- The direct path-equality route between the two parenthesizations. -/
-def generatedQuotientAssociatorDirect
+noncomputable def generatedQuotientAssociatorDirect
     {X Y Z T : W.Localization}
     (f : X ⟶ Y) (g : Y ⟶ Z) (h : Z ⟶ T) :
     GeneratedLocalization2Cell W
@@ -88,7 +88,7 @@ noncomputable def generatedQuotientLeftUnitorRoute
     (Category.id_comp (Quot.out f))
 
 /-- Direct path-equality route for the localized left-unit equality. -/
-def generatedQuotientLeftUnitorDirect
+noncomputable def generatedQuotientLeftUnitorDirect
     {X Y : W.Localization} (f : X ⟶ Y) :
     GeneratedLocalization2Cell W
       (Quot.out ((𝟙 X) ≫ f)) (Quot.out f) :=
@@ -109,7 +109,7 @@ noncomputable def generatedQuotientRightUnitorRoute
     (Category.comp_id (Quot.out f))
 
 /-- Direct path-equality route for the localized right-unit equality. -/
-def generatedQuotientRightUnitorDirect
+noncomputable def generatedQuotientRightUnitorDirect
     {X Y : W.Localization} (f : X ⟶ Y) :
     GeneratedLocalization2Cell W
       (Quot.out (f ≫ 𝟙 Y)) (Quot.out f) :=
