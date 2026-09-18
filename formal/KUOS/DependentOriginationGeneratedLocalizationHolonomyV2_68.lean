@@ -320,7 +320,7 @@ noncomputable def generatedCompClosure2CellEvaluationIso
     (freePathEvaluator W R D).map p ≅
       (freePathEvaluator W R D).map q := by
   cases α with
-  | @whisker s t a b f m₁ m₂ α g =>
+  | @whisker a b f m₁ m₂ α g =>
       let F := freePathEvaluator W R D
       exact
         eqToIso (F.map_comp (f ≫ m₁) g) ≪≫
