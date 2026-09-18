@@ -51,41 +51,66 @@ noncomputable def coherentGeneratedQuotientTransportData
     intro X Y Z T f g h
     have heq := congrArg Iso.hom
       (generatedQuotientAssociatorRoutes_evaluation_eq W R D hPI f g h)
+    ext A
+    have heqA := congrArg (fun η => η.toNatTrans.app A) heq
     simpa [generatedQuotientAssociatorRoute,
       generatedQuotientAssociatorDirect,
       generatedCompositionMapIso,
+      quotientRepresentativeMap,
       generatedLocalization2CellEvaluationIso_trans,
       generatedLocalization2CellEvaluationIso_symm,
-      generatedLocalization2CellEvaluationIso_whiskerLeft,
-      generatedLocalization2CellEvaluationIso_whiskerRight,
-      generatedLocalization2CellEvaluationIso_ofEq,
+      generatedLocalization2CellEvaluationIso_whiskerLeft_hom,
+      generatedLocalization2CellEvaluationIso_whiskerRight_hom,
+      generatedLocalization2CellEvaluationIso_ofEq_hom,
       Iso.trans_hom, Iso.symm_hom,
+      eqToIso.hom, eqToIso.inv,
       whiskerLeftIso_hom, whiskerRightIso_hom,
-      Functor.map_comp] using heq
+      Cat.Hom₂.comp_app, Cat.whiskerLeft_app, Cat.whiskerRight_app,
+      Cat.eqToHom_app, Cat.associator_hom_app,
+      Bicategory.comp_whiskerRight, Bicategory.whiskerLeft_comp,
+      Functor.map_comp, Category.assoc] using heqA
   map₂_left_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
       (generatedQuotientLeftUnitorRoutes_evaluation_eq W R D hPI f)
+    ext A
+    have heqA := congrArg (fun η => η.toNatTrans.app A) heq
     simpa [generatedQuotientLeftUnitorRoute,
       generatedQuotientLeftUnitorDirect,
       generatedIdentityMapIso, generatedCompositionMapIso,
+      quotientRepresentativeMap,
       generatedLocalization2CellEvaluationIso_trans,
-      generatedLocalization2CellEvaluationIso_whiskerRight,
-      generatedLocalization2CellEvaluationIso_ofEq,
-      Iso.trans_hom, whiskerRightIso_hom,
-      Functor.map_comp, Functor.map_id] using heq
+      generatedLocalization2CellEvaluationIso_whiskerRight_hom,
+      generatedLocalization2CellEvaluationIso_ofEq_hom,
+      Iso.trans_hom, Iso.symm_hom,
+      eqToIso.hom, eqToIso.inv,
+      whiskerRightIso_hom,
+      Cat.Hom₂.comp_app, Cat.whiskerRight_app, Cat.eqToHom_app,
+      Cat.leftUnitor_hom_app,
+      Bicategory.comp_whiskerRight,
+      Functor.map_comp, Functor.map_id,
+      Category.assoc, Category.id_comp] using heqA
   map₂_right_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
       (generatedQuotientRightUnitorRoutes_evaluation_eq W R D hPI f)
+    ext A
+    have heqA := congrArg (fun η => η.toNatTrans.app A) heq
     simpa [generatedQuotientRightUnitorRoute,
       generatedQuotientRightUnitorDirect,
       generatedIdentityMapIso, generatedCompositionMapIso,
+      quotientRepresentativeMap,
       generatedLocalization2CellEvaluationIso_trans,
-      generatedLocalization2CellEvaluationIso_whiskerLeft,
-      generatedLocalization2CellEvaluationIso_ofEq,
-      Iso.trans_hom, whiskerLeftIso_hom,
-      Functor.map_comp, Functor.map_id] using heq
+      generatedLocalization2CellEvaluationIso_whiskerLeft_hom,
+      generatedLocalization2CellEvaluationIso_ofEq_hom,
+      Iso.trans_hom, Iso.symm_hom,
+      eqToIso.hom, eqToIso.inv,
+      whiskerLeftIso_hom,
+      Cat.Hom₂.comp_app, Cat.whiskerLeft_app, Cat.eqToHom_app,
+      Cat.rightUnitor_hom_app,
+      Bicategory.whiskerLeft_comp,
+      Functor.map_comp, Functor.map_id,
+      Category.assoc, Category.comp_id] using heqA
 
 /-- The first three v2.65 defects vanish for the exact canonical generated
 pointwise bundle whenever generated evaluation is path-independent. -/
