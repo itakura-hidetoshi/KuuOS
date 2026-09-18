@@ -20,8 +20,6 @@ open KUOS.DependentOriginationGeneratedWhiskeringV2_68
 open KUOS.DependentOriginationGeneratedPointwiseChoiceV2_68
 open KUOS.DependentOriginationGeneratedCoherenceRoutesV2_68
 
-attribute [local simp] Cat.eqToHom_app
-
 universe u v uH vH
 
 /-!
@@ -74,9 +72,9 @@ noncomputable def coherentGeneratedQuotientTransportData
     have heqA := (to_app_of% heqNat) A
     convert (config := { transparency := .default, preTransparency := .default }) heqA using 1
     all_goals
-      (try rw [Cat.Hom₂.comp_app]) <;>
-        (try simp) <;>
-          cat_disch
+      first
+      | rw [Cat.eqToHom_app]
+      | (rw [Cat.Hom₂.comp_app]; simp [Cat.eqToHom_app] <;> cat_disch)
   map₂_left_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -97,9 +95,9 @@ noncomputable def coherentGeneratedQuotientTransportData
     have heqA := (to_app_of% heqNat) A
     convert (config := { transparency := .default, preTransparency := .default }) heqA using 1
     all_goals
-      (try rw [Cat.Hom₂.comp_app]) <;>
-        (try simp) <;>
-          cat_disch
+      first
+      | rw [Cat.eqToHom_app]
+      | (rw [Cat.Hom₂.comp_app]; simp [Cat.eqToHom_app] <;> cat_disch)
   map₂_right_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -120,9 +118,9 @@ noncomputable def coherentGeneratedQuotientTransportData
     have heqA := (to_app_of% heqNat) A
     convert (config := { transparency := .default, preTransparency := .default }) heqA using 1
     all_goals
-      (try rw [Cat.Hom₂.comp_app]) <;>
-        (try simp) <;>
-          cat_disch
+      first
+      | rw [Cat.eqToHom_app]
+      | (rw [Cat.Hom₂.comp_app]; simp [Cat.eqToHom_app] <;> cat_disch)
 
 /-- The first three v2.65 defects vanish for the exact canonical generated
 pointwise bundle whenever generated evaluation is path-independent. -/
