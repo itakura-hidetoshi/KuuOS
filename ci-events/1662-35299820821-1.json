@@ -1,0 +1,15 @@
+{
+  "version": "chatgpt_ci_commit_wakeup_probe_v0_1",
+  "source_repository": "itakura-hidetoshi/KuuOS",
+  "source_pull_request": 1662,
+  "run_id": 35299820821,
+  "run_attempt": 1,
+  "head_sha": "f40105cb6ded280cb854222580642e9047c5b1b5",
+  "workflow": "KuuOS PR Governance Gate",
+  "status": "completed",
+  "conclusion": "success",
+  "event_is_wakeup_signal_only": true,
+  "fresh_mcp_reobservation_required": true,
+  "merge_authority_granted": false,
+  "write_authority_granted": false
+}
