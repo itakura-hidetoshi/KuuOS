@@ -61,7 +61,7 @@ noncomputable def coherentGeneratedQuotientTransportData
       generatedLocalization2CellEvaluationIso_whiskerRight_hom,
       generatedLocalization2CellEvaluationIso_ofEq_hom,
       Iso.trans_hom, Iso.symm_hom,
-      eqToIso.hom, eqToIso.inv,
+      eqToIso.hom, eqToIso.inv, id_eq,
       whiskerLeftIso_hom, whiskerRightIso_hom,
       Bicategory.comp_whiskerRight, Bicategory.whiskerLeft_comp] at heq ⊢
     ext A
@@ -82,7 +82,7 @@ noncomputable def coherentGeneratedQuotientTransportData
       generatedLocalization2CellEvaluationIso_whiskerRight_hom,
       generatedLocalization2CellEvaluationIso_ofEq_hom,
       Iso.trans_hom, Iso.symm_hom,
-      eqToIso.hom, eqToIso.inv,
+      eqToIso.hom, eqToIso.inv, id_eq,
       whiskerRightIso_hom,
       Bicategory.comp_whiskerRight] at heq ⊢
     ext A
@@ -103,7 +103,7 @@ noncomputable def coherentGeneratedQuotientTransportData
       generatedLocalization2CellEvaluationIso_whiskerLeft_hom,
       generatedLocalization2CellEvaluationIso_ofEq_hom,
       Iso.trans_hom, Iso.symm_hom,
-      eqToIso.hom, eqToIso.inv,
+      eqToIso.hom, eqToIso.inv, id_eq,
       whiskerLeftIso_hom,
       Bicategory.whiskerLeft_comp] at heq ⊢
     ext A
