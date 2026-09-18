@@ -2,6 +2,7 @@ import KUOS.DependentOriginationGeneratedCoherenceRoutesV2_68
 import KUOS.DependentOriginationCoherenceDefectsV2_65
 import Mathlib.Tactic.CategoryTheory.Bicategory.Basic
 import Mathlib.Tactic.CategoryTheory.ToApp
+import Mathlib.Tactic.Convert
 import Mathlib.CategoryTheory.Bicategory.Strict.Basic
 
 namespace KUOS.DependentOriginationGeneratedQuotientCoherenceV2_68
