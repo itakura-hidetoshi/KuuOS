@@ -214,3 +214,71 @@ jobs:
           path: artifacts/summary/
           if-no-files-found: warn
           retention-days: 30
+
+
+  chatgpt-ci-status-receipt:
+    name: Publish MCP CI completion receipt
+    needs: governance-gate
+    if: ${{ always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository }}
+    permissions:
+      contents: read
+      statuses: write
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Publish exact-head commit status receipt
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          SOURCE_RESULT: ${{ needs.governance-gate.result }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "${SOURCE_RESULT}" in
+            success)
+              state="success"
+              ;;
+            failure|cancelled)
+              state="failure"
+              ;;
+            *)
+              state="error"
+              ;;
+          esac
+          export STATUS_STATE="${state}"
+
+          payload="${RUNNER_TEMP}/chatgpt-ci-status-receipt.json"
+          python3 - "${payload}" <<'PY'
+          import json
+          import os
+          import pathlib
+          import sys
+
+          body = {
+              "state": os.environ["STATUS_STATE"],
+              "target_url": os.environ["RUN_URL"],
+              "description": (
+                  "wake-up receipt only; "
+                  f"run {os.environ['RUN_ID']} attempt {os.environ['RUN_ATTEMPT']}: "
+                  f"{os.environ['SOURCE_RESULT']}"
+              )[:140],
+              "context": "chatgpt-ci-receipt/KuuOS PR Governance Gate",
+          }
+          pathlib.Path(sys.argv[1]).write_text(
+              json.dumps(body, separators=(",", ":")) + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+          curl --fail-with-body --silent --show-error \
+            --request POST \
+            --header "Accept: application/vnd.github+json" \
+            --header "Authorization: Bearer ${GH_TOKEN}" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            --header "Content-Type: application/json" \
+            --data-binary "@${payload}" \
+            "${GITHUB_API_URL}/repos/${REPOSITORY}/statuses/${HEAD_SHA}"
