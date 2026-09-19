@@ -70,10 +70,7 @@ theorem storedV2_18TriangleIsModificationNatural_of_isDiscrete
   obtain rfl := IsDiscrete.eq_of_hom f
   have hf : f = 𝟙 X := Subsingleton.elim _ _
   rw [hf]
-  apply Cat.Hom₂.ext
-  apply NatTrans.ext
-  funext A
-  simp [CategoryTheory.Pseudofunctor.StrongTrans.naturality_id_hom]
+  simp [CategoryTheory.Pseudofunctor.StrongTrans.naturality_id_hom] <;> bicategory
 
 /-- Uniform stored-triangle modification naturality on an abstract discrete
 base. -/
