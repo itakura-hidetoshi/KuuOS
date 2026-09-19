@@ -3,6 +3,7 @@ import KUOS.DependentOriginationGeneratedPointwiseChoiceV2_68
 namespace KUOS.DependentOriginationGeneratedCoherenceRoutesV2_68
 
 open CategoryTheory
+open CategoryTheory.Bicategory
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationPointwiseWAdjointEquivalenceV2_56
 open KUOS.DependentOriginationGeneratedLocalizationHolonomyV2_68
