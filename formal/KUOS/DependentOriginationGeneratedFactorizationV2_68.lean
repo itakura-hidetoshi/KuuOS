@@ -1,5 +1,6 @@
 import KUOS.DependentOriginationGeneratedQuotientCoherenceV2_68
 import Mathlib.Tactic.CategoryTheory.Bicategory.Basic
+import Mathlib.Tactic.Convert
 
 namespace KUOS.DependentOriginationGeneratedFactorizationV2_68
 
