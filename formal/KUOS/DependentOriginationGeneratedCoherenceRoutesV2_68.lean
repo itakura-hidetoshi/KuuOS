@@ -113,7 +113,7 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
   apply Cat.Hom₂.ext
   ext A
   set_option backward.isDefEq.respectTransparency false in
-    simp [freePathEvaluator_map_id_defeq]
+    simp [freePathEvaluator, Quiv.lift]
 
 /-! ## Quotient associativity route -/
 
