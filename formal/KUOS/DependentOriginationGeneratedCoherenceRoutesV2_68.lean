@@ -40,6 +40,52 @@ def generatedLocalization2CellOfGenerating
       (GeneratedCompClosure2Cell.whisker (W := W) (𝟙 X) α (𝟙 Y)))
 
 
+/-- Object-level normalization for the Cat-valued image of an identity path.
+
+We deliberately derive this from `Functor.congr_obj` applied to the underlying
+functor equality.  This keeps the dependent object transport visible instead of
+asking `rw` or `simp` to cross the `Cat.Hom` wrapper definitionally. -/
+private theorem freePathEvaluator_map_id_obj
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
+    (D : PointwiseWAdjointEquivalenceData (W := W) R)
+    (X : LocalizationPaths W)
+    (A : ↑((freePathEvaluator W R D).obj X)) :
+    ((freePathEvaluator W R D).map (𝟙 X)).toFunctor.obj A = A := by
+  have h :=
+    congrArg (fun F => Cat.Hom.toFunctor F)
+      ((freePathEvaluator W R D).map_id X)
+  simpa only [Cat.Hom.id_toFunctor, Functor.id_obj] using
+    (Functor.congr_obj h A)
+
+/-- Morphism-level normalization for the Cat-valued image of an identity path.
+
+Unlike a transport-free equality, `Functor.congr_hom` records the two object
+casts explicitly.  After `freePathEvaluator_map_id_obj` normalizes the objects,
+those casts become reflexive and simplify canonically. -/
+private theorem freePathEvaluator_map_id_hom
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
+    (D : PointwiseWAdjointEquivalenceData (W := W) R)
+    (X : LocalizationPaths W)
+    {A B : ↑((freePathEvaluator W R D).obj X)}
+    (f : A ⟶ B) :
+    ((freePathEvaluator W R D).map (𝟙 X)).toFunctor.map f =
+      eqToHom
+          (Functor.congr_obj
+            (congrArg (fun F => Cat.Hom.toFunctor F)
+              ((freePathEvaluator W R D).map_id X)) A) ≫
+        f ≫
+      eqToHom
+          (Functor.congr_obj
+            (congrArg (fun F => Cat.Hom.toFunctor F)
+              ((freePathEvaluator W R D).map_id X)) B).symm := by
+  have h :=
+    congrArg (fun F => Cat.Hom.toFunctor F)
+      ((freePathEvaluator W R D).map_id X)
+  simpa only [Cat.Hom.id_toFunctor, Functor.id_map] using
+    (Functor.congr_hom h f)
+
 /-- Evaluating an embedded retained generator removes the bookkeeping identity
 whiskers introduced by `generatedLocalization2CellOfGenerating`.  Keeping this
 normalization behind one lemma prevents the recursive generated evaluator from
@@ -54,18 +100,6 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
     (generatedLocalization2CellEvaluationIso W R D
       (generatedLocalization2CellOfGenerating W α)).hom =
       (generating2CellEvaluationIso W R D α).hom := by
-  have hSource :
-      (freePathEvaluator W R D).map (𝟙 X) =
-        𝟙 ((freePathEvaluator W R D).obj X) :=
-    (freePathEvaluator W R D).map_id X
-  have hTarget :
-      (freePathEvaluator W R D).map (𝟙 Y) =
-        𝟙 ((freePathEvaluator W R D).obj Y) :=
-    (freePathEvaluator W R D).map_id Y
-  have hSourceF :=
-    congrArg (fun F => Cat.Hom.toFunctor F) hSource
-  have hTargetF :=
-    congrArg (fun F => Cat.Hom.toFunctor F) hTarget
   cases α <;>
     apply Cat.Hom₂.ext <;>
     ext A <;>
@@ -76,6 +110,8 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
         freePathEvaluationWhiskerLeftIso,
         freePathEvaluationWhiskerRightIso,
         generating2CellEvaluationIso,
+        freePathEvaluator_map_id_obj,
+        freePathEvaluator_map_id_hom,
         Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
         Bicategory.whiskerLeftIso_hom, Bicategory.whiskerRightIso_hom,
         Bicategory.Strict.leftUnitor_eqToIso,
@@ -86,7 +122,6 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
         Cat.whiskerLeft_app, Cat.whiskerRight_app,
         Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
         Functor.id_obj, Functor.id_map, Functor.comp_obj, Functor.comp_map,
-        hSourceF, hTargetF,
         Functor.map_id, Functor.map_comp,
         eqToHom_map, eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
         Category.comp_id, Category.id_comp, Category.assoc]
