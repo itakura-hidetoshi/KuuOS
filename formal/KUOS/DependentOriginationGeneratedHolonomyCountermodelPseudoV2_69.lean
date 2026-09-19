@@ -125,6 +125,8 @@ noncomputable def scalarCompIso (z : C2) :
       (ρ_ ((𝟙 (Cat.of CounterFiber)) :
         Cat.of CounterFiber ⟶ Cat.of CounterFiber)).symm := by
   apply Iso.ext
+  apply Cat.Hom₂.ext
+  ext A
   simp [scalarCompIso]
 
 /-- The raw compositor chosen by the finite model. -/
