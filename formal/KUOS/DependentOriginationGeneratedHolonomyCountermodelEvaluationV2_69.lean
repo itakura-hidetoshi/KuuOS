@@ -58,11 +58,13 @@ theorem chosenInverse_map_eq
     (x : SingleObj.star C2 ⟶ SingleObj.star C2) :
     (PointwiseWAdjointEquivalenceData.inverse
       allMorphisms D w hw).toFunctor.map x = x := by
-  change (D.chosen w hw).inverse.map x = x
+  let y : C2 := (D.chosen w hw).inverse.map x
+  let c : C2 := (D.chosen w hw).counitIso.hom.app (SingleObj.star C2)
+  change y = x
   have hnat := (D.chosen w hw).counitIso.hom.naturality x
-  simp only [Functor.comp_map, Functor.id_map, SingleObj.comp_as_mul] at hnat
   rw [chosenForward_map_eq D w hw ((D.chosen w hw).inverse.map x)] at hnat
-  rw [mul_comm x ((D.chosen w hw).counitIso.hom.app (SingleObj.star C2))] at hnat
+  change c * y = x * c at hnat
+  rw [mul_comm x c] at hnat
   exact mul_left_cancel hnat
 
 /-- Every free localization word acts identically on `C2` morphisms. -/
@@ -100,29 +102,20 @@ unit scalar. -/
   subst B
   exact SingleObj.id_as_one C2 A
 
-@[simp] private theorem catEqToIso_hom_app_star_eqToHom
-    {F G : Cat.of CounterFiber ⟶ Cat.of CounterFiber} (h : F = G) :
-    (eqToIso h).hom.toNatTrans.app (SingleObj.star C2) =
-      eqToHom (congrArg
-        (fun K : Cat.of CounterFiber ⟶ Cat.of CounterFiber =>
-          K.toFunctor.obj (SingleObj.star C2)) h) := by
-  cases h
-  rfl
-
-@[simp] private theorem catEqToIso_symm_hom_app_star_eqToHom
-    {F G : Cat.of CounterFiber ⟶ Cat.of CounterFiber} (h : F = G) :
-    (eqToIso h).symm.hom.toNatTrans.app (SingleObj.star C2) =
-      eqToHom (congrArg
-        (fun K : Cat.of CounterFiber ⟶ Cat.of CounterFiber =>
-          K.toFunctor.obj (SingleObj.star C2)) h).symm := by
-  cases h
-  rfl
-
 @[simp]
 theorem counterEvaluationScalar_refl
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem)
     {X Y : LocalizationPaths allMorphisms} (p : X ⟶ Y) :
     counterEvaluationScalar D (GeneratedLocalization2Cell.refl p) = 1 := by
+  rfl
+
+@[simp] theorem counterEvaluationScalar_ofEq
+    (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem)
+    {X Y : LocalizationPaths allMorphisms} {p q : X ⟶ Y}
+    (h : p = q) :
+    counterEvaluationScalar D
+      (generatedLocalization2CellOfEq allMorphisms h) = 1 := by
+  subst q
   rfl
 
 @[simp]
@@ -161,9 +154,9 @@ theorem counterEvaluationScalar_whiskerLeft
       counterEvaluationScalar D α := by
   unfold counterEvaluationScalar
   rw [generatedLocalization2CellEvaluationIso_whiskerLeft_hom]
-  simp only [Iso.trans_hom, Cat.Hom₂.comp_app, whiskerLeftIso_hom,
-    Cat.whiskerLeft_app, catEqToIso_hom_app_star_eqToHom,
-    catEqToIso_symm_hom_app_star_eqToHom, singleObj_eqToHom_eq_one,
+  simp only [Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
+    Cat.Hom₂.comp_app, whiskerLeftIso_hom, Cat.whiskerLeft_app,
+    Cat.eqToHom_app, singleObj_eqToHom_eq_one,
     SingleObj.comp_as_mul, one_mul, mul_one]
   exact congrArg
     (fun T : CounterFiber =>
@@ -182,11 +175,20 @@ theorem counterEvaluationScalar_whiskerRight
       counterEvaluationScalar D α := by
   unfold counterEvaluationScalar
   rw [generatedLocalization2CellEvaluationIso_whiskerRight_hom]
-  simp only [Iso.trans_hom, Cat.Hom₂.comp_app, whiskerRightIso_hom,
-    Cat.whiskerRight_app, catEqToIso_hom_app_star_eqToHom,
-    catEqToIso_symm_hom_app_star_eqToHom, singleObj_eqToHom_eq_one,
+  simp only [Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
+    Cat.Hom₂.comp_app, whiskerRightIso_hom, Cat.whiskerRight_app,
+    Cat.eqToHom_app, singleObj_eqToHom_eq_one,
     SingleObj.comp_as_mul, one_mul, mul_one]
   exact counterFreePathEvaluator_map_eq D k _
+
+/-- Component of the concrete compositor at the unique target object. -/
+@[simp] theorem counterMapComp_hom_app_star
+    (X Y Z : OctahedralVertex) :
+    (counterMapComp X Y Z).hom.toNatTrans.app (SingleObj.star C2) =
+      compScalar X Y Z := by
+  simp [counterMapComp, scalarCompIso, scalarIdNatIso_hom_app_star,
+    Iso.trans_hom, Cat.Hom₂.comp_app, Cat.rightUnitor_inv_app,
+    SingleObj.comp_as_mul, SingleObj.id_as_one]
 
 /-- A retained composition generator evaluates to the scalar decorating exactly
 that triangular face. -/
@@ -195,7 +197,11 @@ theorem compositionCell_scalar
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem)
     {X Y Z : OctahedralVertex} (f : X ⟶ Y) (g : Y ⟶ Z) :
     counterEvaluationScalar D (compositionCell f g) = compScalar X Y Z := by
-  rfl
+  unfold counterEvaluationScalar compositionCell
+  rw [generatedLocalization2CellEvaluationIso_ofGenerating_hom]
+  change (counterMapComp X Y Z).hom.toNatTrans.app
+    (SingleObj.star C2) = compScalar X Y Z
+  exact counterMapComp_hom_app_star X Y Z
 
 /-- A change of parallel-arrow presentation carries no scalar. -/
 @[simp]
@@ -203,10 +209,8 @@ theorem parallelArrowCell_scalar
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem)
     {X Y : OctahedralVertex} (f g : X ⟶ Y) :
     counterEvaluationScalar D (parallelArrowCell f g) = 1 := by
-  have hfg : f = g := Subsingleton.elim _ _
-  subst g
-  simp [parallelArrowCell, counterEvaluationScalar]
-  exact SingleObj.id_as_one C2 _
+  unfold parallelArrowCell
+  exact counterEvaluationScalar_ofEq D _
 
 /-- The distinguished face carries the unique nontrivial scalar. -/
 @[simp]
