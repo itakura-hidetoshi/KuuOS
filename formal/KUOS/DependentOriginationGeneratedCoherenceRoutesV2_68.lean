@@ -86,6 +86,43 @@ private theorem freePathEvaluator_map_id_hom
   simpa only [Cat.Hom.id_toFunctor, Functor.id_map] using
     (Functor.congr_hom h f)
 
+/-- The free path category identity is literally the empty path.  Normalize it
+before evaluating the path so later simplification never has to rewrite the
+object argument of a dependent natural-transformation component. -/
+@[simp]
+private theorem localizedGeneratorPrefunctor_mapPath_id
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
+    (D : PointwiseWAdjointEquivalenceData (W := W) R)
+    (X : LocalizationPaths W) :
+    (localizedGeneratorPrefunctor W R D).mapPath (𝟙 X) =
+      Quiver.Path.nil := by
+  rfl
+
+/-- Normalize a leading identity at the path level, before Cat-valued
+evaluation introduces dependent object transports. -/
+@[simp]
+private theorem localizedGeneratorPrefunctor_mapPath_id_comp
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
+    (D : PointwiseWAdjointEquivalenceData (W := W) R)
+    {X Y : LocalizationPaths W} (p : X ⟶ Y) :
+    (localizedGeneratorPrefunctor W R D).mapPath ((𝟙 X) ≫ p) =
+      (localizedGeneratorPrefunctor W R D).mapPath p := by
+  rw [Category.id_comp]
+
+/-- Normalize a trailing identity at the path level, before Cat-valued
+evaluation introduces dependent object transports. -/
+@[simp]
+private theorem localizedGeneratorPrefunctor_mapPath_comp_id
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
+    (D : PointwiseWAdjointEquivalenceData (W := W) R)
+    {X Y : LocalizationPaths W} (p : X ⟶ Y) :
+    (localizedGeneratorPrefunctor W R D).mapPath (p ≫ 𝟙 Y) =
+      (localizedGeneratorPrefunctor W R D).mapPath p := by
+  rw [Category.comp_id]
+
 /-- Evaluating an embedded retained generator removes the bookkeeping identity
 whiskers introduced by `generatedLocalization2CellOfGenerating`.  Keeping this
 normalization behind one lemma prevents the recursive generated evaluator from
