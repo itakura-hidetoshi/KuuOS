@@ -124,6 +124,7 @@ noncomputable def scalarCompIso (z : C2) :
     scalarCompIso (1 : C2) =
       (ρ_ ((𝟙 (Cat.of CounterFiber)) :
         Cat.of CounterFiber ⟶ Cat.of CounterFiber)).symm := by
+  apply Iso.ext
   simp [scalarCompIso]
 
 /-- The raw compositor chosen by the finite model. -/
@@ -158,26 +159,18 @@ noncomputable def counterSystem :
       rcases adjacent_eq_of_three_composable f g h with hXY | hYZ | hZT
       · subst Y
         simp [counterMapComp]
-        bicategory_nf
-        simp
+        rw [← (scalarCompIso (compScalar X Z T)).hom_inv_id]
+        bicategory
       · subst Z
         simp [counterMapComp]
-        bicategory_nf
-        simp
       · subst T
-        simp [counterMapComp]
-        bicategory_nf
-        simp)
+        simp [counterMapComp])
     (by
       intro X Y f
-      simp [counterMapComp]
-      bicategory_nf
-      simp)
+      simp [counterMapComp])
     (by
       intro X Y f
-      simp [counterMapComp]
-      bicategory_nf
-      simp)
+      simp [counterMapComp])
 
 /-- Every mapped source arrow is definitionally the identity functor. -/
 @[simp] theorem counterSystem_map_toFunctor
