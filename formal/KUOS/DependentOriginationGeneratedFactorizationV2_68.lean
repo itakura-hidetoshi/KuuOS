@@ -88,6 +88,7 @@ noncomputable def generatedComparisonDefectsTrivialOfPathIndependent
       _ =
           generatedLocalization2CellEvaluationIso W R D
             (generatedComparisonIdentityRawRoute W X) := by
+        apply Iso.ext
         simp [L, hQ,
           comparisonNaturalityIsoOfTrivialTransportDefects,
           comparisonMapIsoOfTrivialTransportDefects,
@@ -119,6 +120,7 @@ noncomputable def generatedComparisonDefectsTrivialOfPathIndependent
           generatedLocalization2CellEvaluationIso W R D
             (generatedComparisonIdentityQuotientRoute W X) := heq
       _ = _ := by
+        apply Iso.ext
         simp [L, hQ,
           comparisonNaturalityIsoOfTrivialTransportDefects,
           comparisonMapIsoOfTrivialTransportDefects,
@@ -153,6 +155,7 @@ noncomputable def generatedComparisonDefectsTrivialOfPathIndependent
       _ =
           generatedLocalization2CellEvaluationIso W R D
             (generatedComparisonCompositionRawRoute W f g) := by
+        apply Iso.ext
         simp [L, hQ,
           comparisonNaturalityIsoOfTrivialTransportDefects,
           comparisonMapIsoOfTrivialTransportDefects,
@@ -186,6 +189,7 @@ noncomputable def generatedComparisonDefectsTrivialOfPathIndependent
           generatedLocalization2CellEvaluationIso W R D
             (generatedComparisonCompositionQuotientRoute W f g) := heq
       _ = _ := by
+        apply Iso.ext
         simp [L, hQ,
           comparisonNaturalityIsoOfTrivialTransportDefects,
           comparisonMapIsoOfTrivialTransportDefects,
