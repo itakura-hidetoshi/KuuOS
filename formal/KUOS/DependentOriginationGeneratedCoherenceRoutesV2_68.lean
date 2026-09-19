@@ -62,14 +62,10 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
       (freePathEvaluator W R D).map (𝟙 Y) =
         𝟙 ((freePathEvaluator W R D).obj Y) :=
     (freePathEvaluator W R D).map_id Y
-  have hSourceF :
-      ((freePathEvaluator W R D).map (𝟙 X)).toFunctor =
-        (𝟙 ((freePathEvaluator W R D).obj X)).toFunctor :=
-    congrArg (fun F => F.toFunctor) hSource
-  have hTargetF :
-      ((freePathEvaluator W R D).map (𝟙 Y)).toFunctor =
-        (𝟙 ((freePathEvaluator W R D).obj Y)).toFunctor :=
-    congrArg (fun F => F.toFunctor) hTarget
+  have hSourceF :=
+    congrArg (fun F => Cat.Hom.toFunctor F) hSource
+  have hTargetF :=
+    congrArg (fun F => Cat.Hom.toFunctor F) hTarget
   cases α <;>
     apply Cat.Hom₂.ext <;>
     ext A <;>
