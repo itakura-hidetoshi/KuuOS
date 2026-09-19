@@ -44,7 +44,7 @@ the identity on the one-object countermodel. -/
 theorem chosenForward_map_eq
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem)
     {X Y : OctahedralVertex} (w : X ⟶ Y) (hw : allMorphisms w)
-    (x : SingleObj.star C2 ⟶ SingleObj.star C2) :
+    {A B : CounterFiber} (x : A ⟶ B) :
     (D.chosen w hw).functor.map x = x := by
   rw [D.chosen_functor w hw, counterSystem_map_toFunctor]
   rfl
@@ -73,7 +73,7 @@ theorem counterFreePathEvaluator_map_eq
     ((freePathEvaluator allMorphisms counterSystem D).map p).toFunctor.map x = x := by
   induction p using Paths.induction with
   | id =>
-      rw [Functor.map_id]
+      rw [(freePathEvaluator allMorphisms counterSystem D).map_id]
       change (𝟭 CounterFiber).map x = x
       rfl
   | comp p e hp =>
@@ -99,6 +99,24 @@ unit scalar. -/
     (eqToHom h : A ⟶ B) = (1 : C2) := by
   subst B
   exact SingleObj.id_as_one C2 A
+
+@[simp] private theorem catEqToIso_hom_app_star_eqToHom
+    {F G : Cat.of CounterFiber ⟶ Cat.of CounterFiber} (h : F = G) :
+    (eqToIso h).hom.toNatTrans.app (SingleObj.star C2) =
+      eqToHom (congrArg
+        (fun K : Cat.of CounterFiber ⟶ Cat.of CounterFiber =>
+          K.toFunctor.obj (SingleObj.star C2)) h) := by
+  cases h
+  rfl
+
+@[simp] private theorem catEqToIso_symm_hom_app_star_eqToHom
+    {F G : Cat.of CounterFiber ⟶ Cat.of CounterFiber} (h : F = G) :
+    (eqToIso h).symm.hom.toNatTrans.app (SingleObj.star C2) =
+      eqToHom (congrArg
+        (fun K : Cat.of CounterFiber ⟶ Cat.of CounterFiber =>
+          K.toFunctor.obj (SingleObj.star C2)) h).symm := by
+  cases h
+  rfl
 
 @[simp]
 theorem counterEvaluationScalar_refl
@@ -144,7 +162,8 @@ theorem counterEvaluationScalar_whiskerLeft
   unfold counterEvaluationScalar
   rw [generatedLocalization2CellEvaluationIso_whiskerLeft_hom]
   simp only [Iso.trans_hom, Cat.Hom₂.comp_app, whiskerLeftIso_hom,
-    Cat.whiskerLeft_app, Cat.eqToHom_app, singleObj_eqToHom_eq_one,
+    Cat.whiskerLeft_app, catEqToIso_hom_app_star_eqToHom,
+    catEqToIso_symm_hom_app_star_eqToHom, singleObj_eqToHom_eq_one,
     SingleObj.comp_as_mul, one_mul, mul_one]
   exact congrArg
     (fun T : CounterFiber =>
@@ -164,7 +183,8 @@ theorem counterEvaluationScalar_whiskerRight
   unfold counterEvaluationScalar
   rw [generatedLocalization2CellEvaluationIso_whiskerRight_hom]
   simp only [Iso.trans_hom, Cat.Hom₂.comp_app, whiskerRightIso_hom,
-    Cat.whiskerRight_app, Cat.eqToHom_app, singleObj_eqToHom_eq_one,
+    Cat.whiskerRight_app, catEqToIso_hom_app_star_eqToHom,
+    catEqToIso_symm_hom_app_star_eqToHom, singleObj_eqToHom_eq_one,
     SingleObj.comp_as_mul, one_mul, mul_one]
   exact counterFreePathEvaluator_map_eq D k _
 
@@ -185,7 +205,8 @@ theorem parallelArrowCell_scalar
     counterEvaluationScalar D (parallelArrowCell f g) = 1 := by
   have hfg : f = g := Subsingleton.elim _ _
   subst g
-  simp [parallelArrowCell, counterEvaluationScalar, SingleObj.id_as_one]
+  simp [parallelArrowCell, counterEvaluationScalar]
+  exact SingleObj.id_as_one C2 _
 
 /-- The distinguished face carries the unique nontrivial scalar. -/
 @[simp]
