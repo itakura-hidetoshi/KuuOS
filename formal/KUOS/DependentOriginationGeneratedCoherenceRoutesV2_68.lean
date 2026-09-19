@@ -62,10 +62,20 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
       (freePathEvaluator W R D).map (𝟙 Y) =
         𝟙 ((freePathEvaluator W R D).obj Y) :=
     (freePathEvaluator W R D).map_id Y
+  have hSourceF :
+      ((freePathEvaluator W R D).map (𝟙 X)).toFunctor =
+        𝟭 ((freePathEvaluator W R D).obj X).toFunctor := by
+    simpa only [Cat.Hom.id_toFunctor] using
+      congrArg (fun F => F.toFunctor) hSource
+  have hTargetF :
+      ((freePathEvaluator W R D).map (𝟙 Y)).toFunctor =
+        𝟭 ((freePathEvaluator W R D).obj Y).toFunctor := by
+    simpa only [Cat.Hom.id_toFunctor] using
+      congrArg (fun F => F.toFunctor) hTarget
   cases α <;>
     apply Cat.Hom₂.ext <;>
     ext A <;>
-    simp_rw [hSource, hTarget] <;>
+    simp_rw [hSourceF, hTargetF] <;>
     set_option backward.isDefEq.respectTransparency false in
       simp [generatedLocalization2CellOfGenerating,
         generatedLocalization2CellEvaluationIso,
