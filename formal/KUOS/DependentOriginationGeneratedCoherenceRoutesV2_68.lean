@@ -56,6 +56,19 @@ def generatedLocalization2CellOfGenerating
         (generatedLocalization2CellOfEq W hq))
 
 
+/-- For the concrete free-path evaluator, identity paths are mapped to
+identity Cat morphisms by definition of `Quiv.lift`.  Keep this fact at the
+Cat.Hom layer, before projecting to objects or morphisms. -/
+@[simp]
+private theorem freePathEvaluator_map_id_defeq
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
+    (D : PointwiseWAdjointEquivalenceData (W := W) R)
+    (X : LocalizationPaths W) :
+    (freePathEvaluator W R D).map (𝟙 X) =
+      𝟙 ((freePathEvaluator W R D).obj X) := by
+  rfl
+
 /-- Underlying natural isomorphism witnessing that the free-path evaluator
 sends an identity path to the identity functor.
 
@@ -95,6 +108,7 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
     generatedLocalization2CellEvaluationIso_trans,
     generatedLocalization2CellEvaluationIso_ofEq,
     generatedLocalization2CellEvaluationIso_ofEq]
+  simp only [freePathEvaluator_map_id_defeq]
   apply Cat.Hom₂.ext
   ext A
   set_option backward.isDefEq.respectTransparency false in
