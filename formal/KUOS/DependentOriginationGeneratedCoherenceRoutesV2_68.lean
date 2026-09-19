@@ -86,6 +86,19 @@ private theorem freePathEvaluator_map_id_hom
   simpa only [Cat.Hom.id_toFunctor, Functor.id_map] using
     (Functor.congr_hom h f)
 
+/-- For this concrete `Quiv.lift`, the image of the path-category
+identity is definitionally the identity Cat morphism.  This is stronger than
+the generic `Functor.map_id` equality and therefore introduces no transport. -/
+@[simp]
+private theorem freePathEvaluator_map_id_defeq
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
+    (D : PointwiseWAdjointEquivalenceData (W := W) R)
+    (X : LocalizationPaths W) :
+    (freePathEvaluator W R D).map (𝟙 X) =
+      𝟙 ((freePathEvaluator W R D).obj X) := by
+  rfl
+
 /-- The free path category identity is literally the empty path.  Normalize it
 before evaluating the path so later simplification never has to rewrite the
 object argument of a dependent natural-transformation component. -/
@@ -148,7 +161,7 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
         freePathEvaluationWhiskerLeftIso,
         freePathEvaluationWhiskerRightIso,
         generating2CellEvaluationIso,
-        freePathEvaluator,
+        freePathEvaluator_map_id_defeq,
         Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
         Bicategory.whiskerLeftIso_hom, Bicategory.whiskerRightIso_hom,
         Bicategory.Strict.leftUnitor_eqToIso,
@@ -158,10 +171,6 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
         Cat.Hom.comp_toFunctor, Cat.Hom.comp_obj, Cat.Hom.comp_map,
         Cat.whiskerLeft_app, Cat.whiskerRight_app,
         Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
-        localizedGeneratorPrefunctor_mapPath_id,
-        localizedGeneratorPrefunctor_mapPath_id_comp,
-        localizedGeneratorPrefunctor_mapPath_comp_id,
-        composePath_nil,
         Functor.id_obj, Functor.id_map, Functor.comp_obj, Functor.comp_map,
         Functor.map_id, Functor.map_comp,
         eqToHom_map, eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
