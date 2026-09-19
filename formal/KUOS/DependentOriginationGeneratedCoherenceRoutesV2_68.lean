@@ -75,7 +75,9 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
         Functor.id_obj, Functor.id_map, Functor.comp_obj, Functor.comp_map,
         Functor.map_id, Functor.map_comp,
         eqToHom_map, eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
-        Category.comp_id, Category.id_comp, Category.assoc]
+        Category.comp_id, Category.id_comp, Category.assoc] <;>
+      simp_rw [Functor.map_id] <;>
+      simp
 
 /-! ## Quotient associativity route -/
 
