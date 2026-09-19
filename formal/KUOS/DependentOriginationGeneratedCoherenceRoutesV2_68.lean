@@ -154,6 +154,7 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
     apply Cat.Hom₂.ext <;>
     ext A
   all_goals
+    dsimp only [freePathEvaluator, Quiv.lift, Prefunctor.mapPath, composePath]
     set_option backward.isDefEq.respectTransparency false in
       simp [generatedLocalization2CellOfGenerating,
         generatedLocalization2CellEvaluationIso,
@@ -161,7 +162,6 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
         freePathEvaluationWhiskerLeftIso,
         freePathEvaluationWhiskerRightIso,
         generating2CellEvaluationIso,
-        freePathEvaluator_map_id_defeq,
         Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
         Bicategory.whiskerLeftIso_hom, Bicategory.whiskerRightIso_hom,
         Bicategory.Strict.leftUnitor_eqToIso,
