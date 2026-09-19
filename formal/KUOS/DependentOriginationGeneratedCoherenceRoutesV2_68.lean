@@ -40,101 +40,20 @@ def generatedLocalization2CellOfGenerating
       (GeneratedCompClosure2Cell.whisker (W := W) (𝟙 X) α (𝟙 Y)))
 
 
-/-- Object-level normalization for the Cat-valued image of an identity path.
-
-We deliberately derive this from `Functor.congr_obj` applied to the underlying
-functor equality.  This keeps the dependent object transport visible instead of
-asking `rw` or `simp` to cross the `Cat.Hom` wrapper definitionally. -/
-private theorem freePathEvaluator_map_id_obj
-    (R : RawHigherContextualSystem.{u, v, uH, vH}
-      (Context := Context))
-    (D : PointwiseWAdjointEquivalenceData (W := W) R)
-    (X : LocalizationPaths W)
-    (A : ↑((freePathEvaluator W R D).obj X)) :
-    ((freePathEvaluator W R D).map (𝟙 X)).toFunctor.obj A = A := by
-  have h :=
-    congrArg (fun F => Cat.Hom.toFunctor F)
-      ((freePathEvaluator W R D).map_id X)
-  simpa only [Cat.Hom.id_toFunctor, Functor.id_obj] using
-    (Functor.congr_obj h A)
-
-/-- Morphism-level normalization for the Cat-valued image of an identity path.
-
-Unlike a transport-free equality, `Functor.congr_hom` records the two object
-casts explicitly.  After `freePathEvaluator_map_id_obj` normalizes the objects,
-those casts become reflexive and simplify canonically. -/
-private theorem freePathEvaluator_map_id_hom
-    (R : RawHigherContextualSystem.{u, v, uH, vH}
-      (Context := Context))
-    (D : PointwiseWAdjointEquivalenceData (W := W) R)
-    (X : LocalizationPaths W)
-    {A B : ↑((freePathEvaluator W R D).obj X)}
-    (f : A ⟶ B) :
-    ((freePathEvaluator W R D).map (𝟙 X)).toFunctor.map f =
-      eqToHom
-          (Functor.congr_obj
-            (congrArg (fun F => Cat.Hom.toFunctor F)
-              ((freePathEvaluator W R D).map_id X)) A) ≫
-        f ≫
-      eqToHom
-          (Functor.congr_obj
-            (congrArg (fun F => Cat.Hom.toFunctor F)
-              ((freePathEvaluator W R D).map_id X)) B).symm := by
-  have h :=
-    congrArg (fun F => Cat.Hom.toFunctor F)
-      ((freePathEvaluator W R D).map_id X)
-  simpa only [Cat.Hom.id_toFunctor, Functor.id_map] using
-    (Functor.congr_hom h f)
-
-/-- For this concrete `Quiv.lift`, the image of the path-category
-identity is definitionally the identity Cat morphism.  This is stronger than
-the generic `Functor.map_id` equality and therefore introduces no transport. -/
-@[simp]
-private theorem freePathEvaluator_map_id_defeq
+/-- Canonical natural isomorphism from the free-path image of an identity
+path to the identity functor.  This is the same transport normal form used by
+Mathlib's Grothendieck construction: first expose `Functor.map_id` at the
+`Cat.Hom` level, then pass to the underlying natural isomorphism. -/
+private noncomputable def freePathEvaluatorIdentityNatIso
     (R : RawHigherContextualSystem.{u, v, uH, vH}
       (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (X : LocalizationPaths W) :
-    (freePathEvaluator W R D).map (𝟙 X) =
-      𝟙 ((freePathEvaluator W R D).obj X) := by
-  rfl
-
-/-- The free path category identity is literally the empty path.  Normalize it
-before evaluating the path so later simplification never has to rewrite the
-object argument of a dependent natural-transformation component. -/
-@[simp]
-private theorem localizedGeneratorPrefunctor_mapPath_id
-    (R : RawHigherContextualSystem.{u, v, uH, vH}
-      (Context := Context))
-    (D : PointwiseWAdjointEquivalenceData (W := W) R)
-    (X : LocalizationPaths W) :
-    (localizedGeneratorPrefunctor W R D).mapPath (𝟙 X) =
-      Quiver.Path.nil := by
-  rfl
-
-/-- Normalize a leading identity at the path level, before Cat-valued
-evaluation introduces dependent object transports. -/
-@[simp]
-private theorem localizedGeneratorPrefunctor_mapPath_id_comp
-    (R : RawHigherContextualSystem.{u, v, uH, vH}
-      (Context := Context))
-    (D : PointwiseWAdjointEquivalenceData (W := W) R)
-    {X Y : LocalizationPaths W} (p : X ⟶ Y) :
-    (localizedGeneratorPrefunctor W R D).mapPath ((𝟙 X) ≫ p) =
-      (localizedGeneratorPrefunctor W R D).mapPath p := by
-  rw [Category.id_comp]
-
-/-- Normalize a trailing identity at the path level, before Cat-valued
-evaluation introduces dependent object transports. -/
-@[simp]
-private theorem localizedGeneratorPrefunctor_mapPath_comp_id
-    (R : RawHigherContextualSystem.{u, v, uH, vH}
-      (Context := Context))
-    (D : PointwiseWAdjointEquivalenceData (W := W) R)
-    {X Y : LocalizationPaths W} (p : X ⟶ Y) :
-    (localizedGeneratorPrefunctor W R D).mapPath (p ≫ 𝟙 Y) =
-      (localizedGeneratorPrefunctor W R D).mapPath p := by
-  rw [Category.comp_id]
+    ((freePathEvaluator W R D).map (𝟙 X)).toFunctor ≅
+      𝟭 ((freePathEvaluator W R D).obj X) :=
+  Cat.Hom.toNatIso
+      (eqToIso ((freePathEvaluator W R D).map_id X)) ≪≫
+    eqToIso Cat.Hom.id_toFunctor
 
 /-- Evaluating an embedded retained generator removes the bookkeeping identity
 whiskers introduced by `generatedLocalization2CellOfGenerating`.  Keeping this
@@ -150,36 +69,35 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
     (generatedLocalization2CellEvaluationIso W R D
       (generatedLocalization2CellOfGenerating W α)).hom =
       (generating2CellEvaluationIso W R D α).hom := by
-  cases α <;>
-    apply Cat.Hom₂.ext <;>
-    ext A
-  all_goals
-    set_option backward.isDefEq.respectTransparency false in
-      simp [generatedLocalization2CellOfGenerating,
-        generatedLocalization2CellEvaluationIso,
-        generatedCompClosure2CellEvaluationIso,
-        freePathEvaluationWhiskerLeftIso,
-        freePathEvaluationWhiskerRightIso,
-        generating2CellEvaluationIso,
-        Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
-        Bicategory.whiskerLeftIso_hom, Bicategory.whiskerRightIso_hom,
-        Bicategory.Strict.leftUnitor_eqToIso,
-        Bicategory.Strict.rightUnitor_eqToIso,
-        Bicategory.Strict.associator_eqToIso,
-        Cat.Hom.id_toFunctor, Cat.Hom.id_obj, Cat.Hom.id_map,
-        Cat.Hom.comp_toFunctor, Cat.Hom.comp_obj, Cat.Hom.comp_map,
-        Cat.whiskerLeft_app, Cat.whiskerRight_app,
-        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
-        Functor.id_obj, Functor.id_map, Functor.comp_obj, Functor.comp_map,
-        Functor.map_id, Functor.map_comp,
-        eqToHom_map, eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
-        Category.comp_id, Category.id_comp, Category.assoc]
-  all_goals
-    rw [← NatIso.naturality_2
-      ((Cat.Hom.toNatIso <| eqToIso ((freePathEvaluator W R D).map_id _)) ≪≫
-        (eqToIso Cat.Hom.id_toFunctor)) _]
-    set_option backward.isDefEq.respectTransparency false in
-      simp
+  let eSource := freePathEvaluatorIdentityNatIso W R D X
+  let eTarget := freePathEvaluatorIdentityNatIso W R D Y
+  let η := (generating2CellEvaluationIso W R D α).hom.toNatTrans
+  apply Cat.Hom₂.ext
+  ext A
+  have hη := η.naturality (eSource.hom.app A)
+  set_option backward.isDefEq.respectTransparency false in
+    simp only [generatedLocalization2CellOfGenerating,
+      generatedLocalization2CellEvaluationIso,
+      generatedCompClosure2CellEvaluationIso,
+      freePathEvaluationWhiskerLeftIso,
+      freePathEvaluationWhiskerRightIso,
+      Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
+      Bicategory.whiskerLeftIso_hom, Bicategory.whiskerRightIso_hom,
+      Bicategory.Strict.leftUnitor_eqToIso,
+      Bicategory.Strict.rightUnitor_eqToIso,
+      Bicategory.Strict.associator_eqToIso,
+      Cat.Hom.id_toFunctor, Cat.Hom.id_obj, Cat.Hom.id_map,
+      Cat.Hom.comp_toFunctor, Cat.Hom.comp_obj, Cat.Hom.comp_map,
+      Cat.whiskerLeft_app, Cat.whiskerRight_app,
+      Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
+      Functor.id_obj, Functor.id_map, Functor.comp_obj, Functor.comp_map,
+      Functor.map_id, Functor.map_comp,
+      eqToHom_map, eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
+      Category.comp_id, Category.id_comp, Category.assoc]
+  rw [← NatIso.naturality_2 eTarget _]
+  rw [← hη]
+  set_option backward.isDefEq.respectTransparency false in
+    simp [eSource, eTarget, freePathEvaluatorIdentityNatIso]
 
 /-! ## Quotient associativity route -/
 
