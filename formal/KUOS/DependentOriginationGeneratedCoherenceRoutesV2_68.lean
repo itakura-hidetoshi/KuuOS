@@ -111,7 +111,7 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
         freePathEvaluationWhiskerLeftIso,
         freePathEvaluationWhiskerRightIso,
         generating2CellEvaluationIso,
-        freePathEvaluator_map_id_hom,
+        freePathEvaluator,
         Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
         Bicategory.whiskerLeftIso_hom, Bicategory.whiskerRightIso_hom,
         Bicategory.Strict.leftUnitor_eqToIso,
@@ -125,8 +125,6 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
         Functor.map_id, Functor.map_comp,
         eqToHom_map, eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
         Category.comp_id, Category.id_comp, Category.assoc]
-    rw [freePathEvaluator_map_id_obj W R D _ A]
-    simp
 
 /-! ## Quotient associativity route -/
 
