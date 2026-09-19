@@ -80,6 +80,33 @@ theorem counterFreePathEvaluator_map_eq
         rfl
       · exact chosenInverse_map_eq D w.1 w.2 x
 
+/-- Endpoint transports produced by free-path functoriality have trivial
+scalar component on the one-object target. -/
+@[simp] private theorem catEqToIso_hom_app_star_one
+    {F G : Cat.of CounterFiber ⟶ Cat.of CounterFiber} (h : F = G) :
+    ((eqToIso h).hom.toNatTrans.app (SingleObj.star C2) : C2) = 1 := by
+  cases h
+  rfl
+
+@[simp] private theorem catEqToIso_symm_hom_app_star_one
+    {F G : Cat.of CounterFiber ⟶ Cat.of CounterFiber} (h : F = G) :
+    ((eqToIso h).symm.hom.toNatTrans.app (SingleObj.star C2) : C2) = 1 := by
+  cases h
+  rfl
+
+/-- Evaluation to the scalar target is invariant under an explicit endpoint
+transport of a generated cell. -/
+@[simp] theorem counterEvaluationScalar_cast
+    (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem)
+    {X Y : LocalizationPaths allMorphisms}
+    {p q p' q' : X ⟶ Y}
+    (h : GeneratedLocalization2Cell allMorphisms p q =
+      GeneratedLocalization2Cell allMorphisms p' q')
+    (α : GeneratedLocalization2Cell allMorphisms p q) :
+    counterEvaluationScalar D (cast h α) = counterEvaluationScalar D α := by
+  cases h
+  rfl
+
 @[simp]
 theorem counterEvaluationScalar_refl
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem)
@@ -129,7 +156,10 @@ theorem counterEvaluationScalar_whiskerLeft
       counterEvaluationScalar D α := by
   unfold counterEvaluationScalar
   rw [generatedLocalization2CellEvaluationIso_whiskerLeft_hom]
-  simp only [Cat.whiskerLeft_app]
+  simp only [Iso.trans_hom, Cat.Hom₂.comp_app, whiskerLeftIso_hom,
+    Cat.whiskerLeft_app, catEqToIso_hom_app_star_one,
+    catEqToIso_symm_hom_app_star_one, SingleObj.comp_as_mul,
+    one_mul, mul_one]
   exact congrArg
     (fun T : CounterFiber =>
       (generatedLocalization2CellEvaluationIso
@@ -147,7 +177,10 @@ theorem counterEvaluationScalar_whiskerRight
       counterEvaluationScalar D α := by
   unfold counterEvaluationScalar
   rw [generatedLocalization2CellEvaluationIso_whiskerRight_hom]
-  simp only [Cat.whiskerRight_app]
+  simp only [Iso.trans_hom, Cat.Hom₂.comp_app, whiskerRightIso_hom,
+    Cat.whiskerRight_app, catEqToIso_hom_app_star_one,
+    catEqToIso_symm_hom_app_star_one, SingleObj.comp_as_mul,
+    one_mul, mul_one]
   exact counterFreePathEvaluator_map_eq D k _
 
 /-- A retained composition generator evaluates to the scalar decorating exactly
