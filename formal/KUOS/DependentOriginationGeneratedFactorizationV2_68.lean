@@ -103,7 +103,7 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
     apply Cat.Hom₂.ext
     ext A
     have heqA := NatTrans.congr_app heqNat A
-    convert! heqA using 1 <;> simp
+    convert heqA using 1 <;> simp
   · intro X Y Z f g
     have heq := congrArg Iso.hom
       (generatedComparisonCompositionRoutes_evaluation_eq W R D hPI f g)
@@ -134,7 +134,7 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
     apply Cat.Hom₂.ext
     ext A
     have heqA := NatTrans.congr_app heqNat A
-    convert! heqA using 1 <;> simp
+    convert heqA using 1 <;> simp
 
 /-- The two v2.65 StrongTrans comparison defects vanish under generated
 path-independence, after the first three quotient defects have been killed by the
