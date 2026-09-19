@@ -177,6 +177,9 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
     dsimp only [freePathEvaluator, Quiv.lift, Paths.categoryPaths,
       Prefunctor.mapPath, composePath]
     set_option backward.isDefEq.respectTransparency false in
+      simp only [Category.id_comp, Category.comp_id]
+    dsimp only [Paths.categoryPaths, Prefunctor.mapPath, composePath]
+    set_option backward.isDefEq.respectTransparency false in
       simp
 
 /-! ## Quotient associativity route -/
