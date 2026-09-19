@@ -144,9 +144,10 @@ noncomputable def generatedPresentationMapIso
   change
     (freePathEvaluator W R D).map (Quot.out (W.Q.map f)) ≅
       R.map f.toLoc
-  simpa only [freePathEvaluator_map_ordinary] using
-    (generatedLocalization2CellEvaluationIso W R D
-      (generatedPresentationRepresentativeCell W f))
+  exact
+    generatedLocalization2CellEvaluationIso W R D
+        (generatedPresentationRepresentativeCell W f) ≪≫
+      eqToIso (freePathEvaluator_map_ordinary W R D f)
 
 /-- The canonical pointwise v2.61 choice bundle induced by fully generated
 localization derivations. -/
