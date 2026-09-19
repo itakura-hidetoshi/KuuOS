@@ -175,8 +175,11 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
         eqToHom_map, eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
         Category.comp_id, Category.id_comp, Category.assoc]
   all_goals
+    rw [← NatIso.naturality_2
+      ((Cat.Hom.toNatIso <| eqToIso ((freePathEvaluator W R D).map_id _)) ≪≫
+        (eqToIso Cat.Hom.id_toFunctor)) _]
     set_option backward.isDefEq.respectTransparency false in
-      rfl
+      simp
 
 /-! ## Quotient associativity route -/
 
