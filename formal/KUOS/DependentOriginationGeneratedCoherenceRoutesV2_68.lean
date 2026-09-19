@@ -3,7 +3,6 @@ import KUOS.DependentOriginationGeneratedPointwiseChoiceV2_68
 namespace KUOS.DependentOriginationGeneratedCoherenceRoutesV2_68
 
 open CategoryTheory
-open CategoryTheory.Bicategory
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationPointwiseWAdjointEquivalenceV2_56
 open KUOS.DependentOriginationGeneratedLocalizationHolonomyV2_68
@@ -62,7 +61,7 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
       freePathEvaluationWhiskerRightIso,
       generating2CellEvaluationIso,
       Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
-      whiskerLeftIso_hom, whiskerRightIso_hom,
+      Bicategory.whiskerLeftIso_hom, Bicategory.whiskerRightIso_hom,
       Functor.map_id, Functor.map_comp,
       Category.comp_id, Category.id_comp, Category.assoc]
 
