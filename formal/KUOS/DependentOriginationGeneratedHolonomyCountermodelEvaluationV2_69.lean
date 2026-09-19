@@ -63,7 +63,6 @@ theorem chosenInverse_map_eq
   have hnat := (D.chosen w hw).counitIso.hom.naturality x
   simp only [Functor.comp_map, Functor.id_map] at hnat
   rw [chosenForward_map_eq D w hw ((D.chosen w hw).inverse.map x)] at hnat
-  simp only [SingleObj.comp_as_mul] at hnat
   rw [mul_comm x ((D.chosen w hw).counitIso.hom.app (SingleObj.star C2))] at hnat
   exact mul_left_cancel hnat
 
@@ -167,7 +166,6 @@ theorem counterEvaluationScalar_whiskerLeft
   simp only [Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
     Cat.Hom₂.comp_app, whiskerLeftIso_hom, Cat.whiskerLeft_app,
     Cat.eqToHom_app]
-  simp only [SingleObj.comp_as_mul]
   simp only [singleObj_eqToHom_eq_one, one_mul, mul_one]
   exact congrArg
     (fun T : CounterFiber =>
@@ -189,7 +187,6 @@ theorem counterEvaluationScalar_whiskerRight
   simp only [Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
     Cat.Hom₂.comp_app, whiskerRightIso_hom, Cat.whiskerRight_app,
     Cat.eqToHom_app]
-  simp only [SingleObj.comp_as_mul]
   simp only [singleObj_eqToHom_eq_one, one_mul, mul_one]
   exact counterFreePathEvaluator_map_eq D k _
 
@@ -378,6 +375,9 @@ theorem counterSevenFaceRoute_scalar
     routeStep09_scalar, routeStep10_scalar, routeStep11_scalar,
     routeStep12_scalar, routeStep13_scalar, routeStep14_scalar,
     mul_one]
+  rw [mul_comm
+    (counterEvaluationScalar D (inverseForwardCell a10))
+    (counterEvaluationScalar D (forwardInverseCell b11))]
   group
 
 /-- The direct distinguished route and the seven-face route have different
@@ -392,9 +392,10 @@ theorem counterDirectRoute_ne_counterSevenFaceRoute_evaluation
   intro h
   have hs := congrArg
     (fun e => e.hom.toNatTrans.app (SingleObj.star C2)) h
-  have hz : zeta = 1 := by
-    simpa [counterEvaluationScalar] using hs
-  exact zeta_ne_one hz
+  change counterEvaluationScalar D counterDirectRoute =
+    counterEvaluationScalar D counterSevenFaceRoute at hs
+  rw [counterDirectRoute_scalar, counterSevenFaceRoute_scalar] at hs
+  exact zeta_ne_one hs
 
 /-- The explicit difference loop has nontrivial generated holonomy. -/
 theorem counterGeneratedLoop_holonomy_ne_refl
