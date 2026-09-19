@@ -154,7 +154,6 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
     apply Cat.Hom₂.ext <;>
     ext A
   all_goals
-    dsimp only [freePathEvaluator, Quiv.lift, Prefunctor.mapPath, composePath]
     set_option backward.isDefEq.respectTransparency false in
       simp [generatedLocalization2CellOfGenerating,
         generatedLocalization2CellEvaluationIso,
@@ -175,6 +174,9 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
         Functor.map_id, Functor.map_comp,
         eqToHom_map, eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
         Category.comp_id, Category.id_comp, Category.assoc]
+    dsimp only [freePathEvaluator, Quiv.lift, Paths.categoryPaths,
+      Prefunctor.mapPath, composePath]
+    simp
 
 /-! ## Quotient associativity route -/
 
