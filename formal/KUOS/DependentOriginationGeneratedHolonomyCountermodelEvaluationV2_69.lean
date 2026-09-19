@@ -59,11 +59,14 @@ theorem chosenInverse_map_eq
     (x : SingleObj.star C2 ⟶ SingleObj.star C2) :
     (PointwiseWAdjointEquivalenceData.inverse
       allMorphisms D w hw).toFunctor.map x = x := by
-  change (D.chosen w hw).inverse.map x = x
+  let y : C2 := (D.chosen w hw).inverse.map x
+  let c : C2 := (D.chosen w hw).counitIso.hom.app (SingleObj.star C2)
+  change y = x
   have hnat := (D.chosen w hw).counitIso.hom.naturality x
   simp only [Functor.comp_map, Functor.id_map] at hnat
   rw [chosenForward_map_eq D w hw ((D.chosen w hw).inverse.map x)] at hnat
-  rw [mul_comm x ((D.chosen w hw).counitIso.hom.app (SingleObj.star C2))] at hnat
+  change c * y = x * c at hnat
+  rw [mul_comm x c] at hnat
   exact mul_left_cancel hnat
 
 /-- Every free localization word acts identically on `C2` morphisms. -/
@@ -166,7 +169,6 @@ theorem counterEvaluationScalar_whiskerLeft
   simp only [Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
     Cat.Hom₂.comp_app, whiskerLeftIso_hom, Cat.whiskerLeft_app,
     Cat.eqToHom_app]
-  simp only [singleObj_eqToHom_eq_one, one_mul, mul_one]
   exact congrArg
     (fun T : CounterFiber =>
       (generatedLocalization2CellEvaluationIso
@@ -187,7 +189,6 @@ theorem counterEvaluationScalar_whiskerRight
   simp only [Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
     Cat.Hom₂.comp_app, whiskerRightIso_hom, Cat.whiskerRight_app,
     Cat.eqToHom_app]
-  simp only [singleObj_eqToHom_eq_one, one_mul, mul_one]
   exact counterFreePathEvaluator_map_eq D k _
 
 /-- Component of the concrete compositor at the unique target object. -/
