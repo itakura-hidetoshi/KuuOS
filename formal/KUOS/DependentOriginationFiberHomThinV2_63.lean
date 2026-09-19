@@ -43,8 +43,8 @@ variable (W : MorphismProperty Context)
 /-- Every fiber category in the image of `R` is thin: for any two objects in a
 fixed fiber there is at most one morphism between them. -/
 def IsFiberHomThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)) : Prop :=
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)) : Prop :=
   ∀ X : Context, Quiver.IsThin (R.obj (.mk X))
 
 /-- Fiber-hom thinness implies the v2.62 fiber-functor 2-thinness condition.
@@ -54,8 +54,8 @@ functor category `R.obj X ⥤ R.obj Y` thin from thinness of the target `R.obj Y
 A 2-cell in `Cat` is a wrapper around a natural transformation, so
 `Cat.Hom₂.ext` transports that uniqueness to the Cat hom-category. -/
 theorem isFiberFunctorTwoThin_of_fiberHomThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (hthin : IsFiberHomThin R) :
     IsFiberFunctorTwoThin R := by
   intro X Y F G η θ
@@ -66,8 +66,8 @@ theorem isFiberFunctorTwoThin_of_fiberHomThin
 /-- Consequently, pointwise adjoint-equivalence data together with thin image
 fibers already supplies the complete five-law coherent general-`W` package. -/
 theorem hasCoherentGeneralWFactorizationData_of_fiberHomThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hthin : IsFiberHomThin R) :
     HasCoherentGeneralWFactorizationData W R D :=
@@ -77,8 +77,8 @@ theorem hasCoherentGeneralWFactorizationData_of_fiberHomThin
 /-- Fiber-hom thinness and pointwise adjoint-equivalence data therefore yield an
 actual v2.10 higher-localization factorization. -/
 theorem hasHigherLocalizationFactorization_of_fiberHomThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hthin : IsFiberHomThin R) :
     HasHigherLocalizationFactorization (W := W) R :=
@@ -92,8 +92,8 @@ Weak admissibility supplies the pointwise adjoint equivalences by v2.56; fiber
 thinness implies functor 2-thinness by the theorem above; v2.62 then closes all
 five coherence laws and constructs the factorization. -/
 theorem hasHigherLocalizationFactorization_of_admissible_and_fiberHomThin
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
     (hR : IsHigherWAdmissible W R)
     (hthin : IsFiberHomThin R) :
     HasHigherLocalizationFactorization (W := W) R :=

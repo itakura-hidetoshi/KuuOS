@@ -57,7 +57,7 @@ abbrev descentForgetFunctor :
 /-- Sheafification is left adjoint to the inclusion of descent-complete
 systems. -/
 noncomputable def descentCompletionAdjunction :
-    descentCompletionFunctor J ⊣ descentForgetFunctor J :=
+    descentCompletionFunctor (A := A) J ⊣ descentForgetFunctor (A := A) J :=
   sheafificationAdjunction J A
 
 /-- The underlying presheaf of the semantic descent completion of `P`. -/

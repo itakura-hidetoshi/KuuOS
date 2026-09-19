@@ -50,8 +50,8 @@ isomorphic to the identity functor.
 This is a direct v2.58 application: `Quot.out (𝟙 X)` and the identity path have
 the same image under the quotient functor. -/
 theorem quotientIdentity_hasMapIso
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (X : W.Localization) :
     Nonempty
@@ -65,17 +65,10 @@ theorem quotientIdentity_hasMapIso
           (Quot.out (𝟙 X)) =
         (Quotient.functor (Localization.Construction.relations W)).map
           (𝟙 X.as) := by
-    calc
-      (Quotient.functor (Localization.Construction.relations W)).map
-          (Quot.out (𝟙 X)) = 𝟙 X := by
-            change Quot.mk _ (Quot.out (𝟙 X)) = 𝟙 X
-            exact Quot.out_eq _
-      _ =
-          (Quotient.functor (Localization.Construction.relations W)).map
-            (𝟙 X.as) := by
-            simpa using
-              ((Quotient.functor
-                (Localization.Construction.relations W)).map_id X.as).symm
+    change
+      Quot.mk _ (Quot.out (𝟙 X)) =
+        Quot.mk _ (𝟙 X.as)
+    exact Quot.out_eq _
   rcases equalInLocalization_hasEvaluationIso W R D hq with ⟨e⟩
   exact ⟨by simpa only [Functor.map_id] using e⟩
 
@@ -85,8 +78,8 @@ isomorphic to the composite of the two representative evaluations.
 Again no new coherence hypothesis is used: `Quot.out (f ≫ g)` and
 `Quot.out f ≫ Quot.out g` represent the same localized arrow. -/
 theorem quotientComposition_hasMapIso
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y Z : W.Localization} (f : X ⟶ Y) (g : Y ⟶ Z) :
     Nonempty
@@ -102,27 +95,11 @@ theorem quotientComposition_hasMapIso
           (Quot.out (f ≫ g)) =
         (Quotient.functor (Localization.Construction.relations W)).map
           (Quot.out f ≫ Quot.out g) := by
-    calc
-      (Quotient.functor (Localization.Construction.relations W)).map
-          (Quot.out (f ≫ g)) = f ≫ g := by
-            change Quot.mk _ (Quot.out (f ≫ g)) = f ≫ g
-            exact Quot.out_eq _
-      _ =
-          (Quotient.functor (Localization.Construction.relations W)).map
-              (Quot.out f) ≫
-            (Quotient.functor (Localization.Construction.relations W)).map
-              (Quot.out g) := by
-            change
-              f ≫ g =
-                Quot.mk _ (Quot.out f) ≫ Quot.mk _ (Quot.out g)
-            rw [Quot.out_eq, Quot.out_eq]
-      _ =
-          (Quotient.functor (Localization.Construction.relations W)).map
-            (Quot.out f ≫ Quot.out g) := by
-            exact
-              ((Quotient.functor
-                (Localization.Construction.relations W)).map_comp
-                  (Quot.out f) (Quot.out g)).symm
+    change
+      Quot.mk _ (Quot.out (f ≫ g)) =
+        Quot.mk _ (Quot.out f ≫ Quot.out g)
+    rw [← Quotient.comp_mk, Quot.out_eq (f ≫ g), Quot.out_eq f, Quot.out_eq g]
+    rfl
   rcases equalInLocalization_hasEvaluationIso W R D hq with ⟨e⟩
   exact ⟨by simpa only [Functor.map_comp] using e⟩
 
@@ -133,8 +110,8 @@ This is the v2.60 pointwise comparison theorem with the dependence on coherent
 transport removed from its statement: the proof only uses v2.58 quotient
 relation existence. -/
 theorem presentationRepresentative_hasMapIso
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : Context} (f : X ⟶ Y) :
     Nonempty
@@ -143,10 +120,15 @@ theorem presentationRepresentative_hasMapIso
   change Nonempty
     ((freePathEvaluator W R D).map (Quot.out (W.Q.map f)) ≅
       R.map f.toLoc)
-  rw [← freePathEvaluator_map_ordinary W R D f]
-  apply equalInLocalization_hasEvaluationIso W R D
-  change Quot.mk _ (Quot.out (W.Q.map f)) = W.Q.map f
-  exact Quot.out_eq _
+  have h :
+      Nonempty
+        ((freePathEvaluator W R D).map (Quot.out (W.Q.map f)) ≅
+          (freePathEvaluator W R D).map
+            (Localization.Construction.ψ₁ W f)) := by
+    apply equalInLocalization_hasEvaluationIso W R D
+    change Quot.mk _ (Quot.out (W.Q.map f)) = W.Q.map f
+    exact Quot.out_eq _
+  simpa only [freePathEvaluator_map_ordinary] using h
 
 /-- A simultaneous pointwise selection of all local isomorphisms that occur in
 the five-law v2.60 coherence frontier.
@@ -154,8 +136,8 @@ the five-law v2.60 coherence frontier.
 There are deliberately no equations in this structure.  It records only local
 choices. -/
 structure PointwiseGeneralWChoiceData
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R) where
   /-- Identity comparison choice on the localization quotient. -/
   mapId :
@@ -180,8 +162,8 @@ pointwise adjoint-equivalence data is available.
 `Classical.choice` is used only to pick witnesses from the v2.58 `Nonempty`
 statements.  No coherence property of the selected witnesses is inferred. -/
 noncomputable def pointwiseGeneralWChoiceData
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R) :
     PointwiseGeneralWChoiceData (W := W) R D where
   mapId X := Classical.choice (quotientIdentity_hasMapIso W R D X)
@@ -190,8 +172,8 @@ noncomputable def pointwiseGeneralWChoiceData
 
 /-- Existence form of the pointwise-choice theorem. -/
 theorem nonempty_pointwiseGeneralWChoiceData
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R) :
     Nonempty (PointwiseGeneralWChoiceData (W := W) R D) :=
   ⟨pointwiseGeneralWChoiceData W R D⟩
@@ -199,8 +181,8 @@ theorem nonempty_pointwiseGeneralWChoiceData
 /-- Weak `W`-admissibility therefore already supplies a simultaneous pointwise
 selection of every local isomorphism appearing in the five-law frontier. -/
 noncomputable def pointwiseGeneralWChoiceDataOfAdmissible
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
     (hR : IsHigherWAdmissible W R) :
     PointwiseGeneralWChoiceData (W := W) R
       (pointwiseWAdjointEquivalenceDataOfAdmissible W hR) :=
@@ -210,8 +192,8 @@ noncomputable def pointwiseGeneralWChoiceDataOfAdmissible
 /-- Forget all five coherence equations from a v2.60 coherent factorization
 package, retaining only its underlying pointwise local choices. -/
 noncomputable def pointwiseChoiceDataOfCoherentGeneralWFactorizationData
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (H : CoherentGeneralWFactorizationData (W := W) R D) :
     PointwiseGeneralWChoiceData (W := W) R D where
@@ -224,8 +206,8 @@ noncomputable def pointwiseChoiceDataOfCoherentGeneralWFactorizationData
 /-- A pointwise local selection admits a coherent extension when it is exactly
 the underlying local selection of some complete v2.60 five-law package. -/
 noncomputable def HasCoherentExtension
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D) : Prop :=
   ∃ H : CoherentGeneralWFactorizationData (W := W) R D,
@@ -237,8 +219,8 @@ pointwise local selection admitting a coherent extension.
 The right-hand side separates the already-solved local-choice existence problem
 from the genuinely higher extension problem. -/
 theorem hasCoherentGeneralWFactorizationData_iff_exists_coherentlyExtendablePointwiseData
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R) :
     HasCoherentGeneralWFactorizationData W R D ↔
       ∃ L : PointwiseGeneralWChoiceData (W := W) R D,
@@ -254,8 +236,8 @@ theorem hasCoherentGeneralWFactorizationData_iff_exists_coherentlyExtendablePoin
 /-- Any coherently extendable pointwise selection therefore yields the genuine
 v2.10 higher-localization factorization. -/
 theorem hasHigherLocalizationFactorization_of_coherentlyExtendablePointwiseData
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D)
     (hL : HasCoherentExtension W R D L) :

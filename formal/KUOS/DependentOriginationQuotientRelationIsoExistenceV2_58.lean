@@ -51,11 +51,13 @@ isomorphism with the original image `R.map w`.
 This is an isomorphism of 1-cells in `Cat`, obtained from the ordinary natural
 isomorphism `unitIso.symm` of the chosen half-adjoint equivalence. -/
 noncomputable def forwardInverseIso
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : Context} (w : X ⟶ Y) (hw : W w) :
-    R.map w.toLoc ≫ D.inverse w hw ≅ 𝟙 (R.obj (.mk X)) := by
+    R.map w.toLoc ≫
+        PointwiseWAdjointEquivalenceData.inverse W D w hw ≅
+      𝟙 (R.obj (.mk X)) := by
   apply Cat.Hom.isoMk
   change
     (R.map w.toLoc).toFunctor ⋙ (D.chosen w hw).inverse ≅
@@ -66,11 +68,13 @@ noncomputable def forwardInverseIso
 /-- The chosen quasi-inverse from v2.56 forms the left half of the counit
 isomorphism with the original image `R.map w`. -/
 noncomputable def inverseForwardIso
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : Context} (w : X ⟶ Y) (hw : W w) :
-    D.inverse w hw ≫ R.map w.toLoc ≅ 𝟙 (R.obj (.mk Y)) := by
+    PointwiseWAdjointEquivalenceData.inverse W D w hw ≫
+        R.map w.toLoc ≅
+      𝟙 (R.obj (.mk Y)) := by
   apply Cat.Hom.isoMk
   change
     (D.chosen w hw).inverse ⋙ (R.map w.toLoc).toFunctor ≅
@@ -89,8 +93,8 @@ The four cases are exactly:
 * `Winv₂` → the chosen adjoint-equivalence counit.
 -/
 theorem generatingRelation_hasEvaluationIso
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : Paths (Localization.Construction.LocQuiver W)}
     {p q : X ⟶ Y}
@@ -116,8 +120,8 @@ theorem generatingRelation_hasEvaluationIso
 an evaluation 2-isomorphism.  A generating isomorphism is whiskered on the left
 and right by the evaluations of the surrounding paths. -/
 theorem compClosure_hasEvaluationIso
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : Paths (Localization.Construction.LocQuiver W)}
     {p q : X ⟶ Y}
@@ -141,8 +145,8 @@ of evaluation 2-isomorphisms.
 composition of isomorphisms.  The target remains `Nonempty` so that no
 proof-dependent transport choice is introduced. -/
 theorem eqvGenCompClosure_hasEvaluationIso
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : Paths (Localization.Construction.LocQuiver W)}
     {p q : X ⟶ Y}
@@ -171,8 +175,8 @@ their v2.57 evaluations are naturally isomorphic.
 
 This is the exact existence statement induced by the quotient construction. -/
 theorem equalInLocalization_hasEvaluationIso
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : Paths (Localization.Construction.LocQuiver W)}
     {p q : X ⟶ Y}
@@ -191,8 +195,8 @@ theorem equalInLocalization_hasEvaluationIso
 existence for the evaluations of any two paths identified in `W.Localization`.
 No coherent choice of those isomorphisms is made. -/
 theorem equalInLocalization_hasEvaluationIso_of_admissible
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
     (hR : IsHigherWAdmissible W R)
     {X Y : Paths (Localization.Construction.LocQuiver W)}
     {p q : X ⟶ Y}

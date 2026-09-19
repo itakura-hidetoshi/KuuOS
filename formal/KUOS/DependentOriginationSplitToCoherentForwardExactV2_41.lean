@@ -11,6 +11,7 @@ open KUOS.DependentOriginationCoherentFactorForgetfulBridgeV2_20
 open KUOS.DependentOriginationModificationTriangleNormalFormV2_22
 open KUOS.DependentOriginationStrongTransIsoTriangleTransportV2_35
 open KUOS.DependentOriginationWeakHigherLocalizationGapDecompositionV2_31
+open KUOS.DependentOriginationStageIIIRouteCompletenessV2_33
 open KUOS.DependentOriginationRouteCompletenessInternalGapV2_34
 open KUOS.DependentOriginationFixedChosenEssentialUniquenessReflectionV2_36
 open KUOS.DependentOriginationFixedChosenSplitCarrierTransferV2_37
@@ -101,7 +102,7 @@ The proof uses the coherent backward factor supplied by `U.factor`, Stage III
 uniqueness on `C` to make it a left inverse of the split forward factor, and the
 original split backward factor as a right inverse. -/
 theorem hasCoherentForwardFactor_of_splitCompletedCarrier
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (C : WeakHigherLocalizationUniversalCandidate (W := W) R)
     (hUnique : C.HasEssentialUniqueness (W := W))
@@ -152,7 +153,7 @@ theorem hasCoherentForwardFactor_of_splitCompletedCarrier
 /-- Exact local characterization on a Stage III-completed carrier: fixed-side
 split comparison and coherent-forward existence are equivalent. -/
 theorem nonempty_splitCarrierComparison_iff_coherentForwardFactor_of_completed
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (C : WeakHigherLocalizationUniversalCandidate (W := W) R)
     (hUnique : C.HasEssentialUniqueness (W := W)) :
@@ -171,7 +172,7 @@ theorem nonempty_splitCarrierComparison_iff_coherentForwardFactor_of_completed
 /-- Hence the split-comparison completion condition of v2.37 and the local
 coherent-forward completion condition of v2.40 are exactly equivalent. -/
 theorem splitCarrierComparisonCompletion_iff_coherentForwardFactorCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFixedChosenSplitCarrierComparisonCompletion (W := W) U ↔
       HigherFixedChosenCoherentForwardFactorCompletion (W := W) U := by
@@ -193,7 +194,7 @@ first gives Stage III uniqueness on the fixed carrier.  Applying that uniqueness
 to the composite of any automatic mutual factor pair from v2.39 and the identity
 factor yields the fixed-side split. -/
 theorem splitCarrierComparisonCompletion_of_routeCompleteness
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hRoute : HigherCoherentRouteCompleteness (W := W) U) :
     HigherFixedChosenSplitCarrierComparisonCompletion (W := W) U := by
@@ -218,7 +219,7 @@ theorem splitCarrierComparisonCompletion_of_routeCompleteness
 /-- The all-completed-carriers split condition is therefore not merely sufficient:
 it is exactly coherent route completeness. -/
 theorem routeCompleteness_iff_splitCarrierComparisonCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherCoherentRouteCompleteness (W := W) U ↔
       HigherFixedChosenSplitCarrierComparisonCompletion (W := W) U := by
@@ -230,7 +231,7 @@ theorem routeCompleteness_iff_splitCarrierComparisonCompletion
 coherent route completeness is exactly local coherent-forward completion on every
 Stage III-completed carrier. -/
 theorem routeCompleteness_iff_coherentForwardFactorCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherCoherentRouteCompleteness (W := W) U ↔
       HigherFixedChosenCoherentForwardFactorCompletion (W := W) U :=
@@ -242,7 +243,7 @@ theorem routeCompleteness_iff_coherentForwardFactorCompletion
 existence, for every completed carrier, of some weak forward factor whose fixed
 StrongTrans admits an invertible modification triangle. -/
 theorem routeCompleteness_iff_forwardModificationTriangleCompletion
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherCoherentRouteCompleteness (W := W) U ↔
       HigherFixedChosenForwardModificationTriangleCompletion (W := W) U :=
@@ -253,7 +254,7 @@ theorem routeCompleteness_iff_forwardModificationTriangleCompletion
 /-- The v2.40 local forward-modification-triangle obstruction is now an exact
 failure normal form for coherent route completeness. -/
 theorem not_routeCompleteness_iff_forwardModificationTriangleObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     (¬ HigherCoherentRouteCompleteness (W := W) U) ↔
       HigherFixedChosenForwardModificationTriangleObstruction (W := W) U := by

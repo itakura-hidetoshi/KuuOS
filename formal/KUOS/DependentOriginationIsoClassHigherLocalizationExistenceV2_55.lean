@@ -7,6 +7,7 @@ namespace KUOS.DependentOriginationIsoClassHigherLocalizationExistenceV2_55
 open CategoryTheory
 open Opposite
 open KUOS.DependentOriginationPresentationUniversalityV2_0
+open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
 open KUOS.DependentOriginationHigherStackDescentV2_8
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationHigherLocalizationNecessityV2_16
@@ -93,6 +94,31 @@ noncomputable def isoClassPresentationTriangleIso
     Functor.IsLocalization.for_id (W := W) hW
   exact Localization.qCompEquivalenceFromModelFunctorIso (𝟭 Context) W
 
+/-- The canonical base triangle as a strong transformation between the locally
+discrete pseudofunctors induced by the two ordinary base functors.  Packaging
+the ordinary naturality equality here keeps its proof transport inside a
+locally discrete hom-category, where all 2-cell coherence is subsingleton. -/
+noncomputable def isoClassPresentationTriangleStrongTrans
+    (hW : W ≤ MorphismProperty.isomorphisms Context) :
+    (W.Q ⋙ (isoClassLocalizationEquivalence W hW).functor).toPseudofunctor ⟶
+      (𝟭 Context).toPseudofunctor := by
+  let η := isoClassPresentationTriangleIso W hW
+  refine
+    { app := fun X => (η.hom.app X.as).toLoc
+      naturality := fun {X Y} f => ?_
+      naturality_naturality := by
+        intro X Y f g θ
+        exact Subsingleton.elim _ _
+      naturality_id := by
+        intro X
+        exact Subsingleton.elim _ _
+      naturality_comp := by
+        intro X Y Z f g
+        exact Subsingleton.elim _ _ }
+  apply eqToIso
+  apply Discrete.ext
+  simpa using η.hom.naturality f.as
+
 /-- The ordinary base functor underlying the localized source of an arbitrary
 raw higher system in the isomorphism-only sector. -/
 noncomputable def isoClassLocalizedBaseFunctor
@@ -104,13 +130,51 @@ noncomputable def isoClassLocalizedBaseFunctor
 /-- Transport an arbitrary raw Cat-valued pseudofunctor along the equivalence of
 base categories.  No ordinary Cat-valued replacement of `R` is introduced. -/
 noncomputable def isoClassLocalizedHigherSystem
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (hW : W ≤ MorphismProperty.isomorphisms Context) :
-    HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH) :=
+    HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W) :=
   Pseudofunctor.comp
     (isoClassLocalizedBaseFunctor W hW).toPseudofunctor R
 
+/-- The naturality 2-isomorphism of the v2.55 comparison, isolated so that the
+StrongTrans 2-cell, unit, and composition laws elaborate against one fixed
+normal form rather than an unresolved structure-field metavariable. -/
+noncomputable def isoClassHigherLocalizationNaturalityIso
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
+    (hW : W ≤ MorphismProperty.isomorphisms Context)
+    {X Y : LocallyDiscrete Context} (f : X ⟶ Y) :
+    (restrictHigherLocalizedSystem W
+        (isoClassLocalizedHigherSystem W R hW)).map f ≫
+          R.map (((isoClassPresentationTriangleIso W hW).hom.app Y.as).toLoc) ≅
+      R.map (((isoClassPresentationTriangleIso W hW).hom.app X.as).toLoc) ≫
+        R.map (f.as.toLoc) := by
+  let E := isoClassLocalizationEquivalence W hW
+  let β := isoClassPresentationTriangleStrongTrans W hW
+  change
+    R.map (((W.Q ⋙ E.functor).map f.as).toLoc) ≫ R.map (β.app Y) ≅
+      R.map (β.app X) ≫ R.map (f.as.toLoc)
+  exact
+    (R.mapComp
+        (((W.Q ⋙ E.functor).map f.as).toLoc)
+        (β.app Y)).symm ≪≫
+      R.map₂Iso (β.naturality f) ≪≫
+      R.mapComp (β.app X) (f.as.toLoc)
+
+/-- Source-side identity normalization for the outer presentation-unit layer.
+This stops at the intermediate `E.map (𝟙 _)` form used by the staged
+`Pseudofunctor.comp.mapId` coherence instead of collapsing directly to the final
+identity before transport through `R`. -/
+theorem isoClassPresentationUnitMapId
+    (hW : W ≤ MorphismProperty.isomorphisms Context)
+    (X : LocallyDiscrete Context) :
+    ((isoClassLocalizationEquivalence W hW).functor.map
+        (W.Q.map (𝟙 X.as))).toLoc =
+      ((isoClassLocalizationEquivalence W hW).functor.map
+        (𝟙 (W.Q.obj X.as))).toLoc := by
+  apply Discrete.ext
+  simp
+
+set_option backward.isDefEq.respectTransparency false in
 /-- The strong comparison from the restriction of the transported localized
 system back to the original arbitrary pseudofunctor.
 
@@ -118,35 +182,98 @@ The component at `X` is `R` applied to the `X`-component of the canonical base
 triangle.  Naturality is obtained by pasting the two pseudofunctor compositors
 around the image under `R` of the ordinary naturality equality. -/
 noncomputable def isoClassHigherLocalizationComparison
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (hW : W ≤ MorphismProperty.isomorphisms Context) :
     restrictHigherLocalizedSystem W
         (isoClassLocalizedHigherSystem W R hW) ⟶ R := by
-  let E := isoClassLocalizationEquivalence W hW
   let η := isoClassPresentationTriangleIso W hW
   refine
     { app := fun X => R.map ((η.hom.app X.as).toLoc)
-      naturality := ?_ }
-  intro X Y f
-  change
-    R.map (((W.Q ⋙ E.functor).map f.as).toLoc) ≫
-          R.map ((η.hom.app Y.as).toLoc) ≅
-      R.map ((η.hom.app X.as).toLoc) ≫ R.map (f.as.toLoc)
-  refine
-    (R.mapComp
-        (((W.Q ⋙ E.functor).map f.as).toLoc)
-        ((η.hom.app Y.as).toLoc)).symm ≪≫
-      R.map₂Iso (eqToIso ?_) ≪≫
-      R.mapComp ((η.hom.app X.as).toLoc) (f.as.toLoc)
-  simpa only [Quiver.Hom.comp_toLoc] using
-    congrArg (fun k => k.toLoc) (η.hom.naturality f.as)
+      naturality := fun f => isoClassHigherLocalizationNaturalityIso W R hW f
+      naturality_naturality := ?_
+      naturality_id := ?_
+      naturality_comp := ?_ }
+  · intro X Y f g θ
+    have hfg : f = g := LocallyDiscrete.eq_of_hom θ
+    subst g
+    have hθ : θ = 𝟙 f := Subsingleton.elim _ _
+    subst θ
+    simp [isoClassHigherLocalizationNaturalityIso]
+  · intro X
+    let β := isoClassPresentationTriangleStrongTrans W hW
+    have h := congrArg
+      (fun t =>
+        (R.mapComp _ _).inv ≫ R.map₂ t ≫ (R.mapComp _ _).hom ≫
+          Bicategory.whiskerLeft _ (R.mapId _).hom)
+      (β.naturality_id X)
+    simp only [PrelaxFunctor.map₂_comp, Category.assoc,
+      Pseudofunctor.map₂_whisker_right,
+      Pseudofunctor.map₂_whisker_left] at h
+    nth_rewrite 2 [← Category.assoc ((R.mapComp _ _).inv)] at h
+    rw [Iso.inv_hom_id_assoc, Iso.inv_hom_id, Category.id_comp,
+      ← Category.assoc (R.map₂ _), Pseudofunctor.map₂_left_unitor] at h
+    have hR := R.toLax.map₂_rightUnitor (β.app X)
+    simp only [Pseudofunctor.toLax_toPrelaxFunctor,
+      Pseudofunctor.toLax_mapId, Pseudofunctor.toLax_mapComp] at hR
+    simp only [hR, Category.assoc, Iso.inv_hom_id_assoc,
+      Bicategory.whiskerLeft_inv_hom, Category.comp_id] at h
+    simpa [isoClassHigherLocalizationNaturalityIso,
+      restrictHigherLocalizedSystem, isoClassLocalizedHigherSystem,
+      isoClassLocalizedBaseFunctor, higherPresentationUnitFunctor,
+      Pseudofunctor.comp, Functor.toPseudofunctor,
+      pseudofunctorOfIsLocallyDiscrete,
+      PrelaxFunctor.map₂Iso_eqToIso,
+      Bicategory.Strict.leftUnitor_eqToIso,
+      Bicategory.Strict.rightUnitor_eqToIso,
+      PrelaxFunctor.map₂_eqToHom,
+      β] using h
+  · intro X Y Z f g
+    let β := isoClassPresentationTriangleStrongTrans W hW
+    have h := congrArg
+      (fun t =>
+        (R.mapComp _ _).inv ≫ R.map₂ t ≫
+          (R.mapComp (β.app X) (_ ≫ _)).hom ≫
+            Bicategory.whiskerLeft _ (R.mapComp _ _).hom)
+      (β.naturality_comp f g)
+    simp only [PrelaxFunctor.map₂_comp,
+      Pseudofunctor.map₂_whisker_right,
+      Pseudofunctor.map₂_associator,
+      Pseudofunctor.map₂_whisker_left,
+      Category.assoc, Iso.inv_hom_id_assoc,
+      Bicategory.whiskerLeft_inv_hom, Category.comp_id] at h
+    have hR := congrArg
+      (fun t =>
+        Bicategory.whiskerLeft _ (R.mapComp _ _).hom ≫ t ≫
+          R.map₂ (Bicategory.associator _ _ _).inv ≫
+            (R.mapComp _ _).hom)
+      (R.toLax.mapComp_assoc_right
+        ((W.Q ⋙ (isoClassLocalizationEquivalence W hW).functor).toPseudofunctor.map f)
+        (β.app Y) ((𝟭 Context).toPseudofunctor.map g))
+    simp only [Pseudofunctor.toLax_toPrelaxFunctor,
+      Pseudofunctor.toLax_mapComp, Category.assoc,
+      Bicategory.whiskerLeft_hom_inv_assoc,
+      ← Category.assoc (R.map₂ (Bicategory.associator _ _ _).hom),
+      ← R.map₂_comp, Iso.inv_hom_id, Iso.hom_inv_id,
+      R.map₂_id, Category.id_comp, Category.comp_id] at hR
+    rw [← Category.assoc (R.mapComp _ (_ ≫ _)).inv,
+      ← Category.assoc ((_ ≫ R.map₂ (Bicategory.associator _ _ _).inv)),
+      Category.assoc (R.mapComp _ _).inv, hR] at h
+    simp only [Category.assoc] at h
+    simpa [isoClassHigherLocalizationNaturalityIso,
+      restrictHigherLocalizedSystem, isoClassLocalizedHigherSystem,
+      isoClassLocalizedBaseFunctor, higherPresentationUnitFunctor,
+      Pseudofunctor.comp, Functor.toPseudofunctor,
+      pseudofunctorOfIsLocallyDiscrete,
+      PrelaxFunctor.map₂Iso_eqToIso,
+      Bicategory.Strict.leftUnitor_eqToIso,
+      Bicategory.Strict.rightUnitor_eqToIso,
+      PrelaxFunctor.map₂_eqToHom,
+      β] using h
 
 /-- Every component of the v2.55 comparison is an equivalence of categories,
 because it is the image under `R` of an actual isomorphism in `Context`. -/
 theorem isoClassHigherLocalizationComparison_app_isEquivalence
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (hW : W ≤ MorphismProperty.isomorphisms Context)
     (X : Context) :
     ((isoClassHigherLocalizationComparison W R hW).app (.mk X)).toFunctor.IsEquivalence := by
@@ -159,8 +286,7 @@ theorem isoClassHigherLocalizationComparison_app_isEquivalence
 /-- Actual v2.10 higher-localization factorization data for an arbitrary raw
 higher system when `W` contains only morphisms that were already isomorphisms. -/
 noncomputable def isoClassHigherLocalizationFactorization
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (hW : W ≤ MorphismProperty.isomorphisms Context) :
     HigherLocalizationFactorization (W := W) R where
   lift := isoClassLocalizedHigherSystem W R hW
@@ -174,8 +300,7 @@ If all declared presentation maps are already isomorphisms in `Context`, every
 raw Cat-valued pseudofunctor admits an actual higher-localization factorization
 in the exact v2.10 interface. -/
 theorem hasHigherLocalizationFactorization_of_le_isomorphisms
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (hW : W ≤ MorphismProperty.isomorphisms Context) :
     HasHigherLocalizationFactorization (W := W) R :=
   ⟨isoClassHigherLocalizationFactorization W R hW⟩
@@ -184,8 +309,7 @@ theorem hasHigherLocalizationFactorization_of_le_isomorphisms
 weakly `W`-admissible.  This is also forced by v2.16 from the factorization just
 constructed, but the direct proof records the elementary reason. -/
 theorem isHigherWAdmissible_of_le_isomorphisms
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (hW : W ≤ MorphismProperty.isomorphisms Context) :
     IsHigherWAdmissible W R := by
   intro X Y f hf
@@ -197,8 +321,7 @@ existence predicate and weak admissibility are both inhabited for every raw
 higher system.  This is deliberately not stated as a general equivalence beyond
 that sector. -/
 theorem isoClassSector_admissible_and_hasFactorization
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (hW : W ≤ MorphismProperty.isomorphisms Context) :
     IsHigherWAdmissible W R ∧
       HasHigherLocalizationFactorization (W := W) R :=

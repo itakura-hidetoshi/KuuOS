@@ -10,6 +10,9 @@ open KUOS.DependentOriginationStoredTriangleCorrectionTorsorV2_27
 open KUOS.DependentOriginationComparisonAutomorphismSectionsV2_28
 open KUOS.DependentOriginationPointwiseExtensionObstructionV2_29
 
+open scoped Bicategory
+open scoped CategoryTheory.Pseudofunctor.StrongTrans
+
 universe u v uH vH
 
 /-!
@@ -44,7 +47,7 @@ variable (W : MorphismProperty Context)
 
 @[ext]
 structure FactorComparisonPointwiseExtensionFamily
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     (q : FactorComparisonPointwiseAutomorphismWitness (W := W) H) where
   component : ∀ X : Context,
@@ -52,7 +55,7 @@ structure FactorComparisonPointwiseExtensionFamily
   atWitness : component q.object = q.automorphism
 
 def FactorComparisonPointwiseExtensionFamily.SatisfiesCoherenceEquations
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     {q : FactorComparisonPointwiseAutomorphismWitness (W := W) H}
     (F : FactorComparisonPointwiseExtensionFamily (W := W) q) : Prop :=
@@ -64,7 +67,7 @@ def FactorComparisonPointwiseExtensionFamily.SatisfiesCoherenceEquations
         (F.component X).hom ▷ R.map f.toLoc
 
 def FactorComparisonPointwiseExtensionFamily.HasArrowwiseCoherenceDefect
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     {q : FactorComparisonPointwiseAutomorphismWitness (W := W) H}
     (F : FactorComparisonPointwiseExtensionFamily (W := W) q) : Prop :=
@@ -76,7 +79,7 @@ def FactorComparisonPointwiseExtensionFamily.HasArrowwiseCoherenceDefect
         (F.component X).hom ▷ R.map f.toLoc
 
 theorem not_satisfiesCoherenceEquations_iff_hasArrowwiseDefect
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     {q : FactorComparisonPointwiseAutomorphismWitness (W := W) H}
     (F : FactorComparisonPointwiseExtensionFamily (W := W) q) :
@@ -95,14 +98,14 @@ theorem not_satisfiesCoherenceEquations_iff_hasArrowwiseDefect
 
 @[ext]
 structure FactorComparisonPointwiseCoherenceEquationSolution
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     (q : FactorComparisonPointwiseAutomorphismWitness (W := W) H) where
   family : FactorComparisonPointwiseExtensionFamily (W := W) q
   coherence : family.SatisfiesCoherenceEquations (W := W)
 
 def coherentSectionOfPointwiseCoherenceEquationSolution
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     {q : FactorComparisonPointwiseAutomorphismWitness (W := W) H}
     (S : FactorComparisonPointwiseCoherenceEquationSolution (W := W) q) :
@@ -111,7 +114,7 @@ def coherentSectionOfPointwiseCoherenceEquationSolution
   naturality := S.coherence
 
 def pointwiseCoherenceEquationSolutionOfSection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     (q : FactorComparisonPointwiseAutomorphismWitness (W := W) H)
     (P : FactorComparisonAutomorphismSection (W := W) H)
@@ -124,7 +127,7 @@ def pointwiseCoherenceEquationSolutionOfSection
   coherence := P.naturality
 
 theorem coherentSection_solutionOfSection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     (q : FactorComparisonPointwiseAutomorphismWitness (W := W) H)
     (P : FactorComparisonAutomorphismSection (W := W) H)
@@ -136,7 +139,7 @@ theorem coherentSection_solutionOfSection
   rfl
 
 theorem solutionOfSection_coherentSection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     {q : FactorComparisonPointwiseAutomorphismWitness (W := W) H}
     (S : FactorComparisonPointwiseCoherenceEquationSolution (W := W) q) :
@@ -148,7 +151,7 @@ theorem solutionOfSection_coherentSection
   rfl
 
 def pointwiseCoherenceEquationSolutionEquivExtensionSection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     (q : FactorComparisonPointwiseAutomorphismWitness (W := W) H) :
     FactorComparisonPointwiseCoherenceEquationSolution (W := W) q ≃
@@ -166,7 +169,7 @@ def pointwiseCoherenceEquationSolutionEquivExtensionSection
     exact coherentSection_solutionOfSection (W := W) q P.1 P.2
 
 theorem hasCoherentExtension_iff_nonemptyCoherenceEquationSolution
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     (q : FactorComparisonPointwiseAutomorphismWitness (W := W) H) :
     q.HasCoherentExtension (W := W) ↔
@@ -180,7 +183,7 @@ theorem hasCoherentExtension_iff_nonemptyCoherenceEquationSolution
       S.family.atWitness⟩
 
 theorem not_hasCoherentExtension_iff_everyFamily_hasArrowwiseDefect
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     (q : FactorComparisonPointwiseAutomorphismWitness (W := W) H) :
     (¬ q.HasCoherentExtension (W := W)) ↔
@@ -208,14 +211,14 @@ theorem not_hasCoherentExtension_iff_everyFamily_hasArrowwiseDefect
     exact hNotCoherence S.coherence
 
 def FactorComparisonPointwiseArrowwiseCoherenceObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     (q : FactorComparisonPointwiseAutomorphismWitness (W := W) H) : Prop :=
   ∀ F : FactorComparisonPointwiseExtensionFamily (W := W) q,
     F.HasArrowwiseCoherenceDefect (W := W)
 
 theorem pointwiseArrowwiseObstruction_iff_not_hasCoherentExtension
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     (q : FactorComparisonPointwiseAutomorphismWitness (W := W) H) :
     FactorComparisonPointwiseArrowwiseCoherenceObstruction (W := W) q ↔
@@ -224,14 +227,14 @@ theorem pointwiseArrowwiseObstruction_iff_not_hasCoherentExtension
     (W := W) q).symm
 
 def FactorComparisonArrowwiseCoherenceObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) : Prop :=
   HasNontrivialFactorComparisonPointwiseAutomorphism (W := W) H ∧
     ∀ q : FactorComparisonPointwiseAutomorphismWitness (W := W) H,
       FactorComparisonPointwiseArrowwiseCoherenceObstruction (W := W) q
 
 theorem arrowwiseCoherenceObstruction_iff_coherenceExtensionObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) :
     FactorComparisonArrowwiseCoherenceObstruction (W := W) H ↔
       FactorComparisonCoherenceExtensionObstruction (W := W) H := by
@@ -246,7 +249,7 @@ theorem arrowwiseCoherenceObstruction_iff_coherenceExtensionObstruction
         (W := W) q).mpr (hNoExtension q)⟩
 
 theorem arrowwiseCoherenceObstruction_iff_pointwiseNonrigid_and_targetRigid
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) :
     FactorComparisonArrowwiseCoherenceObstruction (W := W) H ↔
       (¬ FactorComparisonPointwiseAutomorphismRigidity (W := W) H) ∧
@@ -258,13 +261,13 @@ theorem arrowwiseCoherenceObstruction_iff_pointwiseNonrigid_and_targetRigid
       (W := W) H
 
 def FactorComparisonPointwiseCoherenceEquationSolvability
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) : Prop :=
   ∀ q : FactorComparisonPointwiseAutomorphismWitness (W := W) H,
     Nonempty (FactorComparisonPointwiseCoherenceEquationSolution (W := W) q)
 
 theorem pointwiseCoherenceEquationSolvability_iff_extensionProperty
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) :
     FactorComparisonPointwiseCoherenceEquationSolvability (W := W) H ↔
       FactorComparisonPointwiseAutomorphismExtensionProperty (W := W) H := by
@@ -279,7 +282,7 @@ theorem pointwiseCoherenceEquationSolvability_iff_extensionProperty
         (W := W) q).mp (hExtension q)
 
 theorem pointwiseRigidity_iff_targetRigidity_of_coherenceEquationSolvability
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R)
     (hSolve : FactorComparisonPointwiseCoherenceEquationSolvability
       (W := W) H) :
@@ -291,14 +294,14 @@ theorem pointwiseRigidity_iff_targetRigidity_of_coherenceEquationSolvability
       (W := W) H).mp hSolve)
 
 def HigherFactorComparisonPointwiseCoherenceEquationSolvability
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (_alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
     FactorComparisonPointwiseCoherenceEquationSolvability (W := W) H
 
 theorem higherPointwiseCoherenceEquationSolvability_iff_extensionProperty
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFactorComparisonPointwiseCoherenceEquationSolvability (W := W) U ↔
       HigherFactorComparisonPointwiseAutomorphismExtensionProperty
@@ -314,14 +317,14 @@ theorem higherPointwiseCoherenceEquationSolvability_iff_extensionProperty
         (W := W) H).mpr (hExtension H alpha)
 
 def HigherFactorComparisonArrowwiseCoherenceObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∃ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
     FactorComparisonArrowwiseCoherenceObstruction (W := W) H
 
 theorem higherArrowwiseCoherenceObstruction_iff_extensionObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFactorComparisonArrowwiseCoherenceObstruction (W := W) U ↔
       HigherFactorComparisonCoherenceExtensionObstruction (W := W) U := by
@@ -336,7 +339,7 @@ theorem higherArrowwiseCoherenceObstruction_iff_extensionObstruction
         (W := W) H).mpr hExtension⟩
 
 theorem higherArrowwiseCoherenceObstruction_iff_not_pointwiseRigidity_of_targetRigidity
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hTarget : HigherFactorComparisonAutomorphismRigidity (W := W) U) :
     HigherFactorComparisonArrowwiseCoherenceObstruction (W := W) U ↔
@@ -348,14 +351,14 @@ theorem higherArrowwiseCoherenceObstruction_iff_not_pointwiseRigidity_of_targetR
       (W := W) U hTarget
 
 def HigherFactorComparisonPointwiseCoherenceEquationSolvabilityPrinciple : Prop :=
-  ∀ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
+  ∀ (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
     HigherFactorComparisonPointwiseCoherenceEquationSolvability (W := W) U
 
 theorem pointwiseRigidity_iff_targetRigidity_of_globalCoherenceEquationSolvability
-    (hSolve : HigherFactorComparisonPointwiseCoherenceEquationSolvabilityPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    ∀ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
+    (hSolve : HigherFactorComparisonPointwiseCoherenceEquationSolvabilityPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    ∀ (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
       (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
       HigherFactorComparisonPointwiseAutomorphismRigidity (W := W) U ↔
         HigherFactorComparisonAutomorphismRigidity (W := W) U := by

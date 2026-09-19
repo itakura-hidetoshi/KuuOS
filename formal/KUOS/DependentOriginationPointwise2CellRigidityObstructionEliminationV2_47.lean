@@ -11,6 +11,8 @@ open KUOS.DependentOriginationWeakCoherentTwoAxisObstructionV2_42
 open KUOS.DependentOriginationFiberwiseThinObstructionEliminationV2_45
 open KUOS.DependentOriginationLocal2CellRigidityObstructionEliminationV2_46
 
+open scoped CategoryTheory.Pseudofunctor.StrongTrans
+
 universe u v uH vH
 
 /-!
@@ -51,7 +53,7 @@ variable (W : MorphismProperty Context)
 required to be subsingletons. -/
 def CatHom₂PointwiseSubsingleton
     {C D : Cat.{vH, uH}} (F G : C ⟶ D) : Prop :=
-  ∀ Z : C, Subsingleton (F.obj Z ⟶ G.obj Z)
+  ∀ Z : C, Subsingleton (F.toFunctor.obj Z ⟶ G.toFunctor.obj Z)
 
 /-- Pointwise component-hom uniqueness implies uniqueness of the whole Cat
 2-cell.  `Cat.Hom₂.ext` unwraps Cat 2-cells and `NatTrans.ext` reduces equality
@@ -65,7 +67,7 @@ theorem subsingleton_catHom₂_of_pointwise
   apply Cat.Hom₂.ext
   apply NatTrans.ext
   funext Z
-  exact Subsingleton.elim _ _
+  exact (hPoint Z).elim _ _
 
 /-- For every raw base arrow, each component hom set of the exact v2.23
 stored-triangle naturality square is a subsingleton.
@@ -74,8 +76,7 @@ Unlike v2.45, this does not require all hom sets in the target raw fiber to be
 subsingletons.  Unlike v2.46, it does not assume uniqueness of whole natural
 transformations directly. -/
 def StoredV2_18NaturalityComponentHomSubsingleton
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=
   ∀ {X Y : Context} (f : X ⟶ Y),
@@ -88,8 +89,7 @@ def StoredV2_18NaturalityComponentHomSubsingleton
 /-- Pointwise component uniqueness supplies the exact local Cat 2-cell
 subsingleton hypothesis isolated in v2.46. -/
 theorem storedV2_18NaturalityHomSubsingleton_of_pointwise
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (hPoint : StoredV2_18NaturalityComponentHomSubsingleton
@@ -102,8 +102,7 @@ theorem storedV2_18NaturalityHomSubsingleton_of_pointwise
 Thus the target-side route now factors as fiberwise thin -> pointwise rigidity
 -> whole 2-cell rigidity. -/
 theorem storedV2_18NaturalityComponentHomSubsingleton_of_fiberwiseThin
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (hThin : HigherRawFiberwiseThin R)
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) :
@@ -115,8 +114,7 @@ theorem storedV2_18NaturalityComponentHomSubsingleton_of_fiberwiseThin
 /-- Uniform pointwise component-hom rigidity for every v2.18 factor into one
 coherent chosen carrier. -/
 def HigherStoredV2_18NaturalityComponentHomSubsingleton
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -125,8 +123,7 @@ def HigherStoredV2_18NaturalityComponentHomSubsingleton
 /-- Uniform pointwise rigidity implies the uniform v2.46 local 2-cell rigidity
 criterion. -/
 theorem higherStoredV2_18NaturalityHomSubsingleton_of_pointwise
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hPoint : HigherStoredV2_18NaturalityComponentHomSubsingleton
       (W := W) U) :
@@ -138,8 +135,7 @@ theorem higherStoredV2_18NaturalityHomSubsingleton_of_pointwise
 /-- The v2.45 fiberwise-thin route factors through the v2.47 pointwise
 criterion. -/
 theorem higherStoredV2_18NaturalityComponentHomSubsingleton_of_fiberwiseThin
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (hThin : HigherRawFiberwiseThin R)
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherStoredV2_18NaturalityComponentHomSubsingleton (W := W) U := by
@@ -150,8 +146,7 @@ theorem higherStoredV2_18NaturalityComponentHomSubsingleton_of_fiberwiseThin
 /-- Coherent universal data plus uniform pointwise rigidity give the v2.18 weak
 universal property on the same chosen carrier. -/
 theorem hasWeakHigherLocalizationUniversalProperty_of_pointwise2CellRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hPoint : HigherStoredV2_18NaturalityComponentHomSubsingleton
       (W := W) U) :
@@ -164,8 +159,7 @@ theorem hasWeakHigherLocalizationUniversalProperty_of_pointwise2CellRigidity
 /-- The coherent Stage III route obstruction disappears under the same
 pointwise condition. -/
 theorem higherCoherentRouteCompleteness_of_pointwise2CellRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hPoint : HigherStoredV2_18NaturalityComponentHomSubsingleton
       (W := W) U) :
@@ -178,8 +172,7 @@ theorem higherCoherentRouteCompleteness_of_pointwise2CellRigidity
 /-- Pointwise component-hom rigidity gives the positive aligned state of the
 v2.42 classification. -/
 theorem higherWeakCoherentAlignment_of_pointwise2CellRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hPoint : HigherStoredV2_18NaturalityComponentHomSubsingleton
       (W := W) U) :
@@ -192,8 +185,7 @@ theorem higherWeakCoherentAlignment_of_pointwise2CellRigidity
 /-- Exact local E/R obstruction elimination under pointwise component-hom
 uniqueness. -/
 theorem no_twoAxisObstruction_of_pointwise2CellRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hPoint : HigherStoredV2_18NaturalityComponentHomSubsingleton
       (W := W) U) :
