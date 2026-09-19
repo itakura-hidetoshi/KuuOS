@@ -44,8 +44,10 @@ noncomputable def counterEvaluationScalar
 the implementation of `Functor.asEquivalence`. -/
 theorem chosenInverse_map_eq
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem)
-    {X Y : OctahedralVertex} (w : X ⟶ Y) (hw : allMorphisms w) (x : C2) :
-    (D.inverse w hw).toFunctor.map x = x := by
+    {X Y : OctahedralVertex} (w : X ⟶ Y) (hw : allMorphisms w)
+    (x : SingleObj.star C2 ⟶ SingleObj.star C2) :
+    (PointwiseWAdjointEquivalenceData.inverse
+      allMorphisms D w hw).toFunctor.map x = x := by
   change (D.chosen w hw).inverse.map x = x
   have hnat := (D.chosen w hw).counitIso.hom.naturality x
   rw [D.chosen_functor w hw, counterSystem_map_toFunctor] at hnat
@@ -56,7 +58,8 @@ theorem chosenInverse_map_eq
 /-- Every free localization word acts identically on `C2` morphisms. -/
 theorem counterFreePathEvaluator_map_eq
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem)
-    {X Y : LocalizationPaths allMorphisms} (p : X ⟶ Y) (x : C2) :
+    {X Y : LocalizationPaths allMorphisms} (p : X ⟶ Y)
+    (x : SingleObj.star C2 ⟶ SingleObj.star C2) :
     ((freePathEvaluator allMorphisms counterSystem D).map p).toFunctor.map x = x := by
   induction p using Paths.induction with
   | id =>
@@ -102,11 +105,12 @@ theorem counterEvaluationScalar_symm
     counterEvaluationScalar D (GeneratedLocalization2Cell.symm α) =
       (counterEvaluationScalar D α)⁻¹ := by
   change
-    (generatedLocalization2CellEvaluationIso
-      allMorphisms counterSystem D α).inv.toNatTrans.app (SingleObj.star C2) =
+    ((generatedLocalization2CellEvaluationIso
+      allMorphisms counterSystem D α).inv.toNatTrans.app
+        (SingleObj.star C2) : C2) =
       ((generatedLocalization2CellEvaluationIso
         allMorphisms counterSystem D α).hom.toNatTrans.app
-          (SingleObj.star C2))⁻¹
+          (SingleObj.star C2) : C2)⁻¹
   exact eq_inv_of_mul_eq_one_right (by
     simpa only [SingleObj.comp_as_mul, SingleObj.id_as_one] using
       (Cat.Hom.inv_hom_id_toNatTrans_app
@@ -161,6 +165,7 @@ theorem parallelArrowCell_scalar
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem)
     {X Y : OctahedralVertex} (f g : X ⟶ Y) :
     counterEvaluationScalar D (parallelArrowCell f g) = 1 := by
+  have hfg : f = g := Subsingleton.elim _ _
   subst g
   simp [parallelArrowCell, counterEvaluationScalar]
 
