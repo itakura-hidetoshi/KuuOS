@@ -99,7 +99,11 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
         Category.comp_id, Category.id_comp, Category.assoc]
     rw [← NatIso.naturality_2 eTarget _]
     set_option backward.isDefEq.respectTransparency false in
-      simpa [eSource, eTarget, η, freePathEvaluatorIdentityNatIso] using hη.symm
+      convert! hη.symm using 1 <;>
+        simp [eSource, eTarget, η, freePathEvaluatorIdentityNatIso,
+          Cat.Hom.id_toFunctor, Cat.Hom.id_obj, Cat.Hom.id_map,
+          Functor.id_obj, Functor.id_map, Functor.map_id,
+          Category.comp_id, Category.id_comp, Category.assoc]
 
 /-! ## Quotient associativity route -/
 
