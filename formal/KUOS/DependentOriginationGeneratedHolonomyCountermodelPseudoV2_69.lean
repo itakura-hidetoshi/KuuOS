@@ -32,8 +32,9 @@ functor.
 def isTwistedFace (X Y Z : OctahedralVertex) : Prop :=
   X = L0 ∧ Y = M0 ∧ Z = H0
 
-instance (X Y Z : OctahedralVertex) : Decidable (isTwistedFace X Y Z) :=
-  inferInstance
+instance (X Y Z : OctahedralVertex) : Decidable (isTwistedFace X Y Z) := by
+  unfold isTwistedFace
+  infer_instance
 
 /-- The normalized scalar 2-cochain: `zeta` on `L0-M0-H0`, identity elsewhere. -/
 def compScalar (X Y Z : OctahedralVertex) : C2 :=
@@ -65,11 +66,23 @@ def compScalar (X Y Z : OctahedralVertex) : C2 :=
 
 @[simp] theorem compScalar_left_identity (X Z : OctahedralVertex) :
     compScalar X X Z = 1 := by
-  simp [compScalar, isTwistedFace, L0, M0]
+  rw [compScalar]
+  split
+  · rename_i h
+    rcases h with ⟨hL, hM, _⟩
+    have hLM : L0 = M0 := hL.symm.trans hM
+    simp [L0, M0] at hLM
+  · rfl
 
 @[simp] theorem compScalar_right_identity (X Y : OctahedralVertex) :
     compScalar X Y Y = 1 := by
-  simp [compScalar, isTwistedFace, M0, H0]
+  rw [compScalar]
+  split
+  · rename_i h
+    rcases h with ⟨_, hM, hH⟩
+    have hMH : M0 = H0 := hM.symm.trans hH
+    simp [M0, H0] at hMH
+  · rfl
 
 /-- The scalar cochain satisfies the pseudofunctor 2-cocycle equation on every
 composable triple.  The proof is exactly the absence of a strict four-chain. -/
@@ -89,16 +102,24 @@ theorem compScalar_cocycle
 /-- Turn a scalar automorphism of the identity functor into a compositor
 2-isomorphism in `Cat`. -/
 noncomputable def scalarCompIso (z : C2) :
-    (𝟭 (Cat.of CounterFiber)) ≅
-      (𝟭 (Cat.of CounterFiber) ≫ 𝟭 (Cat.of CounterFiber)) :=
+    ((𝟙 (Cat.of CounterFiber)) :
+      Cat.of CounterFiber ⟶ Cat.of CounterFiber) ≅
+      (((𝟙 (Cat.of CounterFiber)) :
+          Cat.of CounterFiber ⟶ Cat.of CounterFiber) ≫
+        ((𝟙 (Cat.of CounterFiber)) :
+          Cat.of CounterFiber ⟶ Cat.of CounterFiber)) :=
   Cat.Hom.isoMk
     (scalarIdNatIso z ≪≫ eqToIso (by simp))
 
 /-- The raw compositor chosen by the finite model. -/
 noncomputable def counterMapComp
     (X Y Z : OctahedralVertex) :
-    (𝟭 (Cat.of CounterFiber)) ≅
-      (𝟭 (Cat.of CounterFiber) ≫ 𝟭 (Cat.of CounterFiber)) :=
+    ((𝟙 (Cat.of CounterFiber)) :
+      Cat.of CounterFiber ⟶ Cat.of CounterFiber) ≅
+      (((𝟙 (Cat.of CounterFiber)) :
+          Cat.of CounterFiber ⟶ Cat.of CounterFiber) ≫
+        ((𝟙 (Cat.of CounterFiber)) :
+          Cat.of CounterFiber ⟶ Cat.of CounterFiber)) :=
   scalarCompIso (compScalar X Y Z)
 
 /-- Scalar compositors with equal scalars are equal as 2-isomorphisms. -/
