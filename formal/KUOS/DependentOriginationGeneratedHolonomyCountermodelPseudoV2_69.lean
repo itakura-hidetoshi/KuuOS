@@ -128,6 +128,8 @@ noncomputable def scalarCompIso (z : C2) :
   apply Cat.Hom₂.ext
   ext A
   simp [scalarCompIso]
+  change (𝟙 A ≫ 𝟙 A) = 𝟙 A
+  simp
 
 /-- The raw compositor chosen by the finite model. -/
 noncomputable def counterMapComp
