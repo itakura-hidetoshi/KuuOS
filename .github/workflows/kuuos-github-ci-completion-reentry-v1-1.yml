@@ -7,6 +7,7 @@ on:
       - Lean Formal Validation
       - All Governance Validation
       - Core Governance Validation
+      - KuuOS PR Governance Gate
     types: [completed]
   repository_dispatch:
     types: [kuuos_ci_completion_v1_1]

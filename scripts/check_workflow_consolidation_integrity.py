@@ -18,6 +18,43 @@ CONSTRUCTED_WORKFLOW_PATTERN = re.compile(
 # files may mention them as virtual repository members, but they are not
 # dependencies on workflows in the checked-out repository.  Keep the exception
 # source-scoped so every other reference remains fail-closed.
+# These workflow paths were intentionally retired from GitHub Actions.  The
+# listed sources are historical validators/manifests that still record the
+# retired execution surface; they are not live workflow dependencies.  Keep
+# this source-scoped and exact so any new stale workflow reference still fails.
+RETIRED_WORKFLOW_REFERENCES: dict[str, frozenset[str]] = {
+    ".github/workflows/kuuos-github-mcp-issue-label-binding-canary-v0-7-validation.yml":
+        frozenset({".github/workflows/kuuos-github-mcp-issue-label-binding-canary-v0-7.yml"}),
+    ".github/workflows/kuuos-github-mcp-label-canary-v0-6-validation.yml":
+        frozenset({".github/workflows/kuuos-github-mcp-label-canary-v0-6.yml"}),
+    ".github/workflows/kuuos-github-mcp-sub-issue-bidirectional-canary-v0-9-validation.yml":
+        frozenset({".github/workflows/kuuos-github-mcp-sub-issue-bidirectional-canary-v0-9.yml"}),
+    ".github/workflows/kuuos-github-mcp-sub-issue-binding-canary-v0-8-validation.yml":
+        frozenset({".github/workflows/kuuos-github-mcp-sub-issue-binding-canary-v0-8.yml"}),
+    ".github/workflows/kuuos-github-mcp-sub-issue-chain-canary-v1-0-validation.yml":
+        frozenset({".github/workflows/kuuos-github-mcp-sub-issue-chain-canary-v1-0.yml"}),
+    ".github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5-1-validation.yml":
+        frozenset({".github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5-1.yml"}),
+    ".github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5-validation.yml":
+        frozenset({".github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5.yml"}),
+    "ci/check_registry.d/github_ci_durable_reentry_inbox_v1_3.json":
+        frozenset({".github/workflows/kuuos-github-ci-durable-reentry-inbox-v1-3.yml"}),
+    "manifests/kuuos_github_mcp_issue_label_binding_canary_v0_7.json":
+        frozenset({".github/workflows/kuuos-github-mcp-issue-label-binding-canary-v0-7.yml"}),
+    "manifests/kuuos_github_mcp_label_canary_v0_6.json":
+        frozenset({".github/workflows/kuuos-github-mcp-label-canary-v0-6.yml"}),
+    "manifests/kuuos_github_mcp_sub_issue_bidirectional_canary_v0_9.json":
+        frozenset({".github/workflows/kuuos-github-mcp-sub-issue-bidirectional-canary-v0-9.yml"}),
+    "manifests/kuuos_github_mcp_sub_issue_binding_canary_v0_8.json":
+        frozenset({".github/workflows/kuuos-github-mcp-sub-issue-binding-canary-v0-8.yml"}),
+    "manifests/kuuos_github_mcp_sub_issue_chain_canary_v1_0.json":
+        frozenset({".github/workflows/kuuos-github-mcp-sub-issue-chain-canary-v1-0.yml"}),
+    "manifests/kuuos_github_mcp_workflow_dispatch_v0_5.json":
+        frozenset({".github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5.yml"}),
+    "tests/test_chatgpt_ci_completion_push_v0_2.py":
+        frozenset({".github/workflows/chatgpt-ci-completion-push-v0-1.yml"}),
+}
+
 VIRTUAL_FIXTURE_WORKFLOW_REFERENCES: dict[str, frozenset[str]] = {
     "tests/kuuos_repository_incremental_fixture_v0_81.py": frozenset(
         {".github/workflows/alignment-fixture-v081.yml"}
@@ -210,8 +247,9 @@ def check_workflow_references(errors: list[str]) -> None:
             relative,
             frozenset(),
         )
+        retired_refs = RETIRED_WORKFLOW_REFERENCES.get(relative, frozenset())
         for workflow in sorted(workflow_references(text)):
-            if workflow in virtual_fixture_refs:
+            if workflow in virtual_fixture_refs or workflow in retired_refs:
                 continue
             if not (ROOT / workflow).is_file():
                 errors.append(f"missing workflow reference: {relative} -> {workflow}")
