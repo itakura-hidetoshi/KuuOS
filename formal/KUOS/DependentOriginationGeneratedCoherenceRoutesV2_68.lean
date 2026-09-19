@@ -108,7 +108,6 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
     generatedLocalization2CellEvaluationIso_trans,
     generatedLocalization2CellEvaluationIso_ofEq,
     generatedLocalization2CellEvaluationIso_ofEq]
-  simp only [freePathEvaluator_map_id_defeq]
   apply Cat.Hom₂.ext
   ext A
   set_option backward.isDefEq.respectTransparency false in
