@@ -69,7 +69,6 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
   cases α <;>
     apply Cat.Hom₂.ext <;>
     ext A <;>
-    simp_rw [hSourceF, hTargetF] <;>
     set_option backward.isDefEq.respectTransparency false in
       simp [generatedLocalization2CellOfGenerating,
         generatedLocalization2CellEvaluationIso,
@@ -87,6 +86,7 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
         Cat.whiskerLeft_app, Cat.whiskerRight_app,
         Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
         Functor.id_obj, Functor.id_map, Functor.comp_obj, Functor.comp_map,
+        hSourceF, hTargetF,
         Functor.map_id, Functor.map_comp,
         eqToHom_map, eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
         Category.comp_id, Category.id_comp, Category.assoc]
