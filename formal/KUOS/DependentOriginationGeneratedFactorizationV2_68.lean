@@ -156,7 +156,7 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
         Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
         eqToHom_refl, Category.comp_id, Category.id_comp,
         Category.assoc] at heqA hnat ⊢
-    rw [← hnat]
+    erw [← hnat]
     set_option backward.isDefEq.respectTransparency false in
       simpa only [generatedPresentationMapIso,
         generating2CellEvaluationIso,
