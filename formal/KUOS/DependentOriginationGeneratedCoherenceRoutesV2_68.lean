@@ -109,11 +109,11 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
     simp [generatedLocalization2CellEvaluationIso,
       generatedCompClosure2CellEvaluationIso,
       freePathEvaluationWhiskerLeftIso,
-      freePathEvaluationWhiskerRightIso,
-      freePathEvaluator_map_id_defeq,
-      Bicategory.Strict.leftUnitor_eqToIso,
-      Bicategory.Strict.rightUnitor_eqToIso,
-      Bicategory.Strict.associator_eqToIso]
+      freePathEvaluationWhiskerRightIso]
+  rw [freePathEvaluator_map_id_defeq W R D X,
+    freePathEvaluator_map_id_defeq W R D Y,
+    Category.comp_id q]
+  simp
 
 /-! ## Quotient associativity route -/
 
