@@ -87,38 +87,26 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
     (generatedLocalization2CellEvaluationIso W R D
       (generatedLocalization2CellOfGenerating W α)).hom =
       (generating2CellEvaluationIso W R D α).hom := by
-  let eSource := freePathEvaluatorIdentityNatIso W R D X
-  let eTarget := freePathEvaluatorIdentityNatIso W R D Y
-  let η := (generating2CellEvaluationIso W R D α).hom.toNatTrans
+  dsimp [generatedLocalization2CellOfGenerating]
+  rw [generatedLocalization2CellEvaluationIso_trans,
+    generatedLocalization2CellEvaluationIso_trans,
+    generatedLocalization2CellEvaluationIso_ofEq,
+    generatedLocalization2CellEvaluationIso_ofEq]
   apply Cat.Hom₂.ext
   ext A
   set_option backward.isDefEq.respectTransparency false in
-    simp [generatedLocalization2CellOfGenerating,
-      generatedLocalization2CellEvaluationIso,
+    simp [generatedLocalization2CellEvaluationIso,
       generatedCompClosure2CellEvaluationIso,
       freePathEvaluationWhiskerLeftIso,
       freePathEvaluationWhiskerRightIso,
       Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
       Bicategory.whiskerLeftIso_hom, Bicategory.whiskerRightIso_hom,
-      Bicategory.Strict.leftUnitor_eqToIso,
-      Bicategory.Strict.rightUnitor_eqToIso,
-      Bicategory.Strict.associator_eqToIso,
-      Cat.Hom.id_toFunctor, Cat.Hom.id_obj, Cat.Hom.id_map,
-      Cat.Hom.comp_toFunctor, Cat.Hom.comp_obj, Cat.Hom.comp_map,
+      Cat.Hom.id_toFunctor, Cat.Hom.comp_toFunctor,
       Cat.whiskerLeft_app, Cat.whiskerRight_app,
       Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
       Functor.id_obj, Functor.id_map, Functor.comp_obj, Functor.comp_map,
       Functor.map_id, Functor.map_comp,
       eqToHom_map, eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
-      Category.comp_id, Category.id_comp, Category.assoc]
-  rw [← NatIso.naturality_2 eTarget
-    (η.app (((freePathEvaluator W R D).map (𝟙 X)).toFunctor.obj A))]
-  have hη := η.naturality (eSource.hom.app A)
-  rw [← hη]
-  set_option backward.isDefEq.respectTransparency false in
-    simp [eSource, eTarget, freePathEvaluatorIdentityNatIso,
-      Cat.Hom.id_toFunctor, Cat.Hom.id_obj, Cat.Hom.id_map,
-      Functor.id_obj, Functor.id_map, Functor.map_id,
       Category.comp_id, Category.id_comp, Category.assoc]
 
 /-! ## Quotient associativity route -/
