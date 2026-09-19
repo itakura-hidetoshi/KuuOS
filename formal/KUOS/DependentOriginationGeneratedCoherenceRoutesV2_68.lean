@@ -56,6 +56,23 @@ def generatedLocalization2CellOfGenerating
         (generatedLocalization2CellOfEq W hq))
 
 
+/-- Underlying natural isomorphism witnessing that the free-path evaluator
+sends an identity path to the identity functor.
+
+This follows Mathlib's `Grothendieck` normalization pattern: expose
+`Functor.map_id` at the `Cat.Hom` level, convert that isomorphism to a
+natural isomorphism, and compose with `Cat.Hom.id_toFunctor`. -/
+private noncomputable def freePathEvaluatorIdentityNatIso
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
+    (D : PointwiseWAdjointEquivalenceData (W := W) R)
+    (X : LocalizationPaths W) :
+    ((freePathEvaluator W R D).map (𝟙 X)).toFunctor ≅
+      𝟭 ((freePathEvaluator W R D).obj X) :=
+  Cat.Hom.toNatIso
+      (eqToIso ((freePathEvaluator W R D).map_id X)) ≪≫
+    eqToIso Cat.Hom.id_toFunctor
+
 /-- Evaluating an embedded retained generator removes the bookkeeping identity
 whiskers introduced by `generatedLocalization2CellOfGenerating`.  Keeping this
 normalization behind one lemma prevents the recursive generated evaluator from
@@ -70,30 +87,39 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
     (generatedLocalization2CellEvaluationIso W R D
       (generatedLocalization2CellOfGenerating W α)).hom =
       (generating2CellEvaluationIso W R D α).hom := by
-  cases α <;>
-    apply Cat.Hom₂.ext <;>
-    ext A <;>
-    set_option backward.isDefEq.respectTransparency false in
-      simp [generatedLocalization2CellOfGenerating,
-        generatedLocalization2CellEvaluationIso,
-        generatedCompClosure2CellEvaluationIso,
-        generatedLocalization2CellEvaluationIso_ofEq_hom,
-        freePathEvaluationWhiskerLeftIso,
-        freePathEvaluationWhiskerRightIso,
-        generating2CellEvaluationIso,
-        Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
-        Bicategory.whiskerLeftIso_hom, Bicategory.whiskerRightIso_hom,
-        Bicategory.Strict.leftUnitor_eqToIso,
-        Bicategory.Strict.rightUnitor_eqToIso,
-        Bicategory.Strict.associator_eqToIso,
-        Cat.Hom.id_toFunctor, Cat.Hom.id_obj, Cat.Hom.id_map,
-        Cat.Hom.comp_toFunctor, Cat.Hom.comp_obj, Cat.Hom.comp_map,
-        Cat.whiskerLeft_app, Cat.whiskerRight_app,
-        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
-        Functor.id_obj, Functor.id_map, Functor.comp_obj, Functor.comp_map,
-        Functor.map_id, Functor.map_comp,
-        eqToHom_map, eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
-        Category.comp_id, Category.id_comp, Category.assoc]
+  let eSource := freePathEvaluatorIdentityNatIso W R D X
+  let eTarget := freePathEvaluatorIdentityNatIso W R D Y
+  let η := (generating2CellEvaluationIso W R D α).hom.toNatTrans
+  apply Cat.Hom₂.ext
+  ext A
+  set_option backward.isDefEq.respectTransparency false in
+    simp [generatedLocalization2CellOfGenerating,
+      generatedLocalization2CellEvaluationIso,
+      generatedCompClosure2CellEvaluationIso,
+      freePathEvaluationWhiskerLeftIso,
+      freePathEvaluationWhiskerRightIso,
+      Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
+      Bicategory.whiskerLeftIso_hom, Bicategory.whiskerRightIso_hom,
+      Bicategory.Strict.leftUnitor_eqToIso,
+      Bicategory.Strict.rightUnitor_eqToIso,
+      Bicategory.Strict.associator_eqToIso,
+      Cat.Hom.id_toFunctor, Cat.Hom.id_obj, Cat.Hom.id_map,
+      Cat.Hom.comp_toFunctor, Cat.Hom.comp_obj, Cat.Hom.comp_map,
+      Cat.whiskerLeft_app, Cat.whiskerRight_app,
+      Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
+      Functor.id_obj, Functor.id_map, Functor.comp_obj, Functor.comp_map,
+      Functor.map_id, Functor.map_comp,
+      eqToHom_map, eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
+      Category.comp_id, Category.id_comp, Category.assoc]
+  rw [← NatIso.naturality_2 eTarget
+    (η.app (((freePathEvaluator W R D).map (𝟙 X)).toFunctor.obj A))]
+  have hη := η.naturality (eSource.hom.app A)
+  rw [← hη]
+  set_option backward.isDefEq.respectTransparency false in
+    simp [eSource, eTarget, freePathEvaluatorIdentityNatIso,
+      Cat.Hom.id_toFunctor, Cat.Hom.id_obj, Cat.Hom.id_map,
+      Functor.id_obj, Functor.id_map, Functor.map_id,
+      Category.comp_id, Category.id_comp, Category.assoc]
 
 /-! ## Quotient associativity route -/
 
