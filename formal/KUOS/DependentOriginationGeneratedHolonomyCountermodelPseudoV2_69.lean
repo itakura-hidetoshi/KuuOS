@@ -84,6 +84,14 @@ def compScalar (X Y Z : OctahedralVertex) : C2 :=
     simp [M0, H0] at hMH
   · rfl
 
+/-- The unit scalar gives the identity natural automorphism. -/
+@[simp] theorem scalarIdNatIso_one :
+    scalarIdNatIso (1 : C2) = Iso.refl (𝟭 CounterFiber) := by
+  apply Iso.ext
+  ext X
+  cases X
+  rfl
+
 /-- The scalar cochain satisfies the pseudofunctor 2-cocycle equation on every
 composable triple.  The proof is exactly the absence of a strict four-chain. -/
 theorem compScalar_cocycle
@@ -108,8 +116,9 @@ noncomputable def scalarCompIso (z : C2) :
           Cat.of CounterFiber ⟶ Cat.of CounterFiber) ≫
         ((𝟙 (Cat.of CounterFiber)) :
           Cat.of CounterFiber ⟶ Cat.of CounterFiber)) :=
-  Cat.Hom.isoMk
-    (scalarIdNatIso z ≪≫ eqToIso (by simp))
+  Cat.Hom.isoMk (scalarIdNatIso z) ≪≫
+    (ρ_ ((𝟙 (Cat.of CounterFiber)) :
+      Cat.of CounterFiber ⟶ Cat.of CounterFiber)).symm
 
 /-- The raw compositor chosen by the finite model. -/
 noncomputable def counterMapComp
@@ -142,17 +151,17 @@ noncomputable def counterSystem :
       intro X Y Z T f g h
       rcases adjacent_eq_of_three_composable f g h with hXY | hYZ | hZT
       · subst Y
-        simp [counterMapComp, scalarCompIso]
+        simp [counterMapComp, scalarCompIso] <;> bicategory
       · subst Z
-        simp [counterMapComp, scalarCompIso]
+        simp [counterMapComp, scalarCompIso] <;> bicategory
       · subst T
-        simp [counterMapComp, scalarCompIso])
+        simp [counterMapComp, scalarCompIso] <;> bicategory)
     (by
       intro X Y f
-      simp [counterMapComp, scalarCompIso])
+      simp [counterMapComp, scalarCompIso] <;> bicategory)
     (by
       intro X Y f
-      simp [counterMapComp, scalarCompIso])
+      simp [counterMapComp, scalarCompIso] <;> bicategory)
 
 /-- Every mapped source arrow is definitionally the identity functor. -/
 @[simp] theorem counterSystem_map_toFunctor
@@ -166,7 +175,7 @@ theorem counterSystem_admissible :
     IsHigherWAdmissible allMorphisms counterSystem := by
   intro X Y f hf
   rw [counterSystem_map_toFunctor]
-  infer_instance
+  exact CategoryTheory.Functor.isEquivalence_refl
 
 /-- The exact pointwise adjoint-equivalence datum selected from admissibility,
 kept as a named object for the generated-loop calculation. -/
