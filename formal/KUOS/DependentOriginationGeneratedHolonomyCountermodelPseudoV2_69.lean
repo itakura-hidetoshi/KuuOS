@@ -120,6 +120,12 @@ noncomputable def scalarCompIso (z : C2) :
     (ρ_ ((𝟙 (Cat.of CounterFiber)) :
       Cat.of CounterFiber ⟶ Cat.of CounterFiber)).symm
 
+@[simp] theorem scalarCompIso_one :
+    scalarCompIso (1 : C2) =
+      (ρ_ ((𝟙 (Cat.of CounterFiber)) :
+        Cat.of CounterFiber ⟶ Cat.of CounterFiber)).symm := by
+  simp [scalarCompIso]
+
 /-- The raw compositor chosen by the finite model. -/
 noncomputable def counterMapComp
     (X Y Z : OctahedralVertex) :
@@ -151,25 +157,25 @@ noncomputable def counterSystem :
       intro X Y Z T f g h
       rcases adjacent_eq_of_three_composable f g h with hXY | hYZ | hZT
       · subst Y
-        simp [counterMapComp, scalarCompIso]
+        simp [counterMapComp]
         bicategory_nf
         simp
       · subst Z
-        simp [counterMapComp, scalarCompIso]
+        simp [counterMapComp]
         bicategory_nf
         simp
       · subst T
-        simp [counterMapComp, scalarCompIso]
+        simp [counterMapComp]
         bicategory_nf
         simp)
     (by
       intro X Y f
-      simp [counterMapComp, scalarCompIso]
+      simp [counterMapComp]
       bicategory_nf
       simp)
     (by
       intro X Y f
-      simp [counterMapComp, scalarCompIso]
+      simp [counterMapComp]
       bicategory_nf
       simp)
 
