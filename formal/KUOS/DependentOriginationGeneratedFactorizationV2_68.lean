@@ -19,6 +19,11 @@ open KUOS.DependentOriginationGeneratedPointwiseChoiceV2_68
 open KUOS.DependentOriginationGeneratedCoherenceRoutesV2_68
 open KUOS.DependentOriginationGeneratedQuotientCoherenceV2_68
 
+attribute [local simp]
+  CategoryTheory.PrelaxFunctor.map₂_eqToHom
+  CategoryTheory.eqToHom_map
+  CategoryTheory.Cat.eqToHom_app
+
 universe u v uH vH
 
 /-!
