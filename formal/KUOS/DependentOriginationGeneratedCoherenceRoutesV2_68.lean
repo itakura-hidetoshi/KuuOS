@@ -5,6 +5,7 @@ namespace KUOS.DependentOriginationGeneratedCoherenceRoutesV2_68
 open CategoryTheory
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationPointwiseWAdjointEquivalenceV2_56
+open KUOS.DependentOriginationFreePathEvaluatorV2_57
 open KUOS.DependentOriginationGeneratedLocalizationHolonomyV2_68
 open KUOS.DependentOriginationGeneratedWhiskeringV2_68
 open KUOS.DependentOriginationGeneratedPointwiseChoiceV2_68
@@ -53,6 +54,14 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
     (generatedLocalization2CellEvaluationIso W R D
       (generatedLocalization2CellOfGenerating W α)).hom =
       (generating2CellEvaluationIso W R D α).hom := by
+  have hSource :
+      (freePathEvaluator W R D).map (𝟙 X) =
+        𝟙 ((freePathEvaluator W R D).obj X) :=
+    (freePathEvaluator W R D).map_id X
+  have hTarget :
+      (freePathEvaluator W R D).map (𝟙 Y) =
+        𝟙 ((freePathEvaluator W R D).obj Y) :=
+    (freePathEvaluator W R D).map_id Y
   cases α <;>
     apply Cat.Hom₂.ext <;>
     ext A <;>
@@ -73,6 +82,7 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
         Cat.whiskerLeft_app, Cat.whiskerRight_app,
         Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
         Functor.id_obj, Functor.id_map, Functor.comp_obj, Functor.comp_map,
+        hSource, hTarget,
         Functor.map_id, Functor.map_comp,
         eqToHom_map, eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
         Category.comp_id, Category.id_comp, Category.assoc]
