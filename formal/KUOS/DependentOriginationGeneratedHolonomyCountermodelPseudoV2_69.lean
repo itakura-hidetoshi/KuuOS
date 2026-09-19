@@ -129,7 +129,7 @@ noncomputable def scalarCompIso (z : C2) :
   ext A
   simp [scalarCompIso]
   change (𝟙 A ≫ 𝟙 A) = 𝟙 A
-  simp
+  exact Category.id_comp (𝟙 A)
 
 /-- The raw compositor chosen by the finite model. -/
 noncomputable def counterMapComp
