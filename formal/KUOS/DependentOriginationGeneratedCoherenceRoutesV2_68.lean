@@ -40,12 +40,20 @@ def generatedLocalization2CellOfGenerating
     {X Y : LocalizationPaths W} {p q : X ⟶ Y}
     (α : LocalizationGenerating2Cell W p q) :
     GeneratedLocalization2Cell W p q := by
-  refine GeneratedLocalization2Cell.trans
-    (generatedLocalization2CellOfEq W (by simp)) ?_
-  refine GeneratedLocalization2Cell.trans
-    (GeneratedLocalization2Cell.ofCompClosure
-      (GeneratedCompClosure2Cell.whisker (W := W) (𝟙 X) α (𝟙 Y))) ?_
-  exact generatedLocalization2CellOfEq W (by simp)
+  let p' : X ⟶ Y := (𝟙 X) ≫ p ≫ (𝟙 Y)
+  let q' : X ⟶ Y := (𝟙 X) ≫ q ≫ (𝟙 Y)
+  have hp : p = p' := by
+    simp [p']
+  have hq : q' = q := by
+    simp [q']
+  exact
+    GeneratedLocalization2Cell.trans
+      (generatedLocalization2CellOfEq W hp)
+      (GeneratedLocalization2Cell.trans
+        (show GeneratedLocalization2Cell W p' q' from
+          GeneratedLocalization2Cell.ofCompClosure
+            (GeneratedCompClosure2Cell.whisker (W := W) (𝟙 X) α (𝟙 Y)))
+        (generatedLocalization2CellOfEq W hq))
 
 
 /-- Evaluating an embedded retained generator removes the bookkeeping identity
