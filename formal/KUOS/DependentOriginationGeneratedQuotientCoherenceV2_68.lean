@@ -72,7 +72,12 @@ noncomputable def coherentGeneratedQuotientTransportData
     ext A
     have heqA := NatTrans.congr_app heqNat A
     set_option backward.isDefEq.respectTransparency false in
-      convert! heqA using 1 <;> simp
+      simpa only [Cat.Hom.comp_toFunctor, Functor.comp_obj, Cat.Hom.comp_obj,
+        Cat.whiskerLeft_app, Cat.whiskerRight_app,
+        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
+        Functor.map_comp, eqToHom_map, eqToHom_refl,
+        eqToHom_trans, eqToHom_trans_assoc,
+        Category.comp_id, Category.id_comp, Category.assoc] using heqA
   map₂_left_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -93,7 +98,12 @@ noncomputable def coherentGeneratedQuotientTransportData
     ext A
     have heqA := NatTrans.congr_app heqNat A
     set_option backward.isDefEq.respectTransparency false in
-      convert! heqA using 1 <;> simp
+      simpa only [Cat.Hom.comp_toFunctor, Functor.comp_obj, Cat.Hom.comp_obj,
+        Cat.whiskerLeft_app, Cat.whiskerRight_app,
+        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
+        Functor.map_comp, eqToHom_map, eqToHom_refl,
+        eqToHom_trans, eqToHom_trans_assoc,
+        Category.comp_id, Category.id_comp, Category.assoc] using heqA
   map₂_right_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
@@ -114,7 +124,12 @@ noncomputable def coherentGeneratedQuotientTransportData
     ext A
     have heqA := NatTrans.congr_app heqNat A
     set_option backward.isDefEq.respectTransparency false in
-      convert! heqA using 1 <;> simp
+      simpa only [Cat.Hom.comp_toFunctor, Functor.comp_obj, Cat.Hom.comp_obj,
+        Cat.whiskerLeft_app, Cat.whiskerRight_app,
+        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
+        Functor.map_comp, eqToHom_map, eqToHom_refl,
+        eqToHom_trans, eqToHom_trans_assoc,
+        Category.comp_id, Category.id_comp, Category.assoc] using heqA
 
 /-- The first three v2.65 defects vanish for the exact canonical generated
 pointwise bundle whenever generated evaluation is path-independent. -/
