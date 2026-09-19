@@ -113,7 +113,10 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
   apply Cat.Hom₂.ext
   ext A
   set_option backward.isDefEq.respectTransparency false in
-    simp [freePathEvaluator, Quiv.lift]
+    change
+      (generating2CellEvaluationIso W R D α).hom.toNatTrans.app A ≫ 𝟙 _ =
+        (generating2CellEvaluationIso W R D α).hom.toNatTrans.app A
+  exact Category.comp_id _
 
 /-! ## Quotient associativity route -/
 
