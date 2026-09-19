@@ -147,21 +147,21 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
     ext A
     have heqA := NatTrans.congr_app heqNat A
     have hnat :=
-      (generatedPresentationMapIso W R D g).hom.toNatTrans.naturality
-        ((generatedPresentationMapIso W R D f).hom.toNatTrans.app A)
+      (generatedLocalization2CellEvaluationIso W R D
+        (generatedPresentationRepresentativeCell W g)).hom.toNatTrans.naturality
+        ((generatedLocalization2CellEvaluationIso W R D
+          (generatedPresentationRepresentativeCell W f)).hom.toNatTrans.app A)
+    simp only [freePathEvaluator_map_ordinary] at hnat
     set_option backward.isDefEq.respectTransparency false in
-      simp only [generatedPresentationMapIso,
-        Iso.trans_hom, eqToIso.hom,
-        Cat.Hom.id_toFunctor, Cat.Hom.comp_toFunctor,
+      simp only [Cat.Hom.id_toFunctor, Cat.Hom.comp_toFunctor,
         Functor.id_obj, Functor.id_map, Functor.comp_obj,
         Cat.whiskerLeft_app, Cat.whiskerRight_app,
         Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
         eqToHom_refl, Category.comp_id, Category.id_comp,
-        Category.assoc] at heqA hnat ⊢
+        Category.assoc] at heqA ⊢
     erw [← hnat]
     set_option backward.isDefEq.respectTransparency false in
-      simpa only [generatedPresentationMapIso,
-        generating2CellEvaluationIso,
+      simpa only [generating2CellEvaluationIso,
         generatedLocalization2CellEvaluationIso_whiskerLeft_hom,
         Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
         whiskerLeftIso_hom,
