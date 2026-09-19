@@ -21,11 +21,6 @@ SOURCE_STEP = "Run changed Lean fast check"
 CANONICAL_BASE = "formal/real-hilbert-uniform-coercive-strong-limit"
 DESTINATION_REPOSITORY = "itakura-hidetoshi/KuuOS"
 SENDER_VERSION = "mgap4d_kuuos_ci_completion_sender_v0_1"
-LOCAL_SENDER_VERSION = "kuuos_pr_governance_gate_completion_sender_v0_1"
-LOCAL_SOURCE_REPOSITORY = "itakura-hidetoshi/KuuOS"
-LOCAL_SOURCE_WORKFLOW = "KuuOS PR Governance Gate"
-LOCAL_SOURCE_JOB = "Governance gate and audit summary"
-LOCAL_CANONICAL_BASE = "main"
 V11_VERIFIED = "KUUOS_GITHUB_CI_COMPLETION_REENTRY_VERIFIED"
 
 _SHA40 = re.compile(r"^[0-9a-f]{40}$")
@@ -103,17 +98,14 @@ def compile_inbox(raw_event: Mapping[str, Any]) -> dict[str, Any]:
     payload = _m(raw_event.get("client_payload"))
     blockers: list[str] = []
 
-    version = str(payload.get("version", ""))
-    source_kind = ""
-    if version == SENDER_VERSION:
-        source_kind = "mgap4d"
-    elif version == LOCAL_SENDER_VERSION:
-        source_kind = "kuuos_pr_governance_gate"
-    else:
-        blockers.append("sender_version_mismatch")
-
     if str(raw_event.get("action", "")) not in {"", "completed"}:
         blockers.append("repository_dispatch_action_invalid")
+    if str(payload.get("version", "")) != SENDER_VERSION:
+        blockers.append("sender_version_mismatch")
+    if str(payload.get("repository", "")) != SOURCE_REPOSITORY:
+        blockers.append("source_repository_mismatch")
+    if str(payload.get("workflow_name", "")) != SOURCE_WORKFLOW:
+        blockers.append("source_workflow_mismatch")
     if str(payload.get("run_event", "")) != "pull_request":
         blockers.append("source_run_event_not_pull_request")
     if str(payload.get("status", "")) != "completed":
@@ -125,48 +117,24 @@ def compile_inbox(raw_event: Mapping[str, Any]) -> dict[str, Any]:
     head_sha = str(payload.get("head_sha", "")).lower()
     if _SHA40.fullmatch(head_sha) is None:
         blockers.append("head_sha_invalid")
+    if _i(payload.get("pr_number"), 0) <= 0:
+        blockers.append("pull_request_number_invalid")
+    if str(payload.get("pr_base_branch", "")) != CANONICAL_BASE:
+        blockers.append("canonical_base_mismatch")
     if str(payload.get("destination_repository", "")) != DESTINATION_REPOSITORY:
         blockers.append("destination_repository_mismatch")
+    if _names(payload.get("required_job_names")) != [SOURCE_JOB]:
+        blockers.append("required_job_binding_mismatch")
+    if _names(payload.get("required_step_names")) != [SOURCE_STEP]:
+        blockers.append("required_step_binding_mismatch")
+    if payload.get("source_job_conclusion") not in _TERMINAL_CONCLUSIONS:
+        blockers.append("source_job_conclusion_not_terminal")
+    if payload.get("source_step_conclusion") not in _TERMINAL_CONCLUSIONS:
+        blockers.append("source_step_conclusion_not_terminal")
     if payload.get("event_is_wakeup_signal_only") is not True:
         blockers.append("event_signal_boundary_missing")
     if payload.get("fresh_mcp_reobservation_required") is not True:
         blockers.append("fresh_mcp_reobservation_boundary_missing")
-
-    required_jobs = _names(payload.get("required_job_names"))
-    required_steps = _names(payload.get("required_step_names"))
-
-    if source_kind == "mgap4d":
-        if str(payload.get("repository", "")) != SOURCE_REPOSITORY:
-            blockers.append("source_repository_mismatch")
-        if str(payload.get("workflow_name", "")) != SOURCE_WORKFLOW:
-            blockers.append("source_workflow_mismatch")
-        if _i(payload.get("pr_number"), 0) <= 0:
-            blockers.append("pull_request_number_invalid")
-        if str(payload.get("pr_base_branch", "")) != CANONICAL_BASE:
-            blockers.append("canonical_base_mismatch")
-        if required_jobs != [SOURCE_JOB]:
-            blockers.append("required_job_binding_mismatch")
-        if required_steps != [SOURCE_STEP]:
-            blockers.append("required_step_binding_mismatch")
-        if payload.get("source_job_conclusion") not in _TERMINAL_CONCLUSIONS:
-            blockers.append("source_job_conclusion_not_terminal")
-        if payload.get("source_step_conclusion") not in _TERMINAL_CONCLUSIONS:
-            blockers.append("source_step_conclusion_not_terminal")
-    elif source_kind == "kuuos_pr_governance_gate":
-        if str(payload.get("repository", "")) != LOCAL_SOURCE_REPOSITORY:
-            blockers.append("source_repository_mismatch")
-        if str(payload.get("workflow_name", "")) != LOCAL_SOURCE_WORKFLOW:
-            blockers.append("source_workflow_mismatch")
-        base = str(payload.get("pr_base_branch", ""))
-        if base and base != LOCAL_CANONICAL_BASE:
-            blockers.append("canonical_base_mismatch")
-        if required_jobs != [LOCAL_SOURCE_JOB]:
-            blockers.append("required_job_binding_mismatch")
-        if required_steps:
-            blockers.append("required_step_binding_mismatch")
-        source_job_conclusion = payload.get("source_job_conclusion")
-        if source_job_conclusion is not None and source_job_conclusion not in _TERMINAL_CONCLUSIONS:
-            blockers.append("source_job_conclusion_not_terminal")
 
     identity = _identity(payload)
     issue_key = _identity_key(identity)
@@ -176,14 +144,12 @@ def compile_inbox(raw_event: Mapping[str, Any]) -> dict[str, Any]:
         "issue_key": issue_key,
         "identity": identity,
         "source": {
-            "source_kind": source_kind,
-            "sender_version": version,
             "head_branch": str(payload.get("head_branch", "")),
             "conclusion": payload.get("conclusion"),
             "pr_number": _i(payload.get("pr_number"), 0),
             "pr_base_branch": str(payload.get("pr_base_branch", "")),
-            "required_job_names": required_jobs,
-            "required_step_names": required_steps,
+            "required_job_names": _names(payload.get("required_job_names")),
+            "required_step_names": _names(payload.get("required_step_names")),
             "source_job_conclusion": payload.get("source_job_conclusion"),
             "source_step_conclusion": payload.get("source_step_conclusion"),
             "source_event_digest": str(payload.get("source_event_digest", "")),
@@ -195,8 +161,8 @@ def compile_inbox(raw_event: Mapping[str, Any]) -> dict[str, Any]:
             "run_id": identity["run_id"],
             "expected_workflow_name": identity["workflow_name"],
             "expected_head_sha": identity["head_sha"],
-            "required_job_names": required_jobs,
-            "required_step_names": required_steps,
+            "required_job_names": [SOURCE_JOB],
+            "required_step_names": [SOURCE_STEP],
             "fresh_mcp_reobservation_required": True,
         },
         "boundary": {
@@ -228,6 +194,7 @@ def compile_inbox(raw_event: Mapping[str, Any]) -> dict[str, Any]:
         "issue_spec": issue_spec,
         "blockers": sorted(set(blockers)),
     }
+
 
 def parse_inbox_body(body: str) -> dict[str, Any]:
     try:
@@ -329,41 +296,6 @@ def _fixture_event(*, conclusion: str = "success") -> dict[str, Any]:
     return {"action": "completed", "client_payload": _fixture_payload(conclusion=conclusion)}
 
 
-def _fixture_local_payload(*, conclusion: str = "success", pr_number: int = 1651) -> dict[str, Any]:
-    sha = "c" * 40
-    return {
-        "version": LOCAL_SENDER_VERSION,
-        "repository": LOCAL_SOURCE_REPOSITORY,
-        "run_id": 456,
-        "workflow_name": LOCAL_SOURCE_WORKFLOW,
-        "head_sha": sha,
-        "head_branch": "formal/example",
-        "status": "completed",
-        "conclusion": conclusion,
-        "run_event": "pull_request",
-        "pr_number": pr_number,
-        "pr_base_branch": LOCAL_CANONICAL_BASE,
-        "required_job_names": [LOCAL_SOURCE_JOB],
-        "required_step_names": [],
-        "source_job_conclusion": conclusion,
-        "destination_repository": DESTINATION_REPOSITORY,
-        "source_event_digest": "local-event-digest",
-        "source_jobs_digest": "",
-        "event_is_wakeup_signal_only": True,
-        "fresh_mcp_reobservation_required": True,
-    }
-
-
-def _fixture_local_event(*, conclusion: str = "success", pr_number: int = 1651) -> dict[str, Any]:
-    return {
-        "action": "completed",
-        "client_payload": _fixture_local_payload(
-            conclusion=conclusion,
-            pr_number=pr_number,
-        ),
-    }
-
-
 def _fixture_verification(record: Mapping[str, Any], *, route: str = "verified_success") -> dict[str, Any]:
     identity = _m(record.get("identity"))
     return {
@@ -396,20 +328,6 @@ def self_check() -> None:
     failed = compile_inbox(_fixture_event(conclusion="failure"))
     assert failed["status"] == READY
     assert failed["record"]["source"]["conclusion"] == "failure"
-
-    local_ready = compile_inbox(_fixture_local_event())
-    assert local_ready["status"] == READY
-    assert local_ready["persist_allowed"] is True
-    assert local_ready["record"]["source"]["source_kind"] == "kuuos_pr_governance_gate"
-    assert local_ready["record"]["mcp_reobserve_request"]["required_job_names"] == [LOCAL_SOURCE_JOB]
-
-    local_without_pr_array = compile_inbox(_fixture_local_event(pr_number=0))
-    assert local_without_pr_array["status"] == READY
-    assert local_without_pr_array["persist_allowed"] is True
-
-    local_failed = compile_inbox(_fixture_local_event(conclusion="failure"))
-    assert local_failed["status"] == READY
-    assert local_failed["record"]["source"]["conclusion"] == "failure"
 
     wrong_base_event = _fixture_event()
     wrong_base_event["client_payload"]["pr_base_branch"] = "main"

@@ -1,10 +1,6 @@
 name: KuuOS GitHub CI Durable Reentry Inbox v1.3
 
 on:
-  workflow_run:
-    workflows:
-      - KuuOS PR Governance Gate
-    types: [completed]
   repository_dispatch:
     types: [kuuos_ci_completion_v1_1]
   workflow_dispatch:
@@ -14,7 +10,7 @@ permissions:
   issues: write
 
 concurrency:
-  group: kuuos-ci-durable-reentry-inbox-v13-${{ github.event.workflow_run.id || github.event.client_payload.run_id || github.run_id }}
+  group: kuuos-ci-durable-reentry-inbox-v13-${{ github.event.client_payload.run_id || github.run_id }}
   cancel-in-progress: false
 
 jobs:
@@ -31,7 +27,7 @@ jobs:
           python3 runtime/kuuos_github_ci_durable_reentry_inbox_v1_3.py --self-check
 
       - name: Compile durable inbox record
-        if: github.event_name == 'repository_dispatch' || github.event_name == 'workflow_run' || github.event_name == 'workflow_run'
+        if: github.event_name == 'repository_dispatch'
         run: |
           set -euo pipefail
           mkdir -p .kuuos/github-ci-durable-reentry-inbox-v1-3
@@ -41,36 +37,10 @@ jobs:
           from pathlib import Path
 
           raw = json.loads(Path(os.environ["GITHUB_EVENT_PATH"]).read_text(encoding="utf-8"))
-          if os.environ.get("GITHUB_EVENT_NAME") == "workflow_run":
-              run = raw.get("workflow_run") or {}
-              pulls = run.get("pull_requests") or []
-              pr = pulls[0] if pulls else {}
-              base = pr.get("base") or {}
-              payload = {
-                  "version": "kuuos_pr_governance_gate_completion_sender_v0_1",
-                  "repository": (raw.get("repository") or {}).get("full_name", ""),
-                  "run_id": int(run.get("id") or 0),
-                  "workflow_name": str(run.get("name") or ""),
-                  "head_sha": str(run.get("head_sha") or "").lower(),
-                  "head_branch": str(run.get("head_branch") or ""),
-                  "status": str(run.get("status") or ""),
-                  "conclusion": run.get("conclusion"),
-                  "run_event": str(run.get("event") or ""),
-                  "pr_number": int(pr.get("number") or 0),
-                  "pr_base_branch": str(base.get("ref") or ""),
-                  "required_job_names": ["Governance gate and audit summary"],
-                  "required_step_names": [],
-                  "source_job_conclusion": run.get("conclusion"),
-                  "destination_repository": (raw.get("repository") or {}).get("full_name", ""),
-                  "source_event_digest": "",
-                  "source_jobs_digest": "",
-                  "event_is_wakeup_signal_only": True,
-                  "fresh_mcp_reobservation_required": True,
-              }
-              raw = {"action": "completed", "client_payload": payload}
-          else:
-              # The workflow selector already binds the repository_dispatch event type.
-              raw["action"] = "completed"
+          # The workflow selector already binds the repository_dispatch event type.
+          # Normalize the transport-level action into the completion semantic expected
+          # by the durable inbox compiler; the bounded client_payload remains unchanged.
+          raw["action"] = "completed"
           Path(".kuuos/github-ci-durable-reentry-inbox-v1-3/normalized_event.json").write_text(
               json.dumps(raw, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
               encoding="utf-8",
@@ -81,7 +51,7 @@ jobs:
             --output-dir .kuuos/github-ci-durable-reentry-inbox-v1-3
 
       - name: Persist pending signal as deduplicated GitHub Issue
-        if: github.event_name == 'repository_dispatch' || github.event_name == 'workflow_run'
+        if: github.event_name == 'repository_dispatch'
         env:
           KUUOS_INBOX_TOKEN: ${{ secrets.GITHUB_TOKEN }}
           KUUOS_INBOX_REPOSITORY: ${{ github.repository }}
@@ -162,7 +132,7 @@ jobs:
           PY
 
       - name: Publish durable inbox handoff artifact
-        if: github.event_name == 'repository_dispatch' || github.event_name == 'workflow_run'
+        if: github.event_name == 'repository_dispatch'
         uses: actions/upload-artifact@v6
         with:
           name: kuuos-github-ci-durable-reentry-inbox-${{ github.run_id }}
@@ -171,7 +141,7 @@ jobs:
           retention-days: 7
 
       - name: Publish non-authority summary
-        if: github.event_name == 'repository_dispatch' || github.event_name == 'workflow_run'
+        if: github.event_name == 'repository_dispatch'
         run: |
           set -euo pipefail
           {
