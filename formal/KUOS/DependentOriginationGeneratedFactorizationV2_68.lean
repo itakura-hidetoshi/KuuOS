@@ -129,7 +129,7 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
       CategoryTheory.pseudofunctorOfIsLocallyDiscrete,
       generatedComparisonCompositionRawRoute,
       generatedComparisonCompositionQuotientRoute,
-      generatedCompositionMapIso,
+      generatedPresentationMapIso, generatedCompositionMapIso,
       generatedPointwiseGeneralWChoiceData,
       coherentQuotientTransportDataOfTrivialDefects,
       generatedLocalization2CellEvaluationIso_trans,
@@ -150,7 +150,9 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
       (generatedPresentationMapIso W R D g).hom.toNatTrans.naturality
         ((generatedPresentationMapIso W R D f).hom.toNatTrans.app A)
     set_option backward.isDefEq.respectTransparency false in
-      simp only [Cat.Hom.id_toFunctor, Cat.Hom.comp_toFunctor,
+      simp only [generatedPresentationMapIso,
+        Iso.trans_hom, eqToIso.hom,
+        Cat.Hom.id_toFunctor, Cat.Hom.comp_toFunctor,
         Functor.id_obj, Functor.id_map, Functor.comp_obj,
         Cat.whiskerLeft_app, Cat.whiskerRight_app,
         Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
