@@ -150,14 +150,12 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
       (generatedPresentationMapIso W R D g).hom.toNatTrans.naturality
         ((generatedPresentationMapIso W R D f).hom.toNatTrans.app A)
     set_option backward.isDefEq.respectTransparency false in
-      simp only [Cat.Hom.id_toFunctor, Cat.Hom.id_obj, Cat.Hom.id_map,
-        Cat.Hom.comp_toFunctor, Cat.Hom.comp_obj, Cat.Hom.comp_map,
-        Functor.id_obj, Functor.id_map, Functor.comp_obj, Functor.comp_map,
+      simp only [Cat.Hom.id_toFunctor, Cat.Hom.comp_toFunctor,
+        Functor.id_obj, Functor.id_map, Functor.comp_obj,
         Cat.whiskerLeft_app, Cat.whiskerRight_app,
         Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
-        Functor.map_comp, eqToHom_map, eqToHom_refl,
-        eqToHom_trans, eqToHom_trans_assoc,
-        Category.comp_id, Category.id_comp, Category.assoc] at heqA ⊢
+        eqToHom_refl, Category.comp_id, Category.id_comp,
+        Category.assoc] at heqA hnat ⊢
     rw [← hnat]
     set_option backward.isDefEq.respectTransparency false in
       simpa only [generatedPresentationMapIso,
