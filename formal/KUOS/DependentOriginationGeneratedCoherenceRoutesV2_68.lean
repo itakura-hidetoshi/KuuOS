@@ -29,31 +29,24 @@ variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
 
 /-- Embed one retained localization generator into the fully generated syntax.
-The composition-closure constructor is used with identity whiskers; the path
-category identity laws remove those bookkeeping whiskers. -/
+
+The composition-closure constructor itself has endpoints
+`𝟙 X ≫ p ≫ 𝟙 Y` and `𝟙 X ≫ q ≫ 𝟙 Y`.  We record the two category-law
+equalities explicitly as generated equality cells instead of asking
+`simpa using` to cast the constructor across those endpoint equalities.
+This keeps the generated recursor computationally visible and avoids hidden
+`Eq.mp` transports around the central constructor. -/
 def generatedLocalization2CellOfGenerating
     {X Y : LocalizationPaths W} {p q : X ⟶ Y}
     (α : LocalizationGenerating2Cell W p q) :
     GeneratedLocalization2Cell W p q := by
-  simpa using
+  refine GeneratedLocalization2Cell.trans
+    (generatedLocalization2CellOfEq W (by simp)) ?_
+  refine GeneratedLocalization2Cell.trans
     (GeneratedLocalization2Cell.ofCompClosure
-      (GeneratedCompClosure2Cell.whisker (W := W) (𝟙 X) α (𝟙 Y)))
+      (GeneratedCompClosure2Cell.whisker (W := W) (𝟙 X) α (𝟙 Y))) ?_
+  exact generatedLocalization2CellOfEq W (by simp)
 
-
-/-- Canonical natural isomorphism from the free-path image of an identity
-path to the identity functor.  This is the same transport normal form used by
-Mathlib's Grothendieck construction: first expose `Functor.map_id` at the
-`Cat.Hom` level, then pass to the underlying natural isomorphism. -/
-private noncomputable def freePathEvaluatorIdentityNatIso
-    (R : RawHigherContextualSystem.{u, v, uH, vH}
-      (Context := Context))
-    (D : PointwiseWAdjointEquivalenceData (W := W) R)
-    (X : LocalizationPaths W) :
-    ((freePathEvaluator W R D).map (𝟙 X)).toFunctor ≅
-      𝟭 ((freePathEvaluator W R D).obj X) :=
-  Cat.Hom.toNatIso
-      (eqToIso ((freePathEvaluator W R D).map_id X)) ≪≫
-    eqToIso Cat.Hom.id_toFunctor
 
 /-- Evaluating an embedded retained generator removes the bookkeeping identity
 whiskers introduced by `generatedLocalization2CellOfGenerating`.  Keeping this
@@ -69,18 +62,14 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
     (generatedLocalization2CellEvaluationIso W R D
       (generatedLocalization2CellOfGenerating W α)).hom =
       (generating2CellEvaluationIso W R D α).hom := by
-  let eSource := freePathEvaluatorIdentityNatIso W R D X
-  let eTarget := freePathEvaluatorIdentityNatIso W R D Y
-  let η := (generating2CellEvaluationIso W R D α).hom.toNatTrans
   cases α <;>
     apply Cat.Hom₂.ext <;>
-    ext A
-  all_goals
-    have hη := η.naturality (eSource.hom.app A)
+    ext A <;>
     set_option backward.isDefEq.respectTransparency false in
       simp [generatedLocalization2CellOfGenerating,
         generatedLocalization2CellEvaluationIso,
         generatedCompClosure2CellEvaluationIso,
+        generatedLocalization2CellEvaluationIso_ofEq_hom,
         freePathEvaluationWhiskerLeftIso,
         freePathEvaluationWhiskerRightIso,
         generating2CellEvaluationIso,
@@ -97,13 +86,6 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
         Functor.map_id, Functor.map_comp,
         eqToHom_map, eqToHom_trans, eqToHom_trans_assoc, eqToHom_refl,
         Category.comp_id, Category.id_comp, Category.assoc]
-    rw [← NatIso.naturality_2 eTarget _]
-    set_option backward.isDefEq.respectTransparency false in
-      convert! hη.symm using 1 <;>
-        simp [eSource, eTarget, η, freePathEvaluatorIdentityNatIso,
-          Cat.Hom.id_toFunctor, Cat.Hom.id_obj, Cat.Hom.id_map,
-          Functor.id_obj, Functor.id_map, Functor.map_id,
-          Category.comp_id, Category.id_comp, Category.assoc]
 
 /-! ## Quotient associativity route -/
 
