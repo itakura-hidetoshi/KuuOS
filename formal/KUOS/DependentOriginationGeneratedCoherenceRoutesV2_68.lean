@@ -38,6 +38,33 @@ def generatedLocalization2CellOfGenerating
     (GeneratedLocalization2Cell.ofCompClosure
       (GeneratedCompClosure2Cell.whisker (W := W) (𝟙 X) α (𝟙 Y)))
 
+
+/-- Evaluating an embedded retained generator removes the bookkeeping identity
+whiskers introduced by `generatedLocalization2CellOfGenerating`.  Keeping this
+normalization behind one lemma prevents the recursive generated evaluator from
+being unfolded in later coherence proofs. -/
+@[simp]
+theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
+    (D : PointwiseWAdjointEquivalenceData (W := W) R)
+    {X Y : LocalizationPaths W} {p q : X ⟶ Y}
+    (α : LocalizationGenerating2Cell W p q) :
+    (generatedLocalization2CellEvaluationIso W R D
+      (generatedLocalization2CellOfGenerating W α)).hom =
+      (generating2CellEvaluationIso W R D α).hom := by
+  cases α <;>
+    simp [generatedLocalization2CellOfGenerating,
+      generatedLocalization2CellEvaluationIso,
+      generatedCompClosure2CellEvaluationIso,
+      freePathEvaluationWhiskerLeftIso,
+      freePathEvaluationWhiskerRightIso,
+      generating2CellEvaluationIso,
+      Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
+      whiskerLeftIso_hom, whiskerRightIso_hom,
+      Functor.map_id, Functor.map_comp,
+      Category.comp_id, Category.id_comp, Category.assoc]
+
 /-! ## Quotient associativity route -/
 
 /-- The long generated route underlying the v2.59 associativity law. -/
