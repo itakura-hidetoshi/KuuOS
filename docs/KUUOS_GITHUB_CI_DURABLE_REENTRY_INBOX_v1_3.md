@@ -121,6 +121,8 @@ for each pending issue:
 
 The queue is therefore **event-driven on ingress and demand-driven on consumption**. No periodic CI status scan is required in the normal path.
 
+For same-repository KuuOS pull requests, the PR governance workflow also writes the durable signal directly as its final bounded job, so the current PR does not have to wait for the default-branch `workflow_run` listener to be updated.
+
 ## Acknowledgement rule
 
 `runtime/kuuos_github_ci_durable_reentry_inbox_v1_3.py` provides `compile_ack(...)`.
