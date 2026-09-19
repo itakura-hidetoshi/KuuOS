@@ -51,7 +51,7 @@ A successful workflow routes to `verified_success`. A completed non-success work
 
 ## GitHub Actions ingress
 
-`.github/workflows/kuuos-github-ci-completion-reentry-v1-1.yml` listens to selected KuuOS `workflow_run: completed` events and the cross-repository `repository_dispatch` event `kuuos_ci_completion_v1_1`. It does not add a second pull-request gate; PR validation remains in `pr-governance-gate.yml` and the check registry.
+`.github/workflows/kuuos-github-ci-completion-reentry-v1-1.yml` listens to selected KuuOS `workflow_run: completed` events, including the active `KuuOS PR Governance Gate` and the cross-repository `repository_dispatch` event `kuuos_ci_completion_v1_1`. It does not add a second pull-request gate; PR validation remains in `pr-governance-gate.yml` and the check registry.
 
 The retained workflow publishes a bounded handoff artifact containing the event packet and MCP re-observation request.
 

@@ -4,7 +4,7 @@
 
 v1.3 removes the normal-path dependency on conversational lifetime and on scheduled CI polling.
 
-The existing source-side sender already emits a bounded `repository_dispatch` event when `itakura-hidetoshi/4d-mass-gap` finishes `PR Lean Fast Check`. The missing piece was durable storage between that event and a later MCP client activation.
+The existing source-side sender emits a bounded `repository_dispatch` event when `itakura-hidetoshi/4d-mass-gap` finishes `PR Lean Fast Check`. The KuuOS PR governance workflow now also emits the same durable inbox shape for its own terminal run. The missing piece was durable storage between those completion signals and a later MCP client activation.
 
 v1.3 fills that gap:
 
@@ -20,7 +20,7 @@ v1.3 fills that gap:
 → fresh GitHub MCP re-observation of exact run / job / step / head SHA
 → v1.1 verification
 → v1.3 acknowledgement compiler
-→ comment receipt + close Issue
+→ close Issue after verified acknowledgement (no PR comment is required)
 ```
 
 The durable Issue is not CI truth. It is not success evidence. It grants no merge authority and no write authority.
@@ -54,7 +54,7 @@ The workflow searches for the exact deterministic title before creation. Duplica
 
 ## Accepted source
 
-The v1.3 compiler is intentionally narrow. It accepts only the sender contract already deployed for the mass-gap formalization path:
+The v1.3 compiler remains fail-closed but accepts two explicit sender contracts: the mass-gap formalization sender and the same-repository KuuOS PR governance gate.
 
 ```text
 source repository  = itakura-hidetoshi/4d-mass-gap
@@ -67,6 +67,22 @@ required step      = Run changed Lean fast check
 destination        = itakura-hidetoshi/KuuOS
 sender version     = mgap4d_kuuos_ci_completion_sender_v0_1
 ```
+
+The KuuOS-local contract is:
+
+```text
+source repository  = itakura-hidetoshi/KuuOS
+workflow           = KuuOS PR Governance Gate
+source event       = pull_request
+status             = completed
+canonical base     = main when present
+required job       = Governance gate and audit summary
+required steps     = none
+destination        = itakura-hidetoshi/KuuOS
+sender version     = kuuos_pr_governance_gate_completion_sender_v0_1
+```
+
+For the same-repository path, a missing PR number/base in GitHub's `workflow_run.pull_requests` array does not discard the signal: exact repository + run ID + workflow + head SHA remains the durable identity, and fresh MCP re-observation remains mandatory.
 
 Both success and terminal non-success conclusions are persisted. Failure is a valid wake-up event for repair/triage; it is never promoted to success.
 
@@ -98,7 +114,6 @@ for each pending issue:
   verify v1.1 exact identity + completed required job + completed required step
   compile v1.3 ack
   if ack ready:
-      add acknowledgement comment
       close issue
   else:
       leave issue open
