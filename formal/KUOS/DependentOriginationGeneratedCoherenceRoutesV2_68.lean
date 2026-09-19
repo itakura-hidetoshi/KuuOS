@@ -110,10 +110,10 @@ theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
       generatedCompClosure2CellEvaluationIso,
       freePathEvaluationWhiskerLeftIso,
       freePathEvaluationWhiskerRightIso]
-  rw [freePathEvaluator_map_id_defeq W R D X,
-    freePathEvaluator_map_id_defeq W R D Y,
-    Category.comp_id q]
-  simp
+  apply Cat.Hom₂.ext
+  ext A
+  set_option backward.isDefEq.respectTransparency false in
+    simp [freePathEvaluator_map_id_defeq]
 
 /-! ## Quotient associativity route -/
 
