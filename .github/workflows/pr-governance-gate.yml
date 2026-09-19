@@ -69,8 +69,7 @@ jobs:
                   --jq '[.jobs[]
                     | select(.name != "Select impacted audit checks")
                     | select(.name != "Strict Lean formal validation")
-                    | select(.name != "Governance gate and audit summary")
-                    | select(.name != "Persist CI completion signal")] | length'
+                    | select(.name != "Governance gate and audit summary")] | length'
               )"
               nonlean_bad_count="$(
                 gh api -X GET "repos/${REPOSITORY}/actions/runs/${run_id}/jobs" \
@@ -79,7 +78,6 @@ jobs:
                     | select(.name != "Select impacted audit checks")
                     | select(.name != "Strict Lean formal validation")
                     | select(.name != "Governance gate and audit summary")
-                    | select(.name != "Persist CI completion signal")
                     | select(.conclusion != "success" and .conclusion != "skipped")] | length'
               )"
               [[ "${nonlean_count}" -gt 0 && "${nonlean_bad_count}" == "0" ]] || continue
@@ -329,134 +327,3 @@ jobs:
           path: artifacts/summary/
           if-no-files-found: warn
           retention-days: 30
-
-
-  completion-signal:
-    name: Persist CI completion signal
-    needs:
-      - governance-gate
-    if: >-
-      always() &&
-      github.event_name == 'pull_request' &&
-      github.event.pull_request.head.repo.full_name == github.repository
-    runs-on: ubuntu-24.04
-    permissions:
-      contents: read
-      issues: write
-    steps:
-      - name: Check out repository
-        uses: actions/checkout@v6
-
-      - name: Compile durable terminal signal
-        continue-on-error: true
-        env:
-          GATE_RESULT: ${{ needs.governance-gate.result }}
-          REPOSITORY: ${{ github.repository }}
-          RUN_ID: ${{ github.run_id }}
-          PR_NUMBER: ${{ github.event.pull_request.number }}
-          PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
-          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
-          PR_BASE_REF: ${{ github.event.pull_request.base.ref }}
-        run: |
-          set -euo pipefail
-          mkdir -p .kuuos/github-ci-durable-reentry-inbox-v1-3
-          python3 - <<'PY'
-          import json
-          import os
-          from pathlib import Path
-
-          terminal = {
-              "success", "failure", "cancelled", "timed_out", "neutral",
-              "skipped", "stale", "action_required", "startup_failure",
-          }
-          conclusion = os.environ.get("GATE_RESULT", "failure")
-          if conclusion not in terminal:
-              conclusion = "failure"
-          payload = {
-              "version": "kuuos_pr_governance_gate_completion_sender_v0_1",
-              "repository": os.environ["REPOSITORY"],
-              "run_id": int(os.environ["RUN_ID"]),
-              "workflow_name": "KuuOS PR Governance Gate",
-              "head_sha": os.environ["PR_HEAD_SHA"].lower(),
-              "head_branch": os.environ["PR_HEAD_REF"],
-              "status": "completed",
-              "conclusion": conclusion,
-              "run_event": "pull_request",
-              "pr_number": int(os.environ["PR_NUMBER"]),
-              "pr_base_branch": os.environ["PR_BASE_REF"],
-              "required_job_names": ["Governance gate and audit summary"],
-              "required_step_names": [],
-              "source_job_conclusion": conclusion,
-              "destination_repository": os.environ["REPOSITORY"],
-              "source_event_digest": "",
-              "source_jobs_digest": "",
-              "event_is_wakeup_signal_only": True,
-              "fresh_mcp_reobservation_required": True,
-          }
-          raw = {"action": "completed", "client_payload": payload}
-          Path(".kuuos/github-ci-durable-reentry-inbox-v1-3/normalized_event.json").write_text(
-              json.dumps(raw, ensure_ascii=False, indent=2, sort_keys=True) + "\n",
-              encoding="utf-8",
-          )
-          PY
-          python3 runtime/kuuos_github_ci_durable_reentry_inbox_v1_3.py             --event .kuuos/github-ci-durable-reentry-inbox-v1-3/normalized_event.json             --output-dir .kuuos/github-ci-durable-reentry-inbox-v1-3
-
-      - name: Persist pending signal as deduplicated GitHub Issue
-        if: always()
-        continue-on-error: true
-        env:
-          KUUOS_INBOX_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-          KUUOS_INBOX_REPOSITORY: ${{ github.repository }}
-        run: |
-          set -euo pipefail
-          spec_path=".kuuos/github-ci-durable-reentry-inbox-v1-3/ci_reentry_issue_spec.json"
-          [[ -f "${spec_path}" ]] || exit 0
-          python3 - <<'PY'
-          import json
-          import os
-          import urllib.parse
-          import urllib.request
-          from pathlib import Path
-
-          spec = json.loads(
-              Path(".kuuos/github-ci-durable-reentry-inbox-v1-3/ci_reentry_issue_spec.json")
-              .read_text(encoding="utf-8")
-          )
-          token = os.environ["KUUOS_INBOX_TOKEN"]
-          repository = os.environ["KUUOS_INBOX_REPOSITORY"]
-          owner, repo = repository.split("/", 1)
-          headers = {
-              "Accept": "application/vnd.github+json",
-              "Authorization": f"Bearer {token}",
-              "X-GitHub-Api-Version": "2022-11-28",
-              "User-Agent": "KuuOS-PR-Governance-Terminal-Signal-v0.1",
-          }
-          query = urllib.parse.urlencode({"q": spec["dedupe_query"], "per_page": 100})
-          req = urllib.request.Request(
-              f"https://api.github.com/search/issues?{query}", headers=headers
-          )
-          with urllib.request.urlopen(req, timeout=30) as response:
-              search = json.load(response)
-          exact = [item for item in search.get("items", []) if item.get("title") == spec["title"]]
-          if exact:
-              issue = exact[0]
-              created = False
-          else:
-              body = json.dumps(
-                  {"title": spec["title"], "body": spec["body"]},
-                  ensure_ascii=False,
-              ).encode("utf-8")
-              req = urllib.request.Request(
-                  f"https://api.github.com/repos/{owner}/{repo}/issues",
-                  data=body,
-                  headers={**headers, "Content-Type": "application/json"},
-                  method="POST",
-              )
-              with urllib.request.urlopen(req, timeout=30) as response:
-                  issue = json.load(response)
-              created = True
-          print(
-              "KUUOS_CI_TERMINAL_SIGNAL "
-              f"issue={issue.get('number')} created={created} run_id=${{ github.run_id }}"
-          )
-          PY
