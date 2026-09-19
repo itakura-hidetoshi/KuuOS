@@ -151,17 +151,27 @@ noncomputable def counterSystem :
       intro X Y Z T f g h
       rcases adjacent_eq_of_three_composable f g h with hXY | hYZ | hZT
       · subst Y
-        simp [counterMapComp, scalarCompIso] <;> bicategory
+        simp [counterMapComp, scalarCompIso]
+        bicategory_nf
+        simp
       · subst Z
-        simp [counterMapComp, scalarCompIso] <;> bicategory
+        simp [counterMapComp, scalarCompIso]
+        bicategory_nf
+        simp
       · subst T
-        simp [counterMapComp, scalarCompIso] <;> bicategory)
+        simp [counterMapComp, scalarCompIso]
+        bicategory_nf
+        simp)
     (by
       intro X Y f
-      simp [counterMapComp, scalarCompIso] <;> bicategory)
+      simp [counterMapComp, scalarCompIso]
+      bicategory_nf
+      simp)
     (by
       intro X Y f
-      simp [counterMapComp, scalarCompIso] <;> bicategory)
+      simp [counterMapComp, scalarCompIso]
+      bicategory_nf
+      simp)
 
 /-- Every mapped source arrow is definitionally the identity functor. -/
 @[simp] theorem counterSystem_map_toFunctor
