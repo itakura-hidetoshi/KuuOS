@@ -8,13 +8,16 @@ def twoSectorData : SectorOrderData (Fin 2 → Nat) 2 where
     intro i m n x hmn hgood
     exact hmn.trans hgood
 
+def bumpSector (i : Fin 2) (x : Fin 2 → Nat) : Fin 2 → Nat :=
+  fun j => if j = i then x j + 1 else x j
+
 def twoSectorStep
     (i : Fin 2) (x y : Fin 2 → Nat) : Prop :=
-  y = Function.update x i (x i + 1)
+  y = bumpSector i x
 
 def twoSectorCorrector :
     OrderedSectorCorrector twoSectorData (fun _ => True) twoSectorStep 1 where
-  correct := fun i x => Function.update x i (x i + 1)
+  correct := bumpSector
   step := by
     intro i x
     rfl
@@ -23,11 +26,15 @@ def twoSectorCorrector :
     trivial
   gain := by
     intro i x n hxinv hgood
-    simp [twoSectorData]
+    change n ≤ x i at hgood
+    change n + 1 ≤ bumpSector i x i
+    simp [bumpSector]
     omega
   preserve_other := by
     intro i j m x hji hgood
-    simpa [twoSectorData, Function.update, hji] using hgood
+    change m ≤ x j at hgood
+    change m ≤ bumpSector i x j
+    simpa [bumpSector, hji] using hgood
 
 def schedule01 : List (Fin 2) := [0, 1]
 
