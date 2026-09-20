@@ -14,7 +14,7 @@ This roadmap is organized around theorem authority and mathematical exit criteri
 canonical branch:
   main
 
-current main:
+main observed before this docs-only refresh:
   c9df819bfecad44888ce5d260055152da4ace9c3
 
 latest theorem layer integrated into main:
@@ -48,7 +48,7 @@ current exact head:
 current layer:
   v2.95
 
-compare against main:
+v2.95 checkpoint compare against the pre-docs main above:
   behind = 0
   ahead  = 514
 
