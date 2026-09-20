@@ -113,7 +113,9 @@ def toSemanticRepresentative
   mapParam := fun p x => C.effect x p
   admissible_map := by
     intro x p hp
-    change C.CorrectableAt x (C.effect x p)
+    dsimp [semanticRepresentative,
+      functionalProfileCorrectionRealization,
+      CorrectionReachabilityProfile]
     exact ⟨p, hp, rfl⟩
   effect_map := by
     intro x p
