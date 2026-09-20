@@ -324,7 +324,59 @@ theorem runFullCycle_order
 
 - [ ] **Step 3: Truth-test two sectors**
 
-Use State = Nat × Nat. Sector 0 is certified by the first coordinate, sector 1 by the second. Schedule [0,1]. Each selected correction increments only its active coordinate. Prove both sectors have order 1 at the end. This specifically catches regression of an earlier sector.
+Create /tmp/OrderedSectorCorrectionV275Probe.lean:
+
+~~~lean
+import KUOS.DependentOriginationOrderedSectorCorrectionV2_75
+
+namespace KUOS.DependentOriginationOrderedSectorCorrectionV2_75
+
+def twoSectorData : SectorOrderData (Fin 2 → Nat) 2 where
+  good := fun i n x => n ≤ x i
+  weaken := by
+    intro i m n x hmn hgood
+    exact hmn.trans hgood
+
+def twoSectorStep
+    (i : Fin 2) (x y : Fin 2 → Nat) : Prop :=
+  y = Function.update x i (x i + 1)
+
+def twoSectorCorrector :
+    OrderedSectorCorrector twoSectorData (fun _ => True) twoSectorStep 1 where
+  correct := fun i x => Function.update x i (x i + 1)
+  step := by
+    intro i x
+    rfl
+  invariant := by
+    intro i x hx
+    trivial
+  gain := by
+    intro i x n hxinv hgood
+    simp [Function.update]
+    omega
+  preserve_other := by
+    intro i j m x hji hgood
+    simpa [Function.update, hji] using hgood
+
+def schedule01 : List (Fin 2) := [0, 1]
+
+def zeroState : Fin 2 → Nat := fun _ => 0
+
+example :
+    ∀ i, twoSectorData.good i 1
+      (twoSectorCorrector.runSchedule schedule01 zeroState) := by
+  apply twoSectorCorrector.runFullCycle_order schedule01
+  · decide
+  · trivial
+  · intro i
+    fin_cases i <;> simp [schedule01]
+  · intro i
+    simp [twoSectorData, zeroState]
+
+end KUOS.DependentOriginationOrderedSectorCorrectionV2_75
+~~~
+
+This specifically fails if correcting sector 1 can erase sector 0's already-raised order.
 
 - [ ] **Step 4: Strict compile, probe, commit, exact-head validate**
 
@@ -423,7 +475,41 @@ end KUOS.DependentOriginationBoundedLossFiltrationV2_76
 
 - [ ] **Step 2: Probe arbitrary finite iteration and a nonzero loss**
 
-Verify flatness survives one unary operation, one binary operation, and k unary iterations. Every proof must request the source at n + loss.
+Create /tmp/BoundedLossFiltrationV276Probe.lean:
+
+~~~lean
+import KUOS.DependentOriginationBoundedLossFiltrationV2_76
+
+namespace KUOS.DependentOriginationBoundedLossFiltrationV2_76
+
+open KUOS.DependentOriginationFilteredObstructionCoreV2_70
+open KUOS.DependentOriginationFilteredObstructionCoreV2_70.ObstructionFiltration
+
+universe u
+
+variable {D : Type u} {F : ObstructionFiltration D}
+
+example
+    (O : LossyUnaryOperation F)
+    {d : D} (hd : F.Flat d) :
+    F.Flat (O.op d) :=
+  O.flat_map hd
+
+example
+    (O : LossyUnaryOperation F)
+    {d : D} (hd : F.Flat d)
+    (k : Nat) :
+    F.Flat ((O.op^[k]) d) :=
+  O.flat_iterate hd k
+
+example
+    (O : LossyBinaryOperation F)
+    {a b : D} (ha : F.Flat a) (hb : F.Flat b) :
+    F.Flat (O.op a b) :=
+  O.flat_map ha hb
+
+end KUOS.DependentOriginationBoundedLossFiltrationV2_76
+~~~
 
 - [ ] **Step 3: Strict compile, scan, commit**
 
@@ -521,7 +607,42 @@ end KUOS.DependentOriginationCofinalCorrectionV2_77
 
 - [ ] **Step 2: Truth-test non-monotone cofinal semantics**
 
-Use a schedule with arbitrarily high even-index values and repeated return to zero at odd indices. Prove CofinalOrderSchedule. Do not add an eventual-order theorem.
+Create /tmp/CofinalCorrectionV277Probe.lean:
+
+~~~lean
+import KUOS.DependentOriginationCofinalCorrectionV2_77
+
+namespace KUOS.DependentOriginationCofinalCorrectionV2_77
+
+def nonMonotoneSchedule (j : Nat) : Nat :=
+  if j = 0 then 1 else if j = 1 then 0 else j
+
+example : CofinalOrderSchedule nonMonotoneSchedule := by
+  intro N
+  refine ⟨N + 2, ?_⟩
+  simp [nonMonotoneSchedule]
+  omega
+
+example : ¬ Monotone nonMonotoneSchedule := by
+  intro h
+  have h01 := h (show 0 ≤ 1 by omega)
+  norm_num [nonMonotoneSchedule] at h01
+
+example (loss N : Nat) :
+    ∃ j, N + loss ≤ nonMonotoneSchedule j :=
+  cofinalOrderSchedule_add_loss
+    (g := nonMonotoneSchedule)
+    (by
+      intro k
+      refine ⟨k + 2, ?_⟩
+      simp [nonMonotoneSchedule]
+      omega)
+    loss N
+
+end KUOS.DependentOriginationCofinalCorrectionV2_77
+~~~
+
+This pins the intended semantics: cofinal means arbitrarily large reachable order, not Monotone and not eventual domination.
 
 - [ ] **Step 3: Strict compile, commit, exact-head validate**
 
@@ -649,7 +770,39 @@ end KUOS.DependentOriginationResidualStabilityV2_78
 
 - [ ] **Step 3: Probe the authority separation**
 
-The probe assumes T, Approx, and L. It must be unable to state a generic flatness result from L alone; the successful theorem invocation must additionally take S : ResidualStabilityTransfer T Approx L.
+Create /tmp/TowerRealizationV278Probe.lean:
+
+~~~lean
+import KUOS.DependentOriginationResidualStabilityV2_78
+
+namespace KUOS.DependentOriginationResidualStabilityV2_78
+
+open KUOS.DependentOriginationFilteredObstructionCoreV2_70
+open KUOS.DependentOriginationCorrectionGainV2_71
+open KUOS.DependentOriginationCofinalCorrectionV2_77
+open KUOS.DependentOriginationTowerRealizationV2_78
+
+universe u v
+
+variable
+    {State : Type u} {D : Type v}
+    {F : ObstructionFiltration D}
+    {P : ResidualProblem State D}
+    {Step : State → State → Prop}
+    {g : Nat → Nat}
+    (T : CofinalCorrectionTower F P Step g)
+    (Approx : Nat → State → State → Prop)
+    (L : TowerRealization T Approx)
+
+example
+    (S : ResidualStabilityTransfer T Approx L) :
+    F.Flat (P.residual L.limitState) :=
+  (realized_invariant_and_flat F P T Approx L S).2
+
+end KUOS.DependentOriginationResidualStabilityV2_78
+~~~
+
+The successful invocation contains S explicitly. Do not add a theorem with the same conclusion from T, Approx, and L alone.
 
 - [ ] **Step 4: Strict compile, commit both files**
 
@@ -750,7 +903,31 @@ end KUOS.DependentOriginationRelativeCorrectionV2_79
 
 - [ ] **Step 2: Probe conditional exterior preservation**
 
-Use two regions, one active and one exterior. The successful proof must require RelativeStep; bare Step must not suffice.
+Create /tmp/RelativeCorrectionV279Probe.lean:
+
+~~~lean
+import KUOS.DependentOriginationRelativeCorrectionV2_79
+
+namespace KUOS.DependentOriginationRelativeCorrectionV2_79
+
+def twoRegionProblem : RelativeCorrectionProblem Nat Bool where
+  active := fun region => region = true
+  exactAt := fun region x => region = false → Even x
+  compatible := fun _ => True
+
+def addTwoStep (x y : Nat) : Prop :=
+  y = x + 2
+
+example {x y : Nat}
+    (hx : twoRegionProblem.ExteriorExact x)
+    (hxy : RelativeStep twoRegionProblem addTwoStep x y) :
+    twoRegionProblem.ExteriorExact y :=
+  exteriorExact_of_relativeStep twoRegionProblem addTwoStep hx hxy
+
+end KUOS.DependentOriginationRelativeCorrectionV2_79
+~~~
+
+The successful theorem requires RelativeStep; no theorem from bare addTwoStep to exterior exactness is introduced.
 
 - [ ] **Step 3: Strict compile, commit, validate**
 
@@ -827,7 +1004,59 @@ not FilteredGeneratedHolonomyFlat -> GeneratedHolonomyHardObstruction
 
 - [ ] **Step 3: Probe the logical separation**
 
-The probe separately invokes the non-flat theorem from nontriviality + separatedness and the hard-obstruction theorem from explicit uncorrectability. It must contain no theorem connecting those premises.
+Create /tmp/GeneratedHolonomyCorrectabilityV280Probe.lean:
+
+~~~lean
+import KUOS.DependentOriginationGeneratedHolonomyCorrectabilityV2_80
+
+namespace KUOS.DependentOriginationGeneratedHolonomyCorrectabilityV2_80
+
+open CategoryTheory
+open KUOS.DependentOriginationFilteredObstructionCoreV2_70
+open KUOS.DependentOriginationCorrectionRealizationV2_74
+open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
+open KUOS.DependentOriginationPointwiseWAdjointEquivalenceV2_56
+open KUOS.DependentOriginationFreePathEvaluatorV2_57
+open KUOS.DependentOriginationGeneratedLocalizationHolonomyV2_68
+open KUOS.DependentOriginationFilteredGeneratedHolonomyV2_73
+
+universe u v uH vH s q
+
+variable {Context : Type u} [Category.{v} Context]
+
+example
+    (W : MorphismProperty Context)
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
+    (D : PointwiseWAdjointEquivalenceData (W := W) R)
+    {X Y : LocalizationPaths W} {p : X ⟶ Y}
+    (F : ObstructionFiltration
+      ((freePathEvaluator W R D).map p ≅
+        (freePathEvaluator W R D).map p))
+    (gamma : GeneratedLocalizationLoop W p)
+    (hsep : F.SeparatedAt (Iso.refl _))
+    (hne : generatedHolonomy W R D gamma ≠ Iso.refl _) :
+    ¬ FilteredGeneratedHolonomyFlat W R D F gamma :=
+  generatedHolonomy_not_flat_of_ne_of_separatedAt W R D F gamma hsep hne
+
+example
+    (W : MorphismProperty Context)
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
+    (D : PointwiseWAdjointEquivalenceData (W := W) R)
+    {X Y : LocalizationPaths W} {p : X ⟶ Y}
+    {State : Type s} {Param : Type q}
+    (C : CorrectionRealization State Param
+      ((freePathEvaluator W R D).map p ≅
+        (freePathEvaluator W R D).map p))
+    (x : State)
+    (gamma : GeneratedLocalizationLoop W p)
+    (h : ¬ GeneratedHolonomyCorrectable W R D C x gamma) :
+    GeneratedHolonomyHardObstruction W R D C x gamma :=
+  generatedHolonomy_hard_of_uncorrectable W R D C x gamma h
+
+end KUOS.DependentOriginationGeneratedHolonomyCorrectabilityV2_80
+~~~
+
+The first example uses nontriviality plus separatedness only for non-flatness; the second uses explicit uncorrectability only for hardness.
 
 - [ ] **Step 4: Strict compile, scan, commit**
 
@@ -855,16 +1084,24 @@ Base: exact green v2.79 head.
 
 - [ ] **Step 1: Create an axiom-footprint probe**
 
-Print axioms for:
+Create /tmp/ConstructiveDependentOriginationAxiomsV280.lean:
 
-~~~text
-RobustCorrectionData.correctableAt
-OrderedSectorCorrector.runFullCycle_order
-LossyUnaryOperation.flat_map
-CofinalCorrectionTower.exists_stage_orderAtLeast_with_loss
-realized_invariant_and_flat
-exteriorExact_of_relativeStep
-generatedHolonomy_not_flat_of_ne_of_separatedAt
+~~~lean
+import KUOS.DependentOriginationCorrectionRealizationV2_74
+import KUOS.DependentOriginationOrderedSectorCorrectionV2_75
+import KUOS.DependentOriginationBoundedLossFiltrationV2_76
+import KUOS.DependentOriginationCofinalCorrectionV2_77
+import KUOS.DependentOriginationResidualStabilityV2_78
+import KUOS.DependentOriginationRelativeCorrectionV2_79
+import KUOS.DependentOriginationGeneratedHolonomyCorrectabilityV2_80
+
+#print axioms KUOS.DependentOriginationCorrectionRealizationV2_74.RobustCorrectionData.correctableAt
+#print axioms KUOS.DependentOriginationOrderedSectorCorrectionV2_75.OrderedSectorCorrector.runFullCycle_order
+#print axioms KUOS.DependentOriginationBoundedLossFiltrationV2_76.LossyUnaryOperation.flat_map
+#print axioms KUOS.DependentOriginationCofinalCorrectionV2_77.CofinalCorrectionTower.exists_stage_orderAtLeast_with_loss
+#print axioms KUOS.DependentOriginationResidualStabilityV2_78.realized_invariant_and_flat
+#print axioms KUOS.DependentOriginationRelativeCorrectionV2_79.exteriorExact_of_relativeStep
+#print axioms KUOS.DependentOriginationGeneratedHolonomyCorrectabilityV2_80.generatedHolonomy_not_flat_of_ne_of_separatedAt
 ~~~
 
 Unexpected project-specific axioms are blockers.
