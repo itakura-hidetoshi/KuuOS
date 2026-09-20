@@ -452,11 +452,12 @@ jobs:
               "state": os.environ["STATUS_STATE"],
               "target_url": os.environ["RUN_URL"],
               "description": (
-                  "wake-up receipt only; "
+                  "exact-head terminal; "
+                  f"{os.environ['HEAD_SHA'][:12]} "
                   f"run {os.environ['RUN_ID']} attempt {os.environ['RUN_ATTEMPT']}: "
                   f"{os.environ['SOURCE_RESULT']}"
               )[:140],
-              "context": "chatgpt-ci-receipt/KuuOS PR Governance Gate",
+              "context": "chatgpt-ci-receipt/KuuOS exact-head terminal",
           }
           pathlib.Path(sys.argv[1]).write_text(
               json.dumps(body, separators=(",", ":")) + "\n",
