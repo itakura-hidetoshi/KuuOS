@@ -56,12 +56,12 @@ theorem flat_iterate
     (O : LossyUnaryOperation F) {d : D}
     (hd : F.Flat d) (k : ℕ) :
     F.Flat ((O.op^[k]) d) := by
-  induction k with
+  induction k generalizing d with
   | zero =>
       simpa using hd
   | succ k ih =>
       rw [Function.iterate_succ_apply]
-      exact O.flat_map ih
+      exact ih (O.flat_map hd)
 
 end LossyUnaryOperation
 
