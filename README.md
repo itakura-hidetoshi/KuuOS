@@ -21,7 +21,7 @@ KuuOS connects philosophy, mathematics, formal proof, and AI systems engineering
 canonical branch:
   main
 
-current main:
+main observed before this docs-only refresh:
   c9df819bfecad44888ce5d260055152da4ace9c3
 
 latest theorem layer integrated into main:
@@ -56,7 +56,7 @@ branch:
 current exact theorem head:
   2ef1a04733eab445848381bffe72eccff5d5f2b3
 
-fresh compare against main:
+v2.95 checkpoint compare against the pre-docs main above:
   behind = 0
   ahead  = 514
 
