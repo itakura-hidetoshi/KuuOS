@@ -9,7 +9,6 @@ example : CofinalOrderSchedule nonMonotoneSchedule := by
   intro N
   refine ⟨N + 2, ?_⟩
   simp [nonMonotoneSchedule]
-  omega
 
 example : ¬ Monotone nonMonotoneSchedule := by
   intro h
@@ -23,8 +22,7 @@ example (loss N : Nat) :
     (by
       intro k
       refine ⟨k + 2, ?_⟩
-      simp [nonMonotoneSchedule]
-      omega)
+      simp [nonMonotoneSchedule])
     loss N
 
 end KUOS.DependentOriginationCofinalCorrectionV2_77
