@@ -346,6 +346,10 @@ jobs:
             --data-binary "@${payload}" \
             "${GITHUB_API_URL}/repos/${REPOSITORY}/statuses/${HEAD_SHA}"
 
+          if [[ "${STATUS_STATE}" != "success" ]]; then
+            exit 1
+          fi
+
   governance-gate:
     name: Governance gate and audit summary
     needs:
@@ -468,3 +472,7 @@ jobs:
             --header "Content-Type: application/json" \
             --data-binary "@${payload}" \
             "${GITHUB_API_URL}/repos/${REPOSITORY}/statuses/${HEAD_SHA}"
+
+          if [[ "${STATUS_STATE}" != "success" ]]; then
+            exit 1
+          fi
