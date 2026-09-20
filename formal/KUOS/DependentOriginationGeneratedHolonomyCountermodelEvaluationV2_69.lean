@@ -65,6 +65,7 @@ theorem chosenInverse_map_eq
   have hnat := (D.chosen w hw).counitIso.hom.naturality x
   simp only [Functor.comp_map, Functor.id_map] at hnat
   rw [chosenForward_map_eq D w hw ((D.chosen w hw).inverse.map x)] at hnat
+  simp only [SingleObj.comp_as_mul] at hnat
   change c * y = (x : C2) * c at hnat
   rw [mul_comm (x : C2) c] at hnat
   exact mul_left_cancel hnat
@@ -190,7 +191,6 @@ theorem counterEvaluationScalar_whiskerLeft
   have hZ := counterFreePathEvaluator_obj D Z
   cases hY
   cases hZ
-  simp only [singleObj_eqToHom_eq_one, SingleObj.comp_as_mul, one_mul, mul_one]
   exact congrArg
     (fun T : CounterFiber =>
       (generatedLocalization2CellEvaluationIso
@@ -217,7 +217,6 @@ theorem counterEvaluationScalar_whiskerRight
   cases hX
   cases hY
   cases hZ
-  simp only [singleObj_eqToHom_eq_one, SingleObj.comp_as_mul, one_mul, mul_one]
   exact counterFreePathEvaluator_map_eq D k _
 
 /-- Component of the concrete compositor at the unique target object. -/
