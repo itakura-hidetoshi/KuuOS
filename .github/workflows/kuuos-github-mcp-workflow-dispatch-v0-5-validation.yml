@@ -93,14 +93,18 @@ jobs:
             examples/kuuos_github_mcp_workflow_dispatch_v0_5.json
           grep -Fq 'dispatch_nonce' \
             .github/workflows/kuuos-github-mcp-live-canary-v0-4.yml
-          grep -Fq 'types:' \
-            .github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5.yml
-          grep -Fq 'github.event.issue.author_association == '\''OWNER'\''' \
-            .github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5.yml
-          grep -Fq 'request_expected_main_sha_mismatch' \
-            .github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5.yml
-          grep -Fq 'kuuos-github-mcp-live-canary-v0-4.yml' \
-            .github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5.yml
+          if [[ -f .github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5.yml ]]; then
+            grep -Fq 'types:' \
+              .github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5.yml
+            grep -Fq 'github.event.issue.author_association == '\''OWNER'\''' \
+              .github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5.yml
+            grep -Fq 'request_expected_main_sha_mismatch' \
+              .github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5.yml
+            grep -Fq 'kuuos-github-mcp-live-canary-v0-4.yml' \
+              .github/workflows/kuuos-github-mcp-workflow-dispatch-v0-5.yml
+          else
+            echo 'workflow dispatch v0.5 action retired; skipping retired self-file assertions'
+          fi
 
       - name: Upload failure diagnostics
         if: failure()
