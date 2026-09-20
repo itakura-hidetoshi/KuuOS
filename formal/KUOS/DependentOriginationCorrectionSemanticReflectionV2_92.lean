@@ -48,8 +48,9 @@ def semanticRepresentativeHomOfPowerLE
   mapParam := fun f => f
   admissible_map := by
     intro x f hf
-    change C₁.CorrectableAt x (f x) at hf
-    change C₂.CorrectableAt x (f x)
+    dsimp [semanticRepresentative,
+      functionalProfileCorrectionRealization,
+      CorrectionReachabilityProfile] at hf ⊢
     exact hpow x (f x) hf
   effect_map := by
     intro x f
