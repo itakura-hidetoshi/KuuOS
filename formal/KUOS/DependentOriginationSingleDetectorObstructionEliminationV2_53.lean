@@ -5,6 +5,7 @@ namespace KUOS.DependentOriginationSingleDetectorObstructionEliminationV2_53
 
 open CategoryTheory
 open CategoryTheory.Limits
+open scoped CategoryTheory.Pseudofunctor.StrongTrans
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationWeakHigherLocalizationUniversalPropertyV2_18
 open KUOS.DependentOriginationCoherentWeakHigherLocalizationV2_19
@@ -75,14 +76,14 @@ ambient structural hypothesis when the detector is converted to a separator. -/
 def CatHom₂DetectorTargetObject
     {C D : Cat.{vH, uH}} (G : C ⟶ D) : Prop :=
   ∃ S : D, IsDetector S ∧
-    ∀ Z : C, Subsingleton (S ⟶ G.obj Z)
+    ∀ Z : C, Subsingleton (S ⟶ G.toFunctor.obj Z)
 
 /-- Dually, a single codetector receiving unique maps from all source
 components of `F`. -/
 def CatHom₂CodetectorSourceObject
     {C D : Cat.{vH, uH}} (F : C ⟶ D) : Prop :=
   ∃ S : D, IsCodetector S ∧
-    ∀ Z : C, Subsingleton (F.obj Z ⟶ S)
+    ∀ Z : C, Subsingleton (F.toFunctor.obj Z ⟶ S)
 
 /-- In a target category with equalizers, Mathlib upgrades a detector to a
 separator, giving exactly the v2.52 target-object hypothesis. -/
@@ -120,22 +121,19 @@ theorem catHom₂PointwiseSubsingleton_of_codetectorSourceObject
 
 /-- Every raw target fiber has equalizers. -/
 def HigherRawFiberHasEqualizers
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)) : Prop :=
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)) : Prop :=
   ∀ X : Context, HasEqualizers (R.obj (.mk X))
 
 /-- Every raw target fiber has coequalizers. -/
 def HigherRawFiberHasCoequalizers
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)) : Prop :=
+    (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)) : Prop :=
   ∀ X : Context, HasCoequalizers (R.obj (.mk X))
 
 /-- For every raw base arrow, the target Cat 1-morphism in the stored
 naturality square admits a detector with unique probe maps into every target
 component. -/
 def StoredV2_18NaturalityDetectorTargetObject
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=
   ∀ {X Y : Context} (f : X ⟶ Y),
@@ -146,8 +144,7 @@ def StoredV2_18NaturalityDetectorTargetObject
 naturality square admits a codetector receiving unique maps from every source
 component. -/
 def StoredV2_18NaturalityCodetectorSourceObject
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=
   ∀ {X Y : Context} (f : X ⟶ Y),
@@ -159,8 +156,7 @@ def StoredV2_18NaturalityCodetectorSourceObject
 /-- Fiberwise equalizers plus a detector on every stored target side give the
 v2.52 stored singleton-separator rigidity condition. -/
 theorem storedV2_18NaturalitySingleSeparatorRigidity_of_detectorTargetObject
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (hEq : HigherRawFiberHasEqualizers R)
@@ -175,8 +171,7 @@ theorem storedV2_18NaturalitySingleSeparatorRigidity_of_detectorTargetObject
 /-- Fiberwise coequalizers plus stored source codetectors give the dual v2.52
 criterion. -/
 theorem storedV2_18NaturalitySingleSeparatorRigidity_of_codetectorSourceObject
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (hCoeq : HigherRawFiberHasCoequalizers R)
@@ -191,8 +186,7 @@ theorem storedV2_18NaturalitySingleSeparatorRigidity_of_codetectorSourceObject
 /-- Uniform stored target-detector rigidity for every factor into one coherent
 chosen carrier. -/
 def HigherStoredV2_18NaturalityDetectorTargetObject
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -201,8 +195,7 @@ def HigherStoredV2_18NaturalityDetectorTargetObject
 /-- Uniform stored source-codetector rigidity for every factor into the same
 chosen carrier. -/
 def HigherStoredV2_18NaturalityCodetectorSourceObject
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -212,8 +205,7 @@ def HigherStoredV2_18NaturalityCodetectorSourceObject
 fiberwise equalizers together with uniform target detectors, or fiberwise
 coequalizers together with uniform source codetectors. -/
 def HigherStoredV2_18NaturalitySingleDetectorLimitRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   (HigherRawFiberHasEqualizers R ∧
       HigherStoredV2_18NaturalityDetectorTargetObject (W := W) U) ∨
@@ -223,8 +215,7 @@ def HigherStoredV2_18NaturalitySingleDetectorLimitRigidity
 /-- Either detector/limit route gives the uniform v2.52 singleton-separator
 criterion on the same chosen carrier. -/
 theorem higherStoredV2_18NaturalitySingleSeparatorRigidity_of_singleDetectorLimitRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hDetect : HigherStoredV2_18NaturalitySingleDetectorLimitRigidity
       (W := W) U) :
@@ -240,8 +231,7 @@ theorem higherStoredV2_18NaturalitySingleSeparatorRigidity_of_singleDetectorLimi
 /-- The detector/limit route therefore supplies the uniform v2.47 pointwise
 component-hom criterion. -/
 theorem higherStoredV2_18NaturalityComponentHomSubsingleton_of_singleDetectorLimitRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hDetect : HigherStoredV2_18NaturalitySingleDetectorLimitRigidity
       (W := W) U) :
@@ -254,8 +244,7 @@ theorem higherStoredV2_18NaturalityComponentHomSubsingleton_of_singleDetectorLim
 /-- Coherent universal data plus the detector/limit rigidity hypothesis give
 the v2.18 weak universal property on the same chosen carrier. -/
 theorem hasWeakHigherLocalizationUniversalProperty_of_singleDetectorLimitRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hDetect : HigherStoredV2_18NaturalitySingleDetectorLimitRigidity
       (W := W) U) :
@@ -268,8 +257,7 @@ theorem hasWeakHigherLocalizationUniversalProperty_of_singleDetectorLimitRigidit
 /-- The coherent Stage III route obstruction disappears under the same
 single-detector/limit condition. -/
 theorem higherCoherentRouteCompleteness_of_singleDetectorLimitRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hDetect : HigherStoredV2_18NaturalitySingleDetectorLimitRigidity
       (W := W) U) :
@@ -282,8 +270,7 @@ theorem higherCoherentRouteCompleteness_of_singleDetectorLimitRigidity
 /-- Detector/limit rigidity gives the aligned state in the v2.42 local
 classification. -/
 theorem higherWeakCoherentAlignment_of_singleDetectorLimitRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hDetect : HigherStoredV2_18NaturalitySingleDetectorLimitRigidity
       (W := W) U) :
@@ -297,8 +284,7 @@ theorem higherWeakCoherentAlignment_of_singleDetectorLimitRigidity
 fiberwise equalizers, or dually a single codetector plus fiberwise
 coequalizers. -/
 theorem no_twoAxisObstruction_of_singleDetectorLimitRigidity
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hDetect : HigherStoredV2_18NaturalitySingleDetectorLimitRigidity
       (W := W) U) :

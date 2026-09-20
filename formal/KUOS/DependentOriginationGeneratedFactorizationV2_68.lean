@@ -1,5 +1,6 @@
 import KUOS.DependentOriginationGeneratedQuotientCoherenceV2_68
 import Mathlib.Tactic.CategoryTheory.Bicategory.Basic
+import Mathlib.Tactic.Convert
 
 namespace KUOS.DependentOriginationGeneratedFactorizationV2_68
 
@@ -17,6 +18,11 @@ open KUOS.DependentOriginationGeneratedWhiskeringV2_68
 open KUOS.DependentOriginationGeneratedPointwiseChoiceV2_68
 open KUOS.DependentOriginationGeneratedCoherenceRoutesV2_68
 open KUOS.DependentOriginationGeneratedQuotientCoherenceV2_68
+
+attribute [local simp]
+  CategoryTheory.PrelaxFunctor.map₂_eqToHom
+  CategoryTheory.eqToHom_map
+  CategoryTheory.Cat.eqToHom_app
 
 universe u v uH vH
 
@@ -52,12 +58,13 @@ trivial.  That implication remains the decisive post-v2.68 truth test.
 variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
 
-/-- Generated path-independence supplies the exact v2.60 identity-component
-comparison data on the coherent quotient carrier constructed from the first
-three generated defect vanishings. -/
+/-- Generated path-independence supplies the exact v2.60 comparison data on
+the coherent quotient carrier.  The two route equalities are normalized only
+after passing from Cat 2-cells to natural transformations and then components,
+so Lean 4.30 never has to identify the Cat wrapper by definitional equality. -/
 noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hPI : GeneratedEvaluationPathIndependent W R D) :
     let L := generatedPointwiseGeneralWChoiceData W R D
@@ -77,50 +84,98 @@ noncomputable def coherentGeneratedPresentationComparisonDataOfPathIndependent
   · intro X
     have heq := congrArg Iso.hom
       (generatedComparisonIdentityRoutes_evaluation_eq W R D hPI X)
-    simpa [L, hQ, T,
-      identityComponentNaturalityIso,
+    simp [identityComponentNaturalityIso,
+      restrictHigherLocalizedSystem,
+      coherentQuotientLocalizedHigherSystem,
+      quotientLocalizationPseudofunctor,
+      higherPresentationUnitFunctor,
+      CategoryTheory.Pseudofunctor.comp,
+      CategoryTheory.Functor.toPseudofunctor,
+      CategoryTheory.pseudofunctorOfIsLocallyDiscrete,
       generatedComparisonIdentityRawRoute,
       generatedComparisonIdentityQuotientRoute,
       generatedPresentationMapIso, generatedIdentityMapIso,
       generatedPointwiseGeneralWChoiceData,
       coherentQuotientTransportDataOfTrivialDefects,
-      generatedLocalization2CellOfGenerating,
       generatedLocalization2CellEvaluationIso_trans,
-      generatedLocalization2CellEvaluationIso_ofEq,
-      generating2CellEvaluationIso,
-      generatedCompClosure2CellEvaluationIso,
-      generatedLocalization2CellEvaluationIso,
-      Iso.trans_hom, Iso.symm_hom,
-      whiskerLeftIso_hom, whiskerRightIso_hom,
-      Functor.map_id, Functor.map_comp] using heq
+      generatedLocalization2CellEvaluationIso_ofEq_hom,
+      generatedLocalization2CellEvaluationIso_ofGenerating_hom,
+      Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
+      Bicategory.Strict.leftUnitor_eqToIso,
+      Bicategory.Strict.rightUnitor_eqToIso] at heq ⊢
+    have heqNat := congrArg (fun η => η.toNatTrans) heq
+    apply Cat.Hom₂.ext
+    ext A
+    have heqA := NatTrans.congr_app heqNat A
+    set_option backward.isDefEq.respectTransparency false in
+      simpa only [Cat.Hom.id_toFunctor, Cat.Hom.id_obj, Cat.Hom.id_map,
+        Cat.Hom.comp_toFunctor, Cat.Hom.comp_obj, Cat.Hom.comp_map,
+        Functor.id_obj, Functor.id_map, Functor.comp_obj, Functor.comp_map,
+        Cat.whiskerLeft_app, Cat.whiskerRight_app,
+        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
+        Functor.map_comp, eqToHom_map, eqToHom_refl,
+        eqToHom_trans, eqToHom_trans_assoc,
+        Category.comp_id, Category.id_comp, Category.assoc] using heqA
   · intro X Y Z f g
     have heq := congrArg Iso.hom
       (generatedComparisonCompositionRoutes_evaluation_eq W R D hPI f g)
-    simpa [L, hQ, T,
-      identityComponentNaturalityIso,
+    simp [identityComponentNaturalityIso,
+      restrictHigherLocalizedSystem,
+      coherentQuotientLocalizedHigherSystem,
+      quotientLocalizationPseudofunctor,
+      higherPresentationUnitFunctor,
+      CategoryTheory.Pseudofunctor.comp,
+      CategoryTheory.Functor.toPseudofunctor,
+      CategoryTheory.pseudofunctorOfIsLocallyDiscrete,
       generatedComparisonCompositionRawRoute,
       generatedComparisonCompositionQuotientRoute,
       generatedPresentationMapIso, generatedCompositionMapIso,
       generatedPointwiseGeneralWChoiceData,
       coherentQuotientTransportDataOfTrivialDefects,
-      generatedLocalization2CellOfGenerating,
       generatedLocalization2CellEvaluationIso_trans,
-      generatedLocalization2CellEvaluationIso_whiskerLeft,
-      generatedLocalization2CellEvaluationIso_whiskerRight,
-      generatedLocalization2CellEvaluationIso_ofEq,
-      generating2CellEvaluationIso,
-      generatedCompClosure2CellEvaluationIso,
-      generatedLocalization2CellEvaluationIso,
-      Iso.trans_hom, Iso.symm_hom,
-      whiskerLeftIso_hom, whiskerRightIso_hom,
-      Functor.map_id, Functor.map_comp] using heq
+      generatedLocalization2CellEvaluationIso_whiskerRight_hom,
+      generatedLocalization2CellEvaluationIso_ofEq_hom,
+      generatedLocalization2CellEvaluationIso_ofGenerating_hom,
+      Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
+      whiskerRightIso_hom,
+      Bicategory.Strict.leftUnitor_eqToIso,
+      Bicategory.Strict.rightUnitor_eqToIso,
+      Bicategory.Strict.associator_eqToIso,
+      Category.assoc] at heq ⊢
+    have heqNat := congrArg (fun η => η.toNatTrans) heq
+    apply Cat.Hom₂.ext
+    ext A
+    have heqA := NatTrans.congr_app heqNat A
+    have hnat :=
+      (generatedLocalization2CellEvaluationIso W R D
+        (generatedPresentationRepresentativeCell W g)).hom.toNatTrans.naturality
+        ((generatedLocalization2CellEvaluationIso W R D
+          (generatedPresentationRepresentativeCell W f)).hom.toNatTrans.app A)
+    simp only [freePathEvaluator_map_ordinary] at hnat
+    set_option backward.isDefEq.respectTransparency false in
+      simp only [Cat.Hom.id_toFunctor, Cat.Hom.comp_toFunctor,
+        Functor.id_obj, Functor.id_map, Functor.comp_obj,
+        Cat.whiskerLeft_app, Cat.whiskerRight_app,
+        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
+        eqToHom_refl, Category.comp_id, Category.id_comp,
+        Category.assoc] at heqA ⊢
+    erw [← hnat]
+    set_option backward.isDefEq.respectTransparency false in
+      simpa only [generating2CellEvaluationIso,
+        generatedLocalization2CellEvaluationIso_whiskerLeft_hom,
+        Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
+        whiskerLeftIso_hom,
+        Cat.Hom.comp_toFunctor, Cat.Hom.comp_obj, Cat.Hom.comp_map,
+        Cat.whiskerLeft_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
+        Functor.comp_obj, Functor.comp_map, Functor.map_comp,
+        eqToHom_map, eqToHom_refl, eqToHom_trans, eqToHom_trans_assoc,
+        Category.comp_id, Category.id_comp, Category.assoc] using heqA
 
 /-- The two v2.65 StrongTrans comparison defects vanish under generated
-path-independence, after the first three quotient defects have been killed by the
-preceding generated quotient-coherence layer. -/
+path-independence, after the first three quotient defects have been killed. -/
 noncomputable def generatedComparisonDefectsTrivialOfPathIndependent
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hPI : GeneratedEvaluationPathIndependent W R D) :
     let L := generatedPointwiseGeneralWChoiceData W R D
@@ -143,8 +198,8 @@ noncomputable def generatedComparisonDefectsTrivialOfPathIndependent
 /-- All five v2.65 coherence defects vanish for the exact canonical generated
 pointwise bundle under generated evaluation path-independence. -/
 noncomputable def generatedFiveCoherenceDefectsTrivialOfPathIndependent
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hPI : GeneratedEvaluationPathIndependent W R D) :
     FiveCoherenceDefectsTrivial W R D
@@ -155,8 +210,8 @@ noncomputable def generatedFiveCoherenceDefectsTrivialOfPathIndependent
 
 /-- Trivial generated holonomy kills all five coherence defects. -/
 noncomputable def generatedFiveCoherenceDefectsTrivialOfHolonomyTrivial
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (htriv : GeneratedHolonomyTrivial W R D) :
     FiveCoherenceDefectsTrivial W R D
@@ -168,8 +223,8 @@ noncomputable def generatedFiveCoherenceDefectsTrivialOfHolonomyTrivial
 2-holonomy is sufficient for the genuine general-W higher-localization
 factorization. -/
 theorem hasHigherLocalizationFactorization_of_generatedHolonomyTrivial
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (htriv : GeneratedHolonomyTrivial W R D) :
     HasHigherLocalizationFactorization (W := W) R :=
@@ -181,8 +236,8 @@ theorem hasHigherLocalizationFactorization_of_generatedHolonomyTrivial
 provides the v2.56 pointwise adjoint-equivalence data; generated holonomy
 triviality remains an explicit additional hypothesis. -/
 theorem hasHigherLocalizationFactorization_of_admissible_and_generatedHolonomyTrivial
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
     (hR : IsHigherWAdmissible W R)
     (htriv : GeneratedHolonomyTrivial W R
       (pointwiseWAdjointEquivalenceDataOfAdmissible W hR)) :

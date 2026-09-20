@@ -5,6 +5,7 @@ namespace KUOS.DependentOriginationGeneratedCoherenceRoutesV2_68
 open CategoryTheory
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationPointwiseWAdjointEquivalenceV2_56
+open KUOS.DependentOriginationFreePathEvaluatorV2_57
 open KUOS.DependentOriginationGeneratedLocalizationHolonomyV2_68
 open KUOS.DependentOriginationGeneratedWhiskeringV2_68
 open KUOS.DependentOriginationGeneratedPointwiseChoiceV2_68
@@ -28,15 +29,94 @@ variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
 
 /-- Embed one retained localization generator into the fully generated syntax.
-The composition-closure constructor is used with identity whiskers; the path
-category identity laws remove those bookkeeping whiskers. -/
+
+The composition-closure constructor itself has endpoints
+`𝟙 X ≫ p ≫ 𝟙 Y` and `𝟙 X ≫ q ≫ 𝟙 Y`.  We record the two category-law
+equalities explicitly as generated equality cells instead of asking
+`simpa using` to cast the constructor across those endpoint equalities.
+This keeps the generated recursor computationally visible and avoids hidden
+`Eq.mp` transports around the central constructor. -/
 def generatedLocalization2CellOfGenerating
     {X Y : LocalizationPaths W} {p q : X ⟶ Y}
     (α : LocalizationGenerating2Cell W p q) :
     GeneratedLocalization2Cell W p q := by
-  simpa using
-    (GeneratedLocalization2Cell.ofCompClosure
-      (GeneratedCompClosure2Cell.whisker (W := W) (𝟙 X) α (𝟙 Y)))
+  let p' : X ⟶ Y := (𝟙 X) ≫ p ≫ (𝟙 Y)
+  let q' : X ⟶ Y := (𝟙 X) ≫ q ≫ (𝟙 Y)
+  have hp : p = p' := by
+    simp [p']
+  have hq : q' = q := by
+    simp [q']
+  exact
+    GeneratedLocalization2Cell.trans
+      (generatedLocalization2CellOfEq W hp)
+      (GeneratedLocalization2Cell.trans
+        (show GeneratedLocalization2Cell W p' q' from
+          GeneratedLocalization2Cell.ofCompClosure
+            (GeneratedCompClosure2Cell.whisker (W := W) (𝟙 X) α (𝟙 Y)))
+        (generatedLocalization2CellOfEq W hq))
+
+
+/-- For the concrete free-path evaluator, identity paths are mapped to
+identity Cat morphisms by definition of `Quiv.lift`.  Keep this fact at the
+Cat.Hom layer, before projecting to objects or morphisms. -/
+@[simp]
+private theorem freePathEvaluator_map_id_defeq
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
+    (D : PointwiseWAdjointEquivalenceData (W := W) R)
+    (X : LocalizationPaths W) :
+    (freePathEvaluator W R D).map (𝟙 X) =
+      𝟙 ((freePathEvaluator W R D).obj X) := by
+  rfl
+
+/-- Underlying natural isomorphism witnessing that the free-path evaluator
+sends an identity path to the identity functor.
+
+This follows Mathlib's `Grothendieck` normalization pattern: expose
+`Functor.map_id` at the `Cat.Hom` level, convert that isomorphism to a
+natural isomorphism, and compose with `Cat.Hom.id_toFunctor`. -/
+private noncomputable def freePathEvaluatorIdentityNatIso
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
+    (D : PointwiseWAdjointEquivalenceData (W := W) R)
+    (X : LocalizationPaths W) :
+    ((freePathEvaluator W R D).map (𝟙 X)).toFunctor ≅
+      𝟭 ((freePathEvaluator W R D).obj X) :=
+  Cat.Hom.toNatIso
+      (eqToIso ((freePathEvaluator W R D).map_id X)) ≪≫
+    eqToIso Cat.Hom.id_toFunctor
+
+/-- Evaluating an embedded retained generator removes the bookkeeping identity
+whiskers introduced by `generatedLocalization2CellOfGenerating`.  Keeping this
+normalization behind one lemma prevents the recursive generated evaluator from
+being unfolded in later coherence proofs. -/
+@[simp]
+theorem generatedLocalization2CellEvaluationIso_ofGenerating_hom
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
+    (D : PointwiseWAdjointEquivalenceData (W := W) R)
+    {X Y : LocalizationPaths W} {p q : X ⟶ Y}
+    (α : LocalizationGenerating2Cell W p q) :
+    (generatedLocalization2CellEvaluationIso W R D
+      (generatedLocalization2CellOfGenerating W α)).hom =
+      (generating2CellEvaluationIso W R D α).hom := by
+  dsimp [generatedLocalization2CellOfGenerating]
+  rw [generatedLocalization2CellEvaluationIso_trans,
+    generatedLocalization2CellEvaluationIso_trans,
+    generatedLocalization2CellEvaluationIso_ofEq,
+    generatedLocalization2CellEvaluationIso_ofEq]
+  set_option backward.isDefEq.respectTransparency false in
+    simp [generatedLocalization2CellEvaluationIso,
+      generatedCompClosure2CellEvaluationIso,
+      freePathEvaluationWhiskerLeftIso,
+      freePathEvaluationWhiskerRightIso]
+  apply Cat.Hom₂.ext
+  ext A
+  set_option backward.isDefEq.respectTransparency false in
+    change
+      (generating2CellEvaluationIso W R D α).hom.toNatTrans.app A ≫ 𝟙 _ =
+        (generating2CellEvaluationIso W R D α).hom.toNatTrans.app A
+  exact Category.comp_id _
 
 /-! ## Quotient associativity route -/
 
@@ -63,7 +143,7 @@ noncomputable def generatedQuotientAssociatorRoute
     (generatedCompositionRepresentativeCell W f (g ≫ h))
 
 /-- The direct path-equality route between the two parenthesizations. -/
-def generatedQuotientAssociatorDirect
+noncomputable def generatedQuotientAssociatorDirect
     {X Y Z T : W.Localization}
     (f : X ⟶ Y) (g : Y ⟶ Z) (h : Z ⟶ T) :
     GeneratedLocalization2Cell W
@@ -88,7 +168,7 @@ noncomputable def generatedQuotientLeftUnitorRoute
     (Category.id_comp (Quot.out f))
 
 /-- Direct path-equality route for the localized left-unit equality. -/
-def generatedQuotientLeftUnitorDirect
+noncomputable def generatedQuotientLeftUnitorDirect
     {X Y : W.Localization} (f : X ⟶ Y) :
     GeneratedLocalization2Cell W
       (Quot.out ((𝟙 X) ≫ f)) (Quot.out f) :=
@@ -109,7 +189,7 @@ noncomputable def generatedQuotientRightUnitorRoute
     (Category.comp_id (Quot.out f))
 
 /-- Direct path-equality route for the localized right-unit equality. -/
-def generatedQuotientRightUnitorDirect
+noncomputable def generatedQuotientRightUnitorDirect
     {X Y : W.Localization} (f : X ⟶ Y) :
     GeneratedLocalization2Cell W
       (Quot.out (f ≫ 𝟙 Y)) (Quot.out f) :=
@@ -182,8 +262,8 @@ noncomputable def generatedComparisonCompositionQuotientRoute
 /-- Generated path-independence is exactly strong enough to identify the two
 associativity routes. -/
 theorem generatedQuotientAssociatorRoutes_evaluation_eq
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hPI : GeneratedEvaluationPathIndependent W R D)
     {X Y Z T : W.Localization}
@@ -196,8 +276,8 @@ theorem generatedQuotientAssociatorRoutes_evaluation_eq
 
 /-- Generated path-independence identifies the two left-unit routes. -/
 theorem generatedQuotientLeftUnitorRoutes_evaluation_eq
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hPI : GeneratedEvaluationPathIndependent W R D)
     {X Y : W.Localization} (f : X ⟶ Y) :
@@ -209,8 +289,8 @@ theorem generatedQuotientLeftUnitorRoutes_evaluation_eq
 
 /-- Generated path-independence identifies the two right-unit routes. -/
 theorem generatedQuotientRightUnitorRoutes_evaluation_eq
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hPI : GeneratedEvaluationPathIndependent W R D)
     {X Y : W.Localization} (f : X ⟶ Y) :
@@ -222,8 +302,8 @@ theorem generatedQuotientRightUnitorRoutes_evaluation_eq
 
 /-- Generated path-independence identifies the two identity-presentation routes. -/
 theorem generatedComparisonIdentityRoutes_evaluation_eq
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hPI : GeneratedEvaluationPathIndependent W R D)
     (X : Context) :
@@ -236,8 +316,8 @@ theorem generatedComparisonIdentityRoutes_evaluation_eq
 /-- Generated path-independence identifies the two composition-presentation
 routes. -/
 theorem generatedComparisonCompositionRoutes_evaluation_eq
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hPI : GeneratedEvaluationPathIndependent W R D)
     {X Y Z : Context} (f : X ⟶ Y) (g : Y ⟶ Z) :

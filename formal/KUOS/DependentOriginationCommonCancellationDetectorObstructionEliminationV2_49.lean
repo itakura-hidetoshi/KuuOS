@@ -10,6 +10,8 @@ open KUOS.DependentOriginationStageIIIRouteCompletenessV2_33
 open KUOS.DependentOriginationWeakCoherentTwoAxisObstructionV2_42
 open KUOS.DependentOriginationPointwise2CellRigidityObstructionEliminationV2_47
 
+open scoped CategoryTheory.Pseudofunctor.StrongTrans
+
 universe u v uH vH
 
 /-!
@@ -68,17 +70,17 @@ variable (W : MorphismProperty Context)
 precomposition.  The same `Q` must work for every source object `Z`. -/
 def CatHom₂CommonEpiDetector
     {C D : Cat.{vH, uH}} (F G : C ⟶ D) : Prop :=
-  ∃ (Q : D) (e : ∀ Z : C, Q ⟶ F.obj Z),
+  ∃ (Q : D) (e : ∀ Z : C, Q ⟶ F.toFunctor.obj Z),
     (∀ Z : C, Epi (e Z)) ∧
-      ∀ Z : C, Subsingleton (Q ⟶ G.obj Z)
+      ∀ Z : C, Subsingleton (Q ⟶ G.toFunctor.obj Z)
 
 /-- A single target object detects all corresponding component homs by mono
 postcomposition.  The same `Q` must work for every source object `Z`. -/
 def CatHom₂CommonMonoDetector
     {C D : Cat.{vH, uH}} (F G : C ⟶ D) : Prop :=
-  ∃ (Q : D) (m : ∀ Z : C, G.obj Z ⟶ Q),
+  ∃ (Q : D) (m : ∀ Z : C, G.toFunctor.obj Z ⟶ Q),
     (∀ Z : C, Mono (m Z)) ∧
-      ∀ Z : C, Subsingleton (F.obj Z ⟶ Q)
+      ∀ Z : C, Subsingleton (F.toFunctor.obj Z ⟶ Q)
 
 /-- Either of the two common cancellation mechanisms is available. -/
 def CatHom₂CommonCancellationDetector
@@ -127,8 +129,7 @@ theorem catHom₂PointwiseSubsingleton_of_commonCancellationDetector
 the v2.23 stored-triangle naturality square admits a common epi or mono
 detector. -/
 def StoredV2_18NaturalityCommonCancellationDetector
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) : Prop :=
   ∀ {X Y : Context} (f : X ⟶ Y),
@@ -141,8 +142,7 @@ def StoredV2_18NaturalityCommonCancellationDetector
 /-- Common cancellation detection implies the exact pointwise component-hom
 rigidity criterion isolated in v2.47. -/
 theorem storedV2_18NaturalityComponentHomSubsingleton_of_commonCancellationDetector
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K)
     (hDetect : StoredV2_18NaturalityCommonCancellationDetector
@@ -155,8 +155,7 @@ theorem storedV2_18NaturalityComponentHomSubsingleton_of_commonCancellationDetec
 /-- Uniform common cancellation detection for all v2.18 factors into one
 coherent chosen carrier. -/
 def HigherStoredV2_18NaturalityCommonCancellationDetector
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -165,8 +164,7 @@ def HigherStoredV2_18NaturalityCommonCancellationDetector
 /-- Uniform common cancellation detection implies uniform v2.47 pointwise
 rigidity. -/
 theorem higherStoredV2_18NaturalityComponentHomSubsingleton_of_commonCancellationDetector
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hDetect : HigherStoredV2_18NaturalityCommonCancellationDetector
       (W := W) U) :
@@ -179,8 +177,7 @@ theorem higherStoredV2_18NaturalityComponentHomSubsingleton_of_commonCancellatio
 /-- Coherent universal data plus common cancellation detection give the v2.18
 weak universal property on the same chosen carrier. -/
 theorem hasWeakHigherLocalizationUniversalProperty_of_commonCancellationDetector
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hDetect : HigherStoredV2_18NaturalityCommonCancellationDetector
       (W := W) U) :
@@ -193,8 +190,7 @@ theorem hasWeakHigherLocalizationUniversalProperty_of_commonCancellationDetector
 /-- The coherent Stage III route obstruction disappears under the same common
 cancellation-detection condition. -/
 theorem higherCoherentRouteCompleteness_of_commonCancellationDetector
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hDetect : HigherStoredV2_18NaturalityCommonCancellationDetector
       (W := W) U) :
@@ -207,8 +203,7 @@ theorem higherCoherentRouteCompleteness_of_commonCancellationDetector
 /-- Common cancellation detection gives the aligned state in the v2.42 local
 classification. -/
 theorem higherWeakCoherentAlignment_of_commonCancellationDetector
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hDetect : HigherStoredV2_18NaturalityCommonCancellationDetector
       (W := W) U) :
@@ -221,8 +216,7 @@ theorem higherWeakCoherentAlignment_of_commonCancellationDetector
 /-- Exact local E/R obstruction elimination under a common epi/mono
 cancellation detector. -/
 theorem no_twoAxisObstruction_of_commonCancellationDetector
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hDetect : HigherStoredV2_18NaturalityCommonCancellationDetector
       (W := W) U) :

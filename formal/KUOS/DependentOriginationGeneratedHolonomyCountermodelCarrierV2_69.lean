@@ -137,7 +137,6 @@ def zeta : C2 := Multiplicative.ofAdd (1 : ZMod 2)
 @[simp] theorem zeta_mul_zeta : zeta * zeta = 1 := by
   change Multiplicative.ofAdd ((1 : ZMod 2) + 1) = Multiplicative.ofAdd 0
   congr
-  norm_num
 
 @[simp] theorem zeta_inv : zeta⁻¹ = zeta := by
   apply inv_eq_iff_mul_eq_one.mpr
@@ -164,7 +163,7 @@ noncomputable def scalarIdNatIso (z : C2) :
       cases Y
       simp only [Functor.id_obj, Functor.id_map, SingleObj.comp_as_mul,
         SingleObj.toEnd_def]
-      exact mul_comm _ _)
+      exact mul_comm z f)
 
 /-- Multiplication of scalar identity automorphisms follows multiplication in
 `C2`.  This is the finite centrality fact later used to cancel the two

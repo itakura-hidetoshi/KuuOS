@@ -46,8 +46,8 @@ Ordinary arrows are evaluated by the original pseudofunctor `R`.  A formal
 inverse edge for `w ∈ W` is evaluated by the chosen inverse functor contained in
 the v2.56 half-adjoint equivalence package. -/
 noncomputable def localizedGeneratorPrefunctor
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R) :
     Localization.Construction.LocQuiver W ⥤q Cat.{vH, uH} where
   obj X := R.obj (.mk X.obj)
@@ -55,7 +55,7 @@ noncomputable def localizedGeneratorPrefunctor
     intro X Y e
     rcases e with f | w
     · exact R.map f.toLoc
-    · exact D.inverse w.1 w.2
+    · exact PointwiseWAdjointEquivalenceData.inverse W D w.1 w.2
 
 /-- Evaluate every finite localization word in `Cat` by the free-category
 universal property.
@@ -63,26 +63,26 @@ universal property.
 At this stage the source is the free path category, not the quotient
 `W.Localization`. -/
 noncomputable def freePathEvaluator
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R) :
     Paths (Localization.Construction.LocQuiver W) ⥤ Cat.{vH, uH} :=
   Quiv.lift (localizedGeneratorPrefunctor W R D)
 
 /-- The path evaluator has exactly the original fiber category on objects. -/
 @[simp] theorem freePathEvaluator_obj
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (X : Localization.Construction.LocQuiver W) :
-    (freePathEvaluator W R D).obj (.mk X) = R.obj (.mk X.obj) := by
+    (freePathEvaluator W R D).obj X = R.obj (.mk X.obj) := by
   rfl
 
 /-- On an ordinary generator, free-path evaluation is exactly the original
 `R.map`; no comparison isomorphism is inserted at generator level. -/
 @[simp] theorem freePathEvaluator_map_ordinary
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : Context} (f : X ⟶ Y) :
     (freePathEvaluator W R D).map
@@ -93,20 +93,22 @@ noncomputable def freePathEvaluator
 /-- On a formal inverse generator, free-path evaluation is exactly the chosen
 v2.56 quasi-inverse. -/
 @[simp] theorem freePathEvaluator_map_formalInverse
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : Context} (w : X ⟶ Y) (hw : W w) :
     (freePathEvaluator W R D).map
-        (Localization.Construction.ψ₂ W w hw) = D.inverse w hw := by
-  change 𝟙 _ ≫ D.inverse w hw = D.inverse w hw
+        (Localization.Construction.ψ₂ W w hw) =
+      PointwiseWAdjointEquivalenceData.inverse W D w hw := by
+  change 𝟙 _ ≫ PointwiseWAdjointEquivalenceData.inverse W D w hw =
+    PointwiseWAdjointEquivalenceData.inverse W D w hw
   simp
 
 /-- Weak `W`-admissibility therefore canonically produces a free-path evaluator
 by first choosing the Mathlib half-adjoint equivalences from v2.56. -/
 noncomputable def freePathEvaluatorOfAdmissible
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
     (hR : IsHigherWAdmissible W R) :
     Paths (Localization.Construction.LocQuiver W) ⥤ Cat.{vH, uH} :=
   freePathEvaluator W R
@@ -115,13 +117,19 @@ noncomputable def freePathEvaluatorOfAdmissible
 /-- The admissibility-produced evaluator still agrees exactly with `R.map` on
 every ordinary presentation arrow. -/
 @[simp] theorem freePathEvaluatorOfAdmissible_map_ordinary
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
     (hR : IsHigherWAdmissible W R)
     {X Y : Context} (f : X ⟶ Y) :
     (freePathEvaluatorOfAdmissible W hR).map
         (Localization.Construction.ψ₁ W f) = R.map f.toLoc := by
-  simp [freePathEvaluatorOfAdmissible]
+  change
+    (freePathEvaluator W R
+      (pointwiseWAdjointEquivalenceDataOfAdmissible W hR)).map
+        (Localization.Construction.ψ₁ W f) = R.map f.toLoc
+  exact
+    freePathEvaluator_map_ordinary W R
+      (pointwiseWAdjointEquivalenceDataOfAdmissible W hR) f
 
 /-!
 ## Boundary fixed by v2.57

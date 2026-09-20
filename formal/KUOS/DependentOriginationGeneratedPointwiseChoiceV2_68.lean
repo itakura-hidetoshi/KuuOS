@@ -46,17 +46,10 @@ theorem generatedIdentityRepresentativeEquality
         (Quot.out (𝟙 X)) =
       (Quotient.functor (Localization.Construction.relations W)).map
         (𝟙 X.as) := by
-  calc
-    (Quotient.functor (Localization.Construction.relations W)).map
-        (Quot.out (𝟙 X)) = 𝟙 X := by
-          change Quot.mk _ (Quot.out (𝟙 X)) = 𝟙 X
-          exact Quot.out_eq _
-    _ =
-        (Quotient.functor (Localization.Construction.relations W)).map
-          (𝟙 X.as) := by
-          simpa using
-            ((Quotient.functor
-              (Localization.Construction.relations W)).map_id X.as).symm
+  change
+    Quot.mk _ (Quot.out (𝟙 X)) =
+      Quot.mk _ (𝟙 X.as)
+  exact Quot.out_eq _
 
 /-- Fully generated derivation underlying the quotient identity comparison. -/
 noncomputable def generatedIdentityRepresentativeCell
@@ -72,27 +65,11 @@ theorem generatedCompositionRepresentativeEquality
         (Quot.out (f ≫ g)) =
       (Quotient.functor (Localization.Construction.relations W)).map
         (Quot.out f ≫ Quot.out g) := by
-  calc
-    (Quotient.functor (Localization.Construction.relations W)).map
-        (Quot.out (f ≫ g)) = f ≫ g := by
-          change Quot.mk _ (Quot.out (f ≫ g)) = f ≫ g
-          exact Quot.out_eq _
-    _ =
-        (Quotient.functor (Localization.Construction.relations W)).map
-            (Quot.out f) ≫
-          (Quotient.functor (Localization.Construction.relations W)).map
-            (Quot.out g) := by
-          change
-            f ≫ g =
-              Quot.mk _ (Quot.out f) ≫ Quot.mk _ (Quot.out g)
-          rw [Quot.out_eq, Quot.out_eq]
-    _ =
-        (Quotient.functor (Localization.Construction.relations W)).map
-          (Quot.out f ≫ Quot.out g) := by
-          exact
-            ((Quotient.functor
-              (Localization.Construction.relations W)).map_comp
-                (Quot.out f) (Quot.out g)).symm
+  change
+    Quot.mk _ (Quot.out (f ≫ g)) =
+      Quot.mk _ (Quot.out f ≫ Quot.out g)
+  rw [← Quotient.comp_mk, Quot.out_eq (f ≫ g), Quot.out_eq f, Quot.out_eq g]
+  rfl
 
 /-- Fully generated derivation underlying the quotient composition comparison. -/
 noncomputable def generatedCompositionRepresentativeCell
@@ -123,8 +100,8 @@ noncomputable def generatedPresentationRepresentativeCell
 
 /-- Canonical generated identity comparison. -/
 noncomputable def generatedIdentityMapIso
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (X : W.Localization) :
     quotientRepresentativeMap W R D (𝟙 X) ≅
@@ -132,14 +109,15 @@ noncomputable def generatedIdentityMapIso
   change
     (freePathEvaluator W R D).map (Quot.out (𝟙 X)) ≅
       𝟙 (R.obj (.mk X.as.obj))
-  simpa only [Functor.map_id] using
-    (generatedLocalization2CellEvaluationIso W R D
-      (generatedIdentityRepresentativeCell W X))
+  exact
+    generatedLocalization2CellEvaluationIso W R D
+        (generatedIdentityRepresentativeCell W X) ≪≫
+      eqToIso ((freePathEvaluator W R D).map_id X.as)
 
 /-- Canonical generated composition comparison. -/
 noncomputable def generatedCompositionMapIso
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y Z : W.Localization} (f : X ⟶ Y) (g : Y ⟶ Z) :
     quotientRepresentativeMap W R D (f ≫ g) ≅
@@ -149,15 +127,16 @@ noncomputable def generatedCompositionMapIso
     (freePathEvaluator W R D).map (Quot.out (f ≫ g)) ≅
       (freePathEvaluator W R D).map (Quot.out f) ≫
         (freePathEvaluator W R D).map (Quot.out g)
-  simpa only [Functor.map_comp] using
-    (generatedLocalization2CellEvaluationIso W R D
-      (generatedCompositionRepresentativeCell W f g))
+  exact
+    generatedLocalization2CellEvaluationIso W R D
+        (generatedCompositionRepresentativeCell W f g) ≪≫
+      eqToIso ((freePathEvaluator W R D).map_comp (Quot.out f) (Quot.out g))
 
 /-- Canonical generated comparison from a localized raw presentation to the
 original raw pseudofunctor map. -/
 noncomputable def generatedPresentationMapIso
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : Context} (f : X ⟶ Y) :
     quotientRepresentativeMap W R D (W.Q.map f) ≅
@@ -165,16 +144,16 @@ noncomputable def generatedPresentationMapIso
   change
     (freePathEvaluator W R D).map (Quot.out (W.Q.map f)) ≅
       R.map f.toLoc
-  rw [← freePathEvaluator_map_ordinary W R D f]
   exact
     generatedLocalization2CellEvaluationIso W R D
-      (generatedPresentationRepresentativeCell W f)
+        (generatedPresentationRepresentativeCell W f) ≪≫
+      eqToIso (freePathEvaluator_map_ordinary W R D f)
 
 /-- The canonical pointwise v2.61 choice bundle induced by fully generated
 localization derivations. -/
 noncomputable def generatedPointwiseGeneralWChoiceData
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R) :
     PointwiseGeneralWChoiceData (W := W) R D where
   mapId := generatedIdentityMapIso W R D
@@ -183,8 +162,8 @@ noncomputable def generatedPointwiseGeneralWChoiceData
 
 @[simp]
 theorem generatedPointwiseGeneralWChoiceData_mapId
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (X : W.Localization) :
     (generatedPointwiseGeneralWChoiceData W R D).mapId X =
@@ -193,8 +172,8 @@ theorem generatedPointwiseGeneralWChoiceData_mapId
 
 @[simp]
 theorem generatedPointwiseGeneralWChoiceData_mapComp
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y Z : W.Localization} (f : X ⟶ Y) (g : Y ⟶ Z) :
     (generatedPointwiseGeneralWChoiceData W R D).mapComp f g =
@@ -203,8 +182,8 @@ theorem generatedPointwiseGeneralWChoiceData_mapComp
 
 @[simp]
 theorem generatedPointwiseGeneralWChoiceData_mapIso
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : Context} (f : X ⟶ Y) :
     (generatedPointwiseGeneralWChoiceData W R D).mapIso f =
@@ -214,8 +193,8 @@ theorem generatedPointwiseGeneralWChoiceData_mapIso
 /-- Weak W-admissibility supplies the canonical generated pointwise bundle after
 selecting the v2.56 pointwise adjoint-equivalence data. -/
 noncomputable def generatedPointwiseGeneralWChoiceDataOfAdmissible
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
     (hR : IsHigherWAdmissible W R) :
     PointwiseGeneralWChoiceData (W := W) R
       (pointwiseWAdjointEquivalenceDataOfAdmissible W hR) :=

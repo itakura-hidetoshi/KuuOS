@@ -1,3 +1,4 @@
+import Mathlib.Tactic.Group
 import KUOS.DependentOriginationGeneratedHolonomyCountermodelLoopV2_69
 
 namespace KUOS.DependentOriginationGeneratedHolonomyCountermodelV2_69
@@ -39,37 +40,68 @@ noncomputable def counterEvaluationScalar
       allMorphisms counterSystem D α).hom.toNatTrans.app
     (SingleObj.star C2)
 
+/-- The forward functor in each chosen equivalence still acts literally as
+the identity on the one-object countermodel. -/
+theorem chosenForward_map_eq
+    (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem)
+    {X Y : OctahedralVertex} (w : X ⟶ Y) (hw : allMorphisms w)
+    {A B : CounterFiber} (x : A ⟶ B) :
+    (D.chosen w hw).functor.map x = x := by
+  rw [D.chosen_functor w hw, counterSystem_map_toFunctor]
+  rfl
+
 /-- Any inverse functor selected by pointwise admissibility acts identically on
 `C2` morphisms.  This uses only counit naturality and commutativity of `C2`, not
 the implementation of `Functor.asEquivalence`. -/
 theorem chosenInverse_map_eq
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem)
-    {X Y : OctahedralVertex} (w : X ⟶ Y) (hw : allMorphisms w) (x : C2) :
-    (D.inverse w hw).toFunctor.map x = x := by
-  change (D.chosen w hw).inverse.map x = x
+    {X Y : OctahedralVertex} (w : X ⟶ Y) (hw : allMorphisms w)
+    (x : SingleObj.star C2 ⟶ SingleObj.star C2) :
+    (PointwiseWAdjointEquivalenceData.inverse
+      allMorphisms D w hw).toFunctor.map x = x := by
+  let y : SingleObj.star C2 ⟶ SingleObj.star C2 :=
+    (D.chosen w hw).inverse.map x
+  let c : SingleObj.star C2 ⟶ SingleObj.star C2 :=
+    (D.chosen w hw).counitIso.hom.app (SingleObj.star C2)
+  change y = x
   have hnat := (D.chosen w hw).counitIso.hom.naturality x
-  rw [D.chosen_functor w hw, counterSystem_map_toFunctor] at hnat
-  simp only [Functor.comp_map, Functor.id_map, SingleObj.comp_as_mul] at hnat
-  rw [mul_comm x ((D.chosen w hw).counitIso.hom.app (SingleObj.star C2))] at hnat
-  exact mul_left_cancel hnat
+  simp only [Functor.comp_map, Functor.id_map] at hnat
+  rw [chosenForward_map_eq D w hw ((D.chosen w hw).inverse.map x)] at hnat
+  change y ≫ c = c ≫ x at hnat
+  have hadd :=
+    congrArg (@Multiplicative.toAdd (ZMod 2)) hnat
+  change
+    (@Multiplicative.toAdd (ZMod 2)) c +
+        (@Multiplicative.toAdd (ZMod 2)) y =
+      (@Multiplicative.toAdd (ZMod 2)) x +
+        (@Multiplicative.toAdd (ZMod 2)) c at hadd
+  rw [add_comm
+    ((@Multiplicative.toAdd (ZMod 2)) x)
+    ((@Multiplicative.toAdd (ZMod 2)) c)] at hadd
+  have hyx :
+      (@Multiplicative.toAdd (ZMod 2)) y =
+        (@Multiplicative.toAdd (ZMod 2)) x :=
+    add_left_cancel hadd
+  exact (@Multiplicative.toAdd (ZMod 2)).injective hyx
 
 /-- Every free localization word acts identically on `C2` morphisms. -/
 theorem counterFreePathEvaluator_map_eq
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem)
-    {X Y : LocalizationPaths allMorphisms} (p : X ⟶ Y) (x : C2) :
+    {X Y : LocalizationPaths allMorphisms} (p : X ⟶ Y)
+    (x : SingleObj.star C2 ⟶ SingleObj.star C2) :
     ((freePathEvaluator allMorphisms counterSystem D).map p).toFunctor.map x = x := by
   induction p using Paths.induction with
   | id =>
-      simp
+      rw [(freePathEvaluator allMorphisms counterSystem D).map_id]
+      change (𝟭 CounterFiber).map x = x
+      rfl
   | comp p e hp =>
       rw [Functor.map_comp, Cat.Hom.comp_toFunctor, Functor.comp_map, hp]
       have hgen :
           (freePathEvaluator allMorphisms counterSystem D).map
               ((Paths.of (Localization.Construction.LocQuiver allMorphisms)).map e) =
             (localizedGeneratorPrefunctor allMorphisms counterSystem D).map e := by
-        simpa [freePathEvaluator] using
-          (Paths.lift_toPath
-            (localizedGeneratorPrefunctor allMorphisms counterSystem D) e)
+        simp [freePathEvaluator]
       rw [hgen]
       rcases e with f | w
       · change (counterSystem.map f.toLoc).toFunctor.map x = x
@@ -77,11 +109,45 @@ theorem counterFreePathEvaluator_map_eq
         rfl
       · exact chosenInverse_map_eq D w.1 w.2 x
 
+/-- On the countermodel, every free-path object evaluates to the same
+one-object target category. -/
+@[simp] private theorem counterFreePathEvaluator_obj
+    (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem)
+    (X : LocalizationPaths allMorphisms) :
+    (freePathEvaluator allMorphisms counterSystem D).obj X =
+      Cat.of CounterFiber := by
+  rfl
+
+/-- Equality transport between objects of the one-object target is the
+unit scalar. -/
+@[simp] private theorem singleObj_eqToHom_eq_one
+    {A B : CounterFiber} (h : A = B) :
+    (eqToHom h : A ⟶ B) = (1 : C2) := by
+  subst B
+  exact SingleObj.id_as_one C2 A
+
+private theorem eqToHom_comp_eq
+    {A B C D : CounterFiber}
+    (h₁ : A = B) (m : B ⟶ C) (h₂ : C = D) :
+    eqToHom h₁ ≫ m ≫ eqToHom h₂ = m := by
+  subst B
+  subst D
+  simp
+
 @[simp]
 theorem counterEvaluationScalar_refl
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem)
     {X Y : LocalizationPaths allMorphisms} (p : X ⟶ Y) :
     counterEvaluationScalar D (GeneratedLocalization2Cell.refl p) = 1 := by
+  rfl
+
+@[simp] theorem counterEvaluationScalar_ofEq
+    (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem)
+    {X Y : LocalizationPaths allMorphisms} {p q : X ⟶ Y}
+    (h : p = q) :
+    counterEvaluationScalar D
+      (generatedLocalization2CellOfEq allMorphisms h) = 1 := by
+  subst q
   rfl
 
 @[simp]
@@ -94,6 +160,18 @@ theorem counterEvaluationScalar_trans
       counterEvaluationScalar D β * counterEvaluationScalar D α := by
   rfl
 
+@[simp] theorem counterEvaluationScalar_reendpoint
+    (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem)
+    {X Y : LocalizationPaths allMorphisms}
+    {p q p' q' : X ⟶ Y}
+    (hp : p' = p) (hq : q = q')
+    (α : GeneratedLocalization2Cell allMorphisms p q) :
+    counterEvaluationScalar D (counterReendpointCell hp hq α) =
+      counterEvaluationScalar D α := by
+  unfold counterReendpointCell
+  simp only [counterEvaluationScalar_trans, counterEvaluationScalar_ofEq,
+    one_mul, mul_one]
+
 @[simp]
 theorem counterEvaluationScalar_symm
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem)
@@ -101,18 +179,13 @@ theorem counterEvaluationScalar_symm
     (α : GeneratedLocalization2Cell allMorphisms p q) :
     counterEvaluationScalar D (GeneratedLocalization2Cell.symm α) =
       (counterEvaluationScalar D α)⁻¹ := by
-  change
-    (generatedLocalization2CellEvaluationIso
-      allMorphisms counterSystem D α).inv.toNatTrans.app (SingleObj.star C2) =
-      ((generatedLocalization2CellEvaluationIso
-        allMorphisms counterSystem D α).hom.toNatTrans.app
-          (SingleObj.star C2))⁻¹
-  exact eq_inv_of_mul_eq_one_right (by
-    simpa only [SingleObj.comp_as_mul, SingleObj.id_as_one] using
-      (Cat.Hom.inv_hom_id_toNatTrans_app
-        (generatedLocalization2CellEvaluationIso
-          allMorphisms counterSystem D α)
-        (SingleObj.star C2)))
+  apply eq_inv_of_mul_eq_one_right
+  simpa only [counterEvaluationScalar, SingleObj.comp_as_mul,
+    SingleObj.id_as_one] using
+    (Cat.Hom.inv_hom_id_toNatTrans_app
+      (generatedLocalization2CellEvaluationIso
+        allMorphisms counterSystem D α)
+      (SingleObj.star C2))
 
 @[simp]
 theorem counterEvaluationScalar_whiskerLeft
@@ -125,12 +198,27 @@ theorem counterEvaluationScalar_whiskerLeft
       counterEvaluationScalar D α := by
   unfold counterEvaluationScalar
   rw [generatedLocalization2CellEvaluationIso_whiskerLeft_hom]
-  simp only [Cat.whiskerLeft_app]
-  exact congrArg
-    (fun T : CounterFiber =>
-      (generatedLocalization2CellEvaluationIso
-        allMorphisms counterSystem D α).hom.toNatTrans.app T)
-    (Subsingleton.elim _ _)
+  simp only [Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
+    Cat.Hom₂.comp_app, whiskerLeftIso_hom, Cat.whiskerLeft_app,
+    Cat.eqToHom_app]
+  have hY := counterFreePathEvaluator_obj D Y
+  have hZ := counterFreePathEvaluator_obj D Z
+  cases hY
+  cases hZ
+  calc
+    _ = (generatedLocalization2CellEvaluationIso
+          allMorphisms counterSystem D α).hom.toNatTrans.app
+          (((freePathEvaluator allMorphisms counterSystem D).map k).toFunctor.obj
+            (SingleObj.star C2)) := by
+      exact eqToHom_comp_eq _ _ _
+    _ = (generatedLocalization2CellEvaluationIso
+          allMorphisms counterSystem D α).hom.toNatTrans.app
+          (SingleObj.star C2) := by
+      exact congrArg
+        (fun T : CounterFiber =>
+          (generatedLocalization2CellEvaluationIso
+            allMorphisms counterSystem D α).hom.toNatTrans.app T)
+        (Subsingleton.elim _ _)
 
 @[simp]
 theorem counterEvaluationScalar_whiskerRight
@@ -143,8 +231,39 @@ theorem counterEvaluationScalar_whiskerRight
       counterEvaluationScalar D α := by
   unfold counterEvaluationScalar
   rw [generatedLocalization2CellEvaluationIso_whiskerRight_hom]
-  simp only [Cat.whiskerRight_app]
-  exact counterFreePathEvaluator_map_eq D k _
+  simp only [Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
+    Cat.Hom₂.comp_app, whiskerRightIso_hom, Cat.whiskerRight_app,
+    Cat.eqToHom_app]
+  have hX := counterFreePathEvaluator_obj D X
+  have hY := counterFreePathEvaluator_obj D Y
+  have hZ := counterFreePathEvaluator_obj D Z
+  cases hX
+  cases hY
+  cases hZ
+  calc
+    _ = ((freePathEvaluator allMorphisms counterSystem D).map k).toFunctor.map
+          ((generatedLocalization2CellEvaluationIso
+            allMorphisms counterSystem D α).hom.toNatTrans.app
+            (SingleObj.star C2)) := by
+      exact eqToHom_comp_eq _ _ _
+    _ = (generatedLocalization2CellEvaluationIso
+          allMorphisms counterSystem D α).hom.toNatTrans.app
+          (SingleObj.star C2) := by
+      exact counterFreePathEvaluator_map_eq D k _
+
+/-- Component of the concrete compositor at the unique target object. -/
+@[simp] theorem counterMapComp_hom_app_star
+    (X Y Z : OctahedralVertex) :
+    (counterMapComp X Y Z).hom.toNatTrans.app (SingleObj.star C2) =
+      compScalar X Y Z := by
+  unfold counterMapComp scalarCompIso
+  change
+    (scalarIdNatIso (compScalar X Y Z)).hom.app (SingleObj.star C2) ≫
+        (𝟭 CounterFiber).rightUnitor.inv.app (SingleObj.star C2) =
+      compScalar X Y Z
+  rw [scalarIdNatIso_hom_app_star]
+  rw [Functor.rightUnitor_inv_app]
+  exact Category.comp_id _
 
 /-- A retained composition generator evaluates to the scalar decorating exactly
 that triangular face. -/
@@ -153,7 +272,11 @@ theorem compositionCell_scalar
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem)
     {X Y Z : OctahedralVertex} (f : X ⟶ Y) (g : Y ⟶ Z) :
     counterEvaluationScalar D (compositionCell f g) = compScalar X Y Z := by
-  rfl
+  unfold counterEvaluationScalar compositionCell
+  rw [generatedLocalization2CellEvaluationIso_ofGenerating_hom]
+  change (counterMapComp X Y Z).hom.toNatTrans.app
+    (SingleObj.star C2) = compScalar X Y Z
+  exact counterMapComp_hom_app_star X Y Z
 
 /-- A change of parallel-arrow presentation carries no scalar. -/
 @[simp]
@@ -161,94 +284,144 @@ theorem parallelArrowCell_scalar
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem)
     {X Y : OctahedralVertex} (f g : X ⟶ Y) :
     counterEvaluationScalar D (parallelArrowCell f g) = 1 := by
-  subst g
-  simp [parallelArrowCell, counterEvaluationScalar]
+  unfold parallelArrowCell
+  exact counterEvaluationScalar_ofEq D _
 
 /-- The distinguished face carries the unique nontrivial scalar. -/
 @[simp]
 theorem counterDirectRoute_scalar
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem) :
     counterEvaluationScalar D counterDirectRoute = zeta := by
-  rfl
+  unfold counterDirectRoute
+  rw [compositionCell_scalar, compScalar_L0_M0_H0]
 
 @[simp] theorem routeStep00_scalar
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem) :
     counterEvaluationScalar D routeStep00 = 1 := by
-  simp [routeStep00]
+  unfold routeStep00
+  exact parallelArrowCell_scalar D _ _
 
 @[simp] theorem routeStep01_scalar
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem) :
     counterEvaluationScalar D routeStep01 = 1 := by
-  simp [routeStep01]
+  unfold routeStep01
+  rw [compositionCell_scalar, compScalar_L0_M1_H0]
 
 @[simp] theorem routeStep02_scalar
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem) :
     counterEvaluationScalar D routeStep02 =
       (counterEvaluationScalar D (forwardInverseCell b11))⁻¹ := by
-  simp [routeStep02]
+  unfold routeStep02
+  rw [counterEvaluationScalar_reendpoint,
+    counterEvaluationScalar_whiskerRight,
+    counterEvaluationScalar_whiskerLeft,
+    counterEvaluationScalar_symm]
 
 @[simp] theorem routeStep03_scalar
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem) :
     counterEvaluationScalar D routeStep03 = 1 := by
-  simp [routeStep03]
+  unfold routeStep03
+  rw [counterEvaluationScalar_reendpoint,
+    counterEvaluationScalar_whiskerRight,
+    counterEvaluationScalar_symm,
+    compositionCell_scalar, compScalar_L0_M1_H1, inv_one]
 
 @[simp] theorem routeStep04_scalar
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem) :
     counterEvaluationScalar D routeStep04 = 1 := by
-  simp [routeStep04]
+  unfold routeStep04
+  rw [counterEvaluationScalar_reendpoint,
+    counterEvaluationScalar_whiskerRight]
+  exact parallelArrowCell_scalar D _ _
 
 @[simp] theorem routeStep05_scalar
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem) :
     counterEvaluationScalar D routeStep05 = 1 := by
-  simp [routeStep05]
+  unfold routeStep05
+  rw [counterEvaluationScalar_reendpoint,
+    counterEvaluationScalar_whiskerRight,
+    compositionCell_scalar, compScalar_L0_M0_H1]
 
 @[simp] theorem routeStep06_scalar
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem) :
     counterEvaluationScalar D routeStep06 =
       (counterEvaluationScalar D (inverseForwardCell a10))⁻¹ := by
-  simp [routeStep06]
+  unfold routeStep06
+  rw [counterEvaluationScalar_reendpoint,
+    counterEvaluationScalar_whiskerRight,
+    counterEvaluationScalar_whiskerLeft,
+    counterEvaluationScalar_symm]
 
 @[simp] theorem routeStep07_scalar
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem) :
     counterEvaluationScalar D routeStep07 = 1 := by
-  simp [routeStep07]
+  unfold routeStep07
+  rw [counterEvaluationScalar_reendpoint,
+    counterEvaluationScalar_whiskerRight,
+    counterEvaluationScalar_whiskerLeft,
+    counterEvaluationScalar_symm,
+    compositionCell_scalar, compScalar_L1_M0_H1, inv_one]
 
 @[simp] theorem routeStep08_scalar
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem) :
     counterEvaluationScalar D routeStep08 = 1 := by
-  simp [routeStep08]
+  unfold routeStep08
+  rw [counterEvaluationScalar_reendpoint,
+    counterEvaluationScalar_whiskerRight,
+    counterEvaluationScalar_whiskerLeft]
+  exact parallelArrowCell_scalar D _ _
 
 @[simp] theorem routeStep09_scalar
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem) :
     counterEvaluationScalar D routeStep09 = 1 := by
-  simp [routeStep09]
+  unfold routeStep09
+  rw [counterEvaluationScalar_reendpoint,
+    counterEvaluationScalar_whiskerRight,
+    counterEvaluationScalar_whiskerLeft,
+    compositionCell_scalar, compScalar_L1_M1_H1]
 
 @[simp] theorem routeStep10_scalar
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem) :
     counterEvaluationScalar D routeStep10 =
       counterEvaluationScalar D (forwardInverseCell b11) := by
-  simp [routeStep10]
+  unfold routeStep10
+  rw [counterEvaluationScalar_reendpoint,
+    counterEvaluationScalar_whiskerRight,
+    counterEvaluationScalar_whiskerLeft]
 
 @[simp] theorem routeStep11_scalar
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem) :
     counterEvaluationScalar D routeStep11 = 1 := by
-  simp [routeStep11]
+  unfold routeStep11
+  rw [counterEvaluationScalar_reendpoint,
+    counterEvaluationScalar_whiskerLeft,
+    counterEvaluationScalar_symm,
+    compositionCell_scalar, compScalar_L1_M1_H0, inv_one]
 
 @[simp] theorem routeStep12_scalar
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem) :
     counterEvaluationScalar D routeStep12 = 1 := by
-  simp [routeStep12]
+  unfold routeStep12
+  rw [counterEvaluationScalar_reendpoint,
+    counterEvaluationScalar_whiskerLeft]
+  exact parallelArrowCell_scalar D _ _
 
 @[simp] theorem routeStep13_scalar
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem) :
     counterEvaluationScalar D routeStep13 = 1 := by
-  simp [routeStep13]
+  unfold routeStep13
+  rw [counterEvaluationScalar_reendpoint,
+    counterEvaluationScalar_whiskerLeft,
+    compositionCell_scalar, compScalar_L1_M0_H0]
 
 @[simp] theorem routeStep14_scalar
     (D : PointwiseWAdjointEquivalenceData (W := allMorphisms) counterSystem) :
     counterEvaluationScalar D routeStep14 =
       counterEvaluationScalar D (inverseForwardCell a10) := by
-  simp [routeStep14]
+  unfold routeStep14
+  rw [counterEvaluationScalar_reendpoint,
+    counterEvaluationScalar_whiskerRight,
+    counterEvaluationScalar_whiskerLeft]
 
 /-- The complete route around the seven untwisted faces evaluates to identity.
 The two pointwise-adjoint inverse-pair scalars occur once positively and once
@@ -262,8 +435,11 @@ theorem counterSevenFaceRoute_scalar
     routeStep06_scalar, routeStep07_scalar, routeStep08_scalar,
     routeStep09_scalar, routeStep10_scalar, routeStep11_scalar,
     routeStep12_scalar, routeStep13_scalar, routeStep14_scalar,
-    one_mul, mul_one]
-  abel
+    mul_one]
+  rw [mul_comm
+    (counterEvaluationScalar D (inverseForwardCell a10))
+    (counterEvaluationScalar D (forwardInverseCell b11))]
+  group
 
 /-- The direct distinguished route and the seven-face route have different
 canonical evaluations, already for arbitrary pointwise adjoint-equivalence
@@ -277,9 +453,10 @@ theorem counterDirectRoute_ne_counterSevenFaceRoute_evaluation
   intro h
   have hs := congrArg
     (fun e => e.hom.toNatTrans.app (SingleObj.star C2)) h
-  have hz : zeta = 1 := by
-    simpa [counterEvaluationScalar] using hs
-  exact zeta_ne_one hz
+  change counterEvaluationScalar D counterDirectRoute =
+    counterEvaluationScalar D counterSevenFaceRoute at hs
+  rw [counterDirectRoute_scalar, counterSevenFaceRoute_scalar] at hs
+  exact zeta_ne_one hs
 
 /-- The explicit difference loop has nontrivial generated holonomy. -/
 theorem counterGeneratedLoop_holonomy_ne_refl
@@ -310,8 +487,8 @@ theorem counterSystem_not_generatedHolonomyTrivial :
 global generated-holonomy condition used in v2.68. -/
 theorem weak_admissibility_does_not_force_generatedHolonomyTrivial :
     ¬ (∀
-      (R : RawHigherContextualSystem
-        (Context := OctahedralVertex) (uH := 0) (vH := 0))
+      (R : RawHigherContextualSystem.{0, 0, 0, 0}
+        (Context := OctahedralVertex))
       (hR : IsHigherWAdmissible allMorphisms R),
       GeneratedHolonomyTrivial allMorphisms R
         (pointwiseWAdjointEquivalenceDataOfAdmissible allMorphisms hR)) := by

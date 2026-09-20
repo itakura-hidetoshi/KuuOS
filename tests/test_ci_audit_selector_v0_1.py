@@ -81,6 +81,29 @@ class CiAuditSelectorV01Tests(unittest.TestCase):
             {"lean-formal", "plan-os", "workflow-integrity"},
         )
 
+    def test_validated_lean_incremental_runs_only_lean(self) -> None:
+        result = select(
+            REGISTRY,
+            ["formal/KUOS/DependentOriginationGeneratedQuotientCoherenceV2_68.lean"],
+            None,
+            validated_lean_incremental=True,
+        )
+        self.assertFalse(result["full_audit_required"])
+        self.assertTrue(result["validated_lean_incremental"])
+        self.assertEqual(selected_ids(result), {"lean-formal"})
+
+    def test_validated_lean_incremental_rejects_nonlean_diff(self) -> None:
+        with self.assertRaisesRegex(ValueError, "formal/\\*\\*/\\*.lean-only diff"):
+            select(
+                REGISTRY,
+                [
+                    "formal/KUOS/DependentOriginationGeneratedQuotientCoherenceV2_68.lean",
+                    "docs/example.md",
+                ],
+                None,
+                validated_lean_incremental=True,
+            )
+
     def test_impacted_lean_targets_include_reverse_import_closure(self) -> None:
         fn = getattr(selector, "select_lean_targets", None)
         self.assertIsNotNone(fn, "select_lean_targets must exist")

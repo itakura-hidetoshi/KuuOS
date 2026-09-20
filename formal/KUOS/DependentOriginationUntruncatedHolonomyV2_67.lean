@@ -168,8 +168,8 @@ A composition-closed generating step uses the v2.58 existence theorem; retained
 reflexivity, symmetry, and transitivity become identity, inverse, and vertical
 composition of isomorphisms. -/
 noncomputable def relation2CellEvaluationIso
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} {p q : X ⟶ Y}
     (α : LocalizationRelation2Cell W p q) :
@@ -187,8 +187,8 @@ noncomputable def relation2CellEvaluationIso
 
 @[simp]
 theorem relation2CellEvaluationIso_refl
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} (p : X ⟶ Y) :
     relation2CellEvaluationIso W R D (LocalizationRelation2Cell.refl p) =
@@ -197,8 +197,8 @@ theorem relation2CellEvaluationIso_refl
 
 @[simp]
 theorem relation2CellEvaluationIso_symm
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} {p q : X ⟶ Y}
     (α : LocalizationRelation2Cell W p q) :
@@ -208,8 +208,8 @@ theorem relation2CellEvaluationIso_symm
 
 @[simp]
 theorem relation2CellEvaluationIso_trans
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} {p q r : X ⟶ Y}
     (α : LocalizationRelation2Cell W p q)
@@ -221,8 +221,8 @@ theorem relation2CellEvaluationIso_trans
 
 /-- Evaluate a chosen retained lift of an ordinary quotient equality. -/
 noncomputable def chosenEvaluationIsoOfEquality
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} {p q : X ⟶ Y}
     (h :
@@ -241,8 +241,8 @@ abbrev LocalizationRelationLoop
 
 /-- Evaluation holonomy of a closed retained relation derivation. -/
 noncomputable def relationLoopHolonomy
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} {p : X ⟶ Y}
     (γ : LocalizationRelationLoop W p) :
@@ -260,8 +260,8 @@ def relation2CellDifference
 
 @[simp]
 theorem relation2CellDifference_holonomy
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} {p q : X ⟶ Y}
     (α β : LocalizationRelation2Cell W p q) :
@@ -273,8 +273,8 @@ theorem relation2CellDifference_holonomy
 /-- Two retained derivations evaluate to the same 2-isomorphism exactly when the
 holonomy of their difference loop is trivial. -/
 theorem relation2CellEvaluationIso_eq_iff_differenceHolonomy_trivial
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} {p q : X ⟶ Y}
     (α β : LocalizationRelation2Cell W p q) :
@@ -308,8 +308,8 @@ theorem relation2CellEvaluationIso_eq_iff_differenceHolonomy_trivial
 free-path evaluator together with the chosen pointwise W adjoint-equivalence
 data, not an assumption about arbitrary noninvertible 2-cells. -/
 def EvaluationHolonomyTrivial
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R) : Prop :=
   ∀ {X Y : LocalizationPaths W} (p : X ⟶ Y)
     (γ : LocalizationRelationLoop W p),
@@ -317,8 +317,8 @@ def EvaluationHolonomyTrivial
 
 /-- Evaluation of retained relation derivations is path-independent. -/
 def Relation2CellEvaluationPathIndependent
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R) : Prop :=
   ∀ {X Y : LocalizationPaths W} {p q : X ⟶ Y}
     (α β : LocalizationRelation2Cell W p q),
@@ -328,8 +328,8 @@ def Relation2CellEvaluationPathIndependent
 /-- Trivial loop holonomy forces path-independence of all retained relation
 2-cell evaluations. -/
 theorem relation2CellEvaluationPathIndependent_of_holonomyTrivial
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (h : EvaluationHolonomyTrivial W R D) :
     Relation2CellEvaluationPathIndependent W R D := by
@@ -342,8 +342,8 @@ theorem relation2CellEvaluationPathIndependent_of_holonomyTrivial
 /-- Conversely, path-independent evaluation forces every retained closed-loop
 holonomy to be the identity. -/
 theorem evaluationHolonomyTrivial_of_relation2CellEvaluationPathIndependent
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (h : Relation2CellEvaluationPathIndependent W R D) :
     EvaluationHolonomyTrivial W R D := by
@@ -355,8 +355,8 @@ theorem evaluationHolonomyTrivial_of_relation2CellEvaluationPathIndependent
 relations evaluate coherently exactly when every retained relation-loop has
 trivial automorphism holonomy. -/
 theorem evaluationHolonomyTrivial_iff_relation2CellEvaluationPathIndependent
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R) :
     EvaluationHolonomyTrivial W R D ↔
       Relation2CellEvaluationPathIndependent W R D := by
@@ -367,8 +367,8 @@ theorem evaluationHolonomyTrivial_iff_relation2CellEvaluationPathIndependent
 /-- Under trivial holonomy, any retained lift of a quotient equality evaluates to
 the same natural isomorphism as the noncomputably chosen lift. -/
 theorem relation2CellEvaluationIso_eq_chosen_of_holonomyTrivial
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (htriv : EvaluationHolonomyTrivial W R D)
     {X Y : LocalizationPaths W} {p q : X ⟶ Y}
@@ -388,8 +388,8 @@ theorem relation2CellEvaluationIso_eq_chosen_of_holonomyTrivial
 be trivial, since the holonomy is an automorphism of a functor between image
 fibers. -/
 theorem evaluationHolonomyTrivial_of_fiberFunctorIsoThin
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hiso : IsFiberFunctorIsoThin R) :
     EvaluationHolonomyTrivial W R D := by
@@ -397,14 +397,14 @@ theorem evaluationHolonomyTrivial_of_fiberFunctorIsoThin
   letI : Subsingleton
       ((freePathEvaluator W R D).map p ≅
         (freePathEvaluator W R D).map p) :=
-    hiso X Y _ _
+    hiso X.obj Y.obj _ _
   exact Subsingleton.elim _ _
 
 /-- The intrinsic trivial-fiber-automorphism sector from v2.64 is therefore a
 special case of relation-loop holonomy triviality. -/
 theorem evaluationHolonomyTrivial_of_trivialFiberAutomorphisms
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (htriv : IsFiberAutomorphismTrivial R) :
     EvaluationHolonomyTrivial W R D :=
