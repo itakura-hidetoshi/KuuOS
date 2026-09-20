@@ -14,6 +14,9 @@ open KUOS.DependentOriginationStoredTriangleCorrectionV2_26
 open KUOS.DependentOriginationStageIIIRouteCompletenessV2_33
 open KUOS.DependentOriginationWeakCoherentTwoAxisObstructionV2_42
 
+open scoped Bicategory
+open scoped CategoryTheory.Pseudofunctor.StrongTrans
+
 universe u v uH vH
 
 /-!
@@ -58,11 +61,18 @@ an explicit premise globally.
 variable {Context : Type u} [Category.{v} Context] [IsDiscrete Context]
 variable (W : MorphismProperty Context)
 
+attribute [local simp]
+  CategoryTheory.Bicategory.Strict.leftUnitor_eqToIso
+  CategoryTheory.Bicategory.Strict.rightUnitor_eqToIso
+  CategoryTheory.Bicategory.Strict.associator_eqToIso
+  CategoryTheory.PrelaxFunctor.map₂_eqToHom
+  CategoryTheory.eqToHom_map
+  CategoryTheory.Cat.eqToHom_app
+in
 /-- On any Mathlib-discrete category, every stored v2.18 comparison triangle is
 already modification-natural. -/
 theorem storedV2_18TriangleIsModificationNatural_of_isDiscrete
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha : HigherLocalizationFactorMorphism (W := W) H K) :
     StoredV2_18TriangleIsModificationNatural (W := W) alpha := by
@@ -70,13 +80,30 @@ theorem storedV2_18TriangleIsModificationNatural_of_isDiscrete
   obtain rfl := IsDiscrete.eq_of_hom f
   have hf : f = 𝟙 X := Subsingleton.elim _ _
   rw [hf]
-  simp [CategoryTheory.Pseudofunctor.StrongTrans.naturality_id_hom] <;> bicategory
+  change
+    (restrictHigherLocalizedSystem W H.lift).map (𝟙 _) ◁
+          (storedV2_18ComparisonComponentIso (W := W) alpha _).hom ≫
+        (H.comparison.naturality (𝟙 _)).hom =
+      ((restrictHigherLocalizedStrongTrans (W := W) alpha.hom ≫
+          K.comparison).naturality (𝟙 _)).hom ≫
+        (storedV2_18ComparisonComponentIso (W := W) alpha _).hom ▷
+          R.map (𝟙 _)
+  rw [CategoryTheory.Pseudofunctor.StrongTrans.naturality_id_hom
+    (restrictHigherLocalizedStrongTrans (W := W) alpha.hom ≫ K.comparison) _]
+  apply Cat.Hom₂.ext
+  ext Z
+  simp [CategoryTheory.Pseudofunctor.StrongTrans.naturality_id_hom]
+  erw [←
+    (storedV2_18ComparisonComponentIso (W := W) alpha _).hom.toNatTrans.naturality_assoc
+      (((restrictHigherLocalizedSystem W H.lift).mapId _).hom.toNatTrans.app Z)]
+  erw [(R.mapId _).inv.toNatTrans.naturality
+    ((storedV2_18ComparisonComponentIso (W := W) alpha _).hom.toNatTrans.app Z)]
+  simp
 
 /-- Uniform stored-triangle modification naturality on an abstract discrete
 base. -/
 theorem higherStoredV2_18TriangleModificationNaturality_of_isDiscrete
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherStoredV2_18TriangleModificationNaturality (W := W) U := by
   intro H alpha
@@ -85,8 +112,7 @@ theorem higherStoredV2_18TriangleModificationNaturality_of_isDiscrete
 /-- Factor-coherence lifting is automatic for coherent universal data whenever
 the base category is `IsDiscrete`. -/
 theorem higherFactorCoherenceLifting_of_isDiscrete
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFactorCoherenceLifting (W := W) U :=
   higherFactorCoherenceLifting_of_storedTriangleNaturality
@@ -97,8 +123,7 @@ theorem higherFactorCoherenceLifting_of_isDiscrete
 /-- Coherent universal data on an abstract discrete base already determine a
 full v2.18 weak universal property on the same chosen factorization. -/
 theorem hasWeakHigherLocalizationUniversalProperty_of_isDiscrete_coherent
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HasWeakHigherLocalizationUniversalProperty (W := W) R := by
   exact ⟨weakHigherLocalizationUniversalPropertyOfCoherent
@@ -107,8 +132,7 @@ theorem hasWeakHigherLocalizationUniversalProperty_of_isDiscrete_coherent
 /-- The same abstract discreteness kills the route obstruction: correction
 lifting is automatic, independently of the supplied weak-universal witness. -/
 theorem higherCoherentRouteCompleteness_of_isDiscrete
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherCoherentRouteCompleteness (W := W) U := by
   intro _hUniversal
@@ -123,8 +147,7 @@ theorem higherCoherentRouteCompleteness_of_isDiscrete
 
 /-- Local alignment on every `IsDiscrete` base. -/
 theorem higherWeakCoherentAlignment_of_isDiscrete
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherWeakCoherentAlignment (W := W) U :=
   ⟨hasWeakHigherLocalizationUniversalProperty_of_isDiscrete_coherent
@@ -134,8 +157,7 @@ theorem higherWeakCoherentAlignment_of_isDiscrete
 /-- Exact local v2.42 two-axis obstruction elimination on an arbitrary
 `IsDiscrete` base category. -/
 theorem no_twoAxisObstruction_of_isDiscrete
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     ¬ HigherWeakCoherentTwoAxisObstruction (W := W) U :=
   (higherWeakCoherentAlignment_iff_no_twoAxisObstruction
@@ -146,12 +168,12 @@ theorem no_twoAxisObstruction_of_isDiscrete
 existence is the only remaining premise needed for both weak universality and
 route completeness. -/
 theorem universal_and_route_of_isDiscrete_coherentPrinciple
-    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakLocalizationUniversalPrinciple
-        (W := W) (uH := uH) (vH := vH) ∧
-      HigherCoherentRouteCompletenessPrinciple
-        (W := W) (uH := uH) (vH := vH) := by
+    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    HigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+        (W := W) ∧
+      HigherCoherentRouteCompletenessPrinciple.{u, v, uH, vH}
+        (W := W) := by
   apply
     (higherWeakCoherentAlignmentPrinciple_iff_universal_and_route_of_coherent
       (W := W) hCoherent).mp
