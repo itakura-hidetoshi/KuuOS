@@ -197,11 +197,17 @@ def select_lean_targets(
     selecting them would turn a local proof check back into an unrelated full
     library rebuild. Changes to the toolchain/library surface, invalid root
     metadata, missing changed modules, unreadable source files, an empty formal
-    change set, or an impact closure larger than `max_targets` all fail closed
-    to the complete `KuuOSFormal` library target.
+    change set, or an impact closure larger than `max_targets` all fail closed.
+    When changed Lean modules are known and buildable, a full fallback builds
+    both `KuuOSFormal` and those changed modules explicitly, so a newly added
+    theorem frontier cannot be missed merely because the aggregate root has not
+    imported it yet.
     """
-    if any(path in LEAN_FULL_BUILD_PATHS for path in changed_paths):
-        return [FULL_LEAN_TARGET], "Lean toolchain/library root changed"
+    force_full_reason = (
+        "Lean toolchain/library root changed"
+        if any(path in LEAN_FULL_BUILD_PATHS for path in changed_paths)
+        else None
+    )
 
     if library_roots is None:
         try:
@@ -242,6 +248,22 @@ def select_lean_targets(
     except (OSError, UnicodeDecodeError) as exc:
         return [FULL_LEAN_TARGET], f"cannot read formal Lean import graph: {exc}"
 
+    def full_targets_with_changed_modules() -> list[str]:
+        """Fail closed without dropping changed Lean modules outside aggregates."""
+        changed_buildable = sorted(
+            module
+            for module in changed_modules
+            if module != FULL_LEAN_TARGET
+            and _is_buildable_lean_module(module, library_roots)
+            and not _is_full_library_aggregate(
+                module, module_imports.get(module, set())
+            )
+        )
+        return [FULL_LEAN_TARGET, *changed_buildable]
+
+    if force_full_reason is not None:
+        return full_targets_with_changed_modules(), force_full_reason
+
     closure = set(changed_modules)
     pending = list(changed_modules)
     while pending:
@@ -251,7 +273,7 @@ def select_lean_targets(
                 closure.add(importer)
                 pending.append(importer)
                 if len(closure) > max_targets:
-                    return [FULL_LEAN_TARGET], (
+                    return full_targets_with_changed_modules(), (
                         f"reverse-import closure exceeds {max_targets} modules"
                     )
 
@@ -262,7 +284,10 @@ def select_lean_targets(
         and not _is_full_library_aggregate(module, module_imports.get(module, set()))
     )
     if not targets:
-        return [FULL_LEAN_TARGET], "impact closure contains no focused buildable Lake module target"
+        return (
+            full_targets_with_changed_modules(),
+            "impact closure contains no focused buildable Lake module target",
+        )
     return targets, None
 
 
