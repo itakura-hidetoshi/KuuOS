@@ -56,6 +56,7 @@ theorem functionalProfileCorrectionRealization_correctable_iff
     (functionalProfileCorrectionRealization P).CorrectableAt x d ↔ P x d := by
   constructor
   · rintro ⟨f, hf, heffect⟩
+    change P x (f x) at hf
     change f x = d at heffect
     simpa [heffect] using hf
   · intro hd
