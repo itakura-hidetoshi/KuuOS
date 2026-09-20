@@ -68,10 +68,11 @@ theorem chosenInverse_map_eq
   simp only [Functor.comp_map, Functor.id_map] at hnat
   rw [chosenForward_map_eq D w hw ((D.chosen w hw).inverse.map x)] at hnat
   change y ≫ c = c ≫ x at hnat
-  have hmul : (c : C2) * (y : C2) = (x : C2) * (c : C2) := by
-    simpa only [SingleObj.comp_as_mul] using hnat
-  rw [mul_comm (x : C2) (c : C2)] at hmul
-  exact mul_left_cancel hmul
+  have hadd := congrArg Multiplicative.toAdd hnat
+  change c.toAdd + y.toAdd = x.toAdd + c.toAdd at hadd
+  rw [add_comm x.toAdd c.toAdd] at hadd
+  have hyx : y.toAdd = x.toAdd := add_left_cancel hadd
+  exact Multiplicative.ext hyx
 
 /-- Every free localization word acts identically on `C2` morphisms. -/
 theorem counterFreePathEvaluator_map_eq
