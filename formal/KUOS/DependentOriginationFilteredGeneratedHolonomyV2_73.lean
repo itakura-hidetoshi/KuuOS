@@ -28,8 +28,8 @@ separatedness hypothesis at the reflexive automorphism.
 filtration on its automorphism carrier. -/
 def FilteredGeneratedHolonomyFlat
     (W : MorphismProperty Context)
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} {p : X ⟶ Y}
     (F : ObstructionFiltration
@@ -42,8 +42,8 @@ def FilteredGeneratedHolonomyFlat
 holonomy of a fixed loop is exact trivial holonomy. -/
 theorem generatedHolonomy_eq_refl_of_filteredFlat
     (W : MorphismProperty Context)
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : LocalizationPaths W} {p : X ⟶ Y}
     (F : ObstructionFiltration
