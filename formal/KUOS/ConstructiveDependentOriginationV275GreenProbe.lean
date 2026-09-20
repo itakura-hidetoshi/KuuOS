@@ -23,11 +23,11 @@ def twoSectorCorrector :
     trivial
   gain := by
     intro i x n hxinv hgood
-    simp [Function.update]
+    simp [twoSectorData]
     omega
   preserve_other := by
     intro i j m x hji hgood
-    simpa [Function.update, hji] using hgood
+    simpa [twoSectorData, Function.update, hji] using hgood
 
 def schedule01 : List (Fin 2) := [0, 1]
 
