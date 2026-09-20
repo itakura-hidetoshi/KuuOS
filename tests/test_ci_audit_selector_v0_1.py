@@ -216,7 +216,33 @@ class CiAuditSelectorV01Tests(unittest.TestCase):
                 max_targets=1,
                 library_roots={"A", "B"},
             )
-        self.assertEqual(targets, ["KuuOSFormal"])
+        self.assertEqual(targets, ["KuuOSFormal", "A"])
+        self.assertIsNotNone(reason)
+
+    def test_full_fallback_keeps_detached_changed_module(self) -> None:
+        fn = getattr(selector, "select_lean_targets", None)
+        self.assertIsNotNone(fn, "select_lean_targets must exist")
+        if fn is None:
+            return
+        with tempfile.TemporaryDirectory() as tmp:
+            formal = pathlib.Path(tmp) / "formal"
+            kuos = formal / "KUOS"
+            kuos.mkdir(parents=True)
+            (formal / "KuuOSFormal.lean").write_text(
+                "def stable : Nat := 0\n",
+                encoding="utf-8",
+            )
+            (kuos / "Frontier.lean").write_text(
+                "def frontier : Nat := 1\n",
+                encoding="utf-8",
+            )
+            targets, reason = fn(
+                ["formal/KuuOSFormal.lean", "formal/KUOS/Frontier.lean"],
+                formal_root=formal,
+                max_targets=10,
+                library_roots={"KuuOSFormal", "KUOS"},
+            )
+        self.assertEqual(targets, ["KuuOSFormal", "KUOS.Frontier"])
         self.assertIsNotNone(reason)
 
     def assert_full_governance_shards(self, result: dict[str, object]) -> set[str]:
