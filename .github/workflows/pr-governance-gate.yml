@@ -69,7 +69,9 @@ jobs:
                   --jq '[.jobs[]
                     | select(.name != "Select impacted audit checks")
                     | select(.name != "Strict Lean formal validation")
-                    | select(.name != "Governance gate and audit summary")] | length'
+                    | select(.name != "Governance gate and audit summary")
+                    | select(.name != "Publish MCP Lean completion receipt")
+                    | select(.name != "Publish MCP CI completion receipt")] | length'
               )"
               nonlean_bad_count="$(
                 gh api -X GET "repos/${REPOSITORY}/actions/runs/${run_id}/jobs" \
@@ -78,6 +80,8 @@ jobs:
                     | select(.name != "Select impacted audit checks")
                     | select(.name != "Strict Lean formal validation")
                     | select(.name != "Governance gate and audit summary")
+                    | select(.name != "Publish MCP Lean completion receipt")
+                    | select(.name != "Publish MCP CI completion receipt")
                     | select(.conclusion != "success" and .conclusion != "skipped")] | length'
               )"
               [[ "${nonlean_count}" -gt 0 && "${nonlean_bad_count}" == "0" ]] || continue
@@ -272,6 +276,75 @@ jobs:
           path: artifacts/checks/
           if-no-files-found: warn
           retention-days: 14
+
+  chatgpt-lean-status-receipt:
+    name: Publish MCP Lean completion receipt
+    needs:
+      - select
+      - lean-formal
+    if: ${{ always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && needs.select.outputs.lean_required == 'true' }}
+    permissions:
+      contents: read
+      statuses: write
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Publish exact-head Lean status receipt
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          SOURCE_RESULT: ${{ needs.lean-formal.result }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "${SOURCE_RESULT}" in
+            success)
+              state="success"
+              ;;
+            failure|cancelled)
+              state="failure"
+              ;;
+            *)
+              state="error"
+              ;;
+          esac
+          export STATUS_STATE="${state}"
+
+          payload="${RUNNER_TEMP}/chatgpt-lean-status-receipt.json"
+          python3 - "${payload}" <<'PY'
+          import json
+          import os
+          import pathlib
+          import sys
+
+          body = {
+              "state": os.environ["STATUS_STATE"],
+              "target_url": os.environ["RUN_URL"],
+              "description": (
+                  "exact-head Lean receipt; "
+                  f"run {os.environ['RUN_ID']} attempt {os.environ['RUN_ATTEMPT']}: "
+                  f"{os.environ['SOURCE_RESULT']}"
+              )[:140],
+              "context": "chatgpt-ci-receipt/KuuOS Strict Lean formal validation",
+          }
+          pathlib.Path(sys.argv[1]).write_text(
+              json.dumps(body, separators=(",", ":")) + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+          curl --fail-with-body --silent --show-error \
+            --request POST \
+            --header "Accept: application/vnd.github+json" \
+            --header "Authorization: Bearer ${GH_TOKEN}" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            --header "Content-Type: application/json" \
+            --data-binary "@${payload}" \
+            "${GITHUB_API_URL}/repos/${REPOSITORY}/statuses/${HEAD_SHA}"
 
   governance-gate:
     name: Governance gate and audit summary
