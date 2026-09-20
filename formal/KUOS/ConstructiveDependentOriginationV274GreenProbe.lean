@@ -30,8 +30,8 @@ def robustBool :
   robustAt := fun μ _ d => μ ≤ 3 ∧ d = false
   robust_implies_correctable := by
     intro μ x d h
-    subst d
-    exact ⟨false, trivial, rfl⟩
+    refine ⟨false, trivial, ?_⟩
+    simpa [boolCorrection] using h.2.symm
   robust_monotone := by
     intro μ₁ μ₂ x d hμ h
     exact ⟨hμ.trans h.1, h.2⟩
