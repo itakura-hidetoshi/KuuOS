@@ -137,23 +137,15 @@ private theorem pointwiseGeneralWChoiceData_ext
       ∀ {X Y : Context} (f : X ⟶ Y),
         L.mapIso f = L'.mapIso f) :
     L = L' := by
-  cases L with
-  | mk mapId mapComp mapIso =>
-      cases L' with
-      | mk mapId' mapComp' mapIso' =>
-          have hId' : mapId = mapId' := by
-            funext X
-            exact hId X
-          have hComp' : mapComp = mapComp' := by
-            funext X Y Z f g
-            exact hComp f g
-          have hIso' : mapIso = mapIso' := by
-            funext X Y f
-            exact hIso f
-          cases hId'
-          cases hComp'
-          cases hIso'
-          rfl
+  cases L
+  cases L'
+  congr
+  · funext X
+    exact hId X
+  · funext X Y Z f g
+    exact hComp f g
+  · funext X Y f
+    exact hIso f
 
 /-- The normal-form gauge adjustment recovers the entire target pointwise
 choice, not only each family separately. -/
