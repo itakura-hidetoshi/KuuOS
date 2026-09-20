@@ -68,11 +68,21 @@ theorem chosenInverse_map_eq
   simp only [Functor.comp_map, Functor.id_map] at hnat
   rw [chosenForward_map_eq D w hw ((D.chosen w hw).inverse.map x)] at hnat
   change y ≫ c = c ≫ x at hnat
-  have hadd := congrArg Multiplicative.toAdd hnat
-  change c.toAdd + y.toAdd = x.toAdd + c.toAdd at hadd
-  rw [add_comm x.toAdd c.toAdd] at hadd
-  have hyx : y.toAdd = x.toAdd := add_left_cancel hadd
-  exact Multiplicative.ext hyx
+  have hadd :=
+    congrArg (@Multiplicative.toAdd (ZMod 2)) hnat
+  change
+    (@Multiplicative.toAdd (ZMod 2)) c +
+        (@Multiplicative.toAdd (ZMod 2)) y =
+      (@Multiplicative.toAdd (ZMod 2)) x +
+        (@Multiplicative.toAdd (ZMod 2)) c at hadd
+  rw [add_comm
+    ((@Multiplicative.toAdd (ZMod 2)) x)
+    ((@Multiplicative.toAdd (ZMod 2)) c)] at hadd
+  have hyx :
+      (@Multiplicative.toAdd (ZMod 2)) y =
+        (@Multiplicative.toAdd (ZMod 2)) x :=
+    add_left_cancel hadd
+  exact (@Multiplicative.toAdd (ZMod 2)).injective hyx
 
 /-- Every free localization word acts identically on `C2` morphisms. -/
 theorem counterFreePathEvaluator_map_eq
