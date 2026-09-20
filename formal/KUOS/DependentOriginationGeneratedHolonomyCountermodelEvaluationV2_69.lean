@@ -59,15 +59,19 @@ theorem chosenInverse_map_eq
     (x : SingleObj.star C2 ⟶ SingleObj.star C2) :
     (PointwiseWAdjointEquivalenceData.inverse
       allMorphisms D w hw).toFunctor.map x = x := by
-  let y : C2 := (D.chosen w hw).inverse.map x
-  let c : C2 := (D.chosen w hw).counitIso.hom.app (SingleObj.star C2)
-  change y = (x : C2)
+  let y : SingleObj.star C2 ⟶ SingleObj.star C2 :=
+    (D.chosen w hw).inverse.map x
+  let c : SingleObj.star C2 ⟶ SingleObj.star C2 :=
+    (D.chosen w hw).counitIso.hom.app (SingleObj.star C2)
+  change y = x
   have hnat := (D.chosen w hw).counitIso.hom.naturality x
   simp only [Functor.comp_map, Functor.id_map] at hnat
   rw [chosenForward_map_eq D w hw ((D.chosen w hw).inverse.map x)] at hnat
-  change c * y = (x : C2) * c at hnat
-  rw [mul_comm (x : C2) c] at hnat
-  exact mul_left_cancel hnat
+  change y ≫ c = c ≫ x at hnat
+  have hmul : (c : C2) * (y : C2) = (x : C2) * (c : C2) := by
+    simpa only [SingleObj.comp_as_mul] using hnat
+  rw [mul_comm (x : C2) (c : C2)] at hmul
+  exact mul_left_cancel hmul
 
 /-- Every free localization word acts identically on `C2` morphisms. -/
 theorem counterFreePathEvaluator_map_eq
