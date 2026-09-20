@@ -90,12 +90,21 @@ noncomputable def correctedGeneratedRouteWitness_of_correctable
       GeneratedHolonomyCorrectable W R D C x
         (generatedLocalization2CellDifference W alpha beta)) :
     CorrectedGeneratedRouteWitness W R D alpha beta C x := by
-  rcases h with ⟨c, hc, heffect⟩
+  have hnonempty :
+      Nonempty
+        { c : Param //
+          C.admissible x c ∧
+            C.effect x c =
+              generatedHolonomy W R D
+                (generatedLocalization2CellDifference W alpha beta) } := by
+    rcases h with ⟨c, hc, heffect⟩
+    exact ⟨⟨c, hc, heffect⟩⟩
+  let witness := Classical.choice hnonempty
   refine
-    { parameter := c
-      admissible := hc
+    { parameter := witness.1
+      admissible := witness.2.1
       corrected_evaluation := ?_ }
-  rw [heffect, generatedLocalization2CellDifference_holonomy]
+  rw [witness.2.2, generatedLocalization2CellDifference_holonomy]
   apply Iso.ext
   simp [Iso.trans_hom, Category.assoc]
 
@@ -163,8 +172,7 @@ noncomputable def generatedQuotientRightUnitorDifferenceLoop
 
 /-- Difference loop measuring the generated identity-comparison route pair. -/
 noncomputable def generatedComparisonIdentityDifferenceLoop
-    (X : Context) :
-    GeneratedLocalizationLoop W (𝟙 _) :=
+    (X : Context) :=
   generatedLocalization2CellDifference W
     (generatedComparisonIdentityRawRoute W X)
     (generatedComparisonIdentityQuotientRoute W X)
@@ -275,7 +283,7 @@ What is still not justified is the global inference
 
 ```text
 all five route families individually correction-repairable
-        -/->
+        does not imply
 one PointwiseChoiceGauge whose target has FiveCoherenceDefectsTrivial.
 ```
 
