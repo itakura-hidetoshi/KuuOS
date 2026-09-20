@@ -183,8 +183,8 @@ def CorrectableAt
   exists p, C.admissible x p /\ C.effect x p = d
 ```
 
-The exact field names may be adjusted during implementation, but the
-mathematical boundary is fixed:
+The implementation must preserve these fields or definitionally equivalent
+data with the same mathematical content:
 
 - correction parameters are explicit,
 - admissibility is explicit,
@@ -206,11 +206,16 @@ structure RobustCorrectionData
   robust_implies_correctable :
     forall mu x d, robustAt mu x d -> CorrectableAt C x d
   robust_monotone :
-    ...
+    forall {mu1 mu2 x d},
+      mu2 <= mu1 ->
+      robustAt mu1 x d ->
+      robustAt mu2 x d
 ```
 
-A concrete normed or conic model may later instantiate `Margin`, but v2.74
-must not impose a norm or topology on generated-holonomy automorphism types.
+The ordering convention is: larger margins are stronger witnesses; a witness at
+`mu1` restricts to every `mu2 <= mu1`. Concrete normed or conic models may
+instantiate `Margin`, but v2.74 must not impose a norm or topology on
+generated-holonomy automorphism types.
 
 ### 4.3 Theorems
 
@@ -341,7 +346,28 @@ N + loss <= g(j)
 
 and then using filtration monotonicity.
 
-### 7.3 Boundary
+### 7.3 Scheduled tower
+
+Define a cofinal-schedule tower rather than reusing only the linear v2.72
+schedule:
+
+```lean
+structure CofinalCorrectionTower
+    (F : ObstructionFiltration D)
+    (P : ResidualProblem State D)
+    (Step : State -> State -> Prop)
+    (g : Nat -> Nat) where
+  state : Nat -> State
+  invariant : forall j, P.invariant (state j)
+  step : forall j, Step (state j) (state (j + 1))
+  order : forall j, F.OrderAtLeast (g j) (P.residual (state j))
+  cofinal : CofinalOrderSchedule g
+```
+
+This structure records a tower already supplied as data. v2.77 does not derive
+it from finite correction gain.
+
+### 7.4 Boundary
 
 No uniform stage constant is required.
 
@@ -354,9 +380,10 @@ required.
 Target files:
 
 - `formal/KUOS/DependentOriginationTowerRealizationV2_78.lean`
-- optionally a separate
-  `DependentOriginationResidualStabilityV2_78.lean`
-  if the implementation becomes too large.
+- `formal/KUOS/DependentOriginationResidualStabilityV2_78.lean`
+
+The split is mandatory: realization data and residual-stability transfer are
+separate theorem layers.
 
 The formal correction tower and a realized global object remain separate.
 
@@ -366,7 +393,8 @@ Target abstraction:
 
 ```lean
 structure TowerRealization
-    (T : ...) where
+    (T : CofinalCorrectionTower F P Step g)
+    (Approx : Nat -> State -> State -> Prop) where
   limitState : State
   invariant_limit : P.invariant limitState
   approximation :
