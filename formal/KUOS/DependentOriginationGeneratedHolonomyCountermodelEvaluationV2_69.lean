@@ -59,20 +59,16 @@ theorem chosenInverse_map_eq
     (x : SingleObj.star C2 ⟶ SingleObj.star C2) :
     (PointwiseWAdjointEquivalenceData.inverse
       allMorphisms D w hw).toFunctor.map x = x := by
-  let E : CounterFiber ≌ CounterFiber := D.chosen w hw
-  change E.inverse.map x = x
-  have hE : E.functor = 𝟭 CounterFiber := by
-    dsimp [E]
-    rw [D.chosen_functor w hw, counterSystem_map_toFunctor]
-  have hnat := E.counitIso.hom.naturality x
-  rw [hE] at hnat
+  change (D.chosen w hw).inverse.map x = x
+  have hnat := (D.chosen w hw).counitIso.hom.naturality x
   simp only [Functor.comp_map, Functor.id_map] at hnat
-  have hmul :
-      (E.counitIso.hom.app (SingleObj.star C2) : C2) * E.inverse.map x =
-        x * (E.counitIso.hom.app (SingleObj.star C2) : C2) := by
-    simpa only [SingleObj.comp_as_mul] using hnat
-  rw [mul_comm x (E.counitIso.hom.app (SingleObj.star C2) : C2)] at hmul
-  exact mul_left_cancel hmul
+  rw [chosenForward_map_eq D w hw ((D.chosen w hw).inverse.map x)] at hnat
+  change
+    ((D.chosen w hw).counitIso.hom.app (SingleObj.star C2) : C2) *
+        (D.chosen w hw).inverse.map x =
+      x * ((D.chosen w hw).counitIso.hom.app (SingleObj.star C2) : C2) at hnat
+  rw [mul_comm x ((D.chosen w hw).counitIso.hom.app (SingleObj.star C2) : C2)] at hnat
+  exact mul_left_cancel hnat
 
 /-- Every free localization word acts identically on `C2` morphisms. -/
 theorem counterFreePathEvaluator_map_eq
@@ -182,12 +178,12 @@ theorem counterEvaluationScalar_whiskerLeft
   simp only [Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
     Cat.Hom₂.comp_app, whiskerLeftIso_hom, Cat.whiskerLeft_app,
     Cat.eqToHom_app]
-  rw [eqToHom_comp_eq]
-  exact congrArg
-    (fun T : CounterFiber =>
-      (generatedLocalization2CellEvaluationIso
-        allMorphisms counterSystem D α).hom.toNatTrans.app T)
-    (Subsingleton.elim _ _)
+  have hobj :
+      ((freePathEvaluator allMorphisms counterSystem D).map k).toFunctor.obj
+          (SingleObj.star C2) =
+        SingleObj.star C2 := Subsingleton.elim _ _
+  cases hobj
+  simp
 
 @[simp]
 theorem counterEvaluationScalar_whiskerRight
@@ -203,8 +199,13 @@ theorem counterEvaluationScalar_whiskerRight
   simp only [Iso.trans_hom, Iso.symm_hom, eqToIso.hom, eqToIso.inv,
     Cat.Hom₂.comp_app, whiskerRightIso_hom, Cat.whiskerRight_app,
     Cat.eqToHom_app]
-  rw [eqToHom_comp_eq]
-  exact counterFreePathEvaluator_map_eq D k _
+  have hobj :
+      ((freePathEvaluator allMorphisms counterSystem D).map k).toFunctor.obj
+          (SingleObj.star C2) =
+        SingleObj.star C2 := Subsingleton.elim _ _
+  cases hobj
+  rw [counterFreePathEvaluator_map_eq D k]
+  simp
 
 /-- Component of the concrete compositor at the unique target object. -/
 @[simp] theorem counterMapComp_hom_app_star
