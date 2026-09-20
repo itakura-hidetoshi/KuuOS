@@ -203,7 +203,7 @@ theorem hasLocalizedHigherSystem_of_generatedQuotientGaugeCoboundarySolvable
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (h : GeneratedQuotientGaugeCoboundarySolvable W R D) :
     Nonempty
-      (KUOS.DependentOriginationHigherStackDescentV2_8.HigherLocalizedDescentSystem
+      (KUOS.DependentOriginationHigherStackDescentV2_8.HigherLocalizedDescentSystem.{u, v, uH, vH}
         (W := W)) := by
   apply hasLocalizedHigherSystem_of_coherentQuotientTransport W R D
   exact
