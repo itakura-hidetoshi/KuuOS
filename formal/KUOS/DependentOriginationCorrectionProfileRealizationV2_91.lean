@@ -56,11 +56,12 @@ theorem functionalProfileCorrectionRealization_correctable_iff
     (functionalProfileCorrectionRealization P).CorrectableAt x d ↔ P x d := by
   constructor
   · rintro ⟨f, hf, heffect⟩
-    change P x (f x) at hf
-    change f x = d at heffect
-    simpa [heffect] using hf
+    dsimp [functionalProfileCorrectionRealization] at hf heffect
+    rw [heffect] at hf
+    exact hf
   · intro hd
     refine ⟨fun _ => d, ?_, rfl⟩
+    change P x d
     exact hd
 
 /-- The reachability profile of the functional realization is propositionally
