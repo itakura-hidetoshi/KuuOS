@@ -42,11 +42,20 @@ context.  Adding a pushout overlap system at every context then turns the latter
 condition into v2.1 effective contextual descent everywhere.
 -/
 
+end KUOS.DependentOriginationBaseChangeDescentV2_5
+
+namespace KUOS.DependentOriginationGeneratedRefinementTopologyV2_4.RefinementAtlas
+
+open CategoryTheory
+open Opposite
+open KUOS.DependentOriginationContextualDescentV1_1
+open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
+
+universe u v w
+
 section AtlasGeometry
 
 variable {Context : Type u} [Category.{v} Context]
-
-namespace RefinementAtlas
 
 /-- The ordinary v1.1 refinement cover underlying the atlas family at one
 context. -/
@@ -92,9 +101,22 @@ structure PushoutOverlapAtlas (A : RefinementAtlas Context) where
   isPushout : ∀ X : Context,
     IsPushoutOverlapSystem (A.coverAt X) (overlap X)
 
-end RefinementAtlas
-
 end AtlasGeometry
+
+end KUOS.DependentOriginationGeneratedRefinementTopologyV2_4.RefinementAtlas
+
+namespace KUOS.DependentOriginationBaseChangeDescentV2_5
+
+open CategoryTheory
+open Opposite
+open KUOS.DependentOriginationFunctorialTransportV0_1
+open KUOS.DependentOriginationContextualDescentV1_1
+open KUOS.DependentOriginationEffectiveDescentComparisonV2_1
+open KUOS.DependentOriginationOppositeSiteVarianceBridgeV2_3
+open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
+open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4.RefinementAtlas
+
+universe u v w
 
 section GlobalSheafCriterion
 
@@ -111,6 +133,7 @@ theorem presieveIsSheaf_generatedTopology_iff_declaredCovers
     (P : (Contextᵒᵖ)ᵒᵖ ⥤ Type w) :
     Presieve.IsSheaf A.generatedTopology P ↔
       ∀ X : Contextᵒᵖ, Presieve.IsSheafFor P (A.presieveAt X) := by
+  unfold RefinementAtlas.generatedTopology
   rw [Precoverage.isSheaf_toGrothendieck_iff]
   constructor
   · intro h X

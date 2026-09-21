@@ -6,6 +6,7 @@ on:
 
 permissions:
   contents: read
+  actions: read
 
 concurrency:
   group: kuuos-pr-governance-${{ github.event.pull_request.number || github.ref }}
@@ -20,6 +21,7 @@ jobs:
       python_count: ${{ steps.selection.outputs.python_count }}
       lean_required: ${{ steps.selection.outputs.lean_required }}
       full_audit_required: ${{ steps.selection.outputs.full_audit_required }}
+      comparison_mode: ${{ steps.refs.outputs.mode }}
     steps:
       - name: Check out repository with history
         uses: actions/checkout@v6
@@ -30,32 +32,124 @@ jobs:
         id: refs
         shell: bash
         env:
+          GH_TOKEN: ${{ github.token }}
           EVENT_NAME: ${{ github.event_name }}
+          EVENT_ACTION: ${{ github.event.action }}
           PR_BASE_SHA: ${{ github.event.pull_request.base.sha }}
           PR_HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          PR_HEAD_REF: ${{ github.event.pull_request.head.ref }}
           CURRENT_SHA: ${{ github.sha }}
+          CURRENT_RUN_ID: ${{ github.run_id }}
+          REPOSITORY: ${{ github.repository }}
         run: |
           set -euo pipefail
-          if [[ "${EVENT_NAME}" == "pull_request" ]]; then
-            echo "base=${PR_BASE_SHA}" >> "${GITHUB_OUTPUT}"
-            echo "head=${PR_HEAD_SHA}" >> "${GITHUB_OUTPUT}"
-          else
+          if [[ "${EVENT_NAME}" != "pull_request" ]]; then
             git fetch origin main --depth=2
             echo "base=origin/main" >> "${GITHUB_OUTPUT}"
             echo "head=${CURRENT_SHA}" >> "${GITHUB_OUTPUT}"
+            echo "mode=full-dispatch" >> "${GITHUB_OUTPUT}"
+            exit 0
           fi
+
+          base="${PR_BASE_SHA}"
+          head="${PR_HEAD_SHA}"
+          mode="full-pr"
+
+          if [[ "${EVENT_ACTION}" == "synchronize" ]]; then
+            while IFS='|' read -r run_id candidate_sha run_status; do
+              [[ -n "${run_id}" && -n "${candidate_sha}" ]] || continue
+              [[ "${run_id}" != "${CURRENT_RUN_ID}" ]] || continue
+              [[ "${run_status}" == "completed" ]] || continue
+              git cat-file -e "${candidate_sha}^{commit}" 2>/dev/null || continue
+              git merge-base --is-ancestor "${candidate_sha}" "${head}" || continue
+
+              nonlean_count="$(
+                gh api -X GET "repos/${REPOSITORY}/actions/runs/${run_id}/jobs" \
+                  -f per_page=100 \
+                  --jq '[.jobs[]
+                    | select(.name != "Select impacted audit checks")
+                    | select(.name != "Strict Lean formal validation")
+                    | select(.name != "Governance gate and audit summary")
+                    | select(.name != "Publish MCP Lean completion receipt")
+                    | select(.name != "Publish MCP CI completion receipt")] | length'
+              )"
+              nonlean_bad_count="$(
+                gh api -X GET "repos/${REPOSITORY}/actions/runs/${run_id}/jobs" \
+                  -f per_page=100 \
+                  --jq '[.jobs[]
+                    | select(.name != "Select impacted audit checks")
+                    | select(.name != "Strict Lean formal validation")
+                    | select(.name != "Governance gate and audit summary")
+                    | select(.name != "Publish MCP Lean completion receipt")
+                    | select(.name != "Publish MCP CI completion receipt")
+                    | select(.conclusion != "success" and .conclusion != "skipped")] | length'
+              )"
+              [[ "${nonlean_count}" -gt 0 && "${nonlean_bad_count}" == "0" ]] || continue
+
+              mapfile -t delta_paths < <(
+                git diff --name-only --diff-filter=ACMR "${candidate_sha}...${head}"
+              )
+              [[ "${#delta_paths[@]}" -gt 0 ]] || continue
+
+              lean_only=true
+              for changed_path in "${delta_paths[@]}"; do
+                if [[ ! "${changed_path}" =~ ^formal/.+\.lean$ ]]; then
+                  lean_only=false
+                  break
+                fi
+              done
+              [[ "${lean_only}" == "true" ]] || continue
+
+              base="${candidate_sha}"
+              mode="validated-lean-incremental"
+              break
+            done < <(
+              gh api -X GET \
+                "repos/${REPOSITORY}/actions/workflows/pr-governance-gate.yml/runs" \
+                -f event=pull_request \
+                -f branch="${PR_HEAD_REF}" \
+                -f per_page=10 \
+                --jq '.workflow_runs[] | "\(.id)|\(.head_sha)|\(.status)"'
+            )
+          fi
+
+          echo "base=${base}" >> "${GITHUB_OUTPUT}"
+          echo "head=${head}" >> "${GITHUB_OUTPUT}"
+          echo "mode=${mode}" >> "${GITHUB_OUTPUT}"
 
       - name: Select checks with fail-closed fallback
         id: selection
         shell: bash
+        env:
+          COMPARISON_MODE: ${{ steps.refs.outputs.mode }}
+          COMPARISON_BASE: ${{ steps.refs.outputs.base }}
+          COMPARISON_HEAD: ${{ steps.refs.outputs.head }}
         run: |
           set -euo pipefail
           mkdir -p artifacts/selection
+          extra_args=()
+          if [[ "${COMPARISON_MODE}" == "validated-lean-incremental" ]]; then
+            extra_args+=(--validated-lean-incremental)
+          fi
           python3 scripts/select_impacted_checks.py \
-            --base '${{ steps.refs.outputs.base }}' \
-            --head '${{ steps.refs.outputs.head }}' \
+            --base "${COMPARISON_BASE}" \
+            --head "${COMPARISON_HEAD}" \
             --output artifacts/selection/selection.json \
-            --github-output "${GITHUB_OUTPUT}"
+            --github-output "${GITHUB_OUTPUT}" \
+            "${extra_args[@]}"
+
+          python3 - <<'PY'
+          import json
+          import os
+          import pathlib
+
+          path = pathlib.Path("artifacts/selection/selection.json")
+          data = json.loads(path.read_text(encoding="utf-8"))
+          data["comparison_mode"] = os.environ["COMPARISON_MODE"]
+          data["comparison_base"] = os.environ["COMPARISON_BASE"]
+          data["comparison_head"] = os.environ["COMPARISON_HEAD"]
+          path.write_text(json.dumps(data, ensure_ascii=False, indent=2) + "\n", encoding="utf-8")
+          PY
 
       - name: Upload selection receipt
         uses: actions/upload-artifact@v4
@@ -128,7 +222,7 @@ jobs:
           name: audit-selection-${{ github.run_id }}-${{ github.run_attempt }}
           path: artifacts/selection
 
-      - name: Set up pinned Lean, Mathlib, and caches
+      - name: Set up pinned Lean and Mathlib cache
         uses: leanprover/lean-action@v1
         with:
           auto-config: false
@@ -136,15 +230,38 @@ jobs:
           test: false
           lint: false
           use-mathlib-cache: true
-          use-github-cache: true
+          use-github-cache: false
 
       - name: Run selected Lean check
         shell: bash
         run: |
           set -euo pipefail
+          LEAN_COMMAND="$(
+            python3 - <<'PY'
+          import json
+          import pathlib
+          import shlex
+
+          selection = json.loads(
+              pathlib.Path("artifacts/selection/selection.json").read_text(encoding="utf-8")
+          )
+          targets = selection.get("lean_targets")
+          if not isinstance(targets, list) or not targets or not all(isinstance(t, str) for t in targets):
+              raise SystemExit("missing or invalid lean_targets in selection receipt")
+          argv = [
+              "lake",
+              "-KleanArgs=-DwarningAsError=true",
+              "-KleanArgs=-DsorryAsError=true",
+              "build",
+              *targets,
+          ]
+          print(shlex.join(argv))
+          PY
+          )"
+          echo "Lean command: ${LEAN_COMMAND}"
           python3 scripts/run_ci_check.py \
             --check-id lean-formal \
-            --command 'lake -KleanArgs=-DwarningAsError=true -KleanArgs=-DsorryAsError=true build KuuOSFormal' \
+            --command "${LEAN_COMMAND}" \
             --selection artifacts/selection/selection.json
 
       - name: Verify committed dependency manifest remains canonical
@@ -159,6 +276,79 @@ jobs:
           path: artifacts/checks/
           if-no-files-found: warn
           retention-days: 14
+
+  chatgpt-lean-status-receipt:
+    name: Publish MCP Lean completion receipt
+    needs:
+      - select
+      - lean-formal
+    if: ${{ always() && github.event_name == 'pull_request' && github.event.pull_request.head.repo.full_name == github.repository && needs.select.outputs.lean_required == 'true' }}
+    permissions:
+      contents: read
+      statuses: write
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    steps:
+      - name: Publish exact-head Lean status receipt
+        env:
+          GH_TOKEN: ${{ github.token }}
+          REPOSITORY: ${{ github.repository }}
+          HEAD_SHA: ${{ github.event.pull_request.head.sha }}
+          SOURCE_RESULT: ${{ needs.lean-formal.result }}
+          RUN_ID: ${{ github.run_id }}
+          RUN_ATTEMPT: ${{ github.run_attempt }}
+          RUN_URL: ${{ github.server_url }}/${{ github.repository }}/actions/runs/${{ github.run_id }}
+        shell: bash
+        run: |
+          set -euo pipefail
+          case "${SOURCE_RESULT}" in
+            success)
+              state="success"
+              ;;
+            failure|cancelled)
+              state="failure"
+              ;;
+            *)
+              state="error"
+              ;;
+          esac
+          export STATUS_STATE="${state}"
+
+          payload="${RUNNER_TEMP}/chatgpt-lean-status-receipt.json"
+          python3 - "${payload}" <<'PY'
+          import json
+          import os
+          import pathlib
+          import sys
+
+          body = {
+              "state": os.environ["STATUS_STATE"],
+              "target_url": os.environ["RUN_URL"],
+              "description": (
+                  "exact-head Lean receipt; "
+                  f"run {os.environ['RUN_ID']} attempt {os.environ['RUN_ATTEMPT']}: "
+                  f"{os.environ['SOURCE_RESULT']}"
+              )[:140],
+              "context": "chatgpt-ci-receipt/KuuOS Strict Lean formal validation",
+          }
+          pathlib.Path(sys.argv[1]).write_text(
+              json.dumps(body, separators=(",", ":")) + "\n",
+              encoding="utf-8",
+          )
+          PY
+
+          curl --fail-with-body --silent --show-error \
+            --request POST \
+            --header "Accept: application/vnd.github+json" \
+            --header "Authorization: Bearer ${GH_TOKEN}" \
+            --header "X-GitHub-Api-Version: 2022-11-28" \
+            --header "Content-Type: application/json" \
+            --data-binary "@${payload}" \
+            "${GITHUB_API_URL}/repos/${REPOSITORY}/statuses/${HEAD_SHA}"
+
+          if [[ "${STATUS_STATE}" != "success" ]]; then
+            exit 1
+          fi
 
   governance-gate:
     name: Governance gate and audit summary
@@ -262,11 +452,12 @@ jobs:
               "state": os.environ["STATUS_STATE"],
               "target_url": os.environ["RUN_URL"],
               "description": (
-                  "wake-up receipt only; "
+                  "exact-head terminal; "
+                  f"{os.environ['HEAD_SHA'][:12]} "
                   f"run {os.environ['RUN_ID']} attempt {os.environ['RUN_ATTEMPT']}: "
                   f"{os.environ['SOURCE_RESULT']}"
               )[:140],
-              "context": "chatgpt-ci-receipt/KuuOS PR Governance Gate",
+              "context": "chatgpt-ci-receipt/KuuOS exact-head terminal",
           }
           pathlib.Path(sys.argv[1]).write_text(
               json.dumps(body, separators=(",", ":")) + "\n",
@@ -282,3 +473,7 @@ jobs:
             --header "Content-Type: application/json" \
             --data-binary "@${payload}" \
             "${GITHUB_API_URL}/repos/${REPOSITORY}/statuses/${HEAD_SHA}"
+
+          if [[ "${STATUS_STATE}" != "success" ]]; then
+            exit 1
+          fi

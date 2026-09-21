@@ -2,8 +2,10 @@
 from __future__ import annotations
 
 import pathlib
+import tempfile
 import unittest
 
+import scripts.select_impacted_checks as selector
 from scripts.select_impacted_checks import load_registry, select
 
 ROOT = pathlib.Path(__file__).resolve().parents[1]
@@ -78,6 +80,170 @@ class CiAuditSelectorV01Tests(unittest.TestCase):
             selected_ids(result),
             {"lean-formal", "plan-os", "workflow-integrity"},
         )
+
+    def test_validated_lean_incremental_runs_only_lean(self) -> None:
+        result = select(
+            REGISTRY,
+            ["formal/KUOS/DependentOriginationGeneratedQuotientCoherenceV2_68.lean"],
+            None,
+            validated_lean_incremental=True,
+        )
+        self.assertFalse(result["full_audit_required"])
+        self.assertTrue(result["validated_lean_incremental"])
+        self.assertEqual(selected_ids(result), {"lean-formal"})
+
+    def test_validated_lean_incremental_rejects_nonlean_diff(self) -> None:
+        with self.assertRaisesRegex(ValueError, "formal/\\*\\*/\\*.lean-only diff"):
+            select(
+                REGISTRY,
+                [
+                    "formal/KUOS/DependentOriginationGeneratedQuotientCoherenceV2_68.lean",
+                    "docs/example.md",
+                ],
+                None,
+                validated_lean_incremental=True,
+            )
+
+    def test_impacted_lean_targets_include_reverse_import_closure(self) -> None:
+        fn = getattr(selector, "select_lean_targets", None)
+        self.assertIsNotNone(fn, "select_lean_targets must exist")
+        if fn is None:
+            return
+        with tempfile.TemporaryDirectory() as tmp:
+            formal = pathlib.Path(tmp) / "formal"
+            formal.mkdir()
+            (formal / "A.lean").write_text("def a : Nat := 0\n", encoding="utf-8")
+            (formal / "B.lean").write_text("import A\ndef b : Nat := a\n", encoding="utf-8")
+            (formal / "C.lean").write_text("import B\ndef c : Nat := b\n", encoding="utf-8")
+            (formal / "D.lean").write_text("def d : Nat := 1\n", encoding="utf-8")
+            targets, reason = fn(
+                ["formal/A.lean"],
+                formal_root=formal,
+                max_targets=10,
+                library_roots={"A", "B", "C", "D"},
+            )
+        self.assertIsNone(reason)
+        self.assertEqual(targets, ["A", "B", "C"])
+
+    def test_lean_targets_exclude_nonroot_and_full_library_aggregate_importers(self) -> None:
+        fn = getattr(selector, "select_lean_targets", None)
+        self.assertIsNotNone(fn, "select_lean_targets must exist")
+        if fn is None:
+            return
+        with tempfile.TemporaryDirectory() as tmp:
+            formal = pathlib.Path(tmp) / "formal"
+            kuos = formal / "KUOS"
+            kuos.mkdir(parents=True)
+            (kuos / "Counter.lean").write_text("def counter : Nat := 0\n", encoding="utf-8")
+            (formal / "KuuOSFormalV0_69.lean").write_text(
+                "import KuuOSFormal\nimport KUOS.Counter\n",
+                encoding="utf-8",
+            )
+            (formal / "KuuOSObserveOSV0_5.lean").write_text(
+                "import KUOS.Counter\ndef observe : Nat := counter\n",
+                encoding="utf-8",
+            )
+            (formal / "KuuOSVerifyOSV0_7.lean").write_text(
+                "import KUOS.Counter\ndef verify : Nat := counter\n",
+                encoding="utf-8",
+            )
+            targets, reason = fn(
+                ["formal/KUOS/Counter.lean", "formal/KuuOSFormalV0_69.lean"],
+                formal_root=formal,
+                max_targets=10,
+                library_roots={"KUOS", "KuuOSFormalV0_69"},
+            )
+        self.assertIsNone(reason)
+        self.assertEqual(targets, ["KUOS.Counter"])
+
+    def test_full_library_aggregate_only_change_fails_closed(self) -> None:
+        fn = getattr(selector, "select_lean_targets", None)
+        self.assertIsNotNone(fn, "select_lean_targets must exist")
+        if fn is None:
+            return
+        with tempfile.TemporaryDirectory() as tmp:
+            formal = pathlib.Path(tmp) / "formal"
+            formal.mkdir()
+            (formal / "KuuOSFormalV0_69.lean").write_text(
+                "import KuuOSFormal\n",
+                encoding="utf-8",
+            )
+            targets, reason = fn(
+                ["formal/KuuOSFormalV0_69.lean"],
+                formal_root=formal,
+                max_targets=10,
+                library_roots={"KuuOSFormalV0_69"},
+            )
+        self.assertEqual(targets, ["KuuOSFormal"])
+        self.assertIsNotNone(reason)
+
+    def test_lean_library_roots_are_read_from_lakefile(self) -> None:
+        fn = getattr(selector, "_load_lean_library_roots", None)
+        self.assertIsNotNone(fn, "_load_lean_library_roots must exist")
+        if fn is None:
+            return
+        with tempfile.TemporaryDirectory() as tmp:
+            lakefile = pathlib.Path(tmp) / "lakefile.toml"
+            lakefile.write_text(
+                'name = "Example"\n\n[[lean_lib]]\nname = "Example"\nroots = ["KUOS", "Top"]\n',
+                encoding="utf-8",
+            )
+            roots = fn(lakefile)
+        self.assertEqual(roots, {"KUOS", "Top"})
+
+    def test_lean_target_selection_falls_back_for_toolchain_changes(self) -> None:
+        fn = getattr(selector, "select_lean_targets", None)
+        self.assertIsNotNone(fn, "select_lean_targets must exist")
+        if fn is None:
+            return
+        targets, reason = fn(["lean-toolchain"])
+        self.assertEqual(targets, ["KuuOSFormal"])
+        self.assertIsNotNone(reason)
+
+    def test_lean_target_selection_falls_back_when_closure_is_too_large(self) -> None:
+        fn = getattr(selector, "select_lean_targets", None)
+        self.assertIsNotNone(fn, "select_lean_targets must exist")
+        if fn is None:
+            return
+        with tempfile.TemporaryDirectory() as tmp:
+            formal = pathlib.Path(tmp) / "formal"
+            formal.mkdir()
+            (formal / "A.lean").write_text("def a : Nat := 0\n", encoding="utf-8")
+            (formal / "B.lean").write_text("import A\ndef b : Nat := a\n", encoding="utf-8")
+            targets, reason = fn(
+                ["formal/A.lean"],
+                formal_root=formal,
+                max_targets=1,
+                library_roots={"A", "B"},
+            )
+        self.assertEqual(targets, ["KuuOSFormal", "A"])
+        self.assertIsNotNone(reason)
+
+    def test_full_fallback_keeps_detached_changed_module(self) -> None:
+        fn = getattr(selector, "select_lean_targets", None)
+        self.assertIsNotNone(fn, "select_lean_targets must exist")
+        if fn is None:
+            return
+        with tempfile.TemporaryDirectory() as tmp:
+            formal = pathlib.Path(tmp) / "formal"
+            kuos = formal / "KUOS"
+            kuos.mkdir(parents=True)
+            (formal / "KuuOSFormal.lean").write_text(
+                "def stable : Nat := 0\n",
+                encoding="utf-8",
+            )
+            (kuos / "Frontier.lean").write_text(
+                "def frontier : Nat := 1\n",
+                encoding="utf-8",
+            )
+            targets, reason = fn(
+                ["formal/KuuOSFormal.lean", "formal/KUOS/Frontier.lean"],
+                formal_root=formal,
+                max_targets=10,
+                library_roots={"KuuOSFormal", "KUOS"},
+            )
+        self.assertEqual(targets, ["KuuOSFormal", "KUOS.Frontier"])
+        self.assertIsNotNone(reason)
 
     def assert_full_governance_shards(self, result: dict[str, object]) -> set[str]:
         ids = selected_ids(result)

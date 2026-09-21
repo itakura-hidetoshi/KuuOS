@@ -47,11 +47,11 @@ unit isomorphism, counit isomorphism, and the triangle law.  The second field
 forces its forward functor to be exactly the underlying functor of `R.map f`, so
 this datum cannot change the raw higher system or silently strictify it. -/
 structure PointwiseWAdjointEquivalenceData
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)) where
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)) where
   chosen :
     ∀ {X Y : Context} (f : X ⟶ Y), W f →
-      R.obj (.mk X) ≌ R.obj (.mk Y)
+      (R.obj (.mk X) ≌ R.obj (.mk Y))
   chosen_functor :
     ∀ {X Y : Context} (f : X ⟶ Y) (hf : W f),
       (chosen f hf).functor = (R.map f.toLoc).toFunctor
@@ -63,8 +63,8 @@ No global strictification is used.  For each `f ∈ W`, the existing
 `Functor.IsEquivalence` instance is passed directly to Mathlib's
 `Functor.asEquivalence`. -/
 noncomputable def pointwiseWAdjointEquivalenceDataOfAdmissible
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
     (hR : IsHigherWAdmissible W R) :
     PointwiseWAdjointEquivalenceData (W := W) R where
   chosen := by
@@ -78,8 +78,8 @@ noncomputable def pointwiseWAdjointEquivalenceDataOfAdmissible
 /-- Conversely, pointwise chosen adjoint-equivalence data implies the original
 v2.10 weak admissibility condition. -/
 theorem isHigherWAdmissible_of_pointwiseWAdjointEquivalenceData
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
     (D : PointwiseWAdjointEquivalenceData (W := W) R) :
     IsHigherWAdmissible W R := by
   intro X Y f hf
@@ -93,8 +93,8 @@ individual `W`-arrow is neither stronger nor weaker than v2.10 admissibility.
 Any additional hypothesis needed for general higher-localization factorization
 must therefore concern compatibility *between* these local packages. -/
 theorem isHigherWAdmissible_iff_nonempty_pointwiseWAdjointEquivalenceData
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)) :
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)) :
     IsHigherWAdmissible W R ↔
       Nonempty (PointwiseWAdjointEquivalenceData (W := W) R) := by
   constructor
@@ -106,8 +106,8 @@ theorem isHigherWAdmissible_iff_nonempty_pointwiseWAdjointEquivalenceData
 /-- The chosen inverse functor can be recovered as an actual 1-cell of `Cat`.
 This is a convenience projection for the next path-level localization layer. -/
 noncomputable def PointwiseWAdjointEquivalenceData.inverse
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : Context} (f : X ⟶ Y) (hf : W f) :
     R.obj (.mk Y) ⟶ R.obj (.mk X) :=
@@ -118,8 +118,8 @@ noncomputable def PointwiseWAdjointEquivalenceData.inverse
 anchored, through `chosen_functor`, to the original `R.map f` rather than to a
 replacement presentation. -/
 theorem PointwiseWAdjointEquivalenceData.forward_toFunctor_eq
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : Context} (f : X ⟶ Y) (hf : W f) :
     (D.chosen f hf).functor = (R.map f.toLoc).toFunctor :=

@@ -3,10 +3,12 @@ import KUOS.DependentOriginationRouteCompletenessInternalGapV2_34
 namespace KUOS.DependentOriginationStrongTransIsoTriangleTransportV2_35
 
 open CategoryTheory
+open KUOS.DependentOriginationHigherStackDescentV2_8
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationCoherentWeakHigherLocalizationV2_19
 open KUOS.DependentOriginationWeakHigherLocalizationUniversalPropertyV2_18
 open KUOS.DependentOriginationModificationTriangleNormalFormV2_22
+open KUOS.DependentOriginationStageIIIRouteCompletenessV2_33
 open KUOS.DependentOriginationRouteCompletenessInternalGapV2_34
 
 open scoped CategoryTheory.Pseudofunctor.StrongTrans
@@ -45,8 +47,8 @@ StrongTrans 1-cells.
 The object components are obtained by evaluating the original invertible
 modification at the image of the presentation unit.  Naturality is inherited
 from the original modification. -/
-def restrictHigherLocalizedStrongTransIso
-    {F G : HigherLocalizedDescentSystem (W := W) (uH := uH) (vH := vH)}
+noncomputable def restrictHigherLocalizedStrongTransIso
+    {F G : HigherLocalizedDescentSystem.{u, v, uH, vH} (W := W)}
     {alpha beta : F ⟶ G}
     (e : alpha ≅ beta) :
     restrictHigherLocalizedStrongTrans (W := W) alpha ≅
@@ -74,7 +76,7 @@ def restrictHigherLocalizedStrongTransIso
 /-- An isomorphism between factor StrongTrans 1-cells transports an existing
 modification triangle from the second factor to the first. -/
 theorem hasFactorModificationTriangle_of_iso
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H K : HigherLocalizationFactorization (W := W) R}
     (alpha beta : HigherLocalizationFactorMorphism (W := W) H K)
     (e : alpha.hom ≅ beta.hom)
@@ -91,7 +93,7 @@ theorem hasFactorModificationTriangle_of_iso
 /-- The v2.34 StrongTrans-isomorphism triangle-transport property is therefore
 unconditional for every coherent universal datum. -/
 theorem higherFactorModificationTriangleIsoTransport
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFactorModificationTriangleIsoTransport (W := W) U := by
   intro H alpha beta hIso hBeta
@@ -101,8 +103,8 @@ theorem higherFactorModificationTriangleIsoTransport
 /-- Global form: the explicit v2.34 iso-transport principle follows from the
 Mathlib bicategory of pseudofunctors and StrongTrans. -/
 theorem higherFactorModificationTriangleIsoTransportPrinciple :
-    HigherFactorModificationTriangleIsoTransportPrinciple
-      (W := W) (uH := uH) (vH := vH) := by
+    HigherFactorModificationTriangleIsoTransportPrinciple.{u, v, uH, vH}
+      (W := W) := by
   intro R U
   exact higherFactorModificationTriangleIsoTransport (W := W) U
 
@@ -110,7 +112,7 @@ theorem higherFactorModificationTriangleIsoTransportPrinciple :
 exactly fixed-chosen essential-uniqueness reflection, with no separate
 iso-coherence transport hypothesis remaining. -/
 theorem routeCompleteness_iff_fixedChosenReflection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherCoherentRouteCompleteness (W := W) U ↔
       HigherFixedChosenEssentialUniquenessReflection (W := W) U :=
@@ -120,7 +122,7 @@ theorem routeCompleteness_iff_fixedChosenReflection
 /-- The corresponding exact failure normal form has only the fixed-chosen
 reflection obstruction. -/
 theorem not_routeCompleteness_iff_reflectionFailure
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     (¬ HigherCoherentRouteCompleteness (W := W) U) ↔
       HigherFixedChosenEssentialUniquenessReflectionFailure (W := W) U :=

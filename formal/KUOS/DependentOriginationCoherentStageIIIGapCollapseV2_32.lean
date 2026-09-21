@@ -70,7 +70,7 @@ variable (W : MorphismProperty Context)
 /-- Forget only enough coherent v2.19 structure to obtain the v2.31 Stage II
 candidate on the same chosen factorization. -/
 def weakUniversalCandidateOfCoherentUniversalProperty
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     WeakHigherLocalizationUniversalCandidate (W := W) R where
   chosen := U.chosen
@@ -79,7 +79,7 @@ def weakUniversalCandidateOfCoherentUniversalProperty
 /-- A supplied coherent universal datum therefore gives a v2.31 Stage II
 candidate. -/
 theorem hasWeakUniversalCandidate_of_coherentUniversalProperty
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HasWeakHigherLocalizationUniversalCandidate (W := W) R :=
   ⟨weakUniversalCandidateOfCoherentUniversalProperty (W := W) U⟩
@@ -87,7 +87,7 @@ theorem hasWeakUniversalCandidate_of_coherentUniversalProperty
 /-- Stage I obstruction is impossible once a coherent universal datum is
 supplied, because that datum already contains its chosen v2.10 factorization. -/
 theorem not_factorizationExistenceObstruction_of_coherentUniversalProperty
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     ¬ HigherWeakLocalizationFactorizationExistenceObstruction (W := W) R := by
   intro hObs
@@ -96,7 +96,7 @@ theorem not_factorizationExistenceObstruction_of_coherentUniversalProperty
 /-- Stage II obstruction is likewise impossible: v2.20 forgets coherent factor
 maps into `U.chosen` to v2.18 factor maps, producing a Stage II candidate. -/
 theorem not_universalFactorExistenceObstruction_of_coherentUniversalProperty
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     ¬ HigherWeakUniversalFactorExistenceObstruction (W := W) R := by
   intro hObs
@@ -107,7 +107,7 @@ theorem not_universalFactorExistenceObstruction_of_coherentUniversalProperty
 hand, the full v2.31 three-way gap obstruction is exactly the Stage III
 essential-uniqueness obstruction. -/
 theorem gapObstruction_iff_essentialUniquenessObstruction_of_coherentUniversalProperty
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherWeakLocalizationUniversalGapObstruction (W := W) R ↔
       HigherWeakEssentialUniquenessObstruction (W := W) R := by
@@ -129,7 +129,7 @@ theorem gapObstruction_iff_essentialUniquenessObstruction_of_coherentUniversalPr
 v2.18 weak universal property is exactly Stage III failure.  Admissibility need
 not be supplied separately: it follows from the coherent datum itself. -/
 theorem not_hasWeakHigherLocalizationUniversalProperty_iff_essentialUniquenessObstruction_of_coherent
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     (¬ HasWeakHigherLocalizationUniversalProperty (W := W) R) ↔
       HigherWeakEssentialUniquenessObstruction (W := W) R := by
@@ -146,7 +146,7 @@ explicit coherent universal datum `U` on the same raw system.  If lifting held,
 v2.21 would construct a v2.18 universal property and hence a completed v2.31
 candidate, contradicting Stage III obstruction. -/
 theorem higherFactorCoherenceObstruction_of_essentialUniquenessObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hStageIII : HigherWeakEssentialUniquenessObstruction (W := W) R) :
     HigherFactorCoherenceObstruction (W := W) U := by
@@ -166,7 +166,7 @@ theorem higherFactorCoherenceObstruction_of_essentialUniquenessObstruction
 /-- The same Stage III failure therefore forces the exact v2.22 pure
 modification-triangle obstruction. -/
 theorem higherFactorModificationTriangleObstruction_of_essentialUniquenessObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hStageIII : HigherWeakEssentialUniquenessObstruction (W := W) R) :
     HigherFactorModificationTriangleObstruction (W := W) U :=
@@ -179,7 +179,7 @@ theorem higherFactorModificationTriangleObstruction_of_essentialUniquenessObstru
 triangle target-correction equation for at least one v2.18 factor into
 `U.chosen`. -/
 theorem higherStoredTriangleCorrectionObstruction_of_essentialUniquenessObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hStageIII : HigherWeakEssentialUniquenessObstruction (W := W) R) :
     HigherStoredTriangleTargetCorrectionObstruction (W := W) U :=
@@ -191,7 +191,7 @@ theorem higherStoredTriangleCorrectionObstruction_of_essentialUniquenessObstruct
 /-- Because the local v2.31 gap has collapsed to Stage III, any surviving gap in
 the presence of coherent universal data forces a v2.26 correction obstruction. -/
 theorem higherStoredTriangleCorrectionObstruction_of_gapObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hGap : HigherWeakLocalizationUniversalGapObstruction (W := W) R) :
     HigherStoredTriangleTargetCorrectionObstruction (W := W) U :=
@@ -203,7 +203,7 @@ theorem higherStoredTriangleCorrectionObstruction_of_gapObstruction
 /-- Therefore local failure of the v2.18 universal property, under a supplied
 coherent universal datum, forces a correction obstruction for that datum. -/
 theorem higherStoredTriangleCorrectionObstruction_of_not_hasWeakUniversalProperty
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hNoUniversal : ¬ HasWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherStoredTriangleTargetCorrectionObstruction (W := W) U :=
@@ -216,7 +216,7 @@ theorem higherStoredTriangleCorrectionObstruction_of_not_hasWeakUniversalPropert
 is sufficient to recover the v2.18 universal property through the exact
 v2.26 -> v2.22 -> v2.21 transport chain. -/
 theorem hasWeakHigherLocalizationUniversalProperty_of_no_storedTriangleCorrectionObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hNoCorrection :
       ¬ HigherStoredTriangleTargetCorrectionObstruction (W := W) U) :
@@ -236,7 +236,7 @@ theorem hasWeakHigherLocalizationUniversalProperty_of_no_storedTriangleCorrectio
 /-- Under coherent universal data, absence of the correction obstruction also
 rules out the whole v2.31 gap obstruction. -/
 theorem not_gapObstruction_of_no_storedTriangleCorrectionObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hNoCorrection :
       ¬ HigherStoredTriangleTargetCorrectionObstruction (W := W) U) :
@@ -250,10 +250,10 @@ theorem not_gapObstruction_of_no_storedTriangleCorrectionObstruction
 Stage II completion: on every admissible raw system choose the coherent
 universal datum and forget its coherent factor maps. -/
 theorem higherWeakUniversalFactorExistenceCompletion_of_coherentUniversalPrinciple
-    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakUniversalFactorExistenceCompletion
-      (W := W) (uH := uH) (vH := vH) := by
+    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    HigherWeakUniversalFactorExistenceCompletion.{u, v, uH, vH}
+      (W := W) := by
   intro R hR _
   rcases hCoherent R hR with ⟨U⟩
   exact
@@ -263,12 +263,12 @@ theorem higherWeakUniversalFactorExistenceCompletion_of_coherentUniversalPrincip
 package is exactly Stage III completion alone.  Stage I follows from v2.19 and
 Stage II from the preceding theorem. -/
 theorem higherWeakLocalizationUniversalGapCompletion_iff_essentialUniquenessCompletion_of_coherent
-    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakLocalizationUniversalGapCompletion
-        (W := W) (uH := uH) (vH := vH) ↔
-      HigherWeakEssentialUniquenessCompletion
-        (W := W) (uH := uH) (vH := vH) := by
+    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    HigherWeakLocalizationUniversalGapCompletion.{u, v, uH, vH}
+        (W := W) ↔
+      HigherWeakEssentialUniquenessCompletion.{u, v, uH, vH}
+        (W := W) := by
   constructor
   · intro hGap
     exact hGap.2.2
@@ -283,12 +283,12 @@ theorem higherWeakLocalizationUniversalGapCompletion_iff_essentialUniquenessComp
 v2.19 universal principle, the v2.18 weak universal principle is equivalent to
 Stage III essential-uniqueness completion. -/
 theorem higherWeakLocalizationUniversalPrinciple_iff_essentialUniquenessCompletion_of_coherent
-    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakLocalizationUniversalPrinciple
-        (W := W) (uH := uH) (vH := vH) ↔
-      HigherWeakEssentialUniquenessCompletion
-        (W := W) (uH := uH) (vH := vH) := by
+    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    HigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+        (W := W) ↔
+      HigherWeakEssentialUniquenessCompletion.{u, v, uH, vH}
+        (W := W) := by
   rw [higherWeakLocalizationUniversalPrinciple_iff_gapCompletion (W := W)]
   exact
     higherWeakLocalizationUniversalGapCompletion_iff_essentialUniquenessCompletion_of_coherent
@@ -297,12 +297,12 @@ theorem higherWeakLocalizationUniversalPrinciple_iff_essentialUniquenessCompleti
 /-- Global correction solvability is a sufficient Stage III completion route
 under the coherent universal premise.  This is not stated as a converse. -/
 theorem higherWeakEssentialUniquenessCompletion_of_coherent_and_corrections
-    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH))
-    (hCorrections : HigherStoredTriangleTargetCorrectionPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakEssentialUniquenessCompletion
-      (W := W) (uH := uH) (vH := vH) :=
+    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W))
+    (hCorrections : HigherStoredTriangleTargetCorrectionPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    HigherWeakEssentialUniquenessCompletion.{u, v, uH, vH}
+      (W := W) :=
   higherWeakEssentialUniquenessCompletion_of_universalPrinciple
     (W := W)
     (higherWeakLocalizationUniversalPrinciple_of_coherent_and_corrections

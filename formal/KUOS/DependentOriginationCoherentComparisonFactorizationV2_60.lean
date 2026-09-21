@@ -55,20 +55,20 @@ variable (W : MorphismProperty Context)
 context category.  This abbreviation is used to keep the comparison formulas
 readable. -/
 noncomputable abbrev restrictedCoherentQuotientSystem
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (T : CoherentQuotientTransportData (W := W) R D) :
-    RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH) :=
+    RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context) :=
   restrictHigherLocalizedSystem W
     (coherentQuotientLocalizedHigherSystem W R D T)
 
 /-- The restricted v2.59 system has exactly the original fiber category on every
 raw context object. -/
 @[simp] theorem restrictedCoherentQuotientSystem_obj
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (T : CoherentQuotientTransportData (W := W) R D)
     (X : Context) :
@@ -79,8 +79,8 @@ raw context object. -/
 /-- On a raw arrow `f`, restriction of the v2.59 quotient pseudofunctor is
 exactly evaluation of the chosen representative of `W.Q.map f`. -/
 @[simp] theorem restrictedCoherentQuotientSystem_map
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (T : CoherentQuotientTransportData (W := W) R D)
     {X Y : Context} (f : X ⟶ Y) :
@@ -96,8 +96,8 @@ map to the same localized arrow.  Their free-path evaluations are thus
 naturally isomorphic, while evaluation of `ψ₁ W f` is definitionally `R.map f`
 by v2.57. -/
 theorem presentationArrow_hasMapIso
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (T : CoherentQuotientTransportData (W := W) R D)
     {X Y : Context} (f : X ⟶ Y) :
@@ -107,16 +107,21 @@ theorem presentationArrow_hasMapIso
   change Nonempty
     ((freePathEvaluator W R D).map (Quot.out (W.Q.map f)) ≅
       R.map f.toLoc)
-  rw [← freePathEvaluator_map_ordinary W R D f]
-  apply equalInLocalization_hasEvaluationIso W R D
-  change Quot.mk _ (Quot.out (W.Q.map f)) = W.Q.map f
-  exact Quot.out_eq _
+  have h :
+      Nonempty
+        ((freePathEvaluator W R D).map (Quot.out (W.Q.map f)) ≅
+          (freePathEvaluator W R D).map
+            (Localization.Construction.ψ₁ W f)) := by
+    apply equalInLocalization_hasEvaluationIso W R D
+    change Quot.mk _ (Quot.out (W.Q.map f)) = W.Q.map f
+    exact Quot.out_eq _
+  simpa only [freePathEvaluator_map_ordinary] using h
 
 /-- Turn an isomorphism between the two arrow maps into the StrongTrans
 naturality isomorphism when both object components are fixed to identities. -/
 noncomputable def identityComponentNaturalityIso
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (T : CoherentQuotientTransportData (W := W) R D)
     {X Y : Context} (f : X ⟶ Y)
@@ -137,8 +142,8 @@ was proved above.  The only additional laws are exactly StrongTrans
 compatibility with identities and composition.  Naturality with respect to
 2-cells requires no independent field because the source is locally discrete. -/
 structure CoherentPresentationComparisonData
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (T : CoherentQuotientTransportData (W := W) R D) where
   /-- Chosen comparison isomorphism for each raw context arrow. -/
@@ -175,8 +180,8 @@ structure CoherentPresentationComparisonData
 
 /-- Existence of coherent comparison data remains an explicit proposition. -/
 def HasCoherentPresentationComparisonData
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (T : CoherentQuotientTransportData (W := W) R D) : Prop :=
   Nonempty (CoherentPresentationComparisonData (W := W) R D T)
@@ -184,35 +189,34 @@ def HasCoherentPresentationComparisonData
 /-- The v2.60 comparison data constructs the actual strong transformation from
 restriction of the localized system to the original raw pseudofunctor. -/
 noncomputable def coherentPresentationComparison
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (T : CoherentQuotientTransportData (W := W) R D)
     (C : CoherentPresentationComparisonData (W := W) R D T) :
     restrictedCoherentQuotientSystem W R D T ⟶ R := by
   refine
     { app := fun X => 𝟙 (R.obj X)
-      naturality := ?_
+      naturality := fun f =>
+        identityComponentNaturalityIso W R D T f.as (C.mapIso f.as)
+      naturality_naturality := ?_
       naturality_id := ?_
       naturality_comp := ?_ }
-  · intro X Y f
-    rcases X with ⟨X⟩
-    rcases Y with ⟨Y⟩
-    simpa using
-      identityComponentNaturalityIso W R D T f.as (C.mapIso f.as)
+  · intro X Y f g θ
+    have hfg : f = g := LocallyDiscrete.eq_of_hom θ
+    subst g
+    have hθ : θ = 𝟙 f := Subsingleton.elim _ _
+    subst θ
+    simp [identityComponentNaturalityIso]
   · intro X
-    rcases X with ⟨X⟩
-    simpa using C.naturality_id X
+    exact C.naturality_id X.as
   · intro X Y Z f g
-    rcases X with ⟨X⟩
-    rcases Y with ⟨Y⟩
-    rcases Z with ⟨Z⟩
-    simpa using C.naturality_comp f.as g.as
+    exact C.naturality_comp f.as g.as
 
 /-- The comparison components are exactly identity functors. -/
 @[simp] theorem coherentPresentationComparison_app
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (T : CoherentQuotientTransportData (W := W) R D)
     (C : CoherentPresentationComparisonData (W := W) R D T)
@@ -224,8 +228,8 @@ noncomputable def coherentPresentationComparison
 /-- Coherent quotient transport plus coherent presentation comparison constructs
 an actual v2.10 higher-localization factorization. -/
 noncomputable def coherentQuotientHigherLocalizationFactorization
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (T : CoherentQuotientTransportData (W := W) R D)
     (C : CoherentPresentationComparisonData (W := W) R D T) :
@@ -239,8 +243,8 @@ noncomputable def coherentQuotientHigherLocalizationFactorization
 
 /-- Direct existence theorem in the original v2.10 interface. -/
 theorem hasHigherLocalizationFactorization_of_coherentTransportComparison
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (T : CoherentQuotientTransportData (W := W) R D)
     (C : CoherentPresentationComparisonData (W := W) R D T) :
@@ -250,8 +254,8 @@ theorem hasHigherLocalizationFactorization_of_coherentTransportComparison
 /-- Package the complete five-law general-W coherence frontier: three quotient
 pseudofunctor laws from v2.59 and two comparison laws from v2.60. -/
 structure CoherentGeneralWFactorizationData
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R) where
   /-- Coherent descent of representative maps to the quotient pseudofunctor. -/
   transport : CoherentQuotientTransportData (W := W) R D
@@ -261,15 +265,15 @@ structure CoherentGeneralWFactorizationData
 
 /-- Existence of the complete five-law coherence package. -/
 def HasCoherentGeneralWFactorizationData
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R) : Prop :=
   Nonempty (CoherentGeneralWFactorizationData (W := W) R D)
 
 /-- The five-law package is sufficient for the genuine v2.10 factorization. -/
 theorem hasHigherLocalizationFactorization_of_hasCoherentGeneralWFactorizationData
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (h : HasCoherentGeneralWFactorizationData W R D) :
     HasHigherLocalizationFactorization (W := W) R := by
@@ -285,8 +289,8 @@ This theorem does not assert existence of the five-law data; it states the
 precise remaining sufficient hypothesis after the unconditional v2.56--v2.58
 construction. -/
 theorem hasHigherLocalizationFactorization_of_admissible_and_coherentData
-    {R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context)}
     (hR : IsHigherWAdmissible W R)
     (h : HasCoherentGeneralWFactorizationData W R
       (pointwiseWAdjointEquivalenceDataOfAdmissible W hR)) :

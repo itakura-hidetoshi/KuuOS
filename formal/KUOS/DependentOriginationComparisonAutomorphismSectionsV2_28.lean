@@ -9,6 +9,7 @@ open KUOS.DependentOriginationCoherentWeakHigherLocalizationV2_19
 open KUOS.DependentOriginationStoredTriangleCorrectionV2_26
 open KUOS.DependentOriginationStoredTriangleCorrectionTorsorV2_27
 
+open scoped Bicategory
 open scoped CategoryTheory.Pseudofunctor.StrongTrans
 
 universe u v uH vH
@@ -62,7 +63,7 @@ variable (W : MorphismProperty Context)
 automorphism of `H.comparison`. -/
 @[ext]
 structure FactorComparisonAutomorphismSection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) where
   component : ∀ X : Context,
     H.comparison.app (.mk X) ≅ H.comparison.app (.mk X)
@@ -75,7 +76,7 @@ structure FactorComparisonAutomorphismSection
 
 /-- Evaluate an invertible target modification at one raw context object. -/
 def factorComparisonAutomorphismComponentIso
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     (g : H.comparison ≅ H.comparison)
     (X : Context) :
@@ -92,7 +93,7 @@ def factorComparisonAutomorphismComponentIso
 /-- Extract the coherent objectwise automorphism section carried by an actual
 invertible modification. -/
 def factorComparisonAutomorphismSectionOfIso
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     (g : H.comparison ≅ H.comparison) :
     FactorComparisonAutomorphismSection (W := W) H where
@@ -102,8 +103,8 @@ def factorComparisonAutomorphismSectionOfIso
 
 /-- Assemble a coherent objectwise automorphism section into the corresponding
 invertible target modification. -/
-def factorComparisonAutomorphismIsoOfSection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+noncomputable def factorComparisonAutomorphismIsoOfSection
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     (P : FactorComparisonAutomorphismSection (W := W) H) :
     H.comparison ≅ H.comparison := by
@@ -113,19 +114,18 @@ def factorComparisonAutomorphismIsoOfSection
 
 /-- Extracting after assembly recovers the original coherent section. -/
 theorem sectionOfIso_ofSection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     (P : FactorComparisonAutomorphismSection (W := W) H) :
     factorComparisonAutomorphismSectionOfIso
         (W := W) (factorComparisonAutomorphismIsoOfSection (W := W) P) = P := by
   ext X
-  apply Iso.ext
   rfl
 
 /-- Reassembling the section extracted from a target modification recovers that
 modification. -/
 theorem isoOfSection_ofIso
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     {H : HigherLocalizationFactorization (W := W) R}
     (g : H.comparison ≅ H.comparison) :
     factorComparisonAutomorphismIsoOfSection
@@ -137,8 +137,8 @@ theorem isoOfSection_ofIso
 
 /-- Exact data-level equivalence between coherent objectwise automorphism
 sections and invertible modification automorphisms of `H.comparison`. -/
-def factorComparisonAutomorphismSectionEquivIso
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+noncomputable def factorComparisonAutomorphismSectionEquivIso
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) :
     FactorComparisonAutomorphismSection (W := W) H ≃
       (H.comparison ≅ H.comparison) where
@@ -150,14 +150,14 @@ def factorComparisonAutomorphismSectionEquivIso
 /-- The identity coherent automorphism section.  It is obtained from the
 identity invertible modification, so coherence is inherited rather than
 reproved separately. -/
-def identityFactorComparisonAutomorphismSection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+noncomputable def identityFactorComparisonAutomorphismSection
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) :
     FactorComparisonAutomorphismSection (W := W) H :=
   factorComparisonAutomorphismSectionOfIso (W := W) (Iso.refl H.comparison)
 
 @[simp] theorem identityFactorComparisonAutomorphismSection_component
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R)
     (X : Context) :
     (identityFactorComparisonAutomorphismSection (W := W) H).component X =
@@ -168,7 +168,7 @@ def identityFactorComparisonAutomorphismSection
 /-- Target modification rigidity is exactly subsingleton rigidity of coherent
 objectwise automorphism sections. -/
 theorem subsingleton_factorComparisonAutomorphismIso_iff_section
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) :
     Subsingleton (H.comparison ≅ H.comparison) ↔
       Subsingleton (FactorComparisonAutomorphismSection (W := W) H) := by
@@ -188,7 +188,7 @@ theorem subsingleton_factorComparisonAutomorphismIso_iff_section
 /-- A positive witness of target non-rigidity: a coherent automorphism section
 that is not the identity section. -/
 def HasNontrivialFactorComparisonAutomorphismSection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) : Prop :=
   ∃ P : FactorComparisonAutomorphismSection (W := W) H,
     P ≠ identityFactorComparisonAutomorphismSection (W := W) H
@@ -196,7 +196,7 @@ def HasNontrivialFactorComparisonAutomorphismSection
 /-- Since the identity section always exists, failure of section subsingleton
 rigidity is exactly existence of a nonidentity coherent section. -/
 theorem not_subsingleton_section_iff_hasNontrivialSection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) :
     (¬ Subsingleton (FactorComparisonAutomorphismSection (W := W) H)) ↔
       HasNontrivialFactorComparisonAutomorphismSection (W := W) H := by
@@ -221,7 +221,7 @@ theorem not_subsingleton_section_iff_hasNontrivialSection
 
 /-- Exact positive normal form for the v2.27 target non-rigidity condition. -/
 theorem not_subsingleton_factorComparisonAutomorphismIso_iff_nontrivialSection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) :
     (¬ Subsingleton (H.comparison ≅ H.comparison)) ↔
       HasNontrivialFactorComparisonAutomorphismSection (W := W) H := by
@@ -232,26 +232,27 @@ theorem not_subsingleton_factorComparisonAutomorphismIso_iff_nontrivialSection
 one Cat self-isomorphism.  This is sufficient, but not asserted necessary, for
 global modification rigidity. -/
 def FactorComparisonPointwiseAutomorphismRigidity
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R) : Prop :=
   ∀ X : Context,
     Subsingleton (H.comparison.app (.mk X) ≅ H.comparison.app (.mk X))
 
 /-- Pointwise automorphism rigidity forces coherent-section rigidity. -/
 theorem subsingleton_section_of_pointwiseAutomorphismRigidity
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R)
     (hPointwise : FactorComparisonPointwiseAutomorphismRigidity (W := W) H) :
     Subsingleton (FactorComparisonAutomorphismSection (W := W) H) := by
   constructor
   intro P Q
-  ext X
+  apply FactorComparisonAutomorphismSection.ext
+  funext X
   exact @Subsingleton.elim _ (hPointwise X) (P.component X) (Q.component X)
 
 /-- Therefore pointwise automorphism rigidity is a sufficient criterion for
 v2.27 target modification rigidity. -/
 theorem subsingleton_factorComparisonAutomorphismIso_of_pointwiseRigidity
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (H : HigherLocalizationFactorization (W := W) R)
     (hPointwise : FactorComparisonPointwiseAutomorphismRigidity (W := W) H) :
     Subsingleton (H.comparison ≅ H.comparison) :=
@@ -261,7 +262,7 @@ theorem subsingleton_factorComparisonAutomorphismIso_of_pointwiseRigidity
 /-- Uniform coherent-section rigidity for every factor morphism into one chosen
 coherent universal datum. -/
 def HigherFactorComparisonAutomorphismSectionRigidity
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (_alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -269,7 +270,7 @@ def HigherFactorComparisonAutomorphismSectionRigidity
 
 /-- Uniform section rigidity is exactly the v2.27 target modification rigidity. -/
 theorem higherFactorComparisonSectionRigidity_iff_targetRigidity
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFactorComparisonAutomorphismSectionRigidity (W := W) U ↔
       HigherFactorComparisonAutomorphismRigidity (W := W) U := by
@@ -286,7 +287,7 @@ theorem higherFactorComparisonSectionRigidity_iff_targetRigidity
 /-- Uniform positive non-rigidity: some factor admits a nonidentity coherent
 automorphism section. -/
 def HigherFactorComparisonNontrivialAutomorphismSection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∃ (H : HigherLocalizationFactorization (W := W) R)
     (alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -295,7 +296,7 @@ def HigherFactorComparisonNontrivialAutomorphismSection
 /-- The v2.27 non-rigidity obstruction is exactly existence of a nonidentity
 coherent automorphism section. -/
 theorem higherFactorComparisonNonRigidity_iff_nontrivialSection
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherFactorComparisonAutomorphismNonRigidity (W := W) U ↔
       HigherFactorComparisonNontrivialAutomorphismSection (W := W) U := by
@@ -311,7 +312,7 @@ theorem higherFactorComparisonNonRigidity_iff_nontrivialSection
 
 /-- Uniform pointwise automorphism rigidity. -/
 def HigherFactorComparisonPointwiseAutomorphismRigidity
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   ∀ (H : HigherLocalizationFactorization (W := W) R)
     (_alpha : HigherLocalizationFactorMorphism (W := W) H U.chosen),
@@ -319,7 +320,7 @@ def HigherFactorComparisonPointwiseAutomorphismRigidity
 
 /-- Pointwise rigidity uniformly implies target modification rigidity. -/
 theorem higherFactorComparisonRigidity_of_pointwiseRigidity
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hPointwise : HigherFactorComparisonPointwiseAutomorphismRigidity (W := W) U) :
     HigherFactorComparisonAutomorphismRigidity (W := W) U := by
@@ -331,7 +332,7 @@ theorem higherFactorComparisonRigidity_of_pointwiseRigidity
 /-- Correction existence plus uniform pointwise target rigidity gives uniform
 existence-and-uniqueness of corrections. -/
 theorem higherUniqueStoredTriangleCorrectionLifting_of_correction_and_pointwiseRigidity
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hCorrection : HigherStoredTriangleTargetCorrectionLifting (W := W) U)
     (hPointwise : HigherFactorComparisonPointwiseAutomorphismRigidity (W := W) U) :
@@ -343,24 +344,24 @@ theorem higherUniqueStoredTriangleCorrectionLifting_of_correction_and_pointwiseR
 
 /-- Global coherent-section rigidity principle. -/
 def HigherFactorComparisonAutomorphismSectionRigidityPrinciple : Prop :=
-  ∀ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
+  ∀ (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
     HigherFactorComparisonAutomorphismSectionRigidity (W := W) U
 
 /-- Global pointwise automorphism rigidity principle.  This is an explicit
 proposition, not an axiom. -/
 def HigherFactorComparisonPointwiseAutomorphismRigidityPrinciple : Prop :=
-  ∀ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
+  ∀ (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
     HigherFactorComparisonPointwiseAutomorphismRigidity (W := W) U
 
 /-- Global coherent-section rigidity is exactly the v2.27 global target
 modification rigidity principle. -/
 theorem higherFactorComparisonSectionRigidityPrinciple_iff_targetRigidityPrinciple :
-    HigherFactorComparisonAutomorphismSectionRigidityPrinciple
-        (W := W) (uH := uH) (vH := vH) ↔
-      HigherFactorComparisonAutomorphismRigidityPrinciple
-        (W := W) (uH := uH) (vH := vH) := by
+    HigherFactorComparisonAutomorphismSectionRigidityPrinciple.{u, v, uH, vH}
+        (W := W) ↔
+      HigherFactorComparisonAutomorphismRigidityPrinciple.{u, v, uH, vH}
+        (W := W) := by
   constructor
   · intro h R U
     exact
@@ -374,10 +375,10 @@ theorem higherFactorComparisonSectionRigidityPrinciple_iff_targetRigidityPrincip
 /-- Global pointwise rigidity implies the global target modification rigidity
 principle. -/
 theorem higherFactorComparisonRigidityPrinciple_of_pointwiseRigidity
-    (hPointwise : HigherFactorComparisonPointwiseAutomorphismRigidityPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherFactorComparisonAutomorphismRigidityPrinciple
-      (W := W) (uH := uH) (vH := vH) := by
+    (hPointwise : HigherFactorComparisonPointwiseAutomorphismRigidityPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    HigherFactorComparisonAutomorphismRigidityPrinciple.{u, v, uH, vH}
+      (W := W) := by
   intro R U
   exact higherFactorComparisonRigidity_of_pointwiseRigidity
     W U (hPointwise R U)
@@ -386,12 +387,12 @@ theorem higherFactorComparisonRigidityPrinciple_of_pointwiseRigidity
 implies the global unique-correction principle.  Both premises remain explicit
 unproved propositions. -/
 theorem higherUniqueStoredTriangleCorrectionPrinciple_of_correction_and_pointwiseRigidity
-    (hCorrection : HigherStoredTriangleTargetCorrectionPrinciple
-      (W := W) (uH := uH) (vH := vH))
-    (hPointwise : HigherFactorComparisonPointwiseAutomorphismRigidityPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherStoredTriangleTargetCorrectionUniquePrinciple
-      (W := W) (uH := uH) (vH := vH) := by
+    (hCorrection : HigherStoredTriangleTargetCorrectionPrinciple.{u, v, uH, vH}
+      (W := W))
+    (hPointwise : HigherFactorComparisonPointwiseAutomorphismRigidityPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    HigherStoredTriangleTargetCorrectionUniquePrinciple.{u, v, uH, vH}
+      (W := W) := by
   intro R U
   exact
     higherUniqueStoredTriangleCorrectionLifting_of_correction_and_pointwiseRigidity

@@ -69,6 +69,34 @@ theorem parallelIsoDefect_eq_refl_iff
     subst θ
     simp [parallelIsoDefect]
 
+/-- Iso-level form of the same defect.  Keeping the complete invertible arrows as
+`Iso`s avoids asking typeclass search to reconstruct `IsIso` for long
+bicategorical composites. -/
+noncomputable def parallelIsoDefectIso
+    {C : Type uC} [Category.{vC} C] {X Y : C}
+    (η θ : X ≅ Y) : Y ≅ Y :=
+  η.symm ≪≫ θ
+
+/-- The Iso-level defect vanishes exactly when the two parallel isomorphisms are
+equal. -/
+theorem parallelIsoDefectIso_eq_refl_iff
+    {C : Type uC} [Category.{vC} C] {X Y : C}
+    (η θ : X ≅ Y) :
+    parallelIsoDefectIso η θ = Iso.refl Y ↔ η = θ := by
+  constructor
+  · intro h
+    apply Iso.ext
+    have hhom : η.inv ≫ θ.hom = 𝟙 Y := by
+      simpa [parallelIsoDefectIso] using congrArg Iso.hom h
+    calc
+      η.hom = η.hom ≫ 𝟙 Y := by simp
+      _ = η.hom ≫ (η.inv ≫ θ.hom) := by rw [hhom]
+      _ = (η.hom ≫ η.inv) ≫ θ.hom := by simp only [Category.assoc]
+      _ = θ.hom := by simp
+  · intro h
+    subst θ
+    simp [parallelIsoDefectIso]
+
 variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
 
@@ -76,8 +104,8 @@ variable (W : MorphismProperty Context)
 
 /-- Associativity defect of an arbitrary v2.61 pointwise composition choice. -/
 noncomputable def quotientAssociatorDefect
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D)
     {X Y Z T : W.Localization}
@@ -95,8 +123,8 @@ noncomputable def quotientAssociatorDefect
 
 /-- Left-unit defect of the pointwise quotient transport. -/
 noncomputable def quotientLeftUnitorDefect
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D)
     {X Y : W.Localization} (f : X ⟶ Y) :=
@@ -108,8 +136,8 @@ noncomputable def quotientLeftUnitorDefect
 
 /-- Right-unit defect of the pointwise quotient transport. -/
 noncomputable def quotientRightUnitorDefect
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D)
     {X Y : W.Localization} (f : X ⟶ Y) :=
@@ -121,8 +149,8 @@ noncomputable def quotientRightUnitorDefect
 
 /-- Associator defect is trivial iff the exact v2.59 associativity law holds. -/
 theorem quotientAssociatorDefect_eq_refl_iff
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D)
     {X Y Z T : W.Localization}
@@ -142,8 +170,8 @@ theorem quotientAssociatorDefect_eq_refl_iff
 
 /-- Left-unitor defect is trivial iff the exact v2.59 left-unit law holds. -/
 theorem quotientLeftUnitorDefect_eq_refl_iff
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D)
     {X Y : W.Localization} (f : X ⟶ Y) :
@@ -157,8 +185,8 @@ theorem quotientLeftUnitorDefect_eq_refl_iff
 
 /-- Right-unitor defect is trivial iff the exact v2.59 right-unit law holds. -/
 theorem quotientRightUnitorDefect_eq_refl_iff
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D)
     {X Y : W.Localization} (f : X ⟶ Y) :
@@ -172,8 +200,8 @@ theorem quotientRightUnitorDefect_eq_refl_iff
 
 /-- Vanishing of the three automorphism-valued quotient defects. -/
 structure QuotientTransportDefectsTrivial
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D) : Prop where
   associator :
@@ -190,8 +218,8 @@ structure QuotientTransportDefectsTrivial
 /-- Vanishing of the first three defects constructs the actual coherent quotient
 transport while preserving exactly the pointwise `mapId` and `mapComp` choices. -/
 noncomputable def coherentQuotientTransportDataOfTrivialDefects
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D)
     (h : QuotientTransportDefectsTrivial W R D L) :
@@ -220,8 +248,8 @@ noncomputable def coherentQuotientTransportDataOfTrivialDefects
 now typed against the genuine quotient pseudofunctor constructed from the first
 three vanishing defects. -/
 noncomputable def comparisonMapIsoOfTrivialTransportDefects
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D)
     (hQ : QuotientTransportDefectsTrivial W R D L)
@@ -235,8 +263,8 @@ noncomputable def comparisonMapIsoOfTrivialTransportDefects
 /-- The StrongTrans naturality iso determined by the pointwise comparison choice
 after the quotient transport defects vanish. -/
 noncomputable def comparisonNaturalityIsoOfTrivialTransportDefects
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D)
     (hQ : QuotientTransportDefectsTrivial W R D L)
@@ -245,50 +273,70 @@ noncomputable def comparisonNaturalityIsoOfTrivialTransportDefects
     (coherentQuotientTransportDataOfTrivialDefects W R D L hQ)
     f (comparisonMapIsoOfTrivialTransportDefects W R D L hQ f)
 
-/-- Identity coherence defect for the strong comparison. -/
+/-- Identity coherence defect for the strong comparison.  The two sides are
+built as complete 2-isomorphisms so no `IsIso` search is needed for their long
+composite homs. -/
 noncomputable def comparisonIdentityDefect
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D)
     (hQ : QuotientTransportDefectsTrivial W R D L)
     (X : Context) :=
   let T := coherentQuotientTransportDataOfTrivialDefects W R D L hQ
-  parallelIsoDefect
-    ((comparisonNaturalityIsoOfTrivialTransportDefects W R D L hQ (𝟙 X)).hom ≫
-      (𝟙 (R.obj (.mk X))) ◁ (R.mapId (.mk X)).hom)
-    ((restrictedCoherentQuotientSystem W R D T).mapId (.mk X)).hom ▷
-        (𝟙 (R.obj (.mk X))) ≫
-      (λ_ (𝟙 (R.obj (.mk X)))).hom ≫
-      (ρ_ (𝟙 (R.obj (.mk X)))).inv
+  let eLeft :=
+    comparisonNaturalityIsoOfTrivialTransportDefects W R D L hQ (𝟙 X) ≪≫
+      Bicategory.whiskerLeftIso
+        (𝟙 (R.obj (.mk X))) (R.mapId (.mk X))
+  let eRight :=
+    Bicategory.whiskerRightIso
+        ((restrictedCoherentQuotientSystem W R D T).mapId (.mk X))
+        (𝟙 (R.obj (.mk X))) ≪≫
+      Bicategory.leftUnitor (𝟙 (R.obj (.mk X))) ≪≫
+      (Bicategory.rightUnitor (𝟙 (R.obj (.mk X)))).symm
+  parallelIsoDefectIso eLeft eRight
 
-/-- Composition coherence defect for the strong comparison. -/
+/-- Composition coherence defect for the strong comparison.  As for the identity
+law, both sides are assembled at Iso level. -/
 noncomputable def comparisonCompositionDefect
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D)
     (hQ : QuotientTransportDefectsTrivial W R D L)
     {X Y Z : Context} (f : X ⟶ Y) (g : Y ⟶ Z) :=
   let T := coherentQuotientTransportDataOfTrivialDefects W R D L hQ
-  parallelIsoDefect
-    ((comparisonNaturalityIsoOfTrivialTransportDefects W R D L hQ (f ≫ g)).hom ≫
-      (𝟙 (R.obj (.mk X))) ◁ (R.mapComp f.toLoc g.toLoc).hom)
-    ((restrictedCoherentQuotientSystem W R D T).mapComp
-        f.toLoc g.toLoc).hom ▷ (𝟙 (R.obj (.mk Z))) ≫
-      (α_ _ _ _).hom ≫
-      (restrictedCoherentQuotientSystem W R D T).map f.toLoc ◁
-        (comparisonNaturalityIsoOfTrivialTransportDefects W R D L hQ g).hom ≫
-      (α_ _ _ _).inv ≫
-      (comparisonNaturalityIsoOfTrivialTransportDefects W R D L hQ f).hom ▷
-        R.map g.toLoc ≫
-      (α_ _ _ _).hom
+  let eLeft :=
+    comparisonNaturalityIsoOfTrivialTransportDefects W R D L hQ (f ≫ g) ≪≫
+      Bicategory.whiskerLeftIso
+        (𝟙 (R.obj (.mk X))) (R.mapComp f.toLoc g.toLoc)
+  let eRight :=
+    Bicategory.whiskerRightIso
+        ((restrictedCoherentQuotientSystem W R D T).mapComp f.toLoc g.toLoc)
+        (𝟙 (R.obj (.mk Z))) ≪≫
+      Bicategory.associator
+        ((restrictedCoherentQuotientSystem W R D T).map f.toLoc)
+        ((restrictedCoherentQuotientSystem W R D T).map g.toLoc)
+        (𝟙 (R.obj (.mk Z))) ≪≫
+      Bicategory.whiskerLeftIso
+        ((restrictedCoherentQuotientSystem W R D T).map f.toLoc)
+        (comparisonNaturalityIsoOfTrivialTransportDefects W R D L hQ g) ≪≫
+      (Bicategory.associator
+        ((restrictedCoherentQuotientSystem W R D T).map f.toLoc)
+        (𝟙 (R.obj (.mk Y)))
+        (R.map g.toLoc)).symm ≪≫
+      Bicategory.whiskerRightIso
+        (comparisonNaturalityIsoOfTrivialTransportDefects W R D L hQ f)
+        (R.map g.toLoc) ≪≫
+      Bicategory.associator
+        (𝟙 (R.obj (.mk X))) (R.map f.toLoc) (R.map g.toLoc)
+  parallelIsoDefectIso eLeft eRight
 
 /-- Identity comparison defect is trivial exactly when the v2.60 identity law
 holds for the induced pointwise comparison. -/
 theorem comparisonIdentityDefect_eq_refl_iff
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D)
     (hQ : QuotientTransportDefectsTrivial W R D L)
@@ -301,14 +349,35 @@ theorem comparisonIdentityDefect_eq_refl_iff
             (𝟙 (R.obj (.mk X))) ≫
           (λ_ (𝟙 (R.obj (.mk X)))).hom ≫
           (ρ_ (𝟙 (R.obj (.mk X)))).inv := by
-  dsimp [comparisonIdentityDefect]
-  exact parallelIsoDefect_eq_refl_iff _ _
+  let T := coherentQuotientTransportDataOfTrivialDefects W R D L hQ
+  let eLeft :=
+    comparisonNaturalityIsoOfTrivialTransportDefects W R D L hQ (𝟙 X) ≪≫
+      Bicategory.whiskerLeftIso
+        (𝟙 (R.obj (.mk X))) (R.mapId (.mk X))
+  let eRight :=
+    Bicategory.whiskerRightIso
+        ((restrictedCoherentQuotientSystem W R D T).mapId (.mk X))
+        (𝟙 (R.obj (.mk X))) ≪≫
+      Bicategory.leftUnitor (𝟙 (R.obj (.mk X))) ≪≫
+      (Bicategory.rightUnitor (𝟙 (R.obj (.mk X)))).symm
+  change parallelIsoDefectIso eLeft eRight = Iso.refl _ ↔ _
+  constructor
+  · intro h
+    have hIso : eLeft = eRight :=
+      (parallelIsoDefectIso_eq_refl_iff eLeft eRight).mp h
+    simpa only [T, eLeft, eRight, Iso.trans_hom, Iso.symm_hom,
+      whiskerLeftIso_hom, whiskerRightIso_hom] using congrArg Iso.hom hIso
+  · intro h
+    apply (parallelIsoDefectIso_eq_refl_iff eLeft eRight).mpr
+    apply Iso.ext
+    simpa only [T, eLeft, eRight, Iso.trans_hom, Iso.symm_hom,
+      whiskerLeftIso_hom, whiskerRightIso_hom] using h
 
 /-- Composition comparison defect is trivial exactly when the v2.60 composition
 law holds. -/
 theorem comparisonCompositionDefect_eq_refl_iff
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D)
     (hQ : QuotientTransportDefectsTrivial W R D L)
@@ -326,13 +395,48 @@ theorem comparisonCompositionDefect_eq_refl_iff
           (comparisonNaturalityIsoOfTrivialTransportDefects W R D L hQ f).hom ▷
             R.map g.toLoc ≫
           (α_ _ _ _).hom := by
-  dsimp [comparisonCompositionDefect]
-  exact parallelIsoDefect_eq_refl_iff _ _
+  let T := coherentQuotientTransportDataOfTrivialDefects W R D L hQ
+  let eLeft :=
+    comparisonNaturalityIsoOfTrivialTransportDefects W R D L hQ (f ≫ g) ≪≫
+      Bicategory.whiskerLeftIso
+        (𝟙 (R.obj (.mk X))) (R.mapComp f.toLoc g.toLoc)
+  let eRight :=
+    Bicategory.whiskerRightIso
+        ((restrictedCoherentQuotientSystem W R D T).mapComp f.toLoc g.toLoc)
+        (𝟙 (R.obj (.mk Z))) ≪≫
+      Bicategory.associator
+        ((restrictedCoherentQuotientSystem W R D T).map f.toLoc)
+        ((restrictedCoherentQuotientSystem W R D T).map g.toLoc)
+        (𝟙 (R.obj (.mk Z))) ≪≫
+      Bicategory.whiskerLeftIso
+        ((restrictedCoherentQuotientSystem W R D T).map f.toLoc)
+        (comparisonNaturalityIsoOfTrivialTransportDefects W R D L hQ g) ≪≫
+      (Bicategory.associator
+        ((restrictedCoherentQuotientSystem W R D T).map f.toLoc)
+        (𝟙 (R.obj (.mk Y)))
+        (R.map g.toLoc)).symm ≪≫
+      Bicategory.whiskerRightIso
+        (comparisonNaturalityIsoOfTrivialTransportDefects W R D L hQ f)
+        (R.map g.toLoc) ≪≫
+      Bicategory.associator
+        (𝟙 (R.obj (.mk X))) (R.map f.toLoc) (R.map g.toLoc)
+  change parallelIsoDefectIso eLeft eRight = Iso.refl _ ↔ _
+  constructor
+  · intro h
+    have hIso : eLeft = eRight :=
+      (parallelIsoDefectIso_eq_refl_iff eLeft eRight).mp h
+    simpa only [T, eLeft, eRight, Iso.trans_hom, Iso.symm_hom,
+      whiskerLeftIso_hom, whiskerRightIso_hom] using congrArg Iso.hom hIso
+  · intro h
+    apply (parallelIsoDefectIso_eq_refl_iff eLeft eRight).mpr
+    apply Iso.ext
+    simpa only [T, eLeft, eRight, Iso.trans_hom, Iso.symm_hom,
+      whiskerLeftIso_hom, whiskerRightIso_hom] using h
 
 /-- Vanishing of the two comparison defects after the quotient defects vanish. -/
 structure ComparisonDefectsTrivial
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D)
     (hQ : QuotientTransportDefectsTrivial W R D L) : Prop where
@@ -345,8 +449,8 @@ structure ComparisonDefectsTrivial
 
 /-- Vanishing comparison defects construct the exact v2.60 comparison data. -/
 noncomputable def coherentPresentationComparisonDataOfTrivialDefects
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D)
     (hQ : QuotientTransportDefectsTrivial W R D L)
@@ -368,8 +472,8 @@ noncomputable def coherentPresentationComparisonDataOfTrivialDefects
 /-- All five automorphism-valued defects vanish: first the three quotient
 transport defects, then the two comparison defects on the resulting carrier. -/
 def FiveCoherenceDefectsTrivial
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D) : Prop :=
   ∃ hQ : QuotientTransportDefectsTrivial W R D L,
@@ -377,13 +481,14 @@ def FiveCoherenceDefectsTrivial
 
 /-- Five defect vanishing constructs the complete v2.60 coherent package. -/
 noncomputable def coherentGeneralWFactorizationDataOfFiveTrivialDefects
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D)
     (h : FiveCoherenceDefectsTrivial W R D L) :
     CoherentGeneralWFactorizationData (W := W) R D := by
-  rcases h with ⟨hQ, hC⟩
+  let hQ : QuotientTransportDefectsTrivial W R D L := Classical.choose h
+  let hC : ComparisonDefectsTrivial W R D L hQ := Classical.choose_spec h
   exact
     { transport := coherentQuotientTransportDataOfTrivialDefects W R D L hQ
       comparison :=
@@ -392,8 +497,8 @@ noncomputable def coherentGeneralWFactorizationDataOfFiveTrivialDefects
 /-- Vanishing of all five defects therefore gives the genuine higher-localization
 factorization. -/
 theorem hasHigherLocalizationFactorization_of_fiveTrivialDefects
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D)
     (h : FiveCoherenceDefectsTrivial W R D L) :
@@ -404,14 +509,13 @@ theorem hasHigherLocalizationFactorization_of_fiveTrivialDefects
 /-- The constructed coherent package retains exactly the original v2.61 local
 choice bundle. -/
 theorem pointwiseChoiceData_of_fiveTrivialDefects
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D)
     (h : FiveCoherenceDefectsTrivial W R D L) :
     pointwiseChoiceDataOfCoherentGeneralWFactorizationData W R D
       (coherentGeneralWFactorizationDataOfFiveTrivialDefects W R D L h) = L := by
-  rcases h with ⟨hQ, hC⟩
   cases L
   rfl
 
@@ -419,8 +523,8 @@ theorem pointwiseChoiceData_of_fiveTrivialDefects
 v2.61 coherent-extension predicate, not merely for some unrelated coherent
 choice. -/
 theorem hasCoherentExtension_of_fiveTrivialDefects
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (L : PointwiseGeneralWChoiceData (W := W) R D)
     (h : FiveCoherenceDefectsTrivial W R D L) :

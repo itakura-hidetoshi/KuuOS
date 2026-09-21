@@ -77,14 +77,14 @@ variable (W : MorphismProperty Context)
 exists somewhere on the raw system and the fixed coherent datum reflects that
 universality through its chosen route. -/
 def HigherWeakCoherentAlignment
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   HasWeakHigherLocalizationUniversalProperty (W := W) R ∧
     HigherCoherentRouteCompleteness (W := W) U
 
 /-- Exact local two-axis obstruction for one coherent datum. -/
 def HigherWeakCoherentTwoAxisObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) : Prop :=
   HigherWeakEssentialUniquenessObstruction (W := W) R ∨
     HigherFixedChosenForwardModificationTriangleObstruction (W := W) U
@@ -92,7 +92,7 @@ def HigherWeakCoherentTwoAxisObstruction
 /-- A fixed-route obstruction already contains a Stage III-completed candidate,
 so it implies existence of the v2.18 weak universal property. -/
 theorem hasWeakHigherLocalizationUniversalProperty_of_forwardModificationTriangleObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hObs : HigherFixedChosenForwardModificationTriangleObstruction (W := W) U) :
     HasWeakHigherLocalizationUniversalProperty (W := W) R := by
@@ -104,7 +104,7 @@ theorem hasWeakHigherLocalizationUniversalProperty_of_forwardModificationTriangl
 /-- In the Stage III existence-obstructed state, route completeness is vacuous:
 its premise, existence of a weak universal property, is false. -/
 theorem routeCompleteness_of_essentialUniquenessObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R)
     (hObs : HigherWeakEssentialUniquenessObstruction (W := W) R) :
     HigherCoherentRouteCompleteness (W := W) U := by
@@ -116,7 +116,7 @@ theorem routeCompleteness_of_essentialUniquenessObstruction
 /-- The existence and route obstruction axes cannot occur simultaneously on the
 same raw system/coherent datum. -/
 theorem essentialUniquenessObstruction_disjoint_forwardModificationTriangleObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     ¬ (HigherWeakEssentialUniquenessObstruction (W := W) R ∧
       HigherFixedChosenForwardModificationTriangleObstruction (W := W) U) := by
@@ -131,7 +131,7 @@ theorem essentialUniquenessObstruction_disjoint_forwardModificationTriangleObstr
 /-- Exact local success normal form: weak/coherent alignment is equivalent to
 absence of both obstruction axes. -/
 theorem higherWeakCoherentAlignment_iff_no_twoAxisObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherWeakCoherentAlignment (W := W) U ↔
       ¬ HigherWeakCoherentTwoAxisObstruction (W := W) U := by
@@ -162,7 +162,7 @@ theorem higherWeakCoherentAlignment_iff_no_twoAxisObstruction
 
 /-- Exact local failure normal form. -/
 theorem not_higherWeakCoherentAlignment_iff_twoAxisObstruction
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     (¬ HigherWeakCoherentAlignment (W := W) U) ↔
       HigherWeakCoherentTwoAxisObstruction (W := W) U := by
@@ -181,7 +181,7 @@ theorem not_higherWeakCoherentAlignment_iff_twoAxisObstruction
 /-- Because the two axes are disjoint, the local obstruction is an exclusive
 dichotomy rather than a merely inclusive disjunction. -/
 theorem twoAxisObstruction_iff_exclusiveDichotomy
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherWeakCoherentTwoAxisObstruction (W := W) U ↔
       (HigherWeakEssentialUniquenessObstruction (W := W) R ∧
@@ -205,7 +205,7 @@ theorem twoAxisObstruction_iff_exclusiveDichotomy
 
 /-- Complete local three-state classification for one coherent datum. -/
 theorem coherentDatum_stateTrichotomy
-    {R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH)}
+    {R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context)}
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R) :
     HigherWeakEssentialUniquenessObstruction (W := W) R ∨
       HigherFixedChosenForwardModificationTriangleObstruction (W := W) U ∨
@@ -227,43 +227,38 @@ theorem coherentDatum_stateTrichotomy
 /-- Global alignment over every coherent datum that actually exists.  This does
 not itself assert that coherent data exist for every admissible raw system. -/
 def HigherWeakCoherentAlignmentPrinciple : Prop :=
-  ∀ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
+  ∀ (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
     HigherWeakCoherentAlignment (W := W) U
 
 /-- Global witness of the weak-universality existence axis, restricted to raw
 systems that carry an actual coherent datum. -/
 def HigherGlobalWeakStageIIIExistenceObstruction : Prop :=
-  ∃ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
+  ∃ (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
     HigherWeakEssentialUniquenessObstruction (W := W) R
 
 /-- Global witness of the fixed coherent route axis. -/
 def HigherGlobalFixedRouteObstruction : Prop :=
-  ∃ (R : RawHigherContextualSystem (Context := Context) (uH := uH) (vH := vH))
+  ∃ (R : RawHigherContextualSystem.{u, v, uH, vH} (Context := Context))
     (U : CoherentWeakHigherLocalizationUniversalProperty (W := W) R),
     HigherFixedChosenForwardModificationTriangleObstruction (W := W) U
 
 /-- The two global obstruction classes.  They may coexist globally on different
 raw systems even though they are mutually exclusive for one fixed `R,U`. -/
 def HigherGlobalWeakCoherentTwoAxisObstruction : Prop :=
-  HigherGlobalWeakStageIIIExistenceObstruction
-      (W := W) (uH := uH) (vH := vH) ∨
-    HigherGlobalFixedRouteObstruction
-      (W := W) (uH := uH) (vH := vH)
+  HigherGlobalWeakStageIIIExistenceObstruction.{u, v, uH, vH} (W := W) ∨
+    HigherGlobalFixedRouteObstruction.{u, v, uH, vH} (W := W)
 
 /-- Relative to a coherent universal principle, global weak/coherent alignment is
 exactly the conjunction of the v2.18 weak universal principle and the v2.33
 route-completeness principle. -/
 theorem higherWeakCoherentAlignmentPrinciple_iff_universal_and_route_of_coherent
-    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherWeakCoherentAlignmentPrinciple
-        (W := W) (uH := uH) (vH := vH) ↔
-      (HigherWeakLocalizationUniversalPrinciple
-          (W := W) (uH := uH) (vH := vH) ∧
-        HigherCoherentRouteCompletenessPrinciple
-          (W := W) (uH := uH) (vH := vH)) := by
+    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    HigherWeakCoherentAlignmentPrinciple.{u, v, uH, vH} (W := W) ↔
+      (HigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH} (W := W) ∧
+        HigherCoherentRouteCompletenessPrinciple.{u, v, uH, vH} (W := W)) := by
   constructor
   · intro hAlignment
     constructor
@@ -280,12 +275,10 @@ theorem higherWeakCoherentAlignmentPrinciple_iff_universal_and_route_of_coherent
 /-- Under a coherent universal principle, failure of the global v2.18 weak
 universal principle is exactly a global Stage III existence witness. -/
 theorem not_higherWeakLocalizationUniversalPrinciple_iff_globalWeakStageIIIExistenceObstruction_of_coherent
-    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    (¬ HigherWeakLocalizationUniversalPrinciple
-        (W := W) (uH := uH) (vH := vH)) ↔
-      HigherGlobalWeakStageIIIExistenceObstruction
-        (W := W) (uH := uH) (vH := vH) := by
+    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    (¬ HigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH} (W := W)) ↔
+      HigherGlobalWeakStageIIIExistenceObstruction.{u, v, uH, vH} (W := W) := by
   classical
   constructor
   · intro hNoUniversalPrinciple
@@ -310,10 +303,8 @@ theorem not_higherWeakLocalizationUniversalPrinciple_iff_globalWeakStageIIIExist
 /-- Failure of the global route-completeness principle is exactly a global
 forward-modification-triangle obstruction witness. -/
 theorem not_higherCoherentRouteCompletenessPrinciple_iff_globalFixedRouteObstruction :
-    (¬ HigherCoherentRouteCompletenessPrinciple
-        (W := W) (uH := uH) (vH := vH)) ↔
-      HigherGlobalFixedRouteObstruction
-        (W := W) (uH := uH) (vH := vH) := by
+    (¬ HigherCoherentRouteCompletenessPrinciple.{u, v, uH, vH} (W := W)) ↔
+      HigherGlobalFixedRouteObstruction.{u, v, uH, vH} (W := W) := by
   classical
   constructor
   · intro hNoRoutePrinciple
@@ -332,10 +323,8 @@ theorem not_higherCoherentRouteCompletenessPrinciple_iff_globalFixedRouteObstruc
 
 /-- Global alignment is exactly absence of both global obstruction classes. -/
 theorem higherWeakCoherentAlignmentPrinciple_iff_no_globalTwoAxisObstruction :
-    HigherWeakCoherentAlignmentPrinciple
-        (W := W) (uH := uH) (vH := vH) ↔
-      ¬ HigherGlobalWeakCoherentTwoAxisObstruction
-        (W := W) (uH := uH) (vH := vH) := by
+    HigherWeakCoherentAlignmentPrinciple.{u, v, uH, vH} (W := W) ↔
+      ¬ HigherGlobalWeakCoherentTwoAxisObstruction.{u, v, uH, vH} (W := W) := by
   constructor
   · intro hAlignment hGlobalObs
     rcases hGlobalObs with hExistenceGlobal | hRouteGlobal
@@ -360,29 +349,23 @@ theorem higherWeakCoherentAlignmentPrinciple_iff_no_globalTwoAxisObstruction :
 weak universality and fixed-route completeness are exactly absence of the two
 remaining global obstruction classes. -/
 theorem weakUniversal_and_routePrinciples_iff_no_globalTwoAxisObstruction_of_coherent
-    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    (HigherWeakLocalizationUniversalPrinciple
-        (W := W) (uH := uH) (vH := vH) ∧
-      HigherCoherentRouteCompletenessPrinciple
-        (W := W) (uH := uH) (vH := vH)) ↔
-      ¬ HigherGlobalWeakCoherentTwoAxisObstruction
-        (W := W) (uH := uH) (vH := vH) :=
+    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    (HigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH} (W := W) ∧
+      HigherCoherentRouteCompletenessPrinciple.{u, v, uH, vH} (W := W)) ↔
+      ¬ HigherGlobalWeakCoherentTwoAxisObstruction.{u, v, uH, vH} (W := W) :=
   (higherWeakCoherentAlignmentPrinciple_iff_universal_and_route_of_coherent
     (W := W) hCoherent).symm.trans
     (higherWeakCoherentAlignmentPrinciple_iff_no_globalTwoAxisObstruction
-      (W := W) (uH := uH) (vH := vH))
+      (W := W))
 
 /-- Corresponding exact global failure normal form. -/
 theorem not_weakUniversal_and_routePrinciples_iff_globalTwoAxisObstruction_of_coherent
-    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    (¬ (HigherWeakLocalizationUniversalPrinciple
-          (W := W) (uH := uH) (vH := vH) ∧
-        HigherCoherentRouteCompletenessPrinciple
-          (W := W) (uH := uH) (vH := vH))) ↔
-      HigherGlobalWeakCoherentTwoAxisObstruction
-        (W := W) (uH := uH) (vH := vH) := by
+    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    (¬ (HigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH} (W := W) ∧
+        HigherCoherentRouteCompletenessPrinciple.{u, v, uH, vH} (W := W))) ↔
+      HigherGlobalWeakCoherentTwoAxisObstruction.{u, v, uH, vH} (W := W) := by
   classical
   constructor
   · intro hFail
@@ -398,14 +381,11 @@ theorem not_weakUniversal_and_routePrinciples_iff_globalTwoAxisObstruction_of_co
 /-- The concrete global two-axis obstruction is equivalently the disjunction of
 failure of the two abstract global principles. -/
 theorem globalTwoAxisObstruction_iff_notUniversal_or_notRoute_of_coherent
-    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple
-      (W := W) (uH := uH) (vH := vH)) :
-    HigherGlobalWeakCoherentTwoAxisObstruction
-        (W := W) (uH := uH) (vH := vH) ↔
-      ((¬ HigherWeakLocalizationUniversalPrinciple
-          (W := W) (uH := uH) (vH := vH)) ∨
-        (¬ HigherCoherentRouteCompletenessPrinciple
-          (W := W) (uH := uH) (vH := vH))) := by
+    (hCoherent : CoherentHigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH}
+      (W := W)) :
+    HigherGlobalWeakCoherentTwoAxisObstruction.{u, v, uH, vH} (W := W) ↔
+      ((¬ HigherWeakLocalizationUniversalPrinciple.{u, v, uH, vH} (W := W)) ∨
+        (¬ HigherCoherentRouteCompletenessPrinciple.{u, v, uH, vH} (W := W))) := by
   constructor
   · intro hGlobalObs
     rcases hGlobalObs with hExistenceObs | hRouteObs
@@ -414,14 +394,14 @@ theorem globalTwoAxisObstruction_iff_notUniversal_or_notRoute_of_coherent
           (W := W) hCoherent).mpr hExistenceObs)
     · exact Or.inr
         ((not_higherCoherentRouteCompletenessPrinciple_iff_globalFixedRouteObstruction
-          (W := W) (uH := uH) (vH := vH)).mpr hRouteObs)
+          (W := W)).mpr hRouteObs)
   · rintro (hNoUniversal | hNoRoute)
     · exact Or.inl
         ((not_higherWeakLocalizationUniversalPrinciple_iff_globalWeakStageIIIExistenceObstruction_of_coherent
           (W := W) hCoherent).mp hNoUniversal)
     · exact Or.inr
         ((not_higherCoherentRouteCompletenessPrinciple_iff_globalFixedRouteObstruction
-          (W := W) (uH := uH) (vH := vH)).mp hNoRoute)
+          (W := W)).mp hNoRoute)
 
 /-!
 ## Boundary after v2.42

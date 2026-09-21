@@ -1,6 +1,9 @@
 import KUOS.DependentOriginationGeneratedCoherenceRoutesV2_68
 import KUOS.DependentOriginationCoherenceDefectsV2_65
 import Mathlib.Tactic.CategoryTheory.Bicategory.Basic
+import Mathlib.Tactic.CategoryTheory.ToApp
+import Mathlib.Tactic.Convert
+import Mathlib.CategoryTheory.Bicategory.Strict.Basic
 
 namespace KUOS.DependentOriginationGeneratedQuotientCoherenceV2_68
 
@@ -40,8 +43,8 @@ variable (W : MorphismProperty Context)
 /-- Generated path-independence supplies a genuine coherent quotient transport
 with exactly the canonical generated pointwise identity/composition choices. -/
 noncomputable def coherentGeneratedQuotientTransportData
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hPI : GeneratedEvaluationPathIndependent W R D) :
     CoherentQuotientTransportData (W := W) R D where
@@ -51,47 +54,88 @@ noncomputable def coherentGeneratedQuotientTransportData
     intro X Y Z T f g h
     have heq := congrArg Iso.hom
       (generatedQuotientAssociatorRoutes_evaluation_eq W R D hPI f g h)
-    simpa [generatedQuotientAssociatorRoute,
+    simp only [generatedQuotientAssociatorRoute,
       generatedQuotientAssociatorDirect,
       generatedCompositionMapIso,
+      quotientRepresentativeMap,
       generatedLocalization2CellEvaluationIso_trans,
       generatedLocalization2CellEvaluationIso_symm,
-      generatedLocalization2CellEvaluationIso_whiskerLeft,
-      generatedLocalization2CellEvaluationIso_whiskerRight,
-      generatedLocalization2CellEvaluationIso_ofEq,
-      Iso.trans_hom, Iso.symm_hom,
+      generatedLocalization2CellEvaluationIso_whiskerLeft_hom,
+      generatedLocalization2CellEvaluationIso_whiskerRight_hom,
+      generatedLocalization2CellEvaluationIso_ofEq_hom,
+      Iso.trans_hom, Iso.trans_inv, Iso.symm_hom, id_eq,
+      eqToIso.hom, eqToIso.inv,
       whiskerLeftIso_hom, whiskerRightIso_hom,
-      Functor.map_comp] using heq
+      Bicategory.Strict.associator_eqToIso] at heq ⊢
+    have heqNat := congrArg (fun η => η.toNatTrans) heq
+    apply Cat.Hom₂.ext
+    ext A
+    have heqA := NatTrans.congr_app heqNat A
+    set_option backward.isDefEq.respectTransparency false in
+      simpa only [Cat.Hom.comp_toFunctor, Functor.comp_obj, Cat.Hom.comp_obj,
+        Cat.whiskerLeft_app, Cat.whiskerRight_app,
+        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
+        Functor.map_comp, eqToHom_map, eqToHom_refl,
+        eqToHom_trans, eqToHom_trans_assoc,
+        Category.comp_id, Category.id_comp, Category.assoc] using heqA
   map₂_left_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
       (generatedQuotientLeftUnitorRoutes_evaluation_eq W R D hPI f)
-    simpa [generatedQuotientLeftUnitorRoute,
+    simp only [generatedQuotientLeftUnitorRoute,
       generatedQuotientLeftUnitorDirect,
       generatedIdentityMapIso, generatedCompositionMapIso,
+      quotientRepresentativeMap,
       generatedLocalization2CellEvaluationIso_trans,
-      generatedLocalization2CellEvaluationIso_whiskerRight,
-      generatedLocalization2CellEvaluationIso_ofEq,
-      Iso.trans_hom, whiskerRightIso_hom,
-      Functor.map_comp, Functor.map_id] using heq
+      generatedLocalization2CellEvaluationIso_whiskerRight_hom,
+      generatedLocalization2CellEvaluationIso_ofEq_hom,
+      Iso.trans_hom, Iso.symm_hom, id_eq,
+      eqToIso.hom, eqToIso.inv,
+      whiskerRightIso_hom,
+      Bicategory.Strict.leftUnitor_eqToIso] at heq ⊢
+    have heqNat := congrArg (fun η => η.toNatTrans) heq
+    apply Cat.Hom₂.ext
+    ext A
+    have heqA := NatTrans.congr_app heqNat A
+    set_option backward.isDefEq.respectTransparency false in
+      simpa only [Cat.Hom.comp_toFunctor, Functor.comp_obj, Cat.Hom.comp_obj,
+        Cat.whiskerLeft_app, Cat.whiskerRight_app,
+        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
+        Functor.map_comp, eqToHom_map, eqToHom_refl,
+        eqToHom_trans, eqToHom_trans_assoc,
+        Category.comp_id, Category.id_comp, Category.assoc] using heqA
   map₂_right_unitor := by
     intro X Y f
     have heq := congrArg Iso.hom
       (generatedQuotientRightUnitorRoutes_evaluation_eq W R D hPI f)
-    simpa [generatedQuotientRightUnitorRoute,
+    simp only [generatedQuotientRightUnitorRoute,
       generatedQuotientRightUnitorDirect,
       generatedIdentityMapIso, generatedCompositionMapIso,
+      quotientRepresentativeMap,
       generatedLocalization2CellEvaluationIso_trans,
-      generatedLocalization2CellEvaluationIso_whiskerLeft,
-      generatedLocalization2CellEvaluationIso_ofEq,
-      Iso.trans_hom, whiskerLeftIso_hom,
-      Functor.map_comp, Functor.map_id] using heq
+      generatedLocalization2CellEvaluationIso_whiskerLeft_hom,
+      generatedLocalization2CellEvaluationIso_ofEq_hom,
+      Iso.trans_hom, Iso.symm_hom, id_eq,
+      eqToIso.hom, eqToIso.inv,
+      whiskerLeftIso_hom,
+      Bicategory.Strict.rightUnitor_eqToIso] at heq ⊢
+    have heqNat := congrArg (fun η => η.toNatTrans) heq
+    apply Cat.Hom₂.ext
+    ext A
+    have heqA := NatTrans.congr_app heqNat A
+    set_option backward.isDefEq.respectTransparency false in
+      simpa only [Cat.Hom.comp_toFunctor, Functor.comp_obj, Cat.Hom.comp_obj,
+        Cat.whiskerLeft_app, Cat.whiskerRight_app,
+        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
+        Functor.map_comp, eqToHom_map, eqToHom_refl,
+        eqToHom_trans, eqToHom_trans_assoc,
+        Category.comp_id, Category.id_comp, Category.assoc] using heqA
 
 /-- The first three v2.65 defects vanish for the exact canonical generated
 pointwise bundle whenever generated evaluation is path-independent. -/
 noncomputable def generatedQuotientTransportDefectsTrivialOfPathIndependent
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (hPI : GeneratedEvaluationPathIndependent W R D) :
     QuotientTransportDefectsTrivial W R D
@@ -100,23 +144,31 @@ noncomputable def generatedQuotientTransportDefectsTrivialOfPathIndependent
     intro X Y Z T f g h
     apply (quotientAssociatorDefect_eq_refl_iff W R D
       (generatedPointwiseGeneralWChoiceData W R D) f g h).2
-    exact (coherentGeneratedQuotientTransportData W R D hPI).map₂_associator f g h
+    simpa only [generatedPointwiseGeneralWChoiceData_mapComp,
+      coherentGeneratedQuotientTransportData] using
+      (coherentGeneratedQuotientTransportData W R D hPI).map₂_associator f g h
   leftUnitor := by
     intro X Y f
     apply (quotientLeftUnitorDefect_eq_refl_iff W R D
       (generatedPointwiseGeneralWChoiceData W R D) f).2
-    exact (coherentGeneratedQuotientTransportData W R D hPI).map₂_left_unitor f
+    simpa only [generatedPointwiseGeneralWChoiceData_mapId,
+      generatedPointwiseGeneralWChoiceData_mapComp,
+      coherentGeneratedQuotientTransportData] using
+      (coherentGeneratedQuotientTransportData W R D hPI).map₂_left_unitor f
   rightUnitor := by
     intro X Y f
     apply (quotientRightUnitorDefect_eq_refl_iff W R D
       (generatedPointwiseGeneralWChoiceData W R D) f).2
-    exact (coherentGeneratedQuotientTransportData W R D hPI).map₂_right_unitor f
+    simpa only [generatedPointwiseGeneralWChoiceData_mapId,
+      generatedPointwiseGeneralWChoiceData_mapComp,
+      coherentGeneratedQuotientTransportData] using
+      (coherentGeneratedQuotientTransportData W R D hPI).map₂_right_unitor f
 
 /-- Trivial generated holonomy is therefore already sufficient for vanishing of
 the three quotient-transport defects. -/
 noncomputable def generatedQuotientTransportDefectsTrivialOfHolonomyTrivial
-    (R : RawHigherContextualSystem
-      (Context := Context) (uH := uH) (vH := vH))
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     (htriv : GeneratedHolonomyTrivial W R D) :
     QuotientTransportDefectsTrivial W R D
