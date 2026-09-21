@@ -23,7 +23,7 @@ one globally correlated family:
     (∀ s t, overlap-compatible(Qlocal s,Qlocal t)).
 ```
 
-This file truth-tests that implication at the abstract finite-footprint level.
+This theorem unit truth-tests that implication at the abstract finite-footprint level.
 
 The countermodel has three route states `a,b,c`, three shared coordinates
 `ab,ac,bc`, and Boolean coordinate values.  The footprints form a triangle:
