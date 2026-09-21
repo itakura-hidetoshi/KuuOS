@@ -209,7 +209,15 @@ theorem associator_unitor_triangle_doubleWhisker_mapId_eq
             eA ≫
             (S.mapComp f (𝟙 Y ≫ g)).hom ≫
             F ◁ (S.mapComp (𝟙 Y) g).hom := by
-              rw [hA]
+              have h :=
+                congrArg
+                  (fun k =>
+                    (S.mapComp (f ≫ 𝟙 Y) g).inv ≫
+                      k ≫
+                      (S.mapComp f (𝟙 Y ≫ g)).hom ≫
+                      F ◁ (S.mapComp (𝟙 Y) g).hom)
+                  hA
+              simpa only [Category.assoc] using h
 
   have hRnormalized :
       (S.mapComp f (𝟙 Y)).hom ≫
@@ -304,6 +312,10 @@ theorem associator_unitor_triangle_doubleWhisker_mapId_eq
           F ◁ ((T.mapId Y).hom ▷ G) ≫
           F ◁ (λ_ G).hom =
         eR ▷ G := by
+    have h :=
+      congrArg
+        (fun k => ((S.mapComp f (𝟙 Y)).hom ▷ G) ≫ k)
+        hStructural.symm
     calc
       (S.mapComp f (𝟙 Y)).hom ▷ G ≫
           (α_ F P G).hom ≫
@@ -312,7 +324,7 @@ theorem associator_unitor_triangle_doubleWhisker_mapId_eq
           (S.mapComp f (𝟙 Y)).hom ▷ G ≫
             ((F ◁ (T.mapId Y).hom) ▷ G) ≫
             ((ρ_ F).hom ▷ G) := by
-              rw [hStructural]
+              simpa only [Category.assoc] using h
       _ = eR ▷ G := hRwhisk
 
   have hRightViaAssociator :
