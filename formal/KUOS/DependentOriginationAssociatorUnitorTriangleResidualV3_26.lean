@@ -142,6 +142,13 @@ theorem associator_unitor_triangle_doubleWhisker_mapId_eq
   have hL :=
     (quotientLeftUnitorDefect_eq_refl_iff W R D U g).1 hQu
 
+  -- Normalize the ordinary-category unit equalities inside the dependent
+  -- source and target types before doing bicategorical cancellation.
+  simp only [Category.comp_id, Category.id_comp] at hA hR hL
+
+  have hAdjustedRHom := congrArg Iso.hom hAdjustedR
+  have hAdjustedLHom := congrArg Iso.hom hAdjustedL
+
   have hMiddle :
       (S.mapComp f (𝟙 Y)).hom ▷ G ≫
           (α_ F P G).hom ≫
@@ -162,16 +169,14 @@ theorem associator_unitor_triangle_doubleWhisker_mapId_eq
           F ◁ (T.mapId Y).hom ≫
           (ρ_ F).hom =
         𝟙 F := by
-    simpa [F, S, T, Category.assoc,
-      congrArg Iso.hom hAdjustedR] using hR
+    simpa [F, Category.assoc, hAdjustedRHom] using hR
 
   have hL' :
       (S.mapComp (𝟙 Y) g).hom ≫
           (U.mapId Y).hom ▷ G ≫
           (λ_ G).hom =
         𝟙 G := by
-    simpa [G, S, U, Category.assoc,
-      congrArg Iso.hom hAdjustedL] using hL
+    simpa [G, Category.assoc, hAdjustedLHom] using hL
 
   have hRwhisk :
       ((S.mapComp f (𝟙 Y)).hom ▷ G) ≫
@@ -189,15 +194,44 @@ theorem associator_unitor_triangle_doubleWhisker_mapId_eq
     have h := congrArg (fun η => F ◁ η) hL'
     simpa [whiskerLeft_comp, Category.assoc] using h
 
+  have hTri :
+      (ρ_ F).hom ▷ G =
+        (α_ F (𝟙 _) G).hom ≫ F ◁ (λ_ G).hom :=
+    (triangle F G).symm
+
+  have hNat :
+      ((F ◁ (T.mapId Y).hom) ▷ G) ≫
+          (α_ F (𝟙 _) G).hom =
+        (α_ F P G).hom ≫
+          F ◁ ((T.mapId Y).hom ▷ G) := by
+    simpa [P] using
+      associator_naturality_middle F (T.mapId Y).hom G
+
   have hStructural :
       ((F ◁ (T.mapId Y).hom) ▷ G) ≫ ((ρ_ F).hom ▷ G) =
         (α_ F P G).hom ≫
           F ◁ ((T.mapId Y).hom ▷ G) ≫
           F ◁ (λ_ G).hom := by
-    rw [← triangle F G]
-    rw [Category.assoc,
-      associator_naturality_middle F (T.mapId Y).hom G]
-    simp only [Category.assoc, whiskerLeft_comp]
+    calc
+      ((F ◁ (T.mapId Y).hom) ▷ G) ≫ ((ρ_ F).hom ▷ G) =
+          ((F ◁ (T.mapId Y).hom) ▷ G) ≫
+            ((α_ F (𝟙 _) G).hom ≫ F ◁ (λ_ G).hom) := by
+              rw [hTri]
+      _ =
+          (((F ◁ (T.mapId Y).hom) ▷ G) ≫
+            (α_ F (𝟙 _) G).hom) ≫
+            F ◁ (λ_ G).hom := by
+              simp only [Category.assoc]
+      _ =
+          ((α_ F P G).hom ≫
+            F ◁ ((T.mapId Y).hom ▷ G)) ≫
+            F ◁ (λ_ G).hom := by
+              rw [hNat]
+      _ =
+          (α_ F P G).hom ≫
+            F ◁ ((T.mapId Y).hom ▷ G) ≫
+            F ◁ (λ_ G).hom := by
+              simp only [Category.assoc]
 
   have hRnormalized :
       F ◁ (S.mapComp (𝟙 Y) g).hom ≫
@@ -212,12 +246,22 @@ theorem associator_unitor_triangle_doubleWhisker_mapId_eq
             (α_ F P G).hom ≫
             F ◁ ((T.mapId Y).hom ▷ G) ≫
             F ◁ (λ_ G).hom := by
-              rw [hAssocBridge]
+              have h :=
+                congrArg
+                  (fun k =>
+                    k ≫ F ◁ ((T.mapId Y).hom ▷ G) ≫
+                      F ◁ (λ_ G).hom)
+                  hAssocBridge.symm
+              simpa only [Category.assoc] using h
       _ =
           ((S.mapComp f (𝟙 Y)).hom ▷ G) ≫
             ((F ◁ (T.mapId Y).hom) ▷ G) ≫
             ((ρ_ F).hom ▷ G) := by
-              rw [hStructural]
+              have h :=
+                congrArg
+                  (fun k => ((S.mapComp f (𝟙 Y)).hom ▷ G) ≫ k)
+                  hStructural.symm
+              simpa only [Category.assoc] using h
       _ = 𝟙 (F ≫ G) := hRwhisk
 
   have hBoth :
