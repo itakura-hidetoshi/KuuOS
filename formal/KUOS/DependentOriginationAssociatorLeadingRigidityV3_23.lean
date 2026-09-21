@@ -116,71 +116,71 @@ theorem associator_leading_mapCompGauge_eq_of_corrected_of_trailing_eq
   have hComposite :
       ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
           (f ≫ g) h).hom ≫
-          ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
-            f g).hom ▷ quotientRepresentativeMap W R D h ≫
+          (((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
+            f g).hom ▷ quotientRepresentativeMap W R D h) ≫
           (α_
             (quotientRepresentativeMap W R D f)
             (quotientRepresentativeMap W R D g)
             (quotientRepresentativeMap W R D h)).hom ≫
-          quotientRepresentativeMap W R D f ◁
+          (quotientRepresentativeMap W R D f ◁
             ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
-              g h).inv ≫
+              g h).inv) ≫
           ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
             f (g ≫ h)).inv =
         ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q').mapComp
           (f ≫ g) h).hom ≫
-          ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
-            f g).hom ▷ quotientRepresentativeMap W R D h ≫
+          (((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
+            f g).hom ▷ quotientRepresentativeMap W R D h) ≫
           (α_
             (quotientRepresentativeMap W R D f)
             (quotientRepresentativeMap W R D g)
             (quotientRepresentativeMap W R D h)).hom ≫
-          quotientRepresentativeMap W R D f ◁
+          (quotientRepresentativeMap W R D f ◁
             ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
-              g h).inv ≫
+              g h).inv) ≫
           ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
             f (g ≫ h)).inv := by
     calc
       ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
           (f ≫ g) h).hom ≫
-          ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
-            f g).hom ▷ quotientRepresentativeMap W R D h ≫
+          (((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
+            f g).hom ▷ quotientRepresentativeMap W R D h) ≫
           (α_
             (quotientRepresentativeMap W R D f)
             (quotientRepresentativeMap W R D g)
             (quotientRepresentativeMap W R D h)).hom ≫
-          quotientRepresentativeMap W R D f ◁
+          (quotientRepresentativeMap W R D f ◁
             ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
-              g h).inv ≫
+              g h).inv) ≫
           ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
             f (g ≫ h)).inv =
           eqToHom (by simp) := hEqQ
       _ =
           ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q').mapComp
             (f ≫ g) h).hom ≫
-            ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q').mapComp
-              f g).hom ▷ quotientRepresentativeMap W R D h ≫
+            (((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q').mapComp
+              f g).hom ▷ quotientRepresentativeMap W R D h) ≫
             (α_
               (quotientRepresentativeMap W R D f)
               (quotientRepresentativeMap W R D g)
               (quotientRepresentativeMap W R D h)).hom ≫
-            quotientRepresentativeMap W R D f ◁
+            (quotientRepresentativeMap W R D f ◁
               ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q').mapComp
-                g h).inv ≫
+                g h).inv) ≫
             ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q').mapComp
               f (g ≫ h)).inv := hEqQ'.symm
       _ =
           ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q').mapComp
             (f ≫ g) h).hom ≫
-            ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
-              f g).hom ▷ quotientRepresentativeMap W R D h ≫
+            (((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
+              f g).hom ▷ quotientRepresentativeMap W R D h) ≫
             (α_
               (quotientRepresentativeMap W R D f)
               (quotientRepresentativeMap W R D g)
               (quotientRepresentativeMap W R D h)).hom ≫
-            quotientRepresentativeMap W R D f ◁
+            (quotientRepresentativeMap W R D f ◁
               ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
-                g h).inv ≫
+                g h).inv) ≫
             ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
               f (g ≫ h)).inv := by
             rw [hAdjustedFGHom, hAdjustedGHInv, hAdjustedFGHInv]
@@ -191,15 +191,15 @@ theorem associator_leading_mapCompGauge_eq_of_corrected_of_trailing_eq
           (f ≫ g) h).hom := by
     apply
       (cancel_mono
-        (((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
-            f g).hom ▷ quotientRepresentativeMap W R D h ≫
+        ((((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
+            f g).hom ▷ quotientRepresentativeMap W R D h) ≫
           (α_
             (quotientRepresentativeMap W R D f)
             (quotientRepresentativeMap W R D g)
             (quotientRepresentativeMap W R D h)).hom ≫
-          quotientRepresentativeMap W R D f ◁
+          (quotientRepresentativeMap W R D f ◁
             ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
-              g h).inv ≫
+              g h).inv) ≫
           ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
             f (g ≫ h)).inv)).1
     simpa only [Category.assoc] using hComposite
