@@ -291,7 +291,7 @@ theorem associator_right_left_triangle_adjusted_mapId_sandwich_eq
           (λ_ (quotientRepresentativeMap W R D g)).hom) := by
             rw [← hCompBridge]
             simp only [Category.assoc]
-            rw [associator_naturality_middle]
+            rw [← associator_naturality_middle]
             simpa only [Category.assoc] using
               triangle_assoc_comp_left
                 (quotientRepresentativeMap W R D f)
