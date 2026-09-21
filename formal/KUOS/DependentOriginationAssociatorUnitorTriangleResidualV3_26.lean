@@ -174,7 +174,7 @@ theorem associator_unitor_triangle_doubleWhisker_mapId_eq
           (λ_ G).hom =
         eL at hL
 
-  /-- The two outer composition witnesses in the unit-degenerate associator
+  /- The two outer composition witnesses in the unit-degenerate associator
   are the same dependent mapComp coordinate after transporting along
   f≫𝟙=f and 𝟙≫g=g.  The resulting eqToHom square is pure transport
   bookkeeping; no coherence hypothesis on S is used here. -/
