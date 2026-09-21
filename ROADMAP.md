@@ -8,62 +8,35 @@ This roadmap is organized around theorem authority and mathematical exit criteri
 
 ## Authority state
 
-### Canonical integrated theorem baseline
+### Canonical merged theorem baseline
 
 ```text
 canonical branch:
   main
 
-main observed before this docs-only refresh:
-  2eed09b900a5e82390ae17ad2d46f4b283b184bd
-
-latest theorem layer integrated into main:
-  v2.68
-
-v2.68 merge:
-  PR #1650
-  merge commit d9a4b4e070382f35b342f7505b09d35481f7e0c6
-
-exact validated v2.68 proof head:
-  5addad2ba75e526ba0595b37b972a3b3fb2972bb
-
-governance:
-  KuuOS PR Governance Gate #1887
-  completed / success
-```
-
-### Active Draft theorem frontier
-
-```text
-PR:
-  #1651
-  Draft / open / unmerged
-
-branch:
-  formal/dependent-origination-generated-holonomy-countermodel-v269
-
-latest validated theorem-bearing head before this docs refresh:
-  77337a3a5e65871a2426c9e8abfec6623be0b9ab
-
-current validated layer:
+current integrated theorem layer:
   v3.14
 
-fresh compare against current main:
-  behind = 0
-  ahead  = 557
+canonical promotion:
+  PR #1651
+  merged 2026-09-21
+  merge commit 40dbd88ab313af278f58f42ce566210b66290881
 
-governance:
+validated theorem-bearing head promoted by #1651:
+  77337a3a5e65871a2426c9e8abfec6623be0b9ab
+
+theorem-head governance:
   KuuOS PR Governance Gate #2469
   completed / success
 
-exact-head receipts:
+theorem-head receipts:
   Strict Lean formal validation = success
   exact-head terminal = success
 ```
 
-The v2.69–v3.14 results are validated on the Draft branch but are not yet integrated theorem authority on `main`.
+The former v2.69–v3.14 Draft frontier is now integrated theorem authority on `main`. The canonical Stage-I theorem spine therefore runs continuously through v3.14.
 
-Mathematically, however, the Draft line is not separate from the integrated v2.68 spine. v2.69 truth-tests the v2.68 sufficient condition; v2.96 onward then reconnects correction semantics directly to `HigherLocalizationFactorization`, and v3.05–v3.14 progressively reduce the remaining quotient-stage obstruction to finite dependent-coordinate gluing.
+Promotion provenance is explicit: the two commits between validated theorem head `77337a3…` and merged PR head `ad602483…` changed only `README.md` and `ROADMAP.md`. No Lean source changed after the validated theorem head. Immediately after #1651 merged, merge commit `40dbd88a…` and `main` compared identical with ahead/behind = 0/0.
 
 Pinned formal environment:
 
@@ -76,7 +49,7 @@ The roadmap keeps separate:
 
 ```text
 canonical merged theorem authority
-Draft exact-head theorem evidence
+noncanonical theorem evidence, when present
 validation-only compatibility evidence
 runtime / control-plane evidence
 philosophical interpretation
@@ -119,21 +92,18 @@ No candidate carrier is promoted to “the universal dependent-origination objec
 
 ---
 
-# Connected Stage-I spine: integrated v2.68 baseline and Draft continuation through v3.14
+# Canonical Stage-I spine through v3.14
 
-The Stage-I line has one mathematical direction but two authority layers:
+The Stage-I line from v2.0 through v3.14 is now one merged canonical theorem spine on `main`:
 
 ```text
-v2.0–v2.68
+v2.0–v3.14
   merged canonical theorem authority on main
-
-v2.69–v3.14
-  exact-head validated Draft theorem authority on PR #1651
 ```
 
-The roadmap therefore treats v2.69 onward as a continuation of the v2.68 higher-localization program, not as an unrelated correction-theory branch.
+v2.69 onward remains mathematically the continuation of the v2.68 higher-localization program, but the former authority split has been removed by the merge of PR #1651.
 
-## A1.1–A1.3 Integrated segment through v2.68 — complete on main
+## A1.1–A1.3 v2.56–v2.68 — generated-holonomy sufficient route
 
 v2.56–v2.68 establish the path:
 
