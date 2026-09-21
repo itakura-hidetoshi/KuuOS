@@ -69,12 +69,12 @@ def QuotientGaugesAgreeOnRouteState
       Q.mapCompGauge f g = Q'.mapCompGauge f g ∧
       Q.mapCompGauge g h = Q'.mapCompGauge g h ∧
       Q.mapCompGauge f (g ≫ h) = Q'.mapCompGauge f (g ≫ h)
-  | .leftUnitor f =>
-      Q.mapCompGauge (𝟙 _) f = Q'.mapCompGauge (𝟙 _) f ∧
-      Q.mapIdGauge _ = Q'.mapIdGauge _
-  | .rightUnitor f =>
-      Q.mapCompGauge f (𝟙 _) = Q'.mapCompGauge f (𝟙 _) ∧
-      Q.mapIdGauge _ = Q'.mapIdGauge _
+  | .leftUnitor (X := X) f =>
+      Q.mapCompGauge (𝟙 X) f = Q'.mapCompGauge (𝟙 X) f ∧
+      Q.mapIdGauge X = Q'.mapIdGauge X
+  | .rightUnitor (Y := Y) f =>
+      Q.mapCompGauge f (𝟙 Y) = Q'.mapCompGauge f (𝟙 Y) ∧
+      Q.mapIdGauge Y = Q'.mapIdGauge Y
 
 /-- Agreement on an associator footprint gives equality of the four adjusted
 composition witnesses used in that associator equation. -/
@@ -191,37 +191,91 @@ theorem quotientRouteCorrectedBy_congr_of_agreesOnRouteState
   | associator f g h =>
       rcases associator_adjusted_mapComp_eqs W R D Q Q' f g h H with
         ⟨Hfgh, Hfg, Hgh, Hfgh'⟩
-      change
-        quotientAssociatorDefect W R D
+      have Hfgh_hom := congrArg Iso.hom Hfgh
+      have Hfg_hom := congrArg Iso.hom Hfg
+      have Hgh_inv := congrArg Iso.inv Hgh
+      have Hfgh'_inv := congrArg Iso.inv Hfgh'
+      constructor
+      · intro hQ
+        have hEq :=
+          (quotientAssociatorDefect_eq_refl_iff W R D
             (quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q)
-            f g h = Iso.refl _ ↔
-          quotientAssociatorDefect W R D
+            f g h).1 hQ
+        apply
+          (quotientAssociatorDefect_eq_refl_iff W R D
             (quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q')
-            f g h = Iso.refl _
-      unfold quotientAssociatorDefect
-      rw [Hfgh, Hfg, Hgh, Hfgh']
+            f g h).2
+        simpa only [Hfgh_hom, Hfg_hom, Hgh_inv, Hfgh'_inv] using hEq
+      · intro hQ'
+        have hEq :=
+          (quotientAssociatorDefect_eq_refl_iff W R D
+            (quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q')
+            f g h).1 hQ'
+        apply
+          (quotientAssociatorDefect_eq_refl_iff W R D
+            (quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q)
+            f g h).2
+        simpa only [← Hfgh_hom, ← Hfg_hom, ← Hgh_inv, ← Hfgh'_inv] using hEq
   | leftUnitor f =>
       rcases leftUnitor_adjusted_eqs W R D Q Q' f H with ⟨Hcomp, Hid⟩
-      change
-        quotientLeftUnitorDefect W R D
+      have Hcomp_hom := congrArg Iso.hom Hcomp
+      have Hid_hom := congrArg Iso.hom Hid
+      constructor
+      · intro hQ
+        have hEq :=
+          (quotientLeftUnitorDefect_eq_refl_iff W R D
             (quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q)
-            f = Iso.refl _ ↔
-          quotientLeftUnitorDefect W R D
+            f).1 hQ
+        apply
+          (quotientLeftUnitorDefect_eq_refl_iff W R D
             (quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q')
-            f = Iso.refl _
-      unfold quotientLeftUnitorDefect
-      rw [Hcomp, Hid]
+            f).2
+        simpa only [Hcomp_hom, Hid_hom] using hEq
+      · intro hQ'
+        have hEq :=
+          (quotientLeftUnitorDefect_eq_refl_iff W R D
+            (quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q')
+            f).1 hQ'
+        apply
+          (quotientLeftUnitorDefect_eq_refl_iff W R D
+            (quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q)
+            f).2
+        simpa only [← Hcomp_hom, ← Hid_hom] using hEq
   | rightUnitor f =>
       rcases rightUnitor_adjusted_eqs W R D Q Q' f H with ⟨Hcomp, Hid⟩
-      change
-        quotientRightUnitorDefect W R D
+      have Hcomp_hom := congrArg Iso.hom Hcomp
+      have Hid_hom := congrArg Iso.hom Hid
+      constructor
+      · intro hQ
+        have hEq :=
+          (quotientRightUnitorDefect_eq_refl_iff W R D
             (quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q)
-            f = Iso.refl _ ↔
-          quotientRightUnitorDefect W R D
+            f).1 hQ
+        apply
+          (quotientRightUnitorDefect_eq_refl_iff W R D
             (quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q')
-            f = Iso.refl _
-      unfold quotientRightUnitorDefect
-      rw [Hcomp, Hid]
+            f).2
+        simpa only [Hcomp_hom, Hid_hom] using hEq
+      · intro hQ'
+        have hEq :=
+          (quotientRightUnitorDefect_eq_refl_iff W R D
+            (quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q')
+            f).1 hQ'
+        apply
+          (quotientRightUnitorDefect_eq_refl_iff W R D
+            (quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q)
+            f).2
+        simpa only [← Hcomp_hom, ← Hid_hom] using hEq
+
+@[simp]
+theorem quotientGaugesAgreeOnRouteState_self
+    (R : RawHigherContextualSystem.{u, v, uH, vH}
+      (Context := Context))
+    (D : PointwiseWAdjointEquivalenceData (W := W) R)
+    (Q : GeneratedQuotientGaugeParameters W R D)
+    (s : ThreeQuotientRouteState W) :
+    QuotientGaugesAgreeOnRouteState W R D Q Q s := by
+  cases s <;> simp [QuotientGaugesAgreeOnRouteState]
 
 /-- Each correction locus is a cylinder with respect to its finite route-state
 footprint: changing all other quotient-gauge coordinates preserves membership. -/
@@ -254,8 +308,7 @@ theorem commonLocus_nonempty_iff_finiteFootprintAmalgamation
   · rintro ⟨Q, hQ⟩
     refine ⟨Q, ?_⟩
     intro s
-    exact ⟨Q, hQ s, by
-      cases s <;> simp [QuotientGaugesAgreeOnRouteState]⟩
+    exact ⟨Q, hQ s, quotientGaugesAgreeOnRouteState_self W R D Q s⟩
   · rintro ⟨Q, hQ⟩
     refine ⟨Q, ?_⟩
     intro s
