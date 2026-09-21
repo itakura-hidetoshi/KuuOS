@@ -8,10 +8,14 @@ open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationPointwiseWAdjointEquivalenceV2_56
 open KUOS.DependentOriginationCoherentQuotientTransportV2_59
 open KUOS.DependentOriginationGeneratedPointwiseChoiceV2_68
-open KUOS.DependentOriginationFiveGeneratedCorrectionCoboundaryV3_00
+open KUOS.DependentOriginationQuotientGaugeIndependenceV3_03
+open KUOS.DependentOriginationQuotientGaugeIntersectionObstructionV3_11
+open KUOS.DependentOriginationQuotientGaugeCoordinateKeyV3_14
 open KUOS.DependentOriginationAssociatorUnitorTriangleResidualV3_26
 
 universe u v uH vH
+
+set_option autoImplicit false
 
 /-!
 # Associator-unitor W-edge separation v3.27
