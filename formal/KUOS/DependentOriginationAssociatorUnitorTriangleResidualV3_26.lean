@@ -185,7 +185,8 @@ theorem associator_unitor_triangle_doubleWhisker_mapId_eq
           F ◁ eL =
         eR ▷ G := by
     dsimp [eA, eR, eL, F, G]
-    simp
+    simp only [Category.comp_id, Category.id_comp, eqToHom_refl,
+      Category.comp_id, Iso.inv_hom_id_assoc]
 
   have hAssocBridge :
       (S.mapComp f (𝟙 Y)).hom ▷ G ≫ (α_ F P G).hom =
