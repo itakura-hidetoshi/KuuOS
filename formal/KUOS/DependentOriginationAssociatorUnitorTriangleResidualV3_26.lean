@@ -364,12 +364,12 @@ theorem associator_unitor_triangle_doubleWhisker_mapId_eq
           F ◁ ((U.mapId Y).hom ▷ G) ≫
           F ◁ (λ_ G).hom =
         eR ▷ G := by
-    let prefix :=
+    let pre :=
       (S.mapComp (f ≫ 𝟙 Y) g).inv ≫
         eA ≫
         (S.mapComp f (𝟙 Y ≫ g)).hom
     have hLeftExtended :=
-      congrArg (fun k => prefix ≫ k) hLwhisk
+      congrArg (fun k => pre ≫ k) hLwhisk
     calc
       (S.mapComp (f ≫ 𝟙 Y) g).inv ≫
           eA ≫
@@ -377,10 +377,10 @@ theorem associator_unitor_triangle_doubleWhisker_mapId_eq
           F ◁ (S.mapComp (𝟙 Y) g).hom ≫
           F ◁ ((U.mapId Y).hom ▷ G) ≫
           F ◁ (λ_ G).hom =
-          prefix ≫ (F ◁ eL) := by
-              simpa only [prefix, Category.assoc] using hLeftExtended
+          pre ≫ (F ◁ eL) := by
+              simpa only [pre, Category.assoc] using hLeftExtended
       _ = eR ▷ G := by
-            simpa only [prefix, Category.assoc] using hOuterTransport
+            simpa only [pre, Category.assoc] using hOuterTransport
 
   have hBoth := hRightViaAssociator.trans hLeftViaTransport.symm
 
