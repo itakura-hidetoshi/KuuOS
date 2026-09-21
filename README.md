@@ -21,60 +21,31 @@ KuuOS connects philosophy, mathematics, formal proof, and AI systems engineering
 canonical branch:
   main
 
-main observed before this docs-only refresh:
-  2eed09b900a5e82390ae17ad2d46f4b283b184bd
-
-latest theorem layer integrated into main:
-  v2.68
-
-v2.68 merge:
-  PR #1650
-  merge commit d9a4b4e070382f35b342f7505b09d35481f7e0c6
-
-exact validated v2.68 proof head:
-  5addad2ba75e526ba0595b37b972a3b3fb2972bb
-
-exact-head governance:
-  KuuOS PR Governance Gate #1887
-  completed / success
-```
-
-The current `main` pointer is newer than the v2.68 theorem merge because infrastructure and governance changes were merged afterward. The integrated theorem baseline remains v2.68 until a later theorem PR is normally merged.
-
-### Active theorem frontier
-
-The active higher dependent-origination / higher-localization theorem frontier is PR **#1651**:
-
-```text
-PR:
-  #1651
-  Truth-test weak admissibility with octahedral generated holonomy v2.69
-
-branch:
-  formal/dependent-origination-generated-holonomy-countermodel-v269
-
-latest validated theorem-bearing head before this docs refresh:
-  77337a3a5e65871a2426c9e8abfec6623be0b9ab
-
-fresh compare against current main:
-  behind = 0
-  ahead  = 557
-
-current validated theorem layer:
+current integrated theorem layer:
   v3.14
 
-exact-head governance:
+canonical promotion:
+  PR #1651
+  merged 2026-09-21
+  merge commit 40dbd88ab313af278f58f42ce566210b66290881
+
+validated theorem-bearing head promoted by #1651:
+  77337a3a5e65871a2426c9e8abfec6623be0b9ab
+
+theorem-head governance:
   KuuOS PR Governance Gate #2469
   completed / success
 
-exact-head receipts:
+theorem-head receipts:
   chatgpt-ci-receipt/KuuOS Strict Lean formal validation = success
   chatgpt-ci-receipt/KuuOS exact-head terminal = success
 ```
 
-PR #1651 remains **Draft / open / unmerged**. Therefore v2.69–v3.14 are validated theorem artifacts on the Draft branch, not yet canonical merged theorem authority on `main`.
+PR #1651 is now **merged canonical authority**. The former v2.69–v3.14 Draft frontier is no longer a separate authority layer: it is part of the theorem spine on `main`.
 
-The authority boundary is important but the mathematics is continuous: v2.69 does not start an unrelated program. It truth-tests the v2.68 sufficient condition and then, from v2.96 onward, reconnects the correction analysis to the same `HigherLocalizationFactorization` problem.
+Promotion provenance is explicit. From the validated theorem-bearing head `77337a3…` to the merged PR head `ad602483…` there were exactly two commits, changing only `README.md` and `ROADMAP.md`; no Lean source changed. Immediately after merge, `main` and merge commit `40dbd88a…` compared identical with ahead/behind = 0/0.
+
+The older v2.68 result remains an important theorem inside the spine, but it is no longer the latest integrated theorem boundary. The canonical mathematical frontier is v3.14.
 
 Pinned formal environment:
 
@@ -192,23 +163,18 @@ No localization, quotient, completion, stackification, or semantic reduction is 
 
 ---
 
-# Integrated formal spine through v2.68, with Draft continuation through v3.14
+# Merged canonical formal spine through v3.14
 
-The theorem line integrated into `main` currently reaches v2.68. The long-running Draft PR #1651 continues **the same Stage-I mathematical spine** from v2.69 through v3.14.
-
-The authority layers differ:
+The higher dependent-origination / higher-localization theorem line from v2.0 through v3.14 is now one **merged canonical spine on `main`**.
 
 ```text
-v2.0–v2.68
+v2.0–v3.14
   = merged canonical theorem authority on main
-
-v2.69–v3.14
-  = exact-head validated Draft theorem authority on PR #1651
 ```
 
-but there is no mathematical discontinuity at the boundary.
+PR #1651 promoted the former v2.69–v3.14 working frontier into canonical authority without changing the mathematical interpretation of the line.
 
-## Canonical integrated segment: v2.0–v2.68
+## Canonical spine I: v2.0–v2.68 — generated-holonomy sufficient route
 
 ```text
 v2.0       ordinary localization universal-property layer
@@ -236,7 +202,7 @@ v2.67      retained relation 2-cells and relation-loop holonomy
 v2.68      fully generated localization 2-cells and generated holonomy
 ```
 
-The principal integrated v2.68 theorem is:
+The principal v2.68 sufficient theorem is:
 
 ```text
 GeneratedHolonomyTrivial W R D
@@ -253,11 +219,11 @@ IsHigherWAdmissible W R
 HasHigherLocalizationFactorization (W := W) R
 ```
 
-v2.68 deliberately leaves open whether weak admissibility itself forces generated holonomy triviality.
+v2.68 leaves open whether weak admissibility itself forces generated holonomy triviality.
 
-## The bridge at v2.69: truth-test, not a new branch of mathematics
+## Canonical spine II: v2.69–v2.95 — truth test and correction semantics
 
-v2.69 answers that open question negatively with the octahedral countermodel:
+v2.69 answers the v2.68 open implication negatively with the octahedral countermodel:
 
 ```text
 IsHigherWAdmissible W R
@@ -265,25 +231,9 @@ IsHigherWAdmissible W R
 GeneratedHolonomyTrivial W R D_adm
 ```
 
-This does **not** refute factorization. It removes one sufficient route as a universal explanation:
+This does **not** refute factorization. It shows only that generated-holonomy triviality is not forced by weak admissibility.
 
-```text
-weak admissibility
-  -/-> generated holonomy triviality
-
-but still possibly
-
-weak admissibility
-  -> factorization
-```
-
-through a more general correction / gluing mechanism.
-
-That is why the Draft frontier belongs directly after v2.68 in the same spine.
-
-## Draft continuation I: v2.70–v2.95 — analyze what nontrivial holonomy means
-
-v2.70–v2.95 develop filtered correction, realizability, authority-relative obstruction, extensional correction power, reachability semantics, lattice structure, and the constructive/classical Boolean boundary.
+v2.70–v2.95 then develop the correction semantics needed once nontrivial generated holonomy is allowed:
 
 ```text
 v2.70–2.81
@@ -300,17 +250,17 @@ v2.93–2.95
   constructive-classical boundary
 ```
 
-This part is upstream obstruction analysis. It determines why
+The key logical gap is already visible here:
 
 ```text
 ∀ route state s, ∃ correction Q_s
 ```
 
-cannot by itself provide the coherent shared witness required by higher localization.
+does not by itself produce the single correlated witness required by higher localization.
 
-## Draft continuation II: v2.96–v3.04 — return correction semantics to factorization
+## Canonical spine III: v2.96–v3.04 — correction back to factorization
 
-Beginning at v2.96, the Draft line explicitly returns to the original `HigherLocalizationFactorization` problem:
+Beginning at v2.96, the correction program is connected directly back to `HigherLocalizationFactorization`:
 
 ```text
 v2.96  correction semantics -> factorization interface
@@ -327,11 +277,11 @@ v3.04  quotient solution + comparison lift
           -> genuine HigherLocalizationFactorization
 ```
 
-So v2.70–v2.95 are not an abandoned side theory. They become the semantic upstream of the factorization obstruction that is made concrete from v2.96 onward.
+Thus the correction-power theory is not a side branch; it is the semantic upstream of the exact factorization obstruction.
 
-## Draft continuation III: v3.05–v3.14 — localize the first factorization obstruction
+## Canonical spine IV: v3.05–v3.14 — finite dependent-coordinate gluing
 
-The first-stage quotient obstruction is then progressively identified:
+The first quotient-stage obstruction is progressively localized:
 
 ```text
 v3.05
@@ -339,10 +289,10 @@ v3.05
   <-> coherent quotient transport
 
 v3.06
-  quotient defects viewed as a gauge-orbit intersection problem
+  quotient defects as a gauge-orbit intersection problem
 
 v3.07
-  only three quotient route families matter:
+  three quotient route families:
     associator / left unitor / right unitor
 
 v3.08
@@ -368,7 +318,7 @@ v3.12
 
 v3.13
   global amalgamation -> pairwise overlap compatibility;
-  shared gId/gComp coordinates become explicit necessary gluing equations
+  shared gId/gComp coordinates are explicit necessary gluing equations
 
 v3.14
   quotient gauge coordinates are normalized by dependent coordinate keys;
@@ -376,7 +326,7 @@ v3.14
   shared footprint coordinate
 ```
 
-The currently validated quotient-stage frontier is therefore:
+The current canonical Stage-I frontier is:
 
 ```text
 IsHigherWAdmissible W R
@@ -391,7 +341,7 @@ three quotient coherence route families
 statewise correction loci L_s
         |
         v
-finite coordinate footprints
+finite dependent-coordinate footprints
         |
         v
 shared-coordinate overlap compatibility
@@ -412,7 +362,7 @@ comparison gIso lift
 HasHigherLocalizationFactorization
 ```
 
-Thus the integrated v2.68 theorem and the Draft v2.69–v3.14 line should be read as one connected argument:
+The canonical argument through v3.14 is therefore:
 
 ```text
 v2.68:
@@ -436,13 +386,13 @@ v3.05–v3.14:
 
 # Current mathematical picture
 
-The current theorem-backed picture is:
+The current theorem-backed canonical picture is:
 
 ```text
 weak W-admissibility
         |
         v
-pointwise adjoint equivalences
+pointwise W-adjoint equivalences
         |
         v
 generated localization 2-cell semantics
@@ -457,27 +407,27 @@ generated holonomy
 v2.68 sufficient route            v2.69 countermodel
 to factorization                        |
                                         v
-                              filtered / corrective semantics
+                              correction / authority semantics
+                                  v2.70–v2.95
                                         |
                                         v
-                              authority-relative obstruction
+                              exact factorization interface
+                                  v2.96–v3.04
                                         |
                                         v
-                              correction-power preorder
+                              quotient obstruction / loci
+                                  v3.05–v3.11
                                         |
                                         v
-                              reachability semantics
+                              finite dependent footprints
+                                  v3.12–v3.14
                                         |
                                         v
-                              complete lattice / complement
-                                  [Draft through v2.95]
+                         pairwise extension / global amalgamation
+                              [current canonical frontier]
 ```
 
-The remaining Stage-I question is no longer whether weak admissibility forces holonomy triviality; v2.69 answers that negatively.
-
-The open question is instead:
-
-> **What exact additional structure, correction principle, or higher carrier is necessary and sufficient for factorization when generated holonomy is nontrivial?**
+The remaining Stage-I problem is now precise: the issue is no longer whether weak admissibility forces generated-holonomy triviality, but whether compatible finite dependent-coordinate corrections can be extended and globally amalgamated into one quotient gauge, followed by the comparison `gIso` lift.
 
 ---
 
@@ -493,18 +443,26 @@ IsHigherWAdmissible W R
 HasHigherLocalizationFactorization W R
 ```
 
-The route through universal generated-holonomy triviality is no longer available in general because of v2.69.
+The canonical v3.14 frontier has reduced the first unresolved stage to an explicit finite gluing problem.
 
-The next task is to decide whether:
+Immediate theorem-sized questions are:
 
 ```text
-nontrivial generated holonomy
-+ suitable correction/descent structure
-  ->
-factorization
+1. shared-coordinate agreement
+   ?-> pairwise common extension
+
+2. pairwise-compatible finite restrictions
+   ?-> one global quotient-gauge amalgamation
+
+3. global quotient gauge
+   -> CoherentQuotientTransportData
+
+4. coherent quotient transport
+   + exact comparison gIso lift
+   <-> HasHigherLocalizationFactorization
 ```
 
-or whether the correct general carrier must retain additional bicategorical / untruncated information.
+Any failure of pairwise or global extension should be retained as an explicit higher-order obstruction rather than erased by unproved compactness, convexity, Helly, or choice assumptions.
 
 ## A2. Coherent Stage-II universality
 
@@ -683,8 +641,8 @@ universal-carrier language != universal theorem until mapping property is proved
 
 # Current research sentence
 
-As of the validated v3.14 Draft frontier, KuuOS has moved beyond the v2.69 truth-test and reconnected the correction program to the original higher-localization factorization problem.
+As of the merged canonical v3.14 frontier, KuuOS has connected the v2.69 truth-test, correction semantics, exact factorization interface, quotient obstruction, and finite dependent-coordinate footprint analysis into one theorem spine on `main`.
 
-The current first-stage question is now concrete:
+The current first-stage question is:
 
-> **Can statewise local correcting quotient gauges whose finite dependent coordinate footprints agree on overlaps be extended and globally amalgamated into one quotient gauge, and if not, what exact higher-order gluing obstruction remains?**
+> **Can statewise local correcting quotient gauges whose finite dependent-coordinate footprints agree on overlaps be pairwise extended and globally amalgamated into one quotient gauge, and if not, what exact higher-order gluing obstruction remains?**
