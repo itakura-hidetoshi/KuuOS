@@ -283,7 +283,7 @@ At the abstract finite-footprint level:
 
 ```text
 nested pairwise local extendability
-  -/->
+  does-not-imply
 one globally correlated compatible local family.
 ```
 
