@@ -1,6 +1,6 @@
 # KuuOS / 空OS Roadmap
 
-**Baseline: 2026-09-20 JST**
+**Baseline: 2026-09-21 JST**
 
 This roadmap is organized around theorem authority and mathematical exit criteria, not repository chronology.
 
@@ -15,7 +15,7 @@ canonical branch:
   main
 
 main observed before this docs-only refresh:
-  c9df819bfecad44888ce5d260055152da4ace9c3
+  2eed09b900a5e82390ae17ad2d46f4b283b184bd
 
 latest theorem layer integrated into main:
   v2.68
@@ -42,22 +42,28 @@ PR:
 branch:
   formal/dependent-origination-generated-holonomy-countermodel-v269
 
-current exact head:
-  2ef1a04733eab445848381bffe72eccff5d5f2b3
+latest validated theorem-bearing head before this docs refresh:
+  77337a3a5e65871a2426c9e8abfec6623be0b9ab
 
-current layer:
-  v2.95
+current validated layer:
+  v3.14
 
-v2.95 checkpoint compare against the pre-docs main above:
+fresh compare against current main:
   behind = 0
-  ahead  = 514
+  ahead  = 557
 
 governance:
-  KuuOS PR Governance Gate #2425
+  KuuOS PR Governance Gate #2469
   completed / success
+
+exact-head receipts:
+  Strict Lean formal validation = success
+  exact-head terminal = success
 ```
 
-The v2.69–v2.95 results are validated on the Draft branch but are not yet integrated theorem authority on `main`.
+The v2.69–v3.14 results are validated on the Draft branch but are not yet integrated theorem authority on `main`.
+
+Mathematically, however, the Draft line is not separate from the integrated v2.68 spine. v2.69 truth-tests the v2.68 sufficient condition; v2.96 onward then reconnects correction semantics directly to `HigherLocalizationFactorization`, and v3.05–v3.14 progressively reduce the remaining quotient-stage obstruction to finite dependent-coordinate gluing.
 
 Pinned formal environment:
 
@@ -113,49 +119,37 @@ No candidate carrier is promoted to “the universal dependent-origination objec
 
 ---
 
-# Completed integrated Stage-I work through v2.68
+# Connected Stage-I spine: integrated v2.68 baseline and Draft continuation through v3.14
 
-## A1.1 Local inversion and evaluation — complete
+The Stage-I line has one mathematical direction but two authority layers:
 
-v2.56–v2.58 establish:
+```text
+v2.0–v2.68
+  merged canonical theorem authority on main
+
+v2.69–v3.14
+  exact-head validated Draft theorem authority on PR #1651
+```
+
+The roadmap therefore treats v2.69 onward as a continuation of the v2.68 higher-localization program, not as an unrelated correction-theory branch.
+
+## A1.1–A1.3 Integrated segment through v2.68 — complete on main
+
+v2.56–v2.68 establish the path:
 
 ```text
 weak W-admissibility
-  -> pointwise adjoint equivalences
-  -> free-path evaluator
-  -> local evaluation Iso for quotient-equal paths
+  -> pointwise W-adjoint equivalences
+  -> free localization-path evaluation
+  -> local quotient-equal path Iso
+  -> exact five-law coherence package
+  -> automorphism-valued coherence defects
+  -> gauge normal form
+  -> retained / generated localization 2-cell semantics
+  -> generated holonomy
 ```
 
-The existence of individual inverse functors is not the central difficulty.
-
-## A1.2 Five-law coherence and gauge normal form — complete
-
-v2.59–v2.66 establish:
-
-```text
-five exact coherence equations
-  -> five automorphism-valued defects
-  -> one gauge orbit of pointwise choices
-  -> coherent data iff the gauge obstruction can be trivialized
-```
-
-The frontier is not “choose inverses coherently” in an unspecified sense; the obstruction is explicit.
-
-## A1.3 Retained and fully generated 2-cell semantics — complete
-
-v2.67 retains outer relation derivations.
-
-v2.68 removes the remaining proposition-level opacity in the generating localization relations by introducing Type-valued:
-
-```text
-id / comp / Winv₁ / Winv₂ generators
-left / right whiskering
-refl / symm / trans closure
-```
-
-with canonical recursive evaluation.
-
-Integrated theorem:
+with the integrated sufficient theorem:
 
 ```text
 GeneratedHolonomyTrivial W R D
@@ -163,17 +157,11 @@ GeneratedHolonomyTrivial W R D
 HasHigherLocalizationFactorization (W := W) R
 ```
 
-This is a theorem-backed sufficient route.
+The unresolved question at v2.68 was whether weak admissibility itself forced the sufficient holonomy-triviality hypothesis.
 
----
+## A1.4 v2.69 — truth test of the v2.68 sufficient route
 
-# Draft truth-test and correction semantics through v2.95
-
-## A1.4 Truth test of universal holonomy triviality — negative
-
-v2.69 supplies the explicit octahedral countermodel.
-
-The theorem frontier now establishes:
+The octahedral countermodel proves:
 
 ```text
 IsHigherWAdmissible W R
@@ -181,211 +169,234 @@ IsHigherWAdmissible W R
 GeneratedHolonomyTrivial W R D_adm
 ```
 
-in general.
-
-This closes the old post-v2.68 question negatively.
-
-It does **not** establish:
+This closes the universal holonomy-triviality route negatively, but does **not** refute factorization:
 
 ```text
-IsHigherWAdmissible W R
-  -/->
-HasHigherLocalizationFactorization W R
+weak admissibility
+  -/-> generated holonomy triviality
+
+does not imply
+
+weak admissibility
+  -/-> factorization
 ```
 
-because v2.68 proved holonomy triviality sufficient, not necessary.
+Hence the Stage-I problem remains open and must be reformulated in terms of coherent correction / gluing rather than global triviality.
 
-This distinction is now a permanent roadmap invariant.
+## A1.5–A1.8 v2.70–v2.95 — obstruction and correction semantics
 
-## A1.5 Filtered obstruction and correction realization — complete on Draft frontier
-
-v2.70–v2.81 develop:
+This block analyzes what is and is not remembered by pointwise correction power:
 
 ```text
-filtered obstruction order
-finite correction gain
-flat completion boundary
-filtered generated holonomy
-explicit correction realization
-ordered-sector correction
-bounded-loss filtration
-cofinal correction schedules
-tower realization
-residual stability
-relative corrective descent
-generated-holonomy correctability
-concrete countermodel bridge
+v2.70–2.81
+  filtered obstruction, realizability, correctability
+
+v2.82–2.87
+  correction authority, authority refinement, authority morphisms
+
+v2.88–2.92
+  extensional correction power and reachability profiles
+
+v2.93–2.95
+  complete lattice operations and constructive/classical complement boundary
 ```
 
-The resulting conceptual separation is:
+The key conclusion is that statewise reachability has the logical shape
 
 ```text
-nontrivial holonomy
-!= non-flatness as hard obstruction
-!= uncorrectability
+∀ s, ∃ Q_s
 ```
 
-## A1.6 Correction authority — complete on Draft frontier
+and therefore forgets the witness correlation needed for a coherent shared factorization witness.
 
-v2.82–v2.87 formalize:
+## A1.9 v2.96–v3.04 — reconnect correction theory to HigherLocalizationFactorization
+
+The correction program returns explicitly to Stage-I factorization:
 
 ```text
-non-flat but correctable defects
-authority refinement
-restricted authority gaps
-reflexive-only authority gaps
-heterogeneous authority morphisms
-correction-image equivalence
+v2.96  correction -> factorization interface
+v2.97  corrected generated-route equations
+v2.98  exact five-route factorization interface
+v2.99  generated correction gauge normal form
+v3.00  five corrections = one compatible gauge coboundary
+v3.01  coboundary solvability <-> coherent general-W factorization data
+v3.02  five equations = 3 quotient + 2 comparison equations
+v3.03  quotient stage uses only gId/gComp; gIso is later
+v3.04  quotient solution + comparison lift
+          -> HasHigherLocalizationFactorization
 ```
 
-Key law:
+This is the formal bridge that reconnects v2.70–v2.95 to the original v2.68 program.
+
+## A1.10 v3.05–v3.11 — identify the first-stage quotient obstruction
+
+The quotient stage is progressively normalized:
 
 ```text
-widening correction authority
-  -> preserves correctability
-  -> can remove hard obstruction
+v3.05
+  quotient gauge coboundary solvable
+  <-> coherent quotient transport
+
+v3.06
+  three quotient defects as a gauge-orbit zero-locus intersection
+
+v3.07
+  finite three-route interface:
+    associator / left unitor / right unitor
+
+v3.08
+  one compatible quotient correction for all three families
+
+v3.09
+  exact compatibility gap:
+    ∀s ∃Q_s
+      versus
+    ∃Q ∀s
+
+v3.10
+  joint correction power retains witness correlation
+
+v3.11
+  correction loci L_s:
+    pointwise reachability <-> each L_s nonempty
+    coherent quotient transport <-> total common locus nonempty
 ```
 
-Hard obstruction is therefore not an authority-free label attached to a defect.
+The obstruction is therefore an actual intersection problem in the quotient-gauge parameter space.
 
-## A1.7 Extensional correction-power semantics — complete on Draft frontier
+## A1.11 v3.12–v3.14 — finite-footprint and overlap reduction
 
-v2.88–v2.92 formalize:
+The global quotient-gauge search is reduced to finite coordinate gluing:
 
 ```text
-CorrectionPowerLE
-CorrectionPowerEq
-reachability profiles
-strict power inequality
-functional semantic representatives
-reflection of power inclusion/equality into canonical authority morphisms
+v3.12
+  each route equation sees only a finite gId/gComp footprint;
+  common correction <-> finite-footprint amalgamation
+
+v3.13
+  global amalgamation -> pairwise overlap compatibility;
+  concrete shared gId/gComp coordinate equalities
+
+v3.14
+  dependent quotient-gauge coordinate keys;
+  common-extension compatibility -> equality at every shared footprint key
 ```
 
-The semantic invariant is the state-indexed reachable-defect predicate, not the syntax of correction parameters.
-
-## A1.8 Lattice completion and Boolean boundary — complete on Draft frontier
-
-v2.93–v2.95 formalize:
+The current first-stage frontier is:
 
 ```text
-finite join / meet
-arbitrary-family supremum / infimum
-bottom / top
-obstruction complement
-complement antitonicity
-constructive meet-with-complement = bottom
-classical join-with-complement = top
-classical double-complement recovery
+statewise correcting local gauges
+        |
+        v
+finite dependent-coordinate footprints
+        |
+        v
+shared-coordinate compatibility
+        |
+        v
+PAIRWISE EXTENSION / GLOBAL AMALGAMATION   <- current frontier
+        |
+        v
+one global quotient gauge Q
+        |
+        v
+CoherentQuotientTransportData
+        |
+        v
+comparison gIso lift
+        |
+        v
+HasHigherLocalizationFactorization
 ```
 
-The constructive / classical boundary is explicit rather than hidden.
+No Helly theorem, compactness, convexity, topology, or hidden choice principle has been inserted.
 
----
+## Immediate next theorem-sized milestones
 
-# Immediate next theorem-sized milestones
+### A1.12 Pairwise finite extension
 
-The next work should reconnect the correction-power development to the original Stage-I factorization problem. The roadmap should not continue abstract lattice elaboration indefinitely without proving how that structure controls higher localization.
-
-## A1.9 Extensional quotient / order packaging
-
-Package correction mechanisms modulo `CorrectionPowerEq` so that the semantic order becomes an actual partial order rather than a preorder on presentations.
-
-Targets:
+Test the converse left open by v3.14:
 
 ```text
-CorrectionPowerClass
-partial order induced by CorrectionPowerLE
-well-defined sup / inf
-well-defined bottom / top / complement
-complete-lattice structure
-Boolean laws with an explicit classical boundary
+local gauges agree on every literally shared coordinate
+  ?->
+there exists one quotient gauge extending both finite restrictions
 ```
+
+The proof must construct the dependent `gId/gComp` family explicitly, or expose the obstruction to doing so. Any use of classical decidable equality or choice must remain visible.
 
 Exit criterion:
 
 ```text
-presentation-specific correction mechanisms
-  -> theorem-backed extensional correction-power object
+AgreeOnRouteFootprintOverlap
+  <-> CompatibleOnRouteOverlap
 ```
 
-with no dependence on arbitrary parameter syntax.
+under exactly stated hypotheses, or a counterexample showing that shared-coordinate equality is insufficient.
 
-## A1.10 Generated-holonomy correction semantics
+### A1.13 Pairwise-to-global gluing
 
-Lift the correction-power semantics back to generated localization holonomy.
-
-Required questions:
+Only after pairwise extension is understood, test:
 
 ```text
-When does a generated holonomy lie in reachable correction power?
-How does correction transport through generated 2-cell composition?
-Can corrected holonomy be normalized to a path-independent evaluator?
-What coherence must correction itself satisfy?
+pairwise-compatible local correcting gauges
+  ?->
+one global finite-footprint amalgamation
 ```
 
-Target notions may include:
+Possible outcomes:
 
 ```text
-CorrectedGeneratedHolonomy
-CorrectionCoherentGeneratedEvaluation
-CorrectedPathIndependence
+A. generated localization relations force higher overlap coherence,
+   yielding a global quotient gauge;
+
+B. a genuine higher-order overlap obstruction remains.
 ```
 
-but names are secondary to the exact theorem.
+Do not assume finite-intersection, compactness, convexity, or Helly principles unless formally supplied by the actual gauge parameter space.
 
-Exit criterion:
+### A1.14 Close the quotient stage
 
-A theorem showing that an explicitly stated correction/coherence package converts nontrivial generated holonomy into valid factorization data, or a proof that such a correction cannot suffice.
-
-## A1.11 Necessity versus higher carrier
-
-Decide whether ordinary 1-localization plus correction data is enough.
-
-Two legitimate outcomes remain.
-
-### Outcome A — corrected ordinary localization suffices
-
-Prove a necessary/sufficient theorem of the shape:
+Target theorem:
 
 ```text
-IsHigherWAdmissible W R
-+ ExactCorrectionCondition W R
+ExactQuotientGluingCondition W R D
+  <->
+HasCoherentQuotientTransportData W R D
+```
+
+where the left side is stated entirely in the finite overlap / amalgamation language developed in v3.12–v3.14 and subsequent extension lemmas.
+
+### A1.15 Solve the comparison lift
+
+Once the quotient pseudofunctor carrier exists, solve or characterize the two remaining `gIso` comparison residual equations from v3.02–v3.04.
+
+Target:
+
+```text
+coherent quotient transport
++ exact comparison-lift condition
   <->
 HasHigherLocalizationFactorization W R
 ```
 
-or a comparably sharp statement.
+### A1 exit criterion
 
-### Outcome B — a higher carrier is necessary
-
-If nontrivial holonomy cannot be coherently absorbed at the ordinary localization level, construct and verify the appropriate carrier that retains the missing 2-dimensional information.
-
-Candidates may include:
-
-```text
-presented bicategorical localization
-untruncated 2-localization
-scaled-simplicial / (∞,2)-style realization
-```
-
-Exit criterion:
-
-a comparison theorem explaining exactly when the higher carrier truncates back to ordinary localization.
-
-## A1 exit criterion
-
-Stage-I existence is complete only when the repository contains a theorem-backed characterization of general factorization, not merely a sufficient thinness theorem or a sufficient trivial-holonomy theorem.
+Stage-I existence is complete only when the repository contains a theorem-backed necessary/sufficient characterization of general higher-localization factorization.
 
 Acceptable endpoints include:
 
 ```text
-1. weak admissibility + exact correction condition
-   iff factorization;
+1. weak admissibility
+   + exact quotient gluing condition
+   + exact comparison-lift condition
+   <-> factorization;
 
 or
 
-2. a higher localization carrier with a universal property,
-   together with a theorem identifying the ordinary truncation sector.
+2. proof that ordinary localization cannot carry the required coherence,
+   followed by construction of the correct higher carrier and a comparison
+   theorem describing its ordinary truncation sector.
 ```
 
 ---
@@ -721,29 +732,31 @@ No external host or model receives automatic truth, WORLD-commit, rollback-proof
 
 ---
 
-# Immediate priority order after v2.95
+# Immediate priority order after v3.14
 
 ```text
-1. Package correction power extensionally modulo CorrectionPowerEq.
+1. Prove or refute the pairwise finite-extension converse left open by v3.14.
 
-2. Formalize the induced complete order / lattice structure with the
-   constructive-classical boundary explicit.
+2. If pairwise extension is available, test pairwise overlap compatibility
+   against one global finite-footprint amalgamation.
 
-3. Return correction semantics to generated localization holonomy:
-   define what coherent correction of a generated loop means.
+3. Isolate any genuinely higher-order overlap obstruction rather than importing
+   topological / convexity assumptions not present in the gauge space.
 
-4. Prove or refute a corrected-path-independence theorem.
+4. Close the quotient stage with a necessary/sufficient finite-gluing theorem
+   for HasCoherentQuotientTransportData.
 
-5. Determine whether corrected ordinary localization is sufficient in general.
+5. Solve or characterize the two comparison gIso residual equations.
 
-6. If not, construct the correct higher localization carrier and comparison
-   theorem to ordinary localization.
+6. Assemble the quotient and comparison stages into an exact characterization
+   of HasHigherLocalizationFactorization.
 
-7. Close Stage-I with a necessary/sufficient factorization theorem.
+7. Only then move to coherent Stage-II universality.
 
-8. Build coherent Stage-II universality.
+8. Re-enter Axis E / Axis R with the now-settled Stage-I carrier.
 
-9. Re-enter Axis E / Axis R with natural applicability theorems.
+9. Determine whether the ordinary localization carrier is sufficient or whether
+   a higher carrier is forced by the remaining obstruction.
 
 10. Construct DO(C,W,J,H) and prove the representation theorem.
 ```
