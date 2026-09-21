@@ -62,7 +62,7 @@ HasGloballyCompatibleLocalCorrectionFamily.
 
 No compactness, convexity, Helly theorem, finiteness of the total route-state
 type, or extra algebraic structure is used.  Classical choice is explicit in
-the global coordinate selector.
+the global coordinate selector; it selects only a covering route state, not a gauge value.
 
 The unresolved gap after v3.16 is therefore not geometric patching.  It is the
 correlation/selection gap between nested pairwise witnesses and one globally
