@@ -1,0 +1,1727 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Boundary-aware governance architecture for relational AI systems">
+      
+      
+        <meta name="author" content="Hidetoshi Itakura">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>PlanOS Finite Physical Quantum Qi Path-History Noncollapse Certificate v0.1 - KuuOS / 空OS Public Core</title>
+      
+    
+    
+      <link rel="stylesheet" href="../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#planos-finite-physical-quantum-qi-path-history-noncollapse-certificate-v01" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href=".." title="KuuOS / 空OS Public Core" class="md-header__button md-logo" aria-label="KuuOS / 空OS Public Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            KuuOS / 空OS Public Core
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              PlanOS Finite Physical Quantum Qi Path-History Noncollapse Certificate v0.1
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/itakura-hidetoshi/KuuOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    itakura-hidetoshi/KuuOS
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href=".." title="KuuOS / 空OS Public Core" class="md-nav__button md-logo" aria-label="KuuOS / 空OS Public Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    KuuOS / 空OS Public Core
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/itakura-hidetoshi/KuuOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    itakura-hidetoshi/KuuOS
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href=".." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start Here
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Start Here
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PUBLIC_DOCS_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Docs Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../QUICKSTART_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../EXTERNAL_REVIEW_GUIDE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    External Review Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../WHY_KUUOS_EXISTS_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why KuuOS Exists
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../ARCHITECTURE_DIAGRAM_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GOVERNANCE_FLOW_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Flow Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GOVERNANCE_DIAGRAM_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATOR_GRAPH_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validator Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Governance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../KUUOS_GOVERNANCE_MANIFESTO_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Manifesto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boundary and Non-Authority Policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../BOUNDARY_RISK_MODEL_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boundary Risk Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CLAIM_LEVEL_TAXONOMY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Claim Level Taxonomy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../CONTRIBUTOR_REVIEW_WORKFLOW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributor Review Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATION_COVERAGE_MATRIX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation Coverage Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../REPRODUCIBILITY_MATRIX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reproducibility Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PUBLIC_AUDIT_CHECKLIST_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Audit Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../VALIDATOR_DEPENDENCY_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validator Dependency Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../LEAN_COVERAGE_MAP_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lean Coverage Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Terminology
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../FORMAL_TERMINOLOGY_GLOSSARY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Terminology Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../TERMINOLOGY_CROSS_REFERENCE_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology Cross Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Release
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Release Package Manifest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../V0_1_RELEASE_READINESS_CHECKLIST/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1 Release Readiness Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../KUOS_CORE_GOVERNANCE_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Governance Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../KUOS_FOURFOLD_CORE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fourfold Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../GOVERNANCE_RELEASE_GATE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Release Gate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="planos-finite-physical-quantum-qi-path-history-noncollapse-certificate-v01">PlanOS Finite Physical Quantum Qi Path-History Noncollapse Certificate v0.1<a class="headerlink" href="#planos-finite-physical-quantum-qi-path-history-noncollapse-certificate-v01" title="Permanent link">&para;</a></h1>
+<h2 id="_1">位置づけ<a class="headerlink" href="#_1" title="Permanent link">&para;</a></h2>
+<p>PlanOS v1.20は、有限diagram familyに対するweighted Fréchet functional、有限barycenter candidate、consensus transport、dispersionをexactに再計算した。</p>
+<p>PlanOS v1.21は、その代表値を計画空間そのものと同一視しない。</p>
+<p>計画空間の基底表現を単純なbranch treeではなく、有限のPhysical Quantum Qi path-history ensembleとして保持する。</p>
+<div class="highlight"><pre><span></span><code>finite path histories
+  -&gt; shared prefixes
+  -&gt; branching
+  -&gt; reconvergence
+  -&gt; loops when present
+  -&gt; scenario marginals
+  -&gt; exact finite phase interference
+  -&gt; non-collapse certificate
+</code></pre></div>
+<p>branchはpath-history familyから導出される局所観察量であり、branch treeを計画空間の存在論にはしない。</p>
+<h2 id="physical-quantum-qi">Physical Quantum Qiとの接続<a class="headerlink" href="#physical-quantum-qi" title="Permanent link">&para;</a></h2>
+<p>KuuOSのPhysical Quantum Qi Path Integralは、</p>
+<div class="highlight"><pre><span></span><code>Z_Qi = Integral D gamma exp(i S_Qi[gamma] / hbar)
+</code></pre></div>
+<p>およびEuclidean form</p>
+<div class="highlight"><pre><span></span><code>Z_Qi(beta) = Integral D gamma exp(-S_Qi_E[gamma] / hbar)
+</code></pre></div>
+<p>として、関係的flow historyのweighted sumを表す。</p>
+<p>v1.21は連続path integral全体を主張しない。有限・有界なpath-history familyについてexact certificateを構成する。</p>
+<h2 id="formal-euclidean-generating-polynomial">Formal Euclidean generating polynomial<a class="headerlink" href="#formal-euclidean-generating-polynomial" title="Permanent link">&para;</a></h2>
+<p>浮動小数点指数関数を導入せず、有限history <code>gamma</code> のaction levelを <code>S_gamma ∈ N</code>、weight numeratorを <code>w_gamma ∈ N</code> として、</p>
+<div class="highlight"><pre><span></span><code>Z_Qi(q) = sum_gamma w_gamma q^(S_gamma)
+</code></pre></div>
+<p>を形式多項式として保持する。</p>
+<p>各action level <code>s</code> の係数は、</p>
+<div class="highlight"><pre><span></span><code>c_s = sum_{gamma : S_gamma = s} w_gamma
+</code></pre></div>
+<p>である。</p>
+<p><code>q</code> の数値評価、温度選択、sampling、path選択は行わない。</p>
+<h2 id="exact-finite-phase">Exact finite phase<a class="headerlink" href="#exact-finite-phase" title="Permanent link">&para;</a></h2>
+<p>初版では位相を有限 <code>Z_2</code> phaseで保持する。</p>
+<div class="highlight"><pre><span></span><code>phase_mod2 = 0 -&gt; positive amplitude
+phase_mod2 = 1 -&gt; negative amplitude
+</code></pre></div>
+<p>同一terminal stateへ到達するhistory family <code>Gamma_y</code> に対し、</p>
+<div class="highlight"><pre><span></span><code>A_y = sum_{gamma in Gamma_y} (-1)^(phase_gamma) w_gamma
+</code></pre></div>
+<p>をexact integerで再計算する。</p>
+<p>さらに、</p>
+<div class="highlight"><pre><span></span><code>total_weight_y = sum_gamma w_gamma
+cancellation_y = total_weight_y - |A_y|
+coherent_intensity_y = A_y^2
+incoherent_intensity_y = sum_gamma w_gamma^2
+interference_delta_y
+  = coherent_intensity_y - incoherent_intensity_y
+</code></pre></div>
+<p>を保持する。</p>
+<p>これは有限phase certificateであり、一般の複素振幅、Born rule、実在する量子計算過程を主張しない。</p>
+<h2 id="state-and-qi-flow">State and Qi flow<a class="headerlink" href="#state-and-qi-flow" title="Permanent link">&para;</a></h2>
+<p>各stateは以下を保持する。</p>
+<div class="highlight"><pre><span></span><code>state_id
+source_digest
+world_slice_digest
+integer Qi coordinate
+</code></pre></div>
+<p>各transitionは以下を保持する。</p>
+<div class="highlight"><pre><span></span><code>transition_id
+from_state_id
+to_state_id
+nonnegative action increment
+integer Qi flux increment
+source_digest
+</code></pre></div>
+<p>Qi fluxは独立に検証する。</p>
+<div class="highlight"><pre><span></span><code>qi_flux_increment
+  = qi_coordinate(to) - qi_coordinate(from)
+</code></pre></div>
+<p>したがってpath上のQi flowは単なるlabelではなく、state差分に束縛される。</p>
+<h2 id="finite-path-histories">Finite path histories<a class="headerlink" href="#finite-path-histories" title="Permanent link">&para;</a></h2>
+<p>各historyは以下を保持する。</p>
+<div class="highlight"><pre><span></span><code>history_id
+scenario_id
+positive rational weight numerator
+Z_2 phase
+ordered transition IDs
+source plan digest
+</code></pre></div>
+<p>全historyは同一initial stateを共有する。historyは有限長であり、transition adjacencyを厳密に検証する。</p>
+<div class="highlight"><pre><span></span><code>to(left_transition) = from(right_transition)
+</code></pre></div>
+<p>graph全体がacyclicであることは要求しない。有限history内部でstateが反復する場合、loop historyとして保持する。</p>
+<h2 id="branching-and-reconvergence">Branching and reconvergence<a class="headerlink" href="#branching-and-reconvergence" title="Permanent link">&para;</a></h2>
+<p>branch pointは、使用されたhistory subgraphで複数の異なるsuccessorを持つstateである。</p>
+<div class="highlight"><pre><span></span><code>branch(state) iff #{successor states} &gt; 1
+</code></pre></div>
+<p>reconvergence pointは、複数の異なるpredecessorを持つstateである。</p>
+<div class="highlight"><pre><span></span><code>reconvergence(state) iff #{predecessor states} &gt; 1
+</code></pre></div>
+<p>branch treeではreconvergenceが自然に表現できず、同じ後続構造を複製する。v1.21は一般の有限directed path-history graphを保持するため、再合流を壊さない。</p>
+<h2 id="shared-prefix-profile">Shared-prefix profile<a class="headerlink" href="#shared-prefix-profile" title="Permanent link">&para;</a></h2>
+<p>history pairごとにstate sequenceの共有prefix長を再計算する。</p>
+<div class="highlight"><pre><span></span><code>shared_prefix_length(gamma_a, gamma_b)
+</code></pre></div>
+<p>同じprefixを共有するhistoryを重複した独立branchとして扱わず、shared causal historyを保持する。</p>
+<h2 id="depth-marginals">Depth marginals<a class="headerlink" href="#depth-marginals" title="Permanent link">&para;</a></h2>
+<p>最大history長までの各depthでstate marginalを再計算する。短いhistoryはterminal stateに留まるものとして扱う。</p>
+<p>各depth <code>d</code> で、</p>
+<div class="highlight"><pre><span></span><code>sum_state weight_numerator(d, state) = common denominator
+</code></pre></div>
+<p>を保持する。</p>
+<p>これにより、uncertainty support、temporary divergence、later reconvergence、terminal concentrationをhistoryを一つに選ばず観察できる。</p>
+<h2 id="scenario-marginals">Scenario marginals<a class="headerlink" href="#scenario-marginals" title="Permanent link">&para;</a></h2>
+<p>scenarioごとに、</p>
+<div class="highlight"><pre><span></span><code>scenario weight numerator
+common denominator
+member history IDs
+</code></pre></div>
+<p>を保持する。</p>
+<p>scenario marginalはscenario rankingではない。scenario weightが大きいことはactivation、selection、truthを意味しない。</p>
+<h2 id="non-collapse">Non-collapse<a class="headerlink" href="#non-collapse" title="Permanent link">&para;</a></h2>
+<p>v1.21の主要claimは最適pathを見つけることではない。</p>
+<div class="highlight"><pre><span></span><code>retained history IDs = source history IDs
+</code></pre></div>
+<p>をexactに検証する。</p>
+<p>次を行わない。</p>
+<div class="highlight"><pre><span></span><code>argmin
+representative history selection
+history ranking
+history pruning
+candidate activation
+execution
+</code></pre></div>
+<p>v1.20のbarycenter、consensus、dispersionはv1.21 ensemble上の統計量または観測量として参照できるが、ensembleを置換しない。</p>
+<h2 id="reference-fixture">Reference fixture<a class="headerlink" href="#reference-fixture" title="Permanent link">&para;</a></h2>
+<p>共通denominatorは6で、4本のhistoryを保持する。</p>
+<div class="highlight"><pre><span></span><code>history-alpha-direct:
+  weight 2, phase +, action 2
+  root -&gt; a -&gt; terminal
+
+history-beta-direct:
+  weight 2, phase -, action 2
+  root -&gt; b -&gt; terminal
+
+history-alpha-rejoin:
+  weight 1, phase +, action 3
+  root -&gt; a -&gt; c -&gt; terminal
+
+history-beta-rejoin:
+  weight 1, phase +, action 3
+  root -&gt; b -&gt; c -&gt; terminal
+</code></pre></div>
+<p>formal partition polynomialは、</p>
+<div class="highlight"><pre><span></span><code>Z_Qi(q) = 4 q^2 + 2 q^3
+</code></pre></div>
+<p>となる。</p>
+<p>terminalでのsigned amplitudeは、</p>
+<div class="highlight"><pre><span></span><code>A_terminal = 2 - 2 + 1 + 1 = 2
+</code></pre></div>
+<p>したがって、</p>
+<div class="highlight"><pre><span></span><code>total weight = 6
+absolute amplitude = 2
+phase cancellation = 4
+coherent intensity = 4
+incoherent intensity = 10
+interference delta = -6
+</code></pre></div>
+<p>である。</p>
+<p>depth marginalは、</p>
+<div class="highlight"><pre><span></span><code>depth 0: root = 6/6
+depth 1: a = 3/6, b = 3/6
+depth 2: terminal = 4/6, c = 2/6
+depth 3: terminal = 6/6
+</code></pre></div>
+<p>となる。</p>
+<p>scenario marginalは、</p>
+<div class="highlight"><pre><span></span><code>scenario-alpha = 3/6
+scenario-beta  = 3/6
+</code></pre></div>
+<p>である。</p>
+<p>branch pointsは <code>root</code>, <code>a</code>, <code>b</code>、reconvergence pointsは <code>c</code>, <code>terminal</code> である。</p>
+<p>このfixtureは、単純なtreeでは自然に保持しにくい分岐後の再合流を明示的に含む。</p>
+<h2 id="fail-closed-checks">Fail-closed checks<a class="headerlink" href="#fail-closed-checks" title="Permanent link">&para;</a></h2>
+<p>checkerは少なくとも次を拒否する。</p>
+<div class="highlight"><pre><span></span><code>weight denominator mismatch
+Qi flux mismatch
+broken transition adjacency
+missing transition
+incorrect retained history set
+false argmin claim
+false representative selection claim
+false pruning claim
+execution permission claim
+source mutation claim
+</code></pre></div>
+<h2 id="mathlib-theorem-surface">Mathlib theorem surface<a class="headerlink" href="#mathlib-theorem-surface" title="Permanent link">&para;</a></h2>
+<p>Strict Lean packageは以下を含む。</p>
+<div class="highlight"><pre><span></span><code>formal action coefficient
+finite Z_2 signed phase amplitude
+phase cancellation numerator
+coherent and incoherent intensity
+exact history retention cardinality
+finite marginal mass conservation
+reconvergence without tree requirement
+reference Z(q) coefficients 4 and 2
+reference signed amplitude 2
+reference cancellation 4
+reference intensities 4 and 10
+reference depth marginal mass conservation
+reference branch and reconvergence positivity
+non-collapse non-authority theorem
+bounded read-only future-only theorem
+</code></pre></div>
+<h2 id="fixed-boundaries">Fixed boundaries<a class="headerlink" href="#fixed-boundaries" title="Permanent link">&para;</a></h2>
+<div class="highlight"><pre><span></span><code>finite path-history family != all possible plans
+formal Z_Qi(q) != evaluated physical partition function
+Z_2 phase != arbitrary complex quantum phase
+signed amplitude != empirical probability
+interference witness != execution preference
+large amplitude != selected plan
+small amplitude != rejected plan
+branch point != forced decision point
+reconvergence != equivalence of plans
+shared prefix != identical future
+loop history != permission to repeat action
+scenario marginal != scenario truth probability
+barycenter observable != collapse of path ensemble
+all histories retained != all histories activated
+path integral representation != execution authority
+WORLD-conditioned history != WORLD mutation
+</code></pre></div>
+<h2 id="immutability">Immutability<a class="headerlink" href="#immutability" title="Permanent link">&para;</a></h2>
+<p>次は変更しない。</p>
+<div class="highlight"><pre><span></span><code>PlanOS v1.14 path-homotopy certificate
+PlanOS v1.20 barycenter and dispersion certificate
+Physical Quantum Qi definition document
+persistent WORLD state
+source plan artifacts
+</code></pre></div>
+<h2 id="authority-boundary">Authority boundary<a class="headerlink" href="#authority-boundary" title="Permanent link">&para;</a></h2>
+<p>本層は、</p>
+<div class="highlight"><pre><span></span><code>finite
+bounded
+exact
+read-only
+future-only
+inactive
+non-collapsing
+</code></pre></div>
+<p>である。</p>
+<p>candidate selection、ranking、pruning、activation、tool invocation、adapter invocation、external action、execution permissionを付与しない。</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate"], "search": "../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>

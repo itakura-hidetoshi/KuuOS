@@ -1,0 +1,1799 @@
+
+<!doctype html>
+<html lang="en" class="no-js">
+  <head>
+    
+      <meta charset="utf-8">
+      <meta name="viewport" content="width=device-width,initial-scale=1">
+      
+        <meta name="description" content="Boundary-aware governance architecture for relational AI systems">
+      
+      
+        <meta name="author" content="Hidetoshi Itakura">
+      
+      
+      
+      
+      
+        
+      
+      
+      <link rel="icon" href="../../../assets/images/favicon.png">
+      <meta name="generator" content="mkdocs-1.6.1, mkdocs-material-9.7.7">
+    
+    
+      
+        <title>KuuOS Filtered Residual Hyperdescent v2.70–v2.73 — Design - KuuOS / 空OS Public Core</title>
+      
+    
+    
+      <link rel="stylesheet" href="../../../assets/stylesheets/main.ec1eaa64.min.css">
+      
+      
+
+
+    
+    
+      
+    
+    
+      
+        
+        
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Roboto:300,300i,400,400i,700,700i%7CRoboto+Mono:400,400i,700,700i&display=fallback">
+        <style>:root{--md-text-font:"Roboto";--md-code-font:"Roboto Mono"}</style>
+      
+    
+    
+    <script>__md_scope=new URL("../../..",location),__md_hash=e=>[...e].reduce(((e,_)=>(e<<5)-e+_.charCodeAt(0)),0),__md_get=(e,_=localStorage,t=__md_scope)=>JSON.parse(_.getItem(t.pathname+"."+e)),__md_set=(e,_,t=localStorage,a=__md_scope)=>{try{t.setItem(a.pathname+"."+e,JSON.stringify(_))}catch(e){}}</script>
+    
+      
+
+    
+    
+  </head>
+  
+  
+    <body dir="ltr">
+  
+    
+    <input class="md-toggle" data-md-toggle="drawer" type="checkbox" id="__drawer" autocomplete="off">
+    <input class="md-toggle" data-md-toggle="search" type="checkbox" id="__search" autocomplete="off">
+    <label class="md-overlay" for="__drawer"></label>
+    <div data-md-component="skip">
+      
+        
+        <a href="#kuuos-filtered-residual-hyperdescent-v270v273-design" class="md-skip">
+          Skip to content
+        </a>
+      
+    </div>
+    <div data-md-component="announce">
+      
+    </div>
+    
+    
+      
+
+  
+
+<header class="md-header md-header--shadow" data-md-component="header">
+  <nav class="md-header__inner md-grid" aria-label="Header">
+    <a href="../../.." title="KuuOS / 空OS Public Core" class="md-header__button md-logo" aria-label="KuuOS / 空OS Public Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    <label class="md-header__button md-icon" for="__drawer">
+      
+      <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M3 6h18v2H3zm0 5h18v2H3zm0 5h18v2H3z"/></svg>
+    </label>
+    <div class="md-header__title" data-md-component="header-title">
+      <div class="md-header__ellipsis">
+        <div class="md-header__topic">
+          <span class="md-ellipsis">
+            KuuOS / 空OS Public Core
+          </span>
+        </div>
+        <div class="md-header__topic" data-md-component="header-topic">
+          <span class="md-ellipsis">
+            
+              KuuOS Filtered Residual Hyperdescent v2.70–v2.73 — Design
+            
+          </span>
+        </div>
+      </div>
+    </div>
+    
+    
+      <script>var palette=__md_get("__palette");if(palette&&palette.color){if("(prefers-color-scheme)"===palette.color.media){var media=matchMedia("(prefers-color-scheme: light)"),input=document.querySelector(media.matches?"[data-md-color-media='(prefers-color-scheme: light)']":"[data-md-color-media='(prefers-color-scheme: dark)']");palette.color.media=input.getAttribute("data-md-color-media"),palette.color.scheme=input.getAttribute("data-md-color-scheme"),palette.color.primary=input.getAttribute("data-md-color-primary"),palette.color.accent=input.getAttribute("data-md-color-accent")}for(var[key,value]of Object.entries(palette.color))document.body.setAttribute("data-md-color-"+key,value)}</script>
+    
+    
+    
+      
+      
+        <label class="md-header__button md-icon" for="__search">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        </label>
+        <div class="md-search" data-md-component="search" role="dialog">
+  <label class="md-search__overlay" for="__search"></label>
+  <div class="md-search__inner" role="search">
+    <form class="md-search__form" name="search">
+      <input type="text" class="md-search__input" name="query" aria-label="Search" placeholder="Search" autocapitalize="off" autocorrect="off" autocomplete="off" spellcheck="false" data-md-component="search-query" required>
+      <label class="md-search__icon md-icon" for="__search">
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M9.5 3A6.5 6.5 0 0 1 16 9.5c0 1.61-.59 3.09-1.56 4.23l.27.27h.79l5 5-1.5 1.5-5-5v-.79l-.27-.27A6.52 6.52 0 0 1 9.5 16 6.5 6.5 0 0 1 3 9.5 6.5 6.5 0 0 1 9.5 3m0 2C7 5 5 7 5 9.5S7 14 9.5 14 14 12 14 9.5 12 5 9.5 5"/></svg>
+        
+        <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M20 11v2H8l5.5 5.5-1.42 1.42L4.16 12l7.92-7.92L13.5 5.5 8 11z"/></svg>
+      </label>
+      <nav class="md-search__options" aria-label="Search">
+        
+        <button type="reset" class="md-search__icon md-icon" title="Clear" aria-label="Clear" tabindex="-1">
+          
+          <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M19 6.41 17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z"/></svg>
+        </button>
+      </nav>
+      
+    </form>
+    <div class="md-search__output">
+      <div class="md-search__scrollwrap" tabindex="0" data-md-scrollfix>
+        <div class="md-search-result" data-md-component="search-result">
+          <div class="md-search-result__meta">
+            Initializing search
+          </div>
+          <ol class="md-search-result__list" role="presentation"></ol>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
+      
+    
+    
+      <div class="md-header__source">
+        <a href="https://github.com/itakura-hidetoshi/KuuOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    itakura-hidetoshi/KuuOS
+  </div>
+</a>
+      </div>
+    
+  </nav>
+  
+</header>
+    
+    <div class="md-container" data-md-component="container">
+      
+      
+        
+          
+        
+      
+      <main class="md-main" data-md-component="main">
+        <div class="md-main__inner md-grid">
+          
+            
+              
+              <div class="md-sidebar md-sidebar--primary" data-md-component="sidebar" data-md-type="navigation" >
+                <div class="md-sidebar__scrollwrap">
+                  <div class="md-sidebar__inner">
+                    
+
+
+
+  
+
+<nav class="md-nav md-nav--primary md-nav--integrated" aria-label="Navigation" data-md-level="0">
+  <label class="md-nav__title" for="__drawer">
+    <a href="../../.." title="KuuOS / 空OS Public Core" class="md-nav__button md-logo" aria-label="KuuOS / 空OS Public Core" data-md-component="logo">
+      
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M12 8a3 3 0 0 0 3-3 3 3 0 0 0-3-3 3 3 0 0 0-3 3 3 3 0 0 0 3 3m0 3.54C9.64 9.35 6.5 8 3 8v11c3.5 0 6.64 1.35 9 3.54 2.36-2.19 5.5-3.54 9-3.54V8c-3.5 0-6.64 1.35-9 3.54"/></svg>
+
+    </a>
+    KuuOS / 空OS Public Core
+  </label>
+  
+    <div class="md-nav__source">
+      <a href="https://github.com/itakura-hidetoshi/KuuOS" title="Go to repository" class="md-source" data-md-component="source">
+  <div class="md-source__icon md-icon">
+    
+    <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 448 512"><!--! Font Awesome Free 7.1.0 by @fontawesome - https://fontawesome.com License - https://fontawesome.com/license/free (Icons: CC BY 4.0, Fonts: SIL OFL 1.1, Code: MIT License) Copyright 2025 Fonticons, Inc.--><path d="M439.6 236.1 244 40.5c-5.4-5.5-12.8-8.5-20.4-8.5s-15 3-20.4 8.4L162.5 81l51.5 51.5c27.1-9.1 52.7 16.8 43.4 43.7l49.7 49.7c34.2-11.8 61.2 31 35.5 56.7-26.5 26.5-70.2-2.9-56-37.3L240.3 199v121.9c25.3 12.5 22.3 41.8 9.1 55-6.4 6.4-15.2 10.1-24.3 10.1s-17.8-3.6-24.3-10.1c-17.6-17.6-11.1-46.9 11.2-56v-123c-20.8-8.5-24.6-30.7-18.6-45L142.6 101 8.5 235.1C3 240.6 0 247.9 0 255.5s3 15 8.5 20.4l195.6 195.7c5.4 5.4 12.7 8.4 20.4 8.4s15-3 20.4-8.4l194.7-194.7c5.4-5.4 8.4-12.8 8.4-20.4s-3-15-8.4-20.4"/></svg>
+  </div>
+  <div class="md-source__repository">
+    itakura-hidetoshi/KuuOS
+  </div>
+</a>
+    </div>
+  
+  <ul class="md-nav__list" data-md-scrollfix>
+    
+      
+      
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../.." class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Home
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_2" >
+        
+          
+          <label class="md-nav__link" for="__nav_2" id="__nav_2_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Start Here
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_2_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_2">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Start Here
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../PUBLIC_DOCS_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Docs Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../QUICKSTART_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Quickstart
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../EXTERNAL_REVIEW_GUIDE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    External Review Guide
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../WHY_KUUOS_EXISTS_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Why KuuOS Exists
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_3" >
+        
+          
+          <label class="md-nav__link" for="__nav_3" id="__nav_3_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_3_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_3">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Architecture
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ARCHITECTURE_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../ARCHITECTURE_DIAGRAM_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Architecture Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../GOVERNANCE_FLOW_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Flow Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../GOVERNANCE_DIAGRAM_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Diagram
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../VALIDATOR_GRAPH_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validator Graph
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_4" >
+        
+          
+          <label class="md-nav__link" for="__nav_4" id="__nav_4_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_4_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_4">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Governance
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../KUUOS_GOVERNANCE_MANIFESTO_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Manifesto
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../BOUNDARY_AND_NONAUTHORITY_POLICY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boundary and Non-Authority Policy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../BOUNDARY_RISK_MODEL_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Boundary Risk Model
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../CLAIM_LEVEL_TAXONOMY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Claim Level Taxonomy
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../CONTRIBUTOR_REVIEW_WORKFLOW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Contributor Review Workflow
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_5" >
+        
+          
+          <label class="md-nav__link" for="__nav_5" id="__nav_5_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_5_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_5">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Validation
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../VALIDATION_COVERAGE_MATRIX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validation Coverage Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../REPRODUCIBILITY_MATRIX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Reproducibility Matrix
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../PUBLIC_AUDIT_CHECKLIST_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Audit Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../VALIDATOR_DEPENDENCY_OVERVIEW_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Validator Dependency Overview
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../LEAN_COVERAGE_MAP_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Lean Coverage Map
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_6" >
+        
+          
+          <label class="md-nav__link" for="__nav_6" id="__nav_6_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_6_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_6">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Terminology
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../FORMAL_TERMINOLOGY_GLOSSARY_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Formal Terminology Glossary
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../TERMINOLOGY_CROSS_REFERENCE_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Terminology Cross Reference
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_7" >
+        
+          
+          <label class="md-nav__link" for="__nav_7" id="__nav_7_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Release
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_7_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_7">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Release
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../PUBLIC_RELEASE_PACKAGE_MANIFEST_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Public Release Package Manifest
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../V0_1_RELEASE_READINESS_CHECKLIST/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    v0.1 Release Readiness Checklist
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+      
+      
+  
+  
+  
+  
+    
+    
+    
+    
+      
+        
+        
+      
+    
+    
+    <li class="md-nav__item md-nav__item--section md-nav__item--nested">
+      
+        
+        
+          
+        
+        <input class="md-nav__toggle md-toggle md-toggle--indeterminate" type="checkbox" id="__nav_8" >
+        
+          
+          <label class="md-nav__link" for="__nav_8" id="__nav_8_label" tabindex="">
+            
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core
+  
+
+    
+  </span>
+  
+  
+
+            <span class="md-nav__icon md-icon"></span>
+          </label>
+        
+        <nav class="md-nav" data-md-level="1" aria-labelledby="__nav_8_label" aria-expanded="false">
+          <label class="md-nav__title" for="__nav_8">
+            <span class="md-nav__icon md-icon"></span>
+            
+  
+    Core
+  
+
+          </label>
+          <ul class="md-nav__list" data-md-scrollfix>
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../KUOS_CORE_GOVERNANCE_INDEX_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Core Governance Index
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../KUOS_FOURFOLD_CORE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Fourfold Core
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+              
+                
+  
+  
+  
+  
+    <li class="md-nav__item">
+      <a href="../../../GOVERNANCE_RELEASE_GATE_v0_1/" class="md-nav__link">
+        
+  
+  
+  <span class="md-ellipsis">
+    
+  
+    Governance Release Gate
+  
+
+    
+  </span>
+  
+  
+
+      </a>
+    </li>
+  
+
+              
+            
+          </ul>
+        </nav>
+      
+    </li>
+  
+
+    
+  </ul>
+</nav>
+                  </div>
+                </div>
+              </div>
+            
+            
+          
+          
+            <div class="md-content" data-md-component="content">
+              
+              <article class="md-content__inner md-typeset">
+                
+                  
+
+
+  
+  
+
+
+<h1 id="kuuos-filtered-residual-hyperdescent-v270v273-design">KuuOS Filtered Residual Hyperdescent v2.70–v2.73 — Design<a class="headerlink" href="#kuuos-filtered-residual-hyperdescent-v270v273-design" title="Permanent link">&para;</a></h1>
+<p><strong>Date:</strong> 2026-09-15 JST</p>
+<p><strong>Status:</strong> design-only, non-authoritative, stacked on the open v2.69 proof head</p>
+<p><strong>Stack base:</strong> <code>940c3b8f164ac35e49e6fcf2532aef9bba3c2eff</code></p>
+<p><strong>Upstream PR:</strong> #1651 — <code>Truth-test weak admissibility with octahedral generated holonomy v2.69</code></p>
+<h2 id="1-authority-boundary">1. Authority boundary<a class="headerlink" href="#1-authority-boundary" title="Permanent link">&para;</a></h2>
+<p>This design does not promote any new theorem into KuuOS authority. The upstream v2.69 PR remains Draft and unmerged. This branch records the next mathematical architecture only.</p>
+<p>Authority remains:</p>
+<ol>
+<li>canonical GitHub theorem SHA,</li>
+<li>formal Lean artifacts,</li>
+<li>README / ROADMAP,</li>
+<li>CI/runtime receipts,</li>
+<li>memory or model interpretation.</li>
+</ol>
+<p>The OpenAI Navier–Stokes work is used as mathematical inspiration, not as an imported axiom or theorem dependency.</p>
+<h2 id="2-mathematical-motivation">2. Mathematical motivation<a class="headerlink" href="#2-mathematical-motivation" title="Permanent link">&para;</a></h2>
+<p>The current KuuOS higher dependent-origination line has sharpened the general-W obstruction through:</p>
+<div class="highlight"><pre><span></span><code>pointwise choices
+→ five coherence defects
+→ gauge obstruction
+→ retained relation 2-cells
+→ fully generated localization 2-cells
+→ generated-loop holonomy.
+</code></pre></div>
+<p>v2.69 supplies an explicit six-object octahedral countermodel whose generated loop has nontrivial <code>C2</code> holonomy. Thus weak admissibility alone does not force generated-holonomy triviality.</p>
+<p>The next question is not merely whether an obstruction is zero, but whether it can be improved through a sequence of exact-invariant-preserving corrections. The abstraction suggested by the constructive Navier–Stokes proof is:</p>
+<div class="highlight"><pre><span></span><code>retain exact constraints
++ measure residual order by a decreasing filtration
++ improve that order by correction steps
++ make an infinite correction history explicit rather than inferred
++ pass to a limit only through a stated level-transfer principle
++ distinguish flat-but-nontrivial phenomena from genuinely trivial defects.
+</code></pre></div>
+<p>This design calls that layer <strong>Filtered Residual Hyperdescent</strong>.</p>
+<h2 id="3-design-principles">3. Design principles<a class="headerlink" href="#3-design-principles" title="Permanent link">&para;</a></h2>
+<p>The new layer must be a conservative extension of v2.68–v2.69.</p>
+<p>It must not:</p>
+<ul>
+<li>weaken <code>GeneratedHolonomyTrivial</code>,</li>
+<li>reinterpret nontrivial v2.69 holonomy as trivial,</li>
+<li>assume a metric, topology, norm, or completeness in v2.70,</li>
+<li>introduce PDE-specific objects into the KuuOS core,</li>
+<li>silently identify asymptotic smallness with equality,</li>
+<li>infer an infinite correction tower from one-step existential correction without an explicit choice/construction boundary,</li>
+<li>add axioms, <code>sorry</code>, or <code>admit</code>.</li>
+</ul>
+<p>It must:</p>
+<ul>
+<li>separate exact constraints from residual defects,</li>
+<li>expose filtration order explicitly,</li>
+<li>allow nondeterministic/existential finite correction steps,</li>
+<li>represent infinite correction histories as explicit data,</li>
+<li>state exactly which limit principle turns eventual level control into flatness,</li>
+<li>require the distinguished exact defect itself to be flat,</li>
+<li>require separatedness before flatness can imply exact triviality,</li>
+<li>connect back to generated holonomy only through an explicit bridge.</li>
+</ul>
+<h2 id="4-v270-filtered-obstruction-core">4. v2.70 — Filtered Obstruction Core<a class="headerlink" href="#4-v270-filtered-obstruction-core" title="Permanent link">&para;</a></h2>
+<h3 id="41-core-structure">4.1 Core structure<a class="headerlink" href="#41-core-structure" title="Permanent link">&para;</a></h3>
+<p>Introduce a generic decreasing filtration without assuming algebraic structure:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">structure</span><span class="w"> </span><span class="n">ObstructionFiltration</span><span class="w"> </span><span class="o">(</span><span class="n">D</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Type</span><span class="w"> </span><span class="n">u</span><span class="o">)</span><span class="w"> </span><span class="n">where</span>
+<span class="w">  </span><span class="n">level</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">Set</span><span class="w"> </span><span class="n">D</span>
+<span class="w">  </span><span class="n">antitone_level</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Antitone</span><span class="w"> </span><span class="n">level</span>
+</code></pre></div>
+<p>This is deliberately weaker than a filtered group. Later layers may add compatibility with multiplication/composition without changing the core API.</p>
+<h3 id="42-predicates">4.2 Predicates<a class="headerlink" href="#42-predicates" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kd">def</span><span class="w"> </span><span class="n">ObstructionFiltration.OrderAtLeast</span>
+<span class="w">    </span><span class="o">(</span><span class="n">F</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ObstructionFiltration</span><span class="w"> </span><span class="n">D</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">d</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">D</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Prop</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="n">d</span><span class="w"> </span><span class="bp">∈</span><span class="w"> </span><span class="n">F.level</span><span class="w"> </span><span class="n">n</span>
+
+<span class="kd">def</span><span class="w"> </span><span class="n">ObstructionFiltration.Flat</span>
+<span class="w">    </span><span class="o">(</span><span class="n">F</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ObstructionFiltration</span><span class="w"> </span><span class="n">D</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">d</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">D</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Prop</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="bp">∀</span><span class="w"> </span><span class="n">n</span><span class="o">,</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="bp">∈</span><span class="w"> </span><span class="n">F.level</span><span class="w"> </span><span class="n">n</span>
+
+<span class="kd">def</span><span class="w"> </span><span class="n">ObstructionFiltration.SeparatedAt</span>
+<span class="w">    </span><span class="o">(</span><span class="n">F</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ObstructionFiltration</span><span class="w"> </span><span class="n">D</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">e</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">D</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Prop</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="n">F.Flat</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="bp">∧</span><span class="w"> </span><span class="bp">∀</span><span class="w"> </span><span class="n">d</span><span class="o">,</span><span class="w"> </span><span class="n">F.Flat</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">e</span>
+</code></pre></div>
+<p>The intended interpretation is:</p>
+<div class="highlight"><pre><span></span><code>OrderAtLeast F n d = defect d vanishes through level n
+Flat F d           = defect lies in every filtration level
+SeparatedAt F e    = e is flat and every flat defect equals e
+</code></pre></div>
+<p>This definition prevents vacuous “separatedness” in a filtration with no flat elements.</p>
+<h3 id="43-required-theorems">4.3 Required theorems<a class="headerlink" href="#43-required-theorems" title="Permanent link">&para;</a></h3>
+<p>At minimum:</p>
+<div class="highlight"><pre><span></span><code><span class="n">orderAtLeast_mono</span>
+<span class="n">flat_orderAtLeast</span>
+<span class="n">separatedAt_exact_flat</span>
+<span class="n">flat_eq_of_separatedAt</span>
+<span class="n">not_flat_of_ne_of_separatedAt</span>
+</code></pre></div>
+<p>The final theorem is essential for v2.73:</p>
+<div class="highlight"><pre><span></span><code><span class="n">F.SeparatedAt</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">d</span><span class="w"> </span><span class="bp">≠</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="bp">¬</span><span class="w"> </span><span class="n">F.Flat</span><span class="w"> </span><span class="n">d</span><span class="bp">.</span>
+</code></pre></div>
+<h3 id="44-no-premature-algebra">4.4 No premature algebra<a class="headerlink" href="#44-no-premature-algebra" title="Permanent link">&para;</a></h3>
+<p>v2.70 must not require <code>Group D</code>, <code>Monoid D</code>, <code>TopologicalSpace D</code>, or <code>MetricSpace D</code>. Those structures are instances or later refinements, not the definition of filtered obstruction itself.</p>
+<h2 id="5-v271-exact-invariant-correction-gain">5. v2.71 — Exact-Invariant Correction Gain<a class="headerlink" href="#5-v271-exact-invariant-correction-gain" title="Permanent link">&para;</a></h2>
+<h3 id="51-residual-problem">5.1 Residual problem<a class="headerlink" href="#51-residual-problem" title="Permanent link">&para;</a></h3>
+<p>Introduce a problem whose states have an exact invariant and a residual:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">structure</span><span class="w"> </span><span class="n">ResidualProblem</span><span class="w"> </span><span class="o">(</span><span class="n">State</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Type</span><span class="w"> </span><span class="n">u</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">D</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Type</span><span class="w"> </span><span class="n">v</span><span class="o">)</span><span class="w"> </span><span class="n">where</span>
+<span class="w">  </span><span class="n">invariant</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">State</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="kt">Prop</span>
+<span class="w">  </span><span class="n">residual</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">State</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">D</span>
+</code></pre></div>
+<p>A correction relation is intentionally relational rather than functional:</p>
+<div class="highlight"><pre><span></span><code><span class="n">Step</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">State</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">State</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="kt">Prop</span>
+</code></pre></div>
+<p>This avoids hiding noncanonical correction choices inside <code>Classical.choice</code>.</p>
+<h3 id="52-one-step-gain-predicate">5.2 One-step gain predicate<a class="headerlink" href="#52-one-step-gain-predicate" title="Permanent link">&para;</a></h3>
+<p>For positive gain <code>δ</code>:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">def</span><span class="w"> </span><span class="n">HasCorrectionGain</span>
+<span class="w">    </span><span class="o">(</span><span class="n">F</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ObstructionFiltration</span><span class="w"> </span><span class="n">D</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">P</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ResidualProblem</span><span class="w"> </span><span class="n">State</span><span class="w"> </span><span class="n">D</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">Step</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">State</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">State</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="kt">Prop</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">δ</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="o">)</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="kt">Prop</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="mi">0</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">δ</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">  </span><span class="bp">∀</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">n</span><span class="o">,</span>
+<span class="w">    </span><span class="n">P.invariant</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="bp">→</span>
+<span class="w">    </span><span class="n">F.OrderAtLeast</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="o">(</span><span class="n">P.residual</span><span class="w"> </span><span class="n">x</span><span class="o">)</span><span class="w"> </span><span class="bp">→</span>
+<span class="w">    </span><span class="bp">∃</span><span class="w"> </span><span class="n">y</span><span class="o">,</span>
+<span class="w">      </span><span class="n">Step</span><span class="w"> </span><span class="n">x</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">P.invariant</span><span class="w"> </span><span class="n">y</span><span class="w"> </span><span class="bp">∧</span>
+<span class="w">      </span><span class="n">F.OrderAtLeast</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">δ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">P.residual</span><span class="w"> </span><span class="n">y</span><span class="o">)</span>
+</code></pre></div>
+<p>The witness <code>y</code> may depend on the certified current order <code>n</code>. This dependence is retained rather than erased.</p>
+<h3 id="53-finite-correction-chain">5.3 Finite correction chain<a class="headerlink" href="#53-finite-correction-chain" title="Permanent link">&para;</a></h3>
+<p>Define a finite chain carrying the certified order at each stage. The chain must store enough data that no theorem needs to guess which existential witness was selected.</p>
+<p>Schematic data:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">structure</span><span class="w"> </span><span class="n">FiniteCorrectionChain</span>
+<span class="w">    </span><span class="o">(</span><span class="n">F</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ObstructionFiltration</span><span class="w"> </span><span class="n">D</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">P</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ResidualProblem</span><span class="w"> </span><span class="n">State</span><span class="w"> </span><span class="n">D</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">Step</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">State</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">State</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="kt">Prop</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">δ</span><span class="w"> </span><span class="n">n₀</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="o">)</span><span class="w"> </span><span class="n">where</span>
+<span class="w">  </span><span class="n">state</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Fin</span><span class="w"> </span><span class="o">(</span><span class="n">k</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">1</span><span class="o">)</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">State</span>
+<span class="w">  </span><span class="n">invariant</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">∀</span><span class="w"> </span><span class="n">i</span><span class="o">,</span><span class="w"> </span><span class="n">P.invariant</span><span class="w"> </span><span class="o">(</span><span class="n">state</span><span class="w"> </span><span class="n">i</span><span class="o">)</span>
+<span class="w">  </span><span class="n">step</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">∀</span><span class="w"> </span><span class="n">i</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">Fin</span><span class="w"> </span><span class="n">k</span><span class="o">,</span><span class="w"> </span><span class="n">Step</span><span class="w"> </span><span class="o">(</span><span class="n">state</span><span class="w"> </span><span class="n">i.castSucc</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">state</span><span class="w"> </span><span class="n">i.succ</span><span class="o">)</span>
+<span class="w">  </span><span class="n">order</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">∀</span><span class="w"> </span><span class="n">i</span><span class="o">,</span><span class="w"> </span><span class="n">F.OrderAtLeast</span><span class="w"> </span><span class="o">(</span><span class="n">n₀</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">i</span><span class="bp">.</span><span class="mi">1</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">δ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">P.residual</span><span class="w"> </span><span class="o">(</span><span class="n">state</span><span class="w"> </span><span class="n">i</span><span class="o">))</span>
+</code></pre></div>
+<p>Exact indexing may be adjusted to Mathlib ergonomics, but the stored mathematical content must remain explicit.</p>
+<h3 id="54-required-theorem-boundary">5.4 Required theorem boundary<a class="headerlink" href="#54-required-theorem-boundary" title="Permanent link">&para;</a></h3>
+<p>v2.71 proves finite iteration only. From <code>HasCorrectionGain</code>, an invariant initial state, and an initial order certificate, prove existence of a <code>k</code>-step finite correction chain ending at order at least <code>n₀ + k * δ</code>.</p>
+<p>It must not claim:</p>
+<ul>
+<li>convergence,</li>
+<li>existence of an infinite tower,</li>
+<li>flatness,</li>
+<li>exact residual triviality.</li>
+</ul>
+<p>This keeps finite dependent choice separate from the later infinite-history boundary.</p>
+<h2 id="6-v272-flat-completion-limit-descent">6. v2.72 — Flat Completion / Limit Descent<a class="headerlink" href="#6-v272-flat-completion-limit-descent" title="Permanent link">&para;</a></h2>
+<p>v2.72 adds the abstract data needed to turn an <strong>explicit</strong> arbitrarily improving correction history into flatness. It does not derive that infinite history from v2.71.</p>
+<h3 id="61-filtered-correction-tower">6.1 Filtered correction tower<a class="headerlink" href="#61-filtered-correction-tower" title="Permanent link">&para;</a></h3>
+<div class="highlight"><pre><span></span><code><span class="kd">structure</span><span class="w"> </span><span class="n">FilteredCorrectionTower</span>
+<span class="w">    </span><span class="o">(</span><span class="n">F</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ObstructionFiltration</span><span class="w"> </span><span class="n">D</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">P</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ResidualProblem</span><span class="w"> </span><span class="n">State</span><span class="w"> </span><span class="n">D</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">Step</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">State</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">State</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="kt">Prop</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">δ</span><span class="w"> </span><span class="n">n₀</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="o">)</span><span class="w"> </span><span class="n">where</span>
+<span class="w">  </span><span class="n">state</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ℕ</span><span class="w"> </span><span class="bp">→</span><span class="w"> </span><span class="n">State</span>
+<span class="w">  </span><span class="n">invariant</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">∀</span><span class="w"> </span><span class="n">n</span><span class="o">,</span><span class="w"> </span><span class="n">P.invariant</span><span class="w"> </span><span class="o">(</span><span class="n">state</span><span class="w"> </span><span class="n">n</span><span class="o">)</span>
+<span class="w">  </span><span class="n">step</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">∀</span><span class="w"> </span><span class="n">n</span><span class="o">,</span><span class="w"> </span><span class="n">Step</span><span class="w"> </span><span class="o">(</span><span class="n">state</span><span class="w"> </span><span class="n">n</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">state</span><span class="w"> </span><span class="o">(</span><span class="n">n</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="mi">1</span><span class="o">))</span>
+<span class="w">  </span><span class="n">order</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="bp">∀</span><span class="w"> </span><span class="n">n</span><span class="o">,</span>
+<span class="w">    </span><span class="n">F.OrderAtLeast</span><span class="w"> </span><span class="o">(</span><span class="n">n₀</span><span class="w"> </span><span class="bp">+</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="bp">*</span><span class="w"> </span><span class="n">δ</span><span class="o">)</span><span class="w"> </span><span class="o">(</span><span class="n">P.residual</span><span class="w"> </span><span class="o">(</span><span class="n">state</span><span class="w"> </span><span class="n">n</span><span class="o">))</span>
+</code></pre></div>
+<p>A positive-gain hypothesis <code>0 &lt; δ</code> is supplied to theorems using the tower rather than hidden in the structure.</p>
+<p>This explicit <code>order</code> field is intentional: an arbitrary <code>Step</code> tower need not consist of the improving witnesses promised existentially by v2.71.</p>
+<h3 id="62-limit-transfer-datum">6.2 Limit transfer datum<a class="headerlink" href="#62-limit-transfer-datum" title="Permanent link">&para;</a></h3>
+<p>Do not assume a topology. Instead isolate exactly what a chosen limit construction must prove:</p>
+<div class="highlight"><pre><span></span><code><span class="kd">structure</span><span class="w"> </span><span class="n">ResidualLimitData</span>
+<span class="w">    </span><span class="o">(</span><span class="n">F</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ObstructionFiltration</span><span class="w"> </span><span class="n">D</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">P</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">ResidualProblem</span><span class="w"> </span><span class="n">State</span><span class="w"> </span><span class="n">D</span><span class="o">)</span>
+<span class="w">    </span><span class="o">(</span><span class="n">T</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">FilteredCorrectionTower</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="n">P</span><span class="w"> </span><span class="n">Step</span><span class="w"> </span><span class="n">δ</span><span class="w"> </span><span class="n">n₀</span><span class="o">)</span><span class="w"> </span><span class="n">where</span>
+<span class="w">  </span><span class="n">limitState</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">State</span>
+<span class="w">  </span><span class="n">invariant_limit</span><span class="w"> </span><span class="o">:</span><span class="w"> </span><span class="n">P.invariant</span><span class="w"> </span><span class="n">limitState</span>
+<span class="w">  </span><span class="n">level_limit</span><span class="w"> </span><span class="o">:</span>
+<span class="w">    </span><span class="bp">∀</span><span class="w"> </span><span class="n">k</span><span class="o">,</span>
+<span class="w">      </span><span class="o">(</span><span class="bp">∃</span><span class="w"> </span><span class="n">N</span><span class="o">,</span><span class="w"> </span><span class="bp">∀</span><span class="w"> </span><span class="n">n</span><span class="w"> </span><span class="bp">≥</span><span class="w"> </span><span class="n">N</span><span class="o">,</span>
+<span class="w">        </span><span class="n">F.OrderAtLeast</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">(</span><span class="n">P.residual</span><span class="w"> </span><span class="o">(</span><span class="n">T.state</span><span class="w"> </span><span class="n">n</span><span class="o">)))</span><span class="w"> </span><span class="bp">→</span>
+<span class="w">      </span><span class="n">F.OrderAtLeast</span><span class="w"> </span><span class="n">k</span><span class="w"> </span><span class="o">(</span><span class="n">P.residual</span><span class="w"> </span><span class="n">limitState</span><span class="o">)</span>
+</code></pre></div>
+<p><code>invariant_limit</code> is stored directly. A concrete analytic/topological realization may later prove it from a convergence theorem, but the generic core does not pretend that arbitrary invariants are closed under unspecified limits.</p>
+<p><code>level_limit</code> is the precise authority boundary between an asymptotic correction history and an actual completed state.</p>
+<h3 id="63-main-theorem">6.3 Main theorem<a class="headerlink" href="#63-main-theorem" title="Permanent link">&para;</a></h3>
+<p>Given <code>0 &lt; δ</code>, arithmetic implies that for every fixed filtration level <code>k</code>, sufficiently late stages of the tower lie in level <code>k</code>. <code>ResidualLimitData.level_limit</code> then gives</p>
+<div class="highlight"><pre><span></span><code><span class="n">F.Flat</span><span class="w"> </span><span class="o">(</span><span class="n">P.residual</span><span class="w"> </span><span class="n">L.limitState</span><span class="o">)</span>
+</code></pre></div>
+<p>and <code>L.invariant_limit</code> supplies the exact invariant.</p>
+<p>No theorem may conclude</p>
+<div class="highlight"><pre><span></span><code><span class="n">P.residual</span><span class="w"> </span><span class="n">L.limitState</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">e</span>
+</code></pre></div>
+<p>without an explicit <code>F.SeparatedAt e</code> hypothesis.</p>
+<h3 id="64-separated-completion-corollary">6.4 Separated completion corollary<a class="headerlink" href="#64-separated-completion-corollary" title="Permanent link">&para;</a></h3>
+<p>With separatedness, prove the conservative corollary:</p>
+<div class="highlight"><pre><span></span><code><span class="mi">0</span><span class="w"> </span><span class="bp">&lt;</span><span class="w"> </span><span class="n">δ</span><span class="w"> </span><span class="bp">→</span>
+<span class="n">F.SeparatedAt</span><span class="w"> </span><span class="n">e</span><span class="w"> </span><span class="bp">→</span>
+<span class="n">P.residual</span><span class="w"> </span><span class="n">L.limitState</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">e</span><span class="bp">.</span>
+</code></pre></div>
+<p>This is the only generic route in v2.72 from arbitrarily high correction order to exact residual triviality.</p>
+<h2 id="7-v273-filtered-generated-holonomy-bridge">7. v2.73 — Filtered Generated-Holonomy Bridge<a class="headerlink" href="#7-v273-filtered-generated-holonomy-bridge" title="Permanent link">&para;</a></h2>
+<h3 id="71-per-loop-obstruction-object">7.1 Per-loop obstruction object<a class="headerlink" href="#71-per-loop-obstruction-object" title="Permanent link">&para;</a></h3>
+<p>For a fixed generated localization loop <code>γ</code> at path <code>p</code>, use</p>
+<div class="highlight"><pre><span></span><code><span class="n">D</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="o">((</span><span class="n">freePathEvaluator</span><span class="w"> </span><span class="n">W</span><span class="w"> </span><span class="n">R</span><span class="w"> </span><span class="n">D₀</span><span class="o">)</span><span class="bp">.</span><span class="n">map</span><span class="w"> </span><span class="n">p</span><span class="w"> </span><span class="bp">≅</span>
+<span class="w">      </span><span class="o">(</span><span class="n">freePathEvaluator</span><span class="w"> </span><span class="n">W</span><span class="w"> </span><span class="n">R</span><span class="w"> </span><span class="n">D₀</span><span class="o">)</span><span class="bp">.</span><span class="n">map</span><span class="w"> </span><span class="n">p</span><span class="o">)</span>
+</code></pre></div>
+<p>as the obstruction type and</p>
+<div class="highlight"><pre><span></span><code><span class="n">e</span><span class="w"> </span><span class="o">:=</span><span class="w"> </span><span class="n">Iso.refl</span><span class="w"> </span><span class="n">_</span>
+</code></pre></div>
+<p>as the exact defect.</p>
+<p>The bridge does not impose a canonical filtration on every automorphism type. A filtration is explicit input.</p>
+<h3 id="72-flat-generated-holonomy">7.2 Flat generated holonomy<a class="headerlink" href="#72-flat-generated-holonomy" title="Permanent link">&para;</a></h3>
+<p>Define a local predicate:</p>
+<div class="highlight"><pre><span></span><code><span class="n">FilteredGeneratedHolonomyFlat</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="n">γ</span><span class="w"> </span><span class="o">:=</span>
+<span class="w">  </span><span class="n">F.Flat</span><span class="w"> </span><span class="o">(</span><span class="n">generatedHolonomy</span><span class="w"> </span><span class="n">W</span><span class="w"> </span><span class="n">R</span><span class="w"> </span><span class="n">D₀</span><span class="w"> </span><span class="n">γ</span><span class="o">)</span>
+</code></pre></div>
+<p>Then prove:</p>
+<div class="highlight"><pre><span></span><code><span class="n">F.SeparatedAt</span><span class="w"> </span><span class="o">(</span><span class="n">Iso.refl</span><span class="w"> </span><span class="n">_</span><span class="o">)</span><span class="w"> </span><span class="bp">→</span>
+<span class="n">FilteredGeneratedHolonomyFlat</span><span class="w"> </span><span class="n">F</span><span class="w"> </span><span class="n">γ</span><span class="w"> </span><span class="bp">→</span>
+<span class="n">generatedHolonomy</span><span class="w"> </span><span class="n">W</span><span class="w"> </span><span class="n">R</span><span class="w"> </span><span class="n">D₀</span><span class="w"> </span><span class="n">γ</span><span class="w"> </span><span class="bp">=</span><span class="w"> </span><span class="n">Iso.refl</span><span class="w"> </span><span class="n">_</span><span class="bp">.</span>
+</code></pre></div>
+<p>This is one-way unless further hypotheses are supplied.</p>
+<h3 id="73-v269-hard-obstruction-theorem">7.3 v2.69 hard-obstruction theorem<a class="headerlink" href="#73-v269-hard-obstruction-theorem" title="Permanent link">&para;</a></h3>
+<p>Import the v2.69 countermodel only in the countermodel bridge file, not in the generic bridge.</p>
+<p>Use the proved theorem</p>
+<div class="highlight"><pre><span></span><code><span class="n">counterGeneratedLoop_holonomy_ne_refl</span>
+</code></pre></div>
+<p>to derive:</p>
+<div class="highlight"><pre><span></span><code><span class="n">F.SeparatedAt</span><span class="w"> </span><span class="o">(</span><span class="n">Iso.refl</span><span class="w"> </span><span class="n">_</span><span class="o">)</span><span class="w"> </span><span class="bp">→</span>
+<span class="bp">¬</span><span class="w"> </span><span class="n">F.Flat</span>
+<span class="w">    </span><span class="o">(</span><span class="n">generatedHolonomy</span><span class="w"> </span><span class="n">allMorphisms</span><span class="w"> </span><span class="n">counterSystem</span><span class="w"> </span><span class="n">D</span><span class="w"> </span><span class="n">counterGeneratedLoop</span><span class="o">)</span><span class="bp">.</span>
+</code></pre></div>
+<p>In particular, for <code>counterD</code>, the explicit octahedral holonomy is not merely nontrivial; it is incompatible with flatness in every filtration separated at the identity.</p>
+<p>This formally distinguishes a <strong>hard obstruction</strong> from a defect that can be pushed to arbitrarily high filtration order in some correction system.</p>
+<h2 id="8-the-mathematical-distinction-introduced-by-v270v273">8. The mathematical distinction introduced by v2.70–v2.73<a class="headerlink" href="#8-the-mathematical-distinction-introduced-by-v270v273" title="Permanent link">&para;</a></h2>
+<p>After these layers, KuuOS can distinguish:</p>
+<div class="highlight"><pre><span></span><code>exactly trivial obstruction
+    d = e
+
+flat obstruction
+    d ∈ ⋂ₙ Fⁿ
+
+separated flat obstruction
+    d ∈ ⋂ₙ Fⁿ and separatedness forces d = e
+
+finite-order correctable obstruction
+    certified correction steps raise filtration order
+
+completed correctable obstruction
+    an explicit improving tower plus level-compatible limit gives flatness
+
+hard obstruction
+    d ≠ e in a filtration separated at e, hence d is not flat
+</code></pre></div>
+<p>Thus <code>flat</code> is never silently equated with <code>trivial</code>, and one-step correctability is never silently promoted to existence of an infinite correction history.</p>
+<h2 id="9-relation-to-dependent-origination">9. Relation to dependent origination<a class="headerlink" href="#9-relation-to-dependent-origination" title="Permanent link">&para;</a></h2>
+<p>The new layer refines the existing descent question:</p>
+<div class="highlight"><pre><span></span><code>Can local data glue globally?
+</code></pre></div>
+<p>into:</p>
+<div class="highlight"><pre><span></span><code>What is the obstruction presentation?
+At what filtration order does it survive?
+Which corrections preserve the exact invariant?
+Does each certified correction raise obstruction order?
+Does an explicit correction history exist?
+Does that history admit a level-compatible completion?
+Does the completed residual become flat?
+Is the filtration separated, so flatness descends to exact triviality?
+</code></pre></div>
+<p>This preserves the KuuOS anti-reification boundary: neither a local approximation, a finite correction theorem, an asymptotic tower, nor a model assertion promotes itself to exact global truth.</p>
+<h2 id="10-file-decomposition">10. File decomposition<a class="headerlink" href="#10-file-decomposition" title="Permanent link">&para;</a></h2>
+<p>Planned theorem files:</p>
+<div class="highlight"><pre><span></span><code>formal/KUOS/DependentOriginationFilteredObstructionCoreV2_70.lean
+formal/KUOS/DependentOriginationCorrectionGainV2_71.lean
+formal/KUOS/DependentOriginationFlatCompletionV2_72.lean
+formal/KUOS/DependentOriginationFilteredGeneratedHolonomyV2_73.lean
+formal/KUOS/DependentOriginationFilteredHolonomyCountermodelV2_73.lean
+</code></pre></div>
+<p>The generic v2.73 file imports v2.68 but not v2.69. The countermodel v2.73 file imports the v2.69 evaluation theorem and the generic v2.73 bridge.</p>
+<p><code>formal/KuuOSFormalV0_69.lean</code> is not renamed merely because these layers are added; umbrella/version changes remain a separate repository-governance decision.</p>
+<h2 id="11-validation-requirements">11. Validation requirements<a class="headerlink" href="#11-validation-requirements" title="Permanent link">&para;</a></h2>
+<p>Every theorem unit must satisfy the existing KuuOS proof discipline:</p>
+<ul>
+<li>pinned repository Lean/mathlib toolchain,</li>
+<li>no <code>sorry</code>, <code>admit</code>, or new axioms,</li>
+<li>additive/tighten-only changes,</li>
+<li>theorem names and imports explicit,</li>
+<li>exact-head CI validation before any promotion,</li>
+<li>v2.69 remains unchanged by v2.70–v2.73,</li>
+<li>negative v2.69 theorem remains a negative theorem; no reinterpretation as factorization failure.</li>
+</ul>
+<p>Expected axiom footprint for the new elementary generic layers should be no stronger than ordinary Mathlib logical dependencies already accepted by the repository. Any unexpected axiom dependency is a blocker.</p>
+<h2 id="12-deferred-extensions">12. Deferred extensions<a class="headerlink" href="#12-deferred-extensions" title="Permanent link">&para;</a></h2>
+<p>The following are intentionally outside v2.70–v2.73:</p>
+<ul>
+<li>filtered groups / pronilpotent groups,</li>
+<li>multiplicative compatibility <code>F^m * F^n ⊆ F^(m+n)</code>,</li>
+<li>metric or topological completeness,</li>
+<li>a theorem deriving an infinite correction tower from <code>HasCorrectionGain</code> without an explicit additional choice/construction principle,</li>
+<li>Borel realization,</li>
+<li>PDE residuals,</li>
+<li>concentration/compactness theorems,</li>
+<li>a theorem that general weak admissibility always admits a correcting tower,</li>
+<li>a theorem that filtered correction implies higher-localization factorization.</li>
+</ul>
+<p>These become meaningful only after the generic hard/soft obstruction distinction is theorem-backed.</p>
+<h2 id="13-success-criterion">13. Success criterion<a class="headerlink" href="#13-success-criterion" title="Permanent link">&para;</a></h2>
+<p>The mathematical unit is successful when Lean proves, without altering v2.69, the chain</p>
+<div class="highlight"><pre><span></span><code>positive one-step correction gain
+→ arbitrarily high finite residual order along finite certified chains
+→ flat residual from an explicit improving tower plus justified limit transfer
+→ exact triviality only under separatedness
+</code></pre></div>
+<p>and independently proves for the explicit v2.69 octahedral loop</p>
+<div class="highlight"><pre><span></span><code>nontrivial generated holonomy
++ filtration separated at identity
+→ not flat.
+</code></pre></div>
+<p>That is the first theorem-level KuuOS distinction between a defect that admits controlled asymptotic removal data and a genuinely persistent generated-holonomy obstruction.</p>
+
+
+
+
+
+
+
+
+
+
+
+
+                
+              </article>
+            </div>
+          
+          
+<script>var target=document.getElementById(location.hash.slice(1));target&&target.name&&(target.checked=target.name.startsWith("__tabbed_"))</script>
+        </div>
+        
+          <button type="button" class="md-top md-icon" data-md-component="top" hidden>
+  
+  <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24"><path d="M13 20h-2V8l-5.5 5.5-1.42-1.42L12 4.16l7.92 7.92-1.42 1.42L13 8z"/></svg>
+  Back to top
+</button>
+        
+      </main>
+      
+        <footer class="md-footer">
+  
+  <div class="md-footer-meta md-typeset">
+    <div class="md-footer-meta__inner md-grid">
+      <div class="md-copyright">
+  
+  
+    Made with
+    <a href="https://squidfunk.github.io/mkdocs-material/" target="_blank" rel="noopener">
+      Material for MkDocs
+    </a>
+  
+</div>
+      
+    </div>
+  </div>
+</footer>
+      
+    </div>
+    <div class="md-dialog" data-md-component="dialog">
+      <div class="md-dialog__inner md-typeset"></div>
+    </div>
+    
+    
+    
+      
+      
+      <script id="__config" type="application/json">{"annotate": null, "base": "../../..", "features": ["navigation.sections", "navigation.expand", "navigation.top", "toc.integrate"], "search": "../../../assets/javascripts/workers/search.2c215733.min.js", "tags": null, "translations": {"clipboard.copied": "Copied to clipboard", "clipboard.copy": "Copy to clipboard", "search.result.more.one": "1 more on this page", "search.result.more.other": "# more on this page", "search.result.none": "No matching documents", "search.result.one": "1 matching document", "search.result.other": "# matching documents", "search.result.placeholder": "Type to start searching", "search.result.term.missing": "Missing", "select.version": "Select version"}, "version": null}</script>
+    
+    
+      <script src="../../../assets/javascripts/bundle.d7400e89.min.js"></script>
+      
+    
+  </body>
+</html>
