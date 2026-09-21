@@ -3,6 +3,7 @@ import KUOS.DependentOriginationCylinderLocalityCountermodelV3_21
 namespace KUOS.DependentOriginationUnitorPartialRigidityV3_22
 
 open CategoryTheory
+open CategoryTheory.Bicategory
 open Set
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationPointwiseWAdjointEquivalenceV2_56
