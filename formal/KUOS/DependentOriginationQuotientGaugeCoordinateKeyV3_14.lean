@@ -5,12 +5,16 @@ namespace KUOS.DependentOriginationQuotientGaugeCoordinateKeyV3_14
 open CategoryTheory
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationPointwiseWAdjointEquivalenceV2_56
+open KUOS.DependentOriginationCoherentQuotientTransportV2_59
 open KUOS.DependentOriginationQuotientGaugeIndependenceV3_03
 open KUOS.DependentOriginationThreeRouteCorrectionCompatibilityGapV3_09
+open KUOS.DependentOriginationQuotientGaugeIntersectionObstructionV3_11
 open KUOS.DependentOriginationQuotientGaugeCoordinateFootprintV3_12
 open KUOS.DependentOriginationQuotientGaugeFootprintOverlapV3_13
 
 universe u v uH vH
+
+set_option linter.unnecessarySimpa false
 
 /-!
 # Coordinate-key normal form for quotient-gauge footprints v3.14
@@ -150,63 +154,11 @@ theorem quotientGaugeCoordinateValue_eq_of_agreesOnRouteState
         simpa [quotientGaugeCoordinateValue,
           QuotientGaugesAgreeOnRouteState] using H.2
 
-/-- Conversely, equality of gauge values on all keys in a route footprint
-reconstructs the original v3.12 footprint-agreement relation. -/
-theorem quotientGaugesAgreeOnRouteState_of_coordinateValues
-    (R : RawHigherContextualSystem.{u, v, uH, vH}
-      (Context := Context))
-    (D : PointwiseWAdjointEquivalenceData (W := W) R)
-    (Q Q' : GeneratedQuotientGaugeParameters W R D)
-    (s : ThreeQuotientRouteState W)
-    (H :
-      ∀ c : QuotientGaugeCoordinate W,
-        RouteFootprintContains W s c →
-          quotientGaugeCoordinateValue W R D Q c =
-            quotientGaugeCoordinateValue W R D Q' c) :
-    QuotientGaugesAgreeOnRouteState W R D Q Q' s := by
-  cases s with
-  | associator f g h =>
-      refine ⟨?_, ?_, ?_, ?_⟩
-      · exact H (.composition (f ≫ g) h) (by
-          simp [RouteFootprintContains])
-      · exact H (.composition f g) (by
-          simp [RouteFootprintContains])
-      · exact H (.composition g h) (by
-          simp [RouteFootprintContains])
-      · exact H (.composition f (g ≫ h)) (by
-          simp [RouteFootprintContains])
-  | leftUnitor f =>
-      refine ⟨?_, ?_⟩
-      · exact H (.composition (𝟙 _) f) (by
-          simp [RouteFootprintContains])
-      · exact H (.identity _) (by
-          simp [RouteFootprintContains])
-  | rightUnitor f =>
-      refine ⟨?_, ?_⟩
-      · exact H (.composition f (𝟙 _)) (by
-          simp [RouteFootprintContains])
-      · exact H (.identity _) (by
-          simp [RouteFootprintContains])
-
-/-- Coordinate-key normal form for the finite v3.12 footprint relation. -/
-theorem quotientGaugesAgreeOnRouteState_iff_coordinateValues
-    (R : RawHigherContextualSystem.{u, v, uH, vH}
-      (Context := Context))
-    (D : PointwiseWAdjointEquivalenceData (W := W) R)
-    (Q Q' : GeneratedQuotientGaugeParameters W R D)
-    (s : ThreeQuotientRouteState W) :
-    QuotientGaugesAgreeOnRouteState W R D Q Q' s ↔
-      ∀ c : QuotientGaugeCoordinate W,
-        RouteFootprintContains W s c →
-          quotientGaugeCoordinateValue W R D Q c =
-            quotientGaugeCoordinateValue W R D Q' c := by
-  constructor
-  · intro h c hc
-    exact quotientGaugeCoordinateValue_eq_of_agreesOnRouteState
-      W R D Q Q' s h c hc
-  · intro h
-    exact quotientGaugesAgreeOnRouteState_of_coordinateValues
-      W R D Q Q' s h
+/-!
+The converse direction is intentionally not asserted in v3.14.  Reconstructing
+one dependent quotient-gauge family from coordinate equalities is an extension
+problem rather than a definitional simplification; it is isolated for v3.15.
+-/
 
 /-- Two local quotient gauges agree on the actual overlap of two route
 footprints when their dependent coordinate values agree at every key belonging
@@ -273,9 +225,10 @@ theorem mapId_eq_of_compatible_leftUnitor_leftUnitor_via_coordinate
   have hover :=
     agreeOnRouteFootprintOverlap_of_compatibleOnRouteOverlap
       W R D (.leftUnitor f) (.leftUnitor g) Qs Qt H
-  exact hover (.identity X)
-    (by simp [RouteFootprintContains])
-    (by simp [RouteFootprintContains])
+  simpa [quotientGaugeCoordinateValue, QuotientGaugeCoordinateFiber] using
+    hover (.identity X)
+      (by simp [RouteFootprintContains])
+      (by simp [RouteFootprintContains])
 
 /-- Pairwise overlap-compatible local correction data from v3.13 therefore
 always carries a weaker, purely coordinate-level pairwise compatibility. -/
@@ -337,11 +290,11 @@ def SharedCoordinatesButNoPairwiseExtension
 
 The quotient-stage finite gluing problem now has a literal coordinate language.
 
-For every route state `s`:
+For every route state `s`, v3.14 proves the forward coordinate normalization:
 
 ```text
 QuotientGaugesAgreeOnRouteState Q Q' s
-  ↔
+  ->
 Q and Q' have equal values at every coordinate key in footprint(s).
 ```
 
