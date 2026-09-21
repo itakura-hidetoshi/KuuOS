@@ -142,70 +142,92 @@ theorem associator_unitor_triangle_doubleWhisker_mapId_eq
   have hL :=
     (quotientLeftUnitorDefect_eq_refl_iff W R D U g).1 hQu
 
-  -- Normalize the ordinary-category unit equalities inside the dependent
-  -- source and target types before doing bicategorical cancellation.
-  simp only [Category.comp_id, Category.id_comp] at hA hR hL
-
   have hAdjustedRHom := congrArg Iso.hom hAdjustedR
   have hAdjustedLHom := congrArg Iso.hom hAdjustedL
 
-  have hMiddle :
-      (S.mapComp f (𝟙 Y)).hom ▷ G ≫
+  let eA :
+      quotientRepresentativeMap W R D ((f ≫ 𝟙 Y) ≫ g) ⟶
+        quotientRepresentativeMap W R D (f ≫ (𝟙 Y ≫ g)) :=
+    eqToHom (by simp)
+  let eR :
+      quotientRepresentativeMap W R D (f ≫ 𝟙 Y) ⟶ F :=
+    eqToHom (by simp [F])
+  let eL :
+      quotientRepresentativeMap W R D (𝟙 Y ≫ g) ⟶ G :=
+    eqToHom (by simp [G])
+
+  change
+    (S.mapComp (f ≫ 𝟙 Y) g).hom ≫
+          (S.mapComp f (𝟙 Y)).hom ▷ G ≫
           (α_ F P G).hom ≫
-          F ◁ (S.mapComp (𝟙 Y) g).inv =
-        𝟙 (F ≫ G) := by
-    apply (cancel_epi (S.mapComp f g).hom).1
-    apply (cancel_mono (S.mapComp f g).inv).1
-    simpa [F, P, G, S, Category.assoc] using hA
+          F ◁ (S.mapComp (𝟙 Y) g).inv ≫
+          (S.mapComp f (𝟙 Y ≫ g)).inv =
+        eA at hA
+  change
+    (T.mapComp f (𝟙 Y)).hom ≫
+          F ◁ (T.mapId Y).hom ≫
+          (ρ_ F).hom =
+        eR at hR
+  change
+    (U.mapComp (𝟙 Y) g).hom ≫
+          (U.mapId Y).hom ▷ G ≫
+          (λ_ G).hom =
+        eL at hL
+
+  /-- The two outer composition witnesses in the unit-degenerate associator
+  are the same dependent mapComp coordinate after transporting along
+  f≫𝟙=f and 𝟙≫g=g.  The resulting eqToHom square is pure transport
+  bookkeeping; no coherence hypothesis on S is used here. -/
+  have hOuterTransport :
+      (S.mapComp (f ≫ 𝟙 Y) g).inv ≫
+          eA ≫
+          (S.mapComp f (𝟙 Y ≫ g)).hom ≫
+          F ◁ eL =
+        eR ▷ G := by
+    dsimp [eA, eR, eL, F, G]
+    simp
 
   have hAssocBridge :
       (S.mapComp f (𝟙 Y)).hom ▷ G ≫ (α_ F P G).hom =
-        F ◁ (S.mapComp (𝟙 Y) g).hom := by
-    apply (cancel_mono (F ◁ (S.mapComp (𝟙 Y) g).inv)).1
-    simpa [Category.assoc] using hMiddle
-
-  have hR' :
-      (S.mapComp f (𝟙 Y)).hom ≫
-          F ◁ (T.mapId Y).hom ≫
-          (ρ_ F).hom =
-        𝟙 F := by
-    simpa [F, Category.assoc, hAdjustedRHom] using hR
-
-  have hL' :
-      (S.mapComp (𝟙 Y) g).hom ≫
-          (U.mapId Y).hom ▷ G ≫
-          (λ_ G).hom =
-        𝟙 G := by
-    simpa [G, Category.assoc, hAdjustedLHom] using hL
+        (S.mapComp (f ≫ 𝟙 Y) g).inv ≫
+          eA ≫
+          (S.mapComp f (𝟙 Y ≫ g)).hom ≫
+          F ◁ (S.mapComp (𝟙 Y) g).hom := by
+    calc
+      (S.mapComp f (𝟙 Y)).hom ▷ G ≫ (α_ F P G).hom =
+          (S.mapComp (f ≫ 𝟙 Y) g).inv ≫
+            ((S.mapComp (f ≫ 𝟙 Y) g).hom ≫
+              (S.mapComp f (𝟙 Y)).hom ▷ G ≫
+              (α_ F P G).hom ≫
+              F ◁ (S.mapComp (𝟙 Y) g).inv ≫
+              (S.mapComp f (𝟙 Y ≫ g)).inv) ≫
+            (S.mapComp f (𝟙 Y ≫ g)).hom ≫
+            F ◁ (S.mapComp (𝟙 Y) g).hom := by
+              simp
+      _ =
+          (S.mapComp (f ≫ 𝟙 Y) g).inv ≫
+            eA ≫
+            (S.mapComp f (𝟙 Y ≫ g)).hom ≫
+            F ◁ (S.mapComp (𝟙 Y) g).hom := by
+              rw [hA]
 
   have hRwhisk :
       ((S.mapComp f (𝟙 Y)).hom ▷ G) ≫
           ((F ◁ (T.mapId Y).hom) ▷ G) ≫
           ((ρ_ F).hom ▷ G) =
-        𝟙 (F ≫ G) := by
-    have h := congrArg (fun η => η ▷ G) hR'
+        eR ▷ G := by
+    have h := congrArg (fun η => η ▷ G) hR
+    rw [← hAdjustedRHom]
     simpa [comp_whiskerRight, Category.assoc] using h
 
   have hLwhisk :
       F ◁ (S.mapComp (𝟙 Y) g).hom ≫
           F ◁ ((U.mapId Y).hom ▷ G) ≫
           F ◁ (λ_ G).hom =
-        𝟙 (F ≫ G) := by
-    have h := congrArg (fun η => F ◁ η) hL'
+        F ◁ eL := by
+    have h := congrArg (fun η => F ◁ η) hL
+    rw [← hAdjustedLHom]
     simpa [whiskerLeft_comp, Category.assoc] using h
-
-  have hTri :
-      (ρ_ F).hom ▷ G =
-        (α_ F (𝟙 _) G).hom ≫ F ◁ (λ_ G).hom :=
-    (triangle F G).symm
-
-  have hNat :
-      ((F ◁ (T.mapId Y).hom) ▷ G) ≫
-          (α_ F (𝟙 _) G).hom =
-        (α_ F P G).hom ≫
-          F ◁ ((T.mapId Y).hom ▷ G) := by
-    simpa [P] using
-      associator_naturality_middle F (T.mapId Y).hom G
 
   have hStructural :
       ((F ◁ (T.mapId Y).hom) ▷ G) ≫ ((ρ_ F).hom ▷ G) =
@@ -215,65 +237,85 @@ theorem associator_unitor_triangle_doubleWhisker_mapId_eq
     calc
       ((F ◁ (T.mapId Y).hom) ▷ G) ≫ ((ρ_ F).hom ▷ G) =
           ((F ◁ (T.mapId Y).hom) ▷ G) ≫
-            ((α_ F (𝟙 _) G).hom ≫ F ◁ (λ_ G).hom) := by
-              rw [hTri]
-      _ =
-          (((F ◁ (T.mapId Y).hom) ▷ G) ≫
-            (α_ F (𝟙 _) G).hom) ≫
+            (α_ F (𝟙 _) G).hom ≫
             F ◁ (λ_ G).hom := by
-              simp only [Category.assoc]
-      _ =
-          ((α_ F P G).hom ≫
-            F ◁ ((T.mapId Y).hom ▷ G)) ≫
-            F ◁ (λ_ G).hom := by
-              rw [hNat]
+              rw [triangle_assoc_comp_left]
       _ =
           (α_ F P G).hom ≫
             F ◁ ((T.mapId Y).hom ▷ G) ≫
             F ◁ (λ_ G).hom := by
-              simp only [Category.assoc]
+              rw [associator_naturality_middle]
 
-  have hRnormalized :
-      F ◁ (S.mapComp (𝟙 Y) g).hom ≫
+  have hRightNormalized :
+      (S.mapComp f (𝟙 Y)).hom ▷ G ≫
+          (α_ F P G).hom ≫
           F ◁ ((T.mapId Y).hom ▷ G) ≫
           F ◁ (λ_ G).hom =
-        𝟙 (F ≫ G) := by
+        eR ▷ G := by
     calc
-      F ◁ (S.mapComp (𝟙 Y) g).hom ≫
+      (S.mapComp f (𝟙 Y)).hom ▷ G ≫
+          (α_ F P G).hom ≫
           F ◁ ((T.mapId Y).hom ▷ G) ≫
           F ◁ (λ_ G).hom =
-          ((S.mapComp f (𝟙 Y)).hom ▷ G) ≫
-            (α_ F P G).hom ≫
-            F ◁ ((T.mapId Y).hom ▷ G) ≫
-            F ◁ (λ_ G).hom := by
-              have h :=
-                congrArg
-                  (fun k =>
-                    k ≫ F ◁ ((T.mapId Y).hom ▷ G) ≫
-                      F ◁ (λ_ G).hom)
-                  hAssocBridge.symm
-              simpa only [Category.assoc] using h
-      _ =
-          ((S.mapComp f (𝟙 Y)).hom ▷ G) ≫
+          (S.mapComp f (𝟙 Y)).hom ▷ G ≫
             ((F ◁ (T.mapId Y).hom) ▷ G) ≫
             ((ρ_ F).hom ▷ G) := by
-              have h :=
-                congrArg
-                  (fun k => ((S.mapComp f (𝟙 Y)).hom ▷ G) ≫ k)
-                  hStructural.symm
-              simpa only [Category.assoc] using h
-      _ = 𝟙 (F ≫ G) := hRwhisk
+              rw [hStructural]
+      _ = eR ▷ G := hRwhisk
 
-  have hBoth :
-      F ◁ (S.mapComp (𝟙 Y) g).hom ≫
+  have hRightViaAssociator :
+      (S.mapComp (f ≫ 𝟙 Y) g).inv ≫
+          eA ≫
+          (S.mapComp f (𝟙 Y ≫ g)).hom ≫
+          F ◁ (S.mapComp (𝟙 Y) g).hom ≫
           F ◁ ((T.mapId Y).hom ▷ G) ≫
           F ◁ (λ_ G).hom =
-        F ◁ (S.mapComp (𝟙 Y) g).hom ≫
-          F ◁ ((U.mapId Y).hom ▷ G) ≫
-          F ◁ (λ_ G).hom :=
-    hRnormalized.trans hLwhisk.symm
+        eR ▷ G := by
+    calc
+      (S.mapComp (f ≫ 𝟙 Y) g).inv ≫
+          eA ≫
+          (S.mapComp f (𝟙 Y ≫ g)).hom ≫
+          F ◁ (S.mapComp (𝟙 Y) g).hom ≫
+          F ◁ ((T.mapId Y).hom ▷ G) ≫
+          F ◁ (λ_ G).hom =
+          ((S.mapComp f (𝟙 Y)).hom ▷ G ≫
+            (α_ F P G).hom) ≫
+            F ◁ ((T.mapId Y).hom ▷ G) ≫
+            F ◁ (λ_ G).hom := by
+              rw [hAssocBridge]
+      _ = eR ▷ G := by
+            simpa only [Category.assoc] using hRightNormalized
 
-  apply (cancel_epi (F ◁ (S.mapComp (𝟙 Y) g).hom)).1
+  have hLeftViaTransport :
+      (S.mapComp (f ≫ 𝟙 Y) g).inv ≫
+          eA ≫
+          (S.mapComp f (𝟙 Y ≫ g)).hom ≫
+          F ◁ (S.mapComp (𝟙 Y) g).hom ≫
+          F ◁ ((U.mapId Y).hom ▷ G) ≫
+          F ◁ (λ_ G).hom =
+        eR ▷ G := by
+    calc
+      (S.mapComp (f ≫ 𝟙 Y) g).inv ≫
+          eA ≫
+          (S.mapComp f (𝟙 Y ≫ g)).hom ≫
+          F ◁ (S.mapComp (𝟙 Y) g).hom ≫
+          F ◁ ((U.mapId Y).hom ▷ G) ≫
+          F ◁ (λ_ G).hom =
+          (S.mapComp (f ≫ 𝟙 Y) g).inv ≫
+            eA ≫
+            (S.mapComp f (𝟙 Y ≫ g)).hom ≫
+            (F ◁ eL) := by
+              rw [hLwhisk]
+      _ = eR ▷ G := hOuterTransport
+
+  have hBoth := hRightViaAssociator.trans hLeftViaTransport.symm
+
+  apply
+    (cancel_epi
+      ((S.mapComp (f ≫ 𝟙 Y) g).inv ≫
+        eA ≫
+        (S.mapComp f (𝟙 Y ≫ g)).hom ≫
+        F ◁ (S.mapComp (𝟙 Y) g).hom)).1
   apply (cancel_mono (F ◁ (λ_ G).hom)).1
   simpa only [Category.assoc] using hBoth
 
