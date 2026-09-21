@@ -302,7 +302,7 @@ The next theorem-sized tasks are now sharply separated:
    `RawHigherContextualSystem`, proving that the quotient-stage obstruction
    can genuinely survive pairwise consistency.
 
-No claim between those two outcomes is made in v3.17.
+No claim between those two outcomes is made in v3.17. This note deliberately avoids comment-delimiter-like arrow spellings.
 -/
 
 end KUOS.DependentOriginationPairwiseCorrelationCountermodelV3_17
