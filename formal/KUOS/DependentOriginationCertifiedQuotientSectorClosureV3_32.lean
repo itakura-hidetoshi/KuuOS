@@ -206,33 +206,42 @@ theorem hasOrdinaryFaithfulRepresentative_comp
     ((fun ⦃X Y : W.Localization⦄ (f : X ⟶ Y) =>
       HasOrdinaryFaithfulRepresentative W R f) : MorphismProperty W.Localization) f g hf hg
 
+/-!
+`W.Localization` is a definition alias of the generic quotient with a derived
+category instance. The following two calls pass the given multiplicativity
+proof explicitly, rather than asking instance search to rediscover it across
+that definitional carrier boundary. The assumption itself is unchanged.
+-/
+
 /-- Generator-level characterization of containment for the EssSurj sector.
 Formal W-inverse letters are included without an extra hypothesis because the
 ordinary-letter condition on them is `True`. -/
 theorem hasOrdinaryEssSurjRepresentative_le_iff
-    (S : MorphismProperty W.Localization) [S.IsMultiplicative] :
+    (S : MorphismProperty W.Localization) [hS : S.IsMultiplicative] :
     ((fun ⦃X Y : W.Localization⦄ (f : X ⟶ Y) =>
       HasOrdinaryEssSurjRepresentative W R f) : MorphismProperty W.Localization) ≤ S ↔
       ∀ {X Y : Localization.Construction.LocQuiver W} (e : X ⟶ Y),
         OrdinaryLocalizationGeneratorEssSurj W R e →
           S ((Quotient.functor
             (Localization.Construction.relations W)).map e.toPath) :=
-  certifiedQuotientSector_le_iff
+  @certifiedQuotientSector_le_iff
+    (Localization.Construction.LocQuiver W) inferInstance
     (Localization.Construction.relations W)
-    (OrdinaryLocalizationGeneratorEssSurj W R) S
+    (OrdinaryLocalizationGeneratorEssSurj W R) S hS
 
 /-- The corresponding generator characterization for the Faithful sector. -/
 theorem hasOrdinaryFaithfulRepresentative_le_iff
-    (S : MorphismProperty W.Localization) [S.IsMultiplicative] :
+    (S : MorphismProperty W.Localization) [hS : S.IsMultiplicative] :
     ((fun ⦃X Y : W.Localization⦄ (f : X ⟶ Y) =>
       HasOrdinaryFaithfulRepresentative W R f) : MorphismProperty W.Localization) ≤ S ↔
       ∀ {X Y : Localization.Construction.LocQuiver W} (e : X ⟶ Y),
         OrdinaryLocalizationGeneratorFaithful W R e →
           S ((Quotient.functor
             (Localization.Construction.relations W)).map e.toPath) :=
-  certifiedQuotientSector_le_iff
+  @certifiedQuotientSector_le_iff
+    (Localization.Construction.LocQuiver W) inferInstance
     (Localization.Construction.relations W)
-    (OrdinaryLocalizationGeneratorFaithful W R) S
+    (OrdinaryLocalizationGeneratorFaithful W R) S hS
 
 /-- Composable certified pieces give separation for the composed outer arrows.
 The v3.31 mixed-triangle theorem can therefore be applied to these composites
