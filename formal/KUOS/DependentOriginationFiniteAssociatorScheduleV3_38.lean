@@ -57,7 +57,7 @@ def associatorTaskRoute (a : AssociatorTask W) : ThreeQuotientRouteState W :=
   .associator a.f a.g a.h
 
 /-- The single coordinate changed by the v3.37 constructor. -/
-def associatorTaskLeadingCoordinate (a : AssociatorTask W) : QuotientGaugeCoordinate W :=
+noncomputable def associatorTaskLeadingCoordinate (a : AssociatorTask W) : QuotientGaugeCoordinate W :=
   .composition (a.f ≫ a.g) a.h
 
 /-- A later leading update may not change an already processed footprint.
@@ -75,7 +75,7 @@ variable (D : PointwiseWAdjointEquivalenceData (W := W) R)
 
 /-- Extend a unitor family only to use the v3.36 boundary interface.
 The arbitrary associator entries assert no associator correction. -/
-def extendUnitorFamily
+noncomputable def extendUnitorFamily
     (U : (X : W.Localization) →
       UnitorRouteAt W X → GeneratedQuotientGaugeParameters W R D) :
     ThreeQuotientRouteState W → GeneratedQuotientGaugeParameters W R D
