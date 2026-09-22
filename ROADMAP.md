@@ -1,50 +1,31 @@
 # KuuOS / 空OS Roadmap
 
-**2026-09-22 JST · canonical through v3.32 · v3.33 validated at PR #1710, not yet merged**
+**2026-09-22 JST · canonical through v3.33 · PR #1710 merged**
 
-This roadmap records established results, their explicit hypotheses, countermodel scope, integration status, and theorem-sized exit criteria. A version number, a successful CI run, and a canonical merge describe different facts.
+This roadmap records established results, explicit hypotheses, countermodel scope, integration status, and theorem-sized exit criteria. A version number, a successful CI run, and a canonical merge describe different facts.
 
-## 1. Authority and reproducible baselines
-
-### Integrated theorem line
+## 1. Authority and reproducible baseline
 
 ```text
 canonical branch:                 main
-latest theorem-bearing merge:     PR #1709, v3.32
-mathematical baseline:            c59c7aa4e6435a2172344dfaf2843937a86a89d8
-validated PR head:                47da65d74fcd062b10f8bcbea8954e0e800a3cfc
-exact-head gate:                  #2530 / run 35687280701
-workflow conclusion:              completed / success
-Strict Lean receipt:              success
-exact-head terminal receipt:      success
-```
-
-References: [merged PR #1709](https://github.com/itakura-hidetoshi/KuuOS/pull/1709), [mathematical baseline](https://github.com/itakura-hidetoshi/KuuOS/commit/c59c7aa4e6435a2172344dfaf2843937a86a89d8), [v3.32 CI](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35687280701), and [v3.32 source on main](formal/KUOS/DependentOriginationCertifiedQuotientSectorClosureV3_32.lean).
-
-### Validated, unmerged theorem line
-
-```text
-PR:                              #1710, v3.33
-state at observation:            Draft / open / merged=false
-branch:                          formal/dependent-origination-quotient-split-directional-separation-v333
-validated exact head:            ba17572f2058819cd084d14dd31ac8678b446a3d
-base:                            c59c7aa4e6435a2172344dfaf2843937a86a89d8
+latest theorem-bearing merge:     PR #1710, v3.33
+mathematical baseline:            d5747268c38fef1b24ad7e9b5fa5fb3bf7c11455
+PR state:                        closed / merged=true
+validated exact PR head:         ba17572f2058819cd084d14dd31ac8678b446a3d
+pre-merge base:                  c59c7aa4e6435a2172344dfaf2843937a86a89d8
 exact-head gate:                  #2532 / run 35690347773
 workflow conclusion:              completed / success
 Strict Lean receipt:              success
 exact-head terminal receipt:      success
-```
-
-References: [PR #1710](https://github.com/itakura-hidetoshi/KuuOS/pull/1710), [validated v3.33 source](https://github.com/itakura-hidetoshi/KuuOS/blob/ba17572f2058819cd084d14dd31ac8678b446a3d/formal/KUOS/DependentOriginationQuotientSplitDirectionalSeparationV3_33.lean), and [v3.33 CI](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35690347773).
-
-Both lines use:
-
-```text
 Lean:                            leanprover/lean4:v4.30.0-rc2
 Mathlib:                         5450b53e5ddc75d46418fabb605edbf36bd0beb6
 ```
 
-`main` equaled the mathematical baseline before this documentation refresh. Documentation-only commits can move that pointer without advancing the theorem frontier. This refresh does not merge #1710 or add its source to main. Re-observe both branch pointers and PR state before continuing; neither these dated tables nor an older CI run supersedes GitHub's current state.
+References: [merged PR #1710](https://github.com/itakura-hidetoshi/KuuOS/pull/1710), [mathematical baseline](https://github.com/itakura-hidetoshi/KuuOS/commit/d5747268c38fef1b24ad7e9b5fa5fb3bf7c11455), [v3.33 source on main](formal/KUOS/DependentOriginationQuotientSplitDirectionalSeparationV3_33.lean), [validated exact-head source](https://github.com/itakura-hidetoshi/KuuOS/blob/ba17572f2058819cd084d14dd31ac8678b446a3d/formal/KUOS/DependentOriginationQuotientSplitDirectionalSeparationV3_33.lean), and [v3.33 CI](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35690347773).
+
+The preceding integrated v3.32 baseline is `c59c7aa4e6435a2172344dfaf2843937a86a89d8`, [PR #1709](https://github.com/itakura-hidetoshi/KuuOS/pull/1709). Its validated head `47da65d74fcd062b10f8bcbea8954e0e800a3cfc` has successful Strict Lean and terminal receipts from [run 35687280701 / #2530](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35687280701).
+
+`main` was re-observed at the v3.33 mathematical baseline before finalizing this refresh. #1710 merged while the documentation work was in progress; its earlier Draft/validated-only description is superseded. Documentation-only commits can subsequently move the branch pointer without advancing the theorem frontier. Re-observe exact branch pointers and PR state at reentry rather than treating this dated table or an older PR-body statement as current authority.
 
 ```text
 fresh exact canonical SHA
@@ -81,7 +62,7 @@ coherent universal data (Stage II)
 final DO carrier and representation theorem.
 ```
 
-The canonical spine is integrated through v3.32. The additional v3.33 split criterion is validated but unmerged. Neither result completes general Stage-I existence, Stage-II universality, or the final representation theorem.
+The canonical spine is integrated through v3.33. Its split criterion does not complete general Stage-I existence, Stage-II universality, or the final representation theorem.
 
 ## 3. Retained canonical spine through v3.14
 
@@ -258,13 +239,13 @@ Specialization gives both directional certificate sectors their identity/composi
 
 The quotient relation is arbitrary. No relation-invariance of the letterwise certificate is used. Minimality means least among multiplicative properties containing the specified generator images, not equivalence with semantic EssSurj/Faithful. Arbitrary-factor and inverse closure are not established.
 
-## 6. Validated v3.33 and the remaining immediate units
+## 6. Latest integrated v3.33 and the remaining immediate units
 
-### A1.23 / N3 progress — Semantic sectors and split separation: validated, unmerged
+### A1.23 / N3 progress — Semantic sectors and split separation: integrated v3.33
 
-[Exact source](https://github.com/itakura-hidetoshi/KuuOS/blob/ba17572f2058819cd084d14dd31ac8678b446a3d/formal/KUOS/DependentOriginationQuotientSplitDirectionalSeparationV3_33.lean) · [PR #1710](https://github.com/itakura-hidetoshi/KuuOS/pull/1710)
+[Source on main](formal/KUOS/DependentOriginationQuotientSplitDirectionalSeparationV3_33.lean) · [merged PR #1710](https://github.com/itakura-hidetoshi/KuuOS/pull/1710)
 
-The v3.33 module reuses v2.61's local identity/composition isomorphism-existence results to prove semantic identity and composition laws. The resulting `quotientEssSurjSector` and `quotientFaithfulSector` are multiplicative and contain the corresponding certified sectors. Neither equality nor strict containment of these sectors is claimed.
+The module reuses v2.61's local identity/composition isomorphism-existence results to prove semantic identity and composition laws. The resulting `quotientEssSurjSector` and `quotientFaithfulSector` are multiplicative and contain the corresponding certified sectors. Neither equality nor strict containment of these sectors is claimed.
 
 It also proves directional reflection and its split consequence:
 
@@ -281,11 +262,7 @@ both split equations
 
 The actual mixed-triangle theorem follows with all three correcting gauges and both anchor agreements still explicit. These are semantic, quotient-level sufficient conditions, not reflection of properties to every factor or letter, and not strict pseudofunctoriality.
 
-Focused CI and both exact-head receipts succeeded for the listed head. The proof unit is checked; its integration is pending. It must not be described as either absent/unimplemented or already canonical.
-
-### N0 — Integrate the validated v3.33 unit
-
-Re-observe #1710's state, exact head, base, changed files, and completed receipts. If the head or base changed, use the current validation rather than the dated receipt above. Merge using the expected head, then re-observe main and record the theorem-bearing merge. Documentation-only merges do not complete this milestone.
+Focused CI and both exact-head receipts succeeded for `ba17572f2058819cd084d14dd31ac8678b446a3d`. Integration is also complete at `d5747268c38fef1b24ad7e9b5fa5fb3bf7c11455`. Do not reclassify this unit as unimplemented, RED, or waiting for merge.
 
 ### N1a — Syntactic certificate behavior remains a separate question
 
@@ -379,15 +356,7 @@ Formal results guide these designs; they do not establish production safety or a
 
 ### Focused targets and their scope
 
-On the canonical v3.32 tree:
-
-```bash
-lake -KleanArgs=-DwarningAsError=true \
-  -KleanArgs=-DsorryAsError=true \
-  build KUOS.DependentOriginationCertifiedQuotientSectorClosureV3_32
-```
-
-In a checkout of the validated #1710 head `ba17572f2058819cd084d14dd31ac8678b446a3d`:
+The latest canonical focused target is:
 
 ```bash
 lake -KleanArgs=-DwarningAsError=true \
@@ -395,11 +364,19 @@ lake -KleanArgs=-DwarningAsError=true \
   build KUOS.DependentOriginationQuotientSplitDirectionalSeparationV3_33
 ```
 
+The preceding certificate-sector unit can be reproduced separately:
+
+```bash
+lake -KleanArgs=-DwarningAsError=true \
+  -KleanArgs=-DsorryAsError=true \
+  build KUOS.DependentOriginationCertifiedQuotientSectorClosureV3_32
+```
+
 The aggregate `KuuOSFormal` target is separate. The recorded focused receipts, including their dependencies, are not a fresh aggregate-validation claim. Historical imported-module linter warnings remain. Runtime validation is also separate: `PYTHONPATH=. python3 runtime/kuuos_current_check.py`.
 
 The v3.32 and v3.33 CI runs used synthetic merge checkouts `bd777d163db93a94712dc4f96a97407a389f850d` and `e345655b329d34f8aab88778a75e582ea33747e7`. They published receipts on their respective PR heads; neither synthetic SHA is a final merge commit. Keep head, base, run, checkout, and final merge distinct.
 
-At reentry, read PR state before waiting on CI. If merged, do not return to an old run. If its head changes, update the tracked SHA/run/job. Use completed logs for failures and the current-head receipts for success. Re-observe main after any merge. No continuing post-chat monitoring is implied.
+At reentry, read PR state before waiting on CI. If merged, do not return to an old run or a stale PR-body description. If its head changes, update the tracked SHA/run/job. Use completed logs for failures and the current-head receipts for success. Re-observe main after any merge. No continuing post-chat monitoring is implied.
 
 ### Lessons retained from v3.26–v3.33
 
