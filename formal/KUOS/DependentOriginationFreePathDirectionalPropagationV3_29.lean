@@ -139,7 +139,7 @@ theorem formalInverse_generatorEvaluatesEssSurj
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : Context} (w : X ⟶ Y) (hw : W w) :
     GeneratorEvaluatesEssSurj W R D
-      (Localization.Construction.LocQuiver.inv ⟨w, hw⟩) := by
+      (Sum.inr ⟨w, hw⟩) := by
   change
     (PointwiseWAdjointEquivalenceData.inverse W D w hw).toFunctor.EssSurj
   change (D.chosen w hw).inverse.EssSurj
@@ -152,7 +152,7 @@ theorem formalInverse_generatorEvaluatesFaithful
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : Context} (w : X ⟶ Y) (hw : W w) :
     GeneratorEvaluatesFaithful W R D
-      (Localization.Construction.LocQuiver.inv ⟨w, hw⟩) := by
+      (Sum.inr ⟨w, hw⟩) := by
   change
     (PointwiseWAdjointEquivalenceData.inverse W D w hw).toFunctor.Faithful
   change (D.chosen w hw).inverse.Faithful
@@ -166,7 +166,7 @@ theorem ordinary_generatorEvaluatesEssSurj_iff
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : Context} (f : X ⟶ Y) :
     GeneratorEvaluatesEssSurj W R D
-        (Localization.Construction.LocQuiver.hom f) ↔
+        (Sum.inl f) ↔
       (R.map f.toLoc).toFunctor.EssSurj := by
   rfl
 
@@ -178,7 +178,7 @@ theorem ordinary_generatorEvaluatesFaithful_iff
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
     {X Y : Context} (f : X ⟶ Y) :
     GeneratorEvaluatesFaithful W R D
-        (Localization.Construction.LocQuiver.hom f) ↔
+        (Sum.inl f) ↔
       (R.map f.toLoc).toFunctor.Faithful := by
   rfl
 
