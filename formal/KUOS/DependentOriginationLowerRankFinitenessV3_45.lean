@@ -159,7 +159,7 @@ In particular, finite lower-rank covers alone do not provide:
 * existence of the dependency rank itself.
 
 The next constructive question is whether countability plus an explicit rank
-whose lower sublevels admit suitable finite covers is enough to build the
+whose lower sublevels have suitable finite covers is enough to build the
 v3.44 ranked enumeration, with finite and genuinely infinite cases separated
 as in v3.42-v3.43.
 
