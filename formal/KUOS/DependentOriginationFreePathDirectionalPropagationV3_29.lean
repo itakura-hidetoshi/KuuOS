@@ -94,15 +94,14 @@ theorem freePathEvaluator_map_essSurj_of_generators
   · intro U V T q e hq
     rw [(freePathEvaluator W R D).map_comp]
     rw [freePathEvaluator_map_generator W R D e]
-    letI :
-        ((freePathEvaluator W R D).map q).toFunctor.EssSurj := hq
-    letI :
-        ((localizedGeneratorPrefunctor W R D).map e).toFunctor.EssSurj :=
-      hgen e
     change
       (((freePathEvaluator W R D).map q).toFunctor ⋙
         ((localizedGeneratorPrefunctor W R D).map e).toFunctor).EssSurj
-    infer_instance
+    exact
+      @Functor.essSurj_comp _ _ _ _ _ _
+        ((freePathEvaluator W R D).map q).toFunctor
+        ((localizedGeneratorPrefunctor W R D).map e).toFunctor
+        hq (hgen e)
 
 /-- If every generator evaluation is faithful, then every finite free
 localization path evaluates to a faithful functor. -/
@@ -127,15 +126,14 @@ theorem freePathEvaluator_map_faithful_of_generators
   · intro U V T q e hq
     rw [(freePathEvaluator W R D).map_comp]
     rw [freePathEvaluator_map_generator W R D e]
-    letI :
-        ((freePathEvaluator W R D).map q).toFunctor.Faithful := hq
-    letI :
-        ((localizedGeneratorPrefunctor W R D).map e).toFunctor.Faithful :=
-      hgen e
     change
       (((freePathEvaluator W R D).map q).toFunctor ⋙
         ((localizedGeneratorPrefunctor W R D).map e).toFunctor).Faithful
-    infer_instance
+    exact
+      @Functor.Faithful.comp _ _ _ _ _ _
+        ((freePathEvaluator W R D).map q).toFunctor
+        ((localizedGeneratorPrefunctor W R D).map e).toFunctor
+        hq (hgen e)
 
 /-- Every formal inverse generator evaluates to an equivalence, hence in
 particular is essentially surjective. -/
