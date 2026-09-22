@@ -15,6 +15,7 @@ open KUOS.DependentOriginationThreeRouteCorrectionCompatibilityGapV3_09
 open KUOS.DependentOriginationQuotientGaugeIntersectionObstructionV3_11
 open KUOS.DependentOriginationQuotientGaugeCoordinateKeyV3_14
 open KUOS.DependentOriginationUnitorWitnessCorrelationV3_35
+open KUOS.DependentOriginationFiniteAssociatorScheduleV3_38
 open KUOS.DependentOriginationCollisionSectorPreservationV3_40
 open KUOS.DependentOriginationAssociatorIncidenceDecompositionV3_41
 open KUOS.DependentOriginationFreshBoundaryCompatibilityV3_47
@@ -158,8 +159,7 @@ theorem leftIdentityAssociator_corrected_of_leftUnitors
           (α_ (𝟙 _) G H).hom =
         (α_ P G H).hom ≫
           ((S.mapId X).hom ▷ (G ≫ H)) := by
-    simpa [P] using
-      associator_naturality_left (S.mapId X).hom G H
+    exact associator_naturality_left (S.mapId X).hom G H
 
   have hLeftWhisker :
       (λ_ G).hom ▷ H =
