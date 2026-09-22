@@ -99,8 +99,8 @@ theorem mem_rankedFreshInteriorSchedule
 theorem rankedFreshInteriorSchedule_nodup
     (P : FiniteRankedFreshInteriorPresentation W) :
     (rankedFreshInteriorSchedule W P).Nodup := by
-  have hPerm :
-      rankedFreshInteriorSchedule W P ~ P.candidates := by
+  have hPerm : List.Perm
+      (rankedFreshInteriorSchedule W P) P.candidates := by
     exact List.perm_insertionSort
       (fun a b : AssociatorTask W => P.rank a ≤ P.rank b) P.candidates
   exact (hPerm.nodup_iff).2 P.nodup
