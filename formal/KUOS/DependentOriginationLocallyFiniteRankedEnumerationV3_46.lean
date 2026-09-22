@@ -98,7 +98,7 @@ theorem locallyFiniteRankedSector_hasFiniteLowerRankFreshInteriorCovers
     exact hlt.le
   have hbFin :
       (⟨b, hb⟩ : FreshInteriorTaskType W) ∈ hFinite.toFinset := by
-    exact Set.Finite.mem_toFinset.mpr hbLower
+    exact (Set.Finite.mem_toFinset hFinite).2 hbLower
   exact List.mem_map.mpr ⟨⟨b, hb⟩, by simpa using hbFin, rfl⟩
 
 /-- An infinite fresh/interior sector always contains a task outside any
@@ -123,7 +123,8 @@ theorem exists_freshInteriorTask_not_mem
       (by
         intro x y hxy
         exact congrArg Subtype.val hxy)
-  exact (not_finite (FreshInteriorTaskType W)) hFinite
+  letI : Finite (FreshInteriorTaskType W) := hFinite
+  exact not_finite (FreshInteriorTaskType W)
 
 /-- Some natural rank is realized by a task outside the selected prefix. -/
 theorem exists_remaining_freshInterior_rank
@@ -137,15 +138,17 @@ theorem exists_remaining_freshInterior_rank
 /-- Least rank represented outside one finite selected prefix. -/
 noncomputable def leastRemainingFreshInteriorRank
     (P : LocallyFiniteRankedFreshInteriorSector W)
-    (selected : List (FreshInteriorTaskType W)) : ℕ :=
-  Nat.find (exists_remaining_freshInterior_rank W P selected)
+    (selected : List (FreshInteriorTaskType W)) : ℕ := by
+  classical
+  exact Nat.find (exists_remaining_freshInterior_rank W P selected)
 
 /-- Choose one task of the least rank not yet present in the selected prefix. -/
 noncomputable def nextGreedyFreshInteriorTask
     (P : LocallyFiniteRankedFreshInteriorSector W)
     (selected : List (FreshInteriorTaskType W)) :
-    FreshInteriorTaskType W :=
-  Classical.choose
+    FreshInteriorTaskType W := by
+  classical
+  exact Classical.choose
     (Nat.find_spec (exists_remaining_freshInterior_rank W P selected))
 
 /-- The greedy choice is new and realizes the least remaining rank. -/
@@ -155,6 +158,7 @@ theorem nextGreedyFreshInteriorTask_spec
     nextGreedyFreshInteriorTask W P selected ∉ selected ∧
       P.rank (nextGreedyFreshInteriorTask W P selected).1 =
         leastRemainingFreshInteriorRank W P selected := by
+  classical
   exact Classical.choose_spec
     (Nat.find_spec (exists_remaining_freshInterior_rank W P selected))
 
@@ -165,6 +169,7 @@ theorem nextGreedyFreshInteriorTask_rank_le
     (x : FreshInteriorTaskType W)
     (hx : x ∉ selected) :
     P.rank (nextGreedyFreshInteriorTask W P selected).1 ≤ P.rank x.1 := by
+  classical
   rw [(nextGreedyFreshInteriorTask_spec W P selected).2]
   exact Nat.find_min'
     (exists_remaining_freshInterior_rank W P selected)
@@ -217,7 +222,7 @@ theorem mem_greedyFreshInteriorPrefix_iff
   | zero =>
       simp
   | succ n ih =>
-      rw [show n.succ = n + 1 by omega, greedyFreshInteriorPrefix_succ]
+      rw [greedyFreshInteriorPrefix_succ]
       constructor
       · intro hx
         rcases List.mem_append.mp hx with hx | hx
@@ -322,7 +327,8 @@ theorem greedyFreshInteriorTask_covers
       (fun n : ℕ =>
         (⟨greedyFreshInteriorTask W P n, hRank n⟩ : sublevel))
       hInjective
-  exact (not_finite ℕ) hFiniteNat
+  letI : Finite ℕ := hFiniteNat
+  exact not_finite ℕ
 
 /-- The greedy construction is a surjection onto the complete fresh/interior
 subtype. -/
