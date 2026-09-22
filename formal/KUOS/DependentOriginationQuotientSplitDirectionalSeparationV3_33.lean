@@ -51,17 +51,34 @@ variable (R : RawHigherContextualSystem.{u, v, uH, vH}
   (Context := Context))
 variable (D : PointwiseWAdjointEquivalenceData (W := W) R)
 
+/-!
+The v2.61 witnesses are isomorphisms between `Cat.Hom` wrappers. Before
+property transport, give their natural isomorphisms explicit functor-level
+endpoints. `Cat.Hom.id_toFunctor` and `Cat.Hom.comp_toFunctor` are definitional
+in the pinned Mathlib, but instance synthesis need not unfold the wrappers.
+The typed `have` statements expose the identity/composite functors while
+retaining the existing local isomorphism witnesses.
+-/
+
 /-- An identity quotient arrow evaluates to an essentially-surjective functor. -/
 theorem quotientRepresentativeMap_id_essSurj (X : W.Localization) :
     (quotientRepresentativeMap W R D (𝟙 X)).toFunctor.EssSurj := by
   rcases quotientIdentity_hasMapIso W R D X with ⟨e⟩
-  exact Functor.essSurj_of_iso (Cat.Hom.toNatIso e).symm
+  have eNat :
+      (quotientRepresentativeMap W R D (𝟙 X)).toFunctor ≅
+        𝟭 (R.obj (.mk X.as.obj)) :=
+    Cat.Hom.toNatIso e
+  exact Functor.essSurj_of_iso eNat.symm
 
 /-- An identity quotient arrow evaluates to a faithful functor. -/
 theorem quotientRepresentativeMap_id_faithful (X : W.Localization) :
     (quotientRepresentativeMap W R D (𝟙 X)).toFunctor.Faithful := by
   rcases quotientIdentity_hasMapIso W R D X with ⟨e⟩
-  exact Functor.Faithful.of_iso (Cat.Hom.toNatIso e).symm
+  have eNat :
+      (quotientRepresentativeMap W R D (𝟙 X)).toFunctor ≅
+        𝟭 (R.obj (.mk X.as.obj)) :=
+    Cat.Hom.toNatIso e
+  exact Functor.Faithful.of_iso eNat.symm
 
 /-- Semantic essential surjectivity of a quotient composite is exactly that
 of the composite of its two evaluated functors. -/
@@ -71,7 +88,11 @@ theorem quotientRepresentativeMap_comp_essSurj_iff
       ((quotientRepresentativeMap W R D f).toFunctor ⋙
         (quotientRepresentativeMap W R D g).toFunctor).EssSurj := by
   rcases quotientComposition_hasMapIso W R D f g with ⟨e⟩
-  have eNat := Cat.Hom.toNatIso e
+  have eNat :
+      (quotientRepresentativeMap W R D (f ≫ g)).toFunctor ≅
+        (quotientRepresentativeMap W R D f).toFunctor ⋙
+          (quotientRepresentativeMap W R D g).toFunctor :=
+    Cat.Hom.toNatIso e
   constructor
   · intro h
     letI : (quotientRepresentativeMap W R D (f ≫ g)).toFunctor.EssSurj := h
@@ -89,7 +110,11 @@ theorem quotientRepresentativeMap_comp_faithful_iff
       ((quotientRepresentativeMap W R D f).toFunctor ⋙
         (quotientRepresentativeMap W R D g).toFunctor).Faithful := by
   rcases quotientComposition_hasMapIso W R D f g with ⟨e⟩
-  have eNat := Cat.Hom.toNatIso e
+  have eNat :
+      (quotientRepresentativeMap W R D (f ≫ g)).toFunctor ≅
+        (quotientRepresentativeMap W R D f).toFunctor ⋙
+          (quotientRepresentativeMap W R D g).toFunctor :=
+    Cat.Hom.toNatIso e
   constructor
   · intro h
     letI : (quotientRepresentativeMap W R D (f ≫ g)).toFunctor.Faithful := h
