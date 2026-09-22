@@ -33,8 +33,8 @@ By definition,
   quotientRepresentativeMap W R D f
     = (freePathEvaluator W R D).map (Quot.out f).
 
-This file therefore records only the conditions that matter on the concrete
-chosen word `Quot.out f`.
+This file records only the conditions that matter on the concrete chosen word
+`Quot.out f`.
 
 For each edge of that word:
 
@@ -50,9 +50,11 @@ than a global assumption on all generators.
 -/
 
 /-- Evidence that every edge of a quiver path satisfies a dependent edge
-predicate.  This is an inductive proposition rather than a recursive `def :
-Prop`, so its proof object carries the same `nil/cons` structure as the path
-and can be eliminated without relying on definitional unfolding. -/
+predicate.
+
+This is an inductive proposition, so its proof object carries the same
+`nil/cons` structure as the path and can be eliminated without relying on
+definitional unfolding of a recursive `Prop`-valued function. -/
 inductive PathEdgesSatisfy
     {V : Type uQ} [Quiver.{vQ} V]
     (P : ∀ {X Y : V}, (X ⟶ Y) → Prop) :
@@ -111,7 +113,17 @@ theorem generatorEvaluatesFaithful_of_ordinaryCondition
     (R : RawHigherContextualSystem.{u, v, uH, vH}
       (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
-    {X Y : Localization.Constr/-- A finite path whose ordinary letters are essentially surjective evaluates
+    {X Y : Localization.Construction.LocQuiver W}
+    (e : X ⟶ Y)
+    (h : OrdinaryLocalizationGeneratorFaithful W R e) :
+    GeneratorEvaluatesFaithful W R D e := by
+  rcases e with f | w
+  · change (R.map f.toLoc).toFunctor.Faithful at h
+    exact (ordinary_generatorEvaluatesFaithful_iff W R D f).2 h
+  · rcases w with ⟨w, hw⟩
+    exact formalInverse_generatorEvaluatesFaithful W R D w hw
+
+/-- A finite path whose ordinary letters are essentially surjective evaluates
 to an essentially-surjective functor. -/
 theorem freePathEvaluator_map_essSurj_of_pathEdges
     (R : RawHigherContextualSystem.{u, v, uH, vH}
@@ -172,16 +184,6 @@ theorem freePathEvaluator_map_faithful_of_pathEdges
           ((freePathEvaluator W R D).map p).toFunctor
           ((localizedGeneratorPrefunctor W R D).map e).toFunctor
           ih heEval
-
-p_generator W R D e]
-      change
-        (((freePathEvaluator W R D).map p).toFunctor ⋙
-          ((localizedGeneratorPrefunctor W R D).map e).toFunctor).Faithful
-      exact
-        @Functor.Faithful.comp _ _ _ _ _ _
-          ((freePathEvaluator W R D).map p).toFunctor
-          ((localizedGeneratorPrefunctor W R D).map e).toFunctor
-          hpEval heEval
 
 /-- The concrete chosen representative of a quotient morphism has
 essentially-surjective ordinary letters. -/
