@@ -54,7 +54,9 @@ predicate.
 
 The recursive occurrence passes the uniform parameters explicitly. In
 particular, `@P` preserves the predicate with its implicit endpoint arguments
-rather than inserting an eta-expanded function at the recursive occurrence. -/
+rather than inserting an eta-expanded function at the recursive occurrence.
+Lean also promotes the fixed source `X` to a parameter: the induction cases
+therefore bind no fields for `nil` and only `Y Z p e hp he ih` for `cons`. -/
 inductive PathEdgesSatisfy
     {V : Type uQ} [Q : Quiver.{vQ} V]
     (P : ∀ {X Y : V}, (X ⟶ Y) → Prop) :
@@ -136,10 +138,10 @@ theorem freePathEvaluator_map_essSurj_of_pathEdges
         (OrdinaryLocalizationGeneratorEssSurj W R) p) :
     ((freePathEvaluator W R D).map p).toFunctor.EssSurj := by
   induction hp with
-  | nil X =>
+  | nil =>
       change (𝟭 _ : _ ⥤ _).EssSurj
       infer_instance
-  | @cons X Y Z p e hp he ih =>
+  | @cons Y Z p e _hp he ih =>
       have heEval :=
         generatorEvaluatesEssSurj_of_ordinaryCondition W R D e he
       rw [show p.cons e = p ≫ (Paths.of _).map e by rfl]
@@ -167,10 +169,10 @@ theorem freePathEvaluator_map_faithful_of_pathEdges
         (OrdinaryLocalizationGeneratorFaithful W R) p) :
     ((freePathEvaluator W R D).map p).toFunctor.Faithful := by
   induction hp with
-  | nil X =>
+  | nil =>
       change (𝟭 _ : _ ⥤ _).Faithful
       infer_instance
-  | @cons X Y Z p e hp he ih =>
+  | @cons Y Z p e _hp he ih =>
       have heEval :=
         generatorEvaluatesFaithful_of_ordinaryCondition W R D e he
       rw [show p.cons e = p ≫ (Paths.of _).map e by rfl]
