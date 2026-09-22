@@ -83,7 +83,10 @@ theorem freePathEvaluator_map_essSurj_of_generators
     {X Y : Paths (Localization.Construction.LocQuiver W)}
     (p : X ⟶ Y) :
     ((freePathEvaluator W R D).map p).toFunctor.EssSurj := by
-  apply Paths.induction
+  refine Paths.induction
+    (P := fun {A B} q =>
+      ((freePathEvaluator W R D).map q).toFunctor.EssSurj)
+    ?_ ?_ p
   · intro V
     rw [(freePathEvaluator W R D).map_id]
     change (𝟭 _ : _ ⥤ _).EssSurj
@@ -113,7 +116,10 @@ theorem freePathEvaluator_map_faithful_of_generators
     {X Y : Paths (Localization.Construction.LocQuiver W)}
     (p : X ⟶ Y) :
     ((freePathEvaluator W R D).map p).toFunctor.Faithful := by
-  apply Paths.induction
+  refine Paths.induction
+    (P := fun {A B} q =>
+      ((freePathEvaluator W R D).map q).toFunctor.Faithful)
+    ?_ ?_ p
   · intro V
     rw [(freePathEvaluator W R D).map_id]
     change (𝟭 _ : _ ⥤ _).Faithful
