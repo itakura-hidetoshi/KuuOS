@@ -91,6 +91,10 @@ theorem wCompositeCancellationPresentation_epi_mono
     isSplitEpi_Q_map_of_W_comp W f s hs
   letI : IsSplitMono (W.Q.map g) :=
     isSplitMono_Q_map_of_W_comp W g r hr
+  -- Typeclass search does not unfold the projections of the packaged
+  -- dependent task far enough to identify them with the literal Q-images.
+  -- Normalize the goal before invoking Mathlib's split -> epi/mono instances.
+  change Epi (W.Q.map f) ∧ Mono (W.Q.map g)
   exact ⟨inferInstance, inferInstance⟩
 
 /-- The narrower source-W-edge case is included using identity complements. -/
