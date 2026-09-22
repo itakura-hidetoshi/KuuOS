@@ -66,8 +66,13 @@ theorem compositionCoordinate_eq_sameEndpoints
         QuotientGaugeCoordinate W) =
       QuotientGaugeCoordinate.composition f' g') :
     f = f' ∧ g = g' := by
-  injection h with hf hg
-  exact ⟨hf, hg⟩
+  -- The constructor stores endpoint objects before its dependent morphism
+  -- fields. Bare named `injection` hypotheses therefore begin with object
+  -- equalities, while the morphism fields may be exposed through HEq.
+  -- Normalize those dependent equalities before closing the homogeneous goal.
+  injection h
+  subst_vars
+  exact ⟨rfl, rfl⟩
 
 /-- First-collision normal form after v3.48 has identified `Y = Z = T`. -/
 theorem firstCollision_absorption
@@ -107,18 +112,16 @@ theorem endomorphism_eq_id_of_leftAbsorption_of_epi
     {X Y : W.Localization}
     (f : X ⟶ Y) (g : Y ⟶ Y) [Epi f]
     (hAbsorb : f = f ≫ g) :
-    g = 𝟙 Y := by
-  apply (cancel_epi f).1
-  simpa using hAbsorb.symm
+    g = 𝟙 Y :=
+  (cancel_epi_id f).1 hAbsorb.symm
 
 /-- Right absorption against a mono forces the endomorphism to be identity. -/
 theorem endomorphism_eq_id_of_rightAbsorption_of_mono
     {X Y : W.Localization}
     (g : X ⟶ X) (h : X ⟶ Y) [Mono h]
     (hAbsorb : g ≫ h = h) :
-    g = 𝟙 X := by
-  apply (cancel_mono h).1
-  simpa using hAbsorb
+    g = 𝟙 X :=
+  (cancel_mono_id h).1 hAbsorb
 
 /-- Package the left-identity associator shape separately from the v3.41
 middle-identity shape. -/
@@ -208,9 +211,8 @@ theorem normalizedSecondCollision_isLeftIdentity_of_mono
       ({ X := X, Y := X, Z := Z, T := T,
          f := f, g := g, h := h } : AssociatorTask W) := by
   have hAbsorb := secondCollision_absorption W f g h hCollision
-  have hf : f = 𝟙 X := by
-    apply (cancel_mono g).1
-    simpa using hAbsorb.symm
+  have hf : f = 𝟙 X :=
+    (cancel_mono_id g).1 hAbsorb.symm
   subst f
   exact ⟨X, Z, T, g, h, rfl⟩
 
