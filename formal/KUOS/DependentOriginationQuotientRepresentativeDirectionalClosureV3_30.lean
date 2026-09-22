@@ -49,14 +49,19 @@ letters actually occurring in the two chosen quotient representatives, rather
 than a global assumption on all generators.
 -/
 
-/-- Every edge of a quiver path satisfies a dependent edge predicate. -/
-@[simp]
-def PathEdgesSatisfy
+/-- Evidence that every edge of a quiver path satisfies a dependent edge
+predicate.  This is an inductive proposition rather than a recursive `def :
+Prop`, so its proof object carries the same `nil/cons` structure as the path
+and can be eliminated without relying on definitional unfolding. -/
+inductive PathEdgesSatisfy
     {V : Type uQ} [Quiver.{vQ} V]
     (P : ∀ {X Y : V}, (X ⟶ Y) → Prop) :
     ∀ {X Y : V}, Quiver.Path X Y → Prop
-  | _, _, .nil => True
-  | _, _, .cons p e => PathEdgesSatisfy P p ∧ P e
+  | nil (X : V) :
+      PathEdgesSatisfy P (Quiver.Path.nil : Quiver.Path X X)
+  | cons {X Y Z : V} {p : Quiver.Path X Y} {e : Y ⟶ Z}
+      (hp : PathEdgesSatisfy P p) (he : P e) :
+      PathEdgesSatisfy P (p.cons e)
 
 variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
@@ -106,17 +111,7 @@ theorem generatorEvaluatesFaithful_of_ordinaryCondition
     (R : RawHigherContextualSystem.{u, v, uH, vH}
       (Context := Context))
     (D : PointwiseWAdjointEquivalenceData (W := W) R)
-    {X Y : Localization.Construction.LocQuiver W}
-    (e : X ⟶ Y)
-    (h : OrdinaryLocalizationGeneratorFaithful W R e) :
-    GeneratorEvaluatesFaithful W R D e := by
-  rcases e with f | w
-  · change (R.map f.toLoc).toFunctor.Faithful at h
-    exact (ordinary_generatorEvaluatesFaithful_iff W R D f).2 h
-  · rcases w with ⟨w, hw⟩
-    exact formalInverse_generatorEvaluatesFaithful W R D w hw
-
-/-- A finite path whose ordinary letters are essentially surjective evaluates
+    {X Y : Localization.Constr/-- A finite path whose ordinary letters are essentially surjective evaluates
 to an essentially-surjective functor. -/
 theorem freePathEvaluator_map_essSurj_of_pathEdges
     (R : RawHigherContextualSystem.{u, v, uH, vH}
@@ -128,20 +123,11 @@ theorem freePathEvaluator_map_essSurj_of_pathEdges
       PathEdgesSatisfy
         (OrdinaryLocalizationGeneratorEssSurj W R) p) :
     ((freePathEvaluator W R D).map p).toFunctor.EssSurj := by
-  revert hp
-  induction p with
-  | nil =>
-      intro hp
+  induction hp with
+  | nil X =>
       change (𝟭 _ : _ ⥤ _).EssSurj
       infer_instance
-  | cons p e ih =>
-      intro hp
-      change
-        PathEdgesSatisfy
-            (OrdinaryLocalizationGeneratorEssSurj W R) p ∧
-          OrdinaryLocalizationGeneratorEssSurj W R e at hp
-      rcases hp with ⟨hp, he⟩
-      have hpEval := ih hp
+  | @cons X Y Z p e hp he ih =>
       have heEval :=
         generatorEvaluatesEssSurj_of_ordinaryCondition W R D e he
       rw [show p.cons e = p ≫ (Paths.of _).map e by rfl]
@@ -154,7 +140,7 @@ theorem freePathEvaluator_map_essSurj_of_pathEdges
         @Functor.essSurj_comp _ _ _ _ _ _
           ((freePathEvaluator W R D).map p).toFunctor
           ((localizedGeneratorPrefunctor W R D).map e).toFunctor
-          hpEval heEval
+          ih heEval
 
 /-- A finite path whose ordinary letters are faithful evaluates to a faithful
 functor. -/
@@ -168,25 +154,26 @@ theorem freePathEvaluator_map_faithful_of_pathEdges
       PathEdgesSatisfy
         (OrdinaryLocalizationGeneratorFaithful W R) p) :
     ((freePathEvaluator W R D).map p).toFunctor.Faithful := by
-  revert hp
-  induction p with
-  | nil =>
-      intro hp
+  induction hp with
+  | nil X =>
       change (𝟭 _ : _ ⥤ _).Faithful
       infer_instance
-  | cons p e ih =>
-      intro hp
-      change
-        PathEdgesSatisfy
-            (OrdinaryLocalizationGeneratorFaithful W R) p ∧
-          OrdinaryLocalizationGeneratorFaithful W R e at hp
-      rcases hp with ⟨hp, he⟩
-      have hpEval := ih hp
+  | @cons X Y Z p e hp he ih =>
       have heEval :=
         generatorEvaluatesFaithful_of_ordinaryCondition W R D e he
       rw [show p.cons e = p ≫ (Paths.of _).map e by rfl]
       rw [(freePathEvaluator W R D).map_comp]
       rw [freePathEvaluator_map_generator W R D e]
+      change
+        (((freePathEvaluator W R D).map p).toFunctor ⋙
+          ((localizedGeneratorPrefunctor W R D).map e).toFunctor).Faithful
+      exact
+        @Functor.Faithful.comp _ _ _ _ _ _
+          ((freePathEvaluator W R D).map p).toFunctor
+          ((localizedGeneratorPrefunctor W R D).map e).toFunctor
+          ih heEval
+
+p_generator W R D e]
       change
         (((freePathEvaluator W R D).map p).toFunctor ⋙
           ((localizedGeneratorPrefunctor W R D).map e).toFunctor).Faithful
