@@ -128,12 +128,18 @@ theorem freePathEvaluator_map_essSurj_of_pathEdges
       PathEdgesSatisfy
         (OrdinaryLocalizationGeneratorEssSurj W R) p) :
     ((freePathEvaluator W R D).map p).toFunctor.EssSurj := by
+  revert hp
   induction p with
   | nil =>
-      rw [(freePathEvaluator W R D).map_id]
+      intro hp
       change (𝟭 _ : _ ⥤ _).EssSurj
       infer_instance
   | cons p e ih =>
+      intro hp
+      change
+        PathEdgesSatisfy
+            (OrdinaryLocalizationGeneratorEssSurj W R) p ∧
+          OrdinaryLocalizationGeneratorEssSurj W R e at hp
       rcases hp with ⟨hp, he⟩
       have hpEval := ih hp
       have heEval :=
@@ -162,12 +168,18 @@ theorem freePathEvaluator_map_faithful_of_pathEdges
       PathEdgesSatisfy
         (OrdinaryLocalizationGeneratorFaithful W R) p) :
     ((freePathEvaluator W R D).map p).toFunctor.Faithful := by
+  revert hp
   induction p with
   | nil =>
-      rw [(freePathEvaluator W R D).map_id]
+      intro hp
       change (𝟭 _ : _ ⥤ _).Faithful
       infer_instance
   | cons p e ih =>
+      intro hp
+      change
+        PathEdgesSatisfy
+            (OrdinaryLocalizationGeneratorFaithful W R) p ∧
+          OrdinaryLocalizationGeneratorFaithful W R e at hp
       rcases hp with ⟨hp, he⟩
       have hpEval := ih hp
       have heEval :=
