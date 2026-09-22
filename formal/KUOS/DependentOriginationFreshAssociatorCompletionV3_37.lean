@@ -92,7 +92,11 @@ theorem quotientGaugeUpdate_value_self
     quotientGaugeCoordinateValue W R D (quotientGaugeUpdate W R D Q c value) c =
       value := by
   classical
-  cases c <;> exact Function.update_self _ _ _
+  -- Fix the domain and dependent family before eliminating the coordinate key.
+  have hUpdate :
+      Function.update (quotientGaugeCoordinateValue W R D Q) c value c = value :=
+    Function.update_self c value (quotientGaugeCoordinateValue W R D Q)
+  cases c <;> exact hUpdate
 
 /-- All other coordinates are literally unchanged, including dependent fibers. -/
 theorem quotientGaugeUpdate_value_of_ne
@@ -169,7 +173,7 @@ theorem associatorLeadingGaugeValue_fac
       (associatorSourceTransportIso W R D f g h ≪≫
         (associatorSuffixIso W R D Q f g h).symm).hom := by
   simp only [associatorLeadingGaugeValue, Iso.trans_hom, Iso.symm_hom,
-    Category.assoc, Iso.hom_inv_id_assoc]
+    Iso.hom_inv_id_assoc]
 
 /-- Apply the solved leading value to the actual full quotient-gauge family. -/
 noncomputable def completeAssociatorLeading
@@ -199,11 +203,14 @@ theorem completeAssociatorLeading_corrected
       quotientRouteCorrectionLocus W R D (.associator f g h) := by
   let Q' := completeAssociatorLeading W R D Q f g h
   have hfg : Q'.mapCompGauge f g = Q.mapCompGauge f g :=
-    quotientGaugeUpdate_value_of_ne W R D Q _ _ (.composition f g) hFresh.1
+    quotientGaugeUpdate_value_of_ne W R D Q (.composition (f ≫ g) h)
+      (associatorLeadingGaugeValue W R D Q f g h) (.composition f g) hFresh.1
   have hgh : Q'.mapCompGauge g h = Q.mapCompGauge g h :=
-    quotientGaugeUpdate_value_of_ne W R D Q _ _ (.composition g h) hFresh.2.1
+    quotientGaugeUpdate_value_of_ne W R D Q (.composition (f ≫ g) h)
+      (associatorLeadingGaugeValue W R D Q f g h) (.composition g h) hFresh.2.1
   have hfgh : Q'.mapCompGauge f (g ≫ h) = Q.mapCompGauge f (g ≫ h) :=
-    quotientGaugeUpdate_value_of_ne W R D Q _ _ (.composition f (g ≫ h)) hFresh.2.2
+    quotientGaugeUpdate_value_of_ne W R D Q (.composition (f ≫ g) h)
+      (associatorLeadingGaugeValue W R D Q f g h) (.composition f (g ≫ h)) hFresh.2.2
   have hfg' := adjustedMapComp_congr W R D Q' Q f g hfg
   have hgh' := adjustedMapComp_congr W R D Q' Q g h hgh
   have hfgh' := adjustedMapComp_congr W R D Q' Q f (g ≫ h) hfgh
@@ -212,7 +219,8 @@ theorem completeAssociatorLeading_corrected
     unfold associatorSuffixIso
     rw [hfg', hgh', hfgh']
   have hAt : Q'.mapCompGauge (f ≫ g) h = associatorLeadingGaugeValue W R D Q f g h :=
-    quotientGaugeUpdate_value_self W R D Q _ _
+    quotientGaugeUpdate_value_self W R D Q (.composition (f ≫ g) h)
+      (associatorLeadingGaugeValue W R D Q f g h)
   have hPrefix :
       ((quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q').mapComp (f ≫ g) h).hom =
         (associatorSourceTransportIso W R D f g h ≪≫
@@ -249,8 +257,8 @@ theorem existsUnique_associatorLeadingCorrection
           (quotientGaugeUpdate W R D Q (.composition (f ≫ g) h) candidate) d =
         quotientGaugeCoordinateValue W R D
           (quotientGaugeUpdate W R D Q (.composition (f ≫ g) h) value) d :=
-    (quotientGaugeUpdate_value_of_ne W R D Q _ candidate d hd).trans
-      (quotientGaugeUpdate_value_of_ne W R D Q _ value d hd).symm
+    (quotientGaugeUpdate_value_of_ne W R D Q (.composition (f ≫ g) h) candidate d hd).trans
+      (quotientGaugeUpdate_value_of_ne W R D Q (.composition (f ≫ g) h) value d hd).symm
   have hEq := associator_mapComp_fgg_h_eq_of_corrected_of_other_three_eq
     W R D f g h
     (quotientGaugeUpdate W R D Q (.composition (f ≫ g) h) candidate)
@@ -259,8 +267,8 @@ theorem existsUnique_associatorLeadingCorrection
     (hOther (.composition f g) hFresh.1)
     (hOther (.composition g h) hFresh.2.1)
     (hOther (.composition f (g ≫ h)) hFresh.2.2)
-  exact (quotientGaugeUpdate_value_self W R D Q _ candidate).symm.trans
-    (hEq.trans (quotientGaugeUpdate_value_self W R D Q _ value))
+  exact (quotientGaugeUpdate_value_self W R D Q (.composition (f ≫ g) h) candidate).symm.trans
+    (hEq.trans (quotientGaugeUpdate_value_self W R D Q (.composition (f ≫ g) h) value))
 
 /-- An interior leading update leaves every visible unitor-boundary value fixed. -/
 theorem completeAssociatorLeading_boundary_value_eq
@@ -270,7 +278,8 @@ theorem completeAssociatorLeading_boundary_value_eq
     (c : QuotientGaugeCoordinate W) (hc : UnitorVisibleCoordinate W c) :
     quotientGaugeCoordinateValue W R D (completeAssociatorLeading W R D Q f g h) c =
       quotientGaugeCoordinateValue W R D Q c := by
-  exact quotientGaugeUpdate_value_of_ne W R D Q _ _ c
+  exact quotientGaugeUpdate_value_of_ne W R D Q (.composition (f ≫ g) h)
+    (associatorLeadingGaugeValue W R D Q f g h) c
     (fun hcc => hInterior (hcc ▸ hc))
 
 /-- Every unitor footprint, not merely its correction truth value, is preserved. -/
@@ -281,8 +290,9 @@ theorem completeAssociatorLeading_agrees_on_unitors
     {A : W.Localization} (s : UnitorRouteAt W A) :
     QuotientGaugesAgreeOnRouteState W R D
       (completeAssociatorLeading W R D Q f g h) Q (unitorRouteState W s) := by
-  exact quotientGaugeUpdate_agrees_of_not_mem W R D Q _ _ (unitorRouteState W s)
-    (fun hs => hInterior (unitorVisibleCoordinate_of_mem W s _ hs))
+  exact quotientGaugeUpdate_agrees_of_not_mem W R D Q (.composition (f ≫ g) h)
+    (associatorLeadingGaugeValue W R D Q f g h) (unitorRouteState W s)
+    (fun hs => hInterior (unitorVisibleCoordinate_of_mem W s (.composition (f ≫ g) h) hs))
 
 /-- In particular, all previously corrected unitors stay corrected. -/
 theorem completeAssociatorLeading_unitor_corrected_iff
