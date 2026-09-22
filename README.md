@@ -17,16 +17,18 @@ Philosophy, mathematical presentations, formal proofs, and operational systems i
 | Item | Verified reference |
 | --- | --- |
 | Canonical branch | `main` |
-| Latest integrated theorem layer | **v3.30 — quotient-representative directional closure** |
-| Latest theorem-bearing merge | [PR #1706](https://github.com/itakura-hidetoshi/KuuOS/pull/1706), merged 2026-09-22 |
-| Theorem baseline; `main` at observation | `1b4cf22eb8e8b5ffc70c490093534ff95ff2a081` |
-| Validated #1706 PR head | `0c2ead10cc002150d47f3e0ba7a4e5da65b3db88` |
-| Exact-head governance run | [Gate #2523 / run 35679072189](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35679072189), completed / success |
+| Latest integrated theorem layer | **v3.33 — quotient split directional separation** |
+| Latest theorem-bearing merge | [PR #1710](https://github.com/itakura-hidetoshi/KuuOS/pull/1710), merged 2026-09-22 |
+| Theorem baseline | `d5747268c38fef1b24ad7e9b5fa5fb3bf7c11455` |
+| Post-#1710 `main`, observed before this docs refresh | `d5747268c38fef1b24ad7e9b5fa5fb3bf7c11455` |
+| Validated #1710 PR head | `ba17572f2058819cd084d14dd31ac8678b446a3d` |
+| Exact-head governance run | [Gate #2532 / run 35690347773](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35690347773), completed / success |
 | Exact-head receipts | Strict Lean formal validation = success; exact-head terminal = success |
+| CI checkout, not final merge | `e345655b329d34f8aab88778a75e582ea33747e7` — synthetic merge of the validated head with the v3.32 base |
 | Lean | `leanprover/lean4:v4.30.0-rc2` |
 | Mathlib | `5450b53e5ddc75d46418fabb605edbf36bd0beb6` |
 
-This is a dated snapshot, not a permanently current branch pointer. Later **documentation-only** commits may advance `main` without advancing the theorem baseline. Re-observe GitHub before continuing work. The source of the latest result is [the v3.30 Lean module](formal/KUOS/DependentOriginationQuotientRepresentativeDirectionalClosureV3_30.lean).
+This is a dated snapshot, not a permanently current branch pointer. This **documentation-only** refresh can advance `main` without advancing the theorem baseline. Re-observe GitHub before continuing work. The latest result is [the v3.33 Lean module](formal/KUOS/DependentOriginationQuotientSplitDirectionalSeparationV3_33.lean), building on the integrated [v3.31 representative transport](formal/KUOS/DependentOriginationQuotientDirectionalPropertyTransportV3_31.lean) and [v3.32 certified-sector algebra](formal/KUOS/DependentOriginationCertifiedQuotientSectorClosureV3_32.lean).
 
 Authority order is:
 
@@ -38,7 +40,7 @@ fresh exact canonical GitHub SHA
   > history / memory
 ```
 
-The formerly separate v2.69–v3.14 frontier was integrated by [PR #1651](https://github.com/itakura-hidetoshi/KuuOS/pull/1651). It is historical promotion provenance, **not the current Draft frontier**. The higher-localization spine now continues through v3.30 on `main`.
+The formerly separate v2.69–v3.14 frontier was integrated by [PR #1651](https://github.com/itakura-hidetoshi/KuuOS/pull/1651). It is historical promotion provenance, **not the current Draft frontier**. The higher-localization spine now continues through v3.33 on `main`; #1708, #1709, and #1710 are integrated theorem history, not pending proof candidates.
 
 ## What 空 means here
 
@@ -57,41 +59,43 @@ The bridge from 空 to 縁起 retains context, relations, admissible transport, 
 
 The philosophical layer asks about relation, dependence, transformation, and non-reification. The mathematical layer studies those questions through categories, bicategories, pseudofunctors, localization, gauge freedom, holonomy, descent, and universal properties. The operational layer applies bounded observation, planning, action, and renewed verification. These are related layers, not a ranking of philosophical and mathematical authority.
 
-## Latest result: from actual representative words to mixed-triangle closure
+## Latest result: semantic directional separation from one-sided inverses
 
-Let `R` be the raw Cat-valued higher contextual system and `D` its pointwise chosen W-adjoint-equivalence data. The representative evaluation is fixed by the existing construction:
+Fix a raw Cat-valued higher contextual system `R` and pointwise W-adjoint-equivalence data `D`. Write
 
 ```text
+E(f) = (quotientRepresentativeMap W R D f).toFunctor,
+
 quotientRepresentativeMap W R D f
   = (freePathEvaluator W R D).map (Quot.out f).
 ```
 
-For composable quotient arrows `f : X ⟶ Y` and `g : Y ⟶ Z`, v3.30 inspects **only the ordinary letters occurring in their chosen representative words**:
+For quotient arrows `f : X ⟶ Y` and `g : Y ⟶ Z`, v3.33 proves the following sufficient route using equations in the **actual localization**:
 
 ```text
-ordinary letters in Quot.out f evaluate to essentially-surjective functors
-ordinary letters in Quot.out g evaluate to faithful functors
+s : Y ⟶ X,  s ≫ f = 𝟙 Y       r : Z ⟶ Y,  g ≫ r = 𝟙 Y
+              |                              |
+              v                              v
+          E(f).EssSurj                    E(g).Faithful
+                         |
+                         v
+       MiddleIdentityWhiskerSeparating W R D f g
 ```
 
-Formal W-inverse letters need no additional directional assumption: `D` evaluates them as inverse functors of chosen equivalences. The new `PathEdgesSatisfy` inductive predicate carries edge-by-edge evidence; induction on that evidence propagates the relevant property through the finite word.
+Thus a split epimorphism on the left and a split monomorphism on the right suffice. No ordinary-letter certificate on `f`, `g`, their one-sided inverses, or their selected `Quot.out` words is required by this criterion. Neither outer evaluation is required to be an equivalence.
 
-The precise sufficient route is:
+The proof uses the existing v2.61 local identity/composition isomorphisms and Mathlib transport of properties of naturally isomorphic functors. It proves semantic identity and composition laws, followed by **directional reflection**:
 
 ```text
-QuotientRepresentativeOrdinaryEssSurj W R f
-+ QuotientRepresentativeOrdinaryFaithful W R g
-    |
-    v
-(quotientRepresentativeMap W R D f).toFunctor.EssSurj
-+ (quotientRepresentativeMap W R D g).toFunctor.Faithful
-    |
-    v
-MiddleIdentityWhiskerSeparating W R D f g
+E(f ≫ g).EssSurj   -> E(g).EssSurj
+E(f ≫ g).Faithful  -> E(f).Faithful.
 ```
 
-Essential surjectivity on the left means that every middle-fiber object is reached up to isomorphism; faithfulness on the right means that equality of morphisms can be reflected back. Neither outer functor is required to be an equivalence.
+The directions are not reversed. These do not assert that every factor or every ordinary letter inherits the property. The local isomorphisms are used inside proofs of propositions; no coherent family of transports is selected, and no strict functor law `E(f ≫ g) = E(f) ⋙ E(g)` is asserted.
 
-This closes the particular incidence triangle
+### The actual mixed triangle, with all its hypotheses
+
+The separation result closes the particular incidence triangle
 
 ```text
 anchor:         associator f (𝟙 Y) g
@@ -99,20 +103,46 @@ right endpoint: rightUnitor f
 left endpoint:  leftUnitor g
 ```
 
-**provided** its three local gauges satisfy their actual correction equations and each endpoint agrees with the anchor on their shared footprint. Under those hypotheses, the two endpoints agree on their full shared footprint.
+**provided** three gauges `Qs`, `Qt`, `Qu` satisfy their respective corrected route equations, and `Qs` agrees with each endpoint gauge on the corresponding anchor overlap. Under those three correction hypotheses and two anchor-agreement hypotheses, `Qt` and `Qu` agree on the full endpoint overlap. The one-sided inverse equations do not construct those correcting gauges.
 
-Main v3.30 declarations:
+Main v3.33 declarations include:
 
 ```text
-freePathEvaluator_map_essSurj_of_pathEdges
-freePathEvaluator_map_faithful_of_pathEdges
-quotientRepresentativeMap_essSurj_of_representative_ordinary
-quotientRepresentativeMap_faithful_of_representative_ordinary
-middleIdentityWhiskerSeparating_of_representative_words
-associatorAnchor_unitor_overlapStar_triangle_of_representative_words
+quotientRepresentativeMap_comp_essSurj_iff
+quotientRepresentativeMap_comp_faithful_iff
+quotientRepresentativeMap_essSurj_right_of_comp
+quotientRepresentativeMap_faithful_left_of_comp
+quotientRepresentativeMap_essSurj_of_section
+quotientRepresentativeMap_faithful_of_retraction
+middleIdentityWhiskerSeparating_of_section_retraction
+associatorAnchor_unitor_overlapStar_triangle_of_section_retraction
 ```
 
-These are **sufficient, representative-word conditions**. The theorem does not claim that every quotient arrow satisfies them, that failure of a word condition proves an obstruction, or that closing this one triangle yields a globally compatible correction family.
+## From representative words to quotient-level properties: v3.30–v3.33
+
+Three levels must be distinguished: a certificate on a particular word, existence of at least one certified representative, and the semantic property of the evaluated functor.
+
+| Layer | Proved contribution |
+| --- | --- |
+| [v3.30](formal/KUOS/DependentOriginationQuotientRepresentativeDirectionalClosureV3_30.lean) | `PathEdgesSatisfy` certificates on the ordinary letters of the actual `Quot.out` words imply the directional evaluation properties and mixed-triangle closure. |
+| [v3.31](formal/KUOS/DependentOriginationQuotientDirectionalPropertyTransportV3_31.lean) | Quotient-equal paths have equivalent EssSurj/Faithful evaluation properties. Existence of one suitable representative suffices, even when the selected word has no supplied letterwise certificate. |
+| [v3.32](formal/KUOS/DependentOriginationCertifiedQuotientSectorClosureV3_32.lean) | Each existence-certificate class contains identities, is closed under composition, and is the least multiplicative morphism property containing the corresponding certified generator images. |
+| [v3.33](formal/KUOS/DependentOriginationQuotientSplitDirectionalSeparationV3_33.lean) | Semantic EssSurj/Faithful classes are multiplicative and contain the certified classes; directional reflection gives the one-sided-inverse separation criterion. |
+
+Formal W-inverse letters need no additional directional assumption: `D` evaluates them as inverse functors of chosen equivalences. Ordinary letters carry the corresponding raw evaluation condition.
+
+For fixed `W`, `R`, `D`, v3.31 reuses `equalInLocalization_hasEvaluationIso` from v2.58 to transfer EssSurj and Faithful in both directions between evaluations of quotient-equal paths. `Nonempty Iso` is eliminated locally into a proposition. This settles semantic representative invariance, **not invariance of each letterwise certificate**, and does not by itself prove independence of all auxiliary choices such as `D`.
+
+The v3.31 conditions are `HasOrdinaryEssSurjRepresentative` and `HasOrdinaryFaithfulRepresentative`. Their definitions contain no choice of `D` or `Quot.out`. In v3.32 the generic construction even permits an arbitrary relation on a path category: witness paths concatenate, so the letterwise predicate need not itself descend through that relation. For every multiplicative property `S`, containment is characterized by the generator test
+
+```text
+certifiedQuotientSector r P ≤ S
+  <-> every P-certified generator has its quotient image in S.
+```
+
+In v3.33, `quotientEssSurjSector W R D` and `quotientFaithfulSector W R D` are the corresponding **semantic** morphism properties. The two `certified..._le_quotient...Sector` theorems establish containment. Equality or strict containment of these classes has not been established by these modules. Nor is the split criterion proved equivalent to membership in a certified class.
+
+All these are sufficient routes to separation. Failure to supply a certificate, failure of a directional property, or absence of a one-sided inverse is not a noninjectivity witness.
 
 ## Canonical formal spine
 
@@ -128,6 +158,7 @@ The earlier layers remain part of the program, not superseded claims of a comple
 | v3.05–v3.14 | Quotient correction loci, witness-correlation gap, finite dependent-coordinate footprints, and literal shared-coordinate keys. |
 | v3.15–v3.21 | Explicit pair extension and global gluing from one compatible family; abstract correlation countermodels; rigidity, normalization, and star-transitivity sufficient criteria. |
 | v3.22–v3.30 | Actual route-equation rigidity, mixed-triangle residual, directional cancellation, finite-path propagation, and the `Quot.out` word bridge. |
+| v3.31–v3.33 | Semantic representative invariance, multiplicative certified and semantic classes, directional reflection, and split-arrow mixed-triangle closure. |
 
 ### Holonomy, correction, and factorization
 
@@ -164,7 +195,7 @@ The remaining distinction is between witnesses that may depend on the chosen anc
 
 v3.18–v3.20 supply conditional routes through shared-coordinate rigidity, an overlap-preserving gauge-fixing normalizer, or overlap-star transitivity. The task is to derive suitable structure from actual route equations, not assume the global compatibility sought.
 
-### Actual route equations: v3.22–v3.30
+### Actual route equations: retained v3.22–v3.30 results
 
 | Layer | Result and scope |
 | --- | --- |
@@ -184,17 +215,13 @@ In v3.26, with `F` and `G` the outer representatives, the action is
 Phi(eta) = F ◁ (eta ▷ G).
 ```
 
-The unconditionally derived equality is an equality **after** this action, under the stated local correction and anchor-overlap hypotheses. The residual concerns injectivity of `Phi`; no extra linear structure is being assumed by calling it a kernel relation.
+The initially derived equality is an equality **after** this action, under the stated local correction and anchor-overlap hypotheses. The residual concerns injectivity of `Phi`; no extra linear structure is being assumed by calling it a kernel relation.
 
 ## Next mathematical boundary
 
-The immediate work after v3.30 has two distinct levels:
+The former ROADMAP targets **N1b** (semantic transfer between quotient-equal paths) and **N2** (one suitable representative) are now proved by v3.31; v3.32 supplies identity/composition closure and minimality of the certified classes. They must not be reopened as missing constructions. v3.33 advances **N3** with a further semantic separation criterion, but does not settle the entire remaining separation boundary.
 
-**Syntactic certificates.** Does the ordinary-letter predicate survive changing a representative by `id`, `comp`, `Winv₁`, or `Winv₂`? Track both directions of a relation; do not infer a property of each factor merely from a property of its composite.
-
-**Semantic evaluation.** Use the existing v2.58 isomorphism between evaluations of quotient-equal paths to formulate representative-independent directional criteria. A useful next theorem can transfer a certificate from some suitable representative to the selected representative without claiming that every representative has the same letterwise certificate.
-
-After that, enlarge the actual incidence sectors where correction witnesses correlate, build one globally compatible family, and discharge the comparison `gIso` equations. Failure of a sufficient certificate is not proof of a nontrivial double-whiskering kernel.
+The next work is to characterize the remaining actual cancellation/detection sectors, or construct genuine noninjectivity witnesses; then correlate correcting witnesses using the incidence geometry, reuse the v3.15/v3.16 gluing constructions, and discharge the comparison `gIso` equations. Relation-level behavior of the **syntactic** letterwise certificates (former N1a) remains a separate question, not a prerequisite for the semantic transport already proved.
 
 The following general targets remain open in this snapshot:
 
@@ -206,7 +233,7 @@ IsHigherWAdmissible W R
   -> HasCoherentWeakHigherLocalizationUniversalProperty W R
 ```
 
-Stage-I factorization, Stage-II coherent universality, Axes E/R, and the final representation theorem are different milestones. See [ROADMAP.md](ROADMAP.md) for their exit criteria.
+Stage-I factorization, Stage-II coherent universality, Axes E/R, and the final representation theorem are different milestones. See [ROADMAP.md](ROADMAP.md) for the updated exit criteria.
 
 ## Dependent Origination Universality Program
 
@@ -254,13 +281,15 @@ Choose the least complex mode explicitly assessed as adequate. Unknown adequacy 
 
 ## Reproduction and verification
 
-The pinned environment is recorded in [lean-toolchain](lean-toolchain) and [lake-manifest.json](lake-manifest.json). The focused v3.30 target is:
+The pinned environment is recorded in [lean-toolchain](lean-toolchain) and [lake-manifest.json](lake-manifest.json). The focused v3.33 target is:
 
 ```bash
 lake -KleanArgs=-DwarningAsError=true \
   -KleanArgs=-DsorryAsError=true \
-  build KUOS.DependentOriginationQuotientRepresentativeDirectionalClosureV3_30
+  build KUOS.DependentOriginationQuotientSplitDirectionalSeparationV3_33
 ```
+
+The recorded #2532 run built this target and its dependencies, reported `Build completed successfully (8457 jobs).` with return code `0`, and passed the dependency-manifest check. Historical imported-module linter warnings remain; this is not a claim of repository-wide warning elimination.
 
 The aggregate formal target can be checked separately:
 
@@ -276,7 +305,7 @@ A focused target receipt is not a claim that a fresh aggregate build was run. Th
 PYTHONPATH=. python3 runtime/kuuos_current_check.py
 ```
 
-A runtime result is not a mathematical theorem. A CI receipt applies to its exact head and recorded selection. A PR synthetic merge SHA in a build receipt must not be mistaken for the PR's working head. Queued or running checks are not success.
+A runtime result is not a mathematical theorem. A CI receipt applies to its exact head, base/checkout and recorded selection. A PR synthetic merge SHA in a build receipt is neither the PR's working head nor the final merge commit. Queued or running checks are not success. A docs-only gate does not add a new Lean validation.
 
 ## Development and authority boundaries
 
@@ -297,10 +326,11 @@ local Nonempty Iso != a coherent choice of transports
 pointwise inverses != pseudofunctor coherence
 nontrivial generated holonomy != factorization impossible
 abstract correlation countermodel != an actual-system counterexample
-word certificate != necessary semantic criterion
+word certificate is sufficient, not a proved necessary semantic criterion
+certified-sector containment does not establish equality or strictness
 one closed incidence triangle != global star transitivity
 Stage-I factorization != Stage-II universality
 execution host != truth, WORLD-commit, or memory-overwrite authority
 ```
 
-**Current research sentence:** KuuOS has carried actual mixed associator/unitor correction from a double-whiskering residual to a checked, path-local sufficient criterion on the chosen quotient words. The next step is representative-independent directional reasoning and broader witness correlation, followed by the comparison lift and higher universal-property program.
+**Current research sentence:** KuuOS now transports directional evaluation properties across quotient representatives, gives both certified and semantic classes a multiplicative algebra, and closes the actual mixed associator/unitor triangle under explicit split-arrow conditions and its original correction hypotheses. The next boundary is broader actual separation and simultaneous witness correlation, followed by the comparison lift and higher universal-property program.
