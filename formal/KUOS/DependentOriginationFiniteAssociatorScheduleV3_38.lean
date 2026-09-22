@@ -182,12 +182,10 @@ theorem exists_unitorSeed_of_pairwiseShared
 /-! ## Finite sequential completion and its invariants -/
 
 /-- Apply actual v3.37 completions in list order, always using the current gauge. -/
-noncomputable def runAssociatorSchedule :
-    List (AssociatorTask W) → GeneratedQuotientGaugeParameters W R D →
-      GeneratedQuotientGaugeParameters W R D
-  | [], Q => Q
-  | a :: tasks, Q =>
-      runAssociatorSchedule tasks (completeAssociatorLeading W R D Q a.f a.g a.h)
+noncomputable def runAssociatorSchedule
+    (tasks : List (AssociatorTask W)) (Q : GeneratedQuotientGaugeParameters W R D) :
+    GeneratedQuotientGaugeParameters W R D :=
+  tasks.foldl (fun current a => completeAssociatorLeading W R D current a.f a.g a.h) Q
 
 /-- A coordinate never selected as a leading key keeps its original value.
 No freshness, correction, or noninterference hypothesis is needed here. -/
