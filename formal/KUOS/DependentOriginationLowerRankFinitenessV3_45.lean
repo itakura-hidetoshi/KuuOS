@@ -1,4 +1,5 @@
 import KUOS.DependentOriginationCountableRankedEnumerationV3_44
+import Mathlib.Data.List.FinRange
 
 namespace KUOS.DependentOriginationLowerRankFinitenessV3_45
 
