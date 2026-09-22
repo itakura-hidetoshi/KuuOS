@@ -12,25 +12,24 @@ Its central question is:
 
 Philosophy, mathematical presentations, formal proofs, and operational systems inform one another without being treated as interchangeable evidence.
 
-## Current status — 2026-09-22 JST
+## Current canonical status — 2026-09-22 JST
 
-**Integrated on `main`: v3.32. Validated but not integrated: v3.33 / PR #1710, still Draft/open/unmerged.** This documentation refresh does not merge the theorem PR or change any Lean source.
+**Integrated on `main`: v3.33 — quotient split directional separation. PR #1710 is merged.** The former Draft/validated-only status of that PR is historical, not the current frontier.
 
 | Item | Verified reference |
 | --- | --- |
 | Canonical branch | `main` |
-| Latest integrated theorem layer | **v3.32 — certified quotient sector closure and minimality** |
-| Latest theorem-bearing merge | [PR #1709](https://github.com/itakura-hidetoshi/KuuOS/pull/1709) |
-| Mathematical baseline; main before this docs refresh | `c59c7aa4e6435a2172344dfaf2843937a86a89d8` |
-| Validated #1709 PR head | `47da65d74fcd062b10f8bcbea8954e0e800a3cfc` |
-| v3.32 validation | [Gate #2530 / run 35687280701](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35687280701), completed/success; Strict Lean and exact-head terminal receipts both success |
-| Validated, unmerged theorem layer | **v3.33 — quotient split directional separation**, [PR #1710](https://github.com/itakura-hidetoshi/KuuOS/pull/1710) |
+| Latest integrated theorem layer | **v3.33 — quotient split directional separation** |
+| Latest theorem-bearing merge | [PR #1710](https://github.com/itakura-hidetoshi/KuuOS/pull/1710), closed/merged |
+| Mathematical baseline; main observed before finalizing this docs refresh | `d5747268c38fef1b24ad7e9b5fa5fb3bf7c11455` |
 | Validated #1710 PR head | `ba17572f2058819cd084d14dd31ac8678b446a3d` |
 | v3.33 validation | [Gate #2532 / run 35690347773](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35690347773), completed/success; Strict Lean and exact-head terminal receipts both success |
+| Preceding integrated layer | v3.32, [PR #1709](https://github.com/itakura-hidetoshi/KuuOS/pull/1709), merge `c59c7aa4e6435a2172344dfaf2843937a86a89d8` |
+| v3.32 validation | Head `47da65d74fcd062b10f8bcbea8954e0e800a3cfc`; [Gate #2530 / run 35687280701](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35687280701), Strict Lean and terminal receipts both success |
 | Lean | `leanprover/lean4:v4.30.0-rc2` |
 | Mathlib | `5450b53e5ddc75d46418fabb605edbf36bd0beb6` |
 
-This is a dated snapshot, not a permanently current branch pointer. Documentation-only commits can advance `main` without advancing the mathematical baseline. A successful PR check does not put that PR's declarations on `main`. The v3.33 source is therefore linked at its [validated exact head](https://github.com/itakura-hidetoshi/KuuOS/blob/ba17572f2058819cd084d14dd31ac8678b446a3d/formal/KUOS/DependentOriginationQuotientSplitDirectionalSeparationV3_33.lean), not as a main-branch file.
+This is a dated snapshot, not a permanently current branch pointer. Documentation-only commits can advance `main` without advancing the mathematical baseline. The latest result is in [the v3.33 source on main](formal/KUOS/DependentOriginationQuotientSplitDirectionalSeparationV3_33.lean); its [validated exact-head source](https://github.com/itakura-hidetoshi/KuuOS/blob/ba17572f2058819cd084d14dd31ac8678b446a3d/formal/KUOS/DependentOriginationQuotientSplitDirectionalSeparationV3_33.lean) retains the CI provenance.
 
 Authority order:
 
@@ -61,7 +60,7 @@ The bridge from 空 to 縁起 retains context, relations, admissible transport, 
 
 The philosophical layer asks about relation, dependence, transformation, and non-reification. The mathematical layer studies those questions through categories, bicategories, pseudofunctors, localization, gauge freedom, holonomy, descent, and universal properties. The operational layer applies bounded observation, planning, action, and renewed verification. These are related layers, not a ranking of philosophical and mathematical authority.
 
-## Latest canonical results: one good representative and its composition algebra
+## From representative words to quotient-level directional criteria
 
 Let `R` be the raw Cat-valued higher contextual system and `D` its pointwise chosen W-adjoint-equivalence data. The existing representative evaluation remains
 
@@ -79,12 +78,11 @@ This definition alone does not make the selected evaluation a coherent pseudofun
 For fixed `W`, `R`, and `D`, v2.58 already supplies `Nonempty Iso` between evaluations of paths equal in the localization. v3.31 uses that isomorphism locally to prove both equivalences:
 
 ```text
-[p] = [q]
-  -> (EssSurj(eval p) <-> EssSurj(eval q))
-  -> (Faithful(eval p) <-> Faithful(eval q)).
+[p] = [q] -> (EssSurj(eval p) <-> EssSurj(eval q))
+[p] = [q] -> (Faithful(eval p) <-> Faithful(eval q)).
 ```
 
-Here the two conclusions are separate consequences of the same quotient equality. No coherent family of isomorphisms is selected by this proposition-valued transport.
+No coherent family of isomorphisms is selected by this proposition-valued transport.
 
 The sufficient conditions are now **existence of one suitable representative**, rather than conditions on the particular `Quot.out` word:
 
@@ -137,11 +135,11 @@ Thus `S_P` is the least multiplicative property containing those generator image
 
 This is minimality of a generated certificate sector, **not** a characterization of all semantically EssSurj or Faithful evaluations. It does not give arbitrary-factor or inverse closure, and does not make a non-certified arrow a noninjectivity witness.
 
-## Validated next layer: v3.33, not yet on main
+### v3.33 — semantic sectors and split directional separation
 
-[PR #1710](https://github.com/itakura-hidetoshi/KuuOS/pull/1710) · [validated source at ba17572f](https://github.com/itakura-hidetoshi/KuuOS/blob/ba17572f2058819cd084d14dd31ac8678b446a3d/formal/KUOS/DependentOriginationQuotientSplitDirectionalSeparationV3_33.lean)
+[Source on main](formal/KUOS/DependentOriginationQuotientSplitDirectionalSeparationV3_33.lean) · [merged PR #1710](https://github.com/itakura-hidetoshi/KuuOS/pull/1710)
 
-The checked module moves from word certificates to semantic properties of quotient evaluations. For fixed `W`, `R`, and `D`, it proves that these semantic EssSurj/Faithful sectors contain identities, are closed under composition, and contain the corresponding certified sectors. It does not assert equality or strict containment of those sectors.
+The latest integrated module moves from word certificates to semantic properties of quotient evaluations. For fixed `W`, `R`, and `D`, the semantic EssSurj/Faithful sectors contain identities, are closed under composition, and contain the corresponding certified sectors. Equality or strict containment of those sectors is not asserted.
 
 The local identity and composition isomorphisms from v2.61 also give **directional reflection**:
 
@@ -160,7 +158,7 @@ r : Z ⟶ Y,  g ≫ r = 𝟙 Y  -> Faithful(eval g)
              MiddleIdentityWhiskerSeparating W R D f g.
 ```
 
-No word certificate or two-sided equivalence is required by this split criterion. The four original instance-synthesis errors were repaired by giving `Cat.Hom.toNatIso` explicit functor-level identity/composition endpoints before property transport. The corrected module has completed its focused validation; canonical integration remains a separate step.
+No word certificate or two-sided equivalence is required by this split criterion. The four original instance-synthesis errors were repaired by giving `Cat.Hom.toNatIso` explicit functor-level identity/composition endpoints before property transport. The corrected module passed focused validation and is now integrated; no coherent family of comparison isomorphisms was added by those repairs.
 
 ## What the separation results close
 
@@ -182,7 +180,7 @@ Phi(eta) = F ◁ (eta ▷ G),
 
 where `F` and `G` are the outer quotient representatives. `MiddleIdentityWhiskerSeparating` states injectivity of this action. No extra linear structure is assumed by referring to its kernel relation.
 
-Under any proved sufficient separation criterion, the endpoint overlap closes **provided all three gauges satisfy their actual correction equations and both endpoint gauges agree with the anchor on their shared footprints**. Those five hypotheses are retained by the v3.30, v3.31, and validated v3.33 triangle theorems. Closing this triangle is not a theorem about all route stars or existence of one globally compatible correction family.
+Under any proved sufficient separation criterion, the endpoint overlap closes **provided all three gauges satisfy their actual correction equations and both endpoint gauges agree with the anchor on their shared footprints**. Those five hypotheses are retained by the v3.30, v3.31, and v3.33 triangle theorems. Closing this triangle is not a theorem about all route stars or existence of one globally compatible correction family.
 
 ## Canonical formal spine
 
@@ -198,8 +196,7 @@ Under any proved sufficient separation criterion, the endpoint overlap closes **
 | v3.22–v3.30 | Actual route-equation rigidity, mixed-triangle residual, directional cancellation, finite-path propagation, and the `Quot.out` word bridge. |
 | v3.31 | Semantic EssSurj/Faithful transport between quotient-equal path evaluations; one good representative suffices for separation and the mixed triangle. |
 | v3.32 | Certified quotient sectors contain identities, are composition-closed, and satisfy a generator-level minimality theorem. |
-
-**v3.33 is intentionally not listed as canonical:** it is the validated, unmerged layer described above.
+| v3.33 | Semantic sectors, directional reflection from composites, and separation/mixed-triangle closure from quotient sections and retractions. |
 
 ### Actual route-equation milestones retained
 
@@ -243,9 +240,9 @@ The remaining issue is not the patching operation. It is obtaining one family co
 
 ## Next mathematical boundary
 
-The former ROADMAP N1b and N2 tasks are no longer missing: **v3.31 solves quotient-equal evaluation-property transport and existence of one good representative; v3.32 adds identity/composition closure and minimality.** Letterwise certificate invariance is a separate syntactic question and was not needed for these results.
+The former ROADMAP N1b and N2 tasks are complete: **v3.31 solves quotient-equal evaluation-property transport and existence of one good representative; v3.32 adds identity/composition closure and minimality.** v3.33 further supplies semantic composition, directional reflection, and the split criterion. Integration of #1710 is complete and is not a pending step.
 
-The immediate integration step is to re-observe #1710's head, base, and completed checks before promoting its validated v3.33 results. This docs-only update does not perform that promotion. Subsequent mathematical work concerns additional separating/detecting conditions or actual noninjectivity witnesses, simultaneous correction-witness correlation across the required incidence geometry, and the two comparison `gIso` equations.
+Letterwise certificate invariance remains a separate syntactic question and was not needed for these results. The next mathematical work concerns additional separating/detecting conditions or actual noninjectivity witnesses, simultaneous correction-witness correlation across the required incidence geometry, and the two comparison `gIso` equations.
 
 The following general targets remain research goals:
 
@@ -305,20 +302,20 @@ Choose the least complex mode explicitly assessed as adequate. Unknown adequacy 
 
 ## Reproduction and verification
 
-The pinned environment is recorded in [lean-toolchain](lean-toolchain) and [lake-manifest.json](lake-manifest.json). On the canonical v3.32 source tree, the latest focused target is:
-
-```bash
-lake -KleanArgs=-DwarningAsError=true \
-  -KleanArgs=-DsorryAsError=true \
-  build KUOS.DependentOriginationCertifiedQuotientSectorClosureV3_32
-```
-
-The validated v3.33 target exists at #1710's exact head, not on main in this snapshot. In a checkout of `ba17572f2058819cd084d14dd31ac8678b446a3d`, run:
+The pinned environment is recorded in [lean-toolchain](lean-toolchain) and [lake-manifest.json](lake-manifest.json). The latest canonical focused target is now:
 
 ```bash
 lake -KleanArgs=-DwarningAsError=true \
   -KleanArgs=-DsorryAsError=true \
   build KUOS.DependentOriginationQuotientSplitDirectionalSeparationV3_33
+```
+
+The preceding certificate-sector unit can be reproduced separately:
+
+```bash
+lake -KleanArgs=-DwarningAsError=true \
+  -KleanArgs=-DsorryAsError=true \
+  build KUOS.DependentOriginationCertifiedQuotientSectorClosureV3_32
 ```
 
 The aggregate formal target is a separate check:
@@ -364,4 +361,4 @@ Stage-I factorization != Stage-II universality
 execution host != truth, WORLD-commit, or memory-overwrite authority
 ```
 
-**Current research sentence:** KuuOS has integrated representative-independent directional certificates and their identity/composition/minimality algebra through v3.32. The validated v3.33 branch adds semantic composition and directional reflection, yielding separation from quotient sections/retractions. Global witness correlation, the comparison lift, and the final coherent universal property remain distinct research steps.
+**Current research sentence:** KuuOS has integrated representative-independent directional certificates, their identity/composition/minimality algebra, and semantic quotient sections/retractions as a sufficient separation route through v3.33. Global witness correlation, the comparison lift, and the final coherent universal property remain distinct research steps.
