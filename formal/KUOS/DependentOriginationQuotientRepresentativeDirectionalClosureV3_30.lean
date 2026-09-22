@@ -52,18 +52,18 @@ than a global assumption on all generators.
 /-- Evidence that every edge of a quiver path satisfies a dependent edge
 predicate.
 
-This is an inductive proposition, so its proof object carries the same
-`nil/cons` structure as the path and can be eliminated without relying on
-definitional unfolding of a recursive `Prop`-valued function. -/
+The recursive occurrence passes the uniform parameters explicitly. In
+particular, `@P` preserves the predicate with its implicit endpoint arguments
+rather than inserting an eta-expanded function at the recursive occurrence. -/
 inductive PathEdgesSatisfy
-    {V : Type uQ} [Quiver.{vQ} V]
+    {V : Type uQ} [Q : Quiver.{vQ} V]
     (P : ∀ {X Y : V}, (X ⟶ Y) → Prop) :
     ∀ {X Y : V}, Quiver.Path X Y → Prop
   | nil (X : V) :
-      PathEdgesSatisfy P (Quiver.Path.nil : Quiver.Path X X)
+      @PathEdgesSatisfy V Q (@P) X X (Quiver.Path.nil : Quiver.Path X X)
   | cons {X Y Z : V} {p : Quiver.Path X Y} {e : Y ⟶ Z}
-      (hp : PathEdgesSatisfy P p) (he : P e) :
-      PathEdgesSatisfy P (p.cons e)
+      (hp : @PathEdgesSatisfy V Q (@P) X Y p) (he : @P Y Z e) :
+      @PathEdgesSatisfy V Q (@P) X Z (p.cons e)
 
 variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
