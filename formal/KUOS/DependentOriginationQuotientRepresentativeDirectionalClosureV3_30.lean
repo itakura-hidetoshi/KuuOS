@@ -144,9 +144,8 @@ theorem freePathEvaluator_map_essSurj_of_pathEdges
   | @cons Y Z p e _hp he ih =>
       have heEval :=
         generatorEvaluatesEssSurj_of_ordinaryCondition W R D e he
-      rw [show p.cons e = p ≫ (Paths.of _).map e by rfl]
-      rw [(freePathEvaluator W R D).map_comp]
-      rw [freePathEvaluator_map_generator W R D e]
+      -- Quiv.lift evaluates cons by mapPath and composePath, definitionally.
+      -- Avoid matching map_comp through the Paths type synonym and Cat wrappers.
       change
         (((freePathEvaluator W R D).map p).toFunctor ⋙
           ((localizedGeneratorPrefunctor W R D).map e).toFunctor).EssSurj
@@ -175,9 +174,7 @@ theorem freePathEvaluator_map_faithful_of_pathEdges
   | @cons Y Z p e _hp he ih =>
       have heEval :=
         generatorEvaluatesFaithful_of_ordinaryCondition W R D e he
-      rw [show p.cons e = p ≫ (Paths.of _).map e by rfl]
-      rw [(freePathEvaluator W R D).map_comp]
-      rw [freePathEvaluator_map_generator W R D e]
+      -- Use the same definitional cons reduction as in the EssSurj proof.
       change
         (((freePathEvaluator W R D).map p).toFunctor ⋙
           ((localizedGeneratorPrefunctor W R D).map e).toFunctor).Faithful
