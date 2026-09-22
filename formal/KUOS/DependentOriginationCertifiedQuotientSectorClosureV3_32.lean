@@ -72,7 +72,8 @@ instance certifiedQuotientSector_isMultiplicative :
   id_mem X := by
     refine ⟨(𝟙 X.as : X.as ⟶ X.as), ?_, ?_⟩
     · rfl
-    · exact @PathEdgesSatisfy.nil V Q (@P) X.as
+    · -- X.as is a Paths V object: keep the original edge quiver Q explicit.
+      exact @PathEdgesSatisfy.nil V Q (@P) X.as
   comp_mem f g hf hg := by
     rcases hf with ⟨p, hp, hEdgesP⟩
     rcases hg with ⟨q, hq, hEdgesQ⟩
@@ -142,17 +143,26 @@ variable (W : MorphismProperty Context)
 variable (R : RawHigherContextualSystem.{u, v, uH, vH}
   (Context := Context))
 
+/-!
+The v3.31 predicates are dependent functions with implicit endpoints. A postfix
+ascription supplies their expected type but does not fix the inferred-type
+namespace used by field notation. Call MorphismProperty APIs explicitly here;
+the type ascriptions retain the full family rather than one fixed hom-set.
+-/
+
 /-- The v3.31 EssSurj existence certificate is a multiplicative property on
 the actual localization. No pointwise equivalence choice is needed here. -/
 instance hasOrdinaryEssSurjRepresentative_isMultiplicative :
-    ((HasOrdinaryEssSurjRepresentative W R : MorphismProperty W.Localization)).IsMultiplicative :=
+    MorphismProperty.IsMultiplicative
+      (HasOrdinaryEssSurjRepresentative W R : MorphismProperty W.Localization) :=
   certifiedQuotientSector_isMultiplicative
     (Localization.Construction.relations W)
     (OrdinaryLocalizationGeneratorEssSurj W R)
 
 /-- The v3.31 Faithful existence certificate is also multiplicative. -/
 instance hasOrdinaryFaithfulRepresentative_isMultiplicative :
-    ((HasOrdinaryFaithfulRepresentative W R : MorphismProperty W.Localization)).IsMultiplicative :=
+    MorphismProperty.IsMultiplicative
+      (HasOrdinaryFaithfulRepresentative W R : MorphismProperty W.Localization) :=
   certifiedQuotientSector_isMultiplicative
     (Localization.Construction.relations W)
     (OrdinaryLocalizationGeneratorFaithful W R)
@@ -160,12 +170,14 @@ instance hasOrdinaryFaithfulRepresentative_isMultiplicative :
 /-- Identity arrows have an EssSurj certificate, witnessed by the empty path. -/
 theorem hasOrdinaryEssSurjRepresentative_id (X : W.Localization) :
     HasOrdinaryEssSurjRepresentative W R (𝟙 X) :=
-  (HasOrdinaryEssSurjRepresentative W R : MorphismProperty W.Localization).id_mem X
+  MorphismProperty.id_mem
+    (HasOrdinaryEssSurjRepresentative W R : MorphismProperty W.Localization) X
 
 /-- Identity arrows have a Faithful certificate, witnessed by the empty path. -/
 theorem hasOrdinaryFaithfulRepresentative_id (X : W.Localization) :
     HasOrdinaryFaithfulRepresentative W R (𝟙 X) :=
-  (HasOrdinaryFaithfulRepresentative W R : MorphismProperty W.Localization).id_mem X
+  MorphismProperty.id_mem
+    (HasOrdinaryFaithfulRepresentative W R : MorphismProperty W.Localization) X
 
 /-- Concatenate witnesses to compose EssSurj-certified quotient morphisms. -/
 theorem hasOrdinaryEssSurjRepresentative_comp
@@ -173,7 +185,8 @@ theorem hasOrdinaryEssSurjRepresentative_comp
     (hf : HasOrdinaryEssSurjRepresentative W R f)
     (hg : HasOrdinaryEssSurjRepresentative W R g) :
     HasOrdinaryEssSurjRepresentative W R (f ≫ g) :=
-  (HasOrdinaryEssSurjRepresentative W R : MorphismProperty W.Localization).comp_mem f g hf hg
+  MorphismProperty.comp_mem
+    (HasOrdinaryEssSurjRepresentative W R : MorphismProperty W.Localization) f g hf hg
 
 /-- Concatenate witnesses to compose Faithful-certified quotient morphisms. -/
 theorem hasOrdinaryFaithfulRepresentative_comp
@@ -181,7 +194,8 @@ theorem hasOrdinaryFaithfulRepresentative_comp
     (hf : HasOrdinaryFaithfulRepresentative W R f)
     (hg : HasOrdinaryFaithfulRepresentative W R g) :
     HasOrdinaryFaithfulRepresentative W R (f ≫ g) :=
-  (HasOrdinaryFaithfulRepresentative W R : MorphismProperty W.Localization).comp_mem f g hf hg
+  MorphismProperty.comp_mem
+    (HasOrdinaryFaithfulRepresentative W R : MorphismProperty W.Localization) f g hf hg
 
 /-- Generator-level characterization of containment for the EssSurj sector.
 Formal W-inverse letters are included without an extra hypothesis because the
