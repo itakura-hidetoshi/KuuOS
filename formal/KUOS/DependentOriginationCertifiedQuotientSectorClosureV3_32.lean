@@ -144,17 +144,21 @@ variable (R : RawHigherContextualSystem.{u, v, uH, vH}
   (Context := Context))
 
 /-!
-The v3.31 predicates are dependent functions with implicit endpoints. A postfix
-ascription supplies their expected type but does not fix the inferred-type
-namespace used by field notation. Call MorphismProperty APIs explicitly here;
-the type ascriptions retain the full family rather than one fixed hom-set.
+The v3.31 predicates use ordinary implicit endpoints `{X Y}`. A bare partial
+application to `W R` inserts endpoint metavariables, producing a predicate on
+one hom-set. `MorphismProperty` instead retains strict implicit endpoints
+`⦃X Y⦄`. Neither a postfix type ascription nor a fully qualified API name
+prevents the earlier insertion. At each higher-order boundary, explicitly
+bind both endpoints and the arrow; only then apply the v3.31 predicate fully.
+This preserves the original definitions and all mathematical hypotheses.
 -/
 
 /-- The v3.31 EssSurj existence certificate is a multiplicative property on
 the actual localization. No pointwise equivalence choice is needed here. -/
 instance hasOrdinaryEssSurjRepresentative_isMultiplicative :
     MorphismProperty.IsMultiplicative
-      (HasOrdinaryEssSurjRepresentative W R : MorphismProperty W.Localization) :=
+      ((fun ⦃X Y : W.Localization⦄ (f : X ⟶ Y) =>
+        HasOrdinaryEssSurjRepresentative W R f) : MorphismProperty W.Localization) :=
   certifiedQuotientSector_isMultiplicative
     (Localization.Construction.relations W)
     (OrdinaryLocalizationGeneratorEssSurj W R)
@@ -162,7 +166,8 @@ instance hasOrdinaryEssSurjRepresentative_isMultiplicative :
 /-- The v3.31 Faithful existence certificate is also multiplicative. -/
 instance hasOrdinaryFaithfulRepresentative_isMultiplicative :
     MorphismProperty.IsMultiplicative
-      (HasOrdinaryFaithfulRepresentative W R : MorphismProperty W.Localization) :=
+      ((fun ⦃X Y : W.Localization⦄ (f : X ⟶ Y) =>
+        HasOrdinaryFaithfulRepresentative W R f) : MorphismProperty W.Localization) :=
   certifiedQuotientSector_isMultiplicative
     (Localization.Construction.relations W)
     (OrdinaryLocalizationGeneratorFaithful W R)
@@ -171,13 +176,15 @@ instance hasOrdinaryFaithfulRepresentative_isMultiplicative :
 theorem hasOrdinaryEssSurjRepresentative_id (X : W.Localization) :
     HasOrdinaryEssSurjRepresentative W R (𝟙 X) :=
   MorphismProperty.id_mem
-    (HasOrdinaryEssSurjRepresentative W R : MorphismProperty W.Localization) X
+    ((fun ⦃X Y : W.Localization⦄ (f : X ⟶ Y) =>
+      HasOrdinaryEssSurjRepresentative W R f) : MorphismProperty W.Localization) X
 
 /-- Identity arrows have a Faithful certificate, witnessed by the empty path. -/
 theorem hasOrdinaryFaithfulRepresentative_id (X : W.Localization) :
     HasOrdinaryFaithfulRepresentative W R (𝟙 X) :=
   MorphismProperty.id_mem
-    (HasOrdinaryFaithfulRepresentative W R : MorphismProperty W.Localization) X
+    ((fun ⦃X Y : W.Localization⦄ (f : X ⟶ Y) =>
+      HasOrdinaryFaithfulRepresentative W R f) : MorphismProperty W.Localization) X
 
 /-- Concatenate witnesses to compose EssSurj-certified quotient morphisms. -/
 theorem hasOrdinaryEssSurjRepresentative_comp
@@ -186,7 +193,8 @@ theorem hasOrdinaryEssSurjRepresentative_comp
     (hg : HasOrdinaryEssSurjRepresentative W R g) :
     HasOrdinaryEssSurjRepresentative W R (f ≫ g) :=
   MorphismProperty.comp_mem
-    (HasOrdinaryEssSurjRepresentative W R : MorphismProperty W.Localization) f g hf hg
+    ((fun ⦃X Y : W.Localization⦄ (f : X ⟶ Y) =>
+      HasOrdinaryEssSurjRepresentative W R f) : MorphismProperty W.Localization) f g hf hg
 
 /-- Concatenate witnesses to compose Faithful-certified quotient morphisms. -/
 theorem hasOrdinaryFaithfulRepresentative_comp
@@ -195,14 +203,16 @@ theorem hasOrdinaryFaithfulRepresentative_comp
     (hg : HasOrdinaryFaithfulRepresentative W R g) :
     HasOrdinaryFaithfulRepresentative W R (f ≫ g) :=
   MorphismProperty.comp_mem
-    (HasOrdinaryFaithfulRepresentative W R : MorphismProperty W.Localization) f g hf hg
+    ((fun ⦃X Y : W.Localization⦄ (f : X ⟶ Y) =>
+      HasOrdinaryFaithfulRepresentative W R f) : MorphismProperty W.Localization) f g hf hg
 
 /-- Generator-level characterization of containment for the EssSurj sector.
 Formal W-inverse letters are included without an extra hypothesis because the
 ordinary-letter condition on them is `True`. -/
 theorem hasOrdinaryEssSurjRepresentative_le_iff
     (S : MorphismProperty W.Localization) [S.IsMultiplicative] :
-    (HasOrdinaryEssSurjRepresentative W R : MorphismProperty W.Localization) ≤ S ↔
+    ((fun ⦃X Y : W.Localization⦄ (f : X ⟶ Y) =>
+      HasOrdinaryEssSurjRepresentative W R f) : MorphismProperty W.Localization) ≤ S ↔
       ∀ {X Y : Localization.Construction.LocQuiver W} (e : X ⟶ Y),
         OrdinaryLocalizationGeneratorEssSurj W R e →
           S ((Quotient.functor
@@ -214,7 +224,8 @@ theorem hasOrdinaryEssSurjRepresentative_le_iff
 /-- The corresponding generator characterization for the Faithful sector. -/
 theorem hasOrdinaryFaithfulRepresentative_le_iff
     (S : MorphismProperty W.Localization) [S.IsMultiplicative] :
-    (HasOrdinaryFaithfulRepresentative W R : MorphismProperty W.Localization) ≤ S ↔
+    ((fun ⦃X Y : W.Localization⦄ (f : X ⟶ Y) =>
+      HasOrdinaryFaithfulRepresentative W R f) : MorphismProperty W.Localization) ≤ S ↔
       ∀ {X Y : Localization.Construction.LocQuiver W} (e : X ⟶ Y),
         OrdinaryLocalizationGeneratorFaithful W R e →
           S ((Quotient.functor
