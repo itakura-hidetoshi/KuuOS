@@ -64,12 +64,21 @@ theorem countable_leadingCoordinate_injective
     (hSafe : CountableForwardNoninterference W tasks) :
     Function.Injective (fun i => associatorTaskLeadingCoordinate W (tasks i)) := by
   intro i j hij
+  -- Fix the beta-reduced key equality and keep each inspected route fixed.
+  have hKey : associatorTaskLeadingCoordinate W (tasks i) =
+      associatorTaskLeadingCoordinate W (tasks j) := hij
   rcases lt_trichotomy i j with hlt | heq | hgt
   · exact False.elim (hSafe i j hlt
-      (hij ▸ associatorTaskLeadingCoordinate_mem W (tasks i)))
+      (Eq.subst
+        (motive := fun c : QuotientGaugeCoordinate W =>
+          RouteFootprintContains W (associatorTaskRoute W (tasks i)) c)
+        hKey (associatorTaskLeadingCoordinate_mem W (tasks i))))
   · exact heq
   · exact False.elim (hSafe j i hgt
-      (hij.symm ▸ associatorTaskLeadingCoordinate_mem W (tasks j)))
+      (Eq.subst
+        (motive := fun c : QuotientGaugeCoordinate W =>
+          RouteFootprintContains W (associatorTaskRoute W (tasks j)) c)
+        hKey.symm (associatorTaskLeadingCoordinate_mem W (tasks j))))
 
 variable (R : RawHigherContextualSystem.{u, v, uH, vH}
   (Context := Context))
