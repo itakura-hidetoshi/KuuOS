@@ -57,6 +57,14 @@ noncomputable def counterComparisonScalar
     {X Y : OctahedralVertex} (f : X ⟶ Y) : C2 :=
   (C.mapIso f).hom.toNatTrans.app (SingleObj.star C2)
 
+/-- Every raw fiber object is definitionally the same one-object C2 category.
+Keeping this reduction as an explicit simp lemma lets component-level
+`eqToHom` terms normalize without unfolding the whole counter pseudofunctor. -/
+@[simp] theorem counterSystem_obj_eq_counterFiber
+    (X : OctahedralVertex) :
+    counterSystem.obj (.mk X) = Cat.of CounterFiber := by
+  rfl
+
 /-- Equality transport in the one-object C2 fiber is always the unit scalar. -/
 @[simp] theorem counterFiber_eqToHom_eq_one
     {A B : CounterFiber} (h : A = B) :
@@ -163,8 +171,10 @@ theorem counterComparisonScalar_comp
       counterRestrictedMapComp_hom_app_star,
       counterSystem_mapComp_hom_app,
       counterSystem_map_morphism_eq,
+      counterSystem_obj_eq_counterFiber,
+      restrictedCoherentQuotientSystem_obj,
       counterFiber_eqToHom_eq_one,
-      Cat.Hom.id_map,
+      Cat.Hom.id_obj, Cat.Hom.id_map,
       SingleObj.comp_as_mul,
       mul_one, one_mul, mul_assoc, mul_comm] using hApp
 
