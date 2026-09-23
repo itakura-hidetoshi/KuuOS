@@ -97,8 +97,12 @@ theorem exists_inversePairFreshBoundaryObstruction_of_nontrivial_isolated_fg
     simpa [a] using hBoundary
   by_cases hCorrect :
       Q ∈ quotientRouteCorrectionLocus W R D (.associator f g h)
-  · obtain ⟨value, hDifferent⟩ :=
-      exists_ne (Q.mapCompGauge f g)
+  · obtain ⟨value, hDifferentValue⟩ :=
+      (exists_ne
+        (α := QuotientGaugeCoordinateFiber W R D (.composition f g))
+        (quotientGaugeCoordinateValue W R D Q (.composition f g)))
+    have hDifferent : value ≠ Q.mapCompGauge f g := by
+      simpa [quotientGaugeCoordinateValue] using hDifferentValue
     exact
       exists_inversePairFreshBoundaryObstruction_of_isolated_fg_perturbation
         W R D f g h hfg hgf Q value hBoundary hIsolated hDifferent
