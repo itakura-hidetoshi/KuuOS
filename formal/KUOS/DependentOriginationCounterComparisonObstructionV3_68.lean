@@ -10,6 +10,7 @@ open KUOS.DependentOriginationPointwiseWAdjointEquivalenceV2_56
 open KUOS.DependentOriginationCoherentQuotientTransportV2_59
 open KUOS.DependentOriginationCoherentComparisonFactorizationV2_60
 open KUOS.DependentOriginationGeneratedHolonomyCountermodelV2_69
+open KUOS.DependentOriginationCounterRepresentativeIdentityV3_66
 open KUOS.DependentOriginationCounterCoherentQuotientTransportV3_67
 
 set_option autoImplicit false
@@ -117,10 +118,27 @@ theorem not_counterComparisonData :
 
   simp [zeta] at h000' h010' h001' h011' h100' h110' h101' h111'
 
-  have hzero : (1 : ZMod 2) = 0 := by
+  have hsum :
+      (1 : ZMod 2) +
+          2 * Multiplicative.toAdd (counterComparisonScalar C c00) +
+          2 * Multiplicative.toAdd (counterComparisonScalar C c01) +
+          2 * Multiplicative.toAdd (counterComparisonScalar C c10) +
+          2 * Multiplicative.toAdd (counterComparisonScalar C c11) =
+        2 * Multiplicative.toAdd (counterComparisonScalar C a00) +
+          2 * Multiplicative.toAdd (counterComparisonScalar C a01) +
+          2 * Multiplicative.toAdd (counterComparisonScalar C a10) +
+          2 * Multiplicative.toAdd (counterComparisonScalar C a11) +
+          2 * Multiplicative.toAdd (counterComparisonScalar C b00) +
+          2 * Multiplicative.toAdd (counterComparisonScalar C b01) +
+          2 * Multiplicative.toAdd (counterComparisonScalar C b10) +
+          2 * Multiplicative.toAdd (counterComparisonScalar C b11) := by
     linear_combination
       h000' + h010' + h001' + h011' +
       h100' + h110' + h101' + h111'
+  have htwo : (2 : ZMod 2) = 0 := by
+    norm_num
+  have hzero : (1 : ZMod 2) = 0 := by
+    simpa [htwo] using hsum
   exact one_ne_zero hzero
 
 /-- The explicit coherent quotient transport of v3.67 admits no coherent
