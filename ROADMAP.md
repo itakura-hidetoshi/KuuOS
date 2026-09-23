@@ -6,31 +6,51 @@ This roadmap records proved results, explicit hypotheses, countermodel scope, an
 
 ## 1. Authority and reproducible baseline
 
-```text
-canonical branch:                 main
-latest theorem-bearing merge:     PR #1733, v3.52
-mathematical baseline:            7e01b3cfe468dbf870f13ded04f85e2595ecb81f
-pre-docs-refresh main:            7e01b3cfe468dbf870f13ded04f85e2595ecb81f
-validated PR head:                380565c1a09d182272136525bc0d8868f4cda9c7
-exact-head governance run:        35801551701
-terminal / Lean receipts:         success / success
-Lean:                             leanprover/lean4:v4.30.0-rc2
-Mathlib:                          5450b53e5ddc75d46418fabb605edbf36bd0beb6
-```
+Canonical branch: `main`.
 
-Authority remains:
+Fresh theorem-bearing canonical baseline observed on 2026-09-23 JST:
 
-```text
-fresh exact canonical GitHub SHA
-  > formal Lean artifacts at that SHA
-  > README / ROADMAP
-  > CI/runtime receipts
-  > history / memory
-```
+~~~text
+2d7c0fa2e8c30f3d221d3166a29ab583f2e02f54
+~~~
 
-A documentation-only merge may advance `main` without advancing the theorem baseline. Re-observe GitHub before new formal work.
+This is the merge commit of PR #1747, integrating **v3.65 — fixed-gauge unitor/associator separation**.
 
-The separate Lean 4.31 validation-only PR #1558 remains **open / Draft / unmerged** and outside theorem authority. It must not be merged, marked Ready for review, or auto-merged.
+The current validated but unmerged theorem unit is PR #1748, **v3.66 — countermodel quotient representatives collapse to identity 1-cells**:
+
+~~~text
+exact validated head
+383dd616ef9b15c1ecfcac23fd8de4f65b4bc6fa
+
+governance run
+35847500021
+
+Strict Lean formal validation = success
+exact-head terminal          = success
+~~~
+
+PR #1748 remains Draft / open / unmerged. It is not canonical theorem authority until merged.
+
+The separate Lean 4.31 validation-only PR #1558 remains open / Draft / unmerged and must not be merged, marked Ready for review, or auto-merged.
+
+Authority order remains fixed:
+
+~~~text
+1. fresh exact canonical GitHub SHA
+2. formal Lean theorem artifacts at that SHA
+3. README / ROADMAP
+4. exact-head CI receipts
+5. history / memory
+~~~
+
+A docs-only merge may advance `main` without advancing the theorem baseline.
+
+Pinned formal environment:
+
+~~~text
+Lean    leanprover/lean4:v4.30.0-rc2
+Mathlib 5450b53e5ddc75d46418fabb605edbf36bd0beb6
+~~~
 
 ## 2. North star and distinct completion levels
 
