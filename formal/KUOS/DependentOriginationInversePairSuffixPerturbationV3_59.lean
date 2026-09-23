@@ -133,10 +133,8 @@ theorem associator_mapComp_f_g_eq_of_corrected_of_other_three_eq_of_faithful
   let S' := quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q'
 
   have hAdjustedLead :
-      (quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
-          (f ≫ g) h =
-        (quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q').mapComp
-          (f ≫ g) h := by
+      S.mapComp (f ≫ g) h = S'.mapComp (f ≫ g) h := by
+    dsimp [S, S']
     simpa [quotientGaugeAdjustedGeneratedPointwiseChoice,
       gaugeAdjustedGeneratedPointwiseChoice,
       canonicalPointwiseGaugeOfQuotientGauge,
@@ -145,8 +143,8 @@ theorem associator_mapComp_f_g_eq_of_corrected_of_other_three_eq_of_faithful
         (fun q => generatedCompositionMapIso W R D (f ≫ g) h ≪≫ q)
         hLead
   have hAdjustedGH :
-      (quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp g h =
-        (quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q').mapComp g h := by
+      S.mapComp g h = S'.mapComp g h := by
+    dsimp [S, S']
     simpa [quotientGaugeAdjustedGeneratedPointwiseChoice,
       gaugeAdjustedGeneratedPointwiseChoice,
       canonicalPointwiseGaugeOfQuotientGauge,
@@ -155,10 +153,8 @@ theorem associator_mapComp_f_g_eq_of_corrected_of_other_three_eq_of_faithful
         (fun q => generatedCompositionMapIso W R D g h ≪≫ q)
         hGH
   have hAdjustedFGH :
-      (quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
-          f (g ≫ h) =
-        (quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q').mapComp
-          f (g ≫ h) := by
+      S.mapComp f (g ≫ h) = S'.mapComp f (g ≫ h) := by
+    dsimp [S, S']
     simpa [quotientGaugeAdjustedGeneratedPointwiseChoice,
       gaugeAdjustedGeneratedPointwiseChoice,
       canonicalPointwiseGaugeOfQuotientGauge,
