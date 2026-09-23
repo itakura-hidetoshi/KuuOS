@@ -43,8 +43,11 @@ noncomputable def counterQuotientMapId
     quotientRepresentativeMap
         allMorphisms counterSystem counterD (𝟙 X) ≅
       𝟙 (counterSystem.obj (.mk X.as.obj)) := by
-  rw [counterD_quotientRepresentativeMap_eq_identity]
-  exact Iso.refl _
+  simpa only [counterSystem,
+    counterD_quotientRepresentativeMap_eq_identity] using
+    (Iso.refl
+      ((𝟙 (Cat.of CounterFiber)) :
+        Cat.of CounterFiber ⟶ Cat.of CounterFiber))
 
 /-- Canonical composition comparison after the v3.66 representative collapse.
 
@@ -59,10 +62,10 @@ noncomputable def counterQuotientMapComp
           allMorphisms counterSystem counterD f ≫
         quotientRepresentativeMap
           allMorphisms counterSystem counterD g := by
-  rw [counterD_quotientRepresentativeMap_eq_identity,
-    counterD_quotientRepresentativeMap_eq_identity,
-    counterD_quotientRepresentativeMap_eq_identity]
-  exact (ρ_ ((𝟙 CounterFiber).toCatHom)).symm
+  simpa only [counterD_quotientRepresentativeMap_eq_identity] using
+    (ρ_
+      ((𝟙 (Cat.of CounterFiber)) :
+        Cat.of CounterFiber ⟶ Cat.of CounterFiber)).symm
 
 /-- Explicit coherent quotient transport for the canonical countermodel datum.
 
@@ -75,17 +78,40 @@ noncomputable def counterD_coherentQuotientTransportData :
   mapComp := counterQuotientMapComp
   map₂_associator := by
     intro X Y Z T f g h
-    simp [counterQuotientMapComp,
-      counterD_quotientRepresentativeMap_eq_identity]
-    bicategory
+    apply Cat.Hom₂.ext
+    ext A
+    cases A
+    set_option backward.isDefEq.respectTransparency false in
+      simp [counterQuotientMapComp,
+        counterD_quotientRepresentativeMap_eq_identity,
+        Cat.Hom.comp_toFunctor, Functor.comp_obj, Cat.Hom.comp_obj,
+        Cat.whiskerLeft_app, Cat.whiskerRight_app,
+        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
+        Category.comp_id, Category.id_comp, Category.assoc]
   map₂_left_unitor := by
     intro X Y f
-    simp [counterQuotientMapId, counterQuotientMapComp,
-      counterD_quotientRepresentativeMap_eq_identity]
+    apply Cat.Hom₂.ext
+    ext A
+    cases A
+    set_option backward.isDefEq.respectTransparency false in
+      simp [counterQuotientMapId, counterQuotientMapComp,
+        counterD_quotientRepresentativeMap_eq_identity,
+        Cat.Hom.comp_toFunctor, Functor.comp_obj, Cat.Hom.comp_obj,
+        Cat.whiskerLeft_app, Cat.whiskerRight_app,
+        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
+        Category.comp_id, Category.id_comp, Category.assoc]
   map₂_right_unitor := by
     intro X Y f
-    simp [counterQuotientMapId, counterQuotientMapComp,
-      counterD_quotientRepresentativeMap_eq_identity]
+    apply Cat.Hom₂.ext
+    ext A
+    cases A
+    set_option backward.isDefEq.respectTransparency false in
+      simp [counterQuotientMapId, counterQuotientMapComp,
+        counterD_quotientRepresentativeMap_eq_identity,
+        Cat.Hom.comp_toFunctor, Functor.comp_obj, Cat.Hom.comp_obj,
+        Cat.whiskerLeft_app, Cat.whiskerRight_app,
+        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
+        Category.comp_id, Category.id_comp, Category.assoc]
 
 /-- The concrete C2 model has coherent quotient transport. -/
 theorem counterD_hasCoherentQuotientTransportData :
