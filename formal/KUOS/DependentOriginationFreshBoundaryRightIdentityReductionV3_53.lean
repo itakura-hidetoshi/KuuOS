@@ -226,7 +226,8 @@ theorem rightIdentityAssociator_corrected_of_rightUnitors
       eqToHom_iso_hom_naturality
         (fun k : Y ⟶ Z => S.mapComp f k)
         (Category.comp_id g)
-    simpa [eG, eFG, F, G, K] using hNat
+    simp [eG, eFG, F, G, K] at hNat
+    exact hNat
 
   have hEqToHomTransport :
       eA ≫ eFG = eK := by
@@ -245,7 +246,10 @@ theorem rightIdentityAssociator_corrected_of_rightUnitors
           have hx := congrArg (fun k => eA ≫ k) hMapCompTransport
           simpa only [Category.assoc] using hx
       _ = eK ≫ (S.mapComp f g).hom := by
-          rw [hEqToHomTransport]
+          have hx := congrArg
+            (fun k => k ≫ (S.mapComp f g).hom)
+            hEqToHomTransport
+          simpa only [Category.assoc] using hx
 
   have hRGwhisk :
       F ◁ (S.mapComp g (𝟙 Z)).hom ≫
