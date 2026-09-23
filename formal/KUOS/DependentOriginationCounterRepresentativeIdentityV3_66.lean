@@ -3,9 +3,11 @@ import KUOS.DependentOriginationFixedGaugeUnitorAssociatorSeparationV3_65
 namespace KUOS.DependentOriginationCounterRepresentativeIdentityV3_66
 
 open CategoryTheory
+open CategoryTheory.Bicategory
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationPointwiseWAdjointEquivalenceV2_56
 open KUOS.DependentOriginationFreePathEvaluatorV2_57
+open KUOS.DependentOriginationGeneratedLocalizationHolonomyV2_68
 open KUOS.DependentOriginationCoherentQuotientTransportV2_59
 open KUOS.DependentOriginationGeneratedHolonomyCountermodelV2_69
 
@@ -64,8 +66,7 @@ theorem counterFreePathEvaluator_eq_identityCatHom
       (W := allMorphisms) counterSystem)
     {X Y : LocalizationPaths allMorphisms} (p : X ⟶ Y) :
     (freePathEvaluator allMorphisms counterSystem D).map p =
-      ((𝟭 (Cat.of CounterFiber)) :
-        Cat.of CounterFiber ⟶ Cat.of CounterFiber) := by
+      (𝟭 CounterFiber).toCatHom := by
   apply Cat.Hom.ext
   exact counterFreePathEvaluator_toFunctor_eq_id D p
 
@@ -77,12 +78,10 @@ theorem counterQuotientRepresentativeMap_eq_identity
       (W := allMorphisms) counterSystem)
     {X Y : allMorphisms.Localization} (f : X ⟶ Y) :
     quotientRepresentativeMap allMorphisms counterSystem D f =
-      ((𝟭 (Cat.of CounterFiber)) :
-        Cat.of CounterFiber ⟶ Cat.of CounterFiber) := by
+      (𝟭 CounterFiber).toCatHom := by
   change
     (freePathEvaluator allMorphisms counterSystem D).map (Quot.out f) =
-      ((𝟭 (Cat.of CounterFiber)) :
-        Cat.of CounterFiber ⟶ Cat.of CounterFiber)
+      (𝟭 CounterFiber).toCatHom
   exact counterFreePathEvaluator_eq_identityCatHom D (Quot.out f)
 
 /-- Underlying-functor form of the quotient-representative collapse. -/
@@ -102,8 +101,7 @@ localization arrow. -/
 theorem counterD_quotientRepresentativeMap_eq_identity
     {X Y : allMorphisms.Localization} (f : X ⟶ Y) :
     quotientRepresentativeMap allMorphisms counterSystem counterD f =
-      ((𝟭 (Cat.of CounterFiber)) :
-        Cat.of CounterFiber ⟶ Cat.of CounterFiber) := by
+      (𝟭 CounterFiber).toCatHom := by
   exact counterQuotientRepresentativeMap_eq_identity counterD f
 
 /-!
