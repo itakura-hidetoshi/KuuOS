@@ -55,10 +55,9 @@ theorem counterFreePathEvaluator_toFunctor_eq_id
       𝟭 CounterFiber := by
   apply Functor.hext
   · intro A
-    exact Subsingleton.elim _ _
+    exact @Subsingleton.elim Unit inferInstance _ _
   · intro A B x
-    simpa using
-      HEq.of_eq (counterFreePathEvaluator_map_eq D p x)
+    exact (counterFreePathEvaluator_map_eq D p x).heq
 
 /-- The same statement at the protected 1-morphism wrapper used by `Cat`. -/
 theorem counterFreePathEvaluator_eq_identityCatHom
