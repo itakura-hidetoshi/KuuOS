@@ -5,6 +5,7 @@ namespace KUOS.DependentOriginationUniversalUnitorGaugeV3_64
 open CategoryTheory
 open CategoryTheory.Bicategory
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
+open KUOS.DependentOriginationGeneratedHolonomyCountermodelV2_69
 open KUOS.DependentOriginationPointwiseWAdjointEquivalenceV2_56
 open KUOS.DependentOriginationCoherentQuotientTransportV2_59
 open KUOS.DependentOriginationCoherenceDefectsV2_65
@@ -173,9 +174,18 @@ theorem completeLeftUnitor_corrected
         generatedIdentityMapIso W R D X ≪≫ Q.mapIdGauge X
     rw [show Q'.mapIdGauge X = Q.mapIdGauge X by
       simpa [Q'] using completeLeftUnitor_mapIdGauge W R D Q f X]
-  rw [hComp, hId]
-  simp [leftUnitorSuffixIso, leftUnitorSourceTransportIso,
-    Iso.trans_hom, Category.assoc]
+  have hSuffix :
+      leftUnitorSuffixIso W R D Q' f =
+        leftUnitorSuffixIso W R D Q f := by
+    unfold leftUnitorSuffixIso
+    rw [hId]
+  change
+    (L'.mapComp (𝟙 X) f).hom ≫
+        (leftUnitorSuffixIso W R D Q' f).hom =
+      (leftUnitorSourceTransportIso W R D f).hom
+  rw [hComp, hSuffix]
+  simp only [Iso.trans_hom, Iso.symm_hom, Category.assoc,
+    Iso.inv_hom_id, Category.comp_id]
 
 /-! ## Solve one right unitor while preserving all identity coordinates -/
 
@@ -276,9 +286,18 @@ theorem completeRightUnitor_corrected
         generatedIdentityMapIso W R D Y ≪≫ Q.mapIdGauge Y
     rw [show Q'.mapIdGauge Y = Q.mapIdGauge Y by
       simpa [Q'] using completeRightUnitor_mapIdGauge W R D Q f Y]
-  rw [hComp, hId]
-  simp [rightUnitorSuffixIso, rightUnitorSourceTransportIso,
-    Iso.trans_hom, Category.assoc]
+  have hSuffix :
+      rightUnitorSuffixIso W R D Q' f =
+        rightUnitorSuffixIso W R D Q f := by
+    unfold rightUnitorSuffixIso
+    rw [hId]
+  change
+    (L'.mapComp f (𝟙 Y)).hom ≫
+        (rightUnitorSuffixIso W R D Q' f).hom =
+      (rightUnitorSourceTransportIso W R D f).hom
+  rw [hComp, hSuffix]
+  simp only [Iso.trans_hom, Iso.symm_hom, Category.assoc,
+    Iso.inv_hom_id, Category.comp_id]
 
 /-! ## Correlate all local unitor solutions and glue them -/
 
