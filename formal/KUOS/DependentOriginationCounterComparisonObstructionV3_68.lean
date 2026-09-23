@@ -136,6 +136,8 @@ theorem counterComparisonScalar_comp
       counterSystem_mapComp_hom_app_star,
       counterRestrictedMap_toFunctor_eq_id,
       counterSystem_map_toFunctor,
+      Cat.Hom.id_toFunctor, Cat.Hom.id_obj, Cat.Hom.id_map,
+      Cat.eqToHom_app,
       Functor.id_obj, Functor.id_map, eqToHom_refl,
       SingleObj.comp_as_mul, SingleObj.id_as_one,
       Category.comp_id, Category.id_comp, mul_one, one_mul,
