@@ -82,16 +82,6 @@ so simp need not rewrite the ambient Cat object first. -/
   subst B
   rfl
 
-/-- Composition in every raw counterSystem fiber is the reversed C2 product,
-as for the underlying one-object category.  Stating this at the dependent raw
-fiber type avoids unfolding `counterSystem.obj` during scalar normalization. -/
-@[simp] theorem counterSystem_comp_eq_mul
-    (X : OctahedralVertex)
-    {A B D : counterSystem.obj (.mk X)}
-    (p : A ⟶ B) (q : B ⟶ D) :
-    p ≫ q = q * p := by
-  rfl
-
 /-- The same normalization for an object of the restricted quotient-stage
 system. -/
 @[simp] theorem counterRestricted_eqToHom_eq_one
@@ -196,20 +186,25 @@ theorem counterComparisonScalar_comp
   have h := C.naturality_comp f g
   have hNat := congrArg (fun η => η.toNatTrans) h
   have hApp := NatTrans.congr_app hNat (SingleObj.star C2)
-  set_option backward.isDefEq.respectTransparency false in
-    simpa only [Cat.Hom₂.comp_app, Cat.whiskerLeft_app,
-      Cat.whiskerRight_app, Cat.associator_hom_app,
-      Cat.associator_inv_app,
-      counterIdentityComponentNaturalityIso_hom_app,
-      counterRestrictedMapComp_hom_app_star,
-      counterSystem_mapComp_hom_app,
-      counterSystem_map_morphism_eq,
-      counterSystem_eqToHom_eq_one,
-      counterRestricted_eqToHom_eq_one,
-      counterFiber_eqToHom_eq_one,
-      counterSystem_comp_eq_mul,
-      Cat.Hom.id_obj, Cat.Hom.id_map,
-      mul_one, one_mul] using hApp
+  have hCat :
+      (counterComparisonScalar C (f ≫ g) :
+          (SingleObj.star C2) ⟶ (SingleObj.star C2)) ≫
+          compScalar X Y Z =
+        counterComparisonScalar C g ≫ counterComparisonScalar C f := by
+    set_option backward.isDefEq.respectTransparency false in
+      simpa only [Cat.Hom₂.comp_app, Cat.whiskerLeft_app,
+        Cat.whiskerRight_app, Cat.associator_hom_app,
+        Cat.associator_inv_app,
+        counterIdentityComponentNaturalityIso_hom_app,
+        counterRestrictedMapComp_hom_app_star,
+        counterSystem_mapComp_hom_app,
+        counterSystem_map_morphism_eq,
+        counterSystem_eqToHom_eq_one,
+        counterRestricted_eqToHom_eq_one,
+        counterFiber_eqToHom_eq_one,
+        Cat.Hom.id_obj, Cat.Hom.id_map,
+        Category.id_comp, Category.comp_id] using hApp
+  simpa only [SingleObj.comp_as_mul] using hCat
 
 /-- On an octahedral triangular face, replace the composite arrow by the named
 direct lower-to-upper edge. -/
