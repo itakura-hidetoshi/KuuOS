@@ -393,7 +393,7 @@ This is a **same-gauge separation theorem**.
 
 It does not prove that every gauge fails, that the common correction locus is empty, or that coherent quotient transport is impossible.
 
-## 7. Current quotient-stage frontier after v3.65
+## 7. Current quotient-stage frontier after canonical v3.66
 
 ### Canonical v3.66 — identity quotient representatives
 
