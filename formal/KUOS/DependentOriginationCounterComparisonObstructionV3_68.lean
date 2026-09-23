@@ -82,6 +82,16 @@ so simp need not rewrite the ambient Cat object first. -/
   subst B
   rfl
 
+/-- Composition in every raw counterSystem fiber is the reversed C2 product,
+as for the underlying one-object category.  Stating this at the dependent raw
+fiber type avoids unfolding `counterSystem.obj` during scalar normalization. -/
+@[simp] theorem counterSystem_comp_eq_mul
+    (X : OctahedralVertex)
+    {A B D : counterSystem.obj (.mk X)}
+    (p : A ⟶ B) (q : B ⟶ D) :
+    p ≫ q = q * p := by
+  rfl
+
 /-- The same normalization for an object of the restricted quotient-stage
 system. -/
 @[simp] theorem counterRestricted_eqToHom_eq_one
@@ -197,8 +207,8 @@ theorem counterComparisonScalar_comp
       counterSystem_eqToHom_eq_one,
       counterRestricted_eqToHom_eq_one,
       counterFiber_eqToHom_eq_one,
+      counterSystem_comp_eq_mul,
       Cat.Hom.id_obj, Cat.Hom.id_map,
-      SingleObj.comp_as_mul,
       mul_one, one_mul, mul_assoc, mul_comm] using hApp
 
 /-- On an octahedral triangular face, replace the composite arrow by the named
