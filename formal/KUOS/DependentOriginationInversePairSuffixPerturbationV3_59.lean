@@ -271,13 +271,15 @@ theorem fgGaugeUpdate_preserves_all_unitors
       quotientGaugeUpdate W R D Q (.composition f g) value ∈
         quotientRouteCorrectionLocus W R D (unitorRouteState W s) := by
   intro A s
-  apply
-    (quotientGaugeUpdate_mem_locus_iff_of_not_mem
-      W R D Q (.composition f g) value (unitorRouteState W s) ?_).2
-  · exact hUnit A s
-  · intro hMem
+  have hNotMem :
+      ¬ RouteFootprintContains W (unitorRouteState W s) (.composition f g) := by
+    intro hMem
     exact hInvisible
       (unitorVisibleCoordinate_of_mem W s (.composition f g) hMem)
+  exact
+    (quotientGaugeUpdate_mem_locus_iff_of_not_mem
+      W R D Q (.composition f g) value (unitorRouteState W s) hNotMem).2
+      (hUnit A s)
 
 /-- An isolated nontrivial `gComp(f,g)` perturbation destroys associator
 correction whenever right whiskering by the representative of `h` is
@@ -385,11 +387,14 @@ theorem exists_inversePairFreshBoundaryObstruction_of_isolated_fg_perturbation
         W R D f g h Q value hIsolated hDifferent hCorrect hFaith
   have hInverse : IsCompositeInversePairAssociatorTask W a := by
     exact ⟨X, Y, T, f, g, h, hfg, hgf, rfl⟩
+  have hBoundaryA : FreshBoundaryAssociatorTask W a := by
+    simpa [a] using hBoundary
   have hObstruction :
       InversePairFreshBoundaryLeadingObstruction W R D Q' a :=
     (inversePairFreshBoundaryLeadingObstruction_iff_not_corrected
-      W R D Q' a hBoundary hInverse).2 hNotCorrect
-  exact ⟨Q', hUnit', hObstruction⟩
+      W R D Q' a hBoundaryA hInverse).2 hNotCorrect
+  refine ⟨Q', hUnit', ?_⟩
+  simpa [a] using hObstruction
 
 /-- Under the v3.57 source-complement geometry the faithfulness premise of the
 preceding construction is automatic. -/
