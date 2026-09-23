@@ -95,21 +95,20 @@ system. -/
   subst B
   rfl
 
-/-- Read any morphism in the one-object counter fiber as its underlying C2
-scalar.  Keeping this as a named map lets us transport an equality of dependent
-fiber morphisms into the monoid without asking simp to recognize the ambient
-Cat object syntactically. -/
-def counterFiberHomScalar (p : C2) : C2 :=
+/-- Read a morphism in a raw counterSystem fiber as its underlying C2
+scalar.  The fiber vertex is retained so the composition rewrite below matches
+the exact dependent category instance appearing in Stage-II naturality. -/
+def counterSystemHomScalar
+    (X : OctahedralVertex) (p : C2) : C2 :=
   p
 
-/-- Scalarization reverses categorical composition exactly as dictated by the
-SingleObj category structure.  The objects are explicit here so the rewrite
-rule can recover them from the categorical composition syntax, while the
-scalarizer itself carries no uninferable endpoint parameters. -/
-theorem counterFiberHomScalar_comp
-    {A B D : CounterFiber} (p : A ⟶ B) (q : B ⟶ D) :
-    counterFiberHomScalar (p ≫ q) =
-      counterFiberHomScalar q * counterFiberHomScalar p := by
+/-- Scalarization reverses composition in the exact raw fiber category. -/
+theorem counterSystemHomScalar_comp
+    (X : OctahedralVertex)
+    {A B D : counterSystem.obj (.mk X)}
+    (p : A ⟶ B) (q : B ⟶ D) :
+    counterSystemHomScalar X (p ≫ q) =
+      counterSystemHomScalar X q * counterSystemHomScalar X p := by
   rfl
 
 /-- Every component of a comparison natural transformation is the same scalar,
@@ -214,9 +213,9 @@ theorem counterComparisonScalar_comp
       counterSystem_eqToHom_eq_one,
       counterRestricted_eqToHom_eq_one,
       Cat.Hom.id_map] at hApp
-  have hScalar := congrArg (fun k => counterFiberHomScalar k) hApp
-  simp only [counterFiberHomScalar_comp] at hScalar
-  simp only [counterFiberHomScalar] at hScalar
+  have hScalar := congrArg (fun k => counterSystemHomScalar Z k) hApp
+  simp only [counterSystemHomScalar_comp] at hScalar
+  simp only [counterSystemHomScalar] at hScalar
   simpa only [mul_one, one_mul] using hScalar
 
 /-- On an octahedral triangular face, replace the composite arrow by the named
