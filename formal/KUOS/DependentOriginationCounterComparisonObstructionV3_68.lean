@@ -95,6 +95,22 @@ system. -/
   subst B
   rfl
 
+/-- Read any morphism in the one-object counter fiber as its underlying C2
+scalar.  Keeping this as a named map lets us transport an equality of dependent
+fiber morphisms into the monoid without asking simp to recognize the ambient
+Cat object syntactically. -/
+def counterFiberHomScalar
+    {A B : CounterFiber} (p : A ⟶ B) : C2 :=
+  p
+
+/-- Scalarization reverses categorical composition exactly as dictated by the
+SingleObj category structure. -/
+theorem counterFiberHomScalar_comp
+    {A B D : CounterFiber} (p : A ⟶ B) (q : B ⟶ D) :
+    counterFiberHomScalar (p ≫ q) =
+      counterFiberHomScalar q * counterFiberHomScalar p := by
+  rfl
+
 /-- Every component of a comparison natural transformation is the same scalar,
 because CounterFiber has only one object. -/
 @[simp] theorem counterComparisonMapIso_hom_app_eq_scalar
@@ -186,30 +202,21 @@ theorem counterComparisonScalar_comp
   have h := C.naturality_comp f g
   have hNat := congrArg (fun η => η.toNatTrans) h
   have hApp := NatTrans.congr_app hNat (SingleObj.star C2)
-  let sfg : End (SingleObj.star C2) :=
-    SingleObj.toEnd C2 (counterComparisonScalar C (f ≫ g))
-  let t : End (SingleObj.star C2) :=
-    SingleObj.toEnd C2 (compScalar X Y Z)
-  let sg : End (SingleObj.star C2) :=
-    SingleObj.toEnd C2 (counterComparisonScalar C g)
-  let sf : End (SingleObj.star C2) :=
-    SingleObj.toEnd C2 (counterComparisonScalar C f)
-  have hCat : sfg ≫ t = sg ≫ sf := by
-    dsimp [sfg, t, sg, sf]
-    set_option backward.isDefEq.respectTransparency false in
-      simpa only [Cat.Hom₂.comp_app, Cat.whiskerLeft_app,
-        Cat.whiskerRight_app, Cat.associator_hom_app,
-        Cat.associator_inv_app,
-        counterIdentityComponentNaturalityIso_hom_app,
-        counterRestrictedMapComp_hom_app_star,
-        counterSystem_mapComp_hom_app,
-        counterSystem_map_morphism_eq,
-        counterSystem_eqToHom_eq_one,
-        counterRestricted_eqToHom_eq_one,
-        Cat.Hom.id_map,
-        SingleObj.comp_as_mul, mul_one, one_mul] using hApp
-  simpa only [sfg, t, sg, sf, SingleObj.toEnd_def,
-    SingleObj.comp_as_mul] using hCat
+  set_option backward.isDefEq.respectTransparency false in
+    simp only [Cat.Hom₂.comp_app, Cat.whiskerLeft_app,
+      Cat.whiskerRight_app, Cat.associator_hom_app,
+      Cat.associator_inv_app,
+      counterIdentityComponentNaturalityIso_hom_app,
+      counterRestrictedMapComp_hom_app_star,
+      counterSystem_mapComp_hom_app,
+      counterSystem_map_morphism_eq,
+      counterSystem_eqToHom_eq_one,
+      counterRestricted_eqToHom_eq_one,
+      Cat.Hom.id_map] at hApp
+  have hScalar := congrArg (fun k => counterFiberHomScalar k) hApp
+  simp only [counterFiberHomScalar_comp] at hScalar
+  simp only [counterFiberHomScalar] at hScalar
+  simpa only [mul_one, one_mul] using hScalar
 
 /-- On an octahedral triangular face, replace the composite arrow by the named
 direct lower-to-upper edge. -/
