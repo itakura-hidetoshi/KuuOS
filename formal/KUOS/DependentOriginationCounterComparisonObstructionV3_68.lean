@@ -189,8 +189,12 @@ theorem counterComparisonScalar_comp
   have hCat :
       (counterComparisonScalar C (f ≫ g) :
           (SingleObj.star C2) ⟶ (SingleObj.star C2)) ≫
-          compScalar X Y Z =
-        counterComparisonScalar C g ≫ counterComparisonScalar C f := by
+          (compScalar X Y Z :
+            (SingleObj.star C2) ⟶ (SingleObj.star C2)) =
+        (counterComparisonScalar C g :
+            (SingleObj.star C2) ⟶ (SingleObj.star C2)) ≫
+          (counterComparisonScalar C f :
+            (SingleObj.star C2) ⟶ (SingleObj.star C2)) := by
     set_option backward.isDefEq.respectTransparency false in
       simpa only [Cat.Hom₂.comp_app, Cat.whiskerLeft_app,
         Cat.whiskerRight_app, Cat.associator_hom_app,
