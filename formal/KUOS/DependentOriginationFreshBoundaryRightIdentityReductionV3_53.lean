@@ -222,12 +222,11 @@ theorem rightIdentityAssociator_corrected_of_rightUnitors
       (S.mapComp f (g ≫ 𝟙 Z)).hom ≫
           F ◁ eG =
         eFG ≫ (S.mapComp f g).hom := by
-    have hNat :=
-      eqToHom_iso_hom_naturality
-        (fun k : Y ⟶ Z => S.mapComp f k)
-        (Category.comp_id g)
-    simp [eG, eFG, F, G, K] at hNat
-    exact hNat
+    -- This is exactly the registered eqToHom naturality square for the
+    -- dependent family k ↦ S.mapComp f k.  Close the transport goal
+    -- terminally; simplifying a stored equality hypothesis can collapse it
+    -- to True once the simp set already proves the equality.
+    simp [eG, eFG, F, G, K]
 
   have hEqToHomTransport :
       eA ≫ eFG = eK := by
