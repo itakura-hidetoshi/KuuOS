@@ -141,7 +141,7 @@ This is stronger than the earlier v3.58 statement that every representative is m
 
 The consequence is conceptually important: any remaining failure of a fully corrected quotient gauge cannot be blamed on the 1-cell assignment. The unresolved question is now concentrated in the simultaneous choice of the **2-cell comparison data** `mapId` / `mapComp` and their associator/unitor coherence equations.
 
-## Exact next frontier
+## Exact next frontier — v3.67
 
 The quotient-stage existence problem is already represented in the repository by equivalent formulations:
 
