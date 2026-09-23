@@ -395,7 +395,7 @@ It does not prove that every gauge fails, that the common correction locus is em
 
 ## 7. Current quotient-stage frontier after v3.65
 
-### Validated Draft v3.66 — identity quotient representatives
+### Canonical v3.66 — identity quotient representatives
 
 PR #1748 was GREEN at exact head:
 
@@ -672,7 +672,7 @@ all unitors are corrected at Q
 but not all associators/routes are corrected at Q
 ~~~
 
-Validated Draft v3.66, not canonical until merged:
+Canonical v3.66:
 
 ~~~text
 every selected quotient representative 1-cell
