@@ -206,7 +206,8 @@ theorem counterComparisonScalar_comp
         counterSystem_map_morphism_eq,
         counterSystem_eqToHom_eq_one,
         counterRestricted_eqToHom_eq_one,
-        Cat.Hom.id_map] using hApp
+        Cat.Hom.id_map,
+        SingleObj.comp_as_mul, mul_one, one_mul] using hApp
   simpa only [sfg, t, sg, sf, SingleObj.toEnd_def,
     SingleObj.comp_as_mul] using hCat
 
