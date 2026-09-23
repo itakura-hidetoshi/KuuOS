@@ -74,18 +74,11 @@ theorem counterComparisonScalar_comp
       higherPresentationUnitFunctor,
       CategoryTheory.Pseudofunctor.comp,
       CategoryTheory.Functor.toPseudofunctor,
-      CategoryTheory.Functor.toPseudofunctor',
       CategoryTheory.pseudofunctorOfIsLocallyDiscrete,
       counterD_coherentQuotientTransportData,
       counterQuotientMapId, counterQuotientMapComp,
-      counterSystem, counterMapComp,
-      Cat.Hom.id_toFunctor, Cat.Hom.comp_toFunctor,
-      Cat.Hom.id_obj, Cat.Hom.comp_obj,
-      Cat.Hom.id_map, Cat.Hom.comp_map,
-      Cat.whiskerLeft_app, Cat.whiskerRight_app,
-      Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
-      SingleObj.comp_as_mul, SingleObj.id_as_one,
-      counterMapComp_hom_app_star] using hApp
+      counterQuotientRepresentativeMap_toFunctor_eq_id,
+      counterSystem] using hApp
 
 /-- On an octahedral triangular face, replace the composite arrow by the named
 direct lower-to-upper edge. -/
@@ -122,11 +115,7 @@ theorem not_counterComparisonData :
   have h101' := congrArg (@Multiplicative.toAdd (ZMod 2)) h101
   have h111' := congrArg (@Multiplicative.toAdd (ZMod 2)) h111
 
-  simp [compScalar_L0_M0_H0, compScalar_L0_M1_H0,
-    compScalar_L0_M0_H1, compScalar_L0_M1_H1,
-    compScalar_L1_M0_H0, compScalar_L1_M0_H1,
-    compScalar_L1_M1_H0, compScalar_L1_M1_H1,
-    zeta] at h000' h010' h001' h011' h100' h110' h101' h111'
+  simp [zeta] at h000' h010' h001' h011' h100' h110' h101' h111'
 
   have hzero : (1 : ZMod 2) = 0 := by
     linear_combination
