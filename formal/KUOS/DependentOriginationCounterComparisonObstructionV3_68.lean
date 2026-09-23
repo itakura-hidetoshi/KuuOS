@@ -95,8 +95,7 @@ by the chosen comparison map. -/
         f (C.mapIso f)).hom.toNatTrans.app (SingleObj.star C2) =
       counterComparisonScalar C f := by
   set_option backward.isDefEq.respectTransparency false in
-    simp [identityComponentNaturalityIso, counterComparisonScalar,
-      counterRestrictedMap_toFunctor_eq_id, counterSystem_map_toFunctor]
+    simp [identityComponentNaturalityIso, counterComparisonScalar]
 
 /-- The compositor of the restricted v3.67 quotient system is scalar-trivial.
 Only this local structural computation unfolds the pseudofunctor-composition
@@ -107,19 +106,17 @@ wrappers; downstream scalar algebra uses the lemma as a black box. -/
         allMorphisms counterSystem counterD
         counterD_coherentQuotientTransportData).mapComp
           f.toLoc g.toLoc).hom.toNatTrans.app (SingleObj.star C2) =
-      1 := by
+      eqToHom (by exact Subsingleton.elim _ _) := by
   set_option backward.isDefEq.respectTransparency false in
-    simp [restrictedCoherentQuotientSystem,
-      restrictHigherLocalizedSystem,
+    simp [restrictHigherLocalizedSystem,
       coherentQuotientLocalizedHigherSystem,
       quotientLocalizationPseudofunctor,
       higherPresentationUnitFunctor,
       CategoryTheory.Pseudofunctor.comp,
       CategoryTheory.Functor.toPseudofunctor,
       CategoryTheory.pseudofunctorOfIsLocallyDiscrete,
-      counterD_coherentQuotientTransportData,
-      counterQuotientMapComp,
-      counterQuotientRepresentativeMap_toFunctor_eq_id]
+      CategoryTheory.LocallyDiscrete.mkPseudofunctor,
+      counterD_coherentQuotientTransportData]
 
 /-- Stage-II composition coherence becomes the scalar coboundary equation. -/
 theorem counterComparisonScalar_comp
@@ -139,7 +136,7 @@ theorem counterComparisonScalar_comp
       counterSystem_mapComp_hom_app_star,
       counterRestrictedMap_toFunctor_eq_id,
       counterSystem_map_toFunctor,
-      Functor.id_obj, Functor.id_map,
+      Functor.id_obj, Functor.id_map, eqToHom_refl,
       SingleObj.comp_as_mul, SingleObj.id_as_one,
       Category.comp_id, Category.id_comp, mul_one, one_mul,
       mul_assoc, mul_comm] using hApp
@@ -198,11 +195,8 @@ theorem not_counterComparisonData :
     linear_combination
       h000' + h010' + h001' + h011' +
       h100' + h110' + h101' + h111'
-  have htwo : (2 : ZMod 2) = 0 :=
-    CharTwo.two_eq_zero
   have hzero : (1 : ZMod 2) = 0 := by
-    simp [htwo] at hsum
-    exact hsum
+    simpa only [CharTwo.two_eq_zero, zero_mul, add_zero, zero_add] using hsum
   exact one_ne_zero hzero
 
 /-- The explicit coherent quotient transport of v3.67 admits no coherent
