@@ -26,6 +26,8 @@ Fresh canonical theorem baseline:
 
 This is the merge commit of [PR #1753](https://github.com/itakura-hidetoshi/KuuOS/pull/1753), **Isolate canonical Stage-II comparison obstruction v3.68**.
 
+`main` may be ahead of this SHA by documentation-only merges. Such merges do not advance the theorem-bearing baseline; re-observe the exact current `main` SHA before theorem work.
+
 Authority order remains:
 
 ```text

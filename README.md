@@ -17,7 +17,7 @@ Philosophical interpretation, mathematical presentation, formal proof, runtime v
 | Item | Current reference |
 | --- | --- |
 | Canonical branch | `main` |
-| Current canonical `main` | `75054e7919741d81ec6771c67016629bf822bf34` |
+| Current theorem-bearing baseline | `75054e7919741d81ec6771c67016629bf822bf34` |
 | Canonical theorem frontier | **v3.68 — Stage-II comparison obstruction for the explicit v3.67 coherent quotient transport** |
 | Latest theorem-bearing merge | [PR #1753](https://github.com/itakura-hidetoshi/KuuOS/pull/1753) |
 | v3.68 merge commit | `75054e7919741d81ec6771c67016629bf822bf34` |
@@ -37,7 +37,7 @@ fresh exact canonical GitHub SHA
   > history / memory
 ```
 
-A documentation-only merge may advance `main` without advancing the theorem baseline. Always re-observe GitHub before continuing theorem work.
+A documentation-only merge may advance `main` beyond the theorem-bearing baseline without changing mathematical authority. The exact current `main` SHA should therefore be freshly re-observed rather than hard-coded here.
 
 The separate Lean 4.31 validation-only PR **#1558** remains **open / Draft / unmerged** and outside theorem authority. It must not be merged, marked Ready for review, or auto-merged.
 
