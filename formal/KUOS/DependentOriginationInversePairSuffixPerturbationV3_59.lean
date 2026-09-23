@@ -126,6 +126,12 @@ theorem associator_mapComp_f_g_eq_of_corrected_of_other_three_eq_of_faithful
     (quotientAssociatorDefect_eq_refl_iff W R D
       (quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q')
       f g h).1 hQ'
+
+  let F := quotientRepresentativeMap W R D f
+  let H := quotientRepresentativeMap W R D h
+  let S := quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q
+  let S' := quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q'
+
   have hAdjustedLead :
       (quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q).mapComp
           (f ≫ g) h =
@@ -163,11 +169,6 @@ theorem associator_mapComp_f_g_eq_of_corrected_of_other_three_eq_of_faithful
   have hAdjustedLeadHom := congrArg Iso.hom hAdjustedLead
   have hAdjustedGHInv := congrArg Iso.inv hAdjustedGH
   have hAdjustedFGHInv := congrArg Iso.inv hAdjustedFGH
-
-  let F := quotientRepresentativeMap W R D f
-  let H := quotientRepresentativeMap W R D h
-  let S := quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q
-  let S' := quotientGaugeAdjustedGeneratedPointwiseChoice W R D Q'
 
   have hComposite :
       (S.mapComp (f ≫ g) h).hom ≫
@@ -324,10 +325,13 @@ theorem associator_not_corrected_after_isolated_fg_perturbation
       quotientGaugeUpdate_value_of_ne
         W R D Q (.composition f g) value
         (.composition f (g ≫ h)) hIsolated.2.2.1.symm
+  have hUpdated' :
+      Q' ∈ quotientRouteCorrectionLocus W R D (.associator f g h) := by
+    simpa [Q'] using hUpdated
   have hFG :
       Q.mapCompGauge f g = Q'.mapCompGauge f g :=
     associator_mapComp_f_g_eq_of_corrected_of_other_three_eq_of_faithful
-      W R D f g h Q Q' hCorrect hUpdated hLead hGH hFGH hFaith
+      W R D f g h Q Q' hCorrect hUpdated' hLead hGH hFGH hFaith
   have hSelf : Q'.mapCompGauge f g = value := by
     dsimp [Q']
     exact
