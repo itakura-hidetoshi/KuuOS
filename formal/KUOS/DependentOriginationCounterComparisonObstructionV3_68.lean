@@ -186,23 +186,29 @@ theorem counterComparisonScalar_comp
   have h := C.naturality_comp f g
   have hNat := congrArg (fun η => η.toNatTrans) h
   have hApp := NatTrans.congr_app hNat (SingleObj.star C2)
-  set_option backward.isDefEq.respectTransparency false in
-    simp only [Cat.Hom₂.comp_app, Cat.whiskerLeft_app,
-      Cat.whiskerRight_app, Cat.associator_hom_app,
-      Cat.associator_inv_app,
-      counterIdentityComponentNaturalityIso_hom_app,
-      counterRestrictedMapComp_hom_app_star,
-      counterSystem_mapComp_hom_app,
-      counterSystem_map_morphism_eq,
-      counterSystem_eqToHom_eq_one,
-      counterRestricted_eqToHom_eq_one,
-      counterFiber_eqToHom_eq_one,
-      Cat.Hom.id_obj, Cat.Hom.id_map,
-      Category.id_comp, Category.comp_id] at hApp
-  change
-    compScalar X Y Z * counterComparisonScalar C (f ≫ g) =
-      counterComparisonScalar C f * counterComparisonScalar C g at hApp
-  exact hApp
+  let sfg : End (SingleObj.star C2) :=
+    SingleObj.toEnd C2 (counterComparisonScalar C (f ≫ g))
+  let t : End (SingleObj.star C2) :=
+    SingleObj.toEnd C2 (compScalar X Y Z)
+  let sg : End (SingleObj.star C2) :=
+    SingleObj.toEnd C2 (counterComparisonScalar C g)
+  let sf : End (SingleObj.star C2) :=
+    SingleObj.toEnd C2 (counterComparisonScalar C f)
+  have hCat : sfg ≫ t = sg ≫ sf := by
+    dsimp [sfg, t, sg, sf]
+    set_option backward.isDefEq.respectTransparency false in
+      simpa only [Cat.Hom₂.comp_app, Cat.whiskerLeft_app,
+        Cat.whiskerRight_app, Cat.associator_hom_app,
+        Cat.associator_inv_app,
+        counterIdentityComponentNaturalityIso_hom_app,
+        counterRestrictedMapComp_hom_app_star,
+        counterSystem_mapComp_hom_app,
+        counterSystem_map_morphism_eq,
+        counterSystem_eqToHom_eq_one,
+        counterRestricted_eqToHom_eq_one,
+        Cat.Hom.id_map] using hApp
+  simpa only [sfg, t, sg, sf, SingleObj.toEnd_def,
+    SingleObj.comp_as_mul] using hCat
 
 /-- On an octahedral triangular face, replace the composite arrow by the named
 direct lower-to-upper edge. -/
