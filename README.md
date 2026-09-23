@@ -6,22 +6,24 @@
 
 **KuuOS / 空OS** is a public research architecture for dependent origination (縁起), contextual transport, higher coherence, descent, obstruction, correction, and bounded AI operation. Founder: **Hidetoshi Itakura / 板倉英俊**.
 
-Its central question is:
+Its central mathematical question is:
 
 > Which structure survives justified changes of context and presentation, how can compatible local information be transported and glued, what obstructs that process, and which universal property characterizes the invariant content?
 
-Philosophy, mathematical presentations, formal proofs, and operational systems inform one another without being treated as interchangeable evidence.
+Philosophical interpretation, mathematical presentation, formal proof, runtime validation, and operational authority are related but deliberately kept as distinct evidence classes.
 
-## Canonical theorem snapshot — 2026-09-23 JST
+## Canonical theorem snapshot — 2026-09-24 JST
 
 | Item | Current reference |
 | --- | --- |
 | Canonical branch | `main` |
-| Canonical theorem frontier | **v3.66 — countermodel quotient representatives collapse to identity 1-cells** |
-| Latest theorem-bearing merge | [PR #1748](https://github.com/itakura-hidetoshi/KuuOS/pull/1748) |
-| Canonical theorem merge SHA | `8f1a5006dd43afb6d4c9b8ae583ed6f5abab78d9` |
-| Validated v3.66 PR head | `383dd616ef9b15c1ecfcac23fd8de4f65b4bc6fa` |
-| v3.66 exact-head governance run | [35847500021](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35847500021), completed / success |
+| Current canonical `main` | `75054e7919741d81ec6771c67016629bf822bf34` |
+| Canonical theorem frontier | **v3.68 — Stage-II comparison obstruction for the explicit v3.67 coherent quotient transport** |
+| Latest theorem-bearing merge | [PR #1753](https://github.com/itakura-hidetoshi/KuuOS/pull/1753) |
+| v3.68 merge commit | `75054e7919741d81ec6771c67016629bf822bf34` |
+| Validated v3.68 PR head | `ac9c8aaddf04a8c5dbcda9ac2c4708f30f243c87` |
+| v3.68 exact-head governance run | [35931309181](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35931309181), completed / success |
+| Previous v3.67 merge | [PR #1752](https://github.com/itakura-hidetoshi/KuuOS/pull/1752), merge `90f64413068862e0eb7eb09a93f139094fd83191` |
 | Lean | `leanprover/lean4:v4.30.0-rc2` |
 | Mathlib | `5450b53e5ddc75d46418fabb605edbf36bd0beb6` |
 
@@ -35,13 +37,13 @@ fresh exact canonical GitHub SHA
   > history / memory
 ```
 
-A documentation-only merge may advance `main` without advancing the theorem baseline. Re-observe GitHub before continuing formal work.
+A documentation-only merge may advance `main` without advancing the theorem baseline. Always re-observe GitHub before continuing theorem work.
 
 The separate Lean 4.31 validation-only PR **#1558** remains **open / Draft / unmerged** and outside theorem authority. It must not be merged, marked Ready for review, or auto-merged.
 
 ## What 空 means here
 
-空 is not interpreted as “nothing exists.” Its role is non-reification: a useful contextual presentation need not be an intrinsic substance or the only legitimate presentation.
+空 is not treated as “nothing exists.” Its operational role is non-reification: a useful presentation may be locally effective without being intrinsic, unique, or globally authoritative.
 
 ```text
 chosen presentation != intrinsic substance
@@ -52,174 +54,273 @@ formal encoding != unique philosophical interpretation
 model generation != theorem authority
 ```
 
-The bridge from 空 to 縁起 retains context, relations, admissible transport, higher coherence, descent, obstruction, correction, and authority. KuuOS keeps interpretive connections to Madhyamaka, Yogācāra, Huayan, Tiantai, 陰陽, 五行, 道, 理・気, 礼, and 天人相関 without silently identifying them with one formalism.
-
-The philosophical layer asks about relation, dependence, transformation, and non-reification. The mathematical layer studies those questions through categories, bicategories, pseudofunctors, localization, gauge freedom, holonomy, descent, and universal properties. The operational layer applies bounded observation, planning, action, and renewed verification. These are related layers, not a hierarchy in which one invalidates the others.
+The bridge from 空 to 縁起 keeps context, relations, admissible transport, higher coherence, descent, obstruction, correction, and authority explicit. KuuOS retains interpretive connections to Madhyamaka, Yogācāra, Huayan, Tiantai, 陰陽, 五行, 道, 理・気, 礼, and 天人相関 without silently identifying any one philosophical presentation with the formal model.
 
 ## Current mathematical result
 
-The canonical v3.53–v3.65 sequence has substantially sharpened the quotient-coherence truth test.
-
-The key conclusion at v3.65 is a **same-gauge separation theorem** for the concrete v2.69 octahedral `C2` model:
+The concrete octahedral `C2` truth test has now separated three logically distinct layers:
 
 ```text
-there exists Q such that
-
-  Q corrects every left/right unitor
-
-but
-
-  Q does not correct every associator
-  and therefore does not correct every quotient route.
+1-cell quotient assignment
+        ↓
+quotient pseudofunctor coherence
+        ↓
+presentation comparison back to the raw pseudofunctor
 ```
 
-Equivalently, for this concrete model,
+The canonical results are now:
 
 ```text
-all unitors corrected at Q
-  !=>
-all associators corrected at the same Q.
+v3.66:
+every selected quotient representative 1-cell = identity
+
+v3.67:
+a fully coherent quotient transport DOES exist
+
+v3.68:
+for that explicit v3.67 quotient transport,
+no coherent presentation comparison back to the raw counterSystem exists
 ```
 
-This is a genuine formal separation, but it is deliberately **not** a global uncorrectability theorem. It does not show that every gauge fails, nor that a different gauge cannot correct all quotient routes.
+Thus the earlier fixed-gauge associator failure is not a global quotient-stage obstruction, but the explicit coherent quotient transport still encounters a Stage-II comparison obstruction.
 
-The distinction is now explicit:
+## v3.66 — quotient representatives collapse to identity
+
+[PR #1748](https://github.com/itakura-hidetoshi/KuuOS/pull/1748) proved that in the concrete v2.69 octahedral `C2` model:
 
 ```text
-one bad fixed gauge exists
-  !=
-no fully coherent gauge exists.
+for every free localization word p:
+  evaluation(p).toFunctor = identity functor
+
+for every localization arrow f:
+  quotientRepresentativeMap(f) = identity Cat 1-cell
 ```
 
-That remaining existential question is the current frontier.
-
-## Canonical progression v3.53–v3.65
-
-| Layer | Integrated result |
-| --- | --- |
-| [v3.53](formal/KUOS/DependentOriginationFreshBoundaryRightIdentityReductionV3_53.lean) | Reduces a fresh-boundary task to right-identity geometry or a composite-identity sector. |
-| [v3.54](formal/KUOS/DependentOriginationCompositeIdentityInversePairReductionV3_54.lean) | Under the established cancellation hypotheses, a composite-identity task becomes a two-sided inverse-pair task. |
-| [v3.55](formal/KUOS/DependentOriginationInversePairBoundaryObstructionV3_55.lean) | Defines the exact inverse-pair fresh-boundary leading obstruction and proves its equivalence with failure of correction on that task. |
-| [v3.56](formal/KUOS/DependentOriginationInversePairRepresentativeEquivalenceV3_56.lean) | Shows the quotient representatives of an inverse pair are essentially surjective and faithful, hence representative semantics are not the residual defect. |
-| [v3.57](formal/KUOS/DependentOriginationSourceComplementsGroupoidV3_57.lean) | Global source-complement hypotheses force the localization to be a groupoid and all quotient representative maps to be equivalences. |
-| [v3.58](formal/KUOS/DependentOriginationGroupoidHolonomySeparationV3_58.lean) | Shows that groupoid localization + representative equivalences can coexist with nontrivial generated holonomy in the v2.69 model. |
-| [v3.59](formal/KUOS/DependentOriginationInversePairSuffixPerturbationV3_59.lean) | Isolates a suffix coordinate whose perturbation can preserve the entire unitor boundary while changing the associator equation. |
-| [v3.60](formal/KUOS/DependentOriginationNontrivialSuffixObstructionV3_60.lean) | From an isolated inverse-pair suffix, a nontrivial exact gauge fiber, a faithful representative, and one common-unitor gauge, constructs a fixed gauge carrying the exact v3.55 obstruction. |
-| [v3.61](formal/KUOS/DependentOriginationCounterGaugeFiberNontrivialV3_61.lean) | Proves the concrete `C2` composition gauge fiber is nontrivial at every composition coordinate by a central `zeta` automorphism. |
-| [v3.62](formal/KUOS/DependentOriginationInversePairIncidenceV3_62.lean) | Reduces the inverse-pair fresh-boundary/incidence bookkeeping to simple object separation plus inverse equations. |
-| [v3.63](formal/KUOS/DependentOriginationOctahedralInversePairV3_63.lean) | Instantiates that geometry in the actual v2.69 octahedral localization and supplies the exact nontrivial dependent gauge fiber. |
-| [v3.64](formal/KUOS/DependentOriginationUniversalUnitorGaugeV3_64.lean) | Constructs a common gauge correcting **all unitors** without assuming one, then derives a concrete fixed-gauge inverse-pair fresh-boundary obstruction. |
-| [v3.65](formal/KUOS/DependentOriginationFixedGaugeUnitorAssociatorSeparationV3_65.lean) | Packages the concrete same-gauge separation: all unitors can be corrected while at least one associator and the total route family remain uncorrected at that same gauge. |
-
-The progression should be read as a truth test, not as a monotone march toward a predetermined negative answer. Each layer narrows what the actual remaining obstruction can be.
-
-## Canonical v3.66 — identity quotient representatives
-
-PR [#1748](https://github.com/itakura-hidetoshi/KuuOS/pull/1748) was validated GREEN at exact head
-
-```text
-383dd616ef9b15c1ecfcac23fd8de4f65b4bc6fa
-```
-
-with Strict Lean and exact-head terminal receipts both successful in run [35847500021](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35847500021).
-
-It was merged as canonical theorem commit `8f1a5006dd43afb6d4c9b8ae583ed6f5abab78d9`.
-
-v3.66 proves, in the same concrete `C2` countermodel, that every free localization word and therefore every selected quotient representative 1-cell is literally equal to the identity `Cat` 1-cell:
-
-```text
-generated relation-loop holonomy is nontrivial
-
-while
-
-every quotient representative 1-cell = identity.
-```
-
-This is stronger than the earlier v3.58 statement that every representative is merely an equivalence.
-
-The consequence is conceptually important: any remaining failure of a fully corrected quotient gauge cannot be blamed on the 1-cell assignment. The unresolved question is now concentrated in the simultaneous choice of the **2-cell comparison data** `mapId` / `mapComp` and their associator/unitor coherence equations.
-
-## Exact next frontier — v3.67
-
-The quotient-stage existence problem is already represented in the repository by equivalent formulations:
-
-```text
-ThreeQuotientRoutesJointlyCorrectable W R D
-
-      <=>
-
-exists one quotient gauge Q
-that corrects every ThreeQuotientRouteState
-
-      <=>
-
-(commonQuotientRouteCorrectionLocus W R D).Nonempty
-
-      <=>
-
-HasCoherentQuotientTransportData W R D.
-```
-
-For the concrete v2.69 `C2` model, the next theorem unit must determine which side is true.
-
-After v3.66 the preferred truth-test is:
-
-```text
-all quotient representatives are identity 1-cells
-        |
-        v
-try to construct explicit coherent mapId/mapComp 2-isomorphisms
-        |
-        +--> success:
-        |      fully corrected quotient gauge exists;
-        |      v3.65 is genuinely gauge-specific
-        |
-        `--> failure with theorem:
-               isolate a gauge-independent 2-cell obstruction
-               surviving every gauge choice.
-```
-
-Nontrivial generated holonomy alone is **not** enough to conclude failure. That non-implication is retained as a hard rule.
-
-## Canonical formal spine
-
-| Layers | Established role |
-| --- | --- |
-| v2.0–v2.10 | Ordinary localization, `W` + `J` sectors, stack descent, and the higher-localization factorization interface. |
-| v2.11–v2.54 | Weak/coherent distinctions, modification and correction triangles, E/R/A obstruction normal form, and structural sufficient routes. |
-| v2.55–v2.68 | Pointwise `W`-adjoint equivalences, free-path evaluation, quotient-equal path isomorphisms, exact quotient/comparison coherence packages, generated 2-cells, and holonomy. |
-| v2.69–v2.95 | Octahedral `C2` truth test; nontrivial generated holonomy, correctability, authority, and constructive/classical boundaries. |
-| v2.96–v3.14 | Five gauge equations split into three quotient equations and two comparison equations; correction loci and exact dependent gauge coordinates. |
-| v3.15–v3.34 | Local-family gluing, actual route-equation rigidity, mixed-triangle residuals, path/representative transport, split-arrow and source-composite cancellation. |
-| v3.35–v3.52 | Common unitor correlation, fresh completion, scheduling/stabilization, collision geometry, semantic recovery, and global cancellation from source complements. |
-| v3.53–v3.58 | Fresh-boundary reduction to inverse-pair geometry; representative equivalence/groupoid closure; separation from generated holonomy. |
-| v3.59–v3.63 | Exact suffix perturbation, nontrivial dependent gauge fibers, incidence reduction, and concrete octahedral inverse-pair instantiation. |
-| v3.64–v3.65 | Universal common-unitor gauge and concrete fixed-gauge separation between unitor correction and associator/total-route correction. |
-| v3.66 | In the concrete C2 model, every free-path evaluation and selected quotient representative 1-cell is literally identity, localizing the remaining problem to 2-cell coherence. |
-
-## Stage-I boundary after quotient coherence
-
-Even a positive answer to the current quotient-gauge problem would not finish general Stage I.
-
-The v3.02–v3.04 split remains:
-
-```text
-five-face generated correction
-  =
-three quotient pseudofunctor coherence equations
-  +
-two comparison gIso equations.
-```
+At the same time, the previously proved generated relation-loop 2-cell holonomy remains nontrivial.
 
 Therefore:
 
 ```text
-fully coherent quotient transport
-  !=
-complete higher-localization factorization.
+identity quotient representative 1-cells
+  !=>
+trivial retained generated 2-cell derivations
 ```
 
-Once the quotient carrier is constructed or characterized, the two comparison equations must still be solved or isolated as explicit residual obstructions.
+The quotient-stage problem was thereby localized from 1-cell assignment to 2-cell coherence.
+
+## v3.67 — coherent quotient transport exists
+
+[PR #1752](https://github.com/itakura-hidetoshi/KuuOS/pull/1752) constructed an explicit
+
+```lean
+CoherentQuotientTransportData
+  (W := allMorphisms) counterSystem counterD
+```
+
+for the concrete `C2` countermodel.
+
+The construction uses the v3.66 literal identity collapse of quotient representatives. The identity and composition comparison isomorphisms are built by typed equality transport via `eqToIso`, after which the associator, left-unitor, and right-unitor laws reduce to strict bicategory coherence in `Cat`.
+
+Canonical consequences include:
+
+```text
+HasCoherentQuotientTransportData
+ThreeQuotientRoutesJointlyCorrectable
+(commonQuotientRouteCorrectionLocus ...).Nonempty
+```
+
+Hence a fully coherent quotient gauge/transport exists.
+
+This settles the logical status of v3.65:
+
+```text
+one bad fixed common-unitor gauge exists
+and
+a different fully coherent quotient transport exists
+```
+
+Therefore the v3.65 separation is genuinely gauge-specific.
+
+The same model also proves coexistence of:
+
+```text
+nontrivial generated holonomy
++
+coherent quotient transport
+```
+
+so nontrivial generated holonomy alone does **not** obstruct quotient-stage pseudofunctor coherence.
+
+## v3.68 — explicit Stage-II comparison obstruction
+
+[PR #1753](https://github.com/itakura-hidetoshi/KuuOS/pull/1753) was validated GREEN at exact head
+
+```text
+ac9c8aaddf04a8c5dbcda9ac2c4708f30f243c87
+```
+
+by governance run
+
+```text
+35931309181
+```
+
+with Strict Lean formal validation, dependency-manifest verification, governance summary, Lean completion receipt, and exact-head terminal receipt all successful. It was merged as canonical theorem commit
+
+```text
+75054e7919741d81ec6771c67016629bf822bf34
+```
+
+v3.68 studies the explicit coherent quotient transport constructed in v3.67 and asks whether it admits a coherent presentation comparison back to the original twisted `counterSystem`.
+
+The central theorem is:
+
+```text
+not_counterComparisonData
+```
+
+and therefore:
+
+```text
+¬ HasCoherentPresentationComparisonData
+    allMorphisms
+    counterSystem
+    counterD
+    counterD_coherentQuotientTransportData
+```
+
+### Mathematical mechanism
+
+Every raw and quotient 1-cell acts by the identity functor on the one-object `C2` fiber. A comparison 2-isomorphism on an edge therefore has one scalar component in `C2`.
+
+The StrongTrans composition law yields a scalar coboundary equation:
+
+```text
+compScalar(X,Y,Z) * s(f ≫ g)
+  =
+s(f) * s(g)
+```
+
+for each triangular face.
+
+On the eight octahedral faces:
+
+- seven raw compositor scalars are trivial;
+- the distinguished `L0-M0-H0` face contributes the nontrivial `zeta`;
+- every edge comparison scalar occurs twice.
+
+After converting the multiplicative `C2 = Multiplicative (ZMod 2)` equations to additive `ZMod 2`, summing all eight face equations cancels every edge term twice and forces
+
+```text
+1 = 0  in ZMod 2
+```
+
+which is impossible.
+
+Therefore the explicit v3.67 quotient transport cannot be lifted by a coherent presentation comparison to the raw twisted pseudofunctor.
+
+## Exact logical boundary after v3.68
+
+The following is now proved:
+
+```text
+Stage I quotient coherence exists
+
+and
+
+the explicit canonical v3.67 transport
+has no Stage-II coherent presentation comparison
+```
+
+But v3.68 is **transport-specific**.
+
+It does **not** yet prove:
+
+```text
+every coherent quotient transport fails Stage II
+
+no alternative quotient coherence absorbs the raw C2 cocycle
+
+no higher-localization factorization exists
+
+the common Stage-II comparison locus is empty
+
+weak admissibility implies failure of higher localization
+```
+
+A theorem quantifying over all coherent quotient transports is still required before any global non-factorization claim is made.
+
+## Canonical progression v3.53–v3.68
+
+| Layer | Integrated result |
+| --- | --- |
+| v3.53–v3.55 | Fresh-boundary geometry reduces to an exact inverse-pair associator obstruction. |
+| v3.56–v3.58 | Representative equivalence/groupoid localization can coexist with nontrivial generated holonomy. |
+| v3.59–v3.63 | Isolated suffix perturbation, nontrivial dependent gauge fibers, incidence reduction, and concrete octahedral inverse-pair task. |
+| v3.64 | Constructs a common gauge correcting all unitors; common-unitor existence is no longer an extra hypothesis. |
+| v3.65 | Proves same-fixed-gauge separation: all unitors corrected at `Q` does not imply all associators/routes corrected at the same `Q`. |
+| v3.66 | Every selected quotient representative 1-cell in the concrete `C2` model is literally identity. |
+| v3.67 | Constructs a fully coherent quotient transport; joint three-route correctability and nonempty common quotient correction locus follow. |
+| v3.68 | Proves that this explicit coherent quotient transport has no coherent Stage-II presentation comparison back to the raw twisted `counterSystem`. |
+
+This progression is a truth test, not a monotone proof of a predetermined negative answer.
+
+## Exact next frontier — v3.69
+
+The next theorem unit should test whether the v3.68 Stage-II obstruction is independent of the chosen coherent quotient transport.
+
+The direct universal target is:
+
+```lean
+∀ T : CoherentQuotientTransportData
+    (W := allMorphisms) counterSystem counterD,
+  ¬ HasCoherentPresentationComparisonData
+      allMorphisms counterSystem counterD T
+```
+
+or an equivalent invariant statement.
+
+A positive alternative must also remain open:
+
+```text
+there exists another coherent quotient transport T
+for which coherent presentation comparison data exists.
+```
+
+So the v3.69 truth test has two legitimate outcomes:
+
+```text
+A. prove transport-independent Stage-II obstruction
+
+or
+
+B. construct a different coherent quotient transport
+   that absorbs the raw C2 comparison cocycle
+```
+
+A single failed construction is not evidence for A.
+
+A useful route is to characterize how changing coherent `mapId/mapComp` data changes the eight face scalar equations and determine whether the octahedral parity class is invariant or can be shifted by an admissible quotient-coherence cochain.
+
+## Stage-I factorization boundary
+
+The abstract architecture separates quotient coherence from comparison coherence:
+
+```text
+three quotient pseudofunctor coherence equations
++
+two presentation-comparison equations
+=
+five-face generated correction
+```
+
+v3.67 solves the quotient side for the concrete model.
+
+v3.68 shows that the explicit v3.67 solution fails the comparison-composition side globally on the octahedral faces.
+
+What remains is to decide whether this failure survives **all** coherent quotient transports.
+
+Only after that transport-independence question is resolved should the result be promoted to a statement about the exact higher-localization factorization interface.
 
 ## Dependent Origination Universality Program
 
@@ -232,7 +333,7 @@ AdmissibleContextualSystems(C, X)
   ≃ Fun(DO(C, W, J, H), X),
 ```
 
-with the correct higher variance, factorization, essential uniqueness, naturality, descent compatibility, and presentation invariance.
+with the correct higher variance, coherent factorization, essential uniqueness, naturality, descent compatibility, presentation invariance, and explicit obstruction/correction semantics.
 
 **The final universal object and representation theorem are not yet proved.**
 
@@ -240,7 +341,7 @@ A localization, quotient, stackification, semantic reduction, or one successful 
 
 ## AI and operational interpretation
 
-The same distinctions guide bounded systems engineering:
+The same structural distinctions guide bounded AI engineering:
 
 ```text
 model / prompt / index migration -> presentation transport
@@ -262,31 +363,41 @@ Retrieval, entailment, execution, theorem authority, and WORLD-state authority r
 
 ## Reproduction and verification
 
-Canonical v3.65 target:
+Canonical v3.67 target:
 
 ```bash
 lake -KleanArgs=-DwarningAsError=true \
   -KleanArgs=-DsorryAsError=true \
-  build KUOS.DependentOriginationFixedGaugeUnitorAssociatorSeparationV3_65
+  build KUOS.DependentOriginationCounterCoherentQuotientTransportV3_67
 ```
 
-Canonical v3.66 target:
+Canonical v3.68 target:
 
 ```bash
 lake -KleanArgs=-DwarningAsError=true \
   -KleanArgs=-DsorryAsError=true \
-  build KUOS.DependentOriginationCounterRepresentativeIdentityV3_66
+  build KUOS.DependentOriginationCounterComparisonObstructionV3_68
 ```
 
-For the validated v3.66 PR head
+For v3.68, exact head
 
 ```text
-383dd616ef9b15c1ecfcac23fd8de4f65b4bc6fa
+ac9c8aaddf04a8c5dbcda9ac2c4708f30f243c87
 ```
 
-was validated by run [35847500021](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35847500021), including Strict Lean formal validation, dependency-manifest verification, governance summary, Lean completion receipt, and exact-head terminal receipt, then merged as `8f1a5006dd43afb6d4c9b8ae583ed6f5abab78d9`.
+was validated by governance run
 
-The aggregate formal target remains a separate check:
+```text
+35931309181
+```
+
+and merged as
+
+```text
+75054e7919741d81ec6771c67016629bf822bf34
+```
+
+The aggregate formal target remains separate:
 
 ```bash
 lake -KleanArgs=-DwarningAsError=true \
@@ -304,17 +415,19 @@ A runtime result is not a theorem. A docs-only successful gate is not theorem va
 
 ## Proof-engineering lessons retained
 
-Recent formalization has reinforced several rules:
+Recent v3.66–v3.68 work reinforces the following rules:
 
-- **Import is not open.** A transitive import does not put short names into scope; open the actual defining namespace or qualify the name.
-- **Keep `autoImplicit false`.** Unknown identifiers should fail closed rather than silently become new implicit variables.
-- **Do not overuse `simpa using` on already-simpable isomorphism laws.** It can simplify the source proposition farther than the target; use direct `exact` or controlled `simp only`.
-- **Dependent equality needs the intended extensionality API.** For functors, `Functor.hext` expects object equality plus heterogeneous map equality; use equality proof `.heq` rather than invented conversion names.
-- **Make hidden carriers explicit when typeclass search stalls.** v3.66 uses the fact that `SingleObj M` is `Unit` instead of asking Lean to infer a hidden `Subsingleton`.
-- **Prefer bundled isomorphisms over separately unfolded hom/inv terms.** This prevents simplification from erasing the structure needed by inverse laws.
-- **Use typed equality transport rather than pretending dependent coordinates are definitionally equal.**
-- **Track exact PR heads, not merge refs or stale runs.** Merge only after current-head Strict Lean and terminal receipts are successful.
-- **A theorem receipt validates that exact head only.** After every code change, old receipts are stale.
+- **Import is not open.** A transitive import makes a declaration available to the environment but does not place its short name in scope.
+- **Keep `autoImplicit false`.** Unknown identifiers should fail closed.
+- **Use `eqToIso` / `eqToHom` for dependent transport.** Rewriting dependent objects and then inserting `Iso.refl` or `𝟙` tends to create casts and elaboration instability.
+- **Separate bundled and component levels.** First work with `Cat.Hom₂`, then `NatTrans`, then a component, and only then the scalar carrier.
+- **Do not use scalar algebra on an abstract dependent Hom type.** Keep categorical composition as `≫` until the carrier has been fixed to `SingleObj C2`.
+- **Remember the `SingleObj` convention.** In Mathlib, `f ≫ g = g * f`; scalarization reverses categorical composition.
+- **Keep broad unfolding local.** Unfold nested pseudofunctor composition once in a helper lemma; downstream proofs should consume the helper instead of reopening the whole definition stack.
+- **Do not ask `linear_combination` to know the characteristic implicitly.** Form the ring-linear combination first, then simplify `2 = 0` in `ZMod 2`.
+- **Prefer exact dependent fiber types.** If typeclass search cannot see a carrier, expose the exact target fiber rather than increasing heartbeats.
+- **Track exact PR heads.** After every code change, old CI receipts are stale.
+- **Merge only with the validated current head.** Re-observe `main` after merge.
 
 ## No-go implications
 
@@ -322,26 +435,33 @@ Do not promote the following without a theorem:
 
 ```text
 import -> namespace opened
+Classical.choice -> coherence
 local Nonempty Iso -> coherent global choice
-Classical.choice -> pentagon/unit laws
+
 weak admissibility -> generated holonomy triviality
 nontrivial generated holonomy -> factorization impossible
+groupoid localization -> holonomy triviality
 representative equivalence -> coherent quotient transport
-groupoid localization -> trivial holonomy
 
-one bad gauge -> every gauge fails
-fixed-gauge associator obstruction -> global uncorrectability
-all unitors corrected at Q -> all associators corrected at Q
-v3.65 separation -> common correction locus empty
+one bad fixed gauge -> every gauge fails
+v3.65 separation -> common quotient correction locus empty
 
-v3.66 identity representatives -> coherence equations automatic
-identity 1-cell assignment -> unique or trivial 2-cell coherence
-fully coherent quotient transport -> both comparison gIso equations
+identity quotient representatives -> quotient coherence automatic
+nontrivial generated holonomy -> no coherent quotient transport
+v3.67 coherent quotient transport -> Stage-II comparison exists
+
+v3.68 failure for one explicit transport
+  -> every coherent quotient transport fails
+
+transport-specific Stage-II obstruction
+  -> no HigherLocalizationFactorization
+
 Stage-I factorization -> Stage-II universality
 docs-only CI -> theorem validation
 runtime success -> theorem authority
+memory/history -> fresh GitHub authority
 ```
 
 ## Current research sentence
 
-**KuuOS has reduced the concrete octahedral quotient-coherence truth test from broad generated-holonomy nontriviality to an exact same-gauge 2-cell coherence question: canonical v3.65 proves that a gauge can correct all unitors yet fail an associator, while canonical v3.66 shows every selected quotient representative 1-cell is nevertheless literally identity. The next decisive step is to construct a fully coherent quotient gauge explicitly or prove a gauge-independent 2-cell obstruction that survives every gauge choice.**
+**KuuOS has now separated the concrete octahedral `C2` truth test into successive layers: v3.66 collapses every selected quotient representative 1-cell to identity; v3.67 nevertheless constructs a fully coherent quotient transport, proving the earlier fixed-gauge obstruction is gauge-specific; v3.68 then proves that this explicit coherent quotient transport cannot support a coherent presentation comparison back to the raw twisted pseudofunctor. The next decisive question is whether that Stage-II obstruction is invariant under every coherent quotient transport or can be absorbed by a different coherent quotient 2-cell choice.**
