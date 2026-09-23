@@ -209,7 +209,7 @@ theorem counterComparisonScalar_comp
       counterFiber_eqToHom_eq_one,
       counterSystem_comp_eq_mul,
       Cat.Hom.id_obj, Cat.Hom.id_map,
-      mul_one, one_mul, mul_assoc, mul_comm] using hApp
+      mul_one, one_mul] using hApp
 
 /-- On an octahedral triangular face, replace the composite arrow by the named
 direct lower-to-upper edge. -/
