@@ -57,6 +57,70 @@ noncomputable def counterComparisonScalar
     {X Y : OctahedralVertex} (f : X ⟶ Y) : C2 :=
   (C.mapIso f).hom.toNatTrans.app (SingleObj.star C2)
 
+
+/-- Every raw arrow of the restricted v3.67 quotient system still acts by the
+identity functor.  This is the v3.66 representative collapse transported only
+through the already-proved restriction map formula, avoiding expansion of the
+whole pseudofunctor composition. -/
+@[simp] theorem counterRestrictedMap_toFunctor_eq_id
+    {X Y : OctahedralVertex} (f : X ⟶ Y) :
+    ((restrictedCoherentQuotientSystem
+        allMorphisms counterSystem counterD
+        counterD_coherentQuotientTransportData).map f.toLoc).toFunctor =
+      𝟭 CounterFiber := by
+  rw [restrictedCoherentQuotientSystem_map]
+  exact
+    counterQuotientRepresentativeMap_toFunctor_eq_id
+      counterD (allMorphisms.Q.map f)
+
+/-- The raw compositor contributes exactly the finite C2 face scalar. -/
+@[simp] theorem counterSystem_mapComp_hom_app_star
+    {X Y Z : OctahedralVertex} (f : X ⟶ Y) (g : Y ⟶ Z) :
+    (counterSystem.mapComp f.toLoc g.toLoc).hom.toNatTrans.app
+        (SingleObj.star C2) =
+      compScalar X Y Z := by
+  change
+    (counterMapComp X Y Z).hom.toNatTrans.app (SingleObj.star C2) =
+      compScalar X Y Z
+  exact counterMapComp_hom_app_star X Y Z
+
+/-- The identity-component naturality wrapper does not alter the scalar carried
+by the chosen comparison map. -/
+@[simp] theorem counterIdentityComponentNaturalityIso_hom_app_star
+    (C : CounterComparisonData)
+    {X Y : OctahedralVertex} (f : X ⟶ Y) :
+    (identityComponentNaturalityIso
+        allMorphisms counterSystem counterD
+        counterD_coherentQuotientTransportData
+        f (C.mapIso f)).hom.toNatTrans.app (SingleObj.star C2) =
+      counterComparisonScalar C f := by
+  set_option backward.isDefEq.respectTransparency false in
+    simp [identityComponentNaturalityIso, counterComparisonScalar,
+      counterRestrictedMap_toFunctor_eq_id, counterSystem_map_toFunctor]
+
+/-- The compositor of the restricted v3.67 quotient system is scalar-trivial.
+Only this local structural computation unfolds the pseudofunctor-composition
+wrappers; downstream scalar algebra uses the lemma as a black box. -/
+@[simp] theorem counterRestrictedMapComp_hom_app_star
+    {X Y Z : OctahedralVertex} (f : X ⟶ Y) (g : Y ⟶ Z) :
+    ((restrictedCoherentQuotientSystem
+        allMorphisms counterSystem counterD
+        counterD_coherentQuotientTransportData).mapComp
+          f.toLoc g.toLoc).hom.toNatTrans.app (SingleObj.star C2) =
+      1 := by
+  set_option backward.isDefEq.respectTransparency false in
+    simp [restrictedCoherentQuotientSystem,
+      restrictHigherLocalizedSystem,
+      coherentQuotientLocalizedHigherSystem,
+      quotientLocalizationPseudofunctor,
+      higherPresentationUnitFunctor,
+      CategoryTheory.Pseudofunctor.comp,
+      CategoryTheory.Functor.toPseudofunctor,
+      CategoryTheory.pseudofunctorOfIsLocallyDiscrete,
+      counterD_coherentQuotientTransportData,
+      counterQuotientMapComp,
+      counterQuotientRepresentativeMap_toFunctor_eq_id]
+
 /-- Stage-II composition coherence becomes the scalar coboundary equation. -/
 theorem counterComparisonScalar_comp
     (C : CounterComparisonData)
@@ -67,19 +131,18 @@ theorem counterComparisonScalar_comp
   have hNat := congrArg (fun η => η.toNatTrans) h
   have hApp := NatTrans.congr_app hNat (SingleObj.star C2)
   set_option backward.isDefEq.respectTransparency false in
-    simpa [counterComparisonScalar,
-      identityComponentNaturalityIso,
-      restrictedCoherentQuotientSystem,
-      coherentQuotientLocalizedHigherSystem,
-      quotientLocalizationPseudofunctor,
-      higherPresentationUnitFunctor,
-      CategoryTheory.Pseudofunctor.comp,
-      CategoryTheory.Functor.toPseudofunctor,
-      CategoryTheory.pseudofunctorOfIsLocallyDiscrete,
-      counterD_coherentQuotientTransportData,
-      counterQuotientMapId, counterQuotientMapComp,
-      counterQuotientRepresentativeMap_toFunctor_eq_id,
-      counterSystem] using hApp
+    simpa only [Cat.Hom₂.comp_app, Cat.whiskerLeft_app,
+      Cat.whiskerRight_app, Cat.associator_hom_app,
+      Cat.associator_inv_app,
+      counterIdentityComponentNaturalityIso_hom_app_star,
+      counterRestrictedMapComp_hom_app_star,
+      counterSystem_mapComp_hom_app_star,
+      counterRestrictedMap_toFunctor_eq_id,
+      counterSystem_map_toFunctor,
+      Functor.id_obj, Functor.id_map,
+      SingleObj.comp_as_mul, SingleObj.id_as_one,
+      Category.comp_id, Category.id_comp, mul_one, one_mul,
+      mul_assoc, mul_comm] using hApp
 
 /-- On an octahedral triangular face, replace the composite arrow by the named
 direct lower-to-upper edge. -/
@@ -135,10 +198,11 @@ theorem not_counterComparisonData :
     linear_combination
       h000' + h010' + h001' + h011' +
       h100' + h110' + h101' + h111'
-  have htwo : (2 : ZMod 2) = 0 := by
-    norm_num
+  have htwo : (2 : ZMod 2) = 0 :=
+    CharTwo.two_eq_zero
   have hzero : (1 : ZMod 2) = 0 := by
-    simpa [htwo] using hsum
+    simp [htwo] at hsum
+    exact hsum
   exact one_ne_zero hzero
 
 /-- The explicit coherent quotient transport of v3.67 admits no coherent
