@@ -11,25 +11,18 @@ Canonical branch: `main`.
 Fresh theorem-bearing canonical baseline observed on 2026-09-23 JST:
 
 ~~~text
-2d7c0fa2e8c30f3d221d3166a29ab583f2e02f54
+8f1a5006dd43afb6d4c9b8ae583ed6f5abab78d9
 ~~~
 
-This is the merge commit of PR #1747, integrating **v3.65 — fixed-gauge unitor/associator separation**.
+This is the merge commit of PR #1748, integrating **v3.66 — countermodel quotient representatives collapse to identity 1-cells**.
 
-The current validated but unmerged theorem unit is PR #1748, **v3.66 — countermodel quotient representatives collapse to identity 1-cells**:
+The validated PR head was:
 
 ~~~text
-exact validated head
 383dd616ef9b15c1ecfcac23fd8de4f65b4bc6fa
-
-governance run
-35847500021
-
-Strict Lean formal validation = success
-exact-head terminal          = success
 ~~~
 
-PR #1748 remains Draft / open / unmerged. It is not canonical theorem authority until merged.
+with governance run `35847500021`, Strict Lean formal validation = success, and exact-head terminal = success.
 
 The separate Lean 4.31 validation-only PR #1558 remains open / Draft / unmerged and must not be merged, marked Ready for review, or auto-merged.
 
@@ -404,7 +397,7 @@ It does not prove that every gauge fails, that the common correction locus is em
 
 ### Validated Draft v3.66 — identity quotient representatives
 
-PR #1748 is GREEN at exact head:
+PR #1748 was GREEN at exact head:
 
 ~~~text
 383dd616ef9b15c1ecfcac23fd8de4f65b4bc6fa
@@ -412,7 +405,7 @@ PR #1748 is GREEN at exact head:
 
 with successful Strict Lean and exact-head terminal receipts in run 35847500021.
 
-It remains unmerged and is therefore not canonical theorem authority.
+It was merged as canonical theorem commit `8f1a5006dd43afb6d4c9b8ae583ed6f5abab78d9`.
 
 v3.66 proves, in the concrete C2 model:
 
@@ -582,7 +575,7 @@ lake -KleanArgs=-DwarningAsError=true \
   build KUOS.DependentOriginationFixedGaugeUnitorAssociatorSeparationV3_65
 ~~~
 
-Validated Draft v3.66 focused target:
+Canonical v3.66 focused target:
 
 ~~~bash
 lake -KleanArgs=-DwarningAsError=true \
