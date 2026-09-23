@@ -72,6 +72,29 @@ Keeping this reduction as an explicit simp lemma lets component-level
   subst B
   rfl
 
+/-- Equality transport inside a raw counterSystem fiber is the unit C2
+morphism.  This formulation matches the dependent category parameter directly,
+so simp need not rewrite the ambient Cat object first. -/
+@[simp] theorem counterSystem_eqToHom_eq_one
+    (X : OctahedralVertex)
+    {A B : counterSystem.obj (.mk X)} (h : A = B) :
+    (eqToHom h : A ⟶ B) = (1 : C2) := by
+  subst B
+  rfl
+
+/-- The same normalization for an object of the restricted quotient-stage
+system. -/
+@[simp] theorem counterRestricted_eqToHom_eq_one
+    (X : OctahedralVertex)
+    {A B :
+      (restrictedCoherentQuotientSystem
+        allMorphisms counterSystem counterD
+        counterD_coherentQuotientTransportData).obj (.mk X)}
+    (h : A = B) :
+    (eqToHom h : A ⟶ B) = (1 : C2) := by
+  subst B
+  rfl
+
 /-- Every component of a comparison natural transformation is the same scalar,
 because CounterFiber has only one object. -/
 @[simp] theorem counterComparisonMapIso_hom_app_eq_scalar
@@ -171,8 +194,8 @@ theorem counterComparisonScalar_comp
       counterRestrictedMapComp_hom_app_star,
       counterSystem_mapComp_hom_app,
       counterSystem_map_morphism_eq,
-      counterSystem_obj_eq_counterFiber,
-      restrictedCoherentQuotientSystem_obj,
+      counterSystem_eqToHom_eq_one,
+      counterRestricted_eqToHom_eq_one,
       counterFiber_eqToHom_eq_one,
       Cat.Hom.id_obj, Cat.Hom.id_map,
       SingleObj.comp_as_mul,
