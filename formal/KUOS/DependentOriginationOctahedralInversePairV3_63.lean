@@ -90,7 +90,7 @@ def counterInversePairForward : counterX ⟶ counterY :=
 
 /-- Formal localization inverse of the forward member. -/
 def counterInversePairBackward : counterY ⟶ counterX :=
-  CategoryTheory.Localization.Construction.wInv a00 (by trivial)
+  CategoryTheory.Localization.Construction.wInv (W := allMorphisms) a00 (by trivial)
 
 /-- Third arrow of the concrete associator task. -/
 def counterInversePairThird : counterX ⟶ counterT :=
@@ -101,14 +101,14 @@ def counterInversePairThird : counterX ⟶ counterT :=
 theorem counterInversePairForward_comp_backward :
     counterInversePairForward ≫ counterInversePairBackward = 𝟙 counterX := by
   simpa [counterInversePairForward, counterInversePairBackward] using
-    (CategoryTheory.Localization.Construction.wIso a00 (by trivial)).hom_inv_id
+    (CategoryTheory.Localization.Construction.wIso (W := allMorphisms) a00 (by trivial)).hom_inv_id
 
 /-- The formal localization inverse followed by the forward map is identity. -/
 @[simp]
 theorem counterInversePairBackward_comp_forward :
     counterInversePairBackward ≫ counterInversePairForward = 𝟙 counterY := by
   simpa [counterInversePairForward, counterInversePairBackward] using
-    (CategoryTheory.Localization.Construction.wIso a00 (by trivial)).inv_hom_id
+    (CategoryTheory.Localization.Construction.wIso (W := allMorphisms) a00 (by trivial)).inv_hom_id
 
 /-- L0 and M0 remain distinct after localization. -/
 theorem counterX_ne_counterY : counterX ≠ counterY := by
