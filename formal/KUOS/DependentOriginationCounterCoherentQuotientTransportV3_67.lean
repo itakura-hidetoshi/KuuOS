@@ -17,6 +17,11 @@ open KUOS.DependentOriginationCounterRepresentativeIdentityV3_66
 
 set_option autoImplicit false
 
+attribute [local simp]
+  CategoryTheory.Bicategory.Strict.leftUnitor_eqToIso
+  CategoryTheory.Bicategory.Strict.rightUnitor_eqToIso
+  CategoryTheory.Bicategory.Strict.associator_eqToIso
+
 noncomputable section
 
 /-!
@@ -26,9 +31,10 @@ v3.66 proves that every selected quotient representative 1-cell in the
 octahedral C2 countermodel is literally the identity Cat 1-cell.  This file
 truth-tests the remaining quotient-stage problem directly.
 
-On that identity 1-cell assignment we choose the canonical identity comparison
-and the canonical right-unitor inverse as the composition comparison.  The
-three remaining equations are then pure bicategory coherence.  Hence the
+On that identity 1-cell assignment we first prove literal Cat 1-cell equalities
+for quotient identities and composites, and use their `eqToIso` transports as
+`mapId` and `mapComp`.  Since `Cat` is a strict bicategory, the three
+remaining equations then normalize to equality transport.  Hence the
 countermodel admits coherent quotient transport despite its nontrivial
 generated relation-loop holonomy and despite the bad fixed common-unitor gauge
 constructed in v3.65.
@@ -36,46 +42,6 @@ constructed in v3.65.
 Thus the v3.65 obstruction is genuinely gauge-specific: it does not imply
 global quotient-stage uncorrectability.
 -/
-
-/-- Underlying-functor equality used for the identity comparison.
-
-We deliberately formulate the equality after the `toFunctor` projection.
-Rewriting a dependent `Cat.Hom` itself would insert transports into every
-later 2-cell equation. -/
-theorem counterQuotientMapId_toFunctor_eq
-    (X : allMorphisms.Localization) :
-    (quotientRepresentativeMap
-      allMorphisms counterSystem counterD (𝟙 X)).toFunctor =
-      (𝟙 (counterSystem.obj (.mk X.as.obj))).toFunctor := by
-  change
-    (quotientRepresentativeMap
-      allMorphisms counterSystem counterD (𝟙 X)).toFunctor =
-      𝟭 CounterFiber
-  exact
-    counterQuotientRepresentativeMap_toFunctor_eq_id
-      counterD (𝟙 X)
-
-/-- Underlying-functor equality used for the composition comparison. -/
-theorem counterQuotientMapComp_toFunctor_eq
-    {X Y Z : allMorphisms.Localization}
-    (f : X ⟶ Y) (g : Y ⟶ Z) :
-    (quotientRepresentativeMap
-      allMorphisms counterSystem counterD (f ≫ g)).toFunctor =
-      (quotientRepresentativeMap
-          allMorphisms counterSystem counterD f ≫
-        quotientRepresentativeMap
-          allMorphisms counterSystem counterD g).toFunctor := by
-  change
-    (quotientRepresentativeMap
-      allMorphisms counterSystem counterD (f ≫ g)).toFunctor =
-      (quotientRepresentativeMap
-        allMorphisms counterSystem counterD f).toFunctor ⋙
-      (quotientRepresentativeMap
-        allMorphisms counterSystem counterD g).toFunctor
-  rw [counterQuotientRepresentativeMap_toFunctor_eq_id counterD (f ≫ g),
-    counterQuotientRepresentativeMap_toFunctor_eq_id counterD f,
-    counterQuotientRepresentativeMap_toFunctor_eq_id counterD g]
-  rfl
 
 /-- The selected representative of a quotient identity is literally the Cat
 identity 1-cell.  Keeping this as an equality, rather than transporting a
@@ -146,16 +112,13 @@ noncomputable def counterD_coherentQuotientTransportData :
   mapComp := counterQuotientMapComp
   map₂_associator := by
     intro X Y Z T f g h
-    simp [counterQuotientMapComp,
-      Bicategory.Strict.associator_eqToIso]
+    simp [counterQuotientMapComp]
   map₂_left_unitor := by
     intro X Y f
-    simp [counterQuotientMapId, counterQuotientMapComp,
-      Bicategory.Strict.leftUnitor_eqToIso]
+    simp [counterQuotientMapId, counterQuotientMapComp]
   map₂_right_unitor := by
     intro X Y f
-    simp [counterQuotientMapId, counterQuotientMapComp,
-      Bicategory.Strict.rightUnitor_eqToIso]
+    simp [counterQuotientMapId, counterQuotientMapComp]
 
 /-- The concrete C2 model has coherent quotient transport. -/
 theorem counterD_hasCoherentQuotientTransportData :
