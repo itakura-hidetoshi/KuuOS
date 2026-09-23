@@ -99,12 +99,13 @@ system. -/
 scalar.  Keeping this as a named map lets us transport an equality of dependent
 fiber morphisms into the monoid without asking simp to recognize the ambient
 Cat object syntactically. -/
-def counterFiberHomScalar
-    {A B : CounterFiber} (p : A ⟶ B) : C2 :=
+def counterFiberHomScalar (p : C2) : C2 :=
   p
 
 /-- Scalarization reverses categorical composition exactly as dictated by the
-SingleObj category structure. -/
+SingleObj category structure.  The objects are explicit here so the rewrite
+rule can recover them from the categorical composition syntax, while the
+scalarizer itself carries no uninferable endpoint parameters. -/
 theorem counterFiberHomScalar_comp
     {A B D : CounterFiber} (p : A ⟶ B) (q : B ⟶ D) :
     counterFiberHomScalar (p ≫ q) =
