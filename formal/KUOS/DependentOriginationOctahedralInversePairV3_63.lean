@@ -107,12 +107,6 @@ def counterInversePairThird : counterX ⟶ counterT :=
 @[simp]
 theorem counterInversePairForward_comp_backward :
     counterInversePairForward ≫ counterInversePairBackward = 𝟙 counterX := by
-  change
-    (CategoryTheory.Localization.Construction.wIso
-      (W := allMorphisms) a00 a00_mem_allMorphisms).hom ≫
-        (CategoryTheory.Localization.Construction.wIso
-          (W := allMorphisms) a00 a00_mem_allMorphisms).inv =
-      𝟙 counterX
   exact
     (CategoryTheory.Localization.Construction.wIso
       (W := allMorphisms) a00 a00_mem_allMorphisms).hom_inv_id
@@ -121,12 +115,6 @@ theorem counterInversePairForward_comp_backward :
 @[simp]
 theorem counterInversePairBackward_comp_forward :
     counterInversePairBackward ≫ counterInversePairForward = 𝟙 counterY := by
-  change
-    (CategoryTheory.Localization.Construction.wIso
-      (W := allMorphisms) a00 a00_mem_allMorphisms).inv ≫
-        (CategoryTheory.Localization.Construction.wIso
-          (W := allMorphisms) a00 a00_mem_allMorphisms).hom =
-      𝟙 counterY
   exact
     (CategoryTheory.Localization.Construction.wIso
       (W := allMorphisms) a00 a00_mem_allMorphisms).inv_hom_id
