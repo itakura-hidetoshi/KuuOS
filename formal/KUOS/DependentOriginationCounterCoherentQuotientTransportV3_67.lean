@@ -77,22 +77,52 @@ theorem counterQuotientMapComp_toFunctor_eq
     counterQuotientRepresentativeMap_toFunctor_eq_id counterD g]
   rfl
 
-/-- Canonical identity comparison after the v3.66 representative collapse.
+/-- The selected representative of a quotient identity is literally the Cat
+identity 1-cell.  Keeping this as an equality, rather than transporting a
+pre-built Iso through a rewrite, avoids dependent `cast` terms in later
+coherence equations. -/
+theorem counterQuotientRepresentativeMap_id_eq
+    (X : allMorphisms.Localization) :
+    quotientRepresentativeMap
+        allMorphisms counterSystem counterD (𝟙 X) =
+      𝟙 (counterSystem.obj (.mk X.as.obj)) := by
+  rw [counterD_quotientRepresentativeMap_eq_identity]
+  rfl
 
-The comparison is built at the underlying-functor level and lifted with
-`Cat.Hom.isoMk`.  This avoids transporting the dependent `Cat.Hom` carrier
-itself. -/
+/-- The selected representative of a quotient composite is literally the
+composite of the selected representatives.
+
+All three representatives are the identity Cat 1-cell by v3.66, so the only
+remaining equality is the right-identity law in Cat. -/
+theorem counterQuotientRepresentativeMap_comp_eq
+    {X Y Z : allMorphisms.Localization}
+    (f : X ⟶ Y) (g : Y ⟶ Z) :
+    quotientRepresentativeMap
+        allMorphisms counterSystem counterD (f ≫ g) =
+      quotientRepresentativeMap
+          allMorphisms counterSystem counterD f ≫
+        quotientRepresentativeMap
+          allMorphisms counterSystem counterD g := by
+  rw [counterD_quotientRepresentativeMap_eq_identity,
+    counterD_quotientRepresentativeMap_eq_identity,
+    counterD_quotientRepresentativeMap_eq_identity]
+  exact
+    (Category.comp_id
+      ((𝟙 (Cat.of CounterFiber)) :
+        Cat.of CounterFiber ⟶ Cat.of CounterFiber)).symm
+
+/-- Canonical identity comparison obtained directly from literal equality. -/
 noncomputable def counterQuotientMapId
     (X : allMorphisms.Localization) :
     quotientRepresentativeMap
         allMorphisms counterSystem counterD (𝟙 X) ≅
       𝟙 (counterSystem.obj (.mk X.as.obj)) :=
-  Cat.Hom.isoMk (eqToIso (counterQuotientMapId_toFunctor_eq X))
+  eqToIso (counterQuotientRepresentativeMap_id_eq X)
 
-/-- Canonical composition comparison after the v3.66 representative collapse.
+/-- Canonical composition comparison obtained directly from literal equality.
 
-Again the equality is made only after `toFunctor`; the resulting natural
-isomorphism is then lifted back to the protected Cat 1-morphism. -/
+Using `eqToIso` is the native strict-bicategory normal form in Mathlib and
+prevents proof-transport casts from being frozen into the comparison Iso. -/
 noncomputable def counterQuotientMapComp
     {X Y Z : allMorphisms.Localization}
     (f : X ⟶ Y) (g : Y ⟶ Z) :
@@ -102,17 +132,13 @@ noncomputable def counterQuotientMapComp
           allMorphisms counterSystem counterD f ≫
         quotientRepresentativeMap
           allMorphisms counterSystem counterD g :=
-  Cat.Hom.isoMk (eqToIso (counterQuotientMapComp_toFunctor_eq f g))
-
-attribute [local simp]
-  counterQuotientRepresentativeMap_toFunctor_eq_id
+  eqToIso (counterQuotientRepresentativeMap_comp_eq f g)
 
 /-- Explicit coherent quotient transport for the canonical countermodel datum.
 
-After projection to underlying functors, v3.66 turns every selected
-representative into the identity functor.  The chosen comparisons are
-`eqToIso` transports, so each component reduces to the identity morphism in
-the one-object C2 fiber. -/
+Because both comparison isomorphisms are `eqToIso` values and `Cat` is a
+strict bicategory, the three laws normalize entirely to equality transport.
+No componentwise cast calculation is required. -/
 noncomputable def counterD_coherentQuotientTransportData :
     CoherentQuotientTransportData
       (W := allMorphisms) counterSystem counterD where
@@ -120,22 +146,16 @@ noncomputable def counterD_coherentQuotientTransportData :
   mapComp := counterQuotientMapComp
   map₂_associator := by
     intro X Y Z T f g h
-    apply Cat.Hom₂.ext
-    ext A
-    cases A
-    simp [counterQuotientMapComp]
+    simp [counterQuotientMapComp,
+      Bicategory.Strict.associator_eqToIso]
   map₂_left_unitor := by
     intro X Y f
-    apply Cat.Hom₂.ext
-    ext A
-    cases A
-    simp [counterQuotientMapId, counterQuotientMapComp]
+    simp [counterQuotientMapId, counterQuotientMapComp,
+      Bicategory.Strict.leftUnitor_eqToIso]
   map₂_right_unitor := by
     intro X Y f
-    apply Cat.Hom₂.ext
-    ext A
-    cases A
-    simp [counterQuotientMapId, counterQuotientMapComp]
+    simp [counterQuotientMapId, counterQuotientMapComp,
+      Bicategory.Strict.rightUnitor_eqToIso]
 
 /-- The concrete C2 model has coherent quotient transport. -/
 theorem counterD_hasCoherentQuotientTransportData :
