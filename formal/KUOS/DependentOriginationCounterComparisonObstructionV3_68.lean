@@ -57,6 +57,32 @@ noncomputable def counterComparisonScalar
     {X Y : OctahedralVertex} (f : X ⟶ Y) : C2 :=
   (C.mapIso f).hom.toNatTrans.app (SingleObj.star C2)
 
+/-- Equality transport in the one-object C2 fiber is always the unit scalar. -/
+@[simp] theorem counterFiber_eqToHom_eq_one
+    {A B : CounterFiber} (h : A = B) :
+    (eqToHom h : A ⟶ B) = (1 : C2) := by
+  subst B
+  rfl
+
+/-- Every component of a comparison natural transformation is the same scalar,
+because CounterFiber has only one object. -/
+@[simp] theorem counterComparisonMapIso_hom_app_eq_scalar
+    (C : CounterComparisonData)
+    {X Y : OctahedralVertex} (f : X ⟶ Y)
+    (A : CounterFiber) :
+    (C.mapIso f).hom.toNatTrans.app A =
+      counterComparisonScalar C f := by
+  cases A
+  rfl
+
+/-- Every raw counterSystem functor fixes every C2 morphism. -/
+@[simp] theorem counterSystem_map_morphism_eq
+    {X Y : OctahedralVertex} (f : X ⟶ Y)
+    {A B : CounterFiber} (x : A ⟶ B) :
+    (counterSystem.map f.toLoc).toFunctor.map x = x := by
+  rw [counterSystem_map_toFunctor]
+  rfl
+
 
 /-- Every raw arrow of the restricted v3.67 quotient system still acts by the
 identity functor.  This is the v3.66 representative collapse transported only
@@ -86,16 +112,17 @@ whole pseudofunctor composition. -/
 
 /-- The identity-component naturality wrapper does not alter the scalar carried
 by the chosen comparison map. -/
-@[simp] theorem counterIdentityComponentNaturalityIso_hom_app_star
+@[simp] theorem counterIdentityComponentNaturalityIso_hom_app
     (C : CounterComparisonData)
-    {X Y : OctahedralVertex} (f : X ⟶ Y) :
+    {X Y : OctahedralVertex} (f : X ⟶ Y)
+    (A : CounterFiber) :
     (identityComponentNaturalityIso
         allMorphisms counterSystem counterD
         counterD_coherentQuotientTransportData
-        f (C.mapIso f)).hom.toNatTrans.app (SingleObj.star C2) =
+        f (C.mapIso f)).hom.toNatTrans.app A =
       counterComparisonScalar C f := by
   set_option backward.isDefEq.respectTransparency false in
-    simp [identityComponentNaturalityIso, counterComparisonScalar]
+    simp [identityComponentNaturalityIso]
 
 /-- The compositor of the restricted v3.67 quotient system is scalar-trivial.
 Only this local structural computation unfolds the pseudofunctor-composition
@@ -106,7 +133,9 @@ wrappers; downstream scalar algebra uses the lemma as a black box. -/
         allMorphisms counterSystem counterD
         counterD_coherentQuotientTransportData).mapComp
           f.toLoc g.toLoc).hom.toNatTrans.app (SingleObj.star C2) =
-      eqToHom (by exact Subsingleton.elim _ _) := by
+      eqToHom (by
+        change (_ : CounterFiber) = _
+        exact Subsingleton.elim _ _) := by
   set_option backward.isDefEq.respectTransparency false in
     simp [restrictHigherLocalizedSystem,
       coherentQuotientLocalizedHigherSystem,
@@ -116,7 +145,8 @@ wrappers; downstream scalar algebra uses the lemma as a black box. -/
       CategoryTheory.Functor.toPseudofunctor,
       CategoryTheory.pseudofunctorOfIsLocallyDiscrete,
       CategoryTheory.LocallyDiscrete.mkPseudofunctor,
-      counterD_coherentQuotientTransportData]
+      counterD_coherentQuotientTransportData,
+      counterQuotientMapComp]
 
 /-- Stage-II composition coherence becomes the scalar coboundary equation. -/
 theorem counterComparisonScalar_comp
@@ -131,14 +161,13 @@ theorem counterComparisonScalar_comp
     simpa only [Cat.Hom₂.comp_app, Cat.whiskerLeft_app,
       Cat.whiskerRight_app, Cat.associator_hom_app,
       Cat.associator_inv_app,
-      counterIdentityComponentNaturalityIso_hom_app_star,
+      counterIdentityComponentNaturalityIso_hom_app,
       counterRestrictedMapComp_hom_app_star,
       counterSystem_mapComp_hom_app_star,
-      counterRestrictedMap_toFunctor_eq_id,
-      counterSystem_map_toFunctor,
-      Cat.Hom.id_toFunctor, Cat.Hom.id_obj, Cat.Hom.id_map,
-      Cat.eqToHom_app,
-      Functor.id_obj, Functor.id_map, eqToHom_refl,
+      counterSystem_map_morphism_eq,
+      counterFiber_eqToHom_eq_one,
+      Cat.Hom.id_obj, Cat.Hom.id_map,
+      Functor.id_obj, Functor.id_map,
       SingleObj.comp_as_mul, SingleObj.id_as_one,
       Category.comp_id, Category.id_comp, mul_one, one_mul,
       mul_assoc, mul_comm] using hApp
