@@ -37,22 +37,62 @@ Thus the v3.65 obstruction is genuinely gauge-specific: it does not imply
 global quotient-stage uncorrectability.
 -/
 
-/-- Canonical identity comparison after the v3.66 representative collapse. -/
+/-- Underlying-functor equality used for the identity comparison.
+
+We deliberately formulate the equality after the `toFunctor` projection.
+Rewriting a dependent `Cat.Hom` itself would insert transports into every
+later 2-cell equation. -/
+theorem counterQuotientMapId_toFunctor_eq
+    (X : allMorphisms.Localization) :
+    (quotientRepresentativeMap
+      allMorphisms counterSystem counterD (𝟙 X)).toFunctor =
+      (𝟙 (counterSystem.obj (.mk X.as.obj))).toFunctor := by
+  change
+    (quotientRepresentativeMap
+      allMorphisms counterSystem counterD (𝟙 X)).toFunctor =
+      𝟭 CounterFiber
+  exact
+    counterQuotientRepresentativeMap_toFunctor_eq_id
+      counterD (𝟙 X)
+
+/-- Underlying-functor equality used for the composition comparison. -/
+theorem counterQuotientMapComp_toFunctor_eq
+    {X Y Z : allMorphisms.Localization}
+    (f : X ⟶ Y) (g : Y ⟶ Z) :
+    (quotientRepresentativeMap
+      allMorphisms counterSystem counterD (f ≫ g)).toFunctor =
+      (quotientRepresentativeMap
+          allMorphisms counterSystem counterD f ≫
+        quotientRepresentativeMap
+          allMorphisms counterSystem counterD g).toFunctor := by
+  change
+    (quotientRepresentativeMap
+      allMorphisms counterSystem counterD (f ≫ g)).toFunctor =
+      (quotientRepresentativeMap
+        allMorphisms counterSystem counterD f).toFunctor ⋙
+      (quotientRepresentativeMap
+        allMorphisms counterSystem counterD g).toFunctor
+  rw [counterQuotientRepresentativeMap_toFunctor_eq_id counterD (f ≫ g),
+    counterQuotientRepresentativeMap_toFunctor_eq_id counterD f,
+    counterQuotientRepresentativeMap_toFunctor_eq_id counterD g]
+  rfl
+
+/-- Canonical identity comparison after the v3.66 representative collapse.
+
+The comparison is built at the underlying-functor level and lifted with
+`Cat.Hom.isoMk`.  This avoids transporting the dependent `Cat.Hom` carrier
+itself. -/
 noncomputable def counterQuotientMapId
     (X : allMorphisms.Localization) :
     quotientRepresentativeMap
         allMorphisms counterSystem counterD (𝟙 X) ≅
-      𝟙 (counterSystem.obj (.mk X.as.obj)) := by
-  simpa only [counterSystem,
-    counterD_quotientRepresentativeMap_eq_identity] using
-    (Iso.refl
-      ((𝟙 (Cat.of CounterFiber)) :
-        Cat.of CounterFiber ⟶ Cat.of CounterFiber))
+      𝟙 (counterSystem.obj (.mk X.as.obj)) :=
+  Cat.Hom.isoMk (eqToIso (counterQuotientMapId_toFunctor_eq X))
 
 /-- Canonical composition comparison after the v3.66 representative collapse.
 
-Both selected representatives are identity 1-cells, so the comparison is the
-inverse right unitor of the identity Cat 1-cell. -/
+Again the equality is made only after `toFunctor`; the resulting natural
+isomorphism is then lifted back to the protected Cat 1-morphism. -/
 noncomputable def counterQuotientMapComp
     {X Y Z : allMorphisms.Localization}
     (f : X ⟶ Y) (g : Y ⟶ Z) :
@@ -61,16 +101,18 @@ noncomputable def counterQuotientMapComp
       quotientRepresentativeMap
           allMorphisms counterSystem counterD f ≫
         quotientRepresentativeMap
-          allMorphisms counterSystem counterD g := by
-  simpa only [counterD_quotientRepresentativeMap_eq_identity] using
-    (ρ_
-      ((𝟙 (Cat.of CounterFiber)) :
-        Cat.of CounterFiber ⟶ Cat.of CounterFiber)).symm
+          allMorphisms counterSystem counterD g :=
+  Cat.Hom.isoMk (eqToIso (counterQuotientMapComp_toFunctor_eq f g))
+
+attribute [local simp]
+  counterQuotientRepresentativeMap_toFunctor_eq_id
 
 /-- Explicit coherent quotient transport for the canonical countermodel datum.
 
-After rewriting every representative by v3.66, all three laws are the standard
-bicategory coherence laws for the identity 1-cell. -/
+After projection to underlying functors, v3.66 turns every selected
+representative into the identity functor.  The chosen comparisons are
+`eqToIso` transports, so each component reduces to the identity morphism in
+the one-object C2 fiber. -/
 noncomputable def counterD_coherentQuotientTransportData :
     CoherentQuotientTransportData
       (W := allMorphisms) counterSystem counterD where
@@ -81,37 +123,19 @@ noncomputable def counterD_coherentQuotientTransportData :
     apply Cat.Hom₂.ext
     ext A
     cases A
-    set_option backward.isDefEq.respectTransparency false in
-      simp [counterQuotientMapComp,
-        counterD_quotientRepresentativeMap_eq_identity,
-        Cat.Hom.comp_toFunctor, Functor.comp_obj, Cat.Hom.comp_obj,
-        Cat.whiskerLeft_app, Cat.whiskerRight_app,
-        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
-        Category.comp_id, Category.id_comp, Category.assoc]
+    simp [counterQuotientMapComp]
   map₂_left_unitor := by
     intro X Y f
     apply Cat.Hom₂.ext
     ext A
     cases A
-    set_option backward.isDefEq.respectTransparency false in
-      simp [counterQuotientMapId, counterQuotientMapComp,
-        counterD_quotientRepresentativeMap_eq_identity,
-        Cat.Hom.comp_toFunctor, Functor.comp_obj, Cat.Hom.comp_obj,
-        Cat.whiskerLeft_app, Cat.whiskerRight_app,
-        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
-        Category.comp_id, Category.id_comp, Category.assoc]
+    simp [counterQuotientMapId, counterQuotientMapComp]
   map₂_right_unitor := by
     intro X Y f
     apply Cat.Hom₂.ext
     ext A
     cases A
-    set_option backward.isDefEq.respectTransparency false in
-      simp [counterQuotientMapId, counterQuotientMapComp,
-        counterD_quotientRepresentativeMap_eq_identity,
-        Cat.Hom.comp_toFunctor, Functor.comp_obj, Cat.Hom.comp_obj,
-        Cat.whiskerLeft_app, Cat.whiskerRight_app,
-        Cat.Hom₂.id_app, Cat.Hom₂.comp_app, Cat.eqToHom_app,
-        Category.comp_id, Category.id_comp, Category.assoc]
+    simp [counterQuotientMapId, counterQuotientMapComp]
 
 /-- The concrete C2 model has coherent quotient transport. -/
 theorem counterD_hasCoherentQuotientTransportData :
