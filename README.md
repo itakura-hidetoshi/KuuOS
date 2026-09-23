@@ -17,12 +17,11 @@ Philosophy, mathematical presentations, formal proofs, and operational systems i
 | Item | Verified reference |
 | --- | --- |
 | Canonical branch | `main` |
-| Latest integrated theorem layer | **v3.52 — global localization cancellation from source complements** |
-| Latest theorem-bearing merge | [PR #1733](https://github.com/itakura-hidetoshi/KuuOS/pull/1733), merged 2026-09-23 JST |
-| Theorem baseline | `7e01b3cfe468dbf870f13ded04f85e2595ecb81f` |
-| Pre-docs-refresh `main` | `7e01b3cfe468dbf870f13ded04f85e2595ecb81f` |
-| Validated #1733 PR head | `380565c1a09d182272136525bc0d8868f4cda9c7` |
-| Exact-head governance run | [run 35801551701](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35801551701), completed / success |
+| Latest integrated theorem layer | **v3.66 — countermodel quotient representatives are identity 1-cells** |
+| Latest theorem-bearing merge | [PR #1748](https://github.com/itakura-hidetoshi/KuuOS/pull/1748), merged 2026-09-23 JST |
+| Theorem baseline | `8f1a5006dd43afb6d4c9b8ae583ed6f5abab78d9` |
+| Validated #1748 PR head | `383dd616ef9b15c1ecfcac23fd8de4f65b4bc6fa` |
+| Exact-head governance run | [run 35847500021](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35847500021), completed / success |
 | Exact-head receipts | Strict Lean formal validation = success; exact-head terminal = success |
 | Lean | `leanprover/lean4:v4.30.0-rc2` |
 | Mathlib | `5450b53e5ddc75d46418fabb605edbf36bd0beb6` |
@@ -39,7 +38,7 @@ fresh exact canonical GitHub SHA
   > history / memory
 ```
 
-The formerly separate v2.69–v3.14 frontier is integrated history. The canonical theorem spine now continues through v3.52. The separate Lean 4.31 validation-only PR #1558 remains **open / Draft / unmerged** and outside theorem authority; it must not be merged, marked Ready for review, or auto-merged.
+The formerly separate v2.69–v3.14 frontier is integrated history. The canonical theorem spine now continues through v3.66. The separate Lean 4.31 validation-only PR #1558 remains **open / Draft / unmerged** and outside theorem authority; it must not be merged, marked Ready for review, or auto-merged.
 
 ## What 空 means here
 
@@ -58,74 +57,81 @@ The bridge from 空 to 縁起 retains context, relations, admissible transport, 
 
 The philosophical layer asks about relation, dependence, transformation, and non-reification. The mathematical layer studies those questions through categories, bicategories, pseudofunctors, localization, gauge freedom, holonomy, descent, and universal properties. The operational layer applies bounded observation, planning, action, and renewed verification. These are related layers, not a ranking of philosophical and mathematical authority.
 
-## Latest result: collision cancellation is global under explicit source-complement geometry
+## Latest result: the remaining concrete question is purely 2-cell coherence
 
-The canonical v3.41–v3.52 sequence has narrowed the quotient-stage associator problem from an undifferentiated collision residual to explicit, separately testable mechanisms.
+The v3.53–v3.66 sequence has sharpened the fresh-boundary problem far beyond the v3.52 collision-closure result.
 
-The current strongest collision result is v3.52. Define source-level hypotheses saying that every raw arrow can be completed on the left or right to a composite in `W`:
+The current strongest concrete conclusion is:
 
 ```text
-HasLeftWCompositeComplements W
-HasRightWCompositeComplements W
+v2.69 C2 countermodel
++ all localization arrows invertible
++ every quotient representative functor an equivalence
++ every selected quotient representative 1-cell literally = identity
++ one fixed gauge corrects every unitor
++ another theorem gives a fixed gauge failing a selected associator
++ generated relation-loop 2-cell holonomy remains nontrivial
 ```
 
-v3.34 constructs split epi / split mono localization arrows from such source composites. v3.52 then uses Mathlib's canonical localization induction
+The last two bullets must be read carefully. v3.64–v3.65 prove that **there exists a bad fixed gauge** which corrects every unitor but does not correct every associator. They do **not** prove that every gauge fails, and they do **not** prove that no fully coherent quotient gauge exists.
+
+v3.66 then removes the 1-cell assignment from the remaining concrete truth test:
 
 ```lean
-Localization.Construction.morphismProperty_eq_top
+counterQuotientRepresentativeMap_eq_identity
 ```
 
-to globalize those properties from source images, formal `W`-inverses, and composition to **every morphism of `W.Localization`**. Consequently, under both global source-complement hypotheses,
+For every localization arrow in the concrete C2 model, the selected `Quot.out` representative evaluates to the identity `Cat.Hom`. This coexists with the already-proved nontrivial generated 2-cell holonomy.
+
+Therefore the immediate frontier is no longer:
 
 ```text
-every localization arrow is Epi
-every localization arrow is Mono
+can the quotient 1-cell assignment descend?
 ```
 
-and the categorical cancellation assumptions used in v3.49–v3.50 are available for every actual collision residual.
-
-This closes the following chain:
+but:
 
 ```text
-actual non-middle leading collision
-  -> object degeneracy                         [v3.48]
-  -> absorption equations                      [v3.49]
-  -> left-identity associator under Epi/Mono   [v3.49]
-  -> corrected by common left unitors          [v3.50]
-  -> Epi/Mono supplied by source W-composites  [v3.51]
-  -> global Epi/Mono under source complements  [v3.52]
+can mapId / mapComp 2-isomorphisms be chosen simultaneously
+so that associator + left-unitor + right-unitor coherence all hold?
 ```
 
-The resulting v3.52 adapter
+That is exactly the `CoherentQuotientTransportData` / joint-correction question.
 
-```lean
-corrects_all_associators_of_boundaryCompatible_of_sourceComplements
-```
-
-says that, for one fixed quotient gauge, the existing common-unitor correction, nonresidual correction, fresh-boundary compatibility equations, and the two global source-complement hypotheses together imply correction of **every associator task**.
-
-This is an important closure theorem, but it is conditional. v3.52 does **not** prove the global source-complement hypotheses from weak admissibility, and it does **not** make fresh-boundary compatibility automatic.
-
-## N4 progression: actual incidence, schedules, boundary equations, and collision closure
-
-The canonical progression after v3.40 is:
+## v3.53–v3.66: fresh-boundary reduction and concrete C2 truth test
 
 | Layer | Integrated result |
 | --- | --- |
-| [v3.41](formal/KUOS/DependentOriginationAssociatorIncidenceDecompositionV3_41.lean) | Decomposes actual associator incidence into middle identity, fresh/interior, and residual sectors using literal dependent `QuotientGaugeCoordinate` equalities. |
-| [v3.42](formal/KUOS/DependentOriginationFreshInteriorGlobalCoverageV3_42.lean) | Shows finite/countable/global safe fresh-interior coverage gives one common gauge correcting every nonresidual associator. |
-| [v3.43](formal/KUOS/DependentOriginationFiniteRankedScheduleV3_43.lean) | Constructs finite forward-noninterfering schedules from an actual dependency rank that strictly decreases along dependency. |
-| [v3.44](formal/KUOS/DependentOriginationCountableRankedEnumerationV3_44.lean) | Turns a rank-monotone injective enumeration into a safe countable schedule. |
-| [v3.45](formal/KUOS/DependentOriginationLowerRankFinitenessV3_45.lean) | Proves finite lower-rank coverage is necessary for the chosen countable rank-monotone scheduling strategy. |
-| [v3.46](formal/KUOS/DependentOriginationLocallyFiniteRankedEnumerationV3_46.lean) | Derives a greedy countable rank-monotone enumeration from finite rank sublevels; countability is proved rather than assumed. |
-| [v3.47](formal/KUOS/DependentOriginationFreshBoundaryCompatibilityV3_47.lean) | Reduces each fresh/unitor-visible boundary residual to one exact leading-coordinate compatibility equation. |
-| [v3.48](formal/KUOS/DependentOriginationCollisionObjectGeometryV3_48.lean) | Projects literal leading-coordinate collisions to unavoidable adjacent object degeneracy. |
-| [v3.49](formal/KUOS/DependentOriginationCollisionAbsorptionReductionV3_49.lean) | Extracts absorption equations and reduces the non-middle collision residual to a left-identity associator under ordinary Epi/Mono cancellation. |
-| [v3.50](formal/KUOS/DependentOriginationLeftIdentitySemanticRecoveryV3_50.lean) | Proves `associator (𝟙 X) g h` is semantically corrected by the same gauge once the left-unit routes at `g` and `g ≫ h` are corrected. |
-| [v3.51](formal/KUOS/DependentOriginationWCompositeCollisionClosureV3_51.lean) | Supplies the v3.49 Epi/Mono hypotheses for source-presented residual tasks from concrete `W`-composite split data. |
-| [v3.52](formal/KUOS/DependentOriginationGlobalCancellationFromSourceComplementsV3_52.lean) | Uses Mathlib localization induction to globalize source-complement cancellation to every localization arrow, removing the per-task source-presentation requirement under explicit global source geometry. |
+| [v3.53](formal/KUOS/DependentOriginationFreshBoundaryRightIdentityReductionV3_53.lean) | Splits the fresh/unitor-visible boundary: the right-identity branch is semantically recovered from common right unitors; only the composite-identity branch remains. |
+| [v3.54](formal/KUOS/DependentOriginationCompositeIdentityInversePairReductionV3_54.lean) | Under Epi/Mono cancellation, `f ≫ g = 𝟙` becomes a two-sided inverse pair. |
+| [v3.55](formal/KUOS/DependentOriginationInversePairBoundaryObstructionV3_55.lean) | Names the exact remaining fresh-boundary obstruction: fresh boundary + inverse pair + failure of the solved leading equation. Representative EssSurj/Faithful separation is no longer the issue. |
+| [v3.56](formal/KUOS/DependentOriginationInversePairRepresentativeEquivalenceV3_56.lean) | Upgrades quotient representatives of inverse-pair arrows to actual functor equivalences. |
+| [v3.57](formal/KUOS/DependentOriginationSourceComplementsGroupoidV3_57.lean) | Left+right source complements force the entire ordinary localization to be a groupoid; all quotient representatives become equivalences. |
+| [v3.58](formal/KUOS/DependentOriginationGroupoidHolonomySeparationV3_58.lean) | In the v2.69 `allMorphisms` model, groupoid localization + representative equivalence coexist with nontrivial generated holonomy. |
+| [v3.59](formal/KUOS/DependentOriginationInversePairSuffixPerturbationV3_59.lean) | Shows that changing one isolated nontrivial suffix coordinate can preserve unitors and destroy one inverse-pair associator, given a corrected baseline. |
+| [v3.60](formal/KUOS/DependentOriginationNontrivialSuffixObstructionV3_60.lean) | Removes the corrected-baseline assumption: common unitors + fresh inverse-pair geometry + a nontrivial isolated suffix fiber force existence of some bad fixed gauge. |
+| [v3.61](formal/KUOS/DependentOriginationCounterGaugeFiberNontrivialV3_61.lean) | Proves directly that every composition-coordinate quotient-gauge fiber in the concrete C2 model is nontrivial. |
+| [v3.62](formal/KUOS/DependentOriginationInversePairIncidenceV3_62.lean) | Reduces fresh-boundary and suffix-isolation incidence to simple object inequalities around an inverse pair. |
+| [v3.63](formal/KUOS/DependentOriginationOctahedralInversePairV3_63.lean) | Constructs an explicit octahedral inverse-pair task using Mathlib localization `wIso/wInv`, distinct localization objects, and the exact nontrivial suffix fiber. |
+| [v3.64](formal/KUOS/DependentOriginationUniversalUnitorGaugeV3_64.lean) | Proves that one fixed quotient gauge correcting **all** left/right unitors always exists; specializes this to the concrete C2 model and obtains an exact fixed-gauge inverse-pair obstruction. |
+| [v3.65](formal/KUOS/DependentOriginationFixedGaugeUnitorAssociatorSeparationV3_65.lean) | Packages the same-gauge separation: all unitors corrected at `Q` does not force all associators, nor all quotient routes, corrected at the same `Q`. This is not global uncorrectability. |
+| [v3.66](formal/KUOS/DependentOriginationCounterRepresentativeIdentityV3_66.lean) | Proves every free-path evaluation and every selected quotient representative 1-cell in the C2 model is literally the identity, while nontrivial generated 2-cell holonomy remains. |
 
-The earlier v3.35–v3.40 common-unitor and same-gauge middle-identity results remain part of this chain. v3.41–v3.52 do not replace them; they use them as the already correlated coherence sector.
+This sequence changes the interpretation of the frontier. The concrete problem is now entirely two-dimensional: **simultaneous 2-cell coherence**, not 1-cell descent or representative equivalence.
+
+## Earlier N4 progression retained: incidence, schedules, boundary equations, and collision closure
+
+The v3.35–v3.52 chain remains essential infrastructure:
+
+| Range | Established contribution |
+| --- | --- |
+| v3.35–v3.40 | Common unitor correlation, boundary reduction, unique fresh completion, finite/countable stabilization, and same-gauge middle-identity semantic recovery. |
+| v3.41–v3.46 | Literal associator-incidence decomposition, safe ranked scheduling, lower-rank finiteness analysis, and locally finite countable enumeration. |
+| v3.47 | Reduces each fresh/unitor-visible boundary task to one exact leading-coordinate equation. |
+| v3.48–v3.50 | Turns coordinate collision into object degeneracy, absorption, and left-identity semantic recovery. |
+| v3.51–v3.52 | Supplies collision cancellation from source `W)-composite data and globalizes Epi/Mono cancellation under explicit source-complement geometry. |
+
+v3.53–v3.66 do not replace those results. They take the last v3.47/v3.52 boundary equation and push it through inverse-pair geometry into a concrete C2 truth test.
 
 ## Canonical formal spine
 
@@ -134,14 +140,16 @@ The earlier v3.35–v3.40 common-unitor and same-gauge middle-identity results r
 | v2.0–v2.10 | Ordinary localization, W + J sectors, stack descent, and the higher-localization factorization interface. |
 | v2.11–v2.54 | Weak/coherent distinctions, correction and modification triangles, the E/R/A obstruction normal form, and structural sufficient routes. |
 | v2.55–v2.68 | Restricted existence, W-adjoint equivalences, free-path evaluation, quotient-equal path isomorphisms, the five-law coherence package, generated 2-cells and holonomy. |
-| v2.69–v2.95 | Octahedral truth test; obstruction, correctability, authority, extensional correction power, and constructive/classical boundaries. |
+| v2.69–v2.95 | Octahedral C2 truth test; generated-holonomy nontriviality, correction authority, correctability, and constructive/classical boundaries. |
 | v2.96–v3.04 | Five compatible gauge equations split into three quotient equations and two comparison equations. |
 | v3.05–v3.14 | Quotient correction loci, witness-correlation gap, finite dependent-coordinate footprints, and literal shared-coordinate keys. |
-| v3.15–v3.21 | Explicit pair extension and gluing from one compatible family; countermodels; rigidity and star-transitivity sufficient criteria. |
+| v3.15–v3.21 | Explicit pair extension and gluing from one compatible family; abstract countermodels; rigidity and star-transitivity sufficient criteria. |
 | v3.22–v3.34 | Actual route-equation rigidity, mixed-triangle residual, directional cancellation, free-path propagation, semantic representative transport, split-arrow and source-`W)-composite separation. |
-| v3.35–v3.40 | Common unitor correlation, boundary reduction, fresh completion, finite/countable stabilization, and same-gauge middle-identity semantic recovery. |
-| v3.41–v3.47 | Actual incidence decomposition, ranked scheduling, local-finiteness/countability, and exact fresh-boundary compatibility. |
-| v3.48–v3.52 | Collision object geometry, absorption cancellation, left-identity semantic recovery, source-`W)-composite closure, and global cancellation from source complements. |
+| v3.35–v3.40 | Common unitor correlation, fresh completion, schedule stabilization, and middle-identity semantic recovery. |
+| v3.41–v3.52 | Actual incidence decomposition, ranked scheduling, fresh-boundary equation, collision absorption, left-identity recovery, and source-complement cancellation closure. |
+| v3.53–v3.58 | Fresh-boundary right-identity reduction, inverse-pair reduction, representative equivalence, groupoid localization, and groupoid/holonomy separation. |
+| v3.59–v3.63 | Isolated-suffix perturbation, abstract nontrivial-fiber obstruction, concrete C2 fiber nontriviality, incidence reduction, and an explicit octahedral inverse-pair task. |
+| v3.64–v3.66 | Universal common-unitor gauge, fixed-gauge unitor/associator separation, and collapse of every concrete quotient representative 1-cell to identity. |
 
 The retained sufficient implication
 
@@ -150,42 +158,52 @@ GeneratedHolonomyTrivial W R D
   -> HasHigherLocalizationFactorization (W := W) R
 ```
 
-is still valid, but v2.69 prevents replacing its premise by weak admissibility without additional proof. The later constructive program does not erase that truth test; it narrows the missing hypotheses and converts broad residuals into exact structural conditions.
+is still valid. The converse direction is not established, and nontrivial generated holonomy is not by itself a proof of factorization impossibility.
 
-## Next mathematical boundary: fresh-boundary closure and weaker cancellation certificates
+## Current mathematical boundary: explicit coherent 2-cell transport
 
-The quotient-stage frontier is now much sharper than at v3.40.
+The next concrete theorem unit should truth-test an explicit
 
-First, v3.47 leaves an exact equation on each fresh but unitor-visible boundary task:
-
-```text
-current leading gauge value
-  =
-unique solved associator-leading value.
+```lean
+CoherentQuotientTransportData
+  (W := allMorphisms)
+  counterSystem
+  counterD
 ```
 
-The next central question is whether this compatibility follows automatically from already correlated unitor / associator structure under reusable hypotheses, or whether it is a genuine remaining obstruction that must be retained explicitly.
+using the v3.66 fact that every quotient representative 1-cell is identity.
 
-Second, v3.52 uses strong **global** source-complement hypotheses to make every localization arrow epi/mono. This is a sufficient route, not a characterization. A natural refinement is to weaken it to local certificates only on the `Quot.out` words or representatives that actually occur in collision residuals, reusing the v3.29–v3.32 path and representative machinery.
+There are two logically distinct possible outcomes.
 
-The near-term theorem sequence is therefore:
+### Outcome A — explicit coherent quotient transport exists
+
+If explicit `mapId` and `mapComp` 2-isomorphisms satisfying the associator and two unitor laws can be constructed, then:
 
 ```text
-fresh-boundary compatibility
-  -> automatic theorem under structural hypotheses
-     OR exact residual obstruction
-
-global source complements
-  -> weaken to selected-word / representative cancellation certificates
-
-sufficient quotient-stage all-associator correction
-  -> solve the two comparison gIso equations
-  -> assemble general Stage I higher-localization factorization
+nontrivial generated holonomy
++ existence of a bad common-unitor gauge
+does not prevent
+existence of a different fully coherent quotient gauge.
 ```
 
-Schedule independence, seed independence, and general `W/R/D` independence are not proved by the ranked constructions. They remain separate presentation-invariance questions rather than hidden consequences of existence.
+This would show that v3.65 is genuinely **gauge-specific**, not a global obstruction theorem.
 
-After quotient-stage coverage is sufficient, the two comparison `gIso` equations from v3.02–v3.04 remain the next Stage-I assembly problem. Stage-II coherent universality and the final `DO(C,W,J,H)` representation theorem remain distinct later milestones.
+### Outcome B — no coherent quotient transport exists
+
+This cannot be concluded from v3.65. It would require a new **gauge-independent invariant** proving that every candidate gauge misses the common correction locus.
+
+The already-established equivalences from v3.08–v3.11 remain the exact logical interface:
+
+```text
+ThreeQuotientRoutesJointlyCorrectable
+  <-> one Q corrects every quotient route
+  <-> commonQuotientRouteCorrectionLocus is nonempty
+  <-> HasCoherentQuotientTransportData.
+```
+
+The next truth test should therefore target this existence question directly, rather than perturbing another single coordinate.
+
+After the three quotient equations are settled, the two comparison `gIso` equations from the v3.02–v3.04 split remain the next Stage-I assembly problem.
 
 ## Dependent Origination Universality Program
 
@@ -214,7 +232,7 @@ multi-agent coordination        -> higher coherence
 different remediation powers    -> authority-relative correction
 ```
 
-These are engineering interpretations and design directions, not deployment guarantees established by the Lean theorems. Local agreement must not be confused with a single globally correlated family of decisions. Whether a discrepancy is hard also depends on the corrections actually authorized.
+These are engineering interpretations and design directions, not deployment guarantees established by the Lean theorems. Local agreement must not be confused with one globally correlated decision family. Whether a discrepancy is hard also depends on the corrections actually authorized.
 
 The runtime architecture includes bounded observation and verification, PlanOS, DecisionOS, MemoryOS, CodeAI, GitHub MCP reentry, dependent-origination adapters, and Adaptive Retrieval. Its control route is:
 
@@ -238,19 +256,19 @@ The pinned environment is recorded in [lean-toolchain](lean-toolchain) and [lake
 ```bash
 lake -KleanArgs=-DwarningAsError=true \
   -KleanArgs=-DsorryAsError=true \
-  build KUOS.DependentOriginationGlobalCancellationFromSourceComplementsV3_52
+  build KUOS.DependentOriginationCounterRepresentativeIdentityV3_66
 ```
 
-For PR #1733, exact head
+For PR #1748, exact head
 
 ```text
-380565c1a09d182272136525bc0d8868f4cda9c7
+383dd616ef9b15c1ecfcac23fd8de4f65b4bc6fa
 ```
 
-was validated by governance run [35801551701](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35801551701). The Strict Lean formal validation job, dependency-manifest verification, governance summary, Lean completion receipt, and exact-head terminal receipt all completed with `success`. That exact head was then merged as theorem commit
+was validated by governance run [35847500021](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35847500021). The Strict Lean formal validation job, dependency-manifest verification, governance summary, Lean completion receipt, and exact-head terminal receipt all completed with `success`. That exact head was merged as theorem commit
 
 ```text
-7e01b3cfe468dbf870f13ded04f85e2595ecb81f
+8f1a5006dd43afb6d4c9b8ae583ed6f5abab78d9
 ```
 
 and the post-merge comparison with `main` was identical before this documentation refresh.
@@ -263,7 +281,7 @@ lake -KleanArgs=-DwarningAsError=true \
   build KuuOSFormal
 ```
 
-The focused v3.52 receipt is **not** a claim that a fresh aggregate `KuuOSFormal` build was run. The effect-free runtime entry point remains:
+The focused v3.66 receipt is **not** a claim that a fresh aggregate `KuuOSFormal` build was run. The effect-free runtime entry point remains:
 
 ```bash
 PYTHONPATH=. python3 runtime/kuuos_current_check.py
@@ -271,14 +289,18 @@ PYTHONPATH=. python3 runtime/kuuos_current_check.py
 
 A runtime result is not a mathematical theorem. A CI receipt applies only to its exact head and recorded checkout. Queued/running checks are not success, an old-head success is not a new-head success, and a docs-only gate does not constitute theorem validation.
 
-Recent proof-engineering lessons retained in the canonical workflow include:
+### Recent proof-engineering lessons
 
-- import does not open a namespace; short theorem names must be explicitly opened or qualified;
-- dependent constructors may make `injection` expose object equalities / heterogeneous equalities before morphism fields; normalize dependent equalities before claiming homogeneous field equalities;
-- typeclass search need not unfold packaged dependent projections far enough; use an explicit `change` to the literal carrier before `infer_instance`;
-- lemmas such as `MorphismProperty.epimorphisms.iff` are functions of a morphism, so in term mode the morphism must be applied before `.mp` / `.1`;
-- use typed `eqToHom` transport rather than silently identifying dependent composition coordinates;
-- track CI by the exact current PR head, merge with an expected head SHA, and freshly compare post-merge `main`.
+- **Import is not open.** A transitive import makes declarations available in the environment but does not put their short names into scope. Open the defining namespace explicitly or use a qualified name.
+- **Keep `autoImplicit false`.** Unknown identifiers should fail closed instead of silently becoming implicit variables.
+- **Do not overuse `simpa using` on Iso laws.** A source proposition can simplify all the way to `True`; prefer direct `exact iso.hom_inv_id` / `inv_hom_id` when the target is definitionally the same theorem.
+- **Name dependent witnesses.** For `Localization.Construction.wIso/wInv`, keeping the `W w` proof in one named definition avoids proof-argument mismatch in dependent terms.
+- **Use `Functor.hext` intentionally.** Its map field is HEq because object equalities are dependent. In v3.66, `SingleObj C2 = Unit` was made explicit and ordinary equality was converted with `.heq`; hidden target typeclass search was avoided.
+- **Use `Cat.Hom.ext` at the wrapper boundary.** Prove the underlying functor equality first, then lift it to equality of protected Cat 1-morphisms.
+- **Dependent constructor injection remains hazardous.** Object equalities and HEq may appear before morphism-field equalities; normalize the dependent geometry first.
+- **Typeclass search need not unfold packaged projections.** Use an explicit `change` to the literal carrier before `infer_instance` when necessary.
+- **Use typed `eqToHom` transport.** Do not silently identify dependent composition coordinates.
+- **Track CI by exact current head.** Re-read PR head, Strict Lean receipt, and exact-head terminal receipt before declaring GREEN; merge with an expected head SHA and fresh-compare `main`.
 
 ## Development and authority boundaries
 
@@ -298,12 +320,13 @@ same quotient arrow != same retained 2-cell derivation
 local Nonempty Iso != a coherent choice of transports
 pointwise inverses != pseudofunctor coherence
 nontrivial generated holonomy != factorization impossible
+one bad fixed gauge != global uncorrectability
+all unitors corrected at Q != all associators corrected at Q
+identity quotient representatives != coherent mapId/mapComp automatically
+groupoid localization != 2-cell coherence
 abstract correlation countermodel != an actual-system counterexample
-word certificate is sufficient, not a proved necessary semantic criterion
-certified-sector containment does not establish equality or strictness
-one closed incidence triangle != global star transitivity
 Stage-I factorization != Stage-II universality
 execution host != truth, WORLD-commit, or memory-overwrite authority
 ```
 
-**Current research sentence:** KuuOS has now formalized an actual associator-incidence pipeline through v3.52: nonresidual fresh/interior tasks admit explicit ranked scheduling under stated finiteness hypotheses; fresh boundary tasks are reduced to exact leading-compatibility equations; non-middle collision residuals reduce through object geometry, absorption, and same-gauge unitor coherence; and global source-complement geometry supplies cancellation for every localization arrow. The principal remaining quotient-stage boundary is fresh-boundary compatibility together with weakening the strong global source-complement hypothesis. Comparison `gIso` equations and general Stage I remain separate after that, followed by coherent Stage II and the final dependent-origination representation theorem.
+**Current research sentence:** KuuOS has reduced the concrete v2.69 quotient-stage truth test to a pure 2-cell coherence problem: every selected quotient representative 1-cell is now proved to be identity, while generated 2-cell holonomy can remain nontrivial; the next decisive theorem is whether a fully coherent `mapId/mapComp` family exists, or whether a genuinely gauge-independent 2-cell obstruction survives every quotient gauge choice.
