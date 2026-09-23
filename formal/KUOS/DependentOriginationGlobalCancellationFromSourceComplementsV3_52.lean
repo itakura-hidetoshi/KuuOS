@@ -109,9 +109,9 @@ theorem allLocalizationArrows_epi_of_leftWCompositeComplements
       rw [MorphismProperty.epimorphisms.iff]
       infer_instance
   intro X Y f
-  exact
-    (MorphismProperty.epimorphisms.iff).1
-      (MorphismProperty.of_eq_top hTop f)
+  have hf : MorphismProperty.epimorphisms W.Localization f :=
+    MorphismProperty.of_eq_top hTop f
+  exact (MorphismProperty.epimorphisms.iff f).mp hf
 
 /-- Dually, global right W-composite complements make every localization
 morphism mono. -/
@@ -128,9 +128,9 @@ theorem allLocalizationArrows_mono_of_rightWCompositeComplements
       rw [MorphismProperty.monomorphisms.iff]
       infer_instance
   intro X Y f
-  exact
-    (MorphismProperty.monomorphisms.iff).1
-      (MorphismProperty.of_eq_top hTop f)
+  have hf : MorphismProperty.monomorphisms W.Localization f :=
+    MorphismProperty.of_eq_top hTop f
+  exact (MorphismProperty.monomorphisms.iff f).mp hf
 
 /-- The two global source-complement hypotheses supply the exact cancellation
 pair required by every associator task, independently of a chosen source
