@@ -574,79 +574,141 @@ The formal results guide these designs; they do not establish production safety 
 
 ## 10. Verification discipline and proof engineering
 
-A reproducible focused command for the current theorem unit is:
+Canonical v3.65 focused target:
 
-```bash
+~~~bash
 lake -KleanArgs=-DwarningAsError=true \
   -KleanArgs=-DsorryAsError=true \
-  build KUOS.DependentOriginationGlobalCancellationFromSourceComplementsV3_52
-```
+  build KUOS.DependentOriginationFixedGaugeUnitorAssociatorSeparationV3_65
+~~~
 
-For PR #1733, exact head `380565c1a09d182272136525bc0d8868f4cda9c7` was checked by governance run `35801551701`. The Strict Lean formal validation job, dependency-manifest verification, governance summary, Lean completion receipt, and exact-head terminal receipt all completed with `success`. The head was merged as `7e01b3cfe468dbf870f13ded04f85e2595ecb81f`, then freshly compared with `main` as identical before this documentation refresh.
+Validated Draft v3.66 focused target:
 
-The aggregate `KuuOSFormal` target is a separate check; the focused v3.52 receipt is not a fresh aggregate-validation claim. Runtime validation remains separate through `PYTHONPATH=. python3 runtime/kuuos_current_check.py`. A docs-only successful gate cannot substitute for theorem validation.
+~~~bash
+lake -KleanArgs=-DwarningAsError=true \
+  -KleanArgs=-DsorryAsError=true \
+  build KUOS.DependentOriginationCounterRepresentativeIdentityV3_66
+~~~
 
-Retain the proof-engineering lessons accumulated through v3.52:
+For v3.66, exact head
 
-- **Namespace resolution:** import does not open a namespace. v3.47 required the actual defining namespace of `quotientRouteCorrectionLocus` to be opened explicitly.
-- **Dependent constructor injection:** do not assume named `injection` outputs begin with the morphism fields. Object parameters and HEq may appear first. Normalize dependent equalities before concluding homogeneous field equalities.
-- **Dependent packaged projections:** typeclass search may not unfold a packaged task projection to the literal source expression. v3.51 fixed this by `change Epi (W.Q.map f) ∧ Mono (W.Q.map g)` before `infer_instance`.
-- **Function before projection:** a theorem such as `MorphismProperty.epimorphisms.iff` has type `∀ f, ... ↔ Epi f`. In term mode apply the morphism first, then use `.mp` / `.1`; do not write `(epimorphisms.iff).1`.
-- **Dedicated cancellation lemmas:** prefer `cancel_epi_id` / `cancel_mono_id` when the goal is exactly an identity cancellation, rather than asking `simpa` to rediscover the normal form.
-- **Explicit equality transport:** use typed `eqToHom`, `Eq.subst`, and intermediate dependent equalities rather than silently treating composition coordinates as definitionally identical.
-- **Scheduling discipline:** well-foundedness does not imply an `ℕ`-schedule containing every task at finite time; finite-rank/local-finiteness assumptions must be stated where used.
-- **Exact-head CI:** after every repair, discard conclusions tied only to the old head. Merge with `expected_head_sha`, then re-read and compare `main`.
-- **Authority separation:** theorem validation, docs validation, runtime validation, and philosophical interpretation are different evidence classes.
+~~~text
+383dd616ef9b15c1ecfcac23fd8de4f65b4bc6fa
+~~~
 
-No proof term, Lean option, dependency pin, or workflow is changed by this documentation refresh.
+was validated by governance run
+
+~~~text
+35847500021
+~~~
+
+with Strict Lean formal validation, dependency-manifest verification, governance summary, Lean completion receipt, and exact-head terminal receipt all successful.
+
+The aggregate formal target remains separate:
+
+~~~bash
+lake -KleanArgs=-DwarningAsError=true \
+  -KleanArgs=-DsorryAsError=true \
+  build KuuOSFormal
+~~~
+
+Runtime validation remains separate:
+
+~~~bash
+PYTHONPATH=. python3 runtime/kuuos_current_check.py
+~~~
+
+A docs-only gate is not theorem validation. A runtime result is not a theorem. A CI receipt applies only to its recorded exact head.
+
+Retain these proof-engineering rules:
+
+- **Namespace resolution:** import does not open a namespace. Open the actual defining namespace or qualify the declaration.
+- **Fail closed:** keep `set_option autoImplicit false` so an unknown identifier cannot silently become a new implicit variable.
+- **Controlled simplification:** avoid broad `simpa using` when an isomorphism law may simplify farther than the target. Prefer direct `exact` or `simp only`.
+- **Bundled isomorphisms:** retain one canonical `Iso` instead of unfolding hom/inv separately when inverse laws are needed.
+- **Dependent extensionality:** for functors use `Functor.hext`, supplying object equality plus heterogeneous map equality. Convert an ordinary equality with `.heq`.
+- **Explicit hidden carriers:** if typeclass search cannot see a definitional carrier, expose it. In v3.66, `SingleObj M` is definitionally `Unit`.
+- **Typed transport:** use `eqToHom`, `change`, and exact dependent fiber types instead of silently identifying dependent coordinates.
+- **Exact-head CI:** after every code change, discard conclusions tied only to the old head.
+- **Merge discipline:** merge with `expected_head_sha`, then freshly compare post-merge `main`.
+- **Evidence separation:** theorem validation, docs validation, runtime validation, and philosophical interpretation are different evidence classes.
 
 ## 11. No-go rules and completion criteria
 
 Do not promote these implications without a theorem:
 
-```text
-local Nonempty Iso -> coherent choice
-Classical.choice -> pentagon/unit laws
-weak Cat equivalence -> actual Cat isomorphism
-ordinary localization universality -> automatic pseudofunctor descent
-Quot.out choice -> coherent pseudofunctor
-fixed-D representative invariance -> all auxiliary-choice independence
+~~~text
+import -> namespace opened
+autoImplicit recovery -> intended variable
+Classical.choice -> coherence
+local Nonempty Iso -> coherent family
+
 weak admissibility -> generated holonomy triviality
-nontrivial holonomy -> factorization impossible
+nontrivial generated holonomy -> factorization impossible
+groupoid localization -> holonomy triviality
+representative equivalence -> coherent quotient transport
 
-nested pairwise witnesses -> one globally compatible family
-footprint locality -> witness correlation
-abstract parity countermodel -> actual-system factorization failure
-one incidence triangle -> global star transitivity
+one bad fixed gauge -> every gauge fails
+v3.65 separation -> common correction locus empty
+v3.65 obstruction witness -> global uncorrectability
 
-failed word certificate -> failed semantic property or nontrivial kernel
-certified <= semantic -> equality or strict containment
-semantic composite property -> same property on every factor or letter
-split-arrow separation -> existence of all correcting gauges
+v3.66 identity quotient representatives -> mapId/mapComp coherence automatic
+identity 1-cell assignment -> unique 2-cell comparisons
+nontrivial 2-cell holonomy -> no coherent quotient gauge
 
-countable ranked schedule -> schedule independence or all-associator coverage
-well-founded dependency -> an ℕ-schedule with every task at a finite stage
-finite rank sublevels -> weak admissibility supplies such a rank
-
-middle-identity correction from common unitors -> fresh leading coordinate
-same-gauge semantic recovery -> equality of independently chosen endpoint gauges
-object degeneracy -> a morphism is identity
-leading-coordinate collision -> underlying morphism equality without dependent-constructor analysis
-
-v3.47 fresh-boundary equation -> automatic compatibility
-v3.49 Epi/Mono cancellation -> every localization arrow is Epi/Mono
-v3.51 source-presented closure -> every residual has a source presentation
-v3.52 global source complements -> weak admissibility
-v3.52 global source complements -> those hypotheses are necessary
-v3.52 collision closure -> fresh-boundary compatibility
-v3.52 all-associator adapter under its premises -> general Stage I
-
-conditional Stage-I result -> coherent universal property
+fully coherent quotient transport -> comparison gIso solved
+quotient coherence -> complete higher-localization Stage I
 Stage-I factorization -> Stage-II universality
-runtime or model output -> canonical theorem authority
+
 docs-only CI -> theorem validation
-```
+runtime success -> theorem authority
+memory/history -> fresh GitHub authority
+~~~
 
 Completion requires formally checked, correctly scoped existence, coherent factorization, essential uniqueness, presentation invariance, descent compatibility, higher coherence, explicit obstruction/correction boundaries, and a natural representation theorem.
 
-Until then, keep the labels distinct: **proved**, **conditionally proved**, **classical**, **constructive**, **abstractly refuted**, **open**, **validation-only**, **interpretive**, and **operational**.
+Until then, keep the labels distinct: **proved**, **conditionally proved**, **validated Draft**, **constructive**, **classical**, **abstractly refuted**, **open**, **validation-only**, **interpretive**, and **operational**.
+
+### Current completion boundary
+
+Canonically proved at v3.65:
+
+~~~text
+exists Q such that
+all unitors are corrected at Q
+but not all associators/routes are corrected at Q
+~~~
+
+Validated Draft v3.66, not canonical until merged:
+
+~~~text
+every selected quotient representative 1-cell
+in the concrete C2 model
+is literally identity
+~~~
+
+Immediate open question:
+
+~~~text
+does there exist some different Q
+that corrects every quotient route?
+~~~
+
+Exact mathematical form:
+
+~~~text
+HasCoherentQuotientTransportData
+?
+~~~
+
+Next decisive proof unit:
+
+~~~text
+construct explicit coherent mapId/mapComp data
+
+or
+
+prove an invariant 2-cell obstruction surviving every gauge
+~~~
+
+This is the current quotient-stage frontier.
