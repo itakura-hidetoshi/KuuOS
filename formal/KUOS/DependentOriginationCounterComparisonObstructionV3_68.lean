@@ -100,14 +100,12 @@ whole pseudofunctor composition. -/
       counterD (allMorphisms.Q.map f)
 
 /-- The raw compositor contributes exactly the finite C2 face scalar. -/
-@[simp] theorem counterSystem_mapComp_hom_app_star
-    {X Y Z : OctahedralVertex} (f : X ⟶ Y) (g : Y ⟶ Z) :
-    (counterSystem.mapComp f.toLoc g.toLoc).hom.toNatTrans.app
-        (SingleObj.star C2) =
+@[simp] theorem counterSystem_mapComp_hom_app
+    {X Y Z : OctahedralVertex} (f : X ⟶ Y) (g : Y ⟶ Z)
+    (A : CounterFiber) :
+    (counterSystem.mapComp f.toLoc g.toLoc).hom.toNatTrans.app A =
       compScalar X Y Z := by
-  change
-    (counterMapComp X Y Z).hom.toNatTrans.app (SingleObj.star C2) =
-      compScalar X Y Z
+  cases A
   exact counterMapComp_hom_app_star X Y Z
 
 /-- The identity-component naturality wrapper does not alter the scalar carried
@@ -163,14 +161,12 @@ theorem counterComparisonScalar_comp
       Cat.associator_inv_app,
       counterIdentityComponentNaturalityIso_hom_app,
       counterRestrictedMapComp_hom_app_star,
-      counterSystem_mapComp_hom_app_star,
+      counterSystem_mapComp_hom_app,
       counterSystem_map_morphism_eq,
       counterFiber_eqToHom_eq_one,
-      Cat.Hom.id_obj, Cat.Hom.id_map,
-      Functor.id_obj, Functor.id_map,
-      SingleObj.comp_as_mul, SingleObj.id_as_one,
-      Category.comp_id, Category.id_comp, mul_one, one_mul,
-      mul_assoc, mul_comm] using hApp
+      Cat.Hom.id_map,
+      SingleObj.comp_as_mul,
+      mul_one, one_mul, mul_assoc, mul_comm] using hApp
 
 /-- On an octahedral triangular face, replace the composite arrow by the named
 direct lower-to-upper edge. -/
