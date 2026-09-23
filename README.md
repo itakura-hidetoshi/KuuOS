@@ -17,12 +17,10 @@ Philosophy, mathematical presentations, formal proofs, and operational systems i
 | Item | Current reference |
 | --- | --- |
 | Canonical branch | `main` |
-| Canonical theorem frontier | **v3.65 — fixed-gauge unitor/associator separation** |
-| Latest theorem-bearing merge | [PR #1747](https://github.com/itakura-hidetoshi/KuuOS/pull/1747) |
-| Canonical theorem merge SHA | `2d7c0fa2e8c30f3d221d3166a29ab583f2e02f54` |
-| Latest validated but unmerged theorem unit | **v3.66 — countermodel quotient representatives collapse to identity 1-cells** |
-| v3.66 Draft PR | [PR #1748](https://github.com/itakura-hidetoshi/KuuOS/pull/1748) |
-| v3.66 validated head | `383dd616ef9b15c1ecfcac23fd8de4f65b4bc6fa` |
+| Canonical theorem frontier | **v3.66 — countermodel quotient representatives collapse to identity 1-cells** |
+| Latest theorem-bearing merge | [PR #1748](https://github.com/itakura-hidetoshi/KuuOS/pull/1748) |
+| Canonical theorem merge SHA | `8f1a5006dd43afb6d4c9b8ae583ed6f5abab78d9` |
+| Validated v3.66 PR head | `383dd616ef9b15c1ecfcac23fd8de4f65b4bc6fa` |
 | v3.66 exact-head governance run | [35847500021](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35847500021), completed / success |
 | Lean | `leanprover/lean4:v4.30.0-rc2` |
 | Mathlib | `5450b53e5ddc75d46418fabb605edbf36bd0beb6` |
@@ -115,9 +113,9 @@ That remaining existential question is the current frontier.
 
 The progression should be read as a truth test, not as a monotone march toward a predetermined negative answer. Each layer narrows what the actual remaining obstruction can be.
 
-## Validated Draft frontier — v3.66
+## Canonical v3.66 — identity quotient representatives
 
-PR [#1748](https://github.com/itakura-hidetoshi/KuuOS/pull/1748) is GREEN at exact head
+PR [#1748](https://github.com/itakura-hidetoshi/KuuOS/pull/1748) was validated GREEN at exact head
 
 ```text
 383dd616ef9b15c1ecfcac23fd8de4f65b4bc6fa
@@ -125,7 +123,7 @@ PR [#1748](https://github.com/itakura-hidetoshi/KuuOS/pull/1748) is GREEN at exa
 
 with Strict Lean and exact-head terminal receipts both successful in run [35847500021](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35847500021).
 
-It is **not canonical theorem authority until merged**.
+It was merged as canonical theorem commit `8f1a5006dd43afb6d4c9b8ae583ed6f5abab78d9`.
 
 v3.66 proves, in the same concrete `C2` countermodel, that every free localization word and therefore every selected quotient representative 1-cell is literally equal to the identity `Cat` 1-cell:
 
@@ -197,6 +195,7 @@ Nontrivial generated holonomy alone is **not** enough to conclude failure. That 
 | v3.53–v3.58 | Fresh-boundary reduction to inverse-pair geometry; representative equivalence/groupoid closure; separation from generated holonomy. |
 | v3.59–v3.63 | Exact suffix perturbation, nontrivial dependent gauge fibers, incidence reduction, and concrete octahedral inverse-pair instantiation. |
 | v3.64–v3.65 | Universal common-unitor gauge and concrete fixed-gauge separation between unitor correction and associator/total-route correction. |
+| v3.66 | In the concrete C2 model, every free-path evaluation and selected quotient representative 1-cell is literally identity, localizing the remaining problem to 2-cell coherence. |
 
 ## Stage-I boundary after quotient coherence
 
@@ -271,7 +270,7 @@ lake -KleanArgs=-DwarningAsError=true \
   build KUOS.DependentOriginationFixedGaugeUnitorAssociatorSeparationV3_65
 ```
 
-Validated Draft v3.66 target:
+Canonical v3.66 target:
 
 ```bash
 lake -KleanArgs=-DwarningAsError=true \
@@ -279,13 +278,13 @@ lake -KleanArgs=-DwarningAsError=true \
   build KUOS.DependentOriginationCounterRepresentativeIdentityV3_66
 ```
 
-For v3.66, exact head
+For the validated v3.66 PR head
 
 ```text
 383dd616ef9b15c1ecfcac23fd8de4f65b4bc6fa
 ```
 
-was validated by run [35847500021](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35847500021), including Strict Lean formal validation, dependency-manifest verification, governance summary, Lean completion receipt, and exact-head terminal receipt.
+was validated by run [35847500021](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35847500021), including Strict Lean formal validation, dependency-manifest verification, governance summary, Lean completion receipt, and exact-head terminal receipt, then merged as `8f1a5006dd43afb6d4c9b8ae583ed6f5abab78d9`.
 
 The aggregate formal target remains a separate check:
 
@@ -345,4 +344,4 @@ runtime success -> theorem authority
 
 ## Current research sentence
 
-**KuuOS has reduced the concrete octahedral quotient-coherence truth test from broad generated-holonomy nontriviality to an exact same-gauge 2-cell coherence question: canonical v3.65 proves that a gauge can correct all unitors yet fail an associator, while GREEN Draft v3.66 shows every selected quotient representative 1-cell is nevertheless literally identity. The next decisive step is to construct a fully coherent quotient gauge explicitly or prove a gauge-independent 2-cell obstruction that survives every gauge choice.**
+**KuuOS has reduced the concrete octahedral quotient-coherence truth test from broad generated-holonomy nontriviality to an exact same-gauge 2-cell coherence question: canonical v3.65 proves that a gauge can correct all unitors yet fail an associator, while canonical v3.66 shows every selected quotient representative 1-cell is nevertheless literally identity. The next decisive step is to construct a fully coherent quotient gauge explicitly or prove a gauge-independent 2-cell obstruction that survives every gauge choice.**
