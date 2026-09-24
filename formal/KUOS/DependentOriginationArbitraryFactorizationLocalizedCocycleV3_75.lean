@@ -6,7 +6,6 @@ open CategoryTheory
 open CategoryTheory.Bicategory
 open Opposite
 open KUOS.DependentOriginationPresentationUniversalityV2_0
-open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
 open KUOS.DependentOriginationHigherStackDescentV2_8
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationGeneratedHolonomyCountermodelV2_69
@@ -80,7 +79,7 @@ noncomputable def counterFactorizationLocalizationView
     Pseudofunctor
       (LocallyDiscrete allMorphisms.Localization) Cat :=
   Pseudofunctor.comp
-    (opOp (LocalizedContext allMorphisms)).toPseudofunctor
+    (opOp allMorphisms.Localization).toPseudofunctor
     H.lift
 
 /-- Fiber of the localization-level view at one localization object. -/
