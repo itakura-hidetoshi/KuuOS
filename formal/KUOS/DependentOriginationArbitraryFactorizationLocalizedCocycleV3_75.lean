@@ -397,7 +397,7 @@ theorem counterFactorizationLocalizedCompAdd_cocycle
                   (f ≫ g).toLoc h.toLoc).hom.toNatTrans.app A))) := by
           rw [hInvOuter, hInvInner, hTransport, hHom]
       _ = 1 := by
-        simpa only [one_mul, mul_one, mul_assoc] using hScalar.symm
+        simpa only [mul_one, mul_assoc] using hScalar.symm
 
   have hMul :
       (counterFactorizationLocalizedCompImageScalarAt H T f (g ≫ h) A)⁻¹ *
