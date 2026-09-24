@@ -241,12 +241,12 @@ theorem counterFactorizationLocalizedEndpointScalarAt_comp
     counterFactorizationLocalizedEndpointScalarAt H T (u ≫ v) =
       counterFactorizationLocalizedEndpointScalarAt H T v *
         counterFactorizationLocalizedEndpointScalarAt H T u := by
-  unfold counterFactorizationLocalizedEndpointScalarAt
-  rw [Functor.map_comp]
-  exact
-    counterSystemHomScalar_comp T
-      ((H.comparison.app (.mk T)).toFunctor.map u)
-      ((H.comparison.app (.mk T)).toFunctor.map v)
+  let P := (H.comparison.app (.mk T)).toFunctor
+  have hMap := P.map_comp u v
+  have hScalar :=
+    congrArg (fun k => counterSystemHomScalar T k) hMap
+  simpa only [P, counterFactorizationLocalizedEndpointScalarAt,
+    counterSystemHomScalar_comp] using hScalar
 
 /-- Equality transport in the exact localization endpoint fiber has unit
 scalar. -/
@@ -258,9 +258,13 @@ scalar. -/
       CounterFactorizationLocalizedFiber H (allMorphisms.Q.obj T)}
     (q : A = B) :
     counterFactorizationLocalizedEndpointScalarAt H T (eqToHom q) = 1 := by
-  unfold counterFactorizationLocalizedEndpointScalarAt
-  rw [CategoryTheory.eqToHom_map]
-  exact counterSystem_eqToHom_eq_one T _
+  subst B
+  let P := (H.comparison.app (.mk T)).toFunctor
+  have hMap := P.map_id A
+  have hScalar :=
+    congrArg (fun k => counterSystemHomScalar T k) hMap
+  simpa only [P, counterFactorizationLocalizedEndpointScalarAt,
+    counterSystemHomScalar, SingleObj.id_as_one] using hScalar
 
 /-- A localization compositor hom component is exactly its named endpoint
 scalar. -/
