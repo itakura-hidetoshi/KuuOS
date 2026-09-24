@@ -222,12 +222,38 @@ theorem counterFactorizationFaceEquationAdd
   have h :=
     counterFactorizationEdgeScalarAt_comp H f g A
   have hAdd := congrArg (@Multiplicative.toAdd (ZMod 2)) h
-  simp only [toAdd_mul, toAdd_inv,
-    CharTwo.neg_eq] at hAdd
-  unfold counterFactorizationEdgeAddAt
-  unfold counterFactorizationLiftCompAddAt
-  unfold counterFactorizationPropagatedObject
-  linear_combination hAdd
+  have hAdd' :
+      counterFactorizationEdgeAddAt H (f ≫ g) A =
+        Multiplicative.toAdd (compScalar X Y Z) +
+          counterFactorizationEdgeAddAt H f A +
+          counterFactorizationEdgeAddAt H g
+            (counterFactorizationPropagatedObject H f A) +
+          counterFactorizationLiftCompAddAt H f g A := by
+    simpa only [counterFactorizationEdgeAddAt,
+      counterFactorizationLiftCompAddAt,
+      counterFactorizationPropagatedObject,
+      toAdd_mul, toAdd_inv, CharTwo.neg_eq] using hAdd
+  rw [hAdd']
+  calc
+    Multiplicative.toAdd (compScalar X Y Z) +
+          (Multiplicative.toAdd (compScalar X Y Z) +
+            counterFactorizationEdgeAddAt H f A +
+            counterFactorizationEdgeAddAt H g
+              (counterFactorizationPropagatedObject H f A) +
+            counterFactorizationLiftCompAddAt H f g A) =
+        (Multiplicative.toAdd (compScalar X Y Z) +
+          Multiplicative.toAdd (compScalar X Y Z)) +
+          (counterFactorizationEdgeAddAt H f A +
+            counterFactorizationEdgeAddAt H g
+              (counterFactorizationPropagatedObject H f A) +
+            counterFactorizationLiftCompAddAt H f g A) := by
+              ac_rfl
+    _ =
+        counterFactorizationEdgeAddAt H f A +
+          counterFactorizationEdgeAddAt H g
+            (counterFactorizationPropagatedObject H f A) +
+          counterFactorizationLiftCompAddAt H f g A := by
+            rw [CharTwo.add_self_eq_zero, zero_add]
 
 /-- Face form after replacing the composite by the named direct edge. -/
 theorem counterFactorizationTriangleEquationAdd
@@ -298,9 +324,46 @@ theorem counterFactorization_rawParity_forces_edgePairs_plus_compositors
     counterFactorizationTriangleEquationAdd H a11 b11 c11 A1
 
   simp [zeta] at h000 h010 h001 h011 h100 h110 h101 h111
-  linear_combination
-    h000 + h010 + h001 + h011 +
-    h100 + h110 + h101 + h111
+
+  have hsum :
+      (1 : ZMod 2) +
+          2 * counterFactorizationEdgeAddAt H c00 A0 +
+          2 * counterFactorizationEdgeAddAt H c01 A0 +
+          2 * counterFactorizationEdgeAddAt H c10 A1 +
+          2 * counterFactorizationEdgeAddAt H c11 A1 =
+        2 * counterFactorizationEdgeAddAt H a00 A0 +
+          2 * counterFactorizationEdgeAddAt H a01 A0 +
+          2 * counterFactorizationEdgeAddAt H a10 A1 +
+          2 * counterFactorizationEdgeAddAt H a11 A1 +
+          (counterFactorizationEdgeAddAt H b00
+              (counterFactorizationPropagatedObject H a00 A0) +
+            counterFactorizationEdgeAddAt H b00
+              (counterFactorizationPropagatedObject H a10 A1)) +
+          (counterFactorizationEdgeAddAt H b01
+              (counterFactorizationPropagatedObject H a00 A0) +
+            counterFactorizationEdgeAddAt H b01
+              (counterFactorizationPropagatedObject H a10 A1)) +
+          (counterFactorizationEdgeAddAt H b10
+              (counterFactorizationPropagatedObject H a01 A0) +
+            counterFactorizationEdgeAddAt H b10
+              (counterFactorizationPropagatedObject H a11 A1)) +
+          (counterFactorizationEdgeAddAt H b11
+              (counterFactorizationPropagatedObject H a01 A0) +
+            counterFactorizationEdgeAddAt H b11
+              (counterFactorizationPropagatedObject H a11 A1)) +
+          counterFactorizationLiftCompAddAt H a00 b00 A0 +
+          counterFactorizationLiftCompAddAt H a01 b10 A0 +
+          counterFactorizationLiftCompAddAt H a00 b01 A0 +
+          counterFactorizationLiftCompAddAt H a01 b11 A0 +
+          counterFactorizationLiftCompAddAt H a10 b00 A1 +
+          counterFactorizationLiftCompAddAt H a11 b10 A1 +
+          counterFactorizationLiftCompAddAt H a10 b01 A1 +
+          counterFactorizationLiftCompAddAt H a11 b11 A1 := by
+    linear_combination
+      h000 + h010 + h001 + h011 +
+      h100 + h110 + h101 + h111
+
+  simpa only [CharTwo.two_eq_zero, zero_mul, add_zero, zero_add] using hsum
 
 /-- Canonical connector in the M0 source fiber between the two objects
 propagated from the lower vertices. -/
