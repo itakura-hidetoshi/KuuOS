@@ -235,7 +235,6 @@ theorem counterFactorizationLocalizedCompAdd_cocycle
         (1 : C2) := by
     set_option backward.isDefEq.respectTransparency false in
       simpa [F,
-        counterFactorizationLocalizationView,
         counterFactorizationLocalizedCompImageScalarAt,
         counterFactorizationLocalizedTransportedCompImageScalarAt,
         counterFactorizationLocalizedPropagatedObject,
