@@ -262,8 +262,7 @@ theorem counterFactorizationLocalizedCompAdd_cocycle
       counterFactorizationLocalizedCompImageScalarAt,
       counterFactorizationLocalizedTransportedCompImageScalarAt,
       counterFactorizationLocalizedPropagatedObject,
-      counterFactorizationLocalizedComp_inv_image_eq_inv,
-      mul_one, one_mul, mul_assoc] at hScalar
+      counterFactorizationLocalizedComp_inv_image_eq_inv] at hScalar
   have hMul :
       (counterFactorizationLocalizedCompImageScalarAt H T f (g ≫ h) A)⁻¹ *
           (counterFactorizationLocalizedCompImageScalarAt H T g h
@@ -273,7 +272,7 @@ theorem counterFactorizationLocalizedCompAdd_cocycle
           counterFactorizationLocalizedCompImageScalarAt
             H T (f ≫ g) h A =
         (1 : C2) := by
-    exact hScalar.symm
+    simpa only [mul_one, one_mul, mul_assoc] using hScalar.symm
   have hAdd := congrArg (@Multiplicative.toAdd (ZMod 2)) hMul
   simp only [toAdd_mul, toAdd_inv, toAdd_one, CharTwo.neg_eq] at hAdd
   have hPair :
