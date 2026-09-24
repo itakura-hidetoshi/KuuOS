@@ -343,14 +343,17 @@ theorem counterTransportCompScalarLoc_cocycle
       counterTransportMapComp_inv_app_eq_inv_scalarLoc,
       counterQuotientRepresentativeMap_map_morphism_eq_at,
       counterSystem_eqToHom_eq_one] at hApp
+  have hScalar :=
+    congrArg (fun k => counterSystemHomScalar K.as.obj k) hApp
+  simp only [counterSystemHomScalar_comp] at hScalar
+  simp only [counterSystemHomScalar] at hScalar
   have hMul :
       (counterTransportCompScalarLoc T f (g ≫ h))⁻¹ *
           (counterTransportCompScalarLoc T g h)⁻¹ *
           counterTransportCompScalarLoc T f g *
           counterTransportCompScalarLoc T (f ≫ g) h =
         (1 : C2) := by
-    simpa only [SingleObj.comp_as_mul, SingleObj.id_as_one,
-      one_mul, mul_one, mul_assoc] using hApp
+    simpa only [mul_one, one_mul, mul_assoc] using hScalar
   have hAdd := congrArg (@Multiplicative.toAdd (ZMod 2)) hMul
   simp at hAdd
   have hPair :
