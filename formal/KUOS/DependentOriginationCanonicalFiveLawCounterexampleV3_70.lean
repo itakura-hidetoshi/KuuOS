@@ -73,7 +73,8 @@ problem.  The quantified statement is kept at the concrete octahedral context,
 so no universe-general claim is hidden in this counterexample. -/
 theorem not_all_admissible_octahedral_systems_have_canonical_coboundary_solution :
     ¬ (∀
-      (R : RawHigherContextualSystem (Context := OctahedralVertex))
+      (R : RawHigherContextualSystem.{0, 0, 0, 0}
+        (Context := OctahedralVertex))
       (hR : IsHigherWAdmissible allMorphisms R),
         GeneratedCorrectionCoboundarySolvable
           allMorphisms R
