@@ -297,12 +297,18 @@ at every object of the one-object counter fiber. -/
   let invScalar : C2 :=
     (T.mapComp f g).inv.toNatTrans.app (SingleObj.star C2)
   change invScalar = (counterTransportCompScalarLoc T f g)⁻¹
-  apply eq_inv_of_mul_eq_one_right
-  dsimp [invScalar]
-  simpa only [counterTransportCompScalarLoc, SingleObj.comp_as_mul,
-    SingleObj.id_as_one] using
-    (Cat.Hom.inv_hom_id_toNatTrans_app
-      (T.mapComp f g) (SingleObj.star C2))
+  apply Multiplicative.ext
+  simp only [Multiplicative.toAdd_inv, CharTwo.neg_eq]
+  have hMul :
+      counterTransportCompScalarLoc T f g * invScalar = (1 : C2) := by
+    dsimp [invScalar]
+    simpa only [counterTransportCompScalarLoc, SingleObj.comp_as_mul,
+      SingleObj.id_as_one] using
+      (Cat.Hom.inv_hom_id_toNatTrans_app
+        (T.mapComp f g) (SingleObj.star C2))
+  have hAdd := congrArg (@Multiplicative.toAdd (ZMod 2)) hMul
+  simp only [Multiplicative.toAdd_mul, Multiplicative.toAdd_one] at hAdd
+  exact (CharTwo.add_eq_zero.mp hAdd).symm
 
 /-- Every quotient representative functor acts trivially on C2 morphisms. -/
 @[simp] theorem counterQuotientRepresentativeMap_map_morphism_eq_at
