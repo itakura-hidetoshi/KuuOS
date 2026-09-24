@@ -294,7 +294,11 @@ at every object of the one-object counter fiber. -/
     (T.mapComp f g).inv.toNatTrans.app A =
       (counterTransportCompScalarLoc T f g)⁻¹ := by
   cases A
+  let invScalar : C2 :=
+    (T.mapComp f g).inv.toNatTrans.app (SingleObj.star C2)
+  change invScalar = (counterTransportCompScalarLoc T f g)⁻¹
   apply eq_inv_of_mul_eq_one_right
+  dsimp [invScalar]
   simpa only [counterTransportCompScalarLoc, SingleObj.comp_as_mul,
     SingleObj.id_as_one] using
     (Cat.Hom.inv_hom_id_toNatTrans_app
@@ -332,7 +336,7 @@ theorem counterTransportCompScalarLoc_cocycle
       counterTransportMapComp_hom_app_eq_scalarLoc,
       counterTransportMapComp_inv_app_eq_inv_scalarLoc,
       counterQuotientRepresentativeMap_map_morphism_eq_at,
-      counterFiber_eqToHom_eq_one] at hApp
+      counterSystem_eqToHom_eq_one] at hApp
   have hMul :
       (counterTransportCompScalarLoc T f (g ≫ h))⁻¹ *
           (counterTransportCompScalarLoc T g h)⁻¹ *
@@ -607,8 +611,34 @@ theorem counterTransport_faceParity_even
     exact CharTwo.add_self_eq_zero A
 
   dsimp [D, A] at hTotalLoc
-  simp only [counterTransportCompScalar, counterTransportCompScalarLoc]
-  linear_combination hTotalLoc
+  have hTargetLoc :
+      Multiplicative.toAdd
+          (counterTransportCompScalarLoc T
+            (allMorphisms.Q.map a00) (allMorphisms.Q.map b00)) +
+        Multiplicative.toAdd
+          (counterTransportCompScalarLoc T
+            (allMorphisms.Q.map a01) (allMorphisms.Q.map b10)) +
+        Multiplicative.toAdd
+          (counterTransportCompScalarLoc T
+            (allMorphisms.Q.map a00) (allMorphisms.Q.map b01)) +
+        Multiplicative.toAdd
+          (counterTransportCompScalarLoc T
+            (allMorphisms.Q.map a01) (allMorphisms.Q.map b11)) +
+        Multiplicative.toAdd
+          (counterTransportCompScalarLoc T
+            (allMorphisms.Q.map a10) (allMorphisms.Q.map b00)) +
+        Multiplicative.toAdd
+          (counterTransportCompScalarLoc T
+            (allMorphisms.Q.map a11) (allMorphisms.Q.map b10)) +
+        Multiplicative.toAdd
+          (counterTransportCompScalarLoc T
+            (allMorphisms.Q.map a10) (allMorphisms.Q.map b01)) +
+        Multiplicative.toAdd
+          (counterTransportCompScalarLoc T
+            (allMorphisms.Q.map a11) (allMorphisms.Q.map b11)) = 0 := by
+    linear_combination hTotalLoc
+  simpa only [counterTransportCompScalar, counterTransportCompScalarLoc] using
+    hTargetLoc
 
 /-- Canonical v3.69 theorem: no coherent quotient transport on the concrete C2
 countermodel admits a Stage-II coherent presentation comparison. -/
