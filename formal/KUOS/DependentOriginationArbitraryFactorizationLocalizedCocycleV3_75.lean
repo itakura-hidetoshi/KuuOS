@@ -354,21 +354,60 @@ theorem counterFactorizationLocalizedCompAdd_cocycle
       (fun k => counterFactorizationLocalizedEndpointScalarAt H T k)
       hApp
   simp only [counterFactorizationLocalizedEndpointScalarAt_comp,
-    counterFactorizationLocalizedEndpointScalarAt_eqToHom,
-    counterFactorizationLocalizedComp_hom_endpointScalar,
-    counterFactorizationLocalizedTransportedComp_endpointScalar,
-    counterFactorizationLocalizedComp_inv_endpointScalar] at hScalar
+    counterFactorizationLocalizedEndpointScalarAt_eqToHom] at hScalar
+
+  have hInvOuter :=
+    counterFactorizationLocalizedComp_inv_endpointScalar
+      H T f (g ≫ h) A
+  have hInvInner :=
+    counterFactorizationLocalizedComp_inv_endpointScalar
+      H T g h
+        (((counterFactorizationLocalizationView H).map f.toLoc).toFunctor.obj A)
+  have hTransport :=
+    counterFactorizationLocalizedTransportedComp_endpointScalar
+      H T f g h A
+  have hHom :=
+    counterFactorizationLocalizedComp_hom_endpointScalar
+      H T (f ≫ g) h A
+
+  have hMulRaw :
+      (counterFactorizationLocalizedCompImageScalarAt H T f (g ≫ h) A)⁻¹ *
+        ((counterFactorizationLocalizedCompImageScalarAt H T g h
+          (((counterFactorizationLocalizationView H).map f.toLoc).toFunctor.obj A))⁻¹ *
+          (counterFactorizationLocalizedTransportedCompImageScalarAt
+            H T f g h A *
+            counterFactorizationLocalizedCompImageScalarAt
+              H T (f ≫ g) h A)) =
+        (1 : C2) := by
+    calc
+      _ =
+        counterFactorizationLocalizedEndpointScalarAt H T
+            (((counterFactorizationLocalizationView H).mapComp
+              f.toLoc (g ≫ h).toLoc).inv.toNatTrans.app A) *
+          (counterFactorizationLocalizedEndpointScalarAt H T
+              (((counterFactorizationLocalizationView H).mapComp
+                g.toLoc h.toLoc).inv.toNatTrans.app
+                  (((counterFactorizationLocalizationView H).map f.toLoc).toFunctor.obj A)) *
+            (counterFactorizationLocalizedEndpointScalarAt H T
+                (((counterFactorizationLocalizationView H).map h.toLoc).toFunctor.map
+                  (((counterFactorizationLocalizationView H).mapComp
+                    f.toLoc g.toLoc).hom.toNatTrans.app A)) *
+              counterFactorizationLocalizedEndpointScalarAt H T
+                (((counterFactorizationLocalizationView H).mapComp
+                  (f ≫ g).toLoc h.toLoc).hom.toNatTrans.app A))) := by
+          rw [hInvOuter, hInvInner, hTransport, hHom]
+      _ = 1 := hScalar.symm
+
   have hMul :
       (counterFactorizationLocalizedCompImageScalarAt H T f (g ≫ h) A)⁻¹ *
-          (counterFactorizationLocalizedCompImageScalarAt H T g h
-            (counterFactorizationLocalizedPropagatedObject H f A))⁻¹ *
-          counterFactorizationLocalizedTransportedCompImageScalarAt
+        ((counterFactorizationLocalizedCompImageScalarAt H T g h
+          (counterFactorizationLocalizedPropagatedObject H f A))⁻¹ *
+          (counterFactorizationLocalizedTransportedCompImageScalarAt
             H T f g h A *
-          counterFactorizationLocalizedCompImageScalarAt
-            H T (f ≫ g) h A =
+            counterFactorizationLocalizedCompImageScalarAt
+              H T (f ≫ g) h A)) =
         (1 : C2) := by
-    simpa only [counterFactorizationLocalizedPropagatedObject,
-      mul_one, one_mul, mul_assoc] using hScalar.symm
+    simpa only [counterFactorizationLocalizedPropagatedObject] using hMulRaw
   have hAdd := congrArg (@Multiplicative.toAdd (ZMod 2)) hMul
   simp only [toAdd_mul, toAdd_inv, toAdd_one, CharTwo.neg_eq] at hAdd
   have hPair :
