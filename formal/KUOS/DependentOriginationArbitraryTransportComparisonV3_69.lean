@@ -294,19 +294,11 @@ at every object of the one-object counter fiber. -/
     (T.mapComp f g).inv.toNatTrans.app A =
       (counterTransportCompScalarLoc T f g)⁻¹ := by
   cases A
-  have hMul :
-      counterTransportCompScalarLoc T f g *
-          (T.mapComp f g).inv.toNatTrans.app (SingleObj.star C2) =
-        (1 : C2) := by
-    simpa only [counterTransportCompScalarLoc, SingleObj.comp_as_mul,
-      SingleObj.id_as_one] using
-      (Cat.Hom.inv_hom_id_toNatTrans_app
-        (T.mapComp f g) (SingleObj.star C2))
-  exact
-    @eq_inv_of_mul_eq_one_right C2 inferInstance
-      (counterTransportCompScalarLoc T f g)
-      ((T.mapComp f g).inv.toNatTrans.app (SingleObj.star C2))
-      hMul
+  apply eq_inv_of_mul_eq_one_right
+  simpa only [counterTransportCompScalarLoc, SingleObj.comp_as_mul,
+    SingleObj.id_as_one] using
+    (Cat.Hom.inv_hom_id_toNatTrans_app
+      (T.mapComp f g) (SingleObj.star C2))
 
 /-- Every quotient representative functor acts trivially on C2 morphisms. -/
 @[simp] theorem counterQuotientRepresentativeMap_map_morphism_eq_at
@@ -336,9 +328,11 @@ theorem counterTransportCompScalarLoc_cocycle
   set_option backward.isDefEq.respectTransparency false in
     simp only [Cat.Hom₂.comp_app, Cat.whiskerLeft_app,
       Cat.whiskerRight_app, Cat.associator_hom_app,
+      Cat.eqToHom_app,
       counterTransportMapComp_hom_app_eq_scalarLoc,
       counterTransportMapComp_inv_app_eq_inv_scalarLoc,
-      counterQuotientRepresentativeMap_map_morphism_eq_at] at hApp
+      counterQuotientRepresentativeMap_map_morphism_eq_at,
+      counterFiber_eqToHom_eq_one] at hApp
   have hMul :
       (counterTransportCompScalarLoc T f (g ≫ h))⁻¹ *
           (counterTransportCompScalarLoc T g h)⁻¹ *
@@ -349,7 +343,15 @@ theorem counterTransportCompScalarLoc_cocycle
       one_mul, mul_one, mul_assoc] using hApp
   have hAdd := congrArg (@Multiplicative.toAdd (ZMod 2)) hMul
   simp at hAdd
-  linear_combination hAdd
+  have hPair :
+      (Multiplicative.toAdd
+          (counterTransportCompScalarLoc T (f ≫ g) h) +
+        Multiplicative.toAdd (counterTransportCompScalarLoc T f g)) +
+        (Multiplicative.toAdd (counterTransportCompScalarLoc T g h) +
+          Multiplicative.toAdd
+            (counterTransportCompScalarLoc T f (g ≫ h))) = 0 := by
+    linear_combination hAdd
+  exact CharTwo.add_eq_zero.mp hPair
 
 /-! ## A middle switch in the localization -/
 
@@ -432,8 +434,7 @@ theorem counterA10_comp_middleSwitch :
   rw [counterLocalization_map_triangle a10 b00 c10]
   rw [← counterLocalization_map_triangle a11 b10 c10]
   rw [Category.assoc]
-  rw [(CategoryTheory.Localization.Construction.wIso
-    (W := allMorphisms) b10 b10_mem_allMorphisms).hom_inv_id]
+  rw [counterB10_comp_wInv]
   rw [Category.comp_id]
 
 /-- Postcomposing the middle switch with b10 recovers b00. -/
@@ -602,14 +603,12 @@ theorem counterTransport_faceParity_even
     simpa only [CharTwo.two_eq_zero, zero_mul, add_zero, zero_add] using hsum
 
   have hTotalLoc : D + A = 0 := by
-    rw [hAD]
-    calc
-      A + A = 2 * A := by ring
-      _ = 0 := by rw [CharTwo.two_eq_zero, zero_mul]
+    rw [← hAD]
+    exact CharTwo.add_self_eq_zero A
 
   dsimp [D, A] at hTotalLoc
-  simpa only [counterTransportCompScalar, counterTransportCompScalarLoc,
-    add_assoc] using hTotalLoc
+  simp only [counterTransportCompScalar, counterTransportCompScalarLoc]
+  linear_combination hTotalLoc
 
 /-- Canonical v3.69 theorem: no coherent quotient transport on the concrete C2
 countermodel admits a Stage-II coherent presentation comparison. -/
