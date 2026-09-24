@@ -193,7 +193,15 @@ group cancellation is invoked. -/
       P.map (e.inv.toNatTrans.app A) ≫
           P.map (e.hom.toNatTrans.app A) =
         𝟙 _ := by
-    simpa only [Functor.map_comp, Functor.map_id] using hMapCatRaw
+    calc
+      P.map (e.inv.toNatTrans.app A) ≫
+          P.map (e.hom.toNatTrans.app A) =
+        P.map
+          (e.inv.toNatTrans.app A ≫
+            e.hom.toNatTrans.app A) :=
+          (P.map_comp _ _).symm
+      _ = P.map (𝟙 _) := hMapCatRaw
+      _ = 𝟙 _ := P.map_id _
   have hScalar :=
     congrArg (fun k => counterSystemHomScalar T k) hMapCat
   have hMul :
@@ -237,11 +245,11 @@ theorem counterFactorizationLocalizedCompAdd_cocycle
       hApp
   have hScalar :=
     congrArg (fun k => counterSystemHomScalar T k) hMapped
-  simp only [counterSystemHomScalar_comp] at hScalar
-  simp only [counterSystemHomScalar] at hScalar
   set_option backward.isDefEq.respectTransparency false in
     simp only [F,
       Functor.map_comp, Functor.map_id,
+      counterSystemHomScalar_comp,
+      counterSystemHomScalar,
       CategoryTheory.Bicategory.Strict.associator_eqToIso,
       eqToIso.hom,
       CategoryTheory.PrelaxFunctor.map₂_eqToHom,
