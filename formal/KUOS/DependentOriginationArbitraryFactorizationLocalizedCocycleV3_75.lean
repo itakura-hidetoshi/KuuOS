@@ -239,26 +239,25 @@ theorem counterFactorizationLocalizedCompAdd_cocycle
   simp only [← Quiver.Hom.comp_toLoc] at hAssoc
   have hNat := congrArg (fun η => η.toNatTrans) hAssoc
   have hApp := NatTrans.congr_app hNat A
-  have hScalar :=
-    congrArg
-      (fun k =>
-        counterSystemHomScalar T
-          ((H.comparison.app (.mk T)).toFunctor.map k))
-      hApp
-  set_option backward.isDefEq.respectTransparency false in
-    simp only [Functor.map_comp] at hScalar
-  simp only [counterSystemHomScalar_comp] at hScalar
-  simp only [counterSystemHomScalar] at hScalar
   set_option backward.isDefEq.respectTransparency false in
     simp only [F,
       CategoryTheory.Bicategory.Strict.associator_eqToIso,
       eqToIso.hom,
       CategoryTheory.PrelaxFunctor.map₂_eqToHom,
       CategoryTheory.Cat.eqToHom_app,
-      CategoryTheory.eqToHom_map,
       Cat.Hom₂.comp_app,
       Cat.whiskerLeft_app,
-      Cat.whiskerRight_app,
+      Cat.whiskerRight_app] at hApp
+  let P := (H.comparison.app (.mk T)).toFunctor
+  have hMapped :=
+    congrArg (fun k => P.map k) hApp
+  simp only [Functor.map_comp, CategoryTheory.eqToHom_map] at hMapped
+  have hScalar :=
+    congrArg (fun k => counterSystemHomScalar T k) hMapped
+  simp only [counterSystemHomScalar_comp] at hScalar
+  simp only [counterSystemHomScalar] at hScalar
+  set_option backward.isDefEq.respectTransparency false in
+    simp only [P,
       counterSystem_eqToHom_eq_one,
       counterFactorizationLocalizedCompImageScalarAt,
       counterFactorizationLocalizedComp_inv_image_eq_inv,
