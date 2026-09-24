@@ -231,6 +231,10 @@ theorem counterFactorizationLocalizedCompAdd_cocycle
   set_option backward.isDefEq.respectTransparency false in
     simp only [F,
       counterFactorizationLocalizationView,
+      CategoryTheory.Bicategory.Strict.associator_eqToIso,
+      CategoryTheory.PrelaxFunctor.map₂_eqToHom,
+      CategoryTheory.Cat.eqToHom_app,
+      CategoryTheory.eqToHom_map,
       Cat.Hom₂.comp_app,
       Cat.whiskerLeft_app,
       Cat.whiskerRight_app,
@@ -239,6 +243,7 @@ theorem counterFactorizationLocalizedCompAdd_cocycle
       Functor.comp_map,
       counterSystemHomScalar_comp,
       counterSystemHomScalar,
+      counterSystem_eqToHom_eq_one,
       counterFactorizationLocalizedCompImageScalarAt,
       counterFactorizationLocalizedTransportedCompImageScalarAt,
       counterFactorizationLocalizedPropagatedObject,
