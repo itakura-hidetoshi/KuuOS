@@ -12,6 +12,8 @@ open KUOS.DependentOriginationGeneratedHolonomyCountermodelV2_69
 open KUOS.DependentOriginationArbitraryTransportComparisonV3_69
 open KUOS.DependentOriginationCanonicalFiveLawCounterexampleV3_70
 
+open scoped CategoryTheory.Pseudofunctor.StrongTrans
+
 set_option autoImplicit false
 
 noncomputable section
@@ -114,7 +116,7 @@ def CounterCanonicalFiveLawNecessity : Prop :=
 /-- Pointwise version of the same proposed bridge: every individual abstract
 factorization normalizes to the canonical five-law package. -/
 def CounterEveryFactorizationCanonicalNormalizes : Prop :=
-  ∀ H : HigherLocalizationFactorization
+  ∀ _H : HigherLocalizationFactorization
       (W := allMorphisms) counterSystem,
     HasCoherentGeneralWFactorizationData
       allMorphisms counterSystem counterD
