@@ -174,8 +174,9 @@ theorem counterFactorizationMappedSourceScalarAt_loop_eq_source
           simp [← mul_assoc]
     _ = e⁻¹ * (s * e) := by
           rw [hem]
-    _ = s := by
-          rw [mul_comm s e, ← mul_assoc, inv_mul, one_mul]
+    _ = e⁻¹ * (e * s) := by
+          rw [mul_comm s e]
+    _ = s := inv_mul_cancel_left e s
 
 /-- Consequently the object coboundary vanishes on loops. -/
 @[simp] theorem counterFactorizationObjectCoboundaryAt_loop
