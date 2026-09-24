@@ -119,8 +119,27 @@ theorem counterFactorizationComparison_full
     H.comparison_isEquivalence X
   infer_instance
 
+/-- The two comparison images of arbitrary source-fiber objects are equal
+because the concrete target fiber is literally the one-object category
+`CounterFiber`.
+
+The explicit `change` is important: without first exposing the exact
+`CounterFiber` target, typeclass search is asked for a `Subsingleton`
+instance on the opaque dependent expression `counterSystem.obj (.mk X)`.
+Keeping this reduction in one helper prevents dependent equality proofs from
+being reconstructed differently downstream. -/
+theorem counterFactorizationComparisonTargetObject_eq
+    (H : HigherLocalizationFactorization
+      (W := allMorphisms) counterSystem)
+    (X : OctahedralVertex)
+    (A B : CounterFactorizationFiber H X) :
+    (H.comparison.app (.mk X)).toFunctor.obj A =
+      (H.comparison.app (.mk X)).toFunctor.obj B := by
+  change (_ : CounterFiber) = _
+  exact Quiver.SingleObj.ext
+
 /-- A connector between any two objects in one source fiber, chosen as the
-preimage of the identity morphism in the one-object C2 target fiber. -/
+preimage of the identity transport in the one-object C2 target fiber. -/
 noncomputable def counterFactorizationConnector
     (H : HigherLocalizationFactorization
       (W := allMorphisms) counterSystem)
@@ -130,11 +149,9 @@ noncomputable def counterFactorizationConnector
     H.comparison_isEquivalence X
   exact
     (H.comparison.app (.mk X)).toFunctor.preimage
-      (eqToHom (Subsingleton.elim
-        ((H.comparison.app (.mk X)).toFunctor.obj A)
-        ((H.comparison.app (.mk X)).toFunctor.obj B)))
+      (eqToHom (counterFactorizationComparisonTargetObject_eq H X A B))
 
-/-- The chosen connector maps to the target identity transport. -/
+/-- The chosen connector maps to the exact target identity transport. -/
 @[simp] theorem counterFactorizationConnector_map
     (H : HigherLocalizationFactorization
       (W := allMorphisms) counterSystem)
@@ -142,9 +159,7 @@ noncomputable def counterFactorizationConnector
     (A B : CounterFactorizationFiber H X) :
     (H.comparison.app (.mk X)).toFunctor.map
         (counterFactorizationConnector H X A B) =
-      eqToHom (Subsingleton.elim
-        ((H.comparison.app (.mk X)).toFunctor.obj A)
-        ((H.comparison.app (.mk X)).toFunctor.obj B)) := by
+      eqToHom (counterFactorizationComparisonTargetObject_eq H X A B) := by
   letI : (H.comparison.app (.mk X)).toFunctor.IsEquivalence :=
     H.comparison_isEquivalence X
   simp [counterFactorizationConnector]
@@ -157,10 +172,9 @@ noncomputable def counterFactorizationConnector
     (A B : CounterFactorizationFiber H X) :
     counterFactorizationSourceScalarAt H X
       (counterFactorizationConnector H X A B) = 1 := by
-  letI : (H.comparison.app (.mk X)).toFunctor.IsEquivalence :=
-    H.comparison_isEquivalence X
-  simp [counterFactorizationSourceScalarAt,
-    counterFactorizationConnector]
+  unfold counterFactorizationSourceScalarAt
+  rw [counterFactorizationConnector_map]
+  exact counterSystem_eqToHom_eq_one X _
 
 /-- For the chosen connector, the object coboundary is entirely the inverse
 transported scalar at the target vertex. -/
