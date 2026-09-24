@@ -80,12 +80,18 @@ noncomputable def counterFactorizationLiftCompImageScalarAt
     (counterSystem.mapComp f.toLoc g.toLoc).inv.toNatTrans.app A =
       (compScalar X Y Z)⁻¹ := by
   cases A
-  apply eq_inv_of_mul_eq_one_right
-  simpa only [counterSystem_mapComp_hom_app,
-    SingleObj.comp_as_mul, SingleObj.id_as_one] using
-    (Cat.Hom.inv_hom_id_toNatTrans_app
-      (counterSystem.mapComp f.toLoc g.toLoc)
-      (SingleObj.star C2))
+  let invScalar : C2 :=
+    (counterSystem.mapComp f.toLoc g.toLoc).inv.toNatTrans.app
+      (SingleObj.star C2)
+  change invScalar = (compScalar X Y Z)⁻¹
+  have hMul : compScalar X Y Z * invScalar = (1 : C2) := by
+    dsimp [invScalar]
+    simpa only [counterSystem_mapComp_hom_app,
+      SingleObj.comp_as_mul, SingleObj.id_as_one] using
+      (Cat.Hom.inv_hom_id_toNatTrans_app
+        (counterSystem.mapComp f.toLoc g.toLoc)
+        (SingleObj.star C2))
+  exact eq_inv_of_mul_eq_one_right hMul
 
 /-- Exact object-dependent StrongTrans composition equation for an arbitrary
 higher-localization factorization of the concrete C2 countermodel.
@@ -113,13 +119,15 @@ theorem counterFactorizationEdgeScalarAt_comp
       H.comparison f.toLoc g.toLoc A
   rw [← Quiver.Hom.comp_toLoc] at h
   set_option backward.isDefEq.respectTransparency false in
-    simpa only [counterFactorizationEdgeScalarAt,
-      counterFactorizationLiftCompImageScalarAt,
-      counterSystem_map_morphism_eq,
+    simp only [counterSystem_map_morphism_eq,
       counterSystem_eqToHom_eq_one,
-      counterSystem_mapComp_inv_app,
-      SingleObj.comp_as_mul,
-      one_mul, mul_one, mul_assoc] using h
+      counterSystem_mapComp_inv_app] at h
+  have hScalar := congrArg (fun k => counterSystemHomScalar Z k) h
+  simp only [counterSystemHomScalar_comp] at hScalar
+  simp only [counterSystemHomScalar] at hScalar
+  simpa only [counterFactorizationEdgeScalarAt,
+    counterFactorizationLiftCompImageScalarAt,
+    one_mul, mul_one, mul_assoc] using hScalar
 
 /-!
 ## Boundary after v3.72
