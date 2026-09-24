@@ -189,11 +189,23 @@ theorem counterFactorizationEdgeAdd_pair_eq_coboundary
   have h :=
     counterFactorizationEdgeScalarAt_change_object H f u
   have hAdd := congrArg (@Multiplicative.toAdd (ZMod 2)) h
-  simp only [Multiplicative.toAdd_mul] at hAdd
-  unfold counterFactorizationEdgeAddAt
-  unfold counterFactorizationObjectCoboundaryAddAt
-  rw [hAdd]
-  ac_rfl
+  have hAdd' :
+      counterFactorizationEdgeAddAt H f B =
+        counterFactorizationObjectCoboundaryAddAt H f u +
+          counterFactorizationEdgeAddAt H f A := by
+    simpa only [counterFactorizationEdgeAddAt,
+      counterFactorizationObjectCoboundaryAddAt, toAdd_mul] using hAdd
+  rw [hAdd']
+  calc
+    counterFactorizationEdgeAddAt H f A +
+          (counterFactorizationObjectCoboundaryAddAt H f u +
+            counterFactorizationEdgeAddAt H f A) =
+        counterFactorizationObjectCoboundaryAddAt H f u +
+          (counterFactorizationEdgeAddAt H f A +
+            counterFactorizationEdgeAddAt H f A) := by
+              ac_rfl
+    _ = counterFactorizationObjectCoboundaryAddAt H f u := by
+          rw [CharTwo.add_self_eq_zero, add_zero]
 
 /-- Additive form of the arbitrary-factorization composition equation. -/
 theorem counterFactorizationFaceEquationAdd
@@ -210,7 +222,7 @@ theorem counterFactorizationFaceEquationAdd
   have h :=
     counterFactorizationEdgeScalarAt_comp H f g A
   have hAdd := congrArg (@Multiplicative.toAdd (ZMod 2)) h
-  simp only [Multiplicative.toAdd_mul, Multiplicative.toAdd_inv,
+  simp only [toAdd_mul, toAdd_inv,
     CharTwo.neg_eq] at hAdd
   unfold counterFactorizationEdgeAddAt
   unfold counterFactorizationLiftCompAddAt
