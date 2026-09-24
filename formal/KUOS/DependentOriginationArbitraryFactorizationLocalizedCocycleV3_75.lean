@@ -189,14 +189,12 @@ group cancellation is invoked. -/
     congrArg
       (fun k => (H.comparison.app (.mk T)).toFunctor.map k)
       hCat
-  simp only [Functor.map_comp, Functor.map_id] at hMap
-  have hScalar := congrArg (fun k => counterSystemHomScalar T k) hMap
   have hMul :
       counterFactorizationLocalizedCompImageScalarAt H T f g A *
           invScalar = (1 : C2) := by
-    simpa only [counterFactorizationLocalizedCompImageScalarAt,
-      invScalar, counterSystemHomScalar_comp, counterSystemHomScalar,
-      SingleObj.id_as_one] using hScalar
+    simpa only [Functor.map_comp, Functor.map_id,
+      counterFactorizationLocalizedCompImageScalarAt,
+      invScalar, SingleObj.comp_as_mul, SingleObj.id_as_one] using hMap
   exact eq_inv_of_mul_eq_one_right hMul
 
 /-- Localization-level associator coherence after exact Cat-component
@@ -226,39 +224,35 @@ theorem counterFactorizationLocalizedCompAdd_cocycle
     congrArg
       (fun k => (H.comparison.app (.mk T)).toFunctor.map k)
       hApp
-  have hScalar := congrArg (fun k => counterSystemHomScalar T k) hMapped
-
-  set_option backward.isDefEq.respectTransparency false in
-    simp only [F,
-      counterFactorizationLocalizationView,
-      CategoryTheory.Bicategory.Strict.associator_eqToIso,
-      eqToIso.hom,
-      CategoryTheory.PrelaxFunctor.map₂_eqToHom,
-      CategoryTheory.Cat.eqToHom_app,
-      CategoryTheory.eqToHom_map,
-      Cat.Hom₂.comp_app,
-      Cat.whiskerLeft_app,
-      Cat.whiskerRight_app,
-      Cat.associator_hom_app,
-      Functor.map_comp,
-      Functor.comp_map,
-      counterSystemHomScalar_comp,
-      counterSystemHomScalar,
-      counterSystem_eqToHom_eq_one,
-      counterFactorizationLocalizedCompImageScalarAt,
-      counterFactorizationLocalizedTransportedCompImageScalarAt,
-      counterFactorizationLocalizedPropagatedObject,
-      counterFactorizationLocalizedComp_inv_image_eq_inv,
-      SingleObj.comp_as_mul,
-      SingleObj.id_as_one,
-      mul_one, one_mul, mul_assoc] at hScalar
-
-  have hAdd := congrArg (@Multiplicative.toAdd (ZMod 2)) hScalar
+  have hMul :
+      (counterFactorizationLocalizedCompImageScalarAt H T f (g ≫ h) A)⁻¹ *
+          (counterFactorizationLocalizedCompImageScalarAt H T g h
+            (counterFactorizationLocalizedPropagatedObject H f A))⁻¹ *
+          counterFactorizationLocalizedTransportedCompImageScalarAt
+            H T f g h A *
+          counterFactorizationLocalizedCompImageScalarAt
+            H T (f ≫ g) h A =
+        (1 : C2) := by
+    set_option backward.isDefEq.respectTransparency false in
+      simpa [F,
+        counterFactorizationLocalizationView,
+        counterFactorizationLocalizedCompImageScalarAt,
+        counterFactorizationLocalizedTransportedCompImageScalarAt,
+        counterFactorizationLocalizedPropagatedObject,
+        eqToIso.hom] using hMapped
+  have hAdd := congrArg (@Multiplicative.toAdd (ZMod 2)) hMul
   simp only [toAdd_mul, toAdd_inv, toAdd_one, CharTwo.neg_eq] at hAdd
-
-  unfold counterFactorizationLocalizedCompAddAt
-  unfold counterFactorizationLocalizedTransportedCompAddAt
-  linear_combination hAdd
+  have hPair :
+      (counterFactorizationLocalizedCompAddAt H T (f ≫ g) h A +
+        counterFactorizationLocalizedTransportedCompAddAt
+          H T f g h A) +
+        (counterFactorizationLocalizedCompAddAt H T g h
+          (counterFactorizationLocalizedPropagatedObject H f A) +
+        counterFactorizationLocalizedCompAddAt H T f (g ≫ h) A) = 0 := by
+    unfold counterFactorizationLocalizedCompAddAt
+    unfold counterFactorizationLocalizedTransportedCompAddAt
+    linear_combination hAdd
+  exact CharTwo.add_eq_zero.mp hPair
 
 /-!
 ## Boundary after v3.75
