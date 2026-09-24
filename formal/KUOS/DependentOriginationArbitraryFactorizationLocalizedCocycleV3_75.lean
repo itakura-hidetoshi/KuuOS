@@ -239,16 +239,18 @@ theorem counterFactorizationLocalizedCompAdd_cocycle
   simp only [← Quiver.Hom.comp_toLoc] at hAssoc
   have hNat := congrArg (fun η => η.toNatTrans) hAssoc
   have hApp := NatTrans.congr_app hNat A
-  have hMapped :=
-    congrArg
-      (fun k => (H.comparison.app (.mk T)).toFunctor.map k)
-      hApp
   have hScalar :=
-    congrArg (fun k => counterSystemHomScalar T k) hMapped
+    congrArg
+      (fun k =>
+        counterSystemHomScalar T
+          ((H.comparison.app (.mk T)).toFunctor.map k))
+      hApp
+  set_option backward.isDefEq.respectTransparency false in
+    simp only [Functor.map_comp] at hScalar
+  simp only [counterSystemHomScalar_comp] at hScalar
   simp only [counterSystemHomScalar] at hScalar
   set_option backward.isDefEq.respectTransparency false in
     simp only [F,
-      Functor.map_comp,
       CategoryTheory.Bicategory.Strict.associator_eqToIso,
       eqToIso.hom,
       CategoryTheory.PrelaxFunctor.map₂_eqToHom,
@@ -260,8 +262,7 @@ theorem counterFactorizationLocalizedCompAdd_cocycle
       counterSystem_eqToHom_eq_one,
       counterFactorizationLocalizedCompImageScalarAt,
       counterFactorizationLocalizedComp_inv_image_eq_inv,
-      SingleObj.comp_as_mul,
-      one_mul, mul_assoc] at hScalar
+      mul_one, one_mul, mul_assoc] at hScalar
   have hMul :
       (counterFactorizationLocalizedCompImageScalarAt H T f (g ≫ h) A)⁻¹ *
           (counterFactorizationLocalizedCompImageScalarAt H T g h
