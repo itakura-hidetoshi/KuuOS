@@ -215,56 +215,71 @@ group cancellation is invoked. -/
       SingleObj.id_as_one] using hScalar
   exact eq_inv_of_mul_eq_one_right hMul
 
-/-- Source comparison scalar reverses categorical composition exactly as the
-one-object C2 target does.  This helper is the stable boundary between dependent
-source-fiber morphisms and scalar multiplication. -/
-theorem counterFactorizationSourceScalarAt_comp_v375
+/-- Scalarization on the exact localization endpoint fiber.
+
+Using this exact source category avoids relying on definitional identification
+with the raw restricted fiber while simplifying the associator equation. -/
+noncomputable def counterFactorizationLocalizedEndpointScalarAt
     (H : HigherLocalizationFactorization
       (W := allMorphisms) counterSystem)
     (T : OctahedralVertex)
-    {A B C : CounterFactorizationFiber H T}
+    {A B :
+      CounterFactorizationLocalizedFiber H (allMorphisms.Q.obj T)}
+    (u : A ⟶ B) : C2 :=
+  counterSystemHomScalar T
+    ((H.comparison.app (.mk T)).toFunctor.map u)
+
+/-- Endpoint scalarization reverses categorical composition exactly as the
+one-object C2 target does. -/
+theorem counterFactorizationLocalizedEndpointScalarAt_comp
+    (H : HigherLocalizationFactorization
+      (W := allMorphisms) counterSystem)
+    (T : OctahedralVertex)
+    {A B C :
+      CounterFactorizationLocalizedFiber H (allMorphisms.Q.obj T)}
     (u : A ⟶ B) (v : B ⟶ C) :
-    counterFactorizationSourceScalarAt H T (u ≫ v) =
-      counterFactorizationSourceScalarAt H T v *
-        counterFactorizationSourceScalarAt H T u := by
-  unfold counterFactorizationSourceScalarAt
-  have h :=
+    counterFactorizationLocalizedEndpointScalarAt H T (u ≫ v) =
+      counterFactorizationLocalizedEndpointScalarAt H T v *
+        counterFactorizationLocalizedEndpointScalarAt H T u := by
+  unfold counterFactorizationLocalizedEndpointScalarAt
+  rw [Functor.map_comp]
+  exact
     counterSystemHomScalar_comp T
       ((H.comparison.app (.mk T)).toFunctor.map u)
       ((H.comparison.app (.mk T)).toFunctor.map v)
-  simpa only [Functor.map_comp, counterSystemHomScalar] using h
 
-/-- Equality transport in an arbitrary source fiber has unit scalar after the
-comparison functor reaches the one-object counter fiber. -/
-@[simp] theorem counterFactorizationSourceScalarAt_eqToHom_v375
+/-- Equality transport in the exact localization endpoint fiber has unit
+scalar. -/
+@[simp] theorem counterFactorizationLocalizedEndpointScalarAt_eqToHom
     (H : HigherLocalizationFactorization
       (W := allMorphisms) counterSystem)
     (T : OctahedralVertex)
-    {A B : CounterFactorizationFiber H T}
+    {A B :
+      CounterFactorizationLocalizedFiber H (allMorphisms.Q.obj T)}
     (q : A = B) :
-    counterFactorizationSourceScalarAt H T (eqToHom q) = 1 := by
-  unfold counterFactorizationSourceScalarAt
+    counterFactorizationLocalizedEndpointScalarAt H T (eqToHom q) = 1 := by
+  unfold counterFactorizationLocalizedEndpointScalarAt
   rw [CategoryTheory.eqToHom_map]
   exact counterSystem_eqToHom_eq_one T _
 
-/-- A localization compositor hom component, read through the endpoint
-comparison, is exactly the named localization-level compositor scalar. -/
-@[simp] theorem counterFactorizationLocalizedComp_hom_sourceScalar
+/-- A localization compositor hom component is exactly its named endpoint
+scalar. -/
+@[simp] theorem counterFactorizationLocalizedComp_hom_endpointScalar
     (H : HigherLocalizationFactorization
       (W := allMorphisms) counterSystem)
     (T : OctahedralVertex)
     {X Y : allMorphisms.Localization}
     (f : X ⟶ Y) (g : Y ⟶ allMorphisms.Q.obj T)
     (A : CounterFactorizationLocalizedFiber H X) :
-    counterFactorizationSourceScalarAt H T
+    counterFactorizationLocalizedEndpointScalarAt H T
         (((counterFactorizationLocalizationView H).mapComp
           f.toLoc g.toLoc).hom.toNatTrans.app A) =
       counterFactorizationLocalizedCompImageScalarAt H T f g A := by
   rfl
 
-/-- The transported intermediate compositor has exactly the named transported
-scalar after endpoint comparison. -/
-@[simp] theorem counterFactorizationLocalizedTransportedComp_sourceScalar
+/-- The transported intermediate compositor is exactly its named endpoint
+scalar. -/
+@[simp] theorem counterFactorizationLocalizedTransportedComp_endpointScalar
     (H : HigherLocalizationFactorization
       (W := allMorphisms) counterSystem)
     (T : OctahedralVertex)
@@ -272,7 +287,7 @@ scalar after endpoint comparison. -/
     (f : X ⟶ Y) (g : Y ⟶ Z)
     (h : Z ⟶ allMorphisms.Q.obj T)
     (A : CounterFactorizationLocalizedFiber H X) :
-    counterFactorizationSourceScalarAt H T
+    counterFactorizationLocalizedEndpointScalarAt H T
         (((counterFactorizationLocalizationView H).map h.toLoc).toFunctor.map
           (((counterFactorizationLocalizationView H).mapComp
             f.toLoc g.toLoc).hom.toNatTrans.app A)) =
@@ -280,21 +295,22 @@ scalar after endpoint comparison. -/
         H T f g h A := by
   rfl
 
-/-- An inverse localization compositor component has the inverse named scalar
-after endpoint comparison. -/
-@[simp] theorem counterFactorizationLocalizedComp_inv_sourceScalar
+/-- An inverse localization compositor component has the inverse named endpoint
+scalar. -/
+@[simp] theorem counterFactorizationLocalizedComp_inv_endpointScalar
     (H : HigherLocalizationFactorization
       (W := allMorphisms) counterSystem)
     (T : OctahedralVertex)
     {X Y : allMorphisms.Localization}
     (f : X ⟶ Y) (g : Y ⟶ allMorphisms.Q.obj T)
     (A : CounterFactorizationLocalizedFiber H X) :
-    counterFactorizationSourceScalarAt H T
+    counterFactorizationLocalizedEndpointScalarAt H T
         (((counterFactorizationLocalizationView H).mapComp
           f.toLoc g.toLoc).inv.toNatTrans.app A) =
       (counterFactorizationLocalizedCompImageScalarAt H T f g A)⁻¹ := by
-  simpa only [counterFactorizationSourceScalarAt] using
-    counterFactorizationLocalizedComp_inv_image_eq_inv H T f g A
+  unfold counterFactorizationLocalizedEndpointScalarAt
+  simp only [counterSystemHomScalar]
+  exact counterFactorizationLocalizedComp_inv_image_eq_inv H T f g A
 
 /-- Localization-level associator coherence after exact Cat-component
 scalarization.
@@ -330,12 +346,14 @@ theorem counterFactorizationLocalizedCompAdd_cocycle
       Cat.whiskerLeft_app,
       Cat.whiskerRight_app] at hApp
   have hScalar :=
-    congrArg (fun k => counterFactorizationSourceScalarAt H T k) hApp
-  simp only [counterFactorizationSourceScalarAt_comp_v375,
-    counterFactorizationSourceScalarAt_eqToHom_v375,
-    counterFactorizationLocalizedComp_hom_sourceScalar,
-    counterFactorizationLocalizedTransportedComp_sourceScalar,
-    counterFactorizationLocalizedComp_inv_sourceScalar] at hScalar
+    congrArg
+      (fun k => counterFactorizationLocalizedEndpointScalarAt H T k)
+      hApp
+  simp only [counterFactorizationLocalizedEndpointScalarAt_comp,
+    counterFactorizationLocalizedEndpointScalarAt_eqToHom,
+    counterFactorizationLocalizedComp_hom_endpointScalar,
+    counterFactorizationLocalizedTransportedComp_endpointScalar,
+    counterFactorizationLocalizedComp_inv_endpointScalar] at hScalar
   have hMul :
       (counterFactorizationLocalizedCompImageScalarAt H T f (g ≫ h) A)⁻¹ *
           (counterFactorizationLocalizedCompImageScalarAt H T g h
