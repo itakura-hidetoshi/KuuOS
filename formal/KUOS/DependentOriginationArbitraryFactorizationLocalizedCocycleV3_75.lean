@@ -260,6 +260,8 @@ theorem counterFactorizationLocalizedCompAdd_cocycle
     simp only [P,
       counterSystem_eqToHom_eq_one,
       counterFactorizationLocalizedCompImageScalarAt,
+      counterFactorizationLocalizedTransportedCompImageScalarAt,
+      counterFactorizationLocalizedPropagatedObject,
       counterFactorizationLocalizedComp_inv_image_eq_inv,
       mul_one, one_mul, mul_assoc] at hScalar
   have hMul :
