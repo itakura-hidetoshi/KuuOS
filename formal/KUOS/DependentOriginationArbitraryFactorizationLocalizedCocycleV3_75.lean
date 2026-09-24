@@ -259,9 +259,6 @@ theorem counterFactorizationLocalizedCompAdd_cocycle
   set_option backward.isDefEq.respectTransparency false in
     simp only [P,
       counterSystem_eqToHom_eq_one,
-      counterFactorizationLocalizedCompImageScalarAt,
-      counterFactorizationLocalizedTransportedCompImageScalarAt,
-      counterFactorizationLocalizedPropagatedObject,
       counterFactorizationLocalizedComp_inv_image_eq_inv] at hScalar
   have hMul :
       (counterFactorizationLocalizedCompImageScalarAt H T f (g ≫ h) A)⁻¹ *
@@ -272,7 +269,11 @@ theorem counterFactorizationLocalizedCompAdd_cocycle
           counterFactorizationLocalizedCompImageScalarAt
             H T (f ≫ g) h A =
         (1 : C2) := by
-    simpa only [mul_one, one_mul, mul_assoc] using hScalar.symm
+    simpa only [
+      counterFactorizationLocalizedCompImageScalarAt,
+      counterFactorizationLocalizedTransportedCompImageScalarAt,
+      counterFactorizationLocalizedPropagatedObject,
+      mul_one, one_mul, mul_assoc] using hScalar.symm
   have hAdd := congrArg (@Multiplicative.toAdd (ZMod 2)) hMul
   simp only [toAdd_mul, toAdd_inv, toAdd_one, CharTwo.neg_eq] at hAdd
   have hPair :
