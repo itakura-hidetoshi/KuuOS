@@ -40,7 +40,7 @@ upper edge twice.  The only uncancelled edge terms are the four pairs of upper
 edges evaluated at the two propagated middle-fiber objects.
 
 Because every comparison component of `H` is an equivalence, it is full.  We
-therefore choose canonical connector morphisms between the two propagated
+therefore choose connector morphisms between the two propagated
 objects over `M0` and over `M1`, with comparison image equal to the identity
 scalar.  v3.73 then converts each remaining upper-edge pair into its exact
 object coboundary.
@@ -379,7 +379,7 @@ theorem counterFactorization_rawParity_forces_edgePairs_plus_compositors
 
   simpa only [CharTwo.two_eq_zero, zero_mul, add_zero, zero_add] using hsum
 
-/-- Canonical connector in the M0 source fiber between the two objects
+/-- Chosen connector in the M0 source fiber between the two objects
 propagated from the lower vertices. -/
 noncomputable def counterFactorizationMiddleConnectorM0
     (H : HigherLocalizationFactorization
@@ -392,7 +392,7 @@ noncomputable def counterFactorizationMiddleConnectorM0
     (counterFactorizationPropagatedObject H a00 A0)
     (counterFactorizationPropagatedObject H a10 A1)
 
-/-- Canonical connector in the M1 source fiber between the two objects
+/-- Chosen connector in the M1 source fiber between the two objects
 propagated from the lower vertices. -/
 noncomputable def counterFactorizationMiddleConnectorM1
     (H : HigherLocalizationFactorization
@@ -462,7 +462,7 @@ raw odd class = object-coboundary residual + lift-compositor residual.
 ```
 
 All ordinary comparison-edge scalars have cancelled.  The remaining four
-coboundaries use only the two canonical middle-fiber connectors selected by
+coboundaries use only the two chosen middle-fiber connectors selected by
 fullness of the pointwise-equivalence comparison.
 
 The next theorem unit should evaluate these twelve residual terms using the
