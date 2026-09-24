@@ -243,6 +243,7 @@ theorem counterFactorizationLocalizedCompAdd_cocycle
     simp only [F,
       Functor.map_comp, Functor.map_id,
       CategoryTheory.Bicategory.Strict.associator_eqToIso,
+      eqToIso.hom,
       CategoryTheory.PrelaxFunctor.map₂_eqToHom,
       CategoryTheory.Cat.eqToHom_app,
       CategoryTheory.eqToHom_map,
