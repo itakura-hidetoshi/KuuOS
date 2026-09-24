@@ -189,14 +189,14 @@ group cancellation is invoked. -/
     congrArg
       (fun k => (H.comparison.app (.mk T)).toFunctor.map k)
       hCat
+  simp only [Functor.map_comp, Functor.map_id] at hMap
   have hScalar := congrArg (fun k => counterSystemHomScalar T k) hMap
   have hMul :
       counterFactorizationLocalizedCompImageScalarAt H T f g A *
           invScalar = (1 : C2) := by
     simpa only [counterFactorizationLocalizedCompImageScalarAt,
-      invScalar, Functor.map_comp, Functor.map_id,
-      counterSystemHomScalar_comp, counterSystemHomScalar,
-      SingleObj.comp_as_mul, SingleObj.id_as_one] using hScalar
+      invScalar, counterSystemHomScalar_comp, counterSystemHomScalar,
+      SingleObj.id_as_one] using hScalar
   exact eq_inv_of_mul_eq_one_right hMul
 
 /-- Localization-level associator coherence after exact Cat-component
@@ -232,6 +232,7 @@ theorem counterFactorizationLocalizedCompAdd_cocycle
     simp only [F,
       counterFactorizationLocalizationView,
       CategoryTheory.Bicategory.Strict.associator_eqToIso,
+      eqToIso.hom,
       CategoryTheory.PrelaxFunctor.map₂_eqToHom,
       CategoryTheory.Cat.eqToHom_app,
       CategoryTheory.eqToHom_map,
