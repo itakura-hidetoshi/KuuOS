@@ -5,6 +5,7 @@ namespace KUOS.DependentOriginationArbitraryFactorizationLocalizedCocycleV3_75
 open CategoryTheory
 open CategoryTheory.Bicategory
 open Opposite
+open KUOS.DependentOriginationPresentationUniversalityV2_0
 open KUOS.DependentOriginationHigherStackDescentV2_8
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationGeneratedHolonomyCountermodelV2_69
