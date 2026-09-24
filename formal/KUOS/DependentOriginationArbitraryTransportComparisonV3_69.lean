@@ -173,7 +173,6 @@ theorem counterComparisonScalar_comp_at
       counterSystem_mapComp_hom_app,
       counterSystem_map_morphism_eq,
       counterSystem_eqToHom_eq_one,
-      counterRestricted_eqToHom_eq_one_at,
       Cat.Hom.id_map] at hApp
   have hScalar := congrArg (fun k => counterSystemHomScalar Z k) hApp
   simp only [counterSystemHomScalar_comp] at hScalar
@@ -295,11 +294,19 @@ at every object of the one-object counter fiber. -/
     (T.mapComp f g).inv.toNatTrans.app A =
       (counterTransportCompScalarLoc T f g)⁻¹ := by
   cases A
-  apply eq_inv_of_mul_eq_one_right
-  simpa only [counterTransportCompScalarLoc, SingleObj.comp_as_mul,
-    SingleObj.id_as_one] using
-    (Cat.Hom.inv_hom_id_toNatTrans_app
-      (T.mapComp f g) (SingleObj.star C2))
+  have hMul :
+      counterTransportCompScalarLoc T f g *
+          (T.mapComp f g).inv.toNatTrans.app (SingleObj.star C2) =
+        (1 : C2) := by
+    simpa only [counterTransportCompScalarLoc, SingleObj.comp_as_mul,
+      SingleObj.id_as_one] using
+      (Cat.Hom.inv_hom_id_toNatTrans_app
+        (T.mapComp f g) (SingleObj.star C2))
+  exact
+    @eq_inv_of_mul_eq_one_right C2 inferInstance
+      (counterTransportCompScalarLoc T f g)
+      ((T.mapComp f g).inv.toNatTrans.app (SingleObj.star C2))
+      hMul
 
 /-- Every quotient representative functor acts trivially on C2 morphisms. -/
 @[simp] theorem counterQuotientRepresentativeMap_map_morphism_eq_at
@@ -331,10 +338,16 @@ theorem counterTransportCompScalarLoc_cocycle
       Cat.whiskerRight_app, Cat.associator_hom_app,
       counterTransportMapComp_hom_app_eq_scalarLoc,
       counterTransportMapComp_inv_app_eq_inv_scalarLoc,
-      counterQuotientRepresentativeMap_map_morphism_eq_at,
-      counterFiber_eqToHom_eq_one,
-      Cat.Hom.id_map] at hApp
-  have hAdd := congrArg (@Multiplicative.toAdd (ZMod 2)) hApp
+      counterQuotientRepresentativeMap_map_morphism_eq_at] at hApp
+  have hMul :
+      (counterTransportCompScalarLoc T f (g ≫ h))⁻¹ *
+          (counterTransportCompScalarLoc T g h)⁻¹ *
+          counterTransportCompScalarLoc T f g *
+          counterTransportCompScalarLoc T (f ≫ g) h =
+        (1 : C2) := by
+    simpa only [SingleObj.comp_as_mul, SingleObj.id_as_one,
+      one_mul, mul_one, mul_assoc] using hApp
+  have hAdd := congrArg (@Multiplicative.toAdd (ZMod 2)) hMul
   simp at hAdd
   linear_combination hAdd
 
@@ -356,6 +369,37 @@ noncomputable def counterMiddleSwitch :
     CategoryTheory.Localization.Construction.wInv
       (W := allMorphisms) b10 b10_mem_allMorphisms
 
+/-- Syntactic hom-inverse law for b10, stated with the exact Q.map/wInv
+presentation used by counterMiddleSwitch. -/
+@[simp] theorem counterB10_comp_wInv :
+    allMorphisms.Q.map b10 ≫
+        CategoryTheory.Localization.Construction.wInv
+          (W := allMorphisms) b10 b10_mem_allMorphisms =
+      𝟙 (allMorphisms.Q.obj M1) := by
+  exact
+    (CategoryTheory.Localization.Construction.wIso
+      (W := allMorphisms) b10 b10_mem_allMorphisms).hom_inv_id
+
+/-- Syntactic inverse-hom law for b10. -/
+@[simp] theorem counterWInv_b10_comp :
+    CategoryTheory.Localization.Construction.wInv
+          (W := allMorphisms) b10 b10_mem_allMorphisms ≫
+        allMorphisms.Q.map b10 =
+      𝟙 (allMorphisms.Q.obj H0) := by
+  exact
+    (CategoryTheory.Localization.Construction.wIso
+      (W := allMorphisms) b10 b10_mem_allMorphisms).inv_hom_id
+
+/-- Syntactic inverse-hom law for a00 used to cancel a common prefix. -/
+@[simp] theorem counterWInv_a00_comp :
+    CategoryTheory.Localization.Construction.wInv
+          (W := allMorphisms) a00 a00_mem_allMorphisms_v369 ≫
+        allMorphisms.Q.map a00 =
+      𝟙 (allMorphisms.Q.obj M0) := by
+  exact
+    (CategoryTheory.Localization.Construction.wIso
+      (W := allMorphisms) a00 a00_mem_allMorphisms_v369).inv_hom_id
+
 /-- Raw triangular equality transported by the localization functor. -/
 theorem counterLocalization_map_triangle
     {L M H : OctahedralVertex}
@@ -376,8 +420,7 @@ theorem counterA00_comp_middleSwitch :
   rw [counterLocalization_map_triangle a00 b00 c00]
   rw [← counterLocalization_map_triangle a01 b10 c00]
   rw [Category.assoc]
-  rw [(CategoryTheory.Localization.Construction.wIso
-    (W := allMorphisms) b10 b10_mem_allMorphisms).hom_inv_id]
+  rw [counterB10_comp_wInv]
   rw [Category.comp_id]
 
 /-- The same switch carries the L1 -> M0 edge to L1 -> M1. -/
@@ -399,8 +442,7 @@ theorem counterMiddleSwitch_comp_b10 :
       allMorphisms.Q.map b00 := by
   unfold counterMiddleSwitch
   rw [Category.assoc]
-  rw [(CategoryTheory.Localization.Construction.wIso
-    (W := allMorphisms) b10 b10_mem_allMorphisms).inv_hom_id]
+  rw [counterWInv_b10_comp]
   rw [Category.comp_id]
 
 /-- Postcomposing the same switch with b11 recovers b01.  The proof first
@@ -430,29 +472,26 @@ theorem counterMiddleSwitch_comp_b11 :
       CategoryTheory.Localization.Construction.wInv
           (W := allMorphisms) a00 a00_mem_allMorphisms_v369 ≫ k)
     hpre
-  simpa only [← Category.assoc,
-    (CategoryTheory.Localization.Construction.wIso
-      (W := allMorphisms) a00 a00_mem_allMorphisms_v369).inv_hom_id,
+  simpa only [← Category.assoc, counterWInv_a00_comp,
     Category.id_comp] using hcancel
 
 /-! ## The transport parity is forced to vanish -/
 
 /-- One associator cocycle equation pairs the two octahedral faces adjacent
 across a chosen middle switch. -/
-theorem counterTransport_facePair
+theorem counterTransport_facePair_balance
     (T : CoherentQuotientTransportData
       (W := allMorphisms) counterSystem counterD)
     {X Y₀ Y₁ Z : allMorphisms.Localization}
     (a₀ : X ⟶ Y₀) (p : Y₀ ⟶ Y₁) (b₁ : Y₁ ⟶ Z)
     (a₁ : X ⟶ Y₁) (b₀ : Y₀ ⟶ Z)
     (ha : a₀ ≫ p = a₁) (hb : p ≫ b₁ = b₀) :
-    Multiplicative.toAdd (counterTransportCompScalarLoc T a₀ b₀) +
-        Multiplicative.toAdd (counterTransportCompScalarLoc T a₁ b₁) =
-      Multiplicative.toAdd (counterTransportCompScalarLoc T a₀ p) +
-        Multiplicative.toAdd (counterTransportCompScalarLoc T p b₁) := by
-  have h := counterTransportCompScalarLoc_cocycle T a₀ p b₁
-  rw [ha, hb] at h
-  linear_combination h
+    Multiplicative.toAdd (counterTransportCompScalarLoc T a₁ b₁) +
+        Multiplicative.toAdd (counterTransportCompScalarLoc T a₀ p) =
+      Multiplicative.toAdd (counterTransportCompScalarLoc T p b₁) +
+        Multiplicative.toAdd (counterTransportCompScalarLoc T a₀ b₀) := by
+  simpa only [ha, hb] using
+    (counterTransportCompScalarLoc_cocycle T a₀ p b₁)
 
 /-- The sum of all eight quotient-compositor scalars on the octahedral faces is
 zero for every coherent quotient transport.  This is the transport-independent
@@ -469,98 +508,108 @@ theorem counterTransport_faceParity_even
       Multiplicative.toAdd (counterTransportCompScalar T a10 b01) +
       Multiplicative.toAdd (counterTransportCompScalar T a11 b11) = 0 := by
   have h00 :=
-    counterTransport_facePair T
+    counterTransport_facePair_balance T
       (allMorphisms.Q.map a00) counterMiddleSwitch
       (allMorphisms.Q.map b10)
       (allMorphisms.Q.map a01) (allMorphisms.Q.map b00)
       counterA00_comp_middleSwitch counterMiddleSwitch_comp_b10
   have h01 :=
-    counterTransport_facePair T
+    counterTransport_facePair_balance T
       (allMorphisms.Q.map a00) counterMiddleSwitch
       (allMorphisms.Q.map b11)
       (allMorphisms.Q.map a01) (allMorphisms.Q.map b01)
       counterA00_comp_middleSwitch counterMiddleSwitch_comp_b11
   have h10 :=
-    counterTransport_facePair T
+    counterTransport_facePair_balance T
       (allMorphisms.Q.map a10) counterMiddleSwitch
       (allMorphisms.Q.map b10)
       (allMorphisms.Q.map a11) (allMorphisms.Q.map b00)
       counterA10_comp_middleSwitch counterMiddleSwitch_comp_b10
   have h11 :=
-    counterTransport_facePair T
+    counterTransport_facePair_balance T
       (allMorphisms.Q.map a10) counterMiddleSwitch
       (allMorphisms.Q.map b11)
       (allMorphisms.Q.map a11) (allMorphisms.Q.map b01)
       counterA10_comp_middleSwitch counterMiddleSwitch_comp_b11
 
-  have hsum :
+  let A : ZMod 2 :=
+    Multiplicative.toAdd
+        (counterTransportCompScalarLoc T
+          (allMorphisms.Q.map a01) (allMorphisms.Q.map b10)) +
       Multiplicative.toAdd
-          (counterTransportCompScalarLoc T
-            (allMorphisms.Q.map a00) (allMorphisms.Q.map b00)) +
-        Multiplicative.toAdd
-          (counterTransportCompScalarLoc T
-            (allMorphisms.Q.map a01) (allMorphisms.Q.map b10)) +
-        Multiplicative.toAdd
-          (counterTransportCompScalarLoc T
-            (allMorphisms.Q.map a00) (allMorphisms.Q.map b01)) +
-        Multiplicative.toAdd
-          (counterTransportCompScalarLoc T
-            (allMorphisms.Q.map a01) (allMorphisms.Q.map b11)) +
-        Multiplicative.toAdd
-          (counterTransportCompScalarLoc T
-            (allMorphisms.Q.map a10) (allMorphisms.Q.map b00)) +
-        Multiplicative.toAdd
-          (counterTransportCompScalarLoc T
-            (allMorphisms.Q.map a11) (allMorphisms.Q.map b10)) +
-        Multiplicative.toAdd
-          (counterTransportCompScalarLoc T
-            (allMorphisms.Q.map a10) (allMorphisms.Q.map b01)) +
-        Multiplicative.toAdd
-          (counterTransportCompScalarLoc T
-            (allMorphisms.Q.map a11) (allMorphisms.Q.map b11)) =
-      2 * Multiplicative.toAdd
-          (counterTransportCompScalarLoc T
-            (allMorphisms.Q.map a00) counterMiddleSwitch) +
-        2 * Multiplicative.toAdd
-          (counterTransportCompScalarLoc T
-            (allMorphisms.Q.map a10) counterMiddleSwitch) +
-        2 * Multiplicative.toAdd
-          (counterTransportCompScalarLoc T
-            counterMiddleSwitch (allMorphisms.Q.map b10)) +
-        2 * Multiplicative.toAdd
-          (counterTransportCompScalarLoc T
-            counterMiddleSwitch (allMorphisms.Q.map b11)) := by
-    linear_combination h00 + h01 + h10 + h11
-
-  have hzero :
+        (counterTransportCompScalarLoc T
+          (allMorphisms.Q.map a01) (allMorphisms.Q.map b11)) +
       Multiplicative.toAdd
-          (counterTransportCompScalarLoc T
-            (allMorphisms.Q.map a00) (allMorphisms.Q.map b00)) +
-        Multiplicative.toAdd
-          (counterTransportCompScalarLoc T
-            (allMorphisms.Q.map a01) (allMorphisms.Q.map b10)) +
-        Multiplicative.toAdd
-          (counterTransportCompScalarLoc T
-            (allMorphisms.Q.map a00) (allMorphisms.Q.map b01)) +
-        Multiplicative.toAdd
-          (counterTransportCompScalarLoc T
-            (allMorphisms.Q.map a01) (allMorphisms.Q.map b11)) +
-        Multiplicative.toAdd
-          (counterTransportCompScalarLoc T
-            (allMorphisms.Q.map a10) (allMorphisms.Q.map b00)) +
-        Multiplicative.toAdd
-          (counterTransportCompScalarLoc T
-            (allMorphisms.Q.map a11) (allMorphisms.Q.map b10)) +
-        Multiplicative.toAdd
-          (counterTransportCompScalarLoc T
-            (allMorphisms.Q.map a10) (allMorphisms.Q.map b01)) +
-        Multiplicative.toAdd
-          (counterTransportCompScalarLoc T
-            (allMorphisms.Q.map a11) (allMorphisms.Q.map b11)) = 0 := by
-    simpa only [CharTwo.two_eq_zero, zero_mul, add_zero] using hsum
+        (counterTransportCompScalarLoc T
+          (allMorphisms.Q.map a11) (allMorphisms.Q.map b10)) +
+      Multiplicative.toAdd
+        (counterTransportCompScalarLoc T
+          (allMorphisms.Q.map a11) (allMorphisms.Q.map b11))
+  let D : ZMod 2 :=
+    Multiplicative.toAdd
+        (counterTransportCompScalarLoc T
+          (allMorphisms.Q.map a00) (allMorphisms.Q.map b00)) +
+      Multiplicative.toAdd
+        (counterTransportCompScalarLoc T
+          (allMorphisms.Q.map a00) (allMorphisms.Q.map b01)) +
+      Multiplicative.toAdd
+        (counterTransportCompScalarLoc T
+          (allMorphisms.Q.map a10) (allMorphisms.Q.map b00)) +
+      Multiplicative.toAdd
+        (counterTransportCompScalarLoc T
+          (allMorphisms.Q.map a10) (allMorphisms.Q.map b01))
 
-  simpa only [counterTransportCompScalar, counterTransportCompScalarLoc] using
-    hzero
+  have hAD : A = D := by
+    dsimp [A, D]
+    have hsum :
+        Multiplicative.toAdd
+              (counterTransportCompScalarLoc T
+                (allMorphisms.Q.map a01) (allMorphisms.Q.map b10)) +
+            Multiplicative.toAdd
+              (counterTransportCompScalarLoc T
+                (allMorphisms.Q.map a01) (allMorphisms.Q.map b11)) +
+            Multiplicative.toAdd
+              (counterTransportCompScalarLoc T
+                (allMorphisms.Q.map a11) (allMorphisms.Q.map b10)) +
+            Multiplicative.toAdd
+              (counterTransportCompScalarLoc T
+                (allMorphisms.Q.map a11) (allMorphisms.Q.map b11)) +
+            2 * Multiplicative.toAdd
+              (counterTransportCompScalarLoc T
+                (allMorphisms.Q.map a00) counterMiddleSwitch) +
+            2 * Multiplicative.toAdd
+              (counterTransportCompScalarLoc T
+                (allMorphisms.Q.map a10) counterMiddleSwitch) =
+          2 * Multiplicative.toAdd
+              (counterTransportCompScalarLoc T
+                counterMiddleSwitch (allMorphisms.Q.map b10)) +
+            2 * Multiplicative.toAdd
+              (counterTransportCompScalarLoc T
+                counterMiddleSwitch (allMorphisms.Q.map b11)) +
+            Multiplicative.toAdd
+              (counterTransportCompScalarLoc T
+                (allMorphisms.Q.map a00) (allMorphisms.Q.map b00)) +
+            Multiplicative.toAdd
+              (counterTransportCompScalarLoc T
+                (allMorphisms.Q.map a00) (allMorphisms.Q.map b01)) +
+            Multiplicative.toAdd
+              (counterTransportCompScalarLoc T
+                (allMorphisms.Q.map a10) (allMorphisms.Q.map b00)) +
+            Multiplicative.toAdd
+              (counterTransportCompScalarLoc T
+                (allMorphisms.Q.map a10) (allMorphisms.Q.map b01)) := by
+      linear_combination h00 + h01 + h10 + h11
+    simpa only [CharTwo.two_eq_zero, zero_mul, add_zero, zero_add] using hsum
+
+  have hTotalLoc : D + A = 0 := by
+    rw [hAD]
+    calc
+      A + A = 2 * A := by ring
+      _ = 0 := by rw [CharTwo.two_eq_zero, zero_mul]
+
+  dsimp [D, A] at hTotalLoc
+  simpa only [counterTransportCompScalar, counterTransportCompScalarLoc,
+    add_assoc] using hTotalLoc
 
 /-- Canonical v3.69 theorem: no coherent quotient transport on the concrete C2
 countermodel admits a Stage-II coherent presentation comparison. -/
