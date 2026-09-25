@@ -58,6 +58,43 @@ def pentagonalSlotNext : PentagonalSlot → PentagonalSlot
   | .s3 => .s4
   | .s4 => .s0
 
+/-- The slot-index map is a bijection with ZMod 5. -/
+theorem pentagonalSlotIndex_bijective :
+    Function.Bijective pentagonalSlotIndex := by
+  native_decide
+
+/-- Canonical finite equivalence between cyclic pentagonal slots and ZMod 5. -/
+noncomputable def pentagonalSlotEquiv :
+    PentagonalSlot ≃ IcosahedralRingIndex :=
+  Equiv.ofBijective pentagonalSlotIndex pentagonalSlotIndex_bijective
+
+/-- Recover the pentagonal slot carrying a prescribed ZMod 5 index. -/
+noncomputable def pentagonalSlotOfIndex
+    (i : IcosahedralRingIndex) : PentagonalSlot :=
+  pentagonalSlotEquiv.symm i
+
+@[simp] theorem pentagonalSlotIndex_ofIndex
+    (i : IcosahedralRingIndex) :
+    pentagonalSlotIndex (pentagonalSlotOfIndex i) = i := by
+  change pentagonalSlotEquiv (pentagonalSlotEquiv.symm i) = i
+  exact pentagonalSlotEquiv.apply_symm_apply i
+
+/-- Cyclic slot successor is exactly addition by one on the ZMod 5 index. -/
+theorem pentagonalSlotIndex_next
+    (s : PentagonalSlot) :
+    pentagonalSlotIndex (pentagonalSlotNext s) =
+      pentagonalSlotIndex s + 1 := by
+  cases s <;> native_decide
+
+/-- Pulling an index back to a slot commutes with cyclic successor. -/
+theorem pentagonalSlotOfIndex_add_one
+    (i : IcosahedralRingIndex) :
+    pentagonalSlotOfIndex (i + 1) =
+      pentagonalSlotNext (pentagonalSlotOfIndex i) := by
+  apply pentagonalSlotIndex_bijective.1
+  rw [pentagonalSlotIndex_ofIndex, pentagonalSlotIndex_next,
+    pentagonalSlotIndex_ofIndex]
+
 /-- The five incident darts around each original icosahedral vertex, in cyclic
 order.
 
