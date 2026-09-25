@@ -139,9 +139,11 @@ theorem stageIIIncidenceFaceKindOrientation_of_ne
     stageIIIncidenceFaceKindOrientation l =
       stageIIIncidenceOrientationFlip
         (stageIIIncidenceFaceKindOrientation k) := by
-  cases k <;> cases l <;>
-    simp_all [stageIIIncidenceFaceKindOrientation,
-      stageIIIncidenceOrientationFlip]
+  cases k <;> cases l
+  · exact (h rfl).elim
+  · rfl
+  · rfl
+  · exact (h rfl).elim
 
 /-- A concrete target convention: pentagons are forward, hexagons reverse. -/
 def stageIIIncidenceSeedFaceOrientation
