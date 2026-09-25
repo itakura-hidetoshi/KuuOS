@@ -158,11 +158,11 @@ def truncatedIcosahedralHexagonCycle :
         h01 := by
           simp [icosahedralIncidentDartAt, pentagonalSlotIndex_next]
         h12 := by
-          simp [icosahedralIncidentDartAt]
+          simp [icosahedralIncidentDartAt, pentagonalSlotNext]
         h23 := by
           simp [icosahedralIncidentDartAt]
         h34 := by
-          simp [icosahedralIncidentDartAt]
+          simp [icosahedralIncidentDartAt, pentagonalSlotNext]
         h45 := by
           simp [icosahedralIncidentDartAt]
         h50 := by
@@ -180,11 +180,11 @@ def truncatedIcosahedralHexagonCycle :
         h01 := by
           simp [icosahedralIncidentDartAt, pentagonalSlotIndex_next]
         h12 := by
-          simp [icosahedralIncidentDartAt]
+          simp [icosahedralIncidentDartAt, pentagonalSlotNext]
         h23 := by
           simp [icosahedralIncidentDartAt]
         h34 := by
-          simp [icosahedralIncidentDartAt]
+          simp [icosahedralIncidentDartAt, pentagonalSlotNext]
         h45 := by
           simp [icosahedralIncidentDartAt]
         h50 := by
@@ -199,15 +199,15 @@ def truncatedIcosahedralHexagonCycle :
         e4 := .forward (.around ⟨.upper (i + 1), .s3⟩)
         e5 := .reverse (.cross (.upperRing i))
         h01 := by
-          simp [icosahedralIncidentDartAt]
+          simp [icosahedralIncidentDartAt, pentagonalSlotNext]
         h12 := by
-          simp [icosahedralIncidentDartAt]
+          simp [icosahedralIncidentDartAt, pentagonalSlotNext]
         h23 := by
           simp [icosahedralIncidentDartAt]
         h34 := by
           simp [icosahedralIncidentDartAt]
         h45 := by
-          simp [icosahedralIncidentDartAt]
+          simp [icosahedralIncidentDartAt, pentagonalSlotNext]
         h50 := by
           simp [icosahedralIncidentDartAt]
       }
@@ -224,13 +224,13 @@ def truncatedIcosahedralHexagonCycle :
         h12 := by
           simp [icosahedralIncidentDartAt]
         h23 := by
-          simp [icosahedralIncidentDartAt]
+          simp [icosahedralIncidentDartAt, pentagonalSlotNext]
         h34 := by
           simp [icosahedralIncidentDartAt]
         h45 := by
-          simp [icosahedralIncidentDartAt]
+          simp [icosahedralIncidentDartAt, pentagonalSlotNext]
         h50 := by
-          simp [icosahedralIncidentDartAt]
+          simp [icosahedralIncidentDartAt, pentagonalSlotNext]
       }
 
 /-- Every triangle-origin face now has six actual oriented boundary edges. -/
