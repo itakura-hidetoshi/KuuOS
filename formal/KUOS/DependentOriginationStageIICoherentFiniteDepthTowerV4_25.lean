@@ -215,10 +215,18 @@ theorem counterTransportFiniteDepthTowerRepresentative_restrict
       counterTransportRecursiveDepthCellIntRepresentative T
         (octahedralStageIIFiniteDepthTower f sourceDepth) := by
   rw [octahedralStageIIFiniteDepthTower_restrict]
-  rw [octahedralStageIIFiniteDepthTower,
-    octahedralStageIIFiniteDepthChildPlacement,
-    counterTransportRecursiveDepthCellIntRepresentative_eq_parent,
-    counterTransportRecursiveDepthCellIntRepresentative_eq_parent]
+  change
+    counterTransportRecursiveDepthCellIntRepresentative T
+        (stageIIIncidenceRecursiveDepthCell targetDepth
+          (octahedralStageIIIncidenceSeedEquiv f)) =
+      counterTransportRecursiveDepthCellIntRepresentative T
+        (stageIIIncidenceRecursiveDepthCell sourceDepth
+          (octahedralStageIIIncidenceSeedEquiv f))
+  exact
+    (counterTransportRecursiveDepthCellIntRepresentative_eq_parent
+      T targetDepth (octahedralStageIIIncidenceSeedEquiv f)).trans
+      (counterTransportRecursiveDepthCellIntRepresentative_eq_parent
+        T sourceDepth (octahedralStageIIIncidenceSeedEquiv f)).symm
 
 /-- The full integer total is compatible with every pair of finite depths. -/
 theorem counterTransportFiniteDepthRecursiveCarrierIntTotal_depth_independent
@@ -227,8 +235,9 @@ theorem counterTransportFiniteDepthRecursiveCarrierIntTotal_depth_independent
     (m n : Nat) :
     counterTransportFiniteDepthRecursiveCarrierIntTotal T m =
       counterTransportFiniteDepthRecursiveCarrierIntTotal T n := by
-  rw [counterTransportFiniteDepthRecursiveCarrierIntTotal_eq_parent,
-    counterTransportFiniteDepthRecursiveCarrierIntTotal_eq_parent]
+  exact
+    (counterTransportFiniteDepthRecursiveCarrierIntTotal_eq_parent T m).trans
+      (counterTransportFiniteDepthRecursiveCarrierIntTotal_eq_parent T n).symm
 
 /-- The integral mismatch is likewise compatible with every pair of finite
 depths. -/
@@ -238,8 +247,9 @@ theorem counterStageIIFiniteDepthRecursiveCarrierIntMismatch_depth_independent
     (m n : Nat) :
     counterStageIIFiniteDepthRecursiveCarrierIntMismatch T m =
       counterStageIIFiniteDepthRecursiveCarrierIntMismatch T n := by
-  rw [counterStageIIFiniteDepthRecursiveCarrierIntMismatch_eq_parent,
-    counterStageIIFiniteDepthRecursiveCarrierIntMismatch_eq_parent]
+  exact
+    (counterStageIIFiniteDepthRecursiveCarrierIntMismatch_eq_parent T m).trans
+      (counterStageIIFiniteDepthRecursiveCarrierIntMismatch_eq_parent T n).symm
 
 /-- The mod-two obstruction section carried by the finite-depth tower. -/
 def counterStageIIFiniteDepthObstructionSection
@@ -280,8 +290,14 @@ theorem counterStageIIFiniteDepthObstructionSection_compatible
     (m n : Nat) :
     counterStageIIFiniteDepthObstructionSection T m =
       counterStageIIFiniteDepthObstructionSection T n := by
-  rw [counterStageIIFiniteDepthObstructionSection_eq_constant,
-    counterStageIIFiniteDepthObstructionSection_eq_constant]
+  change
+    ((counterStageIIFiniteDepthRecursiveCarrierIntMismatch T m : ℤ) :
+        ZMod 2) =
+      ((counterStageIIFiniteDepthRecursiveCarrierIntMismatch T n : ℤ) :
+        ZMod 2)
+  exact congrArg (fun z : ℤ => (z : ZMod 2))
+    (counterStageIIFiniteDepthRecursiveCarrierIntMismatch_depth_independent
+      T m n)
 
 /-- Every level of the tower carries a nonzero obstruction class. -/
 theorem counterStageIIFiniteDepthObstructionSection_ne_zero
@@ -289,7 +305,10 @@ theorem counterStageIIFiniteDepthObstructionSection_ne_zero
       (W := allMorphisms) counterSystem counterD)
     (depth : Nat) :
     counterStageIIFiniteDepthObstructionSection T depth ≠ 0 := by
-  rw [counterStageIIFiniteDepthObstructionSection_eq_one]
+  change
+    ((counterStageIIFiniteDepthRecursiveCarrierIntMismatch T depth : ℤ) :
+        ZMod 2) ≠ 0
+  rw [counterStageIIFiniteDepthRecursiveCarrierIntMismatch_modTwo_eq_one]
   exact one_ne_zero
 
 /-- The whole finite-depth obstruction section is transport-independent. -/
@@ -298,10 +317,15 @@ theorem counterStageIIFiniteDepthObstructionSection_transport_independent
       (W := allMorphisms) counterSystem counterD) :
     counterStageIIFiniteDepthObstructionSection T =
       counterStageIIFiniteDepthObstructionSection U := by
-  rw [counterStageIIFiniteDepthObstructionSection_eq_constant,
-    counterStageIIFiniteDepthObstructionSection_eq_constant]
   funext depth
-  exact counterStageIIObstructionAdd_transport_independent T U
+  change
+    ((counterStageIIFiniteDepthRecursiveCarrierIntMismatch T depth : ℤ) :
+        ZMod 2) =
+      ((counterStageIIFiniteDepthRecursiveCarrierIntMismatch U depth : ℤ) :
+        ZMod 2)
+  exact
+    counterStageIIFiniteDepthRecursiveCarrierIntMismatch_modTwo_transport_independent
+      T U depth
 
 /-!
 ## Boundary after v4.25
