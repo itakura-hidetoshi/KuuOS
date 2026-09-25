@@ -304,8 +304,15 @@ theorem counterFactorization_scalarAligned_mappedSourceScalar
   rw [hMap]
   simp only [
     counterFactorizationLocalizedEndpointScalarAt_comp,
-    hRightP, hComp1P, hMiddleP, hComp0P, hLeftP,
+    hRightP, hComp0P, hLeftP,
     one_mul, mul_one, mul_assoc]
+  exact congrArg₂
+    (fun x y =>
+      x * (y *
+        counterFactorizationLocalizedTransportedCompImageScalarAt H T
+          (allMorphisms.Q.map a00) counterMiddleSwitch
+          (allMorphisms.Q.map b) A0))
+    hComp1P hMiddleP
 
 /-- Additive three-term expansion for one M1-to-upper edge. -/
 theorem counterFactorization_scalarAligned_mappedSourceAdd
