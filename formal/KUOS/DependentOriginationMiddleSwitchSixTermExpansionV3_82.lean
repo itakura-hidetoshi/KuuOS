@@ -149,26 +149,6 @@ theorem counterFactorization_scalarAligned_mappedSourceScalar
   rw [← counterFactorizationLocalizedMappedSource_endpointScalar
     H T (allMorphisms.Q.map b)
     (counterFactorizationMiddleConnectorM0_scalarAlignedAtM1 H A0 A1)]
-  have hLeft :=
-    counterFactorizationLocalizedMappedEqToHom_endpointScalar
-      H T (allMorphisms.Q.map b)
-      (counterFactorizationMiddleSwitch_sourceEndpoint_eq H A0)
-  have hRight :=
-    counterFactorizationLocalizedMappedEqToHom_endpointScalar
-      H T (allMorphisms.Q.map b)
-      (counterFactorizationMiddleSwitch_targetEndpoint_eq H A1)
-  have hComp0 :=
-    counterFactorizationLocalizedTransportedComp_endpointScalar
-      H T (allMorphisms.Q.map a00) counterMiddleSwitch
-      (allMorphisms.Q.map b) A0
-  have hMiddle :=
-    counterFactorizationLocalizedTwiceMappedSource_endpointScalar
-      H T counterMiddleSwitch (allMorphisms.Q.map b)
-      (counterFactorizationMiddleConnectorM0 H A0 A1)
-  have hComp1 :=
-    counterFactorizationLocalizedTransportedComp_inv_endpointScalar
-      H T (allMorphisms.Q.map a10) counterMiddleSwitch
-      (allMorphisms.Q.map b) A1
   unfold counterFactorizationMiddleConnectorM0_scalarAlignedAtM1
   let P :=
     ((counterFactorizationLocalizationView H).map
@@ -220,8 +200,12 @@ theorem counterFactorization_scalarAligned_mappedSourceScalar
       _
   rw [hMap]
   dsimp [P]
-  simp only [counterFactorizationLocalizedEndpointScalarAt_comp]
-  rw [hLeft, hRight, hComp0, hMiddle, hComp1]
+  simp only [
+    counterFactorizationLocalizedEndpointScalarAt_comp,
+    counterFactorizationLocalizedMappedEqToHom_endpointScalar,
+    counterFactorizationLocalizedTransportedComp_endpointScalar,
+    counterFactorizationLocalizedTwiceMappedSource_endpointScalar,
+    counterFactorizationLocalizedTransportedComp_inv_endpointScalar]
   simp only [one_mul, mul_one, mul_assoc]
 
 /-- Additive three-term expansion for one M1-to-upper edge. -/
