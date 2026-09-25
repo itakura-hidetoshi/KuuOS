@@ -302,9 +302,10 @@ theorem counterFactorization_scalarAligned_mappedSourceScalar
         H T (allMorphisms.Q.map b)
         (counterFactorizationMiddleSwitch_targetEndpoint_eq H A1)
   rw [hMap]
-  simp only [counterFactorizationLocalizedEndpointScalarAt_comp]
-  rw [hRightP, hComp1P, hMiddleP, hComp0P, hLeftP]
-  simp only [one_mul, mul_one, mul_assoc]
+  simp only [
+    counterFactorizationLocalizedEndpointScalarAt_comp,
+    hRightP, hComp1P, hMiddleP, hComp0P, hLeftP,
+    one_mul, mul_one, mul_assoc]
 
 /-- Additive three-term expansion for one M1-to-upper edge. -/
 theorem counterFactorization_scalarAligned_mappedSourceAdd
