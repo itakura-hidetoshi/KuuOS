@@ -54,19 +54,19 @@ obstruction, equals one in ZMod 2, is nonzero, and is transport-independent.
 /-- Predicate saying that a Nat-indexed section stays inside the canonical
 eight-face support and is compatible with all inverse-direction restrictions. -/
 def StageIIFiniteDepthSupportedCompatibleSection
-    (section : Nat → StageIIIncidenceRecursiveDepthCell) : Prop :=
+    (towerSection : Nat → StageIIIncidenceRecursiveDepthCell) : Prop :=
   (∀ depth : Nat,
       ∃ f : OctahedralStageIIParityFace,
-        section depth = octahedralStageIIFiniteDepthTower f depth) ∧
+        towerSection depth = octahedralStageIIFiniteDepthTower f depth) ∧
     ∀ m n : Nat, m ≤ n →
-      stageIIIncidenceRecursiveDepthRestrict m (section n) =
-        section m
+      stageIIIncidenceRecursiveDepthRestrict m (towerSection n) =
+        towerSection m
 
 /-- The set-theoretic inverse limit of the supported finite-depth carrier
 tower: compatible sections through all natural-number depths. -/
 def StageIIFiniteDepthInverseLimit : Type :=
-  {section : Nat → StageIIIncidenceRecursiveDepthCell //
-    StageIIFiniteDepthSupportedCompatibleSection section}
+  {towerSection : Nat → StageIIIncidenceRecursiveDepthCell //
+    StageIIFiniteDepthSupportedCompatibleSection towerSection}
 
 /-- Every inverse-limit section lies in the canonical eight-face support at
 each finite level. -/
@@ -131,7 +131,7 @@ theorem stageIIFiniteDepthInverseLimit_existsUnique_source
   refine ⟨f0, hAll, ?_⟩
   intro g hg
   apply octahedralStageIIFiniteDepthTower_injective 0
-  exact (hAll 0).symm.trans (hg 0)
+  exact (hg 0).symm.trans (hAll 0)
 
 /-- The canonical map from source labels into the inverse limit is injective. -/
 theorem octahedralStageIIParityFaceToFiniteDepthInverseLimit_injective :
@@ -251,9 +251,10 @@ theorem counterStageIIFiniteDepthInverseLimitObstruction_transport_independent
       (W := allMorphisms) counterSystem counterD) :
     counterStageIIFiniteDepthInverseLimitObstruction T =
       counterStageIIFiniteDepthInverseLimitObstruction U := by
-  rw [counterStageIIFiniteDepthInverseLimitObstruction_eq_stageII,
-    counterStageIIFiniteDepthInverseLimitObstruction_eq_stageII]
-  exact counterStageIIObstructionAdd_transport_independent T U
+  exact
+    (counterStageIIFiniteDepthInverseLimitObstruction_eq_stageII T).trans
+      ((counterStageIIObstructionAdd_transport_independent T U).trans
+        (counterStageIIFiniteDepthInverseLimitObstruction_eq_stageII U).symm)
 
 /-- The integer inverse-limit mismatch reduces exactly to the inverse-limit
 mod-two obstruction. -/
