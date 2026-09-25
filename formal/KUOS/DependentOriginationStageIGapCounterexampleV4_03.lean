@@ -65,11 +65,12 @@ theorem counterSystem_no_coherentWeakHigherLocalizationUniversalProperty :
         (W := allMorphisms) counterSystem :=
     hasHigherLocalizationFactorization_of_hasCoherentWeakHigherLocalizationUniversalProperty
       allMorphisms hU
-  exact
-    (by
-      simpa [HasHigherLocalizationFactorization] using
-        no_counterSystem_higherLocalizationFactorization)
-      hFactorization
+  have hNoFactorization :
+      ¬ HasHigherLocalizationFactorization
+        (W := allMorphisms) counterSystem := by
+    simpa [HasHigherLocalizationFactorization] using
+      no_counterSystem_higherLocalizationFactorization
+  exact hNoFactorization hFactorization
 
 /-- The coherent v2.19 global universal principle is false already on the
 finite octahedral context. -/
