@@ -1,4 +1,5 @@
 import KUOS.DependentOriginationStageIIIncidencePushforwardV4_20
+import KUOS.DependentOriginationTruncatedIcosahedralStarRefinementV3_83
 import Mathlib
 
 namespace KUOS.DependentOriginationStageIIOrientationMod2CollapseV4_21
@@ -7,6 +8,7 @@ open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationCoherentQuotientTransportV2_59
 open KUOS.DependentOriginationGeneratedHolonomyCountermodelV2_69
 open KUOS.DependentOriginationStageIIObstructionClassV4_12
+open KUOS.DependentOriginationTruncatedIcosahedralStarRefinementV3_83
 open KUOS.DependentOriginationOctahedralStageIIFaceCarrierV4_16
 open KUOS.DependentOriginationIcosahedralTruncationSeedV3_84
 open KUOS.DependentOriginationMiddleSwitchPairIncidenceV4_19
@@ -81,8 +83,8 @@ discover characteristic-two negation from numeral normalization. -/
   | forward =>
       rfl
   | reverse =>
-      simpa [stageIIIncidenceOrientationCoeff] using
-        (ZMod.neg_eq_self_mod_two (1 : ZMod 2))
+      change (-1 : ZMod 2) = 1
+      exact ZMod.neg_eq_self_mod_two (1 : ZMod 2)
 
 /-- In particular, flipping orientation does not change its coefficient. -/
 @[simp] theorem stageIIIncidenceOrientationCoeff_flip
