@@ -5,7 +5,6 @@ namespace KUOS.DependentOriginationAdmissibleNonfactorizationV4_01
 
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationGeneratedHolonomyCountermodelV2_69
-open KUOS.DependentOriginationGeneratedHolonomyCountermodelPseudoV2_69
 open KUOS.DependentOriginationAbstractNonfactorizationV4_00
 
 set_option autoImplicit false
