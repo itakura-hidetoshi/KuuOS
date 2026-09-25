@@ -203,48 +203,6 @@ theorem counterFactorization_scalarAligned_mappedSourceScalar
           P.map (eqToHom
             (counterFactorizationMiddleSwitch_targetEndpoint_eq H A1)) := by
     simp only [P, Functor.map_comp]
-  have hLeftP :
-      counterFactorizationLocalizedEndpointScalarAt H T
-          (P.map (eqToHom
-            (counterFactorizationMiddleSwitch_sourceEndpoint_eq H A0))) =
-        1 := by
-    simpa only [P] using hLeft
-  have hRightP :
-      counterFactorizationLocalizedEndpointScalarAt H T
-          (P.map (eqToHom
-            (counterFactorizationMiddleSwitch_targetEndpoint_eq H A1))) =
-        1 := by
-    simpa only [P] using hRight
-  have hComp0P :
-      counterFactorizationLocalizedEndpointScalarAt H T
-          (P.map
-            (((counterFactorizationLocalizationView H).mapComp
-              (allMorphisms.Q.map a00).toLoc
-              counterMiddleSwitch.toLoc).hom.toNatTrans.app A0)) =
-        counterFactorizationLocalizedTransportedCompImageScalarAt H T
-          (allMorphisms.Q.map a00) counterMiddleSwitch
-          (allMorphisms.Q.map b) A0 := by
-    simpa only [P] using hComp0
-  have hMiddleP :
-      counterFactorizationLocalizedEndpointScalarAt H T
-          (P.map
-            (((counterFactorizationLocalizationView H).map
-              counterMiddleSwitch.toLoc).toFunctor.map
-                (counterFactorizationMiddleConnectorM0 H A0 A1))) =
-        counterFactorizationLocalizedTwiceMappedSourceScalarAt H T
-          counterMiddleSwitch (allMorphisms.Q.map b)
-          (counterFactorizationMiddleConnectorM0 H A0 A1) := by
-    simpa only [P] using hMiddle
-  have hComp1P :
-      counterFactorizationLocalizedEndpointScalarAt H T
-          (P.map
-            (((counterFactorizationLocalizationView H).mapComp
-              (allMorphisms.Q.map a10).toLoc
-              counterMiddleSwitch.toLoc).inv.toNatTrans.app A1)) =
-        (counterFactorizationLocalizedTransportedCompImageScalarAt H T
-          (allMorphisms.Q.map a10) counterMiddleSwitch
-          (allMorphisms.Q.map b) A1)⁻¹ := by
-    simpa only [P] using hComp1
   change
     counterFactorizationLocalizedEndpointScalarAt H T
       (P.map
@@ -261,8 +219,9 @@ theorem counterFactorization_scalarAligned_mappedSourceScalar
           eqToHom (counterFactorizationMiddleSwitch_targetEndpoint_eq H A1))) =
       _
   rw [hMap]
+  dsimp [P]
   simp only [counterFactorizationLocalizedEndpointScalarAt_comp]
-  rw [hLeftP, hRightP, hComp0P, hMiddleP, hComp1P]
+  rw [hLeft, hRight, hComp0, hMiddle, hComp1]
   simp only [one_mul, mul_one, mul_assoc]
 
 /-- Additive three-term expansion for one M1-to-upper edge. -/
