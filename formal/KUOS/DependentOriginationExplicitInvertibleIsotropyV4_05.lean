@@ -68,14 +68,14 @@ theorem counterSystem_not_trivialFiberAutomorphisms_explicit :
 theorem counterSystem_not_fiberFunctorIsoThin_explicit :
     ¬ IsFiberFunctorIsoThin counterSystem := by
   intro hiso
-  letI :
-      Subsingleton
-        ((𝟭 CounterFiber) ≅ (𝟭 CounterFiber)) :=
-    hiso L0 L0 (𝟭 CounterFiber) (𝟭 CounterFiber)
+  let F : Cat.of CounterFiber ⟶ Cat.of CounterFiber :=
+    𝟙 (Cat.of CounterFiber)
+  letI : Subsingleton (F ≅ F) :=
+    hiso L0 L0 F F
   have hEq :
-      scalarIdNatIso zeta = Iso.refl (𝟭 CounterFiber) :=
+      scalarCatHomIso F zeta = Iso.refl F :=
     Subsingleton.elim _ _
-  exact scalarIdNatIso_zeta_ne_refl hEq
+  exact scalarCatHomIso_zeta_ne_refl F hEq
 
 /-- Every quotient composition-coordinate gauge fiber also carries explicit
 nontrivial invertible isotropy. -/
