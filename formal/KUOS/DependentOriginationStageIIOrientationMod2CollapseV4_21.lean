@@ -70,12 +70,19 @@ def stageIIIncidenceOrientationCoeff :
   | .forward => 1
   | .reverse => -1
 
-/-- Characteristic two identifies both orientation signs. -/
+/-- Characteristic two identifies both orientation signs.
+
+Use the dedicated `ZMod 2` simp theorem rather than asking `norm_num` to
+discover characteristic-two negation from numeral normalization. -/
 @[simp] theorem stageIIIncidenceOrientationCoeff_eq_one
     (o : StageIIIncidenceOrientation) :
     stageIIIncidenceOrientationCoeff o = 1 := by
-  cases o <;>
-    norm_num [stageIIIncidenceOrientationCoeff]
+  cases o with
+  | forward =>
+      rfl
+  | reverse =>
+      simpa [stageIIIncidenceOrientationCoeff] using
+        (ZMod.neg_eq_self_mod_two (1 : ZMod 2))
 
 /-- In particular, flipping orientation does not change its coefficient. -/
 @[simp] theorem stageIIIncidenceOrientationCoeff_flip
@@ -114,18 +121,38 @@ theorem counterTransportOrientedIncidenceSeedFaceAdd_flip_eq
     counterTransportOrientedIncidenceSeedFaceAdd T
         (stageIIIncidenceOrientationFlip o) g =
       counterTransportOrientedIncidenceSeedFaceAdd T o g := by
-  simp
+  rw [counterTransportOrientedIncidenceSeedFaceAdd_eq,
+    counterTransportOrientedIncidenceSeedFaceAdd_eq]
+
+/-- Orientation assigned to one truncated-icosahedral face kind. -/
+def stageIIIncidenceFaceKindOrientation :
+    TruncatedIcosahedralFaceKind → StageIIIncidenceOrientation
+  | .pentagon => .forward
+  | .hexagon => .reverse
+
+/-- Since there are exactly two face kinds, distinct kinds have flipped
+orientations.  This isolates the semantic reason for the mate flip from the
+concrete eight-label placement. -/
+theorem stageIIIncidenceFaceKindOrientation_of_ne
+    (k l : TruncatedIcosahedralFaceKind)
+    (h : k ≠ l) :
+    stageIIIncidenceFaceKindOrientation l =
+      stageIIIncidenceOrientationFlip
+        (stageIIIncidenceFaceKindOrientation k) := by
+  cases k <;> cases l <;>
+    simp_all [stageIIIncidenceFaceKindOrientation,
+      stageIIIncidenceOrientationFlip]
 
 /-- A concrete target convention: pentagons are forward, hexagons reverse. -/
 def stageIIIncidenceSeedFaceOrientation
     (g : OctahedralStageIIIncidenceSeedFace) :
     StageIIIncidenceOrientation :=
-  match truncatedIcosahedralSeedFaceKind g.1 with
-  | .pentagon => .forward
-  | .hexagon => .reverse
+  stageIIIncidenceFaceKindOrientation
+    (truncatedIcosahedralSeedFaceKind g.1)
 
 /-- Under the v4.19 placement, every middle-switch mate pair has opposite
-target orientations. -/
+target orientations.  The proof now uses the already-proved opposite-face-kind
+incidence theorem rather than unfolding all eight source constructors. -/
 theorem stageIIIncidenceSeedFaceOrientation_mates_flip
     (f : OctahedralStageIIParityFace) :
     stageIIIncidenceSeedFaceOrientation
@@ -134,8 +161,8 @@ theorem stageIIIncidenceSeedFaceOrientation_mates_flip
       stageIIIncidenceOrientationFlip
         (stageIIIncidenceSeedFaceOrientation
           (octahedralStageIIIncidenceSeedEquiv f)) := by
-  cases f <;>
-    rfl
+  apply stageIIIncidenceFaceKindOrientation_of_ne
+  exact octahedralStageIIIncidenceSeedEquiv_mates_opposite_kinds f
 
 /-- The complete eight-face total with the face-kind orientation convention. -/
 noncomputable def counterTransportFaceKindOrientedIncidenceSeedCarrierTotal
