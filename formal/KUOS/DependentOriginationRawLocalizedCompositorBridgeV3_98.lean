@@ -11,6 +11,14 @@ open KUOS.DependentOriginationArbitraryFactorizationScalarV3_72
 open KUOS.DependentOriginationArbitraryFactorizationParityV3_74
 open KUOS.DependentOriginationArbitraryFactorizationLocalizedCocycleV3_75
 
+attribute [local simp]
+  CategoryTheory.Bicategory.Strict.leftUnitor_eqToIso
+  CategoryTheory.Bicategory.Strict.rightUnitor_eqToIso
+  CategoryTheory.Bicategory.Strict.associator_eqToIso
+  CategoryTheory.PrelaxFunctor.map₂_eqToHom
+  CategoryTheory.eqToHom_map
+  CategoryTheory.Cat.eqToHom_app
+
 set_option autoImplicit false
 
 noncomputable section
@@ -57,8 +65,7 @@ scalar is exactly the raw restricted-lift compositor scalar. -/
       higherPresentationUnitFunctor,
       CategoryTheory.Pseudofunctor.comp,
       CategoryTheory.Functor.toPseudofunctor,
-      CategoryTheory.pseudofunctorOfIsLocallyDiscrete,
-      CategoryTheory.LocallyDiscrete.mkPseudofunctor
+      CategoryTheory.pseudofunctorOfIsLocallyDiscrete
     ]
 
 /-- Additive form of the same raw/full-localization bridge. -/
