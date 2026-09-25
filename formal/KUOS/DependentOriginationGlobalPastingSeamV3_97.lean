@@ -82,9 +82,11 @@ theorem HexagramGlobalPastingCorrectionData_total_eq_local_add_seam
     (D : HexagramGlobalPastingCorrectionData H) :
     D.toCrossingCorrectionData.total =
       D.localNaturality.toCrossingCorrectionData.total + D.seamTotal := by
-  unfold HexagramCrossingCorrectionData.total
-  unfold HexagramGlobalPastingCorrectionData.toCrossingCorrectionData
-  unfold HexagramGlobalPastingCorrectionData.seamTotal
+  simp only [
+    HexagramCrossingCorrectionData.total,
+    HexagramGlobalPastingCorrectionData.toCrossingCorrectionData,
+    HexagramGlobalPastingCorrectionData.seamTotal
+  ]
   ac_rfl
 
 /-- Since all local naturality defects vanish, only the seam total survives. -/
