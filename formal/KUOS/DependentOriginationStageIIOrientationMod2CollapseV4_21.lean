@@ -92,7 +92,7 @@ discover characteristic-two negation from numeral normalization. -/
     stageIIIncidenceOrientationCoeff
         (stageIIIncidenceOrientationFlip o) =
       stageIIIncidenceOrientationCoeff o := by
-  simp
+  simp only [stageIIIncidenceOrientationCoeff_eq_one]
 
 /-- Attach an orientation sign to one pushed incidence-carrier scalar. -/
 noncomputable def counterTransportOrientedIncidenceSeedFaceAdd
@@ -112,7 +112,8 @@ noncomputable def counterTransportOrientedIncidenceSeedFaceAdd
     (g : OctahedralStageIIIncidenceSeedFace) :
     counterTransportOrientedIncidenceSeedFaceAdd T o g =
       counterTransportIncidenceSeedFaceAdd T g := by
-  simp [counterTransportOrientedIncidenceSeedFaceAdd]
+  simp only [counterTransportOrientedIncidenceSeedFaceAdd,
+    stageIIIncidenceOrientationCoeff_eq_one, one_mul]
 
 /-- Reversing orientation therefore leaves every carried scalar unchanged. -/
 theorem counterTransportOrientedIncidenceSeedFaceAdd_flip_eq
@@ -165,8 +166,17 @@ theorem stageIIIncidenceSeedFaceOrientation_mates_flip
       stageIIIncidenceOrientationFlip
         (stageIIIncidenceSeedFaceOrientation
           (octahedralStageIIIncidenceSeedEquiv f)) := by
-  apply stageIIIncidenceFaceKindOrientation_of_ne
-  exact octahedralStageIIIncidenceSeedEquiv_mates_opposite_kinds f
+  change
+    stageIIIncidenceFaceKindOrientation
+        (truncatedIcosahedralSeedFaceKind
+          (octahedralStageIIIncidenceSeedEquiv
+            (octahedralStageIIMiddleSwitchMate f)).1) =
+      stageIIIncidenceOrientationFlip
+        (stageIIIncidenceFaceKindOrientation
+          (truncatedIcosahedralSeedFaceKind
+            (octahedralStageIIIncidenceSeedEquiv f).1))
+  exact stageIIIncidenceFaceKindOrientation_of_ne _ _
+    (octahedralStageIIIncidenceSeedEquiv_mates_opposite_kinds f)
 
 /-- The complete eight-face total with the face-kind orientation convention. -/
 noncomputable def counterTransportFaceKindOrientedIncidenceSeedCarrierTotal
@@ -211,7 +221,8 @@ theorem counterTransportFaceKindOrientedIncidenceSeedCarrierTotal_eq
       (W := allMorphisms) counterSystem counterD) :
     counterTransportFaceKindOrientedIncidenceSeedCarrierTotal T =
       counterTransportIncidenceSeedCarrierTotal T := by
-  simp [counterTransportFaceKindOrientedIncidenceSeedCarrierTotal,
+  simp only [counterTransportFaceKindOrientedIncidenceSeedCarrierTotal,
+    counterTransportOrientedIncidenceSeedFaceAdd_eq,
     counterTransportIncidenceSeedCarrierTotal]
 
 /-- Raw odd parity minus the face-kind-oriented carrier total. -/
