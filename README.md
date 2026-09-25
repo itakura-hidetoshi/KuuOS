@@ -12,17 +12,17 @@ Its central mathematical question is:
 
 Philosophical interpretation, mathematical presentation, formal proof, runtime validation, and operational authority are related but deliberately kept as distinct evidence classes.
 
-## Canonical theorem snapshot — 2026-09-24 JST
+## Canonical theorem snapshot — 2026-09-25 JST
 
 | Item | Current reference |
 | --- | --- |
 | Canonical branch | `main` |
-| Current theorem-bearing baseline | `0066169d5e25320015e2a485be7d3a449b5c107d` |
-| Canonical theorem frontier | **v3.73 — arbitrary-factorization object coboundary** |
-| Latest theorem-bearing merge | [PR #1760](https://github.com/itakura-hidetoshi/KuuOS/pull/1760) |
-| v3.73 merge commit | `0066169d5e25320015e2a485be7d3a449b5c107d` |
-| Validated v3.73 PR head | `459e9bee357f610d7b1e360ad568c3d86ff2066b` |
-| v3.73 exact-head governance run | [35968840745](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/35968840745), completed / success |
+| Current theorem-bearing baseline | `c63c20c8f7726d45ac419a4d4b6a8b794e54f1db` |
+| Canonical theorem frontier | **v4.19 — middle-switch pair incidence on the truncated-icosahedral seed carrier** |
+| Latest theorem-bearing merge | [PR #1807](https://github.com/itakura-hidetoshi/KuuOS/pull/1807) |
+| v4.19 validated PR head | `dc19c0d738c853dc648e54f12709387953031203` |
+| v4.19 merge commit | `c63c20c8f7726d45ac419a4d4b6a8b794e54f1db` |
+| v4.19 exact-head governance run | [36145319284](https://github.com/itakura-hidetoshi/KuuOS/actions/runs/36145319284), completed / success |
 | Lean | `leanprover/lean4:v4.30.0-rc2` |
 | Mathlib | `5450b53e5ddc75d46418fabb605edbf36bd0beb6` |
 
@@ -38,11 +38,11 @@ fresh exact canonical GitHub SHA
 
 A documentation-only merge may advance `main` beyond the theorem-bearing baseline without changing mathematical authority. Re-observe the exact current `main` SHA before theorem work.
 
-The separate Lean 4.31 validation-only PR **#1558** remains **open / Draft / unmerged** and outside theorem authority. It must not be merged, marked Ready for review, or auto-merged.
+The separate Lean 4.31 validation-only PR **#1558** remains **open / Draft / unmerged** at head `3a09839782ea82661ddbf8e13a0fd08e893079b4`. It is outside theorem authority and must not be merged, marked Ready for review, or auto-merged.
 
 ## What 空 means here
 
-空 is not treated as “nothing exists.” Its operational role is non-reification: a useful presentation may be locally effective without being intrinsic, unique, or globally authoritative.
+空 is not treated as “nothing exists.” Its operational role is non-reification: a presentation can be useful without being intrinsic, unique, or globally authoritative.
 
 ```text
 chosen presentation != intrinsic substance
@@ -55,305 +55,212 @@ model generation != theorem authority
 
 The bridge from 空 to 縁起 keeps context, relations, admissible transport, higher coherence, descent, obstruction, correction, and authority explicit.
 
-## Current concrete mathematical spine
+## Current mathematical status
 
-The octahedral `C2` truth test now separates four levels:
+The finite octahedral `C2` truth test is no longer an open search for abstract nonfactorization.
 
-```text
-A. quotient representative 1-cells
-B. quotient pseudofunctor coherence
-C. coherent presentation comparison for the canonical pointwise datum
-D. arbitrary HigherLocalizationFactorization data
-```
-
-The integrated result is:
-
-```text
-v3.66  selected quotient representative 1-cells collapse to identity
-
-v3.67  a fully coherent quotient transport exists
-
-v3.68  the explicit v3.67 transport has no Stage-II comparison
-
-v3.69  every coherent quotient transport for the canonical pointwise datum
-       fails Stage-II comparison
-
-v3.70  weak admissibility does not imply canonical five-law /
-       generated-coboundary solvability
-
-v3.71  a canonical-normalization bridge is not a weaker shortcut:
-       for the countermodel it is equivalent to abstract nonfactorization
-
-v3.72  arbitrary HigherLocalizationFactorization composition is scalarized
-       directly, exposing object dependence and a localized-lift compositor term
-
-v3.73  the object dependence is an explicit multiplicative coboundary;
-       that coboundary is trivial on source-fiber loops
-```
-
-The decisive frontier is therefore no longer quotient-transport independence. It is the **direct arbitrary-factorization parity problem**.
-
-## v3.66–v3.67 — quotient stage closes positively
-
-v3.66 proves that every selected quotient representative 1-cell in the concrete `C2` model is literally the identity Cat 1-cell.
-
-v3.67 then constructs explicit
+**v4.00 closes the direct arbitrary-factorization problem:**
 
 ```lean
-CoherentQuotientTransportData
-  (W := allMorphisms) counterSystem counterD
+IsEmpty
+  (HigherLocalizationFactorization
+    (W := allMorphisms) counterSystem)
 ```
 
-and proves:
+Equivalently:
 
 ```text
-HasCoherentQuotientTransportData
-ThreeQuotientRoutesJointlyCorrectable
-(commonQuotientRouteCorrectionLocus ...).Nonempty
+the concrete octahedral C2 countermodel
+admits no HigherLocalizationFactorization at all
 ```
 
-Thus:
+This is stronger than the earlier canonical five-law counterexample. The proof passes through the direct arbitrary-factorization parity line, including object-coboundary reduction, localized compositor coherence, middle-switch transport, raw/full-localization compositor comparison, and essential-surjectivity extraction of source-fiber objects.
+
+Consequently, the current truncated-icosahedral program is a **carrier/refinement analysis of an already-proved obstruction**, not a substitute for a missing nonfactorization theorem.
+
+## v4.00–v4.11 — abstract nonfactorization and exact Stage-II location
+
+The integrated spine is:
 
 ```text
-nontrivial generated holonomy
-  !=>
-quotient-stage incoherence
+v4.00  abstract nonfactorization:
+       HigherLocalizationFactorization counterSystem is empty
+
+v4.01  weak allMorphisms-admissibility does not imply
+       arbitrary higher-localization factorization
+
+v4.02  weak higher-localization existence and weak universal principles
+       are false on the finite octahedral truth-test context
+
+v4.03  the v2.31 gap decomposition fails already at Stage I
+
+v4.04  the countermodel lies outside all earlier thin / iso-thin /
+       canonical-gauge-trivializable sufficient sectors
+
+v4.05  the residual invertible isotropy is explicit:
+       zeta is a nonidentity fiber automorphism and a nonidentity
+       functor-level invertible 2-cell
+
+v4.06  the five-defect obstruction is gauge-independent:
+       every pointwise-choice gauge orbit misses the zero-defect locus
+
+v4.07  post-factorization H-indexed scalar/seam constructions are
+       vacuous for counterSystem because no such H exists
+
+v4.08  the generated five-face correction coboundary is unsolvable
+
+v4.09  every solved quotient gauge has no comparison-gauge lift
+
+v4.10  the quotient stage really is solvable for counterD,
+       while the comparison lift is impossible
+
+v4.11  the original coherent-presentation obstruction and the
+       generated comparison-gauge obstruction are two operational
+       presentations of the same transport-independent Stage-II failure
 ```
 
-and the earlier fixed-gauge failure is genuinely gauge-specific.
-
-## v3.68–v3.69 — Stage-II obstruction becomes transport-independent
-
-v3.68 proves the octahedral `ZMod 2` parity contradiction for the explicit v3.67 quotient transport.
-
-v3.69 removes that specialization.
-
-For arbitrary
-
-```lean
-T : CoherentQuotientTransportData
-      (W := allMorphisms) counterSystem counterD
-```
-
-the Stage-II face equation contains both comparison-edge scalars and the compositor scalar selected by `T`. The associator coherence of `T`, together with the localization middle-switch argument, forces the total eight-face transport-compositor parity to vanish.
-
-Any successful Stage-II comparison would force the same total parity to be `1`.
-
-Therefore v3.69 proves:
-
-```lean
-counterD_noCoherentPresentationComparison_for_all_transports
-```
-
-and hence:
+The exact location is therefore:
 
 ```text
-Stage-I coherent quotient transport exists
-and
-every coherent quotient transport for counterD fails Stage-II comparison
+coherent quotient transport          EXISTS
+quotient three-face coboundary       SOLVABLE
+comparison / presentation lift       IMPOSSIBLE
+full five-face correction            IMPOSSIBLE
+HigherLocalizationFactorization      IMPOSSIBLE
 ```
 
-It also proves:
+## v4.12 — transport-independent scalar obstruction class
 
-```lean
-counterD_not_hasCoherentGeneralWFactorizationData
-```
-
-for the canonical pointwise datum `counterD`.
-
-This still does **not** prove that every abstract `HigherLocalizationFactorization` is impossible.
-
-## v3.70 — weak admissibility does not force the canonical five-law package
-
-v3.70 returns the v3.69 obstruction to the weak-admissibility boundary.
-
-For the concrete octahedral `C2` model:
+Source:
 
 ```text
-IsHigherWAdmissible allMorphisms counterSystem
+formal/KUOS/DependentOriginationStageIIObstructionClassV4_12.lean
 ```
 
-holds, but the canonical pointwise datum admits neither:
+For every coherent quotient transport `T`, v4.12 extracts a scalar Stage-II obstruction:
 
 ```text
-HasCoherentGeneralWFactorizationData
+omega(T) = 1  in ZMod 2
 ```
 
-nor:
+while any successful comparison would force:
 
 ```text
-GeneratedCorrectionCoboundarySolvable
+omega(T) = 0
 ```
 
-Thus weak admissibility alone does not imply success of the canonical v2.56–v3.04 five-law construction route.
+Thus `omega` is a pre-factorization, transport-independent obstruction representative. This is the scalar class used by the current recursive carrier program.
 
-This is a counterexample to that canonical route, not yet to the larger abstract factorization interface.
+## v4.13–v4.15 — local parity and the failure of uniform global transport
 
-## v3.71 — the normalization bridge is logically circular
+The truncated-icosahedral carrier has pentagram-like five-crossing and hexagram-like six-crossing local refinements.
 
-For any arbitrary factorization
-
-```lean
-H : HigherLocalizationFactorization (W := W) R
-```
-
-v3.71 decomposes it into:
+v4.13 proves the uniform mod-2 contrast:
 
 ```text
-H.lift
-  -> tautological factorization of restrict(H.lift)
-
-H.comparison
-  -> pointwise-equivalence comparison
-     restrict(H.lift) --> R
+pentagram: 5 * omega = omega
+hexagram:  6 * omega = 0
 ```
 
-For the concrete countermodel it then proves:
+v4.14 then proves that **uniform face-type transport over the whole truncated icosahedron vanishes**:
 
 ```text
-every abstract factorization canonically normalizes to five-law data
-  <->
-no abstract HigherLocalizationFactorization exists
+12 pentagonal contributions -> even -> 0
+20 hexagonal contributions   -> 0
+global uniform total         -> 0
 ```
 
-Therefore “prove normalization first, then deduce nonfactorization” is circular here. The arbitrary factorization must be analyzed directly, or the parity obstruction must be transported by an independently proved presentation-invariance theorem.
+Therefore local five-versus-six parity is not by itself a global obstruction theorem.
 
-## v3.72 — direct scalarization of arbitrary factorization
+v4.15 shows that a nonuniform singleton face support can preserve `omega` algebraically, but an arbitrary selected face is not yet authority-bearing or canonical.
 
-v3.72 works directly with:
+## v4.16–v4.19 — explicit finite carrier and incidence-compatible embedding
 
-```lean
-H : HigherLocalizationFactorization
-      (W := allMorphisms) counterSystem
-```
+v4.16 builds an explicit eight-element carrier for the octahedral Stage-II parity data.
 
-For a source-fiber object `A`, StrongTrans composition coherence becomes:
+v4.17 proves that all eight labels inject into the 12 pentagonal seed faces of the truncated icosahedron. Capacity is therefore sufficient globally.
+
+v4.18 proves a sharp local obstruction:
 
 ```text
-edge(fg, A)
-  = rawFace(f,g)^(-1)
-      * edge(f, A)
-      * edge(g, F(f)A)
-      * image(sourceCompositor(f,g,A))
-```
-
-Two freedoms absent from the canonical quotient calculation are now explicit:
-
-1. edge scalars depend on source-fiber objects;
-2. the arbitrary localized lift contributes its own compositor scalar.
-
-So the v3.69 octahedral cancellation cannot simply be copied to arbitrary factorization data.
-
-## v3.73 — object dependence is a coboundary
-
-For a source-fiber morphism `u : A ⟶ B`, v3.73 proves:
-
-```text
-edge(f,B) * transported(u)
-  =
-source(u) * edge(f,A)
-```
-
-and therefore:
-
-```text
-edge(f,B)
-  =
-delta_f(u) * edge(f,A)
-
-delta_f(u)
-  =
-source(u) * transported(u)^(-1)
-```
-
-This identifies object dependence as an explicit multiplicative coboundary.
-
-For loops:
-
-```text
-u : A ⟶ A
-```
-
-the transported and source loop scalars coincide, so:
-
-```text
-delta_f(u) = 1
-```
-
-Hence the remaining freedom is not arbitrary on automorphism loops. What remains unresolved is the inter-object contribution together with the arbitrary localized compositor term.
-
-## Exact next frontier — v3.74
-
-The next theorem unit should combine the two residual terms exposed by v3.72–v3.73:
-
-```text
-object-change coboundary
-+
-localized-lift compositor contribution
-```
-
-The direct truth test is:
-
-```text
-Does their total contribution cancel around the octahedral eight-face sum?
-
+8 source parity labels
+  cannot inject into
+one pentagram crossing set  (5)
 or
-
-Can an explicit arbitrary localized lift use them to absorb
-the raw nontrivial C2 parity class?
+one hexagram crossing set   (6)
 ```
 
-Both outcomes remain mathematically legitimate.
+So faithful one-to-one transport cannot live inside one local recursive star.
 
-A useful route is:
+v4.19 advances beyond cardinality. It constructs an injective global placement of all eight Stage-II parity labels such that each middle-switch mate pair lands on a genuine **pentagon–hexagon adjacent incidence** and the two mates have opposite face kinds.
 
-1. choose compatible source objects along the octahedral edges;
-2. rewrite every edge scalar change using the v3.73 object coboundary;
-3. insert the v3.72 arbitrary-factorization composition equation on all eight faces;
-4. use pseudofunctor associator/unit coherence of `H.lift`;
-5. isolate the total inter-object and compositor contribution;
-6. either prove it is parity-trivial or construct an absorbing example.
+The current frontier is therefore not “can eight labels fit?” It is:
 
-Only after this direct truth test can one assert or refute:
+> Can the Stage-II obstruction itself canonically select such an incidence-compatible placement, with the correct orientation/scalar pushforward, and can that class be shown to survive recursive refinement?
 
-```text
-¬ HasHigherLocalizationFactorization
-    (W := allMorphisms) counterSystem
-```
+## Current exact frontier after v4.19
 
-## Exact logical boundary
-
-Currently proved:
+Proved:
 
 ```text
-all coherent quotient transports for counterD fail Stage-II comparison
+1. abstract nonfactorization of the finite C2 countermodel
 
-weak admissibility does not force canonical five-law solvability
+2. weak admissibility does not force higher-localization factorization
 
-canonical-normalization of arbitrary factorization is not an independent bridge
+3. the quotient carrier exists coherently
 
-arbitrary factorization composition admits an exact object-dependent scalar law
+4. the obstruction is exactly at the comparison-lift stage
 
-object dependence is a coboundary and is loop-trivial
+5. the Stage-II obstruction has a transport-independent ZMod-2 scalar class
+
+6. uniform pentagram/hexagram transport is locally odd/even but globally zero
+
+7. nonuniform support can preserve the class algebraically
+
+8. the eight source parity labels admit a global seed-face embedding
+
+9. no one local star can carry all eight labels injectively
+
+10. an incidence-compatible global embedding exists in which every
+    middle-switch mate pair lands on a pentagon–hexagon adjacency
 ```
 
 Not yet proved:
 
 ```text
-no arbitrary HigherLocalizationFactorization exists
+the v4.19 placement is canonical or uniquely selected by the obstruction
 
-the v3.73 inter-object coboundaries cancel globally
+the eight source scalar values push forward with a proved orientation/sign rule
 
-the arbitrary localized-lift compositor contribution is parity-trivial
+the pair-incidence placement induces a nonzero global cocycle on the seed carrier
 
-the final higher-localization universal object exists
+recursive pentagram/hexagram refinement preserves that obstruction class
 
-the final representation theorem exists
+a metric fractal limit or metric self-similarity theorem
+
+the final dependent-origination universal object / representation theorem
 ```
 
-## Dependent Origination Universality Program
+The immediate theorem frontier should stay on **authority-bearing carrier transport**, not return to post-factorization scalar data whose `H` parameter is impossible for `counterSystem`.
 
-The long-range target remains an explicitly constructed carrier, schematically:
+## Current carrier picture
+
+The present geometry is combinatorial/incidence-theoretic:
+
+```text
+octahedral Stage-II obstruction
+  -> eight labeled parity faces
+  -> global truncated-icosahedral seed carrier
+  -> middle-switch mate pairing
+  -> pentagon–hexagon adjacent placements
+  -> future recursive refinement transport
+```
+
+This is a theorem about finite carrier structure and incidence compatibility. It is **not yet** a theorem of Euclidean embedding, scale invariance, Hausdorff dimension, metric fractality, or an infinite recursive limit.
+
+## Long-range Dependent Origination Universality Program
+
+The long-range target remains an explicitly constructed carrier with a genuine mapping property, schematically:
 
 ```text
 eta : C ⟶ DO(C, W, J, H)
@@ -364,64 +271,53 @@ AdmissibleContextualSystems(C, X)
 
 with correct higher variance, coherent factorization, essential uniqueness, naturality, descent compatibility, presentation invariance, and explicit obstruction/correction semantics.
 
+The current finite countermodel proves that weak arrowwise admissibility alone is insufficient. Any positive general theorem must impose additional coherence, thinness, separating, descent, or other hypotheses strong enough to avoid the v4.00 obstruction.
+
 **The final universal object and representation theorem are not yet proved.**
 
-## Proof-engineering lessons retained
+## Proof-engineering rules retained
 
-Recent v3.69–v3.73 work reinforces these rules:
+Recent v4.x work reinforces these rules:
 
+- **Fresh GitHub authority first.** Re-observe `main` before theorem work.
 - **Import is not open.** Open the defining namespace or qualify declarations.
-- **Scoped instances matter.** For StrongTrans identity/category structure, use `open scoped CategoryTheory.Pseudofunctor.StrongTrans`.
+- **Module/file names are not namespace names.**
+- **Local attributes are local.** An imported `@[local simp]` set is not inherited.
 - **Keep `autoImplicit false`.**
+- **Give tactic terms expected types.** Do not place an untyped `by ...` term in function position.
+- **Reduce structure projections before `ac_rfl`.**
 - **Use `eqToIso` / `eqToHom` for dependent transport.**
-- **Work in layers:** `Cat.Hom₂` → `NatTrans` → component → exact target fiber → scalar.
-- **Do not multiply abstract dependent Hom values.** Keep `≫` until the carrier is fixed.
+- **Use the categorical-to-scalar pipeline:** `Cat.Hom₂` → `NatTrans` → component → exact fiber → scalar.
+- **Do not multiply abstract dependent Hom values.** Keep categorical composition until the carrier is fixed.
 - **Remember `SingleObj`:** `f ≫ g = g * f`.
-- **Scalarize exact fibers explicitly.** The helper `counterSystemHomScalar` is used to preserve dependent typing while exposing `C2`.
-- **Use canonical group lemmas.** Prefer `inv_mul_cancel_left`, `mul_inv_cancel`, etc. over hand-written cancellation rewrites.
-- **Localize broad unfolding.** Use helper lemmas downstream.
-- **Separate ring algebra from characteristic-two simplification.**
+- **Separate ordinary ring algebra from characteristic-two simplification.**
 - **Every code change invalidates old-head CI receipts.**
 - **Merge only with the validated current head SHA.**
 
 ## No-go implications
 
-Do not promote the following without a theorem:
+Do not promote the following without theorem support:
 
 ```text
-import -> namespace opened
-Classical.choice -> coherence
-local Nonempty Iso -> coherent global choice
+weak admissibility -> HigherLocalizationFactorization
+weak admissibility -> weak localization universal property
 
-weak admissibility -> canonical five-law solvability
-weak admissibility -> generated holonomy triviality
-
-nontrivial generated holonomy -> quotient-stage incoherence
-groupoid localization -> trivial holonomy
-representative equivalence -> coherent quotient transport
-
+nontrivial generated holonomy -> quotient transport failure
 one bad fixed gauge -> every gauge fails
-identity quotient representatives -> quotient coherence automatic
 
-v3.67 coherent quotient transport -> Stage-II comparison exists
+local pentagram odd parity -> nonzero global truncated-icosahedral obstruction
+uniform local support -> global obstruction preservation
+cardinality injection -> semantic / authority-bearing transport
 
-v3.69 all coherent quotient transports fail Stage II for counterD
-  -> no arbitrary HigherLocalizationFactorization
+v4.15 arbitrary singleton support -> canonical distinguished support
+v4.17 capacity embedding -> canonical carrier map
+v4.19 incidence-compatible placement -> canonical placement
+pair adjacency -> recursive obstruction preservation
 
-canonical-normalization bridge
-  -> a weaker intermediate theorem
-  (for this countermodel it is equivalent to nonfactorization)
-
-v3.73 loop-trivial object coboundary
-  -> global object-independence
-
-v3.72/v3.73 scalar reductions
-  -> final octahedral parity contradiction for arbitrary H
-
-Stage-I factorization -> Stage-II universality
-docs-only CI -> theorem validation
+combinatorial recursion -> metric fractal theorem
 runtime success -> theorem authority
-memory/history -> fresh GitHub authority
+docs-only CI -> theorem validation
+history / memory -> fresh GitHub authority
 ```
 
 ## Reproduction
@@ -431,39 +327,39 @@ Focused current theorem targets:
 ```bash
 lake -KleanArgs=-DwarningAsError=true \
   -KleanArgs=-DsorryAsError=true \
-  build KUOS.DependentOriginationArbitraryTransportComparisonV3_69
+  build KUOS.DependentOriginationAbstractNonfactorizationV4_00
 
 lake -KleanArgs=-DwarningAsError=true \
   -KleanArgs=-DsorryAsError=true \
-  build KUOS.DependentOriginationCanonicalFiveLawCounterexampleV3_70
+  build KUOS.DependentOriginationStageIIObstructionClassV4_12
 
 lake -KleanArgs=-DwarningAsError=true \
   -KleanArgs=-DsorryAsError=true \
-  build KUOS.DependentOriginationFactorizationNecessityBoundaryV3_71
+  build KUOS.DependentOriginationOctahedralStageIIFaceCarrierV4_16
 
 lake -KleanArgs=-DwarningAsError=true \
   -KleanArgs=-DsorryAsError=true \
-  build KUOS.DependentOriginationArbitraryFactorizationScalarV3_72
+  build KUOS.DependentOriginationLocalStarCapacityObstructionV4_18
 
 lake -KleanArgs=-DwarningAsError=true \
   -KleanArgs=-DsorryAsError=true \
-  build KUOS.DependentOriginationFactorizationObjectCoboundaryV3_73
+  build KUOS.DependentOriginationMiddleSwitchPairIncidenceV4_19
 ```
 
-Current v3.73 validation:
+Current v4.19 validation:
 
 ```text
 validated PR head
-459e9bee357f610d7b1e360ad568c3d86ff2066b
+dc19c0d738c853dc648e54f12709387953031203
 
 governance run
-35968840745
+36145319284
 
 theorem merge
-0066169d5e25320015e2a485be7d3a449b5c107d
+c63c20c8f7726d45ac419a4d4b6a8b794e54f1db
 ```
 
-The aggregate formal target remains separate:
+Aggregate formal target remains separate:
 
 ```bash
 lake -KleanArgs=-DwarningAsError=true \
@@ -481,4 +377,4 @@ A runtime result is not a theorem. A docs-only gate is not theorem validation. A
 
 ## Current research sentence
 
-**The concrete octahedral `C2` truth test has progressed beyond transport-specific obstruction: v3.69 proves that every coherent quotient transport for the canonical pointwise datum fails Stage-II comparison; v3.70 shows weak admissibility does not force canonical five-law solvability; v3.71 prevents a circular normalization shortcut; v3.72 directly scalarizes arbitrary factorization coherence; and v3.73 proves that its source-object dependence is an explicit coboundary that vanishes on loops. The next decisive step is to combine the inter-object coboundary with the arbitrary localized-lift compositor and determine whether their global eight-face contribution must vanish or can absorb the raw C2 parity class.**
+**The finite octahedral `C2` truth test is now closed at the abstract factorization level: v4.00 proves that no `HigherLocalizationFactorization` exists, while v4.10–v4.12 localize the surviving pre-factorization obstruction exactly at the transport-independent Stage-II comparison lift and extract its nonzero `ZMod 2` class. The current v4.13–v4.19 program studies how that already-proved class can be carried by the truncated-icosahedral recursive geometry: uniform transport cancels globally, one local star is too small for all eight labels, but an injective global placement exists in which every middle-switch mate pair lands on a genuine pentagon–hexagon incidence. The next theorem must make that placement authority-bearing and prove the correct scalar/orientation pushforward before any recursive-preservation claim is promoted.**
