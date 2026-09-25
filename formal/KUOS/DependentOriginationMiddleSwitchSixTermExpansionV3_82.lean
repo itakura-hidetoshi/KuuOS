@@ -198,14 +198,112 @@ theorem counterFactorization_scalarAligned_mappedSourceScalar
             counterMiddleSwitch.toLoc).inv.toNatTrans.app A1 ≫
           eqToHom (counterFactorizationMiddleSwitch_targetEndpoint_eq H A1))) =
       _
+  have hLeftP :
+      counterFactorizationLocalizedEndpointScalarAt H T
+          (P.map
+            (eqToHom
+              (counterFactorizationMiddleSwitch_sourceEndpoint_eq H A0))) =
+        1 := by
+    change
+      counterFactorizationLocalizedEndpointScalarAt H T
+          (((counterFactorizationLocalizationView H).map
+            (allMorphisms.Q.map b).toLoc).toFunctor.map
+              (eqToHom
+                (counterFactorizationMiddleSwitch_sourceEndpoint_eq H A0))) =
+        1
+    exact
+      counterFactorizationLocalizedMappedEqToHom_endpointScalar
+        H T (allMorphisms.Q.map b)
+        (counterFactorizationMiddleSwitch_sourceEndpoint_eq H A0)
+  have hComp0P :
+      counterFactorizationLocalizedEndpointScalarAt H T
+          (P.map
+            (((counterFactorizationLocalizationView H).mapComp
+              (allMorphisms.Q.map a00).toLoc
+              counterMiddleSwitch.toLoc).hom.toNatTrans.app A0)) =
+        counterFactorizationLocalizedTransportedCompImageScalarAt H T
+          (allMorphisms.Q.map a00) counterMiddleSwitch
+          (allMorphisms.Q.map b) A0 := by
+    change
+      counterFactorizationLocalizedEndpointScalarAt H T
+          (((counterFactorizationLocalizationView H).map
+            (allMorphisms.Q.map b).toLoc).toFunctor.map
+              (((counterFactorizationLocalizationView H).mapComp
+                (allMorphisms.Q.map a00).toLoc
+                counterMiddleSwitch.toLoc).hom.toNatTrans.app A0)) =
+        counterFactorizationLocalizedTransportedCompImageScalarAt H T
+          (allMorphisms.Q.map a00) counterMiddleSwitch
+          (allMorphisms.Q.map b) A0
+    exact
+      counterFactorizationLocalizedTransportedComp_endpointScalar
+        H T (allMorphisms.Q.map a00) counterMiddleSwitch
+        (allMorphisms.Q.map b) A0
+  have hMiddleP :
+      counterFactorizationLocalizedEndpointScalarAt H T
+          (P.map
+            (((counterFactorizationLocalizationView H).map
+              counterMiddleSwitch.toLoc).toFunctor.map
+                (counterFactorizationMiddleConnectorM0 H A0 A1))) =
+        counterFactorizationLocalizedTwiceMappedSourceScalarAt H T
+          counterMiddleSwitch (allMorphisms.Q.map b)
+          (counterFactorizationMiddleConnectorM0 H A0 A1) := by
+    change
+      counterFactorizationLocalizedEndpointScalarAt H T
+          (((counterFactorizationLocalizationView H).map
+            (allMorphisms.Q.map b).toLoc).toFunctor.map
+              (((counterFactorizationLocalizationView H).map
+                counterMiddleSwitch.toLoc).toFunctor.map
+                  (counterFactorizationMiddleConnectorM0 H A0 A1))) =
+        counterFactorizationLocalizedTwiceMappedSourceScalarAt H T
+          counterMiddleSwitch (allMorphisms.Q.map b)
+          (counterFactorizationMiddleConnectorM0 H A0 A1)
+    exact
+      counterFactorizationLocalizedTwiceMappedSource_endpointScalar
+        H T counterMiddleSwitch (allMorphisms.Q.map b)
+        (counterFactorizationMiddleConnectorM0 H A0 A1)
+  have hComp1P :
+      counterFactorizationLocalizedEndpointScalarAt H T
+          (P.map
+            (((counterFactorizationLocalizationView H).mapComp
+              (allMorphisms.Q.map a10).toLoc
+              counterMiddleSwitch.toLoc).inv.toNatTrans.app A1)) =
+        (counterFactorizationLocalizedTransportedCompImageScalarAt H T
+          (allMorphisms.Q.map a10) counterMiddleSwitch
+          (allMorphisms.Q.map b) A1)⁻¹ := by
+    change
+      counterFactorizationLocalizedEndpointScalarAt H T
+          (((counterFactorizationLocalizationView H).map
+            (allMorphisms.Q.map b).toLoc).toFunctor.map
+              (((counterFactorizationLocalizationView H).mapComp
+                (allMorphisms.Q.map a10).toLoc
+                counterMiddleSwitch.toLoc).inv.toNatTrans.app A1)) =
+        (counterFactorizationLocalizedTransportedCompImageScalarAt H T
+          (allMorphisms.Q.map a10) counterMiddleSwitch
+          (allMorphisms.Q.map b) A1)⁻¹
+    exact
+      counterFactorizationLocalizedTransportedComp_inv_endpointScalar
+        H T (allMorphisms.Q.map a10) counterMiddleSwitch
+        (allMorphisms.Q.map b) A1
+  have hRightP :
+      counterFactorizationLocalizedEndpointScalarAt H T
+          (P.map
+            (eqToHom
+              (counterFactorizationMiddleSwitch_targetEndpoint_eq H A1))) =
+        1 := by
+    change
+      counterFactorizationLocalizedEndpointScalarAt H T
+          (((counterFactorizationLocalizationView H).map
+            (allMorphisms.Q.map b).toLoc).toFunctor.map
+              (eqToHom
+                (counterFactorizationMiddleSwitch_targetEndpoint_eq H A1))) =
+        1
+    exact
+      counterFactorizationLocalizedMappedEqToHom_endpointScalar
+        H T (allMorphisms.Q.map b)
+        (counterFactorizationMiddleSwitch_targetEndpoint_eq H A1)
   rw [hMap]
-  dsimp [P]
-  simp only [
-    counterFactorizationLocalizedEndpointScalarAt_comp,
-    counterFactorizationLocalizedMappedEqToHom_endpointScalar,
-    counterFactorizationLocalizedTransportedComp_endpointScalar,
-    counterFactorizationLocalizedTwiceMappedSource_endpointScalar,
-    counterFactorizationLocalizedTransportedComp_inv_endpointScalar]
+  simp only [counterFactorizationLocalizedEndpointScalarAt_comp]
+  rw [hRightP, hComp1P, hMiddleP, hComp0P, hLeftP]
   simp only [one_mul, mul_one, mul_assoc]
 
 /-- Additive three-term expansion for one M1-to-upper edge. -/
