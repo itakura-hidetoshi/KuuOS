@@ -50,7 +50,7 @@ at each inner hexagram crossing. -/
 structure HexagramGlobalPastingCorrectionData
     (H : HigherLocalizationFactorization
       (W := allMorphisms) counterSystem) where
-  local : HexagramLocalNaturalityCorrectionData H
+  localNaturality : HexagramLocalNaturalityCorrectionData H
   seam : HexagramInnerVertex → ZMod 2
 
 /-- Total seam correction around the six inner crossings. -/
@@ -73,7 +73,7 @@ noncomputable def HexagramGlobalPastingCorrectionData.toCrossingCorrectionData
     (D : HexagramGlobalPastingCorrectionData H) :
     HexagramCrossingCorrectionData where
   correction x :=
-    D.local.toCrossingCorrectionData.correction x + D.seam x
+    D.localNaturality.toCrossingCorrectionData.correction x + D.seam x
 
 /-- The total induced crossing correction splits into local and seam totals. -/
 theorem HexagramGlobalPastingCorrectionData_total_eq_local_add_seam
@@ -81,7 +81,7 @@ theorem HexagramGlobalPastingCorrectionData_total_eq_local_add_seam
       (W := allMorphisms) counterSystem}
     (D : HexagramGlobalPastingCorrectionData H) :
     D.toCrossingCorrectionData.total =
-      D.local.toCrossingCorrectionData.total + D.seamTotal := by
+      D.localNaturality.toCrossingCorrectionData.total + D.seamTotal := by
   unfold HexagramCrossingCorrectionData.total
   unfold HexagramGlobalPastingCorrectionData.toCrossingCorrectionData
   unfold HexagramGlobalPastingCorrectionData.seamTotal
@@ -95,7 +95,7 @@ theorem HexagramGlobalPastingCorrectionData_total_eq_seam
     D.toCrossingCorrectionData.total = D.seamTotal := by
   rw [
     HexagramGlobalPastingCorrectionData_total_eq_local_add_seam D,
-    HexagramLocalNaturalityCorrectionData_total_eq_zero D.local,
+    HexagramLocalNaturalityCorrectionData_total_eq_zero D.localNaturality,
     zero_add
   ]
 
