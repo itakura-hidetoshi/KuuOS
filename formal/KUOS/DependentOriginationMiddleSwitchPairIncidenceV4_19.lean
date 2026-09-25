@@ -89,7 +89,11 @@ theorem octahedralStageIIPairIncidencePlacement_mates_adjacent
       (octahedralStageIIPairIncidencePlacement f)
       (octahedralStageIIPairIncidencePlacement
         (octahedralStageIIMiddleSwitchMate f)) := by
-  cases f <;> native_decide
+  cases f <;>
+    simp [truncatedSeedPentagonHexagonAdjacent,
+      octahedralStageIIPairIncidencePlacement,
+      octahedralStageIIMiddleSwitchMate,
+      icosahedralFaceVertices]
 
 /-- The two members of every source pair land on opposite face kinds. -/
 theorem octahedralStageIIPairIncidencePlacement_mates_opposite_kinds
