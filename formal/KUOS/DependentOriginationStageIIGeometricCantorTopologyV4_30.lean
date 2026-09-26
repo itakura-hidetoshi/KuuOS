@@ -121,11 +121,11 @@ theorem XInfinityGeometricFractal_subset_branch :
   rw [Set.mem_iUnion]
   refine ⟨x, ?_⟩
   unfold stageIIBranchFiber stageIICantorTranslate
+  rw [segment_eq_Icc (by linarith :
+      stageIICurrentBranchOffset x ≤ stageIICurrentBranchOffset x + 1)]
   have ht : t ∈ Set.Icc (0 : ℝ) 1 :=
     cantorSet_subset_unitInterval htC
-  simpa [segment_eq_uIcc, uIcc_of_le (by linarith :
-      stageIICurrentBranchOffset x ≤ stageIICurrentBranchOffset x + 1)] using
-    ⟨by linarith [ht.1], by linarith [ht.2]⟩
+  exact ⟨by linarith [ht.1], by linarith [ht.2]⟩
 
 /-!
 ## Boundary after v4.30
