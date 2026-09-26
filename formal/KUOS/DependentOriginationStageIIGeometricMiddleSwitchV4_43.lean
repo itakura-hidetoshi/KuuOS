@@ -59,7 +59,7 @@ theorem stageIICurrentBranchOffset_mate_ne
   unfold stageIICurrentBranchOffset
   rw [stageIIInverseLimitSource_mate]
   cases h : stageIIInverseLimitSource x <;>
-    norm_num [h, stageIISourceBranchOffset,
+    norm_num [stageIISourceBranchOffset,
       octahedralStageIIMiddleSwitchMate]
 
 /-- Canonical ambient translation carrying the Cantor fiber over x to the
@@ -165,7 +165,6 @@ structure StageIIGeometricCantorTaggedPoint where
   | mk pb pp ph =>
     cases q with
     | mk qb qp qh =>
-      simp only at hbranch hpoint
       cases hbranch
       cases hpoint
       rfl
