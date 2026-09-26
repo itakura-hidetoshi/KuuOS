@@ -139,10 +139,11 @@ theorem isOpen_stageIIGeometricCarrierBranchComponent
     IsOpen (stageIIGeometricCarrierBranchComponent x) := by
   rw [Metric.isOpen_iff]
   intro p hp
+  change stageIIGeometricBranch p = x at hp
   refine ⟨1, by norm_num, ?_⟩
   intro q hq
-  have hqp : dist q p < (1 : ℝ) := by
-    simpa [Metric.mem_ball, dist_comm] using hq
+  have hqp : dist q p < (1 : ℝ) :=
+    Metric.mem_ball.mp hq
   have hbranch :=
     stageIIGeometricBranch_eq_of_dist_lt_one p q hqp
   exact hbranch.trans hp
@@ -157,8 +158,8 @@ theorem isClosed_stageIIGeometricCarrierBranchComponent
   intro p hp
   refine ⟨1, by norm_num, ?_⟩
   intro q hq
-  have hqp : dist q p < (1 : ℝ) := by
-    simpa [Metric.mem_ball, dist_comm] using hq
+  have hqp : dist q p < (1 : ℝ) :=
+    Metric.mem_ball.mp hq
   have hbranch :=
     stageIIGeometricBranch_eq_of_dist_lt_one p q hqp
   change stageIIGeometricBranch q ≠ x
