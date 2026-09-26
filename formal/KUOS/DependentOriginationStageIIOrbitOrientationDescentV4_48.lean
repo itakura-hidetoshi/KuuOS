@@ -1,4 +1,5 @@
 import KUOS.DependentOriginationStageIIGeometricOrbitQuotientV4_47
+import KUOS.DependentOriginationStageIIIntegralOrientationLiftV4_22
 import KUOS.DependentOriginationStageIIObstructionClassV4_12
 import Mathlib
 
@@ -8,6 +9,7 @@ open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 open KUOS.DependentOriginationCoherentQuotientTransportV2_59
 open KUOS.DependentOriginationGeneratedHolonomyCountermodelV2_69
 open KUOS.DependentOriginationStageIIObstructionClassV4_12
+open KUOS.DependentOriginationStageIIIntegralOrientationLiftV4_22
 open KUOS.DependentOriginationStageIIGeometricCantorTopologyV4_30
 open KUOS.DependentOriginationStageIIBareGeometricMiddleSwitchV4_44
 open KUOS.DependentOriginationStageIIGeometricOrientationV4_46
@@ -162,8 +164,8 @@ theorem stageIIGeometricOrbitOrientationModTwo_eq_one
     stageIIGeometricOrbitOrientationModTwo depth q = 1 := by
   refine Quotient.inductionOn q ?_
   intro p
-  rw [stageIIGeometricOrbitOrientationModTwo_projection,
-    stageIIGeometricCarrierOrientationModTwo_eq_one]
+  change stageIIGeometricCarrierOrientationModTwo p depth = 1
+  exact stageIIGeometricCarrierOrientationModTwo_eq_one p depth
 
 /-- The mod-two orientation semantic has a unique orbit-level descent. -/
 theorem stageIIGeometricCarrierOrientationModTwo_existsUnique_orbitSemantic
@@ -174,17 +176,17 @@ theorem stageIIGeometricCarrierOrientationModTwo_existsUnique_orbitSemantic
             (stageIIGeometricMiddleSwitchOrbitProjection p) =
           stageIIGeometricCarrierOrientationModTwo p depth := by
   refine
-    ⟨stageIIGeometricOrbitOrientationModTwo depth,
-      stageIIGeometricOrbitOrientationModTwo_projection,
-      ?_⟩
-  intro candidate hcandidate
-  exact
-    stageIIGeometricMiddleSwitchDescend_unique
-      (fun p : StageIIGeometricCantorCarrier =>
-        stageIIGeometricCarrierOrientationModTwo p depth)
-      (stageIIGeometricCarrierOrientationModTwo_invariant depth)
-      candidate
-      hcandidate
+    ⟨stageIIGeometricOrbitOrientationModTwo depth, ?_, ?_⟩
+  · intro p
+    exact stageIIGeometricOrbitOrientationModTwo_projection p depth
+  · intro candidate hcandidate
+    exact
+      stageIIGeometricMiddleSwitchDescend_unique
+        (fun p : StageIIGeometricCantorCarrier =>
+          stageIIGeometricCarrierOrientationModTwo p depth)
+        (stageIIGeometricCarrierOrientationModTwo_invariant depth)
+        candidate
+        hcandidate
 
 /-- The descended orbit-level mod-two value is exactly the already-certified
 transport-independent Stage-II obstruction class. -/
