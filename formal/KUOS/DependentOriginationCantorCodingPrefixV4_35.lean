@@ -82,11 +82,12 @@ recovers the original point. -/
 @[simp] theorem binaryToTernaryCantor_inverse_value
     (z : cantorSet) :
     binaryToTernaryCantor (binaryCantorEquivCantorSet.symm z) = (z : ℝ) := by
-  have h :
-      binaryCantorEquivCantorSet (binaryCantorEquivCantorSet.symm z) = z :=
-    binaryCantorEquivCantorSet.apply_symm_apply z
-  have hval := congrArg (fun q : cantorSet => (q : ℝ)) h
-  simpa using hval
+  change
+    ((binaryCantorEquivCantorSet
+        (binaryCantorEquivCantorSet.symm z) : cantorSet) : ℝ) = (z : ℝ)
+  exact
+    congrArg (fun q : cantorSet => (q : ℝ))
+      (binaryCantorEquivCantorSet.apply_symm_apply z)
 
 /-- The range of the explicit coding is exactly the classical ternary Cantor
 set. -/
@@ -98,7 +99,9 @@ theorem range_binaryToTernaryCantor :
   · intro y hy
     let z : cantorSet := ⟨y, hy⟩
     refine ⟨binaryCantorEquivCantorSet.symm z, ?_⟩
-    simpa [z] using binaryToTernaryCantor_inverse_value z
+    change
+      binaryToTernaryCantor (binaryCantorEquivCantorSet.symm z) = (z : ℝ)
+    exact binaryToTernaryCantor_inverse_value z
 
 /-- Equal binary prefixes induce equal ternary 0/2 prefixes. -/
 theorem binaryToTernaryDigits_eq_of_prefix
