@@ -20,6 +20,8 @@ noncomputable section
 
 v4.29, v4.30, and v4.31 establish three distinct layers:
 
+This synthesis validation is based on canonical merged v4.31.
+
 * Hausdorff dimension: the ambient branching carrier has dim_H = 1;
 * topology: the geometric Cantor skeleton is compact, closed, nonempty, and
   exactly self-similar branchwise;
