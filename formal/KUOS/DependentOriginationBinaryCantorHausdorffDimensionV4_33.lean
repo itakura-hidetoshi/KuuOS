@@ -65,7 +65,7 @@ representation. -/
 theorem binaryCantorValue_surjOn_Icc :
     Set.SurjOn binaryCantorValue Set.univ (Set.Icc (0 : Real) 1) := by
   intro y hy
-  rcases (Real.ofDigits_SurjOn (b := 2) (by norm_num)) y hy with
+  rcases (Real.ofDigits_SurjOn (b := 2) (by norm_num)) hy with
     ⟨d, hd, hdy⟩
   let x : BinaryCantorSpace := fun n => finTwoEquiv (d n)
   refine ⟨x, Set.mem_univ x, ?_⟩
@@ -81,7 +81,7 @@ theorem range_binaryCantorValue :
   · rintro y ⟨x, rfl⟩
     exact binaryCantorValue_mem_Icc x
   · intro y hy
-    rcases binaryCantorValue_surjOn_Icc y hy with ⟨x, _, hx⟩
+    rcases binaryCantorValue_surjOn_Icc hy with ⟨x, _, hx⟩
     exact ⟨x, hx⟩
 
 /-- Agreement on the first n Bool coordinates implies agreement of the
@@ -149,9 +149,10 @@ theorem univ_subset_iUnion_binaryCylinder
   let w : Fin n → Bool := fun i => x i
   rw [Set.mem_iUnion]
   refine ⟨w, ?_⟩
+  change x ∈ PiNat.cylinder (binaryPrefixExtend w) n
   rw [PiNat.mem_cylinder_iff]
   intro i hi
-  simp [binaryCylinder, binaryPrefixExtend, w, hi]
+  simp [binaryPrefixExtend, w, hi]
 
 /-- Every length-n cylinder has extended diameter at most 2^(-n). -/
 theorem binaryCylinder_ediam_le
@@ -174,13 +175,19 @@ theorem binaryCylinder_ediam_le
     exact
       (PiNat.dist_triangle_nonarch x (binaryPrefixExtend w) y).trans
         (max_le hx' hy')
+  have hhalf :
+      ENNReal.ofReal (1 / 2 : Real) = (2 : ENNReal)⁻¹ := by
+    change ENNReal.ofReal ((2 : Real)⁻¹) = (2 : ENNReal)⁻¹
+    rw [ENNReal.ofReal_inv_of_pos (by norm_num : (0 : Real) < 2)]
+    norm_num
   calc
     ENNReal.ofReal (dist x y) ≤
         ENNReal.ofReal ((1 / 2 : Real) ^ n) :=
       ENNReal.ofReal_mono hxy
-    _ = (2 : ENNReal)⁻¹ ^ n := by
+    _ = (ENNReal.ofReal (1 / 2 : Real)) ^ n := by
       rw [ENNReal.ofReal_pow (by positivity : 0 ≤ (1 / 2 : Real))]
-      norm_num
+    _ = (2 : ENNReal)⁻¹ ^ n := by
+      rw [hhalf]
 
 /-- The canonical cylinder diameter scale tends to zero. -/
 theorem binaryCylinderScale_tendsto_zero :
@@ -205,7 +212,12 @@ theorem binaryCylinderCover_sum_le_one
       intro w hw
       simpa using binaryCylinder_ediam_le n w
     _ = 1 := by
-      simp [Fintype.card_fun, ← mul_pow]
+      simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fun,
+        Fintype.card_fin, Fintype.card_bool]
+      change (2 : ENNReal) ^ n * (2 : ENNReal)⁻¹ ^ n = 1
+      rw [← mul_pow,
+        ENNReal.mul_inv_cancel (by norm_num) (by norm_num),
+        one_pow]
 
 /-- The liminf of the one-dimensional cylinder-cover costs is at most one. -/
 theorem binaryCylinderCover_liminf_le_one :
@@ -225,8 +237,6 @@ theorem hausdorffMeasure_one_binaryCantorSpace_le_one :
     (MeasureTheory.Measure.hausdorffMeasure 1)
         (Set.univ : Set BinaryCantorSpace) ≤
       (1 : ENNReal) := by
-  letI : MeasurableSpace BinaryCantorSpace := borel BinaryCantorSpace
-  letI : BorelSpace BinaryCantorSpace := ⟨rfl⟩
   calc
     (MeasureTheory.Measure.hausdorffMeasure 1)
         (Set.univ : Set BinaryCantorSpace) ≤
@@ -252,13 +262,15 @@ theorem hausdorffMeasure_one_binaryCantorSpace_le_one :
 theorem dimH_binaryCantorSpace_le_one :
     dimH (Set.univ : Set BinaryCantorSpace) ≤
       (1 : ENNReal) := by
-  letI : MeasurableSpace BinaryCantorSpace := borel BinaryCantorSpace
-  letI : BorelSpace BinaryCantorSpace := ⟨rfl⟩
   apply dimH_le_of_hausdorffMeasure_ne_top (d := (1 : NNReal))
   intro htop
+  have htop' :
+      (MeasureTheory.Measure.hausdorffMeasure 1)
+          (Set.univ : Set BinaryCantorSpace) = ⊤ := by
+    simpa using htop
   have hle := hausdorffMeasure_one_binaryCantorSpace_le_one
-  rw [htop] at hle
-  exact not_top_le_one hle
+  rw [htop'] at hle
+  exact (not_le_of_gt (by simp : (1 : ENNReal) < ⊤)) hle
 
 /-- Exact Hausdorff dimension of the normalized binary Cantor space. -/
 theorem dimH_binaryCantorSpace_eq_one :
