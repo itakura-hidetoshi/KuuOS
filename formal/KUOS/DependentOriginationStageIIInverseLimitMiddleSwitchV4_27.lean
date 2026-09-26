@@ -94,8 +94,23 @@ the source-level middle-switch mate. -/
 theorem stageIIInverseLimitMate_involutive :
     Function.Involutive stageIIInverseLimitMate := by
   intro x
-  apply octahedralStageIIParityFaceEquivFiniteDepthInverseLimit.injective
-  simp [stageIIInverseLimitMate, stageIIInverseLimitSource]
+  calc
+    stageIIInverseLimitMate (stageIIInverseLimitMate x) =
+        octahedralStageIIParityFaceEquivFiniteDepthInverseLimit
+          (octahedralStageIIMiddleSwitchMate
+            (stageIIInverseLimitSource (stageIIInverseLimitMate x))) := by
+      rfl
+    _ =
+        octahedralStageIIParityFaceEquivFiniteDepthInverseLimit
+          (octahedralStageIIMiddleSwitchMate
+            (octahedralStageIIMiddleSwitchMate
+              (stageIIInverseLimitSource x))) := by
+      rw [stageIIInverseLimitSource_mate]
+    _ =
+        octahedralStageIIParityFaceEquivFiniteDepthInverseLimit
+          (stageIIInverseLimitSource x) := by
+      rw [octahedralStageIIMiddleSwitchMate_involutive]
+    _ = x := stageIIInverseLimit_eq_canonical_source x
 
 /-- Hence the transported mate map is injective. -/
 theorem stageIIInverseLimitMate_injective :
@@ -109,14 +124,10 @@ theorem stageIIInverseLimitMate_ne_self
   intro h
   have hSource :=
     congrArg stageIIInverseLimitSource h
-  have hMate :
-      octahedralStageIIMiddleSwitchMate
-          (stageIIInverseLimitSource x) =
-        stageIIInverseLimitSource x := by
-    simpa using hSource
+  rw [stageIIInverseLimitSource_mate] at hSource
   exact
     octahedralStageIIMiddleSwitchMate_ne_self
-      (stageIIInverseLimitSource x) hMate
+      (stageIIInverseLimitSource x) hSource
 
 /-- At every finite depth, the inverse-limit mate evaluates to the canonical
 tower cell of the source mate. -/
@@ -127,8 +138,17 @@ theorem stageIIInverseLimitMate_apply
       octahedralStageIIFiniteDepthTower
         (octahedralStageIIMiddleSwitchMate
           (stageIIInverseLimitSource x)) depth := by
-  rw [stageIIInverseLimit_apply_eq_sourceTower,
-    stageIIInverseLimitSource_mate]
+  calc
+    (stageIIInverseLimitMate x).1 depth =
+        octahedralStageIIFiniteDepthTower
+          (stageIIInverseLimitSource (stageIIInverseLimitMate x)) depth :=
+      stageIIInverseLimit_apply_eq_sourceTower
+        (stageIIInverseLimitMate x) depth
+    _ =
+        octahedralStageIIFiniteDepthTower
+          (octahedralStageIIMiddleSwitchMate
+            (stageIIInverseLimitSource x)) depth := by
+      rw [stageIIInverseLimitSource_mate]
 
 /-- The parent faces carried by an inverse-limit point and its mate remain an
 actual pentagon--hexagon adjacent pair at every finite depth. -/
@@ -138,9 +158,11 @@ theorem stageIIInverseLimitMate_parent_adjacent
     truncatedSeedPentagonHexagonAdjacent
       (x.1 depth).parent.1
       ((stageIIInverseLimitMate x).1 depth).parent.1 := by
-  rw [stageIIInverseLimit_apply_eq_sourceTower,
-    stageIIInverseLimitMate_apply]
-  exact
+  have hSource :=
+    stageIIInverseLimit_apply_eq_sourceTower x depth
+  have hMate :=
+    stageIIInverseLimitMate_apply x depth
+  simpa only [hSource, hMate] using
     octahedralStageIIFiniteDepthTower_mates_parent_adjacent
       depth (stageIIInverseLimitSource x)
 
@@ -151,9 +173,11 @@ theorem stageIIInverseLimitMate_opposite_innerKinds
     (depth : Nat) :
     (x.1 depth).innerKind ≠
       ((stageIIInverseLimitMate x).1 depth).innerKind := by
-  rw [stageIIInverseLimit_apply_eq_sourceTower,
-    stageIIInverseLimitMate_apply]
-  exact
+  have hSource :=
+    stageIIInverseLimit_apply_eq_sourceTower x depth
+  have hMate :=
+    stageIIInverseLimitMate_apply x depth
+  simpa only [hSource, hMate] using
     octahedralStageIIFiniteDepthTower_mates_opposite_innerKinds
       depth (stageIIInverseLimitSource x)
 
@@ -167,9 +191,11 @@ theorem stageIIInverseLimitMate_orientation_flip
       stageIIIncidenceOrientationFlip
         (stageIIIncidenceRecursiveDepthCellOrientation
           (x.1 depth)) := by
-  rw [stageIIInverseLimit_apply_eq_sourceTower,
-    stageIIInverseLimitMate_apply]
-  exact
+  have hSource :=
+    stageIIInverseLimit_apply_eq_sourceTower x depth
+  have hMate :=
+    stageIIInverseLimitMate_apply x depth
+  simpa only [hSource, hMate] using
     octahedralStageIIFiniteDepthTower_mates_orientation_flip
       depth (stageIIInverseLimitSource x)
 
@@ -180,13 +206,24 @@ theorem stageIIInverseLimitMate_level_ne
     (x : StageIIFiniteDepthInverseLimit)
     (depth : Nat) :
     (stageIIInverseLimitMate x).1 depth ≠ x.1 depth := by
-  rw [stageIIInverseLimitMate_apply,
-    stageIIInverseLimit_apply_eq_sourceTower]
+  intro h
+  have hTower :
+      octahedralStageIIFiniteDepthTower
+          (octahedralStageIIMiddleSwitchMate
+            (stageIIInverseLimitSource x)) depth =
+        octahedralStageIIFiniteDepthTower
+          (stageIIInverseLimitSource x) depth := by
+    exact
+      (stageIIInverseLimitMate_apply x depth).symm.trans
+        (h.trans (stageIIInverseLimit_apply_eq_sourceTower x depth))
+  have hSource :
+      octahedralStageIIMiddleSwitchMate
+          (stageIIInverseLimitSource x) =
+        stageIIInverseLimitSource x :=
+    octahedralStageIIFiniteDepthTower_injective depth hTower
   exact
-    fun h =>
-      octahedralStageIIMiddleSwitchMate_ne_self
-        (stageIIInverseLimitSource x)
-        (octahedralStageIIFiniteDepthTower_injective depth h)
+    octahedralStageIIMiddleSwitchMate_ne_self
+      (stageIIInverseLimitSource x) hSource
 
 /-!
 ## Boundary after v4.27
