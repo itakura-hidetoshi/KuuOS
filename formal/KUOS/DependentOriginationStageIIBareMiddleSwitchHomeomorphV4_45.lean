@@ -18,6 +18,14 @@ set_option autoImplicit false
 
 noncomputable section
 
+/-- v4.44 defines the bare carrier as a named type synonym for a real subtype.
+Typeclass synthesis intentionally does not unfold semireducible `def`
+aliases, so re-expose the canonical subtype metric structure explicitly. -/
+noncomputable instance stageIIGeometricCantorCarrierMetricSpace :
+    MetricSpace StageIIGeometricCantorCarrier :=
+  inferInstanceAs
+    (MetricSpace {z : ℝ // z ∈ XInfinityGeometricFractal})
+
 /-- The bare carrier is definitionally a subtype of ℝ, but v4.44 deliberately
 packages it behind a plain `def`.  Plain definitions are semireducible and are
 not unfolded by typeclass synthesis, so the inherited subtype metric must be
