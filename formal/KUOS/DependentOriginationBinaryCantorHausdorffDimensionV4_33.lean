@@ -213,8 +213,10 @@ theorem binaryCylinderCover_sum_le_one
     _ = 1 := by
       simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fun,
         Fintype.card_fin, Fintype.card_bool]
-      rw [nsmul_eq_mul, Nat.cast_pow]
-      rw [← mul_pow,
+      rw [nsmul_eq_mul, Nat.cast_pow, ← mul_pow]
+      have htwo : (↑(2 : Nat) : ENNReal) = 2 := by
+        norm_num
+      rw [htwo,
         ENNReal.mul_inv_cancel (by norm_num) (by norm_num),
         one_pow]
 
