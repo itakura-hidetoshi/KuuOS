@@ -23,6 +23,8 @@ noncomputable section
 v4.30 constructs the compact geometric carrier as eight translated copies of
 the classical ternary Cantor set.
 
+This validation unit is based on canonical merged v4.30.
+
 For a point t in the Cantor set, mathlib already proves that the finite sum of
 the first n ternary digits lies between
 
