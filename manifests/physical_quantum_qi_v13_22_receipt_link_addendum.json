@@ -1,0 +1,7 @@
+{
+  "manifest_version": "physical_quantum_qi_v13_22_receipt_link_addendum",
+  "runtime_files": [
+    "runtime/kuuos_runtime_daemon_physical_quantum_qi_v13_22_receipt_link.py"
+  ],
+  "status": "READY"
+}
