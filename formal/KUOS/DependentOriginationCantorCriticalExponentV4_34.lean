@@ -18,6 +18,8 @@ The ternary Cantor critical exponent is
 This file isolates the real-number algebra needed by the later Hölder
 transport, independently of the metric coding argument.
 
+This unit is validated against canonical merged v4.33.
+
 We prove:
 
 * 0 < s < 1;
