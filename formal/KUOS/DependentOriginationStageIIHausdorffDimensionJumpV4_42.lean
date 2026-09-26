@@ -7,6 +7,7 @@ namespace KUOS.DependentOriginationStageIIHausdorffDimensionJumpV4_42
 
 open Filter
 open MeasureTheory
+open KUOS.DependentOriginationStageIIGeometricCantorTopologyV4_30
 open KUOS.DependentOriginationStageIICantorMetricConvergenceV4_31
 open KUOS.DependentOriginationCantorCriticalExponentV4_34
 open KUOS.DependentOriginationStageIIExactCantorDimensionV4_39
