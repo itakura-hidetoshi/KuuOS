@@ -54,7 +54,7 @@ theorem stageIIGeometricCarrierOrientationIntCoeff_ne_zero
     (depth : Nat) :
     stageIIGeometricCarrierOrientationIntCoeff p depth ≠ 0 := by
   unfold stageIIGeometricCarrierOrientationIntCoeff
-  cases h : stageIIGeometricCarrierOrientation p depth <;>
+  cases stageIIGeometricCarrierOrientation p depth <;>
     norm_num [stageIIIncidenceOrientationIntCoeff]
 
 /-- At every point and depth, the integer orientation coefficient is changed
