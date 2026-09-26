@@ -149,7 +149,7 @@ theorem hausdorffDist_stageIIGeometricApproxFiber_le
     rcases hy with ⟨t, ht, rfl⟩
     refine ⟨stageIIGeometricApproxPoint n x t, ?_, ?_⟩
     · exact ⟨t, ht, rfl⟩
-    · simpa [Metric.dist_comm] using
+    · simpa [dist_comm] using
         dist_stageIIGeometricApproxPoint_le ht n x
 
 /-- Uniform global Hausdorff bound across all eight branches. -/
@@ -176,7 +176,7 @@ theorem hausdorffDist_XInfinityGeometricApprox_le
     · unfold XInfinityGeometricApprox
       rw [Set.mem_iUnion]
       exact ⟨x, ⟨t, ht, rfl⟩⟩
-    · simpa [Metric.dist_comm] using
+    · simpa [dist_comm] using
         dist_stageIIGeometricApproxPoint_le ht n x
 
 /-- Main metric-convergence theorem: the global finite-depth geometric
