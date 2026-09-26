@@ -89,7 +89,6 @@ theorem binaryToTernaryCantor_sub_lower_of_prefix_false_true
     rw [Real.ofDigits_eq_sum_add_ofDigits b (n + 1)]
     rw [Finset.sum_range_succ, hp]
     simp [b, p, scale, ty, Real.ofDigitsTerm, binaryToTernaryDigits, hyn]
-    ring
 
   have hscale_nonneg : 0 ≤ scale := by
     dsimp [scale]
@@ -272,15 +271,9 @@ theorem cantorSetToBinary_holderWith :
             (cantorCriticalExponent : ℝ) := by
       rw [ENNReal.ofReal_mul (by norm_num : (0 : ℝ) ≤ 2)]
       norm_num
-      change
-        ENNReal.ofReal 2 *
-            ENNReal.ofReal (dist z w ^ cantorCriticalExponentReal) =
-          (2 : ENNReal) *
-            ENNReal.ofReal (dist z w) ^ cantorCriticalExponentReal
       rw [← ENNReal.ofReal_rpow_of_nonneg
         dist_nonneg
         cantorCriticalExponentReal_pos.le]
-      norm_num
 
 /-- The real Cantor set and its subtype carry the same Hausdorff dimension. -/
 theorem dimH_univ_cantorSetSubtype :
