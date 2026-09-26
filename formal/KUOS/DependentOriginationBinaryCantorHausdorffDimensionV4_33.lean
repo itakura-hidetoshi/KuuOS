@@ -177,8 +177,7 @@ theorem binaryCylinder_ediam_le
         (max_le hx' hy')
   have hhalf :
       ENNReal.ofReal (1 / 2 : Real) = (2 : ENNReal)⁻¹ := by
-    change ENNReal.ofReal ((2 : Real)⁻¹) = (2 : ENNReal)⁻¹
-    rw [ENNReal.ofReal_inv_of_pos (by norm_num : (0 : Real) < 2)]
+    rw [ENNReal.ofReal_div_of_pos (by norm_num : (0 : Real) < 2)]
     norm_num
   calc
     ENNReal.ofReal (dist x y) ≤
@@ -214,7 +213,7 @@ theorem binaryCylinderCover_sum_le_one
     _ = 1 := by
       simp only [Finset.sum_const, Finset.card_univ, Fintype.card_fun,
         Fintype.card_fin, Fintype.card_bool]
-      change (2 : ENNReal) ^ n * (2 : ENNReal)⁻¹ ^ n = 1
+      rw [nsmul_eq_mul, Nat.cast_pow]
       rw [← mul_pow,
         ENNReal.mul_inv_cancel (by norm_num) (by norm_num),
         one_pow]
