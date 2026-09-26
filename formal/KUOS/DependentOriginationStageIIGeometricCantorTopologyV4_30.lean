@@ -106,9 +106,24 @@ theorem stageIIGeometricCantorFiber_self_similar
     stageIIGeometricCantorFiber x =
       (fun t : ℝ => stageIICurrentBranchOffset x + t / 3) '' cantorSet ∪
       (fun t : ℝ => stageIICurrentBranchOffset x + (2 + t) / 3) '' cantorSet := by
-  unfold stageIIGeometricCantorFiber stageIICantorTranslate
-  rw [cantorSet_eq_union_halves, Set.image_union]
-  simp only [Set.image_image, Function.comp_apply]
+  unfold stageIIGeometricCantorFiber
+  calc
+    stageIICantorTranslate x '' cantorSet =
+        stageIICantorTranslate x ''
+          ((fun t : ℝ => t / 3) '' cantorSet ∪
+            (fun t : ℝ => (2 + t) / 3) '' cantorSet) := by
+      rw [cantorSet_eq_union_halves]
+    _ =
+        stageIICantorTranslate x '' ((fun t : ℝ => t / 3) '' cantorSet) ∪
+          stageIICantorTranslate x ''
+            ((fun t : ℝ => (2 + t) / 3) '' cantorSet) := by
+      rw [Set.image_union]
+    _ =
+        (fun t : ℝ => stageIICurrentBranchOffset x + t / 3) '' cantorSet ∪
+          (fun t : ℝ => stageIICurrentBranchOffset x + (2 + t) / 3) ''
+            cantorSet := by
+      rw [Set.image_image, Set.image_image]
+      rfl
 
 /-- The geometric fractal carrier is contained in the v4.29 ambient branching
 carrier, because the Cantor set lies in the unit interval of each branch. -/
