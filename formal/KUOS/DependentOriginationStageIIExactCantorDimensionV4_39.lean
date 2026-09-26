@@ -46,13 +46,15 @@ to the sharp equality
 theorem isometry_stageIICantorTranslate
     (x : StageIIFiniteDepthInverseLimit) :
     Isometry (stageIICantorTranslate x) := by
-  have h :
-      Isometry
-        (fun t : ℝ =>
-          t + stageIICurrentBranchOffset x) :=
+  have hfun :
+      stageIICantorTranslate x =
+        (fun t : ℝ => t + stageIICurrentBranchOffset x) := by
+    funext t
+    rw [stageIICantorTranslate, add_comm]
+  rw [hfun]
+  exact
     (IsometryEquiv.vaddConst
       (stageIICurrentBranchOffset x) : ℝ ≃ᵢ ℝ).isometry
-  simpa [stageIICantorTranslate, add_comm] using h
 
 /-- Every translated Stage-II Cantor fiber has the exact classical Cantor
 Hausdorff dimension. -/
@@ -77,8 +79,8 @@ theorem toReal_dimH_stageIIGeometricCantorFiber_eq_log_div_log
   rw [dimH_stageIIGeometricCantorFiber_eq_cantorCriticalExponent]
   rw [ENNReal.coe_toReal]
   exact
-    cantorCriticalExponentReal_eq_log_div_log.trans'
-      cantorCriticalExponent_coe
+    cantorCriticalExponent_coe.trans
+      cantorCriticalExponentReal_eq_log_div_log
 
 /-- The full eight-branch Stage-II geometric fractal has the exact Cantor
 Hausdorff dimension. -/
