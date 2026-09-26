@@ -20,6 +20,8 @@ noncomputable section
 v4.28 proves that the current inverse-limit carrier is an eight-point set and
 therefore has Hausdorff dimension zero for every extended metric structure.
 
+This unit is based on the canonical merged v4.28 zero-dimension theorem.
+
 To obtain positive Hausdorff dimension one must genuinely retain additional
 branch data rather than merely re-metrize those same eight points.
 
