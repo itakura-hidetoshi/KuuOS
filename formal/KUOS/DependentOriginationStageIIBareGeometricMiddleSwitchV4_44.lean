@@ -51,7 +51,7 @@ theorem stageIISourceBranchOffset_injective :
     Function.Injective stageIISourceBranchOffset := by
   intro f g h
   cases f <;> cases g <;>
-    norm_num [stageIISourceBranchOffset] at h ⊢
+    norm_num [stageIISourceBranchOffset] at *
 
 /-- Distinct source labels have branch offsets separated by at least two. -/
 theorem stageIISourceBranchOffset_separated
@@ -60,7 +60,7 @@ theorem stageIISourceBranchOffset_separated
     (2 : ℝ) ≤
       |stageIISourceBranchOffset f - stageIISourceBranchOffset g| := by
   cases f <;> cases g <;>
-    norm_num [stageIISourceBranchOffset] at hfg ⊢
+    norm_num [stageIISourceBranchOffset] at *
 
 /-- The real branch-offset function is injective on inverse-limit branches. -/
 theorem stageIICurrentBranchOffset_injective :
