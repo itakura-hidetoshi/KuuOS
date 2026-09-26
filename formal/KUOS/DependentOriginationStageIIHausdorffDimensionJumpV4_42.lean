@@ -1,7 +1,6 @@
 import KUOS.DependentOriginationStageIIFiniteApproxDimensionV4_41
 import Mathlib.Topology.MetricSpace.HausdorffDimension
 import Mathlib.Topology.MetricSpace.HausdorffDistance
-import Mathlib.Topology.Instances.ENNReal
 import Mathlib
 
 namespace KUOS.DependentOriginationStageIIHausdorffDimensionJumpV4_42
@@ -52,7 +51,7 @@ continuity or semicontinuity principle for Hausdorff dimension is assumed.
 theorem dimH_XInfinityGeometricFractal_pos :
     0 < dimH XInfinityGeometricFractal := by
   rw [dimH_XInfinityGeometricFractal_eq_cantorCriticalExponent]
-  exact_mod_cast cantorCriticalExponent_pos
+  exact ENNReal.coe_pos.mpr cantorCriticalExponent_pos
 
 /-- Every finite-depth approximant has strictly smaller Hausdorff dimension
 than the geometric limit. -/
