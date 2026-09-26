@@ -187,27 +187,6 @@ theorem stageIIGeometricOrbit_orientation_sign_and_obstruction
       stageIIGeometricOrbitObstruction_ne_zero T
         (stageIIGeometricMiddleSwitchOrbitProjection p)⟩
 
-/-- Bundle the orbit-level obstruction and its compatibility with geometric
-orientation. -/
-structure StageIIGeometricOrbitObstructionCertificate where
-  orbitObstruction :
-    StageIIGeometricMiddleSwitchOrbit → ZMod 2
-  projectionRecovers :
-    ∀ p,
-      orbitObstruction
-          (stageIIGeometricMiddleSwitchOrbitProjection p) =
-        counterStageIIObstructionAdd
-          (stageIIGeometricOrbitObstructionCertificateTransport := sorry)
-  /- The certificate below is instantiated concretely rather than through this
-     overly polymorphic field; see the canonical definition after the
-     structure. -/
-
-/-!
-The useful certificate should keep the transport as an explicit parameter,
-rather than hiding it behind a structure field.  We therefore use the
-transport-parametrized structure below.
--/
-
 /-- Transport-parametrized orbit obstruction certificate. -/
 structure StageIIGeometricOrbitObstructionCertificateAt
     (T : CoherentQuotientTransportData
