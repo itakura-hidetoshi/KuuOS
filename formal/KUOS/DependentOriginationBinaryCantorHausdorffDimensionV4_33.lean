@@ -178,7 +178,7 @@ theorem binaryCylinder_ediam_le
   have hhalf :
       ENNReal.ofReal (1 / 2 : Real) = (2 : ENNReal)⁻¹ := by
     rw [ENNReal.ofReal_div_of_pos (by norm_num : (0 : Real) < 2)]
-    norm_num
+    norm_num [ENNReal.coe_inv_two]
   calc
     ENNReal.ofReal (dist x y) ≤
         ENNReal.ofReal ((1 / 2 : Real) ^ n) :=
