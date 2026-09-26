@@ -103,7 +103,7 @@ theorem stageIIGeometricCarrier_dist_ge_one_of_branch_ne
       stageIIGeometricBranch p ≠
         stageIIGeometricBranch q) :
     (1 : ℝ) ≤ dist p q := by
-  rw [Subtype.dist_eq]
+  change (1 : ℝ) ≤ dist (p.1 : ℝ) q.1
   exact
     stageIIGeometricCantorFiber_dist_ge_one
       hpq
@@ -227,17 +227,22 @@ theorem stageIIGeometricCarrierMiddleSwitchReal_mem
 theorem continuousAt_stageIIGeometricCarrierMiddleSwitch
     (p : StageIIGeometricCantorCarrier) :
     ContinuousAt stageIIGeometricCarrierMiddleSwitch p := by
-  have hcod :
-      ContinuousAt
-        (Set.codRestrict
-          stageIIGeometricCarrierMiddleSwitchReal
-          XInfinityGeometricFractal
-          stageIIGeometricCarrierMiddleSwitchReal_mem)
-        p :=
-    (continuousAt_stageIIGeometricCarrierMiddleSwitchReal p).codRestrict
+  let g : StageIIGeometricCantorCarrier → StageIIGeometricCantorCarrier :=
+    Set.codRestrict
+      stageIIGeometricCarrierMiddleSwitchReal
+      XInfinityGeometricFractal
       stageIIGeometricCarrierMiddleSwitchReal_mem
-  simpa [stageIIGeometricCarrierMiddleSwitchReal,
-    stageIIGeometricCarrierMiddleSwitch] using hcod
+  have hg : ContinuousAt g p := by
+    exact
+      (continuousAt_stageIIGeometricCarrierMiddleSwitchReal p).codRestrict
+        stageIIGeometricCarrierMiddleSwitchReal_mem
+  have hfun :
+      stageIIGeometricCarrierMiddleSwitch = g := by
+    funext q
+    apply Subtype.ext
+    rfl
+  rw [hfun]
+  exact hg
 
 /-- The descended middle-switch is globally continuous. -/
 theorem continuous_stageIIGeometricCarrierMiddleSwitch :
