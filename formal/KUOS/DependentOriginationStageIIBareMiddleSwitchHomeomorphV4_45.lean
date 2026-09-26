@@ -243,12 +243,10 @@ noncomputable def stageIIGeometricCarrierMiddleSwitchHomeomorph :
     StageIIGeometricCantorCarrier ≃ₜ
       StageIIGeometricCantorCarrier where
   toEquiv := stageIIGeometricCarrierMiddleSwitchEquiv
-  continuous_toFun := by
-    simpa [stageIIGeometricCarrierMiddleSwitchEquiv] using
-      continuous_stageIIGeometricCarrierMiddleSwitch
-  continuous_invFun := by
-    simpa [stageIIGeometricCarrierMiddleSwitchEquiv] using
-      continuous_stageIIGeometricCarrierMiddleSwitch
+  continuous_toFun :=
+    continuous_stageIIGeometricCarrierMiddleSwitch
+  continuous_invFun :=
+    continuous_stageIIGeometricCarrierMiddleSwitch
 
 /-- The homeomorphism has no fixed point. -/
 theorem stageIIGeometricCarrierMiddleSwitchHomeomorph_ne_self
