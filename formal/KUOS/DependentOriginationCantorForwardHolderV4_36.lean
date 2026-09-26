@@ -116,10 +116,8 @@ theorem binaryToTernaryCantor_dist_le_rpow
       dist x y ^ (binaryToTernaryHolderExponent : ℝ) := by
   rcases eq_or_ne x y with hxy | hxy
   · subst y
-    have hr0 :
-        (binaryToTernaryHolderExponent : ℝ) ≠ 0 := by
-      exact_mod_cast binaryToTernaryHolderExponent_pos.ne'
-    simp [hr0]
+    simpa only [dist_self] using
+      Real.zero_rpow_nonneg (binaryToTernaryHolderExponent : ℝ)
   · let n := PiNat.firstDiff x y
     have hprefix : ∀ i < n, x i = y i := by
       intro i hi
