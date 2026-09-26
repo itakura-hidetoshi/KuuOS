@@ -112,7 +112,9 @@ theorem stageIIGeometricCantorFiber_self_similar
         stageIICantorTranslate x ''
           ((fun t : ℝ => t / 3) '' cantorSet ∪
             (fun t : ℝ => (2 + t) / 3) '' cantorSet) := by
-      rw [cantorSet_eq_union_halves]
+      exact congrArg
+        (fun s : Set ℝ => stageIICantorTranslate x '' s)
+        cantorSet_eq_union_halves
     _ =
         stageIICantorTranslate x '' ((fun t : ℝ => t / 3) '' cantorSet) ∪
           stageIICantorTranslate x ''
