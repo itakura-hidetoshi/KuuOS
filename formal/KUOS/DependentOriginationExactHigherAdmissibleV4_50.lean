@@ -1,4 +1,5 @@
 import KUOS.DependentOriginationAbstractPresentationDescentV4_49
+import KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
 import KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
 import KUOS.DependentOriginationHigherLocalizationNecessityV2_16
 import KUOS.DependentOriginationAdmissibleNonfactorizationV4_01
@@ -8,6 +9,7 @@ namespace KUOS.DependentOriginationExactHigherAdmissibleV4_50
 
 open CategoryTheory
 open KUOS.DependentOriginationGeneratedRefinementTopologyV2_4
+open KUOS.DependentOriginationLocalizedSheafUniversalityV2_6
 open KUOS.DependentOriginationHigherStackDescentV2_8
 open KUOS.DependentOriginationHigherStackCarrierV2_9
 open KUOS.DependentOriginationHigherLocalizationInterfaceV2_10
@@ -152,20 +154,18 @@ theorem isHigherDependentOriginationAdmissible_iff_factorization_and_stack
         IsHigherGrothendieckDescentComplete W A H.lift := by
   constructor
   · rintro ⟨D⟩
-    refine
-      ⟨{ lift := D.carrier.1
-          comparison := D.comparison
-          comparison_isEquivalence := D.comparison_isEquivalence },
-        D.carrier.2⟩
+    let H : HigherLocalizationFactorization (W := W) R where
+      lift := D.carrier.1
+      comparison := D.comparison
+      comparison_isEquivalence := D.comparison_isEquivalence
+    exact ⟨H, D.carrier.2⟩
   · rintro ⟨H, hStack⟩
-    refine ⟨?_⟩
+    let HS : HigherStackLocalizationFactorization (W := W) A R where
+      toHigherLocalizationFactorization := H
+      isStack := hStack
     exact
-      higherDependentOriginationRealizationOfStackFactorization
-        (W := W) A
-        { lift := H.lift
-          comparison := H.comparison
-          comparison_isEquivalence := H.comparison_isEquivalence
-          isStack := hStack }
+      ⟨higherDependentOriginationRealizationOfStackFactorization
+        (W := W) A HS⟩
 
 /-- Every exact dependent-origination realization supplies an ordinary higher
 localization factorization. -/
@@ -226,8 +226,8 @@ theorem isHigherDependentOriginationAdmissible_iff_exists_carrier_comparison
       ⟨D.carrier, D.comparison, D.comparison_isEquivalence⟩
   · rintro ⟨X, η, hη⟩
     exact
-      ⟨{ carrier := X
-          comparison := η
+      ⟨{ carrier := X,
+          comparison := η,
           comparison_isEquivalence := hη }⟩
 
 /-!
