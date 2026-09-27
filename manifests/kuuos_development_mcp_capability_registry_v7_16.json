@@ -328,7 +328,16 @@
       "publisher": "Docker",
       "source_repository": "docker/mcp-gateway",
       "source_kind": "official_vendor",
-      "status": "recommended_orchestration",
+      "status": "verified_compatible",
+      "compatibility_evidence": {
+        "manifest": "manifests/kuuos_docker_mcp_gateway_compatibility_v7_22.json",
+        "upstream_main_sha": "a34df45d4ec0e941a9853ad768c4f6cd818966b3",
+        "initial_green_probe_head": "335feda17b05b682e7398a374bcb209950d5d849",
+        "initial_green_probe_run_id": 36350581916,
+        "real_gateway_tool_discovery": true,
+        "real_gateway_tool_forwarding": true,
+        "network_disabled_fixture": true
+      },
       "transport": ["stdio_gateway"],
       "activation": "local_orchestration",
       "privilege_class": "orchestrator",
@@ -346,7 +355,7 @@
       ],
       "runtime_requirements": ["docker"],
       "isolation": "containerized_downstream_servers",
-      "notes": "Use as an isolation/orchestration substrate; it does not make downstream MCP tools authoritative."
+      "notes": "Verified by v7.22 with a real profile, network-disabled containerized MCP fixture, Gateway tool discovery, and forwarded tool call. Orchestration remains non-authoritative; downstream writes still require their own authority."
     },
     {
       "server_id": "sentry",
