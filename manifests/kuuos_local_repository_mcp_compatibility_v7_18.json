@@ -7,7 +7,8 @@
     "git": {
       "package": "mcp-server-git",
       "version": "0.6.2",
-      "sdk_constraint": "mcp>=1.29.0,<2"
+      "sdk_constraint": "mcp>=1.29.0,<2",
+      "upstream_locked_sdk": "mcp==1.29.0"
     },
     "filesystem": {
       "package": "@modelcontextprotocol/server-filesystem",
