@@ -251,11 +251,11 @@ Until then, its absence is local unavailability, not a KuuOS failure.
 
 ## Reference Fetch and MCP docs servers
 
-The official MCP reference Fetch server is useful for agents without native web retrieval.
+The official MCP reference Fetch server is useful for agents without native web retrieval. v7.23 has live-verified the published `mcp-server-fetch 2026.8.18` release with the upstream-locked `mcp==1.29.0`, while preserving the current source-tree metadata version `0.6.3` as a distinct upstream presentation.
 
-The official MCP documentation server is useful while maintaining the KuuOS MCP bridge itself.
+The official MCP documentation server at `https://modelcontextprotocol.io/mcp` is useful while maintaining the KuuOS MCP bridge itself. v7.23 has live-verified the current `2026-07-28` stateless HTTP surface and its `search_model_context_protocol` tool.
 
-Neither is a source of KuuOS theorem authority.
+Both registry entries are now `verified_compatible`. The official docs plane may be authoritative for current MCP specification content, but neither surface is KuuOS repository or theorem authority.
 
 ## Existing cloud connectors
 
