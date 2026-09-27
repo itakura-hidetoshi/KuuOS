@@ -52,6 +52,14 @@
     "requires_real_kuuos_repository_calls": true,
     "requires_no_write_tool_calls": true
   },
+  "promotion_evidence": {
+    "initial_green_probe_head": "a8b2baa62c78846647a075996b230e8201c924e2",
+    "initial_green_probe_run_id": 36331468514,
+    "git_mcp_live_probe_succeeded": true,
+    "filesystem_mcp_live_probe_succeeded": true,
+    "exact_local_head_alignment_succeeded": true,
+    "final_promoted_head_must_revalidate": true
+  },
   "boundaries": {
     "reference_implementation_is_production_guarantee": false,
     "local_git_is_github_remote_authority": false,
