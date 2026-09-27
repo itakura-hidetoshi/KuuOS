@@ -183,17 +183,18 @@ def _semantic_carrier_signature(
     schema_digest: str,
     carriers: Mapping[str, str],
 ) -> str:
+    carrier_semantics = [
+        {
+            "carrier_element_id": carrier_id,
+            "invariant_digest": carriers[carrier_id],
+        }
+        for carrier_id in sorted(carriers)
+    ]
     return _sha(
         {
             "invariant_projection_id": projection_id,
             "invariant_schema_digest": schema_digest,
-            "carrier_semantics": sorted(
-                {
-                    "carrier_element_id": carrier_id,
-                    "invariant_digest": invariant_digest,
-                }
-                for carrier_id, invariant_digest in carriers.items()
-            ),
+            "carrier_semantics": carrier_semantics,
         }
     )
 
