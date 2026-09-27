@@ -144,19 +144,36 @@ private theorem whiskerLeftCompatibility
     ExactUniversalRawMorphism.comp_comparison_square_hom
       (W := W) A f g
   ]
-  simpa only [Category.assoc] using
-    (leftWhiskerCompositeSquare
-      (rf := restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
-      (etaL := restrictHigherLocalizedModification (W := W) eta.lift.hom)
-      (cZ := Z.presentation.comparison)
-      (cY := Y.presentation.comparison)
-      (cX := X.presentation.comparison)
-      (fraw := f.raw)
-      (etaR := eta.raw)
-      (gsq := g.comparison_square.hom)
-      (hsq := h.comparison_square.hom)
-      (fsq := f.comparison_square.hom)
-      eta.compatibility)
+  calc
+    _ =
+        (Bicategory.associator
+          (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
+          (restrictHigherLocalizedStrongTrans (W := W) g.lift.hom)
+          Z.presentation.comparison).hom ≫
+        (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom ◁
+          g.comparison_square.hom) ≫
+        (Bicategory.associator
+          (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
+          Y.presentation.comparison g.raw).inv ≫
+        (f.comparison_square.hom ▷ g.raw) ≫
+        (Bicategory.associator
+          X.presentation.comparison f.raw g.raw).hom ≫
+        (X.presentation.comparison ◁ (f.raw ◁ eta.raw)) := by
+      exact
+        leftWhiskerCompositeSquare
+          (rf := restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
+          (etaL := restrictHigherLocalizedModification (W := W) eta.lift.hom)
+          (cZ := Z.presentation.comparison)
+          (cY := Y.presentation.comparison)
+          (cX := X.presentation.comparison)
+          (fraw := f.raw)
+          (etaR := eta.raw)
+          (gsq := g.comparison_square.hom)
+          (hsq := h.comparison_square.hom)
+          (fsq := f.comparison_square.hom)
+          eta.compatibility
+    _ = _ := by
+      simp only [Category.assoc]
 
 /-- Left whiskering of a compatible mapping-property 2-cell by a
 mapping-property 1-cell. -/
