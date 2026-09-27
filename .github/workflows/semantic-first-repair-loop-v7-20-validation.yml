@@ -1,0 +1,45 @@
+name: Semantic-first repair loop v7.20 validation
+
+on:
+  pull_request:
+    paths:
+      - 'runtime/kuuos_runtime_semantic_first_repair_loop_v7_20.py'
+      - 'scripts/check_kuuos_runtime_semantic_first_repair_loop_v7_20.py'
+      - 'manifests/kuuos_semantic_first_repair_loop_v7_20.json'
+      - 'docs/KUUOS_SEMANTIC_FIRST_REPAIR_LOOP_v7_20.md'
+      - '.github/workflows/semantic-first-repair-loop-v7-20-validation.yml'
+  workflow_dispatch:
+
+permissions:
+  contents: read
+
+jobs:
+  validate:
+    runs-on: ubuntu-latest
+    steps:
+      - uses: actions/checkout@v4
+
+      - uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Compile semantic-first repair loop
+        run: |
+          python -m py_compile             runtime/kuuos_runtime_semantic_first_repair_loop_v7_20.py             scripts/check_kuuos_runtime_semantic_first_repair_loop_v7_20.py
+
+      - name: Run focused semantic-first repair checks
+        run: |
+          PYTHONPATH=. python             scripts/check_kuuos_runtime_semantic_first_repair_loop_v7_20.py
+
+      - name: Verify repair authority boundaries
+        run: |
+          grep -Fq '"semantic_improvement_grants_local_write_authority": false' manifests/kuuos_semantic_first_repair_loop_v7_20.json
+          grep -Fq '"semantic_improvement_grants_remote_write_authority": false' manifests/kuuos_semantic_first_repair_loop_v7_20.json
+          grep -Fq '"stale_diagnostic_may_apply_patch": false' manifests/kuuos_semantic_first_repair_loop_v7_20.json
+          grep -Fq '"candidate_receipt_is_current_byte_binding": false' manifests/kuuos_semantic_first_repair_loop_v7_20.json
+          grep -Fq '"remote_revision_mismatch_blocks_local_repair": false' manifests/kuuos_semantic_first_repair_loop_v7_20.json
+          grep -Fq '"remote_submission_requires_separate_authority_after_this_layer": true' manifests/kuuos_semantic_first_repair_loop_v7_20.json
+
+      - name: Confirm Strict Lean is not invoked
+        run: |
+          echo "Runtime-only semantic-repair adapter: Strict Lean intentionally not invoked."
