@@ -306,6 +306,27 @@ def validate_registry(registry: Mapping[str, Any]) -> list[str]:
                     if evidence.get("performance_crux_disabled") is not True:
                         errors.append("chrome_crux_boundary_invalid")
 
+        if server_id == "docker_mcp_gateway" and raw.get("status") == "verified_compatible":
+            evidence = _m(raw.get("compatibility_evidence"))
+            expected = {
+                "manifest": "manifests/kuuos_docker_mcp_gateway_compatibility_v7_22.json",
+                "upstream_main_sha": "a34df45d4ec0e941a9853ad768c4f6cd818966b3",
+            }
+            for key, value in expected.items():
+                if str(evidence.get(key, "")) != value:
+                    errors.append("docker_gateway_compatibility_evidence_invalid:" + key)
+            for key in (
+                "real_gateway_tool_discovery",
+                "real_gateway_tool_forwarding",
+                "network_disabled_fixture",
+            ):
+                if evidence.get(key) is not True:
+                    errors.append("docker_gateway_compatibility_evidence_invalid:" + key)
+            if not str(evidence.get("initial_green_probe_head", "")).strip():
+                errors.append("docker_gateway_green_probe_head_missing")
+            if not isinstance(evidence.get("initial_green_probe_run_id"), int):
+                errors.append("docker_gateway_green_probe_run_id_missing")
+
     for profile_name, members in profiles.items():
         if not isinstance(members, list) or not members:
             errors.append("profile_empty:" + str(profile_name))
