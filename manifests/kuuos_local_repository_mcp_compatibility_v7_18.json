@@ -12,8 +12,10 @@
     },
     "filesystem": {
       "package": "@modelcontextprotocol/server-filesystem",
-      "version": "0.6.3",
-      "sdk_constraint": "@modelcontextprotocol/sdk ^1.30.0"
+      "version": "2026.8.31",
+      "sdk_constraint": "published package dependency surface",
+      "current_upstream_main_package_json_version": "0.6.3",
+      "published_release_differs_from_main_package_json": true
     }
   },
   "probe": {
