@@ -255,7 +255,8 @@ def probe_fetch(root: pathlib.Path) -> dict[str, Any]:
             else ""
         )
         return {
-            "source_tree_version": FETCH_SOURCE_VERSION,\n            "published_package_version": published_version,
+            "source_tree_version": FETCH_SOURCE_VERSION,
+            "published_package_version": published_version,
             "mcp_sdk_pin": FETCH_MCP_SDK_VERSION,
             "protocol_version": protocol_version,
             "listed_tool_count": len(names),
