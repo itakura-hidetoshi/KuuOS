@@ -1,0 +1,51 @@
+{
+  "version": "kuuos_bounded_lean_repair_loop_manifest_v7_27",
+  "purpose": "Validate a bounded post-edit Lean repair loop by rebinding full-file audit, current Filesystem bytes, fresh Lean-LSP semantics, and Git diff before Git admission.",
+  "predecessors": [
+    "KuuOS CI Repair Readiness v7.26",
+    "KuuOS Development MCP Federation v7.19",
+    "KuuOS CodeAI Bounded Repair Cycle Orchestration v0.1"
+  ],
+  "core_rules": {
+    "repair_scope_is_entire_target_file": true,
+    "ci_error_line_is_locator_not_scope": true,
+    "edit_preimage_must_match_repair_ready_bytes": true,
+    "post_edit_filesystem_and_lean_digest_must_match": true,
+    "git_diff_must_bind_to_same_post_edit_target_digest": true,
+    "lean_errors_remaining_reject_candidate": false,
+    "budget_exhaustion_is_rejection": false,
+    "supporting_file_changes_are_automatic_failure": false,
+    "git_admission_ready_is_remote_publish_ready": false,
+    "repair_loop_executes_remote_publish": false,
+    "repair_budget_is_semantic_truth": false,
+    "source_authority_transferred": false
+  },
+  "repair_states": [
+    "post_edit_semantic_reobservation_required",
+    "post_edit_lean_errors_remain",
+    "bounded_repair_budget_reached",
+    "git_diff_reobservation_required",
+    "no_effective_edit_observed",
+    "repair_locally_verified_git_admission_ready",
+    "cross_surface_repair_obstruction"
+  ],
+  "readiness_chain": [
+    "v7.26 local_repair_ready",
+    "authorized local edit occurs outside this evidence layer",
+    "full target file audit bound",
+    "post-edit Filesystem bytes observed",
+    "Lean-LSP re-observes those exact bytes",
+    "Lean error count evaluated",
+    "Git diff re-observes the same post-edit target digest",
+    "git_admission_ready"
+  ],
+  "boundaries": {
+    "raw_source_bytes_persisted": false,
+    "raw_git_diff_persisted": false,
+    "edit_receipt_digest_is_source_authority": false,
+    "lean_semantic_success_grants_git_write_authority": false,
+    "git_diff_freshness_grants_github_write_authority": false,
+    "remote_publish_requires_later_git_admission_and_exact_head_reobservation": true
+  },
+  "next": "bind git_admission_ready to a local Git admission/commit receipt and require post-commit Filesystem/Lean/Git coherence before any remote publish candidate is formed"
+}
