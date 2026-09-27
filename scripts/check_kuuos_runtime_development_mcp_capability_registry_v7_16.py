@@ -280,6 +280,33 @@ def test_browser_servers_are_complementary_and_isolated() -> None:
     assert states["chrome_devtools"]["effective_mode"] == "inspection_only"
 
 
+def test_docker_gateway_is_verified_but_not_authority() -> None:
+    registry = load_registry()
+    gateway = next(
+        server
+        for server in registry["servers"]
+        if server["server_id"] == "docker_mcp_gateway"
+    )
+    assert gateway["status"] == "verified_compatible"
+    assert gateway["privilege_class"] == "orchestrator"
+    assert gateway["write_authority_path"] == "per_downstream_server_authority"
+    evidence = gateway["compatibility_evidence"]
+    assert evidence["upstream_main_sha"] == "a34df45d4ec0e941a9853ad768c4f6cd818966b3"
+    assert evidence["real_gateway_tool_discovery"] is True
+    assert evidence["real_gateway_tool_forwarding"] is True
+    assert evidence["network_disabled_fixture"] is True
+
+    result = build_development_mcp_profile(
+        registry=registry,
+        profile_name="kuuos_mcp_development",
+        environment=env_core(with_write_authority=False),
+        request_write_capabilities=True,
+    )
+    assert result.status == PARTIAL
+    states = states_by_id(result)
+    assert states["docker_mcp_gateway"]["activation_state"] == "authority_required"
+
+
 def test_plaintext_credentials_are_rejected() -> None:
     registry = load_registry()
     modified = copy.deepcopy(registry)
@@ -310,6 +337,7 @@ def main() -> int:
     test_github_toolsets_cover_current_repo_development()
     test_lean_lsp_is_verified_but_still_explicit_opt_in()
     test_browser_servers_are_complementary_and_isolated()
+    test_docker_gateway_is_verified_but_not_authority()
     test_plaintext_credentials_are_rejected()
     test_unknown_profile_blocks_without_launching_anything()
     print("PASS: KuuOS Development MCP Capability Registry v7.16")

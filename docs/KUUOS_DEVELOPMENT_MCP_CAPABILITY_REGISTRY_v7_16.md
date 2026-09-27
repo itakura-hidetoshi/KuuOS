@@ -218,7 +218,7 @@ rather than treating one as the canonical browser server.
 
 As the number of local MCP servers grows, directly launching each server from every host becomes brittle.
 
-Docker MCP Gateway is therefore registered as the preferred orchestration/isolation surface when multiple local servers are enabled.
+Docker MCP Gateway is therefore registered as the preferred orchestration/isolation surface when multiple local servers are enabled. v7.22 has live-verified the exact upstream plugin through a real profile, network-disabled containerized MCP server, Gateway tool discovery, and forwarded tool call; its registry status is now `verified_compatible`.
 
 Its role is:
 

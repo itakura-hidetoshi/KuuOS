@@ -1,0 +1,66 @@
+{
+  "version": "kuuos_docker_mcp_gateway_compatibility_manifest_v7_22",
+  "purpose": "Verify Docker MCP Gateway as an isolation and orchestration surface for KuuOS development MCP servers without transferring downstream source or write authority.",
+  "upstream": {
+    "repository": "docker/mcp-gateway",
+    "main_sha": "a34df45d4ec0e941a9853ad768c4f6cd818966b3",
+    "go_version": "1.25.12",
+    "mcp_go_sdk": "1.4.1",
+    "docker_cli_dependency": "28.2.2",
+    "docker_engine_dependency": "28.3.3"
+  },
+  "probe": {
+    "mode": "Docker CE compatible standalone plugin",
+    "environment": {
+      "DOCKER_MCP_IN_CONTAINER": "1",
+      "DOCKER_MCP_USE_CE": "1"
+    },
+    "profile_feature_enabled": true,
+    "external_catalog_required": false,
+    "fixture_server": {
+      "name": "kuuos-gateway-probe",
+      "type": "server",
+      "image": "kuuos-mcp-gateway-probe:v7.22",
+      "disableNetwork": true,
+      "read_only_tool": "kuuos_probe_echo"
+    },
+    "required_live_steps": [
+      "build docker-mcp plugin from exact upstream SHA",
+      "enable profiles feature",
+      "create local file-backed profile",
+      "start docker mcp gateway run --profile kuuos_gateway_probe",
+      "MCP initialize",
+      "MCP tools/list",
+      "discover KuuOS probe tool through gateway",
+      "call probe tool through gateway",
+      "observe deterministic marker"
+    ]
+  },
+  "promotion_rule": {
+    "from": "recommended_orchestration",
+    "to": "verified_compatible",
+    "requires_exact_head_ci_success": true,
+    "requires_real_gateway_tool_discovery": true,
+    "requires_real_gateway_tool_forwarding": true,
+    "requires_network_disabled_fixture": true
+  },
+  "promotion_evidence": {
+    "initial_green_probe_head": "335feda17b05b682e7398a374bcb209950d5d849",
+    "initial_green_probe_run_id": 36350581916,
+    "plugin_build_succeeded": true,
+    "profile_creation_succeeded": true,
+    "gateway_tool_discovery_succeeded": true,
+    "gateway_tool_forwarding_succeeded": true,
+    "network_disabled_fixture": true,
+    "final_promoted_head_must_revalidate": true
+  },
+  "boundaries": {
+    "fixture_network_disabled": true,
+    "fixture_write_effect": false,
+    "gateway_grants_downstream_authority": false,
+    "profile_membership_grants_tool_authority": false,
+    "gateway_isolation_replaces_provider_authority": false,
+    "credentials_persisted": false,
+    "source_authority_transferred": false
+  }
+}
