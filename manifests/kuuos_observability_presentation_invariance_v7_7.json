@@ -24,7 +24,9 @@
     "shared_context_is_invariance": false,
     "temporal_compatibility_is_invariance": false,
     "overlap_compatibility_is_invariance": false,
-    "compatibility_data_role": "precondition/context for selecting related presentations; it does not replace invariant equality"
+    "compatibility_data_role": "precondition/context for selecting related presentations; it does not replace invariant equality",
+    "compatibility_may_substitute_for_invariance": false,
+    "invariant_match_erases_presentation_dependence": true
   },
   "descent_semantics": {
     "presentation_invariant_descent": "Different presentations are semantically identified because their invariant projections agree.",
