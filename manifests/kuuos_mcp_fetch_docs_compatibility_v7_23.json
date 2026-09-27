@@ -6,10 +6,10 @@
     "upstream_main_sha": "f46d9578190b476b3501923ea8977d899e8db2cb",
     "package": "mcp-server-fetch",
     "source_tree_version": "0.6.3",
-    "published_package_version": "discover_then_pin_after_first_green",
+    "published_package_version": "2026.8.18",
     "mcp_sdk_pin": "1.29.0",
     "tool": "fetch",
-    "probe_url": "https://example.com/",
+    "probe_url": "https://raw.githubusercontent.com/modelcontextprotocol/modelcontextprotocol/ab3a39c13bd23be691c2760e1c6c5c15a64582e1/README.md",
     "internal_network_access_used": false
   },
   "official_docs": {
