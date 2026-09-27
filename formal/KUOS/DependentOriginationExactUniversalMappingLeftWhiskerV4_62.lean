@@ -53,6 +53,31 @@ variable {Context : Type u} [Category.{v} Context]
 variable (W : MorphismProperty Context)
 variable (A : RefinementAtlas (LocalizedContext W))
 
+/-- The hom component of the v4.57 composite comparison square.
+
+Keeping this expansion behind a small theorem avoids asking later proofs to
+weak-head-normalize the whole dependent structure `ExactUniversalRawMorphism.comp`
+inside a large `change` target. -/
+@[simp] theorem ExactUniversalRawMorphism.comp_comparison_square_hom
+    {X Y Z : ExactUniversalRawObject (W := W) A}
+    (f : ExactUniversalRawMorphism (W := W) A X Y)
+    (g : ExactUniversalRawMorphism (W := W) A Y Z) :
+    (ExactUniversalRawMorphism.comp
+      (W := W) A f g).comparison_square.hom =
+      (Bicategory.associator
+        (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
+        (restrictHigherLocalizedStrongTrans (W := W) g.lift.hom)
+        Z.presentation.comparison).hom ≫
+      (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom ◁
+        g.comparison_square.hom) ≫
+      (Bicategory.associator
+        (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
+        Y.presentation.comparison g.raw).inv ≫
+      (f.comparison_square.hom ▷ g.raw) ≫
+      (Bicategory.associator
+        X.presentation.comparison f.raw g.raw).hom :=
+  rfl
+
 /-- Left whiskering of a compatible mapping-property 2-cell by a
 mapping-property 1-cell. -/
 noncomputable def ExactUniversalRawMorphismTwoCell.whiskerLeft
@@ -67,45 +92,8 @@ noncomputable def ExactUniversalRawMorphismTwoCell.whiskerLeft
   raw := f.raw ◁ eta.raw
   lift := f.lift ◁ eta.lift
   compatibility := by
-    change
-      (restrictHigherLocalizedModification
-          (W := W) (f.lift.hom ◁ eta.lift.hom) ▷
-        Z.presentation.comparison) ≫
-          (ExactUniversalRawMorphism.comp
-            (W := W) A f h).comparison_square.hom =
-        (ExactUniversalRawMorphism.comp
-          (W := W) A f g).comparison_square.hom ≫
-          (X.presentation.comparison ◁ (f.raw ◁ eta.raw))
     rw [restrictHigherLocalizedModification_whiskerLeft]
-    change
-      ((restrictHigherLocalizedStrongTrans (W := W) f.lift.hom ◁
-          restrictHigherLocalizedModification (W := W) eta.lift.hom) ▷
-          Z.presentation.comparison) ≫
-        (Bicategory.associator
-          (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
-          (restrictHigherLocalizedStrongTrans (W := W) h.lift.hom)
-          Z.presentation.comparison).hom ≫
-        (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom ◁
-          h.comparison_square.hom) ≫
-        (Bicategory.associator
-          (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
-          Y.presentation.comparison h.raw).inv ≫
-        (f.comparison_square.hom ▷ h.raw) ≫
-        (Bicategory.associator
-          X.presentation.comparison f.raw h.raw).hom =
-      (Bicategory.associator
-        (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
-        (restrictHigherLocalizedStrongTrans (W := W) g.lift.hom)
-        Z.presentation.comparison).hom ≫
-        (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom ◁
-          g.comparison_square.hom) ≫
-        (Bicategory.associator
-          (restrictHigherLocalizedStrongTrans (W := W) f.lift.hom)
-          Y.presentation.comparison g.raw).inv ≫
-        (f.comparison_square.hom ▷ g.raw) ≫
-        (Bicategory.associator
-          X.presentation.comparison f.raw g.raw).hom ≫
-        (X.presentation.comparison ◁ (f.raw ◁ eta.raw))
+    rw [ExactUniversalRawMorphism.comp_comparison_square_hom]
     rw [
       Bicategory.associator_naturality_middle_assoc,
       ← Bicategory.whiskerLeft_comp_assoc,
